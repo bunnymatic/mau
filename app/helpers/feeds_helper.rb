@@ -91,7 +91,7 @@ module FeedsHelper
           title = FeedsHelper.trunc(title, TITLE_LENGTH)
         end
         # replace links with links
-        title.gsub!(@@LINK_MATCH, '<a target="_blank" class="feed-inner-link" href="\1">\1</a>'))
+        title.gsub!(@@LINK_MATCH, '<a target="_blank" class="feed-inner-link" href="\1">\1</a>')
         feed += "<div class='feedtxt'>%s</div>" % title
       end
     end
