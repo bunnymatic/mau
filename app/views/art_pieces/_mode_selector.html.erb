@@ -1,0 +1,7 @@
+<div class="little-txt td-right">
+  View: <% if @results_mode == 'p' -%>
+  <%= link_to "artists", @by_artists_link %>&nbsp;/&nbsp;artworks
+  <% else -%>
+  artists&nbsp;/&nbsp;<%= link_to "artworks", @by_pieces_link %>
+  <% end -%>
+</div>

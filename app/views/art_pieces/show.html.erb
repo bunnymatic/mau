@@ -1,0 +1,107 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => "/twocol_top" %>
+  <tr>    
+    <% if @art_piece
+       artist = @art_piece.artist
+       end 
+       -%>
+    <td class="corner"></td>
+    <td class="alt-lcol" align="center">
+      <% if @art_piece -%>
+      <table align="center" class="artist-info-table">
+	<tr>
+	  <td class="input-name">
+	    Title</td>
+	  <td class="input">
+	    <%=h @art_piece.title %>
+	  </td>
+	</tr>
+	<tr>
+	  <td class="input-name">
+	    Artist</td>
+	  <td class="input">
+	    <%= link_to artist.get_name, artist %>	  
+	  </td>
+	</tr>
+	<tr>
+	  <td class="input-name">Medium</td>
+	  <% if @art_piece.medium_id and @art_piece.medium_id > 0 -%>
+	  <td class="input">
+	    <%= link_to @art_piece.medium.name, @art_piece.medium %>	  
+	  </td>
+	</tr>
+	<% end -%>
+	<tr>
+	  <td class="input-name">
+	    Dimensions  </td>
+	  <td class="input">
+	    <% if !@art_piece.dimensions.empty? -%>
+	    <%=h @art_piece.dimensions %>	  
+	    <% end -%>
+	  </td>
+	</tr>
+	<tr>
+	  <td class="input-name">
+	    Year  </td>
+	  <td class="input">
+	    <% if !@art_piece.year.nil? and @art_piece.year.to_i > 1899 -%>
+	    <%=h @art_piece.year %>	  
+	    <% end -%>
+	  </td>
+	</tr>
+	<tr>
+	  <td class="input-name">
+	    Tags</td>
+	  <td class="input">
+	    <% if !@art_piece.tags.empty? %>
+	    <% links = [] -%>
+            <% @art_piece.tags.each do |t| -%>
+	    <%    links << link_to(t.safe_name, t, :class => ""  ) -%>
+	    <% end -%>
+ 	    <%= links.join(", ") %>	  
+   	    <% end -%>
+	  </td>
+	</tr>
+	<% if artist.studio -%>
+   	<tr>
+	  <td class="input-name">
+	    Studio</td>
+	  <td class="input"><%= link_to artist.studio.name, artist.studio %></td>
+        </tr>
+	<% end -%>
+      </table>
+      <%= render :partial => "/art_pieces/thumb_browser" %>
+        <form method="get" action="<%= url_for(@art_piece.artist) %>"><input class="formbutton" type="submit" value="Artist's Page" name="submit">
+	</form>
+      <% end # end if art_piece -%>    
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td> 
+    <td class="rcol room-for-logo" align="center">
+      <% if flash[:error] -%>
+      <div class="error-msg">
+	<%= flash[:error] %>      
+      </div>
+      <% end -%>
+      <% if @art_piece -%>
+      <div class="artpiece-title"><%=h @art_piece.title %></div>
+      <div >
+	<% if @art_piece.filename -%>
+	<img class="artpiece-img" src="<%=h @art_piece.get_path('medium') %>" />
+	<% end -%>
+      </div>
+      <% end # end if art_piece -%>    
+      <div class="edit-buttons">
+	<% if logged_in? and current_artist == artist -%>
+        <form method="get" action="<%= edit_art_piece_path(@art_piece) %>">
+	  <input class="formbutton" type="submit" value="Edit Artwork Info" name="submit"/> 
+	</form>
+	<% end -%>
+      </div>
+
+    </td>
+    <td >
+    </td>
+  </tr>
+  <%= render :partial => "/twocol_bottom" %>
+</table>
+

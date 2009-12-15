@@ -1,0 +1,27 @@
+<div class="feed-studios">
+<% if @studios -%>
+<div class="feed-sxn-hdr">MAU Studios</div>
+<div class="feed-studio-list">
+<% @studios.each do |s| -%>
+  <% print s.id
+     clz = ""
+     if s.id == @selected_studio
+        clz = "cur-studio"
+     elif s.id == 0 -%>
+<div>&nbsp;</div>
+<div class="<%= clz %>"><a href="/studios/0"><%= s.name %></a></div>
+<%   else -%>
+<div class="<%= clz %>"><%= link_to s.name, s %></div>
+<%   end -%>
+<% end -%>
+<% end -%>
+</div>
+</div>
+<div id='feed_div'> 
+<div class="feed-sxn-hdr" >Fetching Feeds... 
+  <div align="center"><img src="/images/spinner24.gif" alt=""/></div>
+</div>
+<img src="/images/pix.gif" height="320" width="1" alt=""/>
+</div> 
+<div id="feed_request">
+<a href="javascript:MAU.mailer('www','missionartistsunited.org','My Favorite SF Art Feed');">Recommend a feed we should add to this list.</a>

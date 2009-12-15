@@ -1,0 +1,48 @@
+<% if piece 
+     linkto = ''
+     if artist_link
+        if piece.artist
+           linkto = artist_path(piece.artist)
+        end
+     else
+        linkto = art_piece_path(piece)
+     end
+-%>
+<!-- what -->
+<table class='artpiece-thumb'>
+  <tr>
+    <td class="artpiece-thumb-art" align="center">
+      <% if piece -%>
+      <% if piece.get_path(size) -%>
+	  <% if !linkto.empty? -%>
+      <a href="<%= linkto %>"><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" /></a>
+          <% else -%>
+      <img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" />
+          <% end -%>
+      <% else -%>
+      No Image
+      <% end -%>
+      <% end -%>
+    </td>
+</tr>
+<% if show_footer -%>
+<tr>
+  <td class="artpiece-thumb-artist">
+    <% if piece && piece.artist
+       name = "" 
+       name << piece.artist.get_name
+    -%>
+    <%= link_to name, linkto, :class => 'lkdark' %>
+    <% else -%>
+	unknown artist
+    <% end -%>
+  </td>
+</tr>
+<% end -%>
+<% if select && piece -%>
+<tr><td>
+   <%= check_box( 'art', piece.id, options = {}, checked_value = "1", unchecked_value = "0") %>Delete?
+</td></tr>
+<% end -%>
+</table>
+<% end -%>

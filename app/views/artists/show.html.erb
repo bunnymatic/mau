@@ -1,0 +1,148 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => "/twocol_top" %>
+  <tr>    
+    <td> </td>
+    <td class="alt-lcol" align="center">
+      <% if @artist -%>
+      <div id="bigthumbcolumn">
+	<% if @artist.art_pieces 
+	   max = -1 * [@artist.art_pieces.length, 4].min
+	   -%>
+	<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.art_pieces[max..-1].reverse!, :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
+	<% end -%>
+      </div>
+      <% end # end if artist -%>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
+    <td class="rcol room-for-logo" align="center">
+      <% if flash[:error] -%>
+      <div class="error-msg">Error:
+	<%= flash[:error] %>
+      </div>
+      <% end -%>
+      <div class="content-block"> 
+	<% if @artist -%>
+	<% if logged_in? and @artist.login == self.current_artist.login -%>
+	<a title="update profile picture" href="/artists/addprofile/<%= self.current_artist.id %>">
+	  <% if @artist.has_profile_image -%>
+  	  <img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
+	  <% else -%>
+  	  <img class="profile" src="/images/default-profile-img.png" width="200" />
+  	  <% end -%>
+	</a>
+	<% else -%>
+	<% if @artist.has_profile_image -%>
+  	<img class="profile" src="<%= @artist.get_profile_image('small') %>" />
+	<% else %>
+  	<img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
+  	<% end -%>
+	<% end -%>
+ 	<h4 <%= @suspended %> ><%=h @artist.get_name %></h4>
+	<div class="div-left">
+	  <% if flash[:notice] -%>
+	  <div class="notice">
+	    <%= flash[:notice] %>
+	  </div>
+	  <% end -%>
+	</div>
+	<div class="div-left">
+	  <table>
+	    <tr><td>Studio:</td>
+	      <td>
+		<% if @artist.studio -%>
+		<div><%= link_to @artist.studio.name, @artist.studio %></div>
+   		<div><%=h @artist.studio.street %></div>
+   		<div><%=h @artist.studio.city %></div>
+		<% else -%>
+		<div><%=h @artist.street %></div>
+		<div><%=h @artist.city %></div>
+		<% end -%>
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+	<% if @artist.media and @artist.media.length > 0 -%>
+	<div class="div-left">
+	  <table>
+	    <tr>
+	      <td>Media:</td>
+	      <td>
+		<% links = []
+		   @artist.media.each do |m| 
+  		   links << link_to(m.name, m, :class => ""  )
+			    end
+			    -%>
+		   <%= links.join(", ") %>
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+	<% end -%>
+        <% if @artist.tags and @artist.tags.length > 0 -%>
+	<div class="div-left">
+	  <table>
+	    <tr>
+	      <td>Tags:</td>
+	      <td>
+		<% links = []
+		   @artist.tags.each do |t| 
+		   links << link_to(t.safe_name, t, :class => ""  )
+			    end
+			    -%>
+		   <%= links.join(", ") %>
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+	<% end -%>
+	<% if has_links(@artist) -%>
+	<div class="div-left">
+		  <% keyed_links.each do |key, name|  
+  		     lnk = @artist[key]
+		     if lnk and !lnk.empty? %>
+    	  <div><span><%= name %>: </span>
+		      <%= link_to lnk, add_http(lnk), { :target => "_blank" } %>
+  	  </div>
+   		     <% end -%>
+ 	          <% end -%>
+ 	</div>
+	<% end -%>
+	<% if @artist.bio and !@artist.bio.empty? %>
+	<div class="clear"></div>
+	<div class="div-left bio-container"><span>Bio:</span>
+	  <%= bio_html(@artist.bio) %>
+	</div>
+	<% end -%>
+      </div>
+      <div class="clear" ></div>
+      <div class="right">
+	<% if logged_in? and @artist.login == self.current_artist.login and !self.current_artist.suspended? %>
+	<form method="get" action="<%= edit_artist_path(@artist) %>">
+	  <input class="formbutton" type="submit" value="Edit Profile" name="submit"/> 
+	</form>
+	<form method="get" action="/artists/addprofile/<%= self.current_artist.id %>">
+	  <input class="formbutton" type="submit" value="Update Profile Image" name="submit"/>
+	</form>
+	<form method="get" action="/art_pieces/new">
+	  <input class="formbutton" type="submit" value="Add Artwork" />
+	</form>
+	<% if @artist.art_pieces.length > 0 %>
+	<form method="get" action="/artists/deleteart/<%= @artist.id %>" >
+	  <input class="formbutton" type="submit" value="Delete Artwork" />
+	</form>
+	<% end %>
+	<% end %>
+	<div class="artist-pieces">
+	  <% if @artist.art_pieces %>
+	  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }} %>
+	  <% else %>
+	  <img src="/images/default-art-img.png" width="200" />
+	  <% end %>
+	</div>
+      </div>
+      <% end # end if artist %>
+    </td>
+    <td></td>
+  </tr>
+  <%= render :partial => "/twocol_bottom" %>
+  </table>

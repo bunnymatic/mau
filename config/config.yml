@@ -1,0 +1,64 @@
+# config for mau
+# 
+# note : no tabs and indent is ipmortant.
+test:
+   site_url: localhost:3000
+   cache_server:
+   image_servers: 
+   cache_ns: tst
+
+local:
+   site_url: localhost:3000
+   cache_server: localhost:11211
+   image_servers: 
+   cache_ns: lcl
+   cache_expiry:
+       feed: 5
+       search: 20
+       objects: 20
+
+development:
+   site_url: artistsdev.missionartistsunited.org
+   cache_server: localhost:11211
+   image_servers: 
+       - http://imgdev1.missionartistsunited.org
+       - http://imgdev2.missionartistsunited.org
+   cache_ns: dev
+   cache_expiry:
+       feed: 300
+       search: 20
+       objects: 0
+
+production:
+   site_url: www.missionartistsunited.org
+   cache_server: localhost:11211
+   image_servers: 
+      - http://img1.missionartistsunited.org
+      - http://img2.missionartistsunited.org
+   cache_ns: 
+   cache_expiry:
+       feed: 3600
+       search: 300
+       objects: 0
+
+common:
+  cache_expiry:
+       feed: 
+       search: 
+       objects: 
+  feeds_urls: 
+      - feed: http://sfartnews.wordpress.com/feed/
+        url: http://sfartnews.wordpress.com/ 
+      - feed: http://twitter.com/statuses/user_timeline/62131363.rss  
+        url: http://twitter.com/sfmau 
+      - feed: http://trishtunney.blogspot.com/feeds/posts/default?alt=rss
+        url: http://trishtunney.blogspot.com/
+      - feed: http://twitter.com/statuses/user_timeline/56806324.rss
+        url: http://twitter.com/SevillaGranger 
+      - feed: http://catherine-mackey.blogspot.com/feeds/posts/default?alt=rss
+        url: http://catherine-mackey.blogspot.com/
+      - feed: http://apaintingaday.blogspot.com/feeds/posts/default?alt=rss
+        url: http://apaintingaday.blogspot.com/
+      - feed: http://twitter.com/statuses/user_timeline/32943864.rss
+        url: http://twitter.com/bunnymaticsf
+

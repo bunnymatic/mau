@@ -1,0 +1,22 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => "/twocol_top" %> 
+  <tr>
+    <td></td>
+    <td class="alt-lcol" align="center">
+      <%= render :partial => 'studio_list' %>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
+    <td class="rcol room-for-logo" align="center">
+      <div id="studio_page">
+	<% if flash[:error] %>
+	<div class="error-msg">
+	  <%= flash[:error] %>
+	</div>
+	<% end %>
+	<%= render :partial => 'thumbs', :locals => { :studios => @studios } %>
+      </div>
+    </td>
+    <td></td>
+  </tr>
+  <%= render :partial => '/twocol_bottom' %>
+</table>

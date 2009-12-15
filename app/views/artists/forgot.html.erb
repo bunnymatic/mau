@@ -1,0 +1,21 @@
+<%= error_messages_for :artist %>
+<h4>Request for Password Reset</h4>
+<% form_for :artist do |f| -%>
+<table id="reset_pass" class="signup-table">
+  <tr>
+    <td colspan="2" >
+	  <div>Submit in your MAU account email below. </div>
+  </tr>
+  <tr>
+    <td align="right"><label>Email:</label></td>
+    <td><%= f.text_field :email %></td>
+  </tr>       
+  <tr>
+    <td></td>
+    <td><%= submit_tag 'Submit' %></td>
+  </tr>
+</table>
+<div class="little-txt">
+  <a href="/resend_activation">Do you need to activate your account?</a>
+</div>
+<% end -%>

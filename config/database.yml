@@ -1,0 +1,35 @@
+# MySQL
+local:
+  adapter: mysql
+  encoding: utf8
+  database: mau_dev
+  username: mauadmin
+  password: MrMau415
+  #socket: /var/lib/mysql/mysql.sock
+  socket: /tmp/mysql.sock
+
+development:
+  adapter: mysql
+  encoding: utf8
+  database: mau_dev
+  username: mauadmin
+  password: MrMau415
+  socket: /var/lib/mysql/mysql.sock
+  #socket: /tmp/mysql.sock
+
+test:
+  adapter: mysql
+  encoding: utf8
+  database: mau_test
+  username: mauadmin
+  password: MrMau415
+  socket: /tmp/mysql.sock
+  #socket: /var/lib/mysql/mysql.sock
+
+production:
+  adapter: mysql
+  encoding: utf8
+  database: mau
+  username: mauadmin
+  password: MrMau415
+  socket: /var/lib/mysql/mysql.sock

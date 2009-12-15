@@ -1,0 +1,4 @@
+<div>
+<% allpieces = @artist.art_pieces(:all) %>
+<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => allpieces, :params => {:show_footer => false }} %>
+</div>

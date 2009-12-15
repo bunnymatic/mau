@@ -1,0 +1,7 @@
+#
+# this is tied to obeymiffy@yahoo.com and missionartistsunited.org
+# we'll use this to get the jsapi from google and possibly use their
+# feed api or map api
+#
+
+ABQIAAAAbD_lhY5wFaR_9YsyMHgo_hRImgEXSIZRs0mx67aw49vKS43wghR1ZHeKLzI7PLe5vP-PYPPL-j9EZQ

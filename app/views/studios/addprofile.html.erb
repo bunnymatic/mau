@@ -1,0 +1,50 @@
+<div class="div-center">
+<h4>Add/Update Studio Picture for <%= @studio.name %></h4>
+  <table class="entry-table" align="center" >
+    <% if flash[:error] %>
+    <tr>
+      <td colspan="2" align="center">
+	<div class="error-msg">
+	  Error:
+	  <div><%= flash[:error] %></div>
+	  <%= @errors.map { |k, v| "<div>%s %s<div>" % [ k.capitalize(),v ] } %>
+	</div>
+	</td>
+    <tr>
+    <% end %>
+    <tr>
+      <td class="td-center">
+		<% if @studio.has_profile_image %>
+  			<img src="<%= @studio.get_profile_image('small') %>" />
+		<% else %>
+  			<img src="/images/default-profile-img.png" width="200" />
+  		<% end %>
+      </td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+      <td>
+	Your profile image should be a JPEG file and must not be more than 200KB.
+      </td>
+    </tr>
+  </table>
+</div>
+<div>
+  <% form_tag({:action => 'upload_profile'}, :multipart => true) do %>
+  <table class="signup-table">
+    <tr>
+      <td class="td-right"><label for="upload_file">Select File</label>: </td>
+      <td class="td-left"> <%= file_field 'upload', 'datafile' %></td>
+      <td> <%= hidden_field_tag :studio_id, @studio.id %></td>
+    </tr>
+    <tr>
+      <td class="td-right">&nbsp;</td>
+      <td colspan="2"><%= submit_tag "Upload" %>
+      <%= submit_tag "Cancel" %></td>
+    </tr>
+    <tr>
+      <td align="right" colspan="3">&nbsp;</td>
+    </tr>
+  </table>
+  <% end %>
+</div>

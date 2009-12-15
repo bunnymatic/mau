@@ -1,0 +1,57 @@
+<div>
+<table>
+<% if pieces and !pieces.empty?  
+   numpieces = params[:numpieces]
+   if not numpieces
+     numpieces = pieces.length
+   end
+   cols = params[:cols] || 4
+   size = params[:size] || 'thumb'
+   art_link = params[:art_link] || false
+   if params[:show_footer] == nil
+     show_footer = true
+   else
+     show_footer = params[:show_footer]
+   end
+   select = params[:select] || false
+   rows = (numpieces.to_f / cols.to_f ).ceil
+   numspots = rows * cols
+   _params = { :select => select, :show_footer => show_footer,
+              :size => size, :artist_link => !art_link }
+   idx = 0
+   for jj in 0..(rows-1)
+-%>
+     <tr>
+<%
+      for ii in 0..(cols-1)
+         idx = ii + cols * jj
+         break if idx >= numpieces
+         next if !pieces[idx]
+         _params[:piece] = pieces[idx]
+-%>
+<td class='artpiece-container' align="center">
+<%= render :partial => '/art_pieces/thumb', :locals => _params %>
+</td>
+<%
+     end
+     if ii == cols-1
+-%>
+      </tr>
+<%
+     end 
+   end 
+   numspots -= idx
+
+numspots -= 1
+if numspots > 0
+  while numspots >= 0
+-%>
+    <!-- <%= numspots %> -->
+    <td></td>
+    <% numspots -= 1 -%>
+<% end -%>
+  </tr>
+<% end -%>
+<% end -%>
+</table>
+</div>

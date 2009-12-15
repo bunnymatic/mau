@@ -1,0 +1,31 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => '/twocol_top' %>
+  <tr>    
+    <td class="corner"></td>
+    <td class="alt-lcol" align="center">
+	  <%= render :partial => 'tag_list' %>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
+    <td class="rcol room-for-logo" align="center">
+      <div id="search_results">
+      <% if flash[:error] %>
+      <div class="error-msg">
+	<%= flash[:error] %>
+      </div>
+      <% end %>
+      <% if @pieces and !@pieces.empty? %> 
+      <%=
+	 render :partial => '/art_pieces/thumbs', :locals => { :pieces => @pieces,
+                                                           :params => { :cols => 5,
+                     :show_footer => false,
+                     :select => false,
+                     :size => 'thumb' 
+                     }}
+      %>
+      <% end %>
+      </div>
+    </td>
+    <td></td>
+  </tr>
+  <%= render :partial => '/twocol_bottom' %>
+</table>

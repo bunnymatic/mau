@@ -1,0 +1,10 @@
+<title>
+  <% if @page_title && !@page_title.empty? %>
+  <%= @page_title %>
+  <% else %>
+  Mission Artists United 
+  <% end %>
+  <% if RAILS_ENV != 'production' %>
+  ( <%= RAILS_ENV %> )
+  <% end %>
+</title>

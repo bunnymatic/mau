@@ -1,0 +1,25 @@
+test:
+  ttl: 604800
+  namespace: mautest
+  sessions: false
+  debug: false
+  servers: localhost:11211
+
+development:
+  ttl: 604800
+  namespace: maudev
+  sessions: false
+  debug: false
+  servers: localhost:11211
+
+production:
+  ttl: 604800
+  namespace: mau
+  sessions: false
+  debug: false
+  servers: localhost:11211
+
+
+
+   
+

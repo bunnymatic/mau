@@ -1,0 +1,47 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0" id="mau-content-html">
+  <tr class="tr-short">
+    <% if cols == 2 -%>
+    <td class="ltcorner graybg"><img src="<%= @corners[0] %>" width="9" height="9"  alt=""/></td>
+    <td class="lcol"></td>
+    <td class="vstripe" ></td>
+    <td></td>
+    <% elsif cols == 1 -%>
+    <td class="ltcorner blackbg"><img src="<%= @corners[0] %>" width="9" height="9"  alt=""/></td>
+    <td></td>
+    <% end -%>
+    <td class="rtcorner"><img src="<%= @corners[1] %>" width="9" height="9"  alt=""/></td>
+  </tr>
+
+  <tr class="nextrow"> 
+    <% if cols == 2 -%>
+    <td class="graybg"></td>
+    <td class="lcol">    
+      <%= render :partial => '/feeds/feed' %>
+    </td>            
+	
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"  alt=""/></td>
+    
+    <td class="rcol room-for-logo">
+      <%= yield %>
+    </td>
+    <% elsif cols == 1 -%>
+    <td><img src="/images/sp-black.png" width="1" height="200"  alt=""/></td>
+    <td class="singlecolumn room-for-logo" align="center">
+      <%= yield %>
+    </td>
+    <% end -%>
+    <td></td>
+  </tr>
+  <tr class="tr-short">
+    <% if cols == 2 -%>
+    <td class="lbcorner graybg"><img src="<%= @corners[3] %>"  width="9" height="9" alt=""/></td>
+    <td class="lcol"></td>
+    <td class="vstripe"></td>
+    <td></td>
+    <% else -%>
+    <td class="lbcorner blackbg"><img src="<%= @corners[3] %>" width="9" height="9" alt=""/></td>
+    <td></td>
+    <% end -%>
+    <td class="rbcorner"><img src="<%= @corners[2] %>"  width="9" height="9" alt=""/></td>
+  </tr>
+</table>

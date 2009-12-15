@@ -1,0 +1,17 @@
+To install this data...
+
+publicdata.zip includes studiodata and artistsdata directories.
+
+these should be under /public/artistsdata and public/studiodata/
+if you unzip it under the /public/ directory, you should get the correct layout.
+
+the mysql file is a mysql dump file.  it will clear all the data that is curretly on the db and replace it.  so run with caution...
+
+
+to restore a the mysql dump to your local mysql instance from a commandline.
+
+mysql -u mauadmin -p mau_dev < test_data.sql
+
+
+Here's a cheat sheet
+http://www.webcheatsheet.com/SQL/mysql_backup_restore.php#restore

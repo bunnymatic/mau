@@ -1,0 +1,121 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+Rails::Initializer.run do |config|
+end
+
+
+# add studios
+def add_studio(name, st, url, city="San Francisco", state="CA", zip="94117")
+  if not Studio.find_by_name(name)
+    st = Studio.new do |s|
+      s.name = name
+      s.street = st
+      s.city = city
+      s.state = state
+      s.zip = zip
+      s.url = url
+    end
+    st.save 
+    st.id
+  else
+    puts "Studio " + name + " has already been added"
+  end
+end
+
+def add_medium(name)
+  if not Medium.find_by_name(name)
+    Medium.new(:name=>name).save
+  else
+    puts "Medium " + name + " has already been added"
+  end
+end
+
+def add_artist(login, name, email, passw, 
+               first, last, nom, studio_id,
+               url, st, city, state, zip)
+  if not Artist.find_by_login(login)
+    st = Artist.new do |s|
+      s.login = login
+      s.email = email
+      s.password = passw
+      s.password_confirmation = passw
+      s.firstname = first
+      s.lastname = last
+      s.nomdeplume = nom
+      if studio_id 
+        studio = Studio.find(studio_id)
+        if studio
+          s.studio = studio
+        end
+      end
+      s.url = url
+      s.street = st
+      s.city = city
+      s.state = state
+      s.zip = zip
+    end
+    if not st.save!
+      puts "Saving Artist " + login + " failed"
+    end
+  else
+    puts "Artist " + login + " has already been added"
+  end
+end
+
+def clean()
+  Artist.find(:all).each do |a|
+    a.destroy
+  end
+  Medium.find(:all).each do |m|
+    m.destroy
+  end
+  Studio.find(:all).each do |s|
+    s.destroy
+  end
+end
+
+#### 
+#  main routine
+#  
+
+# clean
+puts "Cleaning"
+clean
+
+puts "Adding stuff"
+# add studios
+sids = []
+sids << add_studio("studio1", "mystreet ave", "San Francisco", "ca", "94110", "http://www.example.com")
+sids << add_studio("studio2", "other road", "SF", nil, nil, "")
+sids << add_studio("Third Studio", "3rd St", "Frisco", "CA", 94110, "")
+
+# add media
+add_medium('Oil')
+add_medium('Acrylic')
+add_medium('Photography - Digital')
+add_medium('Photography - Film')
+add_medium('Stone')
+add_medium('Wood')
+add_medium('Mixed-media')
+
+# add artists
+add_artist('bmatic1', 'bunnymatic 1', 'bmatic1@bunnymatic.com', 'bmatic1',
+           'bunny','matic', 'Mr Bunnymatic', sids[1], 
+           'http://bunnymatic.com', 'B street', 'San fran', 'ca', 94107)
+add_artist('dude00', 'dude s name', 'dude@bunnymatic.com', 'dude00', 
+           'the','dude', 'The Big Lebowski', sids[0], 
+           nil, nil,nil,nil, nil)
+add_artist('artperson', nil, 'artperson@bunnymatic.com', 'artperson', 
+           'art','person', 'the artist', sids[1], 
+           nil, nil,nil,nil, nil)
+add_artist('bmatic2', 'bunnymatic 2', 'bmatic2@bunnymatic.com', 'bmatic2',
+           'bunny','matic', 'Bunnymatic Senior', sids[2], 
+           'http://bunnymatic.com', 'B street', 'San fran', 'ca', 94107)
+add_artist('bmatic3', 'bunnymatic 3', 'bmatic3@bunnymatic.com', 'bmatic3',
+           'bunny','matic', '3 Bunnymatic', nil, 
+           nil, nil, nil, nil, nil)
+add_artist('bmatic4', 'bunnymatic 4', 'bmatic4@bunnymatic.com', 'bmatic4',
+           'bunny','matic', 'Mr Bunnymatic the fourth', sids[1], 
+           nil, nil, nil, nil, nil)
+
+
