@@ -26,6 +26,19 @@ class Tag < ActiveRecord::Base
     tags[0..@@MAX_SHOW_TAGS]
   end
 
+  def self.keyed_frequency
+    # return frequency of tag usage keyed by tag id
+    tags = []
+    dbr = connection.execute("/* hand generated sql */ select tag_id tag,count(*) ct from art_pieces_tags group by tag_id;")
+    # return sorted by freq
+    keyed = {}
+    dbr.each_hash do |row|
+      keyed[ row['tag'] ] = row['ct']
+    end
+    keyed
+  end
+
+
   def self.all
     begin
       tags = CACHE.get(@@TAGS_KEY)
