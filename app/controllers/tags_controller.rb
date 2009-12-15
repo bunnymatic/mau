@@ -8,6 +8,14 @@ class TagsController < ApplicationController
   @@PER_PAGE = 12
   def admin_index
     @tags = Tag.all
+    freq = Tag.keyed_frequency
+    @tags.each do |t|
+      if freq.keys.include? t.id.to_s
+        t['count'] = freq[ t.id.to_s ].to_i
+      else
+        t['count'] = 0
+      end
+    end
   end
 
   def index
