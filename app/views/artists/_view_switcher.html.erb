@@ -1,0 +1,7 @@
+<div class="little-txt td-right navlinks">
+  View: <% if @view_mode == 'list' -%>
+  <%= link_to "gallery", @gallery_link %>&nbsp;/&nbsp;roster
+  <% else -%>
+  gallery&nbsp;/&nbsp;<%= link_to "roster", @roster_link %>
+  <% end -%>
+</div>

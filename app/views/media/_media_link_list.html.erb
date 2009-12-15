@@ -1,0 +1,26 @@
+      <h3>All Media</h3>
+      <div class="tagcloud">
+	<% if @freq %>
+	<% @freq.each do |t| %>
+	<%   mid = t["medium"]
+             ct = t["ct"]
+	     (sz, mrg) = TagsHelper.fontsize_from_frequency(ct.to_i) 
+	     medium = @media.select{ |m| m.id.to_i == mid.to_i }[0]
+	     if medium == match
+	        matchclass = "tagmatch"
+	     else
+	        matchclass = ""
+	     end
+         %>
+	<span class="clouditem <%= matchclass %>" style="font-size:<%= sz %>; margin: <%= mrg %>;">
+	  <% if ct.to_i > 0 %>
+	  <%= link_to medium.safe_name, medium %>
+	  <% else %>
+	  <%= medium.safe_name %>
+	  <% end %>
+	</span>
+	<% end %>
+	<% end %>
+      </div>
+
+

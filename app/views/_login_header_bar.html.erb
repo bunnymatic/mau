@@ -1,0 +1,22 @@
+<script type="text/javascript">
+  var authenticityToken  = encodeURIComponent('<%= form_authenticity_token %>')
+</script>
+<% if logged_in? %>
+<div id="logout"> hello, <%= link_to_current_artist :content_method => :login, :class => "lkdark" %> | 
+  <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %>
+  <% if self.current_artist.is_admin? %>
+  <span class="as-admin">You are an administrator.</span>
+  <!-- add administrator extra links -->
+  <div class="as-admin">Administrator Links:
+	<% ['studios','tags','media'].each do |nm| %>
+    <span class="admin-lk"><%= link_to nm, "/admin/%s" % nm, { :class => 'lkdark' } %></span>
+    <% end %>
+    <span class="admin-lk"><%= link_to "events", "/events", { :class => 'lkdark' } %></span>
+  </div>
+  <% end %>
+</div>
+<% else %>
+<div id="login"  ><%= link_to "log in",  login_path,  { :title => "log in", :class => "lkdark" } %> |
+  <%= link_to "sign up", signup_path, { :title => "create an account", :class => "lkdark" } %>
+</div>
+<% end %>       

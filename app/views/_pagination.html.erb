@@ -1,0 +1,11 @@
+<% if @first_link || @prev_link || @next_link || @last_link -%>
+<div class="little-txt td-right navlinks">
+  <% if @prev_link -%>
+  <span><a href="<%= @prev_link %>" title="previous">&lt;prev</a></span>
+  <% end -%>
+  <span id="txt">page <%= @page %> of <%= @last %></span>
+  <% if @next_link -%>
+  <span><a href="<%= @next_link %>" title="next" >next&gt;</a></span>
+<% end -%>
+</div>
+<% end -%>

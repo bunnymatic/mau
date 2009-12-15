@@ -1,0 +1,48 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => '/twocol_top' %>
+  <tr>    
+    <td></td>
+    <td class="alt-lcol" align="center">
+      <%= render :partial => 'media_link_list', :locals => { :match => @medium } %>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
+    <td class="rcol room-for-logo" align="center">
+      <h4>
+	Search for medium: <span class='query'><%=h @medium.name %></span>
+      </h4>
+      <table id="search_results">
+	<tr><td>
+	    <%= render :partial => "/pagination" %>
+	    <%= render :partial => "/art_pieces/mode_selector" %>
+	</td></tr>
+	<tr><td>
+	</td></tr>
+	<% if flash[:error] -%>
+	<tr><td>
+	    <div class="error-msg">
+	      <%= flash[:error] %>
+	    </div>
+	</td></tr>
+	<% end -%>
+	<tr><td>
+	    <% if @pieces and !@pieces.empty? -%> 
+	    <%=
+	       render :partial => '/search/thumbs', :locals => { :pieces => @pieces,
+	    :params => { :cols => 2,
+            :show_footer => false,
+            :select => false,
+            :size => 'thumb',
+	    :art_link => true
+            }}
+	    %>
+	    <% end -%>
+	</td></tr>
+	<tr><td align="right">
+ 	    <%= render :partial => "/pagination" %>
+	</td></tr>
+      </table>
+    </td>
+    <td></td>
+  </tr>
+  <%= render :partial => '/twocol_bottom' %>
+</table>

@@ -1,0 +1,68 @@
+<div>
+  <table align="center" width="707" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+      <td class="td-center" width="473" valign="top" ></td>
+      <td width="228" valign="top"></td>
+      <td width="6" valign="top"></td>
+	</tr>
+	<% if flash[:notice] -%>
+	<tr>
+	  <td class="td-left" valign="top">
+		<div class="notice"><%=h flash[:notice] %></div>
+      <td></td>
+      <td></td>
+	</tr>
+	<% end -%>
+	<tr>
+      <td class="td-left" valign="top">
+		<h2>Already A MAU Artist?</h2>
+		<div class="signup-text">
+		  <% form_tag session_path do -%>
+		  <table class="login-table">
+			<% if flash[:error] %>
+			<tr>
+			  <td colspan="2">
+				<div class="error-msg">
+				  We had trouble signing you in.  Please check your username and password.  If you continue to have problems, contact the webmaster with the link below. <div class="sub-error-msg">
+					Error:  <%= flash[:error] %>
+				  </div>
+				</div>      
+			  </td>
+			</tr>
+			<% end -%>
+			<tr>
+			  <td class="input-name"><%= label_tag 'login' %>      </td>
+			  <td class="input">
+				<%= text_field_tag 'login', @login %>      </td>
+			</tr>
+			<tr>
+			  <td class="input-name"><%= label_tag 'password' %></td>
+			  <td class="input">
+				<%= password_field_tag 'password', nil %>      </td>
+			</tr>
+			<tr><td colspan="2">
+				<%= label_tag 'remember_me', 'Remember me' %>
+				<%= check_box_tag 'remember_me', '1', @remember_me %>
+			  </td>
+			</tr>
+			<tr><td colspan="2" align="center">
+				<input class="formbutton" type="submit" name="commit" value="Log in"/> 
+			  </td>
+			</tr>
+		  </table>
+		  <% end -%>
+		  <div class="little-txt">
+			<a href="/forgot">Can't access your account?</a>
+		  </div>
+		</div>
+</div>    </td>
+<td class="td-left" valign="top"> <h2>Not Yet A MAU Artist?</h2>     <p>In order to upload your portfolio and take part in our Mission Open Studios events,  you'll need an account.</p>
+  <p class="justify">Joining is free and easy.<br>
+    You just have to be an artist living or working or showing in the Mission District, San Francisco.</p>
+  <div align="center"><form method="get" action="<%= signup_path %>"><input type="submit" value="Sign Up Now"/ ></form></div></td>
+<td valign="top"><img src="/images/sp-black.png" width="1" height="340"></td>
+</tr>
+</table>
+
+
+

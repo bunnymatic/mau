@@ -1,0 +1,52 @@
+<div>
+<table class="search-thumbs">
+<%
+ if pieces and !pieces.empty?  
+   numpieces = pieces.length
+   cols = params[:cols] || 2
+   size = params[:size] || 'thumb'
+   art_link = params[:art_link] || false
+   select = params[:select] || false
+   rows = (numpieces.to_f / cols.to_f ).ceil
+   numspots = rows * cols
+   _params = { :select => select, 
+              :size => size, :artist_link => !art_link }
+   for jj in 0..(rows-1)
+-%>
+     <tr>
+<%
+      for ii in 0..(cols-1)
+         idx = ii + cols * jj
+         if pieces[idx]
+           _params[:piece] = pieces[idx]
+%>
+<td class='artpiece-thumb' align="center">
+<%= render :partial => '/search/thumb', :locals => _params %>
+</td>
+<%
+         else
+-%>
+      <td></td>
+<% 
+       end
+     end  
+         
+     if ii == cols-1
+-%>
+      </tr>
+<%
+     end 
+   end 
+   numspots -= (idx + 1)
+
+if numspots > 0
+  while numspots > 0
+-%>
+    <td><%= numspots %></td>
+    <% numspots -= 1 %>
+<% end -%>
+  </tr>
+<% end -%>
+<% end -%>
+</table>
+</div>

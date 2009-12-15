@@ -1,0 +1,20 @@
+<% if @studios -%>
+<table>
+<% slen = studios.length
+   frst = 0
+   ncols = 2
+   last = frst+1
+   begin 
+     ss = studios[frst..last]
+     frst += ncols
+     last += ncols -%>
+<tr>
+<%   ss.each do |s| -%>
+<td class="studio-thumb" align="center">
+<%= render :partial => 'thumb', :locals => { :studio => s } %>
+</td>
+<% end -%>
+</tr>
+<% end while frst < slen %>
+</table>
+<% end -%>

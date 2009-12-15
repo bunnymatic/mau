@@ -1,0 +1,59 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => "/twocol_top" %> 
+  <tr>
+    <td></td>
+    <td class="alt-lcol" align="center">
+      <%= render :partial => 'studio_list' %>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
+    <td class="rcol room-for-logo" align="center">
+      <div id="studio_page">
+	<div class="studio-info">
+	  <% if @studio.has_profile_image %>
+	  <img class="profile" src="<%= @studio.get_profile_image('small') %>" />
+	  <% else %>
+	  <img class="profile" src="/images/default-studio.png" width="200" />
+	  <% end %>
+	  
+	  <h4><%= @studio.name %></h4>
+	  <% if flash[:error] %>
+	  <div class="error-msg">
+	    <%= flash[:error] %>
+	  </div>
+	  <% end %>
+	  <div>
+	    <div class="div-left">
+	      <div><%=h @studio.street %> <span class="lkmap">(<%= link_to 'map', @studio.map_link, { :target => "_blank" } %>)</span></div>
+	      <div><%= @studio.city %></div>
+	    </div>
+	    <div class="div-left">
+	      <% if @studio.url %>
+	      <%= link_to @studio.url, @studio.url %>
+	      <% end %>
+	    </div>
+	  </div>
+	</div>
+	<div class="clear"><!-- pushes thumbnails below the floating img --></div>
+	<div><!-- leave here to avoid collapsing margins -->
+	  <% if @pieces and @pieces.length > 0 %>
+	  <div class="div-left">Artists:</div>
+	  <%= render :partial => '/artists/thumbs', :locals => { :pieces => @pieces, :params => { :cols => 5 }} %>
+	  <% end %>
+	  <% if @other_artists.length > 0 %>
+	  <div class="studio-memberlist">
+	    <% if @pieces and @pieces.length > 0 %>More<% end %>
+	    Artists:
+	    <% links = [] %>
+	    <% @other_artists.each do |a| %>
+	    <%   links << link_to(a.get_name, a ) %>
+			  <% end %>
+			  <%= links.join(", ") %>
+	  </div>
+	  <% end %>
+	</div>
+      </div>
+    </td>
+    <td></td>
+  </tr>
+  <%= render :partial => '/twocol_bottom' %>
+</table>

@@ -1,0 +1,14 @@
+<% if pieces and !pieces.empty? %> 
+<% 
+   numpieces = pieces.length
+   size = params[:size] || 'thumb'
+   show_footer = true
+   _params = { :cols => params[:cols],
+               :show_footer => show_footer,
+               :select => false,
+               :size => size }
+%>
+<%= 
+render :partial => '/art_pieces/thumbs', :locals => { :pieces => pieces, :params => _params }
+%>
+<% end %>

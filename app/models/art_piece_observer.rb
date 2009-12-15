@@ -1,0 +1,30 @@
+class ArtPieceObserver < ActiveRecord::Observer
+  def before_destroy(art)
+    paths = art.get_paths
+    paths.each do |pth|
+      pth = "." + pth
+      if File.exist? pth
+        begin
+          result = File.delete pth
+          RAILS_DEFAULT_LOGGER.debug("Deleted %s" % pth)
+        rescue
+          RAILS_DEFAULT_LOGGER.error("Failed to delete image %s [%s]" % [pth, $!])
+        end
+      end
+    end
+  end
+  
+  def after_save(art)
+    # delete old art that is more than allowed
+    artist = art.artist
+    max = artist.max_pieces
+    cur = artist.art_pieces.length
+    del = 0
+    print "MAX %d CUR %d" % [ max, cur ]
+    while cur > max
+      artist.art_pieces.first.destroy
+      cur = cur - 1
+      del = del + 1
+    end
+  end
+end

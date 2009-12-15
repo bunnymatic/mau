@@ -1,0 +1,7 @@
+    <link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau.css" />
+	<% if @_ie %>
+	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie.css" />
+	<% elsif @_safari %>
+	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-safari.css" />
+	<% end %>
+<%= feedback_includes %>

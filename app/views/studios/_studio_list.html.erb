@@ -1,0 +1,13 @@
+<div class="studio-list">
+  <h4>MAU Studios</h4>
+  <% if @studios -%>
+    <% @studios.each do |s| -%>
+    <% clz = ""
+       if s.id == @selected_studio
+       clz = "cur-studio"
+       end
+       -%>
+    <div class="<%= clz %>"><a href="/studios/<%= s.id %>" title="<%=h s.name %>"><%=h s.name %></div>
+    <% end -%>
+  <% end -%>
+</div>

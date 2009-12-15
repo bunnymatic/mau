@@ -1,0 +1,54 @@
+<% if piece 
+     linkto = ''
+     if artist_link and piece.artist
+        linkto = artist_path(piece.artist)
+     else
+        linkto = art_piece_path(piece)
+     end
+-%>
+<% if piece.artist -%>
+<!-- what -->
+<table class='artpiece-thumb'>
+  <tr>
+    <td class="search-thumb-art" align="center">
+      <% if piece -%>
+      <% if piece.get_path(size) -%>
+      <a href="<%= linkto %>">
+		<img border=0 src="<%= piece.get_path(size) %>" />
+      </a>
+      <% else -%>
+      No Image
+      <% end -%>
+      <% end -%>
+    </td>
+	<td class="search-thumb-info">
+	  <div>
+		<span>Artist:</span>
+		<span><%= link_to piece.artist.get_name, piece.artist %></span>
+	  </div>
+	  <div>
+		<span>Title:</span>
+		<span><%= link_to piece.title, piece %></span>
+	  </div>
+	  <% if piece.medium -%>
+	  <div><span>Medium:</span>
+		<span><%= link_to piece.medium.name, piece.medium %></span>
+	  </div>
+	  <% end -%>
+	  <% if !piece.tags.empty? -%>
+	  <div><span>Tags:</span>
+		<span><% links = []
+             piece.tags.each do |t| 
+		       links << link_to(t.safe_name, t, :class => ""  )
+	         end
+           -%>
+          <%= links.join(", ") %>
+		</span>
+	  </div>
+	  <% end -%>
+
+	</td>
+  </tr>
+</table>
+<% end -%>
+<% end -%>

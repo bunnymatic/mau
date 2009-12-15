@@ -1,0 +1,41 @@
+span.left-nav-bdr {
+	border:0px;
+}
+span.dropdown, span.footer-nav {
+    padding: 0 8px 0 8px;
+}
+.room-for-logo {
+	padding-top: 45px;
+}
+
+.fieldvalue {
+   text-align:left;
+}
+
+table.signup-table input[type=text] {
+   width: 175px;
+}
+table.signup-table input[type=password] {
+   width: 175px;
+}
+
+.signup-table td, .login-table td {
+	text-align: left;
+}
+
+table.login-table input[type=text] {
+   width: 150px;
+}
+table.login-table input[type=password] {
+   width: 150px;
+}
+
+input[type=submit] {
+	font-size: 90%;
+}
+
+.input { text-align: left; }
+
+div.tiny-thumb, div.tiny-thumb-sel {
+	display: inline;
+}

@@ -1,0 +1,9 @@
+ChangeLog
+---------
+
+If we may major changes that may need some kind of version numbers or notes about the over change (maybe a rollup of feature checkins), add it here
+
+
+* 06 12 2009  Version 0.1  Initial checkin by Jon/Jeremy of mau web Rails app which currently has part of the underlying model/controller stuff with default view templates.
+
+
