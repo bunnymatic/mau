@@ -68,6 +68,9 @@ module FeedsHelper
     title = entry.title
     desc = entry.description
     feed = "<div class='feedentry'>"
+    if include_date
+      feed += "<span class='feeddate'>%s</span>" % entry.date
+    end
 
     if !link.include? 'twitter'
       if truncate
@@ -75,11 +78,7 @@ module FeedsHelper
         desc = FeedsHelper.trunc(desc, DESCRIPTION_LENGTH)
       end
       if title 
-        feed += "<div class='feedtitle'>%s" % title
-        if include_date
-          feed += "<span class='feeddate'>%s</span>" % entry.date
-        end
-        feed += "</div>"
+        feed += "<div class='feedtitle'>%s</div>" % title
       end
       if desc
         feed += "<div class='feedtxt'>%s</div>" % desc
