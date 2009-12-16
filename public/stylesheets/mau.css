@@ -1161,14 +1161,14 @@ corner sprites
 }
 /*
 #bg {
-    background: url(/images/sitebg.jpg) repeat-x;
+    background: url(/images/sitebg2.jpg) repeat-x;
     float: left;
     height: 99%;
     left: 0px;
     position: absolute;
     top: 1px;
     width: 100%;
-    z-index: -4;
+    z-index: -104;
 }
-
 */
+

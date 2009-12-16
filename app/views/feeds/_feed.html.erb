@@ -3,16 +3,7 @@
 <div class="feed-sxn-hdr">MAU Studios</div>
 <div class="feed-studio-list">
 <% @studios.each do |s| -%>
-  <% print s.id
-     clz = ""
-     if s.id == @selected_studio
-        clz = "cur-studio"
-     elif s.id == 0 -%>
-<div>&nbsp;</div>
-<div class="<%= clz %>"><a href="/studios/0"><%= s.name %></a></div>
-<%   else -%>
-<div class="<%= clz %>"><%= link_to s.name, s %></div>
-<%   end -%>
+<div><%= link_to s.name, "/studios/%d" % s.id %></div>
 <% end -%>
 <% end -%>
 </div>
