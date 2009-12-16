@@ -73,7 +73,11 @@ class ArtPiecesController < ApplicationController
       @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
     end
     self._setup_thumb_browser_data(pieces, apid)
-    render :action => 'show', :layout => 'mau'
+    respond_to do |format|
+      format.html { render :action => 'show', :layout => 'mau' }
+      format.json { render :json => @art_piece }
+    end
+
   end
 
   # GET /art_pieces/new
