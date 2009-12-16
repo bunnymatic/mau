@@ -43,7 +43,7 @@ class MainController < ApplicationController
       cached_html = nil
     end
     if !cached_html or cached_html.empty?
-      cached_html = FeedsHelper.fetch_and_format_feed(url, link, 5, false, true, false)
+      cached_html = FeedsHelper.fetch_and_format_feed(url, link, 5, true, true, false)
       begin
         CACHE.set(FEEDS_KEY, cached_html, @@CACHE_EXPIRY)
       rescue
