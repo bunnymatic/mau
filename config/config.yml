@@ -7,6 +7,16 @@ test:
    image_servers: 
    cache_ns: tst
 
+ub:
+   site_url: localhost:3000
+   cache_server: localhost:11211
+   image_servers: 
+   cache_ns: ub
+   cache_expiry:
+       feed: 5
+       search: 20
+       objects: 20
+
 local:
    site_url: localhost:3000
    cache_server: localhost:11211
