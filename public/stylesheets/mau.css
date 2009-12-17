@@ -279,37 +279,50 @@ input[type=submit] {
 /** feeds **/
 #feed_icon {
     float:right;
+}
+
+#feed_icon,
+#micro_icon {
     background-image:url(/images/icons/microicon-sprite.png);
 	height:16px;
 	width:16px;
 	overflow:hidden;
 }
 /* position from the bottom of the sprite*/
-#feed_icon[class=blogger] {
+#feed_icon[class=blogger],
+#micro_icon[class=blogger] {
     background-position: 0 0px;
 }
-#feed_icon[class=youtube] {
+#feed_icon[class=youtube],
+#micro_icon[class=youtube] {
     background-position: 0 16px;
 }
-#feed_icon[class=wordpress] {
+#feed_icon[class=wordpress],
+#micro_icon[class=wordpress] {
     background-position: 0 32px;
 }
-#feed_icon[class=twitter] {
+#feed_icon[class=twitter],
+#micro_icon[class=twitter] {
     background-position: 0 48px;
 }
-#feed_icon[class=rss] {
+#feed_icon[class=rss],
+#micro_icon[class=rss] {
     background-position: 0 64px;
 }
-#feed_icon[class=livejournal] {
+#feed_icon[class=livejournal],
+#micro_icon[class=livejournal] {
     background-position: 0 96px;
 }
-#feed_icon[class=flickr] {
+#feed_icon[class=flickr],
+#micro_icon[class=flickr] {
     background-position: 0 96px;
 }
-#feed_icon[class=facebook] {
+#feed_icon[class=facebook],
+#micro_icon[class=facebook] {
     background-position: 0 112px;
 }
-#feed_icon[class=deviantart] {
+#feed_icon[class=deviantart],
+#micro_icon[class=deviantart] {
     background-position: 0 128px;
 }
 
@@ -1171,4 +1184,3 @@ corner sprites
     z-index: -104;
 }
 */
-
