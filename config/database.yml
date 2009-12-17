@@ -8,6 +8,14 @@ local:
   #socket: /var/lib/mysql/mysql.sock
   socket: /tmp/mysql.sock
 
+ub:
+  adapter: mysql
+  encoding: utf8
+  database: mau_dev
+  username: mauadmin
+  password: MrMau415
+  socket: /var/lib/mysql/mysql.sock
+
 development:
   adapter: mysql
   encoding: utf8
