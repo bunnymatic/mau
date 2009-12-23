@@ -72,7 +72,7 @@
 	<tr>
 	  <td class="input">
 		<%= label_tag 'lastname', 'Last Name' %>	  </td>
-	  <td >
+	  <td class="input">
 		<%= f.text_field :lastname %>	  </td>
 	  <td>
 		<% if @artist.errors[:lastname] %>
@@ -83,9 +83,9 @@
 	<tr>
 	  <td class="input">
 		<%= label_tag 'studio', 'Group Studio' %>	  </td>
-	  <td>
+	  <td class="input">
 		<%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>	  </td>
-	  <td class="little-txt">Don't see your group studio buildling? Select None and
+	  <td class="little-txt">If you work out of your house, or are not in a group studio building, choose "Independent Studios".  If you don't see your group studio buildling? Select None and
 		<a href="javascript:MAU.mailer('www','missionartistsunited.org','Please Add New Group Studio');">email us</a>.  We'll add it.</td>
 	</tr>
 	<tr>
