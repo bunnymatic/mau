@@ -42,11 +42,16 @@ class TagsController < ApplicationController
     artist_ids = Artist.all.map{|a| a.id}
     joiner = ArtPiecesTag.find_all_by_tag_id(params[:id])
     results = {}
-    joiner.map { |ap| results[ap.art_piece_id] = ap.art_piece }
+    joiner.each do |apt|
+      art = apt.art_piece
+      if art
+        results[art.id]=art
+      end
+    end
 
     # if show by artists, pick 1 from each artist
     if @results_mode == 'p'
-      pieces = (joiner.map { |ap| ap.art_piece }).sort_by { |p| p.updated_at }
+      pieces = results.map { |k,v| v }.sort_by { |p| p.updated_at }
     else
       tmps = {}
       results.values.each do |pc|
