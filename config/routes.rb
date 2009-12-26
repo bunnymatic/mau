@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :venues
+
   map.feedback 'feedbacks', :controller => 'feedbacks', :action => 'create'
   map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
 
@@ -43,6 +45,7 @@ ActionController::Routing::Routes.draw do |map|
   map.admin_studios '/admin/studios', :controller => 'studios', :action=> 'admin_index'
   map.admin_tags '/admin/tags', :controller => 'tags', :action=> 'admin_index'
   map.admin_media '/admin/media', :controller => 'media', :action=> 'admin_index'
+  # all other admin links connect to AdminController
 
   # The priority is based upon order of creation: first created -> highest priority.
 

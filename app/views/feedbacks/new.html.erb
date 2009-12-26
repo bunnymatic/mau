@@ -1,4 +1,8 @@
-<h1>Feedback</h1>
+<h3>Get Involved</h3>
+<div>So glad you want to get involved.  Choose one of the options below that best describes how you would like to be involved, fill out the form and hit the "send" button.  This will email us at Mission Artists United Headquarters and we'll contact you (where appropriate) as soon as we can.  We will not use your email for anything except to contact you.</div>
+
+<div id="fdbk_signup">Are you an artist working in the Mission District of San Francisco?   <div align="center"><form method="get" action="<%= signup_path %>"><input type="submit" value="Sign Up Now"/ ></form></div></td>
+
 <p>Please leave us feedback, it's really appreciated.</p>
 <% form_for :feedback, @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
 <% unless @error_message.blank? %>

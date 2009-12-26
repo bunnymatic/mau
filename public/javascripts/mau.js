@@ -4,6 +4,7 @@ MAU = window['MAU'] || {};
     var M = MAU;
     var T = M.Thumbs = M.Thumbs || {};
     var A = M.Artist = M.Artist || {};
+    var W = M.WhatsThis = M.WhatsThis || {};
     var L = M.Lightbox = M.Lightbox || {}
     M.__debug__ = false;
 
@@ -169,6 +170,14 @@ MAU = window['MAU'] || {};
 	}
     }
     Event.observe(window, 'load', T.init);
+    /*** help popup ***/
+    W.popup = function(parent_id, section) {
+	M.log(parent_id, section);
+	var helpdiv = $(parent_id + "container");
+	if (helpdiv) {
+	    helpdiv.toggle();
+	}
+    }
 }
 )();
 

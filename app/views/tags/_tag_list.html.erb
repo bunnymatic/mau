@@ -1,4 +1,8 @@
       <h4>Popular Tags</h4>
+      <div id="tag_help" class="help-parent">
+	<%= render :partial => '/whatsthis/popup', :locals => { :section => 'tags', :link_text => "what's this?", :parent => 'tag_help', :use_icon => true, :title => "About Popular Tags" } %>
+	</div>
+
       <div class="tagcloud">
 	<% if @freq -%>
 	<% @freq.each do |t| -%>
