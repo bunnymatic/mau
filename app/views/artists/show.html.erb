@@ -5,11 +5,7 @@
     <td class="alt-lcol" align="center">
       <% if @artist -%>
       <div id="bigthumbcolumn">
-	<% if @artist.art_pieces 
-	   max = -1 * [@artist.art_pieces.length, 4].min
-	   -%>
-	<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.art_pieces[max..-1].reverse!, :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
-	<% end -%>
+	<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.representative_pieces(4), :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
       </div>
       <% end # end if artist -%>
     </td>
@@ -107,6 +103,9 @@
  	          <% end -%>
  	</div>
 	<% end -%>
+	<div class="div-left share">Share this page:
+	  <a target="_new" href="<%= @fb_share %>"><div id="micro_icon" class="facebook"></div></a>
+	</div>
 	<% if @artist.bio and !@artist.bio.empty? %>
 	<div class="clear"></div>
 	<div class="div-left bio-container"><span>Bio:</span>

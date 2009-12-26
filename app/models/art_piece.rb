@@ -12,6 +12,14 @@ class ArtPiece < ActiveRecord::Base
     end
   end
 
+  def destroy
+    id = self.id
+    super
+    # remove all tag entries from ArtPiecesTags
+    ArtPiecesTag.delete_all ["art_piece_id = ? ", id]
+    Artist.flush_cache
+  end
+
   def get_paths()
     ArtPieceImage.get_paths(self)
   end

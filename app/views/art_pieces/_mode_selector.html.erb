@@ -1,3 +1,6 @@
+<div id="mode_selector_help" class="help-parent">
+  <%= render :partial => '/whatsthis/popup', :locals => { :section => 'mode_selector', :link_text => "what's this?", :parent => 'mode_selector_help', :use_icon => true, :title => "About View" } %>
+</div>
 <div class="little-txt td-right">
   View: <% if @results_mode == 'p' -%>
   <%= link_to "artists", @by_artists_link %>&nbsp;/&nbsp;artworks

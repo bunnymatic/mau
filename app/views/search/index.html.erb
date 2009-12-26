@@ -1,18 +1,24 @@
 <div>
 <h4>Search Results - <%=h @user_query %></h4>
 <table id="search_results">
+  <% if @pieces.length <= 0 -%>
   <tr><td>
-	  <div class="search-txt">The following artists matched your query</div>
+  <div class="room-for-logo td-center">
+	We couldn't find anything that matched your search term <%=h @user_query %>.
+  </div>
+  </td></tr>
+  <% else -%>
+  <% noun = "artist"
+     if @pieces.length > 1
+        noun += "s"
+     end
+  -%>
+  <tr><td>
+	  <div class="search-txt">The following <%= noun %> matched your query</div>
 	  </td></tr>
   <tr><td align="right">
 	<%= render :partial => "/pagination" %>
   </td></tr>
-  <tr><td>
-  <% if @pieces.length <= 0 -%>
-  <div class="room-for-logo td-center">
-	We couldn't find anything that matched your search term <%=h @user_query %>.
-  </div>
-  <% else -%>
   <div id="thumbs_by_artist">
     <%= render :partial => 'thumbs', :locals => { :pieces => @pieces, :params => { :cols => 2, :art_link => true }} %>	
   </div>

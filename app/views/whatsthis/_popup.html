@@ -1,0 +1,24 @@
+<% onclick = "MAU.WhatsThis.popup('%s', '%s');" % [ parent, section ] -%>
+<% if !defined? title or !title
+    title = "Help"
+   end
+-%>
+<% parent_id = parent + "container" -%>
+<% if use_icon -%>
+<a title="<%= link_text %>" href="#" onclick="<%= onclick %>"><img title="<%= link_text %>" src="/images/icons/help-btn.gif" class="help-icon"/></a>
+<% else -%> 
+<a  title="<%= link_text %>" href="#" onclick="<%= onclick %>"><%= link_text %></a>
+<% end %>
+<div id="<%= parent_id %>" class="popup-help" style="display:none;">
+  <table class="popup-help">
+	<tr>
+	  <td class="popup-help-title"><%= title %></td>
+	  <td class="popup-help-close"><a href="#" onclick="<%= onclick %>">X</a></td>
+	</tr>
+	<tr>
+	  <td class="popup-help-text" colspan="2">
+		<%= render :partial => "/whatsthis/" + section %>
+	  </td>
+	</tr>
+  </table>
+</div>

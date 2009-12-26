@@ -93,6 +93,15 @@ class Artist < ActiveRecord::Base
     return roles.include?(Role[role])
   end
 
+  def get_share_link(urlsafe=false)
+    link = 'http://%s/artists/%s' % [Conf.site_url, self.login]
+    if urlsafe
+      CGI::escape(link)
+    else
+      link
+    end
+  end
+
   def get_name(htmlsafe=false)
     fullname = nil
     if !(self.firstname.empty? or self.lastname.empty?)
@@ -133,10 +142,11 @@ class Artist < ActiveRecord::Base
   end
 
   def representative_pieces(n=1)
-    if !self.art_pieces.empty?
-      len = self.art_pieces.length
+    ap = self.art_pieces.reverse
+    if !ap.empty?
+      len = ap.length
       num = [n, len].min
-      return self.art_pieces[0..num]
+      return ap[0..num-1]
     end
     nil
   end
@@ -265,7 +275,27 @@ class Artist < ActiveRecord::Base
 
   def suspended?
     self.state == 'suspended'
-end
+  end
+
+  # reformat data so that the artist contains the art pieces
+  # and that any security related data is missing (salt, password etc)
+  def clean_for_export( art_pieces)
+    retval = { "artist" => {}, "artpieces" => [] }
+    keys = [ 'firstname','lastname','login', 'street' ]
+    keys.each do |k|
+      retval["artist"][k] = self[k]
+    end
+    apkeys = ['title','filename']
+    art_pieces.each do |ap|
+      newap = {}
+      apkeys.each do |k|
+        newap[k] = ap[k]
+      end
+      retval["artpieces"] << newap
+    end
+    retval
+  end
+
   protected
     
     def make_activation_code

@@ -1,10 +1,12 @@
 @charset "utf-8";
 /* CSS Document */
+html {
+    color: #aaaaaa;
+    font: 13px Verdana, Arial, Helvetica, sans-serif;
+}
 
 body {
     background-color: #c6c7d6;
-    color: #aaaaaa;
-    font: 13px Verdana, Arial, Helvetica, sans-serif;
     padding: 5px;
 }
 td {
@@ -276,17 +278,25 @@ input[type=submit] {
 	margin: 8px 0;
 }
 
+.share #micro_icon {
+    vertical-align:middle;
+}
+
+
 /** feeds **/
 #feed_icon {
     float:right;
 }
 
+#micro_icon {
+    display:inline-block;
+}
 #feed_icon,
 #micro_icon {
     background-image:url(/images/icons/microicon-sprite.png);
-	height:16px;
-	width:16px;
-	overflow:hidden;
+    height:16px;
+    width:16px;
+    overflow:hidden;
 }
 /* position from the bottom of the sprite*/
 #feed_icon[class=blogger],
@@ -1152,6 +1162,63 @@ div.studios .studio-list {
 .admin-table {
     font-size: 85%;
 }
+
+/**
+popup help 
+**/
+#mode_selector_help {
+    margin-left: 4px;
+}
+img.help-icon {
+    border: 0;
+}
+
+div.popup-help {
+    display: block;
+    background-color: #222;
+    position: absolute;
+    width: 200px;
+    left: 10px;
+    top: 10px;
+    z-index: 105;
+}
+
+#mode_selector_helpcontainer {
+	left: -200px;
+}
+
+
+.popup-help td {
+    font-size: x-small;
+    text-align: left;
+}
+
+.help-parent {
+    float: right;
+    margin-right: 10px;
+    vertical-align: top;
+    position: relative;
+    z-index: 100;
+}
+
+.popup-help-text {
+    padding: 4px 6px 6px 4px;
+}
+td.popup-help-close {
+	width: 10px;
+	text-align: center;
+}
+
+table.popup-help tr {
+    border: 1px solid #666;
+}
+
+.popup-help-title, .popup-help-close {
+    background-color: #000;
+    font-weight: bold;
+    padding: 4px;
+}
+
 /**
 corner sprites 
 **/

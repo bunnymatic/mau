@@ -5,14 +5,7 @@
 <div id="logout"> hello, <%= link_to_current_artist :content_method => :login, :class => "lkdark" %> | 
   <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %>
   <% if self.current_artist.is_admin? %>
-  <span class="as-admin">You are an administrator.</span>
-  <!-- add administrator extra links -->
-  <div class="as-admin">Administrator Links:
-	<% ['studios','tags','media'].each do |nm| %>
-    <span class="admin-lk"><%= link_to nm, "/admin/%s" % nm, { :class => 'lkdark' } %></span>
-    <% end %>
-    <span class="admin-lk"><%= link_to "events", "/events", { :class => 'lkdark' } %></span>
-  </div>
+  <%= render :partial => '/admin_header' %>
   <% end %>
 </div>
 <% else %>
