@@ -67,17 +67,13 @@ a#feedback_close_link {
   right: 5pt;
   top: 3pt;
   position: absolute;
-  height: 22px;
-  width: 66px;
-  background-image: url(/images/feedback/closelabel.gif);
-  _background-image: url(/images/feedback/closelabel.gif);
 }
 
 div#feedback_modal_window {
   width: 300px;
   margin: 0 auto;				
   position: relative;
-  background-color: #FFFFFF;
+  background-color: #222;
   left: 0%;
 }
 			
