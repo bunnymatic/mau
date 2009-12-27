@@ -22,7 +22,11 @@ module FeedbacksHelper
   end
   
   def feedback_link(text, options = {})
-    link_to text, '#', :class => "feedback_link"
+    xclass = ''
+    if options.include?(:class)
+      xclass = options[:class]
+    end
+    link_to text, '#', :class => "feedback_link " + xclass
   end
   
 end
