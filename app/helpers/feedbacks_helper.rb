@@ -17,7 +17,6 @@ module FeedbacksHelper
   end
   
   def feedback_includes()
-    stylesheet_link_tag('feedback') +
     javascript_include_tag('prototype.feedback.js')
   end
   

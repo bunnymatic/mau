@@ -10,7 +10,7 @@ MAU = window['MAU'] || {};
 
     /** safe javascript log - for debug */
     M.log = function() {
-	if (window['console'] && X.__debug__) {
+	if (window['console'] && M.__debug__) {
 	    // TODO: Chrome doesn't let us call apply on console.log.
 	    // Interpolate variable arguments manually and construct
 	    // a single-argument call to console.log for Chrome.
