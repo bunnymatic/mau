@@ -73,7 +73,7 @@ tr.error-row {
 }
 
 .bio-container {
-    height: 370px;
+    max-height: 370px;
     overflow: auto;
 }
 table.artist-info-table {
@@ -285,7 +285,9 @@ input[type=submit] {
 
 /** feeds **/
 #feed_icon {
-    float:right;
+	position: absolute;
+	top: 5px;
+	right: 2px;
 }
 
 #micro_icon {
@@ -344,6 +346,10 @@ input[type=submit] {
 .feed-studios {
     margin-bottom: 10px;
 	text-align: left;
+}
+
+.feed-entries {
+	position: relative;
 }
 
 .feed-entries, .feed-studio-list {
@@ -1213,32 +1219,160 @@ table.popup-help tr {
     border: 1px solid #666;
 }
 
+#feedback_form tr {
+	border: 0;
+}
+
 .popup-help-title, .popup-help-close {
     background-color: #000;
     font-weight: bold;
     padding: 4px;
 }
 
+div#feedback_modal_content table.popup-help td {
+	font-size: small;
+}
+
+/****
+Feedback/Get Involved lightbox 
+****/
+div#feedback {
+  position: absolute;	
+  top: 0;
+  left: 0;			
+  width: 100%;
+  height: 100%;
+  z-index: 100001;
+}
+#feedback_link {
+	display:none;
+}
+			
+a#feedback_link {				
+  position: fixed;
+  z-index: 99999;
+  background-color: #CC0000;
+  width: 26px;
+  height: 96px;
+  overflow: hidden;
+  background: #C00 url(/images/feedback/feedback_tab.png);
+  _position: absolute;
+  /*_background-image: url(/images/feedback/feedback_tab.png);*/
+}	
+  
+a#feedback_link:hover {
+  background-color: #999;
+}
+
+div.feedback-signup-msg {
+	padding: 5px;
+	font-size: x-small;
+}
+
 /**
-corner sprites 
+   we're not going to use this so we can probably dump all this 
+   code 
+a#feedback_link.left {
+  left: 0;
+  top: 25%;
+  width: 26px;
+  height: 96px;
+  background-image: url(/images/feedback/feedback_tab.png);
+  _background-image: url(/images/feedback/feedback_tab.png);
+}
+
+a#feedback_link.right {
+  right: 0;
+  top: 25%;
+  width: 26px;
+  height: 96px;
+  background-image: url(/images/feedback/feedback_tab.png);
+  _background-image: url(/images/feedback/feedback_tab.png);
+}
+
+a#feedback_link.top {
+  right: 10%;
+  top: 0;
+  width: 96px;
+  height: 26px;
+  background-image: url(/images/feedback/feedback_tab_h.png);
+  _background-image: url(/images/feedback/feedback_tab_h.png);
+}
+
+a#feedback_link.bottom {
+  right: 10%;
+  bottom: 0;
+  width: 96px;
+  height: 26px;
+  background-image: url(/images/feedback/feedback_tab_h.png);
+  _background-image: url(/images/feedback/feedback_tab_h.png);
+}
+*/
+			
+a#feedback_close_link {
+  right: 5pt;
+  top: 0pt;
+  position: absolute;
+  font-weight:bold;
+}
+
+div#feedback_modal_window {
+  width: 600px;
+  margin: 0 auto;				
+  position: relative;
+  background-color: #222;
+  left: 0%;
+}
+
+			
+div#feedback_modal_content table {				
+	width:100%;
+}
+			
+div#feedback_loading {				
+  padding: 12px;				
+}
+			
+#feedback_overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  opacity: 0.5;
+  -moz-opacity: 0.5;
+  filter:alpha(opacity=50);
+}
+			
+.feedback_hide {
+  z-index:-100;
+}
+
+.feedback_overlayBG {
+  background-color: #000;
+  z-index: 100000;
+}
+			
+* html #feedback_overlay { /* ie6 hack */
+  position: absolute;
+  height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
+}
+			
+form#feedback_form .error {
+  color: red;
+  font-weight: bold;
+}
+
+/**
+corners 
 **/
 .corner {
 	width: 9px;
 	height: 9px;
 	z-index: 100;
 }
-.x-ul, .x-ur, .x-bl, .x-br {
-	background-image: url(/images/corner-sprite.gif);
-}
-.x-ur {
-	background-position: 0px -9px;
-}
-.x-bl {
-	background-position: 0px -27px;
-}
-.x-br {
-	background-position: 0px -18px;
-}
+
 /*
 #bg {
     background: url(/images/sitebg2.jpg) repeat-x;

@@ -1,39 +1,51 @@
-<table>
-<tr class='feedback-title'>
-<td>Get Involved</td>
-<td><a id="feedback_close_link" href="#">X</a></td>
-</tr>
+<table class="popup-help">
+  <tr>
+	<td class="popup-help-title"><%= @title %></td>
+  </tr>
 </table>
-<div>So glad you want to get involved.  Choose one of the options below that best describes how you would like to be involved, fill out the form and hit the "send" button.  This will email us at Mission Artists United Headquarters and we'll contact you (where appropriate) as soon as we can.  We will not use your email for anything except to contact you.</div>
-
-<div id="fdbk_signup">Are you an artist working in the Mission District of San Francisco?   <div align="center"><form method="get" action="<%= signup_path %>"><input type="submit" value="Sign Up Now"/ ></form></div></td>
-
-<p>Please leave us feedback, it's really appreciated.</p>
-<% form_for :feedback, @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
-<% unless @error_message.blank? %>
-<p class="error">
-	<%=h @error_message %>
-</p>
-<% end %>
-<p>
-	<%= f.label 'subject' %>
-	<%= f.select 'subject', ['Problem', 'Suggestion', 'Question', 'Other'] %>
-</p>
-<!-- <p>
-   <%= f.label 'email' %>
-   <%= f.text_field 'email' %>
-</p>
--->
-<p>
-  <%= f.label 'comment' %><br />
-  <%= f.text_area 'comment', :rows => 10, :cols => 30 %>
-</p>
-<%= f.hidden_field 'page', :value => request.referer %>
-<% if current_artist -%>
-<%= f.hidden_field 'login', :value => current_artist.login %>
-<%= f.hidden_field 'email', :value => current_artist.email %>
-<% end -%>
-<p><%= f.submit 'Send' %></p>
-
+<div class="popup-help-text">
+  <% form_for :feedback, @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
+  <table>
+	<tr>
+	  <td width="50%">
+		Please choose from one of the following options:
+		<% unless @error_message.blank? %>
+		<p class="error">
+		  <%=h @error_message %>
+		</p>
+		<% end %>
+		<p>
+		  <div>suggest something</div>
+		  <div>volunteer</div>
+		  <div>gallery inquiry</div>
+		  <!--			  <%= f.label 'subject' %>
+						  <%= f.text_field 'subject' %>-->
+		</p>
+		<!-- <p>
+			 <%= f.label 'email' %>
+			 <%= f.text_field 'email' %>
+			 </p>
+		  -->
+	  </td>
+	  <td>
+		<%= f.label 'comment' %><br />
+		<%= f.text_area 'comment', :rows => 10, :cols => 30 %>
+	  </td>
+	  <%= f.hidden_field 'page', :value => request.referer %>
+	  <% if current_artist -%>
+	  <%= f.hidden_field 'login', :value => current_artist.login %>
+	  <%= f.hidden_field 'email', :value => current_artist.email %>
+	  <% end -%>
+	</tr>
+	<tr>
+	  <td colspan="2">
+		<p><%= f.submit 'Send' %></p>
+	  </td>
+	</tr>
+  </table>
+  <% end -%>
+</div>
+<% if !logged_in? -%>
+<div class="feedback-signup-msg">Are you an artist working in the Mission District of San Francisco? <%= link_to "Sign up!", "/artists/new" %></div>
 <% end -%>
 

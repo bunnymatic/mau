@@ -9,7 +9,13 @@
     	  <td></td>
     	  <td class="td-left">&copy; mission artists united</td>
     	  <td class="td-right">
-<span class="footer-nav"><%= feedback_link "get involved!" , :class => 'lkdark' %></span>
+<% if logged_in?
+     feedback_link_text = "get involved!"
+   else
+     feedback_link_text = "feedback"
+   end
+-%>
+<span class="footer-nav"><%= feedback_link feedback_link_text , :class => 'lkdark' %></span>
 <span class="footer-nav"><a class="lkdark" href="/privacy">privacy</a></span>
 <span class="footer-nav"><a class="lkdark" href="/contact">contact us</a></span></td>
 	  <td></td>
