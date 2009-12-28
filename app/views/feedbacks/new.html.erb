@@ -5,41 +5,54 @@
 </table>
 <div class="popup-help-text">
   <% form_for :feedback, @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
-  <table>
+  <table class="fdbk-form">
 	<tr>
-	  <td width="50%">
-		Please choose from one of the following options:
+	  <td colspan="2">
+		Click on one of the following feedback options and send us a note.
+		If include a valid email, we'll get back to you as soon as we can.
+	  </td>
+	</tr>
+	<tr>
+	  <td>
 		<% unless @error_message.blank? %>
-		<p class="error">
+		<div class="error-msg">
 		  <%=h @error_message %>
-		</p>
+        </div>
 		<% end %>
-		<p>
-		  <div>suggest something</div>
-		  <div>volunteer</div>
-		  <div>gallery inquiry</div>
-		  <!--			  <%= f.label 'subject' %>
-						  <%= f.text_field 'subject' %>-->
-		</p>
-		<!-- <p>
-			 <%= f.label 'email' %>
-			 <%= f.text_field 'email' %>
-			 </p>
-		  -->
+		<%= feedback_subjects %>
 	  </td>
 	  <td>
-		<%= f.label 'comment' %><br />
-		<%= f.text_area 'comment', :rows => 10, :cols => 30 %>
+		<div id="info_text"></div>
+		<div id="email_input" class="fdbk-input" style="display:none;">
+		  <%= f.label 'email' %><br/>
+		  <%= f.text_field 'email' %>
+		</div>
+		<div id="url_input" class="fdbk-input" style="display:none;">
+		  <%= f.label 'Web Address' %><br/>
+		  <%= f.text_field 'url' %>
+		</div>
+		<div id="skills_input" class="fdbk-input" style="display:none;">
+		  <%= f.label 'Skills' %><br/>
+		  <%= f.select 'skillsets', feedback_skillsets , :multiple => true %>
+		</div>
+		<div id="bug_input" class="fdbk-input" style="display:none;">
+		  <%= f.select 'bugtype', feedback_bugtypes %>
+		</div>
+		<div id="comment_input" class="fdbk-input" style="display:none;">
+		  <%= f.label 'comment' %><br />
+		  <%= f.text_area 'comment', :rows => 8, :cols => 40 %>
+		</div>
+		<div id="send_input" style="display:none;">
+		  <%= f.submit 'Send' %>
+		</div>
+
 	  </td>
+	  <%= f.hidden_field 'subject', :value => "general feedback" %>
 	  <%= f.hidden_field 'page', :value => request.referer %>
 	  <% if current_artist -%>
 	  <%= f.hidden_field 'login', :value => current_artist.login %>
 	  <%= f.hidden_field 'email', :value => current_artist.email %>
 	  <% end -%>
-	</tr>
-	<tr>
-	  <td colspan="2">
-		<p><%= f.submit 'Send' %></p>
 	  </td>
 	</tr>
   </table>
