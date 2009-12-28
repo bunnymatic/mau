@@ -12,13 +12,15 @@
 		If include a valid email, we'll get back to you as soon as we can.
 	  </td>
 	</tr>
+	<% unless @error_message.blank? -%>
+	<tr>
+	  <td class="error-msg" colspan="2">
+		<%=h @error_message %>
+	  </td>
+	</tr>
+	<% end -%>
 	<tr>
 	  <td>
-		<% unless @error_message.blank? %>
-		<div class="error-msg">
-		  <%=h @error_message %>
-        </div>
-		<% end %>
 		<%= feedback_subjects %>
 	  </td>
 	  <td>
@@ -44,6 +46,7 @@
 		</div>
 		<div id="send_input" style="display:none;">
 		  <%= f.submit 'Send' %>
+		  <%= f.submit 'Cancel' %>
 		</div>
 
 	  </td>

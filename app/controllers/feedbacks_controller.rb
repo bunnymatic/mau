@@ -15,6 +15,9 @@ class FeedbacksController < ApplicationController
   end
   
   def create
+    if params[:commit].downcase == 'cancel'
+      return
+    end
     
     @feedback = Feedback.new(params[:feedback])
     if @feedback.valid?
@@ -30,7 +33,7 @@ class FeedbacksController < ApplicationController
       # it makes easier the customization of the form with error messages
       # without worrying about the javascript.
       @title = _get_title
-      render :action => 'new', :status => :unprocessable_entity
+      render :action => 'new', :status => :unprocessable_entity, :locals => { :sel => @feedback.subject.to_s  }
     end
     
     

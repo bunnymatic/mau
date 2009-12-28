@@ -83,7 +83,9 @@
 					 });
 				 }
 				 else {
-					 $(Feedback.settings.form).observe('submit', Feedback.submitFeedback);
+					 var f = $(Feedback.settings.form);
+					 f.observe('submit', Feedback.submitFeedback);
+					 MAU.Feedback.init(f.subject);
 				 }
 			 }
 		 });    Event.stop(event);
