@@ -27,5 +27,58 @@ module FeedbacksHelper
     end
     link_to text, '#', :class => "feedback_link " + xclass
   end
-  
+
+  def feedback_skillsets
+    [ 'None',
+      'Ruby/Rails Programming',
+      'Web Design',
+      'Graphic Design',
+      'Marketing/PR',
+      'Manual Labor',
+      'Organizing People',
+      'Other' ]
+  end
+
+  def feedback_bugtypes
+    [ '',
+      'found a bug',
+      'feature request',
+      'general feedback' ]
+  end
+
+  def feedback_select
+    # logic for links and fields shown is in javascript
+    subjects = [ { 'suggest' => 'suggest something' },
+                 { 'volunteer' => 'volunteer for MAU' },
+                 { 'gallery' => 'gallery interested'},
+                 { 'business' => 'business interested'},
+                 { 'donate' => 'donate to mau'},
+                 { 'feedsuggest' => 'suggest a feed'},
+                 { 'website' => 'website feedback'} ]
+    cls = 'fdbk-subj'
+    html = '<select>'
+    subjects.each do |a|
+      html += '<option>%s</option>' % a.values()[0]
+    end
+    html
+  end
+
+  def feedback_subjects
+    # logic for links and fields shown is in javascript
+    subjects = [ { 'suggest' => 'suggest something' },
+                 { 'volunteer' => 'volunteer for MAU' },
+                 { 'gallery' => 'gallery interested'},
+                 { 'business' => 'business interested'},
+                 { 'donate' => 'donate to mau'},
+                 { 'feedsuggest' => 'suggest a feed'},
+                 { 'website' => 'website feedback'},
+                 { 'emaillist' => 'get on our email list'}
+               ]
+    cls = 'fdbk-subj'
+    html = ''
+    subjects.each do |a|
+      html += '<div class="%s"><a class="%s" href="#%s" >%s</a></div>' % [cls, cls, a.keys()[0], a.values()[0]]
+    end
+    html
+  end
 end

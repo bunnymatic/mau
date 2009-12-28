@@ -58,11 +58,12 @@
 					 method: 'get',
 					 onComplete: function(transport) {
 						 $(Feedback.settings.form).observe('submit', Feedback.submitFeedback);
+						 MAU.Feedback.init();
 					 }		  
 				 });	
 				 return false;				
 			 });
-		 });	
+		 });
 	 }
 	 
 	 Feedback.submitFeedback = function(event){
@@ -75,7 +76,7 @@
 			 onComplete: function(transport){
 				 if (transport.status >= 200 && transport.status < 300) {
 					 $(Feedback.settings.modalWindow).fade({
-						 duration: 2.0,
+						 duration: 5.0,
 						 afterFinish: function() {
 							 Feedback.hideFeedback();
 						 }	
@@ -89,15 +90,18 @@
 	 }
 	 
 	 Feedback.initOverlay = function() {
+		 MAU.log('Feedback.initOverlay');
 		 if ($$('#' + this.settings.overlay).length == 0)
 			 $$("body").first().insert(this.settings.overlayHtml)
-		 
 		 $(this.settings.overlay).addClassName('feedback_overlayBG');
+		 MAU.log('Feedback.initOverlay done');
 	 }
 	 
 	 Feedback.showOverlay = function() {
+		 MAU.log('Feedback.showOverlay');
 		 Feedback.initOverlay();
 		 $(this.settings.overlay).show();
+		 MAU.log('Feedback.showOverlay done');
 	 }
 	 
 	 Feedback.hideOverlay = function() {
@@ -125,19 +129,24 @@
 	 }	
 	 
 	 Feedback.showFeedback = function() {
+		 MAU.log('Feedback.showFeedback');
+
 		 Feedback.initFeedback();
 		 $(this.settings.main).show();
+		 MAU.log('Feedback.showFeedback done');
 	 }	
 
 	 Feedback.loading = function(text){
+		 MAU.log('Feedback.loading');
 		 Feedback.showOverlay();
 		 Feedback.initFeedback();
 		 if (text == null) 
 			 text = this.settings.loadingText;
 
-		 $(this.settings.modalContent).update('<h4>' + text + '<img src="' + this.settings.loadingImage + '" /></h4>');
-		 
-		 $(this.settings.main).show();
+		 $(this.settings.modalContent).update('<h4>' + text + '<img src="' + this.settings.loadingImage + '" /></h4>');	
+
+		 $(this.settings.main).show()
+		 MAU.log('Feedback.loading done');
 	 }
 	 
 	 Feedback.setWindowPosition = function() {

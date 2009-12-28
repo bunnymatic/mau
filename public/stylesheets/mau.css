@@ -155,6 +155,12 @@ a.lkdark:hover {
     color: #442222;
 }
 
+a.lksubtle, a.lksubtle:link, a.lksubtle:visited ,a.lksubtle:active {
+    color: #888;
+}
+a.lksubtle:hover {
+    color: #dcd5a8;
+}
 
 /* default link colors assuming dark background */
 a {
@@ -807,6 +813,7 @@ tr.tr-short{
 
 .lcol, .alt-lcol {
     padding-bottom: 15px;
+	position: relative;
     vertical-align: top;
     width:270px;
 }
@@ -1207,6 +1214,11 @@ div.popup-help {
     z-index: 100;
 }
 
+/** top here is to get into the "h4" tag which has a margin of 1.3em */
+#tag_help {
+	top: -3em;
+}
+
 .popup-help-text {
     padding: 4px 6px 6px 4px;
 }
@@ -1215,6 +1227,8 @@ td.popup-help-close {
 	text-align: center;
 }
 
+div.feedback-signup-msg,
+div.popup-help-text,
 table.popup-help tr {
     border: 1px solid #666;
 }
@@ -1247,7 +1261,7 @@ div#feedback {
 #feedback_link {
 	display:none;
 }
-			
+
 a#feedback_link {				
   position: fixed;
   z-index: 99999;
@@ -1269,6 +1283,9 @@ div.feedback-signup-msg {
 	font-size: x-small;
 }
 
+table.fdbk-form td{
+	vertical-align: top;
+}
 /**
    we're not going to use this so we can probably dump all this 
    code 
