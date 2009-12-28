@@ -280,7 +280,8 @@ MAU = window['MAU'] || {};
 			F.setSubject('emaillist');
 		}
 	}
-	F.init = function() {
+	F.init = function(st) {
+		M.log("Init MAU Feedback" + st);
 		var lnks = $$('a.fdbk-subj');
 		var nlnks = lnks.length;
 		for (var ii=0; ii<nlnks; ++ii) {
@@ -288,11 +289,10 @@ MAU = window['MAU'] || {};
 			var sxn = lnk.href.split('#')[1];
 			if (fdbk_methods[sxn]) {
 				mth = fdbk_methods[sxn];
-				M.log(mth);
 				lnk.observe('click', fdbk_methods[sxn]);
 			}
 		}
-		F.init = function(){}
+		/** do not zero out this method as we may need it again */
 	}
 	
 }
