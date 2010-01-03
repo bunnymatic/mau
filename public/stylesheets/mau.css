@@ -1285,6 +1285,16 @@ div.feedback-signup-msg {
 
 table.fdbk-form td{
 	vertical-align: top;
+	padding: 10px;
+}
+
+table.fdbk-form div.error-msg {
+	margin-bottom: 0px;
+}
+.fdbk-selector {
+	width: 200px;
+}
+.fdbk-selector, .fdbk-form-container {
 }
 /**
    we're not going to use this so we can probably dump all this 
@@ -1342,7 +1352,7 @@ div#feedback_modal_window {
 }
 
 			
-div#feedback_modal_content table {				
+div#feedback_modal_content table {
 	width:100%;
 }
 			

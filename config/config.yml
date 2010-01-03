@@ -23,7 +23,7 @@ local:
    image_servers: 
    cache_ns: lcl
    cache_expiry:
-       feed: 5
+       feed: 30
        search: 20
        objects: 20
 

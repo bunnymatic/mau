@@ -239,6 +239,11 @@ MAU = window['MAU'] || {};
 		}
 	}
 	var fdbk_methods = {
+		'general': function() {
+			F.showInputs(true, false, false, false, false);
+  		    F.setSubject('general');
+		    F.setInfoTxt('We love to get your feedback.  Please tell us what you are thinking.');
+		},
 		'suggest':function() { 
 			F.showInputs(true, false, false, false, false);
 			F.setSubject('suggest');
@@ -251,7 +256,7 @@ MAU = window['MAU'] || {};
 		},
 		'business':function() { 
 			F.showInputs(true, true, false, false, false);
-			F.setSubject('gallery');
+			F.setSubject('business');
 			F.setInfoTxt('Tell us about your business and how you\'d like to work with MAU');
 		},
 		'volunteer':function() { 
@@ -281,7 +286,6 @@ MAU = window['MAU'] || {};
 		}
 	}
 	F.init = function(st) {
-		M.log("Init MAU Feedback" + st);
 		var lnks = $$('a.fdbk-subj');
 		var nlnks = lnks.length;
 		for (var ii=0; ii<nlnks; ++ii) {
@@ -292,6 +296,13 @@ MAU = window['MAU'] || {};
 				lnk.observe('click', fdbk_methods[sxn]);
 			}
 		}
+		if (st) {
+			fdbk_methods[st]();
+		}
+		else {
+			fdbk_methods['general']();
+		}
+			
 		/** do not zero out this method as we may need it again */
 	}
 	

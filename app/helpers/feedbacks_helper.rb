@@ -65,7 +65,8 @@ module FeedbacksHelper
 
   def feedback_subjects
     # logic for links and fields shown is in javascript
-    subjects = [ { 'suggest' => 'suggest something' },
+    subjects = [ { 'general' => 'general feedback' },
+                 { 'suggest' => 'suggest something' },
                  { 'volunteer' => 'volunteer for MAU' },
                  { 'gallery' => 'gallery interested'},
                  { 'business' => 'business interested'},
