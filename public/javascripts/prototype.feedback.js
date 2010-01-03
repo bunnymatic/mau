@@ -25,15 +25,16 @@
 	 Feedback = {};
 	 Feedback.init = function(callerSettings) {    // Changes to those default settings might need adjustment in feedback.css
 		 this.settings = Object.extend({
-			 tabControl: 'feedback_link',
-			 main: 'feedback',
+			  tabControl: 'feedback_link',
+			  main: 'feedback',
 			 closeLink: 'feedback_close_link',
+			 closeBtn: 'feedback_close_btn',
 			 modalWindow: 'feedback_modal_window',
 			 modalContent: 'feedback_modal_content',
 			 form: 'feedback_form',
 			 formUrl: '/feedbacks/new',
 			 overlay: 'feedback_overlay',
-			 loadingImage: '/images/spinner24.gif',
+			 loadingImage: '/images/spinner16black.gif',
 			 loadingText: 'Loading...',
 			 sendingText: 'Sending...',
 			 tabPosition: 'left'
@@ -58,6 +59,12 @@
 					 method: 'get',
 					 onComplete: function(transport) {
 						 $(Feedback.settings.form).observe('submit', Feedback.submitFeedback);
+
+						 var b = $(Feedback.settings.closeBtn);
+						 b.observe('click', function(){
+							 Feedback.hideFeedback();
+							 return false;
+						 });
 						 MAU.Feedback.init();
 					 }		  
 				 });	
@@ -76,7 +83,7 @@
 			 onComplete: function(transport){
 				 if (transport.status >= 200 && transport.status < 300) {
 					 $(Feedback.settings.modalWindow).fade({
-						 duration: 5.0,
+						 duration: 4.0,
 						 afterFinish: function() {
 							 Feedback.hideFeedback();
 						 }	
@@ -85,25 +92,28 @@
 				 else {
 					 var f = $(Feedback.settings.form);
 					 f.observe('submit', Feedback.submitFeedback);
-					 MAU.Feedback.init(f.subject);
+					 var closer = $(Feedback.settings.closeBtn);
+					 closer.observe('click', function(){
+						 Feedback.hideFeedback();
+						 return false;
+					 });
+					 var s = f["feedback[subject]"]
+					 if (s) { s = s.value; }
+					 MAU.Feedback.init(s);
 				 }
 			 }
 		 });    Event.stop(event);
 	 }
 	 
 	 Feedback.initOverlay = function() {
-		 MAU.log('Feedback.initOverlay');
 		 if ($$('#' + this.settings.overlay).length == 0)
 			 $$("body").first().insert(this.settings.overlayHtml)
 		 $(this.settings.overlay).addClassName('feedback_overlayBG');
-		 MAU.log('Feedback.initOverlay done');
 	 }
 	 
 	 Feedback.showOverlay = function() {
-		 MAU.log('Feedback.showOverlay');
 		 Feedback.initOverlay();
 		 $(this.settings.overlay).show();
-		 MAU.log('Feedback.showOverlay done');
 	 }
 	 
 	 Feedback.hideOverlay = function() {
@@ -122,7 +132,7 @@
 		 if ($$('#' + this.settings.main).length == 0) {
 			 $$("body").first().insert(this.settings.feedbackHtml);
 			 var closer = $(this.settings.closeLink);
-			 $(this.settings.closeLink).observe('click', function(){
+			 closer.observe('click', function(){
 				 Feedback.hideFeedback();
 				 return false;
 			 });
@@ -131,15 +141,11 @@
 	 }	
 	 
 	 Feedback.showFeedback = function() {
-		 MAU.log('Feedback.showFeedback');
-
 		 Feedback.initFeedback();
 		 $(this.settings.main).show();
-		 MAU.log('Feedback.showFeedback done');
 	 }	
 
 	 Feedback.loading = function(text){
-		 MAU.log('Feedback.loading');
 		 Feedback.showOverlay();
 		 Feedback.initFeedback();
 		 if (text == null) 
@@ -148,7 +154,6 @@
 		 $(this.settings.modalContent).update('<h4>' + text + '<img src="' + this.settings.loadingImage + '" /></h4>');	
 
 		 $(this.settings.main).show()
-		 MAU.log('Feedback.loading done');
 	 }
 	 
 	 Feedback.setWindowPosition = function() {

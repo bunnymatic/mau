@@ -8,22 +8,20 @@
   <table class="fdbk-form">
 	<tr>
 	  <td colspan="2">
-		Click on one of the following feedback options and send us a note.
-		If include a valid email, we'll get back to you as soon as we can.
-	  </td>
-	</tr>
+		Click on one of the following feedback options (on the left) and send us a note.
+		If you include a valid email,  we'll get back to you as soon as we can.
 	<% unless @error_message.blank? -%>
-	<tr>
-	  <td class="error-msg" colspan="2">
+	<div class="error-msg" colspan="2">
 		<%=h @error_message %>
+	</div>
+	<% end -%>
 	  </td>
 	</tr>
-	<% end -%>
 	<tr>
-	  <td>
+	  <td class="fdbk-selector">
 		<%= feedback_subjects %>
 	  </td>
-	  <td>
+	  <td class="fdbk-form-container">
 		<div id="info_text"></div>
 		<div id="email_input" class="fdbk-input" style="display:none;">
 		  <%= f.label 'email' %><br/>
@@ -41,16 +39,15 @@
 		  <%= f.select 'bugtype', feedback_bugtypes %>
 		</div>
 		<div id="comment_input" class="fdbk-input" style="display:none;">
-		  <%= f.label 'comment' %><br />
 		  <%= f.text_area 'comment', :rows => 8, :cols => 40 %>
 		</div>
 		<div id="send_input" style="display:none;">
 		  <%= f.submit 'Send' %>
-		  <%= f.submit 'Cancel' %>
+		  <button class='formbutton' id="feedback_close_btn">Cancel</button>
 		</div>
 
 	  </td>
-	  <%= f.hidden_field 'subject', :value => "general feedback" %>
+	  <%= f.hidden_field 'subject', :value => @section %>
 	  <%= f.hidden_field 'page', :value => request.referer %>
 	  <% if current_artist -%>
 	  <%= f.hidden_field 'login', :value => current_artist.login %>

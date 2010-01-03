@@ -10,20 +10,17 @@ class FeedbacksController < ApplicationController
   end
 
   def new
+    @section = 'general'
     @title = _get_title
     @feedback = Feedback.new    
   end
   
   def create
-    if params[:commit].downcase == 'cancel'
-      return
-    end
-    
     @feedback = Feedback.new(params[:feedback])
     if @feedback.valid?
       @feedback.save
       #FeedbackMailer.deliver_feedback(@feedback)
-      render :status => :created, :text => '<h3>Thank you for your feedback!</h3>'
+      render 'thankyou', :status => :created
     else
       @error_message = "Please enter your #{@feedback.subject.to_s.downcase}"
       p "ERRORS ", @feedback.errors
@@ -33,7 +30,8 @@ class FeedbacksController < ApplicationController
       # it makes easier the customization of the form with error messages
       # without worrying about the javascript.
       @title = _get_title
-      render :action => 'new', :status => :unprocessable_entity, :locals => { :sel => @feedback.subject.to_s  }
+      @section = @feedback.subject.to_s
+      render :action => 'new', :status => :unprocessable_entity
     end
     
     
