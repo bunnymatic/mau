@@ -41,44 +41,29 @@ module FeedbacksHelper
 
   def feedback_bugtypes
     [ '',
-      'found a bug',
-      'feature request',
-      'general feedback' ]
+      'Found a bug',
+      'Feature request',
+      'General feedback' ]
   end
 
-  def feedback_select
+  def feedback_subjects(section='general')
     # logic for links and fields shown is in javascript
-    subjects = [ { 'suggest' => 'suggest something' },
-                 { 'volunteer' => 'volunteer for MAU' },
-                 { 'gallery' => 'gallery interested'},
-                 { 'business' => 'business interested'},
-                 { 'donate' => 'donate to mau'},
-                 { 'feedsuggest' => 'suggest a feed'},
-                 { 'website' => 'website feedback'} ]
-    cls = 'fdbk-subj'
-    html = '<select>'
-    subjects.each do |a|
-      html += '<option>%s</option>' % a.values()[0]
-    end
-    html
-  end
-
-  def feedback_subjects
-    # logic for links and fields shown is in javascript
-    subjects = [ { 'general' => 'general feedback' },
-                 { 'suggest' => 'suggest something' },
-                 { 'volunteer' => 'volunteer for MAU' },
-                 { 'gallery' => 'gallery interested'},
-                 { 'business' => 'business interested'},
-                 { 'donate' => 'donate to mau'},
-                 { 'feedsuggest' => 'suggest a feed'},
-                 { 'website' => 'website feedback'},
-                 { 'emaillist' => 'get on our email list'}
+    subjects = [ { 'general' => 'General feedback' },
+                 { 'suggest' => 'Suggestion' },
+                 { 'volunteer' => 'Volunteer for MAU' },
+                 { 'gallery' => 'Gallery interest'},
+                 { 'business' => 'Local Business interest'},
+                 { 'donate' => 'Donate to MAU'},
+                 { 'feedsuggest' => 'Suggest a feed'},
+                 { 'website' => 'Website Feedback'},
+                 { 'emaillist' => 'Get on the MAU email list'}
                ]
-    cls = 'fdbk-subj'
     html = ''
     subjects.each do |a|
-      html += '<div class="%s"><a class="%s" href="#%s" >%s</a></div>' % [cls, cls, a.keys()[0], a.values()[0]]
+      cls = 'fdbk-subj'
+      kk = a.keys()[0]
+      vv = a.values()[0]
+      html += '<div class="%s"><a class="%s" href="#%s" >%s<div id="next_pg"></div></a></div>' % [cls, cls, kk, vv]
     end
     html
   end

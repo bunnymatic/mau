@@ -229,6 +229,13 @@ MAU = window['MAU'] || {};
 			else {
 				lnk.addClassName(cls);
 			}
+			cls = "fdbk-sel";
+			if (sxn == s) {
+				lnk.addClassName(cls);
+			}
+			else {
+			    lnk.removeClassName(cls);
+			}
 		}
 		
 	}

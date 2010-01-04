@@ -42,3 +42,7 @@ div.tiny-thumb, div.tiny-thumb-sel {
 #micro_icon {
     display:inline;
 }
+
+a.fdbk-sel div#next_pg {
+    display: inline;
+}

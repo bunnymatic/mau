@@ -666,6 +666,20 @@ div.navlinks {
 	padding: 0px 2px 0 2px;
 }
 
+a.fdbk-subj div#next_pg {
+    display:none;
+}
+
+a.fdbk-sel div#next_pg {
+    display: inline-block;
+}
+
+a.fdbk-sel div#next_pg {
+    margin-right: 3px;
+    margin-left: 3px;
+    vertical-align: middle;
+}
+
 div.playback {
 	float:right;
 }
