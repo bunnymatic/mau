@@ -1,22 +1,35 @@
+####### VARIABLES #######
+set :ssh_options,         {:port => 2222}
 set :application, "MAU"
-set :repository,  "svn+ssh://n4.jimlloyd.com#2222/space/svnroot/projects/mau/mauweb"
-
+set :repository,  "svn+ssh://bunnymatic.com/space/svnroot/projects/mau/mauweb"
 set :scm, :subversion
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-set :deploy_to, "/projects/mau/mauweb"
+role :app, "bunnymatic.com"
+role :web, "bunnymatic.com"
+role :db,  "bunnymatic.com", :primary => true # This is where Rails migrations will run
 
-set :user, "jon"
+####### CUSTOM TASKS #######
+desc "Set up Staging specific paramters."
+task :jy do
+  set :user, "jeremy"
+  set :deploy_to, "/home/jeremy/deployed"
+  # set :db_pass, "9XfqzzL9"
+  # set :db_env, "staging"
+end
 
-role :app, "n4.jimlloyd.com:2222"
-role :web, "n4.jimlloyd.com:2222"
+desc "Set up Staging specific paramters."
+task :dev do
+  set :user, "maudev"
+  set :deploy_to, "/home/maudev/deployed"
+  # set :db_pass, "9XfqzzL9"
+  # set :db_env, "staging"
+end
 
-role :db,  "n4.jimlloyd.com:2222", :primary => true # This is where Rails migrations will run
-#role :db,  "your slave db-server here"
-
-# If you are using Passenger mod_rails uncomment this:
-# if you're still using the script/reapear helper you will need
-# these http://github.com/rails/irs_process_scripts
+desc "Set up Production specific paramters."
+task :prod do
+  set :user, "mauprod"
+  set :deploy_to, "/home/mauprod/deployed"
+end
 
 # namespace :deploy do
 #   task :start {}
