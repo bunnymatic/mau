@@ -41,6 +41,10 @@ development:
        objects: 0
 
 production:
+  feedback_emails:
+      - feedback@missionartistsunited.org
+      - maufeedback@bunnymatic.com
+      - trish@trishtunney.com
    site_url: www.missionartistsunited.org
    cache_server: localhost:11211
    image_servers: 
