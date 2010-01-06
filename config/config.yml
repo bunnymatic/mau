@@ -41,7 +41,7 @@ development:
        objects: 0
 
 production:
-  feedback_emails:
+   feedback_emails:
       - feedback@missionartistsunited.org
       - maufeedback@bunnymatic.com
       - trish@trishtunney.com
@@ -57,14 +57,14 @@ production:
        objects: 0
 
 common:
-  feedback_emails:
+   feedback_emails:
       - feedback@missionartistsunited.org
       - maufeedback@bunnymatic.com
-  cache_expiry:
+   cache_expiry:
        feed: 
        search: 
        objects: 
-  feeds_urls: 
+   feeds_urls: 
       - feed: http://sfartnews.wordpress.com/feed/
         url: http://sfartnews.wordpress.com/ 
       - feed: http://twitter.com/statuses/user_timeline/62131363.rss  
