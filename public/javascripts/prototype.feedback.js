@@ -83,7 +83,7 @@
 			 onComplete: function(transport){
 				 if (transport.status >= 200 && transport.status < 300) {
 					 $(Feedback.settings.modalWindow).fade({
-						 duration: 4.0,
+						 duration: 3.0,
 						 afterFinish: function() {
 							 Feedback.hideFeedback();
 						 }	
