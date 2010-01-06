@@ -194,6 +194,7 @@ MAU = window['MAU'] || {};
 		}
 	}
 	F.COMMENT_BOX = 'comment_input';
+	F.COMMENT_BOX_TA = 'feedback_comment';
 	F.EMAIL_BOX = 'email_input';
 	F.URL_BOX = 'url_input';
 	F.SUBMIT_BOX = 'send_input';
@@ -247,9 +248,9 @@ MAU = window['MAU'] || {};
 	}
 	var fdbk_methods = {
 		'general': function() {
-			F.showInputs(true, false, false, false, false);
+			F.showInputs(true, true, false, false, false);
   		    F.setSubject('general');
-		    F.setInfoTxt('We love to get your feedback.  Please tell us what you are thinking.');
+		    F.setInfoTxt("We love to get feedback.  Please let us know what you think of the website, what MAU can do for you, or whatever else you might like to tell us.  If you would like to get involved with MAU or Spring Open Studios planning, please leave your email and we'll get in touch as soon as we can. ");
 		},
 		'suggest':function() { 
 			F.showInputs(true, false, false, false, false);
@@ -293,6 +294,16 @@ MAU = window['MAU'] || {};
 		}
 	}
 	F.init = function(st) {
+		var cmtbx = $(F.COMMENT_BOX_TA);
+		if (cmtbx) {
+			cmtbx.observe('focus', function() { 
+				var cmtbx = $(F.COMMENT_BOX_TA);
+				if (cmtbx.value == '<enter your comment here>') {
+					cmtbx.value = '';
+				};
+				return false;
+			});
+		}
 		var lnks = $$('a.fdbk-subj');
 		var nlnks = lnks.length;
 		for (var ii=0; ii<nlnks; ++ii) {

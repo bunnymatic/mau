@@ -680,6 +680,10 @@ a.fdbk-sel div#next_pg {
     vertical-align: middle;
 }
 
+.fdbk-input {
+	margin: 4px 0;
+}
+
 div.playback {
 	float:right;
 }
@@ -1309,6 +1313,10 @@ table.fdbk-form div.error-msg {
 	width: 200px;
 }
 .fdbk-selector, .fdbk-form-container {
+	margin: 5px;
+}
+#info_text {
+	margin-bottom: 12px;
 }
 /**
    we're not going to use this so we can probably dump all this 

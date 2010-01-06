@@ -56,7 +56,7 @@ module FeedbacksHelper
                  { 'donate' => 'Donate to MAU'},
                  { 'feedsuggest' => 'Suggest a feed'},
                  { 'website' => 'Website Feedback'},
-                 { 'emaillist' => 'Get on the MAU email list'}
+                { 'emaillist' => 'Get on the MAU email list'}
                ]
     html = ''
     subjects.each do |a|
