@@ -17,13 +17,15 @@ class FeedbacksController < ApplicationController
   
   def create
     @feedback = Feedback.new(params[:feedback])
+    if @feedback.comment == '<enter your comment here>'
+      @feedback.comment = ''
+    end
     if @feedback.valid?
       @feedback.save
-      #FeedbackMailer.deliver_feedback(@feedback)
+      FeedbackMailer.deliver_feedback(@feedback)
       render 'thankyou', :status => :created
     else
-      @error_message = "Please enter your #{@feedback.subject.to_s.downcase}"
-      p "ERRORS ", @feedback.errors
+      @error_message = "Please enter a comment or hit cancel."
 	  
 	  # Returns the whole form back. This is not the most effective
       # use of AJAX as we could return the error message in JSON, but
@@ -33,8 +35,5 @@ class FeedbacksController < ApplicationController
       @section = @feedback.subject.to_s
       render :action => 'new', :status => :unprocessable_entity
     end
-    
-    
   end
-  
 end

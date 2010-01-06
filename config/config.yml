@@ -6,6 +6,7 @@ test:
    cache_server:
    image_servers: 
    cache_ns: tst
+   feedback_emails: 
 
 ub:
    site_url: localhost:3000
@@ -52,6 +53,9 @@ production:
        objects: 0
 
 common:
+  feedback_emails:
+      - feedback@missionartistsunited.org
+      - maufeedback@bunnymatic.com
   cache_expiry:
        feed: 
        search: 

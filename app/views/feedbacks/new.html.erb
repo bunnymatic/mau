@@ -6,26 +6,23 @@
 <div class="popup-help-text">
   <% form_for :feedback, @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
   <table class="fdbk-form">
-	<tr>
-	  <td colspan="2">
-		Click on one of the following feedback options (on the left) and send us a note.
-		If you include a valid email,  we'll get back to you as soon as we can.
 	<% unless @error_message.blank? -%>
-	<div class="error-msg" colspan="2">
+	<tr>
+	  <td class="error-msg">
 		<%=h @error_message %>
-	</div>
-	<% end -%>
 	  </td>
 	</tr>
+	<% end -%>
 	<tr>
-	  <td class="fdbk-selector">
-		<%= feedback_subjects(@section) %>
-	  </td>
 	  <td class="fdbk-form-container">
 		<div id="info_text"></div>
 		<div id="email_input" class="fdbk-input" style="display:none;">
-		  <%= f.label 'email' %><br/>
+		  <%= f.label 'email' %>
+		  <% if !logged_in? -%>
 		  <%= f.text_field 'email' %>
+		  <% else %>
+		  <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
+		  <% end -%>
 		</div>
 		<div id="url_input" class="fdbk-input" style="display:none;">
 		  <%= f.label 'Web Address' %><br/>
@@ -39,7 +36,7 @@
 		  <%= f.select 'bugtype', feedback_bugtypes %>
 		</div>
 		<div id="comment_input" class="fdbk-input" style="display:none;">
-		  <%= f.text_area 'comment', :rows => 8, :cols => 40 %>
+		  <%= f.text_area 'comment', :cols => 70, :rows => 10, :value => "<enter your comment here>" %>
 		</div>
 		<div id="send_input" style="display:none;">
 		  <%= f.submit 'Send' %>
