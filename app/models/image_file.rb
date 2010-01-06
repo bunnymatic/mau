@@ -6,7 +6,7 @@ require 'pathname'
 class ImageFile
 
   @@IMG_SERVERS = ['']
-  @@FILENAME_CLEANER = Regexp.new('\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\ ')
+  @@FILENAME_CLEANER = Regexp.new('\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\ ')
   if Conf.image_servers
     Conf.image_servers.each do |svr|
       @@IMG_SERVERS << svr
