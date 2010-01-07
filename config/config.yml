@@ -79,4 +79,6 @@ common:
         url: http://apaintingaday.blogspot.com/
       - feed: http://twitter.com/statuses/user_timeline/32943864.rss
         url: http://twitter.com/bunnymaticsf
+      - feed: http://sidneadamico.blogspot.com/feeds/posts/default?alt=rss 
+        url: http://sidneadamico.blogspot.com/
 

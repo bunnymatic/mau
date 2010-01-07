@@ -466,10 +466,11 @@ div#login, div#logout {
     text-align:justify;
 }
 #about_text, #contact_text, #news_text, .privacy-content,
-#artist_edit,.content-block, #search_results, #all_artists_page{
+#artist_edit,.content-block, #all_artists_page{
 	margin-left:40px;
 	margin-right:40px;
 }
+
 #studio_page {
     margin-left:30px;
     margin-right:20px;
@@ -680,6 +681,7 @@ a.fdbk-sel div#next_pg {
     vertical-align: middle;
 }
 
+.getinv-input,
 .fdbk-input {
 	margin: 4px 0;
 }

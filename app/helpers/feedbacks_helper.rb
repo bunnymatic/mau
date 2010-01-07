@@ -30,8 +30,7 @@ module FeedbacksHelper
 
   def feedback_skillsets
     [ 'None',
-      'Ruby/Rails Programming',
-      'Web Design',
+      'Web Design/Programming',
       'Graphic Design',
       'Marketing/PR',
       'Manual Labor',
