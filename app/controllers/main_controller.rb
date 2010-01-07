@@ -21,6 +21,10 @@ class MainController < ApplicationController
     render :text => f.read
   end
 
+  def getinvolved
+    @page_title = "Mission Artists United - Get Invovled!"
+  end
+
   def about
     @show_history = false
     if params[:id] == 'h'
