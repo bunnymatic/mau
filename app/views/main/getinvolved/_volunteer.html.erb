@@ -1,0 +1,49 @@
+<div id="getinv-volunteer" class="getinv-content">
+ <p/>We are currently making plans for Spring Open Studios which will be April 24/25.  but we're always on the look out for a few good people.  We have a list of general task areas and would love to get your help in areas that you enjoy.  Are you a nerd who's an artist?  Perhaps you could help out with the website.  Are you retired press junkie?  Perhaps public relations is where you might be able to help out.
+  <p/>
+  Please tell us as much as you can about your skills, your thoughts on Mission Artists United and anything else that might help us get you helping us soon, and in the best capacity.
+  <div class="getinv-form-container content-block">
+    <% form_for :feedback, @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
+    <table class="getinv-form">
+      <% unless @error_message.blank? -%>
+      <tr>
+	<td class="error-msg">
+	  <%=h @error_message %>
+	</td>
+      </tr>
+      <% end -%>
+      <tr>
+	<td class="getinv-form-container">
+	  <div id="info_text"></div>
+	  <div id="email_input" class="getinv-input" >
+	    <%= f.label 'email' %>
+	    <% if !logged_in? -%>
+	    <%= f.text_field 'email' %>
+	    <% else %>
+	    <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
+	    <% end -%>
+	  </div>
+	  <div id="skills_input" class="getinv-input" >
+	    <%= f.label 'Skills' %>
+	    <%= f.select 'skillsets', feedback_skillsets , :multiple => true %>
+	  </div>
+	  <div id="comment_input" class="getinv-input" >
+	    <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
+	  </div>
+	  <div id="send_input" >
+	    <%= f.submit 'Send' %>
+	    <button class='formbutton' id="getinv_close_btn">Cancel</button>
+	  </div>
+	</td>
+      </tr>
+    </table>
+    <%= f.hidden_field 'subject', :value => "Volunteer" %>
+    <%= f.hidden_field 'page', :value => request.referer %>
+    <% if current_artist -%>
+    <%= f.hidden_field 'login', :value => current_artist.login %>
+    <%= f.hidden_field 'email', :value => current_artist.email %>
+    <% end -%>
+    <% end -%>
+
+  </div>
+</div>

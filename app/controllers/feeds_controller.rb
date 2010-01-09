@@ -8,7 +8,7 @@ class FeedsController < ApplicationController
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 4000)
   @@FEEDS_KEY = (Conf.cache_ns or '') + 'sb-feeds'
   @@FEED_KEY = (Conf.cache_ns or '') + 'sb-feed'
-  @@NUM_FEEDS = 5
+  @@NUM_FEEDS = 4
 
   def index
   end
