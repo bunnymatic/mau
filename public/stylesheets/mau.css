@@ -269,6 +269,11 @@ input[type=submit] {
     padding: 1px 2px;
 }
 
+input[type=submit][disabled=disabled] {
+    font-weight:normal;
+    color:#aaaaaa;
+}
+
 .formbutton{
     background:#999;
     background:url(/images/gradient-20px.png) repeat-x left top;

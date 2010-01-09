@@ -14,8 +14,7 @@
       <% end -%>
       <tr>
 	<td class="getinv-form-container">
-	  <div id="info_text"></div>
-	  <div id="email_input" class="getinv-input" >
+	  <div id="vemail_input" class="getinv-input" >
 	    <%= f.label 'email' %>
 	    <% if !logged_in? -%>
 	    <%= f.text_field 'email' %>
@@ -23,16 +22,15 @@
 	    <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
 	    <% end -%>
 	  </div>
-	  <div id="skills_input" class="getinv-input" >
+	  <div id="vskills_input" class="getinv-input" >
 	    <%= f.label 'Skills' %>
 	    <%= f.select 'skillsets', feedback_skillsets , :multiple => true %>
 	  </div>
-	  <div id="comment_input" class="getinv-input" >
+	  <div id="vcomment_input" class="getinv-input" >
 	    <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
 	  </div>
-	  <div id="send_input" >
-	    <%= f.submit 'Send' %>
-	    <button class='formbutton' id="getinv_close_btn">Cancel</button>
+	  <div id="vsend_input" >
+	    <%= f.submit 'Send', :disabled => true %>
 	  </div>
 	</td>
       </tr>
