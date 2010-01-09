@@ -65,7 +65,7 @@
 							 Feedback.hideFeedback();
 							 return false;
 						 });
-						 MAU.Feedback.init();
+					     MAU.addCommentBoxObserver('')
 					 }		  
 				 });	
 				 return false;				

@@ -28,6 +28,16 @@
       </td>
     </tr>
   </table>
+  <% if flash and flash[:notice] and !flash[:notice].empty? %>
+  <div class="notice">
+    <%= flash[:notice] %>
+  </div>
+  <% end %>
+  <% if flash and flash[:error] and !flash[:error].empty? %>
+  <div class="error-msg">
+    <%= flash[:error] %>
+  </div>
+  <% end %>
   </center>
 <% if ['volunteer','donate','business'].include? @page -%>
 <%= render :partial => "/main/getinvolved/%s" % @page %>

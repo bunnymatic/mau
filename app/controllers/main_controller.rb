@@ -24,7 +24,17 @@ class MainController < ApplicationController
   def getinvolved
     @page_title = "Mission Artists United - Get Invovled!"
     @page = params[:p]
-    print "PAGE ", @page
+
+    if params[:commit]
+      feedback = Feedback.new(params[:feedback])
+      saved = feedback.save
+      if saved
+        FeedbackMailer.deliver_feedback(feedback)
+        flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
+      else
+        flash.now[:error] = "There was a problem submitting your feedback.  Was your comment empty?"
+      end
+    end
   end
 
   def about

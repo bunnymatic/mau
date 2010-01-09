@@ -1,57 +1,45 @@
 <table class="popup-help">
   <tr>
-	<td class="popup-help-title"><%= @title %></td>
+    <td class="popup-help-title"><%= @title %></td>
   </tr>
 </table>
 <div class="popup-help-text">
   <% form_for :feedback, @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
   <table class="fdbk-form">
-	<% unless @error_message.blank? -%>
-	<tr>
-	  <td class="error-msg">
-		<%=h @error_message %>
-	  </td>
-	</tr>
-	<% end -%>
-	<tr>
-	  <td class="fdbk-form-container">
-		<div id="info_text"></div>
-		<div id="email_input" class="fdbk-input" style="display:none;">
-		  <%= f.label 'email' %>
-		  <% if !logged_in? -%>
-		  <%= f.text_field 'email' %>
-		  <% else %>
-		  <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
-		  <% end -%>
-		</div>
-		<div id="url_input" class="fdbk-input" style="display:none;">
-		  <%= f.label 'Web Address' %><br/>
-		  <%= f.text_field 'url' %>
-		</div>
-		<div id="skills_input" class="fdbk-input" style="display:none;">
-		  <%= f.label 'Skills' %><br/>
-		  <%= f.select 'skillsets', feedback_skillsets , :multiple => true %>
-		</div>
-		<div id="bug_input" class="fdbk-input" style="display:none;">
-		  <%= f.select 'bugtype', feedback_bugtypes %>
-		</div>
-		<div id="comment_input" class="fdbk-input" style="display:none;">
-		  <%= f.text_area 'comment', :cols => 70, :rows => 10, :value => "<enter your comment here>" %>
-		</div>
-		<div id="send_input" style="display:none;">
-		  <%= f.submit 'Send' %>
-		  <button class='formbutton' id="feedback_close_btn">Cancel</button>
-		</div>
-
-	  </td>
-	  <%= f.hidden_field 'subject', :value => @section %>
-	  <%= f.hidden_field 'page', :value => request.referer %>
-	  <% if current_artist -%>
-	  <%= f.hidden_field 'login', :value => current_artist.login %>
-	  <%= f.hidden_field 'email', :value => current_artist.email %>
+    <% unless @error_message.blank? -%>
+    <tr>
+      <td class="error-msg">
+	<%=h @error_message %>
+      </td>
+    </tr>
+    <% end -%>
+    <tr>
+      <td class="fdbk-form-container">
+	<div id="info_text">We love to get feedback.  Please let us know what you think of the website, what MAU can do for you, or whatever else you might like to tell us.  If you would like to get involved with MAU or Spring Open Studios planning, please leave your email and we'll get in touch as soon as we can.
+	</div>
+	<div id="email_input" class="fdbk-input">
+	  <%= f.label 'email' %>
+	  <% if !logged_in? -%>
+	  <%= f.text_field 'email' %>
+	  <% else %>
+	  <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
 	  <% end -%>
-	  </td>
-	</tr>
+	</div>
+	<div id="comment_input" class="fdbk-input">
+	  <%= f.text_area 'comment', :cols => 70, :rows => 10, :value => "<enter your comment here>" %>
+	</div>
+	<div id="send_input">
+	  <%= f.submit 'Send' %>
+	  <button class='formbutton' id="feedback_close_btn" onclick="return false;">Cancel</button>
+	</div>
+      </td>
+      <%= f.hidden_field 'subject', :value => @section %>
+      <%= f.hidden_field 'page', :value => request.referer %>
+      <% if current_artist -%>
+      <%= f.hidden_field 'login', :value => current_artist.login %>
+      <%= f.hidden_field 'email', :value => current_artist.email %>
+      <% end -%>
+    </tr>
   </table>
   <% end -%>
 </div>

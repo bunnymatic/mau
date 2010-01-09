@@ -5,8 +5,21 @@ MAU = window['MAU'] || {};
     var T = M.Thumbs = M.Thumbs || {};
     var A = M.Artist = M.Artist || {};
     var W = M.WhatsThis = M.WhatsThis || {};
-	var F = M.Feedback = M.Feedback || {}
+    var F = M.Feedback = M.Feedback || {}
+    var GI = M.GetInvolved = M.GetInvolved || {};
+
     M.__debug__ = true;
+
+    M.addCommentBoxObserver = function( cmtbx ) {
+	if (cmtbx) {
+	    cmtbx.observe('focus', function() { 	
+		if (this.value == '<enter your comment here>') {
+		    this.value = '';
+		};
+		return false;
+	    });
+	}
+    };
 
     /** safe javascript log - for debug */
     M.log = function() {
@@ -20,22 +33,22 @@ MAU = window['MAU'] || {};
 				X.log = function() {}
 			}
 		}
-    }
+    };
 
     // Changes the cursor to an hourglass
     M.waitcursor = function() {
 		document.body.style.cursor = 'wait';
-    }
+    };
     
     // Returns the cursor to the default pointer
     M.clearcursor = function() {
 		document.body.style.cursor = 'default';
-    }
+    };
 
     M.goToArtist = function( artistid ) {
 		window.location = "/artists/" + parseInt(artistid);
 		return true;
-    }
+    };
 
     M.doSearch = function( ) {
 		var q = $('search_box');
@@ -45,7 +58,7 @@ MAU = window['MAU'] || {};
 			return true;
 		}
 		return false;
-    }
+    };
 
     M.mailer = function( name, domain, subject) {
 		var lnk = "mailto:" + name + "@" + domain;
@@ -57,7 +70,7 @@ MAU = window['MAU'] || {};
 
     /* leave for later in case we need to init stuff */
     M.init = function() {
-    }
+    };
 
     Event.observe(window, 'load', M.init);
 
@@ -180,150 +193,49 @@ MAU = window['MAU'] || {};
 		if (helpdiv) {
 			helpdiv.toggle();
 		}
-    }
+    };
 
-	/*** feedback option selector code ***/
+    /*** feedback option selector code ***/
+    F.init = function() {
+	M.log("F.init");
+	var cbx = $$('div.fdbk-input #feedback_comment');
+	if (cbx.length > 0) {
+	    M.addCommentBoxObserver(cbx.first());
+	}
+    };
 
-	/* init called from after ajax load of content
-       see prototype.feedback.js:Feedback.init*/
-	F.hideInputs = function() {
-		var inps = $$('.fdbk-inputs');
-		var ninps = inps.length;
-		for (var ii=0; ii<ninps; ++ii){
-			inps.hide();
-		}
-	}
-	F.COMMENT_BOX = 'comment_input';
-	F.COMMENT_BOX_TA = 'feedback_comment';
-	F.EMAIL_BOX = 'email_input';
-	F.URL_BOX = 'url_input';
-	F.SUBMIT_BOX = 'send_input';
-	F.SKILL_BOX = 'skills_input';
-	F.BUG_BOX = 'bug_input';
-
-	F.showInputs = function(cmt, em, url, skil, bug) {
-		var c = $(F.COMMENT_BOX);
-		var e = $(F.EMAIL_BOX);
-		var u = $(F.URL_BOX);
-		var sk = $(F.SKILL_BOX);
-		var b = $(F.BUG_BOX);
-		if (c) { if (cmt) { c.show(); } else { c.hide(); }}
-		if (e) { if (em) { e.show(); } else { e.hide(); }}
-		if (u) { if (url) { u.show(); } else { u.hide(); }}
-		if (sk) { if (skil) { sk.show(); } else { sk.hide(); }}
-		if (b) { if (bug) { b.show(); } else { b.hide(); }}
-		var s = $(F.SUBMIT_BOX);
-		if (s) { s.show(); }
-	}		
-	F.setSubject = function(s) {
-		var subj = $('feedback_subject');
-		if (subj) { subj.value=s; }
-		var lnks = $$('a.fdbk-subj');
-		var nlnks = lnks.length;
-		for (var ii=0; ii<nlnks; ++ii) {
-			var lnk = lnks[ii]
-			var sxn = lnk.href.split('#')[1];
-			var cls = "lksubtle";
-			if (sxn == s) {
-				lnk.removeClassName(cls);
-			}
-			else {
-				lnk.addClassName(cls);
-			}
-			cls = "fdbk-sel";
-			if (sxn == s) {
-				lnk.addClassName(cls);
-			}
-			else {
-			    lnk.removeClassName(cls);
-			}
-		}
-		
-	}
-	F.setInfoTxt = function(s) {
-		var lbl = $('info_text');
-		if (lbl) {
-			lbl.innerHTML = s;
-		}
-	}
-	var fdbk_methods = {
-		'general': function() {
-			F.showInputs(true, true, false, false, false);
-  		    F.setSubject('general');
-		    F.setInfoTxt("We love to get feedback.  Please let us know what you think of the website, what MAU can do for you, or whatever else you might like to tell us.  If you would like to get involved with MAU or Spring Open Studios planning, please leave your email and we'll get in touch as soon as we can. ");
-		},
-		'suggest':function() { 
-			F.showInputs(true, false, false, false, false);
-			F.setSubject('suggest');
-			F.setInfoTxt('What would you like to see from MAU?');
-		},
-		'gallery':function() { 
-			F.showInputs(true, true, false, false, false);
-			F.setSubject('gallery');
-			F.setInfoTxt('Tell us about your gallery and how you\'d like to work with MAU');
-		},
-		'business':function() { 
-			F.showInputs(true, true, false, false, false);
-			F.setSubject('business');
-			F.setInfoTxt('Tell us about your business and how you\'d like to work with MAU');
-		},
-		'volunteer':function() { 
-			F.showInputs(true, true, false, true, false);
-			F.setInfoTxt('Tell us about your skillsets and how you would like to help MAU.');
-			F.setSubject('volunteer');
-		},
-		'feedsuggest':function() { 
-			F.showInputs(false, false, true, false, false);
-			F.setInfoTxt('Point us to a feed you\'d like to see on our front page of feeds.  We\'ll check it out, and if it\'s appropriate, we\'ll add it to our list.');
-			F.setSubject('feedsuggest');
-		},
-		'donate':function() {
-			window.open('/donate','donate');
-			Feedback.hideFeedback();
-			return true;
-		},
-		'website':function() {
-			F.showInputs(true, false, false, false, true);
-			F.setInfoTxt('Did you find a problem with the website?  Have a feature you\'d like to see?  Let us know.');
-			F.setSubject('website');
-		},
-		'emaillist':function() {
-			F.showInputs(false, true, false, false, false);
-			F.setInfoTxt("We'll keep you informed of MAU happenings, as well as shows and events involving artists who've signed up with us.");
-			F.setSubject('emaillist');
-		}
-	}
-	F.init = function(st) {
-		var cmtbx = $(F.COMMENT_BOX_TA);
-		if (cmtbx) {
-			cmtbx.observe('focus', function() { 
-				var cmtbx = $(F.COMMENT_BOX_TA);
-				if (cmtbx.value == '<enter your comment here>') {
-					cmtbx.value = '';
-				};
-				return false;
-			});
-		}
-		var lnks = $$('a.fdbk-subj');
-		var nlnks = lnks.length;
-		for (var ii=0; ii<nlnks; ++ii) {
-			var lnk = lnks[ii]
-			var sxn = lnk.href.split('#')[1];
-			if (fdbk_methods[sxn]) {
-				mth = fdbk_methods[sxn];
-				lnk.observe('click', fdbk_methods[sxn]);
-			}
-		}
-		if (st) {
-			fdbk_methods[st]();
-		}
-		else {
-			fdbk_methods['general']();
-		}
-			
-		/** do not zero out this method as we may need it again */
+    /* for feedback and get involved text boxes */
+    GI.enableFeedbackSend = function() {
+	var s = $('feedback_submit');
+	if (s) {
+	    s.disabled = false;
+	    GI.enableFeedbackSend = function() {};
 	}
 	
+    };
+
+    GI.init = function() {
+	M.addCommentBoxObserver($('feedback_comment'));
+	// activate send only after some input
+	var bs = Array($('feedback_email'),
+	    $('feedback_comment'));
+	bs.each( function(b) {
+	    if (b) {
+		b.observe('keypress', GI.enableFeedbackSend);
+	    }
+	});
+
+	bs.append($('feedback_skillsets'));
+	bs.each( function(b) {
+	    if (b) {
+		b.observe('change', GI.enableFeedbackSend);
+	    }
+	});
+
+	GI.init = function() {}
+    };
+    Event.observe(window, 'load', GI.init);
+
 }
 )();
 

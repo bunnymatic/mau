@@ -4,7 +4,7 @@
 If you are a business or gallery owner in the Mission district, please contact us and let's see where we can take this.  Use the form below to give us as much information as you can about how you might like to get involved with  Mission Artists United, any ideas you might have for a collaborative venture etc.  We'd love to talk to you.
 
 <div class="getinv-form-container content-block">
-  <% form_for :feedback, @feedback, :url => getinvolved_path + "business", :html => {:id => "getinv_form"} do |f| -%>
+  <% form_for :feedback, @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
   <table class="getinv-form">
     <% unless @error_message.blank? -%>
     <tr>
@@ -15,8 +15,7 @@ If you are a business or gallery owner in the Mission district, please contact u
     <% end -%>
     <tr>
       <td class="getinv-form-container">
-	<div id="info_text"></div>
-	<div id="email_input" class="getinv-input" >
+	<div id="bemail_input" class="getinv-input" >
 	  <%= f.label 'email' %>
 	  <% if !logged_in? -%>
 	  <%= f.text_field 'email' %>
@@ -24,12 +23,11 @@ If you are a business or gallery owner in the Mission district, please contact u
 	  <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
 	  <% end -%>
 	</div>
-	<div id="comment_input" class="getinv-input" >
+	<div id="bcomment_input" class="getinv-input" >
 	  <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
 	</div>
-	<div id="send_input" >
-	  <%= f.submit 'Send' %>
-	  <button class='formbutton' id="getinv_close_btn">Cancel</button>
+	<div id="bsend_input" >
+	  <%= f.submit 'Send', :disabled => true %>
 	</div>
       </td>
     </tr>
