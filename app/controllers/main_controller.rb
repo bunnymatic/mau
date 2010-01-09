@@ -23,6 +23,8 @@ class MainController < ApplicationController
 
   def getinvolved
     @page_title = "Mission Artists United - Get Invovled!"
+    @page = params[:p]
+    print "PAGE ", @page
   end
 
   def about

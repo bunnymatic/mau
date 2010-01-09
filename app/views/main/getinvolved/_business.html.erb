@@ -1,0 +1,46 @@
+<div id="getinv_overview" class="getinv-content" >
+<p/>In our efforts to unify artists in the Mission, we know that working with other local groups, businesses and galleries would be beneficial for all parties.  We've discussed things like short run art shows at local galleries and businesses during our Open Studios weekend.  We've thought about coupons and other business promotion methods that would cross promote both our event and local businesses.
+<p/>
+If you are a business or gallery owner in the Mission district, please contact us and let's see where we can take this.  Use the form below to give us as much information as you can about how you might like to get involved with  Mission Artists United, any ideas you might have for a collaborative venture etc.  We'd love to talk to you.
+
+<div class="getinv-form-container content-block">
+  <% form_for :feedback, @feedback, :url => getinvolved_path + "business", :html => {:id => "getinv_form"} do |f| -%>
+  <table class="getinv-form">
+    <% unless @error_message.blank? -%>
+    <tr>
+      <td class="error-msg">
+	<%=h @error_message %>
+      </td>
+    </tr>
+    <% end -%>
+    <tr>
+      <td class="getinv-form-container">
+	<div id="info_text"></div>
+	<div id="email_input" class="getinv-input" >
+	  <%= f.label 'email' %>
+	  <% if !logged_in? -%>
+	  <%= f.text_field 'email' %>
+	  <% else %>
+	  <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
+	  <% end -%>
+	</div>
+	<div id="comment_input" class="getinv-input" >
+	  <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
+	</div>
+	<div id="send_input" >
+	  <%= f.submit 'Send' %>
+	  <button class='formbutton' id="getinv_close_btn">Cancel</button>
+	</div>
+      </td>
+    </tr>
+  </table>
+  <%= f.hidden_field 'subject', :value => "Business/Gallery Inquiry" %>
+  <%= f.hidden_field 'page', :value => request.referer %>
+  <% if current_artist -%>
+  <%= f.hidden_field 'login', :value => current_artist.login %>
+  <%= f.hidden_field 'email', :value => current_artist.email %>
+  <% end -%>
+  <% end -%>
+</div>
+</div>
+

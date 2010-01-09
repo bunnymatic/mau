@@ -1,17 +1,9 @@
-<% if logged_in? && request.request_uri != getinvolved_path -%>
 <div class="get-involved">
-<center><a title="Get Involved!"  href="/getinvolved"><img border="0" title="Get Involved!" src="/images/get_involved_btn.png"/></a></center>
+<center><a title="Spring Open Studios!"  href="/getinvolved"><img border="0" title="Get Involved!" src="/images/springos2010banner.png"/></a></center>
 </div>
-<% else -%>
-<div class="feed-studios">
-<%   if @studios -%>
-<div class="feed-sxn-hdr">MAU Studios</div>
-<div class="feed-studio-list">
-<%     @studios.each do |s| -%>
-<div><%= link_to s.name, "/studios/%d" % s.id %></div>
-<%     end -%>
-<%   end -%>
-</div>
+<% if !request.request_uri.starts_with? getinvolved_path || request.request_uri != getinvolved_path -%>
+<div class="get-involved">
+<center><a title="Get Involved!"  href="<%= getinvolved_path %>"><img border="0" title="Get Involved!" src="/images/getinvolved_red.png"/></a></center>
 </div>
 <% end -%>
 <div id='feed_div'> 

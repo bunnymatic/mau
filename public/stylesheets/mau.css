@@ -681,6 +681,22 @@ a.fdbk-sel div#next_pg {
     vertical-align: middle;
 }
 
+div.get-involved {
+    margin: 10px 0;
+}
+
+.getinv-table {
+    width: 90%;
+}
+
+.getinv-table img {
+    border:0px;
+}
+.getinv-content {
+    margin-top: 10px; 
+    vertical-align:top;
+}
+
 .getinv-input,
 .fdbk-input {
 	margin: 4px 0;
