@@ -225,7 +225,7 @@ MAU = window['MAU'] || {};
 	    }
 	});
 
-	bs.append($('feedback_skillsets'));
+	bs.push($('feedback_skillsets'));
 	bs.each( function(b) {
 	    if (b) {
 		b.observe('change', GI.enableFeedbackSend);
