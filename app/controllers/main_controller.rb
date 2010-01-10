@@ -25,6 +25,13 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United - Get Invovled!"
     @page = params[:p]
 
+    if @page == 'paypal_success'
+      flash.now[:notice] = "Thanks for your donation!  We'll spend it wisely."
+    end
+    if @page == 'paypal_cancel'
+      flash.now[:error] = "Did you have problems submitting your donation?  If so, please tell us with the feedback link at the bottom of the page.  We'd love to know if the website or the PayPal connection is not working."
+    end
+
     if params[:commit]
       feedback = Feedback.new(params[:feedback])
       saved = feedback.save

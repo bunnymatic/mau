@@ -256,6 +256,11 @@ select.ddsortby {
     color: #CCCCCC;
     border-color: #996633;
 }
+
+input[type=image] {
+    background-color: transparent;
+}
+
 input[type=checkbox] {
 	background-color:#000000;
 }
