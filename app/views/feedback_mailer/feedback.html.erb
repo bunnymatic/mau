@@ -1,9 +1,13 @@
-Dear site administrator,
+Dear MAU Web Posse member,
 
 You're lucky today, you've got feedback from your users:
 
 Subject: <%=h @feedback.subject %>
 User's email: <%=h @feedback.email %>
+Logged in as: <%=h @feedback.login %>
+Skillset: <%=h @feedback.skillsets %>
+Bug: <%=h @feedback.bugtype %>
+URL: <%=h @feedback.url %>
 Sent at: <%= Time.now %>
 
 Comment: 
