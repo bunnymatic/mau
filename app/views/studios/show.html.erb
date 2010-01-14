@@ -28,7 +28,7 @@
 	    </div>
 	    <div class="div-left">
 	      <% if @studio.url %>
-	      <%= link_to @studio.url, @studio.url %>
+	      <%= @studio.url.gsub!('http://','') %>
 	      <% end %>
 	    </div>
 	  </div>
