@@ -1148,9 +1148,14 @@ div.alt-login {
     width: 90%;
 }
 
-.artist-pieces {
-    margin: 25px 4px 4px 4px;
+div.artist h4 {
+	font-size: auto;
 }
+
+div.artist {
+	font-size: 90%;
+}
+	
 
 .artist-pieces {
     margin: 25px 4px 4px 4px;
@@ -1187,6 +1192,7 @@ span.footer-nav {
     color: magenta;
     font-weight: bold;
 }
+
 
 .tbl-content {
     position: relative;
