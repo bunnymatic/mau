@@ -126,4 +126,13 @@ module ArtistsHelper
     end
     biostr
   end
+
+  def email_link(artist)
+    if !artist.email.empty?
+      (uname, domain) = artist.email.split('@')
+      '<a href="#" onclick="MAU.mailer(\'%s\',\'%s\');">%s at %s</a>' % [uname, domain, uname, domain]
+    else
+      ''
+    end
+  end
 end

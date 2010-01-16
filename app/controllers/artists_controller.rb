@@ -231,6 +231,9 @@ class ArtistsController < ApplicationController
       return
     end
     begin
+      if params[:emailsettings]
+        params[:artist][:emailsettings] = params[:emailsettings]
+      end
       self.current_artist.update_attributes!(params[:artist])
       flash[:notice] = "Update successful"
       redirect_to(edit_artist_url(current_artist))
