@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091228004201) do
+ActiveRecord::Schema.define(:version => 20100115200759) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20091228004201) do
     t.integer  "image_height",                             :default => 0
     t.integer  "image_width",                              :default => 0
     t.integer  "max_pieces",                               :default => 20
+    t.integer  "representative_art_piece"
   end
 
   add_index "artists", ["login"], :name => "index_artists_on_login", :unique => true
