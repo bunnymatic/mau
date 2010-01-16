@@ -67,6 +67,19 @@
 		  <td class="input-err">
 		  </td>
 		</tr>
+		<tr>
+		  <td class="input-name">
+		    Allow email from:
+		  </td>
+		  <td>
+		    <%= check_box "emailsettings", "fromall", { :checked => @artist.emailsettings["fromall"]  }, true, false %>From All
+		    <%= check_box "emailsettings", "fromartist", { :checked => @artist.emailsettings["fromall"] } %>From Artist
+		    <%= check_box "emailsettings", "mauadmin", { :checked => @artist.emailsettings["fromall"] } %> MAU Administrative
+		    <%= check_box "emailsettings", "maunews", { :checked => @artist.emailsettings["fromall"] } %> MAU News
+		  </td>
+		  <td class="input-err">
+		  </td>
+		</tr>
 	  </table>
 	<div>
 	  <%= f.submit 'Save Changes' %>

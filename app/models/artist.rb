@@ -1,5 +1,6 @@
 require 'digest/sha1'
 require 'htmlentities'
+require 'json'
 RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
                            'deactivate','add','new','view','create','update']
 
@@ -17,6 +18,7 @@ class Artist < ActiveRecord::Base
   # stash this so we don't have to keep getting it from the db
   attr_reader :mytags
   attr_reader :mymedia
+  attr_reader :emailsettings
 
   belongs_to :studio
   has_many :art_pieces
@@ -55,7 +57,7 @@ class Artist < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :studio_id, :nomdeplume, :phone, :url, :street, :city, :addr_state, :zip, :bio, :facebook, :flickr, :myspace, :twitter, :blog, :year, :reset_code
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :studio_id, :nomdeplume, :phone, :url, :street, :city, :addr_state, :zip, :bio, :facebook, :flickr, :myspace, :twitter, :blog, :year, :reset_code, :email_attrs
 
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -100,6 +102,14 @@ class Artist < ActiveRecord::Base
     else
       link
     end
+  end
+
+  def emailsettings
+    JSON.parse(email_attrs)
+  end
+
+  def emailsettings=(settings)
+    email_attrs = settings.to_json
   end
 
   def get_name(htmlsafe=false)
@@ -203,6 +213,7 @@ class Artist < ActiveRecord::Base
   def tags
     # rollup and return most popular 15 tags
     if @mytags == nil
+      logger.debug("Fetching my tags")
       tags = {}
       for ap in self.art_pieces
         if ap.tags
@@ -212,6 +223,8 @@ class Artist < ActiveRecord::Base
         end
       end
       @mytags = tags.values
+    else
+      logger.debug("Reusing my tags")
     end
     @mytags
   end
