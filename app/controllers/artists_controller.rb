@@ -170,16 +170,22 @@ class ArtistsController < ApplicationController
   end
 
 
-  def deleteart
+  def arrangeart
     @artist = self.current_artist
     if ! @artist
       flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
       redirect_back_or_default( artist_path(@artist) )
       return
     end
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @artists }
+  end
+
+
+  def deleteart
+    @artist = self.current_artist
+    if ! @artist
+      flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
+      redirect_back_or_default( artist_path(@artist) )
+      return
     end
   end
 
@@ -232,7 +238,11 @@ class ArtistsController < ApplicationController
     end
     begin
       if params[:emailsettings]
-        params[:artist][:emailsettings] = params[:emailsettings]
+        em = params[:emailsettings]
+        em.each_pair do |k,v| 
+          em[k] = ( v.to_i != 0 ? true : false)
+        end
+        params[:artist][:email_attrs] = em.to_json
       end
       self.current_artist.update_attributes!(params[:artist])
       flash[:notice] = "Update successful"
@@ -298,6 +308,12 @@ class ArtistsController < ApplicationController
       flash[:error] = "Old password incorrect" 
       redirect_to request.env["HTTP_REFERER"] or "/"
     end
+  end
+
+  def notify
+    id = Integer(params[:id])
+    print "ID", id
+    ArtistMailer.deliver_notify( Artist.find(id), 'This is the note')
   end
 
   def activate

@@ -16,8 +16,6 @@ class Artist < ActiveRecord::Base
   @@HTMLcoder = HTMLEntities.new
 
   # stash this so we don't have to keep getting it from the db
-  attr_reader :mytags
-  attr_reader :mymedia
   attr_reader :emailsettings
 
   belongs_to :studio
@@ -57,7 +55,7 @@ class Artist < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :studio_id, :nomdeplume, :phone, :url, :street, :city, :addr_state, :zip, :bio, :facebook, :flickr, :myspace, :twitter, :blog, :year, :reset_code, :email_attrs
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :studio_id, :nomdeplume, :phone, :url, :street, :city, :addr_state, :zip, :bio, :facebook, :flickr, :myspace, :twitter, :blog, :year, :reset_code, :emailsettings, :email_attrs
 
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -108,9 +106,6 @@ class Artist < ActiveRecord::Base
     JSON.parse(email_attrs)
   end
 
-  def emailsettings=(settings)
-    email_attrs = settings.to_json
-  end
 
   def get_name(htmlsafe=false)
     fullname = nil
@@ -153,7 +148,7 @@ class Artist < ActiveRecord::Base
 
   def representative_pieces(n=1)
     aps = []
-    if self.representative_art_piece > 0
+    if self.representative_art_piece && self.representative_art_piece > 0
       begin
         rep = ArtPiece.find(self.representative_art_piece)
         aps << rep

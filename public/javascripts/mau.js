@@ -5,8 +5,8 @@ MAU = window['MAU'] || {};
     var T = M.Thumbs = M.Thumbs || {};
     var A = M.Artist = M.Artist || {};
     var W = M.WhatsThis = M.WhatsThis || {};
-    var F = M.Feedback = M.Feedback || {}
-    var GI = M.GetInvolved = M.GetInvolved || {};
+    var F = M.Feedback = M.Feedback || {};
+	var N = M.Notifications = M.Notifications || {};
 
     M.__debug__ = true;
 
@@ -83,6 +83,7 @@ MAU = window['MAU'] || {};
     ID_BIO_TOGGLE = 'bio_toggle';
     ID_PASSWD_TOGGLE = 'passwd_toggle';
     ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
+    ID_NOTIFICATION_TOGGLE = 'notification_toggle';
 
     ID_STUDIO_SXN = 'artist_edit_address';
     ID_LINKS_SXN = 'artist_edit_links';
@@ -90,20 +91,23 @@ MAU = window['MAU'] || {};
     ID_BIO_SXN = 'artist_edit_bio';
     ID_PASSWD_SXN = 'artist_change_passwd';
     ID_DEACTIVATE_SXN = 'artist_deactivate';
+    ID_NOTIFICATION_SXN = 'artist_notification';
 
     A.SECTIONS = new Array(ID_STUDIO_SXN,
 						   ID_LINKS_SXN,
 						   ID_ARTIST_SXN,
 						   ID_BIO_SXN,
 						   ID_PASSWD_SXN,
-						   ID_DEACTIVATE_SXN);
+						   ID_DEACTIVATE_SXN,
+						  ID_NOTIFICATION_SXN);
 
     A.TOGGLES = new Array(ID_STUDIO_INFO_TOGGLE,
 						  ID_LINKS_TOGGLE,
 						  ID_ARTIST_INFO_TOGGLE,
 						  ID_BIO_TOGGLE,
 						  ID_PASSWD_TOGGLE,
-						  ID_DEACTIVATE_TOGGLE);
+						  ID_DEACTIVATE_TOGGLE,
+						  ID_NOTIFICATION_TOGGLE);
 
     A.toggleSxnVis = function(sxn) {
 		var sxns = M.Artist.SECTIONS;
@@ -197,45 +201,25 @@ MAU = window['MAU'] || {};
 
     /*** feedback option selector code ***/
     F.init = function() {
-	M.log("F.init");
-	var cbx = $$('div.fdbk-input #feedback_comment');
-	if (cbx.length > 0) {
-	    M.addCommentBoxObserver(cbx.first());
-	}
+		var cbx = $$('div.fdbk-input #feedback_comment');
+		if (cbx.length > 0) {
+			M.addCommentBoxObserver(cbx.first());
+		}
     };
 
-    /* for feedback and get involved text boxes */
-    GI.enableFeedbackSend = function() {
-	var s = $('feedback_submit');
-	if (s) {
-	    s.disabled = false;
-	    GI.enableFeedbackSend = function() {};
+	
+	N.showNoteForm = function() {
+	}
+	N.init = function() {
+		var note = $$('#notify_artist');
+		var nnotes = note.length
+		for (var ii = 0; ii < nnotes; ++ii) {
+			note.observe('click', N.showNoteForm);
+		}
+		N.init = function() {};
 	}
 	
-    };
-
-    GI.init = function() {
-	M.addCommentBoxObserver($('feedback_comment'));
-	// activate send only after some input
-	var bs = Array($('feedback_email'),
-	    $('feedback_comment'));
-	bs.each( function(b) {
-	    if (b) {
-		b.observe('keypress', GI.enableFeedbackSend);
-	    }
-	});
-
-	bs.push($('feedback_skillsets'));
-	bs.each( function(b) {
-	    if (b) {
-		b.observe('change', GI.enableFeedbackSend);
-	    }
-	});
-
-	GI.init = function() {}
-    };
-    Event.observe(window, 'load', GI.init);
-
+	Event.observe(window,'load', N.init)
 }
 )();
 
