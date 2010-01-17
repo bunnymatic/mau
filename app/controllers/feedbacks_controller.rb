@@ -2,11 +2,7 @@ class FeedbacksController < ApplicationController
   layout false
 
   def _get_title
-    if logged_in?
-      "Get Involved"
-    else
-      "Feedback"
-    end
+    "Feedback"
   end
 
   def new

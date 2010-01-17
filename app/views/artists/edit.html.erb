@@ -1,30 +1,30 @@
 <div id="artist_edit">
   <div style="float:right;">
     <a title="update profile picture" href="/artists/addprofile/<%= self.current_artist.id %>">
-	  <% if @artist.has_profile_image %>
+	  <% if @artist.has_profile_image -%>
   	  <img src="<%= @artist.get_profile_image('thumb') %>" />
-	  <% else %>
+	  <% else -%>
   	  <img src="/images/default-profile-img.png" width="100" />
-  	  <% end %>
+  	  <% end -%>
     <div class="little-txt">update profile picture</div>
     </a>
   </div>
   <h4>My Account</h4>
-  <% if flash and flash[:notice] and !flash[:notice].empty? %>
+  <% if flash and flash[:notice] and !flash[:notice].empty? -%>
   <div class="notice">
     <%= flash[:notice] %>
   </div>
-  <% end %>
-  <% if flash and flash[:error] and !flash[:error].empty? %>
+  <% end -%>
+  <% if flash and flash[:error] and !flash[:error].empty? -%>
   <div class="error-msg">
     <%= flash[:error] %>
   </div>
-  <% end %>
+  <% end -%>
 
   <div class="edit-sections">
-    <% form_for(@artist) do |f| %>
+    <% form_for(@artist) do |f| -%>
     <%= f.error_messages %>
-	<div class="open-close-div" align="left"><span id="artist_info_toggle"  class="title">Personal Info</span><span class="edit"><a href="#" id="artist_info_toggle_lnk">change</a></span></div>
+	<div class="open-close-div" ><span id="artist_info_toggle"  class="title">Personal Info</span><span class="edit"><a href="#" id="artist_info_toggle_lnk">change</a></span></div>
 	<div id="artist_edit_maininfo" style="display:none;">
       <table class="entry-table">
 		<tr>
@@ -67,26 +67,52 @@
 		  <td class="input-err">
 		  </td>
 		</tr>
-		<tr>
-		  <td class="input-name">
-		    Allow email from:
-		  </td>
-		  <td>
-		    <%= check_box "emailsettings", "fromall", { :checked => @artist.emailsettings["fromall"]  }, true, false %>From All
-		    <%= check_box "emailsettings", "fromartist", { :checked => @artist.emailsettings["fromall"] } %>From Artist
-		    <%= check_box "emailsettings", "mauadmin", { :checked => @artist.emailsettings["fromall"] } %> MAU Administrative
-		    <%= check_box "emailsettings", "maunews", { :checked => @artist.emailsettings["fromall"] } %> MAU News
-		  </td>
-		  <td class="input-err">
-		  </td>
-		</tr>
 	  </table>
 	<div>
 	  <%= f.submit 'Save Changes' %>
 	  <%= f.submit 'Cancel' %>
 	</div>
 	</div>
-	<div class="open-close-div" align="left"><span id="links_toggle" class="title">Links</span><span class="edit"><a href="#" id="links_toggle_lnk">change</a></span></div>
+	<div class="open-close-div" ><span id="notification_toggle" class="title">Notifications</span><span class="edit"><a href="#" id="notification_toggle_lnk">change</a></span></div>
+	<div id="artist_notification" style="display:none;">
+	  <table class="entry-table">
+		<tr>
+		  <td class="input-name">
+		    Allow notes from:
+		  </td>
+		  <td valign="top">
+			<div><%= check_box "emailsettings", "fromall", { :checked => @artist.emailsettings["fromall"] } %>Everyone</div>
+			<div>
+		    <%= check_box "emailsettings", "fromartist", { :checked => @artist.emailsettings["fromartist"] || @artist.emailsettings["fromall"] } %>Registered MAU Artists
+			</div>
+		  </td>
+		  <td class="input-err" width="200">
+			Check these boxes if would like other registered MAU artists or any website visitors the ability to send you a note.
+</td>
+		</tr>
+		<tr>
+		  <td class="input-name">
+		    MAU Notices:
+		  </td>
+		  <td valign="top">
+			<div>
+		    <%= check_box "emailsettings", "mauadmin", { :checked => @artist.emailsettings["mauadmin"] } %>Administrative
+			</div>
+		    <div>
+			<%= check_box "emailsettings", "maunews", { :checked => @artist.emailsettings["maunews"] } %>News
+			</div>
+		  </td>
+		  <td class="input-err" style="font-size: x-small;">
+			Periodically, we may want to notify you about MAU related things.  Administrative covers website issues/updates, downtime etc.  News includes MAU related events, MAU artist show announcements and general news about MAU.
+		  </td>
+		</tr>
+	  </table>
+	  <div>
+		<%= f.submit 'Save Changes' %>
+		<%= f.submit 'Cancel' %>
+	  </div>
+	</div>
+	<div class="open-close-div" ><span id="links_toggle" class="title">Links</span><span class="edit"><a href="#" id="links_toggle_lnk">change</a></span></div>
 	<div id="artist_edit_links" style="display:none;">
 	  <table class="entry-table">
 		<% [ [:url, 'Website'],
@@ -94,20 +120,20 @@
 		   [:flickr, 'Flickr'],
 		   [:twitter, 'Twitter'],
 		   [:blog, 'Blog'],
-		   [:myspace, 'MySpace']].each do |key, name| %>
+		   [:myspace, 'MySpace']].each do |key, name| -%>
 		<tr>
 		  <td class="input-name"><%= f.label key, name %></td>
 		  <td><%= f.text_field key %></td>
 		  <td class="input-err"></td>
 		</tr>
-		<% end %>
+		<% end -%>
 	  </table>
 	<div>
 	  <%= f.submit 'Save Changes' %>
 	  <%= f.submit 'Cancel' %>
 	</div>
 	</div>
-	<div class="open-close-div" align="left"><span id="studio_info_toggle" class="title">Studio Info</span><span class="edit"><a href="#" id="studio_info_toggle_lnk">change</a></span></div>
+	<div class="open-close-div" ><span id="studio_info_toggle" class="title">Studio Info</span><span class="edit"><a href="#" id="studio_info_toggle_lnk">change</a></span></div>
 	<div id="artist_edit_address" style="display:none;">
 	  <table class="entry-table">
 		<tr>
@@ -167,7 +193,7 @@
 	  <%= f.submit 'Cancel' %>
 	</div>
 	</div>
-	<div class="open-close-div" align="left"><span id="bio_toggle" class="title">Bio/Artist's Statement</span><span class="edit"><a href="#" id="bio_toggle_lnk">change</a></span></div>
+	<div class="open-close-div" ><span id="bio_toggle" class="title">Bio/Artist's Statement</span><span class="edit"><a href="#" id="bio_toggle_lnk">change</a></span></div>
 	<div id="artist_edit_bio" style="display:none;">
 	  <table class="entry-table">
 		<tr>
@@ -189,9 +215,9 @@
 	  <%= f.submit 'Cancel' %>
 	</div>
 	</div>
-	<% end # end of form loop %>
-	<div class="open-close-div" align="left"><span id="passwd_toggle" class="title">Password</span><span class="edit"><a href="#" id="passwd_toggle_lnk">change</a></span></div>
-	<% form_tag change_password_update_path, :method => :put do |f| %>
+	<% end # end of form loop -%>
+	<div class="open-close-div" ><span id="passwd_toggle" class="title">Password</span><span class="edit"><a href="#" id="passwd_toggle_lnk">change</a></span></div>
+	<% form_tag(change_password_update_path, :method => :put) do -%>
 	<div id="artist_change_passwd" style="display:none;">
       <table class="entry-table">
 		<tr>
@@ -227,10 +253,10 @@
           <input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= self.current_artist.id %>);"/></td>
         <td class="input-err">&nbsp;</td>
       </tr>
-    </table>
-	  <% end # end change password form %>
+      </table>
 	</div>
-	<div class="open-close-div" align="left"><span id="deactivate_toggle" class="title">Deactivate Account</span><span class="edit"><a href="#" id="deactivate_toggle_lnk">change</a></span></div>
+	<% end # end change password form %>
+	<div class="open-close-div"><span id="deactivate_toggle" class="title">Deactivate Account</span><span class="edit"><a href="#" id="deactivate_toggle_lnk">change</a></span></div>
 	<div id="artist_deactivate" style="display:none;">
       <table class="entry-table">
 		<tr>
@@ -250,11 +276,16 @@
     <form method="get" action="/art_pieces/new">
       <input class="formbutton" type="submit" value="Add Artwork" />
     </form>
-    <% if @artist.art_pieces.length > 0 %>
+    <% if @artist.art_pieces.length > 0 -%>
     <form method="get" action="/artists/deleteart/<%= @artist.id %>" >
       <input class="formbutton" type="submit" value="Delete Artwork" />
     </form>
-    <% end %>
+    <% if @artist.art_pieces.length > 1 -%>
+    <form method="get" action="/artists/arrangeart/<%= @artist.id %>" >
+      <input class="formbutton" type="submit" value="Arrange" />
+    </form>
+    <% end -%>
+    <% end -%>
 	<a href="<%= artist_url(current_artist) %>"><button
 			class="formbutton" >Back to Profile</button></a>
   </div>

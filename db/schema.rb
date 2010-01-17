@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20100115200759) do
     t.integer  "image_width",                              :default => 0
     t.integer  "max_pieces",                               :default => 20
     t.integer  "representative_art_piece"
+    t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
   end
 
   add_index "artists", ["login"], :name => "index_artists_on_login", :unique => true
