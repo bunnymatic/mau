@@ -6,4 +6,4 @@ If we may major changes that may need some kind of version numbers or notes abou
 
 * 06 12 2009  Version 0.1  Initial checkin by Jon/Jeremy of mau web Rails app which currently has part of the underlying model/controller stuff with default view templates.
 
-
+* 01 18 2010 v.1.0.1 Gremlin - Added Google maps API tie-in
