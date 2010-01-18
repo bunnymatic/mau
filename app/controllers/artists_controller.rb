@@ -27,8 +27,10 @@ class ArtistsController < ApplicationController
       name = "%s" % a.get_name
       if a.studio_id > 0
         s = a.studio
-        name += " at %s" % s.name
-        address = Address.new(name, s.street)
+        if s
+          name += " at %s" % s.name
+          address = Address.new(name, s.street)
+        end
       else
         if a.street && !a.street.empty?
           address = Address.new(name, a.street)
