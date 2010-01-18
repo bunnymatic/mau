@@ -310,10 +310,25 @@ class ArtistsController < ApplicationController
     end
   end
 
+  def noteform
+    # get new note form
+    @artist = safe_find_artist(params[:id])
+    if !@artist
+      @errmsg = "We were unable to find the artist in question."
+    end
+    render :layout => false
+  end
+
   def notify
     id = Integer(params[:id])
-    print "ID", id
-    ArtistMailer.deliver_notify( Artist.find(id), 'This is the note')
+    noteinfo = {}
+    ['comment','login','email','page','name'].each do |k|
+      if params.include? k
+        noteinfo[k] = params[k]
+      end
+    end
+    ArtistMailer.deliver_notify( Artist.find(id), noteinfo)
+    render :layout => false
   end
 
   def activate
