@@ -2,7 +2,7 @@ class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
   before_filter :admin_required, :only => [ :unsuspend, :purge]
-  before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :addprofile, :deactivate ]
+  before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :addprofile, :deactivate, :setarrangement, :arrangeart ]
 
   layout 'mau1col'
 
@@ -32,12 +32,11 @@ class ArtistsController < ApplicationController
     end
 
     @artist = self.current_artist
-    artist_id = @artist.id
     upload = params[:upload]
 
     if not upload
       flash[:error] = "You must provide a file."
-      redirect_to '/artists/addprofile/%d' % artist_id
+      redirect_to addprofile_artist_path(@artist)
       return
     end
 
@@ -48,7 +47,7 @@ class ArtistsController < ApplicationController
     rescue
       logger.error("Failed to upload %s" % $!)
       flash[:error] = "%s" % $!
-      redirect_to '/artists/addprofile/%d' % artist_id
+      redirect_to addprofile_artist_path(@artist)
       return
     end
   end
@@ -179,6 +178,17 @@ class ArtistsController < ApplicationController
     end
   end
 
+  def setarrangement
+    ap = params[:art]
+    # double check that represenative is in this artist's collection
+    current_artist.representative_art_piece = ap
+    if current_artist.save!
+      flash[:notice] = "Your represenative image has been updated."
+    else
+      flash[:error] = "There was a problem setting your represenative image."
+    end
+    redirect_to current_artist
+  end
 
   def deleteart
     @artist = self.current_artist

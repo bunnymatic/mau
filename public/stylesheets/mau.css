@@ -296,6 +296,10 @@ input[type=submit][disabled=disabled] {
 	overflow: visible; /* seems to keep ie from adding extra padding */ 
 }
 
+.artist-buttons {
+    margin: 8px 0;
+}
+
 .edit-buttons {
 	margin: 8px 0;
 }
@@ -977,6 +981,7 @@ td.artpiece-container {
 
 .artpiece-thumb {
     border: 1px dotted #444;
+    font-size: x-small;
 }
 
 
@@ -1100,7 +1105,7 @@ div.studio-list div {
     border: 1px solid #FEF7CA;
     margin: 5px 20px 5px 20px;
     padding: 4px 5px 5px 8px;
-    width: 200px
+    width: 280px
 }
 
 div.notice {

@@ -274,17 +274,17 @@
   </div>
   <div class="edit-buttons">
     <form method="get" action="/art_pieces/new">
-      <input class="formbutton" type="submit" value="Add Artwork" />
+      <input class="formbutton" type="submit" value="Add Art" />
     </form>
     <% if @artist.art_pieces.length > 0 -%>
-    <form method="get" action="/artists/deleteart/<%= @artist.id %>" >
-      <input class="formbutton" type="submit" value="Delete Artwork" />
-    </form>
     <% if @artist.art_pieces.length > 1 -%>
-    <form method="get" action="/artists/arrangeart/<%= @artist.id %>" >
-      <input class="formbutton" type="submit" value="Arrange" />
+    <form method="get" action="<%= arrangeart_artist_path(@artist) %>" >
+      <input class="formbutton" type="submit" value="Arrange Art" />
     </form>
     <% end -%>
+    <form method="get" action="<%= deleteart_artist_path(@artist) %>" >
+      <input class="formbutton" type="submit" value="Delete Art" />
+    </form>
     <% end -%>
 	<a href="<%= artist_url(current_artist) %>"><button
 			class="formbutton" >Back to Profile</button></a>

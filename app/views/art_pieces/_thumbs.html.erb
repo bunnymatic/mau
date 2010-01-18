@@ -1,5 +1,3 @@
-<div>
-<table>
 <% if pieces and !pieces.empty?  
    numpieces = params[:numpieces]
    if not numpieces
@@ -14,10 +12,16 @@
      show_footer = params[:show_footer]
    end
    select = params[:select] || false
+   delete = params[:delete] || false
    rows = (numpieces.to_f / cols.to_f ).ceil
    numspots = rows * cols
-   _params = { :select => select, :show_footer => show_footer,
+   _params = { :delete => delete, :select => select, 
+               :show_footer => show_footer,
               :size => size, :artist_link => !art_link }
+-%>
+<div>
+<table>
+<%
    idx = 0
    for jj in 0..(rows-1)
 -%>
