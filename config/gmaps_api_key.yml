@@ -1,0 +1,13 @@
+#Fill here the Google Maps API keys for your application
+
+development:
+ ABQIAAAAbD_lhY5wFaR_9YsyMHgo_hQ5DYjH_N4HA24Iofus6u_r9JmbOBQYZL9AmYmNhPcGegikfkMM9BY-Ng
+
+local:
+ ABQIAAAAbD_lhY5wFaR_9YsyMHgo_hQ5DYjH_N4HA24Iofus6u_r9JmbOBQYZL9AmYmNhPcGegikfkMM9BY-Ng
+
+test:
+ ABQIAAAAbD_lhY5wFaR_9YsyMHgo_hQ5DYjH_N4HA24Iofus6u_r9JmbOBQYZL9AmYmNhPcGegikfkMM9BY-Ng
+
+production:
+ ABQIAAAAbD_lhY5wFaR_9YsyMHgo_hQ5DYjH_N4HA24Iofus6u_r9JmbOBQYZL9AmYmNhPcGegikfkMM9BY-Ng
