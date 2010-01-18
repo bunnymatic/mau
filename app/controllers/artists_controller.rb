@@ -1,3 +1,5 @@
+require 'xmlrpc/client'
+
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
@@ -14,7 +16,52 @@ class ArtistsController < ApplicationController
     @artist = Artist.new
     @studios = Studio.all
   end
-  
+
+  def map
+
+    addresses = []
+    artists = Artist.all
+    # get addresses
+    artists.each do |a|
+      address = nil
+      name = "%s" % a.get_name
+      if a.studio_id > 0
+        s = a.studio
+        name += " at %s" % s.name
+        address = Address.new(name, s.street)
+      else
+        if a.street && !a.street.empty?
+          address = Address.new(name, a.street)
+        end
+      end
+      if address
+        addresses << address
+      end
+    end
+
+    @map = GMap.new("map")
+    @map.control_init(:large_map => true, :map_type => true,
+                      :local_search_options => "{
+                        resultList: google.maps.LocalSearch.RESULT_LIST_INLINE
+                    }")
+    centerx = 0
+    centery = 0
+    markers = {}
+    addresses.each do |ad|
+      coord = ad.coord
+      title = ad.title
+      centerx += coord[0]
+      centery += coord[1]
+      coord[0] += 0.0001 * rand
+      coord[1] += 0.0001 * rand
+      @map.overlay_init(GMarker.new(coord,:title => title, :info_window => title))
+    end
+    center = [ centerx / addresses.size.to_f,
+               centery / addresses.size.to_f]
+    @map.center_zoom_init(center,14)
+  end
+
+
   def addprofile
     @errors = []
     @artist = self.current_artist
@@ -440,4 +487,10 @@ class ArtistsController < ApplicationController
       return nil
     end
   end
+
+  protected
+  def get_geocode(address)
+    Geocoding::get(address.to_s)
+  end  
+
 end
