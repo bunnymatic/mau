@@ -218,8 +218,6 @@ class Artist < ActiveRecord::Base
         end
       end
       @mytags = tags.values
-    else
-      logger.debug("Reusing my tags")
     end
     @mytags
   end

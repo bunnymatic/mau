@@ -1,18 +1,14 @@
 <% if piece 
      linkto = ''
-     if artist_link
-        if piece.artist
-           linkto = artist_path(piece.artist)
-        end
+     if artist_link && piece.artist
+        linkto = artist_path(piece.artist)
      else
         linkto = art_piece_path(piece)
      end
 -%>
-<!-- what -->
 <table class='artpiece-thumb'>
   <tr>
     <td class="artpiece-thumb-art" align="center">
-      <% if piece -%>
       <% if piece.get_path(size) -%>
 	  <% if !linkto.empty? -%>
       <a href="<%= linkto %>"><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" /></a>
@@ -21,7 +17,6 @@
           <% end -%>
       <% else -%>
       No Image
-      <% end -%>
       <% end -%>
     </td>
 </tr>
@@ -39,10 +34,18 @@
   </td>
 </tr>
 <% end -%>
-<% if select && piece -%>
+<% if piece 
+     representative = (piece.id == piece.artist.representative_art_piece)
+-%>
+<% if delete -%>
 <tr><td>
    <%= check_box( 'art', piece.id, options = {}, checked_value = "1", unchecked_value = "0") %>Delete?
 </td></tr>
+<% elsif select -%>
+<tr><td>
+   <%= radio_button_tag 'art', piece.id, representative %>
+</td></tr>
+<% end -%>
 <% end -%>
 </table>
 <% end -%>
