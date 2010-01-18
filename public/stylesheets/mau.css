@@ -482,9 +482,13 @@ div#login, div#logout {
     text-align:justify;
 }
 #about_text, #contact_text, #news_text, .privacy-content,
-#artist_edit,.content-block, #all_artists_page{
+#artist_edit, #all_artists_page{
 	margin-left:40px;
 	margin-right:40px;
+}
+.content-block {
+    margin-left:20px;
+    margin-right:20px;
 }
 
 #studio_page {
@@ -1308,8 +1312,10 @@ div#feedback_modal_content table.popup-help td {
 
 /****
 Feedback/Get Involved lightbox 
+Notes lightbox
 ****/
-div#feedback {
+div#feedback,
+div#note_container {
   position: absolute;	
   top: 0;
   left: 0;			
@@ -1399,6 +1405,7 @@ a#feedback_link.bottom {
 }
 */
 			
+a#note_close_link,
 a#feedback_close_link {
   right: 5pt;
   top: 0pt;
@@ -1406,6 +1413,7 @@ a#feedback_close_link {
   font-weight:bold;
 }
 
+div#note_modal_window,
 div#feedback_modal_window {
   width: 600px;
   margin: 0 auto;				
@@ -1414,7 +1422,7 @@ div#feedback_modal_window {
   left: 0%;
 }
 
-			
+div#note_modal_content table,			
 div#feedback_modal_content table {
 	width:100%;
 }
@@ -1422,7 +1430,8 @@ div#feedback_modal_content table {
 div#feedback_loading {				
   padding: 12px;				
 }
-			
+
+#note_overlay,			
 #feedback_overlay {
   position: fixed;
   top: 0px;
@@ -1439,6 +1448,7 @@ div#feedback_loading {
   z-index:-100;
 }
 
+.note_overlayBG,
 .feedback_overlayBG {
   background-color: #000;
   z-index: 100000;

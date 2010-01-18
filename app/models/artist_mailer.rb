@@ -13,10 +13,12 @@ class ArtistMailer < ActionMailer::Base
   end
 
 
-  def notify(artist, note)
+  def notify(artist, notehash)
     setup_note(artist)
     @subject += "You just got a note!"
-    @note = note
+    @sender_name = notehash['name']
+    @sender_email = notehash['email']
+    @sender_note = notehash['comment']
   end
              
 

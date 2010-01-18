@@ -27,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resend_activation '/resend_activation', :controller => 'artists', :action => 'resend_activation'
   map.reset 'reset/:reset_code', :controller => 'artists',     :action => 'reset'
 
-  map.resources :artists, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :get }
+  map.resources :artists, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }
 
   map.resource :session
 

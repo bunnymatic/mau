@@ -36,8 +36,7 @@
 			 overlay: 'feedback_overlay',
 			 loadingImage: '/images/spinner16black.gif',
 			 loadingText: 'Loading...',
-			 sendingText: 'Sending...',
-			 tabPosition: 'left'
+			 sendingText: 'Sending...'
 		 }, callerSettings || {});
 		 
 		 this.settings.feedbackHtml = '<div id="' + this.settings.main + '" style="display: none;">' +  	  
@@ -47,11 +46,7 @@
              '</div>' +
              '</div>'
 		 this.settings.overlayHtml = '<div id="' + this.settings.overlay + '" class="feedback_hide"></div>';
-		 this.settings.tabHtml = '<a href="#" id="feedback_link" class="' + this.settings.tabControl + ' ' + this.settings.tabPosition + '"></a>';
 		 
-		 if (this.settings.tabPosition != null && $$('#' + this.settings.tabControl).length == 0)
-			 $$("body").first().insert(this.settings.tabHtml);
-
 		 $$('.' + this.settings.tabControl).each(function(e) {
 			 $(e).observe('click', function() {
 				 Feedback.loading();
@@ -107,7 +102,7 @@
 	 
 	 Feedback.initOverlay = function() {
 		 if ($$('#' + this.settings.overlay).length == 0)
-			 $$("body").first().insert(this.settings.overlayHtml)
+		     $$("body").first().insert(this.settings.overlayHtml);
 		 $(this.settings.overlay).addClassName('feedback_overlayBG');
 	 }
 	 
