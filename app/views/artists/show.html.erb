@@ -58,6 +58,12 @@
 	      </tr>
 	    </table>
 	  </div>
+	  <% if (!current_artist || current_artist.id != @artist.id) && (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
+	  <div class="div-left share">Send the artist a note:
+	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" ><div  aid="<%= @artist.id %>" id="micro_icon" class="email"></div></a>
+	  </div>
+	  <% end -%>
+
 	  <% if @artist.media and @artist.media.length > 0 -%>
 	  <div class="div-left">
 	    <table>
@@ -102,11 +108,6 @@
    	  <% end -%>
  	  <% end -%>
  	  </div>
-	  <% end -%>
-	  <% if (!current_artist || current_artist.id != @artist.id) && (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
-	  <div class="div-left share">Send the artist a note:
-	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" ><div  aid="<%= @artist.id %>" id="micro_icon" class="email"></div></a>
-	  </div>
 	  <% end -%>
 	  <div class="div-left share">Share this page:
 	    <a target="_new" href="<%= @fb_share %>"><div id="micro_icon" class="facebook"></div></a>

@@ -1,24 +1,24 @@
-      <h4>Popular Tags</h4>
-      <div id="tag_help" class="help-parent">
-	<%= render :partial => '/whatsthis/popup', :locals => { :section => 'tags', :link_text => "what's this?", :parent => 'tag_help', :use_icon => true, :title => "About Popular Tags" } %>
-	</div>
+<h4>Popular Tags</h4>
+<div id="tag_help" class="help-parent">
+  <%= render :partial => '/whatsthis/popup', :locals => { :section => 'tags', :link_text => "what's this?", :parent => 'tag_help', :use_icon => true, :title => "About Popular Tags" } %>
+</div>
 
-      <div class="tagcloud">
-	<% if @freq -%>
-	<% @freq.each do |t| -%>
-	<%   tid = t["tag"]
-         tct = t["ct"]
-	     (sz, mrg) = TagsHelper.fontsize_from_frequency(tct.to_i) 
-	     tag = @tags.select{ |t| t.id.to_i == tid.to_i }[0]
-	     if tag == @tag
-                match_class = "tagmatch"
-             else 
-	        match_class = ""
-	     end
-         -%>
-        <% if tag != nil -%>
-	<span class="clouditem <%= match_class %>" style="font-size:<%= sz %>; margin: <%= mrg %>;"><%= link_to tag.safe_name, tag %></span>
-	<% end -%>
-	<% end -%>
-	<% end -%>
-      </div>
+<div class="tagcloud">
+  <% if @freq -%>
+  <% @freq.each do |t| -%>
+  <%   tid = t["tag"]
+       tct = t["ct"]
+       (sz, mrg) = TagsHelper.fontsize_from_frequency(tct.to_i) 
+       tag = @tags.select{ |t| t.id.to_i == tid.to_i }[0]
+       if tag == @tag
+       match_class = "tagmatch"
+       else 
+       match_class = ""
+       end
+       -%>
+  <% if tag != nil -%>
+  <span class="clouditem <%= match_class %>" style="font-size:<%= sz %>; margin: <%= mrg %>;"><%= link_to tag.safe_name, tag_path(tag, :m => 'p') %></span>
+  <% end -%>
+  <% end -%>
+  <% end -%>
+</div>
