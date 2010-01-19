@@ -348,17 +348,6 @@ MAU = window['MAU'] || {};
 	
     Event.observe(window,'load', N.init)
 
-    MA.init = function() {
-	var lnks = $$('.map-name');
-	var nlnks = lnks.length;
-	for (var ii = 0; ii < nlnks; ++ii) {
-	    var ll = lnks[ii];
-	    
-	    ll.observe('click', function() { $('map').markers[ii].openInfoWindow(); });
-	}
-    };
-    Event.observe(window, 'load', MA.init);
-
 }
 )();
 
