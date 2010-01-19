@@ -329,6 +329,10 @@ input[type=submit][disabled=disabled] {
 /* position from the bottom of the sprite*/
 #feed_icon[class=blogger],
 #micro_icon[class=blogger] {
+    background-position: 0 144px;
+}
+#feed_icon[class=email],
+#micro_icon[class=email] {
     background-position: 0 0px;
 }
 #feed_icon[class=youtube],
