@@ -39,7 +39,7 @@ input[type=submit] {
 div.tiny-thumb, div.tiny-thumb-sel {
 	display: inline;
 }
-#micro_icon {
+#micro_icon, #open_btn, #close_btn {
     display:inline;
 }
 

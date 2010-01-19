@@ -2,46 +2,38 @@
    get_involved_link = '<a href="%s"><img title="Get Involved!" src="/images/gi_overview.png"/></a>' % getinvolved_path
 -%>
 <div class="content-block">
-  <center>
-  <table class="getinv-table">
-    <tr>
-      <td  align="center">
-	<% if @page == 'volunteer' -%>
-	<%= get_involved_link %>
-	<% else -%>
-	<a href="/getinvolved/volunteer"><img title="Volunteer" src="/images/gi_volunteer.png" /></a>
-	<% end -%>
-      </td>
-      <td align="center">
-	<% if @page == 'donate' -%>
-	<%= get_involved_link %>
-	<% else -%>
-	<a href="/getinvolved/donate"><img title="Donate" src="/images/gi_donate.png" /></a>
-	<% end -%>
-      </td>
-      <td  align="center">
-	<% if @page == 'business' -%>
-	<%= get_involved_link %>
-	<% else -%>
-	<a href="/getinvolved/business"><img title="Business/Gallery inquiries" src="/images/gi_business.png" /></a>
-	<% end -%>
-      </td>
-    </tr>
-  </table>
-  <% if flash and flash[:notice] and !flash[:notice].empty? %>
-  <div class="notice">
-    <%= flash[:notice] %>
+  <h4>Get Involved with MAU!</h4>
+  <div id="getinv_overview" class="getinv-content" >
+Mission Artists United is small but growing!  Focused on promoting and unifying all the artists in the Mission district of San Francisco, MAU is concentrating its efforts to bring attention to both the artists, and the Mission community. To accomplish all the great things that we'd like to, we know that we're going to need some help. Here are a bunch of ways you can help out.
   </div>
-  <% end %>
-  <% if flash and flash[:error] and !flash[:error].empty? %>
-  <div class="error-msg">
-    <%= flash[:error] %>
+  <div class="open-close-div" >
+    <a href="#" id="gi_volunteer_toggle_lnk"><span id="gi_volunteer_toggle"  class="title">Volunteer - Help!</span>
+<span class="edit">more</span></a></div>
+  <div id="gi_volunteer" style="display:none;">
   </div>
-  <% end %>
-  </center>
-<% if ['volunteer','donate','business'].include? @page -%>
-<%= render :partial => "/main/getinvolved/%s" % @page %>
-<% else -%>
-<%= render :partial => "/main/getinvolved/overview" %>
-<% end -%>
+  <div class="open-close-div" >
+    <a href="#" id="gi_donate_toggle_lnk"><span id="gi_donate_toggle"  class="title">Donate - Support Art</span><span class="edit">more</span></a></div>
+  <div id="gi_donate"  style="">
+    <%= render :partial => '/main/getinvolved/donate' %>
+  </div>
+  <div class="open-close-div" >
+    <a href="#" id="gi_emaillist_toggle_lnk"><span id="gi_emaillist_toggle"  class="title">Join our Email List</span><span class="edit">more</span></a></div>
+  <div id="gi_emaillist" style="display:none;">
+  </div>
+  <div class="open-close-div" >
+    <a href="#" id="gi_suggest_toggle_lnk"><span id="gi_suggest_toggle"  class="title">Send a Suggestion</span><span class="edit">more</span></a></div>
+  <div id="gi_suggest" style="display:none;">
+  </div>
+  <div class="open-close-div" >
+    <a href="#" id="gi_shop_toggle_lnk"><span id="gi_volunteer_toggle"  class="title">Shop - get your MAU Gear!</span><span class="edit">more</span></a></div>
+  <div id="gi_shop" style="display:none;">
+  </div>
+  <div class="open-close-div" >
+    <a href="#" id="gi_venue_toggle_lnk"><span id="gi_venue_toggle"  class="title">Art Venues/Galleries - Let's work together!</span><span class="edit">more</span></a></div>
+  <div id="gi_venue" style="display:none;">
+  </div>
+  <div class="open-close-div" >
+    <a href="#" id="gi_business_toggle_lnk"><span id="gi_business_toggle"  class="title">Mission Business - Let's work together!</span><span class="edit">more</span></a></div>
+  <div id="gi_business" style="display:none;">
+  </div>
 
