@@ -959,6 +959,14 @@ div.div-center h4 {
     margin-top: 10px;
 }
 
+.main-thumbs {
+    position: relative;
+}
+
+.main-thumbs div#next_pg {
+    position: absolute; left: 587px; top: 50px;
+}
+
 .main-text {
     margin-top: 80px;
     text-align: center;
