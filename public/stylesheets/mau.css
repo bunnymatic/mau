@@ -1469,6 +1469,19 @@ form#feedback_form .error {
   font-weight: bold;
 }
 
+
+/**
+map page
+**/
+.map-roster { float: left; width:200px;}
+.map-addr {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.map-name {
+    margin-left: 10px;
+}
 /**
 corners 
 **/

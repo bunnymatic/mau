@@ -1,7 +1,21 @@
 <div class="little-txt td-right navlinks">
-  View: <% if @view_mode == 'list' -%>
-  <%= link_to "gallery", @gallery_link %>&nbsp;/&nbsp;roster
+  View:
+  <nobr>
+  <% if @view_mode == 'gallery' -%>
+  gallery
   <% else -%>
-  gallery&nbsp;/&nbsp;<%= link_to "roster", @roster_link %>
+  <%= link_to "gallery", @gallery_link %>
+  <% end -%>
+/
+  <% if @view_mode == 'list' -%>
+  roster
+  <% else -%>
+  <%= link_to "roster", @roster_link %>
+  <% end -%>
+/
+  <% if @view_mode == 'map' -%>
+  map
+  <% else -%>
+  <%= link_to "map", artistsmap_path %>
   <% end -%>
 </div>

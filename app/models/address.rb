@@ -24,7 +24,13 @@ class Address
     end
     @geocode = gc
   end
-  
+
+  def to_s
+    ss = @geocode.address
+    ss.gsub!(', USA','')
+    ss.gsub!('San Francisco', 'SF')
+  end
+
   def coord
     @geocode.latlon
   end
