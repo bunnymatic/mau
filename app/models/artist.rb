@@ -106,7 +106,6 @@ class Artist < ActiveRecord::Base
     JSON.parse(email_attrs)
   end
 
-
   def get_name(htmlsafe=false)
     fullname = nil
     if !(self.firstname.empty? or self.lastname.empty?)

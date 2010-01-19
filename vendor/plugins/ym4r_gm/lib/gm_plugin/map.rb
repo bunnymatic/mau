@@ -16,7 +16,7 @@ module Ym4r
         @variable = variable
         @init = []
         @init_end = [] #for stuff that must be initialized at the end (controls)
-        @init_begin = [] #for stuff that must be initialized at the beginning (center + zoom)
+        @init_begin = [ "var MAPMARKERS = new Array();\n" ] #for stuff that must be initialized at the beginning (center + zoom)
         @global_init = []
       end
 
@@ -244,7 +244,7 @@ module Ym4r
           html << "function() {\n"
         end
 
-        html << "if (GBrowserIsCompatible()) {\n" 
+        html << "if (GBrowserIsCompatible()) {\n"
         
         if fullscreen
           #Adding the initial resizing and setting up the event handler for

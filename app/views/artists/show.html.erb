@@ -104,7 +104,7 @@
  	  </div>
 	  <% end -%>
 	  <% if (!current_artist || current_artist.id != @artist.id) && (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
-	  <div class="div-left share">Email the artist:
+	  <div class="div-left share">Send the artist a note:
 	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" ><div  aid="<%= @artist.id %>" id="micro_icon" class="email"></div></a>
 	  </div>
 	  <% end -%>
