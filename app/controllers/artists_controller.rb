@@ -18,10 +18,14 @@ class ArtistsController < ApplicationController
   end
 
   def map
+    @view_mode = 'map'
+    @roster_link = artists_path + "?v=l"
+    @gallery_link = artists_path + "?v=g"
 
     addresses = []
     artists = Artist.all
     # get addresses
+    @roster = {}
     artists.each do |a|
       address = nil
       name = "%s" % a.get_name
@@ -38,14 +42,17 @@ class ArtistsController < ApplicationController
       end
       if address
         addresses << address
+        ky = address.to_s
+        p ky
+        if !@roster[ky]
+          @roster[ky] = []
+        end
+        @roster[ky] << a
       end
     end
 
     @map = GMap.new("map")
-    @map.control_init(:large_map => true, :map_type => true,
-                      :local_search_options => "{
-                        resultList: google.maps.LocalSearch.RESULT_LIST_INLINE
-                    }")
+    @map.control_init(:large_map => true, :map_type => true)
     centerx = 0
     centery = 0
     markers = {}
