@@ -56,24 +56,30 @@ class ArtistsController < ApplicationController
             name += " at %s" % s.name
           end
         end
+        ky = address.to_s
+        dx = dy = 0.0
+        if !@roster[ky]
+          @roster[ky] = []
+        else 
+          # add offset
+          dx = 0.00015 * rand * ( rand > 0.5 ? -1.0 : 1.0 )
+          dy = 0.00025 * rand * ( rand > 0.5 ? -1.0 : 1.0 )
+        end
+
+        @roster[ky] << a
         coord = address.coord
         title = address.title
         centerx += coord[0]
         centery += coord[1]
         nentries += 1
-        coord[0] += 0.0001 * rand
-        coord[1] += 0.0001 * rand
+        coord[0] += dx
+        coord[1] += dy
         info = get_map_info(a)
 
         m = GMarker.new(coord,:title => title,
                         :info_window => info)
         markers << m
         @map.overlay_init(m)
-        ky = address.to_s
-        if !@roster[ky]
-          @roster[ky] = []
-        end
-        @roster[ky] << a
       end
     end
     center = [ centerx / nentries.to_f,
