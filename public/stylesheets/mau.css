@@ -740,6 +740,18 @@ td.playback {
 	width: 18px;
 }
 
+/* open close buttons */
+#open_btn, #close_btn {
+    background-image:url(/images/icons/openclose-sprite.png);
+    height:16px; 
+    width: 16px; overflow:hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+#open_btn { background-position: 48px 0px; }
+#close_btn { background-position: 32px 0px; }
+
 /* for playback buttons */
 #first_pg, #last_pg, #prev_pg, #next_pg {
     background-image:url(/images/icons/playback-sprite.png);
