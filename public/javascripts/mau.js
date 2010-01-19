@@ -240,7 +240,6 @@ MAU = window['MAU'] || {};
     };
 
     N.showNoteForm = function(ev) {
-	// TODO: GET THE ARTIST ID
 	var el = ev.findElement();
 	var aid = el.readAttribute('aid');
 	N.initOverlay();
