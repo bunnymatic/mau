@@ -1,4 +1,5 @@
 require 'xmlrpc/client'
+include ArtistsHelper
 
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
@@ -24,49 +25,59 @@ class ArtistsController < ApplicationController
 
     addresses = []
     artists = Artist.all
-    # get addresses
+
+    @map = GMap.new("map")
+    @map.control_init(:large_map => true, :map_type => true)
+    @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png',
+                                     :iconSize => GSize.new(64.0, 64.0)),'iconname')
+
+    centerx = 0
+    centery = 0
+    markers = []
     @roster = {}
+    nentries = 0
     artists.each do |a|
       address = nil
       name = "%s" % a.get_name
-      if a.studio_id > 0
-        s = a.studio
-        if s
-          name += " at %s" % s.name
-          address = Address.new(name, s.street)
-        end
+      addr = nil
+      s = a.studio
+      if s
+        addr = "%s %s %s" % [ s.street, s.state, s.zip ]
       else
-        if a.street && !a.street.empty?
-          address = Address.new(name, a.street)
+        if a.street and !a.street.empty?
+          addr = "%s %s %s" % [ a.street, a.addr_state, a.zip ]
         end
       end
-      if address
-        addresses << address
+      if addr
+        address = Address.new(name, addr)
+        if a.studio_id > 0
+          s = a.studio
+          if s
+            name += " at %s" % s.name
+          end
+        end
+        coord = address.coord
+        title = address.title
+        centerx += coord[0]
+        centery += coord[1]
+        nentries += 1
+        coord[0] += 0.0001 * rand
+        coord[1] += 0.0001 * rand
+        info = get_map_info(a)
+
+        m = GMarker.new(coord,:title => title,
+                        :info_window => info)
+        markers << m
+        @map.overlay_init(m)
         ky = address.to_s
-        p ky
         if !@roster[ky]
           @roster[ky] = []
         end
         @roster[ky] << a
       end
     end
-
-    @map = GMap.new("map")
-    @map.control_init(:large_map => true, :map_type => true)
-    centerx = 0
-    centery = 0
-    markers = {}
-    addresses.each do |ad|
-      coord = ad.coord
-      title = ad.title
-      centerx += coord[0]
-      centery += coord[1]
-      coord[0] += 0.0001 * rand
-      coord[1] += 0.0001 * rand
-      @map.overlay_init(GMarker.new(coord,:title => title, :info_window => title))
-    end
-    center = [ centerx / addresses.size.to_f,
-               centery / addresses.size.to_f]
+    center = [ centerx / nentries.to_f,
+               centery / nentries.to_f]
     @map.center_zoom_init(center,14)
   end
 

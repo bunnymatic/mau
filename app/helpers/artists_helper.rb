@@ -135,4 +135,33 @@ module ArtistsHelper
       ''
     end
   end
+
+  # get info for google map info window as html
+  # if you have lat lon, include it for directions link
+  def get_map_info(artist)
+    coder = HTMLEntities.new
+    html = '<style type="text/css">._mau1 { color: #222222; font-size: x-small; } _mau1 a{ color: #ff2222; }</style><div class="_mau1">'
+    ap = artist.representative_piece
+    img = ''
+    if (ap)
+      img = '<img src="%s"/>' % ap.get_path('thumb')
+      html += '<div class="_mau1" style="float:right;">%s</div>' % img
+    end
+    addr = ''
+    s = artist.studio
+    if !s && artist.street && !artist.street.empty?
+      addr = "%s, %s %s" % [artist.street, artist.addr_state, artist.zip]
+      html += "%s<div>%s</div>" % [artist.get_name, artist.street]
+    elsif s
+      addr = "%s, %s %s" % [s.street, s.state, s.zip]
+      html += "%s<div>%s</div><div>%s</div>" % [artist.get_name, s.name, s.street]
+    end
+    html += '<div style="clear"></div>'
+    if 
+      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % coder.encode(addr)
+      html += '<div style="margin-top:8px">%s</div>' % lnk
+    end
+      
+    html += "</div>"
+  end
 end
