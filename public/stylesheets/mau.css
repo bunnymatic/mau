@@ -87,10 +87,6 @@ table.artist-info-table td {
     font-size: 85%;
 }
 
-.tag-input {
-	width: 300px;
-}
-
 .open-close-div {
 	border-bottom: 1px dotted;
 	padding-top: 20px;
@@ -106,13 +102,6 @@ table.artist-info-table td {
     width: auto;
 }
 
-.gi table {
-    width: 100%;
-}
-.gi td {
-    width:33%;
-}
-
 .gi span.gi-subtitle {
     color: #cccccc;
     font-size: x-small;
@@ -120,17 +109,16 @@ table.artist-info-table td {
 }
 
 .gi span.edit {
-    color: red;
     float: right;
 }
 
 .open-close-div span.title {
-	text-align:left;
+    text-align:left;
 }
 
 .open-close-div span.edit {
-	font-size: 80%;
-	float: right;
+    font-size: 80%;
+    float: right;
 }
 
 .edit-sections {
@@ -258,8 +246,12 @@ input.txtarea-sm, input.txtarea, select.dropdown {
     margin-left: 50px;
 }
 
-input.txt {
+.tag-input, input.txt, select.dropdown {
     width: 300px;
+}
+
+input.txt, select.dropdown 
+{
     height: auto;
 }
 input.txtlogin {
@@ -273,10 +265,7 @@ input.txtarea-sm {
     overflow: scroll;
     height: 40px;
 }
-select.dropdown {
-    width: 300px;
-    height: auto;
-}
+
 select.ddsortby {
     background-color:#000000;
     margin-left: 10px;
