@@ -22,7 +22,7 @@ MAU = window['MAU'] || {};
 		if ((this.value == '<enter your comment here>') ||
 		    (this.value == '<enter your note here>')) {
 		    this.value = '';
-		};
+		}
 		return false;
 	    });
 	}
@@ -30,49 +30,49 @@ MAU = window['MAU'] || {};
 
     /** safe javascript log - for debug */
     M.log = function() {
-		if (window['console'] && M.__debug__) {
-			// TODO: Chrome doesn't let us call apply on console.log.
-			// Interpolate variable arguments manually and construct
-			// a single-argument call to console.log for Chrome.
-			try {
-				console.log.apply(this, arguments);
-			} catch(e) {
-				X.log = function() {}
-			}
-		}
+	if (window['console'] && M.__debug__) {
+	    // TODO: Chrome doesn't let us call apply on console.log.
+	    // Interpolate variable arguments manually and construct
+	    // a single-argument call to console.log for Chrome.
+	    try {
+		console.log.apply(this, arguments);
+	    } catch(e) {
+		X.log = function() {};
+	    }
+	}
     };
 
     // Changes the cursor to an hourglass
     M.waitcursor = function() {
-		document.body.style.cursor = 'wait';
+	document.body.style.cursor = 'wait';
     };
     
     // Returns the cursor to the default pointer
     M.clearcursor = function() {
-		document.body.style.cursor = 'default';
+	document.body.style.cursor = 'default';
     };
 
     M.goToArtist = function( artistid ) {
-		window.location = "/artists/" + parseInt(artistid);
-		return true;
+	window.location = "/artists/" + parseInt(artistid);
+	return true;
     };
 
     M.doSearch = function( ) {
-		var q = $('search_box');
-		var f = $('search_form');
-		if (f && q && q.value) {
-			f.submit();
-			return true;
-		}
-		return false;
+	var q = $('search_box');
+	var f = $('search_form');
+	if (f && q && q.value) {
+	    f.submit();
+	    return true;
+	}
+	return false;
     };
 
     M.mailer = function( name, domain, subject) {
-		var lnk = "mailto:" + name + "@" + domain;
-		if (subject && subject.length > -1) {
-			lnk += "?subject=" + escape(subject);
-		}
-		window.location = lnk;
+	var lnk = "mailto:" + name + "@" + domain;
+	if (subject && subject.length > -1) {
+	    lnk += "?subject=" + escape(subject);
+	}
+	window.location = lnk;
     };
 
     /* leave for later in case we need to init stuff */
@@ -101,100 +101,102 @@ MAU = window['MAU'] || {};
     ID_NOTIFICATION_SXN = 'artist_notification';
 
     A.SECTIONS = new Array(ID_STUDIO_SXN,
-						   ID_LINKS_SXN,
-						   ID_ARTIST_SXN,
-						   ID_BIO_SXN,
-						   ID_PASSWD_SXN,
-						   ID_DEACTIVATE_SXN,
-						  ID_NOTIFICATION_SXN);
+			   ID_LINKS_SXN,
+			   ID_ARTIST_SXN,
+			   ID_BIO_SXN,
+			   ID_PASSWD_SXN,
+			   ID_DEACTIVATE_SXN,
+			   ID_NOTIFICATION_SXN);
 
     A.TOGGLES = new Array(ID_STUDIO_INFO_TOGGLE,
-						  ID_LINKS_TOGGLE,
-						  ID_ARTIST_INFO_TOGGLE,
-						  ID_BIO_TOGGLE,
-						  ID_PASSWD_TOGGLE,
-						  ID_DEACTIVATE_TOGGLE,
-						  ID_NOTIFICATION_TOGGLE);
+			  ID_LINKS_TOGGLE,
+			  ID_ARTIST_INFO_TOGGLE,
+			  ID_BIO_TOGGLE,
+			  ID_PASSWD_TOGGLE,
+			  ID_DEACTIVATE_TOGGLE,
+			  ID_NOTIFICATION_TOGGLE);
 
     A.toggleSxnVis = function(sxn) {
-		var sxns = M.Artist.SECTIONS;
-		var nsxn = sxns.length;
-		for( var ii = 0; ii < nsxn; ++ii) {
-			var sxnnm = sxns[ii];
-			var frm = $(sxnnm);
-			var lnk = $(M.Artist.TOGGLES[ii] + "_lnk");
-			if (frm) {
-				if (!frm.visible() ) {
-					if (sxnnm == sxn) {
-						frm.show();
-						lnk.innerHTML = "hide";
-					}
-				}
-				else {
-					frm.hide();
-					lnk.innerHTML = "change";
-				}
-			}
+	var sxns = M.Artist.SECTIONS;
+	var nsxn = sxns.length;
+	for( var ii = 0; ii < nsxn; ++ii) {
+	    var sxnnm = sxns[ii];
+	    var frm = $(sxnnm);
+	    var lnk = $(M.Artist.TOGGLES[ii] + "_lnk");
+	    if (frm) {
+		if (!frm.visible() ) {
+		    if (sxnnm == sxn) {
+			frm.show();
+			lnk.innerHTML = "hide";
+		    }
 		}
-		return false;
-    }
+		else {
+		    frm.hide();
+		    lnk.innerHTML = "change";
+		}
+	    }
+	}
+	return false;
+    };
 
     A.init = function() {
-		var toggles = M.Artist.TOGGLES;
-		var sxns = M.Artist.SECTIONS;
-		var nsxn = sxns.length;
-		for ( var ii = 0; ii < nsxn; ++ii ) {
-			(function() {
-				var lnk = $(toggles[ii] + '_lnk');
-				var nm = sxns[ii];
-				if (lnk) {
-					Event.observe(lnk, 'click', function(event){
-						M.Artist.toggleSxnVis(nm);
-					});
-				}
-			})();
+	var toggles = M.Artist.TOGGLES;
+	var sxns = M.Artist.SECTIONS;
+	var nsxn = sxns.length;
+	for ( var ii = 0; ii < nsxn; ++ii ) {
+	    (function() {
+		var lnk = $(toggles[ii] + '_lnk');
+		var nm = sxns[ii];
+		if (lnk) {
+		    Event.observe(lnk, 'click', function(event){
+			M.Artist.toggleSxnVis(nm);
+		    });
 		}
-		A.init = function() {}
-    }
+	    })();
+	}
+	A.init = function() {};
+    };
 
     Event.observe(window, 'load', A.init);
 
     T.jumpTo = function(ap_id) {
-		var url = "/art_pieces/" + ap_id;
-		document.location.href = url;
-		return true;
-    }
+	var url = "/art_pieces/" + ap_id;
+	document.location.href = url;
+	return true;
+    };
 
     function keypressHandler (event)
     {
-		// I think this next line of code is accurate,
-		// but I don't have a good selection of browsers
-		// with me today to test this effectivly.
-		var prvlnk = $('prev_img_lnk');
-		var nxtlnk = $('next_img_lnk');
-		if (prvlnk && nxtlnk) {
-			var key = event.which || event.keyCode;
-			switch (key) {
-			case Event.KEY_RIGHT:
-				T.jumpTo(nxtlnk.getAttribute('apid'));
-				break;
-			case Event.KEY_LEFT:	
-				T.jumpTo(prvlnk.getAttribute('apid'));
-				break;
-			}
-		}
+	// I think this next line of code is accurate,
+	// but I don't have a good selection of browsers
+	// with me today to test this effectivly.
+	var prvlnk = $('prev_img_lnk');
+	var nxtlnk = $('next_img_lnk');
+	if (prvlnk && nxtlnk) {
+	    var key = event.which || event.keyCode;
+	    switch (key) {
+	    case Event.KEY_RIGHT:
+		T.jumpTo(nxtlnk.getAttribute('apid'));
+		break;
+	    case Event.KEY_LEFT:	
+		T.jumpTo(prvlnk.getAttribute('apid'));
+		break;
+	    default:
+		break;
+	    }
+	}
     }
 
     T.init = function() {
-		Event.observe(document, 'keypress', keypressHandler );
-		var prvlnk = $('prev_img_lnk');
-		var nxtlnk = $('next_img_lnk');
-		if (nxtlnk && prvlnk) {
-			Event.observe(nxtlnk, 'click', function() { console.log('clicked next'); });
-		}
-		T.init = function(){}
-    }
-	
+	Event.observe(document, 'keypress', keypressHandler );
+	var prvlnk = $('prev_img_lnk');
+	var nxtlnk = $('next_img_lnk');
+	if (nxtlnk && prvlnk) {
+	    Event.observe(nxtlnk, 'click', function() { console.log('clicked next'); });
+	}
+	T.init = function(){};
+    };
+    
     Event.observe(window, 'load', T.init);
 
     /*** help popup ***/
@@ -223,15 +225,16 @@ MAU = window['MAU'] || {};
     N.ID_CLOSE_BTN = 'note_close_btn';
     N.ID_COMMENT = 'comment';
     N.NOTEFORM_HTML = '<div id="' + N.ID_MAIN + '" style="display: none;">' +
-             '<div id="' + N.ID_MODAL_WINDOW + '">' +	
-             '<a href="#" id="' + N.ID_CLOSER + '">x</a>' +
-             '<div id="' + N.ID_CONTENT + '"></div>' +
-             '</div></div>';
+        '<div id="' + N.ID_MODAL_WINDOW + '">' +	
+        '<a href="#" id="' + N.ID_CLOSER + '">x</a>' +
+        '<div id="' + N.ID_CONTENT + '"></div>' +
+        '</div></div>';
     N.OVERLAY_DIV = '<div id="'+N.ID_OVERLAY+'" class="note_hide"></div>';
 
     N.initOverlay = function() {
-	if ($$('#' + N.ID_OVERLAY).length == 0)
+	if ($$('#' + N.ID_OVERLAY).length == 0) {
 	    $$("body").first().insert(N.OVERLAY_DIV);
+	}
 	$(N.ID_OVERLAY).addClassName('note_overlayBG');
     };
     
@@ -239,9 +242,9 @@ MAU = window['MAU'] || {};
 	N.initOverlay();
 	$(N.ID_OVERLAY).show();
     };
-	 
+    
     N.hideOverlay = function() {
-	if ($$('#' + N.ID_OVERLAY).length == 0) return false;
+	if ($$('#' + N.ID_OVERLAY).length == 0) return;
 	$(N.ID_OVERLAY).remove();
     };
 
@@ -257,11 +260,11 @@ MAU = window['MAU'] || {};
 	$(N.ID_MAIN).hide();
 	$(N.ID_MAIN).remove();
 	N.hideOverlay();
-    }
+    };
 
     N.loading = function() {
 	$(N.ID_CONTENT).innerHTML = "Loading...";
-    }
+    };
 
     N.submitNote = function(event){
 	M.log("Submit note");
@@ -290,7 +293,7 @@ MAU = window['MAU'] || {};
 	    }
 	});
 	Event.stop(event);
-    }
+    };
 
     N.initNote = function(aid) {
 	if ($$('#' + N.ID_MAIN).length == 0) {
@@ -338,20 +341,20 @@ MAU = window['MAU'] || {};
 	$(N.ID_MODAL_WINDOW).setStyle({
 	    top: (clientHeight / 10) + 'px'
 	});
-    }				
-	 
+    };
+    
     
     N.init = function() {
 	var notes = $$('#notify_artist');
-	var nnotes = notes.length
+	var nnotes = notes.length;
 	for (var ii = 0; ii < nnotes; ++ii) {
 	    var n = notes[ii];
 	    if (n) { n.observe('click', N.showNoteForm); }
 	}
 	N.init = function() {};
-    }
-	
-    Event.observe(window,'load', N.init)
+    };
+    
+    Event.observe(window,'load', N.init);
 
 
     /** get involved **/
@@ -390,7 +393,7 @@ MAU = window['MAU'] || {};
 		}
 	    }
 	}
-    }
+    };
 
     G.init = function() {
 	// pick out special items 
@@ -445,7 +448,7 @@ MAU = window['MAU'] || {};
 	    }
 	    if (em.name == 'feedback[comment]') {
 		var v = em.getValue();
-		if (v == '' || v == '<enter your comment here>') {
+		if ((v === '') || (v === '<enter your comment here>')) {
 		    alert("Please enter something in the comment box.");
 		    ev.stop();
 		    return false;
@@ -454,7 +457,7 @@ MAU = window['MAU'] || {};
 	}
 	return true;
     };
-	
+    
     Event.observe(window,'load',G.init);
 }
 )();
