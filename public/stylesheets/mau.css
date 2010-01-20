@@ -1,12 +1,12 @@
 @charset "utf-8";
 /* CSS Document */
 html {
+    background-color: #c6c7d6;
     color: #aaaaaa;
     font: 13px Verdana, Arial, Helvetica, sans-serif;
 }
 
 body {
-    background-color: #c6c7d6;
     padding: 5px;
 }
 td {
@@ -242,40 +242,38 @@ input.chkbox {
     margin-right: 20px;
 }
 
-input.txt {
-
+input.txt, input.txtlogin, input.txtarea, input.txtarea-sm, select.dropdown {
     background-color:#FEF7CA;
-    margin-left: 20px;
     margin-right: 5px;
+}
+
+input.txt, input.txtlogin {
+    margin-left: 20px;
+}
+
+input.txtarea-sm, input.txtarea{
+    width: 500px;
+}
+input.txtarea-sm, input.txtarea, select.dropdown {
+    margin-left: 50px;
+}
+
+input.txt {
     width: 300px;
     height: auto;
 }
 input.txtlogin {
-    background-color:#FEF7CA;
-    margin-left: 20px;
-    margin-right: 5px;
     height: auto;
 }
 input.txtarea {
-    background-color:#FEF7CA;
-    margin-left: 50px;
-    margin-right: 5px;
     overflow: scroll;
     height: 300px;
-    width: 500px;
 }
 input.txtarea-sm {
-    background-color:#FEF7CA;
-    margin-left: 50px;
-    margin-right: 5px;
     overflow: scroll;
     height: 40px;
-    width: 500px;
 }
 select.dropdown {
-    background-color:#FEF7CA;
-    margin-left: 50px;
-    margin-right: 5px;
     width: 300px;
     height: auto;
 }
@@ -294,7 +292,7 @@ input[type=image] {
 }
 
 input[type=checkbox] {
-	background-color:#000000;
+    background-color:#000000;
 }
 input[type=submit] {
     background:#999;
@@ -311,7 +309,7 @@ input[type=submit][disabled=disabled] {
     color:#aaaaaa;
 }
 
-.formbutton{
+input[type=submit], .formbutton{
     background:#999;
     background:url(/images/gradient-20px.png) repeat-x left top;
     border:outset 1px #ccc;
@@ -319,21 +317,19 @@ input[type=submit][disabled=disabled] {
     cursor:pointer;
     font-weight:bold;
     padding: 1px 2px;
-	overflow: visible; /* seems to keep ie from adding extra padding */ 
 }
 
-.artist-buttons {
+.formbutton {
+    overflow: visible; /* seems to keep ie from adding extra padding */ 
+}
+
+.artist-buttons, .edit-buttons {
     margin: 8px 0;
-}
-
-.edit-buttons {
-	margin: 8px 0;
 }
 
 .share #micro_icon {
     vertical-align:middle;
 }
-
 
 /** feeds **/
 #feed_icon {
@@ -412,7 +408,7 @@ input[type=submit][disabled=disabled] {
     border: 1px #333333 dotted;
     margin: 5px 8px 8px 0px;
     padding: 2px 5px 5px 5px;
-	text-align:left;
+    text-align:left;
 }
 
 #feed_request {
@@ -583,18 +579,18 @@ table{
     border-collapse: collapse;
 }
 
-table#header-tbl{
+table#header-tbl, table#footer-tbl {
     background-color: #FFFFFF;
-    background-image: url(/images/gradient-40px.png);
-    background-repeat: repeat-x;
-    background-position: center bottom;
-}
-table#footer-tbl{
-    background-color: #FFFFFF;
-    background-image: url(/images/gradient-30px.png);
     background-repeat: repeat-x;
     background-position: center bottom;
     color: #666666;
+}
+
+table#header-tbl {
+    background-image: url(/images/gradient-40px.png);
+}
+table#footer-tbl{
+    background-image: url(/images/gradient-30px.png);
 }
 
 div#feedcolumn{
@@ -618,14 +614,8 @@ table.tbl-content{
 div#searchtools{
     float:left;
     background: #333333;
-    margin-top: 5px;
-    margin-right: 0;
-    margin-bottom: 0px;
-    margin-left: 0;
-    padding-top: 0px;
-    padding-right: 0;
-    padding-bottom: 0px;
-    padding-left: 0px;
+    margin: 5px 0 0 0;
+    padding: 0;
     width: 900px;
 }
 div#nav h2{font-size: 120%;color: #9E4A24}
@@ -634,10 +624,9 @@ div#topnav{
     font-weight:bold;
     width:880px;
     text-align:right;
-    padding-top: 8px;
-    padding-right: 20px;
-    padding-bottom: 8px;
+    paddingtop: 8px 20px 8px 0;
 }
+
 div#tagline{
     clear:both;
     width:900px;
@@ -876,7 +865,7 @@ div.tiny-thumb, div.tiny-thumb-sel {
 }
 
 div.tiny-thumb-sel {
-    border: 2px solid magenta;	
+    border: 2px solid #FEF7CA;
 }
 
 .artpiece-img {
@@ -1495,8 +1484,9 @@ div#feedback_loading {
   width: 100%;
   background-color: #000;
   opacity: 0.5;
-  -moz-opacity: 0.5;
   filter:alpha(opacity=50);
+  -moz-opacity: 0.5;
+
 }
 			
 .feedback_hide {
