@@ -455,7 +455,7 @@ MAU = window['MAU'] || {};
 	return true;
     };
 	
-    Event.observe(window,'load',G.init)
+    Event.observe(window,'load',G.init);
 }
 )();
 
