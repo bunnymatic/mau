@@ -12,8 +12,8 @@ MAUFEEDS = window['MAUFEEDS'] || {};
 		d.innerHTML = transport.responseText;
 	    }
 	});
-	MAUFEEDS.init = function(){}
-    }
+	MAUFEEDS.init = function(){};
+    };
 
     Event.observe(window, 'load', MAUFEEDS.init);
 }
