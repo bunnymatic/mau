@@ -1,39 +1,84 @@
 <% 
    get_involved_link = '<a href="%s"><img title="Get Involved!" src="/images/gi_overview.png"/></a>' % getinvolved_path
--%>
+   -%>
 <div class="content-block">
   <h4>Get Involved with MAU!</h4>
+    <% unless @error_message.blank? -%>
+  <div class="error-msg">
+	<%=h @error_message %>
+  </div>
+    <% end -%>
+    <% if flash[:error] -%>
+    <div class="error-msg">
+      <%=h flash[:error] %>
+    </div>
+    <% end -%>
+    <% if flash[:notice] -%>
+    <div class="notice-msg">
+      <%=h flash[:notice] %>
+    </div>
+    <% end -%>
   <div id="getinv_overview" class="getinv-content" >
-Mission Artists United is small but growing!  Focused on promoting and unifying all the artists in the Mission district of San Francisco, MAU is concentrating its efforts to bring attention to both the artists, and the Mission community. To accomplish all the great things that we'd like to, we know that we're going to need some help. Here are a bunch of ways you can help out.
+    Mission Artists United is small but growing!  Focused on promoting and unifying all the artists in the Mission district of San Francisco, MAU is concentrating its efforts to bring attention to both the artists, and the Mission community. To accomplish all the great things that we'd like to, we know that we're going to need some help. Here are a bunch of ways you can help out.
   </div>
-  <div class="open-close-div" >
-    <a href="#" id="gi_volunteer_toggle_lnk"><span id="gi_volunteer_toggle"  class="title">Volunteer - Help!</span>
-<span class="edit">more</span></a></div>
-  <div id="gi_volunteer" style="display:none;">
+  <div class="open-close-div gi" >
+    <a href="#" id="gi_volunteer_toggle_lnk">
+      <span id="gi_volunteer_toggle" class="title">Volunteer</span>
+      <span class="edit">more</span>
+      <span class="gi-subtitle">[Help us out!]</span>
+    </a>
   </div>
-  <div class="open-close-div" >
-    <a href="#" id="gi_donate_toggle_lnk"><span id="gi_donate_toggle"  class="title">Donate - Support Art</span><span class="edit">more</span></a></div>
-  <div id="gi_donate"  style="">
+  <div id="gi_volunteer"  class="gi-subblock" style="display:none;">
+    <%= render :partial => '/main/getinvolved/volunteer' %>
+  </div>
+  <div class="open-close-div gi" >
+    <a href="#" id="gi_donate_toggle_lnk">
+      <span id="gi_donate_toggle" class="title">Donate</span>
+      <span class="edit">more</span>
+      <span class="gi-subtitle">Support Art</span>
+    </a>
+  </div>
+  <div id="gi_donate"   class="gi-subblock"  style="display:none;">
     <%= render :partial => '/main/getinvolved/donate' %>
   </div>
-  <div class="open-close-div" >
-    <a href="#" id="gi_emaillist_toggle_lnk"><span id="gi_emaillist_toggle"  class="title">Join our Email List</span><span class="edit">more</span></a></div>
-  <div id="gi_emaillist" style="display:none;">
+  <div class="open-close-div gi" >
+    <a href="#" onclick="MAU.mailer('www','missionartistsunited.org','Add me to your mailing list');" id="gi_emaillist_toggle_lnk">
+      <span id="gi_emaillist_toggle"  class="title">Join our Email List</span>
+      <span class="edit">now!</span>
+    </a>
   </div>
-  <div class="open-close-div" >
-    <a href="#" id="gi_suggest_toggle_lnk"><span id="gi_suggest_toggle"  class="title">Send a Suggestion</span><span class="edit">more</span></a></div>
-  <div id="gi_suggest" style="display:none;">
+  <div class="open-close-div gi" >
+    <a href="#" id="gi_suggest_toggle_lnk">
+      <span id="gi_suggest_toggle"  class="title">Send a Suggestion</span>
+      <span class="edit">more</span>
+    </a>
   </div>
-  <div class="open-close-div" >
-    <a href="#" id="gi_shop_toggle_lnk"><span id="gi_volunteer_toggle"  class="title">Shop - get your MAU Gear!</span><span class="edit">more</span></a></div>
-  <div id="gi_shop" style="display:none;">
+  <div id="gi_suggest"  class="gi-subblock" style="display:none;">
+    <%= render :partial => '/main/getinvolved/suggestion' %>
   </div>
-  <div class="open-close-div" >
-    <a href="#" id="gi_venue_toggle_lnk"><span id="gi_venue_toggle"  class="title">Art Venues/Galleries - Let's work together!</span><span class="edit">more</span></a></div>
-  <div id="gi_venue" style="display:none;">
+  <div class="open-close-div gi" >
+    <a target="_blank" href="<%= Conf.shop_url %>" id="gi_shop_toggle_lnk">
+      <span id="gi_volunteer_toggle"  class="title">Shop</span>
+      <span class="edit">now!</span>
+      <span class="gi-subtitle">Get your MAU Gear!</span>
+    </a>
   </div>
-  <div class="open-close-div" >
-    <a href="#" id="gi_business_toggle_lnk"><span id="gi_business_toggle"  class="title">Mission Business - Let's work together!</span><span class="edit">more</span></a></div>
-  <div id="gi_business" style="display:none;">
+  <div class="open-close-div gi" >
+    <a href="#" id="gi_venue_toggle_lnk">
+      <span id="gi_venue_toggle"  class="title">Art Venues/Galleries</span>
+      <span class="edit">more</span>
+      <span class="gi-subtitle">Let's work together!</span>
+    </a>
   </div>
-
+  <div id="gi_venue" class="gi-subblock" style="display:none;">
+    <%= render :partial => '/main/getinvolved/gallery' %>
+  </div>
+  <div class="open-close-div gi" >
+    <a href="#" id="gi_business_toggle_lnk"><span id="gi_business_toggle"  class="title">Mission Businesses</span>
+      <span class="edit">more</span></a>
+      <span class="gi-subtitle">Let's work together!</span>
+  </div>
+  <div id="gi_business"  class="gi-subblock" style="display:none;">
+    <%= render :partial => '/main/getinvolved/business' %>
+  </div>
+</div>

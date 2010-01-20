@@ -33,6 +33,15 @@ class MainController < ApplicationController
     end
 
     if params[:commit]
+      if params[:feedback][:email].empty?
+        flash.now[:error] = "There was a problem submitting your feedback.  Your email was blank."
+        return
+      end
+      if params[:feedback][:comment].empty?
+        flash.now[:error] = "There was a problem submitting your feedback.  Please fill something in for the comment."
+        return
+      end
+      
       feedback = Feedback.new(params[:feedback])
       saved = feedback.save
       if saved
