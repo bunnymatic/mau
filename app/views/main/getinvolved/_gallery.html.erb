@@ -1,6 +1,6 @@
-<p/>We know that working with local businesses could be beneficial for all parties.  We've discussed things like short run art shows, coupons and other promotions that would cross promote both our organization and local businesses.
+<p/>Local galleries tied in with a local art group - what could be better?  We know that ties with local galleries could be great for both the gallery and our working artists.
 <p/>
-If you are a business owner in the Mission district, please contact us and let's see where we can take this.  Use the form below to give us as much information as you can and how you might like to get involved with Mission Artists United. We'd love to talk to you.
+If you are a gallery owner or curator in the Mission district, please contact us and let's see where we can take this.  Use the form below to give us as much information as you can and how you might like to get involved with Mission Artists United. We'd love to talk to you.
 
 <div class="getinv-form-container ">
   <% form_for :feedback, @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
@@ -18,7 +18,7 @@ If you are a business owner in the Mission district, please contact us and let's
 	<div id="bcomment_input" class="getinv-input" >
 	  <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
 	</div>
-	<div id="send_input" >
+	<div id="bsend_input" >
 	  <%= f.submit 'Send' %>
 	</div>
       </td>
@@ -31,6 +31,5 @@ If you are a business owner in the Mission district, please contact us and let's
   <%= f.hidden_field 'email', :value => current_artist.email %>
   <% end -%>
   <% end -%>
-</div>
 </div>
 
