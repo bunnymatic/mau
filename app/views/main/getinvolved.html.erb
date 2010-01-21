@@ -9,14 +9,18 @@
   </div>
     <% end -%>
     <% if flash[:error] -%>
+    <center>
     <div class="error-msg">
       <%=h flash[:error] %>
     </div>
+    </center>
     <% end -%>
     <% if flash[:notice] -%>
-    <div class="notice-msg">
+    <center>
+    <div class="notice">
       <%=h flash[:notice] %>
     </div>
+    </center>
     <% end -%>
   <div id="getinv_overview" class="getinv-content" >
     Mission Artists United is small but growing!  Focused on promoting and unifying all the artists in the Mission district of San Francisco, MAU is concentrating its efforts to bring attention to both the artists, and the Mission community. To accomplish all the great things that we'd like to, we know that we're going to need some help. Here are a bunch of ways you can help out.
@@ -25,7 +29,7 @@
     <a href="#" id="gi_volunteer_toggle_lnk">
       <span id="gi_volunteer_toggle" class="title">Volunteer</span>
       <span class="edit">more</span>
-      <span class="gi-subtitle">[Help us out!]</span>
+      <span class="gi-subtitle">Help us out!</span>
     </a>
   </div>
   <div id="gi_volunteer"  class="gi-subblock" style="display:none;">
@@ -42,10 +46,13 @@
     <%= render :partial => '/main/getinvolved/donate' %>
   </div>
   <div class="open-close-div gi" >
-    <a href="#" onclick="MAU.mailer('www','missionartistsunited.org','Add me to your mailing list');" id="gi_emaillist_toggle_lnk">
-      <span id="gi_emaillist_toggle"  class="title">Join our Email List</span>
+    <a href="#" id="gi_emaillist_toggle_lnk">
+      <span id="gi_emaillist_toggle"  class="title">Join Our Email List</span>
       <span class="edit">now!</span>
     </a>
+  </div>
+  <div id="gi_emaillist"  class="gi-subblock" style="display:none;">
+    <%= render :partial => '/main/getinvolved/emaillist' %>
   </div>
   <div class="open-close-div gi" >
     <a href="#" id="gi_suggest_toggle_lnk">

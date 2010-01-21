@@ -399,7 +399,7 @@ MAU = window['MAU'] || {};
 	// pick out special items 
 	// shop -> cafe press
 	// email -> mailto:
-	var specialCases = new Array('emaillist','shop');
+	var specialCases = new Array('shop');
 
 	var items = $$('div.gi a');
 	var nitems = items.length;
