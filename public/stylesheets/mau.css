@@ -87,13 +87,6 @@ table.artist-info-table td {
     font-size: 85%;
 }
 
-.open-close-div {
-	border-bottom: 1px dotted;
-	padding-top: 20px;
-	text-align: left;
-	width: 500px;
-}
-
 .gi-subblock {
     font-size: 85%;
 }
@@ -110,6 +103,19 @@ table.artist-info-table td {
 
 .gi span.edit {
     float: right;
+}
+
+div.donate-btns span {
+    font-size:110%;
+    color: #ccccaa;
+    vertical-align: top;
+}
+    
+.open-close-div {
+	border-bottom: 1px dotted;
+	padding-top: 20px;
+	text-align: left;
+	width: 500px;
 }
 
 .open-close-div span.title {
