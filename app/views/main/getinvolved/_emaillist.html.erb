@@ -1,26 +1,21 @@
-<p/>Tell us what you think of the organization, the site, whatever.  What would you like to see from Mission Artists United?
+<p/>Send us your email address and we'll keep you informed of all the MAU events.
 <div class="getinv-form-container ">
   <% form_for :feedback, @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
   <table class="getinv-form">
     <tr>
       <td class="getinv-form-container">
 	<div id="bemail_input" class="getinv-input" >
-	  <%= f.label 'email' %>
-	  <% if !logged_in? -%>
-	  <%= f.text_field 'email' %>
-	  <% else %>
-	  <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
+	  <% if logged_in? -%>
+	  <div class="little-txt">Ya know, since you are a registered artist, we already have your email on our list?</div>
 	  <% end -%>
-	</div>
-	<div id="bcomment_input" class="getinv-input" >
-	  <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
-	</div>
-	<div id="bsend_input" >
+	  <%= f.label 'email' %>
+	  <%= f.text_field 'email' %>
 	  <%= f.submit 'Send' %>
 	</div>
       </td>
     </tr>
   </table>
+  <%= f.hidden_field 'comment', :value => "this person wants us to add them to our email list" %>
   <%= f.hidden_field 'subject', :value => "Suggestion" %>
   <%= f.hidden_field 'page', :value => request.referer %>
   <% if current_artist -%>
