@@ -723,6 +723,10 @@ div.get-involved {
     margin: 10px 0;
 }
 
+table.getinv-form{
+	margin:5px;
+}
+	
 .getinv-table {
     width: 90%;
 }
@@ -738,7 +742,7 @@ div.get-involved {
 
 .getinv-input,
 .fdbk-input {
-	margin: 4px 0;
+	margin: 8px 0;
 }
 
 div.playback {
@@ -832,6 +836,12 @@ div.thumbs img
     float:left;
     border:1px solid #969;
 }
+
+/** thumbs view **/
+/* maybe we can go from table to divs for art piece display
+.art-pieces { width: 100%; }
+.art-piece { width: 110px; float:left; margin:8px 2px;}
+*/
 
 /****
  * for thumb browser 
