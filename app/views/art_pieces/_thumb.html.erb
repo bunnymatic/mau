@@ -10,42 +10,42 @@
   <tr>
     <td class="artpiece-thumb-art" align="center">
       <% if piece.get_path(size) -%>
-	  <% if !linkto.empty? -%>
+      <% if !linkto.empty? -%>
       <a href="<%= linkto %>"><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" /></a>
-          <% else -%>
+      <% else -%>
       <img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" />
-          <% end -%>
+      <% end -%>
       <% else -%>
       No Image
       <% end -%>
     </td>
-</tr>
-<% if show_footer -%>
-<tr>
-  <td class="artpiece-thumb-artist">
-    <% if piece && piece.artist
-       name = "" 
-       name << piece.artist.get_name
-    -%>
-    <%= link_to name, linkto, :class => 'lkdark' %>
-    <% else -%>
-	unknown artist
-    <% end -%>
-  </td>
-</tr>
-<% end -%>
-<% if piece 
+  </tr>
+  <% if show_footer -%>
+  <tr>
+    <td class="artpiece-thumb-artist">
+      <% if piece && piece.artist
+	 name = "" 
+	 name << piece.artist.get_name
+		 -%>
+		 <%= link_to name, linkto, :class => 'lkdark' %>
+	 <% else -%>
+	 unknown artist
+	 <% end -%>
+    </td>
+  </tr>
+  <% end -%>
+  <% if piece 
      representative = (piece.id == piece.artist.representative_art_piece)
--%>
-<% if delete -%>
-<tr><td>
-   <%= check_box( 'art', piece.id, options = {}, checked_value = "1", unchecked_value = "0") %>Delete?
-</td></tr>
-<% elsif select -%>
-<tr><td>
-   <%= radio_button_tag 'art', piece.id, representative %>
-</td></tr>
-<% end -%>
-<% end -%>
+     -%>
+  <% if delete -%>
+  <tr><td>
+      <%= check_box( 'art', piece.id, options = {}, checked_value = "1", unchecked_value = "0") %>Delete?
+  </td></tr>
+  <% elsif select -%>
+  <tr><td>
+      <%= radio_button_tag 'art', piece.id, representative %>
+  </td></tr>
+  <% end -%>
+  <% end -%>
 </table>
 <% end -%>

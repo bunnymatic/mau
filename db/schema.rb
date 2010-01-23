@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100115200759) do
+ActiveRecord::Schema.define(:version => 20100123193812) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -64,7 +64,6 @@ ActiveRecord::Schema.define(:version => 20100115200759) do
     t.text     "bio"
     t.text     "news"
     t.integer  "studio_id"
-    t.boolean  "active",                                   :default => true
     t.string   "facebook",                  :limit => 200
     t.string   "twitter",                   :limit => 200
     t.string   "blog",                      :limit => 200

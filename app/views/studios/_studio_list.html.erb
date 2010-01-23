@@ -7,7 +7,12 @@
        clz = "cur-studio"
        end
        -%>
-    <div class="<%= clz %>"><a href="/studios/<%= s.id %>" title="<%=h s.name %>"><%=h s.name %></div>
+    <% if s.id > 0 -%>
+      <div class="<%= clz %>"><%= link_to s.name, s %></div>
+    <% else -%>
+      <div class="<%= clz %>"><%= link_to s.name, "/studios/0" %></div>
+    <% end -%>
+
     <% end -%>
   <% end -%>
 </div>
