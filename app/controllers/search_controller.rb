@@ -27,20 +27,21 @@ class SearchController < ApplicationController
     results = nil
     qq.downcase!
     cache_key = "%s:%s:%s:%s" % [@@QUERY_KEY_PREFIX, qq, page, @results_mode]
+    cache_key.gsub!(' ','')
     begin
       results = CACHE.get(cache_key)
     rescue
       results = nil
     end
 
-    qq = "%" + qq + "%"
-    
     # if it matches a studio, take them there
     ss = Studio.find(:all, :conditions => ['name = ?', qq])
     if ss and ss.length > 0
       redirect_to( ss[0] )
     end
 
+    qq = "%" + qq + "%"
+    
     if not results
 
       by_artist = (Artist.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) and state = 'active'", qq, qq, qq])).map { |a| a.representative_piece }
