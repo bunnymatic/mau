@@ -18,7 +18,7 @@ class Studio < ActiveRecord::Base
     s.street = "The Mission District"
     s.city = "San Francisco"
     s.state = "CA"
-    s.artists = Artist.find(:all, :conditions => ["studio_id = 0 or studio_id is NULL"])
+    s.artists = Artist.find(:all, :conditions => ["studio_id = 0 or studio_id is NULL and ( state = 'active' )"])
     s.profile_image = "independent-studios.jpg"
     s.image_height = 1
     s.image_width = 1
@@ -38,10 +38,11 @@ class Studio < ActiveRecord::Base
       studios << Studio.indy 
       studios.each do |s|
         artists = s.artists.find(:all, :conditions => 'state = "active"')
-        s[:num_artists] = s.artists.length
+        s[:num_artists] = artists.length
       end
       begin
         CACHE.set(@@STUDIOS_KEY, studios, @@CACHE_EXPIRY)
+        print "put studio info in cache"
       rescue
         logger.warn("Studio: Failed to set artists in cache")
       end

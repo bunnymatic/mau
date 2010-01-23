@@ -68,7 +68,7 @@ class StudiosController < ApplicationController
     @other_artists = []
     @page_title = "Mission Artists United - Studio: %s" % @studio.name
     @studio.artists.each do |a|
-      if !a.suspended?
+      if a.active?
         if a.representative_piece
           @pieces << a.representative_piece
         else

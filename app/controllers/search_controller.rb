@@ -36,14 +36,14 @@ class SearchController < ApplicationController
     qq = "%" + qq + "%"
     
     # if it matches a studio, take them there
-    ss = Studio.find(:all, :conditions => ['name like ?', qq])
+    ss = Studio.find(:all, :conditions => ['name = ?', qq])
     if ss and ss.length > 0
       redirect_to( ss[0] )
     end
 
     if not results
 
-      by_artist = (Artist.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) and active=true", qq, qq, qq])).map { |a| a.representative_piece }
+      by_artist = (Artist.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) and state = 'active'", qq, qq, qq])).map { |a| a.representative_piece }
     
       tag_ids = (Tag.find(:all, :conditions => ["name like ?", qq])).map { |tg| tg.id }
       tags = ArtPiecesTag.find(:all, :conditions => ["tag_id in (?)", tag_ids.uniq])

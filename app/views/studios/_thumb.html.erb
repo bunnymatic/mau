@@ -1,6 +1,12 @@
 <div class="studio-thumb">
 <div class="studio-img">
-  <a href="/studios/<%= studio.id %>" title="<%=h studio.name %>">
+  <% if studio.id > 0 
+      p = studio_url(studio)
+     else
+      p = "/studios/0"
+     end
+  -%>
+  <a href="<%= p %>" title="<%=h studio.name %>">
     <img class="studio-img" src="<%= studio.get_profile_image('small') %>" />
   </a>
 </div>
