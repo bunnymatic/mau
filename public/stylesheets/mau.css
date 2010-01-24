@@ -131,6 +131,7 @@ div.donate-btns span {
 	padding-bottom: 20px;
 }
 
+#artist_notification,
 #artist_edit_bio, 
 #artist_edit_links, 
 #artist_edit_maininfo, 
@@ -139,6 +140,10 @@ div.donate-btns span {
 	padding: 10px;
 	margin: 15px 10px;
 }
+div#artist_notification table.entry-table {
+    margin-left: 40px;
+}
+
 .chpasswd-instructions {
 	font-size: 80%;
 	text-align: left;
