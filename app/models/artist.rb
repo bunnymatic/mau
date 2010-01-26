@@ -1,5 +1,5 @@
 require 'digest/sha1'
-require 'html_helper'
+require 'htmlhelper'
 require 'json'
 RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
                            'deactivate','add','new','view','create','update']
@@ -119,7 +119,7 @@ class Artist < ActiveRecord::Base
       name = self.login
     end
     if htmlsafe
-      HtmlHelper.encode(name)
+      HTMLHelper.encode(name)
     else
       name
     end

@@ -1,4 +1,4 @@
-require 'html_helper'
+require 'htmlhelper'
 
 class Tag < ActiveRecord::Base
   has_many :art_pieces_tags

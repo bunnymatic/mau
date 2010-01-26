@@ -1,5 +1,5 @@
 require 'htmlentities'
-module HtmlHelper
+module HTMLHelper
   @@HTMLcoder = HTMLEntities.new
   
   def self.encode(s)
