@@ -27,7 +27,7 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def safe_title
-    HtmlHelper.encode(self.title)
+    HTMLHelper.encode(self.title)
   end
 
   def get_scaled_dimensions(maxdim)
