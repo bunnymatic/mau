@@ -31,12 +31,14 @@ class MediaController < ApplicationController
       page = 0
     end
     page = page.to_i
-    @results_mode = params[:m]
+    @results_mode = params[:m] || 'p'
 
     items = ArtPiece.find_all_by_medium_id(params[:id])
-
+    
     # if show by artists, pick 1 from each artist
     if @results_mode == 'p'
+      pieces = items.sort_by { |i| i.updated_at }
+    else
       tmps = {}
       items.each do |pc|
         if !tmps.include?  pc.artist_id
@@ -44,8 +46,6 @@ class MediaController < ApplicationController
         end
       end
       pieces = tmps.values.sort_by { |p| p.updated_at }
-    else
-      pieces = items.sort_by { |i| i.updated_at }
     end
     
     @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, page, @@PER_PAGE)
@@ -57,12 +57,12 @@ class MediaController < ApplicationController
     show_next = (curpage != lastpage)
     show_prev = (curpage > 0)
 
-    @by_artists_link = medium_url(@medium)
+    @by_artists_link = medium_url(@medium) + "?m=a"
     @by_pieces_link = medium_url(@medium) + "?m=p"
-    if @results_mode != 'p'
-      base_link = @by_artists_link + "?"
-    else
+    if @results_mode == 'p'
       base_link = @by_pieces_link + "&"
+    else
+      base_link = @by_artists_link + "&"
     end
     arg = "p=%d"
     nxtmod = arg % nextpage
