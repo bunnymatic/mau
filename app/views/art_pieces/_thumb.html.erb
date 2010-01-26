@@ -25,7 +25,7 @@
     <td class="artpiece-thumb-artist">
       <% if piece && piece.artist
 	 name = "" 
-	 name << piece.artist.get_name
+	 name << piece.artist.get_name(true)
 		 -%>
 		 <%= link_to name, linkto, :class => 'lkdark' %>
 	 <% else -%>

@@ -1,3 +1,5 @@
+require 'html_helper'
+
 class ArtPiece < ActiveRecord::Base
   belongs_to :artist
   has_many :art_pieces_tags
@@ -22,6 +24,10 @@ class ArtPiece < ActiveRecord::Base
 
   def get_paths()
     ArtPieceImage.get_paths(self)
+  end
+
+  def safe_title
+    HtmlHelper.encode(self.title)
   end
 
   def get_scaled_dimensions(maxdim)

@@ -1,4 +1,4 @@
-require 'htmlentities'
+require 'html_helper'
 
 module ArtistsHelper
   
@@ -119,10 +119,9 @@ module ArtistsHelper
   end
 
   def bio_html(bio)
-    coder = HTMLEntities.new
     biostr = ""
     bio.split("\n").each do |line|
-      biostr += (coder.encode(line) + "<br/>")
+      biostr += (HtmlHelper.encode(line) + "<br/>")
     end
     biostr
   end
@@ -139,7 +138,6 @@ module ArtistsHelper
   # get info for google map info window as html
   # if you have lat lon, include it for directions link
   def get_map_info(artist)
-    coder = HTMLEntities.new
     html = '<style type="text/css">._mau1 { color: #222222; font-size: x-small; } _mau1 a{ color: #ff2222; }</style><div class="_mau1">'
     ap = artist.representative_piece
     img = ''
@@ -151,14 +149,14 @@ module ArtistsHelper
     s = artist.studio
     if !s && artist.street && !artist.street.empty?
       addr = "%s, %s %s" % [artist.street, artist.addr_state, artist.zip]
-      html += "%s<div>%s</div>" % [artist.get_name, artist.street]
+      html += "%s<div>%s</div>" % [artist.get_name(true), artist.street]
     elsif s
       addr = "%s, %s %s" % [s.street, s.state, s.zip]
-      html += "%s<div>%s</div><div>%s</div>" % [artist.get_name, s.name, s.street]
+      html += "%s<div>%s</div><div>%s</div>" % [artist.get_name(true), s.name, s.street]
     end
     html += '<div style="clear"></div>'
     if 
-      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % coder.encode(addr)
+      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HtmlHelper.encode(addr)
       html += '<div style="margin-top:8px">%s</div>' % lnk
     end
       
