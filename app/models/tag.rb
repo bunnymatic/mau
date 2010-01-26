@@ -1,4 +1,4 @@
-require 'htmlentities'
+require 'html_helper'
 
 class Tag < ActiveRecord::Base
   has_many :art_pieces_tags
@@ -15,7 +15,6 @@ class Tag < ActiveRecord::Base
   @@CACHE_EXPIRY =  (Conf.cache_expiry['objects'] or 0)
   @@TAGS_KEY = (Conf.cache_ns or '') + 'tags'
   @@MAX_SHOW_TAGS = 40
-  @@HTMLcoder = HTMLEntities.new
 
   def self.frequency
     tags = []
@@ -61,7 +60,7 @@ class Tag < ActiveRecord::Base
   end
 
   def safe_name
-    @@HTMLcoder.encode(self.name).gsub(' ', '&nbsp;')
+    HTMLHelper.encode(self.name).gsub(' ', '&nbsp;')
   end
   
   protected

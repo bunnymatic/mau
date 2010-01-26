@@ -38,7 +38,7 @@ class ArtistsController < ApplicationController
     nentries = 0
     artists.each do |a|
       address = nil
-      name = "%s" % a.get_name
+      name = "%s" % a.get_name(true)
       addr = nil
       s = a.studio
       if s
@@ -288,10 +288,10 @@ class ArtistsController < ApplicationController
     else
       @artist = safe_find_artist(params[:id])
       if @artist.suspended?
-        flash.now[:error] = "The artist '" + @artist.get_name() + "' is no longer with us."
+        flash.now[:error] = "The artist '" + @artist.get_name(true) + "' is no longer with us."
         @artist = nil
       else
-        @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
+        @page_title = "Mission Artists United - Artist: %s" % @artist.get_name(true)
         # get artist pieces here instead of in the html
         num = @artist.max_pieces - 1
         @art_pieces = @artist.art_pieces.reverse[0..num]

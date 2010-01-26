@@ -1,5 +1,5 @@
 require 'digest/sha1'
-require 'htmlentities'
+require 'html_helper'
 require 'json'
 RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
                            'deactivate','add','new','view','create','update']
@@ -13,7 +13,6 @@ class Artist < ActiveRecord::Base
 
   @@ALLARTISTS_KEY = (Conf.cache_ns or '') + "artists"
   @@CACHE_EXPIRY =  (Conf.cache_expiry['objects'] or 0)
-  @@HTMLcoder = HTMLEntities.new
 
   # stash this so we don't have to keep getting it from the db
   attr_reader :emailsettings
@@ -120,7 +119,7 @@ class Artist < ActiveRecord::Base
       name = self.login
     end
     if htmlsafe
-      @@HTMLcoder.encode(name)
+      HtmlHelper.encode(name)
     else
       name
     end

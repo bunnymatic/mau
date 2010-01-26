@@ -45,7 +45,7 @@
 	    Artists:
 	    <% links = [] %>
 	    <% @other_artists.each do |a| %>
-	    <%   links << link_to(a.get_name, a ) %>
+	    <%   links << link_to(a.get_name(true), a ) %>
 			  <% end %>
 			  <%= links.join(", ") %>
 	  </div>

@@ -5,6 +5,7 @@
      else
         linkto = art_piece_path(piece)
      end
+     safe_title = HtmlHelper.encode(piece.title)
 -%>
 <% if piece.artist -%>
 <table class='artpiece-thumb'>
@@ -23,11 +24,11 @@
 	<td class="search-thumb-info">
 	  <div>
 		<span>Artist:</span>
-		<span><%= link_to piece.artist.get_name, piece.artist %></span>
+		<span><%= link_to piece.artist.get_name(true), piece.artist %></span>
 	  </div>
 	  <div>
 		<span>Title:</span>
-		<span><%= link_to piece.title, piece %></span>
+		<span><%= link_to safe_title, piece %></span>
 	  </div>
 	  <% if piece.medium -%>
 	  <div><span>Medium:</span>
