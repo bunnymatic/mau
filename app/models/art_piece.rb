@@ -1,4 +1,4 @@
-require 'html_helper'
+require 'htmlhelper'
 
 class ArtPiece < ActiveRecord::Base
   belongs_to :artist

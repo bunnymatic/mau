@@ -1,4 +1,4 @@
-require 'html_helper'
+require 'htmlhelper'
 
 module ArtistsHelper
   
@@ -121,7 +121,7 @@ module ArtistsHelper
   def bio_html(bio)
     biostr = ""
     bio.split("\n").each do |line|
-      biostr += (HtmlHelper.encode(line) + "<br/>")
+      biostr += (HTMLHelper.encode(line) + "<br/>")
     end
     biostr
   end
@@ -156,7 +156,7 @@ module ArtistsHelper
     end
     html += '<div style="clear"></div>'
     if 
-      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HtmlHelper.encode(addr)
+      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HTMLHelper.encode(addr)
       html += '<div style="margin-top:8px">%s</div>' % lnk
     end
       
