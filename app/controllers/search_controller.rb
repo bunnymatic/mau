@@ -49,7 +49,12 @@ class SearchController < ApplicationController
       tag_ids = (Tag.find(:all, :conditions => ["name like ?", qq])).map { |tg| tg.id }
       tags = ArtPiecesTag.find(:all, :conditions => ["tag_id in (?)", tag_ids.uniq])
       ap_ids = tags.map { |tg| tg.art_piece_id }
-      by_tags = ArtPiece.find(ap_ids)
+      begin
+        by_tags = ArtPiece.find(ap_ids)
+      rescue
+        logger.warn("Failed to find art piece ids %s" % ap_ids)
+        by_tags = []
+      end
 
       media_ids = (Medium.find(:all, :conditions=>["name like ?", qq])).map { |i| i.id }.uniq
       by_media = ArtPiece.find_all_by_medium_id(media_ids)
@@ -75,8 +80,10 @@ class SearchController < ApplicationController
 
     tmps = {}
     results.values.each do |pc|
-      if !tmps.include?  pc.artist_id
-        tmps[pc.artist_id] = pc
+      if pc
+        if !tmps.include?  pc.artist_id
+          tmps[pc.artist_id] = pc
+        end
       end
     end
     results = tmps.values.sort_by { |p| p.updated_at }
