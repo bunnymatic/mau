@@ -29,4 +29,22 @@ module ArtPiecesHelper
     end
     [ shows, nextpage, prevpage, curpage, lastpage ]
   end
+
+  # compute real image size given piece (which has wd/ht) and
+  # the maximum size on either dimension for the output values
+  # return wd, ht
+  def compute_actual_image_size(maxdim, piece)
+    wd = ht = 0
+    if piece.image_width > 0 and piece.image_height > 0
+      rt = piece.image_height.to_f / piece.image_width.to_f
+      if rt < 1.0
+        wd = maxdim.to_i
+        ht = (wd * rt).to_i
+      else
+        ht = maxdim.to_i
+        wd = (ht / rt).to_i
+      end
+    end
+    return wd,ht
+  end
 end
