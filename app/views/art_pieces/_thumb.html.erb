@@ -5,13 +5,18 @@
      else
         linkto = art_piece_path(piece)
      end
+     dim = ""
+     wd, ht = compute_actual_image_size(100, piece)
+     if wd > 0 and ht > 0
+       dim = "width=\"%s\" height=\"%s\"" % [wd,ht]
+     end        
 -%>
 <table class='artpiece-thumb'>
   <tr>
     <td class="artpiece-thumb-art" align="center">
       <% if piece.get_path(size) -%>
       <% if !linkto.empty? -%>
-      <a href="<%= linkto %>"><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" /></a>
+      <a href="<%= linkto %>"><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>" <%= dim %> src="<%= piece.get_path(size) %>" /></a>
       <% else -%>
       <img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" />
       <% end -%>
