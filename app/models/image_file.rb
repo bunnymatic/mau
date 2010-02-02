@@ -19,6 +19,7 @@ class ImageFile
     :thumb => { :w => 100, :h => 100 }, 
     :small => { :w => 200, :h => 200 },
     :std => { :w => 400, :h => 400 }}
+
 # leave out large
 #    :large => { :w => 1000, :h => 1000 }} 
   

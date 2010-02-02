@@ -31,9 +31,15 @@ module ArtPiecesHelper
   end
 
   # compute real image size given piece (which has wd/ht) and
-  # the maximum size on either dimension for the output values
+  # size (string) indicating what we're drawing
   # return wd, ht
-  def compute_actual_image_size(maxdim, piece)
+  def compute_actual_image_size(size, piece)
+    k = eval(':' + size)
+    sz = ImageFile.sizes[k]
+    if !sz
+      return 0,0
+    end
+    maxdim = sz.values.max
     wd = ht = 0
     if piece.image_width > 0 and piece.image_height > 0
       rt = piece.image_height.to_f / piece.image_width.to_f
