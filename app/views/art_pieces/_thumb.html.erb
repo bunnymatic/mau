@@ -6,7 +6,7 @@
         linkto = art_piece_path(piece)
      end
      dim = ""
-     wd, ht = compute_actual_image_size(100, piece)
+     wd, ht = compute_actual_image_size(size, piece)
      if wd > 0 and ht > 0
        dim = "width=\"%s\" height=\"%s\"" % [wd,ht]
      end        
@@ -23,11 +23,7 @@
       <% else -%>
       No Image
       <% end -%>
-    </td>
-  </tr>
-  <% if show_footer -%>
-  <tr>
-    <td class="artpiece-thumb-artist">
+	  <div>
       <% if piece && piece.artist
 	 name = "" 
 	 name << piece.artist.get_name(true)
@@ -36,6 +32,12 @@
 	 <% else -%>
 	 unknown artist
 	 <% end -%>
+	  </div>
+    </td>
+  </tr>
+  <% if show_footer -%>
+  <tr>
+    <td class="artpiece-thumb-artist">
     </td>
   </tr>
   <% end -%>

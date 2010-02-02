@@ -1041,9 +1041,10 @@ table.search-thumbs td.artpiece-thumb {
 }
 
 .artpiece-thumb-art {
-    height: 100px;
     width: 100px;
+	height: 100px;
 }
+
 
 td.search-thumb-art {
     height: 100px;
@@ -1058,13 +1059,18 @@ td.search-thumb-art {
     width: 150px;
 }
 
+.artpiece-thumb-art div,
+.artpiece-thumb-artist div {
+	overflow: hidden;
+	width: 100px;
+}
+
 .artpiece-thumb-artist {
     font-size: 85%;
     overflow: hidden;
     text-align: center;
     padding-bottom: 3px;
 }
-
 
 #content td.artpiece-thumb-art {
     vertical-align: middle;
