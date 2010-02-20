@@ -23,6 +23,7 @@
       <% else -%>
       No Image
       <% end -%>
+	  <% if show_footer -%>
 	  <div>
       <% if piece && piece.artist
 	 name = "" 
@@ -33,14 +34,9 @@
 	 unknown artist
 	 <% end -%>
 	  </div>
+	  <% end -%>
     </td>
   </tr>
-  <% if show_footer -%>
-  <tr>
-    <td class="artpiece-thumb-artist">
-    </td>
-  </tr>
-  <% end -%>
   <% if piece 
      representative = (piece.id == piece.artist.representative_art_piece)
      -%>
