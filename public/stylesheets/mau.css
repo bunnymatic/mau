@@ -1026,6 +1026,7 @@ div.div-center h4 {
 td.artpiece-container {
     height: 120px;
 	padding: 4px;
+	vertical-align: bottom;
 }
 
 .artp-thumb {
