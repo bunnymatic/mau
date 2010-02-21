@@ -41,14 +41,14 @@ class ArtistsController < ApplicationController
       name = "%s" % a.get_name(true)
       addr = nil
       s = a.studio
-      if s && s.street and !s.street.empty?
+      if s && s.street and !s.street.empty? 
         addr = "%s %s %s" % [ s.street, s.state, s.zip ]
       else
-        if a.street and !a.street.empty? and a.zip
+        if a.street and !a.street.empty? and a.zip and a.street.index(/[0-9]/)
           addr = "%s %s %s" % [ a.street, a.addr_state, a.zip ]
         end
       end
-      if addr
+      if addr and !addr.strip.empty?
         address = Address.new(name, addr)
         if a.studio_id > 0
           s = a.studio
