@@ -10,10 +10,9 @@
      if wd > 0 and ht > 0
        dim = "width=\"%s\" height=\"%s\"" % [wd,ht]
      end        
+     cls = "artp-thumb-" + size[0].chr
 -%>
-<table class='artpiece-thumb'>
-  <tr>
-    <td class="artpiece-thumb-art" align="center">
+<div class="artp-thumb <%= cls %>">
       <% if piece.get_path(size) -%>
       <% if !linkto.empty? -%>
       <a href="<%= linkto %>"><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>" <%= dim %> src="<%= piece.get_path(size) %>" /></a>
@@ -35,20 +34,18 @@
 	 <% end -%>
 	  </div>
 	  <% end -%>
-    </td>
-  </tr>
+</div>
   <% if piece 
      representative = (piece.id == piece.artist.representative_art_piece)
      -%>
   <% if delete -%>
-  <tr><td>
+<div>
       <%= check_box( 'art', piece.id, options = {}, checked_value = "1", unchecked_value = "0") %>Delete?
-  </td></tr>
+</div>
   <% elsif select -%>
-  <tr><td>
+<div>
       <%= radio_button_tag 'art', piece.id, representative %>
-  </td></tr>
+</div>
   <% end -%>
   <% end -%>
-</table>
 <% end -%>
