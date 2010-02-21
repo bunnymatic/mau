@@ -15,10 +15,11 @@
   -%>
   <tr><td>
 	  <div class="search-txt">The following <%= noun %> matched your query</div>
-	  </td></tr>
+  </td></tr>
   <tr><td align="right">
 	<%= render :partial => "/pagination" %>
   </td></tr>
+  <tr><td>
   <div id="thumbs_by_artist">
     <%= render :partial => 'thumbs', :locals => { :pieces => @pieces, :params => { :cols => 2, :art_link => true }} %>	
   </div>

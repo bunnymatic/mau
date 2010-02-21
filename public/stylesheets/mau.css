@@ -1024,26 +1024,43 @@ div.div-center h4 {
 }
 
 td.artpiece-container {
-    border: 1px dotted #444;
-    padding: 4px;
+    height: 120px;
+	padding: 4px;
 }
 
-.artpiece-thumb {
+.artp-thumb {
     border: 1px dotted #444;
     font-size: x-small;
+	overflow: hidden;
 }
 
+.artp-thumb-t {
+	width: 100px;
+}
 
-table.search-thumbs td.artpiece-thumb {
+.artp-thumb-s {
+	width: 200px;
+}
+
+.artp-thumb-m {
+	width: 400px;
+}
+
+.artp-thumb div {
+	height: 14px;
+}
+
+table.search-thumbs div.artp-thumb {
     border: 0px;
     padding: 10px;
     vertical-align: top;
 }
-
-.artpiece-thumb-art {
-    width: 100px;
-	height: 100px;
+/** for search thumbs */
+table.artpiece-thumb {
+    border: 1px dotted #444;
+	margin: 5px;
 }
+
 
 
 td.search-thumb-art {
@@ -1059,6 +1076,7 @@ td.search-thumb-art {
     width: 150px;
 }
 
+.artp-thumb div,
 .artpiece-thumb-art div,
 .artpiece-thumb-artist div {
 	overflow: hidden;
