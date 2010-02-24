@@ -18,11 +18,9 @@ class Tag < ActiveRecord::Base
 
   def self.frequency
     tags = []
-    dbr = connection.execute("/* hand generated sql */ select tag_id tag,count(*) ct from art_pieces_tags where art_piece_id in (select id from art_pieces) group by tag_id;")
+    dbr = connection.execute("/* hand generated sql */ Select tag_id tag,count(*) ct from art_pieces_tags where art_piece_id in (select id from art_pieces) group by tag_id order by ct desc;")
     dbr.each_hash{ |row| tags << row }
-    # return sorted by freq
-    tags.sort! { |t1,t2| t2['ct'] <=> t1['ct'] }
-    tags[0..@@MAX_SHOW_TAGS]
+    result = tags[0..@@MAX_SHOW_TAGS]
   end
 
   def self.keyed_frequency
