@@ -28,9 +28,13 @@ class ArtistsController < ApplicationController
 
     @map = GMap.new("map")
     @map.control_init(:large_map => true, :map_type => true)
-    @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png',
-                                     :iconSize => GSize.new(64.0, 64.0)),'iconname')
-
+    # init icon
+    @map.icon_global_init( GIcon.new(:image => '/images/icons/map_star_icon.png',
+                                     :icon_size => GSize.new(32.0, 32.0),
+                                     :icon_anchor => GPoint.new(16,16),
+                                     :info_window_anchor => GPoint.new(16,16)),
+                           'artist_ico')
+    artist_ico = Variable.new('artist_ico')
     centerx = 0
     centery = 0
     markers = []
@@ -77,7 +81,8 @@ class ArtistsController < ApplicationController
         info = get_map_info(a)
 
         m = GMarker.new(coord,:title => title,
-                        :info_window => info)
+                        :info_window => info,
+                        :icon => artist_ico)
         markers << m
         @map.overlay_init(m)
       end

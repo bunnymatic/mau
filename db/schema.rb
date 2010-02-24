@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100123193812) do
+ActiveRecord::Schema.define(:version => 20100224083530) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20100123193812) do
     t.integer  "max_pieces",                               :default => 20
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
     t.integer  "representative_art_piece"
+    t.boolean  "os2010",                                   :default => false
   end
 
   add_index "artists", ["login"], :name => "index_artists_on_login", :unique => true

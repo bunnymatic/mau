@@ -1059,6 +1059,11 @@ div.div-center h4 {
     position: absolute;
     top: 106px;
 }
+.artp-thumb-decorate img {
+    position: absolute;
+    top: 84px;
+    left: 76px;
+}
 .artp-thumb-t {
     width: 100px;
 }
