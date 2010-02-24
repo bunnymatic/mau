@@ -1,9 +1,7 @@
 <%= form_tag setarrangement_artist_path(current_artist) %>
 	<div class="room-for-logo">
 	  <h4>Pick your representative art piece</h4>
-	  <div>
 	  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => self.current_artist.art_pieces, :params => { :select => true, :show_footer => false, :cols => 5 }} %>
-	  </div>
 	  <div class="edit-buttons">
 		<input type="submit" value="Set Representative Image"/>
 		<input type="hidden" name="artist" value="<%= self.current_artist.id %>">

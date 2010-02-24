@@ -18,14 +18,16 @@
    _params = { :delete => delete, :select => select, 
                :show_footer => show_footer,
               :size => size, :artist_link => !art_link }
+   clz =""
+   if select || delete
+     clz = "thumbs-select"
+   end
 -%>
-<div>
-<table>
+<div class="allthumbs <%= clz %>">
 <%
    idx = 0
    for jj in 0..(rows-1)
 -%>
-     <tr>
 <%
       for ii in 0..(cols-1)
          idx = ii + cols * jj
@@ -33,14 +35,12 @@
          next if !pieces[idx]
          _params[:piece] = pieces[idx]
 -%>
-<td class='artpiece-container' align="center">
 <%= render :partial => '/art_pieces/thumb', :locals => _params %>
-</td>
 <%
      end
      if ii == cols-1
 -%>
-      </tr>
+<div class="clear"></div>
 <%
      end 
    end 
@@ -51,11 +51,8 @@ if numspots > 0
   while numspots >= 0
 -%>
     <!-- <%= numspots %> -->
-    <td></td>
     <% numspots -= 1 -%>
 <% end -%>
-  </tr>
 <% end -%>
-</table>
 <% end -%>
 </div>

@@ -653,6 +653,12 @@ div#footer{
     padding-bottom: 5px;
     padding-left: 20px;
 }
+
+img { 
+    border: 0;
+    outline: none;
+}
+
 img#logo
 {
     float:left;
@@ -998,10 +1004,13 @@ div.div-center h4 {
 
 .main-thumbs {
     position: relative;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    height: 140px;
 }
 
-.main-thumbs div#next_pg {
-    position: absolute; left: 587px; top: 48px;
+.main-thumbs img.refresher {
+    position: absolute; left: 557px; top: 42px;
 }
 
 .main-text {
@@ -1023,32 +1032,48 @@ div.div-center h4 {
     text-align: center;
 }
 
-td.artpiece-container {
-    height: 120px;
-	padding: 4px;
-	vertical-align: bottom;
+.artpiece-container {
+    padding: 4px;
+    float: left;
 }
 
+.allthumbs {
+    position:relative;
+}
+.thumbs-select {
+    width:550px;
+    margin-left:auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
 .artp-thumb {
     border: 1px dotted #444;
+    float: left;
     font-size: x-small;
-	overflow: hidden;
+    margin: 10px 4px 20px 4px;
+    position: relative;
+    vertical-align: middle;
 }
-
+.artp-thumb-ctrl,
+.artp-thumb-name {
+    position: absolute;
+    top: 106px;
+}
 .artp-thumb-t {
-	width: 100px;
+    width: 100px;
 }
 
 .artp-thumb-s {
-	width: 200px;
+    width: 200px;
+    margin:10px 21px;
 }
 
 .artp-thumb-m {
-	width: 400px;
+    width: 400px;
 }
 
 .artp-thumb div {
-	height: 14px;
+    height: 16px;
 }
 
 table.search-thumbs div.artp-thumb {
