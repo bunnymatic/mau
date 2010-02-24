@@ -28,10 +28,10 @@ class TagsController < ApplicationController
   def show
     # get art pieces by tag
     @freq = Tag.frequency
-    @tags = Tag.all
     # limit # tags to top NUM_SHOW_TAGS
-    @freq.sort! { |t1,t2| t1['tag'] <=> t2['tag'] }
-    @tags = @tags[0..@@NUM_SHOW_TAGS]
+    tags = []
+    @freq.each { |t| tags.push(t['tag']) }
+    @tags = Tag.find_all_by_id(tags)
     @tag = Tag.find(params[:id])
     page = 0
     if params[:p]
