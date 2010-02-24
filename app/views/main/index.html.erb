@@ -15,9 +15,8 @@
   <h1>There are more artists in the Mission than any other neighborhood in San Francisco</h1>
 </div>
 <div class="main-thumbs" align="center">
-<a href="/" title="wanna see more?"><div id="next_pg"></div></a>
-
   <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }} %>
+<a href="/" title="wanna see more?"><img class="refresher" src="/images/icons/refresh_icon.png"/></a>
 </div>
 <div class="main-subtext">
   <img src="/images/mau-text.png" width="510" height="25" />

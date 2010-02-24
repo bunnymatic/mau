@@ -23,7 +23,7 @@
       No Image
       <% end -%>
 	  <% if show_footer -%>
-	  <div>
+	  <div class="artp-thumb-name">
       <% if piece && piece.artist
 	 name = "" 
 	 name << piece.artist.get_name(true)
@@ -32,20 +32,22 @@
 	 <% else -%>
 	 unknown artist
 	 <% end -%>
+	  <div class="clear"></div>
 	  </div>
 	  <% end -%>
-</div>
   <% if piece 
      representative = (piece.id == piece.artist.representative_art_piece)
      -%>
   <% if delete -%>
-<div>
+<div class="artp-thumb-ctrl">
       <%= check_box( 'art', piece.id, options = {}, checked_value = "1", unchecked_value = "0") %>Delete?
 </div>
   <% elsif select -%>
-<div>
+<div class="artp-thumb-ctrl">
       <%= radio_button_tag 'art', piece.id, representative %>
 </div>
   <% end -%>
+</div>
+
   <% end -%>
 <% end -%>
