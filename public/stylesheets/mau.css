@@ -523,8 +523,8 @@ div#login, div#logout {
 }
 
 .content-block {
-    margin-left:20px;
-    margin-right:20px;
+	width: 560px;
+	margin: auto;
 }
 
 #studio_page {
@@ -1075,6 +1075,11 @@ div.div-center h4 {
     position: relative;
     vertical-align: middle;
 }
+/** thumb with footer needs more margin */
+.with-foot {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
 .artp-thumb-ctrl,
 .artp-thumb-name {
     position: absolute;
@@ -1091,14 +1096,17 @@ div.div-center h4 {
 }
 .artp-thumb-t {
     width: 100px;
+	height: 100px;
 }
 
 .artp-thumb-s {
     width: 200px;
+	height: 200px;
     margin:10px 21px;
 }
 
 .artp-thumb-m {
+	height: 400px;
     width: 400px;
 }
 
