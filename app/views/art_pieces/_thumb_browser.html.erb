@@ -1,31 +1,21 @@
-<div >      
   <% if @thumbs.length > 0 -%>
   <table class="artpiece-browser-container">
     <tr>
       <td align="right"><a title="" id="prev_img_lnk" href="#" onclick="MAU.Thumbs.jumpTo(<%= @prev_img %>);" apid="<%= @prev_img %>" ><div id="prev-browse"></div></a></td><td align="center">browse</td>
       <td align="left"><a title="" id="next_img_lnk" href="#" onclick="MAU.Thumbs.jumpTo(<%= @next_img %>);" apid="<%= @next_img %>" ><div id="next-browse"></div></a></td>
     </tr>
-    <%  num_cols = 4
-	start = 0
-	last = num_cols - 1
-	begin
-	last = start + num_cols -1
-	-%>
-    <tr>
-      <td colspan="3" align="left">
-	<%  @thumbs[start..last].each do |t| -%>
-	<a href="<%= t[:link] %>">
-	  <div class="<%= t[:clz] %>" style="background-image:url(<%= t[:path] %>); background-position: <%= t[:pos] %>;">&nbsp;
-            <img src="/images/pix.gif" class="tiny-thumb" />
-	  </div>
-	</a>
-	<% end -%>
-	<% start = last + 1 
-           last = start + num_cols -1 -%>
-      </td>
-    </tr>
-    <% end while start < @thumbs.length -%>
-  </table>
+ </table>
+<div id="artp-thumb-browser">
+<%  @thumbs.each do |t| -%>
+  <div>
+    <a href="<%= t[:link] %>">
+      <div class="<%= t[:clz] %>" style="background-image:url(<%= t[:path] %>); background-position: <%= t[:pos] %>;">&nbsp;
+        <img src="/images/pix.gif" class="tiny-thumb" />
+      </div>
+    </a>
+  </div>
+  <% end -%>
+  <div class="clear"></div>
   <% else -%>
   &nbsp;
   <% end -%>

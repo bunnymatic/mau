@@ -117,8 +117,8 @@ module FeedsHelper
           end
           titlestr = result.channel.title
           if url.include? 'twitter'
-            titlestr = link.gsub('http://twitter.com/','Twitter:')
-            titlestr.gsub!('http://www.twitter.com/','Twitter:')
+            titlestr = link.gsub('http://twitter.com/','Twitter: ')
+            titlestr.gsub!('http://www.twitter.com/','Twitter: ')
           end
           iconclass = get_icon_class(url)
           icon = "<div id='feed_icon' class='%s'></div>" % iconclass

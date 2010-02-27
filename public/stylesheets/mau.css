@@ -507,23 +507,29 @@ div#login, div#logout {
 .lkmap {
     font-size: 80%;
 }
-#about_text, #contact_text, #news_text, 
-#studio_page, #all_artists_page, .privacy-content {
-    text-align:justify;
-}
-#about_text, #contact_text, #news_text, .privacy-content,
-#artist_edit, #all_artists_page{
+
+#contact_text, #news_text, .privacy-content,
+#artist_edit {
 	margin-left:40px;
 	margin-right:40px;
 }
+#about_text {
+    width: 527px;
+    margin: auto;
+}
+#all_artists_page {
+    margin:auto;
+    width:800px;
+}
+
 .content-block {
     margin-left:20px;
     margin-right:20px;
 }
 
 #studio_page {
-    margin-left:30px;
-    margin-right:20px;
+    margin: auto;
+    width: 500px;
 }
 
 .roster-col {
@@ -624,7 +630,7 @@ div#topnav{
     font-weight:bold;
     width:880px;
     text-align:right;
-    paddingtop: 8px 20px 8px 0;
+    padding: 8px 20px 8px 0;
 }
 
 div#tagline{
@@ -863,7 +869,7 @@ div.thumbs img
 img.tiny-thumb {
     border: 0px;
     width: 32px;
-	height: 34px; /* match border width */
+    height: 34px; /* match border width */
 }
 
 /* padding should be 1/2 the width because
@@ -871,11 +877,18 @@ img.tiny-thumb {
 /* margin here controls horiz spacing between thumbs 
    use padding on td art-browser-container to control
    vert spacing */
+#artp-thumb-browser {
+    width: 220px;
+    margin: 0 auto 15px auto;
+}
+
 div.tiny-thumb, div.tiny-thumb-sel {
+    float: left;
     border: 2px solid #111;
     background-repeat: no-repeat;
-    display: inline-block;
-    margin: 0px 3px;
+    margin: 4px ;
+    width: 41px;
+    height:  37px;
     overflow: hidden;
     position: relative;
 }
@@ -890,7 +903,7 @@ div.tiny-thumb-sel {
 
 .artpiece-browser-container {
     font-size: 80%;
-    margin: 20px 0 25px 0;
+    margin: 20px 0 5px 0;
 }
 
 .artpiece-browser-container td {
@@ -1009,8 +1022,16 @@ div.div-center h4 {
     height: 140px;
 }
 
-.main-thumbs img.refresher {
-    position: absolute; left: 557px; top: 42px;
+#refresher_btn {
+    left: 557px; 
+    height: 100px;
+    position: absolute; 
+    top: 10px;
+    width: 16px;
+}    
+#refresher_btn #next_pg {
+    position: absolute;
+    top: 40px;
 }
 
 .main-text {
@@ -1058,7 +1079,11 @@ div.div-center h4 {
 .artp-thumb-name {
     position: absolute;
     top: 106px;
+    left: 0px;
 }
+.artp-thumb-name {
+}
+
 .artp-thumb-decorate img {
     position: absolute;
     top: 84px;
@@ -1151,6 +1176,11 @@ span.admin-lk {
     vertical-align: top;
 }
 
+td.studio-thumb {
+    border: 0;
+    padding: 0;
+}
+
 .studio-nfo {
     text-align: left;
 }
@@ -1164,10 +1194,13 @@ span.admin-lk {
 
 div.studio-thumb {
    background-color:#111;
+   float:left;
+   margin: 10px;
+   width: 220px;
 }    
-td.studio-thumb {
-    border: 0;
-    width: 50%;
+div.studio-thumb .studio-thumb {
+    width: 200px;
+    margin:auto;
 }
 
 .cur-studio {
@@ -1269,11 +1302,11 @@ div.alt-login {
 }
 
 div.artist h4 {
-	font-size: auto;
+    font-size: auto;
 }
 
 div.artist {
-	font-size: 90%;
+    font-size: 90%;
 }
 	
 
