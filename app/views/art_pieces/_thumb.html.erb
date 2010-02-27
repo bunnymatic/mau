@@ -6,11 +6,15 @@
         linkto = art_piece_path(piece)
      end
      dim = ""
+     cls = ""
      wd, ht = compute_actual_image_size(size, piece)
      if wd > 0 and ht > 0
        dim = "width=\"%s\" height=\"%s\"" % [wd,ht]
      end        
-     cls = "artp-thumb-" + size[0].chr
+     cls += "artp-thumb-" + size[0].chr
+     if show_footer or delete or select
+        cls +=" with-foot "
+     end
 -%>
 <div class="artp-thumb <%= cls %>">
       <% if piece.get_path(size) -%>
