@@ -9,7 +9,7 @@
      cls = ""
      wd, ht = compute_actual_image_size(size, piece)
      if wd > 0 and ht > 0
-       dim = "width=\"%s\" height=\"%s\"" % [wd,ht]
+       dim = "width=\"%s\" " % wd
      end        
      cls += "artp-thumb-" + size[0].chr
      if show_footer or delete or select

@@ -1096,23 +1096,21 @@ div.div-center h4 {
 }
 .artp-thumb-t {
     width: 100px;
-	height: 100px;
 }
 
 .artp-thumb-s {
     width: 200px;
-	height: 200px;
     margin:10px 21px;
 }
 
 .artp-thumb-m {
-	height: 400px;
     width: 400px;
 }
 
 .artp-thumb div {
     height: 16px;
 }
+
 
 table.search-thumbs div.artp-thumb {
     border: 0px;
