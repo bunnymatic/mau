@@ -16,8 +16,12 @@
 </div>
 <div class="main-thumbs" align="center">
   <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }} %>
-<a href="/" title="wanna see more?"><img class="refresher" src="/images/icons/refresh_icon.png"/></a>
+<a href="/" title="wanna see more?">
+<div title="wanna see more?" id="refresher_btn">
+<div id="next_pg">
 </div>
+</div>
+</a>
 <div class="main-subtext">
   <img src="/images/mau-text.png" width="510" height="25" />
   <h2>connecting artist to artist</h2>
