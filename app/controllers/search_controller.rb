@@ -33,8 +33,10 @@ class SearchController < ApplicationController
     rescue
       results = nil
     end
-
-    # if it matches a studio, take them there
+    active_artists = Artist.find(:all, :conditions => ["state='active'"])
+    active_artist_ids = []
+    active_artists.each { |a| active_artist_ids << a.id }
+    # If it matches a studio, take them there
     ss = Studio.find(:all, :conditions => ['name = ?', qq])
     if ss and ss.length > 0
       redirect_to( ss[0] )
@@ -63,13 +65,15 @@ class SearchController < ApplicationController
 
       # join all uniquely and sort by recently added
       results = {}
+      p active_artist_ids
       begin
         [by_art_piece, by_media, by_tags, by_artist].each do |lst|
-          lst.map { |entry| results[entry.id] = entry if entry.id }
+          lst.map { |entry| results[entry.id] = entry if entry.id and active_artist_ids.include? entry.artist.id }
         end
       rescue
         logger.warn("Failed to map search results")
       end
+      results.values.each { |r| p "RESULT ", r }
       begin
         CACHE.set(cache_key, results, @@CACHE_EXPIRY)      
         logger.debug("Search Results: fetched results from cache")
