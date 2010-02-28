@@ -569,6 +569,7 @@ table#search_results{
 }
 
 .studio-memberlist {
+    text-align:left;
     margin-top: 15px;
     vertical-align: top;
 }
