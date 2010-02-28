@@ -6,6 +6,10 @@ class SessionsController < ApplicationController
 
   # render new.rhtml
   def new
+    if logged_in?
+      flash[:notice] = "You're already logged in"
+      redirect_to current_artist
+    end
   end
 
   def create
