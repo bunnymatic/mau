@@ -464,7 +464,9 @@ class ArtistsController < ApplicationController
           artist.create_reset_code
           flash[:notice] = "Reset code sent to #{artist.email}"
         else
-          flash[:notice] = "That artist is not yet active.  Have you responded to the activation email we already sent?  If not, click the 'cannot access your account' link below and then click 'Do you need to activate your account?'"
+          flash[:error] = "That artist is not yet active.  Have you responded to the activation email we already sent?  Enter your email below if you need us to send you a new activation email."
+          redirect_back_or_default('/resend_activation')
+          return
         end
       else
         flash[:notice] = "No artist with email #{params[:artist][:email]} does not exist in system"

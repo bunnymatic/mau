@@ -4,7 +4,13 @@
 <table id="reset_pass" class="signup-table">
   <tr>
     <td colspan="2" >
-	  <div>Submit in your MAU account email below. </div>
+      <% if flash[:error] %>
+      <div class="error-msg">
+	<%= flash[:error] %>
+      </div>
+      <% end %>
+      
+      <div>Submit in your MAU account email below. </div>
   </tr>
   <tr>
     <td align="right"><label>Email:</label></td>
