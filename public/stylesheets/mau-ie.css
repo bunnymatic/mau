@@ -1,3 +1,6 @@
+div#profile_img {
+	z-index:20;
+}
 span.left-nav-bdr {
 	border:0px;
 }
