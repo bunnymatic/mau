@@ -460,8 +460,12 @@ class ArtistsController < ApplicationController
     if request.post?
       artist = Artist.find_by_email(params[:artist][:email])
       if artist
-        artist.create_reset_code
-        flash[:notice] = "Reset code sent to #{artist.email}"
+        if artist.state == 'active'
+          artist.create_reset_code
+          flash[:notice] = "Reset code sent to #{artist.email}"
+        else
+          flash[:notice] = "That artist is not yet active.  Have you responded to the activation email we already sent?  If not, click the 'cannot access your account' link below and then click 'Do you need to activate your account?'"
+        end
       else
         flash[:notice] = "No artist with email #{params[:artist][:email]} does not exist in system"
       end
