@@ -15,6 +15,10 @@ class ArtistsController < ApplicationController
 
   # render new.rhtml
   def new
+    if logged_in?
+      flash[:notice] = "You're already logged in"
+      redirect_to current_artist
+    end
     @artist = Artist.new
     @studios = Studio.all
   end
