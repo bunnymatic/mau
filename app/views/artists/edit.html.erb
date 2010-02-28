@@ -1,12 +1,12 @@
 <div id="artist_edit">
-  <div style="float:right;">
+  <div id="profile_img" style="float:right;">
     <a title="update profile picture" href="/artists/addprofile/<%= self.current_artist.id %>">
 	  <% if @artist.has_profile_image -%>
   	  <img src="<%= @artist.get_profile_image('thumb') %>" />
 	  <% else -%>
   	  <img src="/images/default-profile-img.png" width="100" />
   	  <% end -%>
-    <div class="little-txt">update profile picture</div>
+      <div class="little-txt">update profile picture</div>
     </a>
   </div>
   <h4>My Account</h4>
@@ -71,10 +71,10 @@
 		  </td>
 		</tr>
 	  </table>
-	<div>
-	  <%= f.submit 'Save Changes' %>
-	  <%= f.submit 'Cancel' %>
-	</div>
+	  <div>
+		<%= f.submit 'Save Changes' %>
+		<%= f.submit 'Cancel' %>
+	  </div>
 	</div>
 	<div class="open-close-div" ><span id="notification_toggle" class="title">Notifications</span><span class="edit"><a href="#" id="notification_toggle_lnk">change</a></span><div class="clear"></div></div>
 	<div id="artist_notification" style="display:none;">
@@ -86,12 +86,12 @@
 		  <td valign="top">
 			<div><%= check_box "emailsettings", "fromall", { :checked => @artist.emailsettings["fromall"] } %>Everyone</div>
 			<div>
-		    <%= check_box "emailsettings", "fromartist", { :checked => @artist.emailsettings["fromartist"] || @artist.emailsettings["fromall"] } %>Registered MAU Artists
+		      <%= check_box "emailsettings", "fromartist", { :checked => @artist.emailsettings["fromartist"] || @artist.emailsettings["fromall"] } %>Registered MAU Artists
 			</div>
 		  </td>
 		  <td class="input-err" width="200">
 			Check these boxes if would like other registered MAU artists or any website visitors the ability to send you a note.
-</td>
+		  </td>
 		</tr>
 		<tr>
 		  <td class="input-name">
@@ -99,10 +99,10 @@
 		  </td>
 		  <td valign="top">
 			<div>
-		    <%= check_box "emailsettings", "mauadmin", { :checked => @artist.emailsettings["mauadmin"] } %>Administrative
+		      <%= check_box "emailsettings", "mauadmin", { :checked => @artist.emailsettings["mauadmin"] } %>Administrative
 			</div>
 		    <div>
-			<%= check_box "emailsettings", "maunews", { :checked => @artist.emailsettings["maunews"] } %>News
+			  <%= check_box "emailsettings", "maunews", { :checked => @artist.emailsettings["maunews"] } %>News
 			</div>
 		  </td>
 		  <td class="input-err" style="font-size: x-small;">
@@ -131,10 +131,10 @@
 		</tr>
 		<% end -%>
 	  </table>
-	<div>
-	  <%= f.submit 'Save Changes' %>
-	  <%= f.submit 'Cancel' %>
-	</div>
+	  <div>
+		<%= f.submit 'Save Changes' %>
+		<%= f.submit 'Cancel' %>
+	  </div>
 	</div>
 	<div class="open-close-div" ><span id="studio_info_toggle" class="title">Studio Info</span><span class="edit"><a href="#" id="studio_info_toggle_lnk">change</a></span></div>
 	<div id="artist_edit_address" style="display:none;">
@@ -191,10 +191,10 @@
 		  </td>
 		</tr>
 	  </table>
-	<div>
-	  <%= f.submit 'Save Changes' %>
-	  <%= f.submit 'Cancel' %>
-	</div>
+	  <div>
+		<%= f.submit 'Save Changes' %>
+		<%= f.submit 'Cancel' %>
+	  </div>
 	</div>
 	<div class="open-close-div" ><span id="bio_toggle" class="title">Bio/Artist's Statement</span><span class="edit"><a href="#" id="bio_toggle_lnk">change</a></span></div>
 	<div id="artist_edit_bio" style="display:none;">
@@ -213,10 +213,10 @@
 		  </td>
 		</tr>
 	  </table>
-	<div>
-	  <%= f.submit 'Save Changes' %>
-	  <%= f.submit 'Cancel' %>
-	</div>
+	  <div>
+		<%= f.submit 'Save Changes' %>
+		<%= f.submit 'Cancel' %>
+	  </div>
 	</div>
 	<% end # end of form loop -%>
 	<div class="open-close-div" ><span id="passwd_toggle" class="title">Password</span><span class="edit"><a href="#" id="passwd_toggle_lnk">change</a></span></div>
@@ -226,36 +226,36 @@
 		<tr>
 		  <td colspan="3" align="center">
 			<div class="chpasswd-instructions">
-    <ul>
-	  <li>Do not use the same password that you use for other online accounts.</li>
-      <li>Your new password must be at least 6 characters in length.</li>
-      <li>Use a combination of letters, numbers, and punctuation.</li>
-      <li>Passwords are case-sensitive. Remember to check your CAPS lock key.</li>
-	  </ul>
-	</div>
+			  <ul>
+				<li>Do not use the same password that you use for other online accounts.</li>
+				<li>Your new password must be at least 6 characters in length.</li>
+				<li>Use a combination of letters, numbers, and punctuation.</li>
+				<li>Passwords are case-sensitive. Remember to check your CAPS lock key.</li>
+			  </ul>
+			</div>
 		  </td>
 		</tr>
-      <tr>
-        <td class="input-name" width="224">Old Password</td>
-        <td class="input" width="179"><%= password_field_tag 'old_password', @old_password, :size => 45, :class => 'text' %></td>
-        <td class="input-err" width="149">&nbsp;</td>
-      </tr>
-      <tr>
-        <td class="input-name">New Password</td>
-        <td class="input"><%= password_field_tag 'password', {}, :size => 45, :class => 'text' %></td>
-        <td class="input-err"><span class="little-txt">between 6 and 40 characters</span> </td>
-      </tr>
-      <tr>
-        <td class="input-name">Confirm new password</td>
-        <td class="input"><%= password_field_tag 'password_confirmation', {}, :size => 45, :class => 'text' %></td>
-        <td class="input-err">&nbsp;</td>
-      </tr>
-      <tr>
-        <td class="input-name">&nbsp;</td>
-        <td class="input"><%= submit_tag 'Change password' %> 
-          <input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= self.current_artist.id %>);"/></td>
-        <td class="input-err">&nbsp;</td>
-      </tr>
+		<tr>
+          <td class="input-name" width="224">Old Password</td>
+          <td class="input" width="179"><%= password_field_tag 'old_password', @old_password, :size => 45, :class => 'text' %></td>
+          <td class="input-err" width="149">&nbsp;</td>
+		</tr>
+		<tr>
+          <td class="input-name">New Password</td>
+          <td class="input"><%= password_field_tag 'password', {}, :size => 45, :class => 'text' %></td>
+          <td class="input-err"><span class="little-txt">between 6 and 40 characters</span> </td>
+		</tr>
+		<tr>
+          <td class="input-name">Confirm new password</td>
+          <td class="input"><%= password_field_tag 'password_confirmation', {}, :size => 45, :class => 'text' %></td>
+          <td class="input-err">&nbsp;</td>
+		</tr>
+		<tr>
+          <td class="input-name">&nbsp;</td>
+          <td class="input"><%= submit_tag 'Change password' %> 
+			<input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= self.current_artist.id %>);"/></td>
+          <td class="input-err">&nbsp;</td>
+		</tr>
       </table>
 	</div>
 	<% end # end change password form %>
@@ -273,7 +273,6 @@
 		</tr>
       </table>
 	</div>
-
   </div>
   <div class="edit-buttons">
     <form method="get" action="/art_pieces/new">
@@ -290,7 +289,7 @@
     </form>
     <% end -%>
 	<a href="<%= artist_url(current_artist) %>"><button
-			class="formbutton" >Back to Profile</button></a>
+												   class="formbutton" >Back to Profile</button></a>
   </div>
 
 
