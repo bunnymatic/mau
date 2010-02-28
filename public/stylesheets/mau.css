@@ -1258,9 +1258,9 @@ div.studio-list div {
 
 .notice {
     border: 1px solid #FEF7CA;
-    margin: 5px 20px 5px 20px;
-    padding: 4px 5px 5px 8px;
-    width: 280px
+	margin: auto;
+	padding: 4px;
+    width: 260px
 }
 
 div.notice {
