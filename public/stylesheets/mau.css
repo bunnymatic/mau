@@ -1623,11 +1623,13 @@ map page
 **/
 .map-roster { float: left; width:200px;}
 .map-addr {
+	text-align: left;
     font-weight: bold;
     margin-top: 5px;
 }
 
 .map-name {
+	text-align: left;
     margin-left: 10px;
 }
 /**
