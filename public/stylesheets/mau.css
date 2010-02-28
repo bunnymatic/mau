@@ -513,7 +513,8 @@ div#login, div#logout {
 	margin-left:40px;
 	margin-right:40px;
 }
-#about_text {
+#about_text, #news_text {
+    text-align: justify; 
     width: 527px;
     margin: auto;
 }
