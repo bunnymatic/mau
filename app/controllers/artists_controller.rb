@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 require 'xmlrpc/client'
 include ArtistsHelper
 
@@ -305,8 +306,12 @@ class ArtistsController < ApplicationController
         #twittermsg = "Check out %s at Mission Artists United: %s" % [@artist.get_name(), url]
         # @tw_share = "http://www.twitter.com/home?status=%s" % twittermsg
         url = @artist.get_share_link(true)
-        title = CGI::escape( "Check out %s at Mission Artists United" % @artist.get_name() )
+        raw_title = "Check out %s at Mission Artists United" % @artist.get_name() 
+        title = CGI::escape( raw_title )
         @fb_share = "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
+        status = "%s #missionartistsunited " % raw_title
+        @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), url]
+
       end
     end
     respond_to do |format|
