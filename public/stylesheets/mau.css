@@ -1360,11 +1360,9 @@ span.footer-nav {
 }
 /* note color is overridden by link
    look for .tagmatch a directives */
-.tagmatch {
-    color: magenta;
-    font-weight: bold;
+.tagmatch, .tagmatch a:visited {
+    color: #fc44ff;
 }
-
 
 .tbl-content {
     position: relative;
