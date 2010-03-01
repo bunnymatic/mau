@@ -1,8 +1,9 @@
 ####### VARIABLES #######
 set :ssh_options,         {:port => 2222}
 set :application, "MAU"
-set :repository,  "svn+ssh://bunnymatic.com/space/svnroot/projects/mau/mauweb"
+set :repository,  "svn+ssh://bunnymatic.com/space/svnroot/mau/web/trunk"
 set :scm, :subversion
+set :use_sudo, false
 
 role :app, "bunnymatic.com"
 role :web, "bunnymatic.com"
@@ -13,6 +14,9 @@ desc "Set up Staging specific paramters."
 task :jy do
   set :user, "jeremy"
   set :deploy_to, "/home/jeremy/deployed"
+  set :svn_env, 'export SVN_SSH="ssh -p 2222"'
+  puts("executing locally \'" + svn_env + "\'")
+  system(svn_env)
   # set :db_pass, "9XfqzzL9"
   # set :db_env, "staging"
 end
