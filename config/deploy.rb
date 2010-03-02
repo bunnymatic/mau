@@ -48,9 +48,6 @@ task :symlink_data do
   run "rm -rf ~/deployed/current/public/studiodata"
   run "ln -s ~/artistdata ~/deployed/current/public/artistdata"
   run "ln -s ~/studiodata ~/deployed/current/public/studiodata"
-  # link to SVN version
-  run "rm -rf ~/deployed/current/public/VERSION"
-  run "ln -s ~/deployed/current/REVISION ~/deployed/public/VERSION"
 end
 
 

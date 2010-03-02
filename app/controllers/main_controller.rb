@@ -16,7 +16,8 @@ class MainController < ApplicationController
   end
 
   def version
-    file = File.expand_path('VERSION')
+    # file provided by cap deploy
+    file = File.expand_path('REVISION')
     f = open(file,'r')
     render :text => f.read
   end
