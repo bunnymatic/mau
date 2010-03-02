@@ -25,6 +25,9 @@ desc "Set up Staging specific paramters."
 task :dev do
   set :user, "maudev"
   set :deploy_to, "/home/maudev/deployed"
+  set :svn_env, 'export SVN_SSH="ssh -p 2222"'
+  puts("executing locally \'" + svn_env + "\'")
+  system(svn_env)
   # set :db_pass, "9XfqzzL9"
   # set :db_env, "staging"
 end
@@ -34,6 +37,17 @@ task :prod do
   set :user, "mauprod"
   set :deploy_to, "/home/mauprod/deployed"
 end
+
+after "deploy:symlink", :symlink_data
+
+desc "Connect artist and studio data to website"
+task :symlink_data do
+  run "rm -rf ~/deployed/current/public/artistdata"
+  run "rm -rf ~/deployed/current/public/studiodata"
+  run "ln -s ~/artistdata ~/deployed/current/public/artistdata"
+  run "ln -s ~/studiodata ~/deployed/current/public/studiodata"
+end
+
 
 # namespace :deploy do
 #   task :start {}
