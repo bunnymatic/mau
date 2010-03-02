@@ -48,6 +48,7 @@ task :symlink_data do
   run "rm -rf ~/deployed/current/public/studiodata"
   run "ln -s ~/artistdata ~/deployed/current/public/artistdata"
   run "ln -s ~/studiodata ~/deployed/current/public/studiodata"
+  run "ln -s ~/deployed/current/REVISION ~/deployed/current/public/REVISION"
 end
 
 
