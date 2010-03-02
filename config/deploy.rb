@@ -5,6 +5,8 @@ set :repository,  "svn+ssh://bunnymatic.com/space/svnroot/mau/web/trunk"
 set :scm, :subversion
 set :use_sudo, false
 
+# these roles represent the servers on which all these things run
+# if db is run on different machine, you might change db
 role :app, "bunnymatic.com"
 role :web, "bunnymatic.com"
 role :db,  "bunnymatic.com", :primary => true # This is where Rails migrations will run
