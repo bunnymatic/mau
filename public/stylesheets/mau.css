@@ -525,15 +525,15 @@ div#login, div#logout {
     width:800px;
 }
 
-.content-block, .artist-buttons {
-	width: 540px;
+.content-block, .artist-buttons, #studio_page,
+.search-thumbs {
+	width: 560px;
 	margin: auto;
 }
-
-#studio_page {
-    margin: auto;
-    width: 560px;
+.search-thumb {
+	width: 250px;
 }
+.search-thumb-art
 
 .roster-col {
     float: left;
@@ -1118,26 +1118,26 @@ div.div-center h4 {
 }
 
 
-table.search-thumbs div.artp-thumb {
+.search-thumbs {
     border: 0px;
     padding: 10px;
     vertical-align: top;
 }
 /** for search thumbs */
-table.artpiece-thumb {
+.search-thumb {
     border: 1px dotted #444;
 	margin: 5px;
 }
 
-
-
-td.search-thumb-art {
+.search-thumb-art {
+	float: left;
     height: 100px;
     padding: 8px;
     width: 100px;
 }
 .search-thumb-info {
     padding: 5px 5px 8px 5px;
+	float: left;
     font-size:85%;
     text-align: left;
     vertical-align:top;
@@ -1398,6 +1398,24 @@ div.studios .studio-list {
     font-size: 85%;
 }
 
+/**
+wait dialog 
+**/
+.wait-dialog {
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #222;
+	width: 150px;
+	height: 80px;
+	padding: 10px;
+	z-index: 100;
+	position: absolute;
+	top: 200px;
+	left: 400px;
+	margin: auto;
+	background-color: #999;
+	color: #222;
+}
 /**
 popup help 
 **/
