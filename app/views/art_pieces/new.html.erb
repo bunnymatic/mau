@@ -4,7 +4,7 @@
 <table align="center" border="0" cellspacing="0" cellpadding="0">
 <%	  if @errors or flash[:error] -%>
   <tr class="error-row">
-    <td colspan="2" align="center">
+    <td colspan="2" align="center" id="error_row">
       <% if flash[:error] -%>
       <div class="error-msg"><%= flash[:error] %></div>
       <% elsif @errors -%>

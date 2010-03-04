@@ -2,7 +2,8 @@ class ArtPiecesController < ApplicationController
 
   include TagsHelper
   layout 'mau1col', :except => :show
-  
+
+  before_filter :admin_required, :only => [ :index, ]
   before_filter :login_required, :only => [ :new, :edit, :update, :create, :destroy]
 
   @@THUMB_BROWSE_SIZE = 65

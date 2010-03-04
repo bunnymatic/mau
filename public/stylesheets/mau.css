@@ -1405,8 +1405,8 @@ wait dialog
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border: 1px solid #222;
-	width: 150px;
-	height: 80px;
+	width: 160px;
+	height: 40px;
 	padding: 10px;
 	z-index: 100;
 	position: absolute;
