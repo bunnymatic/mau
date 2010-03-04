@@ -1646,7 +1646,7 @@ form#feedback_form .error {
 /**
 map page
 **/
-.map-roster { float: left; width:200px;}
+.map-roster { float: left; width:200px; }
 .map-addr {
 	text-align: left;
     font-weight: bold;
@@ -1657,6 +1657,20 @@ map page
 	text-align: left;
     margin-left: 10px;
 }
+
+._mau1 {
+	text-align: left;
+	height: 105px;
+}
+
+._mau1 {
+	margin-top: 10px;
+}
+
+._mau1 div {
+	margin-top: 0px;
+}
+
 /**
 corners 
 **/
