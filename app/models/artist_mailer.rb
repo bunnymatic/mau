@@ -28,11 +28,11 @@ class ArtistMailer < ActionMailer::Base
     @body[:url]  = "http://%s/activate/#{artist.activation_code}" % Conf.site_url
   end
 
-  
   def activation(artist)
     setup_email(artist)
     @subject    += 'Your account has been activated!'
     @body[:url]  = Conf.site_url
+    @body[:artistsurl]  = 'http://%s/artists/' % [ Conf.site_url, artist.id ]
   end
   
 
