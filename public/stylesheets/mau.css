@@ -1222,6 +1222,7 @@ div.studio-thumb .studio-thumb {
     margin:auto;
 }
 
+/*
 .cur-studio {
     background: #fef7ca;
     font-weight: bold;
@@ -1230,6 +1231,7 @@ div.studio-thumb .studio-thumb {
 .cur-studio a {
     color: #000;
 }
+*/
 
 div.studio-list div {
     padding: 2px;
@@ -1360,7 +1362,8 @@ span.footer-nav {
 }
 /* note color is overridden by link
    look for .tagmatch a directives */
-.tagmatch, .tagmatch a:visited {
+.tagmatch, .tagmatch a:visited, 
+.cur-studio, .cur-studio a, .cur-studio a:visited  {
     color: #fc44ff;
 }
 
