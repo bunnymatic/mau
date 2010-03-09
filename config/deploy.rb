@@ -11,6 +11,16 @@ role :app, "bunnymatic.com"
 role :web, "bunnymatic.com"
 role :db,  "bunnymatic.com", :primary => true # This is where Rails migrations will run
 
+####### Apache commands ####
+namespace :apache do
+  [:stop, :start, :restart, :reload].each do |action|
+    desc "#{action.to_s.capitalize} Apache"
+    task action, :roles => :web do
+      invoke_command "sudo -u www /etc/init.d/httpd #{action.to_s}", :via => run_method
+    end
+  end
+end
+
 ####### CUSTOM TASKS #######
 desc "Set up Staging specific paramters."
 task :jy do
@@ -26,12 +36,11 @@ end
 desc "Set up Staging specific paramters."
 task :dev do
   set :user, "maudev"
+  set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
   set :svn_env, 'export SVN_SSH="ssh -p 2222"'
   puts("executing locally \'" + svn_env + "\'")
   system(svn_env)
-  # set :db_pass, "9XfqzzL9"
-  # set :db_env, "staging"
 end
 
 desc "Set up Production specific paramters."
@@ -41,6 +50,8 @@ task :prod do
 end
 
 after "deploy:symlink", :symlink_data
+after "deploy:symlink", "apache:reload"
+
 
 desc "Connect artist and studio data to website"
 task :symlink_data do
@@ -48,8 +59,10 @@ task :symlink_data do
   run "rm -rf ~/deployed/current/public/studiodata"
   run "ln -s ~/artistdata ~/deployed/current/public/artistdata"
   run "ln -s ~/studiodata ~/deployed/current/public/studiodata"
-  run "ln -s ~/deployed/current/REVISION ~/deployed/current/public/REVISION"
+  run "test -e ~/deployed/current/public/REVISION || ln -s ~/deployed/current/REVISION ~/deployed/current/public/REVISION"
 end
+
+
 
 
 # namespace :deploy do
