@@ -79,7 +79,5 @@ common:
         url: http://apaintingaday.blogspot.com/
       - feed: http://twitter.com/statuses/user_timeline/32943864.rss
         url: http://twitter.com/bunnymaticsf
-      - feed: http://sidneadamico.blogspot.com/feeds/posts/default?alt=rss 
-        url: http://sidneadamico.blogspot.com/
    yahoo_api_key: N.34cqHV34HBVzs_fNwThGrKQN8oMtEsizMOW14GriC2lceN7KrJKTklkpO2uUDX
    shop_url: http://www.cafepress.com/MissionArtists
