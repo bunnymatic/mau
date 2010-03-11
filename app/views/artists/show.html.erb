@@ -42,6 +42,9 @@
 	    </div>
 	    <% end -%>
 	  </div>
+	  <% if logged_in? and @artist.login == self.current_artist.login -%>
+	  <%= render :partial => '/deadline_announcement' %>
+	  <% end %>
 	  <div class="div-left">
 	    <table>
 	      <tr><td>Studio:</td>
