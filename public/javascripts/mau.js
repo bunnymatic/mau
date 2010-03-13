@@ -44,21 +44,21 @@ MAU = window['MAU'] || {};
 
     // Changes the cursor to an hourglass
     M.waitcursor = function() {
-		var errmsg = $('error_row');
-		if (errmsg) {
-			errmsg.update('');
-		}
-		var dv = document.createElement('div');
-		Element.extend(dv);
-		dv.addClassName('wait-dialog');
-		dv.show();
-		var tx = document.createTextNode('Uploading...');
-		dv.appendChild(tx);
-		var im = document.createElement('img');
-		im.setAttribute('src','/images/spinner32.gif');
-		im.setAttribute('style','float:right; margin-right:10px;');
-		dv.appendChild(im);
-		document.body.appendChild(dv);
+	var errmsg = $('error_row');
+	if (errmsg) {
+	    errmsg.update('');
+	}
+	var dv = document.createElement('div');
+	Element.extend(dv);
+	dv.addClassName('wait-dialog');
+	dv.show();
+	var tx = document.createTextNode('Uploading...');
+	dv.appendChild(tx);
+	var im = document.createElement('img');
+	im.setAttribute('src','/images/spinner32.gif');
+	im.setAttribute('style','float:right; margin:auto;');
+	dv.appendChild(im);
+	document.body.appendChild(dv);
     };
     
     // Returns the cursor to the default pointer

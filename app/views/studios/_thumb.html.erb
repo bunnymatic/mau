@@ -1,28 +1,28 @@
 <div class="studio-thumb">
-<div class="studio-img">
-  <% if studio.id > 0 
-      p = studio_url(studio)
-     else
-      p = "/studios/0"
-     end
-  -%>
-  <a href="<%= p %>" title="<%=h studio.name %>">
-    <img class="studio-img" src="<%= studio.get_profile_image('small') %>" />
-  </a>
-</div>
-<div class="studio-nfo"><%= studio.name %></div>
-<div class="studio-nfo"><%=h studio.street %> <span class="lkmap">(<%= link_to 'map', studio.map_link, { :target => "_blank" } %>)</span>
-</div>
-<% if studio[:num_artists] > 0 -%>
-<% 
-   tag = "artists"
-   if studio[:num_artists] == 1 
-      tag = "artist"
-   end
--%>
-<div class="studio-nfo"><%= studio[:num_artists] %> <%= tag %></div>
-
-<% else -%>
-<div>&nbsp;</div>
-<% end -%>
+  <div class="studio-img">
+    <% if studio.id > 0 
+    p = studio_url(studio)
+    else
+    p = "/studios/0"
+    end
+    -%>
+    <a href="<%= p %>" title="<%=h studio.name %>">
+      <img class="studio-img" src="<%= studio.get_profile_image('thumb') %>" />
+    </a>
+  </div>
+  <div class="studio-nfo">
+    <div >
+    <a href="<%= p %>" title="<%=h studio.name %>"><%= studio.name %></a>
+    </div>
+    <div ><%=h studio.street %> <span class="lkmap">(<%= link_to 'map', studio.map_link, { :target => "_blank" } %>)</span>
+    </div>
+    <% if studio[:num_artists] > 0 
+         tag = "artists"
+         if studio[:num_artists] == 1 
+           tag = "artist"
+         end
+       -%>
+    <div ><%= studio[:num_artists] %> <%= tag %></div>
+    <% end -%>
+  </div>
 </div>  
