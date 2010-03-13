@@ -1195,31 +1195,25 @@ div.studio-list {
     vertical-align: top;
 }
 
-td.studio-thumb {
-    border: 0;
-    padding: 0;
-}
-
 .studio-nfo {
     text-align: left;
+    float: left;
 }
-
+.studio-nfo div {
+}
 .studio-img {
     margin-bottom: 3px;
+    float: left;
 }
 .studio-thumb img {
     border: 1px dotted #444;
 }
 
-div.studio-thumb {
+.studio-thumb {
    background-color:#111;
    float:left;
-   margin: 10px;
-   width: 220px;
-}    
-div.studio-thumb .studio-thumb {
-    width: 200px;
-    margin:auto;
+   width: 155px;
+   margin: 6px;
 }
 
 /*
