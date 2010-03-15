@@ -18,8 +18,9 @@
       <% end -%>
       <div class="content-block"> 
 	  <% if logged_in? and @artist.login == self.current_artist.login -%>
-	  <%= render :partial => '/deadline_announcement' %>
+<!--	  <%= render :partial => '/deadline_announcement' %> 
 	<div class="clear"></div>
+-->
 	  <% end %>
 	<% if @artist -%>
 	<% if logged_in? and @artist.login == self.current_artist.login -%>
