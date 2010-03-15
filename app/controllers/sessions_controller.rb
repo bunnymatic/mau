@@ -30,15 +30,17 @@ class SessionsController < ApplicationController
       # reset_session
       if artist.active?
         self.current_artist = artist
+        # force shutoff of remember_me cookie - too agressive
         new_cookie_flag = (params[:remember_me] == "1")
         handle_remember_cookie! new_cookie_flag
+        
         flash[:notice] = "Logged in successfully"
         redirect_to self.current_artist
         return
       else
         note_inactive_signin
         @login       = params[:login]
-        @remember_me = params[:remember_me]
+        #@remember_me = params[:remember_me]
         render :action => 'new'
       end
     else
