@@ -527,13 +527,9 @@ div#login, div#logout {
 
 .content-block, .artist-buttons, #studio_page,
 .search-thumbs {
-	width: 560px;
-	margin: auto;
+    width: 560px;
+    margin: auto;
 }
-.search-thumb {
-	width: 250px;
-}
-.search-thumb-art
 
 .roster-col {
     float: left;
@@ -1124,24 +1120,25 @@ div.div-center h4 {
     vertical-align: top;
 }
 /** for search thumbs */
-.search-thumb {
+.search-thumbs .artpiece-thumb {
     border: 1px dotted #444;
-	margin: 5px;
+    float:left;
+    margin: 5px;
+    width: 260px;
 }
 
 .search-thumb-art {
-	float: left;
+    float: left;
     height: 100px;
     padding: 8px;
-    width: 100px;
 }
 .search-thumb-info {
-    padding: 5px 5px 8px 5px;
-	float: left;
+    float: left;
     font-size:85%;
+    margin-top:6px;
     text-align: left;
     vertical-align:top;
-    width: 150px;
+    width: 142px;
 }
 
 .artp-thumb div,
