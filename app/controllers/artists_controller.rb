@@ -5,7 +5,7 @@ include ArtistsHelper
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
-  before_filter :admin_required, :only => [ :unsuspend, :purge]
+  before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index ]
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :addprofile, :deactivate, :setarrangement, :arrangeart ]
 
   layout 'mau1col'
@@ -94,6 +94,13 @@ class ArtistsController < ApplicationController
     @map.center_zoom_init(center,14)
   end
 
+  def admin_index
+
+    if request.post?
+      print "POST ", request.POST
+    end
+    @artists = Artist.find(:all)
+  end
 
   def addprofile
     @errors = []

@@ -1390,6 +1390,14 @@ div.studios .studio-list {
 .admin-table {
     font-size: 85%;
 }
+.admin-table td {
+    vertical-align: top;
+    padding: 3px;
+}
+
+#admin_artist_name {
+    width: 200px;
+}
 
 /**
 wait dialog 

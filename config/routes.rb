@@ -44,6 +44,8 @@ ActionController::Routing::Routes.draw do |map|
   map.version '/_rev', :controller => 'main', :action => 'version'
 
   # admin links
+  map.admin_artists '/admin/artists', :controller => 'artists', :action=> 'admin_index'
+
   map.admin_studios '/admin/studios', :controller => 'studios', :action=> 'admin_index'
   map.admin_tags '/admin/tags', :controller => 'tags', :action=> 'admin_index'
   map.admin_media '/admin/media', :controller => 'media', :action=> 'admin_index'
