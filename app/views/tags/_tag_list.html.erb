@@ -8,7 +8,7 @@
   <% @freq.each do |t| -%>
   <%   tid = t["tag"]
        tct = t["ct"]
-       (sz, mrg) = TagsHelper.fontsize_from_frequency(tct.to_i) 
+       (sz, mrg) = TagsHelper.fontsize_from_frequency(tct.to_f)
        tag = @tags.select{ |t| t.id.to_i == tid.to_i }[0]
        if tag == @tag
        match_class = "tagmatch"

@@ -16,11 +16,27 @@ class Tag < ActiveRecord::Base
   @@TAGS_KEY = (Conf.cache_ns or '') + 'tags'
   @@MAX_SHOW_TAGS = 40
 
-  def self.frequency
+  def self.frequency(normalize=true)
     tags = []
     dbr = connection.execute("/* hand generated sql */ Select tag_id tag,count(*) ct from art_pieces_tags where art_piece_id in (select id from art_pieces) group by tag_id order by ct desc;")
-    dbr.each_hash{ |row| tags << row }
-    result = tags[0..@@MAX_SHOW_TAGS]
+    dbr.each_hash{ |row| tags << row }    
+    # compute max/min ct
+    maxct = nil
+    minct = nil
+    tags.each do |t|
+      if maxct == nil || maxct < t['ct'].to_i
+        maxct = t['ct'].to_f
+      end
+    end  
+    if maxct <= 0
+      maxct = 1
+    end
+    if normalize
+      tags.each do |t|
+        t['ct'] = t['ct'].to_f / maxct.to_f
+      end
+    end
+    tags[0..@@MAX_SHOW_TAGS]
   end
 
   def self.keyed_frequency

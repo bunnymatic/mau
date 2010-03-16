@@ -11,7 +11,7 @@ class TagsController < ApplicationController
     freq = Tag.keyed_frequency
     @tags.each do |t|
       if freq.keys.include? t.id.to_s
-        t['count'] = freq[ t.id.to_s ].to_i
+        t['count'] = freq[ t.id.to_s ].to_f
       else
         t['count'] = 0
       end
@@ -19,15 +19,15 @@ class TagsController < ApplicationController
   end
 
   def index
-    @freq = Tag.frequency
-    redirect_to "/tags/%d" % @freq[0]['tag']
+    freq = Tag.frequency
+    redirect_to "/tags/%d" % freq[0]['tag']
   end
 
   # GET /tags/1
   # GET /tags/1.xml
   def show
     # get art pieces by tag
-    @freq = Tag.frequency
+    @freq = Tag.frequency(true)
     # limit # tags to top NUM_SHOW_TAGS
     tags = []
     @freq.each { |t| tags.push(t['tag']) }

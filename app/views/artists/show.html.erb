@@ -87,20 +87,6 @@
 	  </div>
 	  <% end -%>
           <% if @artist.tags and @artist.tags.length > 0 -%>
-	  <div class="div-left">
-	    <table>
-	      <tr>
-		<td>Tags:</td>
-		<td >
-		  <% links = [] -%>
-		  <% @artist.tags.each do |t| -%>
-		  <% links << link_to(t.safe_name, t, :class => ""  ) -%>
-  		     <% end -%>
-		     <%= links.join(", ") %>
-		</td>
-	      </tr>
-	    </table>
-	  </div>
 	  <% end -%>
 	  <% if has_links(@artist) -%>
 	  <div class="div-left">
