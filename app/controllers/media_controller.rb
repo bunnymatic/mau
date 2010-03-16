@@ -10,7 +10,7 @@ class MediaController < ApplicationController
   end
 
   def index
-    @freq = Medium.frequency
+    @freq = Medium.frequency(true)
     if !@freq.empty?
       freq = @freq.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
       redirect_to "/media/%d" % freq[0]['medium']
@@ -22,7 +22,7 @@ class MediaController < ApplicationController
   # GET /media/1
   # GET /media/1.xml
   def show
-    @freq = Medium.frequency
+    @freq = Medium.frequency(true)
     @media = Medium.all
     @medium = Medium.find(params[:id])
 

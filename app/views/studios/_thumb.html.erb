@@ -14,8 +14,10 @@
     <div >
     <a href="<%= p %>" title="<%=h studio.name %>"><%= studio.name %></a>
     </div>
+    <% if studio.id > 0 %>
     <div ><%=h studio.street %> <span class="lkmap">(<%= link_to 'map', studio.map_link, { :target => "_blank" } %>)</span>
     </div>
+    <% end %>
     <% if studio[:num_artists] > 0 
          tag = "artists"
          if studio[:num_artists] == 1 

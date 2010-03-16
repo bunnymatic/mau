@@ -23,7 +23,11 @@
 	  <% end %>
 	  <div>
 	    <div class="div-left">
-	      <div><%=h @studio.street %> <span class="lkmap">(<%= link_to 'map', @studio.map_link, { :target => "_blank" } %>)</span></div>
+	      <div><%=h @studio.street %>
+		<% if @studio.id > 0 -%>
+		<span class="lkmap">(<%= link_to 'map', @studio.map_link, { :target => "_blank" } %>)</span>
+		<% end -%>
+	      </div>
 	      <div><%= @studio.city %></div>
 	    </div>
 	    <div class="div-left">

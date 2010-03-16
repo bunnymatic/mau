@@ -10,38 +10,34 @@
       <h4>
 	Search for medium: <span class='query'><%=h @medium.name %></span>
       </h4>
-      <table id="search_results">
-	<tr><td>
-	    <%= render :partial => "/pagination" %>
-	    <%= render :partial => "/art_pieces/mode_selector" %>
-	</td></tr>
-	<tr><td>
-	</td></tr>
+      <div id="search_results">
+	<div>
+	  <%= render :partial => "/pagination" %>
+	  <%= render :partial => "/art_pieces/mode_selector" %>
+	</div>
 	<% if flash[:error] -%>
-	<tr><td>
-	    <div class="error-msg">
-	      <%= flash[:error] %>
-	    </div>
-	</td></tr>
+	<div>
+	  <div class="error-msg">
+	    <%= flash[:error] %>
+	  </div>
+	</div>
 	<% end -%>
-	<tr><td>
-	    <% if @pieces and !@pieces.empty? -%> 
-	    <%=
-	       render :partial => '/search/thumbs', :locals => { :pieces => @pieces,
-	    :params => { :cols => 2,
-            :show_footer => false,
-            :size => 'thumb',
-	    :art_link => true
-            }}
-	    %>
-	    <% end -%>
-	</td></tr>
-	<tr><td align="right">
- 	    <%= render :partial => "/pagination" %>
-	</td></tr>
-      </table>
+	<div class="search-results">
+	  <% if @pieces and !@pieces.empty? -%> 
+	  <%=
+	     render :partial => '/search/thumbs', :locals => { :pieces => @pieces,
+	  :params => { :cols => 2,
+          :show_footer => false,
+          :size => 'thumb',
+	  :art_link => true
+          }}
+	  %>
+	  <% end -%>
+	</div>
+	<div>
+ 	  <%= render :partial => "/pagination" %>
+	</div>
     </td>
-    <td></td>
   </tr>
   <%= render :partial => '/twocol_bottom' %>
-</table>
+</table>    

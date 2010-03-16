@@ -539,11 +539,10 @@ div#login, div#logout {
 .roster-names {}
 
 #search_results {
-	margin-left:30px;
-	margin-right:30px;
+    width:547px;
 }
-table#search_results{
-	width:547px;
+#search_results .help-parent {
+    margin-right: 0;
 }
 .search-txt {
 	margin: 4px 4px 4px 20px;
