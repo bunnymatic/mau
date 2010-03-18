@@ -304,23 +304,23 @@ class ArtistsController < ApplicationController
       if @artist.suspended?
         flash.now[:error] = "The artist '" + @artist.get_name(true) + "' is no longer with us."
         @artist = nil
-      else
-        @page_title = "Mission Artists United - Artist: %s" % @artist.get_name(true)
-        # get artist pieces here instead of in the html
-        num = @artist.max_pieces - 1
-        @art_pieces = @artist.art_pieces.reverse[0..num]
-        
-        # need to figure out encoding of the message - probably better to post with json
-        #twittermsg = "Check out %s at Mission Artists United: %s" % [@artist.get_name(), url]
-        # @tw_share = "http://www.twitter.com/home?status=%s" % twittermsg
-        url = @artist.get_share_link(true)
-        raw_title = "Check out %s at Mission Artists United" % @artist.get_name() 
-        title = CGI::escape( raw_title )
-        @fb_share = "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
-        status = "%s #missionartistsunited " % raw_title
-        @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), url]
-
       end
+    end
+    if @artist != nil
+      @page_title = "Mission Artists United - Artist: %s" % @artist.get_name(true)
+      # get artist pieces here instead of in the html
+      num = @artist.max_pieces - 1
+      @art_pieces = @artist.art_pieces.reverse[0..num]
+      
+      # need to figure out encoding of the message - probably better to post with json
+      #twittermsg = "Check out %s at Mission Artists United: %s" % [@artist.get_name(), url]
+      # @tw_share = "http://www.twitter.com/home?status=%s" % twittermsg
+      url = @artist.get_share_link(true)
+      raw_title = "Check out %s at Mission Artists United" % @artist.get_name() 
+      title = CGI::escape( raw_title )
+      @fb_share = "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
+      status = "%s #missionartistsunited " % raw_title
+      @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), url]
     end
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }
