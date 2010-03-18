@@ -1691,6 +1691,13 @@ corners
 }
 .faq_a {
 }
+
+/************
+Admin
+************/
+.artist-email-list {
+    text-align: left; 
+}
 /*
 #bg {
     background: url(/images/sitebg2.jpg) repeat-x;
