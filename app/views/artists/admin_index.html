@@ -1,0 +1,47 @@
+<!-- ADMIN Controller for adding studios.
+no reason for this to be very pretty
+-->
+<div class="admin-table">
+<h1>Listing artists</h1>
+<%= form_tag admin_artists_path %>
+<input style="float:right" type="submit" value="update os status"/>
+<table>
+  <tr>
+    <th>id</th>
+    <th>street</th>
+    <th>OS?</th>
+  </tr>
+
+<% @artists.each do |a| %>
+  <tr>
+    <!--
+    <td><% if a.has_profile_image -%>
+      <img src="<%= a.get_profile_image('thumb') %>"/>
+    <% else -%>
+    no img
+    <% end -%>
+    </tde
+       -->
+    <td id="admin_artist_name">
+      Username: <%= a.login %><br/>
+      EM: <%= a.email %><br/>
+      Name: <%=h a.get_name %><br/>
+      Active? <%= a.state=='active' %><br/>
+      Studio :<% if a.studio -%>
+      <%= link_to(a.studio.name, a.studio) %>
+      <% else %>
+      Indy/unk
+      <% end -%>
+    </td>
+    <td><%=h a.street %></td>
+    <td><%=h a.os2010 %></td>
+    <td><input type="checkbox" value="<%= a.os2010 ? 1 : 0 %>" <%= "checked" if a.os2010 %> name="os<%= a.id %>" /></td>
+    
+ </tr>
+<% end %>
+</table>
+<input style="float:right" type="submit" value="update artists"/>
+</form>
+<br />
+
+</div>
