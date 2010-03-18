@@ -105,6 +105,10 @@ class Artist < ActiveRecord::Base
     JSON.parse(email_attrs)
   end
 
+  def fancy_link()
+    return "http://" + Conf.site_url + "/artists/" + self.login
+  end
+
   def get_name(htmlsafe=false)
     fullname = nil
     if !(self.firstname.empty? or self.lastname.empty?)

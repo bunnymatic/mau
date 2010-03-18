@@ -8,11 +8,12 @@
   	<tr>
     	  <td></td>
     	  <td class="td-left">&copy; mission artists united</td>
-    	  <td class="td-right">
-<% feedback_link_text = "feedback" -%>
-<span class="footer-nav"><%= feedback_link feedback_link_text , :class => 'lkdark' %></span>
-<span class="footer-nav"><a class="lkdark" href="/privacy">privacy</a></span>
-<span class="footer-nav"><a class="lkdark" href="/contact">contact us</a></span></td>
+    	  <td class="td-right footer">
+	    <% feedback_link_text = "feedback" -%>
+	    <span ><%= link_to "faq", faq_url, :class => 'lkdark' %></span>
+	    <span ><%= feedback_link feedback_link_text , :class => 'lkdark' %></span>
+	    <span ><a class="lkdark" href="/privacy">privacy</a></span>
+	    <span ><a class="lkdark" href="/contact">contact us</a></span></td>
 	  <td></td>
   	</tr>
   	<tr class="tr-short">

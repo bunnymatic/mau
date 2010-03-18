@@ -2,7 +2,7 @@
 /* CSS Document */
 html {
     background-color: #c6c7d6;
-    color: #aaaaaa;
+    color: #aaa;
     font: 13px Verdana, Arial, Helvetica, sans-serif;
 }
 
@@ -15,12 +15,6 @@ td {
 p {
     padding: 0 4px 4px 10px;
 }
-h1 { 
-    color: #999999;
-    font-weight:normal;
-    font-size: 170%;
-    letter-spacing: 1px;
-}
 h2 {
     font-size: 150%;
     font-weight:normal;
@@ -29,8 +23,11 @@ h2 {
 h3 {
     font-size: 130%;
 }
-h4 {
+h1, h4 {
     font-size: 120%;
+}
+h5 {
+    font-size: 110%;
 }
 
 /* prevent forms from causing line breaks */
@@ -308,7 +305,7 @@ input[type=submit] {
 
 input[type=submit][disabled=disabled] {
     font-weight:normal;
-    color:#aaaaaa;
+    color:#aaa;
 }
 
 input[type=submit], .formbutton{
@@ -1034,6 +1031,10 @@ div.div-center h4 {
 }
 
 .main-text {
+    color: #999999;
+    font-size: 170%;
+    font-weight:normal;
+    letter-spacing: 1px;
     margin-top: 80px;
     text-align: center;
     vertical-align: bottom;
@@ -1243,7 +1244,7 @@ div.studio-list div {
     width: 70%;
 }
 .f404 p {
-    color: #aaaaaa;
+    color: #aaa;
     font-size: 14px; 
     text-align: left;
 }
@@ -1340,7 +1341,7 @@ span.mainnav {
     text-align:left;
 }
 
-span.footer-nav {
+.footer span {
     padding: 0 10px 0 10px;
 }
 
@@ -1681,6 +1682,15 @@ corners
 	z-index: 100;
 }
 
+/*******
+* FAQ 
+********/
+.faq_q {
+    margin-top: 16px;
+    margin-bottom: 2px;
+}
+.faq_a {
+}
 /*
 #bg {
     background: url(/images/sitebg2.jpg) repeat-x;
