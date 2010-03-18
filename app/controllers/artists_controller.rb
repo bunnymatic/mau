@@ -8,7 +8,7 @@ class ArtistsController < ApplicationController
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index ]
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :addprofile, :deactivate, :setarrangement, :arrangeart ]
 
-  layout 'mau1col'
+  layout 'mau1col', :except => 'faq'
 
   # num artists before we paginate
   @@PER_PAGE = 28
@@ -482,7 +482,11 @@ class ArtistsController < ApplicationController
       redirect_back_or_default('/login')
     end
   end
-  
+
+  def faq
+    render :action => 'faq', :layout => 'mau2col'
+  end
+
   def reset
     @artist = Artist.find_by_reset_code(params[:reset_code]) unless params[:reset_code].nil?
     if request.post?
