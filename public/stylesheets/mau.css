@@ -15,6 +15,12 @@ td {
 p {
     padding: 0 4px 4px 10px;
 }
+h1 {
+	color: #999; 
+	font-weight:normal; 
+	font-size: 170%; 
+	letter-spacing: 1px;
+}
 h2 {
     font-size: 150%;
     font-weight:normal;
@@ -23,7 +29,7 @@ h2 {
 h3 {
     font-size: 130%;
 }
-h1, h4 {
+h4 {
     font-size: 120%;
 }
 h5 {
@@ -1031,11 +1037,8 @@ div.div-center h4 {
 }
 
 .main-text {
-    color: #999999;
-    font-size: 170%;
-    font-weight:normal;
-    letter-spacing: 1px;
-    margin-top: 80px;
+	width: 520px;
+    margin: 80px auto auto auto;
     text-align: center;
     vertical-align: bottom;
 }
