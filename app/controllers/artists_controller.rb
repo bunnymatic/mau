@@ -38,8 +38,14 @@ class ArtistsController < ApplicationController
     @roster_link = artists_path + "?v=l"
     @gallery_link = artists_path + "?v=g"
 
+    @os_only = params[:osonly]
+
     addresses = []
-    artists = Artist.all
+    if @os_only == 'on'
+      artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ])
+    else
+      artists = Artist.all
+    end
 
     @map = GMap.new("map")
     @map.control_init(:large_map => true, :map_type => true)

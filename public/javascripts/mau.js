@@ -473,6 +473,23 @@ MAU = window['MAU'] || {};
     };
     
     Event.observe(window,'load',G.init);
+
+    MA.ID_OS_FORM = "map_osswitcher";
+    MA.ID_OS_CHECKBOX = "map_cb";
+    MA.init = function() {
+	var mcb = $(MA.ID_OS_FORM);
+	if (mcb) {
+	    $(MA.ID_OS_CHECKBOX).observe('click', function() {
+		var mcb = $(MA.ID_OS_FORM);
+		if (mcb) {
+		    mcb.submit();
+		}
+	    });
+	}
+	MA.init = function(){}
+    }
+    Event.observe(window,'load',MA.init);
+    
 }
 )();
 
