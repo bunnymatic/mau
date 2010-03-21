@@ -1656,7 +1656,7 @@ form#feedback_form .error {
 map page
 **/
 .map-container { float: right; }
-.map-os-switch { float: right; }
+.map-os-switch { font-size: 80%; float: right; margin-bottom: 6px;}
 .map-roster { float: left; width:200px; }
 .map-addr {
 	text-align: left;
