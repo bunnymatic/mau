@@ -28,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.reset 'reset/:reset_code', :controller => 'artists',     :action => 'reset'
 
   map.artistsmap '/artists/map', :controller => 'artists', :action => 'map'
+  map.artistsHUGEmap '/artists/hugemap', :controller => 'artists', :action => 'hugemap'
 
   map.faq '/artists/faq', :controller => 'artists', :action => 'faq'
   map.resources :artists, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get, :arrangeart => :get, :setarrangement => :post, :deleteart => :get, :addprofile => :get }
