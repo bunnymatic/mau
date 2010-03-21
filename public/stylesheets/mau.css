@@ -450,6 +450,10 @@ div.feedtitle  {
 }
 
 /* for news page */
+#news_text .news-footer {
+    margin-top: 30px;
+}
+
 .rcol .feedtitle {
     font-size: 14px;
 }
@@ -1651,6 +1655,8 @@ form#feedback_form .error {
 /**
 map page
 **/
+.map-container { float: right; }
+.map-os-switch { float: right; }
 .map-roster { float: left; width:200px; }
 .map-addr {
 	text-align: left;

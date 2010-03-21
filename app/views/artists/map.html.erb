@@ -8,7 +8,17 @@
   <%   end -%>
   <% end -%>
 </div>
-<div style="float:right">
+<div class="map-osswitch">
+  <form id="map_osswitcher" action="/artists/map">
+    <% if @os_only == 'on' -%>
+    <input name="all" id="map_cb" type="checkbox" checked="checked"></input>
+    <% else -%>
+    <input name="osonly" id="map_cb" type="checkbox"></input>
+    <% end -%>
+    (showing only open studios artists)
+  </form>
+</div>
+<div class="map-container">
 <%= GMap.header(:local_search => true) %>
 <%= @map.to_html %>
 <%= @map.div(:width => 600, :height => 500) %>
