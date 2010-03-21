@@ -10,10 +10,12 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
 
   before_filter :check_browser
+
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
   unless ActionController::Base.consider_all_requests_local
+    filter_parameter_logging :password
     rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
     rescue_from ActionController::RoutingError,       :with => :render_not_found
     rescue_from ActionController::UnknownController,  :with => :render_not_found
