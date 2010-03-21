@@ -13,6 +13,13 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
+  unless ActionController::Base.consider_all_requests_local
+    rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
+    rescue_from ActionController::RoutingError,       :with => :render_not_found
+    rescue_from ActionController::UnknownController,  :with => :render_not_found
+    rescue_from ActionController::UnknownAction,      :with => :render_not_found
+  end 
+
   def is_ie8?(req)
     req.env[USERAGENT].include? 'MSIE 8.0'
   end
@@ -53,7 +60,7 @@ class ApplicationController < ActionController::Base
   protected
   def rescue_optional_error_file(status_code)
     status = interpret_status(status_code)
-    render :template => "/errors/#{status[0,3]}.html.erb", :status => status, :layout => 'mau'
+    render :template => "/error/#{status[0,3]}.html.erb", :status => status, :layout => 'mau'
   end
 
   protected
@@ -93,6 +100,17 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def render_not_found(exception)
+    log_error(exception)
+    render :template => "/error/index.html.erb", :status => 404
+  end
+
+  def render_error(exception)
+    log_error(exception)
+    render :template => "/error/index.html.erb", :status => 500
+  end
+
   def no_cache
     response.headers["Last-Modified"] = Time.now.httpdate
     response.headers["Expires"] = "0"
