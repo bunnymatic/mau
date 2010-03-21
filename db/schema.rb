@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(:version => 20100224083530) do
     t.integer  "image_height",                             :default => 0
     t.integer  "image_width",                              :default => 0
     t.integer  "max_pieces",                               :default => 20
-    t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
     t.integer  "representative_art_piece"
+    t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
     t.boolean  "os2010",                                   :default => false
   end
 
@@ -93,6 +93,24 @@ ActiveRecord::Schema.define(:version => 20100224083530) do
     t.integer "artist_id"
     t.integer "role_id"
   end
+
+  create_table "dummyusers", :force => true do |t|
+    t.string   "login",                     :limit => 40
+    t.string   "name",                      :limit => 100, :default => ""
+    t.string   "email",                     :limit => 100
+    t.string   "crypted_password",          :limit => 40
+    t.string   "salt",                      :limit => 40
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "remember_token",            :limit => 40
+    t.datetime "remember_token_expires_at"
+    t.string   "activation_code",           :limit => 40
+    t.datetime "activated_at"
+    t.string   "state",                                    :default => "passive"
+    t.datetime "deleted_at"
+  end
+
+  add_index "dummyusers", ["login"], :name => "index_dummyusers_on_login", :unique => true
 
   create_table "events", :force => true do |t|
     t.string   "name"
