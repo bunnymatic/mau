@@ -23,6 +23,16 @@ class ArtistsController < ApplicationController
     @studios = Studio.all
   end
 
+  def hugemap
+    @map = GMap.new("map")
+    @map.control_init(:large_map => true, :map_type => true)
+    address = Address.new("title", "22nd st at Folsom St")
+    coord = address.coord
+    centerx = coord[0]
+    centery = coord[1]
+    @map.center_zoom_init(coord,16)
+  end
+
   def map
     @view_mode = 'map'
     @roster_link = artists_path + "?v=l"
