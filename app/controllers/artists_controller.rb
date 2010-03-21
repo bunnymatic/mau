@@ -5,7 +5,7 @@ include ArtistsHelper
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
-  before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails ]
+  before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :addprofile, :deactivate, :setarrangement, :arrangeart ]
 
   layout 'mau1col', :except => 'faq'
@@ -110,6 +110,30 @@ class ArtistsController < ApplicationController
 
   def admin_index
     @artists = Artist.find(:all)
+  end
+  
+  def admin_update
+    p params
+    begin
+      updates = {}
+      params.each do |k,v|
+        if k[0..2] == 'os_' and /^\d+$/.match(k[2..-1])
+          # we've got all numbers
+          artistid = k[2..-1]
+          os = v
+          updates[artistid] = v
+        end
+      end
+      p updates
+      
+      #self.current_artist.update_attributes!(params[:artist])
+          
+      flash[:notice] = "Update successful"
+      redirect_to(admin_artists_url())
+    rescue 
+      flash[:error] = "%s" % $!
+      redirect_to(admin_artists_url())
+    end
   end
 
   def addprofile

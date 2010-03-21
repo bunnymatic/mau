@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
 
   before_filter :check_browser
-
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 

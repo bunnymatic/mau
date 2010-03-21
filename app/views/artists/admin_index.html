@@ -3,7 +3,18 @@ no reason for this to be very pretty
 -->
 <div class="admin-table">
 <h1>Listing artists</h1>
-<%= form_tag admin_artists_path %>
+<% if flash[:error] -%>
+<div class="error-msg">Error:
+  <%= flash[:error] %>
+</div>
+<% end -%>
+<% if flash[:notice] -%>
+<div class="notice">
+  <%= flash[:notice] %>
+</div>
+<% end -%>
+
+<%= form_tag admin_update_artists_path %>
 <input style="float:right" type="submit" value="update os status"/>
 <table>
   <tr>
@@ -35,7 +46,7 @@ no reason for this to be very pretty
     </td>
     <td><%=h a.street %></td>
     <td><%=h a.os2010 %></td>
-    <td><input type="checkbox" value="<%= a.os2010 ? 1 : 0 %>" <%= "checked" if a.os2010 %> name="os<%= a.id %>" /></td>
+    <td><input type="checkbox"  <%= "checked" if a.os2010 %> name="os_<%= a.id %>" /></td>
     
  </tr>
 <% end %>
