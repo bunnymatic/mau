@@ -105,7 +105,9 @@ MAU = window['MAU'] || {};
     ID_PASSWD_TOGGLE = 'passwd_toggle';
     ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
     ID_NOTIFICATION_TOGGLE = 'notification_toggle';
+    ID_EVENTS_TOGGLE = 'events_toggle';
 
+    ID_EVENTS_SXN = 'artist_events';
     ID_STUDIO_SXN = 'artist_edit_address';
     ID_LINKS_SXN = 'artist_edit_links';
     ID_ARTIST_SXN = 'artist_edit_maininfo';
@@ -120,7 +122,8 @@ MAU = window['MAU'] || {};
 			   ID_BIO_SXN,
 			   ID_PASSWD_SXN,
 			   ID_DEACTIVATE_SXN,
-			   ID_NOTIFICATION_SXN);
+			   ID_NOTIFICATION_SXN,
+			   ID_EVENTS_SXN);
 
     A.TOGGLES = new Array(ID_STUDIO_INFO_TOGGLE,
 			  ID_LINKS_TOGGLE,
@@ -128,7 +131,8 @@ MAU = window['MAU'] || {};
 			  ID_BIO_TOGGLE,
 			  ID_PASSWD_TOGGLE,
 			  ID_DEACTIVATE_TOGGLE,
-			  ID_NOTIFICATION_TOGGLE);
+			  ID_NOTIFICATION_TOGGLE,
+			 ID_EVENTS_TOGGLE);
 
     A.toggleSxnVis = function(sxn) {
 	var sxns = M.Artist.SECTIONS;

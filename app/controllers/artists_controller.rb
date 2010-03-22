@@ -385,6 +385,14 @@ class ArtistsController < ApplicationController
         end
         params[:artist][:email_attrs] = em.to_json
       end
+      # clean os from radio buttons
+      os = params[:artist][:os2010]
+      if os == "true" || os == "on"
+        params[:artist][:os2010] = true
+      elsif os == "false" || os == "off"
+        params[:artist][:os2010] = false
+      end
+        
       self.current_artist.update_attributes!(params[:artist])
       flash[:notice] = "Update successful"
       redirect_to(edit_artist_url(current_artist))
