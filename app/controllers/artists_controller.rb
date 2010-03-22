@@ -117,15 +117,16 @@ class ArtistsController < ApplicationController
   def admin_index
     sortby = "studio_id"
     reverse = false
+    @allowed_sortby = ['studio_id','lastname','firstname','id','login','os2010','email']
     if params[:sortby]
-      if ['studio_id','lastname','firstname','id','login'].include? sortby
+      if @allowed_sortby.include? sortby
         sortby = params[:sortby]
         reverse = false
       end
     end
     if params[:rsortby]
       rsortby = params[:rsortby] || "studio_id"
-      if ['studio_id','lastname','firstname','id','login'].include? rsortby
+      if @allowed_sortby.include? rsortby
         sortby = rsortby
         reverse = true
       end
