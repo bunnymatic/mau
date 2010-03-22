@@ -10,15 +10,13 @@
 <a  title="<%= link_text %>" href="#" onclick="<%= onclick %>"><%= link_text %></a>
 <% end %>
 <div id="<%= parent_id %>" class="popup-help" style="display:none;">
-  <table class="popup-help">
-	<tr>
-	  <td class="popup-help-title"><%= title %></td>
-	  <td class="popup-help-close"><a href="#" onclick="<%= onclick %>">X</a></td>
-	</tr>
-	<tr>
-	  <td class="popup-help-text" colspan="2">
-		<%= render :partial => "/whatsthis/" + section %>
-	  </td>
-	</tr>
-  </table>
+    <div class="popup-help">
+      <div class="popup-help-header">
+	<div class="popup-help-title"><%= title %></div>
+	<div class="popup-help-close"><a href="#" onclick="<%= onclick %>">X</a></div>
+      </div>
+      <div class="popup-help-text">
+	<%= render :partial => "/whatsthis/" + section %>
+      </div>
+    </div>
 </div>

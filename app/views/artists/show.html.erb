@@ -23,6 +23,7 @@
 -->
 	  <% end %>
 	<% if @artist -%>
+	<div class="artist-profile-img">
 	<% if logged_in? and @artist.login == self.current_artist.login -%>
 	<a title="update profile picture" href="/artists/addprofile/<%= self.current_artist.id %>">
 	  <% if @artist.has_profile_image -%>
@@ -38,12 +39,24 @@
   	<img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
   	<%   end -%>
 	<% end -%>
+	<% if @artist.os2010? -%>
+	<div class="os-violator"><a href="/"><img src="/images/os_star_violator.png"/></div>
+	<% end -%>
+	</div>
  	<h4><%=h @artist.get_name %></h4>
 	<div class="artist">
 	  <div class="div-left">
 	    <% if flash[:notice] -%>
 	    <div class="notice">
 	      <%= flash[:notice] %>
+	    </div>
+	    <% end -%>
+	  </div>
+	  <div class="div-left">
+	    Spring Open Studios 2010 Participant? <%= @artist.os2010? ? "<span style='color:#fc0; font-weight:bold;'>Yes</span>":"No" %>
+	    <% if @artist == current_artist -%>
+	    <div id="os2010_help" class="help-parent">
+	      <%= render :partial => '/whatsthis/popup', :locals => { :section => 'os2010_switch', :link_text => "how do i change this?", :parent => 'tag_help', :use_icon => true, :title => "How to Set your Open Studios status" } %>
 	    </div>
 	    <% end -%>
 	  </div>

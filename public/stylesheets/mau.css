@@ -116,10 +116,9 @@ div.donate-btns span {
 }
     
 .open-close-div {
-	border-bottom: 1px dotted;
-	padding-top: 20px;
-	width: 500px;
-	height: 20px;
+    border-bottom: 1px dotted;
+    padding-top: 20px;
+    height: 20px;
 }
 
 .open-close-div span.title {
@@ -133,18 +132,23 @@ div.donate-btns span {
 }
 
 .edit-sections {
-	padding-bottom: 20px;
+    margin: auto;
+    width: 550px;
+    padding-bottom: 20px;
 }
 
-#artist_notification,
-#artist_edit_bio, 
-#artist_edit_links, 
-#artist_edit_maininfo, 
-#artist_edit_address,
-#artist_change_passwd {
-	padding: 10px;
-	margin: 15px 10px;
+.edit-profile-sxn {
+    padding: 10px;
+    margin: 15px 10px;
 }
+.edit-profile-sxn div {
+    text-align: left;
+}
+.edit-profile-sxn div.buttons {
+    margin-top: 10px;
+    text-align: center;
+}
+
 div#artist_notification table.entry-table {
     margin-left: 40px;
 }
@@ -153,9 +157,6 @@ div#artist_notification table.entry-table {
 	font-size: 80%;
 	text-align: left;
 	width: 60%;
-}
-.entry-table {
-	margin-bottom: 10px;
 }
 
 .entry-table .input-err {
@@ -681,11 +682,35 @@ img#logo
     z-index:1;
     border: 0;
 }
+.artist-profile-img {
+    position: relative;
+    float: right;
+    margin: 0px 15px 15px 20px;
+}
+
+.os-violator {
+    bottom: -30px;
+    position:absolute;  
+    right: -37px;
+    z-index:150;
+}
+.os-violator img {
+    width: 84px;
+    height: 87px;
+}
+
+.info-block {
+    margin-left: 5px;
+    float: left;
+    clear:left;
+}
+.info-lbl {
+    float:left;
+}
+
 img.profile
 {
     border:1px dotted #444;
-    float: right;
-    margin: 0px 15px 15px 20px;
 }
 img.width-spacer
 {
@@ -1440,9 +1465,9 @@ div.popup-help {
     background-color: #222;
     position: absolute;
     width: 200px;
-    left: 10px;
-    top: 10px;
-    z-index: 105;
+    left: 4px;
+    top: 4px;
+    z-index: 405;
 }
 
 #mode_selector_helpcontainer {
@@ -1450,7 +1475,7 @@ div.popup-help {
 }
 
 
-.popup-help td {
+.popup-help div, .popup-help td {
     font-size: x-small;
     text-align: left;
 }
@@ -1460,7 +1485,7 @@ div.popup-help {
     margin-right: 10px;
     vertical-align: top;
     position: relative;
-    z-index: 100;
+    z-index: 200;
 }
 
 /** top here is to get into the "h4" tag which has a margin of 1.3em */
@@ -1468,17 +1493,24 @@ div.popup-help {
 	top: -3em;
 }
 
+.popup-help-title {
+    width: 85%;
+}
 .popup-help-text {
+    font-size: x-small;
     padding: 4px 6px 6px 4px;
 }
-td.popup-help-close {
-	width: 10px;
-	text-align: center;
+.popup-help-close {
+    position: absolute;
+    right: 6px;
+    top: 4px;
+    width: 10px;
+    text-align: center;
 }
 
 div.feedback-signup-msg,
-div.popup-help-text,
-table.popup-help tr {
+div.popup-help-header,
+.popup-help-text {
     border: 1px solid #666;
 }
 
@@ -1486,14 +1518,15 @@ table.popup-help tr {
 	border: 0;
 }
 
-.popup-help-title, .popup-help-close {
+.popup-help-header {
     background-color: #000;
     font-weight: bold;
     padding: 4px;
+    position: relative;
 }
 
 div#feedback_modal_content table.popup-help td {
-	font-size: small;
+    font-size: small;
 }
 
 /****
