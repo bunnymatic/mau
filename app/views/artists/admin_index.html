@@ -1,6 +1,8 @@
 <!-- ADMIN Controller for adding studios.
 no reason for this to be very pretty
 -->
+<script src="/javascripts/mau_admin.js" type="text/javascript"></script>
+
 <div class="admin-table">
 <h1>Listing artists</h1>
 <% if flash[:error] -%>
@@ -15,18 +17,18 @@ no reason for this to be very pretty
 <% end -%>
 
 <div>Sort By:
-  <% ['studio_id','lastname','firstname','id','login'].each do |s| %>
+  <% @allowed_sortby.each do |s| %>
   <a href="?sortby=<%= s %>"><%= s %></a>
   <% end %>
   <br/>
   Reverse Sort By:
-  <% ['studio_id','lastname','firstname','id','login'].each do |s| %>
+  <% @allowed_sortby.each do |s| %>
   <a href="?rsortby=<%= s %>"><%= s %></a>
   <% end %>
   <br/>
 </div>
 
-<%= form_tag admin_update_artists_path %>
+<%= form_tag admin_update_artists_path, :id => 'admin_update_frm' %>
 <input style="float:right" type="submit" value="update os status"/>
 <table>
   <tr>
@@ -56,14 +58,11 @@ no reason for this to be very pretty
       Indy/unk
       <% end -%>
     </td>
-    <td><%=h a.street %></td>
-    <td><%=h a.os2010 %></td>
+    <td class="street"><%=h a.street %></td>
+    <td  class="os2010" artistid="<%= a.id %>"><%=h a.os2010 %></td>
     <% checked = (a.os2010 ? "checked=checked":"") -%>
     <td>
-	<% form_for(a) do |f| -%>
-	<div><%= f.radio_button :os2010, "true" %>Yep</div>
-	<div><%= f.radio_button :os2010, "false" %>Nope</div>
-	<% end %>
+	<div ><input artistid="<%= a.id %>" class="cb2010" type="checkbox" name="a<%=a.id%>[os2010]" value="<%=a.os2010%>" <%= checked %> /></div>
     </td>
  </tr>
 <% end %>
