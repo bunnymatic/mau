@@ -14,6 +14,18 @@ no reason for this to be very pretty
 </div>
 <% end -%>
 
+<div>Sort By:
+  <% ['studio_id','lastname','firstname','id','login'].each do |s| %>
+  <a href="?sortby=<%= s %>"><%= s %></a>
+  <% end %>
+  <br/>
+  Reverse Sort By:
+  <% ['studio_id','lastname','firstname','id','login'].each do |s| %>
+  <a href="?rsortby=<%= s %>"><%= s %></a>
+  <% end %>
+  <br/>
+</div>
+
 <%= form_tag admin_update_artists_path %>
 <input style="float:right" type="submit" value="update os status"/>
 <table>
@@ -46,8 +58,13 @@ no reason for this to be very pretty
     </td>
     <td><%=h a.street %></td>
     <td><%=h a.os2010 %></td>
-    <td><input type="checkbox"  <%= "checked" if a.os2010 %> name="os_<%= a.id %>" /></td>
-    
+    <% checked = (a.os2010 ? "checked=checked":"") -%>
+    <td>
+	<% form_for(a) do |f| -%>
+	<div><%= f.radio_button :os2010, "true" %>Yep</div>
+	<div><%= f.radio_button :os2010, "false" %>Nope</div>
+	<% end %>
+    </td>
  </tr>
 <% end %>
 </table>

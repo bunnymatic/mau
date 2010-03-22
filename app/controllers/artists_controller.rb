@@ -115,18 +115,34 @@ class ArtistsController < ApplicationController
   end
 
   def admin_index
-    @artists = Artist.find(:all)
+    sortby = "studio_id"
+    reverse = false
+    if params[:sortby]
+      if ['studio_id','lastname','firstname','id','login'].include? sortby
+        sortby = params[:sortby]
+        reverse = false
+      end
+    end
+    if params[:rsortby]
+      rsortby = params[:rsortby] || "studio_id"
+      if ['studio_id','lastname','firstname','id','login'].include? rsortby
+        sortby = rsortby
+        reverse = true
+      end
+    end
+    @artists = Artist.find(:all, :order => sortby)
+    if reverse
+      @artists = @artists.reverse()
+    end
   end
   
   def admin_update
-    p params
     begin
       updates = {}
       params.each do |k,v|
-        if k[0..2] == 'os_' and /^\d+$/.match(k[2..-1])
+        if k[0..2] == 'os_' and /^\d+$/.match(k[3..-1])
           # we've got all numbers
-          artistid = k[2..-1]
-          os = v
+          artistid = k[3..-1]
           updates[artistid] = v
         end
       end

@@ -689,14 +689,14 @@ img#logo
 }
 
 .os-violator {
-    bottom: -30px;
+    bottom: -35px;
     position:absolute;  
-    right: -37px;
+    right: -42px;
     z-index:150;
 }
 .os-violator img {
-    width: 84px;
-    height: 87px;
+    width: 96px;
+    height: 100px;
 }
 
 .info-block {
