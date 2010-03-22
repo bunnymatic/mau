@@ -4,7 +4,6 @@ class TagsController < ApplicationController
   layout 'mau1col'
   before_filter :admin_required, :except => [ 'index', 'show' ]
 
-  @@NUM_SHOW_TAGS = 50
   @@PER_PAGE = 12
   def admin_index
     @tags = Tag.all
@@ -28,7 +27,6 @@ class TagsController < ApplicationController
   def show
     # get art pieces by tag
     @freq = Tag.frequency(true)
-    # limit # tags to top NUM_SHOW_TAGS
     tags = []
     @freq.each { |t| tags.push(t['tag']) }
     @tags = Tag.find_all_by_id(tags)

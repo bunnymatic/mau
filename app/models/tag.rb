@@ -14,7 +14,7 @@ class Tag < ActiveRecord::Base
   # class level constants
   @@CACHE_EXPIRY =  (Conf.cache_expiry['objects'] or 0)
   @@TAGS_KEY = (Conf.cache_ns or '') + 'tags'
-  @@MAX_SHOW_TAGS = 40
+  @@MAX_SHOW_TAGS = 80
 
   def self.frequency(normalize=true)
     tags = []
