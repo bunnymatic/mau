@@ -17,14 +17,14 @@
       </div>
       <% end -%>
       <div class="content-block"> 
-	  <% if logged_in? and @artist.login == self.current_artist.login -%>
+	  <% if logged_in? && @artist && @artist.login == self.current_artist.login -%>
 <!--	  <%= render :partial => '/deadline_announcement' %> 
 	<div class="clear"></div>
 -->
 	  <% end %>
 	<% if @artist -%>
 	<div class="artist-profile-img">
-	<% if logged_in? and @artist.login == self.current_artist.login -%>
+	<% if logged_in? && @artist && @artist.login == self.current_artist.login -%>
 	<a title="update profile picture" href="/artists/addprofile/<%= self.current_artist.id %>">
 	  <% if @artist.has_profile_image -%>
   	  <img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
