@@ -28,10 +28,11 @@ no reason for this to be very pretty
   <br/>
 </div>
 
-<%= form_tag admin_update_artists_path, :id => 'admin_update_frm' %>
-<input style="float:right" type="submit" value="update os status"/>
+<button id="update_artists" style="float:right">update os status</button>
+<%= form_tag "/admin/artists/" %>
 <table>
   <tr>
+    <th>name</th>
     <th>id</th>
     <th>street</th>
     <th>OS?</th>
@@ -47,28 +48,32 @@ no reason for this to be very pretty
     <% end -%>
     </tde
        -->
-    <td id="admin_artist_name">
-      Username: <%= a.login %><br/>
-      EM: <%= a.email %><br/>
-      Name: <%=h a.get_name %><br/>
-      Active? <%= a.state=='active' %><br/>
-      Studio :<% if a.studio -%>
+    <td id="admin_artist_name" style="width:100px; ">
+      <%=h a.get_name %><br/>
+    </td>
+    <td id="admin_artist_studio" style="width:100px; ">
+      <% if a.studio -%>
       <%= link_to(a.studio.name, a.studio) %>
       <% else %>
       Indy/unk
       <% end -%>
     </td>
+    <td id="admin_artist_info">
+      Username: <%= a.login %><br/>
+      EM: <%= a.email %><br/>
+      Active? <%= a.state=='active' %><br/>
+    </td>
     <td class="street"><%=h a.street %></td>
     <td  class="os2010" artistid="<%= a.id %>"><%=h a.os2010 %></td>
     <% checked = (a.os2010 ? "checked=checked":"") -%>
     <td>
-	<div ><input artistid="<%= a.id %>" class="cb2010" type="checkbox" name="a<%=a.id%>[os2010]" value="<%=a.os2010%>" <%= checked %> /></div>
+	<div ><input artistid="<%= a.id %>" class="cb2010" type="checkbox" name="artist<%=a.id%>" value="<%=a.os2010%>" <%= checked %> /></div>
     </td>
  </tr>
 <% end %>
 </table>
-<input style="float:right" type="submit" value="update artists"/>
 </form>
+<button id="update_artists" style="float:right">update os status</button>
 <br />
 
 </div>
