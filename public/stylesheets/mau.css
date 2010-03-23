@@ -667,6 +667,8 @@ div#footer{
     padding-left: 20px;
 }
 
+a { outline:none; }
+
 img { 
     border: 0;
     outline: none;
