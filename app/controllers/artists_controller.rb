@@ -139,19 +139,20 @@ class ArtistsController < ApplicationController
   
   def admin_update
     begin
-      updates = {}
+      ct = 0
       params.each do |k,v|
-        if k[0..2] == 'os_' and /^\d+$/.match(k[3..-1])
-          # we've got all numbers
-          artistid = k[3..-1]
-          updates[artistid] = v
+        m = /^ARTIST(\d+)$/.match(k)
+        if m and m.length == 2
+          artistid = m[1]
+          a = Artist.find(artistid)
+          if a
+            a.os2010 = (v.to_s == 'true')
+            a.save
+            ct = ct + 1
+          end
         end
       end
-      p updates
-      
-      #self.current_artist.update_attributes!(params[:artist])
-          
-      flash[:notice] = "Update successful"
+      flash[:notice] = "Updated %d artists" % ct
       redirect_to(admin_artists_url())
     rescue 
       flash[:error] = "%s" % $!
