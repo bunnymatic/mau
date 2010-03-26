@@ -228,7 +228,7 @@ class ArtistsController < ApplicationController
     pieces = []
     
     vw = "gallery"
-    queryargs["v"] = params[:v] }
+    queryargs["v"] = params[:v]
     
     if params[:v] == 'l'
       vw = 'list'
