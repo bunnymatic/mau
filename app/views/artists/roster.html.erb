@@ -1,28 +1,20 @@
 <div id="all_artists_page" class="roster-container" >
   <h4>MAU Artists</h4>
-    <%= render :partial => '/artists/view_switcher' %>
-    <div align="center">
-  <table>
-    <tr>
-      <td align="center">
+  <%= render :partial => '/artists/view_switcher' %>
+  <%= render :partial => '/osswitch', :locals => { :dest => @selflink} %>
+     <div class="clear"></div>
+  <div class="roster">
     <% per_col = 20 -%>
     <% first = 0
        last = per_col - 1
        begin -%>
-    <div class="roster-col">
-      <% arr = @artists[first..last] -%>
-      <table>
-        <% arr.each do |a| -%>
-	<tr>
-	  <td class="roster-names">
-	    <div><%= link_to a.get_name(true), a %></div>
-	  </td>
-	</tr>
-	<% end -%>
-      </table>
-    </div>
-    <% first += per_col
-       last += per_col
-       end while first < @artists.length -%>
-  </td></tr></table>
+    <% arr = @artists[first..last] -%>
+    <% arr.each do |a| -%>
+    <div><%= link_to a.get_name(true), a %></div>
+    <% end -%>
+  </div>
+  <% first += per_col
+     last += per_col
+     end while first < @artists.length -%>
+     <div class="clear"></div>
 </div>
