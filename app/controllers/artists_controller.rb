@@ -23,16 +23,6 @@ class ArtistsController < ApplicationController
     @studios = Studio.all
   end
 
-  def hugemap
-    @map = GMap.new("map")
-    @map.control_init(:large_map => true, :map_type => true)
-    address = Address.new("title", "22nd st at Folsom St")
-    coord = address.coord
-    centerx = coord[0]
-    centery = coord[1]
-    @map.center_zoom_init(coord,16)
-  end
-
   def map
     @view_mode = 'map'
     @roster_link = artists_path + "?v=l"
@@ -43,10 +33,11 @@ class ArtistsController < ApplicationController
     addresses = []
     if @os_only == 'on'
       artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ])
+      @roster_link += '&os2010=1'
+      @gallery_link += '&os2010=1'
     else
       artists = Artist.all
     end
-
     @map = GMap.new("map")
     @map.control_init(:large_map => true, :map_type => true)
     # init icon
@@ -213,7 +204,14 @@ class ArtistsController < ApplicationController
 
   def index
     # rollup artists images so we have all thumbs from artists
-    artists = Artist.all { a.sort_by |a| a.get_sort_name }
+    @os_only = params[:osonly]
+
+    if @os_only == 'on'
+      artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ])
+    else
+      artists = Artist.all { a.sort_by |a| a.get_sort_name }
+    end
+
     nartists = artists.length
     curpage = params[:p] || 0
     curpage = curpage.to_i
@@ -292,6 +290,7 @@ class ArtistsController < ApplicationController
     @page_title = "Mission Artists United - MAU Artists"
     @roster_link = "?v=l"
     @gallery_link = "?v=g"
+    
     if vw == "list"
       render :action => 'roster', :layout => 'mau1col'
     else

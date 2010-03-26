@@ -1240,6 +1240,10 @@ div.studio-list {
     border: 1px dotted #444;
 }
 
+#studio_page .studio-img
+{
+       float: right;
+}
 .studio-thumb {
    background-color:#111;
    float:left;
