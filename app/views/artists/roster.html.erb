@@ -1,7 +1,7 @@
 <div id="all_artists_page" class="roster-container" >
   <h4>MAU Artists</h4>
-  <%= render :partial => '/artists/view_switcher' %>
   <%= render :partial => '/osswitch', :locals => { :dest => @selflink} %>
+  <%= render :partial => '/artists/view_switcher' %>
      <div class="clear"></div>
   <div class="roster">
     <% per_col = 20 -%>
