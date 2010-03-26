@@ -16,6 +16,6 @@
   <% if @view_mode == 'map' -%>
   map
   <% else -%>
-  <%= link_to "map", artistsmap_path %>
+  <%= link_to "map", @map_link || artistsmap_path %>
   <% end -%>
 </div>
