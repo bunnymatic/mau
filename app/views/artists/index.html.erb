@@ -2,7 +2,7 @@
   <h4>MAU Artists</h4>
   <div align="center">
     <%= render :partial => '/artists/alpha_pagination' %>
-    <%= render :partial => '/osswitch', :locals => { :dest => @selflink} %>
+    <%= render :partial => '/osswitch' :locals => { :params => @inparams} %>
     <%= render :partial => '/artists/view_switcher' %>
     <%= render :partial => '/pagination' %>
     <div class="clear"></div>

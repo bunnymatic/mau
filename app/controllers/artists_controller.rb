@@ -314,7 +314,6 @@ class ArtistsController < ApplicationController
     roster_args.delete('v')
     @map_link = artistsmap_path + HTMLHelper.queryencode(roster_args)
 
-    @selfurl = artists_url
     @inparams = params
     @inparams.delete('action')
     @inparams.delete('controller')

@@ -1,5 +1,5 @@
 <div class="map-os-switch">
-  <form id="map_osswitcher" action="<%= dest %>">
+  <form id="map_osswitcher" action="">
     <% params.each do |k,v| -%>
     <% if !['osonly','all'].include? k -%>
     <input name="<%= k %>" id="<%= k %>" type="hidden" value="<%= v %>"/>

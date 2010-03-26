@@ -8,7 +8,7 @@
   <%   end -%>
   <% end -%>
 </div>
-<%= render :partial => '/osswitch', :locals => { :dest => @selfurl, :params => @inparams} %>
+<%= render :partial => '/osswitch', :locals => {:params => @inparams} %>
 <div class="map-container">
 <%= GMap.header(:local_search => true) %>
 <%= @map.to_html %>
