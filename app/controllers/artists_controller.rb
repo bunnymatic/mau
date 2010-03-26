@@ -210,10 +210,12 @@ class ArtistsController < ApplicationController
 
 
   def index
-    # rollup artists images so we have all thumbs from artists
+    # collect query args to build links
+    queryargs = {}
     @os_only = params[:osonly]
     if @os_only == 'on'
       artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ])  { a.sort_by |a| a.get_sort_name }
+      queryargs['osonly'] = "on"
     else
       artists = Artist.all { a.sort_by |a| a.get_sort_name }
     end
@@ -226,13 +228,12 @@ class ArtistsController < ApplicationController
     pieces = []
     
     vw = "gallery"
-    queryargs = { "v" => params[:v] }
+    queryargs["v"] = params[:v] }
     
     if params[:v] == 'l'
       vw = 'list'
     end
     if ['on','true',1].include? @osonly
-      queryargs['osonly'] = "on"
     end
     @view_mode = vw
 
