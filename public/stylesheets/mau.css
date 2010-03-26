@@ -528,7 +528,7 @@ div#login, div#logout {
     width: 527px;
     margin: auto;
 }
-#all_artists_page {
+#map_page,#all_artists_page {
     margin:auto;
     width:800px;
 }
@@ -1695,7 +1695,8 @@ form#feedback_form .error {
 map page
 **/
 .map-container { float: right; }
-.map-os-switch { font-size: 80%; float: right; margin-bottom: 6px;}
+.map-os-switch { font-size: 80%; float: left; margin-bottom: 6px;}
+#all_artists_page .map-os-switch { float: left; }
 .map-roster { float: left; width:200px; }
 .map-addr {
 	text-align: left;
