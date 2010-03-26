@@ -1,0 +1,15 @@
+<div class="map-os-switch">
+  <form id="map_osswitcher" action="<%= dest %>">
+    <% params.each do |k,v| -%>
+    <% if !['osonly','all'].include? k -%>
+    <input name="<%= k %>" id="<%= k %>" type="hidden" value="<%= v %>"/>
+    <% end -%>
+    <% end -%>
+    <% if [1,'on','true'].include? @os_only -%>
+    <input name="all" id="map_cb" type="checkbox" checked="checked"></input>
+    <% else -%>
+    <input name="osonly" id="map_cb" type="checkbox"></input>
+    <% end -%>
+    (showing only open studios artists)
+  </form>
+</div>
