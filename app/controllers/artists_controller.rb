@@ -99,6 +99,10 @@ class ArtistsController < ApplicationController
     center = [ centerx / nentries.to_f,
                centery / nentries.to_f]
     @map.center_zoom_init(center,14)
+    @selfurl = artistsmap_url
+    @inparams = params
+    @inparams.delete('action')
+    @inparams.delete('controller')
   end
 
   def admin_emails
@@ -205,9 +209,8 @@ class ArtistsController < ApplicationController
   def index
     # rollup artists images so we have all thumbs from artists
     @os_only = params[:osonly]
-
     if @os_only == 'on'
-      artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ])
+      artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ])  { a.sort_by |a| a.get_sort_name }
     else
       artists = Artist.all { a.sort_by |a| a.get_sort_name }
     end
@@ -257,10 +260,14 @@ class ArtistsController < ApplicationController
       show_next = (curpage != lastpage)
       show_prev = (curpage > 0)
       arg = "?p=%d" 
+      if @osonly
+        arg += "&osonly=on"
+      end
       nxtmod = arg % nextpage
       prvmod = arg % prevpage
       lastmod = arg % lastpage
       base_link = "/artists/"
+
       if show_next
         @next_link = base_link + nxtmod
         @last_link = base_link + lastmod
@@ -290,7 +297,14 @@ class ArtistsController < ApplicationController
     @page_title = "Mission Artists United - MAU Artists"
     @roster_link = "?v=l"
     @gallery_link = "?v=g"
-    
+    if @os_only
+      @roster_link += "&osonly=on"
+      @gallery_link += "&osonly=on"
+    end
+    @selfurl = artists_url
+    @inparams = params
+    @inparams.delete('action')
+    @inparams.delete('controller')
     if vw == "list"
       render :action => 'roster', :layout => 'mau1col'
     else
@@ -404,7 +418,7 @@ class ArtistsController < ApplicationController
       end
       # clean os from radio buttons
       os = params[:artist][:os2010]
-      if os == "true" || os == "on"
+      if os == "true" || os == "on" || os == 1
         if ((!params[:artist][:street]) || (params[:artist][:street].empty?)) && (current_artist.studio && current_artist.studio.id <= 0)
           raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
         end
