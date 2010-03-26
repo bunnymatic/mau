@@ -1,6 +1,7 @@
 # -*- coding: undecided -*-
 require 'xmlrpc/client'
 include ArtistsHelper
+include HTMLHelper
 
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
@@ -25,16 +26,18 @@ class ArtistsController < ApplicationController
 
   def map
     @view_mode = 'map'
-    @roster_link = artists_path + "?v=l"
-    @gallery_link = artists_path + "?v=g"
-
     @os_only = params[:osonly]
-
+    roster_args = {'v' => 'l'}
+    gallery_args = {'v' => 'g'}
+    if @os_only
+      gallery_args['osonly'] = 'on'
+      roster_args['osonly'] = 'on'
+    end
+    @roster_link = artists_path + HTMLHelper.queryencode(roster_args)
+    @gallery_link = artists_path + HTMLHelper.queryencode(gallery_args)
     addresses = []
     if @os_only == 'on'
       artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ])
-      @roster_link += '&os2010=1'
-      @gallery_link += '&os2010=1'
     else
       artists = Artist.all
     end
@@ -223,8 +226,13 @@ class ArtistsController < ApplicationController
     pieces = []
     
     vw = "gallery"
+    queryargs = { "v" => params[:v] }
+    
     if params[:v] == 'l'
       vw = 'list'
+    end
+    if ['on','true',1].include? @osonly
+      queryargs['osonly'] = "on"
     end
     @view_mode = vw
 
@@ -257,24 +265,23 @@ class ArtistsController < ApplicationController
       elsif curpage < 0
         curpage = 0
       end
+      
       show_next = (curpage != lastpage)
       show_prev = (curpage > 0)
-      arg = "?p=%d" 
-      if @osonly
-        arg += "&osonly=on"
-      end
-      nxtmod = arg % nextpage
-      prvmod = arg % prevpage
-      lastmod = arg % lastpage
+
       base_link = "/artists/"
 
       if show_next
-        @next_link = base_link + nxtmod
-        @last_link = base_link + lastmod
+        queryargs["p"] = nextpage
+        @next_link = base_link + HTMLHelper.queryencode(queryargs)
+        queryargs["p"] = lastpage
+        @last_link = base_link + HTMLHelper.queryencode(queryargs)
       end
       if show_prev
-        @prev_link = base_link + prvmod
-        @first_link = base_link
+        queryargs["p"] = prevpage
+        @prev_link = base_link + HTMLHelper.queryencode(queryargs)
+        queryargs.delete('p')
+        @first_link = base_link + HTMLHelper.queryencode(queryargs)
       end
       # display page and last should be indexed staring with 1 not 0
       @last = lastpage + 1
@@ -288,19 +295,24 @@ class ArtistsController < ApplicationController
         firstltr = pieces[firstidx]['alpha']
         lastltr = pieces[lastidx]['alpha']
         lnktxt = "%s - %s" % [firstltr, lastltr]
-        lnk = "p=%d" % idx
-        @alpha_links << [lnktxt, lnk, curpage == idx ]
+        queryargs["p"] = idx
+        @alpha_links << [lnktxt, HTMLHelper.queryencode(queryargs), curpage == idx ]
       end
     end
     @artists = artists
     @studio = nil
     @page_title = "Mission Artists United - MAU Artists"
-    @roster_link = "?v=l"
-    @gallery_link = "?v=g"
+    roster_args = {'v' => 'l'}
+    gallery_args = {'v' => 'g'}
     if @os_only
-      @roster_link += "&osonly=on"
-      @gallery_link += "&osonly=on"
+      gallery_args['osonly'] = 'on'
+      roster_args['osonly'] = 'on'
     end
+    @roster_link = HTMLHelper.queryencode(roster_args)
+    @gallery_link = HTMLHelper.queryencode(gallery_args)
+    roster_args.delete('v')
+    @map_link = artistsmap_path + HTMLHelper.queryencode(roster_args)
+
     @selfurl = artists_url
     @inparams = params
     @inparams.delete('action')
