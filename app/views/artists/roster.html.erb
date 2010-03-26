@@ -1,6 +1,6 @@
 <div id="all_artists_page" class="roster-container" >
   <h4>MAU Artists</h4>
-  <%= render :partial => '/osswitch' %>
+  <%= render :partial => '/osswitch', :locals => { :params => @inparams} %> 
   <%= render :partial => '/artists/view_switcher' %>
     <div>
   <table>
