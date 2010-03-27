@@ -233,6 +233,7 @@ a:active {
 
 input.srch {
     background-color:#D6f3ff;
+
     margin-left: 10px;
     margin-right: 5px;
 }
@@ -241,7 +242,13 @@ input.srch {
    colors should be set the same for textarea, select and srch
 */
 input, textarea, select {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     background-color:#FEF7CA;
+}
+button {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 input.chkbox {
     margin-right: 20px;
