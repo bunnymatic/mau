@@ -475,6 +475,10 @@ div.feedtitle  {
 	margin-right: 20px;
 }
 	
+#artists_resources {
+    border-top: 1px solid #666;
+}
+
 #artists_resources div h4 {
 	margin: 20px 0;
 }
