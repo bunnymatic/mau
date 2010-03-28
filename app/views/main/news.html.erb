@@ -1,29 +1,52 @@
 <div id="news_text">
   <div class="about-title"><h4>Spring Open Studios 2010</h4></div>
-  <p>Mission Artists United Presents Spring Open Studios where more than a hundred Mission Artists open their studios 
-    to the public for a weekend.  Art lovers from all over come to see the creativity and innovation of
-    their favorite local artists in our favorite San Francisco neighborhood.</p>
-  <p>
-    ART LOVERS : &nbsp;&nbsp;&nbsp;Mark your calendar for April 24 & 25th, 11am - 6pm.
-  </p>
-  <p>
-    MISSION ARTISTS : &nbsp;&nbsp;&nbsp;If you are an artist working in the Mission, then you are already part of Mission Artists United.  You are welcome to join us for this event.  <%= link_to "Sign up", signup_path, { :title => "create an account"} %> and post your
-    portfolio or links or whatever you'd like to share.  Then get ready for your Open Studios weekend.</p>
+  <div style="float:left; width:290px;"><a href="/artists/map?osonly=on" title="Map of Open Studios Artists!"><img class="icons" src="/images/springos2010map.jpg" width="287" height="400" alt="map"></a></div>
+  <div class="news-text">
+	<p>Mission Artists United Presents Spring Open Studios where more than a hundred Mission Artists open their studios 
+      to the public for a weekend.  Art lovers from all over come to see the creativity and innovation of
+      their favorite local artists in our favorite San Francisco neighborhood.</p>
+	<p>
+	  <span class="title">Art Lovers:</span>Mark your calendar for April 24 & 25th, 11am - 6pm.
+	</p>
+	<p>
+      <span class="title">Mission Artists:</span>If you are an artist working in the Mission, then you are already part of Mission Artists United.  You are welcome to join us for this event.  <%= link_to "Sign up", signup_path, { :title => "create an account"} %> and post your
+      portfolio or links or whatever you'd like to share.  Then get ready for your Open Studios weekend.</p>
 
-  <p>If you'd like to help put on this event, click on the  <a href="<%= getinvolved_path %>">Get Involved</a> button.  MAU loves volunteers!</p>
+	<p>If you'd like to help put on this event, click on the  <a href="<%= getinvolved_path %>">Get Involved</a> button.  MAU loves volunteers!</p>
+  </div>
+  <div class="clear"></div>
+  <div id="artists_resources">
+    <div class="about-title"><h4>Artists Resources</h4></div>
+	<div class="artists-resources-entries">
+	  <div class="main-entry"><span class="title">Spring Open Studios Tips!</span>
+		<div>
+		<a href="http://trishtunney.blogspot.com/2010/03/fun-and-successful-open-studios.html" target="_blank">Open Studios - Tips for the Artist</a> from Trish Tunney.</div>
+	  </div>
+	  <div class="main-entry"><span class="title">Promo materials!</span>
+		<div>
+		  <a href="http://bit.ly/mau2010" target="_blank">Order Spring Open Studios Cards!</a>
+		</div>
+		<div>
+		  <a href="http://bit.ly/mau2010#download-start" target="_blank">Download postcard templates to print your own Spring Open Studios Cards.</a>
+		</div>
+	  </div>
+	  <div class="main-entry"><span class="title">MAU Gear!</span>
+		<div>
+		<a href="http://www.cafepress.com/ArtIsTheMission" target="_blank">Art is the Mission shirts and gear</a>
+		</div>
+		<div>
+		  <a href="http://www.cafepress.com/MissionArtists" target="_blank">Mission Artists United Logo gear</a>
+		</div>
+	  </div>
+	</div>
+	<div style="margin-left: 10px; float:left; width:305px;"><a target="_blank" title="Open Studios - Tips for the Artist" href="http://trishtunney.blogspot.com/2010/03/fun-and-successful-open-studios.html"><img src="/images/ostips_thumb.jpg" width="300" height="199"/></a></div>
+	<div class="clear"></div>
+  </div>
 
-  <a href="/artists/map?osonly=on" title="Map of Open Studios Artists!"><img align='right' class="icons" src="/images/map-thumb.png" height="296" width="331" alt="map"></a>
   <div class="clear"></div>
   <div class="news-footer div-right">Art is the Mission &nbsp;&nbsp;
     <a href="http://www.facebook.com/pages/San-Francisco/Mission-Artists-United/184838677409" target="_blank" ><img class="icons" src="/images/icons/fb32.png" alt="facebook"></a>
     <a href="http://twitter.com/sfmau" target="_blank" ><img class="icons" src="/images/icons/twitter32.png" alt="twitter"></a>
   </div>
 
-  <div id="artists_resources">
-    <div class="about-title"><h5>Artists Resources</h5></div>
-    <ul >
-      <li><a href="http://bit.ly/mau2010" target="_blank">Order Spring Open Studios Cards!</a></li>
-      <li ><a href="http://www.cafepress.com/MissionArtists" target="_blank">Get your MAU Gear!</a></li>
-    </ul>
-  </div>
 </div>
