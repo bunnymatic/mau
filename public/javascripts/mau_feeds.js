@@ -17,11 +17,10 @@ MAUFEEDS = window['MAUFEEDS'] || {};
 		MAUFEEDS.init = function(){};
 	};
 	MAUFEEDS.stripStyles = function( feeddiv_id ) {
-		MAU.log( "Strip");
 		spans = $$('#'+feeddiv_id+" span");
-		MAU.log( "spans " + spans.length);
 		// clean style attributes from spans
 		spans.each(function(sp){ sp.writeAttribute('style','');});
+		
 	};
 
     Event.observe(window, 'load', MAUFEEDS.init);

@@ -408,6 +408,10 @@ input[type=submit], .formbutton{
     vertical-align: top;
 }
 
+#feed_div blockquote {
+	margin: 1em 0 0 8px;
+}
+
 .feed-studios {
     margin-bottom: 10px;
 	text-align: left;
@@ -453,13 +457,48 @@ div.feedtitle  {
 
 .feedtxt {
     color: #000000;
-    font-size:x-small;
+    font-size: 9px;
     text-align: left;
 }
 
 /* for news page */
 #news_text .news-footer {
     margin-top: 30px;
+}
+.news-text {
+	float:left; 
+	font-size: 95%;
+	width: 265px;
+}
+.news-text p span.title {
+	text-transform: uppercase;
+	margin-right: 20px;
+}
+	
+#artists_resources div h4 {
+	margin: 20px 0;
+}
+#artists_resources .excerpt {
+	font-size: 9px;
+	margin: 8px;
+}
+
+.artists-resources-entries .main-entry {
+	margin: 8px 0px;
+}
+.artists-resources-entries div div {
+	margin: 2px 0 2px 8px;
+}
+
+.artists-resources-entries span.title {
+	text-transform: uppercase;
+	font-size:105%;
+}
+.artists-resources-entries {
+	float:left; 
+	font-size: 90%;
+	text-align: left;
+	width: 240px;
 }
 
 .rcol .feedtitle {
@@ -525,14 +564,14 @@ div#login, div#logout {
     font-size: 80%;
 }
 
-#contact_text, #news_text, .privacy-content,
+#contact_text, .privacy-content,
 #artist_edit {
 	margin-left:40px;
 	margin-right:40px;
 }
 #about_text, #news_text {
     text-align: justify; 
-    width: 527px;
+    width: 560px;
     margin: auto;
 }
 #map_page,#all_artists_page {
@@ -551,7 +590,9 @@ div#login, div#logout {
     margin: 15px;
 }
 
-.roster-names {}
+.roster-names {
+	text-align:left
+}
 
 #search_results {
     width:547px;
