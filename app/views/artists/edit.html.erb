@@ -79,7 +79,6 @@
     <div class="open-close-div"><span id="events_toggle" class="title">Open Studios</span><span class="edit"><a href="#" id="events_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div class="edit-profile-sxn"  id="artist_events" style="display:none;">
       <div>
-	<% form_for(@artist) do |f| -%>
 	<div style="width:80%; float:left;">
 	  Are you planning to participate in Spring Open Studios 2010 - April 24th and 25th from 11a-6p?
 	</div>
@@ -94,7 +93,6 @@
 	<%= f.submit 'Save Changes' %>
 	<%= f.submit 'Cancel' %>
       </div>
-      <% end -%>
     </div>
     <div class="open-close-div" ><span id="notification_toggle" class="title">Notifications</span><span class="edit"><a href="#" id="notification_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div  class="edit-profile-sxn"  id="artist_notification" style="display:none;">
