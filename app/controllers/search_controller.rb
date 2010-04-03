@@ -44,7 +44,6 @@ class SearchController < ApplicationController
 
     # check for artist exact name match
     active_artists.each do |a|
-      print "%s v %s" % [a.get_name(false).downcase, qq]
       if a.get_name(false).downcase == qq
         ap = a.representative_piece
         results = { ap.id => ap }
