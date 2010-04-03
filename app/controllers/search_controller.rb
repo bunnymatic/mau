@@ -42,10 +42,20 @@ class SearchController < ApplicationController
       redirect_to( ss[0] )
     end
 
+    # check for artist exact name match
+    active_artists.each do |a|
+      if a.get_name(false) == qq
+        ap = a.representative_piece
+        results = { ap.id => ap }
+      end
+    end
+      
     qq = "%" + qq + "%"
     
     if not results
-
+      qs = qq.split(/\s+/)
+      name_clause = ''
+      
       by_artist = (Artist.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) and state = 'active'", qq, qq, qq])).map { |a| a.representative_piece }
     
       tag_ids = (Tag.find(:all, :conditions => ["name like ?", qq])).map { |tg| tg.id }
