@@ -2,28 +2,28 @@
   <h4>MAU Artists</h4>
   <%= render :partial => '/osswitch', :locals => { :params => @inparams} %> 
   <%= render :partial => '/artists/view_switcher' %>
-    <div>
-  <table>
-    <tr>
-      <td align="center">
-    <% per_col = 20 -%>
+    <div class="clear"></div>
+  <div class="roster">
+
+    <% num_cols = 4
+       per_col = 4 
+       cols = 0 -%>
     <% first = 0
        last = per_col - 1
        begin -%>
-    <div class="roster-col">
-      <% arr = @artists[first..last] -%>
-      <table>
-        <% arr.each do |a| -%>
-	<tr>
-	  <td class="roster-names">
-	    <div><%= link_to a.get_name(), a %></div>
-	  </td>
-	</tr>
-	<% end -%>
-      </table>
+    <% if (cols > 0) && ((cols % num_cols) == 0) -%>
+    <div class="clear"></div>
+    <% end -%>
+    <div class="chunk">
+      <% arr = @artists[first..last].each do |a| -%>
+      <div class="name"><%= link_to a.get_name(true), a %></div>
+      <% end -%>
     </div>
     <% first += per_col
        last += per_col
-       end while first < @artists.length -%>
-  </td></tr></table>
+       cols += 1
+       -%>
+    <% end while first < @artists.length -%>
+       </div>
+    <div class="clear"></div>
 </div>

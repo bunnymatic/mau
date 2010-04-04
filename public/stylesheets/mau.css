@@ -589,13 +589,17 @@ div#login, div#logout {
     margin: auto;
 }
 
-.roster-col {
+.roster {
+    font-size:85%;
+    margin: auto;
+}
+.roster .chunk {
     float: left;
     margin: 15px;
+    width: 20%;
 }
-
-.roster-names {
-	text-align:left
+.chunk .name {
+    text-align:left
 }
 
 #search_results {
@@ -1749,8 +1753,6 @@ map page
 .map-container { float: right; }
 .map-os-switch { font-size: 80%; float: left; margin-bottom: 6px;}
 #all_artists_page .map-os-switch { float: left; }
-#all_artists_page.roster-container div { margin: auto; }
-#all_artists_page.roster-container table { width: 90%; }
 .map-roster { float: left; width:200px; }
 .map-addr {
 	text-align: left;
