@@ -14,8 +14,9 @@ module FeedsHelper
 
   @@DESC_CLEANER = Regexp.union( Regexp.new('<br\/?[^>]*>|<br/>'),
                                  Regexp.new('<a\/?[^>]*>|</a>'),
-                                 Regexp.new('<img\/?[^>]*>'),
-                                 Regexp.new('\s+style=\".*\"\s+' ))
+                                 Regexp.new('\s+style=\".*\"\s+'),
+                                 Regexp.new('<img\/?[^>]*>')
+                                 )
 
   @@LINK_MATCH = Regexp.new( '\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))')
 #'((http?:\/\/|www\.)([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)')
@@ -60,7 +61,7 @@ module FeedsHelper
     end
     # process entry if we want to.
     if strip_tags
-      entry.description.gsub!(@@DESC_CLEANER,"")
+      entry.description.gsub!(@@DESC_CLEANER," ")
     end
     
     entry.description.strip!
