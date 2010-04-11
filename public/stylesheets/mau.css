@@ -336,6 +336,19 @@ input[type=submit], .formbutton{
     overflow: visible; /* seems to keep ie from adding extra padding */ 
 }
 
+div.formbutton {
+    line-height: 20px;
+}
+
+.news-text div.formbutton {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 0 10px;
+    margin: 8px 20px 0;
+    text-align: center;
+    line-height: 20px;
+}
+
 .artist-buttons, .edit-buttons {
     margin: 8px 0;
 }
@@ -459,6 +472,10 @@ div.feedtitle  {
     color: #000000;
     font-size: 9px;
     text-align: left;
+}
+
+.feedtxt iframe {
+    display: none;
 }
 
 /* for news page */

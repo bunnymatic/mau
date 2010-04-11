@@ -60,3 +60,7 @@ a.fdbk-sel div#next_pg {
 	margin-top: 0px;
 }
 
+.news-text div.formbutton {
+    line-height: auto;
+    height: 20px;
+}
