@@ -309,7 +309,7 @@ input[type=checkbox] {
 }
 input[type=submit] {
     background:#999;
-    background:url(/images/gradient-20px.png) repeat-x left top;
+    background:url(/images/gradients.png) repeat-x left top;
     border:outset 1px #ccc;
     color:#666;
     cursor:pointer;
@@ -324,7 +324,7 @@ input[type=submit][disabled=disabled] {
 
 input[type=submit], .formbutton{
     background:#999;
-    background:url(/images/gradient-20px.png) repeat-x left top;
+    background:url(/images/gradients.png) repeat-x left top;
     border:outset 1px #ccc;
     color:#666;
     cursor:pointer;
@@ -673,10 +673,12 @@ table#header-tbl, table#footer-tbl {
 }
 
 table#header-tbl {
-    background-image: url(/images/gradient-40px.png);
+    background-image: url(/images/gradients.png);
+    background-offset: 0 -50px; /* 40px */
 }
 table#footer-tbl{
-    background-image: url(/images/gradient-30px.png);
+    background-image: url(/images/gradients.png);
+    background-offset: 0 -20px; /* 30px */
 }
 
 div#feedcolumn{
@@ -731,9 +733,10 @@ div#footer{
     background: #fff;
     text-align:left;
     font-size: x-small;
-    background-image: url(/images/gradient-30px.png);
+    background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
     background-position: bottom;
+    background-offset: 0 -20px;
     padding-top: 5px;
     padding-right: 0;
     padding-bottom: 5px;
