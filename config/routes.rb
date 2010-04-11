@@ -1,16 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :venues
 
   map.feedback 'feedbacks', :controller => 'feedbacks', :action => 'create'
   map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
 
-  map.resources :events
-
   map.resources :media
 
-  map.resources :events
-
-  map.resources :images
+#  map.resources :events
+#  map.resources :venues
 
   map.resources :art_pieces
 
