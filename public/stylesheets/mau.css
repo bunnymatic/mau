@@ -468,9 +468,10 @@ div.feedtitle  {
     text-align: left;
 }
 
+#feed_div .feedentry div, /* this one is to catch any stray divs from blogger or whomever*/
 .feedtxt {
     color: #000000;
-    font-size: 9px;
+    font-size: 10px;
     text-align: left;
 }
 
