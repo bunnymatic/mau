@@ -14,7 +14,7 @@ module FeedsHelper
 
   @@DESC_CLEANER = Regexp.union( Regexp.new('<br\/?[^>]*>|<br/>'),
                                  Regexp.new('<a\/?[^>]*>|</a>'),
-                                 Regexp.new('\s+style=\".*\"\s+'),
+                                 Regexp.new('\s+style=\"[^>]"(\s+|\>)'),
                                  Regexp.new('<img\/?[^>]*>')
                                  )
 
