@@ -16,7 +16,7 @@
     </tr>
   </table>
   <%= f.hidden_field 'comment', :value => "this person wants us to add them to our email list" %>
-  <%= f.hidden_field 'subject', :value => "Suggestion" %>
+  <%= f.hidden_field 'subject', :value => "Please Add Me To Your Email List" %>
   <%= f.hidden_field 'page', :value => request.referer %>
   <% if current_artist -%>
   <%= f.hidden_field 'login', :value => current_artist.login %>

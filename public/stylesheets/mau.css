@@ -1576,7 +1576,6 @@ div.popup-help {
 }
 
 .popup-help-title {
-    width: 85%;
 }
 .popup-help-text {
     font-size: x-small;
@@ -1588,6 +1587,15 @@ div.popup-help {
     top: 4px;
     width: 10px;
     text-align: center;
+}
+
+#feedback_modal_content .popup-help-title {
+    padding-left: 10px;
+    line-height:2em;
+    background-color: black;
+}
+#bemail_input div.little-txt {
+    margin-bottom: 4px;
 }
 
 div.feedback-signup-msg,

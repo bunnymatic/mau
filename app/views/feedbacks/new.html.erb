@@ -1,8 +1,4 @@
-<table class="popup-help">
-  <tr>
-    <td class="popup-help-title"><%= @title %></td>
-  </tr>
-</table>
+<div class="popup-help-title"><%= @title %></div>
 <div class="popup-help-text">
   <% form_for :feedback, @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
   <table class="fdbk-form">
