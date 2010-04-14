@@ -10,6 +10,7 @@
     <%=
        javascript_include_tag :defaults, "mau"
        %>
+    <%= render :partial => '/ganalytics' %>
   </head>
   <body>
     <div align="center">
@@ -21,7 +22,6 @@
       <div class="hstripe"></div>    
       <%= render :partial => '/footer' %>
     </div>      
-    <%= render :partial => '/ganalytics' %>
     </div>
   </body>
 	<script>Feedback.init()</script>
