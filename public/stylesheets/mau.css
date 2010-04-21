@@ -852,6 +852,23 @@ div.get-involved {
     margin: 10px 0;
 }
 
+div.os-promo {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background-color: #aaa;
+    border: 1px solid #444;
+    color: #222;
+    margin-bottom: 20px;
+    margin-right: 8px;
+    padding: 4px 4px 20px 4px;
+}
+
+.os-promo h4 {
+    margin-top: 5px;
+    text-align:center;
+    margin-bottom: 5px;
+}
+
 table.getinv-form{
 	margin:5px;
 }
