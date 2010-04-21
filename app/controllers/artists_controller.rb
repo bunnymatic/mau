@@ -214,7 +214,7 @@ class ArtistsController < ApplicationController
     queryargs = {}
     @os_only = params[:osonly]
     if @os_only == 'on'
-      artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ]).sort_by { |a| a.get_sort_name }
+      artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ]).each { a.sort_by |a| a.get_sort_name }
       queryargs['osonly'] = "on"
     else
       artists = Artist.all { a.sort_by |a| a.get_sort_name }
