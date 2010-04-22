@@ -132,11 +132,11 @@ class Artist < ActiveRecord::Base
   def get_sort_name
     # get name for sorting:  try lastname, then firstname then login
     if !self.lastname.empty?
-      self.lastname
+      self.lastname.downcase
     elsif !self.firstname.empty?
-      self.firstname
+      self.firstname.downcase
     else
-      self.login
+      self.login.downcase
     end
   end
 
