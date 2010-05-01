@@ -17,7 +17,8 @@ module FeedbacksHelper
   end
   
   def feedback_includes()
-    javascript_include_tag('prototype.feedback.js')
+    # included in "all" js
+    #javascript_include_tag('prototype.feedback.js')
   end
   
   def feedback_link(text, options = {})
