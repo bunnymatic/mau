@@ -67,7 +67,7 @@ MAU = window['MAU'] || {};
     };
 
     M.goToArtist = function( artistid ) {
-	window.location = "/artists/" + parseInt(artistid);
+	window.location = "/artists/" + parseInt(artistid,10);
 	return true;
     };
 
@@ -250,7 +250,7 @@ MAU = window['MAU'] || {};
     N.OVERLAY_DIV = '<div id="'+N.ID_OVERLAY+'" class="note_hide"></div>';
 
     N.initOverlay = function() {
-	if ($$('#' + N.ID_OVERLAY).length == 0) {
+	if ($$('#' + N.ID_OVERLAY).length === 0) {
 	    $$("body").first().insert(N.OVERLAY_DIV);
 	}
 	$(N.ID_OVERLAY).addClassName('note_overlayBG');
@@ -262,7 +262,7 @@ MAU = window['MAU'] || {};
     };
     
     N.hideOverlay = function() {
-	if ($$('#' + N.ID_OVERLAY).length == 0) return;
+	if ($$('#' + N.ID_OVERLAY).length === 0) return;
 	$(N.ID_OVERLAY).remove();
     };
 
@@ -314,7 +314,7 @@ MAU = window['MAU'] || {};
     };
 
     N.initNote = function(aid) {
-	if ($$('#' + N.ID_MAIN).length == 0) {
+	if ($$('#' + N.ID_MAIN).length === 0) {
 	    $$("body").first().insert(N.NOTEFORM_HTML);
 	    var closer = $(N.ID_CLOSER);
 	    closer.observe('click', function(){
@@ -490,8 +490,8 @@ MAU = window['MAU'] || {};
 		}
 	    });
 	}
-	MA.init = function(){}
-    }
+	MA.init = function(){};
+    };
     Event.observe(window,'load',MA.init);
     
 }
