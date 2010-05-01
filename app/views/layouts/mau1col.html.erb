@@ -7,9 +7,9 @@
 	<%= render :partial => '/title' %>
 	<%= render :partial => '/stylesheets' %>
 	<%= render :partial => '/extra_html_head' %>
-    <%=
-       javascript_include_tag :defaults, "mau"
-       %>
+  <%=
+     javascript_include_tag "prototype.all.min", "mau", "mau_feeds"
+     %>
     <%= render :partial => '/ganalytics' %>
   </head>
   <body>
