@@ -42,10 +42,12 @@ input[type=submit] {
 div.tiny-thumb, div.tiny-thumb-sel {
 	display: inline;
 }
-#micro_icon, #open_btn, #close_btn {
+#open_btn, #close_btn {
     display:inline;
 }
-
+#micro_icon {
+    display: inline-block;
+}
 a.fdbk-sel div#next_pg {
     display: inline;
 }
