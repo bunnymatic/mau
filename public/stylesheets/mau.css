@@ -488,7 +488,6 @@ div.feedtitle  {
 .news-text {
 	float:left; 
 	font-size: 95%;
-	width: 265px;
 }
 .news-text p span.title {
 	text-transform: uppercase;
@@ -508,7 +507,7 @@ div.feedtitle  {
 }
 
 .artists-resources-entries .main-entry {
-	margin: 8px 0px;
+	margin: 0px 0px 24px 0;
 }
 .artists-resources-entries div div {
 	margin: 2px 0 2px 8px;
