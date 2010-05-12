@@ -51,14 +51,6 @@
 	    <% end -%>
 	  </div>
 	  <div class="div-left">
-	    Spring Open Studios 2010 Artist? <%= @artist.os2010? ? "<span style='color:#fc0; font-weight:bold;'>Yes</span>":"No" %>
-	    <% if @artist == current_artist -%>
-	    <div id="os2010_help" class="help-parent">
-	      <%= render :partial => '/whatsthis/popup', :locals => { :section => 'os2010_switch', :link_text => "how do i change this?", :parent => 'tag_help', :use_icon => true, :title => "How to Set your Open Studios status" } %>
-	    </div>
-	    <% end -%>
-	  </div>
-	  <div class="div-left">
 	    <table>
 	      <tr><td>Studio:</td>
 		<td>
