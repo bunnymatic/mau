@@ -102,9 +102,9 @@ MAU = window['MAU'] || {};
 		}
 		d = new Element('div', { id: M.CREDITS_DIV });
 		d.hide();
-		var hd = new Element('div', {class: 'credits-hdr'});
+		var hd = new Element('div').addClassName('credits-hdr');
 		hd.update('Credits');
-		var bd = new Element('div', {class: 'credits-bdy'});
+		var bd = new Element('div').addClassName('credits-bdy');
 		bd.update('<p>Web Design/Construction: Mr Rogers & Trish Tunney</p>');
 		if (d && hd && bd) {
 		    new Insertion.Top(d, bd);
