@@ -4,13 +4,6 @@
   <div class="faq-content">
     <h5>How do I...</h5>
     <div class="faq_q">
-      Q: get my promotional material for Spring Open Studios 2010?
-    </div>
-    <div class="faq_a">
-      A: That's easy!  Order your cards or download promo templates from <a href="http://bit.ly/mau2010">http://bit.ly/mau2010</a>. 
-    </div>
-
-    <div class="faq_q">
       Q: get MAU gear?
     </div>
     <div class="faq_a">
@@ -22,14 +15,27 @@
     <div class="faq_a">
       A: We have links on your profile page to share on Twitter and Facebook. Look for "Share this page" on your profile page<% if logged_in? -%> (<%= link_to "here", current_artist, :target => '_blank' %>)<% end -%>.  If you have an account with us your link would like like this: <% if logged_in? -%><%= link_to current_artist.fancy_link, current_artist.fancy_link, :target => '_blank' %><% else -%>http://www.missionartistsunited.org/&lt;your username&gt;<% end -%>. Share it!
     </div>
-
-
     <div class="faq_q">
       Q: sign up?
     </div>
     <div class="faq_a">
       A: If you're having problems with the registration form, try a username that doesn't have any spaces or special characters.  If you haven't received your activation email, make sure to check your spam folder.  If you've tried all of these and still can't get stuff to work, please let us know (<a href="#" onclick="MAU.mailer('www@missionartistsunited.org','Help! I cannot get signed up and I really want to be part of MAU!');">email us</a>).
     </div>
+    <div class="faq_q">
+      Q: make it possible for website visitors to send me email?
+    </div>
+    <div class="faq_a">
+      A: 
+<ul>
+<li>Login</li>
+<li>Go to the profile edit page (click the "edit profile" button on your profile page)</li>
+<li>Open up the <b>Notifications</b> section.</li>
+<li>Check the box that reads <b>Allow notes from everyone</b>.</li>
+<li>Click "Save Changes"</li>
+</ul>
+    Now when visitors see your profile page, they'll see a little email icon and they can use that to send you a note.  We will not give away your email, but instead, the MAU server will send you a note with information about how to get a hold of the person making the inquiry.
+    </div>
+
 
   </div>
 </div>
