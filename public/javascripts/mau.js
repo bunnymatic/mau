@@ -37,7 +37,7 @@ MAU = window['MAU'] || {};
 	    try {
 		console.log.apply(this, arguments);
 	    } catch(e) {
-		X.log = function() {};
+		M.log = function() {};
 	    }
 	}
     };
