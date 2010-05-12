@@ -1563,8 +1563,9 @@ div.popup-help {
     z-index: 405;
 }
 
-#mode_selector_helpcontainer {
-	left: -200px;
+#mode_selector_helpcontainer .popup-help {
+    left: inherit;
+    right: 5px;
 }
 
 
