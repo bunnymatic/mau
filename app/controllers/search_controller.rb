@@ -75,7 +75,6 @@ class SearchController < ApplicationController
 
       # join all uniquely and sort by recently added
       results = {}
-      p active_artist_ids
       begin
         [by_art_piece, by_media, by_tags, by_artist].each do |lst|
           lst.map { |entry| results[entry.id] = entry if entry.id and active_artist_ids.include? entry.artist.id }

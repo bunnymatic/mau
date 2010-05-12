@@ -1,23 +1,18 @@
 <div>
 <% if !@errmsg -%>
-<table>
-  <tr>
-    <td class="popup-help-title">Send <%=h @artist.get_name %> a note</td>
-  </tr>
-</table>
+<div class="popup-help-title">
+Send <%=h @artist.get_name %> a note
+</div>
 <div class="popup-help-text">
   <% form_tag '/artists/' + @artist.id.to_s + '/notify', :id => 'note_form', :method => :put do -%>
-  <table class="fdbk-form">
+  <div class="fdbk-form">
     <% unless @error_message.blank? -%>
-    <tr>
-      <td class="error-msg">
+    <div class="error-msg">
 	<%=h @error_message %>
-      </td>
-    </tr>
+    </div>
     <% end -%>
-    <tr>
-      <td class="note-form-container">
-	<div id="name_input" class="fdbk-input">	
+    <div class="note-form-container">
+      <div id="name_input" class="fdbk-input">	
 	  Your Name
 	  <% if !logged_in? -%>
 	  <%= text_field_tag 'name' %>
@@ -38,14 +33,12 @@
 	  <%= submit_tag 'Send' %>
 	  <button class='formbutton' id="note_close_btn" onclick="return false;">Cancel</button>
 	</div>
-      </td>
       <%= hidden_field_tag 'page', request.referer %>
       <% if current_artist -%>
       <%= hidden_field_tag 'login', current_artist.login %>
       <%= hidden_field_tag 'email', current_artist.email %>
       <% end -%>
-    </tr>
-  </table>
+   </div>
   <% end -%>
 </div>
 

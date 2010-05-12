@@ -25,12 +25,10 @@ module TagsHelper
   
   def self.fontsize_from_frequency(freq)
     freq = freq.to_f
-    p freq
     f = [(22.0 * (Math.cos(1.0-freq) ** 2)).round,8.0].max
     m = [(15.0 * (Math.cos(1.0-freq) ** 2)).round,6.0].max
     # return fontsize and margin
     result = [ "%dpx" % f, "%dpx" % m ]
-    p result
     result
   end
 end

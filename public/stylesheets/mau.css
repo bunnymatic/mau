@@ -1551,8 +1551,11 @@ img.help-icon {
 }
 
 div.popup-help {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     display: block;
     background-color: #222;
+    border: 1px solid #666;
     position: absolute;
     width: 200px;
     left: 4px;
@@ -1583,11 +1586,9 @@ div.popup-help {
 	top: -3em;
 }
 
-.popup-help-title {
-}
 .popup-help-text {
     font-size: x-small;
-    padding: 4px 6px 6px 4px;
+    padding: 4px 6px 12px 12px;
 }
 .popup-help-close {
     position: absolute;
@@ -1597,11 +1598,13 @@ div.popup-help {
     text-align: center;
 }
 
+#note_modal_window,
 #feedback_modal_window {
     -moz-border-radius: 9px;
     -webkit-border-radius: 9px;
 }
 
+#note_modal_content,
 #feedback_modal_content {
     -moz-border-radius: 9px;
     -webkit-border-radius: 9px;
@@ -1609,11 +1612,18 @@ div.popup-help {
     background-color: black;
 }
 
+#note_modal_content .popup-help-text,
+#feedback_modal_content .popup-help-text {
+    font-size: small;
+}
+
+#note_modal_content .popup-help-title,
 #feedback_modal_content .popup-help-title {
     -moz-border-radius-topleft: 9px; 
     -moz-border-radius-topright: 9px;
     -webkit-border-top-left-radius: 9px; 
     -webkit-border-top-right-radius: 9px;
+    border-bottom: 1px solid #999;
     background-color: transparent;
     line-height:2em;
     padding-left: 10px;
@@ -1622,22 +1632,40 @@ div.popup-help {
     margin-bottom: 4px;
 }
 
-div.feedback-signup-msg,
-div.popup-help-header,
-.popup-help-text {
-    border: 1px solid #666;
+.popup-help-header {
+    -moz-border-radius-topleft: 4px; 
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-left-radius: 4px; 
+    -webkit-border-top-right-radius: 4px;
+    border-bottom: 1px solid #999;
+    line-height: 1.5em;
+    background-color: black;
+    font-weight: bold;
+    padding: 6px 6px 6px 12px;
+    position: relative;
 }
 
-div.feedback-signup-msg {
-    padding: 5px 5px 5px 10px;
+.feedback-signup-msg,
+.popup-help-text {
+    border-left:0;
+    border-right:0;
+}
+
+.feedback-signup-msg {
+    border-top: 1px solid #999;
     font-size: x-small;
+    line-height: 2.4em;
+    padding-left: 10px;
 }
 
 #feedback_modal_content .popup-help-text,
 #feedback_modal_content .feedback-signup-msg {
-    border-left:0;
-    border-right:0;
     background-color: #222;
+}
+
+#note_modal_content .popup-help-text,
+#feedback_modal_content .popup-help-text {
+    padding-right: 10px;
 }
 #feedback_modal_content .feedback-signup-msg {
     -moz-border-radius-bottomleft: 6px; 
@@ -1645,20 +1673,7 @@ div.feedback-signup-msg {
     -webkit-border-bottom-left-radius: 6px; 
     -webkit-border-bottom-right-radius: 6px;
 }
-#feedback_form tr {
-    border: 0;
-}
 
-.popup-help-header {
-    background-color: #000;
-    font-weight: bold;
-    padding: 4px;
-    position: relative;
-}
-
-div#feedback_modal_content table.popup-help td {
-    font-size: small;
-}
 
 /****
 Feedback/Get Involved lightbox 
@@ -1753,32 +1768,28 @@ a#feedback_link.bottom {
 			
 a#feedback_close_link,
 a#note_close_link{
-  right: 5pt;
-  top: 0pt;
   position: absolute;
   font-weight:bold;
-}
-
-a#feedback_close_link {
   right: 12px;
   top: 5px;
 }
 
-div#note_modal_window,
-div#feedback_modal_window {
-  width: 600px;
+
+#note_modal_window,
+#feedback_modal_window {
+  width: 610px;
   margin: 0 auto;				
-  position: relative;
   background-color: #222;
   left: 0%;
+  position: relative;
 }
 
-div#note_modal_content table,			
-div#feedback_modal_content table {
-	width:100%;
+#note_modal_content .popup-help-text {
+    background-color: #222
 }
-			
-div#feedback_loading {				
+		
+.note-loading, 
+#feedback_loading {
   padding: 12px 12px 12px 20px;				
 }
 
