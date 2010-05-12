@@ -211,15 +211,12 @@ class ArtistsController < ApplicationController
 
   def index
     # collect query args to build links
-    print "GO"
     queryargs = {}
-    print "PARAMS", params
     @os_only = params[:osonly]
     if @os_only == 'on'
       artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ]).sort_by { |a| a.get_sort_name }
       queryargs['osonly'] = "on"
     else
-      print "OS ONLY OFF"
       artists = Artist.all.sort_by { |a| a.get_sort_name }
     end
 

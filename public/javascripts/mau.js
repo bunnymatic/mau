@@ -316,6 +316,7 @@ MAU = window['MAU'] || {};
 
     N.loading = function() {
 	$(N.ID_CONTENT).innerHTML = "Loading...";
+	$(N.ID_CONTENT).addClassName('note-loading');
     };
 
     N.submitNote = function(event){
@@ -361,6 +362,7 @@ MAU = window['MAU'] || {};
 			     {
 				 method: 'get',
 				 onComplete: function(transport) {
+				     $(N.ID_CONTENT).removeClassName('note-loading');
 				     $(N.ID_FORM).observe('submit', N.submitNote);
 				     var b = $(N.ID_CLOSE_BTN);
 				     b.observe('click', function(){
