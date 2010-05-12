@@ -1,4 +1,4 @@
-      <table id="footer-tbl" width="900" border="0" cellspacing="0" cellpadding="0">
+      <table id="footer-tbl" cellspacing="0" cellpadding="0">
   	<tr class="tr-short">
     	  <td class="ltcorner" width="9"><img src="<%= @corners[0] %>" height="9" width="9" alt=""/></td>
     	  <td></td>
@@ -8,12 +8,14 @@
   	<tr>
     	  <td></td>
     	  <td class="td-left">&copy; mission artists united</td>
-    	  <td class="td-right footer">
+    	  <td class="td-right footer" id="footer_right">
 	    <% feedback_link_text = "feedback" -%>
+
 	    <span ><%= link_to "faq", faq_url, :class => 'lkdark' %></span>
 	    <span ><%= feedback_link feedback_link_text , :class => 'lkdark' %></span>
 	    <span ><a class="lkdark" href="/privacy">privacy</a></span>
-	    <span ><a class="lkdark" href="/contact">contact us</a></span></td>
+	    <span ><a class="lkdark" href="/contact">contact us</a></span>
+	    <span ><a id="credits_lnk" class="lkdark" href="#">credits</a></span></td>
 	  <td></td>
   	</tr>
   	<tr class="tr-short">

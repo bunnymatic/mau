@@ -89,8 +89,42 @@ MAU = window['MAU'] || {};
 	window.location = lnk;
     };
 
+    M.CREDITS_DIV = 'credits_div';
     /* leave for later in case we need to init stuff */
     M.init = function() {
+	// init credits popup
+	var fq = $('credits_lnk');
+	if (fq) {
+	    Event.observe(fq,'click', function(event) {
+		var d = $(M.CREDITS_DIV);
+		if (d) { 
+		    d.remove();
+		}
+		d = new Element('div', { id: M.CREDITS_DIV });
+		d.hide();
+		var hd = new Element('div', {class: 'credits-hdr'});
+		hd.update('Credits');
+		var bd = new Element('div', {class: 'credits-bdy'});
+		bd.update('<p>Web Design/Construction: Mr Rogers & Trish Tunney</p>');
+		if (d && hd && bd) {
+		    new Insertion.Top(d, bd);
+		    new Insertion.Top(d, hd);
+		}
+		Event.observe(d,'click', function(event) {
+		    var el = $(M.CREDITS_DIV);
+		    el.blindUp();
+		    return false;
+		});
+		var ft = $('footer_right');
+		if (ft) {
+		    new Insertion.Bottom(ft,d);
+		}
+		d.blindDown();
+		event.stop();
+		return false;
+	    });
+	}
+
     };
 
     Event.observe(window, 'load', M.init);
