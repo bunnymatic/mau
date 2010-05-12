@@ -669,18 +669,12 @@ table{
 
 table#header-tbl, table#footer-tbl {
     background-color: #FFFFFF;
+    background-image: url(/images/gradients.png);
+    background-position: 0 -50px; /* 40px */
     background-repeat: repeat-x;
-    background-position: center bottom;
+    border: 0;
     color: #666666;
-}
-
-table#header-tbl {
-    background-image: url(/images/gradients.png);
-    background-offset: 0 -50px; /* 40px */
-}
-table#footer-tbl{
-    background-image: url(/images/gradients.png);
-    background-offset: 0 -20px; /* 30px */
+    width: 900px;
 }
 
 div#feedcolumn{
@@ -699,7 +693,6 @@ table.tbl-content{
     background-color:#000000;
     vertical-align: top;
     width: 900px;
-
 }
 div#searchtools{
     float:left;
@@ -735,10 +728,6 @@ div#footer{
     background: #fff;
     text-align:left;
     font-size: x-small;
-    background-image: url(/images/gradients.png);
-    background-repeat: repeat-x;
-    background-position: bottom;
-    background-offset: 0 -20px;
     padding-top: 5px;
     padding-right: 0;
     padding-bottom: 5px;
@@ -1446,7 +1435,7 @@ div.alt-login {
 }
 
 div.artist h4 {
-    font-size: auto;
+    font-size: inherit;
 }
 
 div.artist {
@@ -1608,10 +1597,26 @@ div.popup-help {
     text-align: center;
 }
 
-#feedback_modal_content .popup-help-title {
-    padding-left: 10px;
-    line-height:2em;
+#feedback_modal_window {
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+}
+
+#feedback_modal_content {
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+    border: 4px solid #999;
     background-color: black;
+}
+
+#feedback_modal_content .popup-help-title {
+    -moz-border-radius-topleft: 9px; 
+    -moz-border-radius-topright: 9px;
+    -webkit-border-top-left-radius: 9px; 
+    -webkit-border-top-right-radius: 9px;
+    background-color: transparent;
+    line-height:2em;
+    padding-left: 10px;
 }
 #bemail_input div.little-txt {
     margin-bottom: 4px;
@@ -1623,8 +1628,25 @@ div.popup-help-header,
     border: 1px solid #666;
 }
 
+div.feedback-signup-msg {
+    padding: 5px 5px 5px 10px;
+    font-size: x-small;
+}
+
+#feedback_modal_content .popup-help-text,
+#feedback_modal_content .feedback-signup-msg {
+    border-left:0;
+    border-right:0;
+    background-color: #222;
+}
+#feedback_modal_content .feedback-signup-msg {
+    -moz-border-radius-bottomleft: 6px; 
+    -moz-border-radius-bottomright: 6px;
+    -webkit-border-bottom-left-radius: 6px; 
+    -webkit-border-bottom-right-radius: 6px;
+}
 #feedback_form tr {
-	border: 0;
+    border: 0;
 }
 
 .popup-help-header {
@@ -1671,10 +1693,6 @@ a#feedback_link:hover {
   background-color: #999;
 }
 
-div.feedback-signup-msg {
-	padding: 5px;
-	font-size: x-small;
-}
 
 table.fdbk-form td{
 	vertical-align: top;
@@ -1733,12 +1751,17 @@ a#feedback_link.bottom {
 }
 */
 			
-a#note_close_link,
-a#feedback_close_link {
+a#feedback_close_link,
+a#note_close_link{
   right: 5pt;
   top: 0pt;
   position: absolute;
   font-weight:bold;
+}
+
+a#feedback_close_link {
+  right: 12px;
+  top: 5px;
 }
 
 div#note_modal_window,
@@ -1756,7 +1779,7 @@ div#feedback_modal_content table {
 }
 			
 div#feedback_loading {				
-  padding: 12px;				
+  padding: 12px 12px 12px 20px;				
 }
 
 #note_overlay,			
@@ -1768,8 +1791,6 @@ div#feedback_loading {
   width: 100%;
   background-color: #000;
   opacity: 0.5;
-  filter:alpha(opacity=50);
-  -moz-opacity: 0.5;
 
 }
 			
@@ -1782,10 +1803,12 @@ div#feedback_loading {
   background-color: #000;
   z-index: 100000;
 }
-			
+
 * html #feedback_overlay { /* ie6 hack */
+/* JR screw ie6			
   position: absolute;
   height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
+*/
 }
 			
 form#feedback_form .error {
@@ -1862,3 +1885,37 @@ Admin
     z-index: -104;
 }
 */
+/* credits */
+#footer_right {
+    position: relative;
+}
+#credits_div {
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+    background-color: #999;
+    border: 2px solid #ccc;
+    bottom: 8px;
+    height:100px;
+    opacity: 0.9;
+    position: absolute;
+    right: 8px;
+    text-align: left;
+    width:200px;
+    z-index: 200;
+}
+
+#credits_div .credits-hdr {
+    -moz-border-radius-topleft: 9px; 
+    -moz-border-radius-topright: 9px;
+    -webkit-border-top-left-radius: 9px; 
+    -webkit-border-top-right-radius: 9px;
+    background-color: #222;
+    color: #999;
+    height: 2em;
+    line-height: 2em;
+    padding-left: 10px;
+}
+#credits_div .credits-bdy {
+    color: black;
+}
+
