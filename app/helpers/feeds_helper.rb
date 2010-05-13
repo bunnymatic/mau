@@ -2,6 +2,37 @@ NUM_POSTS = 3
 DESCRIPTION_LENGTH = 10000
 TITLE_LENGTH = 100
 
+class TwitterEntry
+  attr_accessor :description
+  attr_accessor :date
+  def title
+    self.description
+  end
+end
+class TwitterChannel
+  attr_accessor :title
+end
+class TwitterFeed 
+  attr_accessor :channel
+  attr_accessor :items
+  def initialize(json=nil)
+    if json 
+      twitter_data = JSON.parse(json)
+      twitter_data.each do |tweet|
+        self.channel = TwitterChannel.new
+        self.channel.title = "Twitter: " + tweet['user']['screen_name']
+        entry = TwitterEntry.new
+        entry.description = tweet["text"]
+        entry.date = Date.parse(tweet['created_at'])
+        if !self.items:
+            self.items = []
+        end
+        self.items << entry
+      end
+    end
+  end
+end
+
 module FeedsHelper
   @@URLMATCH_TO_CLASS = { 'facebook.com' => 'facebook',
     'flickr.com' => 'flickr',
@@ -106,7 +137,11 @@ module FeedsHelper
     begin
       logger.info("FeedsHelper: open " + url)
       open(url) do |http|
-        result = RSS::Parser.parse(http.read)
+        if url.include? 'twitter'
+          result = TwitterFeed.new(http.read)
+        else
+          result = RSS::Parser.parse(http.read)
+        end
         if result
           headclass = 'feed-sxn-hdr'
           startdiv = "<div class='%s'>" % headclass
@@ -117,10 +152,6 @@ module FeedsHelper
             endlink = "</a>"
           end
           titlestr = result.channel.title
-          if url.include? 'twitter'
-            titlestr = link.gsub('http://twitter.com/','Twitter: ')
-            titlestr.gsub!('http://www.twitter.com/','Twitter: ')
-          end
           iconclass = get_icon_class(url)
           icon = "<div id='feed_icon' class='%s'></div>" % iconclass
           hdr = "%s%s%s%s%s</div>" % [ startdiv, startlink, titlestr, icon, endlink]
