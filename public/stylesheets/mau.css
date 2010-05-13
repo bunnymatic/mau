@@ -668,10 +668,19 @@ table{
     border-collapse: collapse;
 }
 
-table#header-tbl, table#footer-tbl {
+table#header-tbl {
     background-color: #FFFFFF;
     background-image: url(/images/gradients.png);
-    background-position: center bottom; /* 40px */
+    background-position: 0 -90px; /* 45px gradient */
+    background-repeat: repeat-x;
+    border: 0;
+    color: #666666;
+    width: 900px;
+}
+table#footer-tbl {
+    background-color: #FFFFFF;
+    background-image: url(/images/gradients.png);
+    background-position: 0 -50px; /* 40px gradient */
     background-repeat: repeat-x;
     border: 0;
     color: #666666;
