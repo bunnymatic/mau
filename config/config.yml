@@ -65,20 +65,20 @@ common:
        search: 
        objects: 
    feeds_urls: 
+      - feed: http://twitter.com/statuses/user_timeline/62131363.json
+        url: http://twitter.com/sfmau 
+      - feed: http://twitter.com/statuses/user_timeline/56806324.json
+        url: http://twitter.com/SevillaGranger 
+      - feed: http://twitter.com/statuses/user_timeline/32943864.json
+        url: http://twitter.com/bunnymaticsf
       - feed: http://sfartnews.wordpress.com/feed/
         url: http://sfartnews.wordpress.com/ 
-      - feed: http://twitter.com/statuses/user_timeline/62131363.rss  
-        url: http://twitter.com/sfmau 
       - feed: http://trishtunney.blogspot.com/feeds/posts/default?alt=rss
         url: http://trishtunney.blogspot.com/
-      - feed: http://twitter.com/statuses/user_timeline/56806324.rss
-        url: http://twitter.com/SevillaGranger 
       - feed: http://catherine-mackey.blogspot.com/feeds/posts/default?alt=rss
         url: http://catherine-mackey.blogspot.com/
       - feed: http://apaintingaday.blogspot.com/feeds/posts/default?alt=rss
         url: http://apaintingaday.blogspot.com/
-      - feed: http://twitter.com/statuses/user_timeline/32943864.rss
-        url: http://twitter.com/bunnymaticsf
       - feed: http://katjaleibenath.blogspot.com/feeds/posts/default?alt=rss
         url: http://katjaleibenath.blogspot.com
       - feed: http://estudiomartita.blogspot.com/feeds/posts/default?alt=rss
