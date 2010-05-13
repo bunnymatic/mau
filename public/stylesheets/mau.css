@@ -1910,6 +1910,12 @@ Admin
 	margin: auto;
 }
 
+#credits_bg {
+       z-index:3000;
+}
+#credits_bg_contain {
+       z-index: 3001;
+}
 #credits_div {
     -moz-border-radius: 9px;
     -webkit-border-radius: 9px;
