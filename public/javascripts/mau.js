@@ -89,6 +89,8 @@ MAU = window['MAU'] || {};
 	window.location = lnk;
     };
 
+    M.CREDITS_BG = 'credits_bg';
+    M.CREDITS_BG_CONTAIN = 'credits_bg_contain';
     M.CREDITS_DIV = 'credits_div';
     /* leave for later in case we need to init stuff */
     M.init = function() {
@@ -96,32 +98,44 @@ MAU = window['MAU'] || {};
 	var fq = $('credits_lnk');
 	if (fq) {
 	    Event.observe(fq,'click', function(event) {
-		var d = $(M.CREDITS_DIV);
-		if (d) { 
-		    d.remove();
-		}
-		d = new Element('div', { id: M.CREDITS_DIV });
-		d.hide();
-		var hd = new Element('div').addClassName('credits-hdr');
-		hd.update('Credits');
-		var bd = new Element('div').addClassName('credits-bdy');
-		bd.update('<p>Web Design/Construction: Mr Rogers & Trish Tunney</p>');
-		if (d && hd && bd) {
-		    new Insertion.Top(d, bd);
-		    new Insertion.Top(d, hd);
-		}
-		Event.observe(d,'click', function(event) {
-		    var el = $(M.CREDITS_DIV);
-		    el.blindUp();
-		    return false;
-		});
-		var ft = $('footer_right');
-		if (ft) {
-		    new Insertion.Bottom(ft,d);
-		}
-		d.blindDown();
-		event.stop();
-		return false;
+			var bg = $(M.CREDITS_BG);
+			var cn = $(M.CREDITS_BG_CONTAIN);
+			if (bg) { bg.remove(); }
+			if (cn) { cn.remove(); }
+			bg = new Element('div', { id: M.CREDITS_BG });
+			cn = new Element('div', { id:M.CREDITS_BG_CONTAIN });
+			var d = new Element('div', { id: M.CREDITS_DIV });
+			var hd = new Element('div').addClassName('credits-hdr');
+			hd.update('Credits');
+			var bd = new Element('div').addClassName('credits-bdy');
+			bd.update('<div style="text-align: center;"><p>Web Design/Construction: Mr Rogers & Trish Tunney</p></div><div style="width:350px; text-align:center; border:0px; margin:10px auto 10px auto;" class="credits-img"><span style="padding-bottom:4px; ">Built at MAU Headquarters</span><img style="border: 1px solid #222;" width="350" src="/images/mau-headquarters-small.jpg"/></div><div style="font-size: x-small; text-align:right; padding-bottom: 2px; padding-right: 10px;">click to close</div>');
+			if (d && hd && bd) {
+				new Insertion.Top(d, bd);
+				new Insertion.Top(d, hd);
+			}
+			Event.observe(d,'click', function(event) {
+				bg.remove();
+				cn.remove()
+				return false;
+			});
+			new Insertion.Top(cn, d);
+			new Insertion.Top(document.body,cn);
+			new Insertion.Top(document.body,bg);
+
+			/* center */
+			var dm = Element.getDimensions(d);
+			w = dm.width;
+			h = dm.height;
+            var ws = document.viewport.getDimensions();
+			var soff = document.viewport.getScrollOffsets()
+            pw = ws.width + soff.left;
+            ph = ws.height + soff.top;
+			var tp = '' + ((ph/2) - (h/2)) + "px";
+			var lft = '' + ((pw/2) - (w/2)) + "px";
+			cn.style.top = tp;
+			cn.style.left = lft;
+			event.stop();
+			return false;
 	    });
 	}
 
