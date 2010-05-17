@@ -83,7 +83,7 @@ class MainController < ApplicationController
         nil
       end
     end
-    @page_title = "Mission Artists United - Spring Open Studios 2010"
+    @page_title = "Mission Artists United - Open Studios"
     @feedhtml = cached_html
   end
 end
