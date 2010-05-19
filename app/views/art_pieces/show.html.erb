@@ -73,7 +73,7 @@
       <%= render :partial => "/art_pieces/thumb_browser" %>
         <form method="get" action="<%= url_for(@art_piece.artist) %>"><input class="formbutton" type="submit" value="Artist's Page" name="submit">
 	</form>
-      <% end # end if art_piece -%>    
+      <% end -%>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td> 
     <td class="rcol room-for-logo" align="center">
@@ -89,7 +89,7 @@
 	<img class="artpiece-img" src="<%=h @art_piece.get_path('medium') %>" />
 	<% end -%>
       </div>
-      <% end # end if art_piece -%>    
+      <% end -%>
       <div class="edit-buttons">
 	<% if logged_in? and current_artist == artist -%>
         <form method="get" action="<%= edit_art_piece_path(@art_piece) %>">

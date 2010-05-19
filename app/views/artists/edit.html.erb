@@ -236,7 +236,7 @@
 	<%= f.submit 'Cancel' %>
       </div>
     </div>
-    <% end # end of form loop -%>
+    <% end -%>
     <div class="open-close-div" ><span id="passwd_toggle" class="title">Password</span><span class="edit"><a href="#" id="passwd_toggle_lnk">change</a></span></div>
     <% form_tag(change_password_update_path, :method => :put) do -%>
     <div  class="edit-profile-sxn" id="artist_change_passwd" style="display:none;">
@@ -276,7 +276,7 @@
 	</tr>
       </table>
     </div>
-    <% end # end change password form %>
+    <% end -%>
     <div class="open-close-div"><span id="deactivate_toggle" class="title">Deactivate Account</span><span class="edit"><a href="#" id="deactivate_toggle_lnk">change</a></span></div>
     <div  class="edit-profile-sxn" id="artist_deactivate" style="display:none;">
       <table class="entry-table">

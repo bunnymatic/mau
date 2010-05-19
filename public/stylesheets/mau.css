@@ -1481,7 +1481,7 @@ span.mainnav {
     margin: auto;
 }
 .clouditem { 
-    padding: 3px;
+    line-height: 0.8em;
 }
 /* note color is overridden by link
    look for .tagmatch a directives */
