@@ -423,10 +423,11 @@ class ArtistsController < ApplicationController
     begin
       if params[:emailsettings]
         em = params[:emailsettings]
+        em2 = {}
         em.each_pair do |k,v| 
-          em[k] = ( v.to_i != 0 ? true : false)
+          em2[k] = ( v.to_i != 0 ? true : false)
         end
-        params[:artist][:email_attrs] = em.to_json
+        params[:artist][:email_attrs] = em2.to_json
       end
       # clean os from radio buttons
       os = params[:artist][:os2010]
