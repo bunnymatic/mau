@@ -1,7 +1,10 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau.css?<%=  Date.today.strftime("%Y%m%d") %>" />
-	<% if @_ie %>
+	<% if @_ie -%>
 	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie.css" />
-	<% elsif @_safari %>
+	<% if @_ie7 -%>
+	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie7.css" />
+	<% end -%>
+	<% elsif @_safari -%>
 	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-safari.css" />
-	<% end %>
+	<% end -%>
 <%= feedback_includes %>

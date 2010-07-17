@@ -67,8 +67,8 @@
 	    </table>
 	  </div>
 	  <% if (!current_artist || current_artist.id != @artist.id) && (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
-	  <div class="div-left share">Send the artist a note:
-	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" ><div  aid="<%= @artist.id %>" id="micro_icon" class="email"></div></a>
+	  <div class="div-left share">Send the artist a note:&nbsp;
+	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" ><span  aid="<%= @artist.id %>"  class="micro-icon email"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
 	  </div>
 	  <% end -%>
 
@@ -104,8 +104,8 @@
  	  </div>
 	  <% end -%>
 	  <div class="div-left share">Share this page:
-	    <a target="_new" href="<%= @fb_share %>" title="Share this page on Facebook"><div id="micro_icon" class="facebook"></div></a>&nbsp;
-	    <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><div id="micro_icon" class="twitter"></div></a>
+	    <a target="_new" href="<%= @fb_share %>" title="Share this page on Facebook"><span class="micro-icon facebook"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>&nbsp;
+	    <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><span class="micro-icon twitter"><img src="/images/pix.gif" height="16" width="0"/></span></a>
 	  </div>
 	  </div>
 	  <% if @artist.bio and !@artist.bio.empty? %>

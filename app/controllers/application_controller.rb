@@ -84,6 +84,7 @@ class ApplicationController < ActionController::Base
   def check_browser
     @_ie = is_ie?(self.request)
     @_ie6 = is_ie6?(self.request)
+    @_ie7 = is_ie7?(self.request)
     @_ff = is_ff?(self.request)
     @_safari = is_safari?(self.request)
     
