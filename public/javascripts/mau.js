@@ -269,9 +269,11 @@ MAU = window['MAU'] || {};
     W.popup = function(parent_id, section) {
 	M.log(parent_id, section);
 	var helpdiv = $(parent_id + "container");
-	if (helpdiv) {
-	    helpdiv.toggle();
-	}
+		if (helpdiv.visible()) {
+			helpdiv.fade({duration:0.2});
+		}
+		else { helpdiv.appear({duration:0.5}); }
+
     };
 
     /*** feedback option selector code ***/
@@ -475,9 +477,11 @@ MAU = window['MAU'] || {};
 	for (ii = 0; ii < nitems; ++ii) {
 	    var tg = items[ii];
 	    if (tg) {
-		tg.observe('click', function() {
+		tg.observe('click', function(e) {
 		    var s = _giLnk2Div(this.id);
 		    G.showSection(s);
+			e.stop();
+			return false;
 		});
 	    }
 	}
