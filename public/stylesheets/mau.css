@@ -231,12 +231,15 @@ a:active {
 /* this is the search box on the header.  it has a different color than the other input fields to set it apart.
 
 */
-
+#search_btn {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+}
 input.srch {
     background-color:#D6f3ff;
-
-    margin-left: 10px;
-    margin-right: 5px;
+    margin-left: 8px;
+    margin-right: 36px;
 }
 
 /* these three are important on the "edit" pages
@@ -354,66 +357,69 @@ div.formbutton {
     margin: 8px 0;
 }
 
-.share #micro_icon {
+.share .micro-icon {
     vertical-align:middle;
 }
 
 /** feeds **/
-#feed_icon {
-	position: absolute;
-	top: 5px;
-	right: 2px;
+.feed-icon {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    height: 16px;
 }
 
-#micro_icon {
-    display:inline-block;
+.micro-icon {
+    width: 0px;
+    font-size: 12px;
+    margin:0;
 }
-#feed_icon,
-#micro_icon {
+.micro-icon,
+.feed-icon {
     background-image:url(/images/icons/microicon-sprite.png);
-    height:16px;
-    width:16px;
+    background-repeat: none;
+    padding: 0px 8px;
     overflow:hidden;
 }
 /* position from the bottom of the sprite*/
-#feed_icon[class=blogger],
-#micro_icon[class=blogger] {
+.feed-icon.blogger,
+.micro-icon.blogger {
     background-position: 0 144px;
 }
-#feed_icon[class=email],
-#micro_icon[class=email] {
+.feed-icon.email,
+.micro-icon.email {
     background-position: 0 0px;
 }
-#feed_icon[class=youtube],
-#micro_icon[class=youtube] {
+.feed-icon.youtube,
+.micro-icon.youtube {
     background-position: 0 16px;
 }
-#feed_icon[class=wordpress],
-#micro_icon[class=wordpress] {
+.feed-icon.wordpress,
+.micro-icon.wordpress {
     background-position: 0 32px;
 }
-#feed_icon[class=twitter],
-#micro_icon[class=twitter] {
+.feed-icon.twitter,
+.micro-icon.twitter {
     background-position: 0 48px;
 }
-#feed_icon[class=rss],
-#micro_icon[class=rss] {
+.feed-icon.rss,
+.micro-icon.rss {
     background-position: 0 64px;
 }
-#feed_icon[class=livejournal],
-#micro_icon[class=livejournal] {
+.feed-icon.livejournal,
+.micro-icon.livejournal {
     background-position: 0 96px;
 }
-#feed_icon[class=flickr],
-#micro_icon[class=flickr] {
+.feed-icon.flickr,
+.micro-icon.flickr {
     background-position: 0 96px;
 }
-#feed_icon[class=facebook],
-#micro_icon[class=facebook] {
+.feed-icon.facebook,
+.micro-icon.facebook {
     background-position: 0 112px;
 }
-#feed_icon[class=deviantart],
-#micro_icon[class=deviantart] {
+.feed-icon.deviantart,
+.micro-icon.deviantart {
     background-position: 0 128px;
 }
 
@@ -829,7 +835,7 @@ img.square-browse
 }
 
 /* small text nav in place of play back buttons on search results */
-div.navlinks {
+span.navlinks {
     padding: 5px 1px 5px 0px;
 }
 .navlinks span {
@@ -967,7 +973,7 @@ td.playback {
     border: 0;
 }
 
-div.hstripe{
+.hstripe{
     background-color:#738294;
     height:5px;
     width:900px
@@ -1063,16 +1069,18 @@ div.tiny-thumb-sel {
 */
     
 td.vstripe{
-    background-image:url(/images/bg-5px.png);
-    background-repeat:repeat-y;
+    background-color:#738294;
     width: 5px;
 }
 tr.tr-short{
+    font-size:0;
+    height:9px;
 }
-
+.tr-short td {
+    height:9px;
+}
 .lcol, .alt-lcol {
-    padding-bottom: 15px;
-	position: relative;
+    position: relative;
     vertical-align: top;
     width:270px;
 }
@@ -1094,17 +1102,25 @@ td.singlecolumn{
 }
 
 .ltcorner, .rtcorner, .lbcorner, .rbcorner {
+    background-image:url('/images/icons/cornersprite.png');
+    background-repeat: none;
     font-size:0;
     height:9px;
     width:9px;
+    overflow: hidden;
 }
 
-.ltcorner, .rtcorner {
-    vertical-align:top;
+.ltcorner {
+    background-position: top left;
 }
-
-.lbcorner, .rbcorner {
-    vertical-align:bottom;
+.rtcorner {
+    background-position: top right;
+}
+.rbcorner {
+    background-position: bottom right;
+}
+.lbcorner {
+    background-position: bottom left;
 }
 
 .graybg {
@@ -1120,13 +1136,14 @@ td.singlecolumn{
     width:30%;
 }
 .hdr-nav-right {
+    position: relative;
     text-align: right;
     vertical-align: middle;
 }
-.hdr-nav-right div.nav {
-    display:inline;
-}
 
+.hdr-nav-right .nav{
+    vertical-align: middle;
+}
 
 .td-right{
     text-align: right;
@@ -1477,12 +1494,9 @@ div.artist {
 }
 
 /* nav bar related */
-span.nav {
-    float: right;
-}
 
-span.left-nav-bdr {
-    border-right: 1px solid #666666;
+.nav span.left-nav-bdr {
+    border-right: 1px solid #667;
     margin-right: 4px;
 }
 

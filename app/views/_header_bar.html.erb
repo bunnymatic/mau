@@ -1,16 +1,16 @@
 <a href="/"><img title="Mission Artists United" alt="Mission Artists United" src="<%= @logo_img %>" name="logo" width="120" height="122" id="logo" /></a>
 <table id="header-tbl" width="900" >
   <tr class="tr-short">
-    <td class="ltcorner" ><img alt="" src="<%= @corners[0] %>" height="9" width="9" /></td>
+    <td class="ltcorner" ></td>
     <td colspan="2"></td>
-    <td class="rtcorner" ><img alt="" src="<%= @corners[1] %>" height="9" width="9"/></td>
+    <td class="rtcorner" ></td>
   </tr>
   <tr>
     <td></td>
     <td class="hdr-nav-left"><img width="242" height="17" title="Art is the Mission" alt="Art is the Mission" src="/images/artisthimission4.gif"/></td>
     <td class="hdr-nav-right" >
       <!-- nav divs in reverse order because they both float right -->
-      <div class="nav">
+      <span class="nav">
 	<% [ ['artists','/artists/'],
 	   ['studios','/studios/'],
 	   ['news','/news/'],
@@ -24,20 +24,20 @@
 	<% else -%>
 	<span class="mainnav"><%= link_to "my&nbsp;mau", login_path, { :title => "Log In", :class => "lknav" } %></span>
 	<% end -%>
-      </div>
-      <div class="nav">
+      </span>
+      <span id="search_nav" class="nav">
 	<form id="search_form" action="/search" method="get">
     <input id="search_box" class="srch" type="text" name="query" size="14"/>
 	</form>
-	<a class="lkdark" id="search_link" onclick="MAU.doSearch();" href="#">search</a>                   
-      </div>
+	<div id="search_btn"><a class="lkdark" id="search_link" title="search the site" onclick="MAU.doSearch();" href="#"><img title="search" src="/images/icons/searchicon24.png"/></a></div>
+      </span>
     </td>
     <td></td>
   </tr>
   <tr class="tr-short">
-    <td class="lbcorner" ><img alt="" src="<%= @corners[3] %>" /></td>
+    <td class="lbcorner" ></td>
     <td></td>
     <td></td>
-    <td class="rbcorner"><img alt="" src="<%= @corners[2] %>" /></td>
+    <td class="rbcorner"></td>
 </tr>
 </table>

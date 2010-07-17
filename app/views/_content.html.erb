@@ -1,15 +1,15 @@
 <table class="tbl-content" cellpadding="0" cellspacing="0" id="mau-content-html">
   <tr class="tr-short">
     <% if cols == 2 -%>
-    <td class="ltcorner graybg"><img src="<%= @corners[0] %>"  alt=""/></td>
+    <td class="ltcorner graybg"></td>
     <td class="lcol"></td>
     <td class="vstripe" ></td>
     <td></td>
     <% elsif cols == 1 -%>
-    <td class="ltcorner blackbg"><img src="<%= @corners[0] %>" alt=""/></td>
+    <td class="ltcorner blackbg"></td>
     <td></td>
     <% end -%>
-    <td class="rtcorner"><img src="<%= @corners[1] %>" alt=""/></td>
+    <td class="rtcorner"></td>
   </tr>
 
   <tr class="nextrow"> 
@@ -33,14 +33,14 @@
   </tr>
   <tr class="tr-short">
     <% if cols == 2 -%>
-    <td class="lbcorner graybg"><img src="<%= @corners[3] %>"  width="9" height="9" alt=""/></td>
+    <td class="lbcorner graybg"></td>
     <td class="lcol"></td>
     <td class="vstripe"></td>
     <td></td>
     <% else -%>
-    <td class="lbcorner blackbg"><img src="<%= @corners[3] %>" width="9" height="9" alt=""/></td>
+    <td class="lbcorner blackbg"></td>
     <td></td>
     <% end -%>
-    <td class="rbcorner"><img src="<%= @corners[2] %>"  width="9" height="9" alt=""/></td>
+    <td class="rbcorner"></td>
   </tr>
 </table>

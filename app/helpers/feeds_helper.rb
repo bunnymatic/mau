@@ -148,7 +148,7 @@ module FeedsHelper
           end
           titlestr = result.channel.title
           iconclass = get_icon_class(url)
-          icon = "<div id='feed_icon' class='%s'></div>" % iconclass
+          icon = "<div class='feed-icon %s'></div>" % iconclass
           hdr = "%s%s%s%s%s</div>" % [ startdiv, startlink, titlestr, icon, endlink]
           feedcontent += "<div class='feed-entries'>"
           feedcontent += hdr
