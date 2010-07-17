@@ -40,7 +40,7 @@ class FeedsController < ApplicationController
       strip_tags = true
       allfeeds += "<div class='feed-sxn-hdr'>MAU Artist Feeds</div>"
       choice(feeds, @@NUM_FEEDS).each do |ff|
-        allfeeds += FeedsHelper.fetch_and_format_feed(ff['feed'], ff['url'], numentries)
+        allfeeds += FeedsHelper.fetch_and_format_feed(ff['feed'], ff['url'], numentries, true, false, true)
       end
       begin
         logger.info("FeedController: add feed to cache(expiry %d)" % @@CACHE_EXPIRY)

@@ -1,5 +1,5 @@
 NUM_POSTS = 3
-DESCRIPTION_LENGTH = 10000
+DESCRIPTION_LENGTH = 600
 TITLE_LENGTH = 100
 
 class TwitterEntry
@@ -43,11 +43,7 @@ module FeedsHelper
     'blogspot.com' => 'blogger',
     'deviantart.com' => 'deviantart' }
 
-  @@DESC_CLEANER = Regexp.union( Regexp.new('<br\/?[^>]*>|<br/>'),
-                                 Regexp.new('<a\/?[^>]*>|</a>'),
-                                 Regexp.new('\s+style=\"[^>]"(\s+|\>)'),
-                                 Regexp.new('<img\/?[^>]*>')
-                                 )
+  @@DESC_CLEANER = Regexp.new(/<\/?[^>]*>/)
 
   @@LINK_MATCH = Regexp.new( '\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))')
 #'((http?:\/\/|www\.)([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)')
@@ -117,17 +113,16 @@ module FeedsHelper
       end
     else
       if title
-        title.gsub!(Regexp.new('^\w+\:'),'')
         if truncate
           title = FeedsHelper.trunc(title, TITLE_LENGTH)
         end
         # replace links with links
-        title.gsub!(@@LINK_MATCH, '<a target="_blank" class="feed-inner-link" href="\1">\1</a>')
         feed += "<div class='feedtxt'>%s</div>" % title
       end
     end
     feed += "</div>"
     feed
+    
   end
 
   def self.fetch_and_format_feed(url, link, numentries=NUM_POSTS, strip_tags=true, include_date=false, truncate=false)
