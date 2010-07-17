@@ -150,7 +150,7 @@ div.donate-btns span {
     text-align: center;
 }
 
-div#artist_notification table.entry-table {
+#artist_notification table.entry-table {
     margin-left: 40px;
 }
 
@@ -567,7 +567,7 @@ div.feedtitle  {
    on the login page, we have id="login" in an input tag
    but this one controls the login bar at the top of the screen
 */
-div#login, div#logout {
+#login_toplink, #logout {
     color:#333333;
     font-size:x-small;
     margin: 3px 8px 8px 10px;
@@ -603,6 +603,12 @@ div#login, div#logout {
     width:800px;
 }
 
+
+#studio_page h4 {
+	margin-top: 4px;
+}
+.about-title h4, .content-block h4 { text-align: center; }
+	
 .content-block, .artist-buttons, #studio_page,
 .search-thumbs {
     width: 560px;
@@ -656,7 +662,7 @@ div#login, div#logout {
     vertical-align: top;
 }
 .studio-info {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 div#header{
@@ -676,6 +682,8 @@ table#header-tbl {
     border: 0;
     color: #666666;
     width: 900px;
+	padding:0;
+	margin:0;
 }
 table#footer-tbl {
     background-color: #FFFFFF;
@@ -687,14 +695,14 @@ table#footer-tbl {
     width: 900px;
 }
 
-div#feedcolumn{
+#feedcolumn{
     float:left;
     width:250px;
     padding:10px 0;
     margin:5px 0;
     background-color: #999999;
 }
-div#bigthumbcolumn{
+#bigthumbcolumn{
     background-color: #000000;
     margin: 20px 10px 10px 10px;
     width: 250px;
@@ -704,15 +712,15 @@ table.tbl-content{
     vertical-align: top;
     width: 900px;
 }
-div#searchtools{
+#searchtools{
     float:left;
     background: #333333;
     margin: 5px 0 0 0;
     padding: 0;
     width: 900px;
 }
-div#nav h2{font-size: 120%;color: #9E4A24}
-div#topnav{
+#nav h2{font-size: 120%;color: #9E4A24;}
+#topnav{
     clear:both;
     font-weight:bold;
     width:880px;
@@ -720,19 +728,19 @@ div#topnav{
     padding: 8px 20px 8px 0;
 }
 
-div#tagline{
+#tagline{
     clear:both;
     width:900px;
     padding:5px 0;
     text-align:left;
 }
-div#searchbox{
+#searchbox{
     clear:both;
     width:900px;
     padding:5px 0;
     text-align:right
 }
-div#footer{
+#footer{
     clear:both;
     width:880px;
     background: #fff;
@@ -832,15 +840,15 @@ div.navlinks {
 	padding: 0px 2px 0 2px;
 }
 
-a.fdbk-subj div#next_pg {
+a.fdbk-subj #next_pg {
     display:none;
 }
 
-a.fdbk-sel div#next_pg {
+a.fdbk-sel #next_pg {
     display: inline-block;
 }
 
-a.fdbk-sel div#next_pg {
+a.fdbk-sel #next_pg {
     margin-right: 3px;
     margin-left: 3px;
     vertical-align: middle;
@@ -1070,6 +1078,7 @@ tr.tr-short{
     background-color:#999999;
 }
 
+.rcol div h4 { text-align:center;}
 td.rcol{
     padding-bottom:15px;
     vertical-align: top;
@@ -1129,6 +1138,10 @@ td.td-left{
     vertical-align:middle;
 }
 
+.logo-spacer {
+	line-height: 1.5em;
+}
+/*
 .room-for-logo {
     padding-top: 35px;
 }
@@ -1137,7 +1150,7 @@ td.td-left{
     margin-top: -10px;
     text-align: center;
 }
-
+*/
 div.div-center h4 {
     margin-top: 10px;
 }
@@ -1253,6 +1266,7 @@ div.div-center h4 {
     float:left;
     margin: 5px;
     width: 260px;
+	overflow: hidden;
 }
 
 .search-thumb-art {
@@ -1479,6 +1493,7 @@ span.mainnav {
 
 .tagcloud {
     margin: auto;
+	padding-right: 12px;
 }
 .clouditem { 
     line-height: 1.4em;
@@ -1690,8 +1705,8 @@ div.popup-help {
 Feedback/Get Involved lightbox 
 Notes lightbox
 ****/
-div#feedback,
-div#note_container {
+#feedback,
+#note_container {
   position: absolute;	
   top: 0;
   left: 0;			
@@ -1954,3 +1969,9 @@ Admin
     color: #ccc;
 }
 
+#artist_toolbar {
+	position: absolute;
+	right: 4px;
+	top: 4px;
+	background-color: #404;
+}

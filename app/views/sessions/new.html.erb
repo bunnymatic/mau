@@ -1,4 +1,4 @@
-<div>
+<div style="padding-top:26px;">
   <table align="center" width="707" border="0" cellspacing="0" cellpadding="0">
 	<tr>
       <td class="td-center" width="473" valign="top" ></td>
@@ -7,7 +7,7 @@
 	</tr>
 	<% if flash[:notice] -%>
 	<tr>
-	  <td class="td-left" valign="top">
+	  <td class="td-left" width="473" valign="top">
 		<div class="notice"><%=h flash[:notice] %></div>
       <td></td>
       <td></td>
@@ -50,14 +50,15 @@
 			<a href="/forgot">Can't access your account?</a>
 		  </div>
 		</div>
-</div>    </td>
-<td class="td-left" valign="top"> <h2>Not Yet A MAU Artist?</h2>     <p>In order to upload your portfolio and take part in our Mission Open Studios events,  you'll need an account.</p>
-  <p class="justify">Joining is free and easy.<br>
-    You just have to be an artist living or working or showing in the Mission District, San Francisco.</p>
-  <div align="center"><form method="get" action="<%= signup_path %>"><input type="submit" value="Sign Up Now"/ ></form></div></td>
-<td valign="top"><img src="/images/sp-black.png" width="1" height="340"></td>
-</tr>
-</table>
+	  </td>
+	  <td class="td-left" valign="top"> <h2>Not Yet A MAU Artist?</h2>     <p>In order to upload your portfolio and take part in our Mission Open Studios events,  you'll need an account.</p>
+		<p class="justify">Joining is free and easy.<br/>
+		  You just have to be an artist living or working or showing in the Mission District, San Francisco.</p>
+		<div><form method="get" action="<%= signup_path %>"><input type="submit" value="Sign Up Now" /></form></div>
+	  </td>
+	</tr>
+  </table>
+</div>
 
 
 
