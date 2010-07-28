@@ -1,7 +1,7 @@
 ####### VARIABLES #######
 set :ssh_options,         {:port => 2222}
 set :application, "MAU"
-set :repository,  "svn+ssh://bunnymatic.com/space/svnroot/mau/web/trunk"
+set :repository,  "svn+ssh://svn.bunnymatic.com/space/svnroot/mau/web/trunk"
 set :scm, :subversion
 set :use_sudo, false
 
@@ -47,6 +47,10 @@ desc "Set up Production specific paramters."
 task :prod do
   set :user, "mauprod"
   set :deploy_to, "/home/mauprod/deployed"
+  set :rails_env, 'production'
+  set :svn_env, 'export SVN_SSH="ssh -p 2222"'
+  puts("executing locally \'" + svn_env + "\'")
+  system(svn_env)
 end
 
 after "deploy:symlink", :symlink_data
