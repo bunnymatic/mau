@@ -38,7 +38,6 @@ class FeedsController < ApplicationController
       # don't show mau news on the feed if we're on the news page
       feeds = Conf.feeds_urls
       strip_tags = true
-      allfeeds += "<div class='feed-sxn-hdr'>MAU Artist Feeds</div>"
       choice(feeds, @@NUM_FEEDS).each do |ff|
         allfeeds += FeedsHelper.fetch_and_format_feed(ff['feed'], ff['url'], numentries, true, false, true)
       end
@@ -51,6 +50,7 @@ class FeedsController < ApplicationController
     else
       allfeeds = cached_html
     end
+    allfeeds = "<div class='feed-sxn-hdr'>MAU Artist Feeds</div>" + allfeeds
     logger.debug("FeedController: render")
     if allfeeds.empty?
       render :action => 'default_feeds'
