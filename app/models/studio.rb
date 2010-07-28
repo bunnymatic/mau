@@ -6,6 +6,9 @@ class Studio < ActiveRecord::Base
 
   has_many :artists
 
+  before_save :compute_geocode
+  before_update :compute_geocode
+
   after_save :flush_cache
   after_update :flush_cache
   after_destroy :flush_cache
@@ -69,6 +72,14 @@ class Studio < ActiveRecord::Base
   end
 
   protected
+  def compute_geocode
+    # use artist's address
+    result = Geocoding::get("%s, %s, %s, %s" % [self.street, self.city, self.state, self.zip])
+    if result.status == Geocoding::GEO_SUCCESS
+      self.lat, self.lng = result[0].latitude, result[0].longitude
+    end
+  end
+
   def flush_cache
     Studio.flush_cache
   end

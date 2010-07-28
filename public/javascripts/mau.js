@@ -11,6 +11,7 @@ MAU = window['MAU'] || {};
     var G = M.GetInvolved = M.GetInvolved || {};
 
     M.__debug__ = true;
+	M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
     M.validateEmail = function(str) {
 	return (str.indexOf(".") > 2) && (str.indexOf("@") > 0);
@@ -48,14 +49,13 @@ MAU = window['MAU'] || {};
 	if (errmsg) {
 	    errmsg.update('');
 	}
-	var dv = document.createElement('div');
-	Element.extend(dv);
+		var dv = new Element('div');
 	dv.addClassName('wait-dialog');
 	dv.show();
-	var tx = document.createTextNode('Uploading...');
+		var tx = new Element('span');
+		tx.update('Uploading...');
 	dv.appendChild(tx);
-	var im = document.createElement('img');
-	im.setAttribute('src','/images/spinner32.gif');
+		var im = M.SPINNER;
 	im.setAttribute('style','float:right; margin:auto;');
 	dv.appendChild(im);
 	document.body.appendChild(dv);
