@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100224083530) do
+ActiveRecord::Schema.define(:version => 20100728051123) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -80,6 +80,8 @@ ActiveRecord::Schema.define(:version => 20100224083530) do
     t.integer  "representative_art_piece"
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
     t.boolean  "os2010",                                   :default => false
+    t.float    "lat"
+    t.float    "lng"
   end
 
   add_index "artists", ["login"], :name => "index_artists_on_login", :unique => true
@@ -164,6 +166,8 @@ ActiveRecord::Schema.define(:version => 20100224083530) do
     t.string   "profile_image"
     t.integer  "image_height",  :default => 0
     t.integer  "image_width",   :default => 0
+    t.float    "lat"
+    t.float    "lng"
   end
 
   create_table "tags", :force => true do |t|

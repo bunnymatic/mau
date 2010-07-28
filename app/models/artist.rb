@@ -21,6 +21,9 @@ class Artist < ActiveRecord::Base
   has_many :art_pieces
   has_and_belongs_to_many :roles
 
+  before_save :compute_geocode
+  before_update :compute_geocode
+
   after_save :flush_cache
   after_update :flush_cache
   after_destroy :flush_cache
@@ -54,7 +57,7 @@ class Artist < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :studio_id, :nomdeplume, :phone, :url, :street, :city, :addr_state, :zip, :bio, :facebook, :flickr, :myspace, :twitter, :blog, :year, :reset_code, :emailsettings, :email_attrs, :os2010
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :studio_id, :nomdeplume, :phone, :url, :street, :city, :addr_state, :zip, :bio, :facebook, :flickr, :myspace, :twitter, :blog, :year, :reset_code, :emailsettings, :email_attrs, :os2010, :lat, :lng
 
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -329,7 +332,22 @@ class Artist < ActiveRecord::Base
   end
 
   protected
-    
+    def compute_geocode
+      if self.studio_id != 0
+        s = self.studio
+        if s.lat && s.lng
+          self.lat = s.lat
+          self.lng = s.lng
+        end
+      else
+        # use artist's address
+        result = Geocoding::get("%s, %s, %s" % [self.street, self.state, self.zip])
+        if result.status == Geocoding::GEO_SUCCESS
+          self.lat, self.lng = result[0].latlon
+        end
+      end
+    end
+
     def make_activation_code
         self.deleted_at = nil
         self.activation_code = self.class.make_token
