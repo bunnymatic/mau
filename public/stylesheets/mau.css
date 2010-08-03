@@ -611,6 +611,10 @@ div#login_toplink { margin: 6px auto;}
     margin:auto;
     width:800px;
 }
+#map_page .navlinks {
+    padding-top: 25px;
+    padding-bottom: 5px;
+}
 
 
 #studio_page h4 {
