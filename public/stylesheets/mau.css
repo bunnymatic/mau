@@ -1100,9 +1100,13 @@ td.rcol{
 
 }
 
-td.singlecolumn{
+.singlecolumn{
     padding-bottom: 20px;
     width:882px;
+}
+div.singlecolumn {
+    background-color: #000;
+    padding-top:20px;
 }
 
 .ltcorner, .rtcorner, .lbcorner, .rbcorner {
