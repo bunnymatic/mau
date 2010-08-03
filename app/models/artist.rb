@@ -349,7 +349,7 @@ class Artist < ActiveRecord::Base
     def compute_geocode
       if self.studio_id != 0
         s = self.studio
-        if s.lat && s.lng
+        if s && s.lat && s.lng
           self.lat = s.lat
           self.lng = s.lng
         end
