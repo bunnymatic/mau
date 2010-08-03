@@ -1,0 +1,14 @@
+<div class="singlecolumn" >
+  <div style="padding-left: 20px; width:880px">
+  Artists added per day
+  </div>
+    <% ctr=0
+       numrows = @tbl[-1][0].to_i
+       @tbl.each do |c,d| -%>
+  <div style="padding-left: 20px; width:200px">
+    <%= c %>  <%= d %> <%= numrows %><br/>
+  </div>    
+    <% end -%>
+
+  </table>
+</div>
