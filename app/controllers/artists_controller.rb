@@ -53,7 +53,7 @@ class ArtistsController < ApplicationController
     @roster = {}
     nentries = 0
     artists.each do |a|
-      if a.address
+      if a.address && !a.address.empty? and a.lat and a.lng
         ky = "%s" % a.address
         dx = dy = 0.0
         if !@roster[ky]
@@ -66,7 +66,6 @@ class ArtistsController < ApplicationController
 
         @roster[ky] << a
         coord = [a.lat, a.lng]
-        p "%s : %s %s" % [a.fullname, ky, coord[0], coord[1]]
         centerx += coord[0]
         centery += coord[1]
         nentries += 1
@@ -619,9 +618,5 @@ class ArtistsController < ApplicationController
     end
   end
 
-  protected
-  def get_geocode(address)
-    Geocoding::get(address.to_s)
-  end  
 
 end
