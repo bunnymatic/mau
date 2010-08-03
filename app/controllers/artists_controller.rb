@@ -53,26 +53,8 @@ class ArtistsController < ApplicationController
     @roster = {}
     nentries = 0
     artists.each do |a|
-      address = nil
-      name = "%s" % a.get_name(true)
-      addr = nil
-      s = a.studio
-      if s && s.street and !s.street.empty? 
-        addr = "%s %s %s" % [ s.street, s.state, s.zip ]
-      else
-        if a.street and !a.street.empty? and a.zip and a.street.index(/[0-9]/)
-          addr = "%s %s %s" % [ a.street, a.addr_state, a.zip ]
-        end
-      end
-      if addr and !addr.strip.empty?
-        address = Address.new(name, addr)
-        if a.studio_id > 0
-          s = a.studio
-          if s
-            name += " at %s" % s.name
-          end
-        end
-        ky = address.to_s
+      if a.address
+        ky = "%s" % a.address
         dx = dy = 0.0
         if !@roster[ky]
           @roster[ky] = []
@@ -83,24 +65,25 @@ class ArtistsController < ApplicationController
         end
 
         @roster[ky] << a
-        coord = address.coord
-        title = address.title
+        coord = [a.lat, a.lng]
+        p "%s : %s %s" % [a.fullname, ky, coord[0], coord[1]]
         centerx += coord[0]
         centery += coord[1]
         nentries += 1
         coord[0] += dx
         coord[1] += dy
         info = get_map_info(a)
-
-        m = GMarker.new(coord,:title => title,
+        
+        m = GMarker.new(coord,:title => a.get_name(true),
                         :info_window => info)
-                        #:icon => artist_ico)
+        #:icon => artist_ico)
         markers << m
         @map.overlay_init(m)
       end
     end
     center = [ centerx / nentries.to_f,
                centery / nentries.to_f]
+    p "Center %s" % center
     @map.center_zoom_init(center,14)
     @selfurl = artistsmap_url
     @inparams = params

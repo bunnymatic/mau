@@ -1,13 +1,14 @@
 require 'uri'
-
 class Studio < ActiveRecord::Base
   @@CACHE_EXPIRY =  (Conf.cache_expiry[:objects] or 0)
   @@STUDIOS_KEY = (Conf.cache_ns or '') + 'studios'
 
+  attr_reader :address
   has_many :artists
 
-  before_save :compute_geocode
-  before_update :compute_geocode
+  acts_as_mappable
+  before_validation_on_create :compute_geocode
+  before_validation_on_update :compute_geocode
 
   after_save :flush_cache
   after_update :flush_cache
@@ -55,6 +56,12 @@ class Studio < ActiveRecord::Base
     studios
   end
 
+  def address
+    if self.street && ! self.street.empty?
+      return "%s %s" % [self.street, self.zip]
+    end
+  end
+
   def map_link
     "http://maps.google.com/maps?q=%s,%s,%s %s" % [ self.street,
                                                     self.city,
@@ -73,11 +80,9 @@ class Studio < ActiveRecord::Base
 
   protected
   def compute_geocode
-    # use artist's address
-    result = Geocoding::get("%s, %s, %s, %s" % [self.street, self.city, self.state, self.zip])
-    if result.status == Geocoding::GEO_SUCCESS
-      self.lat, self.lng = result[0].latitude, result[0].longitude
-    end
+    result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s" % [self.street, self.state, self.zip])
+    errors.add(:street, "Unable to Geocode the studio address.") if !result.success
+    self.lat, self.lng = result.lat, result.lng if result.success
   end
 
   def flush_cache
