@@ -113,6 +113,19 @@ class Artist < ActiveRecord::Base
     return "http://" + Conf.site_url + "/artists/" + self.login
   end
 
+  def get_full_address
+    # good for maps
+    if self.studio_id != 0 and self.studio
+      self.studio.get_full_address
+    else
+      if self.street && !self.street.empty?
+        "%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.addr_state || "CA", self.zip || "94110"]
+      else
+        ""
+      end
+    end
+  end
+
   def address
     if self.studio_id != 0 and self.studio
       return self.studio.address
@@ -123,6 +136,7 @@ class Artist < ActiveRecord::Base
     end
   end
 
+  
   def fullname
     fullname = nil
     if !(self.firstname.empty? or self.lastname.empty?)
@@ -355,7 +369,7 @@ class Artist < ActiveRecord::Base
         end
       else
         # use artist's address
-        result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.state || "CA", self.zip || "94110"])
+        result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.addr_state || "CA", self.zip || "94110"])
         errors.add(:street, "Unable to Geocode your address.") if !result.success
         self.lat, self.lng = result.lat, result.lng if result.success
       end

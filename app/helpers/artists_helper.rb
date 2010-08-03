@@ -148,7 +148,6 @@ module ArtistsHelper
       img = "<a class='lkdark' href='%s'><img src='%s'/></a>" % [ artist_path(artist), ap.get_path('thumb') ]
       html += '<div class="_mau1" style="float:right;">%s</div>' % img
     end
-    addr = ''
     s = artist.studio
     name = "<a class='lkdark' href='%s'>%s</a>" % [ artist_path(artist), aname ]
     if !s && artist.street && !artist.street.empty?
@@ -158,7 +157,7 @@ module ArtistsHelper
     end
     html += '<div style="clear"></div>'
     if 
-      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HTMLHelper.encode(addr)
+      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HTMLHelper.encode(artist.get_full_address)
       html += '<div style="margin-top:8px">%s</div>' % lnk
     end
       
