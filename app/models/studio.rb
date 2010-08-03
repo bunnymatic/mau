@@ -58,7 +58,7 @@ class Studio < ActiveRecord::Base
 
   def address
     if self.street && ! self.street.empty?
-      return "%s %s" % [self.street, self.zip]
+      return "%s %s" % [self.street, self.zip ]
     end
   end
 
@@ -80,7 +80,7 @@ class Studio < ActiveRecord::Base
 
   protected
   def compute_geocode
-    result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s" % [self.street, self.state, self.zip])
+    result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city, self.state, self.zip])
     errors.add(:street, "Unable to Geocode the studio address.") if !result.success
     self.lat, self.lng = result.lat, result.lng if result.success
   end

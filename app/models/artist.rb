@@ -355,7 +355,7 @@ class Artist < ActiveRecord::Base
         end
       else
         # use artist's address
-        result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s" % [self.street, self.state, self.zip])
+        result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.state || "CA", self.zip || "94110"])
         errors.add(:street, "Unable to Geocode your address.") if !result.success
         self.lat, self.lng = result.lat, result.lng if result.success
       end
