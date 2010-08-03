@@ -23,7 +23,7 @@ Studio.flush_cache
 artists = Artist.find(:all, :conditions => "state = 'active'")
 artists.each do |a|
   # updates geocode
-  if !a.lat || !a.lng
+  if a && !a.lat || !a.lng
     p "Updating %s" % a.fullname
     a.save()
     # wait between calls
