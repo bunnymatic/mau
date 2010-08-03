@@ -56,6 +56,15 @@ class Studio < ActiveRecord::Base
     studios
   end
 
+  def get_full_address
+    # good for maps
+    if self.street && !self.street.empty?
+      "%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.state || "CA", self.zip || "94110"]
+    else
+      ""
+    end
+  end
+
   def address
     if self.street && ! self.street.empty?
       return "%s %s" % [self.street, self.zip ]
