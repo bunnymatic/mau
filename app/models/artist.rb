@@ -114,7 +114,7 @@ class Artist < ActiveRecord::Base
   end
 
   def address
-    if self.studio_id != 0
+    if self.studio_id != 0 and self.studio
       return self.studio.address
     else
       if self.street && ! self.street.empty?
