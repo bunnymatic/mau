@@ -216,6 +216,7 @@ MAU = window['MAU'] || {};
 		if (lnk) {
 		    Event.observe(lnk, 'click', function(event){
 			M.Artist.toggleSxnVis(nm);
+			event.stop();
 		    });
 		}
 	    })();

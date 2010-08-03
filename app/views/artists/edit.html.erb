@@ -183,7 +183,7 @@
 	    City
 	  </td>
 	  <td>
-	    <%= f.text_field :city, :value => "San Francisco" %>
+	    <%= f.text_field :city, :value => @artist.city || "San Francisco" %>
 	  </td>
 	  <td class="input-err">
 	  </td>
@@ -193,7 +193,7 @@
 	    State
 	  </td>
 	  <td>
-	    <%= f.text_field :addr_state, :value => "CA"%>
+	    <%= f.text_field :addr_state, :value => @artist.addr_state || "CA"%>
 	  </td>
 	  <td class="input-err">
 	  </td>
@@ -203,7 +203,7 @@
 	    Zipcode
 	  </td>
 	  <td>
-	    <%= f.text_field :zip, :value => "94110"  %>
+	    <%= f.text_field :zip, :value => @artist.zip || "94110"  %>
 	  </td>
 	  <td class="input-err">
 	  </td>

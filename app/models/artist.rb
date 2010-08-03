@@ -15,14 +15,15 @@ class Artist < ActiveRecord::Base
   @@CACHE_EXPIRY =  (Conf.cache_expiry['objects'] or 0)
 
   # stash this so we don't have to keep getting it from the db
-  attr_reader :emailsettings
+  attr_reader :emailsettings, :fullname, :address
 
   belongs_to :studio
   has_many :art_pieces
   has_and_belongs_to_many :roles
 
-  before_save :compute_geocode
-  before_update :compute_geocode
+  acts_as_mappable
+  before_validation_on_create :compute_geocode
+  before_validation_on_update :compute_geocode
 
   after_save :flush_cache
   after_update :flush_cache
@@ -112,17 +113,30 @@ class Artist < ActiveRecord::Base
     return "http://" + Conf.site_url + "/artists/" + self.login
   end
 
-  def get_name(htmlsafe=false)
+  def address
+    if self.studio_id != 0
+      return self.studio.address
+    else
+      if self.street && ! self.street.empty?
+        return "%s %s" % [self.street, self.zip]
+      end
+    end
+  end
+
+  def fullname
     fullname = nil
     if !(self.firstname.empty? or self.lastname.empty?)
       fullname = [self.firstname, self.lastname].join(" ")
     end
-
+    fullname
+  end
+  def get_name(htmlsafe=false)
     if self.nomdeplume
       name = self.nomdeplume
-    elsif fullname
-      name = fullname
     else
+      name = self.fullname
+    end
+    if not name
       name = self.login
     end
     if htmlsafe
@@ -341,10 +355,9 @@ class Artist < ActiveRecord::Base
         end
       else
         # use artist's address
-        result = Geocoding::get("%s, %s, %s" % [self.street, self.state, self.zip])
-        if result.status == Geocoding::GEO_SUCCESS
-          self.lat, self.lng = result[0].latlon
-        end
+        result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s" % [self.street, self.state, self.zip])
+        errors.add(:street, "Unable to Geocode your address.") if !result.success
+        self.lat, self.lng = result.lat, result.lng if result.success
       end
     end
 
