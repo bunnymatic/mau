@@ -116,18 +116,18 @@ div.donate-btns span {
     vertical-align: top;
 }
     
-.open-close-div {
+.gi {
     border-bottom: 1px dotted;
     padding-top: 20px;
     height: 20px;
 }
 
-.open-close-div span.title {
+.gi span.title {
 	float: left;
     text-align:left;
 }
 
-.open-close-div span.edit {
+.gi span.edit {
     float: right;
     font-size: 80%;
 }
