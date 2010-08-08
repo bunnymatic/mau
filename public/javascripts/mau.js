@@ -472,7 +472,7 @@ MAU = window['MAU'] || {};
 	// email -> mailto:
 	var specialCases = new Array('shop');
 
-	var items = $$('div.gi a');
+	var items = $$('div.open-close-div a');
 	var nitems = items.length;
 	var ii = 0;
 	for (ii = 0; ii < nitems; ++ii) {
