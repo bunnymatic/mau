@@ -64,10 +64,10 @@ no reason for this to be very pretty
       Active? <%= a.state=='active' %><br/>
     </td>
     <td class="street"><%=h a.street %></td>
-    <td  class="os2010" artistid="<%= a.id %>"><%=h a.os2010 %></td>
-    <% checked = (a.os2010 ? "checked=checked":"") -%>
+    <td  class="osoct2010" artistid="<%= a.id %>"><%=h a.osoct2010 %></td>
+    <% checked = (a.osoct2010 ? "checked=checked":"") -%>
     <td>
-	<div ><input artistid="<%= a.id %>" class="cb2010" type="checkbox" name="artist<%=a.id%>" value="<%=a.os2010%>" <%= checked %> /></div>
+	<div ><input artistid="<%= a.id %>" class="cboct2010" type="checkbox" name="artist<%=a.id%>" value="<%=a.osoct2010%>" <%= checked %> /></div>
     </td>
  </tr>
 <% end %>
