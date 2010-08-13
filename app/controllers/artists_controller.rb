@@ -412,14 +412,14 @@ class ArtistsController < ApplicationController
         params[:artist][:email_attrs] = em2.to_json
       end
       # clean os from radio buttons
-      os = params[:artist][:os2010]
+      os = params[:artist][:osoct2010]
       if os == "true" || os == "on" || os == 1
         if ((!params[:artist][:street]) || (params[:artist][:street].empty?)) && (current_artist.studio && current_artist.studio.id <= 0)
           raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
         end
-        params[:artist][:os2010] = true
+        params[:artist][:osoct2010] = true
       elsif os == "false" || os == "off"
-        params[:artist][:os2010] = false
+        params[:artist][:osoct2010] = false
       end
       self.current_artist.update_attributes!(params[:artist])
       flash[:notice] = "Update successful"

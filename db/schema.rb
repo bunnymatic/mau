@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100728051123) do
+ActiveRecord::Schema.define(:version => 20100813143934) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20100728051123) do
     t.boolean  "os2010",                                   :default => false
     t.float    "lat"
     t.float    "lng"
+    t.boolean  "osoct2010",                                :default => false
   end
 
   add_index "artists", ["login"], :name => "index_artists_on_login", :unique => true
