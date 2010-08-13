@@ -354,6 +354,9 @@ div.formbutton {
     margin: 8px 0;
 }
 
+.share {
+	line-height: 20px;
+}
 .share .micro-icon {
     vertical-align:middle;
 }
@@ -418,6 +421,10 @@ div.formbutton {
 .feed-icon.deviantart,
 .micro-icon.deviantart {
     background-position: 0 128px;
+}
+
+.twitter-share-button {
+	vertical-align: bottom;
 }
 
 #feed_div {
@@ -852,16 +859,6 @@ span.navlinks {
 
 a.fdbk-subj #next_pg {
     display:none;
-}
-
-a.fdbk-sel #next_pg {
-    display: inline-block;
-}
-
-a.fdbk-sel #next_pg {
-    margin-right: 3px;
-    margin-left: 3px;
-    vertical-align: middle;
 }
 
 div.get-involved {
@@ -1664,6 +1661,12 @@ div.popup-help {
 #note_modal_content .popup-help-text,
 #feedback_modal_content .popup-help-text {
     font-size: small;
+    -moz-border-radius-bottomleft: 9px; 
+    -moz-border-radius-bottomright: 9px;
+    -webkit-border-bottom-left-radius: 9px; 
+    -webkit-border-bottom-right-radius: 9px;
+
+	
 }
 
 #note_modal_content .popup-help-title,
@@ -1676,6 +1679,10 @@ div.popup-help {
     background-color: transparent;
     line-height:2em;
     padding-left: 10px;
+}
+
+#feedback_modal_content h4 {
+	padding-left: 20px;
 }
 #bemail_input div.little-txt {
     margin-bottom: 4px;
@@ -1766,10 +1773,8 @@ table.fdbk-form td{
 table.fdbk-form div.error-msg {
 	margin-bottom: 0px;
 }
-.fdbk-selector {
-	width: 200px;
-}
-.fdbk-selector, .fdbk-form-container {
+
+.fdbk-form-container {
 	margin: 5px;
 }
 #info_text {

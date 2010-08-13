@@ -105,7 +105,7 @@
 	  <% end -%>
 	  <div class="div-left share">Share this page:
 	    <a target="_new" href="<%= @fb_share %>" title="Share this page on Facebook"><span class="micro-icon facebook"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>&nbsp;
-	    <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><span class="micro-icon twitter"><img src="/images/pix.gif" height="16" width="0"/></span></a>
+		<a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="sfmau">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 	  </div>
 	  </div>
 	  <% if @artist.bio and !@artist.bio.empty? %>
