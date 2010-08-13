@@ -3,13 +3,14 @@
 
 USERAGENT = 'HTTP_USER_AGENT'
 
+@@revision = 0
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   layout 'mau'
   include AuthenticatedSystem
 
-  before_filter :check_browser
+  before_filter :check_browser, :set_version
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
@@ -39,6 +40,26 @@ class ApplicationController < ActionController::Base
   def is_safari?(req)
     req.env[USERAGENT].include? 'Safari'
   end
+
+  def set_version
+    @version = revision()
+  end
+
+  def revision()
+    # file provided by cap deploy
+    if @@revision == 0
+      begin
+        file = File.expand_path('REVISION')
+        f = open(file,'r')
+        @@revision = f.read
+        f.close
+      rescue
+        @@revision = "unk"
+      end
+    end
+    @@revision
+  end
+
   # redirect somewhere that will eventually return back to here
   def redirect_away(*params)
     session[:original_uri] = request.request_uri

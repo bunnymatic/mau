@@ -16,10 +16,7 @@ class MainController < ApplicationController
   end
 
   def version
-    # file provided by cap deploy
-    file = File.expand_path('REVISION')
-    f = open(file,'r')
-    render :text => f.read
+    render :text => self.revision
   end
 
   def getinvolved
