@@ -6,6 +6,9 @@
 	<%= render :partial => '/stylesheets' %>
 	<%= render :partial => '/extra_html_head' %>
     <%= render :partial => '/ganalytics' %>
+  <%=
+     javascript_include_tag "prototype/1.6.0.3/prototype.all.min", "mau", "mau_feeds"
+     %>
   </head>
   <body>
     <div id="bg">  </div>
@@ -20,8 +23,5 @@
       </div>      
     </div>
   </body>
-  <%=
-     javascript_include_tag "prototype/1.6.0.3/prototype.all.min", "mau", "mau_feeds"
-     %>
 	<script type="text/javascript">Feedback.init()</script>
 </html>		
