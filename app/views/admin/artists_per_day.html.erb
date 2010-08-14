@@ -2,13 +2,18 @@
   <div style="padding-left: 20px; width:880px">
   Artists added per day
   </div>
-    <% ctr=0
-       numrows = @tbl[-1][0].to_i
-       @tbl.each do |c,d| -%>
-  <div style="padding-left: 20px; width:200px">
-    <%= c %>  <%= d %><br/>
+  <div>
+<% 
+   @chunks.each do |chunk|
+     -%><div style="float: left; width: 120px; margin-bottom:10px; margin-left:10px;"><%
+      chunk.each do |c|
+		-%>
+       <span><%= c[0] %>  <%= c[1] %></span><br/>
+    <%  end -%>
+      </div>
+<%
+   end
+-%>
+    <div class="clear"></div>
   </div>    
-    <% end -%>
-
-  </table>
 </div>

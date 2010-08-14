@@ -44,7 +44,6 @@ ActionController::Routing::Routes.draw do |map|
 
   # admin links
   map.admin_artists '/admin/artists', :controller => 'artists', :action=> 'admin_index'
-  map.admin_artists_email '/admin/emaillist', :controller => 'artists', :action => 'admin_emails'
   map.admin_update_artists '/admin/artists/update', :controller => 'artists', :action=> 'admin_update'
 
   map.admin_studios '/admin/studios', :controller => 'studios', :action=> 'admin_index'

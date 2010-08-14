@@ -90,10 +90,6 @@ class ArtistsController < ApplicationController
     @inparams.delete('controller')
   end
 
-  def admin_emails
-    @artists = Artist.find(:all, :conditions => ['state="active"'])
-  end
-
   def admin_index
     sortby = "studio_id"
     reverse = false
