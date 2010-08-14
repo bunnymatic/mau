@@ -1,0 +1,38 @@
+<div class="singlecolumn" >
+<div style="float:right;">
+Other email lists?
+<ul>
+<li>
+<a href="emaillist?listname=noimages">Artists with no art</a>
+</li>
+<li>
+<a href="emaillist?listname=activated">Activated Artists</a>
+</li>
+<li>
+<a href="emaillist?listname=accounts">All Accounts</a>
+</li>
+<li>
+<a href="emaillist?listname=pending">Artists who haven't activated (pending)</a>
+</li>
+<li>
+<a href="emaillist?listname=noprofile">Active but no profile image</a>
+</li>
+</ul>
+</div>
+<div style="padding-left:30px; margin-top: 20px; width: 500px; float: left;">
+<% if @msg -%>
+<div class="error-msg"><%= @msg %></div>
+<% else -%>
+<h4>[<%= @emails.length %>]<%= @title %></h4>
+<h5>Emails</h5>
+<textarea rows="10" cols="70" readonly="readonly">
+<% @emails.each do |e| 
+     if e.length <= 0
+        next
+     end
+-%>&quot;<%=h e[:name] %>&quot; &lt;<%=h e[:email] %>&gt;,<% end -%>
+</textarea>
+<% end -%>
+</div>
+<div class="clear"></div>
+</div>

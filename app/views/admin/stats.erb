@@ -1,0 +1,22 @@
+<div class="singlecolumn" >
+<div style="padding-left: 20px;">
+<style type="text/css">
+#admin_stats_list td { padding: 4px; }
+#admin_stats_list {margin:auto; margin-top:20px;}
+</style>
+<table id="admin_stats_list">
+<%
+  str = ""
+  @artiststats.each_pair do |k,v|
+    name = v[:name]
+    data = v[:data]
+-%>
+<tr><td><%= v[:name] %></td><td><%= v[:data] %></td><td><span style="padding-left: 10px; font-size:x-small"><a href="emaillist?listname=<%= k %>">(List of Emails)</a></span></td></tr>
+<%
+  end 
+-%>
+<tr><td>Art Pieces</td><td><%= @artpieces %></td><tr>
+</table>
+
+</div>
+</div>
