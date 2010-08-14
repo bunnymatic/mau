@@ -22,7 +22,8 @@ Other email lists?
 <div style="padding-left:30px; margin-top: 20px; width: 500px; float: left;">
 <% if @msg -%>
 <div class="error-msg"><%= @msg %></div>
-<% else -%>
+<% end -%>
+<% if @emails && @title -%>
 <h4>[<%= @emails.length %>]<%= @title %></h4>
 <h5>Emails</h5>
 <textarea rows="10" cols="70" readonly="readonly">
