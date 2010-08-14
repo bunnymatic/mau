@@ -38,6 +38,8 @@ class AdminController < ApplicationController
     else
       @emails = []
       @msg = "I don't know what list you wanted?"
+      @title = "All Activated Artsts"
+      artists = Artist.find(:all, :conditions => [ "state='active'" ])
     end
     @emails = []
     artists.each do |a|
