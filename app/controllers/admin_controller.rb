@@ -5,7 +5,29 @@ class AdminController < ApplicationController
   end
   
   def stats
-    render :text => "<html><body>%s Artists<br/>%s ArtPieces<br/></body></html>" % [ Artist.count, ArtPiece.count ]
+    activated = Artist.count(:conditions => "state='active'")
+    accounts = Artist.count
+    artpieces = ArtPiece.count
+    introuble = Artist.count(:conditions => "state='pending'")
+    noprofile = Artist.count(:conditions => "state='active' and profile_image is not null")
+
+    sql = ActiveRecord::Base.connection()
+    query = "select count(*) ct from artists where id not in (select distinct artist_id from art_pieces);"
+
+    noimages = []
+    cur = sql.execute query
+    cur.each_hash do |h|
+      noimages << h['ct']
+    end
+    p noimages
+    str = ""
+    str += "<div>Total Accounts: %s</div>" % accounts
+    str += "<div>Activated : %s</div>" % activated
+    str += "<div>ArtPieces : %s</div>" % artpieces
+    str += "<div>Artists pending (not yet activated) : %s</div>" % introuble
+    str += "<div>No Profile Image : %s</div>" % noprofile
+    str += "<div>No uploaded image : %s</div>" % noimages
+    render :text => "<html><body>%s</body></html>" % str
   end
 
   def artists_per_day
@@ -21,6 +43,7 @@ class AdminController < ApplicationController
     
   end
 
+  def 
   def email_artists
     render :text => 'build this out'
   end
