@@ -494,7 +494,11 @@ div.feedtitle  {
 
 /* for news page */
 #news_text .news-footer {
+    line-height: 32px;
     margin-top: 30px;
+}
+.news-footer span {
+    vertical-align: top;
 }
 .news-text {
 	float:left; 
@@ -833,7 +837,7 @@ img.page-height-spacer-small
 }
 img.icons
 {
-    margin: 0px 8px 0px 8px;
+    margin: 0px 2px 0px 4px;
     border: 0;
 }
 img.square-browse
