@@ -136,8 +136,9 @@ div.donate-btns span {
 }
 
 .edit-profile-sxn {
-    padding: 10px;
-    margin: 15px 10px;
+}
+.inner-sxn {
+	margin: 20px;
 }
 .edit-profile-sxn div {
     text-align: left;
@@ -2007,3 +2008,21 @@ Admin
 	top: 4px;
 	background-color: #404;
 }
+
+#sbm_container { 
+	position: absolute; 
+	top: 20px;
+	right: 20px;
+	background-color: #220;
+	color: orange;
+	border: 1px solid #fc0;
+}
+
+#sf_hdr {
+	border: 1px solid black;
+}
+#sf_main {
+	border: 1px solid black;
+}
+	
+	

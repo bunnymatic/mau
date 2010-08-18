@@ -9,7 +9,7 @@ MAU = window['MAU'] || {};
     var N = M.Notifications = M.Notifications || {};
     var MA = M.Map = M.Map || {};
     var G = M.GetInvolved = M.GetInvolved || {};
-
+	var S = M.Submissions = M.Submissions || {};
     M.__debug__ = true;
 	M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
@@ -192,12 +192,12 @@ MAU = window['MAU'] || {};
 	    if (frm) {
 		if (!frm.visible() ) {
 		    if (sxnnm == sxn) {
-			frm.show();
+				frm.blindDown();
 			lnk.innerHTML = "hide";
 		    }
 		}
 		else {
-		    frm.hide();
+		    frm.blindUp();
 		    lnk.innerHTML = "change";
 		}
 	    }
@@ -447,6 +447,7 @@ MAU = window['MAU'] || {};
     };
 
     G.showSection = function(s) {
+		M.log('show' + s);
 	var items = $$('div.gi a');
 	var nitems = items.length;
 	for (var ii = 0; ii < nitems; ++ii) {
@@ -456,10 +457,14 @@ MAU = window['MAU'] || {};
 		var dv = $(s2);
 		if (dv) {
 		    if (s == s2) {
-			dv.toggle();
+				if (dv.visible()){
+					dv.blindUp();
+				} else {
+                    dv.blindDown();
+			    }
 		    }
 		    else {
-			dv.hide();
+			dv.blindUp();
 		    }
 		}
 	    }
@@ -548,7 +553,45 @@ MAU = window['MAU'] || {};
 	MA.init = function(){};
     };
     Event.observe(window,'load',MA.init);
-    
+	
+	/* artist submissions */
+/*
+	S.MAIN_DIV = 'sbm_container';
+	S.settings = {}
+	S.init = function(settings) {
+		S.initContainer();
+	};
+	S.initContainer = function() {
+		var d = new Element('div', {'id': S.MAIN_DIV});
+		var df = new Element('div', {'id': 'sf_hdr'});
+		var dm = new Element('div', {'id': 'sf_main'});
+		dm.update('main section');
+		df.update('header');
+		var cl = new Element('span');
+		var cla = new Element('a', {'id': 'sf_close'});
+		cla.writeAttribute('href','#');
+		cla.update('x');
+		cl.insert(cla);
+		df.insert(cl);
+		d.insert(dm);
+		d.insert(df);
+		if ($$('#' + S.MAIN_DIV).length == 0) {
+		    $$("body").first().insert(d);
+		}
+		M.log(d);
+		cla.observe('click', S.hideSubmissionForm);
+		S.showSubmissionForm();
+		
+	};
+	S.showSubmissionForm = function() {
+		$(S.MAIN_DIV).blindDown();
+	};
+	S.hideSubmissionForm = function() {
+		$(S.MAIN_DIV).blindUp();
+	};
+
+	Event.observe(window, 'load', S.init);
+*/    
 }
 )();
 
