@@ -3,7 +3,7 @@
 # note : no tabs and indent is ipmortant.
 test:
    site_url: localhost:3000
-   cache_server:
+   cache_server: localhost:11211
    image_servers: 
    cache_ns: tst
    feedback_emails: 

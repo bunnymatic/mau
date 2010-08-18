@@ -29,6 +29,7 @@
       <span class="edit"><a href="#" id="artist_info_toggle_lnk">change</a></span>
     </div>
     <div class="edit-profile-sxn" id="artist_edit_maininfo" style="display:none;">
+     <div class="inner-sxn">
       <table class="entry-table">
 	<tr>
 	  <td class="input-name">
@@ -75,10 +76,11 @@
 	<%= f.submit 'Save Changes' %>
 	<%= f.submit 'Cancel' %>
       </div>
+	  </div>
     </div>
     <div class="open-close-div acct"><span id="events_toggle" class="title">Open Studios</span><span class="edit"><a href="#" id="events_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div class="edit-profile-sxn"  id="artist_events" style="display:none;">
-      <div>
+      <div class="inner-sxn">
 	<div style="width:80%; float:left;">
 	  Are you planning to participate in ArtSpan's Open Studios 2010 - October 9th and 10th?<div style="font-size:x-small;">(more info at <a href="http://www.artspan.org" target="_blank">www.artspan.org</a>)</div>
 	</div>
@@ -96,6 +98,7 @@
     </div>
     <div class="open-close-div acct" ><span id="notification_toggle" class="title">Notifications</span><span class="edit"><a href="#" id="notification_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div  class="edit-profile-sxn"  id="artist_notification" style="display:none;">
+     <div class="inner-sxn">
       <table class="entry-table">
 	<tr>
 	  <td class="input-name">
@@ -132,9 +135,11 @@
 	<%= f.submit 'Save Changes' %>
 	<%= f.submit 'Cancel' %>
       </div>
+	  </div>
     </div>
     <div class="open-close-div acct" ><span id="links_toggle" class="title">Links</span><span class="edit"><a href="#" id="links_toggle_lnk">change</a></span></div>
     <div class="edit-profile-sxn" id="artist_edit_links" style="display:none;">
+     <div class="inner-sxn">
       <table class="entry-table">
 	<% [ [:url, 'Website'],
 	   [:facebook, 'Facebook'],
@@ -153,9 +158,11 @@
 	<%= f.submit 'Save Changes' %>
 	<%= f.submit 'Cancel' %>
       </div>
+	  </div>
     </div>
     <div class="open-close-div acct" ><span id="studio_info_toggle" class="title">Studio Info</span><span class="edit"><a href="#" id="studio_info_toggle_lnk">change</a></span></div>
     <div  class="edit-profile-sxn" id="artist_edit_address" style="display:none;">
+     <div class="inner-sxn">
       <table class="entry-table">
 	<tr>
 	  <td class="input-name">
@@ -213,10 +220,12 @@
 	<%= f.submit 'Save Changes' %>
 	<%= f.submit 'Cancel' %>
       </div>
-    </div>
+     </div>
+	</div>
     <div class="open-close-div acct" ><span id="bio_toggle" class="title">Bio/Artist's Statement</span><span class="edit"><a href="#" id="bio_toggle_lnk">change</a></span></div>
     <div  class="edit-profile-sxn" id="artist_edit_bio" style="display:none;">
-      <table class="entry-table">
+      <div class="inner-sxn">
+  <table class="entry-table">
 	<tr>
 	  <td class="input-name">
 	    Bio
@@ -235,11 +244,13 @@
 	<%= f.submit 'Save Changes' %>
 	<%= f.submit 'Cancel' %>
       </div>
+	  </div>
     </div>
     <% end -%>
     <div class="open-close-div acct" ><span id="passwd_toggle" class="title">Password</span><span class="edit"><a href="#" id="passwd_toggle_lnk">change</a></span></div>
     <% form_tag(change_password_update_path, :method => :put) do -%>
     <div  class="edit-profile-sxn" id="artist_change_passwd" style="display:none;">
+     <div class="inner-sxn">
       <table class="entry-table">
 	<tr>
 	  <td colspan="3" align="center">
@@ -275,10 +286,12 @@
           <td class="input-err">&nbsp;</td>
 	</tr>
       </table>
+	  </div>
     </div>
     <% end -%>
     <div class="open-close-div acct"><span id="deactivate_toggle" class="title">Deactivate Account</span><span class="edit"><a href="#" id="deactivate_toggle_lnk">change</a></span></div>
     <div  class="edit-profile-sxn" id="artist_deactivate" style="display:none;">
+     <div class="inner-sxn">
       <table class="entry-table">
 	<tr>
 	  <td align="center">
@@ -290,6 +303,7 @@
 	  <td class="td-center"><a onclick="return confirm('This action is permanent.\nAre you sure you want to deactivate your account?');" href="<%= '/artists/deactivate/%d' % current_artist.id %>"><button class="formbutton">Deactivate Me</button></a></td>
 	</tr>
       </table>
+    </div>
     </div>
   </div>
   <div class="edit-buttons">
