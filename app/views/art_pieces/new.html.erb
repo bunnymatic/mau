@@ -1,4 +1,6 @@
-<div class="div-center"><h4>Add a new piece of art for <%=h current_artist.get_name %></h4></div>
+<div class="div-center">
+	  <div class="logo-spacer">&nbsp;</div>
+<h4>Add a new piece of art for <%=h current_artist.get_name %></h4></div>
 <% form_for(@art_piece, :html => {:multipart => true}) do |f| -%>
 	<%= hidden_field_tag :artist_id, current_artist.login %>
 <table align="center" border="0" cellspacing="0" cellpadding="0">
