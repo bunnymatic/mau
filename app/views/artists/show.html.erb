@@ -10,13 +10,13 @@
       <% end -%>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
-    <td class="rcol room-for-logo" align="center"><!-- artists/show -->
+    <td class="rcol" align="center" ><!-- artists/show -->
       <% if flash[:error] -%>
       <div class="error-msg">Error:
 	<%= flash[:error] %>
       </div>
       <% end -%>
-      <div class="content-block"> 
+      <div class="content-block" > 
 	  <% if logged_in? && @artist && @artist.login == self.current_artist.login -%>
 	  <!-- <%= render :partial => '/deadline_announcement' %>  -->
 	  <% end %>
@@ -51,9 +51,7 @@
 	    <% end -%>
 	  </div>
 	  <div class="div-left">
-	    <table>
-	      <tr><td>Studio:</td>
-		<td>
+		<div>
 		  <% if @artist.studio -%>
 		  <div><%= link_to @artist.studio.name, @artist.studio %></div>
    		  <div><%=h @artist.studio.street %></div>
@@ -62,9 +60,7 @@
 		  <div><%=h @artist.street %></div>
 		  <div><%=h @artist.city %></div>
 		  <% end -%>
-		</td>
-	      </tr>
-	    </table>
+		</div>
 	  </div>
 	  <% if (!current_artist || current_artist.id != @artist.id) && (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
 	  <div class="div-left share">Send the artist a note:&nbsp;
@@ -74,19 +70,15 @@
 
 	  <% if @artist.media and @artist.media.length > 0 -%>
 	  <div class="div-left">
-	    <table>
-	      <tr>
-		<td>Media:</td>
-		<td>
+	    <span>Media:</span>
+		<span>
 		  <% links = []
 		     @artist.media.each do |m| 
   		     links << link_to(m.name, m, :class => ""  )
 			      end
 			      -%>
 		     <%= links.join(", ") %>
-		</td>
-	      </tr>
-	    </table>
+		</span>
 	  </div>
 	  <% end -%>
           <% if @artist.tags and @artist.tags.length > 0 -%>
@@ -105,7 +97,7 @@
 	  <% end -%>
 	  <div class="div-left share">Share this page:
 	    <a target="_new" href="<%= @fb_share %>" title="Share this page on Facebook"><span class="micro-icon facebook"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>&nbsp;
-		<a href="http://twitter.com/share" class="twitter-share-button" data-count="none" data-via="sfmau">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+	    <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><span class="micro-icon twitter"><img src="/images/pix.gif" height="16" width="0"/></span></a>
 	  </div>
 	  </div>
 	  <% if @artist.bio and !@artist.bio.empty? %>
@@ -148,7 +140,22 @@
 	<% end -%>
       </div>
     </td>
-    <td></td>
+    <td valign="top">
+	  <div style="position:relative;">
+	  <%# <!-- not yet ready for primetime tools menu on the side -->
+	  <div id="tools_mnu" class="closed" >
+		<a href="#" id="tools_mnu_openclose">
+		<div id="tools_mnu_hdr">
+		</div>
+		</a>
+		<div id="tools_mnu_items" >
+		  <div>item1</div>
+		  <div>item2</div>
+		</div>
+	  </div>
+	  -%>
+	  </div>
+	</td>
   </tr>
   <%= render :partial => "/twocol_bottom" %>
   </table>

@@ -10,6 +10,7 @@ MAU = window['MAU'] || {};
     var MA = M.Map = M.Map || {};
     var G = M.GetInvolved = M.GetInvolved || {};
 	var S = M.Submissions = M.Submissions || {};
+	var TB = M.Toolbar = M.Toolbar || {};
     M.__debug__ = true;
 	M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
@@ -553,7 +554,27 @@ MAU = window['MAU'] || {};
 	MA.init = function(){};
     };
     Event.observe(window,'load',MA.init);
-	
+
+	/* artists toolbar */
+	TB.init = function() {
+		$('tools_mnu_openclose').removeAttribute('disabled');
+		$('tools_mnu_openclose').observe('click', function(e) {
+			var m = $('tools_mnu_items');
+			var c = $('tools_mnu');
+			if (m.getStyle('opacity') > 0) {
+				c.removeClassName('open').addClassName('closed');
+				m.setStyle({opacity: 0});
+				
+			} else {
+				c.removeClassName('closed').addClassName('open');
+				m.setStyle({opacity: 100});
+			}
+			e.stop();
+			return false;
+		});
+	};
+	Event.observe(window,'load', TB.init);
+
 	/* artist submissions */
 /*
 	S.MAIN_DIV = 'sbm_container';

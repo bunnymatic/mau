@@ -355,9 +355,6 @@ div.formbutton {
     margin: 8px 0;
 }
 
-.share {
-	line-height: 20px;
-}
 .share .micro-icon {
     vertical-align:middle;
 }
@@ -422,10 +419,6 @@ div.formbutton {
 .feed-icon.deviantart,
 .micro-icon.deviantart {
     background-position: 0 128px;
-}
-
-.twitter-share-button {
-	vertical-align: bottom;
 }
 
 #feed_div {
@@ -1666,12 +1659,6 @@ div.popup-help {
 #note_modal_content .popup-help-text,
 #feedback_modal_content .popup-help-text {
     font-size: small;
-    -moz-border-radius-bottomleft: 9px; 
-    -moz-border-radius-bottomright: 9px;
-    -webkit-border-bottom-left-radius: 9px; 
-    -webkit-border-bottom-right-radius: 9px;
-
-	
 }
 
 #note_modal_content .popup-help-title,
@@ -1684,10 +1671,6 @@ div.popup-help {
     background-color: transparent;
     line-height:2em;
     padding-left: 10px;
-}
-
-#feedback_modal_content h4 {
-	padding-left: 20px;
 }
 #bemail_input div.little-txt {
     margin-bottom: 4px;
@@ -2025,4 +2008,43 @@ Admin
 	border: 1px solid black;
 }
 	
-	
+/** toolbar menu */
+#tools_mnu_openclose { disabled: true; }
+#tools_mnu {
+	position:absolute;
+	top: 0px; 
+	width:204px; 
+}
+
+#tools_mnu.closed {
+	left: -13px; 
+}
+#tools_mnu.open {
+	right: 18px;
+}
+#tools_mnu_hdr {
+	position: absolute; 
+	top: 20px; 
+	left: 0px; 
+	border: 0;
+	width: 22px;
+	height: 173px;
+	background: transparent url(/images/tools_header.png) no-repeat top left; 
+}
+#tools_mnu_items {
+	position: absolute; 
+	top: 0px; 
+	left: 22px; 
+	height: 173px; 
+	width: 200px; 
+	background-color: #738294;
+}
+#tools_mnu_items div {
+	padding: 3px;
+}
+#tools_mnu_items div:hover {
+	background-color: #700094;
+}
+
+#tools_mnu.closed #tools_mnu_items{	opacity: 0;}
+#tools_mnu.open #tools_mnu_items{	opacity: 100;}

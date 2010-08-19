@@ -1,5 +1,6 @@
 <%= form_tag setarrangement_artist_path(current_artist) %>
-	<div class="room-for-logo">
+	<div>
+	  <div class="logo-spacer">&nbsp;</div>	  
 	  <h4>Pick your representative art piece</h4>
 	  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => self.current_artist.art_pieces, :params => { :select => true, :show_footer => false, :cols => 5 }} %>
 	  <div class="edit-buttons">
