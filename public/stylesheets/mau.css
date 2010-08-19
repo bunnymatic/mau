@@ -784,6 +784,10 @@ img#logo
     z-index:1;
     border: 0;
 }
+#artist_profile_name {
+	float: left;
+	width: 320px;
+}
 .artist-profile-img {
     position: relative;
     float: right;
@@ -1161,16 +1165,6 @@ td.td-left{
 .logo-spacer {
 	line-height: 1.5em;
 }
-/*
-.room-for-logo {
-    padding-top: 35px;
-}
-
-.room-for-logo div h4 {
-    margin-top: -10px;
-    text-align: center;
-}
-*/
 div.div-center h4 {
     margin-top: 10px;
 }

@@ -557,21 +557,23 @@ MAU = window['MAU'] || {};
 
 	/* artists toolbar */
 	TB.init = function() {
-		$('tools_mnu_openclose').removeAttribute('disabled');
-		$('tools_mnu_openclose').observe('click', function(e) {
-			var m = $('tools_mnu_items');
-			var c = $('tools_mnu');
-			if (m.getStyle('opacity') > 0) {
-				c.removeClassName('open').addClassName('closed');
-				m.setStyle({opacity: 0});
-				
-			} else {
-				c.removeClassName('closed').addClassName('open');
-				m.setStyle({opacity: 100});
-			}
-			e.stop();
-			return false;
-		});
+		var m = $('tools_mnu_items');
+		var c = $('tools_mnu');
+		if (m && c) {
+			$('tools_mnu_openclose').removeAttribute('disabled');
+			$('tools_mnu_openclose').observe('click', function(e) {
+				if (m.getStyle('opacity') > 0) {
+					c.removeClassName('open').addClassName('closed');
+					m.setStyle({opacity: 0});
+					
+				} else {
+					c.removeClassName('closed').addClassName('open');
+					m.setStyle({opacity: 100});
+				}
+				e.stop();
+				return false;
+			});
+		}
 	};
 	Event.observe(window,'load', TB.init);
 
