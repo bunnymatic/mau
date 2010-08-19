@@ -21,7 +21,7 @@
 	  <!-- <%= render :partial => '/deadline_announcement' %>  -->
 	  <% end %>
 	<% if @artist -%>
-	<div class="artist-profile-img">
+	<div id="artist_profile_img">
 	<% if logged_in? && @artist && @artist.login == self.current_artist.login -%>
 	<a title="update profile picture" href="/artists/addprofile/<%= self.current_artist.id %>">
 	  <% if @artist.has_profile_image -%>
@@ -43,7 +43,6 @@
 	</div>
 	<div id="artist_profile_name">
  	<h4><%=h @artist.get_name %></h4>
-	</div>
 	<div class="artist">
 	  <div class="div-left">
 	    <% if flash[:notice] -%>
@@ -102,6 +101,7 @@
 	    <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><span class="micro-icon twitter"><img src="/images/pix.gif" height="16" width="0"/></span></a>
 	  </div>
 	  </div>
+	</div>
 	  <% if @artist.bio and !@artist.bio.empty? %>
 	  <div class="clear"></div>
 	  <div class="div-left bio-container"><span>Bio:</span>
