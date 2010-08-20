@@ -575,13 +575,13 @@ div.feedtitle  {
    on the login page, we have id="login" in an input tag
    but this one controls the login bar at the top of the screen
 */
-div#logout { margin: 6px auto; }
-div#login_toplink { margin: 6px auto;}
+.logout-nav { margin-right: 4px; line-height:2em;}
 
 #login_toplink, #logout {
     color:#333333;
     font-size:x-small;
-    margin: 3px 8px 8px 10px;
+    margin: 3px auto 8px auto;
+	padding: 4px 0 4px 0;
     text-align:right;
     width:908px;
 }
@@ -734,7 +734,6 @@ table.tbl-content{
     padding: 0;
     width: 900px;
 }
-#nav h2{font-size: 120%;color: #9E4A24;}
 #topnav{
     clear:both;
     font-weight:bold;
@@ -791,6 +790,7 @@ img#logo
 #artist_profile_img {
     float: right;
     margin: 20px 2px 15px 20px;
+	position: relative;
 }
 
 .os-violator {
@@ -1323,7 +1323,7 @@ div.div-center h4 {
 div.as-admin {
     border: 1px solid red;
     background-color: #ffcccc;
-    margin: 8px auto;
+    margin: 8px auto 0 auto;
     height: 1.8em;
 	padding-top: 3px;
 }
@@ -1978,66 +1978,112 @@ Admin
     color: #ccc;
 }
 
-#artist_toolbar {
-	position: absolute;
-	right: 4px;
-	top: 4px;
-	background-color: #404;
+
+#acct_menu:hover {
+	pointer:cursor;
+	background-color: #887766;
 }
 
-#sbm_container { 
-	position: absolute; 
-	top: 20px;
-	right: 20px;
-	background-color: #220;
-	color: orange;
-	border: 1px solid #fc0;
+/** artists dropdown menu */
+ul.dropdown, ul.dropdown li, ul.dropdown ul {
+list-style:none outside none;
+margin:0;
+padding:0;
 }
-
-#sf_hdr {
-	border: 1px solid black;
+ul.dropdown {
+float:right;
+position:relative;
+z-index:597;
 }
-#sf_main {
-	border: 1px solid black;
+ul.dropdown li.dir {
+    -moz-border-radius-topleft: 3px; 
+    -moz-border-radius-topright: 3px;
+    -webkit-border-top-left-radius: 3px; 
+    -webkit-border-top-right-radius: 3px;
+    background-color: transparent;
+	border:0;
 }
-	
-/** toolbar menu */
-#tools_mnu_openclose { disabled: true; }
-#tools_mnu {
-	position:absolute;
-	top: 0px; 
-	width:204px; 
+ul.dropdown li.dir: {
+    background-color: transparent;
+	border:0;
 }
-
-#tools_mnu.closed {
-	left: -13px; 
+ul.dropdown li {
+background-color:#c6c7d6;
+border-color:#d6d7e6 #a6a7b6 #a6a7b6;
+border-style:solid;
+border-width:1px 1px 1px 0;
+color:#000000;
+float:left;
+line-height:1.1em;
+padding: 4px;
+vertical-align:middle;
 }
-#tools_mnu.open {
-	right: 18px;
+#artist_dropdown > li.dir {
+	padding: 0;
+	margin: 4px;
 }
-#tools_mnu_hdr {
-	position: absolute; 
-	top: 20px; 
-	left: 0px; 
-	border: 0;
-	width: 22px;
-	height: 173px;
-	background: transparent url(/images/tools_header.png) no-repeat top left; 
+ul.dropdown li.hover, ul.dropdown li:hover {
+cursor:pointer;
+position:relative;
+z-index:599;
 }
-#tools_mnu_items {
-	position: absolute; 
-	top: 0px; 
-	left: 22px; 
-	height: 173px; 
-	width: 200px; 
-	background-color: #738294;
+ul.dropdown ul {
+right:0px;
+position:absolute;
+top:100%;
+visibility:hidden;
+width:100%;
+z-index:598;
 }
-#tools_mnu_items div {
-	padding: 3px;
+ul.dropdown ul li {
+float:none;
 }
-#tools_mnu_items div:hover {
-	background-color: #700094;
+ul.dropdown ul ul {
+left:99%;
+top:1px;
 }
-
-#tools_mnu.closed #tools_mnu_items{	opacity: 0;}
-#tools_mnu.open #tools_mnu_items{	opacity: 100;}
+ul.dropdown li:hover > ul {
+visibility:visible;
+}
+ul.dropdown ul li.hover, ul.dropdown ul li:hover {
+background-color:#d6d7e6;
+color: #442222;
+}
+ul.dropdown a:link, ul.dropdown a:visited {
+color:#000000;
+text-decoration:none;
+}
+ul.dropdown a:hover {
+color:#000000;
+}
+ul.dropdown a:active {
+color:#FFA500;
+}
+ul.dropdown ul {
+margin-top:1px;
+width:150px;
+}
+ul.dropdown ul li {
+font-weight:normal;
+}
+ul.dropdown ul .dir {
+padding-right:15px;
+}
+ul.dropdown ul .last {
+    -moz-border-radius-bottomleft: 3px; 
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-left-radius: 3px; 
+    -webkit-border-bottom-right-radius: 3px;
+}
+ul.dropdown ul .first {
+    -moz-border-radius-topleft: 3px; 
+    -webkit-border-top-left-radius: 3px; 
+    -moz-border-radius-topright: 3px; 
+    -webkit-border-top-right-radius: 3px; 
+}
+ul.dropdown ul li.separator {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	line-height: 1px;
+	height: 1px;
+}
