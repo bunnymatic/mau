@@ -2,8 +2,24 @@
   var authenticityToken  = encodeURIComponent('<%= form_authenticity_token %>')
 </script>
 <% if logged_in? %>
-<div id="logout"> hello, <%= link_to_current_artist :content_method => :login, :class => "lkdark" %> | 
-  <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %>
+<div id="logout">
+  <span class="logout-nav">hello, <%=h current_artist.login %>
+|	<span class="logout-navitem" id="acct_menu">
+	  <ul id="artist_dropdown" class="dropdown">
+		<li class="dir">account <span class="logout-nav-opener">&#9660;</span>
+		  <ul>
+			<li class="first"><a href="<%= edit_artist_path(current_artist) %>">edit profile</a></li>
+			<li><a href="/art_pieces/new">add art</a></li>
+			<li><a href="<%= arrangeart_artist_path(@artist) %>">arrange art</a></li>
+			<li><a href="<%= deleteart_artist_path(@artist) %>">delete art</a></li>
+			<li><a href="">submit event</a></li>
+			<li class="separator"></li>
+			<li class="last"><%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %></li>
+		  </ul>
+		</li>
+	  </ul>
+	</span>
+  </span>
   <% if self.current_artist.is_admin? %>
   <%= render :partial => '/admin_header' %>
   <% end %>

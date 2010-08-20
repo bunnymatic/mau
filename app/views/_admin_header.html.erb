@@ -1,5 +1,3 @@
-  <span class="as-admin">You are an administrator.</span>
-  <!-- add administrator extra links -->
   <div class="as-admin">Administrator Links:
 	<% ['artists_per_day','stats', 'emaillist', 'artists', 'studios','tags','media'].each do |nm| %>
     <span class="admin-lk"><%= link_to nm, "/admin/%s" % nm, { :class => 'lkdark' } %></span>

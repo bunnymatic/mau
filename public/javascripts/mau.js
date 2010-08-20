@@ -555,66 +555,6 @@ MAU = window['MAU'] || {};
     };
     Event.observe(window,'load',MA.init);
 
-	/* artists toolbar */
-	TB.init = function() {
-		var m = $('tools_mnu_items');
-		var c = $('tools_mnu');
-		if (m && c) {
-			$('tools_mnu_openclose').removeAttribute('disabled');
-			$('tools_mnu_openclose').observe('click', function(e) {
-				if (m.getStyle('opacity') > 0) {
-					c.removeClassName('open').addClassName('closed');
-					m.setStyle({opacity: 0});
-					
-				} else {
-					c.removeClassName('closed').addClassName('open');
-					m.setStyle({opacity: 100});
-				}
-				e.stop();
-				return false;
-			});
-		}
-	};
-	Event.observe(window,'load', TB.init);
-
-	/* artist submissions */
-/*
-	S.MAIN_DIV = 'sbm_container';
-	S.settings = {}
-	S.init = function(settings) {
-		S.initContainer();
-	};
-	S.initContainer = function() {
-		var d = new Element('div', {'id': S.MAIN_DIV});
-		var df = new Element('div', {'id': 'sf_hdr'});
-		var dm = new Element('div', {'id': 'sf_main'});
-		dm.update('main section');
-		df.update('header');
-		var cl = new Element('span');
-		var cla = new Element('a', {'id': 'sf_close'});
-		cla.writeAttribute('href','#');
-		cla.update('x');
-		cl.insert(cla);
-		df.insert(cl);
-		d.insert(dm);
-		d.insert(df);
-		if ($$('#' + S.MAIN_DIV).length == 0) {
-		    $$("body").first().insert(d);
-		}
-		M.log(d);
-		cla.observe('click', S.hideSubmissionForm);
-		S.showSubmissionForm();
-		
-	};
-	S.showSubmissionForm = function() {
-		$(S.MAIN_DIV).blindDown();
-	};
-	S.hideSubmissionForm = function() {
-		$(S.MAIN_DIV).blindUp();
-	};
-
-	Event.observe(window, 'load', S.init);
-*/    
 }
 )();
 
