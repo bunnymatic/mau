@@ -27,6 +27,7 @@
   <% if self.current_artist.is_admin? %>
   <%= render :partial => '/admin_header' %>
   <% end %>
+  <div class="clear"></div>
 </div>
 <% else %>
 <div id="login_toplink"  ><%= link_to "log in",  login_path,  { :title => "log in", :class => "lkdark" } %> |
