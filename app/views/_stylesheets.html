@@ -1,10 +1,11 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau.css?<%= @version %>" />
 	<% if @_ie -%>
-	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie.css" />
-	<% if @_ie7 -%>
-	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie7.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie.css?<%= @version %>" />
 	<% end -%>
-	<% elsif @_safari -%>
-	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-safari.css" />
+	<% if @_ie7 -%>
+	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie7.css?<%= @version %>" />
+	<% end -%>
+	<% if @_safari -%>
+	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-safari.css?<%= @version %>" />
 	<% end -%>
 <%= feedback_includes %>

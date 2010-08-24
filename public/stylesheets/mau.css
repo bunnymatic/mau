@@ -229,15 +229,82 @@ a:active {
 /* this is the search box on the header.  it has a different color than the other input fields to set it apart.
 
 */
-#search_btn {
-    position: absolute;
-    right: 18px;
-    top: 14px;
+#header_tbl,
+#footer_tbl {
+    background-color: #FFFFFF;
+    background-image: url(/images/gradients.png);
+    background-repeat: repeat-x;
+    background-position: 0 -50px; /* 40px gradient */
+    border: 0;
+    color: #666666;
+    width: 898px;
+	line-height: 32px;
+	height: 32px;
+    width: 898px;
+	padding:0;
+	margin:0;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+	position:relative;
 }
+
+#artisthemission { float: left; margin-left: 8px; }
+#nav_bar { height:20px; }
+
+#footer_links,
+#nav_bar,
+#search_nav2,
+#search_btn2 {
+	display: inline;
+	float:right;
+}
+#footer_copy {
+	display:inline;
+	float: left; 
+	padding-left: 10px;
+}
+#footer_links {
+	padding-right: 10px;
+}
+#footer_links span {
+    padding: 0 6px;
+}
+
+input.srch {
+	background-color:#D6f3ff;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+#search_btn2 { 
+	vertical-align: middle;
+	line-height: 28px;
+	margin-right: 10px; 
+}
+#footer_tbl .lbcorner,
+#footer_tbl .ltcorner,
+#footer_tbl	.rbcorner,
+#footer_tbl	.rtcorner,
+#header_tbl .lbcorner,
+#header_tbl .ltcorner,
+#header_tbl .rbcorner,
+#header_tbl .rtcorner
+{
+	position:absolute;
+}
+#footer_tbl .lbcorner,
+#header_tbl .lbcorner { bottom:0; left:0; z-index:10; }
+#footer_tbl .ltcorner,
+#header_tbl .ltcorner { top:0; left:0; z-index:10; }
+#footer_tbl .rbcorner,
+#header_tbl .rbcorner { right:0; bottom:0; z-index:10; }
+#footer_tbl .rtcorner,
+#header_tbl .rtcorner { right:0; top:0; z-index:10; }
+#search_icon { vertical-align:middle; }
+
 input.srch {
     background-color:#D6f3ff;
     margin-left: 8px;
-    margin-right: 36px;
+    margin-right: 8px;
 }
 
 /* these three are important on the "edit" pages
@@ -691,26 +758,6 @@ table{
     border-collapse: collapse;
 }
 
-table#header-tbl {
-    background-color: #FFFFFF;
-    background-image: url(/images/gradients.png);
-    background-position: 0 -90px; /* 45px gradient */
-    background-repeat: repeat-x;
-    border: 0;
-    color: #666666;
-    width: 900px;
-	padding:0;
-	margin:0;
-}
-table#footer-tbl {
-    background-color: #FFFFFF;
-    background-image: url(/images/gradients.png);
-    background-position: 0 -50px; /* 40px gradient */
-    background-repeat: repeat-x;
-    border: 0;
-    color: #666666;
-    width: 900px;
-}
 
 #feedcolumn{
     float:left;
@@ -755,17 +802,6 @@ table.tbl-content{
     width:900px;
     padding:5px 0;
     text-align:right
-}
-#footer{
-    clear:both;
-    width:880px;
-    background: #fff;
-    text-align:left;
-    font-size: x-small;
-    padding-top: 5px;
-    padding-right: 0;
-    padding-bottom: 5px;
-    padding-left: 20px;
 }
 
 a { outline:none; }
@@ -1498,10 +1534,6 @@ div.artist {
 span.mainnav {
     padding: 0 6px 0 0px;
     text-align:left;
-}
-
-.footer span {
-    padding: 0 10px 0 10px;
 }
 
 .tagcloud {
