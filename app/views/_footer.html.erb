@@ -1,27 +1,19 @@
-      <table id="footer-tbl" cellspacing="0" cellpadding="0">
-  	<tr class="tr-short">
-    	  <td class="ltcorner" ></td>
-    	  <td></td>
-    	  <td></td>
-    	  <td class="rtcorner" ></td>
-  	</tr>
-  	<tr>
-    	  <td></td>
-    	  <td class="td-left">&copy; mission artists united</td>
-    	  <td class="td-right footer" id="footer_right">
-	    <% feedback_link_text = "feedback" -%>
-
-	    <span ><%= link_to "faq", faq_url, :class => 'lkdark' %></span>
-	    <span ><%= feedback_link feedback_link_text , :class => 'lkdark' %></span>
-	    <span ><a class="lkdark" href="/privacy">privacy</a></span>
-	    <span ><a class="lkdark" href="/contact">contact us</a></span>
-	    <span ><a id="credits_lnk" class="lkdark" href="#">credits</a></span></td>
-	  <td></td>
-  	</tr>
-  	<tr class="tr-short">
-    	  <td class="lbcorner" ></td>
-    	  <td></td>
-    	  <td></td>
-    	  <td class="rbcorner"></td>
-  	</tr>
-      </table>
+<div id="footer_tbl">
+  <% if @_ie -%>
+  <div class="ltcorner"></div>
+  <div class="rtcorner"></div>
+  <div class="lbcorner"></div>
+  <div class="rbcorner"></div>
+  <% end -%>
+  <div id="footer_copy">
+    &copy; mission artists united
+  </div>
+  <div id="footer_links">
+	<% feedback_link_text = "feedback" -%>
+	<span ><%= link_to "faq", faq_url, :class => 'lkdark' %></span>
+	<span ><%= feedback_link feedback_link_text , :class => 'lkdark' %></span>
+	<span ><a class="lkdark" href="/privacy">privacy</a></span>
+	<span ><a class="lkdark" href="/contact">contact us</a></span>
+	<span ><a id="credits_lnk" class="lkdark" href="#">credits</a></span>
+  </div>
+</div>
