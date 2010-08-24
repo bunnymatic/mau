@@ -2044,19 +2044,15 @@ ul.dropdown li {
     background-color:#c6c7d6;
     border-color:#d6d7e6 #888 #888 #d6d7e6;
     border-style:solid;
-    border-width:1px 1px 1px 1px;
-    color: #888;
+    border-width:0px 1px 1px 1px;
     float:left;
-    line-height:1.2em;
     padding: 4px;
     vertical-align:middle;
 }
 #artist_dropdown > li.dir {
     padding: 0;
-    margin: 4px 0;
 }
 ul.dropdown li.hover, ul.dropdown li:hover {
-    color: #422;
     cursor:pointer;
     position:relative;
     z-index:599;
@@ -2064,7 +2060,7 @@ ul.dropdown li.hover, ul.dropdown li:hover {
 ul.dropdown ul {
     right:0px;
     position:absolute;
-    top:100%;
+    top:95%;
     visibility:hidden;
     width:100%;
     z-index:598;
@@ -2074,25 +2070,21 @@ ul.dropdown ul li {
 }
 ul.dropdown ul ul {
     left:99%;
-    top:1px;
+    top:0px;
 }
 ul.dropdown li:hover > ul {
     visibility:visible;
 }
 ul.dropdown a:link, ul.dropdown a:visited {
-    color: #888;
     text-decoration:none;
 }
 ul.dropdown ul li.hover, ul.dropdown ul li:hover,
 ul.dropdown ul li:hover a {
     background-color:#e6e7f6;
-    color: #422;
 }
 ul.dropdown a:hover {
-    color: #422;
 }
 ul.dropdown a:active {
-    color:#FFA500;
 }
 ul.dropdown ul {
     margin-top:1px;

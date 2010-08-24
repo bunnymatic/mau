@@ -25,8 +25,20 @@
 		  -%>
 	   <span class="mainnav left-nav-bdr"><a class="lknav" href="<%= lk %>"><%=h nm %></a></span>
        <% end -%>
+       <span class="mainnav">
 	   <% if logged_in? -%>
-       <span class="mainnav"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %></span>
+    <ul id="artist_dropdown" class="dropdown">
+      <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
+	<ul>
+	  <li class="first"><a href="<%= edit_artist_path(current_artist) %>">edit profile</a></li>
+	  <li><a href="/art_pieces/new">add art</a></li>
+	  <li><a href="<%= arrangeart_artist_path(current_artist) %>">arrange art</a></li>
+	  <li><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
+	  <li class="last"><a href="">submit event</a></li>
+	</ul>
+      </li>
+    </ul>
+  </span>
 	   <% else -%>
 	   <span class="mainnav"><%= link_to "my&nbsp;mau", login_path, { :title => "Log In", :class => "lknav" } %></span>
 	   <% end -%>
