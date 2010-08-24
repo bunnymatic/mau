@@ -229,8 +229,8 @@ a:active {
 /* this is the search box on the header.  it has a different color than the other input fields to set it apart.
 
 */
-#header_tbl,
-#footer_tbl {
+#header_bar,
+#footer_bar {
     background-color: #FFFFFF;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
@@ -243,8 +243,8 @@ a:active {
     width: 898px;
 	padding:0;
 	margin:0;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
 	position:relative;
 }
 
@@ -280,25 +280,25 @@ input.srch {
 	line-height: 28px;
 	margin-right: 10px; 
 }
-#footer_tbl .lbcorner,
-#footer_tbl .ltcorner,
-#footer_tbl	.rbcorner,
-#footer_tbl	.rtcorner,
-#header_tbl .lbcorner,
-#header_tbl .ltcorner,
-#header_tbl .rbcorner,
-#header_tbl .rtcorner
+#footer_bar .lbcorner,
+#footer_bar .ltcorner,
+#footer_bar	.rbcorner,
+#footer_bar	.rtcorner,
+#header_bar .lbcorner,
+#header_bar .ltcorner,
+#header_bar .rbcorner,
+#header_bar .rtcorner
 {
 	position:absolute;
 }
-#footer_tbl .lbcorner,
-#header_tbl .lbcorner { bottom:0; left:0; z-index:10; }
-#footer_tbl .ltcorner,
-#header_tbl .ltcorner { top:0; left:0; z-index:10; }
-#footer_tbl .rbcorner,
-#header_tbl .rbcorner { right:0; bottom:0; z-index:10; }
-#footer_tbl .rtcorner,
-#header_tbl .rtcorner { right:0; top:0; z-index:10; }
+#footer_bar .lbcorner,
+#header_bar .lbcorner { bottom:0; left:0; z-index:10; }
+#footer_bar .ltcorner,
+#header_bar .ltcorner { top:0; left:0; z-index:10; }
+#footer_bar .rbcorner,
+#header_bar .rbcorner { right:0; bottom:0; z-index:10; }
+#footer_bar .rtcorner,
+#header_bar .rtcorner { right:0; top:0; z-index:10; }
 #search_icon { vertical-align:middle; }
 
 input.srch {
