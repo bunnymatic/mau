@@ -1525,20 +1525,29 @@ div.artist {
 }
 
 div.mainnav:hover {
-	background-image:none;
+    background-color: #FFFFFF;
+    background-image: url(/images/gradients.png);
+    background-repeat: repeat-x;
+    background-position: 0 -140px; /* 40px gradient */
+}
+div.mainnav:hover a.lknav {
+	color: purple;
+}
+div.mainnav:hover a.lknav:hover {
+	color: purple;
 }
 ul.mainnav, div.mainnav { 
 	display: inline;
 	height: 100%;
 }
 .mainnav {
-    padding: 6px;
+    padding: 8px 6px;
+	border-left: 1px solid grey;
     text-align:left;
 }
 .navsep {
-	margin: 0 2px;
+	margin: 0 0px;
 	padding: 0;
-	border-right: 1px solid #333;
 }
 
 .tagcloud {

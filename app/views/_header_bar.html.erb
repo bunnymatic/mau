@@ -22,7 +22,7 @@
 		  ['news','/news/'],
 		  ['about us','/about']
 		  ].each do |nm, lk, clz|
-		  -%><div class="mainnav left-nav-bdr"><a class="lknav" href="<%= lk %>"><%=h nm %></a></div><div class="mainnav navsep"></div><% end -%><% if logged_in? -%><div id="artist_dropdown"><ul class="dropdown mainnav">
+		  -%><div class="mainnav left-nav-bdr"><a class="lknav" href="<%= lk %>"><%=h nm %></a></div><% end -%><% if logged_in? -%><div id="artist_dropdown"><ul class="dropdown mainnav">
 		 <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
 		   <ul>
 			 <li class="first"><a href="<%= edit_artist_path(current_artist) %>">edit profile</a></li>
