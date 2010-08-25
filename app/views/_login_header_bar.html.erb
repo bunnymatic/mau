@@ -7,21 +7,8 @@
   <span class="navitem">
     <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %> 
   </span>
-  <span class="navsep"> | </span>
-  <span class="logout-navitem navitem" id="acct_menu">
-    <ul id="artist_dropdown" class="dropdown">
-      <li class="dir">account <span class="logout-nav-opener">&#9660;</span>
-	<ul>
-	  <li class="first"><a href="<%= edit_artist_path(current_artist) %>">edit profile</a></li>
-	  <li><a href="/art_pieces/new">add art</a></li>
-	  <li><a href="<%= arrangeart_artist_path(current_artist) %>">arrange art</a></li>
-	  <li><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
-	  <li class="last"><a href="">submit event</a></li>
-	</ul>
-      </li>
-    </ul>
-  </span>
-  <span class="navsep"> | </span>
+  <span class="navsep"> </span>
+  <span class="navsep"> </span>
   <span class="logout-nav navitem">hello, <a class="lkdark" href="<%=h artist_path(current_artist) %>"><%=h current_artist.login %></a>
   </span>
   <% if self.current_artist.is_admin? %>

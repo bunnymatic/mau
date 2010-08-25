@@ -1524,16 +1524,21 @@ div.artist {
 	margin: 25px auto 4px;
 }
 
-/* nav bar related */
-
-.nav span.left-nav-bdr {
-    border-right: 1px solid #667;
-    margin-right: 4px;
+div.mainnav:hover {
+	background-image:none;
 }
-
-span.mainnav {
-    padding: 0 6px 0 0px;
+ul.mainnav, div.mainnav { 
+	display: inline;
+	height: 100%;
+}
+.mainnav {
+    padding: 6px;
     text-align:left;
+}
+.navsep {
+	margin: 0 2px;
+	padding: 0;
+	border-right: 1px solid #333;
 }
 
 .tagcloud {
@@ -2016,8 +2021,18 @@ Admin
 #acct_menu:hover {
     pointer:cursor;
 }
-
 /** artists dropdown menu */
+#artist_dropdown {
+}
+#artist_dropdown ul.mainnav li.dir {
+	line-height: 24px;
+	padding-left: 6px;
+	margin-left: 0;
+}
+#artist_dropdown ul li.dir {
+	float: none;
+}
+
 ul.dropdown, ul.dropdown li, ul.dropdown ul {
     list-style:none outside none;
     margin:0;
@@ -2028,6 +2043,16 @@ ul.dropdown {
     position:relative;
     z-index:597;
 }
+
+#artist_dropdown {
+	display: inline;
+}
+#artist_dropdown.mainnav {
+	height: 28px;
+	width: 73px;
+}
+
+ul.mainnav { padding: 0px; margin: 0px; }
 ul.dropdown li.dir {
     -moz-border-radius-topleft: 3px; 
     -moz-border-radius-topright: 3px;
@@ -2048,9 +2073,6 @@ ul.dropdown li {
     float:left;
     padding: 4px;
     vertical-align:middle;
-}
-#artist_dropdown > li.dir {
-    padding: 0;
 }
 ul.dropdown li.hover, ul.dropdown li:hover {
     cursor:pointer;

@@ -16,33 +16,24 @@
 	 </form>
    </div>
    <div id="nav_bar">
-     <span class="nav">
+     <div class="nav">
 	   <% [ ['artists','/artists/'],
 		  ['studios','/studios/'],
 		  ['news','/news/'],
 		  ['about us','/about']
 		  ].each do |nm, lk, clz|
-		  -%>
-	   <span class="mainnav left-nav-bdr"><a class="lknav" href="<%= lk %>"><%=h nm %></a></span>
-       <% end -%>
-       <span class="mainnav">
-	   <% if logged_in? -%>
-    <ul id="artist_dropdown" class="dropdown">
-      <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
-	<ul>
-	  <li class="first"><a href="<%= edit_artist_path(current_artist) %>">edit profile</a></li>
-	  <li><a href="/art_pieces/new">add art</a></li>
-	  <li><a href="<%= arrangeart_artist_path(current_artist) %>">arrange art</a></li>
-	  <li><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
-	  <li class="last"><a href="">submit event</a></li>
-	</ul>
-      </li>
-    </ul>
-  </span>
-	   <% else -%>
-	   <span class="mainnav"><%= link_to "my&nbsp;mau", login_path, { :title => "Log In", :class => "lknav" } %></span>
-	   <% end -%>
-     </span>
+		  -%><div class="mainnav left-nav-bdr"><a class="lknav" href="<%= lk %>"><%=h nm %></a></div><div class="mainnav navsep"></div><% end -%><% if logged_in? -%><div id="artist_dropdown"><ul class="dropdown mainnav">
+		 <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
+		   <ul>
+			 <li class="first"><a href="<%= edit_artist_path(current_artist) %>">edit profile</a></li>
+			 <li><a href="/art_pieces/new">add art</a></li>
+			 <li><a href="<%= arrangeart_artist_path(current_artist) %>">arrange art</a></li>
+			 <li><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
+			 <li class="last"><a href="">submit event</a></li>
+		   </ul>
+		 </li>
+	   </ul></div><% else -%><div class="mainnav"><%= link_to "my&nbsp;mau", login_path, { :title => "Log In", :class => "lknav" } %></div><% end -%>
+     </div>
    </div>
 </div>
 
