@@ -249,7 +249,7 @@ a:active {
 }
 
 #artisthemission { float: left; margin-left: 8px; }
-#nav_bar { height:20px; }
+#nav_bar { height:32px; line-height:32px; }
 
 #footer_links,
 #nav_bar,
@@ -1200,7 +1200,7 @@ td.td-left{
 }
 
 .logo-spacer {
-	line-height: 1.5em;
+	line-height: 1.7em;
 }
 div.div-center h4 {
     margin-top: 10px;
@@ -1532,10 +1532,10 @@ div.mainnav:hover {
     background-position: 0 -140px; /* 40px gradient */
 }
 ul.dropdown li:hover a,
-div.mainnav:hover a.lknav {
-	color: purple;
+.nav a.lknav {
+	color: #222;
 }
-div.mainnav:hover a.lknav:hover {
+.nav a.lknav:hover {
 	color: purple;
 }
 ul.mainnav, div.mainnav { 
