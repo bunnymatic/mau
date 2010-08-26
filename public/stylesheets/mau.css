@@ -1524,12 +1524,14 @@ div.artist {
 	margin: 25px auto 4px;
 }
 
+#artist_dropdown:hover li.dir,
 div.mainnav:hover {
     background-color: #FFFFFF;
-    background-image: url(/images/dark_gradients.png);
+    background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
-    background-position: 0 -50px; /* 40px gradient */
+    background-position: 0 -140px; /* 40px gradient */
 }
+ul.dropdown li:hover a,
 div.mainnav:hover a.lknav {
 	color: purple;
 }
@@ -1542,8 +1544,11 @@ ul.mainnav, div.mainnav {
 }
 .mainnav {
     padding: 8px 6px;
-	border-left: 1px solid grey;
+	border-left: 1px solid #738294;
     text-align:left;
+}
+.mainnav.first {
+	border: 0;
 }
 .navsep {
 	margin: 0 0px;
