@@ -1526,9 +1526,9 @@ div.artist {
 
 div.mainnav:hover {
     background-color: #FFFFFF;
-    background-image: url(/images/gradients.png);
+    background-image: url(/images/dark_gradients.png);
     background-repeat: repeat-x;
-    background-position: 0 -140px; /* 40px gradient */
+    background-position: 0 -50px; /* 40px gradient */
 }
 div.mainnav:hover a.lknav {
 	color: purple;
