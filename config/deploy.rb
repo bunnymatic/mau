@@ -1,9 +1,23 @@
 ####### VARIABLES #######
 set :ssh_options,         {:port => 2222}
 set :application, "MAU"
-set :repository,  "svn+ssh://svn.bunnymatic.com/space/svnroot/mau/web/trunk"
 set :scm, :subversion
 set :use_sudo, false
+
+#########################
+# Set repo based on incoming tag or branch variable
+# inputs can be passed to capistrano via -S tag=<tag> 
+# or -S branch=<branch>
+#
+if variables[:tag]
+  deploy_version = "tags/%s" % variables[:tag]
+elsif variables[:branch]
+  deploy_version = "branches/%s" % variables[:branch]
+else
+  deploy_version = "trunk/"
+end 
+
+set :repository,  "svn+ssh://svn.bunnymatic.com/space/svnroot/mau/web/" + deploy_version
 
 # these roles represent the servers on which all these things run
 # if db is run on different machine, you might change db
@@ -53,6 +67,14 @@ task :prod do
   system(svn_env)
 end
 
+desc "Sanity Check"
+task :checkit do
+  puts("User: %s" % user)
+  puts("Env: %s" % rails_env)
+  puts("Repo: %s" % repository)
+  puts("DeployDir: %s" % deploy_to)
+end
+  
 after "deploy:symlink", :symlink_data
 after "deploy:symlink", "apache:reload"
 
