@@ -1,6 +1,6 @@
 <div class="little-txt td-right navlinks">
   View:
-  <nobr>
+  <span class="nobr">
   <% if @view_mode == 'gallery' -%>
   gallery
   <% else -%>
@@ -18,4 +18,5 @@
   <% else -%>
   <%= link_to "map", @map_link || artistsmap_path %>
   <% end -%>
+  </span>
 </div>
