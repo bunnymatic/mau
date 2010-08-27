@@ -17,11 +17,11 @@
 		  -%><a class="lknav" href="<%= lk %>"><div class="mainnav <%= clz %>"><%=h nm %></div></a><% end -%><% if logged_in? -%><div id="artist_dropdown"><ul class="dropdown mainnav">
 		 <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
 		   <ul>
-			 <li class="first"><a href="<%= edit_artist_path(current_artist) %>">edit profile</a></li>
-			 <li><a href="/art_pieces/new">add art</a></li>
-			 <li><a href="<%= arrangeart_artist_path(current_artist) %>">arrange art</a></li>
-			 <li><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
-			 <li class="last"><a href="">submit event</a></li>
+			 <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit profile</a></li>
+			 <li class="leaf"><a href="/art_pieces/new">add art</a></li>
+			 <li class="leaf"><a href="<%= arrangeart_artist_path(current_artist) %>">arrange art</a></li>
+			 <li class="leaf"><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
+			 <li class="leaf last"><a href="">submit event</a></li>
 		   </ul>
 		 </li>
 	   </ul></div><% else -%><a title="Log In" class="lknav" href="<%= login_path %>"><div class="mainnav">my&nbsp;mau</div></a><% end -%>

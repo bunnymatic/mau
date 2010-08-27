@@ -1,7 +1,7 @@
 <div class="clear"></div>
   <div class="as-admin">Administrator Links:
-	<% ['artists_per_day','stats', 'emaillist', 'artists', 'studios','tags','media'].each do |nm| %>
+	<% ['artists_per_day','stats', 'emaillist', 'artists', 'studios','tags','media'].each do |nm| -%>
     <span class="admin-lk"><%= link_to nm, "/admin/%s" % nm, { :class => 'lkdark' } %></span>
-    <% end %>
+    <% end -%>
     <span class="admin-lk"><%= link_to "events", "/events", { :class => 'lkdark' } %></span>
   </div>

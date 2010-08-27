@@ -7,10 +7,12 @@ MAU = window['MAU'] || {};
     var W = M.WhatsThis = M.WhatsThis || {};
     var F = M.Feedback = M.Feedback || {};
     var N = M.Notifications = M.Notifications || {};
+	var NV = M.Navigation = M.Navigation || {};
     var MA = M.Map = M.Map || {};
     var G = M.GetInvolved = M.GetInvolved || {};
 	var S = M.Submissions = M.Submissions || {};
 	var TB = M.Toolbar = M.Toolbar || {};
+
     M.__debug__ = true;
 	M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
@@ -143,6 +145,24 @@ MAU = window['MAU'] || {};
     };
 
     Event.observe(window, 'load', M.init);
+
+	/** nav bar related **/
+	N.init = function() {
+		var navleaves = $$('#artist_dropdown li.leaf');
+		navleaves.each( function(nl) {
+			nl.observe('click', function(ev) {
+				try {
+					location.href = this.select('a').first().readAttribute('href');
+				}
+				catch(e) {
+					M.log("Failed to fire click");
+					M.log(e);
+				}
+			});
+		});
+	};
+    Event.observe(window, 'load', N.init);
+	
 
     /** 
      * scripty stuff related to artist and artist pages

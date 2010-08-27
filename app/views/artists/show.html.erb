@@ -40,6 +40,11 @@
 		  <% if @artist.osoct2010? -%>
 		  <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
 		  <% end -%>
+		  <% if logged_in? and @artist.id == current_artist.id -%>
+		  <div id="profile_edit_ctrls">
+			<a class="lksubtle" href="<%= edit_artist_path(current_artist) %>"><span>edit profile</span></a>
+		  </div>
+		  <% end -%>
 		</div>
 		<div id="artist_profile_name">
  		  <h4><%=h @artist.get_name %></h4>
@@ -112,11 +117,19 @@
 		<div class="clear" ></div>
 
 		<div class="artist-pieces">
-	      <% if @artist.art_pieces %>
+<% if logged_in? && @artist.id == current_artist.id -%>
+<div id="artpiece_edit_ctrls">art: 
+<a class="lksubtle" href="/art_pieces/new"><span>add</span></a>
+<a class="lksubtle" href="<%= arrangeart_artist_path(current_artist) %>"><span>arrange</span></a>
+<a class="lksubtle" href="<%= deleteart_artist_path(current_artist) %>"><span>delete</span></a>
+<b> </b>
+</div>
+<% end -%>
+	      <% if @artist.art_pieces -%>
 	      <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }} %>
-	      <% else %>
+	      <% else -%>
 	      <img src="/images/default-art-img.png" width="200" />
-	      <% end %>
+	      <% end -%>
 		</div>
 	  </div>
 	  <% end -%>
