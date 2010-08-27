@@ -1,26 +1,25 @@
 @charset "utf-8";
 /* CSS Document */
-html {
-    background-color: #c6c7d6;
+html { 
+	background-color: #c6c7d6;
     color: #aaa;
     font: 13px Verdana, Arial, Helvetica, sans-serif;
 }
-
 body {
 	position: relative;
     padding: 5px;
 }
-td {
-    padding: 0px;
-}
 p {
-    padding: 0 4px 4px 10px;
+    padding-left: 10px;
+	margin: 1em 0;
 }
+div,p { line-height: 1.3em; }
 h1 {
 	color: #999; 
 	font-weight:normal; 
 	font-size: 170%; 
 	letter-spacing: 1px;
+	line-height:normal;
 }
 h2 {
     font-size: 150%;
@@ -32,10 +31,13 @@ h3 {
 }
 h4 {
     font-size: 120%;
+	font-weight: bold;
+	margin: 1.33em 0;
 }
 h5 {
     font-size: 110%;
 }
+td { vertical-align: middle; }
 
 /* prevent forms from causing line breaks */
 form {
@@ -43,6 +45,7 @@ form {
     margin: 0px;
     padding: 0px;
 }
+
 /* general div align stuff */
 .div-left {
     text-align:left;
@@ -229,6 +232,10 @@ a:active {
 /* this is the search box on the header.  it has a different color than the other input fields to set it apart.
 
 */
+#artisthemission {
+	height: 100%;
+	padding-top: 6px;
+}
 #header_bar,
 #footer_bar {
     background-color: #FFFFFF;
@@ -237,9 +244,9 @@ a:active {
     background-position: 0 -50px; /* 40px gradient */
     border: 0;
     color: #666666;
-    width: 898px;
-	line-height: 32px;
-	height: 32px;
+	line-height: 33px;
+	vertical-align:middle;
+	height: 33px;
     width: 898px;
 	padding:0;
 	margin:0;
@@ -247,9 +254,11 @@ a:active {
     -webkit-border-radius: 7px;
 	position:relative;
 }
-
+#footer_bar div {
+	line-height:33px;
+}
 #artisthemission { float: left; margin-left: 8px; }
-#nav_bar { height:32px; line-height:32px; }
+#nav_bar {}
 
 #footer_links,
 #nav_bar,
@@ -258,6 +267,8 @@ a:active {
 	display: inline;
 	float:right;
 }
+#search_nav2 { height:33px; position: relative; }
+#search_nav2 form { position: relative; top: 5px; }
 #footer_copy {
 	display:inline;
 	float: left; 
@@ -280,25 +291,6 @@ input.srch {
 	line-height: 28px;
 	margin-right: 10px; 
 }
-#footer_bar .lbcorner,
-#footer_bar .ltcorner,
-#footer_bar	.rbcorner,
-#footer_bar	.rtcorner,
-#header_bar .lbcorner,
-#header_bar .ltcorner,
-#header_bar .rbcorner,
-#header_bar .rtcorner
-{
-	position:absolute;
-}
-#footer_bar .lbcorner,
-#header_bar .lbcorner { bottom:0; left:0; z-index:10; }
-#footer_bar .ltcorner,
-#header_bar .ltcorner { top:0; left:0; z-index:10; }
-#footer_bar .rbcorner,
-#header_bar .rbcorner { right:0; bottom:0; z-index:10; }
-#footer_bar .rtcorner,
-#header_bar .rtcorner { right:0; top:0; z-index:10; }
 #search_icon { vertical-align:middle; }
 
 input.srch {
@@ -1210,7 +1202,9 @@ div.div-center h4 {
     position: relative;
     margin-left: 10px;
     margin-bottom: 40px;
+	margin: 0 auto 40px auto;
     height: 140px;
+	width: 560px;
 }
 
 #refresher_btn {
@@ -1523,13 +1517,22 @@ div.artist {
 	width: 570px;
 	margin: 25px auto 4px;
 }
-
+#nav_bar .nav {
+	height: 33px;
+}
+.nav a .mainnav {
+	line-height: 33px;
+	padding: 9px 5px;
+}
 #artist_dropdown:hover li.dir,
 div.mainnav:hover {
     background-color: #FFFFFF;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
     background-position: 0 -140px; /* 40px gradient */
+	-moz-box-shadow: 2px 1px 5px #738294;
+    -webkit-box-shadow: 2px 1px 5px #738294;
+    box-shadow: 1px 1px 5px #738294;
 }
 ul.dropdown li:hover a,
 .nav a.lknav {
@@ -1543,16 +1546,11 @@ ul.mainnav, div.mainnav {
 	height: 100%;
 }
 .mainnav {
-    padding: 8px 6px;
 	border-left: 1px solid #738294;
     text-align:left;
 }
 .mainnav.first {
 	border: 0;
-}
-.navsep {
-	margin: 0 0px;
-	padding: 0;
 }
 
 .tagcloud {
@@ -1617,7 +1615,7 @@ wait dialog
 .wait-dialog {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
-	border: 4px solid #222;
+    border: 4px solid #738294;
 	width: 160px;
 	height: 40px;
 	padding: 10px;
@@ -1698,7 +1696,7 @@ div.popup-help {
 #feedback_modal_content {
     -moz-border-radius: 9px;
     -webkit-border-radius: 9px;
-    border: 4px solid #999;
+    border: 4px solid #738294;
     background-color: black;
 }
 
@@ -1742,7 +1740,7 @@ div.popup-help {
 }
 
 .feedback-signup-msg {
-    border-top: 1px solid #999;
+    border-top: 1px solid #738294;
     font-size: x-small;
     line-height: 2.4em;
     padding-left: 10px;
@@ -2006,7 +2004,7 @@ Admin
     -moz-border-radius: 9px;
     -webkit-border-radius: 9px;
     background-color: #222;
-    border: 2px solid #ccc;
+    border: 2px solid #738294;
     position: absolute;
     text-align: left;
     width:420px;
@@ -2037,9 +2035,9 @@ Admin
 }
 /** artists dropdown menu */
 #artist_dropdown {
+	line-height: 24px;
 }
 #artist_dropdown ul.mainnav li.dir {
-	line-height: 24px;
 	padding-left: 6px;
 	margin-left: 0;
 }
@@ -2068,10 +2066,6 @@ ul.dropdown {
 
 ul.mainnav { padding: 0px; margin: 0px; }
 ul.dropdown li.dir {
-    -moz-border-radius-topleft: 3px; 
-    -moz-border-radius-topright: 3px;
-    -webkit-border-top-left-radius: 3px; 
-    -webkit-border-top-right-radius: 3px;
     background-color: transparent;
     border:0;
 }
@@ -2094,7 +2088,7 @@ ul.dropdown li.hover, ul.dropdown li:hover {
     z-index:599;
 }
 ul.dropdown ul {
-    right:0px;
+    left:0px;
     position:absolute;
     top:95%;
     visibility:hidden;
@@ -2124,7 +2118,7 @@ ul.dropdown a:active {
 }
 ul.dropdown ul {
     margin-top:1px;
-    width:150px;
+    width:110px;
 }
 ul.dropdown ul li {
     font-weight:normal;
@@ -2139,14 +2133,4 @@ ul.dropdown ul .last {
     -webkit-border-bottom-right-radius: 3px;
 }
 ul.dropdown ul .first {
-    -moz-border-radius-topleft: 3px; 
-    -webkit-border-top-left-radius: 3px; 
-    -moz-border-radius-topright: 3px; 
-    -webkit-border-top-right-radius: 3px; 
-}
-ul.dropdown ul li.separator {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    line-height: 1px;
-    height: 1px;
 }

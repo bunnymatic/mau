@@ -1,23 +1,15 @@
 <a href="/"><img title="Mission Artists United" alt="Mission Artists United" src="<%= @logo_img %>" width="120" height="122" id="logo" /></a>
-<div id="header_bar">
-  <% if @_ie -%>
+<div id="header_bar"><%#
+  %><% if @_ie -%>
   <div class="ltcorner"></div>
   <div class="rtcorner"></div>
   <div class="lbcorner"></div>
   <div class="rbcorner"></div>
-  <% end -%>
-   <div id="artisthemission">
-	 <img width="242" height="17" title="Art is the Mission" alt="Art is the Mission" src="/images/artisthimission4.gif"/>
-   </div>
-   <div id="search_btn2"><a class="lkdark" id="search_link" title="search the site" onclick="MAU.doSearch();" href="#"><img id="search_icon" title="search" src="/images/icons/searchicon24.png"/></a></div>
-   <div id="search_nav2">
-	 <form id="search_form" action="/search" method="get">
-	   <input id="search_box" class="srch" type="text" name="query" size="14"/>
-	 </form>
-   </div>
+  <% end -%><div id="artisthemission"><img width="242" height="17" title="Art is the Mission" alt="Art is the Mission" src="/images/artisthimission4.gif"/></div><%#
+   %><div id="search_btn2"><a class="lkdark" id="search_link" title="search the site" onclick="MAU.doSearch();" href="#"><img id="search_icon" title="search" src="/images/icons/searchicon24.png"/></a></div><%#
+   %><div id="search_nav2"><form id="search_form" action="/search" method="get"><input id="search_box" class="srch" type="text" name="query" size="14"/></form></div>
    <div id="nav_bar">
-     <div class="nav">
-	   <% [ ['artists','/artists/', 'first'],
+     <div class="nav"><% [ ['artists','/artists/', 'first'],
 		  ['studios','/studios/'],
 		  ['news','/news/'],
 		  ['about us','/about']
@@ -32,7 +24,7 @@
 			 <li class="last"><a href="">submit event</a></li>
 		   </ul>
 		 </li>
-	   </ul></div><% else -%><div class="mainnav"><%= link_to "my&nbsp;mau", login_path, { :title => "Log In", :class => "lknav" } %></div><% end -%>
+	   </ul></div><% else -%><a title="Log In" class="lknav" href="<%= login_path %>"><div class="mainnav">my&nbsp;mau</div></a><% end -%>
      </div>
    </div>
 </div>
