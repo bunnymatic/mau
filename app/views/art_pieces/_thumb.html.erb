@@ -16,17 +16,16 @@
         cls +=" with-foot "
      end
 -%>
-<div class="artp-thumb <%= cls %>">
-      <% if piece.get_path(size) -%>
-      <% if !linkto.empty? -%>
-      <a href="<%= linkto %>"><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>" <%= dim %> src="<%= piece.get_path(size) %>" /></a>
-      <% else -%>
-      <img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" />
-      <% end -%>
-      <% else -%>
+<div class="artp-thumb <%= cls %>"><% if piece.get_path(size) 
+        if !linkto.empty? 
+-%><a href="<%= linkto %>"><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>" <%= dim %> src="<%= piece.get_path(size) %>" /></a><% 
+        else 
+-%><img border="0" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" /><%
+        end
+      else -%>
       No Image
-      <% end -%>
-	  <% if show_footer -%>
+      <% end
+     if show_footer -%>
 	  <div class="artp-thumb-name">
       <% if piece && piece.artist
 	 name = "" 
@@ -36,8 +35,7 @@
 	 <% else -%>
 	 unknown artist
 	 <% end -%>
-	  <div class="clear"></div>
-	  </div>
+	  <div class="clear"></div></div>
 	  <% end -%>
   <% if piece 
      representative = (piece.id == piece.artist.representative_art_piece)
@@ -47,11 +45,8 @@
       <%= check_box( 'art', piece.id, options = {}, checked_value = "1", unchecked_value = "0") %>Delete?
 </div>
   <% elsif select -%>
-<div class="artp-thumb-ctrl">
-      <%= radio_button_tag 'art', piece.id, representative %>
-</div>
+<div class="artp-thumb-ctrl"><%= radio_button_tag 'art', piece.id, representative %></div>
   <% end -%>
 </div>
-
   <% end -%>
 <% end -%>

@@ -25,6 +25,7 @@ h2 {
     font-size: 150%;
     font-weight:normal;
     line-height:1;
+	margin: 0.53em 0;
 }
 h3 {
     font-size: 130%;
@@ -134,7 +135,7 @@ div.donate-btns span {
 
 .edit-sections {
     margin: auto;
-    width: 550px;
+    width: 560px;
     padding-bottom: 20px;
 }
 
@@ -364,8 +365,9 @@ input[type=image] {
     background-color: transparent;
 }
 
+input[type=radio],
 input[type=checkbox] {
-    background-color:#000000;
+    background-color:transparent;
 }
 input[type=submit] {
     background:#999;
@@ -669,6 +671,9 @@ div.feedtitle  {
     width: 560px;
     margin: auto;
 }
+
+#all_artists_page {padding-bottom: 20px;}
+
 #map_page,#all_artists_page {
     margin:auto;
     width:800px;
@@ -1199,9 +1204,8 @@ div.div-center h4 {
 
 .main-thumbs {
     position: relative;
-    margin-left: 10px;
-    margin-bottom: 40px;
-	margin: 0 auto 40px auto;
+	margin: 10px auto 0px auto;
+	padding-bottom: 40px;
     height: 140px;
 	width: 560px;
 }
@@ -1245,12 +1249,6 @@ div.div-center h4 {
 
 .allthumbs {
     position:relative;
-}
-.thumbs-select {
-    width:550px;
-    margin-left:auto;
-    margin-right: auto;
-    margin-bottom: 20px;
 }
 .artp-thumb {
     border: 1px dotted #444;
@@ -1510,12 +1508,49 @@ div.artist h4 {
 div.artist {
     font-size: 90%;
 }
-	
 
-.artist-pieces {
-	width: 570px;
-	margin: 25px auto 4px;
+.artist-pieces, 
+.thumbs-select {
+    width:560px;
+    margin-left:auto;
+    margin-right: auto;
 }
+.artist-pieces {
+	margin-top: 25px;
+	margin-bottom: 4px;
+}
+.thumbs-select {
+	margin-bottom: 20px;
+}
+#profile_edit_ctrls {
+	text-align: right;
+	font-size: 85%;
+	margin-top: 3px;
+}
+
+#artpiece_edit_ctrls {
+	width: 560px;
+	text-align: right;
+	margin-bottom: 5px;
+	font-size: 85%;
+}
+#profile_edit_ctrls span,
+#artpiece_edit_ctrls span {
+	border: 1px solid #444;
+	padding: 2px 3px;
+	margin: 2px 0 2px 2px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+#profile_edit_ctrls span {
+	margin-right: 0px;
+}
+
+#profile_edit_ctrls span:hover,
+#artpiece_edit_ctrls span:hover {
+	background-color: #222;
+}
+
 #nav_bar .nav {
 	height: 33px;
 }
