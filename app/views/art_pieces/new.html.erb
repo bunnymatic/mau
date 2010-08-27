@@ -3,7 +3,7 @@
 <h4>Add a new piece of art for <%=h current_artist.get_name %></h4></div>
 <% form_for(@art_piece, :html => {:multipart => true}) do |f| -%>
 	<%= hidden_field_tag :artist_id, current_artist.login %>
-<table align="center" border="0" cellspacing="0" cellpadding="0">
+<table align="center" cellspacing="0" cellpadding="0">
 <%	  if @errors or flash[:error] -%>
   <tr class="error-row">
     <td colspan="2" align="center" id="error_row">
@@ -21,7 +21,7 @@
   <tr>
     <td class="page-spacer-column">&nbsp;</td>
     <td>
-    	<table align="center" border="0" cellspacing="0" cellpadding="8">
+    	<table align="center" cellspacing="0" cellpadding="8">
       <tr>
         <td class="input-name" width="224"><%= f.label :title %></td>
         <td class="input" width="179"><%= f.text_field :title %></td>
