@@ -1057,6 +1057,7 @@ img.tiny-thumb {
 #artp-thumb-browser {
     width: 220px;
     margin: 0 auto 15px auto;
+    text-align: center;
 }
 
 div.tiny-thumb, div.tiny-thumb-sel {
@@ -1523,7 +1524,7 @@ div.artist {
 	margin-bottom: 20px;
 }
 #profile_edit_ctrls {
-	text-align: right;
+	text-align: left;
 	font-size: 85%;
 	margin-top: 3px;
 }
@@ -1534,6 +1535,7 @@ div.artist {
 	margin-bottom: 5px;
 	font-size: 85%;
 }
+.edit-buttons span,
 #profile_edit_ctrls span,
 #artpiece_edit_ctrls span {
 	border: 1px solid #444;
@@ -1546,6 +1548,7 @@ div.artist {
 	margin-right: 0px;
 }
 
+.edit-buttons span:hover,
 #profile_edit_ctrls span:hover,
 #artpiece_edit_ctrls span:hover {
 	background-color: #222;
