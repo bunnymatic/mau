@@ -219,10 +219,11 @@ class ArtPiecesController < ApplicationController
   # DELETE /art_pieces/1.xml
   def destroy
     art = safe_find_art_piece(params[:id])
+    artist = art.artist
     art.destroy
 
     respond_to do |format|
-      format.html { redirect_to(art_pieces_url) }
+      format.html { redirect_to(artist) }
       format.xml  { head :ok }
     end
   end
