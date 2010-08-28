@@ -164,15 +164,6 @@ MAU = window['MAU'] || {};
 		N.init = function() {};
 	};
     Event.observe(window, 'load', N.init);
-	
-
-    /** art piece related **/
-    A.init = function() {
-        var dbtn = $('delete_artpiece');
-	dbtn.observe('submit', function(e) {
-	return confirm("This will remove this art piece from your collection.  Are you sure you want to do that?");});	
-    };
-    Event.observe(window, 'load', A.init);
     
     /** 
      * scripty stuff related to artist and artist pages
