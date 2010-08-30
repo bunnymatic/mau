@@ -1,7 +1,0 @@
-<h1>Upload artists profile</h1>
-<% form_tag ({:action => 'uploadFile'}, :multipart => true) do %>
-  <p><label for="upload_file">Select File</label> : 
-  <%= file_field 'upload', 'datafile' %></p>
-  <%= text_field 'artist', 'id' %></p>
-  <%= submit_tag "Upload" %>
-<% end %>
