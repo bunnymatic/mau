@@ -14,7 +14,7 @@
 		  ['news','/news/'],
 		  ['about us','/about']
 		  ].each do |nm, lk, clz|
-		  -%><a class="lknav" href="<%= lk %>"><div class="mainnav <%= clz %>"><%=h nm %></div></a><% end -%><% if logged_in? -%><div id="artist_dropdown"><ul class="dropdown mainnav">
+		  -%><a class="lknav" href="<%= lk %>"><div class="mainnav <%= clz %>"><%=h nm %></div></a><% end -%><% if logged_in? -%><% if @_ie7 %><a title="My Page" class="lknav" href="<%= artist_path(current_artist) %>"><div class="mainnav">my&nbsp;mau</div></a><% else -%><div id="artist_dropdown"><ul class="dropdown mainnav">
 		 <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
 		   <ul>
 			 <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit my page</a></li>
@@ -23,7 +23,9 @@
 			 <li class="leaf"><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
 		   </ul>
 		 </li>
-	   </ul></div><% else -%><a title="Log In" class="lknav" href="<%= login_path %>"><div class="mainnav">my&nbsp;mau</div></a><% end -%>
+	   </ul></div><% 
+      end #is not ie7
+    else -%><a title="Log In" class="lknav" href="<%= login_path %>"><div class="mainnav">my&nbsp;mau</div></a><% end -%>
      </div>
    </div>
 </div>
