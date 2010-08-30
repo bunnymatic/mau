@@ -1562,6 +1562,7 @@ div.artist {
 	text-align: left;
 	font-size: 85%;
 	margin-top: 3px;
+	margin-bottom: 3px;
 }
 
 #artpiece_edit_ctrls {
@@ -1580,7 +1581,7 @@ div.artist {
 	-webkit-border-radius: 3px;
 }
 #profile_edit_ctrls span {
-	margin-right: 0px;
+	margin-left: 0px;
 }
 
 .edit-buttons span:hover,
