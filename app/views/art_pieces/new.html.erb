@@ -1,12 +1,10 @@
 <div class="div-center">
-	  <div class="logo-spacer">&nbsp;</div>
-<h4>Add a new piece of art for <%=h current_artist.get_name %></h4></div>
-<% form_for(@art_piece, :html => {:multipart => true}) do |f| -%>
-	<%= hidden_field_tag :artist_id, current_artist.login %>
-<table align="center" cellspacing="0" cellpadding="0">
-<%	  if @errors or flash[:error] -%>
-  <tr class="error-row">
-    <td colspan="2" align="center" id="error_row">
+  <div class="logo-spacer">&nbsp;</div>
+  <h4>Add a new piece of art for <%=h current_artist.get_name %></h4>
+  <% form_for(@art_piece, :html => {:id => 'new_artpiece_form', :multipart => true}) do |f| -%>
+  <%= hidden_field_tag :artist_id, current_artist.login %>
+  <div id="new_artpiece">
+    <% if @errors or flash[:error] -%>
       <% if flash[:error] -%>
       <div class="error-msg"><%= flash[:error] %></div>
       <% elsif @errors -%>
@@ -15,49 +13,45 @@
 	<%= @errors.map { |k, v| "<div>%s %s<div>" % [ k.capitalize(),v ] } %>
       </div>
       <% end -%>
-    </td>
-  </tr>
-<% end -%>
-  <tr>
-    <td class="page-spacer-column">&nbsp;</td>
-    <td>
-    	<table align="center" cellspacing="0" cellpadding="8">
-      <tr>
-        <td class="input-name" width="224"><%= f.label :title %></td>
-        <td class="input" width="179"><%= f.text_field :title %></td>
-        <td class="input-help">required</td>
-      </tr>
-      <tr>
-        <td class="input-name"><%= f.label :dimensions %></td>
-        <td class="input"><%= f.text_field :dimensions %></td>
-      </tr>
-      <tr>
-        <td class="input-name"><%= label_tag 'year', 'year' %></td>
-        <td class="input"><%= f.text_field :year, { :size => "5" } %></td>
-      </tr>
-      <tr>
-        <td class="input-name"><%= label_tag 'medium', 'medium' %></td>
-        <td class="input"><%= select("art_piece", "medium_id", [['None',0]] + @media.map{|u| [u.name,u.id]}) %></td>
-      </tr>
-      <tr>
-        <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
-        <td class="input"><%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.tags), :class => "tag-input" %>
-      </tr>
-      <tr>
-        <td class="input-name"><label for="upload_file">Select File</label></td>
-        <td class="input"><%= file_field 'upload', 'datafile' %></td>
-      </tr>
-    <tr>
-      <td/><td class="little-txt">
-	Please use images of type JPG, PNG or GIF whose size is less than 2MB.
-      </td>
-    </tr>
-      <tr>
-        <td class="input-name">&nbsp;</td>
-        <td class="input"><%= f.submit 'Add', :onclick => "MAU.waitcursor(); return true;" %>&nbsp;&nbsp;<%= f.submit 'Cancel' %></td>
-      </tr>
-    </table></td>
-    <td class="page-spacer-column"><img class="page-height-spacer-small" src="/images/sp-black.png"></td>
-  </tr>
-</table>
-<% end -%>
+    <% end -%>
+    <div>
+      <table align="center" cellspacing="0" cellpadding="8">
+	<tr>
+          <td class="input-name" width="224"><%= f.label :title %></td>
+          <td class="input" width="179"><%= f.text_field :title %></td>
+          <td class="input-help">required</td>
+	</tr>
+	<tr>
+          <td class="input-name"><%= f.label :dimensions %></td>
+          <td class="input"><%= f.text_field :dimensions %></td>
+	</tr>
+	<tr>
+          <td class="input-name"><%= label_tag 'year', 'year' %></td>
+          <td class="input"><%= f.text_field :year, { :size => "5" } %></td>
+	</tr>
+	<tr>
+          <td class="input-name"><%= label_tag 'medium', 'medium' %></td>
+          <td class="input"><%= select("art_piece", "medium_id", [['None',0]] + @media.map{|u| [u.name,u.id]}) %></td>
+	</tr>
+	<tr>
+          <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
+          <td class="input"><%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.tags), :class => "tag-input" %>
+	</tr>
+	<tr>
+          <td class="input-name"><label for="upload_file">Select File</label></td>
+          <td class="input"><%= file_field 'upload', 'datafile' %></td>
+	</tr>
+	<tr>
+	  <td/><td class="little-txt">
+	    Please use images of type JPG, PNG or GIF whose size is less than 2MB.
+	  </td>
+	</tr>
+	<tr>
+          <td class="input-name">&nbsp;</td>
+          <td class="input"><%= f.submit 'Add', :onclick => "MAU.waitcursor(); return true;" %>&nbsp;&nbsp;<%= f.submit 'Cancel' %></td>
+	</tr>
+      </table>
+    </div>
+  </div>
+  <% end -%>
+</div>

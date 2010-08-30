@@ -8,14 +8,14 @@ MAU = window['MAU'] || {};
     var W = M.WhatsThis = M.WhatsThis || {};
     var F = M.Feedback = M.Feedback || {};
     var N = M.Notifications = M.Notifications || {};
-	var NV = M.Navigation = M.Navigation || {};
+    var NV = M.Navigation = M.Navigation || {};
     var MA = M.Map = M.Map || {};
     var G = M.GetInvolved = M.GetInvolved || {};
-	var S = M.Submissions = M.Submissions || {};
-	var TB = M.Toolbar = M.Toolbar || {};
+    var S = M.Submissions = M.Submissions || {};
+    var TB = M.Toolbar = M.Toolbar || {};
 
     M.__debug__ = true;
-	M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
+    M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
     M.validateEmail = function(str) {
 	return (str.indexOf(".") > 2) && (str.indexOf("@") > 0);
@@ -49,20 +49,20 @@ MAU = window['MAU'] || {};
 
     // Changes the cursor to an hourglass
     M.waitcursor = function() {
-		var errmsg = $('error_row');
-		if (errmsg) {
-			errmsg.update('');
-		}
-		var dv = new Element('div');
-		dv.addClassName('wait-dialog');
-		dv.show();
-		var tx = new Element('span');
-		tx.update('Uploading...');
-		dv.appendChild(tx);
-		var im = M.SPINNER;
-		im.setAttribute('style','float:right; margin:auto;');
-		dv.appendChild(im);
-		document.body.appendChild(dv);
+	var errmsg = $('error_row');
+	if (errmsg) {
+	    errmsg.update('');
+	}
+	var dv = new Element('div');
+	dv.addClassName('wait-dialog');
+	dv.show();
+	var tx = new Element('span');
+	tx.update('Uploading...');
+	dv.appendChild(tx);
+	var im = M.SPINNER;
+	im.setAttribute('style','float:right; margin:auto;');
+	dv.appendChild(im);
+	document.body.appendChild(dv);
     };
     
     // Returns the cursor to the default pointer
@@ -98,48 +98,67 @@ MAU = window['MAU'] || {};
     M.CREDITS_DIV = 'credits_div';
     /* leave for later in case we need to init stuff */
     M.init = function() {
+	// focus on first form input
+	var fnames = Array('signup_form', 'new_artpiece_form');
+	$(fnames).each(function(n) {
+	    var f = $(n);
+	    if (f) {
+		var inps = f.select('input');
+		var ni = inps.length;
+		for (var ii =0; ii < ni; ++ii) {
+		    var inp = inps[ii];
+		    if ( $(inp).readAttribute('type') != 'hidden' ) {
+			M.log('activating ');
+			M.log( inp);
+			inp.activate();
+			break;
+		    }
+		}
+	    }
+	});
+
 	// init credits popup
 	var fq = $('credits_lnk');
 	if (fq) {
 	    Event.observe(fq,'click', function(event) {
-			var bg = $(M.CREDITS_BG);
-			var cn = $(M.CREDITS_BG_CONTAIN);
-			if (bg) { bg.remove(); }
-			if (cn) { cn.remove(); }
-			bg = new Element('div', { id: M.CREDITS_BG });
-			cn = new Element('div', { id:M.CREDITS_BG_CONTAIN });
-			var d = new Element('div', { id: M.CREDITS_DIV });
-			var hd = new Element('div').addClassName('credits-hdr');
-			hd.update('Credits');
-			var bd = new Element('div').addClassName('credits-bdy');
-			bd.update('<div style="text-align: center;"><p>Web Design/Construction: Mr Rogers & Trish Tunney</p></div><div style="width:350px; text-align:center; border:0px; margin:10px auto 10px auto;" class="credits-img"><span style="padding-bottom:4px; ">Built at MAU Headquarters</span><img style="border: 1px solid #222;" width="350" src="/images/mau-headquarters-small.jpg"/></div><div style="font-size: x-small; text-align:right; padding-bottom: 2px; padding-right: 10px;">click to close</div>');
-			if (d && hd && bd) {
-				new Insertion.Top(d, bd);
-				new Insertion.Top(d, hd);
-			}
-			Event.observe(d,'click', function(event) {
-				bg.remove();
-				cn.remove()
-				return false;
-			});
-			new Insertion.Top(cn, d);
-			new Insertion.Top(document.body,cn);
-			new Insertion.Top(document.body,bg);
+		var bg = $(M.CREDITS_BG);
+		var cn = $(M.CREDITS_BG_CONTAIN);
+		if (bg) { bg.remove(); }
+		if (cn) { cn.remove(); }
+		bg = new Element('div', { id: M.CREDITS_BG });
+		cn = new Element('div', { id:M.CREDITS_BG_CONTAIN });
+		var d = new Element('div', { id: M.CREDITS_DIV });
+		var hd = new Element('div').addClassName('credits-hdr');
+		hd.update('Credits');
+		var bd = new Element('div').addClassName('credits-bdy');
+		bd.update('<div style="text-align: center;"><p>Web Design/Construction: Mr Rogers & Trish Tunney</p></div><div style="width:350px; text-align:center; border:0px; margin:10px auto 10px auto;" class="credits-img"><span style="padding-bottom:4px; ">Built at MAU Headquarters</span><img style="border: 1px solid #222;" width="350" src="/images/mau-headquarters-small.jpg"/></div><div style="font-size: x-small; text-align:right; padding-bottom: 2px; padding-right: 10px;">click to close</div>');
+		if (d && hd && bd) {
+		    new Insertion.Top(d, bd);
+		    new Insertion.Top(d, hd);
+		}
+		Event.observe(d,'click', function(event) {
+		    bg.remove();
+		    cn.remove()
+		    return false;
+		});
+		new Insertion.Top(cn, d);
+		new Insertion.Top(document.body,cn);
+		new Insertion.Top(document.body,bg);
 
-			/* center */
-			var dm = Element.getDimensions(d);
-			w = dm.width;
-			h = dm.height;
-            var ws = document.viewport.getDimensions();
-			var soff = document.viewport.getScrollOffsets()
-            pw = ws.width + soff.left;
-            ph = ws.height + soff.top;
-			var tp = '' + ((ph/2) - (h/2)) + "px";
-			var lft = '' + ((pw/2) - (w/2)) + "px";
-			cn.style.top = tp;
-			cn.style.left = lft;
-			event.stop();
-			return false;
+		/* center */
+		var dm = Element.getDimensions(d);
+		w = dm.width;
+		h = dm.height;
+		var ws = document.viewport.getDimensions();
+		var soff = document.viewport.getScrollOffsets()
+		pw = ws.width + soff.left;
+		ph = ws.height + soff.top;
+		var tp = '' + ((ph/2) - (h/2)) + "px";
+		var lft = '' + ((pw/2) - (w/2)) + "px";
+		cn.style.top = tp;
+		cn.style.left = lft;
+		event.stop();
+		return false;
 	    });
 	}
 
@@ -147,22 +166,22 @@ MAU = window['MAU'] || {};
 
     Event.observe(window, 'load', M.init);
 
-	/** nav bar related **/
-	N.init = function() {
-		var navleaves = $$('#artist_dropdown li.leaf');
-		navleaves.each( function(nl) {
-			nl.observe('click', function(ev) {
-				try {
-					location.href = this.select('a').first().readAttribute('href');
-				}
-				catch(e) {
-					M.log("Failed to fire click");
-					M.log(e);
-				}
-			});
-		});
-		N.init = function() {};
-	};
+    /** nav bar related **/
+    N.init = function() {
+	var navleaves = $$('#artist_dropdown li.leaf');
+	navleaves.each( function(nl) {
+	    nl.observe('click', function(ev) {
+		try {
+		    location.href = this.select('a').first().readAttribute('href');
+		}
+		catch(e) {
+		    M.log("Failed to fire click");
+		    M.log(e);
+		}
+	    });
+	});
+	N.init = function() {};
+    };
     Event.observe(window, 'load', N.init);
     
     /** 
@@ -202,7 +221,7 @@ MAU = window['MAU'] || {};
 			  ID_PASSWD_TOGGLE,
 			  ID_DEACTIVATE_TOGGLE,
 			  ID_NOTIFICATION_TOGGLE,
-			 ID_EVENTS_TOGGLE);
+			  ID_EVENTS_TOGGLE);
 
     A.toggleSxnVis = function(sxn) {
 	var sxns = M.Artist.SECTIONS;
@@ -214,7 +233,7 @@ MAU = window['MAU'] || {};
 	    if (frm) {
 		if (!frm.visible() ) {
 		    if (sxnnm == sxn) {
-				frm.blindDown();
+			frm.blindDown();
 			lnk.innerHTML = "hide";
 		    }
 		}
@@ -292,10 +311,10 @@ MAU = window['MAU'] || {};
     W.popup = function(parent_id, section) {
 	M.log(parent_id, section);
 	var helpdiv = $(parent_id + "container");
-		if (helpdiv.visible()) {
-			helpdiv.fade({duration:0.2});
-		}
-		else { helpdiv.appear({duration:0.5}); }
+	if (helpdiv.visible()) {
+	    helpdiv.fade({duration:0.2});
+	}
+	else { helpdiv.appear({duration:0.5}); }
 
     };
 
@@ -469,7 +488,7 @@ MAU = window['MAU'] || {};
     };
 
     G.showSection = function(s) {
-		M.log('show' + s);
+	M.log('show' + s);
 	var items = $$('div.gi a');
 	var nitems = items.length;
 	for (var ii = 0; ii < nitems; ++ii) {
@@ -479,11 +498,11 @@ MAU = window['MAU'] || {};
 		var dv = $(s2);
 		if (dv) {
 		    if (s == s2) {
-				if (dv.visible()){
-					dv.blindUp();
-				} else {
-                    dv.blindDown();
-			    }
+			if (dv.visible()){
+			    dv.blindUp();
+			} else {
+			    dv.blindDown();
+			}
 		    }
 		    else {
 			dv.blindUp();
@@ -508,8 +527,8 @@ MAU = window['MAU'] || {};
 		tg.observe('click', function(e) {
 		    var s = _giLnk2Div(this.id);
 		    G.showSection(s);
-			e.stop();
-			return false;
+		    e.stop();
+		    return false;
 		});
 	    }
 	}
