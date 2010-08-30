@@ -45,7 +45,7 @@
 		<% if @artist -%>
 		<div id="artist_profile_img">
 		  <% if logged_in? && @artist && @artist.login == self.current_artist.login -%>
-		  <a title="update profile picture" href="/artists/addprofile/<%= self.current_artist.id %>">
+		  <a title="update my picture" href="/artists/addprofile/<%= self.current_artist.id %>">
 			<% if @artist.has_profile_image -%>
   			<img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
 			<% else -%>
@@ -64,7 +64,7 @@
 		  <% end -%>
 		  <% if logged_in? and @artist.id == current_artist.id -%>
 		  <div id="profile_edit_ctrls">
-			<a class="lksubtle" href="<%= edit_artist_path(current_artist) %>"><span>edit profile</span></a>
+			<a class="lksubtle" href="<%= edit_artist_path(current_artist) %>"><span>edit my page</span></a>
 		  </div>
 		  <% end -%>
 		</div>
@@ -140,8 +140,8 @@
 
 		<div class="artist-pieces">
 <% if logged_in? && @artist.id == current_artist.id -%>
-<div id="artpiece_edit_ctrls">art: 
-<a class="lksubtle" href="/art_pieces/new"><span>add</span></a>
+<div id="artpiece_edit_ctrls">
+<a class="lksubtle" href="/art_pieces/new"><span>add art</span></a>
 <a class="lksubtle" href="<%= arrangeart_artist_path(current_artist) %>"><span>arrange</span></a>
 <a class="lksubtle" href="<%= deleteart_artist_path(current_artist) %>"><span>delete</span></a>
 <b> </b>
