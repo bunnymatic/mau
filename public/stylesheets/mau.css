@@ -1196,6 +1196,32 @@ td.td-left{
     vertical-align:middle;
 }
 
+#signup {
+    width: 607px;
+    padding-top: 40px;
+    margin: 0px auto;
+}
+#signup .flash {
+    width: 473;
+    margin: auto;
+}
+.signup-right,
+.signup-left {
+    float: left;
+    width: 300px;
+}
+.signup-left {
+    padding-top:20px;
+}
+.signup-left h2 {
+    text-align: left;
+}
+.signup-right {
+    clear: right;
+}
+.signup-right p {
+    text-align: left;
+}
 .logo-spacer {
     line-height: 1.7em;
 }
@@ -1235,6 +1261,10 @@ td.td-left{
     margin-bottom: 40px;
     text-align: center;
 }
+
+#new_artpiece_form { 
+}
+#new_artpiece_form table { width:550px; }
 
 .artpiece-title {
     font-size: 120%;
