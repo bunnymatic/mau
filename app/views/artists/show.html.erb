@@ -62,11 +62,6 @@
 		  <% if @artist.osoct2010? -%>
 		  <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
 		  <% end -%>
-		  <% if logged_in? and @artist.id == current_artist.id -%>
-		  <div id="profile_edit_ctrls">
-			<a class="lksubtle" href="<%= edit_artist_path(current_artist) %>"><span>edit my page</span></a>
-		  </div>
-		  <% end -%>
 		</div>
 		<div id="artist_profile_name">
  		  <h4><%=h @artist.get_name %></h4>
@@ -128,6 +123,11 @@
 				  <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><span class="micro-icon twitter"><img src="/images/pix.gif" height="16" width="0"/></span></a>
 				</div>
 			</div>
+		  <% if logged_in? and @artist.id == current_artist.id -%>
+		  <div id="profile_edit_ctrls">
+			<a class="lksubtle" href="<%= edit_artist_path(current_artist) %>"><span>edit my page</span></a>
+		  </div>
+		  <% end -%>
 		  </div>
 		  <% if @artist.bio and !@artist.bio.empty? %>
 		  <div class="clear"></div>
