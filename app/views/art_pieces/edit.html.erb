@@ -3,74 +3,63 @@
   <div>The art piece you requested is could not be found.</div>
 </div>
 <% else %>
-<table align="center">
-  <tr>
-    <td height="34">
-      <h4>Edit Information for This Piece : <%= @art_piece.title %></h4>
-    </td>
-  </tr>
-  <tr>
-    <td class="td-center">
-      <img src="<%= @art_piece.get_path('small') %>" /></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-<% form_for(@art_piece) do |f| %>
-<table width="600" align="center" cellspacing="0" cellpadding="0">
-  <% if @errors -%>
-  <tr class="error-row">
-    <td colspan="3" align="center">
-      <div class="error-msg">
-	Error:
-	<%= @errors.map { |k, v| " <div>%s %s<div>" % [ k, v ] } %>
-      </div>
-    </td>
-  </tr>
-  <% elsif flash[:error] -%>
-  <tr class="error-row">
-    <td colspan="3">
-      <div class="error-msg">
-	Error:
-	<%=h flash[:error] %>
-      </div>
-    </td>
-  </tr>
-  <% end -%>
-  <tr>
-    <td class="page-spacer-column">&nbsp;</td>
-    <td>
-      <table align="center" width="600" cellspacing="0" cellpadding="8">
-	<tr>
-          <td class="input-name" width="252"><%= f.label :title %></td>
-          <td class="input" width="132"><%= f.text_field :title %></td>
-	</tr>
-	<tr>
-          <td class="input-name"><%= f.label :dimensions %></td>
-          <td class="input"><%= f.text_field :dimensions %></td>
-	</tr>
-	<tr>
-          <td class="input-name"><%= f.label :year %></td>
-          <td class="input"><%= f.text_field :year, { :size => 5 } %></td>
-	</tr>
-	<tr>
-          <td class="input-name"><%= f.label :medium %></td>
-          <td class="input"><%= select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } ) %></td>
-	</tr>
-	<tr>
-          <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
-          <td class="input"><%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.tags), :class => "tag-input" %></td>
-	</tr>
-	<tr>
-          <td class="input-name">&nbsp;</td>
-          <td class="input"><%= f.submit 'Update' %>&nbsp;&nbsp;<%= f.submit 'Cancel' %></td>
-</tr>
-      </table>
-    </td>
-    <td class="page-spacer-column">&nbsp;</td>
-  </tr>
-</table>
+<div id="edit_artpiece" class="div-center">
+  <h4>Edit Information for This Piece : <%= @art_piece.title %></h4>
+  <div>
+    <img src="<%= @art_piece.get_path('small') %>" />
+  </div>
+  <% form_for(@art_piece) do |f| %>
+  <table width="600" align="center" cellspacing="0" cellpadding="0">
+    <% if @errors -%>
+    <tr class="error-row">
+      <td colspan="3" align="center">
+	<div class="error-msg">
+	  Error:
+	  <%= @errors.map { |k, v| " <div>%s %s<div>" % [ k, v ] } %>
+	</div>
+      </td>
+    </tr>
+    <% elsif flash[:error] -%>
+    <tr class="error-row">
+      <td colspan="3">
+	<div class="error-msg">
+	  Error:
+	  <%=h flash[:error] %>
+	</div>
+      </td>
+    </tr>
+    <% end -%>
+    <tr>
+      <td class="page-spacer-column">&nbsp;</td>
+      <td>
+	<table align="center" width="600" cellspacing="0" cellpadding="8">
+	  <tr>
+            <td class="input-name" width="252"><%= f.label :title %></td>
+            <td class="input" width="132"><%= f.text_field :title %></td>
+	  </tr>
+	  <tr>
+            <td class="input-name"><%= f.label :dimensions %></td>
+            <td class="input"><%= f.text_field :dimensions %></td>
+	  </tr>
+	  <tr>
+            <td class="input-name"><%= f.label :year %></td>
+            <td class="input"><%= f.text_field :year, { :size => 5 } %></td>
+	  </tr>
+	  <tr>
+            <td class="input-name"><%= f.label :medium %></td>
+            <td class="input"><%= select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } ) %></td>
+	  </tr>
+	  <tr>
+            <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
+            <td class="input"><%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.tags), :class => "tag-input" %></td>
+	  </tr>
+	  <tr>
+            <td class="input-name">&nbsp;</td>
+            <td class="input"><%= f.submit 'Update' %>&nbsp;&nbsp;<%= f.submit 'Cancel' %></td>
+	  </tr>
+	</table>
+  </td></tr></table>
+</div>
 <% end %>
 <% end %>
 
