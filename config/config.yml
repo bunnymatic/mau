@@ -19,7 +19,6 @@ ub:
        search: 20
        objects: 20
    # minimum artists before we show a studio
-   min_artists_per_studio: 3
 
 local:
    site_url: localhost:3000
@@ -30,8 +29,6 @@ local:
        feed: 5
        search: 20
        objects: 20
-   # minimum artists before we show a studio
-   min_artists_per_studio: 2
 
 development:
    site_url: artistsdev.missionartistsunited.org
@@ -92,3 +89,5 @@ common:
         url: http://clarussell.blogspot.com/
    yahoo_api_key: N.34cqHV34HBVzs_fNwThGrKQN8oMtEsizMOW14GriC2lceN7KrJKTklkpO2uUDX
    shop_url: http://www.cafepress.com/MissionArtists
+   # minimum artists before we show a studio
+   min_artists_per_studio: 3
