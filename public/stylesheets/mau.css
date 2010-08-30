@@ -1252,6 +1252,10 @@ td.td-left{
     top: 40px;
 }
 
+#main_messages .notice,
+#main_messages .error-msg{
+	margin: auto;
+}
 .main-text {
 	width: 520px;
     margin: 80px auto auto auto;
