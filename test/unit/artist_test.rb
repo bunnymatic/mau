@@ -83,7 +83,7 @@ class ArtistTest < ActiveSupport::TestCase
   end
 
   def test_should_remember_me_for_one_week
-    before = 1.week.from_now.utc
+    before = DateTime.now.utc
     artists(:quentin).remember_me_for 1.week
     after = 1.week.from_now.utc
     assert_not_nil artists(:quentin).remember_token
@@ -96,11 +96,11 @@ class ArtistTest < ActiveSupport::TestCase
     artists(:quentin).remember_me_until time
     assert_not_nil artists(:quentin).remember_token
     assert_not_nil artists(:quentin).remember_token_expires_at
-    assert_equal artists(:quentin).remember_token_expires_at, time
+    assert_equal artists(:quentin).remember_token_expires_at.utc.to_s, time.to_s
   end
 
   def test_should_remember_me_default_two_weeks
-    before = 2.weeks.from_now.utc
+    before = DateTime.now.utc
     artists(:quentin).remember_me
     after = 2.weeks.from_now.utc
     assert_not_nil artists(:quentin).remember_token
