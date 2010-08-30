@@ -1,17 +1,24 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+s1890:
+  name: 1890 Bryant St Studios
+  street: 1890 Bryant St
+  city: San Francisco
+  state: CA
+  zip: 94117
+  url: http://www.1890bryant.com
 
-one:
-  name: MyString
-  street: MyString
-  city: MyString
-  state: MyString
-  zip: 1
-  url: MyString
+blue:
+  name: The Blue Studio
+  street: 2111 Mission St
+  city: San Francisco
+  state: CA
+  zip: 94117
+  url: http://thebluestudio.org
 
-two:
-  name: MyString
-  street: MyString
-  city: MyString
-  state: MyString
-  zip: 1
-  url: MyString
+as:
+  name: ActivSpace
+  street: 3150 18th Street, \#102
+  city: San Francisco
+  state: CA
+  zip: 94117
+  url: http://activspace.com
