@@ -1290,6 +1290,7 @@ td.td-left{
     font-size: x-small;
     margin: 4px 4px 8px;
     position: relative;
+    text-align:center;
     vertical-align: middle;
 }
 
