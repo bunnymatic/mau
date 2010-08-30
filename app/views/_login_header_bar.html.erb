@@ -4,11 +4,9 @@
 <% if logged_in? %>
 <div id="logout">
 <%# spans go in reverse order because they all float right %>
-  <span class="navitem">
+  <span class="navitem last">
     <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %> 
   </span>
-  <span class="navsep"> </span>
-  <span class="navsep"> </span>
   <span class="logout-nav navitem">hello, <a class="lkdark" href="<%=h artist_path(current_artist) %>"><%=h current_artist.login %></a>
   </span>
   <% if self.current_artist.is_admin? %>

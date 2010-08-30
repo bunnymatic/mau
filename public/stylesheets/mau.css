@@ -635,8 +635,9 @@ div.feedtitle  {
    on the login page, we have id="login" in an input tag
    but this one controls the login bar at the top of the screen
 */
-#logout .navsep,
-#logout .navitem { margin-left: 2px; margin-right: 2px; line-height:2em; float:right;}
+#logout .navitem { margin-left: 2px; margin-right: 2px; float:right;}
+#logout span.navitem { border-right: 1px solid #333; padding-right: 4px;}
+#logout span.navitem.last { border-right: 0; padding-right: 0;}
 
 #logout { clear: right; }
 #login_toplink, #logout {
@@ -730,6 +731,7 @@ div.feedtitle  {
 
 .alpha-pagination {
     font-size: 85%;
+    margin: 2px;
 }
 .alpha-pg, .curpg {
     border: 1px dotted #444;
@@ -1561,7 +1563,7 @@ div.artist {
 
 #artpiece_edit_ctrls {
 	width: 560px;
-	text-align: right;
+	text-align: left;
 	margin-bottom: 5px;
 	font-size: 85%;
 }
