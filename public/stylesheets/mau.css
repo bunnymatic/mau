@@ -576,7 +576,9 @@ div.feedtitle  {
 }
 
 .artists-resources-entries .main-entry {
-	margin: 0px 0px 24px 0;
+	margin: 0px 6px 24px;
+	float: left;
+	
 }
 .artists-resources-entries div div {
 	margin: 2px 0 2px 8px;
@@ -590,7 +592,6 @@ div.feedtitle  {
 	float:left; 
 	font-size: 90%;
 	text-align: left;
-	width: 240px;
 }
 
 .rcol .feedtitle {
@@ -1493,7 +1494,8 @@ div.notice {
 
 /* shrink err msg if we're in signup-txt box */
 div.signup-text div.error-msg {
-    width: 400px;
+    width: 240px;
+    margin-left: 0;
 }
 
 div.alt-login {

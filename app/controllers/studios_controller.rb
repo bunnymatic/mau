@@ -3,6 +3,7 @@ class StudiosController < ApplicationController
   # GET /studios.xml
   before_filter :admin_required, :except => [ 'index', 'show' ]
 
+  @@MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
   layout 'mau1col'
 
   def admin_index
@@ -10,7 +11,13 @@ class StudiosController < ApplicationController
   end
 
   def index
-    @studios = Studio.all
+    studios = Studio.all
+    @studios = []
+    studios.each do |s| 
+      if s.artists.count > @@MIN_ARTISTS_PER_STUDIO
+        @studios << s
+      end
+    end
     @admin = logged_in? && self.current_artist.is_admin?
     render :action => 'index', :layout => 'mau'
   end
@@ -53,7 +60,14 @@ class StudiosController < ApplicationController
   # GET /studios/1
   # GET /studios/1.xml
   def show
-    @studios = Studio.all
+    studios = Studio.all
+    @studios = []
+    studios.each do |s| 
+      if s.artists.count > @@MIN_ARTISTS_PER_STUDIO
+        @studios << s
+      end
+    end
+
     if params[:id] == "0"
       @studio = Studio.indy()
     else

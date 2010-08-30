@@ -8,6 +8,7 @@ test:
    cache_ns: tst
    feedback_emails: 
 
+
 ub:
    site_url: localhost:3000
    cache_server: localhost:11211
@@ -17,6 +18,8 @@ ub:
        feed: 5
        search: 20
        objects: 20
+   # minimum artists before we show a studio
+   min_artists_per_studio: 3
 
 local:
    site_url: localhost:3000
@@ -27,6 +30,8 @@ local:
        feed: 5
        search: 20
        objects: 20
+   # minimum artists before we show a studio
+   min_artists_per_studio: 2
 
 development:
    site_url: artistsdev.missionartistsunited.org
