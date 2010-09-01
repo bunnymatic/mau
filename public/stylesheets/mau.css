@@ -2196,11 +2196,14 @@ ul.dropdown ul li {
 ul.dropdown ul .dir {
     padding-right:15px;
 }
+
 ul.dropdown ul .last {
-    -moz-border-radius-bottomleft: 3px; 
-    -moz-border-radius-bottomright: 3px;
-    -webkit-border-bottom-left-radius: 3px; 
-    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomleft: 5px; 
+    -moz-border-radius-bottomright: 5px;
+    -webkit-border-bottom-left-radius: 5px; 
+    -webkit-border-bottom-right-radius: 5px;
 }
 ul.dropdown ul .first {
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px; 
 }
