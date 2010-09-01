@@ -293,12 +293,6 @@ input.srch {
 }
 #search_icon { vertical-align:middle; }
 
-input.srch {
-    background-color:#D6f3ff;
-    margin-left: 8px;
-    margin-right: 8px;
-}
-
 /* these three are important on the "edit" pages
    colors should be set the same for textarea, select and srch
 */
@@ -369,15 +363,6 @@ input[type=radio],
 input[type=checkbox] {
     background-color:transparent;
 }
-input[type=submit] {
-    background:#999;
-    background:url(/images/gradients.png) repeat-x left top;
-    border:outset 1px #ccc;
-    color:#666;
-    cursor:pointer;
-    font-weight:bold;
-    padding: 1px 2px;
-}
 
 input[type=submit][disabled=disabled] {
     font-weight:normal;
@@ -391,7 +376,7 @@ input[type=submit], .formbutton{
     color:#666;
     cursor:pointer;
     font-weight:bold;
-    padding: 1px 2px;
+    padding: 3px 4px;
 }
 
 .formbutton {
