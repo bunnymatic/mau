@@ -55,6 +55,9 @@ Rails::Initializer.run do |config|
   # for restful_authentication
   config.active_record.observers = :artist_observer, :art_piece_observer 
 
+  # Use the memcached store with an options hash
+  config.cache_store = :mem_cache_store, { :namespace => 'mau'}
+
   memcache_options = {
     :c_threshold => 10_000,
     :compression => true,

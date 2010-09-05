@@ -29,7 +29,7 @@ class SearchController < ApplicationController
     cache_key = "%s:%s:%s:%s" % [@@QUERY_KEY_PREFIX, qq, page, @results_mode]
     cache_key.gsub!(' ','')
     begin
-      results = CACHE.get(cache_key)
+      results = Rails.cache.read(cache_key)
     rescue
       results = nil
     end
@@ -86,7 +86,7 @@ class SearchController < ApplicationController
       end
       results.values.each { |r| p "RESULT ", r }
       begin
-        CACHE.set(cache_key, results, @@CACHE_EXPIRY)      
+        Rails.cache.write(cache_key, results, :expires_in => @@CACHE_EXPIRY)
         logger.debug("Search Results: fetched results from cache")
       rescue
         logger.warn("Search Results: failed to set cache")

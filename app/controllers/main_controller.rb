@@ -65,7 +65,7 @@ class MainController < ApplicationController
     url, link = 'http://missionartistsunited.wordpress.com/feed/',
     'http://missionartistsunited.wordpress.com'
     begin
-      cached_html = CACHE.get(FEEDS_KEY)
+      cached_html = Rails.cache.read(FEEDS_KEY)
       if not cached_html
         print 'cache miss'
       end
@@ -75,7 +75,7 @@ class MainController < ApplicationController
     if !cached_html or cached_html.empty?
       cached_html = FeedsHelper.fetch_and_format_feed(url, link, 5, true, true, true)
       begin
-        CACHE.set(FEEDS_KEY, cached_html, @@CACHE_EXPIRY)
+        Rails.cache.write(FEEDS_KEY, cached_html, :expires_in => @@CACHE_EXPIRY)
       rescue
         nil
       end

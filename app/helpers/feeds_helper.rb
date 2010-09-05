@@ -59,10 +59,11 @@ module FeedsHelper
     'rss'
   end
 
-  def self.trunc(msg, num_chars="100", ellipsis=true)
+  def self.trunc(msg, num_chars=100, ellipsis=true)
     # truncate string to num_chars
     # add ellipsis if ellipsis=true
     # num_chars includes ellipsis
+    num_chars = num_chars.to_i
     if msg.length < num_chars
       return msg
     end

@@ -21,14 +21,16 @@ class FeedsController < ApplicationController
       page = params[:page]
     end
     begin
-      cached_html = CACHE.get(@@FEEDS_KEY)
+      cached_html = Rails.cache.read(@@FEEDS_KEY)
       if !cached_html or cached_html.empty?
         logger.info("FeedController: cache miss\n")
       else
         logger.info("FeedController: fetched feeds from cache\n")
       end
-    rescue
+    rescue Exception => ex
       cached_html = ""
+      p ex
+      logger.error(ex)
     end
     if !cached_html or cached_html.empty? 
       logger.info("FeedController: fetch feeds\n")
@@ -43,9 +45,10 @@ class FeedsController < ApplicationController
       end
       begin
         logger.info("FeedController: add feed to cache(expiry %d)" % @@CACHE_EXPIRY)
-        CACHE.set(@@FEEDS_KEY, allfeeds, @@CACHE_EXPIRY)
-      rescue
+        Rails.cache.write(@@FEEDS_KEY, allfeeds, :expires_in => @@CACHE_EXPIRY)
+      rescue Exception => ex
         logger.error("FeedController: failed to add to the cache")
+        p ex
       end
     else
       allfeeds = cached_html
