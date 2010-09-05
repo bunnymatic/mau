@@ -1,6 +1,6 @@
 ### helper methods to encode/decode cookies which are actually hashes
 module CookiesHelper
-  def encode_cookie( hsh )
+  def self.encode_cookie( hsh )
     begin
       v = Base64.encode64(JSON.generate(hsh))
     rescue
@@ -10,7 +10,7 @@ module CookiesHelper
     v
   end
   
-  def decode_cookie( str )
+  def self.decode_cookie( str )
     begin
       v = JSON.parse(Base64.decode64(str))
     rescue

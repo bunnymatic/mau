@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 USERAGENT = 'HTTP_USER_AGENT'
+require 'cookies_helper'
 
 @@revision = 0
 class ApplicationController < ActionController::Base
@@ -11,6 +12,17 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
 
   before_filter :check_browser, :set_version
+  after_filter :update_cookies
+
+  def update_cookies
+    @last_visit = nil;
+    maucookie = CookiesHelper::decode_cookie(cookies[:mau])
+    if !maucookie or maucookie.empty?
+      last_visit = DateTime::now()
+      cookies[:mau] = CookiesHelper::encode_cookie({ :last_visit => last_visit })
+      @last_visit = last_visit
+    end
+  end
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
