@@ -6,7 +6,8 @@ import sys
 
 global verbose
 verbose = 0
-    
+
+PREFIXES = ('t_','m_','l_', 's_')
 def main(srcdir, destdir):
     # grab all jpegs in source tree and optimize them with jpegtrans
     # in the destination directory
@@ -15,7 +16,9 @@ def main(srcdir, destdir):
     jpgs = []
     for root, dirs, files in os.walk(srcdir):
         for name in files:
-            if name.lower().endswith('jpg'):
+            lname = name.lower()
+            pfx = lname[0:2]
+            if lname.endswith('jpg') and pfx in PREFIXES:
                 jpgs.append(os.path.abspath(os.path.join(root, name)))
     conversion = [ (jpg, jpg.replace(abs_src, abs_dest)) for jpg in jpgs ]
     ct = 0
