@@ -27,9 +27,10 @@ class FeedsController < ApplicationController
       else
         logger.info("FeedController: fetched feeds from cache\n")
       end
+    rescue TypeError
+      Rails.cache.delete(@@FEEDS_KEY)
     rescue Exception => ex
       cached_html = ""
-      p ex
       logger.error(ex)
     end
     if !cached_html or cached_html.empty? 
