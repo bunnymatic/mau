@@ -18,13 +18,25 @@ def main(srcdir, destdir):
             if name.lower().endswith('jpg'):
                 jpgs.append(os.path.abspath(os.path.join(root, name)))
     conversion = [ (jpg, jpg.replace(abs_src, abs_dest)) for jpg in jpgs ]
+    ct = 0
     for c in conversion:
         src, dest = c
         destdir = os.path.dirname(dest)
         if not os.path.exists(destdir):
             os.makedirs(destdir)
-        os.system('jpegtran -optimize %s > %s' % (src,dest))
-
+        cmd = 'jpegtran -optimize "%s" > "%s"' % (src,dest)
+        try:
+            v = os.system(cmd)
+            if v:
+                print "Copying because of error on %s" % src
+                os.system('cp "%s" "%s"' % (src, dest))
+        except Exception, ex:
+            print ex
+        ct += 1
+        if (ct % 100) == 0: 
+            print ".",
+            sys.stdout.flush()
+    print
         
 def usage():
     print """Run jpegtran on all .jpg images in a subdirectory placing the
