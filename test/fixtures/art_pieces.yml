@@ -1,15 +1,33 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  filename: MyString
-  title: MyString
-  description: MyText
+hot:
+  filename: hot.jpg
+  title: hot title
+  description: super hot description
   medium_id: 1
-  dimensions: MyString
+  dimensions: hot x hot
 
-two:
-  filename: MyString
-  title: MyString
-  description: MyText
+not:
+  filename: not.jpg
+  title: not title
+  description: super not description
   medium_id: 2
-  dimensions: MyString
+  dimensions: not x not
+
+h1024w2048:
+  filename: not.jpg
+  title: not title
+  description: super not description
+  medium_id: 2
+  dimensions: not x not
+  image_height: 1024
+  image_width: 2048
+
+negative_size:
+  filename: not.jpg
+  title: not title
+  description: super not description
+  medium_id: 2
+  dimensions: not x not
+  image_height: -1024
+  image_width: -2048

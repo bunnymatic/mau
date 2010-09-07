@@ -14,9 +14,20 @@ module ArtPiecesHelper
     #    int: next page index
     #    int: previous page index
     #    int: last page index
-    ct = pieces.length
+    begin
+      ct = pieces.length
+    rescue Exception => ex
+      RAILS_DEFAULT_LOGGER.warn("Failed to compute length of [%s]" % pieces)
+      return nil
+    end
+    if perpage < 0
+      return nil
+    end
     lastpage = ((ct.to_f-1.0) / perpage.to_f).floor.to_i
-    curpage = curpage.to_i
+    if lastpage < 0
+      lastpage = 0
+    end
+    curpage = [curpage.to_i, 0].max
     firstpage = 0
     nextpage = [curpage + 1, lastpage].min
     prevpage = [curpage - 1, firstpage].max 
@@ -26,14 +37,29 @@ module ArtPiecesHelper
     shows = pieces[firstimg..lastimg]
     if shows
       shows.reverse!
+    else
+      nil
     end
     [ shows, nextpage, prevpage, curpage, lastpage ]
   end
 
   # compute real image size given piece (which has wd/ht) and
   # size (string) indicating what we're drawing
+  #   size must be "small", "thumb", "orig"
   # return wd, ht
   def compute_actual_image_size(size, piece)
+    sizemapper = { "medium" => "std",
+      "med" => "std",
+      "m" => "std",
+      "standard" => "std",
+      "sm" => "small",
+      "s" => "small",
+      "original" => "orig",
+      "thumbnail" => "thumb" }
+    size = sizemapper[size] || size
+    if size == "orig"
+      return [piece.image_width, piece.image_height]
+    end
     k = eval(':' + size)
     sz = ImageFile.sizes[k]
     if !sz
