@@ -30,28 +30,12 @@ class Studio < ActiveRecord::Base
   end
 
   def self.all
-    begin
-      studios = CACHE.get(@@STUDIOS_KEY)
-    rescue
-      logger.warn("Studio: Memcache seems to be dead")
-      studios = nil
-    end
-    if ! studios
-      logger.debug("Studio: Fetching from db")
-      studios = super(:order => 'name')
-      studios << Studio.indy 
-      studios.each do |s|
-        artists = s.artists.find(:all, :conditions => 'state = "active"')
-        s[:num_artists] = artists.length
-      end
-      begin
-        CACHE.set(@@STUDIOS_KEY, studios, @@CACHE_EXPIRY)
-        print "put studio info in cache"
-      rescue
-        logger.warn("Studio: Failed to set artists in cache")
-      end
-    else
-      logger.debug("Studio: fetch from cache")
+    logger.debug("Studio: Fetching from db")
+    studios = super(:order => 'name')
+    studios << Studio.indy 
+    studios.each do |s|
+      artists = s.artists.find(:all, :conditions => 'state = "active"')
+      s[:num_artists] = artists.length
     end
     studios
   end
