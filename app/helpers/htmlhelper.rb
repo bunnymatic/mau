@@ -8,13 +8,16 @@ module HTMLHelper
   
   def self.queryencode(d)
     s = []
-    d.each do |k,v| 
-      if !v.nil?
-        s << "%s=%s" % [k,v]
+    begin
+      d.each do |k,v| 
+        if !v.nil?
+          s << "%s=%s" % [k,CGI::escape(v)]
+        end
       end
+      "?"+s.join("&")
+    rescue
+      return "?"
     end
-    "?"+s.join("&")
   end
-      
 end
 
