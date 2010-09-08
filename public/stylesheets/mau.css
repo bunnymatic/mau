@@ -372,6 +372,7 @@ input[type=submit][disabled=disabled] {
 input[type=submit], .formbutton{
     background:#999;
     background:url(/images/gradients.png) repeat-x left top;
+    background-position: 0 -90px;
     border:outset 1px #ccc;
     color:#666;
     cursor:pointer;
@@ -1591,7 +1592,7 @@ div.mainnav:hover {
     background-color: #FFFFFF;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
-    background-position: 0 -140px; /* 40px gradient */
+    background-position: 0 -165px; /* 40px gradient */
 	-moz-box-shadow: 2px 1px 5px #738294;
     -webkit-box-shadow: 2px 1px 5px #738294;
     box-shadow: 1px 1px 5px #738294;
@@ -2175,7 +2176,7 @@ ul.dropdown ul li:hover {
     font-weight:normal;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
-    background-position: 0 -140px; /* 40px gradient */
+    background-position: 0 -165px; /* 40px gradient */
 }
 ul.dropdown ul li:hover a {	color: #404;}
 ul.dropdown a:hover {
