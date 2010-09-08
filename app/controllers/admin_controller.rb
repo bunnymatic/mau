@@ -12,6 +12,9 @@ class AdminController < ApplicationController
     artists = []
     arg = params[:listname]
     case arg
+    when 'octos2010'
+      @title = "Oct OS Checked"
+      artists = Artist.find(:all, :conditions => [ "state='active' and osoct2010=1" ])
     when 'activated'
       @title = "All Activated Artsts"
       artists = Artist.find(:all, :conditions => [ "state='active'" ])
@@ -37,7 +40,7 @@ class AdminController < ApplicationController
       artists = Artist.find(:all, :conditions => { :id => aids })
     else
       @emails = []
-      @msg = "I don't know what list you wanted?"
+      @msg = "What list did you want?"
       @title = "All Activated Artsts"
       artists = Artist.find(:all, :conditions => [ "state='active'" ])
     end
@@ -55,7 +58,7 @@ class AdminController < ApplicationController
     artpieces = ArtPiece.count
     introuble = Artist.count(:conditions => "state='pending'")
     noprofile = Artist.count(:conditions => "state='active' and profile_image is not null")
-
+    octos = Artist.count(:conditions => "state='active' and osoct2010 = 1")
     sql = ActiveRecord::Base.connection()
     query = "select count(*) ct from artists where id not in (select distinct artist_id from art_pieces);"
 
@@ -69,7 +72,8 @@ class AdminController < ApplicationController
       :activated => { :name => "Activated", :data => activated },
       :pending => { :name => "Pending (not yet activated)", :data => introuble },
       :noprofile => { :name => "No Profile Image", :data => noprofile },
-      :noimages => { :name => "No Uploaded Art", :data => noimages }
+      :noimages => { :name => "No Uploaded Art", :data => noimages },
+      :octos2010 => { :name => "Oct OS Checked", :data => octos }
     }
 
     @artpieces = artpieces
