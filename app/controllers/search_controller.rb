@@ -84,7 +84,6 @@ class SearchController < ApplicationController
       rescue
         logger.warn("Failed to map search results")
       end
-      results.values.each { |r| p "RESULT ", r }
       begin
         Rails.cache.write(cache_key, results, :expires_in => @@CACHE_EXPIRY)
         logger.debug("Search Results: fetched results from cache")
