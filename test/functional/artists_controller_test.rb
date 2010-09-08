@@ -49,13 +49,61 @@ class ArtistsControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
-  
 
+  def test_should_require_firstname
+    assert_no_difference 'Artist.count' do
+      create_artist(:firstname => nil)
+      assert assigns(:artist).errors.on(:firstname)
+      assert_response :success
+    end
+  end
+
+  def test_should_require_lastname
+    assert_no_difference 'Artist.count' do
+      create_artist(:lastname => nil)
+      assert assigns(:artist).errors.on(:lastname)
+      assert_response :success
+    end
+  end
   
+  def test_should_validate_login
+    assert_no_difference 'Artist.count' do
+      create_artist(:login => "#$SGFCSR")
+      assert assigns(:artist).errors.on(:login)
+      assert_response :success
+    end
+    assert_no_difference 'Artist.count' do
+      create_artist(:login => "my name")
+      assert assigns(:artist).errors.on(:login)
+      assert_response :success
+    end
+  end
+  
+  def test_should_validate_email
+    assert_no_difference 'Artist.count' do
+      create_artist(:email => 'bogus email address')
+      assert assigns(:artist).errors.on(:email)
+      assert_response :success
+    end
+    assert_no_difference 'Artist.count' do
+      create_artist(:email => 'noway@')
+      assert assigns(:artist).errors.on(:email)
+      assert_response :success
+    end
+    assert_no_difference 'Artist.count' do
+      create_artist(:email => '@nowhere.com')
+      assert assigns(:artist).errors.on(:email)
+      assert_response :success
+    end
+  end
 
   protected
     def create_artist(options = {})
-      post :create, :artist => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)
+      post :create, :artist => { :login => 'quire', 
+        :email => 'quire@example.com',
+        :password => 'quire69', 
+        :password_confirmation => 'quire69',
+        :firstname => 'thefirstname',
+      :lastname => 'thelastname' }.merge(options)
     end
 end
