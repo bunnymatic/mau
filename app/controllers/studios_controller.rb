@@ -77,6 +77,11 @@ class StudiosController < ApplicationController
         @studio = nil
       end
     end
+    if not @studio
+      flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
+      redirect_to studios_path
+      return
+    end
     @selected_studio = @studio.id
     @pieces = []
     @other_artists = []
