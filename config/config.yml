@@ -90,4 +90,4 @@ common:
    yahoo_api_key: N.34cqHV34HBVzs_fNwThGrKQN8oMtEsizMOW14GriC2lceN7KrJKTklkpO2uUDX
    shop_url: http://www.cafepress.com/MissionArtists
    # minimum artists before we show a studio
-   min_artists_per_studio: 3
+   min_artists_per_studio: 0
