@@ -14,7 +14,7 @@ class StudiosController < ApplicationController
     studios = Studio.all
     @studios = []
     studios.each do |s| 
-      if s.artists.count > @@MIN_ARTISTS_PER_STUDIO
+      if s.artists.count >= @@MIN_ARTISTS_PER_STUDIO
         @studios << s
       end
     end
