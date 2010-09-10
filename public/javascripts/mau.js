@@ -168,11 +168,14 @@ MAU = window['MAU'] || {};
 
     /** nav bar related **/
     N.init = function() {
-	var navleaves = $$('#artist_dropdown li.leaf');
+	var navleaves = $$('.nav li.leaf');
 	navleaves.each( function(nl) {
 	    nl.observe('click', function(ev) {
 		try {
-		    location.href = this.select('a').first().readAttribute('href');
+		    var lk = this.select('a').first();
+			if (lk) {
+				location.href = lk.readAttribute('href');
+			}
 		}
 		catch(e) {
 		    M.log("Failed to fire click");
