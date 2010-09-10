@@ -1583,12 +1583,7 @@ div.artist {
 #nav_bar .nav {
 	height: 33px;
 }
-.nav a .mainnav {
-	line-height: 33px;
-	padding: 9px 5px;
-}
-#artist_dropdown:hover li.dir,
-div.mainnav:hover {
+.nav > div {
     background-color: #FFFFFF;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
@@ -1596,7 +1591,8 @@ div.mainnav:hover {
 	-moz-box-shadow: 2px 1px 5px #738294;
     -webkit-box-shadow: 2px 1px 5px #738294;
     box-shadow: 1px 1px 5px #738294;
-	color: #404;
+	color: #606;
+	line-height: 24px;
 }
 ul.dropdown li:hover a,
 .nav a.lknav {
@@ -1605,15 +1601,15 @@ ul.dropdown li:hover a,
 .nav a.lknav:hover {
 	color: #404;
 }
-ul.mainnav, div.mainnav { 
+ul.dropdown { 
 	display: inline;
 	height: 100%;
 }
-.mainnav {
+.dropdown {
 	border-left: 1px solid #738294;
     text-align:left;
 }
-.mainnav.first {
+.dropdown.first {
 	border: 0;
 }
 
@@ -2098,14 +2094,7 @@ Admin
     pointer:cursor;
 }
 /** artists dropdown menu */
-#artist_dropdown {
-	line-height: 24px;
-}
-#artist_dropdown ul.mainnav li.dir {
-	padding-left: 6px;
-	margin-left: 0;
-}
-#artist_dropdown ul li.dir {
+.nav ul li.dir {
 	float: none;
 }
 
@@ -2120,15 +2109,11 @@ ul.dropdown {
     z-index:597;
 }
 
-#artist_dropdown {
+.nav > div {
 	display: inline;
 }
-#artist_dropdown.mainnav {
-	height: 28px;
-	width: 73px;
-}
 
-ul.mainnav { padding: 0px; margin: 0px; }
+ul.dropdown { padding: 0px; margin: 0px; }
 ul.dropdown li.dir {
     background-color: transparent;
     border:0;
@@ -2138,7 +2123,7 @@ ul.dropdown li.dir {
     border:0;
 }
 ul.dropdown li {
-cc    background-color:#c6c7d6;
+    background-color:#c6c7d6;
     border-color:#d6d7e6 #888 #888 #d6d7e6;
     border-style:solid;
     border-width:0px 1px 1px 1px;
@@ -2154,7 +2139,7 @@ ul.dropdown li:hover {
 ul.dropdown ul {
     left:0px;
     position:absolute;
-    top:95%;
+    top: 90%;
     visibility:hidden;
     width:100%;
     z-index:598;
@@ -2172,19 +2157,23 @@ ul.dropdown li:hover > ul {
 ul.dropdown a:link, ul.dropdown a:visited {
     text-decoration:none;
 }
+ul.dropdown li:hover {
+    background-image: url(/images/gradients.png);
+    background-repeat: repeat-x;
+    background-position: 0 -165px; /* 40px gradient */
+}
 ul.dropdown ul li:hover {
     font-weight:normal;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
     background-position: 0 -165px; /* 40px gradient */
 }
-ul.dropdown ul li:hover a {	color: #404;}
+ul.dropdown ul:hover {color: #606;}
 ul.dropdown a:hover {
 }
 ul.dropdown a:active {
 }
 ul.dropdown ul {
-    margin-top:1px;
     width:110px;
 }
 ul.dropdown ul li {

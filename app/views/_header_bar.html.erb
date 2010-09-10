@@ -9,23 +9,49 @@
    %><div id="search_btn2"><a class="lkdark" id="search_link" title="search the site" onclick="MAU.doSearch();" href="#"><img id="search_icon" title="search" src="/images/icons/searchicon24.png"/></a></div><%#
    %><div id="search_nav2"><form id="search_form" action="/search" method="get"><input id="search_box" class="srch" type="text" name="query" size="14"/></form></div>
    <div id="nav_bar">
-     <div class="nav"><% [ ['artists','/artists/', 'first'],
-		  ['studios','/studios/'],
+     <div class="nav">
+	   <div>
+		 <ul class="dropdown">
+		   <% if logged_in? -%>
+		   <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
+			 <ul>
+			   <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit my page</a></li>
+			   <li class="leaf"><a href="/art_pieces/new">add art</a></li>
+			   <li class="leaf"><a href="<%= arrangeart_artist_path(current_artist) %>">arrange art</a></li>
+			   <li class="leaf last"><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
+			 </ul>
+		   </li>
+		   <% else -%>
+		   <li class="dir"><a class="lknav" href="/login" title="Log In">my&nbsp;mau</a></li>
+		   <% end -%>
+		 </ul>
+	   </div>
+<%	   [ ['about us','/about'],
 		  ['news','/news/'],
-		  ['about us','/about']
-		  ].each do |nm, lk, clz|
-		  -%><a class="lknav" href="<%= lk %>"><div class="mainnav <%= clz %>"><%=h nm %></div></a><% end -%><% if logged_in? -%><% if @_ie7 %><a title="My Page" class="lknav" href="<%= artist_path(current_artist) %>"><div class="mainnav">my&nbsp;mau</div></a><% else -%><div id="artist_dropdown"><ul class="dropdown mainnav">
-		 <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
-		   <ul>
-			 <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit my page</a></li>
-			 <li class="leaf"><a href="/art_pieces/new">add art</a></li>
-			 <li class="leaf"><a href="<%= arrangeart_artist_path(current_artist) %>">arrange art</a></li>
-			 <li class="leaf last"><a href="<%= deleteart_artist_path(current_artist) %>">delete art</a></li>
-		   </ul>
-		 </li>
-	   </ul></div><% 
-      end #is not ie7
-    else -%><a title="Log In" class="lknav" href="<%= login_path %>"><div class="mainnav">my&nbsp;mau</div></a><% end -%>
+		  ['studios','/studios/'] ].each do |nm,lk,clz| -%>
+	   <div>
+		 <ul class="dropdown <%= clz %>">
+		   <li class="dir">
+			 <a class="lknav" href="<%= lk %>" title="<%=h nm %>"><%=h nm %></a>
+		   </li>
+		 </ul>
+	   </div>
+	   <% end -%>
+	   <div>
+		 <ul class="dropdown first %>">
+		   <li class="dir">
+			 <a class="lknav" href="/artists/" title="artists">artists</a>
+			 <ul>
+			   <li class="first leaf">
+				 <a href="/artists/?v=l" title="artists">roster</a>
+			   </li>
+			   <li class="last leaf">
+				 <a href="/artists/map" title="artists">open studios</a>
+			   </li>
+			 </ul>
+		   </li>
+		 </ul>
+	   </div>
      </div>
    </div>
 </div>
