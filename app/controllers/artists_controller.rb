@@ -37,7 +37,7 @@ class ArtistsController < ApplicationController
     @gallery_link = artists_path + HTMLHelper.queryencode(gallery_args)
     addresses = []
     if @os_only == 'on'
-      artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ])
+      artists = Artist.find(:all, :conditions => [ 'osoct2010 = 1' ])
     else
       artists = Artist.all
     end
@@ -93,7 +93,7 @@ class ArtistsController < ApplicationController
   def admin_index
     sortby = "studio_id"
     reverse = false
-    @allowed_sortby = ['studio_id','lastname','firstname','id','login','os2010','email']
+    @allowed_sortby = ['studio_id','lastname','firstname','id','login','osoct2010','email']
     if params[:sortby]
       if @allowed_sortby.include? sortby
         sortby = params[:sortby]
@@ -192,7 +192,7 @@ class ArtistsController < ApplicationController
     queryargs = {}
     @os_only = params[:osonly]
     if @os_only == 'on'
-      artists = Artist.find(:all, :conditions => [ 'os2010 = 1' ]).sort_by { |a| a.get_sort_name }
+      artists = Artist.find(:all, :conditions => [ 'osoct2010 = 1' ]).sort_by { |a| a.get_sort_name }
       queryargs['osonly'] = "on"
     else
       artists = Artist.all.sort_by { |a| a.get_sort_name }
@@ -268,14 +268,16 @@ class ArtistsController < ApplicationController
 
       # compute text links
       @alpha_links = []
-      @last.times do |idx|
-        firstidx = idx * @@PER_PAGE
-        lastidx = [ firstidx + @@PER_PAGE, pieces.length ].min - 1
-        firstltr = pieces[firstidx]['alpha']
-        lastltr = pieces[lastidx]['alpha']
-        lnktxt = "%s - %s" % [firstltr, lastltr]
-        queryargs["p"] = idx
-        @alpha_links << [lnktxt, HTMLHelper.queryencode(queryargs), curpage == idx ]
+      if pieces.length > 0
+        @last.times do |idx|
+          firstidx = idx * @@PER_PAGE
+          lastidx = [ firstidx + @@PER_PAGE, pieces.length ].min - 1
+          firstltr = pieces[firstidx]['alpha']
+          lastltr = pieces[lastidx]['alpha']
+          lnktxt = "%s - %s" % [firstltr, lastltr]
+          queryargs["p"] = idx
+          @alpha_links << [lnktxt, HTMLHelper.queryencode(queryargs), curpage == idx ]
+        end
       end
     end
     @artists = artists
