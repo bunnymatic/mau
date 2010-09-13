@@ -253,6 +253,7 @@ a:active {
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
 	position:relative;
+	z-index: 1;
 }
 #footer_bar div {
 	line-height:33px;
@@ -805,7 +806,7 @@ img#logo
     text-align:left;
     top:-30px;
     left:260px;
-    z-index:1;
+    z-index:2;
     border: 0;
 }
 #artist_profile_name {
@@ -1584,8 +1585,10 @@ div.artist {
 
 #nav_bar .nav {
 	height: 33px;
+	position:relative;
 }
 .nav > div {
+	position:relative;
     background-color: #FFFFFF;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
@@ -2132,7 +2135,7 @@ ul.dropdown li.dir {
 }
 ul.dropdown li {
     background-color:#c6c7d6;
-    border-color:#d6d7e6 #888 #888 #d6d7e6;
+    border-color:#d6d7e6 #888 mau#888 #d6d7e6;
     border-style:solid;
     border-width:0px 1px 1px 1px;
     float:left;
