@@ -9,7 +9,6 @@ ENV['RAILS_ENV'] ||= 'production'
 require File.join(File.dirname(__FILE__), 'boot')
 
 require File.join("#{RAILS_ROOT}",'lib/app_config')
-require 'memcache'
 
 c = AppConfig.new
 c.use_file!("#{RAILS_ROOT}/config/config.yml")
