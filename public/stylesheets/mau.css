@@ -1,4 +1,4 @@
-@charset "utf-8";
+@charset "utf-7";
 /* CSS Document */
 html { 
 	background-color: #c6c7d6;
@@ -2135,7 +2135,7 @@ ul.dropdown li.dir {
 }
 ul.dropdown li {
     background-color:#c6c7d6;
-    border-color:#d6d7e6 #888 mau#888 #d6d7e6;
+    border-color:#d6d7e6 #888 #888 #d6d7e6;
     border-style:solid;
     border-width:0px 1px 1px 1px;
     float:left;
