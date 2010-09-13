@@ -106,3 +106,4 @@ a.fdbk-sel div#next_pg {
 #footer_bar .rtcorner,
 #header_bar .rtcorner { right:0; top:0; z-index:10; }
 
+ul.dropdown li { height:25px;}
