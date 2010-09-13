@@ -12,7 +12,6 @@ class MainController < ApplicationController
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 20)
   def index
     @rand_pieces = MainHelper.get_random_pieces
-    @page_title = "Mission Artists United"
   end
 
   def version
@@ -49,6 +48,10 @@ class MainController < ApplicationController
         flash.now[:error] = "There was a problem submitting your feedback.  Was your comment empty?"
       end
     end
+  end
+
+  def openstudios
+    @page_title = "Mission Artists United - Open Studios"
   end
 
   def about

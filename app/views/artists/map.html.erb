@@ -1,17 +1,20 @@
 <div id="map_page">
-<%= render :partial => '/artists/view_switcher' %>
-<div class="map-roster little-txt">
-  <% @roster.keys.each do |ky| -%>
-<div class="map-addr"><%= ky %></div>
-  <%   @roster[ky].each do |a| -%>
-<div class="map-name"><%=h a.get_name %></div>
-  <%   end -%>
-  <% end -%>
-</div>
-<%= render :partial => '/osswitch', :locals => {:params => @inparams} %>
-<div class="map-container">
-<%= GMap.header(:local_search => true) %>
-<%= @map.to_html %>
-<%= @map.div(:width => 600, :height => 500) %>
-</div>
+  <div style="margin: auto;">
+	<%= render :partial => '/osswitch', :locals => {:params => @inparams} %>
+	<%= render :partial => '/artists/view_switcher' %>
+  </div>
+  <div class="clear"></div>
+  <div class="map-roster little-txt">
+	<% @roster.keys.each do |ky| -%>
+	<div class="map-addr"><%= ky %></div>
+	<%   @roster[ky].each do |a| -%>
+	<div class="map-name"><a class="artist-map-lnk" id="artist_<%=a.id%>" href="<%= artist_path(a) %>"><%=h a.get_name %></a></div>
+	<%   end -%>
+	<% end -%>
+  </div>
+  <div class="map-container">
+	<%= GMap.header(:local_search => true) %>
+	<%= @map.to_html %>
+	<%= @map.div(:width => 600, :height => 500) %>
+  </div>
 </div>

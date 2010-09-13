@@ -5,12 +5,11 @@
     <input name="<%= k %>" id="<%= k %>" type="hidden" value="<%= v %>"/>
     <% end -%>
     <% end -%>
-    <% if [1,'on','true'].include? @os_only -%>
-    <input name="all" id="map_cb" type="checkbox" checked="checked"></input>
+    <% if @os_only -%>
+    <input name="all" id="map_cb" type="checkbox" checked="checked"/>
     <% else -%>
-    <input name="osonly" id="map_cb" type="checkbox"></input>
+    <input name="osonly" id="map_cb" type="checkbox"/>
     <% end -%>
     (showing only open studios artists)
   </form>
 </div>
-

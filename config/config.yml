@@ -63,8 +63,8 @@ common:
       - feedback@missionartistsunited.org
       - maufeedback@bunnymatic.com
    cache_expiry:
-       feed: 
-       search: 
+       feed: 300
+       search: 20
        objects: 
    feeds_urls: 
       - feed: http://twitter.com/statuses/user_timeline/62131363.json

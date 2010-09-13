@@ -11,7 +11,7 @@
    <div id="nav_bar">
      <div class="nav">
 	   <div>
-		 <ul class="dropdown">
+		 <ul id="mymaunav" class="dropdown">
 		   <% if logged_in? -%>
 		   <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
 			 <ul>
@@ -37,16 +37,25 @@
 		 </ul>
 	   </div>
 	   <% end -%>
-	   <div>
-		 <ul class="dropdown first %>">
+	   <div >
+		 <ul id="artistsnav" class="dropdown first %>">
 		   <li class="dir">
 			 <a class="lknav" href="/artists/" title="artists">artists</a>
 			 <ul>
 			   <li class="first leaf">
-				 <a href="/artists/?v=l" title="artists">roster</a>
+				 <a href="/artists/" title="artists">all artists</a>
+			   </li>
+			   <li class="leaf">
+				 <a href="/artists/?osonly=1" title="artists">open studios' artists</a>
+			   </li>
+			   <li class="leaf">
+				 <a href="/artists/map" title="artists">map of all artists</a>
+			   </li>
+			   <li class="leaf">
+				 <a href="/artists/map?osonly=1" title="map of open studios artists">map of open studios' artists</a>
 			   </li>
 			   <li class="last leaf">
-				 <a href="/artists/map" title="artists">open studios</a>
+				 <a href="/main/openstudios" title="what is open studios?">what is open studios?</a>
 			   </li>
 			 </ul>
 		   </li>

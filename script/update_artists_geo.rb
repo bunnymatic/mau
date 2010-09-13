@@ -18,7 +18,6 @@ studios.each do |s|
   end
 end
 
-Studio.flush_cache
 
 artists = Artist.find(:all, :conditions => "state = 'active'")
 artists.each do |a|
@@ -33,4 +32,3 @@ artists.each do |a|
   end
 end
 
-Artist.flush_cache

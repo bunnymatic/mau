@@ -248,8 +248,11 @@ MAU = window['MAU'] || {};
 	}
 	return false;
     };
-
+	A.hashchange = function(ev) {
+		M.log('hashchange' + location.hash);
+	};
     A.init = function() {
+		Event.observe(window,'hashchange', A.hashchange);
 	var toggles = M.Artist.TOGGLES;
 	var sxns = M.Artist.SECTIONS;
 	var nsxn = sxns.length;
@@ -260,7 +263,6 @@ MAU = window['MAU'] || {};
 		if (lnk) {
 		    Event.observe(lnk, 'click', function(event){
 			M.Artist.toggleSxnVis(nm);
-			event.stop();
 		    });
 		}
 	    })();

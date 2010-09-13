@@ -3,6 +3,10 @@ require 'xmlrpc/client'
 include ArtistsHelper
 include HTMLHelper
 
+def is_os_only(osonly)
+  return (osonly && (["1",1,"on","true"].include? osonly))
+end
+
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
@@ -26,7 +30,7 @@ class ArtistsController < ApplicationController
 
   def map
     @view_mode = 'map'
-    @os_only = params[:osonly]
+    @os_only = is_os_only(params[:osonly])
     roster_args = {'v' => 'l'}
     gallery_args = {'v' => 'g'}
     if @os_only
@@ -36,7 +40,7 @@ class ArtistsController < ApplicationController
     @roster_link = artists_path + HTMLHelper.queryencode(roster_args)
     @gallery_link = artists_path + HTMLHelper.queryencode(gallery_args)
     addresses = []
-    if @os_only == 'on'
+    if @os_only
       artists = Artist.find(:all, :conditions => [ 'osoct2010 = 1' ])
     else
       artists = Artist.all
@@ -82,7 +86,6 @@ class ArtistsController < ApplicationController
     end
     center = [ centerx / nentries.to_f,
                centery / nentries.to_f]
-    p "Center %s" % center
     @map.center_zoom_init(center,14)
     @selfurl = artistsmap_url
     @inparams = params
@@ -143,7 +146,6 @@ class ArtistsController < ApplicationController
       flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
       redirect_back_or_default( artist_path(@artist) )
     end
-    @artist.flush_cache
   end
 
   def upload_profile
@@ -190,8 +192,8 @@ class ArtistsController < ApplicationController
   def index
     # collect query args to build links
     queryargs = {}
-    @os_only = params[:osonly]
-    if @os_only == 'on'
+    @os_only = is_os_only(params[:osonly])
+    if @os_only
       artists = Artist.find(:all, :conditions => [ 'osoct2010 = 1' ]).sort_by { |a| a.get_sort_name }
       queryargs['osonly'] = "on"
     else
@@ -211,7 +213,7 @@ class ArtistsController < ApplicationController
     if params[:v] == 'l'
       vw = 'list'
     end
-    if ['on','true',1].include? @osonly
+    if @os_only
     end
     @view_mode = vw
 
@@ -364,7 +366,7 @@ class ArtistsController < ApplicationController
       end
     else
       @artist = safe_find_artist(params[:id])
-      if @artist.suspended?
+      if @artist && @artist.suspended?
         flash.now[:error] = "The artist '" + @artist.get_name(true) + "' is no longer with us."
         @artist = nil
       end
@@ -513,8 +515,6 @@ class ArtistsController < ApplicationController
     when (!params[:activation_code].blank?) && artist && !artist.active?
       artist.activate!
       flash[:notice] = "Signup complete! Please sign in to continue."
-      artist.flush_cache
-      Studio.flush_cache
       redirect_to '/login'
     when params[:activation_code].blank?
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
@@ -578,20 +578,16 @@ class ArtistsController < ApplicationController
   def destroy
     @artist.delete!
     flash[:notice] = "Your account has been deactivated."
-    Artist.flush_cache
-    Studio.flush_cache
     redirect_to artists_path
   end
   def unsuspend
     @artist.unsuspend!
     flash[:notice] = "Your account has been unsuspended"
-    Artist.flush_cache    
     redirect_to artists_path
   end
   def suspend
     self.current_artist.suspend!
     flash[:notice] = "Your account has been suspended"
-    Artist.flush_cache    
     redirect_to artists_path
   end
 
@@ -615,6 +611,5 @@ class ArtistsController < ApplicationController
       return nil
     end
   end
-
 
 end

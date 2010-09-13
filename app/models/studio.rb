@@ -1,7 +1,5 @@
 require 'uri'
 class Studio < ActiveRecord::Base
-  @@CACHE_EXPIRY =  (Conf.cache_expiry[:objects] or 0)
-  @@STUDIOS_KEY = (Conf.cache_ns or '') + 'studios'
 
   attr_reader :address
   has_many :artists
@@ -9,10 +7,6 @@ class Studio < ActiveRecord::Base
   acts_as_mappable
   before_validation_on_create :compute_geocode
   before_validation_on_update :compute_geocode
-
-  after_save :flush_cache
-  after_update :flush_cache
-  after_destroy :flush_cache
 
   # return faux indy studio
   def self.indy
@@ -76,19 +70,6 @@ class Studio < ActiveRecord::Base
     result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city, self.state, self.zip])
     errors.add(:street, "Unable to Geocode the studio address.") if !result.success
     self.lat, self.lng = result.lat, result.lng if result.success
-  end
-
-  def flush_cache
-    Studio.flush_cache
-  end
-
-  def self.flush_cache
-    logger.debug "Studio: Flushing cache"
-    begin
-      CACHE.delete(@@STUDIOS_KEY)
-    rescue
-      logger.warn("Studio: Memcache delete failed")
-    end
   end
 
 end
