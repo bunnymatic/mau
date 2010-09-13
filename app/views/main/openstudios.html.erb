@@ -1,0 +1,38 @@
+<div id="about_text" >
+  <div class="about-title"><h4>What is Open Studios?</h4></div>
+  <p>
+	Twice a year, hundreds of artists in Mission open their studio doors to the public for a whole weekend.
+	It's a fun, FREE EVENT where art lovers meander about this creative eclectic neighborhood we all love
+	and see an intimate views of the artists in their workspaces. For both events, Mission Artists United
+	provides an OPEN STUDIOS MAP of the participating Mission artists and an ONLINE CATALOG of their
+	artwork to help you plan your meanderings.
+  </p>
+  <p>
+	<ul>
+	  <li>FALL OPEN STUDIOS is a San Francisco wide event run by Artspan and takes place over 5 weekends in
+		October/November. See <a href="http://www.artspan.org">www.artspan.org</a> for more info.</li>
+	  <li>SPRING OPEN STUDIOS focuses on the three the San Francisco neighborhoods most densely
+		populated by artists: The Mission, <a href="http://www.shipyardartists.com/">Hunters Point</a> and <a href="http://www.somaopenstudios.org/">SOMA</a>. It takes place over 3 weekends in April.
+	</ul>
+  </p>
+
+  <p>If you are a participating MISSION ARTIST who wants to be listed on our <a href="/artists/map?osonly=1">OPEN STUDIOS MAP</a> and online
+CATALOG, 
+<% if !logged_in? -%>
+<a href="/login">log in</a> and update your profile
+<% else -%>
+login and <a href="<%= edit_artist_path(current_artist) %>#openstudios">update your profile</a>
+<% end %>
+before the Open Studios Event and let us know. There is no fee
+to participate in Spring Open Studios. Update your profile 30 days before the event to be included in
+the printed promotional material. Check out the <a href="/news/">artist resource section</a> of our site to download or order
+your promotional material.
+</p>
+
+
+
+  <div class="div-right">Art is the Mission &nbsp;&nbsp;
+	<a href="http://www.facebook.com/pages/San-Francisco/Mission-Artists-United/184838677409" target="_blank" ><img class="icons" src="/images/icons/fb32.png" alt="facebook"></a>
+	<a href="http://twitter.com/sfmau" target="_blank" ><img class="icons" src="/images/icons/twitter32.png" alt="twitter"></a>
+  </div>
+</div>

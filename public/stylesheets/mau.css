@@ -666,7 +666,9 @@ div.feedtitle  {
     margin:auto;
     width:800px;
 }
-#map_page .navlinks {
+
+#map_page .navlinks,
+#map_page .map-os-switch {
     padding-top: 25px;
     padding-bottom: 5px;
 }
@@ -1594,6 +1596,12 @@ div.artist {
 	color: #606;
 	line-height: 24px;
 }
+#artistsnav ul{
+	width: 205px;
+}
+#mymaunav ul {
+	width: 110px;
+}
 ul.dropdown li:hover a,
 .nav a.lknav {
 	color: #222;
@@ -2144,9 +2152,6 @@ ul.dropdown ul {
     width:100%;
     z-index:598;
 }
-ul.dropdown ul li {
-    float:none;
-}
 ul.dropdown ul ul {
     left:99%;
     top:0px;
@@ -2173,10 +2178,9 @@ ul.dropdown a:hover {
 }
 ul.dropdown a:active {
 }
-ul.dropdown ul {
-    width:110px;
-}
+
 ul.dropdown ul li {
+    float:none;
     font-weight:normal;
     background-color: #738294;
     background-image: url(/images/gradients.png);
@@ -2197,3 +2201,9 @@ ul.dropdown ul .first {
     -moz-border-radius-topright: 5px;
     -webkit-border-top-right-radius: 5px; 
 }
+
+/** open studios info page
+*/
+#about_text ul { list-style: disc; 
+				 margin-left: 15px;
+				 padding-left: 20px;}

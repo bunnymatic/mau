@@ -77,12 +77,14 @@ class SearchController < ApplicationController
 
       # join all uniquely and sort by recently added
       results = {}
-      begin
+      begin 
         [by_art_piece, by_media, by_tags, by_artist].each do |lst|
-          lst.map { |entry| results[entry.id] = entry if entry.id and active_artist_ids.include? entry.artist.id }
+          if lst.length > 0
+            lst.map { |entry| results[entry.id] = entry if entry.id and entry.artist and active_artist_ids.include? entry.artist.id }
+          end
         end
-      rescue
-        logger.warn("Failed to map search results")
+      rescue Exception => ex
+        logger.warn("Failed to map search results %s" % ex)
       end
       begin
         Rails.cache.write(cache_key, results, :expires_in => @@CACHE_EXPIRY)

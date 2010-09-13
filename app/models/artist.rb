@@ -11,9 +11,6 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 
 class Artist < ActiveRecord::Base
 
-  @@ALLARTISTS_KEY = (Conf.cache_ns or '') + "artists"
-  @@CACHE_EXPIRY =  (Conf.cache_expiry['objects'] or 0)
-
   # stash this so we don't have to keep getting it from the db
   attr_reader :emailsettings, :fullname, :address
 
@@ -24,10 +21,6 @@ class Artist < ActiveRecord::Base
   acts_as_mappable
   before_validation_on_create :compute_geocode
   before_validation_on_update :compute_geocode
-
-  after_save :flush_cache
-  after_update :flush_cache
-  after_destroy :flush_cache
 
   include Authentication
   include Authentication::ByPassword
@@ -218,24 +211,8 @@ class Artist < ActiveRecord::Base
   end
 
   def self.all
-    begin
-      artists = CACHE.get(@@ALLARTISTS_KEY)
-    rescue
-      logger.warn("Artist: Memcache seems to be dead")
-      artists = nil
-    end
-    if ! artists
-      logger.debug("Artist: Fetch from db")
-      artists = super(:order => 'lastname, firstname', :conditions => { :activation_code => nil, :state => "active"})
-      begin
-        CACHE.set(@@ALLARTISTS_KEY, artists, @@CACHE_EXPIRY)
-      rescue
-        logger.warn("Artist: Failed to set artists in cache")
-      end
-    else
-      logger.debug("Artist: Fetched from cache")
-    end
-    artists
+    logger.debug("Artist: Fetch from db")
+    super(:order => 'lastname, firstname', :conditions => { :activation_code => nil, :state => "active"})
   end
 
   def os2010?
@@ -276,21 +253,6 @@ class Artist < ActiveRecord::Base
       @mymedia = media.values
     end
     @mymedia
-  end
-
-  def flush_cache
-    Artist.flush_cache
-    Studio.flush_cache
-  end
-
-  def self.flush_cache
-    logger.debug "Artists: Flushing cache"
-    begin
-      CACHE.delete(@@ALLARTISTS_KEY)
-    rescue
-      logger.warn("Artist: Memcache delete failed")
-    end
-    Studio.flush_cache
   end
 
   def validate_phone

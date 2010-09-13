@@ -19,7 +19,6 @@ class ArtPiece < ActiveRecord::Base
     super
     # remove all tag entries from ArtPiecesTags
     ArtPiecesTag.delete_all ["art_piece_id = ? ", id]
-    Artist.flush_cache
   end
 
   def get_paths()
