@@ -10,6 +10,15 @@
   <p>
 	Read <a href="/main/openstudios">this</a> for more about what Open Studios is.
   </p>
+  <p>
+Artists:
+	Make sure you've set the Open Studios setting on your profile so you can get properly listed in Open Studios maps/lists on this site.  
+<% if logged_in? -%>
+Click <a href="<%= artist_path(current_artist) %>/edit#events"/>here<a/> to check your status.
+<% else -%>
+<a href="/login">Login</a> and check your profile page to make sure your Open Studios status is correct.  If you are doing Open Studios, you should see an OpenStudios star over your profile picture.
+<% end-%>
+  </p>
   </div>
   <div class="clear"></div>
   <div id="artists_resources">

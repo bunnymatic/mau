@@ -1,5 +1,22 @@
 MAU = window['MAU'] || {};
 
+/** setup hash change observer */
+(function(){
+    var curHash = window.location.hash;
+    function doHashChange(){
+        if(window.location.hash != curHash){
+            curHash = window.location.hash;
+            $(document).fire('mau:hashchange');
+        }
+    }
+    if('onhashchange' in window){
+        window.onhashchange = doHashChange; 
+    } else {
+        window.setInterval(doHashChange, 200);
+    }
+})();
+
+
 (function() {
     var M = MAU;
     var T = M.Thumbs = M.Thumbs || {};
@@ -108,7 +125,6 @@ MAU = window['MAU'] || {};
 		for (var ii =0; ii < ni; ++ii) {
 		    var inp = inps[ii];
 		    if ( $(inp).readAttribute('type') != 'hidden' ) {
-			M.log('activating ');
 			M.log( inp);
 			inp.activate();
 			break;
@@ -192,21 +208,21 @@ MAU = window['MAU'] || {};
      */
     ID_STUDIO_INFO_TOGGLE = 'studio_info_toggle';
     ID_LINKS_TOGGLE = 'links_toggle';
-    ID_ARTIST_INFO_TOGGLE = 'artist_info_toggle';
+    ID_ARTIST_INFO_TOGGLE = 'info_toggle';
     ID_BIO_TOGGLE = 'bio_toggle';
     ID_PASSWD_TOGGLE = 'passwd_toggle';
     ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
     ID_NOTIFICATION_TOGGLE = 'notification_toggle';
     ID_EVENTS_TOGGLE = 'events_toggle';
 
-    ID_EVENTS_SXN = 'artist_events';
-    ID_STUDIO_SXN = 'artist_edit_address';
-    ID_LINKS_SXN = 'artist_edit_links';
-    ID_ARTIST_SXN = 'artist_edit_maininfo';
-    ID_BIO_SXN = 'artist_edit_bio';
-    ID_PASSWD_SXN = 'artist_change_passwd';
-    ID_DEACTIVATE_SXN = 'artist_deactivate';
-    ID_NOTIFICATION_SXN = 'artist_notification';
+    ID_EVENTS_SXN = 'events';
+    ID_STUDIO_SXN = 'address';
+    ID_LINKS_SXN = 'links';
+    ID_ARTIST_SXN = 'info';
+    ID_BIO_SXN = 'bio';
+    ID_PASSWD_SXN = 'passwd';
+    ID_DEACTIVATE_SXN = 'deactivate';
+    ID_NOTIFICATION_SXN = 'notification';
 
     A.SECTIONS = new Array(ID_STUDIO_SXN,
 			   ID_LINKS_SXN,
@@ -248,11 +264,7 @@ MAU = window['MAU'] || {};
 	}
 	return false;
     };
-	A.hashchange = function(ev) {
-		M.log('hashchange' + location.hash);
-	};
     A.init = function() {
-		Event.observe(window,'hashchange', A.hashchange);
 	var toggles = M.Artist.TOGGLES;
 	var sxns = M.Artist.SECTIONS;
 	var nsxn = sxns.length;
@@ -267,6 +279,11 @@ MAU = window['MAU'] || {};
 		}
 	    })();
 	}
+		if ( location.hash && (location.hash.length > 1)) { 
+			var sxn = location.hash.substr(1);
+			M.Artist.toggleSxnVis(sxn);
+		}
+
 	A.init = function() {};
     };
 
@@ -314,7 +331,6 @@ MAU = window['MAU'] || {};
 
     /*** help popup ***/
     W.popup = function(parent_id, section) {
-	M.log(parent_id, section);
 	var helpdiv = $(parent_id + "container");
 	if (helpdiv.visible()) {
 	    helpdiv.fade({duration:0.2});
@@ -383,7 +399,6 @@ MAU = window['MAU'] || {};
     };
 
     N.submitNote = function(event){
-	M.log("Submit note");
 	var data = Form.serialize($(N.ID_FORM));
 	var url = $(N.ID_FORM).action;
 	N.loading('Sending...');
@@ -493,7 +508,6 @@ MAU = window['MAU'] || {};
     };
 
     G.showSection = function(s) {
-	M.log('show' + s);
 	var items = $$('div.gi a');
 	var nitems = items.length;
 	for (var ii = 0; ii < nitems; ++ii) {
@@ -532,7 +546,6 @@ MAU = window['MAU'] || {};
 		tg.observe('click', function(e) {
 		    var s = _giLnk2Div(this.id);
 		    G.showSection(s);
-		    e.stop();
 		    return false;
 		});
 	    }
