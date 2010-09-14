@@ -144,6 +144,9 @@ div.donate-btns span {
 .inner-sxn {
 	margin: 20px;
 }
+.inner-sxn table {
+	margin: auto;
+}
 .edit-profile-sxn div {
     text-align: left;
 }
@@ -1600,7 +1603,7 @@ div.artist {
 	line-height: 24px;
 }
 #artistsnav ul{
-	width: 205px;
+	width: 160px;
 }
 #mymaunav ul {
 	width: 110px;
@@ -2210,3 +2213,6 @@ ul.dropdown ul .first {
 #about_text ul { list-style: disc; 
 				 margin-left: 15px;
 				 padding-left: 20px;}
+#about_text li {
+	margin-bottom: 15px;
+}
