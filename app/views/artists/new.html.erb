@@ -85,8 +85,14 @@
 		<%= label_tag 'studio', 'Group Studio' %>	  </td>
 	  <td class="input">
 		<%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>	  </td>
-	  <td class="little-txt">If you work out of your house, or are not in a group studio building, choose "Independent Studios".  If you don't see your group studio buildling? Select None and
-		<a href="javascript:MAU.mailer('www','missionartistsunited.org','Please Add New Group Studio');">email us</a>.  We'll add it.</td>
+	  <td class="little-txt"></td>
+	</tr>
+	<tr><td colspan="3">
+	    <div class="little-txt"
+>If you work out of your house, or are not in a group studio building, choose "Independent Studios".  If you don't see your group studio buildling? Select None and
+		<a href="javascript:MAU.mailer('www','missionartistsunited.org','Please Add New Group Studio');">email us</a>.  We'll add it.
+		</div>
+	    </td>
 	</tr>
 	<tr>
 	  <td >&nbsp;</td>
@@ -100,9 +106,8 @@
 	  </td>
 	</tr>
 	<tr>
-	  <td >&nbsp;</td>
-	  <td class="td-center">Already a member? <%= link_to "Log in",  login_path,  { :title => "Log in" } %> here.</td>
-	  <td>&nbsp;</td>
+	  <td></td>
+	  <td colspan="2" >Already a member? <%= link_to "Log in",  login_path,  { :title => "Log in" } %> here.</td>
 	</tr>
 	<tr>
 	  <td colspan="3" align="center"><br/></td>
