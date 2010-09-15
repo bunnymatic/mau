@@ -125,7 +125,6 @@ MAU = window['MAU'] || {};
 		for (var ii =0; ii < ni; ++ii) {
 		    var inp = inps[ii];
 		    if ( $(inp).readAttribute('type') != 'hidden' ) {
-			M.log( inp);
 			inp.activate();
 			break;
 		    }
