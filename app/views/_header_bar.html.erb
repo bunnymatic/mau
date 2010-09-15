@@ -22,7 +22,14 @@
 			 </ul>
 		   </li>
 		   <% else -%>
-		   <li class="dir"><a class="lknav" href="/login" title="Log In">my&nbsp;mau</a></li>
+		   <li class="dir"><%= link_to "my&nbsp;mau", "/login", { :class => "lknav" } %>
+			 <ul>
+			   <li class="leaf first"><a href="/login">edit my page</a></li>
+			   <li class="leaf"><a href="/art_pieces/new">add art</a></li>
+			   <li class="leaf"><a href="/login">arrange art</a></li>
+			   <li class="leaf last"><a href="/login">delete art</a></li>
+			 </ul>
+		   </li>
 		   <% end -%>
 		 </ul>
 	   </div>
