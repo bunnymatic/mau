@@ -1488,6 +1488,9 @@ div.notice {
 	text-align: left;
     width: 65%;
 }
+#new_artpiece .error-msg {
+    width: 320px;
+}
 
 /* shrink err msg if we're in signup-txt box */
 div.signup-text div.error-msg {

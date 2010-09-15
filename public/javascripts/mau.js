@@ -288,6 +288,20 @@ MAU = window['MAU'] || {};
 
     Event.observe(window, 'load', A.init);
 
+    /** art piece methods */
+    AP.init = function() {
+	var aps = $$('.thumbs-select div.artp-thumb');
+	aps.each(function(ap) {
+	    ap.observe('click', function() {
+		var inp = $(this).down('input.checker');
+		if (inp) {
+		    inp.click();
+		}
+	    });
+	});
+    }
+    Event.observe(window, 'load', AP.init);
+
     T.jumpTo = function(ap_id) {
 	var url = "/art_pieces/" + ap_id;
 	document.location.href = url;

@@ -17,7 +17,7 @@
      end
 -%>
 <div class="artp-thumb <%= cls %>"><% if piece.get_path(size) 
-        if !linkto.empty? 
+        if !linkto.empty? && !delete && !select
 -%><a href="<%= linkto %>"><img alt="<%=h piece.title %>" title="<%=h piece.title %>" <%= dim %> src="<%= piece.get_path(size) %>" /></a><% 
         else 
 -%><img alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" /><%
@@ -36,7 +36,7 @@
  if piece 
      representative = (piece.id == piece.artist.representative_art_piece)
      if delete -%><div class="artp-thumb-ctrl">
-      <%= check_box( 'art', piece.id, options = {}, checked_value = "1", unchecked_value = "0") %>Delete?</div><% 
+      <%= check_box( 'art', piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0") %>Delete?</div><% 
      elsif select 
--%><div class="artp-thumb-ctrl"><%= radio_button_tag 'art', piece.id, representative %></div><% 
+-%><div class="artp-thumb-ctrl">Select <%= radio_button_tag 'art', piece.id, representative, :class => "checker" %></div><% 
  end -%></div><% end -%><% end -%>
