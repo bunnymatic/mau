@@ -178,7 +178,10 @@ class ArtistsController < ApplicationController
 
   def edit
     @artist = safe_find_artist(params[:id])
-    if @artist
+    if !@artist
+      redirect_to "/"
+      return
+    else
       if self.current_artist != @artist
         flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
         redirect_back_or_default( artist_path(@artist) )

@@ -35,7 +35,11 @@ class SessionsController < ApplicationController
         handle_remember_cookie! new_cookie_flag
         
         flash[:notice] = "Logged in successfully"
-        redirect_to self.current_artist
+        if session[:return_to]
+          redirect_to session[:return_to]
+        else
+          redirect_to self.current_artist
+        end
         return
       else
         note_inactive_signin
