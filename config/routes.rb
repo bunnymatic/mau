@@ -27,6 +27,8 @@ ActionController::Routing::Routes.draw do |map|
   map.artistsHUGEmap '/artists/hugemap', :controller => 'artists', :action => 'hugemap'
 
   map.faq '/artists/faq', :controller => 'artists', :action => 'faq'
+  map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
+
   map.resources :artists, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get, :arrangeart => :get, :setarrangement => :post, :deleteart => :get, :addprofile => :get }
 
   map.resource :session
