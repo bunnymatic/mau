@@ -10,7 +10,7 @@
       <% elsif @errors -%>
       <div class="error-msg">
 	There were problems with your request:
-	<%= @errors.map { |k, v| "<div>%s %s<div>" % [ k.capitalize(),v ] } %>
+	<%= @errors.map { |k, v| "<div>%s %s</div>" % [ k.capitalize(),v ] } %>
       </div>
       <% end -%>
     <% end -%>
