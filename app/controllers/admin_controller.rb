@@ -30,7 +30,7 @@ class AdminController < ApplicationController
     when 'noimages'
       @title = "Artists who have not uploaded any images"
       sql = ActiveRecord::Base.connection()
-      query = "select id from artists where id not in (select distinct artist_id from art_pieces);" 
+      query = "select id from artists where state='active' and id not in (select distinct artist_id from art_pieces);" 
       cur = sql.execute query
       aids = []
       cur.each_hash do |h|
