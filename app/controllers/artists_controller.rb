@@ -125,7 +125,7 @@ class ArtistsController < ApplicationController
           artistid = m[1]
           a = Artist.find(artistid)
           if a
-            a.os2010 = (v.to_s == 'true')
+            a.osoct2010 = (v.to_s == 'true')
             a.save
             ct = ct + 1
           end

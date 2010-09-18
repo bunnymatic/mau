@@ -49,7 +49,7 @@ no reason for this to be very pretty
     </tde
        -->
     <td id="admin_artist_name" style="width:100px; ">
-      <%=h a.get_name %><br/>
+      <a href="<%= artist_path(a) %>"><%=h a.get_name %></a>
     </td>
     <td id="admin_artist_studio" style="width:100px; ">
       <% if a.studio -%>
