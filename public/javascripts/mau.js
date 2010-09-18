@@ -198,6 +198,23 @@ MAU = window['MAU'] || {};
 		}
 	    });
 	});
+	/* same for top level items */
+	var navleaves = $$('.nav li.dir');
+	navleaves.each( function(nl) {
+	    nl.observe('click', function(ev) {
+		try {
+		    var lk = this.select('a').first();
+			if (lk) {
+				location.href = lk.readAttribute('href');
+			}
+		}
+		catch(e) {
+		    M.log("Failed to fire click");
+		    M.log(e);
+		}
+	    });
+	});
+
 	N.init = function() {};
     };
     Event.observe(window, 'load', N.init);
