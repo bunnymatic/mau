@@ -10,7 +10,7 @@ end
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
-  before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails, :admin_update ]
+  before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails, :admin_update, :destroy ]
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :addprofile, :deactivate, :setarrangement, :arrangeart ]
 
   layout 'mau1col', :except => 'faq'
@@ -579,9 +579,15 @@ class ArtistsController < ApplicationController
   end
 
   def destroy
-    @artist.delete!
-    flash[:notice] = "Your account has been deactivated."
-    redirect_to artists_path
+    id = params[:id]
+    p " Looking for ", id
+    a = safe_find_artist(id)
+    if a
+      name = a.login
+      a.delete!
+      flash[:notice] = "The account for login %s has been deactivated." % name
+      redirect_to artists_path
+    end
   end
   def unsuspend
     @artist.unsuspend!
