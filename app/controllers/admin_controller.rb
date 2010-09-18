@@ -60,7 +60,7 @@ class AdminController < ApplicationController
     noprofile = Artist.count(:conditions => "state='active' and profile_image is not null")
     octos = Artist.count(:conditions => "state='active' and osoct2010 = 1")
     sql = ActiveRecord::Base.connection()
-    query = "select count(*) ct from artists where id not in (select distinct artist_id from art_pieces);"
+    query = "select count(*) ct from artists where state='active' and id not in (select distinct artist_id from art_pieces);"
 
     noimages = []
     cur = sql.execute query
