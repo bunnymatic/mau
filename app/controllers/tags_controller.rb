@@ -4,6 +4,9 @@ class TagsController < ApplicationController
   layout 'mau1col'
   before_filter :admin_required, :except => [ 'index', 'show' ]
 
+  @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['cache_expiry']
+  @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['cache_key']
+  
   @@PER_PAGE = 12
   def admin_index
     @tags = Tag.all
@@ -18,8 +21,44 @@ class TagsController < ApplicationController
   end
 
   def index
-    freq = Tag.frequency
-    redirect_to "/tags/%d" % freq[0]['tag']
+    respond_to do |format|
+      format.html { 
+        freq = Tag.frequency
+        redirect_to "/tags/%d" % freq[0]['tag'] 
+      }
+      format.json  { 
+        if params[:suggest]
+          tagnames = []
+          cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
+          if cacheout
+            logger.debug("Fetched autosuggest tags from cache")
+            tagnames = ActiveSupport::JSON.decode(cacheout)
+          end
+          if !tagnames or tagnames.empty?
+            alltags = Tag.all
+            alltags.each do |t| 
+              tagnames << { :value => t.name, :info => t.id }
+            end
+            cachein = ActiveSupport::JSON.encode(tagnames)
+            Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
+          end
+          if params[:input]
+            # filter with input prefix
+            inp = params[:input]
+            lin = inp.length - 1
+            begin
+              tagnames.delete_if {|nm| inp != nm['value'][0..lin]}
+            rescue
+              tagnames = []
+            end
+          end
+          render :json => tagnames
+        else
+          tags = Tag.all
+          render :json => tags 
+        end
+      }
+    end
   end
 
   # GET /tags/1
@@ -159,4 +198,6 @@ class TagsController < ApplicationController
     end
   end
 
+  def autosuggest
+  end
 end

@@ -10,6 +10,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :art_pieces
 
+  map.autosuggesttag '/tags/autosuggest', :controller => 'tags', :action => 'autosuggest'
   map.resources :tags
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'

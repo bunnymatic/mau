@@ -611,15 +611,6 @@ class ArtistsController < ApplicationController
     redirect_to artists_path
   end
 
-  def badge
-    artist = safe_find_artist(params[:id])
-    url = "/"
-    if artist
-      url = artist_path(artist)
-    end
-    @lnk = "http://%s%s" % [Conf.site_url, url]
-  end
-
   protected
   def safe_find_artist(id)
     begin
