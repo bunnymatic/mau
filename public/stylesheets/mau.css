@@ -2219,3 +2219,25 @@ ul.dropdown ul .first {
 #about_text li {
 	margin-bottom: 15px;
 }
+
+#ac_tags { 
+	position: absolute; 
+	border:2px inset threedface;
+}
+#ac_tags, #ac_ul { 
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px; 
+	background-color: #FEF7CA; 
+}
+
+#ac_ul li a.lkdark {
+	color: #222;
+}
+
+#ac_ul .ac_highlight { 
+	background-color: #aaa;
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px; 
+}
+#ac_ul li { 
+}

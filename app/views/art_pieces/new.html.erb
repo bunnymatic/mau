@@ -1,3 +1,25 @@
+<script type="text/javascript">
+  Event.observe(window, 'load', function() {
+     $('tags').observe('focus', function() {
+     var options={ 
+       script:'/tags?format=json&suggest=1&', // form elements tagged on the end
+       varname:'input', 
+       valueSep: ',',
+       json:true, 
+       minchars:2,
+       shownoresults:false,
+       maxresults:10,
+       callback: null
+     }; 
+     var json=new AutoComplete('tags', options); 
+     return true;
+     });
+  });
+</script>
+<script type="text/javascript" src="/javascripts/autocomplete.js"></script>
+<style>
+  #ac_ul .ac_highlight { background-color: #ccc ; opacity: 1; }
+</style>
 <div class="div-center">
   <div class="logo-spacer">&nbsp;</div>
   <h4>Add a new piece of art for <%=h current_artist.get_name %></h4>
@@ -35,7 +57,11 @@
 	</tr>
 	<tr>
           <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
-          <td class="input"><%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.tags), :class => "tag-input" %>
+          <td class="input">
+			<span class="ac_holder">
+			  <%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.tags), :class => "tag-input", :autocomplete => 'off' %>
+			</span>
+		  </td>
 	</tr>
 	<tr>
           <td class="input-name"><label for="upload_file">Select File</label></td>

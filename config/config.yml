@@ -91,3 +91,6 @@ common:
    shop_url: http://www.cafepress.com/MissionArtists
    # minimum artists before we show a studio
    min_artists_per_studio: 0
+   autosuggest:
+       cache_expiry: 300
+       cache_key: tagsuggest
