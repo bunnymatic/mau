@@ -2241,7 +2241,7 @@ ul.dropdown ul .first {
     z-index: 3;
 }
 
-#ac_ul li { font-size: small;}
+#ac_ul li span { font-size: x-small;}
 #ac_ul li a.lkdark {
     color: #222;
 }
