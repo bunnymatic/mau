@@ -3,6 +3,7 @@
   <div>The art piece you requested is could not be found.</div>
 </div>
 <% else %>
+<%= render :partial => 'tag_autosuggest' %>
 <div id="edit_artpiece" class="div-center">
   <h4>Edit Information for This Piece : <%= @art_piece.title %></h4>
   <div>
