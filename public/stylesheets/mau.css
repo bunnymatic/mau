@@ -1999,29 +1999,38 @@ map page
 .map-container { float: right; }
 .map-os-switch { font-size: 80%; float: left; margin-bottom: 6px;}
 #all_artists_page .map-os-switch { float: left; }
-.map-roster { float: left; width:200px; }
+.map-roster { float: left; width: 190px; }
 .map-addr {
-	text-align: left;
+    text-align: left;
     font-weight: bold;
     margin-top: 5px;
 }
-
-.map-name {
-	text-align: left;
+.map-addr .count {
     margin-left: 10px;
 }
 
+.map-names {
+    display:none;
+}
+.map-name {
+    text-align: left;
+    margin-left: 10px;
+    font-weight: normal;
+}
+.map-addr .hdr .ctrl {
+    float: right;
+}
 ._mau1 {
-	text-align: left;
-	height: 105px;
+    text-align: left;
+    height: 105px;
 }
 
 ._mau1 {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 ._mau1 div {
-	margin-top: 0px;
+    margin-top: 0px;
 }
 
 /**

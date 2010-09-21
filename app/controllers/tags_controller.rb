@@ -1,3 +1,6 @@
+require 'json'
+require 'json/add/core'
+require 'json/add/rails' 
 class TagsController < ApplicationController
   # GET /tags
   # GET /tags.xml
@@ -29,24 +32,39 @@ class TagsController < ApplicationController
       format.json  { 
         if params[:suggest]
           tagnames = []
-          cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
+          begin
+            cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
+          rescue MemCacheError => mce
+            logger.warning("Memcache (read) appears to be dead or unavailable")
+            cacheout = nil
+          end
           if cacheout
             logger.debug("Fetched autosuggest tags from cache")
-            tagnames = ActiveSupport::JSON.decode(cacheout)
+            tagnames = ActiveSupport::JSON.decode cacheout
           end
           if !tagnames or tagnames.empty?
             alltags = Tag.all
             alltags.each do |t| 
-              tagnames << { :value => t.name, :info => t.id }
+              tagnames << { "value" => t.name, "info" => t.id }
             end
-            cachein = ActiveSupport::JSON.encode(tagnames)
-            Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
+            cachein = ActiveSupport::JSON.encode tagnames
+            if cachein
+              begin
+                Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
+              rescue MemCacheError => mce
+                logger.warning("Memcache (write) appears to be dead or unavailable")
+              end
+            end
           end
+          p tagnames
           if params[:input]
             # filter with input prefix
             inp = params[:input]
             lin = inp.length - 1
             begin
+              tagnames.each do |nm|
+                p "%s <> %s" % [inp, nm['value'][0..lin]]
+              end
               tagnames.delete_if {|nm| inp != nm['value'][0..lin]}
             rescue
               tagnames = []
