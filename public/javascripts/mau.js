@@ -31,74 +31,6 @@ MAU = window['MAU'] || {};
     var S = M.Submissions = M.Submissions || {};
     var TB = M.Toolbar = M.Toolbar || {};
 
-	var ATS = M.AutoTagSuggest = M.AutoTagSuggest || {};
-
-	ATS.AutoSuggestCtrl = function(txbx,provider) {
-		this.provider = provider;
-		this.textbox = txbx;
-		this.init();
-	};
-	ATS.AutoSuggestCtrl.prototype.selectRange = function (iStart, iLength) {
-		if (this.textbox.createTextRange) {
-			var oRange = this.textbox.createTextRange(); 
-			oRange.moveStart("character", iStart); 
-			oRange.moveEnd("character", iLength - this.textbox.value.length); 
-			oRange.select();
-		} else if (this.textbox.setSelectionRange) {
-			this.textbox.setSelectionRange(iStart, iLength);
-		}
-		this.textbox.focus(); 
-	};
-	ATS.AutoSuggestCtrl.prototype.typeAhead = function (sSuggestion) {
-		if (this.textbox.createTextRange || this.textbox.setSelectionRange) {
-			var iLen = this.textbox.value.length; 
-			this.textbox.value = sSuggestion; 
-			this.selectRange(iLen, sSuggestion.length);
-		}
-	};
-	ATS.AutoSuggestCtrl.prototype.suggest = function(suggestions) {
-		if (suggestions.length > 0) {
-			this.typeAhead(suggestions[0]);
-		}
-	};
-	ATS.AutoSuggestCtrl.prototype.handleKeyUp = function (oEvent) {
-		var iKeyCode = oEvent.keyCode;
-		
-		if (iKeyCode < 32 || (iKeyCode >= 33 && iKeyCode <= 46) || (iKeyCode >= 112 && iKeyCode <= 123)) {
-			//ignore
-		} else {
-			this.provider.requestSuggestions(this);
-		}
-	};
-	ATS.AutoSuggestCtrl.prototype.init = function () {
-		var oThis = this;
-		this.textbox.onkeyup = function (oEvent) {
-			if (!oEvent) {
-				oEvent = window.event;
-			}
-			oThis.handleKeyUp(oEvent);
-		};
-	};	
-
-	ATS.SuggestionProvider = function() {
-	};
-
-	ATS.SuggestionProvider.prototype.requestSuggestions = function(autoSuggestControl) {
-		var suggestions = new Array();
-		var txbxval = autoSuggestControl.textbox.value;
-		existingTags.append('try', 'bunnymatic','blue','sucker');
-
-		if (txbxval.length > 0 ) {
-			var ii = 0;
-			for (;ii<existingTags.length;++ii) {
-				if (existingTags[ii].indexOf(txbxval) == 0) {
-					suggestions.push(existingTags[ii]);
-				}
-			}
-		}
-		autoSuggestControl.suggest(suggestions);
-	};
-	
     M.__debug__ = true;
     M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
@@ -255,9 +187,9 @@ MAU = window['MAU'] || {};
 	    nl.observe('click', function(ev) {
 		try {
 		    var lk = this.select('a').first();
-			if (lk) {
-				location.href = lk.readAttribute('href');
-			}
+		    if (lk) {
+			location.href = lk.readAttribute('href');
+		    }
 		}
 		catch(e) {
 		    M.log("Failed to fire click");
@@ -271,9 +203,9 @@ MAU = window['MAU'] || {};
 	    nl.observe('click', function(ev) {
 		try {
 		    var lk = this.select('a').first();
-			if (lk) {
-				location.href = lk.readAttribute('href');
-			}
+		    if (lk) {
+			location.href = lk.readAttribute('href');
+		    }
 		}
 		catch(e) {
 		    M.log("Failed to fire click");
@@ -362,10 +294,10 @@ MAU = window['MAU'] || {};
 		}
 	    })();
 	}
-		if ( location.hash && (location.hash.length > 1)) { 
-			var sxn = location.hash.substr(1);
-			M.Artist.toggleSxnVis(sxn);
-		}
+	if ( location.hash && (location.hash.length > 1)) { 
+	    var sxn = location.hash.substr(1);
+	    M.Artist.toggleSxnVis(sxn);
+	}
 
 	A.init = function() {};
     };
