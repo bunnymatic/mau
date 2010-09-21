@@ -37,7 +37,7 @@
     <% if !piece.tags.empty? -%>
     <div><span>Tags:</span>
       <span><% links = []
-	       piece.tags.each do |t| 
+	       piece.uniq_tags.each do |t| 
 	       links << link_to(t.safe_name, t, :class => ""  )
 			end
 			-%>

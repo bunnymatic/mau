@@ -55,7 +55,7 @@
 	  <td class="input">
 	    <% if !@art_piece.tags.empty? %>
 	    <% links = [] -%>
-            <% @art_piece.tags.each do |t| -%>
+            <% @art_piece.uniq_tags.each do |t| -%>
 	    <%    links << link_to(t.safe_name, t, :class => ""  ) -%>
 	    <% end -%>
  	    <%= links.join(", ") %>	  
