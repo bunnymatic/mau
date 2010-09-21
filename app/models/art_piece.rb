@@ -25,6 +25,12 @@ class ArtPiece < ActiveRecord::Base
     ArtPieceImage.get_paths(self)
   end
 
+  def uniq_tags
+    htags = {}
+    self.tags.each { |t| htags[t.name] = t }
+    htags.values
+  end
+
   def safe_title
     HTMLHelper.encode(self.title)
   end

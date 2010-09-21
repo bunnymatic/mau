@@ -7,6 +7,7 @@ class TagsHelperTest < ActionView::TestCase
     ts << tags(:one)
     ts << tags(:two)
     ts << tags(:with_spaces)
+    ts << tags(:two)
     s = TagsHelper.tags_to_s(ts)
     assert_equal(s, 'Tag1, Tag2, this is the tag')
   end
@@ -25,6 +26,13 @@ class TagsHelperTest < ActionView::TestCase
       end
       assert(found, "Failed to find tag [%s]" % n)
     end
+  end
+
+  test "multi tags from string" do
+    names = [ "one", "two", "one", "two", "Two", "seven" ]
+    tagstr = names.join(',')
+    ts = TagsHelper.tags_from_s(tagstr)
+    ts
   end
   
   test "fontsize freq" do

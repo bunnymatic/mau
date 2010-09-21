@@ -1,4 +1,5 @@
 <script type="text/javascript">
+  autocompleter = null;
   Event.observe(window, 'load', function() {
      $('tags').observe('focus', function() {
      var options={ 
@@ -11,9 +12,20 @@
        maxresults:10,
        callback: null
      }; 
-     var json=new AutoComplete('tags', options); 
+     autocompleter=new AutoComplete('tags', options); 
      return true;
      });
+
+  var otherinputs = $$('input');
+  otherinputs.each( function(inp) {
+  if (inp.readAttribute('id')!='tags') {
+    inp.observe('focus', function() { 
+     if (autocompleter) { autocompleter.clearSuggestions(); }
+    });
+  }
+});
+
   });
+  
 </script>
 <script type="text/javascript" src="/javascripts/autocomplete.js"></script>

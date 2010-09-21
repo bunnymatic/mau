@@ -2237,17 +2237,29 @@ ul.dropdown ul .first {
 #ac_tags, #ac_ul { 
     -moz-border-radius: 4px; 
     -webkit-border-radius: 4px; 
-	background-color: #FEF7CA; 
+    background-color: #FEF7CA; 
+    z-index: 3;
 }
 
+#ac_ul li { font-size: small;}
 #ac_ul li a.lkdark {
-	color: #222;
+    color: #222;
 }
 
 #ac_ul .ac_highlight { 
-	background-color: #aaa;
-    -moz-border-radius: 4px; 
-    -webkit-border-radius: 4px; 
+    background-color: #aaa;
+}
+#ac_ul .last { 
+    -moz-border-radius-bottomleft: 4px; 
+    -moz-border-radius-bottomright: 4px;
+    -webkit-border-bottom-left-radius: 4px; 
+    -webkit-border-bottom-right-radius: 4px;
+}
+#ac_ul .first { 
+    -moz-border-radius-topleft: 4px; 
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-left-radius: 4px; 
+    -webkit-border-top-right-radius: 4px;
 }
 #ac_ul li { 
 }

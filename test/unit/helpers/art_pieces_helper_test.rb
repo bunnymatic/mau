@@ -4,7 +4,7 @@ class ArtPiecesHelperTest < ActionView::TestCase
   fixtures :art_pieces
   test "compute pagination" do
     pieces = []
-    20.times.each {|x| pieces << x}
+    20.times { |x| pieces << x }
     
     # input args [ array of pieces, curpage, perpage ]
     # output format [ shows, nextpage, prevpage, curpage, lastpage ]

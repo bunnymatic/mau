@@ -59,13 +59,10 @@ class TagsController < ApplicationController
           p tagnames
           if params[:input]
             # filter with input prefix
-            inp = params[:input]
+            inp = params[:input].downcase
             lin = inp.length - 1
             begin
-              tagnames.each do |nm|
-                p "%s <> %s" % [inp, nm['value'][0..lin]]
-              end
-              tagnames.delete_if {|nm| inp != nm['value'][0..lin]}
+              tagnames.delete_if {|nm| inp != nm['value'][0..lin].downcase}
             rescue
               tagnames = []
             end
