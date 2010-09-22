@@ -6,6 +6,13 @@ class ArtPiecesController < ApplicationController
   before_filter :admin_required, :only => [ :index, ]
   before_filter :login_required, :only => [ :new, :edit, :update, :create, :destroy]
 
+  after_filter :flush_cache, :only => [:new, :update, :destroy]
+  
+  def flush_cache
+    Medium.flush_cache
+    Tag.flush_cache
+  end
+
   @@THUMB_BROWSE_SIZE = 65
 
   # GET /art_pieces
@@ -16,6 +23,7 @@ class ArtPiecesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @art_pieces }
+      format.json  { render :json => @art_pieces }
     end
   end
 
@@ -33,11 +41,8 @@ class ArtPiecesController < ApplicationController
     if npieces > 1
       pieces.each do |item| 
         thumb = { :path => item.get_path('thumb') }
-        wd, ht = item.get_scaled_dimensions( @@THUMB_BROWSE_SIZE )
-        offsetx = (thumb_size - wd)/2
-        offsety = (thumb_size - ht)/2
-        thumb[:pos] = "%dpx %dpx" % [offsetx, offsety]
         thumb[:clz] = "tiny-thumb" 
+        thumb[:id] = item.id
         if item.id == cur_id
           thumb[:clz] = "tiny-thumb-sel"
           @init_offset = (ctr * -56)
@@ -76,7 +81,7 @@ class ArtPiecesController < ApplicationController
     self._setup_thumb_browser_data(pieces, apid)
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }
-      format.json { render :json => @art_piece }
+      format.json { render :json => @art_piece.to_json(:include=>[:tags, :medium])  }
     end
 
   end
