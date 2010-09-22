@@ -9,8 +9,20 @@ class Tag < ActiveRecord::Base
 
   # class level constants
   @@MAX_SHOW_TAGS = 80
+  @@CACHE_KEY = 'tagfreq'
+  @@CACHE_EXPIRY = Conf.cache_expiry['tag_frequency'] || 300
+
+  def self.flush_cache
+    Rails.cache.delete(@@CACHE_KEY + true.to_s)
+    Rails.cache.delete(@@CACHE_KEY + false.to_s)
+  end
 
   def self.frequency(normalize=true)
+    freq = Rails.cache.read(@@CACHE_KEY + normalize.to_s)
+    if freq
+      logger.debug('read tag frequency from cache')
+      return freq
+    end
     tags = []
     dbr = connection.execute("/* hand generated sql */ Select tag_id tag,count(*) ct from art_pieces_tags where art_piece_id in (select id from art_pieces) group by tag_id order by ct desc;")
     dbr.each_hash{ |row| tags << row }    
@@ -30,7 +42,9 @@ class Tag < ActiveRecord::Base
         t['ct'] = t['ct'].to_f / maxct.to_f
       end
     end
+    Rails.cache.write(@@CACHE_KEY, tags[0..@@MAX_SHOW_TAGS], :expires_in => @@CACHE_EXPIRY)
     tags[0..@@MAX_SHOW_TAGS]
+
   end
 
   def self.keyed_frequency

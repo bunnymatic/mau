@@ -107,6 +107,7 @@ class MediaController < ApplicationController
 
     respond_to do |format|
       if @medium.save
+        Medium.flush_cache
         flash[:notice] = 'Medium was successfully created.'
         format.html { redirect_to(@medium) }
         format.xml  { render :xml => @medium, :status => :created, :location => @medium }
@@ -124,6 +125,7 @@ class MediaController < ApplicationController
 
     respond_to do |format|
       if @medium.update_attributes(params[:medium])
+        Medium.flush_cache
         flash[:notice] = 'Medium was successfully updated.'
         format.html { redirect_to(@medium) }
         format.xml  { head :ok }
@@ -140,6 +142,7 @@ class MediaController < ApplicationController
     @medium = Medium.find(params[:id])
     @medium.destroy
 
+    Medium.flush_cache
     respond_to do |format|
       format.html { redirect_to(media_url) }
       format.xml  { head :ok }

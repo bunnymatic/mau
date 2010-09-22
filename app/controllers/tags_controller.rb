@@ -56,7 +56,6 @@ class TagsController < ApplicationController
               end
             end
           end
-          p tagnames
           if params[:input]
             # filter with input prefix
             inp = params[:input].downcase
@@ -155,7 +154,7 @@ class TagsController < ApplicationController
   # GET /tags/new.xml
   def new
     @tag = Tag.new
-
+    Tag.flush_cache
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @tag }
@@ -174,6 +173,7 @@ class TagsController < ApplicationController
 
     respond_to do |format|
       if @tag.save
+        Tag.flush_cache
         flash[:notice] = 'Tag was successfully created.'
         format.html { redirect_to(@tag) }
         format.xml  { render :xml => @tag, :status => :created, :location => @tag }
@@ -191,6 +191,7 @@ class TagsController < ApplicationController
 
     respond_to do |format|
       if @tag.update_attributes(params[:tag])
+        Tag.flush_cache
         flash[:notice] = 'Tag was successfully updated.'
         format.html { redirect_to(@tag) }
         format.xml  { head :ok }
@@ -206,7 +207,7 @@ class TagsController < ApplicationController
   def destroy
     @tag = Tag.find(params[:id])
     @tag.destroy
-
+    Tag.flush_cache
     respond_to do |format|
       format.html { redirect_to(tags_url) }
       format.xml  { head :ok }

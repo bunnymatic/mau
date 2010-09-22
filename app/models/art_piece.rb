@@ -7,7 +7,7 @@ class ArtPiece < ActiveRecord::Base
 
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
-  
+
   def medium
     if self.medium_id && self.medium_id > 0
       Medium.find(self.medium_id)
