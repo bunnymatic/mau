@@ -20,7 +20,6 @@ class ArtPieceObserver < ActiveRecord::Observer
     max = artist.max_pieces
     cur = artist.art_pieces.length
     del = 0
-    print "MAX %d CUR %d" % [ max, cur ]
     while cur > max
       artist.art_pieces.first.destroy
       cur = cur - 1
