@@ -18,6 +18,8 @@ ub:
        feed: 5
        search: 20
        objects: 20
+       media_frequency: 3600
+       tag_frequency: 3600
    # minimum artists before we show a studio
 
 local:
@@ -29,6 +31,8 @@ local:
        feed: 20
        search: 20
        objects: 20
+       media_frequency: 3600
+       tag_frequency: 3600
 
 development:
    site_url: artistsdev.missionartistsunited.org
@@ -41,6 +45,8 @@ development:
        feed: 300
        search: 20
        objects: 0
+       media_frequency: 3600
+       tag_frequency: 3600
 
 production:
    feedback_emails:
@@ -57,6 +63,8 @@ production:
        feed: 3600
        search: 300
        objects: 0
+       media_frequency: 3600
+       tag_frequency: 3600
 
 common:
    feedback_emails:
@@ -66,6 +74,8 @@ common:
        feed: 300
        search: 20
        objects: 
+       media_frequency: 3600
+       tag_frequency: 3600
    feeds_urls: 
       - feed: http://twitter.com/statuses/user_timeline/62131363.json
         url: http://twitter.com/sfmau 
