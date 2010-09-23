@@ -17,42 +17,42 @@ MAU = window['MAU'] || {};
 })();
 
 /** ruby helper methods in js */
-	var TagMediaHelper = {
-		_format_item: function(item, pfx, dolink, linkopts) {
-			try {
-				linkopts = linkopts || {};
-				if (!item.id) {
-					return '';
-				}
-				if (dolink) {
-					linkopts.href = pfx + item.id;
-					var a = new Element('a', linkopts);
-					a.update(item.name);
-					return a;
-				}
-				else {
-					return item.name;
-				}
-			} catch(e) {
-				M.log(e);
-				return null;
-			}
-		},
-		format_medium: function(dolink, linkopts) {
-			return TagMediaHelper._format_item(this,'/media/', dolink, linkopts);
-		},
-		format_tag: function(dolink, linkopts) {
-			return TagMediaHelper._format_item(this,'/tags/', dolink, linkopts);
-		},
-		format_tags: function(dolink, opts) {
-			var tagstrs = [];
-			var n = this.length;
-			for (var ii=0;ii<n;ii++){
-				tagstrs.push( TagMediaHelper.format_tag.apply(this[ii],[dolink, opts]));
-			};
-			return tagstrs;
-		}
+var TagMediaHelper = {
+    _format_item: function(item, pfx, dolink, linkopts) {
+	try {
+	    linkopts = linkopts || {};
+	    if (!item.id) {
+		return '';
+	    }
+	    if (dolink) {
+		linkopts.href = pfx + item.id;
+		var a = new Element('a', linkopts);
+		a.update(item.name);
+		return a;
+	    }
+	    else {
+		return item.name;
+	    }
+	} catch(e) {
+	    M.log(e);
+	    return null;
+	}
+    },
+    format_medium: function(dolink, linkopts) {
+	return TagMediaHelper._format_item(this,'/media/', dolink, linkopts);
+    },
+    format_tag: function(dolink, linkopts) {
+	return TagMediaHelper._format_item(this,'/tags/', dolink, linkopts);
+    },
+    format_tags: function(dolink, opts) {
+	var tagstrs = [];
+	var n = this.length;
+	for (var ii=0;ii<n;ii++){
+	    tagstrs.push( TagMediaHelper.format_tag.apply(this[ii],[dolink, opts]));
 	};
+	return tagstrs;
+    }
+};
 
 (function() {
     var M = MAU;
@@ -355,178 +355,187 @@ MAU = window['MAU'] || {};
     }
     Event.observe(window, 'load', AP.init);
 
-	T.ThumbList = [];
-	T.curIdx = 0;
-	T.Helpers = {
-		find_thumb: function(apid) {
-			var i = 0;
-			var n = T.ThumbList.length;
-			for(;i<n;++i) {
-				var t = T.ThumbList[i];
-				if (t.id == apid) {
-					return i;
-				}
-			}
-			return null;
-		},
-		get_image_path: function(fname, sz) {
-			var sub = { thumb: "t_",
-                small:"s_",
-				medium: "m_" };
-			if (sz in sub) {
-				var reg = /(^\/*artistdata\/\d+\/imgs\/)(.*)/;
-				var f = fname.replace(reg, "$1"+sub[sz]+"$2");
-				if (f[0] != '/') {
-					f = '/'+f;
-				}
-				return f;
-			}
-			return fname;
-		},
-		safe_update: function(id, val) {
-			var el = $(id);
-			if (el) { el.update(val); }
-		},
-		update_highlight: function() {
-			var idx = T.curIdx;
-			var ts = $$('div.tiny-thumb');
-			var i = 0;
-			var n = ts.length;
-			for (;i<n;++i) {
-				ts[i].removeClassName('tiny-thumb-sel');
-			}
-			ts[idx].addClassName('tiny-thumb-sel');
-		},
-		update_info: function(ap) {
-			var f = ap.filename;
-			if (f) {
-				f = this.get_image_path(f,'medium');
-				$('artpiece_img').select('img').first().src = f;
-				this.safe_update('artpiece_title',ap.title);
-				this.safe_update('ap_title', ap.title);
-				this.safe_update('ap_dimensions', ap.dimensions);
-				this.safe_update('ap_year',ap.year);
-				var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
-				if (med) {
-					var md = $("ap_medium");
-					if (md) {
-						md.update('');
-						new Insertion.Bottom(md, med);
-					}
-				}
-				var ts = TagMediaHelper.format_tags.apply(ap.tags,[true,{class:"myclass"}]);
-				var i = 0;
-				var ntags = ts.length;
-				var tgs = $('ap_tags');
-				if (tgs) {
-					tgs.update('');
-					for (;i<ntags;++i){
-						new Insertion.Bottom(tgs, ts[i]);
-						if (i != (ntags-1)) {
-							new Insertion.Bottom(tgs,', ');
-						}
-					}
-				}
-			}
-		},
-		update_links: function(ap) {
-			var b = ap.buttons;
-			if (b.length) {
-				var dv = $$('.edit-buttons').first();
-				if (dv) {
-					dv.update(b);
-				}
-			}
-		},
-		update_page: function() {
-			var idx = T.curIdx;
-			var ap = T.ThumbList[idx];
-			var url = "/art_pieces/" + ap.id + "?format=json";
-			T.Helpers.update_highlight();
-			location.hash = "#" + ap.id;
-			var resp = new Ajax.Request(url, {
-				onSuccess: function(resp) {
-					try {
-						var ap_raw = resp.responseJSON;
-						// handle different json encodings :(
-						var ap = null;
-						if ('attributes' in ap_raw) {
-							ap = ap_raw.attributes;
-						}
-						else {
-							ap = ap_raw.art_piece;
-						}
-						T.Helpers.update_info(ap);
-						T.Helpers.update_links(ap);
-					}
-					catch(e) {
-						M.log(e);
-					}
-				},
-				contentType: "application/json",
-				method: 'get' }
-									   );
-			return true;
+    T.ThumbList = [];
+    T.APCache = {}
+    T.curIdx = 0;
+    T.Helpers = {
+	find_thumb: function(apid) {
+	    var i = 0;
+	    var n = T.ThumbList.length;
+	    for(;i<n;++i) {
+		var t = T.ThumbList[i];
+		if (t.id == apid) {
+		    return i;
 		}
-	};
+	    }
+	    return null;
+	},
+	get_image_path: function(fname, sz) {
+	    var sub = { thumb: "t_",
+			small:"s_",
+			medium: "m_" };
+	    if (sz in sub) {
+		var reg = /(^\/*artistdata\/\d+\/imgs\/)(.*)/;
+		var f = fname.replace(reg, "$1"+sub[sz]+"$2");
+		if (f[0] != '/') {
+		    f = '/'+f;
+		}
+		return f;
+	    }
+	    return fname;
+	},
+	safe_update: function(id, val) {
+	    var el = $(id);
+	    if (el) { el.update(val); }
+	},
+	update_highlight: function() {
+	    var idx = T.curIdx;
+	    var ts = $$('div.tiny-thumb');
+	    var i = 0;
+	    var n = ts.length;
+	    for (;i<n;++i) {
+		ts[i].removeClassName('tiny-thumb-sel');
+	    }
+	    ts[idx].addClassName('tiny-thumb-sel');
+	},
+	update_info: function(ap) {
+	    var f = ap.filename;
+	    if (f) {
+		f = this.get_image_path(f,'medium');
+		$('artpiece_img').select('img').first().src = f;
+		this.safe_update('artpiece_title',ap.title);
+		this.safe_update('ap_title', ap.title);
+		this.safe_update('ap_dimensions', ap.dimensions);
+		this.safe_update('ap_year',ap.year);
+		var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
+		if (med) {
+		    var md = $("ap_medium");
+		    if (md) {
+			md.update('');
+			new Insertion.Bottom(md, med);
+		    }
+		}
+		var ts = TagMediaHelper.format_tags.apply(ap.tags,[true,{class:"myclass"}]);
+		var i = 0;
+		var ntags = ts.length;
+		var tgs = $('ap_tags');
+		if (tgs) {
+		    tgs.update('');
+		    for (;i<ntags;++i){
+			new Insertion.Bottom(tgs, ts[i]);
+			if (i != (ntags-1)) {
+			    new Insertion.Bottom(tgs,', ');
+			}
+		    }
+		}
+	    }
+	},
+	update_links: function(ap) {
+	    var b = ap.buttons;
+	    if (b.length) {
+		var dv = $$('.edit-buttons').first();
+		if (dv) {
+		    dv.update(b);
+		}
+	    }
+	},
+	update_page: function() {
+	    var idx = T.curIdx;
+	    var ap = T.ThumbList[idx];
+	    var url = "/art_pieces/" + ap.id + "?format=json";
+	    T.Helpers.update_highlight();
+	    location.hash = "#" + ap.id;
+	    if (T.APCache[ap.id]) {
+		var a = T.APCache[ap.id];
+		T.Helpers.update_info(a);
+		T.Helpers.update_links(a);
+	    } else {
+		var resp = new Ajax.Request(url, {
+		    onSuccess: function(resp) {
+			try {
+			    var ap_raw = resp.responseJSON;
+			    // handle different json encodings :(
+			    var ap = null;
+			    if ('attributes' in ap_raw) {
+				ap = ap_raw.attributes;
+			    }
+			    else {
+				ap = ap_raw.art_piece;
+			    }
+			    T.APCache[ap.id] = ap;
+			    T.Helpers.update_info(ap);
+			    T.Helpers.update_links(ap);
+			}
+			catch(e) {
+			    M.log(e);
+			}
+		    },
+		    contentType: "application/json",
+		    method: 'get' }
+					   );
+	    }
+	    return true;
 
-	T.jumpToIdx = function (idx) {
-		var n = T.ThumbList.length;
-		if (idx < 0) { idx = n-1; }
-		idx = idx % n;
-		var ap = T.ThumbList[idx];
-		T.curIdx = idx;
-		T.Helpers.update_page();
-		return false;
 	}
+    };
+
+    T.jumpToIdx = function (idx) {
+	var n = T.ThumbList.length;
+	if (idx < 0) { idx = n-1; }
+	idx = idx % n;
+	var ap = T.ThumbList[idx];
+	T.curIdx = idx;
+	T.Helpers.update_page();
+	return false;
+    }
 
     T.jumpTo = function(ap_id) {
-		var idx = T.Helpers.find_thumb(ap_id);
-		T.jumpToIdx(idx);
+	var idx = T.Helpers.find_thumb(ap_id);
+	T.jumpToIdx(idx);
     };
-	T.jumpNext = function() {
-		T.jumpToIdx(T.curIdx+1); 
-	};
-	T.jumpPrevious = function() {
-		T.jumpToIdx(T.curIdx-1);
-	};
+    T.jumpNext = function() {
+	T.jumpToIdx(T.curIdx+1); 
+    };
+    T.jumpPrevious = function() {
+	T.jumpToIdx(T.curIdx-1);
+    };
     function keypressHandler (event)
     {
 	// I think this next line of code is accurate,
 	// but I don't have a good selection of browsers
 	// with me today to test this effectivly.
-	    var key = event.which || event.keyCode;
-	    switch (key) {
-	    case Event.KEY_RIGHT:
-			T.jumpNext();
-			break;
-	    case Event.KEY_LEFT:
-			T.jumpPrevious();
-			break;
-	    default:
-			break;
-	    }
+	var key = event.which || event.keyCode;
+	switch (key) {
+	case Event.KEY_RIGHT:
+	    T.jumpNext();
+	    break;
+	case Event.KEY_LEFT:
+	    T.jumpPrevious();
+	    break;
+	default:
+	    break;
+	}
     }
 
     T.init = function() {
-		Event.observe(document, 'keypress', keypressHandler );
-		var prvlnk = $('prev_img_lnk');
-		var nxtlnk = $('next_img_lnk');
-		if (nxtlnk && prvlnk) {
-			prvlnk.observe('click', function() { T.jumpPrevious(); });
-			nxtlnk.observe('click', function() { T.jumpNext(); });
-		}
-		$$('a.jump-to').each(function(t) {
-			t.observe('click', function() { 
-				location.href = t.href;
-				var apid = location.hash.substr(1);
-				T.jumpTo(apid);
-			});
-		});
-			
-		M.log("First Index " + T.curIdx);
-		
-		T.init = function(){};
+	Event.observe(document, 'keypress', keypressHandler );
+	var prvlnk = $('prev_img_lnk');
+	var nxtlnk = $('next_img_lnk');
+	if (nxtlnk && prvlnk) {
+	    prvlnk.observe('click', function() { T.jumpPrevious(); });
+	    nxtlnk.observe('click', function() { T.jumpNext(); });
+	}
+	$$('a.jump-to').each(function(t) {
+	    t.observe('click', function() { 
+		location.href = t.href;
+		var apid = location.hash.substr(1);
+		T.jumpTo(apid);
+	    });
+	});
+	
+	M.log("First Index " + T.curIdx);
+	
+	T.init = function(){};
     };
     
     Event.observe(window, 'load', T.init);
