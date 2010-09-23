@@ -318,6 +318,7 @@ MAU = window['MAU'] || {};
     }
     Event.observe(window, 'load', AP.init);
 
+	T.ThumbList = {};
     T.jumpTo = function(ap_id) {
 	var url = "/art_pieces/" + ap_id;
 	document.location.href = url;
