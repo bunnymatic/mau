@@ -1,3 +1,4 @@
+require 'json'
 class ArtPiecesController < ApplicationController
 
   include TagsHelper
@@ -44,10 +45,13 @@ class ArtPiecesController < ApplicationController
         thumb[:clz] = "tiny-thumb" 
         thumb[:id] = item.id
         if item.id == cur_id
-          thumb[:clz] = "tiny-thumb-sel"
+          thumb[:clz] = "tiny-thumb tiny-thumb-sel"
           @init_offset = (ctr * -56)
           nxt = [ctr + 1, npieces -1].min
           prv = [ctr - 1, 0].max
+          @next_idx = nxt
+          @cur_idx = ctr
+          @prev_idx = prv
           @next_img = pieces[nxt].id
           @prev_img = pieces[prv].id
         end
@@ -81,7 +85,19 @@ class ArtPiecesController < ApplicationController
     self._setup_thumb_browser_data(pieces, apid)
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }
-      format.json { render :json => @art_piece.to_json(:include=>[:tags, :medium])  }
+      format.json { 
+        h={}
+        h['art_piece'] = @art_piece.attributes
+        h['art_piece']["tags"] = []
+        @art_piece.tags.each { |t|
+          h['art_piece']['tags'] << t.attributes
+        }
+        m = @art_piece.medium
+        if m:
+            h['art_piece']["medium"] = @art_piece.medium.attributes
+        end
+        render :json => h.to_json
+      }
     end
 
   end
