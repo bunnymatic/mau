@@ -432,7 +432,7 @@ var TagMediaHelper = {
 	},
 	update_links: function(ap) {
 	    var b = ap.buttons;
-	    if (b.length) {
+	    if (b && b.length) {
 		var dv = $$('.edit-buttons').first();
 		if (dv) {
 		    dv.update(b);
@@ -517,7 +517,7 @@ var TagMediaHelper = {
     }
 
     T.init = function() {
-	Event.observe(document, 'keypress', keypressHandler );
+	Event.observe(document, 'keydown', keypressHandler );
 	var prvlnk = $('prev_img_lnk');
 	var nxtlnk = $('next_img_lnk');
 	if (nxtlnk && prvlnk) {
