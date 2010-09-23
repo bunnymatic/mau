@@ -107,10 +107,9 @@ var next_idx = <%= @next_idx %>;
       </div>
       <% end -%>
       <div class="edit-buttons">
-	<% if logged_in? and current_artist == artist -%>
-	<span id="artpiece_edit"><a href="<%= edit_art_piece_path(@art_piece) %>">edit</a></span>
-	<span id="artpiece_del"><%= link_to 'delete', @art_piece, :confirm => 'You are about to remove this art piece from your collection.  Are you sure you want to do that?', :method => :delete %></span>
-	<% end -%>
+		<% if logged_in? and current_artist == artist -%>
+		<%= render :partial => "edit_delete_buttons.erb" %>
+		<% end -%>
       </div>
     </td>
     <td >

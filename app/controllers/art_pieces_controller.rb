@@ -96,6 +96,8 @@ class ArtPiecesController < ApplicationController
         if m:
             h['art_piece']["medium"] = @art_piece.medium.attributes
         end
+
+		h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
         render :json => h.to_json
       }
     end
