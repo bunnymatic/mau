@@ -49,7 +49,7 @@ var TagMediaHelper = {
 	var n = this.length;
 	for (var ii=0;ii<n;ii++){
 	    tagstrs.push( TagMediaHelper.format_tag.apply(this[ii],[dolink, opts]));
-	};
+	}
 	return tagstrs;
     }
 };
@@ -189,7 +189,7 @@ var TagMediaHelper = {
 		}
 		Event.observe(d,'click', function(event) {
 		    bg.remove();
-		    cn.remove()
+		    cn.remove();
 		    return false;
 		});
 		new Insertion.Top(cn, d);
@@ -201,7 +201,7 @@ var TagMediaHelper = {
 		w = dm.width;
 		h = dm.height;
 		var ws = document.viewport.getDimensions();
-		var soff = document.viewport.getScrollOffsets()
+		var soff = document.viewport.getScrollOffsets();
 		pw = ws.width + soff.left;
 		ph = ws.height + soff.top;
 		var tp = '' + ((ph/2) - (h/2)) + "px";
@@ -235,8 +235,8 @@ var TagMediaHelper = {
 	    });
 	});
 	/* same for top level items */
-	var navleaves = $$('.nav li.dir');
-	navleaves.each( function(nl) {
+	var navtop = $$('.nav li.dir');
+	navtop.each( function(nl) {
 	    nl.observe('click', function(ev) {
 		try {
 		    var lk = this.select('a').first();
@@ -352,11 +352,11 @@ var TagMediaHelper = {
 		}
 	    });
 	});
-    }
+    };
     Event.observe(window, 'load', AP.init);
 
     T.ThumbList = [];
-    T.APCache = {}
+    T.APCache = {};
     T.curIdx = 0;
     T.Helpers = {
 	find_thumb: function(apid) {
@@ -415,7 +415,7 @@ var TagMediaHelper = {
 			new Insertion.Bottom(md, med);
 		    }
 		}
-		var ts = TagMediaHelper.format_tags.apply(ap.tags,[true,{class:"myclass"}]);
+		var ts = TagMediaHelper.format_tags.apply(ap.tags,[true]);
 		var i = 0;
 		var ntags = ts.length;
 		var tgs = $('ap_tags');
@@ -475,7 +475,6 @@ var TagMediaHelper = {
 					   );
 	    }
 	    return true;
-
 	}
     };
 
@@ -487,7 +486,7 @@ var TagMediaHelper = {
 	T.curIdx = idx;
 	T.Helpers.update_page();
 	return false;
-    }
+    };
 
     T.jumpTo = function(ap_id) {
 	var idx = T.Helpers.find_thumb(ap_id);
