@@ -1,3 +1,6 @@
+<script type="text/javascript">
+  MAU.Thumbs.ThumbList = <%= @thumbs.to_json %>;
+</script>
   <% if @thumbs.length > 0 -%>
   <table class="artpiece-browser-container">
     <tr>
@@ -5,11 +8,11 @@
       <td align="left"><a title="" id="next_img_lnk" href="#" onclick="MAU.Thumbs.jumpTo(<%= @next_img %>);" apid="<%= @next_img %>" ><div id="next-browse"></div></a></td>
     </tr>
  </table>
-<div id="artp-thumb-browser">
+<div id="artp_thumb_browser">
 <%  @thumbs.each do |t| -%>
   <div>
     <a href="<%= t[:link] %>">
-      <div class="<%= t[:clz] %>" style="background-image:url(<%= t[:path] %>); background-position: <%= t[:pos] %>;">&nbsp;
+      <div class="<%= t[:clz] %>" style="background-image:url(<%= t[:path] %>); background-position: center center;">&nbsp;
         <img src="/images/pix.gif" class="tiny-thumb" />
       </div>
     </a>
