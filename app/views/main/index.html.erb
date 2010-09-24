@@ -1,29 +1,33 @@
-<% if @last_visit -%><div style="float:right;">Last Visit: <%= @last_visit %></div><% end -%>
+<% if @last_visit -%>
+<div style="float:right;">Last Visit: <%= @last_visit %></div>
+<% end -%>
+
 <div id="main_messages">
-<% if flash[:error] -%>
+  <% if flash[:error] -%>
   <div class="error-msg">
-	<%=h flash[:error] %>
+    <%=h flash[:error] %>
   </div>
-<% end -%>
-<% if flash[:notice] -%>
+  <% end -%>
+  <% if flash[:notice] -%>
   <div class="notice">
-	<%=h flash[:notice] %>
+    <%=h flash[:notice] %>
   </div>
-<% end -%>
+  <% end -%>
 </div>
 <div class="main-text">
- <h1>There are more artists in the Mission than any other neighborhood in San Francisco</h1>
+  <h1>There are more artists in the Mission than any other neighborhood in San Francisco</h1>
 </div>
-<div class="main-thumbs">
-  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }} %>
-<a href="/" title="wanna see more?">
-<div title="wanna see more?" id="refresher_btn">
-<div id="next_pg">
+<div id="main_thumbs" >
+  <div id="sampler"></div>
+  <a id="refresher_link" href="#" title="wanna see more?">
+    <div title="wanna see more?" id="refresher_btn">
+      <div id="next_pg">
+      </div>
+      <div class="clear"></div>
+    </div>
+  </a>
+  <div class="clear"></div>
 </div>
-<div class="clear"></div>
-</div>
-</a>
-<div class="clear"></div>
 <div class="main-subtext">
   <img src="/images/mau-text.png" width="500" height="25" />
   <h2>connecting artist to artist</h2>
