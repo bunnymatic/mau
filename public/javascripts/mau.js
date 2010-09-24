@@ -68,6 +68,8 @@ var TagMediaHelper = {
     var S = M.Submissions = M.Submissions || {};
     var TB = M.Toolbar = M.Toolbar || {};
 
+    var FR = M.FrontPage = M.FrontPage || {};
+    
     M.__debug__ = true;
     M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
@@ -217,6 +219,35 @@ var TagMediaHelper = {
 
     Event.observe(window, 'load', M.init);
 
+    /** front page thumbs **/
+    Object.extend(FR, {
+	init: function() {
+	    FR.update_art();
+	    var a = $('refresher_link');
+	    if (a) {
+		a.observe('click', function(e) { 
+		    FR.update_art(); e.stopPropagation(); return false;
+		});
+	    }
+	    FR.init = function() {};
+	},
+	update_art: function() {
+	    var d = $('sampler');
+	    if (d) { 
+		new Ajax.Request('/main/sampler', { method:'get',
+						    onSuccess: function(tr) {
+							d.hide();
+							d.update('');
+							var h = tr.responseText;
+							new Insertion.Top(d,h);
+							d.appear();
+						    }
+						  });
+	    }
+	}
+    });
+    
+    Event.observe(window, 'load', FR.init);
     /** nav bar related **/
     N.init = function() {
 	var navleaves = $$('.nav li.leaf');
@@ -531,8 +562,6 @@ var TagMediaHelper = {
 		T.jumpTo(apid);
 	    });
 	});
-	
-	M.log("First Index " + T.curIdx);
 	
 	T.init = function(){};
     };
