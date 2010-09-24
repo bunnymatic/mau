@@ -88,6 +88,10 @@ class ArtPiecesController < ApplicationController
       format.json { 
         h={}
         h['art_piece'] = @art_piece.attributes
+        # make safe the art_piece entries
+        [ 'title','dimensions'].each do |k| 
+          h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
+        end
         h['art_piece']["tags"] = []
         @art_piece.tags.each { |t|
           h['art_piece']['tags'] << t.attributes
