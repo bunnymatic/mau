@@ -432,9 +432,6 @@ var TagMediaHelper = {
 	    var f = ap.filename;
 	    if (f) {
 		f = this.get_image_path(f,'medium');
-		var img = $('artpiece_img');
-		img.src = f;
-		new Effect.Appear('artpiece_img', { duration: 0.1, queue:'end' });
 		this.safe_update('artpiece_title',ap.title);
 		this.safe_update('ap_title', ap.title);
 		this.safe_update('ap_dimensions', ap.dimensions);
@@ -460,6 +457,9 @@ var TagMediaHelper = {
 			}
 		    }
 		}
+		var img = $('artpiece_img');
+		img.src = f;
+		img.appear();
 	    }
 	},
 	update_links: function(ap) {
