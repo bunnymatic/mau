@@ -17,8 +17,10 @@
 <div class="main-text">
   <h1>There are more artists in the Mission than any other neighborhood in San Francisco</h1>
 </div>
-<div id="main_thumbs" >
-  <div id="sampler"></div>
+<div id="main_thumbs">
+  <div id="sampler">
+<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }} %> 
+  </div>
   <a id="refresher_link" href="#" title="wanna see more?">
     <div title="wanna see more?" id="refresher_btn">
       <div id="next_pg">

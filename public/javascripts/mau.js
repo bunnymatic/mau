@@ -222,7 +222,6 @@ var TagMediaHelper = {
     /** front page thumbs **/
     Object.extend(FR, {
 	init: function() {
-	    FR.update_art();
 	    var a = $('refresher_link');
 	    if (a) {
 		a.observe('click', function(e) { 
@@ -236,7 +235,7 @@ var TagMediaHelper = {
 	    if (d) { 
 		new Ajax.Request('/main/sampler', { method:'get',
 						    onSuccess: function(tr) {
-							d.hide();
+							d.setOpacity(0);
 							d.update('');
 							var h = tr.responseText;
 							new Insertion.Top(d,h);
@@ -434,7 +433,7 @@ var TagMediaHelper = {
 	    if (f) {
 		f = this.get_image_path(f,'medium');
 		var img = $('artpiece_img').select('img').first();
-		img.hide();
+		img.setOpacity(0);
 		img.src = f;
 		img.appear();
 		this.safe_update('artpiece_title',ap.title);
@@ -485,7 +484,7 @@ var TagMediaHelper = {
 		T.Helpers.update_links(a);
 	    } else {
 		var img = $('artpiece_img').select('img').first();
-		img.hide();
+		img.setOpacity(0);
 		var resp = new Ajax.Request(url, {
 		    onSuccess: function(resp) {
 			try {

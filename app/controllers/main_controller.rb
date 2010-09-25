@@ -11,6 +11,7 @@ class MainController < ApplicationController
   before_filter :no_cache, :only => :index
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 20)
   def index
+    @rand_pieces = MainHelper.get_random_pieces
     respond_to do |format| 
       format.html { render }
       format.json { render :json => @rand_pieces.to_json(:include => [:artist]) }
