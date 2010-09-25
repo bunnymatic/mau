@@ -89,9 +89,6 @@ class ArtPiecesController < ApplicationController
         h={}
         h['art_piece'] = @art_piece.attributes
         # make safe the art_piece entries
-        [ 'title','dimensions'].each do |k| 
-          h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
-        end
         h['art_piece']["tags"] = []
         @art_piece.tags.each { |t|
           h['art_piece']['tags'] << t.attributes
@@ -100,6 +97,13 @@ class ArtPiecesController < ApplicationController
         if m:
             h['art_piece']["medium"] = @art_piece.medium.attributes
         end
+        [ 'title','dimensions'].each do |k| 
+          h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
+        end
+        h['art_piece']['tags'].each do |t| 
+          t['name'] = HTMLHelper.encode(t['name'])
+        end
+
         if (current_artist && current_artist.id == @art_piece.artist.id)
           h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
         end
