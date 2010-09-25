@@ -537,18 +537,17 @@ div.feedtitle  {
 }
 
 /* for news page */
-#news_text .news-footer {
+.news-footer {
     line-height: 32px;
     margin-top: 30px;
 }
 .news-footer span {
     vertical-align: top;
 }
-.news-text {
-	float:left; 
-	font-size: 95%;
-}
-.news-text p span.title {
+#news_text div
+{ font-size: 95%;}
+
+#news_text p span.title {
 	text-transform: uppercase;
 	margin-right: 20px;
 }
@@ -653,15 +652,16 @@ div.feedtitle  {
     font-size: 80%;
 }
 
-#contact_text, .privacy-content,
-#artist_edit {
+#contact_text, #artist_edit {
 	margin-left:40px;
 	margin-right:40px;
 }
-#about_text, #news_text {
+#venues_text, #about_text, #news_text, .privacy-content {
     text-align: justify; 
-    width: 560px;
-    margin: auto;
+    margin: 0 20px;
+}
+.privacy-content h5 {
+    margin-top: 10px;
 }
 
 #all_artists_page {padding-bottom: 20px;}
@@ -715,7 +715,7 @@ div.feedtitle  {
 
 #about_text, #contact_text, 
 #news_text, .privacy-content {
-    font-size: 95%;
+    font-size: 12px;
 }
 
 #artist_edit h4 {

@@ -1,6 +1,6 @@
 <div id="news_text">
-  <div class="about-title"><h4>ArtSpan Open Studios 2010</h4></div>
-  <div class="news-text">
+  <div><h4>ArtSpan Open Studios 2010</h4></div>
+  <div>
     <p>During ArtSpan's Open Studios, Mission artists are open on weekend 1 which is October 9-10.  Just like the spring, you can expect hundreds of Mission Artists to open their studios to the public for the weekend.  Art lovers from all over come to see the creativity and innovation of their favorite local artists in our favorite San Francisco neighborhood.</p>
   <p>
     <span class="title">Art Lovers:</span> Mark your calendar for October 09 & 10, 11am - 6pm.
@@ -52,10 +52,5 @@ Click <a href="<%= artist_path(current_artist) %>/edit#events"/>here<a/> to chec
   </div>
 
   <div class="clear"></div>
-  <div class="news-footer div-right">
-<span style="font-weight:900;">ART IS THE <span style="color: orange;">MISSION</span></span>
-    <a href="http://www.facebook.com/MissionArtists" target="_blank" ><img class="icons" src="/images/icons/fb32.png" alt="facebook"></a>
-    <a href="http://twitter.com/sfmau" target="_blank" ><img class="icons" src="/images/icons/twitter32.png" alt="twitter"></a>
-  </div>
-
+  <%= render :partial => "info_footer" %>
 </div>
