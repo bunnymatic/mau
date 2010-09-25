@@ -425,7 +425,7 @@ div.formbutton {
 .micro-icon,
 .feed-icon {
     background-image:url(/images/icons/microicon-sprite.png);
-    background-repeat: none;
+    background-repeat: no-repeat;
     padding: 0px 8px;
     overflow:hidden;
 }
@@ -1136,7 +1136,7 @@ div.singlecolumn {
 
 .ltcorner, .rtcorner, .lbcorner, .rbcorner {
     background-image:url('/images/icons/cornersprite.png');
-    background-repeat: none;
+    background-repeat: no-repeat;
     font-size:0;
     height:9px;
     width:9px;
@@ -1197,7 +1197,7 @@ td.td-left{
     margin: 0px auto;
 }
 #signup .flash {
-    width: 473;
+    width: 473px;
     margin: auto;
 }
 .signup-right,
@@ -1594,11 +1594,11 @@ div.artist {
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
     background-position: 0 -165px; /* 40px gradient */
-	-moz-box-shadow: 2px 1px 5px #738294;
+    -moz-box-shadow: 2px 1px 5px #738294;
     -webkit-box-shadow: 2px 1px 5px #738294;
     box-shadow: 1px 1px 5px #738294;
-	color: #606;
-	line-height: 24px;
+    color: #606;
+    line-height: 24px;
 }
 #artistsnav ul{
 	width: 160px;
@@ -2110,10 +2110,6 @@ Admin
     color: #ccc;
 }
 
-
-#acct_menu:hover {
-    pointer:cursor;
-}
 /** artists dropdown menu */
 .nav ul li.dir {
 	float: none;
