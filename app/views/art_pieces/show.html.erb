@@ -100,9 +100,9 @@ var next_idx = <%= @next_idx %>;
       <% end -%>
       <% if @art_piece -%>
       <div id="artpiece_title"><%=h @art_piece.title %></div>
-      <div id="artpiece_img" >
+      <div >
 	<% if @art_piece.filename -%>
-	<img src="<%=h @art_piece.get_path('medium') %>" />
+	<img id="artpiece_img" src="<%=h @art_piece.get_path('medium') %>" />
 	<% end -%>
       </div>
       <% end -%>

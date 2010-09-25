@@ -432,10 +432,13 @@ var TagMediaHelper = {
 	    var f = ap.filename;
 	    if (f) {
 		f = this.get_image_path(f,'medium');
-		var img = $('artpiece_img').select('img').first();
+		if (T.fading) {
+		    T.fading.cancel();
+		}
+		var img = $('artpiece_img');
 		img.setOpacity(0);
 		img.src = f;
-		img.appear();
+		T.fading = new Effect.Appear('artpiece_img');
 		this.safe_update('artpiece_title',ap.title);
 		this.safe_update('ap_title', ap.title);
 		this.safe_update('ap_dimensions', ap.dimensions);
@@ -483,7 +486,7 @@ var TagMediaHelper = {
 		T.Helpers.update_info(a);
 		T.Helpers.update_links(a);
 	    } else {
-		var img = $('artpiece_img').select('img').first();
+		var img = $('artpiece_img');
 		img.setOpacity(0);
 		var resp = new Ajax.Request(url, {
 		    onSuccess: function(resp) {
