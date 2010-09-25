@@ -94,4 +94,9 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United - Open Studios"
     @feedhtml = cached_html
   end
+
+  def venues
+    # temporary venues endpoint until we actually add a real
+    # controller/model behind it
+  end
 end

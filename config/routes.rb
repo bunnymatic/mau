@@ -36,7 +36,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :studios
 
-  map.analytics '/ganalytics', :controller => 'main', :action => 'ganalytics'
+  #map.analytics '/ganalytics', :controller => 'main', :action => 'ganalytics'
+  map.venues '/venues', :controller => 'main', :action => 'venues'
   map.getinvolved '/getinvolved/:p', :controller => 'main', :action => 'getinvolved', :p => nil
   map.privacy '/privacy', :controller => 'main', :action => 'privacy'
   map.about '/about/:id', :controller => 'main', :action => 'about'
