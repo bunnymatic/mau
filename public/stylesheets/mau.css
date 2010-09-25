@@ -1626,8 +1626,8 @@ ul.dropdown {
 }
 
 .tagcloud {
-    margin: auto;
-	padding-right: 12px;
+    margin: 0 auto 10px auto;
+    padding-right: 12px;
 }
 .clouditem { 
     line-height: 1.4em;
