@@ -142,7 +142,13 @@ div.donate-btns span {
 .edit-profile-sxn {
 }
 .inner-sxn {
-	margin: 20px;
+	margin: 20px auto;
+}
+.inner-sxn.left {
+	float:left;
+	}
+.inner-sxn.right {
+	float:right;
 }
 .inner-sxn table {
 	margin: auto;
@@ -432,7 +438,7 @@ div.formbutton {
 /* position from the bottom of the sprite*/
 .feed-icon.blogger,
 .micro-icon.blogger {
-    background-position: 0 144px;
+    background-position: 0 -16px;
 }
 .feed-icon.email,
 .micro-icon.email {
@@ -440,35 +446,35 @@ div.formbutton {
 }
 .feed-icon.youtube,
 .micro-icon.youtube {
-    background-position: 0 16px;
+    background-position: 0 -144px;
 }
 .feed-icon.wordpress,
 .micro-icon.wordpress {
-    background-position: 0 32px;
+    background-position: 0 -128px;
 }
 .feed-icon.twitter,
 .micro-icon.twitter {
-    background-position: 0 48px;
+    background-position: 0 -112px;
 }
 .feed-icon.rss,
 .micro-icon.rss {
-    background-position: 0 64px;
+    background-position: 0 -96px;
 }
 .feed-icon.livejournal,
 .micro-icon.livejournal {
-    background-position: 0 96px;
+    background-position: 0 -80px;
 }
 .feed-icon.flickr,
 .micro-icon.flickr {
-    background-position: 0 96px;
+    background-position: 0 -64px;
 }
 .feed-icon.facebook,
 .micro-icon.facebook {
-    background-position: 0 112px;
+    background-position: 0 -48px;
 }
 .feed-icon.deviantart,
 .micro-icon.deviantart {
-    background-position: 0 128px;
+    background-position: 0 -32px;
 }
 
 #feed_div {
