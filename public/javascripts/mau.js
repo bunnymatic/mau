@@ -255,6 +255,7 @@ var TagMediaHelper = {
 		try {
 		    var lk = this.select('a').first();
 		    if (lk) {
+				ev.stopPropagation();
 			location.href = lk.readAttribute('href');
 		    }
 		}
