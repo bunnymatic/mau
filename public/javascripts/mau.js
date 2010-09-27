@@ -431,8 +431,10 @@ var TagMediaHelper = {
 	},
 	update_info: function(ap) {
 	    var f = ap.filename;
+		var img = $('artpiece_img');
 	    if (f) {
 		f = this.get_image_path(f,'medium');
+		img.src = f;
 		this.safe_update('artpiece_title',ap.title);
 		this.safe_update('ap_title', ap.title);
 		this.safe_update('ap_dimensions', ap.dimensions);
@@ -458,9 +460,11 @@ var TagMediaHelper = {
 			}
 		    }
 		}
-		var img = $('artpiece_img');
-		img.src = f;
-		img.appear();
+			if ('cache' in ap) {
+				img.appear();
+			} else {
+				setTimeout(function() {img.appear();}, 50);
+			}
 	    }
 	},
 	update_links: function(ap) {
@@ -500,6 +504,7 @@ var TagMediaHelper = {
 			    T.APCache[ap.id] = ap;
 			    T.Helpers.update_info(ap);
 			    T.Helpers.update_links(ap);
+				ap.cache=true;
 			}
 			catch(e) {
 			    M.log(e);
