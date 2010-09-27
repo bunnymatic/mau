@@ -160,68 +160,84 @@
       </div>
 	  </div>
     </div>
-    <div class="open-close-div acct" ><span id="studio_info_toggle" class="title">Studio Info</span><span class="edit"><a href="#studio" id="studio_info_toggle_lnk">change</a></span></div>
-    <div  class="edit-profile-sxn" id="address" style="display:none;">
-     <div class="inner-sxn">
-      <table class="entry-table">
-	<tr>
-	  <td class="input-name">
-	    <%= label_tag 'studio', 'Studio' %>
-	  </td>
-	  <td>
-	    <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>
-	  </td>
-	  <td class="input-err">
-	  </td>
-	</tr>
-	<tr><td colspan="2">Address</td></tr>
-	<tr>
-	  <td class="input-name">
-	    Street
-	  </td>
-	  <td>
-	    <%= f.text_field :street %>
-	  </td>
-	  <td class="input-err">
-	  </td>
-	</tr>
-	<tr>
-	  <td class="input-name">
-	    City
-	  </td>
-	  <td>
-	    <%= f.text_field :city, :value => @artist.city || "San Francisco" %>
-	  </td>
-	  <td class="input-err">
-	  </td>
-	</tr>
-	<tr>
-	  <td class="input-name">
-	    State
-	  </td>
-	  <td>
-	    <%= f.text_field :addr_state, :value => @artist.addr_state || "CA"%>
-	  </td>
-	  <td class="input-err">
-	  </td>
-	</tr>
-	<tr>
-	  <td class="input-name">
-	    Zipcode
-	  </td>
-	  <td>
-	    <%= f.text_field :zip, :value => @artist.zip || "94110"  %>
-	  </td>
-	  <td class="input-err">
-	  </td>
-	</tr>
-      </table>
+    <div class="open-close-div acct" ><span id="studio_info_toggle" class="title">Address/Studio Info</span><span class="edit"><a href="#address" id="studio_info_toggle_lnk">change</a></span></div>
+    <div class="edit-profile-sxn" id="address" style="display:none;">
+	  <div class="inner-sxn left">
+		<table class="entry-table">
+		  <tr><td colspan="2" style="text-align:center; font-weight:bold;">Studio</td></tr>
+		  <tr>
+			<td class="input-name">
+			</td>
+			<td>
+			  <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>
+			</td>
+			<td class="input-err">
+			</td>
+		  </tr>
+		  <tr>
+			<td class="input-name">
+			  Studio #
+			</td>
+			<td>
+			  <%= f.text_field :studionumber, :value => @artist.studionumber %>
+			</td>
+			<td class="input-err">
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <div style="margin: 20px auto; float: left; text-align:center; font-size: x-small;">(or)</div>
+	  <div class="inner-sxn right">
+		<table class="entry-table">
+		  <tr><td colspan="2" style="text-align:center; font-weight:bold;">Address</td></tr>
+		  <tr>
+			<td class="input-name">
+			  Street
+			</td>
+			<td>
+			  <%= f.text_field :street %>
+			</td>
+			<td class="input-err">
+			</td>
+		  </tr>
+		  <tr>
+			<td class="input-name">
+			  City
+			</td>
+			<td>
+			  <%= f.text_field :city, :value => @artist.city || "San Francisco" %>
+			</td>
+			<td class="input-err">
+			</td>
+		  </tr>
+		  <tr>
+			<td class="input-name">
+			  State
+			</td>
+			<td>
+			  <%= f.text_field :addr_state, :value => @artist.addr_state || "CA"%>
+			</td>
+			<td class="input-err">
+			</td>
+		  </tr>
+		  <tr>
+			<td class="input-name">
+			  Zipcode
+			</td>
+			<td>
+			  <%= f.text_field :zip, :value => @artist.zip || "94110"  %>
+			</td>
+			<td class="input-err">
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <div class="clear"></div>
       <div class="buttons">
-	<%= f.submit 'Save Changes' %>
-	<%= f.submit 'Cancel' %>
+		<%= f.submit 'Save Changes' %>
+		<%= f.submit 'Cancel' %>
       </div>
-     </div>
-	</div>
+    </div>
     <div class="open-close-div acct" ><span id="bio_toggle" class="title">Bio/Artist's Statement</span><span class="edit"><a href="#bio" id="bio_toggle_lnk">change</a></span></div>
     <div  class="edit-profile-sxn" id="bio" style="display:none;">
       <div class="inner-sxn">
