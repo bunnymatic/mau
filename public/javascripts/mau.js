@@ -222,12 +222,7 @@ var TagMediaHelper = {
     /** front page thumbs **/
     Object.extend(FR, {
 	init: function() {
-	    var a = $('refresher_link');
-	    if (a) {
-		a.observe('click', function(e) { 
-		    FR.update_art(); e.stopPropagation(); return false;
-		});
-	    }
+		setInterval( function() { FR.update_art(); }, 10000);
 	    FR.init = function() {};
 	},
 	update_art: function() {
