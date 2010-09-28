@@ -17,7 +17,7 @@
        end
        -%>
   <% if tag != nil -%>
-  <span class="clouditem <%= match_class %>" style="font-size:<%= sz %>; margin: <%= mrg %>;"><%= link_to tag.safe_name, tag_path(tag, :m => 'p') %></span>
+  <span class="clouditem <%= match_class %>" style="font-size:<%= sz %>; margin: <%= mrg %>;"><%= link_to tag.safe_name, tag_path(tag, :m => @results_mode) %></span>
   <% end -%>
   <% end -%>
   <% end -%>
