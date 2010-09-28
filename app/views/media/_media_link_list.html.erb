@@ -14,7 +14,7 @@
        %>
   <span class="clouditem <%= matchclass %>" style="font-size:<%= sz %>; margin: <%= mrg %>;">
     <% if ct.to_f > 0.0 %>
-    <%= link_to medium.safe_name, medium_path(medium, :m => 'p') %>
+    <%= link_to medium.safe_name, medium_path(medium, :m => @results_mode) %>
     <% else %>
     <%= medium.safe_name %>
     <% end %>
