@@ -369,10 +369,11 @@ var TagMediaHelper = {
 
     /** art piece methods */
     AP.init = function() {
-	var aps = $$('.thumbs-select div.artp-thumb');
+	var aps = $$('.thumbs-select .artp-thumb img');
 	aps.each(function(ap) {
-	    ap.observe('click', function() {
-		var inp = $(this).down('input.checker');
+	    ap.observe('click', function(ev) {
+		var apid = $(this).readAttribute('pieceid');
+		var inp = $('art_'+apid);
 		if (inp) {
 		    inp.click();
 		}
