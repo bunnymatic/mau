@@ -77,8 +77,9 @@ ActiveRecord::Schema.define(:version => 20100927202201) do
     t.integer  "image_height",                             :default => 0
     t.integer  "image_width",                              :default => 0
     t.integer  "max_pieces",                               :default => 20
-    t.integer  "representative_art_piece"
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
+    t.integer  "representative_art_piece"
+    t.integer  "event_id"
     t.boolean  "os2010",                                   :default => false
     t.float    "lat"
     t.float    "lng"
@@ -96,39 +97,6 @@ ActiveRecord::Schema.define(:version => 20100927202201) do
   create_table "artists_roles", :id => false, :force => true do |t|
     t.integer "artist_id"
     t.integer "role_id"
-  end
-
-  create_table "dummyusers", :force => true do |t|
-    t.string   "login",                     :limit => 40
-    t.string   "name",                      :limit => 100, :default => ""
-    t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "remember_token",            :limit => 40
-    t.datetime "remember_token_expires_at"
-    t.string   "activation_code",           :limit => 40
-    t.datetime "activated_at"
-    t.string   "state",                                    :default => "passive"
-    t.datetime "deleted_at"
-  end
-
-  add_index "dummyusers", ["login"], :name => "index_dummyusers_on_login", :unique => true
-
-  create_table "events", :force => true do |t|
-    t.string   "name"
-    t.datetime "startdate"
-    t.datetime "enddate"
-    t.text     "description"
-    t.string   "url"
-    t.string   "image"
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
-    t.integer  "zip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "feedbacks", :force => true do |t|
@@ -174,6 +142,19 @@ ActiveRecord::Schema.define(:version => 20100927202201) do
 
   create_table "tags", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "venues", :force => true do |t|
+    t.string   "phone",         :limit => 16
+    t.string   "url",           :limit => 200
+    t.string   "profile_image", :limit => 200
+    t.string   "street",        :limit => 200
+    t.string   "city",          :limit => 200
+    t.string   "state",         :limit => 4
+    t.integer  "zip"
+    t.string   "description",   :limit => 2000
     t.datetime "created_at"
     t.datetime "updated_at"
   end
