@@ -1247,6 +1247,7 @@ td.td-left{
 .artp-thumb {
     border: 1px dotted #444;
     margin: 4px 4px 8px;
+    text-align:center;
 }
 
 /** holder for the name */
@@ -1300,9 +1301,10 @@ td.playback {
     font-size: x-small;
     position: absolute;
     bottom: 0px;
+    text-align: center;
     left: center;
 }
-.artp-thumb-container .name a{
+.artp-thumb-container .name a {
     text-align: center;
 }
     
