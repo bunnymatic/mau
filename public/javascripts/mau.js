@@ -98,7 +98,19 @@ var TagMediaHelper = {
 	    try {
 		console.log.apply(this, arguments);
 	    } catch(e) {
-		M.log = function() {};
+		try {
+		    if (console) {
+			var msg = '';
+			var i = 0;
+			var n = arguments.length;
+			for (;i<n;++i) {
+			    msg += arguments[i];
+			}
+			console.log(msg);
+		    }
+		} catch(ee) {
+		    H.log = function() {};
+		}
 	    }
 	}
     };
@@ -369,18 +381,84 @@ var TagMediaHelper = {
 
     /** art piece methods */
     AP.init = function() {
+        var moveleft = $$('.mv-left');
+        moveleft.first().addClassName("first");
+        if (moveleft && moveleft.length > 0) {
+            moveleft.each(function(ml) {
+                ml.observe('click', function(ev) {
+                    var parent = $(this).up();
+                    var _id = parent.readAttribute('pid');
+                    AP.move_art(_id,'left');
+                });
+            });
+        }
+        var moveright = $$('.mv-right');
+        moveright.last().addClassName("last");
+        if (moveright && moveright.length > 0) {
+            moveright.each(function(mr) {
+                mr.observe('click', function(ev) {
+                    var parent = $(this).up();
+                    var _id = parent.readAttribute('pid');
+                    AP.move_art(_id,'right');
+                });
+            });
+        }
 	var aps = $$('.thumbs-select .artp-thumb img');
 	aps.each(function(ap) {
 	    ap.observe('click', function(ev) {
-		var apid = $(this).readAttribute('pieceid');
+		var apid = $(this).up().readAttribute('pid');
 		var inp = $('art_'+apid);
 		if (inp) {
 		    inp.click();
 		}
 	    });
 	});
+        
+        var aafrm = $('arrange_art_form');
+        if(aafrm) {
+            aafrm.observe('submit', function(ev) {
+                alert("This doesn't do anything yet.");
+                ev.stopPropagation();
+                return false;
+            });
+        }
     };
     Event.observe(window, 'load', AP.init);
+
+    AP.move_art = function(_id, direction) {
+        var divs = $$('.artp-thumb-container');
+        var swap = [];
+        var ndivs = divs.length;
+        var ii = 0;
+        var idxs = null;
+        for (;ii<ndivs;++ii) {
+            var d = divs[ii];
+            if (d.readAttribute('pid') == _id) {
+                ii2 = (direction == 'left') ? ii-1:ii+1;
+                idxs = [ ii, ii2 ];
+            }
+            d.select('.mv-right').each(function(el) {
+                el.removeClassName('last').removeClassName('first');
+            });
+            d.select('.mv-left').each(function(el) {
+                el.removeClassName('last').removeClassName('first');
+            });
+            
+        }
+        M.log("Swap " + idxs[0] + " with " + idxs[1] + " (dir " + direction + ")");
+        if (idxs) {
+            var d1 = divs[idxs[0]];
+            var d2 = divs[idxs[1]];
+            if (direction == 'left') {
+                d2.insert({'before':d1.remove()});
+            } else {
+                d2.insert({'after':d1.remove()});
+            }
+        }
+        $$('.mv-left').first().addClassName("first");
+        $$('.mv-right').last().addClassName("last");
+
+    };
 
     T.ThumbList = [];
     T.APCache = {};
