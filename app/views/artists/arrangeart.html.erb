@@ -3,7 +3,7 @@
 	  <div class="logo-spacer">&nbsp;</div>	  
 	  <h4>Arrange your art pieces</h4>
 	  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => self.current_artist.art_pieces, :params => { :select => true, :show_footer => false, :cols => 5 }} %>
-          <div class="little-txt">Use the arrows to shift pieces left or right.  When you're happy with the new order, press "save".</div>
+          <div class="little-txt" style="margin-top:16px;">Use the arrows to shift pieces left or right.  When you're happy with the new order, press "save".</div>
 	  <div class="edit-buttons">
 
 		<input type="submit" value="Save"/>
