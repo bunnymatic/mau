@@ -320,7 +320,7 @@ class ArtistsController < ApplicationController
     arts.each do |art| 
       art.destroy
     end
-    redirect_back_or_default(self.current_artist)
+    redirect_to(self.current_artist)
   end
 
 
