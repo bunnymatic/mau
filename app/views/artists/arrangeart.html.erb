@@ -1,10 +1,12 @@
-<%= form_tag setarrangement_artist_path(current_artist) %>
+<%= form_tag setarrangement_artist_path(current_artist), :id => 'arrange_art_form'%>
 	<div>
 	  <div class="logo-spacer">&nbsp;</div>	  
-	  <h4>Pick your representative art piece</h4>
+	  <h4>Arrange your art pieces</h4>
 	  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => self.current_artist.art_pieces, :params => { :select => true, :show_footer => false, :cols => 5 }} %>
+          <div class="little-txt">Use the arrows to shift pieces left or right.  When you're happy with the new order, press "save".</div>
 	  <div class="edit-buttons">
-		<input type="submit" value="Set Representative Image"/>
+
+		<input type="submit" value="Save"/>
 		<input type="hidden" name="artist" value="<%= self.current_artist.id %>">
 		<input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= self.current_artist.id %>);"/>
 	  </div>

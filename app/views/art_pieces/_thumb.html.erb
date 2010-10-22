@@ -13,30 +13,34 @@
      end        
      cls += "artp-thumb-" + size[0].chr
      if show_footer or delete or select
-        cls +=" with-foot "
+       topcls =" with-foot "
      end
 -%>
-<div class="artp-thumb <%= cls %>"><% if piece.get_path(size) 
+<div pid="<%= piece.id %>" class="artp-thumb-container <%= topcls %>">
+  <div pid="<%= piece.id %>" class="artp-thumb <%= cls %> "><% if piece.get_path(size) 
         if !linkto.empty? && !delete && !select
 -%><a href="<%= linkto %>"><img alt="<%=h piece.title %>" title="<%=h piece.title %>" <%= dim %> src="<%= piece.get_path(size) %>" /></a><% 
         else 
--%><img pieceid="<%= piece.id %>" alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" /><%
+-%><img alt="<%=h piece.title %>" title="<%=h piece.title %>"  src="<%= piece.get_path(size) %>" /><%
         end
       else -%>
       No Image
-      <% end
-     if show_footer -%><div class="artp-thumb-name"><%
+      <% end -%>
+  </div>
+<%
+     if show_footer -%><div class="name"><%
         if piece && piece.artist
 	 name = "" 
 	 name << piece.artist.get_name(true)
 		 -%><%= link_to name, linkto, :class => 'lkdark' %><% 
-   else -%>unknown artist<% 
-   end -%><div class="clear"></div></div><% 
- end 
+        else -%>unknown artist<% 
+        end -%></div><% 
+     end 
+-%><% 
  if piece 
      representative = (piece.id == piece.artist.representative_art_piece)
      if delete -%><div class="artp-thumb-ctrl">
       <%= check_box( 'art', piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0") %>Delete?</div><% 
      elsif select 
--%><div class="artp-thumb-ctrl">Select <%= radio_button_tag 'art', piece.id, representative, :class => "checker" %></div><% 
+-%><div class="artp-thumb-ctrl"  pid="<%= piece.id %>" ><span title="move this picture to the left" class="mv-left leftarrow"></span><span title="move this picture to the right" class="mv-right rightarrow"></span></div><% 
  end -%></div><% end -%><% end -%>
