@@ -1,7 +1,7 @@
 class SetOrderFromRepresentativeArtPiece < ActiveRecord::Migration
   def self.up
     reps = Artist.find(:all, :conditions => ['representative_art_piece is not null']).map{|r| r.representative_art_piece}
-    if reps.count > 0
+    if reps.length > 0
       reps.each do |r|
         aps = ArtPiece.find(:all, :conditions => [ 'id in (?)', reps ])
         aps.each do |a| 
