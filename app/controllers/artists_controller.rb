@@ -334,13 +334,40 @@ class ArtistsController < ApplicationController
   end
 
   def setarrangement
-    ap = params[:art]
-    # double check that represenative is in this artist's collection
-    current_artist.representative_art_piece = ap
-    if current_artist.save!
-      flash[:notice] = "Your represenative image has been updated."
+    if params.has_key? :art
+      ap = params[:art]
+      # double check that represenative is in this artist's collection
+      if ap.artist_id != current_artist.id
+        flash[:error] = "There was a problem setting your representative image."
+        redirect_to current_artist
+        return
+      end
+      current_artist.representative_art_piece = ap
+      if current_artist.save!
+        flash[:notice] = "Your representative image has been updated."
+      else
+        flash[:error] = "There was a problem setting your representative image."
+      end
+    elsif params.has_key? :neworder
+      # new endpoint for rearranging - more than just setting representative
+      neworder = params[:neworder].split(',')
+      new_rep = neworder[0]
+      ctr = 0
+      current_artist.representative_art_piece = new_rep
+      current_artist.save
+      begin
+        neworder.each do |apid|
+          a = ArtPiece.find(apid)
+          a.order = ctr
+          a.save
+          ctr+=1
+        end
+        flash[:notice] = "Your images have been reordered."
+      rescue
+        flash[:error] = "There was a problem reordering your images. You may try again but if the problem persists, please write to help@missionartistsunited.org."
+      end
     else
-      flash[:error] = "There was a problem setting your represenative image."
+      flash[:error] ="There was a problem interpreting the input parameters.  Please try again."
     end
     redirect_to current_artist
   end
@@ -378,7 +405,7 @@ class ArtistsController < ApplicationController
       @page_title = "Mission Artists United - Artist: %s" % @artist.get_name(true)
       # get artist pieces here instead of in the html
       num = @artist.max_pieces - 1
-      @art_pieces = @artist.art_pieces.reverse[0..num]
+      @art_pieces = @artist.art_pieces[0..num]
       
       # need to figure out encoding of the message - probably better to post with json
       #twittermsg = "Check out %s at Mission Artists United: %s" % [@artist.get_name(), url]

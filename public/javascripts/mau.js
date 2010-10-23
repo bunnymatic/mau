@@ -382,8 +382,8 @@ var TagMediaHelper = {
     /** art piece methods */
     AP.init = function() {
         var moveleft = $$('.mv-left');
-        moveleft.first().addClassName("first");
         if (moveleft && moveleft.length > 0) {
+            moveleft.first().addClassName("first");
             moveleft.each(function(ml) {
                 ml.observe('click', function(ev) {
                     var parent = $(this).up();
@@ -393,8 +393,8 @@ var TagMediaHelper = {
             });
         }
         var moveright = $$('.mv-right');
-        moveright.last().addClassName("last");
         if (moveright && moveright.length > 0) {
+            moveright.last().addClassName("last");
             moveright.each(function(mr) {
                 mr.observe('click', function(ev) {
                     var parent = $(this).up();
@@ -417,9 +417,17 @@ var TagMediaHelper = {
         var aafrm = $('arrange_art_form');
         if(aafrm) {
             aafrm.observe('submit', function(ev) {
-                alert("This doesn't do anything yet.");
-                ev.stopPropagation();
-                return false;
+                // construct new order
+                var divs = $$('.artp-thumb-container');
+                var neworder = [];
+                var ii = 0;
+                var ndivs = divs.length;
+                var neworder = [];
+                for(;ii<ndivs;++ii) {
+                    neworder.push(parseInt(divs[ii].readAttribute('pid'),10));
+                }
+                var no = neworder.join(",");
+                $(aafrm).insert( new Element('input', { type:"hidden", name:'neworder', value:no }));
             });
         }
     };
