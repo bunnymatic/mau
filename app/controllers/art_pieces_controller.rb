@@ -79,7 +79,7 @@ class ArtPiecesController < ApplicationController
     # get all art pieces for this artist
     pieces = []
     if @art_piece.artist_id > 0
-      pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist)
+      pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
       @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
     end
     self._setup_thumb_browser_data(pieces, apid)

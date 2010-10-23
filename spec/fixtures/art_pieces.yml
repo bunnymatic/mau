@@ -1,0 +1,54 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+hot:
+  filename: hot.jpg
+  title: hot title
+  description: super hot description
+  medium_id: 1
+  dimensions: hot x hot
+
+not:
+  filename: not.jpg
+  title: not title
+  description: super not description
+  medium_id: 2
+  dimensions: not x not
+
+h1024w2048:
+  filename: not.jpg
+  title: not title
+  description: super not description
+  medium_id: 2
+  dimensions: not x not
+  image_height: 1024
+  image_width: 2048
+
+negative_size:
+  filename: not.jpg
+  title: not title
+  description: super not description
+  medium_id: 2
+  dimensions: not x not
+  image_height: -1024
+  image_width: -2048
+
+artpiece1:
+  filename: hot.jpg
+  title: first
+  description: super hot description
+  medium_id: 1
+  dimensions: hot x hot
+
+artpiece2:
+  filename: hot.jpg
+  title: second
+  description: super hot description
+  medium_id: 2
+  dimensions: hot x hot
+
+artpiece3:
+  filename: hot.jpg
+  title: third
+  description: super hot description
+  medium_id: 3
+  dimensions: hot x hot

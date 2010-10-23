@@ -15,7 +15,7 @@ class Artist < ActiveRecord::Base
   attr_reader :emailsettings, :fullname, :address
 
   belongs_to :studio
-  has_many :art_pieces
+  has_many :art_pieces, :order => "`order` ASC, `id` DESC"
   has_and_belongs_to_many :roles
 
   acts_as_mappable
@@ -182,7 +182,7 @@ class Artist < ActiveRecord::Base
         rep = nil
       end
     end
-    ap = self.art_pieces.reverse
+    ap = self.art_pieces
     if !ap.empty?
       # move rep to top if necessary
       len = ap.length

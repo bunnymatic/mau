@@ -144,8 +144,8 @@
 <% if logged_in? && @artist.id == current_artist.id -%>
 <div id="artpiece_edit_ctrls">
 <a class="lksubtle" href="/art_pieces/new"><span>add art</span></a>
-<a class="lksubtle" href="<%= arrangeart_artist_path(current_artist) %>"><span>arrange</span></a>
-<a class="lksubtle" href="<%= deleteart_artist_path(current_artist) %>"><span>delete</span></a>
+<a class="lksubtle" href="<%= arrangeart_artists_path %>"><span>arrange</span></a>
+<a class="lksubtle" href="<%= deleteart_artists_path %>"><span>delete</span></a>
 <b> </b>
 </div>
 <% end -%>

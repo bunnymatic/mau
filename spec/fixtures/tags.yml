@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: Tag1
+
+two:
+  name: Tag2
+
+
+<% ltrs = ('a'..'z').to_a << ' '
+   nltrs = ltrs.length
+   w = ""
+   260.times { |i| w<<ltrs[i%nltrs] }
+%>
+
+three:
+  name: <%= w %>
+
+with_spaces:
+  name: this is the tag
+
+empty:
+  name: 

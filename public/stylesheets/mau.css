@@ -1279,14 +1279,6 @@ span.rightarrow
     background-position: -48px 0;
 }
 
-div.playback {
-	float:right;
-}
-td.playback {
-	height: 18px;
-	overflow: hidden;
-	width: 18px;
-}
 .artp-thumb-container {
     float: left;
     position: relative;
@@ -1302,7 +1294,6 @@ td.playback {
     position: absolute;
     bottom: 0px;
     text-align: center;
-    left: center;
 }
 .artp-thumb-container .name a {
     text-align: center;
@@ -1312,8 +1303,9 @@ td.playback {
 .artp-thumb-ctrl {
     width: 100px;
     position: absolute; 
-    bottom: 0px;
+    bottom: 10px;
     height: 16px;
+    margin-left: 4px;
 }
 .artp-thumb-ctrl .mv-left.first,
 .artp-thumb-ctrl .mv-right.last { display:none; }
