@@ -38,6 +38,7 @@ development:
    site_url: artistsdev.missionartistsunited.org
    cache_server: localhost:11211
    image_servers: 
+       http://img1.missionartistsunited.org
    cache_ns: dev
    cache_expiry:
        feed: 300

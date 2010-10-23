@@ -48,7 +48,8 @@ class ImageFile
     else
       prefix = "m_"
     end
-    svr = choice(@@IMG_SERVERS, 1)[0]
+    idx = fname.hash % @@IMG_SERVERS.length
+    svr = @@IMG_SERVERS[idx]
     svr + dir + prefix + fname
   end
 
