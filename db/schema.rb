@@ -9,14 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101023053552) do
+ActiveRecord::Schema.define(:version => 20101026230014) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
     t.string   "title"
     t.text     "description"
     t.string   "dimensions"
-    t.integer  "artist_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "medium_id"
@@ -31,6 +31,12 @@ ActiveRecord::Schema.define(:version => 20101023053552) do
     t.integer "art_piece_id"
   end
 
+  create_table "artist_exes", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "extra"
+  end
+
   create_table "artist_images", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -42,6 +48,63 @@ ActiveRecord::Schema.define(:version => 20101023053552) do
   end
 
   create_table "artists", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "feedbacks", :force => true do |t|
+    t.string   "subject"
+    t.string   "email"
+    t.string   "login"
+    t.string   "page"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "url"
+    t.string   "skillsets"
+    t.string   "bugtype"
+  end
+
+  create_table "media", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
+  create_table "studios", :force => true do |t|
+    t.string   "name"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.integer  "zip"
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "profile_image"
+    t.integer  "image_height",  :default => 0
+    t.integer  "image_width",   :default => 0
+    t.float    "lat"
+    t.float    "lng"
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40
     t.string   "name",                      :limit => 100, :default => ""
     t.string   "email",                     :limit => 100
@@ -77,8 +140,9 @@ ActiveRecord::Schema.define(:version => 20101023053552) do
     t.integer  "image_height",                             :default => 0
     t.integer  "image_width",                              :default => 0
     t.integer  "max_pieces",                               :default => 20
-    t.integer  "representative_art_piece"
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
+    t.integer  "representative_art_piece"
+    t.integer  "event_id"
     t.boolean  "os2010",                                   :default => false
     t.float    "lat"
     t.float    "lng"
@@ -86,94 +150,17 @@ ActiveRecord::Schema.define(:version => 20101023053552) do
     t.integer  "studionumber"
   end
 
-  add_index "artists", ["login"], :name => "index_artists_on_login", :unique => true
+  add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
 
-  create_table "artists_events", :id => false, :force => true do |t|
-    t.integer "event_id"
-    t.integer "artist_id"
-  end
-
-  create_table "artists_roles", :id => false, :force => true do |t|
-    t.integer "artist_id"
-    t.integer "role_id"
-  end
-
-  create_table "dummyusers", :force => true do |t|
-    t.string   "login",                     :limit => 40
-    t.string   "name",                      :limit => 100, :default => ""
-    t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "remember_token",            :limit => 40
-    t.datetime "remember_token_expires_at"
-    t.string   "activation_code",           :limit => 40
-    t.datetime "activated_at"
-    t.string   "state",                                    :default => "passive"
-    t.datetime "deleted_at"
-  end
-
-  add_index "dummyusers", ["login"], :name => "index_dummyusers_on_login", :unique => true
-
-  create_table "events", :force => true do |t|
-    t.string   "name"
-    t.datetime "startdate"
-    t.datetime "enddate"
-    t.text     "description"
-    t.string   "url"
-    t.string   "image"
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
+  create_table "venues", :force => true do |t|
+    t.string   "phone",         :limit => 16
+    t.string   "url",           :limit => 200
+    t.string   "profile_image", :limit => 200
+    t.string   "street",        :limit => 200
+    t.string   "city",          :limit => 200
+    t.string   "state",         :limit => 4
     t.integer  "zip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "feedbacks", :force => true do |t|
-    t.string   "subject"
-    t.string   "email"
-    t.string   "login"
-    t.string   "page"
-    t.text     "comment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "url"
-    t.string   "skillsets"
-    t.string   "bugtype"
-  end
-
-  create_table "media", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "roles", :force => true do |t|
-    t.string   "role"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "studios", :force => true do |t|
-    t.string   "name"
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
-    t.integer  "zip"
-    t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "profile_image"
-    t.integer  "image_height",  :default => 0
-    t.integer  "image_width",   :default => 0
-    t.float    "lat"
-    t.float    "lng"
-  end
-
-  create_table "tags", :force => true do |t|
-    t.string   "name"
+    t.string   "description",   :limit => 2000
     t.datetime "created_at"
     t.datetime "updated_at"
   end

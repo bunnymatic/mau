@@ -1,12 +1,19 @@
 require 'htmlhelper'
 
 class ArtPiece < ActiveRecord::Base
-  belongs_to :artist
+  belongs_to :user
   has_many :art_pieces_tags
   has_many :tags, :through => :art_pieces_tags
 
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
+
+  def artist
+    self.user
+  end
+  def artist_id
+    self.user_id
+  end
 
   def medium
     if self.medium_id && self.medium_id > 0
@@ -57,7 +64,7 @@ class ArtPiece < ActiveRecord::Base
   end
     
   def self.all
-    self.find(:all, :conditions => "artist_id in (select id from artists where state = 'active')")
+    self.find(:all, :conditions => "user_id in (select id from users where state = 'active')")
   end
 
 end

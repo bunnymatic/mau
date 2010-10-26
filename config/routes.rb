@@ -30,8 +30,8 @@ ActionController::Routing::Routes.draw do |map|
   map.faq '/artists/faq', :controller => 'artists', :action => 'faq'
   map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
 
-  map.resources :artists, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get,  :addprofile => :get }, :collection => { :arrangeart => :get, :setarrangement => :post, :deleteart => :get }
-
+  map.resources :artists, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get,  :addprofile => :get }, :collection => { :upload_profile => :post, :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get }
+  map.user '/artists/:id', :controller => 'artists', :action => 'show'
   map.resource :session
 
   map.resources :studios

@@ -3,12 +3,13 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ArtistTest < ActiveSupport::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead.
   # Then, you can remove it from this and the functional test.
-  fixtures :artists
+  fixtures :users
 
   def test_should_create_artist
     assert_difference 'Artist.count' do
       artist = create_artist
       assert !artist.new_record?, "#{artist.errors.full_messages.to_sentence}"
+      assert artist.errors.length == 0
     end
   end
 
@@ -54,57 +55,44 @@ class ArtistTest < ActiveSupport::TestCase
     end
   end
 
-  def test_should_reset_password
-    artists(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    assert_equal artists(:quentin), Artist.authenticate('quentin', 'new password')
-  end
-
-  def test_should_not_rehash_password
-    artists(:quentin).update_attributes(:login => 'quentin2')
-    assert_equal artists(:quentin), Artist.authenticate('quentin2', 'monkey')
-  end
-
-  def test_should_authenticate_artist
-    assert_equal artists(:quentin), Artist.authenticate('quentin', 'monkey')
-  end
 
   def test_should_set_remember_token
-    artists(:quentin).remember_me
-    assert_not_nil artists(:quentin).remember_token
-    assert_not_nil artists(:quentin).remember_token_expires_at
+    users(:quentin).remember_me
+    assert_not_nil users(:quentin).remember_token
+    assert_not_nil users(:quentin).remember_token_expires_at
   end
 
   def test_should_unset_remember_token
-    artists(:quentin).remember_me
-    assert_not_nil artists(:quentin).remember_token
-    artists(:quentin).forget_me
-    assert_nil artists(:quentin).remember_token
+    users(:quentin).remember_me
+    assert_not_nil users(:quentin).remember_token
+    users(:quentin).forget_me
+    assert_nil users(:quentin).remember_token
   end
 
   def test_should_remember_me_for_one_week
     before = DateTime.now.utc
-    artists(:quentin).remember_me_for 1.week
+    users(:quentin).remember_me_for 1.week
     after = 1.week.from_now.utc
-    assert_not_nil artists(:quentin).remember_token
-    assert_not_nil artists(:quentin).remember_token_expires_at
-    assert artists(:quentin).remember_token_expires_at.between?(before, after)
+    assert_not_nil users(:quentin).remember_token
+    assert_not_nil users(:quentin).remember_token_expires_at
+    assert users(:quentin).remember_token_expires_at.between?(before, after)
   end
 
   def test_should_remember_me_until_one_week
     time = 1.week.from_now.utc
-    artists(:quentin).remember_me_until time
-    assert_not_nil artists(:quentin).remember_token
-    assert_not_nil artists(:quentin).remember_token_expires_at
-    assert_equal artists(:quentin).remember_token_expires_at.utc.to_s, time.to_s
+    users(:quentin).remember_me_until time
+    assert_not_nil users(:quentin).remember_token
+    assert_not_nil users(:quentin).remember_token_expires_at
+    assert_equal users(:quentin).remember_token_expires_at.utc.to_s, time.to_s
   end
 
   def test_should_remember_me_default_two_weeks
     before = DateTime.now.utc
-    artists(:quentin).remember_me
+    users(:quentin).remember_me
     after = 2.weeks.from_now.utc
-    assert_not_nil artists(:quentin).remember_token
-    assert_not_nil artists(:quentin).remember_token_expires_at
-    assert artists(:quentin).remember_token_expires_at.between?(before, after)
+    assert_not_nil users(:quentin).remember_token
+    assert_not_nil users(:quentin).remember_token_expires_at
+    assert users(:quentin).remember_token_expires_at.between?(before, after)
   end
 
 protected

@@ -30,7 +30,7 @@ class AdminController < ApplicationController
     when 'noimages'
       @title = "Artists who have not uploaded any images"
       sql = ActiveRecord::Base.connection()
-      query = "select id from artists where state='active' and id not in (select distinct artist_id from art_pieces);" 
+      query = "select id from users where state='active' and id not in (select distinct user_id from art_pieces);" 
       cur = sql.execute query
       aids = []
       cur.each_hash do |h|
@@ -60,7 +60,7 @@ class AdminController < ApplicationController
     noprofile = Artist.count(:conditions => "state='active' and profile_image is not null")
     octos = Artist.count(:conditions => "state='active' and osoct2010 = 1")
     sql = ActiveRecord::Base.connection()
-    query = "select count(*) ct from artists where state='active' and id not in (select distinct artist_id from art_pieces);"
+    query = "select count(*) ct from users where state='active' and id not in (select distinct user_id from art_pieces);"
 
     noimages = []
     cur = sql.execute query
@@ -83,7 +83,7 @@ class AdminController < ApplicationController
   def artists_per_day
     sql = ActiveRecord::Base.connection()
     @tbl = []
-    cur = sql.execute "select count(*) ct,date(activated_at) d from artists group by d order by d desc;"
+    cur = sql.execute "select count(*) ct,date(activated_at) d from users group by d order by d desc;"
     ctr = 0
     cur.each_hash do |h|
       @tbl << [h['ct'],h['d']]
