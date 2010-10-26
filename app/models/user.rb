@@ -9,7 +9,7 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 #'admin','root','mau', 'mauadmin','maudev',
 #'jon','mrrogers','trish','trishtunney',
 
-class Artist < ActiveRecord::Base
+class User < ActiveRecord::Base
 
   # stash this so we don't have to keep getting it from the db
   attr_reader :emailsettings, :fullname, :address
@@ -204,7 +204,8 @@ class Artist < ActiveRecord::Base
   def is_admin?
     begin
       self.roles.include? Role.find(1)
-    rescue
+    rescue Exception => e
+      logger.debug(e)
       # if we have any issues, not admin
       false
     end 
@@ -256,11 +257,11 @@ class Artist < ActiveRecord::Base
   end
 
   def validate_phone
-    errors.add(:phone, 'is an invalid phone number, must contain at least 5 digits, only the following characters are allowed: 0-9/-()+') unless Artist.valid_phone?(phone)
+    errors.add(:phone, 'is an invalid phone number, must contain at least 5 digits, only the following characters are allowed: 0-9/-()+') unless User.valid_phone?(phone)
   end
 
   def validate_username
-    errors.add(:login, 'you requested is a reserved name.  Try a different login') unless Artist.valid_username?(login)
+    errors.add(:login, 'you requested is a reserved name.  Try a different login') unless User.valid_username?(login)
   end
 
   def self.valid_username?(user)
