@@ -78,6 +78,11 @@ class ArtPiecesController < ApplicationController
     
     # get all art pieces for this artist
     pieces = []
+    if !@art_piece.artist_id 
+      render_not_found Exception.new("No tags in the system")
+      return
+    end
+
     if @art_piece.artist_id > 0
       pieces = ArtPiece.find_all_by_user_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
       @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name

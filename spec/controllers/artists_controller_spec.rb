@@ -5,23 +5,23 @@ include AuthenticatedTestHelper
 
 describe ArtistsController, 'arrangeart'  do
 
-  fixtures :artists
+  fixtures :users
   fixtures :art_pieces
 
   def save_artist_with_artpieces
     apids =[]
-    a = artists(:artist1)
+    a = users(:artist1)
     a.save!
     ap = art_pieces(:artpiece1)
-    ap.artist_id = a.id
+    ap.user_id = a.id
     ap.save!
     apids << ap.id
     ap = art_pieces(:artpiece2)
-    ap.artist_id = a.id
+    ap.user_id = a.id
     ap.save!
     apids << ap.id
     ap = art_pieces(:artpiece3)
-    ap.artist_id = a.id
+    ap.user_id = a.id
     ap.save!
     apids << ap.id
     { :artist => a, :art_piece_ids => apids }

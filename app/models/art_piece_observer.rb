@@ -17,13 +17,16 @@ class ArtPieceObserver < ActiveRecord::Observer
   def after_save(art)
     # delete old art that is more than allowed
     artist = art.artist
-    max = artist.max_pieces
-    cur = artist.art_pieces.length
-    del = 0
-    while cur > max
-      artist.art_pieces.first.destroy
-      cur = cur - 1
-      del = del + 1
+    # mostly this makes stuff work for testing
+    if artist
+      max = artist.max_pieces
+      cur = artist.art_pieces.length
+      del = 0
+      while cur > max
+        artist.art_pieces.first.destroy
+        cur = cur - 1
+        del = del + 1
+      end
     end
   end
 end

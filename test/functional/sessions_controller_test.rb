@@ -9,10 +9,19 @@ class SessionsControllerTest < ActionController::TestCase
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :artists
+  fixtures :users
 
   def test_should_login_and_redirect
     post :create, :login => 'quentin', :password => 'monkey'
+    assert session[:flash][:error]
+    assert session[:flash][:error].include? "you activated"
+    
+    u = users(:quentin)
+    u.state='active'
+    u.save!
+
+    post :create, :login => 'quentin', :password => 'monkey'
+
     assert session[:artist_id]
     assert_response :redirect
   end
@@ -30,15 +39,16 @@ class SessionsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  def test_should_remember_me
-    @request.cookies["auth_token"] = nil
-    post :create, :login => 'quentin', :password => 'monkey', :remember_me => "1"
-    assert_not_nil @response.cookies["auth_token"]
-  end
-
   def test_should_not_remember_me
     @request.cookies["auth_token"] = nil
     post :create, :login => 'quentin', :password => 'monkey', :remember_me => "0"
+    puts @response.cookies["auth_token"]
+    assert @response.cookies["auth_token"].blank?
+  end
+
+  def test_should_not_remember_me_always
+    @request.cookies["auth_token"] = nil
+    post :create, :login => 'quentin', :password => 'monkey'
     puts @response.cookies["auth_token"]
     assert @response.cookies["auth_token"].blank?
   end
@@ -50,22 +60,22 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   def test_should_login_with_cookie
-    artists(:quentin).remember_me
+    users(:quentin).remember_me
     @request.cookies["auth_token"] = cookie_for(:quentin)
     get :new
     assert @controller.send(:logged_in?)
   end
 
   def test_should_fail_expired_cookie_login
-    artists(:quentin).remember_me
-    artists(:quentin).update_attribute :remember_token_expires_at, 5.minutes.ago
+    users(:quentin).remember_me
+    users(:quentin).update_attribute :remember_token_expires_at, 5.minutes.ago
     @request.cookies["auth_token"] = cookie_for(:quentin)
     get :new
     assert !@controller.send(:logged_in?)
   end
 
   def test_should_fail_cookie_login
-    artists(:quentin).remember_me
+    users(:quentin).remember_me
     @request.cookies["auth_token"] = auth_token('invalid_auth_token')
     get :new
     assert !@controller.send(:logged_in?)
@@ -77,6 +87,6 @@ class SessionsControllerTest < ActionController::TestCase
     end
     
     def cookie_for(artist)
-      auth_token artists(artist).remember_token
+      auth_token users(artist).remember_token
     end
 end

@@ -19,11 +19,21 @@ class FeedbacksControllerTest < ActionController::TestCase
   end
   
   def test_should_post_create
-    post :create, :feedback => {:comment => "Great website!"}
+    post :create, :feedback => {:subject => 'blurp',
+      :comment => "Great website!",
+      :email => "joe@example.com",
+      :skillsets => '' }
     assert :success # Doesn't test much  
     assert_nil @error_message
   end
      
+  def test_should_set_error_when_no_subject
+    post :create, :feedback => {:subject => '',
+      :comment => "Great website!",
+      :email => "joe@example.com",
+      :skillsets => '' }
+    assert !assigns(:error_message).blank?
+  end
   
   def test_should_set_error_message_when_not_valid
     post :create, :feedback => {:comment => ""}

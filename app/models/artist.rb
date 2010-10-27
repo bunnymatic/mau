@@ -1,0 +1,2 @@
+class Artist < User
+end

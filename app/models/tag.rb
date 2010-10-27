@@ -34,13 +34,15 @@ class Tag < ActiveRecord::Base
         maxct = t['ct'].to_f
       end
     end  
-    if maxct <= 0
+    if !maxct || maxct <= 0
       maxct = 1
     end
     if normalize
       tags.each do |t|
         t['ct'] = t['ct'].to_f / maxct.to_f
       end
+    else
+      tags.map {|t| t['ct'] = t['ct'].to_i}
     end
     Rails.cache.write(@@CACHE_KEY, tags[0..@@MAX_SHOW_TAGS], :expires_in => @@CACHE_EXPIRY)
     tags[0..@@MAX_SHOW_TAGS]
