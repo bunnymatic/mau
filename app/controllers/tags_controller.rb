@@ -27,7 +27,11 @@ class TagsController < ApplicationController
     respond_to do |format|
       format.html { 
         freq = Tag.frequency
-        redirect_to "/tags/%d" % freq[0]['tag'] 
+        if !freq || freq.empty?
+          render_not_found Exception.new("No tags in the system")
+        else
+          redirect_to "/tags/%d" % freq[0]['tag'] 
+        end
       }
       format.json  { 
         if params[:suggest]

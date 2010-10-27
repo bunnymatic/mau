@@ -137,12 +137,12 @@ class ApplicationController < ActionController::Base
   private
 
   def render_not_found(exception)
-    log_error(exception)
+    logger.warn(exception)
     render :template => "/error/index.html.erb", :status => 404
   end
 
   def render_error(exception)
-    log_error(exception)
+    logger.error(exception)
     render :template => "/error/index.html.erb", :status => 500
   end
 
