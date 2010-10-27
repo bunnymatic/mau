@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 include AuthenticatedTestHelper
 
 describe ArtistsController, 'arrangeart'  do
@@ -87,3 +86,12 @@ describe ArtistsController, 'arrangeart'  do
     aps[0].artist.representative_piece.id.should==aps[0].id
   end
 end
+
+describe ArtistsController, 'loggedout' do
+  it 'should not allow connection to edit endpoints' do
+    post :setarrangement, { :neworder => "1,2" }
+    response.code.should == '302'
+    response.location.should == new_session_url
+  end
+end
+
