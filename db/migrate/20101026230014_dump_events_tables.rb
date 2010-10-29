@@ -4,5 +4,8 @@ class DumpEventsTables < ActiveRecord::Migration
   end
 
   def self.down
+    create_table :artists_events do |t|
+	t.timestamps
+	end
   end
 end
