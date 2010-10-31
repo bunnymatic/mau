@@ -99,7 +99,7 @@ class ArtistsControllerTest < ActionController::TestCase
 
   protected
     def create_artist(options = {})
-      post :create, :artist => { :login => 'quire', 
+      post :create, :user => { :login => 'quire', 
         :email => 'quire@example.com',
         :password => 'quire69', 
         :password_confirmation => 'quire69',
