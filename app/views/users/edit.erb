@@ -1,0 +1,190 @@
+<div id="artist_edit">
+  <div id="profile_img" style="float:right;">
+    <a title="update profile picture" href="<%= addprofile_users_path %>">
+      <% if current_user.has_profile_image -%>
+      <img src="<%= current_user.get_profile_image('thumb') %>" />
+      <% else -%>
+      <img src="/images/default-profile-img.png" width="100" />
+      <% end -%>
+      <div class="little-txt">update profile picture</div>
+    </a>
+  </div>
+  <h4>My Account</h4>
+  <% if flash and flash[:notice] and !flash[:notice].empty? -%>
+  <div class="notice">
+    <%= flash[:notice] %>
+  </div>
+  <% end -%>
+  <% if flash and flash[:error] and !flash[:error].empty? -%>
+  <div class="error-msg">
+    <%= flash[:error] %>
+  </div>
+  <% end -%>
+  <div class="edit-sections">
+    <% form_for :user, current_user, 
+       :url => { :action => "update" }, 
+       :html => { :method => :put } do |f| -%>
+    <%= f.error_messages %>
+    <div class="open-close-div acct" >
+      <span id="info_toggle"  class="title">Personal Info</span>
+      <span class="edit"><a href="#info" id="info_toggle_lnk">change</a></span>
+    </div>
+    <div class="edit-profile-sxn" id="info" style="display:none;">
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <tr>
+	    <td class="input-name">
+	      First Name
+	    </td>
+	    <td>
+	      <%= f.text_field :firstname %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="input-name">
+	      Last Name
+	    </td>
+	    <td>
+	      <%= f.text_field :lastname %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="input-name">
+	      Email
+	    </td>
+	    <td>
+	      <%= f.text_field :email %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+        </table>
+        <div class="buttons">
+	  <%= f.submit 'Save Changes' %>
+	  <%= f.submit 'Cancel' %>
+        </div>
+      </div>
+    </div>
+    <div class="open-close-div acct" ><span id="notification_toggle" class="title">Notifications</span><span class="edit"><a href="#notifications" id="notification_toggle_lnk">change</a></span><div class="clear"></div></div>
+    <div  class="edit-profile-sxn"  id="notification" style="display:none;">
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <tr>
+	    <td class="input-name">
+	      Allow notes from:
+	    </td>
+	    <td valign="top">
+	      <div><%= check_box "emailsettings", "fromall", { :checked => current_user.emailsettings["fromall"] } %>Everyone</div>
+	      <div>
+	        <%= check_box "emailsettings", "fromartist", { :checked => current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] } %>Registered MAU Artists
+	      </div>
+	    </td>
+	    <td class="input-err" width="200">
+	      Check these boxes if would like other registered MAU artists or any website visitors the ability to send you a note.
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="input-name">
+	      MAU Notices:
+	    </td>
+	    <td valign="top">
+	      <div>
+	        <%= check_box "emailsettings", "mauadmin", { :checked => current_user.emailsettings["mauadmin"] } %>Administrative
+	      </div>
+	      <div>
+	        <%= check_box "emailsettings", "maunews", { :checked => current_user.emailsettings["maunews"] } %>News
+	      </div>
+	    </td>
+	    <td class="input-err" style="font-size: x-small;">
+	      Periodically, we may want to notify you about MAU related things.  Administrative covers website issues/updates, downtime etc.  News includes MAU related events, MAU artist show announcements and general news about MAU.
+	    </td>
+	  </tr>
+        </table>
+        <div class="buttons">
+	  <%= f.submit 'Save Changes' %>
+	  <%= f.submit 'Cancel' %>
+        </div>
+      </div>
+    </div>
+    <div class="open-close-div acct" ><span id="links_toggle" class="title">Links</span><span class="edit"><a href="#links" id="links_toggle_lnk">change</a></span></div>
+    <div class="edit-profile-sxn" id="links" style="display:none;">
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <tr>
+	    <td class="input-name"><%= f.label :url, "Website:" %></td>
+	    <td><%= f.text_field :url %></td>
+	    <td class="input-err"></td>
+	  </tr>
+        </table>
+        <div  class="buttons">
+	  <%= f.submit 'Save Changes' %>
+	  <%= f.submit 'Cancel' %>
+        </div>
+      </div>
+    </div>
+    <% end -%>
+    <div class="open-close-div acct" ><span id="passwd_toggle" class="title">Password</span><span class="edit"><a href="#passwd" id="passwd_toggle_lnk">change</a></span></div>
+    <% form_tag(change_password_update_path, :method => :put) do -%>
+    <div  class="edit-profile-sxn" id="passwd" style="display:none;">
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <tr>
+	    <td colspan="3" align="center">
+	      <div class="chpasswd-instructions">
+	        <ul>
+		  <li>Do not use the same password that you use for other online accounts.</li>
+		  <li>Your new password must be at least 6 characters in length.</li>
+		  <li>Use a combination of letters, numbers, and punctuation.</li>
+		  <li>Passwords are case-sensitive. Remember to check your CAPS lock key.</li>
+	        </ul>
+	      </div>
+	    </td>
+	  </tr>
+	  <tr>
+            <td class="input-name" width="224">Old Password</td>
+            <td class="input" width="179"><%= password_field_tag 'old_password', @old_password, :size => 45, :class => 'text' %></td>
+            <td class="input-err" width="149">&nbsp;</td>
+	  </tr>
+	  <tr>
+            <td class="input-name">New Password</td>
+            <td class="input"><%= password_field_tag 'password', {}, :size => 45, :class => 'text' %></td>
+            <td class="input-err"><span class="little-txt">between 6 and 40 characters</span> </td>
+	  </tr>
+	  <tr>
+            <td class="input-name">Confirm new password</td>
+            <td class="input"><%= password_field_tag 'password_confirmation', {}, :size => 45, :class => 'text' %></td>
+            <td class="input-err">&nbsp;</td>
+	  </tr>
+	  <tr>
+            <td class="input-name">&nbsp;</td>
+            <td class="input"><%= submit_tag 'Change password' %> 
+	      <input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= self.current_user.id %>);"/></td>
+            <td class="input-err">&nbsp;</td>
+	  </tr>
+        </table>
+      </div>
+    </div>
+    <% end -%>
+    <div class="open-close-div acct"><span id="deactivate_toggle" class="title">Deactivate Account</span><span class="edit"><a href="#deactivate" id="deactivate_toggle_lnk">change</a></span></div>
+    <div  class="edit-profile-sxn" id="deactivate" style="display:none;">
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <tr>
+	    <td align="center">
+	      <div class="error-msg">
+	        This action is permanent.  If you deactivate your account, all data associated with that user will no longer be available.</div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="td-center"><a onclick="return confirm('This action is permanent.\nAre you sure you want to deactivate your account?');" href="<%= deactivate_users_path %>"><button class="formbutton">Deactivate Me</button></a></td>
+	  </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <a href="<%= user_url(current_user) %>"><button class="formbutton" >Back to Profile</button></a>
+</div>

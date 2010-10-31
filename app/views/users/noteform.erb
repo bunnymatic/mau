@@ -4,7 +4,7 @@
 Send <%=h @artist.get_name %> a note
 </div>
 <div class="popup-help-text">
-  <% form_tag '/artists/' + @artist.id.to_s + '/notify', :id => 'note_form', :method => :put do -%>
+  <% form_tag '/users/' + @artist.id.to_s + '/notify', :id => 'note_form', :method => :put do -%>
   <div class="fdbk-form">
     <% unless @error_message.blank? -%>
     <div class="error-msg">
@@ -17,7 +17,7 @@ Send <%=h @artist.get_name %> a note
 	  <% if !logged_in? -%>
 	  <%= text_field_tag 'name' %>
 	  <% else -%>
-	  <%= text_field_tag 'name', current_artist.get_name %>
+	  <%= text_field_tag 'name', current_user.get_name %>
 	  <% end -%>
 	</div>
 	<div id="email_input" class="fdbk-input">
@@ -34,9 +34,9 @@ Send <%=h @artist.get_name %> a note
 	  <button class='formbutton' id="note_close_btn" onclick="return false;">Cancel</button>
 	</div>
       <%= hidden_field_tag 'page', request.referer %>
-      <% if current_artist -%>
-      <%= hidden_field_tag 'login', current_artist.login %>
-      <%= hidden_field_tag 'email', current_artist.email %>
+      <% if current_user -%>
+      <%= hidden_field_tag 'login', current_user.login %>
+      <%= hidden_field_tag 'email', current_user.email %>
       <% end -%>
    </div>
   <% end -%>

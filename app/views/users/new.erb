@@ -1,0 +1,35 @@
+<div class="logo-spacer"></div>
+<div>
+  <% @artist.password = @artist.password_confirmation = nil 
+     @fan.password = @fan.password_confirmation = nil 
+  %>
+  <div><h2>Create Your MAU Account</h2>
+<%
+   sel_opts = [{ :key => :Artist,
+                 :display => "Artist",
+                 :selected => (@type ? (@type == 'Artist') : true) ? "selected" : "" },
+               { :key => :MAUFan,
+                 :display => "Fan",
+                 :selected => (@type == 'MAUFan') ? "selected=selected" : "" } ]
+   opts = sel_opts.map{ |opt| "<option value='#{opt[:key]}' #{opt[:selected]}>#{opt[:display]}</option>" }.join('')
+%>
+<pre><%= opts %></pre>
+   What type of account would you like? <%= select_tag 'account_type_chooser', opts %>
+  </div>
+<% 
+astyle = 'display:none;'
+fstyle = 'display:none;'
+case @type
+when 'Artist'
+  astyle = "display:block;"
+when 'MAUFan'
+  fstyle = "display:block;"
+end
+%>  
+  <div id="artist_signup_form" style="<%= astyle %>">
+  <%= render :partial => 'signup_form', :locals => { :type => 'Artist', :user => @artist } %>
+  </div>
+  <div id="fan_signup_form" style="<%= fstyle %>">
+  <%= render :partial => 'signup_form', :locals => { :type => 'MAUFan', :user => @fan } %>
+  </div>
+</div>
