@@ -67,8 +67,13 @@ div.div-right {
 
 /* entry form styles */
 tr.error-row {
-	text-align:center;
-	padding: .4em;
+    text-align:center;
+    padding: .4em;
+}
+
+tr.error-row div.error-msg {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .input-name, .input, .input-err{
@@ -888,7 +893,9 @@ span.navlinks {
 .navlinks span#txt {
     font-weight: normal;
 }
-
+.navlinks {
+    padding-bottom: 2px;
+}
 a.fdbk-subj #next_pg {
     display:none;
 }
@@ -1187,7 +1194,8 @@ td.td-left{
     text-align: left;
 }
 .logo-spacer {
-    line-height: 1.7em;
+    line-height: 30px;
+    height: 30px;
 }
 .div-center h4 {
     margin-top: 36px;
@@ -1533,8 +1541,11 @@ div.alt-login {
     text-align: left;
 }
 
-
-.signup-table, .login-table {
+.signup-table {
+    width: 60%;
+    margin: auto;
+}
+.login-table {
     width: 70%;
 }
 #reset_pass {
@@ -1724,6 +1735,7 @@ popup help
 #mode_selector_help {
     margin-left: 4px;
 }
+.search-view-ctrls { padding-top: 2px; }
 img.help-icon {
     border: 0;
 }
@@ -1954,11 +1966,16 @@ a#note_close_link{
 
 #note_modal_window,
 #feedback_modal_window {
-  width: 610px;
   margin: 0 auto;				
   background-color: #222;
   left: 0%;
   position: relative;
+}
+#note_modal_window {
+    width: 550px;
+}
+#feedback_modal_window {
+    width: 610px;
 }
 
 #note_modal_content .popup-help-text {
@@ -2273,3 +2290,43 @@ ul.dropdown ul .first {
 }
 #ac_ul li { 
 }
+
+#arrange_art .title {
+    width: 500px;
+    position:relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+#arrange_art .help-txt {
+    position:relative;
+    margin-top:16px;
+    width: 500px;
+    margin: 16px auto 10px auto;
+}
+#arrange_art_help {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+#signup_table {
+    width: 700px;
+}
+#signup_table th { width: 50%; }
+#signup_table th,
+#signup_table td {
+    vertical-align: top;
+    padding: 10px 15px;
+}
+#signup_table button {
+    background:#999;
+    background:url(/images/gradients.png) repeat-x 0 -50px; /* 40px gradient */
+left top;
+    border:outset 1px #ccc;
+    color:#666;
+    cursor:pointer;
+    font-weight:bold;
+    font-size: 125%;
+    padding: 3px 12px;
+    height: 39px;
+}
+

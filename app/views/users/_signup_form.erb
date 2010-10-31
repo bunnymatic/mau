@@ -1,0 +1,116 @@
+<% form_for user, :url => users_path do |f| %>
+<input type="hidden" name="type" value="<%= type %>" />
+<table align="center" class="signup-table" >
+  <% if flash[:error] %>
+  <tr  class="error-row">
+    <td colspan="3">
+      <div class="error-msg">
+	<%= flash[:error] %>
+      </div>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td class="input" width="195"><%= label_tag 'login', 'Username' %></td>
+    <td  width="227">
+      <%= f.text_field :login %>	  </td>
+    <td width="412">
+      <% if user.errors[:login] %>
+      <div class="error-help">
+	<%= user.errors.select{ |k,v| k=='login' }[0][1] %>	    </div>
+      <% end %>	  
+    </td>
+  </tr>
+  <tr>
+    <td class="input">
+      <%= label_tag 'email', 'E-mail' %>	  </td>
+    <td >
+      <%= f.text_field :email %>	  </td>
+    <td>
+      <% if user.errors[:email] %>
+      <div class="error-help">
+	<%= user.errors.select{ |k,v| k=='email' }[0][1] %>	    </div>
+      <% end %>	  </td>
+  </tr>
+  <tr>
+    <td class="input">
+      <%= label_tag 'password', 'Password' %>	  </td>
+    <td >
+      <%= f.password_field :password %>	  </td>
+    <td>
+      <% if user.errors[:password] %>
+      <div class="error-help">
+	<%= user.errors.select{ |k,v| k=='password' }[0][1] %>	    </div>
+      <% end %>	  </td>
+  </tr>
+  <tr>
+    <td class="input">
+      <%= label_tag 'password_confirmation', 'Confirm Password' %>	  </td>
+    <td > 
+      <%= f.password_field :password_confirmation %>	  </td>
+    <td>
+      <% if user.errors[:password_confirmation] %>
+      <div class="error-help">
+	<%= user.errors.select{ |k,v| k=='password_confirmation' }[0][1] %>	    </div>
+      <% end %>	  </td>
+  </tr>
+  <tr>
+    <td class="input">
+      <%= label_tag 'firstname', 'First Name' %>	  </td>
+    <td > 
+      <%= f.text_field :firstname %>	  </td>
+    <td>
+      <% if user.errors[:firstname] %>
+      <div class="error-help">
+	<%= user.errors.select{ |k,v| k=='firstname' }[0][1] %>	    </div>
+      <% end %>	  </td>
+  </tr>
+  <tr>
+    <td class="input">
+      <%= label_tag 'lastname', 'Last Name' %>	  </td>
+    <td class="input">
+      <%= f.text_field :lastname %>	  </td>
+    <td>
+      <% if user.errors[:lastname] %>
+      <div class="error-help">
+	<%= user.errors.select{ |k,v| k=='lastname' }[0][1] %>	    </div>
+      <% end %>	  </td>
+  </tr>
+  <% if type == 'Artist' %>
+  <tr>
+    <td class="input">
+      <%= label_tag 'studio', 'Group Studio' %>	  </td>
+    <td class="input">
+      <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>	  </td>
+    <td class="little-txt"></td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <div class="little-txt">If you work out of your house, or are not in a group studio building, choose "Independent Studios".  If you don't see your group studio buildling? Select None and
+	<a href="javascript:MAU.mailer('www','missionartistsunited.org','Please Add New Group Studio');">email us</a>.  We'll add it.
+      </div>
+    </td>
+  </tr>
+  <% end %>
+  <tr>
+    <td >&nbsp;</td>
+    <td ><span class="td-center"><%= submit_tag 'Sign up' %>
+	<% end -%>
+    </span></td>
+    <td >&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3">
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="2" >Already a member? <%= link_to "Log in",  login_path,  { :title => "Log in" } %> here.</td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center"><br/></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="right">&nbsp;</td>
+  </tr>
+</table>

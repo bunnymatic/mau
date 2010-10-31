@@ -36,12 +36,32 @@ ActiveRecord::Schema.define(:version => 20101026230014) do
     t.datetime "updated_at"
   end
 
-  create_table "artist_profile_images", :force => true do |t|
+  create_table "artist_infos", :force => true do |t|
+    t.integer  "artist_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "bio"
+    t.text     "news"
+    t.string   "street"
+    t.string   "city",                     :limit => 200
+    t.string   "addr_state",               :limit => 4
+    t.string   "facebook",                 :limit => 200
+    t.string   "twitter",                  :limit => 200
+    t.string   "blog",                     :limit => 200
+    t.string   "myspace",                  :limit => 200
+    t.string   "flickr",                   :limit => 200
+    t.integer  "zip"
+    t.integer  "studio_id"
+    t.integer  "max_pieces",                              :default => 20
+    t.integer  "representative_art_piece"
+    t.integer  "studionumber"
+    t.boolean  "osoct2010",                               :default => false
+    t.boolean  "os2010",                                  :default => false
+    t.float    "lat"
+    t.float    "lng"
   end
 
-  create_table "artists", :force => true do |t|
+  create_table "artist_profile_images", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -155,7 +175,8 @@ ActiveRecord::Schema.define(:version => 20101026230014) do
     t.float    "lat"
     t.float    "lng"
     t.boolean  "osoct2010",                                :default => false
-    t.integer  "studionumber"
+    t.string   "studionumber"
+    t.string   "type",                                     :default => "Artist"
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true

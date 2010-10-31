@@ -13,6 +13,7 @@
 	   <div>
 		 <ul id="mymaunav" class="dropdown">
 		   <% if logged_in? -%>
+                   <% if current_artist -%>
 		   <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
 			 <ul>
 			   <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit my page</a></li>
@@ -21,6 +22,10 @@
 			   <li class="leaf last"><a href="<%= deleteart_artists_path %>">delete art</a></li>
 			 </ul>
 		   </li>
+                   <% else -%>
+		   <li class="dir"><%= link_to "my&nbsp;mau", user_path(current_user), { :class => "lknav" } %>
+		   </li>
+                   <% end -%>
 		   <% else -%>
 		   <li class="dir"><%= link_to "join in!", "/login", { :class => "lknav" } %></li>
 		   <% end -%>

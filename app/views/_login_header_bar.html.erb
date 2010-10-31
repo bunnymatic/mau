@@ -3,13 +3,18 @@
 </script>
 <% if logged_in? %>
 <div id="logout">
-<%# spans go in reverse order because they all float right %>
+  <%# spans go in reverse order because they all float right %>
   <span class="navitem last">
     <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %> 
   </span>
-  <span class="logout-nav navitem">hello, <a class="lkdark" href="<%=h artist_path(current_artist) %>"><%=h current_artist.login %></a>
+  <span class="logout-nav navitem">hello, 
+    <% if current_artist %>
+    <a class="lkdark" href="<%=h artist_path(current_artist) %>"><%=h current_artist.login %></a>
+    <% else %>
+    <%=h current_user.login %>
+    <% end %>
   </span>
-  <% if self.current_artist.is_admin? %>
+  <% if current_user.is_admin? %>
   <%= render :partial => '/admin_header' %>
   <% end %>
   <div class="clear"></div>

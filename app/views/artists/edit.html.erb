@@ -1,8 +1,8 @@
 <div id="artist_edit">
   <div id="profile_img" style="float:right;">
-    <a title="update profile picture" href="/artists/addprofile/<%= self.current_artist.id %>">
-      <% if @artist.has_profile_image -%>
-      <img src="<%= @artist.get_profile_image('thumb') %>" />
+    <a title="update profile picture" href="<%= addprofile_users_path %>">
+      <% if current_user.has_profile_image -%>
+      <img src="<%= current_user.get_profile_image('thumb') %>" />
       <% else -%>
       <img src="/images/default-profile-img.png" width="100" />
       <% end -%>
@@ -22,7 +22,7 @@
   <% end -%>
 
   <div class="edit-sections">
-    <% form_for(@artist) do |f| -%>
+    <% form_for(current_user) do |f| -%>
     <%= f.error_messages %>
     <div class="open-close-div acct" >
       <span id="info_toggle"  class="title">Personal Info</span>
@@ -105,9 +105,9 @@
 	    Allow notes from:
 	  </td>
 	  <td valign="top">
-	    <div><%= check_box "emailsettings", "fromall", { :checked => @artist.emailsettings["fromall"] } %>Everyone</div>
+	    <div><%= check_box "emailsettings", "fromall", { :checked => current_user.emailsettings["fromall"] } %>Everyone</div>
 	    <div>
-	      <%= check_box "emailsettings", "fromartist", { :checked => @artist.emailsettings["fromartist"] || @artist.emailsettings["fromall"] } %>Registered MAU Artists
+	      <%= check_box "emailsettings", "fromartist", { :checked => current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] } %>Registered MAU Artists
 	    </div>
 	  </td>
 	  <td class="input-err" width="200">
@@ -120,10 +120,10 @@
 	  </td>
 	  <td valign="top">
 	    <div>
-	      <%= check_box "emailsettings", "mauadmin", { :checked => @artist.emailsettings["mauadmin"] } %>Administrative
+	      <%= check_box "emailsettings", "mauadmin", { :checked => current_user.emailsettings["mauadmin"] } %>Administrative
 	    </div>
 	    <div>
-	      <%= check_box "emailsettings", "maunews", { :checked => @artist.emailsettings["maunews"] } %>News
+	      <%= check_box "emailsettings", "maunews", { :checked => current_user.emailsettings["maunews"] } %>News
 	    </div>
 	  </td>
 	  <td class="input-err" style="font-size: x-small;">
@@ -179,7 +179,7 @@
 			  Studio #
 			</td>
 			<td>
-			  <%= f.text_field :studionumber, :value => @artist.studionumber %>
+			  <%= f.text_field :studionumber, :value => current_user.studionumber %>
 			</td>
 			<td class="input-err">
 			</td>
@@ -205,7 +205,7 @@
 			  City
 			</td>
 			<td>
-			  <%= f.text_field :city, :value => @artist.city || "San Francisco" %>
+			  <%= f.text_field :city, :value => current_user.city || "San Francisco" %>
 			</td>
 			<td class="input-err">
 			</td>
@@ -215,7 +215,7 @@
 			  State
 			</td>
 			<td>
-			  <%= f.text_field :addr_state, :value => @artist.addr_state || "CA"%>
+			  <%= f.text_field :addr_state, :value => current_user.addr_state || "CA"%>
 			</td>
 			<td class="input-err">
 			</td>
@@ -225,7 +225,7 @@
 			  Zipcode
 			</td>
 			<td>
-			  <%= f.text_field :zip, :value => @artist.zip || "94110"  %>
+			  <%= f.text_field :zip, :value => current_user.zip || "94110"  %>
 			</td>
 			<td class="input-err">
 			</td>
@@ -298,7 +298,7 @@
 	<tr>
           <td class="input-name">&nbsp;</td>
           <td class="input"><%= submit_tag 'Change password' %> 
-	    <input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= self.current_artist.id %>);"/></td>
+	    <input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= current_user.id %>);"/></td>
           <td class="input-err">&nbsp;</td>
 	</tr>
       </table>
@@ -316,7 +316,7 @@
 	  </td>
 	</tr>
 	<tr>
-	  <td class="td-center"><a onclick="return confirm('This action is permanent.\nAre you sure you want to deactivate your account?');" href="<%= '/artists/deactivate/%d' % current_artist.id %>"><button class="formbutton">Deactivate Me</button></a></td>
+	  <td class="td-center"><a onclick="return confirm('This action is permanent.\nAre you sure you want to deactivate your account?');" href="<%= '/users/deactivate/%d' % current_user.id %>"><button class="formbutton">Deactivate Me</button></a></td>
 	</tr>
       </table>
     </div>
@@ -326,8 +326,8 @@
     <form method="get" action="/art_pieces/new">
       <input class="formbutton" type="submit" value="Add Art" />
     </form>
-    <% if @artist.art_pieces.length > 0 -%>
-    <% if @artist.art_pieces.length > 1 -%>
+    <% if current_user.art_pieces.length > 0 -%>
+    <% if current_user.art_pieces.length > 1 -%>
     <form method="get" action="<%= arrangeart_artists_path %>" >
       <input class="formbutton" type="submit" value="Arrange Art" />
     </form>
@@ -336,7 +336,7 @@
       <input class="formbutton" type="submit" value="Delete Art" />
     </form>
     <% end -%>
-    <a href="<%= artist_url(current_artist) %>"><button
+    <a href="<%= artist_url(current_user) %>"><button
 						   class="formbutton" >Back to Profile</button></a>
   </div>
 </div>

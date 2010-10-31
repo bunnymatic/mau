@@ -109,7 +109,7 @@ class ArtPiecesController < ApplicationController
           t['name'] = HTMLHelper.encode(t['name'])
         end
 
-        if (current_artist && current_artist.id == @art_piece.artist.id)
+        if (current_user && current_user.id == @art_piece.artist.id)
           h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
         end
         render :json => h.to_json
@@ -121,7 +121,7 @@ class ArtPiecesController < ApplicationController
   # GET /art_pieces/new
   # GET /art_pieces/new.xml
   def new
-    artist = Artist.find(current_artist.id)
+    artist = Artist.find(current_user.id)
     cur_pieces = artist.art_pieces.length
     if cur_pieces >= artist.max_pieces
       flash.now[:error] = "You cannot have more than %s art pieces.  If you decide to continue adding art, the oldest pieces will be removed to make space for the new ones.  Alternatively, you could go delete specific pieces to make room for the new ones." % artist.max_pieces
@@ -138,7 +138,7 @@ class ArtPiecesController < ApplicationController
   def edit
     begin
       @art_piece = safe_find_art_piece(params[:id])
-      if @art_piece.artist != self.current_artist
+      if @art_piece.artist != self.current_user
         flash.now[:error] = 'You can only edit your own works.'
         self._setup_thumb_browser_data([], 0)
         render :action => 'show', :layout => 'mau'
@@ -159,7 +159,7 @@ class ArtPiecesController < ApplicationController
   # POST /art_pieces.xml
   def create
     if params[:commit].downcase == 'cancel'
-      redirect_to(self.current_artist)
+      redirect_to(current_user)
       return
     end
     @media = Medium.all
@@ -176,7 +176,7 @@ class ArtPiecesController < ApplicationController
       return
     else 
       params[:art_piece][:tags] = TagsHelper.tags_from_s(params[:tags])
-      @art_piece = current_artist.art_pieces.build(params[:art_piece])
+      @art_piece = current_user.art_pieces.build(params[:art_piece])
       begin
         ActiveRecord::Base.transaction do
           saved = @art_piece.save
@@ -204,7 +204,7 @@ class ArtPiecesController < ApplicationController
 
     respond_to do |format|
       if saved
-        format.html { redirect_to(current_artist) }
+        format.html { redirect_to(current_user) }
         format.xml  { render :xml => @art_piece, :status => :created, :location => @art_piece }
       else
         @media = Medium.all

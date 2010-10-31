@@ -1,6 +1,15 @@
 MAU = window['MAU'] || {};
 
 /** setup hash change observer */
+
+var Utils = {
+    selected : function(elid) {
+        var opts = $(elid).select('option');
+        return opts.find(function(ele){return !!ele.selected;});
+    }
+};
+Element.addMethods(Utils);
+
 (function(){
     var curHash = window.location.hash;
     function doHashChange(){
@@ -67,10 +76,14 @@ var TagMediaHelper = {
     var G = M.GetInvolved = M.GetInvolved || {};
     var S = M.Submissions = M.Submissions || {};
     var TB = M.Toolbar = M.Toolbar || {};
-
     var FR = M.FrontPage = M.FrontPage || {};
-    
+    var AC = M.Account = M.Account || {};
+
     M.__debug__ = true;
+    M.BLIND_OPTS = { up: {duration: 0.25},
+                     down: {duration: 0.75} };
+    M.FADE_OPTS = { 'in': {duration: 0.25, from:0, to:1},
+                    'out': {duration: 0.25} };
     M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
     M.validateEmail = function(str) {
@@ -138,7 +151,7 @@ var TagMediaHelper = {
     };
 
     M.goToArtist = function( artistid ) {
-	window.location = "/artists/" + parseInt(artistid,10);
+	window.location = "/users/" + parseInt(artistid,10);
 	return true;
     };
 
@@ -166,7 +179,7 @@ var TagMediaHelper = {
     /* leave for later in case we need to init stuff */
     M.init = function() {
 	// focus on first form input
-	var fnames = Array('signup_form', 'new_artpiece_form');
+	var fnames = Array('login_form', 'new_artpiece_form');
 	$(fnames).each(function(n) {
 	    var f = $(n);
 	    if (f) {
@@ -342,12 +355,12 @@ var TagMediaHelper = {
 	    if (frm) {
 		if (!frm.visible() ) {
 		    if (sxnnm == sxn) {
-			frm.blindDown();
+			frm.blindDown(M.BLIND_OPTS['down']);
 			lnk.innerHTML = "hide";
 		    }
 		}
 		else {
-		    frm.blindUp();
+		    frm.hide();
 		    lnk.innerHTML = "change";
 		}
 	    }
@@ -419,7 +432,6 @@ var TagMediaHelper = {
             aafrm.observe('submit', function(ev) {
                 // construct new order
                 var divs = $$('.artp-thumb-container');
-                var neworder = [];
                 var ii = 0;
                 var ndivs = divs.length;
                 var neworder = [];
@@ -542,11 +554,11 @@ var TagMediaHelper = {
 			}
 		    }
 		}
-			if ('cache' in ap) {
-				img.appear();
-			} else {
-				setTimeout(function() {img.appear();}, 50);
-			}
+		if ('cache' in ap) {
+		    img.appear();
+		} else {
+		    setTimeout(function() {img.appear();}, 50);
+		}
 	    }
 	},
 	update_links: function(ap) {
@@ -766,7 +778,7 @@ var TagMediaHelper = {
 	    });
 	    N.setWindowPosition();
 	    N.loading();
-	    new Ajax.Updater(N.ID_CONTENT, '/artists/' + aid + '/noteform',
+	    new Ajax.Updater(N.ID_CONTENT, '/users/' + aid + '/noteform',
 			     {
 				 method: 'get',
 				 onComplete: function(transport) {
@@ -848,13 +860,13 @@ var TagMediaHelper = {
 		if (dv) {
 		    if (s == s2) {
 			if (dv.visible()){
-			    dv.blindUp();
+			    dv.blindUp(M.BLIND_OPTS['up']);
 			} else {
-			    dv.blindDown();
+			    dv.blindDown(M.BLIND_OPTS['down']);
 			}
 		    }
 		    else {
-			dv.blindUp();
+			dv.blindUp(M.BLIND_OPTS['up']);
 		    }
 		}
 	    }
@@ -943,6 +955,45 @@ var TagMediaHelper = {
     };
     Event.observe(window,'load',MA.init);
 
+    Object.extend(AC, {
+        CHOOSER: 'account_type_chooser',
+        FORM_HASH: { Artist: 'artist_signup_form',
+                     MAUFan: 'fan_signup_form' },
+        onload: function() {
+            var $chooser = $(AC.CHOOSER);
+            if ($chooser) {
+                Event.observe($chooser,'change', AC.open_selected_form);
+                AC.open_selected_form();
+            }
+        },
+        open_selected_form: function() {
+            var newform = $(AC.CHOOSER).selected();
+            AC.open_form(newform.value);
+        },
+        open_form: function(frmtype) {
+            if (!(frmtype in AC.FORM_HASH)) {
+                return;
+            }
+            var frmid = AC.FORM_HASH[frmtype];
+            var $f = $(frmid);
+            if ($f) {
+                for (var k in AC.FORM_HASH) {
+                    var cf = AC.FORM_HASH[k];
+                    M.log("show " + frmid);
+                    if (frmid == cf) {
+                        if (!$(cf).visible()) { //show if necessary
+                            $(cf).fade(M.FADE_OPTS['in']);
+                            $(cf).setStyle({display:'block'});
+                        }
+                    } else { // hide
+                        $(cf).fade(M.FADE_OPTS['out']);
+                        $(cf).setStyle({display:'none'});
+                    }
+                }
+            }
+        }
+    });
+    Event.observe(window,'load', AC.onload);
 }
 )();
 

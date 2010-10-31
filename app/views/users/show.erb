@@ -1,0 +1,63 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => "/twocol_top" %>
+  <tr>    
+    <td> </td>
+    <td class="alt-lcol" align="center">
+      <div id="bigthumbcolumn">
+        no thumbs
+      </div>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
+    <td class="rcol" align="center" ><!-- artists/show -->
+      <% if flash[:error] -%>
+      <div class="error-msg">Error:
+		<%= flash[:error] %>
+      </div>
+      <% end -%>
+      <div class="content-block" > 
+	<% if @fan -%>
+	<div id="artist_profile_img">
+	  <% if logged_in? && @fan && @fan.login == self.current_user.login -%>
+	  <a title="update my picture" href="/users/addprofile/">
+	    <% if @fan.has_profile_image -%>
+  	    <img class="profile" src="<%= @fan.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
+	    <% else -%>
+  	    <img class="profile" src="/images/default-profile-img.png" width="200" />
+  	    <% end -%>
+	  </a>
+	  <% else -%>
+	  <%  if @fan.has_profile_image -%>
+  	  <img class="profile" src="<%= @fan.get_profile_image('small') %>" />
+	  <% else %>
+  	  <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
+  	  <%   end -%>
+	  <% end -%>
+	  <% end -%>
+	</div>
+	<div id="artist_profile_name">
+ 	  <h4><%=h @fan.get_name %></h4>
+	  <div class="artist">
+	    <div class="div-left">
+	      <% if flash[:notice] -%>
+	      <div class="notice">
+		<%= flash[:notice] %>
+	      </div>
+	      <% end -%>
+	    </div>
+	    <% if (!current_user || current_user.id != @fan.id) && (@fan.emailsettings['fromall'] || (@fan.emailsettings['fromartist'] && logged_in?)) -%>
+	    <div class="div-left share">Send the fan a note:&nbsp;
+	      <a href="#" id="notify_artist" aid="<%= @fan.id %>" ><span  aid="<%= @fan.id %>"  class="micro-icon email"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
+	    </div>
+	    <% end -%>
+	    <% if logged_in? and @fan.id == current_user.id -%>
+	    <div id="profile_edit_ctrls">
+	      <a class="lksubtle" href="<%= edit_user_path(current_user) %>"><span>edit my page</span></a>
+	    </div>
+	    <% end -%>
+	</td>
+	<td valign="top">
+	</td>
+  </tr>
+  <%= render :partial => "/twocol_bottom" %>
+</table>
+

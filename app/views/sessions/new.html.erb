@@ -6,9 +6,9 @@
     </div>
     <% end -%>
     <div class="signup-left">
-      <h2>Already A MAU Artist?</h2>
+      <h2>Already A MAU Member?</h2>
       <div class="signup-text">
-	<% form_tag session_path, :id => 'signup_form' do -%>
+	<% form_tag session_path, :id => 'login_form' do -%>
 	<table class="login-table">
 	  <% if flash[:error] %>
 	  <tr>
@@ -43,10 +43,11 @@
       </div>
     </div>
     <div class="signup-right">
-      <h2>Not Yet A MAU Artist?</h2>
-      <p>In order to upload your portfolio and take part in our Mission Open Studios events,  you'll need an account.</p>
-      <p class="justify">Joining is free and easy.<br/>
-	You just have to be an artist living or working or showing in the Mission District, San Francisco.</p>
+      <h2>Not Yet A MAU Member?</h2>
+      <p>You can get an artist membership or a fan membership.</p>
+      <p>The artist membership allows you to upload your portfolio, take part in our Mission Open Studios events,  get listed in our Open Studios online catalog.  Use it to get your work out there!  You just need to be an artist working in the Mission district of San Francisco.</p>
+      <p>If you are a fan of MAU, you can use the fan account to save your favorite artists, create a custom catalog including only the artists you want to see and more.</p>
+      <p class="justify">Joining is free and easy.</p>
       <div><form method="get" action="<%= signup_path %>"><input type="submit" value="Sign Up Now" /></form></div>
     </div>
   </div>

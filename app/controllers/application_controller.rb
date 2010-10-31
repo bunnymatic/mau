@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
       @last_visit = last_visit
     end
   end
+
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
@@ -105,7 +106,7 @@ class ApplicationController < ActionController::Base
   protected
   def admin_required
     RAILS_DEFAULT_LOGGER.warn("ApplicationController: checking for admin")
-    if !self.current_artist or !self.current_artist.is_admin?
+    if !self.current_user or !self.current_user.is_admin?
       redirect_to "/error"
     end
   end

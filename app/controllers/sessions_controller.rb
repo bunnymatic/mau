@@ -1,14 +1,12 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-
   layout 'mau1col'
 
   # render new.rhtml
   def new
     if logged_in?
       flash[:notice] = "You're already logged in"
-      redirect_to current_artist
+      redirect_to user_path(current_user)
     end
   end
 
@@ -17,19 +15,20 @@ class SessionsController < ApplicationController
     
     # try finding artist by email
     login = params[:login]
-    bylogin = Artist.find_by_email(params[:login])
+    bylogin = User.find_by_email(params[:login])
     if bylogin
       login = bylogin.login
     end
 
-    artist = Artist.authenticate(login, params[:password])
-    if artist
+    user = User.authenticate(login, params[:password])
+    p "Auth", user
+    if user
       # Protects against session fixation attacks, causes request forgery
       # protection if user resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
       # reset_session
-      if artist.active?
-        self.current_artist = artist
+      if user.active?
+        self.current_user = user
         # force shutoff of remember_me cookie - too agressive
         new_cookie_flag = (params[:remember_me] == "1")
         handle_remember_cookie! new_cookie_flag
@@ -38,7 +37,7 @@ class SessionsController < ApplicationController
         if session[:return_to]
           redirect_to session[:return_to]
         else
-          redirect_to self.current_artist
+          redirect_to user_path(current_user)
         end
         return
       else

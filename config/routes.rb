@@ -15,14 +15,14 @@ ActionController::Routing::Routes.draw do |map|
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
-  map.register '/register', :controller => 'artists', :action => 'create'
-  map.signup '/signup', :controller => 'artists', :action => 'new'
-  map.change_password '/change_password', :controller => 'artists', :action => 'change_password'  
-  map.change_password_update '/change_password_update', :controller => 'artists', :action => 'change_password_update'  
-  map.activate '/activate/:activation_code', :controller => 'artists', :action => 'activate', :activation_code => nil
-  map.forgot '/forgot', :controller => 'artists', :action => 'forgot'
-  map.resend_activation '/resend_activation', :controller => 'artists', :action => 'resend_activation'
-  map.reset 'reset/:reset_code', :controller => 'artists',     :action => 'reset'
+  map.register '/register', :controller => 'users', :action => 'create'
+  map.signup '/signup', :controller => 'users', :action => 'new'
+  map.change_password '/change_password', :controller => 'users', :action => 'change_password'  
+  map.change_password_update '/change_password_update', :controller => 'users', :action => 'change_password_update'  
+  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
+  map.forgot '/forgot', :controller => 'users', :action => 'forgot'
+  map.resend_activation '/resend_activation', :controller => 'users', :action => 'resend_activation'
+  map.reset 'reset/:reset_code', :controller => 'users',     :action => 'reset'
 
   map.artistsmap '/artists/map', :controller => 'artists', :action => 'map'
   map.artistsHUGEmap '/artists/hugemap', :controller => 'artists', :action => 'hugemap'
@@ -30,8 +30,10 @@ ActionController::Routing::Routes.draw do |map|
   map.faq '/artists/faq', :controller => 'artists', :action => 'faq'
   map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
 
-  map.resources :artists, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get,  :addprofile => :get }, :collection => { :upload_profile => :post, :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get }
-  map.user '/artists/:id', :controller => 'artists', :action => 'show'
+  map.resources :artists , :collection => { :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get }
+
+  map.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get }
+
   map.resource :session
 
   map.resources :studios
