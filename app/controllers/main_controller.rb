@@ -18,6 +18,9 @@ class MainController < ApplicationController
     end
   end
 
+  def faq
+  end
+
   def sampler
     @rand_pieces = MainHelper.get_random_pieces
     render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }}

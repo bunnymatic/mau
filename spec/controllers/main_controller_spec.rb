@@ -12,6 +12,13 @@ describe MainController do
         params_from(m, "/venues").should == {:controller => 'main', :action => 'venues' }
       end
     end
+    it "should generate {:controller=>main, action=>faq} from ANY 'faq'" do
+      methods = [:get, :put, :delete, :post]
+      methods.each do |m|
+        params_from(m, "/faq").should == {:controller => 'main', :action => 'faq' }
+      end
+    end
+
     it "should generate {:controller=>main, action=>getinvolved} from ANY 'getinvolved'" do
       methods = [:get, :put, :delete, :post]
       methods.each do |m|
