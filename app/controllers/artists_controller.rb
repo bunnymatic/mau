@@ -404,10 +404,6 @@ class ArtistsController < ApplicationController
   end
 
 
-  def faq
-    render :action => 'faq', :layout => 'mau2col'
-  end
-
   protected
   def safe_find_artist(id)
     begin

@@ -1222,8 +1222,8 @@ td.td-left{
 }
 
 #main_messages .notice,
-#main_messages .error-msg{
-	margin: auto;
+#main_messages .error-msg {
+    margin: 20px auto;
 }
 .main-text {
 	width: 520px;
@@ -1492,9 +1492,11 @@ div.studio-list div {
 }
 
 .notice {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     border: 1px solid #FEF7CA;
-	margin: 4px;
-	padding: 4px;
+    margin: 4px;
+    padding: 4px;
     width: 260px
 }
 
@@ -1503,12 +1505,14 @@ div.notice {
 }
 
 .error-msg {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     border: 1px solid red;
     color: #f33;
     margin: 10px;
     padding: 10px;
-	text-align: left;
-    width: 65%;
+    text-align: left;
+    width: 260px
 }
 #new_artpiece .error-msg {
     width: 320px;

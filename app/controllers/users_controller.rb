@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails, :admin_update, :destroy ]
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :addprofile, :deactivate, :setarrangement, :arrangeart ]
 
-  layout 'mau1col', :except => 'faq'
+  layout 'mau1col'
 
   def index
     redirect_to('/artists')
@@ -249,9 +249,9 @@ class UsersController < ApplicationController
       user = User.find_by_email(params[:artist][:email])
       if user
         user.resend_activation
-        flash[:notice] = "We sent your activation code to #{artist.email}"
+        flash[:notice] = "We sent your activation code to #{user.email}.  Please check your email for instructions."
       else
-        flash[:notice] = "We can't find any users with email #{params[:artist][:email]} in our system."
+        flash[:error] = "We can't find any users with email #{params[:artist][:email]} in our system."
       end
       redirect_back_or_default('/')
     end
@@ -263,14 +263,14 @@ class UsersController < ApplicationController
       if user
         if user.state == 'active'
           user.create_reset_code
-          flash[:notice] = "Reset code sent to #{artist.email}"
+          flash[:notice] = "We've sent email to #{user.email} with instructions on how to reset your password.  Please check your email."
         else
-          flash[:error] = "That artist is not yet active.  Have you responded to the activation email we already sent?  Enter your email below if you need us to send you a new activation email."
+          flash[:error] = "That account is not yet active.  Have you responded to the activation email we already sent?  Enter your email below if you need us to send you a new activation email."
           redirect_back_or_default('/resend_activation')
           return
         end
       else
-        flash[:notice] = "No artist with email #{params[:artist][:email]} does not exist in system"
+        flash[:error] = "No account with email #{params[:artist][:email]} exists.  Are you sure you got the correct email address?"
       end
       redirect_back_or_default('/login')
     end
