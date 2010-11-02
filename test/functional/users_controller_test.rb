@@ -19,6 +19,26 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
+  def test_should_not_count_fan_signup_as_artist
+    assert_no_difference 'Artist.count' do
+      create_user
+      assert !flash[:error]
+      assert_response :redirect
+    end
+  end
+
+  def test_should_not_count_fan_in_studio0_artist_list
+    s = Studio.indy.artists.count
+    create_user
+    assert !flash[:error]
+    assert_response :redirect
+    u = User.find_by_login('quire')
+    u.state = 'active'
+    u.save!
+    s2 = Studio.indy.artists.count
+    assert s2 == s
+  end
+
   def test_should_allow_artist_signup
     assert_difference 'Artist.count' do
       create_artist
