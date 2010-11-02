@@ -22,20 +22,20 @@ class SessionsControllerTest < ActionController::TestCase
 
     post :create, :login => 'quentin', :password => 'monkey'
 
-    assert session[:artist_id]
+    assert session[:user_id]
     assert_response :redirect
   end
 
   def test_should_fail_login_and_not_redirect
     post :create, :login => 'quentin', :password => 'bad password'
-    assert_nil session[:artist_id]
+    assert_nil session[:user_id]
     assert_response :success
   end
 
   def test_should_logout
     login_as :quentin
     get :destroy
-    assert_nil session[:artist_id]
+    assert_nil session[:user_id]
     assert_response :redirect
   end
 
