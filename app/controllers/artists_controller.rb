@@ -10,8 +10,8 @@ end
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
-  before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails, :admin_update, :destroy ]
-  before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :deactivate, :setarrangement, :arrangeart ]
+  before_filter :admin_required, :only => [ :purge, :admin_index, :admin_emails, :admin_update ]
+  before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :deactivate, :setarrangement, :arrangeart ]
 
   layout 'mau1col', :except => 'faq'
 
@@ -131,7 +131,12 @@ class ArtistsController < ApplicationController
 
 
   def edit
+    if current_user[:type] != 'Artist'
+      redirect_to edit_user_path(current_user)
+      return
+    end
     @studios = Studio.all
+    @artist_info = current_artist.artist_info
   end
 
 

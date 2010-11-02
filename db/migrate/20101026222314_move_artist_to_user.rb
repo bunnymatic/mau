@@ -12,7 +12,6 @@ class MoveArtistToUser < ActiveRecord::Migration
                      {:name => "myspace", :type => :string, :args => { :limit => 200}},
                      {:name => "flickr", :type => :string, :args => { :limit => 200}},
                      {:name => "zip", :type => :integer, :args => {}},
-                     {:name => "studio_id", :type => :integer, :args => {}},
                      {:name => "max_pieces", :type => :integer, :args => {:default => 20}},
                      {:name => "representative_art_piece", :type => :integer, :args => {}},
                      {:name => "studionumber", :type => :integer, :args => {}},

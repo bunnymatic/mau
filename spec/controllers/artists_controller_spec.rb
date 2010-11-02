@@ -7,8 +7,33 @@ describe ArtistsController do
   fixtures :users
   fixtures :art_pieces
 
-  describe "- arrange art" do
-    def save_artist_with_artpieces
+  describe "GET edit" do
+    before(:each) do
+      @a = users(:artist1)
+      @a.save!
+    end
+    context "while not logged in" do
+      before(:each) do 
+        get :edit
+      end
+      it "redirects to login" do
+        response.should redirect_to(new_session_path)
+      end
+    end
+    context "while logged in" do
+      before(:each) do
+        login_as(@a)
+        get :edit
+      end
+      it "GET returns 200" do
+        response.should be_success
+      end
+    end
+  end
+  
+  describe "arrange art" do
+    before(:each) do 
+      # stash an artist and art pieces
       apids =[]
       a = users(:artist1)
       a.save!
@@ -24,67 +49,56 @@ describe ArtistsController do
       ap.user_id = a.id
       ap.save!
       apids << ap.id
-      { :artist => a, :art_piece_ids => apids }
+      @artist = a
+      @artpieces = apids
     end
-
+    
     it 'should put representative as last uploaded piece' do
-      r = save_artist_with_artpieces
-      a = r[:artist]
-      a = Artist.find_by_id(a.id)
+      a = Artist.find_by_id(@artist.id)
       a.representative_piece.title.should == 'third'
     end
 
     it 'should return art_pieces in created time order' do
-      r = save_artist_with_artpieces
-      a = r[:artist]
-      aps = a.art_pieces
+      aps = @artist.art_pieces
       aps.count.should == 3
       aps[0].title.should == 'third'
       aps[1].title.should == 'second'
       aps[2].title.should == 'first'
     end
+    context "while logged in" do
+      before(:each) do
+        login_as(@artist)
+      end
+      it 'should return art_pieces in new order (2,1,3)' do
+        order1 = [ @artpieces[1], @artpieces[0], @artpieces[2] ]
 
-    it 'should return art_pieces in new order (2,1,3)' do
-      r = save_artist_with_artpieces
-      a = r[:artist]
-      apids = r[:art_piece_ids]
-      order1 = [ apids[1], apids[0], apids[2] ]
-      
-      login_as(a)
+        # user should be logged in now
+        post :setarrangement, { :neworder => order1.join(",") }
+        response.should redirect_to user_url(@artist)
+        a = Artist.find(@artist.id)
+        aps = a.art_pieces
+        aps.count.should == 3
+        aps[0].title.should == 'second'
+        aps[1].title.should == 'first'
+        aps[2].title.should == 'third'
+        aps[0].artist.representative_piece.id.should==aps[0].id
+        
+      end
 
-      # user should be logged in now
-      post :setarrangement, { :neworder => order1.join(",") }
-      response.code.should == "302"
-
-      aid = a.id
-      a = Artist.find(aid)
-      aps = a.art_pieces
-      aps.count.should == 3
-      aps[0].title.should == 'second'
-      aps[1].title.should == 'first'
-      aps[2].title.should == 'third'
-      aps[0].artist.representative_piece.id.should==aps[0].id
-
-    end
-
-    it 'should return art_pieces in new order (1,3,2)' do
-      r = save_artist_with_artpieces
-      a = r[:artist]
-      apids = r[:art_piece_ids]
-      order1 = [ apids[0], apids[2], apids[1] ]
-      login_as(a)
-
-      post :setarrangement, { :neworder => order1.join(",") }
-      response.code.should == "302"
-
-      aid = a.id
-      a = Artist.find(aid)
-      aps = a.art_pieces
-      aps.count.should == 3
-      aps[0].title.should == 'first'
-      aps[1].title.should == 'third'
-      aps[2].title.should == 'second'
-      aps[0].artist.representative_piece.id.should==aps[0].id
+      it 'should return art_pieces in new order (1,3,2)' do
+        order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
+        
+        post :setarrangement, { :neworder => order1.join(",") }
+        response.should redirect_to user_url(@artist)
+        
+        a = Artist.find(@artist.id)
+        aps = a.art_pieces
+        aps.count.should == 3
+        aps[0].title.should == 'first'
+        aps[1].title.should == 'third'
+        aps[2].title.should == 'second'
+        aps[0].artist.representative_piece.id.should==aps[0].id
+      end
     end
   end
   describe '- logged out' do
@@ -121,17 +135,24 @@ describe ArtistsController do
     end      
   end
   describe "- route recognition" do
-    it "should recognize PUT /artists/10 as update" do
-      params_from(:put, "/artists/10").should == {:controller => 'artists', :action => 'update', :id => '10' }
+    context "/artists/10/edit" do
+      it "map get to artists controller edit method" do
+        params_from(:get, "/artists/10/edit").should == {:controller => 'artists', :action => 'edit', :id => '10' }
+      end
     end
-    it "should recognize GET /artists/10 as show" do
-      params_from(:get, "/artists/10").should == {:controller => 'artists', :action => 'show', :id => '10' }
-    end
-    it "should recognize POST /artists/10 as nonsense (action 10)" do
-      params_from(:post, "/artists/10").should == {:controller => 'artists', :action => '10' }
-    end
-    it "should recognize DELETE /artists/10 as show" do
-      params_from(:delete, "/artists/10").should == {:controller => 'artists', :action => 'destroy', :id => '10' }
+    context "/artists/10" do
+      it "map PUT to update" do 
+        params_from(:put, "/artists/10").should == {:controller => 'artists', :action => 'update', :id => '10' }
+      end
+      it "map GET to show" do
+        params_from(:get, "/artists/10").should == {:controller => 'artists', :action => 'show', :id => '10' }
+      end
+      it "map POST to action == 10 (nonsense)" do
+        params_from(:post, "/artists/10").should == {:controller => 'artists', :action => '10' }
+      end
+      it "map DELETE /artists/10 as destroy" do
+        params_from(:delete, "/artists/10").should == {:controller => 'artists', :action => 'destroy', :id => '10' }
+      end
     end
   end
 end

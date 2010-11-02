@@ -1,4 +1,5 @@
 # -*- coding: undecided -*-
+require 'pp'
 
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
@@ -13,16 +14,20 @@ class UsersController < ApplicationController
   end
 
   def edit
+    if current_user[:type] != 'Artist'
+      redirect_to edit_artist_path(current_user)
+      return
+    end
   end
 
   def show
     if params[:id]
       @fan = safe_find_user(params[:id])
       if (@fan[:type] == 'Artist')
-        redirect_to "/artists/%d" % @fan.id
+        redirect_to artist_path(@fan)
         return
       end
-      @page_title = "Mission Artists United - Fan: %s" % current_user.get_name(true)
+      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
       render :action => 'show', :layout => 'mau'
     end
   end
@@ -42,7 +47,6 @@ class UsersController < ApplicationController
 
   def addprofile
     @errors = []
-    print "A1"
     if !current_user
       flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
       redirect_back_or_default( user_path(current_user) || "/")
@@ -50,7 +54,6 @@ class UsersController < ApplicationController
   end
 
   def upload_profile
-    print "Uploading"
     if params[:commit].downcase == 'cancel'
       
       redirect_to user_path(current_user)
@@ -79,7 +82,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:commit].downcase == 'cancel'
+    if params[:commit] && params[:commit].downcase == 'cancel'
       redirect_to user_path(current_user)
       return
     end
@@ -104,31 +107,46 @@ class UsersController < ApplicationController
 
   def create
     logout_keeping_session!
-    
-    if params[:artist]
+    if params[:artist] && !params[:artist].empty?
+      # studio_id is in artist info
       studio_id = params[:artist][:studio_id] ? params[:artist][:studio_id].to_i() : 0
+      @artist = nil
       if studio_id > 0
         studio = Studio.find(studio_id)
         if studio
           @artist = studio.artists.build(params[:artist])
         end
       else
-        @artist = Artist.new(params[:artist])
-        if @artist.url && @artist.url.index('http') != 0
-          @artist.url = 'http://' + @artist.url
-        end
+        @artist = Artist.create(params[:artist])
       end
+      if @artist.url && @artist.url.index('http') != 0
+        @artist.url = 'http://' + @artist.url
+      end
+      @artist.artist_info = ArtistInfo.new
       @artist.register! if @artist && @artist.valid?
       success = @artist && @artist.valid?
       errs = @artist.errors
-    elsif params[:mau_fan] # type is Fan
-      @fan = MAUFan.new(params[:mau_fan])
+    elsif params[:mau_fan] || params[:user] # type is Fan
+      u = params[:user]
+      if !u
+        u = params[:mau_fan]
+      end
+      if u.empty?
+        logger.debug("Failed to create account - bad/empty params")
+        render_not_found Exception.new("We can't create a user based on your input parameters.")
+        return
+      end
+      @fan = MAUFan.new(u)
       if @fan.url && @fan.url.index('http') != 0
         @fan.url = 'http://' + @fan.url
       end
       @fan.register! if @fan && @fan.valid?
       success = @fan && @fan.valid?
       errs = @fan.errors
+    else
+      logger.debug("Failed to create account - bad/empty params")
+      render_not_found Exception.new("We can't create a user based on your input parameters.")
+      return
     end
 
     if success && errs.empty?
@@ -216,7 +234,6 @@ class UsersController < ApplicationController
 
   def destroy
     id = params[:id]
-    p " Looking for ", id
     a = safe_find_user(id)
     if a
       name = a.login

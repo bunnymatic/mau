@@ -662,7 +662,9 @@ var TagMediaHelper = {
 	    t.observe('click', function() { 
 		location.href = t.href;
 		var apid = location.hash.substr(1);
-		T.jumpTo(apid);
+                if (apid) {
+		    T.jumpTo(apid);
+                }
 	    });
 	});
 	
