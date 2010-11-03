@@ -136,7 +136,7 @@ class ArtistsController < ApplicationController
       return
     end
     @studios = Studio.all
-    @artist_info = current_artist.artist_info
+    @artist_info = current_user.artist_info || ArtistInfo.new({ :id => current_user.id })
   end
 
 
@@ -390,16 +390,19 @@ class ArtistsController < ApplicationController
         params[:artist][:email_attrs] = em2.to_json
       end
       # clean os from radio buttons
-      os = params[:artist][:osoct2010]
+      artist_info = params[:artist][:artist_info]
+      params[:artist].delete(:artist_info)
+      os = artist_info[:osoct2010]
       if os == "true" || os == "on" || os == 1
         if ((!params[:artist][:street]) || (params[:artist][:street].empty?)) && (current_user.studio && current_user.studio.id <= 0)
           raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
         end
-        params[:artist][:osoct2010] = true
+        artist_info[:osoct2010] = true
       elsif os == "false" || os == "off"
-        params[:artist][:osoct2010] = false
+        artist_info[:osoct2010] = false
       end
-      self.current_artist.update_attributes!(params[:artist])
+      current_artist.artist_info.update_attributes!(artist_info)
+      current_artist.update_attributes!(params[:artist])
       flash[:notice] = "Update successful"
       redirect_to edit_artist_url(current_user)
     rescue 
