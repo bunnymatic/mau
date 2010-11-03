@@ -68,8 +68,6 @@
       </div>
 	  </div>
     </div>
-    <% end %>
-    <% form_for(@artist_info) do |f| -%>
     <%= f.error_messages %>
     <div class="open-close-div acct"><span id="events_toggle" class="title">Open Studios</span><span class="edit"><a href="#events" id="events_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div class="edit-profile-sxn"  id="events" style="display:none;">
@@ -79,9 +77,13 @@
 	</div>
 	<%= f.error_messages %>
 	<div style="float:left;">
-	  <div><%= f.radio_button :osoct2010, "true" %>Yep</div>
-	  <div><%= f.radio_button :osoct2010, "false" %>Nope</div>
-	</div>
+	  <div>
+            <%= radio_button_tag "#{f.object_name}[artist_info[osoct2010]]", "true",  @artist_info.osoct2010  %>Yep
+          </div>
+	  <div>
+            <%= radio_button_tag "#{f.object_name}[artist_info[osoct2010]]", "false",  (!@artist_info.osoct2010)  %>Nope
+          </div>
+        </div>
 	<div class="clear"></div>
       </div>
       <div class="buttons">
@@ -89,8 +91,6 @@
 	<%= f.submit 'Cancel' %>
       </div>
     </div>
-    <% end %>
-    <% form_for(current_user) do |f| -%>
     <%= f.error_messages %>
     <div class="open-close-div acct" ><span id="notification_toggle" class="title">Notifications</span><span class="edit"><a href="#notifications" id="notification_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div  class="edit-profile-sxn"  id="notification" style="display:none;">
