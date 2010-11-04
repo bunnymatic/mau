@@ -58,7 +58,7 @@ class AdminController < ApplicationController
     artpieces = ArtPiece.count
     introuble = Artist.count(:conditions => "state='pending'")
     noprofile = Artist.count(:conditions => "state='active' and profile_image is not null")
-    octos = Artist.count(:conditions => "state='active' and osoct2010 = 1")
+    octos = ArtistInfo.count(:conditions => "osoct2010 = 1")
     sql = ActiveRecord::Base.connection()
     query = "select count(*) ct from users where state='active' and id not in (select distinct user_id from art_pieces);"
 

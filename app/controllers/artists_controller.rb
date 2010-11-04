@@ -31,7 +31,8 @@ class ArtistsController < ApplicationController
     @gallery_link = artists_path + HTMLHelper.queryencode(gallery_args)
     addresses = []
     if @os_only
-      artists = Artist.find(:all, :conditions => [ 'osoct2010 = 1' ])
+      ais = ArtistInfo.find(:all, :conditions => [ 'osoct2010 = 1'] )
+      artists = Artist.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ])
     else
       artists = Artist.all
     end
@@ -86,7 +87,7 @@ class ArtistsController < ApplicationController
   def admin_index
     sortby = "studio_id"
     reverse = false
-    @allowed_sortby = ['studio_id','lastname','firstname','id','login','osoct2010','email']
+    @allowed_sortby = ['studio_id','lastname','firstname','id','login''email']
     if params[:sortby]
       if @allowed_sortby.include? sortby
         sortby = params[:sortby]
@@ -115,7 +116,7 @@ class ArtistsController < ApplicationController
           artistid = m[1]
           a = Artist.find(artistid)
           if a
-            a.osoct2010 = (v.to_s == 'true')
+            a.artist_info.osoct2010 = (v.to_s == 'true')
             a.save
             ct = ct + 1
           end
@@ -145,7 +146,8 @@ class ArtistsController < ApplicationController
     queryargs = {}
     @os_only = is_os_only(params[:osonly])
     if @os_only
-      artists = Artist.find(:all, :conditions => [ 'osoct2010 = 1' ]).sort_by { |a| a.get_sort_name }
+      ais = ArtistInfo.find(:all, :conditions => [ 'osoct2010 = 1'] )
+      artists = Artist.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ]).sort_by { |a| a.get_sort_name }
       queryargs['osonly'] = "on"
     else
       artists = Artist.all.sort_by { |a| a.get_sort_name }

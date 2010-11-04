@@ -14,7 +14,7 @@ class MoveArtistToUser < ActiveRecord::Migration
                      {:name => "zip", :type => :integer, :args => {}},
                      {:name => "max_pieces", :type => :integer, :args => {:default => 20}},
                      {:name => "representative_art_piece", :type => :integer, :args => {}},
-                     {:name => "studionumber", :type => :integer, :args => {}},
+                     {:name => "studionumber", :type => :string, :args => {}},
                      {:name => "osoct2010", :type => :boolean, :args => {:default => false }},
                      {:name => "os2010", :type => :boolean, :args => {:default => false }},
                      {:name => "lat", :type => :float, :args => {}},
