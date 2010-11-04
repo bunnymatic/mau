@@ -6,7 +6,7 @@
       <% if @artist -%>
       <div id="bigthumbcolumn">
 	  <% if @artist.art_pieces.count > 0 -%>
-		<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.representative_pieces(4), :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
+		<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.artist_info.representative_pieces(4), :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
 	  <% else -%>
 	  <div class="allthumbs">
 <%        title = "Generic Art"
@@ -59,7 +59,7 @@
   		  <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
   		  <%   end -%>
 		  <% end -%>
-		  <% if @artist.osoct2010? -%>
+		  <% if @artist.artist_info.osoct2010? -%>
 		  <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
 		  <% end -%>
 		</div>
@@ -155,7 +155,6 @@
 	      <img src="/images/default-art-img.png" width="200" />
 	      <% end -%>
 		</div>
-	  </div>
 	  <% end -%>
 	</td>
 	<td valign="top">

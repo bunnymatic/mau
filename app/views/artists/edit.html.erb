@@ -29,44 +29,44 @@
       <span class="edit"><a href="#info" id="info_toggle_lnk">change</a></span>
     </div>
     <div class="edit-profile-sxn" id="info" style="display:none;">
-     <div class="inner-sxn">
-      <table class="entry-table">
-	<tr>
-	  <td class="input-name">
-	    First Name
-	  </td>
-	  <td>
-	    <%= f.text_field :firstname %>
-	  </td>
-	  <td class="input-err">
-	  </td>
-	</tr>
-	<tr>
-	  <td class="input-name">
-	    Last Name
-	  </td>
-	  <td>
-	    <%= f.text_field :lastname %>
-	  </td>
-	  <td class="input-err">
-	  </td>
-	</tr>
-	<tr>
-	  <td class="input-name">
-	    Email
-	  </td>
-	  <td>
-	    <%= f.text_field :email %>
-	  </td>
-	  <td class="input-err">
-	  </td>
-	</tr>
-      </table>
-      <div class="buttons">
-	<%= f.submit 'Save Changes' %>
-	<%= f.submit 'Cancel' %>
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <tr>
+	    <td class="input-name">
+	      First Name
+	    </td>
+	    <td>
+	      <%= f.text_field :firstname %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="input-name">
+	      Last Name
+	    </td>
+	    <td>
+	      <%= f.text_field :lastname %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="input-name">
+	      Email
+	    </td>
+	    <td>
+	      <%= f.text_field :email %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+        </table>
+        <div class="buttons">
+	  <%= f.submit 'Save Changes' %>
+	  <%= f.submit 'Cancel' %>
+        </div>
       </div>
-	  </div>
     </div>
     <%= f.error_messages %>
     <div class="open-close-div acct"><span id="events_toggle" class="title">Open Studios</span><span class="edit"><a href="#events" id="events_toggle_lnk">change</a></span><div class="clear"></div></div>
@@ -94,232 +94,217 @@
     <%= f.error_messages %>
     <div class="open-close-div acct" ><span id="notification_toggle" class="title">Notifications</span><span class="edit"><a href="#notifications" id="notification_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div  class="edit-profile-sxn"  id="notification" style="display:none;">
-     <div class="inner-sxn">
-      <table class="entry-table">
-	<tr>
-	  <td class="input-name">
-	    Allow notes from:
-	  </td>
-	  <td valign="top">
-	    <div><%= check_box "emailsettings", "fromall", { :checked => current_user.emailsettings["fromall"] } %>Everyone</div>
-	    <div>
-	      <%= check_box "emailsettings", "fromartist", { :checked => current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] } %>Registered MAU Artists
-	    </div>
-	  </td>
-	  <td class="input-err" width="200">
-	    Check these boxes if would like other registered MAU artists or any website visitors the ability to send you a note.
-	  </td>
-	</tr>
-	<tr>
-	  <td class="input-name">
-	    MAU Notices:
-	  </td>
-	  <td valign="top">
-	    <div>
-	      <%= check_box "emailsettings", "mauadmin", { :checked => current_user.emailsettings["mauadmin"] } %>Administrative
-	    </div>
-	    <div>
-	      <%= check_box "emailsettings", "maunews", { :checked => current_user.emailsettings["maunews"] } %>News
-	    </div>
-	  </td>
-	  <td class="input-err" style="font-size: x-small;">
-	    Periodically, we may want to notify you about MAU related things.  Administrative covers website issues/updates, downtime etc.  News includes MAU related events, MAU artist show announcements and general news about MAU.
-	  </td>
-	</tr>
-      </table>
-      <div class="buttons">
-	<%= f.submit 'Save Changes' %>
-	<%= f.submit 'Cancel' %>
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <tr>
+	    <td class="input-name">
+	      Allow notes from:
+	    </td>
+	    <td valign="top">
+	      <div><%= check_box "emailsettings", "fromall", { :checked => current_user.emailsettings["fromall"] } %>Everyone</div>
+	      <div>
+	        <%= check_box "emailsettings", "fromartist", { :checked => current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] } %>Registered MAU Artists
+	      </div>
+	    </td>
+	    <td class="input-err" width="200">
+	      Check these boxes if would like other registered MAU artists or any website visitors the ability to send you a note.
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="input-name">
+	      MAU Notices:
+	    </td>
+	    <td valign="top">
+	      <div>
+	        <%= check_box "emailsettings", "mauadmin", { :checked => current_user.emailsettings["mauadmin"] } %>Administrative
+	      </div>
+	      <div>
+	        <%= check_box "emailsettings", "maunews", { :checked => current_user.emailsettings["maunews"] } %>News
+	      </div>
+	    </td>
+	    <td class="input-err" style="font-size: x-small;">
+	      Periodically, we may want to notify you about MAU related things.  Administrative covers website issues/updates, downtime etc.  News includes MAU related events, MAU artist show announcements and general news about MAU.
+	    </td>
+	  </tr>
+        </table>
+        <div class="buttons">
+	  <%= f.submit 'Save Changes' %>
+	  <%= f.submit 'Cancel' %>
+        </div>
       </div>
-	  </div>
     </div>
     <div class="open-close-div acct" ><span id="links_toggle" class="title">Links</span><span class="edit"><a href="#links" id="links_toggle_lnk">change</a></span></div>
     <div class="edit-profile-sxn" id="links" style="display:none;">
-     <div class="inner-sxn">
-      <table class="entry-table">
-	<% [ [:url, 'Website'],
-	   [:facebook, 'Facebook'],
-	   [:flickr, 'Flickr'],
-	   [:twitter, 'Twitter'],
-	   [:blog, 'Blog'],
-	   [:myspace, 'MySpace']].each do |key, name| -%>
-	<tr>
-	  <td class="input-name"><%= f.label key, name %></td>
-	  <td><%= f.text_field key %></td>
-	  <td class="input-err"></td>
-	</tr>
-	<% end -%>
-      </table>
-      <div  class="buttons">
-	<%= f.submit 'Save Changes' %>
-	<%= f.submit 'Cancel' %>
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <% # handle user attrs
+             [ [:url, 'Website'], ].each do |key, name| -%>
+	  <tr>
+	    <td class="input-name"><%= f.label key, name %></td>
+	    <td><%= f.text_field key , :class => 'url-input' %></td>
+	    <td class="input-err"></td>
+	  </tr>
+	  <% end -%>
+          <% # and artist_info attrs 
+	     [[:facebook, 'Facebook'],
+	     [:flickr, 'Flickr'],
+	     [:twitter, 'Twitter'],
+	     [:blog, 'Blog'],
+	     [:myspace, 'MySpace']].each do |key, name| %>
+	  <tr>
+	    <td class="input-name"><%= label_tag "#{f.object_name}[artist_info[#{key}]]", name %></td>
+	    <td><%= text_field_tag "#{f.object_name}[artist_info[#{key}]]", @artist_info[key], :class => 'url-input' %></td>
+	    <td class="input-err"></td>
+	  </tr>
+          <% end %>
+        </table>
+        <div  class="buttons">
+	  <%= f.submit 'Save Changes' %>
+	  <%= f.submit 'Cancel' %>
+        </div>
       </div>
-	  </div>
     </div>
     <div class="open-close-div acct" ><span id="studio_info_toggle" class="title">Address/Studio Info</span><span class="edit"><a href="#address" id="studio_info_toggle_lnk">change</a></span></div>
     <div class="edit-profile-sxn" id="address" style="display:none;">
-	  <div class="inner-sxn left">
-		<table class="entry-table">
-		  <tr><td colspan="2" style="text-align:center; font-weight:bold;">Studio</td></tr>
-		  <tr>
-			<td class="input-name">
-			</td>
-			<td>
-			  <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>
-			</td>
-			<td class="input-err">
-			</td>
-		  </tr>
-		  <tr>
-			<td class="input-name">
-			  Studio #
-			</td>
-			<td>
-			  <%= f.text_field :studionumber, :value => current_user.studionumber %>
-			</td>
-			<td class="input-err">
-			</td>
-		  </tr>
-		</table>
-	  </div>
-	  <div style="margin: 20px auto; float: left; text-align:center; font-size: x-small;">(or)</div>
-	  <div class="inner-sxn right">
-		<table class="entry-table">
-		  <tr><td colspan="2" style="text-align:center; font-weight:bold;">Address</td></tr>
-		  <tr>
-			<td class="input-name">
-			  Street
-			</td>
-			<td>
-			  <%= f.text_field :street %>
-			</td>
-			<td class="input-err">
-			</td>
-		  </tr>
-		  <tr>
-			<td class="input-name">
-			  City
-			</td>
-			<td>
-			  <%= f.text_field :city, :value => current_user.city || "San Francisco" %>
-			</td>
-			<td class="input-err">
-			</td>
-		  </tr>
-		  <tr>
-			<td class="input-name">
-			  State
-			</td>
-			<td>
-			  <%= f.text_field :addr_state, :value => current_user.addr_state || "CA"%>
-			</td>
-			<td class="input-err">
-			</td>
-		  </tr>
-		  <tr>
-			<td class="input-name">
-			  Zipcode
-			</td>
-			<td>
-			  <%= f.text_field :zip, :value => current_user.zip || "94110"  %>
-			</td>
-			<td class="input-err">
-			</td>
-		  </tr>
-		</table>
-	  </div>
-	  <div class="clear"></div>
+      <div class="inner-sxn left">
+        <div class="edit-table-header">Studio</div>
+	<table class="entry-table">
+	  <tr>
+	    <td class="input-name">&nbsp;
+	    </td>
+	    <td>
+	      <%= select :artist,"studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}, :selected => current_user.studio_id %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="input-name">
+	      Studio #
+	    </td>
+	    <td>
+	      <%= text_field_tag "#{f.object_name}[artist_info[studionumber]]", @artist_info.studionumber %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+	</table>
+      </div>
+      <div class="edit-table-header splitter">(or)</div>
+      <div class="inner-sxn right">
+        <div class="edit-table-header">Address</div>
+	<table class="entry-table">
+            <% [[:street, "Street", ""], 
+               [:city, "City", "San Francisco"],
+               [:addr_state, "State", "CA"],
+               [:zip, "ZIP", ""]].each do |addr| %>
+	  <tr>
+	    <td class="input-name"><%= addr[1] %></td>
+            <% v = @artist_info.send(addr[0]) 
+               if !v || v.to_s.empty?
+                  v = addr[2]
+               end
+            %>
+	    <td><%= text_field_tag "#{f.object_name}[artist_info[#{addr[0]}]", v %>
+	    </td>
+	    <td class="input-err">
+	    </td>
+	  </tr>
+          <% end -%>
+	</table>
+      </div>
+      <div class="clear"></div>
       <div class="buttons">
-		<%= f.submit 'Save Changes' %>
-		<%= f.submit 'Cancel' %>
+	<%= f.submit 'Save Changes' %>
+	<%= f.submit 'Cancel' %>
       </div>
     </div>
     <div class="open-close-div acct" ><span id="bio_toggle" class="title">Bio/Artist's Statement</span><span class="edit"><a href="#bio" id="bio_toggle_lnk">change</a></span></div>
     <div  class="edit-profile-sxn" id="bio" style="display:none;">
       <div class="inner-sxn">
-  <table class="entry-table">
-	<tr>
-	  <td class="input-name">
-	    Bio
-	  </td>
-	  <td>
-	    <%= f.text_area :bio, :cols => 60 %>
-	  </td>
-	</tr>
-	<tr>
-	  <td colspan="2" class="little-txt td-center">
-	    Please avoid html tags and any fancy formatting.  Newlines will be preserved.
-	  </td>
-	</tr>
-      </table>
-      <div class="buttons">
-	<%= f.submit 'Save Changes' %>
-	<%= f.submit 'Cancel' %>
+        <table class="entry-table">
+	  <tr>
+	    <td class="input-name">
+	      Bio
+	    </td>
+	    <td>
+	      <%= text_area_tag "#{f.object_name}[artist_info[bio]]", @artist_info.bio, :class => "artist-bio" %>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan="2" class="little-txt td-center">
+	      Please avoid html tags and any fancy formatting.  Newlines will be preserved.
+	    </td>
+	  </tr>
+        </table>
+        <div class="buttons">
+	  <%= f.submit 'Save Changes' %>
+	  <%= f.submit 'Cancel' %>
+        </div>
       </div>
-	  </div>
     </div>
     <% end -%>
     <div class="open-close-div acct" ><span id="passwd_toggle" class="title">Password</span><span class="edit"><a href="#passwd" id="passwd_toggle_lnk">change</a></span></div>
     <% form_tag(change_password_update_path, :method => :put) do -%>
     <div  class="edit-profile-sxn" id="passwd" style="display:none;">
       <div class="inner-sxn">
-      <table class="entry-table">
-	<tr>
-	  <td colspan="3" align="center">
-	    <div class="chpasswd-instructions">
-	      <ul>
-		<li>Do not use the same password that you use for other online accounts.</li>
-		<li>Your new password must be at least 6 characters in length.</li>
-		<li>Use a combination of letters, numbers, and punctuation.</li>
-		<li>Passwords are case-sensitive. Remember to check your CAPS lock key.</li>
-	      </ul>
-	    </div>
-	  </td>
-	</tr>
-	<tr>
-          <td class="input-name" width="224">Old Password</td>
-          <td class="input" width="179"><%= password_field_tag 'old_password', @old_password, :size => 45, :class => 'text' %></td>
-          <td class="input-err" width="149">&nbsp;</td>
-	</tr>
-	<tr>
-          <td class="input-name">New Password</td>
-          <td class="input"><%= password_field_tag 'password', {}, :size => 45, :class => 'text' %></td>
-          <td class="input-err"><span class="little-txt">between 6 and 40 characters</span> </td>
-	</tr>
-	<tr>
-          <td class="input-name">Confirm new password</td>
-          <td class="input"><%= password_field_tag 'password_confirmation', {}, :size => 45, :class => 'text' %></td>
-          <td class="input-err">&nbsp;</td>
-	</tr>
-	<tr>
-          <td class="input-name">&nbsp;</td>
-          <td class="input"><%= submit_tag 'Change password' %> 
-	    <input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= current_user.id %>);"/></td>
-          <td class="input-err">&nbsp;</td>
-	</tr>
-      </table>
-	  </div>
+        <table class="entry-table">
+	  <tr>
+	    <td colspan="3" align="center">
+	      <div class="chpasswd-instructions">
+	        <ul>
+		  <li>Do not use the same password that you use for other online accounts.</li>
+		  <li>Your new password must be at least 6 characters in length.</li>
+		  <li>Use a combination of letters, numbers, and punctuation.</li>
+		  <li>Passwords are case-sensitive. Remember to check your CAPS lock key.</li>
+	        </ul>
+	      </div>
+	    </td>
+	  </tr>
+	  <tr>
+            <td class="input-name" width="224">Old Password</td>
+            <td class="input" width="179"><%= password_field_tag 'old_password', @old_password, :size => 45, :class => 'text' %></td>
+            <td class="input-err" width="149">&nbsp;</td>
+	  </tr>
+	  <tr>
+            <td class="input-name">New Password</td>
+            <td class="input"><%= password_field_tag 'password', {}, :size => 45, :class => 'text' %></td>
+            <td class="input-err"><span class="little-txt">between 6 and 40 characters</span> </td>
+	  </tr>
+	  <tr>
+            <td class="input-name">Confirm new password</td>
+            <td class="input"><%= password_field_tag 'password_confirmation', {}, :size => 45, :class => 'text' %></td>
+            <td class="input-err">&nbsp;</td>
+	  </tr>
+	  <tr>
+            <td class="input-name">&nbsp;</td>
+            <td class="input"><%= submit_tag 'Change password' %> 
+	      <input class="formbutton" type="button" value="Cancel" onclick="MAU.goToArtist( <%= current_user.id %>);"/></td>
+            <td class="input-err">&nbsp;</td>
+	  </tr>
+        </table>
+      </div>
     </div>
     <% end -%>
     <div class="open-close-div acct"><span id="deactivate_toggle" class="title">Deactivate Account</span><span class="edit"><a href="#deactivate" id="deactivate_toggle_lnk">change</a></span></div>
     <div  class="edit-profile-sxn" id="deactivate" style="display:none;">
-     <div class="inner-sxn">
-      <table class="entry-table">
-	<tr>
-	  <td align="center">
-	    <div class="error-msg">
-	      This action is permanent.  If you deactivate your account, all data associated with that user will no longer be available.</div>
-	  </td>
-	</tr>
-	<tr>
-	  <td class="td-center"><a onclick="return confirm('This action is permanent.\nAre you sure you want to deactivate your account?');" href="<%= '/users/deactivate/%d' % current_user.id %>"><button class="formbutton">Deactivate Me</button></a></td>
-	</tr>
-      </table>
-    </div>
+      <div class="inner-sxn">
+        <table class="entry-table">
+	  <tr>
+	    <td align="center">
+	      <div class="error-msg">
+	        This action is permanent.  If you deactivate your account, all data associated with that user will no longer be available.</div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="td-center"><a onclick="return confirm('This action is permanent.\nAre you sure you want to deactivate your account?');" href="<%= '/users/deactivate/%d' % current_user.id %>"><button class="formbutton">Deactivate Me</button></a></td>
+	  </tr>
+        </table>
+      </div>
     </div>
   </div>
   <div class="edit-buttons">
-    <form method="get" action="/art_pieces/new">
+    <form method="get" action="<%= new_art_piece_path %>">
       <input class="formbutton" type="submit" value="Add Art" />
     </form>
     <% if current_user.art_pieces.length > 0 -%>
@@ -332,7 +317,7 @@
       <input class="formbutton" type="submit" value="Delete Art" />
     </form>
     <% end -%>
-    <a href="<%= artist_url(current_user) %>"><button
-						   class="formbutton" >Back to Profile</button></a>
+    <a href="<%= artist_path(current_user) %>"><button
+						  class="formbutton" >Back to Profile</button></a>
   </div>
 </div>

@@ -84,6 +84,9 @@ tr.error-row div.error-msg {
 .input-name {
     text-align:right;
 }
+.url-input {
+    width: 190px;
+}
 
 .bio-container {
     max-height: 370px;
@@ -149,14 +152,27 @@ div.donate-btns span {
 .inner-sxn {
 	margin: 20px auto;
 }
+.edit-table-header {
+    line-height: 1.1em;
+}
+.inner-sxn .edit-table-header {
+    text-align: center;
+    font-weight: bold;
+}
+.edit-table-header.splitter {
+    margin: 20px auto; 
+    float: left; 
+    text-align:center; 
+    font-size: x-small;
+}
 .inner-sxn.left {
-	float:left;
-	}
+    float:left;
+}
 .inner-sxn.right {
-	float:right;
+    float:right;
 }
 .inner-sxn table {
-	margin: auto;
+    margin: auto;
 }
 .edit-profile-sxn div {
     text-align: left;
@@ -413,7 +429,8 @@ div.formbutton {
 }
 
 .artist-buttons, .edit-buttons {
-    margin: 8px 0;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .share .micro-icon {
@@ -663,9 +680,19 @@ div.feedtitle  {
     font-size: 80%;
 }
 
-#contact_text, #artist_edit {
-	margin-left:40px;
-	margin-right:40px;
+#contact_text {
+    margin-left:40px;
+    margin-right:40px;
+}
+#artist_edit .notice {
+    margin-left: auto;
+    margin-right: auto;
+}
+#artist_edit h4, #artist_edit .edit-buttons {
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    width: 560px;
 }
 #venues_text, #about_text, #news_text, .privacy-content {
     text-align: justify; 
@@ -676,6 +703,7 @@ div.feedtitle  {
 }
 
 #all_artists_page {padding-bottom: 20px;}
+#all_artists_page h4 { text-align:center; }
 
 #map_page,#all_artists_page {
     margin:auto;
@@ -729,11 +757,8 @@ div.feedtitle  {
     font-size: 12px;
 }
 
-#artist_edit h4 {
-    width:50%;
-}
-
 .alpha-pagination {
+    text-align: center;
     font-size: 85%;
     margin: 2px;
 }
@@ -1104,6 +1129,7 @@ td.rcol{
 .singlecolumn{
     padding-bottom: 20px;
     width:882px;
+    margin: auto;
 }
 div.singlecolumn {
     background-color: #000;
@@ -1198,6 +1224,7 @@ td.td-left{
     height: 30px;
 }
 .div-center h4 {
+    text-align: center;
     margin-top: 36px;
 }
 
@@ -1514,6 +1541,11 @@ div.notice {
     text-align: left;
     width: 260px
 }
+
+#new_artpiece table{
+    margin: auto;
+}
+
 #new_artpiece .error-msg {
     width: 320px;
 }
@@ -1591,6 +1623,15 @@ div.artist {
 	font-size: 85%;
 	margin-top: 3px;
 	margin-bottom: 3px;
+}
+
+textarea.artist-bio {
+    width: 520px;
+    height: 300px;
+}
+#edit_artpiece table {
+    width: 600px;
+    margin: auto;
 }
 
 #artpiece_edit_ctrls {
@@ -2034,6 +2075,7 @@ map page
 .map-container { float: right; }
 .map-os-switch { font-size: 80%; float: left; margin-bottom: 6px;}
 #all_artists_page .map-os-switch { float: left; }
+
 .map-roster { float: left; width: 190px; }
 .map-addr {
     text-align: left;

@@ -10,7 +10,7 @@
     <img src="<%= @art_piece.get_path('small') %>" />
   </div>
   <% form_for(@art_piece) do |f| %>
-  <table width="600" align="center" cellspacing="0" cellpadding="0">
+  <table width="600" cellspacing="0" cellpadding="0">
     <% if @errors -%>
     <tr class="error-row">
       <td colspan="3" align="center">

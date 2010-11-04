@@ -46,3 +46,5 @@ artist1:
   firstname:                 artist1
   lastname:                  fixture
   state:                     active
+  type: Artist
+  url: http://myurl.com
