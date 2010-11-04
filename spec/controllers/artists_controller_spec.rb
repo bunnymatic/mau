@@ -4,6 +4,8 @@ include AuthenticatedTestHelper
 
 describe ArtistsController do
 
+  integrate_views
+
   fixtures :users
   fixtures :art_pieces
 
@@ -27,6 +29,12 @@ describe ArtistsController do
       end
       it "GET returns 200" do
         response.should be_success
+      end
+      it "should contain the edit form" do
+        response.should have_tag('div#artist_edit');
+      end
+      it "should contain your email in the email form input field" do
+        response.should have_tag("#info .inner-sxn input#artist_email[value=#{@a.email}]")
       end
     end
   end
