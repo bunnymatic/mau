@@ -23,11 +23,20 @@ class UsersController < ApplicationController
   def show
     if params[:id]
       @fan = safe_find_user(params[:id])
-      if (@fan[:type] == 'Artist')
-        redirect_to artist_path(@fan)
-        return
+      if !@fan or @fan.suspended?
+        @fan = nil
+        flash.now[:error] = "The account you were looking for was not found."
       end
-      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
+
+      if @fan
+        if @fan[:type] == 'Artist'
+          redirect_to artist_path(@fan)
+          return
+        end
+        @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
+      else
+        @page_title = "Mission Artists United"
+      end
       render :action => 'show', :layout => 'mau'
     end
   end
