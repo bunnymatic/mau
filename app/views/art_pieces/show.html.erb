@@ -86,7 +86,7 @@ var next_idx = <%= @next_idx %>;
 	<% end -%>
       </table>
       <%= render :partial => "/art_pieces/thumb_browser" %>
-        <form method="get" action="<%= url_for(@art_piece.artist) %>"><input class="formbutton" type="submit" value="Artist's Page" name="submit">
+        <form method="get" action="<%= artist_path(artist) %>"><input class="formbutton" type="submit" value="Artist's Page" name="submit">
 	</form>
       <% end -%>
     </td>

@@ -89,6 +89,12 @@ tr.error-row div.error-msg {
 }
 
 .bio-container {
+    border: 1px dotted #999;
+    margin-top: 8px;
+    background: #1a1a1a;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    padding: 10px;
     max-height: 370px;
     overflow: auto;
 }
@@ -848,6 +854,23 @@ img#logo
     z-index:2;
     border: 0;
 }
+#profile_update {
+    margin: auto;
+}
+#profile_update .content-block {
+    margin: auto;
+    padding: 10px;    
+    text-align:center;
+}
+#profile_update .content-block div{
+    text-align:left;
+    margin: auto;
+    width: 400px;
+}
+
+#profile_update .content-block img{
+}
+
 #artist_profile_name {
 	float: left;
 	width: 320px;
@@ -1222,6 +1245,10 @@ td.td-left{
 .logo-spacer {
     line-height: 30px;
     height: 30px;
+}
+.div-center {
+    margin-left:auto;
+    margin-right: auto;
 }
 .div-center h4 {
     text-align: center;

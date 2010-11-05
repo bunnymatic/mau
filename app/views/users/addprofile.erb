@@ -1,51 +1,44 @@
 <div class="div-center">
   <h4>Add/Update Profile Picture for <%=h current_user.get_name %></h4>
-  <table class="entry-table" align="center" >
-    <% if flash[:error] -%>
-    <tr>
-      <td colspan="2" align="center">
-	<div class="error-msg">
-	  Error:
-	  <div><%= flash[:error] -%></div>
-	  <%= @errors.map { |k, v| "<div>%s %s<div>" % [ k.capitalize(),v ] } %>
-	</div>
-      </td>
-    <tr>
+  <div id="profile_update">
+    <% if flash and flash[:notice] and !flash[:notice].empty? -%>
+    <div class="notice">
+      <%= flash[:notice] %>
+    </div>
+    <% end -%>
+    <% if flash and flash[:error] and !flash[:error].empty? -%>
+    <div class="error-msg">
+      <%= flash[:error] %>
+    </div>
+    <% end -%>
+    <div class="content-block">
+      <% if current_user.has_profile_image -%>
+      <img src="<%= current_user.get_profile_image('small') %>" />
+      <% else -%>
+      <img src="/images/default-profile-img.png" width="200" />
       <% end -%>
-    <tr>
-      <td class="td-center">
-	<% if current_user.has_profile_image -%>
-  	<img src="<%= current_user.get_profile_image('small') %>" />
-	<% else -%>
-  	<img src="/images/default-profile-img.png" width="200" />
-  	<% end -%>
-      </td>
-    </tr>
-    <tr><td>&nbsp;</td></tr>
-    <tr>
-      <td>
-	Your profile image should be a JPEG file and must not be more than 1MB.
-      </td>
-    </tr>
-  </table>
-  <br/>
-</div>
-<div>
-  <% form_tag({:action => 'upload_profile'}, :multipart => true) do %>
-  <table class="signup-table">
-    <tr>
-      <td class="td-right"><label for="upload_file">Select File</label>: </td>
-      <td class="td-left"> <%= file_field 'upload', 'datafile' %></td>
-      <td> <%= hidden_field_tag :user_id, current_user.id %></td>
-    </tr>
-    <tr>
-      <td class="td-right">&nbsp;</td>
-      <td colspan="2"><%= submit_tag "Upload", :onclick => "MAU.waitcursor(); return true;" %>
-        <%= submit_tag "Cancel" %></td>
-    </tr>
-    <tr>
-      <td align="right" colspan="3">&nbsp;</td>
-    </tr>
-  </table>
+      <div>
+          Your profile image should be a JPEG file and must not be more than 1MB.
+      </div>
+    </div>
+  </div>
+  <div>
+    <% form_tag({:action => 'upload_profile'}, :multipart => true) do %>
+    <table class="signup-table">
+      <tr>
+        <td class="td-right"><label for="upload_file">Select File</label>: </td>
+        <td class="td-left"> <%= file_field 'upload', 'datafile' %></td>
+        <td> <%= hidden_field_tag :user_id, current_user.id %></td>
+      </tr>
+      <tr>
+        <td class="td-right">&nbsp;</td>
+        <td colspan="2"><%= submit_tag "Upload", :onclick => "MAU.waitcursor(); return true;" %>
+          <%= submit_tag "Cancel" %></td>
+      </tr>
+      <tr>
+        <td align="right" colspan="3">&nbsp;</td>
+      </tr>
+    </table>
+  </div>
   <% end -%>
 </div>
