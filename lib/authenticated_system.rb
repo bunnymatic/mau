@@ -1,12 +1,12 @@
 module AuthenticatedSystem
   protected
-    # Returns true or false if the artist is logged in.
-    # Preloads @current_user with the artist model if they're logged in.
+    # Returns true or false if the user is logged in.
+    # Preloads @current_user with the user model if they're logged in.
     def logged_in?
       !!current_user
     end
 
-    # Accesses the current artist from the session.
+    # Accesses the current user from the session.
     # Future calls avoid the database because nil is not equal to false.
     def current_user
       @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
@@ -16,7 +16,7 @@ module AuthenticatedSystem
       @current_artist
     end
      
-    # Store the given artist id in the session.
+    # Store the given user id in the session.
     def current_user=(new_user)
       session[:user_id] = new_user ? new_user.id : nil
       @current_user = new_user || false
@@ -25,10 +25,10 @@ module AuthenticatedSystem
       end
     end
 
-    # Check if the artist is authorized
+    # Check if the user is authorized
     #
     # Override this method in your controllers if you want to restrict access
-    # to only a few actions or if you want to check if the artist
+    # to only a few actions or if you want to check if the user
     # has the correct rights.
     #
     # Example:
@@ -65,7 +65,7 @@ module AuthenticatedSystem
     # The default action is to redirect to the login screen.
     #
     # Override this method in your controllers if you want to have special
-    # behavior in case the artist is not authorized
+    # behavior in case the user is not authorized
     # to access the requested action.  For example, a popup window might
     # simply close itself.
     def access_denied
@@ -110,7 +110,7 @@ module AuthenticatedSystem
     # Login
     #
 
-    # Called from #current_user.  First attempt to login by the artist id stored in the session.
+    # Called from #current_user.  First attempt to login by the user id stored in the session.
     def login_from_session
       self.current_user = User.find_by_id(session[:user_id]) if session[:user_id]
     end
@@ -127,7 +127,7 @@ module AuthenticatedSystem
     #
 
     # Called from #current_user.  Finaly, attempt to login by an expiring token in the cookie.
-    # for the paranoid: we _should_ be storing artist_token = hash(cookie_token, request IP)
+    # for the paranoid: we _should_ be storing user_token = hash(cookie_token, request IP)
     def login_from_cookie
       user = cookies[:auth_token] && User.find_by_remember_token(cookies[:auth_token])
       if user && user.remember_token?

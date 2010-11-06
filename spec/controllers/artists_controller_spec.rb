@@ -50,15 +50,15 @@ describe ArtistsController do
       @a.save
       @b.artist_id = @a.id
       @b.save
-      get :show, :id => @a.id
     end
 
     context "while logged in" do
       before(:each) do 
         login_as(@a)
+        get :show, :id => @a.id
       end
       it "header bar should say hello" do
-        response.should have_tag("span.logout-nav", :text => "hello, ")
+        response.should have_tag("span.logout-nav")
       end
       it "header bar should have my login name as a link" do
         response.should have_tag("span.logout-nav a", :text => @a.login)
@@ -66,25 +66,31 @@ describe ArtistsController do
       it "header bar should have logout tag" do
         response.should have_tag("span.last a[href=/logout]");
       end
+      it "website is present" do
+        response.should have_tag("div#u_website a[href=#{@a.url}]")
+      end
+      it "facebook is present and correct" do
+        response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
+      end
     end
 
     context "while not logged in" do
-      it "header bar should say hello" do
-        response.should have_tag("span.logout-nav", :text => "hello, ")
+      before(:each) do 
+        get :show, :id => @a.id
       end
-      it "header bar should have my login name as a link" do
-        response.should have_tag("span.logout-nav a", :text => @a.login)
+      it "header bar should have login link" do
+        response.should have_tag("#login_toplink a", :text => "log in")
       end
-      it "website is present correct" do
-        response.should have_tag("div#website a[href=#{@a.url}]")
+      it "website is present" do
+        response.should have_tag("div#u_website a[href=#{@a.url}]")
       end
       it "facebook is present and correct" do
-        response.should have_tag("div#facebook a[href=#{@a.artist_info.facebook}]")
+        response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
       end
     end
   end
 
-  describe "arrange art" do
+  describe "arrange art for an artist " do
     before(:each) do 
       # stash an artist and art pieces
       apids =[]
@@ -102,27 +108,30 @@ describe ArtistsController do
       ap.user_id = a.id
       ap.save!
       apids << ap.id
+      info = artist_infos(:artist1)
+      info.artist_id = a.id
+      info.save!
+      a.artist_info = info
       @artist = a
       @artpieces = apids
     end
-    
-    it "should put representative as last uploaded piece" do
+    it "most recently uploaded piece is the representative" do
       a = Artist.find_by_id(@artist.id)
-      a.representative_piece.title.should == "third"
+      a.artist_info.representative_piece.title.should == "third"
     end
 
-    it "should return art_pieces in created time order" do
+    it "returns art_pieces in created time order" do
       aps = @artist.art_pieces
       aps.count.should == 3
       aps[0].title.should == "third"
       aps[1].title.should == "second"
       aps[2].title.should == "first"
     end
-    context "while logged in" do
+    context "while logged" do
       before(:each) do
         login_as(@artist)
       end
-      it "should return art_pieces in new order (2,1,3)" do
+      it "returns art_pieces in new order (2,1,3)" do
         order1 = [ @artpieces[1], @artpieces[0], @artpieces[2] ]
 
         # user should be logged in now
@@ -134,11 +143,11 @@ describe ArtistsController do
         aps[0].title.should == "second"
         aps[1].title.should == "first"
         aps[2].title.should == "third"
-        aps[0].artist.representative_piece.id.should==aps[0].id
+        aps[0].artist.artist_info.representative_piece.id.should==aps[0].id
         
       end
 
-      it "should return art_pieces in new order (1,3,2)" do
+      it "returns art_pieces in new order (1,3,2)" do
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
         
         post :setarrangement, { :neworder => order1.join(",") }
@@ -150,12 +159,12 @@ describe ArtistsController do
         aps[0].title.should == "first"
         aps[1].title.should == "third"
         aps[2].title.should == "second"
-        aps[0].artist.representative_piece.id.should==aps[0].id
+        aps[0].artist.artist_info.representative_piece.id.should==aps[0].id
       end
     end
   end
   describe "- logged out" do
-    it "should not allow connection to edit endpoints" do
+    it "redirects from setarrangement endpoint to login" do
       post :setarrangement, { :neworder => "1,2" }
         response.code.should == "302"
       response.location.should == new_session_url

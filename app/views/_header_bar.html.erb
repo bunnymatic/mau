@@ -43,21 +43,21 @@
 	   </div>
 	   <% end -%>
 	   <div >
-		 <ul id="artistsnav" class="dropdown first %>">
+		 <ul id="artistsnav" class="dropdown first">
 		   <li class="dir">
-			 <a class="lknav" href="/artists/" title="artists">artists</a>
+			 <a class="lknav" href="<%= artists_path %>" title="artists">artists</a>
 			 <ul>
 			   <li class="first leaf">
-				 <a href="/artists/" title="artists">all artists</a>
+				 <a href="<%= artists_path %>" title="artists">all artists</a>
 			   </li>
 			   <li class="leaf">
-				 <a href="/artists/?osonly=1" title="artists">open studios artists</a>
+				 <a href="<%= artists_path(:osonly => 1) %>" title="artists">open studios artists</a>
 			   </li>
 			   <li class="leaf">
-				 <a href="/artists/map" title="artists">artists by map</a>
+				 <a href="<%= artistsmap_path %>" title="artists">artists by map</a>
 			   </li>
 			   <li class="leaf">
-				 <a href="/artists/map?osonly=1" title="map of open studios artists">open studios map</a>
+				 <a href="<%= artistsmap_path(:osonly => 1) %>" title="map of open studios artists">open studios map</a>
 			   </li>
 			   <li class="last leaf">
 				 <a href="/main/openstudios" title="what is open studios?">open studios?</a>
