@@ -31,6 +31,11 @@ ActiveRecord::Schema.define(:version => 20101026230014) do
     t.integer "art_piece_id"
   end
 
+  create_table "artist_images", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "artist_infos", :force => true do |t|
     t.integer  "artist_id"
     t.datetime "created_at"
@@ -53,6 +58,26 @@ ActiveRecord::Schema.define(:version => 20101026230014) do
     t.boolean  "os2010",                                  :default => false
     t.float    "lat"
     t.float    "lng"
+  end
+
+  create_table "artist_profile_images", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "name"
+    t.datetime "startdate"
+    t.datetime "enddate"
+    t.text     "description"
+    t.string   "url"
+    t.string   "image"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.integer  "zip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "feedbacks", :force => true do |t|
@@ -154,18 +179,5 @@ ActiveRecord::Schema.define(:version => 20101026230014) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
-
-  create_table "venues", :force => true do |t|
-    t.string   "phone",         :limit => 16
-    t.string   "url",           :limit => 200
-    t.string   "profile_image", :limit => 200
-    t.string   "street",        :limit => 200
-    t.string   "city",          :limit => 200
-    t.string   "state",         :limit => 4
-    t.integer  "zip"
-    t.string   "description",   :limit => 2000
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

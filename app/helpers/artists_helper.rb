@@ -101,12 +101,12 @@ module ArtistsHelper
   end
 
   def keyed_links
-    [ [:url, 'Website'],
-	       [:facebook, 'Facebook'],
-	       [:flickr, 'Flickr'],
-	       [:twitter, 'Twitter'],
-	       [:blog, 'Blog'],
-	       [:myspace, 'MySpace']]
+    [ [:url, 'Website', :u_website],
+	       [:facebook, 'Facebook', :u_facebook],
+	       [:flickr, 'Flickr', :u_flickr],
+	       [:twitter, 'Twitter', :u_twitter],
+	       [:blog, 'Blog', :u_blog],
+	       [:myspace, 'MySpace', :u_myspace]]
   end
 
   def has_links(artist)

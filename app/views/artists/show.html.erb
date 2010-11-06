@@ -110,10 +110,10 @@
 			<% end -%>
 			<% if has_links(@artist) -%>
 			<div class="div-left">
-			  <% keyed_links.each do |key, name|  
+			  <% keyed_links.each do |key, name, _id|  
 				 lnk = @artist.send(key)
 					 if lnk and !lnk.empty? %>
-    			  <div><span><%= name %>: </span>
+    			  <div id="<%= _id %>"><span><%= name %>: </span>
 					<%= link_to lnk, add_http(lnk), { :target => "_blank" } %>
   				  </div>
    				  <% end -%>
