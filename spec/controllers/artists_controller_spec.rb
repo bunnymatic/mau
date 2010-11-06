@@ -14,6 +14,9 @@ describe ArtistsController do
     before(:each) do
       @a = users(:artist1)
       @a.save!
+      @b = artist_infos(:artist1)
+      @b.artist_id = @a.id
+      @b.save!
     end
     context "while not logged in" do
       before(:each) do 
@@ -31,14 +34,25 @@ describe ArtistsController do
       it "GET returns 200" do
         response.should be_success
       end
-      it "should contain the edit form" do
+      it "has the edit form" do
         response.should have_tag("div#artist_edit");
       end
-      it "should contain your email in the email form input field" do
+      it "has the artists email in the email form input field" do
         response.should have_tag("#info .inner-sxn input#artist_email[value=#{@a.email}]")
       end
-      it "should contain the website input box with the artists website in it" do
+      it "has the website input box with the artists website in it" do
         response.should have_tag("input#artist_url[value=#{@a.url}]");
+      end
+      it "has the artists correct links in their respective fields" do
+        [:facebook].each() do |key| 
+          linkval = @a.send(key)
+          linkid = "artist_artist_info_#{key}"
+          tag = "input##{linkid}[value=#{linkval}]"
+          response.should have_tag(tag)
+        end
+      end
+      it "has the artists' bio textarea field" do
+        response.should have_tag("textarea#artist_artist_info_bio", @a.artist_info.bio)
       end
     end
   end
