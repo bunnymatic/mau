@@ -10,6 +10,66 @@ describe ArtistsController do
   fixtures :artist_infos
   fixtures :art_pieces
 
+  describe "Update Artist" do
+    before(:each) do
+      @a = users(:artist1)
+      @a.save!
+      @b = artist_infos(:artist1)
+      @b.artist_id = @a.id
+      @b.save!
+    end
+    context "while not logged in" do
+      it "GET update redirects to login" do
+        get :update
+        response.should redirect_to(new_session_path)
+      end
+      it "POST update redirects to login" do
+        post :update
+        response.should redirect_to(new_session_path)
+      end
+    end
+    context "while logged in" do
+      before(:each) do
+        @new_bio = "this is the new bio"
+        @old_bio = @a.artist_info.bio
+        login_as(@a)
+      end
+      context "submit" do
+        before do
+          post :update, { :commit => 'submit', :artist => { :artist_info => {:bio => @newbio }}}
+        end
+        context "post with new bio data" do
+          it "redirects to to edit page" do
+            flash[:notice].should eql 'Update successful'
+            response.should redirect_to(edit_artist_path(@a))
+          end
+          it "shows new bio in edit form" do
+            get :edit
+            response.should have_tag('textarea#artist_artist_info_bio')
+          end
+        end
+      end
+      context "cancel post with new bio data" do
+        before do
+          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
+        end
+        it "redirects to user page" do
+          response.should redirect_to(user_path(@a))
+        end
+        it "should have no flash notice" do
+          flash[:notice].should be_nil
+        end
+        it "shouldn't change anything" do
+          get :show, :id => @a.id
+          response.should have_tag("div.bio-container")
+          response.should include_text(@old_bio)
+        end
+      end
+    end
+      
+      
+  end
+
   describe "GET edit" do
     before(:each) do
       @a = users(:artist1)
@@ -41,10 +101,10 @@ describe ArtistsController do
         response.should have_tag("#info .inner-sxn input#artist_email[value=#{@a.email}]")
       end
       it "has the website input box with the artists website in it" do
-        response.should have_tag("input#artist_url[value=#{@a.url}]");
+        response.should have_tag("input#artist_url[value=#{@a.url}]")
       end
       it "has the artists correct links in their respective fields" do
-        [:facebook].each() do |key| 
+        [:facebook, :blog].each do |key| 
           linkval = @a.send(key)
           linkid = "artist_artist_info_#{key}"
           tag = "input##{linkid}[value=#{linkval}]"
@@ -52,6 +112,7 @@ describe ArtistsController do
         end
       end
       it "has the artists' bio textarea field" do
+        get :edit
         response.should have_tag("textarea#artist_artist_info_bio", @a.artist_info.bio)
       end
     end
