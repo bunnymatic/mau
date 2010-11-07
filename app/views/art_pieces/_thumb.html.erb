@@ -1,7 +1,7 @@
 <% if piece 
      linkto = ''
-     if artist_link && piece.artist
-        linkto = artist_path(piece.artist)
+     if artist_link && piece.user
+        linkto = artist_path(piece.user)
      else
         linkto = art_piece_path(piece)
      end
@@ -29,16 +29,16 @@
   </div>
 <%
      if show_footer -%><div class="name"><%
-        if piece && piece.artist
+        if piece && piece.user
 	 name = "" 
-	 name << piece.artist.get_name(true)
+	 name << piece.user.get_name(true)
 		 -%><%= link_to name, linkto, :class => 'lkdark' %><% 
         else -%>unknown artist<% 
         end -%></div><% 
      end 
 -%><% 
  if piece 
-     representative = (piece.id == piece.artist.representative_art_piece)
+     representative = (piece.id == piece.user.representative_art_piece)
      if delete -%><div class="artp-thumb-ctrl">
       <%= check_box( 'art', piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0") %>Delete?</div><% 
      elsif select 

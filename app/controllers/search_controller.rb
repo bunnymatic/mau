@@ -72,7 +72,7 @@ class SearchController < ApplicationController
 
       media_ids = (Medium.find(:all, :conditions=>["name like ?", qq])).map { |i| i.id }.uniq
       by_media = ArtPiece.find_all_by_medium_id(media_ids)
-
+      
       by_art_piece = ArtPiece.find(:all, :conditions => ["filename like ? or title like ? or medium_id in (?)", qq, qq, media_ids ]) 
 
       # join all uniquely and sort by recently added
@@ -80,7 +80,7 @@ class SearchController < ApplicationController
       begin 
         [by_art_piece, by_media, by_tags, by_artist].each do |lst|
           if lst.length > 0
-            lst.map { |entry| results[entry.id] = entry if entry.id and entry.artist and active_artist_ids.include? entry.artist.id }
+            lst.map { |entry| results[entry.id] = entry if entry.id and entry.user and active_artist_ids.include? entry.user.id }
           end
         end
       rescue Exception => ex
@@ -97,8 +97,8 @@ class SearchController < ApplicationController
     tmps = {}
     results.values.each do |pc|
       if pc
-        if !tmps.include?  pc.artist_id
-          tmps[pc.artist_id] = pc
+        if !tmps.include?  pc.user_id
+          tmps[pc.user_id] = pc
         end
       end
     end

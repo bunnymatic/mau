@@ -434,9 +434,10 @@ div.formbutton {
     line-height: 20px;
 }
 
-.artist-buttons, .edit-buttons {
-    margin-top: 8px;
+.edit-buttons {
+    margin-top: 12px;
     margin-bottom: 8px;
+    text-align: center; 
 }
 
 .share .micro-icon {
@@ -694,7 +695,7 @@ div.feedtitle  {
     margin-left: auto;
     margin-right: auto;
 }
-#artist_edit h4, #artist_edit .edit-buttons {
+#artist_edit h4 {
     margin-left:auto;
     margin-right:auto;
     text-align:center;
@@ -728,7 +729,7 @@ div.feedtitle  {
 }
 .about-title h4, .content-block h4 { text-align: center; }
 	
-.content-block, .artist-buttons, #studio_page,
+.content-block, #studio_page,
 .search-thumbs {
     width: 560px;
     margin: auto;
@@ -949,7 +950,7 @@ a.fdbk-subj #next_pg {
 }
 
 div.get-involved {
-    margin: 10px 0;
+    margin: 10px auto;
 }
 
 div.os-promo {
@@ -1662,19 +1663,20 @@ textarea.artist-bio {
 }
 
 #artpiece_edit_ctrls {
-	width: 560px;
-	text-align: left;
-	margin-bottom: 5px;
-	font-size: 85%;
+    width: 560px;
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 11px;
+    font-size: 85%;
 }
 .edit-buttons span,
 #profile_edit_ctrls span,
 #artpiece_edit_ctrls span {
-	border: 1px solid #444;
-	padding: 2px 3px;
-	margin: 2px 0 2px 2px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+    border: 1px solid #444;
+    padding: 6px;
+    margin: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 #profile_edit_ctrls span {
 	margin-left: 0px;
@@ -2364,11 +2366,14 @@ ul.dropdown ul .first {
 #ac_ul li { 
 }
 
+#arrange_art, #delete_art {
+    margin: auto;
+}
+#arrange_art h4, #delete_art h4 {
+    text-align: center;
+}
 #arrange_art .title {
-    width: 500px;
     position:relative;
-    margin-left: auto;
-    margin-right: auto;
 }
 #arrange_art .help-txt {
     position:relative;
