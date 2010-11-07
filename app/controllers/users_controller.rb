@@ -9,6 +9,8 @@ class UsersController < ApplicationController
 
   layout 'mau1col'
 
+  @@DEFAULT_ACCOUNT_TYPE = 'MAUFan'
+
   def index
     redirect_to('/artists')
   end
@@ -116,17 +118,26 @@ class UsersController < ApplicationController
 
   def create
     logout_keeping_session!
-    if params[:artist] && !params[:artist].empty?
+    user_params = {}
+    type = params[:type] || @@DEFAULT_ACCOUNT_TYPE
+    user_params = params[:artist] || params[:mau_fan] || params[:user] || {}
+    if user_params.empty?
+      logger.debug("Failed to create account - bad/empty params")
+      render_not_found Exception.new("We can't create a user based on your input parameters.")
+      return
+    end
+    if type == 'Artist'
+      user_params[:type] = "Artist"
       # studio_id is in artist info
-      studio_id = params[:artist][:studio_id] ? params[:artist][:studio_id].to_i() : 0
+      studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
       @artist = nil
       if studio_id > 0
         studio = Studio.find(studio_id)
         if studio
-          @artist = studio.artists.build(params[:artist])
+          @artist = studio.artists.build(user_params)
         end
       else
-        @artist = Artist.create(params[:artist])
+        @artist = Artist.create(user_params)
       end
       if @artist.url && @artist.url.index('http') != 0
         @artist.url = 'http://' + @artist.url
@@ -135,17 +146,9 @@ class UsersController < ApplicationController
       @artist.register! if @artist && @artist.valid?
       success = @artist && @artist.valid?
       errs = @artist.errors
-    elsif params[:mau_fan] || params[:user] # type is Fan
-      u = params[:user]
-      if !u
-        u = params[:mau_fan]
-      end
-      if u.empty?
-        logger.debug("Failed to create account - bad/empty params")
-        render_not_found Exception.new("We can't create a user based on your input parameters.")
-        return
-      end
-      @fan = MAUFan.new(u)
+    elsif type == 'MAUFan' || type == 'User'
+      user_params[:type] = "MAUFan"
+      @fan = MAUFan.new(user_params)
       if @fan.url && @fan.url.index('http') != 0
         @fan.url = 'http://' + @fan.url
       end
@@ -157,7 +160,6 @@ class UsersController < ApplicationController
       render_not_found Exception.new("We can't create a user based on your input parameters.")
       return
     end
-
     if success && errs.empty?
       # Protects against session fixation attacks, causes request forgery
       # protection if visitor resubmits an earlier form using back
@@ -168,10 +170,12 @@ class UsersController < ApplicationController
       msg = "There was a problem creating your account.  If you can't solve the issues listed below, please try again later or contact the webmaster (link below). if you continue to have problems."
       flash.now[:error] = msg
       if !@artist
+        # make empty artist for the hidden artist form
         @artist = Artist.new
         @type = 'MAUFan'
       end
       if !@fan
+        # make empty fan for the hidden fan form
         @fan = MAUFan.new
         @type = 'Artist'
       end
