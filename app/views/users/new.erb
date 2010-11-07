@@ -1,5 +1,5 @@
 <div class="logo-spacer"></div>
-<div>
+<div id="signup_page">
   <% @artist.password = @artist.password_confirmation = nil 
      @fan.password = @fan.password_confirmation = nil 
   %>
@@ -13,8 +13,8 @@
                  :selected => (@type == 'MAUFan') ? "selected=selected" : "" } ]
    opts = sel_opts.map{ |opt| "<option value='#{opt[:key]}' #{opt[:selected]}>#{opt[:display]}</option>" }.join('')
 %>
-<pre><%= opts %></pre>
-   What type of account would you like? <%= select_tag 'account_type_chooser', opts %>
+<div id="account_selector">What type of account would you like? <%= select_tag 'account_type_chooser', opts %></div>
+
   </div>
 <% 
 astyle = 'display:none;'
