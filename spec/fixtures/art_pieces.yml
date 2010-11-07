@@ -36,19 +36,16 @@ artpiece1:
   filename: hot.jpg
   title: first
   description: super hot description
-  medium_id: 1
   dimensions: hot x hot
 
 artpiece2:
   filename: hot.jpg
   title: second
   description: super hot description
-  medium_id: 2
   dimensions: hot x hot
 
 artpiece3:
   filename: hot.jpg
   title: third
   description: super hot description
-  medium_id: 3
   dimensions: hot x hot

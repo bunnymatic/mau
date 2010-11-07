@@ -3,6 +3,33 @@ require 'spec_helper'
 include AuthenticatedTestHelper
 
 describe MainController do
+
+  integrate_views
+
+  describe "get" do
+    before do
+      get :index
+    end
+    it "shows search box" do
+      response.should have_tag('#search_box')
+    end
+    it "shows thumbnails" do
+      response.should have_tag("#main_thumbs #sampler")
+    end
+    it "has a feed container" do
+      response.should have_tag("#feed_div")
+    end
+    it "has a header menu" do
+      response.should have_tag('#header_bar')
+      response.should have_tag('#artisthemission')
+    end
+    it "has a footer menu" do
+      response.should have_tag('#footer_bar')
+      response.should have_tag('#footer_copy')
+      response.should have_tag('#footer_links')
+    end
+  end
+
   describe "- route generation" do
   end
   describe "- route recognition" do

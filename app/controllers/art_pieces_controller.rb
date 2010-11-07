@@ -75,17 +75,16 @@ class ArtPiecesController < ApplicationController
   def show
     apid = params[:id].to_i
     @art_piece = safe_find_art_piece(apid)
-    
     # get all art pieces for this artist
     pieces = []
-    if !@art_piece.artist_id 
+    if !@art_piece.user_id
       render_not_found Exception.new("No tags in the system")
       return
     end
 
-    if @art_piece.artist_id > 0
-      pieces = ArtPiece.find_all_by_user_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
-      @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
+    if @art_piece.user_id > 0
+      pieces = ArtPiece.find_all_by_user_id(@art_piece.user, :order => '`order` asc, `created_at` desc')
+      @page_title = "Mission Artists United - Artist: %s" % @art_piece.user.get_name
     end
     self._setup_thumb_browser_data(pieces, apid)
     respond_to do |format|
@@ -109,7 +108,7 @@ class ArtPiecesController < ApplicationController
           t['name'] = HTMLHelper.encode(t['name'])
         end
 
-        if (current_user && current_user.id == @art_piece.artist.id)
+        if (current_user && current_user.id == @art_piece.user.id)
           h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
         end
         render :json => h.to_json
@@ -138,11 +137,6 @@ class ArtPiecesController < ApplicationController
   def edit
     begin
       @art_piece = safe_find_art_piece(params[:id])
-      if @art_piece.artist != self.current_user
-        flash.now[:error] = 'You can only edit your own works.'
-        self._setup_thumb_browser_data([], 0)
-        render :action => 'show', :layout => 'mau'
-      end
       @media = Medium.all
       if @art_piece.medium
         @selected_medium = @art_piece.medium
@@ -236,7 +230,7 @@ class ArtPiecesController < ApplicationController
       end
       if success
         flash.now[:notice] = 'ArtPiece was successfully updated.'
-        pieces = ArtPiece.find_all_by_user_id(@art_piece.artist)
+        pieces = ArtPiece.find_all_by_user_id(@art_piece.user)
         self._setup_thumb_browser_data(pieces, @art_piece.id)
         render :action => 'show', :layout => 'mau'
       else
@@ -256,11 +250,11 @@ class ArtPiecesController < ApplicationController
   # DELETE /art_pieces/1.xml
   def destroy
     art = safe_find_art_piece(params[:id])
-    artist = art.artist
+    artist = art.user
     art.destroy
 
     respond_to do |format|
-      format.html { redirect_to(artist) }
+      format.html { redirect_to(user) }
       format.xml  { head :ok }
     end
   end

@@ -218,7 +218,7 @@ describe ArtistsController do
         aps[0].title.should == "second"
         aps[1].title.should == "first"
         aps[2].title.should == "third"
-        aps[0].artist.artist_info.representative_piece.id.should==aps[0].id
+        aps[0].user.artist_info.representative_piece.id.should==aps[0].id
         
       end
 
@@ -234,7 +234,7 @@ describe ArtistsController do
         aps[0].title.should == "first"
         aps[1].title.should == "third"
         aps[2].title.should == "second"
-        aps[0].artist.artist_info.representative_piece.id.should==aps[0].id
+        aps[0].user.artist_info.representative_piece.id.should==aps[0].id
       end
     end
   end

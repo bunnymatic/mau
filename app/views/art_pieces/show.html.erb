@@ -7,7 +7,7 @@ var next_idx = <%= @next_idx %>;
   <%= render :partial => "/twocol_top" %>
   <tr>    
     <% if @art_piece
-       artist = @art_piece.artist
+       artist = @art_piece.user
        end 
        -%>
     <td class="corner"></td>
@@ -107,9 +107,9 @@ var next_idx = <%= @next_idx %>;
       </div>
       <% end -%>
       <div class="edit-buttons">
-		<% if logged_in? and current_artist == artist -%>
-		<%= render :partial => "edit_delete_buttons.erb" %>
-		<% end -%>
+	<% if logged_in? and current_user == artist -%>
+	<%= render :partial => "edit_delete_buttons.erb" %>
+	<% end -%>
       </div>
     </td>
     <td >
