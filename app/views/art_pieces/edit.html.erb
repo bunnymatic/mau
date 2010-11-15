@@ -6,11 +6,11 @@
 <%= render :partial => 'tag_autosuggest' %>
 <div id="edit_artpiece" class="div-center">
   <h4>Edit Information for This Piece : <%= @art_piece.title %></h4>
-  <div>
+  <div class="artpiece">
     <img src="<%= @art_piece.get_path('small') %>" />
   </div>
   <% form_for(@art_piece) do |f| %>
-  <table width="600" cellspacing="0" cellpadding="0">
+  <table cellspacing="0" cellpadding="0">
     <% if @errors -%>
     <tr class="error-row">
       <td colspan="3" align="center">

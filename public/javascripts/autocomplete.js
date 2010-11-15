@@ -433,9 +433,10 @@ AutoComplete.prototype = { // {{{
 	// set width of holding div to width of field 
 	// if 
 	
+      var scrollOffset = window.pageYOffset || window.scrollTop || 0;
 	var pos         = this.fld.viewportOffset();
 	div.style.left 	= pos[0] + "px";
-	div.style.top 	= pos[1] + this.fld.offsetHeight + "px";
+	div.style.top 	= pos[1] + this.fld.offsetHeight + scrollOffset + "px";
 	
 	var w = 
 	    (

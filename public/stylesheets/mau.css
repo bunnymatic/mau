@@ -1687,11 +1687,20 @@ textarea.artist-bio {
     width: 520px;
     height: 300px;
 }
-#edit_artpiece table {
-    width: 600px;
+#edit_artpiece .artpiece {
+    width: 200px;
     margin: auto;
+    text-align:center;
 }
-
+#edit_artpiece table {
+    width: 480px;
+    margin: auto;
+    margin: 10px auto;
+}
+#edit_artpiece td {
+    padding-top: 1px;
+    padding-bottom: 3px;
+}
 #artpiece_edit_ctrls {
     width: 560px;
     text-align: left;
