@@ -37,7 +37,6 @@ h4 {
 h5 {
     font-size: 110%;
 }
-td { vertical-align: middle; }
 
 /* prevent forms from causing line breaks */
 form {
@@ -147,6 +146,9 @@ div.donate-btns span {
     font-size: 80%;
 }
 
+.back-to-profile-btn {
+    text-align: center;
+}
 .edit-sections {
     margin: auto;
     width: 560px;
@@ -202,7 +204,9 @@ div.donate-btns span {
     font-size: x-small;
     padding-left: 10px;
 }
-
+.entry-table td {
+    vertical-align: top; 
+}
 /* nav bar link */
 a.lknav {
     font-family: Arial, Helvetica, sans-serif;
@@ -1165,10 +1169,15 @@ td.rcol{
     width:882px;
     margin: auto;
 }
+
 div.singlecolumn {
     background-color: #000;
     padding-top:20px;
 }
+td.singlecolumn {
+    vertical-align: top;
+}
+    
 
 .ltcorner, .rtcorner, .lbcorner, .rbcorner {
     background-image:url('/images/icons/cornersprite.png');
@@ -1228,24 +1237,20 @@ td.td-left{
 }
 
 #signup {
-    width: 607px;
+    width: 650px;
     padding-top: 40px;
     margin: 0px auto;
 }
+#signup .error-msg,
 #signup .flash {
-    width: 473px;
+    width: auto;
     margin: auto;
 }
+
 .signup-right,
 .signup-left {
     float: left;
-    width: 300px;
-}
-.signup-left {
-    padding-top:20px;
-}
-.signup-left h2 {
-    text-align: left;
+    width: 320px;
 }
 .signup-right {
     clear: right;
@@ -1606,7 +1611,7 @@ div.alt-login {
 }
 
 .signup-text {
-    margin: 8px;
+    margin: 1em;
     text-align: left;
 }
 

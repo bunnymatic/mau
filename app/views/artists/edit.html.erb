@@ -99,21 +99,21 @@
 	    <td class="input-name">
 	      Allow notes from:
 	    </td>
-	    <td valign="top">
+	    <td>
 	      <div><%= check_box "emailsettings", "fromall", { :checked => current_user.emailsettings["fromall"] } %>Everyone</div>
 	      <div>
-	        <%= check_box "emailsettings", "fromartist", { :checked => current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] } %>Registered MAU Artists
+	        <%= check_box "emailsettings", "fromartist", { :checked => current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] } %>Registered MAU Members
 	      </div>
 	    </td>
 	    <td class="input-err" width="200">
-	      Check these boxes if would like other registered MAU artists or any website visitors the ability to send you a note.
+	      Check these boxes if would like other registered MAU members or any website visitors the ability to send you a note.
 	    </td>
 	  </tr>
 	  <tr>
 	    <td class="input-name">
 	      MAU Notices:
 	    </td>
-	    <td valign="top">
+	    <td>
 	      <div>
 	        <%= check_box "emailsettings", "mauadmin", { :checked => current_user.emailsettings["mauadmin"] } %>Administrative
 	      </div>
