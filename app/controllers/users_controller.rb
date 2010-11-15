@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    if current_user[:type] != 'Artist'
+    if current_user.is_artist?
       redirect_to edit_artist_path(current_user)
       return
     end
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
       end
 
       if @fan
-        if @fan[:type] == 'Artist'
+        if @fan.is_artist?
           redirect_to artist_path(@fan)
           return
         end
@@ -53,7 +53,6 @@ class UsersController < ApplicationController
     @fan = MAUFan.new
     @studios = Studio.all
     #default type
-    @type = 'Artist'
   end
 
   def addprofile
@@ -148,6 +147,7 @@ class UsersController < ApplicationController
       errs = @artist.errors
     elsif type == 'MAUFan' || type == 'User'
       user_params[:type] = "MAUFan"
+      user_params[:login] = user_params[:login] || user_params[:email]
       @fan = MAUFan.new(user_params)
       if @fan.url && @fan.url.index('http') != 0
         @fan.url = 'http://' + @fan.url

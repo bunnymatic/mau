@@ -20,8 +20,6 @@ describe Artist, 'creation'  do
     a.should_not be_valid
     a.should have(2).error_on(:password)
     a.should have(1).error_on(:password_confirmation)
-    a.should have(2).error_on(:firstname)
-    a.should have(2).error_on(:lastname)
     a.should have_at_least(2).error_on(:login)
     a.should have(3).error_on(:email)
   end
@@ -114,4 +112,35 @@ describe Artist, "update" do
     attr_hash['fromall'].should eql(false)
   end
 end
+
+describe Artist, 'find by fullname' do
+  include ArtistSpecHelper
+  context ' after adding artist with firstname joe and lastname blogs ' do
+    before do
+      a = Artist.new
+      a.attributes = valid_user_attributes
+      a.save.should be_true
+    end
+    it "finds joe blogs" do
+      artists = Artist.find_by_fullname('joe blogs')
+      artists.length.should eql(1)
+      artists[0].get_name.should eql('joe blogs')
+    end
+    it "finds Joe Blogs" do
+      artists = Artist.find_by_fullname('Joe Blogs')
+      artists.length.should eql(1)
+      artists[0].get_name.should eql('joe blogs')
+    end
+    it "finds Joe blogs" do
+      artists = Artist.find_by_fullname('Joe blogs')
+      artists.length.should eql(1)
+      artists[0].get_name.should eql('joe blogs')
+    end
+    it "does not find jo blogs" do
+      artists = Artist.find_by_fullname('Jo blogs')
+      artists.length.should eql(0)
+    end
+  end
+end
+
 

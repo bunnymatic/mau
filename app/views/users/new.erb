@@ -5,15 +5,19 @@
   %>
   <div><h2>Create Your MAU Account</h2>
 <%
-   sel_opts = [{ :key => :Artist,
-                 :display => "Artist",
-                 :selected => (@type ? (@type == 'Artist') : true) ? "selected" : "" },
+   sel_opts = [{ :key => :none,
+                 :display => '&lt;select your account type&gt;',
+                 :selected => ''
+               },
+               { :key => :Artist,
+                 :display => "Mission Artist",
+                 :selected => (@type == 'Artist') ? "selected=selected" : "" },
                { :key => :MAUFan,
-                 :display => "Fan",
+                 :display => "Mission Art Fan",
                  :selected => (@type == 'MAUFan') ? "selected=selected" : "" } ]
    opts = sel_opts.map{ |opt| "<option value='#{opt[:key]}' #{opt[:selected]}>#{opt[:display]}</option>" }.join('')
 %>
-<div id="account_selector">What type of account would you like? <%= select_tag 'account_type_chooser', opts %></div>
+<div id="account_selector">I am a <%= select_tag 'account_type_chooser', opts %></div>
 
   </div>
 <% 

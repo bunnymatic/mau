@@ -346,7 +346,6 @@ input.chkbox {
 }
 
 input.txt, input.txtlogin, input.txtarea, input.txtarea-sm, select.dropdown {
-    background-color:#FEF7CA;
     margin-right: 5px;
 }
 
@@ -446,8 +445,8 @@ div.formbutton {
 /** feeds **/
 .feed-icon {
     position: absolute;
-    top: 5px;
-    right: 2px;
+    top: 4px;
+    right: 4px;
     height: 16px;
 }
 
@@ -545,6 +544,17 @@ div.formbutton {
     border: 0px;
     text-align: left;
     width: 75%;
+}
+
+.lcol div.logo {
+    height:200px;
+    width:200px;
+    margin: 5px auto;
+}
+
+.lcol div.logo img{
+    height:200px;
+    width:200px;
 }
 
 .lcol .feed-sxn-hdr {
@@ -1602,6 +1612,13 @@ div.alt-login {
 .signup-table {
     width: 60%;
     margin: auto;
+}
+.disabled .signup-table select[disabled],
+.disabled .signup-table input[disabled] {
+    background-color: #ddd;
+}
+.disabled .signup-table label {
+    color: #444;
 }
 .login-table {
     width: 70%;

@@ -22,7 +22,7 @@ aaron:
   remember_token:            
   firstname:                 aaron
   lastname:                  dude
-
+  type:                      MAUFan
 
 old_password_holder:
   id:                        3

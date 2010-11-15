@@ -32,17 +32,12 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login
   validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
 
-  validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
-  validates_length_of       :name,     :maximum => 100
-
   validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100 #r@a.wk
   validates_uniqueness_of   :email
   validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
-  validates_presence_of     :firstname  
-  validates_length_of       :firstname,     :maximum => 100
-  validates_presence_of     :lastname
-  validates_length_of       :lastname,     :maximum => 100
+  validates_length_of       :firstname,:maximum => 100, :allow_nil => true
+  validates_length_of       :lastname, :maximum => 100, :allow_nil => true
 
   # custom validations
   validate :validate_username
@@ -50,7 +45,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :url, :reset_code, :emailsettings, :email_attrs, :studio_id, :artist_info
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :url, :reset_code, :emailsettings, :email_attrs, :studio_id, :artist_info, :type
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
@@ -130,11 +125,12 @@ class User < ActiveRecord::Base
   
   def fullname
     fullname = nil
-    if !(self.firstname.empty? or self.lastname.empty?)
+    if !(self.firstname.blank? or self.lastname.blank?)
       fullname = [self.firstname, self.lastname].join(" ")
     end
-    fullname
+    fullname || self.login
   end
+
   def get_name(htmlsafe=false)
     if self.nomdeplume
       name = self.nomdeplume
@@ -288,6 +284,10 @@ class User < ActiveRecord::Base
     retval
   end
 
+  def is_artist?
+    self.type == 'Artist'
+  end
+
   protected
     def compute_geocode
       if self.studio_id != 0
@@ -308,5 +308,5 @@ class User < ActiveRecord::Base
         self.deleted_at = nil
         self.activation_code = self.class.make_token
     end
-
+    
 end
