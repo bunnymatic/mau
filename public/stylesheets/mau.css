@@ -1630,15 +1630,14 @@ div.alt-login {
     width: 220px; /* 10 less than .input - accounts for margins? pulldown button? */
 }
 .signup-table .acct-selector td {
-    padding-bottom: 24px;
 }
     
 .disabled .signup-table select[disabled],
 .disabled .signup-table input[disabled] {
-    background-color: #ddd;
+    background-color: #bbb;
 }
 .disabled .signup-table label {
-    color: #444;
+/*     color: #444;*/
 }
 .login-table {
     width: 70%;

@@ -1,7 +1,6 @@
 <% form_for user, :url => users_path do |f| %>
 <input type="hidden" name="type" value="<%= type %>" />
 <table class="signup-table" >
-  <% if type == 'Artist' %>
   <tr>
     <td class="label"><%= label_tag 'login', 'Username' %></td>
     <td class="input">
@@ -13,7 +12,6 @@
       <% end %>	  
     </td>
   </tr>
-  <% end %>
   <tr>
     <td class="label" >
       <%= label_tag 'email', 'E-mail' %>	  </td>
