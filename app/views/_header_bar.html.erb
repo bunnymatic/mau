@@ -48,16 +48,23 @@
 			 <a class="lknav" href="<%= artists_path %>" title="artists">artists</a>
 			 <ul>
 			   <li class="first leaf">
-				 <a href="<%= artists_path %>" title="artists">all artists</a>
+				 <a href="<%= artists_path %>" title="all artists">all artists</a>
 			   </li>
 <% if Conf.oslive %>                           
 			   <li class="leaf">
-				 <a href="<%= artists_path(:osonly => 1) %>" title="artists">open studios artists</a>
+				 <a href="<%= artists_path(:osonly => 1) %>" title="open studios artists">open studios artists</a>
 			   </li>
 <% end %>                           
-			   <li class="<%= Conf.oslive ? '': 'last' %> leaf">
-				 <a href="<%= artistsmap_path %>" title="artists">artists by map</a>
+			   <li class="leaf">
+				 <a href="<%= artistsmap_path %>" title="artists by map">artists by map</a>
 			   </li>
+			   <li class="leaf">
+				 <a href="<%= media_path :m => 'a' %>" title="artists by medium">artists by medium</a>
+			   </li>
+			   <li class="<%= Conf.oslive ? '': 'last' %> leaf">
+				 <a href="<%= tags_path :m => 'a' %>" title="artists by tag">artists by tag</a>
+			   </li>
+
 <% if Conf.oslive %>                           
 			   <li class="leaf">
 				 <a href="<%= artistsmap_path(:osonly => 1) %>" title="map of open studios artists">open studios map</a>
