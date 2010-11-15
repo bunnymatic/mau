@@ -959,6 +959,7 @@ var TagMediaHelper = {
 
   Object.extend(AC, {
     CHOOSER: 'account_type_chooser',
+    DEFAULT_OPTION: 'select_account_default_option',
     FORM_HASH: { Artist: { container:'artist_signup_form', 
                            form: 'new_artist' },
                  MAUFan: { container: 'fan_signup_form',
@@ -967,12 +968,19 @@ var TagMediaHelper = {
       var $chooser = $(AC.CHOOSER);
       if ($chooser) {
         Event.observe($chooser,'change', AC.open_selected_form);
-        AC.open_form('Artist', false);
+        if (intype) {
+          AC.open_selected_form(intype);
+        } else {
+          AC.open_form('Artist', false);
+        }
       }
     },
     open_selected_form: function() {
       var newform = $(AC.CHOOSER).selected();
       AC.open_form(newform.value, true);
+      // remove dummy option
+      var $def = $(AC.DEFAULT_OPTION);
+      if ($def) { $def.remove() };
     },
     open_form: function(frmtype, enabled) {
       if (!(frmtype in AC.FORM_HASH)) {

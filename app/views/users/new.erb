@@ -2,34 +2,50 @@
 <div id="signup_page">
   <% @artist.password = @artist.password_confirmation = nil 
      @fan.password = @fan.password_confirmation = nil 
-  %>
-  <div><h2>Create Your MAU Account</h2>
-<%
-   sel_opts = [{ :key => :none,
+     sel_opts = [{ :key => :none,
                  :display => '&lt;select your account type&gt;',
-                 :selected => ''
-               },
-               { :key => :Artist,
+                 :selected => '',
+                 :id => 'select_account_default_option'
+                 },
+                 { :key => :Artist,
                  :display => "Mission Artist",
-                 :selected => (@type == 'Artist') ? "selected=selected" : "" },
-               { :key => :MAUFan,
+                 :selected => (@type == 'Artist') ? "selected=selected" : "" 
+                 },
+                 { :key => :MAUFan,
                  :display => "Mission Art Fan",
-                 :selected => (@type == 'MAUFan') ? "selected=selected" : "" } ]
-   opts = sel_opts.map{ |opt| "<option value='#{opt[:key]}' #{opt[:selected]}>#{opt[:display]}</option>" }.join('')
-%>
-<div id="account_selector">I am a <%= select_tag 'account_type_chooser', opts %></div>
-
+                 :selected => (@type == 'MAUFan') ? "selected=selected" : "" 
+                 } ]
+     opts = sel_opts.map{ |opt| "<option value='#{opt[:key]}' id='#{opt[:id]}' #{opt[:selected]}>#{opt[:display]}</option>" }.join('')
+     astyle = 'display:none;'
+     fstyle = 'display:none;'
+     case @type
+     when 'Artist'
+       astyle = "display:block;"
+     when 'MAUFan'
+       fstyle = "display:block;"
+     end
+  %>
+  <script type="text/javascript">
+    var intype = '<%= @type %>';
+  </script>
+  <div>
+    <h2>Create Your MAU Account</h2>
   </div>
-<% 
-astyle = 'display:none;'
-fstyle = 'display:none;'
-case @type
-when 'Artist'
-  astyle = "display:block;"
-when 'MAUFan'
-  fstyle = "display:block;"
-end
-%>  
+  <table class="signup-table">
+    <% if flash[:error] %>
+    <tr class="error-row">
+      <td colspan="3">
+        <div class="error-msg">
+	  <%= flash[:error] %>
+        </div>
+        <% end %>
+      </td>
+    </tr>
+    <tr class='acct-selector'>
+     <td class='label'><label for='acct-selector'>I am a</label></td>
+     <td colspan='2' class="input"><%= select_tag 'account_type_chooser', opts %></td>
+   </tr>
+  </table>
   <div id="artist_signup_form" style="<%= astyle %>">
   <%= render :partial => 'signup_form', :locals => { :type => 'Artist', :user => @artist } %>
   </div>

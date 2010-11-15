@@ -73,6 +73,7 @@ tr.error-row {
 tr.error-row div.error-msg {
     margin-left: auto;
     margin-right: auto;
+    width: auto;
 }
 
 .input-name, .input, .input-err{
@@ -1613,6 +1614,20 @@ div.alt-login {
     width: 60%;
     margin: auto;
 }
+.signup-table .label {
+    width: 128px;
+}
+
+.signup-table .input {
+    width: 230px;
+}
+.signup-table .input select {
+    width: 220px; /* 10 less than .input - accounts for margins? pulldown button? */
+}
+.signup-table .acct-selector td {
+    padding-bottom: 24px;
+}
+    
 .disabled .signup-table select[disabled],
 .disabled .signup-table input[disabled] {
     background-color: #ddd;
@@ -2361,30 +2376,11 @@ ul.dropdown ul .first {
 
 #signup_page h2 {
     text-align: center;
+    margin-bottom: 20px;
 }
 
-#signup_table {
-    width: 700px;
-}
 #account_selector {
     text-align:center;
     margin-bottom: 20px;
-}
-#signup_table th { width: 50%; }
-#signup_table th,
-#signup_table td {
-    vertical-align: top;
-    padding: 10px 15px;
-}
-#signup_table button {
-    background:#999;
-    background:url(/images/gradients.png) repeat-x 0 -50px; /* 40px gradient */
-    border:outset 1px #ccc;
-    color:#666;
-    cursor:pointer;
-    font-weight:bold;
-    font-size: 125%;
-    padding: 3px 12px;
-    height: 39px;
 }
 
