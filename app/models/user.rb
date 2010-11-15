@@ -2,7 +2,8 @@ require 'digest/sha1'
 require 'htmlhelper'
 require 'json'
 RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
-                           'deactivate','add','new','view','create','update']
+                           'deactivate','add','new','view','create','update',
+                         'arrangeart', 'setarrangement']
 
 # here are names we should probably capture or disallow before we release
 # the site.  maybe we make a migration to create these accounts
