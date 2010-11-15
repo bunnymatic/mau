@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails, :admin_update, :destroy ]
-  before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :addprofile, :deactivate, :setarrangement, :arrangeart ]
+  before_filter :login_required, :only => [ :edit, :update, :suspend, :addprofile, :deactivate ]
 
   layout 'mau1col'
 
@@ -328,6 +328,7 @@ class UsersController < ApplicationController
     flash[:notice] = "Your account has been deactivated."
     redirect_to "/"
   end
+  
 
   protected
   def safe_find_user(id)

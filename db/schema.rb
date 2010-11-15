@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101026230014) do
+ActiveRecord::Schema.define(:version => 20101115091131) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -53,6 +53,14 @@ ActiveRecord::Schema.define(:version => 20101026230014) do
     t.boolean  "os2010",                                  :default => false
     t.float    "lat"
     t.float    "lng"
+  end
+
+  create_table "favorites", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "obj_id"
+    t.string   "obj_type"
+    t.integer  "user_id"
   end
 
   create_table "feedbacks", :force => true do |t|

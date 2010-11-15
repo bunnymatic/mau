@@ -76,7 +76,6 @@ class ApplicationController < ActionController::Base
   # redirect somewhere that will eventually return back to here
   def redirect_away(*params)
     session[:original_uri] = request.request_uri
-    puts "Redirect away : " + request.request_uri
     redirect_to(*params)
   end
   
@@ -84,7 +83,6 @@ class ApplicationController < ActionController::Base
   def redirect_back(*params)
     uri = session[:original_uri]
     session[:original_uri] = nil
-    puts "Redirect back : " + uri
     if uri
       redirect_to uri
     else
