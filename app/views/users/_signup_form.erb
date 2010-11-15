@@ -1,21 +1,12 @@
 <% form_for user, :url => users_path do |f| %>
 <input type="hidden" name="type" value="<%= type %>" />
-<table align="center" class="signup-table" >
-  <% if flash[:error] %>
-  <tr  class="error-row">
-    <td colspan="3">
-      <div class="error-msg">
-	<%= flash[:error] %>
-      </div>
-      <% end %>
-    </td>
-  </tr>
+<table class="signup-table" >
   <% if type == 'Artist' %>
   <tr>
-    <td class="input" width="195"><%= label_tag 'login', 'Username' %></td>
-    <td  width="227">
+    <td class="label"><%= label_tag 'login', 'Username' %></td>
+    <td class="input">
       <%= f.text_field :login %>	  </td>
-    <td width="412">
+    <td class="errors">
       <% if user.errors[:login] %>
       <div class="error-help">
 	<%= user.errors.select{ |k,v| k=='login' }[0][1] %>	    </div>
@@ -24,9 +15,9 @@
   </tr>
   <% end %>
   <tr>
-    <td class="input">
+    <td class="label" >
       <%= label_tag 'email', 'E-mail' %>	  </td>
-    <td >
+    <td class="input">
       <%= f.text_field :email %>	  </td>
     <td>
       <% if user.errors[:email] %>
@@ -35,7 +26,7 @@
       <% end %>	  </td>
   </tr>
   <tr>
-    <td class="input">
+    <td >
       <%= label_tag 'password', 'Password' %>	  </td>
     <td >
       <%= f.password_field :password %>	  </td>
@@ -46,7 +37,7 @@
       <% end %>	  </td>
   </tr>
   <tr>
-    <td class="input">
+    <td >
       <%= label_tag 'password_confirmation', 'Confirm Password' %>	  </td>
     <td > 
       <%= f.password_field :password_confirmation %>	  </td>
@@ -58,7 +49,7 @@
   </tr>
   <% if type == 'Artist' %>
   <tr>
-    <td class="input">
+    <td >
       <%= label_tag 'firstname', 'First Name' %>	  </td>
     <td > 
       <%= f.text_field :firstname %>	  </td>
@@ -69,9 +60,9 @@
       <% end %>	  </td>
   </tr>
   <tr>
-    <td class="input">
+    <td >
       <%= label_tag 'lastname', 'Last Name' %>	  </td>
-    <td class="input">
+    <td >
       <%= f.text_field :lastname %>	  </td>
     <td>
       <% if user.errors[:lastname] %>
@@ -80,9 +71,9 @@
       <% end %>	  </td>
   </tr>
   <tr>
-    <td class="input">
+    <td >
       <%= label_tag 'studio', 'Group Studio' %>	  </td>
-    <td class="input">
+    <td >
       <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>	  </td>
     <td class="little-txt"></td>
   </tr>

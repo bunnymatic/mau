@@ -1,7 +1,7 @@
 <div style="padding-top:26px;">
   <% @artist.password = @artist.password_confirmation = nil %>
   <% form_for :artist, :url => artists_path do |f| %>
-  <table align="center" class="signup-table" >
+  <table class="signup-table" >
 	<tr>
 	  <td class="td-left", colspan="3"><h2>Create Your MAU Artist Account</h2></td>
 	</tr>
@@ -15,7 +15,7 @@
 	  </td>
 	</tr>
 	<tr>
-	  <td class="input" width="195"><%= label_tag 'login', 'Username' %></td>
+	  <td class="input" ><%= label_tag 'login', 'Username' %></td>
 	  <td  width="227">
 		<%= f.text_field :login %>	  </td>
 	  <td width="412">
