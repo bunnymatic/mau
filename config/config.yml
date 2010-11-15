@@ -102,3 +102,4 @@ common:
    autosuggest:
        cache_expiry: 300
        cache_key: tagsuggest
+   oslive: false

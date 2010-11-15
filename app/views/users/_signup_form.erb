@@ -10,6 +10,7 @@
       <% end %>
     </td>
   </tr>
+  <% if type == 'Artist' %>
   <tr>
     <td class="input" width="195"><%= label_tag 'login', 'Username' %></td>
     <td  width="227">
@@ -21,6 +22,7 @@
       <% end %>	  
     </td>
   </tr>
+  <% end %>
   <tr>
     <td class="input">
       <%= label_tag 'email', 'E-mail' %>	  </td>
@@ -54,6 +56,7 @@
 	<%= user.errors.select{ |k,v| k=='password_confirmation' }[0][1] %>	    </div>
       <% end %>	  </td>
   </tr>
+  <% if type == 'Artist' %>
   <tr>
     <td class="input">
       <%= label_tag 'firstname', 'First Name' %>	  </td>
@@ -76,7 +79,6 @@
 	<%= user.errors.select{ |k,v| k=='lastname' }[0][1] %>	    </div>
       <% end %>	  </td>
   </tr>
-  <% if type == 'Artist' %>
   <tr>
     <td class="input">
       <%= label_tag 'studio', 'Group Studio' %>	  </td>

@@ -87,6 +87,45 @@ describe UsersController do
         User.find_by_login("newuser").should be
       end
     end
+    context "valid user param (email/password only) and type = MAUFan" do
+      before do
+        post :create, :mau_fan => { 
+          :password_confirmation => "blurpit", 
+          :password => "blurpit", 
+          :email => "bmati2@b.com" }, :type => "MAUFan" 
+      end
+      it "redirects to index" do
+        response.should redirect_to( root_url )
+      end
+      it "sets flash indicating that activation email has been sent" do
+        flash[:notice].should include_text(" email with your activation code")
+      end
+      context "creates an account" do
+
+        before do
+          @found_user = User.find_by_login("bmati2@b.com")
+        end
+        it "in the user database" do
+          @found_user.should be
+        end
+        it "whose state is 'pending'" do
+          @found_user.state.should be == 'pending'
+        end
+        it "whose type is 'MAUFan'" do
+          @found_user.type == 'MAUFan'
+        end
+      end
+      it "should register as a fan account" do
+        MAUFan.find_by_login("bmati2@b.com").should be
+      end
+      it "should not register as an artist account" do
+        Artist.find_by_login("bmati2@b.com").should be_nil
+      end
+      it "should register as user account" do
+        User.find_by_login("bmati2@b.com").should be
+      end
+    end
+
   end
   context "valid artist params and type = Artist" do
     before do
@@ -126,6 +165,8 @@ describe UsersController do
     before(:each) do
       @a = users(:artist1)
       @a.save!
+      @u = users(:aaron)
+      @u.save!
     end
     context "while not logged in" do
       before(:each) do 
@@ -135,15 +176,27 @@ describe UsersController do
         response.should redirect_to(new_session_path)
       end
     end
-    context "while logged in" do
+    context "while logged in as an artist" do
       before(:each) do
         login_as(@a)
+        get :edit
+      end
+      it "GET should redirect to artist edit" do
+        response.should be_redirect
+      end
+      it "renderers the edit template" do
+        response.should redirect_to edit_artist_url(@a)
+      end
+    end
+    context "while logged in as an user" do
+      before(:each) do
+        login_as(@u)
         get :edit
       end
       it "GET returns 200" do
         response.should be_success
       end
-      it "renderers the edit template" do
+      it "renderers the user edit template" do
         response.should render_template("edit.erb")
       end
     end
