@@ -8,7 +8,25 @@ var Utils = {
     return opts.find(function(ele){return !!ele.selected;});
   }
 };
+
 Element.addMethods(Utils);
+
+var FormMethods = {
+  focus_first : function(f) {
+    if (!f) return;
+    var inps = f.select('input');
+    var ni = inps.length;
+    for (var ii =0; ii < ni; ++ii) {
+      var inp = inps[ii];
+      if ( $(inp).readAttribute('type') != 'hidden' ) {
+	inp.activate();
+	break;
+      }
+    }
+  }
+};
+
+Element.addMethods('form', FormMethods);
 
 (function(){
   var curHash = window.location.hash;
@@ -176,24 +194,10 @@ var TagMediaHelper = {
   M.CREDITS_BG = 'credits_bg';
   M.CREDITS_BG_CONTAIN = 'credits_bg_contain';
   M.CREDITS_DIV = 'credits_div';
-  /* leave for later in case we need to init stuff */
+  
   M.init = function() {
-    // focus on first form input
-    var fnames = Array('login_form', 'new_artpiece_form');
-    $(fnames).each(function(n) {
-      var f = $(n);
-      if (f) {
-	var inps = f.select('input');
-	var ni = inps.length;
-	for (var ii =0; ii < ni; ++ii) {
-	  var inp = inps[ii];
-	  if ( $(inp).readAttribute('type') != 'hidden' ) {
-	    inp.activate();
-	    break;
-	  }
-	}
-      }
-    });
+    var $lf = $('login_form');
+    if ($lf) { $lf.focus_first(); }
 
     // init credits popup
     var fq = $('credits_lnk');
@@ -394,6 +398,15 @@ var TagMediaHelper = {
 
   /** art piece methods */
   AP.init = function() {
+    if (location.hash) {
+      var newid = location.hash.substr(1);
+      M.log(newid);
+      var urlbits = location.href.split('/');
+      var n = urlbits.length;
+      urlbits[n-1] = newid;
+      var newurl = urlbits.join('/');
+      location.href = newurl;
+    }
     var moveleft = $$('.mv-left');
     if (moveleft && moveleft.length > 0) {
       moveleft.first().addClassName("first");
@@ -785,6 +798,7 @@ var TagMediaHelper = {
 			 method: 'get',
 			 onComplete: function(transport) {
 			   $(N.ID_CONTENT).removeClassName('note-loading');
+                           $(N.ID_FORM).focus_first();
 			   $(N.ID_FORM).observe('submit', N.submitNote);
 			   var b = $(N.ID_CLOSE_BTN);
 			   b.observe('click', function(){
@@ -1003,8 +1017,13 @@ var TagMediaHelper = {
             }
             // enable/disable all form inputs based on enabled input
             $cfrm[enabled?'enable':'disable']();
-            if (!enabled) {$cfrm.addClassName('disabled');}
-            else {$cfrm.removeClassName('disabled'); }
+            if (enabled) {
+              $cfrm.removeClassName('disabled'); 
+              $cfrm.focus_first();
+            }
+            else {
+              $cfrm.addClassName('disabled');
+            }
           } else { // hide
             $cdiv.fade(M.FADE_OPTS['out']);
             $cdiv.setStyle({display:'none'});
