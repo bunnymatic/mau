@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+artist:
+  obj_id: 1
+  obj_type: Artist
+
+two:
+  obj_id: 1
+  obj_type: MyString
