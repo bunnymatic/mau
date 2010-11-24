@@ -104,9 +104,9 @@ describe ArtistsController do
         response.should have_tag("input#artist_url[value=#{@a.url}]")
       end
       it "has the artists correct links in their respective fields" do
-        [:facebook, :blog].each do |key| 
-          linkval = @a.send(key)
-          linkid = "artist_artist_info_#{key}"
+        [:facebook, :blog].each do |k| 
+          linkval = @a.send(k)
+          linkid = "artist_artist_info_#{k}"
           tag = "input##{linkid}[value=#{linkval}]"
           response.should have_tag(tag)
         end
@@ -172,15 +172,15 @@ describe ArtistsController do
       a = users(:artist1)
       a.save!
       ap = art_pieces(:artpiece1)
-      ap.user_id = a.id
+      ap.artist_id = a.id
       ap.save!
       apids << ap.id
       ap = art_pieces(:artpiece2)
-      ap.user_id = a.id
+      ap.artist_id = a.id
       ap.save!
       apids << ap.id
       ap = art_pieces(:artpiece3)
-      ap.user_id = a.id
+      ap.artist_id = a.id
       ap.save!
       apids << ap.id
       info = artist_infos(:artist1)
@@ -218,7 +218,7 @@ describe ArtistsController do
         aps[0].title.should == "second"
         aps[1].title.should == "first"
         aps[2].title.should == "third"
-        aps[0].user.artist_info.representative_piece.id.should==aps[0].id
+        aps[0].artist.artist_info.representative_piece.id.should==aps[0].id
         
       end
 
@@ -234,7 +234,7 @@ describe ArtistsController do
         aps[0].title.should == "first"
         aps[1].title.should == "third"
         aps[2].title.should == "second"
-        aps[0].user.artist_info.representative_piece.id.should==aps[0].id
+        aps[0].artist.artist_info.representative_piece.id.should==aps[0].id
       end
     end
   end

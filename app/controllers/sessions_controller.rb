@@ -22,6 +22,8 @@ class SessionsController < ApplicationController
 
     user = User.authenticate(login, params[:password])
     if user
+      p "User", user
+      p "STATE", user.state
       # Protects against session fixation attacks, causes request forgery
       # protection if user resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.

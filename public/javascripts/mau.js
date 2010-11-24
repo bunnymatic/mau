@@ -11,6 +11,22 @@ var Utils = {
 
 Element.addMethods(Utils);
 
+post_to_url = function (path, params, method) {
+  method = method || "post"; // Set method to post by default, if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+  var form = new Element('form', { method: method, action: path });
+  for(var key in params) {
+    var hiddenField = new Element('input', { type: 'hidden', name: key, value: params[key] })
+    form.update(hiddenField);
+  }
+  var hiddenField = new Element('input', { type: 'hidden', name: 'authenticity_token', value:unescape(authenticityToken)});
+  form.update(hiddenField);
+  document.body.appendChild(form);    // Not entirely sure if this is necessary
+  form.submit();
+};
+
 var FormMethods = {
   focus_first : function(f) {
     if (!f) return;
@@ -96,6 +112,7 @@ var TagMediaHelper = {
   var TB = M.Toolbar = M.Toolbar || {};
   var FR = M.FrontPage = M.FrontPage || {};
   var AC = M.Account = M.Account || {};
+  var FV = M.Favorites = M.Favorites || {};
 
   M.__debug__ = true;
   M.BLIND_OPTS = { up: {duration: 0.25},
@@ -1034,6 +1051,25 @@ var TagMediaHelper = {
     }
   });
   Event.observe(window,'load', AC.onload);
+  
+  var Favorites = {
+    init: function() {
+      var favorites = $$('.favorite_this');
+      M.log(favorites);
+      $$('.favorite_this').each(function(lnk) {
+        var tp = lnk.readAttribute('fav_type');
+        var id = lnk.readAttribute('fav_id');
+        if (tp && id) {
+          lnk.observe('click', function() {
+            post_to_url('/users/add_favorite', {fav_type: tp,fav_id: id} );
+          });
+        }
+      });
+    }
+  };
+  
+  Object.extend(FV,Favorites);
+  Event.observe(window,'load', FV.init);
 }
 )();
 

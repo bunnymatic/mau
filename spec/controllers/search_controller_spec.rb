@@ -22,17 +22,17 @@ describe SearchController do
     a = users(:artist1)
     a.save!
     ap = art_pieces(:artpiece1)
-    ap.user_id = a.id
+    ap.artist_id = a.id
     ap.medium_id = m2.id
     ap.save!
     art_pieces << ap
     ap = art_pieces(:artpiece2)
-    ap.user_id = a.id
+    ap.artist_id = a.id
     ap.medium_id = m1.id
     ap.save!
     art_pieces << ap
     ap = art_pieces(:artpiece3)
-    ap.user_id = a.id
+    ap.artist_id = a.id
     ap.medium_id = nil
     ap.save!
     art_pieces << ap

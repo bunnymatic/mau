@@ -9,14 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101115091131) do
+ActiveRecord::Schema.define(:version => 20101116043427) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
     t.string   "title"
     t.text     "description"
     t.string   "dimensions"
-    t.integer  "user_id"
+    t.integer  "artist_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "medium_id"
@@ -29,6 +29,11 @@ ActiveRecord::Schema.define(:version => 20101115091131) do
   create_table "art_pieces_tags", :id => false, :force => true do |t|
     t.integer "tag_id"
     t.integer "art_piece_id"
+  end
+
+  create_table "artist_images", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "artist_infos", :force => true do |t|
@@ -55,11 +60,31 @@ ActiveRecord::Schema.define(:version => 20101115091131) do
     t.float    "lng"
   end
 
+  create_table "artist_profile_images", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "name"
+    t.datetime "startdate"
+    t.datetime "enddate"
+    t.text     "description"
+    t.string   "url"
+    t.string   "image"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.integer  "zip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "favorites", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "obj_id"
-    t.string   "obj_type"
+    t.integer  "favoritable_id"
+    t.string   "favoritable_type"
     t.integer  "user_id"
   end
 
@@ -162,18 +187,5 @@ ActiveRecord::Schema.define(:version => 20101115091131) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
-
-  create_table "venues", :force => true do |t|
-    t.string   "phone",         :limit => 16
-    t.string   "url",           :limit => 200
-    t.string   "profile_image", :limit => 200
-    t.string   "street",        :limit => 200
-    t.string   "city",          :limit => 200
-    t.string   "state",         :limit => 4
-    t.integer  "zip"
-    t.string   "description",   :limit => 2000
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

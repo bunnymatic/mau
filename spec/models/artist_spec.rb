@@ -7,7 +7,7 @@ module ArtistSpecHelper
       :password => "abcdefg",
       :password_confirmation => "abcdefg",
       :firstname => 'joe',
-      :lastname => 'blogs',
+      :lastname => 'blogs'
     }
   end
 end
@@ -76,35 +76,31 @@ end
 
 describe Artist, "update" do
   include ArtistSpecHelper
+  fixtures :users, :artist_infos
+  before do 
+    @a = users(:artist1)
+    @ai = artist_infos(:artist1)
+    @a.artist_info = @ai
+  end
   it "should update bio" do
-    a = Artist.new
-    a.attributes = valid_user_attributes
-    a.save.should be_true
-    a.bio.should be_nil
-    a.bio = 'stuff'
-    a.save.should be_true
-    artist_id = a.id
-    a = nil
-    a = Artist.find(artist_id)
+    @a.bio.should eql(@ai.bio)
+    @a.bio = 'stuff'
+    @a.artist_info.save.should be_true
+    a = Artist.find(@a.id)
     a.bio.should == 'stuff'
   end
 
   it "should update email settings" do
-    a = Artist.new
-    a.attributes = valid_user_attributes
-    a.save.should be_true
-    attr_hash = JSON::parse(a.email_attrs)
+    attr_hash = JSON::parse(@a.email_attrs)
     attr_hash['fromartist'].should eql(true)
     attr_hash['mauadmin'].should eql(true)
     attr_hash['maunews'].should eql(true)
     attr_hash['fromall'].should eql(false)
 
     attr_hash['maunews'] = false
-    a.email_attrs = attr_hash.to_json
-    a.save
-    artist_id = a.id
-    a = nil
-    a = Artist.find(artist_id)
+    @a.email_attrs = attr_hash.to_json
+    @a.save
+    a = Artist.find(@a.id)
     attr_hash = JSON::parse(a.email_attrs)
     attr_hash['fromartist'].should eql(true)
     attr_hash['mauadmin'].should eql(true)
@@ -115,11 +111,10 @@ end
 
 describe Artist, 'find by fullname' do
   include ArtistSpecHelper
+  fixtures :users
   context ' after adding artist with firstname joe and lastname blogs ' do
     before do
-      a = Artist.new
-      a.attributes = valid_user_attributes
-      a.save.should be_true
+      @a = users(:joeblogs)
     end
     it "finds joe blogs" do
       artists = Artist.find_by_fullname('joe blogs')

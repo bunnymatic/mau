@@ -5,29 +5,29 @@
     <td class="alt-lcol" align="center">
       <% if @artist -%>
       <div id="bigthumbcolumn">
-	  <% if @artist.art_pieces.count > 0 -%>
-		<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.artist_info.representative_pieces(4), :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
+	<% if @artist.art_pieces.count > 0 -%>
+	<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.art_pieces[0..3], :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
+	<% else -%>
+	<div class="allthumbs">
+          <%  title = "Generic Art"
+              if logged_in? and current_user.id == @artist.id 
+	      title = "Click to Upload Some Art!"
+              -%>
+	  <div class="artp-thumb artp-thumb-s">
+	    <a href="<%= new_art_piece_path %>" title="<%= title %>">
+	      <img src="/images/default-art-img.png" title="<%= title %>"/>
+	    </a>
+	  </div>
+	  <div>
+	    <a href="<%= new_art_piece_path %>" title="<%= title %>">Click here to Upload some art!</a>
+	  </div>
 	  <% else -%>
-	  <div class="allthumbs">
-<%        title = "Generic Art"
-          if logged_in? and current_user.id == @artist.id 
-		     title = "Click to Upload Some Art!"
-                -%>
-		<div class="artp-thumb artp-thumb-s">
-		  <a href="<%= new_art_piece_path %>" title="<%= title %>">
-		  <img src="/images/default-art-img.png" title="<%= title %>"/>
-		  </a>
-		</div>
-		<div>
-		  <a href="<%= new_art_piece_path %>" title="<%= title %>">Click here to Upload some art!</a>
-		</div>
-		  <% else -%>
-		<div class="artp-thumb artp-thumb-s">
-		  <img src="/images/default-art-img.png" title="<%= title %>"/>
-		</div>
-		  <% end -%>
+	  <div class="artp-thumb artp-thumb-s">
+	    <img src="/images/default-art-img.png" title="<%= title %>"/>
 	  </div>
 	  <% end -%>
+	</div>
+	<% end -%>
       </div>
       <% end -%>
     </td>
@@ -35,130 +35,142 @@
     <td class="rcol" align="center" ><!-- artists/show -->
       <% if flash[:error] -%>
       <div class="error-msg">Error:
-		<%= flash[:error] %>
+	<%= flash[:error] %>
       </div>
       <% end -%>
       <div class="content-block" > 
-		<% if logged_in? && @artist && @artist.login == self.current_user.login -%>
-		<!-- <%= render :partial => '/deadline_announcement' %>  -->
-		<% end %>
-		<% if @artist -%>
-		<div id="artist_profile_img">
-		  <% if logged_in? && @artist && @artist.login == self.current_user.login -%>
-		  <a title="update my picture" href="<%= addprofile_users_path %>">
-			<% if @artist.has_profile_image -%>
-  			<img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
-			<% else -%>
-  			<img class="profile" src="/images/default-profile-img.png" width="200" />
-  			<% end -%>
-		  </a>
-		  <% else -%>
-		  <%   if @artist.has_profile_image -%>
-  		  <img class="profile" src="<%= @artist.get_profile_image('small') %>" />
-		  <% else %>
-  		  <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
-  		  <%   end -%>
-		  <% end -%>
-		  <% if @artist.artist_info.osoct2010? -%>
-		  <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
-		  <% end -%>
-		</div>
-		<div id="artist_profile_name">
- 		  <h4><%=h @artist.get_name %></h4>
-		  <div class="artist">
-			<div class="div-left">
-			  <% if flash[:notice] -%>
-			  <div class="notice">
-				<%= flash[:notice] %>
-			  </div>
-			  <% end -%>
-			</div>
-			<div class="div-left">
-			  <div>
-				<% if @artist.studio -%>
-				<div><%= link_to @artist.studio.name, @artist.studio %></div>
-   				<div><%=h @artist.studio.street %> 
-				<% if @artist.artist_info.studionumber -%><span>#<%=h @artist.artist_info.studionumber %></span><% end -%>
+	<% if logged_in? && @artist && @artist.login == self.current_user.login -%>
+	<!-- <%= render :partial => '/deadline_announcement' %>  -->
+	<% end %>
+	<% if @artist -%>
+	<div id="artist_profile_img">
+	  <% if logged_in? && @artist && @artist.login == self.current_user.login -%>
+	  <a title="update my picture" href="<%= addprofile_users_path %>">
+	    <% if @artist.has_profile_image -%>
+  	    <img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
+	    <% else -%>
+  	    <img class="profile" src="/images/default-profile-img.png" width="200" />
+  	    <% end -%>
+	  </a>
+	  <% else -%>
+	  <%   if @artist.has_profile_image -%>
+  	  <img class="profile" src="<%= @artist.get_profile_image('small') %>" />
+	  <% else %>
+  	  <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
+  	  <%   end -%>
+	  <% end -%>
+	  <% if @artist.artist_info.osoct2010? -%>
+	  <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
+	  <% end -%>
+          <div class="action-icons">
+	    <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
+            <a target="_new" href="<%= @fb_share %>" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
+	    <% if (!current_user || current_user.id != @artist.id) && (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
+	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" title="Send a note to this artist"><div class="micro-icon email"></div></a>
+	    <% end -%>
+            <a href="#" class="favorite_this" fav_type="Artist" fav_id="<%= @artist.id %>" title="Add this artist to your favorites" ><div class="micro-icon heart"></div></a>
+          </div>
+	</div>
+	<div id="artist_profile_name">
+ 	  <h4><%=h @artist.get_name %></h4>
+	  <div class="artist">
+	    <div class="div-left">
+	      <% if flash[:notice] -%>
+	      <div class="notice">
+		<%= flash[:notice] %>
+	      </div>
+	      <% end -%>
+	    </div>
+	    <div class="div-left">
+	      <div>
+		<% if @artist.studio -%>
+		<div><%= link_to @artist.studio.name, @artist.studio %></div>
+   		<div><%=h @artist.studio.street %> 
+		  <% if @artist.artist_info.studionumber -%><span>#<%=h @artist.artist_info.studionumber %></span><% end -%>
+                </div>
+   		<div><%=h @artist.studio.city %></div>
+		<% else -%>
+		<div><%=h @artist.artist_info.street %></div>
+		<div><%=h @artist.artist_info.city %></div>
+		<% end -%>
+	      </div>
+	    </div>
+	    <% if @artist.media and @artist.media.length > 0 -%>
+	    <div class="div-left">
+	      <span>Media:</span>
+	      <span>
+		<% links = []
+		   @artist.media.each do |m| 
+  		   links << link_to(m.name, m, :class => ""  )
+			    end
+                -%>
+		   <%= links.join(", ") %>
+	      </span>
+	    </div>
+	    <% end -%>
+	    <% if has_links(@artist) -%>
+	    <div class="div-left">
+	      <% keyed_links.each do |key, name, _id|  
+		 lnk = @artist.send(key)
+		 if lnk and !lnk.empty? %>
+    	      <div id="<%= _id %>"><span><%= name %>: </span>
+		<%= link_to lnk, add_http(lnk), { :target => "_blank" } %>
+  	    </div>
+   	    <% end -%>
+ 	    <% end -%>
+ 	  </div>
+	  <% end -%>
+          <div id="my_favorites" class="favorites-block" >
+            <div><label>my favorites</label></div>
+            <% @artist.fav_artists.each do |f| 
+               clz = (f == @artist.fav_artists.last) ?"last" :""
+            %>
+            <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
+            <% end %>
+          </div>
+          <div id="favorites_me" class="favorites-block">
+            <div><label>who &hearts;'s me</label></div>
+            <% @artist.who_favorites_me.each do |f| 
+               clz = (f == @artist.who_favorites_me.last) ?"last" :""
+            %>
+            <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
+            <% end %>
+          </div>
+	</div>
+	<% if logged_in? and @artist.id == current_user.id -%>
+	<div id="profile_edit_ctrls">
+	  <a class="lksubtle" href="<%= edit_artist_path(current_user) %>"><span>edit my page</span></a>
+	</div>
+	<% end -%>
+      </div>
+      <% if @artist.artist_info.bio and !@artist.artist_info.bio.empty? -%>
+      <div class="clear"></div>
+      <div class="div-left bio-container"><span>Bio:</span>
+	<%= bio_html(@artist.artist_info.bio) %>
+      </div>
+      <% end -%>
 </div>
-   				<div><%=h @artist.studio.city %></div>
-				<% else -%>
-				<div><%=h @artist.artist_info.street %></div>
-				<div><%=h @artist.artist_info.city %></div>
-				<% end -%>
-			  </div>
-			</div>
-			<% if (!current_user || current_user.id != @artist.id) && (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
-			<div class="div-left share">Send the artist a note:&nbsp;
-			  <a href="#" id="notify_artist" aid="<%= @artist.id %>" ><span  aid="<%= @artist.id %>"  class="micro-icon email"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
-			</div>
-			<% end -%>
+<div class="clear" ></div>
 
-			<% if @artist.media and @artist.media.length > 0 -%>
-			<div class="div-left">
-			  <span>Media:</span>
-			  <span>
-				<% links = []
-				   @artist.media.each do |m| 
-  				   links << link_to(m.name, m, :class => ""  )
-							end
-							-%>
-				   <%= links.join(", ") %>
-			  </span>
-			</div>
-			<% end -%>
-			<% if @artist.tags and @artist.tags.length > 0 -%>
-			<% end -%>
-			<% if has_links(@artist) -%>
-			<div class="div-left">
-			  <% keyed_links.each do |key, name, _id|  
-				 lnk = @artist.send(key)
-					 if lnk and !lnk.empty? %>
-    			  <div id="<%= _id %>"><span><%= name %>: </span>
-					<%= link_to lnk, add_http(lnk), { :target => "_blank" } %>
-  				  </div>
-   				  <% end -%>
- 				  <% end -%>
- 				</div>
-				<% end -%>
-				<div class="div-left share">Share this page:
-				  <a target="_new" href="<%= @fb_share %>" title="Share this page on Facebook"><span class="micro-icon facebook"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>&nbsp;
-				  <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><span class="micro-icon twitter"><img src="/images/pix.gif" height="16" width="0"/></span></a>
-				</div>
-			</div>
-		  <% if logged_in? and @artist.id == current_user.id -%>
-		  <div id="profile_edit_ctrls">
-			<a class="lksubtle" href="<%= edit_artist_path(current_user) %>"><span>edit my page</span></a>
-		  </div>
-		  <% end -%>
-		  </div>
-		  <% if @artist.artist_info.bio and !@artist.artist_info.bio.empty? %>
-		  <div class="clear"></div>
-		  <div class="div-left bio-container"><span>Bio:</span>
-			<%= bio_html(@artist.artist_info.bio) %>
-		  </div>
-		  <% end -%>
-		</div>
-		<div class="clear" ></div>
-
-		<div class="artist-pieces">
-<% if logged_in? && @artist.id == current_user.id -%>
-<div id="artpiece_edit_ctrls">
-<a class="lksubtle" href="<%= new_art_piece_path %>"><span>add art</span></a>
-<a class="lksubtle" href="<%= arrangeart_artists_path %>"><span>arrange</span></a>
-<a class="lksubtle" href="<%= deleteart_artists_path %>"><span>delete</span></a>
-<b> </b>
+<div class="artist-pieces">
+  <% if logged_in? && @artist.id == current_user.id -%>
+  <div id="artpiece_edit_ctrls">
+    <a class="lksubtle" href="<%= new_art_piece_path %>"><span>add art</span></a>
+    <a class="lksubtle" href="<%= arrangeart_artists_path %>"><span>arrange</span></a>
+    <a class="lksubtle" href="<%= deleteart_artists_path %>"><span>delete</span></a>
+    <b> </b>
+  </div>
+  <% end -%>
+  <% if @artist.art_pieces -%>
+  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }} %>
+  <% else -%>
+  <img src="/images/default-art-img.png" width="200" />
+  <% end -%>
 </div>
 <% end -%>
-	      <% if @artist.art_pieces -%>
-	      <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }} %>
-	      <% else -%>
-	      <img src="/images/default-art-img.png" width="200" />
-	      <% end -%>
-		</div>
-	  <% end -%>
-	</td>
-	<td valign="top">
-	</td>
-  </tr>
-  <%= render :partial => "/twocol_bottom" %>
+</td>
+<td valign="top">
+</td>
+</tr>
+<%= render :partial => "/twocol_bottom" %>
 </table>

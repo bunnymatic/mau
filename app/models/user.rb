@@ -11,17 +11,22 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 #'jon','mrrogers','trish','trishtunney',
 
 class User < ActiveRecord::Base
+  @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
 
-  # stash this so we don't have to keep getting it from the db
   attr_reader :emailsettings, :fullname, :address
 
-  belongs_to :studio
-  has_many :art_pieces, :order => "`order` ASC, `id` DESC"
-  has_and_belongs_to_many :roles
+  has_many :favorites do
+    def to_obj
+      proxy_owner.favorites.each.map { |f| 
+        if @@FAVORITABLE_TYPES.include? f.favoritable_type
+          f.favoritable_type.constantize.find(f.favoritable_id)
+        end
+      }.select { |item| !item.nil? }
+    end
+  end
 
-  acts_as_mappable
-  before_validation_on_create :compute_geocode
-  before_validation_on_update :compute_geocode
+  belongs_to :studio
+  has_and_belongs_to_many :roles
 
   include Authentication
   include Authentication::ByPassword
@@ -46,7 +51,7 @@ class User < ActiveRecord::Base
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :url, :reset_code, :emailsettings, :email_attrs, :studio_id, :artist_info, :type
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :url, :reset_code, :emailsettings, :email_attrs, :studio_id, :artist_info, :type, :state
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
@@ -73,7 +78,7 @@ class User < ActiveRecord::Base
   end
 
   def get_profile_image(size)
-    ArtistProfileImage.get_path(self, size)
+    ArtistProfileImage.get_path(self, size) || ''
   end
 
   def is_in_role?(role)
@@ -150,9 +155,9 @@ class User < ActiveRecord::Base
 
   def get_sort_name
     # get name for sorting:  try lastname, then firstname then login
-    if !self.lastname.empty? && self.lastname[0].chr.match('[\w\d]')
+    if !self.lastname.blank? && self.lastname[0].chr.match('[\w\d]')
       self.lastname.downcase
-    elsif !self.firstname.empty? && self.firstname[0].chr.match('[\w\d]')
+    elsif !self.firstname.blank? && self.firstname[0].chr.match('[\w\d]')
       self.firstname.downcase
     else
       self.login.downcase
@@ -266,6 +271,43 @@ class User < ActiveRecord::Base
     self.state == 'suspended'
   end
 
+  def add_favorite(fav)
+    unless ((([Artist,User].include? fav.class) && fav.id == self.id) ||
+            (fav.class == ArtPiece && fav.artist.id == self.id))
+      f = Favorite.new( :favoritable_type => fav.class.name, :favoritable_id => fav.id, :user_id => self.id)
+      f.save!
+    else
+      false
+    end
+  end
+
+  def who_favorites_me
+    favs = Favorite.find_all_by_favoritable_id_and_favoritable_type(self.id, ['User', 'Artist'])
+    if art_pieces.count > 0
+      favs << Favorite.find_all_by_favoritable_id_and_favoritable_type( art_pieces.map{|ap| ap.id}, 'ArtPiece' )
+    end
+    User.find(favs.flatten.select{|f| !f.nil?}.map {|f| f.user_id})
+  end
+
+  def remove_favorite(fav)
+    favoritable_id = fav.id
+    f = Favorite.find_by_favoritable_type_and_favoritable_id(fav.class.name, favoritable_id)
+    if f
+      # return the deleted record
+      f.delete
+    else 
+      nil
+    end
+  end
+
+  def fav_artists
+    favorites.to_obj.select { |f| [User, Artist].include? f.class }
+  end
+
+  def fav_art_pieces
+    favorites.to_obj.select { |f| f.class == ArtPiece }
+  end
+
   # reformat data so that the artist contains the art pieces
   # and that any security related data is missing (salt, password etc)
   def clean_for_export( art_pieces)
@@ -290,24 +332,13 @@ class User < ActiveRecord::Base
   end
 
   protected
-    def compute_geocode
-      if self.studio_id != 0
-        s = self.studio
-        if s && s.lat && s.lng
-          self.lat = s.lat
-          self.lng = s.lng
-        end
-      else
-        # use artist's address
-        result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.addr_state || "CA", self.zip || "94110"])
-        errors.add(:street, "Unable to Geocode your address.") if !result.success
-        self.lat, self.lng = result.lat, result.lng if result.success
-      end
-    end
-
-    def make_activation_code
-        self.deleted_at = nil
-        self.activation_code = self.class.make_token
-    end
+  def get_favorite_ids(tps)
+    (self.favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
+  end
+  
+  def make_activation_code
+    self.deleted_at = nil
+    self.activation_code = self.class.make_token
+  end
     
 end

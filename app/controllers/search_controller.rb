@@ -80,7 +80,7 @@ class SearchController < ApplicationController
       begin 
         [by_art_piece, by_media, by_tags, by_artist].each do |lst|
           if lst.length > 0
-            lst.map { |entry| results[entry.id] = entry if entry.id and entry.user and active_artist_ids.include? entry.user.id }
+            lst.map { |entry| results[entry.id] = entry if entry.id and entry.artist and active_artist_ids.include? entry.artist.id }
           end
         end
       rescue Exception => ex
@@ -97,8 +97,8 @@ class SearchController < ApplicationController
     tmps = {}
     results.values.each do |pc|
       if pc
-        if !tmps.include?  pc.user_id
-          tmps[pc.user_id] = pc
+        if !tmps.include?  pc.artist_id
+          tmps[pc.artist_id] = pc
         end
       end
     end

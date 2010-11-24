@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
   before_filter :check_browser, :set_version
   after_filter :update_cookies
 
+  def commit_is_cancel
+    !params[:commit].nil? && params[:commit].downcase == 'cancel'
+  end
+
   def update_cookies
     @last_visit = nil;
     maucookie = CookiesHelper::decode_cookie(cookies[:mau])

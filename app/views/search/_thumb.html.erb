@@ -1,13 +1,13 @@
 <% if piece 
    linkto = ''
-   if artist_link and piece.user
-   linkto = artist_path(piece.user)
+   if artist_link and piece.artist
+   linkto = artist_path(piece.artist)
    else
    linkto = art_piece_path(piece)
    end
    safe_title = HTMLHelper.encode(piece.title)
    -%>
-<% if piece.user -%>
+<% if piece.artist -%>
 <div class='artpiece-thumb'>
   <div class="search-thumb-art">
     <% if piece -%>
@@ -23,7 +23,7 @@
   <div class="search-thumb-info">
     <div>
       <span>Artist:</span>
-      <span><%= link_to piece.user.get_name(true), piece.user %></span>
+      <span><%= link_to piece.artist.get_name(true), piece.artist %></span>
     </div>
     <div>
       <span>Title:</span>

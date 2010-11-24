@@ -7,7 +7,15 @@ describe UsersController do
   integrate_views
 
   fixtures :users
+  fixtures :art_pieces
 
+  it "actions should fail if not logged in" do
+    controller_actions_should_fail_if_not_logged_in(:user, :except => [:index, :show, :artists, :resend_activation,
+                                                                       :forgot, :unsuspend, :destroy, 
+                                                                       :create, :new, 
+                                                                       :activate, :notify, :noteform, 
+                                                                       :add_favorite, :purge])
+  end
   describe "#create" do
     it "return 404 with :artist = {}" do
       post :create,  :artist => {}
@@ -25,7 +33,7 @@ describe UsersController do
       post :create
       response.should be_missing
     end
-   
+    
     context "with partial params" do
       before do
         # disable sweep of flash.now messages
@@ -256,7 +264,105 @@ describe UsersController do
       end
     end
   end
-      
+  describe "favorites" do
+    context "while not logged in" do
+      it "post to add_favorites redirects to login" do
+        post :add_favorite
+        response.should redirect_to(new_session_path)
+      end
+      it "post remove_favorites redirects to login" do
+        post :remove_favorite
+        response.should redirect_to(new_session_path)
+      end
+    end
+    context "requesting anything but a post" do
+      it "redirects to login" do
+        put :add_favorite
+        response.should redirect_to(new_session_path)
+        delete :add_favorite
+        response.should redirect_to(new_session_path)
+        get :add_favorite
+        response.should redirect_to(new_session_path)
+      end
+    end
+    context "while logged in" do
+      before do
+        @u = users(:quentin)
+        login_as(@u)
+        @a = users(:artist1)
+        @ap = art_pieces(:hot) 
+        @ap.artist = @a
+        @ap.save.should be_true
+      end
+      context "add a favorite artist" do
+        before do
+          post :add_favorite, :fav_type => 'Artist', :fav_id => @a.id 
+        end
+        it "returns success" do
+          response.should redirect_to(artist_path(@a))
+        end
+        it "adds favorite to user" do
+          u = User.find(@u.id)
+          favs = u.favorites
+          favs.map { |f| f.favoritable_id }.should include @a.id
+        end
+        context "then remove that artist from favorites" do
+          before do 
+            post :remove_favorite, :fav_type => "Artist", :fav_id => @a.id
+          end
+          it "returns success" do
+            response.should redirect_to(artist_path(@a))
+          end
+          it "that artist is no longer a favorite" do
+            u = User.find(@u.id)
+            favs = u.favorites
+            favs.map { |f| f.favoritable_id }.should_not include @a.id
+          end
+        end
+      end
+      context "add a favorite art_piece" do
+        context "as ajax post(xhr)" do
+          before do
+            xhr :post, :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
+          end
+          it "returns success" do
+            response.should be_success
+          end
+          it "adds favorite to user" do
+            u = User.find(@u.id)
+            favs = u.favorites
+            favs.map { |f| f.favoritable_id }.should include @ap.id
+          end
+          it "returns json data" do
+            response_should_be_json
+          end
+        end
+        context "as standard POST" do
+          before do
+            post :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
+          end
+          it "returns success" do
+            response.should redirect_to(art_piece_path(@ap))
+          end
+          it "adds favorite to user" do
+            u = User.find(@u.id)
+            favs = u.favorites
+            favs.map { |f| f.favoritable_id }.should include @ap.id
+          end
+        end
+      end
+      context "add a favorite bogus model" do
+        before do
+          @nfavs = @u.favorites.count
+          post :add_favorite, :fav_type => 'Bogus', :fav_id => 2 
+        end
+        it "returns 404" do
+          response.should be_missing
+          response.code.should eql("404")
+        end
+      end
+    end          
+  end
 
   describe "- routes" do
     it "route controller=users, id=10, action=edit to /users/10/edit" do

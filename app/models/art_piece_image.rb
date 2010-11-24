@@ -23,7 +23,7 @@ class ArtPieceImage < ImageFile
     end
     # should happen only if there has been data corruption
     begin
-      owner = artpiece.user
+      owner = artpiece.artist
     rescue
       owner = nil
     end
