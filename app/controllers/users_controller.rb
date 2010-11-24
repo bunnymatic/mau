@@ -343,6 +343,8 @@ class UsersController < ApplicationController
         render :json => result
         return
       else
+        objname = (obj.class == Artist) ? obj.get_name : obj.artist.get_name
+        flash[:notice] = "You &heart; #{objname}"
         redirect_back_or_default(obj)
       end
     else
@@ -364,6 +366,7 @@ class UsersController < ApplicationController
         render :json => {:message => 'Removed a favorite'}
         return
       else
+        flash[:notice] = "The favorite has been removed"
         redirect_back_or_default(obj)
       end
     else

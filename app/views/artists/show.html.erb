@@ -38,6 +38,11 @@
 	<%= flash[:error] %>
       </div>
       <% end -%>
+      <% if flash[:notice] -%>
+      <div class="notice">
+	<%= flash[:notice] %>      
+      </div>
+      <% end -%>
       <div class="content-block" > 
 	<% if logged_in? && @artist && @artist.login == self.current_user.login -%>
 	<!-- <%= render :partial => '/deadline_announcement' %>  -->
@@ -120,22 +125,40 @@
  	    <% end -%>
  	  </div>
 	  <% end -%>
+          <% unless @artist.fav_artists.empty? %>
           <div id="my_favorites" class="favorites-block" >
-            <div><label>my favorites</label></div>
-            <% @artist.fav_artists.each do |f| 
-               clz = (f == @artist.fav_artists.last) ?"last" :""
+            <div><label>
+                <% if current_user && current_user.id == @artist.id %>
+                my 
+                <% else %>
+                <%= @artist.get_name(true) %>'s
+                <% end %>
+                favorites</label></div>
+            <% favs = @artist.fav_artists[0..8]
+               favs.each do |f| 
+               clz = (f == favs.last) ?"last" :""
             %>
             <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
             <% end %>
           </div>
+          <% end %>
+          <% unless @artist.who_favorites_me.empty? %>
           <div id="favorites_me" class="favorites-block">
-            <div><label>who &hearts;'s me</label></div>
-            <% @artist.who_favorites_me.each do |f| 
-               clz = (f == @artist.who_favorites_me.last) ?"last" :""
+            <div><label>who &hearts;'s 
+                <% if current_user && current_user.id == @artist.id %>
+                me
+                <% else %>
+                <%= @artist.get_name(true) %>
+                <% end %>
+</label></div>
+            <% favs = @artist.who_favorites_me[0..8]
+               favs.each do |f| 
+               clz = (f == favs.last) ?"last" :""
             %>
             <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
             <% end %>
           </div>
+          <% end %>
 	</div>
 	<% if logged_in? and @artist.id == current_user.id -%>
 	<div id="profile_edit_ctrls">

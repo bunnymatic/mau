@@ -98,6 +98,11 @@ var next_idx = <%= @next_idx %>;
 	<%= flash[:error] %>      
       </div>
       <% end -%>
+      <% if flash[:notice] -%>
+      <div class="notice">
+	<%= flash[:notice] %>      
+      </div>
+      <% end -%>
       <% if @art_piece -%>
       <div id="artpiece_title"><%=h @art_piece.title %></div>
       <div >
