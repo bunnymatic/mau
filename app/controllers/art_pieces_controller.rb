@@ -77,14 +77,14 @@ class ArtPiecesController < ApplicationController
     @art_piece = safe_find_art_piece(apid)
     # get all art pieces for this artist
     pieces = []
-    if !@art_piece.user_id
+    if !@art_piece.artist_id
       render_not_found Exception.new("No tags in the system")
       return
     end
 
-    if @art_piece.user_id > 0
-      pieces = ArtPiece.find_all_by_user_id(@art_piece.user, :order => '`order` asc, `created_at` desc')
-      @page_title = "Mission Artists United - Artist: %s" % @art_piece.user.get_name
+    if @art_piece.artist_id > 0
+      pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
+      @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
     end
     self._setup_thumb_browser_data(pieces, apid)
     respond_to do |format|
@@ -108,7 +108,7 @@ class ArtPiecesController < ApplicationController
           t['name'] = HTMLHelper.encode(t['name'])
         end
 
-        if (current_user && current_user.id == @art_piece.user.id)
+        if (current_user && current_user.id == @art_piece.artist.id)
           h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
         end
         render :json => h.to_json
@@ -152,7 +152,7 @@ class ArtPiecesController < ApplicationController
   # POST /art_pieces
   # POST /art_pieces.xml
   def create
-    if params[:commit].downcase == 'cancel'
+    if commit_is_cancel
       redirect_to(current_user)
       return
     end
@@ -186,8 +186,8 @@ class ArtPiecesController < ApplicationController
             @art_piece.attributes= params[:art_piece]
           end
         end
-      rescue 
-        @errors << "%s" % $!
+      rescue Exception => ex
+        @errors << "%s" % ex.message
         logger.error("Failed to upload %s" % $!)
         @art_piece = ArtPiece.new
         @art_piece.attributes= params[:art_piece]
@@ -212,7 +212,7 @@ class ArtPiecesController < ApplicationController
   # PUT /art_pieces/1.xml
   def update
     @art_piece = safe_find_art_piece(params[:id])
-    if params[:commit].downcase == 'cancel'
+    if commit_is_cancel
       self._setup_thumb_browser_data([], 0)
       render :action => 'show', :layout => 'mau'
       return
@@ -230,7 +230,7 @@ class ArtPiecesController < ApplicationController
       end
       if success
         flash.now[:notice] = 'ArtPiece was successfully updated.'
-        pieces = ArtPiece.find_all_by_user_id(@art_piece.user)
+        pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist)
         self._setup_thumb_browser_data(pieces, @art_piece.id)
         render :action => 'show', :layout => 'mau'
       else
@@ -250,11 +250,11 @@ class ArtPiecesController < ApplicationController
   # DELETE /art_pieces/1.xml
   def destroy
     art = safe_find_art_piece(params[:id])
-    artist = art.user
+    artist = art.artist
     art.destroy
 
     respond_to do |format|
-      format.html { redirect_to(user) }
+      format.html { redirect_to(artist) }
       format.xml  { head :ok }
     end
   end

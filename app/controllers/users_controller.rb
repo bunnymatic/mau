@@ -5,12 +5,14 @@ class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails, :admin_update, :destroy ]
-  before_filter :login_required, :only => [ :edit, :update, :suspend, :addprofile, :deactivate ]
+  before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile, 
+                                            :addprofile, :deactivate, :setarrangement, :arrangeart, 
+                                            :add_favorite, :remove_favorite, :reset, :change_password_update]
 
   layout 'mau1col'
 
   @@DEFAULT_ACCOUNT_TYPE = 'MAUFan'
-
+  @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
   def index
     redirect_to('/artists')
   end
@@ -64,8 +66,7 @@ class UsersController < ApplicationController
   end
 
   def upload_profile
-    if params[:commit].downcase == 'cancel'
-      
+    if commit_is_cancel
       redirect_to user_path(current_user)
       return
     end
@@ -92,7 +93,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if params[:commit] && params[:commit].downcase == 'cancel'
+    if commit_is_cancel
       redirect_to user_path(current_user)
       return
     end
@@ -232,16 +233,14 @@ class UsersController < ApplicationController
   end
 
   def reset
-    @artist = Artist.find_by_reset_code(params[:reset_code]) unless params[:reset_code].nil?
-    if request.post?
-      if @artist.update_attributes(:password => params[:artist][:password], :password_confirmation => params[:artist][:password_confirmation])
-        self.current_artist = @artist
-        @artist.delete_reset_code
-        flash[:notice] = "Password reset successfully for #{@artist.email}"
-        redirect_back_or_default('/')
-      else
-        render :action => :reset
-      end
+    @user = User.find_by_reset_code(params[:reset_code]) unless params[:reset_code].nil?
+    if @user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
+      self.current_user = @user
+      @user.delete_reset_code
+      flash[:notice] = "Password reset successfully for #{@user.email}"
+      redirect_back_or_default('/')
+    else
+      render :action => :reset
     end
   end
 
@@ -275,7 +274,7 @@ class UsersController < ApplicationController
   end
 
   def resend_activation
-    if request.post?
+    if params[:artist]
       user = User.find_by_email(params[:artist][:email])
       if user
         user.resend_activation
@@ -283,8 +282,8 @@ class UsersController < ApplicationController
       else
         flash[:error] = "We can't find any users with email #{params[:artist][:email]} in our system."
       end
-      redirect_back_or_default('/')
     end
+    redirect_back_or_default('/')
   end
     
   def forgot
@@ -330,6 +329,48 @@ class UsersController < ApplicationController
   end
   
 
+  def add_favorite
+    # POST
+    type = params[:fav_type]
+    _id = params[:fav_id]
+    if @@FAVORITABLE_TYPES.include? type
+      obj = type.constantize.find(_id)
+      if obj
+        r = current_user.add_favorite(obj)
+      end
+      result = {:message => 'Added a favorite', :favorite => obj.to_json }
+      if request.xhr?
+        render :json => result
+        return
+      else
+        redirect_back_or_default(obj)
+      end
+    else
+      render_not_found({:message => "You can't favorite that type of object" })
+    end
+  end
+
+  def remove_favorite
+    # POST
+    type = params[:fav_type]
+    _id = params[:fav_id]
+    result = {}
+    if @@FAVORITABLE_TYPES.include? type
+      obj = type.constantize.find(_id)
+      if obj
+        current_user.remove_favorite(obj)
+      end
+      if request.xhr?
+        render :json => {:message => 'Removed a favorite'}
+        return
+      else
+        redirect_back_or_default(obj)
+      end
+    else
+      render_not_found({:message => "You can't unfavorite that type of object" })
+    end
+  end
+  
   protected
   def safe_find_user(id)
     begin

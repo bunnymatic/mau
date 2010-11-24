@@ -20,9 +20,7 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'  
   map.change_password_update '/change_password_update', :controller => 'users', :action => 'change_password_update'  
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
-  map.forgot '/forgot', :controller => 'users', :action => 'forgot'
-  map.resend_activation '/resend_activation', :controller => 'users', :action => 'resend_activation'
-  map.reset 'reset/:reset_code', :controller => 'users',     :action => 'reset'
+  map.reset 'reset/:reset_code', :controller => 'users', :action => 'reset', :method => :post
 
   map.artistsmap '/artists/map', :controller => 'artists', :action => 'map'
   map.artistsHUGEmap '/artists/hugemap', :controller => 'artists', :action => 'hugemap'
@@ -32,7 +30,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :artists, :member => { :update => :post, :edit => :get }, :collection => { :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get }
 
-  map.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get }
+  map.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => :post, :forgot => :get }
 
   map.new_favorite "/favorites/", :controller => 'favorites', :action => 'create', :method => :post
 

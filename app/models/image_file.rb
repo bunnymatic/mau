@@ -6,7 +6,7 @@ require 'pathname'
 class ImageFile
 
   @@IMG_SERVERS = ['']
-  @@FILENAME_CLEANER = Regexp.new('\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\ ')
+  @@FILENAME_CLEANER = Regexp.new('\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\'\ ')
   if Conf.image_servers
     Conf.image_servers.each do |svr|
       @@IMG_SERVERS << svr
@@ -83,10 +83,13 @@ class ImageFile
     logger.info("ImageFile: wrote file %s (%0.2f sec)\n" % [ srcpath, Time.now.to_f - ts ])
 
     # check format
-    fmt = MojoMagick::raw_command('identify','-format "%m %h %w" ' + srcpath)
-    (type, height, width) = fmt.split
+    fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + srcpath)
+    (type, height, width, colorspace) = fmt.split
     if @@ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
       raise ArgumentError, "Image type %s is not supported." % type
+    end
+    unless colorspace.downcase.match(/rgb/) 
+      raise ArgumentError, "[%s] is not a supported color space.  Please save your image as using RGB" % colorspace
     end
     height = height.to_i
     width = width.to_i

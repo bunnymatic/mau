@@ -1,7 +1,7 @@
 require 'htmlhelper'
 
 class ArtPiece < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :artist
   has_many :art_pieces_tags
   has_many :tags, :through => :art_pieces_tags
 
@@ -57,7 +57,7 @@ class ArtPiece < ActiveRecord::Base
   end
     
   def self.all
-    self.find(:all, :conditions => "user_id in (select id from users where state = 'active')")
+    self.find(:all, :conditions => "artist_id in (select id from users where state = 'active' and type='Artist')")
   end
 
 end

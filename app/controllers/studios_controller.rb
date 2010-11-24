@@ -30,7 +30,7 @@ class StudiosController < ApplicationController
 
   def upload_profile
     @studio = safe_find(params[:studio_id])
-    if params[:commit].downcase == 'cancel'
+    if commit_is_cancel
       redirect_to(@studio)
       return
     end

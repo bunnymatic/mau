@@ -377,7 +377,7 @@ class ArtistsController < ApplicationController
   end
 
   def update
-    if params[:commit].downcase == 'cancel'
+    if commit_is_cancel
       redirect_to user_path(current_user)
       return
     end

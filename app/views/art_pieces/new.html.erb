@@ -11,52 +11,52 @@
       <% elsif @errors -%>
       <div class="error-msg">
 	There were problems with your request:
-	<%= @errors.map { |k, v| "<div>%s %s</div>" % [ k.capitalize(),v ] } %>
+	<%= @errors.map { |k, v| 
+            k == :base ? "<div>%s</div>" % v : "<div>%s %s</div>" % [ k.capitalize,v ] 
+            } %>
       </div>
       <% end -%>
     <% end -%>
-    <div>
-      <table align="center" cellspacing="0" cellpadding="8">
-	<tr>
-          <td class="input-name" width="224"><%= f.label :title %></td>
-          <td class="input" width="179"><%= f.text_field :title %></td>
-          <td class="input-help">required</td>
-	</tr>
-	<tr>
-          <td class="input-name"><%= f.label :dimensions %></td>
-          <td class="input"><%= f.text_field :dimensions %></td>
-	</tr>
-	<tr>
-          <td class="input-name"><%= label_tag 'year', 'year' %></td>
-          <td class="input"><%= f.text_field :year, { :size => "5" } %></td>
-	</tr>
-	<tr>
-          <td class="input-name"><%= label_tag 'medium', 'medium' %></td>
-          <td class="input"><%= select("art_piece", "medium_id", [['None',0]] + @media.map{|u| [u.name,u.id]}) %></td>
-	</tr>
-	<tr>
-          <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
-          <td class="input">
-			<span class="ac_holder">
-			  <%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.tags), :class => "tag-input", :autocomplete => 'off' %>
-			</span>
-		  </td>
-	</tr>
-	<tr>
-          <td class="input-name"><label for="upload_file">Select File</label></td>
-          <td class="input"><%= file_field 'upload', 'datafile' %></td>
-	</tr>
-	<tr>
-	  <td/><td class="little-txt">
-	    Please use images of type JPG, PNG or GIF whose size is less than 2MB.
-	  </td>
-	</tr>
-	<tr>
-          <td class="input-name">&nbsp;</td>
-          <td class="input"><%= f.submit 'Add', :onclick => "MAU.waitcursor(); return true;" %>&nbsp;&nbsp;<%= f.submit 'Cancel' %></td>
-	</tr>
-      </table>
-    </div>
+    <table align="center" cellspacing="0" cellpadding="8">
+      <tr>
+        <td class="input-name" width="224"><%= f.label :title %></td>
+        <td class="input" width="179"><%= f.text_field :title %></td>
+        <td class="input-help">required</td>
+      </tr>
+      <tr>
+        <td class="input-name"><%= f.label :dimensions %></td>
+        <td class="input"><%= f.text_field :dimensions %></td>
+      </tr>
+      <tr>
+        <td class="input-name"><%= label_tag 'year', 'year' %></td>
+        <td class="input"><%= f.text_field :year, { :size => "5" } %></td>
+      </tr>
+      <tr>
+        <td class="input-name"><%= label_tag 'medium', 'medium' %></td>
+        <td class="input"><%= select("art_piece", "medium_id", [['None',0]] + @media.map{|u| [u.name,u.id]}) %></td>
+      </tr>
+      <tr>
+        <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
+        <td class="input">
+	  <span class="ac_holder">
+	    <%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.tags), :class => "tag-input", :autocomplete => 'off' %>
+	  </span>
+	</td>
+      </tr>
+      <tr>
+        <td class="input-name"><label for="upload_file">Select File</label></td>
+        <td class="input"><%= file_field 'upload', 'datafile' %></td>
+      </tr>
+      <tr>
+	<td/><td class="little-txt">
+	  Please use images of type JPG, PNG or GIF whose size is less than 2MB.
+	</td>
+      </tr>
+      <tr>
+        <td class="input-name">&nbsp;</td>
+        <td class="input"><%= f.submit 'Add', :onclick => "MAU.waitcursor(); return true;" %>&nbsp;&nbsp;<%= f.submit 'Cancel' %></td>
+      </tr>
+    </table>
   </div>
   <% end -%>
 </div>

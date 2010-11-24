@@ -1,0 +1,2 @@
+class FavArtPiece < ArtPiece
+end
