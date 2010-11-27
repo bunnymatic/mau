@@ -126,11 +126,11 @@ describe ArtistsController do
       @b.artist_id = @a.id
       @b.save
     end
-
-    context "while logged in" do
+    
+    describe "logged in as artist", :shared => true do
       before(:each) do 
         login_as(@a)
-        get :show, :id => @a.id
+        get :show
       end
       it "header bar should say hello" do
         response.should have_tag("span.logout-nav")
@@ -141,11 +141,48 @@ describe ArtistsController do
       it "header bar should have logout tag" do
         response.should have_tag("span.last a[href=/logout]");
       end
-      it "website is present" do
-        response.should have_tag("div#u_website a[href=#{@a.url}]")
+    end
+    
+    context "while logged in" do
+      it_should_behave_like "logged in as artist"
+      context "looking at your own page" do
+        before(:each) do 
+          get :show, :id => @a.id
+        end
+        it "website is present" do
+          response.should have_tag("div#u_website a[href=#{@a.url}]")
+        end
+        it "facebook is present and correct" do
+          response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
+        end
+        it "should not have heart icon" do
+          response.should_not have_tag(".micro-icon.heart")
+        end
+        it "should not have note icon" do
+          response.should_not have_tag(".micro-icon.email")
+        end
       end
-      it "facebook is present and correct" do
-        response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
+      context "looking for an artist that is not active" do
+        it "reports cannot find artist" do
+          get :show, :id => users(:aaron).id
+          response.should have_tag('.rcol .error-msg')
+          response.body.should match(/artist you were looking for was not found/)
+        end
+      end
+      context "looking at someone elses page" do
+        before(:each) do 
+          a = users(:joeblogs)
+          b = artist_infos(:joeblogs)
+          b.artist_id = a.id
+          b.save
+          get :show, :id => a.id
+        end
+        it "should have heart icon" do
+          response.should have_tag(".micro-icon.heart")
+        end
+        it "should have note icon" do
+          response.should have_tag(".micro-icon.email")
+        end
       end
     end
 
