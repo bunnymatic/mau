@@ -3,3 +3,9 @@ artist1:
   blog: http://theartists.blogspot.com
   osoct2010: true
   bio: this is the bio
+
+joeblogs:
+  facebook: http://facebook.com/aaron
+  twitter: http://www.twitter.com/aaron
+  osoct2010: true
+  bio: blurp

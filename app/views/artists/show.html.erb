@@ -64,16 +64,18 @@
   	  <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
   	  <%   end -%>
 	  <% end -%>
-	  <% if @artist.artist_info.osoct2010? -%>
+	  <% if @artist.osoct2010? -%>
 	  <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
 	  <% end -%>
           <div class="action-icons">
 	    <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
             <a target="_new" href="<%= @fb_share %>" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
-	    <% if (!current_user || current_user.id != @artist.id) && (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
-	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" title="Send a note to this artist"><div class="micro-icon email"></div></a>
+	    <% if (!current_user || current_user.id != @artist.id) %>
+              <% if (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
+  	      <a href="#" id="notify_artist" aid="<%= @artist.id %>" title="Send a note to this artist"><div class="micro-icon email"></div></a>
+              <% end %>
+              <a href="#" class="favorite_this" fav_type="Artist" fav_id="<%= @artist.id %>" title="Add this artist to your favorites" ><div class="micro-icon heart"></div></a>
 	    <% end -%>
-            <a href="#" class="favorite_this" fav_type="Artist" fav_id="<%= @artist.id %>" title="Add this artist to your favorites" ><div class="micro-icon heart"></div></a>
           </div>
 	</div>
 	<div id="artist_profile_name">
@@ -189,8 +191,8 @@
   <% else -%>
   <img src="/images/default-art-img.png" width="200" />
   <% end -%>
-</div>
 <% end -%>
+</div>
 </td>
 <td valign="top">
 </td>
