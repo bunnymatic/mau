@@ -43,8 +43,6 @@ task :jy do
   set :svn_env, 'export SVN_SSH="ssh -p 2222"'
   puts("executing locally \'" + svn_env + "\'")
   system(svn_env)
-  # set :db_pass, "9XfqzzL9"
-  # set :db_env, "staging"
 end
 
 desc "Set up Staging specific paramters."
@@ -75,7 +73,7 @@ task :checkit do
   puts("DeployDir: %s" % deploy_to)
 end
 
-before "deploy:restart" do
+before "apache:restart" do
   run "cd #{current_path} && rake RAILS_ENV=#{rails_env} sass:build"
 end
 
