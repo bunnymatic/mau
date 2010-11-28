@@ -82,13 +82,6 @@
  	  <h4><%=h @artist.get_name %></h4>
 	  <div class="artist">
 	    <div class="div-left">
-	      <% if flash[:notice] -%>
-	      <div class="notice">
-		<%= flash[:notice] %>
-	      </div>
-	      <% end -%>
-	    </div>
-	    <div class="div-left">
 	      <div>
 		<% if @artist.studio -%>
 		<div><%= link_to @artist.studio.name, @artist.studio %></div>
