@@ -8,6 +8,11 @@ class ArtPiece < ActiveRecord::Base
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 
+  def get_share_link(urlsafe=false)
+    link = 'http://%s/art_pieces/%s' % [Conf.site_url, self.id]
+    urlsafe ? CGI::escape(link): link
+  end
+
   def medium
     if self.medium_id && self.medium_id > 0
       Medium.find(self.medium_id)

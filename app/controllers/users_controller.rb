@@ -344,7 +344,7 @@ class UsersController < ApplicationController
         return
       else
         objname = (obj.class == Artist) ? obj.get_name : obj.artist.get_name
-        flash[:notice] = "You &heart; #{objname}"
+        flash[:notice] = "You *heart* #{objname}"
         redirect_back_or_default(obj)
       end
     else

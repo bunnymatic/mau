@@ -169,6 +169,37 @@
       </div>
     </div>
     <% end -%>
+    <div class="open-close-div acct"><span id="favorites_toggle" class="title">Favorites</span><span class="edit"><a href="#favorites" id="favorites_toggle_lnk">change</a></span></div>
+    <div class="edit-profile-sxn" id="favorites" style="display:none;">
+      <div class="inner-sxn">
+        <% unless current_user.who_i_favorite.empty? %>
+        <div id="my_favorites" class="favorites-block" >
+          <div>
+            <label>my favorites</label>
+          </div>
+          <% favs = current_user.who_i_favorite
+             favs.each do |f| 
+             clz = (f == favs.last) ?"last" :""
+             %>
+          <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"><div class="delete_fav"></div></div></a>
+          <% end %>
+        </div>
+        <% end %>
+        <% unless current_user.who_favorites_me.empty? %>
+        <div id="favorites_me" class="favorites-block">
+          <div>
+            <label>who &hearts;'s me</label>
+          </div>
+          <% favs = current_user.who_favorites_me
+             favs.each do |f| 
+             clz = (f == favs.last) ?"last" :""
+             %>
+          <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"><div class="delete_fav"></div></div></a>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
+    </div>
     <div class="open-close-div acct"><span id="deactivate_toggle" class="title">Deactivate Account</span><span class="edit"><a href="#deactivate" id="deactivate_toggle_lnk">change</a></span></div>
     <div  class="edit-profile-sxn" id="deactivate" style="display:none;">
       <div class="inner-sxn">

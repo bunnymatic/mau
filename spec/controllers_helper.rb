@@ -1,6 +1,5 @@
 # helper methods for controllers testing
 
-
 def get_all_actions(cont)
   c= Module.const_get(cont.to_s.pluralize.capitalize + "Controller")
   c.public_instance_methods(false).reject{ |action| ['rescue_action'].include?(action) }
@@ -26,3 +25,53 @@ end
 def response_should_be_json
   Mime::Type.lookup(response.content_type).to_sym.should eql :json
 end
+
+describe "logged in user", :shared => true do
+  it "header bar should say hello" do
+    response.should have_tag("span.logout-nav", :text => /hello/)
+  end
+  it "header bar should have my login name as a link" do
+    if @logged_in_user.type == "Artist"
+      response.should have_tag("span.logout-nav a", :text => @logged_in_user.login)
+    else 
+      response.should have_tag("span.logout-nav ", :text => /#{@logged_in_user.login}/)
+    end
+  end
+  it "header bar should have logout tag" do
+    response.should have_tag("span.last a[href=/logout]");
+  end
+end
+
+describe "redirects to login", :shared => true do 
+  it "redirects to login" do
+    response.should redirect_to(new_session_path)
+  end
+end
+
+describe "get/post update redirects to login", :shared => true do
+  describe "get update" do
+    before do
+      get :update
+    end
+    it_should_behave_like "redirects to login"
+  end
+  describe "post update" do
+    before do
+      post :update
+    end
+    it_should_behave_like "redirects to login"
+  end
+end
+
+describe "not logged in", :shared => true do
+  it "header bar should have login link" do
+    response.should have_tag("#login_toplink a[href=/login]")
+  end
+  it "header bar should have signup link" do
+    response.should have_tag("#login_toplink a[href=/signup]")
+  end
+  it "nav bar suggests join in" do 
+    response.should have_tag("div ul#mymaunav li.dir a[href=/login]", :text => /join in/)
+  end
+end
+

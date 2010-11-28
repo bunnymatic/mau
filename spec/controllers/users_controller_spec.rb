@@ -169,6 +169,26 @@ describe UsersController do
     end
   end
 
+  describe "GET show" do
+    before(:each) do
+      @a = users(:artist1)
+      @u = users(:aaron)
+    end
+    context "while not logged in" do
+      before(:each) do 
+        get :show
+      end
+      it_should_behave_like "not logged in"
+    end
+    context "while logged in" do
+      before(:each) do 
+        login_as(@a)
+        @logged_in_user = @a
+        get :show
+      end
+      it_should_behave_like "logged in user"
+    end
+  end
   describe "GET edit" do
     before(:each) do
       @a = users(:artist1)
@@ -180,9 +200,7 @@ describe UsersController do
       before(:each) do 
         get :edit
       end
-      it "redirects to login" do
-        response.should redirect_to(new_session_path)
-      end
+      it_should_behave_like "redirects to login"
     end
     context "while logged in as an artist" do
       before(:each) do
@@ -216,26 +234,24 @@ describe UsersController do
       @u = users(:quentin)
     end
     context "while not logged in" do
+      it_should_behave_like "get/post update redirects to login"
       context "with invalid params" do
         before(:each) do
           put :update, :id => @u.id, :user => {}
         end
-        it "redirects to new session (login)" do
-          response.should redirect_to(new_session_path)
-        end
+        it_should_behave_like "redirects to login"
       end
       context "with valid params" do
         before(:each) do
           put :update, :id => @u.id, :user => { :firstname => 'blow' }
         end
-        it "redirects to new session (login)" do
-          response.should redirect_to(new_session_path)
-        end
+        it_should_behave_like "redirects to login"
       end
     end
     context "while logged in" do
       before(:each) do 
         login_as(@u)
+        @logged_in_user = @u
       end
       context "with empty params" do
         before(:each) do
@@ -266,13 +282,17 @@ describe UsersController do
   end
   describe "favorites" do
     context "while not logged in" do
-      it "post to add_favorites redirects to login" do
-        post :add_favorite
-        response.should redirect_to(new_session_path)
+      describe "post to add favorites" do
+        before do
+          post :add_favorite
+        end
+        it_should_behave_like "redirects to login"
       end
-      it "post remove_favorites redirects to login" do
-        post :remove_favorite
-        response.should redirect_to(new_session_path)
+      describe "post remove_favorites" do
+        before do
+          post :remove_favorite
+        end
+        it_should_behave_like "redirects to login"
       end
     end
     context "requesting anything but a post" do

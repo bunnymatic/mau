@@ -12,7 +12,7 @@ If you are a gallery owner or curator in the Mission district, please contact us
 	  <% if !logged_in? -%>
 	  <%= f.text_field 'email' %>
 	  <% else %>
-	  <%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
+	  <%= f.text_field 'email', :readonly => 'readonly', :value => current_user.email %>
 	  <% end -%>
 	</div>
 	<div id="bcomment_input" class="getinv-input" >
@@ -26,9 +26,9 @@ If you are a gallery owner or curator in the Mission district, please contact us
   </table>
   <%= f.hidden_field 'subject', :value => "Business/Gallery Inquiry" %>
   <%= f.hidden_field 'page', :value => request.referer %>
-  <% if current_artist -%>
-  <%= f.hidden_field 'login', :value => current_artist.login %>
-  <%= f.hidden_field 'email', :value => current_artist.email %>
+  <% if current_user -%>
+  <%= f.hidden_field 'login', :value => current_user.login %>
+  <%= f.hidden_field 'email', :value => current_user.email %>
   <% end -%>
   <% end -%>
 </div>

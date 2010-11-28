@@ -68,8 +68,8 @@
 	  <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
 	  <% end -%>
           <div class="action-icons">
-	    <a target="_new" href="<%= @tw_share %>" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
-            <a target="_new" href="<%= @fb_share %>" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
+	    <a target="_new" href="<%= ArtistsHelper.tw_share_link(@artist) %>" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
+            <a target="_new" href="<%= ArtistsHelper.fb_share_link(@artist) %>" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
 	    <% if (!current_user || current_user.id != @artist.id) %>
               <% if (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
   	      <a href="#" id="notify_artist" aid="<%= @artist.id %>" title="Send a note to this artist"><div class="micro-icon email"></div></a>
@@ -127,7 +127,7 @@
  	    <% end -%>
  	  </div>
 	  <% end -%>
-          <% unless @artist.fav_artists.empty? %>
+          <% unless @artist.who_i_favorite.empty? %>
           <div id="my_favorites" class="favorites-block" >
             <div><label>
                 <% if current_user && current_user.id == @artist.id %>
@@ -136,7 +136,7 @@
                 <%= @artist.get_name(true) %>'s
                 <% end %>
                 favorites</label></div>
-            <% favs = @artist.fav_artists[0..8]
+            <% favs = @artist.who_i_favorite[0..8]
                favs.each do |f| 
                clz = (f == favs.last) ?"last" :""
             %>
