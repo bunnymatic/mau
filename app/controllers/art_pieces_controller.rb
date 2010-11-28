@@ -77,8 +77,9 @@ class ArtPiecesController < ApplicationController
     @art_piece = safe_find_art_piece(apid)
     # get all art pieces for this artist
     pieces = []
-    if !@art_piece.artist_id
-      render_not_found Exception.new("No tags in the system")
+    if !@art_piece || !@art_piece.artist_id
+      flash[:error] = "We couldn't find that art piece."
+      redirect_to "/error"
       return
     end
 

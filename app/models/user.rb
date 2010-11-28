@@ -281,9 +281,18 @@ class User < ActiveRecord::Base
     end
   end
 
+  def who_i_favorite
+    # collect artist and art piece stuff
+    favs = self.fav_artists
+    self.fav_art_pieces.each do |fap|
+      favs << fap.artist
+    end
+    favs.uniq
+  end
+
   def who_favorites_me
     favs = Favorite.find_all_by_favoritable_id_and_favoritable_type(self.id, ['User', 'Artist'])
-    if art_pieces.count > 0
+    if self[:art_pieces] && art_pieces.count > 0
       favs << Favorite.find_all_by_favoritable_id_and_favoritable_type( art_pieces.map{|ap| ap.id}, 'ArtPiece' )
     end
     User.find(favs.flatten.select{|f| !f.nil?}.map {|f| f.user_id})

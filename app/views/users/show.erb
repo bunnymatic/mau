@@ -14,6 +14,11 @@
 		<%= flash[:error] %>
       </div>
       <% end -%>
+      <% if flash[:notice] -%>
+      <div class="notice">
+	<%= flash[:notice] %>      
+      </div>
+      <% end -%>
       <div class="content-block" > 
 	<% if @fan -%>
 	<div id="artist_profile_img">
@@ -48,6 +53,40 @@
 	      <a href="#" id="notify_artist" aid="<%= @fan.id %>" ><span  aid="<%= @fan.id %>"  class="micro-icon email"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
 	    </div>
 	    <% end -%>
+            <% unless @fan.who_i_favorite.empty? %>
+            <div id="my_favorites" class="favorites-block" >
+              <div><label>
+                  <% if current_user && current_user.id == @fan.id %>
+                  my 
+                  <% else %>
+                  <%= @fan.get_name(true) %>'s
+                  <% end %>
+                  favorites</label></div>
+              <% favs = @fan.who_i_favorite[0..8]
+                 favs.each do |f| 
+                 clz = (f == favs.last) ?"last" :""
+                 %>
+              <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
+              <% end %>
+            </div>
+            <% end %>
+            <% unless @fan.who_favorites_me.empty? %>
+            <div id="favorites_me" class="favorites-block">
+              <div><label>who &hearts;'s 
+                  <% if current_user && current_user.id == @fan.id %>
+                  me
+                  <% else %>
+                  <%= @fan.get_name(true) %>
+                  <% end %>
+              </label></div>
+              <% favs = @fan.who_favorites_me[0..8]
+                 favs.each do |f| 
+                 clz = (f == favs.last) ?"last" :""
+                 %>
+              <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
+              <% end %>
+          </div>
+          <% end %>
 	    <% if logged_in? and @fan.id == current_user.id -%>
 	    <div id="profile_edit_ctrls">
 	      <a class="lksubtle" href="<%= edit_user_path(current_user) %>"><span>edit my page</span></a>

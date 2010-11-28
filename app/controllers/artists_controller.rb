@@ -356,16 +356,6 @@ class ArtistsController < ApplicationController
       # get artist pieces here instead of in the html
       num = @artist.max_pieces - 1
       @art_pieces = @artist.art_pieces[0..num]
-      
-      # need to figure out encoding of the message - probably better to post with json
-      #twittermsg = "Check out %s at Mission Artists United: %s" % [@artist.get_name(), url]
-      # @tw_share = "http://www.twitter.com/home?status=%s" % twittermsg
-      url = @artist.get_share_link(true)
-      raw_title = "Check out %s at Mission Artists United" % @artist.get_name() 
-      title = CGI::escape( raw_title )
-      @fb_share = "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
-      status = "%s #missionartistsunited " % raw_title
-      @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), url]
     end
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }

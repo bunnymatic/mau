@@ -14,13 +14,13 @@
     </div>
     <div class="faq_a">
       A: 2 ways : Look for "Share this page" on your profile for Twitter and Facebook links.  Or use your custom MAU webpage everywhere!<br/>
-	  <% if logged_in? 
-          nm = current_artist.login
+      <% if logged_in? && current_user[:type] == 'Artist'
+         nm = current_user.login
          else
-          nm = "&lt;your username&gt;"
+         nm = "&lt;your username&gt;"
          end
-       -%>
-<span style="color:#eee" class="nobr">http://www.missionartistsunited.org/artists/<b><%= nm %></b></span>  
+         -%>
+      <span style="color:#eee" class="nobr">http://www.missionartistsunited.org/artists/<b><%= nm %></b></span>  
     </div>
     <div class="faq_q">
       Q: sign up?

@@ -6,6 +6,8 @@ describe MainController do
 
   integrate_views
 
+  fixtures :users
+
   describe "get" do
     before do
       get :index
@@ -76,7 +78,204 @@ describe MainController do
         params_from(m, "/news").should == {:controller => 'main', :action => 'news' }
       end
     end
-
   end
+
+  describe "#news" do
+    describe "get" do
+      context "while not logged in" do
+        before do
+          get :news
+        end
+        it_should_behave_like "not logged in"
+      end
+      context "while logged in as an art fan" do
+        before do
+          u = users(:aaron)
+          login_as(users(:aaron))
+          @logged_in_user = u
+          get :news
+        end
+        it_should_behave_like "logged in user"
+      end
+      context "while logged in as artist" do
+        before do
+          a = users(:artist1)
+          login_as(users(:artist1))
+          @logged_in_user = a
+          get :news
+        end
+        it_should_behave_like "logged in user"
+      end
+    end
+  end
+  describe "#about" do
+    describe "get" do
+      context "while not logged in" do
+        before do
+          get :about
+        end
+        it_should_behave_like "not logged in"
+      end
+      context "while logged in as an art fan" do
+        before do
+          u = users(:aaron)
+          login_as(users(:aaron))
+          @logged_in_user = u
+          get :about
+        end
+        it_should_behave_like "logged in user"
+      end
+      context "while logged in as artist" do
+        before do
+          a = users(:artist1)
+          login_as(users(:artist1))
+          @logged_in_user = a
+          get :about
+        end
+        it_should_behave_like "logged in user"
+      end
+    end
+  end
+  describe "#getinvolved" do
+    describe "get" do
+      context "while not logged in" do
+        before do
+          get :getinvolved
+        end
+        it_should_behave_like "not logged in"
+      end
+      context "while logged in as an art fan" do
+        before do
+          u = users(:aaron)
+          login_as(users(:aaron))
+          @logged_in_user = u
+          get :getinvolved
+        end
+        it_should_behave_like "logged in user"
+      end
+      context "while logged in as artist" do
+        before do
+          a = users(:artist1)
+          login_as(users(:artist1))
+          @logged_in_user = a
+          get :getinvolved
+        end
+        it_should_behave_like "logged in user"
+      end
+    end
+  end
+  describe "#privacy" do
+    describe "get" do
+      context "while not logged in" do
+        before do
+          get :privacy
+        end
+        it_should_behave_like "not logged in"
+      end
+      context "while logged in as an art fan" do
+        before do
+          u = users(:aaron)
+          login_as(users(:aaron))
+          @logged_in_user = u
+          get :privacy
+        end
+        it_should_behave_like "logged in user"
+      end
+      context "while logged in as artist" do
+        before do
+          a = users(:artist1)
+          login_as(users(:artist1))
+          @logged_in_user = a
+          get :privacy
+        end
+        it_should_behave_like "logged in user"
+      end
+    end
+  end
+  describe "#about" do
+    describe "get" do
+      context "while not logged in" do
+        before do
+          get :about
+        end
+        it_should_behave_like "not logged in"
+      end
+      context "while logged in as an art fan" do
+        before do
+          u = users(:aaron)
+          login_as(users(:aaron))
+          @logged_in_user = u
+          get :about
+        end
+        it_should_behave_like "logged in user"
+      end
+      context "while logged in as artist" do
+        before do
+          a = users(:artist1)
+          login_as(users(:artist1))
+          @logged_in_user = a
+          get :about
+        end
+        it_should_behave_like "logged in user"
+      end
+    end
+  end
+  describe "#faq" do
+    describe "get" do
+      context "while not logged in" do
+        before do
+          get :faq
+        end
+        it_should_behave_like "not logged in"
+      end
+      context "while logged in as an art fan" do
+        before do
+          u = users(:aaron)
+          login_as(users(:aaron))
+          @logged_in_user = u
+          get :faq
+        end
+        it_should_behave_like "logged in user"
+      end
+      context "while logged in as artist" do
+        before do
+          a = users(:artist1)
+          login_as(users(:artist1))
+          @logged_in_user = a
+          get :faq
+        end
+        it_should_behave_like "logged in user"
+      end
+    end
+  end
+  describe "#main/openstudios" do
+    describe "get" do
+      context "while not logged in" do
+        before do
+          get :openstudios
+        end
+        it_should_behave_like "not logged in"
+      end
+      context "while logged in as an art fan" do
+        before do
+          u = users(:aaron)
+          login_as(users(:aaron))
+          @logged_in_user = u
+          get :openstudios
+        end
+        it_should_behave_like "logged in user"
+      end
+      context "while logged in as artist" do
+        before do
+          a = users(:artist1)
+          login_as(users(:artist1))
+          @logged_in_user = a
+          get :openstudios
+        end
+        it_should_behave_like "logged in user"
+      end
+    end
+  end
+
 end
 

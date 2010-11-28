@@ -1,5 +1,5 @@
 require "spec_helper"
-
+require "controllers_helper"
 include AuthenticatedTestHelper
 
 describe ArtPiecesController do
@@ -46,18 +46,31 @@ describe ArtPiecesController do
   end
 
   describe "show" do
-    before(:each) do
-      get :show, :id => @artpieces.first.id
+    context "not logged in" do
+      before(:each) do
+        get :show, :id => @artpieces.first.id
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "displays art piece" do
+        response.should have_tag("#artpiece_title", @artpieces.first.title)
+        response.should have_tag("#ap_title", @artpieces.first.title)
+      end
+      it "has no edit buttons" do
+        response.should have_tag("div.edit-buttons", "")
+        response.should_not have_tag("div.edit-buttons *")
+      end
+      it "has no favorite me icon" do
+        response.should_not have_tag('.micro-icon.heart')
+      end
     end
-    it "returns success" do
-      response.should be_success
-    end
-    it "displays art piece" do
-      response.should have_tag("#artpiece_title", @artpieces.first.title)
-      response.should have_tag("#ap_title", @artpieces.first.title)
-    end
-    it "has no edit buttons" do
-      response.should have_tag("div.edit-buttons", "")
+    context "getting unknown art piece page" do
+      it "should redirect to error page" do
+        get :show, :id => 'bogusid'
+        flash[:error].should match(/couldn't find that art piece/)
+        response.should redirect_to '/error'
+      end
     end
     context "when logged in as art piece owner" do
       before do
@@ -68,9 +81,45 @@ describe ArtPiecesController do
         response.should have_tag("div.edit-buttons span#artpiece_edit a", "edit")
       end
       it "shows delete button" do
-        get :show, :id => @artpieces.first.id
         response.should have_tag(".edit-buttons #artpiece_del a", "delete")
+      end
+      it "doesn't show heart icon" do
+        response.should_not have_tag('.micro-icon.heart')
+      end
+    end
+    context "when logged in as not artpiece owner" do
+      before do
+        login_as(users(:aaron))
+        get :show, :id => @artpieces.first.id
+      end
+      it "shows heart icon" do
+        response.should have_tag('.micro-icon.heart')
+      end
+      it "doesn't have edit button" do
+        response.should_not have_tag("div.edit-buttons span#artpiece_edit a", "edit")
+      end
+      it "doesn't have delete button" do
+        response.should_not have_tag(".edit-buttons #artpiece_del a", "delete")
       end
     end
   end
+
+  describe "#edit" do
+    context "while not logged in" do
+      it_should_behave_like "get/post update redirects to login"
+      context "post " do
+        before do
+          post :edit, :id => art_pieces(:artpiece1).id
+        end
+        it_should_behave_like "redirects to login"
+      end
+      context "get " do
+        before do
+          get :edit, :id => art_pieces(:artpiece1).id
+        end
+        it_should_behave_like "redirects to login"
+      end
+    end
+  end
+   
 end

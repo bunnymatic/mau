@@ -19,10 +19,10 @@ post_to_url = function (path, params, method) {
   var form = new Element('form', { method: method, action: path });
   for(var key in params) {
     var hiddenField = new Element('input', { type: 'hidden', name: key, value: params[key] })
-    form.update(hiddenField);
+    form.appendChild(hiddenField);
   }
   var hiddenField = new Element('input', { type: 'hidden', name: 'authenticity_token', value:unescape(authenticityToken)});
-  form.update(hiddenField);
+  form.appendChild(hiddenField);
   document.body.appendChild(form);    // Not entirely sure if this is necessary
   form.submit();
 };
@@ -338,6 +338,7 @@ var TagMediaHelper = {
   ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
   ID_NOTIFICATION_TOGGLE = 'notification_toggle';
   ID_EVENTS_TOGGLE = 'events_toggle';
+  ID_FAVORITES_TOGGLE = 'favorites_toggle';
 
   ID_EVENTS_SXN = 'events';
   ID_STUDIO_SXN = 'address';
@@ -347,6 +348,7 @@ var TagMediaHelper = {
   ID_PASSWD_SXN = 'passwd';
   ID_DEACTIVATE_SXN = 'deactivate';
   ID_NOTIFICATION_SXN = 'notification';
+  ID_FAVORITES_SXN = 'favorites';
 
   A.SECTIONS = new Array(ID_STUDIO_SXN,
 			 ID_LINKS_SXN,
@@ -355,7 +357,8 @@ var TagMediaHelper = {
 			 ID_PASSWD_SXN,
 			 ID_DEACTIVATE_SXN,
 			 ID_NOTIFICATION_SXN,
-			 ID_EVENTS_SXN);
+			 ID_EVENTS_SXN,
+                         ID_FAVORITES_SXN);
 
   A.TOGGLES = new Array(ID_STUDIO_INFO_TOGGLE,
 			ID_LINKS_TOGGLE,
@@ -364,7 +367,8 @@ var TagMediaHelper = {
 			ID_PASSWD_TOGGLE,
 			ID_DEACTIVATE_TOGGLE,
 			ID_NOTIFICATION_TOGGLE,
-			ID_EVENTS_TOGGLE);
+			ID_EVENTS_TOGGLE,
+                        ID_FAVORITES_TOGGLE);
 
   A.toggleSxnVis = function(sxn) {
     var sxns = M.Artist.SECTIONS;
@@ -381,7 +385,7 @@ var TagMediaHelper = {
 	  }
 	}
 	else {
-	  frm.hide();
+	  frm.blindUp(M.BLIND_OPTS['up']);
 	  lnk.innerHTML = "change";
 	}
       }
@@ -415,7 +419,7 @@ var TagMediaHelper = {
 
   /** art piece methods */
   AP.init = function() {
-    if (location.hash) {
+    if (location.hash && location.href.match(/art_pieces\/\d+/)) {
       var newid = location.hash.substr(1);
       M.log(newid);
       var urlbits = location.href.split('/');
@@ -1065,6 +1069,7 @@ var TagMediaHelper = {
           });
         }
       });
+//      $$('#my_favorites div.thumb').hover(
     }
   };
   

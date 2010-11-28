@@ -81,9 +81,6 @@ class MainController < ApplicationController
     'http://missionartistsunited.wordpress.com'
     begin
       cached_html = Rails.cache.read(FEEDS_KEY)
-      if not cached_html
-        print 'cache miss'
-      end
     rescue
       cached_html = nil
     end

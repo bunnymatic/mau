@@ -19,20 +19,14 @@ describe ArtistsController do
       @b.save!
     end
     context "while not logged in" do
-      it "GET update redirects to login" do
-        get :update
-        response.should redirect_to(new_session_path)
-      end
-      it "POST update redirects to login" do
-        post :update
-        response.should redirect_to(new_session_path)
-      end
+      it_should_behave_like "get/post update redirects to login"
     end
     context "while logged in" do
       before(:each) do
         @new_bio = "this is the new bio"
         @old_bio = @a.artist_info.bio
         login_as(@a)
+        @logged_in_user = @a
       end
       context "submit" do
         before do
@@ -70,7 +64,7 @@ describe ArtistsController do
       
   end
 
-  describe "GET edit" do
+  describe "#edit" do
     before(:each) do
       @a = users(:artist1)
       @a.save!
@@ -82,42 +76,47 @@ describe ArtistsController do
       before(:each) do 
         get :edit
       end
-      it "redirects to login" do
-        response.should redirect_to(new_session_path)
-      end
+      it_should_behave_like "redirects to login"
     end
     context "while logged in" do
       before(:each) do
         login_as(@a)
-        get :edit
+        @logged_in_user = @a
       end
-      it "GET returns 200" do
-        response.should be_success
-      end
-      it "has the edit form" do
-        response.should have_tag("div#artist_edit");
-      end
-      it "has the artists email in the email form input field" do
-        response.should have_tag("#info .inner-sxn input#artist_email[value=#{@a.email}]")
-      end
-      it "has the website input box with the artists website in it" do
-        response.should have_tag("input#artist_url[value=#{@a.url}]")
-      end
-      it "has the artists correct links in their respective fields" do
-        [:facebook, :blog].each do |k| 
-          linkval = @a.send(k)
-          linkid = "artist_artist_info_#{k}"
-          tag = "input##{linkid}[value=#{linkval}]"
-          response.should have_tag(tag)
+      context "GET" do
+        before do
+          get :edit
         end
-      end
-      it "has the artists' bio textarea field" do
-        get :edit
-        response.should have_tag("textarea#artist_artist_info_bio", @a.artist_info.bio)
+        it_should_behave_like "logged in user"
+
+        it "GET returns 200" do
+          response.should be_success
+        end
+        it "has the edit form" do
+          response.should have_tag("div#artist_edit");
+        end
+        it "has the artists email in the email form input field" do
+          response.should have_tag("#info .inner-sxn input#artist_email[value=#{@a.email}]")
+        end
+        it "has the website input box with the artists website in it" do
+          response.should have_tag("input#artist_url[value=#{@a.url}]")
+        end
+        it "has the artists correct links in their respective fields" do
+          [:facebook, :blog].each do |k| 
+            linkval = @a.send(k)
+            linkid = "artist_artist_info_#{k}"
+            tag = "input##{linkid}[value=#{linkval}]"
+            response.should have_tag(tag)
+          end
+        end
+        it "has the artists' bio textarea field" do
+          get :edit
+          response.should have_tag("textarea#artist_artist_info_bio", @a.artist_info.bio)
+        end
       end
     end
   end
-  
+ 
   describe "profile page" do
     before(:each) do 
       @a = users(:artist1)
@@ -126,29 +125,17 @@ describe ArtistsController do
       @b.artist_id = @a.id
       @b.save
     end
-    
-    describe "logged in as artist", :shared => true do
-      before(:each) do 
-        login_as(@a)
-        get :show
-      end
-      it "header bar should say hello" do
-        response.should have_tag("span.logout-nav")
-      end
-      it "header bar should have my login name as a link" do
-        response.should have_tag("span.logout-nav a", :text => @a.login)
-      end
-      it "header bar should have logout tag" do
-        response.should have_tag("span.last a[href=/logout]");
-      end
-    end
-    
+   
     context "while logged in" do
-      it_should_behave_like "logged in as artist"
+      before do
+        login_as(@a)
+        @logged_in_user = @a
+      end
       context "looking at your own page" do
         before(:each) do 
           get :show, :id => @a.id
         end
+        it_should_behave_like "logged in user"
         it "website is present" do
           response.should have_tag("div#u_website a[href=#{@a.url}]")
         end
@@ -177,6 +164,7 @@ describe ArtistsController do
           b.save
           get :show, :id => a.id
         end
+        it_should_behave_like "logged in user"
         it "should have heart icon" do
           response.should have_tag(".micro-icon.heart")
         end
@@ -190,9 +178,7 @@ describe ArtistsController do
       before(:each) do 
         get :show, :id => @a.id
       end
-      it "header bar should have login link" do
-        response.should have_tag("#login_toplink a", :text => "log in")
-      end
+      it_should_behave_like "not logged in"
       it "website is present" do
         response.should have_tag("div#u_website a[href=#{@a.url}]")
       end
@@ -276,10 +262,11 @@ describe ArtistsController do
     end
   end
   describe "- logged out" do
-    it "redirects from setarrangement endpoint to login" do
-      post :setarrangement, { :neworder => "1,2" }
-        response.code.should == "302"
-      response.location.should == new_session_url
+    context "post to set arrangement" do
+      before do
+        post :setarrangement, { :neworder => "1,2" }
+      end
+      it_should_behave_like "redirects to login"
     end
   end
   describe "- route generation" do
