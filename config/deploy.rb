@@ -73,7 +73,7 @@ task :checkit do
   puts("DeployDir: %s" % deploy_to)
 end
 
-before "apache:restart" do
+before "apache:reload" do
   run "cd #{current_path} && rake RAILS_ENV=#{rails_env} sass:build"
 end
 
