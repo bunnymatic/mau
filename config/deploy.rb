@@ -74,7 +74,7 @@ task :checkit do
 end
 
 before "apache:reload" do
-  run "whoami && cd #{current_path} && rvm use 1.8.7 --default && rvm list && rake RAILS_ENV=#{rails_env} sass:build"
+  run "cd #{current_path} && rvm use 1.8.7 --default && rake RAILS_ENV=#{rails_env} sass:build"
 end
 
 after "deploy:symlink", :symlink_data
