@@ -48,12 +48,12 @@ form {
 .div-left {
     text-align:left;
     margin-bottom: 10px;
+    td {
+        vertical-align: top;
+        padding-right: 6px;
+    }
 }
 
-.div-left td {
-    vertical-align: top;
-    padding-right: 6px;
-}
 .div-inline {
     display: inline;
 }
@@ -66,12 +66,11 @@ div.div-right {
 tr.error-row {
     text-align:center;
     padding: .4em;
-}
-
-tr.error-row div.error-msg {
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
+    div.error-msg {
+        margin-left: auto;
+        margin-right: auto;
+        width: auto;
+    }
 }
 
 .input-name, .input, .input-err{
@@ -2411,17 +2410,17 @@ ul.dropdown ul .first {
     height: 60px;
     text-align: left;
     font-size: x-small;
-}
-.favorites-block label {
-    padding-bottom: 2px;
-}
-.favorites-block .thumb {
-    float: left;
-    margin: 2px;
-}
-.favorites-block .thumb.last {
-    clear: right;
-}
-.favorites-block .thumb img {
-    height: 36px;
+    label {
+        padding-bottom: 2px;
+    }
+    .thumb {
+        float: left;
+        margin: 2px;
+        &.last {
+            clear: right;
+        }
+        img {
+            height: 36px;
+        }
+    }
 }

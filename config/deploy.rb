@@ -74,7 +74,11 @@ task :checkit do
   puts("Repo: %s" % repository)
   puts("DeployDir: %s" % deploy_to)
 end
-  
+
+before "deploy:restart" do
+  run "cd #{current_path} && rake RAILS_ENV=#{rails_env} sass:build"
+end
+
 after "deploy:symlink", :symlink_data
 after "deploy:symlink", "apache:reload"
 
