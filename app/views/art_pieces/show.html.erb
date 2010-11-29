@@ -101,6 +101,7 @@ var next_idx = <%= @next_idx || 1%>;
       <% if @art_piece -%>
       <div id="artpiece_title"><%=h @art_piece.title %></div>
       <div id="artpiece_container">
+        <span>
 	<% if @art_piece.filename -%>
 	<img id="artpiece_img" src="<%=h @art_piece.get_path('medium') %>" />
 	<% end -%>
@@ -111,6 +112,7 @@ var next_idx = <%= @next_idx || 1%>;
           <a href="#" class="favorite_this" fav_type="ArtPiece" fav_id="<%= @art_piece.id %>" title="Add this art piece to your favorites" ><div class="micro-icon heart"></div></a>
 	  <% end -%>
         </div>
+        </span>
         <div class="edit-buttons">
 	  <% if logged_in? and current_user == artist -%>
 	  <%= render :partial => "edit_delete_buttons.erb" %>

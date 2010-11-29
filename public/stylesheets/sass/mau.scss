@@ -1372,7 +1372,16 @@ td.td-left{
     padding: 0px 10px 10px 10px;
     text-align: center;
 }
-
+#artpiece_container {
+    span {
+        position: relative;
+    }
+    .action-icons {
+        position: absolute;
+        right: 0px;
+    }
+    padding-bottom: 20px;
+}
 .allthumbs {
     position:relative;
 }
