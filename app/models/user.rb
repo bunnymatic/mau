@@ -310,11 +310,11 @@ class User < ActiveRecord::Base
   end
 
   def fav_artists
-    favorites.to_obj.select { |f| [User, Artist].include? f.class }
+    favorites.to_obj.select { |f| [User, Artist].include? f.class }.uniq
   end
 
   def fav_art_pieces
-    favorites.to_obj.select { |f| f.class == ArtPiece }
+    favorites.to_obj.select { |f| f.class == ArtPiece }.uniq
   end
 
   # reformat data so that the artist contains the art pieces
