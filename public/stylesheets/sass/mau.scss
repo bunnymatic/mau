@@ -175,6 +175,28 @@ div.donate-btns span {
 }
 .inner-sxn {
     margin: 20px auto;
+    font-size: 12px;
+    
+    .micro-icon {
+        width: 16px;
+        margin-right: 2px;
+    }
+    .entry-table {
+        input {
+            margin-bottom: 6px;
+        }
+    }
+        
+    .input-name, .input, .input-err {
+        padding-top: 0;
+        vertical-align: top
+    }
+    li {
+        list-style: outside circle;
+    }
+    ul {
+        padding-bottom: 8px;
+    }
 }
 .edit-table-header {
     line-height: 1.1em;
@@ -204,10 +226,6 @@ div.donate-btns span {
 .edit-profile-sxn div.buttons {
     margin-top: 10px;
     text-align: center;
-}
-
-#artist_notification table.entry-table {
-    margin-left: 40px;
 }
 
 .chpasswd-instructions {
@@ -495,6 +513,9 @@ span.micro-icon {
 
 .micro-icon.heart {
     background-position: 0 -160px;
+}
+.micro-icon.trash {
+    background-position: 0 -176px;
 }
 /* position from the bottom of the sprite*/
 .feed-icon.blogger,
@@ -2099,8 +2120,6 @@ a#note_close_link{
     width: 100%;
     background-color: #000;
     opacity: 0.5;
-    filter:alpha(opacity=50);
-    -moz-opacity: 0.5;
 }
 
 .feedback_hide {
@@ -2230,8 +2249,6 @@ form#feedback_form .error {
     width:420px;
     z-index: 200;
     opacity: 1;
-    filter:alpha(opacity=100);
-    -moz-opacity: 1;
 }
 
 #credits_div .credits-hdr {
@@ -2438,6 +2455,7 @@ ul.dropdown ul .first {
         padding-bottom: 2px;
     }
     .thumb {
+        position: relative;
         float: left;
         margin: 2px;
         &.last {
@@ -2446,5 +2464,13 @@ ul.dropdown ul .first {
         img {
             height: 36px;
         }
+    }
+    .delete-fav {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        height: 16px;
+        width: 16px;
+        background-color: #c00;
     }
 }

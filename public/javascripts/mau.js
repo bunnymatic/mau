@@ -296,7 +296,7 @@ var TagMediaHelper = {
 	try {
 	  var lk = this.select('a').first();
 	  if (lk) {
-	    ev.stopPropagation();
+	    ev.stop();
 	    location.href = lk.readAttribute('href');
 	  }
 	}
@@ -421,7 +421,6 @@ var TagMediaHelper = {
   AP.init = function() {
     if (location.hash && location.href.match(/art_pieces\/\d+/)) {
       var newid = location.hash.substr(1);
-      M.log(newid);
       var urlbits = location.href.split('/');
       var n = urlbits.length;
       urlbits[n-1] = newid;
@@ -499,7 +498,6 @@ var TagMediaHelper = {
       });
       
     }
-    M.log("Swap " + idxs[0] + " with " + idxs[1] + " (dir " + direction + ")");
     if (idxs) {
       var d1 = divs[idxs[0]];
       var d2 = divs[idxs[1]];
@@ -1058,7 +1056,6 @@ var TagMediaHelper = {
   var Favorites = {
     init: function() {
       var favorites = $$('.favorite_this');
-      M.log(favorites);
       $$('.favorite_this').each(function(lnk) {
         var tp = lnk.readAttribute('fav_type');
         var id = lnk.readAttribute('fav_id');
@@ -1068,7 +1065,47 @@ var TagMediaHelper = {
           });
         }
       });
-//      $$('#my_favorites div.thumb').hover(
+      $$('.favorites-block div.thumb').each( function(el) {
+        el.observe('mouseover', Favorites.show_delete);
+        el.observe('mouseout', Favorites.hide_delete);
+      });
+      $$('#my_favorite_artists .delete-fav').each( function(el) {
+        el.observe('click', Favorites.execute_delete);
+      });
+      $$('#my_favorite_artpieces .delete-fav').each( function(el) {
+        el.observe('click', Favorites.execute_delete);
+      });
+    },
+    execute_delete: function(ev) {
+      var favid = this.readAttribute('fav_id');
+      var favtype = this.readAttribute('fav_type');
+      var parent = this.up();
+      if (favid && favtype && confirm("Are you sure you want to remove this favorite?")) {
+	new Ajax.Request('/users/remove_favorite', 
+                         { method:'post',
+                           parameters: {fav_type: favtype,
+                                        fav_id: favid,
+                                        authenticityToken: authenticityToken,
+                                        format: 'json'},
+			   onSuccess: function(tr) {
+                             parent.remove();
+			   }
+			 });
+      }
+      ev.stop();
+      return false;
+    },
+    show_delete: function(ev) {
+      var delbtn = this.select('.delete-fav').first();
+      if (delbtn && !delbtn.visible()) {
+        delbtn.show();
+      }
+    },
+    hide_delete: function(ev) {
+      var delbtn = this.select('.delete-fav').first();
+      if (delbtn && delbtn.visible()) {
+        delbtn.hide();
+      }
     }
   };
   
