@@ -40,11 +40,6 @@
 	  <% end -%>
 	</div>
 	<div id="artist_profile_name">
-	  <% if flash[:notice] -%>
-	  <div class="notice">
-	    <%= flash[:notice] %>
-	  </div>
-	  <% end -%>
           <% if @fan %>
  	  <h4><%=h @fan.get_name %></h4>
 	  <div class="artist">

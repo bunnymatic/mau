@@ -758,8 +758,7 @@ var TagMediaHelper = {
   };
 
   N.showNoteForm = function(ev) {
-    var el = ev.findElement();
-    var aid = el.readAttribute('aid');
+    var aid = this.readAttribute('aid');
     N.initOverlay();
     N.initNote(aid);
     $(N.ID_MAIN).show();
