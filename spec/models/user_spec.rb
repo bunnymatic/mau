@@ -45,6 +45,16 @@ describe User, 'favorites -'  do
         @a.who_favorites_me.should_not include @u
       end
     end
+    context "and trying to add a duplicate artist" do
+      before do
+        @num_favs = @u.favorites.count
+        @result = @u.add_favorite(@a)
+      end
+      it "doesn't add" do
+        @result.should be_false
+        @num_favs.should == @u.favorites.count
+      end
+    end
   end
   describe "narcissism" do
     before do
@@ -65,7 +75,8 @@ describe User, 'favorites -'  do
     before do
       @u = users(:aaron) # he's a fan
       @ap = art_pieces(:hot)
-      @ap.artist = users(:artist1)
+      @owner = users(:artist1)
+      @ap.artist = @owner
       @ap.save
       @u.add_favorite(@ap)
     end
@@ -96,6 +107,17 @@ describe User, 'favorites -'  do
     end
     it "user is in the who favorites me list of the artist who owns that art piece" do
       @ap.artist.who_favorites_me.should include @u
+    end
+
+    context "and trying to add it again" do
+      before do
+        @num_favs = @u.favorites.count
+        @result = @u.add_favorite(@ap)
+      end
+      it "doesn't add" do
+        @result.should be_false
+        @num_favs.should == @u.favorites.count
+      end
     end
     
     context " and removing it" do

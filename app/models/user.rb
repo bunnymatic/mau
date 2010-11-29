@@ -272,10 +272,16 @@ class User < ActiveRecord::Base
   end
 
   def add_favorite(fav)
+    # can't favorite yourself
     unless ((([Artist,User].include? fav.class) && fav.id == self.id) ||
             (fav.class == ArtPiece && fav.artist.id == self.id))
-      f = Favorite.new( :favoritable_type => fav.class.name, :favoritable_id => fav.id, :user_id => self.id)
-      f.save!
+      # don't add dups
+      unless Favorite.find_by_favoritable_id_and_favoritable_type_and_user_id(fav.id, fav.class.name, self.id)
+        f = Favorite.new( :favoritable_type => fav.class.name, :favoritable_id => fav.id, :user_id => self.id)
+        f.save!
+      else
+        false
+      end
     else
       false
     end
@@ -292,8 +298,10 @@ class User < ActiveRecord::Base
 
   def who_favorites_me
     favs = Favorite.find_all_by_favoritable_id_and_favoritable_type(self.id, ['User', 'Artist'])
-    if self[:art_pieces] && art_pieces.count > 0
-      favs << Favorite.find_all_by_favoritable_id_and_favoritable_type( art_pieces.map{|ap| ap.id}, 'ArtPiece' )
+    if self[:type] == 'Artist'
+      if self.art_pieces && self.art_pieces.count > 0
+        favs << Favorite.find_all_by_favoritable_id_and_favoritable_type( art_pieces.map{|ap| ap.id}, 'ArtPiece' )
+      end
     end
     User.find(favs.flatten.select{|f| !f.nil?}.map {|f| f.user_id})
   end
