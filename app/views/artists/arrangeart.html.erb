@@ -9,6 +9,7 @@
   <%= form_tag setarrangement_artists_path, :id => 'arrange_art_form'%>
   <div>
     <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => self.current_artist.art_pieces, :params => { :select => true, :show_footer => false, :cols => 5 }} %>
+    <div class="clear"></div>
     <div class="help-txt little-txt">
 Arrows shift image left and right. The top left image will be your Featured Image. Press SAVE when you're done. </div>
     <div class="edit-buttons">
