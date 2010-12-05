@@ -122,7 +122,7 @@
  	    <% end -%>
  	  </div>
 	  <% end -%>
-          <% unless @artist.who_i_favorite.empty? %>
+          <% unless @artist.what_i_favorite.empty? %>
           <div id="my_favorites" class="favorites-block" >
             <div><label>
                 <% if current_user && current_user.id == @artist.id %>
@@ -130,12 +130,18 @@
                 <% else %>
                 <%= @artist.get_name(true) %>'s
                 <% end %>
-                favorites</label></div>
-            <% favs = @artist.who_i_favorite[0..8]
+                favorites
+            (<%= @artist.what_i_favorite.count %>)
+            </label></div>
+            <% favs = @artist.what_i_favorite[0..8]
                favs.each do |f| 
                clz = (f == favs.last) ?"last" :""
             %>
+              <% if f.class.name == 'ArtPiece' %>
+            <a href="<%= art_piece_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.title %>" src="<%= f.get_path('thumb') %>"></div></a>
+              <% elsif f.type == 'Artist' %>
             <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
+              <% end %>
             <% end %>
           </div>
           <% end %>
@@ -147,6 +153,7 @@
                 <% else %>
                 <%= @artist.get_name(true) %>
                 <% end %>
+                (<%= @artist.who_favorites_me.count %>)
 </label></div>
             <% favs = @artist.who_favorites_me[0..8]
                favs.each do |f| 

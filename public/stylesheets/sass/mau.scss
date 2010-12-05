@@ -2472,11 +2472,18 @@ ul.dropdown ul .first {
         position: relative;
         float: left;
         margin: 2px;
+        height: 24px;
+        overflow: hidden;
+        width: 24px;
         &.last {
             clear: right;
         }
+
         img {
-            height: 36px;
+            position: absolute;
+            left: center;
+            top: center;
+            height: 24px;
         }
     }
     .delete-fav {

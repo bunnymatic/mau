@@ -48,7 +48,7 @@
 	      <a href="#" id="notify_artist" aid="<%= @fan.id %>" ><span  aid="<%= @fan.id %>"  class="micro-icon email"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
 	    </div>
 	    <% end -%>
-            <% unless @fan.who_i_favorite.empty? %>
+            <% unless @fan.what_i_favorite.empty? %>
             <div id="my_favorites" class="favorites-block" >
               <div><label>
                   <% if current_user && current_user.id == @fan.id %>
@@ -56,8 +56,8 @@
                   <% else %>
                   <%= @fan.get_name(true) %>'s
                   <% end %>
-                  favorites</label></div>
-              <% favs = @fan.who_i_favorite[0..8]
+                  favorites (<%= @fan.what_i_favorite.count %>)</label></div>
+              <% favs = @fan.what_i_favorite[0..8]
                  favs.each do |f| 
                  clz = (f == favs.last) ?"last" :""
                  %>
@@ -73,6 +73,7 @@
                   <% else %>
                   <%= @fan.get_name(true) %>
                   <% end %>
+                  (<%= @fan.who_favorites_me.count %>)
               </label></div>
               <% favs = @fan.who_favorites_me[0..8]
                  favs.each do |f| 
