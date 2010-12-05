@@ -105,9 +105,6 @@ describe User, 'favorites -'  do
     it "user does not have 'art_pieces' because he's a user" do
       @u.methods.should_not include('art_pieces')
     end
-    it "user is in the who favorites me list of the artist who owns that art piece" do
-      @ap.artist.who_favorites_me.should include @u
-    end
 
     context "and trying to add it again" do
       before do

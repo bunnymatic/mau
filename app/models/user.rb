@@ -287,20 +287,27 @@ class User < ActiveRecord::Base
     end
   end
 
-  def who_i_favorite
+  def what_i_favorite
     # collect artist and art piece stuff
-    favs = self.fav_artists
-    self.fav_art_pieces.each do |fap|
-      favs << fap.artist
+    favs = self.favorites.reverse
+    result = []
+    favs.each do |f|
+      out = case f.favoritable_type
+            when 'Artist','User','MAUFan' then
+              User.find(f.favoritable_id)
+            when 'ArtPiece' then
+              ArtPiece.find(f.favoritable_id)
+            end
+      result << out unless out.nil?
     end
-    favs.uniq
+    result.uniq
   end
 
   def who_favorites_me
-    favs = Favorite.find_all_by_favoritable_id_and_favoritable_type(self.id, ['User', 'Artist'])
+    favs = Favorite.find_all_by_favoritable_id_and_favoritable_type(self.id, ['User', 'Artist'], :order => 'created_at desc')
     if self[:type] == 'Artist'
       if self.art_pieces && self.art_pieces.count > 0
-        favs << Favorite.find_all_by_favoritable_id_and_favoritable_type( art_pieces.map{|ap| ap.id}, 'ArtPiece' )
+        favs << Favorite.find_all_by_favoritable_id_and_favoritable_type( art_pieces.map{|ap| ap.id}, 'ArtPiece', :order => 'created_at desc')
       end
     end
     User.find(favs.flatten.select{|f| !f.nil?}.map {|f| f.user_id})
