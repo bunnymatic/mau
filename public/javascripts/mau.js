@@ -591,6 +591,19 @@ var TagMediaHelper = {
 	} else {
 	  setTimeout(function() {img.appear();}, 50);
 	}
+        var $favs = $$('.favorite_this');
+        if ($favs.length > 0) {
+          $favs[0].setAttribute('fav_id', ap.id);
+        }
+        var $shares = $$('.action-icons a');
+        if ($shares.length > 0) {
+          $shares.each(function(lnk) {
+            var href = lnk.getAttribute('href');
+            href = href.replace(/(%2Fart_pieces%2F)\d+(.*)/
+                                ,"$1"+ap.id+"$2" );
+            lnk.writeAttribute('href', href);
+          });
+        }
       }
     },
     update_links: function(ap) {
