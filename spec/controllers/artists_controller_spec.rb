@@ -125,7 +125,33 @@ describe ArtistsController do
       @b.artist_id = @a.id
       @b.save
     end
-   
+
+    context "while not logged in" do
+      context "looking at an artist page" do
+        before(:each) do 
+          get :show, :id => @a.id
+        end
+        it "returns a page" do
+          response.should be_success
+        end
+        it "has a twitter share icon it" do
+          response.should have_tag '.micro-icon.twitter'
+        end
+        it "has a facebook share icon on it" do
+          response.should have_tag('.micro-icon.facebook')
+        end
+        it "has a 'favorite' icon on it" do
+          response.should have_tag('.micro-icon.heart')
+        end
+        it 'has thumbnails' do
+          response.should have_tag("#bigthumbcolumn")
+        end
+        it 'has other thumbnails' do
+          response.should have_tag('.artist-pieces')
+        end
+      end
+    end
+
     context "while logged in" do
       before do
         login_as(@a)
@@ -170,6 +196,24 @@ describe ArtistsController do
         end
         it "should have note icon" do
           response.should have_tag(".micro-icon.email")
+        end
+      end
+      context "after a user favorites the logged in artist and show the artists page" do
+        before do
+          @u = users(:quentin)
+          @u.add_favorite(@a)
+          login_as(@a)
+          get :show, :id => @a.id
+        end
+        it "returns success" do
+          response.should be_success
+        end
+        it "has the user in the 'who favorites me' section" do
+          print response.body
+          response.should have_tag('#favorites_me div.thumb')
+        end
+        it "has a link to that users page" do
+          response.should have_tag("#favorites_me a[href^=/users/#{@u.id}/]")
         end
       end
     end

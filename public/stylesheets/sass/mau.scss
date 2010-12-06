@@ -171,8 +171,6 @@ div.donate-btns span {
     padding-bottom: 20px;
 }
 
-.edit-profile-sxn {
-}
 .inner-sxn {
     margin: 20px auto;
     font-size: 12px;
@@ -220,12 +218,17 @@ div.donate-btns span {
 .inner-sxn table {
     margin: auto;
 }
-.edit-profile-sxn div {
-    text-align: left;
-}
-.edit-profile-sxn div.buttons {
-    margin-top: 10px;
-    text-align: center;
+.edit-profile-sxn {
+    div {
+        text-align: left;
+        &.buttons {
+            margin-top: 10px;
+            text-align: center;
+        }
+    }
+    .center {
+        text-align: center;
+    }
 }
 
 .chpasswd-instructions {
@@ -482,11 +485,12 @@ div.formbutton {
 }
 
 /** feeds **/
-.feed-icon {
+div.feed-icon {
     position: absolute;
     top: 4px;
     right: 4px;
     height: 16px;
+    width: 16px;
 }
 
 .micro-icon {
@@ -494,11 +498,17 @@ div.formbutton {
     font-size: 12px;
     margin:0;
 }
+.xdelete-icon,
 .micro-icon,
 .feed-icon {
-    background-image:url(/images/icons/microicon-sprite.png);
+    background-image:url(/images/icons/icon-sprite.png);
     background-repeat: no-repeat;
     overflow:hidden;
+}
+.xdelete-icon {
+    height: 24px;
+    width: 24px;
+    background-position: right top;
 }
 span.micro-icon {
     padding: 0px 8px;
@@ -560,7 +570,7 @@ span.micro-icon {
 }
 
 #feed_div {
-    color: black;
+    color: #222;
     vertical-align: top;
 }
 
@@ -1281,9 +1291,13 @@ td.singlecolumn {
 td.td-left{
     text-align:left;
 }
+.center{
+    text-align:center;
+    margin-left: auto;
+    margin-right: auto;
+}
 .td-center{
     text-align:center;
-    vertical-align:middle;
 }
 
 #signup {
@@ -2471,7 +2485,7 @@ ul.dropdown ul .first {
     .thumb {
         position: relative;
         float: left;
-        margin: 2px;
+        margin: 4px 2px;
         height: 24px;
         overflow: hidden;
         width: 24px;
@@ -2486,12 +2500,15 @@ ul.dropdown ul .first {
             height: 24px;
         }
     }
+    .first {
+        margin-left: 0;
+    }
+    .last {
+        margin-right: 0;
+    }
     .delete-fav {
         position: absolute;
-        bottom: 0px;
-        right: 0px;
-        height: 16px;
-        width: 16px;
-        background-color: #c00;
+        bottom: 0;
+        right: 0;
     }
 }
