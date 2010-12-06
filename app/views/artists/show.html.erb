@@ -75,7 +75,7 @@
   	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" title="Send a note to this artist"><div class="micro-icon email"></div></a>
             <% end -%>
             <% end -%>
-            <% if (current_user && current_user.id != @artist.id) -%>
+            <% if (!current_user || (current_user && current_user.id != @artist.id)) -%>
             <a href="#" class="favorite_this" fav_type="Artist" fav_id="<%= @artist.id %>" title="Add this artist to your favorites" ><div class="micro-icon heart"></div></a>
             <% end -%>
           </div>

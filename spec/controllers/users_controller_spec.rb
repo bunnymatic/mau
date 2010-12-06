@@ -179,6 +179,20 @@ describe UsersController do
         get :show
       end
       it_should_behave_like "not logged in"
+      context "getting a users page" do
+        before do
+          get :show, :id => @u.id
+        end
+        it "returns a valid page" do
+          response.should be_success
+        end
+        it "has the users name on it" do
+          response.should have_tag '#artist_profile_name h4', :text => "#{@u.firstname} #{@u.lastname}"
+        end
+        it "has a profile image" do
+          response.should have_tag "img.profile"
+        end
+      end
     end
     context "while logged in" do
       before(:each) do 
@@ -306,17 +320,16 @@ describe UsersController do
       end
     end
     context "while logged in" do
-      before do
+      before do 
         @u = users(:quentin)
         login_as(@u)
         @a = users(:artist1)
         @ap = art_pieces(:hot) 
         @ap.artist = @a
-        @ap.save.should be_true
-      end
+        @ap.save.should be_true      end
       context "add a favorite artist" do
         before do
-          post :add_favorite, :fav_type => 'Artist', :fav_id => @a.id 
+          post :add_favorite, :fav_type => 'Artist', :fav_id => @a.id
         end
         it "returns success" do
           response.should redirect_to(artist_path(@a))

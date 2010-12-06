@@ -61,9 +61,10 @@ describe ArtPiecesController do
         response.should have_tag("div.edit-buttons", "")
         response.should_not have_tag("div.edit-buttons *")
       end
-      it "has no favorite me icon" do
-        response.should_not have_tag('.micro-icon.heart')
+      it "has a favorite me icon" do
+        response.should have_tag('.micro-icon.heart')
       end
+
     end
     context "getting unknown art piece page" do
       it "should redirect to error page" do
