@@ -11,7 +11,7 @@ class MainController < ApplicationController
   before_filter :no_cache, :only => :index
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 20)
   def index
-    @rand_pieces = MainHelper.get_random_pieces 10
+    @rand_pieces = MainHelper.get_random_pieces
     respond_to do |format| 
       format.html { render }
       format.json { render :json => @rand_pieces.to_json(:include => [:artist]) }
@@ -22,7 +22,7 @@ class MainController < ApplicationController
   end
 
   def sampler
-    @rand_pieces = MainHelper.get_random_pieces 10
+    @rand_pieces = MainHelper.get_random_pieces
     render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }}
   end
 
