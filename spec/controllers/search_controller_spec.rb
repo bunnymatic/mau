@@ -47,7 +47,11 @@ describe SearchController do
 
   describe "search" do
     before do
+      get :index, :query => "go fuck yourself.  this string ought to never match anything"
     end
+
+    it_should_behave_like "not logged in"
+    
     context "for something we don't have" do
       it "returns nothing" do
         get :index, :query => "go fuck yourself.  this string ought to never match anything"

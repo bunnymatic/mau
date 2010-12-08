@@ -18,7 +18,7 @@ class StudiosController < ApplicationController
         @studios << s
       end
     end
-    @admin = logged_in? && self.current_artist.is_admin?
+    @admin = logged_in? && self.current_user.is_admin?
     render :action => 'index', :layout => 'mau'
   end
 
@@ -96,7 +96,7 @@ class StudiosController < ApplicationController
       end
     end
     @other_artists.sort! { |a,b| a.lastname <=> b.lastname }
-    @admin = logged_in? && current_artist.is_admin?
+    @admin = logged_in? && current_user.is_admin?
     logger.debug("StudiosController: found %d pieces to show" % @pieces.length)
     render :action => 'show', :layout => 'mau'
   end
@@ -114,7 +114,7 @@ class StudiosController < ApplicationController
 
   # GET /studios/1/edit
   def edit
-    if self.current_artist && self.current_artist.is_admin?
+    if self.current_user && self.current_user.is_admin?
       @studio = Studio.find(params[:id])
       @selected_studio = @studio.id
     else
