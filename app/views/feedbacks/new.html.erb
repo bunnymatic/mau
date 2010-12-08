@@ -15,7 +15,7 @@
 	<% if !logged_in? -%>
 	<%= f.text_field 'email' %>
 	<% else %>
-	<%= f.text_field 'email', :readonly => 'readonly', :value => current_artist.email %>
+	<%= f.text_field 'email', :readonly => 'readonly', :value => current_user.email %>
 	<% end -%>
       </div>
       <div id="comment_input" class="fdbk-input">
@@ -27,9 +27,9 @@
       </div>
       <%= f.hidden_field 'subject', :value => @section %>
       <%= f.hidden_field 'page', :value => request.referer %>
-      <% if current_artist -%>
-      <%= f.hidden_field 'login', :value => current_artist.login %>
-      <%= f.hidden_field 'email', :value => current_artist.email %>
+      <% if current_user -%>
+      <%= f.hidden_field 'login', :value => current_user.login %>
+      <%= f.hidden_field 'email', :value => current_user.email %>
       <% end -%>
     </div>
   </div>
