@@ -49,50 +49,9 @@
 	    <a href="#" id="notify_artist" aid="<%= @fan.id %>" ><span  aid="<%= @fan.id %>"  class="micro-icon email"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
 	  </div>
 	  <% end -%>
-          <% unless @fan.what_i_favorite.empty? %>
-          <div id="my_favorites" class="favorites-block" >
-            <div>
-              <label>
-                <% if current_user && current_user.id == @fan.id %>
-                my 
-                <% else %>
-                <%= @fan.get_name(true) %>'s
-                <% end -%>
-                favorites (<%= @fan.what_i_favorite.count %>)
-              </label>
-            </div>
-            <div>
-              <% favs = @fan.what_i_favorite[0..8]
-                 favs.each do |f| 
-                 clz = (f == favs.last) ?"last" :""
-                 %>
-              <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
-              <% end -%>
-            </div>
-          </div>
-          <% end -%>
-          <% unless @fan.who_favorites_me.empty? %>
-          <div id="favorites_me" class="favorites-block">
-            <div>
-              <label>who &hearts;'s 
-                <% if current_user && current_user.id == @fan.id %>
-                me
-                <% else %>
-                <%= @fan.get_name(true) %>
-                <% end -%>
-                (<%= @fan.who_favorites_me.count %>)
-              </label>
-            </div>
-            <div>
-              <% favs = @fan.who_favorites_me[0..8]
-                 favs.each do |f| 
-                 clz = (f == favs.last) ?"last" :""
-                 %>
-              <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
-              <% end -%>
-            </div>
-          </div>
-          <% end -%>
+          <%= render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @fan } %>
+          <%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @fan } %>
+          
 	  <% if logged_in? and @fan.id == current_user.id -%>
 	  <div id="profile_edit_ctrls">
 	    <a class="lksubtle" href="<%= edit_user_path(current_user) %>"><span>edit my page</span></a>

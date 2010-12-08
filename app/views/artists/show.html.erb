@@ -122,43 +122,8 @@
  	    <% end -%>
  	  </div>
 	  <% end -%>
-          <% unless @artist.what_i_favorite.empty? %>
-          <div id="my_favorites" class="favorites-block" >
-            <div><label>
-                <% if current_user && current_user.id == @artist.id %>
-                my 
-                <% else %>
-                <%= @artist.get_name(true) %>'s
-                <% end %>
-                favorites
-            (<%= @artist.what_i_favorite.count %>)
-            </label></div>
-            <% favs = @artist.what_i_favorite[0..8]
-               favs.each do |f| 
-               clz = (f == favs.last) ?"last" :""
-            %>
-            <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
-            <% end %>
-          </div>
-          <% end %>
-          <% unless @artist.who_favorites_me.empty? %>
-          <div id="favorites_me" class="favorites-block">
-            <div><label>who &hearts;'s 
-                <% if current_user && current_user.id == @artist.id %>
-                me
-                <% else %>
-                <%= @artist.get_name(true) %>
-                <% end %>
-                (<%= @artist.who_favorites_me.count %>)
-</label></div>
-            <% favs = @artist.who_favorites_me[0..8]
-               favs.each do |f| 
-               clz = (f == favs.last) ?"last" :""
-            %>
-            <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
-            <% end %>
-          </div>
-          <% end %>
+          <%= render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist } %>
+          <%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist } %>
 	</div>
 	<% if logged_in? and @artist.id == current_user.id -%>
 	<div id="profile_edit_ctrls">

@@ -1,0 +1,18 @@
+<% unless page_owner.who_favorites_me.empty? %>
+<div id="favorites_me" class="favorites-block">
+  <div><label>who &hearts;'s 
+      <% if current_user && current_user.id == page_owner.id %>
+      me
+      <% else %>
+      <%= page_owner.get_name(true) %>
+      <% end %>
+      (<%= page_owner.who_favorites_me.count %>)
+  </label></div>
+  <% favs = page_owner.who_favorites_me[0..8]
+     favs.each do |f| 
+     clz = (f == favs.last) ?"last" :""
+     %>
+  <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
+  <% end %>
+</div>
+<% end %>
