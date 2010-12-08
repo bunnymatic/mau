@@ -8,6 +8,7 @@ class ArtistMailer < ActionMailer::Base
 
   def signup_notification(artist)
     setup_email(artist)
+    p "ARTIST ", artist
     @subject    += ': Please activate your new account'  
     @body[:url]  = "http://%s/activate/#{artist.activation_code}" % Conf.site_url
   end

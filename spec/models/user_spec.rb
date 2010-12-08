@@ -1,5 +1,22 @@
 require 'spec_helper'
 
+describe User, 'auth helpers' do
+  describe "make token " do
+    before do
+      @token = User.make_token
+    end
+    it "returns a string greater than 20 chars" do
+      @token.length.should > 20
+    end
+    it "returns a string with only numbers and letters" do
+      @token.should_not match /\W+/
+    end
+    it "when called again returns something different" do
+      @token.should_not eql (User.make_token)
+    end
+  end
+end
+
 describe User, 'favorites -'  do
   fixtures :users, :art_pieces
 

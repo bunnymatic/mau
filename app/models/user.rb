@@ -362,7 +362,7 @@ class User < ActiveRecord::Base
   
   def make_activation_code
     self.deleted_at = nil
-    self.activation_code = self.class.make_token
+    self.activation_code = User.make_token
   end
     
 end
