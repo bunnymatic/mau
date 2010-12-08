@@ -1,0 +1,41 @@
+<div class="open-close-div acct" ><span id="notification_toggle" class="title">Notifications</span><span class="edit"><a href="#notifications" id="notification_toggle_lnk">change</a></span><div class="clear"></div></div>
+<div  class="edit-profile-sxn"  id="notification" style="display:none;">
+  <div class="inner-sxn">
+    <table class="entry-table">
+      <tr>
+	<td class="input-name">
+	  Allow notes from:
+	</td>
+	<td valign="top">
+	  <div><%= check_box "emailsettings", "fromall", { :checked => current_user.emailsettings["fromall"] } %>Everyone</div>
+	  <div>
+	    <%= check_box "emailsettings", "fromartist", { :checked => current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] } %>Registered MAU Artists
+	  </div>
+	</td>
+	<td class="input-err" width="200">
+	  Check these boxes if would like other registered MAU artists or any website visitors the ability to send you a note.
+	</td>
+      </tr>
+      <tr>
+	<td class="input-name">
+	  MAU Notices:
+	</td>
+	<td valign="top">
+	  <div>
+	    <%= check_box "emailsettings", "mauadmin", { :checked => current_user.emailsettings["mauadmin"] } %>Administrative
+	  </div>
+	  <div>
+	    <%= check_box "emailsettings", "maunews", { :checked => current_user.emailsettings["maunews"] } %>News
+	  </div>
+	</td>
+	<td class="input-err" style="font-size: x-small;">
+	  Periodically, we may want to notify you about MAU related things.  Administrative covers website issues/updates, downtime etc.  News includes MAU related events, MAU artist show announcements and general news about MAU.
+	</td>
+      </tr>
+    </table>
+    <div class="buttons">
+      <%= f.submit 'Save Changes' %>
+      <%= f.submit 'Cancel' %>
+    </div>
+  </div>
+</div>

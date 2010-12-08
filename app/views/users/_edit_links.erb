@@ -1,0 +1,39 @@
+<div class="open-close-div acct" ><span id="links_toggle" class="title">Links</span><span class="edit"><a href="#links" id="links_toggle_lnk">change</a></span></div>
+<div class="edit-profile-sxn" id="links" style="display:none;">
+  <div class="inner-sxn">
+    <table class="entry-table">
+      <% if current_user[:type] == 'Artist' %>
+      <% # handle user attrs
+         [ [:url, 'Website'], ].each do |key, name| -%>
+      <tr>
+	<td class="input-name"><%= f.label key, name %></td>
+	<td><%= f.text_field key , :class => 'url-input' %></td>
+	<td class="input-err"></td>
+      </tr>
+      <% end -%>
+      <% # and artist_info attrs 
+	 [[:facebook, 'Facebook'],
+	 [:flickr, 'Flickr'],
+	 [:twitter, 'Twitter'],
+	 [:blog, 'Blog'],
+	 [:myspace, 'MySpace']].each do |key, name| %>
+      <tr>
+	<td class="input-name"><%= label_tag "#{f.object_name}[artist_info[#{key}]]", name %></td>
+	<td><%= text_field_tag "#{f.object_name}[artist_info[#{key}]]", @artist_info[key], :class => 'url-input' %></td>
+	<td class="input-err"></td>
+      </tr>
+      <% end -%>
+      <% else -%>
+      <tr>
+	<td class="input-name"><%= f.label :url, "Website:" %></td>
+	<td><%= f.text_field :url %></td>
+	<td class="input-err"></td>
+      </tr>
+      <% end -%>
+    </table>
+    <div  class="buttons">
+      <%= f.submit 'Save Changes' %>
+      <%= f.submit 'Cancel' %>
+    </div>
+  </div>
+</div>

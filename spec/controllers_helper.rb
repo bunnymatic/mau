@@ -26,6 +26,40 @@ def response_should_be_json
   Mime::Type.lookup(response.content_type).to_sym.should eql :json
 end
 
+# logged in - get edit page 
+describe "logged in edit page", :shared => true do
+  before do
+    get :edit
+  end
+  it "has at least 6 open-close divs" do
+    response.should have_tag('.open-close-div.acct:nth-child(6)') 
+  end
+  it "has the info edit section" do
+    response.should have_tag('.open-close-div #info_toggle')
+    response.should have_tag('#info')
+  end
+  it "has the remove favorites section" do
+    response.should have_tag('.open-close-div #favorites_toggle')
+    response.should have_tag('#favorites')
+  end
+  it "has the notification section" do
+    response.should have_tag('.open-close-div #notification_toggle')
+    response.should have_tag('#notification')
+  end
+  it "has the change password section" do
+    response.should have_tag('form[action=/change_password_update]')
+    response.should have_tag('#passwd')
+  end
+  it "has the deactivate section" do
+    response.should have_tag('#deactivate')
+  end
+  it "has the links edit section" do
+    response.should have_tag('.open-close-div #links_toggle')
+    response.should have_tag('#links')
+  end
+end
+
+# for all
 describe "logged in user", :shared => true do
   it "header bar should say hello" do
     response.should have_tag("span.logout-nav", :text => /hello/)
@@ -74,4 +108,5 @@ describe "not logged in", :shared => true do
     response.should have_tag("div ul#mymaunav li.dir a[href=/login]", :text => /join in/)
   end
 end
+
 
