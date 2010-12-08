@@ -2,6 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
+
 describe UsersController do
   
   integrate_views
@@ -235,6 +236,9 @@ describe UsersController do
         login_as(@u)
         get :edit
       end
+
+      it_should_behave_like "logged in edit page"
+
       it "GET returns 200" do
         response.should be_success
       end

@@ -88,6 +88,7 @@ describe ArtistsController do
           get :edit
         end
         it_should_behave_like "logged in user"
+        it_should_behave_like "logged in edit page"
 
         it "GET returns 200" do
           response.should be_success

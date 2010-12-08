@@ -2,7 +2,7 @@
 <div class="edit-profile-sxn" id="favorites" style="display:none;">
   <div class="inner-sxn">
     <% if current_user.fav_artists.empty? && current_user.fav_art_pieces.empty? %>
-    <div>You have no favorites yet.  Click the <span class="micro-icon heart"></span>  icon on art piece pages or artist's pages to add these items to your favorites.</div>
+    <div>You have no favorites yet.  Click the <span class="micro-icon heart">&nbsp;</span>icon on art piece pages or artist's pages to add these items to your favorites.</div>
     <% else -%>
     <div class="little-text center">Click on favorites to remove them.</div>
     <% end -%>
