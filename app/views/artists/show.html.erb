@@ -137,11 +137,7 @@
                favs.each do |f| 
                clz = (f == favs.last) ?"last" :""
             %>
-              <% if f.class.name == 'ArtPiece' %>
-            <a href="<%= art_piece_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.title %>" src="<%= f.get_path('thumb') %>"></div></a>
-              <% elsif f.type == 'Artist' %>
-            <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
-              <% end %>
+            <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
             <% end %>
           </div>
           <% end %>
@@ -159,7 +155,7 @@
                favs.each do |f| 
                clz = (f == favs.last) ?"last" :""
             %>
-            <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
+            <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
             <% end %>
           </div>
           <% end %>

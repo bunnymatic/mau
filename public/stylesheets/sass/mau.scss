@@ -2489,15 +2489,13 @@ ul.dropdown ul .first {
         height: 24px;
         overflow: hidden;
         width: 24px;
+        background-color: #999;
         &.last {
             clear: right;
         }
 
         img {
             position: absolute;
-            left: center;
-            top: center;
-            height: 24px;
         }
     }
     .first {

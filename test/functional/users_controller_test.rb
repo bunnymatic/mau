@@ -48,7 +48,7 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_should_require_login_on_signup
     assert_no_difference 'MAUFan.count' do
-      create_user(:login => nil)
+      create_user(:login => nil, :email => nil)
       assert assigns(:fan).errors.on(:login)
       assert_response :success
     end
@@ -78,22 +78,6 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
-  def test_should_require_firstname
-    assert_no_difference 'MAUFan.count' do
-      create_user(:firstname => nil)
-      assert assigns(:fan).errors.on(:firstname)
-      assert_response :success
-    end
-  end
-
-  def test_should_require_lastname
-    assert_no_difference 'MAUFan.count' do
-      create_user(:lastname => nil)
-      assert assigns(:fan).errors.on(:lastname)
-      assert_response :success
-    end
-  end
-  
   def test_should_validate_login
     assert_no_difference 'MAUFan.count' do
       create_user(:login => "#$SGFCSR")
@@ -158,22 +142,7 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
-  def test_should_require_artist_firstname
-    assert_no_difference 'Artist.count' do
-      create_artist(:firstname => nil)
-      assert assigns(:artist).errors.on(:firstname)
-      assert_response :success
-    end
-  end
-
-  def test_should_require_artist_lastname
-    assert_no_difference 'Artist.count' do
-      create_artist(:lastname => nil)
-      assert assigns(:artist).errors.on(:lastname)
-      assert_response :success
-    end
-  end
-  
+ 
   def test_should_validate_artist_login
     assert_no_difference 'Artist.count' do
       create_artist(:login => "#$SGFCSR")

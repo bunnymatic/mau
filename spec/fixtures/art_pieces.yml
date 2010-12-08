@@ -49,3 +49,12 @@ artpiece3:
   title: third
   description: super hot description
   dimensions: hot x hot
+
+valid_dimensions:
+  filename: not.jpg
+  title: not title
+  description: super not description
+  medium_id: 2
+  dimensions: not x not
+  image_height: 1024
+  image_width: 2048

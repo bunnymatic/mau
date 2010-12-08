@@ -32,8 +32,8 @@ class ArtPiecesControllerTest < ActionController::TestCase
   end
 
   test "should not show art_piece if artpiece doesn't have an artist" do
-    get :show, :id => art_pieces(:hot).to_param
-    assert_response :missing
+    get :show, :id => art_pieces(:hot).id
+    assert_response :redirect
   end
 
   test "should not edit if logged out" do

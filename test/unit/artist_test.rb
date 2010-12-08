@@ -27,20 +27,6 @@ class ArtistTest < ActiveSupport::TestCase
     end
   end
 
-  def test_should_require_lastname
-    assert_no_difference 'Artist.count' do
-      u = create_artist(:lastname => nil)
-      assert u.errors.on(:lastname)
-    end
-  end
-
-  def test_should_require_firstname
-    assert_no_difference 'Artist.count' do
-      u = create_artist(:firstname => nil)
-      assert u.errors.on(:firstname)
-    end
-  end
-
   def test_should_require_password_confirmation
     assert_no_difference 'Artist.count' do
       u = create_artist(:password_confirmation => nil)

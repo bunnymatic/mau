@@ -1,9 +1,9 @@
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
 describe UsersController do
-
+  
   integrate_views
 
   fixtures :users
@@ -38,9 +38,8 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stub!(:sweep)}
+        @controller.instance_eval{flash.stubs(:sweep)}
       end
-      
       context "login = 'newuser'" do
         before do
           post :create, :user => { :login => 'newuser' }, :type => "MAUFan" 
@@ -162,6 +161,9 @@ describe UsersController do
       end
       it "whose type is 'Artist'" do
         @found_artist.type == 'Artist'
+      end
+      it "has an associated artist_info" do
+        @found_artist.artist_info.should_not be_nil
       end
     end
     it "should not register as a fan account" do

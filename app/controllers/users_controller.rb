@@ -1,5 +1,4 @@
 # -*- coding: undecided -*-
-require 'pp'
 
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
@@ -142,9 +141,12 @@ class UsersController < ApplicationController
       if @artist.url && @artist.url.index('http') != 0
         @artist.url = 'http://' + @artist.url
       end
-      @artist.artist_info = ArtistInfo.new
-      @artist.register! if @artist && @artist.valid?
       success = @artist && @artist.valid?
+      @artist.register!
+      if success
+        @artist.build_artist_info
+        @artist.save!
+      end
       errs = @artist.errors
     elsif type == 'MAUFan' || type == 'User'
       user_params[:type] = "MAUFan"
@@ -153,8 +155,8 @@ class UsersController < ApplicationController
       if @fan.url && @fan.url.index('http') != 0
         @fan.url = 'http://' + @fan.url
       end
-      @fan.register! if @fan && @fan.valid?
       success = @fan && @fan.valid?
+      @fan.register! if success
       errs = @fan.errors
     else
       logger.debug("Failed to create account - bad/empty params")
@@ -343,8 +345,9 @@ class UsersController < ApplicationController
         render :json => result
         return
       else
-        objname = (obj.class == Artist) ? obj.get_name : obj.artist.get_name
-        flash[:notice] = "You *heart* #{objname}"
+        objname = (obj.class == Artist) ? obj.get_name : obj.title
+        path = (obj.class == Artist) ? user_path(obj) : art_piece_path(obj)
+        flash[:notice] = "#{objname} has been added to your favorites."
         redirect_back_or_default(obj)
       end
     else

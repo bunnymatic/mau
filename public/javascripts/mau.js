@@ -1070,13 +1070,13 @@ var TagMediaHelper = {
     init: function() {
       var favorites = $$('.favorite_this');
       $$('.favorite_this').each(function(lnk) {
-        var tp = lnk.readAttribute('fav_type');
-        var id = lnk.readAttribute('fav_id');
-        if (tp && id) {
-          lnk.observe('click', function() {
+        lnk.observe('click', function() {
+          var tp = lnk.readAttribute('fav_type');
+          var id = lnk.readAttribute('fav_id');
+          if (tp && id) {
             post_to_url('/users/add_favorite', {fav_type: tp,fav_id: id} );
-          });
-        }
+          }
+        });
       });
       $$('.favorites-block div.thumb').each( function(el) {
         el.observe('mouseover', Favorites.show_delete);

@@ -1,4 +1,5 @@
 class Artist < User
+
   has_one :artist_info
 
   has_many :art_pieces, :order => "`order` ASC, `id` DESC"
@@ -7,7 +8,7 @@ class Artist < User
   before_validation_on_create :compute_geocode
   before_validation_on_update :compute_geocode
  
-  [:representative_piece, :bio,
+  [:representative_piece, :bio, :os2010, :osoct2010,
    :facebook, :flickr, :twitter, :blog, :myspace, 
    :bio=,
    :facebook=, :flickr=, :twitter=, :blog=, :myspace=, 
