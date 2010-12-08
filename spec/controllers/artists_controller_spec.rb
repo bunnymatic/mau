@@ -1,4 +1,4 @@
-require "spec_helper"
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
@@ -209,11 +209,10 @@ describe ArtistsController do
           response.should be_success
         end
         it "has the user in the 'who favorites me' section" do
-          print response.body
           response.should have_tag('#favorites_me div.thumb')
         end
         it "has a link to that users page" do
-          response.should have_tag("#favorites_me a[href^=/users/#{@u.id}/]")
+          response.should have_tag("#favorites_me a[href^=/users/#{@u.id}]")
         end
       end
     end

@@ -11,7 +11,7 @@ class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_emails, :admin_update ]
-  before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :deactivate, :setarrangement, :arrangeart ]
+  before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
 
   layout 'mau1col', :except => 'faq'
 

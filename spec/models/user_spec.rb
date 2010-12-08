@@ -1,4 +1,4 @@
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe User, 'auth helpers' do
   describe "make token " do
@@ -147,3 +147,20 @@ describe User, 'favorites -'  do
     end
   end
 end
+
+describe ArtPiece, "ImageDimensions helper" do
+  fixtures :users
+  it "get_scaled_dimensions returns input dimension given user profile with no dimensions" do
+    u = users(:aaron)
+    u.get_scaled_dimensions(100).should == [100,100]
+  end
+  it "get_scaled_dimensions returns the max of the dim given user profile with dimensions" do
+    u = users(:joeblogs)
+    u.get_scaled_dimensions(1000).should == [1000,333]
+  end
+  it "get_min_scaled_dimensions returns the max of the dim given art with dimensions" do
+    u = users(:joeblogs)
+    u.get_min_scaled_dimensions(11).should == [33,11]
+  end
+end
+    

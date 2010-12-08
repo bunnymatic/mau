@@ -1,4 +1,4 @@
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 module TagSpecHelper
   LETTERS = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  

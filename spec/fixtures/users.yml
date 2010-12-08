@@ -24,6 +24,12 @@ aaron:
   lastname:                  dude
   type:                      MAUFan
 
+pending:
+  id: 4
+  login: pending
+  email: pending@example.com
+  type: User
+  activation_code: activation
 old_password_holder:
   id:                        3
   login:                     old_password_holder
@@ -60,5 +66,7 @@ joeblogs:
   firstname:                 joe
   lastname:                  blogs
   state:                     active
+  image_height:              550
+  image_width:               1650
   type: Artist
   url: http://joe.blogs.com

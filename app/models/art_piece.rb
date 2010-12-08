@@ -1,6 +1,8 @@
 require 'htmlhelper'
 
 class ArtPiece < ActiveRecord::Base
+  include ImageDimensions
+
   belongs_to :artist
   has_many :art_pieces_tags
   has_many :tags, :through => :art_pieces_tags
@@ -38,23 +40,6 @@ class ArtPiece < ActiveRecord::Base
 
   def safe_title
     HTMLHelper.encode(self.title)
-  end
-
-  def get_scaled_dimensions(maxdim)
-    # given maxdim, return width and height such that the max of width
-    # or height = maxdim, and the other is scaled to the right aspect
-    # ratio
-    if self.image_height != 0 and self.image_width != 0
-      ratio = self.image_width.to_f / self.image_height.to_f
-      if ratio > 1.0
-        [ maxdim, (maxdim / ratio).to_i ]
-      else
-        [ (maxdim * ratio).to_i, maxdim ]
-      end
-    else
-      # can't compute it because we don't have a valid image height
-      [maxdim, maxdim]
-    end
   end
 
   def get_path(size="medium")

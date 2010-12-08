@@ -14,7 +14,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_should_require_login
     assert_no_difference 'User.count' do
-      u = create_user(:login => nil)
+      u = create_user(:login => nil, :email => nil)
       assert u.errors.on(:login)
     end
   end
@@ -23,20 +23,6 @@ class UserTest < ActiveSupport::TestCase
     assert_no_difference 'User.count' do
       u = create_user(:password => nil)
       assert u.errors.on(:password)
-    end
-  end
-
-  def test_should_require_lastname
-    assert_no_difference 'User.count' do
-      u = create_user(:lastname => nil)
-      assert u.errors.on(:lastname)
-    end
-  end
-
-  def test_should_require_firstname
-    assert_no_difference 'User.count' do
-      u = create_user(:firstname => nil)
-      assert u.errors.on(:firstname)
     end
   end
 

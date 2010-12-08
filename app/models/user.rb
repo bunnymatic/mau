@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
   belongs_to :studio
   has_and_belongs_to_many :roles
 
+  include ImageDimensions
+
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken
@@ -181,7 +183,7 @@ class User < ActiveRecord::Base
 
   def os2010?
     osend = DateTime.new(2010,04,27)
-    self.os2010 && (DateTime.now < osend)
+    self.artist_info.os2010 && (DateTime.now < osend)
   end
 
   def osoct2010?
@@ -325,11 +327,11 @@ class User < ActiveRecord::Base
   end
 
   def fav_artists
-    favorites.to_obj.select { |f| [User, Artist].include? f.class }.uniq
+    favorites.to_obj.reverse.select { |f| [User, Artist].include? f.class }.uniq
   end
 
   def fav_art_pieces
-    favorites.to_obj.select { |f| f.class == ArtPiece }.uniq
+    favorites.to_obj.reverse.select { |f| f.class == ArtPiece }.uniq
   end
 
   # reformat data so that the artist contains the art pieces

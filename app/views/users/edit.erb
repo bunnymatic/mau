@@ -127,36 +127,9 @@
       </div>
     </div>
     <% end -%>
-    <div class="open-close-div acct"><span id="favorites_toggle" class="title">Favorites</span><span class="edit"><a href="#favorites" id="favorites_toggle_lnk">change</a></span></div>
-    <div class="edit-profile-sxn" id="favorites" style="display:none;">
-      <div class="inner-sxn">
-        <% if current_user.fav_artists.empty? && current_user.fav_art_pieces.empty? %>
-        <div>You have no favorites yet.  Click the <span class="micro-icon heart"></span>  icon on art piece pages or artist's pages to add these items to your favorites.</div>
-        <% end -%>
-        <% unless current_user.fav_artists.empty? %>
-        <div id="my_favorite_artists" class="favorites-block" >
-          <div>Artists</div>
-          <% favs = current_user.fav_artists
-             favs.each do |f| 
-             clz = (f == favs.last) ?"last" :""
-             %>
-          <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"><div class="delete-fav micro-icon trash" fav_id="<%= f.id %>" fav_type="Artist" style="display:none;" ></div></div></a>
-          <% end %>
-        </div>
-        <% end %>
-        <% unless current_user.fav_art_pieces.empty? %>
-        <div id="my_favorite_artpieces" class="favorites-block" >
-          <div>Art Pieces</div>
-          <% favs = current_user.fav_art_pieces
-             favs.each do |f| 
-             clz = (f == favs.last) ?"last" :""
-             %>
-          <a href="<%= art_piece_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.title %>" src="<%= f.get_path('thumb') %>"><div class="delete-fav micro-icon trash" style="display:none;" fav_id="<%= f.id %>" fav_type="ArtPiece"></div></div></a>
-          <% end %>
-        </div>
-        <% end %>
-      </div>
-    </div>
+
+    <%= render :partial => "/users/edit_remove_favorites" %>
+
     <div class="open-close-div acct" ><span id="passwd_toggle" class="title">Password</span><span class="edit"><a href="#passwd" id="passwd_toggle_lnk">change</a></span></div>
     <% form_tag(change_password_update_path, :method => :put) do -%>
     <div  class="edit-profile-sxn" id="passwd" style="display:none;">

@@ -66,28 +66,29 @@
                  favs.each do |f| 
                  clz = (f == favs.last) ?"last" :""
                  %>
-              <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
+              <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
               <% end -%>
             </div>
-            <% end -%>
-            <% unless @fan.who_favorites_me.empty? %>
-            <div id="favorites_me" class="favorites-block">
-              <div>
-                <label>who &hearts;'s 
-                  <% if current_user && current_user.id == @fan.id %>
-                  me
-                  <% else %>
-                  <%= @fan.get_name(true) %>
-                  <% end -%>
-                  (<%= @fan.who_favorites_me.count %>)
-                </label>
-              </div>
-              <div>
+          </div>
+          <% end -%>
+          <% unless @fan.who_favorites_me.empty? %>
+          <div id="favorites_me" class="favorites-block">
+            <div>
+              <label>who &hearts;'s 
+                <% if current_user && current_user.id == @fan.id %>
+                me
+                <% else %>
+                <%= @fan.get_name(true) %>
+                <% end -%>
+                (<%= @fan.who_favorites_me.count %>)
+              </label>
+            </div>
+            <div>
               <% favs = @fan.who_favorites_me[0..8]
                  favs.each do |f| 
                  clz = (f == favs.last) ?"last" :""
                  %>
-              <a href="<%= artist_path(f) %>"><div class="thumb <%= clz %>"><img title="<%= f.get_name %>" src="<%= f.get_profile_image('thumb') %>"></div></a>
+              <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
               <% end -%>
             </div>
           </div>
