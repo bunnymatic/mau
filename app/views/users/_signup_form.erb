@@ -45,7 +45,6 @@
 	<%= user.errors.select{ |k,v| k=='password_confirmation' }[0][1] %>	    </div>
       <% end %>	  </td>
   </tr>
-  <% if type == 'Artist' %>
   <tr>
     <td >
       <%= label_tag 'firstname', 'First Name' %>	  </td>
@@ -68,6 +67,7 @@
 	<%= user.errors.select{ |k,v| k=='lastname' }[0][1] %>	    </div>
       <% end %>	  </td>
   </tr>
+  <% if type == 'Artist' %>
   <tr>
     <td >
       <%= label_tag 'studio', 'Group Studio' %>	  </td>
