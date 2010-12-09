@@ -44,92 +44,96 @@
       </div>
       <% end -%>
       <div class="content-block" > 
-	<% if logged_in? && @artist && @artist.login == self.current_user.login -%>
-	<!-- <%= render :partial => '/deadline_announcement' %>  -->
-	<% end %>
-	<% if @artist -%>
-	<div id="artist_profile_img">
-	  <% if logged_in? && @artist && @artist.login == self.current_user.login -%>
-	  <a title="update my picture" href="<%= addprofile_users_path %>">
-	    <% if @artist.has_profile_image -%>
-  	    <img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
-	    <% else -%>
-  	    <img class="profile" src="/images/default-profile-img.png" width="200" />
-  	    <% end -%>
-	  </a>
-	  <% else -%>
-	  <%   if @artist.has_profile_image -%>
-  	  <img class="profile" src="<%= @artist.get_profile_image('small') %>" />
-	  <% else %>
-  	  <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
-  	  <%   end -%>
-	  <% end -%>
-	  <% if @artist.osoct2010? -%>
-	  <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
-	  <% end -%>
-          <div class="action-icons">
-	    <a target="_new" href="<%= ArtistsHelper.tw_share_link(@artist) %>" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
-            <a target="_new" href="<%= ArtistsHelper.fb_share_link(@artist) %>" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
-	    <% if (!current_user || (current_user && current_user.id != @artist.id)) %>
-            <% if (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
-  	    <a href="#" id="notify_artist" aid="<%= @artist.id %>" title="Send a note to this artist"><div class="micro-icon email"></div></a>
-            <% end -%>
-            <% end -%>
-            <% if (!current_user || (current_user && current_user.id != @artist.id)) -%>
-            <a href="#" class="favorite_this" fav_type="Artist" fav_id="<%= @artist.id %>" title="Add this artist to your favorites" ><div class="micro-icon heart"></div></a>
-            <% end -%>
-          </div>
-	</div>
-	<div id="artist_profile_name">
- 	  <h4><%=h @artist.get_name %></h4>
-	  <div class="artist">
-	    <div class="div-left">
-	      <div>
-		<% if @artist.studio -%>
-		<div><%= link_to @artist.studio.name, @artist.studio %></div>
-   		<div><%=h @artist.studio.street %> 
-		  <% if @artist.artist_info.studionumber -%><span>#<%=h @artist.artist_info.studionumber %></span><% end -%>
-                </div>
-   		<div><%=h @artist.studio.city %></div>
-		<% else -%>
-		<div><%=h @artist.artist_info.street %></div>
-		<div><%=h @artist.artist_info.city %></div>
+	<div class="artist-profile">
+	  <div class="info">
+	    <div id="artist_profile_name">
+ 	      <h4><%=h @artist.get_name %></h4>
+	      <div class="artist">
+		<div class="div-left">
+		  <div>
+		    <% if @artist.studio -%>
+		    <div><%= link_to @artist.studio.name, @artist.studio %></div>
+   		    <div><%=h @artist.studio.street %> 
+		      <% if @artist.artist_info.studionumber -%><span>#<%=h @artist.artist_info.studionumber %></span><% end -%>
+                    </div>
+   		    <div><%=h @artist.studio.city %></div>
+		    <% else -%>
+		    <div><%=h @artist.artist_info.street %></div>
+		    <div><%=h @artist.artist_info.city %></div>
+		    <% end -%>
+		  </div>
+		</div>
+		<% if @artist.media and @artist.media.length > 0 -%>
+		<div class="div-left">
+		  <span>Media:</span>
+		  <span>
+		    <% links = []
+		       @artist.media.each do |m| 
+  		       links << link_to(m.name, m, :class => ""  )
+				end
+				-%>
+		       <%= links.join(", ") %>
+		  </span>
+		</div>
 		<% end -%>
-	      </div>
+		<% if has_links(@artist) -%>
+		<div class="div-left">
+		  <% keyed_links.each do |key, name, _id|  
+		     lnk = @artist.send(key)
+		     if lnk and !lnk.empty? %>
+    		  <div id="<%= _id %>"><span><%= name %>: </span>
+		    <%= link_to lnk, add_http(lnk), { :target => "_blank" } %>
+  		</div>
+   		<% end -%>
+ 		<% end -%>
+ 	      </div>
+	      <% end -%>
+              <%= render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist } %>
+              <%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist } %>
 	    </div>
-	    <% if @artist.media and @artist.media.length > 0 -%>
-	    <div class="div-left">
-	      <span>Media:</span>
-	      <span>
-		<% links = []
-		   @artist.media.each do |m| 
-  		   links << link_to(m.name, m, :class => ""  )
-			    end
-                -%>
-		   <%= links.join(", ") %>
-	      </span>
+	    <% if logged_in? and @artist.id == current_user.id -%>
+	    <div id="profile_edit_ctrls">
+	      <a class="lksubtle" href="<%= edit_artist_path(current_user) %>"><span>edit my page</span></a>
 	    </div>
 	    <% end -%>
-	    <% if has_links(@artist) -%>
-	    <div class="div-left">
-	      <% keyed_links.each do |key, name, _id|  
-		 lnk = @artist.send(key)
-		 if lnk and !lnk.empty? %>
-    	      <div id="<%= _id %>"><span><%= name %>: </span>
-		<%= link_to lnk, add_http(lnk), { :target => "_blank" } %>
-  	    </div>
-   	    <% end -%>
- 	    <% end -%>
- 	  </div>
-	  <% end -%>
-          <%= render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist } %>
-          <%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist } %>
+	  </div>
+	  <% if logged_in? && @artist && @artist.login == self.current_user.login -%>
+	  <!-- <%= render :partial => '/deadline_announcement' %>  -->
+	  <% end %>
+	  <% if @artist -%>
+	  <div id="artist_profile_img">
+	    <% if logged_in? && @artist && @artist.login == self.current_user.login -%>
+	    <a title="update my picture" href="<%= addprofile_users_path %>">
+	      <% if @artist.has_profile_image -%>
+  	      <img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
+	      <% else -%>
+  	      <img class="profile" src="/images/default-profile-img.png" width="200" />
+  	      <% end -%>
+	    </a>
+	    <% else -%>
+	    <%   if @artist.has_profile_image -%>
+  	    <img class="profile" src="<%= @artist.get_profile_image('small') %>" />
+	    <% else %>
+  	    <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
+  	    <%   end -%>
+	    <% end -%>
+	    <% if @artist.osoct2010? -%>
+	    <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
+	    <% end -%>
+            <div class="action-icons">
+	      <a target="_new" href="<%= ArtistsHelper.tw_share_link(@artist) %>" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
+              <a target="_new" href="<%= ArtistsHelper.fb_share_link(@artist) %>" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
+	      <% if (!current_user || (current_user && current_user.id != @artist.id)) %>
+              <% if (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?)) -%>
+  	      <a href="#" id="notify_artist" aid="<%= @artist.id %>" title="Send a note to this artist"><div class="micro-icon email"></div></a>
+              <% end -%>
+              <% end -%>
+              <% if (!current_user || (current_user && current_user.id != @artist.id)) -%>
+              <a href="#" class="favorite_this" fav_type="Artist" fav_id="<%= @artist.id %>" title="Add this artist to your favorites" ><div class="micro-icon heart"></div></a>
+              <% end -%>
+            </div>
+	  </div>
 	</div>
-	<% if logged_in? and @artist.id == current_user.id -%>
-	<div id="profile_edit_ctrls">
-	  <a class="lksubtle" href="<%= edit_artist_path(current_user) %>"><span>edit my page</span></a>
-	</div>
-	<% end -%>
       </div>
       <% if @artist.artist_info.bio and !@artist.artist_info.bio.empty? -%>
       <div class="clear"></div>

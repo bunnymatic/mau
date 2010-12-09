@@ -2483,13 +2483,14 @@ ul.dropdown ul .first {
         padding-bottom: 2px;
     }
     .thumb {
+        border: 1px solid #444;
         position: relative;
         float: left;
         margin: 4px 2px;
         height: 24px;
         overflow: hidden;
         width: 24px;
-        background-color: #999;
+        background-color: transparent;
         &.last {
             clear: right;
         }
