@@ -31,16 +31,12 @@
   <div>
     <h2>Create Your MAU Account</h2>
   </div>
+  <% if flash[:error] %>
+  <div class="error-msg">
+    <%= flash[:error] %>
+  </div>
+  <% end %>
   <table class="signup-table">
-    <% if flash[:error] %>
-    <tr class="error-row">
-      <td colspan="3">
-        <div class="error-msg">
-	  <%= flash[:error] %>
-        </div>
-        <% end %>
-      </td>
-    </tr>
     <tr class='acct-selector'>
      <td class='label'><label for='acct-selector'>I am a</label></td>
      <td colspan='2' class="input"><%= select_tag 'account_type_chooser', opts %></td>
