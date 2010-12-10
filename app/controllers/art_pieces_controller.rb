@@ -252,8 +252,9 @@ class ArtPiecesController < ApplicationController
   def destroy
     art = safe_find_art_piece(params[:id])
     artist = art.artist
-    art.destroy
-
+    if artist.id == current_user.id
+      art.destroy
+    end
     respond_to do |format|
       format.html { redirect_to(artist) }
       format.xml  { head :ok }

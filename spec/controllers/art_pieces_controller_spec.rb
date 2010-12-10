@@ -122,5 +122,36 @@ describe ArtPiecesController do
       end
     end
   end
-   
+  
+  describe "delete" do
+    context "while not logged in" do
+      it_should_behave_like 'get/post update redirects to login'
+    end
+    context "while logged in as not art piece owner" do
+      before do
+        login_as(users(:aaron))
+        post :destroy, :id => art_pieces(:artpiece1).id
+      end
+      it "returns error page" do
+        response.should be_redirect
+      end
+      it "does not removes that art piece" do
+        lambda { ArtPiece.find(art_pieces(:artpiece1).id) }.should_not raise_error ActiveRecord::RecordNotFound
+      end
+
+    end
+
+    context "while logged in as art piece owner" do
+      before do
+        login_as(@artist)
+        post :destroy, :id => art_pieces(:artpiece1).id
+      end
+      it "returns error page" do
+        response.should be_redirect
+      end
+      it "removes that art piece" do
+        lambda { ArtPiece.find(art_pieces(:artpiece1).id) }.should raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
 end
