@@ -218,6 +218,10 @@ describe UsersController do
         it "has a profile image" do
           response.should have_tag "img.profile"
         end
+        it "shows the users website" do
+          response.should have_tag "#u_website"
+          response.should have_tag "#u_website a[href=#{@u.url}]"
+        end
       end
     end
     context "while logged in" do
