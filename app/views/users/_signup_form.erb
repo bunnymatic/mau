@@ -86,23 +86,12 @@ Choose "Independent studio" if you are not in a group studio. if you don't see y
   <% end %>
   <tr>
     <td >&nbsp;</td>
-    <td ><span class="td-center"><%= submit_tag 'Sign up' %>
-	<% end -%>
-    </span></td>
+    <td ><span class="td-center"><%= submit_tag 'Sign up' %></span></td>
     <td >&nbsp;</td>
   </tr>
-  <tr>
-    <td colspan="3">
-    </td>
-  </tr>
-  <tr>
+  <tr class="last">
     <td></td>
     <td colspan="2" >Already a member? <%= link_to "Log in",  login_path,  { :title => "Log in" } %> here.</td>
   </tr>
-  <tr>
-    <td colspan="3" align="center"><br/></td>
-  </tr>
-  <tr>
-    <td colspan="3" align="right">&nbsp;</td>
-  </tr>
 </table>
+<% end -%>
