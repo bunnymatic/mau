@@ -17,6 +17,29 @@ describe UsersController do
                                                                        :activate, :notify, :noteform, 
                                                                        :add_favorite, :purge])
   end
+  describe "new" do
+    before do
+      # disable sweep of flash.now messages
+      # so we can test them
+      @controller.instance_eval{flash.stubs(:sweep)}
+      get :new
+    end
+    it "has fan signup form" do
+      response.should have_tag("#fan_signup_form")
+    end
+    it "has artist signup form" do
+      response.should have_tag("#artist_signup_form")
+    end
+    it "has 2 first name text boxes" do
+      response.should have_tag("#artist_firstname")
+      response.should have_tag("#mau_fan_firstname")
+    end
+    it "has lastname text box" do
+      response.should have_tag("#mau_fan_lastname")
+      response.should have_tag("#artist_lastname")
+    end
+  end
+
   describe "#create" do
     it "return 404 with :artist = {}" do
       post :create,  :artist => {}
