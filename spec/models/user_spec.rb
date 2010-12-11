@@ -72,6 +72,19 @@ describe User, 'favorites -'  do
         @num_favs.should == @u.favorites.count
       end
     end
+    context "then artist deactivates" do
+      before do
+        @aid = @a.id
+        @favs = @u.favorites.count
+        @a.destroy
+      end
+      it "fav_artists should not return deactivated artist" do
+        (@u.fav_artists.map { |a| a.id }).should_not include(@aid)
+      end
+      it "favorites list should be smaller" do
+        @u.favorites.count.should == @favs - 1
+      end
+    end
   end
   describe "narcissism" do
     before do
