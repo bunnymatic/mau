@@ -11,17 +11,32 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 #'jon','mrrogers','trish','trishtunney',
 
 class User < ActiveRecord::Base
+  before_destroy do |user|
+    fs = Favorite.find_all_by_favoritable_id_and_favoritable_type( user.id, 'Artist')
+    fs.each { |f| f.delete }
+  end
+
   @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
 
   attr_reader :emailsettings, :fullname, :address
 
   has_many :favorites do
     def to_obj
-      proxy_owner.favorites.each.map { |f| 
+      deletia = []
+      result = (proxy_owner.favorites.each.map { |f| 
         if @@FAVORITABLE_TYPES.include? f.favoritable_type
-          f.favoritable_type.constantize.find(f.favoritable_id)
+          begin
+            f.favoritable_type.constantize.find(f.favoritable_id)
+          rescue ActiveRecord::RecordNotFound
+            deletia << f
+            nil
+          end
         end
-      }.select { |item| !item.nil? }
+      }).select { |item| !item.nil? }
+      deletia.each { |d| 
+        d.destroy
+      }
+      result
     end
   end
 
