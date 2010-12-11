@@ -29,7 +29,7 @@ describe Artist do
           @token.should_not match /\W+/
         end
         it "when called again returns something different" do
-          @token.should_not eql (Artist.make_token)
+          @token.should_not eql(Artist.make_token)
         end
       end
     end
