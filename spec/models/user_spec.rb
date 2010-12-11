@@ -12,7 +12,7 @@ describe User, 'auth helpers' do
       @token.should_not match /\W+/
     end
     it "when called again returns something different" do
-      @token.should_not eql (User.make_token)
+      @token.should_not eql User.make_token
     end
   end
 end
