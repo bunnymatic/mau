@@ -26,6 +26,13 @@
 	    <div id="artist_profile_name">
               <% if @fan %>
  	      <h4><%=h @fan.get_name %></h4>
+	      <% if @fan.url -%>
+	      <div class="div-left">
+    		<div id="u_website"><span>Website: </span>
+		  <%= link_to @fan.url, add_http(@fan.url), { :target => "_blank" } %>
+  		</div>
+              </div>
+              <% end -%>
  	      <div class="artist">
 		<% if (!current_user || current_user.id != @fan.id) && (@fan.emailsettings['fromall'] || (@fan.emailsettings['fromartist'] && logged_in?)) -%>
 		<div class="div-left share">Send the fan a note:&nbsp;

@@ -3,33 +3,7 @@
   <tr>    
     <td> </td>
     <td class="alt-lcol" align="center">
-      <% if @artist -%>
-      <div id="bigthumbcolumn">
-	<% if @artist.art_pieces.count > 0 -%>
-	<%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.art_pieces[0..3], :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
-	<% else -%>
-	<div class="allthumbs">
-          <%  title = "Generic Art"
-              if logged_in? and current_user.id == @artist.id 
-	      title = "Click to Upload Some Art!"
-              -%>
-	  <div class="artp-thumb artp-thumb-s">
-	    <a href="<%= new_art_piece_path %>" title="<%= title %>">
-	      <img src="/images/default-art-img.png" title="<%= title %>"/>
-	    </a>
-	  </div>
-	  <div>
-	    <a href="<%= new_art_piece_path %>" title="<%= title %>">Click here to Upload some art!</a>
-	  </div>
-	  <% else -%>
-	  <div class="artp-thumb artp-thumb-s">
-	    <img src="/images/default-art-img.png" title="<%= title %>"/>
-	  </div>
-	  <% end -%>
-	</div>
-	<% end -%>
-      </div>
-      <% end -%>
+      <%= render :partial => "big_thumb_column" %>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
     <td class="rcol" align="center" ><!-- artists/show -->

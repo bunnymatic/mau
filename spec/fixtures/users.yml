@@ -23,6 +23,7 @@ aaron:
   firstname:                 aaron
   lastname:                  dude
   type:                      MAUFan
+  url:                       http://aaronrules.com
 
 pending:
   id: 4
