@@ -274,7 +274,32 @@ describe UsersController do
     end
   end
 
-
+  describe "login_required redirects" do
+    context " post redirects to root (referrer)" do
+      before(:each) do 
+        @u = users(:quentin)
+        post :add_favorite
+      end
+      it "add_favorite requires login" do
+        response.should redirect_to( new_session_path )
+      end
+      it "auth system should try to record referrer" do
+        request.session[:return_to].should eql("/")
+      end
+    end
+    context "get redirects to requested page via login" do
+      before(:each) do 
+        @u = users(:quentin)
+        get :edit
+      end
+      it "add_favorite requires login" do
+        response.should redirect_to( new_session_path )
+      end
+      it "auth system should try to record referrer" do
+        request.session[:return_to].should eql "/users/edit"
+      end
+    end
+  end
   describe "update" do
     before(:each) do 
       @u = users(:quentin)
