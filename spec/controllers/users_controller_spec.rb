@@ -381,7 +381,7 @@ describe UsersController do
         @u = users(:quentin)
         login_as(@u)
         @a = users(:artist1)
-        @ap = art_pieces(:hot) 
+        @ap = art_pieces(:namewithtag) 
         @ap.artist = @a
         @ap.save.should be_true      end
       context "add a favorite artist" do
@@ -434,11 +434,15 @@ describe UsersController do
           it "returns success" do
             response.should redirect_to(art_piece_path(@ap))
           end
+          it "sets flash with escaped name" do
+            flash[:notice].should include '&lt;script&gt;'
+          end
           it "adds favorite to user" do
             u = User.find(@u.id)
             favs = u.favorites
             favs.map { |f| f.favoritable_id }.should include @ap.id
           end
+          
         end
       end
       context "add a favorite bogus model" do

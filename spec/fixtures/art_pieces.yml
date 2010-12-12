@@ -58,3 +58,8 @@ valid_dimensions:
   dimensions: not x not
   image_height: 1024
   image_width: 2048
+
+namewithtag:
+  filename: blow.jpg
+  title: <script>alert("stuff");</script>
+  
