@@ -1,5 +1,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
+# putting in nonexistent media in here could blow frequency computation
 hot:
   filename: hot.jpg
   title: hot title
@@ -54,7 +55,6 @@ valid_dimensions:
   filename: not.jpg
   title: not title
   description: super not description
-  medium_id: 2
   dimensions: not x not
   image_height: 1024
   image_width: 2048
