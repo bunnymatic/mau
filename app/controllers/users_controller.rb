@@ -345,7 +345,7 @@ class UsersController < ApplicationController
         render :json => result
         return
       else
-        objname = (obj.class == Artist) ? obj.get_name(true) : obj.title
+        objname = (obj.class == Artist) ? obj.get_name(true) : obj.safe_title
         path = (obj.class == Artist) ? user_path(obj) : art_piece_path(obj)
         msg = r ? "#{objname} has been added to your favorites.":
           "You've already added #{objname} to your list of favorites."
