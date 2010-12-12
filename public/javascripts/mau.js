@@ -1017,6 +1017,7 @@ var TagMediaHelper = {
           AC.open_selected_form(intype);
         } else {
           AC.open_form('Artist', false);
+          $(AC.CHOOSER).select('option').first().writeAttribute('selected','selected');
         }
       }
     },
