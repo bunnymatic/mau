@@ -66,6 +66,7 @@
               <%= render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist } %>
               <%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist } %>
 	    </div>
+            <div class="clear"></div>
 	    <% if logged_in? and @artist.id == current_user.id -%>
 	    <div id="profile_edit_ctrls">
 	      <a class="lksubtle" href="<%= edit_artist_path(current_user) %>"><span>edit my page</span></a>

@@ -1067,6 +1067,7 @@ var TagMediaHelper = {
   Event.observe(window,'load', AC.onload);
   
   var Favorites = {
+    favorites_per_row : 10,
     init: function() {
       var favorites = $$('.favorite_this');
       $$('.favorite_this').each(function(lnk) {
@@ -1087,6 +1088,55 @@ var TagMediaHelper = {
       });
       $$('#my_favorite_artpieces .delete-fav').each( function(el) {
         el.observe('click', Favorites.execute_delete);
+      });
+
+      $$('.favorites-block').each( function(blk) {
+        var _id = blk.readAttribute('id');
+        var show_links = blk.select('.show-toggle');
+        $(show_links).each(function(show_link) {
+          show_link.addClassName('fewer');
+          show_link.select('a').each( function(lnk) {
+            lnk.writeAttribute('title','show all');
+            lnk.observe('click', function(ev) {Favorites.show("#" + _id); });
+          });
+        });
+      });
+      Favorites.show_fewer('#my_favorites');
+      Favorites.show_fewer('#favorites_me');
+    },
+    show: function(block_id) {
+      var thumbs = $$(block_id + ' .favorite-thumbs li');
+      var show_link = $$(block_id + ' .show-toggle');
+      var show_more = true;
+      $(show_link).each(function(lk) {
+        if (lk.hasClassName('fewer')) {
+          Favorites.show_more(block_id);
+          lk.removeClassName('fewer');
+          lk.select('a').each(function(lnk) {
+            lnk.writeAttribute('title','show fewer');
+          });
+        }
+        else {
+          Favorites.show_fewer(block_id);
+          lk.addClassName('fewer');
+        }
+      });
+    },
+    show_more: function(block_id) {
+      var thumbs = $$(block_id + ' .favorite-thumbs li');
+      $(thumbs).each(function( item, itemidx ) {
+        item.show();
+      });
+    },
+    show_fewer: function(block_id) {
+      var thumbs = $$(block_id + ' .favorite-thumbs li');
+      $(thumbs).each(function( item, itemidx ) {
+        if (itemidx < Favorites.favorites_per_row) {
+          item.show();
+        }
+        else {
+          item.hide();
+        }
       });
     },
     execute_delete: function(ev) {
