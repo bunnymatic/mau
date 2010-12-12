@@ -1,3 +1,4 @@
+
 body {
     background-color: #c6c7d6;
     color: #aaa;
@@ -237,74 +238,71 @@ div.donate-btns span {
     width: 60%;
 }
 
-.entry-table .input-err {
-    font-size: x-small;
-    padding-left: 10px;
+.entry-table {
+    .input-err {
+        font-size: x-small;
+        padding-left: 10px;
+    }
+    td {
+        vertical-align: top;
+    }
 }
-.entry-table td {
-    vertical-align: top;
-}
+
 /* nav bar link */
 a.lknav {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     font-weight:bold;
-}
-a.lknav:link, a.lknav:visited {
-    color: #333333;
-}
-a.lknav:hover {
-    color: #FEF7CA;
-}
-a.lknav:active {
-    color: #738294;
+    &:link, &:visited {
+        color: #333;
+    }
+    &:hover {
+        color: #FEF7CA;
+    }
+    &:active {
+        color: #738294;
+    }
 }
 
 /* link for light background like login and footer (dark text) */
 a.lkdark {
-}
-
-a.lkdark:link, a.lkdark:visited ,a.lkdark:active {
-    color: #888;
-}
-
-a.lkdark:hover {
-    color: #442222;
+    &:link, &:visited, &active {
+        color: #888;
+    }
+    &:hover {
+        color: #442222;
+    }
 }
 
 a.lksubtle, a.lksubtle:link, a.lksubtle:visited ,a.lksubtle:active {
     color: #888;
-}
-a.lksubtle:hover {
-    color: #dcd5a8;
+    &:hover {
+        color: #dcd5a8;
+    }
 }
 
 /* default link colors assuming dark background */
 a {
     text-decoration: none;
-}
+    &:link {
+        color: #FEF7CA;
+    }
 
-a:link {
-    color: #FEF7CA;
+    &:visited {
+        color: #FEF7CA;
+    }
+    &:hover {
+        color: #554444;
+    }
+    &:active {
+        color: #FEF7CA;
+    }
 }
-
-a:visited {
-    color: #FEF7CA;
-}
-
-a:hover {
-    color: #554444;
-}
-a:active {
-    color: #FEF7CA;
-}
-
 
 /* for medium tag cloud matches */
 .tagmatch a:link {
     color: #cc77cc;
 }
-
 
 /* this is the search box on the header.  it has a different color than the other input fields to set it apart.
 
@@ -345,8 +343,13 @@ a:active {
     display: inline;
     float:right;
 }
-#search_nav2 { height:33px; position: relative; }
-#search_nav2 form { position: relative; top: 5px; }
+#search_nav2 { 
+    height:33px; position: relative; 
+    form { 
+        position: relative; 
+        top: 5px; 
+    }
+}
 #footer_copy {
     display:inline;
     float: left;
@@ -354,9 +357,9 @@ a:active {
 }
 #footer_links {
     padding-right: 10px;
-}
-#footer_links span {
-    padding: 0 6px;
+    span {
+        padding: 0 6px;
+    }
 }
 
 input.srch {
@@ -2229,31 +2232,24 @@ form#feedback_form .error {
 /*******
  * FAQ
  ********/
+.faq-content li {
+    list-style: circle inside;
+}
 .faq_q {
     margin-top: 16px;
     margin-bottom: 2px;
 }
 .faq_a {
+    ul { margin-left: 2em; }
 }
 
 /************
-             Admin
-             ************/
+ Admin
+************/
 .artist-email-list {
     text-align: left;
 }
-/*
-  #bg {
-  background: url(/images/sitebg2.jpg) repeat-x;
-  float: left;
-  height: 99%;
-  left: 0px;
-  position: absolute;
-  top: 1px;
-  width: 100%;
-  z-index: -104;
-  }
-  */
+
 /* credits */
 #footer_right {
     position: relative;
@@ -2479,9 +2475,10 @@ ul.dropdown ul .first {
 }
 
 .favorites-block {
-    height: 60px;
+    padding-top: 10px;
     text-align: left;
     font-size: x-small;
+    clear: left;
     label {
         padding-bottom: 2px;
     }

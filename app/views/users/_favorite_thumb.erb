@@ -1,4 +1,6 @@
 <% 
+   style = xstyle.nil? ? "" : "style='#{xstyle}'"
+   
   if favorite.class.name == 'ArtPiece' 
     href = art_piece_path favorite;
     title = favorite.title
@@ -10,4 +12,4 @@
   end   
   wd, ht = favorite.get_min_scaled_dimensions 24
 %>
-<a href="<%= href %>"><div class="thumb <%= xclass %>" ><img src="<%= src %>" title="<%= title %>" height="<%= ht %>" width="<%= wd %>"/></div></a>
+<li <%= style %>><a href="<%= href %>"><div class="thumb <%= xclass %>" ><img src="<%= src %>" title="<%= title %>" height="<%= ht %>" width="<%= wd %>"/></div></a></li>

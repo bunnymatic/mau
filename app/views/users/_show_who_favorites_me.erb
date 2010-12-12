@@ -1,4 +1,5 @@
 <% unless page_owner.who_favorites_me.empty? %>
+<% favorites_per_row = 10 # coordinate this with javascript favorites_per_row -%>
 <div id="favorites_me" class="favorites-block">
   <div><label>who &hearts;'s 
       <% if current_user && current_user.id == page_owner.id %>
@@ -9,10 +10,13 @@
       (<%= page_owner.who_favorites_me.count %>)
   </label></div>
   <% favs = page_owner.who_favorites_me[0..8]
-     favs.each do |f| 
+     favs.each_with_index do |f,idx| 
      clz = (f == favs.last) ?"last" :""
+     if idx >= favorites_per_row
+        style = "display:none;"
+     end
      %>
-  <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz } %>
+  <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz,  :xstyle => style  } %>
   <% end %>
 </div>
 <% end %>
