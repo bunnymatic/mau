@@ -13,10 +13,10 @@ class MediaController < ApplicationController
     @freq = Medium.frequency(true)
     if !@freq.empty?
       freq = @freq.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
-      redirect_to "/media/%d" % freq[0]['medium']
+      redirect_to medium_path(Medium.find(freq[0]['medium']))
       return
     end
-    redirect_to "/media/1"
+    redirect_to medium_path(Medium.first)
   end
 
   # GET /media/1
@@ -25,7 +25,6 @@ class MediaController < ApplicationController
     @freq = Medium.frequency(true)
     @media = Medium.all
     @medium = Medium.find(params[:id])
-
     page = params[:p]
     if not page
       page = 0
@@ -33,7 +32,7 @@ class MediaController < ApplicationController
     page = page.to_i
     @results_mode = params[:m] || 'p'
 
-    items = ArtPiece.find_all_by_medium_id(params[:id])
+    items = ArtPiece.find_all_by_medium_id(@medium.id)
     
     # if show by artists, pick 1 from each artist
     if @results_mode == 'p'
@@ -47,6 +46,7 @@ class MediaController < ApplicationController
       end
       pieces = tmps.values.sort_by { |p| p.updated_at }
     end
+    pieces.reverse!
     
     @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, page, @@PER_PAGE)
     if curpage > lastpage
@@ -81,7 +81,23 @@ class MediaController < ApplicationController
     @last = lastpage + 1
     @page = curpage + 1
 
-    render :action => "show", :layout => "mau"
+    match = @medium
+    if @freq
+      @freq.each do |t|
+        mid = t["medium"]
+        ct = t["ct"]
+        (sz, mrg) = TagsHelper.fontsize_from_frequency(ct)
+        medium = @media.select do |m|
+          m.id.to_i == mid.to_i
+        end.first
+        if medium == match
+          matchclass = "tagmatch"
+        else
+          matchclass = ""
+        end
+      end
+    end
+    render :layout => "mau"
   end
 
   # GET /media/new

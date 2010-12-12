@@ -1,6 +1,8 @@
 class Medium < ActiveRecord::Base
   belongs_to :art_piece
 
+  include TagMediaMixin
+
   @@CACHE_KEY = 'medfreq'
   @@CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
 
@@ -40,10 +42,6 @@ class Medium < ActiveRecord::Base
     end
     Rails.cache.write(cache_key, meds, :expires_in => @@CACHE_EXPIRY)
     meds
-  end
-
-  def safe_name
-    self.name.gsub(' ', '&nbsp;')
   end
 
 end

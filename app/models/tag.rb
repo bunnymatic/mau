@@ -1,6 +1,8 @@
 require 'htmlhelper'
 
 class Tag < ActiveRecord::Base
+  include TagMediaMixin
+
   has_many :art_pieces_tags
   has_many :art_pieces, :through => :art_pieces_tags
 
@@ -67,8 +69,4 @@ class Tag < ActiveRecord::Base
     super(:order => 'name')
   end
 
-  def safe_name
-    HTMLHelper.encode(self.name).gsub(' ', '&nbsp;')
-  end
-  
 end

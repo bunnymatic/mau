@@ -117,6 +117,7 @@ class TagsController < ApplicationController
       end
       pieces = tmps.values.sort_by { |p| p.updated_at }
     end
+    pieces.reverse!
 
     @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, page, @@PER_PAGE)
     if curpage > lastpage

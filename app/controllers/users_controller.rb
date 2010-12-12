@@ -345,9 +345,11 @@ class UsersController < ApplicationController
         render :json => result
         return
       else
-        objname = (obj.class == Artist) ? obj.get_name : obj.title
+        objname = (obj.class == Artist) ? obj.get_name(true) : obj.title
         path = (obj.class == Artist) ? user_path(obj) : art_piece_path(obj)
-        flash[:notice] = "#{objname} has been added to your favorites."
+        msg = r ? "#{objname} has been added to your favorites.":
+          "You've already added #{objname} to your list of favorites."
+        flash[:notice] = msg
         redirect_back_or_default(obj)
       end
     else

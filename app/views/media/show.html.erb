@@ -16,10 +16,8 @@
 	  <%= render :partial => "/art_pieces/mode_selector" %>
 	</div>
 	<% if flash[:error] -%>
-	<div>
-	  <div class="error-msg">
-	    <%= flash[:error] %>
-	  </div>
+	<div class="error-msg">
+	  <%= flash[:error] %>
 	</div>
 	<% end -%>
 	<div class="search-results">
@@ -37,6 +35,7 @@
 	<div>
  	  <%= render :partial => "/pagination" %>
 	</div>
+      </div>
     </td>
   </tr>
   <%= render :partial => '/twocol_bottom' %>
