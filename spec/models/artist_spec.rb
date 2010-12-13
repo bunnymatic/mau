@@ -14,7 +14,7 @@ end
 
 describe Artist do
   include ArtistSpecHelper
-  fixtures :users, :artist_infos
+  fixtures :users, :artist_infos, :studios
 
   describe "create" do
     describe 'auth helpers' do
@@ -168,4 +168,25 @@ describe Artist do
       lambda { @a.osoct2010 }.should_not raise_error
     end
   end
+  describe "fetch address" do
+    context "without studio association" do
+      before do
+        @a = users(:artist1)
+        @a.save!
+        @b = artist_infos(:wayout)
+        @b.artist_id = @a.id
+        @b.save!
+      end
+      it "returns correct street" do
+        @a.artist_info.street.should == @b.street
+      end
+      it "returns correct address" do
+        @a.address.should include @b.street
+      end
+      it "returns correct lat/lng" do
+        @a.artist_info.lat.should be
+        @a.artist_info.lng.should be
+      end
+    end
+  end    
 end

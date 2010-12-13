@@ -1,6 +1,12 @@
 class ArtistInfo < ActiveRecord::Base
   belongs_to :artist
 
+  acts_as_mappable
+  before_validation_on_create :compute_geocode
+  before_validation_on_update :compute_geocode
+
+  include AddressMixin
+
   def representative_piece
     pc = self.representative_pieces
     if pc and pc.length 
@@ -38,4 +44,15 @@ class ArtistInfo < ActiveRecord::Base
     end
     nil
   end
+
+  protected
+    def compute_geocode
+      if 
+        # use artist's address
+        result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.addr_state || "CA", self.zip || "94110"])
+        errors.add(:street, "Unable to Geocode your address.") if !result.success
+        self.lat, self.lng = result.lat, result.lng if result.success
+      end
+    end
+
 end

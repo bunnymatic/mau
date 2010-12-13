@@ -1,7 +1,8 @@
 require 'uri'
 class Studio < ActiveRecord::Base
 
-  attr_reader :address
+  include AddressMixin
+
   has_many :artists
 
   acts_as_mappable
@@ -33,29 +34,6 @@ class Studio < ActiveRecord::Base
     end
     studios
   end
-
-  def get_full_address
-    # good for maps
-    if self.street && !self.street.empty?
-      "%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.state || "CA", self.zip || "94110"]
-    else
-      ""
-    end
-  end
-
-  def address
-    if self.street && ! self.street.empty?
-      return "%s %s" % [self.street, self.zip ]
-    end
-  end
-
-  def map_link
-    "http://maps.google.com/maps?q=%s,%s,%s %s" % [ self.street,
-                                                    self.city,
-                                                    self.state,
-                                                    self.zip.to_s ].map { |a| URI.escape(a) }
-  end
-
 
   def has_profile_image
     self.profile_image

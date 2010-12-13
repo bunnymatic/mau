@@ -182,7 +182,9 @@ div.donate-btns span {
     }
     .entry-table {
         input {
-            margin-bottom: 6px;
+        }
+        td { 
+            padding: 4px 4px;
         }
     }
         
@@ -1893,12 +1895,28 @@ div.studios .studio-list {
 }
 
 .admin-table {
+    margin-top: 40px;
     font-size: 85%;
+    td {
+        vertical-align: top;
+        padding: 3px;
+    }
+    h1 {
+        text-align:center;
+    }
+    .sortby {
+        text-align:center;
+        padding: 10px;
+    }
+    .osoct2010 {
+        text-align: left;
+    }
+    table {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
-.admin-table td {
-    vertical-align: top;
-    padding: 3px;
-}
+
 
 #admin_artist_name {
     width: 200px;

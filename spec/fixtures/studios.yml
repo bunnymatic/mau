@@ -6,6 +6,8 @@ s1890:
   state: CA
   zip: 94117
   url: http://www.1890bryant.com
+  lat: 37.7631608
+  lng: -122.4102759
 
 blue:
   name: The Blue Studio
@@ -14,6 +16,8 @@ blue:
   state: CA
   zip: 94117
   url: http://thebluestudio.org
+  lat: 37.7633243
+  lng: -122.4195114
 
 as:
   name: ActivSpace
