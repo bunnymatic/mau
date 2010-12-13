@@ -13,6 +13,8 @@ module AddressMixin
   def address
     if self.street && ! self.street.empty?
       return "%s %s" % [self.street, self.zip ]
+    else
+      ""
     end
   end
 
@@ -26,7 +28,8 @@ module AddressMixin
   end
   
   def address_hash
-    {:full => self.full_address,
+    { :geocoded => !(self.lat.nil? || self.lng.nil?),
+      :full => self.full_address,
       :simple => self.address,
       :latlng => [ self.lat, self.lng ],
       :parsed => {

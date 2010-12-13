@@ -343,13 +343,15 @@ describe ArtistsController do
       @b.artist_id = @a.id
       @b.save!
 
-      @a2 = users(:quentin)
+      @a2 = users(:joeblogs)
       @a2.studio = studios(:s1890)
       @a2.save!
       @b2 = artist_infos(:joeblogs)
       @b2.artist_id = @a2.id
       @b2.save!
+
       get :map
+      
     end
     it "returns success" do
       response.should be_success
@@ -358,10 +360,17 @@ describe ArtistsController do
       assigns(:map).should be
     end
     it "assigns roster" do
-      assigns(:roster).should have_at_least(1).artist
+      assigns(:roster).should have_at_least(1).artists
     end
     it "roster does not include artists outside of 'the mission'" do
       roster = assigns(:roster).map{|k,v| v}.flatten
+      ne = [ 37.76978184422388, -122.40539789199829 ]
+      sw = [ 37.747787573475506, -122.42919445037842 ]
+      roster.each do |a|
+        latlng = a.address_hash[:latlng]
+        (sw[0] < latlng[0] && latlng[0] < ne[0]).should be_true
+        (sw[1] < latlng[1] && latlng[1] < ne[1]).should be_true
+      end
     end
   end
   
