@@ -119,6 +119,7 @@ class UsersController < ApplicationController
     logout_keeping_session!
     user_params = {}
     type = params[:type] || @@DEFAULT_ACCOUNT_TYPE
+    params.delete :type
     user_params = params[:artist] || params[:mau_fan] || params[:user] || {}
     if user_params.empty?
       logger.debug("Failed to create account - bad/empty params")
@@ -142,12 +143,7 @@ class UsersController < ApplicationController
         @artist.url = 'http://' + @artist.url
       end
       success = @artist && @artist.valid?
-      success &&= @artist.register!
-      @artist.reload
-      if success
-        @artist.build_artist_info
-        @artist.save!
-      end
+      @artist.register! if success
       errs = @artist.errors
     elsif type == 'MAUFan' || type == 'User'
       user_params[:type] = "MAUFan"
@@ -168,6 +164,12 @@ class UsersController < ApplicationController
       # Protects against session fixation attacks, causes request forgery
       # protection if visitor resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
+      if type == 'Artist'
+        @artist.reload
+        @artist.build_artist_info
+        @artist.save!
+      end
+
       flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
       redirect_to "/"
     else

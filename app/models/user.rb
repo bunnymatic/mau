@@ -352,10 +352,11 @@ class User < ActiveRecord::Base
   def get_favorite_ids(tps)
     (self.favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
   end
-  
+
   def make_activation_code
     self.deleted_at = nil
     self.activation_code = User.make_token
   end
     
+  
 end
