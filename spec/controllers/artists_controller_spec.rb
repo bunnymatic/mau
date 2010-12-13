@@ -9,6 +9,7 @@ describe ArtistsController do
   fixtures :users
   fixtures :artist_infos
   fixtures :art_pieces
+  fixtures :studios
 
   describe "Update Artist" do
     before(:each) do
@@ -59,9 +60,18 @@ describe ArtistsController do
           response.should include_text(@old_bio)
         end
       end
+      context "update address" do
+        before(:each) do 
+          put :update, { :commit => 'submit', :artist => {:artist_info => {:street => '100 main st'}}}
+        end
+        it "contains flash notice of success" do
+          flash[:notice].should eql "Update successful"
+        end
+        it "updates user address" do
+          User.find(@logged_in_user.id).address.should include '100 main st'
+        end
+      end
     end
-      
-      
   end
 
   describe "#edit" do
@@ -118,7 +128,7 @@ describe ArtistsController do
     end
   end
  
-  describe "profile page" do
+  describe "show" do
     before(:each) do 
       @a = users(:artist1)
       @b = artist_infos(:artist1)
@@ -128,41 +138,47 @@ describe ArtistsController do
     end
 
     context "while not logged in" do
-      context "looking at an artist page" do
-        before(:each) do 
-          get :show, :id => @a.id
-        end
-        it "returns a page" do
-          response.should be_success
-        end
-        it "has a twitter share icon it" do
-          response.should have_tag '.micro-icon.twitter'
-        end
-        it "has a facebook share icon on it" do
-          response.should have_tag('.micro-icon.facebook')
-        end
-        it "has a 'favorite' icon on it" do
-          response.should have_tag('.micro-icon.heart')
-        end
-        it 'has thumbnails' do
-          response.should have_tag("#bigthumbcolumn")
-        end
-        it 'has other thumbnails' do
-          response.should have_tag('.artist-pieces')
-        end
+      before(:each) do 
+        get :show, :id => @a.id
       end
+      it "returns a page" do
+        response.should be_success
+      end
+      it "has a twitter share icon it" do
+        response.should have_tag '.micro-icon.twitter'
+      end
+      it "has a facebook share icon on it" do
+        response.should have_tag('.micro-icon.facebook')
+      end
+      it "has a 'favorite' icon on it" do
+        response.should have_tag('.micro-icon.heart')
+      end
+      it 'has thumbnails' do
+        response.should have_tag("#bigthumbcolumn")
+      end
+      it 'has other thumbnails' do
+        response.should have_tag('.artist-pieces')
+      end
+    end
+
+    it "reports cannot find artist" do
+      get :show, :id => users(:aaron).id
+      response.should have_tag('.rcol .error-msg')
+      response.body.should match(/artist you were looking for was not found/)
     end
 
     context "while logged in" do
       before do
         login_as(@a)
         @logged_in_user = @a
+        get :show, :id => @a.id
       end
+      it_should_behave_like "logged in user"
       context "looking at your own page" do
-        before(:each) do 
+        before do
           get :show, :id => @a.id
         end
-        it_should_behave_like "logged in user"
+        
         it "website is present" do
           response.should have_tag("div#u_website a[href=#{@a.url}]")
         end
@@ -174,13 +190,6 @@ describe ArtistsController do
         end
         it "should not have note icon" do
           response.should_not have_tag(".micro-icon.email")
-        end
-      end
-      context "looking for an artist that is not active" do
-        it "reports cannot find artist" do
-          get :show, :id => users(:aaron).id
-          response.should have_tag('.rcol .error-msg')
-          response.body.should match(/artist you were looking for was not found/)
         end
       end
       context "looking at someone elses page" do
@@ -325,6 +334,37 @@ describe ArtistsController do
       route_for(:controller => "artists", :action => "index").should == "/artists"
     end
   end
+
+  describe "map" do
+    before do
+      @a = users(:artist1)
+      @a.save!
+      @b = artist_infos(:wayout)
+      @b.artist_id = @a.id
+      @b.save!
+
+      @a2 = users(:quentin)
+      @a2.studio = studios(:s1890)
+      @a2.save!
+      @b2 = artist_infos(:joeblogs)
+      @b2.artist_id = @a2.id
+      @b2.save!
+      get :map
+    end
+    it "returns success" do
+      response.should be_success
+    end
+    it "assigns map" do
+      assigns(:map).should be
+    end
+    it "assigns roster" do
+      assigns(:roster).should have_at_least(1).artist
+    end
+    it "roster does not include artists outside of 'the mission'" do
+      roster = assigns(:roster).map{|k,v| v}.flatten
+    end
+  end
+  
   describe "- named routes" do
     it "should have destroyart as artists collection path" do
       destroyart_artists_path.should == "/artists/destroyart"

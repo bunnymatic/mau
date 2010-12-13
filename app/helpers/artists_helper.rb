@@ -157,7 +157,7 @@ module ArtistsHelper
     end
     html += '<div style="clear"></div>'
     if 
-      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HTMLHelper.encode(artist.get_full_address)
+      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HTMLHelper.encode(artist.full_address)
       html += '<div style="margin-top:8px">%s</div>' % lnk
     end
       

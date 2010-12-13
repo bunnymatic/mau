@@ -9,3 +9,13 @@ joeblogs:
   twitter: http://www.twitter.com/aaron
   osoct2010: true
   bio: blurp
+
+
+wayout:
+  street: 2400 40th st
+  city: san francisco
+  addr_state: ca
+  lat: 37.7420382
+  lng: -122.4981693
+
+  

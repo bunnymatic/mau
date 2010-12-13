@@ -4,10 +4,10 @@
     <table class="entry-table">
       <% if current_user[:type] == 'Artist' %>
       <% # handle user attrs
-         [ [:url, 'Website'], ].each do |key, name| -%>
+         [ [:url, 'Website'], ].each do |kk, name| -%>
       <tr>
-	<td class="input-name"><%= f.label key, name %></td>
-	<td><%= f.text_field key , :class => 'url-input' %></td>
+	<td class="input-name"><%= f.label kk, name %></td>
+	<td><%= f.text_field kk , :class => 'url-input' %></td>
 	<td class="input-err"></td>
       </tr>
       <% end -%>
@@ -16,10 +16,10 @@
 	 [:flickr, 'Flickr'],
 	 [:twitter, 'Twitter'],
 	 [:blog, 'Blog'],
-	 [:myspace, 'MySpace']].each do |key, name| %>
+	 [:myspace, 'MySpace']].each do |kk, name| %>
       <tr>
-	<td class="input-name"><%= label_tag "#{f.object_name}[artist_info[#{key}]]", name %></td>
-	<td><%= text_field_tag "#{f.object_name}[artist_info[#{key}]]", @artist_info[key], :class => 'url-input' %></td>
+	<td class="input-name"><%= label_tag "#{f.object_name}[artist_info[#{kk}]]", name %></td>
+	<td><%= text_field_tag "#{f.object_name}[artist_info[#{kk}]]", @artist_info[kk], :class => 'url-input' %></td>
 	<td class="input-err"></td>
       </tr>
       <% end -%>

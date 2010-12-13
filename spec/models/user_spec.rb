@@ -17,6 +17,52 @@ describe User, 'auth helpers' do
   end
 end
 
+describe User, 'address' do
+  fixtures :users, :artist_infos, :studios
+  it "responds to address" do
+    users(:artist1).should respond_to :address
+  end
+  it "responds to full address" do
+    users(:artist1).should respond_to :full_address
+  end
+  it "returns nothing" do
+    users(:artist1).address.should_not be
+  end
+  it "returns address after adding artist info address" do
+    aid = users(:artist1).id
+    ai = artist_infos(:wayout)
+    ai.artist_id = aid
+    ai.save
+    users(:artist1).address.should include ai.street
+  end
+  it "returns studio address after adding studio" do
+    u = users(:artist1)
+    u.studio = studios(:s1890)
+    u.save
+    users(:artist1).address.should include studios(:s1890).street
+  end
+  it "returns studio address after adding both studio and address" do
+    u = users(:artist1)
+    u.studio = studios(:s1890)
+    u.save
+    aid = u.id
+    ai = artist_infos(:wayout)
+    ai.artist_id = aid
+    ai.save
+    users(:artist1).address.should include studios(:s1890).street
+  end
+end
+
+describe User, "unavailable methods" do
+  fixtures :users
+  it "doesn't reply to old artists attributes" do
+    pending "we need to remove these fields from user when shit is working"
+    [:lat, :lng, :bio, :street, :city, :zip].each do |method|
+      users(:aaron).should_not respond_to method
+    end
+  end
+end    
+    
 describe User, 'favorites -'  do
   fixtures :users, :art_pieces
 

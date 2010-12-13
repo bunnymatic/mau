@@ -351,6 +351,7 @@ describe UsersController do
       end
     end
   end
+
   describe "favorites" do
     context "while not logged in" do
       describe "post to add favorites" do
