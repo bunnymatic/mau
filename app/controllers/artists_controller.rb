@@ -30,8 +30,17 @@ class ArtistsController < ApplicationController
     @roster_link = artists_path + HTMLHelper.queryencode(roster_args)
     @gallery_link = artists_path + HTMLHelper.queryencode(gallery_args)
     addresses = []
+
+    # mission boundaries (roughly)
+    nw = [ 37.76978184422388, -122.42683410644531 ]
+    ne = [ 37.76978184422388, -122.40539789199829 ]
+    sw = [ 37.747787573475506, -122.42919445037842 ]
+    se = [ 37.74707496171992, -122.40539789199829 ]
+    mission_bounds = Geokit::Bounds.new(Geokit::LatLng.new(*sw),
+                                        Geokit::LatLng.new(*ne))
+
     if @os_only
-      ais = ArtistInfo.find(:all, :conditions => [ 'osoct2010 = 1'] )
+      ais = ArtistInfo.find(:all, :conditions => [ 'osoct2010 = 1'])
       artists = Artist.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ])
     else
       artists = Artist.all
@@ -42,14 +51,13 @@ class ArtistsController < ApplicationController
     @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png', 
                                      :iconSize => GSize.new(64.0, 64.0)),
                            'icon_name')
-    centerx = 0
-    centery = 0
     markers = []
     @roster = {}
     nentries = 0
+
     artists.each do |a|
       address = a.address_hash
-      if address && !address[:simple].empty?
+      if !address.nil? && address[:geocoded] && !address[:simple].blank? && mission_bounds.contains?(address[:latlng])
         ky = "%s" % address[:simple]
         dx = dy = 0.0
         if !@roster[ky]
@@ -59,11 +67,9 @@ class ArtistsController < ApplicationController
           dx = 0.00015 * rand * ( rand > 0.5 ? -1.0 : 1.0 )
           dy = 0.00025 * rand * ( rand > 0.5 ? -1.0 : 1.0 )
         end
-
+        
         @roster[ky] << a
         coord = address[:latlng]
-        centerx += coord[0]
-        centery += coord[1]
         nentries += 1
         coord[0] += dx
         coord[1] += dy
@@ -76,9 +82,8 @@ class ArtistsController < ApplicationController
         @map.overlay_init(m)
       end
     end
-    center = [ centerx / nentries.to_f,
-               centery / nentries.to_f]
-    @map.center_zoom_init(center,14)
+ 
+    @map.center_zoom_on_bounds_init([sw,ne])
     @selfurl = artistsmap_url
     @inparams = params
     @inparams.delete('action')
