@@ -1101,9 +1101,18 @@ var TagMediaHelper = {
             lnk.observe('click', function(ev) {Favorites.show("#" + _id); });
           });
         });
+        blk.observe('favorite:removed', Favorites.update_favorites_block);
       });
       Favorites.show_fewer('#my_favorites');
       Favorites.show_fewer('#favorites_me');
+    },
+    update_favorites_block: function(ev) {
+      var blk = ev.target;
+      var numfavs = $(blk).select('.thumb').length;
+      var spanct = $(blk).select('.fav-count');
+      if (spanct.length) {
+        spanct[0].update(numfavs);
+      }
     },
     show: function(block_id) {
       var thumbs = $$(block_id + ' .favorite-thumbs li');
@@ -1152,7 +1161,9 @@ var TagMediaHelper = {
                                         authenticityToken: authenticityToken,
                                         format: 'json'},
 			   onSuccess: function(tr) {
+                             var blk = parent.up('.favorites-block');
                              parent.remove();
+                             blk.fire('favorite:removed');
 			   }
 			 });
       }
