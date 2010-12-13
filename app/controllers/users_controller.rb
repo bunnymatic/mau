@@ -142,7 +142,8 @@ class UsersController < ApplicationController
         @artist.url = 'http://' + @artist.url
       end
       success = @artist && @artist.valid?
-      @artist.register!
+      success &&= @artist.register!
+      @artist.reload
       if success
         @artist.build_artist_info
         @artist.save!
@@ -276,21 +277,23 @@ class UsersController < ApplicationController
   end
 
   def resend_activation
-    if params[:artist]
-      user = User.find_by_email(params[:artist][:email])
-      if user
-        user.resend_activation
-        flash[:notice] = "We sent your activation code to #{user.email}.  Please check your email for instructions."
-      else
-        flash[:error] = "We can't find any users with email #{params[:artist][:email]} in our system."
+    if request.post?
+      if params[:user]
+        user = User.find_by_email(params[:user][:email])
+        if user
+          user.resend_activation
+          flash[:notice] = "We sent your activation code to #{user.email}.  Please check your email for instructions."
+        else
+          flash[:error] = "We can't find any users with email #{params[:user][:email]} in our system."
+        end
       end
+      redirect_back_or_default('/')
     end
-    redirect_back_or_default('/')
   end
     
   def forgot
     if request.post?
-      user = User.find_by_email(params[:artist][:email])
+      user = User.find_by_email(params[:user][:email])
       if user
         if user.state == 'active'
           user.create_reset_code
@@ -301,7 +304,7 @@ class UsersController < ApplicationController
           return
         end
       else
-        flash[:error] = "No account with email #{params[:artist][:email]} exists.  Are you sure you got the correct email address?"
+        flash[:error] = "No account with email #{params[:user][:email]} exists.  Are you sure you got the correct email address?"
       end
       redirect_back_or_default('/login')
     end
