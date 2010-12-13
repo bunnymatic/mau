@@ -458,6 +458,26 @@ describe UsersController do
       end
     end          
   end
+  
+  describe "forgot" do
+    before do
+      get :forgot
+    end
+
+    it "returns sucess" do
+      get :forgot
+    end
+  end
+
+  describe "resend_activation" do
+    before do
+      get :resend_activation
+    end
+
+    it "returns sucess" do
+      get :resend_activation
+    end
+  end
 
   describe "- routes" do
     it "route controller=users, id=10, action=edit to /users/10/edit" do

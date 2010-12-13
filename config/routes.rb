@@ -17,6 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
+
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'  
   map.change_password_update '/change_password_update', :controller => 'users', :action => 'change_password_update'  
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
@@ -30,7 +31,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :artists, :member => { :update => :post, :edit => :get }, :collection => { :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get }
 
-  map.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => :post, :forgot => :get }
+  map.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get }
 
   map.new_favorite "/favorites/", :controller => 'favorites', :action => 'create', :method => :post
 
