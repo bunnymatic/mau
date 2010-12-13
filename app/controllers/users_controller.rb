@@ -127,7 +127,6 @@ class UsersController < ApplicationController
       return
     end
     if type == 'Artist'
-      user_params[:type] = "Artist"
       # studio_id is in artist info
       studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
       @artist = nil
@@ -146,7 +145,6 @@ class UsersController < ApplicationController
       @artist.register! if success
       errs = @artist.errors
     elsif type == 'MAUFan' || type == 'User'
-      user_params[:type] = "MAUFan"
       user_params[:login] = user_params[:login] || user_params[:email]
       @fan = MAUFan.new(user_params)
       if @fan.url && @fan.url.index('http') != 0
