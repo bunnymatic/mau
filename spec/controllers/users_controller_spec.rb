@@ -80,6 +80,7 @@ describe UsersController do
     end
     context "valid user params and type = MAUFan" do
       before do
+        MAUFan.any_instance.expects(:make_activation_code).at_least(1)
         post :create, :mau_fan => { :login => 'newuser',
           :password_confirmation => "blurpit", 
           :lastname => "bmatic2", 
@@ -94,7 +95,6 @@ describe UsersController do
         flash[:notice].should include_text(" email with your activation code")
       end
       context "creates an account" do
-
         before do
           @found_user = User.find_by_login("newuser")
         end
@@ -160,6 +160,7 @@ describe UsersController do
   end
   context "valid artist params and type = Artist" do
     before do
+      Artist.any_instance.expects(:make_activation_code).at_least(1)
       post :create, :artist => { :login => 'newuser2',
         :password_confirmation => "blurpt", 
         :lastname => "bmatic", 
