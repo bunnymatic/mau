@@ -166,10 +166,12 @@ class UsersController < ApplicationController
         @artist.reload
         @artist.build_artist_info
         @artist.save!
+        flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+        redirect_to "/"
+      else
+        flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
+        redirect_to login_path
       end
-
-      flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
-      redirect_to "/"
     else
       msg = "There was a problem creating your account.  If you can't solve the issues listed below, please try again later or contact the webmaster (link below). if you continue to have problems."
       flash.now[:error] = msg

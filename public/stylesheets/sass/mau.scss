@@ -942,21 +942,22 @@ img#logo
 }
 #profile_update {
     margin: auto;
+    .content-block {
+        margin: auto;
+        padding: 10px;
+        text-align:center;
+    }
+    .content-block div{
+        text-align:left;
+        margin: auto;
+        width: 400px;
+    }
+    .content-block img{
+    }
+    .error-msg {
+        margin: auto;
+    }
 }
-#profile_update .content-block {
-    margin: auto;
-    padding: 10px;
-    text-align:center;
-}
-#profile_update .content-block div{
-    text-align:left;
-    margin: auto;
-    width: 400px;
-}
-
-#profile_update .content-block img{
-}
-
 #artist_profile_name {
     float: left;
     width: 320px;

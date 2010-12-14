@@ -89,10 +89,10 @@ describe UsersController do
           :email => "bmatic2@b.com" }, :type => "MAUFan" 
       end
       it "redirects to index" do
-        response.should redirect_to( root_url )
+        response.should redirect_to( login_url )
       end
       it "sets flash indicating that activation email has been sent" do
-        flash[:notice].should include_text(" email with your activation code")
+        flash[:notice].should include_text(" ready to roll")
       end
       context "creates an account" do
         before do
@@ -101,8 +101,8 @@ describe UsersController do
         it "in the user database" do
           @found_user.should be
         end
-        it "whose state is 'pending'" do
-          @found_user.state.should be == 'pending'
+        it "whose state is 'active'" do
+          @found_user.state.should be == 'active'
         end
         it "whose type is 'MAUFan'" do
           @found_user.type == 'MAUFan'
@@ -126,10 +126,10 @@ describe UsersController do
           :email => "bmati2@b.com" }, :type => "MAUFan" 
       end
       it "redirects to index" do
-        response.should redirect_to( root_url )
+        response.should redirect_to( login_url )
       end
       it "sets flash indicating that activation email has been sent" do
-        flash[:notice].should include_text(" email with your activation code")
+        flash[:notice].should include_text(" ready to roll")
       end
       context "creates an account" do
 
@@ -139,8 +139,8 @@ describe UsersController do
         it "in the user database" do
           @found_user.should be
         end
-        it "whose state is 'pending'" do
-          @found_user.state.should be == 'pending'
+        it "whose state is 'active'" do
+          @found_user.state.should be == 'active'
         end
         it "whose type is 'MAUFan'" do
           @found_user.type == 'MAUFan'
@@ -285,7 +285,7 @@ describe UsersController do
         response.should redirect_to( new_session_path )
       end
       it "auth system should try to record referrer" do
-        request.session[:return_to].should eql("/")
+        request.session[:return_to].should eql( root_path )
       end
     end
     context "get redirects to requested page via login" do
