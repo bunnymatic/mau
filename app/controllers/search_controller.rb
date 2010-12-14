@@ -14,7 +14,6 @@ class SearchController < ApplicationController
       redirect_to('/')
       return
     end
-
     qq = params[:query]
     page = 0
     if params[:p]
@@ -33,7 +32,7 @@ class SearchController < ApplicationController
     rescue
       results = nil
     end
-    active_artists = Artist.find(:all, :conditions => ["state='active'"])
+    active_artists = Artist.active.all
     active_artist_ids = []
     active_artists.each { |a| active_artist_ids << a.id }
     # If it matches a studio, take them there
@@ -58,7 +57,7 @@ class SearchController < ApplicationController
       qs = qq.split(/\s+/)
       name_clause = ''
       
-      by_artist = (Artist.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) and state = 'active'", qq, qq, qq])).map { |a| a.representative_piece }
+      by_artist = (Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) ", qq, qq, qq])).map { |a| a.representative_piece }
     
       tag_ids = (Tag.find(:all, :conditions => ["name like ?", qq])).map { |tg| tg.id }
       tags = ArtPiecesTag.find(:all, :conditions => ["tag_id in (?)", tag_ids.uniq])

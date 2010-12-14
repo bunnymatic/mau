@@ -17,7 +17,7 @@ class Studio < ActiveRecord::Base
     s.street = "The Mission District"
     s.city = "San Francisco"
     s.state = "CA"
-    s.artists = Artist.find(:all, :conditions => ["studio_id = 0 or studio_id is NULL and ( state = 'active' )"])
+    s.artists = Artist.active.find(:all, :conditions => ["studio_id = 0 or studio_id is NULL"])
     s.profile_image = "independent-studios.jpg"
     s.image_height = 1
     s.image_width = 1
@@ -29,7 +29,7 @@ class Studio < ActiveRecord::Base
     studios = super(:order => 'name')
     studios << Studio.indy 
     studios.each do |s|
-      artists = s.artists.find(:all, :conditions => 'state = "active"')
+      artists = s.artists.active.all
       s[:num_artists] = artists.length
     end
     studios
