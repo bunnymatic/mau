@@ -32,6 +32,24 @@ describe Artist do
           @token.should_not eql(Artist.make_token)
         end
       end
+      describe "make activation token " do
+        before do
+          a = Artist.new
+          a.attributes = valid_user_attributes
+          a.should be_valid
+          @a = a
+          @token = a.make_activation_code
+        end
+        it "returns a string greater than 20 chars" do
+          @token.length.should > 20
+        end
+        it "returns a string with only numbers and letters" do
+          @token.should_not match /\W+/
+        end
+        it "when called again returns something different" do
+          @token.should_not eql(@a.make_activation_code)
+        end
+      end
     end
 
     describe "validation" do

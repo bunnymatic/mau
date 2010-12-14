@@ -3,7 +3,9 @@ class Artist < User
   has_one :artist_info
 
   has_many :art_pieces, :order => "`order` ASC, `id` DESC"
- 
+
+  before_create :make_activation_code
+
   [:representative_piece, :bio, :os2010, :osoct2010,
    :facebook, :flickr, :twitter, :blog, :myspace, 
    :bio=, 
