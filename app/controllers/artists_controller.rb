@@ -41,7 +41,7 @@ class ArtistsController < ApplicationController
 
     if @os_only
       ais = ArtistInfo.find(:all, :conditions => [ 'osoct2010 = 1'])
-      artists = Artist.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ])
+      artists = Artist.active.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ])
     else
       artists = Artist.all
     end
@@ -107,7 +107,7 @@ class ArtistsController < ApplicationController
         reverse = true
       end
     end
-    @artists = Artist.find(:all, :order => sortby)
+    @artists = Artist.active.all(:order => sortby)
     if reverse
       @artists = @artists.reverse()
     end
@@ -153,7 +153,7 @@ class ArtistsController < ApplicationController
     @os_only = is_os_only(params[:osonly])
     if @os_only
       ais = ArtistInfo.find(:all, :conditions => [ 'osoct2010 = 1'] )
-      artists = Artist.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ]).sort_by { |a| a.get_sort_name }
+      artists = Artist.active.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ]).sort_by { |a| a.get_sort_name }
       queryargs['osonly'] = "on"
     else
       artists = Artist.all.sort_by { |a| a.get_sort_name }

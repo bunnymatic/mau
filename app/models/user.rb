@@ -11,6 +11,7 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 #'jon','mrrogers','trish','trishtunney',
 
 class User < ActiveRecord::Base
+  named_scope :active, :conditions => ["state = 'active'"]
   before_destroy do |user|
     fs = Favorite.find_all_by_favoritable_id_and_favoritable_type( user.id, 'Artist')
     fs.each { |f| f.delete }
@@ -165,11 +166,6 @@ class User < ActiveRecord::Base
       # if we have any issues, not admin
       false
     end 
-  end
-
-  def self.all
-    logger.debug("Artist: Fetch from db")
-    super(:order => 'lastname, firstname', :conditions => { :activation_code => nil, :state => "active"})
   end
 
   def os2010?
