@@ -586,11 +586,7 @@ var TagMediaHelper = {
 	    }
 	  }
 	}
-	if ('cache' in ap) {
-	  img.appear();
-	} else {
-	  setTimeout(function() {img.appear();}, 50);
-	}
+	img.show();
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {
           $favs[0].setAttribute('fav_id', ap.id);
@@ -622,7 +618,6 @@ var TagMediaHelper = {
       T.Helpers.update_highlight();
       location.hash = "#" + ap.id;
       var img = $('artpiece_img');
-      img.setOpacity(0);
       if (T.APCache[ap.id]) {
 	var a = T.APCache[ap.id];
 	T.Helpers.update_info(a);
