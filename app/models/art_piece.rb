@@ -23,9 +23,11 @@ class ArtPiece < ActiveRecord::Base
 
   def destroy
     id = self.id
+    klassname = self.class.name
     super
     # remove all tag entries from ArtPiecesTags
     ArtPiecesTag.delete_all ["art_piece_id = ? ", id]
+    Favorite.delete_all ["favoritable_id = ? and favoritable_type = ?", id, klassname]
   end
 
   def get_paths()

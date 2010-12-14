@@ -444,7 +444,19 @@ describe UsersController do
             favs = u.favorites
             favs.map { |f| f.favoritable_id }.should include @ap.id
           end
-          
+          context "then artist removes that artpiece" do
+            before do
+              @ap.destroy
+            end
+            it "art_piece is no longer in users favorite list" do
+              u = User.find(@u.id)
+              u.favorites.should_not include @ap.id
+            end
+            it "art_piece owner should no longer have user in their favorite list" do
+              a = Artist.find(@ap.artist_id)
+              a.who_favorites_me.should_not include @u
+            end
+          end
         end
       end
       context "add a favorite bogus model" do
