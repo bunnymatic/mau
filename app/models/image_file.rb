@@ -6,7 +6,7 @@ require 'pathname'
 class ImageFile
 
   @@IMG_SERVERS = ['']
-  @@FILENAME_CLEANER = Regexp.new('\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\'\ ')
+  @@FILENAME_CLEANER = '/[\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\'/'
   if Conf.image_servers
     Conf.image_servers.each do |svr|
       @@IMG_SERVERS << svr
@@ -70,7 +70,8 @@ class ImageFile
     destfile = ts.to_s + File.basename(upload.original_filename) if !destfile
     # make filename something nice
     destfile.gsub!(@@FILENAME_CLEANER,'')
-    dir = File.join( destdir)
+    destfile.gsub!(/ /,'')
+    dir = destdir
     path = File.join(dir, File.basename(destfile))
     if !File.exists?(dir)
       result = FileUtils.mkdir_p(dir) 

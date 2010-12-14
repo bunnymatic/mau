@@ -1,8 +1,11 @@
 class UserObserver < ActiveRecord::Observer
   def after_create(user)
-    mailer_class = user.is_artist? ? ArtistMailer : UserMailer
-    user.reload
-    mailer_class.deliver_signup_notification(user)
+    if user.is_artist?
+      user.reload
+      ArtistMailer.deliver_signup_notification(user)
+    else
+      user.activate!
+    end
   end
 
   def after_save(user)
