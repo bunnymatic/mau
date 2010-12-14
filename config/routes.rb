@@ -33,7 +33,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get }
 
-  map.new_favorite "/favorites/", :controller => 'favorites', :action => 'create', :method => :post
+  map.favorites "/favorites/", :controller => 'favorites', :action => "index"
 
   map.resource :session
 

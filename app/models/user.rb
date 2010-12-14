@@ -17,27 +17,14 @@ class User < ActiveRecord::Base
     fs.each { |f| f.delete }
   end
 
-  @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
-
   attr_reader :emailsettings, :fullname
 
   has_many :favorites do
     def to_obj
       deletia = []
-      result = (proxy_owner.favorites.each.map { |f| 
-        if @@FAVORITABLE_TYPES.include? f.favoritable_type
-          begin
-            f.favoritable_type.constantize.find(f.favoritable_id)
-          rescue ActiveRecord::RecordNotFound
-            deletia << f
-            nil
-          end
-        end
-      }).select { |item| !item.nil? }
-      deletia.each { |d| 
-        d.destroy
-      }
-      result
+      (proxy_owner.favorites.map { |f| 
+         f.to_obj
+       }).select { |item| !item.nil? }
     end
   end
 
