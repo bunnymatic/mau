@@ -794,18 +794,22 @@ div.feedtitle  {
     margin-top: 10px;
 }
 
-#all_artists_page {padding-bottom: 20px;}
-#all_artists_page h4 { text-align:center; }
-
-#map_page,#all_artists_page {
+#all_artists_page {
+    padding-bottom: 20px;
     margin:auto;
     width:800px;
+    h4 { 
+        text-align:center; 
+    }
 }
 
-#map_page .navlinks,
-#map_page .map-os-switch {
-    padding-top: 25px;
-    padding-bottom: 5px;
+#map_page{
+    margin:auto;
+    width:800px;
+    & .navlinks, & .map-os-switch {
+        padding-top: 25px;
+        padding-bottom: 5px;
+    }
 }
 
 
