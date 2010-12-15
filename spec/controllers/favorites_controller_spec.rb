@@ -53,8 +53,8 @@ describe FavoritesController do
           response.should be_success
         end
         it "shows the favorites sections" do
-          response.should have_tag('h5', :text => 'Artists')
-          response.should have_tag('h5', :text => 'Art Pieces')
+          response.should have_tag('h5', :include_text => 'Artists')
+          response.should have_tag('h5', :include_text => 'Art Pieces')
         end
         it "shows the 1 art piece favorite" do
           pending "can't figure out how to stub out the helper method draw_favorite"
