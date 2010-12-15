@@ -11,7 +11,11 @@
     name = v[:name]
     data = v[:data]
 -%>
-<tr><td><%= v[:name] %></td><td><%= v[:data] %></td><td><span style="padding-left: 10px; font-size:x-small"><a href="emaillist?listname=<%= k %>">(List of Emails)</a></span></td></tr>
+<tr><td><%= v[:name] %></td><td><%= v[:data] %></td><td>
+    <% if !v[:noemail] %>
+    <span style="padding-left: 10px; font-size:x-small"><a href="emaillist?listname=<%= k %>">(List of Emails)</a></span>
+    <% end %>
+</td></tr>
 <%
   end 
 -%>

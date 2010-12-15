@@ -59,6 +59,7 @@ class AdminController < ApplicationController
     introuble = Artist.count(:conditions => "state='pending'")
     noprofile = Artist.count(:conditions => "state='active' and profile_image is not null")
     octos = ArtistInfo.count(:conditions => "osoct2010 = 1")
+
     sql = ActiveRecord::Base.connection()
     query = "select count(*) ct from users where state='active' and id not in (select distinct artist_id from art_pieces);"
 
@@ -67,13 +68,34 @@ class AdminController < ApplicationController
     cur.each_hash do |h|
       noimages << h['ct']
     end
+
+    sql = ActiveRecord::Base.connection()
+    query = "select favoritable_type tp, count(*) ct from favorites group by favoritable_type"
+
+    favorited = {}
+    cur = sql.execute query
+    cur.each_hash do |h|
+      favorited[h['tp']] = h['ct']
+    end
+
+    sql = ActiveRecord::Base.connection()
+    query = "select count(distinct user_id) ct from favorites"
+
+    users_using_favorites = []
+    cur = sql.execute query
+    cur.each_hash do |h|
+      users_using_favorites << h['ct']
+    end
     
     d = {:accounts => { :name => "Total Accounts", :data => accounts },
       :activated => { :name => "Activated", :data => activated },
       :pending => { :name => "Pending (not yet activated)", :data => introuble },
       :noprofile => { :name => "No Profile Image", :data => noprofile },
       :noimages => { :name => "No Uploaded Art", :data => noimages },
-      :octos2010 => { :name => "Oct OS Checked", :data => octos }
+      :octos2010 => { :name => "Oct OS Checked", :data => octos },
+      :favorited_artists => { :name => "Num times artist has been favorited", :data => favorited['Artist'], :noemail => true },
+      :favorited_art_pieces => { :name => "Num times art pieces has been favorited", :data => favorited['ArtPiece'],  :noemail => true},
+      :users_using_favorites => { :name => "Users using favorites", :data => users_using_favorites, :noemail => true }
     }
 
     @artpieces = artpieces
