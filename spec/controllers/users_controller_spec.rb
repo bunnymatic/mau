@@ -195,7 +195,7 @@ describe UsersController do
     end
   end
 
-  describe "GET show" do
+  describe "show" do
     before(:each) do
       @a = users(:artist1)
       @u = users(:aaron)
@@ -223,13 +223,21 @@ describe UsersController do
         end
       end
     end
-    context "while logged in" do
+    context "while logged in as an user" do
       before(:each) do 
-        login_as(@a)
-        @logged_in_user = @a
+        login_as(@u)
+        @logged_in_user = @u
         get :show
       end
       it_should_behave_like "logged in user"
+      it "has sidebar nav when i look at my page" do
+        get :show, :id => @u.id
+        response.should have_tag('#sidebar_nav')
+      end
+      it "has no sidebar nav when i look at someone elses page" do
+        get :show, :id => users(:artfan).id
+        response.should_not have_tag('#sidebar_nav')
+      end
     end
   end
   describe "GET edit" do
