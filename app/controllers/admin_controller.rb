@@ -92,21 +92,31 @@ class AdminController < ApplicationController
       users_using_favorites << h['ct']
     end
     
-    d = {:accounts => { :name => "Total Accounts", :data => accounts },
-      :fans => { :name => "Fans", :data => fans },
-      :artists => { :name => "Artists", :data => artists },
+    accts = {
+        :accounts => { :name => "Total Accounts", :data => accounts },
+        :fans => { :name => "Fans", :data => fans },
+        :artists => { :name => "Artists", :data => artists },
+    }
+    
+    favinfo = {
+      :favorited_artists => { :name => "Num times artist has been favorited", :data => favorited['Artist'], :noemail => true },
+      :favorited_art_pieces => { :name => "Num times art pieces has been favorited", :data => favorited['ArtPiece'],  :noemail => true},
+      :users_using_favorites => { :name => "Users using favorites", :data => users_using_favorites, :noemail => true }
+    }
+    
+    d = {
       :activated => { :name => "Activated Artists", :data => activated },
       :pending => { :name => "Pending (not yet activated)", :data => introuble },
       :noprofile => { :name => "No Profile Image", :data => noprofile },
       :noimages => { :name => "No Uploaded Art", :data => noimages },
       :octos2010 => { :name => "Oct OS Checked", :data => octos },
-      :favorited_artists => { :name => "Num times artist has been favorited", :data => favorited['Artist'], :noemail => true },
-      :favorited_art_pieces => { :name => "Num times art pieces has been favorited", :data => favorited['ArtPiece'],  :noemail => true},
-      :users_using_favorites => { :name => "Users using favorites", :data => users_using_favorites, :noemail => true }
     }
 
     @artpieces = artpieces
-    @artiststats = d
+    @stats = { :accounts => accts,
+      :artists => d,
+      :favorites => favinfo }
+    
   end
 
   def artists_per_day
