@@ -343,6 +343,36 @@ a {
 }
 #artisthemission { float: left; margin-left: 8px; }
 #nav_bar {}
+#sidebar_nav {
+    width:200px;
+    margin: 16px auto;
+    border: 1px solid #444;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    a { 
+        position: relative; 
+        letter-spacing: 0.1em;
+    }
+    ul {
+    }
+    li { 
+        padding: 2px 12px 3px;
+        text-align: left;
+        line-height: 24px;
+        vertical-align: middle;
+        &:hover {
+            background: #222;
+        }
+    }
+    
+    .heart {
+        float: left;
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+        margin-top: 4px;
+    }
+}
 
 #footer_links,
 #nav_bar,
@@ -1187,16 +1217,17 @@ div.tiny-thumb-sel {
 
 #artpiece_img{
     border: 1px solid #444;
+    min-width: 60px;
 }
 
-.artpiece-browser-container {
+.browser-buttons {
     font-size: 80%;
-    margin: 20px 0 5px 0;
-}
-
-.artpiece-browser-container td {
-    padding: 2px 0 4px 0;
-    vertical-align:top;
+    margin: 20px auto 5px;
+    width: 140px;
+    height: 14px;
+    .next, .prev, .middle {
+        float: left;
+    }
 }
 
 /* for thumb_browser 2

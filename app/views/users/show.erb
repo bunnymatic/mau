@@ -3,7 +3,9 @@
   <tr>    
     <td> </td>
     <td class="alt-lcol" align="center">
+      <% if current_user && @fan == current_user -%>
       <%= render :partial => "/users/sidebar_nav" %>
+      <% end -%>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
     <td class="rcol" align="center" ><!-- artists/show -->
@@ -41,11 +43,6 @@
 		<%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @fan } %>
               </div>
               <div class="clear"></div>
-	      <% if logged_in? and @fan.id == current_user.id -%>
-	      <div id="profile_edit_ctrls">
-		<a class="lksubtle" href="<%= edit_user_path(current_user) %>"><span>edit my page</span></a>
-	      </div>
-	      <% end -%>
             </div>
             <% end -%>
 	    <div id="artist_profile_img">

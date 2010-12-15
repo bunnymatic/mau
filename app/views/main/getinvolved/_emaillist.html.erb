@@ -6,10 +6,10 @@
       <td class="getinv-form-container">
 	<div id="bemail_input" class="getinv-input" >
 	  <% if logged_in? -%>
-	  <div class="little-txt">Ya know, since you are a registered artist, we already have your email on our list?</div>
+	  <div class="little-txt">Ya know, since you are a registered artist, we already have your email on our list.</div>
 	  <% end -%>
 	  <%= f.label 'email' %>
-	  <%= f.text_field 'email' %>
+	  <%= f.text_field 'email', :value => current_user ? current_user.email : '' %>
 	  <%= f.submit 'Send' %>
 	</div>
       </td>

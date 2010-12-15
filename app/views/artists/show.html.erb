@@ -3,7 +3,9 @@
   <tr>    
     <td> </td>
     <td class="alt-lcol" align="center">
+      <% if current_user && @artist == current_user -%>
       <%= render :partial => "/users/sidebar_nav" %>
+      <% end -%>
       <%= render :partial => "big_thumb_column" %>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
@@ -68,11 +70,6 @@
               <%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist } %>
 	    </div>
             <div class="clear"></div>
-	    <% if logged_in? and @artist.id == current_user.id -%>
-	    <div id="profile_edit_ctrls">
-	      <a class="lksubtle" href="<%= edit_artist_path(current_user) %>"><span>edit my page</span></a>
-	    </div>
-	    <% end -%>
 	  </div>
 	  <% if logged_in? && @artist && @artist.login == self.current_user.login -%>
 	  <!-- <%= render :partial => '/deadline_announcement' %>  -->
@@ -119,14 +116,6 @@
 <div class="clear" ></div>
 
 <div class="artist-pieces">
-  <% if logged_in? && @artist.id == current_user.id -%>
-  <div id="artpiece_edit_ctrls">
-    <a class="lksubtle" href="<%= new_art_piece_path %>"><span>add art</span></a>
-    <a class="lksubtle" href="<%= arrangeart_artists_path %>"><span>arrange</span></a>
-    <a class="lksubtle" href="<%= deleteart_artists_path %>"><span>delete</span></a>
-    <b> </b>
-  </div>
-  <% end -%>
   <% if @artist.art_pieces -%>
   <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }} %>
   <% else -%>
