@@ -12,21 +12,24 @@ class AdminController < ApplicationController
     artists = []
     arg = params[:listname]
     case arg
+    when 'fans'
+      @title = "Fans"
+      fans = Users.find(:all, :conditions => "type <> 'Artist'")
     when 'octos2010'
       @title = "Oct OS Checked"
-      artists = Artist.find(:all, :conditions => [ "state='active' and osoct2010=1" ])
+      artists = Artist.active.find(:all, :conditions => "osoct2010=1")
     when 'activated'
       @title = "All Activated Artsts"
-      artists = Artist.find(:all, :conditions => [ "state='active'" ])
+      artists = Artist.active.all
     when 'accounts'
-      @title = "All Accounts - active, suspended, pending etc *ALL*"
-      artists = Artist.find(:all)
+      @title = "All Artist Accounts - active, suspended, pending etc *ALL*"
+      artists = Artist.all
     when 'pending'
       @title = "Not yet activated artists"
       artists = Artist.find(:all, :conditions => [ "state='pending'" ])
     when 'noprofile'
       @title = "Artists who haven't submitted a profile picture"
-      artists = Artist.find(:all, :conditions => [ "state='active' and profile_image is null" ])
+      artists = Artist.active.find(:all, :conditions => [ "profile_image is null" ])
     when 'noimages'
       @title = "Artists who have not uploaded any images"
       sql = ActiveRecord::Base.connection()
@@ -53,11 +56,13 @@ class AdminController < ApplicationController
   end
 
   def stats
-    activated = Artist.count(:conditions => "state='active'")
-    accounts = Artist.count
+    activated = Artist.active.count
+    accounts = User.count
+    fans = User.count(:conditions => "type <> 'Artist'")
+    artists = accounts - fans
     artpieces = ArtPiece.count
     introuble = Artist.count(:conditions => "state='pending'")
-    noprofile = Artist.count(:conditions => "state='active' and profile_image is not null")
+    noprofile = Artist.active.count(:conditions => "profile_image is not null")
     octos = ArtistInfo.count(:conditions => "osoct2010 = 1")
 
     sql = ActiveRecord::Base.connection()
@@ -88,7 +93,9 @@ class AdminController < ApplicationController
     end
     
     d = {:accounts => { :name => "Total Accounts", :data => accounts },
-      :activated => { :name => "Activated", :data => activated },
+      :fans => { :name => "Fans", :data => fans },
+      :artists => { :name => "Artists", :data => artists },
+      :activated => { :name => "Activated Artists", :data => activated },
       :pending => { :name => "Pending (not yet activated)", :data => introuble },
       :noprofile => { :name => "No Profile Image", :data => noprofile },
       :noimages => { :name => "No Uploaded Art", :data => noimages },
