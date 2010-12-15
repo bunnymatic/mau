@@ -185,6 +185,10 @@ describe ArtistsController do
         it "facebook is present and correct" do
           response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
         end
+        it "has sidebar nav when i look at my page" do
+          get :show, :id => @a.id
+          response.should have_tag('#sidebar_nav')
+        end
         it "should not have heart icon" do
           response.should_not have_tag(".action-icons .micro-icon.heart")
           response.should have_tag("#sidebar_nav .micro-icon.heart")
@@ -235,6 +239,9 @@ describe ArtistsController do
       it_should_behave_like "not logged in"
       it "website is present" do
         response.should have_tag("div#u_website a[href=#{@a.url}]")
+      end
+      it "has no sidebar nav " do
+        response.should_not have_tag('#sidebar_nav')
       end
       it "facebook is present and correct" do
         response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
