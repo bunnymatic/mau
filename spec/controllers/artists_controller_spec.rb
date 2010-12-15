@@ -186,7 +186,8 @@ describe ArtistsController do
           response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
         end
         it "should not have heart icon" do
-          response.should_not have_tag(".micro-icon.heart")
+          response.should_not have_tag(".action-icons .micro-icon.heart")
+          response.should have_tag("#sidebar_nav .micro-icon.heart")
         end
         it "should not have note icon" do
           response.should_not have_tag(".micro-icon.email")
