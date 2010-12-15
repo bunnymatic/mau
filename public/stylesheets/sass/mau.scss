@@ -599,7 +599,7 @@ span.micro-icon {
 }
 
 .feed-entries, .feed-studio-list {
-    border: 1px #333333 dotted;
+    border: 1px #444 dotted;
     margin: 5px 8px 8px 0px;
     padding: 2px 5px 5px 5px;
     text-align:left;
@@ -2545,5 +2545,41 @@ ul.dropdown ul .first {
         position: absolute;
         bottom: 0;
         right: 0;
+    }
+}
+
+#favorites_page {
+    .favorites {
+        width: 710px;
+        margin: auto;
+    }
+    li {
+        float: left;
+        width: 202px;
+        margin: 16px 16px 34px;
+        height: 212px;
+        position: relative;
+        div { 
+            text-align: center;
+            &.thumb {
+                border: 1px dotted #444;
+            }
+            img {
+                margin-top:2px;
+            }
+            &.name {
+                border: 1px solid #444;
+                background : #222;
+                text-align: center;
+                width: 200px;
+                line-height: 24px;
+                position: absolute;
+                top: 100%;
+            }
+        }
+    }
+    h5 {
+        padding-top: 24px;
+        margin-left: 16px;
     }
 }

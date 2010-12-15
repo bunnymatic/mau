@@ -10,73 +10,78 @@
    %><div id="search_nav2"><form id="search_form" action="/search" method="get"><input id="search_box" class="srch" type="text" name="query" size="14"/></form></div>
    <div id="nav_bar">
      <div class="nav">
-	   <div>
-		 <ul id="mymaunav" class="dropdown">
-		   <% if logged_in? -%>
-                   <%   if current_artist -%>
-		   <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
-			 <ul>
-			   <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit my page</a></li>
-			   <li class="leaf"><a href="/art_pieces/new">add art</a></li>
-			   <li class="leaf"><a href="<%= arrangeart_artists_path %>">arrange art</a></li>
-			   <li class="leaf last"><a href="<%= deleteart_artists_path %>">delete art</a></li>
-			 </ul>
-		   </li>
-                   <%   else -%>
-		   <li class="dir"><%= link_to "my&nbsp;mau", user_path(current_user), { :class => "lknav" } %>
-		   </li>
-                   <%   end -%>
-		   <% else -%>
-		   <li class="dir"><%= link_to "join in!", "/login", { :class => "lknav" } %></li>
-		   <% end -%>
-		 </ul>
-	   </div>
-<%	   [ ['news','/news/'],
-  	     ['venues','/venues'],
-  	     ['studios','/studios/'] ].each do |nm,lk,clz| -%>
-	   <div>
-		 <ul class="dropdown <%= clz %>">
-		   <li class="dir">
-			 <a class="lknav" href="<%= lk %>" title="<%=h nm %>"><%=h nm %></a>
-		   </li>
-		 </ul>
-	   </div>
+       <div>
+	 <ul id="mymaunav" class="dropdown">
+	   <% if logged_in? -%>
+           <%   if current_artist -%>
+	   <li class="dir"><%= link_to "my&nbsp;mau", current_artist, { :class => "lknav" } %>
+	     <ul>
+	       <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit my page</a></li>
+	       <li class="leaf"><a href="/art_pieces/new">add art</a></li>
+	       <li class="leaf"><a href="<%= arrangeart_artists_path %>">arrange art</a></li>
+	       <li class="leaf"><a href="<%= deleteart_artists_path %>">delete art</a></li>
+	       <li class="leaf last"><a href="<%= favorites_path %>">my favorites</a></li>
+	     </ul>
+	   </li>
+           <%   else -%>
+	   <li class="dir"><%= link_to "my&nbsp;mau", user_path(current_user), { :class => "lknav" } %>
+	     <ul>
+	       <li class="leaf first"><a href="<%= edit_user_path(current_user) %>">edit my page</a></li>
+	       <li class="leaf last"><a href="<%= favorites_path %>">my favorites</a></li>
+             </ul>
+	   </li>
+           <%   end -%>
+	   <% else -%>
+	   <li class="dir"><%= link_to "join in!", "/login", { :class => "lknav" } %></li>
 	   <% end -%>
-	   <div >
-		 <ul id="artistsnav" class="dropdown first">
-		   <li class="dir">
-			 <a class="lknav" href="<%= artists_path %>" title="artists">artists</a>
-			 <ul>
-			   <li class="first leaf">
-				 <a href="<%= artists_path %>" title="all artists">all artists</a>
-			   </li>
-<% if Conf.oslive %>                           
-			   <li class="leaf">
-				 <a href="<%= artists_path(:osonly => 1) %>" title="open studios artists">open studios artists</a>
-			   </li>
-<% end %>                           
-			   <li class="leaf">
-				 <a href="<%= artistsmap_path %>" title="artists by map">artists by map</a>
-			   </li>
-			   <li class="leaf">
-				 <a href="<%= media_path :m => 'a' %>" title="artists by medium">artists by medium</a>
-			   </li>
-			   <li class="<%= Conf.oslive ? '': 'last' %> leaf">
-				 <a href="<%= tags_path :m => 'a' %>" title="artists by tag">artists by tag</a>
-			   </li>
-
-<% if Conf.oslive %>                           
-			   <li class="leaf">
-				 <a href="<%= artistsmap_path(:osonly => 1) %>" title="map of open studios artists">open studios map</a>
-			   </li>
-			   <li class="last leaf">
-				 <a href="/main/openstudios" title="what is open studios?">open studios?</a>
-			   </li>
-<% end %>
-			 </ul>
-		   </li>
-		 </ul>
-	   </div>
+	 </ul>
+       </div>
+       <%	   [ ['news','/news/'],
+  	           ['venues','/venues'],
+  	           ['studios','/studios/'] ].each do |nm,lk,clz| -%>
+       <div>
+	 <ul class="dropdown <%= clz %>">
+	   <li class="dir">
+	     <a class="lknav" href="<%= lk %>" title="<%=h nm %>"><%=h nm %></a>
+	   </li>
+	 </ul>
+       </div>
+       <% end -%>
+       <div >
+	 <ul id="artistsnav" class="dropdown first">
+	   <li class="dir">
+	     <a class="lknav" href="<%= artists_path %>" title="artists">artists</a>
+	     <ul>
+	       <li class="first leaf">
+		 <a href="<%= artists_path %>" title="all artists">all artists</a>
+	       </li>
+               <% if Conf.oslive %>                           
+	       <li class="leaf">
+		 <a href="<%= artists_path(:osonly => 1) %>" title="open studios artists">open studios artists</a>
+	       </li>
+               <% end %>                           
+	       <li class="leaf">
+		 <a href="<%= artistsmap_path %>" title="artists by map">artists by map</a>
+	       </li>
+	       <li class="leaf">
+		 <a href="<%= media_path :m => 'a' %>" title="artists by medium">artists by medium</a>
+	       </li>
+	       <li class="<%= Conf.oslive ? '': 'last' %> leaf">
+		 <a href="<%= tags_path :m => 'a' %>" title="artists by tag">artists by tag</a>
+	       </li>
+               
+               <% if Conf.oslive %>                           
+	       <li class="leaf">
+		 <a href="<%= artistsmap_path(:osonly => 1) %>" title="map of open studios artists">open studios map</a>
+	       </li>
+	       <li class="last leaf">
+		 <a href="/main/openstudios" title="what is open studios?">open studios?</a>
+	       </li>
+               <% end %>
+	     </ul>
+	   </li>
+	 </ul>
+       </div>
      </div>
    </div>
 </div>
