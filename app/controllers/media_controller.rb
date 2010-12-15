@@ -36,7 +36,7 @@ class MediaController < ApplicationController
     
     # if show by artists, pick 1 from each artist
     if @results_mode == 'p'
-      pieces = items.sort_by { |i| i.updated_at }
+      pieces = items.sort_by { |i| i.updated_at }.reverse
     else
       tmps = {}
       items.each do |pc|
@@ -44,7 +44,7 @@ class MediaController < ApplicationController
           tmps[pc.artist_id] = pc
         end
       end
-      pieces = tmps.values.sort_by { |p| p.updated_at }
+      pieces = tmps.values.sort_by { |p| p.updated_at }.reverse
     end
     pieces.reverse!
     
