@@ -106,7 +106,7 @@ class TagsController < ApplicationController
 
     # if show by artists, pick 1 from each artist
     if @results_mode == 'p'
-      pieces = results.map { |k,v| v }.sort_by { |p| p.updated_at }
+      pieces = results.map { |k,v| v }.sort_by { |p| p.updated_at }.reverse
     else
       tmps = {}
       results.values.each do |pc|
@@ -115,7 +115,7 @@ class TagsController < ApplicationController
           tmps[pc.artist_id] = pc
         end
       end
-      pieces = tmps.values.sort_by { |p| p.updated_at }
+      pieces = tmps.values.sort_by { |p| p.updated_at }.reverse
     end
     pieces.reverse!
 
