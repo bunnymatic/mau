@@ -2,10 +2,20 @@
 <div id="favorites_page">
   <h4><%= current_user.get_name true %>'s Favorites</h4>
   <div class="favorites">
-    <ul>
-      <% current_user.favorites.each do |f| %>
-      <li><%= draw_favorite(f.to_obj, @style); %></li>
+    <div class="little-txt td-right navlinks"><!-- nav --></div>
+    <h5>Art Pieces</h5>    
+    <ul class="art_pieces">
+      <% current_user.fav_art_pieces.each do |f| %>
+      <li><%= draw_favorite(f, @style); %></li>
       <% end -%>
     </ul>
+    <div class="clear"></div>
+    <h5>Artists</h5>
+    <ul class="artists">
+      <% current_user.fav_artists.each do |f| %>
+      <li><%= draw_favorite(f, @style); %></li>
+      <% end -%>
+    </ul>
+    <div class="clear"></div>
   </div>
 </div>

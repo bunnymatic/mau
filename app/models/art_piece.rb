@@ -40,6 +40,10 @@ class ArtPiece < ActiveRecord::Base
     htags.values
   end
 
+  def get_name(escape = false)
+    escape ? safe_title : self.title
+  end
+
   def safe_title
     HTMLHelper.encode(self.title)
   end
