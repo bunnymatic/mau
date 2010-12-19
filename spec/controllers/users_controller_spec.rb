@@ -10,11 +10,11 @@ describe UsersController do
   fixtures :art_pieces
 
   it "actions should fail if not logged in" do
-    controller_actions_should_fail_if_not_logged_in(:user, :except => [:index, :show, :artists, :resend_activation,
-                                                                       :forgot, :unsuspend, :destroy, 
-                                                                       :create, :new, 
-                                                                       :activate, :notify, :noteform, 
-                                                                       :add_favorite, :purge])
+    exceptions = [:index, :show, :artists, :resend_activation, :favorites,
+                  :forgot, :unsuspend, :destroy, :create, :new, :activate, 
+                  :notify, :noteform, :purge]
+    controller_actions_should_fail_if_not_logged_in(:user, 
+                                                    :except => exceptions)
   end
   describe "new" do
     before do
@@ -361,122 +361,134 @@ describe UsersController do
   end
 
   describe "favorites" do
-    context "while not logged in" do
-      describe "post to add favorites" do
+    context "show" do
+      context "while not logged in" do
         before do
-          post :add_favorite
+          get :favorites, :id => users(:aaron).id
         end
-        it_should_behave_like "redirects to login"
+        it "returns sucess" do
+          response.should be_success
+        end
       end
-      describe "post remove_favorites" do
-        before do
-          post :remove_favorite
+    end 
+    context "editing" do
+      context "while not logged in" do
+        describe "post to add favorites" do
+          before do
+            post :add_favorite
+          end
+          it_should_behave_like "redirects to login"
         end
-        it_should_behave_like "redirects to login"
+        describe "post remove_favorites" do
+          before do
+            post :remove_favorite
+          end
+          it_should_behave_like "redirects to login"
+        end
       end
-    end
-    context "requesting anything but a post" do
-      it "redirects to login" do
-        put :add_favorite
-        response.should redirect_to(new_session_path)
-        delete :add_favorite
-        response.should redirect_to(new_session_path)
-        get :add_favorite
-        response.should redirect_to(new_session_path)
+      context "requesting anything but a post" do
+        it "redirects to login" do
+          put :add_favorite
+          response.should redirect_to(new_session_path)
+          delete :add_favorite
+          response.should redirect_to(new_session_path)
+          get :add_favorite
+          response.should redirect_to(new_session_path)
+        end
       end
-    end
-    context "while logged in" do
-      before do 
-        @u = users(:quentin)
-        login_as(@u)
-        @a = users(:artist1)
-        @ap = art_pieces(:namewithtag) 
-        @ap.artist = @a
-        @ap.save.should be_true      end
-      context "add a favorite artist" do
-        before do
-          post :add_favorite, :fav_type => 'Artist', :fav_id => @a.id
-        end
-        it "returns success" do
-          response.should redirect_to(artist_path(@a))
-        end
-        it "adds favorite to user" do
-          u = User.find(@u.id)
-          favs = u.favorites
-          favs.map { |f| f.favoritable_id }.should include @a.id
-        end
-        context "then remove that artist from favorites" do
-          before do 
-            post :remove_favorite, :fav_type => "Artist", :fav_id => @a.id
+      context "while logged in" do
+        before do 
+          @u = users(:quentin)
+          login_as(@u)
+          @a = users(:artist1)
+          @ap = art_pieces(:namewithtag) 
+          @ap.artist = @a
+          @ap.save.should be_true      end
+        context "add a favorite artist" do
+          before do
+            post :add_favorite, :fav_type => 'Artist', :fav_id => @a.id
           end
           it "returns success" do
             response.should redirect_to(artist_path(@a))
           end
-          it "that artist is no longer a favorite" do
-            u = User.find(@u.id)
-            favs = u.favorites
-            favs.map { |f| f.favoritable_id }.should_not include @a.id
-          end
-        end
-      end
-      context "add a favorite art_piece" do
-        context "as ajax post(xhr)" do
-          before do
-            xhr :post, :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
-          end
-          it "returns success" do
-            response.should be_success
-          end
           it "adds favorite to user" do
             u = User.find(@u.id)
             favs = u.favorites
-            favs.map { |f| f.favoritable_id }.should include @ap.id
+            favs.map { |f| f.favoritable_id }.should include @a.id
           end
-          it "returns json data" do
-            response_should_be_json
-          end
-        end
-        context "as standard POST" do
-          before do
-            post :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
-          end
-          it "returns success" do
-            response.should redirect_to(art_piece_path(@ap))
-          end
-          it "sets flash with escaped name" do
-            flash[:notice].should include '&lt;script&gt;'
-          end
-          it "adds favorite to user" do
-            u = User.find(@u.id)
-            favs = u.favorites
-            favs.map { |f| f.favoritable_id }.should include @ap.id
-          end
-          context "then artist removes that artpiece" do
-            before do
-              @ap.destroy
+          context "then remove that artist from favorites" do
+            before do 
+              post :remove_favorite, :fav_type => "Artist", :fav_id => @a.id
             end
-            it "art_piece is no longer in users favorite list" do
+            it "returns success" do
+              response.should redirect_to(artist_path(@a))
+            end
+            it "that artist is no longer a favorite" do
               u = User.find(@u.id)
-              u.favorites.should_not include @ap.id
-            end
-            it "art_piece owner should no longer have user in their favorite list" do
-              a = Artist.find(@ap.artist_id)
-              a.who_favorites_me.should_not include @u
+              favs = u.favorites
+              favs.map { |f| f.favoritable_id }.should_not include @a.id
             end
           end
         end
-      end
-      context "add a favorite bogus model" do
-        before do
-          @nfavs = @u.favorites.count
-          post :add_favorite, :fav_type => 'Bogus', :fav_id => 2 
+        context "add a favorite art_piece" do
+          context "as ajax post(xhr)" do
+            before do
+              xhr :post, :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
+            end
+            it "returns success" do
+              response.should be_success
+            end
+            it "adds favorite to user" do
+              u = User.find(@u.id)
+              favs = u.favorites
+              favs.map { |f| f.favoritable_id }.should include @ap.id
+            end
+            it "returns json data" do
+              response_should_be_json
+            end
+          end
+          context "as standard POST" do
+            before do
+              post :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
+            end
+            it "returns success" do
+              response.should redirect_to(art_piece_path(@ap))
+            end
+            it "sets flash with escaped name" do
+              flash[:notice].should include '&lt;script&gt;'
+            end
+            it "adds favorite to user" do
+              u = User.find(@u.id)
+              favs = u.favorites
+              favs.map { |f| f.favoritable_id }.should include @ap.id
+            end
+            context "then artist removes that artpiece" do
+              before do
+                @ap.destroy
+              end
+              it "art_piece is no longer in users favorite list" do
+                u = User.find(@u.id)
+                u.favorites.should_not include @ap.id
+              end
+              it "art_piece owner should no longer have user in their favorite list" do
+                a = Artist.find(@ap.artist_id)
+                a.who_favorites_me.should_not include @u
+              end
+            end
+          end
         end
-        it "returns 404" do
-          response.should be_missing
-          response.code.should eql("404")
+        context "add a favorite bogus model" do
+          before do
+            @nfavs = @u.favorites.count
+            post :add_favorite, :fav_type => 'Bogus', :fav_id => 2 
+          end
+          it "returns 404" do
+            response.should be_missing
+            response.code.should eql("404")
+          end
         end
-      end
-    end          
+      end          
+    end
   end
   
   describe "forgot" do

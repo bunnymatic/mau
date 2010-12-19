@@ -11,6 +11,22 @@ describe ArtistsController do
   fixtures :art_pieces
   fixtures :studios
 
+  describe "index" do
+    before do 
+      get :index
+    end
+    it "returns success" do
+      response.should be_success
+    end
+    it "assigns artists" do
+      assigns(:artists).length.should > 1
+    end
+    it "artists are all active" do
+      assigns(:artists).each do |a|
+        a.state.should == 'active'
+      end
+    end
+  end
   describe "Update Artist" do
     before(:each) do
       @a = users(:artist1)
@@ -368,16 +384,22 @@ describe ArtistsController do
       assigns(:map).should be
     end
     it "assigns roster" do
-      assigns(:roster).should have_at_least(1).artists
+      assigns(:roster).should have_at_least(1).locations
     end
+    it "artists should all be active" do
+      assigns(:roster).values.flatten.each do |a|
+        a.state.should == 'active'
+      end
+    end
+
     it "roster does not include artists outside of 'the mission'" do
-      roster = assigns(:roster).map{|k,v| v}.flatten
       ne = [ 37.76978184422388, -122.40539789199829 ]
       sw = [ 37.747787573475506, -122.42919445037842 ]
-      roster.each do |a|
-        latlng = a.address_hash[:latlng]
-        (sw[0] < latlng[0] && latlng[0] < ne[0]).should be_true
-        (sw[1] < latlng[1] && latlng[1] < ne[1]).should be_true
+      roster = assigns(:roster).values.flatten.each do |a|
+        lat,lng = a.address_hash[:latlng]
+        
+        (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
+        (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
       end
     end
   end

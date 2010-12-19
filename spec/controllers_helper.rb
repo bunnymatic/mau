@@ -17,7 +17,7 @@ def controller_actions_should_fail_if_not_logged_in(cont, opts={})
   actions_to_test.each do |a|
     get a
     response.should_not be_success
-    response.should redirect_to( new_session_path )
+    response.should redirect_to( new_session_path ), "Incorrect redirect on action [#{a}]"
   end
 end
 

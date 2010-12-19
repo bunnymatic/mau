@@ -8,8 +8,13 @@
       <%= page_owner.get_name(true) %>
       <% end %>
       (<%= page_owner.who_favorites_me.count %>)
-  </label></div>
-  <% favs = page_owner.who_favorites_me[0..8]
+    <% if page_owner.who_favorites_me.count >= favorites_per_row -%>
+    <div class="show-toggle fewer"><a href="#">(+)</a></div>
+    <% end -%>
+  </label>
+  </div>
+  <ul class="favorite-thumbs">
+  <% favs = page_owner.who_favorites_me
      favs.each_with_index do |f,idx| 
      clz = (f == favs.last) ?"last" :""
      if idx >= favorites_per_row
@@ -18,5 +23,6 @@
      %>
   <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz,  :xstyle => style  } %>
   <% end %>
+  </ul>
 </div>
 <% end %>

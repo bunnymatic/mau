@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       return
     end
   end
-
+  
   def show
     if params[:id]
       @fan = safe_find_user(params[:id])
@@ -61,6 +61,25 @@ class UsersController < ApplicationController
     if !current_user
       flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
       redirect_back_or_default( user_path(current_user) || "/")
+    end
+  end
+
+  def favorites
+    if !params[:id]
+      redirect_back_or_default("/")
+      return
+    end
+    @user = safe_find_user(params[:id])
+    if !@user or @user.suspended?
+      @user = nil
+      flash.now[:error] = "The account you were looking for was not found."
+      redirect_back_or_default("/")
+      return
+    end
+
+    @style = nil
+    if params[:style]
+      @style = params[:style]
     end
   end
 
