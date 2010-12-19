@@ -105,7 +105,7 @@ class UsersController < ApplicationController
     rescue
       logger.error("Failed to upload %s" % $!)
       flash[:error] = "%s" % $!
-      redirect_to addprofile_users_path(@user)
+      redirect_to addprofile_users_path
       return
     end
   end

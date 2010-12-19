@@ -89,8 +89,8 @@ class ImageFile
     if @@ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
       raise ArgumentError, "Image type %s is not supported." % type
     end
-    unless colorspace.downcase.match(/rgb/) 
-      raise ArgumentError, "[%s] is not a supported color space.  Please save your image as using RGB" % colorspace
+    if colorspace.downcase.match /cmyk/
+      raise ArgumentError, "[%s] is not a supported color space.  Please save your image with an RGB colorspace." % colorspace
     end
     height = height.to_i
     width = width.to_i
