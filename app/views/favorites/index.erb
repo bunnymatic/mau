@@ -6,14 +6,14 @@
     <h5>Art Pieces (<%= current_user.fav_art_pieces.count %>)</h5>    
     <ul class="art_pieces">
       <% current_user.fav_art_pieces.each do |f| %>
-      <li><%= draw_favorite(f, @style); %></li>
+      <li><%= draw_small_favorite(f, @style); %></li>
       <% end -%>
     </ul>
     <div class="clear"></div>
     <h5>Artists (<%= current_user.fav_artists.count %>)</h5>
     <ul class="artists">
       <% current_user.fav_artists.each do |f| %>
-      <li><%= draw_favorite(f, @style); %></li>
+      <li><%= draw_small_favorite(f, @style); %></li>
       <% end -%>
     </ul>
     <div class="clear"></div>
