@@ -1,7 +1,7 @@
 module FavoritesHelper
   def get_image_and_path fav, sz
     img = ''
-    path_finder = :artist_path
+    path_finder = :user_path
     image_finder = :get_profile_image
     if fav.class.name == ArtPiece.name
       path_finder = :art_piece_path
