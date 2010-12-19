@@ -243,7 +243,7 @@ describe ArtistsController do
           response.should have_tag('#favorites_me div.thumb')
         end
         it "has a link to that users page" do
-          response.should have_tag("#favorites_me a[href^=/users/#{@u.id}]")
+          response.should have_tag("#favorites_me a[href^=/artists/#{@u.id}]")
         end
       end
     end
