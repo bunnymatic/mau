@@ -1121,7 +1121,7 @@ var TagMediaHelper = {
           lk.removeClassName('fewer');
           lk.select('a').each(function(lnk) {
             lnk.writeAttribute('title','show fewer');
-            lnk.innerHTML = '(-)'; 
+            lnk.innerHTML = 'less'; 
           });
         }
         else {
@@ -1129,7 +1129,7 @@ var TagMediaHelper = {
           lk.addClassName('fewer');
           lk.select('a').each(function(lnk) {
             lnk.writeAttribute('title','show more');
-            lnk.innerHTML = '(+)'; 
+            lnk.innerHTML = 'more'; 
           });
         }
       });

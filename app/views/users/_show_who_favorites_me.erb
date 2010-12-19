@@ -8,8 +8,8 @@
       <%= page_owner.get_name(true) %>
       <% end %>
       (<%= page_owner.who_favorites_me.count %>)
-    <% if page_owner.who_favorites_me.count >= favorites_per_row -%>
-    <div class="show-toggle fewer"><a href="#">(+)</a></div>
+    <% if page_owner.who_favorites_me.count > favorites_per_row -%>
+    <div class="show-toggle fewer"><a href="#">more</a></div>
     <% end -%>
   </label>
   </div>
