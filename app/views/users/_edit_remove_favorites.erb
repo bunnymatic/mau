@@ -15,6 +15,7 @@
          %>
       <%= render :partial => "/users/favorite_thumb_edit", :locals => { :favorite => f, :xclass => clz } %>
       <% end %>
+      <div class="clear"></div>
     </div>
     <% end %>
     <% unless current_user.fav_art_pieces.empty? %>
@@ -26,6 +27,7 @@
          %>
       <%= render :partial => "/users/favorite_thumb_edit", :locals => { :favorite => f, :xclass => clz } %>
       <% end %>
+      <div class="clear"></div>
     </div>
     <% end %>
   </div>

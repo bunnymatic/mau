@@ -10,8 +10,8 @@
       favorites
       <span>(<%= page_owner.what_i_favorite.count %>)</span>
       </a>
-      <% if page_owner.what_i_favorite.count >= favorites_per_row -%>
-      <div class="show-toggle fewer"><a href="#">(+)</a></div>
+      <% if page_owner.what_i_favorite.count > favorites_per_row -%>
+      <div class="show-toggle fewer"><a href="#">more</a></div>
       <% end -%>
   </label>
   </div>
