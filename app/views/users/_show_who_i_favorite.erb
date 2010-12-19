@@ -1,4 +1,4 @@
-<% unless page_owner.what_i_favorite.empty? %>
+<% unless page_owner.what_i_favorite.empty? -%>
 <% favorites_per_row = 10 # coordinate this with javascript favorites_per_row -%>
 <div id="my_favorites" class="favorites-block" >
   <div><label><a href="<%= favorites_user_path(page_owner) %>">
@@ -22,9 +22,9 @@
      if idx >= favorites_per_row
         style = "display:none;"
      end
-     %>
-  <%= render :partial => "/users/favorite_thumb", :locals => { :favorite => f, :xclass => clz, :xstyle => style } %>
-  <% end %>
+     -%>
+     <%= draw_micro_favorite(f, {:class => clz, :style => style }) %>
+    <% end -%>
   </ul>
 </div>
-<% end %>
+<% end -%>
