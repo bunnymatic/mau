@@ -1215,11 +1215,6 @@ div.tiny-thumb-sel {
     border: 2px solid #FEF7CA;
 }
 
-#artpiece_img{
-    border: 1px solid #444;
-    min-width: 60px;
-}
-
 .browser-buttons {
     font-size: 80%;
     margin: 20px auto 5px;
@@ -1435,8 +1430,12 @@ td.td-left{
     text-align: center;
 }
 #artpiece_container {
+    #artpiece_img{
+        border: 1px solid #444;
+    }
     span {
         position: relative;
+        min-width: 60px;
     }
     .action-icons {
         position: absolute;
@@ -2546,8 +2545,14 @@ ul.dropdown ul .first {
     text-align: left;
     font-size: x-small;
     clear: left;
+    width: 320px;
     label {
-        padding-bottom: 2px;
+        line-height: 1.7em;
+    }
+    .show-toggle {
+        padding: 1px 3px;
+        float:right;
+        margin-right: 22px;
     }
     .thumb {
         border: 1px solid #444;
@@ -2580,10 +2585,18 @@ ul.dropdown ul .first {
 }
 
 #favorites_page {
+    h4 {
+        margin-bottom: 0;
+    }
     .favorites {
         width: 710px;
         margin: auto;
     }
+    .buttons {
+        text-align: center;
+        margin: 15px auto;
+    }
+        
     li {
         float: left;
         width: 202px;

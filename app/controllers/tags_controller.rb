@@ -94,7 +94,7 @@ class TagsController < ApplicationController
     end
 
     @results_mode = params[:m] || 'p'
-    artist_ids = Artist.all.map{|a| a.id}
+    artist_ids = Artist.active.all.map{|a| a.id}
     joiner = ArtPiecesTag.find_all_by_tag_id(params[:id])
     results = {}
     joiner.each do |apt|

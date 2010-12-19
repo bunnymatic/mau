@@ -31,7 +31,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :artists, :member => { :update => :post, :edit => :get }, :collection => { :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get }
 
-  map.resources :users, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get }
+  map.resources :users, :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get }
 
   map.favorites "/favorites/", :controller => 'favorites', :action => "index"
 

@@ -84,3 +84,17 @@ artfan:
   lastname:                  fan
   type:                      MAUFan
   url:                       http://artfansrules.com
+
+suspended:
+  login:                     suspect
+  email:                     susfan@example.com
+  salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
+  crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
+  created_at:                <%= 1.days.ago.to_s :db %>
+  remember_token_expires_at: 
+  remember_token:            
+  firstname:                 sus
+  lastname:                  pect
+  type:                      Artist
+  state:                     suspended
+  url:                       http://artfansrules.com

@@ -40,11 +40,11 @@ class ArtistsController < ApplicationController
                                         Geokit::LatLng.new(*ne))
 
     if @os_only
-      ais = ArtistInfo.find(:all, :conditions => [ 'osoct2010 = 1'])
-      artists = Artist.active.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ])
+      ais = ArtistInfo.find(:all,  :bounds => mission_bounds, :conditions => [ 'osoct2010 = 1'])
     else
-      artists = Artist.all
+      ais = ArtistInfo.find(:all,  :bounds => mission_bounds)
     end
+    artists = Artist.active.find(:all,:conditions => [ 'id in (?)', ais.map(&:artist_id)])
     @map = GMap.new("map")
     @map.control_init(:large_map => true, :map_type => true)
     # init icon
@@ -57,7 +57,7 @@ class ArtistsController < ApplicationController
 
     artists.each do |a|
       address = a.address_hash
-      if !address.nil? && address[:geocoded] && !address[:simple].blank? && mission_bounds.contains?(address[:latlng])
+      if !address.nil? && address[:geocoded] && !address[:simple].blank?
         ky = "%s" % address[:simple]
         dx = dy = 0.0
         if !@roster[ky]
@@ -156,7 +156,7 @@ class ArtistsController < ApplicationController
       artists = Artist.active.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ]).sort_by { |a| a.get_sort_name }
       queryargs['osonly'] = "on"
     else
-      artists = Artist.all.sort_by { |a| a.get_sort_name }
+      artists = Artist.active.all.sort_by { |a| a.get_sort_name }
     end
 
     nartists = artists.length

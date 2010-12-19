@@ -1093,7 +1093,9 @@ var TagMediaHelper = {
           show_link.addClassName('fewer');
           show_link.select('a').each( function(lnk) {
             lnk.writeAttribute('title','show all');
-            lnk.observe('click', function(ev) {Favorites.show("#" + _id); });
+            lnk.observe('click', function(ev) {
+              Favorites.show("#" + _id); 
+            });
           });
         });
         blk.observe('favorite:removed', Favorites.update_favorites_block);
@@ -1119,11 +1121,16 @@ var TagMediaHelper = {
           lk.removeClassName('fewer');
           lk.select('a').each(function(lnk) {
             lnk.writeAttribute('title','show fewer');
+            lnk.innerHTML = '(-)'; 
           });
         }
         else {
           Favorites.show_fewer(block_id);
           lk.addClassName('fewer');
+          lk.select('a').each(function(lnk) {
+            lnk.writeAttribute('title','show more');
+            lnk.innerHTML = '(+)'; 
+          });
         }
       });
     },
