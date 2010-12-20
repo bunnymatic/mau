@@ -24,7 +24,17 @@ class MediaController < ApplicationController
   def show
     @freq = Medium.frequency(true)
     @media = Medium.all
-    @medium = Medium.find(params[:id])
+    begin
+      @medium = Medium.find(params[:id])
+    rescue
+      if Medium.first.id == 0
+        render '/error', "Media haven't been properly setup."
+        return
+      else
+        redirect_to medium_path(Medium.first)
+        return
+      end
+    end
     page = params[:p]
     if not page
       page = 0
