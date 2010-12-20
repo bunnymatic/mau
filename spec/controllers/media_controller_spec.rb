@@ -78,6 +78,15 @@ describe MediaController do
     it "tag cloud has a selected one" do
       response.should have_tag('.clouditem.tagmatch')
     end
+    context " an id that doesn't exist " do
+      before do
+        get :show, :id => 0
+      end
+      it "should redirect" do
+        response.should redirect_to medium_path Medium.first
+      end
+    end
   end
+  
 end
       

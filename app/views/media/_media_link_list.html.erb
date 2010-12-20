@@ -6,21 +6,23 @@
        ct = t["ct"]
        (sz, mrg) = TagsHelper.fontsize_from_frequency(ct)
        medium = @media.select{ |m| m.id.to_i == mid.to_i }[0]
-       if medium == match
-       matchclass = "tagmatch"
-       else
-       matchclass = ""
-       end
+       unless medium.nil? 
+         if medium == match
+           matchclass = "tagmatch"
+         else
+           matchclass = ""
+         end
        %>
   <span class="clouditem <%= matchclass %>" style="font-size:<%= sz %>; margin: <%= mrg %>;">
-    <% if ct.to_f > 0.0 %>
-    <%= link_to medium.safe_name, medium_path(medium, :m => @results_mode) %>
-    <% else %>
-    <%= medium.safe_name %>
-    <% end %>
+       <% if ct.to_f > 0.0 %>
+       <%= link_to medium.safe_name, medium_path(medium, :m => @results_mode) %>
+       <% else %>
+       <%= medium.safe_name %>
+       <% end %>
   </span>
-  <% end %>
-  <% end %>
+  <% end 
+     end
+     end -%>
 </div>
 
 
