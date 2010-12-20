@@ -30,7 +30,8 @@ class TagsController < ApplicationController
         if !freq || freq.empty?
           render_not_found Exception.new("No tags in the system")
         else
-          redirect_to "/tags/%d" % freq[0]['tag'] 
+          params[:id] = freq[0]['tag']
+          redirect_to tag_path(params)
         end
       }
       format.json  { 
