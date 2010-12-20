@@ -20,14 +20,14 @@
 	       <li class="leaf"><a href="/art_pieces/new">add art</a></li>
 	       <li class="leaf"><a href="<%= arrangeart_artists_path %>">arrange art</a></li>
 	       <li class="leaf"><a href="<%= deleteart_artists_path %>">delete art</a></li>
-	       <li class="leaf last"><a href="<%= favorites_path %>">my favorites</a></li>
+	       <li class="leaf last"><a href="<%= favorites_user_path current_user %>">my favorites</a></li>
 	     </ul>
 	   </li>
            <%   else -%>
 	   <li class="dir"><%= link_to "my&nbsp;mau", user_path(current_user), { :class => "lknav" } %>
 	     <ul>
 	       <li class="leaf first"><a href="<%= edit_user_path(current_user) %>">edit my page</a></li>
-	       <li class="leaf last"><a href="<%= favorites_path %>">my favorites</a></li>
+	       <li class="leaf last"><a href="<%= favorites_user_path current_user %>">my favorites</a></li>
              </ul>
 	   </li>
            <%   end -%>

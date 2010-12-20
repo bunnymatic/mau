@@ -12,10 +12,15 @@ module FavoritesHelper
     [img,path]
   end
 
-  def draw_small_favorite fav, style
+  def draw_small_favorite fav, options
+    xstyle = options[:style]
     img, path = get_image_and_path fav, 'small'
+    del_btn = ''
+    if options[:is_owner] == true
+      del_btn = "<div title='remove favorite' class='del-btn micro-icon trash' fav_type='#{fav.class.name}' fav_id='#{fav.id}'></div>"
+    end
     if img && path
-      "<a href='#{path}'><div class='thumb'><img src='#{img}'></div><div class='name'>#{fav.get_name(true)}</div><div class='clear'></div></a>"
+      "<li><div class='thumb'><a href='#{path}'><img src='#{img}'></a></div><div class='name'><a href='#{path}'>#{fav.get_name(true)}</a>#{del_btn}</div><div class='clear'></div></li>"
     end
   end
 
