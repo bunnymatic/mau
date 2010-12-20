@@ -23,7 +23,7 @@
 	<div class="search-results">
 	  <% if @pieces and !@pieces.empty? -%> 
 	  <%=
-	     render :partial => '/search/thumbs', :locals => { :pieces => @pieces,
+	     render :partial => '/search/thumbs', :locals => { :pieces => @pieces.reverse,
 	  :params => { :cols => 2,
           :show_footer => false,
           :size => 'thumb',

@@ -7,6 +7,7 @@ hot:
   description: super hot description
   medium_id: 1
   dimensions: hot x hot
+  created_at:                <%= 5.days.ago.to_s :db  %>
 
 not:
   filename: not.jpg
@@ -14,6 +15,7 @@ not:
   description: super not description
   medium_id: 2
   dimensions: not x not
+  created_at:                <%= 4.days.ago.to_s :db  %>
 
 h1024w2048:
   filename: not.jpg
@@ -23,6 +25,7 @@ h1024w2048:
   dimensions: not x not
   image_height: 1024
   image_width: 2048
+  created_at:                <%= 3.days.ago.to_s :db  %>
 
 negative_size:
   filename: not.jpg
@@ -32,24 +35,28 @@ negative_size:
   dimensions: not x not
   image_height: -1024
   image_width: -2048
+  created_at:                <%= 6.days.ago.to_s :db  %>
 
 artpiece1:
   filename: hot.jpg
   title: first
   description: super hot description
   dimensions: hot x hot
+  created_at:                <%= 7.days.ago.to_s :db  %>
 
 artpiece2:
   filename: hot.jpg
   title: second
   description: super hot description
   dimensions: hot x hot
+  created_at:                <%= 4.days.ago.to_s :db  %>
 
 artpiece3:
   filename: hot.jpg
   title: third
   description: super hot description
   dimensions: hot x hot
+  created_at:                <%= 2.hours.ago.to_s :db  %>
 
 valid_dimensions:
   filename: not.jpg
@@ -58,8 +65,10 @@ valid_dimensions:
   dimensions: not x not
   image_height: 1024
   image_width: 2048
+  created_at:                <%= 18.hours.ago.to_s :db  %>
 
 namewithtag:
   filename: blow.jpg
   title: <script>alert("stuff");</script>
+  created_at:                <%= 18.hours.ago.to_s :db  %>
   

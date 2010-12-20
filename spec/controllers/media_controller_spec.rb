@@ -78,6 +78,14 @@ describe MediaController do
     it "tag cloud has a selected one" do
       response.should have_tag('.clouditem.tagmatch')
     end
+    it "pieces are in order of art_piece created_date" do
+      art = assigns(:pieces)
+      last_created = art.first.created_at
+      art.each do |ap|
+        last_created.should <= ap.created_at
+        last_created = ap.created_at
+      end
+    end
     context " an id that doesn't exist " do
       before do
         get :show, :id => 0
