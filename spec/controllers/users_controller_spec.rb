@@ -406,6 +406,9 @@ describe UsersController do
           it "returns success" do
             response.should be_success
           end
+          it "shows the title" do
+            response.should have_tag('h4', :include_text => 'My Favorites')
+          end
           it "shows the favorites sections" do
             response.should have_tag('h5', :include_text => 'Artists')
             response.should have_tag('h5', :include_text => 'Art Pieces')
@@ -436,9 +439,14 @@ describe UsersController do
           assert a.fav_art_pieces.count >= 1
           login_as users(:aaron)
           get :favorites, :id => a.id
+          @a = a
         end
         it "returns success" do
           response.should be_success
+        end
+        it "shows the title" do
+          response.should have_tag('h4', :include_text => @a.get_name )
+          response.should have_tag('h4', :include_text => 'Favorites')
         end
         it "shows the favorites sections" do
           response.should have_tag('h5', :include_text => 'Artists')

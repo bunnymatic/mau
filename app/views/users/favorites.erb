@@ -10,7 +10,11 @@
     <%= flash[:notice] %>      
   </div>
   <% end -%>
+  <% if current_user && current_user == @user -%>
+  <h4>My Favorites</h4>
+  <% else -%>
   <h4><%= @user.get_name true %>'s Favorites</h4>
+  <% end -%>
   <div class="favorites">
     <div class="little-txt td-right navlinks"><!-- nav --></div>
     <h5>Art Pieces (<%= @user.fav_art_pieces.count %>)</h5>    
