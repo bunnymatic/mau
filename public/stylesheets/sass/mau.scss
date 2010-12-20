@@ -806,15 +806,17 @@ div.feedtitle  {
     margin-left:40px;
     margin-right:40px;
 }
-#artist_edit .notice {
-    margin-left: auto;
-    margin-right: auto;
-}
-#artist_edit h4 {
-    margin-left:auto;
-    margin-right:auto;
-    text-align:center;
-    width: 560px;
+#artist_edit {
+    .notice {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    h4 {
+        margin-left:auto;
+        margin-right:auto;
+        text-align:center;
+        width: 560px;
+    }
 }
 #venues_text, #about_text, #news_text, .privacy-content {
     text-align: justify;
@@ -2585,6 +2587,10 @@ ul.dropdown ul .first {
 }
 
 #favorites_page {
+    .notice {
+        margin-left: auto;
+        margin-right: auto;
+    }
     h4 {
         margin-bottom: 0;
     }
@@ -2617,11 +2623,25 @@ ul.dropdown ul .first {
                 text-align: center;
                 width: 200px;
                 height: 24px;
-                overflow:hidden;
                 font-size:90%;
+                overflow: hidden;
                 line-height: 24px;
                 position: absolute;
                 top: 100%;
+                .del-btn {
+                    background-color : #222;
+                    position: absolute;
+                    right: 2px;
+                    top: 1px;
+                    width:16px;
+                    height:16px;
+                    border: 2px solid #222;
+                    z-index: 10;
+                    &:hover {
+                        border: 2px solid red;
+                        cursor: pointer;
+                    }
+                }
             }
         }
     }

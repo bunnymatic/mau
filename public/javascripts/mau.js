@@ -1079,11 +1079,14 @@ var TagMediaHelper = {
         el.observe('mouseover', Favorites.show_delete);
         el.observe('mouseout', Favorites.hide_delete);
       });
-      $$('#my_favorite_artists .delete-fav').each( function(el) {
+      $$('.favorites ul li .name .del-btn').each( function(el) {
         el.observe('click', Favorites.execute_delete);
       });
+      $$('#my_favorite_artists .delete-fav').each( function(el) {
+        el.observe('click', Favorites.execute_ajax_delete);
+      });
       $$('#my_favorite_artpieces .delete-fav').each( function(el) {
-        el.observe('click', Favorites.execute_delete);
+        el.observe('click', Favorites.execute_ajax_delete);
       });
 
       $$('.favorites-block').each( function(blk) {
@@ -1152,6 +1155,15 @@ var TagMediaHelper = {
       });
     },
     execute_delete: function(ev) {
+      var lnk = ev.target;
+      var tp = lnk.readAttribute('fav_type');
+      var id = lnk.readAttribute('fav_id');
+      if (tp && id) {
+        ev.stop();
+        post_to_url('/users/remove_favorite', {fav_type: tp,fav_id: id} );
+      }
+    },
+    execute_ajax_delete: function(ev) {
       var favid = this.readAttribute('fav_id');
       var favtype = this.readAttribute('fav_type');
       var parent = this.up();

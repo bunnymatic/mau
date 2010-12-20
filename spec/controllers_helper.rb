@@ -38,10 +38,6 @@ describe "logged in edit page", :shared => true do
     response.should have_tag('.open-close-div #info_toggle')
     response.should have_tag('#info')
   end
-  it "has the remove favorites section" do
-    response.should have_tag('.open-close-div #favorites_toggle')
-    response.should have_tag('#favorites')
-  end
   it "has the notification section" do
     response.should have_tag('.open-close-div #notification_toggle')
     response.should have_tag('#notification')

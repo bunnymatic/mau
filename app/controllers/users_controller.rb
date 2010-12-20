@@ -76,11 +76,6 @@ class UsersController < ApplicationController
       redirect_back_or_default("/")
       return
     end
-
-    @style = nil
-    if params[:style]
-      @style = params[:style]
-    end
   end
 
   def upload_profile
@@ -383,6 +378,7 @@ class UsersController < ApplicationController
 
   def remove_favorite
     # POST
+    referrer = request.referer
     type = params[:fav_type]
     _id = params[:fav_id]
     result = {}
@@ -396,7 +392,7 @@ class UsersController < ApplicationController
         return
       else
         flash[:notice] = "The favorite has been removed"
-        redirect_back_or_default(obj)
+        redirect_to referrer || obj
       end
     else
       render_not_found({:message => "You can't unfavorite that type of object" })

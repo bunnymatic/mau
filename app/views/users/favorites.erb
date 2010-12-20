@@ -1,19 +1,29 @@
 <div class="logo-spacer"></div>
 <div id="favorites_page">
+  <% if flash[:error] -%>
+  <div class="error-msg">Error:
+    <%= flash[:error] %>
+  </div>
+  <% end -%>
+  <% if flash[:notice] -%>
+  <div class="notice">
+    <%= flash[:notice] %>      
+  </div>
+  <% end -%>
   <h4><%= @user.get_name true %>'s Favorites</h4>
   <div class="favorites">
     <div class="little-txt td-right navlinks"><!-- nav --></div>
     <h5>Art Pieces (<%= @user.fav_art_pieces.count %>)</h5>    
     <ul class="art_pieces">
       <% @user.fav_art_pieces.each do |f| %>
-      <li><%= draw_small_favorite(f, @style); %></li>
+      <%= draw_small_favorite(f, {:is_owner => (current_user == @user)}); %>
       <% end -%>
     </ul>
     <div class="clear"></div>
     <h5>Artists (<%= @user.fav_artists.count %>)</h5>
     <ul class="artists">
       <% @user.fav_artists.each do |f| %>
-      <li><%= draw_small_favorite(f, @style); %></li>
+      <%= draw_small_favorite(f, {:is_owner => (current_user == @user)}); %>
       <% end -%>
     </ul>
     <div class="clear"></div>
