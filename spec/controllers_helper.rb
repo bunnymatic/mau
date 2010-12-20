@@ -100,9 +100,17 @@ describe "not logged in", :shared => true do
   it "header bar should have signup link" do
     response.should have_tag("#login_toplink a[href=/signup]")
   end
-  it "nav bar suggests join in" do 
-    response.should have_tag("div ul#mymaunav li.dir a[href=/login]", :text => /join in/)
+  it "header has artists section" do 
+    response.should have_tag("ul#artistsnav")
   end
+  it "artists section has by tag and by medium" do
+    response.should have_tag("ul#artistsnav .leaf a[href=#{media_path}?m=a]")
+    response.should have_tag("ul#artistsnav .leaf a[href=#{tags_path}?m=a]")
+  end
+  it "nav bar suggests join in" do 
+    response.should have_tag("div ul#mymaunav li.dir a[href=/login]", :include_text => "join in")
+  end
+  
 end
 
 

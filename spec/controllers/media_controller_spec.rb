@@ -38,11 +38,14 @@ describe MediaController do
   end
     
   describe "index" do
-    before do 
-      get :index
-    end
     it "redirect to show" do
+      get :index
       response.should be_redirect
+    end
+    
+    it "redirect should maintain arguments" do
+      get :index, :m => 'a'
+      response.header["Location"].should have_text  /\/media\/\d+\?m=a$/
     end
   end
   context "show" do
