@@ -42,11 +42,11 @@ class MediaController < ApplicationController
     page = page.to_i
     @results_mode = params[:m] || 'p'
 
-    items = ArtPiece.find_all_by_medium_id(@medium.id)
+    items = ArtPiece.find_all_by_medium_id(@medium.id, :order => 'created_at')
     
     # if show by artists, pick 1 from each artist
     if @results_mode == 'p'
-      pieces = items.sort_by { |i| i.updated_at }.reverse
+      pieces = items.sort_by { |i| i.updated_at }
     else
       tmps = {}
       items.each do |pc|
@@ -54,10 +54,9 @@ class MediaController < ApplicationController
           tmps[pc.artist_id] = pc
         end
       end
-      pieces = tmps.values.sort_by { |p| p.updated_at }.reverse
+      pieces = tmps.values.sort_by { |p| p.updated_at }
     end
     pieces.reverse!
-    
     @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, page, @@PER_PAGE)
     if curpage > lastpage
       curpage = lastpage

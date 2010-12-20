@@ -1562,6 +1562,9 @@ span.rightarrow
     margin: 5px;
     width: 260px;
     overflow: hidden;
+    &.last {
+        clear: right;
+    }
 }
 
 .search-thumb-art {
