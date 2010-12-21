@@ -13,7 +13,7 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 class User < ActiveRecord::Base
   named_scope :active, :conditions => ["state = 'active'"]
   before_destroy do |user|
-    fs = Favorite.find_all_by_favoritable_id_and_favoritable_type( user.id, 'Artist')
+    fs = Favorite.artists.find_all_by_favoritable_id( user.id )
     fs.each { |f| f.delete }
   end
 
@@ -280,10 +280,10 @@ class User < ActiveRecord::Base
   end
 
   def who_favorites_me
-    favs = Favorite.find_all_by_favoritable_id_and_favoritable_type(self.id, ['User', 'Artist'], :order => 'created_at desc')
+    favs = Favorite.users.find_all_by_favoritable_id(self.id, :order => 'created_at desc')
     if self[:type] == 'Artist'
       if self.art_pieces && self.art_pieces.count > 0
-        favs << Favorite.find_all_by_favoritable_id_and_favoritable_type( art_pieces.map{|ap| ap.id}, 'ArtPiece', :order => 'created_at desc')
+        favs << Favorite.art_pieces.find_all_by_favoritable_id( art_pieces.map{|ap| ap.id}, :order => 'created_at desc')
       end
     end
     User.find(favs.flatten.select{|f| !f.nil?}.map {|f| f.user_id})

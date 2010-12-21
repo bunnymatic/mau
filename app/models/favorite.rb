@@ -1,7 +1,10 @@
 class Favorite < ActiveRecord::Base
   belongs_to :user
   belongs_to :favorite, :polymorphic => true
-  
+
+  named_scope :art_pieces, [ "favoritable_type = ?", ArtPiece.class.name ]
+  named_scope :users, ["favoritaable_type in ?", [Artist.class.name, User.class.name]]
+  named_scope :artists, ["favoritaable_type = ?", Artist.class.name]
   @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
 
   def to_obj
