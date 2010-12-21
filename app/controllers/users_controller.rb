@@ -70,6 +70,14 @@ class UsersController < ApplicationController
       return
     end
     @user = safe_find_user(params[:id])
+    if @user == current_user && current_user.favorites.count <= 0
+      tmph = {}
+      [Artist.find_random(5), ArtPiece.find_random(5)].flatten.each do |item| 
+        ky = item.as_json.hash
+        tmph[ky] = item
+      end
+      @random_picks = tmph.values.map{ |v| [v.get_path, v.get_name(true)] }
+    end
     if !@user or @user.suspended?
       @user = nil
       flash.now[:error] = "The account you were looking for was not found."

@@ -369,6 +369,9 @@ describe UsersController do
         it "returns sucess" do
           response.should be_success
         end
+        it "doesn't have the no favorites msg" do
+          response.should_not have_tag('.no-favorites-msg')
+        end
       end
       context "while logged in as fan" do
         before do
@@ -378,6 +381,12 @@ describe UsersController do
         end
         it "returns success" do
           response.should be_success
+        end
+        it "gets some random links assigned" do
+          assigns(:random_links).size.should > 2
+        end
+        it "has the no favorites msg" do
+          response.should have_tag('.no-favorites-msg', :count => 1)
         end
       end
       context "while logged in as artist " do
