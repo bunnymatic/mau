@@ -383,7 +383,7 @@ describe UsersController do
           response.should be_success
         end
         it "gets some random links assigned" do
-          assigns(:random_links).size.should > 2
+          assigns(:random_picks).size.should > 2
         end
         it "has the no favorites msg" do
           response.should have_tag('.no-favorites-msg', :count => 1)

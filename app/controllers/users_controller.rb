@@ -72,11 +72,19 @@ class UsersController < ApplicationController
     @user = safe_find_user(params[:id])
     if @user == current_user && current_user.favorites.count <= 0
       tmph = {}
-      [Artist.find_random(5), ArtPiece.find_random(5)].flatten.each do |item| 
+      Artist.find_random(3).each do |item|
         ky = item.as_json.hash
         tmph[ky] = item
+        tmph[ky] = { :name => item.get_name(true), :path => artist_path(item) }
       end
-      @random_picks = tmph.values.map{ |v| [v.get_path, v.get_name(true)] }
+      ArtPiece.find_random(3).each do |item| 
+        ky = item.as_json.hash
+        tmph[ky] = item
+        name = "%s by %s" % [item.get_name(true), item.artist.get_name(true)]
+        tmph[ky] = { :name => name,
+          :path => art_piece_path(item) }
+      end
+      @random_picks = tmph.values.map{ |v| [v[:path], v[:name]] }
     end
     if !@user or @user.suspended?
       @user = nil
