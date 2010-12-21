@@ -1,7 +1,7 @@
 <script type="text/javascript">
-var cur_idx = <%= @cur_idx || 1%>;
-var prev_idx = <%= @prev_idx || 1%>;
-var next_idx = <%= @next_idx || 1%>;
+  var cur_idx = <%= @cur_idx || 1%>;
+  var prev_idx = <%= @prev_idx || 1%>;
+  var next_idx = <%= @next_idx || 1%>;
 </script>
 <table class="tbl-content" cellpadding="0" cellspacing="0">
   <%= render :partial => "/twocol_top" %>
@@ -13,81 +13,15 @@ var next_idx = <%= @next_idx || 1%>;
     <td class="corner"></td>
     <td class="alt-lcol" align="center">
       <% if @art_piece -%>
-      <div class="artist-info-table">
-        <div class="left input-name">
-	  Title
-        </div>
-        <div class="right input">
-	  <span id="ap_title"><%=h @art_piece.title %></span>
-        </div>
-        <div class="left input-name">
-	  Artist
-        </div>
-        <div class="right input">
-	  <span id="ap_artistname"><%= link_to artist.get_name(true), artist %></span>
-        </div>
-        <div class="left input-name">
-	  Medium
-        </div>
-        <div class="right input">
-	  <span id="ap_medium">
-	    <% if @art_piece.medium_id and @art_piece.medium_id > 0 -%>
-	    <%= link_to @art_piece.medium.name, @art_piece.medium %>
-	    <% end -%>
-	  </span>
-        </div>
-	<div class="left input-name">
-	  Dimensions  
-        </div>
-	<div class="right input">
-	  <span id="ap_dimensions">
-	    <% if !@art_piece.dimensions.empty? -%>
-	    <%=h @art_piece.dimensions %>	  
-	    <% end -%>
-	  </span>
-        </div>
-        <div class="left input-name">
-	  Year  
-        </div>
-        <div class="right input">
-          <span id="ap_year">
-	    <% if !@art_piece.year.nil? and @art_piece.year.to_i > 1899 -%>
-	    <%=h @art_piece.year %>	  
-	    <% end -%>
-          </span>
-        </div>
-        <div class="left input-name">
-          Tags
-        </div>
-        <div class="right input">
-          <span id="ap_tags">
-            <% if !@art_piece.tags.empty? %>
-            <%   links = [] -%>
-            <%   @art_piece.uniq_tags.each do |t| -%>
-            <%      links << link_to(t.safe_name, t, :class => ""  ) -%>
-	    <%   end -%>
-            <%= links.join(", ") %>	  
-            <% end -%>
-          </span>
-        </div>
-        <% if artist.studio -%>
-        <div class="left input-name">
-          Studio
-        </div>
-        <div class="right input">
-          <span id="ap_studio"><%= link_to artist.studio.name, artist.studio %></span>
-        </div>
-        <% end -%>
-        <div class="both clear"></div>
-      </div>
+      <%= render :partial => "sidebar_info", :locals => { :artist => artist } %>
       <%= render :partial => "/art_pieces/thumb_browser" %>
-        <form method="get" action="<%= artist_path(artist) %>"><input class="formbutton" type="submit" value="Artist's Page" name="submit">
-	</form>
+      <form method="get" action="<%= artist_path(artist) %>"><input class="formbutton" type="submit" value="Artist's Page" name="submit">
+      </form>
       <% end -%>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td> 
     <td class="rcol" align="center">
-	  <div class="logo-spacer">&nbsp;</div><!-- art_pieces/show -->
+      <div class="logo-spacer"></div><!-- art_pieces/show -->
       <% if flash[:error] -%>
       <div class="error-msg">
 	<%= flash[:error] %>      
@@ -98,20 +32,21 @@ var next_idx = <%= @next_idx || 1%>;
 	<%= flash[:notice] %>      
       </div>
       <% end -%>
+
       <% if @art_piece -%>
       <div id="artpiece_title"><%=h @art_piece.title %></div>
       <div id="artpiece_container">
         <span>
-	<% if @art_piece.filename -%>
-	<img id="artpiece_img" src="<%=h @art_piece.get_path('medium') %>" />
-	<% end -%>
-        <div class="action-icons">
-	  <a href="<%= ArtPiecesHelper.tw_share_link(@art_piece) %>" target="_new" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
-          <a href="<%= ArtPiecesHelper.fb_share_link(@art_piece) %>" target="_new" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
-	  <% if (!current_user || (current_user && current_user.id != artist.id)) %>
-          <a href="#" class="favorite_this" fav_type="ArtPiece" fav_id="<%= @art_piece.id %>" title="Add this art piece to your favorites" ><div class="micro-icon heart"></div></a>
+	  <% if @art_piece.filename -%>
+	  <img id="artpiece_img" src="<%=h @art_piece.get_path('medium') %>" />
 	  <% end -%>
-        </div>
+          <div class="action-icons">
+	    <a href="<%= ArtPiecesHelper.tw_share_link(@art_piece) %>" target="_new" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
+            <a href="<%= ArtPiecesHelper.fb_share_link(@art_piece) %>" target="_new" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
+	    <% if (!current_user || (current_user && current_user.id != artist.id)) %>
+            <a href="#" class="favorite_this" fav_type="ArtPiece" fav_id="<%= @art_piece.id %>" title="Add this art piece to your favorites" ><div class="micro-icon heart"></div></a>
+	    <% end -%>
+          </div>
         </span>
         <div class="edit-buttons">
 	  <% if logged_in? and current_user == artist -%>
@@ -121,8 +56,7 @@ var next_idx = <%= @next_idx || 1%>;
       </div>
       <% end -%>
     </td>
-    <td >
-    </td>
+    <td></td>
   </tr>
   <%= render :partial => "/twocol_bottom" %>
 </table>

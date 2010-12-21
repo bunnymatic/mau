@@ -75,6 +75,8 @@ class ArtPiecesController < ApplicationController
   def show
     apid = params[:id].to_i
     @art_piece = safe_find_art_piece(apid)
+    # get favorites
+    @favorites_count = Favorite.art_pieces.find_all_by_favoritable_id(apid).count
     # get all art pieces for this artist
     pieces = []
     if !@art_piece || !@art_piece.artist_id
@@ -112,6 +114,7 @@ class ArtPiecesController < ApplicationController
         if (current_user && current_user.id == @art_piece.artist.id)
           h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
         end
+        h['art_piece'].merge!(:favorites_count => @favorites_count)
         render :json => h.to_json
       }
     end
@@ -261,6 +264,9 @@ class ArtPiecesController < ApplicationController
     end
   end
 
+  def sidebar_info
+  end
+  
   protected
   def safe_find_art_piece(id)
     begin

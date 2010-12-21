@@ -561,10 +561,13 @@ var TagMediaHelper = {
       if (f) {
 	f = this.get_image_path(f,'medium');
 	img.src = f;
+        M.log(ap);
 	this.safe_update('artpiece_title',ap.title);
 	this.safe_update('ap_title', ap.title);
 	this.safe_update('ap_dimensions', ap.dimensions);
 	this.safe_update('ap_year',ap.year);
+	this.safe_update('ap_favorites',ap.favorites_count);
+        
 	var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
 	if (med) {
 	  var md = $("ap_medium");

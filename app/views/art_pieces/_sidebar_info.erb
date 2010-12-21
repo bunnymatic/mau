@@ -1,0 +1,73 @@
+<div class="artist-info-block">
+  <div class="left input-name">
+    Title
+  </div>
+  <div class="right input">
+    <span id="ap_title"><%=h @art_piece.title %></span>
+  </div>
+  <div class="left input-name">
+    Artist
+  </div>
+  <div class="right input">
+    <span id="ap_artistname"><%= link_to artist.get_name(true), artist %></span>
+  </div>
+  <div class="left input-name">
+    Medium
+  </div>
+  <div class="right input">
+    <span id="ap_medium">
+      <% if @art_piece.medium_id and @art_piece.medium_id > 0 -%>
+      <%= link_to @art_piece.medium.name, @art_piece.medium %>
+      <% end -%>
+    </span>
+  </div>
+  <div class="left input-name">
+    Dimensions  
+  </div>
+  <div class="right input">
+    <span id="ap_dimensions">
+      <% if !@art_piece.dimensions.empty? -%>
+      <%=h @art_piece.dimensions %>	  
+      <% end -%>
+    </span>
+  </div>
+  <div class="left input-name">
+    Year  
+  </div>
+  <div class="right input">
+    <span id="ap_year">
+      <% if !@art_piece.year.nil? and @art_piece.year.to_i > 1899 -%>
+      <%=h @art_piece.year %>	  
+      <% end -%>
+    </span>
+  </div>
+  <div class="left input-name">
+    Tags
+  </div>
+  <div class="right input">
+    <span id="ap_tags">
+      <% if !@art_piece.tags.empty? %>
+      <%   links = [] -%>
+      <%   @art_piece.uniq_tags.each do |t| -%>
+      <%      links << link_to(t.safe_name, t, :class => ""  ) -%>
+      <%   end -%>
+      <%=  links.join(", ") %>	  
+      <% end -%>
+    </span>
+  </div>
+  <% if artist.studio -%>
+  <div class="left input-name">
+    Studio
+  </div>
+  <div class="right input">
+    <span id="ap_studio"><%= link_to artist.studio.name, artist.studio %></span>
+  </div>
+  <% end -%>
+  <div class="left input-name">
+    Favorites:
+  </div>
+  <div class="right input">
+    <span id="ap_favorites"><%= @favorites_count %></span>
+  </div>
+  <div class="both clear"></div>
+</div>
