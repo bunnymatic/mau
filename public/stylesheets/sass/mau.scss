@@ -2600,12 +2600,16 @@ ul.dropdown ul .first {
     .favorites {
         width: 710px;
         margin: auto;
+        ul.random-picks li {
+            height: auto;
+            width: auto;
+        }
     }
     .buttons {
         text-align: center;
         margin: 15px auto;
     }
-        
+
     li {
         float: left;
         width: 202px;

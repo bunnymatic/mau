@@ -8,7 +8,7 @@ class StudioImage
       ImageFile.get_path(dir, size, fname)
     else
       # return default image
-      ImageFile.get_path("/images/", size, "default-studio.png")
+      ImageFile.get_path("/images/", size, "default-studio.jpg")
     end
   end
 

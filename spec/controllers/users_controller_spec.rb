@@ -373,8 +373,9 @@ describe UsersController do
           response.should_not have_tag('.no-favorites-msg')
         end
       end
-      context "while logged in as fan" do
+      context "while logged in as fan with no favorites" do
         before do
+          ArtPiece.any_instance.stubs(:artist).returns(Artist.new(:login => 'blow'))
           @u = users(:aaron)
           login_as(@u)
           get :favorites, :id => @u.id
@@ -388,14 +389,22 @@ describe UsersController do
         it "has the no favorites msg" do
           response.should have_tag('.no-favorites-msg', :count => 1)
         end
+        it "does not show the favorites sections" do
+          response.should_not have_tag('h5', :include_text => 'Artists')
+          response.should_not have_tag('h5', :include_text => 'Art Pieces')
+        end
+        it "doesn't show a button back to the artists page" do
+          response.should_not have_tag('.buttons form')
+        end
       end
       context "while logged in as artist " do
         before do
+          ArtPiece.any_instance.stubs(:artist).returns(Artist.new(:login => 'blurp'))
           @a = users(:artist1)
           login_as(@a)
-          get :favorites, :id => @a.id
         end
         it "returns success" do
+          get :favorites, :id => @a.id
           response.should be_success
         end
         context "who has favorites" do
@@ -408,6 +417,7 @@ describe UsersController do
             aa = users(:joeblogs)
             @a.add_favorite ap
             @a.add_favorite aa
+            assert @a.favorites.count >= 1
             assert @a.fav_artists.count >= 1
             assert @a.fav_art_pieces.count >= 1
             get :favorites, :id => @a.id
@@ -415,15 +425,18 @@ describe UsersController do
           it "returns success" do
             response.should be_success
           end
+          it "does not assign random picks" do
+            assigns(:random_picks).should be_false
+          end
           it "shows the title" do
             response.should have_tag('h4', :include_text => 'My Favorites')
           end
-          it "shows the favorites sections" do
-            response.should have_tag('h5', :include_text => 'Artists')
-            response.should have_tag('h5', :include_text => 'Art Pieces')
+          it "favorites sections show and include the count" do
+            response.should have_tag('h5', :text => "Artists (#{@a.fav_artists.count})")
+            response.should have_tag("h5", :text => "Art Pieces (#{@a.fav_art_pieces.count})")
           end
           it "shows the 1 art piece favorite" do
-            response.should have_tag('.favorites .art_pieces .thumb', :count => 1)
+            response.should have_tag('.favorites .art_pieces .thumb', :count => 1, :include_text => 'by blupr')
           end
           it "shows the 1 artist favorite" do
             response.should have_tag('.favorites .artists .thumb', :count => 1)
@@ -431,13 +444,16 @@ describe UsersController do
           it "shows a delete button for each favorite" do
             response.should have_tag('.favorites li .trash', :count => @a.favorites.count)
           end
+          it "shows a button back to the artists page" do
+            response.should have_tag('.buttons form')
+          end
         end
       end
       context "logged in as user looking at artist who has favorites " do
         before do 
-          a = users(:artist1)
           User.any_instance.stubs(:get_profile_path).returns("/this")
           ArtPiece.any_instance.stubs(:get_path).with('small').returns("/this")
+          a = users(:artist1)
           ap = art_pieces(:hot)
           ap.artist_id = users(:joeblogs)
           ap.save!

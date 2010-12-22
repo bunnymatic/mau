@@ -1,9 +1,15 @@
 class ArtistProfileImage
+  DEFAULT_PROFILE_IMAGES = {
+    "medium" => '/images/s_default-profile-img-not-me.jpg',
+    "small" => '/images/s_default-profile-img-not-me.jpg',
+    "thumb" => '/images/t_default-profile-img-not-me.jpg'
+  }
+
   def self.get_path(artist, size="medium")
     # get path for image of size
     # size should be either "thumb","medium"
     if !artist || artist.profile_image.nil?
-      return '/images/default-profile-img-not-me.png'
+      return DEFAULT_PROFILE_IMAGES[size]
     end
     dir = "/artistdata/" + artist.id.to_s() + "/profile/"
     fname = File.basename(artist.profile_image)

@@ -17,15 +17,15 @@
   <% end -%>
   <div class="favorites">
     <div class="little-txt td-right navlinks"><!-- nav --></div>
-    <% if current_user && (current_user == @user) && (@user.favorites.size <= 0) -%>
+    <% if @random_picks %>
        <p class="no-favorites-msg">It looks like you don't have any favorites.  Look around the site.  You'll find this <span class="micro-icon heart"></span>.  All you need to do is click on the little heart and you'll immediately start adding artists and art pieces to your favorites.  Or try some of these pages...
        </p>
-       <ul>
-         <% @random_picks.each do |lnk, title| -%>
-           <li><a href="<%= lnk %>"><%= title %></a></li>
+       <ul class="random-picks">
+         <% @random_picks.each do |item| -%>
+         <li><%= draw_thumb_widget item %></li>
          <% end -%>
        </ul>
-    <% end -%>
+    <% else -%>
     <h5>Art Pieces (<%= @user.fav_art_pieces.count %>)</h5>    
     <ul class="art_pieces">
       <% @user.fav_art_pieces.each do |f| %>
@@ -39,10 +39,13 @@
       <%= draw_small_favorite(f, {:is_owner => (current_user == @user)}); %>
       <% end -%>
     </ul>
+    <% end -%>
     <div class="clear"></div>
   </div>
+  <% if !@random_picks %>
   <div class="buttons">
     <form method="get" action="<%= user_path(@user) %>"><input class="formbutton" type="submit" value="Back to <%= @user.get_name true %>'s Page" name="submit">
     </form>
   </div>
+  <% end -%>
 </div>
