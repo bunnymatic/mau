@@ -18,7 +18,7 @@
   <div class="favorites">
     <div class="little-txt td-right navlinks"><!-- nav --></div>
     <% if @random_picks %>
-       <p class="no-favorites-msg">It looks like you don't have any favorites, yet.  Go find an artist or some art work that you like.  You'll see this <span class="micro-icon heart"></span>. You can find artists by name, or medium or tags.  Start your search below.  
+       <p class="no-favorites-msg">It looks like you don't have any favorites yet.  Go find an artist or some artwork that you like.  You'll see this <span class="micro-icon heart"></span>. You can find artists by name, or medium or tags.  Start your search below.  
        </p>
        <ul class="random-picks">
          <% @random_picks.each do |item| -%>
@@ -27,6 +27,7 @@
        </ul>
     <% else -%>
     <h5>Art Pieces (<%= @user.fav_art_pieces.count %>)</h5>    
+    <p>Find more favorites by clicking the &quot;Artists&quot; link and search by name, or tag or medium.</p>
     <ul class="art_pieces">
       <% @user.fav_art_pieces.each do |f| %>
       <%= draw_small_favorite(f, {:is_owner => (current_user == @user)}); %>
