@@ -80,7 +80,7 @@
 	      <% if @artist.has_profile_image -%>
   	      <img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
 	      <% else -%>
-  	      <img class="profile" src="/images/xdefault-profile-img.png" width="200" />
+  	      <img class="profile" src="/images/default-profile-img.png" width="200" />
   	      <% end -%>
 	    </a>
 	    <% else -%>
