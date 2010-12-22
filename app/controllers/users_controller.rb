@@ -78,7 +78,7 @@ class UsersController < ApplicationController
     end
     if @user == current_user && current_user.favorites.count <= 0
       tmph = {}
-      @random_picks = ArtPiece.find_random(40)
+      @random_picks = ArtPiece.find_random(36)
     end
   end
 

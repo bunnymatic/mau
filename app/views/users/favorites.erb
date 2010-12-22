@@ -21,30 +21,36 @@
        <p class="no-favorites-msg">It looks like you don't have any favorites yet.  Go find an artist or some artwork that you like.  You'll see this <span class="micro-icon heart"></span>. You can find artists by name, medium or tag.  Start your search below or use the &quot;artist&quot; link above.  
        </p>
        <div class="random-picks">
-         <div class="by-name random-sxn">
+         <a href="<%= artists_path %>">
+           <div class="by-name random-sxn">
            <h5>Artists by Name</h5>
            <ul >
              <% @random_picks.each do |item| -%>
-             <%= draw_micro_favorite item %>
+             <%= draw_micro_favorite item, :linkless => true %>
              <% end -%>
            </ul>
          </div>
+           </a>
+         <a href="<%= media_path :m => 'a'%>">
          <div class="by-medium random-sxn">
            <h5>Artists by Medium</h5>
            <ul>
              <% @random_picks.each do |item| -%>
-             <%= draw_micro_favorite item %>
+             <%= draw_micro_favorite item, :linkless => true %>
              <% end -%>
            </ul>
          </div>
+         </a>
+         <a href="<%= tags_path :m => 'a'%>">
          <div class="by-tag random-sxn">
            <h5>Artists by Tag</h5>
            <ul >
              <% @random_picks.each do |item| -%>
-             <%= draw_micro_favorite item %>
+             <%= draw_micro_favorite item, :linkless => true %>
              <% end -%>
            </ul>
          </div>
+         </a>
        </div>
     <% else -%>
     <h5>Art Pieces (<%= @user.fav_art_pieces.count %>)</h5>    

@@ -32,8 +32,13 @@ module FavoritesHelper
     xstyle = options[:style].blank? ? "" : "style='#{options[:style]}'"
     title = fav.get_name true
     wd, ht = fav.get_min_scaled_dimensions 24
+    result = ""
     if img && path 
-      "<li #{xstyle}><a href='#{path}' title='#{title}'><div class='thumb #{xclass}' ><img src='#{img}' title='#{title}' height='#{ht}' width='#{wd}'/></div></a></li>"
+      result << "<li #{xstyle}>"
+      result << "<a href='#{path}' title='#{title}'>" unless options[:linkless]
+      result << "<div class='thumb #{xclass}' ><img src='#{img}' title='#{title}' height='#{ht}' width='#{wd}'/></div>"
+      result << "</a>" unless options[:linkless]
+      result << "</li>"
     end
   end
 end
