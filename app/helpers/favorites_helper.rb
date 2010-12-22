@@ -36,52 +36,6 @@ module FavoritesHelper
       "<li #{xstyle}><a href='#{path}' title='#{title}'><div class='thumb #{xclass}' ><img src='#{img}' title='#{title}' height='#{ht}' width='#{wd}'/></div></a></li>"
     end
   end
-  
-  def draw_thumb_widget fav, options=nil
-    options ||= {}
-    if fav.class == Artist
-      draw_artist_widget fav, options
-    else
-      draw_art_piece_widget fav, options
-    end
-  end
-
-  def draw_art_piece_widget fav, options
-    img, path = get_image_and_path fav, 'thumb'
-    title = fav.get_name true
-    if img && path 
-<<THUMB
-   <div class="artpiece-thumb">
-     <div class="search-thumb-art thumb">
-        <a href="#{path}"><img border=0 src="#{img}" /></a>
-     </div>
-     <div class="search-thumb-info">
-        <a href="#{path}">#{title}</a> by <a href="#{artist_path(fav.artist)}">#{fav.artist.get_name true}</a>
-     </div>
-   </div>
-THUMB
-    end
-  end
-  def draw_artist_widget fav, options
-    img, path = get_image_and_path fav, 'thumb'
-    title = fav.get_name true
-    from_studio = ''
-    if fav.studio 
-      from_studio = "from <a href='#{studio_path(fav.studio)}'>#{fav.studio.get_name true}</a>"
-    end
-    if img && path 
-<<THUMB
-   <div class="artpiece-thumb">
-     <div class="search-thumb-art thumb">
-        <a href="#{path}"><img border=0 src="#{img}" /></a>
-     </div>
-     <div class="search-thumb-info">
-       <div><a href="#{path}">#{title}<a> #{from_studio}</div>
-     </div>
-   </div>
-THUMB
-    end
-  end
 end
 
 

@@ -389,9 +389,18 @@ describe UsersController do
         it "has the no favorites msg" do
           response.should have_tag('.no-favorites-msg', :count => 1)
         end
+        it "has section for 'artist by name'" do
+          response.should have_tag('h5', :text => 'Artists by Name')
+        end
+        it "has section for 'artist by medium'" do
+          response.should have_tag('h5', :text => 'Artists by Medium')
+        end
+        it "has section for 'artist by tag'" do
+          response.should have_tag('h5', :text => 'Artists by Tag')
+        end
         it "does not show the favorites sections" do
-          response.should_not have_tag('h5', :include_text => 'Artists')
-          response.should_not have_tag('h5', :include_text => 'Art Pieces')
+          response.should_not have_tag('.favorites > h5', :include_text => 'Artists')
+          response.should_not have_tag('.favorites > h5', :include_text => 'Art Pieces')
         end
         it "doesn't show a button back to the artists page" do
           response.should_not have_tag('.buttons form')
