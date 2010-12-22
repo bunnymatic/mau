@@ -12,7 +12,8 @@ module FavoritesHelper
     [img,path]
   end
 
-  def draw_small_favorite fav, options
+  def draw_small_favorite fav, options=nil
+    options ||= {}
     xstyle = options[:style]
     img, path = get_image_and_path fav, 'small'
     del_btn = ''
@@ -24,7 +25,8 @@ module FavoritesHelper
     end
   end
 
-  def draw_micro_favorite fav, options
+  def draw_micro_favorite fav, options=nil
+    options ||= {}
     img, path = get_image_and_path fav, 'thumb'
     xclass = options[:class] || ""
     xstyle = options[:style].blank? ? "" : "style='#{options[:style]}'"
@@ -34,6 +36,23 @@ module FavoritesHelper
       "<li #{xstyle}><a href='#{path}' title='#{title}'><div class='thumb #{xclass}' ><img src='#{img}' title='#{title}' height='#{ht}' width='#{wd}'/></div></a></li>"
     end
   end
-
+  
+  def draw_thumb_widget fav, options=nil
+    options ||= {}
+    img, path = get_image_and_path fav, 'thumb'
+    title = fav.get_name true
+    if img && path 
+<<THUMB
+   <div class="artpiece-thumb">
+     <div class="search-thumb-art thumb">
+        <a href="#{path}"><img border=0 src="#{img}" /></a>
+     </div>
+     <div class="search-thumb-info">
+        #{title}
+     </div>
+   </div>
+THUMB
+    end
+  end
 end
 

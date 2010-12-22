@@ -5,7 +5,7 @@
    else
    linkto = art_piece_path(piece)
    end
-   safe_title = HTMLHelper.encode(piece.title)
+   safe_title = piece.get_name true
    -%>
 <% if piece.artist -%>
 <div class="artpiece-thumb">

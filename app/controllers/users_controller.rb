@@ -70,27 +70,23 @@ class UsersController < ApplicationController
       return
     end
     @user = safe_find_user(params[:id])
-    if @user == current_user && current_user.favorites.count <= 0
-      tmph = {}
-      Artist.find_random(3).each do |item|
-        ky = item.as_json.hash
-        tmph[ky] = item
-        tmph[ky] = { :name => item.get_name(true), :path => artist_path(item) }
-      end
-      ArtPiece.find_random(3).each do |item| 
-        ky = item.as_json.hash
-        tmph[ky] = item
-        name = "%s by %s" % [item.get_name(true), item.artist.get_name(true)]
-        tmph[ky] = { :name => name,
-          :path => art_piece_path(item) }
-      end
-      @random_picks = tmph.values.map{ |v| [v[:path], v[:name]] }
-    end
     if !@user or @user.suspended?
       @user = nil
       flash.now[:error] = "The account you were looking for was not found."
       redirect_back_or_default("/")
       return
+    end
+    if @user == current_user && current_user.favorites.count <= 0
+      tmph = {}
+      Artist.active.find_random(3).each do |item|
+        ky = item.as_json.hash
+        tmph[ky] = item
+      end
+      ArtPiece.find_random(3).each do |item| 
+        ky = item.as_json.hash
+        tmph[ky] = item
+      end
+      @random_picks = tmph.values
     end
   end
 
