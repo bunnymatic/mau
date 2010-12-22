@@ -78,15 +78,7 @@ class UsersController < ApplicationController
     end
     if @user == current_user && current_user.favorites.count <= 0
       tmph = {}
-      Artist.active.find_random(3).each do |item|
-        ky = item.as_json.hash
-        tmph[ky] = item
-      end
-      ArtPiece.find_random(3).each do |item| 
-        ky = item.as_json.hash
-        tmph[ky] = item
-      end
-      @random_picks = tmph.values
+      @random_picks = ArtPiece.find_random(40)
     end
   end
 
@@ -403,7 +395,7 @@ class UsersController < ApplicationController
         render :json => {:message => 'Removed a favorite'}
         return
       else
-        flash[:notice] = "The favorite has been removed"
+        flash[:notice] = "#{obj.get_name true} has been removed from your favorites."
         redirect_to referrer || obj
       end
     else
