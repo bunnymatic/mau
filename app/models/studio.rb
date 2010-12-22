@@ -43,6 +43,10 @@ class Studio < ActiveRecord::Base
     StudioImage.get_path(self, size)
   end
 
+  def get_name encode
+    self.name
+  end
+
   protected
   def compute_geocode
     result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city, self.state, self.zip])
