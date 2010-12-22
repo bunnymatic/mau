@@ -1,8 +1,8 @@
 class ArtistProfileImage
   DEFAULT_PROFILE_IMAGES = {
-    "medium" => '/images/s_default-profile-img-not-me.jpg',
-    "small" => '/images/s_default-profile-img-not-me.jpg',
-    "thumb" => '/images/t_default-profile-img-not-me.jpg'
+    "medium" => '/images/s_default-profile-img-not-me.png',
+    "small" => '/images/s_default-profile-img-not-me.png',
+    "thumb" => '/images/t_default-profile-img-not-me.png'
   }
 
   def self.get_path(artist, size="medium")

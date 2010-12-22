@@ -20,7 +20,7 @@
 	       <li class="leaf"><a href="/art_pieces/new">add art</a></li>
 	       <li class="leaf"><a href="<%= arrangeart_artists_path %>">arrange art</a></li>
 	       <li class="leaf"><a href="<%= deleteart_artists_path %>">delete art</a></li>
-	       <li class="leaf last"><a href="<%= favorites_user_path current_user %>"><span class="micro-icon heart"></span> favorites</a></li>
+	       <li class="leaf last"><a href="<%= favorites_user_path current_user %>">my favorites</a></li>
 	     </ul>
 	   </li>
            <%   else -%>
@@ -53,7 +53,7 @@
 	     <a class="lknav" href="<%= artists_path %>" title="artists">artists</a>
 	     <ul>
 	       <li class="first leaf">
-		 <a href="<%= artists_path %>" title="all artists">all artists</a>
+		 <a href="<%= artists_path %>" title="artists by name">artists by name</a>
 	       </li>
                <% if Conf.oslive %>                           
 	       <li class="leaf">

@@ -51,14 +51,14 @@
 		<% if @fan.has_profile_image -%>
   		<img class="profile" src="<%= @fan.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
 		<% else -%>
-  		<img class="profile" src="/images/default-profile-img.jpg" width="200" />
+  		<img class="profile" src="/images/default-profile-img.png" width="200" />
   		<% end -%>
 	      </a>
 	      <% else -%>
 	      <%  if @fan.has_profile_image -%>
   	      <img class="profile" src="<%= @fan.get_profile_image('small') %>" />
 	      <%  else %>
-  	      <img class="profile" src="/images/default-profile-img-not-me.jpg" width="200" />
+  	      <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
   	      <%  end -%>
 	      <% end -%>
 	    </div>

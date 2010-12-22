@@ -80,14 +80,14 @@
 	      <% if @artist.has_profile_image -%>
   	      <img class="profile" src="<%= @artist.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
 	      <% else -%>
-  	      <img class="profile" src="/images/default-profile-img.jpg" width="200" />
+  	      <img class="profile" src="/images/xdefault-profile-img.png" width="200" />
   	      <% end -%>
 	    </a>
 	    <% else -%>
 	    <%   if @artist.has_profile_image -%>
   	    <img class="profile" src="<%= @artist.get_profile_image('small') %>" />
 	    <% else %>
-  	    <img class="profile" src="/images/default-profile-img-not-me.jpg" width="200" />
+  	    <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
   	    <%   end -%>
 	    <% end -%>
 	    <% if @artist.osoct2010? -%>
@@ -119,7 +119,7 @@
   <% if @artist.art_pieces -%>
   <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }} %>
   <% else -%>
-  <img src="/images/default-art-img.jpg" width="200" />
+  <img src="/images/default-art-img.png" width="200" />
   <% end -%>
 <% end -%>
 </div>
