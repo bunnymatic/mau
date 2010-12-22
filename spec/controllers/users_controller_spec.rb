@@ -426,7 +426,7 @@ describe UsersController do
             response.should be_success
           end
           it "does not assign random picks" do
-            assigns(:random_picks).should be_false
+            assigns(:random_picks).should be_nil
           end
           it "shows the title" do
             response.should have_tag('h4', :include_text => 'My Favorites')
