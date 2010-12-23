@@ -2036,11 +2036,11 @@ div.popup-help {
     top: -3em;
 }
 
-.popup-help-text {
+.popup-text {
     font-size: x-small;
     padding: 4px 6px 12px 12px;
 }
-.popup-help-close {
+.popup-close {
     position: absolute;
     right: 6px;
     top: 4px;
@@ -2065,13 +2065,13 @@ div.popup-help {
     }
 }
 
-#note_modal_content .popup-help-text,
-#feedback_modal_content .popup-help-text {
+#note_modal_content .popup-text,
+#feedback_modal_content .popup-text {
     font-size: small;
 }
 
-#note_modal_content .popup-help-title,
-#feedback_modal_content .popup-help-title {
+#note_modal_content .popup-title,
+#feedback_modal_content .popup-title {
     -moz-border-radius-topleft: 9px;
     -moz-border-radius-topright: 9px;
     -webkit-border-top-left-radius: 9px;
@@ -2085,7 +2085,7 @@ div.popup-help {
     margin-bottom: 4px;
 }
 
-.popup-help-header {
+.popup-header {
     -moz-border-radius-topleft: 4px;
     -moz-border-radius-topright: 4px;
     -webkit-border-top-left-radius: 4px;
@@ -2099,7 +2099,7 @@ div.popup-help {
 }
 
 .feedback-signup-msg,
-.popup-help-text {
+.popup-text {
     border-left:0;
     border-right:0;
 }
@@ -2111,13 +2111,13 @@ div.popup-help {
     padding-left: 10px;
 }
 
-#feedback_modal_content .popup-help-text,
+#feedback_modal_content .popup-text,
 #feedback_modal_content .feedback-signup-msg {
     background-color: #222;
 }
 
-#note_modal_content .popup-help-text,
-#feedback_modal_content .popup-help-text {
+#note_modal_content .popup-text,
+#feedback_modal_content .popup-text {
     padding-right: 10px;
 }
 #feedback_modal_content .feedback-signup-msg {
@@ -2201,7 +2201,7 @@ a#note_close_link{
     width: 610px;
 }
 
-#note_modal_content .popup-help-text {
+#note_modal_content .popup-text {
     background-color: #222
 }
 

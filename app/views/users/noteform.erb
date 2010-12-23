@@ -1,9 +1,9 @@
 <div>
 <% if !@errmsg -%>
-<div class="popup-help-title">
+<div class="popup-title">
 Send <%=h @artist.get_name %> a note
 </div>
-<div class="popup-help-text">
+<div class="popup-text">
   <% form_tag '/users/' + @artist.id.to_s + '/notify', :id => 'note_form', :method => :put do -%>
   <div class="fdbk-form">
     <% unless @error_message.blank? -%>
