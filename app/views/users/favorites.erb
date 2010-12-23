@@ -23,7 +23,7 @@
        <div class="random-picks">
          <a href="<%= artists_path %>">
            <div class="by-name random-sxn">
-           <h5>Artists by Name</h5>
+           <h5>Find Artists by Name</h5>
            <ul >
              <% @random_picks.each do |item| -%>
              <%= draw_micro_favorite item, :linkless => true %>
@@ -33,7 +33,7 @@
            </a>
          <a href="<%= media_path :m => 'a'%>">
          <div class="by-medium random-sxn">
-           <h5>Artists by Medium</h5>
+           <h5>Find Artists by Medium</h5>
            <ul>
              <% @random_picks.each do |item| -%>
              <%= draw_micro_favorite item, :linkless => true %>
@@ -43,7 +43,7 @@
          </a>
          <a href="<%= tags_path :m => 'a'%>">
          <div class="by-tag random-sxn">
-           <h5>Artists by Tag</h5>
+           <h5>Find Artists by Tag</h5>
            <ul >
              <% @random_picks.each do |item| -%>
              <%= draw_micro_favorite item, :linkless => true %>
