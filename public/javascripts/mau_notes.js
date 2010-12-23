@@ -14,7 +14,11 @@ Object.extend(MAU.NotesMailer.prototype, {
     this.elements = selector;
     $$(selector).each(function(item) {
       item.observe('click', function(event) {
-        console.log(event.target);
+        var el = event.target;
+        el.insert('<div class="notes-popup">' + 
+                  '<div>Your Email Address:</div>' + 
+                  '<div><input /></div></div>');
+        
       });
     });
   }

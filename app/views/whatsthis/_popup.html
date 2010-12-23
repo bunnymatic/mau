@@ -11,11 +11,11 @@
 <% end %>
 <div id="<%= parent_id %>" style="display:none;">
     <div class="popup-help">
-      <div class="popup-help-header">
-	<div class="popup-help-title"><%= title %></div>
-	<div class="popup-help-close"><a href="#" onclick="<%= onclick %>">X</a></div>
+      <div class="popup-header">
+	<div class="popup-title"><%= title %></div>
+	<div class="popup-close"><a href="#" onclick="<%= onclick %>">X</a></div>
       </div>
-      <div class="popup-help-text">
+      <div class="popup-text">
 	<%= render :partial => "/whatsthis/" + section %>
       </div>
     </div>
