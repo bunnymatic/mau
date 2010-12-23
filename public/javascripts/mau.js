@@ -1066,7 +1066,7 @@ var TagMediaHelper = {
   Event.observe(window,'load', AC.onload);
   
   var Favorites = {
-    favorites_per_row : 10,
+    favorites_per_row : 20,
     init: function() {
       var favorites = $$('.favorite_this');
       $$('.favorite_this').each(function(lnk) {
@@ -1127,7 +1127,7 @@ var TagMediaHelper = {
           lk.removeClassName('fewer');
           lk.select('a').each(function(lnk) {
             lnk.writeAttribute('title','show fewer');
-            lnk.innerHTML = 'less'; 
+            lnk.innerHTML = 'hide'; 
           });
         }
         else {
@@ -1135,7 +1135,7 @@ var TagMediaHelper = {
           lk.addClassName('fewer');
           lk.select('a').each(function(lnk) {
             lnk.writeAttribute('title','show more');
-            lnk.innerHTML = 'more'; 
+            lnk.innerHTML = 'see all'; 
           });
         }
       });

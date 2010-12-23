@@ -1,7 +1,7 @@
 <% unless page_owner.what_i_favorite.empty? -%>
-<% favorites_per_row = 10 # coordinate this with javascript favorites_per_row -%>
+<% favorites_per_row = 20 # coordinate this with javascript favorites_per_row -%>
 <div id="my_favorites" class="favorites-block" >
-  <div><label><a href="<%= favorites_user_path(page_owner) %>">
+  <div><label>
       <% if current_user && current_user.id == page_owner.id -%>
       my 
       <% else -%>
@@ -9,9 +9,8 @@
       <% end -%>
       favorites
       <span>(<%= page_owner.what_i_favorite.count %>)</span>
-      </a>
       <% if page_owner.what_i_favorite.count > favorites_per_row -%>
-      <div class="show-toggle fewer"><a href="#">more</a></div>
+      <a class="see-all" href="<%= favorites_user_path(page_owner) %>">see all</a>
       <% end -%>
   </label>
   </div>
