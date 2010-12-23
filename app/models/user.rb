@@ -290,14 +290,7 @@ class User < ActiveRecord::Base
   end
 
   def remove_favorite(fav)
-    favoritable_id = fav.id
-    f = Favorite.find_by_favoritable_type_and_favoritable_id(fav.class.name, favoritable_id)
-    if f
-      # return the deleted record
-      f.delete
-    else 
-      nil
-    end
+    favorites.select { |f| f.favoritable_type == fav.class.name && f.favoritable_id == fav.id }.map(&:delete)
   end
 
   def fav_artists
@@ -338,7 +331,7 @@ class User < ActiveRecord::Base
   
   protected
   def get_favorite_ids(tps)
-    (self.favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
+    (favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
   end
 
 end

@@ -338,6 +338,11 @@ a {
     position:relative;
     z-index: 1;
 }
+#header_bar {
+    .heart {
+        font-size: 20px;
+    }
+}
 #footer_bar div {
     line-height:33px;
 }
@@ -1873,7 +1878,7 @@ textarea.artist-bio {
     width: 160px;
 }
 #mymaunav ul {
-    width: 110px;
+    width: 130px;
 }
 ul.dropdown li:hover a,
 .nav a.lknav {
@@ -1889,11 +1894,10 @@ ul.dropdown {
 .dropdown {
     border-left: 1px solid #738294;
     text-align:left;
+    &.first {
+        border: 0;
+    }
 }
-.dropdown.first {
-    border: 0;
-}
-
 .tagcloud {
     margin: 0 auto 10px auto;
     padding-right: 12px;
@@ -2375,96 +2379,99 @@ ul.dropdown {
     display: inline;
 }
 
-ul.dropdown { padding: 0px; margin: 0px; }
-ul.dropdown li.dir {
-    background-color: transparent;
-    border:0;
-}
-ul.dropdown li.dir {
-    background-color: transparent;
-    border:0;
-}
-ul.dropdown li {
-    background-color:#c6c7d6;
-    border-color:#d6d7e6 #888 #888 #d6d7e6;
-    border-style:solid;
-    border-width:0px 1px 1px 1px;
-    float:left;
-    padding: 4px;
-    vertical-align:middle;
-}
-ul.dropdown li:hover {
-    cursor:pointer;
-    position:relative;
-    z-index:599;
-}
-ul.dropdown ul {
-    left:0px;
-    position:absolute;
-    top: 90%;
-    visibility:hidden;
-    width:100%;
-    z-index:598;
-}
-ul.dropdown ul ul {
-    left:99%;
-    top:0px;
-}
-ul.dropdown li:hover > ul {
-    visibility:visible;
+ul.dropdown { 
+    padding: 0px; 
+    margin: 0px; 
+    li {
+        background-color:#c6c7d6;
+        border-color:#d6d7e6 #888 #888 #d6d7e6;
+        border-style:solid;
+        border-width:0px 1px 1px 1px;
+        float:left;
+        padding: 4px;
+        vertical-align:middle;
+        &.dir {
+            background-color: transparent;
+            border:0;
+        }
+        &:hover {
+            cursor:pointer;
+            position:relative;
+            z-index:599;
+            background-image: url(/images/gradients.png);
+            background-repeat: repeat-x;
+            background-position: 0 -165px; /* 40px gradient */
+        }
+    }
+    ul {
+        left:0px;
+        position:absolute;
+        top: 90%;
+        visibility:hidden;
+        width:100%;
+        z-index:598;
+        ul {
+            left:99%;
+            top:0px;
+        }
+    }
+    li:hover > ul {
+        visibility:visible;
+    }
 }
 ul.dropdown a:link, ul.dropdown a:visited {
     text-decoration:none;
 }
-ul.dropdown li:hover {
-    background-image: url(/images/gradients.png);
-    background-repeat: repeat-x;
-    background-position: 0 -165px; /* 40px gradient */
-}
-ul.dropdown ul li:hover {
-    font-weight:normal;
-    background-image: url(/images/gradients.png);
-    background-repeat: repeat-x;
-    background-position: 0 -165px; /* 40px gradient */
-}
-ul.dropdown ul:hover {color: #606;}
 ul.dropdown a:hover {
 }
 ul.dropdown a:active {
 }
 
-ul.dropdown ul li {
-    float:none;
-    font-weight:normal;
-    background-color: #738294;
-    background-image: url(/images/gradients.png);
-    background-repeat: repeat-x;
-    background-position: 0 -50px; /* 40px gradient */
-}
-ul.dropdown ul .dir {
-    padding-right:15px;
-}
-
-ul.dropdown ul .last {
-    -moz-border-radius-bottomleft: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -webkit-border-bottom-right-radius: 5px;
-}
-ul.dropdown ul .first {
-    -moz-border-radius-topright: 5px;
-    -webkit-border-top-right-radius: 5px;
+ul.dropdown 
+ul {
+    &:hover { 
+        color: #606;
+    }
+    li:hover {
+        font-weight:normal;
+        background-image: url(/images/gradients.png);
+        background-repeat: repeat-x;
+        background-position: 0 -165px; /* 40px gradient */
+    }
+    .dir {
+        padding-right:15px;
+    }
+    li {
+        float:none;
+        font-weight:normal;
+        background-color: #738294;
+        background-image: url(/images/gradients.png);
+        background-repeat: repeat-x;
+        background-position: 0 -50px; /* 40px gradient */
+    }
+    .last {
+        -moz-border-radius-bottomleft: 5px;
+        -moz-border-radius-bottomright: 5px;
+        -webkit-border-bottom-left-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
+    }
+    .first {
+        -moz-border-radius-topright: 5px;
+        -webkit-border-top-right-radius: 5px;
+    }
 }
 
 /** open studios info page
  */
-#about_text ul {
-    list-style: disc;
-    margin-left: 15px;
-    padding-left: 20px;
-}
-#about_text li {
-    margin-bottom: 15px;
+#about_text {
+    ul {
+        list-style: disc;
+        margin-left: 15px;
+        padding-left: 20px;
+    }
+    li {
+        margin-bottom: 15px;
+    }
 }
 
 #ac_tags {
