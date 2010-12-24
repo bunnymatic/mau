@@ -17,11 +17,12 @@ post_to_url = function (path, params, method) {
     // The rest of this code assumes you are not using a library.
     // It can be made less wordy if you use one.
   var form = new Element('form', { method: method, action: path });
+  var hiddenField = null;
   for(var key in params) {
-    var hiddenField = new Element('input', { type: 'hidden', name: key, value: params[key] })
+    hiddenField = new Element('input', { type: 'hidden', name: key, value: params[key] });
     form.appendChild(hiddenField);
   }
-  var hiddenField = new Element('input', { type: 'hidden', name: 'authenticity_token', value:unescape(authenticityToken)});
+  hiddenField = new Element('input', { type: 'hidden', name: 'authenticity_token', value:unescape(authenticityToken)});
   form.appendChild(hiddenField);
   document.body.appendChild(form);    // Not entirely sure if this is necessary
   form.submit();
@@ -598,8 +599,7 @@ var TagMediaHelper = {
         if ($shares.length > 0) {
           $shares.each(function(lnk) {
             var href = lnk.getAttribute('href');
-            href = href.replace(/(%2Fart_pieces%2F)\d+(.*)/
-                                ,"$1"+ap.id+"$2" );
+            href = href.replace(/(%2Fart_pieces%2F)\d+(.*)/,"$1"+ap.id+"$2" );
             lnk.writeAttribute('href', href);
           });
         }
@@ -1024,7 +1024,7 @@ var TagMediaHelper = {
       AC.open_form(newform.value, true);
       // remove dummy option
       var $def = $(AC.DEFAULT_OPTION);
-      if ($def) { $def.remove() };
+      if ($def) { $def.remove(); }
     },
     open_form: function(frmtype, enabled) {
       if (!(frmtype in AC.FORM_HASH)) {
