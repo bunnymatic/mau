@@ -10,20 +10,34 @@ MAU = window['MAU'] || {};
 MAU.NotesMailer = Class.create();
 
 Object.extend(MAU.NotesMailer.prototype, {
-  initialize: function(selector) {
-    this.elements = selector;
-    $$(selector).each(function(item) {
-      item.observe('click', function(event) {
-        var el = event.target;
-        el.insert('<div class="notes-popup">' + 
-                  '<div>Your Email Address:</div>' + 
-                  '<div><input /></div></div>');
-        
+  notes: {
+    email_list: "<div>email list</div",
+    inquiry: "<div>inquiry</div>"
+  },
+  insert: function(selector, key) {
+    var _that = this;
+    $$(selector).each(function(el) {
+      el.insert(_that[key]);
+    });
+  },
+  initialize: function(selector, note_class) {
+    var _that = this;
+    $$(selector).each(function(el) {
+      el.insert('<div class="' + note_class +'">');
+      $$(selector).each(function(root) {
+        $(root).select("." + note_class).each(function(notehead) {
+          if (note_class in _that.notes) {
+            $(notehead).observe('click', function (){ 
+              _that.insert( _that.notes[note_class]); 
+            });
+          }
+        });
       });
     });
   }
 });
 
-Event.observe(window,'load', function() {
-  var nm = new MAU.NotesMailer('.send-mau-a-note');
-});
+
+
+
+

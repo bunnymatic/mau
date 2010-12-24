@@ -1,3 +1,8 @@
+<script>
+  Event.observe(window, 'load', function() {  
+    var m = new MAU.NotesMailer(".send-mau-a-note", function() { alert('yo'); });
+  });
+</script>
 <div id="contact_text" >
   <%= render :partial => '/main/contact' %>
   <%= render :partial => '/main/info_footer' %>
