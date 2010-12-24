@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     maucookie = CookiesHelper::decode_cookie(cookies[:mau])
     if !maucookie or maucookie.empty?
       last_visit = DateTime::now()
-      cookies[:mau] = CookiesHelper::encode_cookie({ :last_visit => last_visit })
+      cookies[:mau] = CookiesHelper::encode_cookie({ :last_visit => last_visit, :email => current_user ? current_user.email : '' })
       @last_visit = last_visit
     end
   end

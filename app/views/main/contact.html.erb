@@ -1,6 +1,7 @@
 <script>
   Event.observe(window, 'load', function() {  
-    var m = new MAU.NotesMailer(".send-mau-a-note", function() { alert('yo'); });
+    var m = new MAU.NotesMailer(".send-mau-a-note.general-inquiry", { note_class: 'inquiry' });
+    var m2 = new MAU.NotesMailer(".send-mau-a-note.mailing-list", { note_class: 'email_list' });
   });
 </script>
 <div id="contact_text" >
