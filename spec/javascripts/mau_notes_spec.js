@@ -12,7 +12,7 @@ Screw.Unit(function(){
   describe("mau notes", function() {
     it ("sets up inquiry inputs", function() {
       var sxn = 'inquiry';
-      var m = new MAU.NotesMailer("#fixture", sxn);
+      var m = new MAU.NotesMailer("#fixture", { note_class: sxn });
       var clickEvents = []
       try {
         clickEvents = $("fixture").select("." + sxn)[0].getStorage().get('prototype_event_registry').get('click');
@@ -22,7 +22,7 @@ Screw.Unit(function(){
     });
     it ("fails to setup 'blah' inputs - not a valid note type", function() {
       var sxn = 'blah';
-      var m = new MAU.NotesMailer("#fixture", sxn);
+      var m = new MAU.NotesMailer("#fixture", { note_class: sxn });
       var clickEvents = []
       try {
         clickEvents = $("fixture").select("." + sxn)[0].getStorage().get('prototype_event_registry').get('click');
@@ -32,7 +32,7 @@ Screw.Unit(function(){
     });
     it ("sets up email notes", function() {
       var sxn = 'email_list';
-      var m = new MAU.NotesMailer("#fixture", sxn);
+      var m = new MAU.NotesMailer("#fixture", { note_class: sxn });
       var clickEvents ;
       try {
         clickEvents = $("fixture").select("." + sxn)[0].getStorage().get('prototype_event_registry').get('click');
@@ -43,35 +43,40 @@ Screw.Unit(function(){
   });
 
   describe("insert", function() {
-    it ("adds the inquiry elements", function() {
-      var sxn = 'inquiry';
-      var m = new MAU.NotesMailer("#fixture", sxn);
-      m.insert(); // click bound
-      expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
-    });
-
     describe("email_list", function() {
       var sxn = 'email_list';
       before(function() {
-        var m = new MAU.NotesMailer("#fixture", sxn);
+        var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
         m.insert(); // click bound
       });
       it ("adds the popup-mailer container", function() {
         expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
       });
-      it ("adds email input", function() {
-        expect($$('input#email').length).to(equal, 1);
+      it ("adds 2 email inputs", function() {
+        expect($$('.' + sxn + ' .popup-mailer form input#email').length).to(equal, 1);
+        expect($$('.' + sxn + ' .popup-mailer form input#email_confirm').length).to(equal, 1);
       });
+      it ('has a submit button', function() {
+        expect($$('.' + sxn + ' .popup-mailer form input[type=submit]').length).to(equal, 1);
+      });
+      it ('points to the right url', function() {
+        expect($$('.' + sxn + ' .popup-mailer form[action=myurl]').length).to(equal,1);
+      });
+
     });
     describe("inquiry", function() {
       var sxn = 'inquiry';
       before(function() {
-        var m = new MAU.NotesMailer("#fixture", sxn);
+        var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'theurl'} );
         m.insert(); // click bound
       });
       it ("adds the popup-mailer container", function() {
         expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
       });
+      it ('points to the right url', function() {
+        expect($$('.' + sxn + ' .popup-mailer form[action=theurl]').length).to(equal,1);
+      });
+
     });
 
   });

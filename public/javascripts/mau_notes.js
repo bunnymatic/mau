@@ -13,12 +13,16 @@ var constructEmailListMessage = function() {
   var el = new Element('div');
   el.innerHTML = "Awesome!  We'll notify you of upcoming MAU events.  We hate spam just like you do so the only things you'll be apprised of will be great!  Enter your email twice below and we'll put you on the list.";
   $(el).insert({bottom:new Element('input', { type: 'text', id: 'email' })});
+  $(el).insert({bottom:new Element('input', { type: 'text', id: 'email_confirm' })});
+  $(el).insert({bottom:new Element('input', { type: 'submit', id: 'submit' })});
   return el;
-}
+};
 
 Object.extend(MAU.NotesMailer.prototype, {
+  defaults: {
+    url: '/email'
+  },
   selector: null,
-  note_class: null,
   notes: {
     email_list: constructEmailListMessage(), 
     inquiry: "<div>inquiry</div>"
@@ -26,19 +30,25 @@ Object.extend(MAU.NotesMailer.prototype, {
   insert: function() {
     var _that = this;
     $$(this.selector).each(function(el) {
-      var clz = '.'+_that.note_class;
+      var note_class = _that.options.note_class;
+      var clz = '.' + note_class;
       var subels = $(el).select(clz);
       $(subels).each( function(subel) {
-        var s = $(subel).insert('<div class="popup-mailer"></div>');
-        $(s).insert(_that.notes[_that.note_class]);
+        var inner = $(_that.notes[note_class]);
+        var f = new Element('form', { method: 'post', action: _that.options.url });
+        $(f).insert(inner);
+        var c = new Element('div', { class: 'popup-mailer' });
+        $(c).insert(f);
+        $(subel).insert(c);
       });
     });
   },
-  initialize: function(selector, note_class) {
+  initialize: function(selector, opts) {
+    this.options = Object.extend(this.defaults,opts);
     this.selector = selector;
-    this.note_class = note_class;
     var _that = this;
     $$(selector).each(function(el) {
+      var note_class = _that.options.note_class;
       if (note_class in _that.notes) {
         el.insert('<div class="' + note_class +'">');
         $$(selector).each(function(root) {
