@@ -83,58 +83,59 @@ Object.extend(MAU.NotesMailer.prototype, {
   },
   form_builders: FormConstructors,
   selector: null,
-  show: function() {
-    $$(this.selector + ' .' + this.options.note_class).each(function(el) {
-      //el.appear({duration:.3});
-      el.show();
-    });
+  _parent_class: function(selector) {
+    if (selector) {
+      return '.send-mau-a-note.mau-notes-container-' + this.options.note_class;
+    } else {
+      return 'send-mau-a-note mau-notes-container-' + this.options.note_class;
+    }
   },
   close: function(ev) {
-    $$(this.selector + ' .' + this.options.note_class).each(function(el) {
-      //el.fade({duration:.3});
-      el.hide();
+    $$(this._parent_class(true)).each(function(el) {
+      el.fade({duration:.3, afterFinish: function() { el.remove(); }});
     });
     if (ev) {
       ev.stopPropagation();
     }
     return false;
   },
-  insert: function() {
+  insert: function(ev) {
+    var xpos = ypos = 0;
+    if (ev) {
+      xpos = ev.pointerX();
+      ypos = ev.pointerY();
+    }
     var _that = this;
-    $$(this.selector).each(function(el) {
+    if ($$(this._parent_class(true)).length == 0 ) {
       var note_class = _that.options.note_class;
-      var clz = '.' + note_class;
-      var subels = $(el).select(clz);
-      $(subels).each( function(subel) {
-        if (!$(subel).select('.popup-mailer').length) {
-          var formbuilder = _that.form_builders[note_class];
-          var inner = '';
-          if (formbuilder.render) {
-            inner = $(formbuilder.render());
-          }
-          var f = new Element('form', { method: 'post', action: _that.options.url });
-          $(f).insert(new Element('input', { name: 'authenticity_token', type: 'hidden', value: unescape(authenticityToken) }));
-          $(f).insert(inner);
-          $(f).observe('submit', function() {
-            if (formbuilder.submit) {
-              formbuilder.submit();
-            }
-            f.request({onComplete: _that.close});
-          });
-          var h = new Element('div', { class: 'popup-header' }).update( formbuilder.title );
-          var x = new Element('div', { class: 'close-btn' }).update('x');
-          h.insert(x);
-          x.observe('click', function(ev) { _that.close(ev); });
-          var c = new Element('div', { class: 'popup-content' });
-          var m = new Element('div', { class: 'popup-mailer' });
-          $(m).insert(h).insert(c);
-          $(c).insert(f);
-          $(subel).insert(m);
-        } else {
-          return false;
+      var formbuilder = _that.form_builders[note_class];
+      var inner = '';
+      if (formbuilder.render) {
+        inner = $(formbuilder.render());
+      }
+      var f = new Element('form', { method: 'post', action: _that.options.url });
+      $(f).insert(new Element('input', { name: 'authenticity_token', type: 'hidden', value: unescape(authenticityToken) }));
+      $(f).insert(inner);
+      $(f).observe('submit', function() {
+        if (formbuilder.submit) {
+          formbuilder.submit();
         }
+        f.request({onComplete: _that.close});
       });
-    });
+      var h = new Element('div', { class: 'popup-header' }).update( formbuilder.title );
+      var x = new Element('div', { class: 'close-btn' }).update('x');
+      h.insert(x);
+      x.observe('click', function(ev) { _that.close(ev); });
+      var c = new Element('div', { class: 'popup-content' });
+      var m = new Element('div', { class: 'popup-mailer' });
+      $(m).insert(h).insert(c);
+      $(c).insert(f);
+      var pos = "left: " + (xpos-250) + "px; top: " + ypos + "px;"
+        var notes = new Element('div', { class: _that._parent_class(),
+          style: pos }).insert(m);
+      $$('body')[0].insert(notes);
+    } else {
+    }
   },
   initialize: function(selector, opts) {
     this.options = Object.extend({},this.defaults);
@@ -143,11 +144,10 @@ Object.extend(MAU.NotesMailer.prototype, {
     if (this.options.note_class in this.form_builders) {
       var _that = this;
       $$(this.selector).each(function(el) {
-        el.insert(new Element('div', {style: 'display:none;', class: _that.options.note_class}));
+        el.insert(new Element('div', {class: _that.options.note_class}));
         $$(selector).each(function(root) {
           $(root).select("." + _that.options.note_class).each(function(notehead) {
-            _that.insert(); 
-            $(el).observe('click', function() { _that.show(); });
+            $(el).observe('click', function(ev) { _that.insert(ev); })
           });
         });
       });

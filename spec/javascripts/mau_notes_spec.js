@@ -9,15 +9,18 @@ require("../../public/javascripts/prototype/1.7/prototype.min.js", { onload: fun
 
 Screw.Unit(function(){
   before(function() {
-    $$('.inquiry').each(function(el) { el.remove(); } );
-    $$('.email_list').each(function(el) { el.remove(); });
+    $$('.send-mau-a-note').each(function(el) { el.remove(); } );
   });
   describe("mau notes", function() {
-    it ("sets up a close button with click handler", function() {
+    it ('nows how to get the parent class', function() {
       var sxn = 'inquiry';
       var m = new MAU.NotesMailer("#fixture", { note_class: sxn });
-      var clickEvents = get_click_events('#fixture .close-btn');
-      expect(clickEvents.length).to(equal,1);
+      expect(m._parent_class()).to(equal, 'send-mau-a-note mau-notes-container-inquiry');
+    });
+    it ('nows how to get the parent class as a selector', function() {
+      var sxn = 'inquiry';
+      var m = new MAU.NotesMailer("#fixture", { note_class: sxn });
+      expect(m._parent_class(true)).to(equal, '.send-mau-a-note.mau-notes-container-inquiry');
     });
     it ("sets up inquiry inputs", function() {
       var sxn = 'inquiry';
@@ -44,43 +47,62 @@ Screw.Unit(function(){
     var m;
     before(function() {
       m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
+      m.insert();
     });
     it ("has handler", function() {
-      var events = get_events('#fixture .' + sxn + ' form', 'submit');
+      var sel = m._parent_class(true) + " form";
+      console.log(sel);
+      var events = get_events(sel, 'submit');
       expect(events.length).to(equal, 1);
     });
   });
-  describe("close (on click close)", function() {
+  describe("close button", function() {
     var sxn = 'email_list';
+    it ("sets up a close button with click handler", function() {
+      var sxn = 'inquiry';
+      var m = new MAU.NotesMailer("#fixture", { note_class: sxn });
+      m.insert();
+      var clickEvents = get_click_events(m._parent_class(true) + " .close-btn");
+      expect(clickEvents.length).to(equal,1);
+    });
+  });
+  describe("close method", function() {
+    var m;
+    var sxn = 'inquiry';
     before(function() {
-      var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
+      m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
+      m.insert();
       var mymock = mock(function() {});
       stub(mymock, 'stopPropagation').and_return(true);
       m.close(mymock);
     });
+    /* not so good with scriptaculous... need to mock out fade with it's callback
     it ("form gets hidden", function() {
-      expect($$('.' + sxn)[0].visible()).to(equal, false);
+      expect($$(m._parent_class(true))[0].length).to(equal, 0);
     });
+*/
 
   });
   describe("insert (on click)", function() {
     describe("email_list", function() {
       var sxn = 'email_list';
+      var m;
       before(function() {
-        var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
+        m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
+        m.insert();
       });
       it ("adds the popup-mailer container", function() {
-        expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
+        expect($$(m._parent_class(true) + ' .popup-mailer').length).to(equal, 1);
       });
       it ("adds 2 email inputs", function() {
-        expect($$('.' + sxn + ' .popup-mailer .popup-content form input#email').length).to(equal, 1);
-        expect($$('.' + sxn + ' .popup-mailer .popup-content form input#email_confirm').length).to(equal, 1);
+        expect($$(m._parent_class(true) + ' .popup-mailer .popup-content form input#email').length).to(equal, 1);
+        expect($$(m._parent_class(true) + ' .popup-mailer .popup-content form input#email_confirm').length).to(equal, 1);
       });
       it ('has a submit button', function() {
-        expect($$('.' + sxn + ' .popup-mailer .popup-content form input[type=submit]').length).to(equal, 1);
+        expect($$(m._parent_class(true) + ' .popup-mailer .popup-content form input[type=submit]').length).to(equal, 1);
       });
       it ('points to the right url', function() {
-        expect($$('.' + sxn + ' .popup-mailer .popup-content form[action=myurl]').length).to(equal,1);
+        expect($$(m._parent_class(true) + ' .popup-mailer .popup-content form[action=myurl]').length).to(equal,1);
       });
       it ('fills in the title', function() {
         expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Join our mailing list')[0]).to(equal, 'Join our mailing list');      
@@ -91,28 +113,31 @@ Screw.Unit(function(){
     });
     describe("double insert", function() {
       var sxn = 'email_list';
+      var m;
       before(function() {
-        var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
+        m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
         m.insert(); 
       });
       it ("doesn't add 2 of everything", function() {
-        expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
-        expect($$('.' + sxn + ' .popup-mailer .popup-content form input#email').length).to(equal, 1);
-        expect($$('.' + sxn + ' .popup-mailer .popup-content form input#email_confirm').length).to(equal, 1);
-        expect($$('.popup-mailer .popup-header .close-btn').length).to(equal,1);
+        expect($$(m._parent_class(true) + ' .popup-mailer').length).to(equal, 1);
+        expect($$(m._parent_class(true) + ' .popup-mailer .popup-content form input#email').length).to(equal, 1);
+        expect($$(m._parent_class(true) + ' .popup-mailer .popup-content form input#email_confirm').length).to(equal, 1);
+        expect($$(m._parent_class(true) + ' .popup-header .close-btn').length).to(equal,1);
       });
     });
 
     describe("inquiry", function() {
       var sxn = 'inquiry';
+      var m;
       before(function() {
-        var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'theurl'} );
+        m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'theurl'} );
+        m.insert();
       });
       it ("adds the popup-mailer container", function() {
-        expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
+        expect($$(m._parent_class(true) + ' .popup-mailer').length).to(equal, 1);
       });
       it ('points to the right url', function() {
-        expect($$('.' + sxn + ' .popup-mailer form[action=theurl]').length).to(equal,1);
+        expect($$(m._parent_class(true) + ' .popup-mailer form[action=theurl]').length).to(equal,1);
       });
       it ('fills in the title', function() {
         expect($$('.popup-mailer .popup-header')[0].innerHTML.match('General Inquiry')[0]).to(equal, 'General Inquiry');      });
@@ -123,17 +148,21 @@ Screw.Unit(function(){
     describe("both forms on same page", function() {
       var s1 = 'inquiry';
       var s2 = 'email_list';
+      var m1;
+      var m2;
       before(function() {
-        var m1 = new MAU.NotesMailer("#fixture .general", { note_class: s1, url: 'myurl'} );
-        var m2 = new MAU.NotesMailer("#fixture .emailus", { note_class: s2, url: 'myurl'} );
+        m1 = new MAU.NotesMailer("#fixture .general", { note_class: s1, url: 'myurl'} );
+        m2 = new MAU.NotesMailer("#fixture .emailus", { note_class: s2, url: 'myurl'} );
         console.log(m1);
         console.log(m2);
+        m1.insert();
+        m2.insert();
       });
       it("shows general form", function() {
-        expect($$('#fixture .general .popup-mailer').length).to(equal,1);      
+        expect($$(m1._parent_class(true) +' .popup-mailer').length).to(equal,1);      
       });
       it("shows email form", function() {
-        expect($$('#fixture .emailus .popup-mailer').length).to(equal,1);
+        expect($$(m2._parent_class(true) +' .popup-mailer').length).to(equal,1);
       });
     });
   });
