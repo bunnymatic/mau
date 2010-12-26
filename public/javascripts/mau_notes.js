@@ -20,10 +20,28 @@ FormConstructors.inquiry = {
     C.init({name:'mau'});
     var c = C.getData('user_email');
 */
-    $(el).insert({bottom:new Element('input', { type: 'text', id: 'email', name: 'email' })});
-    $(el).insert({bottom:new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })});
-    $(el).insert({bottom:new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })});
-    $(el).insert({bottom:new Element('input', { type: 'submit', id: 'submit' })});
+    var inputs = new Element('ul');
+    var entries = [];
+
+    entries.push( [
+      new Element('div').update('Email:'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email' })) ]);
+    entries.push( [
+      new Element('div').update('Confirm Email:'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })) ]);
+    entries.push( [
+      new Element('div').update('Inquiry:'),
+      new Element('div').insert(new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })) ]);
+    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
+    
+    $(entries).each(function(entry) {
+      var li = new Element('li');
+      $(entry).each(function(chunk) {
+        li.insert(chunk);
+      });
+      inputs.insert(li);
+    });
+    el.insert(inputs);
     return el;
   }
 };
@@ -33,9 +51,26 @@ FormConstructors.email_list = {
   render: function() {
     var el = new Element('div');
     el.innerHTML = "Awesome!  We'll notify you of upcoming MAU events.  We hate spam just like you do so the only things you'll be apprised of will be great!  Enter your email twice below and we'll put you on the list.";
-    $(el).insert({bottom:new Element('input', { type: 'text', id: 'email' })});
-    $(el).insert({bottom:new Element('input', { type: 'text', id: 'email_confirm' })});
-    $(el).insert({bottom:new Element('input', { type: 'submit', id: 'submit' })});
+
+    var inputs = new Element('ul');
+    var entries = [];
+
+    entries.push( [
+      new Element('div').update('Email:'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email' })) ]);
+    entries.push( [
+      new Element('div').update('Confirm Email:'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })) ]);
+    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
+    
+    $(entries).each(function(entry) {
+      var li = new Element('li');
+      $(entry).each(function(chunk) {
+        li.insert(chunk);
+      });
+      inputs.insert(li);
+    });
+    el.insert(inputs);
     return el;
   },
   submit: function() {
@@ -48,16 +83,21 @@ Object.extend(MAU.NotesMailer.prototype, {
   },
   form_builders: FormConstructors,
   selector: null,
-  close: function(ev) {
-    console.log(this);
+  show: function() {
     $$(this.selector + ' .' + this.options.note_class).each(function(el) {
-      el.childElements().each(function(child) {
-        $(child).remove();
-      });
+      //el.appear({duration:.3});
+      el.show();
     });
-    ev.stopPropagation();
-    return false
-
+  },
+  close: function(ev) {
+    $$(this.selector + ' .' + this.options.note_class).each(function(el) {
+      //el.fade({duration:.3});
+      el.hide();
+    });
+    if (ev) {
+      ev.stopPropagation();
+    }
+    return false;
   },
   insert: function() {
     var _that = this;
@@ -73,14 +113,16 @@ Object.extend(MAU.NotesMailer.prototype, {
             inner = $(formbuilder.render());
           }
           var f = new Element('form', { method: 'post', action: _that.options.url });
+          $(f).insert(new Element('input', { name: 'authenticity_token', type: 'hidden', value: unescape(authenticityToken) }));
           $(f).insert(inner);
           $(f).observe('submit', function() {
             if (formbuilder.submit) {
               formbuilder.submit();
             }
+            f.request({onComplete: _that.close});
           });
           var h = new Element('div', { class: 'popup-header' }).update( formbuilder.title );
-          var x = new Element('div', { class: 'close-btn' }).update('X');
+          var x = new Element('div', { class: 'close-btn' }).update('x');
           h.insert(x);
           x.observe('click', function(ev) { _that.close(ev); });
           var c = new Element('div', { class: 'popup-content' });
@@ -101,12 +143,11 @@ Object.extend(MAU.NotesMailer.prototype, {
     if (this.options.note_class in this.form_builders) {
       var _that = this;
       $$(this.selector).each(function(el) {
-        el.insert('<div class="' + _that.options.note_class +'">');
+        el.insert(new Element('div', {style: 'display:none;', class: _that.options.note_class}));
         $$(selector).each(function(root) {
           $(root).select("." + _that.options.note_class).each(function(notehead) {
-            $(el).observe('click', function (){ 
-              _that.insert(); 
-            });
+            _that.insert(); 
+            $(el).observe('click', function() { _that.show(); });
           });
         });
       });
