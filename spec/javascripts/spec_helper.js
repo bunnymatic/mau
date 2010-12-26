@@ -14,3 +14,4 @@ var get_click_events = function(sel) {
   return get_events(sel, 'click');
 };
 
+
