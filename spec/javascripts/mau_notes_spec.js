@@ -16,7 +16,6 @@ Screw.Unit(function(){
     it ("sets up a close button with click handler", function() {
       var sxn = 'inquiry';
       var m = new MAU.NotesMailer("#fixture", { note_class: sxn });
-      m.insert(); // click bound
       var clickEvents = get_click_events('#fixture .close-btn');
       expect(clickEvents.length).to(equal,1);
     });
@@ -45,7 +44,6 @@ Screw.Unit(function(){
     var m;
     before(function() {
       m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
-      m.insert(); // click bound
     });
     it ("has handler", function() {
       var events = get_events('#fixture .' + sxn + ' form', 'submit');
@@ -56,13 +54,12 @@ Screw.Unit(function(){
     var sxn = 'email_list';
     before(function() {
       var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
-      m.insert(); // click bound
       var mymock = mock(function() {});
       stub(mymock, 'stopPropagation').and_return(true);
       m.close(mymock);
     });
-    it ("form gets removed", function() {
-      expect($$('.' + sxn)[0].childElements().length).to(equal, 0);
+    it ("form gets hidden", function() {
+      expect($$('.' + sxn)[0].visible()).to(equal, false);
     });
 
   });
@@ -71,7 +68,6 @@ Screw.Unit(function(){
       var sxn = 'email_list';
       before(function() {
         var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
-        m.insert(); // click bound
       });
       it ("adds the popup-mailer container", function() {
         expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
@@ -97,8 +93,7 @@ Screw.Unit(function(){
       var sxn = 'email_list';
       before(function() {
         var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
-        m.insert(); // click bound
-        m.insert(); // click bound
+        m.insert(); 
       });
       it ("doesn't add 2 of everything", function() {
         expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
@@ -112,7 +107,6 @@ Screw.Unit(function(){
       var sxn = 'inquiry';
       before(function() {
         var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'theurl'} );
-        m.insert(); // click bound
       });
       it ("adds the popup-mailer container", function() {
         expect($('fixture').select('.' + sxn + ' .popup-mailer').length).to(equal, 1);
@@ -134,8 +128,6 @@ Screw.Unit(function(){
         var m2 = new MAU.NotesMailer("#fixture .emailus", { note_class: s2, url: 'myurl'} );
         console.log(m1);
         console.log(m2);
-        m2.insert(); // click bound
-        m1.insert(); // click bound
       });
       it("shows general form", function() {
         expect($$('#fixture .general .popup-mailer').length).to(equal,1);      
