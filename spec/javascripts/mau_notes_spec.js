@@ -1,3 +1,5 @@
+jQuery.noConflict();
+
 require("spec_helper.js");
 require("../../public/javascripts/prototype/1.7/prototype.min.js", { onload: function() {
   require("../../public/javascripts/mau.js");
@@ -50,15 +52,17 @@ Screw.Unit(function(){
       expect(events.length).to(equal, 1);
     });
   });
-  describe("close (on click close", function() {
+  describe("close (on click close)", function() {
     var sxn = 'email_list';
     before(function() {
       var m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
       m.insert(); // click bound
-      m.close();
+      var mymock = mock(function() {});
+      stub(mymock, 'stopPropagation').and_return(true);
+      m.close(mymock);
     });
     it ("form gets removed", function() {
-      expect($$('.' + sxn).length).to(equal, 0);
+      expect($$('.' + sxn)[0].childElements().length).to(equal, 0);
     });
 
   });
@@ -122,6 +126,23 @@ Screw.Unit(function(){
         expect($$('.popup-mailer .popup-header .close-btn').length).to(equal,1);
       });
     });
-
+    describe("both forms on same page", function() {
+      var s1 = 'inquiry';
+      var s2 = 'email_list';
+      before(function() {
+        var m1 = new MAU.NotesMailer("#fixture .general", { note_class: s1, url: 'myurl'} );
+        var m2 = new MAU.NotesMailer("#fixture .emailus", { note_class: s2, url: 'myurl'} );
+        console.log(m1);
+        console.log(m2);
+        m2.insert(); // click bound
+        m1.insert(); // click bound
+      });
+      it("shows general form", function() {
+        expect($$('#fixture .general .popup-mailer').length).to(equal,1);      
+      });
+      it("shows email form", function() {
+        expect($$('#fixture .emailus .popup-mailer').length).to(equal,1);
+      });
+    });
   });
 });
