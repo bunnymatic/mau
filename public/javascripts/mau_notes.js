@@ -16,10 +16,10 @@ FormConstructors.inquiry = {
   render: function() {
     var el = new Element('div');
     el.innerHTML = "We love to hear from you.  Please let us know your thoughts, questions, rants.  We'll do our best to respond in a timely manner.";
-    var C = MAU.Cookie;
+    /* var C = MAU.Cookie;
     C.init({name:'mau'});
     var c = C.getData('user_email');
-    MAU.log(c);
+*/
     $(el).insert({bottom:new Element('input', { type: 'text', id: 'email', name: 'email' })});
     $(el).insert({bottom:new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })});
     $(el).insert({bottom:new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })});
@@ -39,7 +39,6 @@ FormConstructors.email_list = {
     return el;
   },
   submit: function() {
-    MAU.log('submitted');
   }
 };
 
@@ -49,11 +48,16 @@ Object.extend(MAU.NotesMailer.prototype, {
   },
   form_builders: FormConstructors,
   selector: null,
-  close: function() {
+  close: function(ev) {
     console.log(this);
-    $$(this.selector + ' .'+ this.options.note_class).each(function(el) {
-      el.remove();
+    $$(this.selector + ' .' + this.options.note_class).each(function(el) {
+      el.childElements().each(function(child) {
+        $(child).remove();
+      });
     });
+    ev.stopPropagation();
+    return false
+
   },
   insert: function() {
     var _that = this;
@@ -78,7 +82,7 @@ Object.extend(MAU.NotesMailer.prototype, {
           var h = new Element('div', { class: 'popup-header' }).update( formbuilder.title );
           var x = new Element('div', { class: 'close-btn' }).update('X');
           h.insert(x);
-          x.observe('click', function() { _that.close(); });
+          x.observe('click', function(ev) { _that.close(ev); });
           var c = new Element('div', { class: 'popup-content' });
           var m = new Element('div', { class: 'popup-mailer' });
           $(m).insert(h).insert(c);
@@ -91,15 +95,15 @@ Object.extend(MAU.NotesMailer.prototype, {
     });
   },
   initialize: function(selector, opts) {
-    this.options = Object.extend(this.defaults,opts);
+    this.options = Object.extend({},this.defaults);
+    this.options = Object.extend(this.options, opts);
     this.selector = selector;
-    var _that = this;
     if (this.options.note_class in this.form_builders) {
-      $$(selector).each(function(el) {
-        var note_class = _that.options.note_class;
-        el.insert('<div class="' + note_class +'">');
+      var _that = this;
+      $$(this.selector).each(function(el) {
+        el.insert('<div class="' + _that.options.note_class +'">');
         $$(selector).each(function(root) {
-          $(root).select("." + note_class).each(function(notehead) {
+          $(root).select("." + _that.options.note_class).each(function(notehead) {
             $(el).observe('click', function (){ 
               _that.insert(); 
             });
