@@ -126,15 +126,6 @@ module ArtistsHelper
     biostr
   end
 
-  def email_link(artist)
-    if !artist.email.empty?
-      (uname, domain) = artist.email.split('@')
-      '<a href="#" onclick="MAU.mailer(\'%s\',\'%s\');">%s at %s</a>' % [uname, domain, uname, domain]
-    else
-      ''
-    end
-  end
-
   # get info for google map info window as html
   # if you have lat lon, include it for directions link
   def get_map_info(artist)

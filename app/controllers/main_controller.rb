@@ -82,14 +82,21 @@ class MainController < ApplicationController
     if resp_hash[:messages].size < 1
       # process
       email = params["email"]
-      subject = params["note_type"]
+      subject = "MAU Submit Form : #{params["note_type"]}"
       login = current_user ? current_user.login : 'anon'
+      
+      comment = ''
+      comment += "OS: #{params["operating_system"]}\n"
+      comment += "Browser: #{params["browser"]}\n"
       case params["note_type"]
       when 'inquiry'
-        comment = "From: #{email}\nQuestion: #{params['inquiry']}"
+        comment += "From: #{email}\nQuestion: #{params['inquiry']}\n"
       when 'email_list'
-        comment = "From: #{email}\n Add me to your email list"
+        comment += "From: #{email}\n Add me to your email list\n"
+      when 'feed_submission'
+        comment += "Feed Link: #{params['feedlink']}\n"
       end
+      
       f = Feedback.new( { :email => email,
                           :subject => subject, 
                           :login => login,
@@ -134,20 +141,27 @@ class MainController < ApplicationController
     results = { :status => 'success', :messages => [] }
 
     # common validation
-    unless ["inquiry", "email_list"].include? params[:note_type] 
+    unless ["feed_submission", "help", "inquiry", "email_list"].include? params[:note_type] 
       results[:messages] << "invalid note type"
     else
-      ['email','email_confirm'].each do |k|
-        if params[k].blank?
-          humanized = ActiveSupport::Inflector.humanize(k)
-          results[:messages] << "#{humanized} can't be blank"
+      unless params[:note_type] == 'feed_submission'
+        ['email','email_confirm'].each do |k|
+          if params[k].blank?
+            humanized = ActiveSupport::Inflector.humanize(k)
+            results[:messages] << "#{humanized} can't be blank"
+          end
         end
-      end
-      if (params.keys.select { |k| ['email', 'email_confirm' ].include? k }).size < 2 
-        results[:messages] << 'not enough parameters'
-      end
-      if params['email'] != params['email_confirm']
-        results[:messages] << 'emails do not match'
+        
+        if (params.keys.select { |k| ['email', 'email_confirm' ].include? k }).size < 2 
+          results[:messages] << 'not enough parameters'
+        end
+        if params['email'] != params['email_confirm']
+          results[:messages] << 'emails do not match'
+        end
+      else
+        if (params.keys.select { |k| ['feedlink' ].include? k }).size < 1
+          results[:messages] << 'not enough parameters'
+        end
       end
       # specific
       case params[:note_type]
@@ -157,6 +171,10 @@ class MainController < ApplicationController
           results[:messages] << 'not enough parameters'
         end
       when 'email_list'
+      when 'feed_submission'
+        if params["feedlink"].blank?
+          results[:messages] << 'feed url can\'t be empty'
+        end
       else
       end
     end
