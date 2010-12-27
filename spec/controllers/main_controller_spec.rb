@@ -359,6 +359,16 @@ describe MainController do
         @resp['messages'].should include 'emails do not match'
       end
     end
+    describe "submission given note_type feedlink with email only" do
+      before do
+        xhr :post, :notes_mailer, :note_type => 'feed_submission', :email => 'a@b.com'
+        @resp = JSON::parse(response.body)
+      end
+      it_should_behave_like "has some invalid params"
+      it "response reports 'feed url cannot be empty'" do
+        @resp['messages'].should include 'feed url can\'t be empty'
+      end
+    end
     describe "submission given note_type inquiry and email only" do
       before do
         xhr :post, :notes_mailer, :note_type => 'inquiry', :email => 'a@b.com'
@@ -401,7 +411,7 @@ describe MainController do
           FeedbackMailer.expects(:deliver_feedback).with() do |f|
             f.login.should == 'anon'
             f.comment.should include 'a@b.com'
-            f.subject.should == 'email_list'
+            f.subject.should == 'MAU Submit Form : email_list'
             f.email.should == 'a@b.com'
           end
           xhr :post, :notes_mailer, :note_type => 'email_list', 
@@ -423,8 +433,34 @@ describe MainController do
         end
         it_should_behave_like 'successful notes mailer response'
       end
-    end
+      context "help" do
+        before do
+          xhr :post, :notes_mailer, :note_type => 'help', 
+            :inquiry => 'cool note',
+            :email => 'a@b.com', :email_confirm => 'a@b.com'
+          @resp = JSON::parse(response.body)
+        end
+        it_should_behave_like 'successful notes mailer response'
+      end
+      context "feeds link" do
+        before do
+          xhr :post, :notes_mailer, :note_type => 'feed_submission', 
+            :feedlink => 'http://feed/feed.rss'
+          @resp = JSON::parse(response.body)
+        end
+        it_should_behave_like 'successful notes mailer response'
 
+        it 'triggers FeedbackMailer.deliver_feedback' do
+          FeedbackMailer.expects(:deliver_feedback).with() do |f|
+            f.login.should == 'anon'
+            f.comment.should include 'feed.rss'
+            f.subject.should == 'MAU Submit Form : feed_submission'
+          end
+          xhr :post, :notes_mailer, :note_type => 'feed_submission', 
+            :feedlink => 'http://feed/feed.rss'
+        end
+      end
+    end
   end
 end
 

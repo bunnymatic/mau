@@ -1,3 +1,8 @@
+<script>
+  Event.observe(window, 'load', function() {  
+    new MAU.NotesMailer(".mau-note-link.feed_submission", { note_class: 'feed_submission', url: "/main/notes_mailer" });
+  });
+</script>
 <div class="logo">
 <a title="Art is the Mission!"  href="/news"><img title="Art is the Mission!" src="/images/art_is_the_mission_badge.png"/></a>
 </div>
@@ -12,7 +17,8 @@
 <img src="/images/pix.gif" height="320" width="1" alt=""/>
 </div> 
 <div id="feed_request">
-<a href="javascript:MAU.mailer('www','missionartistsunited.org','My Favorite SF Art Feed');">Recommend a feed we should add to this list.</a>
+<span class="mau-note-link feed_submission">
+Recommend a feed we should add to this list.</span>
 </div>
 <div class="get-involved" style="width:220px;">
   <a title="Volunteer, shop, send us your feedback, donate, participate..."  href="<%= getinvolved_path %>"><img title="Volunteer, shop, send us your feedback, donate, participate..." width="220" height="56" src="/images/getinvolved_red.png"/></a>

@@ -1825,19 +1825,21 @@ textarea.artist-bio {
     width: 520px;
     height: 300px;
 }
-#edit_artpiece .artpiece {
-    width: 200px;
-    margin: auto;
-    text-align:center;
-}
-#edit_artpiece table {
-    width: 480px;
-    margin: auto;
-    margin: 10px auto;
-}
-#edit_artpiece td {
-    padding-top: 1px;
-    padding-bottom: 3px;
+#edit_artpiece {
+    .artpiece{
+        width: 200px;
+        margin: auto;
+        text-align:center;
+    }
+    table {
+        width: 480px;
+        margin: auto;
+        margin: 10px auto;
+    }
+    td {
+        padding-top: 1px;
+        padding-bottom: 3px;
+    }
 }
 #artpiece_edit_ctrls {
     width: 560px;
@@ -1893,17 +1895,6 @@ ul.dropdown li:hover a,
 }
 .nav a.lknav:hover {
     color: #404;
-}
-ul.dropdown {
-    display: inline;
-    height: 100%;
-}
-.dropdown {
-    border-left: 1px solid #738294;
-    text-align:left;
-    &.first {
-        border: 0;
-    }
 }
 .tagcloud {
     margin: 0 auto 10px auto;
@@ -2366,17 +2357,25 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin:0;
     padding:0;
 }
-ul.dropdown {
-    float:right;
-    position:relative;
-    z-index:597;
-}
 
 .nav > div {
     display: inline;
 }
 
+.dropdown {
+    border-left: 1px solid #738294;
+    text-align:left;
+    &.first {
+        border: 0;
+    }
+}
+
 ul.dropdown { 
+    display: inline;
+    height: 100%;
+    float:right;
+    position:relative;
+    z-index:597;
     padding: 0px; 
     margin: 0px; 
     li {
@@ -2705,6 +2704,11 @@ ul {
     color: #FEF7CA;
 }
 .send-mau-a-note {
+    &.mau-notes-container-feed_submission {
+        #feedlink {
+            width: 100%;
+        }
+    }
     position: absolute;
     z-index: 50;
     .popup-mailer {
@@ -2744,7 +2748,7 @@ ul {
                 padding: 2px 0;
             }
         }
-        #inquiry {
+        input[name=inquiry] {
             width: 100%;
             height: 120px;
             

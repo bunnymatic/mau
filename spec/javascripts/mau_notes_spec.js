@@ -22,6 +22,18 @@ Screw.Unit(function(){
       var m = new MAU.NotesMailer("#fixture", { note_class: sxn });
       expect(m._parent_class(true)).to(equal, '.send-mau-a-note.mau-notes-container-inquiry');
     });
+    it ("sets up help-me inputs", function() {
+      var sxn = 'help';
+      var m = new MAU.NotesMailer("#fixture .help-me", { note_class: sxn });
+      var clickEvents = get_click_events("#fixture .help-me");
+      expect(clickEvents.length).to(equal,1);
+    });
+    it ("sets up feed inputs", function() {
+      var sxn = 'feed_submission';
+      var m = new MAU.NotesMailer("#fixture .feed-me", { note_class: sxn });
+      var clickEvents = get_click_events("#fixture .feed-me");
+      expect(clickEvents.length).to(equal,1);
+    });
     it ("sets up inquiry inputs", function() {
       var sxn = 'inquiry';
       var m = new MAU.NotesMailer("#fixture .general", { note_class: sxn });
@@ -139,13 +151,59 @@ Screw.Unit(function(){
         expect($$(m._parent_class(true) + ' .popup-header .close-btn').length).to(equal,1);
       });
     });
+    describe('feed submission', function() {
+      var sxn = 'feed_submission';
+      var m;
+      before(function() {
+        m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'feeder'} );
+        m.insert();
+      });
+      it ('has a close button', function() {
+        expect($$('.popup-mailer .popup-header .close-btn').length).to(equal,1);
+      });
+      it ("adds the popup-mailer container", function() {
+        expect($$(m._parent_class(true) + ' .popup-mailer').length).to(equal, 1);
+      });
+      it ('points to the right url', function() {
+        expect($$(m._parent_class(true) + ' .popup-mailer form[action=feeder]').length).to(equal,1);
+      });
+      it ('fills in the title', function() {
+        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Art Feeds')[0]).to(equal, 'Art Feeds');      
+      });
+      it ('has a feedlink input', function() {
+        expect($$(m._parent_class(true) + ' #feedlink').length).to(equal, 1);
+      });
+    });
 
+    describe('help', function() {
+      var sxn = 'help';
+      var m;
+      before(function() {
+        m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'help'} );
+        m.insert();
+      });
+      it ('has a close button', function() {
+        expect($$('.popup-mailer .popup-header .close-btn').length).to(equal,1);
+      });
+      it ("adds the popup-mailer container", function() {
+        expect($$(m._parent_class(true) + ' .popup-mailer').length).to(equal, 1);
+      });
+      it ('points to the right url', function() {
+        expect($$(m._parent_class(true) + ' .popup-mailer form[action=help]').length).to(equal,1);
+      });
+      it ('fills in the title', function() {
+        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Help')[0]).to(equal, 'Help');      
+      });
+    });
     describe("inquiry", function() {
       var sxn = 'inquiry';
       var m;
       before(function() {
         m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'theurl'} );
         m.insert();
+      });
+      it ('has a close button', function() {
+        expect($$('.popup-mailer .popup-header .close-btn').length).to(equal,1);
       });
       it ("adds the popup-mailer container", function() {
         expect($$(m._parent_class(true) + ' .popup-mailer').length).to(equal, 1);
@@ -154,9 +212,7 @@ Screw.Unit(function(){
         expect($$(m._parent_class(true) + ' .popup-mailer form[action=theurl]').length).to(equal,1);
       });
       it ('fills in the title', function() {
-        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('General Inquiry')[0]).to(equal, 'General Inquiry');      });
-      it ('has a close button', function() {
-        expect($$('.popup-mailer .popup-header .close-btn').length).to(equal,1);
+        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('General Inquiry')[0]).to(equal, 'General Inquiry');      
       });
     });
     describe("both forms on same page", function() {
