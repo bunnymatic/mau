@@ -248,6 +248,21 @@ describe ArtistsController do
       end
     end
 
+    context "after an artist favorites another artist and show the artists page" do
+      before do
+        a = users(:joeblogs)
+        @a.add_favorite(a)
+        login_as(@a)
+        get :show, :id => @a.id
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "shows favorites on show page with links" do
+        response.should have_tag("#my_favorites label a[href=#{favorites_user_path(@a)}]");
+      end
+    end
+
     context "while not logged in" do
       before(:each) do 
         get :show, :id => @a.id
