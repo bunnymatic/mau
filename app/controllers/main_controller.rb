@@ -7,7 +7,6 @@ FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
   layout 'mau2col'
-  before_filter :load_studios
   before_filter :no_cache, :only => :index
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 20)
   def index
@@ -73,7 +72,36 @@ class MainController < ApplicationController
     end
     @page_title = "Mission Artists United - About Us"
   end
-  
+
+  def notes_mailer
+    if !request.xhr?
+      render_not_found("Method Unavaliable")
+      return 
+    end
+    resp_hash = MainController::validate_params(params) 
+    if resp_hash[:messages].size < 1
+      # process
+      email = params["email"]
+      subject = params["note_type"]
+      login = current_user ? current_user.login : 'anon'
+      case params["note_type"]
+      when 'inquiry'
+        comment = "From: #{email}\nQuestion: #{params['inquiry']}"
+      when 'email_list'
+        comment = "From: #{email}\n Add me to your email list"
+      end
+      f = Feedback.new( { :email => email,
+                          :subject => subject, 
+                          :login => login,
+                          :comment => comment })
+      if f.save
+        FeedbackMailer.deliver_feedback(f)
+      end
+    end
+
+    render :json => resp_hash
+  end
+
   def news
     @feedhtml = ''
     numentries = 5
@@ -99,5 +127,42 @@ class MainController < ApplicationController
   def venues
     # temporary venues endpoint until we actually add a real
     # controller/model behind it
+  end
+  
+  private
+  def self.validate_params(params)
+    results = { :status => 'success', :messages => [] }
+
+    # common validation
+    unless ["inquiry", "email_list"].include? params[:note_type] 
+      results[:messages] << "invalid note type"
+    else
+      ['email','email_confirm'].each do |k|
+        if params[k].blank?
+          humanized = ActiveSupport::Inflector.humanize(k)
+          results[:messages] << "#{humanized} can't be blank"
+        end
+      end
+      if (params.keys.select { |k| ['email', 'email_confirm' ].include? k }).size < 2 
+        results[:messages] << 'not enough parameters'
+      end
+      if params['email'] != params['email_confirm']
+        results[:messages] << 'emails do not match'
+      end
+      # specific
+      case params[:note_type]
+      when 'inquiry' 
+        if params['inquiry'].blank?
+          results[:messages] << 'note cannot be empty'
+          results[:messages] << 'not enough parameters'
+        end
+      when 'email_list'
+      else
+      end
+    end
+    if results[:messages].size > 0
+      results[:status] = 'error'
+    end
+    results
   end
 end

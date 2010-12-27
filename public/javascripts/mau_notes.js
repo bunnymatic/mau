@@ -115,12 +115,15 @@ Object.extend(MAU.NotesMailer.prototype, {
       }
       var f = new Element('form', { method: 'post', action: _that.options.url });
       $(f).insert(new Element('input', { name: 'authenticity_token', type: 'hidden', value: unescape(authenticityToken) }));
+      $(f).insert(new Element('input', { name: 'note_type', type: 'hidden', value: _that.options.note_class }));
       $(f).insert(inner);
-      $(f).observe('submit', function() {
+      $(f).observe('submit', function(ev) {
         if (formbuilder.submit) {
           formbuilder.submit();
         }
-        f.request({onComplete: _that.close});
+        f.request({onComplete: function() { _that.close(ev); }});
+        ev.stop();
+        return false;
       });
       var h = new Element('div', { class: 'popup-header' }).update( formbuilder.title );
       var x = new Element('div', { class: 'close-btn' }).update('x');
@@ -144,11 +147,8 @@ Object.extend(MAU.NotesMailer.prototype, {
     if (this.options.note_class in this.form_builders) {
       var _that = this;
       $$(this.selector).each(function(el) {
-        el.insert(new Element('div', {class: _that.options.note_class}));
         $$(selector).each(function(root) {
-          $(root).select("." + _that.options.note_class).each(function(notehead) {
             $(el).observe('click', function(ev) { _that.insert(ev); })
-          });
         });
       });
     };

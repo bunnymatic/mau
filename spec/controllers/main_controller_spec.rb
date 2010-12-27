@@ -2,6 +2,30 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
+describe "successful notes mailer response", :shared => true do
+  it "responds success" do
+    response.should be_success
+  end
+  it "response should return status success" do
+    @resp['status'].should == 'success'
+  end
+  it "response should not have messages" do
+    @resp['messages'].length.should == 0
+  end
+end
+
+describe 'has some invalid params', :shared => true do
+  it "responds with error status" do
+    @resp['status'].should == 'error'
+  end
+  it "response does not report 'invalid note type'" do
+    @resp['messages'].should_not include 'invalid note type'
+  end
+  it "response reports 'not enough parameters'" do
+    @resp['messages'].should include 'not enough parameters'
+  end
+end
+
 describe MainController do
 
   integrate_views
@@ -277,5 +301,130 @@ describe MainController do
     end
   end
 
+  describe 'notes mailer' do
+    context "invalid calls" do
+      ['get', 'post', 'put', 'delete'].each do |rtype|
+        desc = "returns error if request type is %s" % rtype 
+        it desc do
+          eval rtype + " :notes_mailer"
+          response.should be_missing
+        end
+      end
+    end
+    describe "xhr post" do
+      before do
+        xhr :post, :notes_mailer
+        @j = JSON::parse(response.body)
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "returns json" do
+        response.content_type.should == 'application/json'
+      end
+      it "response has error status" do
+        @j['status'].should == 'error'
+      end
+      it "response reports 'invalid note type'" do
+        @j['messages'].should include 'invalid note type'
+      end
+      it "response only has one error message" do
+        @j['messages'].size.should == 1
+      end
+    end
+
+    describe "submission given invalid note_type" do
+      before do
+        xhr :post, :notes_mailer, :note_type => 'bogus', :email => 'a@b.com'
+        @resp = JSON::parse(response.body)
+      end
+      it "response has error status" do
+        @resp['status'].should == 'error'
+      end
+      it "response reports 'invalid note type'" do
+        @resp['messages'].should include 'invalid note type'
+      end
+    end
+      
+    describe "submission given note_type email_list and email only" do
+      before do
+        xhr :post, :notes_mailer, :note_type => 'email_list', :email => 'a@b.com'
+        @resp = JSON::parse(response.body)
+      end
+      it_should_behave_like "has some invalid params"
+      it "response reports 'Email confirm cant be blank'" do
+        @resp['messages'].should include "Email confirm can't be blank"
+      end
+      it "response reports 'emails do not match'" do
+        @resp['messages'].should include 'emails do not match'
+      end
+    end
+    describe "submission given note_type inquiry and email only" do
+      before do
+        xhr :post, :notes_mailer, :note_type => 'inquiry', :email => 'a@b.com'
+        @resp = JSON::parse(response.body)
+      end
+      it_should_behave_like "has some invalid params"
+      it "response reports 'Email confirm cant be blank'" do
+        @resp['messages'].should include "Email confirm can't be blank"
+      end
+      it "response reports 'emails do not match'" do
+        @resp['messages'].should include 'emails do not match'
+      end
+      it "response reports 'note cannot be empty'" do
+        @resp['messages'].should include 'note cannot be empty'
+      end
+    end
+    describe "submission given note_type inquiry, both emails but no inquiry" do
+      before do
+        xhr :post, :notes_mailer, :note_type => 'inquiry', 
+          :email => 'a@b.com', :email_confirm => 'a@b.com'
+        @resp = JSON::parse(response.body)
+      end
+      it_should_behave_like "has some invalid params"
+      it "has only 1 message" do
+        @resp['messages'].size == 1
+      end
+      it "message is note cannot be empty" do
+        @resp['messages'].should include 'note cannot be empty'
+      end
+    end
+    describe "submission with valid params" do
+      context "email_list" do
+        before do
+          xhr :post, :notes_mailer, :note_type => 'email_list', 
+            :email => 'a@b.com', :email_confirm => 'a@b.com'
+          @resp = JSON::parse(response.body)
+        end
+        it_should_behave_like "successful notes mailer response"
+        it 'triggers FeedbackMailer.deliver_feedback' do
+          FeedbackMailer.expects(:deliver_feedback).with() do |f|
+            f.login.should == 'anon'
+            f.comment.should include 'a@b.com'
+            f.subject.should == 'email_list'
+            f.email.should == 'a@b.com'
+          end
+          xhr :post, :notes_mailer, :note_type => 'email_list', 
+            :email => 'a@b.com', :email_confirm => 'a@b.com'
+        end
+        it 'adds a feedback item to the db' do
+          expect {
+            xhr :post, :notes_mailer, :note_type => 'email_list', 
+                 :email => 'a@b.com', :email_confirm => 'a@b.com'
+          }.to change(Feedback, :count).by(1)
+        end
+      end
+      context "inquiry" do
+        before do
+          xhr :post, :notes_mailer, :note_type => 'inquiry', 
+            :inquiry => 'cool note',
+            :email => 'a@b.com', :email_confirm => 'a@b.com'
+          @resp = JSON::parse(response.body)
+        end
+        it_should_behave_like 'successful notes mailer response'
+      end
+    end
+
+  end
 end
 

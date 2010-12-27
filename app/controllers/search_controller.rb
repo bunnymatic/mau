@@ -2,7 +2,7 @@
 
 class SearchController < ApplicationController
   layout 'mau2col'
-  before_filter :load_studios
+
   @@CACHE_EXPIRY = (Conf.cache_expiry['search'] or 20)
   @@QUERY_KEY_PREFIX = (Conf.cache_ns or '') + "q:"
   @@PER_PAGE = 12
