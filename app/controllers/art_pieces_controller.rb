@@ -79,10 +79,10 @@ class ArtPiecesController < ApplicationController
     @favorites_count = Favorite.art_pieces.find_all_by_favoritable_id(apid).count
     # get all art pieces for this artist
     pieces = []
-    if !@art_piece || !@art_piece.artist_id
+    if @art_piece.nil? || !@art_piece.artist_id
       flash[:error] = "We couldn't find that art piece."
       redirect_to "/error"
-      return
+      return 
     end
 
     if @art_piece.artist_id > 0

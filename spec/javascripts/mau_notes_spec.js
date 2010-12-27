@@ -51,10 +51,24 @@ Screw.Unit(function(){
     });
     it ("has handler", function() {
       var sel = m._parent_class(true) + " form";
-      console.log(sel);
       var events = get_events(sel, 'submit');
       expect(events.length).to(equal, 1);
     });
+    it ("form contains authenticityToken", function() {
+      var sel = m._parent_class(true) + " form";
+      $$(sel).each(function(el) {
+        MAU.log(el);
+        expect($(el).select('input[name=authenticity_token]').length).to(equal, 1);
+      });
+    });
+    it ("form contains note_type", function() {
+      var sel = m._parent_class(true) + " form";
+      $$(sel).each(function(el) {
+        MAU.log(el);
+        expect($(el).select('input[name=note_type]').length).to(equal, 1);
+      });
+    });
+
   });
   describe("close button", function() {
     var sxn = 'email_list';
@@ -153,8 +167,6 @@ Screw.Unit(function(){
       before(function() {
         m1 = new MAU.NotesMailer("#fixture .general", { note_class: s1, url: 'myurl'} );
         m2 = new MAU.NotesMailer("#fixture .emailus", { note_class: s2, url: 'myurl'} );
-        console.log(m1);
-        console.log(m2);
         m1.insert();
         m2.insert();
       });

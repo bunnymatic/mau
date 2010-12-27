@@ -113,10 +113,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def load_studios
-    @studios = Studio.all
-  end
-
   def check_browser
     @_ie = is_ie?(self.request)
     @_ie6 = is_ie6?(self.request)

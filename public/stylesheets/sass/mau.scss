@@ -1685,16 +1685,23 @@ div.studio-list div {
 
 /* error pages */
 .f404 {
-    color: #F33;
-    font-size: 100px;
-    margin-top: 20px;
-    text-align:center;
+    margin: 20px auto;
     width: 70%;
-}
-.f404 p {
     color: #aaa;
     font-size: 14px;
     text-align: left;
+    .oops {
+        text-align: center;
+        color: #F33;
+        font-size: 100px;
+    }
+    .error-msg {
+        border: 0;
+    }
+    .rcol & {
+        width: 90%;
+    }
+    
 }
 
 .notice, .error-msg {
@@ -2693,13 +2700,15 @@ ul {
     }
 }
 
-.send-mau-a-note {
-    position: absolute;
+.mau-note-link {
     cursor: pointer;
     color: #FEF7CA;
+}
+.send-mau-a-note {
+    position: absolute;
     z-index: 50;
     .popup-mailer {
-        width: 500px;
+        width: 480px;
         -moz-border-radius: 9px;
         -webkit-border-radius: 9px;
         -moz-box-shadow: 2px 1px 5px #738294;
