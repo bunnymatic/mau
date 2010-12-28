@@ -1,5 +1,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+Rails.cache.stubs(:read).returns(:nil)
+
+describe User, 'named scope' do
+  it "active returns only active users" do
+    User.active.all.each do |u|
+      u.state.should == 'active'
+    end
+  end
+end
 describe User, 'auth helpers' do
   describe "make token " do
     before do
@@ -194,13 +203,17 @@ describe User, 'favorites -'  do
     end
     
     context " and removing it" do
-      before do
+      it "Favorite delete get's called" do
+        f = Favorite.find_by_favoritable_id_and_favoritable_type_and_user_id(@ap.id, @ap.class.name, @u.id)
+        Favorite.any_instance.expects(:destroy).times(1)
         @u.remove_favorite(@ap)
       end
       it "art_piece is no longer a favorite" do
-        @u.fav_art_pieces.should have(0).art_pieces
+        f = users(:aaron).remove_favorite(@ap)
+        Favorite.find_all_by_user_id(users(:aaron).id).should_not include f
       end
       it "user is not in the who favorites me list of the artist who owns that art piece" do
+        @u.remove_favorite(@ap)
         @ap.artist.who_favorites_me.should_not include @u
       end
     end

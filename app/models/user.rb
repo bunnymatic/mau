@@ -290,7 +290,11 @@ class User < ActiveRecord::Base
   end
 
   def remove_favorite(fav)
-    favorites.select { |f| f.favoritable_type == fav.class.name && f.favoritable_id == fav.id }.map(&:delete)
+    f = favorites.select { |f| f.favoritable_type == fav.class.name && f.favoritable_id == fav.id }
+    r = f.each do |f|
+      f.destroy
+    end
+    r.first
   end
 
   def fav_artists
