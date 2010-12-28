@@ -1,6 +1,12 @@
 <% if @user.errors && !@user.errors.empty? %>
+<div class="logo-spacer"></div>
 <div class="error-msg">
-<%= error_messages_for :user %>
+<div><%= flash[:error] %></div>
+  <ul>
+<% @user.errors.each do |k,v| %>
+<li><%= k.humanize %> <%= v %></li>
+<% end %>
+</ul>
 </div>
 <% end -%>
 

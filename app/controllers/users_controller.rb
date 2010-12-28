@@ -258,21 +258,26 @@ class UsersController < ApplicationController
   end
 
   def reset
-    @user = User.find_by_reset_code(params[:reset_code]) unless params[:reset_code].nil?
-    if params[:user]
+    @user = User.find_by_reset_code(params["reset_code"]) unless params["reset_code"].nil?
+    if @user.nil? 
+      flash[:error] = "We were unable to find a user with that activation code"
+      render_not_found (Exception.new('failed to find user with activation code'))
+      return
+    end
+    if request.post? && params[:user]
       if @user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
         self.current_user = @user
         @user.delete_reset_code
         flash[:notice] = "Password reset successfully for #{@user.email}"
         redirect_back_or_default('/')
-      end
-    else
-      if @user.nil? 
-        render_not_found("We were unable to find a user with that email.")
+        return
       else
-        render :action => :reset
+        flash[:error] = "Failed to update your password."
+        @user.password = '';
+        @user.password_confirmation ='';
       end
     end
+    render :action => :reset
   end
 
   def destroy
