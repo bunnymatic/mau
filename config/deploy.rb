@@ -85,8 +85,9 @@ after "deploy:symlink", "apache:reload"
 
 desc "Connect artist and studio data to website"
 task :symlink_data do
-  run "rm -rf ~/deployed/current/public/artistdata"
-  run "rm -rf ~/deployed/current/public/studiodata"
+  run "ls -l ~/deployed/current"
+  run "rm -rf ~/deployed/current/artistdata"
+  run "rm -rf ~/deployed/current/studiodata"
   run "ln -s ~/artistdata ~/deployed/current/artistdata"
   run "ln -s ~/studiodata ~/deployed/current/studiodata"
   run "test -e ~/deployed/current/public/REVISION || ln -s ~/deployed/current/REVISION ~/deployed/current/public/REVISION"
