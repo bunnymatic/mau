@@ -625,6 +625,22 @@ describe UsersController do
     it "returns sucess" do
       get :forgot
     end
+    
+    context "post a fan email" do
+      it "looks up user by email" do
+        User.expects(:find_by_email).with(users(:artfan).email).times(1)
+        post :forgot, :user => { :email => users(:artfan).email }
+      end
+      it "calls create_reset_code" do
+        MAUFan.any_instance.expects(:create_reset_code).times(1)
+        post :forgot, :user => { :email => users(:artfan).email }
+      end
+      it "redirects to login" do
+        post :forgot, :user => { :email => users(:artfan).email }
+        response.should redirect_to(login_path)
+      end
+
+    end
   end
 
   describe "resend_activation" do

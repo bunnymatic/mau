@@ -220,7 +220,23 @@ describe User, 'favorites -'  do
   end
 end
 
-describe ArtPiece, "ImageDimensions helper" do
+describe User, "forgot password methods" do 
+  fixtures :users
+  it "create_reset_code should call mailer" do
+    UserMailer.expects(:deliver_reset_notification).with() do |f|
+            f.login.should == users(:artfan).login
+            f.email.should include users(:artfan).email
+    end
+    users(:artfan).create_reset_code
+  end
+  it "create_reset_code creates a reset code" do
+    users(:artfan).reset_code.should be_nil
+    users(:artfan).create_reset_code
+    users(:artfan).reset_code.should_not be_nil
+  end
+end
+
+describe User, "ImageDimensions helper" do
   fixtures :users
   it "get_scaled_dimensions returns input dimension given user profile with no dimensions" do
     u = users(:aaron)
