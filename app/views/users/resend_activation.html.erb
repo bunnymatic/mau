@@ -1,30 +1,29 @@
 <div class="forgot">
-<%= error_messages_for :user %>
-<div class="logo-spacer"></div>
-<h4>Request for Activation Email</h4>
-<% form_for :user do |f| -%>
-<table id="reset_pass" class="signup-table">
-  <tr>
-    <td colspan="2" >
-      <% if flash[:error] %>
-      <div class="error-msg">
-	<%= flash[:error] %>
-      </div>
-      <% end %>
-      
-      <div>Submit in your MAU account email below. </div>
-  </tr>
-  <tr>
-    <td align="right"><label>Email:</label></td>
-    <td><%= f.text_field :email %></td>
-  </tr>       
-  <tr>
-    <td></td>
-    <td><%= submit_tag 'Submit' %></td>
-  </tr>
-</table>
-<div class="little-txt center">
-  <a href="<%= forgot_users_path %>">Did you forget your password?</a>
-</div>
-<% end -%>
+  <div class="logo-spacer"></div>
+  <% if flash[:error] %>
+  <div class="error-msg">
+    <%= flash[:error] %>
+  </div>
+  <% end %>
+  <h4>Request for Activation Email</h4>
+  <% form_for :user do |f| -%>
+  <table id="reset_pass" class="signup-table">
+    <tr>
+      <td colspan="2" >
+        <div>Submit your MAU account email below. </div>
+      </td>
+    </tr>
+    <tr>
+      <td align="right"><label>Email:</label></td>
+      <td><%= f.text_field :email %></td>
+    </tr>       
+    <tr>
+      <td></td>
+      <td><%= submit_tag 'Submit' %></td>
+    </tr>
+  </table>
+  <div class="little-txt center">
+    <a href="<%= forgot_users_path %>">Did you forget your password?</a>
+  </div>
+  <% end -%>
 </div>
