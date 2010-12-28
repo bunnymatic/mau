@@ -104,8 +104,8 @@ describe "not logged in", :shared => true do
     response.should have_tag("ul#artistsnav")
   end
   it "artists section has by tag and by medium" do
-    response.should have_tag("ul#artistsnav .leaf a[href=#{media_path}?m=p]")
-    response.should have_tag("ul#artistsnav .leaf a[href=#{tags_path}?m=p]")
+    response.should have_tag("ul#artistsnav .leaf a[href=#{media_path :m => 'a'}]")
+    response.should have_tag("ul#artistsnav .leaf a[href=#{tags_path :m => 'a'}]")
   end
   it "nav bar suggests join in" do 
     response.should have_tag("div ul#mymaunav li.dir a[href=/login]", :include_text => "join in")
