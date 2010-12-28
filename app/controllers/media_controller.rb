@@ -13,10 +13,12 @@ class MediaController < ApplicationController
     @freq = Medium.frequency(true)
     if !@freq.empty?
       freq = @freq.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
-      redirect_to medium_path(Medium.find(freq[0]['medium']), params)
+      med = Medium.find(freq[0]['medium'])
+      logger.info("Redirect to #{med}")
+      redirect_to medium_path(med.id, params)
       return
     end
-    redirect_to medium_path(Medium.first, params)
+    redirect_to medium_path(Medium.first.id, params)
   end
 
   # GET /media/1
