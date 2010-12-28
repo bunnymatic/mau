@@ -24,7 +24,7 @@ class TagsController < ApplicationController
   end
 
   def index
-    xtra_params = Hash[ params.select{ |k,v| [:m].include? k ]
+    xtra_params = Hash[ params.select{ |k,v| [:m].include? k } ]
     respond_to do |format|
       format.html { 
         freq = Tag.frequency
