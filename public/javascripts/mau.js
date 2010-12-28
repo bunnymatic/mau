@@ -591,6 +591,10 @@ var TagMediaHelper = {
 	  }
 	}
 	img.show();
+        
+        // hides errors/notices
+        $$('.notice').each(function(el) { if (el.visible()) {el.fade({duration:0.3}); }});
+        $$('.error-msg').each(function(el) { if (el.visible()) {el.fade({duration:0.3}); }});
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {
           $favs[0].setAttribute('fav_id', ap.id);
