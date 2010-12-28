@@ -41,7 +41,7 @@ class ArtPieceImage < ImageFile
     name = upload
     owner = artpiece.artist
     return if ! owner
-    dir = "artistdata/" + owner.id.to_s() + "/imgs/"
+    dir = "public/artistdata/" + owner.id.to_s() + "/imgs/"
     (saved, ht, wd) = ImageFile.save(upload, dir)
     # save data to the artpiece
     # fname for html is same as dir without leading "public"
