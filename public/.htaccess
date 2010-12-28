@@ -1,7 +1,0 @@
-#RewriteEngine On
-#AddHandler fcgid-script .fcgi
-#Options +FollowSymLinks +ExecCGI
-#
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteRule ^(.*)$ dispatch.cgi [QSA,L]
-
