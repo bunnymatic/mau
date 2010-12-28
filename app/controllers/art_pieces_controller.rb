@@ -8,7 +8,8 @@ class ArtPiecesController < ApplicationController
   before_filter :login_required, :only => [ :new, :edit, :update, :create, :destroy]
 
   after_filter :flush_cache, :only => [:new, :update, :destroy]
-  
+  after_filter :store_location
+
   def flush_cache
     Medium.flush_cache
     Tag.flush_cache

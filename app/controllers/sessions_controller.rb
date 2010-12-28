@@ -6,13 +6,13 @@ class SessionsController < ApplicationController
   def new
     if logged_in?
       flash[:notice] = "You're already logged in"
-      redirect_to user_path(current_user)
+      redirect_back_or_default(user_path(current_user))
     end
   end
 
   def create
     logout_keeping_session!
-    
+
     # try finding artist by email
     login = params[:login]
     bylogin = User.find_by_email(params[:login])

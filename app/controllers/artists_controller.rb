@@ -13,6 +13,8 @@ class ArtistsController < ApplicationController
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_emails, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
 
+  after_filter :store_location
+
   layout 'mau1col', :except => 'faq'
 
   # num artists before we paginate
