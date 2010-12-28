@@ -8,6 +8,9 @@ describe MediaController do
   fixtures :art_pieces
   fixtures :users
   before do
+    
+    Rails.cache.stubs(:read).returns(nil)
+
     # media don't exist in a vaccuum
     aps = []
     aps << art_pieces(:hot)
