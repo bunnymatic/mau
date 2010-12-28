@@ -21,7 +21,8 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'  
   map.change_password_update '/change_password_update', :controller => 'users', :action => 'change_password_update'  
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
-  map.reset 'reset/:reset_code', :controller => 'users', :action => 'reset', :method => :post
+  map.reset 'reset/:reset_code', :controller => 'users', :action => 'reset', :method => :get
+  map.submit_reset 'reset', :controller => 'users', :action => 'reset', :method => :post
 
   map.artistsmap '/artists/map', :controller => 'artists', :action => 'map'
   map.artistsHUGEmap '/artists/hugemap', :controller => 'artists', :action => 'hugemap'

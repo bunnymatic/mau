@@ -12,7 +12,7 @@ describe UsersController do
   it "actions should fail if not logged in" do
     exceptions = [:index, :show, :artists, :resend_activation, :favorites,
                   :forgot, :unsuspend, :destroy, :create, :new, :activate, 
-                  :notify, :noteform, :purge]
+                  :notify, :noteform, :purge, :reset]
     controller_actions_should_fail_if_not_logged_in(:user, 
                                                     :except => exceptions)
   end
@@ -618,18 +618,60 @@ describe UsersController do
   end
 
   describe "reset" do
-    before do
-      User.any_instance.expects(:find_by_reset_code).returns('abc')
-      u = users(:artfan)
-      u.reset_code = 'abc'
-      u.save
-      get :reset, :reset_code => 'abc'
+    context "get" do
+      before do
+        User.expects(:find_by_reset_code).returns(users(:artfan))
+        u = users(:artfan)
+        u.reset_code = 'abc'
+        u.save
+        get :reset, :reset_code => 'abc'
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "asks for password" do
+        response.should have_tag('#user_password')
+      end
+      it "asks for password confirmation" do
+        response.should have_tag('#user_password_confirmation')
+      end
     end
-    it "returns success" do
-      response.should be_success
-    end
-    it "asks for password" do
-      response.should have_tag('#password')
+    context "post" do
+      context "with passwords that don't match" do
+        before do
+          User.expects(:find_by_reset_code).with('abc').returns(users(:artfan))
+          post :reset, { :user => { :password => 'whatever', 
+              :password_confirmation => 'whatev' } ,
+              :reset_code => 'abc' }
+        end
+        it "returns success" do
+          response.should be_success
+        end
+        it "asks for password" do
+          response.should have_tag('#user_password')
+        end
+        it "asks for password confirmation" do
+          response.should have_tag('#user_password_confirmation')
+        end
+        it "has an error message" do
+          assigns(:user).errors.length.should == 1
+        end
+      end
+      context "with matching passwords" do
+        before do
+          User.expects(:find_by_reset_code).with('abc').returns(users(:artfan))
+          MAUFan.any_instance.expects(:delete_reset_code).once
+          post :reset, { :user => { :password => 'whatever', 
+              :password_confirmation => 'whatever' },
+              :reset_code => 'abc' }
+        end
+        it "returns redirect" do
+          response.should redirect_to "/"
+        end
+        it "sets notice" do
+          flash[:notice].should include_text('reset successfully for ')
+        end
+      end
     end
   end
 
