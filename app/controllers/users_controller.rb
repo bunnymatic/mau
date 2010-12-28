@@ -8,12 +8,14 @@ class UsersController < ApplicationController
                                             :addprofile, :deactivate, :setarrangement, :arrangeart, 
                                             :add_favorite, :remove_favorite, :reset, :change_password_update]
 
+  after_filter :store_location
+
   layout 'mau1col'
 
   @@DEFAULT_ACCOUNT_TYPE = 'MAUFan'
   @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
   def index
-    redirect_to('/artists')
+    redirect_to artists_path
   end
 
   def edit

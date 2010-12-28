@@ -6,6 +6,7 @@ class TagsController < ApplicationController
   # GET /tags.xml
   layout 'mau1col'
   before_filter :admin_required, :except => [ 'index', 'show' ]
+  after_filter :store_location
 
   @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['cache_expiry']
   @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['cache_key']

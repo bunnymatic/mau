@@ -2,6 +2,7 @@ class StudiosController < ApplicationController
   # GET /studios
   # GET /studios.xml
   before_filter :admin_required, :except => [ 'index', 'show' ]
+  after_filter :store_location
 
   @@MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
   layout 'mau1col'

@@ -3,6 +3,7 @@ class MediaController < ApplicationController
   # GET /media.xml
   layout 'mau1col'
   before_filter :admin_required, :except => [ 'index', 'show' ]
+  after_filter :store_location
 
   @@PER_PAGE = 12
   def admin_index
