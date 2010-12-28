@@ -675,13 +675,64 @@ describe UsersController do
     end
   end
 
+  describe "resend_activation" do
+    before do
+      get :resend_activation
+    end
+
+    it "returns sucess" do
+      response.should be_success
+    end
+    
+    it "shows email form" do
+      response.should have_tag('#user_email')
+    end
+    
+    context "post with email that's not in the system" do
+      before do 
+        User.expects(:find_by_email).returns(nil)
+        post :resend_activation, { :user => { :email => 'a@b.c' } }
+      end
+      it "redirect to root" do
+        response.should redirect_to( root_url )
+      end
+      it "has error message" do
+        flash[:error].length.should > 1
+      end
+    end
+    context "post with email that is for a fan" do
+      before do 
+        User.expects(:find_by_email).returns(users(:artfan))
+        post :resend_activation, { :user => { :email => 'a@b.c' } }
+      end
+      it "redirect to root" do
+        response.should redirect_to( root_url )
+      end
+      it "has notice message" do
+        flash[:notice].should include_text "MAU Fan accounts need no activation"
+      end
+    end
+    context "post with email that is for an artist" do
+      before do 
+        User.expects(:find_by_email).returns(users(:quentin))
+        post :resend_activation, { :user => { :email => 'a@b.c' } }
+      end
+      it "redirect to root" do
+        response.should redirect_to( root_url )
+      end
+      it "has notice message" do
+        flash[:notice].should include_text "sent your activation code to #{users(:quentin).email}"
+      end
+    end
+  end
+
   describe "forgot" do
     before do
       get :forgot
     end
 
     it "returns sucess" do
-      get :forgot
+      response.should be_success
     end
     
     context "post a fan email" do

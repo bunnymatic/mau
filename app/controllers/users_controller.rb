@@ -8,7 +8,7 @@ class UsersController < ApplicationController
                                             :addprofile, :deactivate, :setarrangement, :arrangeart, 
                                             :add_favorite, :remove_favorite, :change_password_update]
 
-  after_filter :store_location, :except => [ :forgot, :deactivate, :suspend, :reset, :destroy, :reset ]
+  after_filter :store_location, :except => [ :forgot, :deactivate, :suspend, :reset, :destroy, :reset, :resend_activation ]
 
   layout 'mau1col'
 
@@ -314,8 +314,12 @@ class UsersController < ApplicationController
       if params[:user]
         user = User.find_by_email(params[:user][:email])
         if user
-          user.resend_activation
-          flash[:notice] = "We sent your activation code to #{user.email}.  Please check your email for instructions."
+          if user.class == Artist
+            user.resend_activation
+            flash[:notice] = "We sent your activation code to #{user.email}.  Please check your email for instructions."
+          else
+            flash[:notice] = "MAU Fan accounts need no activation.  If you've forgotten your password, click the 'login' link and follow the 'forgot your password?' link"
+          end
         else
           flash[:error] = "We can't find any users with email #{params[:user][:email]} in our system."
         end
