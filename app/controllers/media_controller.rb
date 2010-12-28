@@ -11,7 +11,7 @@ class MediaController < ApplicationController
 
   def index
     xtra_params = Hash[ params.select{ |k,v| [:m].include? k } ]
-    @Freq = Medium.frequency(true)
+    @freq = Medium.frequency(true)
     if !@freq.empty?
       freq = @freq.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
       med = Medium.find(freq[0]['medium'])
