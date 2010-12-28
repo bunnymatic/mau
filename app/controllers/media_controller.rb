@@ -33,7 +33,7 @@ class MediaController < ApplicationController
         render '/error', "Media haven't been properly setup."
         return
       else
-        redirect_to medium_path(Medium.first)
+        redirect_to medium_path(Medium.first.id)
         return
       end
     end
