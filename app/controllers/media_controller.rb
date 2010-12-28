@@ -15,10 +15,10 @@ class MediaController < ApplicationController
       freq = @freq.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
       med = Medium.find(freq[0]['medium'])
       logger.info("Redirect to #{med}")
-      redirect_to medium_path(med.id, params)
+      redirect_to medium_path(med, params)
       return
     end
-    redirect_to medium_path(Medium.first.id, params)
+    redirect_to medium_path(Medium.first, params)
   end
 
   # GET /media/1
@@ -33,7 +33,7 @@ class MediaController < ApplicationController
         render '/error', "Media haven't been properly setup."
         return
       else
-        redirect_to medium_path(Medium.first.id)
+        redirect_to medium_path(Medium.first)
         return
       end
     end
