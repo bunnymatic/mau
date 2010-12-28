@@ -19,7 +19,7 @@ class ArtistProfileImage
   def self.save(upload, artist)
     upload = upload['datafile']
     name = upload.original_filename
-    dir = "artistdata/" + artist.id.to_s() + "/profile"
+    dir = "public/artistdata/" + artist.id.to_s() + "/profile"
     # get extension from filename
     ext = ""
     lastdot = name.rindex(".")
