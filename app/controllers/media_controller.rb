@@ -15,7 +15,6 @@ class MediaController < ApplicationController
     if !@freq.empty?
       freq = @freq.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
       med = Medium.find(freq[0]['medium'])
-      logger.info("Redirect to #{med} #{xtra_params}")
       redirect_to medium_path(med, xtra_params)
       return
     end

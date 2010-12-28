@@ -64,10 +64,10 @@
 		 <a href="<%= artistsmap_path %>" title="artists by map">artists by map</a>
 	       </li>
 	       <li class="leaf">
-		 <a href="<%= media_path :m => 'a' %>" title="artists by medium">artists by medium</a>
+		 <a href="<%= media_path :m => 'p' %>" title="artists by medium">artists by medium</a>
 	       </li>
 	       <li class="<%= Conf.oslive ? '': 'last' %> leaf">
-		 <a href="<%= tags_path :m => 'a' %>" title="artists by tag">artists by tag</a>
+		 <a href="<%= tags_path :m => 'p' %>" title="artists by tag">artists by tag</a>
 	       </li>
                
                <% if Conf.oslive %>                           
