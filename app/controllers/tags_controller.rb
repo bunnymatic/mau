@@ -24,6 +24,7 @@ class TagsController < ApplicationController
   end
 
   def index
+    xtra_params = Hash[ params.select{ |k,v| [:m].include? k ]
     respond_to do |format|
       format.html { 
         freq = Tag.frequency
@@ -31,7 +32,7 @@ class TagsController < ApplicationController
           render_not_found Exception.new("No tags in the system")
         else
           params[:id] = freq[0]['tag']
-          redirect_to tag_path(params)
+          redirect_to tag_path(params[:id], xtra_params)
         end
       }
       format.json  { 

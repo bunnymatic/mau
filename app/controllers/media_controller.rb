@@ -10,15 +10,16 @@ class MediaController < ApplicationController
   end
 
   def index
-    @freq = Medium.frequency(true)
+    xtra_params = Hash[ params.select{ |k,v| [:m].include? k ]
+    @Freq = Medium.frequency(true)
     if !@freq.empty?
       freq = @freq.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
       med = Medium.find(freq[0]['medium'])
-      logger.info("Redirect to #{med}")
-      redirect_to medium_path(med, params)
+      logger.info("Redirect to #{med} #{xtra_params}")
+      redirect_to medium_path(med, xtra_params)
       return
     end
-    redirect_to medium_path(Medium.first, params)
+    redirect_to medium_path(Medium.first, xtra_params)
   end
 
   # GET /media/1
