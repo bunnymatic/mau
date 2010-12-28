@@ -4,8 +4,6 @@ ActionController::Routing::Routes.draw do |map|
   map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
 
   map.resources :media
-  map.medium '/media/:id', :controller => 'media', :action => 'show'
-
 
 #  map.resources :events
 #  map.resources :venues
