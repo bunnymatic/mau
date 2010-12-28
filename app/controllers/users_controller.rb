@@ -6,9 +6,9 @@ class UsersController < ApplicationController
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_emails, :admin_update, :destroy ]
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile, 
                                             :addprofile, :deactivate, :setarrangement, :arrangeart, 
-                                            :add_favorite, :remove_favorite, :reset, :change_password_update]
+                                            :add_favorite, :remove_favorite, :change_password_update]
 
-  after_filter :store_location, :except => [ :forgot, :deactivate, :suspend, :reset, :destroy ]
+  after_filter :store_location, :except => [ :forgot, :deactivate, :suspend, :reset, :destroy, :reset ]
 
   layout 'mau1col'
 
@@ -259,13 +259,19 @@ class UsersController < ApplicationController
 
   def reset
     @user = User.find_by_reset_code(params[:reset_code]) unless params[:reset_code].nil?
-    if @user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
-      self.current_user = @user
-      @user.delete_reset_code
-      flash[:notice] = "Password reset successfully for #{@user.email}"
-      redirect_back_or_default('/')
+    if params[:user]
+      if @user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
+        self.current_user = @user
+        @user.delete_reset_code
+        flash[:notice] = "Password reset successfully for #{@user.email}"
+        redirect_back_or_default('/')
+      end
     else
-      render :action => :reset
+      if @user.nil? 
+        render_not_found("We were unable to find a user with that email.")
+      else
+        render :action => :reset
+      end
     end
   end
 
