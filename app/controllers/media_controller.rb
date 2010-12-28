@@ -68,8 +68,8 @@ class MediaController < ApplicationController
     show_next = (curpage != lastpage)
     show_prev = (curpage > 0)
 
-    @by_artists_link = medium_url(@medium) + "?m=a"
-    @by_pieces_link = medium_url(@medium) + "?m=p"
+    @by_artists_link = medium_path(@medium, { :m => 'a' })
+    @by_pieces_link = medium_path(@medium, { :m => 'p' })
     if @results_mode == 'p'
       base_link = @by_pieces_link + "&"
     else
