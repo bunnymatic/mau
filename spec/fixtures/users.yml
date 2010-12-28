@@ -84,6 +84,7 @@ artfan:
   lastname:                  fan
   type:                      MAUFan
   url:                       http://artfansrules.com
+  state: active
 
 suspended:
   login:                     suspect

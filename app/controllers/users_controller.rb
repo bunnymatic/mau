@@ -8,7 +8,7 @@ class UsersController < ApplicationController
                                             :addprofile, :deactivate, :setarrangement, :arrangeart, 
                                             :add_favorite, :remove_favorite, :reset, :change_password_update]
 
-  after_filter :store_location
+  after_filter :store_location, :except => [ :forgot, :deactivate, :suspend, :reset, :destroy ]
 
   layout 'mau1col'
 
