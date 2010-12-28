@@ -222,18 +222,35 @@ end
 
 describe User, "forgot password methods" do 
   fixtures :users
-  it "create_reset_code should call mailer" do
-    UserMailer.expects(:deliver_reset_notification).with() do |f|
-            f.login.should == users(:artfan).login
-            f.email.should include users(:artfan).email
+  context "artfan" do
+    it "create_reset_code should call mailer" do
+      UserMailer.expects(:deliver_reset_notification).with() do |f|
+        f.login.should == users(:artfan).login
+        f.email.should include users(:artfan).email
+      end
+      users(:artfan).create_reset_code
     end
-    users(:artfan).create_reset_code
+    it "create_reset_code creates a reset code" do
+      users(:artfan).reset_code.should be_nil
+      users(:artfan).create_reset_code
+      users(:artfan).reset_code.should_not be_nil
+    end
   end
-  it "create_reset_code creates a reset code" do
-    users(:artfan).reset_code.should be_nil
-    users(:artfan).create_reset_code
-    users(:artfan).reset_code.should_not be_nil
+  context "artist" do
+    it "create_reset_code should call mailer" do
+      ArtistMailer.expects(:deliver_reset_notification).with() do |f|
+        f.login.should == users(:artist1).login
+        f.email.should include users(:artist1).email
+      end
+      users(:artist1).create_reset_code
+    end
+    it "create_reset_code creates a reset code" do
+      users(:artist1).reset_code.should be_nil
+      users(:artist1).create_reset_code
+      users(:artist1).reset_code.should_not be_nil
+    end
   end
+
 end
 
 describe User, "ImageDimensions helper" do
