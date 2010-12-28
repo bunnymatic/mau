@@ -616,7 +616,23 @@ describe UsersController do
       end          
     end
   end
-  
+
+  describe "reset" do
+    before do
+      User.any_instance.expects(:find_by_reset_code).returns('abc')
+      u = users(:artfan)
+      u.reset_code = 'abc'
+      u.save
+      get :reset, :reset_code => 'abc'
+    end
+    it "returns success" do
+      response.should be_success
+    end
+    it "asks for password" do
+      response.should have_tag('#password')
+    end
+  end
+
   describe "forgot" do
     before do
       get :forgot
@@ -637,7 +653,7 @@ describe UsersController do
       end
       it "redirects to login" do
         post :forgot, :user => { :email => users(:artfan).email }
-        response.should redirect_to(login_path)
+        response.should redirect_to(login_url)
       end
 
     end
