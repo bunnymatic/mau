@@ -24,13 +24,13 @@ FormConstructors.inquiry = {
     var entries = [];
 
     entries.push( [
-      new Element('div').update('Email:'),
+      new Element('label').update('Email'),
       new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email' })) ]);
     entries.push( [
-      new Element('div').update('Confirm Email:'),
+      new Element('label').update('Confirm Email'),
       new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })) ]);
     entries.push( [
-      new Element('div').update('Inquiry:'),
+      new Element('label').update('Question'),
       new Element('div').insert(new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })) ]);
     entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
     
@@ -56,7 +56,7 @@ FormConstructors.feed_submission = {
     var entries = [];
 
     entries.push( [
-      new Element('div').update('Feed Link:'),
+      new Element('label').update('Feed Link'),
       new Element('div').insert(new Element('input', { type: 'text', id: 'feedlink', name: 'feedlink' })) ]);
     entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
 
@@ -82,13 +82,13 @@ FormConstructors.help = {
     var entries = [];
 
     entries.push( [
-       new Element('div').update('Email:'),
+      new Element('label').update('Email'),
       new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email' })) ]);
     entries.push( [
-      new Element('div').update('Confirm Email:'),
+      new Element('label').update('Confirm Email'),
       new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })) ]);
     entries.push( [
-      new Element('div').update('Report your issue:'),
+      new Element('label').update('Report your issue'),
       new Element('div').insert(new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })) ]);
     entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
   

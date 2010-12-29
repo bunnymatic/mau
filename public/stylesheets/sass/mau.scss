@@ -2053,15 +2053,15 @@ div.popup-help {
 
 #note_modal_window,
 #feedback_modal_window {
-    -moz-border-radius: 9px;
-    -webkit-border-radius: 9px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 
 #note_modal_content,
 #feedback_modal_content {
-    -moz-border-radius: 9px;
-    -webkit-border-radius: 9px;
-    border: 4px solid #738294;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border: 2px solid #738294;
     background-color: black;
     .note-err {
         margin: 20px;
@@ -2075,10 +2075,10 @@ div.popup-help {
 
 #note_modal_content .popup-title,
 #feedback_modal_content .popup-title {
-    -moz-border-radius-topleft: 9px;
-    -moz-border-radius-topright: 9px;
-    -webkit-border-top-left-radius: 9px;
-    -webkit-border-top-right-radius: 9px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
     border-bottom: 1px solid #999;
     background-color: transparent;
     line-height:2em;
@@ -2124,10 +2124,10 @@ div.popup-help {
     padding-right: 10px;
 }
 #feedback_modal_content .feedback-signup-msg {
-    -moz-border-radius-bottomleft: 6px;
-    -moz-border-radius-bottomright: 6px;
-    -webkit-border-bottom-left-radius: 6px;
-    -webkit-border-bottom-right-radius: 6px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
 }
 
 
@@ -2326,8 +2326,8 @@ form#feedback_form .error {
     z-index: 3001;
 }
 #credits_div {
-    -moz-border-radius: 9px;
-    -webkit-border-radius: 9px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     background-color: #222;
     border: 2px solid #738294;
     position: absolute;
@@ -2338,10 +2338,10 @@ form#feedback_form .error {
 }
 
 #credits_div .credits-hdr {
-    -moz-border-radius-topleft: 9px;
-    -moz-border-radius-topright: 9px;
-    -webkit-border-top-left-radius: 9px;
-    -webkit-border-top-right-radius: 9px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
     background-color: #000;
     color: #ddd;
     height: 2em;
@@ -2718,11 +2718,9 @@ ul {
     z-index: 50;
     .popup-mailer {
         width: 480px;
-        -moz-border-radius: 9px;
-        -webkit-border-radius: 9px;
-        -moz-box-shadow: 2px 1px 5px #738294;
-        -webkit-box-shadow: 2px 1px 5px #738294;
-        border: 4px solid #738294;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border: 2px solid #738294;
         background-color: black;
         color: #aaa;
     }
@@ -2753,6 +2751,13 @@ ul {
                 padding: 2px 0;
             }
         }
+        label {
+            font-size: 85%;
+            font-family: Arial, sans-serif;
+        }
+        input[type=text] {
+            width: 100%;
+        }
         input[name=inquiry] {
             width: 100%;
             height: 120px;
@@ -2760,4 +2765,75 @@ ul {
         }
     }
     
+}
+
+#mc_embed_signup {
+    font-size: 85%;
+    font-family: Arial;
+
+    fieldset {
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border: 1px solid #999;
+        padding-top: 1.5em;
+        margin: .5em 0;
+        background-color: #222;
+        color: #aaa;
+        text-align: left;
+    }
+    legend {
+        white-space: normal;
+        text-transform: capitalize;
+        font-weight: bold;
+        color: #ccc;
+        background: #000;
+        padding: .5em 1em;
+        border: 1px solid #999;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        font-size: 1.2em;
+    }
+    .indicate-required {
+        float: right;
+        text-align: right;
+        font-style: italic;
+        overflow: hidden;
+        color: #aaa;
+        margin: 0 9% 0 0;
+    }
+    .mc-field-group {
+        margin: 1.3em 5%;
+        clear: both;
+        overflow: hidden;
+        label {
+            display: block;
+            margin: .3em 0;
+            line-height: 1em;
+            font-weight: bold;
+        }
+        input {
+            margin-right: 1.5em;
+            padding: .2em .3em;
+            width: 90%;
+            float: left;
+            z-index: 999;
+        }
+    }
+    #mce-responses {
+        float: left;
+        top: -1.4em;
+        padding: 0em .5em 0em .5em;
+        overflow: hidden;
+        width: 90%;
+        margin: 0 5%;
+        clear: both;
+    }
+    .btn {
+        clear: both;
+        width: auto;
+        display: block;
+        margin: 1em 0 2em 5%;
+    }
 }
