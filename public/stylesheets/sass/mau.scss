@@ -699,12 +699,16 @@ div.feedtitle  {
 .news-footer span {
     vertical-align: top;
 }
-#news_text div
-{ font-size: 95%;}
-
-#news_text p span.title {
-    text-transform: uppercase;
-    margin-right: 20px;
+#news_text {
+    div { 
+        font-size: 95%;
+    }
+    p {
+        padding-left: 0;
+        span.title {
+            text-transform: uppercase;
+        }
+    }
 }
 
 #artists_resources {
@@ -719,23 +723,21 @@ div.feedtitle  {
     margin: 8px;
 }
 
-.artists-resources-entries .main-entry {
-    margin: 0px 6px 24px;
-    float: left;
-
-}
-.artists-resources-entries div div {
-    margin: 2px 0 2px 8px;
-}
-
-.artists-resources-entries span.title {
-    text-transform: uppercase;
-    font-size:105%;
-}
 .artists-resources-entries {
     float:left;
     font-size: 90%;
     text-align: left;
+    .main-entry {
+        margin: 0px 6px 24px;
+        float: left;
+    }
+    div div {
+        margin: 2px 0 2px 8px;
+    }
+    span.title {
+        text-transform: uppercase;
+        font-size:105%;
+    }
 }
 
 .rcol .feedtitle {
