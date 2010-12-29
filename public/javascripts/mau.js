@@ -422,11 +422,13 @@ var TagMediaHelper = {
   AP.init = function() {
     if (location.hash && location.href.match(/art_pieces\/\d+/)) {
       var newid = location.hash.substr(1);
-      var urlbits = location.href.split('/');
-      var n = urlbits.length;
-      urlbits[n-1] = newid;
-      var newurl = urlbits.join('/');
-      location.href = newurl;
+      if (newid) {
+        var urlbits = location.href.split('/');
+        var n = urlbits.length;
+        urlbits[n-1] = newid;
+        var newurl = urlbits.join('/');
+        location.href = newurl;
+      }
     }
     var moveleft = $$('.mv-left');
     if (moveleft && moveleft.length > 0) {
@@ -711,6 +713,7 @@ var TagMediaHelper = {
 	var apid = location.hash.substr(1);
         if (apid) {
 	  T.jumpTo(apid);
+          return false;
         }
       });
     });

@@ -185,15 +185,15 @@ Object.extend(MAU.NotesMailer.prototype, {
         ev.stop();
         return false;
       });
-      var h = new Element('div', { class: 'popup-header' }).update( formbuilder.title );
-      var x = new Element('div', { class: 'close-btn' }).update('x');
+      var h = new Element('div', { "class": 'popup-header' }).update( formbuilder.title );
+      var x = new Element('div', { "class": 'close-btn' }).update('x');
       h.insert(x);
       x.observe('click', function(ev) { _that.close(ev); });
-      var c = new Element('div', { class: 'popup-content' });
-      var m = new Element('div', { class: 'popup-mailer' });
+      var c = new Element('div', { "class": 'popup-content' });
+      var m = new Element('div', { "class": 'popup-mailer' });
       $(m).insert(h).insert(c);
       $(c).insert(f);
-      var notes = new Element('div', { class: _that._parent_class() }).insert(m);
+      var notes = new Element('div', { "class": _that._parent_class() }).insert(m);
       $$('body')[0].insert(notes);
       var style = { left: ''+(xpos-250) + 'px',
                     top: ''+ypos + 'px' };
