@@ -1,27 +1,5 @@
-<p/>Send us your email address and we'll keep you informed of all the MAU events.
+<p/>Sign up for our email lists.
 <div class="getinv-form-container ">
-  <% form_for :feedback, @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
-  <table class="getinv-form">
-    <tr>
-      <td class="getinv-form-container">
-	<div id="bemail_input" class="getinv-input" >
-	  <% if logged_in? -%>
-	  <div class="little-txt">Ya know, since you are a registered artist, we already have your email on our list.</div>
-	  <% end -%>
-	  <%= f.label 'email' %>
-	  <%= f.text_field 'email', :value => current_user ? current_user.email : '' %>
-	  <%= f.submit 'Send' %>
-	</div>
-      </td>
-    </tr>
-  </table>
-  <%= f.hidden_field 'comment', :value => "this person wants us to add them to our email list" %>
-  <%= f.hidden_field 'subject', :value => "Please Add Me To Your Email List" %>
-  <%= f.hidden_field 'page', :value => request.referer %>
-  <% if current_user -%>
-  <%= f.hidden_field 'login', :value => current_user.login %>
-  <%= f.hidden_field 'email', :value => current_user.email %>
-  <% end -%>
-  <% end -%>
+  <%= render :partial => '/mailchimp_signup_form' %>
 </div>
 
