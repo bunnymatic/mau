@@ -12,22 +12,26 @@ span.dropdown, span.footer-nav {
    text-align:left;
 }
 
-table.signup-table input[type=text] {
-   width: 175px;
-}
-table.signup-table input[type=password] {
-   width: 175px;
+table.signup-table {
+    input[type=text] {
+        width: 175px;
+    }
+    input[type=password] {
+        width: 175px;
+    }
 }
 
 .signup-table td, .login-table td {
 	text-align: left;
 }
 
-table.login-table input[type=text] {
-   width: 150px;
-}
-table.login-table input[type=password] {
-   width: 150px;
+table.login-table {
+    input[type=text] {
+        width: 150px;
+    }
+    input[type=password] {
+        width: 150px;
+    }
 }
 
 input[type=submit] {
@@ -107,3 +111,13 @@ a.fdbk-sel div#next_pg {
 #header_bar .rtcorner { right:0; top:0; z-index:10; }
 
 ul.dropdown li { height:25px;}
+
+#sidebar_nav .heart {
+    width: auto;
+}
+.action-icons div {
+    width: auto;
+}
+#favorites_page li div.name .del-btn {
+    width: auto;
+}
