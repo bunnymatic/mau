@@ -1368,10 +1368,12 @@ td.td-left{
 }
 .signup-right {
     clear: right;
+    p {
+        text-align: left;
+        padding-left: 0;
+    }
 }
-.signup-right p {
-    text-align: left;
-}
+
 .logo-spacer {
     line-height: 30px;
     height: 30px;
@@ -1379,10 +1381,10 @@ td.td-left{
 .div-center {
     margin-left:auto;
     margin-right: auto;
-}
-.div-center h4 {
-    text-align: center;
-    margin-top: 36px;
+    h4 {
+        text-align: center;
+        margin-top: 36px;
+    }
 }
 
 #main_thumbs {
