@@ -47,6 +47,13 @@ try{ err_style = mc_custom_error_style;} catch(e){
 }
 var mce_jQuery = jQuery.noConflict();
 mce_jQuery(document).ready( function($) {
+  MAU.Cookie.init({name:'mau'});
+  var email_addr = MAU.Cookie.getData('email');
+  var firstname = MAU.Cookie.getData('firstname');
+  var lastname = MAU.Cookie.getData('lastname');
+  $('#mce-EMAIL').val(email_addr);
+  $('#mce-FNAME').val(firstname);
+  $('#mce-LNAME').val(lastname);
  var options = { errorClass: 'mce_inline_error', errorElement: 'div', errorStyle: err_style, onkeyup: function(){}, onfocusout:function(){}, onblur:function(){} };
  var mce_validator = mce_jQuery("#mc-embedded-subscribe-form").validate(options);
  options = { url: 'http://missionartistsunited.us2.list-manage1.com/subscribe/post-json?u=a10070c7a519efbd75c4136a2&id=02f17b3a2c&c=?', type: 'GET', dataType: 'json', contentType: "application/json; charset=utf-8",

@@ -21,7 +21,16 @@ class ApplicationController < ActionController::Base
   def update_cookies
     @last_visit = nil;
     last_visit = DateTime::now()
-    cookies[:mau] = CookiesHelper::encode_cookie({ :last_visit => last_visit, :email => current_user ? current_user.email : '' })
+    user_info = {}
+    if current_user
+      user_info.merge!({ :email => current_user.email,
+                        :firstname => current_user.firstname,
+                        :lastname => current_user.lastname,
+                        :fullname => current_user.get_name(true) })
+    end
+    cookie_data = {:last_visit => last_visit}.merge(user_info)
+    p cookie_data
+    cookies[:mau] = CookiesHelper::encode_cookie(cookie_data)
     @last_visit = last_visit
   end
 

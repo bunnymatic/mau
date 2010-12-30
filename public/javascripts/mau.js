@@ -215,9 +215,6 @@ var TagMediaHelper = {
   
   M.init = function() {
     var $lf = $('login_form');
-    MAU.Cookie.init({name:'mau'},{});
-    MAU.log("Email from cookie", MAU.Cookie.getData('email'));
-    MAU.log("Cookie data", MAU.Cookie.data);
 
     if ($lf) { $lf.focus_first(); }
 

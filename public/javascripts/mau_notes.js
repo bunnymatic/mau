@@ -22,13 +22,15 @@ FormConstructors.inquiry = {
 */
     var inputs = new Element('ul');
     var entries = [];
-
+    
+    MAU.Cookie.init({name:'mau'});
+    var email = MAU.Cookie.getData('email');
     entries.push( [
       new Element('label').update('Email'),
-      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email' })) ]);
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email', value: email})) ]);
     entries.push( [
       new Element('label').update('Confirm Email'),
-      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })) ]);
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm', value: email })) ]);
     entries.push( [
       new Element('label').update('Question'),
       new Element('div').insert(new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })) ]);
@@ -81,12 +83,15 @@ FormConstructors.help = {
     var inputs = new Element('ul');
     var entries = [];
 
+    MAU.Cookie.init({name:'mau'});
+    var email = MAU.Cookie.getData('email');
+
     entries.push( [
       new Element('label').update('Email'),
-      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email' })) ]);
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email', value: email})) ]);
     entries.push( [
       new Element('label').update('Confirm Email'),
-      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })) ]);
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm', value: email })) ]);
     entries.push( [
       new Element('label').update('Report your issue'),
       new Element('div').insert(new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })) ]);
@@ -113,12 +118,15 @@ FormConstructors.email_list = {
     var inputs = new Element('ul');
     var entries = [];
 
+    MAU.Cookie.init({name:'mau'});
+    var email = MAU.Cookie.getData('email');
+
     entries.push( [
       new Element('div').update('Email:'),
-      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email' })) ]);
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email', value: email })) ]);
     entries.push( [
       new Element('div').update('Confirm Email:'),
-      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm' })) ]);
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm', value: email })) ]);
     entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
     
     $(entries).each(function(entry) {
