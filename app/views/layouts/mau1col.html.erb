@@ -9,6 +9,9 @@
         <%= render :partial => '/javascripts' %>
   </head>
   <body>
+    <% if @_ie7 -%>
+    <%= render :partial => '/ie7_warning' %>
+    <% end -%>
     <%= render :partial => '/noscript_msg' %>
     <div>
     <%= render :partial => '/login_header_bar' %>
