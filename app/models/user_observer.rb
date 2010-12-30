@@ -3,8 +3,6 @@ class UserObserver < ActiveRecord::Observer
     if user.is_artist?
       user.reload
       ArtistMailer.deliver_signup_notification(user)
-    else
-      user.activate!
     end
   end
 

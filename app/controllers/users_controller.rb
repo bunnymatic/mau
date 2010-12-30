@@ -8,7 +8,7 @@ class UsersController < ApplicationController
                                             :addprofile, :deactivate, :setarrangement, :arrangeart, 
                                             :add_favorite, :remove_favorite, :change_password_update]
 
-  after_filter :store_location, :except => [ :forgot, :deactivate, :suspend, :reset, :destroy, :reset, :resend_activation ]
+  after_filter :store_location, :except => [ :forgot, :deactivate, :suspend, :reset, :destroy, :reset, :resend_activation, :new, :create ]
 
   layout 'mau1col'
 
@@ -189,6 +189,7 @@ class UsersController < ApplicationController
         flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
         redirect_to "/"
       else
+        @fan.activate!
         flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
         redirect_to login_path
       end
