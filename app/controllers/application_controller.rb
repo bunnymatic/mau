@@ -20,12 +20,9 @@ class ApplicationController < ActionController::Base
 
   def update_cookies
     @last_visit = nil;
-    maucookie = CookiesHelper::decode_cookie(cookies[:mau])
-    if !maucookie or maucookie.empty?
-      last_visit = DateTime::now()
-      cookies[:mau] = CookiesHelper::encode_cookie({ :last_visit => last_visit, :email => current_user ? current_user.email : '' })
-      @last_visit = last_visit
-    end
+    last_visit = DateTime::now()
+    cookies[:mau] = CookiesHelper::encode_cookie({ :last_visit => last_visit, :email => current_user ? current_user.email : '' })
+    @last_visit = last_visit
   end
 
   # Scrub sensitive parameters from your log

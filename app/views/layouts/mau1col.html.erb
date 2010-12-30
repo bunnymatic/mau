@@ -5,10 +5,8 @@
 	<%= render :partial => '/extra_html_head' %>
 	<%= render :partial => '/title' %>
 	<%= render :partial => '/stylesheets' %>
-    <%= render :partial => '/ganalytics' %>
-  <%=
-     javascript_include_tag "prototype/1.7/prototype.min", "scriptaculous.all.min", "prototype.feedback", "mau"
-     %>
+        <%= render :partial => '/ganalytics' %>
+        <%= render :partial => '/javascripts' %>
   </head>
   <body>
     <%= render :partial => '/noscript_msg' %>
