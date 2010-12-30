@@ -24,7 +24,7 @@ FormConstructors.inquiry = {
     var entries = [];
     
     MAU.Cookie.init({name:'mau'});
-    var email = MAU.Cookie.getData('email');
+    var email = MAU.Cookie.getData('email') || '';
     entries.push( [
       new Element('label').update('Email'),
       new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email', value: email})) ]);
@@ -84,7 +84,7 @@ FormConstructors.help = {
     var entries = [];
 
     MAU.Cookie.init({name:'mau'});
-    var email = MAU.Cookie.getData('email');
+    var email = MAU.Cookie.getData('email') || '';
 
     entries.push( [
       new Element('label').update('Email'),
@@ -119,7 +119,7 @@ FormConstructors.email_list = {
     var entries = [];
 
     MAU.Cookie.init({name:'mau'});
-    var email = MAU.Cookie.getData('email');
+    var email = MAU.Cookie.getData('email') || '';
 
     entries.push( [
       new Element('div').update('Email:'),
