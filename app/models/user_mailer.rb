@@ -45,15 +45,15 @@ class UserMailer < ActionMailer::Base
   protected
     def setup_email(user)
       @recipients  = "#{user.email}"
-      @from        = "Mission Users United Accounts <mauadmin@missionusersunited.org>"
-      @subject     = "Mission Users United "
+      @from        = "Mission Artists United Accounts <mauadmin@missionusersunited.org>"
+      @subject     = "Mission Artists United "
       @sent_on     = Time.now
       @body[:user] = user
     end
     def setup_note(user)
       @recipients  = "#{user.email}"
-      @from        = "Mission Users United <mau@missionusersunited.org>"
-      @subject     = "Mission Users United "
+      @from        = "Mission Artists United <mau@missionusersunited.org>"
+      @subject     = "Mission Artists United "
       @sent_on     = Time.now
       @body[:user] = user
     end

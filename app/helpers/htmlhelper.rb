@@ -3,7 +3,7 @@ module HTMLHelper
   @@HTMLcoder = HTMLEntities.new
   
   def self.encode(s)
-    @@HTMLcoder.encode(s)
+    @@HTMLcoder.encode(s, :hexadecimal)
   end
   
   def self.queryencode(d)

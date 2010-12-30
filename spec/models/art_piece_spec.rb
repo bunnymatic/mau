@@ -1,5 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+def valid_attrs()
+    { :title => 'art piece',
+    }
+end
+
 describe ArtPiece, 'creation'  do
   it 'should not allow short title' do
     ap = ArtPiece.new(:title => 't')
@@ -13,7 +18,19 @@ describe ArtPiece, 'creation'  do
     ap.should have(2).errors
   end
 
+  it 'allows quotes' do
+    p = valid_attrs.merge({:title => 'what"ever'})
+    ap = ArtPiece.new(p)
+    ap.valid?.should be_true
+  end
+
+  it 'encodes quotes to html numerically' do
+    p = valid_attrs.merge({:title => 'what"ever'})
+    ap = ArtPiece.new(p)
+    ap.safe_title.should == 'what&#x22;ever'
+  end
 end
+
 
 describe ArtPiece, "ImageDimensions helper" do
   fixtures :art_pieces
