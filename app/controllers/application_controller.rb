@@ -46,10 +46,10 @@ class ApplicationController < ActionController::Base
   end 
 
   def is_ie8?(req)
-    req.env[USERAGENT].include? 'MSIE 8.0'
+    req.env[USERAGENT].include?('MSIE 8.0') || req.env[USERAGENT].include?("Trident/4.0")
   end
   def is_ie7?(req)
-    req.env[USERAGENT].include? 'MSIE 7.0'
+    req.env[USERAGENT].include?('MSIE 7.0') && !req.env[USERAGENT].include?("Trident/4.0")
   end
   def is_ie6?(req)
     req.env[USERAGENT].include? 'MSIE 6.0'
