@@ -33,7 +33,7 @@ FormConstructors.inquiry = {
       new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm', value: email })) ]);
     entries.push( [
       new Element('label').update('Question'),
-      new Element('div').insert(new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })) ]);
+      new Element('div').insert(new Element('textarea', { columns: 80, rows: 7, id: 'inquiry', name: 'inquiry' })) ]);
     entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
     
     $(entries).each(function(entry) {
@@ -94,7 +94,7 @@ FormConstructors.help = {
       new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm', value: email })) ]);
     entries.push( [
       new Element('label').update('Report your issue'),
-      new Element('div').insert(new Element('input', { type: 'textarea', id: 'inquiry', name: 'inquiry' })) ]);
+      new Element('div').insert(new Element('textarea', { columns: 80, rows: 7, id: 'inquiry', name: 'inquiry' })) ]);
     entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
   
     $(entries).each(function(entry) {
