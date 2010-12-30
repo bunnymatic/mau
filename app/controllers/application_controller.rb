@@ -29,7 +29,6 @@ class ApplicationController < ActionController::Base
                         :fullname => current_user.get_name(true) })
     end
     cookie_data = {:last_visit => last_visit}.merge(user_info)
-    p cookie_data
     cookies[:mau] = CookiesHelper::encode_cookie(cookie_data)
     @last_visit = last_visit
   end
