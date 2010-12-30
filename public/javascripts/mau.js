@@ -215,6 +215,10 @@ var TagMediaHelper = {
   
   M.init = function() {
     var $lf = $('login_form');
+    MAU.Cookie.init({name:'mau'},{});
+    MAU.log("Email from cookie", MAU.Cookie.getData('email'));
+    MAU.log("Cookie data", MAU.Cookie.data);
+
     if ($lf) { $lf.focus_first(); }
 
     // init credits popup
@@ -595,8 +599,8 @@ var TagMediaHelper = {
 	img.show();
         
         // hides errors/notices
-        $$('.notice').each(function(el) { if (el.visible()) {el.fade({duration:0.3}); }});
-        $$('.error-msg').each(function(el) { if (el.visible()) {el.fade({duration:0.3}); }});
+        $$('.notice').each(function(el) { if (el.visible()) {el.fade({duration:0.3, afterFinish: function() {el.remove();}}); }});
+        $$('.error-msg').each(function(el) { if (el.visible()) {el.fade({duration:0.3, afterFinish: function() {el.remove();}}); }});
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {
           $favs[0].setAttribute('fav_id', ap.id);
