@@ -11,7 +11,7 @@ MAUFEEDS = window['MAUFEEDS'] || {};
 	onSuccess: function(transport) {
 	  var d = $('feed_div');
 	  d.innerHTML = transport.responseText;
-	  MAU.log("Got feeds");
+	  //MAU.log("Got feeds");
 	  MAUFEEDS.stripStyles('feed_div');
 	}
       });
