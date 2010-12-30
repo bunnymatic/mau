@@ -89,7 +89,7 @@ class MainController < ApplicationController
       comment += "OS: #{params["operating_system"]}\n"
       comment += "Browser: #{params["browser"]}\n"
       case params["note_type"]
-      when 'inquiry'
+      when 'inquiry', 'help'
         comment += "From: #{email}\nQuestion: #{params['inquiry']}\n"
       when 'email_list'
         comment += "From: #{email}\n Add me to your email list\n"
