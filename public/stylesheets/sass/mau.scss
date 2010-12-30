@@ -5,18 +5,17 @@ body {
     font: 13px Verdana, Arial, Helvetica, sans-serif;
     position: relative;
     padding: 5px;
-    #noscript {
+    #noscript, #ie7_warning {
         width: 900px;
         margin: 20px auto;
         padding: 10px;
         background: #bbb;
         color: #222;
-        border: 2px solid black;
+        border: 2px solid #800;
         a {
             color: #525;
         }
     }
-    
 }
 
 p {
