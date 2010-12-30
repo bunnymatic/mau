@@ -1856,6 +1856,8 @@ textarea.artist-bio {
     margin-bottom: 11px;
     font-size: 85%;
 }
+
+.back-to-profile-btn span,
 .edit-buttons span,
 #profile_edit_ctrls span,
 #artpiece_edit_ctrls span {
@@ -1869,6 +1871,7 @@ textarea.artist-bio {
     margin-left: 0px;
 }
 
+.back-to-profile-btn span:hover,
 .edit-buttons span:hover,
 #profile_edit_ctrls span:hover,
 #artpiece_edit_ctrls span:hover {
