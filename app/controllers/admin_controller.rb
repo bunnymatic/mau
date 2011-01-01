@@ -59,6 +59,7 @@ class AdminController < ApplicationController
     activated = Artist.active.count
     accounts = User.count
     fans = User.count(:conditions => "type <> 'Artist'")
+    active_fans = User.active.count(:conditions => "type <>'Artist'")
     artists = accounts - fans
     artpieces = ArtPiece.count
     introuble = Artist.count(:conditions => "state='pending'")
@@ -93,9 +94,10 @@ class AdminController < ApplicationController
     end
     
     accts = {
-        :accounts => { :name => "Total Accounts", :data => accounts },
-        :fans => { :name => "Fans", :data => fans },
-        :artists => { :name => "Artists", :data => artists },
+      :accounts => { :name => "Total Accounts", :data => accounts },
+      :fans => { :name => "Fans", :data => fans },
+      :active_fans => { :name => 'Active Fans', :data => active_fans, :noemail => true },
+      :artists => { :name => "Artists", :data => artists },
     }
     
     favinfo = {
