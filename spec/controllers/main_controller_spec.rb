@@ -96,10 +96,16 @@ describe MainController do
         params_from(m, "/contact").should == {:controller => 'main', :action => 'contact' }
       end
     end
-    it "should generate {:controller=>main, action=>news} from ANY 'news'" do
+    it "should generate {:controller=>main, action=>resources} from ANY 'news'" do
       methods = [:get, :put, :delete, :post]
       methods.each do |m|
-        params_from(m, "/news").should == {:controller => 'main', :action => 'news' }
+        params_from(m, "/news").should == {:controller => 'main', :action => 'resources' }
+      end
+    end
+    it "should generate {:controller=>main, action=>resources} from ANY 'resources'" do
+      methods = [:get, :put, :delete, :post]
+      methods.each do |m|
+        params_from(m, "/resources").should == {:controller => 'main', :action => 'resources' }
       end
     end
   end
@@ -108,7 +114,7 @@ describe MainController do
     describe "get" do
       context "while not logged in" do
         before do
-          get :news
+          get :resources
         end
         it_should_behave_like "not logged in"
       end
@@ -117,7 +123,7 @@ describe MainController do
           u = users(:aaron)
           login_as(users(:aaron))
           @logged_in_user = u
-          get :news
+          get :resources
         end
         it_should_behave_like "logged in user"
       end
@@ -126,7 +132,7 @@ describe MainController do
           a = users(:artist1)
           login_as(users(:artist1))
           @logged_in_user = a
-          get :news
+          get :resources
         end
         it_should_behave_like "logged in user"
       end
