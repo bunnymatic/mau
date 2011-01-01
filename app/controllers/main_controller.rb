@@ -110,6 +110,10 @@ class MainController < ApplicationController
   end
 
   def news
+    redirect_to 'resources'
+  end
+
+  def resources
     @feedhtml = ''
     numentries = 5
     url, link = 'http://missionartistsunited.wordpress.com/feed/',

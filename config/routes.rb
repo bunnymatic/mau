@@ -43,7 +43,8 @@ ActionController::Routing::Routes.draw do |map|
   map.getinvolved '/getinvolved/:p', :controller => 'main', :action => 'getinvolved', :p => nil
   map.privacy '/privacy', :controller => 'main', :action => 'privacy'
   map.about '/about/:id', :controller => 'main', :action => 'about'
-  map.news '/news', :controller => 'main', :action => 'news'
+  map.news '/resources', :controller => 'main', :action => 'resources'
+  map.news_alt '/news', :controller => 'main', :action => 'resources'
   map.contact '/contact', :controller => 'main', :action => 'contact'
   map.error '/error', :controller => 'error'
   map.version '/_rev', :controller => 'main', :action => 'version'
