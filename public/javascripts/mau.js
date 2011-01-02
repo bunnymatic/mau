@@ -536,8 +536,10 @@ var TagMediaHelper = {
 	small:"s_",
 	medium: "m_" };
       if (sz in sub) {
+        var f = fname.replace(/^public\//,'/');
+        f = f.replace(/^\/public\//,'/');
 	var reg = /(^\/*artistdata\/\d+\/imgs\/)(.*)/;
-	var f = fname.replace(reg, "$1"+sub[sz]+"$2");
+	f = f.replace(reg, "$1"+sub[sz]+"$2");
 	if (f[0] != '/') {
 	  f = '/'+f;
 	}
@@ -625,6 +627,7 @@ var TagMediaHelper = {
       var idx = T.curIdx;
       var ap = T.ThumbList[idx];
       var url = "/art_pieces/" + ap.id + "?format=json";
+        
       T.Helpers.update_highlight();
       location.hash = "#" + ap.id;
       var img = $('artpiece_img');
