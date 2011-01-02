@@ -1,6 +1,6 @@
+require("spec_helper.js");
 jQuery.noConflict();
 
-require("spec_helper.js");
 require("../../public/javascripts/prototype/1.7/prototype.min.js", { onload: function() {
   require("../../public/javascripts/mau.js");
   require("../../public/javascripts/mau_cookies.js");
