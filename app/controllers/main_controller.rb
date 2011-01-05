@@ -6,7 +6,7 @@ require 'ftools'
 FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
-  layout 'mau2col'
+  layout 'mau2col' 
   before_filter :no_cache, :only => :index
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 20)
   def index
@@ -114,6 +114,7 @@ class MainController < ApplicationController
   end
 
   def resources
+    
     @feedhtml = ''
     numentries = 5
     url, link = 'http://missionartistsunited.wordpress.com/feed/',
@@ -133,6 +134,7 @@ class MainController < ApplicationController
     end
     @page_title = "Mission Artists United - Open Studios"
     @feedhtml = cached_html
+    render :action => 'resources', :layout => 'mau'
   end
 
   def venues

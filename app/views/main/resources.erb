@@ -1,63 +1,148 @@
-<div id="news_text">
-  <div><h4>MAU Resources</h4></div>
-  <div>
-    <p>
-We hold two large Open Studios events each year where artists all over the
-Mission open their doors to the public for a whole weekend.  Art lovers from
-all over come to see the creativity and innovation of their favorite local
-artists in our favorite San Francisco neighborhood.
-    </p>
-    <p>
-      <span class="title">Spring Open Studios</span> will be held April 15-16, 2011.
-    </p>
-    <p>
-      <span class="title">Fall Open Studios</span> will be a weekend in October, date TBD.
-    </p>
-    <p>
-      To keep up on all the latest MAU news, you can join our <a href="/contact">email list.</a>
-    </p>
-    <p>
-      <a href="http://www.springopenstudios.com">Spring Open Studios</a> is an event that takes place over 3 weekends in 3 neighborhoods.  <a href="http://artspan.org">Fall Open Studios</a> takes place over 5 weekends and covers the whole city of San Francisco.
-    </p>
-    <p>
-<!--
-Artists:
-	When we're ready to start taking Open Studios signups for spring, information for you to sign up will be here.
-<% if logged_in? && current_user.type == 'Artist' -%>
-Click <a href="<%= artist_path(current_user) %>/edit#events"/>here<a/> to check your status.
-<% else -%>
-<a href="/login">Login</a> and check your profile page to make sure your Open Studios status is correct.  If you are doing Open Studios, you should see an OpenStudios star over your profile picture.
-<% end-%>
--->
-  </p>
-  </div>
-  <div class="clear"></div>
-  <div id="artists_resources">
-    <div class="about-title"><h4>Artists Resources</h4></div>
-	<div class="artists-resources-entries">
-	  <div class="main-entry"><a target="_blank" title="Come Back Spring 2010 Cards" href="/images/comeback/2011/comeback2011.jpg"><img src="/images/comeback/2011/comeback2011-th.jpg" width="209" height="150"/></a></div>
-	  <div class="main-entry" style="float:right;width:305px;"><span class="title">Promo materials!</span>
-	    <p>We will post your Open Studios Promotional Materials in this section.  There will be downloads and designs you can print yourself and opportunities to purchase printed press materials</p>
+<%= javascript_include_tag 'mau_popup_view' %>
+<script>
+  Event.observe(window, 'load', function() {  
+    new MAU.PopupView("#news_text .read-more", { title:"Invitation from Howard Flax", data_div:"letter_from_flax"} );
+  });
+</script>
+
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => "/twocol_top" %>
+  <tr>    
+    <td class="corner"></td>
+    <td class="alt-lcol" align="center">
+      <%= render :partial => 'sidebar_nav' %>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td> 
+    <td class="rcol" align="center">
+      <div id="news_text">
+        <div>
+          <a name="open_studios">
+          <h4>Open Studios</h4>
+          </a>
+          <p>
+            We hold two large Open Studios events each year where artists all over the
+            Mission open their doors to the public for a whole weekend.  Art lovers from
+            all over come to see the creativity and innovation of their favorite local
+            artists in our favorite San Francisco neighborhood.
+          </p>
+          <p>
+            <span class="title">Spring Open Studios</span> will be held April 15-16, 2011.
+          </p>
+          <p>
+            <span class="title">Fall Open Studios</span> will be a weekend in October, date TBD.
+          </p>
+          <p>
+            To keep up on all the latest MAU news, you can join our <a href="/contact">email list.</a>
+          </p>
+          <p>
+            <a href="http://www.springopenstudios.com">Spring Open Studios</a> is an event that takes place over 3 weekends in 3 neighborhoods.  <a href="http://artspan.org">Fall Open Studios</a> takes place over 5 weekends and covers the whole city of San Francisco.
+          </p>
+          <p>
+            <!--
+                Artists:
+	        When we're ready to start taking Open Studios signups for spring, information for you to sign up will be here.
+                <% if logged_in? && current_user.type == 'Artist' -%>
+                Click <a href="<%= artist_path(current_user) %>/edit#events"/>here<a/> to check your status.
+                <% else -%>
+                <a href="/login">Login</a> and check your profile page to make sure your Open Studios status is correct.  If you are doing Open Studios, you should see an OpenStudios star over your profile picture.
+                <% end-%>
+                -->
+          </p>
+        </div>
+        <div class="clear"></div>
+        <div id="artists_resources">
+          <div class="about-title">
+            <a name="open_studios_resources">
+              <h4>Artists Resources</h4></a>
+          </div>
+	  <div class="artists-resources-entries">
+            <div class="artists-resource-block">
+              <span class="title">Sign up for Flax Live Painting!</span>
+              <p>Howard Flax is inviting all MAU artists to join in and participate in a live painting program he's recently started in the store.  It's an opportunity to give you, the artist, more exposure, and to help promote Mission Artists United.  The store, in return, get's new energy and excitement in the store.  If you are interested, please read <a href="#" class="read-more">click here to read more</a>.  To sign up, <a href="javascript:MAU.mailer('leslie','flaxart.com','Sign me up for Live Painting!');">email Leslie Flax</a>.  More information is provided <a href="#" class="read-more">here</a> in this letter from Howard Flax to MAU Artists.
+            </div>
+            <div class="artists-resource-block">
+	    <div class="main-entry"><a target="_blank" title="Come Back Spring 2010 Cards" href="/images/comeback/2011/comeback2011.jpg"><img src="/images/comeback/2011/comeback2011-th.jpg" width="209" height="150"/></a></div>
+	    <div class="main-entry" style="float:right;width:305px;"><span class="title">Promo materials!</span>
+	      <p>We will post your Open Studios Promotional Materials in this section.  There will be downloads and designs you can print yourself and opportunities to purchase printed press materials</p>
+	    </div>
+	    <div class="clear"></div>
+            </div>
+            <div class="artists-resource-block">
+	    <div class="main-entry" style="width: 209px;"><span class="title">Open Studios Guide</span>
+              <ul>
+                <li>
+                <a href="http://trishtunney.blogspot.com/2010/03/fun-and-successful-open-studios.html" target="_blank">Tips for the Artist</a> from Trish Tunney.
+                </li>
+              </ul>
+	    </div>
+	    <div style="float:right; width:305px;"><a target="_blank" title="Open Studios - Tips for the Artist" href="http://trishtunney.blogspot.com/2010/03/fun-and-successful-open-studios.html"><img src="/images/ostips_thumb.jpg" width="300" height="199"/></a></div>
+	    <div class="main-entry"><span class="title">MAU Gear!</span>
+	      <ul>
+                <li>
+		  <a href="http://www.cafepress.com/ArtIsTheMission" target="_blank">Art is the Mission shirts and gear</a>
+                </li>
+                <li>
+		  <a href="http://www.cafepress.com/MissionArtists" target="_blank">Mission Artists United Logo gear</a>
+                </li>
+              </ul>
+	    </div>
 	  </div>
 	  <div class="clear"></div>
-	  <div class="main-entry" style="width: 209px;"><span class="title">Open Studios Guide</span>
-            <div>
-              <a href="http://trishtunney.blogspot.com/2010/03/fun-and-successful-open-studios.html" target="_blank">Tips for the Artist</a> from Trish Tunney.
-            </div>
-	  </div>
-	  <div style="float:right; width:305px;"><a target="_blank" title="Open Studios - Tips for the Artist" href="http://trishtunney.blogspot.com/2010/03/fun-and-successful-open-studios.html"><img src="/images/ostips_thumb.jpg" width="300" height="199"/></a></div>
-	  <div class="main-entry"><span class="title">MAU Gear!</span>
-		<div>
-		<a href="http://www.cafepress.com/ArtIsTheMission" target="_blank">Art is the Mission shirts and gear</a>
-		</div>
-		<div>
-		  <a href="http://www.cafepress.com/MissionArtists" target="_blank">Mission Artists United Logo gear</a>
-		</div>
-	  </div>
-	</div>
-	<div class="clear"></div>
-  </div>
-
-  <div class="clear"></div>
-  <%= render :partial => "info_footer" %>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <%= render :partial => "info_footer" %>
+      </div>
+    </td>
+    <td></td>
+  </tr>
+  <%= render :partial => "/twocol_bottom" %>
+</table>
+<div id="letter_from_flax" style="display:none;">
+ <p>  Flax art & design is interested in supporting MAU artists through a
+ live painting program in the store. With this invitation, please think
+ of Flax as an extension of your studio, with the benefit of a new
+ environment to stimulate your creativity. Your workspace will be in
+ the front of the store with the highest area of traffic. We'll have an
+ easel and taboret for your use, you can bring some promotional
+ postcards for customers to take away, and you can bring in a some
+ finished pieces of art to sell, too.
+</p>
+<p>
+   The purpose of this is to give you more exposure of your talents and
+ artwork. By extension of that, we hope to increase awareness of
+ Mission Artists United and the Open Studios. For Flax, your
+ participation provides a great new energy in the store, and our
+ customers gain inspiration from watching you.
+</p>
+<p>
+   Our goal is to schedule an artist as live painter every Saturday.
+ The best time is mid to late afternoon, with a working time from two
+ to four hours. Flax will promote the program to all our customers via
+ email and social media, and for each participating artist we will list
+ their bio on our website and in the store. If you like, we'll post a
+ video to YouTube.
+</p>
+<p>
+   Please note that while the idea for this was spawned from successful
+ MAU artist presentations in the store last year, it's not for
+ everyone. The retail environment can be hectic, with different
+ announcements coming over the PA system and occasional customers
+ wanting to interact with you.
+</p>
+<p>
+   To schedule a participation date/time or to ask questions, please
+ contact Leslie Flax at <a href="javascript:MAU.mailer('leslie','flaxart.com','Sign me up for Live Painting!');">leslie at flaxart.com</a>, (Leslie and Howard are siblings, representing the third generation of the Flax family)
+</p>
+<p>
+Thank you. We are really forward looking forward to working with MAU
+ artists!
+</p>
+<p>
+ Sincerely,
+</p>
+<p>
+ Howard Flax
+</p>
 </div>
+
