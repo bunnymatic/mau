@@ -286,7 +286,7 @@ class User < ActiveRecord::Base
         favs << Favorite.art_pieces.find_all_by_favoritable_id( art_pieces.map{|ap| ap.id}, :order => 'created_at desc')
       end
     end
-    User.find(favs.flatten.select{|f| !f.nil?}.map {|f| f.user_id})
+    User.find(favs.flatten.select{|f| !f.nil? && !f.user_id.nil?}.map {|f| f.user_id})
   end
 
   def remove_favorite(fav)
