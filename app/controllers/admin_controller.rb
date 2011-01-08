@@ -155,4 +155,7 @@ class AdminController < ApplicationController
       @chunks << chunk
     end
   end
+
+  def fans
+  end	
 end
