@@ -1,0 +1,26 @@
+<div class="admin-table singlecolumn">
+<h1>Listing fans</h1>
+<table>
+  <tr>
+    <th>name</th>
+    <th>info</th>
+    <th># favorited</th>
+  </tr>
+  
+  <% @fans.each do |a| %>
+  <tr>
+    <td id="admin_artist_name" style="width:100px; ">
+      <a href="<%= user_path(a) %>"><%=h a.get_name %></a>
+    </td>
+    <td id="admin_artist_info">
+      Username: <%= a.login %><br/>
+      EM: <%= a.email %><br/>
+      Web: <%= a.url %>
+    </td>
+    <td>
+      <%= a.favorites.count %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+</div>
