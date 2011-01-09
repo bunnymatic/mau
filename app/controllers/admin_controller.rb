@@ -157,5 +157,6 @@ class AdminController < ApplicationController
   end
 
   def fans
+    @fans = User.active.all(:conditions => 'type <> "Artist"')
   end	
 end

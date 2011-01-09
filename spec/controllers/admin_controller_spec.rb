@@ -44,5 +44,8 @@ describe AdminController do
     it "renders fans.erb" do
       response.should render_template 'fans.erb'
     end
+    it "assigns fans" do
+      assigns(:fans).length.should == User.active.all(:conditions => 'type <> "Artist"').length
+    end
   end
 end
