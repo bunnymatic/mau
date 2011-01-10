@@ -15,7 +15,7 @@ class StudioImage
   def self.save(upload, studio)
     upload = upload['datafile']
     name = upload.original_filename
-    dir = "studiodata/" + studio.id.to_s() + "/profile"
+    dir = "public/studiodata/" + studio.id.to_s() + "/profile"
     # get extension from filename
     ext = ""
     lastdot = name.rindex(".")
