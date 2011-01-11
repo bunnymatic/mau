@@ -48,9 +48,9 @@ class ApplicationController < ActionController::Base
     ua = req.env[USERAGENT]
     if ua.include?('MSIE') || ua.include?("Trident/4.0")
       'msie'
-    elsif ua.include?('AppleWebKit') || ua.include("Safari")
+    elsif ua.include?('AppleWebKit') || ua.include?("Safari")
       'chrome'
-    elsif ua.include?('Mozilla') && ua.include('Firefox')
+    elsif ua.include?('Mozilla') && ua.include?('Firefox')
       'firefox'
     else
       'unk'
