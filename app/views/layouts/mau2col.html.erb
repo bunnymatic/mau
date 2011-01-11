@@ -11,7 +11,7 @@
            javascript_include_tag "mau_feeds"
         %>
   </head>
-  <body>
+  <body class="<%= @browser_as_class %>">
     <% if @_ie7 -%>
     <%= render :partial => '/ie7_warning' %>
     <% end -%>
