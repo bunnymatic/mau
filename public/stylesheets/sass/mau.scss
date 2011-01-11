@@ -2773,10 +2773,18 @@ ul {
 }
 
 .mau-popup-container {
-    position: absolute;
     z-index: 50;
-    .popup-mailer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    .mau-notes-subcontainer {
         width: 680px;
+        position: relative;
+        margin: 10% auto;
+    }
+    .popup-mailer {
         -moz-border-radius: 4px;
         -webkit-border-radius: 4px;
         border: 2px solid #738294;

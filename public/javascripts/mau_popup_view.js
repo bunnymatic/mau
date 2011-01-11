@@ -30,11 +30,7 @@ Object.extend(MAU.PopupView.prototype, {
     return false;
   },
   insert: function(ev) {
-    var xpos = ypos = 0;
-    if (ev) {
-      xpos = ev.pointerX();
-      ypos = ev.pointerY();
-    }
+    var event = ev || {};
     var _that = this;
     if ($$(this._parent_class(true)).length == 0 ) {
       var h = new Element('div', { "class": 'popup-header' }).update(this.options.title);
@@ -46,12 +42,10 @@ Object.extend(MAU.PopupView.prototype, {
       var m = new Element('div', { "class": 'popup-mailer' });
       m.observe('click', function(ev) { _that.close(ev); });
       $(m).insert(h).insert(c);
-      var notes = new Element('div', { "class": _that._parent_class() }).insert(m);
+      var container = new Element('div', {"class":"mau-notes-subcontainer"});
+      container.insert(m);
+      var notes = new Element('div', { "class": _that._parent_class() }).insert(container);
       $$('body')[0].insert(notes);
-      var style = { left: '10%',
-                    top: '10%' };
-      notes.setStyle(style);
-
     } else {
     }
   },
@@ -62,9 +56,13 @@ Object.extend(MAU.PopupView.prototype, {
     var _that = this;
     $$(this.selector).each(function(el) {
       $$(selector).each(function(root) {
-        $(el).observe('click', function(ev) { _that.insert(ev); })
+        $(el).observe('click', function(ev) { _that.insert(ev); });
       });
     });
+    if (window.location.hash == '#flaxinvite') {
+      _that.insert();
+    }
+    
   }
 });
 
