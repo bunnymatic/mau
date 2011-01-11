@@ -43,6 +43,19 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::UnknownController,  :with => :render_not_found
     rescue_from ActionController::UnknownAction,      :with => :render_not_found
   end 
+  
+  def browser_class(req) 
+    ua = req.env[USERAGENT]
+    if ua.include?('MSIE') || ua.include?("Trident/4.0")
+      'msie'
+    elsif ua.include?('WebKit')
+      'chrome'
+    elsif ua.include?('Mozilla')
+      'firefox'
+    else
+      'unk'
+    end
+  end
 
   def is_ie8?(req)
     req.env[USERAGENT].include?('MSIE 8.0') || req.env[USERAGENT].include?("Trident/4.0")
@@ -124,7 +137,7 @@ class ApplicationController < ActionController::Base
     @_ie7 = is_ie7?(self.request)
     @_ff = is_ff?(self.request)
     @_safari = is_safari?(self.request)
-    
+    @browser_as_class = browser_class(self.request)
     # set corners
     corners = ['corner1','corner2','corner3','corner4']
     if @_ie6
