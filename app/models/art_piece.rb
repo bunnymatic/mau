@@ -56,4 +56,9 @@ class ArtPiece < ActiveRecord::Base
     self.find(:all, :conditions => "artist_id in (select id from users where state = 'active' and type='Artist')")
   end
 
+  def self.get_todays_art
+    today = Time.now
+    yesterday = (today - 24.days)
+    ArtPiece.find(:all, :conditions => ['created_at > ? and created_at < ?', yesterday, today])
+  end
 end
