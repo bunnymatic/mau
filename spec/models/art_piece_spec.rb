@@ -51,4 +51,19 @@ describe ArtPiece, "ImageDimensions helper" do
     a.get_min_scaled_dimensions(400).should == [800,400]
   end
 end
-    
+
+describe ArtPiece, "get_todays_art" do 
+  fixtures :art_pieces
+  it 'returns art pieces updated between today and yesterday' do
+    all = ArtPiece.find_by_sql("select * from art_pieces")
+    all.length.should >= 1
+    today = Time.now
+    yesterday = (today - 24.hours)
+    todays = all.select{|ap| (ap.created_at > yesterday && ap.created_at < today)}.map{|a| a.title}.sort
+    aps = ArtPiece.get_todays_art
+    aps.length.should >=1 
+    taps = aps.map{|a| a.title}.sort
+    taps.should == todays
+  end
+end
+
