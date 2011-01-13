@@ -6,7 +6,7 @@ namespace :mau do
     aps = ArtPiece.get_todays_art
     if aps.length 
       artists = Artist.active.find_all_by_id( aps.map{ |ap| ap.artist_id })
-      p artists
+      names = artists.map{|a| a.get_name}
     end
   end
 end
