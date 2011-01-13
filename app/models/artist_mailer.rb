@@ -5,6 +5,13 @@ class ArtistMailer < ActionMailer::Base
     @body[:url]  = Conf.site_url
   end
   
+  def favorite_notification(artist, fan)
+    setup_email(artist)
+    @sender = fan
+    @artist = artist
+    @notification_url = edit_artist_url(artist, :host => Conf.site_url) + '#notifications'    
+    @artist_url = artist_url(artist, :host => Conf.site_url)
+  end
 
   def signup_notification(artist)
     setup_email(artist)

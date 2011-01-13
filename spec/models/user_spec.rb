@@ -154,8 +154,30 @@ describe User, 'favorites -'  do
     it "favoriting your own art work is not allowed" do
       @a.add_favorite(@ap).should be_false
     end
+    it "it doesn't send favorite notification" do
+      ArtistMailer.expects('deliver_favorite_notification').never
+      @a.add_favorite(@ap).should be_false
+    end
   end
-      
+
+  describe "mailer notifications" do
+    before do
+      @u = users(:aaron) # he's a fan
+      @ap = art_pieces(:hot)
+      @owner = users(:artist1)
+      @ap.artist = @owner
+      @ap.save
+    end
+    it "add art_piece favorite sends favorite notification to owner" do
+      ArtistMailer.expects('deliver_favorite_notification').with(@owner, @u).once
+      @u.add_favorite(@ap)
+    end
+    it "add artist favorite sends favorite notification to user" do
+      ArtistMailer.expects('deliver_favorite_notification').with(@owner, @u).once
+      @u.add_favorite(@owner)
+    end
+  end    
+
   describe "adding art_piece as favorite" do
     before do
       @u = users(:aaron) # he's a fan

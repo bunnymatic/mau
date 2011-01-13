@@ -263,6 +263,12 @@ class User < ActiveRecord::Base
       unless Favorite.find_by_favoritable_id_and_favoritable_type_and_user_id(fav.id, fav.class.name, self.id)
         f = Favorite.new( :favoritable_type => fav.class.name, :favoritable_id => fav.id, :user_id => self.id)
         f.save!
+
+        fan = self
+        artist = (fav.class == Artist) ? fav : fav.artist
+        if artist
+          ArtistMailer.deliver_favorite_notification artist, fan
+        end
       else
         false
       end
