@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     fs.each { |f| f.delete }
   end
 
-  attr_reader :emailsettings, :fullname
+  attr_reader :fullname, :emailsettings
 
   has_many :favorites do
     def to_obj
@@ -102,8 +102,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  def emailsettings=(v)
+    self.email_attrs = v.to_json
+  end
+
   def emailsettings
-    JSON.parse(email_attrs)
+    s = JSON.parse(email_attrs)
+    if !s.has_key? 'favorites'
+      s['favorites'] = true
+    end
+    s
   end
 
   def fancy_link()
