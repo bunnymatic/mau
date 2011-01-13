@@ -266,7 +266,7 @@ class User < ActiveRecord::Base
 
         fan = self
         artist = (fav.class == Artist) ? fav : fav.artist
-        if artist
+        if artist && artist.emailsettings['favorites']
           ArtistMailer.deliver_favorite_notification artist, fan
         end
       else
