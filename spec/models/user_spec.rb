@@ -176,6 +176,15 @@ describe User, 'favorites -'  do
       ArtistMailer.expects('deliver_favorite_notification').with(@owner, @u).once
       @u.add_favorite(@owner)
     end
+    it "add artist favorite doesn't send notification to user if user's email settings say no" do
+      h = @owner.emailsettings
+      h['favorites'] = false
+      @owner.emailsettings = h
+      @owner.save!
+      @owner.reload
+      ArtistMailer.expects('deliver_favorite_notification').with(@owner, @u).never
+      @u.add_favorite(@owner)
+    end
   end    
 
   describe "adding art_piece as favorite" do
