@@ -273,11 +273,14 @@ describe UsersController do
 
       it_should_behave_like "logged in edit page"
 
-      it "GET returns 200" do
+      it "returns success" do
         response.should be_success
       end
-      it "renderers the user edit template" do
+      it "renders the user edit template" do
         response.should render_template("edit.erb")
+      end
+      it "has no heart notification checkbox" do
+        response.should_not have_tag "#notification input#emailsettings_favorites"
       end
     end
   end
@@ -497,7 +500,17 @@ describe UsersController do
         end
       end
     end 
-    context "editing" do
+    context "POST favorites" do
+      context "requesting anything but a post" do
+        it "redirects to login" do
+          put :add_favorite
+          response.should redirect_to(new_session_path)
+          delete :add_favorite
+          response.should redirect_to(new_session_path)
+          get :add_favorite
+          response.should redirect_to(new_session_path)
+        end
+      end
       context "while not logged in" do
         describe "post to add favorites" do
           before do
@@ -512,16 +525,6 @@ describe UsersController do
           it_should_behave_like "redirects to login"
         end
       end
-      context "requesting anything but a post" do
-        it "redirects to login" do
-          put :add_favorite
-          response.should redirect_to(new_session_path)
-          delete :add_favorite
-          response.should redirect_to(new_session_path)
-          get :add_favorite
-          response.should redirect_to(new_session_path)
-        end
-      end
       context "while logged in" do
         before do 
           @u = users(:quentin)
@@ -529,7 +532,8 @@ describe UsersController do
           @a = users(:artist1)
           @ap = art_pieces(:namewithtag) 
           @ap.artist = @a
-          @ap.save.should be_true      end
+          @ap.save.should be_true      
+        end
         context "add a favorite artist" do
           before do
             post :add_favorite, :fav_type => 'Artist', :fav_id => @a.id
@@ -613,7 +617,7 @@ describe UsersController do
             response.code.should eql("404")
           end
         end
-      end          
+      end
     end
   end
 

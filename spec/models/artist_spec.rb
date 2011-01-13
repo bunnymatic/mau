@@ -132,16 +132,19 @@ describe Artist do
       attr_hash['mauadmin'].should eql(true)
       attr_hash['maunews'].should eql(true)
       attr_hash['fromall'].should eql(false)
+      attr_hash['favorites'].should be_nil
 
       attr_hash['maunews'] = false
-      @a.email_attrs = attr_hash.to_json
+      attr_hash['favorites'] = false
+      @a.emailsettings = attr_hash
       @a.save
-      a = Artist.find(@a.id)
-      attr_hash = JSON::parse(a.email_attrs)
+      @a.reload
+      attr_hash = @a.emailsettings
       attr_hash['fromartist'].should eql(true)
       attr_hash['mauadmin'].should eql(true)
       attr_hash['maunews'].should eql(false)
       attr_hash['fromall'].should eql(false)
+      attr_hash['favorites'].should eql(false)
     end
   end
   describe 'find by fullname' do

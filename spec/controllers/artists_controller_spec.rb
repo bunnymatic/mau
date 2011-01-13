@@ -140,6 +140,24 @@ describe ArtistsController do
           get :edit
           response.should have_tag("textarea#artist_artist_info_bio", @a.artist_info.bio)
         end
+        it "has heart notification checkbox checked" do
+          response.should have_tag 'input#emailsettings_favorites[checked=checked]'
+        end
+      end
+      context " if email_attrs['favorites'] is false " do
+        before do
+          esettings = @a.emailsettings
+          esettings['favorites'] = false
+          @a.emailsettings = esettings
+          @a.save!
+          @a.reload
+          login_as(@a)
+          get :edit
+        end
+        it "has heart notification checkbox unchecked" do 
+          response.should have_tag "input#emailsettings_favorites" 
+          response.should_not have_tag "input#emailsettings_favorites[checked=checked]" 
+        end
       end
     end
   end

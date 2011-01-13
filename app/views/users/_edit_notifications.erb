@@ -2,6 +2,16 @@
 <div  class="edit-profile-sxn"  id="notification" style="display:none;">
   <div class="inner-sxn">
     <table class="entry-table">
+      <% if current_artist %>
+      <tr>
+	<td class="input-name">
+	  Favorites:
+	</td>
+	<td valign="top" colspan="2">
+	  <div><%= check_box "emailsettings", "favorites", { :checked => current_user.emailsettings["favorites"] } %>Notify me when someone favorites me or my art</div>
+	</td>
+      </tr>
+      <% end -%>
       <tr>
 	<td class="input-name">
 	  Allow notes from:
