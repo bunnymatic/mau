@@ -755,14 +755,6 @@ describe UsersController do
     end
   end
   
-  describe 'favorites notification' do
-    fixtures(:users)
-    it 'delivers notification for valid artist and fan ids' do
-      ArtistMailer.expects('deliver_favorite_notification').with( @fan.id )
-      get :favorites_notify, :favoriter => users(:artfan).id, :favoritee => users(:artist1)
-    end
-  end
-
   describe "resend_activation" do
     before do
       get :resend_activation
