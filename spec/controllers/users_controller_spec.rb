@@ -12,7 +12,7 @@ describe UsersController do
   it "actions should fail if not logged in" do
     exceptions = [:index, :show, :artists, :resend_activation, :favorites,
                   :forgot, :unsuspend, :destroy, :create, :new, :activate, 
-                  :notify, :noteform, :purge, :reset]
+                  :notify, :noteform, :purge, :reset, :favorites_notify]
     controller_actions_should_fail_if_not_logged_in(:user, 
                                                     :except => exceptions)
   end
@@ -752,7 +752,14 @@ describe UsersController do
         post :forgot, :user => { :email => users(:artfan).email }
         response.should redirect_to(login_url)
       end
-
+    end
+  end
+  
+  describe 'favorites notification' do
+    fixtures(:users)
+    it 'delivers notification for valid artist and fan ids' do
+      ArtistMailer.expects('deliver_favorite_notification').with( @fan.id )
+      get :favorites_notify, :favoriter => users(:artfan).id, :favoritee => users(:artist1)
     end
   end
 
@@ -762,7 +769,7 @@ describe UsersController do
     end
 
     it "returns sucess" do
-      get :resend_activation
+      response.should be_success
     end
   end
 

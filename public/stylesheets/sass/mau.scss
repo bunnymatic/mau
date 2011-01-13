@@ -2646,6 +2646,9 @@ ul {
     .favorites {
         width: 780px;
         margin: auto;
+        & .artists li:hover, & .art_pieces li:hover {
+            background-image: none;
+        }
         .artpiece-thumb {
             width: 222px;
         }
