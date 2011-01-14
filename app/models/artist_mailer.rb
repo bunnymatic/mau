@@ -7,6 +7,8 @@ class ArtistMailer < ActionMailer::Base
   
   def favorite_notification(artist, fan)
     setup_email(artist)
+    @subject = 'Someone hearts you on Mission Artists United'
+
     @sender = fan
     @artist = artist
     @notification_url = url_for(:host => Conf.site_url, :controller => 'artists', :action => 'edit', :id => @artist.id) + '#notifications'    
