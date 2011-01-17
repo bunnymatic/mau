@@ -1,6 +1,6 @@
 NUM_POSTS = 3
 DESCRIPTION_LENGTH = 600
-TITLE_LENGTH = 100
+TITLE_LENGTH = 140
 
 class TwitterEntry
   attr_accessor :description
