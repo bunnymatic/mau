@@ -39,6 +39,7 @@ module FeedsHelper
     'livejournal.com' => 'livejournal',
     'twitter.com' => 'twitter',
     'wordpress.com' => 'wordpress',
+    'missionlocal.com' => 'wordpress',
     'blogger.com' => 'blogger',
     'blogspot.com' => 'blogger',
     'deviantart.com' => 'deviantart' }
@@ -136,7 +137,7 @@ module FeedsHelper
         if url.include? 'twitter'
           result = TwitterFeed.new(http.read)
         else
-          result = RSS::Parser.parse(http.read)
+          result = RSS::Parser.parse(http.read, false)
         end
         if result
           headclass = 'feed-sxn-hdr'
