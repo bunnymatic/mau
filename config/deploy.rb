@@ -34,6 +34,16 @@ namespace :apache do
   end
 end
 
+namespace :nginx do
+  [:stop, :start, :restart, :reload].each do |action|
+    desc "#{action.to_s.capitalize} Nginx"
+    task action, :roles => :web do
+      invoke_command "sudo -u www-data /etc/init.d/nginx #{action.to_s}", :via => run_method
+    end
+  end
+end
+
+
 ####### CUSTOM TASKS #######
 desc "Set up Test specific paramters."
 task :jy do
