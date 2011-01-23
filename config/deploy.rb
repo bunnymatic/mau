@@ -1,5 +1,4 @@
 ####### VARIABLES #######
-set :ssh_options,         {:port => 2222}
 set :application, "MAU"
 set :scm, :subversion
 set :use_sudo, false
@@ -36,7 +35,7 @@ namespace :apache do
 end
 
 ####### CUSTOM TASKS #######
-desc "Set up Staging specific paramters."
+desc "Set up Test specific paramters."
 task :jy do
   set :user, "jeremy"
   set :deploy_to, "/home/jeremy/deployed"
@@ -45,22 +44,38 @@ task :jy do
   system(svn_env)
 end
 
-desc "Set up Staging specific paramters."
-task :dev do
+desc "Setup Staging on Slicehost params"
+task :staging do
   set :user, "maudev"
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
-  set :svn_env, 'export SVN_SSH="ssh -p 2222"'
+  set :deploy_host, '209.20.85.23'
+  set :ssh_port, '22022'
+  set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
   puts("executing locally \'" + svn_env + "\'")
   system(svn_env)
 end
 
-desc "Set up Production specific paramters."
+desc "Set up Dev on bunnymatic.com parameters."
+task :dev do
+  set :user, "maudev"
+  set :rails_env, 'development'
+  set :deploy_to, "/home/maudev/deployed"
+  set :deploy_host, 'bunnymatic.com'
+  set :ssh_port, '2222'
+  set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
+  puts("executing locally \'" + svn_env + "\'")
+  system(svn_env)
+end
+
+desc "Set up Production bunnymatic.com parameters."
 task :prod do
   set :user, "mauprod"
   set :deploy_to, "/home/mauprod/deployed"
   set :rails_env, 'production'
-  set :svn_env, 'export SVN_SSH="ssh -p 2222"'
+  set :deploy_host, 'bunnymatic.com'
+  set :ssh_port, '2222'
+  set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
   puts("executing locally \'" + svn_env + "\'")
   system(svn_env)
 end
@@ -71,6 +86,8 @@ task :checkit do
   puts("Env: %s" % rails_env)
   puts("Repo: %s" % repository)
   puts("DeployDir: %s" % deploy_to)
+  puts("DeployHost: %s" % deploy_host)
+  puts("SSH Port: %s" % ssh_port)
 end
 
 before "apache:reload" do
@@ -81,7 +98,6 @@ end
 
 after "deploy:symlink", :symlink_data
 after "deploy:symlink", "apache:reload"
-
 
 desc "Connect artist and studio data to website"
 task :symlink_data do
