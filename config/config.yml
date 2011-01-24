@@ -75,6 +75,8 @@ common:
        media_frequency: 3600
        tag_frequency: 3600
    feeds_urls: 
+      - feed: http://risingartist.blogspot.com/feeds/posts/default?alt=rss
+        url: http://risingartist.blogspot.com/
       - feed: http://missionlocal.org/category/the-arts/feed/
         url: http://missionlocal.org/category/the-arts/
       - feed: http://twitter.com/statuses/user_timeline/62131363.json
