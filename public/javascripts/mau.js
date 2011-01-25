@@ -262,7 +262,19 @@ var TagMediaHelper = {
 	return false;
       });
     }
-
+    var art_piece_submit = $('art_piece_submit');
+    if (art_piece_submit) {
+      art_piece_submit.observe('click', function(ev) {
+        if (AP.validate_art_piece('new_artpiece')) {
+          MAU.waitcursor();
+          return true;
+        }
+        else {
+          ev.stop();
+          return false;
+        }
+      });
+    };
   };
 
   Event.observe(window, 'load', M.init);
@@ -481,7 +493,20 @@ var TagMediaHelper = {
     }
   };
   Event.observe(window, 'load', AP.init);
-
+  
+  /* validate upload date */
+  AP.validate_art_piece = function(frm) {
+    var input_filename = $(frm).select('#upload_datafile');
+    if (input_filename.length) {
+      var fname = input_filename[0].value;
+      var re = /[\#|\*|\(|\)|\[|\]|\{|\}|\<|\>|\$|\!\?|\;|\'\"]/;
+      if (fname.match(re)) {
+        alert("You need to change the filename of the file you're trying to upload.  We don't do well with quotation marks and other special characters ( like | or [] or {} or * or # or ; ).  Please rename that file before trying to upload again.");
+        return false;
+      }
+      return true;
+    }
+  };
   AP.move_art = function(_id, direction) {
     var divs = $$('.artp-thumb-container');
     var swap = [];
