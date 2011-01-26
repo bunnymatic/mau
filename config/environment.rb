@@ -37,7 +37,7 @@ Rails::Initializer.run do |config|
   config.gem "json"
   config.gem "mysql"
   config.gem "i18n", :version => '0.4.2'
-  config.gem "fcgi"
+  #config.gem "fcgi"
   config.gem "haml"
   
   # Only load the plugins named here, in the order given (default is alphabetical).
