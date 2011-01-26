@@ -5,8 +5,6 @@ local:
   database: mau_dev
   username: mauadmin
   password: MrMau415
-  #socket: /var/lib/mysql/mysql.sock
-  #socket: /tmp/mysql.sock
   host: localhost
 
 ub:
@@ -16,7 +14,6 @@ ub:
   username: mauadmin
   password: MrMau415
   host: localhost
-  #socket: /var/lib/mysql/mysql.sock
 
 development:
   adapter: mysql
@@ -25,8 +22,6 @@ development:
   username: mauadmin
   password: MrMau415
   host: localhost
-  #socket: /var/lib/mysql/mysql.sock
-  #socket: /tmp/mysql.sock
 
 test:
   adapter: mysql
@@ -35,8 +30,6 @@ test:
   username: mauadmin
   password: MrMau415
   host: localhost
-  #socket: /tmp/mysql.sock
-  #socket: /var/lib/mysql/mysql.sock
 
 production:
   adapter: mysql
@@ -44,4 +37,3 @@ production:
   database: mau
   username: mauadmin
   password: MrMau415
-  socket: /var/lib/mysql/mysql.sock
