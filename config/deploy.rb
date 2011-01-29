@@ -18,11 +18,13 @@ end
 
 set :repository,  "svn+ssh://svn.bunnymatic.com/space/svnroot/mau/web/" + deploy_version
 
+BUNNYMATIC = 'bunnymatic.com'
+SLICE = '209.20.85.23'
 # these roles represent the servers on which all these things run
 # if db is run on different machine, you might change db
-role :app, "bunnymatic.com"
-role :web, "bunnymatic.com"
-role :db,  "bunnymatic.com", :primary => true # This is where Rails migrations will run
+role :app, BUNNYMATIC
+role :web, BUNNYMATIC
+role :db,  BUNNYMATIC, :primary => true # This is where Rails migrations will run
 
 ####### Apache commands ####
 namespace :apache do
@@ -59,7 +61,6 @@ task :staging do
   set :user, "maudev"
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
-  set :deploy_host, '209.20.85.23'
   set :ssh_port, '22022'
   set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
   puts("executing locally \'" + svn_env + "\'")
@@ -71,7 +72,6 @@ task :dev do
   set :user, "maudev"
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
-  set :deploy_host, 'bunnymatic.com'
   set :ssh_port, '2222'
   set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
   puts("executing locally \'" + svn_env + "\'")
@@ -83,7 +83,6 @@ task :prod do
   set :user, "mauprod"
   set :deploy_to, "/home/mauprod/deployed"
   set :rails_env, 'production'
-  set :deploy_host, 'bunnymatic.com'
   set :ssh_port, '2222'
   set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
   puts("executing locally \'" + svn_env + "\'")
@@ -96,7 +95,6 @@ task :checkit do
   puts("Env: %s" % rails_env)
   puts("Repo: %s" % repository)
   puts("DeployDir: %s" % deploy_to)
-  puts("DeployHost: %s" % deploy_host)
   puts("SSH Port: %s" % ssh_port)
 end
 
