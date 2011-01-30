@@ -33,20 +33,12 @@ class ArtistsController < ApplicationController
     @gallery_link = artists_path + HTMLHelper.queryencode(gallery_args)
     addresses = []
 
-    # mission boundaries (roughly)
-    nw = [ 37.76978184422388, -122.42683410644531 ]
-    ne = [ 37.76978184422388, -122.40539789199829 ]
-    sw = [ 37.747787573475506, -122.42919445037842 ]
-    se = [ 37.74707496171992, -122.40539789199829 ]
-    mission_bounds = Geokit::Bounds.new(Geokit::LatLng.new(*sw),
-                                        Geokit::LatLng.new(*ne))
-
     if @os_only
-      ais = ArtistInfo.find(:all,  :bounds => mission_bounds, :conditions => [ 'osoct2010 = 1'])
+      artists = Artist.active.open_studios_participants
     else
-      ais = ArtistInfo.find(:all,  :bounds => mission_bounds)
+      artists = Artist.active
     end
-    artists = Artist.active.find(:all,:conditions => [ 'id in (?)', ais.map(&:artist_id)])
+    artists.reject!{ |a| !a.in_the_mission? }
     @map = GMap.new("map")
     @map.control_init(:large_map => true, :map_type => true)
     # init icon
@@ -84,7 +76,8 @@ class ArtistsController < ApplicationController
         @map.overlay_init(m)
       end
     end
- 
+    sw = Artist::BOUNDS['SW']
+    ne = Artist::BOUNDS['NE']
     @map.center_zoom_on_bounds_init([sw,ne])
     @selfurl = artistsmap_url
     @inparams = params
@@ -124,8 +117,8 @@ class ArtistsController < ApplicationController
           artistid = m[1]
           a = Artist.find(artistid)
           if a
-            a.artist_info.osoct2010 = (v.to_s == 'true')
-            a.save
+            a.artist_info.os_participation = {'201104' => v}
+            a.artist_info.save
             ct = ct + 1
           end
         end
@@ -154,12 +147,12 @@ class ArtistsController < ApplicationController
     queryargs = {}
     @os_only = is_os_only(params[:osonly])
     if @os_only
-      ais = ArtistInfo.find(:all, :conditions => [ 'osoct2010 = 1'] )
-      artists = Artist.active.find(:all, :conditions => [ 'id in (?)', ais.map { |a| a.artist_id } ]).sort_by { |a| a.get_sort_name }
+      artists = Artist.active.open_studios_participants.sort_by { |a| a.get_sort_name }
       queryargs['osonly'] = "on"
     else
-      artists = Artist.active.all.sort_by { |a| a.get_sort_name }
+      artists = Artist.active.sort_by { |a| a.get_sort_name }
     end
+    artists.reject!{ |a| !a.in_the_mission? }
 
     nartists = artists.length
     curpage = params[:p] || 0

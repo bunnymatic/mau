@@ -18,6 +18,9 @@ class AdminController < ApplicationController
     when 'octos2010'
       @title = "Oct OS Checked"
       artists = Artist.active.find(:all, :conditions => "osoct2010=1")
+    when 'spring2011'
+      @title = "Spring 2011 OS Set"
+      artists = Artist.active.open_studios_participants('201104')
     when 'activated'
       @title = "All Activated Artsts"
       artists = Artist.active.all
@@ -65,6 +68,7 @@ class AdminController < ApplicationController
     introuble = Artist.count(:conditions => "state='pending'")
     noprofile = Artist.active.count(:conditions => "profile_image is not null")
     octos = ArtistInfo.count(:conditions => "osoct2010 = 1")
+    spring2011 = Artist.active.open_studios_participants('201104').count
 
     sql = ActiveRecord::Base.connection()
     query = "select count(*) ct from users where state='active' and id not in (select distinct artist_id from art_pieces);"
@@ -112,6 +116,7 @@ class AdminController < ApplicationController
       :noprofile => { :name => "No Profile Image", :data => noprofile },
       :noimages => { :name => "No Uploaded Art", :data => noimages },
       :octos2010 => { :name => "Oct OS Checked", :data => octos },
+      :spring2011 => { :name => "Spring 2011 OS Set", :data => spring2011 },
     }
 
     @artpieces = artpieces

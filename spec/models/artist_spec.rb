@@ -147,6 +147,96 @@ describe Artist do
       attr_hash['favorites'].should eql(false)
     end
   end
+
+  describe 'address methods' do
+    before do
+      @address_methods = [:address, :address_hash, :full_address]
+    end
+    describe 'artist info only' do
+      before do
+        @a = users(:artist1)
+        @a.artist_info = artist_infos(:artist1)
+        @a.save
+      end
+      it "returns artist address" do
+        @address_methods.each do |method|
+          @a.send(method).should_not be_nil
+          @a.send(method).should == @a.artist_info.send(method)
+        end
+      end
+    end
+    describe 'studio + artist info' do
+      before do
+        @a = users(:artist1)
+        @a.artist_info = artist_infos(:artist1)
+        @a.studio = studios(:s1890)
+        @a.save
+      end
+      it "returns studio address" do
+        @address_methods.each do |method|
+          @a.send(method).should_not be_nil
+          @a.send(method).should == @a.studio.send(method)
+        end
+      end
+    end
+    describe 'studio only' do
+      before do
+        @a = users(:artist1)
+        @a.studio = studios(:s1890)
+        @a.save
+      end
+      it "returns studio address" do
+        @address_methods.each do |method|
+          @a.send(method).should_not be_nil
+          @a.send(method).should == @a.studio.send(method)
+        end
+      end
+    end
+    describe 'neither address in artist info nor studio' do
+      it "returns nil" do
+        @address_methods.each do |method|
+          users(:artist1).send(method).should be_nil
+        end
+      end
+    end
+  end
+  describe 'in_the_mission?' do
+    it "returns true for artist in the mission with no studio" do
+      a = users(:artist1)
+      a.artist_info = artist_infos(:artist1)
+      a.save
+      a.in_the_mission?.should be_true
+    end
+    it "returns true for artist in the mission with a studio in the mission" do
+      a = users(:artist1)
+      a.artist_info = artist_infos(:artist1)
+      a.studio = studios(:s1890)
+      a.save
+      a.in_the_mission?.should be_true
+    end
+    it "returns true for artist with a studio in the mission" do
+      a = users(:artist1)
+      a.studio = studios(:s1890)
+      a.save
+      a.in_the_mission?.should be_true
+    end
+    it "returns false for artist without any address" do
+      users(:artist1).in_the_mission?.should be_false
+    end
+    it "returns false for artist with wayout address" do
+      a = users(:artist1)
+      a.artist_info = artist_infos(:wayout)
+      a.save
+      a.in_the_mission?.should be_false
+    end
+    it "returns false for artist with wayout address but studio in the mission" do
+      a = users(:artist1)
+      a.artist_info = artist_infos(:wayout)
+      a.studio = studios(:blue)
+      a.save
+      a.in_the_mission?.should be_true
+    end
+  end
   describe 'find by fullname' do
     context ' after adding artist with firstname joe and lastname blogs ' do
       before do
@@ -209,23 +299,44 @@ describe Artist do
         @a.artist_info.lng.should be
       end
     end
+    context 'with studio association' do
+      before do
+        @mystudio = studios(:s1890)
+        @myinfo = artist_infos(:wayout)
+        @a = users(:artist1)
+        @a.artist_info = @myinfo
+        @a.studio = @mystudio
+        @a.save
+      end
+      it "returns correct street" do
+        @a.artist_info.street.should == @myinfo.street
+      end
+      it "returns studio address" do
+        @a.address.should == @mystudio.address
+      end
+      it "returns correct artist info lat/lng" do
+        @a.artist_info.lat.should be_close(@myinfo.lat, 0.001)
+        @a.artist_info.lng.should be_close(@myinfo.lng, 0.001)
+      end
+    end
+      
   end    
   describe 'named scopes' do
-    describe ':open_studios_participants' do
-      before do
-        @a = users(:artist1)
-        @ai = artist_infos(:artist1)
-        @a.artist_info = @ai
-        @a.save
-        
-        @b = users(:joeblogs)
-        @bi = artist_infos(:joeblogs)
-        @b.artist_info = @bi
-        @b.save
+    before do
+      @a = users(:artist1)
+      @ai = artist_infos(:artist1)
+      @a.artist_info = @ai
+      @a.save
       
-        # make sure data is right
-        assert(Artist.all.length >= 2)
-      end
+      @b = users(:joeblogs)
+      @bi = artist_infos(:joeblogs)
+      @b.artist_info = @bi
+      @b.save
+      
+      # make sure data is right
+      assert(Artist.all.length >= 2)
+    end
+    describe ':open_studios_participants' do
       it "returns 1 artist with no args" do
         artists = Artist.open_studios_participants
         artists.should have(1).artist

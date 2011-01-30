@@ -2,6 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
+#ActiveRecord::Base.logger = Logger.new(STDOUT)
 describe ArtistsController do
 
   integrate_views
@@ -90,11 +91,11 @@ describe ArtistsController do
       context "update os status" do
         it "updates artists os status to true for 201104" do
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => true }}}}
-          User.find(@logged_in_user.id).os_participation.should == {'201104' => true }
+          User.find(@logged_in_user.id).os_participation['201104'].should be_true
         end
         it "updates artists os status to true for 201104 given '201104' => 'on'" do
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'on' }}}}
-          User.find(@logged_in_user.id).os_participation.should == {'201104' => true }
+          User.find(@logged_in_user.id).os_participation['201104'].should be_true
         end
         it "updates artists os status to false for 201104" do
           @logged_in_user.os_participation = {'201104' => 'true'}
@@ -409,46 +410,74 @@ describe ArtistsController do
   end
 
   describe "map" do
-    before do
-      @a = users(:artist1)
-      @a.save!
-      @b = artist_infos(:wayout)
-      @b.artist_id = @a.id
-      @b.save!
-
-      @a2 = users(:joeblogs)
-      @a2.studio = studios(:s1890)
-      @a2.save!
-      @b2 = artist_infos(:joeblogs)
-      @b2.artist_id = @a2.id
-      @b2.save!
-
-      get :map
-      
-    end
-    it "returns success" do
-      response.should be_success
-    end
-    it "assigns map" do
-      assigns(:map).should be
-    end
-    it "assigns roster" do
-      assigns(:roster).should have_at_least(1).locations
-    end
-    it "artists should all be active" do
-      assigns(:roster).values.flatten.each do |a|
-        a.state.should == 'active'
+    describe 'all artists' do
+      before do
+        a = users(:artist1)
+        a.artist_info =  artist_infos(:wayout)
+        a.save!
+        
+        a2 = users(:joeblogs)
+        a2.studio = studios(:s1890)
+        a2.artist_info = artist_infos(:joeblogs)
+        a2.save!
+        get :map
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "assigns map" do
+        assigns(:map).should be
+      end
+      it "assigns roster" do
+        assigns(:roster).should have_at_least(1).locations
+      end
+      it "artists should all be active" do
+        assigns(:roster).values.flatten.each do |a|
+          a.state.should == 'active'
+        end
+      end
+      it "roster does not include artists outside of 'the mission'" do
+        ne = [ 37.76978184422388, -122.40539789199829 ]
+        sw = [ 37.747787573475506, -122.42919445037842 ]
+        roster = assigns(:roster).values.flatten.each do |a|
+          lat,lng = a.address_hash[:latlng]
+          
+          (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
+          (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
+        end
       end
     end
+    describe 'os only' do
+      before do
+        a = users(:artist1)
+        a.artist_info = artist_infos(:artist1)
+        a.save
+        get :map, :osonly => true
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "assigns map" do
+        assigns(:map).should be
+      end
+      it "assigns roster" do
+        assigns(:roster).should have_at_least(1).locations
+      end
+      it "artists should all be active" do
+        assigns(:roster).values.flatten.each do |a|
+          a.state.should == 'active'
+        end
+      end
 
-    it "roster does not include artists outside of 'the mission'" do
-      ne = [ 37.76978184422388, -122.40539789199829 ]
-      sw = [ 37.747787573475506, -122.42919445037842 ]
-      roster = assigns(:roster).values.flatten.each do |a|
-        lat,lng = a.address_hash[:latlng]
-        
-        (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
-        (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
+      it "roster does not include artists outside of 'the mission'" do
+        ne = [ 37.76978184422388, -122.40539789199829 ]
+        sw = [ 37.747787573475506, -122.42919445037842 ]
+        roster = assigns(:roster).values.flatten.each do |a|
+          lat,lng = a.address_hash[:latlng]
+          
+          (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
+          (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
+        end
       end
     end
   end
