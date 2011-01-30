@@ -11,7 +11,7 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 #'jon','mrrogers','trish','trishtunney',
 
 class User < ActiveRecord::Base
-  named_scope :active, :conditions => ["state = 'active'"]
+  named_scope :active, :conditions => ["users.state = 'active'"]
   before_destroy do |user|
     fs = Favorite.artists.find_all_by_favoritable_id( user.id )
     fs.each { |f| f.delete }

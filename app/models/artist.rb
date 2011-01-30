@@ -1,4 +1,8 @@
 class Artist < User
+  BOUNDS = { 'NW' => [ 37.76978184422388, -122.42683410644531 ],
+    'NE' => [ 37.76978184422388, -122.40539789199829 ],
+    'SW' => [ 37.747787573475506, -122.42919445037842 ],
+    'SE' => [ 37.74707496171992, -122.40539789199829 ] }
 
   named_scope :open_studios_participants, lambda { |*oskey| 
       if oskey.blank?
@@ -13,6 +17,8 @@ class Artist < User
         }
       end
     }
+  
+  #named_scope :in_the_mission, :joins => [:artist_info, :studio], :conditions => [Artist.bounds_clause('artist_infos') + " or " + Artist.bounds_clause('studios')]
 
   has_one :artist_info
 
@@ -43,6 +49,23 @@ class Artist < User
 
   def self.find_by_fullname( name )
     find_all_by_fullname([name])
+  end
+
+  def in_the_mission?
+    h = self.address_hash
+    if h && h.has_key?(:latlng)
+      lat = h[:latlng][0]
+      lng = h[:latlng][1]
+      sw = BOUNDS['SW']
+      ne = BOUNDS['NE']
+      if lat && lng
+        (lat>sw[0] and lat<ne[0] and lng>sw[1] and lng<ne[1])
+      else
+        false
+      end
+    else
+      false
+    end
   end
 
   def address

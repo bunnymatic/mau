@@ -17,8 +17,8 @@ MAUAdmin =  window['MAUAdmin'] || {};
 		    updates["ARTIST"+os.readAttribute('artistid')] = (cbs[ii].checked).toString();
 		}
 	    }
-	    var oss = $$('.osoct2010');
-	    var cbs = $$('.cboct2010');
+	    var oss = $$('.spring2011');
+	    var cbs = $$('.cbspring2011');
 	    var ii = 0;
 	    var updates = {};
 	    for ( ; ii < oss.length; ++ii ) {
@@ -29,7 +29,6 @@ MAUAdmin =  window['MAUAdmin'] || {};
 		    updates["ARTIST"+os.readAttribute('artistid')] = (cbs[ii].checked).toString();
 		}
 	    }
-	    
 	    
 	    var form = new Element('form', {
                 action: "/admin/artists/update",

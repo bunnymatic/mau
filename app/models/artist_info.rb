@@ -66,12 +66,10 @@ class ArtistInfo < ActiveRecord::Base
 
   protected
     def compute_geocode
-      if 
-        # use artist's address
-        result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.addr_state || "CA", self.zip || "94110"])
-        errors.add(:street, "Unable to Geocode your address.") if !result.success
-        self.lat, self.lng = result.lat, result.lng if result.success
-      end
+      # use artist's address
+      result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.addr_state || "CA", self.zip || "94110"])
+      errors.add(:street, "Unable to Geocode your address.") if !result.success
+      self.lat, self.lng = result.lat, result.lng if result.success
     end
 
   private 
