@@ -6,10 +6,16 @@ class Artist < User
 
   before_create :make_activation_code
 
-  [:representative_piece, :bio, :os2010, :osoct2010,
-   :facebook, :flickr, :twitter, :blog, :myspace, 
-   :bio=, 
-   :facebook=, :flickr=, :twitter=, :blog=, :myspace=, 
+  [:representative_piece, 
+   :bio, :bio=,
+   :os2010, 
+   :osoct2010,
+   :facebook, :facebook=,
+   :flickr, :flickr=,
+   :twitter, :twitter=,
+   :blog, :blog=,
+   :myspace, :myspace=,
+   :os_participation, :os_participation=
    ].each do |delegat|
     delegate delegat, :to => :artist_info, :allow_nil => true
   end

@@ -30,15 +30,15 @@
     <div class="edit-profile-sxn"  id="events" style="display:none;">
       <div class="inner-sxn">
 	<div style="width:80%; float:left;">
-	  Are you planning to participate in ArtSpan's Open Studios 2010 - October 9th and 10th?<div style="font-size:x-small;">(more info at <a href="http://www.artspan.org" target="_blank">www.artspan.org</a>)</div>
+	  Are you planning to be open for Mission Artists United's Spring Open Studios 2010 - April 16 & 17, 2011?
 	</div>
 	<%= f.error_messages %>
 	<div style="float:left;">
 	  <div>
-            <%= radio_button_tag "#{f.object_name}[artist_info[osoct2010]]", "true",  @artist_info.osoct2010  %>Yep
+            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201104]]]", "true",  @artist_info.os_participation['201104']  %>Yep
           </div>
 	  <div>
-            <%= radio_button_tag "#{f.object_name}[artist_info[osoct2010]]", "false",  (!@artist_info.osoct2010)  %>Nope
+            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201104]]]", "false",  (!@artist_info.os_participation['201104'])  %>Nope
           </div>
         </div>
 	<div class="clear"></div>

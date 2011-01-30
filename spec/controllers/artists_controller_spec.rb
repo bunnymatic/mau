@@ -87,6 +87,22 @@ describe ArtistsController do
           User.find(@logged_in_user.id).address.should include '100 main st'
         end
       end
+      context "update os status" do
+        it "updates artists os status to true for 201104" do
+          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => true }}}}
+          User.find(@logged_in_user.id).os_participation.should == {'201104' => true }
+        end
+        it "updates artists os status to true for 201104 given '201104' => 'on'" do
+          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'on' }}}}
+          User.find(@logged_in_user.id).os_participation.should == {'201104' => true }
+        end
+        it "updates artists os status to false for 201104" do
+          @logged_in_user.os_participation = {'201104' => 'true'}
+          @logged_in_user.save
+          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'false' }}}}
+          User.find(@logged_in_user.id).os_participation.should == {'201104' => false }
+        end
+      end
     end
   end
 
