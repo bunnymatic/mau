@@ -1,5 +1,19 @@
 class Artist < User
 
+  named_scope :open_studios_participants, lambda { |*oskey| 
+      if oskey.blank?
+        {
+        :joins => :artist_info, 
+        :conditions => ["artist_infos.open_studios_participation like '%%201104%%'"] 
+        }
+      else
+        {
+        :joins => :artist_info, 
+        :conditions => ["artist_infos.open_studios_participation like '%%#{oskey}%%'"] 
+        }
+      end
+    }
+
   has_one :artist_info
 
   has_many :art_pieces, :order => "`order` ASC, `id` DESC"

@@ -11,7 +11,7 @@ class ArtistInfo < ActiveRecord::Base
     if self.open_studios_participation.blank?
       {}
     else 
-      Hash[JSON.parse(self.open_studios_participation).map{|k,v| [k, (v==true || v=='true' || v=='on' || v=='1' || v==1)]}]
+      parse_open_studios_participation(self.open_studios_participation)
     end
   end
 
@@ -20,16 +20,10 @@ class ArtistInfo < ActiveRecord::Base
   end
 
   def os_participation=(os)
-    current = {}
-    if !self.open_studios_participation.blank?
-      begin
-        current = JSON.parse(self.open_studios_participation)
-      rescue
-        # if we can't parse it, just return blank
-      end
-    end
+    current = parse_open_studios_participation(self.open_studios_participation)
     current.merge!(os)
-    self.open_studios_participation = current.to_json
+    current.delete_if{ |k,v| !(v=='true' || v==true || v=='on' || v=='1' || v==1) }
+    self.open_studios_participation = current.keys.join('|')
   end
 
   def representative_piece
@@ -79,5 +73,14 @@ class ArtistInfo < ActiveRecord::Base
         self.lat, self.lng = result.lat, result.lng if result.success
       end
     end
+
+  private 
+  def parse_open_studios_participation(os)
+    if os.blank?
+      {}
+    else
+      Hash[ os.split('|').select{|k| k.match(/^[\w\d]/)}.map{ |k| [k,true] }]
+    end
+  end
 
 end

@@ -3,6 +3,7 @@ artist1:
   blog: http://theartists.blogspot.com
   osoct2010: true
   bio: this is the bio
+  open_studios_participation: '201104|201111'
 
 joeblogs:
   facebook: http://facebook.com/aaron
@@ -14,7 +15,7 @@ joeblogs:
   addr_state: ca
   lat: 37
   lng: -122.5
-
+  
 wayout:
   street: 2400 40th st
   city: san francisco

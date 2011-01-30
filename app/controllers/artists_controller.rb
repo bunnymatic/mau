@@ -405,16 +405,6 @@ class ArtistsController < ApplicationController
         current_artist.artist_info.os_participation = os
         artist_info.delete(:os_participation)
       end
-      # TODO : dump this code as it's obsolete
-      os = artist_info[:osoct2010]
-      if os && os == "true" || os == "on" || os == 1
-        if ((!artist_info[:street]) || (artist_info[:street].empty?)) && (current_user.studio && current_user.studio.id <= 0)
-          raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
-        end
-        artist_info[:osoct2010] = true
-      elsif os == "false" || os == "off"
-        artist_info[:osoct2010] = false
-      end
       current_artist.artist_info.update_attributes!(artist_info)
       current_artist.update_attributes!(params[:artist])
       flash[:notice] = "Update successful"
