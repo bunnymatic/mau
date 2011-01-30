@@ -100,7 +100,7 @@ describe ArtistsController do
           @logged_in_user.os_participation = {'201104' => 'true'}
           @logged_in_user.save
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'false' }}}}
-          User.find(@logged_in_user.id).os_participation.should == {'201104' => false }
+          User.find(@logged_in_user.id).os_participation['201104'].should be_nil
         end
       end
     end

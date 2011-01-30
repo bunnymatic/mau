@@ -57,19 +57,19 @@ describe ArtistInfo do
     describe "open studios participation" do
       describe 'get' do
         it "returns true if participation is 'true'" do
-          ArtistInfo.any_instance.stubs('open_studios_participation').returns({'date'=>'true'}.to_json)
+          ArtistInfo.any_instance.stubs('open_studios_participation').returns('date|other')
           s = artist_infos(:joeblogs)
           s.os_participation['date'].should be_true
         end
         it "returns true if participation is 'on'" do
-          ArtistInfo.any_instance.stubs('open_studios_participation').returns({'date'=>'on'}.to_json)
+          ArtistInfo.any_instance.stubs('open_studios_participation').returns('date|ohre')
           s = artist_infos(:joeblogs)
           s.os_participation['date'].should be_true
         end
-        it "returns false if participation is 'false'" do
-          ArtistInfo.any_instance.stubs('open_studios_participation').returns({'date'=>'false'}.to_json)
+        it "returns nil if participation is 'false'" do
+          ArtistInfo.any_instance.stubs('open_studios_participation').returns('data|something')
           s = artist_infos(:joeblogs)
-          s.os_participation['date'].should be_false
+          s.os_participation['date'].should be_nil
         end
       end
 
@@ -94,27 +94,27 @@ describe ArtistInfo do
       describe 'update' do
         before do
           @s = artist_infos(:joeblogs)
-          @s.open_studios_participation = {'201104' => true }.to_json
+          @s.open_studios_participation = '201104'
           @s.save
           @s.reload
         end
-        it "updates key properly using = {'201104',false}" do
+        it "sets false using = {'201104',false}" do
           @s.os_participation = {'201104' => false}
           @s.save
           @s.reload
-          @s.os_participation['201104'].should be_false
+          @s.os_participation['201104'].should be_nil
         end
-        it "updates key properly given update('201104',false)" do
+        it "sets false given update('201104',false)" do
           @s.update_os_participation('201104', false)
           @s.save
           @s.reload
-          @s.os_participation['201104'].should be_false
+          @s.os_participation['201104'].should be_nil
         end
-        it "updates key properly given update('201104','false')" do
+        it "sets false given update('201104','false')" do
           @s.os_participation= {'201104'=>'false'}
           @s.save
           @s.reload
-          @s.os_participation['201104'].should be_false
+          @s.os_participation['201104'].should be_nil
         end
         it 'adds another key properly using update' do
           @s.update_os_participation('201114', true)

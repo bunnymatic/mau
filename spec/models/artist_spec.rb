@@ -210,4 +210,36 @@ describe Artist do
       end
     end
   end    
+  describe 'named scopes' do
+    describe ':open_studios_participants' do
+      before do
+        @a = users(:artist1)
+        @ai = artist_infos(:artist1)
+        @a.artist_info = @ai
+        @a.save
+        
+        @b = users(:joeblogs)
+        @bi = artist_infos(:joeblogs)
+        @b.artist_info = @bi
+        @b.save
+      
+        # make sure data is right
+        assert(Artist.all.length >= 2)
+      end
+      it "returns 1 artist with no args" do
+        artists = Artist.open_studios_participants
+        artists.should have(1).artist
+        artists[0].id.should == @a.id
+        artists[0].os_participation['201104'].should be_true
+      end
+      ['201104','201111'].each do |arg|
+        it "returns 1 artist with '#{arg}'" do
+          artists = Artist.open_studios_participants(arg)
+          artists.should have(1).artist
+          artists[0].id.should == @a.id
+          artists[0].os_participation[arg].should be_true
+        end
+      end
+    end
+  end
 end
