@@ -392,8 +392,22 @@ class ArtistsController < ApplicationController
       # clean os from radio buttons
       artist_info = params[:artist][:artist_info]
       params[:artist].delete(:artist_info)
+      
+      os = artist_info[:os_participation]
+      if !os.nil? 
+        # trueify params 
+        os = Hash[os.map{|k,v| [k, (v==true || v=='true' || v=='on' || v=='1' || v==1)]}]
+        if os.value?(true) 
+          if ((!artist_info[:street]) || (artist_info[:street].empty?)) && (current_user.studio && current_user.studio.id <= 0)
+            raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
+          end
+        end
+        current_artist.artist_info.os_participation = os
+        artist_info.delete(:os_participation)
+      end
+      # TODO : dump this code as it's obsolete
       os = artist_info[:osoct2010]
-      if os == "true" || os == "on" || os == 1
+      if os && os == "true" || os == "on" || os == 1
         if ((!artist_info[:street]) || (artist_info[:street].empty?)) && (current_user.studio && current_user.studio.id <= 0)
           raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
         end

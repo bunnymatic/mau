@@ -7,6 +7,31 @@ class ArtistInfo < ActiveRecord::Base
 
   include AddressMixin
 
+  def os_participation
+    if self.open_studios_participation.blank?
+      {}
+    else 
+      Hash[JSON.parse(self.open_studios_participation).map{|k,v| [k, (v==true || v=='true' || v=='on' || v=='1' || v==1)]}]
+    end
+  end
+
+  def update_os_participation(key,value)
+    self.os_participation = Hash[key,value]
+  end
+
+  def os_participation=(os)
+    current = {}
+    if !self.open_studios_participation.blank?
+      begin
+        current = JSON.parse(self.open_studios_participation)
+      rescue
+        # if we can't parse it, just return blank
+      end
+    end
+    current.merge!(os)
+    self.open_studios_participation = current.to_json
+  end
+
   def representative_piece
     pc = self.representative_pieces
     if pc and pc.length 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101116043427) do
+ActiveRecord::Schema.define(:version => 20110129225602) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -43,21 +43,22 @@ ActiveRecord::Schema.define(:version => 20101116043427) do
     t.text     "bio"
     t.text     "news"
     t.string   "street"
-    t.string   "city",                     :limit => 200
-    t.string   "addr_state",               :limit => 4
-    t.string   "facebook",                 :limit => 200
-    t.string   "twitter",                  :limit => 200
-    t.string   "blog",                     :limit => 200
-    t.string   "myspace",                  :limit => 200
-    t.string   "flickr",                   :limit => 200
+    t.string   "city",                       :limit => 200
+    t.string   "addr_state",                 :limit => 4
+    t.string   "facebook",                   :limit => 200
+    t.string   "twitter",                    :limit => 200
+    t.string   "blog",                       :limit => 200
+    t.string   "myspace",                    :limit => 200
+    t.string   "flickr",                     :limit => 200
     t.integer  "zip"
-    t.integer  "max_pieces",                              :default => 20
+    t.integer  "max_pieces",                                :default => 20
     t.integer  "representative_art_piece"
     t.string   "studionumber"
-    t.boolean  "osoct2010",                               :default => false
-    t.boolean  "os2010",                                  :default => false
+    t.boolean  "osoct2010",                                 :default => false
+    t.boolean  "os2010",                                    :default => false
     t.float    "lat"
     t.float    "lng"
+    t.string   "open_studios_participation"
   end
 
   create_table "artist_profile_images", :force => true do |t|
