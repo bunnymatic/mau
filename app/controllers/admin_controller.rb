@@ -164,4 +164,10 @@ class AdminController < ApplicationController
   def fans
     @fans = User.active.all(:conditions => 'type <> "Artist"')
   end	
+  
+  def os_status
+    @os = Artist.active(:conditions => 'os2010 == true or osoct2010 == true or open_studios_participation is not null')
+
+  end
+
 end

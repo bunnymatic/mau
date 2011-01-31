@@ -1,0 +1,28 @@
+<div class="admin-table singlecolumn">
+<h1>Open Studios Participation</h1>
+<table>
+  <tr>
+    <th>name</th>
+    <th>Spring 2010</th>
+    <th>October 2010</th>
+    <th>Spring 2011</th>
+  </tr>
+  
+  <% @os.each do |a| %>
+  <tr>
+    <td id="admin_artist_name" style="width:100px; ">
+      <a href="<%= user_path(a) %>"><%=h a.get_name %></a>
+    </td>
+    <td >
+      <%= a.os2010 %>
+    </td>
+    <td>
+      <%= a.osoct2010 %>
+    </td>
+    <td>
+      <%= a.os_participation['201104'] || 'false' %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+</div>
