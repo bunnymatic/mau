@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110129225602) do
+ActiveRecord::Schema.define(:version => 20110131075745) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -100,6 +100,16 @@ ActiveRecord::Schema.define(:version => 20110129225602) do
     t.string   "url"
     t.string   "skillsets"
     t.string   "bugtype"
+  end
+
+  create_table "flax_art_submissions", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "art_piece_ids"
+    t.boolean  "paid",          :default => false
+    t.boolean  "accepted",      :default => false
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "media", :force => true do |t|
