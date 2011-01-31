@@ -406,6 +406,48 @@ var TagMediaHelper = {
     }
     return false;
   };
+  A.clickYepNope = function(type) {
+    var sel = '.radio-container.' + type + ' input[type=radio]';
+    var radio = $$(sel);
+    if (radio && radio.length) {
+      console.log(radio[0]);
+      $(radio[0]).writeAttribute('checked', 'checked');
+    }
+    var submitButtons = $$('#events input#artist_submit[type="submit"]');
+    if (submitButtons && submitButtons.length) {
+      var btn = submitButtons[0];
+      $(btn).writeAttribute('value', 'Save Changes').click();
+    }
+  }
+  A.clickYep = function() {
+    A.clickYepNope('yep');
+  };
+  A.clickNope = function() {
+    A.clickYepNope('nope');
+  };
+
+  A.bindYepNopeButtons = function() {
+    var yep = $$('.yes-no-radios .radio-container.yep .formbutton');
+    var nope = $$('.yes-no-radios .radio-container.nope .formbutton');
+    if (yep && (yep.length > 0) && nope && (nope.length > 0)) {
+      var $yep = $(yep[0]);
+      var $nope = $(nope[0]);
+      $yep.observe('mouseover', function() {
+        $(this).innerHTML = 'Yep!';
+      });
+      $yep.observe('mouseout', function() {
+        $(this).innerHTML = 'Yep';
+      });
+      $nope.observe('mouseover', function() {
+        $(this).innerHTML = ':(';
+      });
+      $nope.observe('mouseout', function() {
+        $(this).innerHTML = 'Nope';
+      });
+      $yep.observe('click', A.clickYep);
+      $nope.observe('click', A.clickNope);
+    }
+  };
   A.init = function() {
     var toggles = M.Artist.TOGGLES;
     var sxns = M.Artist.SECTIONS;
@@ -426,6 +468,7 @@ var TagMediaHelper = {
       M.Artist.toggleSxnVis(sxn);
     }
 
+    A.bindYepNopeButtons();
     A.init = function() {};
   };
 

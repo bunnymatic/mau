@@ -181,7 +181,20 @@ div.donate-btns span {
 .inner-sxn {
     margin: 20px auto;
     font-size: 12px;
-    
+
+    .edit-table-header {
+        text-align: center;
+        font-weight: bold;
+    }
+    &.left {
+        float:left;
+    }
+    &.right {
+        float:right;
+    }
+    table {
+        margin: auto;
+    }
     .micro-icon {
         width: 16px;
         margin-right: 2px;
@@ -208,25 +221,13 @@ div.donate-btns span {
 .edit-table-header {
     line-height: 1.1em;
 }
-.inner-sxn .edit-table-header {
-    text-align: center;
-    font-weight: bold;
-}
 .edit-table-header.splitter {
     margin: 20px auto;
     float: left;
     text-align:center;
     font-size: x-small;
 }
-.inner-sxn.left {
-    float:left;
-}
-.inner-sxn.right {
-    float:right;
-}
-.inner-sxn table {
-    margin: auto;
-}
+
 .edit-profile-sxn {
     div {
         text-align: left;
@@ -237,6 +238,38 @@ div.donate-btns span {
     }
     .center {
         text-align: center;
+    }
+    &#events {
+        .yes-no-radios {
+            margin: auto;
+            width: 220px;
+            text-align: center;
+            input[type=radio] { 
+                display:none;
+            }
+            .radio-container {
+                float: left;
+                width: 110px;
+            }
+            .formbutton {
+                margin: 0 10px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                padding: 2px;
+                text-align: center;
+                &:hover {
+                    font-weight: bold;
+                    color: #000;
+                }
+            }
+        }
+        .buttons {
+            display: none;
+        }
+        .os-status span {
+            color: #fff;
+            font-weight: bold;
+        }
     }
 }
 
@@ -492,7 +525,7 @@ input[type=submit][disabled=disabled] {
     color:#aaa;
 }
 
-input[type=submit], .formbutton{
+input[type=submit], .formbutton {
     background:#999;
     background:url(/images/gradients.png) repeat-x left top;
     background-position: 0 -90px;
@@ -501,6 +534,9 @@ input[type=submit], .formbutton{
     cursor:pointer;
     font-weight:bold;
     padding: 3px 4px;
+    &:hover {
+        opacity: 0.85;
+    }
 }
 
 .formbutton {
