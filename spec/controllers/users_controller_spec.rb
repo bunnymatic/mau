@@ -766,8 +766,8 @@ describe UsersController do
   end
 
   describe "- routes" do
-    it "route controller=users, id=10, action=edit to /users/10/edit" do
-      route_for(:controller => "users", :id => '10', :action => "edit").should == '/users/10/edit'
+    it "route controller=users, action=edit to /users/edit" do
+      route_for(:controller => "users", :action => "edit").should == '/users/edit'
     end
   end
 

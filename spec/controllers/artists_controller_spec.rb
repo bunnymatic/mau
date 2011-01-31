@@ -2,7 +2,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
-#ActiveRecord::Base.logger = Logger.new(STDOUT)
 describe ArtistsController do
 
   integrate_views
@@ -14,13 +13,15 @@ describe ArtistsController do
 
   describe "index" do
     before do 
+      @a = users(:artist1)
+      @a.artist_info = artist_infos(:artist1)
       get :index
     end
     it "returns success" do
       response.should be_success
     end
     it "assigns artists" do
-      assigns(:artists).length.should > 1
+      assigns(:artists).length.should == 1
     end
     it "artists are all active" do
       assigns(:artists).each do |a|
@@ -31,10 +32,10 @@ describe ArtistsController do
   describe "Update Artist" do
     before(:each) do
       @a = users(:artist1)
-      @a.save!
-      @b = artist_infos(:artist1)
-      @b.artist_id = @a.id
-      @b.save!
+      @a.artist_info = artist_infos(:artist1)
+      @a.artist_info.open_studios_participation = '';
+      @a.save
+      @a.reload
     end
     context "while not logged in" do
       it_should_behave_like "get/post update redirects to login"
@@ -44,6 +45,7 @@ describe ArtistsController do
         @new_bio = "this is the new bio"
         @old_bio = @a.artist_info.bio
         login_as(@a)
+
         @logged_in_user = @a
       end
       context "submit" do
@@ -101,6 +103,34 @@ describe ArtistsController do
           @logged_in_user.os_participation = {'201104' => 'true'}
           @logged_in_user.save
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'false' }}}}
+          User.find(@logged_in_user.id).os_participation['201104'].should be_nil
+        end
+        it "does not set true if artist has no address" do
+          ai = @logged_in_user.artist_info
+          ai.lat = nil
+          ai.lng = nil
+          ai.street = ''
+          ai.city = ''
+          ai.addr_state = ''
+          ai.zip = ''
+          ai.open_studios_participation = ''
+          ai.save
+          @logged_in_user.reload
+          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => true }}}}
+          User.find(@logged_in_user.id).os_participation['201104'].should be_nil
+        end
+        it "sets false if artist has no address" do
+          ai = @logged_in_user.artist_info
+          ai.lat = nil
+          ai.lng = nil
+          ai.street = ''
+          ai.city = ''
+          ai.addr_state = ''
+          ai.zip = ''
+          ai.open_studios_participation = ''
+          ai.save
+          @logged_in_user.reload
+          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => false }}}}
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil
         end
       end
@@ -401,7 +431,7 @@ describe ArtistsController do
       route_for(:controller => "artists", :id => "10", :action => "show").should == "/artists/10"
     end
     it "should map edit action properly" do
-      route_for(:controller => "artists", :id => "10", :action => "edit").should == "/artists/10/edit"
+      route_for(:controller => "artists", :action => "edit").should == "/artists/edit"
     end
     
     it "should map users/index to artists" do
@@ -497,9 +527,9 @@ describe ArtistsController do
     end      
   end
   describe "- route recognition" do
-    context "/artists/10/edit" do
+    context "/artists/edit" do
       it "map get to artists controller edit method" do
-        params_from(:get, "/artists/10/edit").should == {:controller => "artists", :action => "edit", :id => "10" }
+        params_from(:get, "/artists/edit").should == {:controller => "artists", :action => "edit" }
       end
     end
     context "/artists/10" do

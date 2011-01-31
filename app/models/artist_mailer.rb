@@ -11,7 +11,7 @@ class ArtistMailer < ActionMailer::Base
 
     @sender = fan
     @artist = artist
-    @notification_url = url_for(:host => Conf.site_url, :controller => 'artists', :action => 'edit', :id => @artist.id) + '#notifications'    
+    @notification_url = url_for(:host => Conf.site_url, :controller => 'artists', :action => 'edit') + '#notifications'    
     @artist_url = url_for(:host => Conf.site_url, :controller => 'artists', :action => 'show', :id => @artist.id)
   end
 

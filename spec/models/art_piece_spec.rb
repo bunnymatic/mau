@@ -55,6 +55,7 @@ end
 describe ArtPiece, "get_todays_art" do 
   fixtures :art_pieces
   it 'returns art pieces updated between today and yesterday' do
+    pending "Not yet implemented"
     all = ArtPiece.find_by_sql("select * from art_pieces")
     all.length.should >= 1
     today = Time.now

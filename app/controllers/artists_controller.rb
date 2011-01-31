@@ -391,7 +391,7 @@ class ArtistsController < ApplicationController
         # trueify params 
         os = Hash[os.map{|k,v| [k, (v==true || v=='true' || v=='on' || v=='1' || v==1)]}]
         if os.value?(true) 
-          if ((!artist_info[:street]) || (artist_info[:street].empty?)) && (current_user.studio && current_user.studio.id <= 0)
+          if current_artist.address.blank?
             raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
           end
         end
