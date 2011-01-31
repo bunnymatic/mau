@@ -1,26 +1,41 @@
 <div class="admin-table singlecolumn">
 <h1>Open Studios Participation</h1>
-<table>
+<table class='os-status'>
   <tr>
+    <th></th>
     <th>name</th>
     <th>Spring 2010</th>
     <th>October 2010</th>
     <th>Spring 2011</th>
   </tr>
-  
-  <% @os.each do |a| %>
-  <tr>
+  <tr class='totals'>
+    <td>Count</td>
+    <td></td>
+    <td class='tf'>
+      <%= @totals['spring 2010'] %>
+    </td>
+    <td class='tf'>
+      <%= @totals['oct 2010'] %>
+    </td>
+    <td class='tf'>
+      <%= @totals['spring 2011'] %>
+    </td>
+  </tr>
+  <% @os.each_with_index do |a,idx| %>
+  <tr class="<%= (0 == (idx % 2)) ? 'odd' : 'even' %>">
+    <td><%= idx+1 %>.</td>
     <td id="admin_artist_name" style="width:100px; ">
       <a href="<%= user_path(a) %>"><%=h a.get_name %></a>
     </td>
-    <td >
-      <%= a.os2010 %>
+    <td class='tf'>
+      <span class="<%= a.os2010 %>"><%= a.os2010 %></span>
     </td>
-    <td>
-      <%= a.osoct2010 %>
+    <td class='tf'>
+      <span class="<%= a.osoct2010 %>"><%= a.osoct2010 %></span>
     </td>
-    <td>
-      <%= a.os_participation['201104'] || 'false' %>
+    <td class='tf'>
+      <% val = a.os_participation['201104'] || 'false' %>
+      <span class="<%= val %>"><%= val %></span>
     </td>
   </tr>
   <% end %>

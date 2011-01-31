@@ -410,7 +410,6 @@ var TagMediaHelper = {
     var sel = '.radio-container.' + type + ' input[type=radio]';
     var radio = $$(sel);
     if (radio && radio.length) {
-      console.log(radio[0]);
       $(radio[0]).writeAttribute('checked', 'checked');
     }
     var submitButtons = $$('#events input#artist_submit[type="submit"]');

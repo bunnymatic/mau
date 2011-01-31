@@ -166,7 +166,11 @@ class AdminController < ApplicationController
   end	
   
   def os_status
-    @os = Artist.active(:conditions => 'os2010 == true or osoct2010 == true or open_studios_participation is not null')
+    @os = Artist.active.find(:all, :order =>'lastname asc')
+    @totals = {}
+    @totals['spring 2010'] = @os.select{|a| a.os2010}.length
+    @totals['oct 2010'] = @os.select{|a| a.osoct2010}.length
+    @totals['spring 2011'] = @os.select{|a| a.os_participation['201104'].nil? ? false : a.os_participation['201104'] }.length
 
   end
 
