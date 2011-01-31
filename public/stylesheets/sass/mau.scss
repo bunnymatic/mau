@@ -1997,6 +1997,26 @@ div.studios .studio-list {
 }
 
 .admin-table {
+    .os-status {
+        width: 600px;
+        .tf { 
+            padding: 2px;
+            text-align: center; 
+            .true {
+                font-weight: bold;
+                color: #FFF;
+            }
+            .false {
+                color: #999;
+            }
+        }
+    }
+    tr.odd td {
+        background-color: #333;
+    }
+    tr.even td {
+        background-color: transparent;
+    }
     margin-top: 40px;
     font-size: 85%;
     td {
