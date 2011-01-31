@@ -29,16 +29,19 @@
     <div class="open-close-div acct"><span id="events_toggle" class="title">Open Studios</span><span class="edit"><a href="#events" id="events_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div class="edit-profile-sxn"  id="events" style="display:none;">
       <div class="inner-sxn">
-	<div style="width:80%; float:left;">
-	  Are you planning to be open for Mission Artists United's Spring Open Studios 2010 - April 16 & 17, 2011?
-	</div>
+	<p>
+	  Are you opening your studio doors for Mission Artists United's Spring Open Studios - April 16 & 17, 2011?
+        </p>
+        <p class="os-status">
+          Your current answer is : <span><%= @artist_info.os_participation['201104'] ? 'Yep' : 'Nope' %></span>
+	</p>
 	<%= f.error_messages %>
-	<div style="float:left;">
-	  <div>
-            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201104]]]", "true",  @artist_info.os_participation['201104']  %>Yep
+	<div class="yes-no-radios">
+	  <div class="radio-container yep">
+            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201104]]]", "true",  @artist_info.os_participation['201104']  %><div class="formbutton">Yep</div>
           </div>
-	  <div>
-            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201104]]]", "false",  (!@artist_info.os_participation['201104'])  %>Nope
+	  <div class="radio-container nope">
+            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201104]]]", "false",  (!@artist_info.os_participation['201104'])  %><div class="formbutton">Nope</div>
           </div>
         </div>
 	<div class="clear"></div>

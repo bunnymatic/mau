@@ -30,9 +30,9 @@ ActionController::Routing::Routes.draw do |map|
   map.faq '/faq', :controller => 'main', :action => 'faq'
   map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
 
-  map.resources :artists, :member => { :update => :post, :edit => :get }, :collection => { :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get }
+  map.resources :artists, :member => { :update => :post }, :collection => { :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get, :edit => :get }
 
-  map.resources :users, :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get }
+  map.resources :users, :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get }
 
   map.resource :session
 
