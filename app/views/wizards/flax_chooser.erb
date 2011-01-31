@@ -1,0 +1,24 @@
+<div class="logo-spacer">&nbsp;</div>
+<% if flash[:error] %><div class="error-msg"><%= flash[:error] %></div><% end %>
+<%= form_tag "/flaxart/submit_check" %>
+<div class="flax-chooser">
+  <h4>Choose Art for the Directory Show at Flax</h4>
+  <div class="container">
+    <ul>
+      <% current_user.art_pieces.each do |ap|
+          xclass = ''
+          if ap.id == current_artist.art_pieces.last.id
+             xclass = ' last ' 
+          end
+      -%>
+      <%= draw_chooser_item ap, :class => xclass %>
+      <% end -%>
+    </ul>
+    <div class="clear"></div>
+  </div>
+  <div class="edit-buttons">
+    <input type="submit" value="Submit these pieces"/>
+    <input type="hidden" name="artist" value="<%= self.current_artist.id %>">
+  </div>
+</div>
+</form>

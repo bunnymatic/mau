@@ -325,11 +325,6 @@ class ArtistsController < ApplicationController
 
   def deleteart
     @artist = self.current_user
-    if ! @artist
-      flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
-      redirect_back_or_default( artist_path(@artist) )
-      return
-    end
   end
 
 

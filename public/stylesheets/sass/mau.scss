@@ -2945,3 +2945,77 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         margin: 1em 0 2em 5%;
     }
 }
+
+.rcol .flaxart-wizard {
+    width: 520px;
+    margin: auto;
+    h4 {
+        font-size: 120%;
+        text-align: left;
+        margin-bottom: .7em;
+    }
+    li {
+        list-style: circle inside;
+    }
+    p { padding-left: 0; }
+    
+    .formbutton {
+        width: 220px;
+        margin: 0 auto;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        padding: 2px;
+        text-align: center;
+        &:hover {
+            font-weight: bold;
+            color: #000;
+        }
+    }
+}
+
+
+.flax-chooser {
+    width: 780px;
+    margin: auto;
+    .artpiece-thumb {
+        width: 222px;
+    }
+    .edit-buttons input {
+        padding: 5px 8px;
+    }
+    .container {
+        width: 704px;
+        margin: auto;
+    }
+    li {
+        float: left;
+        width: 202px;
+        margin: 16px 16px 34px;
+        height: 212px;
+        position: relative;
+        &.last {
+            clear: right;
+        }
+        div { 
+            text-align: center;
+            &.thumb {
+                border: 1px dotted #444;
+            }
+            img {
+                margin-top:2px;
+            }
+            &.name {
+                border: 1px solid #444;
+                background : #222;
+                color: #ccc;
+                text-align: center;
+                width: 200px;
+                height: 24px;
+                font-size:90%;
+                line-height: 24px;
+                position: absolute;
+                top: 100%;
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+<%= form_tag "/flaxart/submit" %>
+<div class="flax-chooser">
+  <div class="logo-spacer">&nbsp;</div>
+  <h4>Selected Art for the Directory Show at Flax</h4>
+  <div class="container">
+    <ul>
+      <% @art_pieces.each do |ap|
+          xclass = ''
+          if ap.id == @art_pieces.last.id
+             xclass = ' last ' 
+          end
+      -%>
+      <%= draw_chooser_item ap, :class => xclass, :checkboxes => false %>
+      <% end -%>
+    </ul>
+    <div class="clear"></div>
+  </div>
+  <div class="edit-buttons">
+    <input type="submit" value="Yep! These are the ones"/>
+    <input class="cancel" type="submit" value="Whoa! These aren't right"/>
+  </div>
+</div>
+</form>
