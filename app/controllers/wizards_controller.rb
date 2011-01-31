@@ -52,6 +52,12 @@ class WizardsController < ApplicationController
   end
 
   def flax_payment
+    submission = FlaxArtSubmission.find_by_user_id(current_user.id)
+    unless submission.nil? 
+      if submission.paid
+        @paid = true
+      end
+    end
   end
 
   def flax_success

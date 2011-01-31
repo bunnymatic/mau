@@ -127,6 +127,26 @@ describe WizardsController do
           end
         end
       end
+      describe 'flax_payment' do
+        it "returns success" do
+          get :flax_payment
+          response.should be_success
+        end
+        it "looks up the users submission" do
+          FlaxArtSubmission.expects(:find_by_user_id).with(@u.id).once.returns(FlaxArtSubmission.new(:paid => true, :user_id => @u.id))
+          get :flax_payment
+        end
+        it "if the user has paid it says so" do
+          FlaxArtSubmission.stubs(:find_by_user_id).returns(FlaxArtSubmission.new(:paid => true, :user_id => @u.id))
+          get :flax_payment
+          response.should have_tag('div.paid', :include => 'already paid')
+        end
+        it "if the user hasn't paid it has link to paypal" do
+          FlaxArtSubmission.stubs(:find_by_user_id).returns(FlaxArtSubmission.new(:paid => false, :user_id => @u.id))
+          get :flax_payment
+          response.should have_tag('a[href=>"paypal.com"]')
+        end
+      end
     end
   end
 end
