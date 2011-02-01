@@ -1,5 +1,5 @@
 <%= form_tag "/flaxart/submit" %>
-<div class="flax-chooser">
+<div class="flax-chooser small">
   <div class="logo-spacer">&nbsp;</div>
   <h4>Selected Art for the Directory Show at Flax</h4>
   <div class="container">
@@ -10,7 +10,7 @@
              xclass = ' last ' 
           end
       -%>
-      <%= draw_chooser_item ap, :class => xclass, :checkboxes => false %>
+      <%= draw_chooser_item ap, :class => xclass, :checkboxes => false, :size => 'small' %>
       <% end -%>
     </ul>
     <div class="clear"></div>

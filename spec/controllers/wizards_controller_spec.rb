@@ -120,10 +120,20 @@ describe WizardsController do
             response.should redirect_to(flaxartpayment_path)
           end
           it "saves a new flaxart submission object" do
-            m = mock('artsubmission')
-            FlaxArtSubmission.expects(:new).once().returns(m)
-            m.expects(:save!).once()
             post :flax_submit, :art => @ap_data
+            results = FlaxArtSubmission.find_all_by_user_id(@u.id)
+            results.length.should == 1
+            results[0].art_piece_ids.should match /#{@u.art_pieces[0].id}/
+            results[0].art_piece_ids.should match /#{@u.art_pieces[1].id}/
+          end
+          it "post twice saves the updated set of art pieces" do
+            post :flax_submit, :art => @ap_data
+            @ap_data = {}
+            @u.art_pieces.map(&:id).map(&:to_s)[1..2].each { |k| @ap_data[k]=k }
+            post :flax_submit, :art => @ap_data
+            results = FlaxArtSubmission.find_all_by_user_id(@u.id)
+            results.length.should == 1
+            results[0].art_piece_ids.should == [@u.art_pieces[1].id, @u.art_pieces[2].id].join("|")
           end
         end
       end
