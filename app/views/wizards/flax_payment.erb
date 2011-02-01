@@ -17,7 +17,7 @@
       
     </div>
     <% else -%>
-    <p>Almost there.  Now just submit your $10 submission fee (non-refundable) via PayPal and you'll be done.</p>
+    <p>Last Step!  Now just submit your $10 submission fee (non-refundable) via PayPal and you'll be done.</p>
     <div class="payment">
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
         <input type="hidden" name="cmd" value="_s-xclick">
@@ -26,7 +26,6 @@
         <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
       </form>
     </div>
-    <p>When you are done on the paypal site, you'll be redirected back to Mission Artists United and your submission will be finished.</p>
     <p>We'll notify you of the jurors' selections by DATE by email at this email address:<%= current_user.email %>.</p>
     <% end -%>
   </div>
