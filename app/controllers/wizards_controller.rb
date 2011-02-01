@@ -54,6 +54,11 @@ class WizardsController < ApplicationController
     submission.art_piece_ids = art_pieces.join("|")
     submission.save!
     # store this data away
+    
+    cookies[:mau_flaxsubmission] = {:value => CookiesHelper::encode_cookie({ :submission => submission.id,
+                                                                             :submitted => Time.now() }),
+                                    :expires => 1.day.from_now }
+
     redirect_to flaxartpayment_path
   end
 
@@ -66,7 +71,22 @@ class WizardsController < ApplicationController
     end
   end
 
+  def flax_payment_cancel
+  end
+
   def flax_success
+    cookie = CookiesHelper::decode_cookie(cookies[:mau_flaxsubmission])
+    if !cookie
+      raise "Waited too long?"
+    end
+    if ((params[:fpp] == '2011') && (cookie["submission"]))
+      # it's from paypal
+      @submission = FlaxArtSubmission.find(cookie["submission"].to_i)
+      @submission.paid = true
+      @submission.save!
+      @submission.reload
+    end
+    render :layout => 'mau2col'
   end
 
 end

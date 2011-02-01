@@ -1,6 +1,33 @@
 <div class="logo-spacer">&nbsp;</div>
-<div class="flax-payment">
-  <% if @paid -%>
-  <div class="paid">You've already paid for this submission! Thanks</div>
-  <% end -%>
+<div class="flax-payment flax">
+  <h4>Spring Open Studios Directory Show at Flax</h4>
+  <span class="breadcrumbs">
+    <div>
+      <span>Choose Art &raquo;</span>
+      <span>Verify Art &raquo;</span>
+      <span class="current">Submit Payment &raquo;</span>
+      <span>Success</span>
+    </div>
+  </span>
+  <div class="container">
+    <% if @paid -%>
+    <div class="paid">
+      <p>You've already paid for this submission! If you are here for a second time, we've updated your list of submitted images.</p>
+      <p>We've got your contact information and will contact you at this email, <%= current_user.email %> soon to tell you whether or not you were selected.</p>
+      
+    </div>
+    <% else -%>
+    <p>Almost there.  Now just submit your $10 submission fee (non-refundable) via PayPal and you'll be done.</p>
+    <div class="payment">
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="24SA4SK6FLB5W">
+        <input type="submit" name="submit" value="Submit $10 fee via PayPal" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      </form>
+    </div>
+    <p>When you are done on the paypal site, you'll be redirected back to Mission Artists United and your submission will be finished.</p>
+    <p>We'll notify you of the jurors' selections by DATE by email at this email address:<%= current_user.email %>.</p>
+    <% end -%>
+  </div>
 </div>
