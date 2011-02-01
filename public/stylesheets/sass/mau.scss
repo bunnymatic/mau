@@ -70,6 +70,13 @@ form {
 }
 
 /* general div align stuff */
+div.div-left {
+    color: #aaa;
+    & div, & span {
+        color: #aaa;
+    }
+}
+
 .div-left {
     text-align:left;
     margin-bottom: 10px;
@@ -950,6 +957,7 @@ div.feedtitle  {
 }
 
 .studio-memberlist {
+    color: #aaa;
     text-align:left;
     margin-top: 15px;
     vertical-align: top;
@@ -1684,6 +1692,9 @@ div.studio-list {
     margin: auto;
 }
 .studio-thumb {
+    div {
+        color: #aaa;
+    }
     border: 1px dotted #444;
     padding: 8px;
     vertical-align: top;
