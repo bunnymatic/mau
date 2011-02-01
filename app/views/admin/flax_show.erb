@@ -1,0 +1,38 @@
+<div class="admin-table singlecolumn">
+<h1>Flax Show Participation</h1>
+<div class="paid block">
+  <div class="totals"><%= @paid.length %> paid submissions</div>
+  <table>
+    <tr>
+      <th>user</th><th>pieces</th><th>submitted</th>
+    </tr>
+    <% @paid.each do |p| 
+        u = User.find(p.user_id)
+       -%>
+    <tr>
+      <td><a href="<%= artist_path(u) %>"><%=h u.get_name %></a></td>
+      <td><%= p.art_piece_ids.split("|").map{ |ap| "<a href='/art_pieces/#{ap}'>#{ap}</a>" }.join(",") %></td>
+      <td><%= p.updated_at %></td>
+    </tr>
+    <% end -%>
+  </table>
+</div>
+<div class="unpaid block">
+  <div class="totals"><%= @unpaid.length %> unpaid submissions</div>
+  <table>
+    <tr>
+      <th>user</th><th>pieces</th><th>submitted</th>
+    </tr>
+    <% @unpaid.each do |p| 
+        u = User.find(p.user_id)
+       -%>
+    <tr>
+      <td><a href="<%= artist_path(u) %>"><%=h u.get_name %></a></td>
+      <td><%= p.art_piece_ids.split("|").map{ |ap| "<a href='/art_pieces/#{ap}'>#{ap}</a>" }.join(",") %></td>
+      <td><%= p.updated_at %></td>
+    </tr>
+    <% end -%>
+  </table>
+</div>
+<div class="clear"></div>
+</div>

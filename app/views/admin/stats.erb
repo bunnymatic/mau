@@ -9,7 +9,7 @@
   str = ""
   @stats.each_pair do |section, hsh|
    %>
-<tr><td colspan="2"><h4><%= section %></h4></td></tr>
+<tr><td colspan="2"><h4><%= section.to_s.gsub('_',' ') %></h4></td></tr>
   <% 
      hsh.each_pair do |k,v|
      name = v[:name]

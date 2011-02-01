@@ -1,7 +1,10 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+paid:
+  user_id: 1
+  art_piece_ids: 1|2|3
+  paid: true
+unpaid:
+  user_id: 2
+  art_piece_ids: 4|5
+  paid: false
