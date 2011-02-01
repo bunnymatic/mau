@@ -28,7 +28,7 @@ class WizardsController < ApplicationController
       redirect_to flaxartchooser_path
       return 
     end
-    selected = art.select{ |k,v| v == '1' }.map(&:first).map(&:to_i)
+    selected = art.select{ |k,v| v == '1' }.map(&:first).map(&:to_i)[0..2]
     @art_pieces = current_user.art_pieces.select{|ap| selected.include? ap.id}
   end
 

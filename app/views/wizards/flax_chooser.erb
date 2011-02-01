@@ -28,6 +28,7 @@
         </p>
         </p>
         <div class="container">
+          <% if current_user.art_pieces.length > 0 -%>
           <ul>
             <% current_user.art_pieces.each do |ap|
                xclass = ''
@@ -38,6 +39,8 @@
             <%= draw_chooser_item ap, :class => xclass %>
             <% end -%>
           </ul>
+          <% else %>
+          <p>You first need to add some art to your account.  Try the 'add art' link on the left!</p>
           <div class="clear"></div>
         </div>
         <div class="edit-buttons">
