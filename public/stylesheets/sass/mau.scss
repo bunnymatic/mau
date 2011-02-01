@@ -3010,8 +3010,36 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
 }
 
+.flax {
+    .breadcrumbs {
+        text-align: center;
+        color: #777;
+        span {
+            color: #777;
+        }
+
+        margin: auto;
+        font-style: italic;
+        .current {
+            color: #ddd;
+            font-weight: bold;
+        }
+    }
+    .payment {
+        margin: auto;
+    }
+}
+
+.flax-payment {
+    margin: auto;
+    .container {
+        margin: auto;
+        width: 500px;
+    }
+}
 
 .flax-chooser {
+    
     margin: auto;
     p {
         text-align: left;

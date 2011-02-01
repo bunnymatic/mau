@@ -11,8 +11,14 @@
       <div class="logo-spacer">&nbsp;</div>
       <% if flash[:error] %><div class="error-msg"><%= flash[:error] %></div><% end %>
       <%= form_tag "/flaxart/submit_check" %>
-      <div class="flax-chooser thumb">
-        <h4>Choose Art for the Directory Show at Flax</h4>
+      <div class="flax-chooser thumb flax">
+        <h4>Spring Open Studios Directory Show at Flax</h4>
+        <div class="breadcrumbs">
+          <span class="current">Choose Art &raquo;</span>
+          <span>Verify Art &raquo;</span>
+          <span>Submit Payment &raquo;</span>
+          <span>Success</span>
+        </div>
         <p class="instructions">
         <p>
           If you don't have the piece or pieces you want to submit on MAU, you'll need to add them first (choose <i>add art</i> from the left sidebar menu).  When you're done, you need to come back here.  Use the <i>Spring OS Directory Show Submission</i> link on the left sidebar (which is on your <i>my mau</i> page also).

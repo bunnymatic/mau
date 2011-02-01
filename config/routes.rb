@@ -32,6 +32,8 @@ ActionController::Routing::Routes.draw do |map|
   map.flaxartsubmitcheck '/flaxart/submit_check', :controller => 'wizards', :action => 'flax_submit_check', :method => :post
   map.flaxartsubmit '/flaxart/submit', :controller => 'wizards', :action => 'flax_submit', :method => :post
   map.flaxartpayment '/flaxart/payment', :controller => 'wizards', :action => 'flax_payment'
+  map.flaxartpaymentsuccess '/flaxart/payment_success', :controller => 'wizards', :action => 'flax_success'
+  map.flaxartpaymentcancel '/flaxart/payment_cancel', :controller => 'wizards', :action => 'flax_payment_cancel'
 
   map.faq '/faq', :controller => 'main', :action => 'faq'
   map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'

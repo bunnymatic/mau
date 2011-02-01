@@ -1,7 +1,15 @@
 <%= form_tag "/flaxart/submit" %>
-<div class="flax-chooser small">
+<div class="flax-chooser small flax">
   <div class="logo-spacer">&nbsp;</div>
-  <h4>Selected Art for the Directory Show at Flax</h4>
+  <h4>Spring Open Studios Directory Show at Flax</h4>
+  <span class="breadcrumbs">
+    <div>
+      <span>Choose Art &raquo;</span>
+      <span class="current">Verify Art &raquo;</span>
+      <span>Submit Payment &raquo;</span>
+      <span>Success</span>
+    </div>
+  </span>
   <div class="container">
     <ul>
       <% @art_pieces.each do |ap|
