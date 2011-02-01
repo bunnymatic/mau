@@ -2004,6 +2004,21 @@ div.studios .studio-list {
 }
 
 .admin-table {
+    &.singlecolumn {
+        margin-top: 0px;
+        padding-top: 48px;
+    }
+    .block {
+        .totals {
+            text-align:center;
+        }
+        float: left;
+        width: 400px;
+        &.paid {
+        }
+        &.unpaid {
+        }
+    }
     .os-status {
         width: 600px;
         .tf { 

@@ -4,4 +4,6 @@ class FlaxArtSubmission < ActiveRecord::Base
   validates_presence_of :art_piece_ids
   validates_length_of :art_piece_ids, :minimum => 1, :allow_nil => false
 
+  named_scope :paid, :conditions => 'paid = true'
+  named_scope :unpaid, :conditions => 'paid = false'
 end
