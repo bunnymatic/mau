@@ -2,10 +2,11 @@
   <% if current_artist -%>
   <ul>
     <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit my page</a></li>
-    <li class="leaf"><a href="/art_pieces/new">add art</a></li>
+    <li class="leaf"><a href="/art_pieces/new %>">add art</a></li>
     <li class="leaf"><a href="<%= arrangeart_artists_path %>">arrange art</a></li>
     <li class="leaf"><a href="<%= deleteart_artists_path %>">delete art</a></li>
-    <li class="leaf last"><a href="<%= favorites_user_path current_user %>"><div class="micro-icon heart"></div> favorites</a></li>
+    <li class="leaf"><a href="<%= favorites_user_path current_user %>"><div class="micro-icon heart"></div> favorites</a></li>
+    <li class="leaf last"><a href="<%= flaxartshow_path %>">Spring OS Directory Show Submissions</a></li>
   </ul>
   <% else -%>
   <ul>

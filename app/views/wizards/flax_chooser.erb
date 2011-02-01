@@ -1,24 +1,48 @@
-<div class="logo-spacer">&nbsp;</div>
-<% if flash[:error] %><div class="error-msg"><%= flash[:error] %></div><% end %>
-<%= form_tag "/flaxart/submit_check" %>
-<div class="flax-chooser">
-  <h4>Choose Art for the Directory Show at Flax</h4>
-  <div class="container">
-    <ul>
-      <% current_user.art_pieces.each do |ap|
-          xclass = ''
-          if ap.id == current_artist.art_pieces.last.id
-             xclass = ' last ' 
-          end
-      -%>
-      <%= draw_chooser_item ap, :class => xclass %>
-      <% end -%>
-    </ul>
-    <div class="clear"></div>
-  </div>
-  <div class="edit-buttons">
-    <input type="submit" value="Submit these pieces"/>
-    <input type="hidden" name="artist" value="<%= self.current_artist.id %>">
-  </div>
-</div>
-</form>
+<%= javascript_include_tag 'mau.submissions' %>
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => "/twocol_top" %>
+  <tr>    
+    <td> </td>
+    <td class="alt-lcol" align="center">
+      <%= render :partial => "/users/sidebar_nav" %>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
+    <td class="rcol" align="center" ><!-- artists/show -->
+      <div class="logo-spacer">&nbsp;</div>
+      <% if flash[:error] %><div class="error-msg"><%= flash[:error] %></div><% end %>
+      <%= form_tag "/flaxart/submit_check" %>
+      <div class="flax-chooser thumb">
+        <h4>Choose Art for the Directory Show at Flax</h4>
+        <p class="instructions">
+        <p>
+          If you don't have the piece or pieces you want to submit on MAU, you'll need to add them first (choose <i>add art</i> from the left sidebar menu).  When you're done, you need to come back here.  Use the <i>Spring OS Directory Show Submission</i> link on the left sidebar (which is on your <i>my mau</i> page also).
+        </p>
+        <p>
+          You may choose up to 3 images to submit.  Just check your selection and hit the button at the bottom.
+        </p>
+        </p>
+        <div class="container">
+          <ul>
+            <% current_user.art_pieces.each do |ap|
+               xclass = ''
+               if ap.id == current_artist.art_pieces.last.id
+               xclass = ' last ' 
+               end
+               -%>
+            <%= draw_chooser_item ap, :class => xclass %>
+            <% end -%>
+          </ul>
+          <div class="clear"></div>
+        </div>
+        <div class="edit-buttons">
+          <input type="submit" value="Submit these pieces"/>
+          <input type="hidden" name="artist" value="<%= self.current_artist.id %>"/>
+        </div>
+      </div>
+      </form>
+    </td>
+    <td valign="top">
+    </td>
+  </tr>
+<%= render :partial => "/twocol_bottom" %>
+</table>

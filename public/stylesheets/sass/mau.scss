@@ -1,7 +1,7 @@
 
 body {
     background-color: #c6c7d6;
-    color: #aaa;
+    color: #ddd;
     font-size: 13px;
     font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana", Arial, sans-serif;
     position: relative;
@@ -24,6 +24,7 @@ p {
     margin: 1em 0;
 }
 div,p { 
+    color: #ddd;
     line-height: 1.4em;
 }
 h1 {
@@ -34,20 +35,24 @@ h1 {
     line-height:normal;
 }
 h2 {
+    color: #aaa;
     font-size: 150%;
     font-weight:normal;
     line-height:1;
     margin: 0.53em 0;
 }
 h3 {
+    color: #aaa;
     font-size: 130%;
 }
 h4 {
+    color: #aaa;
     font-size: 130%;
     font-weight: bold;
     margin: 1.33em 0;
 }
 h5 {
+    color: #aaa;
     font-size: 110%;
 }
 
@@ -106,6 +111,7 @@ tr.error-row {
 }
 
 .bio-container {
+    color: #ccc;
     margin-top: 18px;
     max-height: 370px;
     overflow: auto;
@@ -929,6 +935,7 @@ div.feedtitle  {
 
 #about_text, #contact_text,
 #news_text, .privacy-content {
+    color: #ccc;
     font-size: 12px;
 }
 
@@ -2970,14 +2977,24 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     width: 520px;
     margin: auto;
     h4 {
+        border-bottom: 1px dotted #999;
         font-size: 120%;
         text-align: left;
         margin-bottom: .7em;
     }
     li {
-        list-style: circle inside;
+        list-style: disc outside;
+        color: #ddd;
+        margin-left: 1.5em;
+        li {
+            margin-left: 1.5em;
+            list-style: circle inside;
+        }
     }
-    p { padding-left: 0; }
+    p { 
+        padding-left: 0; 
+        color: #ddd;
+    }
     
     .formbutton {
         width: 220px;
@@ -2995,23 +3012,18 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 
 
 .flax-chooser {
-    width: 780px;
     margin: auto;
-    .artpiece-thumb {
-        width: 222px;
+    p {
+        text-align: left;
     }
     .edit-buttons input {
         padding: 5px 8px;
     }
     .container {
-        width: 704px;
         margin: auto;
     }
     li {
         float: left;
-        width: 202px;
-        margin: 16px 16px 34px;
-        height: 212px;
         position: relative;
         &.last {
             clear: right;
@@ -3025,16 +3037,39 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
                 margin-top:2px;
             }
             &.name {
+                margin: auto;
                 border: 1px solid #444;
                 background : #222;
                 color: #ccc;
                 text-align: center;
-                width: 200px;
                 height: 24px;
                 font-size:90%;
                 line-height: 24px;
                 position: absolute;
                 top: 100%;
+            }
+        }
+    }
+    &.small .container {
+        width: 756px;
+    }
+    &.small li {
+        margin: 16px 16px 44px;
+        width: 220px;
+        height: 210px;
+        div { 
+            &.name {
+                width: 220px;
+            }
+        }
+    }
+    &.thumb li {
+        margin: 16px 10px 44px;
+        width: 120px;
+        height: 110px;
+        div { 
+            &.name {
+                width: 120px;
             }
         }
     }
