@@ -10,8 +10,8 @@
     <td class="rcol" align="center" ><!-- artists/show -->
       <div class="logo-spacer">&nbsp;</div>
       <% if flash[:error] %><div class="error-msg"><%= flash[:error] %></div><% end %>
-      <%= form_tag "/flaxart/submit_check" %>
       <div class="flax-chooser thumb flax">
+        <%= form_tag "/flaxart/submit_check", :id => 'submitPics' %>
         <h3>Spring OS Juried Preview Show</h3>
         <div class="breadcrumbs">
           <span class="current">Choose Art &raquo;</span>
@@ -44,12 +44,14 @@ If you need to add more art first to your MAU portfolio, choose <i>add art</i> o
           <% end -%>
           <div class="clear"></div>
         </div>
+        <% checked = (current_artist.os_participation['201104'] ? 'checked=checked' : '') %>
+        <input name="springos201104" type="checkbox" <%= checked %> ><label for="springos201104">I'm participating in Spring Open Studios April 16/17</label>
         <div class="edit-buttons">
           <input type="submit" value="Submit these pieces"/>
           <input type="hidden" name="artist" value="<%= self.current_artist.id %>"/>
         </div>
-      </div>
       </form>
+    </div>
     </td>
     <td valign="top">
     </td>

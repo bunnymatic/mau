@@ -64,8 +64,8 @@ describe WizardsController do
           response.should have_tag('div.name', :text => ap.title)
         end
       end
-      it 'has checkboxes for all the art' do
-        response.should have_tag('input[type=checkbox]', :count => @u.art_pieces.length)
+      it 'has checkboxes for all the art and the os check' do
+        response.should have_tag('input[type=checkbox]', :count => @u.art_pieces.length + 1)
       end
       it "if the user has paid link to flaxart is missing from left nav" do
         FlaxArtSubmission.stubs(:find_by_user_id).returns(FlaxArtSubmission.new(:paid => true, :user_id => @u.id))
@@ -104,11 +104,15 @@ describe WizardsController do
         end
         context "with data" do
           before do
+            ai = @u.artist_info
+            ai.os_participation = {'201104' => false}
+            ai.save
+            @u.reload
             art = {}
             art[@u.art_pieces.first.id] = '1'
             art[@u.art_pieces.last.id] = '0'
             art[@u.art_pieces.second.id] = '1'
-            postparams = {"artist"=>@u.id, "art"=>art}
+            postparams = {"artist"=>@u.id, "art"=>art, "spring201104" => 'on'}
             post :flax_submit_check, postparams
           end
           it "returns success" do
@@ -119,6 +123,9 @@ describe WizardsController do
           end
           it "has no checkboxes" do
             response.should_not have_tag('input[type=checkbox]')
+          end
+          it "sets the user's os participation status to true" do
+            @u.os_participation['201104'].should == true
           end
         end
       end
