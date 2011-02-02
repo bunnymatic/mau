@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110131075745) do
+ActiveRecord::Schema.define(:version => 20110202091833) do
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -198,18 +198,5 @@ ActiveRecord::Schema.define(:version => 20110131075745) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
-
-  create_table "venues", :force => true do |t|
-    t.string   "phone",         :limit => 16
-    t.string   "url",           :limit => 200
-    t.string   "profile_image", :limit => 200
-    t.string   "street",        :limit => 200
-    t.string   "city",          :limit => 200
-    t.string   "state",         :limit => 4
-    t.integer  "zip"
-    t.string   "description",   :limit => 2000
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end
