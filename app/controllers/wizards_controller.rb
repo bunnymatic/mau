@@ -79,7 +79,7 @@ class WizardsController < ApplicationController
     if !cookie
       raise "Waited too long?"
     end
-    if ((params[:fpp] == '2011') && (cookie["submission"]))
+    if (cookie["submission"])
       # it's from paypal
       @submission = FlaxArtSubmission.find(cookie["submission"].to_i)
       @submission.paid = true
@@ -88,5 +88,4 @@ class WizardsController < ApplicationController
     end
     render :layout => 'mau2col'
   end
-
 end
