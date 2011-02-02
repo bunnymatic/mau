@@ -4,11 +4,18 @@ class WizardsController < ApplicationController
 
   before_filter :login_required, :except => [ :flaxart ]
   before_filter :post_only, :only => [:flax_submit_check, :flax_submit]
-  
+  before_filter :artists_only, :except => [ :flaxart ]
+
   def post_only 
     if !request.post?
       redirect_to flaxartchooser_path
       return
+    end
+  end
+  def artists_only
+    if current_user and !current_artist
+      # fan login
+      render_not_found({:message => 'Sorry, you need a full fledged Artist account to submit to this show.'})
     end
   end
 
