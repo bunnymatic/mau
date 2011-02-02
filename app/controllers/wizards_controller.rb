@@ -37,6 +37,11 @@ class WizardsController < ApplicationController
     end
     selected = art.select{ |k,v| v == '1' }.map(&:first).map(&:to_i)[0..2]
     @art_pieces = current_user.art_pieces.select{|ap| selected.include? ap.id}
+    ai = current_user.artist_info
+    if !ai.os_participation['201104']
+      ai.os_participation = {'201104' => true}
+      ai.save
+    end
   end
 
   def flax_submit
