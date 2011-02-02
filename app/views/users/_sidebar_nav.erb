@@ -1,12 +1,17 @@
 <div id="sidebar_nav">
   <% if current_artist -%>
   <ul>
-    <li class="leaf first"><a href="<%= edit_artist_path(current_artist) %>">edit my page</a></li>
-    <li class="leaf"><a href="/art_pieces/new">add art</a></li>
-    <li class="leaf"><a href="<%= arrangeart_artists_path %>">arrange art</a></li>
-    <li class="leaf"><a href="<%= deleteart_artists_path %>">delete art</a></li>
-    <li class="leaf"><a href="<%= favorites_user_path current_user %>"><div class="micro-icon heart"></div> favorites</a></li>
-    <li class="leaf last"><a href="<%= flaxartshow_path %>">Submit to Flax Show</a></li>
+  <% listitems = [ "<a href='" + edit_artist_path(current_artist) + "'>edit my page</a>",
+     "<a href='/art_pieces/new'>add art</a>",
+     "<a href='#{arrangeart_artists_path}'>arrange art</a>",
+     "<a href='#{deleteart_artists_path}'>delete art</a>",
+     "<a href='#{favorites_user_path current_user}'><div class='micro-icon heart'></div> favorites</a>" ]
+     fas = FlaxArtSubmission.find_by_user_id(current_artist.id)
+     if fas.nil? || !fas.paid
+       listitems << "<a href='#{flaxartshow_path}'>Submit to Flax Show</a>"
+     end
+  -%>
+  <%= HTMLHelper::print_list('leaf', listitems) %>
   </ul>
   <% else -%>
   <ul>

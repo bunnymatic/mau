@@ -22,6 +22,23 @@ describe WizardsController do
       response.should be_success
     end
   end
+
+  [ :flax_chooser, :flax_payment, :flax_success ].each do |method|
+    describe 'as a logged in fan hitting '+method.to_s do
+      before do
+        u = users(:aaron)
+        login_as(u)
+        get method
+      end
+      it "returns success" do
+        response.code.should == '404'
+      end
+      it "has error message" do
+        response.should have_tag('div.oops')
+      end
+    end
+  end
+
   describe "as logged in user" do
     before do 
       a = users(:artist1)
@@ -49,6 +66,12 @@ describe WizardsController do
       end
       it 'has checkboxes for all the art' do
         response.should have_tag('input[type=checkbox]', :count => @u.art_pieces.length)
+      end
+      it "if the user has paid link to flaxart is missing from left nav" do
+        FlaxArtSubmission.stubs(:find_by_user_id).returns(FlaxArtSubmission.new(:paid => true, :user_id => @u.id))
+        get :flax_chooser
+        # last entry is favorites
+        response.should have_tag('li.leaf.last a span.heart')
       end
     end
     describe 'flax_submit_check' do
@@ -146,17 +169,27 @@ describe WizardsController do
           FlaxArtSubmission.expects(:find_by_user_id).with(@u.id).once.returns(FlaxArtSubmission.new(:paid => true, :user_id => @u.id))
           get :flax_payment
         end
-        it "if the user has paid it says so" do
-          FlaxArtSubmission.stubs(:find_by_user_id).returns(FlaxArtSubmission.new(:paid => true, :user_id => @u.id))
-          get :flax_payment
-          response.should have_tag('div.paid', :include => 'already paid')
+        describe 'user has paid' do
+          before do
+            FlaxArtSubmission.stubs(:find_by_user_id).returns(FlaxArtSubmission.new(:paid => true, :user_id => @u.id))
+            get :flax_payment
+          end
+          it "if the user has paid it says so" do
+            response.should have_tag('div.paid', :include => 'already paid')
+          end
+          it "has no paypal button" do
+            response.should_not have_tag('form[action=https://www.paypal.com/cgi-bin/webscr]')
+            response.should_not have_tag('input[name=submit]');
+          end
         end
         it "if the user hasn't paid it has link to paypal" do
           FlaxArtSubmission.stubs(:find_by_user_id).returns(FlaxArtSubmission.new(:paid => false, :user_id => @u.id))
           get :flax_payment
-          response.should have_tag('a[href=>"paypal.com"]')
+          response.should have_tag('form[action=https://www.paypal.com/cgi-bin/webscr]')
+          response.should have_tag('input[name=submit]');
         end
       end
     end
   end
 end
+

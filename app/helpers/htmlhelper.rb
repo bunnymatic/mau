@@ -21,5 +21,21 @@ module HTMLHelper
       return "?"
     end
   end
+
+  # adds first and last to the list
+  def self.print_list(clazz, html_arr)
+    nel = html_arr.count
+    lst = []
+    html_arr.each_with_index do |el, idx|
+      cls = clazz
+      if idx == 0
+        cls += ' first'
+      elsif idx == (nel - 1)
+        cls += ' last'
+      end
+      lst << "<li class='#{cls}'>" + el + "</li>"
+    end
+    lst.join("");
+  end
 end
 
