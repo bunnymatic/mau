@@ -15,9 +15,6 @@ class AdminController < ApplicationController
     when 'fans'
       @title = "Fans"
       fans = Users.find(:all, :conditions => "type <> 'Artist'")
-    when 'octos2010'
-      @title = "Oct OS Checked"
-      artists = Artist.active.find(:all, :conditions => "osoct2010=1")
     when 'spring2011'
       @title = "Spring 2011 OS Set"
       artists = Artist.active.open_studios_participants('201104')
@@ -121,7 +118,6 @@ class AdminController < ApplicationController
       :pending => { :name => "Pending (not yet activated)", :data => introuble },
       :noprofile => { :name => "No Profile Image", :data => noprofile },
       :noimages => { :name => "No Uploaded Art", :data => noimages },
-      :octos2010 => { :name => "Oct OS Checked", :data => octos },
       :spring2011 => { :name => "Spring 2011 OS Set", :data => spring2011 },
     }
 
