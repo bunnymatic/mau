@@ -21,7 +21,7 @@ describe ArtistsController do
       response.should be_success
     end
     it "assigns artists" do
-      assigns(:artists).length.should == 1
+      assigns(:artists).length.should have_at_least(2).artists
     end
     it "artists are all active" do
       assigns(:artists).each do |a|

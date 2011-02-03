@@ -39,6 +39,7 @@ class ArtistsController < ApplicationController
       artists = Artist.active
     end
     artists.reject!{ |a| !a.in_the_mission? }
+
     @map = GMap.new("map")
     @map.control_init(:large_map => true, :map_type => true)
     # init icon
@@ -149,10 +150,10 @@ class ArtistsController < ApplicationController
     if @os_only
       artists = Artist.active.open_studios_participants.sort_by { |a| a.get_sort_name }
       queryargs['osonly'] = "on"
+      artists.reject!{ |a| !a.in_the_mission? }
     else
       artists = Artist.active.sort_by { |a| a.get_sort_name }
     end
-    artists.reject!{ |a| !a.in_the_mission? }
 
     nartists = artists.length
     curpage = params[:p] || 0
