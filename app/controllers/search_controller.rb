@@ -14,7 +14,8 @@ class SearchController < ApplicationController
       redirect_to('/')
       return
     end
-    qq = params[:query]
+    qq = (params[:query] || "").strip
+    
     page = 0
     if params[:p]
       page = params[:p].to_i

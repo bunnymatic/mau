@@ -15,12 +15,9 @@ describe SearchController do
     # stash an artist and art pieces
     art_pieces =[]
     m1 = media(:medium1)
-    m1.save!
     m2 = media(:medium2)
-    m2.save!
 
-    a = users(:artist1)
-    a.save!
+    a = users(:annafizyta)
     ap = art_pieces(:artpiece1)
     ap.artist_id = a.id
     ap.medium_id = m2.id
@@ -36,13 +33,16 @@ describe SearchController do
     ap.medium_id = nil
     ap.save!
     art_pieces << ap
-    info = artist_infos(:artist1)
-    info.artist_id = a.id
-    info.save!
-    
-    a.artist_info = info
+    a.artist_info = artist_infos(:artist1)
+    a.save
+
     @artist = a
     @artpieces = art_pieces
+
+    a = users(:jesseponce)
+    a.art_pieces << art_pieces(:hot)
+    a.save
+    @jesse = a
   end
 
   describe "search" do
@@ -64,19 +64,53 @@ describe SearchController do
       end
     end
       
-    context "for artist1 by login" do
-      it "returns artist1" do
-        get :index, :query => @artist.login
-        response.should have_tag('.search-thumb-info')
+    [:firstname, :lastname, :login, :fullname].each do |term|
+      context "for annafizyta by #{term}" do
+        before do
+          get :index, :query => @artist.send(term)
+        end
+        it "returns some results" do
+          assigns(:pieces).should have_at_least(1).art_piece
+        end
+        it "artist 1 owns all the art in those results" do
+          assigns(:pieces).each do |ap|
+            ap.artist.id.should == @artist.id
+          end
+        end
       end
     end
-    context "for artist1 by lastname" do
-      it "returns artist1" do
-        get :index, :query => @artist.lastname
-        response.should have_tag('.search-thumb-info')
-      end
-    end
-  end
 
-  
+    [:firstname, :lastname, :login, :fullname].each do |term|
+      context "for jesse ponce (who has no address) by #{term}" do
+        before do
+          get :index, :query => @artist.send(term)
+        end
+        it "returns some results" do
+          assigns(:pieces).should have_at_least(1).art_piece
+        end
+        it "artist 1 owns all the art in those results" do
+          assigns(:pieces).each do |ap|
+            ap.artist.id.should == @artist.id
+          end
+        end
+      end
+    end
+
+    [:firstname, :lastname, :login, :fullname].each do |term|
+      context "finds artists even if there are extra spaces in the query using artists' #{term}" do
+        before do
+          get :index, :query => @artist.send(term) + " "
+        end
+        it "returns some results" do
+          assigns(:pieces).should have_at_least(1).art_piece
+        end
+        it "artist 1 owns all the art in those results" do
+          assigns(:pieces).each do |ap|
+            ap.artist.id.should == @artist.id
+          end
+        end
+      end
+    end
+
+  end
 end
