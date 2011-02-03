@@ -18,8 +18,6 @@ class Artist < User
       end
     }
   
-  #named_scope :in_the_mission, :joins => [:artist_info, :studio], :conditions => [Artist.bounds_clause('artist_infos') + " or " + Artist.bounds_clause('studios')]
-
   has_one :artist_info
 
   has_many :art_pieces, :order => "`order` ASC, `id` DESC"

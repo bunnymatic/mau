@@ -6,9 +6,11 @@
      "<a href='#{arrangeart_artists_path}'>arrange art</a>",
      "<a href='#{deleteart_artists_path}'>delete art</a>",
      "<a href='#{favorites_user_path current_user}'><div class='micro-icon heart'></div> favorites</a>" ]
-     fas = FlaxArtSubmission.find_by_user_id(current_artist.id)
-     if fas.nil? || !fas.paid
-       listitems << "<a href='#{flaxartshow_path}'>Submit to Flax Show</a>"
+     if (Conf.accepting_flaxshow_submissions)
+       fas = FlaxArtSubmission.find_by_user_id(current_artist.id)
+       if fas.nil? || !fas.paid
+         listitems << "<a href='#{flaxartshow_path}'>Submit to Flax Show</a>"
+       end
      end
   -%>
   <%= HTMLHelper::print_list('leaf', listitems) %>

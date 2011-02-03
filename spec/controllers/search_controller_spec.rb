@@ -112,5 +112,36 @@ describe SearchController do
       end
     end
 
+    [:firstname, :lastname, :login, :fullname].each do |term|
+      context "capitalization of search term for #{term}" do
+        before do
+          get :index, :query => @artist.send(term).capitalize
+        end
+        it "returns some results" do
+          assigns(:pieces).should have_at_least(1).art_piece
+        end
+        it "artist 1 owns all the art in those results" do
+          assigns(:pieces).each do |ap|
+            ap.artist.id.should == @artist.id
+          end
+        end
+      end
+    end
+    [:firstname, :lastname, :login, :fullname].each do |term|
+      context "uppercase of search term for #{term}" do
+        before do
+          get :index, :query => @artist.send(term).upcase
+        end
+        it "returns some results" do
+          assigns(:pieces).should have_at_least(1).art_piece
+        end
+        it "artist 1 owns all the art in those results" do
+          assigns(:pieces).each do |ap|
+            ap.artist.id.should == @artist.id
+          end
+        end
+      end
+    end
+
   end
 end
