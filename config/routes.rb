@@ -28,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.artistsHUGEmap '/artists/hugemap', :controller => 'artists', :action => 'hugemap'
 
   map.flaxartshow '/flaxart', :controller => 'wizards', :action => 'flaxart'
+  map.flaxarteventthingy '/flaxart/eventthingy', :controller => 'wizards', :action => 'flax_eventthingy'
   map.flaxartchooser '/flaxart/chooser', :controller => 'wizards', :action => 'flax_chooser'
   map.flaxartsubmitcheck '/flaxart/submit_check', :controller => 'wizards', :action => 'flax_submit_check', :method => :post
   map.flaxartsubmit '/flaxart/submit', :controller => 'wizards', :action => 'flax_submit', :method => :post

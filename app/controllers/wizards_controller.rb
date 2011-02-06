@@ -86,6 +86,9 @@ class WizardsController < ApplicationController
   def flax_payment_cancel
   end
 
+  def flax_eventthingy
+  end
+
   def flax_success
     cookie = CookiesHelper::decode_cookie(cookies[:mau_flaxsubmission])
     if !cookie
