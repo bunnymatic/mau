@@ -100,14 +100,24 @@ task :checkit do
   puts("SSH Port: %s" % ssh_port)
 end
 
-before "apache:reload" do
+task :build_sass do
   sass_cache_dir = "#{current_path}/tmp/sass-cache"
   run "mkdir -p #{sass_cache_dir} && chgrp web #{sass_cache_dir} && chmod g+ws #{sass_cache_dir}"
   run "cd #{current_path} && rvm use 1.8.7 --default && rake RAILS_ENV=#{rails_env} sass:build"
 end
 
+before 'deploy:migrate', 'memcached:flush_if_pending_migrations'
+after 'bundle:install', 'deploy:migrate'
 after "deploy:symlink", :symlink_data
+after "deploy:symlink", :setup_backup_dir
 after "deploy:symlink", "apache:reload"
+before "apache:reload", :build_sass
+
+desc "build db backup directory"
+task :setup_backup_dir
+  run "rm -rf ~/deployed/current/backups"
+  run "ln -s ~/deployed/shared/backups ~/deployed/current/backups"
+end
 
 desc "Connect artist and studio data to website"
 task :symlink_data do
