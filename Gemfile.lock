@@ -16,17 +16,27 @@ GEM
     activeresource (2.3.5)
       activesupport (= 2.3.5)
     activesupport (2.3.5)
+    daemon_controller (0.2.5)
+    fastthread (1.0.7)
+    file-tail (1.0.5)
+      spruz (>= 0.1.0)
     geokit (1.5.0)
     geokit-rails (1.1.4)
       geokit (>= 1.5.0)
     haml (3.0.25)
     htmlentities (4.2.4)
     i18n (0.4.2)
-    json (1.5.1)
+    json (1.4.6)
     mocha (0.9.10)
       rake
     mysql (2.8.1)
     nokogiri (1.4.4)
+    passenger (3.0.2)
+      daemon_controller (>= 0.2.5)
+      fastthread (>= 1.0.1)
+      file-tail
+      rack
+      rake (>= 0.8.1)
     rack (1.0.1)
     rails (2.3.5)
       actionmailer (= 2.3.5)
@@ -36,6 +46,7 @@ GEM
       activesupport (= 2.3.5)
       rake (>= 0.8.3)
     rake (0.8.7)
+    spruz (0.2.2)
 
 PLATFORMS
   ruby
@@ -46,9 +57,10 @@ DEPENDENCIES
   haml
   htmlentities
   i18n (= 0.4.2)
-  json
+  json (= 1.4.6)
   mocha (= 0.9.10)
   mojo_magick (= 0.2.0)!
   mysql
   nokogiri
+  passenger
   rails (= 2.3.5)
