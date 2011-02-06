@@ -11,6 +11,9 @@ gem "haml"
 #gem 'acts_as_taggable','2.0.2'
 gem 'mojo_magick', '0.2.0', :path => "vendor/gems/mojo_magick-0.2.0"
 gem 'passenger'
+gem 'memcache'
+gem 'memcache-client'
+gem 'activesupport', '2.3.5'
 group :development, :test do
   gem 'mocha','0.9.10'
 end

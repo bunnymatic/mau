@@ -27,6 +27,8 @@ GEM
     htmlentities (4.2.4)
     i18n (0.4.2)
     json (1.4.6)
+    memcache (1.2.13)
+    memcache-client (1.8.5)
     mocha (0.9.10)
       rake
     mysql (2.8.1)
@@ -52,12 +54,15 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport (= 2.3.5)
   geokit
   geokit-rails
   haml
   htmlentities
   i18n (= 0.4.2)
   json (= 1.4.6)
+  memcache
+  memcache-client
   mocha (= 0.9.10)
   mojo_magick (= 0.2.0)!
   mysql
