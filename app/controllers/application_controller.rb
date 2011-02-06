@@ -132,12 +132,14 @@ class ApplicationController < ActionController::Base
   end
 
   def check_browser
-    @_ie = is_ie?(self.request)
-    @_ie6 = is_ie6?(self.request)
-    @_ie7 = is_ie7?(self.request)
-    @_ff = is_ff?(self.request)
-    @_safari = is_safari?(self.request)
-    @browser_as_class = browser_class(self.request)
+    unless self.request[USERAGENT].blank?
+      @_ie = is_ie?(self.request)
+      @_ie6 = is_ie6?(self.request)
+      @_ie7 = is_ie7?(self.request)
+      @_ff = is_ff?(self.request)
+      @_safari = is_safari?(self.request)
+      @browser_as_class = browser_class(self.request)
+    end
     # set corners
     corners = ['corner1','corner2','corner3','corner4']
     if @_ie6
