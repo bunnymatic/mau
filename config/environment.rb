@@ -1,3 +1,7 @@
+require "rubygems"
+require "bundler/setup"
+require "nokogiri"
+
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
@@ -18,31 +22,8 @@ c.use_section!(RAILS_ENV)
 
 
 Rails::Initializer.run do |config|
-  # Settings in config/environments/* take precedence over those specified here.
-  # Application configuration should go into files in config/initializers
-  # -- all .rb files in that directory are automatically loaded.
+  # moved to bundler - check Gemfile
 
-  # Add additional load paths for your own custom dirs
-  # config.load_paths += %W( #{RAILS_ROOT}/extras )
-
-  # Specify gems that this application depends on and have them installed with rake gems:install
-  # config.gem "bj"
-  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
-  # config.gem "sqlite3-ruby", :lib => "sqlite3"
-  # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "rails", :version => '2.3.5'
-  config.gem "geokit"
-  config.gem "geokit-rails"
-  config.gem "htmlentities"
-  config.gem "json"
-  config.gem "mysql"
-  config.gem "i18n", :version => '0.4.2'
-  #config.gem "fcgi"
-  config.gem "haml"
-
-  if ENV['RAILS_ENV'] != 'production'
-    config.gem 'mocha', :version => '0.9.10'
-  end
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]

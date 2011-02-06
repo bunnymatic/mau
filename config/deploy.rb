@@ -1,3 +1,5 @@
+require 'bundler/capistrano'
+
 ####### VARIABLES #######
 set :application, "MAU"
 set :scm, :subversion
