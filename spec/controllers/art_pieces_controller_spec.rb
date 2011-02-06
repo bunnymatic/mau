@@ -83,8 +83,10 @@ describe ArtPiecesController do
     context "when logged in as art piece owner" do
       before do
         login_as(@artist)
+        @logged_in_artist = @artist
         get :show, :id => @artpieces.first.id
       end
+      it_should_behave_like 'logged in artist'
       it "shows edit button" do
         response.should have_tag("div.edit-buttons span#artpiece_edit a", "edit")
       end

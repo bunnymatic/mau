@@ -71,6 +71,32 @@ describe "logged in user", :shared => true do
   end
 end
 
+describe 'logged in artist', :shared => true do
+  describe "nav" do
+    it 'has a nav bar' do
+      response.should have_tag('#nav_bar')
+    end
+    it 'has a my mau link' do
+      response.should have_tag("#mymaunav li.dir a[href=#{artist_path(@logged_in_artist)}]", 'my&nbsp;mau')
+    end
+    it 'my mau link has 5 subnodes' do
+      response.should have_tag('#mymaunav li.dir ul li.leaf', :count => 5)
+    end
+    it 'has edit link' do
+      response.should have_tag("#mymaunav li.leaf a[href=#{edit_artist_path(@logged_in_artist)}]")
+    end
+    it 'has arrange art link' do
+      response.should have_tag("#mymaunav li.leaf a[href=#{arrangeart_artists_path}]")
+    end
+    it 'has delete art link' do
+      response.should have_tag("#mymaunav li.leaf a[href=#{deleteart_artists_path}]")
+    end
+    it 'has my favorites link' do
+      response.should have_tag("#mymaunav li.leaf a[href=#{favorites_user_path(@logged_in_artist)}]")
+    end
+  end
+end
+
 describe "redirects to login", :shared => true do 
   it "redirects to login" do
     response.should redirect_to(new_session_path)
