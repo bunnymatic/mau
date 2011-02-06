@@ -114,7 +114,7 @@ after "deploy:symlink", "apache:reload"
 before "apache:reload", :build_sass
 
 desc "build db backup directory"
-task :setup_backup_dir
+task :setup_backup_dir do
   run "rm -rf ~/deployed/current/backups"
   run "ln -s ~/deployed/shared/backups ~/deployed/current/backups"
 end
