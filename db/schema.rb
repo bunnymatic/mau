@@ -9,7 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110202091833) do
+ActiveRecord::Schema.define(:version => 20110207002448) do
+
+  create_table "art_piece_tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
@@ -27,7 +33,7 @@ ActiveRecord::Schema.define(:version => 20110202091833) do
   end
 
   create_table "art_pieces_tags", :id => false, :force => true do |t|
-    t.integer "tag_id"
+    t.integer "art_piece_tag_id"
     t.integer "art_piece_id"
   end
 
@@ -145,12 +151,6 @@ ActiveRecord::Schema.define(:version => 20110202091833) do
     t.float    "lng"
   end
 
-  create_table "tags", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40
     t.string   "name",                      :limit => 100, :default => ""
@@ -198,5 +198,18 @@ ActiveRecord::Schema.define(:version => 20110202091833) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
+
+  create_table "venues", :force => true do |t|
+    t.string   "phone",         :limit => 16
+    t.string   "url",           :limit => 200
+    t.string   "profile_image", :limit => 200
+    t.string   "street",        :limit => 200
+    t.string   "city",          :limit => 200
+    t.string   "state",         :limit => 4
+    t.integer  "zip"
+    t.string   "description",   :limit => 2000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

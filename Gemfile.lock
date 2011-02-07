@@ -24,6 +24,8 @@ GEM
     geokit-rails (1.1.4)
       geokit (>= 1.5.0)
     haml (3.0.25)
+    has_many_polymorphs (2.13)
+      activerecord
     htmlentities (4.2.4)
     i18n (0.4.2)
     json (1.4.6)
@@ -49,18 +51,19 @@ GEM
       rake (>= 0.8.3)
     rake (0.8.7)
     spruz (0.2.2)
+    tzinfo (0.3.23)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (= 2.3.5)
   geokit
   geokit-rails
   haml
+  has_many_polymorphs
   htmlentities
-  i18n (= 0.4.2)
-  json (= 1.4.6)
+  i18n
+  json
   memcache
   memcache-client
   mocha (= 0.9.10)
@@ -69,3 +72,4 @@ DEPENDENCIES
   nokogiri
   passenger
   rails (= 2.3.5)
+  tzinfo

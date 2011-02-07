@@ -60,7 +60,7 @@
                   end
                   artistsnav << "<a href='#{ artistsmap_path }' title='artists by map'>artists by map</a>"
 		  artistsnav << "<a href='#{ media_path :m => 'a' }' title='artists by medium'>artists by medium</a>"
-                  artistsnav << "<a href='#{ tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
+                  artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
                   if Conf.oslive
 	 	     artistsnav << "<a href='#{ artistsmap_path(:osonly => 1) }' title='map of open studios artists'>open studios map</a>"
                      artistsnav << "<a href='/main/openstudios' title='what is open studios?'>open studios?</a>"

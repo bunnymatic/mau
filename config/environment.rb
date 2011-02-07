@@ -51,3 +51,4 @@ Rails::Initializer.run do |config|
 
 end
 
+require 'has_many_polymorphs'

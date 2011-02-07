@@ -7,7 +7,7 @@ module TagsHelper
     # split up tagstring into array of tags
     tagnames = tagstr.strip.split(',').each { |h| h.strip! }.uniq
     tags = []
-    alltags = Tag.all
+    alltags = ArtPieceTag.all
     tag_lut = {}
     alltags.map do |t| 
       if t && t.name != nil && !t.name.empty?
@@ -17,7 +17,7 @@ module TagsHelper
     tagnames.each do |tg|
       tag = tag_lut[tg.downcase]
       if !tag 
-        tag = Tag.new
+        tag = ArtPieceTag.new
         tag.name = tg
         tag.save
       end

@@ -34,7 +34,7 @@
       <span><%= link_to piece.medium.name, piece.medium %></span>
     </div>
     <% end -%>
-    <% if !piece.tags.empty? -%>
+    <% if !piece.art_piece_tags.empty? -%>
     <div><span>Tags:</span>
       <span><% links = []
 	       piece.uniq_tags.each do |t| 

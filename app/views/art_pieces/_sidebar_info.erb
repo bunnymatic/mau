@@ -46,7 +46,7 @@
   </div>
   <div class="right input">
     <span id="ap_tags">
-      <% if !@art_piece.tags.empty? %>
+      <% if !@art_piece.art_piece_tags.empty? %>
       <%   links = [] -%>
       <%   @art_piece.uniq_tags.each do |t| -%>
       <%      links << link_to(t.safe_name, t, :class => ""  ) -%>

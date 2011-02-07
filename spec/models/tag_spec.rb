@@ -16,52 +16,52 @@ module TagSpecHelper
   end
 end
 
-describe Tag, 'creation'  do
+describe ArtPieceTag, 'creation'  do
   include TagSpecHelper
 
   it "should create tag" do
-    t = Tag.new
+    t = ArtPieceTag.new
     t.attributes = random_tag
     t.should be_valid
   end
 
   it "should not create an empty tag" do
-    t = Tag.new
+    t = ArtPieceTag.new
     t.should_not be_valid
   end
 
 end
   
-describe Tag, 'frequency'  do
+describe ArtPieceTag, 'frequency'  do
   include TagSpecHelper
 
   it "should not throw when getting frequency with no tags" do
-    lambda { Tag.frequency }.should_not raise_error
+    lambda { ArtPieceTag.frequency }.should_not raise_error
   end
 
   it "should get frequency" do
     
-    tags = [ Tag.new(:name => 'one'), Tag.new(:name => 'two') ]
-    ap = ArtPiece.new(:title => 'tt', :tags => tags)
+    tags = [ ArtPieceTag.new(:name => 'one'), ArtPieceTag.new(:name => 'two') ]
+    ap = ArtPiece.new(:title => 'tt', :art_piece_tags => tags)
     ap.save!
 
-    tags = [ Tag.new(:name => 'three'), Tag.new(:name => 'two') ]
-    ap = ArtPiece.new(:title => 't2', :tags => tags)
+    tags = [ ArtPieceTag.new(:name => 'three'), ArtPieceTag.new(:name => 'two') ]
+    ap = ArtPiece.new(:title => 't2', :art_piece_tags => tags)
     ap.save!
 
-    ap = ArtPiece.new(:title => 'trauma', :tags => tags)
+    ap = ArtPiece.new(:title => 'trauma', :art_piece_tags => tags)
     ap.save!
 
-    ap = ArtPiece.new(:title => 'trauma', :tags => tags)
+    ap = ArtPiece.new(:title => 'trauma', :art_piece_tags => tags)
     ap.save!
 
-    f = Tag.frequency
+    f = ArtPieceTag.frequency
     tags = f.collect {|t| t["tag"]}
     cts = f.collect {|t| t["ct"]}
     tags.should == ["3","4","1","2"]
     cts.should == [1.0,1.0,(1.0/3.0),(1.0/3.0)]
 
-    f = Tag.frequency(normalize=false)
+    f = ArtPieceTag.frequency(normalize=false)
     tags = f.collect {|t| t["tag"]}
     cts = f.collect {|t| t["ct"]}
     tags.should == ["3","4","1","2"]

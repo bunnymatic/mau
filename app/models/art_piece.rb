@@ -5,7 +5,7 @@ class ArtPiece < ActiveRecord::Base
 
   belongs_to :artist
   has_many :art_pieces_tags
-  has_many :tags, :through => :art_pieces_tags
+  has_many :art_piece_tags, :through => :art_pieces_tags
 
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
@@ -36,7 +36,7 @@ class ArtPiece < ActiveRecord::Base
 
   def uniq_tags
     htags = {}
-    self.tags.each { |t| htags[t.name] = t }
+    self.art_piece_tags.each { |t| htags[t.name] = t }
     htags.values
   end
 

@@ -1,9 +1,7 @@
 require 'json'
 require 'json/add/core'
 require 'json/add/rails' 
-class TagsController < ApplicationController
-  # GET /tags
-  # GET /tags.xml
+class ArtPieceTagsController < ApplicationController
   layout 'mau1col'
   before_filter :admin_required, :except => [ 'index', 'show' ]
   after_filter :store_location
@@ -13,8 +11,8 @@ class TagsController < ApplicationController
   
   @@PER_PAGE = 12
   def admin_index
-    @tags = Tag.all
-    freq = Tag.keyed_frequency
+    @tags = ArtPieceTag.all
+    freq = ArtPieceTag.keyed_frequency
     @tags.each do |t|
       if freq.keys.include? t.id.to_s
         t['count'] = freq[ t.id.to_s ].to_f
@@ -28,12 +26,12 @@ class TagsController < ApplicationController
     xtra_params = Hash[ params.select{ |k,v| [:m,"m"].include? k } ]
     respond_to do |format|
       format.html { 
-        freq = Tag.frequency
+        freq = ArtPieceTag.frequency
         if !freq || freq.empty?
           render_not_found Exception.new("No tags in the system")
         else
           params[:id] = freq[0]['tag']
-          redirect_to tag_path(params[:id], xtra_params)
+          redirect_to art_piece_tag_path(params[:id], xtra_params)
         end
       }
       format.json  { 
@@ -50,7 +48,7 @@ class TagsController < ApplicationController
             tagnames = ActiveSupport::JSON.decode cacheout
           end
           if !tagnames or tagnames.empty?
-            alltags = Tag.all
+            alltags = ArtPieceTag.all
             alltags.each do |t| 
               tagnames << { "value" => t.name, "info" => t.id }
             end
@@ -75,7 +73,7 @@ class TagsController < ApplicationController
           end
           render :json => tagnames
         else
-          tags = Tag.all
+          tags = ArtPieceTag.all
           render :json => tags 
         end
       }
@@ -86,11 +84,11 @@ class TagsController < ApplicationController
   # GET /tags/1.xml
   def show
     # get art pieces by tag
-    @freq = Tag.frequency(true)
+    @freq = ArtPieceTag.frequency(true)
     tags = []
     @freq.each { |t| tags.push(t['tag']) }
-    @tags = Tag.find_all_by_id(tags)
-    @tag = Tag.find(params[:id])
+    @tags = ArtPieceTag.find_all_by_id(tags)
+    @tag = ArtPieceTag.find(params[:id])
     page = 0
     if params[:p]
       page = params[:p].to_i
@@ -98,7 +96,7 @@ class TagsController < ApplicationController
 
     @results_mode = params[:m] || 'p'
     artist_ids = Artist.active.all.map{|a| a.id}
-    joiner = ArtPiecesTag.find_all_by_tag_id(params[:id])
+    joiner = ArtPiecesTag.find_all_by_art_piece_tag_id(params[:id])
     results = {}
     joiner.each do |apt|
       art = apt.art_piece
@@ -131,8 +129,8 @@ class TagsController < ApplicationController
     show_next = (curpage != lastpage)
     show_prev = (curpage > 0)
 
-    @by_artists_link = tag_url(@tag) + "?m=a"
-    @by_pieces_link = tag_url(@tag) + "?m=p"
+    @by_artists_link = art_piece_tag_url(@tag) + "?m=a"
+    @by_pieces_link = art_piece_tag_url(@tag) + "?m=p"
     if @results_mode == 'p'
       base_link = @by_pieces_link + "&"
     else
@@ -158,31 +156,26 @@ class TagsController < ApplicationController
     render :action => "show", :layout => "mau"
   end
 
-  # GET /tags/new
-  # GET /tags/new.xml
   def new
-    @tag = Tag.new
-    Tag.flush_cache
+    @tag = ArtPieceTag.new
+    ArtPieceTag.flush_cache
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @tag }
     end
   end
 
-  # GET /tags/1/edit
   def edit
-    @tag = Tag.find(params[:id])
+    @tag = ArtPieceTag.find(params[:id])
   end
 
-  # POST /tags
-  # POST /tags.xml
   def create
-    @tag = Tag.new(params[:tag])
+    @tag = ArtPieceTag.new(params[:tag])
 
     respond_to do |format|
       if @tag.save
-        Tag.flush_cache
-        flash[:notice] = 'Tag was successfully created.'
+        ArtPieceTag.flush_cache
+        flash[:notice] = 'ArtPieceTag was successfully created.'
         format.html { redirect_to(@tag) }
         format.xml  { render :xml => @tag, :status => :created, :location => @tag }
       else
@@ -192,15 +185,13 @@ class TagsController < ApplicationController
     end
   end
 
-  # PUT /tags/1
-  # PUT /tags/1.xml
   def update
-    @tag = Tag.find(params[:id])
+    @tag = ArtPieceTag.find(params[:id])
 
     respond_to do |format|
       if @tag.update_attributes(params[:tag])
-        Tag.flush_cache
-        flash[:notice] = 'Tag was successfully updated.'
+        ArtPieceTag.flush_cache
+        flash[:notice] = 'ArtPieceTag was successfully updated.'
         format.html { redirect_to(@tag) }
         format.xml  { head :ok }
       else
@@ -210,14 +201,12 @@ class TagsController < ApplicationController
     end
   end
 
-  # DELETE /tags/1
-  # DELETE /tags/1.xml
   def destroy
-    @tag = Tag.find(params[:id])
+    @tag = ArtPieceTag.find(params[:id])
     @tag.destroy
-    Tag.flush_cache
+    ArtPieceTag.flush_cache
     respond_to do |format|
-      format.html { redirect_to(tags_url) }
+      format.html { redirect_to(art_piece_tags_url) }
       format.xml  { head :ok }
     end
   end

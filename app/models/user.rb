@@ -179,8 +179,8 @@ class User < ActiveRecord::Base
       logger.debug("Fetching my tags")
       tags = {}
       for ap in self.art_pieces
-        if ap.tags
-          ap.tags.each do |t| 
+        if ap.art_piece_tags
+          ap.art_piece_tags.each do |t| 
             tags[t.id] = t
           end
         end
