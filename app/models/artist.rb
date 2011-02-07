@@ -40,7 +40,7 @@ class Artist < User
 
   def self.find_all_by_fullname( names )
     inclause = ""
-    lower_names = names.map { |n| n.downcase }
+    lower_names = [names].flatten.map { |n| n.downcase }
     sql = "select * from users where (lower(concat_ws(' ', firstname, lastname)) in (?)) and type='Artist'"
     find_by_sql [sql, lower_names]
   end

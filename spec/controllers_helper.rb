@@ -99,7 +99,7 @@ end
 
 describe "logged in with editor role", :shared => true do
   it 'shows the editor nav' do
-    response.should have_tag('#editor_nav_bar')
+    response.should have_tag('#editor_nav')
   end
 end
 
