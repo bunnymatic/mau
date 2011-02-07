@@ -1,6 +1,6 @@
 require 'htmlhelper'
 
-class Tag < ActiveRecord::Base
+class ArtPieceTag < ActiveRecord::Base
   include TagMediaMixin
 
   has_many :art_pieces_tags
@@ -26,7 +26,7 @@ class Tag < ActiveRecord::Base
       return freq
     end
     tags = []
-    dbr = connection.execute("/* hand generated sql */ Select tag_id tag,count(*) ct from art_pieces_tags where art_piece_id in (select id from art_pieces) group by tag_id order by ct desc;")
+    dbr = connection.execute("/* hand generated sql */ Select art_piece_tag_id tag,count(*) ct from art_pieces_tags where art_piece_id in (select id from art_pieces) group by art_piece_tag_id order by ct desc;")
     dbr.each_hash{ |row| tags << row }    
     # compute max/min ct
     maxct = nil
@@ -54,7 +54,7 @@ class Tag < ActiveRecord::Base
   def self.keyed_frequency
     # return frequency of tag usage keyed by tag id
     tags = []
-    dbr = connection.execute("/* hand generated sql */ select tag_id tag,count(*) ct from art_pieces_tags group by tag_id;")
+    dbr = connection.execute("/* hand generated sql */ select art_piece_tag_id tag,count(*) ct from art_pieces_tags group by art_piece_tag_id;")
     # return sorted by freq
     keyed = {}
     dbr.each_hash do |row|
@@ -65,7 +65,7 @@ class Tag < ActiveRecord::Base
 
 
   def self.all
-    logger.debug("Tag: Fetching from db")
+    logger.debug("ArtPieceTag: Fetching from db")
     super(:order => 'name')
   end
 

@@ -60,8 +60,8 @@ class SearchController < ApplicationController
       
       by_artist = (Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) ", qq, qq, qq])).map { |a| a.representative_piece }
     
-      tag_ids = (Tag.find(:all, :conditions => ["name like ?", qq])).map { |tg| tg.id }
-      tags = ArtPiecesTag.find(:all, :conditions => ["tag_id in (?)", tag_ids.uniq])
+      tag_ids = (ArtPieceTag.find(:all, :conditions => ["name like ?", qq])).map { |tg| tg.id }
+      tags = ArtPiecesTag.find(:all, :conditions => ["art_piece_tag_id in (?)", tag_ids.uniq])
       ap_ids = tags.map { |tg| tg.art_piece_id }
       begin
         by_tags = ArtPiece.find(ap_ids)

@@ -10,8 +10,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :art_pieces
 
-  map.autosuggesttag '/tags/autosuggest', :controller => 'tags', :action => 'autosuggest'
-  map.resources :tags
+  map.autosuggesttag '/art_piece_tags/autosuggest', :controller => 'art_piece_tags', :action => 'autosuggest'
+  map.resources :art_piece_tags
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
@@ -64,7 +64,7 @@ ActionController::Routing::Routes.draw do |map|
   map.admin_update_artists '/admin/artists/update', :controller => 'artists', :action=> 'admin_update'
 
   map.admin_studios '/admin/studios', :controller => 'studios', :action=> 'admin_index'
-  map.admin_tags '/admin/tags', :controller => 'tags', :action=> 'admin_index'
+  map.admin_tags '/admin/art_piece_tags', :controller => 'art_piece_tags', :action=> 'admin_index'
   map.admin_media '/admin/media', :controller => 'media', :action=> 'admin_index'
   map.mau_fans '/maufans/:id', :controller => 'users', :action => 'show'
   # all other admin links connect to AdminController

@@ -12,7 +12,7 @@ class ArtPiecesController < ApplicationController
 
   def flush_cache
     Medium.flush_cache
-    Tag.flush_cache
+    ArtPieceTag.flush_cache
   end
 
   @@THUMB_BROWSE_SIZE = 65
@@ -97,9 +97,9 @@ class ArtPiecesController < ApplicationController
         h={}
         h['art_piece'] = @art_piece.attributes
         # make safe the art_piece entries
-        h['art_piece']["tags"] = []
+        h['art_piece']["art_piece_tags"] = []
         @art_piece.tags.each { |t|
-          h['art_piece']['tags'] << t.attributes
+          h['art_piece']['art_piece_tags'] << t.attributes
         }
         m = @art_piece.medium
         if m:
@@ -108,7 +108,7 @@ class ArtPiecesController < ApplicationController
         [ 'title','dimensions'].each do |k| 
           h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
         end
-        h['art_piece']['tags'].each do |t| 
+        h['art_piece']['art_piece_tags'].each do |t| 
           t['name'] = HTMLHelper.encode(t['name'])
         end
 
@@ -174,7 +174,7 @@ class ArtPiecesController < ApplicationController
       render :action => 'new'
       return
     else 
-      params[:art_piece][:tags] = TagsHelper.tags_from_s(params[:tags])
+      params[:art_piece][:art_piece_tags] = TagsHelper.tags_from_s(params[:tags])
       @art_piece = current_user.art_pieces.build(params[:art_piece])
       begin
         ActiveRecord::Base.transaction do
@@ -223,12 +223,12 @@ class ArtPiecesController < ApplicationController
       return
     else
       begin
-        params[:art_piece][:tags] = TagsHelper.tags_from_s(params[:tags])
+        params[:art_piece][:art_piece_tags] = TagsHelper.tags_from_s(params[:tags])
         success = @art_piece.update_attributes(params[:art_piece])
       rescue
         logger.warn("Failed to update artpiece : %s" % $!)
         @errors = @art_piece.errors
-        @errors.add('Tags','%s' % $!)
+        @errors.add('ArtPieceTags','%s' % $!)
         @media = Medium.all
         render :action => "edit"
         return
