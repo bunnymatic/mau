@@ -1,3 +1,5 @@
 admin:
-  id: 1
   role: admin
+
+editor:
+  role: editor
