@@ -144,7 +144,7 @@ describe MainController do
           u.roles << Role.find_by_role('editor')
           u.save
           login_as(u)
-          @logged_in_user = a
+          @logged_in_user = u
           get :resources
         end
         it_should_behave_like "logged in with editor role"

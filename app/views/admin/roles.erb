@@ -1,0 +1,16 @@
+<div class="singlecolumn" >
+<style type="text/css">
+#role_mgr .role-members{ float: right; }
+#role_mgr .role { float: left; }
+#role_mgr li { clear:both; width: 200px;}
+</style>
+<div style="padding-left: 20px;" id="role_mgr">
+  <h3>Roles</h3>
+  <ul>
+    <% @users_in_roles.each do |role, users| %>
+    <li><span class="role"><%= role %></span><span class="role-members"><%= users.map(&:fullname).join(", ") %></span>
+    </li>
+    <% end -%>
+  </ul>
+</div>
+</div>

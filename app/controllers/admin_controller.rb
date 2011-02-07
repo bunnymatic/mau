@@ -181,4 +181,22 @@ class AdminController < ApplicationController
     @unpaid = FlaxArtSubmission.unpaid
   end
 
+  def roles
+    @roles = Role.all
+    @users = User.active
+    @users_in_roles = {}
+
+    @users.each do |u|
+      @roles.each do |r|
+        k = r.role
+        method = "is_#{k}?"
+        @users_in_roles[k] = [] if @users_in_roles[k].nil?
+        begin 
+          @users_in_roles[k] << u if u.send(method)
+        rescue NoMethodError => nme
+        end
+      end
+    end
+  end
+
 end
