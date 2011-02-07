@@ -132,10 +132,23 @@ describe MainController do
           a = users(:artist1)
           login_as(users(:artist1))
           @logged_in_user = a
+          @logged_in_artist = a
           get :resources
         end
         it_should_behave_like "logged in user"
+        it_should_behave_like "logged in artist"
       end
+      context "while logged in as user with 'editor' role" do
+        before do
+          u = users(:aaron)
+          u.roles << Role.find_by_role('editor')
+          u.save
+          login_as(u)
+          @logged_in_user = a
+          get :resources
+        end
+        it_should_behave_like "logged in with editor role"
+      end        
     end
   end
   describe "#about" do

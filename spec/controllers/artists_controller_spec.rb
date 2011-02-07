@@ -155,12 +155,14 @@ describe ArtistsController do
       before(:each) do
         login_as(@a)
         @logged_in_user = @a
+        @logged_in_artist = @a
       end
       context "GET" do
         before do
           get :edit
         end
         it_should_behave_like "logged in user"
+        it_should_behave_like "logged in artist"
         it_should_behave_like "logged in edit page"
 
         it "GET returns 200" do

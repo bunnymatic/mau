@@ -1665,20 +1665,27 @@ span.rightarrow
     vertical-align: middle;
 }
 
-.as-admin {
-    color: #f33;
+#editor_nav {
+    border: 1px solid green;
+    background-color: #ccccff;
+    margin: 8px auto 0 auto;
+    height: 1.8em;
+    padding-top: 3px;
+    color: #33g;
 }
-div.as-admin {
+
+#admin_nav {
+    color: #f33;
+    .admin-lk {
+        padding: 0 5px 0 0px;
+    }
     border: 1px solid red;
     background-color: #ffcccc;
-    margin: 8px auto 0 auto;
+    margin: 8px auto;
     height: 1.8em;
     padding-top: 3px;
 }
 
-span.admin-lk {
-    padding: 0 5px 0 0px;
-}
 
 /* artists/studios index page */
 .artist-list {

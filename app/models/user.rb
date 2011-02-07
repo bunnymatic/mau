@@ -155,7 +155,17 @@ class User < ActiveRecord::Base
 
   def is_admin?
     begin
-      self.roles.include? Role.find(1)
+      self.roles.map(&:id).include? Role.find_by_role('admin').id
+    rescue Exception => e
+      logger.debug(e)
+      # if we have any issues, not admin
+      false
+    end 
+  end
+
+  def is_editor?
+    begin
+      self.roles.include? Role.find_by_role('editor')
     rescue Exception => e
       logger.debug(e)
       # if we have any issues, not admin

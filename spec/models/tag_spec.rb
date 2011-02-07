@@ -16,57 +16,66 @@ module TagSpecHelper
   end
 end
 
-describe ArtPieceTag, 'creation'  do
+describe ArtPieceTag do
   include TagSpecHelper
+  fixtures :art_piece_tags
+  describe 'creation'  do
+    it "should create tag" do
+      t = ArtPieceTag.new
+      t.attributes = random_tag
+      t.should be_valid
+    end
 
-  it "should create tag" do
-    t = ArtPieceTag.new
-    t.attributes = random_tag
-    t.should be_valid
+    it "should not create an empty tag" do
+      t = ArtPieceTag.new
+      t.should_not be_valid
+    end
+
   end
 
-  it "should not create an empty tag" do
-    t = ArtPieceTag.new
-    t.should_not be_valid
+  describe 'frequency'  do
+    include TagSpecHelper
+
+    it "should not throw when getting frequency with no tags" do
+      lambda { ArtPieceTag.frequency }.should_not raise_error
+    end
+
+    describe 'after art pieces are tagged' do
+      before do
+        one = art_piece_tags(:one)
+        two = art_piece_tags(:two)
+        three = art_piece_tags(:with_spaces)
+        
+        tags = [ one, two ]
+        ap = ArtPiece.new(:title => 'tt', :art_piece_tags => tags)
+        ap.save!
+        
+        tags = [ three, two ]
+        ap = ArtPiece.new(:title => 't2', :art_piece_tags => tags)
+        ap.save!
+        
+        ap = ArtPiece.new(:title => 'trauma', :art_piece_tags => tags)
+        ap.save!
+        
+        ap = ArtPiece.new(:title => 'trauma', :art_piece_tags => tags)
+        ap.save!
+      end
+      it "frequency returns normalized frequency correctly" do
+        f = ArtPieceTag.frequency
+        tags = f.collect {|t| t["tag"]}
+        cts = f.collect {|t| t["ct"]}
+        tags.should == [art_piece_tags(:two).id.to_s, art_piece_tags(:with_spaces).id.to_s, art_piece_tags(:one).id.to_s]
+        cts.should == [1.0, 0.75, 0.25]
+      end
+      it "frequency returns un-normalized frequency correctly" do
+        f = ArtPieceTag.frequency(normalize=false)
+        tags = f.collect {|t| t["tag"]}
+        cts = f.collect {|t| t["ct"]}
+        tags.should == [art_piece_tags(:two).id.to_s, art_piece_tags(:with_spaces).id.to_s, art_piece_tags(:one).id.to_s]
+        cts.should == [4,3,1]
+      end
+    end
+
   end
 
 end
-  
-describe ArtPieceTag, 'frequency'  do
-  include TagSpecHelper
-
-  it "should not throw when getting frequency with no tags" do
-    lambda { ArtPieceTag.frequency }.should_not raise_error
-  end
-
-  it "should get frequency" do
-    
-    tags = [ ArtPieceTag.new(:name => 'one'), ArtPieceTag.new(:name => 'two') ]
-    ap = ArtPiece.new(:title => 'tt', :art_piece_tags => tags)
-    ap.save!
-
-    tags = [ ArtPieceTag.new(:name => 'three'), ArtPieceTag.new(:name => 'two') ]
-    ap = ArtPiece.new(:title => 't2', :art_piece_tags => tags)
-    ap.save!
-
-    ap = ArtPiece.new(:title => 'trauma', :art_piece_tags => tags)
-    ap.save!
-
-    ap = ArtPiece.new(:title => 'trauma', :art_piece_tags => tags)
-    ap.save!
-
-    f = ArtPieceTag.frequency
-    tags = f.collect {|t| t["tag"]}
-    cts = f.collect {|t| t["ct"]}
-    tags.should == ["3","4","1","2"]
-    cts.should == [1.0,1.0,(1.0/3.0),(1.0/3.0)]
-
-    f = ArtPieceTag.frequency(normalize=false)
-    tags = f.collect {|t| t["tag"]}
-    cts = f.collect {|t| t["ct"]}
-    tags.should == ["3","4","1","2"]
-    cts.should == [3,3,1,1]
-  end
-
-end
-

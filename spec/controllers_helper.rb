@@ -97,6 +97,12 @@ describe 'logged in artist', :shared => true do
   end
 end
 
+describe "logged in with editor role", :shared => true do
+  it 'shows the editor nav' do
+    response.should have_tag('#editor_nav_bar')
+  end
+end
+
 describe "redirects to login", :shared => true do 
   it "redirects to login" do
     response.should redirect_to(new_session_path)
