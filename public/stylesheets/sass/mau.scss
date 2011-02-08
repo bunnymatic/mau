@@ -2083,6 +2083,28 @@ div.studios .studio-list {
     width: 200px;
 }
 
+.markdown {
+    li {
+        list-style: inside disc;
+    }
+}
+.test-content {
+    width: 850px;
+    margin: 45px auto 20px;
+    .markdown-input {
+        float: left;
+    }
+    .markdown-results {
+        float: left;
+        width: 48%;
+        padding: 10px;
+        #processed_markdown {
+            border: 1px solid #ffcccc;
+            padding: 10px;
+        }
+    }
+    .markdown-ctrls {}
+}
 /**
    wait dialog
    **/

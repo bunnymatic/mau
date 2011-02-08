@@ -69,6 +69,8 @@ ActionController::Routing::Routes.draw do |map|
   map.mau_fans '/maufans/:id', :controller => 'users', :action => 'show'
   # all other admin links connect to AdminController
 
+  map.discount_processor '/discount/process', :controller => 'discount', :action => 'process'
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -103,7 +105,6 @@ ActionController::Routing::Routes.draw do |map|
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   map.root :controller => "main"
   
-
   # See how all your routes lay out with "rake routes"
 
   # Install the default routes as the lowest priority.

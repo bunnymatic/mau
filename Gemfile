@@ -14,7 +14,7 @@ gem 'memcache'
 gem 'memcache-client'
 gem 'has_many_polymorphs'
 gem 'tzinfo'
-
+gem 'rdiscount' # markdown processor
 group :test do
   gem 'mocha','0.9.10'
   gem 'rspec','1.3.0'

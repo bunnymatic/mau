@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
   before_filter :admin_required
+  layout 'mau1col'
   def index
     render :text => "Nothing to see here.  Please move along."
   end
