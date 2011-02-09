@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110207033417) do
+ActiveRecord::Schema.define(:version => 20110209062804) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -72,19 +72,26 @@ ActiveRecord::Schema.define(:version => 20110207033417) do
     t.datetime "updated_at"
   end
 
-  create_table "events", :force => true do |t|
-    t.string   "name"
-    t.datetime "startdate"
-    t.datetime "enddate"
-    t.text     "description"
-    t.string   "url"
-    t.string   "image"
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
-    t.integer  "zip"
+  create_table "cms_documents", :force => true do |t|
+    t.string   "page"
+    t.string   "section"
+    t.text     "article"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "tweet"
+    t.string   "street"
+    t.string   "venue"
+    t.string   "state"
+    t.string   "city"
+    t.string   "zip"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.string   "url"
   end
 
   create_table "favorites", :force => true do |t|
@@ -149,6 +156,12 @@ ActiveRecord::Schema.define(:version => 20110207033417) do
     t.integer  "image_width",   :default => 0
     t.float    "lat"
     t.float    "lng"
+  end
+
+  create_table "taggings", :force => true do |t|
+    t.integer "tag_id"
+    t.integer "taggable_id"
+    t.string  "taggable_type"
   end
 
   create_table "users", :force => true do |t|
