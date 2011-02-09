@@ -1,0 +1,58 @@
+<p>
+  <b>Title:</b>
+  <%=h @event.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @event.description %>
+</p>
+
+<p>
+  <b>Tweet:</b>
+  <%=h @event.tweet %>
+</p>
+
+<p>
+  <b>Venue:</b>
+  <%=h @event.venue %>
+</p>
+
+<p>
+  <b>Street:</b>
+  <%=h @event.street %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%=h @event.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%=h @event.state %>
+</p>
+
+<p>
+  <b>Zip:</b>
+  <%=h @event.zip %>
+</p>
+
+<p>
+  <b>Starttime:</b>
+  <%=h @event.starttime %>
+</p>
+
+<p>
+  <b>Endtime:</b>
+  <%=h @event.endtime %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%=h @event.url %>
+</p>
+
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>
