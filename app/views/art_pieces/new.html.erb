@@ -39,7 +39,7 @@
         <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
         <td class="input">
 	  <span class="ac_holder">
-	    <%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.art_piece.art_piece_tags), :class => "tag-input", :autocomplete => 'off' %>
+	    <%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.art_piece_tags), :class => "tag-input", :autocomplete => 'off' %>
 	  </span>
 	</td>
       </tr>
