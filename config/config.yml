@@ -107,4 +107,4 @@ common:
        cache_expiry: 300
        cache_key: tagsuggest
    oslive: true
-   accepting_flaxshow_submissions: false
+   accepting_flaxshow_submissions: true
