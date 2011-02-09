@@ -3064,6 +3064,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
 }
 
+
 .flax {
     h3 {
         margin-top: 20px;
@@ -3157,6 +3158,82 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
             &.name {
                 width: 120px;
             }
+        }
+    }
+}
+
+
+.entrythingy {
+    width: 700px;
+    margin: auto;
+    position: relative;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border: 1px solid #999;
+    padding:20px;
+    .note {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+    & .et_title150bold, & .et_myentrytitle150bold {
+        font-size: 120%;
+    }
+    &.mau {
+        background: #222;
+    }
+    &.white{
+        background: white;
+        color: #222;
+
+        a {
+            &:link, &:visited {
+                color: #803;
+            }
+            &:hover {
+                color: #777;
+            }
+            &:active {
+                color: #333;
+            }
+        }
+    }
+    p.ptp {
+        padding-left: 0;
+    }
+    input[type=button] {
+        background:#999;
+        background:url(/images/gradients.png) repeat-x left top;
+        background-position: 0 -90px;
+        border:outset 1px #ccc;
+        color:#666;
+        cursor:pointer;
+        font-weight:bold;
+        padding: 3px 4px;
+        &:hover {
+            opacity: 0.85;
+        }
+    }
+    .et_contactinfotextarea {
+        width: 680px;
+    }
+    .et_button150 {
+        font-size: 120%;
+        background:#999;
+        background:url(/images/gradients.png) repeat-x left top;
+        background-position: 0 -50px;
+        border:outset 1px #ccc;
+        color:#666;
+        cursor:pointer;
+        font-weight:bold;
+        padding: 3px 4px;
+        &:hover {
+            opacity: 0.85;
+        }
+    }
+    #showslist {
+        td:first {
+            width: 75%;
         }
     }
 }
