@@ -5,7 +5,7 @@
 <h3>Index of test pages</h3>
 <ul>
   <% endpoints.each do |e|%>
-  <li><a href="/tests/#{e}"><%= e.titleize %></a></li>
+  <li><a href="/tests/<%= e %>"><%= e.titleize %></a></li>
   <% end %>
 </ul>
 </div>
