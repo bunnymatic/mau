@@ -3030,6 +3030,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 .rcol .flaxart-wizard {
     width: 520px;
     margin: auto;
+    text-align: left;
     h4 {
         border-bottom: 1px dotted #999;
         font-size: 120%;
@@ -3172,9 +3173,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     border: 1px solid #999;
     padding:20px;
     .note {
-        position: absolute;
-        right: 10px;
-        top: 10px;
+        width: 450px;
+        margin: auto;
+        padding: 10px;
+        border-bottom: 1px solid #999;
     }
     & .et_title150bold, & .et_myentrytitle150bold {
         font-size: 120%;

@@ -20,7 +20,7 @@ class WizardsController < ApplicationController
   end
 
   def flaxart
-    render :layout => 'mau2col'
+    render :layout => 'mau'
   end
   
   def flax_chooser
