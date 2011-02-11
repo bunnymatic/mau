@@ -20,6 +20,10 @@
 	          navitems << "<a href='#{ arrangeart_artists_path }'>arrange art</a>"
 	          navitems << "<a href='#{ deleteart_artists_path }'>delete art</a>"
 	          navitems << "<a href='#{ favorites_user_path current_user }'><span class='heart'>&hearts;</span> my favorites</a>"
+                  if (Conf.accepting_flaxshow_submissions)
+                    navitems << "<a href='#{flaxartshow_path}'>Flax Show Entries</a>"
+                  end
+
                   mypath = current_artist
                 else
 	          navitems << "<a href='#{edit_user_path(current_user) }'>edit my page</a>"

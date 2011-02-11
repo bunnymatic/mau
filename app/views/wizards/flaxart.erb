@@ -1,27 +1,67 @@
+<table class="tbl-content" cellpadding="0" cellspacing="0">
+  <%= render :partial => "/twocol_top" %>
+  <tr>    
+    <td> </td>
+    <td class="alt-lcol" align="center">
+      <% if current_artist || current_user %>
+      <%= render :partial => "/users/sidebar_nav" %>
+      <% end %>
+    </td>
+    <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
+    <td class="rcol" align="center" ><!-- artists/show -->
+      <div class="logo-spacer">&nbsp;</div>
+      <% if flash[:error] %><div class="error-msg"><%= flash[:error] %></div><% end %>
 <div class="flaxart-wizard flax">
-  <div class="logo-spacer"></div>
-  <h3>Spring Open Studios Juried Preview Show<br/>at Flax Art</h3>
-  <p>
-    Rock On
-</p>
-  <p>
-  You're going to need to login to mau.
+<h3>Juried Open Studios Preview Show at Flax</h3>
+
+<p>
+Flax Art & Design is showcasing some of the best MAU Spring Open
+Studios artists in their store April 1-May 1, 2011.  Participating
+artists get 100% (!!) of sales price on artwork sold.
 </p>
 <p>
-  you'll need to have checked "i'm in open studios" (which will be available easily in this process).
-  Then you'll be directed to Entry Thingy to complete your entry.  Entry thingy has will require a separate login.
+Our team of awesome Jurors will review your entry and decide who gets in
+<ul><li>Piero Spadar of <a href="http://www.hangart.com" target="_blank">Hang Art Gallery</a></li>
+    <li>Maria Medua of <a href="http://www.sfmoma.org/pages/artists_gallery" target="_blank">SFMoMA Artists Gallery</a></li>
+    <li>Mina Dresden of <a href="http://www.minadresden.com/" target="_blank">Mina Dresden Gallery</a></li>
+</ul>
 
 </p>
 <p>
-  If you haven't already signed up for open studios, here's how to do it...
-  <ul>
-    <li>Clck on "edit my page (above under my mau)"</li>
-    <li>Click on the Open Studios section</li>
-    <li>Click on the "Yep!" button </li>
+The entry fee is only $10 and goes towards promoting Spring Open
+Studios. Don’t miss this amazing opportunity!
+</p>
+
+<h3>Entry Instructions</h3>
+<p>
+We're using EntryThingy to manage submissions.  To get there you'll need to:
+<ol>
+  <% if !current_user %>
+  <li>Log in to MAU (click <a href="/login">here</a>)</li>
+  <% end %>
+  <li>Set your MAU status to "I'm participating in Open Studios".  If you haven't already signed up for open studios, here's how to do it...
+    <ul>
+      <% if current_user %>
+      <li>Click <a href="<%= edit_user_path(current_user) %>#events">here</a>.  The Open Studios section should be open.</li>
+      <% else %>
+      <li>Click on "edit my page (above under my mau)"</li>
+      <li>Click on the Open Studios section</li>
+      <% end %>
+      <li>Click on the "Yep!" button </li>
+    </ul>
+    <li>When that's all set, click the button below and start your entry!</li>
   </ul>
-
+    
+</ol>
 </p>
-  <p>what is flax (from kristin)</p>
-  <p>Show duration (from previous entry text)</p>
-  <a href="/flaxart/eventthingy">GO!</a>
+
+<div class='edit-buttons'>
+<a class='lkdark formbutton' href="/flaxart/eventthingy">Submit your work!</a>
 </div>
+</div>
+    </td>
+    <td valign="top">
+    </td>
+  </tr>
+<%= render :partial => "/twocol_bottom" %>
+</table>
