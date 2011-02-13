@@ -1221,20 +1221,24 @@ var TagMediaHelper = {
     },
     show_more: function(block_id) {
       var thumbs = $$(block_id + ' .favorite-thumbs li');
-      $(thumbs).each(function( item, itemidx ) {
-        item.show();
-      });
+      if (thumbs.length) {
+        $(thumbs).each(function( item, itemidx ) {
+          item.show();
+        });
+      }
     },
     show_fewer: function(block_id) {
       var thumbs = $$(block_id + ' .favorite-thumbs li');
-      $(thumbs).each(function( item, itemidx ) {
-        if (itemidx < Favorites.favorites_per_row) {
-          item.show();
-        }
-        else {
-          item.hide();
-        }
-      });
+      if (thumbs.length) {
+        $(thumbs).each(function( item, itemidx ) {
+          if (itemidx < Favorites.favorites_per_row) {
+            item.show();
+          }
+          else {
+            item.hide();
+          }
+        });
+      }
     },
     execute_delete: function(ev) {
       var lnk = ev.target;
@@ -1399,7 +1403,8 @@ var TagMediaHelper = {
   });
   Event.observe(window, 'load', function() {
       MAU.browser = new M.BrowserDetect(); 
-  });
+  })
+
 }
 )();
 
