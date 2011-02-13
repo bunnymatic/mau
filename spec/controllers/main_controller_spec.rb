@@ -452,6 +452,7 @@ describe MainController do
         end
         it_should_behave_like 'successful notes mailer response'
       end
+
       context "help" do
         before do
           xhr :post, :notes_mailer, :note_type => 'help', 

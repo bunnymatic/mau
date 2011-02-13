@@ -79,8 +79,8 @@ describe 'logged in artist', :shared => true do
     it 'has a my mau link' do
       response.should have_tag("#mymaunav li.dir a[href=#{artist_path(@logged_in_artist)}]", 'my&nbsp;mau')
     end
-    it 'my mau link has 5 subnodes' do
-      response.should have_tag('#mymaunav li.dir ul li.leaf', :count => 5)
+    it 'my mau link has at least 5 subnodes' do
+      response.should have_tag('#mymaunav li.dir ul li.leaf', :minimum => 5)
     end
     it 'has edit link' do
       response.should have_tag("#mymaunav li.leaf a[href=#{edit_artist_path(@logged_in_artist)}]")
