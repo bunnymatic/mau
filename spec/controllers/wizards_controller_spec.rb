@@ -67,12 +67,6 @@ describe WizardsController do
       it 'has checkboxes for all the art and the os check' do
         response.should have_tag('input[type=checkbox]', :count => @u.art_pieces.length + 1)
       end
-      it "if the user has paid link to flaxart is missing from left nav" do
-        FlaxArtSubmission.stubs(:find_by_user_id).returns(FlaxArtSubmission.new(:paid => true, :user_id => @u.id))
-        get :flax_chooser
-        # last entry is favorites
-        response.should have_tag('li.leaf.last a span.heart')
-      end
     end
     describe 'flax_submit_check' do
       it "fails on get" do
