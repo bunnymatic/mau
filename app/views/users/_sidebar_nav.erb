@@ -7,7 +7,7 @@
      "<a href='#{deleteart_artists_path}'>delete art</a>",
      "<a href='#{favorites_user_path current_user}'><div class='micro-icon heart'></div> favorites</a>" ]
      if (Conf.accepting_flaxshow_submissions)
-       listitems << "<a href='#{flaxartshow_path}'>Submit to Flax Show</a>"
+       listitems << "<a href='#{flaxartshow_path}'>submit to flax show</a>"
      end
   -%>
   <%= HTMLHelper::print_list('leaf', listitems) %>
