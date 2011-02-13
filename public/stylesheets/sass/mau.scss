@@ -394,7 +394,7 @@ a {
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
     position:relative;
-    z-index: 1;
+    z-index: 5;
 }
 #header_bar {
     .heart {
@@ -1048,7 +1048,7 @@ img#logo
     text-align:left;
     top:-30px;
     left:260px;
-    z-index:2;
+    z-index:10;
     border: 0;
 }
 #profile_update {
@@ -1083,7 +1083,7 @@ img#logo
     bottom: 0px;
     position:absolute;
     left: -26px;
-    z-index:150;
+    z-index:1;
 }
 .os-violator img {
     width: 96px;
@@ -2547,7 +2547,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         height: 100%;
         float:right;
         position:relative;
-        z-index:597;
+        z-index: 597;
         padding: 0px; 
         margin: 0px; 
         a:link, & a:visited {
