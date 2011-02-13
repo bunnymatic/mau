@@ -11,6 +11,40 @@ MAU.NotesMailer = Class.create();
 MAU.browser = MAU.browser || {};
 var FormConstructors = {};
 
+FormConstructors.entrythingy = {
+  title: 'Flax Show Submission Help',
+  render: function() {
+    var el = new Element('div');
+    el.innerHTML = "Sorry you're having trouble.  Have you read the EntryThingy instructions?  If not, check those out and see if they answer your question.   If you've already read all that and are still having issues, tell us as much as you can about the specific problem and we'll do our best to help you out.";
+
+    var inputs = new Element('ul');
+    var entries = [];
+    
+    MAU.Cookie.init({name:'mau'});
+    var email = MAU.Cookie.getData('email') || '';
+    entries.push( [
+      new Element('label').update('Email'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email', name: 'email', value: email})) ]);
+    entries.push( [
+      new Element('label').update('Confirm Email'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'email_confirm', name: 'email_confirm', value: email })) ]);
+    entries.push( [
+      new Element('label').update('Describe the problem'),
+      new Element('div').insert(new Element('textarea', { columns: 80, rows: 7, id: 'inquiry', name: 'inquiry' })) ]);
+    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
+    
+    $(entries).each(function(entry) {
+      var li = new Element('li');
+      $(entry).each(function(chunk) {
+        li.insert(chunk);
+      });
+      inputs.insert(li);
+    });
+    el.insert(inputs);
+    return el;
+  }
+};
+
 FormConstructors.inquiry = {
   title: 'General Inquiry',
   render: function() {
@@ -222,8 +256,8 @@ Object.extend(MAU.NotesMailer.prototype, {
     if (this.options.note_class in this.form_builders) {
       var _that = this;
       $$(this.selector).each(function(el) {
-        $$(selector).each(function(root) {
-            $(el).observe('click', function(ev) { _that.insert(ev); })
+        Event.observe(Element.extend(el), 'click', function(ev) { 
+          _that.insert(ev); 
         });
       });
     };

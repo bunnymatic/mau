@@ -3228,7 +3228,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         background: white;
         color: #222;
 
-        a {
+        & a, & .mau-note-link {
+            color: #803;
             &:link, &:visited {
                 color: #803;
             }
