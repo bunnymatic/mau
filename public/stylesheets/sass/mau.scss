@@ -337,6 +337,16 @@ a.lksubtle, a.lksubtle:link, a.lksubtle:visited ,a.lksubtle:active {
     }
 }
 
+a.formbutton {
+    &:link, &:visited, &active {
+        color: #422;
+    }
+    &:hover {
+        color: #888;
+    }
+}
+
+
 /* default link colors assuming dark background */
 a {
     text-decoration: none;
@@ -556,6 +566,8 @@ input[type=submit], .formbutton {
 
 .formbutton {
     overflow: visible; /* seems to keep ie from adding extra padding */
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 
 div.formbutton {
@@ -3027,6 +3039,34 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
 }
 
+.flax-sidebar {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background-color: #222;
+    border: 1px #444 dotted;
+    margin: 5px 8px 8px 0;
+    padding: 2px 5px 5px 5px;
+    text-align: center;
+    .titlebar {
+        padding: 4px;
+    }
+    .buttons {
+        padding: 4px;
+    }
+    .deadline {
+        font-size: 85%;
+        margin-top: 4px;
+        margin-bottom: 8px;
+    }
+    h1 {
+        color: #fff;
+        font-weight: bold;
+        font-size: 110%;
+    }
+    .formbutton {
+    }
+
+}
 .rcol .flaxart-wizard {
     width: 520px;
     margin: auto;
