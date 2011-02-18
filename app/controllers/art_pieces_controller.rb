@@ -98,7 +98,7 @@ class ArtPiecesController < ApplicationController
         h['art_piece'] = @art_piece.attributes
         # make safe the art_piece entries
         h['art_piece']["art_piece_tags"] = []
-        @art_piece.tags.each { |t|
+        @art_piece.art_piece_tags.each { |t|
           h['art_piece']['art_piece_tags'] << t.attributes
         }
         m = @art_piece.medium

@@ -53,6 +53,11 @@
   <%=h @event.url %>
 </p>
 
+<p>
+  <b>Lat/Lng</b>
+  <%=h "(#{@event.lat},#{@event.lng})" %>
+  <a href="<%= @event.map_link %>">map</a>
+</p>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

@@ -15,6 +15,7 @@ gem 'memcache-client'
 gem 'has_many_polymorphs'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
+gem 'calendar_date_select'
 group :test do
   gem 'mocha','0.9.10'
   gem 'rspec','1.3.1'

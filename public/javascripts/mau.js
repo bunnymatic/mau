@@ -86,7 +86,7 @@ var TagMediaHelper = {
     return TagMediaHelper._format_item(this,'/media/', dolink, linkopts);
   },
   format_tag: function(dolink, linkopts) {
-    return TagMediaHelper._format_item(this,'/tags/', dolink, linkopts);
+    return TagMediaHelper._format_item(this,'/art_piece_tags/', dolink, linkopts);
   },
   format_tags: function(dolink, opts) {
     var tagstrs = [];
@@ -583,9 +583,7 @@ var TagMediaHelper = {
 
   };
 
-  T.ThumbList = [];
   T.APCache = {};
-  T.curIdx = 0;
   T.Helpers = {
     find_thumb: function(apid) {
       var i = 0;
@@ -769,8 +767,12 @@ var TagMediaHelper = {
       break;
     }
   }
+  
+  T.curIdx = 0;
 
   T.init = function() {
+    T.curIdx = T.Helpers.find_thumb(T.InitArtpiece);
+
     Event.observe(document, 'keydown', keypressHandler );
     var prvlnk = $('prev_img_lnk');
     var nxtlnk = $('next_img_lnk');
@@ -1403,8 +1405,36 @@ var TagMediaHelper = {
   });
   Event.observe(window, 'load', function() {
       MAU.browser = new M.BrowserDetect(); 
-  })
+  });
 
+  var D = M.Discount = M.Discount || {};
+ 
+  Object.extend(D, {
+    init: function() {
+      // for test page
+      var $btn = $('process_markdown_btn');
+      if ($btn) {
+        $btn.observe('click', function() {
+          var params = {
+            markdown: $('input_markdown').getValue('value')
+          };
+          new Ajax.Request('/discount/markup', { 
+            method:'post',
+            parameters: params,
+	    onSuccess: function(tr) {
+              $('processed_markdown').innerHTML = tr.responseText;
+	    },
+            onFailure: function(tr) {
+              $('processed_markdown').innerHTML = "Failed to process your markdown";
+            }
+          });
+        });
+      }
+    }
+  });
+  Event.observe(window, 'load', D.init);    
 }
 )();
+
+
 
