@@ -13,6 +13,7 @@
     <th>Starttime</th>
     <th>Endtime</th>
     <th>Url</th>
+    <th>lat/lng</th>
   </tr>
 
 <% @events.each do |event| %>
@@ -28,6 +29,10 @@
     <td><%=h event.starttime %></td>
     <td><%=h event.endtime %></td>
     <td><%=h event.url %></td>
+    <td><%=h "(#{event.lat},#{event.lng})" %><br/>
+      <a href="<%= event.map_link %>">map</a>
+    </td>
+
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
     <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>

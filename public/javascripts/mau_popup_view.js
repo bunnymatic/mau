@@ -4,7 +4,6 @@ out the appropriate info and fire off a note to mau emails
 
 avoids 'mailto' links
 */
-
 MAU = window['MAU'] || {};
 
 MAU.PopupView = Class.create();
@@ -66,7 +65,6 @@ Object.extend(MAU.PopupView.prototype, {
   }
 });
 
-
-
-
-
+  Event.observe(window, 'load', function() {  
+    new MAU.PopupView("#news_text .read-more", { title:"Invitation from Howard Flax", data_div:"letter_from_flax"} );
+  });

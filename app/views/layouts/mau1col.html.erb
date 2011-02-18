@@ -6,7 +6,6 @@
 	<%= render :partial => '/title' %>
 	<%= render :partial => '/stylesheets' %>
         <%= render :partial => '/ganalytics' %>
-        <%= render :partial => '/javascripts' %>
   </head>
   <body class="<%= @browser_as_class %>">
     <% if @_ie7 -%>
@@ -24,5 +23,6 @@
     </div>      
     </div>
   </body>
+        <%= render :partial => '/javascripts' %>
 	<script type="text/javascript">Feedback.init()</script>
 </html>		

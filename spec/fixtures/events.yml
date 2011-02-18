@@ -25,3 +25,29 @@ two:
   starttime: 2011-02-08 21:16:33
   endtime: 2011-02-08 21:16:33
   url: MyString
+
+past:
+  title: MyString
+  description: MyText
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: <%= 1.day.ago %>
+  endtime: <%= 12.hours.ago %>
+  url: MyString
+
+future:
+  title: MyString
+  description: MyText
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: <%= 1.day.since %>
+  endtime: <%= 2.days.since %>
+  url: MyString

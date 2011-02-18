@@ -46,6 +46,6 @@ module AddressMixin
 
   protected
   def get_state
-    (self.respond_to? :state) ? self.state : self.addr_state
+    (self.respond_to? :addr_state) ? self.addr_state : self.state
   end
 end

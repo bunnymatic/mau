@@ -1,6 +1,8 @@
 <script type="text/javascript">
+  MAU = window['MAU'] || {};
+  MAU.Thumbs = MAU.Thumbs || {}
   MAU.Thumbs.ThumbList = <%= @thumbs.to_json %>;
-  MAU.Thumbs.curIdx =  MAU.Thumbs.Helpers.find_thumb(<%= @art_piece.id %>);
+  MAU.Thumbs.InitArtpiece = <%=@art_piece.id%>;
 </script>
 <% if @thumbs.length > 0 -%>
 <div class="browser-buttons">
