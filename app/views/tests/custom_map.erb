@@ -1,0 +1,68 @@
+<style>
+.even { 
+  background-color: #f0f0f0;
+}
+#streetmap {
+  width: 596px;
+  height: 591px;
+  position: relative; 
+  border: 1px dashed gray;}
+#streetmap img {
+  border: 1px dotted green; }
+
+.studio .identifier {
+  font-size: small;
+  text-align: center; }
+
+
+.big_red_dot, .small_red_dot, .business {
+  border: 1px solid #fc0;
+  position: absolute;
+  background-image: url(/images/map/map_marker_sprite.gif);
+  background-repeat: no-repeat;
+  z-index: 2; }
+
+.small_red_dot {
+  background-position: -57px 0;
+  width: 11px;
+  height: 11px;
+  z-index: 6; }
+
+.big_red_dot {
+  background-position: -34px 0;
+  width: 22px;
+  height: 22px;
+  z-index: 5; }
+
+</style>
+<div id="catalog">
+  <div id="streetmap">
+    <img src="/images/map/mau_streetmap.gif" width="596" height="591">
+    <% @lat_lngs.each_with_index do |ll, idx|
+       html_id = "point"+idx.to_s
+       html_clz = "small_red_dot"
+       pos = CatalogHelper::compute_position(@map_size, ll[0], ll[1])
+       posx = pos[1].to_i
+       posy = (@map_size[0] - pos[0]).to_i
+       xoffset = -5
+       yoffset = -11
+       if ((idx % 7) == 0)
+           html_clz = "big_red_dot"
+           xoffset = -11
+           yoffset = -16
+       end
+       posx += xoffset
+       posy += yoffset
+    -%>
+<div title="<%= html_id %>" id='<%= html_id %>' class='studio <%= html_clz %>' style='left: <%= posx %>px; top: <%= posy %>px;'><span class="identifier"><%= idx %></span></div>
+    <% end -%>
+  </div>
+</div>
+<table>
+    <% @lat_lngs.each_with_index do |ll, idx| 
+       html_id = "point"+idx.to_s
+    %>
+<tr class="<%= ((idx % 2) == 0) ? 'even' : 'odd' %>"><td><%= html_id %></td><td><%= ll[0] %></td><td><%= ll[1] %></td></tr>
+<% end %>
+</table>
+
