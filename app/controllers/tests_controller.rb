@@ -24,6 +24,24 @@ class TestsController < ApplicationController
       end
       lat += lat_range * 0.1
     end
+
+    @map = GMap.new("map")
+    @map.control_init(:large_map => true, :map_type => true)
+    # init icon
+    @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png', 
+                                     :iconSize => GSize.new(64.0, 64.0)),
+                           'icon_name')
+    markers = []
+
+    @lat_lngs.each do |ll|
+        m = GMarker.new(ll)
+        markers << m
+        @map.overlay_init(m)
+    end
+    sw = Artist::BOUNDS['SW']
+    ne = Artist::BOUNDS['NE']
+    @map.center_zoom_on_bounds_init([sw,ne])
+
     render :layout => 'catalog'
   end
 

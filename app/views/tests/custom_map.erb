@@ -66,3 +66,8 @@
 <% end %>
 </table>
 
+  <div class="map-container">
+	<%= GMap.header(:local_search => true) %>
+	<%= @map.to_html %>
+	<%= @map.div(:width => 600, :height => 500) %>
+  </div>
