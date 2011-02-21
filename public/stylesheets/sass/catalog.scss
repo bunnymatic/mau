@@ -1,0 +1,94 @@
+/* stylesheet for catalog/map */
+#streetmap {
+    width: 596px;
+    height: 591px;
+    position: relative;
+}
+.studio {
+    .identifier {
+        font-size: small;
+        text-align: center;
+    }
+}
+
+.big_red_dot, .small_red_dot, .business {
+    position: absolute;
+    background-image: url(/images/map/map_marker_sprite.gif);
+    background-repeat: no-repeat;
+    z-index: 2;
+}    
+#fayes {
+    top: 191px;
+    left: 119px;
+}
+#doloresparkcafe {
+    top: 214px;
+    left: 97px;
+}
+#coffeebar {
+    top: 139px;
+    left: 419px;
+}
+#streetmap {
+    width: 596px;
+    height: 591px;
+    position: relative;
+}
+
+#1890bryantstreetstudios {
+    top: 146px;
+    left: 425px;
+}
+#ae_alabama{
+    top: 139px;
+    left: 419px;
+}
+#ae_17th {
+    top: 139px;
+    left: 419px;
+}
+#ae_harrison {
+    top: 139px;
+    left: 419px;
+}
+#activspace {
+    top:175px;
+    left: 330px;
+}
+#developingenvironments {
+    top: 179px;
+    left: 379px;
+}
+#millionfishes {
+}
+#projectartaud {
+    top: 148px;
+    left: 400px;
+}
+#redbrickstudios {
+}
+#workspacelimited {
+    top: 151px;
+    left: 300px;
+}
+.business {
+    background-position: -57px -34px;
+    width: 14px;
+    height: 14px;
+    z-index: 4;
+}
+.small_red_dot {
+    background-position: -57px 0;
+    width: 14px;
+    height: 14px;
+    z-index: 6;
+
+}
+.big_red_dot {
+    background-position: -34px 0;
+    width: 22px;
+    height: 22px;
+    z-index: 5;
+
+}
+

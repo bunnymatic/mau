@@ -72,6 +72,8 @@ ActionController::Routing::Routes.draw do |map|
   # all other admin links connect to AdminController
 
   map.discount_processor '/discount/process', :controller => 'discount', :action => 'process'
+  
+  map.catalog '/catalog/:action', :controller => 'catalog'
 
   # The priority is based upon order of creation: first created -> highest priority.
 
