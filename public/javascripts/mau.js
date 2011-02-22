@@ -587,14 +587,16 @@ var TagMediaHelper = {
   T.Helpers = {
     find_thumb: function(apid) {
       var i = 0;
-      var n = T.ThumbList.length;
-      for(;i<n;++i) {
-	var t = T.ThumbList[i];
-	if (t.id == apid) {
-	  return i;
-	}
+      if (T.Thumblist) {
+        var n = T.ThumbList.length;
+        for(;i<n;++i) {
+	  var t = T.ThumbList[i];
+	  if (t.id == apid) {
+	    return i;
+	  }
+        }
+        return null;
       }
-      return null;
     },
     get_image_path: function(fname, sz) {
       var sub = { thumb: "t_",

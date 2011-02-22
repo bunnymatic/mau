@@ -7,7 +7,7 @@ class TestsController < ApplicationController
   def custom_map
     @map_size = [ 596, 591 ]
     
-    map_lats = [ 37.75008654795525, 37.767763359972506 ]
+    map_lats = [ 37.74995654795525, 37.767763359972506 ]
     map_lngs = [ -122.42721, -122.40455181274414 ] 
 
     num_pts = 10
@@ -34,7 +34,7 @@ class TestsController < ApplicationController
     markers = []
 
     @lat_lngs.each do |ll|
-        m = GMarker.new(ll)
+        m = GMarker.new(ll, :info_window => ll.join(","))
         markers << m
         @map.overlay_init(m)
     end
