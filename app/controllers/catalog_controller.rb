@@ -8,9 +8,9 @@ class CatalogController < ApplicationController
         next
       end
       if a.studio_id > 0
-        key = a.studio.name + " " + a.studio.street
+        key = a.studio.name + "__BREAK__" + a.studio.street
       else
-        key = "Indy " + a.street
+        key = "Indy__BREAK__" + a.street
       end
       if not hsh[key]
         hsh[ key ] = []
