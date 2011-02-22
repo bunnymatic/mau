@@ -26,4 +26,16 @@
     <div id="doloresparkcafe" class="business"></div>
     <div id="coffeebar" class="business"></div>
   </div>
+  <div id="catalog_list">
+    <% @os_artists.sort{|a,b| a[0] <=> b[0]}.each do |h| -%>
+    <div class="studio-list">
+      <div class="title"><span><%= h[0] %></span><span class="count"><%= h[1].count > 1 ? "(#{h[1].count})": ''%></span></div> 
+      <ul class="artists">
+        <% h[1].each do |artist| -%>
+        <li><%=h artist.fullname %></li>
+        <% end -%>
+      </ul>
+    </div>
+    <% end -%>
+  </div>
 </div>

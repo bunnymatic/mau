@@ -91,3 +91,24 @@
 
 }
 
+#catalog_list {
+    font-size: small;
+    .studio-list {
+        float: left;
+        width: 200px;
+        margin: 8px;
+
+        .title {
+            font-size: normal;
+            background-color: orange;
+            padding: 8px;
+        }
+        .count { margin-left: 5px; }
+    }
+    ul.artists {
+        -webkit-padding-start: 0;
+        li {
+            list-style: none;
+        }
+    }
+}
