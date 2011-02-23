@@ -587,7 +587,7 @@ var TagMediaHelper = {
   T.Helpers = {
     find_thumb: function(apid) {
       var i = 0;
-      if (T.Thumblist) {
+      if (T.ThumbList) {
         var n = T.ThumbList.length;
         for(;i<n;++i) {
 	  var t = T.ThumbList[i];
