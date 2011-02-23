@@ -67,8 +67,6 @@ class AdminController < ApplicationController
     noprofile = Artist.active.count(:conditions => "profile_image is not null")
     octos = ArtistInfo.count(:conditions => "osoct2010 = 1")
     spring2011 = Artist.active.open_studios_participants('201104').count
-    flax_show_paid = FlaxArtSubmission.paid.count
-    flax_show_unpaid = FlaxArtSubmission.unpaid.count
     sql = ActiveRecord::Base.connection()
     query = "select count(*) ct from users where state='active' and id not in (select distinct artist_id from art_pieces);"
 
@@ -109,11 +107,6 @@ class AdminController < ApplicationController
       :users_using_favorites => { :name => "Users using favorites", :data => users_using_favorites, :noemail => true }
     }
 
-    flaxshow = {
-      :paid => { :name => "paid", :data => flax_show_paid, :noemail => true },
-      :unpaid => { :name => "unpaid", :data => flax_show_unpaid, :noemail => true }
-    }
-
     d = {
       :activated => { :name => "Activated Artists", :data => activated },
       :pending => { :name => "Pending (not yet activated)", :data => introuble },
@@ -125,8 +118,7 @@ class AdminController < ApplicationController
     @artpieces = artpieces
     @stats = { :accounts => accts,
       :artists => d,
-      :favorites => favinfo,
-      :flax_show_spring2011 => flaxshow }
+      :favorites => favinfo }
     
   end
 
@@ -177,11 +169,6 @@ class AdminController < ApplicationController
     @totals['spring 2011'] = @os.select{|a| a.os_participation['201104'].nil? ? false : a.os_participation['201104'] }.length
   end
   
-  def flax_show
-    @paid = FlaxArtSubmission.paid
-    @unpaid = FlaxArtSubmission.unpaid
-  end
-
   def roles
     @roles = Role.all
     @users = User.active

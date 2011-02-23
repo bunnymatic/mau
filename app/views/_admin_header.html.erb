@@ -1,5 +1,5 @@
 <div id='admin_nav'>Administrator Links:
-  <% ['artists_per_day','stats', 'os_status', 'flax_show', 'emaillist', 'artists', 'studios','fans','art_piece_tags','media', 'roles'].each do |nm| -%>
+  <% ['artists_per_day','stats', 'os_status', 'emaillist', 'artists', 'studios','fans','art_piece_tags','media', 'roles'].each do |nm| -%>
   <span class="admin-lk"><%= link_to nm, "/admin/%s" % nm, { :class => 'lkdark' } %></span>
   <% end -%>
   <span class="admin-lk"><%= link_to "events", "/events", { :class => 'lkdark' } %></span>
