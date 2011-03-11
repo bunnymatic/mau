@@ -45,6 +45,13 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users, :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get }
 
+
+  # figure out the right way to route this
+  map.mobile_artists '/mobile/artists', :controller => 'mobile/artists', :action => 'index'
+  map.mobile_studios '/mobile/studios', :controller => 'mobile/studios', :action => 'index'
+  map.mobile_artist '/mobile/artists/:id', :controller => 'mobile/artists', :action => 'show'
+  map.mobile_studio '/mobile/studios/:id', :controller => 'mobile/studios', :action => 'show'
+
   map.resource :session
 
   map.resources :studios

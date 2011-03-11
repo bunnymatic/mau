@@ -1,0 +1,11 @@
+<% if @studios.empty? -%>
+No studio data
+<% else -%>
+<h4>Studios</h4>
+<ul class="m-nav">
+<% @studios.each do |s| -%>
+<div><%= s.name %></div>
+  <%= render_as_mobile_list_item s.name, :link => studio_path(s) %>
+<% end -%>
+</ul>
+<% end -%>

@@ -3,14 +3,17 @@
 
 USERAGENT = 'HTTP_USER_AGENT'
 require 'cookies_helper'
+require 'mobile_fu'
+require 'mobilized_styles'
 
 @@revision = 0
 class ApplicationController < ActionController::Base
+  has_mobile_fu
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   layout 'mau'
   include AuthenticatedSystem
-
+  include MobilizedStyles
   before_filter :check_browser, :set_version
   after_filter :update_cookies
 
@@ -132,6 +135,10 @@ class ApplicationController < ActionController::Base
   end
 
   def check_browser
+    @_ismobile = (is_mobile_device? and is_mobile_device? > 0)? 'true':'false'
+    @_mobile_device_name = user_agent_device_name 
+    logger.info("Mobile? %s (device %s)" % [@_ismobile, @_mobile_device_name])
+
     unless self.request[USERAGENT].blank?
       @_ie = is_ie?(self.request)
       @_ie6 = is_ie6?(self.request)
