@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110209162911) do
+ActiveRecord::Schema.define(:version => 20110209062804) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -72,14 +72,6 @@ ActiveRecord::Schema.define(:version => 20110209162911) do
     t.datetime "updated_at"
   end
 
-  create_table "cms_documents", :force => true do |t|
-    t.string   "page"
-    t.string   "section"
-    t.text     "article"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "events", :force => true do |t|
     t.string   "title"
     t.text     "description"
@@ -92,8 +84,6 @@ ActiveRecord::Schema.define(:version => 20110209162911) do
     t.datetime "starttime"
     t.datetime "endtime"
     t.string   "url"
-    t.float    "lat"
-    t.float    "lng"
   end
 
   create_table "favorites", :force => true do |t|

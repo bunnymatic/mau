@@ -167,4 +167,9 @@ module ArtistsHelper
     status = "%s @sfmau #missionartistsunited " % raw_title
     @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), url]
   end
+
+  def for_mobile_list(artist)
+    artist.get_name true
+  end
+
 end

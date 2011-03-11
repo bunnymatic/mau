@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1; user-scalable=0"/>
+  <title>Mission Artists United : <%= @title.blank? ? 'Art is the Mission' : @title %></title>
+  <%= stylesheet_link_tag 'mau-mobile' %>
+  <% if ENV['RAILS_ENV'] != 'production' -%>
+  <script type="text/javascript">
+  window['MAU'] = window['MAU'] || {};
+  window['MAU'].__debug__ = true;
+  </script>
+  <% end -%>
+<script type="text/javascript">
+  var ismobile = <%= @_ismobile %>;
+  var mobile_agent = '<%= @_mobile_device_name %>';
+</script>
+</head>
+<body>
+<div class="m-main">
+<%= yield %>
+</div>
+<div class="m-footer">
+footer
+</div>
+</body>
+</html>

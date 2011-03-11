@@ -16,6 +16,7 @@ gem 'has_many_polymorphs'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
 gem 'calendar_date_select'
+gem 'mobile-fu', '2.x', :git => 'git://github.com/brendanlim/mobile-fu.git'
 #gem 'pdfkit'
 #gem 'wkhtmltopdf-binary'
 group :test do

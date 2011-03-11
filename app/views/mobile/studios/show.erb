@@ -1,0 +1,32 @@
+  <div class="studio-info">
+    <div class="studio-img">
+      <% if @studio.has_profile_image %>
+      <img class="profile" src="<%= @studio.get_profile_image('small') %>" />
+      <% else %>
+      <img class="profile" src="/images/default-studio.png" width="200" />
+      <% end %>
+    </div>
+    <h4><%= @studio.name %></h4>
+    <% if flash[:error] %>
+    <div class="error-msg">
+      <%= flash[:error] %>
+    </div>
+    <% end %>
+    <div>
+      <div class="div-left">
+	<div><%=h @studio.street %>
+	  <% if @studio.id > 0 -%>
+	  <span class="lkmap">(<%= link_to 'map', @studio.map_link, { :target => "_blank" } %>)</span>
+	  <% end -%>
+	</div>
+	<div><%= @studio.city %></div>
+      </div>
+      <div class="div-left">
+	<% if @studio.url %>
+	<%= @studio.url.gsub!('http://','') %>
+	<% end %>
+      </div>
+    </div>
+    <div class="clear"><!-- pushes thumbnails below the floating img --></div>
+  </div>
+  <div class="clear"><!-- pushes thumbnails below the floating img --></div>
