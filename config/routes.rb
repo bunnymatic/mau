@@ -114,6 +114,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
+  map.mobile_root '/mobile/main', :controller => "mobile/main", :action => 'welcome'
   map.root :controller => "main"
   
   # See how all your routes lay out with "rake routes"

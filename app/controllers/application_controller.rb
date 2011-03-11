@@ -8,14 +8,24 @@ require 'mobilized_styles'
 
 @@revision = 0
 class ApplicationController < ActionController::Base
+
   has_mobile_fu
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   layout 'mau'
   include AuthenticatedSystem
   include MobilizedStyles
-  before_filter :check_browser, :set_version
+  before_filter :check_browser, :set_version, :mobile_redirect
   after_filter :update_cookies
+
+  def mobile_redirect
+    if @_ismobile && !(request.path.match /^\/mobile\//)
+      redirect_to '/mobile' + request.path
+      false
+    else
+      true
+    end
+  end
 
   def commit_is_cancel
     !params[:commit].nil? && params[:commit].downcase == 'cancel'

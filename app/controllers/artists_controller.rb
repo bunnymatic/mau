@@ -10,6 +10,7 @@ end
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
+  before_filter :check_for_mobile
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_emails, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
 
@@ -19,6 +20,13 @@ class ArtistsController < ApplicationController
 
   # num artists before we paginate
   @@PER_PAGE = 28
+
+  def is_mobile 
+    if @_ismobile
+      p request.path
+    end
+  end
+
 
   def map
     @view_mode = 'map'
@@ -144,6 +152,8 @@ class ArtistsController < ApplicationController
 
 
   def index
+    if is_mobile_device
+
     # collect query args to build links
     queryargs = {}
     @os_only = is_os_only(params[:osonly])
