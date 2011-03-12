@@ -5,7 +5,7 @@ module MobileHelper
     clz = opts[:xtra_class] || ''
     
     return <<EOM
-       <li class="mobile-menu #{clz}"><a href="#{link}">#{content} &raquo;</a></li>
+       <li class="mobile-menu #{clz}"><a href="#{link}">#{content}</a></li>
 EOM
   end
 

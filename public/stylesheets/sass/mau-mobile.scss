@@ -1,0 +1,72 @@
+/* mobile styles */
+/* reset */
+html, body {
+    font: 12px/15px sans-serif;
+    background: #222;
+    padding: 3px;
+    color: #eee;
+    margin: 0;
+    width: 480px;
+}
+    
+.m-content img { 
+    max-width: 250px;
+}
+.center {
+    width: 100% !important;
+    text-align: center;
+}
+a:link, a:visited {
+    text-decoration: underline;
+    color: #ffff88;
+}
+a:hover, a:active {
+    text-decoration: underline;
+    color: #ffccff;
+}
+
+
+/* iPhone-specific styles */
+@media only screen and (max-device-width: 480px) { 
+
+    html {
+	-webkit-text-size-adjust: none;
+    }
+
+}
+
+html.welcome, body.welcome {
+    background-color: #ccc;
+    color: #222;
+    a:link, & a:visited {
+        text-decoration: underline;
+        color: #0000CC;
+    }
+    a:hover, & a:active {
+        text-decoration: underline;
+        color: #660066;
+    }
+}
+.hidden-title {
+    position: absolute;
+    left: -10000px;
+}
+
+.m-main, .m-header {
+    margin-top: 5px;
+}
+
+a img {
+    outline: none;
+    border: 0;
+}
+li.mobile-menu {
+    a {
+        text-decoration: none;
+    }
+
+    line-height: 21px;
+    text-align: left;
+    list-style: none;
+    font-size: 15px;
+}

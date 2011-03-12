@@ -20,7 +20,10 @@ class StudiosController < ApplicationController
       end
     end
     @admin = logged_in? && self.current_user.is_admin?
-    render :action => 'index', :layout => 'mau'
+    respond_to do |format|
+      format.html { render :layout => 'mau' }
+      format.mobile { render :layout => 'mobile' }
+    end
   end
 
   def addprofile
@@ -87,19 +90,24 @@ class StudiosController < ApplicationController
     @pieces = []
     @other_artists = []
     @page_title = "Mission Artists United - Studio: %s" % @studio.name
-    @studio.artists.each do |a|
-      if a.active?
-        if a.representative_piece
-          @pieces << a.representative_piece
-        else
-          @other_artists << a
+    unless @_ismobile
+      @studio.artists.each do |a|
+        if a.active?
+          if a.representative_piece
+            @pieces << a.representative_piece
+          else
+            @other_artists << a
+          end
         end
       end
     end
     @other_artists.sort! { |a,b| a.lastname <=> b.lastname }
     @admin = logged_in? && current_user.is_admin?
     logger.debug("StudiosController: found %d pieces to show" % @pieces.length)
-    render :action => 'show', :layout => 'mau'
+    respond_to do |format|
+      format.html { render :layout => 'mau' }
+      format.mobile { render :layout => 'mobile' }
+    end
   end
 
   # GET /studios/new

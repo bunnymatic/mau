@@ -10,7 +10,6 @@ end
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
-  before_filter :check_for_mobile
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_emails, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
 
@@ -20,13 +19,6 @@ class ArtistsController < ApplicationController
 
   # num artists before we paginate
   @@PER_PAGE = 28
-
-  def is_mobile 
-    if @_ismobile
-      p request.path
-    end
-  end
-
 
   def map
     @view_mode = 'map'
@@ -152,123 +144,132 @@ class ArtistsController < ApplicationController
 
 
   def index
-    if is_mobile_device
-
-    # collect query args to build links
-    queryargs = {}
-    @os_only = is_os_only(params[:osonly])
-    if @os_only
-      artists = Artist.active.open_studios_participants.sort_by { |a| a.get_sort_name }
-      queryargs['osonly'] = "on"
-      artists.reject!{ |a| !a.in_the_mission? }
-    else
-      artists = Artist.active.sort_by { |a| a.get_sort_name }
-    end
-
-    nartists = artists.length
-    curpage = params[:p] || 0
-    curpage = curpage.to_i
-    # build alphabetical list keyed by first letter
-    @artists_by_name = {}
-    pieces = []
-    
-    vw = "gallery"
-    queryargs["v"] = params[:v]
-    
-    if params[:v] == 'l'
-      vw = 'list'
-    end
-    if @os_only
-    end
-    @view_mode = vw
-
-    nltrs_for_link = 2
-    no_image_ct = 0
-    artists.each do |a|
-      artist_name = a.get_sort_name
-      ltr = artist_name[0].chr.upcase
-      if !@artists_by_name.has_key?(ltr)
-        @artists_by_name[ltr] = []
-      end
-      @artists_by_name[ltr].push(a)
-      piece = a.representative_piece
-      if piece == nil
-        no_image_ct += 1
-      else
-        piece['alpha'] = artist_name[0..nltrs_for_link-1].capitalize
-        pieces << piece
-      end
-    end
-    logger.debug("Found %d artists without any art" % no_image_ct)
-    if vw == 'gallery'
-      npieces = pieces.length
-      lastpage = (npieces.to_f/@@PER_PAGE.to_f).floor
-      curpage = [curpage, lastpage].min
-      @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, curpage, @@PER_PAGE)
-      @pieces.reverse!
-      if curpage > lastpage
-        curpage = lastpage
-      elsif curpage < 0
-        curpage = 0
-      end
-      
-      show_next = (curpage != lastpage)
-      show_prev = (curpage > 0)
-
-      base_link = "/artists/"
-
-      if show_next
-        queryargs["p"] = nextpage
-        @next_link = base_link + HTMLHelper.queryencode(queryargs)
-        queryargs["p"] = lastpage
-        @last_link = base_link + HTMLHelper.queryencode(queryargs)
-      end
-      if show_prev
-        queryargs["p"] = prevpage
-        @prev_link = base_link + HTMLHelper.queryencode(queryargs)
-        queryargs.delete('p')
-        @first_link = base_link + HTMLHelper.queryencode(queryargs)
-      end
-      # display page and last should be indexed staring with 1 not 0
-      @last = lastpage + 1
-      @page = curpage + 1
-
-      # compute text links
-      @alpha_links = []
-      if pieces.length > 0
-        @last.times do |idx|
-          firstidx = idx * @@PER_PAGE
-          lastidx = [ firstidx + @@PER_PAGE, pieces.length ].min - 1
-          firstltr = pieces[firstidx]['alpha']
-          lastltr = pieces[lastidx]['alpha']
-          lnktxt = "%s - %s" % [firstltr, lastltr]
-          queryargs["p"] = idx
-          @alpha_links << [lnktxt, HTMLHelper.queryencode(queryargs), curpage == idx ]
+    respond_to do |format| 
+      format.mobile { 
+        @artists = []
+        if Artist.column_names.include? params[:sortby]
+          @artists = Artist.active.find(:all, :order => params[:sortby])
         end
-      end
-    end
-    @artists = artists
-    @studio = nil
-    @page_title = "Mission Artists United - MAU Artists"
-    roster_args = {'v' => 'l'}
-    gallery_args = {'v' => 'g'}
-    if @os_only
-      gallery_args['osonly'] = 'on'
-      roster_args['osonly'] = 'on'
-    end
-    @roster_link = HTMLHelper.queryencode(roster_args)
-    @gallery_link = HTMLHelper.queryencode(gallery_args)
-    roster_args.delete('v')
-    @map_link = artistsmap_path + HTMLHelper.queryencode(roster_args)
+        render :layout => 'mobile' 
+      }
+      format.html {
+        # collect query args to build links
+        queryargs = {}
+        @os_only = is_os_only(params[:osonly])
+        if @os_only
+          artists = Artist.active.open_studios_participants.sort_by { |a| a.get_sort_name }
+          queryargs['osonly'] = "on"
+          artists.reject!{ |a| !a.in_the_mission? }
+        else
+          artists = Artist.active.sort_by { |a| a.get_sort_name }
+        end
 
-    @inparams = params
-    @inparams.delete('action')
-    @inparams.delete('controller')
-    if vw == "list"
-      render :action => 'roster', :layout => 'mau1col'
-    else
-      render :action => 'index', :layout => 'mau1col'
-    end      
+        nartists = artists.length
+        curpage = params[:p] || 0
+        curpage = curpage.to_i
+        # build alphabetical list keyed by first letter
+        @artists_by_name = {}
+        pieces = []
+        
+        vw = "gallery"
+        queryargs["v"] = params[:v]
+        
+        if params[:v] == 'l'
+          vw = 'list'
+        end
+        if @os_only
+        end
+        @view_mode = vw
+
+        nltrs_for_link = 2
+        no_image_ct = 0
+        artists.each do |a|
+          artist_name = a.get_sort_name
+          ltr = artist_name[0].chr.upcase
+          if !@artists_by_name.has_key?(ltr)
+            @artists_by_name[ltr] = []
+          end
+          @artists_by_name[ltr].push(a)
+          piece = a.representative_piece
+          if piece == nil
+            no_image_ct += 1
+          else
+            piece['alpha'] = artist_name[0..nltrs_for_link-1].capitalize
+            pieces << piece
+          end
+        end
+        logger.debug("Found %d artists without any art" % no_image_ct)
+        if vw == 'gallery'
+          npieces = pieces.length
+          lastpage = (npieces.to_f/@@PER_PAGE.to_f).floor
+          curpage = [curpage, lastpage].min
+          @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, curpage, @@PER_PAGE)
+          @pieces.reverse!
+          if curpage > lastpage
+            curpage = lastpage
+          elsif curpage < 0
+            curpage = 0
+          end
+          
+          show_next = (curpage != lastpage)
+          show_prev = (curpage > 0)
+
+          base_link = "/artists/"
+
+          if show_next
+            queryargs["p"] = nextpage
+            @next_link = base_link + HTMLHelper.queryencode(queryargs)
+            queryargs["p"] = lastpage
+            @last_link = base_link + HTMLHelper.queryencode(queryargs)
+          end
+          if show_prev
+            queryargs["p"] = prevpage
+            @prev_link = base_link + HTMLHelper.queryencode(queryargs)
+            queryargs.delete('p')
+            @first_link = base_link + HTMLHelper.queryencode(queryargs)
+          end
+          # display page and last should be indexed staring with 1 not 0
+          @last = lastpage + 1
+          @page = curpage + 1
+
+          # compute text links
+          @alpha_links = []
+          if pieces.length > 0
+            @last.times do |idx|
+              firstidx = idx * @@PER_PAGE
+              lastidx = [ firstidx + @@PER_PAGE, pieces.length ].min - 1
+              firstltr = pieces[firstidx]['alpha']
+              lastltr = pieces[lastidx]['alpha']
+              lnktxt = "%s - %s" % [firstltr, lastltr]
+              queryargs["p"] = idx
+              @alpha_links << [lnktxt, HTMLHelper.queryencode(queryargs), curpage == idx ]
+            end
+          end
+        end
+        @artists = artists
+        @studio = nil
+        @page_title = "Mission Artists United - MAU Artists"
+        roster_args = {'v' => 'l'}
+        gallery_args = {'v' => 'g'}
+        if @os_only
+          gallery_args['osonly'] = 'on'
+          roster_args['osonly'] = 'on'
+        end
+        @roster_link = HTMLHelper.queryencode(roster_args)
+        @gallery_link = HTMLHelper.queryencode(gallery_args)
+        roster_args.delete('v')
+        @map_link = artistsmap_path + HTMLHelper.queryencode(roster_args)
+
+        @inparams = params
+        @inparams.delete('action')
+        @inparams.delete('controller')
+        if vw == "list"
+          render :action => 'roster', :layout => 'mau1col'
+        else
+          render :action => 'index', :layout => 'mau1col'
+        end      
+      }
+    end
   end
 
 
@@ -370,6 +371,9 @@ class ArtistsController < ApplicationController
       format.json  { 
         cleaned = @artist.clean_for_export(@art_pieces)
         render :json => cleaned
+      }
+      format.mobile {
+        render :layout => 'mobile'
       }
     end
   end
