@@ -15,17 +15,8 @@ class ApplicationController < ActionController::Base
   layout 'mau'
   include AuthenticatedSystem
   include MobilizedStyles
-  before_filter :check_browser, :set_version, :mobile_redirect
+  before_filter :check_browser, :set_version
   after_filter :update_cookies
-
-  def mobile_redirect
-    if @_ismobile && !(request.path.match /^\/mobile\//)
-      redirect_to '/mobile' + request.path
-      false
-    else
-      true
-    end
-  end
 
   def commit_is_cancel
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
