@@ -19,6 +19,7 @@ class MainController < ApplicationController
         @rand_pieces = MainHelper.get_random_pieces
         render :json => @rand_pieces.to_json(:include => [:artist]) 
       }
+      format.mobile { render :layout => 'mobile_welcome' }
     end
   end
 

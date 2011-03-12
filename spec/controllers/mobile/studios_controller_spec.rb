@@ -1,13 +1,19 @@
-thisdir = File.expand_path(File.dirname(__FILE__)) + "/"
+specdir = File.expand_path(File.dirname(__FILE__)) + "/../../"
 
-require thisdir + '../../spec_helper'
-require thisdir + 'mobile_shared_spec.rb'
+require specdir + 'spec_helper'
+require specdir + 'mobile_shared_spec'
 
-describe Mobile::StudiosController do
+describe StudiosController do
 
   fixtures :studios
 
   integrate_views
+
+  IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; U; XXXXX like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A477c Safari/419.3'
+  before do
+    # do mobile
+    request.stubs(:user_agent).returns(IPHONE_USER_AGENT)
+  end
 
   describe "index" do
     before do

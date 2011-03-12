@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="welcome">
 <head>
 <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1; user-scalable=0"/>
   <title>Mission Artists United : <%= @title.blank? ? 'Art is the Mission' : @title %></title>
@@ -15,12 +15,12 @@
   var mobile_agent = '<%= @_mobile_device_name %>';
 </script>
 </head>
-<body>
+<body class="welcome">
 <div class="m-main">
 <%= yield %>
-</div>
-<div class="m-footer">
+<div class="m-footer center">
 footer
+</div>
 </div>
 </body>
 </html>
