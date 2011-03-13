@@ -1,112 +1,22 @@
 /* mobile styles */
 /* reset */
 html, body {
-    font: 12px/15px sans-serif;
-    background: #222;
-    padding: 3px;
-    color: #eee;
-    margin: 0;
-    width: 480px;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    font-weight: normal;
 }
 
-.m-content img { 
+.ui-page img { 
     max-width: 250px;
 }
 
-.m-main, .m-header, .m-content {
-    padding-top: 5px;
-}
-
-.m-header {
-    padding-top: 5px;
-    border-bottom: 1px solid black;
-}
-.m-content {
-    background-color: #333;
-    padding: 8px 0;
-}
-
-.m-footer {
-    padding-top: 5px;
-    border-top: 1px solid black;
-    line-height: 25px;
-}
-.center {
-    width: 100% !important;
-    text-align: center;
-}
-a:link, a:visited {
-    text-decoration: underline;
-    color: #ffff88;
-}
-a:hover, a:active {
-    text-decoration: underline;
-    color: #ffccff;
-}
-
-
-/* iPhone-specific styles */
-@media only screen and (max-device-width: 480px) { 
-
-    html {
-	-webkit-text-size-adjust: none;
+.ui-content {
+    .banner-img {
+        text-align:center;
+        margin-bottom: 30px;
     }
-
-}
-
-html.welcome, body.welcome {
-    background-color: #ccc;
-    color: #222;
-    a:link, & a:visited {
-        text-decoration: underline;
-        color: #0000CC;
-    }
-    a:hover, & a:active {
-        text-decoration: underline;
-        color: #660066;
+    .representative-img {
+        text-align: center;
     }
 }
-.hidden-title {
-    position: absolute;
-    left: -10000px;
-}
 
-a img {
-    outline: none;
-    border: 0;
-}
-
-ul.m-nav {
-    margin: 0 auto;
-    width: 320px;
-    padding: 0;
-
-}
-li.mobile-menu {
-    background-image: url(/images/mobile_list_entry_bg.png);
-    background-repeat: no-repeat;
-    color: #eee;
-    a {
-        text-decoration: none;
-    }
-    div.entry {
-        padding-left: 8px;
-    }
-    line-height: 36px;
-    height: 36px;
-    text-align: left;
-    list-style: none;
-    font-size: 15px;
-    margin: 2px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    width: 320px;
-    .welcome & {
-        background-image: url(/images/mobile_list_entry_light_bg.png);
-        color: #222;
-    }
-}

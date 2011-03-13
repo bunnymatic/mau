@@ -19,12 +19,7 @@ module AddressMixin
   end
 
   def map_link
-    state = get_state
-
-    "http://maps.google.com/maps?q=%s,%s,%s %s" % [ self.street,
-                                                    self.city,
-                                                    state,
-                                                    self.zip.to_s ].map { |a| URI.escape(a) }
+    "http://maps.google.com/maps?q=%s" % URI.escape(self.full_address)
   end
   
   def address_hash

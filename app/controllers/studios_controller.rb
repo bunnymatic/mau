@@ -22,7 +22,10 @@ class StudiosController < ApplicationController
     @admin = logged_in? && self.current_user.is_admin?
     respond_to do |format|
       format.html { render :layout => 'mau' }
-      format.mobile { render :layout => 'mobile' }
+      format.mobile { 
+        @page_title = "Studios"
+        render :layout => 'mobile' 
+      }
     end
   end
 
@@ -100,7 +103,10 @@ class StudiosController < ApplicationController
           end
         end
       end
+    else
+      @page_title = @studio.name
     end
+
     @other_artists.sort! { |a,b| a.lastname <=> b.lastname }
     @admin = logged_in? && current_user.is_admin?
     logger.debug("StudiosController: found %d pieces to show" % @pieces.length)

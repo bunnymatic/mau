@@ -142,14 +142,20 @@ class ArtistsController < ApplicationController
     @artist_info = current_user.artist_info || ArtistInfo.new({ :id => current_user.id })
   end
 
-
+  def by_firstname 
+    @page_title = "Artists by first name"    
+    return sorted_by 'firstname'
+  end
+  def by_lastname
+    @page_title = "Artists by last name"
+    return sorted_by 'lastname'
+  end
+  
   def index
     respond_to do |format| 
       format.mobile { 
         @artists = []
-        if Artist.column_names.include? params[:sortby]
-          @artists = Artist.active.find(:all, :order => params[:sortby])
-        end
+        @page_title = "Artists"
         render :layout => 'mobile' 
       }
       format.html {
@@ -373,6 +379,7 @@ class ArtistsController < ApplicationController
         render :json => cleaned
       }
       format.mobile {
+        @page_title = @artist.get_name(true)
         render :layout => 'mobile'
       }
     end
@@ -426,6 +433,14 @@ class ArtistsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       flash.now[:error] = "The artist you were looking for was not found."
       return nil
+    end
+  end
+  def sorted_by sort_column
+    @artists = Artist.active.find(:all, :order => sort_column)
+    respond_to do |format| 
+      format.mobile { 
+        render :layout => 'mobile', :template => 'artists/index.mobile'
+      }
     end
   end
 

@@ -1,19 +1,22 @@
 <% if @artist -%>
-<div class="info">
+<div>
   <% if @artist.representative_piece -%>
-  <img src="<%= @artist.representative_piece.get_path %>">
+  <div class="representative-img"><img src="<%= @artist.representative_piece.get_path %>"></div>
   <% end -%>
   <h2><%=h @artist.get_name %></h2>
   <div class="address">
     <% if @artist.studio -%>
-    <div class="studio"><%= link_to @artist.studio.name, @artist.studio %></div>
+    <div class="studio"><%= link_to @artist.studio.name, @artist.studio, "data-ajax" => false %></div>
     <div><%=h @artist.studio.street %> 
       <% if @artist.artist_info.studionumber -%><span>#<%=h @artist.artist_info.studionumber %></span><% end -%>
+      <span class="lkmap">(<%= link_to 'map', @artist.studio.map_link, "data-ajax" => false %>)</span>
     </div>
-    <div><%=h @artist.studio.city %></div>
     <% else -%>
-    <div><%=h @artist.artist_info.street %></div>
-    <div><%=h @artist.artist_info.city %></div>
+    <div><% if  @artist.artist_info.full_address.length > 1 -%>
+      <%=h @artist.artist_info.street %>
+      <span class="lkmap">(<%= link_to 'map', @artist.artist_info.map_link, "data-ajax" => false %>)</span>
+      <% end -%>
+    </div>
     <% end -%>
   </div>
   <% if @artist.media and @artist.media.length > 0 -%>
@@ -22,7 +25,7 @@
     <span>
       <% links = []
          @artist.media.each do |m| 
-         links << link_to(m.name, m, :class => ""  )
+         links << link_to(m.name, m, :class => "", "data-ajax" => false  )
 		  end
 		  -%>
          <%= links.join(", ") %>
@@ -35,7 +38,7 @@
        lnk = @artist.send(key)
        if lnk and !lnk.empty? %>
     <div id="<%= _id %>"><span><%= name %>: </span>
-      <%= link_to lnk, add_http(lnk), { :target => "_blank" } %>
+      <%= link_to lnk, add_http(lnk), { "data-ajax" => false } %>
   </div>
   <% end -%>
   <% end -%>
