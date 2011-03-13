@@ -19,12 +19,15 @@
   <%= @studio.url.gsub!('http://','') %>
   <% end %>
 </div>
+Open Studios Participants: <%= @studio.artists.open_studios_participants.count %>
+<% if @studio.artists.count > 0 -%>
 <div class='artist-list'>
-<h3>Artists</h3>
-<ul class='m-nav'>
-<% @studio.artists.each do |a| -%>
-<%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a) %>
-<% end -%>
-</ul>
+  <h3>Artists</h3>
+  <ul class='m-nav'>
+    <% @studio.artists.each do |a| -%>
+    <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a) %>
+    <% end -%>
+  </ul>
 </div>
+<% end -%>
 

@@ -8,7 +8,9 @@
 </ul>
 <% else -%>
 <ul class="m-nav">
-<% @artists.each do |a| -%>
+<%
+  @artists.each do |a| 
+  -%>
   <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a) %>
 <% end -%>
 </ul>

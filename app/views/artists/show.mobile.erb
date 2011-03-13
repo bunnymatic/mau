@@ -1,8 +1,10 @@
 <% if @artist -%>
 <div class="info">
+  <% if @artist.representative_piece -%>
+  <img src="<%= @artist.representative_piece.get_path %>">
+  <% end -%>
   <h2><%=h @artist.get_name %></h2>
-  <div>
-    <img src="<%= @artist.representative_piece.get_path %>">
+  <div class="address">
     <% if @artist.studio -%>
     <div class="studio"><%= link_to @artist.studio.name, @artist.studio %></div>
     <div><%=h @artist.studio.street %> 
@@ -15,20 +17,20 @@
     <% end -%>
   </div>
   <% if @artist.media and @artist.media.length > 0 -%>
-  <div class="div-left">
+  <div class="media">
     <span>Media:</span>
     <span>
       <% links = []
-	 @artist.media.each do |m| 
-  	 links << link_to(m.name, m, :class => ""  )
+         @artist.media.each do |m| 
+         links << link_to(m.name, m, :class => ""  )
 		  end
 		  -%>
-	 <%= links.join(", ") %>
+         <%= links.join(", ") %>
     </span>
   </div>
   <% end -%>
   <% if has_links(@artist) -%>
-  <div class="div-left">
+  <div class="links">
     <% keyed_links.each do |key, name, _id|  
        lnk = @artist.send(key)
        if lnk and !lnk.empty? %>
