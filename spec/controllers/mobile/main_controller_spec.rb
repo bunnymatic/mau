@@ -7,7 +7,6 @@ describe MainController do
 
   integrate_views
 
-  IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; U; XXXXX like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A477c Safari/419.3'
   before do
     # do mobile
     request.stubs(:user_agent).returns(IPHONE_USER_AGENT)

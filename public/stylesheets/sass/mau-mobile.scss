@@ -8,9 +8,32 @@ html, body {
     margin: 0;
     width: 480px;
 }
-    
+
+h1,h2,h3,h4,h5,h6 {
+    font-weight: normal;
+}
+
 .m-content img { 
     max-width: 250px;
+}
+
+.m-main, .m-header, .m-content {
+    padding-top: 5px;
+}
+
+.m-header {
+    padding-top: 5px;
+    border-bottom: 1px solid black;
+}
+.m-content {
+    background-color: #333;
+    padding: 8px 0;
+}
+
+.m-footer {
+    padding-top: 5px;
+    border-top: 1px solid black;
+    line-height: 25px;
 }
 .center {
     width: 100% !important;
@@ -52,21 +75,38 @@ html.welcome, body.welcome {
     left: -10000px;
 }
 
-.m-main, .m-header {
-    margin-top: 5px;
-}
-
 a img {
     outline: none;
     border: 0;
 }
+
+ul.m-nav {
+    margin: 0 auto;
+    width: 320px;
+    padding: 0;
+
+}
 li.mobile-menu {
+    background-image: url(/images/mobile_list_entry_bg.png);
+    background-repeat: no-repeat;
+    color: #eee;
     a {
         text-decoration: none;
     }
-
-    line-height: 21px;
+    div.entry {
+        padding-left: 8px;
+    }
+    line-height: 36px;
+    height: 36px;
     text-align: left;
     list-style: none;
     font-size: 15px;
+    margin: 2px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    width: 320px;
+    .welcome & {
+        background-image: url(/images/mobile_list_entry_light_bg.png);
+        color: #222;
+    }
 }

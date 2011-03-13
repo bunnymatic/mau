@@ -27,6 +27,7 @@ class MediaController < ApplicationController
 
   # GET /media/1
   # GET /media/1.xml
+
   def show
     @freq = Medium.frequency(true)
     @media = Medium.all
@@ -41,6 +42,86 @@ class MediaController < ApplicationController
         return
       end
     end
+
+    respond_to do |format|
+      format.html {
+        _show_html
+        render :layout => "mau"
+      }
+      format.mobile {
+        _show_mobile
+        render :layout => "mobile"
+      }
+    end
+  end
+
+  # GET /media/new
+  # GET /media/new.xml
+  def new
+    @medium = Medium.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @medium }
+    end
+  end
+
+  # GET /media/1/edit
+  def edit
+    @medium = Medium.find(params[:id])
+  end
+
+  # POST /media
+  # POST /media.xml
+  def create
+    @medium = Medium.new(params[:medium])
+
+    respond_to do |format|
+      if @medium.save
+        Medium.flush_cache
+        flash[:notice] = 'Medium was successfully created.'
+        format.html { redirect_to(@medium) }
+        format.xml  { render :xml => @medium, :status => :created, :location => @medium }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @medium.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /media/1
+  # PUT /media/1.xml
+  def update
+    @medium = Medium.find(params[:id])
+
+    respond_to do |format|
+      if @medium.update_attributes(params[:medium])
+        Medium.flush_cache
+        flash[:notice] = 'Medium was successfully updated.'
+        format.html { redirect_to(@medium) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @medium.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /media/1
+  # DELETE /media/1.xml
+  def destroy
+    @medium = Medium.find(params[:id])
+    @medium.destroy
+
+    Medium.flush_cache
+    respond_to do |format|
+      format.html { redirect_to(media_url) }
+      format.xml  { head :ok }
+    end
+  end
+
+  private 
+  def _show_html
     page = params[:p]
     if not page
       page = 0
@@ -112,71 +193,18 @@ class MediaController < ApplicationController
         end
       end
     end
-    render :layout => "mau"
   end
 
-  # GET /media/new
-  # GET /media/new.xml
-  def new
-    @medium = Medium.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @medium }
+  def _show_mobile
+    # find artists using this medium
+    @artists = []
+    items = ArtPiece.find_all_by_medium_id(@medium.id, :order => 'created_at')
+    
+    # if show by artists, pick 1 from each artist
+    tmps = {}
+    items.each do |pc|
+      @artists << pc.artist
     end
-  end
-
-  # GET /media/1/edit
-  def edit
-    @medium = Medium.find(params[:id])
-  end
-
-  # POST /media
-  # POST /media.xml
-  def create
-    @medium = Medium.new(params[:medium])
-
-    respond_to do |format|
-      if @medium.save
-        Medium.flush_cache
-        flash[:notice] = 'Medium was successfully created.'
-        format.html { redirect_to(@medium) }
-        format.xml  { render :xml => @medium, :status => :created, :location => @medium }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @medium.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /media/1
-  # PUT /media/1.xml
-  def update
-    @medium = Medium.find(params[:id])
-
-    respond_to do |format|
-      if @medium.update_attributes(params[:medium])
-        Medium.flush_cache
-        flash[:notice] = 'Medium was successfully updated.'
-        format.html { redirect_to(@medium) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @medium.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /media/1
-  # DELETE /media/1.xml
-  def destroy
-    @medium = Medium.find(params[:id])
-    @medium.destroy
-
-    Medium.flush_cache
-    respond_to do |format|
-      format.html { redirect_to(media_url) }
-      format.xml  { head :ok }
-    end
+    @artists.uniq!
   end
 end

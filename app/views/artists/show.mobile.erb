@@ -1,7 +1,8 @@
 <% if @artist -%>
 <div class="info">
-  <h4><%=h @artist.get_name %></h4>
+  <h2><%=h @artist.get_name %></h2>
   <div>
+    <img src="<%= @artist.representative_piece.get_path %>">
     <% if @artist.studio -%>
     <div class="studio"><%= link_to @artist.studio.name, @artist.studio %></div>
     <div><%=h @artist.studio.street %> 
