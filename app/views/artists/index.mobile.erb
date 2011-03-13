@@ -1,6 +1,5 @@
 <div class='section'>
-  <h3>Artists</h3>
-</div>
+  <h2>Artists</h2>
 <% if @artists.empty? -%>
 <ul class="m-nav">
 <%= render_as_mobile_list_item 'artists by first name', :link => '/artists/?sortby=firstname' %>
@@ -14,3 +13,4 @@
 <% end -%>
 </ul>
 <% end -%>
+</div>

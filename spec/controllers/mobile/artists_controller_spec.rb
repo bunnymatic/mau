@@ -1,8 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../../mobile_shared_spec')
 
-include AuthenticatedTestHelper
-
 describe ArtistsController do
 
   integrate_views
@@ -12,7 +10,6 @@ describe ArtistsController do
   fixtures :art_pieces
   fixtures :studios
 
-  IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; U; XXXXX like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A477c Safari/419.3'
   before do
     # do mobile
     request.stubs(:user_agent).returns(IPHONE_USER_AGENT)
@@ -90,8 +87,12 @@ describe ArtistsController do
     end
     it_should_behave_like "a regular mobile page"
 
+    it 'shows the user\'s representative image' do
+      response.should have_tag("img[src=#{@artist.representative_piece.get_path}]")
+    end
+    
     it 'shows the user name' do
-      response.should have_tag '.info h4', :text => @artist.get_name
+      response.should have_tag '.info h2', :text => @artist.get_name
     end
     
     it 'shows the user\'s studio name' do
