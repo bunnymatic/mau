@@ -1,10 +1,5 @@
-<div class='section'>
-  <h2>Artists using <%= "#{@medium.name}" %></h2>
-<div class="media">
-  <ul class='m-nav'>
-    <% @artists.each do |a| -%>
-    <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a) %>
-    <% end -%>
-  </ul>
-</div>
-</div>
+<ul data-role="listview">
+  <% @artists.each do |a| -%>
+  <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a) %>
+  <% end -%>
+</ul>

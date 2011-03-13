@@ -1,18 +1,11 @@
-<div class='section'>
-  <h2>Artists</h2>
+<ul data-role="listview">
 <% if @artists.empty? -%>
-<ul class="m-nav">
-<%= render_as_mobile_list_item 'artists by first name', :link => '/artists/?sortby=firstname' %>
-<%= render_as_mobile_list_item 'artists by last name', :link => '/artists/?sortby=lastname' %>
-<%= render_as_mobile_list_item 'search', :link => '/artists/search' %>
-</ul>
+<%= render_as_mobile_list_item 'artists by first name', :link => 'artists_by_firstname' %>
+<%= render_as_mobile_list_item 'artists by last name', :link => 'artists_by_lastname' %>
+<%= render_as_mobile_list_item 'search', :link => 'search' %>
 <% else -%>
-<ul class="m-nav">
-<%
-  @artists.each do |a| 
-  -%>
+<%   @artists.each do |a| -%>
   <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a) %>
+<%   end -%>
 <% end -%>
 </ul>
-<% end -%>
-</div>

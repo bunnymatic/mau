@@ -28,6 +28,10 @@ ActionController::Routing::Routes.draw do |map|
 
   map.artistsmap '/artists/map', :controller => 'artists', :action => 'map'
   map.artistsHUGEmap '/artists/hugemap', :controller => 'artists', :action => 'hugemap'
+  
+  # for mobile
+  map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'
+  map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
 
   map.flaxartshow '/flaxart', :controller => 'wizards', :action => 'flaxart'
   map.flaxarteventthingy '/flaxart/eventthingy', :controller => 'wizards', :action => 'flax_eventthingy'

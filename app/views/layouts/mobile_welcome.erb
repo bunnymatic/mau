@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html class="welcome">
+<html>
 <head>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.css" />
 <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1; user-scalable=0"/>
-  <title>Mission Artists United : <%= @title.blank? ? 'Art is the Mission' : @title %></title>
   <%= stylesheet_link_tag 'mau-mobile' %>
-  <% if ENV['RAILS_ENV'] != 'production' -%>
-  <script type="text/javascript">
-  window['MAU'] = window['MAU'] || {};
-  window['MAU'].__debug__ = true;
-  </script>
-  <% end -%>
-<script type="text/javascript">
-  var ismobile = <%= @_ismobile %>;
-  var mobile_agent = '<%= @_mobile_device_name %>';
-</script>
+  <title>Mission Artists United</title>
 </head>
-<body class="welcome">
-<div class="m-main">
+<body>
+<div data-role="page" data-theme="a" id="welcome">
+  <div data-role="header" data-backbtn="false">
+    <h1>Mission Artists United</h1>
+  </div>
 <%= yield %>
-<div class="m-footer center">
-footer
-</div>
+  <div data-role="footer">
+  </div>
 </div>
 </body>
+<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+<% jquerymobile = 'http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.js'
+   if ENV['RAILS_ENV'] == 'production' 
+     jquerymobile = 'http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js'
+   end
+-%>
+<script src="<%= jquerymobile %>"></script>
 </html>
