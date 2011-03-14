@@ -6,7 +6,7 @@ gem "nokogiri"
 gem "htmlentities"
 gem "json"
 gem "mysql"
-gem "i18n"
+gem "i18n", '0.4.2'
 gem "haml"
 gem 'mojo_magick', '0.2.0', :path => "vendor/gems/mojo_magick-0.2.0"
 gem 'passenger'
