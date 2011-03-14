@@ -26,8 +26,6 @@ h1,h2,h3,h4,h5,h6 {
 
 div.os-star {
     position:absolute;
-    bottom: 11px;
-    left: 10px;
     background-image: url(/images/mobile_menu_os_star.png);
     background-repeat: no-repeat;
     height: 28px;
@@ -36,6 +34,10 @@ div.os-star {
 }
 li.os-star {
     position: relative;
+    div.os-star {
+        bottom: 11px;
+        left: 10px;
+    }
     a {
         padding-left: 27px;
     }
@@ -44,6 +46,10 @@ li.os-star {
 .m-content h2.os-star {
     position:relative;
     padding-left: 30px;
+    div.os-star {
+        bottom: 0px;
+        left: 0px;
+    }
 }
 .m-content div {
     line-height: 1.4em;
