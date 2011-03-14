@@ -19,9 +19,8 @@ development:
   adapter: mysql
   encoding: utf8
   database: mau_dev
-  username: root
-  #username: mauadmin
-  #password: MrMau415
+  username: mauadmin
+  password: MrMau415
   host: localhost
 
 test:
