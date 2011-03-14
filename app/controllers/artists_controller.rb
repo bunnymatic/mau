@@ -425,7 +425,17 @@ class ArtistsController < ApplicationController
     end
   end
 
-
+  # for mobile only
+  def thumbs
+    @artists = Artist.active.select{|a| a.representative_piece}
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.mobile { 
+        render :layout => 'mobile'
+      }
+    end
+  end
+  
   protected
   def safe_find_artist(id)
     begin

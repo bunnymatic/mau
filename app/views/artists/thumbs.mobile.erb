@@ -1,0 +1,3 @@
+<% @artists.each do |artist| -%>
+  <a rel="external" href="<%= artist_path(artist) %>"><div class="thumb"><img src="<%= artist.representative_piece.get_path('small') %>"></div></a>
+<% end -%>

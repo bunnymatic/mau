@@ -52,6 +52,7 @@ describe ArtistsController do
       response.should have_tag("li.mobile-menu a[href=/artists_by_lastname]", :match => /artists by last name/i)
     end
     it "includes link to search for artist by name" do
+      pending
       response.should have_tag("li.mobile-menu a[href=/artists/search]", :match => /earch/)
     end
     
@@ -82,6 +83,17 @@ describe ArtistsController do
   end
   
   describe "search" do
+  end
+
+  describe "#thumbs" do
+    before do
+      get :thumbs
+    end
+    it_should_behave_like "a regular mobile page"
+    it "shows 1 thumb per artist who has a representative image" do
+      artists = Artist.active.select{ |a| a.representative_piece }
+      response.should have_tag('img', :minimum => artists.count )
+    end
   end
 
   describe "#show" do

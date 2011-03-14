@@ -18,6 +18,21 @@ h1,h2,h3,h4,h5,h6 {
     .representative-img {
         text-align: center;
     }
+    .thumb {
+        position: relative;
+        img {
+            position: absolute;
+            top: center;
+            left: center;
+        }
+        margin: 8px;
+        float: left;
+        overflow: hidden;
+        height: 120px;
+        width: 120px;
+        border: 1px solid white;
+    }
+        
 }
 
 .mobile-menu.os-star {
