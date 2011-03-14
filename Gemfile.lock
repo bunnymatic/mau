@@ -42,7 +42,7 @@ GEM
       rake
     mysql (2.8.1)
     nokogiri (1.4.4)
-    passenger (3.0.4)
+    passenger (3.0.5)
       daemon_controller (>= 0.2.5)
       fastthread (>= 1.0.1)
       file-tail

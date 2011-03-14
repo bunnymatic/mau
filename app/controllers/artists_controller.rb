@@ -379,7 +379,7 @@ class ArtistsController < ApplicationController
         render :json => cleaned
       }
       format.mobile {
-        @page_title = @artist.get_name(true)
+        @page_title = (@artist ? @artist.get_name(true) : '')
         render :layout => 'mobile'
       }
     end
