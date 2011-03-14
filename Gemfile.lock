@@ -75,7 +75,7 @@ DEPENDENCIES
   haml
   has_many_polymorphs
   htmlentities
-  i18n (= 0.4.2)
+  i18n
   json
   memcache
   memcache-client
