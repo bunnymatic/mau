@@ -3,7 +3,13 @@
   <% if @artist.representative_piece -%>
   <div class="representative-img"><img src="<%= @artist.representative_piece.get_path %>"></div>
   <% end -%>
+  <% if @artist.artist_info && @artist.os_participation['201104'] %>
+  <h2 class='os-star'><%=h @artist.get_name %>
+  <div class="os-star"></div>
+  </h2>
+  <% else -%>
   <h2><%=h @artist.get_name %></h2>
+  <% end -%>
   <div class="address">
     <% if @artist.studio -%>
     <div class="studio"><%= link_to @artist.studio.name, @artist.studio, "data-ajax" => false %></div>

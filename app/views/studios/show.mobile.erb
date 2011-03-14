@@ -26,8 +26,13 @@
     <div class='artist-list'>
       <h4>Artists</h4>
       <ul data-role="listview">
-        <% @studio.artists.each do |a| -%>
-        <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a) %>
+        <% @studio.artists.each do |a| 
+        os_star = false
+        if a.artist_info
+           os_star = a.os_participation['201104']
+        end
+-%>
+        <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a), :os_star => os_star %>
         <% end -%>
       </ul>
     </div>

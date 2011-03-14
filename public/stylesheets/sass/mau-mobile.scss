@@ -20,3 +20,31 @@ h1,h2,h3,h4,h5,h6 {
     }
 }
 
+.mobile-menu.os-star {
+    /* background: -moz-linear-gradient(center top , #FEfeFE, #ffa) repeat scroll 0 0 #EEEEEE; */
+}
+
+div.os-star {
+    position:absolute;
+    bottom: 11px;
+    left: 10px;
+    background-image: url(/images/mobile_menu_os_star.png);
+    background-repeat: no-repeat;
+    height: 28px;
+    width: 27px;
+    z-index: 10;
+}
+li.os-star {
+    position: relative;
+    a {
+        padding-left: 27px;
+    }
+}
+
+.m-content h2.os-star {
+    position:relative;
+    padding-left: 30px;
+}
+.m-content div {
+    line-height: 1.4em;
+}

@@ -44,7 +44,7 @@ describe StudiosController do
     it_should_behave_like "a regular mobile page"
 
     it "includes studio title" do
-      response.should have_tag('h2', :match => @s.name)
+      response.should have_tag('h3', :match => @s.name)
     end
     it "includes studio address" do
       response.should have_tag('.address', :match => @s.street)
