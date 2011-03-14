@@ -1,11 +1,17 @@
 <ul data-role="listview">
 <% if @artists.empty? -%>
-<%= render_as_mobile_list_item 'artists by first name', :link => 'artists_by_firstname' %>
-<%= render_as_mobile_list_item 'artists by last name', :link => 'artists_by_lastname' %>
-<%= render_as_mobile_list_item 'search', :link => 'search' %>
+<%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
+<%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
+<%= render_as_mobile_list_item "artists' thumbnails", :link => '/artists_by_firstname?thumbs=1' %>
+<%= render_as_mobile_list_item 'search', :link => '/artists/search' %>
 <% else -%>
-<%   @artists.each do |a| -%>
-  <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a) %>
+<%   @artists.each do |a| 
+        os_star = false
+        if a.artist_info
+           os_star = a.os_participation['201104']
+        end
+-%>
+  <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a), :os_star => os_star %>
 <%   end -%>
 <% end -%>
 </ul>
