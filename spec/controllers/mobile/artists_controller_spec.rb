@@ -46,12 +46,13 @@ describe ArtistsController do
     it_should_behave_like "a regular mobile page"
     
     it "includes link for artists by first name" do
-      response.should have_tag("li.mobile-menu a[href=/artists/?sortby=firstname]", :match => /artists by first name/i)
+      response.should have_tag("li.mobile-menu a[href=artists_by_firstname]", :match => /artists by first name/i)
     end
     it "includes link for artists by last name" do
-      response.should have_tag("li.mobile-menu a[href=/artists/?sortby=lastname]", :match => /artists by last name/i)
+      response.should have_tag("li.mobile-menu a[href=artists_by_lastname]", :match => /artists by last name/i)
     end
     it "includes link to search for artist by name" do
+      p response.body
       response.should have_tag("li.mobile-menu a[href=/artists/search]", :match => /earch/)
     end
     
