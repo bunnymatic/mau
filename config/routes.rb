@@ -32,6 +32,7 @@ ActionController::Routing::Routes.draw do |map|
   # for mobile
   map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'
   map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
+  map.artist_thumbs '/artists/thumbs', :controller => 'artists', :action => 'thumbs'
 
   map.flaxartshow '/flaxart', :controller => 'wizards', :action => 'flaxart'
   map.flaxarteventthingy '/flaxart/eventthingy', :controller => 'wizards', :action => 'flax_eventthingy'
