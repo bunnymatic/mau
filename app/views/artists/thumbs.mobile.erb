@@ -1,3 +1,9 @@
+<ul data-role="listview">
+<%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
+<%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
+</ul>
+<div class="artists-thumbs">
 <% @artists.each do |artist| -%>
   <a rel="external" href="<%= artist_path(artist) %>"><div class="thumb"><img src="<%= artist.representative_piece.get_path('small') %>"></div></a>
 <% end -%>
+</div>

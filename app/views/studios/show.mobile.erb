@@ -1,42 +1,27 @@
 <div>
-  <div class="representative-img">
-    <% if @studio.has_profile_image %>
-    <img class="profile" src="<%= @studio.get_profile_image('small') %>" />
-    <% else %>
-    <img class="profile" src="/images/default-studio.png" width="200" />
-    <% end %>
+  <h2><%= @studio.name %></h2>
+  <div class="address">
+    <div><%=h @studio.street %>
+      <% if @studio.id > 0 -%>
+      <span class="lkmap">(<%= link_to 'map', @studio.map_link, "data-ajax" => false %>)</span>
+      <% end -%>
+    </div>
+    <div><%= @studio.city %></div>
   </div>
-  <div>
-    <h3><%= @studio.name %></h3>
-    <div class="address">
-      <div><%=h @studio.street %>
-        <% if @studio.id > 0 -%>
-        <span class="lkmap">(<%= link_to 'map', @studio.map_link, "data-ajax" => false %>)</span>
-        <% end -%>
-      </div>
-      <div><%= @studio.city %></div>
+  Open Studios Participants: <%= @studio.artists.open_studios_participants.count %>
+  <% if @studio.artists.count > 0 -%>
+    <div class="artists-thumbs">
+      <% @studio.artists.each do |artist| 
+         next if artist.nil? || artist.representative_piece.nil?
+         os_star = false
+         if artist.artist_info
+           os_star = artist.os_participation['201104']
+         end
+
+      -%>
+      <a rel="external" href="<%= artist_path(artist) %>"><div class="thumb"><img src="<%= artist.representative_piece.get_path('small') %>"></div></a>
+      <% end -%>
     </div>
-    <div class="url">
-      <% if @studio.url %>
-      <%= @studio.url.gsub!('http://','') %>
-      <% end %>
-    </div>
-    Open Studios Participants: <%= @studio.artists.open_studios_participants.count %>
-    <% if @studio.artists.count > 0 -%>
-    <div class='artist-list'>
-      <h4>Artists</h4>
-      <ul data-role="listview">
-        <% @studio.artists.each do |a| 
-        os_star = false
-        if a.artist_info
-           os_star = a.os_participation['201104']
-        end
--%>
-        <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a), :os_star => os_star %>
-        <% end -%>
-      </ul>
-    </div>
-  </div>
+  <% end -%>
 </div>
-<% end -%>
 
