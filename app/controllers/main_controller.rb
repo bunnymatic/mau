@@ -77,6 +77,14 @@ class MainController < ApplicationController
       @show_history = true
     end
     @page_title = "Mission Artists United - About Us"
+    respond_to do |fmt|
+      fmt.html { render }
+      fmt.mobile { 
+        @page_title = "About Us"
+        render :layout => 'mobile' 
+      }
+    end
+
   end
 
   def notes_mailer

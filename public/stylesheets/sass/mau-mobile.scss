@@ -39,6 +39,20 @@ h1,h2,h3,h4,h5,h6 {
     /* background: -moz-linear-gradient(center top , #FEfeFE, #ffa) repeat scroll 0 0 #EEEEEE; */
 }
 
+.news-footer {
+    float: right;
+    margin-right: 8px;
+    vertical-align: center;
+    height: 36px;
+    span {
+        font-weight:900;
+        margin-right:4px;
+    }
+    a img {
+        vertical-align: bottom; 
+        padding-top: 2px;
+    }
+}
 div.os-star {
     position:absolute;
     background-image: url(/images/mobile_menu_os_star.png);
@@ -46,6 +60,13 @@ div.os-star {
     height: 28px;
     width: 27px;
     z-index: 10;
+}
+#about_text {
+    .os-star {
+        position:relative;
+        display: inline-block;
+        vertical-align: sub;
+    }
 }
 li.os-star {
     position: relative;
@@ -72,3 +93,4 @@ li.os-star {
 .ui-body-a .ui-link {
     color: #ff4;
 }
+.artists-thumbs { margin-top: 20px; }
