@@ -78,6 +78,19 @@ class Artist < User
     call_address_method :address_hash
   end
 
+  def primary_medium
+    freq = {}
+    return nil unless art_pieces && art_pieces.count > 0
+    art_pieces.map(&:medium).select{|m| m}.each do |m|
+      freq[m.id] = 0 unless freq.has_key? m.id
+      freq[m.id] += 1
+    end
+    return nil unless freq && freq.count > 0
+    sorted = freq.sort{|a,b| b[1] <=> a[1]}.map{|f| [Medium.find(f[0]), f[1]]}
+      
+    sorted[0][0]
+  end
+
   protected
   def call_address_method(method)
     if self.studio_id != 0 and self.studio

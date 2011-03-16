@@ -24,6 +24,7 @@ class Medium < ActiveRecord::Base
     dbr.each_hash{ |row| meds << row }
     other = self.find(:all,:conditions => ["id not in (?)", meds.map { |m| m['medium'] } ])
     other.map { |m| meds << Hash["medium" => m.id, "ct" => 0 ] }
+    
     # compute max/min ct
     maxct = nil
     meds.each do |m|

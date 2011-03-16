@@ -1,3 +1,4 @@
+require 'fastercsv'
 class CatalogController < ApplicationController
   layout 'catalog'
   def index
@@ -21,7 +22,16 @@ class CatalogController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json  { render :json => 'this' }
+      format.csv {
+        render_csv :filename => 'mau_os_artists' do |csv|
+          csv << ["First Name","Last Name","Full Name","Group Site Name","Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
+          artists.sort{|a,b| a.lastname <=> b.lastname}.each do |artist|
+            csv << [ artist.firstname, artist.lastname, artist.get_name, artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, '', '', artist.primary_medium ? artist.primary_medium.name : '' ]
+          end
+        end
+      }
       #format.pdf { render :pdf => 'this' }
     end
   end
+
 end

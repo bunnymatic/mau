@@ -642,12 +642,10 @@ var TagMediaHelper = {
 	this.safe_update('ap_favorites',ap.favorites_count);
         
 	var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
-	if (med) {
-	  var md = $("ap_medium");
-	  if (md) {
-	    md.update('');
-	    new Insertion.Bottom(md, med);
-	  }
+	var md = $("ap_medium");
+	if (md) {
+	  md.update('');
+	  new Insertion.Bottom(md, med);
 	}
 	var ts = TagMediaHelper.format_tags.apply(ap.tags,[true]);
 	var i = 0;
