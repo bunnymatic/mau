@@ -6,9 +6,10 @@
       <span class="lkmap">(<%= link_to 'map', @studio.map_link %>)</span>
       <% end -%>
     </div>
-    <div><%= @studio.city %></div>
   </div>
+  <div>
   Open Studios Participants: <%= @studio.artists.open_studios_participants.count %>
+  </div>
   <% if @studio.artists.count > 0 -%>
     <ul class="artists-thumbs">
       <% @studio.artists.active.each do |artist| 
