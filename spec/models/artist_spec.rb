@@ -319,8 +319,31 @@ describe Artist do
         @a.artist_info.lng.should be_close(@myinfo.lng, 0.001)
       end
     end
-      
   end    
+  describe 'primary_medium' do
+    fixtures :media
+    before do
+      @a = users(:artist1)
+      @a.artist_info = artist_infos(:artist1)
+      @a.save
+      media_ids = Medium.find(:all, :order => :name).map(&:id)
+      8.times.each do |ct| 
+        idx = ((media_ids.count-1)/(ct+1)).to_i
+        @a.art_pieces << ArtPiece.new(:title => 'abc', :medium_id => media_ids[idx])
+      end
+      @a.save 
+    end
+    it 'finds medium 1 as the most common' do
+      @a.primary_medium.should == media(:medium1)
+    end
+    it 'works with no media on artist' do
+      @a = users(:quentin)
+      lambda {@a.primary_medium}.should_not raise_error
+    end
+
+  end
+     
+
   describe 'named scopes' do
     before do
       @a = users(:artist1)

@@ -173,6 +173,32 @@ class ApplicationController < ActionController::Base
     logger.error(exception)
     render :template => "/error/index.html.erb", :status => 500
   end
+  
+  def render_csv opts
+    
+    filename = opts[:filename] || params[:action]
+    filename += '.csv' unless /\.csv$|\.CSV$/.match(filename)
+    
+    if request.env['HTTP_USER_AGENT'] =~ /msie/i
+      headers['Pragma'] = 'public'
+      headers["Content-type"] = "text/plain" 
+      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\"" 
+      headers['Expires'] = "0" 
+    else
+      headers["Content-Type"] ||= 'text/csv'
+      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
+    end
+    
+    render :text => Proc.new { |response, output|
+      #monkey patch /duck typing. 2.3 rails ActionController::Response doesn't have <<, only write  
+      def output.<<(*args)  
+        write(*args)  
+      end  
+      csv = FasterCSV.new(output, :row_sep => "\r\n")
+      yield csv
+    }
+  end
 
   def no_cache
     response.headers["Last-Modified"] = Time.now.httpdate
