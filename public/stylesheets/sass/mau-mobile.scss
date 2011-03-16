@@ -51,10 +51,12 @@ h1,h2,h3,h4,h5,h6 {
         border-top: 1px dotted white;
     }
     
-    h2.os-star {
-        position:relative;
+    h2 {
         margin-top:0;
-        padding-left: 30px;
+        &.os-star {
+            position:relative;
+            padding-left: 30px;
+        }
         div.os-star {
             bottom: 0px;
             left: 0px;

@@ -8,9 +8,7 @@
   <% else -%>
   <h2><%=h @artist.get_name %></h2>
   <% end -%>
-  <div class='clear'></div>
-
-  <div class="address section small">
+  <div class="address">
     <% if @artist.studio -%>
     <div class="studio">Studio: <%= link_to @artist.studio.name, @artist.studio  %></div>
     <div><%=h @artist.studio.street %> 
@@ -27,7 +25,7 @@
   </div>
 
   <% if @artist.media and @artist.media.length > 0 -%>
-  <div class="media section small">
+  <div class="media section">
     <span>Media:</span>
     <span>
       <% links = []
