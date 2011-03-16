@@ -3,25 +3,27 @@
   <div class="address">
     <div><%=h @studio.street %>
       <% if @studio.id > 0 -%>
-      <span class="lkmap">(<%= link_to 'map', @studio.map_link, "data-ajax" => false %>)</span>
+      <span class="lkmap">(<%= link_to 'map', @studio.map_link %>)</span>
       <% end -%>
     </div>
     <div><%= @studio.city %></div>
   </div>
   Open Studios Participants: <%= @studio.artists.open_studios_participants.count %>
   <% if @studio.artists.count > 0 -%>
-    <div class="artists-thumbs">
-      <% @studio.artists.each do |artist| 
-         next if artist.nil? || artist.representative_piece.nil?
+    <ul class="artists-thumbs">
+      <% @studio.artists.active.each do |artist| 
+         next if artist.nil?
          os_star = false
          if artist.artist_info
            os_star = artist.os_participation['201104']
          end
 
-      -%>
-      <a rel="external" href="<%= artist_path(artist) %>"><div class="thumb"><img src="<%= artist.representative_piece.get_path('small') %>"></div></a>
+         piece = (artist.representative_piece ? artist.representative_piece.get_path('small') : artist.get_profile_image('small')) -%>
+      <li><a href="<%= artist_path(artist) %>"><div class="thumb" style="background-image:url(<%= piece %>); "></div></a>
+        <%= '<div class="os-star"></div>' if artist.os_participation['201104'] %>
+      </li>
       <% end -%>
-    </div>
+    </ul>
   <% end -%>
 </div>
 

@@ -10,29 +10,98 @@ h1,h2,h3,h4,h5,h6 {
     max-width: 250px;
 }
 
+#art_pieces {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+        margin: 0;
+        padding: 0;
+        float: left;
+        margin: 8px;
+        overflow: hidden;
+        height: 200px;
+        width: 200px;
+        border: 1px solid white;
+    }
+
+    .ap-thumb {
+        background-color: #666;
+        background-position: center center;
+        background-repeat: no-repeat;
+        height: 200px;
+        width: 200px;
+    }
+    
+}
+
+.clear {
+    clear:both;
+}
 .ui-content {
+    div { line-height: 1.4em; }
+    .section {
+        &.small {
+            float: left;
+            width: 130px;
+            margin-right: 10px;
+        }
+        margin: 8px 0; 
+        padding: 8px 0;
+        border-top: 1px dotted white;
+    }
+    
+    h2.os-star {
+        position:relative;
+        margin-top:0;
+        padding-left: 30px;
+        div.os-star {
+            bottom: 0px;
+            left: 0px;
+        }
+    }
     .banner-img {
         text-align:center;
         margin-bottom: 30px;
     }
     .representative-img {
+        position: relative;
         text-align: center;
     }
-    .thumb {
-        position: relative;
-        img {
-            position: absolute;
-            top: center;
-            left: center;
+    ul.artists-thumbs {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            float: left;
+            margin: 8px;
+            overflow: visible;
+            height: 120px;
+            width: 120px;
+            border: 1px solid white;
+            
+            .os-star {
+                position: absolute;
+                bottom: -12px;
+                right: -12px;
+            }
         }
-        margin: 8px;
-        float: left;
-        overflow: hidden;
+    }
+
+    .thumb {
         height: 120px;
         width: 120px;
-        border: 1px solid white;
+        background-position: center center;
+        background-repeat: no-repeat;
     }
-        
+    #thumbs {
+        .artists-thumbs {
+            margin-top: 25px;
+        }
+    }
 }
 
 .mobile-menu.os-star {
@@ -44,6 +113,10 @@ h1,h2,h3,h4,h5,h6 {
     margin-right: 8px;
     vertical-align: center;
     height: 36px;
+    a.ui-link {
+        color: white;
+        text-decoration: none;
+    }
     span {
         font-weight:900;
         margin-right:4px;
@@ -79,17 +152,6 @@ li.os-star {
     }
 }
 
-.m-content h2.os-star {
-    position:relative;
-    padding-left: 30px;
-    div.os-star {
-        bottom: 0px;
-        left: 0px;
-    }
-}
-.m-content div {
-    line-height: 1.4em;
-}
 .ui-body-a .ui-link {
     color: #ff4;
 }

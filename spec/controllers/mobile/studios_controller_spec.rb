@@ -27,31 +27,37 @@ describe StudiosController do
     end
 
     it_should_behave_like "a regular mobile page"
+    it_should_behave_like "non-welcome mobile page"
     
     it "includes a link to each studio" do
       Studio.all.each do |s|
-        url = studio_path(s)
-        response.should have_tag("a[href=#{url}]", :match => s.name)
+        if s.artists.count > 0
+          url = studio_path(s)
+          url += "/" unless /\/$/.match(url)
+          response.should have_tag("a[href=#{url}]", :match => s.name)
+        end
       end
     end
   end
 
   describe "show" do
     before do
+      Artist.any_instance.stubs(:os_participation => {'201104' => true})
       get :show, :id => @s.id
     end
 
     it_should_behave_like "a regular mobile page"
+    it_should_behave_like "non-welcome mobile page"
 
     it "includes studio title" do
-      response.should have_tag('h3', :match => @s.name)
+      response.should have_tag('h2', :match => @s.name)
     end
     it "includes studio address" do
       response.should have_tag('.address', :match => @s.street)
     end
 
     it "includes list of artists in that studio" do 
-      response.should have_tag("li.mobile-menu", :minimum => @s.artists.count)
+      response.should have_tag("li div.thumb", :minimum => @s.artists.active.count)
     end
 
     it "includes number of activated artists in the studio"

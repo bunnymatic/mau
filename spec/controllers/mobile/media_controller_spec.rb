@@ -49,6 +49,7 @@ describe MediaController do
       get :show, :id => Medium.first.id
     end
     it_should_behave_like 'a regular mobile page'
+    it_should_behave_like "non-welcome mobile page"
     it "returns success" do
       response.should be_success
     end

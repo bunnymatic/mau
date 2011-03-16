@@ -49,6 +49,7 @@ class MediaController < ApplicationController
         render :layout => "mau"
       }
       format.mobile {
+        @page_title = "Media: " + @medium.name
         _show_mobile
         render :layout => "mobile"
       }

@@ -8,8 +8,9 @@ module MobileHelper
       clz += " os-star"
       star_code = "<div class='os-star'></div>"
     end
+    link += "/" unless /\/$/.match(link)
     return <<EOM
-       <li class="mobile-menu #{clz}"><a data-transition="slide" rel="external" href="#{link}">#{star_code}#{content}</a></li>
+       <li class="mobile-menu #{clz}"><a data-transition="slide" href="#{link}">#{star_code}#{content}</a></li>
 EOM
   end
 

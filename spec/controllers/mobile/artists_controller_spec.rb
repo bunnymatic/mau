@@ -44,12 +44,13 @@ describe ArtistsController do
       get :index
     end
     it_should_behave_like "a regular mobile page"
+    it_should_behave_like "non-welcome mobile page"
     
     it "includes link for artists by first name" do
-      response.should have_tag("li.mobile-menu a[href=/artists_by_firstname]", :match => /artists by first name/i)
+      response.should have_tag("li.mobile-menu a[href=/artists_by_firstname/]", :match => /artists by first name/i)
     end
     it "includes link for artists by last name" do
-      response.should have_tag("li.mobile-menu a[href=/artists_by_lastname]", :match => /artists by last name/i)
+      response.should have_tag("li.mobile-menu a[href=/artists_by_lastname/]", :match => /artists by last name/i)
     end
     it "includes link to search for artist by name" do
       pending
@@ -90,9 +91,17 @@ describe ArtistsController do
       get :thumbs
     end
     it_should_behave_like "a regular mobile page"
+    it_should_behave_like "non-welcome mobile page"
+
+    it "includes link for artists by first name" do
+      response.should have_tag("li.mobile-menu a[href=/artists_by_firstname/]", :match => /artists by first name/i)
+    end
+    it "includes link for artists by last name" do
+      response.should have_tag("li.mobile-menu a[href=/artists_by_lastname/]", :match => /artists by last name/i)
+    end
     it "shows 1 thumb per artist who has a representative image" do
       artists = Artist.active.select{ |a| a.representative_piece }
-      response.should have_tag('img', :minimum => artists.count )
+      response.should have_tag('div.thumb', :minimum => artists.count )
     end
   end
 
@@ -101,17 +110,14 @@ describe ArtistsController do
       get :show, :id => @artist.id
     end
     it_should_behave_like "a regular mobile page"
+    it_should_behave_like "non-welcome mobile page"
 
-    it 'shows the user\'s representative image' do
-      response.should have_tag("img[src=#{@artist.representative_piece.get_path}]")
-    end
-    
     it 'shows the user name' do
-      response.should have_tag '.m-content h2', :text => @artist.get_name
+      response.should have_tag 'div[data-role=content] div h2', :text => @artist.get_name
     end
     
     it 'shows the user\'s studio name' do
-      response.should have_tag('.m-content .studio', :match => @artist.studio.name)
+      response.should have_tag('div[data-role=content] div.studio', :match => @artist.studio.name)
     end
 
     it 'shows the users address' do

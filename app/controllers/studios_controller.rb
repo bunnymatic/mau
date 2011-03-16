@@ -15,7 +15,7 @@ class StudiosController < ApplicationController
     studios = Studio.all
     @studios = []
     studios.each do |s| 
-      if s.artists.count >= @@MIN_ARTISTS_PER_STUDIO
+      if s.artists.active.count >= @@MIN_ARTISTS_PER_STUDIO
         @studios << s
       end
     end
@@ -24,6 +24,7 @@ class StudiosController < ApplicationController
       format.html { render :layout => 'mau' }
       format.mobile { 
         @page_title = "Studios"
+        @studios.reject!{|s| s.artists.active.count < 1}
         render :layout => 'mobile' 
       }
     end
@@ -94,7 +95,7 @@ class StudiosController < ApplicationController
     @other_artists = []
     @page_title = "Mission Artists United - Studio: %s" % @studio.name
     unless @_ismobile
-      @studio.artists.each do |a|
+      @studio.artists.active.each do |a|
         if a.active?
           if a.representative_piece
             @pieces << a.representative_piece
@@ -104,7 +105,7 @@ class StudiosController < ApplicationController
         end
       end
     else
-      @page_title = @studio.name
+      @page_title = "Studio: " + @studio.name
     end
 
     @other_artists.sort! { |a,b| a.lastname <=> b.lastname }

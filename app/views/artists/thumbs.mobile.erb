@@ -1,9 +1,14 @@
+<div id="thumbs">
 <ul data-role="listview">
 <%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
 <%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
 </ul>
-<div class="artists-thumbs">
+<ul class="artists-thumbs">
 <% @artists.each do |artist| -%>
-  <a rel="external" href="<%= artist_path(artist) %>"><div class="thumb"><img src="<%= artist.representative_piece.get_path('small') %>"></div></a>
+  <% piece = (artist.representative_piece ? artist.representative_piece.get_path('small') : artist.get_profile_image('small')) -%>
+  <li><a href="<%= artist_path(artist) %>"><div class="thumb" style="background-image:url(<%= piece %>); "></div></a>
+  <%= '<div class="os-star"></div>' if artist.os_participation['201104'] %>
+  </li>
 <% end -%>
+</ul>
 </div>

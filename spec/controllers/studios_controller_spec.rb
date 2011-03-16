@@ -23,7 +23,6 @@ describe StudiosController do
         get :index
       end
       it_should_behave_like "logged in user"
-      
     end
   end
 end
