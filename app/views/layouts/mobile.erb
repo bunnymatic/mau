@@ -4,25 +4,19 @@
 <link rel="stylesheet" href="/stylesheets/jquery-mobile/jquery.mobile-1.0a3.min.css" />
 <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1; user-scalable=0"/>
   <%= stylesheet_link_tag 'mau-mobile' %>
-  <title>Mission Artists United : <%= @title.blank? ? 'Art is the Mission' : @title %></title>
+  <title>Mission Artists United : <%= @page_title.blank? ? 'Art is the Mission' : @page_title %></title>
 </head>
 <body>
-<div data-role="page" data-theme="a" id="<%= request.path.gsub!('/','_') %>" >
+<div data-role="page" data-theme="a" data-url="<%= request.path %>">
   <div data-role="header" data-backbtn="true">
     <h1><%= @page_title || 'Art is the Mission' %></h1>
     <a data-rel="back" data-icon="back" >Back</a>
-    <a href="/" data-icon="home" data-ajax="false">Home</a>
+    <a href="/" data-icon="home" >Home</a>
   </div>
-  <div data-role="content" class="m-content center">
+  <div data-role="content">
     <%= yield %>
   </div>
-  <div data-role="footer" class="m-footer center">
-    <div class="news-footer">
-      <span>ART IS THE <span style="color: orange;">MISSION</span></span>
-      <a href="http://www.facebook.com/MissionArtists" target="_blank" ><img class="icons" src="/images/icons/fb32.png" alt="facebook"></a>
-      <a href="http://twitter.com/sfmau" target="_blank" ><img class="icons" src="/images/icons/twitter32.png" alt="twitter"></a>
-    </div>
-  </div>
+  <%= render :partial => '/mobile/footer' %>
 </div>
 </body>
 <script src="http://code.jquery.com/jquery-1.5.min.js"></script>

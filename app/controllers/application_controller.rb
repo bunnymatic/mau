@@ -136,8 +136,9 @@ class ApplicationController < ActionController::Base
   end
 
   def check_browser
-    @_ismobile = (is_mobile_device? and is_mobile_device? > 0)? 'true':'false'
+    @_ismobile = (is_mobile_device? and is_mobile_device? > 0)? true:false
     @_mobile_device_name = user_agent_device_name 
+    params[:format] = 'mobile' if @_ismobile
     logger.info("Mobile? %s (device %s)" % [@_ismobile, @_mobile_device_name])
 
     unless self.request[USERAGENT].blank?

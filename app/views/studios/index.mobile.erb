@@ -1,5 +1,5 @@
 <ul data-role="listview">
 <% @studios.each do |s| -%>
-  <%= render_as_mobile_list_item "#{s.name} (#{s.artists.count})", :link => studio_path(s) %>
+  <%= render_as_mobile_list_item "#{s.name} (#{s.artists.active.count})", :link => studio_path(s) %>
 <% end -%>
 </ul>

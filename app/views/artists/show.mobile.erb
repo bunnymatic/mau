@@ -1,56 +1,69 @@
 <% if @artist -%>
 <div>
-  <% if @artist.representative_piece -%>
-  <div class="representative-img"><img src="<%= @artist.representative_piece.get_path %>"></div>
-  <% end -%>
   <% if @artist.artist_info && @artist.os_participation['201104'] %>
   <h2 class='os-star'><%=h @artist.get_name %>
-  <div class="os-star"></div>
+    <div class="os-star"></div>
   </h2>
-  See more at Open Studios April 16-17, 2011
-
+  See this artist in their studio during Open Studios April 16-17, 2011
   <% else -%>
   <h2><%=h @artist.get_name %></h2>
   <% end -%>
-  <div class="address">
+  <div class='clear'></div>
+
+  <div class="address section small">
     <% if @artist.studio -%>
-    <div class="studio"><%= link_to @artist.studio.name, @artist.studio, "data-ajax" => false %></div>
+    <div class="studio">Studio: <%= link_to @artist.studio.name, @artist.studio  %></div>
     <div><%=h @artist.studio.street %> 
       <% if @artist.artist_info.studionumber -%><span>#<%=h @artist.artist_info.studionumber %></span><% end -%>
-      <span class="lkmap">(<%= link_to 'map', @artist.studio.map_link, "data-ajax" => false %>)</span>
+      <span class="lkmap">(<%= link_to 'map', @artist.studio.map_link %>)</span>
     </div>
     <% else -%>
     <div><% if  @artist.artist_info.full_address.length > 1 -%>
       <%=h @artist.artist_info.street %>
-      <span class="lkmap">(<%= link_to 'map', @artist.artist_info.map_link, "data-ajax" => false %>)</span>
+      <span class="lkmap">(<%= link_to 'map', @artist.artist_info.map_link %>)</span>
       <% end -%>
     </div>
     <% end -%>
   </div>
+
   <% if @artist.media and @artist.media.length > 0 -%>
-  <div class="media">
+  <div class="media section small">
     <span>Media:</span>
     <span>
       <% links = []
          @artist.media.each do |m| 
-         links << link_to(m.name, m, :class => "", "data-ajax" => false  )
-		  end
-		  -%>
-         <%= links.join(", ") %>
+            links << link_to(m.name, m, :class => "")
+         end
+      -%>
+      <%= links.join(", ") %>
     </span>
   </div>
   <% end -%>
+  <div class='clear'></div>
+
+  <% if @artist.art_pieces.count %>
+  <ul id="art_pieces" class="section">
+    <% @artist.art_pieces.each do |artpiece| 
+    -%>
+    <li><div class="ap-thumb" style="background-image:url(<%= artpiece.get_path('small') %>); "></div></li>
+    <% end -%>
+  </ul>
+  <% end -%>
+  <div class='clear'></div>
+
   <% if has_links(@artist) -%>
-  <div class="links">
+  <div class="links section">
     <% keyed_links.each do |key, name, _id|  
-       lnk = @artist.send(key)
-       if lnk and !lnk.empty? %>
+         lnk = @artist.send(key)
+         if lnk and !lnk.empty? %>
     <div id="<%= _id %>"><span><%= name %>: </span>
-      <%= link_to lnk, add_http(lnk), { "data-ajax" => false } %>
+           <%= link_to lnk, add_http(lnk) %>
+    </div>
+    <%   end 
+       end
+    -%>
   </div>
   <% end -%>
-  <% end -%>
-</div>
-<% end -%>
+
 </div>
 <% end -%>
