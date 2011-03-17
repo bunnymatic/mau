@@ -3,6 +3,8 @@
   <div>
     <ul data-role="listview">
       <%= render_as_mobile_list_item 'artists', :link => '/artists/thumbs' %>
+      <%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
+      <%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
       <%= render_as_mobile_list_item 'studios', :link => '/studios' %>
       <%= render_as_mobile_list_item 'spring open studios', :link => '/about' %>
     </ul>
