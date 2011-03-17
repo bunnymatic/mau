@@ -11,6 +11,8 @@ describe MediaController do
   
   before do
     # do mobile
+    Artist.any_instance.stubs(:os_participation => {'201104' => true})
+
     request.stubs(:user_agent).returns(IPHONE_USER_AGENT)
     
     Rails.cache.stubs(:read).returns(nil)
@@ -64,7 +66,7 @@ describe MediaController do
       m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
       m2freq['ct'].should == 1
     end
-    context " an id that doesn't exist " do
+    context "an id that doesn't exist" do
       before do
         get :show, :id => 0
       end
@@ -76,6 +78,5 @@ describe MediaController do
       assigns(:artists).uniq.count.should == assigns(:artists).count
     end
   end
-  
 end
       

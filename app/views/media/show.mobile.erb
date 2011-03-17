@@ -1,10 +1,14 @@
-<ul data-role="listview">
-  <% @artists.each do |a| 
-        os_star = false
-        if a.artist_info
-           os_star = a.os_participation['201104']
-        end
--%>
-  <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a),  :os_star => os_star  %>
+<ul class="artists-thumbs">
+  <% @artists.each do |artist| 
+     next if artist.nil?
+     os_star = false
+     if artist.artist_info
+     os_star = artist.os_participation['201104']
+     end
+
+     piece = (artist.representative_piece ? artist.representative_piece.get_path('small') : artist.get_profile_image('small')) -%>
+  <li><a href="<%= artist_path(artist) %>"><div class="thumb" style="background-image:url(<%= piece %>); "></div></a>
+    <%= '<div class="os-star"></div>' if artist.os_participation['201104'] %>
+  </li>
   <% end -%>
 </ul>
