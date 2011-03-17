@@ -446,7 +446,7 @@ class ArtistsController < ApplicationController
     end
   end
   def sorted_by sort_column
-    @artists = Artist.active.find(:all, :order => sort_column)
+    @artists = Artist.active.find(:all, :order => sort_column).select{|a| a.representative_piece}
     respond_to do |format| 
       format.mobile { 
         render :layout => 'mobile', :template => 'artists/index.mobile'
