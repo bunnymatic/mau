@@ -12,7 +12,7 @@
   </div>
   <% if @studio.artists.count > 0 -%>
     <ul class="artists-thumbs">
-      <% @studio.artists.active.each do |artist| 
+      <% @studio.artists.active.select{|a| a.representative_piece}.each do |artist| 
          next if artist.nil?
          os_star = false
          if artist.artist_info

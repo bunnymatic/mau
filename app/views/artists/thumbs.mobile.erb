@@ -1,8 +1,4 @@
 <div id="thumbs">
-<ul data-role="listview">
-<%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
-<%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
-</ul>
 <ul class="artists-thumbs">
 <% @artists.each do |artist| -%>
   <% piece = (artist.representative_piece ? artist.representative_piece.get_path('small') : artist.get_profile_image('small')) -%>
