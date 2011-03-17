@@ -38,7 +38,7 @@ class MediaController < ApplicationController
         render '/error', "Media haven't been properly setup."
         return
       else
-        redirect_to medium_path(Medium.first)
+        redirect_to medium_path(Medium.first), :format => params[:format]
         return
       end
     end
@@ -198,14 +198,9 @@ class MediaController < ApplicationController
 
   def _show_mobile
     # find artists using this medium
-    @artists = []
     items = ArtPiece.find_all_by_medium_id(@medium.id, :order => 'created_at')
     
     # if show by artists, pick 1 from each artist
-    tmps = {}
-    items.each do |pc|
-      @artists << pc.artist
-    end
-    @artists.uniq!
+    @artists = Artist.find(items.map(&:artist_id).uniq)
   end
 end
