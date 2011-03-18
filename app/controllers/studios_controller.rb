@@ -79,7 +79,9 @@ class StudiosController < ApplicationController
         @studios << s
       end
     end
-    if STUDIO_KEYS.keys.include? params[:id]
+    if params[:id] == 'independent_studios'
+      @studio = Studio.indy()
+    elsif STUDIO_KEYS.keys.include? params[:id]
       @studio = Studio.find_by_name(STUDIO_KEYS[params[:id]])
     end
     unless @studio
