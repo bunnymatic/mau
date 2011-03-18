@@ -25,4 +25,15 @@ describe StudiosController do
       it_should_behave_like "logged in user"
     end
   end
+  
+  describe "keyed studios" do
+    Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].each do |k,v|
+      unless k == 'independent_studios'
+        it "should return studio #{v} for key #{k}" do
+          get :show, :id => k
+          response.should have_tag('h4', :text => v)
+        end
+      end
+    end
+  end
 end
