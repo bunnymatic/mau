@@ -1,6 +1,10 @@
 class StudiosController < ApplicationController
   # GET /studios
   # GET /studios.xml
+  
+
+  STUDIO_KEYS = Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].freeze
+  
   before_filter :admin_required, :except => [ 'index', 'show' ]
   after_filter :store_location
 
@@ -75,17 +79,21 @@ class StudiosController < ApplicationController
         @studios << s
       end
     end
-
-    if params[:id] == "0"
-      @studio = Studio.indy()
-    else
-      begin
-        @studio = Studio.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        @studio = nil
+    if STUDIO_KEYS.keys.include? params[:id]
+      @studio = Studio.find_by_name(STUDIO_KEYS[params[:id]])
+    end
+    unless @studio
+      if params[:id] == "0"
+        @studio = Studio.indy()
+      else
+        begin
+          @studio = Studio.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+          @studio = nil
+        end
       end
     end
-    if not @studio
+    unless @studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
       redirect_to studios_path
       return
