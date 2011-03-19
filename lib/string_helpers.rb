@@ -1,17 +1,27 @@
 # helpers for strings
 module StringHelpers
-  def trim(str, len)
-    if len < (str.length+3)
-      str[0..len] + "..."
-    else
-      str
+  def self.trunc(msg, num_chars=100, ellipsis=true)
+    # truncate string to num_chars
+    # add ellipsis if ellipsis=true
+    # num_chars includes ellipsis
+    num_chars = num_chars.to_i
+    if msg.length < num_chars
+      return msg
     end
-  end
-  
-  def strip_html_tags(str)
-    str.gsub(/<\/?[^>]*>/, "")
-  end
-  
+    num_chars = num_chars - 1
+    if ellipsis
+      num_chars = num_chars - 3
+    end
+    if num_chars < 0
+      return ""
+    end
+    msg = msg[0..num_chars]
+    if ellipsis
+      "%s..." % msg
+    else
+      msg
+    end
+  end   
 end
 
   

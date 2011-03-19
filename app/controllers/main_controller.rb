@@ -128,30 +128,12 @@ class MainController < ApplicationController
   end
 
   def resources
-    
-    @feedhtml = ''
-    numentries = 5
-    url, link = 'http://missionartistsunited.wordpress.com/feed/',
-    'http://missionartistsunited.wordpress.com'
-    begin
-      cached_html = Rails.cache.read(FEEDS_KEY)
-    rescue
-      cached_html = nil
-    end
-    if !cached_html or cached_html.empty?
-      cached_html = FeedsHelper.fetch_and_format_feed(url, link, 5, true, true, true)
-      begin
-        Rails.cache.write(FEEDS_KEY, cached_html, :expires_in => @@CACHE_EXPIRY)
-      rescue
-        nil
-      end
-    end
     @page_title = "Mission Artists United - Open Studios"
-    @feedhtml = cached_html
     render :action => 'resources', :layout => 'mau'
   end
 
   def venues
+    @page_title = "Mission Artists United - Venues"
     # temporary venues endpoint until we actually add a real
     # controller/model behind it
   end

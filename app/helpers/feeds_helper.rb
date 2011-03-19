@@ -1,37 +1,7 @@
+require 'lib/twitter'
 NUM_POSTS = 3
 DESCRIPTION_LENGTH = 600
 TITLE_LENGTH = 140
-
-class TwitterEntry
-  attr_accessor :description
-  attr_accessor :date
-  def title
-    self.description
-  end
-end
-class TwitterChannel
-  attr_accessor :title
-end
-class TwitterFeed 
-  attr_accessor :channel
-  attr_accessor :items
-  def initialize(json=nil)
-    if json 
-      twitter_data = JSON.parse(json)
-      twitter_data.each do |tweet|
-        self.channel = TwitterChannel.new
-        self.channel.title = "Twitter: " + tweet['user']['screen_name']
-        entry = TwitterEntry.new
-        entry.description = tweet["text"]
-        entry.date = Date.parse(tweet['created_at'])
-        if !self.items:
-            self.items = []
-        end
-        self.items << entry
-      end
-    end
-  end
-end
 
 module FeedsHelper
   @@URLMATCH_TO_CLASS = { 'facebook.com' => 'facebook',
@@ -60,31 +30,15 @@ module FeedsHelper
     'rss'
   end
 
-  def self.trunc(msg, num_chars=100, ellipsis=true)
-    # truncate string to num_chars
-    # add ellipsis if ellipsis=true
-    # num_chars includes ellipsis
-    num_chars = num_chars.to_i
-    if msg.length < num_chars
-      return msg
-    end
-    num_chars = num_chars - 1
-    if ellipsis
-      num_chars = num_chars - 3
-    end
-    if num_chars < 0
-      return ""
-    end
-    msg = msg[0..num_chars]
-    if ellipsis
-      "%s..." % msg
-    else
-      msg
-    end
-  end   
 
-
-  def self.parse_entry(entry, link, strip_tags, include_date, truncate)
+  def self.parse_entry(entry, link, opts)
+    options = { :strip_tags => true,
+      :include_date => false,
+      :truncate => true, 
+      :css_class => ''}.merge(opts)
+    strip_tags = options[:strip_tags]
+    include_date = options[:include_date]
+    truncate = options[:truncate]
     if ! entry
       return "<div class='feedentry'></div>"
     end
@@ -97,15 +51,15 @@ module FeedsHelper
     entry.title.strip!
     title = entry.title
     desc = entry.description
-    feed = "<div class='feedentry'>"
+    feed = "<div class='feedentry  #{options[:css_class]}'>"
     if include_date
       feed += "<span class='feeddate'>%s</span>" % entry.date
     end
 
     if !link.include? 'twitter'
       if truncate
-        title = FeedsHelper.trunc(title, TITLE_LENGTH)
-        desc = FeedsHelper.trunc(desc, DESCRIPTION_LENGTH)
+        title = StringHelpers.trunc(title, TITLE_LENGTH)
+        desc = StringHelpers.trunc(desc, DESCRIPTION_LENGTH)
       end
       if title 
         feed += "<div class='feedtitle'>%s</div>" % title
@@ -116,7 +70,7 @@ module FeedsHelper
     else
       if title
         if truncate
-          title = FeedsHelper.trunc(title, TITLE_LENGTH)
+          title = StringHelpers.trunc(title, TITLE_LENGTH)
         end
         # replace links with links
         feed += "<div class='feedtxt'>%s</div>" % title
@@ -127,9 +81,15 @@ module FeedsHelper
     
   end
 
-  def self.fetch_and_format_feed(url, link, numentries=NUM_POSTS, strip_tags=true, include_date=false, truncate=false)
+  def self.fetch_and_format_feed(url, link, opts = {})
+    options = { :numentries => NUM_POSTS, 
+      :strip_tags => true, 
+      :include_date => false, 
+      :truncate => true }.merge(opts)
+    numentries = options[:numentries]
+
     logger = RAILS_DEFAULT_LOGGER
-    logger.info("FeedsHelper: fetch/format %s posts.  Strip? %s" % [ numentries, strip_tags])
+    logger.info("FeedsHelper: fetch/format %s posts." % numentries)
     feedcontent = ''
     begin
       logger.info("FeedsHelper: open " + url)
@@ -155,8 +115,10 @@ module FeedsHelper
           feedcontent += "<div class='feed-entries'>"
           feedcontent += hdr
           num = [result.items.length, numentries].min - 1
-          result.items[0..num].each do |entry|
-            feedcontent += parse_entry(entry, link, strip_tags, include_date, truncate)
+          result.items[0..num].each_with_index do |entry, idx|
+            xtra_class = (0==(idx % 2)) ? "odd":"even"
+            options[:css_class] = xtra_class
+            feedcontent += parse_entry(entry, link, options)
           end
           feedcontent += "</div>"
         end
@@ -164,6 +126,7 @@ module FeedsHelper
       end
     rescue Exception => e
       logger.warn("FeedsHelper: failed to open/parse feed " + e.to_s)
+      raise
     end
     feedcontent
   end

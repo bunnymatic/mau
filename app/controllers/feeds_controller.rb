@@ -15,9 +15,9 @@ class FeedsController < ApplicationController
 
   def feed
     allfeeds = ''
-    numentries = params[:numentries].to_i or 2
+    numentries = params[:numentries].to_i or nil
     page = ''
-    if !params[:page].empty?
+    if !params[:page].blank?
       page = params[:page]
     end
     begin
@@ -42,7 +42,13 @@ class FeedsController < ApplicationController
       feeds = Conf.feeds_urls
       strip_tags = true
       choice(feeds, @@NUM_FEEDS).each do |ff|
-        allfeeds += FeedsHelper.fetch_and_format_feed(ff['feed'], ff['url'], numentries, true, false, true)
+        next unless ff
+        if ff['url'].match /twitter.com/
+          numentries = 3
+        else 
+          numentries = 1
+        end
+        allfeeds += FeedsHelper.fetch_and_format_feed(ff['feed'], ff['url'], {:numentries => numentries})
       end
       begin
         logger.info("FeedController: add feed to cache(expiry %d)" % @@CACHE_EXPIRY)

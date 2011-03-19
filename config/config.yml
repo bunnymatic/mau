@@ -64,6 +64,8 @@ production:
        media_frequency: 3600
        tag_frequency: 3600
 
+#     - feed: http://twitter.com/statuses/user_timeline/56806324.json
+#       url: http://twitter.com/SevillaGranger 
 common:
    feedback_emails:
       - feedback@missionartistsunited.org
@@ -76,13 +78,11 @@ common:
        tag_frequency: 3600
    feeds_urls: 
       - feed: http://feeds.feedburner.com/RisingArtist
-        Url: http://risingartist.blogspot.com/
+        url: http://risingartist.blogspot.com/
       - feed: http://missionlocal.org/category/the-arts/feed/
         url: http://missionlocal.org/category/the-arts/
       - feed: http://twitter.com/statuses/user_timeline/62131363.json
         url: http://twitter.com/sfmau 
-      - feed: http://twitter.com/statuses/user_timeline/56806324.json
-        url: http://twitter.com/SevillaGranger 
       - feed: http://twitter.com/statuses/user_timeline/32943864.json
         url: http://twitter.com/bunnymaticsf
       - feed: http://sfartnews.wordpress.com/feed/

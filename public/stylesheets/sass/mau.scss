@@ -697,9 +697,10 @@ span.micro-icon {
 }
 
 .feed-entries, .feed-studio-list {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     border: 1px #444 dotted;
     margin: 5px 8px 8px 0px;
-    padding: 2px 5px 5px 5px;
     text-align:left;
 }
 
@@ -712,6 +713,8 @@ span.micro-icon {
     color: #000;
     font-weight:bold;
     text-align: left;
+    padding: 2px 5px 5px 5px;
+        
 }
 
 .alt-lcol .feed-studio-list {
@@ -741,7 +744,13 @@ div.feedtitle  {
     text-align: left;
 }
 
-#feed_div .feedentry div, /* this one is to catch any stray divs from blogger or whomever*/
+.feedentry {
+    &.even { 
+        border-top: 1px dotted #444;
+        border-bottom: 1px dotted #444;
+    }
+    padding: 2px 5px 5px 5px;
+}
 .feedtxt {
     color: #000000;
     font-size: 10px;
