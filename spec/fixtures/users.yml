@@ -71,6 +71,7 @@ joeblogs:
   image_width:               1650
   type: Artist
   url: http://joe.blogs.com
+  studio_id: 0
 
 artfan:
   login:                     artfan

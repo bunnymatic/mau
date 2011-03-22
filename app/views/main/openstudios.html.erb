@@ -15,16 +15,20 @@
   <div class="section">
     <h5>Participating Group Studios</h5>
     <ul class="participant_list">
-      <% @participating_studios.each do |s| -%>
-      <li></li>
+      <% @participating_studios.each do |s| 
+           ct = s.artists.open_studios_participants.count
+           wd = (ct > 1) ? "artists" : "artist" -%>
+      <li><%= link_to s.name,s  %>  <%= "(#{ct} #{wd})" %> &mdash; <%= s.street %></li>
       <% end -%>
     </ul>
   </div>
   <div class="section">
     <h5>Participating Independent Artists</h5>
-      <% @participating_studios.each do |s| -%>
-      <li></li>
+    <ul>
+      <% @participating_indies.each do |a| -%>
+      <li><%= link_to a.get_name(true), a %> &mdash; <%= a.street %></li>
       <% end -%>
+    </ul>
   </div>
   <div class="section">
     <div class="markdown">
