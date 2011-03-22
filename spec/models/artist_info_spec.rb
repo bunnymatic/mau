@@ -15,7 +15,7 @@ describe ArtistInfo do
   
   include ArtistInfoSpecHelper
 
-  fixtures :artist_infos
+  fixtures :artist_infos, :users
 
   describe 'address mixin' do 
     it "responds to address" do
@@ -54,24 +54,15 @@ describe ArtistInfo do
       u = users(:joeblogs)
       u.artist_info = s
       u.save
-      
-      s.save!
     end
     
     describe 'studio number' do
       before do
-        artist_infos(:joeblogs).studionumber.should be ''
-        users(:joeblogs).studionumber.should be ''
+        artist_infos(:joeblogs).studionumber.should be_nil
+        users(:joeblogs).studionumber.should be_nil
       end
-      it 'should read from user table' do
-        users(:joeblogs).update_attributes!({:studionumber - 'blurp'})
-        users(:joeblogs).studionumber.should == 'blurp'
-      end
-      it 'should read from artist info table' do
-        artist_infos(:joeblogs).update_attributes!({:studionumber - 'blurp'})
-        users(:joeblogs).studionumber.should == 'blurp'
-      end
-        
+      it 'should read from user table'
+      it 'should read from artist info table'
     end
 
     describe "open studios participation" do
