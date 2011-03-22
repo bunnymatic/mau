@@ -1,17 +1,13 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :events
-
+  map.resources :cms_documents
+  map.resources :media
 
   map.feedback 'feedbacks', :controller => 'feedbacks', :action => 'create'
   map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
 
-  map.resources :media
-
-#  map.resources :events
-#  map.resources :venues
-
   map.resources :art_pieces
-
+  
   map.autosuggesttag '/art_piece_tags/autosuggest', :controller => 'art_piece_tags', :action => 'autosuggest'
   map.resources :art_piece_tags
 

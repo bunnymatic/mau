@@ -1,8 +1,9 @@
+<div class="scaffold">
 <h1>Editing event</h1>
 
 <% form_for(@event) do |f| %>
   <%= f.error_messages %>
-
+  <div class="section">
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title %>
@@ -15,6 +16,8 @@
     <%= f.label :tweet %><br />
     <%= f.text_field :tweet %>
   </p>
+  </div>
+  <div class="section">
   <p>
     <%= f.label :venue %><br />
     <%= f.text_field :venue %>
@@ -35,6 +38,8 @@
     <%= f.label :zip %><br />
     <%= f.text_field :zip %>
   </p>
+  </div>
+  <div class="section">
   <p>
     <%= f.label :starttime %><br />
     <%= f.datetime_select :starttime %>
@@ -47,10 +52,17 @@
     <%= f.label :url %><br />
     <%= f.text_field :url %>
   </p>
+  <p><%= f.label :tags %><br/>
+    <%= f.text_field :tags %>
+  </p>
+  </div>
+  <div class="clear">
   <p>
     <%= f.submit 'Update' %>
   </p>
+  </div>
 <% end %>
 
 <%= link_to 'Show', @event %> |
 <%= link_to 'Back', events_path %>
+</div>

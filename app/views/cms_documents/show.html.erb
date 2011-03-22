@@ -1,0 +1,12 @@
+
+<div>Page: <%= @cms_document.page %></div>
+<div>Section: <%= @cms_document.section %></div>
+<div>Article:</div>
+<hr>
+<div id="processed_markdown" class="markdown">
+  <%= RDiscount.new(@cms_document.article).to_html %>
+</div>
+
+<hr>
+<%= link_to 'Edit', edit_cms_document_path(@cms_document) %> |
+<%= link_to 'Back', cms_documents_path %>
