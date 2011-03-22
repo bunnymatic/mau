@@ -57,7 +57,7 @@ describe StudiosController do
     end
 
     it "includes list of artists in that studio" do 
-      response.should have_tag("li div.thumb", :minimum => @s.artists.active.count)
+      response.should have_tag("li .thumb", :minimum => @s.artists.active.select{|a| a.representative_piece}.count)
     end
 
     it "includes number of activated artists in the studio"

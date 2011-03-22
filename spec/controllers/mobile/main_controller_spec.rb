@@ -21,7 +21,7 @@ describe MainController do
       response.layout.should == 'layouts/mobile_welcome'
     end
     it 'includes a menu with 2 items' do
-      response.should have_tag('ul li', :count => 3)
+      response.should have_tag('ul li', :count => 5)
     end
     it "includes menu item for studios" do
       response.should have_tag('ul li a[href="/studios/"]', :count => 1)

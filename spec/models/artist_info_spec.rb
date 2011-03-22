@@ -51,9 +51,29 @@ describe ArtistInfo do
       s = artist_infos(:joeblogs)
       s.street = '1891 Bryant St'
       s.expects(:compute_geocode).returns([-37,122])
+      u = users(:joeblogs)
+      u.artist_info = s
+      u.save
+      
       s.save!
     end
     
+    describe 'studio number' do
+      before do
+        artist_infos(:joeblogs).studionumber.should be ''
+        users(:joeblogs).studionumber.should be ''
+      end
+      it 'should read from user table' do
+        users(:joeblogs).update_attributes!({:studionumber - 'blurp'})
+        users(:joeblogs).studionumber.should == 'blurp'
+      end
+      it 'should read from artist info table' do
+        artist_infos(:joeblogs).update_attributes!({:studionumber - 'blurp'})
+        users(:joeblogs).studionumber.should == 'blurp'
+      end
+        
+    end
+
     describe "open studios participation" do
       describe 'get' do
         it "returns true if participation is 'true'" do
