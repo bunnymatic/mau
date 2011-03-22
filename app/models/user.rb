@@ -17,6 +17,11 @@ class User < ActiveRecord::Base
     fs.each { |f| f.delete }
   end
 
+  [:studionumber, :studionumber=
+   ].each do |delegat|
+    delegate delegat, :to => :artist_info, :allow_nil => true
+  end
+  
   attr_reader :fullname, :emailsettings
 
   has_many :favorites do
