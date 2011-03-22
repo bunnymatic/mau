@@ -46,17 +46,6 @@ describe ArtistsController do
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
     
-    it "includes link for artists by first name" do
-      response.should have_tag("li.mobile-menu a[href=/artists_by_firstname/]", :match => /artists by first name/i)
-    end
-    it "includes link for artists by last name" do
-      response.should have_tag("li.mobile-menu a[href=/artists_by_lastname/]", :match => /artists by last name/i)
-    end
-    it "includes link to search for artist by name" do
-      pending
-      response.should have_tag("li.mobile-menu a[href=/artists/search]", :match => /earch/)
-    end
-    
     context 'invalid sortby param' do
       it 'responds with success page' do
         get :index, :sortby => 'crapass'
@@ -69,7 +58,7 @@ describe ArtistsController do
         get :by_lastname
       end
       it 'shows all active artists' do
-        response.should have_tag('li.mobile-menu', :minimum => Artist.active.count)
+        response.should have_tag('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)
       end
     end
 
@@ -78,7 +67,7 @@ describe ArtistsController do
         get :by_firstname
       end
       it 'shows all active artists' do
-        response.should have_tag('li.mobile-menu', :minimum => Artist.active.count)
+        response.should have_tag('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)
       end
     end
   end
@@ -93,12 +82,6 @@ describe ArtistsController do
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
 
-    it "includes link for artists by first name" do
-      response.should have_tag("li.mobile-menu a[href=/artists_by_firstname/]", :match => /artists by first name/i)
-    end
-    it "includes link for artists by last name" do
-      response.should have_tag("li.mobile-menu a[href=/artists_by_lastname/]", :match => /artists by last name/i)
-    end
     it "shows 1 thumb per artist who has a representative image" do
       artists = Artist.active.select{ |a| a.representative_piece }
       response.should have_tag('div.thumb', :minimum => artists.count )
