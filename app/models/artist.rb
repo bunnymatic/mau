@@ -4,6 +4,7 @@ class Artist < User
     'SW' => [ 37.747787573475506, -122.42919445037842 ],
     'SE' => [ 37.74707496171992, -122.40539789199829 ] }
 
+  include AddressMixin
   named_scope :open_studios_participants, lambda { |*oskey| 
       if oskey.blank?
         {

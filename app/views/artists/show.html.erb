@@ -32,11 +32,20 @@
 		    <% if @artist.studio -%>
 		    <div><%= link_to @artist.studio.name, @artist.studio %></div>
    		    <div><%=h @artist.studio.street %> 
-		      <% if @artist.artist_info.studionumber -%><span>#<%=h @artist.artist_info.studionumber %></span><% end -%>
+		      <% if @artist.artist_info.studionumber -%>
+                      <span>#<%=h @artist.artist_info.studionumber %></span>
+                      <% end -%>
+                      <% if !@artist.address_hash.empty? -%>
+                      <span class="lkmap">(<%= link_to 'map', @artist.studio.map_link %>)</span>
+                      <% end -%>
                     </div>
    		    <div><%=h @artist.studio.city %></div>
 		    <% else -%>
-		    <div><%=h @artist.artist_info.street %></div>
+		    <div><%=h @artist.artist_info.street %>
+                      <% if !@artist.address_hash.empty? && !@artist.artist_info.street.blank? -%>
+                      <span class="lkmap">(<%= link_to 'map', @artist.map_link %>)</span>
+                      <% end -%>
+                    </div>
 		    <div><%=h @artist.artist_info.city %></div>
 		    <% end -%>
 		  </div>

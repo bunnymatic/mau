@@ -67,7 +67,7 @@
                   artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
                   if Conf.oslive
 	 	     artistsnav << "<a href='#{ artistsmap_path(:osonly => 1) }' title='map of open studios artists'>open studios map</a>"
-                     artistsnav << "<a href='/main/openstudios' title='what is open studios?'>open studios?</a>"
+                     artistsnav << "<a href='/main/openstudios' title='what is open studios?'>open studios guide</a>"
                   end
                 -%>
                 <%= HTMLHelper::print_list('leaf', artistsnav) %>
