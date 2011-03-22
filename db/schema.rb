@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110209162911) do
+ActiveRecord::Schema.define(:version => 20110322074000) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -161,10 +161,18 @@ ActiveRecord::Schema.define(:version => 20110209162911) do
   end
 
   create_table "taggings", :force => true do |t|
-    t.integer "tag_id"
-    t.integer "taggable_id"
-    t.string  "taggable_type"
+    t.integer "tag_id",        :null => false
+    t.integer "taggable_id",   :null => false
+    t.string  "taggable_type", :null => false
   end
+
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type"], :name => "index_taggings_on_tag_id_and_taggable_id_and_taggable_type", :unique => true
+
+  create_table "tags", :force => true do |t|
+    t.string "name", :null => false
+  end
+
+  add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40

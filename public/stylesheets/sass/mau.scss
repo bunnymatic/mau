@@ -771,6 +771,30 @@ div.feedtitle  {
 .news-footer span {
     vertical-align: top;
 }
+
+.markdown, #open_studios {
+    h1 {
+        text-align: center;
+        color: #eee;
+    }
+    h3, h4, h5 {
+        text-align: left; 
+        color: #8392a4;
+    }
+    .section {
+        width: 536px;
+        margin: 20px auto;
+    }
+    p {
+        margin-left: 0;
+        padding-left: 0;
+    }
+    blockquote p {
+        line-height: 1.1em;
+    }
+    
+}
+
 #news_text {
     p {
         padding-left: 0;
@@ -898,9 +922,19 @@ div.feedtitle  {
         width: 560px;
     }
 }
-#venues_text, #about_text, #news_text, .privacy-content {
+
+#news_text {
     text-align: justify;
-    margin: 0 20px;
+    width: 536px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#venues_text, #about_text, .privacy-content {
+    text-align: justify;
+    width: 536px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .privacy-content h5 {
     margin-top: 10px;
@@ -928,7 +962,6 @@ div.feedtitle  {
 #studio_page h4 {
     margin-top: 4px;
 }
-.about-title h4, .content-block h4 { text-align: center; }
 
 .content-block, #studio_page,
 .search-thumbs {
@@ -1452,6 +1485,12 @@ td.td-left{
     }
 }
 
+.logo-space {
+    margin-top: 30px;
+    h3 {
+        text-align: center;
+    }
+}
 .logo-spacer {
     line-height: 30px;
     height: 30px;
@@ -2103,6 +2142,8 @@ div.studios .studio-list {
 #admin_artist_name {
     width: 200px;
 }
+
+/** markdown */
 
 .markdown {
     li {
@@ -3287,5 +3328,12 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         td:first-child {
             width: 75%;
         }
+    }
+}
+
+.scaffold {
+    .section { 
+        float:left;
+        width: 300px;
     }
 }

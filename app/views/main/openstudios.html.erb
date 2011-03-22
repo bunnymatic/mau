@@ -1,34 +1,34 @@
-<div id="about_text" >
-  <div class="about-title"><h4>What is Open Studios?</h4></div>
-  <p>
-	Twice a year, hundreds of artists in Mission open their studio doors to the public for a whole weekend.
-	It's a fun, FREE EVENT where art lovers meander about this creative eclectic neighborhood we all love
-	and see an intimate views of the artists in their workspaces. For both events, Mission Artists United
-	provides an <a href="/artists/map?osonly=1">OPEN STUDIOS MAP</a> of the participating Mission artists and an <a href="/artists/?osonly=1">ONLINE CATALOG</a> of their
-	artwork to help you plan your meanderings.
-  </p>
-  <p>
-	<ul>
-	  <li>FALL OPEN STUDIOS is a San Francisco wide event run by Artspan and takes place over 5 weekends in
-		October/November. See <a target="_blank" href="http://www.artspan.org">www.artspan.org</a> for more info.</li>
-	  <li>SPRING OPEN STUDIOS focuses on the three the San Francisco neighborhoods most densely
-		populated by artists: The Mission, <a target="_blank" href="http://www.shipyardartists.com/">Hunters Point</a> and <a target="_blank" href="http://www.somaopenstudios.org/">SOMA</a>. It takes place over 3 weekends in April.</li>
-	</ul>
-  </p>
-
-  <p>If you are a participating MISSION ARTIST who wants to be listed on our <a href="/artists/map?osonly=1">OPEN STUDIOS MAP</a> and online
-<a href="/artists/?osonly=1">CATALOG</a>,
-<% if !logged_in? -%>
-<a href="/login">log in</a> and update your profile
-<% else -%>
-login and <a href="<%= edit_user_path(current_user) %>#events">update your profile</a>
-<% end %>
-before the Open Studios Event and let us know. There is no fee
-to participate in Spring Open Studios. Update your profile 30 days before the event to be included in
-the printed promotional material. Check out the <a href="/news/">artist resource section</a> of our site to download or order
-your promotional material.
-</p>
-
-  <%= render :partial => "info_footer" %>
-
+<div id="open_studios" class="logo-space">
+  <h1>Spring Open Studios in the Mission</h1>
+  <div class="section">
+    <h5>Saturday, April 16 and Sunday April 17, 2011</h5>
+    <h5>11am &mdash; 6pm</h5>
+    <p>
+      More than 200 artists using all mediums open their doors to the public for a weekend of art, inspiration
+      and collecting.
+    </p>
+    <p>
+      Free admission.
+      Stroll the Mission from studio to studio following the dots painted on the sidewalks.
+    </p>
+  </div>
+  <div class="section">
+    <h5>Participating Group Studios</h5>
+    <ul class="participant_list">
+      <% @participating_studios.each do |s| -%>
+      <li></li>
+      <% end -%>
+    </ul>
+  </div>
+  <div class="section">
+    <h5>Participating Independent Artists</h5>
+      <% @participating_studios.each do |s| -%>
+      <li></li>
+      <% end -%>
+  </div>
+  <div class="section">
+    <div class="markdown">
+      <%= @preview_reception_html %>
+    </div>
+  </div>
 </div>

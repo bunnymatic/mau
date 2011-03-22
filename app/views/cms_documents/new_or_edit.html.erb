@@ -1,0 +1,32 @@
+<h1>New cms_document</h1>
+
+<% form_for(@cms_document) do |f| %>
+  <%= f.error_messages %>
+  <div class="header_inputs clear">
+    <div class="section"><%= f.label :page %> <%= f.text_field :page %></div>
+    <div class="section"><%= f.label :section %> <%= f.text_field :section %></div>
+    <div class="markdown-ctrls">
+      <span id="process_markdown_btn" class="formbutton">Preview my markdown &raquo;</span>
+    </div>
+  </div>
+  <div class="section markdown-input">
+    <%= f.text_area :article, :rows => 50, :cols => 50, :class => 'input-markdown' %>
+  </div>
+  <div class="section markdown-results">
+    <div id="processed_markdown" class="markdown">
+      <%= RDiscount.new(@cms_document.article || '').to_html %>
+    </div>
+  </div>
+  <div class="clear">
+    Find more about Markdown here <a href="http://daringfireball.net/projects/markdown/basics" target="_blank">markdown basics</a>
+    or on our <a href="/tests/markdown">markdown test page</a>.
+  </div>
+  
+  <p>
+    <%= f.submit 'Save' %>
+  </p>
+<% end %>
+
+</div>
+<%= link_to 'Show', @cms_document %> |
+<%= link_to 'All', cms_documents_path %> |

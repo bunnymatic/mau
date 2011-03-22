@@ -69,6 +69,12 @@ class MainController < ApplicationController
 
   def openstudios
     @page_title = "Mission Artists United - Open Studios"
+    @participating_studios = []
+    @participating_indies = [] 
+    page = 'main_openstudios'
+    section = 'preview_reception'
+    markdown = CmsDocument.find_by_page_and_section(page, section)
+    @preview_reception_html = markdown ? RDiscount.new(markdown.article || '').to_html : ''
   end
 
   def about
