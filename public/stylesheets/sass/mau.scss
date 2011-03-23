@@ -773,26 +773,56 @@ div.feedtitle  {
 }
 
 .markdown, #open_studios {
-    h1 {
+    & h1 {
         text-align: center;
         color: #eee;
     }
-    h3, h4, h5 {
+    & h3, h4, h5 {
         text-align: left; 
         color: #8392a4;
     }
-    .section {
-        width: 536px;
+    & h4 {
+        margin-bottom: .5em;
+        font-size: 125%;
+    }
+    & .section {
+        li {
+            line-height: 1.7em;
+        }
+        width: 560px;
         margin: 20px auto;
     }
-    p {
+    & p {
         margin-left: 0;
         padding-left: 0;
     }
-    blockquote p {
+    & blockquote p {
         line-height: 1.1em;
     }
-    
+}
+#open_studios {
+    .os-catalog-icon {
+        width: 156px;
+        height: 200px;
+        float: right;
+        padding-bottom: 20px;
+    }
+    .artist-links {
+        margin-top: 10px;
+        clear: right;
+        h5 {
+            padding: 5px;
+            border: 1px solid #999;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            float:right;
+            width: 45%;
+            text-align: center;
+        }
+        h5:first-child {
+            float: left;
+        }
+    }    
 }
 
 #news_text {
@@ -925,14 +955,14 @@ div.feedtitle  {
 
 #news_text {
     text-align: justify;
-    width: 536px;
+    width: 560px;
     margin-left: auto;
     margin-right: auto;
 }
 
 #venues_text, #about_text, .privacy-content {
     text-align: justify;
-    width: 536px;
+    width: 560px;
     margin-left: auto;
     margin-right: auto;
 }

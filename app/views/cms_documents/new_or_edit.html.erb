@@ -14,7 +14,7 @@
   </div>
   <div class="section markdown-results">
     <div id="processed_markdown" class="markdown">
-      <%= RDiscount.new(@cms_document.article || '').to_html %>
+      <%= markdown @cms_document.article %>
     </div>
   </div>
   <div class="clear">

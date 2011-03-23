@@ -30,7 +30,7 @@ describe MainController do
 
   integrate_views
 
-  fixtures :users, :studios, :artist_infos
+  fixtures :users, :studios, :artist_infos, :cms_documents
 
   describe "get" do
     before do
@@ -57,8 +57,14 @@ describe MainController do
   end
 
   describe "- route generation" do
+    it 'has named openstudios route which points to main/openstudios' do
+      openstudios_path.should match /^\/openstudios/
+    end
   end
   describe "- route recognition" do
+    it "calls main controller openstudios method for '/openstudios'" do
+      params_from(:get, "/openstudios").should == {:controller => 'main', :action => 'openstudios' }
+    end
     it "should generate {:controller=>main, action=>venues} from ANY 'venues'" do
       methods = [:get, :put, :delete, :post]
       methods.each do |m|
@@ -327,6 +333,25 @@ describe MainController do
           n = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.count
           n.should > 0
           assigns(:participating_indies).should have(n).artists
+        end
+        it "uses cms for parties" do
+          CmsDocument.expects(:find_by_page_and_section).with('main_openstudios','preview_reception').returns(cms_documents(:preview_reception))
+          get :openstudios
+        end
+        it "renders the markdown version" do
+          CmsDocument.any_instance.stubs(:article => <<EOM
+# header
+
+## header2 
+
+stuff
+EOM
+)
+                            
+          get :openstudios
+          response.should have_tag('h1', :match => 'header')
+          response.should have_tag('h2', :match => 'header2')
+          response.should have_tag('p', :match => 'stuff')
         end
       end
       context "while logged in as an art fan" do

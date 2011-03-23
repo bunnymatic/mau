@@ -40,6 +40,7 @@ ActionController::Routing::Routes.draw do |map|
   map.flaxartpaymentcancel '/flaxart/payment_cancel', :controller => 'wizards', :action => 'flax_payment_cancel'
 
   map.faq '/faq', :controller => 'main', :action => 'faq'
+  map.openstudios '/openstudios', :controller => 'main', :action => 'openstudios'
   map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
 
   map.resources :artists, :member => { :update => :post }, :collection => { :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get, :edit => :get }
