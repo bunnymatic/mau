@@ -811,12 +811,14 @@ div.feedtitle  {
         margin-top: 10px;
         clear: right;
         h5 {
+            font-size: 100%;
+            margin: 5px;
             padding: 5px;
             border: 1px solid #999;
             -moz-border-radius: 3px;
             -webkit-border-radius: 3px;
-            float:right;
-            width: 45%;
+            float:left;
+            width: 28%;
             text-align: center;
         }
         h5:first-child {

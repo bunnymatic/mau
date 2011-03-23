@@ -1,12 +1,12 @@
 <div id="open_studios" class="logo-space">
   <h1>Spring Open Studios in the Mission</h1>
   <div class="section">
-    <div class="os-catalog-icon"><img src="/images/guide-soon-icon.png" width="156" height="200"></div>
     <h4>Saturday, April 16 and Sunday April 17, 2011<br/>11am &mdash; 6pm</h4>
     <%= @spring_os_blurb %>
     <div class='artist-links'>
-      <h5><a href="<%= artistsmap_path :osonly => true %>">Map of Participating Artists</a></h5>
-      <h5><a href="<%= artists_path :osonly => true %>">Artwork from the Artists</a></h5>
+      <h5><a href="<%= artistsmap_path :osonly => true %>">Open Studios Map</a></h5>
+      <h5><a href="<%= artists_path :osonly => true %>">Open Studios Art</a></h5>
+      <h5>Catalog (coming soon)</h5>
     </div>
     <div class="clear"></div>
   </div>
@@ -23,8 +23,10 @@
   <div class="section">
     <h4>Participating Independent Artists</h4>
     <ul>
-      <% @participating_indies.each do |a| -%>
-      <li><%= link_to a.get_name(true), a %> &mdash; <%= a.street %></li>
+      <% @participating_indies.each do |a| 
+         street = " &mdash; #{a.address_hash[:parsed][:street]}"
+         -%>
+      <li><%= link_to a.get_name(true), a %><%= street %></li>
       <% end -%>
     </ul>
   </div>
