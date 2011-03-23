@@ -1,17 +1,12 @@
-<div id="open_studios" class="logo-space">
+<div data-role="content" id="open_studios">
   <h1>Spring Open Studios in the Mission</h1>
   <div class="section">
-    <div class="os-catalog-icon"><img src="/images/guide-soon-icon.png" width="156" height="200"></div>
-    <h4>Saturday, April 16 and Sunday April 17, 2011<br/>11am &mdash; 6pm</h4>
+    <h5>Saturday, April 16 and Sunday April 17, 2011</h5>
+    <h5>11am &mdash; 6pm</h5>
     <%= @spring_os_blurb %>
-    <div class='artist-links'>
-      <h5><a href="<%= artistsmap_path :osonly => true %>">Map of Participating Artists</a></h5>
-      <h5><a href="<%= artists_path :osonly => true %>">Artwork from the Artists</a></h5>
-    </div>
-    <div class="clear"></div>
   </div>
   <div class="section">
-    <h4>Participating Group Studios</h4>
+    <h5>Participating Group Studios</h5>
     <ul class="participant_list">
       <% @participating_studios.each do |s| 
            ct = s.artists.open_studios_participants.count
@@ -21,7 +16,7 @@
     </ul>
   </div>
   <div class="section">
-    <h4>Participating Independent Artists</h4>
+    <h5>Participating Independent Artists</h5>
     <ul>
       <% @participating_indies.each do |a| -%>
       <li><%= link_to a.get_name(true), a %> &mdash; <%= a.street %></li>

@@ -7,6 +7,7 @@ FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
   layout 'mau2col' 
+  include MarkdownUtils
   before_filter :no_cache, :only => :index
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 20)
   def index
@@ -73,9 +74,28 @@ class MainController < ApplicationController
     @participating_indies = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.reject{ |a| !a.in_the_mission? }
 
     page = 'main_openstudios'
+    section = 'spring_2004_blurb'
+    markdown_content = CmsDocument.find_by_page_and_section(page, section)
+    @spring_os_blurb = ''
+    if markdown_content
+      @spring_os_blurb = markdown(markdown_content.article)
+    end
     section = 'preview_reception'
-    markdown = CmsDocument.find_by_page_and_section(page, section)
-    @preview_reception_html = markdown ? RDiscount.new(markdown.article || '').to_html : ''
+    markdown_content = CmsDocument.find_by_page_and_section(page, section)
+    @preview_reception_html = ''
+    if markdown_content
+      @preview_reception_html = markdown(markdown_content.article)
+    end
+    @page_title = "Mission Artists United: Spring Open Studios"
+
+    respond_to do |fmt|
+      fmt.html { render }
+      fmt.mobile { 
+        @page_title = "Spring Open Studios"
+        render :layout => 'mobile' 
+      }
+    end
+
   end
 
   def about

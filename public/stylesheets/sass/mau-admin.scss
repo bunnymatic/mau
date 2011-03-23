@@ -10,4 +10,12 @@
         padding: 10px;
         border: 1px dotted #444;
     }
+    .singlecolumn {
+        tr {
+            border-top: 1px solid #222;
+        }
+        td {
+            padding: 1px 6px;
+        }
+    }
 }

@@ -1,2 +1,2 @@
-module CmsDocumentHelper
+module CmsDocumentsHelpers
 end
