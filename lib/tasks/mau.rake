@@ -13,7 +13,7 @@ namespace :mau do
       names = artists.map{|a| a.get_name}
     end
   end
-
+    
   namespace :db do
     desc "backup the database"
     task :backup => [:environment] do
