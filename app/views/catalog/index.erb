@@ -1,48 +1,23 @@
 <div id="catalog">
-  <div id="streetmap">
-    <img src="/images/map/mau_streetmap.gif" width="596" height="591">
-    <% Studio.all.select { |s| s.id > 0 }.each do |s| 
-         html_id = s.name.gsub(' ','').downcase
-         num_artists = s.artists.count
-         pos = CatalogHelper::compute_position(@map_size, s.lat, s.lng)
-         posx = pos[1].to_i
-         posy = (@map_size[0] - pos[0]).to_i
-
-         xoffset = -5
-         yoffset = -11
-         html_clz = "small_red_dot"
-         if num_artists > 8 
-           html_clz = "big_red_dot"
-           xoffset = -11
-           yoffset = -16
-         end
-         posx += xoffset
-         posy += yoffset
-
-    -%>
-<div title="<%= s.name %>" id='<%= html_id %>' class='studio <%= html_clz %>' style='left: <%= posx %>px; top: <%= posy %>px;'><span class="identifier"><%= num_artists %></span></div>
-    <% end -%>
-    <div id="fayes" class="business"></div>
-    <div id="doloresparkcafe" class="business"></div>
-    <div id="coffeebar" class="business"></div>
+  <div class="header">
   </div>
-  <div id="catalog_list">
-    <% @os_artists.sort{|a,b| a[0] <=> b[0]}.each do |h| -%>
-    <div class="studio-list">
-      <% bits = h[0].split('__BREAK__') 
-         studioname = bits[0]
-         street = bits[1] -%>
-      <div class="title"><span class='studioname'><%= studioname %></span>
-        <span class="count"><%= h[1].count > 1 ? "(#{h[1].count})": ''%></span>
-        <br/>
-        <span class="address"><%= street %></span>
-      </div> 
-      <ul class="artists">
-        <% h[1].each do |artist| -%>
-        <li><%=h artist.fullname %></li>
-        <% end -%>
-      </ul>
-    </div>
+  <% @os_artists.sort{|a,b| a[0] <=> b[0]}.each do |h| -%>
+  <div class="studio-list">
+    <% bits = h[0].split('__BREAK__') 
+       studioname = bits[0]
+       street = bits[1] -%>
+    <div class="title"><span class='studioname'><%= studioname %></span>
+      <span class="count"><%= h[1].count > 1 ? "(#{h[1].count})": ''%></span>
+      <br/>
+      <span class="address"><%= street %></span>
+    </div> 
+    <% if h[1].first.fullname != studioname -%>
+    <ul class="artists">
+      <% h[1].each do |artist| -%>
+      <li><%=h artist.fullname %></li>
+      <% end -%>
+    </ul>
     <% end -%>
   </div>
+  <% end -%>
 </div>

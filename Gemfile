@@ -19,6 +19,7 @@ gem 'calendar_date_select'
 gem 'mobile-fu', '2.x', :git => 'git://github.com/brendanlim/mobile-fu.git'
 gem 'fastercsv'
 #gem 'pdfkit'
+#gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
 group :test do
   gem 'mocha','0.9.10'
