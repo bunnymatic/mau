@@ -1,6 +1,6 @@
 <div id="venues" class="markdown">
-  <div class="content">
-    <%= markdown(CmsDocument.find_by_page_and_section('venues','all')) %>
+  <div class="content logo-space">
+    <%= markdown(@content) %>
   </div>
   <%= render :partial => '/main/info_footer' %>
 <div>
