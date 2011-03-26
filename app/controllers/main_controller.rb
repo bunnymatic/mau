@@ -161,6 +161,9 @@ class MainController < ApplicationController
 
   def venues
     @page_title = "Mission Artists United - Venues"
+    doc = CmsDocument.find_by_page_and_section('venues','all')
+    @content = doc.article unless doc.nil?
+
     # temporary venues endpoint until we actually add a real
     # controller/model behind it
   end
