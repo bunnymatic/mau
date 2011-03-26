@@ -334,8 +334,15 @@ describe MainController do
           n.should > 0
           assigns(:participating_indies).should have(n).artists
         end
+        it 'participating artists are in alpha order by last name' do
+          lastname = 'a'
+          assigns(:participating_indies).each do |a|
+            a.lastname.should >= lastname
+          end
+        end
         it "uses cms for parties" do
           CmsDocument.expects(:find_by_page_and_section).with('main_openstudios','preview_reception').returns(cms_documents(:preview_reception))
+          CmsDocument.expects(:find_by_page_and_section).with('main_openstudios','spring_2004_blurb').returns(cms_documents(:preview_reception))
           get :openstudios
         end
         it "renders the markdown version" do

@@ -1,6 +1,6 @@
-<div id="about_text">
-  <h4>Venues : Coming Soon!</h4>
-  <p>We are currently working to add venues to our site and provide ways to link artists with their events at different venues around the Mission.</p>
-  <p>If you are a venue in the Mission that hosts art events, please let us know (click <a href="/getinvolved#venues">here</a> and look into the <i>Art Venues/Galleries</i> section).  We are compiling our own list, but we know there are venues we don't know about and would love to hear from you. </p>
+<div id="venues" class="markdown">
+  <div class="content">
+    <%= markdown(CmsDocument.find_by_page_and_section('venues','all')) %>
+  </div>
   <%= render :partial => '/main/info_footer' %>
-</div>
+<div>
