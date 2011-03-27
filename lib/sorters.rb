@@ -1,7 +1,13 @@
 module Sorters
   def self.studio_name 
     lambda{|a,b| 
-      a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
+      if a.id == 0
+        1
+      elsif b.id == 0
+        -1
+      else
+        a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
+      end
     }
   end
   def self.artist_lastname 

@@ -20,7 +20,15 @@ blue:
   lng: -122.4195114
 
 as:
-  name: ActivSpace
+  name: The ActivSpace
+  street: 3150 18th Street, \#102
+  city: San Francisco
+  state: CA
+  zip: 94117
+  url: http://activspace.com
+
+as2:
+  name: Zgallery
   street: 3150 18th Street, \#102
   city: San Francisco
   state: CA

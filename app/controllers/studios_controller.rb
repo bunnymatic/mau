@@ -16,13 +16,7 @@ class StudiosController < ApplicationController
   end
 
   def index
-    studios = Studio.all
-    @studios = []
-    studios.each do |s| 
-      if s.artists.active.count >= @@MIN_ARTISTS_PER_STUDIO
-        @studios << s
-      end
-    end
+    @studios = get_studio_list
     @admin = logged_in? && self.current_user.is_admin?
     respond_to do |format|
       format.html { render :layout => 'mau' }
@@ -72,13 +66,7 @@ class StudiosController < ApplicationController
   # GET /studios/1
   # GET /studios/1.xml
   def show
-    studios = Studio.all
-    @studios = []
-    studios.each do |s| 
-      if s.artists.count > @@MIN_ARTISTS_PER_STUDIO
-        @studios << s
-      end
-    end
+    @studios = get_studio_list
     if params[:id] == 'independent_studios'
       @studio = Studio.indy()
     elsif STUDIO_KEYS.keys.include? params[:id]
@@ -204,4 +192,13 @@ class StudiosController < ApplicationController
     end
   end
 
+  def get_studio_list
+    studios = []
+    Studio.all.each do |s| 
+      if s.artists.active.count >= @@MIN_ARTISTS_PER_STUDIO
+        studios << s
+      end
+    end
+    studios.sort &Sorters::studio_name
+  end
 end
