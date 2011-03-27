@@ -1131,18 +1131,17 @@ img#logo
         margin: auto;
         padding: 10px;
         text-align:center;
-    }
-    .content-block div{
-        text-align:left;
-        margin: auto;
-        width: 400px;
-    }
-    .content-block img{
-    }
-    .error-msg {
-        margin: auto;
+        div{
+            text-align:left;
+            margin: auto;
+            width: 400px;
+        }
+        .error-msg {
+            margin: auto;
+        }
     }
 }
+
 #artist_profile_name {
     float: left;
     width: 320px;
