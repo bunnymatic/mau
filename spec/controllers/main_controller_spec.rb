@@ -30,7 +30,7 @@ describe MainController do
 
   integrate_views
 
-  fixtures :users, :studios, :artist_infos, :cms_documents
+  fixtures :users, :studios, :artist_infos, :cms_documents, :roles
 
   describe "get" do
     before do
@@ -147,7 +147,7 @@ describe MainController do
       context "while logged in as user with 'editor' role" do
         before do
           u = users(:aaron)
-          u.roles << Role.find_by_role('editor')
+          u.roles << roles('editor')
           u.save
           login_as(u)
           @logged_in_user = u
@@ -303,19 +303,33 @@ describe MainController do
         before do
           ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104'")
           Artist.any_instance.stubs(:in_the_mission? => true)
-          @a = users(:artist1)
-          @ai = artist_infos(:artist1)
-          @a.artist_info = @ai
-          @a.save
-          @s = studios(:s1890)
-          @a.studio = @s
-          @a.save
+          a = users(:jesseponce)
+          ai = artist_infos(:jesseponce)
+          a.artist_info = ai
+          a.save
+          s = studios(:s1890)
+          a.studio = s
+          a.save
+
+          a = users(:artist1)
+          ai = artist_infos(:artist1)
+          a.artist_info = ai
+          a.save
+          s = studios(:blue)
+          a.studio = s
+          a.save
           
-          @b = users(:joeblogs)
-          @bi = artist_infos(:joeblogs)
-          @b.artist_info = @bi
-          @b.studio_id = 0
-          @b.save
+          b = users(:joeblogs)
+          bi = artist_infos(:joeblogs)
+          b.artist_info = bi
+          b.studio_id = 0
+          b.save
+
+          c = users(:annafizyta)
+          ci = artist_infos(:annafizyta)
+          c.artist_info = ci
+          c.studio_id = 0
+          c.save
 
           get :openstudios
         end
@@ -329,16 +343,16 @@ describe MainController do
             s.artists.open_studios_participants.length.should > 0
           end
         end
+        it "participating studios should be in alpha order by name (ignoring 'the')" do
+          assigns(:participating_studios).sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == assigns(:participating_studios).map(&:name)
+        end
         it 'assigns the right number of participating indies (all os participants with studio = 0)' do
           n = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.count
           n.should > 0
           assigns(:participating_indies).should have(n).artists
         end
         it 'participating artists are in alpha order by last name' do
-          lastname = 'a'
-          assigns(:participating_indies).each do |a|
-            a.lastname.should >= lastname
-          end
+          assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should == assigns(:participating_indies)
         end
         it "uses cms for parties" do
           CmsDocument.expects(:find_by_page_and_section).with('main_openstudios','preview_reception').returns(cms_documents(:preview_reception))

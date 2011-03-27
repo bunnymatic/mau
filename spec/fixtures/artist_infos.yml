@@ -28,4 +28,27 @@ wayout:
   lat: 37.7420382
   lng: -122.498
 
-  
+annafizyta:
+  facebook: http://facebook.com/anna
+  blog: http://anna.blogspot.com
+  osoct2010: true
+  bio: anna this is the bio
+  open_studios_participation: '201104|201111'
+  street: 3787 18th st
+  city: san francisco
+  addr_state: ca
+  lat: 37.761299
+  lng: -122.4279267
+
+
+jesseponce:
+  facebook: http://facebook.com/jesse
+  blog: http://jesse.blogspot.com
+  osoct2010: true
+  bio: jesse this is the bio
+  open_studios_participation: '201104|201111'
+  street: 3787 18th st
+  city: san francisco
+  addr_state: ca
+  lat: 37.761299
+  lng: -122.4279267

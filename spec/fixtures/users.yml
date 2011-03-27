@@ -51,7 +51,7 @@ artist1:
   remember_token_expires_at: 
   remember_token:            
   firstname:                 artist1
-  lastname:                  fixture
+  lastname:                  Fixture
   state:                     active
   type: Artist
   url: http://myurl.com

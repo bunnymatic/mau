@@ -59,12 +59,12 @@ ActiveRecord::Schema.define(:version => 20110322074000) do
     t.integer  "zip"
     t.integer  "max_pieces",                                :default => 20
     t.integer  "representative_art_piece"
+    t.string   "studionumber"
     t.boolean  "osoct2010",                                 :default => false
     t.boolean  "os2010",                                    :default => false
     t.float    "lat"
     t.float    "lng"
     t.string   "open_studios_participation"
-    t.string   "studionumber"
   end
 
   create_table "artist_profile_images", :force => true do |t|
@@ -92,8 +92,6 @@ ActiveRecord::Schema.define(:version => 20110322074000) do
     t.datetime "starttime"
     t.datetime "endtime"
     t.string   "url"
-    t.float    "lat"
-    t.float    "lng"
   end
 
   create_table "favorites", :force => true do |t|
@@ -221,18 +219,5 @@ ActiveRecord::Schema.define(:version => 20110322074000) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
-
-  create_table "venues", :force => true do |t|
-    t.string   "phone",         :limit => 16
-    t.string   "url",           :limit => 200
-    t.string   "profile_image", :limit => 200
-    t.string   "street",        :limit => 200
-    t.string   "city",          :limit => 200
-    t.string   "state",         :limit => 4
-    t.integer  "zip"
-    t.string   "description",   :limit => 2000
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end
