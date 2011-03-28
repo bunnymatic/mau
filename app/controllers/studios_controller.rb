@@ -199,6 +199,6 @@ class StudiosController < ApplicationController
         studios << s
       end
     end
-    studios.sort &Sorters::studio_name
+    studios.sort &Studio.sort_by_name
   end
 end
