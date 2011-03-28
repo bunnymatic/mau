@@ -17,8 +17,8 @@
             <span class="address"><%= studio.street %></span>
           </div>
           <ul class="artists">
-            <% studio_artists.each do |artist| -%>
-            <li class="a-entry"><%=h artist.fullname %></li>
+            <% studio_artists.each_with_index do |artist, idx| -%>
+            <li class="<%= ((idx%2)==0) ? 'even':'odd' %>"><%=h artist.fullname %></li>
             <% end -%>
           </ul>
         </div>
