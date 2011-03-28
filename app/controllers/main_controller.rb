@@ -70,8 +70,8 @@ class MainController < ApplicationController
 
   def openstudios
     @page_title = "Mission Artists United - Open Studios"
-    @participating_studios = Artist.active.open_studios_participants.reject{|a| a.studio_id == 0}.map(&:studio).uniq.sort &Sorters.studio_name
-    @participating_indies = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.reject{ |a| !a.in_the_mission? }.sort &Sorters.artist_lastname
+    @participating_studios = Artist.active.open_studios_participants.reject{|a| a.studio_id == 0}.map(&:studio).uniq.sort &Studio.sort_by_name
+    @participating_indies = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.reject{ |a| !a.in_the_mission? }.sort &Artist.sort_by_lastname
 
     page = 'main_openstudios'
     section = 'spring_2004_blurb'

@@ -9,6 +9,17 @@ class Studio < ActiveRecord::Base
   before_validation_on_create :compute_geocode
   before_validation_on_update :compute_geocode
 
+  cattr_reader :sort_by_name
+  @@sort_by_name = lambda{|a,b| 
+      if a.id == 0
+        1
+      elsif b.id == 0
+        -1
+      else
+        a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
+      end
+    }
+
   # return faux indy studio
   def self.indy
     s = Studio.new

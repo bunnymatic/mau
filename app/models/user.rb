@@ -24,6 +24,14 @@ class User < ActiveRecord::Base
   
   attr_reader :fullname, :emailsettings
 
+  cattr_reader :sort_by_firstname, :sort_by_lastname
+  @@sort_by_firstname = lambda{|a,b| 
+    a.lastname.downcase <=> b.lastname.downcase 
+  }
+  @@sort_by_lastname = lambda{|a,b| 
+    a.lastname.downcase <=> b.lastname.downcase 
+  }
+	
   has_many :favorites do
     def to_obj
       deletia = []

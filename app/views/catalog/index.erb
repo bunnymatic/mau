@@ -1,23 +1,62 @@
 <div id="catalog">
-  <div class="header">
+  <div class="page">
+    <div class="header">
+    </div>
+    <div class="section studios">
+      <div class="header">
+        <h3>Group Studios</h3>
+      </div>
+      <div class="list">
+        <% @studio_order.map{|sid| Studio.find(sid)}.each_with_index do |studio, idx| -%>
+        <%   studio_artists = @group_studio_artists[studio.id] -%>
+        <div class="entry <%= ((idx%2)==0) ? 'even':'odd' %>">
+          <div class="title">
+            <span class='studioname'><%= studio.name %></span>
+            <span class="count"><%= studio_artists.count > 1 ? "(#{studio_artists.count})": ''%></span>
+            <br/>
+            <span class="address"><%= studio.street %></span>
+          </div>
+          <ul class="artists">
+            <% studio_artists.each do |artist| -%>
+            <li class="a-entry"><%=h artist.fullname %></li>
+            <% end -%>
+          </ul>
+        </div>
+        <% end -%>
+      </div>
+    </div>
   </div>
-  <% @os_artists.sort{|a,b| a[0] <=> b[0]}.each do |h| -%>
-  <div class="studio-list">
-    <% bits = h[0].split('__BREAK__') 
-       studioname = bits[0]
-       street = bits[1] -%>
-    <div class="title"><span class='studioname'><%= studioname %></span>
-      <span class="count"><%= h[1].count > 1 ? "(#{h[1].count})": ''%></span>
-      <br/>
-      <span class="address"><%= street %></span>
-    </div> 
-    <% if h[1].first.fullname != studioname -%>
-    <ul class="artists">
-      <% h[1].each do |artist| -%>
-      <li><%=h artist.fullname %></li>
-      <% end -%>
-    </ul>
-    <% end -%>
+  <div class="page">
+    <div class="section artists"> 
+      <div class="header">
+        <h3>Independent Artists</h3>
+      </div>
+      <div class="list">
+        <ul>
+          <% @indy_artists.each_with_index do |artist,idx| -%>
+          <li class="<%= ((idx%2)==0) ? 'even':'odd' %>"><span class="name"><%= artist.fullname %></span>
+            <span class="address"><%= artist.street %></span>
+          </li>
+          <% end -%>
+        </ul>
+      </div>
+    </div>
   </div>
-  <% end -%>
+  <div class="page">
+    <div class="section events">
+      <div class="header">
+      </div>
+      <div class="markdown">
+        <%= @preview_reception_html %>
+      </div>
+    </div>
+    <div class="section thanks">
+      <div class="header">
+        <h3>Thanks!</h3>
+      </div>
+      <div class="thanks">
+        <%= @thanks %>
+      </div>
+    </div>
+  </div>
 </div>

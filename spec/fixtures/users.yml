@@ -72,6 +72,11 @@ joeblogs:
   type: Artist
   url: http://joe.blogs.com
   studio_id: 0
+  addr_state: CA
+  street: 3358 24th st
+  city: sf
+  zip: 94117
+
 
 artfan:
   login:                     artfan

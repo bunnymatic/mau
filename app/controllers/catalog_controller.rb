@@ -10,22 +10,28 @@ class CatalogController < ApplicationController
     if markdown_content
       @preview_reception_html = markdown(markdown_content.article)
     end
-    artists = Artist.active.open_studios_participants
-    @os_artists = artists.each_with_object({}) do |a,hsh|
-      if a.studio_id == 0 && !a.street
-        next
-      end
-      if a.studio_id > 0
-        key = a.studio.name + "__BREAK__" + a.studio.street
-      else
-        key = "#{a.fullname}__BREAK__" + a.street
-      end
-      if not hsh[key]
-        hsh[ key ] = []
-      end
-      hsh[key] << a
+    all_artists = Artist.active.open_studios_participants.partition{|a| a.studio_id == 0}
+    @indy_artists = all_artists[0].reject{|a| a.street.blank?}.sort &Artist.sort_by_lastname
+    group_studio_artists = all_artists[1]
+    # organize artists so they are in a tree 
+    # [ [ studio_id, [artist1, artist2]], [studio_id2, [artist3, artist4]]]
+    # so where studio_ids are in order of studio sort_by_name
+    @studio_order = (group_studio_artists.map(&:studio).uniq.sort &Studio.sort_by_name).map(&:id)
+    @group_studio_artists = group_studio_artists.each_with_object({}) do |a,hsh|
+      hsh[a.studio_id] = [] unless hsh[a.studio_id]
+      hsh[a.studio_id] << a
     end
+
+    page = 'main_openstudios'
+    section = 'preview_reception'
+    markdown_content = CmsDocument.find_by_page_and_section(page, section)
+    @preview_reception_html = (markdown_content ? markdown(markdown_content.article) : '')
         
+    page = 'spring_2011_catalog'
+    section = 'thanks'
+    markdown_content = CmsDocument.find_by_page_and_section(page, section)
+    @thanks = (markdown_content ? markdown(markdown_content.article) : '')
+
     respond_to do |format|
       format.html # index.html.erb
       format.json  { render :json => 'this' }
