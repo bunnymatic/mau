@@ -21,6 +21,9 @@ class CatalogController < ApplicationController
       hsh[a.studio_id] = [] unless hsh[a.studio_id]
       hsh[a.studio_id] << a
     end
+    @group_studio_artists.values.each do |artists| 
+      artists.sort! &Artist.sort_by_lastname
+    end
 
     page = 'main_openstudios'
     section = 'preview_reception'

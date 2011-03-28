@@ -57,6 +57,12 @@ describe CatalogController do
     it "assigns studio order in the correct order" do
       (assigns(:studio_order).map{|sid| Studio.find(sid)}.sort &Studio.sort_by_name).map(&:id).should == assigns(:studio_order)
     end
+    it "studio artists are sorted alpha by lastname" do
+      pending "we need better test data for this to fail"
+      assigns(:group_studio_artists).values.each do |artists|
+        (artists.sort &Artist.sort_by_lastname).should == artists
+      end
+    end
     it "has section for studios" do
       response.should have_tag('.section.studios')
     end
