@@ -355,8 +355,7 @@ describe MainController do
           assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should == assigns(:participating_indies)
         end
         it "uses cms for parties" do
-          CmsDocument.expects(:find_by_page_and_section).with('main_openstudios','preview_reception').returns(cms_documents(:preview_reception))
-          CmsDocument.expects(:find_by_page_and_section).with('main_openstudios','spring_2004_blurb').returns(cms_documents(:preview_reception))
+          CmsDocument.expects(:find_by_page_and_section).twice.returns(cms_documents(:preview_reception))
           get :openstudios
         end
         it "renders the markdown version" do
