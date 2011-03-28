@@ -3,13 +3,6 @@ class CatalogController < ApplicationController
   include MarkdownUtils
   layout 'catalog'
   def index
-    page = 'main_openstudios'
-    section = 'preview_reception'
-    markdown_content = CmsDocument.find_by_page_and_section(page, section)
-    @preview_reception_html = ''
-    if markdown_content
-      @preview_reception_html = markdown(markdown_content.article)
-    end
     all_artists = Artist.active.open_studios_participants.partition{|a| a.studio_id == 0}
     @indy_artists = all_artists[0].reject{|a| a.street.blank?}.sort &Artist.sort_by_lastname
     group_studio_artists = all_artists[1]
@@ -25,10 +18,12 @@ class CatalogController < ApplicationController
       artists.sort! &Artist.sort_by_lastname
     end
 
-    page = 'main_openstudios'
-    section = 'preview_reception'
-    markdown_content = CmsDocument.find_by_page_and_section(page, section)
-    @preview_reception_html = (markdown_content ? markdown(markdown_content.article) : '')
+    if params[:preview]
+      page = 'main_openstudios'
+      section = 'preview_reception'
+      markdown_content = CmsDocument.find_by_page_and_section(page, section)
+      @preview_reception_html = (markdown_content ? markdown(markdown_content.article) : '')
+    end
         
     page = 'spring_2011_catalog'
     section = 'thanks'
