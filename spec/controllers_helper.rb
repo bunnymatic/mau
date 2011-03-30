@@ -145,3 +145,9 @@ describe "not logged in", :shared => true do
 end
 
 
+describe "not authorized", :shared => true do
+  it "redirects to error page" do
+    response.should redirect_to 'error'
+  end
+end
+
