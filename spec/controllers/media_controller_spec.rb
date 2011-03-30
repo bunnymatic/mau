@@ -51,13 +51,11 @@ describe MediaController do
       response.header["Location"].should have_text  /\/media\/\d+\?m=a$/
     end
   end
-  context "show" do
+  describe "show" do
     before do
       get :show, :id => Medium.first.id
     end
-    it "returns success" do
-      response.should be_success
-    end
+    it_should_behave_like "not logged in"
     it "assigns results_mode p" do
       assigns(:results_mode).should == 'p'
     end
@@ -101,6 +99,15 @@ describe MediaController do
       end
     end
   end
-  
+  describe "edit" do
+    before do
+      get :edit, :id => media.first
+    end
+    it_should_behave_like 'not authorized'
+    context "as an editor" do
+    end
+    context "as an admin" do
+    end
+  end
 end
       
