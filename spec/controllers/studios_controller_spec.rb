@@ -4,12 +4,11 @@ include AuthenticatedTestHelper
 
 describe StudiosController do
 
-  integrate_views
-
   fixtures :users, :studios
 
-  describe "get index" do
+  describe "#index" do
     context "while not logged in" do
+      integrate_views
       before do
         get :index
       end
@@ -25,6 +24,7 @@ describe StudiosController do
 
     end
     context "while logged in as an art fan" do
+      integrate_views
       before do
         u = users(:aaron)
         login_as(users(:aaron))
@@ -37,6 +37,9 @@ describe StudiosController do
 
   
   describe "#show keyed studios" do
+
+    integrate_views
+
     Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].each do |k,v|
       it "should return studio #{v} for key #{k}" do
         get :show, :id => k

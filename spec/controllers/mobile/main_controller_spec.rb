@@ -69,7 +69,7 @@ describe MainController do
       assigns(:participating_indies).should have(n).artists
     end
     it "uses cms for parties" do
-      CmsDocument.expects(:find_by_page_and_section).with('main_openstudios','preview_reception').returns(cms_documents(:preview_reception))
+      CmsDocument.expects(:find_by_page_and_section).at_least(2).returns(cms_documents(:preview_reception))
       get :openstudios
     end
     it "renders the markdown version" do

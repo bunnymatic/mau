@@ -11,8 +11,6 @@ end
 
 describe AdminController do
 
-  integrate_views
-
   fixtures :users
   fixtures :roles
 
@@ -68,9 +66,13 @@ describe AdminController do
     it 'assigns roles' do
       assigns(:users_in_roles).keys.should have(Role.count).roles
     end
-    Role.all.each do |r|
-      it "has a the role #{r} in a list element" do
-        response.should have_tag 'li .role', :count => Role.count
+    context "(view tests)" do
+      integrate_views
+      
+      Role.all.each do |r|
+        it "has the role #{r} in a list element" do
+          response.should have_tag 'li .role', :count => Role.count
+        end
       end
     end
       

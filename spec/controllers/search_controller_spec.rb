@@ -4,8 +4,6 @@ include AuthenticatedTestHelper
 
 describe SearchController do
 
-  integrate_views
-
   fixtures :users
   fixtures :artist_infos
   fixtures :art_pieces
@@ -45,14 +43,17 @@ describe SearchController do
     @jesse = a
   end
 
-  describe "search" do
-    before do
-      get :index, :query => "go fuck yourself.  this string ought to never match anything"
+  describe "#index" do
+    describe "(with views)" do
+      integrate_views
+      before do
+        get :index, :query => "go fuck yourself.  this string ought to never match anything"
+      end
+      it_should_behave_like "not logged in"
     end
-
-    it_should_behave_like "not logged in"
     
     context "for something we don't have" do
+      integrate_views
       it "returns nothing" do
         get :index, :query => "go fuck yourself.  this string ought to never match anything"
         response.should_not have_tag('.search-thumb-info')

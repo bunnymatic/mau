@@ -4,8 +4,6 @@ include AuthenticatedTestHelper
 
 describe UsersController do
   
-  integrate_views
-
   fixtures :users
   fixtures :art_pieces
 
@@ -16,7 +14,9 @@ describe UsersController do
     controller_actions_should_fail_if_not_logged_in(:user, 
                                                     :except => exceptions)
   end
-  describe "new" do
+  describe "#new" do
+    integrate_views
+
     before do
       # disable sweep of flash.now messages
       # so we can test them
@@ -155,52 +155,52 @@ describe UsersController do
         User.find_by_login("bmati2@b.com").should be
       end
     end
-
-  end
-  context "valid artist params and type = Artist" do
-    before do
-      Artist.any_instance.expects(:make_activation_code).at_least(1)
-      post :create, :artist => { :login => 'newuser2',
-        :password_confirmation => "blurpt", 
-        :lastname => "bmatic", 
-        :firstname => "bmatic", 
-        :password => "blurpt", 
-        :email => "bmatic2@b.com" }, :type => "Artist" 
-    end
-    it "redirects to index" do
-      response.should redirect_to( root_url )
-    end
-    it "sets flash indicating that activation email has been sent" do
-      flash[:notice].should include_text(" email with your activation code")
-    end
-    context "creates an account" do
+    context "valid artist params and type = Artist" do
       before do
-        @found_artist = User.find_by_login("newuser2")
+        Artist.any_instance.expects(:make_activation_code).at_least(1)
+        post :create, :artist => { :login => 'newuser2',
+          :password_confirmation => "blurpt", 
+          :lastname => "bmatic", 
+          :firstname => "bmatic", 
+          :password => "blurpt", 
+          :email => "bmatic2@b.com" }, :type => "Artist" 
       end
-      it "in the artist database" do
-        @found_artist.should be
+      it "redirects to index" do
+        response.should redirect_to( root_url )
       end
-      it "whose state is 'pending'" do
-        @found_artist.state.should be == 'pending'
+      it "sets flash indicating that activation email has been sent" do
+        flash[:notice].should include_text(" email with your activation code")
       end
-      it "whose type is 'Artist'" do
-        @found_artist.type == 'Artist'
+      context "creates an account" do
+        before do
+          @found_artist = User.find_by_login("newuser2")
+        end
+        it "in the artist database" do
+          @found_artist.should be
+        end
+        it "whose state is 'pending'" do
+          @found_artist.state.should be == 'pending'
+        end
+        it "whose type is 'Artist'" do
+          @found_artist.type == 'Artist'
+        end
+        it "has an associated artist_info" do
+          @found_artist.artist_info.should_not be_nil
+        end
       end
-      it "has an associated artist_info" do
-        @found_artist.artist_info.should_not be_nil
+      it "should not register as a fan account" do
+        MAUFan.find_by_login("newuser2").should be_nil
       end
-    end
-    it "should not register as a fan account" do
-      MAUFan.find_by_login("newuser2").should be_nil
     end
   end
 
-  describe "show" do
+  describe "#show" do
     before(:each) do
       @a = users(:artist1)
       @u = users(:aaron)
     end
     context "while not logged in" do
+      integrate_views
       before(:each) do 
         get :show
       end
@@ -224,6 +224,7 @@ describe UsersController do
       end
     end
     context "while logged in as an user" do
+      integrate_views
       before(:each) do 
         login_as(@u)
         @logged_in_user = @u
@@ -240,7 +241,7 @@ describe UsersController do
       end
     end
   end
-  describe "GET edit" do
+  describe "#edit" do
     before(:each) do
       @a = users(:artist1)
       @a.save!
@@ -248,6 +249,7 @@ describe UsersController do
       @u.save!
     end
     context "while not logged in" do
+      integrate_views
       before(:each) do 
         get :edit
       end
@@ -266,6 +268,7 @@ describe UsersController do
       end
     end
     context "while logged in as an user" do
+      integrate_views
       before(:each) do
         login_as(@u)
         get :edit
@@ -364,6 +367,7 @@ describe UsersController do
   end
 
   describe "favorites" do
+    integrate_views
     context "show" do
       context "while not logged in" do
         before do
@@ -621,8 +625,9 @@ describe UsersController do
     end
   end
 
-  describe "reset" do
+  describe "#reset" do
     context "get" do
+      integrate_views
       before do
         User.expects(:find_by_reset_code).returns(users(:artfan))
         u = users(:artfan)
@@ -641,6 +646,7 @@ describe UsersController do
       end
     end
     context "post" do
+      integrate_views
       context "with passwords that don't match" do
         before do
           User.expects(:find_by_reset_code).with('abc').returns(users(:artfan))
@@ -680,6 +686,7 @@ describe UsersController do
   end
 
   describe "resend_activation" do
+    integrate_views
     before do
       get :resend_activation
     end
@@ -730,7 +737,7 @@ describe UsersController do
     end
   end
 
-  describe "forgot" do
+  describe "#forgot" do
     before do
       get :forgot
     end

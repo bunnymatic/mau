@@ -139,12 +139,13 @@ module ArtistsHelper
       img = "<a class='lkdark' href='%s'><img src='%s'/></a>" % [ artist_path(artist), ap.get_path('thumb') ]
       html += '<div class="_mau1" style="float:right;">%s</div>' % img
     end
-    s = artist.studio
+    address = artist.address_hash
     name = "<a class='lkdark' href='%s'>%s</a>" % [ artist_path(artist), aname ]
-    if !s && artist.street && !artist.street.empty?
-      html += "%s<div>%s</div>" % [ name, artist.street]
-    elsif s
-      html += "%s<div>%s</div><div>%s</div>" % [name, s.name, s.street]
+    street = address[:parsed][:street]
+    if artist.studio_id.nil? or artist.studio_id == 0
+      html += "%s<div>%s</div>" % [ name, street ]
+    else
+      html += "%s<div>%s</div><div>%s</div>" % [name, artist.studio.name, street]
     end
     html += '<div style="clear"></div>'
     if 

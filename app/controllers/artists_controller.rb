@@ -38,6 +38,7 @@ class ArtistsController < ApplicationController
     else
       artists = Artist.active
     end
+
     artists.reject!{ |a| !a.in_the_mission? }
 
     @map = GMap.new("map")

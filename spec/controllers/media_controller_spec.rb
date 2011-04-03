@@ -1,8 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe MediaController do
-
-  integrate_views
   
   fixtures :media
   fixtures :art_pieces
@@ -40,7 +38,7 @@ describe MediaController do
     end
   end
     
-  describe "index" do
+  describe "#index" do
     it "redirect to show" do
       get :index
       response.should be_redirect
@@ -51,7 +49,8 @@ describe MediaController do
       response.header["Location"].should have_text  /\/media\/\d+\?m=a$/
     end
   end
-  describe "show" do
+  describe "#show" do
+    integrate_views
     before do
       get :show, :id => Medium.first.id
     end
@@ -99,7 +98,7 @@ describe MediaController do
       end
     end
   end
-  describe "edit" do
+  describe "#edit" do
     before do
       get :edit, :id => media.first
     end
