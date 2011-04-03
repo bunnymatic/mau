@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110322074000) do
+ActiveRecord::Schema.define(:version => 20110403212929) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -59,12 +59,12 @@ ActiveRecord::Schema.define(:version => 20110322074000) do
     t.integer  "zip"
     t.integer  "max_pieces",                                :default => 20
     t.integer  "representative_art_piece"
-    t.string   "studionumber"
     t.boolean  "osoct2010",                                 :default => false
     t.boolean  "os2010",                                    :default => false
     t.float    "lat"
     t.float    "lng"
     t.string   "open_studios_participation"
+    t.string   "studionumber"
   end
 
   create_table "artist_profile_images", :force => true do |t|
@@ -92,6 +92,8 @@ ActiveRecord::Schema.define(:version => 20110322074000) do
     t.datetime "starttime"
     t.datetime "endtime"
     t.string   "url"
+    t.float    "lat"
+    t.float    "lng"
   end
 
   create_table "favorites", :force => true do |t|
@@ -188,10 +190,6 @@ ActiveRecord::Schema.define(:version => 20110322074000) do
     t.string   "phone",                     :limit => 16
     t.string   "url",                       :limit => 200
     t.string   "profile_image",             :limit => 200
-    t.string   "street",                    :limit => 200
-    t.string   "city",                      :limit => 200
-    t.string   "addr_state",                :limit => 4
-    t.integer  "zip"
     t.text     "bio"
     t.text     "news"
     t.integer  "studio_id"
@@ -211,13 +209,24 @@ ActiveRecord::Schema.define(:version => 20110322074000) do
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
     t.integer  "representative_art_piece"
     t.boolean  "os2010",                                   :default => false
-    t.float    "lat"
-    t.float    "lng"
     t.boolean  "osoct2010",                                :default => false
     t.string   "studionumber"
     t.string   "type",                                     :default => "Artist"
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
+
+  create_table "venues", :force => true do |t|
+    t.string   "phone",         :limit => 16
+    t.string   "url",           :limit => 200
+    t.string   "profile_image", :limit => 200
+    t.string   "street",        :limit => 200
+    t.string   "city",          :limit => 200
+    t.string   "state",         :limit => 4
+    t.integer  "zip"
+    t.string   "description",   :limit => 2000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

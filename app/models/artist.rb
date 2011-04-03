@@ -34,7 +34,13 @@ class Artist < User
    :twitter, :twitter=,
    :blog, :blog=,
    :myspace, :myspace=,
-   :os_participation, :os_participation=
+   :os_participation, :os_participation=,
+   :street, :street=,
+   :city, :city=,
+   :addr_state, :addr_state=,
+   :zip, :zip=,
+   :lat, :lat=,
+   :lng, :lng=
    ].each do |delegat|
     delegate delegat, :to => :artist_info, :allow_nil => true
   end

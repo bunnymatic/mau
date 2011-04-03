@@ -3,7 +3,7 @@ class CatalogController < ApplicationController
   include MarkdownUtils
   layout 'catalog'
   def index
-    all_artists = Artist.active.open_studios_participants.partition{|a| a.studio_id == 0}
+    all_artists = Artist.active.open_studios_participants.partition{|a| (a.studio_id.nil? || a.studio_id == 0)}
     @indy_artists = all_artists[0].reject{|a| a.street.blank?}.sort &Artist.sort_by_lastname
     group_studio_artists = all_artists[1]
     # organize artists so they are in a tree 
@@ -36,7 +36,7 @@ class CatalogController < ApplicationController
       format.csv {
         render_csv :filename => 'mau_os_artists' do |csv|
           csv << ["First Name","Last Name","Full Name","Group Site Name","Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
-          artists.sort{|a,b| a.lastname <=> b.lastname}.each do |artist|
+          [@indy_artists, @group_studio_artists.values].flatten.sort(&Artist.sort_by_lastname).each do |artist|
             csv << [ artist.firstname, artist.lastname, artist.get_name, artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, '', '', artist.primary_medium ? artist.primary_medium.name : '' ]
           end
         end
