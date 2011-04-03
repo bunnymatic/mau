@@ -2,8 +2,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe CatalogController do
 
-  integrate_views
-
   fixtures :users, :studios, :artist_infos
 
   describe "#index" do
@@ -63,15 +61,5 @@ describe CatalogController do
         (artists.sort &Artist.sort_by_lastname).should == artists
       end
     end
-    it "has section for studios" do
-      response.should have_tag('.section.studios')
-    end
-    it 'has section for artists' do
-      response.should have_tag('.section.artists')
-    end
-    it 'has section for events' do
-      response.should have_tag('.section.events')
-    end
-      
   end
 end

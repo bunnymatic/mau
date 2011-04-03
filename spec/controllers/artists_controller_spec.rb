@@ -4,14 +4,12 @@ include AuthenticatedTestHelper
 
 describe ArtistsController do
 
-  integrate_views
-
   fixtures :users
   fixtures :artist_infos
   fixtures :art_pieces
   fixtures :studios
 
-  describe "index" do
+  describe "#index" do
     before do 
       @a = users(:artist1)
       @a.artist_info = artist_infos(:artist1)
@@ -29,7 +27,8 @@ describe ArtistsController do
       end
     end
   end
-  describe "Update Artist" do
+  describe "#update" do
+    integrate_views
     before(:each) do
       @a = users(:artist1)
       @a.artist_info = artist_infos(:artist1)
@@ -41,7 +40,7 @@ describe ArtistsController do
       it_should_behave_like "get/post update redirects to login"
     end
     context "while logged in" do
-      before(:each) do
+      before do
         @new_bio = "this is the new bio"
         @old_bio = @a.artist_info.bio
         login_as(@a)
@@ -152,12 +151,13 @@ describe ArtistsController do
       it_should_behave_like "redirects to login"
     end
     context "while logged in" do
+      integrate_views
       before(:each) do
         login_as(@a)
         @logged_in_user = @a
         @logged_in_artist = @a
       end
-      context "GET" do
+      context "#edit" do
         before do
           get :edit
         end
@@ -165,7 +165,7 @@ describe ArtistsController do
         it_should_behave_like "logged in artist"
         it_should_behave_like "logged in edit page"
 
-        it "GET returns 200" do
+        it "returns success" do
           response.should be_success
         end
         it "has the edit form" do
@@ -212,6 +212,8 @@ describe ArtistsController do
   end
  
   describe "show" do
+    integrate_views
+
     before(:each) do 
       @a = users(:artist1)
       @b = artist_infos(:artist1)
@@ -441,7 +443,8 @@ describe ArtistsController do
     end
   end
 
-  describe "map" do
+  describe "#map" do
+    integrate_views
     describe 'all artists' do
       before do
         a = users(:artist1)
@@ -477,6 +480,10 @@ describe ArtistsController do
           (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
           (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
         end
+      end
+      it "get's map info all artists" do
+        ArtistsController.any_instance.expects(:get_map_info).times(assigns(:roster).count)
+        get :map
       end
     end
     describe 'os only' do

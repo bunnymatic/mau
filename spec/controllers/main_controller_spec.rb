@@ -28,11 +28,11 @@ end
 
 describe MainController do
 
-  integrate_views
-
   fixtures :users, :studios, :artist_infos, :cms_documents, :roles
 
   describe "get" do
+    integrate_views
+    
     before do
       get :index
     end
@@ -117,6 +117,7 @@ describe MainController do
   end
 
   describe "#news" do
+    integrate_views
     describe "get" do
       context "while not logged in" do
         before do
@@ -158,6 +159,7 @@ describe MainController do
     end
   end
   describe "#about" do
+    integrate_views
     describe "get" do
       context "while not logged in" do
         before do
@@ -186,6 +188,7 @@ describe MainController do
     end
   end
   describe "#getinvolved" do
+    integrate_views
     describe "get" do
       context "while not logged in" do
         before do
@@ -214,6 +217,7 @@ describe MainController do
     end
   end
   describe "#privacy" do
+    integrate_views
     describe "get" do
       context "while not logged in" do
         before do
@@ -242,6 +246,7 @@ describe MainController do
     end
   end
   describe "#about" do
+    integrate_views
     describe "get" do
       context "while not logged in" do
         before do
@@ -270,6 +275,7 @@ describe MainController do
     end
   end
   describe "#faq" do
+    integrate_views
     describe "get" do
       context "while not logged in" do
         before do
@@ -299,6 +305,7 @@ describe MainController do
   end
   describe "#main/openstudios" do
     describe "get" do
+      integrate_views
       context "while not logged in" do
         before do
           ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104'")
@@ -355,7 +362,7 @@ describe MainController do
           assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should == assigns(:participating_indies)
         end
         it "uses cms for parties" do
-          CmsDocument.expects(:find_by_page_and_section).twice.returns(cms_documents(:preview_reception))
+          CmsDocument.expects(:find_by_page_and_section).at_least(2).returns(cms_documents(:preview_reception))
           get :openstudios
         end
         it "renders the markdown version" do

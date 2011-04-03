@@ -4,8 +4,6 @@ include AuthenticatedTestHelper
 
 describe ArtPiecesController do
 
-  integrate_views
-
   fixtures :users
   fixtures :artist_infos
   fixtures :art_pieces
@@ -45,8 +43,9 @@ describe ArtPiecesController do
     @artpieces = art_pieces
   end
 
-  describe "show" do
+  describe "#show" do
     context "not logged in" do
+      integrate_views
       before(:each) do
         get :show, :id => @artpieces.first.id
       end
@@ -81,6 +80,7 @@ describe ArtPiecesController do
       end
     end
     context "when logged in as art piece owner" do
+      integrate_views
       before do
         login_as(@artist)
         @logged_in_artist = @artist
@@ -98,6 +98,7 @@ describe ArtPiecesController do
       end
     end
     context "when logged in as not artpiece owner" do
+      integrate_views
       before do
         login_as(users(:aaron))
         get :show, :id => @artpieces.first.id
@@ -116,6 +117,7 @@ describe ArtPiecesController do
 
   describe "#edit" do
     context "while not logged in" do
+      integrate_views
       it_should_behave_like "get/post update redirects to login"
       context "post " do
         before do
@@ -132,7 +134,7 @@ describe ArtPiecesController do
     end
   end
   
-  describe "delete" do
+  describe "#delete" do
     context "while not logged in" do
       it_should_behave_like 'get/post update redirects to login'
     end
