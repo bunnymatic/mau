@@ -1,2 +1,0 @@
-class FavArtPiece < ArtPiece
-end

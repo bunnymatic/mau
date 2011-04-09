@@ -1,0 +1,20 @@
+<div class="admin-table singlecolumn">
+<h1>Favorites!</h1>
+<table class="favorites">
+  <tr>
+    <th>login</th><th>artists</th><th>art pieces</th><th>favorited</th>
+  </tr>
+  <% @favorites.each_with_index do |pair, idx| 
+       login = pair[0]
+       favinfo = pair[1]
+     -%>
+  <tr class="<%= (0==(idx%2)) ? 'even' : 'odd' %>">
+    <td><%= link_to( login, user_path(User.find_by_login(login)) ) %></td>
+    <td><%= favinfo[:artists] %></td>
+    <td><%= favinfo[:art_pieces] %></td>
+    <td><%= favinfo[:favorited] %></td>
+  </tr>
+  <% end -%>
+    
+</table>
+</div>

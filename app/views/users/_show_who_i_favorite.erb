@@ -13,7 +13,7 @@
       </a>
       <span>(<%= page_owner.what_i_favorite.count %>)</span>
       <% if page_owner.what_i_favorite.count > favorites_per_row -%>
-      <a class="see-all" href="<%= favorites_user_path(page_owner) %>">see all</a>
+      <a class="show-toggle fewer" href="#">show all</a>
       <% end -%>
     </label>
   </div>

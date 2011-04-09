@@ -9,9 +9,8 @@
       <% end -%>
       (<%= page_owner.who_favorites_me.count %>)
       <% if page_owner.who_favorites_me.count > favorites_per_row -%>
-      <a class="see-all" href="<%= favorites_user_path(page_owner) %>">see all</a>
+      <a class="show-toggle fewer" href="#">show all</a>
       <% end -%>
-
   </label>
   </div>
   <ul class="favorite-thumbs">

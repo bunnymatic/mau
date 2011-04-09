@@ -77,6 +77,8 @@ ActionController::Routing::Routes.draw do |map|
   map.admin_studios '/admin/studios', :controller => 'studios', :action=> 'admin_index'
   map.admin_tags '/admin/art_piece_tags', :controller => 'art_piece_tags', :action=> 'admin_index'
   map.admin_media '/admin/media', :controller => 'media', :action=> 'admin_index'
+  map.admin_favorites '/admin/favorites', :controller => 'favorites', :action=> 'index'
+
   map.mau_fans '/maufans/:id', :controller => 'users', :action => 'show'
   # all other admin links connect to AdminController
 
