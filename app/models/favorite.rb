@@ -13,6 +13,10 @@ class Favorite < ActiveRecord::Base
   }
   @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
 
+  def to_s
+    "#{favoritable_type}: #{favoritable_id} (User #{user_id})"
+  end
+
   def to_obj
     if @@FAVORITABLE_TYPES.include? self.favoritable_type
       begin

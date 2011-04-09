@@ -1189,6 +1189,18 @@ var TagMediaHelper = {
       });
       Favorites.show_fewer('#my_favorites');
       Favorites.show_fewer('#favorites_me');
+      var sm = $$('#my_favorites .show-toggle').first();
+      if (sm) {
+        sm.observe('click', function(ev) { 
+          Favorites.show('#my_favorites');
+        });
+      }
+      sm = $$('#favorites_me .show-toggle').first();
+      if (sm) {
+        sm.observe('click', function(ev) { 
+          Favorites.show('#avorites_me');
+        });
+      }
     },
     update_favorites_block: function(ev) {
       var blk = ev.target;
@@ -1206,18 +1218,14 @@ var TagMediaHelper = {
         if (lk.hasClassName('fewer')) {
           Favorites.show_more(block_id);
           lk.removeClassName('fewer');
-          lk.select('a').each(function(lnk) {
-            lnk.writeAttribute('title','show fewer');
-            lnk.innerHTML = 'hide'; 
-          });
+          lk.writeAttribute('title','show fewer');
+          lk.innerHTML = 'hide'; 
         }
         else {
           Favorites.show_fewer(block_id);
           lk.addClassName('fewer');
-          lk.select('a').each(function(lnk) {
-            lnk.writeAttribute('title','show more');
-            lnk.innerHTML = 'see all'; 
-          });
+          lk.writeAttribute('title','show more');
+          lk.innerHTML = 'see all'; 
         }
       });
     },
