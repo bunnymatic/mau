@@ -1193,12 +1193,14 @@ var TagMediaHelper = {
       if (sm) {
         sm.observe('click', function(ev) { 
           Favorites.show('#my_favorites');
+          ev.stop();
         });
       }
       sm = $$('#favorites_me .show-toggle').first();
       if (sm) {
         sm.observe('click', function(ev) { 
           Favorites.show('#favorites_me');
+          ev.stop();
         });
       }
     },
