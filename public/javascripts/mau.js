@@ -1198,7 +1198,7 @@ var TagMediaHelper = {
       sm = $$('#favorites_me .show-toggle').first();
       if (sm) {
         sm.observe('click', function(ev) { 
-          Favorites.show('#avorites_me');
+          Favorites.show('#favorites_me');
         });
       }
     },
