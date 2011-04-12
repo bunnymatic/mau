@@ -43,11 +43,6 @@ describe MediaController do
       get :index
       response.should be_redirect
     end
-    
-    it "redirect should maintain arguments" do
-      get :index, :m => 'a'
-      response.header["Location"].should have_text  /\/media\/\d+\?m=a$/
-    end
   end
   describe "#show" do
     integrate_views

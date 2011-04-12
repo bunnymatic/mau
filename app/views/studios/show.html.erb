@@ -33,9 +33,9 @@
 	      <% end -%>
 	    </div>
 	    <div><%= @studio.city %></div>
-	    <div>
+	    <div class="url">
 	      <% if @studio.url -%>
-	      <%= link_to @studio.url, @studio.url.gsub!('http://','') %>
+               <%= link_to @studio.url.gsub('http://',''), @studio.url %>
 	      <% end -%>
 	    </div>
             <% unless @studio.phone.blank? -%>
