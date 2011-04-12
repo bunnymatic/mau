@@ -62,7 +62,7 @@ describe StudiosController do
       s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
     end
     it "studio url is a link" do
-      response.should have_tag("a[href=#{studios(:as).url}]")
+      response.should have_tag("div.url a[href=#{studios(:as).url}]")
     end
     it "studio includes cross street if there is one" do
       Studio.any_instance.stubs(:cross_street => 'fillmore')
