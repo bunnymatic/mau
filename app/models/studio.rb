@@ -8,6 +8,7 @@ class Studio < ActiveRecord::Base
   acts_as_mappable
   before_validation_on_create :compute_geocode
   before_validation_on_update :compute_geocode
+  before_save :normalize_phone_number
 
   cattr_reader :sort_by_name
   @@sort_by_name = lambda{|a,b| 
@@ -19,6 +20,12 @@ class Studio < ActiveRecord::Base
         a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
       end
     }
+
+  def normalize_phone_number
+    if phone
+      phone.gsub!(/\D+/,'')
+    end
+  end
 
   # return faux indy studio
   def self.indy
@@ -56,6 +63,10 @@ class Studio < ActiveRecord::Base
 
   def get_name encode
     self.name
+  end
+
+  def formatted_phone
+    phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
   end
 
   protected

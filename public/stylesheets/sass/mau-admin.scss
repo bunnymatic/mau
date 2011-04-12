@@ -1,3 +1,22 @@
+body.admin {
+    .chunk {
+        float: left; 
+        width: 120px; 
+        margin-bottom:10px; 
+        margin-left:10px;
+    }
+    .odd, .even {
+        font-size: 85%;
+        padding: 3px;
+    }
+    .odd {
+        background-color: #333;
+    }
+    .even {
+        background-color: transparent;
+    }
+}
+
 .admin-table {
     &.singlecolumn {
         margin-top: 0px;
@@ -82,5 +101,17 @@
         th, & td {
             padding: 1px 6px;
         }
+    }
+}
+
+#role_mgr {
+    li {
+        .role-members{ float: right; }
+        width: 200px;
+    }
+    #role_mgr li { clear:both; width: 200px;}
+
+    padding-left: 20px;
+    li {
     }
 }

@@ -1,20 +1,18 @@
-  <script type="text/javascript" src="/javascripts/flotr/0.2.0/flotr.debug.js"></script>
+<script type="text/javascript" src="/javascripts/flotr/0.2.0/flotr.debug.js"></script>
 <div class="singlecolumn" >
-  <div style="padding-left: 20px; width:880px">
-  Artists added per day
-  </div>
-  <div>
-<% 
-   @chunks.each do |chunk|
-     -%><div style="float: left; width: 120px; margin-bottom:10px; margin-left:10px;"><%
-      chunk.each do |c|
-		-%>
-       <span><%= c[0] %>  <%= c[1] %></span><br/>
+  <h4>
+    Artists added per day
+  </h4>
+  <div class="chunks">
+    <% @chunks.each do |chunk| -%>
+    <div class="chunk">
+      <% chunk.each_with_index do |pr, idx|
+           s = "#{pr.join(' ')}"
+           -%>
+      <div class="<%= (((idx%2)==0)?'even':'odd') %>"><%=h s %></div>
+      <%  end -%>
+    </div>
     <%  end -%>
-      </div>
-<%
-   end
--%>
     <div class="clear"></div>
-  </div>    
+  </div>
 </div>

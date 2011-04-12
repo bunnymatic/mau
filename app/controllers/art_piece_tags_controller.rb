@@ -11,15 +11,17 @@ class ArtPieceTagsController < ApplicationController
   
   @@PER_PAGE = 12
   def admin_index
-    @tags = ArtPieceTag.all
+    tags = ArtPieceTag.all
     freq = ArtPieceTag.keyed_frequency
-    @tags.each do |t|
+    tags.each do |t|
       if freq.keys.include? t.id.to_s
         t['count'] = freq[ t.id.to_s ].to_f
       else
         t['count'] = 0
       end
     end
+    @tags = tags.sort { |a,b| b['count'] <=> a['count'] } 
+    render :layout => "mau-admin"
   end
 
   def index

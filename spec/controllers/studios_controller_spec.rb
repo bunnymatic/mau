@@ -49,6 +49,7 @@ describe StudiosController do
   end
   
   describe "#show by id" do
+    integrate_views
     before do
       get :show, :id => studios(:as).id
     end
@@ -59,6 +60,19 @@ describe StudiosController do
       s = assigns(:studios)
       s.pop
       s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
+    end
+    it "studio url is a link" do
+      response.should have_tag("a[href=#{studios(:as).url}]")
+    end
+    it "studio includes cross street if there is one" do
+      Studio.any_instance.stubs(:cross_street => 'fillmore')
+      get :show, :id => studios(:as).id
+      response.should have_tag('.address', /\s+fillmore/)
+    end
+    it "studio info includes a phone if there is one" do
+      Studio.any_instance.stubs(:phone => '1234569999')
+      get :show, :id => studios(:as).id
+      response.should have_tag('.phone', :text => '(123) 456-9999')
     end
   end    
 end

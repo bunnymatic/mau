@@ -1,20 +1,21 @@
-<div class="admin-table">
+<div class="admin-table singlecolumn">
 <h1>Listing tags</h1>
 
 <table>
   <tr>
+    <th>ID</th>
     <th>Name</th>
     <th>Count</th>
   </tr>
 
-<% @tags.each do |tag| %>
-<%   if tag['count'] <= 0
-       clz = 'error-msg'
-     else
-       clz = ''
-     end
+<% @tags.each_with_index do |tag, idx| %>
+<%  clz = (((idx%2) == 0) ? 'even' : 'odd')
+    if tag['count'] <= 0
+       clz << ' error-msg'
+    end
 -%>
   <tr class='<%= clz %>'>
+    <td><%=h tag.id %></td>
     <td><%=h tag.name %></td>
     <td class='input-name'><%= tag['count'] %></td>
     <td class='input-name'><%= link_to 'Show', tag %></td>
@@ -24,8 +25,5 @@
   </tr>
 <% end %>
 </table>
-
-<br />
-
 <%= link_to 'New tag', new_art_piece_tag_path %>
 </div>
