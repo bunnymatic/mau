@@ -13,6 +13,7 @@ class StudiosController < ApplicationController
 
   def admin_index
     @studios = Studio.all
+    render :layout => 'mau-admin'
   end
 
   def index

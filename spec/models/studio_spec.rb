@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 module StudioSpecHelper
-  def valid_studio_attributes
+  def valid_studio_attributes(opts = {})
     { :name => "The Blue Studio",
       :street => "2111 Mission St",
       :city => "San Francisco",
@@ -9,8 +9,9 @@ module StudioSpecHelper
       :zip => "94117",
       :url => "http =>//thebluestudio.org",
       :lat => 37.7633243,
-      :lng => -122.4195114
-    }
+      :lng => -122.4195114,
+      :phone => '415-123-4154'
+    }.merge(opts)
   end
 end
 
@@ -34,18 +35,21 @@ describe Studio do
   end
 
   describe 'create' do
-    describe "with valid attrs" do
-      before do
-        @s = Studio.new
-        @s.attributes = valid_studio_attributes
-      end
-      it "studio is valid" do
-        @s.should be_valid
-      end
-      it "save triggers geocode" do
-        @s.expects(:compute_geocode).returns([-37,122])
-        @s.save
-      end
+    before do
+      @s = Studio.new
+      @s.attributes = valid_studio_attributes
+    end
+    it "studio is valid" do
+      @s.should be_valid
+    end
+    it "save triggers geocode" do
+      @s.expects(:compute_geocode).returns([-37,122])
+      @s.save
+    end
+    it "validates phone number" do
+      @s.save
+      @s.reload
+      @s.phone.should == '4151234154'
     end
   end
 
@@ -56,6 +60,13 @@ describe Studio do
       s.street = '1891 Bryant St'
       s.expects(:compute_geocode).returns([-37,122])
       s.save!
+    end
+  end
+  
+  describe 'formatted_phone' do
+    it "returns nicely formatted phone #" do
+      Studio.any_instance.expects(:phone).returns('4156171234')
+      studios(:s1890).formatted_phone.should == '(415) 617-1234'
     end
   end
 end

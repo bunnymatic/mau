@@ -72,10 +72,6 @@ joeblogs:
   type: Artist
   url: http://joe.blogs.com
   studio_id: 0
-  addr_state: CA
-  street: 3358 24th st
-  city: sf
-  zip: 94117
 
 
 artfan:
@@ -137,11 +133,9 @@ annafizyta:
   email_attrs: "{\"maunews\":true,\"fromall\":false,\"fromartist\":true,\"mauadmin\":true}"
   image_height: "600"
   flickr: ""
-  city: San Francisco
   salt: deae943a6c5969c298a05ffdbe1a227f2f13379d
   name: ""
   activated_at: 2010-07-29 06:39:33
-  zip: "94110"
   created_at: 2010-07-29 06:34:21
   max_pieces: "20"
   blog: ""
@@ -151,9 +145,6 @@ annafizyta:
   os2010: "0"
   updated_at: 2010-08-30 22:26:27
   url: ""
-  lng: "-122.4198605"
-  addr_state: CA
-  street: 3358 24th st
   lastname: Fizyta
   type: Artist
   image_width: "600"
@@ -164,7 +155,6 @@ annafizyta:
   firstname: Anna
   facebook: ""
   bio: ""
-  lat: "37.7521782"
   login: annafizyta
   state: active
   twitter: ""
@@ -174,11 +164,9 @@ jesseponce:
   email_attrs: "{\"maunews\":true,\"fromall\":false,\"fromartist\":true,\"favorites\":true,\"mauadmin\":true}"
   image_height: "640"
   flickr: 
-  city: 
   salt: 4386661945180e8340c620bd6bc3e72307c7a7ab
   name: ""
   activated_at: 2011-01-29 01:43:04
-  zip: 
   created_at: 2011-01-29 01:39:14
   max_pieces: "20"
   crypted_password: 7eeac56224eb57e429385a2e444c71f49ed3677f
@@ -186,9 +174,6 @@ jesseponce:
   os2010: "0"
   updated_at: 2011-02-01 13:18:38
   url: ""
-  lng: 
-  addr_state: 
-  street: 
   lastname: ponce
   id: "367"
   type: Artist
@@ -202,7 +187,6 @@ jesseponce:
   news: 
   bio: 
   studionumber: 
-  lat: 
   reset_code: 
   login: ponceart
   state: active

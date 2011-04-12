@@ -39,8 +39,9 @@ no reason for this to be very pretty
     <th>Spring 2011 OS?</th>
   </tr>
 
-<% @artists.each do |a| %>
-  <tr>
+<% @artists.each_with_index do |a, idx| 
+   clz = (((idx%2)==0)?'even':'odd') -%>
+  <tr class="<%= clz %>">
     <!--
     <td><% if a.has_profile_image -%>
       <img src="<%= a.get_profile_image('thumb') %>"/>

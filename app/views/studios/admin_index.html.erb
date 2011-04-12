@@ -14,12 +14,14 @@ no reason for this to be very pretty
     <th>Url</th>
   </tr>
 
-<% @studios.each do |studio| %>
-  <tr>
+<% @studios.each_with_index do |studio,idx| 
+   clz = (((idx%2)==0)?'even':'odd') -%>
+  <tr class="<%= clz %>">
     <td><%=h studio.name %></td>
     <td><%= link_to studio.artists.count.to_s(), '/studios/%s' % studio.id.to_s() %></td>
     <td>
       <div><%=h studio.street %></div>
+      <div>@ <%=h studio.cross_street || "(no cross street)" %></div>
       <div><%=h studio.city %></div>
       <div><%=h studio.state %></div>    
       <div><%=h studio.zip %></div>
@@ -27,12 +29,14 @@ no reason for this to be very pretty
     <td><% if studio.has_profile_image %>
      <img src="<%= studio.get_profile_image('thumb') %>"/>
     <% end %>
-    <div><%= link_to 'update profile img', "/studios/addprofile/%d" % studio.id %></div>
     </td>	
     <td><%=h studio.url %></td>
-    <td><%= link_to 'Show', studio %><br/>
-    <%= link_to 'Edit', edit_studio_path(studio) %><br/>
-    <%= link_to 'Destroy', studio, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td>
+      <div><%= link_to 'Show', studio %></div>
+      <div><%= link_to 'Edit', edit_studio_path(studio) %></div>
+      <div><%= link_to 'Destroy', studio, :confirm => 'Are you sure?', :method => :delete %></div>
+      <div><%= link_to 'update profile img', "/studios/addprofile/%d" % studio.id %></div>
+    </td>
   </tr>
 <% end %>
 </table>

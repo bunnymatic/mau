@@ -10,7 +10,7 @@ end
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
-  before_filter :admin_required, :only => [ :purge, :admin_index, :admin_emails, :admin_update ]
+  before_filter :admin_required, :only => [ :purge, :admin_index, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
 
   after_filter :store_location, :except => [:show]  # may handle these separately in case of error pages
@@ -108,6 +108,7 @@ class ArtistsController < ApplicationController
     if reverse
       @artists = @artists.reverse()
     end
+    render :layout => 'mau-admin'
   end
   
   def admin_update

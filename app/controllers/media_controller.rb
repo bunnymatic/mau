@@ -2,12 +2,13 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.xml
   layout 'mau1col'
-  before_filter :admin_required, :except => [ 'index', 'show' ]
+  before_filter :admin_required, :except => [ :admin_index, :show ]
   after_filter :store_location
 
   @@PER_PAGE = 12
   def admin_index
     @media = Medium.all
+    render :layout => 'mau-admin'
   end
 
   def index

@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
   before_filter :admin_required
-  layout 'mau1col'
+  layout 'mau-admin'
   def index
     render :text => "Nothing to see here.  Please move along."
   end
@@ -134,26 +134,30 @@ class AdminController < ApplicationController
     @tbl.delete_at(-1)
     
     # format table into chunks of 7 days
-    numperchunk = 20
+    numperchunk = 11
     @chunks = []
     ctr = 1
     chunk = nil
-    @tbl.each do |c, d|
-      if ctr == 1
-        chunk = []
+    if @tbl.count < numperchunk
+      @chunks = @tbl
+    else
+      @tbl.each do |c, d|
+        if ctr == 1
+          chunk = []
+        end
+        if ctr <= numperchunk
+          chunk << [c,d]
+        end
+        if ctr == numperchunk
+          @chunks << chunk
+          chunk = []
+          ctr = 0
+        end
+        ctr+=1
       end
-      if ctr <= numperchunk
-        chunk << [c,d]
-      end
-      if ctr == numperchunk
+      if ctr < numperchunk and chunk and chunk.length > 0
         @chunks << chunk
-        chunk = []
-        ctr = 0
       end
-      ctr+=1
-    end
-    if ctr < numperchunk and chunk and chunk.length > 0
-      @chunks << chunk
     end
   end
 

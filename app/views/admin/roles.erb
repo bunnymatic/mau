@@ -1,14 +1,13 @@
 <div class="singlecolumn" >
-<style type="text/css">
-#role_mgr .role-members{ float: right; }
-#role_mgr .role { float: left; }
-#role_mgr li { clear:both; width: 200px;}
-</style>
-<div style="padding-left: 20px;" id="role_mgr">
+<div id="role_mgr">
   <h3>Roles</h3>
-  <ul>
-    <% @users_in_roles.each do |role, users| %>
-    <li><span class="role"><%= role %></span><span class="role-members"><%= users.map(&:fullname).join(", ") %></span>
+  <ul >
+    <% @users_in_roles.each_with_index do |pr, idx| 
+         role = pr[0]
+         users = pr[1]
+         clz = (((idx%2)==0)?'even':'odd')
+       -%>
+    <li class="<%= clz %>"><div><span class="role"><%= role %></span><span class="role-members"><%= users.map(&:fullname).join(", ") %></span></div>
     </li>
     <% end -%>
   </ul>

@@ -1,12 +1,16 @@
-<h1>Listing media</h1>
+<div class="single_column admin-table">
+<h4>Listing media</h4>
 
 <table>
   <tr>
+    <th>ID</th>
     <th>Name</th>
   </tr>
 
-<% @media.each do |medium| %>
-  <tr>
+<% @media.each_with_index do |medium, idx| %>
+<%  clz = (((idx%2) == 0) ? 'even' : 'odd')
+-%>
+  <tr class='<%= clz %>'>
     <td><%=h medium.name %></td>
     <td><%= link_to 'Show', medium %></td>
     <td><%= link_to 'Edit', edit_medium_path(medium) %></td>
@@ -14,7 +18,4 @@
   </tr>
 <% end %>
 </table>
-
-<br />
-
 <%= link_to 'New medium', new_medium_path %>
