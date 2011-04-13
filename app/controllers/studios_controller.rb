@@ -122,7 +122,7 @@ class StudiosController < ApplicationController
     @studio = Studio.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => 'mau-admin' }# new.html.erb
       format.xml  { render :xml => @studio }
     end
   end
@@ -132,6 +132,7 @@ class StudiosController < ApplicationController
     if self.current_user && self.current_user.is_admin?
       @studio = Studio.find(params[:id])
       @selected_studio = @studio.id
+      render :layout => 'mau-admin'
     else
       redirect_to "/error"
     end

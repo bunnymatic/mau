@@ -26,7 +26,7 @@
 	    <div class="address">
               <%=h @studio.street %>
               <% if @studio.cross_street -%>
-              <%=h "(@ #{@studio.cross_street}" %>
+              <%=h "(@ #{@studio.cross_street})" %>
               <% end -%>
 	      <% if @studio.id > 0 -%>
 	      <span class="lkmap">(<%= link_to 'map', @studio.map_link, { :target => "_blank" } %>)</span>

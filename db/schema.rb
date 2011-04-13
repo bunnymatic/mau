@@ -59,12 +59,12 @@ ActiveRecord::Schema.define(:version => 20110412033322) do
     t.integer  "zip"
     t.integer  "max_pieces",                                :default => 20
     t.integer  "representative_art_piece"
-    t.string   "studionumber"
     t.boolean  "osoct2010",                                 :default => false
     t.boolean  "os2010",                                    :default => false
     t.float    "lat"
     t.float    "lng"
     t.string   "open_studios_participation"
+    t.string   "studionumber"
   end
 
   create_table "artist_profile_images", :force => true do |t|
@@ -92,6 +92,8 @@ ActiveRecord::Schema.define(:version => 20110412033322) do
     t.datetime "starttime"
     t.datetime "endtime"
     t.string   "url"
+    t.float    "lat"
+    t.float    "lng"
   end
 
   create_table "favorites", :force => true do |t|
