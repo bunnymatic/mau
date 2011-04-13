@@ -1,3 +1,4 @@
+<div class="admin-table"> 
 <h1>Editing studio</h1>
 
 <% form_for(@studio) do |f| %>
@@ -12,6 +13,10 @@
     <%= f.text_field :street %>
   </p>
   <p>
+    <%= f.label :cross_street %><br />
+    <%= f.text_field :cross_street %>
+  </p>
+  <p>
     <%= f.label :city %><br />
     <%= f.text_field :city %>
   </p>
@@ -24,6 +29,10 @@
     <%= f.text_field :zip %>
   </p>
   <p>
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone %>
+  </p>
+  <p>
     <%= f.label :url %><br />
     <%= f.text_field :url %>
   </p>
@@ -34,3 +43,4 @@
 
 <%= link_to 'Show', @studio %> |
 <%= link_to 'Back', studios_path %>
+</div>
