@@ -103,6 +103,7 @@ common:
         url: http://studiomorin.blogspot.com/
       - feed: http://ordinaryknitting.blogspot.com/feeds/posts/default?alt=rss
         url: http://ordinaryknitting.blogspot.com/
+
    yahoo_api_key: N.34cqHV34HBVzs_fNwThGrKQN8oMtEsizMOW14GriC2lceN7KrJKTklkpO2uUDX
    shop_url: http://www.cafepress.com/MissionArtists
    # minimum artists before we show a studio
@@ -110,5 +111,5 @@ common:
    autosuggest:
        cache_expiry: 300
        cache_key: tagsuggest
-   oslive: true
+   oslive: false
    accepting_flaxshow_submissions: false
