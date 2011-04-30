@@ -1619,17 +1619,7 @@ td.td-left{
 .allthumbs {
     position:relative;
 }
-.artp-thumb {
-    border: 1px dotted #444;
-    margin: 4px 4px 8px;
-    text-align:center;
-}
 
-/** holder for the name */
-.artp-thumb div {
-    height: 32px;
-    overflow: hidden;
-}
 
 /** thumb with footer needs more margin */
 .with-foot .artp-thumb {
@@ -1661,22 +1651,22 @@ span.rightarrow
         font-size: 0;
         line-height:0;
     }
-}
-.artp-thumb-container.with-foot {
-    min-height: 144px;
+    &.with-foot {
+        min-height: 144px;
+    }
+    .name {
+        width: 100px;
+        margin: 4px 4px 8px;
+        font-size: x-small;
+        position: absolute;
+        bottom: 0px;
+        text-align: center;
+        a {
+            text-align: center;
+        }
+    }
 }
 
-.artp-thumb-container .name {
-    width: 100px;
-    margin: 4px 4px 8px;
-    font-size: x-small;
-    position: absolute;
-    bottom: 0px;
-    text-align: center;
-}
-.artp-thumb-container .name a {
-    text-align: center;
-}
 
 
 .artp-thumb-ctrl {
@@ -1685,41 +1675,42 @@ span.rightarrow
     bottom: 10px;
     height: 16px;
     margin-left: 4px;
-}
-.artp-thumb-ctrl .mv-left.first,
-.artp-thumb-ctrl .mv-right.last { display:none; }
-
-.artp-thumb-ctrl .mv-right,
-.artp-thumb-ctrl .mv-left {
-    position: absolute;
-    cursor: pointer;
-    top: 0px;
-}
-.artp-thumb-ctrl .mv-right {
-    right: 32px;
-}
-.artp-thumb-ctrl .mv-left {
-    left: 32px;
-}
-
-.artp-thumb-decorate img {
-    position: absolute;
-    top: 84px;
-    left: 76px;
-}
-.artp-thumb-t {
-    width: 100px;
+    & .mv-left.first, & .mv-right.last { 
+        display:none; 
+    }
+    & .mv-right, & .mv-left {
+        position: absolute;
+        cursor: pointer;
+        top: 0px;
+    }
+    .mv-right {
+        right: 32px;
+    }
+    .mv-left {
+        left: 32px;
+    }
 }
 
-.artp-thumb-s {
-    width: 200px;
-    margin:10px 21px;
+.artp-thumb {
+    border: 1px dotted #444;
+    margin: 4px 4px 8px;
+    text-align:center;
+    /** holder for the name */
+    div {
+        height: 32px;
+        overflow: hidden;
+    }
+    &.thumb {
+        width: 100px;
+    }
+    &.small {
+        width: 200px;
+        margin:10px 21px;
+    }
+    &.medium {
+        width: 400px;
+    }
 }
-
-.artp-thumb-m {
-    width: 400px;
-}
-
 
 .search-thumbs {
     border: 0px;
