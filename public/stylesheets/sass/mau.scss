@@ -1657,6 +1657,10 @@ span.rightarrow
 .artp-thumb-container {
     float: left;
     position: relative;
+    .artp-thumb-t {
+        font-size: 0;
+        line-height:0;
+    }
 }
 .artp-thumb-container.with-foot {
     min-height: 144px;
