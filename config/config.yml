@@ -81,7 +81,6 @@ common:
         url: http://flaxart.com
       - feed: http://feeds.feedburner.com/RisingArtist
         url: http://risingartist.blogspot.com/
-   other_urls:
       - feed: http://missionlocal.org/category/the-arts/feed/
         url: http://missionlocal.org/category/the-arts/
       - feed: http://twitter.com/statuses/user_timeline/62131363.json
