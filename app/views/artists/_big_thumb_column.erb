@@ -8,7 +8,7 @@
         if logged_in? and current_user.id == @artist.id 
 	title = "Click to Upload Some Art!"
         -%>
-    <div class="artp-thumb artp-thumb-s">
+    <div class="artp-thumb small">
       <a href="<%= new_art_piece_path %>" title="<%= title %>">
 	<img src="/images/default-art-img.png" title="<%= title %>"/>
       </a>
@@ -17,7 +17,7 @@
       <a href="<%= new_art_piece_path %>" title="<%= title %>">Click here to Upload some art!</a>
     </div>
     <% else -%>
-    <div class="artp-thumb artp-thumb-s">
+    <div class="artp-thumb small">
       <img src="/images/default-art-img.png" title="<%= title %>"/>
     </div>
     <% end -%>
