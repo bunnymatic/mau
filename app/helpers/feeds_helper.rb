@@ -12,7 +12,8 @@ module FeedsHelper
     'missionlocal.com' => 'wordpress',
     'blogger.com' => 'blogger',
     'blogspot.com' => 'blogger',
-    'deviantart.com' => 'deviantart' }
+    'deviantart.com' => 'deviantart',
+    'flaxart.com' => 'flaxart' }
 
   @@DESC_CLEANER = Regexp.new(/<\/?[^>]*>/)
 
