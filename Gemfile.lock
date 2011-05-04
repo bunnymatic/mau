@@ -50,6 +50,7 @@ GEM
       file-tail
       rack
       rake (>= 0.8.1)
+    racc (1.4.6)
     rack (1.0.1)
     rails (2.3.5)
       actionmailer (= 2.3.5)
@@ -89,6 +90,7 @@ DEPENDENCIES
   mysql
   nokogiri
   passenger
+  racc
   rails (= 2.3.5)
   rdiscount
   rspec (= 1.3.1)
