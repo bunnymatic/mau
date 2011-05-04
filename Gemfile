@@ -1,4 +1,5 @@
 source :gemcutter
+gem 'racc'
 gem "rails", '2.3.5'
 gem "geokit"
 gem "geokit-rails"
@@ -22,7 +23,7 @@ gem 'ZenTest'
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
-group :test do
+group :test, :development do
   gem 'mocha','0.9.10'
   gem 'rspec','1.3.1'
   gem 'rspec-rails','1.3.2'
