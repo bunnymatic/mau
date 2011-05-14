@@ -361,6 +361,10 @@ class User < ActiveRecord::Base
     retval
   end
 
+  def csv_safe(field) 
+    self.send(field).gsub(/\W/, '')
+  end
+
   def is_artist?
     self[:type] == 'Artist'
   end

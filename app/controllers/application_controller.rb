@@ -195,7 +195,7 @@ class ApplicationController < ActionController::Base
       def output.<<(*args)  
         write(*args)  
       end  
-      csv = FasterCSV.new(output, :row_sep => "\r\n")
+      csv = FasterCSV.new(output, :row_sep => "\n", :force_quotes => true)
       yield csv
     }
   end

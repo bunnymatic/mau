@@ -3,6 +3,10 @@ no reason for this to be very pretty
 -->
 <script src="/javascripts/mau_admin.js" type="text/javascript"></script>
 
+
+<button class="update-artists" style="float:right">update os status</button>
+<a class="export-csv" href="?format=csv&<%= request.query_string %>"><button style="float:right">export as csv</button></a>
+
 <div class="admin-table">
 <h1>Listing artists</h1>
 <% if flash[:error] -%>
@@ -28,7 +32,6 @@ no reason for this to be very pretty
   <br/>
 </div>
 
-<button class="update-artists" style="float:right">update os status</button>
 <%= form_tag "/admin/artists/" %>
 <table>
   <tr>
