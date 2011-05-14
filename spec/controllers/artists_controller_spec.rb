@@ -562,7 +562,11 @@ describe ArtistsController do
       it "has sort by links" do
         response.should have_tag('.sortby a', :count => 14)
       end
+      it 'has a csv export link' do
+        response.should have_tag('a.export-csv', /export/)
+      end
     end
+
   end
       
   describe "- named routes" do

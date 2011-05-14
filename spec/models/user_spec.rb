@@ -314,9 +314,14 @@ describe User do
         users(:artist1).reset_code.should_not be_nil
       end
     end
-
   end
-
+  
+  describe 'csv_safe' do
+    it 'should clean the fields' do
+      users(:badname).csv_safe('firstname').should == 'eat123'
+    end
+  end
+  
   describe "ImageDimensions helper" do
     fixtures :users
     it "get_scaled_dimensions returns input dimension given user profile with no dimensions" do

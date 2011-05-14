@@ -108,7 +108,17 @@ class ArtistsController < ApplicationController
     if reverse
       @artists = @artists.reverse()
     end
-    render :layout => 'mau-admin'
+    respond_to do |format|
+      format.html { render :layout => 'mau-admin' }
+      format.csv {
+        render_csv :filename => 'mau_artists' do |csv|
+          csv << ["First Name","Last Name","Full Name","Group Site Name","Studio Address","Studio Number","Email Address"]
+          @artists.each do |artist|
+            csv << [ artist.csv_safe(:firstname), artist.csv_safe(:lastname), artist.get_name(true), artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, artist.email ]
+          end
+        end
+      }
+    end
   end
   
   def admin_update
