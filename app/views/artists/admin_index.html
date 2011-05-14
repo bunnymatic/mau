@@ -51,7 +51,8 @@ no reason for this to be very pretty
     </tde
        -->
     <td id="admin_artist_name" style="width:100px; ">
-      <a href="<%= artist_path(a) %>"><%=h a.get_name %></a>
+      <a href="<%= artist_path(a) %>"><%=h a.get_name %></a><br/>
+      (activated? <%= a.activated_at ? a.activated_at.strftime("%m/%d/%y") : a.state %>)
     </td>
     <td id="admin_artist_studio" style="width:100px; ">
       <% if a.studio -%>

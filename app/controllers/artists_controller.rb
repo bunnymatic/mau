@@ -90,7 +90,7 @@ class ArtistsController < ApplicationController
   def admin_index
     sortby = "studio_id"
     reverse = false
-    @allowed_sortby = ['studio_id','lastname','firstname','id','login','email']
+    @allowed_sortby = ['studio_id','lastname','firstname','id','login','email', 'activated_at']
     if params[:sortby]
       if @allowed_sortby.include? sortby
         sortby = params[:sortby]

@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
   protected
   def admin_required
     RAILS_DEFAULT_LOGGER.warn("ApplicationController: checking for admin")
-    if !self.current_user or !self.current_user.is_admin?
+    if !current_user or !current_user.is_admin?
       redirect_to "/error"
     end
   end

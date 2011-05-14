@@ -8,6 +8,7 @@ describe ArtistsController do
   fixtures :artist_infos
   fixtures :art_pieces
   fixtures :studios
+  fixtures :roles
 
   describe "#index" do
     before do 
@@ -520,7 +521,50 @@ describe ArtistsController do
       end
     end
   end
-  
+
+  describe "#admin_index" do
+    before do
+    end
+    context "while not logged in" do
+      before do
+        get :admin_index
+      end
+      it "redirects to login" do
+        response.should redirect_to '/error'
+      end
+    end
+    context "while logged in as user" do
+      before do
+        a = users(:artist1)
+        login_as(a)
+        get :admin_index
+      end
+      it "should report error" do
+        response.should redirect_to '/error'
+      end
+    end
+    context "logged in as admin" do
+      integrate_views
+      before do
+        ArtistInfo.any_instance.stubs(:os_participation => {})
+        Artist.any_instance.stubs(:os_participation => {})
+        a = users(:artist1)
+        a.roles << Role.find_by_role('admin')
+        a.artist_info = artist_infos(:artist1)
+        a.save
+        a.reload
+        login_as(a)
+        get :admin_index
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "has sort by links" do
+        response.should have_tag('.sortby a', :count => 14)
+      end
+    end
+  end
+      
   describe "- named routes" do
     it "should have destroyart as artists collection path" do
       destroyart_artists_path.should == "/artists/destroyart"
