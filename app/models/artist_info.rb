@@ -8,7 +8,7 @@ class ArtistInfo < ActiveRecord::Base
   include AddressMixin
 
   def os_participation
-    if self.open_studios_participation.blank?
+    if self.open_studios_participation.blank? || !Conf.oslive
       {}
     else 
       parse_open_studios_participation(self.open_studios_participation)

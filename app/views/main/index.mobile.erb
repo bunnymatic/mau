@@ -2,7 +2,9 @@
   <div class="banner-img"><img src="/images/art_is_the_mission_badge.png"></div>
   <div>
     <ul data-role="listview">
+      <% if Conf.oslive %>
       <%= render_as_mobile_list_item 'spring open studios april 16-17', :link => '/openstudios' %>
+      <% end %>
       <%= render_as_mobile_list_item 'art', :link => '/artists/thumbs' %>
       <%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
       <%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
