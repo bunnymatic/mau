@@ -100,7 +100,7 @@ describe User do
     it "doesn't reply to old artists attributes" do
       pending "we need to remove these fields from user when shit is working"
       [:lat, :lng, :bio, :street, :city, :zip].each do |method|
-        users(:aaron).should_not respond_to method
+        users(:maufan1).should_not respond_to method
       end
     end
   end    
@@ -110,7 +110,7 @@ describe User do
     
     describe "adding artist as favorite to a user" do
       before do
-        @u = users(:aaron) # he's a fan
+        @u = users(:maufan1) # he's a fan
         @a = users(:artist1) 
         @u.add_favorite(@a)
         @u.save
@@ -195,7 +195,7 @@ describe User do
 
     describe "mailer notifications" do
       before do
-        @u = users(:aaron) # he's a fan
+        @u = users(:maufan1) # he's a fan
         @ap = art_pieces(:hot)
         @owner = users(:artist1)
         @ap.artist = @owner
@@ -222,7 +222,7 @@ describe User do
 
     describe "adding art_piece as favorite" do
       before do
-        @u = users(:aaron) # he's a fan
+        @u = users(:maufan1) # he's a fan
         @ap = art_pieces(:hot)
         @owner = users(:artist1)
         @ap.artist = @owner
@@ -273,8 +273,8 @@ describe User do
           @u.remove_favorite(@ap)
         end
         it "art_piece is no longer a favorite" do
-          f = users(:aaron).remove_favorite(@ap)
-          Favorite.find_all_by_user_id(users(:aaron).id).should_not include f
+          f = users(:maufan1).remove_favorite(@ap)
+          Favorite.find_all_by_user_id(users(:maufan1).id).should_not include f
         end
         it "user is not in the who favorites me list of the artist who owns that art piece" do
           @u.remove_favorite(@ap)
@@ -321,11 +321,50 @@ describe User do
       users(:badname).csv_safe('firstname').should == 'eat123'
     end
   end
-  
+
+  describe 'MailChimp includes' do
+    describe "mailchimp_additional_data" do
+      before do
+        @mail_data = users(:artist1).send(:mailchimp_additional_data)
+      end
+      it 'returns allowed mapped attributes' do
+        expected_keys =  ['FNAME','LNAME', 'CREATED']
+        @mail_data.keys.length.should == expected_keys.length
+        @mail_data.keys.all?{|k| expected_keys.include? k}.should be
+      end
+      it 'returns correct values for mapped attributes' do
+        @mail_data['CREATED'].should == users(:artist1).activated_at
+        @mail_data['FNAME'].should == users(:artist1).firstname
+        @mail_data['LNAME'].should == users(:artist1).lastname
+      end
+    end
+    describe 'mailchimp_list_name' do
+      it 'returns Mission Artists United List for artists' do
+        users(:artist1).send(:mailchimp_list_name).should == MailChimp::ARTISTS_LIST
+      end
+      it 'returns events only list for fans' do
+        users(:maufan1).send(:mailchimp_list_name).should == MailChimp::FANS_LIST
+      end
+    end
+    describe 'subscribe and welcome' do
+      before do
+        Artist.any_instance.expects(:mailchimp_list_subscribe)
+      end
+      it "updates mailchimp_subscribed_at column" do
+        u = User.first
+        mc = u.mailchimp_subscribed_at
+        User.first.subscribe_and_welcome
+        u.reload
+        u.mailchimp_subscribed_at.should_not be_nil
+        u.mailchimp_subscribed_at.should be <= Time.now.to_date
+      end
+    end
+  end
+
   describe "ImageDimensions helper" do
     fixtures :users
     it "get_scaled_dimensions returns input dimension given user profile with no dimensions" do
-      u = users(:aaron)
+      u = users(:maufan1)
       u.get_scaled_dimensions(100).should == [100,100]
     end
     it "get_scaled_dimensions returns the max of the dim given user profile with dimensions" do

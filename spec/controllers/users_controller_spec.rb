@@ -6,6 +6,13 @@ describe UsersController do
   
   fixtures :users
   fixtures :art_pieces
+  before do
+    ####
+    # stub mailchimp calls
+    User.any_instance.stubs(:mailchimp_list_subscribe)
+    Artist.any_instance.stubs(:mailchimp_list_subscribe)
+    MAUFan.any_instance.stubs(:mailchimp_list_subscribe)
+  end
 
   it "actions should fail if not logged in" do
     exceptions = [:index, :show, :artists, :resend_activation, :favorites,
@@ -197,7 +204,7 @@ describe UsersController do
   describe "#show" do
     before(:each) do
       @a = users(:artist1)
-      @u = users(:aaron)
+      @u = users(:maufan1)
     end
     context "while not logged in" do
       integrate_views
@@ -245,7 +252,7 @@ describe UsersController do
     before(:each) do
       @a = users(:artist1)
       @a.save!
-      @u = users(:aaron)
+      @u = users(:maufan1)
       @u.save!
     end
     context "while not logged in" do
@@ -371,7 +378,7 @@ describe UsersController do
     context "show" do
       context "while not logged in" do
         before do
-          get :favorites, :id => users(:aaron).id
+          get :favorites, :id => users(:maufan1).id
         end
         it "returns sucess" do
           response.should be_success
@@ -383,7 +390,7 @@ describe UsersController do
       context "while logged in as fan with no favorites" do
         before do
           ArtPiece.any_instance.stubs(:artist).returns(Artist.new(:login => 'blow'))
-          @u = users(:aaron)
+          @u = users(:maufan1)
           login_as(@u)
           get :favorites, :id => @u.id
         end
@@ -478,7 +485,7 @@ describe UsersController do
           a.add_favorite aa
           assert a.fav_artists.count >= 1
           assert a.fav_art_pieces.count >= 1
-          login_as users(:aaron)
+          login_as users(:maufan1)
           get :favorites, :id => a.id
           @a = a
         end
@@ -761,7 +768,38 @@ describe UsersController do
       end
     end
   end
-  
+
+  describe 'activate' do
+    describe 'with no activation code' do
+      it 'redirects to login' do
+        get :activate
+        response.should redirect_to login_url
+      end
+    end
+    describe 'with valid activation code' do
+      before do
+        get :activate, :activation_code => users(:pending).activation_code
+      end
+      it 'redirects to login' do
+        response.should redirect_to login_url
+      end
+      it 'flashes a notice' do
+        flash[:notice].should include 'Signup complete!'
+      end
+    end
+    describe 'with invalid activation code' do
+      before do
+        get :activate, :activation_code => 'blah'
+      end
+      it 'redirects to login' do
+        response.should redirect_to login_url
+      end
+      it 'flashes an error' do
+        /find an artist with that activation code/.match(flash[:error]).should_not be []
+      end
+    end
+  end
+
   describe "resend_activation" do
     before do
       get :resend_activation

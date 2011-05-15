@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110412033322) do
+ActiveRecord::Schema.define(:version => 20110515001902) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(:version => 20110412033322) do
     t.boolean  "osoct2010",                                :default => false
     t.string   "studionumber"
     t.string   "type",                                     :default => "Artist"
+    t.date     "mailchimp_subscribed_at"
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true

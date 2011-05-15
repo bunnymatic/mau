@@ -127,8 +127,8 @@ describe MainController do
       end
       context "while logged in as an art fan" do
         before do
-          u = users(:aaron)
-          login_as(users(:aaron))
+          u = users(:maufan1)
+          login_as(users(:maufan1))
           @logged_in_user = u
           get :resources
         end
@@ -147,7 +147,7 @@ describe MainController do
       end
       context "while logged in as user with 'editor' role" do
         before do
-          u = users(:aaron)
+          u = users(:maufan1)
           u.roles << roles('editor')
           u.save
           login_as(u)
@@ -169,8 +169,8 @@ describe MainController do
       end
       context "while logged in as an art fan" do
         before do
-          u = users(:aaron)
-          login_as(users(:aaron))
+          u = users(:maufan1)
+          login_as(users(:maufan1))
           @logged_in_user = u
           get :about
         end
@@ -198,8 +198,8 @@ describe MainController do
       end
       context "while logged in as an art fan" do
         before do
-          u = users(:aaron)
-          login_as(users(:aaron))
+          u = users(:maufan1)
+          login_as(users(:maufan1))
           @logged_in_user = u
           get :getinvolved
         end
@@ -227,8 +227,8 @@ describe MainController do
       end
       context "while logged in as an art fan" do
         before do
-          u = users(:aaron)
-          login_as(users(:aaron))
+          u = users(:maufan1)
+          login_as(users(:maufan1))
           @logged_in_user = u
           get :privacy
         end
@@ -256,8 +256,8 @@ describe MainController do
       end
       context "while logged in as an art fan" do
         before do
-          u = users(:aaron)
-          login_as(users(:aaron))
+          u = users(:maufan1)
+          login_as(users(:maufan1))
           @logged_in_user = u
           get :about
         end
@@ -285,8 +285,8 @@ describe MainController do
       end
       context "while logged in as an art fan" do
         before do
-          u = users(:aaron)
-          login_as(users(:aaron))
+          u = users(:maufan1)
+          login_as(users(:maufan1))
           @logged_in_user = u
           get :faq
         end
@@ -383,8 +383,8 @@ EOM
       end
       context "while logged in as an art fan" do
         before do
-          u = users(:aaron)
-          login_as(users(:aaron))
+          u = users(:maufan1)
+          login_as(users(:maufan1))
           @logged_in_user = u
           get :openstudios
         end

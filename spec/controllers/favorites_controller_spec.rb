@@ -37,7 +37,7 @@ describe FavoritesController do
   describe "#index" do
     before do
       login_as(setup_admin_user)
-      u1 = users(:aaron)
+      u1 = users(:maufan1)
       u2 = users(:jesseponce)
       u3 = users(:annafizyta)
       
@@ -77,11 +77,11 @@ describe FavoritesController do
       end
       
       it "aaron should have 1 favorite art piece" do
-        assigns(:favorites)[users(:aaron).login][:art_pieces].should == 1
+        assigns(:favorites)[users(:maufan1).login][:art_pieces].should == 1
       end
       
       it "aaron should have 1 favorite art piece" do
-        assigns(:favorites)[users(:aaron).login][:artists].should == 2
+        assigns(:favorites)[users(:maufan1).login][:artists].should == 2
       end
       
       it "artist 1 should have 2 favorited" do
@@ -96,7 +96,7 @@ describe FavoritesController do
         get :index
       end
       it "aaron should have 1 favorite art piece" do
-        response.should have_tag('table.favorites td', :match => users(:aaron).login)
+        response.should have_tag('table.favorites td', :match => users(:maufan1).login)
       end
     end
   end

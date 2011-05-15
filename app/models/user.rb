@@ -1,6 +1,7 @@
 require 'digest/sha1'
 require 'htmlhelper'
 require 'json'
+require 'lib/mailchimp'
 RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
                            'deactivate','add','new','view','create','update',
                          'arrangeart', 'setarrangement']
@@ -11,6 +12,9 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 #'jon','mrrogers','trish','trishtunney',
 
 class User < ActiveRecord::Base
+
+  include MailChimp
+
   named_scope :active, :conditions => ["users.state = 'active'"]
   before_destroy do |user|
     fs = Favorite.artists.find_all_by_favoritable_id( user.id )

@@ -26,7 +26,7 @@ describe WizardsController do
   [ :flax_chooser, :flax_payment, :flax_success ].each do |method|
     describe 'as a logged in fan hitting '+method.to_s do
       before do
-        u = users(:aaron)
+        u = users(:maufan1)
         login_as(u)
         get method
       end

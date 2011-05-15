@@ -21,6 +21,7 @@ gem 'mobile-fu', '2.x', :git => 'git://github.com/brendanlim/mobile-fu.git'
 gem 'fastercsv'
 gem 'ZenTest'
 gem 'capistrano'
+gem 'gibbon' # mailchimp api plugin
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
