@@ -190,6 +190,7 @@ class UsersController < ApplicationController
         redirect_to "/"
       else
         @fan.activate!
+        @fan.subscribe_and_welcome
         flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
         redirect_to login_path
       end
