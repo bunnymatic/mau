@@ -7,7 +7,7 @@ test:
    image_servers: 
    cache_ns: tst
    feedback_emails: 
-
+   mailchimp_api_key: bogus-key
 
 ub:
    site_url: localhost:3000
@@ -45,6 +45,7 @@ development:
        objects: 0
        media_frequency: 3600
        tag_frequency: 3600
+   mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
 
 production:
    feedback_emails:
@@ -115,3 +116,4 @@ common:
        cache_key: tagsuggest
    oslive: false
    accepting_flaxshow_submissions: false
+   mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2

@@ -66,7 +66,7 @@ describe ArtPiecesController do
       context "piece has been favorited" do
         before do
           ap = @artpieces.first
-          users(:aaron).add_favorite ap
+          users(:maufan1).add_favorite ap
           get :show, :id => ap.id
         end
         it "shows the number of favorites"
@@ -100,7 +100,7 @@ describe ArtPiecesController do
     context "when logged in as not artpiece owner" do
       integrate_views
       before do
-        login_as(users(:aaron))
+        login_as(users(:maufan1))
         get :show, :id => @artpieces.first.id
       end
       it "shows heart icon" do
@@ -140,7 +140,7 @@ describe ArtPiecesController do
     end
     context "while logged in as not art piece owner" do
       before do
-        login_as(users(:aaron))
+        login_as(users(:maufan1))
         post :destroy, :id => art_pieces(:artpiece1).id
       end
       it "returns error page" do

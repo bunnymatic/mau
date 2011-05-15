@@ -26,8 +26,8 @@ describe StudiosController do
     context "while logged in as an art fan" do
       integrate_views
       before do
-        u = users(:aaron)
-        login_as(users(:aaron))
+        u = users(:maufan1)
+        login_as(users(:maufan1))
         @logged_in_user = u
         get :index
       end

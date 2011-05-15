@@ -30,6 +30,7 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
+    crack (0.1.8)
     daemon_controller (0.2.6)
     fastercsv (1.5.4)
     fastthread (1.0.7)
@@ -38,11 +39,16 @@ GEM
     geokit (1.5.0)
     geokit-rails (1.1.4)
       geokit (>= 1.5.0)
+    gibbon (0.1.5)
+      httparty (> 0.6.0)
+      json (> 1.4.0)
     haml (3.0.25)
     has_many_polymorphs (2.13)
       activerecord
     highline (1.6.2)
     htmlentities (4.2.4)
+    httparty (0.7.7)
+      crack (= 0.1.8)
     i18n (0.5.0)
     json (1.5.1)
     memcache (1.2.13)
@@ -92,6 +98,7 @@ DEPENDENCIES
   fastercsv
   geokit
   geokit-rails
+  gibbon
   haml
   has_many_polymorphs
   htmlentities

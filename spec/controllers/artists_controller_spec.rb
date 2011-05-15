@@ -248,7 +248,7 @@ describe ArtistsController do
     end
 
     it "reports cannot find artist" do
-      get :show, :id => users(:aaron).id
+      get :show, :id => users(:maufan1).id
       response.should have_tag('.rcol .error-msg')
       response.body.should match(/artist you were looking for was not found/)
     end

@@ -299,11 +299,12 @@ class UsersController < ApplicationController
     case
     when (!params[:activation_code].blank?) && user && !user.active?
       user.activate!
+      user.subscribe_and_welcome
       flash[:notice] = "Signup complete! Please sign in to continue."
     when params[:activation_code].blank?
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
     else 
-      flash[:error]  = "We couldn't find a artist with that activation code -- check your email? Or maybe you've already activated -- try signing in."
+      flash[:error]  = "We couldn't find an artist with that activation code -- check your email? Or maybe you've already activated -- try signing in."
     end
     redirect_to '/login'
   end
