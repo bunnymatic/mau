@@ -87,6 +87,7 @@ describe UsersController do
     context "valid user params and type = MAUFan" do
       before do
         MAUFan.any_instance.expects(:make_activation_code).at_least(1)
+        MAUFan.any_instance.expects(:subscribe_and_welcome)
         post :create, :mau_fan => { :login => 'newuser',
           :password_confirmation => "blurpit", 
           :lastname => "bmatic2", 
@@ -126,6 +127,7 @@ describe UsersController do
     end
     context "valid user param (email/password only) and type = MAUFan" do
       before do
+        MAUFan.any_instance.expects(:subscribe_and_welcome)
         post :create, :mau_fan => { 
           :password_confirmation => "blurpit", 
           :password => "blurpit", 
@@ -165,6 +167,7 @@ describe UsersController do
     context "valid artist params and type = Artist" do
       before do
         Artist.any_instance.expects(:make_activation_code).at_least(1)
+        MAUFan.any_instance.expects(:subscribe_and_welcome).never
         post :create, :artist => { :login => 'newuser2',
           :password_confirmation => "blurpt", 
           :lastname => "bmatic", 
