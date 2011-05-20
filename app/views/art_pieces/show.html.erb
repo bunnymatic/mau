@@ -10,8 +10,7 @@
        artist = @art_piece.artist
        end 
        -%>
-    <td class="corner"></td>
-    <td class="alt-lcol" align="center">
+    <td class="lcol"  colspan='2'>
       <% if @art_piece -%>
       <%= render :partial => "sidebar_info", :locals => { :artist => artist } %>
       <%= render :partial => "/art_pieces/thumb_browser" %>

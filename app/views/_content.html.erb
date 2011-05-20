@@ -2,7 +2,7 @@
   <tr class="tr-short">
     <% if cols == 2 -%>
     <td class="ltcorner graybg"></td>
-    <td class="lcol"></td>
+    <td class="lcol top graybg"></td>
     <td class="vstripe" ></td>
     <td></td>
     <% elsif cols == 1 -%>
@@ -14,8 +14,7 @@
 
   <tr class="nextrow"> 
     <% if cols == 2 -%>
-    <td class="graybg"></td>
-    <td class="lcol">    
+    <td class="lcol graybg" colspan='2'>    
       <%= render :partial => '/feeds/feed' %>
     </td>            
 	
@@ -34,7 +33,7 @@
   <tr class="tr-short">
     <% if cols == 2 -%>
     <td class="lbcorner graybg"></td>
-    <td class="lcol"></td>
+    <td class="lcol graybg"></td>
     <td class="vstripe"></td>
     <td></td>
     <% else -%>
