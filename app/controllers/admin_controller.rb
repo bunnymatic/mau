@@ -10,6 +10,7 @@ class AdminController < ApplicationController
       @stats[k] = {} unless @stats.has_key? k
       @stats[k][:art_pieces_added] = ArtPiece.count(:all, :conditions => [ queries[k] ])
       @stats[k][:artists_added] = Artist.count(:all, :conditions => [ queries[k] ])
+      @stats[k][:artists_activated] = Artist.active.count(:all, :conditions => [ queries[k] ])
       @stats[k][:fans_added] = MAUFan.count(:all, :conditions => [ queries[k] ])
       @stats[k][:favorites_added] = Favorite.count(:all, :conditions => [ queries[k] ])
     end
