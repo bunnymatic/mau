@@ -1062,10 +1062,12 @@ div.feedtitle  {
     text-align: center;
     font-size: 85%;
     margin: 2px;
+    line-height:25px;
 }
 .alpha-pg, .curpg {
     border: 1px dotted #444;
     padding: 2px 4px;
+    white-space:no-wrap;
 }
 
 .studio-memberlist {
