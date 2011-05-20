@@ -183,7 +183,6 @@ class AdminController < ApplicationController
       @roles.compact.reject{|role| invalid_roles.include? role.role}.each do |r|
         k = r.role
         method = "is_#{k}?"
-        p method
         @users_in_roles[k] = [] if @users_in_roles[k].nil?
         begin 
           @users_in_roles[k] << u if u.send(method)
