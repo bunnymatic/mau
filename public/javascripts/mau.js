@@ -1430,7 +1430,7 @@ var TagMediaHelper = {
             // try as a class
             markdown = $$('.input-markdown');
             if (markdown && markdown.length) {
-              markdown = markdown[0].getValue();
+              markdown = markdown[0];
             }
           }
           if (!markdown) {
@@ -1438,7 +1438,7 @@ var TagMediaHelper = {
           }
           
           var params = {
-            markdown: markdown
+            markdown: markdown.getValue()
           };
 
           new Ajax.Request('/discount/markup', { 

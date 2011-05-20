@@ -1,0 +1,31 @@
+$fullwidth: 900px;
+$leftcol: 270px;
+$gutter: 5px;
+
+$bluegray: #c6c7d6;
+$darkbluegray: #738294;
+
+$darkgray: #222;
+$xmediumgray: #666;
+$mediumgray: #999;
+$lightgray: #aaa;
+$xlightgray: #ddd;
+$white: #fff;
+$black: #000;
+
+$error_red: #f33;
+
+$lightyellow: #FEF7CA;
+
+
+@mixin small-rounded-corners {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+@mixin large-rounded-corners {
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+}
+    

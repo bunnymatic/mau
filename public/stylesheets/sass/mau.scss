@@ -1,7 +1,8 @@
+@import 'mau-mixins';
 
 body {
-    background-color: #c6c7d6;
-    color: #ddd;
+    background-color: $bluegray;
+    color: $xlightgray;
     font-size: 13px;
     font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana", Arial, sans-serif;
     position: relative;
@@ -11,7 +12,7 @@ body {
         margin: 20px auto;
         padding: 10px;
         background: #bbb;
-        color: #222;
+        color: $darkgray;
         border: 2px solid #800;
         a {
             color: #525;
@@ -27,31 +28,31 @@ div,p {
     line-height: 1.4em;
 }
 h1 {
-    color: #999;
+    color: $mediumgray;
     font-weight:normal;
     font-size: 170%;
     letter-spacing: 1px;
     line-height:normal;
 }
 h2 {
-    color: #aaa;
+    color: $lightgray;
     font-size: 150%;
     font-weight:normal;
     line-height:1;
     margin: 0.53em 0;
 }
 h3 {
-    color: #aaa;
+    color: $lightgray;
     font-size: 130%;
 }
 h4 {
-    color: #aaa;
+    color: $lightgray;
     font-size: 130%;
     font-weight: bold;
     margin: 1.33em 0;
 }
 h5 {
-    color: #aaa;
+    color: $lightgray;
     font-size: 110%;
 }
 
@@ -70,9 +71,9 @@ form {
 
 /* general div align stuff */
 div.div-left {
-    color: #aaa;
+    color: $lightgray;
     & div, & span {
-        color: #aaa;
+        color: $lightgray;
     }
 }
 
@@ -117,7 +118,7 @@ tr.error-row {
 }
 
 .bio-container {
-    color: #ccc;
+    color: $xlightgray;
     margin-top: 18px;
     max-height: 370px;
     overflow: auto;
@@ -149,7 +150,7 @@ tr.error-row {
 }
 
 .gi span.gi-subtitle {
-    color: #cccccc;
+    color: $xlightgray;
     font-size: x-small;
     margin: 0 20px;
 }
@@ -268,13 +269,12 @@ div.donate-btns span {
             }
             .formbutton {
                 margin: 0 10px;
-                -moz-border-radius: 4px;
-                -webkit-border-radius: 4px;
+                @include small-rounded-corners;
                 padding: 2px;
                 text-align: center;
                 &:hover {
                     font-weight: bold;
-                    color: #000;
+                    color: $black;
                 }
             }
         }
@@ -282,7 +282,7 @@ div.donate-btns span {
             display: none;
         }
         .os-status span {
-            color: #fff;
+            color: $white;
             font-weight: bold;
         }
     }
@@ -310,10 +310,10 @@ a.lknav {
     font-size: 14px;
     font-weight:bold;
     &:link, &:visited {
-        color: #333;
+        color: $darkgray;
     }
     &:hover {
-        color: #FEF7CA;
+        color: $lightyellow;
     }
     &:active {
         color: #738294;
@@ -323,7 +323,7 @@ a.lknav {
 /* link for light background like login and footer (dark text) */
 a.lkdark {
     &:link, &:visited, &active {
-        color: #888;
+        color: $xmediumgray;
     }
     &:hover {
         color: #442222;
@@ -331,7 +331,7 @@ a.lkdark {
 }
 
 a.lksubtle, a.lksubtle:link, a.lksubtle:visited ,a.lksubtle:active {
-    color: #888;
+    color: $xmediumgray;
     &:hover {
         color: #dcd5a8;
     }
@@ -342,7 +342,7 @@ a.formbutton {
         color: #422;
     }
     &:hover {
-        color: #888;
+        color: $xmediumgray;
     }
 }
 
@@ -351,17 +351,17 @@ a.formbutton {
 a {
     text-decoration: none;
     &:link {
-        color: #FEF7CA;
+        color: $lightyellow;
     }
 
     &:visited {
-        color: #FEF7CA;
+        color: $lightyellow;
     }
     &:hover {
         color: #554444;
     }
     &:active {
-        color: #FEF7CA;
+        color: $lightyellow;
     }
 }
 
@@ -379,20 +379,19 @@ a {
 }
 #header_bar,
 #footer_bar {
-    background-color: #FFFFFF;
+    background-color: $white;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
     background-position: 0 -50px; /* 40px gradient */
     border: 0;
-    color: #666666;
+    color: $xmediumgray;
     line-height: 33px;
     vertical-align:middle;
     height: 33px;
     width: 898px;
     padding:0;
     margin:0;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
+    @include large-rounded-corners;
     position:relative;
     z-index: 5;
 }
@@ -410,8 +409,7 @@ a {
     width:200px;
     margin: 16px auto;
     border: 1px solid #444;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    @include small-rounded-corners;
     a { 
         position: relative; 
         letter-spacing: 0.1em;
@@ -424,7 +422,7 @@ a {
         line-height: 24px;
         vertical-align: middle;
         &:hover {
-            background: #222;
+            background: $darkgray;
         }
     }
     
@@ -479,13 +477,11 @@ input.srch {
    colors should be set the same for textarea, select and srch
    */
 input, textarea, select {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    background-color:#FEF7CA;
+    @include small-rounded-corners;
+    background-color:$lightyellow;
 }
 button {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    @include small-rounded-corners;
 }
 input.chkbox {
     margin-right: 20px;
@@ -527,12 +523,12 @@ input.txtarea-sm {
 }
 
 select.ddsortby {
-    background-color:#000000;
+    background-color:$black;
     margin-left: 10px;
     margin-right: 5px;
     width: 150px;
     height: auto;
-    color: #CCCCCC;
+    color: $xlightgray;
     border-color: #996633;
 }
 
@@ -547,15 +543,15 @@ input[type=checkbox] {
 
 input[type=submit][disabled=disabled] {
     font-weight:normal;
-    color:#aaa;
+    color:$lightgray;
 }
 
 input[type=submit], .formbutton {
-    background:#999;
+    background:$mediumgray;
     background:url(/images/gradients.png) repeat-x left top;
     background-position: 0 -90px;
-    border:outset 1px #ccc;
-    color:#666;
+    border:outset 1px $xlightgray;
+    color:$darkbluegray;
     cursor:pointer;
     font-weight:bold;
     padding: 3px 4px;
@@ -565,9 +561,8 @@ input[type=submit], .formbutton {
 }
 
 .formbutton {
-    overflow: visible; /* seems to keep ie from adding extra padding */
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    overflow: visible; /* seems to keep ie from adding extra moz */ 
+    @include small-rounded-corners;
 }
 
 div.formbutton {
@@ -575,8 +570,7 @@ div.formbutton {
 }
 
 .news-text div.formbutton {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    @include small-rounded-corners;
     padding: 0 10px;
     margin: 8px 20px 0;
     text-align: center;
@@ -683,7 +677,7 @@ span.micro-icon {
 }
 
 #feed_div {
-    color: #222;
+    color: $darkgray;
     vertical-align: top;
     padding: 0 10px;
     blockquote {
@@ -701,8 +695,7 @@ span.micro-icon {
 }
 
 .feed-entries, .feed-studio-list {
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+    @include small-rounded-corners;
     border: 1px #444 dotted;
     margin: 5px auto 8px auto;
     text-align:left;
@@ -714,14 +707,24 @@ span.micro-icon {
 }
 
 .feed-sxn-hdr {
-    color: #000;
+    color: $black;
     font-weight:bold;
     text-align: left;
     padding: 2px 5px 1px 5px;
         
 }
 
+.full {
+    width: $fullwidth;
+}
 .lcol {
+    width: $leftcol;
+}
+.rcol {
+    width: $fullwidth - $leftcol - 3*$gutter;
+}
+.lcol {
+
     text-align:center;
     position: relative;
     vertical-align: top;
@@ -756,12 +759,11 @@ span.micro-icon {
 
     .links {
         margin: 20px 8px 20px 0;
-        -moz-border-radius: 3px;
-        -webkit-border-radius: 3px;
+        @include small-rounded-corners;
         width: 250px;
         padding: 5px;
-        border: 1px solid #ccc;
-        background-color:#666;
+        border: 1px solid $xlightgray;
+        background-color:$darkbluegray;
         text-align: center;
     }
 }
@@ -780,7 +782,7 @@ div.feedtitle  {
     padding: 2px 5px 5px 5px;
 }
 .feedtxt {
-    color: #000000;
+    color: $black;
     font-size: 10px;
     text-align: left;
     overflow:hidden;
@@ -801,7 +803,7 @@ div.feedtitle  {
 .markdown, #open_studios {
     & h1 {
         text-align: center;
-        color: #eee;
+        color: $xlightgray;
     }
     & h3, h4, h5 {
         text-align: left; 
@@ -840,9 +842,8 @@ div.feedtitle  {
             font-size: 100%;
             margin: 5px;
             padding: 5px;
-            border: 1px solid #999;
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;
+            border: 1px solid $mediumgray;
+            @include small-rounded-corners;
             float:left;
             width: 28%;
             text-align: center;
@@ -863,7 +864,7 @@ div.feedtitle  {
 }
 
 #artists_resources {
-    border-top: 1px solid #666;
+    border-top: 1px solid $darkbluegray;
 }
 
 #artists_resources div h4 {
@@ -902,7 +903,7 @@ div.feedtitle  {
 }
 
 .rcol .feedtxt {
-    color: #fff;
+    color: $white;
     font-size: small;
 }
 .rcol .feed-entries {
@@ -938,12 +939,12 @@ div.feedtitle  {
 #logout {
     clear: right;
     .navitem { margin-left: 2px; margin-right: 2px; float:right;}
-    span.navitem { border-right: 1px solid #333; padding-right: 4px;}
+    span.navitem { border-right: 1px solid $darkgray; padding-right: 4px;}
     span.navitem.last { border-right: 0; padding-right: 0;}
 }
 
 #login_toplink, #logout {
-    color:#333333;
+    color:$darkgray;
     font-size:x-small;
     margin: 3px auto 4px auto;
     padding: 4px 0 4px 0;
@@ -952,7 +953,7 @@ div.feedtitle  {
 }
 
 #container{
-    background-color:#738294;
+    background-color:$darkbluegray;
     margin: auto;
     padding:5px;
     position:relative;
@@ -1053,7 +1054,7 @@ div.feedtitle  {
 
 #about_text, #contact_text,
 #news_text, .privacy-content {
-    color: #ccc;
+    color: $xlightgray;
     font-size: 12px;
 }
 
@@ -1068,7 +1069,7 @@ div.feedtitle  {
 }
 
 .studio-memberlist {
-    color: #aaa;
+    color: $lightgray;
     text-align:left;
     margin-top: 15px;
     vertical-align: top;
@@ -1079,7 +1080,7 @@ div.feedtitle  {
 
 div#header{
     text-align:center;
-    background-color: #FFFFFF;
+    background-color: $white;
 }
 
 table{
@@ -1091,10 +1092,10 @@ table{
     float:left;
     padding:10px 0;
     margin:5px 0;
-    background-color: #999999;
+    background-color: $mediumgray;
 }
 #bigthumbcolumn{
-    background-color: #000;
+    background-color: $black;
     margin: 20px;
     .artp-thumb-container {
         float: none;
@@ -1105,13 +1106,13 @@ table{
     }
 }
 table.tbl-content{
-    background-color:#000000;
+    background-color:$black;
     vertical-align: top;
     width: 900px;
 }
 #searchtools{
     float:left;
-    background: #333333;
+    background: $darkgray;
     margin: 5px 0 0 0;
     padding: 0;
     width: 900px;
@@ -1186,10 +1187,10 @@ img#logo
     position:absolute;
     left: -26px;
     z-index:1;
-}
-.os-violator img {
-    width: 96px;
-    height: 100px;
+    img {
+        width: 96px;
+        height: 100px;
+    }
 }
 
 .info-block {
@@ -1197,38 +1198,10 @@ img#logo
     float: left;
     clear:left;
 }
-.info-lbl {
-    float:left;
-}
 
 img.profile
 {
     border:1px dotted #444;
-}
-img.width-spacer
-{
-    height:1px;
-    width: 160px;
-}
-img.page-height-spacer
-{
-    width:1px;
-    height: 400px;
-}
-img.page-height-spacer-small
-{
-    width:1px;
-    height: 250px;
-}
-img.icons
-{
-    margin: 0px 2px 0px 4px;
-    border: 0;
-}
-img.square-browse
-{
-    border:1px solid #969;
-    vertical-align: middle;
 }
 
 /* small text nav in place of play back buttons on search results */
@@ -1252,23 +1225,6 @@ div.get-involved {
     margin: 10px auto;
 }
 
-div.os-promo {
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    background-color: #aaa;
-    border: 1px solid #444;
-    color: #222;
-    margin-bottom: 20px;
-    margin-right: 8px;
-    padding: 4px 4px 20px 4px;
-}
-
-.os-promo h4 {
-    margin-top: 5px;
-    text-align:center;
-    margin-bottom: 5px;
-}
-
 table.getinv-form{
     margin:5px;
 }
@@ -1277,9 +1233,6 @@ table.getinv-form{
     width: 90%;
 }
 
-.getinv-table img {
-    border:0px;
-}
 .getinv-content {
     margin-top: 10px;
     text-align: left;
@@ -1300,8 +1253,6 @@ table.getinv-form{
     vertical-align: middle;
     margin-right: 10px;
 }
-#open_btn { background-position: 48px 0px; }
-#close_btn { background-position: 32px 0px; }
 
 #prev-browse, #next-browse
 {
@@ -1339,7 +1290,7 @@ div.thumbcontainer
     margin-right:5px;
     margin-top: 5px;
     margin-bottom: 5px;
-    background-color: #333333;
+    background-color: $darkgray;
 }
 
 div.thumbs img
@@ -1392,7 +1343,7 @@ div.tiny-thumb, div.tiny-thumb-sel {
 }
 
 div.tiny-thumb-sel {
-    border: 2px solid #FEF7CA;
+    border: 2px solid $lightyellow;
 }
 
 .browser-buttons {
@@ -1444,7 +1395,7 @@ td.rcol{
 }
 
 div.singlecolumn {
-    background-color: #000;
+    background-color: $black;
     padding-top:20px;
 }
 td.singlecolumn {
@@ -1475,10 +1426,10 @@ td.singlecolumn {
 }
 
 .graybg {
-    background-color: #999999;
+    background-color: $mediumgray;
 }
 .blackbg {
-    background-color: black;
+    background-color: $black;
 }
 
 /* keep header bar from jumping into two lines */
@@ -1782,11 +1733,11 @@ span.rightarrow
 }
 
 #admin_nav {
-    color: #f33;
+    color: $error_red;
     .admin-lk {
         padding: 0 5px 0 0px;
     }
-    border: 1px solid red;
+    border: 1px solid $error_red;
     background-color: #ffcccc;
     margin: 8px auto;
     height: 1.8em;
@@ -1802,7 +1753,7 @@ span.rightarrow
 
 .studio-thumb {
     div {
-        color: #aaa;
+        color: $lightgray;
     }
     border: 1px dotted #444;
     padding: 8px;
@@ -1834,17 +1785,6 @@ span.rightarrow
     margin: 6px;
 }
 
-/*
-  .cur-studio {
-  background: #fef7ca;
-  font-weight: bold;
-  }
-
-.cur-studio a {
-color: #000;
-}
-*/
-
 .artist-list h3, .studio-list h3 {
     margin: 5px;
 }
@@ -1856,12 +1796,12 @@ color: #000;
 .f404 {
     margin: 20px auto;
     width: 70%;
-    color: #aaa;
+    color: $lightgray;
     font-size: 14px;
     text-align: left;
     .oops {
         text-align: center;
-        color: #F33;
+        color: $error_red;
         font-size: 100px;
     }
     .error-msg {
@@ -1874,16 +1814,15 @@ color: #000;
 }
 
 .notice, .error-msg {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border: 1px solid #FEF7CA;
+    @include small-rounded-corners;
+    border: 1px solid $lightyellow;
     margin: 10px;
     padding: 11px;
     width: 260px
 }
 .error-msg {
-    border: 1px solid red;
-    color: #f33;
+    border: 1px solid $error_red;
+    color: $error_red;
     text-align: left;
 }
 
@@ -1919,7 +1858,7 @@ div.alt-login {
 
 .error-help {
     font-size: 85%;
-    color: #F33;
+    color: $error_red;
     text-align: left;
 }
 
@@ -2030,8 +1969,7 @@ textarea.artist-bio {
     border: 1px solid #444;
     padding: 6px;
     margin: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    @include small-rounded-corners;
 }
 #profile_edit_ctrls span {
     margin-left: 0px;
@@ -2041,7 +1979,7 @@ textarea.artist-bio {
 .edit-buttons span:hover,
 #profile_edit_ctrls span:hover,
 #artpiece_edit_ctrls span:hover {
-    background-color: #222;
+    background-color: $darkgray;
 }
 
 #nav_bar .nav {
@@ -2050,7 +1988,7 @@ textarea.artist-bio {
 }
 .nav > div {
     position:relative;
-    background-color: #FFFFFF;
+    background-color: $white;
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
     background-position: 0 -165px; /* 40px gradient */
@@ -2070,7 +2008,7 @@ textarea.artist-bio {
 }
 ul.dropdown li:hover a,
 .nav a.lknav {
-    color: #222;
+    color: $darkgray;
 }
 .nav a.lknav:hover {
     color: #404;
@@ -2103,7 +2041,7 @@ div.studios .studio-list {
 
 /* drawing artist name index */
 .artist-idx-ltr {
-    border-top: 1px solid #222;
+    border-top: 1px solid $darkgray;
     font-size: 90%;
     padding: 2px 20px 0px 0;
     vertical-align:top;
@@ -2122,6 +2060,10 @@ div.studios .studio-list {
         list-style: inside disc;
     }
 }
+.markdown-ctrls {
+    padding: 20px;
+    clear:both;
+}
 .test-content {
     width: 850px;
     margin: 45px auto 20px;
@@ -2137,14 +2079,12 @@ div.studios .studio-list {
             padding: 10px;
         }
     }
-    .markdown-ctrls {}
 }
 /**
    wait dialog
    **/
 .wait-dialog {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    @include small-rounded-corners;
     border: 4px solid #738294;
     width: 160px;
     height: 40px;
@@ -2154,8 +2094,8 @@ div.studios .studio-list {
     left: 45%;
     top: 40%;
     margin: auto;
-    background-color: #999;
-    color: #222;
+    background-color: $mediumgray;
+    color: $darkgray;
 }
 /**
    popup help
@@ -2168,12 +2108,11 @@ img.help-icon {
     border: 0;
 }
 
-div.popup-help {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+div.popup-help { 
+    @include small-rounded-corners;
     display: block;
-    background-color: #222;
-    border: 1px solid #666;
+    background-color: $darkgray;
+    border: 1px solid $darkbluegray;
     position: absolute;
     width: 200px;
     left: 4px;
@@ -2219,16 +2158,14 @@ div.popup-help {
 
 #note_modal_window,
 #feedback_modal_window {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    @include small-rounded-corners;
 }
 
 #note_modal_content,
 #feedback_modal_content {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+    @include small-rounded-corners;
     border: 2px solid #738294;
-    background-color: black;
+    background-color: $black;
     .note-err {
         margin: 20px;
     }
@@ -2245,7 +2182,7 @@ div.popup-help {
     -moz-border-radius-topright: 4px;
     -webkit-border-top-left-radius: 4px;
     -webkit-border-top-right-radius: 4px;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid $mediumgray;
     background-color: transparent;
     line-height:2em;
     padding-left: 10px;
@@ -2259,9 +2196,9 @@ div.popup-help {
     -moz-border-radius-topright: 4px;
     -webkit-border-top-left-radius: 4px;
     -webkit-border-top-right-radius: 4px;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid $mediumgray;
     line-height: 1.5em;
-    background-color: black;
+    background-color: $black;
     font-weight: bold;
     padding: 6px 6px 6px 12px;
     position: relative;
@@ -2282,7 +2219,7 @@ div.popup-help {
 
 #feedback_modal_content .popup-text,
 #feedback_modal_content .feedback-signup-msg {
-    background-color: #222;
+    background-color: $darkgray;
 }
 
 #note_modal_content .popup-text,
@@ -2327,7 +2264,7 @@ a#feedback_link {
 }
 
 a#feedback_link:hover {
-    background-color: #999;
+    background-color: $mediumgray;
 }
 
 .fdbk-form-container {
@@ -2349,7 +2286,7 @@ a#note_close_link{
 #note_modal_window,
 #feedback_modal_window {
     margin: 0 auto;
-    background-color: #222;
+    background-color: $darkgray;
     left: 0%;
     position: relative;
 }
@@ -2361,7 +2298,7 @@ a#note_close_link{
 }
 
 #note_modal_content .popup-text {
-    background-color: #222
+    background-color: $darkgray
 }
 
 .note-loading,
@@ -2377,7 +2314,7 @@ a#note_close_link{
     left: 0px;
     height: 100%;
     width: 100%;
-    background-color: #000;
+    background-color: $black;
     opacity: 0.5;
 }
 
@@ -2387,7 +2324,7 @@ a#note_close_link{
 
 .note_overlayBG,
 .feedback_overlayBG {
-    background-color: #000;
+    background-color: $black;
     z-index: 100000;
 }
 
@@ -2399,7 +2336,7 @@ a#note_close_link{
 }
 
 form#feedback_form .error {
-    color: red;
+    color: $error_red;
     font-weight: bold;
 }
 
@@ -2492,9 +2429,8 @@ form#feedback_form .error {
     z-index: 3001;
 }
 #credits_div {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    background-color: #222;
+    @include small-rounded-corners;
+    background-color: $darkgray;
     border: 2px solid #738294;
     position: absolute;
     text-align: left;
@@ -2508,14 +2444,14 @@ form#feedback_form .error {
     -moz-border-radius-topright: 4px;
     -webkit-border-top-left-radius: 4px;
     -webkit-border-top-right-radius: 4px;
-    background-color: #000;
-    color: #ddd;
+    background-color: $black;
+    color: $xlightgray;
     height: 2em;
     line-height: 2em;
     padding-left: 10px;
 }
 #credits_div .credits-bdy {
-    color: #ccc;
+    color: $xlightgray;
 }
 
 /** artists dropdown menu */
@@ -2555,14 +2491,14 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         padding-right:15px;
     }
     .last {
-        -moz-border-radius-bottomleft: 5px;
-        -moz-border-radius-bottomright: 5px;
-        -webkit-border-bottom-left-radius: 5px;
-        -webkit-border-bottom-right-radius: 5px;
+        -moz-border-radius-bottomleft: 4px;
+        -moz-border-radius-bottomright: 4px;
+        -webkit-border-bottom-left-radius: 4px;
+        -webkit-border-bottom-right-radius: 4px;
     }
     .first {
-        -moz-border-radius-topright: 5px;
-        -webkit-border-top-right-radius: 5px;
+        -moz-border-radius-topright: 4px;
+        -webkit-border-top-right-radius: 4px;
     }
     &.dropdown {
         display: inline;
@@ -2580,7 +2516,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
             background-image: url(/images/gradients.png);
             background-position: 0 -50px; /* 40px gradient */
             background-repeat: repeat-x;
-            border-color:#d6d7e6 #888 #888 #d6d7e6;
+            border-color:#d6d7e6 $xmediumgray $xmediumgray #d6d7e6;
             border-style:solid;
             border-width:0px 1px 1px 1px;
             float:left;
@@ -2643,19 +2579,18 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 #ac_tags, #ac_ul {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    background-color: #FEF7CA;
+    @include small-rounded-corners;
+    background-color: $lightyellow;
     z-index: 3;
 }
 
 #ac_ul li span { font-size: x-small;}
 #ac_ul li a.lkdark {
-    color: #222;
+    color: $darkgray;
 }
 
 #ac_ul .ac_highlight {
-    background-color: #aaa;
+    background-color: $lightgray;
 }
 #ac_ul .last {
     -moz-border-radius-bottomleft: 4px;
@@ -2835,7 +2770,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
             }
             &.name {
                 border: 1px solid #444;
-                background : #222;
+                background : $darkgray;
                 text-align: center;
                 width: 200px;
                 height: 24px;
@@ -2845,13 +2780,13 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
                 position: absolute;
                 top: 100%;
                 .del-btn {
-                    background-color : #222;
+                    background-color : $darkgray;
                     position: absolute;
                     right: 2px;
                     top: 1px;
                     width:16px;
                     height:16px;
-                    border: 2px solid #222;
+                    border: 2px solid $darkgray;
                     z-index: 10;
                     &:hover {
                         border: 2px solid red;
@@ -2869,7 +2804,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 
 .mau-note-link {
     cursor: pointer;
-    color: #FEF7CA;
+    color: $lightyellow;
 }
 .send-mau-a-note {
     &.mau-notes-container-feed_submission {
@@ -2881,16 +2816,15 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     z-index: 50;
     .popup-mailer {
         width: 480px;
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
+        @include small-rounded-corners;
         border: 2px solid #738294;
-        background-color: black;
-        color: #aaa;
+        background-color: $black;
+        color: $lightgray;
     }
     .popup-header {
         .close-btn {
             float: right;
-            color: #FEF7CA;
+            color: $lightyellow;
             cursor: pointer;
             font-weight: bold;
         }
@@ -2898,16 +2832,16 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         -moz-border-radius-topright: 4px;
         -webkit-border-top-left-radius: 4px;
         -webkit-border-top-right-radius: 4px;
-        border-bottom: 1px solid #999;
+        border-bottom: 1px solid $mediumgray;
         line-height: 1.5em;
-        background-color: black;
+        background-color: $black;
         font-weight: bold;
         padding: 6px 6px 6px 12px;
         position: relative;
     }
     .popup-content {
         padding: 6px 18px 12px 12px;
-        background-color: #222;
+        background-color: $darkgray;
         li {
             width: 100%;
             div {
@@ -2942,16 +2876,15 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         margin: 10% auto;
     }
     .popup-mailer {
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
+        @include small-rounded-corners;
         border: 2px solid #738294;
-        background-color: black;
-        color: #aaa;
+        background-color: $black;
+        color: $lightgray;
     }
     .popup-header {
         .close-btn {
             float: right;
-            color: #FEF7CA;
+            color: $lightyellow;
             cursor: pointer;
             font-weight: bold;
         }
@@ -2959,16 +2892,16 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         -moz-border-radius-topright: 4px;
         -webkit-border-top-left-radius: 4px;
         -webkit-border-top-right-radius: 4px;
-        border-bottom: 1px solid #999;
+        border-bottom: 1px solid $mediumgray;
         line-height: 1.5em;
-        background-color: black;
+        background-color: $black;
         font-weight: bold;
         padding: 6px 6px 6px 12px;
         position: relative;
     }
     .popup-content {
         padding: 6px 18px 12px 12px;
-        background-color: #222;
+        background-color: $darkgray;
         li {
             width: 100%;
             div {
@@ -2995,27 +2928,23 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     font-family: Arial;
 
     fieldset {
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-        -webkit-border-radius: 4px;
-        border: 1px solid #999;
+        @include small-rounded-corners;
+        border: 1px solid $mediumgray;
         padding-top: 1.5em;
         margin: .5em 0;
-        background-color: #222;
-        color: #aaa;
+        background-color: $darkgray;
+        color: $lightgray;
         text-align: left;
     }
     legend {
         white-space: normal;
         text-transform: capitalize;
         font-weight: bold;
-        color: #ccc;
-        background: #000;
+        color: $xlightgray;
+        background: $black;
         padding: .5em 1em;
-        border: 1px solid #999;
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-        -webkit-border-radius: 4px;
+        border: 1px solid $mediumgray;
+        @include small-rounded-corners;
         font-size: 1.2em;
     }
     .indicate-required {
@@ -3023,7 +2952,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         text-align: right;
         font-style: italic;
         overflow: hidden;
-        color: #aaa;
+        color: $lightgray;
         margin: 0 9% 0 0;
     }
     .mc-field-group {
@@ -3062,9 +2991,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 .flax-sidebar {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    background-color: #222;
+    @include small-rounded-corners;
+    background-color: $darkgray;
     border: 1px #444 dotted;
     margin: 5px 8px 8px 0;
     padding: 2px 5px 5px 5px;
@@ -3081,7 +3009,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         margin-bottom: 8px;
     }
     h1 {
-        color: #fff;
+        color: $white;
         font-weight: bold;
         font-size: 110%;
     }
@@ -3094,14 +3022,14 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin: auto;
     text-align: left;
     h4 {
-        border-bottom: 1px dotted #999;
+        border-bottom: 1px dotted $mediumgray;
         font-size: 120%;
         text-align: left;
         margin-bottom: .7em;
     }
     li {
         list-style: disc outside;
-        color: #ddd;
+        color: $xlightgray;
         margin-left: 1.5em;
         li {
             margin-left: 1.5em;
@@ -3110,19 +3038,18 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
     p { 
         padding-left: 0; 
-        color: #ddd;
+        color: $xlightgray;
     }
     
     .formbutton {
         width: 220px;
         margin: 0 auto;
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
+        @include small-rounded-corners;
         padding: 2px;
         text-align: center;
         &:hover {
             font-weight: bold;
-            color: #000;
+            color: $black;
         }
     }
 }
@@ -3136,15 +3063,15 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
     .breadcrumbs {
         text-align: center;
-        color: #777;
+        color: $xmediumgray;
         span {
-            color: #777;
+            color: $xmediumgray;
         }
 
         margin: auto;
         font-style: italic;
         .current {
-            color: #ddd;
+            color: $xlightgray;
             font-weight: bold;
         }
     }
@@ -3190,8 +3117,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
             &.name {
                 margin: auto;
                 border: 1px solid #444;
-                background : #222;
-                color: #ccc;
+                background : $darkgray;
+                color: $xlightgray;
                 text-align: center;
                 font-size:90%;
                 line-height: 24px;
@@ -3230,25 +3157,24 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     width: 700px;
     margin: auto;
     position: relative;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border: 1px solid #999;
+    @include large-rounded-corners;
+    border: 1px solid $mediumgray;
     padding:20px;
     .note {
         width: 450px;
         margin: auto;
         padding: 10px;
-        border-bottom: 1px solid #999;
+        border-bottom: 1px solid $mediumgray;
     }
     & .et_title150bold, & .et_myentrytitle150bold {
         font-size: 120%;
     }
     &.mau {
-        background: #222;
+        background: $darkgray;
     }
     &.white{
         background: white;
-        color: #222;
+        color: $darkgray;
 
         & a, & .mau-note-link {
             color: #803;
@@ -3256,10 +3182,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
                 color: #803;
             }
             &:hover {
-                color: #777;
+                color: $xmediumgray;
             }
             &:active {
-                color: #333;
+                color: $darkgray;
             }
         }
     }
@@ -3267,11 +3193,11 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         padding-left: 0;
     }
     input[type=button] {
-        background:#999;
+        background:$mediumgray;
         background:url(/images/gradients.png) repeat-x left top;
         background-position: 0 -90px;
-        border:outset 1px #ccc;
-        color:#666;
+        border:outset 1px $xlightgray;
+        color:$darkbluegray;
         cursor:pointer;
         font-weight:bold;
         padding: 3px 4px;
@@ -3284,11 +3210,11 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
     .et_button150 {
         font-size: 120%;
-        background:#999;
+        background:$mediumgray;
         background:url(/images/gradients.png) repeat-x left top;
         background-position: 0 -50px;
-        border:outset 1px #ccc;
-        color:#666;
+        border:outset 1px $xlightgray;
+        color:$darkbluegray;
         cursor:pointer;
         font-weight:bold;
         padding: 3px 4px;

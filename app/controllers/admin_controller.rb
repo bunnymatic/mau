@@ -177,11 +177,13 @@ class AdminController < ApplicationController
     @roles = Role.all
     @users = User.active
     @users_in_roles = {}
-
+    
+    invalid_roles = ['a', 'nil']
     @users.each do |u|
-      @roles.each do |r|
+      @roles.compact.reject{|role| invalid_roles.include? role.role}.each do |r|
         k = r.role
         method = "is_#{k}?"
+        p method
         @users_in_roles[k] = [] if @users_in_roles[k].nil?
         begin 
           @users_in_roles[k] << u if u.send(method)
