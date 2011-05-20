@@ -1,3 +1,4 @@
+@import 'mau-mixins';
 body.admin {
     .chunk {
         float: left; 
@@ -10,7 +11,7 @@ body.admin {
         padding: 3px;
     }
     .odd {
-        background-color: #333;
+        background-color: $darkgray;
     }
     .even {
         background-color: transparent;
@@ -40,15 +41,15 @@ body.admin {
             text-align: center; 
             .true {
                 font-weight: bold;
-                color: #FFF;
+                color: $white;
             }
             .false {
-                color: #999;
+                color: $mediumgray;
             }
         }
     }
     tr.odd td {
-        background-color: #333;
+        background-color: $darkgray;
     }
     tr.even td {
         background-color: transparent;
@@ -94,8 +95,11 @@ body.admin {
         border: 1px dotted #444;
     }
     .singlecolumn {
+        tr:first-child {
+            border: 0;
+        }
         tr {
-            border-top: 1px solid #222;
+            border-top: 1px solid $darkgray;
             .odd { background-color: #0a0a00; }
         }
         th, & td {

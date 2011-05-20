@@ -7,7 +7,7 @@
          users = pr[1]
          clz = (((idx%2)==0)?'even':'odd')
        -%>
-    <li class="<%= clz %>"><div><span class="role"><%= role %></span><span class="role-members"><%= users.map(&:fullname).join(", ") %></span></div>
+    <li class="<%= clz %>"><div><span class="role"><%= role %> :</span><span class="role-members"><%= users.map(&:fullname).join(", ") %></span></div>
     </li>
     <% end -%>
   </ul>
