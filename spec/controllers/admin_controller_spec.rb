@@ -31,6 +31,18 @@ describe AdminController do
       end
     end
   end
+  describe "#index" do
+    before do
+      login_as(setup_admin_user)
+      get :index
+    end
+    it 'returns success' do
+      response.should be_success
+    end
+    it 'assigns stats hash' do
+      assigns(:stats).should be_a_kind_of(Hash)
+    end
+  end
   describe '#fans' do
     before do
       login_as(setup_admin_user)
