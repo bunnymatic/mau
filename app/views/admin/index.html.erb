@@ -1,0 +1,13 @@
+<div class="admin-table singlecolumn">
+  <h1>MAU Dashboard</h1>
+  <% @stats.each do |category, stats| -%>
+  <div class="section">
+    <h2><%= category.to_s.titleize %></h2>
+    <ul>
+      <% stats.each do |k,v| -%>
+      <li><%= k.to_s.titleize %> : <%= v %></li>
+      <% end -%>
+    </ul>
+  </div>
+  <% end -%>
+</div>

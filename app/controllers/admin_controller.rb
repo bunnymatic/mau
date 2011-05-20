@@ -2,7 +2,17 @@ class AdminController < ApplicationController
   before_filter :admin_required
   layout 'mau-admin'
   def index
-    render :text => "Nothing to see here.  Please move along."
+    @stats = {}
+    queries = {:last_month => "created_at >= current_date() - 30",
+      :last_week => "created_at >= current_date() - 7",
+      :yesterday => "created_at >= current_date() - 1"}
+    [:yesterday, :last_week, :last_month ].each do |k|
+      @stats[k] = {} unless @stats.has_key? k
+      @stats[k][:art_pieces_added] = ArtPiece.count(:all, :conditions => [ queries[k] ])
+      @stats[k][:artists_added] = Artist.count(:all, :conditions => [ queries[k] ])
+      @stats[k][:fans_added] = MAUFan.count(:all, :conditions => [ queries[k] ])
+      @stats[k][:favorites_added] = Favorite.count(:all, :conditions => [ queries[k] ])
+    end
   end
 
   def admin_emails

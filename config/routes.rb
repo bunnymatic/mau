@@ -69,15 +69,17 @@ ActionController::Routing::Routes.draw do |map|
   map.error '/error', :controller => 'error'
   map.version '/_rev', :controller => 'main', :action => 'version'
 
-  # admin links
-  map.admin_artists '/admin/artists', :controller => 'artists', :action=> 'admin_index'
-  map.admin_fans '/admin/fans', :controller => 'admin', :action=> 'fans'
   map.admin_update_artists '/admin/artists/update', :controller => 'artists', :action=> 'admin_update'
 
+  map.admin_artists '/admin/artists', :controller => 'artists', :action=> 'admin_index'
   map.admin_studios '/admin/studios', :controller => 'studios', :action=> 'admin_index'
   map.admin_tags '/admin/art_piece_tags', :controller => 'art_piece_tags', :action=> 'admin_index'
   map.admin_media '/admin/media', :controller => 'media', :action=> 'admin_index'
   map.admin_favorites '/admin/favorites', :controller => 'favorites', :action=> 'index'
+
+  # admin links
+  map.admin '/admin/:action', :controller => :admin
+
 
   map.mau_fans '/maufans/:id', :controller => 'users', :action => 'show'
   # all other admin links connect to AdminController

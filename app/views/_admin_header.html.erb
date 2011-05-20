@@ -1,4 +1,6 @@
 <div id='admin_nav'>Administrator Links:
+  <span class="admin-lk"><%= link_to 'dashboard', admin_path, { :class => 'lkdark' } %></span>
+  
   <% ['artists_per_day','stats', 'os_status', 'emaillist', 'favorites', 'artists', 'studios','fans','art_piece_tags','media', 'roles'].each do |nm| -%>
   <span class="admin-lk"><%= link_to nm, "/admin/%s" % nm, { :class => 'lkdark' } %></span>
   <% end -%>
