@@ -103,7 +103,7 @@ end
 task :build_sass do
   sass_cache_dir = "#{current_path}/tmp/sass-cache"
   run "mkdir -p #{sass_cache_dir} && chgrp web #{sass_cache_dir} && chmod g+ws #{sass_cache_dir}"
-  run "cd #{current_path} && rvm use 1.8.7 --default && rake RAILS_ENV=#{rails_env} sass:build"
+  run "cd #{current_path} && rvm use 1.8.7@mau --default && rake RAILS_ENV=#{rails_env} sass:build"
 end
 
 after 'bundle:install', 'deploy:migrate'
