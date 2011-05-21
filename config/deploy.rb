@@ -1,4 +1,6 @@
 require 'bundler/capistrano'
+require 'rvm'
+require 'rvm/capistrano'
 
 ####### VARIABLES #######
 set :application, "MAU"
