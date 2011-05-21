@@ -6,6 +6,8 @@ describe UsersController do
   
   fixtures :users
   fixtures :art_pieces
+  fixtures :favorites # even though fixture is empty - this forces a db clear between tests
+
   before do
     ####
     # stub mailchimp calls
@@ -480,10 +482,10 @@ describe UsersController do
           User.any_instance.stubs(:get_profile_path).returns("/this")
           ArtPiece.any_instance.stubs(:get_path).with('small').returns("/this")
           a = users(:artist1)
-          ap = art_pieces(:hot)
-          ap.artist_id = users(:joeblogs)
-          ap.save!
           aa = users(:joeblogs)
+          ap = art_pieces(:hot)
+          ap.artist_id = aa.id
+          ap.save!
           a.add_favorite ap
           a.add_favorite aa
           assert a.fav_artists.count >= 1

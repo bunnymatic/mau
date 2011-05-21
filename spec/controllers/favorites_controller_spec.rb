@@ -15,6 +15,7 @@ describe FavoritesController do
   fixtures :art_pieces
   fixtures :artist_infos
   fixtures :roles
+  fixtures :favorites # even though fixture is empty - this forces a db clear between tests
 
   [:index].each do |endpoint|
     describe endpoint do
@@ -26,7 +27,7 @@ describe FavoritesController do
         get endpoint
       response.should redirect_to '/error'
       end
-      it "responds success if not logged in as admin" do
+      it "responds success if logged in as admin" do
         login_as(setup_admin_user)
         get endpoint
         response.should be_success
