@@ -1,18 +1,15 @@
-
 quentin:
-  id:                        1
   login:                     quentin
   email:                     quentin@example.com
   salt:                      1b6453892473a467d07372d45eb05abc2031647a # SHA1('0')
   crypted_password:          6900d7c6156b36acbaeda4f9e26a9225274297ef # 'monkey'
-  created_at:                <%= 5.days.ago.to_s :db  %>
+  created_at:                <%= 12.days.ago.to_s :db  %>
   remember_token_expires_at: <%= 1.days.from_now.to_s %>
   remember_token:            c1dfd96eea8cc2b62785275bca38ac261256e278
   firstname:                 quentin
   lastname:                  tarantino
 
 maufan1:
-  id:                        2
   login:                     aaron
   email:                     aaron@example.com
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
@@ -26,13 +23,12 @@ maufan1:
   url:                       http://aaronrules.com
 
 pending:
-  id: 4
   login: pending
   email: pending@example.com
   type: User
   activation_code: activation
+
 old_password_holder:
-  id:                        3
   login:                     old_password_holder
   email:                     salty_dog@example.com
   salt:                      7e3041ebc2fc05a40c60028e2c4901a81035d3cd
@@ -41,18 +37,18 @@ old_password_holder:
   firstname:                 pass
   lastname:                  word
 
-
 artist1:
   login:                     artist1
   email:                     artist1@example.com
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
-  created_at:                <%= 4.days.ago.to_s :db %>
+  created_at:                <%= 4.hours.ago.to_s :db %>
   remember_token_expires_at: 
   remember_token:            
   firstname:                 artist1
   lastname:                  Fixture
   state:                     active
+  activated_at: <%= 2.hours.ago.to_s :db %>
   type: Artist
   url: http://myurl.com
 
@@ -61,12 +57,13 @@ joeblogs:
   email:                     joe.blogs@example.com
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
-  created_at:                <%= 4.days.ago.to_s :db %>
+  created_at:                <%= 12.days.ago.to_s :db %>
   remember_token_expires_at: 
   remember_token:            
   firstname:                 joe
   lastname:                  blogs
   state:                     active
+  activated_at:              <%= 10.days.ago.to_s :db %>
   image_height:              550
   image_width:               1650
   type: Artist
@@ -87,6 +84,7 @@ artfan:
   type:                      MAUFan
   url:                       http://artfansrules.com
   state: active
+  activated_at:              <%= 1.days.ago.to_s :db %>
 
 suspended:
   login:                     suspect
@@ -113,6 +111,7 @@ admin:
   firstname:                 admin
   lastname:                  dude
   state:                     active
+  activated_at:              <%= 3.days.ago.to_s :db %>
 
 artfan2:
   login:                     artfan2
@@ -127,6 +126,8 @@ artfan2:
   type:                      MAUFan
   url:                       http://artfansrules.com
   state: active
+  activated_at:              <%= 6.days.ago.to_s :db %>
+
 
 
 annafizyta:
@@ -135,7 +136,6 @@ annafizyta:
   flickr: ""
   salt: deae943a6c5969c298a05ffdbe1a227f2f13379d
   name: ""
-  activated_at: 2010-07-29 06:39:33
   created_at: 2010-07-29 06:34:21
   max_pieces: "20"
   blog: ""
@@ -157,6 +157,7 @@ annafizyta:
   bio: ""
   login: annafizyta
   state: active
+  activated_at: 2010-07-29 06:39:33
   twitter: ""
   email: polaroidart@gmail.com
 
@@ -166,7 +167,6 @@ jesseponce:
   flickr: 
   salt: 4386661945180e8340c620bd6bc3e72307c7a7ab
   name: ""
-  activated_at: 2011-01-29 01:43:04
   created_at: 2011-01-29 01:39:14
   max_pieces: "20"
   crypted_password: 7eeac56224eb57e429385a2e444c71f49ed3677f
@@ -175,21 +175,15 @@ jesseponce:
   updated_at: 2011-02-01 13:18:38
   url: ""
   lastname: ponce
-  id: "367"
   type: Artist
   image_width: "480"
   studio_id: "0"
   representative_art_piece: "3002"
   profile_image: public/artistdata/367/profile/profile.JPG
   firstname: jesse
-  remember_token: 
-  facebook: 
-  news: 
-  bio: 
-  studionumber: 
-  reset_code: 
   login: ponceart
   state: active
+  activated_at: 2011-01-29 01:43:04
   twitter: 
   email: poncesanlan@sbcglobal.net
 

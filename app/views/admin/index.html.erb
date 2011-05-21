@@ -1,8 +1,10 @@
 <div class="admin-table singlecolumn">
   <h1>MAU Dashboard</h1>
-  <% @stats.each do |category, stats| -%>
+  <h2>Counts:</h2>
+  <% [:total, :yesterday, :last_week, :last_month].each do |category|
+     stats = @activity_stats[category] %>
   <div class="section">
-    <h2><%= category.to_s.titleize %></h2>
+    <h3><%= category.to_s.titleize %></h3>
     <ul>
       <% stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v| -%>
       <li><%= k.to_s.titleize %> : <%= v %></li>
@@ -10,4 +12,11 @@
     </ul>
   </div>
   <% end -%>
+  <div class="clear"></div>
+  <h2>Graphs:</h2>
+  <div class="graph section">
+    <h3>Artists Per Day</h3>
+    <div id="artists_per_day"></div>
+  </div>
 </div>
+

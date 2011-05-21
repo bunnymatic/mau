@@ -6,6 +6,8 @@
 	<%= render :partial => '/title' %>
 	<%= render :partial => '/stylesheets' %>
         <%= render :partial => '/javascripts' %>
+        <%= javascript_include_tag "flotr/0.2.0/flotr" %>
+        <%= javascript_include_tag "mau-admin" %>
     <link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-admin.css" />
    </head>
   <body class="<%= @browser_as_class %> admin">

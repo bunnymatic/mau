@@ -88,12 +88,19 @@ body.admin {
     }
     .header_inputs {
     }
+    h2 {
+        margin-left: 10px;
+    }
     .section { 
-        width: 380px;
+        width: 178px;
         float: left;
-        padding: 10px;
+        padding: 10px 10px 20px;
         margin:10px;
         border: 1px dotted #444;
+        &.graph {
+            width:auto;
+            clear: left;
+        }
     }
     .singlecolumn {
         tr:first-child {
@@ -119,4 +126,9 @@ body.admin {
     padding-left: 20px;
     li {
     }
+}
+
+#artists_per_day {
+    width: 700px;
+    height: 300px;
 }

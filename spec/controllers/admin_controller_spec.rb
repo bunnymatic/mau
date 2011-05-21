@@ -14,7 +14,7 @@ describe AdminController do
   fixtures :users
   fixtures :roles
 
-  [:index, :fans, :stats, :emaillist, :artists_per_day, :roles].each do |endpoint|
+  [:index, :fans, :emaillist, :artists_per_day, :roles, :artists_per_day].each do |endpoint|
     describe endpoint do
       it "responds failure if not logged in" do
         get endpoint
@@ -40,7 +40,19 @@ describe AdminController do
       response.should be_success
     end
     it 'assigns stats hash' do
-      assigns(:stats).should be_a_kind_of(Hash)
+      assigns(:activity_stats).should be_a_kind_of(Hash)
+    end
+    it 'assigns correct values for artists yesterday' do
+      assigns(:activity_stats)[:yesterday][:artists_activated].should == 1
+      assigns(:activity_stats)[:yesterday][:artists_added].should == 1
+    end
+    it 'assigns correct values for artists last weeek' do
+      assigns(:activity_stats)[:last_week][:artists_activated].should == 2
+      assigns(:activity_stats)[:last_week][:artists_added].should == 5
+    end
+    it 'assigns correct values for artists last month' do
+      assigns(:activity_stats)[:last_month][:artists_activated].should == 3
+      assigns(:activity_stats)[:last_month][:artists_added].should == 7
     end
   end
   describe '#fans' do
@@ -87,7 +99,44 @@ describe AdminController do
         end
       end
     end
-      
   end
 
+  describe "artists_per_day" do
+    before do 
+      login_as(setup_admin_user)
+      xhr :get, :artists_per_day
+    end
+    it "returns success" do
+      response.should be_success
+    end
+    it "returns json" do
+      response.content_type.should == 'application/json'
+    end
+    it "json is ready for flotr" do
+      j = JSON.parse(response.body)
+      j.keys.should include 'series'
+      j.keys.should include 'options'
+    end
+  end
+
+  describe "helpers" do
+    describe "artists_per_day" do
+      before do
+        @artists_per_day = AdminController.new.send(:compute_artists_per_day)
+      end
+      it "returns an array" do
+        @artists_per_day.should be_a_kind_of(Array)
+        @artists_per_day.should have_at_least(7).items
+      end
+      it "returns an entries have date and count" do
+        entry = @artists_per_day.first
+        entry.should have(2).entries
+        Time.at(entry[0].to_i).to_date.should == Date.today
+        entry[1].should == 1
+      end
+      it "does not include nil dates" do
+        @artists_per_day.all?{|apd| !apd[0].nil?}.should be
+      end
+    end
+  end
 end
