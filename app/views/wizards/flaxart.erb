@@ -7,7 +7,7 @@
       <% end %>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
-    <td class="rcol" align="center" ><!-- artists/show -->
+    <td class="rcol" colspan='2'>
       <div class="logo-spacer">&nbsp;</div>
       <% if flash[:error] %><div class="error-msg"><%= flash[:error] %></div><% end %>
 <div class="flaxart-wizard flax">
@@ -61,8 +61,6 @@ We're using EntryThingy to manage submissions.  To get there you'll need to:
 <a class='lkdark formbutton' href="/flaxart/eventthingy">Submit your work!</a>
 </div>
 </div>
-    </td>
-    <td valign="top">
     </td>
   </tr>
 <%= render :partial => "/twocol_bottom" %>

@@ -5,7 +5,7 @@
       <%= render :partial => 'studio_list' %>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
-    <td class="rcol" align="center"><!-- studios/index -->
+    <td class="rcol" colspan='2'>
       <div id="studio_page">
 	<% if flash[:error] %>
 	<div class="error-msg">
@@ -15,7 +15,6 @@
 	<%= render :partial => 'thumbs', :locals => { :studios => @studios } %>
       </div>
     </td>
-    <td></td>
   </tr>
   <%= render :partial => '/twocol_bottom' %>
 </table>

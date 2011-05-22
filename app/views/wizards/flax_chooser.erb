@@ -6,7 +6,7 @@
       <%= render :partial => "/users/sidebar_nav" %>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
-    <td class="rcol" align="center" ><!-- artists/show -->
+    <td class="rcol" colspan='2'>
       <div class="logo-spacer">&nbsp;</div>
       <% if flash[:error] %><div class="error-msg"><%= flash[:error] %></div><% end %>
       <div class="flax-chooser thumb flax">
@@ -51,8 +51,6 @@ If you need to add more art first to your MAU portfolio, choose <i>add art</i> o
         </div>
       </form>
     </div>
-    </td>
-    <td valign="top">
     </td>
   </tr>
 <%= render :partial => "/twocol_bottom" %>

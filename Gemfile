@@ -16,12 +16,12 @@ gem 'memcache-client'
 gem 'has_many_polymorphs'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
-gem 'calendar_date_select'
 gem 'mobile-fu', '2.x', :git => 'git://github.com/brendanlim/mobile-fu.git'
 gem 'fastercsv'
 gem 'ZenTest'
 gem 'capistrano'
 gem 'gibbon' # mailchimp api plugin
+#gem 'calendar_date_select'
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'

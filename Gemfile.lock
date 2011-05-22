@@ -23,7 +23,6 @@ GEM
     activeresource (2.3.5)
       activesupport (= 2.3.5)
     activesupport (2.3.5)
-    calendar_date_select (1.16.2)
     capistrano (2.6.0)
       highline
       net-scp (>= 1.0.0)
@@ -93,7 +92,6 @@ PLATFORMS
 
 DEPENDENCIES
   ZenTest
-  calendar_date_select
   capistrano
   fastercsv
   geokit

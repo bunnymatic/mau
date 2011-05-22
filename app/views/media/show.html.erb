@@ -5,12 +5,12 @@
       <%= render :partial => 'media_link_list', :locals => { :match => @medium } %>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
-    <td class="rcol" align="center"><!-- media/show -->
+    <td class="rcol" colspan='2'>
       <h4>
 	Search for medium: <span class='query'><%=h @medium.name %></span>
       </h4>
       <div id="search_results">
-	<div>
+	<div class="search-view-ctrls">
 	  <%= render :partial => "/pagination" %>
 	  <%= render :partial => "/art_pieces/mode_selector" %>
 	</div>

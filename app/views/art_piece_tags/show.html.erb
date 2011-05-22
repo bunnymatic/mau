@@ -5,12 +5,12 @@
       <%= render :partial => 'tag_list' %>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
-    <td class="rcol" align="center"><!-- tags/show -->
+    <td class="rcol"  colspan='2'>
       <h4>
 	Search for tag: <span class='query'><%=h @tag.name %></span>
       </h4>
       <div id="search_results">
-	<div>
+	<div class="search-view-ctrls">
 	  <%= render :partial => "/pagination" %>
 	  <%= render :partial => "/art_pieces/mode_selector" %>
 	</div>
@@ -36,7 +36,6 @@
 	</div>
       </div>
     </td>
-    <td></td>
   </tr>
   <%= render :partial => '/twocol_bottom' %>
 </table>
