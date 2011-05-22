@@ -10,7 +10,7 @@ gem "mysql"
 gem "i18n"
 gem "haml"
 gem 'mojo_magick', '0.2.0', :path => "vendor/gems/mojo_magick-0.2.0"
-gem 'passenger'
+gem 'passenger', '3.0.2'
 gem 'memcache'
 gem 'memcache-client'
 gem 'has_many_polymorphs'
