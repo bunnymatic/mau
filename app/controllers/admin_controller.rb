@@ -25,7 +25,8 @@ class AdminController < ApplicationController
       :users_using_favorites => Favorite.count(:select => 'distinct user_id'),
       :pending_artists => Artist.count(:conditions => "state='pending'"),
       :no_profile_image => Artist.active.count(:conditions => "profile_image is not null"),
-      :spring_os_2011_participants => Artist.active.open_studios_participants('201104').count
+      :spring_os_2011_participants => Artist.active.open_studios_participants('201104').count,
+      :studios => Studio.count
     }
     
   end
@@ -112,6 +113,26 @@ class AdminController < ApplicationController
     end
   end
 
+  def art_pieces_per_day
+    apd = compute_art_pieces_per_day
+    result = { :series => [ { :data => apd }],
+      :options => {
+        :mouse => { :track => true }
+      }
+    }
+    render :json => result
+  end
+
+  def favorites_per_day
+    apd = compute_favorites_per_day
+    result = { :series => [ { :data => apd }],
+      :options => {
+        :mouse => { :track => true }
+      }
+    }
+    render :json => result
+  end
+  
   def artists_per_day
     apd = compute_artists_per_day
     result = { :series => [ { :data => apd }],
@@ -133,4 +154,25 @@ class AdminController < ApplicationController
     end
     tbl
   end
+
+  def compute_favorites_per_day
+    compute_created_per_day :favorites
+  end
+
+  def compute_art_pieces_per_day
+    compute_created_per_day :art_pieces
+  end
+
+  def compute_created_per_day(tablename)
+    sql = ActiveRecord::Base.connection()
+    tbl = []
+    query =  "select count(*) ct,date(created_at) d from #{tablename} where created_at is not null group by d order by d desc;"
+    cur = sql.execute query
+    cur.each_hash do |h|
+      tbl << [Time.parse(h['d']).to_i, h['ct'].to_i]
+    end
+    p "#{tablename} ", tbl
+    tbl
+  end
+
 end
