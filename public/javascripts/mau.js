@@ -282,7 +282,7 @@ var TagMediaHelper = {
   /** front page thumbs **/
   Object.extend(FR, {
     init: function() {
-      setInterval( function() { FR.update_art(); }, 120000);
+      setInterval( function() { FR.update_art(); }, 8000);
       FR.init = function() {};
     },
     update_art: function() {

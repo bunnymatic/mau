@@ -11,8 +11,8 @@
   var apd_options = {
     xaxis: { tickFormatter: date_formatter,
              noTicks: 10, color:'#738294' },
-    yaxis: { noTicks: 10, color:'#738294' },
-    grid: { verticalLines: false, horizontalLines: false },
+    yaxis: { noTicks: 10, color:'#738294', min: 0},
+    grid: { tickColor: "#222" },
     series: { color: '#c6c7d6' }
   };
 
