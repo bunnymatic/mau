@@ -98,8 +98,10 @@ body.admin {
         margin:10px;
         border: 1px dotted #444;
         &.graph {
-            width:auto;
-            clear: left;
+            width: 395px;
+            h3 {
+                padding-bottom: 10px;
+            }
         }
     }
     .singlecolumn {
@@ -128,7 +130,7 @@ body.admin {
     }
 }
 
-#artists_per_day {
-    width: 700px;
-    height: 300px;
+#artists_per_day, #art_pieces_per_day, #favorites_per_day {
+    width: 375px;
+    height: 280px;
 }

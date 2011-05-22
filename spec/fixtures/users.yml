@@ -42,13 +42,13 @@ artist1:
   email:                     artist1@example.com
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
-  created_at:                <%= 4.hours.ago.to_s :db %>
+  created_at:                <%= 10.hours.ago.to_s :db %>
   remember_token_expires_at: 
   remember_token:            
   firstname:                 artist1
   lastname:                  Fixture
   state:                     active
-  activated_at: <%= 2.hours.ago.to_s :db %>
+  activated_at: <%= 9.hours.ago.to_s :db %>
   type: Artist
   url: http://myurl.com
 
