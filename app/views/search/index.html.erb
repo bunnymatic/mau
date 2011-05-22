@@ -1,9 +1,7 @@
-<div>
 <h4>Search Results - <%=h @user_query %></h4>
-<table id="search_results">
+<div id="search_results">
   <% if @pieces.length <= 0 -%>
-  <tr><td>
-  <div class="td-center">
+  <div class="results-txt">
 	We couldn't find anything that matched your search term &quot;<i><%=h @user_query %></i>&quot;.
   </div>
   <% else -%>
@@ -12,20 +10,15 @@
         noun += "s"
      end
   -%>
-  <tr><td>
-	  <div class="search-txt">The following <%= noun %> matched your query</div>
-  </td></tr>
-  <tr><td align="right">
-	<%= render :partial => "/pagination" %>
-  </td></tr>
-  <tr><td>
-  <div id="thumbs_by_artist">
+  <div class="results-txt">The following <%= noun %> matched your query</div>
+  <div class="search-view-ctrls">
+    <%= render :partial => "/pagination" %>
+  </div>
+ <div id="thumbs_by_artist" class="search-results">
     <%= render :partial => 'thumbs', :locals => { :pieces => @pieces, :params => { :cols => 2, :art_link => true }} %>	
   </div>
   <% end -%>
-  </td></tr>
-  <tr><td align="right">
-	<%= render :partial => "/pagination" %>
-	</td>
-</tr></table>
+  <div class="search-view-ctrls">
+    <%= render :partial => "/pagination" %>
+  </div>
 </div>

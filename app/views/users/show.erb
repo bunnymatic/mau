@@ -7,7 +7,7 @@
       <% end -%>
     </td>
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"/></td>
-    <td class="rcol" align="center" ><!-- artists/show -->
+    <td class="rcol" colspan='2'>
       <% if flash[:error] -%>
       <div class="error-msg">Error:
 		<%= flash[:error] %>
@@ -65,8 +65,6 @@
 	</div>
 	<% end -%>
       </div>
-    </td>
-    <td valign="top">
     </td>
   </tr>
   <%= render :partial => "/twocol_bottom" %>

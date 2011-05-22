@@ -19,16 +19,15 @@
     </td>            
 	
     <td class="vstripe"><img class="page-height-spacer" src="/images/bg-5px.png"  alt=""/></td>
-    <td class="rcol"><!-- content.html -->
+    <td class="rcol" colspan='2'><!-- content.html -->
       <%= yield %>
     </td>
     <% elsif cols == 1 -%>
     <td><img src="/images/sp-black.png" width="1" height="200"  alt=""/></td>
-    <td class="singlecolumn" >
+    <td class="singlecolumn" colspan="2">
       <%= yield %>
     </td>
     <% end -%>
-    <td></td>
   </tr>
   <tr class="tr-short">
     <% if cols == 2 -%>
