@@ -126,13 +126,13 @@ describe AdminController do
       end
       it "returns an array" do
         @artists_per_day.should be_a_kind_of(Array)
-        @artists_per_day.should have_at_least(7).items
+        @artists_per_day.should have_at_least(6).items
       end
       it "returns an entries have date and count" do
         entry = @artists_per_day.first
         entry.should have(2).entries
         Time.at(entry[0].to_i).to_date.should == Date.today
-        entry[1].should == 1
+        entry[1].should == 2
       end
       it "does not include nil dates" do
         @artists_per_day.all?{|apd| !apd[0].nil?}.should be
