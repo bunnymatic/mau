@@ -171,7 +171,6 @@ class AdminController < ApplicationController
     cur.each_hash do |h|
       tbl << [Time.parse(h['d']).to_i, h['ct'].to_i]
     end
-    p "#{tablename} ", tbl
     tbl
   end
 

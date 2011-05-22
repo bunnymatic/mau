@@ -147,7 +147,7 @@ describe AdminController do
       it "returns an entries have date and count" do
         entry = @artists_per_day.first
         entry.should have(2).entries
-        Time.at(entry[0].to_i).localtime.to_date.should == Artist.active.all(:order => :created_at).last.created_at.to_date
+        Time.at(entry[0].to_i).to_date.should == Artist.active.all(:order => :created_at).last.created_at.to_date
         entry[1].should == 2
       end
       it "does not include nil dates" do
