@@ -142,6 +142,10 @@ class ArtPiecesController < ApplicationController
   def edit
     begin
       @art_piece = safe_find_art_piece(params[:id])
+      if @art_piece.artist != current_user
+        flash[:error] = "You're not allowed to edit that work."
+        redirect_to "/error"
+      end
       @media = Medium.all
       if @art_piece.medium
         @selected_medium = @art_piece.medium

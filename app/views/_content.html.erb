@@ -4,10 +4,10 @@
     <td class="ltcorner graybg"></td>
     <td class="lcol top graybg"></td>
     <td class="vstripe" ></td>
-    <td></td>
+    <td class="rcol top"></td>
     <% elsif cols == 1 -%>
     <td class="ltcorner blackbg"></td>
-    <td></td>
+    <td class="singlecolumn top"></td>
     <% end -%>
     <td class="rtcorner"></td>
   </tr>
@@ -23,8 +23,7 @@
       <%= yield %>
     </td>
     <% elsif cols == 1 -%>
-    <td><img src="/images/sp-black.png" width="1" height="200"  alt=""/></td>
-    <td class="singlecolumn" colspan="2">
+    <td class="singlecolumn" colspan="3">
       <%= yield %>
     </td>
     <% end -%>
@@ -34,10 +33,10 @@
     <td class="lbcorner graybg"></td>
     <td class="lcol graybg"></td>
     <td class="vstripe"></td>
-    <td></td>
+    <td class="rcol bottom"></td>
     <% else -%>
     <td class="lbcorner blackbg"></td>
-    <td></td>
+    <td class="singlecolumn bottom"></td>
     <% end -%>
     <td class="rbcorner"></td>
   </tr>

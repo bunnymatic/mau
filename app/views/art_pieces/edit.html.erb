@@ -4,7 +4,8 @@
 </div>
 <% else %>
 <%= render :partial => 'tag_autosuggest' %>
-<div id="edit_artpiece" class="div-center">
+<div class="logo-spacer"></div>
+<div id="edit_artpiece">
   <h4>Edit Information for This Piece : <%= @art_piece.title %></h4>
   <div class="artpiece">
     <img src="<%= @art_piece.get_path('small') %>" />

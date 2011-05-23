@@ -47,11 +47,11 @@
 	    <% end -%>
           </div>
         </span>
-        <div class="edit-buttons">
-	  <% if logged_in? and current_user == artist -%>
-	  <%= render :partial => "edit_delete_buttons.erb" %>
-	  <% end -%>
-        </div>
+      </div>
+      <div class="edit-buttons">
+	<% if logged_in? and current_user == artist -%>
+	<%= render :partial => "edit_delete_buttons.erb" %>
+	<% end -%>
       </div>
       <% end -%>
     </td>

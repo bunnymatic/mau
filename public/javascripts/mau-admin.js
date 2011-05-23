@@ -15,7 +15,7 @@
   var tickColor = '#222';
   var apd_options = {
     xaxis: { tickFormatter: date_formatter,
-             noTicks: xticks, color: lineColor },
+             noTicks: xticks, color: lineColor, max: new Date().valueOf()/1000 },
     yaxis: { noTicks: yticks, color: lineColor, min: 0},
     grid: { tickColor: tickColor },
     series: { color: labelColor }

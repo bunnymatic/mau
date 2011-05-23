@@ -63,10 +63,12 @@ h5 {
   background-color: $black;
   padding-top:20px;
   vertical-align: top;
+  &.top, &.bottom {
+    padding: 0;
+    margin: 0;
+  }
   .error-msg {
-    margin-left: auto;
-    margin-right: auto;
-    width: 320px;
+    width: 600px;
   }
   h4 {
     text-align: center;
@@ -735,6 +737,14 @@ span.micro-icon {
   h4 { 
     text-align:center;
   }
+  &.top {
+    margin: 0;
+    padding: 0;
+  }
+  &.bottom {
+    margin: 0;
+    padding: 0;
+  }
 }
 .lcol {
   width: $leftcol;
@@ -985,10 +995,6 @@ margin: 0 0 20px 0;
   margin-right:40px;
 }
 #artist_edit {
-  .notice {
-    margin-left: auto;
-    margin-right: auto;
-  }
   h4 {
     margin-left:auto;
     margin-right:auto;
@@ -1452,19 +1458,16 @@ td.td-left{
 
 #signup {
   width: 650px;
-  padding-top: 40px;
   margin: 0px auto;
-}
-#signup .error-msg,
-#signup .flash {
-  width: auto;
-  margin: auto;
 }
 
 .signup-right,
 .signup-left {
   float: left;
   width: 320px;
+  h2 {
+    margin-top: 0px;
+  }
 }
 .signup-right {
   clear: right;
@@ -1488,8 +1491,8 @@ td.td-left{
   margin-left:auto;
   margin-right: auto;
   h4 {
+    margin-top: 0;
     text-align: center;
-    margin-top: 36px;
   }
 }
 
@@ -1519,10 +1522,6 @@ td.td-left{
   top: 40px;
 }
 
-#main_messages .notice,
-#main_messages .error-msg {
-  margin: 20px auto;
-}
 .main-text {
   width: 520px;
   margin: 80px auto auto auto;
@@ -1821,8 +1820,8 @@ span.rightarrow
 
 .notice, .error-msg {
   @include small-rounded-corners;
+  margin: 15px auto;
   border: 1px solid $lightyellow;
-  margin: 10px;
   padding: 11px;
   width: 260px
 }
@@ -1831,9 +1830,14 @@ span.rightarrow
   color: $error_red;
   text-align: left;
 }
-
-div.notice {
+.notice {
   text-align: center;
+}
+
+#new_artpiece {
+  .error-msg, & .notice {
+    margin-bottom: 20px;
+  }
 }
 
 #new_artpiece_form .error-msg {
@@ -2643,7 +2647,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 #signup_page {
   h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 0px;
   }
   .error-msg {
     width: 500px;
@@ -2734,10 +2738,6 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
   }
   
-  .notice {
-    margin-left: auto;
-    margin-right: auto;
-  }
   h4 {
     margin-bottom: 0;
   }

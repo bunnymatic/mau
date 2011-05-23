@@ -1,7 +1,7 @@
 <div class="admin-table singlecolumn">
   <h1>MAU Dashboard</h1>
   <h2>Counts:</h2>
-  <% [:total, :yesterday, :last_week, :last_month].each do |category|
+  <% [:total, :yesterday, :last_week, :last_30_days].each do |category|
      stats = @activity_stats[category] %>
   <div class="section">
     <h3><%= category.to_s.titleize %></h3>
