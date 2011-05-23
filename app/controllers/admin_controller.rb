@@ -4,10 +4,10 @@ class AdminController < ApplicationController
   def index
     @activity_stats = {}
     created_clause = "created_at >= ?"
-    queries = {:last_month => [created_clause, 1.month.ago],
+    queries = {:last_30_days => [created_clause, 30.days.ago],
       :last_week =>[created_clause,1.week.ago],
       :yesterday =>[created_clause,1.day.ago]}
-    [:yesterday, :last_week, :last_month ].each do |k|
+    queries.keys.each do |k|
       @activity_stats[k] = {} unless @activity_stats.has_key? k
       @activity_stats[k][:art_pieces_added] = ArtPiece.count(:all, :conditions => queries[k])
       @activity_stats[k][:artists_added] = Artist.count(:all, :conditions => queries[k])

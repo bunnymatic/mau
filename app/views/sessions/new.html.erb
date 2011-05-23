@@ -1,51 +1,48 @@
 <div id="signup">
-  <div>
-    <% if flash[:notice] -%>
-    <div class="flash">
-      <div class="notice"><%=h flash[:notice] %></div>
+  <div class="logo-spacer"></div>
+  <% if flash[:notice] -%>
+  <div class="notice"><%=h flash[:notice] %></div>
+  <% end -%>
+  <% if flash[:error] %>
+  <div class="error-msg">
+    We had trouble signing you in.  Please check your username and password.  If you continue to have problems, contact the webmaster with the link below. <div class="sub-error-msg">
+      Error:  <%= flash[:error] %>
     </div>
-    <% end -%>
-    <% if flash[:error] %>
-    <div class="error-msg">
-      We had trouble signing you in.  Please check your username and password.  If you continue to have problems, contact the webmaster with the link below. <div class="sub-error-msg">
-	Error:  <%= flash[:error] %>
-      </div>
-    </div>      
-    <% end -%>
-    <div class="signup-left">
-      <h2>Already A MAU Member?</h2>
-      <div class="signup-text">
-	<% form_tag session_path, :id => 'login_form' do -%>
-	<table class="login-table">
-	  <tr>
-	    <td class="input-name"><%= label_tag 'login' %>      </td>
-	    <td class="input">
-	      <%= text_field_tag 'login', @login %>      </td>
-	  </tr>
-	  <tr>
-	    <td class="input-name"><%= label_tag 'password' %></td>
-	    <td class="input">
-	      <%= password_field_tag 'password', nil %>      </td>
-	  </tr>
-	  <tr><td colspan="2" align="center">
-	      <input class="formbutton" type="submit" name="commit" value="Log in"/> 
-	    </td>
-	  </tr>
-	</table>
-	<% end -%>
-	<div class="little-txt">
-	  <a href="<%= forgot_users_path %>">Can't access your account?</a>
-	</div>
+  </div>      
+  <% end -%>
+  <div class="signup-left">
+    <h2>Already A MAU Member?</h2>
+    <div class="signup-text">
+      <% form_tag session_path, :id => 'login_form' do -%>
+      <table class="login-table">
+	<tr>
+	  <td class="input-name"><%= label_tag 'login' %>      </td>
+	  <td class="input">
+	    <%= text_field_tag 'login', @login %>      </td>
+	</tr>
+	<tr>
+	  <td class="input-name"><%= label_tag 'password' %></td>
+	  <td class="input">
+	    <%= password_field_tag 'password', nil %>      </td>
+	</tr>
+	<tr><td colspan="2" align="center">
+	    <input class="formbutton" type="submit" name="commit" value="Log in"/> 
+	  </td>
+	</tr>
+      </table>
+      <% end -%>
+      <div class="little-txt">
+	<a href="<%= forgot_users_path %>">Can't access your account?</a>
       </div>
     </div>
-    <div class="signup-right">
-      <h2>Not Yet A MAU Member?</h2>
-      <p>You can get an artist membership or a fan membership.</p>
-      <p>The artist membership allows you to upload your portfolio, take part in our Mission Open Studios events,  get listed in our Open Studios online catalog.  Use it to get your work out there!  You just need to be an artist working in the Mission district of San Francisco.</p>
-      <p>If you are a fan of MAU, you can use the fan account to save your favorite artists, create a custom catalog including only the artists you want to see and more.</p>
-      <p class="justify">Joining is free and easy.</p>
-      <div><form method="get" action="<%= signup_path %>"><input type="submit" value="Sign Up Now" /></form></div>
-    </div>
+  </div>
+  <div class="signup-right">
+    <h2>Not Yet A MAU Member?</h2>
+    <p>You can get an artist membership or a fan membership.</p>
+    <p>The artist membership allows you to upload your portfolio, take part in our Mission Open Studios events,  get listed in our Open Studios online catalog.  Use it to get your work out there!  You just need to be an artist working in the Mission district of San Francisco.</p>
+    <p>If you are a fan of MAU, you can use the fan account to save your favorite artists, create a custom catalog including only the artists you want to see and more.</p>
+    <p class="justify">Joining is free and easy.</p>
+    <div><form method="get" action="<%= signup_path %>"><input type="submit" value="Sign Up Now" /></form></div>
   </div>
 </div>
 

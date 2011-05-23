@@ -37,10 +37,14 @@ describe ArtPiecesController do
     info = artist_infos(:artist1)
     info.artist_id = a.id
     info.save!
-    
+
     a.artist_info = info
     @artist = a
     @artpieces = art_pieces
+
+    jb = artist_infos(:joeblogs)
+    jb.artist_id = users(:joeblogs).id
+    jb.save
   end
 
   describe "#show" do
@@ -132,6 +136,38 @@ describe ArtPiecesController do
         it_should_behave_like "redirects to login"
       end
     end
+    context "while logged in" do
+      before do
+        login_as(users(:joeblogs))
+      end
+      integrate_views
+      context "get " do
+        before do
+          get :edit, :id => art_pieces(:artpiece1).id
+        end
+        it "returns error if you don't own the artpiece" do
+          response.should redirect_to "/error"
+        end
+        it "sets a flash error" do
+          flash[:error].should be
+        end
+      end
+    end
+    context "while logged in as artist owner" do
+      before do
+        login_as(users(:artist1))
+      end
+      integrate_views
+      context "get " do
+        before do
+          get :edit, :id => art_pieces(:artpiece1).id
+        end
+        it "returns error if you don't own the artpiece" do
+          response.should be_success
+        end
+      end
+    end
+      
   end
   
   describe "#delete" do
