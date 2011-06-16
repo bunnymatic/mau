@@ -731,6 +731,7 @@ span.micro-icon {
   width: $fullwidth;
 }
 .rcol {
+  padding-top: 20px;
   padding-bottom:15px;
   vertical-align: top;
   width: $fullwidth - $leftcol - 3*$gutter;
@@ -753,7 +754,9 @@ span.micro-icon {
   vertical-align: top;
   margin-left: auto;
   margin-right: auto;
+  padding-top: 20px;
   &.top { 
+    padding-top: 0;
     width:275px;
   }
   .studio-list {
