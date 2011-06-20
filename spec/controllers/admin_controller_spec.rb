@@ -16,7 +16,7 @@ describe AdminController do
   fixtures :artist_infos
   fixtures :roles
 
-  [:index, :fans, :emaillist, :artists_per_day, :roles, :art_pieces_per_day, :favorites_per_day].each do |endpoint|
+  [:index, :artist_of_the_day, :fans, :emaillist, :artists_per_day, :roles, :art_pieces_per_day, :favorites_per_day].each do |endpoint|
     describe endpoint do
       it "responds failure if not logged in" do
         get endpoint
@@ -135,6 +135,16 @@ describe AdminController do
     end
   end
 
+  describe '#artist_of_the_day' do
+    before do 
+      login_as(setup_admin_user)
+      get :artist_of_the_day
+    end
+    it "renders the artist_of_the_day template" do
+      response.should render_template 'artist_of_the_day'
+    end
+  end
+
   describe "helpers" do
     describe "compute_artists_per_day" do
       before do
@@ -214,4 +224,5 @@ describe AdminController do
       end
     end
   end
+
 end
