@@ -32,6 +32,7 @@ class AdminController < ApplicationController
   end
 
   def artist_of_the_day
+
   end
 
   def admin_emails
