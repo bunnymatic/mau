@@ -13,5 +13,3 @@ var get_events = function(sel, event_name) {
 var get_click_events = function(sel) {
   return get_events(sel, 'click');
 };
-
-
