@@ -1,3 +1,4 @@
+require 'thread'
 require 'rubygems'
 # -*- coding: undecided -*-
 # This file is copied to ~/spec when you run 'ruby script/generate rspec'

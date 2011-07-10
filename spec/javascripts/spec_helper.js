@@ -1,5 +1,5 @@
 // Use this file to require common dependencies or to setup useful test functions.
-
+/*
 var get_events = function(sel, event_name) {
   var events = [];
   try {
@@ -13,3 +13,4 @@ var get_events = function(sel, event_name) {
 var get_click_events = function(sel) {
   return get_events(sel, 'click');
 };
+*/
