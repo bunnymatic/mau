@@ -26,5 +26,31 @@ namespace :mau do
       sh "mkdir -p #{db_backup_dir} && mysqldump -u #{dbcnf['username']} -p#{dbcnf['password']} --single-transaction #{dbcnf['database']} > #{path}"
       # tar up artists data dir
     end
+    
+    desc "import database : specify database file with db=<databasefile.sql> on the command line"
+    task :import => [:environment] do
+      dbfile = ENV['db']
+      unless dbfile.blank?
+        env = ENV['RAILS_ENV']
+        dbcnf = alldbconf[env]
+        sh "mysql -u #{dbcnf['username']} -p#{dbcnf['password']} #{dbcnf['database']} < #{dbfile}"
+        
+        # reset all passwords to monkey
+        #
+        puts "updating artist passwords to monkey"
+        Artist.all.each_with_index do |a, idx|
+          if (0==(idx % 40))
+            print '.'
+          end
+          a.update_attributes(:password => 'monkey', :password_confirmation => 'monkey')
+        end
+        puts "done"
+      else
+        puts "***"
+        puts "*** import aborted"
+        puts "*** You must specify a database file to import with db=<databasefilename.sql>"
+        puts "***"
+      end
+    end
   end
 end
