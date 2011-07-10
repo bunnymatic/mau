@@ -1,5 +1,5 @@
 require("spec_helper.js");
-jQuery.noConflict();
+
 
 require("../../public/javascripts/prototype/1.7/prototype.min.js", { onload: function() {
   require("../../public/javascripts/mau.js");
