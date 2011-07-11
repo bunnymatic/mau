@@ -1605,6 +1605,9 @@ span.rightarrow
 .artp-thumb-container {
   float: left;
   position: relative;
+  &.thumb {
+    height: 120px;
+  }
   .artp-thumb {
     font-size: 0;
     line-height:0;
@@ -2630,6 +2633,12 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 
 #arrange_art, #delete_art {
   margin: auto;
+  .allthumbs { 
+    clear: both; 
+  }
+  .edit-buttons {
+    clear: both;
+  }
   h4 {
     text-align: center;
   }
