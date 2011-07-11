@@ -16,7 +16,7 @@
        topcls =" with-foot "
      end
 -%>
-<div pid="<%= piece.id %>" class="artp-thumb-container <%= topcls %>">
+<div pid="<%= piece.id %>" class="artp-thumb-container <%= cls %> <%= topcls %>">
   <div pid="<%= piece.id %>" class="artp-thumb <%= cls %> "><% if piece.get_path(size) 
         if !linkto.empty? && !delete && !select
 -%><a href="<%= linkto %>"><img alt="<%=h piece.title %>" title="<%=h piece.title %>" <%= dim %> src="<%= piece.get_path(size) %>" /></a><% 
