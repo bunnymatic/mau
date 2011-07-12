@@ -1,136 +1,193 @@
 @import 'mau-mixins';
 body.admin {
-    .chunk {
-        float: left; 
-        width: 120px; 
-        margin-bottom:10px; 
-        margin-left:10px;
-    }
-    .odd, .even {
-        font-size: 85%;
-        padding: 3px;
-    }
-    .odd {
-        background-color: $darkgray;
-    }
-    .even {
-        background-color: transparent;
-    }
+  .chunk {
+    float: left; 
+    width: 120px; 
+    margin-bottom:10px; 
+    margin-left:10px;
+  }
+  .odd, .even {
+    font-size: 85%;
+    padding: 3px;
+  }
+  .odd {
+    background-color: $darkgray;
+  }
+  .even {
+    background-color: transparent;
+  }
 }
 
 .admin-table {
-    &.singlecolumn {
-        margin-top: 0px;
-        padding-top: 48px;
+  &.singlecolumn {
+    margin-top: 0px;
+    padding-top: 40px;
+  }
+  .block {
+    .totals {
+      text-align:center;
     }
-    .block {
-        .totals {
-            text-align:center;
-        }
-        float: left;
-        width: 400px;
-        &.paid {
-        }
-        &.unpaid {
-        }
+    float: left;
+    width: 400px;
+    &.paid {
     }
-    .os-status {
-        width: 600px;
-        .tf { 
-            padding: 2px;
-            text-align: center; 
-            .true {
-                font-weight: bold;
-                color: $white;
-            }
-            .false {
-                color: $mediumgray;
-            }
-        }
+    &.unpaid {
     }
-    tr.odd td {
-        background-color: $darkgray;
+  }
+  .os-status {
+    width: 600px;
+    .tf { 
+      padding: 2px;
+      text-align: center; 
+      .true {
+        font-weight: bold;
+        color: $white;
+      }
+      .false {
+        color: $mediumgray;
+      }
     }
-    tr.even td {
-        background-color: transparent;
-    }
-    margin-top: 40px;
-    font-size: 85%;
-    td {
-        vertical-align: top;
-        padding: 3px;
-    }
-    h1 {
-        text-align:center;
-    }
-    .sortby {
-        text-align:center;
-        padding: 10px;
-    }
-    .osoct2010 {
-        text-align: left;
-    }
-    table {
-        margin-left: auto;
-        margin-right: auto;
-    }
+  }
+  tr.odd td {
+    background-color: $darkgray;
+  }
+  tr.even td {
+    background-color: transparent;
+  }
+  margin-top: 40px;
+  font-size: 85%;
+  td {
+    vertical-align: top;
+    padding: 3px;
+  }
+  h1 {
+    text-align:center;
+  }
+  .sortby {
+    text-align:center;
+    padding: 10px;
+  }
+  .osoct2010 {
+    text-align: left;
+  }
+  table {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 
 #admin_artist_name {
-    width: 200px;
+  width: 200px;
 }
 
 
 .admin {
-    .nextrow {
-        line-height: 40px;
+  .nextrow {
+    line-height: 40px;
+  }
+  .header_inputs {
+  }
+  h2 {
+    margin-left: 10px;
+  }
+  .section { 
+    width: 178px;
+    float: left;
+    padding: 10px 10px 20px;
+    margin:10px;
+    border: 1px dotted #444;
+    &.graph {
+      width: 395px;
+      h3 {
+        padding-bottom: 10px;
+      }
     }
-    .header_inputs {
+  }
+  .singlecolumn {
+    tr:first-child {
+      border: 0;
     }
-    h2 {
-        margin-left: 10px;
+    tr {
+      border-top: 1px solid $darkgray;
+      .odd { background-color: #0a0a00; }
     }
-    .section { 
-        width: 178px;
-        float: left;
-        padding: 10px 10px 20px;
-        margin:10px;
-        border: 1px dotted #444;
-        &.graph {
-            width: 395px;
-            h3 {
-                padding-bottom: 10px;
-            }
-        }
+    th, & td {
+      padding: 1px 6px;
     }
-    .singlecolumn {
-        tr:first-child {
-            border: 0;
-        }
-        tr {
-            border-top: 1px solid $darkgray;
-            .odd { background-color: #0a0a00; }
-        }
-        th, & td {
-            padding: 1px 6px;
-        }
-    }
+  }
 }
 
 #role_mgr {
-    li {
-        .role-members{ float: right; }
-        width: 200px;
-    }
-    #role_mgr li { clear:both; width: 200px;}
+  li {
+    .role-members{ float: right; }
+    width: 200px;
+  }
+  #role_mgr li { clear:both; width: 200px;}
 
-    padding-left: 20px;
-    li {
-    }
+  padding-left: 20px;
+  li {
+  }
 }
 
 #artists_per_day, #art_pieces_per_day, #favorites_per_day {
-    width: 375px;
-    height: 280px;
+  width: 375px;
+  height: 280px;
+}
+
+#get_next_featured {
+  float: right;
+}
+.featured {
+  margin-left: 20px;
+  .error-msg, .notice {
+    width: 320px;
+    text-align: center;
+  }
+  h1 {
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+  .info {
+    float: left;
+    width: 600px; 
+    margin-left: 20px;
+    .name, .primary_medium, .studio, .featured_date {
+      width: 250px;
+    }
+  }
+  .post {
+    margin-top: 20px; 
+  }
+  label {
+    color: $mediumgray;
+  }
+  .text {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid $xlightgray;
+    background-color: $mediumgray;
+    color: $darkgray;
+  }
+  .instructions {
+    color: $mediumgray;
+    border: 1px dotted $lightgray;
+    margin: 15px 0;
+    padding: 10px;
+  }
+  img.profile {
+    float: left;
+  }
+}
+.previously_featured {
+  clear: left;
+  ul {
+    margin-left: 10px;
+  }
+  li {
+    margin: 4px 0;
+  }
+  .featured_date {
+    padding-right: 10px;
+  }
 }

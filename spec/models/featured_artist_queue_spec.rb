@@ -9,10 +9,22 @@ describe FeaturedArtistQueue do
     sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
     ActiveRecord::Base.connection.execute sql
   end
-  
-  describe '#next_artist' do
+
+  describe '#current_entry' do
+    it "returns the artist with the first position" do
+      FeaturedArtistQueue.current_entry == FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }.first.artist_id
+    end
+    it "calling it multiple times only invokes next_entry once" do
+      # let it be called once, which will trigger the update, then it shouldn't be called again
+      FeaturedArtistQueue.current_entry
+      FeaturedArtistQueue.expects(:next_entry).never
+      FeaturedArtistQueue.current_entry.should == FeaturedArtistQueue.current_entry
+    end
+  end
+
+  describe '#next_entry' do
     before do
-      @a = FeaturedArtistQueue.next_artist
+      @a = FeaturedArtistQueue.next_entry.artist
     end
     it "returns an artist" do
       @a.should be_a_kind_of(Artist)
@@ -24,18 +36,18 @@ describe FeaturedArtistQueue do
       FeaturedArtistQueue.find_by_artist_id(@a.id).featured.should_not be_nil
     end
     it "calling it again within a week gives you the same artist" do
-      FeaturedArtistQueue.next_artist.should == @a
+      FeaturedArtistQueue.next_entry.artist_id.should == @a.id
     end
     it "calling it after a week should give you the next artist" do
       Time.stubs(:now => Time.now() + 2.weeks)
-      a = FeaturedArtistQueue.next_artist
+      a = FeaturedArtistQueue.next_entry.artist
       a.id.should == FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }[1].artist_id
     end
     describe "after everyone has been featured" do
       before do
         sql = "update featured_artist_queue set featured='#{(Time.now - 10.weeks).strftime('%M/%D/%Y')}'"
         ActiveRecord::Base.connection.execute(sql);
-        FeaturedArtistQueue.next_artist
+        FeaturedArtistQueue.next_entry
       end
       it "it unfeatures everyone and starts over" do
         FeaturedArtistQueue.featured.count.should == 1

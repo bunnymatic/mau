@@ -99,8 +99,8 @@ class User < ActiveRecord::Base
     self.profile_image
   end
 
-  def get_profile_image(size)
-    ArtistProfileImage.get_path(self, size) || ''
+  def get_profile_image(size = :medium)
+    ArtistProfileImage.get_path(self, size)
   end
 
   def is_in_role?(role)
@@ -110,8 +110,11 @@ class User < ActiveRecord::Base
     return roles.include?(Role[role])
   end
 
-  def get_share_link(urlsafe=false)
+  def get_share_link(urlsafe=false, options = {})
     link = 'http://%s/artists/%s' % [Conf.site_url, self.login]
+    if options.present?
+      link += "?" + options.map{ |k,v| "#{k}=#{v}" }.join('&')
+    end
     if urlsafe
       CGI::escape(link)
     else
