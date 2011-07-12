@@ -10,29 +10,33 @@ def setup_admin_user
 end
 
 describe AdminController do
-
+  use_transactional_fixtures = true
+  fixtures :studios
+  fixtures :media
   fixtures :users
   fixtures :art_pieces
   fixtures :artist_infos
   fixtures :roles
 
-  [:index, :artist_of_the_day, :fans, :emaillist, :artists_per_day, :roles, :art_pieces_per_day, :favorites_per_day].each do |endpoint|
+  [:index, :featured_artist, :fans, :emaillist, :artists_per_day, :roles, :art_pieces_per_day, :favorites_per_day].each do |endpoint|
     describe endpoint do
       it "responds failure if not logged in" do
         get endpoint
         response.should redirect_to '/error'
       end
       it "responds failure if not logged in as admin" do
+        login_as(users(:maufan1))
         get endpoint
-      response.should redirect_to '/error'
+        response.should redirect_to '/error'
       end
-      it "responds success if not logged in as admin" do
+      it "responds success if logged in as admin" do
         login_as(setup_admin_user)
         get endpoint
         response.should be_success
       end
     end
   end
+
   describe "#index" do
     integrate_views
     before do
@@ -135,13 +139,73 @@ describe AdminController do
     end
   end
 
-  describe '#artist_of_the_day' do
+  describe '#featured_artist' do
     before do 
-      login_as(setup_admin_user)
-      get :artist_of_the_day
+      # simulate migration 
+      sql = "delete from featured_artist_queue"
+      ActiveRecord::Base.connection.execute sql
+      sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
+      ActiveRecord::Base.connection.execute sql
     end
-    it "renders the artist_of_the_day template" do
-      response.should render_template 'artist_of_the_day'
+    context "w/o views" do
+      before do
+        login_as(setup_admin_user)
+        get :featured_artist
+      end
+      it "renders the featured_artist template" do
+        response.should render_template 'featured_artist'
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "assigns the featured artist and the featured queue entry" do
+        assigns(:featured).should be_present
+        assigns(:featured_artist).should be_present
+        assigns(:featured).should be_a_kind_of(FeaturedArtistQueue)
+        assigns(:featured_artist).should be_a_kind_of(Artist)
+      end
+    end
+    context "with views" do
+      integrate_views
+      before do
+        # set a few artists as featured
+        FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index {|fa, idx| fa.update_attributes(:featured => Time.now - (2*idx).weeks) }
+        login_as(setup_admin_user)
+        get :featured_artist
+      end
+      it "includes previously featured artists" do
+        response.should have_tag('.previously_featured li', :count => 2)
+      end
+      it 'has no button to get the next featured artist if the most recent featured artist was featured less than 1 week ago' do
+        response.should_not have_tag('#get_next_featured')
+      end
+      it 'includes a button to get the next featured artist if it\'s more than 1 week since the last one' do
+        FeaturedArtistQueue.featured.each_with_index {|fa, idx| fa.update_attributes(:featured => Time.now - (2*(1+idx)).weeks) }
+        login_as(setup_admin_user)
+        get :featured_artist
+        response.should have_tag('#get_next_featured')
+      end
+    end
+    context "#post" do
+      integrate_views
+      before do
+        @featured_count = FeaturedArtistQueue.featured.count
+        login_as(setup_admin_user)
+        post :featured_artist
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it "renders the featured_artist template" do
+        response.should render_template :featured_artist
+      end
+      it "tries to get the next artist from the queue" do
+        FeaturedArtistQueue.featured.count.should == (@featured_count + 1)
+      end
+      it "calling it again flashes a warning" do
+        post :featured_artist
+        response.should have_tag('.featured .error-msg')
+      end
     end
   end
 

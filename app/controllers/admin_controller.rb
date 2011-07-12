@@ -31,12 +31,25 @@ class AdminController < ApplicationController
     
   end
 
-  def artist_of_the_day
-
-  end
-
   def admin_emails
     @artists = Artist.find(:all, :conditions => ['state="active"'])
+  end
+
+  def featured_artist
+    featured = FeaturedArtistQueue.current_entry
+    if request.post?
+      next_featured = FeaturedArtistQueue.next_entry
+      @featured = next_featured
+      if FeaturedArtistQueue.count != 1 && (featured == next_featured)
+        flash.now[:error] = "It looks like #{@featured.artist.get_name(true)} hasn\'t been featured for a full week yet."
+      else 
+        flash.now[:notice] = "Featuring : #{@featured.artist.get_name(true)} until #{(Time.now + 1.week).strftime('%a %D')}"
+      end
+    else
+      @featured = featured
+    end
+    @featured_artist = @featured.artist if @featured
+    @already_featured = FeaturedArtistQueue.featured[1..-1]
   end
 
   def emaillist

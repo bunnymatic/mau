@@ -2,7 +2,7 @@ class FeaturedArtistQueue < ActiveRecord::Base
   
   default_scope :order => 'position'
   named_scope :not_yet_featured, :conditions => 'featured is NULL'
-  named_scope :featured, :conditions => 'featured is not NULL'
+  named_scope :featured, :conditions => 'featured is not NULL', :order => 'featured desc'
   
   TABLE_NAME = 'featured_artist_queue'
   set_table_name TABLE_NAME
@@ -13,20 +13,30 @@ class FeaturedArtistQueue < ActiveRecord::Base
     self.connection.execute("update #{TABLE_NAME} set featured=NULL, position=rand()")
   end
 
-  def self.next_artist
+  def self.current_entry
+    if featured.count <= 0 
+      next_entry
+    else
+      featured.all(:limit => 1).first
+    end
+  end
+
+  def self.next_entry
     reset_queue if not_yet_featured.count == 0
     a = nil
-    current_featured_artist = featured.all(:order => 'featured desc').first
+    current_featured_artist = featured.all(:limit => 1).first
     if current_featured_artist
       # we found a featured item
       if (Time.now - current_featured_artist.featured) < FEATURE_LIFETIME
-        return Artist.find(current_featured_artist.artist_id)
+        return current_featured_artist
       end
     end
     # get a new artist
     a = not_yet_featured.first
-    a.update_attributes(:featured => Time.now())
-    a.artist
+    if a 
+      a.update_attributes(:featured => Time.now())
+      a
+    end
   end
 
   def artist

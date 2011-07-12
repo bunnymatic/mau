@@ -9,11 +9,11 @@ class ArtistProfileImage
     # get path for image of size
     # size should be either "thumb","medium"
     if !artist || artist.profile_image.nil?
-      return DEFAULT_PROFILE_IMAGES[size]
+      return DEFAULT_PROFILE_IMAGES[size.to_s]
     end
     dir = "/artistdata/" + artist.id.to_s() + "/profile/"
     fname = File.basename(artist.profile_image)
-    ImageFile.get_path(dir, size, fname)
+    ImageFile.get_path(dir, size.to_s, fname)
   end
 
   def self.save(upload, artist)

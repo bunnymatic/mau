@@ -13,6 +13,28 @@ describe User do
     end
   end
 
+  describe 'get_profile_image' do
+    it 'returns the medium artists profile image if there is one' do
+      u = users(:annafizyta)
+      u.get_profile_image.should == "/artistdata/#{u.id}/profile/m_profile.jpg"
+    end
+    it 'returns the small artists profile image if there is one give size = small' do
+      u = users(:annafizyta)
+      u.get_profile_image(:small).should == "/artistdata/#{u.id}/profile/s_profile.jpg"
+    end
+  end
+  
+  describe 'get_share_link' do
+    it "returns the artists link" do
+      users(:artist1).get_share_link.should match /\/artists\/#{users(:artist1).login}$/
+    end
+    it "returns the html safe artists link given html_safe = true" do
+      users(:artist1).get_share_link(true).should match /%2fartists%2f#{users(:artist1).login}$/i
+    end
+    it "returns the artists link with params given params" do
+      users(:artist1).get_share_link(false, { :this => 'that' }).should match /\/artists\/#{users(:artist1).login}\?this=that$/
+    end
+  end
   describe 'roles' do
     it "without admin role user is not admin" do
       User.all.first.should_not be_is_admin
