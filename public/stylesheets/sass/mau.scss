@@ -1407,8 +1407,14 @@ tr.tr-short{
   font-size:0;
   height:9px;
 }
-.tr-short td {
-  height:9px;
+.tr-short {
+  td {
+    height:9px;
+  }
+  .lcol {
+    padding: 0;
+    margin: 0;
+  }
 }
 
 
