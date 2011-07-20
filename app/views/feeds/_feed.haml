@@ -1,0 +1,22 @@
+%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".mau-note-link.feed_submission", { note_class: 'feed_submission', url: "/main/notes_mailer" }); });
+
+.logo
+  %img{:title => 'Art is the Mission', :src => "/images/mau-nextos-2011.png" }
+
+-if logged_in?
+  =render :partial => '/events_email_announcement'
+
+#feed_div
+  .feed-sxn-hdr
+    Fetching Feeds...
+    .center
+      %img{ :src => "/images/spinner32.gif" }
+    %img{ :src => "/images/pix.gif", :height => "320", :width => "1", :alt=>"" }
+
+#feed_request
+  %span.mau-note-link.feed_submission Recommend a feed we should add to this list
+
+.get-involved{ :style => 'width:220px' }
+  %a{:title => "Volunteer, shop, send us your feedback, donate, participate...", :href => getinvolved_path }
+    %img{:title=>"Volunteer, shop, send us your feedback, donate, participate..." ,
+         :width => "220", :height => "56", :src => "/images/getinvolved_red.png" }
