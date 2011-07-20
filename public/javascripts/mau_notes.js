@@ -82,6 +82,41 @@ FormConstructors.inquiry = {
   }
 };
 
+FormConstructors.event_submission = {
+  title: "My Art Show",
+  render: function() {
+    var el = new Element('div');
+    el.innerHTML = "Tell us about your art show or event.  We'll check it out and try to get it posted on our Facebook and Twitter feeds.";
+
+    var inputs = new Element('ul');
+    var entries = [];
+
+    entries.push( [
+      new Element('label').update('Event Link'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'eventlink', name: 'eventlink' })) ]);
+    entries.push( [
+      new Element('label').update('Description'),
+      new Element('div').insert(new Element('textarea', { rows: 7, id: 'eventdesc', name: 'eventdesc' })) ]);
+    entries.push( [
+      new Element('label').update('Time & Date'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'eventtimedate', name: 'eventtimedate' })) ]);
+    entries.push( [
+      new Element('label').update('Venue & Address'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'eventlocation', name: 'eventlocation' })) ]);
+    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
+
+    $(entries).each(function(entry) {
+      var li = new Element('li');
+      $(entry).each(function(chunk) {
+        li.insert(chunk);
+      });
+      inputs.insert(li);
+    });
+    el.insert(inputs);
+    return el;
+  }
+};
+
 FormConstructors.feed_submission = {
   title: "Art Feeds",
   render: function() {

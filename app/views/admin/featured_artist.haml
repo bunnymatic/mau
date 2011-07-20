@@ -4,7 +4,7 @@
     - if flash[:error]
       .error-msg Error: #{flash[:error]}
     - if flash[:notice]
-      .notice Yo: #{flash[:notice]}
+      .notice #{flash[:notice]}
 
 
     %a{:href => artist_path(@featured.artist), :title => @featured.artist.get_name(true)}
@@ -42,10 +42,10 @@
         %span #{@featured.featured.strftime('%a %D')}
       .post
         %label For Facebook:
-        .text Mission Artists' featured artist: #{@featured_artist.get_name(true)} #{@featured_artist.get_share_link(false, {:fb => true})} #sfmau
+        .text This Weeks' Featured Mission Artist: #{@featured_artist.get_name(true)} #{@featured_artist.get_share_link(false, {:fb => true})} #sfmau
       .post
         %label For Twitter:
-        .text  Mission Artists' featured artist: #{@featured_artist.get_name(true)} #{@featured_artist.get_share_link(false, {:tw => true})} #sfmau 
+        .text  Featured Mission Artist: #{@featured_artist.get_name(true)} #{@featured_artist.get_share_link(false, {:tw => true})} #sfmau 
       .instructions Cut/Paste the above into the Facebook or Twitter status.
   - if @already_featured.present?    
     .previously_featured
