@@ -460,6 +460,22 @@ EOM
         @resp['messages'].should include 'emails do not match'
       end
     end
+
+    describe "submission given note type event_submission and email only" do
+      before do
+        FeedbackMailer.expects(:deliver_feedback).never()
+        xhr :post, :notes_mailer, :note_type => 'event_submission', :email => 'a@b.com'
+        @resp = JSON::parse(response.body)
+      end
+      it_should_behave_like "has some invalid params"
+      it "reports not enough params" do
+        @resp['messages'].should include 'not enough parameters'
+      end
+      it "reports event description is required" do
+        @resp['messages'].should include 'You must provide eventdesc'
+      end
+    end
+      
     describe "submission given note_type feedlink with email only" do
       before do
         xhr :post, :notes_mailer, :note_type => 'feed_submission', :email => 'a@b.com'
@@ -501,6 +517,27 @@ EOM
       end
     end
     describe "submission with valid params" do
+
+      describe "event_submission" do
+        before do
+          FeedbackMailer.expects(:deliver_feedback).never()
+          xhr :post, :notes_mailer, :note_type => 'event_submission', :email => 'a@b.com',
+              :eventlink => 'http://stuff', :eventdesc => 'check this shit out', :eventtimedate => "tomorrow, at 10p", :eventlocation => 'My house at green and van ness'
+          @resp = JSON::parse(response.body)
+        end
+        it_should_behave_like "successful notes mailer response"
+        it "message includes all the deets" do
+          FeedbackMailer.expects(:deliver_event).with() do |f|
+            f.comment.should include 'check this shit out'
+            f.comment.should include 'My house at green'
+            f.comment.should include 'tomorrow, at 10'
+            f.comment.should include '//stuff'
+          end
+          xhr :post, :notes_mailer, :note_type => 'event_submission', :email => 'a@b.com',
+              :eventlink => 'http://stuff', :eventdesc => 'check this shit out', :eventtimedate => "tomorrow, at 10p", :eventlocation => 'My house at green and van ness'
+        end
+      end
+
       context "email_list" do
         before do
           xhr :post, :notes_mailer, :note_type => 'email_list', 

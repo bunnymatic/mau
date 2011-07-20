@@ -2,6 +2,7 @@
 
 body {
   background-color: $bluegray;
+  position: relative;
   color: $xlightgray;
   font-size: 13px;
   font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana", Arial, sans-serif;
@@ -118,10 +119,14 @@ tr.error-row {
   }
 }
 
+input, textarea, select {
+  @include input_style;
+  @include small-rounded-corners;
+}
+
 .input-name, .input, .input-err{
   font-size: 12px;
   padding: 5px;
-  vertical-align: top;
 }
 .input-name {
   text-align:right;
@@ -235,7 +240,6 @@ div.donate-btns span {
   
   .input-name, .input, .input-err {
     padding-top: 0;
-    vertical-align: top
   }
   li {
     list-style: outside circle;
@@ -312,9 +316,6 @@ div.donate-btns span {
     font-size: x-small;
     padding-left: 10px;
   }
-  td {
-    vertical-align: top;
-  }
 }
 
 /* nav bar link */
@@ -362,20 +363,7 @@ a.formbutton {
 
 /* default link colors assuming dark background */
 a {
-  text-decoration: none;
-  &:link {
-    color: $lightyellow;
-  }
-
-  &:visited {
-    color: $lightyellow;
-  }
-  &:hover {
-    color: #554444;
-  }
-  &:active {
-    color: $lightyellow;
-  }
+  @include link_style;
 }
 
 /* for medium tag cloud matches */
@@ -408,6 +396,10 @@ a {
   position:relative;
   z-index: 5;
 }
+#footer_bar {
+  line-height: 30px;
+  height: 30px;
+}
 #header_bar {
   .heart {
     font-size: 20px;
@@ -421,7 +413,7 @@ a {
 #sidebar_nav {
   width:200px;
   margin: 16px auto;
-  border: 1px solid #444;
+  border: 1px solid $bordergray;
   @include small-rounded-corners;
   a { 
     position: relative; 
@@ -475,9 +467,11 @@ a {
 }
 
 input.srch {
+  padding:2px;
   background-color:#D6f3ff;
   margin-left: 8px;
   margin-right: 8px;
+  border: 1px solid $mediumgray;
 }
 #search_btn2 {
   vertical-align: middle;
@@ -489,10 +483,6 @@ input.srch {
 /* these three are important on the "edit" pages
    colors should be set the same for textarea, select and srch
    */
-input, textarea, select {
-  @include small-rounded-corners;
-  background-color:$lightyellow;
-}
 button {
   @include small-rounded-corners;
 }
@@ -564,7 +554,7 @@ input[type=submit], .formbutton {
   background:url(/images/gradients.png) repeat-x left top;
   background-position: 0 -90px;
   border:outset 1px $xlightgray;
-  color:$darkbluegray;
+  color:$xdarkbluegray;
   cursor:pointer;
   font-weight:bold;
   padding: 3px 4px;
@@ -709,9 +699,29 @@ span.micro-icon {
 
 .feed-entries, .feed-studio-list {
   @include small-rounded-corners;
-  border: 1px #444 dotted;
+  @include dotted_border;
   margin: 5px auto 8px auto;
   text-align:left;
+}
+
+.email_us_your_event {
+  width: $leftcol - 10px;
+  margin: auto;
+  .container {
+    @include small-rounded-corners;
+    background-color: $lightgray;
+    @include dotted_border;
+    padding: 10px;
+    font-size: small;
+    color: $darkgray;
+    .submit_event {
+      @include link_style;
+      color: $purple;
+      &:hover {
+        cursor:pointer;
+      }
+    }
+  }
 }
 
 #feed_request {
@@ -802,8 +812,8 @@ div.feedtitle  {
 
 .feedentry {
   &.even { 
-    border-top: 1px dotted #444;
-    border-bottom: 1px dotted #444;
+    border-top: 1px dotted $bordergray;
+    border-bottom: 1px dotted $bordergray;
   }
   padding: 2px 5px 5px 5px;
 }
@@ -1083,7 +1093,7 @@ margin: 0 0 20px 0;
   line-height:25px;
 }
 .alpha-pg, .curpg {
-  border: 1px dotted #444;
+  @include dotted_border;
   padding: 2px 4px;
   white-space:nowrap;
 }
@@ -1221,7 +1231,7 @@ img#logo
 
 img.profile
 {
-  border:1px dotted #444;
+  @include dotted_border;
 }
 
 /* small text nav in place of play back buttons on search results */
@@ -1559,7 +1569,7 @@ td.td-left{
   padding-bottom: 20px;
   text-align:center;
   #artpiece_img{
-    border: 1px solid #444;
+    @include solid_border;
   }
   span {
     position: relative;
@@ -1654,7 +1664,7 @@ span.rightarrow
 }
 
 .artp-thumb {
-  border: 1px dotted #444;
+  @include dotted_border;
   margin: 4px 6px 8px;
   text-align:center;
   /** holder for the name */
@@ -1693,7 +1703,7 @@ span.rightarrow
   border: 0px;
   vertical-align: top;
   .artpiece-thumb {
-    border: 1px dotted #444;
+    @include dotted_border;
     float:left;
     margin: 8px;
     width: 265px;
@@ -1768,7 +1778,7 @@ span.rightarrow
 }
 
 .studio-thumb {
-  border: 1px dotted #444;
+  @include dotted_border;
   padding: 8px;
   vertical-align: top;
   background-color:#111;
@@ -1791,7 +1801,7 @@ span.rightarrow
   float: left;
 }
 .studio-thumb img {
-  border: 1px dotted #444;
+  @include dotted_border;
 }
 
 #studio_page .studio-img
@@ -1907,7 +1917,6 @@ div.alt-login {
   background-color: #bbb;
 }
 .disabled .signup-table label {
-/*     color: #444;*/
 }
 .login-table {
   width: 70%;
@@ -1981,7 +1990,7 @@ textarea.artist-bio {
 .edit-buttons span,
 #profile_edit_ctrls span,
 #artpiece_edit_ctrls span {
-  border: 1px solid #444;
+  @include solid_border;
   padding: 6px;
   margin: 4px;
   @include small-rounded-corners;
@@ -2026,7 +2035,7 @@ ul.dropdown li:hover a,
   color: $darkgray;
 }
 .nav a.lknav:hover {
-  color: #404;
+  color: $purple
 }
 
 .clouditem {
@@ -2692,7 +2701,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin-right: 23px;
   }
   .thumb {
-    border: 1px solid #444;
+    @include solid_border;
     position: relative;
     float: left;
     margin: 4px 2px;
@@ -2732,7 +2741,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
     width: 206px;
     float:left;
-    border: 1px dotted #444;
+    @include dotted_border;
     padding: 9px;
     margin: 20px 15px;
     vertical-align:top;
@@ -2749,13 +2758,11 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       &.last {
         clear: right;
       }
-      .thumb {
-        border: 0;
-      }
     }
   }
   
   h4 {
+    margin-top:0;
     margin-bottom: 0;
   }
   .favorites {
@@ -2788,36 +2795,38 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     position: relative;
     div { 
       text-align: center;
-      &.thumb {
-        border: 1px dotted #444;
-      }
-      img {
-        margin-top:2px;
-      }
-      &.name {
-        border: 1px solid #444;
-        background : $darkgray;
-        text-align: center;
-        width: 200px;
-        height: 24px;
-        font-size:90%;
-        overflow: hidden;
-        line-height: 24px;
+    }
+    .thumb {
+      @include dotted_border;
+      line-height: 0;
+      font-size:0;
+    }
+    img {
+      margin-top:2px;
+    }
+    .name {
+      @include solid_border;
+      background : $darkgray;
+      text-align: center;
+      width: 200px;
+      height: 24px;
+      font-size:90%;
+      overflow: hidden;
+      line-height: 24px;
+      position: absolute;
+      top: 100%;
+      .del-btn {
+        background-color : $darkgray;
         position: absolute;
-        top: 100%;
-        .del-btn {
-          background-color : $darkgray;
-          position: absolute;
-          right: 2px;
-          top: 1px;
-          width:16px;
-          height:16px;
-          border: 2px solid $darkgray;
-          z-index: 10;
-          &:hover {
-            border: 2px solid red;
-            cursor: pointer;
-          }
+        right: 2px;
+        top: 1px;
+        width:16px;
+        height:16px;
+        border: 2px solid $darkgray;
+        z-index: 10;
+        &:hover {
+          border: 2px solid red;
+          cursor: pointer;
         }
       }
     }
@@ -2842,7 +2851,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   z-index: 50;
   .popup-mailer {
     width: 480px;
-    @include small-rounded-corners;
+    @include large-rounded-corners;
     border: 2px solid #738294;
     background-color: $black;
     color: $lightgray;
@@ -2854,10 +2863,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       cursor: pointer;
       font-weight: bold;
     }
-    -moz-border-radius-topleft: 4px;
-    -moz-border-radius-topright: 4px;
-    -webkit-border-top-left-radius: 4px;
-    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
     border-bottom: 1px solid $mediumgray;
     line-height: 1.5em;
     background-color: $black;
@@ -2868,6 +2877,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   .popup-content {
     padding: 6px 18px 12px 12px;
     background-color: $darkgray;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
     li {
       width: 100%;
       div {
@@ -2881,7 +2894,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     input[type=text] {
       width: 100%;
     }
-    textarea[name=inquiry] {
+    textarea[name=inquiry],
+    textarea[name=eventdesc] {
       width: 100%;
       height: 120px;
     }
@@ -2902,7 +2916,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin: 10% auto;
   }
   .popup-mailer {
-    @include small-rounded-corners;
+    @include large-rounded-corners;
     border: 2px solid #738294;
     background-color: $black;
     color: $lightgray;
@@ -2914,10 +2928,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       cursor: pointer;
       font-weight: bold;
     }
-    -moz-border-radius-topleft: 4px;
-    -moz-border-radius-topright: 4px;
-    -webkit-border-top-left-radius: 4px;
-    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
     border-bottom: 1px solid $mediumgray;
     line-height: 1.5em;
     background-color: $black;
@@ -2928,6 +2942,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   .popup-content {
     padding: 6px 18px 12px 12px;
     background-color: $darkgray;
+    -moz-border-radius-bottomleft: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
     li {
       width: 100%;
       div {
@@ -3019,7 +3037,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 .flax-sidebar {
   @include small-rounded-corners;
   background-color: $darkgray;
-  border: 1px #444 dotted;
+  @include dotted_border;
   margin: 5px 8px 8px 0;
   padding: 2px 5px 5px 5px;
   text-align: center;
@@ -3135,14 +3153,14 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     div { 
       text-align: center;
       &.thumb {
-        border: 1px dotted #444;
+        @include dotted_border;
       }
       img {
         margin-top:2px;
       }
       &.name {
         margin: auto;
-        border: 1px solid #444;
+        @include solid_border;
         background : $darkgray;
         color: $xlightgray;
         text-align: center;
@@ -3223,7 +3241,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     background:url(/images/gradients.png) repeat-x left top;
     background-position: 0 -90px;
     border:outset 1px $xlightgray;
-    color:$darkbluegray;
+    color:$xdarkbluegray;
     cursor:pointer;
     font-weight:bold;
     padding: 3px 4px;
@@ -3240,7 +3258,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     background:url(/images/gradients.png) repeat-x left top;
     background-position: 0 -50px;
     border:outset 1px $xlightgray;
-    color:$darkbluegray;
+    color:$xdarkbluegray;
     cursor:pointer;
     font-weight:bold;
     padding: 3px 4px;

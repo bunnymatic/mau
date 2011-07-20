@@ -1,0 +1,9 @@
+%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".email_us_your_event .submit_event", { note_class: 'event_submission', url: "/main/notes_mailer" }); });
+.clear
+.email_us_your_event
+  .container
+    Hey, #{current_user.get_name(true)},
+    %br
+    are you having an event?  
+    .submit_event
+      Click here to let us know.
