@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   def new
     if logged_in?
       flash[:notice] = "You're already logged in"
-      redirect_back_or_default(user_path(current_user))
+      redirect_back_or_default('/')
     end
   end
 
@@ -33,11 +33,7 @@ class SessionsController < ApplicationController
         handle_remember_cookie! new_cookie_flag
         
         flash[:notice] = "Logged in successfully"
-        if session[:return_to]
-          redirect_to session[:return_to]
-        else
-          redirect_to user_path(current_user)
-        end
+        redirect_back_or_default('/')
         return
       else
         note_inactive_signin
