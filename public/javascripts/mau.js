@@ -281,6 +281,7 @@ var TagMediaHelper = {
 
   /** front page thumbs **/
   Object.extend(FR, {
+    requests: [],
     init: function() {
       setInterval( function() { FR.update_art(); }, 8000);
       FR.init = function() {};
@@ -288,7 +289,7 @@ var TagMediaHelper = {
     update_art: function() {
       var d = $('sampler');
       if (d) { 
-	new Ajax.Request('/main/sampler', { method:'get',
+	var req = new Ajax.Request('/main/sampler', { method:'get',
 					    onSuccess: function(tr) {
 					      d.setOpacity(0);
 					      d.update('');
@@ -297,11 +298,21 @@ var TagMediaHelper = {
 					      d.appear();
 					    }
 					  });
+        FR.requests.push(req);
+      }
+    },
+    abort_requests: function() {
+      if (FR.requests.length > 0) {
+        FR.requests.each(function(req) {
+          if (req.abort) { req.abort(); }
+        });
+        FR.requests = [];
       }
     }
   });
   
   Event.observe(window, 'load', FR.init);
+  Event.observe(window, 'unload', FR.abort_requests);
   /** nav bar related **/
   N.init = function() {
     var navleaves = $$('.nav li.leaf');

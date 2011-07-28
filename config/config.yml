@@ -115,6 +115,6 @@ common:
    autosuggest:
        cache_expiry: 300
        cache_key: tagsuggest
-   oslive: false
+   oslive: true
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2

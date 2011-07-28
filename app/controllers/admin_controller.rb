@@ -26,6 +26,7 @@ class AdminController < ApplicationController
       :pending_artists => Artist.count(:conditions => "state='pending'"),
       :no_profile_image => Artist.active.count(:conditions => "profile_image is not null"),
       :spring_os_2011_participants => Artist.active.open_studios_participants('201104').count,
+      :fall_os_2011_participants => Artist.active.open_studios_participants('201110').count,
       :studios => Studio.count
     }
     
@@ -59,6 +60,9 @@ class AdminController < ApplicationController
     when 'fans'
       @title = "Fans"
       fans = Users.find(:all, :conditions => "type <> 'Artist'")
+    when 'october2011'
+      @title = "Fall 2011 OS Set"
+      artists = Artist.active.open_studios_participants('201110')
     when 'spring2011'
       @title = "Spring 2011 OS Set"
       artists = Artist.active.open_studios_participants('201104')
@@ -109,6 +113,7 @@ class AdminController < ApplicationController
     @totals['spring 2010'] = @os.select{|a| a.os2010}.length
     @totals['oct 2010'] = @os.select{|a| a.osoct2010}.length
     @totals['spring 2011'] = @os.select{|a| a.os_participation['201104'].nil? ? false : a.os_participation['201104'] }.length
+    @totals['oct 2011'] = @os.select{|a| a.os_participation['201110'].nil? ? false : a.os_participation['201110'] }.length
   end
 
   def roles

@@ -9,7 +9,7 @@ class Artist < User
       if oskey.blank?
         {
         :joins => :artist_info, 
-        :conditions => ["artist_infos.open_studios_participation like '%%201104%%'"] 
+        :conditions => ["artist_infos.open_studios_participation like '%%201110%%'"] 
         }
       else
         {

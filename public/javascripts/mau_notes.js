@@ -11,6 +11,20 @@ MAU.NotesMailer = Class.create();
 MAU.browser = MAU.browser || {};
 var FormConstructors = {};
 
+FormConstructors.login_required = {
+  title: "Login Required", 
+  render: function() {
+    var el = new Element('div');
+    var msg = new Element('div');
+    msg.innerHTML = "Sorry, but you need to login first.";
+    var msg2 = new Element('div');
+    msg2.innerHTML = "Click <a href='/login'>here to login.</a>";
+    el.insert(msg);
+    el.insert(msg2);
+    return el;
+  }
+};
+
 FormConstructors.entrythingy = {
   title: 'Flax Show Submission Help',
   render: function() {
@@ -50,10 +64,7 @@ FormConstructors.inquiry = {
   render: function() {
     var el = new Element('div');
     el.innerHTML = "We love to hear from you.  Please let us know your thoughts, questions, rants.  We'll do our best to respond in a timely manner.";
-    /* var C = MAU.Cookie;
-    C.init({name:'mau'});
-    var c = C.getData('user_email');
-*/
+
     var inputs = new Element('ul');
     var entries = [];
     
@@ -244,6 +255,9 @@ Object.extend(MAU.NotesMailer.prototype, {
     if ($$(this._parent_class(true)).length == 0 ) {
       var note_class = _that.options.note_class;
       var formbuilder = _that.form_builders[note_class];
+      if (_that.form_builders.login_required && !_that.options.username) {
+        formbuilder = _that.form_builders['login_required'];
+      }
       var inner = '';
       if (formbuilder.render) {
         inner = $(formbuilder.render());
@@ -272,16 +286,24 @@ Object.extend(MAU.NotesMailer.prototype, {
       $(c).insert(f);
       var notes = new Element('div', { "class": _that._parent_class() }).insert(m);
       $$('body')[0].insert(notes);
-      var style = { left: ''+(xpos-250) + 'px',
-                    top: ''+ypos + 'px' };
+      xx = xpos-250;
+      yy = ypos;
+      if (_that.options.note_class == 'feed_submission') {
+        _that.options.xoffset = -100;
+      }
+      if (_that.options.xoffset) {
+        xx += _that.options.xoffset;
+      }
+      if (_that.options.yoffset) {
+        yy += _that.options.yoffset;
+      }
+      var style = { left: '' + xx + 'px',
+                    top: ''+ yy + 'px' };
       if (_that.options.note_class == 'feed_submission') {
           style['bottom'] = ''+notes.getHeight() + 'px';
-          style['left'] = '' + (xpos-100) + 'px';
           style['top'] = null;
       }
       notes.setStyle(style);
-
-    } else {
     }
   },
   initialize: function(selector, opts) {

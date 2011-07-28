@@ -70,10 +70,10 @@ no reason for this to be very pretty
       Active? <%= a.state=='active' %><br/>
     </td>
     <td class="street"><%=h a.street %></td>
-    <td class="spring2011" artistid="<%= a.id %>"><%=h a.os_participation['201104'] %></td>
-    <% checked = (a.os_participation['201104'] ? "checked=checked":"") -%>
+    <td class="oct2011" artistid="<%= a.id %>"><%=h a.os_participation['201110'] %></td>
+    <% checked = (a.os_participation['201110'] ? "checked=checked":"") -%>
     <td>
-	<div ><input artistid="<%= a.id %>" class="cbspring2011" type="checkbox" name="artist<%=a.id%>" value="<%=a.os_participation['201104'] %>" <%= checked %> /></div>
+	<div ><input artistid="<%= a.id %>" class="cbspring2011" type="checkbox" name="artist<%=a.id%>" value="<%=a.os_participation['201110'] %>" <%= checked %> /></div>
     </td>
  </tr>
 <% end %>

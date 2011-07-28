@@ -1,0 +1,32 @@
+.admin-table.singlecolumn
+  %h1 Open Studios Participation
+  %table.os-status
+    %tr
+      %th
+        %th name
+        %th Oct 2011
+        %th Spring 2011
+        %th Oct 2010
+        %th Spring 2010
+    %tr.totals
+      %td count
+      %td
+      %td.tf #{@totals['oct 2011']}
+      %td.tf #{@totals['spring 2011']}
+      %td.tf #{@totals['oct 2010']}
+      %td.tf #{@totals['spring 2010']}
+    - @os.each_with_index do |a,idx| 
+      %tr{:class => (0 == (idx % 2)) ? 'odd' : 'even'}
+        %td #{idx+1}
+        %td#admin_artist_name
+          %a{:href => user_path(a)} #{a.get_name(true)}
+        %td.tf
+          - val = a.os_participation['201110'] || 'false'
+          %span{:class => val} #{val}
+        %td.tf
+          - val = a.os_participation['201104'] || 'false'
+          %span{:class => val} #{val}
+        %td.tf
+          %span{:class => a.osoct2010} #{a.osoct2010}
+        %td.tf
+          %span{:class => a.os2010} #{a.os2010}
