@@ -7,7 +7,7 @@
 %a{:title => "Get on the mailing list to hear all about MAU Events and Open Studios.", :href => '/contact'}
   .action_button.sprite.mailing_list
 
-%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".list_your_show", { note_class: 'event_submission', url: "/main/notes_mailer", xoffset: 200 }); });
+%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".list_your_show", { note_class: 'event_submission', url: "/main/notes_mailer", xoffset: 200, username: '#{current_artist ? current_artist.login : '' }' }); });
 
 %a{:title => "Tell us about your upcoming art show!"}
   .action_button.sprite.list_your_show
