@@ -1,10 +1,16 @@
 %script Event.observe(window, 'load', function() { new MAU.NotesMailer(".mau-note-link.feed_submission", { note_class: 'feed_submission', url: "/main/notes_mailer" }); });
 
 .logo
-  %img{:title => 'Art is the Mission', :src => "/images/mau-nextos-2011.png" }
+  %a{:href => '/main/openstudios'}
+    %img{:title => 'Art is the Mission', :src => "/images/mau-nextos-2011.png" }
 
--if logged_in?
-  =render :partial => '/events_email_announcement'
+%a{:title => "Get on the mailing list to hear all about MAU Events and Open Studios.", :href => '/contact'}
+  .action_button.sprite.mailing_list
+
+%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".list_your_show", { note_class: 'event_submission', url: "/main/notes_mailer", xoffset: 200 }); });
+
+%a{:title => "Tell us about your upcoming art show!"}
+  .action_button.sprite.list_your_show
 
 #feed_div
   .feed-sxn-hdr
@@ -16,7 +22,5 @@
 #feed_request
   %span.mau-note-link.feed_submission Recommend a feed we should add to this list
 
-.get-involved{ :style => 'width:220px' }
-  %a{:title => "Volunteer, shop, send us your feedback, donate, participate...", :href => getinvolved_path }
-    %img{:title=>"Volunteer, shop, send us your feedback, donate, participate..." ,
-         :width => "220", :height => "56", :src => "/images/getinvolved_red.png" }
+%a{:title => "Volunteer, shop, send us your feedback, donate, participate...", :href => getinvolved_path }
+  .action_button.sprite.get_involved

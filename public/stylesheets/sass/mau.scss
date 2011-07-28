@@ -411,7 +411,7 @@ a {
 #artisthemission { float: left; margin-left: 8px; }
 #nav_bar {}
 #sidebar_nav {
-  width:200px;
+  width:204px;
   margin: 16px auto;
   border: 1px solid $bordergray;
   @include small-rounded-corners;
@@ -1039,6 +1039,9 @@ margin: 0 0 20px 0;
   width:800px;
   h4 { 
     text-align:center; 
+  }
+  .artist_block {
+    margin: auto;
   }
 }
 
@@ -2848,6 +2851,9 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   color: $lightyellow;
 }
 .send-mau-a-note {
+  box-shadow: 0px 0px 16px rgba(128,128,128, 0.80);
+  -moz-box-shadow: 0px 0px 16px rgba(128,128,128, 0.80);
+  -webkit-box-shadow: 0px 0px 16px rgba(128,128,128, 0.80);
   &.mau-notes-container-feed_submission {
     #feedlink {
       width: 100%;
@@ -2891,6 +2897,9 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       width: 100%;
       div {
         padding: 2px 0;
+      }
+      input {
+        margin-top: 8px;
       }
     }
     label {
@@ -3283,5 +3292,22 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   .section { 
     float:left;
     width: 300px;
+  }
+}
+
+.action_button.sprite {
+  background-image: url(/images/action_buttons_sprite_blue.png);
+  background-repeat: no-repeat;
+  width: 215px;
+  height: 50px;
+  margin: auto;
+  &.get_involved {
+    margin-top: 8px;
+  }
+  &.mailing_list {
+    background-position: 0 -50px;
+  }
+  &.list_your_show {
+    background-position: 0 -100px;
   }
 }

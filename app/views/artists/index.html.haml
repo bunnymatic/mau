@@ -1,0 +1,10 @@
+#all_artists_page
+  %h4 MAU Artists
+  .artists_block
+    = render :partial => '/artists/alpha_pagination'
+    = render :partial => '/osswitch', :locals => { :params => @inparams}
+    = render :partial => '/artists/view_switcher'
+    = render :partial => '/pagination'
+    .clear
+    = render :partial => '/artists/thumbs', :locals => { :pieces => @pieces, :params => { :cols => 7 }}
+    = render :partial => '/pagination'

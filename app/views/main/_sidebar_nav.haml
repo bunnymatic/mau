@@ -1,0 +1,11 @@
+%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".list_your_show", { note_class: 'event_submission', url: "/main/notes_mailer", xoffset: 200 }); });
+#sidebar_nav
+  %ul
+    %li.leaf.first 
+      %a{:href => '#'} open studios
+    %li.leaf.last
+      %a{:href => '#open_studios_resources'}artist resources
+
+
+%a{:title => "Tell us about your upcoming art show!"}
+  .action_button.sprite.list_your_show

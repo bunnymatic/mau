@@ -125,6 +125,10 @@ module FeedsHelper
         end
         logger.info("FeedsHelper: done") 
       end
+    rescue OpenURI::HTTPError => http
+      logger.warn("FeedsHelper: failed to open/parse feed " + e.to_s)
+      logger.warn("FeedsHelper: skipping to the next")
+      feedcontent = ''
     rescue Exception => e
       logger.warn("FeedsHelper: failed to open/parse feed " + e.to_s)
       raise

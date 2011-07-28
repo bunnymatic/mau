@@ -30,18 +30,18 @@
     <div class="edit-profile-sxn"  id="events" style="display:none;">
       <div class="inner-sxn">
 	<p>
-	  Are you opening your studio doors for Mission Artists United's Spring Open Studios - April 16 & 17, 2011?
+	  Are you opening your studio doors for Art Span's October Open Studios - Oct 1 & 2, 2011?
         </p>
         <p class="os-status">
-          Your current answer is : <span><%= @artist_info.os_participation['201104'] ? 'Yep' : 'Nope' %></span>
+          Your current answer is : <span><%= @artist_info.os_participation['201110'] ? 'Yep' : 'Nope' %></span>
 	</p>
 	<%= f.error_messages %>
 	<div class="yes-no-radios">
 	  <div class="radio-container yep">
-            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201104]]]", "true",  @artist_info.os_participation['201104']  %><div class="formbutton">Yep</div>
+            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201110]]]", "true",  @artist_info.os_participation['201110']  %><div class="formbutton">Yep</div>
           </div>
 	  <div class="radio-container nope">
-            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201104]]]", "false",  (!@artist_info.os_participation['201104'])  %><div class="formbutton">Nope</div>
+            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[201110]]]", "false",  (!@artist_info.os_participation['201110'])  %><div class="formbutton">Nope</div>
           </div>
         </div>
 	<div class="clear"></div>

@@ -130,7 +130,7 @@ class ArtistsController < ApplicationController
           artistid = m[1]
           a = Artist.find(artistid)
           if a
-            a.artist_info.os_participation = {'201104' => v}
+            a.artist_info.os_participation = {'201110' => v}
             a.artist_info.save
             ct = ct + 1
           end
