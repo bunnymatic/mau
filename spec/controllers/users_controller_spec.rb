@@ -292,7 +292,7 @@ describe UsersController do
         response.should be_success
       end
       it "renders the user edit template" do
-        response.should render_template("edit.erb")
+        response.should render_template("edit")
       end
       it "has no heart notification checkbox" do
         response.should_not have_tag "#notification input#emailsettings_favorites"
