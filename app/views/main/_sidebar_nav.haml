@@ -1,4 +1,4 @@
-%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".list_your_show", { note_class: 'event_submission', url: "/main/notes_mailer", xoffset: 200 }); });
+%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".list_your_show", { note_class: 'event_submission', url: "/main/notes_mailer", xoffset: 200, username: '#{(current_user && current_user.is_artist?) ? current_user.login : '' }' }); });
 #sidebar_nav
   %ul
     %li.leaf.first 
