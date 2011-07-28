@@ -366,7 +366,7 @@ describe Artist do
         artists[0].id.should == @a.id
         artists[0].os_participation['201104'].should be_true
       end
-      ['201104','201111'].each do |arg|
+      ['201104','201110'].each do |arg|
         it "returns 1 artist with '#{arg}'" do
           artists = Artist.open_studios_participants(arg)
           artists.should have(1).artist

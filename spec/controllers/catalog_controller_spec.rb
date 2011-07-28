@@ -6,7 +6,7 @@ describe CatalogController do
 
   describe "#index" do
     before do
-      ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104'")
+      ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201110'")
       Artist.any_instance.stubs(:in_the_mission? => true)
       a = users(:jesseponce)
       ai = artist_infos(:jesseponce)

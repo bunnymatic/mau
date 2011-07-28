@@ -1,0 +1,34 @@
+#open_studios.logo-space
+  %h1 Spring Open Studios in the Mission
+  .section
+    %h4 
+      Saturday, October 1 and Sunday October 2, 2011
+      %br
+      11am &mdash; 6pm
+    = @spring_os_blurb 
+    .artist-links
+      %h5
+        %a{:href => artists_path(:osonly => true)}Open Studios Art
+        =# <h5><a href="<%= artistsmap_path :osonly => true %>">Online Map</a></h5>
+        =# <h5><a href="/catalog/spring2011/mau_spring_2011_guide_color.pdf">Download the Guide</a></h5>
+    .clear
+  .section
+    %h4 Participating Group Studios
+    %ul.participant_list
+      - @participating_studios.each do |s| 
+        - ct = s.artists.open_studios_participants.count
+        - wd = (ct > 1) ? "artists" : "artist"
+        %li
+          = link_to(s.name,s)
+          (#{ct} #{wd}) &mdash; #{s.street}
+  .section 
+    %h4 Participating Independent Artists
+    %ul
+      - @participating_indies.each do |a| 
+        - street = " &mdash; #{a.address_hash[:parsed][:street]}"
+        %li
+          = link_to(a.get_name(true), a)
+          #{street}
+  .section
+    .markdown
+      = @preview_reception_html

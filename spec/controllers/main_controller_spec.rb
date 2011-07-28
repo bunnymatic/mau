@@ -308,7 +308,7 @@ describe MainController do
       integrate_views
       context "while not logged in" do
         before do
-          ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104'")
+          ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104|201110'")
           Artist.any_instance.stubs(:in_the_mission? => true)
           a = users(:jesseponce)
           ai = artist_infos(:jesseponce)
@@ -354,7 +354,7 @@ describe MainController do
           assigns(:participating_studios).sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == assigns(:participating_studios).map(&:name)
         end
         it 'assigns the right number of participating indies (all os participants with studio = 0)' do
-          n = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.count
+          n = Artist.active.open_studios_participants.map(&:studio_id).select{|sid| sid==0}.count
           n.should > 0
           assigns(:participating_indies).should have(n).artists
         end

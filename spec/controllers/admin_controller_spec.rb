@@ -79,8 +79,8 @@ describe AdminController do
     it "responds success" do
       response.should be_success
     end
-    it "renders fans.erb" do
-      response.should render_template 'fans.erb'
+    it "renders fans template" do
+      response.should render_template 'fans'
     end
     it "assigns fans" do
       assigns(:fans).length.should == User.active.all(:conditions => 'type <> "Artist"').length
@@ -94,8 +94,8 @@ describe AdminController do
     it "responds success" do
       response.should be_success
     end
-    it "renders roles.erb" do
-      response.should render_template 'roles.erb'
+    it "renders roles" do
+      response.should render_template 'roles'
     end
     it "assigns artists" do
       assigns(:users).should have(User.active.count).users
