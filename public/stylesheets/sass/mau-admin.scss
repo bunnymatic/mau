@@ -82,13 +82,23 @@ body.admin {
 }
 
 
+.edit_cms_document .admin .section {
+  width: auto;
+  border: 0;
+  float: none;
+}
+
 .admin {
   .nextrow {
     line-height: 40px;
   }
-  .header_inputs {
+  .header_inputs .section{
+    width:auto;
+    float: left;
+    border: 0;
+    
   }
-  h2 {
+  h1, h2 {
     margin-left: 10px;
   }
   .section { 
@@ -102,6 +112,9 @@ body.admin {
       h3 {
         padding-bottom: 10px;
       }
+    }
+    &.markdown-input, &.markdown-results {
+      width: 45%;
     }
   }
   .singlecolumn {
