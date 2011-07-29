@@ -377,6 +377,10 @@ a {
 #artisthemission {
   height: 100%;
   padding-top: 6px;
+  img {
+    width:242px;
+    heigth:17px;
+  }
 }
 #header_bar,
 #footer_bar {
@@ -1185,6 +1189,8 @@ img#logo
   text-align:left;
   top:-30px;
   left:260px;
+  width:120px;
+  height:122px;
   z-index:10;
   border: 0;
 }
@@ -2036,7 +2042,7 @@ textarea.artist-bio {
   li { width: 100%; }
 }
 #mymaunav li ul {
-  width: 110px;
+  width: 124px;
   li { width: 100%; }
 }
 ul.dropdown li:hover a,
@@ -3310,4 +3316,55 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   &.list_your_show {
     background-position: 0 -100px;
   }
+}
+
+/***
+css3 buttons
+***/
+a.button {
+	text-decoration: none;
+	border-color: transparent transparent #ECECEC; /** rgba fallback **/
+	border-color: transparent transparent rgba(255, 255, 255, 0.63);
+	cursor: pointer;
+	outline: none;
+}
+a.button:hover {
+	text-decoration: none;
+}
+a.button,
+a.button b.o,
+a.button b.m {
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	border-width: 1px;
+	border-style: solid;
+	display: block;
+}
+a.button b.o {
+	border-color: #5A5A5A; /** rgba fallback **/
+	border-color: rgba(0, 0, 0, 0.56);
+}
+a.button b.m {
+	background: transparent url(button.png) repeat-x 0 0;
+	border-color: #FFF transparent #C7C7C7; /** rgba fallback **/
+	border-color: #FFF rgba(255, 255, 255, 0.33) rgba(255, 255, 255, 0.33);
+}
+a.button:hover b.m {
+	background-position: 0 -80px;
+}
+a.button:active b.m {
+	background-position: 0 -160px;
+	border-color: #B7B7B7 transparent #D4D4D4; /** rgba fallback **/
+	border-color: rgba(255, 255, 255, 0.11) rgba(255, 255, 255, 0.23) rgba(255, 255, 255, 0.27);
+}
+a.button b.m b {
+	display: block;
+	font-weight: bold;
+	padding: 4px 8px;
+	text-shadow: 0 1px 0 #DDD;
+	color: #262626;
+	/** Make the text unselectable **/
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
