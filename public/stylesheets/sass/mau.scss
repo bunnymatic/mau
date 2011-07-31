@@ -2899,6 +2899,9 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     -moz-border-radius-bottomright: 8px;
     -webkit-border-bottom-left-radius: 8px;
     -webkit-border-bottom-right-radius: 8px;
+    form ul {
+      margin-top: 8px;
+    }
     li {
       width: 100%;
       div {
@@ -3011,6 +3014,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     border: 1px solid $mediumgray;
     @include small-rounded-corners;
     font-size: 1.2em;
+  }
+  .desc {
+    font-size: 120%;
+    margin-left: 10px;
   }
   .indicate-required {
     float: right;
