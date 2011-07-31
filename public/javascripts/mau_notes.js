@@ -97,7 +97,7 @@ FormConstructors.event_submission = {
   title: "My Art Show",
   render: function() {
     var el = new Element('div');
-    el.innerHTML = "Tell us about your art show or event.  We'll check it out and try to get it posted on our Facebook and Twitter feeds.";
+    el.innerHTML = "Tell us about your art show or event.  We'll help you plug it by posting it on our Facebook and Twitter.";
 
     var inputs = new Element('ul');
     var entries = [];
