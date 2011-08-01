@@ -1,0 +1,11 @@
+.navlinks
+  View:
+  %span.nobr 
+    - if @view_mode != 'count'
+      studio name
+      ="/"
+      = link_to "# of artists", studios_path({:v=>'c'})
+    - else
+      = link_to "studio name", studios_path
+      ="/"
+      ="# of artists"
