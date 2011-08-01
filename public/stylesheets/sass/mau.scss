@@ -969,11 +969,6 @@ margin: 0 0 20px 0;
   text-align: center;
 }
 
-.little-txt{
-  font-size: x-small;
-}
-
-
 /* careful with this.
    on the login page, we have id="login" in an input tag
    but this one controls the login bar at the top of the screen
@@ -1018,6 +1013,13 @@ margin: 0 0 20px 0;
     text-align:center;
     width: 560px;
   }
+  #profile_img {
+    float:right;
+    margin-right:20px;
+    div {
+      @include little_text;
+    }
+  }
 }
 
 #news_text {
@@ -1049,13 +1051,22 @@ margin: 0 0 20px 0;
   }
 }
 
+.roster-container, .artists_block {
+  .navlinks {
+    text-align:right;
+  }
+}
 #map_page{
   margin:auto;
   width:800px;
-  & .navlinks, & .map-os-switch {
+  .navlinks, .map-os-switch {
     padding-top: 25px;
     padding-bottom: 5px;
   }
+  .navlinks {
+    text-align:right;
+  }
+
 }
 
 
@@ -1143,6 +1154,8 @@ table{
   }
 }
 table.tbl-content{
+  padding:0;
+  margin:0;
   background-color:$black;
   vertical-align: top;
   width: 900px;
@@ -1247,15 +1260,17 @@ img.profile
 span.navlinks {
   padding: 5px 1px 5px 0px;
 }
-.navlinks span {
-  padding: 0px 2px;
-}
-.navlinks span#txt {
-  font-weight: normal;
-}
 .navlinks {
   padding-bottom: 2px;
+  @include little-text;
+  span {
+    padding: 0px 2px;
+    &#txt {
+      font-weight: normal;
+    }
+  }
 }
+
 a.fdbk-subj #next_pg {
   display:none;
 }
@@ -1566,13 +1581,25 @@ td.td-left{
   text-align: center;
 }
 
-#new_artpiece_form div,
-#new_artpiece_form table {
-  margin: auto;
+.input-help {
+  @include little-text;
 }
-#new_artpiece_form table {
-  width:550px;
+
+#new_artpiece_form {
+  div, table {
+    margin: auto;
+  }
+  table {
+    width:550px;
+  }
+  .input-help {
+    @include little-text;
+  }
+  td.input-help {
+    padding:5px;
+  }
 }
+
 
 #artpiece_title {
   font-size: 120%;
@@ -1706,8 +1733,11 @@ span.rightarrow
   }
   
   
-  .td-right.navlinks {
+  .navlinks {
+    text-align: right;
+    vertical-align: middle;
     margin-right: 10px;
+    @include little-text;
   }	
 }
 
@@ -2396,7 +2426,10 @@ form#feedback_form .error {
 .map-os-switch { font-size: 80%; float: left; margin-bottom: 6px;}
 #all_artists_page .map-os-switch { float: left; }
 
-.map-roster { float: left; width: 190px; }
+.map-roster { 
+  float: left; width: 190px; 
+  @include little-text;
+}
 .map-addr {
   text-align: left;
   font-weight: bold;
@@ -2677,12 +2710,16 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin-top:16px;
     width: 500px;
     margin: 16px auto 10px auto;
+    @include little-text;
   }
 }
 #arrange_art_help {
   position: absolute;
   right: 0px;
   top: 0px;
+  .help-txt {
+    @include little-text;
+  }
 }
 
 #signup_page {

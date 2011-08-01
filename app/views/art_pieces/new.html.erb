@@ -36,7 +36,7 @@
         <td class="input"><%= select("art_piece", "medium_id", [['None',0]] + @media.map{|u| [u.name,u.id]}) %></td>
       </tr>
       <tr>
-        <td class="input-name"><span class="little-txt">(separate by commas)</span> <%= f.label :tags %></td>
+        <td class="input-name"><%= f.label :tags %></td>
         <td class="input">
 	  <span class="ac_holder">
 	    <%= text_field_tag 'tags', TagsHelper.tags_to_s(@art_piece.art_piece_tags), :class => "tag-input", :autocomplete => 'off' %>
@@ -44,11 +44,16 @@
 	</td>
       </tr>
       <tr>
+	<td/><td class="input-help">
+	  separate tags with commas
+	</td>
+      </tr>
+      <tr>
         <td class="input-name"><label for="upload_file">Select File</label></td>
         <td class="input"><%= file_field 'upload', 'datafile' %></td>
       </tr>
       <tr>
-	<td/><td class="little-txt">
+	<td/><td class="input-help">
 	  Please use images of type JPG, PNG or GIF whose size is less than 2MB.
 	</td>
       </tr>

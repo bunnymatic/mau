@@ -4,7 +4,7 @@
     <% if current_user.fav_artists.empty? && current_user.fav_art_pieces.empty? %>
     <div>You have no favorites yet.  Click the <span class="micro-icon heart">&nbsp;</span>icon on art piece pages or artist's pages to add these items to your favorites.</div>
     <% else -%>
-    <div class="little-text center">Click on favorites to remove them.</div>
+    <div class="center">Click on favorites to remove them.</div>
     <% end -%>
     <% unless current_user.fav_artists.empty? %>
     <div id="my_favorite_artists" class="favorites-block" >

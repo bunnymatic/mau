@@ -73,11 +73,11 @@
       <%= label_tag 'studio', 'Group Studio' %>	  </td>
     <td >
       <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>	  </td>
-    <td class="little-txt"></td>
+    <td></td>
   </tr>
   <tr>
     <td colspan="3">
-      <div class="little-txt">
+      <div class="input-help">
 Choose "Independent studio" if you are not in a group studio. if you don't see your group studio, select "none" and 
 	<a href="javascript:MAU.mailer('www','missionartistsunited.org','Please Add New Group Studio');">tell us</a> to add your studio.
       </div>

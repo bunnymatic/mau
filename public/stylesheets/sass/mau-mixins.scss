@@ -49,6 +49,11 @@ $lightyellow: #FEF7CA;
   }
 }
 
+@mixin little-text {
+  font-size: x-small;
+}
+
+
 @mixin small-rounded-corners {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
