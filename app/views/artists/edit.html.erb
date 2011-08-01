@@ -1,12 +1,12 @@
 <div id="artist_edit">
-  <div id="profile_img" style="float:right;">
+  <div id="profile_img">
     <a title="update profile picture" href="<%= addprofile_users_path %>">
       <% if current_user.has_profile_image -%>
       <img src="<%= current_user.get_profile_image('thumb') %>" />
       <% else -%>
       <img src="/images/default-profile-img.png" width="100" />
       <% end -%>
-      <div class="little-txt">update profile picture</div>
+      <div>update profile picture</div>
     </a>
   </div>
   <h4>My Account</h4>
@@ -119,7 +119,7 @@
         <div>
 	  <%= text_area_tag "#{f.object_name}[artist_info[bio]]", @artist_info.bio, :class => "artist-bio" %>
         </div>
-	<div class="little-txt center">
+	<div class="input-help">
 	      Please avoid html tags and any fancy formatting.  Newlines will be preserved.
         </div>
         <div class="buttons">
