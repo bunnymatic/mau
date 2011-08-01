@@ -1066,17 +1066,19 @@ margin: 0 0 20px 0;
   .navlinks {
     text-align:right;
   }
-
 }
 
 
-#studio_page h4 {
-  margin-top: 4px;
-}
 
 #studio_page {
   width: 572px;
   margin: auto;
+  h4 {
+    margin-top: 4px;
+  }
+  .navlinks {
+    text-align: right;
+  }
 }
 .content-block
 {

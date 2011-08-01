@@ -21,7 +21,26 @@ describe StudiosController do
         s.pop
         s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
       end
-
+      it "sets view_mode to name" do
+        assigns(:view_mode).should == 'name'
+      end
+      
+      context "with view mode set to count" do
+        before do
+          get :index, :v => 'c'
+        end
+        it "sets view_mode to count" do
+          assigns(:view_mode).should == 'count'
+        end
+        it "studios are sorted by count descending" do
+          artist_count = assigns(:studios).map{|s| s.artists.active.count}
+          min = artist_count.first
+          artist_count.each do |ct|
+            ct.should <= min
+            min = ct
+          end
+        end
+      end
     end
     context "while logged in as an art fan" do
       integrate_views

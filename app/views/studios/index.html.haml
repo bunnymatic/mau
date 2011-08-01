@@ -1,0 +1,14 @@
+%table.tbl-content
+  = render :partial => "/twocol_top"
+  %tr
+    %td.lcol{:colspan => 2}
+      = render :partial => 'studio_list'
+    %td.vstripe
+    %td.rcol{:colspan => 2}
+      #studio_page
+        = render :partial => 'view_switcher'
+
+        - if flash[:error]
+          .error-msg #{flass[:error]}       
+        = render :partial => 'thumbs', :locals => {:studios => @studios}
+  = render :partial => '/twocol_bottom'
