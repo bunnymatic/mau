@@ -1,0 +1,9 @@
+tag_one:
+  taggable_type: ArtPiece
+  taggable_id: <%= Fixtures.identify(:hot) %>
+
+tag_two:
+  taggable_type: ArtPiece
+  taggable_id: <%= Fixtures.identify(:not) %>
+  
+  
