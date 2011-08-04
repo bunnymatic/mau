@@ -1,0 +1,14 @@
+%table.tbl-content
+  = render :partial => '/twocol_top'
+  %tr
+    %td.lcol{:colspan => 2}
+      = render :partial => 'tag_list'
+    %td.vstripe
+    %td.rcol{:colspan => 2}
+      #search_results
+        - if flash[:error]
+          .error-msg #{flash[:error]}
+        - if @pieces.present?
+          = render :partial, '/art_pieces/thumbs', :locals => { :pieces => @pieces,:params => { :cols => 5, :show_footer => false, :size => 'thumb'  }}
+  = render :partial => '/twocol_bottom' %>
+

@@ -24,6 +24,25 @@ class ArtPieceTagsController < ApplicationController
     render :layout => "mau-admin"
   end
 
+  def cleanup
+    tags = ArtPieceTag.all
+    freq = ArtPieceTag.keyed_frequency
+    tags.each do |t|
+      if freq.keys.include? t.id.to_s
+        t['count'] = freq[ t.id.to_s ].to_f
+      else
+        t['count'] = 0
+      end
+    end
+    @tags = tags.sort { |a,b| a['count'] <=> b['count'] } 
+    @tags.each do |t|
+      if t['count'] <= 0
+        t.destroy
+      end
+    end
+    redirect_to '/admin/art_piece_tags'
+  end    
+
   def index
     xtra_params = Hash[ params.select{ |k,v| [:m,"m"].include? k } ]
     respond_to do |format|

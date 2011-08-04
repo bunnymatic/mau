@@ -7,9 +7,10 @@ two:
   name: Tag2
 
 
+
 <% ltrs = ('a'..'z').to_a << ' '
    nltrs = ltrs.length
-   w = ""
+   w = "ABC"
    260.times { |i| w<<ltrs[i%nltrs] }
 %>
 
