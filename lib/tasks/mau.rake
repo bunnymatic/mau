@@ -53,4 +53,52 @@ namespace :mau do
       end
     end
   end
+  
+  namespace :tags do
+    desc "downcase existing tags"
+    task :downcase => [:environment] do
+      ArtPieceTag.all.select{|t| t.name != t.name.downcase }.each do |t|
+        t.name = t.name.downcase
+        t.save!
+      end
+    end
+      
+    desc "remove duplicate tags"
+    task :cleanup => [:environment] do
+      all_tags = ArtPieceTag.all
+      tags_by_downcase = {}
+      all_tags.each do |t|
+        key = t.name.downcase
+        if !tags_by_downcase.has_key?(key)
+          tags_by_downcase[key] = {} 
+          lowercase_tag = nil
+          if key == t.name
+            lowercase_tag = t
+          else
+            lowercase_tag = ArtPieceTag.create(:name => key)
+          end
+          tags_by_downcase[key][:id] = t.id
+          tags_by_downcase[key][:tags] = [ t ]
+        else
+          tags_by_downcase[key][:tags] << t
+        end
+      end
+
+      ct = nil;
+      tags_by_downcase.each do |tagname, info|
+        newtag = ArtPieceTag.find_by_name(tagname)
+        ct = 0;
+        info[:tags].each do |tag|
+          to_update = ArtPiecesTag.find_all_by_art_piece_tag_id(tag.id)
+          to_update.each do |apjoin|
+            if apjoin.art_piece_tag_id != newtag.id
+              sql = "update art_pieces_tags set art_piece_tag_id = #{newtag.id} where art_piece_id = #{apjoin.art_piece_id} and art_piece_tag_id = #{apjoin.art_piece_tag_id}"
+              ActiveRecord::Base.connection.execute(sql)
+              ct += 1
+            end
+          end
+        end
+      end
+    end
+  end
 end

@@ -9,8 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :art_pieces
   
   map.autosuggesttag '/art_piece_tags/autosuggest', :controller => 'art_piece_tags', :action => 'autosuggest'
-  map.resources :art_piece_tags
-
+  map.resources :art_piece_tags, :collection => {:cleanup => :get}
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
