@@ -43,6 +43,7 @@ artpiece1:
   description: super hot description
   dimensions: hot x hot
   created_at:                <%= 7.days.ago.to_s :db  %>
+  artist: artist1
 
 artpiece2:
   filename: hot.jpg
@@ -50,6 +51,7 @@ artpiece2:
   description: super hot description
   dimensions: hot x hot
   created_at:                <%= 4.days.ago.to_s :db  %>
+  artist: artist1
 
 artpiece3:
   filename: hot.jpg
@@ -57,6 +59,7 @@ artpiece3:
   description: super hot description
   dimensions: hot x hot
   created_at:                <%= 2.hours.ago.to_s :db  %>
+  artist: artist1
 
 valid_dimensions:
   filename: not.jpg

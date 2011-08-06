@@ -115,11 +115,8 @@ describe Artist do
   describe "update" do
     before do 
       @a = users(:artist1)
-      @ai = artist_infos(:artist1)
-      @a.artist_info = @ai
     end
     it "should update bio" do
-      @a.bio.should eql(@ai.bio)
       @a.bio = 'stuff'
       @a.artist_info.save.should be_true
       a = Artist.find(@a.id)
@@ -153,85 +150,47 @@ describe Artist do
       @address_methods = [:address, :address_hash, :full_address]
     end
     describe 'artist info only' do
-      before do
-        @a = users(:artist1)
-        @a.artist_info = artist_infos(:artist1)
-        @a.save
-      end
       it "returns artist address" do
+        u = users(:joeblogs)
         @address_methods.each do |method|
-          @a.send(method).should_not be_nil
-          @a.send(method).should == @a.artist_info.send(method)
+          u.send(method).should_not be_nil
+          u.send(method).should == u.artist_info.send(method)
         end
       end
     end
     describe 'studio + artist info' do
-      before do
-        @a = users(:artist1)
-        @a.artist_info = artist_infos(:artist1)
-        @a.studio = studios(:s1890)
-        @a.save
-      end
       it "returns studio address" do
+        a = users(:jesseponce)
         @address_methods.each do |method|
-          @a.send(method).should_not be_nil
-          @a.send(method).should == @a.studio.send(method)
-        end
-      end
-    end
-    describe 'studio only' do
-      before do
-        @a = users(:artist1)
-        @a.studio = studios(:s1890)
-        @a.save
-      end
-      it "returns studio address" do
-        @address_methods.each do |method|
-          @a.send(method).should_not be_nil
-          @a.send(method).should == @a.studio.send(method)
+          a.send(method).should_not be_nil
+          a.send(method).should == a.studio.send(method)
         end
       end
     end
     describe 'neither address in artist info nor studio' do
-      it "returns nil" do
-        @address_methods.each do |method|
-          users(:artist1).send(method).should be_nil
-        end
+      it "returns empty for address" do
+        users(:noaddress).send(:address).should be_empty
+        hsh = users(:noaddress).send(:address_hash)
+        hsh[:geocoded].should be_false
+        hsh[:parsed][:street].should be_nil
+        hsh[:latlng].should == [nil,nil]
       end
     end
   end
   describe 'in_the_mission?' do
     it "returns true for artist in the mission with no studio" do
-      a = users(:artist1)
-      a.artist_info = artist_infos(:artist1)
-      a.save
+      a = users(:joeblogs)
       a.in_the_mission?.should be_true
     end
     it "returns true for artist in the mission with a studio in the mission" do
-      a = users(:artist1)
-      a.artist_info = artist_infos(:artist1)
-      a.studio = studios(:s1890)
-      a.save
-      a.in_the_mission?.should be_true
-    end
-    it "returns true for artist with a studio in the mission" do
-      a = users(:artist1)
-      a.studio = studios(:s1890)
-      a.save
-      a.in_the_mission?.should be_true
-    end
-    it "returns false for artist without any address" do
-      users(:artist1).in_the_mission?.should be_false
+      users(:jesseponce).in_the_mission?.should be_true
     end
     it "returns false for artist with wayout address" do
-      a = users(:artist1)
-      a.artist_info = artist_infos(:wayout)
-      a.save
+      a = users(:wayout)
       a.in_the_mission?.should be_false
     end
-    it "returns false for artist with wayout address but studio in the mission" do
-      a = users(:artist1)
-      a.artist_info = artist_infos(:wayout)
+    it "returns true for artist with wayout address but studio in the mission" do
+      a = users(:wayout)
       a.studio = studios(:blue)
       a.save
       a.in_the_mission?.should be_true
@@ -239,9 +198,6 @@ describe Artist do
   end
   describe 'find by fullname' do
     context ' after adding artist with firstname joe and lastname blogs ' do
-      before do
-        @a = users(:joeblogs)
-      end
       it "finds joe blogs" do
         artists = Artist.find_by_fullname('joe blogs')
         artists.length.should eql(1)
@@ -266,8 +222,6 @@ describe Artist do
   describe 'get from info' do
     before do
       @a = users(:artist1)
-      @ai = artist_infos(:artist1)
-      @a.artist_info = @ai
     end
     it "responds to method bio" do
       lambda { @a.bio }.should_not raise_error
@@ -282,17 +236,13 @@ describe Artist do
   describe "fetch address" do
     context "without studio association" do
       before do
-        @a = users(:artist1)
-        @a.save!
-        @b = artist_infos(:wayout)
-        @b.artist_id = @a.id
-        @b.save!
+        @a = users(:wayout)
       end
       it "returns correct street" do
-        @a.artist_info.street.should == @b.street
+        @a.artist_info.street.should == @a.street
       end
       it "returns correct address" do
-        @a.address.should include @b.street
+        @a.address.should include @a.street
       end
       it "returns correct lat/lng" do
         @a.artist_info.lat.should be
@@ -301,22 +251,17 @@ describe Artist do
     end
     context 'with studio association' do
       before do
-        @mystudio = studios(:s1890)
-        @myinfo = artist_infos(:wayout)
-        @a = users(:artist1)
-        @a.artist_info = @myinfo
-        @a.studio = @mystudio
-        @a.save
+        @a = users(:jesseponce)
       end
       it "returns correct street" do
-        @a.artist_info.street.should == @myinfo.street
+        @a.artist_info.street.should == @a.street
       end
       it "returns studio address" do
-        @a.address.should == @mystudio.address
+        @a.address.should == @a.address
       end
       it "returns correct artist info lat/lng" do
-        @a.artist_info.lat.should be_close(@myinfo.lat, 0.001)
-        @a.artist_info.lng.should be_close(@myinfo.lng, 0.001)
+        @a.artist_info.lat.should be_close(@a.lat, 0.001)
+        @a.artist_info.lng.should be_close(@a.lng, 0.001)
       end
     end
   end    
@@ -324,8 +269,6 @@ describe Artist do
     fixtures :media
     before do
       @a = users(:artist1)
-      @a.artist_info = artist_infos(:artist1)
-      @a.save
       media_ids = Medium.find(:all, :order => :name).map(&:id)
       8.times.each do |ct| 
         idx = ((media_ids.count-1)/(ct+1)).to_i
@@ -337,41 +280,18 @@ describe Artist do
       @a.primary_medium.should == media(:medium1)
     end
     it 'works with no media on artist' do
-      @a = users(:quentin)
-      lambda {@a.primary_medium}.should_not raise_error
+      lambda {users(:quentin).primary_medium}.should_not raise_error
     end
-
   end
      
 
   describe 'named scopes' do
-    before do
-      @a = users(:artist1)
-      @ai = artist_infos(:artist1)
-      @a.artist_info = @ai
-      @a.save
-      
-      @b = users(:joeblogs)
-      @bi = artist_infos(:joeblogs)
-      @b.artist_info = @bi
-      @b.save
-      
-      # make sure data is right
-      assert(Artist.all.length >= 2)
-    end
     describe ':open_studios_participants' do
-      it "returns 1 artist with no args" do
-        artists = Artist.open_studios_participants
-        artists.should have(1).artist
-        artists[0].id.should == @a.id
-        artists[0].os_participation['201104'].should be_true
-      end
-      ['201104','201110'].each do |arg|
-        it "returns 1 artist with '#{arg}'" do
-          artists = Artist.open_studios_participants(arg)
-          artists.should have(1).artist
-          artists[0].id.should == @a.id
-          artists[0].os_participation[arg].should be_true
+      [['201104',2],['201110',3]].each do |arg|
+        it "returns #{arg[1]} artist(s) with '#{arg[0]}'" do
+          artists = Artist.open_studios_participants(arg[0])
+          artists.should have(arg[1]).artists
+          artists[0].os_participation[arg[0]].should be_true
         end
       end
     end

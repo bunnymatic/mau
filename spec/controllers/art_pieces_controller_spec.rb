@@ -34,17 +34,9 @@ describe ArtPiecesController do
     ap.medium_id = nil
     ap.save!
     art_pieces << ap
-    info = artist_infos(:artist1)
-    info.artist_id = a.id
-    info.save!
-
-    a.artist_info = info
     @artist = a
     @artpieces = art_pieces
 
-    jb = artist_infos(:joeblogs)
-    jb.artist_id = users(:joeblogs).id
-    jb.save
   end
 
   describe "#show" do

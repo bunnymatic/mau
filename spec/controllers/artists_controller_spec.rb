@@ -11,9 +11,8 @@ describe ArtistsController do
   fixtures :roles
 
   describe "#index" do
+    integrate_views
     before do 
-      @a = users(:artist1)
-      @a.artist_info = artist_infos(:artist1)
       get :index
     end
     it "returns success" do
@@ -22,17 +21,20 @@ describe ArtistsController do
     it "assigns artists" do
       assigns(:artists).length.should have_at_least(2).artists
     end
+    it "set the title" do 
+      assigns(:page_title).should == 'Mission Artists United - MAU Artists'
+    end
     it "artists are all active" do
       assigns(:artists).each do |a|
         a.state.should == 'active'
       end
     end
   end
+
   describe "#update" do
     integrate_views
     before(:each) do
       @a = users(:artist1)
-      @a.artist_info = artist_infos(:artist1)
       @a.artist_info.open_studios_participation = '';
       @a.save
       @a.reload
@@ -87,7 +89,7 @@ describe ArtistsController do
           flash[:notice].should eql "Update successful"
         end
         it "updates user address" do
-          User.find(@logged_in_user.id).address.should include '100 main st'
+          User.find(@logged_in_user.id).artist_info.address.should include '100 main st'
         end
       end
       context "update os status" do
@@ -105,20 +107,6 @@ describe ArtistsController do
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'false' }}}}
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil
         end
-        it "does not set true if artist has no address" do
-          ai = @logged_in_user.artist_info
-          ai.lat = nil
-          ai.lng = nil
-          ai.street = ''
-          ai.city = ''
-          ai.addr_state = ''
-          ai.zip = ''
-          ai.open_studios_participation = ''
-          ai.save
-          @logged_in_user.reload
-          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => true }}}}
-          User.find(@logged_in_user.id).os_participation['201104'].should be_nil
-        end
         it "sets false if artist has no address" do
           ai = @logged_in_user.artist_info
           ai.lat = nil
@@ -129,6 +117,9 @@ describe ArtistsController do
           ai.zip = ''
           ai.open_studios_participation = ''
           ai.save
+          @logged_in_user.studio_id = 0
+          @logged_in_user.save
+          @logged_in_user.reload
           @logged_in_user.reload
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => false }}}}
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil
@@ -140,10 +131,6 @@ describe ArtistsController do
   describe "#edit" do
     before(:each) do
       @a = users(:artist1)
-      @a.save!
-      @b = artist_infos(:artist1)
-      @b.artist_id = @a.id
-      @b.save!
     end
     context "while not logged in" do
       before(:each) do 
@@ -215,17 +202,9 @@ describe ArtistsController do
   describe "show" do
     integrate_views
 
-    before(:each) do 
-      @a = users(:artist1)
-      @b = artist_infos(:artist1)
-      @a.save
-      @b.artist_id = @a.id
-      @b.save
-    end
-
     context "while not logged in" do
       before(:each) do 
-        get :show, :id => @a.id
+        get :show, :id => users(:artist1).id
       end
       it "returns a page" do
         response.should be_success
@@ -255,6 +234,7 @@ describe ArtistsController do
 
     context "while logged in" do
       before do
+        @a = users(:artist1)
         login_as(@a)
         @logged_in_user = @a
         get :show, :id => @a.id
@@ -285,11 +265,7 @@ describe ArtistsController do
       end
       context "looking at someone elses page" do
         before(:each) do 
-          a = users(:joeblogs)
-          b = artist_infos(:joeblogs)
-          b.artist_id = a.id
-          b.save
-          get :show, :id => a.id
+          get :show, :id => users(:joeblogs).id
         end
         it_should_behave_like "logged in user"
         it "should have heart icon" do
@@ -321,20 +297,21 @@ describe ArtistsController do
     context "after an artist favorites another artist and show the artists page" do
       before do
         a = users(:joeblogs)
-        @a.add_favorite(a)
-        login_as(@a)
-        get :show, :id => @a.id
+        users(:artist1).add_favorite(a)
+        login_as(users(:artist1))
+        get :show, :id => users(:artist1).id
       end
       it "returns success" do
         response.should be_success
       end
       it "shows favorites on show page with links" do
-        response.should have_tag("#my_favorites label a[href=#{favorites_user_path(@a)}]");
+        response.should have_tag("#my_favorites label a[href=#{favorites_user_path(users(:artist1))}]");
       end
     end
 
     context "while not logged in" do
       before(:each) do 
+        @a = users(:artist1)
         get :show, :id => @a.id
       end
       it_should_behave_like "not logged in"
@@ -355,23 +332,12 @@ describe ArtistsController do
       # stash an artist and art pieces
       apids =[]
       a = users(:artist1)
-      a.save!
       ap = art_pieces(:artpiece1)
-      ap.artist_id = a.id
-      ap.save!
       apids << ap.id
       ap = art_pieces(:artpiece2)
-      ap.artist_id = a.id
-      ap.save!
       apids << ap.id
       ap = art_pieces(:artpiece3)
-      ap.artist_id = a.id
-      ap.save!
       apids << ap.id
-      info = artist_infos(:artist1)
-      info.artist_id = a.id
-      info.save!
-      a.artist_info = info
       @artist = a
       @artpieces = apids
     end
@@ -448,14 +414,6 @@ describe ArtistsController do
     integrate_views
     describe 'all artists' do
       before do
-        a = users(:artist1)
-        a.artist_info =  artist_infos(:wayout)
-        a.save!
-        
-        a2 = users(:joeblogs)
-        a2.studio = studios(:s1890)
-        a2.artist_info = artist_infos(:joeblogs)
-        a2.save!
         get :map
       end
       it "returns success" do
@@ -483,15 +441,12 @@ describe ArtistsController do
         end
       end
       it "get's map info all artists" do
-        ArtistsController.any_instance.expects(:get_map_info).times(assigns(:roster).count)
+        ArtistsController.any_instance.expects(:get_map_info).times(assigns(:roster).values.flatten.count)
         get :map
       end
     end
     describe 'os only' do
       before do
-        a = users(:artist1)
-        a.artist_info = artist_infos(:artist1)
-        a.save
         get :map, :osonly => true
       end
       it "returns success" do
@@ -550,7 +505,6 @@ describe ArtistsController do
         Artist.any_instance.stubs(:os_participation => {})
         a = users(:artist1)
         a.roles << Role.find_by_role('admin')
-        a.artist_info = artist_infos(:artist1)
         a.save
         a.reload
         login_as(a)
@@ -583,6 +537,8 @@ describe ArtistsController do
       deleteart_artists_path.should == "/artists/deleteart"
     end      
   end
+
+
   describe "- route recognition" do
     context "/artists/edit" do
       it "map get to artists controller edit method" do

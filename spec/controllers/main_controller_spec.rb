@@ -311,33 +311,15 @@ describe MainController do
           ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104|201110'")
           Artist.any_instance.stubs(:in_the_mission? => true)
           a = users(:jesseponce)
-          ai = artist_infos(:jesseponce)
-          a.artist_info = ai
-          a.save
           s = studios(:s1890)
           a.studio = s
           a.save
 
           a = users(:artist1)
-          ai = artist_infos(:artist1)
-          a.artist_info = ai
-          a.save
           s = studios(:blue)
           a.studio = s
           a.save
           
-          b = users(:joeblogs)
-          bi = artist_infos(:joeblogs)
-          b.artist_info = bi
-          b.studio_id = 0
-          b.save
-
-          c = users(:annafizyta)
-          ci = artist_infos(:annafizyta)
-          c.artist_info = ci
-          c.studio_id = 0
-          c.save
-
           get :openstudios
         end
         it_should_behave_like "not logged in"

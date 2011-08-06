@@ -165,11 +165,6 @@ class ArtistsController < ApplicationController
   
   def index
     respond_to do |format| 
-      format.mobile { 
-        @artists = []
-        @page_title = "Artists"
-        render :layout => 'mobile' 
-      }
       format.html {
         # collect query args to build links
         queryargs = {}
@@ -287,6 +282,12 @@ class ArtistsController < ApplicationController
           render :action => 'index', :layout => 'mau1col'
         end      
       }
+      format.mobile { 
+        @artists = []
+        @page_title = "Artists"
+        render :layout => 'mobile' 
+      }
+
     end
   end
 
