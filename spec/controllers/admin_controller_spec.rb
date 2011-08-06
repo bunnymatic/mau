@@ -59,7 +59,7 @@ describe AdminController do
     end
     it 'assigns correct values for artists last month' do
       assigns(:activity_stats)[:last_30_days][:artists_activated].should == 3
-      assigns(:activity_stats)[:last_30_days][:artists_added].should == 8
+      assigns(:activity_stats)[:last_30_days][:artists_added].should == 10
     end
     it 'has totals' do
       assigns(:activity_stats)[:total].should be
@@ -234,15 +234,11 @@ describe AdminController do
         u2 = users(:jesseponce)
         u3 = users(:annafizyta)
         
-        artist = users(:artist1)
-        artist.artist_info = artist_infos(:artist1)
-        artist.save
-        
         a1 = ArtPiece.first
-        a1.artist = artist
+        a1.artist = users(:artist1)
         a1.save
         a2 = ArtPiece.last
-        a2.artist = artist
+        a2.artist = users(:artist1)
         a2.save
         
         ArtPiece.any_instance.stubs(:artist => stub(:id => 42, :emailsettings => {'favorites' => false}))

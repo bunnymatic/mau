@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 Rails.cache.stubs(:read).returns(:nil)
 
 describe User do
-  fixtures :users, :artist_infos, :studios, :roles
+  fixtures :users, :studios, :roles
 
   describe 'named scope' do
     it "active returns only active users" do
@@ -91,30 +91,7 @@ describe User do
       users(:artist1).should respond_to :full_address
     end
     it "returns nothing" do
-      users(:artist1).address.should_not be
-    end
-    it "returns address after adding artist info address" do
-      aid = users(:artist1).id
-      ai = artist_infos(:wayout)
-      ai.artist_id = aid
-      ai.save
-      users(:artist1).address.should include ai.street
-    end
-    it "returns studio address after adding studio" do
-      u = users(:artist1)
-      u.studio = studios(:s1890)
-      u.save
-      users(:artist1).address.should include studios(:s1890).street
-    end
-    it "returns studio address after adding both studio and address" do
-      u = users(:artist1)
-      u.studio = studios(:s1890)
-      u.save
-      aid = u.id
-      ai = artist_infos(:wayout)
-      ai.artist_id = aid
-      ai.save
-      users(:artist1).address.should include studios(:s1890).street
+      users(:noaddress).address.should be_empty
     end
   end
   describe "unavailable methods" do
