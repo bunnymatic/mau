@@ -9,6 +9,7 @@ describe ArtistsController do
   fixtures :art_pieces
   fixtures :studios
   fixtures :roles
+  fixtures :media
 
   describe "#index" do
     integrate_views
@@ -27,6 +28,14 @@ describe ArtistsController do
     it "artists are all active" do
       assigns(:artists).each do |a|
         a.state.should == 'active'
+      end
+    end
+    it "thumbs have representative art pieces in them" do
+      assigns(:artists).each do |a|
+        if a.representative_piece
+          path = a.representative_piece.filename
+          response.should have_tag(".allthumbs .thumb .thumb img[src*=#{path}]")
+        end
       end
     end
   end

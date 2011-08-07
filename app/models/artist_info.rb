@@ -38,7 +38,6 @@ class ArtistInfo < ActiveRecord::Base
     aps = []
     if self.representative_art_piece && self.representative_art_piece > 0
       begin
-        p "Putting #{self.representative_art_piece} at the top"
         rep = ArtPiece.find(self.representative_art_piece)
         aps << rep
       rescue ActiveRecord::RecordNotFound

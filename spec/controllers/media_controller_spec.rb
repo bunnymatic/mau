@@ -4,6 +4,7 @@ describe MediaController do
   
   fixtures :media
   fixtures :art_pieces
+  fixtures :artist_infos
   fixtures :users
   before do
     
