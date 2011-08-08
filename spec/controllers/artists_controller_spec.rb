@@ -31,12 +31,15 @@ describe ArtistsController do
       end
     end
     it "thumbs have representative art pieces in them" do
+      ct = 0
       assigns(:artists).each do |a|
         if a.representative_piece
+          ct+=1
           path = a.representative_piece.filename
           response.should have_tag(".allthumbs .thumb .thumb img[src*=#{path}]")
         end
       end
+      assert ct > 0, "we didn't have any representatives in the fixtures"
     end
   end
 
@@ -359,7 +362,7 @@ describe ArtistsController do
       aps = @artist.art_pieces
       aps.count.should == 3
       aps[0].title.should == "third"
-      aps[1].title.should == "second"
+      aps[1].title.should == "art piece 2"
       aps[2].title.should == "first"
     end
     context "while logged" do
@@ -375,11 +378,10 @@ describe ArtistsController do
         a = Artist.find(@artist.id)
         aps = a.art_pieces
         aps.count.should == 3
-        aps[0].title.should == "second"
+        aps[0].title.should == "art piece 2"
         aps[1].title.should == "first"
         aps[2].title.should == "third"
-        aps[0].artist.artist_info.representative_piece.id.should==aps[0].id
-        
+        aps[0].artist.representative_piece.id.should==aps[0].id
       end
 
       it "returns art_pieces in new order (1,3,2)" do
@@ -393,8 +395,8 @@ describe ArtistsController do
         aps.count.should == 3
         aps[0].title.should == "first"
         aps[1].title.should == "third"
-        aps[2].title.should == "second"
-        aps[0].artist.artist_info.representative_piece.id.should==aps[0].id
+        aps[2].title.should == "art piece 2"
+        aps[0].artist.representative_piece.id.should==aps[0].id
       end
     end
   end

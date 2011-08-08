@@ -10,7 +10,6 @@ artist1:
   lat: 37.761299
   lng: -122.4279267
   artist: artist1
-  representative_art_piece: artpiece3
 
 joeblogs:
   facebook: http://facebook.com/aaron
@@ -24,7 +23,6 @@ joeblogs:
   lat: 37.761
   lng: -122.427
   artist: joeblogs
-  representative_art_piece: not
   
 wayout:
   street: 2400 40th st
@@ -46,7 +44,6 @@ annafizyta:
   lat: 37.761299
   lng: -122.4279267
   artist: annafizyta
-  representative_art_piece: name_with_tag
 
 jesseponce:
   facebook: http://facebook.com/jesse

@@ -91,13 +91,11 @@ describe User do
       users(:artist1).should respond_to :full_address
     end
     it "returns nothing" do
-      users(:noaddress).address.should be_empty
+      users(:noaddress).address.should_not be_present
     end
   end
   describe "unavailable methods" do
-    fixtures :users
     it "doesn't reply to old artists attributes" do
-      pending "we need to remove these fields from user when shit is working"
       [:lat, :lng, :bio, :street, :city, :zip].each do |method|
         users(:maufan1).should_not respond_to method
       end
@@ -105,8 +103,6 @@ describe User do
   end    
   
   describe 'favorites -'  do
-    fixtures :users, :art_pieces
-    
     describe "adding artist as favorite to a user" do
       before do
         @u = users(:maufan1) # he's a fan
@@ -176,9 +172,7 @@ describe User do
     describe "narcissism" do
       before do
         @a = users(:artist1)
-        @ap = art_pieces(:hot)
-        @ap.artist = @a
-        @ap.save
+        @ap = @a.art_pieces.first
       end
       it "favoriting yourself is not allowed" do
         @a.add_favorite(@a).should be_false
@@ -195,10 +189,8 @@ describe User do
     describe "mailer notifications" do
       before do
         @u = users(:maufan1) # he's a fan
-        @ap = art_pieces(:hot)
         @owner = users(:artist1)
-        @ap.artist = @owner
-        @ap.save
+        @ap = @owner.art_pieces.first
       end
       it "add art_piece favorite sends favorite notification to owner" do
         ArtistMailer.expects('deliver_favorite_notification').with(@owner, @u).once
@@ -222,10 +214,8 @@ describe User do
     describe "adding art_piece as favorite" do
       before do
         @u = users(:maufan1) # he's a fan
-        @ap = art_pieces(:hot)
         @owner = users(:artist1)
-        @ap.artist = @owner
-        @ap.save
+        @ap = @owner.art_pieces.first
         @u.add_favorite(@ap)
       end
       it "all users favorites should be either of type Artist or ArtPiece" do
@@ -284,7 +274,6 @@ describe User do
   end
 
   describe "forgot password methods" do 
-    fixtures :users
     context "artfan" do
       it "create_reset_code should call mailer" do
         UserMailer.expects(:deliver_reset_notification).with() do |f|
@@ -361,7 +350,6 @@ describe User do
   end
 
   describe "ImageDimensions helper" do
-    fixtures :users
     it "get_scaled_dimensions returns input dimension given user profile with no dimensions" do
       u = users(:maufan1)
       u.get_scaled_dimensions(100).should == [100,100]

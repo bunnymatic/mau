@@ -19,54 +19,54 @@ not:
   artist: joeblogs
 
 h1024w2048:
-  filename: not.jpg
-  title: not title
-  description: super not description
+  filename: h1024.jpg
+  title: h1024 title
+  description: h1024 description
   medium_id: <%= Fixtures.identify(:medium2) %>
-  dimensions: not x not
+  dimensions: this x that
   image_height: 1024
   image_width: 2048
   created_at:                <%= 3.days.ago.to_s :db  %>
 
 negative_size:
-  filename: not.jpg
-  title: not title
-  description: super not description
+  filename: negative.jpg
+  title: negative title
+  description: super negative description
   medium_id: <%= Fixtures.identify(:medium2) %>
-  dimensions: not x not
+  dimensions: negative x negative
   image_height: -1024
   image_width: -2048
   created_at:                <%= 6.days.ago.to_s :db  %>
 
 artpiece1:
-  filename: hot.jpg
+  filename: art piece 1.jpg
   title: first
-  description: super hot description
-  dimensions: hot x hot
+  description: super art piece1 description
+  dimensions: 1 x 1
   created_at:                <%= 7.days.ago.to_s :db  %>
   artist: artist1
 
 artpiece2:
-  filename: hot.jpg
-  title: second
-  description: super hot description
-  dimensions: hot x hot
+  filename: art piece 2.jpg
+  title: art piece 2
+  description: art piece 2 description
+  dimensions: 2 x 2
   created_at:                <%= 4.days.ago.to_s :db  %>
   artist: artist1
 
 artpiece3:
-  filename: hot.jpg
+  filename: third.jpg
   title: third
-  description: super hot description
-  dimensions: hot x hot
+  description: third description
+  dimensions: 3 x 3
   created_at:                <%= 2.hours.ago.to_s :db  %>
   artist: artist1
 
 valid_dimensions:
-  filename: not.jpg
-  title: not title
-  description: super not description
-  dimensions: not x not
+  filename: valid_dim.jpg
+  title: valid dim
+  description: this has valid dimensions
+  dimensions: who by what
   image_height: 1024
   image_width: 2048
   created_at:                <%= 12.hours.ago.to_s :db  %>

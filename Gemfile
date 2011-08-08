@@ -29,4 +29,6 @@ group :test, :development do
   gem 'mocha','0.9.10'
   gem 'rspec','1.3.1'
   gem 'rspec-rails','1.3.2'
+  gem 'ZenTest'
+  gem 'autotest-rails'
 end

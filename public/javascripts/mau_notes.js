@@ -95,6 +95,7 @@ FormConstructors.inquiry = {
 
 FormConstructors.event_submission = {
   title: "My Art Show",
+  login_required: true,
   render: function() {
     var el = new Element('div');
     el.innerHTML = "Tell us about your art show or event.  We'll help you plug it by posting it on our Facebook and Twitter.";
@@ -255,7 +256,7 @@ Object.extend(MAU.NotesMailer.prototype, {
     if ($$(this._parent_class(true)).length == 0 ) {
       var note_class = _that.options.note_class;
       var formbuilder = _that.form_builders[note_class];
-      if (_that.form_builders.login_required && !_that.options.username) {
+      if (formbuilder.login_required && !_that.options.username) {
         formbuilder = _that.form_builders['login_required'];
       }
       var inner = '';

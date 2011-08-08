@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110710024344) do
+ActiveRecord::Schema.define(:version => 20110807232907) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(:version => 20110710024344) do
     t.string   "flickr",                     :limit => 200
     t.integer  "zip"
     t.integer  "max_pieces",                                :default => 20
-    t.integer  "representative_art_piece"
     t.string   "studionumber"
     t.boolean  "osoct2010",                                 :default => false
     t.boolean  "os2010",                                    :default => false
@@ -198,8 +197,6 @@ ActiveRecord::Schema.define(:version => 20110710024344) do
     t.string   "phone",                     :limit => 16
     t.string   "url",                       :limit => 200
     t.string   "profile_image",             :limit => 200
-    t.text     "bio"
-    t.text     "news"
     t.integer  "studio_id"
     t.string   "facebook",                  :limit => 200
     t.string   "twitter",                   :limit => 200
@@ -215,14 +212,24 @@ ActiveRecord::Schema.define(:version => 20110710024344) do
     t.integer  "image_width",                              :default => 0
     t.integer  "max_pieces",                               :default => 20
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
-    t.integer  "representative_art_piece"
-    t.boolean  "os2010",                                   :default => false
-    t.boolean  "osoct2010",                                :default => false
     t.string   "studionumber"
     t.string   "type",                                     :default => "Artist"
     t.date     "mailchimp_subscribed_at"
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
+
+  create_table "venues", :force => true do |t|
+    t.string   "phone",         :limit => 16
+    t.string   "url",           :limit => 200
+    t.string   "profile_image", :limit => 200
+    t.string   "street",        :limit => 200
+    t.string   "city",          :limit => 200
+    t.string   "state",         :limit => 4
+    t.integer  "zip"
+    t.string   "description",   :limit => 2000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
