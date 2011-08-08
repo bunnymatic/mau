@@ -351,6 +351,13 @@ a.lksubtle, a.lksubtle:link, a.lksubtle:visited ,a.lksubtle:active {
   }
 }
 
+a.lkthumb, a.lkthumb:link, a.lkthumb:visited, a.lkthumb:active {
+  color: $white;
+  &:hover {
+    color: $bluegray;
+  }
+}
+
 a.formbutton {
   &:link, &:visited, &active {
     color: #422;
@@ -1667,23 +1674,27 @@ span.rightarrow
     line-height:0;
   }
   &.with-foot {
-    min-height: 144px;
     margin-bottom: 20px;
   }
   .name {
-    width: 100px;
-    margin: 4px 4px 8px;
-    font-size: x-small;
     position: absolute;
-    bottom: 0px;
+    top: 89px;
+    left: 7px;
+    background-color: #333;
+    height: auto;
+    line-height: auto;
+    width: 100px;
+    padding: 4px 0;
+    opacity: 0.6;
+    font-size: x-small;
     text-align: center;
     a {
       text-align: center;
     }
+    overflow:hidden;
+    white-space: nowrap;
   }
 }
-
-
 
 .artp-thumb-ctrl {
   width: 100px;
@@ -2712,6 +2723,9 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     width: 500px;
     margin: 16px auto 10px auto;
     @include little-text;
+  }
+  .allthumbs .artp-thumb-container.with-foot {
+    min-height: 144px;
   }
 }
 #arrange_art_help {
