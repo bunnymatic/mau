@@ -1,0 +1,7 @@
+- if studios
+-   ncols = 3
+-   ctr = 0
+- studios.each_with_index do |s, idx|
+  = render :partial => 'thumb', :locals => {:studio => s}
+  - if ((idx + 1) % ncols) == 0
+    .clear

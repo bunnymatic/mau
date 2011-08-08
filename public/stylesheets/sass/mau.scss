@@ -1049,7 +1049,7 @@ margin: 0 0 20px 0;
 #all_artists_page {
   padding-bottom: 20px;
   margin:auto;
-  width:800px;
+  width: 798px;
   h4 { 
     text-align:center; 
   }
@@ -1058,19 +1058,21 @@ margin: 0 0 20px 0;
   }
 }
 
-.roster-container, .artists_block {
-  .navlinks {
-    text-align:right;
-  }
+.navlinks {
+  text-align:right;
+  margin-right: 5px;
 }
+
 #map_page{
   margin:auto;
   width:800px;
   .navlinks, .map-os-switch {
     padding-top: 25px;
     padding-bottom: 5px;
+    margin-left: 0;
   }
   .navlinks {
+    margin-right: 0;
     text-align:right;
   }
 }
@@ -1749,7 +1751,7 @@ span.rightarrow
   .navlinks {
     text-align: right;
     vertical-align: middle;
-    margin-right: 10px;
+    margin-right: 14px;
     @include little-text;
   }	
 }
@@ -2435,7 +2437,7 @@ form#feedback_form .error {
    map page
    **/
 .map-container { float: right; }
-.map-os-switch { font-size: 80%; float: left; margin-bottom: 6px;}
+.map-os-switch { font-size: 80%; float: left; margin-left: 5px; margin-bottom: 6px;}
 #all_artists_page .map-os-switch { float: left; }
 
 .map-roster { 

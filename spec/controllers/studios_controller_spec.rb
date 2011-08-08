@@ -33,7 +33,7 @@ describe StudiosController do
           assigns(:view_mode).should == 'count'
         end
         it "studios are sorted by count descending" do
-          artist_count = assigns(:studios).map{|s| s.artists.active.count}
+          artist_count = assigns(:studios_by_count).map{|s| s.artists.active.count}
           min = artist_count.first
           artist_count.each do |ct|
             ct.should <= min

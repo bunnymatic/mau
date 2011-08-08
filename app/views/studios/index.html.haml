@@ -10,5 +10,5 @@
 
         - if flash[:error]
           .error-msg #{flass[:error]}       
-        = render :partial => 'thumbs', :locals => {:studios => @studios}
+        = render :partial => 'thumbs', :locals => {:studios => (@studios_by_count || @studios) }
   = render :partial => '/twocol_bottom'

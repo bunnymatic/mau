@@ -20,7 +20,8 @@ class StudiosController < ApplicationController
     @view_mode = (params[:v] == 'c') ? 'count' : 'name'
     @studios = get_studio_list
     @admin = logged_in? && self.current_user.is_admin?
-    @studios.sort!{|a,b| b.artists.active.count <=> a.artists.active.count} if @view_mode == 'count'
+    @studios_by_count = nil
+    @studios_by_count = @studios.sort{|a,b| b.artists.active.count <=> a.artists.active.count} if @view_mode == 'count'
     respond_to do |format|
       format.html { render :layout => 'mau' }
       format.mobile { 
