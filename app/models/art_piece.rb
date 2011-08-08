@@ -7,6 +7,8 @@ class ArtPiece < ActiveRecord::Base
   has_many :art_pieces_tags
   has_many :art_piece_tags, :through => :art_pieces_tags
 
+  default_scope :order => '`order`'
+
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 

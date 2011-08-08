@@ -151,8 +151,6 @@ annafizyta:
   blog: ""
   remember_token_expires_at: 
   crypted_password: 837c282481ebc9cb902befcf91cbb0d92af08672
-  osoct2010: "1"
-  os2010: "0"
   updated_at: 2010-08-30 22:26:27
   url: ""
   lastname: Fizyta
@@ -164,7 +162,6 @@ annafizyta:
   phone: ""
   firstname: Anna
   facebook: ""
-  bio: ""
   login: annafizyta
   state: active
   activated_at: 2010-07-29 06:39:33
@@ -180,15 +177,12 @@ jesseponce:
   created_at: 2011-01-29 01:39:14
   max_pieces: "20"
   crypted_password: 7eeac56224eb57e429385a2e444c71f49ed3677f
-  osoct2010: "0"
-  os2010: "0"
   updated_at: 2011-02-01 13:18:38
   url: ""
   lastname: ponce
   type: Artist
   image_width: "480"
   studio: s1890
-  representative_art_piece: "3002"
   profile_image: public/artistdata/367/profile/profile.JPG
   firstname: jesse
   login: ponceart

@@ -14,7 +14,7 @@ end
 
 describe Artist do
   include ArtistSpecHelper
-  fixtures :users, :artist_infos, :studios
+  fixtures :users, :artist_infos, :studios, :art_pieces
 
   describe "create" do
     describe 'auth helpers' do
@@ -283,7 +283,31 @@ describe Artist do
       lambda {users(:quentin).primary_medium}.should_not raise_error
     end
   end
-     
+
+  describe 'representative piece' do
+    before do 
+      Artist.all.map(&:art_pieces).flatten.count.should > 2
+    end
+    it 'is included in the users art pieces' do
+      Artist.all.each do |a|
+        unless a.art_pieces.empty?
+          a.art_pieces.should include a.representative_piece
+        end
+      end
+    end
+    it 'is nil for users with no art pieces' do
+      Artist.all.each do |a|
+        if a.art_pieces.empty?
+          a.representative_piece.should be_nil
+        end
+      end
+    end
+    it 'is the same as the first piece from art_pieces' do
+      a = users(:artist1)
+      a.representative_piece.should == a.art_pieces[0]
+    end
+
+  end
 
   describe 'named scopes' do
     describe ':open_studios_participants' do

@@ -316,27 +316,10 @@ class ArtistsController < ApplicationController
   end
 
   def setarrangement
-    if params.has_key? :art
-      ap = params[:art]
-      # double check that represenative is in this artist's collection
-      if ap.artist_id != current_user.id
-        flash[:error] = "There was a problem setting your representative image."
-        redirect_to user_path(current_artist)
-        return
-      end
-      current_user.representative_art_piece = ap
-      if current_user.save!
-        flash[:notice] = "Your representative image has been updated."
-      else
-        flash[:error] = "There was a problem setting your representative image."
-      end
-    elsif params.has_key? :neworder
+    if params.has_key? :neworder
       # new endpoint for rearranging - more than just setting representative
       neworder = params[:neworder].split(',')
-      new_rep = neworder[0]
       ctr = 0
-      current_artist.representative_art_piece = new_rep
-      current_artist.save
       begin
         neworder.each do |apid|
           a = ArtPiece.find(apid)
