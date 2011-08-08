@@ -38,7 +38,6 @@
      end 
 -%><% 
  if piece 
-     representative = (piece.id == piece.artist.representative_art_piece)
      if delete -%><div class="artp-thumb-ctrl">
       <%= check_box( 'art', piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0") %>Delete?</div><% 
      elsif select 
