@@ -91,6 +91,8 @@ ActiveRecord::Schema.define(:version => 20110807232907) do
     t.datetime "starttime"
     t.datetime "endtime"
     t.string   "url"
+    t.float    "lat"
+    t.float    "lng"
   end
 
   create_table "favorites", :force => true do |t|
