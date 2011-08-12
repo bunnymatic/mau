@@ -3,6 +3,15 @@ class EventsController < ApplicationController
   before_filter :admin_required
   layout 'mau1col'
   
+  def admin_index
+    @events = Event.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @events }
+    end
+  end
+
   # GET /events
   # GET /events.xml
   def index
@@ -29,16 +38,13 @@ class EventsController < ApplicationController
   # GET /events/new.xml
   def new
     @event = Event.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @event }
-    end
+    render 'new_or_edit', :layout => 'mau-admin'
   end
 
   # GET /events/1/edit
   def edit
     @event = Event.find(params[:id])
+    render 'new_or_edit', :layout => 'mau-admin'
   end
 
   # POST /events
@@ -52,7 +58,7 @@ class EventsController < ApplicationController
         format.html { redirect_to(@event) }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
-        format.html { render :action => "new" }
+        format.html { render "new_or_edit", :layout => 'mau-admin'}
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end
@@ -69,7 +75,7 @@ class EventsController < ApplicationController
         format.html { redirect_to(@event) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render "new_or_edit", :layout => 'mau-admin' }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end

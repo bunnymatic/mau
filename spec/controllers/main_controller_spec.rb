@@ -456,6 +456,12 @@ EOM
       it "reports event description is required" do
         @resp['messages'].should include 'You must provide eventdesc'
       end
+      it "reports event address is required" do
+        @resp['messages'].should include 'You must provide eventaddress'
+      end
+      it "reports event time is required" do
+        @resp['messages'].should include 'You must provide eventtimedate'
+      end
     end
       
     describe "submission given note_type feedlink with email only" do
@@ -504,19 +510,21 @@ EOM
         before do
           FeedbackMailer.expects(:deliver_feedback).never()
           xhr :post, :notes_mailer, :note_type => 'event_submission', :email => 'a@b.com',
-              :eventlink => 'http://stuff', :eventdesc => 'check this shit out', :eventtimedate => "tomorrow, at 10p", :eventlocation => 'My house at green and van ness'
+              :eventlink => 'http://stuff', :eventdesc => 'check this shit out', :eventtimedate => "tomorrow, at 10p", :eventtitle => 'this event title', :eventvenuename => 'v name', :eventaddress => 'green and van ness', :eventmauartists => 'joe, jim, lonny'
           @resp = JSON::parse(response.body)
         end
         it_should_behave_like "successful notes mailer response"
         it "message includes all the deets" do
           FeedbackMailer.expects(:deliver_event).with() do |f|
-            f.comment.should include 'check this shit out'
-            f.comment.should include 'My house at green'
-            f.comment.should include 'tomorrow, at 10'
-            f.comment.should include '//stuff'
+            f.comment.should include 'Info: check this shit out'
+            f.comment.should include 'Title: this event'
+            f.comment.should include 'Address: green'
+            f.comment.should include '/Date: tomorrow, at 10'
+            f.comment.should include 'Link: http://stuff'
+            f.comment.should include 'Artists: joe, jim, lonny'
           end
           xhr :post, :notes_mailer, :note_type => 'event_submission', :email => 'a@b.com',
-              :eventlink => 'http://stuff', :eventdesc => 'check this shit out', :eventtimedate => "tomorrow, at 10p", :eventlocation => 'My house at green and van ness'
+              :eventlink => 'http://stuff', :eventdesc => 'check this shit out', :eventtimedate => "tomorrow, at 10p", :eventtitle => 'this event title', :eventvenuename => 'v name', :eventaddress => 'green and van ness', :eventmauartists => 'joe, jim, lonny'
         end
       end
 

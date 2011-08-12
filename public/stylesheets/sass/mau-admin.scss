@@ -101,21 +101,23 @@ body.admin {
   h1, h2 {
     margin-left: 10px;
   }
-  .section { 
-    width: 178px;
-    float: left;
-    padding: 10px 10px 20px;
-    margin:10px;
-    border: 1px dotted #444;
-    &.graph {
-      width: 395px;
-      h3 {
-        padding-bottom: 10px;
+  #dashboard {
+    .section { 
+      width: 178px;
+      float: left;
+      padding: 10px 10px 20px;
+      margin:10px;
+      border: 1px dotted #444;
+      &.graph {
+        width: 395px;
+        h3 {
+          padding-bottom: 10px;
+        }
       }
     }
-    &.markdown-input, &.markdown-results {
-      width: 45%;
-    }
+  }
+  &.markdown-input, &.markdown-results {
+    width: 45%;
   }
   .singlecolumn {
     tr:first-child {
@@ -210,5 +212,20 @@ body.admin {
   width:800px;
   a {
     padding: 5px;
+  }
+}
+
+#event_edit {
+  width: 850px;
+  margin: auto;
+  .section {
+    .entry {
+      vertical-align: top;
+      margin: 5px;
+      padding: 5px;
+      label {
+        width: 150px;
+      }
+    }
   }
 }

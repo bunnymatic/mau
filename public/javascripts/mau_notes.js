@@ -98,14 +98,14 @@ FormConstructors.event_submission = {
   login_required: true,
   render: function() {
     var el = new Element('div');
-    el.innerHTML = "Tell us about your art show or event.  We'll help you plug it by posting it on our Facebook and Twitter.";
+    el.innerHTML = "Tell us about your art show or event.  We'll help you plug it by posting it on our Facebook and Twitter.  Please give as much information as you can.";
 
     var inputs = new Element('ul');
     var entries = [];
 
     entries.push( [
-      new Element('label').update('Event Link'),
-      new Element('div').insert(new Element('input', { type: 'text', id: 'eventlink', name: 'eventlink' })) ]);
+      new Element('label').update('Title'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'eventtitle', name: 'eventtitle' })) ]);
     entries.push( [
       new Element('label').update('Description'),
       new Element('div').insert(new Element('textarea', { rows: 7, id: 'eventdesc', name: 'eventdesc' })) ]);
@@ -113,8 +113,17 @@ FormConstructors.event_submission = {
       new Element('label').update('Time & Date'),
       new Element('div').insert(new Element('input', { type: 'text', id: 'eventtimedate', name: 'eventtimedate' })) ]);
     entries.push( [
-      new Element('label').update('Venue & Address'),
-      new Element('div').insert(new Element('input', { type: 'text', id: 'eventlocation', name: 'eventlocation' })) ]);
+      new Element('label').update('Venue Name'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'eventvenuename', name: 'eventvenuename' })) ]);
+    entries.push( [
+      new Element('label').update('Venue Address'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'eventaddress', name: 'eventaddress' })) ]);
+    entries.push( [
+      new Element('label').update('Event Website'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'eventlink', name: 'eventlink' })) ]);
+    entries.push( [
+      new Element('label').update('Participating MAU Artists (comma separated list)'),
+      new Element('div').insert(new Element('input', { type: 'text', id: 'eventartists', name: 'eventartists' })) ]);
     entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
 
     $(entries).each(function(entry) {

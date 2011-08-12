@@ -142,10 +142,13 @@ class MainController < ApplicationController
       when 'event_submission'
         msg = []
         msg << "EventInfo\n----------------\n"
-        [['eventlink', 'Link'],
+        [['eventtitle', 'Show Title'],
          ['eventtimedate','Time/Date'],
-         ['eventlocation','Where'],
-         ['eventdesc', 'Info']].each do |entry|
+         ['eventvenuename','Venue'],
+         ['eventaddress','Venue Address'],
+         ['eventdesc', 'Info'],
+         ['eventmauartists', 'MAU Artists'],
+         ['eventlink', 'Link']].each do |entry|
           msg << [entry[1], ": ", params[entry[0]]].join('')
         end
         comment += msg.join("\n");
@@ -251,7 +254,7 @@ EOM
           results[:messages] << 'not enough parameters'
         end
       elsif 'event_submission' == params[:note_type]
-        unless ['eventtimedate', 'eventdesc','eventtimedate'].all? {|k| params.keys.include? k}
+        unless ['eventtimedate', 'eventdesc' ].all? {|k| params.keys.include? k}
           results[:messages] << 'not enough parameters'
         end
       end
@@ -268,7 +271,7 @@ EOM
           results[:messages] << 'feed url can\'t be empty'
         end
       when 'event_submission'
-        ['eventdesc', 'eventlocation','eventtimedate'].each do |k|
+        ['eventdesc', 'eventaddress','eventtimedate'].each do |k|
           if params[k].blank?
             results[:messages] << "You must provide #{k}"
           end

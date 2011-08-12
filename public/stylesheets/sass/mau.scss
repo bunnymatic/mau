@@ -2956,11 +2956,13 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
     li {
       width: 100%;
+      label { margin-top: 4px; }
       div {
+        line-height: 1em;
         padding: 2px 0;
       }
       input {
-        margin-top: 8px;
+        margin-top: 0px;
       }
     }
     label {
