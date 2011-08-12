@@ -66,3 +66,9 @@ $lightyellow: #FEF7CA;
     border-radius: 7px;
 }
     
+@mixin floating-window-border {
+  border: 1px solid $bordergray;
+  box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
+  -moz-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
+  -webkit-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
+}

@@ -232,7 +232,7 @@ var TagMediaHelper = {
 	var hd = new Element('div').addClassName('credits-hdr');
 	hd.update('Credits');
 	var bd = new Element('div').addClassName('credits-bdy');
-	bd.update('<div style="text-align: center;"><p>Web Design/Construction: Mr Rogers & Trish Tunney</p><p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p></div><div style="width:350px; text-align:center; border:0px; margin:10px auto 10px auto;" class="credits-img"><img style="border: 1px solid #222;" width="350" src="/images/mau-headquarters-small.jpg"/></div><div style="float:right; font-size: x-small; text-align:right; padding-bottom: 12px; padding-right: 10px;">click to close</div><div style="float:left; font-size: x-small; text-align:left; padding-bottom: 12px; padding-left: 10px;">Version: 2.0</div><div class="clear"></div>');
+	bd.update('<div style="text-align: center;"><p>Web Design/Construction: Mr Rogers & Trish Tunney</p><p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p></div><div style="width:350px; text-align:center; border:0px; margin:10px auto 10px auto;" class="credits-img"><img style="border: 1px solid #222;" width="350" src="/images/mau-headquarters-small.jpg"/></div><div style="float:right; font-size: x-small; text-align:right; padding-bottom: 12px; padding-right: 10px;">click to close</div><div style="float:left; font-size: x-small; text-align:left; padding-bottom: 12px; padding-left: 10px;">Release: Corvair 4.0</div><div class="clear"></div>');
 	if (d && hd && bd) {
 	  new Insertion.Top(d, bd);
 	  new Insertion.Top(d, hd);
