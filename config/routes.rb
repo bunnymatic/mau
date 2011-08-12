@@ -7,14 +7,13 @@ ActionController::Routing::Routes.draw do |map|
   map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
 
   map.resources :art_pieces
-  
-  map.autosuggesttag '/art_piece_tags/autosuggest', :controller => 'art_piece_tags', :action => 'autosuggest'
   map.resources :art_piece_tags, :collection => {:cleanup => :get}
+
+  # user account related remaps
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
-
   map.change_password '/change_password', :controller => 'users', :action => 'change_password'  
   map.change_password_update '/change_password_update', :controller => 'users', :action => 'change_password_update'  
   map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
@@ -29,6 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
   map.artist_thumbs '/artists/thumbs', :controller => 'artists', :action => 'thumbs'
 
+  # clear this shit out
   map.flaxartshow '/flaxart', :controller => 'wizards', :action => 'flaxart'
   map.flaxarteventthingy '/flaxart/eventthingy', :controller => 'wizards', :action => 'flax_eventthingy'
   map.flaxartchooser '/flaxart/chooser', :controller => 'wizards', :action => 'flax_chooser'
@@ -70,6 +70,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.admin_update_artists '/admin/artists/update', :controller => 'artists', :action=> 'admin_update'
 
+  map.admin_events '/admin/events', :controller => 'events', :action=> 'admin_index'
   map.admin_artists '/admin/artists', :controller => 'artists', :action=> 'admin_index'
   map.admin_studios '/admin/studios', :controller => 'studios', :action=> 'admin_index'
   map.admin_tags '/admin/art_piece_tags', :controller => 'art_piece_tags', :action=> 'admin_index'
