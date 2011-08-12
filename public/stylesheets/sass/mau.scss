@@ -2200,11 +2200,11 @@ img.help-icon {
   border: 0;
 }
 
-div.popup-help { 
-  @include small-rounded-corners;
+.popup-help { 
+  @include floating-window-border;
+  @include large-rounded-corners;
   display: block;
   background-color: $darkgray;
-  border: 1px solid $darkbluegray;
   position: absolute;
   width: 200px;
   left: 4px;
@@ -2514,7 +2514,7 @@ form#feedback_form .error {
 
 #credits_bg_contain {
   position: relative;
-  margin: auto;
+  width: 430px;
 }
 
 #credits_bg {
@@ -2525,8 +2525,8 @@ form#feedback_form .error {
 }
 #credits_div {
   @include small-rounded-corners;
+  @include floating-window-border;
   background-color: $darkgray;
-  border: 2px solid #738294;
   position: absolute;
   text-align: left;
   width:420px;
@@ -2911,9 +2911,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   color: $lightyellow;
 }
 .send-mau-a-note {
-  box-shadow: 0px 0px 16px rgba(128,128,128, 0.80);
-  -moz-box-shadow: 0px 0px 16px rgba(128,128,128, 0.80);
-  -webkit-box-shadow: 0px 0px 16px rgba(128,128,128, 0.80);
+  @include floating-window-border;
+  @include large-rounded-corners;
   &.mau-notes-container-feed_submission {
     #feedlink {
       width: 100%;
@@ -2924,7 +2923,6 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   .popup-mailer {
     width: 480px;
     @include large-rounded-corners;
-    border: 2px solid #738294;
     background-color: $black;
     color: $lightgray;
   }
@@ -2994,8 +2992,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin: 10% auto;
   }
   .popup-mailer {
+    @include floating-window-border;
     @include large-rounded-corners;
-    border: 2px solid #738294;
     background-color: $black;
     color: $lightgray;
   }
