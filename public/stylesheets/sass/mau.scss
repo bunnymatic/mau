@@ -1,7 +1,7 @@
 @import 'mau-mixins';
 
 body {
-  background-color: $bluegray;
+  background-color: $lightbluegray;
   position: relative;
   color: $xlightgray;
   font-size: 13px;
@@ -28,32 +28,43 @@ p {
 div,p { 
   line-height: 1.4em;
 }
+
 h1 {
-  color: $mediumgray;
+  text-align: center;
+  color: $xlightgray;
   font-weight:normal;
   font-size: 170%;
   letter-spacing: 1px;
   line-height:normal;
 }
 h2 {
-  color: $lightgray;
   font-size: 150%;
   font-weight:normal;
   line-height:1;
   margin: 0.53em 0;
 }
+h3, h4, h5 {
+  text-align: left; 
+  color: $bluegray;
+}
 h3 {
-  color: $lightgray;
   font-size: 130%;
 }
 h4 {
-  color: $lightgray;
-  font-size: 130%;
+  margin-bottom: .5em;
+  font-size: 125%;
   font-weight: bold;
   margin: 1.33em 0;
 }
+p {
+  margin-left: 0;
+  padding-left: 0;
+}
+blockquote p {
+  line-height: 1.1em;
+}
+
 h5 {
-  color: $lightgray;
   font-size: 110%;
 }
 
@@ -354,7 +365,7 @@ a.lksubtle, a.lksubtle:link, a.lksubtle:visited ,a.lksubtle:active {
 a.lkthumb, a.lkthumb:link, a.lkthumb:visited, a.lkthumb:active {
   color: $white;
   &:hover {
-    color: $bluegray;
+    color: $lightbluegray;
   }
 }
 
@@ -565,7 +576,7 @@ input[type=submit], .formbutton {
   background:url(/images/gradients.png) repeat-x left top;
   background-position: 0 -90px;
   border:outset 1px $xlightgray;
-  color:$xdarkbluegray;
+  color:$darkbluegray;
   cursor:pointer;
   font-weight:bold;
   padding: 3px 4px;
@@ -810,7 +821,7 @@ span.micro-icon {
     width: 250px;
     padding: 5px;
     border: 1px solid $xlightgray;
-    background-color:$darkbluegray;
+    background-color:$bluegray;
     text-align: center;
   }
 }
@@ -911,7 +922,7 @@ div.feedtitle  {
 }
 
 #artists_resources {
-  border-top: 1px solid $darkbluegray;
+  border-top: 1px solid $bluegray;
 }
 
 #artists_resources div h4 {
@@ -997,7 +1008,7 @@ margin: 0 0 20px 0;
 }
 
 #container{
-  background-color:$darkbluegray;
+  background-color:$bluegray;
   margin: auto;
   padding:5px;
   position:relative;
@@ -1682,7 +1693,7 @@ span.rightarrow
     position: absolute;
     top: 89px;
     left: 7px;
-    background-color: $xxdarkbluegray;
+    background-color: $darkbluegray;
     height: auto;
     line-height: auto;
     width: 100px;
@@ -3323,7 +3334,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     background:url(/images/gradients.png) repeat-x left top;
     background-position: 0 -90px;
     border:outset 1px $xlightgray;
-    color:$xdarkbluegray;
+    color:$darkbluegray;
     cursor:pointer;
     font-weight:bold;
     padding: 3px 4px;
@@ -3340,7 +3351,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     background:url(/images/gradients.png) repeat-x left top;
     background-position: 0 -50px;
     border:outset 1px $xlightgray;
-    color:$xdarkbluegray;
+    color:$darkbluegray;
     cursor:pointer;
     font-weight:bold;
     padding: 3px 4px;
