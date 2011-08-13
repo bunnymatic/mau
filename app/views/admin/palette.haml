@@ -1,0 +1,7 @@
+.singlecolumn
+  .colors
+    - @colors.each do |color|
+      .color
+        .name #{color[0]}
+        .block{:style => "background-color: ##{color[1]}"} 
+        .hexval ##{color[1]}

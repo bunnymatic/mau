@@ -1,0 +1,18 @@
+*~
+# /
+/.bundle
+/tmp
+/studiodata
+/artistdata
+/public/studiodata
+/public/artistdata
+/log
+/db/backup
+
+# /public/
+/public/
+
+# /public/stylesheets/
+/public/stylesheets/*.css
+
+# /vendor/plugins/

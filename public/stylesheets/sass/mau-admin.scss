@@ -229,3 +229,17 @@ body.admin {
     }
   }
 }
+
+.colors {
+  .color {
+    @include dotted_border;
+    float: left;
+    margin: 20px;
+    padding: 10px;
+    width: 100px;
+    .block {
+      width: 75px;
+      height: 75px;
+    }
+  }
+}
