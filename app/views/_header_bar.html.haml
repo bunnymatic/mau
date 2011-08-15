@@ -16,7 +16,6 @@
       %input#search_box.srch{:type => 'text', :name => 'query', :size => '14'}
   #nav_bar
     .nav
-      %script Event.observe(window, 'load', function() { new MAU.NotesMailer(".list_your_show_dropdown", { note_class: 'event_submission', url: "/main/notes_mailer", xoffset: -100, username: '#{current_artist ? current_artist.login : '' }'}); });
       %div
         %ul#mymaunav.dropdown
           - if logged_in? 
@@ -27,7 +26,7 @@
                 navitems << "<a href='/art_pieces/new'>add art</a>"
                 navitems << "<a href='#{ arrangeart_artists_path }'>arrange art</a>"
                 navitems << "<a href='#{ deleteart_artists_path }'>delete art</a>"
-                navitems << "<a href='#' class='list_your_show_dropdown'>plug your art show</a>"
+                navitems << "<a href='#{ new_event_path }' class='list_your_show_dropdown'>plug your art show</a>"
 
                 navitems << "<a href='#{ favorites_user_path current_user }'><span class='heart'>&hearts;</span> my favorites</a>"
                 if (Conf.accepting_flaxshow_submissions)

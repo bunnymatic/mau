@@ -1,7 +1,9 @@
 class EventsController < ApplicationController
 
-  before_filter :admin_required
-  layout 'mau1col'
+  before_filter :admin_required, :except => [:new]
+  before_filter :login_required
+
+  layout 'mau2col'
   
   def admin_index
     @events = Event.all
@@ -36,14 +38,13 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.xml
   def new
-    @event = Event.new
-    render 'new_or_edit', :layout => 'mau-admin'
+    @event = Event.new(:zip => '94110', :state => 'CA', :city => 'San Francisco')
   end
 
   # GET /events/1/edit
   def edit
     @event = Event.find(params[:id])
-    render 'new_or_edit', :layout => 'mau-admin'
+    render 'edit', :layout => 'mau-admin'
   end
 
   # POST /events

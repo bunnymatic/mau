@@ -1,4 +1,3 @@
-%script Event.observe(window, 'load', function() { new MAU.NotesMailer(".list_your_show", { note_class: 'event_submission', url: "/main/notes_mailer", xoffset: 200, username: '#{current_artist ? current_artist.login : '' }'}); });
 #sidebar_nav
   - if current_artist
     %ul
@@ -7,7 +6,7 @@
                       "<a href='/art_pieces/new'>add art</a>",
                       "<a href='#{arrangeart_artists_path}'>arrange art</a>",
                       "<a href='#{deleteart_artists_path}'>delete art</a>",
-                      "<a href='#' class='list_your_show'>plug your art show</a>",
+                      "<a href='#{ new_events_path }' class='list_your_show'>plug your art show</a>",
                       "<a href='#{favorites_user_path current_user}'><div class='micro-icon heart'></div> favorites</a>" ]
       = HTMLHelper::print_list('leaf', listitems)
 

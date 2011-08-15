@@ -1430,6 +1430,27 @@ var TagMediaHelper = {
     MAU.browser = new M.BrowserDetect(); 
   });
 
+  var E = M.ArtEvents = M.ArtEvents || {};
+  Object.extend(E, {
+    init: function() {
+      $('starttimeCal').select('.calendar').first().observe('click',function(el) {
+        var selectors = $('starttimeInputs').select('select');
+	if (selectors.length == 5)
+	{
+          d = new Date();
+          d.setFullYear(selectors[0].getValue());
+          d.setMonth(selectors[1].getValue() - 1);
+          d.setDate(selectors[2].getValue());
+          d.setHours(selectors[3].getValue());
+          d.setMinutes(selectors[4].getValue());
+          $('starttimeDisplay').innerHTML = d;
+	}
+      });
+    }
+  });
+  
+  Event.observe(window, 'load', E.init);
+
   var D = M.Discount = M.Discount || {};
   
   Object.extend(D, {
