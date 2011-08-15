@@ -310,9 +310,11 @@ var TagMediaHelper = {
       }
     }
   });
-  
-  Event.observe(window, 'load', FR.init);
-  Event.observe(window, 'unload', FR.abort_requests);
+
+  if (document.location.pathname == '/') {
+    Event.observe(window, 'load', FR.init);
+    Event.observe(window, 'unload', FR.abort_requests);
+  };
   /** nav bar related **/
   N.init = function() {
     var navleaves = $$('.nav li.leaf');

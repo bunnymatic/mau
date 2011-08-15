@@ -1,0 +1,7 @@
+.test-content
+  - endpoints = ['markdown', 'custom_map', 'date_picker']
+  %h3 Index of test pages
+  %ul
+    - endpoints.each do |e|
+      %li
+        %a{:href => "/tests/#{e}"} #{e.titleize}

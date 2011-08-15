@@ -4,6 +4,10 @@ class TestsController < ApplicationController
   before_filter :admin_required
   layout 'mau1col'
 
+  def calendar_picker
+    
+  end
+
   def custom_map
     @map_size = [ 596, 591 ]
     

@@ -7,7 +7,7 @@ class EventsController < ApplicationController
     @events = Event.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render :layout => 'mau-admin' }
       format.xml  { render :xml => @events }
     end
   end
@@ -27,7 +27,6 @@ class EventsController < ApplicationController
   # GET /events/1.xml
   def show
     @event = Event.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @event }
