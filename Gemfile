@@ -21,7 +21,7 @@ gem 'fastercsv'
 gem 'ZenTest'
 gem 'capistrano'
 gem 'gibbon' # mailchimp api plugin
-#gem 'calendar_date_select'
+gem 'calendar_date_select'
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
