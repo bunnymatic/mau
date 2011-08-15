@@ -79,6 +79,7 @@ h5 {
     padding: 0;
     margin: 0;
   }
+  .notice,
   .error-msg {
     width: 600px;
   }
@@ -1029,6 +1030,7 @@ margin: 0 0 20px 0;
   margin-right:40px;
 }
 #artist_edit {
+  .notice,
   .error-msg {
     width: 536px;
   }
@@ -1939,8 +1941,10 @@ span.rightarrow
   }
 }
 
-#new_artpiece_form .error-msg {
-  width: 320px;
+#new_artpiece_form {
+  .notice, .error-msg {
+    width: 320px;
+  }
 }
 
 /* shrink err msg if we're in signup-txt box */
@@ -2762,6 +2766,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     text-align: center;
     margin-top: 0px;
   }
+  .notice,
   .error-msg {
     width: 500px;
     margin-left: auto;
@@ -3454,8 +3459,17 @@ a.button b.m b {
   h2 {
     text-align: center;
   }
+  .notice,
+  .error-msg {
+    width: auto;
+  }
+  .notice {
+    text-align: left;
+  }
+  .no_events {
+    margin-top: 30px;
+  }
   .event {
-    width: 500px;
     margin: 10px auto;
     padding: 20px;
     @include dotted_border;
@@ -3502,6 +3516,7 @@ a.button b.m b {
 #event_edit {
   width: 520px;
   margin: 20px auto;
+  .notice,
   .error-msg {
     width: 506px;
   }

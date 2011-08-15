@@ -5,5 +5,7 @@
   - if flash[:notice]
     .notice #{flash[:notice]}
   
+  - if @events.count == 0
+    .no_events Sadly, we don't have any events on the list.  Next time you are in an art show, make sure to send us the details (under my mau -> plug my art show) and we'll put it up here!
   - @events.each do |event|
     = render :partial => 'event', :locals => {:event => event}
