@@ -13,9 +13,6 @@
       .entry
         = f.label :description
         = f.text_area :description
-      .entry    
-        = f.label :tweet
-        = f.text_field :tweet
     .section
       - [:venue, :street, :city, :state, :zip].each do |txtfld|
         .entry
@@ -23,10 +20,13 @@
           = f.text_field txtfld
     .section   
       - [:starttime, :endtime].each do |dt|
-        = f.label dt
-        %div{:id => dt.to_s+"Cal"}
-        .entry{:id => dt.to_s+"Inputs"}
-          = f.datetime_select dt
+        .entry
+          %label.timelabel #{(dt == :starttime) ? 'Start Date/Time' : 'End Date/Time'}
+          %div{:id => dt.to_s + "Display"}
+          %div{:id => dt.to_s+"Cal"}
+          .hidden{:id => dt.to_s+"Inputs"}
+            = f.datetime_select dt
+        .clear            
       - [:url].each do |txtfld|
         .entry
           = f.label txtfld

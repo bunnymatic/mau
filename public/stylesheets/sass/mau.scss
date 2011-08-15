@@ -3455,11 +3455,32 @@ a.button b.m b {
 }
 
 #event_edit {
+  padding: 20px;
+  .section {
+    width: 500px;
+    .entry {
+      label { 
+        display: block;
+        font-size: 11px;
+      }
+      .timelabel {
+        display: inline;
+      }
+      input#endtimeDisplay,
+      input#starttimeDisplay {
+        width: 180px; 
+      }
+      input, textarea { width :100%; }
+    }
+    .calendar {
+      float: right;
+    }
+  }
   #starttimeInputs {
-    display: none;
+    display:none;
   }
   #endtimeInputs {
-    display: none;
+    display:none;
   }
 }
 .calendar {
@@ -3472,7 +3493,7 @@ a.button b.m b {
   }
   
   .monthSelector {
-    width: 260px;
+    width: 204px;
     text-align: center;
     color: #616161;
     margin-bottom: 5px;
