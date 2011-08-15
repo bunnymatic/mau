@@ -1,0 +1,9 @@
+.events.logo-space
+  %h3 MAU Events
+  - if flash[:error]
+    .error-msg Error: #{flash[:error]}
+  - if flash[:notice]
+    .notice #{flash[:notice]}
+  
+  - @events.each do |event|
+    = render :partial => 'event', :locals => {:event => event}

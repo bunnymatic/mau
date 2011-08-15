@@ -99,7 +99,7 @@
   	    <%   end -%>
 	    <% end -%>
 	    <% if @artist.os_participation['201110'] -%>
-	    <div class="os-violator"><a href="/news/"><img src="/images/os_star_violator.png"/></a></div>
+	    <div class="os-violator"><a href="<%= openstudios_path %>"><img src="/images/os_star_violator.png"/></a></div>
 	    <% end -%>
             <div class="action-icons">
 	      <a target="_new" href="<%= ArtistsHelper.tw_share_link(@artist) %>" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>

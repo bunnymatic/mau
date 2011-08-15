@@ -515,7 +515,7 @@ describe ArtistsController do
         ArtistInfo.any_instance.stubs(:os_participation => {})
         Artist.any_instance.stubs(:os_participation => {})
         a = users(:artist1)
-        a.roles << Role.find_by_role('admin')
+        a.roles << roles(:admin)
         a.save
         a.reload
         login_as(a)

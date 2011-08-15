@@ -2,13 +2,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
-def setup_admin_user
-  u = users(:admin)
-  u.roles << roles(:admin)
-  u.save
-  u
-end
-
 describe FavoritesController do
 
   fixtures :users
@@ -28,7 +21,7 @@ describe FavoritesController do
       response.should redirect_to '/error'
       end
       it "responds success if logged in as admin" do
-        login_as(setup_admin_user)
+        login_as(:admin)
         get endpoint
         response.should be_success
       end
@@ -37,7 +30,7 @@ describe FavoritesController do
 
   describe "#index" do
     before do
-      login_as(setup_admin_user)
+      login_as(:admin)
       u1 = users(:maufan1)
       u2 = users(:jesseponce)
       u3 = users(:annafizyta)

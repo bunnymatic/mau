@@ -122,6 +122,7 @@ admin:
   lastname:                  dude
   state:                     active
   activated_at:              <%= 3.days.ago.to_s :db %>
+  roles: admin
 
 artfan2:
   login:                     artfan2

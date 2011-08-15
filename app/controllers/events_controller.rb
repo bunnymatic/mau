@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
 
-  before_filter :admin_required, :except => [:new]
-  before_filter :login_required
+  before_filter :login_required, :except => [:index]
+  before_filter :admin_required, :only => [:admin_index, :publish, :unpublish]
 
   layout 'mau2col'
   
@@ -17,7 +17,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    @events = Event.all
+    @events = Event.future.published
 
     respond_to do |format|
       format.html # index.html.erb
@@ -51,12 +51,17 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
-    @event = Event.new(params[:event])
+    event_details = params[:event]
+    if event_details[:artist_list]
+      artist_list = event_details[:artist_list]
+      event_details.delete :artist_list
+    end
+    @event = Event.new(event_details)
 
     respond_to do |format|
       if @event.save
-        flash[:notice] = 'Event was successfully created.'
-        format.html { redirect_to(@event) }
+        flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
+        format.html { redirect_to(events_path) }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
         format.html { render "new_or_edit"}
@@ -69,11 +74,16 @@ class EventsController < ApplicationController
   # PUT /events/1.xml
   def update
     @event = Event.find(params[:id])
+    event_details = params[:event]
+    if event_details[:artist_list]
+      artist_list = event_details[:artist_list]
+      event_details.delete :artist_list
+    end
 
     respond_to do |format|
-      if @event.update_attributes(params[:event])
+      if @event.update_attributes(event_details)
         flash[:notice] = 'Event was successfully updated.'
-        format.html { redirect_to(@event) }
+        format.html { redirect_to(events_path) }
         format.xml  { head :ok }
       else
         format.html { render "new_or_edit", :layout => 'mau-admin' }
@@ -92,5 +102,23 @@ class EventsController < ApplicationController
       format.html { redirect_to(events_url) }
       format.xml  { head :ok }
     end
+  end
+
+  def publish
+    @event = Event.find(params[:id])
+    if @event.update_attributes(:publish => Time.now())
+      flash[:notice] = "#{@event.title} has been successfully published."
+    end
+    redirect_to events_path  
+  end
+
+  def unpublish
+    @event = Event.find(params[:id])
+    if @event.update_attributes(:publish => nil)
+      flash[:notice] = "#{@event.title} has been successfully unpublished."
+    else
+      flash[:error] = "There was a problem publishing #{@event.title}. " + (@event.errors.map{|e| e.join ' '}.join ',')
+    end
+    redirect_to events_path
   end
 end
