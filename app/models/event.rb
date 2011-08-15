@@ -1,8 +1,8 @@
 class Event < ActiveRecord::Base
   acts_as_mappable
 
-  before_validation_on_create :compute_geocode
-  before_validation_on_update :compute_geocode
+  after_validation_on_create :compute_geocode
+  after_validation_on_update :compute_geocode
 
   validates_presence_of :title
   validates_presence_of :description
@@ -11,9 +11,17 @@ class Event < ActiveRecord::Base
   validates_presence_of :city
   validates_presence_of :starttime
 
+  validate :validate_endtime
+
   named_scope :future, :conditions => ['starttime > NOW()' ]
   named_scope :past, :conditions => ['starttime < NOW()' ]
+  named_scope :published, :conditions => ['publish is not null']
+
   include AddressMixin
+
+  def validate_endtime
+    errors.add(:endtime, 'should be after start time.') unless ((endtime >= starttime) && endtime.present?)
+  end
 
   protected
     def compute_geocode

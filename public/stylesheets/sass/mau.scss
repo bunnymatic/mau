@@ -216,7 +216,7 @@ input, textarea, select {
 }
 .edit-sections {
   margin: auto;
-  width: 560px;
+  width: $rightcol;
   padding-bottom: 20px;
 }
 
@@ -880,7 +880,7 @@ div.feedtitle  {
     li {
       line-height: 1.7em;
     }
-    width: 560px;
+    width: $rightcol;
     margin: 25px auto 20px;
   }
   & p {
@@ -1036,7 +1036,7 @@ margin: 0 0 20px 0;
     margin-left:auto;
     margin-right:auto;
     text-align:center;
-    width: 560px;
+    width: $rightcol;
   }
   #profile_img {
     float:right;
@@ -1049,14 +1049,14 @@ margin: 0 0 20px 0;
 
 #news_text {
   text-align: justify;
-  width: 560px;
+  width: $rightcol;
   margin-left: auto;
   margin-right: auto;
 }
 
 #about_text, .privacy-content {
   text-align: justify;
-  width: 560px;
+  width: $rightcol;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1109,7 +1109,7 @@ margin: 0 0 20px 0;
 }
 .content-block
 {
-  width: 560px;
+  width: $rightcol;
   margin: auto;
 }
 
@@ -1599,7 +1599,7 @@ td.td-left{
 }
 
 .main-text {
-  width: 520px;
+  width: $rightcol;
   margin: 80px auto auto auto;
   text-align: center;
   vertical-align: bottom;
@@ -2056,7 +2056,7 @@ textarea.artist-bio {
   }
 }
 #artpiece_edit_ctrls {
-  width: 560px;
+  width: $rightcol;
   text-align: left;
   margin-top: 8px;
   margin-bottom: 11px;
@@ -3448,8 +3448,13 @@ a.button b.m b {
   -webkit-user-select: none;
 }
 
-/* calendar select */
-
+.events {
+  width: $rightcol;
+  margin: 20px auto;
+  h2 {
+    text-align: center;
+  }
+}
 #event_edit {
   width: 520px;
   margin: 20px auto;

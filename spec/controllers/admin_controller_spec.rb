@@ -2,13 +2,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
-def setup_admin_user
-  u = users(:admin)
-  u.roles << roles(:admin)
-  u.save
-  u
-end
-
 describe AdminController do
   use_transactional_fixtures = true
   fixtures :studios
@@ -30,7 +23,7 @@ describe AdminController do
         response.should redirect_to '/error'
       end
       it "responds success if logged in as admin" do
-        login_as(setup_admin_user)
+        login_as(:admin)
         get endpoint
         response.should be_success
       end
@@ -40,7 +33,7 @@ describe AdminController do
   describe "#index" do
     integrate_views
     before do
-      login_as(setup_admin_user)
+      login_as(:admin)
       get :index
     end
     it 'returns success' do
@@ -73,7 +66,7 @@ describe AdminController do
   end
   describe '#fans' do
     before do
-      login_as(setup_admin_user)
+      login_as(:admin)
       get :fans
     end
     it "responds success" do
@@ -88,7 +81,7 @@ describe AdminController do
   end
   describe '#roles' do
     before do
-      login_as(setup_admin_user)
+      login_as(:admin)
       get :roles
     end
     it "responds success" do
@@ -121,7 +114,7 @@ describe AdminController do
     [:artists_per_day, :favorites_per_day, :art_pieces_per_day].each do |endpoint|
       describe endpoint do
         before do 
-          login_as(setup_admin_user)
+          login_as(:admin)
           xhr :get, endpoint
         end
         it "returns success" do
@@ -149,7 +142,7 @@ describe AdminController do
     end
     context "w/o views" do
       before do
-        login_as(setup_admin_user)
+        login_as(:admin)
         get :featured_artist
       end
       it "renders the featured_artist template" do
@@ -170,7 +163,7 @@ describe AdminController do
       before do
         # set a few artists as featured
         FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index {|fa, idx| fa.update_attributes(:featured => Time.now - (2*idx).weeks) }
-        login_as(setup_admin_user)
+        login_as(:admin)
         get :featured_artist
       end
       it "includes previously featured artists" do
@@ -181,7 +174,7 @@ describe AdminController do
       end
       it 'includes a button to get the next featured artist if it\'s more than 1 week since the last one' do
         FeaturedArtistQueue.featured.each_with_index {|fa, idx| fa.update_attributes(:featured => Time.now - (2*(1+idx)).weeks) }
-        login_as(setup_admin_user)
+        login_as(:admin)
         get :featured_artist
         response.should have_tag('#get_next_featured')
       end
@@ -190,7 +183,7 @@ describe AdminController do
       integrate_views
       before do
         @featured_count = FeaturedArtistQueue.featured.count
-        login_as(setup_admin_user)
+        login_as(:admin)
         post :featured_artist
       end
       it "returns success" do

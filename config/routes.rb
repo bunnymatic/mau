@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :events
+  map.resources :events, :member => { :publish => :get, :unpublish => :get }
   map.resources :cms_documents
   map.resources :media
 
@@ -62,7 +62,7 @@ ActionController::Routing::Routes.draw do |map|
   map.getinvolved '/getinvolved/:p', :controller => 'main', :action => 'getinvolved', :p => nil
   map.privacy '/privacy', :controller => 'main', :action => 'privacy'
   map.about '/about/:id', :controller => 'main', :action => 'about'
-  map.news '/resources', :controller => 'main', :action => 'resources'
+  map.artist_resources '/resources', :controller => 'main', :action => 'resources'
   map.news_alt '/news', :controller => 'main', :action => 'resources'
   map.contact '/contact', :controller => 'main', :action => 'contact'
   map.error '/error', :controller => 'error'

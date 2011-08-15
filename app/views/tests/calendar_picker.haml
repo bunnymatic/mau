@@ -1,9 +1,0 @@
-= javascript_include_tag 'calendar_select'
-.test-content
-  #calendarContainer
-  .entry#selectInputs
-    %label{:for => 'event_starttime'} starttime
-    - [ 'year', 'month', 'day','hour', 'minute' ].each do |fld|
-      - [ 'event_starttime'].each do |pfx|
-        - fldname = [pfx,fld].join('_')
-        %input{:id => fldname, :name => fldname, :type => hidden}

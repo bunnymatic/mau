@@ -1,7 +1,7 @@
 .events
   %h1 Events
   - @events.each do |ev|
-    .event #{ev.id} #{ev.title}
+    = render :partial => 'event', :locals => {:event => ev}
     
   = link_to 'New', new_event_path(@event)  |
   = link_to 'Back', events_path

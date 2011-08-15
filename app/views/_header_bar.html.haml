@@ -29,9 +29,7 @@
                 navitems << "<a href='#{ new_event_path }' class='list_your_show_dropdown'>plug your art show</a>"
 
                 navitems << "<a href='#{ favorites_user_path current_user }'><span class='heart'>&hearts;</span> my favorites</a>"
-                if (Conf.accepting_flaxshow_submissions)
-                  navitems << "<a href='#{flaxartshow_path}'>flax show</a>"
-                end
+                navitems << "<a href='#{ artist_resources_path }' title='artists resources'>resources</a>"
 
                 mypath = current_artist
               else
@@ -47,7 +45,7 @@
             %li.dir
               = link_to 'join in!', login_path, {:class => 'lknav'}
 
-      - [ ['resources','/resources/'], ['venues','/venues'], ['studios','/studios/'] ].each do |nm,lk,clz|
+      - [ ['events','/events/'], ['venues','/venues'], ['studios','/studios/'] ].each do |nm,lk,clz|
         %div
           %ul.dropdown{:class => clz}
             %li.dir

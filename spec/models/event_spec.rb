@@ -37,15 +37,23 @@ describe Event do
 
   describe 'named scopes' do
     it "future returns only events that are in the future" do
-      Event.future.all.each do |u|
-        u.starttime.should > Time.now
-      end
+      Event.future.all?{|u|  u.starttime > Time.now }.should be
     end
     it "past returns only events that are in the past" do
-      Event.past.all.each do |u|
-        u.starttime.should < Time.now
-      end
-    end 
+      Event.past.all?{|u| u.starttime < Time.now}.should be
+    end
+    it 'published only returns events whose publish flag has been set true' do
+      Event.published.all{|u| u.publish}.should be
+    end
+  end
+
+  describe 'validation' do
+    it 'is an invalid event if end date is present and before start date' do
+      ev = create_event
+      ev.endtime = ev.starttime - 10.days
+      ev.should_not be_valid
+      ev.errors['endtime'].should be
+    end
   end
   describe 'creation' do
     it 'geocodes on create' do
