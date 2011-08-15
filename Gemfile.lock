@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/brendanlim/mobile-fu.git
-  revision: 80b42e713d4ac08a63b5d456228eb7998dba4378
+  revision: cfd29fbd7dd6ac1155dcb33707fe00961af60e93
   specs:
     mobile-fu (2.x)
 
@@ -26,7 +26,7 @@ GEM
     autotest-rails (4.1.0)
       ZenTest
     calendar_date_select (1.16.3)
-    capistrano (2.6.0)
+    capistrano (2.8.0)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -36,23 +36,23 @@ GEM
     daemon_controller (0.2.6)
     fastercsv (1.5.4)
     fastthread (1.0.7)
-    file-tail (1.0.5)
-      spruz (>= 0.1.0)
-    geokit (1.5.0)
+    file-tail (1.0.6)
+      spruz (~> 0.2)
+    geokit (1.6.0)
     geokit-rails (1.1.4)
       geokit (>= 1.5.0)
     gibbon (0.1.5)
       httparty (> 0.6.0)
       json (> 1.4.0)
-    haml (3.0.25)
+    haml (3.1.2)
     has_many_polymorphs (2.13)
       activerecord
     highline (1.6.2)
-    htmlentities (4.2.4)
-    httparty (0.7.7)
+    htmlentities (4.3.0)
+    httparty (0.7.8)
       crack (= 0.1.8)
-    i18n (0.5.0)
-    json (1.5.1)
+    i18n (0.4.2)
+    json (1.5.3)
     memcache (1.2.13)
     memcache-client (1.8.5)
     mocha (0.9.10)
@@ -65,7 +65,7 @@ GEM
     net-ssh (2.1.4)
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
-    nokogiri (1.4.4)
+    nokogiri (1.5.0)
     passenger (3.0.2)
       daemon_controller (>= 0.2.5)
       fastthread (>= 1.0.1)
@@ -87,14 +87,15 @@ GEM
     rspec-rails (1.3.2)
       rack (>= 1.0.0)
       rspec (>= 1.3.0)
-    spruz (0.2.7)
-    tzinfo (0.3.24)
+    sass (3.1.7)
+    spruz (0.2.12)
+    tzinfo (0.3.29)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  ZenTest
+  ZenTest (= 4.5.0)
   autotest-rails
   calendar_date_select
   capistrano
@@ -105,7 +106,7 @@ DEPENDENCIES
   haml
   has_many_polymorphs
   htmlentities
-  i18n
+  i18n (~> 0.4.0)
   json
   memcache
   memcache-client
@@ -120,4 +121,5 @@ DEPENDENCIES
   rdiscount
   rspec (= 1.3.1)
   rspec-rails (= 1.3.2)
+  sass
   tzinfo

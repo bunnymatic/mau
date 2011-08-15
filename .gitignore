@@ -9,10 +9,6 @@
 /log
 /db/backup
 
-# /public/
-/public/
-
 # /public/stylesheets/
 /public/stylesheets/*.css
 
-# /vendor/plugins/

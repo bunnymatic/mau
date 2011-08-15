@@ -1,10 +1,10 @@
-%script document.observe('dom:loaded', function() {new CalendarUI('starttimeCal', 'starttimeInputs');});
-%script document.observe('dom:loaded', function() {new CalendarUI('endtimeCal', 'endtimeInputs');});
-
 #event_edit
   %h2 Plug Your Art Show!
+  .instructions Please give us as much information (as accurately as possible) about your show.  If everything looks good with your submission, we'll add it to our list of MAU events and publish it to our Facebook and Twitter feeds a few days before the event.
   - form_for(@event) do |f|
-    = render :partial => '/error_msgs_for_haml', :locals => {:obj => @event}
+    - if f.error_messages.present?
+      .error-msg 
+        = f.error_messages
     .clear
     .section
       .entry
@@ -12,10 +12,7 @@
         = f.text_field :title
       .entry
         = f.label :description
-        = f.text_area :description
-      .entry    
-        = f.label :tweet
-        = f.text_field :tweet
+        = f.text_area :description, :rows => 10
     .section
       - [:venue, :street, :city, :state, :zip].each do |txtfld|
         .entry
@@ -23,21 +20,17 @@
           = f.text_field txtfld
     .section   
       - [:starttime, :endtime].each do |dt|
-        = f.label dt
-        %div{:id => dt.to_s+"Cal"}
-        .entry{:id => dt.to_s+"Inputs"}
-          = f.datetime_select dt
+        .entry{:class => dt}
+          = f.label dt, ((dt == :starttime) ? 'Start Date/Time' : 'End Date/Time')
+          = f.calendar_date_select dt
+        .clear            
       - [:url].each do |txtfld|
         .entry
-          = f.label txtfld
+          = f.label txtfld, "Event Website"
           = f.text_field txtfld
       .entry 
         = f.label :publish
         = f.check_box :publish
     .clear
-      = f.submit 'Update'
-    .links
-      = link_to 'Show', @event 
-      = "|"
-      = link_to 'Back', events_path
+      = f.submit 'Submit'
     .clear

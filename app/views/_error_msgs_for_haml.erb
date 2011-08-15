@@ -1,5 +1,5 @@
-<% if obj.respond_to?(:errors) %>
-<div class='error'>
+<% if obj.respond_to?(:errors) && obj.errors.present? %>
+<div class='error-msg'>
 <%   obj.errors.each do |e| %>
  <div><%= "#{e[0].titleize} #{e[1]}" %></div>
 <% end -%>

@@ -6,9 +6,9 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :title
   validates_presence_of :description
-  validates_presence_of :tweet
   validates_presence_of :venue
   validates_presence_of :street
+  validates_presence_of :city
   validates_presence_of :starttime
 
   named_scope :future, :conditions => ['starttime > NOW()' ]
