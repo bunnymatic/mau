@@ -5,7 +5,7 @@ gem "geokit"
 gem "geokit-rails"
 gem "nokogiri"
 gem "htmlentities"
-gem "json"
+gem "json", '1.5.1'
 gem "mysql"
 gem "i18n", '~> 0.4.0'
 gem "haml"
