@@ -1,16 +1,27 @@
 .event
-  .name #{event.title}
+  .title 
+    #{event.title}
+    .time #{EventsHelper::event_time(event)}
+  
   .venue
     .name #{event.venue}
     .address 
-      %a{:href => event.map_link} #{event.full_address}
-  .desc #{markdown(event.description)}
-  .url #{event.url}
-  - if current_user && current_user.is_admin?
-    .ctrls
-      - if event.publish
-        = link_to 'unpublish', unpublish_event_path(event)
-      - else
-        = link_to 'publish', publish_event_path(event)
-      = link_to 'edit', edit_event_path(event)
-      = link_to 'delete', event, :confirm => 'Are you sure?', :method => :delete 
+      - address_hash = event.address_hash[:parsed]
+      - txt = [address_hash[:street], address_hash[:city]]
+      - txt << address_hash[:state] if address_hash[:state].downcase != 'ca'
+      - txt << address_hash[:zip] if address_hash[:zip] != '94110'
+      = txt.join ' '
+      .maplink 
+        %a{:href => event.map_link} (map)
+  .clear        
+  .desc.markdown #{markdown(event.description)}
+  .url 
+    %a{:href => event.url} #{event.url}
+- if current_user && current_user.is_admin?
+  .ctrls
+    - if event.publish
+      = link_to 'unpublish', unpublish_event_path(event)
+    - else
+      = link_to 'publish', publish_event_path(event)
+    = link_to 'edit', edit_event_path(event)
+    = link_to 'delete', event, :confirm => 'Are you sure?', :method => :delete 

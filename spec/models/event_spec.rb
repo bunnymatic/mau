@@ -70,4 +70,5 @@ describe Event do
       ev.save
     end
   end
+
 end
