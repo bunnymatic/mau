@@ -1,1 +1,7 @@
-%h1 Events
+.events
+  %h1 Events
+  - @events.each do |ev|
+    .event #{ev.id} #{ev.title}
+    
+  = link_to 'New', new_event_path(@event)  |
+  = link_to 'Back', events_path

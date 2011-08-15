@@ -14,7 +14,7 @@ body {
     padding: 10px;
     background: #bbb;
     color: $darkgray;
-    border: 2px solid #800;
+    border: 2px solid $error_red;
     a {
       color: #525;
     }
@@ -33,12 +33,12 @@ h1 {
   text-align: center;
   color: $xlightgray;
   font-weight:normal;
-  font-size: 170%;
+  font-size: 22px;
   letter-spacing: 1px;
   line-height:normal;
 }
 h2 {
-  font-size: 150%;
+  font-size: 20px;
   font-weight:normal;
   line-height:1;
   margin: 0.53em 0;
@@ -48,11 +48,11 @@ h3, h4, h5 {
   color: $bluegray;
 }
 h3 {
-  font-size: 130%;
+  font-size: 17px;
 }
 h4 {
   margin-bottom: .5em;
-  font-size: 125%;
+  font-size: 16px;
   font-weight: bold;
   margin: 1.33em 0;
 }
@@ -65,7 +65,7 @@ blockquote p {
 }
 
 h5 {
-  font-size: 110%;
+  font-size: 14px;
 }
 
 .singlecolumn {
@@ -174,7 +174,7 @@ input, textarea, select {
 }
 
 .gi-subblock {
-  font-size: 85%;
+  font-size: 11px;
   width: 500px;
 }
 
@@ -185,9 +185,9 @@ input, textarea, select {
 }
 
 
-div.donate-btns span {
-  font-size:110%;
-  color: #ccccaa;
+.donate-btns span {
+  font-size:14px;
+  color: $xlightgray;
   vertical-align: top;
 }
 
@@ -208,7 +208,7 @@ div.donate-btns span {
 .acct span.edit,
 .gi span.edit {
   float: right;
-  font-size: 80%;
+  font-size: 11px;
 }
 
 .back-to-profile-btn {
@@ -317,7 +317,7 @@ div.donate-btns span {
 }
 
 .chpasswd-instructions {
-  font-size: 80%;
+  font-size: 11px;
   text-align: left;
   width: 60%;
 }
@@ -869,7 +869,7 @@ div.feedtitle  {
   }
   & h4 {
     margin-bottom: .5em;
-    font-size: 125%;
+    font-size: 16px;
   }
   & .section {
     li {
@@ -942,7 +942,6 @@ div.feedtitle  {
   }
   span.title {
     text-transform: uppercase;
-    font-size:105%;
   }
   .artists-resource-block {
     margin: 20px auto;
@@ -1017,7 +1016,7 @@ margin: 0 0 20px 0;
 
 
 .lkmap {
-  font-size: 80%;
+  font-size: 10px;
 }
 
 #contact_text {
@@ -1107,7 +1106,7 @@ margin: 0 0 20px 0;
 }
 
 .roster {
-  font-size:85%;
+  font-size:11px;
   margin: auto;
 }
 .roster .chunk {
@@ -1128,7 +1127,7 @@ margin: 0 0 20px 0;
 
 .alpha-pagination {
   text-align: center;
-  font-size: 85%;
+  font-size: 11px;
   margin: 2px;
   line-height:25px;
 }
@@ -1423,7 +1422,7 @@ div.tiny-thumb-sel {
 }
 
 .browser-buttons {
-  font-size: 80%;
+  font-size: 10px;
   margin: 20px auto 5px;
   width: 140px;
   height: 14px;
@@ -1624,7 +1623,7 @@ td.td-left{
 
 
 #artpiece_title {
-  font-size: 120%;
+  font-size: 16px;
   font-weight: bold;
   padding: 0px 10px 10px 10px;
   text-align: center;
@@ -1755,7 +1754,7 @@ span.rightarrow
 #search_results {
   .results-txt {
     text-align: center;
-    font-size: 90%;
+    font-size: 11px;
   }
   
   
@@ -1792,7 +1791,7 @@ span.rightarrow
 }
 .search-thumb-info {
   float: left;
-  font-size:85%;
+  font-size:11px;
   margin-top:6px;
   text-align: left;
   vertical-align:top;
@@ -1810,7 +1809,7 @@ span.rightarrow
 }
 
 .artpiece-thumb-artist {
-  font-size: 85%;
+  font-size: 11px;
   overflow: hidden;
   text-align: center;
   padding-bottom: 3px;
@@ -1852,7 +1851,7 @@ span.rightarrow
   @include dotted_border;
   padding: 8px;
   vertical-align: top;
-  background-color:#111;
+  background-color: $darkbluegray;
   float:left;
   width: 155px;
   margin: 6px 8px 12px;
@@ -1953,7 +1952,7 @@ div.alt-login {
 }
 
 .error-help {
-  font-size: 85%;
+  font-size: 11px;
   color: $error_red;
   text-align: left;
 }
@@ -2006,7 +2005,7 @@ div.artist h4 {
 }
 
 div.artist {
-  font-size: 90%;
+  font-size: 11px;
 }
 
 .artist-pieces,
@@ -2024,7 +2023,7 @@ div.artist {
 }
 #profile_edit_ctrls {
   text-align: left;
-  font-size: 85%;
+  font-size: 11px;
   margin-top: 13px;
   margin-bottom: 3px;
 }
@@ -2053,7 +2052,7 @@ textarea.artist-bio {
   text-align: left;
   margin-top: 8px;
   margin-bottom: 11px;
-  font-size: 85%;
+  font-size: 11px;
 }
 
 .back-to-profile-btn span,
@@ -2136,13 +2135,13 @@ div.studios .studio-list {
 /* drawing artist name index */
 .artist-idx-ltr {
   border-top: 1px solid $darkgray;
-  font-size: 90%;
+  font-size: 11px;
   padding: 2px 20px 0px 0;
   vertical-align:top;
 }
 
 .artist-idx-names {
-  font-size: 85%;
+  font-size: 11px;
   vertical-align:top;
 }
 
@@ -2169,7 +2168,6 @@ div.studios .studio-list {
     width: 48%;
     padding: 10px;
     #processed_markdown {
-      border: 1px solid #ffcccc;
       padding: 10px;
     }
   }
@@ -2178,8 +2176,8 @@ div.studios .studio-list {
    wait dialog
    **/
 .wait-dialog {
+  @include floating-window-border;
   @include small-rounded-corners;
-  border: 4px solid #738294;
   width: 160px;
   height: 40px;
   padding: 10px;
@@ -2267,8 +2265,9 @@ img.help-icon {
 #note_modal_content,
 #feedback_modal_content {
   @include small-rounded-corners;
-  border: 2px solid #738294;
+  border: 2px solid $bluegray;
   background-color: $black;
+  h4 { margin: 10px; }
   .note-err {
     margin: 20px;
   }
@@ -2314,7 +2313,7 @@ img.help-icon {
 }
 
 .feedback-signup-msg {
-  border-top: 1px solid #738294;
+  border-top: 1px solid $bluegray;
   font-size: x-small;
   line-height: 2.4em;
   padding-left: 10px;
@@ -2448,7 +2447,7 @@ form#feedback_form .error {
    map page
    **/
 .map-container { float: right; }
-.map-os-switch { font-size: 80%; float: left; margin-left: 5px; margin-bottom: 6px;}
+.map-os-switch { font-size: 10px; float: left; margin-left: 5px; margin-bottom: 6px;}
 #all_artists_page .map-os-switch { float: left; }
 
 .map-roster { 
@@ -2618,7 +2617,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       text-decoration:none;
     }
     li {
-      background-color:#c6c7d6;
+      background-color: $lightbluegray;
       background-image: url(/images/gradients.png);
       background-position: 0 -50px; /* 40px gradient */
       background-repeat: repeat-x;
@@ -2890,7 +2889,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       text-align: center;
       width: 200px;
       height: 24px;
-      font-size:90%;
+      font-size:11px;
       overflow: hidden;
       line-height: 24px;
       position: absolute;
@@ -2977,7 +2976,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       }
     }
     label {
-      font-size: 85%;
+      font-size: 11px;
       font-family: Arial, sans-serif;
     }
     input[type=text] {
@@ -3042,7 +3041,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       }
     }
     label {
-      font-size: 85%;
+      font-size: 11px;
       font-family: Arial, sans-serif;
     }
     input[type=text] {
@@ -3057,7 +3056,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 #mc_embed_signup {
-  font-size: 85%;
+  font-size: 11px;
   font-family: Arial;
 
   fieldset {
@@ -3081,7 +3080,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     font-size: 1.2em;
   }
   .desc {
-    font-size: 120%;
+    font-size: 14px;
     margin-left: 10px;
   }
   .indicate-required {
@@ -3141,14 +3140,14 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     padding: 4px;
   }
   .deadline {
-    font-size: 85%;
+    font-size: 11px;
     margin-top: 4px;
     margin-bottom: 8px;
   }
   h1 {
     color: $white;
     font-weight: bold;
-    font-size: 110%;
+    font-size: 14px;
   }
   .formbutton {
   }
@@ -3160,7 +3159,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   text-align: left;
   h4 {
     border-bottom: 1px dotted $mediumgray;
-    font-size: 120%;
+    font-size: 16px;
     text-align: left;
     margin-bottom: .7em;
   }
@@ -3257,7 +3256,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
         background : $darkgray;
         color: $xlightgray;
         text-align: center;
-        font-size:90%;
+        font-size:11px;
         line-height: 24px;
         position: absolute;
         top: 100%;
@@ -3304,7 +3303,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     border-bottom: 1px solid $mediumgray;
   }
   & .et_title150bold, & .et_myentrytitle150bold {
-    font-size: 120%;
+    font-size: 16px;
   }
   &.mau {
     background: $darkgray;
@@ -3346,7 +3345,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     width: 680px;
   }
   .et_button150 {
-    font-size: 120%;
+    font-size: 16px;
     background:$mediumgray;
     background:url(/images/gradients.png) repeat-x left top;
     background-position: 0 -50px;
@@ -3439,4 +3438,80 @@ a.button b.m b {
   /** Make the text unselectable **/
   -moz-user-select: none;
   -webkit-user-select: none;
+}
+
+/* calendar select */
+
+#prev-browse, #next-browse
+{
+  background-image:url(/images/icons/browse-sprite.png);
+  background-repeat: no-repeat;
+  background-position:1px 1px;
+  height:14px;
+  margin: 0 8px;
+  overflow: hidden;
+  width:35px;
+  z-index:100;
+}
+
+#event_edit {
+  #starttimeInputs {
+    display: none;
+  }
+  #endtimeInputs {
+    display: none;
+  }
+}
+.calendar {
+  button {
+    background-image:url(/images/icons/playback-sprite.png);
+    background-position: 0px 0px;
+    height:16px;
+    width:16px;
+    overflow:hidden;
+  }
+  
+  .monthSelector {
+    width: 260px;
+    text-align: center;
+    color: #616161;
+    margin-bottom: 5px;
+    button {
+      text-indent: -9000px;
+      border:0;
+      background-color:transparent;
+    }
+    button.next {
+      background-position: -48px 0;
+      float: right;
+    }
+    button.back {
+      float: left;
+    }
+  }
+  .timeSelector {
+  }
+  table {
+    th, td {
+      height: 20px;
+      width: 20px;
+      margin: 2px;
+      padding: 2px;
+    }
+    th {
+      background-color: $darkgray;
+    }
+    td {
+      &.selected {
+        color: $lightyellow;
+        background-color: $mediumgray;
+      }
+      &:hover {
+        background-color: $bluegray;
+      }
+    }
+  }
+  .notThisMonth {
+    background-color: $darkbluegray;
+  }
 }

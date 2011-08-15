@@ -1,7 +1,10 @@
+%script document.observe('dom:loaded', function() {new CalendarUI('starttimeCal', 'starttimeInputs');});
+%script document.observe('dom:loaded', function() {new CalendarUI('endtimeCal', 'endtimeInputs');});
+
 #event_edit
   %h1 Event
   - form_for(@event) do |f|
-    = f.error_messages
+    = render :partial => '/error_msgs_for_haml', :locals => {:obj => @event}
     .clear
     .section
       .entry
@@ -20,8 +23,9 @@
           = f.text_field txtfld
     .section   
       - [:starttime, :endtime].each do |dt|
-        .entry
-          = f.label dt
+        = f.label dt
+        %div{:id => dt.to_s+"Cal"}
+        .entry{:id => dt.to_s+"Inputs"}
           = f.datetime_select dt
       - [:url].each do |txtfld|
         .entry
