@@ -1,6 +1,3 @@
-%script document.observe('dom:loaded', function() {new CalendarUI('starttimeCal', 'starttimeInputs');});
-%script document.observe('dom:loaded', function() {new CalendarUI('endtimeCal', 'endtimeInputs');});
-
 #event_edit
   %h2 Plug Your Art Show!
   - form_for(@event) do |f|
@@ -20,12 +17,9 @@
           = f.text_field txtfld
     .section   
       - [:starttime, :endtime].each do |dt|
-        .entry
-          %label.timelabel #{(dt == :starttime) ? 'Start Date/Time' : 'End Date/Time'}
-          %div{:id => dt.to_s + "Display"}
-          %div{:id => dt.to_s+"Cal"}
-          .hidden{:id => dt.to_s+"Inputs"}
-            = f.datetime_select dt
+        .entry{:class => dt}
+          = f.label dt, ((dt == :starttime) ? 'Start Date/Time' : 'End Date/Time')
+          = f.calendar_date_select dt
         .clear            
       - [:url].each do |txtfld|
         .entry

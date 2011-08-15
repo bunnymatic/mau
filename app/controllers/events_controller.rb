@@ -39,12 +39,13 @@ class EventsController < ApplicationController
   # GET /events/new.xml
   def new
     @event = Event.new(:zip => '94110', :state => 'CA', :city => 'San Francisco')
+    render 'new_or_edit'
   end
 
   # GET /events/1/edit
   def edit
     @event = Event.find(params[:id])
-    render 'edit', :layout => 'mau-admin'
+    render 'new_or_edit'
   end
 
   # POST /events
@@ -58,7 +59,7 @@ class EventsController < ApplicationController
         format.html { redirect_to(@event) }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
-        format.html { render "new_or_edit", :layout => 'mau-admin'}
+        format.html { render "new_or_edit"}
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end
