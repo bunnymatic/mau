@@ -54,7 +54,9 @@ describe EventsController do
   end
 
   describe "#index" do
+    integrate_views
     before do
+      Event.any_instance.stubs(:description => "# header\n\n##header2\n\n*doit*")
       get :index
     end
     it "returns success" do
@@ -62,6 +64,11 @@ describe EventsController do
     end
     it 'assigns only future published events' do
       assigns(:events).count.should == Event.future.published.count
+    end
+    it 'runs markdown on event description' do
+      response.should have_tag('.desc h1', 'header')
+      response.should have_tag('.desc h2', 'header2')
+      response.should have_tag('.desc em', 'doit')
     end
   end
 

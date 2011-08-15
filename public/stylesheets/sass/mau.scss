@@ -3454,7 +3454,51 @@ a.button b.m b {
   h2 {
     text-align: center;
   }
+  .event {
+    width: 500px;
+    margin: 10px auto;
+    padding: 20px;
+    @include dotted_border;
+    @include large-rounded-corners;
+    .title {
+      font-size: 14px;
+      width: 48%;
+      float: left;
+      color: $bluegray;
+    }
+    .address,
+    .time {
+      font-size: 11px;
+      margin-top: 2px;
+      color: $bluegray;
+    }
+    .maplink {
+      font-size: 10px;
+    }
+    .venue {
+      color: $bluegray;
+      width: 48%;
+      float: right;
+      text-align: right;
+    }
+    .desc {
+    }
+    .url {
+    }
+  }
+  .ctrls {
+    margin: 5px;
+    text-align: right;
+  }
+
+    
 }
+
+.singlecolumn .events {
+  .event {
+  }
+}
+
 #event_edit {
   width: 520px;
   margin: 20px auto;
