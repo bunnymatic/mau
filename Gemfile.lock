@@ -52,11 +52,7 @@ GEM
     httparty (0.7.8)
       crack (= 0.1.8)
     i18n (0.4.2)
-<<<<<<< HEAD
     json (1.5.1)
-=======
-    json (1.5.3)
->>>>>>> f33a97ac446b3e2ad5f3b4e869d4e073a77b7c22
     memcache (1.2.13)
     memcache-client (1.8.5)
     mocha (0.9.10)
@@ -111,11 +107,7 @@ DEPENDENCIES
   has_many_polymorphs
   htmlentities
   i18n (~> 0.4.0)
-<<<<<<< HEAD
   json (= 1.5.1)
-=======
-  json
->>>>>>> f33a97ac446b3e2ad5f3b4e869d4e073a77b7c22
   memcache
   memcache-client
   mobile-fu (= 2.x)!
