@@ -1,9 +1,7 @@
 <!-- ADMIN Controller for adding studios.
 no reason for this to be very pretty
 -->
-<script src="/javascripts/mau_admin.js" type="text/javascript"></script>
-
-
+<%= javascript_include_tag 'mau_admin' %>
 <button class="update-artists" style="float:right">update os status</button>
 <a class="export-csv" href="?format=csv&<%= request.query_string %>"><button style="float:right">export as csv</button></a>
 

@@ -3470,18 +3470,24 @@ a.button b.m b {
     margin-top: 30px;
   }
   .event {
-    margin: 10px auto;
+    position:relative;
+    margin: 10px auto 15px;
     padding: 20px;
     @include dotted_border;
     @include large-rounded-corners;
+    background-color: $xdarkgray;
     .title {
       font-size: 14px;
       width: 48%;
       float: left;
-      color: $bluegray;
+      color: $white;
+      font-weight: bold;
+      letter-spacing:1px;
     }
     .address,
     .time {
+      letter-spacing: 0px;
+      font-weight:normal;
       margin-top: 2px;
       color: $bluegray;
     }
@@ -3500,17 +3506,19 @@ a.button b.m b {
     }
   }
   .ctrls {
-    font-size: 11px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 10px;
     text-align: center;
     background-color: $darkgray;
     border: 1px solid $darkbluegray;
     border-top: none;
-    width: 220px;
-    padding: 5px 0;
-    margin: -11px 0px 5px 323px;
-    -moz-border-radius-bottomleft: 4px;
-    -moz-border-radius-bottomright: 4px;
-    -webkit-border-bottom-left-radius: 4px;
+    width: 164px;
+    padding: 2px 0;
+    -moz-border-radius-topleft: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
     -webkit-border-bottom-right-radius: 4px;
     a {
       padding: 4px 8px;

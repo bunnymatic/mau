@@ -1,4 +1,4 @@
-.event
+.event{:class => (event.starttime < Time.now() ? 'past' : 'future')}
   .title 
     #{event.title}
     .time #{EventsHelper::event_time(event)}
@@ -17,11 +17,11 @@
   .desc.markdown #{markdown(event.description)}
   .url 
     %a{:href => event.url} #{event.url}
-- if current_user && current_user.is_admin?
-  .ctrls
-    - if event.publish
-      = link_to 'unpublish', unpublish_event_path(event)
-    - else
-      = link_to 'publish', publish_event_path(event)
-    = link_to 'edit', edit_event_path(event)
-    = link_to 'delete', event, :confirm => 'Are you sure?', :method => :delete 
+  - if current_user && current_user.is_admin?
+    .ctrls
+      - if event.publish
+        = link_to 'unpublish', unpublish_event_path(event)
+      - else
+        = link_to 'publish', publish_event_path(event)
+      = link_to 'edit', edit_event_path(event)
+      = link_to 'delete', event, :confirm => 'Are you sure?', :method => :delete 
