@@ -103,13 +103,13 @@ body.admin {
   }
   #dashboard {
     .section { 
-      width: 178px;
+      width: 165px;
       float: left;
       padding: 10px 10px 20px;
       margin:10px;
       border: 1px dotted #444;
       &.graph {
-        width: 395px;
+        width: 375px;
         h3 {
           padding-bottom: 10px;
         }
@@ -247,4 +247,14 @@ body.admin {
 /* leave at the bottom */
 td.singlecolumn {
   padding: 20px;
+}
+
+.events {
+  .filters {
+    font-size: 11px;
+    div { 
+      display: inline;
+      padding: 4px;
+    }
+  }
 }

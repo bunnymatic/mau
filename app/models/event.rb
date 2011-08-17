@@ -17,6 +17,8 @@ class Event < ActiveRecord::Base
   named_scope :past, :conditions => ['starttime < NOW()' ]
   named_scope :published, :conditions => ['publish is not null']
 
+  default_scope :order => 'starttime'
+
   include AddressMixin
 
   def validate_endtime

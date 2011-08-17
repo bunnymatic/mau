@@ -1,9 +1,17 @@
+=javascript_include_tag 'mau_admin'
 .events
   %h1 Events
   .links
     = link_to '[Add Event]', new_event_path(@event) 
     = link_to '[Event Index]', events_path
-
+  .filters
+    Show:
+    .all 
+      %a [All]
+    .future 
+      %a [Future]
+    .past
+      %a [Past]
   - @events.each do |ev|
     = render :partial => 'event', :locals => {:event => ev}
   .links

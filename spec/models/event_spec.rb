@@ -45,6 +45,9 @@ describe Event do
     it 'published only returns events whose publish flag has been set true' do
       Event.published.all{|u| u.publish}.should be
     end
+    it 'returns events in order of starttime by default' do
+      Event.all.should == Event.all.sort_by(&:starttime)
+    end
   end
 
   describe 'validation' do
