@@ -39,7 +39,7 @@ no reason for this to be very pretty
     <th>studio</th>
     <th>info</th>
     <th>street</th>
-    <th>Spring 2011 OS?</th>
+    <th>Oct 2011 OS?</th>
   </tr>
 
 <% @artists.each_with_index do |a, idx| 
@@ -73,7 +73,7 @@ no reason for this to be very pretty
     <td class="oct2011" artistid="<%= a.id %>"><%=h a.os_participation['201110'] %></td>
     <% checked = (a.os_participation['201110'] ? "checked=checked":"") -%>
     <td>
-	<div ><input artistid="<%= a.id %>" class="cbspring2011" type="checkbox" name="artist<%=a.id%>" value="<%=a.os_participation['201110'] %>" <%= checked %> /></div>
+	<div ><input artistid="<%= a.id %>" class="cboct2011" type="checkbox" name="artist<%=a.id%>" value="<%=a.os_participation['201110'] %>" <%= checked %> /></div>
     </td>
  </tr>
 <% end %>
