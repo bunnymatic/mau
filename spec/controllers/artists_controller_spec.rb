@@ -42,6 +42,25 @@ describe ArtistsController do
       assert ct > 0, "we didn't have any representatives in the fixtures"
     end
   end
+  describe '#index .json' do
+    before do
+      get :index, :format => 'json', :suggest => 1, :fullname => true, :input => 'art'
+    end
+    it "returns success" do
+      response.should be_success
+    end
+    it 'returns a hash with a list of artists' do
+      j = JSON.parse(response.body)
+      j.should be_a_kind_of Hash
+      (j.has_key? 'artists').should be
+    end
+    it 'list of artists matches the input parameter (in this case "art")' do
+      j = JSON.parse(response.body)
+      j['artists'].should be_a_kind_of Array
+      j['artists'].should have_at_least(1).artist_name
+      j['artists'].all?{|artist_name| /^art/.matches(artist_name)}.should be
+    end
+  end
 
   describe "#update" do
     integrate_views
@@ -408,18 +427,6 @@ describe ArtistsController do
       it_should_behave_like "redirects to login"
     end
   end
-  describe "- route generation" do
-    it "should map controller artists, id 10 and action show to /artists/10" do
-      route_for(:controller => "artists", :id => "10", :action => "show").should == "/artists/10"
-    end
-    it "should map edit action properly" do
-      route_for(:controller => "artists", :action => "edit").should == "/artists/edit"
-    end
-    
-    it "should map users/index to artists" do
-      route_for(:controller => "artists", :action => "index").should == "/artists"
-    end
-  end
 
   describe "#map" do
     integrate_views
@@ -533,7 +540,8 @@ describe ArtistsController do
     end
 
   end
-      
+
+     
   describe "- named routes" do
     it "should have destroyart as artists collection path" do
       destroyart_artists_path.should == "/artists/destroyart"
@@ -549,6 +557,19 @@ describe ArtistsController do
     end      
   end
 
+
+  describe "- route generation" do
+    it "should map controller artists, id 10 and action show to /artists/10" do
+      route_for(:controller => "artists", :id => "10", :action => "show").should == "/artists/10"
+    end
+    it "should map edit action properly" do
+      route_for(:controller => "artists", :action => "edit").should == "/artists/edit"
+    end
+    
+    it "should map users/index to artists" do
+      route_for(:controller => "artists", :action => "index").should == "/artists"
+    end
+  end
 
   describe "- route recognition" do
     context "/artists/edit" do

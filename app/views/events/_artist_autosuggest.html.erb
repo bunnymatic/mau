@@ -1,0 +1,31 @@
+<script type="text/javascript">
+  autocompleter = null;
+  Event.observe(window, 'load', function() {
+     $('artist_list').observe('focus', function() {
+     var options={ 
+       script:'/artist?format=json&suggest=1&fullname=true&', // form elements tagged on the end
+       varname:'input', 
+       valueSep: ', ',
+       json:true, 
+       minchars:3,
+       shownoresults:false,
+       maxresults:10,
+       callback: null
+     }; 
+     autocompleter=new AutoComplete('artist_list', options); 
+     return true;
+     });
+
+/*  var otherinputs = $$('input');
+  otherinputs.each( function(inp) {
+    if (inp.readAttribute('id')!='tags') {
+       inp.observe('focus', function() { 
+       if (autocompleter) { autocompleter.clearSuggestions(); }
+      });
+    }
+  });
+*/
+
+  });
+</script>
+<%= javascript_include_tag autocomplete %>
