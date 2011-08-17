@@ -20,7 +20,11 @@ class Event < ActiveRecord::Base
   include AddressMixin
 
   def validate_endtime
-    errors.add(:endtime, 'should be after start time.') unless ((endtime >= starttime) && endtime.present?)
+    if !endtime
+      return
+    else
+      errors.add(:endtime, 'should be after start time.') unless endtime >= starttime
+    end
   end
 
   protected

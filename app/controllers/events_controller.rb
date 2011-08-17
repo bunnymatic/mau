@@ -55,6 +55,19 @@ class EventsController < ApplicationController
     if event_details[:artist_list]
       artist_list = event_details[:artist_list]
       event_details.delete :artist_list
+
+      artist_names = artist_list.split(',')
+      artists = []
+      artist_names.each do |n|
+        n.strip!
+        a = Artist.find_by_fullname(n)
+        if !a || a.empty?
+          a = Artist.find_by_login(n)
+        end
+        artists << a if a
+      end
+      event_details[:description] << "\n\n" << artists.flatten.map{|a| "[#{a.get_name}](#{a.get_share_link})"}.join(', ')
+
     end
     @event = Event.new(event_details)
 

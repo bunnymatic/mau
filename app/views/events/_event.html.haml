@@ -12,7 +12,7 @@
       - txt << address_hash[:zip] if address_hash[:zip] != '94110'
       = txt.join ' '
       .maplink 
-        %a{:href => event.map_link} (map)
+        %a{:target => '_blank', :href => event.map_link} (map)
   .clear        
   .desc.markdown #{markdown(event.description)}
   .url 

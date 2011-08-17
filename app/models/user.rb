@@ -95,6 +95,10 @@ class User < ActiveRecord::Base
     write_attribute :email, (value ? value.downcase : nil)
   end
 
+  def active?
+    state == 'active'
+  end
+
   def has_profile_image
     self.profile_image
   end

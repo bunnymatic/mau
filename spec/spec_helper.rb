@@ -62,3 +62,9 @@ end
 
 
 require 'mocha'
+
+LETTERS_PLUS_SPACE =  [('a'..'z'),('A'..'Z'), ' '].map{|i| i.to_a}.flatten;
+def gen_random_string(len=8)
+  numchars = LETTERS_PLUS_SPACE.length
+  (0..len).map{ LETTERS_PLUS_SPACE[rand(numchars)] }.join
+end
