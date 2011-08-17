@@ -2,6 +2,18 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
+def get_event_params(opts={})
+  { :title => gen_random_string(20),
+    :description => gen_random_string(200),
+    :starttime => Time.now + 1.day,
+    :endtime => Time.now + 1.day + 2.hours,
+    :venue => gen_random_string(20),
+    :street => rand(1000),
+    :city => 'san francisco'
+  }.merge(opts)
+end
+
+
 describe EventsController do
 
   fixtures :users, :events, :roles
@@ -128,5 +140,36 @@ describe EventsController do
       assert_select("a[href=#{unpublish_event_path(Event.published.first)}]")
     end
   end
-  
+
+  describe '#create' do
+    before do
+      login_as(:admin)
+    end
+    it 'returns redirects to events index' do
+      ev = get_event_params
+      post :create, :event => ev
+      response.should redirect_to(events_path)
+    end
+    context 'with artists list' do
+      integrate_views
+      before do 
+        @ev = get_event_params({"artist_list" => 'quentin tarantino, joe blogs, artist1, pending'})
+        post :create, :event => @ev
+      end
+      it 'creates an event' do
+        Event.find_by_title(@ev[:title]).should be
+      end
+      it 'integrates artists links into the description' do
+        ev = Event.find_by_title(@ev[:title])
+        ev.description.should include '[artist1 Fixture]'
+        ev.description.should include users(:artist1).get_share_link
+        ev.description.should include '[joe blogs]'
+        ev.description.should include users(:joeblogs).get_share_link
+      end
+      it 'only puts active artists into the description ' do
+        ev = Event.find_by_title(@ev[:title])
+        ev.description.should_not include "pending"
+      end
+    end
+  end
 end

@@ -1,11 +1,14 @@
 module EventsHelper
   def self.event_time(event) 
-    t0 = event.starttime
-    t1 = event.endtime
     full_fmt = "%a %b %e %l:%M%p"
     hr_fmt = "%l:%M%p"
-    same_day = [:year, :yday].all?{|method| t0.send(method) == t1.send(method)}
+    t0 = event.starttime
     result = t0.strftime(full_fmt)
+    if !event.endtime
+      return result
+    end
+    t1 = event.endtime
+    same_day = [:year, :yday].all?{|method| t0.send(method) == t1.send(method)}
     if same_day
       result << " - " + t1.strftime(hr_fmt)
     else

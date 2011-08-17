@@ -298,8 +298,8 @@ input, textarea, select {
       }
       .formbutton {
         margin: 0 10px;
-        @include small-rounded-corners;
         padding: 2px;
+        @include small-rounded-corners;
         text-align: center;
         &:hover {
           font-weight: bold;
@@ -3482,7 +3482,6 @@ a.button b.m b {
     }
     .address,
     .time {
-      font-size: 11px;
       margin-top: 2px;
       color: $bluegray;
     }
@@ -3501,8 +3500,21 @@ a.button b.m b {
     }
   }
   .ctrls {
-    margin: 5px;
-    text-align: right;
+    font-size: 11px;
+    text-align: center;
+    background-color: $darkgray;
+    border: 1px solid $darkbluegray;
+    border-top: none;
+    width: 220px;
+    padding: 5px 0;
+    margin: -11px 0px 5px 323px;
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    a {
+      padding: 4px 8px;
+    }
   }
 
     
