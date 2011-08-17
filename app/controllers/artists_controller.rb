@@ -282,6 +282,9 @@ class ArtistsController < ApplicationController
           render :action => 'index', :layout => 'mau1col'
         end      
       }
+      format.json {
+        render :json => {:artists => []}
+      }
       format.mobile { 
         @artists = []
         @page_title = "Artists"
