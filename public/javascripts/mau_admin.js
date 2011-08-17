@@ -20,8 +20,8 @@ MAUAdmin =  window['MAUAdmin'] || {};
 	    }
 	  }
         }
-	var oss = $$('.spring2011');
-	var cbs = $$('.cbspring2011');
+	var oss = $$('.oct2011');
+	var cbs = $$('.cboct2011');
 	var ii = 0;
 	var updates = {};
         if (oss && cbs) {
