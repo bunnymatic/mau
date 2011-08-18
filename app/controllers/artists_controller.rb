@@ -315,9 +315,7 @@ class ArtistsController < ApplicationController
             inp = params[:input].downcase
             lin = inp.length - 1
             begin
-              p "BEFORE", artist_names
-              artist_names.compact.delete_if {|nm| inp != nm['value'][0..lin].downcase}
-              p "AFTER", artist_names
+              artist_names = artist_names.compact.delete_if {|nm| inp != nm['value'][0..lin].downcase}
             rescue Exception => ex
               artist_names = []
             end
