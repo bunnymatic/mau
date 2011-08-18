@@ -6,8 +6,8 @@ class ArtPieceTagsController < ApplicationController
   before_filter :admin_required, :except => [ 'index', 'show' ]
   after_filter :store_location
 
-  @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['cache_expiry']
-  @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['cache_key']
+  @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
+  @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
   
   @@PER_PAGE = 12
   def admin_index

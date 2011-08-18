@@ -113,8 +113,13 @@ common:
    # minimum artists before we show a studio
    min_artists_per_studio: 0
    autosuggest:
+     tags:
        cache_expiry: 300
        cache_key: tagsuggest
+     artist_names:
+       # expire daily
+       cache_expiry: 86400
+       cache_key: artistnamesuggest
    oslive: true
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2

@@ -1,22 +1,25 @@
 <script type="text/javascript">
   autocompleter = null;
   Event.observe(window, 'load', function() {
-     $('artist_list').observe('focus', function() {
+  var artist_list_inp = $('event_artist_list');
+  if (!artist_list_inp) { return; }
+  artist_list_inp.observe('focus', function() {
      var options={ 
-       script:'/artist?format=json&suggest=1&fullname=true&', // form elements tagged on the end
+       script:'/artists?format=json&suggest=1&', // form elements tagged on the end
        varname:'input', 
        valueSep: ', ',
        json:true, 
-       minchars:3,
+       minchars:2,
        shownoresults:false,
        maxresults:10,
        callback: null
      }; 
-     autocompleter=new AutoComplete('artist_list', options); 
+     autocompleter=new AutoComplete('event_artist_list', options); 
      return true;
      });
 
-/*  var otherinputs = $$('input');
+/*
+  var otherinputs = $$('input');
   otherinputs.each( function(inp) {
     if (inp.readAttribute('id')!='tags') {
        inp.observe('focus', function() { 
@@ -28,4 +31,4 @@
 
   });
 </script>
-<%= javascript_include_tag autocomplete %>
+<%= javascript_include_tag 'autocomplete' %>
