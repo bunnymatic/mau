@@ -140,12 +140,18 @@ describe EventsController do
 
   describe '#create' do
     before do
-      login_as(:admin)
+      login_as(:jesseponce)
     end
     it 'returns redirects to events index' do
       ev = get_event_params
       post :create, :event => ev
       response.should redirect_to(events_path)
+    end
+    it 'emails the system' do
+      ev = get_event_params
+      Feedback.expects(:new)
+      FeedbackMailer.expects(:deliver_event)
+      post :create, :event => ev
     end
     context 'with artists list' do
       integrate_views
@@ -155,6 +161,9 @@ describe EventsController do
       end
       it 'creates an event' do
         Event.find_by_title(@ev[:title]).should be
+      end
+      it 'includes the submitter\'s artist id' do
+        Event.find_by_title(@ev[:title]).submitting_user_id.should == users(:jesseponce).id
       end
       it 'integrates artists links into the description' do
         ev = Event.find_by_title(@ev[:title])

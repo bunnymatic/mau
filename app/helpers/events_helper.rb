@@ -1,6 +1,6 @@
 module EventsHelper
   def self.event_time(event) 
-    full_fmt = "%a %b %e %l:%M%p"
+    full_fmt = "%a %b %e, %l:%M%p"
     hr_fmt = "%l:%M%p"
     t0 = event.starttime
     result = t0.strftime(full_fmt)
