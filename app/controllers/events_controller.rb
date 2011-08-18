@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_filter :admin_required, :only => [:admin_index, :publish, :unpublish]
 
   layout 'mau2col'
-  
+
   def admin_index
     @events = Event.all
 
@@ -55,7 +55,7 @@ class EventsController < ApplicationController
     if event_details[:artist_list]
       artist_list = event_details[:artist_list]
       event_details.delete :artist_list
-
+      event_details[:submitting_user_id] = current_user.id
       artist_names = artist_list.split(',')
       artists = []
       artist_names.each do |n|
@@ -73,6 +73,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
+        deliver_event_to_admin @event
         flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
         format.html { redirect_to(events_path) }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
@@ -134,4 +135,23 @@ class EventsController < ApplicationController
     end
     redirect_to events_path
   end
+
+  private
+  def deliver_event_to_admin ev
+    subject = "New event posted"
+    submitter = nil
+    begin
+      submitter = Artist.find(ev.submitting_user_id).login
+    rescue ActiveRecord::RecordNotFound
+      submitter = nil
+    end
+      
+        
+    f = Feedback.new( { :subject => subject, 
+                        :login => submitter,
+                        :url => url_for(:host => Conf.site_url, :controller => 'events', :action => 'admin_index'),
+                        :comment => ev.description})
+    FeedbackMailer.deliver_event(f)
+  end
+
 end
