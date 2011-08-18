@@ -435,7 +435,7 @@ AutoComplete.prototype = { // {{{
 	
       var scrollOffset = window.pageYOffset || window.scrollTop || 0;
 	var pos         = this.fld.viewportOffset();
-	div.style.left 	= pos[0] + "px";
+      div.style.left 	= (pos[0] + 5) + "px";
 	div.style.top 	= pos[1] + this.fld.offsetHeight + scrollOffset + "px";
 	
 	var w = 
@@ -449,7 +449,7 @@ AutoComplete.prototype = { // {{{
 	    ? this.options.maxWidth : 
 	    this.fld.offsetWidth;
 	
-	div.style.width 	= w + "px";
+      div.style.width 	= (w - 10) + "px";
 	
 	// set mouseover functions for div
 	// when mouse pointer leaves div, set a timeout to remove the list after an interval
@@ -573,9 +573,11 @@ AutoComplete.prototype = { // {{{
 	this.killTimeout();
 	if ($(this.acID))
 	{
-	    this.fadeOut(300,function () {
+/*
+	    this.fadeOut(600,function () {
 		if (remove) $(this.acID).remove();
 	    } );
+*/
 	}
     }, // }}}
 

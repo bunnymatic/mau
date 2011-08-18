@@ -11,6 +11,10 @@ describe ArtistsController do
   fixtures :roles
   fixtures :media
 
+  before do
+    Rails.cache.stubs(:read).returns(nil)
+  end
+
   describe "#index" do
     integrate_views
     before do 
@@ -44,21 +48,22 @@ describe ArtistsController do
   end
   describe '#index .json' do
     before do
-      get :index, :format => 'json', :suggest => 1, :fullname => true, :input => 'art'
+      get :index, :format => 'json', :suggest => 1, :input => 'jes'
     end
     it "returns success" do
       response.should be_success
     end
     it 'returns a hash with a list of artists' do
       j = JSON.parse(response.body)
-      j.should be_a_kind_of Hash
-      (j.has_key? 'artists').should be
+      j.should be_a_kind_of Array
+      (j.first.has_key? 'info').should be
+      (j.first.has_key? 'value').should be
     end
-    it 'list of artists matches the input parameter (in this case "art")' do
+    it 'list of artists matches the input parameter (in this case "jes")' do
       j = JSON.parse(response.body)
-      j['artists'].should be_a_kind_of Array
-      j['artists'].should have_at_least(1).artist_name
-      j['artists'].all?{|artist_name| /^art/.matches(artist_name)}.should be
+      j.should be_a_kind_of Array
+      j.should have_at_least(1).artist_name
+      j.first['value'].should == 'jesse ponce'
     end
   end
 

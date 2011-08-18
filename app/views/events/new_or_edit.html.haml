@@ -1,3 +1,4 @@
+= render 'artist_autosuggest'
 #event_edit
   %h2 Plug Your Art Show!
   .instructions Please give us as much information (as accurately as possible) about your show.  If everything looks good with your submission, we'll add it to our list of MAU events and publish it to our Facebook and Twitter feeds a few days before the event.
@@ -28,9 +29,10 @@
         .entry
           = f.label txtfld, "Event Website"
           = f.text_field txtfld
-      .entry 
-        = label_tag :event_artist_list, "MAU Artists Showing"
-        = text_field_tag "event[artist_list]", current_user.get_name(true)
+      - unless request.path.include? 'edit'          
+        .entry 
+          = label_tag :event_artist_list, "MAU Artists Showing"
+          = text_field_tag "event[artist_list]", current_user.get_name(true)
     .clear
-      = f.submit 'Submit'
+    = f.submit 'Submit'
     .clear

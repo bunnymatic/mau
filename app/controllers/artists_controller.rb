@@ -9,6 +9,8 @@ end
 
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
+  @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
+  @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
@@ -283,7 +285,45 @@ class ArtistsController < ApplicationController
         end      
       }
       format.json {
-        render :json => {:artists => []}
+        # grab all names from the cache
+        begin
+          cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
+        rescue MemCacheError => mce
+          logger.warning("Memcache (read) appears to be dead or unavailable")
+          cacheout = nil
+        end
+        artist_names = nil
+        if params[:suggest] && params[:input]
+          if cacheout
+            logger.debug("Fetched artist name autosuggest tags from cache")
+            artist_names = ActiveSupport::JSON.decode cacheout
+          end
+          unless artist_names
+            all_names = Artist.active.map(&:fullname)
+            artist_names = Artist.active.map{|a| { 'value' => a.fullname, 'info' => a.id } }
+            cachein = ActiveSupport::JSON.encode artist_names
+            if cachein
+              begin
+                Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
+              rescue MemCacheError => mce
+                logger.warning("Memcache (write) appears to be dead or unavailable")
+              end
+            end
+          end
+          if params[:input].present?
+            # filter with input prefix
+            inp = params[:input].downcase
+            lin = inp.length - 1
+            begin
+              p "BEFORE", artist_names
+              artist_names.compact.delete_if {|nm| inp != nm['value'][0..lin].downcase}
+              p "AFTER", artist_names
+            rescue Exception => ex
+              artist_names = []
+            end
+          end
+        end        
+        render :json => artist_names
       }
       format.mobile { 
         @artists = []
