@@ -60,9 +60,6 @@ describe EventsController do
       get :edit, :id => @ev.id
     end
     it_should_behave_like 'event new or edit'
-    it "renders the artists list text box with the current users' name" do
-      assert_select("input#event_artist_list[value='#{users(:jesseponce).get_name}']")
-    end
   end
 
   describe "#index" do

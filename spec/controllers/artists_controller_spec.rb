@@ -62,7 +62,7 @@ describe ArtistsController do
     it 'list of artists matches the input parameter (in this case "jes")' do
       j = JSON.parse(response.body)
       j.should be_a_kind_of Array
-      j.should have_at_least(1).artist_name
+      j.should have(1).artist_name
       j.first['value'].should == 'jesse ponce'
     end
   end
