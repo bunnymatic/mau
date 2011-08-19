@@ -13,8 +13,8 @@ class Event < ActiveRecord::Base
 
   validate :validate_endtime
 
-  named_scope :future, :conditions => ['starttime > NOW()' ]
-  named_scope :past, :conditions => ['starttime < NOW()' ]
+  named_scope :future, :conditions => ['(endtime is not null and endtime > NOW()) or (starttime > NOW())' ]
+  named_scope :past, :conditions => ['(endtime is not null and endtime < NOW()) or (starttime < NOW())' ]
   named_scope :published, :conditions => ['publish is not null']
 
   default_scope :order => 'starttime'

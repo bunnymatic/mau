@@ -36,11 +36,11 @@ describe Event do
   end
 
   describe 'named scopes' do
-    it "future returns only events that are in the future" do
-      Event.future.all?{|u|  u.starttime > Time.now }.should be
+    it "future returns only events whose end time is the future" do
+      Event.future.all?{|u| (u.endtime && u.endtime > Time.now) || (u.starttime > Time.now) }.should be
     end
     it "past returns only events that are in the past" do
-      Event.past.all?{|u| u.starttime < Time.now}.should be
+      Event.past.all?{|u| (u.endtime && u.endtime < Time.now) || (u.starttime < Time.now)}.should be
     end
     it 'published only returns events whose publish flag has been set true' do
       Event.published.all{|u| u.publish}.should be

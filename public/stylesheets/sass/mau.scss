@@ -1861,7 +1861,7 @@ span.rightarrow
   @include dotted_border;
   padding: 8px;
   vertical-align: top;
-  background-color: $darkbluegray;
+  background-color: $xdarkgray;
   float:left;
   width: 155px;
   margin: 6px 8px 12px;
@@ -3503,6 +3503,7 @@ a.button b.m b {
     .desc {
     }
     .url {
+      font-size:12px;
     }
   }
   .ctrls {

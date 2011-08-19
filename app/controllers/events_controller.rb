@@ -38,7 +38,7 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.xml
   def new
-    @event = Event.new(:zip => '94110', :state => 'CA', :city => 'San Francisco')
+    @event = Event.new(:state => 'CA', :city => 'San Francisco')
     render 'new_or_edit'
   end
 
@@ -70,12 +70,13 @@ class EventsController < ApplicationController
 
     end
     @event = Event.new(event_details)
-
+    
     respond_to do |format|
       if @event.save
         deliver_event_to_admin @event
+        redir = events_path
         flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
-        format.html { redirect_to(events_path) }
+        format.html { redirect_to(redir) }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
         format.html { render "new_or_edit"}
