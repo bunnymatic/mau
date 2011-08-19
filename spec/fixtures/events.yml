@@ -65,3 +65,16 @@ published:
   endtime: <%= 2.days.since %>
   url: MyString
   publish: <%= 3.days.since %>
+
+noendtime:
+  title: MyString
+  description: MyText
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: <%= 1.day.since %>
+  url: MyString
+  publish: <%= 3.days.since %>

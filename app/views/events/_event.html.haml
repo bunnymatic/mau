@@ -15,8 +15,13 @@
         %a{:target => '_blank', :href => event.map_link} (map)
   .clear        
   .desc.markdown #{markdown(event.description)}
-  .url 
-    %a{:href => event.url} #{event.url}
+  .url
+    - if event.url.present?
+      Event Website:
+      - url = event.url
+      - unless /http[s?]:\/\// =~ event.url
+        - url = 'http://' + event.url
+      %a{:href => url} #{event.url}
   - if current_user && current_user.is_admin?
     .ctrls
       - if event.publish

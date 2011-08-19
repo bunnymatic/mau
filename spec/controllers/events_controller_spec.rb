@@ -65,6 +65,7 @@ describe EventsController do
   describe "#index" do
     integrate_views
     before do
+      Event.any_instance.stubs(:url => 'whatever.com')
       Event.any_instance.stubs(:description => "# header\n\n##header2\n\n*doit*")
       get :index
     end
@@ -78,6 +79,9 @@ describe EventsController do
       response.should have_tag('.desc h1', 'header')
       response.should have_tag('.desc h2', 'header2')
       response.should have_tag('.desc em', 'doit')
+    end
+    it 'makes sure the url includes http for the link' do
+      response.should have_tag('a[href=http://whatever.com]', 'whatever.com')
     end
   end
 
