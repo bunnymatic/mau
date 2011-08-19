@@ -102,6 +102,12 @@ describe EventsController do
       @ev.reload
       @ev.publish.to_i.should be >= @before_publish.to_i
     end
+    it "notifies the event submitter with an email" do
+      EventMailer.expects(:new)
+      @ev = events(:noendtime)
+      get :publish, :id => @ev.id
+    end
+
   end
 
   describe "#unpublish" do

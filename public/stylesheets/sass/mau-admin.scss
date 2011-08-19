@@ -134,15 +134,15 @@ body.admin {
 }
 
 #role_mgr {
+  padding-left: 20px;
   li {
     .role-members{ float: right; }
     width: 200px;
+    clear:both; 
+    width: 200px; 
+    margin: 8px 0;
   }
-  #role_mgr li { clear:both; width: 200px;}
 
-  padding-left: 20px;
-  li {
-  }
 }
 
 #artists_per_day, #art_pieces_per_day, #favorites_per_day {

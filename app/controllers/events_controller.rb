@@ -73,7 +73,7 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.save
-        deliver_event_to_admin @event
+        EventMailer.deliver_event(ev)
         redir = events_path
         flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
         format.html { redirect_to(redir) }
@@ -135,24 +135,6 @@ class EventsController < ApplicationController
       flash[:error] = "There was a problem publishing #{@event.title}. " + (@event.errors.map{|e| e.join ' '}.join ',')
     end
     redirect_to events_path
-  end
-
-  private
-  def deliver_event_to_admin ev
-    subject = "New event posted"
-    submitter = nil
-    begin
-      submitter = Artist.find(ev.submitting_user_id).login
-    rescue ActiveRecord::RecordNotFound
-      submitter = nil
-    end
-      
-        
-    f = Feedback.new( { :subject => subject, 
-                        :login => submitter,
-                        :url => url_for(:host => Conf.site_url, :controller => 'events', :action => 'admin_index'),
-                        :comment => ev.description})
-    FeedbackMailer.deliver_event(f)
   end
 
 end
