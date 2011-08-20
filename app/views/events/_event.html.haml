@@ -11,7 +11,8 @@
       - txt = [address_hash[:street], address_hash[:city]]
       - txt << address_hash[:state] if address_hash[:state].downcase != 'ca'
       - txt << address_hash[:zip] if address_hash[:zip] != '94110'
-      = txt.join ' '
+      - txt.each do |item|
+        %span.nobr #{item}
       .maplink 
         %a{:target => '_blank', :href => event.map_link} (map)
   .clear        
