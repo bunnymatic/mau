@@ -19,7 +19,6 @@ class Event < ActiveRecord::Base
 
   default_scope :order => 'starttime'
 
-  has_and_belongs_to_many :artists
   belongs_to :user
 
   include AddressMixin
