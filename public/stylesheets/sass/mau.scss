@@ -3496,6 +3496,12 @@ a.button b.m b {
       font-weight:normal;
       margin-top: 2px;
       color: $lightgray;
+      overflow:hidden;
+    }
+    .address {
+      span.nobr {
+        white-space: nowrap;
+      }
     }
     .maplink {
       font-size: 10px;
