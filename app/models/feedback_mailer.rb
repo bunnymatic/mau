@@ -14,11 +14,4 @@ class FeedbackMailer < ActionMailer::Base
 
   end
 
-  def event(f)
-    @recipients  = "events@missionartistsunited.org"
-    @from        = 'noreply@missionartistsunited.org'
-    @subject     = "[MAU Event Submission] #{f.subject}"
-    @sent_on     = Time.now
-    @body[:event_info] = f
-  end
 end

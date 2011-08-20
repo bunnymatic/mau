@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110812061022) do
+ActiveRecord::Schema.define(:version => 20110820173455) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(:version => 20110812061022) do
     t.string   "url"
     t.float    "lat"
     t.float    "lng"
-    t.integer  "submitting_user_id"
+    t.integer  "user_id"
     t.datetime "publish"
   end
 

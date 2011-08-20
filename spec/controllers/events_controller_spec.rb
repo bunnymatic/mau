@@ -18,9 +18,10 @@ describe EventsController do
 
   fixtures :users, :events, :roles
 
-  [:edit, :show].each do |endpoint| 
+  [:edit].each do |endpoint| 
     it "##{endpoint} should redirect to login if not logged in" do
       get endpoint
+      response.should be_redirect
     end
   end
   [:unpublish, :publish, :admin_index].each do |endpoint|
@@ -52,6 +53,13 @@ describe EventsController do
     it_should_behave_like 'event new or edit'
   end
 
+  describe '#show' do
+    it 'should redirect to index page with event id as a hash tag' do
+      get :show, :id => Event.published.first.id
+      response.should redirect_to(events_path + "##{Event.published.first.id}")
+    end
+  end
+
   describe "#edit" do
     integrate_views
     before do
@@ -75,6 +83,10 @@ describe EventsController do
     it 'assigns only future published events' do
       assigns(:events).count.should == Event.future.published.count
     end
+    it 'assigns only future published events keyed by month' do
+      assigns(:events_by_month).values.flatten.count.should == Event.future.published.count
+      assigns(:events_by_month).keys.should == Event.future.published.map(&:starttime).map{|st| st.strftime("%B %Y")}.uniq
+    end
     it 'runs markdown on event description' do
       response.should have_tag('.desc h1', 'header')
       response.should have_tag('.desc h2', 'header2')
@@ -82,6 +94,16 @@ describe EventsController do
     end
     it 'makes sure the url includes http for the link' do
       response.should have_tag('a[href=http://whatever.com]', 'whatever.com')
+    end
+    it 'renders an anchor tag with the event id in each event' do
+      Event.future.published.each do |ev|
+        response.should have_tag(".events a[name=#{ev.id}]")
+      end
+    end
+    it 'renders a break for each month with a header' do
+      Event.future.published.map(&:starttime).map{|t| t.strftime("%B %Y")}.uniq.each do |month|
+        response.should have_tag('.events h4.month', month)
+      end
     end
   end
 
@@ -103,7 +125,7 @@ describe EventsController do
       @ev.publish.to_i.should be >= @before_publish.to_i
     end
     it "notifies the event submitter with an email" do
-      EventMailer.expects(:new)
+      EventMailer.expects(:deliver_event_published)
       @ev = events(:noendtime)
       get :publish, :id => @ev.id
     end
@@ -159,21 +181,21 @@ describe EventsController do
     end
     it 'emails the system' do
       ev = get_event_params
-      Feedback.expects(:new)
-      FeedbackMailer.expects(:deliver_event)
+      EventMailer.expects(:deliver_event)
       post :create, :event => ev
     end
     context 'with artists list' do
       integrate_views
       before do 
+        login_as(:jesseponce)
         @ev = get_event_params({"artist_list" => 'quentin tarantino, joe blogs, artist1, pending'})
         post :create, :event => @ev
       end
       it 'creates an event' do
         Event.find_by_title(@ev[:title]).should be
       end
-      it 'includes the submitter\'s artist id' do
-        Event.find_by_title(@ev[:title]).submitting_user_id.should == users(:jesseponce).id
+      it 'includes the submitter' do
+        Event.find_by_title(@ev[:title]).user.should == users(:jesseponce)
       end
       it 'integrates artists links into the description' do
         ev = Event.find_by_title(@ev[:title])

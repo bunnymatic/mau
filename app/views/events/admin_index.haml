@@ -2,18 +2,21 @@
 .events
   %h1 Events
   .links
-    = link_to '[Add Event]', new_event_path(@event) 
+    = link_to '[Add Event]', new_event_path(@event)
     = link_to '[Event Index]', events_path
   .filters
-    Show:
-    .all 
-      %a [All]
-    .future 
-      %a [Future]
-    .past
-      %a [Past]
+    Filter:
+    - [:future, :past].each do |filter|
+      %div{:class => 'event_filter ' + filter.to_s}
+        %input{:class => 'time', :type => :checkbox,:value => filter.to_s, :checked => 'checked'} 
+        #{filter.to_s.titleize}
+    - [:published, :unpublished].each do |filter|
+      %div{:class => 'event_filter ' + filter.to_s}
+        %input{:class => 'state', :type => :checkbox,:value => filter.to_s, :checked => 'checked'} 
+        #{filter.to_s.titleize}
+    %a.show_all [all]
   - @events.each do |ev|
-    = render :partial => 'event', :locals => {:event => ev}
+    = render :partial => 'event_admin', :locals => {:event => ev}
   .links
     = link_to '[Add Event]', new_event_path(@event) 
     = link_to '[Event Index]', events_path

@@ -1,5 +1,5 @@
-%a{:name => event.id}
-.event{:class => (event.starttime < Time.now() ? 'past' : 'future')}
+- event_classes = [ event.starttime < Time.now() ? 'past' : 'future', event.publish ? 'published':'unpublished']
+.event{:class => event_classes.join(' ')}
   .title 
     #{event.title}
     .time #{EventsHelper::event_time(event)}
@@ -23,3 +23,10 @@
       - unless /http[s?]:\/\// =~ event.url
         - url = 'http://' + event.url
       %a{:href => url} #{event.url}
+    .ctrls
+      - if event.publish
+        = link_to 'unpublish', unpublish_event_path(event)
+      - else
+        = link_to 'publish', publish_event_path(event)
+      = link_to 'edit', edit_event_path(event)
+      = link_to 'delete', event, :confirm => 'Are you sure?', :method => :delete 

@@ -295,6 +295,7 @@ class ArtistsController < ApplicationController
         artist_names = nil
         if params[:suggest] && params[:input]
           if cacheout
+            p 'cacheout', cacheout
             logger.debug("Fetched artist name autosuggest tags from cache")
             artist_names = ActiveSupport::JSON.decode cacheout
           end

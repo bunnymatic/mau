@@ -12,13 +12,14 @@ def create_event(opts = {})
     :zip => "MyString",
     :starttime => Time.now + 24.hours,
     :endtime => Time.now + 25.hours,
-    :url => "MyString"
+    :url => "MyString",
+    :user_id => User.active.first.id
   }.merge(opts)
   Event.new(params)
 end
     
 describe Event do
-  fixtures :events
+  fixtures :events, :users
   
   before do 
     # validate fixture data
@@ -64,6 +65,13 @@ describe Event do
       ev = create_event
       ev.save
     end
+    it 'stores the user association' do
+      ev = create_event
+      ev.save
+      ev.reload
+      ev.user.should == User.active.first
+    end
+      
   end
   describe 'updating' do
     it 'geocodes on update' do

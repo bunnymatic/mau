@@ -139,32 +139,14 @@ class MainController < ApplicationController
         comment += "From: #{email}\n Add me to your email list\n"
       when 'feed_submission'
         comment += "Feed Link: #{params['feedlink']}\n"
-      when 'event_submission'
-        msg = []
-        msg << "EventInfo\n----------------\n"
-        [['eventtitle', 'Show Title'],
-         ['eventtimedate','Time/Date'],
-         ['eventvenuename','Venue'],
-         ['eventaddress','Venue Address'],
-         ['eventdesc', 'Info'],
-         ['eventmauartists', 'MAU Artists'],
-         ['eventlink', 'Link']].each do |entry|
-          msg << [entry[1], ": ", params[entry[0]]].join('')
-        end
-        comment += msg.join("\n");
       end
-      
       
       f = Feedback.new( { :email => email,
                           :subject => subject, 
                           :login => login,
                           :comment => comment })
       if f.save
-        if params['note_type'] == 'event_submission'
-          FeedbackMailer.deliver_event(f)
-        else
-          FeedbackMailer.deliver_feedback(f)
-        end
+        FeedbackMailer.deliver_feedback(f)
       end
     end
 
@@ -232,10 +214,10 @@ EOM
     results = { :status => 'success', :messages => [] }
 
     # common validation
-    unless ["feed_submission", "help", "inquiry", "email_list", "event_submission"].include? params[:note_type] 
+    unless ["feed_submission", "help", "inquiry", "email_list"].include? params[:note_type] 
       results[:messages] << "invalid note type"
     else
-      if !(['feed_submission','event_submission'].include? params[:note_type])
+      if !(['feed_submission'].include? params[:note_type])
         ['email','email_confirm'].each do |k|
           if params[k].blank?
             humanized = ActiveSupport::Inflector.humanize(k)
@@ -253,10 +235,6 @@ EOM
         if (params.keys.select { |k| ['feedlink' ].include? k }).size < 1
           results[:messages] << 'not enough parameters'
         end
-      elsif 'event_submission' == params[:note_type]
-        unless ['eventtimedate', 'eventdesc' ].all? {|k| params.keys.include? k}
-          results[:messages] << 'not enough parameters'
-        end
       end
       # specific
       case params[:note_type]
@@ -269,12 +247,6 @@ EOM
       when 'feed_submission'
         if params["feedlink"].blank?
           results[:messages] << 'feed url can\'t be empty'
-        end
-      when 'event_submission'
-        ['eventdesc', 'eventaddress','eventtimedate'].each do |k|
-          if params[k].blank?
-            results[:messages] << "You must provide #{k}"
-          end
         end
       else
       end
