@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-  before_filter :login_required, :except => [:index]
+  before_filter :login_required, :except => [:index, :show]
   before_filter :admin_required, :only => [:admin_index, :publish, :unpublish]
 
   layout 'mau2col'
@@ -18,7 +18,12 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
     @events = Event.future.published
-
+    @events_by_month = {}
+    @events.each do |ev|
+      month = ev.starttime.strftime('%B %Y')
+      @events_by_month[month] = [] unless @events_by_month.has_key? month
+      @events_by_month[month] << ev
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @events }
@@ -29,10 +34,11 @@ class EventsController < ApplicationController
   # GET /events/1.xml
   def show
     @event = Event.find(params[:id])
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @event }
-    end
+    redirect_to events_path  + "##{@event.id}"
+#    respond_to do |format|
+#      format.html # show.html.erb
+#      format.xml  { render :xml => @event }
+#    end
   end
 
   # GET /events/new
@@ -55,7 +61,6 @@ class EventsController < ApplicationController
     if event_details[:artist_list]
       artist_list = event_details[:artist_list]
       event_details.delete :artist_list
-      event_details[:submitting_user_id] = current_user.id
       artist_names = artist_list.split(',')
       artists = []
       artist_names.each do |n|
@@ -69,11 +74,12 @@ class EventsController < ApplicationController
       event_details[:description] << "\n\n" << artists.flatten.map{|a| "[#{a.get_name}](#{a.get_share_link})"}.join(', ')
 
     end
+    event_details[:user_id] = current_user.id
     @event = Event.new(event_details)
     
     respond_to do |format|
       if @event.save
-        EventMailer.deliver_event(ev)
+        EventMailer.deliver_event(@event)
         redir = events_path
         flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
         format.html { redirect_to(redir) }
@@ -123,7 +129,12 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     if @event.update_attributes(:publish => Time.now())
       flash[:notice] = "#{@event.title} has been successfully published."
+      if (@event.user && @event.user.email)
+        EventMailer.deliver_event_published(@event)
+        flash[:notice] << " And we sent a notification email to #{@event.user.fullname} at #{@event.user.email}."
+      end
     end
+    
     redirect_to events_path  
   end
 

@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   @@sort_by_lastname = lambda{|a,b| 
     a.lastname.downcase <=> b.lastname.downcase 
   }
-	
+
   has_many :favorites do
     def to_obj
       deletia = []

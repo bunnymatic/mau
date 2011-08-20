@@ -443,27 +443,6 @@ EOM
       end
     end
 
-    describe "submission given note type event_submission and email only" do
-      before do
-        FeedbackMailer.expects(:deliver_feedback).never()
-        xhr :post, :notes_mailer, :note_type => 'event_submission', :email => 'a@b.com'
-        @resp = JSON::parse(response.body)
-      end
-      it_should_behave_like "has some invalid params"
-      it "reports not enough params" do
-        @resp['messages'].should include 'not enough parameters'
-      end
-      it "reports event description is required" do
-        @resp['messages'].should include 'You must provide eventdesc'
-      end
-      it "reports event address is required" do
-        @resp['messages'].should include 'You must provide eventaddress'
-      end
-      it "reports event time is required" do
-        @resp['messages'].should include 'You must provide eventtimedate'
-      end
-    end
-      
     describe "submission given note_type feedlink with email only" do
       before do
         xhr :post, :notes_mailer, :note_type => 'feed_submission', :email => 'a@b.com'
@@ -474,6 +453,7 @@ EOM
         @resp['messages'].should include 'feed url can\'t be empty'
       end
     end
+
     describe "submission given note_type inquiry and email only" do
       before do
         xhr :post, :notes_mailer, :note_type => 'inquiry', :email => 'a@b.com'
@@ -490,6 +470,7 @@ EOM
         @resp['messages'].should include 'note cannot be empty'
       end
     end
+
     describe "submission given note_type inquiry, both emails but no inquiry" do
       before do
         xhr :post, :notes_mailer, :note_type => 'inquiry', 
@@ -504,30 +485,8 @@ EOM
         @resp['messages'].should include 'note cannot be empty'
       end
     end
+
     describe "submission with valid params" do
-
-      describe "event_submission" do
-        before do
-          FeedbackMailer.expects(:deliver_feedback).never()
-          xhr :post, :notes_mailer, :note_type => 'event_submission', :email => 'a@b.com',
-              :eventlink => 'http://stuff', :eventdesc => 'check this shit out', :eventtimedate => "tomorrow, at 10p", :eventtitle => 'this event title', :eventvenuename => 'v name', :eventaddress => 'green and van ness', :eventmauartists => 'joe, jim, lonny'
-          @resp = JSON::parse(response.body)
-        end
-        it_should_behave_like "successful notes mailer response"
-        it "message includes all the deets" do
-          FeedbackMailer.expects(:deliver_event).with() do |f|
-            f.comment.should include 'Info: check this shit out'
-            f.comment.should include 'Title: this event'
-            f.comment.should include 'Address: green'
-            f.comment.should include '/Date: tomorrow, at 10'
-            f.comment.should include 'Link: http://stuff'
-            f.comment.should include 'Artists: joe, jim, lonny'
-          end
-          xhr :post, :notes_mailer, :note_type => 'event_submission', :email => 'a@b.com',
-              :eventlink => 'http://stuff', :eventdesc => 'check this shit out', :eventtimedate => "tomorrow, at 10p", :eventtitle => 'this event title', :eventvenuename => 'v name', :eventaddress => 'green and van ness', :eventmauartists => 'joe, jim, lonny'
-        end
-      end
-
       context "email_list" do
         before do
           xhr :post, :notes_mailer, :note_type => 'email_list', 

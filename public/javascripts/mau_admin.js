@@ -53,20 +53,36 @@ MAUAdmin =  window['MAUAdmin'] || {};
   
   var E = M.Events = M.Events || {};
   E.init = function() {
-    $$('.filters a').each(function(lnk) {
-      lnk.observe('click',function() {
-        var parent = lnk.up('div');
-        if ($(parent).hasClassName('all')) {
-          $$('.event').each(function(evdiv) { evdiv.show(); });
-        } else {
-          $$('.event').each(function(evdiv) {
-            if (evdiv.hasClassName(parent.className)) {
-              evdiv.show();
-            } else {
-              evdiv.hide();
-            }
-          });
-        }
+    $$('.filters input[type=checkbox]').each(function(lnk) {
+      lnk.observe('change',function() {
+        var time_filters = [];
+        var state_filters = [];
+        $$('.filters input.time[type=checkbox]').each(function(checked) {
+          if (checked.checked) {
+            time_filters.push(checked.getValue());
+          }
+        });
+        $$('.filters input.state[type=checkbox]').each(function(checked) {
+          if (checked.checked) {
+            state_filters.push(checked.getValue());
+          }
+        });
+        $$('.event').each(function(el){el.hide();});
+        state_filters.each(function(state_class) {
+          time_filters.each(function(time_class) {
+            MAU.log( 'Show ' + ['event',time_class, state_class].join('.') );
+            $$( ['.event',time_class, state_class].join('.') ).each(function(el){el.show();});
+          })
+        });
+                          
+      });
+    });
+    $$('.filters .show_all').each(function(el) {
+      el.observe('click', function() {
+        $$('.filters input[type=checkbox]').each(function(ck) {
+          ck.checked = true;
+          $$('.event').each(function(el){el.show();});
+        });
       });
     });
   };

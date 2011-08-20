@@ -3459,6 +3459,11 @@ a.button b.m b {
   h2 {
     text-align: center;
   }
+  h4 {
+    text-align: left;
+    margin-bottom: 12px;
+    margin-left: 2px;
+  }
   .notice,
   .error-msg {
     width: auto;
@@ -3476,6 +3481,7 @@ a.button b.m b {
     @include dotted_border;
     @include large-rounded-corners;
     background-color: $xdarkgray;
+    color: $lightgray;
     .title {
       font-size: 14px;
       width: 48%;
@@ -3489,18 +3495,21 @@ a.button b.m b {
       letter-spacing: 0px;
       font-weight:normal;
       margin-top: 2px;
-      color: $bluegray;
+      color: $lightgray;
     }
     .maplink {
       font-size: 10px;
     }
     .venue {
-      color: $bluegray;
       width: 48%;
       float: right;
       text-align: right;
     }
     .desc {
+      p {
+        font-size: 12px;
+        line-height: 20px;
+      }
     }
     .url {
       font-size:12px;
