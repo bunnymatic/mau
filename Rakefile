@@ -11,5 +11,5 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 
-#require 'rosie'
-#Dir["#{Gem.searcher.find('rosie').full_gem_path}/lib/tasks/**/*.rake"].each { |ext| load ext }
+require 'rosie'
+Dir["#{Gem.searcher.find('rosie').full_gem_path}/lib/tasks/**/*.rake"].each { |ext| load ext }
