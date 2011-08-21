@@ -8,7 +8,7 @@
 /public/artistdata
 /log
 /db/backup
-
+/backups
 # /public/stylesheets/
 /public/stylesheets/*.css
 

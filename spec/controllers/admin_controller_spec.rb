@@ -11,7 +11,7 @@ describe AdminController do
   fixtures :artist_infos
   fixtures :roles
 
-  [:index, :featured_artist, :fans, :emaillist, :artists_per_day, :roles, :art_pieces_per_day, :favorites_per_day].each do |endpoint|
+  [:index, :featured_artist, :fans, :emaillist, :artists_per_day, :roles, :art_pieces_per_day, :favorites_per_day, :db_backups].each do |endpoint|
     describe endpoint do
       it "responds failure if not logged in" do
         get endpoint
@@ -198,6 +198,64 @@ describe AdminController do
       it "calling it again flashes a warning" do
         post :featured_artist
         response.should have_tag('.featured .error-msg')
+      end
+    end
+  end
+
+  context 'database backups' do 
+    before do
+      @tmpdir = File.join(Dir.tmpdir, "backups")
+      Dir.mkdir(@tmpdir) unless File.exists?(@tmpdir)
+    end
+    context "logged in" do
+      before do
+        login_as(:admin)
+      end
+      describe "#fetch_backup" do 
+        integrate_views
+        before do
+          File.open("#{@tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
+          Dir.stubs(:glob => ["#{@tmpdir}/file1.tgz", "#{@tmpdir}/file2.tgz"])
+          get :fetch_backup, :name => "file1.tgz"
+        end
+        it "returns the file contents as text" do
+          response.body.class.should == Proc
+        end
+      end
+      describe '#db_backups' do
+        before do
+          File.open("#{@tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
+          sleep(2)
+          File.open("#{@tmpdir}/file2.tgz",'w'){ |f| f.write('.tgz dump file contents2') }
+          Dir.stubs(:glob => ["#{@tmpdir}/file1.tgz", "#{@tmpdir}/file2.tgz"])
+        end
+        context 'without views' do
+          before do
+            get :db_backups
+          end
+          it "returns success" do
+            response.should be_success
+          end
+          it 'finds a list of database files' do
+            assigns(:dbfiles).should be_a_kind_of(Array)
+          end
+          it "files are in descending cronological order" do
+            files = assigns(:dbfiles)
+            files[1].path.should include 'file1.tgz'
+          end
+        end
+        context 'with views' do
+          integrate_views
+          before do
+            get :db_backups
+          end
+          it "includes named links to the database dump files" do
+            assigns(:dbfiles).each do |f|
+              link = admin_path(:action => 'fetch_backup', :name => File.basename(f.path))
+              assert_select("li a[href=#{link}]", /#{f.ctime.strftime("%F %r")}/)
+            end
+          end
+        end
       end
     end
   end
