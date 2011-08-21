@@ -3403,8 +3403,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 /***
-css3 buttons
-***/
+    css3 buttons
+    ***/
 a.button {
   text-decoration: none;
   border-color: transparent transparent #ECECEC; /** rgba fallback **/
@@ -3501,7 +3501,8 @@ a.button b.m b {
     .address {
       span.nobr {
         white-space: nowrap;
-      
+        
+      }
     }
     .maplink {
       font-size: 10px;
@@ -3541,7 +3542,7 @@ a.button b.m b {
     }
   }
 
-    
+  
 }
 
 .singlecolumn .events {
