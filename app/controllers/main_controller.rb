@@ -9,7 +9,7 @@ class MainController < ApplicationController
   layout 'mau2col' 
   include MarkdownUtils
   before_filter :no_cache, :only => :index
-  @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 20)
+
   def index
     respond_to do |format| 
       format.html { 

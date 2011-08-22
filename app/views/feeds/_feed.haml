@@ -11,10 +11,7 @@
 
 #feed_div
   .feed-sxn-hdr
-    Fetching Feeds...
-    .center
-      %img{ :src => "/images/spinner32.gif" }
-    %img{ :src => "/images/pix.gif", :height => "320", :width => "1", :alt=>"" }
+    #{@feed_html}
 
 #feed_request
   %span.mau-note-link.feed_submission Recommend a feed we should add to this list
