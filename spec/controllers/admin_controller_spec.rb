@@ -256,7 +256,9 @@ describe AdminController do
           it "includes named links to the database dump files" do
             assigns(:dbfiles).each do |f|
               link = admin_path(:action => 'fetch_backup', :name => File.basename(f.path))
-              assert_select("li a[href=#{link}]", /#{f.ctime.strftime("%F %r")}/)
+              assert_select("li a[href=#{link}]", /#{f.ctime.strftime("%b %d, %Y %H:%M")}/)
+              assert_select("li a[href=#{link}]", /\d+\s+MB/)
+
             end
           end
         end
