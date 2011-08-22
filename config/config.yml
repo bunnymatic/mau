@@ -9,6 +9,11 @@ test:
    feedback_emails: 
    mailchimp_api_key: bogus-key
    oslive: true
+   feeds_urls: 
+      - feed: http://twitter.com/statuses/user_timeline/62131363.json
+        url: http://twitter.com/sfmau 
+      - feed: http://twitter.com/statuses/user_timeline/32943864.json
+        url: http://twitter.com/bunnymaticsf
 
 ub:
    site_url: localhost:3000

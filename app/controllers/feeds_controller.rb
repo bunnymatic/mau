@@ -5,6 +5,8 @@ require 'string_helpers'
 
 class FeedsController < ApplicationController
 
+  include FeedsHelper
+
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 4000)
   @@FEEDS_KEY = (Conf.cache_ns or '') + 'sb-feeds'
   @@FEED_KEY = (Conf.cache_ns or '') + 'sb-feed'
@@ -48,7 +50,7 @@ class FeedsController < ApplicationController
         else 
           numentries = 1
         end
-        allfeeds += FeedsHelper.fetch_and_format_feed(ff['feed'], ff['url'], {:numentries => numentries})
+        allfeeds += fetch_and_format_feed(ff['feed'], ff['url'], {:numentries => numentries})
       end
       begin
         logger.info("FeedController: add feed to cache(expiry %d)" % @@CACHE_EXPIRY)
@@ -56,13 +58,11 @@ class FeedsController < ApplicationController
       rescue Exception => ex
         logger.error("FeedController: failed to add to the cache")
       end
-    else
-      allfeeds = cached_html
+      cached_html = allfeeds
     end
-    logger.debug("FeedController: render")
     partial = File.open('_cached_feeds.html', 'w')
     if partial
-      partial.write(allfeeds)
+      partial.write(cached_html)
       partial.close
     end
     render :nothing => true
