@@ -20,7 +20,7 @@ module FeedsHelper
   @@LINK_MATCH = Regexp.new( '\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))')
 #'((http?:\/\/|www\.)([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)')
 
-  def self.get_icon_class(url)
+  def get_icon_class(url)
     # guess icon class based on url.
     # default is rss
     @@URLMATCH_TO_CLASS.each do |k,v|
@@ -32,7 +32,7 @@ module FeedsHelper
   end
 
 
-  def self.parse_entry(entry, link, opts)
+  def parse_entry(entry, link, opts)
     options = { :strip_tags => true,
       :include_date => false,
       :truncate => true, 
@@ -82,7 +82,7 @@ module FeedsHelper
     
   end
 
-  def self.fetch_and_format_feed(url, link, opts = {})
+  def fetch_and_format_feed(url, link, opts = {})
     options = { :numentries => NUM_POSTS, 
       :strip_tags => true, 
       :include_date => false, 
