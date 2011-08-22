@@ -55,19 +55,17 @@ class FeedsController < ApplicationController
         Rails.cache.write(@@FEEDS_KEY, allfeeds, :expires_in => @@CACHE_EXPIRY)
       rescue Exception => ex
         logger.error("FeedController: failed to add to the cache")
-        p ex
       end
     else
       allfeeds = cached_html
     end
-    allfeeds = "<div class='feed-sxn-hdr'>MAU Artist Feeds</div>" + allfeeds
     logger.debug("FeedController: render")
-    if allfeeds.empty?
-      render :action => 'default_feeds'
-      logger.debug("FeedController: fail")
-    else
-      render :text => allfeeds
+    partial = File.open('_cached_feeds.html', 'w')
+    if partial
+      partial.write(allfeeds)
+      partial.close
     end
+    render :nothing => true
   end
 
 end

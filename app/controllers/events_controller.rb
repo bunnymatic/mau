@@ -17,6 +17,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
+
     @events = Event.future.published
     @events_by_month = {}
     @events.each do |ev|

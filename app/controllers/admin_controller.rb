@@ -20,13 +20,15 @@ class AdminController < ApplicationController
       :accounts => User.count,
       :fans => MAUFan.count,
       :artists => Artist.count,
+      :events_past => Event.past.count,
+      :events_future => Event.future.count,
       :favorited_art_pieces => Favorite.art_pieces.count,
       :favorited_artists => Favorite.artists.count,
-      :users_using_favorites => Favorite.count(:select => 'distinct user_id'),
-      :pending_artists => Artist.count(:conditions => "state='pending'"),
-      :no_profile_image => Artist.active.count(:conditions => "profile_image is not null"),
-      :spring_os_2011_participants => Artist.active.open_studios_participants('201104').count,
-      :fall_os_2011_participants => Artist.active.open_studios_participants('201110').count,
+      :favorites_users_using => Favorite.count(:select => 'distinct user_id'),
+      :artists_pending => Artist.count(:conditions => "state='pending'"),
+      :artists_no_profile_image => Artist.active.count(:conditions => "profile_image is not null"),
+      :os_spring2011_participants => Artist.active.open_studios_participants('201104').count,
+      :os_fall2011_participants => Artist.active.open_studios_participants('201110').count,
       :studios => Studio.count
     }
     

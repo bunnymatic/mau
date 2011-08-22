@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   layout 'mau'
   include AuthenticatedSystem
   include MobilizedStyles
-  before_filter :check_browser, :set_version
+  before_filter :check_browser, :set_version, :get_feeds
   after_filter :update_cookies
 
   def commit_is_cancel
@@ -82,6 +82,15 @@ class ApplicationController < ActionController::Base
 
   def set_version
     @version = revision()
+  end
+
+  def get_feeds
+    if File.exists?('_cached_feeds.html')
+      @feed_html = File.open('_cached_feeds.html','r').read()
+    end
+    if @feed_html && @feed_html.length < 0
+      @feed_html = "<div>Reload the page to get a new set of feeds</div>"
+    end
   end
 
   def revision()

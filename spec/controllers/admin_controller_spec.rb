@@ -60,6 +60,10 @@ describe AdminController do
     it 'has studio count' do
       assigns(:activity_stats)[:total][:studios].should == 4
     end
+    it 'has event info' do
+      assigns(:activity_stats)[:total][:events_past].should == Event.past.count
+      assigns(:activity_stats)[:total][:events_future].should == Event.future.count
+    end
     it 'has place holders for the graphs' do
       response.should have_tag('.section.graph', :count => 3)
     end

@@ -8,6 +8,7 @@ class SearchController < ApplicationController
   @@PER_PAGE = 12
 
   def index
+
     # add wildcard
     if !params[:query]
       #TODO handle missing params with error page
