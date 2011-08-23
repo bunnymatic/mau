@@ -38,7 +38,7 @@ describe FeedsController do
       File.open(cache_filename).read.should include 'I tweeted this'
     end
   end
-  context "without cache" do
+  context "with cache" do
     before do
       Rails.cache.stubs(:read => 'this and that', :write => nil, :delete => nil)
       if File.exists?(cache_filename)
