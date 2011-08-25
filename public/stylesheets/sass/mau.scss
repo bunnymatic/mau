@@ -1179,6 +1179,9 @@ table{
   margin: 20px;
   .artp-thumb-container {
     float: none;
+    .os-star {
+      display:none;
+    }
   }
   .artp-thumb {
     margin-left: auto;
@@ -1413,7 +1416,7 @@ img.tiny-thumb {
 #artp_thumb_browser {
   margin: 0 auto 15px auto;
   text-align: center;
-  width: 265px;
+  width: 213px;
 }
 
 
@@ -1689,6 +1692,17 @@ span.rightarrow
 .artp-thumb-container {
   float: left;
   position: relative;
+  .os-star {
+    position:absolute;
+    background-image: url(/images/mobile_menu_os_star.png);
+    background-repeat: no-repeat;
+    height: 28px;
+    width: 27px;
+    z-index: 10;
+    top: 7px;
+    left: 2px;
+  }
+
   &.thumb {
     height: 120px;
   }
@@ -2030,6 +2044,9 @@ div.artist {
 .artist-pieces {
   margin-top: 25px;
   margin-bottom: 10px;
+  .os-star {
+    display:none;
+  }
 }
 .thumbs-select {
   margin-bottom: 20px;
@@ -3638,3 +3655,4 @@ a.button b.m b {
     background-color: $darkbluegray;
   }
 }
+

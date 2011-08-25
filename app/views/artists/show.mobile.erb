@@ -1,6 +1,6 @@
 <% if @artist -%>
 <div>
-  <% if @artist.artist_info && @artist.os_participation['201110'] %>
+  <% if @artist.artist_info && @artist.os_participation[Conf.oslive.to_s] %>
   <h2 class='os-star'><%=h @artist.get_name %>
     <div class="os-star"></div>
   </h2>

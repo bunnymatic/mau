@@ -98,7 +98,7 @@
   	    <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
   	    <%   end -%>
 	    <% end -%>
-	    <% if @artist.os_participation['201110'] -%>
+	    <% if @artist.os_participation[Conf.oslive.to_s] -%>
 	    <div class="os-violator"><a href="<%= openstudios_path %>"><img src="/images/os_star_violator.png"/></a></div>
 	    <% end -%>
             <div class="action-icons">
