@@ -8,7 +8,7 @@ test:
    cache_ns: tst
    feedback_emails: 
    mailchimp_api_key: bogus-key
-   oslive: true
+   oslive: 201110
    feeds_urls: 
       - feed: http://twitter.com/statuses/user_timeline/62131363.json
         url: http://twitter.com/sfmau 
@@ -125,6 +125,6 @@ common:
        # expire daily
        cache_expiry: 86400
        cache_key: artistnamesuggest
-   oslive: true
+   oslive: 201110
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2

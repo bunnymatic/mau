@@ -27,6 +27,9 @@
       No Image
       <% end -%>
   </div>
+<%   if Conf.oslive && piece.artist.os_participation[Conf.oslive.to_s] -%>
+<div class='os-star' title="I'll be in Open Studios!"></div>
+<%   end -%>
 <%
      if show_footer -%><div class="name"><%
         if piece && piece.artist
