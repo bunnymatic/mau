@@ -1,4 +1,5 @@
 require 'pathname'
+require 'RMagick'
 
 class ImageFile
 
@@ -35,11 +36,9 @@ class ImageFile
       prefix = ""
     when "small"
       prefix = "s_"
-    when "thumb"
+    when "thumb", 'thumbnail'
       prefix = "t_"
-    when "medium"
-      prefix = "m_"
-    when "standard"
+    when "medium",'standard'
       prefix = "m_"
     when "cropped_thumb"
       prefix = 'ct_'
@@ -50,7 +49,7 @@ class ImageFile
     end
     idx = fname.hash % @@IMG_SERVERS.length
     svr = @@IMG_SERVERS[idx]
-    svr + dir + prefix + fname
+    svr + File.join(dir, prefix+fname)
   end
 
   def self.save(upload, destdir, destfile=nil, sizes=@@SIZES)
