@@ -55,13 +55,16 @@ module ArtPiecesHelper
       "sm" => "small",
       "s" => "small",
       "original" => "orig",
+      'cropped_thumb' => 'cropped_thumb',
       "thumbnail" => "thumb" }
     size = sizemapper[size] || size
     if size == "orig"
       return [piece.image_width, piece.image_height]
     end
-    k = eval(':' + size)
-    sz = ImageFile.sizes[k]
+    if size == 'cropped_thumb'
+      return [127, 127]
+    end
+    sz = ImageFile.sizes[size.to_sym]
     if !sz
       return 0,0
     end
