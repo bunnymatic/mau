@@ -1,11 +1,12 @@
 source :gemcutter
+gem 'rake', '0.9.2'
 gem 'racc'
 gem "rails", '2.3.5'
 gem "geokit"
 gem "geokit-rails"
 gem "nokogiri"
 gem "htmlentities"
-gem "json", '1.5.1'
+gem "json", '1.5.3'
 gem "mysql"
 gem "i18n", '~> 0.4.0'
 gem "haml"
