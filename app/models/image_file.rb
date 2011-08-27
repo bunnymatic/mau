@@ -1,7 +1,4 @@
-require 'mojo_magick'
 require 'pathname'
-
-#MojoMagick::set_limits(:area => '128mb', :memory => '128mb', :map => '128mb')
 
 class ImageFile
 
@@ -17,6 +14,7 @@ class ImageFile
   @@ALLOWED_IMAGE_EXTS = ["jpg", "jpeg" ,"gif","png" ]
   @@SIZES = { 
     :thumb => { :w => 100, :h => 100 }, 
+    :cropped_thumb => { :w => 127, :h => 127 }, 
     :small => { :w => 200, :h => 200 },
     :std => { :w => 400, :h => 400 }}
 
@@ -43,6 +41,8 @@ class ImageFile
       prefix = "m_"
     when "standard"
       prefix = "m_"
+    when "cropped_thumb"
+      prefix = 'ct_'
 #    when "large"
 #      prefix = "l_"
     else
@@ -84,46 +84,40 @@ class ImageFile
     logger.info("ImageFile: wrote file %s (%0.2f sec)\n" % [ srcpath, Time.now.to_f - ts ])
 
     # check format
-    fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + srcpath)
-    (type, height, width, colorspace) = fmt.split
+    image = Magick::Image.read(srcpath).first
+    height = image.rows
+    width = image.columns
+    colorspace = image.colorspace
+    type = image.format
+
+    #fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + srcpath)
+    #(type, height, width, colorspace) = fmt.split
     if @@ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
       raise ArgumentError, "Image type %s is not supported." % type
     end
-    if colorspace.downcase.match /cmyk/
-      raise ArgumentError, "[%s] is not a supported color space.  Please save your image with an RGB colorspace." % colorspace
+#    if colorspace.downcase.match /cmyk/
+    if colorspace == Magick::CMYKColorspace
+      raise ArgumentError, "[%s] is not a supported color space.  Please save your image with an RGB colorspace." % colorspace.to_s
     end
-    height = height.to_i
-    width = width.to_i
 
     # store resized versions:
     file_match = Regexp.new(destfile + "$")
-    thumb_path = srcpath.gsub(file_match, "t_"+destfile)
-    small_path = srcpath.gsub(file_match, "s_"+destfile)
-    med_path = srcpath.gsub(file_match, "m_"+destfile)
-#    large_path = srcpath.gsub(file_match, "l_"+destfile)
-    begin
-      MojoMagick::resize(srcpath, med_path, 
-                       { :width => sizes[:std][:w],
-                         :height => sizes[:std][:h],
-                         :shrink_only => true })
-      logger.debug("ImageFile: wrote %s" % med_path)
-      MojoMagick::resize(med_path, small_path, 
-                       { :width => sizes[:small][:w],
-                         :height => sizes[:small][:h],
-                         :shrink_only => true })
-      logger.debug("ImageFile: wrote %s" % small_path)
-      MojoMagick::resize(small_path, thumb_path, 
-                       { :width => sizes[:thumb][:w],
-                         :height => sizes[:thumb][:h],
-                         :shrink_only => true })
-      logger.debug("ImageFile: wrote %s" % thumb_path)
-#      MojoMagick::resize(srcpath, large_path, 
-#                       { :width => sizes[:large][:w],
-#                         :height => sizes[:large][:h],
-#                         :shrink_only => true })
-#      logger.debug("ImageFile: wrote " + large_path)
-    rescue
-      logger.error("ImageFile: ERROR : %s\n" % $!)
+    paths = [[:std , srcpath.gsub(file_match, "m_"+destfile)],
+             [:small , srcpath.gsub(file_match, "s_"+destfile)],
+             [:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
+             [:thumb , srcpath.gsub(file_match, "t_"+destfile)]]
+    paths.each do |pthinfo|
+      begin
+        ky = pthinfo[0]
+        dest_path = pthinfo[1]
+        method = (ky == :cropped_thumb) ? 'resize_to_fill' : 'resize_to_fit'
+        img = image.send(method,sizes[ky][:w], sizes[ky][:h])
+        img.write(dest_path)
+        logger.debug("ImageFile: wrote %s" % dest_path)
+      rescue Exception => ex
+        logger.error("ImageFile: ERROR : %s\n" % $!)
+        puts ex.backtrace unless RAILS_ENV == 'production'
+      end
     end
     logger.info("Image conversion took %0.2f sec" % (Time.now.to_f - ts) )
     [ path, height, width ]
