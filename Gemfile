@@ -10,7 +10,7 @@ gem "mysql"
 gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"
-gem 'mojo_magick', '0.2.0', :path => "vendor/gems/mojo_magick-0.2.0"
+gem 'mojo_magick', :git => 'git://github.com/bunnymatic/mojo_magick.git'
 gem 'passenger', '3.0.2'
 gem 'memcache'
 gem 'memcache-client'
