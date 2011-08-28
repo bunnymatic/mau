@@ -1,6 +1,6 @@
 # MySQL
 local:
-  adapter: mysql2
+  adapter: mysql
   encoding: utf8
   database: mau_dev
   username: mauadmin
@@ -8,7 +8,7 @@ local:
   host: localhost
 
 ub:
-  adapter: mysql2
+  adapter: mysql
   encoding: utf8
   database: mau_dev
   username: mauadmin
@@ -16,7 +16,7 @@ ub:
   host: localhost
 
 development:
-  adapter: mysql2
+  adapter: mysql
   encoding: utf8
   database: mau_dev
   username: mauadmin
@@ -24,7 +24,7 @@ development:
   host: localhost
 
 test:
-  adapter: mysql2
+  adapter: mysql
   encoding: utf8
   database: mau_test
   username: mauadmin
@@ -32,7 +32,7 @@ test:
   host: localhost
 
 production:
-  adapter: mysql2
+  adapter: mysql
   encoding: utf8
   database: mau
   username: mauadmin

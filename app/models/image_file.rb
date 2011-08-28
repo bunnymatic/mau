@@ -1,5 +1,4 @@
 require 'pathname'
-require 'RMagick'
 
 class ImageFile
 
@@ -82,37 +81,33 @@ class ImageFile
     srcpath = Pathname.new(path).realpath.to_s()
     logger.info("ImageFile: wrote file %s (%0.2f sec)\n" % [ srcpath, Time.now.to_f - ts ])
 
-    # check format
-    image = Magick::Image.read(srcpath).first
-    height = image.rows
-    width = image.columns
-    colorspace = image.colorspace
-    type = image.format
-
-    #fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + srcpath)
-    #(type, height, width, colorspace) = fmt.split
+     # check format
+    fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + srcpath)
+    (type, height, width, colorspace) = fmt.split
     if @@ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
       raise ArgumentError, "Image type %s is not supported." % type
     end
-#    if colorspace.downcase.match /cmyk/
-    if colorspace == Magick::CMYKColorspace
+    if colorspace.downcase.match /cmyk/
       raise ArgumentError, "[%s] is not a supported color space.  Please save your image with an RGB colorspace." % colorspace.to_s
     end
+    height = height.to_i
+    width = width.to_i
 
     # store resized versions:
     file_match = Regexp.new(destfile + "$")
+    #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
     paths = [[:std , srcpath.gsub(file_match, "m_"+destfile)],
              [:small , srcpath.gsub(file_match, "s_"+destfile)],
-             [:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
              [:thumb , srcpath.gsub(file_match, "t_"+destfile)]]
     paths.each do |pthinfo|
+      key = pthinfo[0]
+      destpath = pthinfo[1]
       begin
-        ky = pthinfo[0]
-        dest_path = pthinfo[1]
-        method = (ky == :cropped_thumb) ? 'resize_to_fill' : 'resize_to_fit'
-        img = image.send(method,sizes[ky][:w], sizes[ky][:h])
-        img.write(dest_path)
-        logger.debug("ImageFile: wrote %s" % dest_path)
+        MojoMagick::resize(srcpath, destpath,
+                           { :width => sizes[key][:w],
+                             :height => sizes[key][:h],
+                             :shrink_only => true })
+        logger.debug("ImageFile: wrote %s" % destpath)
       rescue Exception => ex
         logger.error("ImageFile: ERROR : %s\n" % $!)
         puts ex.backtrace unless RAILS_ENV == 'production'

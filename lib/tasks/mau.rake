@@ -13,24 +13,6 @@ namespace :mau do
       names = artists.map{|a| a.get_name}
     end
   end
-  namespace :images do
-    desc "Create cropped thumbs - run through *ALL* images and construct the ct_<image> file using RMagick - this could be pretty expensive on the processor"
-    task :make_cropped_thumbs => [:environment] do
-      ArtPiece.all.each do |ap|
-        crop = File.join(Rails.root, 'public',  ap.get_path('cropped_thumb'))
-        unless File.exists? crop
-          src = File.join(Rails.root, 'public', ap.get_path('original'))
-          orig = Magick::Image.read(src).first
-          sz = ImageFile.sizes[:cropped_thumb]
-          orig.resize_to_fill!(sz[:w], sz[:h])
-          orig.write(crop)
-          sleep 1
-          puts "Wrote #{crop}"
-        end
-      end
-    end
-  end
-    
     
   namespace :db do
     desc "backup the database"
