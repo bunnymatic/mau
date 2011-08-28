@@ -1,5 +1,5 @@
 source :gemcutter
-gem 'rake', '0.9.2'
+gem 'rake', '0.8.7'
 gem 'racc'
 gem "rails", '2.3.5'
 gem "geokit"
