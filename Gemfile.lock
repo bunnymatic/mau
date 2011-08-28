@@ -4,10 +4,11 @@ GIT
   specs:
     mobile-fu (2.x)
 
-PATH
-  remote: vendor/gems/mojo_magick-0.2.0
+GIT
+  remote: git://github.com/bunnymatic/mojo_magick.git
+  revision: ab19a1b5574e081c4bf51c1b59a64be5958164c2
   specs:
-    mojo_magick (0.2.0)
+    mojo_magick (0.3.1)
 
 GEM
   remote: http://rubygems.org/
@@ -113,7 +114,7 @@ DEPENDENCIES
   memcache-client
   mobile-fu (= 2.x)!
   mocha (= 0.9.10)
-  mojo_magick (= 0.2.0)!
+  mojo_magick!
   mysql
   nokogiri
   passenger (= 3.0.2)

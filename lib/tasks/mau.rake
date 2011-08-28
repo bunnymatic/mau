@@ -13,7 +13,26 @@ namespace :mau do
       names = artists.map{|a| a.get_name}
     end
   end
-    
+
+  namespace :images do
+    desc 'build cropped thumbs - add force=true to force overwrites'
+    task :build_cropped_thumbs => [:environment] do
+      originals = []
+      originals += ArtPiece.all.map{|ap| [ap.get_path('original'), ap.get_path('cropped_thumb')]}
+      originals += Artist.all.map{|artist| [artist.get_profile_image('original'), artist.get_profile_image('cropped_thumb')]}
+      originals += Studio.all.map{|studio| [studio.get_profile_image('original'), studio.get_profile_image('cropped_thumb')]}
+      originals.each do |files|
+        next if files.any?{|f| f.nil?}
+        files = files.map{|f| File.join(Rails.root, 'public', f)}
+        infile = files[0]
+        outfile = files[1]
+        if (ENV['force'] == 'true') || !File.exists?(outfile)
+          MojoMagick::resize(infile, outfile, {:fill => true, :crop => true, :width => 127, :height => 127})
+        end
+      end
+    end
+  end
+
   namespace :db do
     desc "backup the database"
     task :backup => [:environment] do
