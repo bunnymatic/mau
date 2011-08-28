@@ -21,14 +21,7 @@ class Medium < ActiveRecord::Base
     # if normalize = true, scale counts from 1.0
     meds = []
     dbr = connection.execute("/* hand generated sql */  select medium_id medium, count(*) ct from art_pieces where medium_id <> 0 group by medium_id;")
-    fields = dbr.fields
-    dbr.each do |row|
-      rowhash = {}
-      fields.each_with_index do |f, idx|
-        rowhash[f] = row[idx]
-      end
-      meds << rowhash
-    end
+    dbr.each_hash{ |row| meds << row }
     other = self.find(:all,:conditions => ["id not in (?)", meds.map { |m| m['medium'] } ])
     other.map { |m| meds << Hash["medium" => m.id, "ct" => 0 ] }
     

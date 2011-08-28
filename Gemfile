@@ -1,22 +1,16 @@
 source :gemcutter
-gem 'rake', '0.8.7'
 gem 'racc'
 gem "rails", '2.3.5'
 gem "geokit"
 gem "geokit-rails"
 gem "nokogiri"
 gem "htmlentities"
-gem "json", '1.5.3'
-gem "mysql2", "~> 0.2.7"
-#gem "mysql"
+gem "json", '1.5.1'
+gem "mysql"
 gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"
-gem 'rmagick'
-
-# keep this for old migrations
 gem 'mojo_magick', '0.2.0', :path => "vendor/gems/mojo_magick-0.2.0"
-
 gem 'passenger', '3.0.2'
 gem 'memcache'
 gem 'memcache-client'
