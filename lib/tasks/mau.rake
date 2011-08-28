@@ -1,7 +1,6 @@
 require 'find'
 require 'ftools'
 require 'yaml'
-require 'RMagick'
 
 alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
