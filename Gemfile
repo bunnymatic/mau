@@ -7,7 +7,8 @@ gem "geokit-rails"
 gem "nokogiri"
 gem "htmlentities"
 gem "json", '1.5.3'
-gem "mysql"
+gem "mysql2", "~> 0.2.7"
+#gem "mysql"
 gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"

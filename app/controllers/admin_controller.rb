@@ -86,8 +86,8 @@ class AdminController < ApplicationController
       query = "select id from users where state='active' and id not in (select distinct artist_id from art_pieces);" 
       cur = sql.execute query
       aids = []
-      cur.each_hash do |h|
-        aids << h["id"]
+      cur.each do |h|
+        aids << h
       end
       print aids
       artists = Artist.find(:all, :conditions => { :id => aids })
@@ -207,8 +207,11 @@ class AdminController < ApplicationController
     tbl = []
     cur = sql.execute "select count(*) ct,date(activated_at) d from users where activated_at is not null group by d order by d desc;"
     ctr = 0
-    cur.each_hash do |h|
-      tbl << [Time.parse(h['d']).to_i, h['ct'].to_i]
+    fields = cur.fields
+    date_idx = fields.index('d')
+    ct_idx = fields.index('ct')
+    cur.each do |h|
+      tbl << [h[date_idx].to_time.to_i, h[ct_idx].to_i]
     end
     tbl
   end
@@ -226,8 +229,11 @@ class AdminController < ApplicationController
     tbl = []
     query =  "select count(*) ct,date(created_at) d from #{tablename} where created_at is not null group by d order by d desc;"
     cur = sql.execute query
-    cur.each_hash do |h|
-      tbl << [Time.parse(h['d']).to_i, h['ct'].to_i]
+    fields = cur.fields
+    date_idx = fields.index('d')
+    ct_idx = fields.index('ct')
+    cur.each do |h|
+      tbl << [ h[date_idx].to_time.to_i, h[ct_idx].to_i]
     end
     tbl
   end
