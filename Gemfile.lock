@@ -57,7 +57,7 @@ GEM
     memcache-client (1.8.5)
     mocha (0.9.10)
       rake
-    mysql (2.8.1)
+    mysql2 (0.2.13)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -115,7 +115,7 @@ DEPENDENCIES
   mobile-fu (= 2.x)!
   mocha (= 0.9.10)
   mojo_magick (= 0.2.0)!
-  mysql
+  mysql2 (~> 0.2.7)
   nokogiri
   passenger (= 3.0.2)
   racc
