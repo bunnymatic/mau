@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 require 'rvm'
 require 'rvm/capistrano'
-set :rvm_ruby_string, '1.8.7@mau'
+set :rvm_ruby_string, '1.8.7-p302@mau'
 
 ####### VARIABLES #######
 set :application, "MAU"
