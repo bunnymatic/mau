@@ -12,6 +12,10 @@ gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"
 gem 'rmagick'
+
+# keep this for old migrations
+gem 'mojo_magick', '0.2.0', :path => "vendor/gems/mojo_magick-0.2.0"
+
 gem 'passenger', '3.0.2'
 gem 'memcache'
 gem 'memcache-client'
