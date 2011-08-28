@@ -38,10 +38,10 @@
 	<%= f.error_messages %>
 	<div class="yes-no-radios">
 	  <div class="radio-container yep">
-            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation['#{Conf.oslive}']]]", "true",  @artist_info.os_participation['201110']  %><div class="formbutton">Yep</div>
+            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[#{Conf.oslive}]]]", "true",  @artist_info.os_participation['201110']  %><div class="formbutton">Yep</div>
           </div>
 	  <div class="radio-container nope">
-            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation['#{Conf.oslive}']]]", "false",  (!@artist_info.os_participation['201110'])  %><div class="formbutton">Nope</div>
+            <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[#{Conf.oslive}]]]", "false",  (!@artist_info.os_participation['201110'])  %><div class="formbutton">Nope</div>
           </div>
         </div>
 	<div class="clear"></div>
