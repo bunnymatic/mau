@@ -1,7 +1,12 @@
-class DailyTweeterJob 
+class MauTweeter
+
+  def tweet(msg)
+    tw_client = setup_auth
+    tw_client.statuses.update! :status => msg
+  end
 
   private
-  def setup_bedsider_twitter
+  def setup_auth
     # these are the MAU app tokens
     # they tie us to the app that we created on dev.twitter.com as user sfmau
     # all this is fetched from http://dev.twitter.com
@@ -14,11 +19,5 @@ class DailyTweeterJob
 
     Grackle::Client.new(:auth=>auth)
   end
-
-  def tweet(msg)
-    tw_client = setup_bedsider_twitter
-    tw_client.statuses.update! msg
-  end
-
 
 end
