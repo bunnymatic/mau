@@ -1,4 +1,11 @@
-- event_classes = [ event.starttime < Time.now() ? 'past' : 'future', event.publish ? 'published':'unpublished']
+- event_classes = [event.publish ? 'published':'unpublished']
+- if event.in_progress?
+  - event_classes << 'in_progress'
+- if event.future?
+  - event_classes << 'future'
+- if event.past?
+  - event_classes << 'past'
+
 .event{:class => event_classes.join(' ')}
   .title 
     #{event.title}

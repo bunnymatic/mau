@@ -3474,6 +3474,7 @@ a.button b.m b {
 .events {
   width: $rightcol;
   margin: 20px auto;
+  position: relative;
   h2 {
     text-align: center;
   }
@@ -3491,6 +3492,20 @@ a.button b.m b {
   }
   .no_events {
     margin-top: 30px;
+  }
+  .filters {
+    position: absolute;
+    top: 36px;
+    right: -10px;
+    font-size: 11px;
+    margin: 5px 0;
+    .event_filter {
+      margin: 0 5px;
+      padding: 4px;
+    }
+    div, label, input { 
+      display: inline;
+    }
   }
   .event {
     position:relative;

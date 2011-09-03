@@ -1469,6 +1469,26 @@ var TagMediaHelper = {
     }
   });
   Event.observe(window, 'load', D.init);    
+
+  var E = M.Events = M.Events || {};
+  E.init = function() {
+    $$('.filters input[type=checkbox]').each(function(lnk) {
+      lnk.observe('change',function() {
+        var time_filters = [ 'future' ];
+        $$('.filters input.time[type=checkbox]').each(function(checked) {
+          if (checked.checked) {
+            time_filters.push(checked.getValue());
+          }
+        });
+        $$('.event').each(function(el){el.hide();});
+        time_filters.each(function(time_class) {
+          $$( ['.event',time_class].join('.') ).each(function(el){el.show();});
+        })
+      });
+    });
+  };
+  Event.observe(window,'load',E.init);
+  
 }
 )();
 

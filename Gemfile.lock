@@ -119,6 +119,7 @@ DEPENDENCIES
   json (= 1.5.1)
   memcache
   memcache-client
+  mime-types
   mobile-fu (= 2.x)!
   mocha (= 0.9.10)
   mojo_magick!

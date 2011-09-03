@@ -6,14 +6,14 @@
     = link_to '[Event Index]', events_path
   .filters
     Filter:
-    - [:future, :past].each do |filter|
+    - [:future, :past, :in_progress].each do |filter|
       %div{:class => 'event_filter ' + filter.to_s}
-        %input{:class => 'time', :type => :checkbox,:value => filter.to_s, :checked => 'checked'} 
-        #{filter.to_s.titleize}
+        %label{:for => "event_filter_#{filter.to_s}"} #{filter.to_s.titleize}
+        %input{:id => "event_filter_#{filter.to_s}", :class => 'time', :type => :checkbox,:value => filter.to_s, :checked => 'checked'} 
     - [:published, :unpublished].each do |filter|
       %div{:class => 'event_filter ' + filter.to_s}
-        %input{:class => 'state', :type => :checkbox,:value => filter.to_s, :checked => 'checked'} 
-        #{filter.to_s.titleize}
+        %label{:for => "event_filter_#{filter.to_s}"} #{filter.to_s.titleize}
+        %input{:id => "event_filter_#{filter.to_s}", :class => 'state', :type => :checkbox,:value => filter.to_s, :checked => 'checked'} 
     %a.show_all [all]
   - @events.each do |ev|
     = render :partial => 'event_admin', :locals => {:event => ev}
