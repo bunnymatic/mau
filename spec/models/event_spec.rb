@@ -81,5 +81,38 @@ describe Event do
       ev.save
     end
   end
-
+  
+  describe '#future?' do
+    it 'returns true for events in the future' do
+      events(:future).future?.should be_true
+    end
+    it 'returns false for events in the past' do
+      events(:past).future?.should be_false
+    end
+    it 'returns false for events in progress' do
+      events(:in_progress).future?.should be_false
+    end
+  end
+  describe '#in_progress?' do
+    it 'returns true for events that are in progress' do
+      events(:in_progress).in_progress?.should be_true
+    end
+    it 'returns false for events in the past' do
+      events(:past).in_progress?.should be_false
+    end
+    it 'returns false for events in the future' do
+      events(:future).in_progress?.should be_false
+    end
+  end
+  describe '#past?' do
+    it 'returns true for events in the past' do
+      events(:past).past?.should be_true
+    end
+    it 'returns false for events that are in progress' do
+      events(:in_progress).past?.should be_false
+    end
+    it 'returns true for events in the future' do
+      events(:future).past?.should be_false
+    end
+  end
 end

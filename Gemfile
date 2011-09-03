@@ -24,6 +24,7 @@ gem 'gibbon' # mailchimp api plugin
 gem 'calendar_date_select'
 gem 'rosie'
 gem 'grackle'
+gem 'mime-types'
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'

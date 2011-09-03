@@ -31,6 +31,22 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def in_progress?
+    endtime && endtime > Time.now && starttime < Time.now
+  end
+
+  def past?
+    r = starttime < Time.now
+    if endtime
+      r = r && (endtime < Time.now)
+    end
+    r
+  end
+
+  def future?
+    starttime > Time.now
+  end
+
   protected
     def compute_geocode
       # use artist's address

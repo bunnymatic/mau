@@ -253,9 +253,12 @@ td.singlecolumn {
   .filters {
     font-size: 11px;
     margin: 5px 0;
-    div { 
-      display: inline;
+    .event_filter {
+      margin: 0 5px;
       padding: 4px;
+    }
+    div, label, input { 
+      display: inline;
     }
   }
 }

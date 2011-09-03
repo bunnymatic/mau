@@ -28,6 +28,19 @@ two:
   url: MyString
   user: artist1
 
+in_progress:
+  title: In Progress
+  description: MyText
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: <%= 1.day.ago %>
+  endtime: <%= 1.day.since %>
+  url: MyString
+
 past:
   title: MyString
   description: MyText

@@ -1,5 +1,11 @@
 %a{:name => event.id}
-.event{:class => (event.starttime < Time.now() ? 'past' : 'future')}
+- if event.in_progress?
+  - clz = 'in_progress'
+- if event.future?
+  - clz = 'future'
+- if event.past?
+  - clz = 'past'
+.event{:class => clz, :style => (event.in_progress? ? 'display:none' : '')}
   .title 
     #{event.title}
     .time #{EventsHelper::event_time(event)}

@@ -7,7 +7,12 @@
   
   - if @events.count == 0
     .no_events Sadly, we don't have any events on the list.  Next time you are in an art show, make sure to send us the details (under my mau -> plug my art show) and we'll put it up here!
-  - @events_by_month.each do |month, events|
-    %h4.month #{month}
-    - events.each do |event|
-      = render :partial => 'event', :locals => {:event => event}
+  - else
+    .filters
+      .event_filter.in_progress
+        %label{:for => "event_filter_in_progress"} Show currently running events
+        %input{:id => "event_filter_in_progress", :class => 'time', :type => :checkbox,:value => 'in_progress'} 
+    - @events_by_month.each do |month, events|
+      %h4.month #{month}
+      - events.each do |event|
+        = render :partial => 'event', :locals => {:event => event}
