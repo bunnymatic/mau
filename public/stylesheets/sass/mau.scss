@@ -839,6 +839,7 @@ div.feedtitle  {
 }
 
 .feedentry {
+  max-width:250px;
   &.even { 
     border-top: 1px dotted $bordergray;
     border-bottom: 1px dotted $bordergray;
@@ -3474,7 +3475,6 @@ a.button b.m b {
 .events {
   width: $rightcol;
   margin: 20px auto;
-  position: relative;
   h2 {
     text-align: center;
   }
@@ -3493,9 +3493,12 @@ a.button b.m b {
   .no_events {
     margin-top: 30px;
   }
+  .event_list {
+    position: relative;
+  }
   .filters {
     position: absolute;
-    top: 36px;
+    top: -3px;
     right: -10px;
     font-size: 11px;
     margin: 5px 0;
