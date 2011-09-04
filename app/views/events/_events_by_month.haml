@@ -1,0 +1,4 @@
+- styl = (events.any? { |ev| ev.future? }) ? '' : "display:none;"
+%h4.month{:style => styl} #{month}
+- events.each do |event|
+  = render :partial => 'event', :locals => {:event => event}
