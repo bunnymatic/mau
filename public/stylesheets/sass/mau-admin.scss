@@ -251,6 +251,9 @@ td.singlecolumn {
 
 .events {
   .filters {
+    position:relative;
+    top: auto;
+    left: auto;
     font-size: 11px;
     margin: 5px 0;
     .event_filter {
