@@ -1471,19 +1471,31 @@ var TagMediaHelper = {
   Event.observe(window, 'load', D.init);    
 
   var E = M.Events = M.Events || {};
+  E.update_visible_events = function() {
+    var time_filters = [ 'future' ];
+    $$('.filters input.time[type=checkbox]').each(function(checked) {
+      if (checked.checked) {
+        time_filters.push(checked.getValue());
+      }
+    });
+    $$('.event').each(function(el){el.hide();});
+    $$('.month').each(function(el){el.hide();});
+    time_filters.each(function(time_class) {
+      $$( ['.event',time_class].join('.') ).each(function(el){
+        el.show();
+        var month = el.previous('.month');
+        if (month) { month.show(); }
+      });
+    });
+  };
+
   E.init = function() {
+    if (!(/admin/.test(location.href))) {
+      E.update_visible_events();
+    }
     $$('.filters input[type=checkbox]').each(function(lnk) {
       lnk.observe('change',function() {
-        var time_filters = [ 'future' ];
-        $$('.filters input.time[type=checkbox]').each(function(checked) {
-          if (checked.checked) {
-            time_filters.push(checked.getValue());
-          }
-        });
-        $$('.event').each(function(el){el.hide();});
-        time_filters.each(function(time_class) {
-          $$( ['.event',time_class].join('.') ).each(function(el){el.show();});
-        })
+        E.update_visible_events();
       });
     });
   };

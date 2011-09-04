@@ -18,6 +18,11 @@ class ApplicationController < ActionController::Base
   before_filter :check_browser, :set_version, :get_feeds
   after_filter :update_cookies
 
+  def non_mobile
+    session[:mobile_view] = false
+    redirect_to request.referer
+  end
+
   def commit_is_cancel
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
   end

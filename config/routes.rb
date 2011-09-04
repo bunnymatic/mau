@@ -9,6 +9,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :art_pieces
   map.resources :art_piece_tags, :collection => {:cleanup => :get}
 
+  map.force_non_mobile '/non_mobile', :controller => 'application', :action => 'non_mobile'
+
   # user account related remaps
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
