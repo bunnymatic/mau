@@ -87,7 +87,6 @@ MAUAdmin =  window['MAUAdmin'] || {};
     // start with only future, inprogress and unpublished
     var init_state = { future: true, in_progress: true, past: false, published: false, unpublished: true};
     for (k in init_state) {
-      MAU.log(k);
       $('event_filter_'+k).checked = init_state[k]
     }
   };
