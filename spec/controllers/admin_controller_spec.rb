@@ -31,41 +31,49 @@ describe AdminController do
   end
 
   describe "#index" do
-    integrate_views
-    before do
-      login_as(:admin)
-      get :index
+    describe 'without views' do
+      before do
+        login_as(:admin)
+        get :index
+      end
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'assigns stats hash' do
+        assigns(:activity_stats).should be_a_kind_of(Hash)
+      end
+      it 'assigns correct values for artists yesterday' do
+        assigns(:activity_stats)[:yesterday][:artists_activated].should == 1
+        assigns(:activity_stats)[:yesterday][:artists_added].should == 1
+      end
+      it 'assigns correct values for artists last weeek' do
+        assigns(:activity_stats)[:last_week][:artists_activated].should == 2
+        assigns(:activity_stats)[:last_week][:artists_added].should == 5
+      end
+      it 'assigns correct values for artists last month' do
+        assigns(:activity_stats)[:last_30_days][:artists_activated].should == 3
+        assigns(:activity_stats)[:last_30_days][:artists_added].should == 10
+      end
+      it 'has totals' do
+        assigns(:activity_stats)[:total].should be
+      end
+      it 'has studio count' do
+        assigns(:activity_stats)[:total][:studios].should == 4
+      end
+      it 'has event info' do
+        assigns(:activity_stats)[:total][:events_past].should == Event.past.count
+        assigns(:activity_stats)[:total][:events_future].should == Event.future.count
+      end
     end
-    it 'returns success' do
-      response.should be_success
-    end
-    it 'assigns stats hash' do
-      assigns(:activity_stats).should be_a_kind_of(Hash)
-    end
-    it 'assigns correct values for artists yesterday' do
-      assigns(:activity_stats)[:yesterday][:artists_activated].should == 1
-      assigns(:activity_stats)[:yesterday][:artists_added].should == 1
-    end
-    it 'assigns correct values for artists last weeek' do
-      assigns(:activity_stats)[:last_week][:artists_activated].should == 2
-      assigns(:activity_stats)[:last_week][:artists_added].should == 5
-    end
-    it 'assigns correct values for artists last month' do
-      assigns(:activity_stats)[:last_30_days][:artists_activated].should == 3
-      assigns(:activity_stats)[:last_30_days][:artists_added].should == 10
-    end
-    it 'has totals' do
-      assigns(:activity_stats)[:total].should be
-    end
-    it 'has studio count' do
-      assigns(:activity_stats)[:total][:studios].should == 4
-    end
-    it 'has event info' do
-      assigns(:activity_stats)[:total][:events_past].should == Event.past.count
-      assigns(:activity_stats)[:total][:events_future].should == Event.future.count
-    end
-    it 'has place holders for the graphs' do
-      response.should have_tag('.section.graph', :count => 3)
+    describe 'with views' do
+      integrate_views
+      before do
+        login_as(:admin)
+        get :index
+      end
+      it 'has place holders for the graphs' do
+        response.should have_tag('.section.graph', :count => 3)
+      end
     end
   end
   describe '#fans' do
