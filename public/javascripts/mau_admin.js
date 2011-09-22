@@ -2,6 +2,20 @@
 MAUAdmin =  window['MAUAdmin'] || {};
 
 (function() {
+  Element.prototype.triggerEvent = function(eventName)
+  {
+    if (document.createEvent)
+    {
+      var evt = document.createEvent('HTMLEvents');
+      evt.initEvent(eventName, true, true);
+      
+      return this.dispatchEvent(evt);
+    }
+    
+    if (this.fireEvent)
+      return this.fireEvent('on' + eventName);
+  };
+
   var M = MAUAdmin;
   M.init = function() {
     $$('button.update-artists').each(function(el) {
@@ -88,6 +102,7 @@ MAUAdmin =  window['MAUAdmin'] || {};
     var init_state = { future: true, in_progress: true, past: false, published: false, unpublished: true};
     for (k in init_state) {
       $('event_filter_'+k).checked = init_state[k]
+      $('event_filter_'+k).triggerEvent('change');
     }
   };
   Event.observe(window,'load',E.init);
