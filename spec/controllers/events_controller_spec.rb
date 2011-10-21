@@ -85,7 +85,7 @@ describe EventsController do
     end
     it 'assigns only future published events keyed by month' do
       assigns(:events_by_month).values.flatten.count.should == Event.future.published.count
-      assigns(:events_by_month).keys.should == Event.future.published.map(&:starttime).map{|st| st.strftime("%B %Y")}.uniq
+      assigns(:events_by_month).keys.sort.should == Event.future.published.map(&:starttime).map{|st| st.strftime("%B %Y")}.uniq.sort
     end
     it 'runs markdown on event description' do
       response.should have_tag('.desc h1', 'header')
