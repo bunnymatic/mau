@@ -1,5 +1,5 @@
 
-MAUAdmin =  window['MAUAdmin'] || {};
+MAUAdmin =  window.MAUAdmin || {};
 
 (function() {
   Element.prototype.triggerEvent = function(eventName)
@@ -12,8 +12,9 @@ MAUAdmin =  window['MAUAdmin'] || {};
       return this.dispatchEvent(evt);
     }
     
-    if (this.fireEvent)
+    if (this.fireEvent) {
       return this.fireEvent('on' + eventName);
+    }
   };
 
   var M = MAUAdmin;
@@ -34,10 +35,10 @@ MAUAdmin =  window['MAUAdmin'] || {};
 	    }
 	  }
         }
-	var oss = $$('.oct2011');
-	var cbs = $$('.cboct2011');
-	var ii = 0;
-	var updates = {};
+	oss = $$('.oct2011');
+	cbs = $$('.cboct2011');
+	ii = 0;
+	updates = {};
         if (oss && cbs) {
 	  for ( ; ii < oss.length; ++ii ) {
 	    os = oss[ii];
@@ -52,7 +53,10 @@ MAUAdmin =  window['MAUAdmin'] || {};
           action: "/admin/artists/update",
           method: "post"
         });
-	form.appendChild(new Element('input', { type:"hidden", name:"authenticity_token", value:unescape(authenticityToken)}));
+	form.appendChild(new Element('input', { type:"hidden", 
+                                                name:"authenticity_token", 
+                                                value:unescape(authenticityToken)}));
+        var k = null;
 	for (k in updates) {
 	  var val = updates[k];
 	  form.appendChild(new Element('input', { type:"hidden", name:k, value:val }));
@@ -85,7 +89,7 @@ MAUAdmin =  window['MAUAdmin'] || {};
         state_filters.each(function(state_class) {
           time_filters.each(function(time_class) {
             $$( ['.event',time_class, state_class].join('.') ).each(function(el){el.show();});
-          })
+          });
         });
                           
       });
@@ -99,9 +103,14 @@ MAUAdmin =  window['MAUAdmin'] || {};
       });
     });
     // start with only future, inprogress and unpublished
-    var init_state = { future: true, in_progress: true, past: false, published: false, unpublished: true};
+    var k = null;
+    var init_state = { future: true, 
+                       in_progress: true, 
+                       past: false, 
+                       published: false, 
+                       unpublished: true};
     for (k in init_state) {
-      $('event_filter_'+k).checked = init_state[k]
+      $('event_filter_'+k).checked = init_state[k];
       $('event_filter_'+k).triggerEvent('change');
     }
   };
@@ -134,7 +143,7 @@ MAUAdmin =  window['MAUAdmin'] || {};
 
   var GraphPerDay = {
     load: function(selector, dataurl) {
-      new Ajax.Request(dataurl, {
+      var ajax = new Ajax.Request(dataurl, {
         method: 'get',
         onSuccess: function(transport) {
           var json = transport.responseText.evalJSON();

@@ -1,4 +1,4 @@
-MAUFEEDS = window['MAUFEEDS'] || {};
+MAUFEEDS = window.MAUFEEDS || {};
 
 (function() {
   /* this get's called once with each page load - the endpoint only updates the cached filesystem version

@@ -11,5 +11,12 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 
+begin
+  require 'jslint/tasks'
+  JSLint.config_path = "config/jslint.yml"
+rescue Exception => ex
+  puts "Warning: unable to load jslint tasks. Shouldn't be required for production/staging environments"
+end
+
 require 'rosie'
 Dir["#{Gem.searcher.find('rosie').full_gem_path}/lib/tasks/**/*.rake"].each { |ext| load ext }

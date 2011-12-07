@@ -1,4 +1,4 @@
-MAU = window['MAU'] || {};
+MAU = window.MAU || {};
 
 /** setup hash change observer */
 
@@ -30,7 +30,7 @@ post_to_url = function (path, params, method) {
 
 var FormMethods = {
   focus_first : function(f) {
-    if (!f) return;
+    if (!f) {return;}
     var inps = f.select('input');
     var ni = inps.length;
     for (var ii =0; ii < ni; ++ii) {
@@ -128,8 +128,8 @@ var TagMediaHelper = {
 
   M.addCommentBoxObserver = function( cmtbx ) {
     if (cmtbx) {
-      cmtbx.observe('focus', function() { 	
-	if ((this.value == '<enter your comment here>') ||
+      cmtbx.observe('focus', function() {
+        if ((this.value == '<enter your comment here>') ||
 	    (this.value == '<enter your note here>')) {
 	  this.value = '';
 	}
@@ -140,7 +140,7 @@ var TagMediaHelper = {
 
   /** safe javascript log - for debug */
   M.log = function() {
-    if (window['console'] && M.__debug__) {
+    if (window.console && M.__debug__) {
       // TODO: Chrome doesn't let us call apply on console.log.
       // Interpolate variable arguments manually and construct
       // a single-argument call to console.log for Chrome.
@@ -232,19 +232,25 @@ var TagMediaHelper = {
 	var hd = new Element('div').addClassName('credits-hdr');
 	hd.update('Credits');
 	var bd = new Element('div').addClassName('credits-bdy');
-	bd.update('<div style="text-align: center;"><p>Web Design/Construction: Mr Rogers & Trish Tunney</p><p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p></div><div style="width:350px; text-align:center; border:0px; margin:10px auto 10px auto;" class="credits-img"><img style="border: 1px solid #222;" width="350" src="/images/mau-headquarters-small.jpg"/></div><div style="float:right; font-size: x-small; text-align:right; padding-bottom: 12px; padding-right: 10px;">click to close</div><div style="float:left; font-size: x-small; text-align:left; padding-bottom: 12px; padding-left: 10px;">Release: Corvair 4.0</div><div class="clear"></div>');
+	bd.update('<div style="text-align: center;">'+
+                  '<p>Web Design/Construction: Mr Rogers & Trish Tunney</p>'+
+                  '<p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p>'+
+                  '</div>'+
+                  '<div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>'+
+                  '<div class="close_btn">click to close</div>'+
+                  '<div class="release_version">Release: Corvair 4.0</div><div class="clear"></div>');
 	if (d && hd && bd) {
-	  new Insertion.Top(d, bd);
-	  new Insertion.Top(d, hd);
+	  var dummy = new Insertion.Top(d, bd);
+	  dummy = new Insertion.Top(d, hd);
 	}
 	Event.observe(d,'click', function(event) {
 	  bg.remove();
 	  cn.remove();
 	  return false;
 	});
-	new Insertion.Top(cn, d);
-	new Insertion.Top(document.body,cn);
-	new Insertion.Top(document.body,bg);
+	var dump = new Insertion.Top(cn, d);
+	dump = new Insertion.Top(document.body,cn);
+	dump = new Insertion.Top(document.body,bg);
 
 	/* center */
 	var dm = Element.getDimensions(d);
@@ -274,7 +280,7 @@ var TagMediaHelper = {
           return false;
         }
       });
-    };
+    }
   };
 
   Event.observe(window, 'load', M.init);
@@ -294,7 +300,7 @@ var TagMediaHelper = {
 					      d.setOpacity(0);
 					      d.update('');
 					      var h = tr.responseText;
-					      new Insertion.Top(d,h);
+					      var dummy = new Insertion.Top(d,h);
 					      d.appear();
 					    }
 					  });
@@ -314,7 +320,7 @@ var TagMediaHelper = {
   if (document.location.pathname == '/') {
     Event.observe(window, 'load', FR.init);
     Event.observe(window, 'unload', FR.abort_requests);
-  };
+  }
   /** nav bar related **/
   N.init = function() {
     var navleaves = $$('.nav li.leaf');
@@ -377,25 +383,25 @@ var TagMediaHelper = {
   ID_NOTIFICATION_SXN = 'notification';
   ID_FAVORITES_SXN = 'favorites';
 
-  A.SECTIONS = new Array(ID_STUDIO_SXN,
-			 ID_LINKS_SXN,
-			 ID_ARTIST_SXN,
-			 ID_BIO_SXN,
-			 ID_PASSWD_SXN,
-			 ID_DEACTIVATE_SXN,
-			 ID_NOTIFICATION_SXN,
-			 ID_EVENTS_SXN,
-                         ID_FAVORITES_SXN);
+  A.SECTIONS = [ID_STUDIO_SXN,
+		ID_LINKS_SXN,
+		ID_ARTIST_SXN,
+		ID_BIO_SXN,
+		ID_PASSWD_SXN,
+		ID_DEACTIVATE_SXN,
+		ID_NOTIFICATION_SXN,
+		ID_EVENTS_SXN,
+                ID_FAVORITES_SXN];
 
-  A.TOGGLES = new Array(ID_STUDIO_INFO_TOGGLE,
-			ID_LINKS_TOGGLE,
-			ID_ARTIST_INFO_TOGGLE,
-			ID_BIO_TOGGLE,
-			ID_PASSWD_TOGGLE,
-			ID_DEACTIVATE_TOGGLE,
-			ID_NOTIFICATION_TOGGLE,
-			ID_EVENTS_TOGGLE,
-                        ID_FAVORITES_TOGGLE);
+  A.TOGGLES = [ID_STUDIO_INFO_TOGGLE,
+	       ID_LINKS_TOGGLE,
+	       ID_ARTIST_INFO_TOGGLE,
+	       ID_BIO_TOGGLE,
+	       ID_PASSWD_TOGGLE,
+	       ID_DEACTIVATE_TOGGLE,
+	       ID_NOTIFICATION_TOGGLE,
+	       ID_EVENTS_TOGGLE,
+               ID_FAVORITES_TOGGLE];
 
   A.toggleSxnVis = function(sxn) {
     var sxns = M.Artist.SECTIONS;
@@ -407,12 +413,12 @@ var TagMediaHelper = {
       if (frm) {
 	if (!frm.visible() ) {
 	  if (sxnnm == sxn) {
-	    frm.blindDown(M.BLIND_OPTS['down']);
+	    frm.blindDown(M.BLIND_OPTS.down);
 	    lnk.innerHTML = "hide";
 	  }
 	}
 	else {
-	  frm.blindUp(M.BLIND_OPTS['up']);
+	  frm.blindUp(M.BLIND_OPTS.up);
 	  lnk.innerHTML = "change";
 	}
       }
@@ -430,7 +436,7 @@ var TagMediaHelper = {
       var btn = submitButtons[0];
       $(btn).writeAttribute('value', 'Save Changes').click();
     }
-  }
+  };
   A.clickYep = function() {
     A.clickYepNope('yep');
   };
@@ -464,16 +470,18 @@ var TagMediaHelper = {
     var toggles = M.Artist.TOGGLES;
     var sxns = M.Artist.SECTIONS;
     var nsxn = sxns.length;
+    var bindToggleAction = function( section_idx ) {
+      Event.observe(lnk, 'click', function(event){
+        var nm = sxns[section_idx];
+        M.Artist.toggleSxnVis(nm);
+      });
+    };
     for ( var ii = 0; ii < nsxn; ++ii ) {
-      (function() {
-	var lnk = $(toggles[ii] + '_lnk');
-	var nm = sxns[ii];
-	if (lnk) {
-	  Event.observe(lnk, 'click', function(event){
-	    M.Artist.toggleSxnVis(nm);
-	  });
-	}
-      })();
+      var lnk = $(toggles[ii] + '_lnk');
+      var nm = sxns[ii];
+      if (lnk) {
+        bindToggleAction(ii);
+      }
     }
     if ( location.hash && (location.hash.length > 1)) { 
       var sxn = location.hash.substr(1);
@@ -554,15 +562,22 @@ var TagMediaHelper = {
     var input_filename = $(frm).select('#upload_datafile');
     if (input_filename.length) {
       var fname = input_filename[0].value;
-      var re = /[\#|\*|\(|\)|\[|\]|\{|\}|\<|\>|\$|\!\?|\;|\'\"]/;
+      var re = /[\#|\*|\(|\)|\[|\]|\{|\}|<|\>|\$|\!\?|\;|\'\"]/;
       if (fname.match(re)) {
-        alert("You need to change the filename of the file you're trying to upload.  We don't do well with quotation marks and other special characters ( like | or [] or {} or * or # or ; ).  Please rename that file before trying to upload again.");
+        alert("You need to change the filename of the file you're"+
+              "trying to upload.  We don't do well with quotation"+
+              " marks and other special characters "+
+              "( like | or [] or {} or * or # or ; ).  "+
+              "Please rename that file before trying to upload again.");
         return false;
       }
       return true;
     }
   };
   AP.move_art = function(_id, direction) {
+    var removeLastFirstClasses = function(element) {
+      element.removeClassName('last').removeClassName('first');
+    };      
     var divs = $$('.artp-thumb-container');
     var swap = [];
     var ndivs = divs.length;
@@ -574,13 +589,8 @@ var TagMediaHelper = {
         ii2 = (direction == 'left') ? ii-1:ii+1;
         idxs = [ ii, ii2 ];
       }
-      d.select('.mv-right').each(function(el) {
-        el.removeClassName('last').removeClassName('first');
-      });
-      d.select('.mv-left').each(function(el) {
-        el.removeClassName('last').removeClassName('first');
-      });
-      
+      d.select('.mv-right').each(removeLastFirstClasses);
+      d.select('.mv-left').each(removeLastFirstClasses);
     }
     if (idxs) {
       var d1 = divs[idxs[0]];
@@ -642,6 +652,7 @@ var TagMediaHelper = {
       ts[idx].addClassName('tiny-thumb-sel');
     },
     update_info: function(ap) {
+      var dummy = null;
       var f = ap.filename;
       var img = $('artpiece_img');
       if (f) {
@@ -658,7 +669,7 @@ var TagMediaHelper = {
 	var md = $("ap_medium");
 	if (md) {
 	  md.update('');
-	  new Insertion.Bottom(md, med);
+	  dummy = new Insertion.Bottom(md, med);
 	}
 	var ts = TagMediaHelper.format_tags.apply(ap.tags,[true]);
 	var i = 0;
@@ -667,17 +678,27 @@ var TagMediaHelper = {
 	if (tgs) {
 	  tgs.update('');
 	  for (;i<ntags;++i){
-	    new Insertion.Bottom(tgs, ts[i]);
+	    dummy = new Insertion.Bottom(tgs, ts[i]);
 	    if (i != (ntags-1)) {
-	      new Insertion.Bottom(tgs,', ');
+	      dummy = new Insertion.Bottom(tgs,', ');
 	    }
 	  }
 	}
 	img.show();
         
         // hides errors/notices
-        $$('.notice').each(function(el) { if (el.visible()) {el.fade({duration:0.3, afterFinish: function() {el.remove();}}); }});
-        $$('.error-msg').each(function(el) { if (el.visible()) {el.fade({duration:0.3, afterFinish: function() {el.remove();}}); }});
+        $$('.notice').each(function(el) { 
+          if (el.visible()) {
+            el.fade({duration:0.3, 
+                     afterFinish: function() {el.remove();}}); 
+          }
+        });
+        $$('.error-msg').each(function(el) { 
+          if (el.visible()) {
+            el.fade({duration:0.3, 
+                     afterFinish: function() {el.remove();}}); 
+          }
+        });
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {
           $favs[0].setAttribute('fav_id', ap.id);
@@ -855,7 +876,9 @@ var TagMediaHelper = {
   };
   
   N.hideOverlay = function() {
-    if ($$('#' + N.ID_OVERLAY).length === 0) return;
+    if ($$('#' + N.ID_OVERLAY).length === 0) {
+      return;
+    }
     $(N.ID_OVERLAY).remove();
   };
 
@@ -881,7 +904,7 @@ var TagMediaHelper = {
     var data = Form.serialize($(N.ID_FORM));
     var url = $(N.ID_FORM).action;
     N.loading('Sending...');
-    new Ajax.Updater(N.ID_CONTENT, url, {
+    var xhr = new Ajax.Updater(N.ID_CONTENT, url, {
       method: 'POST',
       parameters: data,
       onComplete: function(transport){
@@ -915,7 +938,7 @@ var TagMediaHelper = {
       });
       N.setWindowPosition();
       N.loading();
-      new Ajax.Updater(N.ID_CONTENT, '/users/' + aid + '/noteform',
+      var xhr = new Ajax.Updater(N.ID_CONTENT, '/users/' + aid + '/noteform',
 		       {
 			 method: 'get',
 			 onComplete: function(transport) {
@@ -937,8 +960,8 @@ var TagMediaHelper = {
   N.setWindowPosition = function() {
     var scrollTop, clientHeight;
     if (self.pageYOffset) {
-      scrollTop = self.pageYOffset;      				
-    } else if (document.documentElement && document.documentElement.scrollTop) {	 // Explorer 6 Strict
+      scrollTop = self.pageYOffset;
+    } else if (document.documentElement && document.documentElement.scrollTop) { // Explorer 6 Strict
       scrollTop = document.documentElement.scrollTop;      
     } else if (document.body) {// all other Explorers
       scrollTop = document.body.scrollTop;			     
@@ -972,8 +995,8 @@ var TagMediaHelper = {
   /** get involved **/
   G.TOGGLELNK_SUFFIX = '_toggle_lnk';
   G.NTRUNC = G.TOGGLELNK_SUFFIX.length;
-  G.ITEMS = new Array('volunteer','donate','emaillist',
-		      'suggest','shop','venue','business');
+  G.ITEMS = ['volunteer','donate','emaillist',
+	     'suggest','shop','venue','business'];
   var _giToggle = function(it) {
     return "gi_"+it+"toggle";
   };
@@ -998,13 +1021,13 @@ var TagMediaHelper = {
 	if (dv) {
 	  if (s == s2) {
 	    if (dv.visible()){
-	      dv.blindUp(M.BLIND_OPTS['up']);
+	      dv.blindUp(M.BLIND_OPTS.up);
 	    } else {
-	      dv.blindDown(M.BLIND_OPTS['down']);
+	      dv.blindDown(M.BLIND_OPTS.down);
 	    }
 	  }
 	  else {
-	    dv.blindUp(M.BLIND_OPTS['up']);
+	    dv.blindUp(M.BLIND_OPTS.up);
 	  }
 	}
       }
@@ -1012,10 +1035,16 @@ var TagMediaHelper = {
   };
 
   G.init = function() {
+    var showSection = function(ev) {
+      var s = _giLnk2Div(this.id);
+      G.showSection(s);
+      return false;
+    };
+      
     // pick out special items 
     // shop -> cafe press
     // email -> mailto:
-    var specialCases = new Array('shop');
+    var specialCases = ['shop'];
 
     var items = $$('div.open-close-div a');
     var nitems = items.length;
@@ -1023,11 +1052,7 @@ var TagMediaHelper = {
     for (ii = 0; ii < nitems; ++ii) {
       var tg = items[ii];
       if (tg) {
-	tg.observe('click', function(e) {
-	  var s = _giLnk2Div(this.id);
-	  G.showSection(s);
-	  return false;
-	});
+	tg.observe('click', showSection);
       }
     }
 
@@ -1124,13 +1149,13 @@ var TagMediaHelper = {
         return;
       }
       var form_info = AC.FORM_HASH[frmtype];
-      var div_id = form_info['container'];
+      var div_id = form_info.container;
       var $dv = $(div_id);
       if ($dv) {
         for (var k in AC.FORM_HASH) {
           var current = AC.FORM_HASH[k];
-          var cdiv = current['container'];
-          var cfrm = current['form'];
+          var cdiv = current.container;
+          var cfrm = current.form;
           var $cfrm = $(cfrm);
           var $cdiv = $(cdiv);
           if (div_id == cdiv) {
@@ -1148,7 +1173,7 @@ var TagMediaHelper = {
               $cfrm.addClassName('disabled');
             }
           } else { // hide
-            $cdiv.fade(M.FADE_OPTS['out']);
+            $cdiv.fade(M.FADE_OPTS.out);
             $cdiv.setStyle({display:'none'});
             $cfrm.disable();
           }
@@ -1279,7 +1304,7 @@ var TagMediaHelper = {
       var favtype = this.readAttribute('fav_type');
       var parent = this.up();
       if (favid && favtype && confirm("Are you sure you want to remove this favorite?")) {
-	new Ajax.Request('/users/remove_favorite', 
+	var xhr = new Ajax.Request('/users/remove_favorite', 
                          { method:'post',
                            parameters: {fav_type: favtype,
                                         fav_id: favid,
@@ -1315,9 +1340,10 @@ var TagMediaHelper = {
   M.BrowserDetect = Class.create();
   Object.extend(M.BrowserDetect.prototype, {
     initialize: function () {
-      this._browser = Prototype.Browser
+      this._browser = Prototype.Browser;
       this.browser = this.searchString(this.dataBrowser) || 'unknown';
-      this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
+      this.version = this.searchVersion(navigator.userAgent) || 
+        this.searchVersion(navigator.appVersion) || "an unknown version";
       this.OS = this.searchString(this.dataOS) || "an unknown OS";
     },
     searchString: function (data) {
@@ -1326,103 +1352,107 @@ var TagMediaHelper = {
 	var dataProp = data[i].prop;
 	this.versionSearchString = data[i].versionSearch || data[i].identity;
 	if (dataString) {
-	  if (dataString.indexOf(data[i].subString) != -1)
+	  if (dataString.indexOf(data[i].subString) != -1) {
 	    return data[i].identity;
+          }
 	}
-	else if (dataProp)
+	else if (dataProp) {
 	  return data[i].identity;
+        }
       }
+      return null;
     },
     searchVersion: function (dataString) {
       var index = dataString.indexOf(this.versionSearchString);
-      if (index == -1) return;
+      if (index == -1) { return null; }
       return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
     },
     dataBrowser: [
       {
-	string: navigator.userAgent,
-	subString: "Chrome",
-	identity: "Chrome"
-      },
-      { 	string: navigator.userAgent,
-		subString: "OmniWeb",
-		versionSearch: "OmniWeb/",
-		identity: "OmniWeb"
+        string: navigator.userAgent,
+        subString: "Chrome",
+        identity: "Chrome"
       },
       {
-	string: navigator.vendor,
-	subString: "Apple",
-	identity: "Safari",
-	versionSearch: "Version"
+        string: navigator.userAgent,
+        subString: "OmniWeb",
+        versionSearch: "OmniWeb/",
+        identity: "OmniWeb"
       },
       {
-	prop: window.opera,
-	identity: "Opera"
+        string: navigator.vendor,
+        subString: "Apple",
+        identity: "Safari",
+        versionSearch: "Version"
       },
       {
-	string: navigator.vendor,
-	subString: "iCab",
-	identity: "iCab"
+        prop: window.opera,
+        identity: "Opera"
       },
       {
-	string: navigator.vendor,
-	subString: "KDE",
-	identity: "Konqueror"
+        string: navigator.vendor,
+        subString: "iCab",
+        identity: "iCab"
       },
       {
-	string: navigator.userAgent,
-	subString: "Firefox",
-	identity: "Firefox"
+        string: navigator.vendor,
+        subString: "KDE",
+        identity: "Konqueror"
       },
       {
-	string: navigator.vendor,
-	subString: "Camino",
-	identity: "Camino"
-      },
-      {		// for newer Netscapes (6+)
-	string: navigator.userAgent,
-	subString: "Netscape",
-	identity: "Netscape"
+        string: navigator.userAgent,
+        subString: "Firefox",
+        identity: "Firefox"
       },
       {
-	string: navigator.userAgent,
-	subString: "MSIE",
-	identity: "Explorer",
-	versionSearch: "MSIE"
+        string: navigator.vendor,
+        subString: "Camino",
+        identity: "Camino"
+      },
+      {	// for newer Netscapes (6+)
+        string: navigator.userAgent,
+        subString: "Netscape",
+        identity: "Netscape"
       },
       {
-	string: navigator.userAgent,
-	subString: "Gecko",
-	identity: "Mozilla",
-	versionSearch: "rv"
+        string: navigator.userAgent,
+        subString: "MSIE",
+        identity: "Explorer",
+        versionSearch: "MSIE"
       },
-      { 		// for older Netscapes (4-)
-	string: navigator.userAgent,
-	subString: "Mozilla",
-	identity: "Netscape",
-	versionSearch: "Mozilla"
+      {
+        string: navigator.userAgent,
+        subString: "Gecko",
+        identity: "Mozilla",
+        versionSearch: "rv"
+      },
+      { // for older Netscapes (4-)
+        string: navigator.userAgent,
+        subString: "Mozilla",
+        identity: "Netscape",
+        versionSearch: "Mozilla"
       }
     ],
     dataOS : [
       {
-	string: navigator.platform,
-	subString: "Win",
-	identity: "Windows"
+        string: navigator.platform,
+        subString: "Win",
+        identity: "Windows"
       },
       {
-	string: navigator.platform,
-	subString: "Mac",
-	identity: "Mac"
+        string: navigator.platform,
+        subString: "Mac",
+        identity: "Mac"
       },
       {
-	string: navigator.userAgent,
-	subString: "iPhone",
-	identity: "iPhone/iPod"
+        string: navigator.userAgent,
+        subString: "iPhone",
+        identity: "iPhone/iPod"
       },
       {
-	string: navigator.platform,
-	subString: "Linux",
-	identity: "Linux"
+        string: navigator.platform,
+        subString: "Linux",
+        identity: "Linux"
       }
     ]
   });
@@ -1454,7 +1484,7 @@ var TagMediaHelper = {
             markdown: markdown.getValue()
           };
 
-          new Ajax.Request('/discount/markup', { 
+          var xhr = new Ajax.Request('/discount/markup', { 
             method:'post',
             parameters: params,
 	    onSuccess: function(tr) {
