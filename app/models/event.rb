@@ -1,4 +1,6 @@
+require 'htmlhelper'
 class Event < ActiveRecord::Base
+  
   acts_as_mappable
 
   after_validation_on_create :compute_geocode
