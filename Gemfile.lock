@@ -57,6 +57,7 @@ GEM
     httparty (0.7.8)
       crack (= 0.1.8)
     i18n (0.4.2)
+    jslint_on_rails (1.0.7)
     json (1.5.3)
     memcache (1.2.13)
     memcache-client (1.8.5)
@@ -116,6 +117,7 @@ DEPENDENCIES
   has_many_polymorphs
   htmlentities
   i18n (~> 0.4.0)
+  jslint_on_rails
   json (= 1.5.3)
   memcache
   memcache-client

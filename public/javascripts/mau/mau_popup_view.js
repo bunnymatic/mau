@@ -4,7 +4,7 @@ out the appropriate info and fire off a note to mau emails
 
 avoids 'mailto' links
 */
-MAU = window['MAU'] || {};
+MAU = window.MAU || {};
 
 MAU.PopupView = Class.create();
 
@@ -31,7 +31,7 @@ Object.extend(MAU.PopupView.prototype, {
   insert: function(ev) {
     var event = ev || {};
     var _that = this;
-    if ($$(this._parent_class(true)).length == 0 ) {
+    if ($$(this._parent_class(true)).length === 0 ) {
       var h = new Element('div', { "class": 'popup-header' }).update(this.options.title);
       var x = new Element('div', { "class": 'close-btn' }).update('x');
       h.insert(x);
@@ -45,8 +45,7 @@ Object.extend(MAU.PopupView.prototype, {
       container.insert(m);
       var notes = new Element('div', { "class": _that._parent_class() }).insert(container);
       $$('body')[0].insert(notes);
-    } else {
-    }
+    } 
   },
   initialize: function(selector, opts) {
     this.options = Object.extend({},this.defaults);
@@ -65,6 +64,9 @@ Object.extend(MAU.PopupView.prototype, {
   }
 });
 
-  Event.observe(window, 'load', function() {  
-    new MAU.PopupView("#news_text .read-more", { title:"Invitation from Howard Flax", data_div:"letter_from_flax"} );
+Event.observe(window, 'load', function() {  
+  var dummy = new MAU.PopupView("#news_text .read-more", { 
+    title:"Invitation from Howard Flax", 
+    data_div:"letter_from_flax"
   });
+});

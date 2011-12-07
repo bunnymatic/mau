@@ -1,7 +1,7 @@
 (function() {
-MAU = window['MAU'] || {};
+MAU = window.MAU || {};
 
-Submissions = MAU.S = MAU.S || {}
+Submissions = MAU.S = MAU.S || {};
 
 var S = Submissions;
 
@@ -31,7 +31,10 @@ var validateOnSubmit = function(ev) {
   var os_status = $$('input[name=springos201104]');
   if (os_status && os_status.length) {
     if (!os_status[0].checked) {
-      alert("To enter this show, you must be participating in Open Studios on April 16/17.  If you are planning to participate, simply check the \"I'm participating...\" checkbox and you can submit your work.");
+      alert("To enter this show, you must be participating in Open Studios"+
+            " on April 16/17.  If you are planning to participate, simply "+
+            "check the \"I'm participating...\" checkbox and you can submit "+
+            "your work.");
       ev.stop();
       return false;
     }

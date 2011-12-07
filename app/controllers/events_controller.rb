@@ -27,6 +27,10 @@ class EventsController < ApplicationController
     end
     respond_to do |format|
       format.html # index.html.erb
+      format.mobile { 
+        @page_title = "MAU Events"
+        render :layout => 'mobile'
+      }
       format.xml  { render :xml => @events }
     end
   end
@@ -35,7 +39,13 @@ class EventsController < ApplicationController
   # GET /events/1.xml
   def show
     @event = Event.find(params[:id])
-    redirect_to events_path  + "##{@event.id}"
+    format.mobile { 
+      @page_title = "MAU Event: %s" % @event.title
+      render :layout => 'mobile'
+    }
+    format.html {
+      redirect_to events_path  + "##{@event.id}"
+    }
 #    respond_to do |format|
 #      format.html # show.html.erb
 #      format.xml  { render :xml => @event }

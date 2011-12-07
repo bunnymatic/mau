@@ -1,4 +1,4 @@
-MAU = window['MAU'] || {};
+MAU = window.MAU || {};
 (function() {
   var D = MAU.Discount = MAU.Discount || {};
 
@@ -21,7 +21,7 @@ MAU = window['MAU'] || {};
         var params = {
           markdown: markdown
         };
-	new Ajax.Request('/discount/markup', { 
+	var xhr = new Ajax.Request('/discount/markup', { 
           method:'post',
           parameters: params,
 	  onSuccess: function(tr) {
