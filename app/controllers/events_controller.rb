@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  include EventsHelper
 
   before_filter :login_required, :except => [:index, :show]
   before_filter :admin_required, :only => [:admin_index, :publish, :unpublish]
@@ -39,17 +40,14 @@ class EventsController < ApplicationController
   # GET /events/1.xml
   def show
     @event = Event.find(params[:id])
-    format.mobile { 
-      @page_title = "MAU Event: %s" % @event.title
-      render :layout => 'mobile'
-    }
-    format.html {
-      redirect_to events_path  + "##{@event.id}"
-    }
-#    respond_to do |format|
-#      format.html # show.html.erb
-#      format.xml  { render :xml => @event }
-#    end
+    respond_to do |format|
+      format.html { redirect_to events_path  + "##{@event.id}" }
+      format.mobile { 
+        @page_title = "MAU Event: %s" % @event.title
+        render :layout => 'mobile'
+      }
+      #      format.xml  { render :xml => @event }
+    end
   end
 
   # GET /events/new

@@ -106,8 +106,19 @@ h1,h2,h3,h4,h5,h6 {
     }
 }
 
-.mobile-menu.os-star {
+.mobile-menu {
+  &.os_star {
     /* background: -moz-linear-gradient(center top , #FEfeFE, #ffa) repeat scroll 0 0 #EEEEEE; */
+  }
+  .event_title {
+    overflow:hidden;
+  }
+  .starttime {
+    font-size: 85%;
+    font-weight: normal;
+    display:inline-block;
+    width: 130px;
+  }
 }
 
 .news-footer {
@@ -189,3 +200,4 @@ h4, h5 {
         list-style: none;
     }
 }
+

@@ -1,0 +1,6 @@
+- if @events.empty?
+  .block Nothing to see here
+- else
+  %ul{"data-role"=>"listview"}
+    - @events.each do |e|
+      = render_as_mobile_list_item EventsHelper::for_mobile_list(e), :link => event_path(e)

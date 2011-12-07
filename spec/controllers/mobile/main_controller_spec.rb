@@ -20,8 +20,8 @@ describe MainController do
     it "uses the welcome mobile layout" do
       response.layout.should == 'layouts/mobile_welcome'
     end
-    it 'includes a menu with 2 items' do
-      response.should have_tag('ul li', :count => 5)
+    it 'includes a menu with 6 items' do
+      response.should have_tag('ul li', :count => 6)
     end
     it "includes menu item for studios" do
       response.should have_tag('ul li a[href="/studios/"]', :count => 1)
