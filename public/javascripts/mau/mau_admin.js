@@ -110,8 +110,11 @@ MAUAdmin =  window.MAUAdmin || {};
                        published: false, 
                        unpublished: true};
     for (k in init_state) {
-      $('event_filter_'+k).checked = init_state[k];
-      $('event_filter_'+k).triggerEvent('change');
+      var $ev_filter = $('event_filter_'+k);
+      if ($ev_filter) {
+        $ev_filter.checked = init_state[k];
+        $ev_filter.triggerEvent('change');
+      }
     }
   };
   Event.observe(window,'load',E.init);

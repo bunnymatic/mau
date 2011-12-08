@@ -5,7 +5,7 @@
   - clz = 'future'
 - if event.past?
   - clz = 'past'
-.event{:class => clz, :style => (event.in_progress? ? 'display:none' : '')}
+.event{:class => clz, :style => ((event.in_progress? && !@_ismobile) ? 'display:none' : '')}
   .title 
     #{event.title}
     .time #{EventsHelper::event_time(event)}
