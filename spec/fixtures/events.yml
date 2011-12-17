@@ -97,3 +97,34 @@ noendtime:
   url: MyString
   publish: <%= 3.days.since %>
   user: jesseponce
+
+reception_start:
+  title: reception start
+  description: my event with reception
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: <%= 4.days.since %>
+  reception_starttime: <%= 5.days.since %>
+  url: MyString
+  publish: <%= 1.days.since %>
+  user: jesseponce
+
+reception_full:
+  title: MyString
+  description: MyText
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: <%= 4.days.since %>
+  reception_starttime: <%= 5.days.since %>
+  reception_endtime: <%= 5.days.since + 1.hour %>
+  url: MyString
+  publish: <%= 1.days.since %>
+  user: jesseponce

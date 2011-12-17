@@ -32,11 +32,19 @@ describe EventsController do
 
   describe "#show" do
     before do
-      get :show, :id => Event.first().id
+      @event = events(:one)
+      get :show, :id => @event
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
-
-
+    it 'the reception time is not shown for an event without a reception' do
+      response.should_not have_tag('.event .reception_time')
+    end      
+    it 'the reception time is shown for an event with a reception' do
+      ev = events(:reception_start)
+      get :show, :id => ev.id
+      puts ev.inspect
+      assert_select('.event .reception_time', /Reception\:/);
+    end      
   end
 end
