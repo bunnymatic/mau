@@ -19,12 +19,22 @@
         .entry
           = f.label txtfld
           = f.text_field txtfld
-    .section   
-      - [:starttime, :endtime].each do |dt|
-        .entry{:class => dt}
-          = f.label dt, ((dt == :starttime) ? 'Start Date/Time' : 'End Date/Time')
-          = f.calendar_date_select dt
+    .section.times.clear
+      - labels = { :starttime => "Start" , :endtime => "End" , :reception_starttime => "Start" , :reception_endtime => "End"  }
+      .event_time
+        %h6 Event Date/Time
+        - [:starttime, :endtime].each do |dt|
+          .entry{:class => dt}
+            = f.label dt, labels[dt]
+            = f.calendar_date_select dt
+      .reception_time
+        %h6 Reception/Opening Date/Time
+        - [:starttime, :endtime].each do |dt|
+          .entry{:class => dt}
+            = f.label dt, labels[dt]
+            = f.calendar_date_select dt
         .clear            
+    .section   
       - [:url].each do |txtfld|
         .entry
           = f.label txtfld, "Event Website"
