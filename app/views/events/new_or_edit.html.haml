@@ -29,7 +29,7 @@
             = f.calendar_date_select dt
       .reception_time
         %h6 Reception/Opening Date/Time
-        - [:starttime, :endtime].each do |dt|
+        - [:reception_starttime, :reception_endtime].each do |dt|
           .entry{:class => dt}
             = f.label dt, labels[dt]
             = f.calendar_date_select dt

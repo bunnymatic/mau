@@ -9,8 +9,9 @@
   .title
     #{event.title}
   .info 
-    .time #{EventsHelper::event_time(event)} 
-    .reception_time Reception: #{EventsHelper::reception_time(event)}
+    .time #{EventsHelper::event_time(event)}
+    - if event.reception_starttime.present?
+      .reception_time Reception: #{EventsHelper::reception_time(event)}
  
   .venue
     .name #{event.venue}
