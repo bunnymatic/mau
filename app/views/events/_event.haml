@@ -6,10 +6,12 @@
 - if event.past?
   - clz = 'past'
 .event{:class => clz, :style => ((event.in_progress? && !@_ismobile) ? 'display:none' : '')}
-  .title 
+  .title
     #{event.title}
-    .time #{EventsHelper::event_time(event)}
-  
+  .info 
+    .time #{EventsHelper::event_time(event)} 
+    .reception_time Reception: #{EventsHelper::reception_time(event)}
+ 
   .venue
     .name #{event.venue}
     .address 

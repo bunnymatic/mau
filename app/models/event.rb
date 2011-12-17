@@ -14,6 +14,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :starttime
 
   validate :validate_endtime
+  validate :validate_reception_time
 
   named_scope :future, :conditions => ['(endtime is not null and endtime > NOW()) or (starttime > NOW())' ]
   named_scope :past, :conditions => ['(endtime is not null and endtime < NOW()) or (starttime < NOW())' ]
@@ -30,6 +31,14 @@ class Event < ActiveRecord::Base
       return
     else
       errors.add(:endtime, 'should be after start time.') unless endtime >= starttime
+    end
+  end
+
+  def validate_reception_time
+    if reception_starttime && reception_endtime
+      errors.add(:reception_endtime, 'should be after reception start time.') unless reception_endtime >= reception_starttime
+    else
+      return
     end
   end
 

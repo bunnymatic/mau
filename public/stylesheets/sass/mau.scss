@@ -3541,12 +3541,14 @@ a.button b.m b {
     background-color: $xdarkgray;
     color: $lightgray;
     .title {
-      font-size: 14px;
-      width: 48%;
-      float: left;
+      font-size: 16px;
       color: $white;
-      font-weight: bold;
       letter-spacing:1px;
+      margin-bottom: 8px;
+    }
+    .info {
+      float: left;
+      width: 48%;
     }
     .address,
     .time {
@@ -3625,7 +3627,16 @@ a.button b.m b {
       margin-top: 0; 
     }
   }
+  .instructions {
+    margin-bottom: 20px;
+  }
   .section {
+    margin-bottom: 20px;
+    clear: both;
+    .reception_time, .event_time {
+      float:left;
+      width: 48%;
+    }
     .entry {
       label { 
         display: block;
@@ -3636,6 +3647,9 @@ a.button b.m b {
     .starttime .fieldWithErrors {
       display: inline;
     }
+
+    input#event_reception_starttime,
+    input#event_reception_endtime,
     input#event_starttime,
     input#event_endtime {
       width: 170px;

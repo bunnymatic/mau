@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110820173455) do
+ActiveRecord::Schema.define(:version => 20111216185218) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -95,6 +95,8 @@ ActiveRecord::Schema.define(:version => 20110820173455) do
     t.float    "lng"
     t.integer  "user_id"
     t.datetime "publish"
+    t.datetime "reception_starttime"
+    t.datetime "reception_endtime"
   end
 
   create_table "favorites", :force => true do |t|

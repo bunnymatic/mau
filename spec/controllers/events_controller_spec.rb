@@ -7,6 +7,7 @@ def get_event_params(opts={})
     :description => gen_random_string(200),
     :starttime => Time.now + 1.day,
     :endtime => Time.now + 1.day + 2.hours,
+    :reception_starttime => Time.now + 1.day + 1.hour,
     :venue => gen_random_string(20),
     :street => rand(1000),
     :city => 'san francisco'
@@ -42,6 +43,13 @@ describe EventsController do
     it "does not include the publish checkbox" do
       assert_select("input#event_publish", false)
     end
+    it 'has time fields for start/end and reception start/end' do
+      assert_select('input#event_reception_starttime')
+      assert_select('input#event_reception_endtime')
+      assert_select('input#event_starttime')
+      assert_select('input#event_endtime')
+    end
+
   end
 
   describe "#new" do
