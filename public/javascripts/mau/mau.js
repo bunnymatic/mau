@@ -1561,7 +1561,6 @@ var TagMediaHelper = {
           vis ++;
         }
       });
-      console.log('vis/ct ' + vis + '/' + ct);
       if (!vis) {
         $('event_filter_in_progress').writeAttribute('checked', 'checked');
         E.update_visible_events();
