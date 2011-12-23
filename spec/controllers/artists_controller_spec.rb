@@ -216,10 +216,9 @@ describe ArtistsController do
         it "has heart notification checkbox checked" do
           response.should have_tag 'input#emailsettings_favorites[checked=checked]'
         end
-        it 'has a button for donation under the open studios section' do
-          response.should have_tag 'this test should break (paypal form is inside the other form :( )'
+        it 'has a hidden form for donation under the open studios section' do
+          response.should have_tag '#paypal_donate_openstudios'
         end
-
       end
       context " if email_attrs['favorites'] is false " do
         before do

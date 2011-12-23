@@ -291,9 +291,10 @@ input[type=image], input[type=hidden] {
     .donate {
       padding-top: 10px;
       .donate_btn {
-        width: 126px;
+        background-image: url('/images/donate-5.png');
+        width: 114px;
         height: 30px;
-        margin: auto;
+        margin: 10px auto;
       }
     }
     .yes-no-radios {
@@ -1041,6 +1042,9 @@ margin: 0 0 20px 0;
 #contact_text {
   margin-left:40px;
   margin-right:40px;
+}
+#paypal_donate_openstudios {
+  display:none;
 }
 #artist_edit {
   .notice,
