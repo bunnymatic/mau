@@ -135,6 +135,9 @@ input, textarea, select {
   @include input_style;
   @include small-rounded-corners;
 }
+input[type=image], input[type=hidden] {
+  border: 0;
+}
 
 .input-name, .input, .input-err{
   font-size: 12px;
@@ -284,6 +287,14 @@ input, textarea, select {
   &#events {
     .inner-sxn {
       width: 450px;
+    }
+    .donate {
+      padding-top: 10px;
+      .donate_btn {
+        width: 126px;
+        height: 30px;
+        margin: auto;
+      }
     }
     .yes-no-radios {
       margin: auto;
@@ -1142,6 +1153,10 @@ margin: 0 0 20px 0;
   font-size: 11px;
   margin: 2px;
   line-height:25px;
+}
+
+.nobr {
+  white-space:nowrap;
 }
 .alpha-pg, .curpg {
   @include dotted_border;
@@ -3559,9 +3574,6 @@ a.button b.m b {
       overflow:hidden;
     }
     .address {
-      span.nobr {
-        white-space: nowrap;
-      }
     }
     .maplink {
       font-size: 10px;
