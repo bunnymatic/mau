@@ -49,6 +49,9 @@ describe MainController do
       response.should have_tag('#header_bar')
       response.should have_tag('#artisthemission')
     end
+    it 'has all the action buttons' do
+      response.should have_tag('.action_button', :count => 4)
+    end
     it "has a footer menu" do
       response.should have_tag('#footer_bar')
       response.should have_tag('#footer_copy')

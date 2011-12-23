@@ -6,6 +6,15 @@
 
 %a{:title => "Get on the mailing list to hear all about MAU Events and Open Studios.", :href => '/contact'}
   .action_button.sprite.mailing_list
+:ruby
+  if current_user
+    path = edit_artist_path(current_user) + "#events"
+  else
+    path = login_path  
+  end
+ 
+%a{:title => "Signup for Spring Open Studios Now!", :href => path}
+  .action_button.sprite.spring_os_signup
 %a{:title => "Tell us about your upcoming art show!", :href => new_event_path}
   .action_button.sprite.list_your_show
 
