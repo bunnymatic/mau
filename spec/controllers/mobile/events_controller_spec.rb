@@ -43,7 +43,6 @@ describe EventsController do
     it 'the reception time is shown for an event with a reception' do
       ev = events(:reception_start)
       get :show, :id => ev.id
-      puts ev.inspect
       assert_select('.event .reception_time', /Reception\:/);
     end      
   end

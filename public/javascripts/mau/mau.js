@@ -428,14 +428,27 @@ var TagMediaHelper = {
   A.clickYepNope = function(type) {
     var sel = '.radio-container.' + type + ' input[type=radio]';
     var radio = $$(sel);
+    var joining = null;
+    var msg = null;
     if (radio && radio.length) {
-      $(radio[0]).writeAttribute('checked', 'checked');
+      radio = radio.first();
+      if (type === 'nope') {
+        msg = 'So sorry you\'re not going to participate this year.'+
+          ' We\'d love to know why.  Tell us via the feedback link'+
+          ' at the bottom of the page.';
+      } else {
+        msg = 'Super!  The more the merrier!';
+      }
+      $(radio).writeAttribute('checked', 'checked');
     }
-    var submitButtons = $$('#events input#artist_submit[type="submit"]');
-    if (submitButtons && submitButtons.length) {
-      var btn = submitButtons[0];
-      $(btn).writeAttribute('value', 'Save Changes').click();
-    }
+    // submit via ajax
+    var submitForm = $$('form.edit_artist').first();
+    if (submitForm) {
+      submitForm.request({onComplete:function() {
+        $$('.os-status span').first().innerHTML = type.charAt(0).toUpperCase() + type.slice(1);
+        alert(msg);
+      }});
+    };
   };
   A.clickYep = function() {
     A.clickYepNope('yep');
@@ -466,6 +479,18 @@ var TagMediaHelper = {
       $nope.observe('click', A.clickNope);
     }
   };
+  A.bindDonateButton = function() {
+    var donate_sxn = $('donate_for_openstudios');
+    if (donate_sxn) {
+      donate_sxn.observe('click', function() {
+        // find paypal form and submit its
+        var paypal_form = $('paypal_donate_openstudios');
+        if (paypal_form) {
+          return paypal_form.submit();
+        }
+      });
+    }
+  };
   A.init = function() {
     var toggles = M.Artist.TOGGLES;
     var sxns = M.Artist.SECTIONS;
@@ -487,8 +512,9 @@ var TagMediaHelper = {
       var sxn = location.hash.substr(1);
       M.Artist.toggleSxnVis(sxn);
     }
-
+    
     A.bindYepNopeButtons();
+    A.bindDonateButton();
     A.init = function() {};
   };
 
