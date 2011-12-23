@@ -30,7 +30,7 @@
     <div class="edit-profile-sxn"  id="events" style="display:none;">
       <div class="inner-sxn">
 	<p>
-	  Will you open your studio with the rest of the Mission artists this spring Apr 14,15, 2012?
+	  Will you open your studio with the rest of the Mission artists this Spring <span class='nobr'>Apr 14,15, 2012</span>?
         </p>
         <p class="os-status">
           Your current answer is : <span><%= @artist_info.os_participation[Conf.oslive.to_s] ? 'Yep' : 'Nope' %></span>
@@ -44,6 +44,17 @@
             <%= radio_button_tag "#{f.object_name}[artist_info[os_participation[#{Conf.oslive}]]]", "false",  (!@artist_info.os_participation['201110'])  %><div class="formbutton">Nope</div>
           </div>
         </div>
+        <div class="clear donate">
+          And if you can, we'd love your help to put some money aside for promotion.  Donate $5 to MAU via Paypal with the button below.
+          <div class='donate_btn'>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="hosted_button_id" value="U8UKY5SHRERKG">
+              <input type="image"  width="118" height="30" src="/images/donate-5.png"  name="submit" alt="PayPal - The safer, easier way to pay online!">
+              <img alt="" border="0" src="https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+          </div>
+</div>
 	<div class="clear"></div>
       </div>
       <div class="buttons">
