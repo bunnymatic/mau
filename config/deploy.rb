@@ -5,24 +5,12 @@ set :rvm_ruby_string, '1.8.7-p302@mau'
 
 ####### VARIABLES #######
 set :application, "MAU"
-set :scm, :subversion
+set :scm, :git
 set :use_sudo, false
 set :rake, 'bundle exec rake'
-
-#########################
-# Set repo based on incoming tag or branch variable
-# inputs can be passed to capistrano via -S tag=<tag> 
-# or -S branch=<branch>
-#
-if variables[:tag]
-  deploy_version = "tags/%s" % variables[:tag]
-elsif variables[:branch]
-  deploy_version = "branches/%s" % variables[:branch]
-else
-  deploy_version = "trunk/"
-end 
-
-set :repository,  "svn+ssh://svn.bunnymatic.com/space/svnroot/mau/web/" + deploy_version
+set :repository,  "git.bunnymatic.com:/projects/git/mau.git"
+set :branch, "origin/master"
+set :scm_verbose, true
 
 BUNNYMATIC = 'bunnymatic.com'
 SLICE = '209.20.85.23'
@@ -57,9 +45,6 @@ desc "Set up Test specific paramters."
 task :jy do
   set :user, "jeremy"
   set :deploy_to, "/home/jeremy/deployed"
-  set :svn_env, 'export SVN_SSH="ssh -p 2222"'
-  puts("executing locally \'" + svn_env + "\'")
-  system(svn_env)
 end
 
 desc "Setup Staging on Slicehost params"
@@ -68,9 +53,6 @@ task :staging do
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
   set :ssh_port, '22022'
-  set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
-  puts("executing locally \'" + svn_env + "\'")
-  system(svn_env)
 end
 
 desc "Set up Dev on bunnymatic.com parameters."
@@ -79,9 +61,6 @@ task :dev do
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
   set :ssh_port, '2222'
-  set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
-  puts("executing locally \'" + svn_env + "\'")
-  system(svn_env)
 end
 
 desc "Set up Production bunnymatic.com parameters."
@@ -90,9 +69,6 @@ task :prod do
   set :deploy_to, "/home/mauprod/deployed"
   set :rails_env, 'production'
   set :ssh_port, '2222'
-  set :svn_env, "export SVN_SSH=\"ssh -p #{ssh_port}\""
-  puts("executing locally \'" + svn_env + "\'")
-  system(svn_env)
 end
 
 desc "Sanity Check"
