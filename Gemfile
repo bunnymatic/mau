@@ -1,16 +1,16 @@
 source :gemcutter
 gem 'racc'
-gem "rails", '2.3.5'
+gem "rails", '2.3.11'
 gem "geokit"
 gem "geokit-rails"
 gem "nokogiri"
 gem "htmlentities"
 gem "json", '1.5.3'
-gem "mysql"
+gem 'mysql2', '~> 0.2.11'
 gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"
-gem 'mojo_magick', :git => 'git://github.com/bunnymatic/mojo_magick.git'
+gem 'mojo_magick', :git => 'git://github.com/2rye/mojo_magick.git'
 gem 'passenger', '3.0.2'
 gem 'memcache'
 gem 'memcache-client'
