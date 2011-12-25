@@ -64,14 +64,14 @@ describe ArtPieceTag do
         f = ArtPieceTag.frequency
         tags = f.collect {|t| t["tag"]}
         cts = f.collect {|t| t["ct"]}
-        tags.should == [art_piece_tags(:two).id.to_s, art_piece_tags(:with_spaces).id.to_s, art_piece_tags(:one).id.to_s]
+        tags.should == [art_piece_tags(:two), art_piece_tags(:with_spaces), art_piece_tags(:one)].map(&:id)
         cts.should == [1.0, 0.75, 0.25]
       end
       it "frequency returns un-normalized frequency correctly" do
         f = ArtPieceTag.frequency(normalize=false)
         tags = f.collect {|t| t["tag"]}
         cts = f.collect {|t| t["ct"]}
-        tags.should == [art_piece_tags(:two).id.to_s, art_piece_tags(:with_spaces).id.to_s, art_piece_tags(:one).id.to_s]
+        tags.should == [art_piece_tags(:two), art_piece_tags(:with_spaces), art_piece_tags(:one)].map(&:id)
         cts.should == [4,3,1]
       end
     end
