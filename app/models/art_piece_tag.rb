@@ -27,7 +27,7 @@ class ArtPieceTag < ActiveRecord::Base
     end
     tags = []
     dbr = connection.execute("/* hand generated sql */ Select art_piece_tag_id tag,count(*) ct from art_pieces_tags where art_piece_id in (select id from art_pieces) group by art_piece_tag_id order by ct desc;")
-    dbr.each_hash{ |row| tags << row }    
+    dbr.map{|row| Hash[ 'tag', row[0], 'ct', row[1] ]}.each{ |row| tags << row }    
     # compute max/min ct
     maxct = nil
     minct = nil
@@ -57,7 +57,9 @@ class ArtPieceTag < ActiveRecord::Base
     dbr = connection.execute("/* hand generated sql */ select art_piece_tag_id tag,count(*) ct from art_pieces_tags group by art_piece_tag_id;")
     # return sorted by freq
     keyed = {}
-    dbr.each_hash do |row|
+    dbr.each do |rowarr|
+      row = Hash[ 'tag', row[0], 'ct', row[1] ]
+      put "ROW ", row
       keyed[ row['tag'] ] = row['ct']
     end
     keyed
