@@ -9,7 +9,7 @@ set :scm, :git
 set :use_sudo, false
 set :rake, 'bundle exec rake'
 set :repository,  "git.bunnymatic.com:/projects/git/mau.git"
-set :branch, "origin/master"
+set :branch, "master"
 set :scm_verbose, true
 
 BUNNYMATIC = 'bunnymatic.com'
