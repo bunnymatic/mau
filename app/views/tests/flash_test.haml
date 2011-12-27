@@ -1,0 +1,9 @@
+%h2 Errors?
+- if flash[:error]
+  .error-msg
+    != flash[:error]
+%hr
+%h2 Notice?
+- if flash[:notice]
+  .notice
+    != flash[:notice]
