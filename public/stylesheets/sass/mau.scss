@@ -68,6 +68,27 @@ h5 {
   font-size: 14px;
 }
 
+.notice, .error-msg {
+  @include small-rounded-corners;
+  @include floating-window-border;
+  background-color: $darkgray;
+  margin: 15px auto;
+  border: 1px solid $lightyellow;
+  padding: 11px;
+  width: 260px
+}
+.error-msg {
+  border: 1px solid $error_red;
+  color: $error_red;
+  text-align: left;
+}
+.notice {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  text-align: center;
+}
+
 .singlecolumn {
   padding-bottom: 20px;
   width:882px;
@@ -1952,21 +1973,6 @@ span.rightarrow
   
 }
 
-.notice, .error-msg {
-  @include small-rounded-corners;
-  margin: 15px auto;
-  border: 1px solid $lightyellow;
-  padding: 11px;
-  width: 260px
-}
-.error-msg {
-  border: 1px solid $error_red;
-  color: $error_red;
-  text-align: left;
-}
-.notice {
-  text-align: center;
-}
 
 #new_artpiece {
   .error-msg, & .notice {
