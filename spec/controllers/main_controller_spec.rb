@@ -147,235 +147,236 @@ describe MainController do
 
   describe "#news" do
     integrate_views
-    describe "get" do
-      context "while not logged in" do
-        before do
-          get :resources
-        end
-        it_should_behave_like "not logged in"
+    context "while not logged in" do
+      before do
+        get :resources
       end
-      context "while logged in as an art fan" do
-        before do
-          u = users(:maufan1)
-          login_as(users(:maufan1))
-          @logged_in_user = u
-          get :resources
-        end
-        it_should_behave_like "logged in user"
-      end
-      context "while logged in as artist" do
-        before do
-          a = users(:artist1)
-          login_as(users(:artist1))
-          @logged_in_user = a
-          @logged_in_artist = a
-          get :resources
-        end
-        it_should_behave_like "logged in user"
-        it_should_behave_like "logged in artist"
-      end
-      context "while logged in as user with 'editor' role" do
-        before do
-          u = users(:editor)
-          login_as(:editor)
-          @logged_in_user = u
-          get :resources
-        end
-        it_should_behave_like "logged in with editor role"
-        it 
-      end        
+      it_should_behave_like "not logged in"
     end
+    context "while logged in as an art fan" do
+      before do
+        u = users(:maufan1)
+        login_as(users(:maufan1))
+        @logged_in_user = u
+        get :resources
+      end
+      it_should_behave_like "logged in user"
+    end
+    context "while logged in as artist" do
+      before do
+        a = users(:artist1)
+        login_as(users(:artist1))
+        @logged_in_user = a
+        @logged_in_artist = a
+        get :resources
+      end
+      it_should_behave_like "logged in user"
+      it_should_behave_like "logged in artist"
+    end
+    context "while logged in as user with 'editor' role" do
+      before do
+        u = users(:editor)
+        login_as(:editor)
+        @logged_in_user = u
+        get :resources
+      end
+      it_should_behave_like "logged in with editor role"
+      it 
+    end        
   end
   describe "#about" do
     integrate_views
-    describe "get" do
-      context "while not logged in" do
-        before do
-          get :about
-        end
-        it_should_behave_like "not logged in"
+    context "while not logged in" do
+      before do
+        get :about
       end
-      context "while logged in as an art fan" do
-        before do
-          u = users(:maufan1)
-          login_as(users(:maufan1))
-          @logged_in_user = u
-          get :about
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "not logged in"
+    end
+    context "while logged in as an art fan" do
+      before do
+        u = users(:maufan1)
+        login_as(users(:maufan1))
+        @logged_in_user = u
+        get :about
       end
-      context "while logged in as artist" do
-        before do
-          a = users(:artist1)
-          login_as(users(:artist1))
-          @logged_in_user = a
-          get :about
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "logged in user"
+    end
+    context "while logged in as artist" do
+      before do
+        a = users(:artist1)
+        login_as(users(:artist1))
+        @logged_in_user = a
+        get :about
       end
+      it_should_behave_like "logged in user"
     end
   end
   describe "#getinvolved" do
     integrate_views
-    describe "get" do
-      context "while not logged in" do
-        before do
-          get :getinvolved
-        end
-        it_should_behave_like "not logged in"
+    context "while not logged in" do
+      before do
+        get :getinvolved
       end
-      context "while logged in as an art fan" do
-        before do
-          u = users(:maufan1)
-          login_as(users(:maufan1))
-          @logged_in_user = u
-          get :getinvolved
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "not logged in"
+    end
+    context "while logged in as an art fan" do
+      before do
+        u = users(:maufan1)
+        login_as(users(:maufan1))
+        @logged_in_user = u
+        get :getinvolved
       end
-      context "while logged in as artist" do
-        before do
-          a = users(:artist1)
-          login_as(users(:artist1))
-          @logged_in_user = a
-          get :getinvolved
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "logged in user"
+    end
+    context "while logged in as artist" do
+      before do
+        a = users(:artist1)
+        login_as(users(:artist1))
+        @logged_in_user = a
+        get :getinvolved
+      end
+      it_should_behave_like "logged in user"
+    end
+    describe '/paypal_success' do
+      before do
+        post :getinvolved, :p => 'paypal_success'
+      end
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'sets some info about the page' do
+        (/Get Involved/ =~ assigns(:page_title)).should be
+      end
+      it 'assigns the proper paypal page' do
+        assigns(:page).should == 'paypal_success'
       end
     end
   end
   describe "#privacy" do
     integrate_views
-    describe "get" do
-      context "while not logged in" do
-        before do
-          get :privacy
-        end
-        it_should_behave_like "not logged in"
+    context "while not logged in" do
+      before do
+        get :privacy
       end
-      context "while logged in as an art fan" do
-        before do
-          u = users(:maufan1)
-          login_as(users(:maufan1))
-          @logged_in_user = u
-          get :privacy
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "not logged in"
+    end
+    context "while logged in as an art fan" do
+      before do
+        u = users(:maufan1)
+        login_as(users(:maufan1))
+        @logged_in_user = u
+        get :privacy
       end
-      context "while logged in as artist" do
-        before do
-          a = users(:artist1)
-          login_as(users(:artist1))
-          @logged_in_user = a
-          get :privacy
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "logged in user"
+    end
+    context "while logged in as artist" do
+      before do
+        a = users(:artist1)
+        login_as(users(:artist1))
+        @logged_in_user = a
+        get :privacy
       end
+      it_should_behave_like "logged in user"
     end
   end
   describe "#about" do
     integrate_views
-    describe "get" do
-      context "while not logged in" do
-        before do
-          get :about
-        end
-        it_should_behave_like "not logged in"
+    context "while not logged in" do
+      before do
+        get :about
       end
-      context "while logged in as an art fan" do
-        before do
-          u = users(:maufan1)
-          login_as(users(:maufan1))
-          @logged_in_user = u
-          get :about
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "not logged in"
+    end
+    context "while logged in as an art fan" do
+      before do
+        u = users(:maufan1)
+        login_as(users(:maufan1))
+        @logged_in_user = u
+        get :about
       end
-      context "while logged in as artist" do
-        before do
-          a = users(:artist1)
-          login_as(users(:artist1))
-          @logged_in_user = a
-          get :about
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "logged in user"
+    end
+    context "while logged in as artist" do
+      before do
+        a = users(:artist1)
+        login_as(users(:artist1))
+        @logged_in_user = a
+        get :about
       end
+      it_should_behave_like "logged in user"
     end
   end
   describe "#faq" do
     integrate_views
-    describe "get" do
-      context "while not logged in" do
-        before do
-          get :faq
-        end
-        it_should_behave_like "not logged in"
+    context "while not logged in" do
+      before do
+        get :faq
       end
-      context "while logged in as an art fan" do
-        before do
-          u = users(:maufan1)
-          login_as(users(:maufan1))
-          @logged_in_user = u
-          get :faq
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "not logged in"
+    end
+    context "while logged in as an art fan" do
+      before do
+        u = users(:maufan1)
+        login_as(users(:maufan1))
+        @logged_in_user = u
+        get :faq
       end
-      context "while logged in as artist" do
-        before do
-          a = users(:artist1)
-          login_as(users(:artist1))
-          @logged_in_user = a
-          get :faq
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "logged in user"
+    end
+    context "while logged in as artist" do
+      before do
+        a = users(:artist1)
+        login_as(users(:artist1))
+        @logged_in_user = a
+        get :faq
       end
+      it_should_behave_like "logged in user"
     end
   end
   describe "#main/openstudios" do
-    describe "get" do
-      integrate_views
-      context "while not logged in" do
-        before do
-          ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104|201110'")
-          Artist.any_instance.stubs(:in_the_mission? => true)
-          a = users(:jesseponce)
-          s = studios(:s1890)
-          a.studio = s
-          a.save
+    integrate_views
+    context "while not logged in" do
+      before do
+        ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104|201110'")
+        Artist.any_instance.stubs(:in_the_mission? => true)
+        a = users(:jesseponce)
+        s = studios(:s1890)
+        a.studio = s
+        a.save
 
-          a = users(:artist1)
-          s = studios(:blue)
-          a.studio = s
-          a.save
-          
-          get :openstudios
+        a = users(:artist1)
+        s = studios(:blue)
+        a.studio = s
+        a.save
+        
+        get :openstudios
+      end
+      it_should_behave_like "not logged in"
+      it 'assigns participating studios with only studios that have os artists without studio = 0' do
+        n = Artist.active.open_studios_participants.select{|a| !a.studio_id.nil? && a.studio_id != 0}.map(&:studio).uniq.count
+        assigns(:participating_studios).should have(n).studios
+      end
+      it 'contains participant count for studios should be > 0' do
+        assigns(:participating_studios).each do |s|
+          s.artists.open_studios_participants.length.should > 0
         end
-        it_should_behave_like "not logged in"
-        it 'assigns participating studios with only studios that have os artists without studio = 0' do
-          n = Artist.active.open_studios_participants.select{|a| !a.studio_id.nil? && a.studio_id != 0}.map(&:studio).uniq.count
-          assigns(:participating_studios).should have(n).studios
-        end
-        it 'contains participant count for studios should be > 0' do
-          assigns(:participating_studios).each do |s|
-            s.artists.open_studios_participants.length.should > 0
-          end
-        end
-        it "participating studios should be in alpha order by name (ignoring 'the')" do
-          assigns(:participating_studios).sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == assigns(:participating_studios).map(&:name)
-        end
-        it 'assigns the right number of participating indies (all os participants with studio = 0)' do
-          n = Artist.active.open_studios_participants.map(&:studio_id).select{|sid| sid==0}.count
-          n.should > 0
-          assigns(:participating_indies).should have(n).artists
-        end
-        it 'participating artists are in alpha order by last name' do
-          assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should == assigns(:participating_indies)
-        end
-        it "uses cms for parties" do
-          CmsDocument.expects(:find_by_page_and_section).at_least(2).returns(cms_documents(:preview_reception))
-          get :openstudios
-        end
-        it "renders the markdown version" do
+      end
+      it "participating studios should be in alpha order by name (ignoring 'the')" do
+        assigns(:participating_studios).sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == assigns(:participating_studios).map(&:name)
+      end
+      it 'assigns the right number of participating indies (all os participants with studio = 0)' do
+        n = Artist.active.open_studios_participants.map(&:studio_id).select{|sid| sid==0}.count
+        n.should > 0
+        assigns(:participating_indies).should have(n).artists
+      end
+      it 'participating artists are in alpha order by last name' do
+        assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should == assigns(:participating_indies)
+      end
+      it "uses cms for parties" do
+        CmsDocument.expects(:find_by_page_and_section).at_least(2).returns(cms_documents(:preview_reception))
+        get :openstudios
+      end
+      it "renders the markdown version" do
           CmsDocument.any_instance.stubs(:article => <<EOM
 # header
 
@@ -385,11 +386,10 @@ stuff
 EOM
 )
                             
-          get :openstudios
-          response.should have_tag('h1', :match => 'header')
-          response.should have_tag('h2', :match => 'header2')
-          response.should have_tag('p', :match => 'stuff')
-        end
+        get :openstudios
+        response.should have_tag('h1', :match => 'header')
+        response.should have_tag('h2', :match => 'header2')
+        response.should have_tag('p', :match => 'stuff')
       end
       context "while logged in as an art fan" do
         before do

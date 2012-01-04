@@ -8,6 +8,7 @@ FEEDS_KEY = 'news-feeds'
 class MainController < ApplicationController
   layout 'mau2col' 
   include MarkdownUtils
+  skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
   before_filter :no_cache, :only => :index
 
   def index
@@ -37,7 +38,7 @@ class MainController < ApplicationController
   end
 
   def getinvolved
-    @page_title = "Mission Artists United - Get Invovled!"
+    @page_title = "Mission Artists United - Get Involved!"
     @page = params[:p]
 
     if @page == 'paypal_success'
