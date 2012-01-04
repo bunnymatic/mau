@@ -40,12 +40,12 @@ describe ArtistFeedsController do
       end
       it 'has edit link for each feed' do
         ArtistFeed.all.each do |af|
-          response.should have_tag (".feed_entry .controls a[href=/artist_feeds/%d/edit]" % af.id), 'edit'
+          response.should have_tag ".feed_entry .controls a[href=/artist_feeds/%d/edit]" % af.id, 'edit'
         end
       end
       it 'has remove link for each feed' do
         ArtistFeed.all.each do |af|
-          response.should have_tag (".feed_entry .controls a[href=/artist_feeds/%d]" % af.id), 'remove'
+          response.should have_tag ".feed_entry .controls a[href=/artist_feeds/%d]" % af.id, 'remove'
         end
       end
       it 'has the url and feed shown for each feed' do
