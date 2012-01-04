@@ -300,7 +300,7 @@ describe UsersController do
     end
   end
 
-  describe "login_required redirects" do
+  describe "login_required" do
     context " post redirects to root (referrer)" do
       before(:each) do 
         @u = users(:quentin)
@@ -310,7 +310,7 @@ describe UsersController do
         response.should redirect_to( new_session_path )
       end
       it "auth system should try to record referrer" do
-        request.session[:return_to].should eql( root_path )
+        request.session[:return_to].should eql SHARED_REFERER
       end
     end
     context "get redirects to requested page via login" do
@@ -566,8 +566,8 @@ describe UsersController do
             before do 
               post :remove_favorite, :fav_type => "Artist", :fav_id => @a.id
             end
-            it "returns success" do
-              response.should redirect_to(artist_path(@a))
+            it "redirects to the referer" do
+              response.should redirect_to( SHARED_REFERER )
             end
             it "that artist is no longer a favorite" do
               u = User.find(@u.id)
