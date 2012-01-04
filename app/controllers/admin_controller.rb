@@ -27,11 +27,12 @@ class AdminController < ApplicationController
       :favorites_users_using => Favorite.count(:select => 'distinct user_id'),
       :artists_pending => Artist.count(:conditions => "state='pending'"),
       :artists_no_profile_image => Artist.active.count(:conditions => "profile_image is not null"),
-      :os_spring2011_participants => Artist.active.open_studios_participants('201104').count,
-      :os_fall2011_participants => Artist.active.open_studios_participants('201110').count,
       :studios => Studio.count
     }
-    
+    ['201104', '201110', '201204'].each do |ostag|
+      key = "OS Participants %s %s" % [ostag[0..3],  ostag[4..-1] ]
+      @activity_stats[:total][key] = Artist.active.open_studios_participants(ostag).count
+    end
   end
 
   def admin_emails
@@ -112,9 +113,14 @@ class AdminController < ApplicationController
     @os = Artist.active.find(:all, :order =>'lastname asc')
     @totals = {}
     @totals['spring 2010'] = @os.select{|a| a.os2010}.length
-    @totals['oct 2010'] = @os.select{|a| a.osoct2010}.length
-    @totals['spring 2011'] = @os.select{|a| a.os_participation['201104'].nil? ? false : a.os_participation['201104'] }.length
-    @totals['oct 2011'] = @os.select{|a| a.os_participation['201110'].nil? ? false : a.os_participation['201110'] }.length
+    @totals['fall 2010'] = @os.select{|a| a.osoct2010}.length
+    ['201104', '201110', '201204'].each do |ostag|
+      yr = ostag[0..3]
+      mo = ostag[4..-1]
+      seas = (mo == '10') ? 'fall':'spring'
+      key = "%s %s" % [ seas, yr ]
+      @totals[key] = @os.select{|a| a.os_participation[ostag].nil? ? false : a.os_participation[ostag] }.length
+    end
   end
 
   def roles
