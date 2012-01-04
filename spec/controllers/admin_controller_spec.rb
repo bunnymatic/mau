@@ -12,21 +12,27 @@ describe AdminController do
   fixtures :roles
 
   [:index, :featured_artist, :fans, :emaillist, :artists_per_day, :roles, :art_pieces_per_day, :favorites_per_day, :db_backups].each do |endpoint|
-    describe endpoint do
-      it "responds failure if not logged in" do
-        get endpoint
-        response.should redirect_to '/error'
+    describe 'not logged in' do
+      describe endpoint do
+        before do
+          get endpoint
+        end
+        it_should_behave_like 'not authorized'
       end
-      it "responds failure if not logged in as admin" do
-        login_as(users(:maufan1))
-        get endpoint
-        response.should redirect_to '/error'
+    end
+    describe 'logged in as plain user' do
+      describe endpoint do
+        before do
+          login_as(users(:maufan1))
+          get endpoint
+        end
+        it_should_behave_like 'not authorized'
       end
-      it "responds success if logged in as admin" do
-        login_as(:admin)
-        get endpoint
-        response.should be_success
-      end
+    end
+    it "responds success if logged in as admin" do
+      login_as(:admin)
+      get endpoint
+      response.should be_success
     end
   end
 
@@ -47,12 +53,12 @@ describe AdminController do
         assigns(:activity_stats)[:yesterday][:artists_added].should == 1
       end
       it 'assigns correct values for artists last weeek' do
-        assigns(:activity_stats)[:last_week][:artists_activated].should == 2
-        assigns(:activity_stats)[:last_week][:artists_added].should == 5
+        assigns(:activity_stats)[:last_week][:artists_activated].should == 3
+        assigns(:activity_stats)[:last_week][:artists_added].should == 6
       end
       it 'assigns correct values for artists last month' do
-        assigns(:activity_stats)[:last_30_days][:artists_activated].should == 3
-        assigns(:activity_stats)[:last_30_days][:artists_added].should == 10
+        assigns(:activity_stats)[:last_30_days][:artists_activated].should == 4
+        assigns(:activity_stats)[:last_30_days][:artists_added].should == 11
       end
       it 'has totals' do
         assigns(:activity_stats)[:total].should be

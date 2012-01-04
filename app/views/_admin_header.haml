@@ -1,11 +1,31 @@
 #admin_nav 
-  Admin Links:
+  ADMIN:
   %span.admin-lk
     = link_to 'dashboard', admin_path, { :class => 'lkdark' }
-  - [ 'os_status', 'featured_artist', 'emaillist', 'favorites', 'artists', 'studios','fans','art_piece_tags','media', 'roles', 'events', 'palette', 'db_backups' ].each do |nm|
-    %span.admin-lk
-      = link_to nm, "/admin/%s" % nm, { :class => 'lkdark' }
-  %span.admin-lk
-    = link_to "cms", "/cms_documents", { :class => 'lkdark' }
-  %span.admin-lk
-    = link_to "tests", "/tests", { :class => 'lkdark' }
+  :ruby 
+    links = { :os_status => {},
+              :featured_artist => {},
+              :emaillist => {:display => 'emails'},
+              :favorites => {},
+              :artists => {},
+              :studios => {},
+              :fans => {},
+              :art_piece_tags => {:display => 'tags'},
+              :media => {},
+              :roles => {},
+              :events => {},
+              :palette => {:display => 'colors'},
+              :db_backups => {:display => 'backups'},
+              :cms_documents => {:display => 'cms',
+                :link => '/cms_documents'},
+              :artist_feeds => {:display => 'feeds',
+                :link => '/artist_feeds'},
+              :tests => {:link => '/tests'}
+            }
+  - links.each do |key, opts|
+    :ruby 
+      nm = opts[:display] || key.to_s
+      lnk = opts[:link] || ("/admin/%s" % key)
+    - if nm.present? && lnk.present?
+      %span.admin-lk
+        = link_to nm, lnk, {:class => 'lkdark'}
