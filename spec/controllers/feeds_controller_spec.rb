@@ -1,9 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+include AuthenticatedTestHelper
 
 describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do
-  fixtures :artist_feeds
+  fixtures :artist_feeds, :users
   cache_filename = '_cached_feeds.html'
   context "without cache" do
     before do
@@ -68,5 +69,30 @@ describe FeedsController do
     end
   end
 
+  describe '#clear_cache' do
+    describe 'not logged in' do
+      before do
+        get :clear_cache
+      end
+      it_should_behave_like 'not authorized'
+    end
+    describe 'logged in as user' do
+      before do
+        login_as(:artist1)
+        get :clear_cache
+      end
+      it_should_behave_like 'not authorized'
+    end
+    describe 'as admin' do
+      before do
+        login_as(:admin)
+      end
+      it 'dumps the cache file' do
+        File.exists?(cache_filename).should be
+        Rails.cache.expects(:delete)
+        get :clear_cache
+      end
+    end
+  end
 end
 
