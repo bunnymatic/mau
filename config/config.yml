@@ -9,11 +9,6 @@ test:
    feedback_emails: 
    mailchimp_api_key: bogus-key
    oslive: 201110
-   feeds_urls: 
-      - feed: http://twitter.com/statuses/user_timeline/62131363.json
-        url: http://twitter.com/sfmau 
-      - feed: http://twitter.com/statuses/user_timeline/32943864.json
-        url: http://twitter.com/bunnymaticsf
 
 ub:
    site_url: localhost:3000
@@ -83,35 +78,6 @@ common:
        objects: 
        media_frequency: 3600
        tag_frequency: 3600
-   feeds_urls: 
-      - feed: http://flaxart.com/feed
-        url: http://flaxart.com
-      - feed: http://feeds.feedburner.com/RisingArtist
-        url: http://risingartist.blogspot.com/
-      - feed: http://missionlocal.org/category/the-arts/feed/
-        url: http://missionlocal.org/category/the-arts/
-      - feed: http://twitter.com/statuses/user_timeline/62131363.json
-        url: http://twitter.com/sfmau 
-      - feed: http://twitter.com/statuses/user_timeline/32943864.json
-        url: http://twitter.com/bunnymaticsf
-      - feed: http://sfartnews.wordpress.com/feed/
-        url: http://sfartnews.wordpress.com/ 
-      - feed: http://trishtunney.blogspot.com/feeds/posts/default?alt=rss
-        url: http://trishtunney.blogspot.com/
-      - feed: http://catherine-mackey.blogspot.com/feeds/posts/default?alt=rss
-        url: http://catherine-mackey.blogspot.com/
-      - feed: http://apaintingaday.blogspot.com/feeds/posts/default?alt=rss
-        url: http://apaintingaday.blogspot.com/
-      - feed: http://katjaleibenath.blogspot.com/feeds/posts/default?alt=rss
-        url: http://katjaleibenath.blogspot.com
-      - feed: http://estudiomartita.blogspot.com/feeds/posts/default?alt=rss
-        url: http://estudiomartita.blogspot.com/
-      - feed: http://clarussell.blogspot.com/feeds/posts/default?alt=rss
-        url: http://clarussell.blogspot.com/
-      - feed: http://studiomorin.blogspot.com/feeds/posts/default?alt=rss
-        url: http://studiomorin.blogspot.com/
-      - feed: http://ordinaryknitting.blogspot.com/feeds/posts/default?alt=rss
-        url: http://ordinaryknitting.blogspot.com/
 
    yahoo_api_key: N.34cqHV34HBVzs_fNwThGrKQN8oMtEsizMOW14GriC2lceN7KrJKTklkpO2uUDX
    shop_url: http://www.cafepress.com/MissionArtists

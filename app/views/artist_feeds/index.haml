@@ -1,0 +1,27 @@
+=javascript_include_tag 'mau/mau_admin'
+.artist_feeds
+  %h1 Artist Feeds
+  .links
+    = link_to '[Add Feed]', new_artist_feed_path
+  .feed_entry.header
+    .feed Feed URL
+    .url Website (for link)
+    .active Active?
+  - @feeds.each_with_index do |feed, idx|
+    - clz = ((idx % 2) == 0 ? 'even': 'odd')
+    .feed_entry{:class => clz}
+      .feed 
+        %a{:href => feed.feed} #{feed.feed}
+      .url 
+        %a{:href => feed.url} #{feed.url}
+      .active #{feed.active}
+      .controls 
+        = link_to 'edit', edit_artist_feed_path(feed)
+        = link_to 'remove', feed, :confirm => 'Are you sure?', :method => :delete
+  .links
+    = link_to '[Add Feed]', new_artist_feed_path
+
+.current_feed_content
+  %h4 Current Feeds
+  .feeds
+    #{@feed_html}

@@ -26,37 +26,63 @@ describe 'has some invalid params', :shared => true do
   end
 end
 
+shared_examples_for 'main#index page' do
+  it "shows search box" do
+    response.should have_tag('#search_box')
+  end
+  it "shows thumbnails" do
+    response.should have_tag("#main_thumbs #sampler")
+  end
+  it "has a feed container" do
+    response.should have_tag("#feed_div")
+  end
+  it "has a header menu" do
+    response.should have_tag('#header_bar')
+    response.should have_tag('#artisthemission')
+  end
+  it 'has all the action buttons' do
+    response.should have_tag('.action_button', :count => 4)
+  end
+  it "has a footer menu" do
+    response.should have_tag('#footer_bar')
+    response.should have_tag('#footer_copy')
+    response.should have_tag('#footer_links')
+  end
+end
+
 describe MainController do
 
   fixtures :users, :studios, :artist_infos, :cms_documents, :roles
 
-  describe "get" do
+  describe "#index" do
     integrate_views
-    
-    before do
-      get :index
+    context 'not logged in' do
+      before do
+        get :index
+      end
+      it_should_behave_like 'main#index page'
     end
-    it "shows search box" do
-      response.should have_tag('#search_box')
+    describe 'logged in' do
+      before do
+        login_as(:admin)
+        get :index
+      end
+      it_should_behave_like 'main#index page'
+
+      it "shows the admin bar" do
+        response.should have_tag("#admin_nav")
+      end
+      it "shows a link to the dashboard" do
+        response.should have_tag('#admin_nav a.lkdark[href=/admin]', 'dashboard')
+      end
+      
+      %w{ os_status featured_artist favorites artists studios fans media roles events }.each do |admin_link|
+        it ("shows a link to admin/%s" % admin_link) do
+          response.should have_tag('#admin_nav a.lkdark[href=/admin/'+admin_link+']', admin_link)
+        end
+      end
     end
-    it "shows thumbnails" do
-      response.should have_tag("#main_thumbs #sampler")
-    end
-    it "has a feed container" do
-      response.should have_tag("#feed_div")
-    end
-    it "has a header menu" do
-      response.should have_tag('#header_bar')
-      response.should have_tag('#artisthemission')
-    end
-    it 'has all the action buttons' do
-      response.should have_tag('.action_button', :count => 4)
-    end
-    it "has a footer menu" do
-      response.should have_tag('#footer_bar')
-      response.should have_tag('#footer_copy')
-      response.should have_tag('#footer_links')
-    end
+
   end
 
   describe "- route generation" do
@@ -150,14 +176,13 @@ describe MainController do
       end
       context "while logged in as user with 'editor' role" do
         before do
-          u = users(:maufan1)
-          u.roles << roles('editor')
-          u.save
-          login_as(u)
+          u = users(:editor)
+          login_as(:editor)
           @logged_in_user = u
           get :resources
         end
         it_should_behave_like "logged in with editor role"
+        it 
       end        
     end
   end

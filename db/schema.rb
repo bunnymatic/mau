@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111216185218) do
+ActiveRecord::Schema.define(:version => 20120104062619) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -35,6 +35,14 @@ ActiveRecord::Schema.define(:version => 20111216185218) do
   create_table "art_pieces_tags", :id => false, :force => true do |t|
     t.integer "art_piece_tag_id"
     t.integer "art_piece_id"
+  end
+
+  create_table "artist_feeds", :force => true do |t|
+    t.string   "url"
+    t.string   "feed"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "artist_images", :force => true do |t|
@@ -67,6 +75,38 @@ ActiveRecord::Schema.define(:version => 20111216185218) do
   end
 
   create_table "artist_profile_images", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "basic_recipe_groups", :force => true do |t|
+    t.string   "name",                 :limit => 33, :null => false
+    t.integer  "index"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "basic_recipe_type_id"
+  end
+
+  create_table "basic_recipe_groups_recipes", :id => false, :force => true do |t|
+    t.integer "basic_recipe_group_id"
+    t.integer "recipe_id"
+  end
+
+  create_table "basic_recipe_types", :force => true do |t|
+    t.string   "name",       :limit => 33, :null => false
+    t.integer  "index"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "biographies", :force => true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.text     "body"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -138,10 +178,133 @@ ActiveRecord::Schema.define(:version => 20111216185218) do
     t.datetime "updated_at"
   end
 
+  create_table "grain_recipe_groups", :force => true do |t|
+    t.string   "name",          :limit => 33,                :null => false
+    t.integer  "index",                       :default => 0
+    t.integer  "grain_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "grain_recipe_groups_recipes", :id => false, :force => true do |t|
+    t.integer "grain_recipe_group_id"
+    t.integer "recipe_id"
+  end
+
+  create_table "grain_types", :force => true do |t|
+    t.string   "name",       :limit => 33,                :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "index",                    :default => 0
+  end
+
+  create_table "ingredient_groups", :force => true do |t|
+    t.integer  "index"
+    t.string   "heading"
+    t.integer  "recipe_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ingredients", :force => true do |t|
+    t.string   "name"
+    t.string   "amount"
+    t.string   "units"
+    t.integer  "index",               :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "ingredient_group_id"
+  end
+
+  create_table "meal_recipe_groups", :force => true do |t|
+    t.string   "name",         :limit => 33,                :null => false
+    t.integer  "index",                      :default => 0
+    t.integer  "meal_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "meal_recipe_groups_recipes", :id => false, :force => true do |t|
+    t.integer "meal_recipe_group_id"
+    t.integer "recipe_id"
+  end
+
+  create_table "meal_types", :force => true do |t|
+    t.string   "name",       :limit => 33,                :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "index",                    :default => 0
+  end
+
   create_table "media", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "products", :force => true do |t|
+    t.string   "shopify_product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rails_admin_histories", :force => true do |t|
+    t.string   "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month"
+    t.integer  "year"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_histories_on_item_and_table_and_month_and_year"
+
+  create_table "recipe_step_images", :force => true do |t|
+    t.integer  "index",              :default => 0
+    t.string   "title"
+    t.integer  "recipe_step_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+  end
+
+  create_table "recipe_steps", :force => true do |t|
+    t.text     "body"
+    t.integer  "index",      :default => 0
+    t.integer  "recipe_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "recipes", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "caption"
+    t.text     "headnote"
+    t.string   "prep_time"
+    t.integer  "difficulty"
+    t.text     "equipment"
+    t.text     "sidebar_notes"
+    t.text     "recipe_notes"
+    t.string   "yield"
+    t.text     "origin_text"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.string   "long_name"
+    t.string   "pdf_file_name"
+    t.string   "pdf_content_type"
+    t.integer  "pdf_file_size"
+    t.datetime "pdf_updated_at"
+    t.string   "attribution_tag"
+    t.string   "recipe_notes_heading"
   end
 
   create_table "roles", :force => true do |t|
@@ -224,5 +387,18 @@ ActiveRecord::Schema.define(:version => 20111216185218) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
+
+  create_table "venues", :force => true do |t|
+    t.string   "phone",         :limit => 16
+    t.string   "url",           :limit => 200
+    t.string   "profile_image", :limit => 200
+    t.string   "street",        :limit => 200
+    t.string   "city",          :limit => 200
+    t.string   "state",         :limit => 4
+    t.integer  "zip"
+    t.string   "description",   :limit => 2000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

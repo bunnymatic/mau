@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :events, :member => { :publish => :get, :unpublish => :get }
   map.resources :cms_documents
   map.resources :media
+  map.resources :artist_feeds
 
   map.feedback 'feedbacks', :controller => 'feedbacks', :action => 'create'
   map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
