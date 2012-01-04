@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do
+  fixtures :artist_feeds
   cache_filename = '_cached_feeds.html'
   context "without cache" do
     before do
