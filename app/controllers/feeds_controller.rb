@@ -41,16 +41,16 @@ class FeedsController < ApplicationController
       # pairs here are the feed url and the link url
 
       # don't show mau news on the feed if we're on the news page
-      feeds = Conf.feeds_urls
+      feeds = ArtistFeed.active.all
       strip_tags = true
       choice(feeds, @@NUM_FEEDS).each do |ff|
         next unless ff
-        if ff['url'].match /twitter.com/
+        if ff.url.match /twitter.com/
           numentries = 3
         else 
           numentries = 1
         end
-        allfeeds += fetch_and_format_feed(ff['feed'], ff['url'], {:numentries => numentries})
+        allfeeds += fetch_and_format_feed(ff.feed, ff.url, {:numentries => numentries})
       end
       begin
         logger.info("FeedController: add feed to cache(expiry %d)" % @@CACHE_EXPIRY)
