@@ -23,5 +23,7 @@
 
 .current_feed_content
   %h4 Current Feeds
+  .controls
+    %a{:href => '/feeds/clear_cache'} Fetch New Feeds
   .feeds
     #{@feed_html}

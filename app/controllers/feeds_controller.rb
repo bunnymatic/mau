@@ -5,6 +5,8 @@ require 'string_helpers'
 
 class FeedsController < ApplicationController
 
+  before_filter :admin_required, :only => [ :clear_cache ]
+
   include FeedsHelper
 
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 4000)
@@ -12,7 +14,16 @@ class FeedsController < ApplicationController
   @@FEED_KEY = (Conf.cache_ns or '') + 'sb-feed'
   @@NUM_FEEDS = 4
 
+  @@CACHED_FEEDS_FILE = '_cached_feeds.html'
   def index
+  end
+
+  def clear_cache
+    Rails.cache.delete(@@FEEDS_KEY)
+    if File.exists? @@CACHED_FEEDS_FILE
+      File.delete(@@CACHED_FEEDS_FILE)
+    end
+    redirect_to request.referer
   end
 
   def feed
@@ -60,7 +71,7 @@ class FeedsController < ApplicationController
       end
       cached_html = allfeeds
     end
-    partial = File.open('_cached_feeds.html', 'w')
+    partial = File.open(@@CACHED_FEEDS_FILE, 'w')
     if partial
       partial.write(cached_html)
       partial.close
