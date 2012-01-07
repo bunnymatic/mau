@@ -35,8 +35,8 @@ MAUAdmin =  window.MAUAdmin || {};
 	    }
 	  }
         }
-	oss = $$('.oct2011');
-	cbs = $$('.cboct2011');
+	oss = $$('.spring2012');
+	cbs = $$('.cbspring2012');
 	ii = 0;
 	updates = {};
         if (oss && cbs) {
