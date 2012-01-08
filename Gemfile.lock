@@ -100,9 +100,9 @@ GEM
       json (~> 1.4)
     rosie (0.0.5)
     rspec (1.3.1)
-    rspec-rails (1.3.2)
+    rspec-rails (1.3.4)
       rack (>= 1.0.0)
-      rspec (>= 1.3.0)
+      rspec (~> 1.3.1)
     sass (3.1.12)
     tins (0.3.6)
     tzinfo (0.3.31)
@@ -140,6 +140,6 @@ DEPENDENCIES
   rdiscount
   rosie
   rspec (= 1.3.1)
-  rspec-rails (= 1.3.2)
+  rspec-rails (= 1.3.4)
   sass
   tzinfo
