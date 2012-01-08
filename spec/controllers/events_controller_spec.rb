@@ -81,7 +81,6 @@ describe EventsController do
   describe "#index" do
     integrate_views
     before do
-      Event.any_instance.stubs(:url => 'whatever.com')
       Event.any_instance.stubs(:description => "# header\n\n##header2\n\n*doit*")
       get :index
     end
@@ -101,7 +100,13 @@ describe EventsController do
       response.should have_tag('.desc em', 'doit')
     end
     it 'makes sure the url includes http for the link' do
-      response.should have_tag('a[href=http://whatever.com]', 'whatever.com')
+      response.should have_tag('.url a[href=http://url.com]', 'url.com')
+    end
+    it 'makes sure the url includes http for the links that don\'t start with http' do
+      response.should have_tag('.url a[href=http://url.com]', 'url.com')
+    end
+    it 'makes sure the url includes http for the links that do start with http' do
+      response.should have_tag('.url a[href=http://www.example.com]', 'www.example.com')
     end
     it 'renders an anchor tag with the event id in each event' do
       Event.future.published.each do |ev|
