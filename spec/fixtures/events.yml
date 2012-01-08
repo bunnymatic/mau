@@ -1,7 +1,7 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  title: MyString
+url_with_http:
+  title: Url with HTTP
   description: MyText
   tweet: MyString
   venue: MyString
@@ -11,21 +11,7 @@ one:
   zip: MyString
   starttime: 2011-02-08 21:16:33
   endtime: 2011-02-08 21:16:33
-  url: MyString
-  user: quentin
-
-two:
-  title: MyString
-  description: MyText
-  tweet: MyString
-  venue: MyString
-  street: MyString
-  city: MyString
-  state: MyString
-  zip: MyString
-  starttime: 2011-02-08 21:16:33
-  endtime: 2011-02-08 21:16:33
-  url: MyString
+  url: http://www.example.com
   user: artist1
 
 in_progress:
@@ -39,10 +25,10 @@ in_progress:
   zip: MyString
   starttime: <%= 1.day.ago %>
   endtime: <%= 1.day.since %>
-  url: MyString
+  url: url.com
 
 past:
-  title: MyString
+  title: Past Event
   description: MyText
   tweet: MyString
   venue: MyString
@@ -52,11 +38,11 @@ past:
   zip: MyString
   starttime: <%= 1.day.ago %>
   endtime: <%= 12.hours.ago %>
-  url: MyString
+  url: url.com
   user: artist1
 
 future:
-  title: MyString
+  title: Future Event
   description: MyText
   tweet: MyString
   venue: MyString
@@ -66,11 +52,11 @@ future:
   zip: MyString
   starttime: <%= 1.day.since %>
   endtime: <%= 2.days.since %>
-  url: MyString
+  url: url.com
   user: admin
 
 published:
-  title: MyString
+  title: Published Event
   description: MyText
   tweet: MyString
   venue: MyString
@@ -80,12 +66,12 @@ published:
   zip: MyString
   starttime: <%= 5.day.since %>
   endtime: <%= 6.days.since %>
-  url: MyString
+  url: url.com
   publish: <%= 9.days.since %>
   user: admin
 
 noendtime:
-  title: MyString
+  title: No End Time
   description: MyText
   tweet: MyString
   venue: MyString
@@ -94,12 +80,12 @@ noendtime:
   state: MyString
   zip: MyString
   starttime: <%= 34.days.since %>
-  url: MyString
+  url: http://www.example.com
   publish: <%= 3.days.since %>
   user: jesseponce
 
 reception_start:
-  title: reception start
+  title: Reception Start
   description: my event with reception
   tweet: MyString
   venue: MyString
@@ -109,12 +95,12 @@ reception_start:
   zip: MyString
   starttime: <%= 4.days.since %>
   reception_starttime: <%= 5.days.since %>
-  url: MyString
+  url: http://www.example.com
   publish: <%= 1.days.since %>
   user: jesseponce
 
 reception_full:
-  title: MyString
+  title: Receiption Full
   description: MyText
   tweet: MyString
   venue: MyString
@@ -122,9 +108,9 @@ reception_full:
   city: MyString
   state: MyString
   zip: MyString
-  starttime: <%= 4.days.since %>
-  reception_starttime: <%= 5.days.since %>
-  reception_endtime: <%= 5.days.since + 1.hour %>
-  url: MyString
-  publish: <%= 1.days.since %>
+  starttime: <%= 10.days.since %>
+  reception_starttime: <%= 11.days.since %>
+  reception_endtime: <%= 11.days.since + 1.hour %>
+  url: url.com
+  publish: <%= 3.days.since %>
   user: jesseponce

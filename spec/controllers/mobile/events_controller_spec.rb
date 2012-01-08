@@ -32,7 +32,7 @@ describe EventsController do
 
   describe "#show" do
     before do
-      @event = events(:one)
+      @event = events(:url_with_http)
       get :show, :id => @event
     end
     it_should_behave_like "a regular mobile page"

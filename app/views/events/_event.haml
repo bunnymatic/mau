@@ -29,7 +29,10 @@
   .url
     - if event.url.present?
       Event Website:
-      - url = event.url
-      - unless /http[s?]:\/\// =~ event.url
-        - url = 'http://' + event.url
-      %a{:href => url} #{event.url}
+      :ruby 
+        url = event.url
+        display = event.url.gsub(/^https?:\/\//, '')
+        unless /^https?:\/\// =~ url
+          url = 'http://' + event.url
+        end         
+      %a{:href => url} #{display}
