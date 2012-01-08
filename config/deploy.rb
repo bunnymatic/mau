@@ -53,6 +53,7 @@ task :staging do
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
   set :ssh_port, '22022'
+  set :server_name, 'dev.missionartistunited.org'
 end
 
 desc "Set up Dev on bunnymatic.com parameters."
@@ -61,6 +62,7 @@ task :dev do
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
   set :ssh_port, '2222'
+  set :server_name, 'dev.missionartistunited.org'
 end
 
 desc "Set up Production bunnymatic.com parameters."
@@ -69,6 +71,7 @@ task :prod do
   set :deploy_to, "/home/mauprod/deployed"
   set :rails_env, 'production'
   set :ssh_port, '2222'
+  set :server_name, 'www.missionartistunited.org'
 end
 
 desc "Sanity Check"
@@ -91,7 +94,7 @@ after "deploy:symlink", :symlink_data
 after "deploy:symlink", :setup_backup_dir
 after "deploy:symlink", "apache:reload"
 before "apache:reload", :build_sass
-
+after "deploy", :ping
 
 desc "build db backup directory"
 task :setup_backup_dir do
@@ -122,6 +125,11 @@ namespace :deploy do
   task :restart, :roles => :app do
     run "touch #{current_path}/tmp/restart.txt"
   end
+end
+
+desc "ping the server"
+task :ping do
+  run "curl -s http://#{server_name}"
 end
 
 # namespace :deploy do
