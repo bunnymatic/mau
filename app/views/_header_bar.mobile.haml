@@ -1,0 +1,72 @@
+%a{:href => '/'}
+  %img#logo{:title => 'Mission Artists United', :alt => 'Mission Artists United', :src => @logo_img}
+#header_bar
+  -if @_ie
+    .ltcorner
+    .rtcorner
+    .lbcorner
+    .rbcorner
+  #artisthemission
+    %img{ :title => "Art is the Mission", :alt => "Art is the Mission", :src => "/images/artisthimission4.gif" }
+  #search_btn2
+    %a.lkdark#search_link{:title =>'search', :onclick => 'MAU.doSearch();', :href => '#'}
+      %img#search_icon{:title => 'search', :src => '/images/icons/searchicon24.png'}
+  #search_nav2
+    %form#search_form{:action => '/search', :method => 'get'}
+      %input#search_box.srch{:type => 'text', :name => 'query', :size => '14'}
+  #nav_bar
+    .nav
+      %div
+        %ul#mymaunav.dropdown
+          - if logged_in? 
+            :ruby 
+              navitems = []
+              if current_artist 
+                navitems << "<a href='#{edit_artist_path(current_artist)}'>edit my page</a>"
+                navitems << "<a href='/art_pieces/new'>add art</a>"
+                navitems << "<a href='#{ arrangeart_artists_path }'>arrange art</a>"
+                navitems << "<a href='#{ deleteart_artists_path }'>delete art</a>"
+                navitems << "<a href='#{ new_event_path }' class='list_your_show_dropdown'>plug your art show</a>"
+
+                navitems << "<a href='#{ favorites_user_path current_user }'><span class='heart'>&hearts;</span> my favorites</a>"
+                navitems << "<a href='#{ artist_resources_path }' title='artists resources'>resources</a>"
+
+                mypath = current_artist
+              else
+                navitems << "<a href='#{edit_user_path(current_user) }'>edit my page</a>"
+                navitems << "<a href='#{favorites_user_path current_user}'><span class='heart'>&hearts;</span> my favorites</a>"
+                mypath = user_path(current_user)
+              end
+            %li.dir
+              = link_to 'my&nbsp;mau', mypath, {:class => 'lknav'}
+              %ul
+                = HTMLHelper::print_list('leaf', navitems)
+          - else
+            %li.dir
+              = link_to 'join in!', login_path, {:class => 'lknav'}
+
+      - [ ['events','/events/'], ['venues','/venues'], ['studios','/studios/'] ].each do |nm,lk,clz|
+        %div
+          %ul.dropdown{:class => clz}
+            %li.dir
+              %a.lknav{:href => lk, :title => nm} #{nm}
+
+      %div
+        %ul#artistsnav.dropdown.first
+          %li.dir
+            %a.lknav{:href => artists_path, :title => 'artists'} artists
+            %ul
+              :ruby
+                artistsnav = []
+                artistsnav << "<a href='#{artists_path}' title='artists by name'>artists by name</a>"
+                if Conf.oslive
+                   artistsnav << "<a href='#{ artists_path(:osonly => 1) }' title='open studios artists'>open studios artists</a>"
+                end
+                artistsnav << "<a href='#{ artistsmap_path }' title='artists by map'>artists by map</a>"
+                artistsnav << "<a href='#{ media_path :m => 'a' }' title='artists by medium'>artists by medium</a>"
+                artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
+                if Conf.oslive
+                  artistsnav << "<a href='#{ artistsmap_path(:osonly => 1) }' title='map of open studios artists'>open studios map</a>"
+                  artistsnav << "<a href='/main/openstudios' title='what is open studios?'>open studios info</a>"
+                end
+              = HTMLHelper::print_list('leaf', artistsnav)
