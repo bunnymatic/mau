@@ -1,7 +1,7 @@
 require 'thread'
 require 'rubygems'
 ENV['RAILS_ENV'] ||= 'test'
-SHARED_REFERER = "/a_referrer_specified_in/spec_helper"
+SHARED_REFERER = "/a_referrer_specified_in/spec_helper" unless defined? SHARED_REFERER
 
 require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environment'))
 require 'spec/autorun'
@@ -43,7 +43,8 @@ end
 
 require 'mocha'
 
-LETTERS_PLUS_SPACE =  [('a'..'z'),('A'..'Z'), ' '].map{|i| i.to_a}.flatten;
+LETTERS_PLUS_SPACE =  [('a'..'z'),('A'..'Z'), ' '].map{|i| i.to_a}.flatten unless defined? LETTERS_PLUS_SPACE
+
 def gen_random_string(len=8)
   numchars = LETTERS_PLUS_SPACE.length
   (0..len).map{ LETTERS_PLUS_SPACE[rand(numchars)] }.join
