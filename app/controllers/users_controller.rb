@@ -279,7 +279,10 @@ class UsersController < ApplicationController
         @user.password_confirmation ='';
       end
     end
-    render :action => :reset
+    respond_to do |fmt|
+      fmt.html { render :action => :reset }
+      fmt.mobile { render :action => :reset, :layout => 'mobile' }
+    end
   end
 
   def destroy

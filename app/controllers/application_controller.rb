@@ -182,12 +182,18 @@ class ApplicationController < ActionController::Base
 
   def render_not_found(exception)
     logger.warn(exception)
-    render :template => "/error/index.html.erb", :status => 404
+    respond_to do |fmt|
+      fmt.html { render :template => "/error/index.html.erb", :status => 404 }
+      fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 404 }
+    end
   end
 
   def render_error(exception)
     logger.error(exception)
-    render :template => "/error/index.html.erb", :status => 500
+    respond_to do |fmt|
+      fmt.html { render :template => "/error/index.html.erb", :status => 500 }
+      fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 500 }
+    end
   end
   
   def render_csv opts

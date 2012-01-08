@@ -1,3 +1,4 @@
+@import 'mau-mixins';
 /* mobile styles */
 /* reset */
 html, body {
@@ -201,3 +202,14 @@ h4, h5 {
     }
 }
 
+.f404 {
+  .oops {
+    text-align: center;
+    font-size: 30px;
+    color: $error_red;
+  }
+  .error-msg {
+    color: $error_red;
+  }
+
+}
