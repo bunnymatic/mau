@@ -529,22 +529,32 @@ describe ArtistsController do
     context "logged in as admin" do
       integrate_views
       before do
-        ArtistInfo.any_instance.stubs(:os_participation => {})
-        Artist.any_instance.stubs(:os_participation => {})
+        ArtistInfo.any_instance.stubs(:os_participation => {'201204' => true})
+        Artist.any_instance.stubs(:os_participation => {'201204' => true})
+
         login_as(:admin)
         get :admin_index
       end
       it "returns success" do
         response.should be_success
       end
-      it "has sort by links" do
+      it "renders sort by links" do
         response.should have_tag('.sortby a', :count => 14)
       end
-      it 'has a csv export link' do
+      it 'renders a csv export link' do
         response.should have_tag('a.export-csv button', /export/)
       end
-      it 'has an update os status button' do
+      it 'renders an update os status button' do
         response.should have_tag('button.update-artists', /update os status/)
+      end
+      it 'renders controls for hiding rows' do
+        response.should have_tag('.hide-rows .row-info');
+      end
+      it 'renders .pending rows for all pending artists' do
+        response.should have_tag('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+      end
+      it 'renders .participating rows for all pending artists' do
+        response.should have_tag('tr.participating', :count => Artist.all.select{|a| a.os_participation['201204']}.count)
       end
     end
 
