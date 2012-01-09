@@ -291,8 +291,8 @@ class User < ActiveRecord::Base
 
   def add_favorite(fav)
     # can't favorite yourself
-    unless ((([Artist,User].include? fav.class) && fav.id == self.id) ||
-            (fav.class == ArtPiece && fav.artist.id == self.id))
+    unless (!fav.nil? && ((([Artist,User].include? fav.class) && fav.id == self.id) ||
+            (fav.class == ArtPiece && fav.artist.id == self.id)))
       # don't add dups
       unless Favorite.find_by_favoritable_id_and_favoritable_type_and_user_id(fav.id, fav.class.name, self.id)
         f = Favorite.new( :favoritable_type => fav.class.name, :favoritable_id => fav.id, :user_id => self.id)
