@@ -144,6 +144,16 @@ describe "not logged in", :shared => true do
   
 end
 
+shared_examples_for 'two column layout' do
+  it 'has a two column body class' do
+    response.should have_tag('body.two_column')
+  end
+end
+shared_examples_for 'one column layout' do
+  it 'has a one column body class' do
+    response.should have_tag('body.one_column')
+  end
+end
 
 describe "not authorized", :shared => true do
   it "redirects to error page" do

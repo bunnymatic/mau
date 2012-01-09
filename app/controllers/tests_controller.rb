@@ -4,6 +4,11 @@ class TestsController < ApplicationController
   before_filter :admin_required
   layout 'mau1col'
 
+  def flash_test
+    flash.now[:notice] = 'The current time is %s' % Time.now
+    flash.now[:error] = 'This is an error at %s' % Time.now
+  end
+
   def calendar_picker
     
   end

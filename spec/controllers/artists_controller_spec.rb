@@ -20,6 +20,7 @@ describe ArtistsController do
     before do 
       get :index
     end
+    it_should_behave_like 'one column layout'
     it "returns success" do
       response.should be_success
     end
@@ -442,6 +443,7 @@ describe ArtistsController do
       before do
         get :map
       end
+      it_should_behave_like 'one column layout'
       it "returns success" do
         response.should be_success
       end
