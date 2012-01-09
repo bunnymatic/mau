@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 Rails.cache.stubs(:read).returns(:nil)
 
 describe User do
-  fixtures :users, :studios, :roles
+  fixtures :users, :studios, :roles, :artist_infos, :art_pieces
 
   describe 'named scope' do
     it "active returns only active users" do

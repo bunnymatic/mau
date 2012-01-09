@@ -134,11 +134,11 @@ describe ArtistInfo do
           @s.os_participation['201104'].should be_true
         end
         it 'adds another key properly using =' do
-          @s.os_participation = {'201114' => true }
+          @s.os_participation = {'201204' => true }
           @s.save
           @s.reload
+          @s.os_participation['201204'].should be_true
           @s.os_participation['201104'].should be_true
-          @s.os_participation['201114'].should be_true
         end
       end
     end
