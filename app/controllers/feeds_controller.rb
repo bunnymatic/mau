@@ -44,7 +44,7 @@ class FeedsController < ApplicationController
     rescue TypeError
       Rails.cache.delete(@@FEEDS_KEY)
     rescue Exception => ex
-      cached_html = nil
+      cached_html = ''
       logger.error(ex)
     end
     if !cached_html.present?
