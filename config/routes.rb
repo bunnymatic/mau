@@ -23,13 +23,9 @@ ActionController::Routing::Routes.draw do |map|
   map.reset 'reset/:reset_code', :controller => 'users', :action => 'reset', :method => :get
   map.submit_reset 'reset', :controller => 'users', :action => 'reset', :method => :post
 
-  map.artistsmap '/artists/map', :controller => 'artists', :action => 'map'
-  map.artistsHUGEmap '/artists/hugemap', :controller => 'artists', :action => 'hugemap'
-  
   # for mobile
   map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'
   map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
-  map.artist_thumbs '/artists/thumbs', :controller => 'artists', :action => 'thumbs'
 
   # clear this shit out
   map.flaxartshow '/flaxart', :controller => 'wizards', :action => 'flaxart'
@@ -45,7 +41,20 @@ ActionController::Routing::Routes.draw do |map|
   map.openstudios '/openstudios', :controller => 'main', :action => 'openstudios'
   map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
 
-  map.resources :artists, :member => { :update => :post }, :collection => { :destroyart => :post, :arrangeart => :get, :setarrangement => :post, :deleteart => :get, :edit => :get }
+  map.resources :artists, 
+  :member => {
+    :update => :post,
+    :bio => :get
+  }, 
+  :collection => { 
+    :destroyart => :post, 
+    :arrangeart => :get, 
+    :setarrangement => :post, 
+    :deleteart => :get, 
+    :edit => :get,
+    :map => :get,
+    :thumbs => :get
+  }
 
   map.resources :users, :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get }
 

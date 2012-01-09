@@ -564,18 +564,21 @@ describe ArtistsController do
 
      
   describe "- named routes" do
-    it "should have destroyart as artists collection path" do
-      destroyart_artists_path.should == "/artists/destroyart"
+    describe 'collection paths' do
+      [:destroyart, :arrangeart, :thumbs, :setarrangement, :deleteart].each do |path|
+        it "should have #{path} as artists collection path" do
+          eval("%s_artists_path.should == '/artists/%s'" % [path,path])
+        end
+      end
     end      
-    it "should have arrangeart as artists collection path" do
-      arrangeart_artists_path.should == "/artists/arrangeart"
-    end      
-    it "should have setarrangement as artists collection path" do
-      setarrangement_artists_path.should == "/artists/setarrangement"
-    end      
-    it "should have deleteart as artists collection path" do
-      deleteart_artists_path.should == "/artists/deleteart"
-    end      
+    describe 'member paths' do
+      [:bio].each do |path|
+        it "should have #{path} as an artist member path" do
+          @a = Artist.first
+          eval("%s_artist_path(@a).should == '/artists/%s/%s'" % [ path, @a.id, path ])
+        end
+      end
+    end
   end
 
 

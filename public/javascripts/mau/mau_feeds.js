@@ -7,6 +7,7 @@ MAUFEEDS = window.MAUFEEDS || {};
   MAUFEEDS.init = function() {
     if ($('feed_div')) {
       var url = document.location.href;
+      console.log("Hit Feed");
       var req = new Ajax.Request('/feeds/feed', {
 	parameters: { authenticity_token:unescape(authenticityToken), numentries:1, page:url},
 	onSuccess: function(transport) {}

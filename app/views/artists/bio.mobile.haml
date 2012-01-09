@@ -1,0 +1,15 @@
+- if @artist 
+  .artist
+    - if @artist.artist_info && @artist.os_participation[Conf.oslive.to_s]
+      %h2.os-star 
+        #{@artist.get_name(true)}
+        .os-star
+      See this artist in their studio during Open Studios April 14-15, 2012
+    - else
+      %h2 
+        #{@artist.get_name(true)}
+    .bio
+      %h3 Bio/Artist's Statement
+      - if @artist.bio.present?
+        #{@artist.bio}
+    .clear
