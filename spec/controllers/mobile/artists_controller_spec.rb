@@ -20,7 +20,7 @@ describe ArtistsController do
     @artist = a
   end
 
-  describe "index" do
+  describe "#index" do
     before do
       get :index
     end
@@ -53,7 +53,7 @@ describe ArtistsController do
     end
   end
   
-  describe "search" do
+  describe "#search" do
   end
 
   describe "#thumbs" do
@@ -91,7 +91,12 @@ describe ArtistsController do
     end
 
     context 'invalid artist id' do
-      it 'returns success'
+      before do
+        get :show, :id => 'whatever yo'
+      end
+      it 'returns success' do
+        response.should be_succes
+      end
       it 'reports that the user cannot be found'
     end
 
@@ -102,5 +107,28 @@ describe ArtistsController do
       end
     end
 
+  end
+
+  describe '#bio' do
+    context 'for user with a bio' do
+      integrate_views
+      before do
+        get :bio, :id => users(:artist1).id
+      end
+      it "returns success" do
+        response.should be_success
+      end
+      it 'renders the bio' do
+        response.should have_tag('.bio', users(:artist1).bio)
+      end
+    end
+    context 'for user without a bio' do
+      before do
+        get :bio, :id => users(:wayout).id
+      end
+      it 'redirects to user\'s page' do
+        response.should redirect_to artist_path(users(:wayout))
+      end
+    end
   end
 end

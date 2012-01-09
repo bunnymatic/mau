@@ -83,7 +83,7 @@ class ArtistsController < ApplicationController
     sw = Artist::BOUNDS['SW']
     ne = Artist::BOUNDS['NE']
     @map.center_zoom_on_bounds_init([sw,ne])
-    @selfurl = artistsmap_url
+    @selfurl = map_artists_url
     @inparams = params
     @inparams.delete('action')
     @inparams.delete('controller')
@@ -273,7 +273,7 @@ class ArtistsController < ApplicationController
         @roster_link = HTMLHelper.queryencode(roster_args)
         @gallery_link = HTMLHelper.queryencode(gallery_args)
         roster_args.delete('v')
-        @map_link = artistsmap_path + HTMLHelper.queryencode(roster_args)
+        @map_link = map_artists_path + HTMLHelper.queryencode(roster_args)
 
         @inparams = params
         @inparams.delete('action')
@@ -385,25 +385,8 @@ class ArtistsController < ApplicationController
 
 
   def show
-    begin
-      use_id = Integer(params[:id])
-    rescue ArgumentError
-      use_id = false
-    end
-    if !use_id 
-      @artist = Artist.find_by_login(params[:id])
-      if !@artist or @artist.suspended?
-        @artist = nil
-        flash.now[:error] = "The artist '" + params[:id] + "' you were looking for was not found."
-      end
-    else
-      @artist = safe_find_artist(params[:id])
-      if @artist && @artist.suspended?
-        flash.now[:error] = "The artist '" + @artist.get_name(true) + "' is no longer with us."
-        @artist = nil
-      end
-    end
-    if @artist != nil
+    @artist = get_artist_from_params
+    if !@artist.nil?
       @page_title = "Mission Artists United - Artist: %s" % @artist.get_name(true)
       # get artist pieces here instead of in the html
       num = @artist.max_pieces - 1
@@ -420,6 +403,21 @@ class ArtistsController < ApplicationController
         @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
         render :layout => 'mobile'
       }
+    end
+  end
+
+  def bio
+    @artist = get_artist_from_params
+    if @artist.bio.present?
+      respond_to do |format|
+        format.html { render :action => 'show', :template => 'show', :layout => 'mau' }
+        format.mobile {
+          @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
+          render :layout => 'mobile'
+        }
+      end
+    else
+      redirect_to artist_path(@artist) 
     end
   end
 
@@ -490,6 +488,28 @@ class ArtistsController < ApplicationController
         render :layout => 'mobile', :template => 'artists/index.mobile'
       }
     end
+  end
+  def get_artist_from_params
+    artist = nil
+    begin
+      use_id = Integer(params[:id])
+    rescue ArgumentError
+      use_id = false
+    end
+    if !use_id 
+      artist = Artist.find_by_login(params[:id])
+      if !artist or artist.suspended?
+        artist = nil
+        flash.now[:error] = "The artist '" + params[:id] + "' you were looking for was not found."
+      end
+    else
+      artist = safe_find_artist(params[:id])
+      if artist && artist.suspended?
+        flash.now[:error] = "The artist '" + @artist.get_name(true) + "' is no longer with us."
+        artist = nil
+      end
+    end
+    return artist
   end
 
 end
