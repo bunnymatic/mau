@@ -27,6 +27,7 @@ describe 'has some invalid params', :shared => true do
 end
 
 shared_examples_for 'main#index page' do
+  it_should_behave_like 'two column layout'
   it "shows search box" do
     response.should have_tag('#search_box')
   end
@@ -152,6 +153,7 @@ describe MainController do
         get :resources
       end
       it_should_behave_like "not logged in"
+      it_should_behave_like 'two column layout'
     end
     context "while logged in as an art fan" do
       before do
@@ -321,6 +323,7 @@ describe MainController do
         @logged_in_user = u
         get :faq
       end
+      it_should_behave_like 'two column layout'
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
@@ -330,6 +333,7 @@ describe MainController do
         @logged_in_user = a
         get :faq
       end
+      it_should_behave_like 'two column layout'
       it_should_behave_like "logged in user"
     end
   end
@@ -351,6 +355,7 @@ describe MainController do
         
         get :openstudios
       end
+      it_should_behave_like 'two column layout'
       it_should_behave_like "not logged in"
       it 'assigns participating studios with only studios that have os artists without studio = 0' do
         n = Artist.active.open_studios_participants.select{|a| !a.studio_id.nil? && a.studio_id != 0}.map(&:studio).uniq.count

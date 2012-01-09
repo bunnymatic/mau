@@ -7,7 +7,7 @@
     = render :partial => '/stylesheets' 
     = render :partial => '/ganalytics' 
     = render :partial => '/javascripts' 
-  %body{:class => @browser_as_class}
+  %body.two_column{:class => @browser_as_class}
     - if @_ie7 
       = render :partial => '/ie7_warning'
     = render :partial => '/noscript_msg'

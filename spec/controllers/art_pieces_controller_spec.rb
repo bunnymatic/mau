@@ -82,6 +82,7 @@ describe ArtPiecesController do
         @logged_in_artist = @artist
         get :show, :id => @artpieces.first.id
       end
+      it_should_behave_like 'two column layout'
       it_should_behave_like 'logged in artist'
       it "shows edit button" do
         response.should have_tag("div.edit-buttons span#artpiece_edit a", "edit")
@@ -99,6 +100,7 @@ describe ArtPiecesController do
         login_as(users(:maufan1))
         get :show, :id => @artpieces.first.id
       end
+      it_should_behave_like 'two column layout'
       it "shows heart icon" do
         response.should have_tag('.micro-icon.heart')
       end

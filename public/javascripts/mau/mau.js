@@ -141,10 +141,13 @@ var TagMediaHelper = {
   M.addFlashObserver = function() {
     var notice = $$('.notice').first();
     if (notice) {
-      notice.setStyle({display:'none'});
-      notice.blindDown(M.BLIND_OPTS.down);
+      notice.setStyle({display:'block'});
+      /*notice.blindDown(M.BLIND_OPTS.down);*/
+      notice.observe('click', function() {
+	notice.fade(M.BLIND_OPTS.up);
+      });
       setTimeout(function() {
-	notice.blindUp(M.BLIND_OPTS.up);
+	notice.fade(M.BLIND_OPTS.up);
       }, 10000);
     }
   };

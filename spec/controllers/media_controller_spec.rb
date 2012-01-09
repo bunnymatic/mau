@@ -50,6 +50,7 @@ describe MediaController do
     before do
       get :show, :id => Medium.first.id
     end
+    it_should_behave_like 'two column layout'
     it_should_behave_like "not logged in"
     it "assigns results_mode p" do
       assigns(:results_mode).should == 'p'
