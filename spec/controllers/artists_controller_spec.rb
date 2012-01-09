@@ -531,11 +531,7 @@ describe ArtistsController do
       before do
         ArtistInfo.any_instance.stubs(:os_participation => {})
         Artist.any_instance.stubs(:os_participation => {})
-        a = users(:artist1)
-        a.roles << roles(:admin)
-        a.save
-        a.reload
-        login_as(a)
+        login_as(:admin)
         get :admin_index
       end
       it "returns success" do
@@ -545,7 +541,10 @@ describe ArtistsController do
         response.should have_tag('.sortby a', :count => 14)
       end
       it 'has a csv export link' do
-        response.should have_tag('a.export-csv', /export/)
+        response.should have_tag('a.export-csv button', /export/)
+      end
+      it 'has an update os status button' do
+        response.should have_tag('button.update-artists', /update os status/)
       end
     end
 

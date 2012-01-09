@@ -355,5 +355,4 @@ describe AdminController do
       end
     end
   end
-
 end

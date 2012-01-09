@@ -1,0 +1,52 @@
+%button.update-artists update os status
+%a.export-csv{:href => "?format=csv&%s" % request.query_string}
+  %button export as csv
+
+.admin-table
+  %h1 Listing artists
+  - if flash[:error]
+    .error-msg Error: #{flash[:error]}
+  - if flash[:notice]
+    .notice #{flash[:notice]}
+
+.sortby 
+  Sort By:
+  - @allowed_sortby.each do |s|
+    %a{:href => "?sortby=#{s}"} #{s}
+  %br
+  Reverse Sort By:
+  - @allowed_sortby.each do |s|
+    %a{:href => "?rsortby=#{s}"} #{s}
+  %br
+
+%table.admin-table
+  %tr
+    %th name
+    %th studio
+    %th info
+    %th street
+    %th Spring 2012 OS?
+  - @artists.each_with_index do |a, idx| 
+    - clz = (((idx%2)==0) ? 'even':'odd') 
+    %tr{:class => clz}
+      %td.admin_artist_name
+        %a{:href => artist_path(a)}
+          = a.get_name(true)
+        %br
+        (activated? #{a.activated_at ? a.activated_at.strftime("%m/%d/%y") : a.state})
+      %td.admin_artist_studio
+        = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
+      %td.admin_artist_info        
+        Username: #{a.login}
+        %br
+        EM: #{a.email}
+        %br
+        Active? #{a.state=='active'}
+      %td.street #{a.street}
+      %td.spring2012{ :artistid => a.id } #{a.os_participation['201204'].to_s}
+      %td
+        %input.cbspring2012{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation['201204'].to_s, :checked => (a.os_participation['201204'] ? "checked" : nil) }
+
+%button.update-artists update os status
+
+
