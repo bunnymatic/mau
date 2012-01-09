@@ -255,7 +255,7 @@ describe User do
         end
       end
       
-      context " and removing it" do
+      context "and removing it" do
         it "Favorite delete get's called" do
           f = Favorite.find_by_favoritable_id_and_favoritable_type_and_user_id(@ap.id, @ap.class.name, @u.id)
           Favorite.any_instance.expects(:destroy).times(1)

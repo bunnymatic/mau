@@ -13,11 +13,6 @@ describe ArtistsController do
   before do
     # do mobile
     request.stubs(:user_agent).returns(IPHONE_USER_AGENT)
-
-    # stash an artist and art pieces
-    apids =[]
-    a = users(:artist1)
-    @artist = a
   end
 
   describe "#index" do
@@ -71,6 +66,7 @@ describe ArtistsController do
 
   describe "#show" do
     before do
+      @artist = users(:artist1)
       get :show, :id => @artist.id
     end
     it_should_behave_like "a regular mobile page"
@@ -88,6 +84,20 @@ describe ArtistsController do
       address = @artist.address_hash
       response.should have_tag 'div', :text => address[:street]
       response.should have_tag 'div', :text => address[:city]
+    end
+    it 'renders a bio' do
+      response.should have_tag '.bio_link.section'
+      response.should_not have_tag '.bio_link a'
+    end
+    it 'renders a truncated bio if the bio is big' do
+      a = Artist.find_by_login('ponceart')
+      5.times.each do 
+        a.artist_info.bio += a.artist_info.bio
+      end
+      a.artist_info.save
+      get :show, :id => a.id
+      response.should have_tag('.bio_link.section', /\.\.\./)
+      response.should have_tag('.bio_link a', /Read More/)
     end
 
     context 'invalid artist id' do
@@ -119,7 +129,7 @@ describe ArtistsController do
         response.should be_success
       end
       it 'renders the bio' do
-        response.should have_tag('.bio', users(:artist1).bio)
+        response.should have_tag '.bio', /#{users(:artist1).bio}/
       end
     end
     context 'for user without a bio' do
