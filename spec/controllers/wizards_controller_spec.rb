@@ -41,15 +41,7 @@ describe WizardsController do
 
   describe "as logged in user" do
     before do 
-      a = users(:artist1)
-      a.art_pieces << art_pieces(:artpiece1)
-      a.art_pieces << art_pieces(:artpiece2)
-      a.art_pieces << art_pieces(:artpiece3)
-      a.art_pieces << art_pieces(:hot)
-      a.artist_info = artist_infos(:artist1)
-      a.save
-      a.reload
-      @u = a
+      @u = users(:artist1)
       login_as(@u)
     end
     describe 'flax_chooser' do
