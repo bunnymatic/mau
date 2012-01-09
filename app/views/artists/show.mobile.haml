@@ -11,7 +11,7 @@
     .address
       - if @artist.studio
         .studio
-          Studio 
+          Studio:
           = link_to @artist.studio.name, @artist.studio  
           .street 
             #{@artist.studio.street}
@@ -27,7 +27,7 @@
     
     - if @artist.media.present?
       .media.section
-        %span Media
+        %span Media:
         %span
           :ruby
             links = []
@@ -36,12 +36,13 @@
             end
           #{links.join(", ")}
     - if @artist.bio.present?
-      .bio_link
+      .bio_link.section
         %span 
-          BIO:
+          Bio/Statement:
         %span.snippet 
-          #{StringHelpers.trunc(@artist.bio,400)}
-        %a.more{:href => bio_artist_path(@artist)} [See More]
+          #{StringHelpers.trunc(@artist.bio,170)}
+        - if @artist.bio.length > 170
+          %a.more{:href => bio_artist_path(@artist)} [Read More]
     .clear
     - if @artist.art_pieces.count
       %ul#art_pieces.section
