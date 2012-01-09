@@ -88,6 +88,7 @@ describe FeedsController do
         login_as(:admin)
       end
       it 'dumps the cache file' do
+        pending
         File.exists?(cache_filename).should be
         Rails.cache.expects(:delete)
         get :clear_cache
