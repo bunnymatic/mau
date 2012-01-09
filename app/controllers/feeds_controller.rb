@@ -30,6 +30,7 @@ class FeedsController < ApplicationController
     allfeeds = ''
     numentries = params[:numentries].to_i or nil
     page = ''
+    cached_html = nil
     if !params[:page].blank?
       page = params[:page]
     end
@@ -43,10 +44,10 @@ class FeedsController < ApplicationController
     rescue TypeError
       Rails.cache.delete(@@FEEDS_KEY)
     rescue Exception => ex
-      cached_html = ""
+      cached_html = nil
       logger.error(ex)
     end
-    if !cached_html or cached_html.empty? 
+    if !cached_html.present?
       logger.info("FeedController: fetch feeds\n")
       feedurls = []
       # pairs here are the feed url and the link url

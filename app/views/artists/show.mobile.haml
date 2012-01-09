@@ -1,0 +1,59 @@
+- if @artist 
+  .artist
+    - if @artist.artist_info && @artist.os_participation[Conf.oslive.to_s]
+      %h2.os-star 
+        #{@artist.get_name(true)}
+        .os-star
+      See this artist in their studio during Open Studios April 14-15, 2012
+    - else
+      %h2 
+        #{@artist.get_name(true)}
+    .address
+      - if @artist.studio
+        .studio
+          Studio 
+          = link_to @artist.studio.name, @artist.studio  
+          .street 
+            #{@artist.studio.street}
+            - if @artist.artist_info.studionumber.present?
+              %span 
+                #{"#%s" % @artist.artist_info.studionumber}
+            %span.lkmap #{ "(" + link_to('map', @artist.studio.map_link) + ")" }
+      - else
+        .indy
+          - if @artist.artist_info.full_address.length > 1
+            #{@artist.artist_info.street}
+          %span.lkmap #{ "(" + link_to('map', @artist.artist_info.map_link) + ")"}
+    
+    - if @artist.media.present?
+      .media.section
+        %span Media
+        %span
+          :ruby
+            links = []
+            @artist.media.each do |m| 
+              links << link_to(m.name, m, :class => "")
+            end
+          #{links.join(", ")}
+    - if @artist.bio.present?
+      .bio_link
+        %span 
+          BIO:
+        %span.snippet 
+          #{StringHelpers.trunc(@artist.bio,400)}
+        %a.more{:href => bio_artist_path(@artist)} [See More]
+    .clear
+    - if @artist.art_pieces.count
+      %ul#art_pieces.section
+        - @artist.art_pieces.each do |artpiece| 
+          %li
+            .ap-thumb{:style => "background-image:url(#{artpiece.get_path('small')});"}
+    .clear
+    - if has_links(@artist)
+      .links.section
+        - keyed_links.each do |key, name, _id|  
+          - lnk = @artist.send(key)
+          - if lnk and !lnk.empty?
+            %div{:id => _id}
+              %span #{name}
+            = link_to lnk, add_http(lnk)
