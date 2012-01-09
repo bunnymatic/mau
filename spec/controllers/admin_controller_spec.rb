@@ -53,12 +53,12 @@ describe AdminController do
         assigns(:activity_stats)[:yesterday][:artists_added].should == 1
       end
       it 'assigns correct values for artists last weeek' do
-        assigns(:activity_stats)[:last_week][:artists_activated].should == 3
-        assigns(:activity_stats)[:last_week][:artists_added].should == 6
+        assigns(:activity_stats)[:last_week][:artists_activated].should == 4
+        assigns(:activity_stats)[:last_week][:artists_added].should == 7
       end
       it 'assigns correct values for artists last month' do
-        assigns(:activity_stats)[:last_30_days][:artists_activated].should == 4
-        assigns(:activity_stats)[:last_30_days][:artists_added].should == 11
+        assigns(:activity_stats)[:last_30_days][:artists_activated].should == 5
+        assigns(:activity_stats)[:last_30_days][:artists_added].should == 12
       end
       it 'has totals' do
         assigns(:activity_stats)[:total].should be
@@ -355,5 +355,4 @@ describe AdminController do
       end
     end
   end
-
 end
