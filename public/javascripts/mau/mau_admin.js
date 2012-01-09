@@ -19,6 +19,19 @@ MAUAdmin =  window.MAUAdmin || {};
 
   var M = MAUAdmin;
   M.init = function() {
+    $$('.hide-rows input').each(function(el) {
+      el.observe('change', function() {
+        var clz = this.value;
+        var show = this.checked;
+        $$('table.admin-table tr.' + clz).each(function(row) {
+          if (show) {
+            row.fade();
+          } else {
+            row.appear();
+          }
+        });
+      });
+    });
     $$('button.update-artists').each(function(el) {
       MAU.log('bind to ', el);
       el.observe('click', function() {
