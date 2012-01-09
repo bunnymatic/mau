@@ -7,24 +7,13 @@ describe Favorite, 'named scopes' do
     u2 = users(:jesseponce)
     u3 = users(:annafizyta)
     
-    artist = users(:artist1)
-    artist.artist_info = artist_infos(:artist1)
-    artist.save
-    
-    a1 = ArtPiece.first
-    a1.artist = artist
-    a1.save
-    a2 = ArtPiece.last
-    a2.artist = artist
-    a2.save
-    
     ArtPiece.any_instance.stubs(:artist => stub(:id => 42, :emailsettings => {'favorites' => false}))
-    u1.add_favorite a1
+    u1.add_favorite ArtPiece.first
     u1.add_favorite users(:artist1)
     u1.add_favorite u2
-    u2.add_favorite a1
+    u2.add_favorite ArtPiece.first
     u2.add_favorite users(:artist1)
-    u3.add_favorite a2
+    u3.add_favorite ArtPiece.last
   end
   it "users finds only users or artists" do 
     Favorite.users.count.should > 0

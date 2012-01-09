@@ -47,7 +47,6 @@ describe ArtistInfo do
 
   describe 'update' do 
     it "triggers geocode given new street" do
-      
       s = artist_infos(:joeblogs)
       s.street = '1891 Bryant St'
       s.expects(:compute_geocode).returns([-37,122])

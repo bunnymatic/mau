@@ -17,26 +17,7 @@ describe ArtistsController do
     # stash an artist and art pieces
     apids =[]
     a = users(:artist1)
-    a.studio = Studio.all[1]
-    a.save!
-    ap = art_pieces(:artpiece1)
-    ap.artist_id = a.id
-    ap.save!
-    apids << ap.id
-    ap = art_pieces(:artpiece2)
-    ap.artist_id = a.id
-    ap.save!
-    apids << ap.id
-    ap = art_pieces(:artpiece3)
-    ap.artist_id = a.id
-    ap.save!
-    apids << ap.id
-    info = artist_infos(:artist1)
-    info.artist_id = a.id
-    info.save!
-    a.artist_info = info
     @artist = a
-    @artpieces = apids
   end
 
   describe "index" do

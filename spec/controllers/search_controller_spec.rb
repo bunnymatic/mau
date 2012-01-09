@@ -10,37 +10,8 @@ describe SearchController do
   fixtures :media
 
   before(:each) do 
-    # stash an artist and art pieces
-    art_pieces =[]
-    m1 = media(:medium1)
-    m2 = media(:medium2)
-
-    a = users(:annafizyta)
-    ap = art_pieces(:artpiece1)
-    ap.artist_id = a.id
-    ap.medium_id = m2.id
-    ap.save!
-    art_pieces << ap
-    ap = art_pieces(:artpiece2)
-    ap.artist_id = a.id
-    ap.medium_id = m1.id
-    ap.save!
-    art_pieces << ap
-    ap = art_pieces(:artpiece3)
-    ap.artist_id = a.id
-    ap.medium_id = nil
-    ap.save!
-    art_pieces << ap
-    a.artist_info = artist_infos(:artist1)
-    a.save
-
-    @artist = a
-    @artpieces = art_pieces
-
-    a = users(:jesseponce)
-    a.art_pieces << art_pieces(:hot)
-    a.save
-    @jesse = a
+    # stash an artist and art piece
+    @artist = users(:annafizyta)
   end
 
   describe "#index" do
