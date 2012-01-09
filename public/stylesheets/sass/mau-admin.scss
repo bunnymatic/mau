@@ -79,6 +79,7 @@ body.admin {
     display: inline-block;
     padding: 4px;
     @include small-rounded-corners;
+    border: 1px dotted #444;
   }
   .osoct2010 {
     text-align: left;
