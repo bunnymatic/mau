@@ -20,8 +20,9 @@ class FeedsController < ApplicationController
 
   def clear_cache
     Rails.cache.delete(@@FEEDS_KEY)
-    if File.exists? @@CACHED_FEEDS_FILE
+    begin
       File.delete(@@CACHED_FEEDS_FILE)
+    rescue Execption => ex
     end
     redirect_to request.referer
   end
