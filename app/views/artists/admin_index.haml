@@ -9,15 +9,23 @@
   - if flash[:notice]
     .notice #{flash[:notice]}
 
-.sortby 
-  Sort By:
-  - @allowed_sortby.each do |s|
-    %a{:href => "?sortby=#{s}"} #{s}
-  %br
-  Reverse Sort By:
-  - @allowed_sortby.each do |s|
-    %a{:href => "?rsortby=#{s}"} #{s}
-  %br
+  .sortby 
+    Sort By:
+    - @allowed_sortby.each do |s|
+      %a{:href => "?sortby=#{s}"} #{s}
+    %br
+    Reverse Sort By:
+    - @allowed_sortby.each do |s|
+      %a{:href => "?rsortby=#{s}"} #{s}
+  .hide-rows
+    Hide rows:
+    .row-info
+      %input{:type => 'checkbox', :value => 'pending', :id => 'hide_pending'}
+      %label{:for => 'hide_pending'} pending
+    .row-info
+      %input{:type => 'checkbox', :value => 'participating', :id => 'participating'}
+      %label{:for => 'participating'} signed up for OS
+     
 
 %table.admin-table
   %tr
@@ -27,8 +35,12 @@
     %th street
     %th Spring 2012 OS?
   - @artists.each_with_index do |a, idx| 
-    - clz = (((idx%2)==0) ? 'even':'odd') 
-    %tr{:class => clz}
+    :ruby
+      classes = []
+      classes << (((idx%2)==0) ? 'even':'odd')
+      classes << 'pending' if a.state=='pending'
+      classes << 'participating' if a.os_participation['201204']
+    %tr{:class => classes.join(' ')}
       %td.admin_artist_name
         %a{:href => artist_path(a)}
           = a.get_name(true)

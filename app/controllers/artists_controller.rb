@@ -106,7 +106,7 @@ class ArtistsController < ApplicationController
         reverse = true
       end
     end
-    @artists = Artist.active.all(:order => sortby)
+    @artists = Artist.all(:order => sortby)
     if reverse
       @artists = @artists.reverse()
     end
