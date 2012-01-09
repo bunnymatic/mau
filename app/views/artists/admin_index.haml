@@ -58,7 +58,7 @@
       %td.spring2012{ :artistid => a.id } #{a.os_participation['201204'].to_s}
       %td
         %input.cbspring2012{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation['201204'].to_s, :checked => (a.os_participation['201204'] ? "checked" : nil) }
-
+   
 %button.update-artists update os status
 
 
