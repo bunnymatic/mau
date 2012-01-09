@@ -281,10 +281,6 @@ describe ArtistsController do
       end
       it_should_behave_like "logged in user"
       context "looking at your own page" do
-        before do
-          get :show, :id => @a.id
-        end
-        
         it "website is present" do
           response.should have_tag("div#u_website a[href=#{@a.url}]")
         end
@@ -506,8 +502,6 @@ describe ArtistsController do
   end
 
   describe "#admin_index" do
-    before do
-    end
     context "while not logged in" do
       before do
         get :admin_index
@@ -529,23 +523,40 @@ describe ArtistsController do
     context "logged in as admin" do
       integrate_views
       before do
-        ArtistInfo.any_instance.stubs(:os_participation => {})
-        Artist.any_instance.stubs(:os_participation => {})
-        a = users(:artist1)
-        a.roles << roles(:admin)
-        a.save
-        a.reload
-        login_as(a)
+        ArtistInfo.any_instance.stubs(:os_participation => {'201204' => true})
+        Artist.any_instance.stubs(:os_participation => {'201204' => true})
+
+        login_as(:admin)
         get :admin_index
       end
       it "returns success" do
         response.should be_success
       end
-      it "has sort by links" do
+      it "renders sort by links" do
         response.should have_tag('.sortby a', :count => 14)
       end
-      it 'has a csv export link' do
-        response.should have_tag('a.export-csv', /export/)
+      it 'renders a csv export link' do
+        response.should have_tag('a.export-csv button', /export/)
+      end
+      it 'renders an update os status button' do
+        response.should have_tag('button.update-artists', /update os status/)
+      end
+      it 'renders controls for hiding rows' do
+        response.should have_tag('.hide-rows .row-info');
+      end
+      it 'renders .pending rows for all pending artists' do
+        response.should have_tag('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+      end
+      it 'renders .participating rows for all pending artists' do
+        response.should have_tag('tr.participating', :count => Artist.all.select{|a| a.os_participation['201204']}.count)
+      end
+      it 'renders activation link for inactive artists' do
+        response.should have_tag('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+        response.should have_tag('.activation_link', /http:\/\/#{Conf.site_url}\/activate\/#{users(:pending_artist).activation_code}/)
+      end
+      it 'renders forgot link if there is a reset code' do
+        response.should have_tag('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)
+        response.should have_tag('.forgot_password_link', /http:\/\/#{Conf.site_url}\/reset\/#{users(:reset_password).reset_code}/)
       end
     end
 

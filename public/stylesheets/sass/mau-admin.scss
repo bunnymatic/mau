@@ -22,6 +22,8 @@ body.admin {
 }
 
 .admin-table {
+  margin: auto;
+  width: 800px;
   &.singlecolumn {
     margin-top: 0px;
     padding-top: 40px;
@@ -57,18 +59,27 @@ body.admin {
   tr.even td {
     background-color: transparent;
   }
+  tr.pending {
+    color: pink;
+  }
   margin-top: 40px;
   font-size: 85%;
   td {
     vertical-align: top;
-    padding: 3px;
+    padding: 5px 3px;
   }
   h1 {
     text-align:center;
   }
-  .sortby {
+  .hide-rows, .sortby {
     text-align:center;
-    padding: 10px;
+    padding: 10px 0 0;
+  }
+  .row-info {
+    display: inline-block;
+    padding: 4px;
+    @include small-rounded-corners;
+    border: 1px dotted #444;
   }
   .osoct2010 {
     text-align: left;
@@ -79,9 +90,9 @@ body.admin {
   }
 }
 
-
-#admin_artist_name {
-  width: 200px;
+.admin_artist_studio, 
+.admin_artist_name {
+  width: 100px;
 }
 
 
@@ -92,7 +103,7 @@ body.admin {
 }
 
 .admin {
-  .nextrow {
+  .tbl-content > .nextrow {
     line-height: 40px;
   }
   .header_inputs .section{
@@ -131,7 +142,7 @@ body.admin {
       .odd { background-color: #0a0a00; }
     }
     th, & td {
-      padding: 1px 6px;
+      padding: 6px
     }
   }
 }
@@ -343,4 +354,10 @@ td.singlecolumn {
     }
     
   }
+}
+
+/* artists admin index */
+.export-csv button,
+button.update-artists {
+  float: right;
 }
