@@ -53,7 +53,7 @@ task :staging do
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
   set :ssh_port, '22022'
-  set :server_name, 'dev.missionartistunited.org'
+  set :server_name, 'dev.missionartistsunited.org'
 end
 
 desc "Set up Dev on bunnymatic.com parameters."
@@ -62,7 +62,7 @@ task :dev do
   set :rails_env, 'development'
   set :deploy_to, "/home/maudev/deployed"
   set :ssh_port, '2222'
-  set :server_name, 'dev.missionartistunited.org'
+  set :server_name, 'dev.missionartistsunited.org'
 end
 
 desc "Set up Production bunnymatic.com parameters."
@@ -71,7 +71,7 @@ task :prod do
   set :deploy_to, "/home/mauprod/deployed"
   set :rails_env, 'production'
   set :ssh_port, '2222'
-  set :server_name, 'www.missionartistunited.org'
+  set :server_name, 'www.missionartistsunited.org'
 end
 
 desc "Sanity Check"
