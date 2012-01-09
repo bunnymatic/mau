@@ -83,11 +83,16 @@ h5 {
   text-align: left;
 }
 .notice {
+  z-index: 1000;
   position: absolute;
-  top: 100px;
-  left: 100px;
   text-align: center;
+  margin: 0;
 }
+.two_column .notice {
+  top: 100px;
+  left: 450px;
+}
+
 
 .singlecolumn {
   padding-bottom: 20px;
@@ -104,6 +109,11 @@ h5 {
   .error-msg {
     width: 600px;
   }
+  .notice {
+    top: 100px;
+    left: 150px;
+  }
+
   h4 {
     text-align: center;
   }
@@ -2899,7 +2909,13 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     float:left;
     @include dotted_border;
     padding: 9px;
-    margin: 20px 15px;
+    margin: 20px 5px;
+    &.first { 
+      margin-left:0;
+    }
+    &.last {
+      margin-right:0;
+    }
     vertical-align:top;
     li {
       float:left;
