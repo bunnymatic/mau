@@ -808,6 +808,9 @@ describe UsersController do
       it 'flashes an error' do
         /find an artist with that activation code/.match(flash[:error]).should_not be []
       end
+      it 'does not blow away all activation codes' do
+        User.all.map{|u| u.activation_code}.select{|u| u.present?}.count.should > 0
+      end
     end
   end
 

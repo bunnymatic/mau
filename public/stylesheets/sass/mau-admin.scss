@@ -66,7 +66,7 @@ body.admin {
   font-size: 85%;
   td {
     vertical-align: top;
-    padding: 3px;
+    padding: 5px 3px;
   }
   h1 {
     text-align:center;
@@ -142,7 +142,7 @@ body.admin {
       .odd { background-color: #0a0a00; }
     }
     th, & td {
-      padding: 1px 6px;
+      padding: 6px
     }
   }
 }

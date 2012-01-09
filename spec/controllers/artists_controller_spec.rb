@@ -281,10 +281,6 @@ describe ArtistsController do
       end
       it_should_behave_like "logged in user"
       context "looking at your own page" do
-        before do
-          get :show, :id => @a.id
-        end
-        
         it "website is present" do
           response.should have_tag("div#u_website a[href=#{@a.url}]")
         end
@@ -506,8 +502,6 @@ describe ArtistsController do
   end
 
   describe "#admin_index" do
-    before do
-    end
     context "while not logged in" do
       before do
         get :admin_index
@@ -555,6 +549,14 @@ describe ArtistsController do
       end
       it 'renders .participating rows for all pending artists' do
         response.should have_tag('tr.participating', :count => Artist.all.select{|a| a.os_participation['201204']}.count)
+      end
+      it 'renders activation link for inactive artists' do
+        response.should have_tag('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+        response.should have_tag('.activation_link', /http:\/\/#{Conf.site_url}\/activate\/#{users(:pending_artist).activation_code}/)
+      end
+      it 'renders forgot link if there is a reset code' do
+        response.should have_tag('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)
+        response.should have_tag('.forgot_password_link', /http:\/\/#{Conf.site_url}\/reset\/#{users(:reset_password).reset_code}/)
       end
     end
 
