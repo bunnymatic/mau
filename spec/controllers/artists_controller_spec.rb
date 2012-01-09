@@ -157,7 +157,6 @@ describe ArtistsController do
           @logged_in_user.studio_id = 0
           @logged_in_user.save
           @logged_in_user.reload
-          @logged_in_user.reload
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => false }}}}
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil
         end
