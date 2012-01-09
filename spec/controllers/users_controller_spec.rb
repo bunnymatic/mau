@@ -32,6 +32,7 @@ describe UsersController do
       @controller.instance_eval{flash.stubs(:sweep)}
       get :new
     end
+    it_should_behave_like 'one column layout'
     it "has fan signup form" do
       response.should have_tag("#fan_signup_form")
     end
@@ -207,44 +208,44 @@ describe UsersController do
   end
 
   describe "#show" do
-    before(:each) do
+    integrate_views
+    before do
       @a = users(:artist1)
       @u = users(:maufan1)
     end
     context "while not logged in" do
-      integrate_views
-      before(:each) do 
+      before do 
         get :show
       end
       it_should_behave_like "not logged in"
-      context "getting a users page" do
-        before do
-          get :show, :id => @u.id
-        end
-        it "returns a valid page" do
-          response.should be_success
-        end
-        it "has the users name on it" do
-          response.should have_tag '#artist_profile_name h4', :text => "#{@u.firstname} #{@u.lastname}"
-        end
-        it "has a profile image" do
-          response.should have_tag "img.profile"
-        end
-        it "shows the users website" do
-          response.should have_tag "#u_website a[href=#{@u.url}]"
-        end
+    end
+    context "getting a users page while not logged in" do
+      before do
+        get :show, :id => @u.id
+      end
+      it_should_behave_like 'two column layout'
+      it "returns a valid page" do
+        response.should be_success
+      end
+      it "has the users name on it" do
+        response.should have_tag '#artist_profile_name h4', :text => "#{@u.firstname} #{@u.lastname}"
+      end
+      it "has a profile image" do
+        response.should have_tag "img.profile"
+      end
+      it "shows the users website" do
+        response.should have_tag "#u_website a[href=#{@u.url}]"
       end
     end
     context "while logged in as an user" do
-      integrate_views
       before(:each) do 
         login_as(@u)
         @logged_in_user = @u
-        get :show
+        get :show, :id => @u.id
       end
+      it_should_behave_like 'two column layout'
       it_should_behave_like "logged in user"
       it "has sidebar nav when i look at my page" do
-        get :show, :id => @u.id
         response.should have_tag('#sidebar_nav')
       end
       it "has no sidebar nav when i look at someone elses page" do
@@ -286,6 +287,7 @@ describe UsersController do
         get :edit
       end
 
+      it_should_behave_like 'one column layout'
       it_should_behave_like "logged in edit page"
 
       it "returns success" do
@@ -385,6 +387,7 @@ describe UsersController do
         before do
           get :favorites, :id => users(:maufan1).id
         end
+        it_should_behave_like 'one column layout'
         it "returns sucess" do
           response.should be_success
         end
@@ -399,6 +402,7 @@ describe UsersController do
           login_as(@u)
           get :favorites, :id => @u.id
         end
+        it_should_behave_like 'one column layout'
         it "returns success" do
           response.should be_success
         end
@@ -450,6 +454,7 @@ describe UsersController do
             assert @a.fav_art_pieces.count >= 1
             get :favorites, :id => @a.id
           end
+          it_should_behave_like 'one column layout'
           it "returns success" do
             response.should be_success
           end
@@ -494,6 +499,7 @@ describe UsersController do
           get :favorites, :id => a.id
           @a = a
         end
+        it_should_behave_like 'one column layout'
         it "returns success" do
           response.should be_success
         end

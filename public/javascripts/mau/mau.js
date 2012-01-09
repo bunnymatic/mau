@@ -138,6 +138,36 @@ var TagMediaHelper = {
     }
   };
 
+  M.addFlashObserver = function() {
+    var notice = $$('.notice').first();
+    if (notice) {
+      notice.setStyle({display:'block'});
+      /*notice.blindDown(M.BLIND_OPTS.down);*/
+      notice.observe('click', function() {
+	notice.fade(M.BLIND_OPTS.up);
+      });
+      setTimeout(function() {
+	notice.fade(M.BLIND_OPTS.up);
+      }, 10000);
+    }
+  };
+
+  M.addArtPieceSubmissionObserver = function() {
+    var art_piece_submit = $('art_piece_submit');
+    if (art_piece_submit) {
+      art_piece_submit.observe('click', function(ev) {
+        if (AP.validate_art_piece('new_artpiece')) {
+          MAU.waitcursor();
+          return true;
+        }
+        else {
+          ev.stop();
+          return false;
+        }
+      });
+    }
+  };
+
   /** safe javascript log - for debug */
   M.log = function() {
     if (window.console && M.__debug__) {
@@ -268,19 +298,8 @@ var TagMediaHelper = {
 	return false;
       });
     }
-    var art_piece_submit = $('art_piece_submit');
-    if (art_piece_submit) {
-      art_piece_submit.observe('click', function(ev) {
-        if (AP.validate_art_piece('new_artpiece')) {
-          MAU.waitcursor();
-          return true;
-        }
-        else {
-          ev.stop();
-          return false;
-        }
-      });
-    }
+    M.addArtPieceSubmissionObserver();
+    M.addFlashObserver();
   };
 
   Event.observe(window, 'load', M.init);
@@ -448,7 +467,7 @@ var TagMediaHelper = {
         $$('.os-status span').first().innerHTML = type.charAt(0).toUpperCase() + type.slice(1);
         alert(msg);
       }});
-    };
+    }
   };
   A.clickYep = function() {
     A.clickYepNope('yep');
@@ -870,7 +889,7 @@ var TagMediaHelper = {
   F.init = function() {
     var cbx = $$('div.fdbk-input #feedback_comment');
     if (cbx.length > 0) {
-      M.addCommentBoxObserver(cbx.first());
+      M.addCommentBoxObserver();
     }
   };
 

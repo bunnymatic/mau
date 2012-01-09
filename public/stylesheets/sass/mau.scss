@@ -68,6 +68,32 @@ h5 {
   font-size: 14px;
 }
 
+.notice, .error-msg {
+  @include small-rounded-corners;
+  @include floating-window-border;
+  background-color: $darkgray;
+  margin: 15px auto;
+  border: 1px solid $lightyellow;
+  padding: 11px;
+  width: 260px
+}
+.error-msg {
+  border: 1px solid $error_red;
+  color: $error_red;
+  text-align: left;
+}
+.notice {
+  z-index: 1000;
+  position: absolute;
+  text-align: center;
+  margin: 0;
+}
+.two_column .notice {
+  top: 100px;
+  left: 450px;
+}
+
+
 .singlecolumn {
   padding-bottom: 20px;
   width:882px;
@@ -83,6 +109,11 @@ h5 {
   .error-msg {
     width: 600px;
   }
+  .notice {
+    top: 100px;
+    left: 150px;
+  }
+
   h4 {
     text-align: center;
   }
@@ -1952,21 +1983,6 @@ span.rightarrow
   
 }
 
-.notice, .error-msg {
-  @include small-rounded-corners;
-  margin: 15px auto;
-  border: 1px solid $lightyellow;
-  padding: 11px;
-  width: 260px
-}
-.error-msg {
-  border: 1px solid $error_red;
-  color: $error_red;
-  text-align: left;
-}
-.notice {
-  text-align: center;
-}
 
 #new_artpiece {
   .error-msg, & .notice {
@@ -2893,7 +2909,13 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     float:left;
     @include dotted_border;
     padding: 9px;
-    margin: 20px 15px;
+    margin: 20px 5px;
+    &.first { 
+      margin-left:0;
+    }
+    &.last {
+      margin-right:0;
+    }
     vertical-align:top;
     li {
       float:left;

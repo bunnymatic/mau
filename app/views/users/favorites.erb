@@ -21,7 +21,7 @@
        </p>
        <div class="random-picks">
          <a href="<%= artists_path %>">
-           <div class="by-name random-sxn">
+           <div class="by-name random-sxn first">
            <h5>Find Artists by Name</h5>
            <ul >
              <% @random_picks.each do |item| -%>
@@ -41,7 +41,7 @@
          </div>
          </a>
          <a href="<%= art_piece_tags_path :m => 'a'%>">
-         <div class="by-tag random-sxn">
+         <div class="by-tag random-sxn last">
            <h5>Find Artists by Tag</h5>
            <ul >
              <% @random_picks.each do |item| -%>
