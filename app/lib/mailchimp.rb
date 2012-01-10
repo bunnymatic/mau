@@ -38,7 +38,7 @@ module MailChimp
 
   # extract the list_id for the given list_name
   def mailchimp_list_id(list_name)
-    gb       = Gibbon::API.new(API_KEY)
+    gb       = Gibbon.new(API_KEY)
     response = gb.lists()
     lists    = response['data']
     list     = lists.find { |list| list['name'] == list_name }
@@ -52,7 +52,7 @@ module MailChimp
     email_parts   = email.split('@')
     email_address = CGI::escape(email_parts[0]) + '@' + email_parts[1]
 
-    gb       = Gibbon::API.new(API_KEY)
+    gb       = Gibbon.new(API_KEY)
     response = gb.listSubscribe(
       :id                => list_id,
       :email_address     => email_address,
