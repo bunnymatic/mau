@@ -98,9 +98,6 @@
   	    <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
   	    <%   end -%>
 	    <% end -%>
-	    <% if @artist.os_participation[Conf.oslive.to_s] -%>
-	    <div class="os-violator"><a href="<%= openstudios_path %>"><img src="/images/os_star_violator.png"/></a></div>
-	    <% end -%>
             <div class="action-icons">
 	      <a target="_new" href="<%= ArtistsHelper.tw_share_link(@artist) %>" title="Share this page on Twitter"><div class="micro-icon twitter"></div></a>
               <a target="_new" href="<%= ArtistsHelper.fb_share_link(@artist) %>" title="Share this page on Facebook"><div class="micro-icon facebook"></div></a>
@@ -111,6 +108,9 @@
               <a href="#" class="favorite_this" fav_type="Artist" fav_id="<%= @artist.id %>" title="Add this artist to your favorites" ><div class="micro-icon heart"></div></a>
               <% end -%>
             </div>
+	    <% if @artist.os_participation[Conf.oslive.to_s] -%>
+	    <div class="os-violator"><a href="<%= openstudios_path %>"><img src="/images/os_star_violator.png"/></a></div>
+	    <% end -%>
 	  </div>
 	</div>
       </div>

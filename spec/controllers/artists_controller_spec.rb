@@ -546,6 +546,11 @@ describe ArtistsController do
       it 'renders .pending rows for all pending artists' do
         response.should have_tag('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
       end
+      it 'renders created_at date for all pending artists' do
+        Artist.all.select{|s| s.state == 'pending'}.each do |a|
+          response.should have_tag('tr.pending td', /#{a.created_at.strftime("%m/%d/%y")}/)
+        end
+      end
       it 'renders .participating rows for all pending artists' do
         response.should have_tag('tr.participating', :count => Artist.all.select{|a| a.os_participation['201204']}.count)
       end
