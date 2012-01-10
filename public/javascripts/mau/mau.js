@@ -432,12 +432,12 @@ var TagMediaHelper = {
       if (frm) {
 	if (!frm.visible() ) {
 	  if (sxnnm == sxn) {
-	    frm.blindDown(M.BLIND_OPTS.down);
+	    frm.slideDown(M.BLIND_OPTS.down);
 	    lnk.innerHTML = "hide";
 	  }
 	}
 	else {
-	  frm.blindUp(M.BLIND_OPTS.up);
+	  frm.slideUp(M.BLIND_OPTS.up);
 	  lnk.innerHTML = "change";
 	}
       }
@@ -1064,15 +1064,12 @@ var TagMediaHelper = {
 	var s2 = _giLnk2Div(tg.id);
 	var dv = $(s2);
 	if (dv) {
-	  if (s == s2) {
-	    if (dv.visible()){
-	      dv.blindUp(M.BLIND_OPTS.up);
-	    } else {
+	  if (!dv.visible()) {
+	    if (s && s2 && (s == s2)) {
 	      dv.blindDown(M.BLIND_OPTS.down);
-	    }
-	  }
-	  else {
-	    dv.blindUp(M.BLIND_OPTS.up);
+            }
+          } else {
+	    dv.slideUp(M.BLIND_OPTS.up);
 	  }
 	}
       }

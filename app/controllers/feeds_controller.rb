@@ -22,12 +22,19 @@ class FeedsController < ApplicationController
     Rails.cache.delete(@@FEEDS_KEY)
     begin
       File.delete(@@CACHED_FEEDS_FILE)
-    rescue Execption => ex
+    rescue Exception => ex
     end
+    fetch_feeds
     redirect_to request.referer
   end
 
   def feed
+    fetch_feeds
+    render :nothing => true
+  end
+
+  private
+  def fetch_feeds
     allfeeds = ''
     numentries = params[:numentries].to_i or nil
     page = ''
@@ -78,7 +85,5 @@ class FeedsController < ApplicationController
       partial.write(cached_html)
       partial.close
     end
-    render :nothing => true
   end
-
 end
