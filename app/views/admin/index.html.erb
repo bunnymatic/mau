@@ -1,9 +1,9 @@
 <div class="admin-table" id="dashboard">
   <h1>MAU Dashboard</h1>
   <h2>Counts:</h2>
-  <% [:total, :yesterday, :last_week, :last_30_days].each do |category|
+  <% [:total, :yesterday, :last_week, :last_30_days].each_with_index do |category, idx|
      stats = @activity_stats[category] %>
-  <div class="section">
+  <div class="section <%= (idx==0) ? 'first' : ''%><%= (idx == 3) ? 'last' :'' %>">
     <h3><%= category.to_s.titleize %></h3>
     <ul>
       <% stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v| -%>
