@@ -56,8 +56,8 @@
         .active        
           Active? #{a.state=='active'}
         - if a.state != 'active' && a.activation_code.present?
-          .activation_link 
-            Activation Link: 
+          .activation_link
+            Activation Link (created : #{a.created_at.strftime("%m/%d/%y")}) : 
             %br
             #{'http://%s/activate/%s' % [Conf.site_url, a.activation_code]}
         - if a.reset_code.present?
