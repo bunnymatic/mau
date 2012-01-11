@@ -13,11 +13,7 @@
       %tr{:class => (0 == (idx % 2)) ? 'odd' : 'even'}
         %td#admin_artist_name
           %a{:href => user_path(a)} #{a.get_name(true)}
-        - ['201204','201110','201104'].each do |ostag|          
+        - Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
           %td.tf
             - val = a.os_participation[ostag] || 'false'
             %span{:class => val} #{val}
-        %td.tf
-          %span{:class => a.osoct2010} #{a.osoct2010}
-        %td.tf
-          %span{:class => a.os2010} #{a.os2010}

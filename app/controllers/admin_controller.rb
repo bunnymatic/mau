@@ -29,9 +29,13 @@ class AdminController < ApplicationController
       :artists_no_profile_image => Artist.active.count(:conditions => "profile_image is not null"),
       :studios => Studio.count
     }
-    ['201104', '201110', '201204'].each do |ostag|
-      key = "OS Participants %s %s" % [ostag[0..3],  ostag[4..-1] ]
-      @activity_stats[:total][key] = Artist.active.open_studios_participants(ostag).count
+    @activity_stats[:open_studios] = {}
+    Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+      yr = ostag[0..3]
+      mo = ostag[4..-1]
+      seas = (mo == '10') ? 'Oct':'Apr'
+      key = "%s %s" % [ yr, seas ]
+      @activity_stats[:open_studios][key] = Artist.active.open_studios_participants(ostag).count
     end
   end
 
@@ -112,9 +116,7 @@ class AdminController < ApplicationController
   def os_status
     @os = Artist.active.find(:all, :order =>'lastname asc')
     @totals = {}
-    @totals['spring 2010'] = @os.select{|a| a.os2010}.length
-    @totals['fall 2010'] = @os.select{|a| a.osoct2010}.length
-    ['201104', '201110', '201204'].each do |ostag|
+    Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
       yr = ostag[0..3]
       mo = ostag[4..-1]
       seas = (mo == '10') ? 'fall':'spring'

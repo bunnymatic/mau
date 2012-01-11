@@ -70,6 +70,9 @@ describe AdminController do
         assigns(:activity_stats)[:total][:events_past].should == Event.past.count
         assigns(:activity_stats)[:total][:events_future].should == Event.future.count
       end
+      it 'has open studios info' do
+        assigns(:activity_stats)[:open_studios].length.should >= 5
+      end
     end
     describe 'with views' do
       integrate_views
@@ -79,6 +82,11 @@ describe AdminController do
       end
       it 'has place holders for the graphs' do
         response.should have_tag('.section.graph', :count => 3)
+      end
+      [:total, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
+        it 'renders an #{sxn} stats section' do
+          assert_select '.section.%s' % sxn
+        end
       end
     end
   end
