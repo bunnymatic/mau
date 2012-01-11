@@ -39,10 +39,6 @@ class AdminController < ApplicationController
     end
   end
 
-  def admin_emails
-    @artists = Artist.find(:all, :conditions => ['state="active"'])
-  end
-
   def featured_artist
     featured = FeaturedArtistQueue.current_entry
     if request.post?
@@ -63,16 +59,31 @@ class AdminController < ApplicationController
   def emaillist
     artists = []
     arg = params[:listname]
+    @lists = [[ :accounts, 'Artists'],
+              [ :activated, 'Activated Artists'],
+              [ :pending, 'Pending Artists'],
+              [ :fans, 'Fans' ],
+              [ :no_profile, 'Active with no profile image'],
+              [ :no_images, 'Active with no artwork'],
+              ]
+    Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+      yr = ostag[0..3]
+      mo = ostag[4..-1]
+      seas = (mo == '10') ? 'Oct':'Apr'
+      title = "%s %s" % [ seas, yr ]
+      @lists << [ ostag.to_sym, title ]
+    end
+
     case arg
     when 'fans'
       @title = "Fans"
-      fans = Users.find(:all, :conditions => "type <> 'Artist'")
-    when 'october2011'
-      @title = "Fall 2011 OS Set"
-      artists = Artist.active.open_studios_participants('201110')
-    when 'spring2011'
-      @title = "Spring 2011 OS Set"
-      artists = Artist.active.open_studios_participants('201104')
+      fans = User.find(:all, :conditions => "type <> 'Artist'")
+    when *Conf.open_studios_event_keys.map(&:to_s)
+      yr = arg[0..3]
+      mo = arg[4..-1]
+      seas = (mo == '10') ? 'Oct':'Apr'
+      @title = "%s %s Participants" % [ seas, yr ]
+      artists = Artist.active.open_studios_participants(arg)
     when 'activated'
       @title = "All Activated Artsts"
       artists = Artist.active.all
@@ -119,7 +130,7 @@ class AdminController < ApplicationController
     Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
       yr = ostag[0..3]
       mo = ostag[4..-1]
-      seas = (mo == '10') ? 'fall':'spring'
+      seas = (mo == '10') ? 'Oct':'Apr'
       key = "%s %s" % [ seas, yr ]
       @totals[key] = @os.select{|a| a.os_participation[ostag].nil? ? false : a.os_participation[ostag] }.length
     end

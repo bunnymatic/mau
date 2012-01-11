@@ -1,0 +1,21 @@
+.singlecolumn.email_lists
+  %h4 #{@title} [#{@emails.length}]
+  - if @msg.present?
+    .error-msg
+      #{@msg}
+  .list_chooser
+    %h5 Available Lists
+    %ul
+      - @lists.each do |listinfo|
+        - key = listinfo[0]
+        - name = listinfo[1]
+        %li
+          %a{:href => 'emaillist?listname=%s' % key} #{name}
+
+  .email_results
+    - if @emails.present? && @title.present?
+      %h5 Emails
+      %textarea{:rows => "10", :cols => "70", :readonly => "readonly"}
+        - @emails.select{|e| e.length > 0}.each do |e| 
+          &quot; #{e[:name]} &quot; &lt; #{e[:email]} &gt;,
+    .clear
