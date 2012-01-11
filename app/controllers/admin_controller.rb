@@ -64,7 +64,7 @@ class AdminController < ApplicationController
               [ :pending, 'Pending Artists'],
               [ :fans, 'Fans' ],
               [ :no_profile, 'Active with no profile image'],
-              [ :no_images, 'Active with no artwork'],
+              [ :no_images, 'Active with no artwork']
               ]
     Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
       yr = ostag[0..3]
