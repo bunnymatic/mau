@@ -21,6 +21,15 @@ body.admin {
   }
 }
 
+.singlecolumn.email_lists {
+  .error-msg {
+    width: 400px;
+  }
+  .list_chooser {
+    width: 200px;
+    float: left;
+  }
+}
 .admin-table {
   margin: auto;
   width: 800px;
