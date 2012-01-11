@@ -197,16 +197,6 @@ class User < ActiveRecord::Base
     end 
   end
 
-  def os2010?
-    osend = DateTime.new(2010,04,27)
-    self.artist_info.os2010 && (DateTime.now < osend)
-  end
-
-  def osoct2010?
-    osend = DateTime.new(2010,10,15)
-    self.artist_info.osoct2010 && (DateTime.now < osend)
-  end
-
   def tags
     # rollup and return most popular 15 tags
     if @mytags == nil

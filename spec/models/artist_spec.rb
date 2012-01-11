@@ -226,12 +226,6 @@ describe Artist do
     it "responds to method bio" do
       lambda { @a.bio }.should_not raise_error
     end
-    it "responds to method osoct2010?" do
-      lambda { @a.osoct2010? }.should_not raise_error
-    end
-    it "responds to method osoct2010" do
-      lambda { @a.osoct2010 }.should_not raise_error
-    end
   end
   describe "fetch address" do
     context "without studio association" do
