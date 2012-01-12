@@ -49,9 +49,8 @@ describe AdminController do
           it 'returns success' do
             response.should be_success
           end
-          it 'assigns an error msg' do
-            assigns(:msg).should == 'What list did you want?'
-            assigns(:title).should == "All Activated Artsts"
+          it 'assigns the title' do
+            assigns(:title).should == "Activated"
           end
           it 'assigns list of artists emails' do
             assigns(:emails).length.should == Artist.active.count
@@ -71,13 +70,82 @@ describe AdminController do
             assigns(:emails).length.should == Artist.all.select{|a| a.os_participation[ostag]}.count
           end
         end
+        describe 'multiple os keys' do
+          it 'the emails list is an intersection of all artists in those open studios groups' do
+            get :emaillist, '201004' => 'on', '201010' => 'on'
+            emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
+              Artist.all.select{|a| a.os_participation['201010']}.map(&:email) 
+            emails.should == assigns(:emails).map{|em| em[:email]}
+          end
+        end
       end
+      describe 'with views' do
+        integrate_views
+        describe 'and no params' do
+          before do
+            get :emaillist
+          end
+          it 'returns success' do
+            response.should be_success
+          end
+          it 'shows the title and error block' do
+            assert_select '.email_lists h4', "Activated [%s]" % Artist.active.count
+          end
+          it 'has the correct emails in the text box' do
+            Artist.active.each do |a|
+              assert_select '.email_results textarea', /#{a.get_name}/
+              assert_select '.email_results textarea', /#{a.email}/
+            end
+          end
+        end
+        it 'shows the title and list size and correct emails when we ask for fans' do
+          get :emaillist, :listname => 'fans'
+          assert_select '.email_lists h4', 'Fans [%s]' % MAUFan.count
+          MAUFan.all.each do |f|
+            assert_select '.email_results textarea', /#{f.get_name}/
+            assert_select '.email_results textarea', /#{f.email}/
+          end
+        end
+        it 'shows the title and list size and correct emails when we ask for pending' do
+          get :emaillist, :listname => 'pending'
+          assert_select '.email_lists h4', 'Pending [%s]' % Artist.pending.count
+          Artist.pending.each do |f|
+            assert_select '.email_results textarea', /#{f.get_name}/
+            assert_select '.email_results textarea', /#{f.email}/
+          end
+        end
+        Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+          it 'shows the title and list size and correct emails when we ask for #{ostag}' do
+            get :emaillist, :listname => ostag
+            expected_participants = Artist.all.select{|a| a.os_participation[ostag]}
+            assert_select '.email_lists h4', /#{expected_participants.count}/
+            expected_participants.each do |f|
+              assert_select '.email_results textarea', /#{f.get_name}/
+              assert_select '.email_results textarea', /#{f.email}/
+            end
+          end
+        end
+        describe 'multiple os keys' do
+          integrate_views
+          it 'the emails list is an intersection of all artists in those open studios groups' do
+            get :emaillist, '201004' => 'on', '201010' => 'on'
+            emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
+              Artist.all.select{|a| a.os_participation['201010']}.map(&:email) 
+            emails.should == assigns(:emails).map{|em| em[:email]}
+            emails.each do |em|
+              assert_select '.email_results textarea', /#{em}/
+            end
+          end
+        end
+      end
+
     end
     describe 'csv' do
       before do 
         get :emaillist, :format => :csv
       end
       it 'returns success' do
+        pending "because this is a file upload link, i can't quite see how to test it"
         response.should be_success
       end
     end
@@ -280,7 +348,7 @@ describe AdminController do
       @tmpdir = File.join(Dir.tmpdir, "backups")
       Dir.mkdir(@tmpdir) unless File.exists?(@tmpdir)
     end
-    context "logged in" do
+    context "when logged in" do
       before do
         login_as(:admin)
       end
