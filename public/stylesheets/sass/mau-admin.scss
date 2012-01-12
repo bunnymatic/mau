@@ -28,6 +28,23 @@ body.admin {
   .list_chooser {
     width: 200px;
     float: left;
+    .os_combos {
+      margin-top: 15px;
+    }
+    .cb {
+      margin-left: 10px;
+    }
+  }
+  .email_results {
+    width: 550px;
+    float: left;
+    h5 {
+      float: left;
+      width: 430px;
+    }
+    .export-csv {
+      float:left;
+    }
   }
 }
 .admin-table {

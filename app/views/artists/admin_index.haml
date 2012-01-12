@@ -20,6 +20,9 @@
   .hide-rows
     Hide rows:
     .row-info
+      %input{:type => 'checkbox', :value => 'active', :id => 'hide_active'}
+      %label{:for => 'hide_active'} active
+    .row-info
       %input{:type => 'checkbox', :value => 'pending', :id => 'hide_pending'}
       %label{:for => 'hide_pending'} pending
     .row-info
@@ -37,6 +40,7 @@
       classes = []
       classes << (((idx%2)==0) ? 'even':'odd')
       classes << 'pending' if a.state=='pending'
+      classes << 'active' if a.state=='active'
       classes << 'participating' if a.os_participation['201204']
     %tr{:class => classes.join(' ')}
       %td.admin_artist_name
