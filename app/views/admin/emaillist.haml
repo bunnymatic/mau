@@ -1,0 +1,38 @@
+.singlecolumn.email_lists
+  %h4 #{@title} [#{@emails.length}]
+  - if @msg.present?
+    .error-msg
+      #{@msg}
+  .list_chooser
+    %h5 Available Lists
+    %ul
+      - @lists.each do |listinfo|
+        - key = listinfo[0]
+        - name = listinfo[1]
+        %li
+          %a{:href => 'emaillist?listname=%s' % key} #{name}
+      %li.os_combos
+        %a#os_combo_link{:href => '#'} More OS Combos?
+        #multi_form{:style => 'display:none;'}
+          - form_tag do
+            - Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+              :ruby
+                yr = ostag[0..3]
+                mo = ostag[4..-1]
+                seas = (mo == '10') ? 'Oct':'Apr'
+                title = "%s %s" % [ seas, yr ]
+              .cb
+                %label #{title}
+                %input{:type => 'checkbox', :name => ostag} 
+
+            %input{:type => 'submit'}
+  .email_results
+    - if @emails.present? && @title.present?
+      %h5 Emails
+      %a.export-csv{:href => "?format=csv&%s" % request.query_string}
+        %button export as csv
+      %textarea{:rows => "15", :cols => "70", :readonly => "readonly"}
+        = @emails.select{|e| e.length > 0}.map{|e| "&quot;#{e[:name]}&quot; &lt;#{e[:email]}&gt;"}.join(",\n ")
+    - else
+      %h5 nothing emails match the query
+    .clear

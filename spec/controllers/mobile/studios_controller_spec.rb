@@ -31,7 +31,7 @@ describe StudiosController do
     
     it "includes a link to each studio" do
       Studio.all.each do |s|
-        if s.artists.count > 0
+        if s.artists.active.count > 0
           url = studio_path(s)
           url += "/" unless /\/$/.match(url)
           response.should have_tag("a[href=#{url}]", :match => s.name)

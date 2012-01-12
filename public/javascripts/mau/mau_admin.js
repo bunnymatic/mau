@@ -66,6 +66,16 @@ MAUAdmin =  window.MAUAdmin || {};
 	return false;
       });
     });
+
+    $('os_combo_link').observe('click', function() {
+      var $frm = $('multi_form');
+      if (!$frm.visible()) {
+        $frm.slideDown();
+      } else {
+        $frm.slideUp();
+      }
+    });
+
   };
   Event.observe(window,'load',M.init);
   
@@ -182,5 +192,4 @@ MAUAdmin =  window.MAUAdmin || {};
     Event.observe(window, 'load', function() { GraphPerDay.load('art_pieces_per_day', '/admin/art_pieces_per_day'); });
   }
   
-
 })();

@@ -11,6 +11,11 @@ describe User do
         u.state.should == 'active'
       end
     end
+    it "pending returns only pending users" do
+      User.pending.all.each do |u|
+        u.state.should == 'pending'
+      end
+    end
   end
 
   describe 'get_profile_image' do

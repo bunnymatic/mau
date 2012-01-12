@@ -1,9 +1,8 @@
 artist1:
   facebook: http://facebook.com/mypage
   blog: http://theartists.blogspot.com
-  osoct2010: true
   bio: this is the bio
-  open_studios_participation: '201204|201104|201110'
+  open_studios_participation: '201204|201104|201110|201010'
   street: 3787 18th st
   city: san francisco
   addr_state: ca
@@ -14,7 +13,7 @@ artist1:
 joeblogs:
   facebook: http://facebook.com/aaron
   twitter: http://www.twitter.com/aaron
-  osoct2010: true
+  open_studios_participation: '201010'
   bio: blurp
   street: 3789 18th st
   city: san francisco
@@ -35,9 +34,8 @@ wayout:
 annafizyta:
   facebook: http://facebook.com/anna
   blog: http://anna.blogspot.com
-  osoct2010: true
   bio: anna this is the bio
-  open_studios_participation: '201110'
+  open_studios_participation: '201110|201010'
   street: 3787 18th st
   city: san francisco
   addr_state: ca
@@ -48,9 +46,8 @@ annafizyta:
 jesseponce:
   facebook: http://facebook.com/jesse
   blog: http://jesse.blogspot.com
-  osoct2010: true
   bio: jesse this is the bio
-  open_studios_participation: '201104|201110'
+  open_studios_participation: '201104|201110|201004|201010'
   street: 3787 18th st
   city: san francisco
   addr_state: ca
@@ -60,3 +57,30 @@ jesseponce:
 
 noaddress:
   artist: noaddress
+
+suspended:
+  artist: suspended
+
+old_password_holder:
+  artist: old_password_holder
+
+pending: 
+  artist: pending
+
+pending_artist:
+  artist: pending_artist
+
+badname:
+  artist: badname
+
+editor:
+  artist: editor
+  
+reset_password:
+  artist: reset_password
+
+admindude:
+  artist: admin
+
+quentin:
+  artist: quentin

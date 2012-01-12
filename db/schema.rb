@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120104062619) do
+ActiveRecord::Schema.define(:version => 20120111155959) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -67,8 +67,6 @@ ActiveRecord::Schema.define(:version => 20120104062619) do
     t.integer  "zip"
     t.integer  "max_pieces",                                :default => 20
     t.string   "studionumber"
-    t.boolean  "osoct2010",                                 :default => false
-    t.boolean  "os2010",                                    :default => false
     t.float    "lat"
     t.float    "lng"
     t.string   "open_studios_participation"
@@ -83,6 +81,19 @@ ActiveRecord::Schema.define(:version => 20120104062619) do
     t.string   "page"
     t.string   "section"
     t.text     "article"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -232,5 +243,18 @@ ActiveRecord::Schema.define(:version => 20120104062619) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
+
+  create_table "venues", :force => true do |t|
+    t.string   "phone",         :limit => 16
+    t.string   "url",           :limit => 200
+    t.string   "profile_image", :limit => 200
+    t.string   "street",        :limit => 200
+    t.string   "city",          :limit => 200
+    t.string   "state",         :limit => 4
+    t.integer  "zip"
+    t.string   "description",   :limit => 2000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
