@@ -121,7 +121,11 @@ class AdminController < ApplicationController
     respond_to do |format|
       format.html { render }
       format.csv {
-        render_csv :filename => 'email' do |csv|
+        fname = 'email'
+        if params[:listname].present?
+          fname += '_' + params[:listname]
+        end
+        render_csv :filename => fname do |csv|
           csv << ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + os_tags
           artists.each do |artist|
             data = [ artist.csv_safe(:firstname), artist.csv_safe(:lastname), artist.get_name(true),artist.email, artist.studio ? artist.studio.name : '' ]
