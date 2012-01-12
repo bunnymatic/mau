@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   include MailChimp
 
   named_scope :active, :conditions => ["users.state = 'active'"]
+  named_scope :pending, :conditions => ["users.state = 'pending'"]
   before_destroy do |user|
     fs = Favorite.artists.find_all_by_favoritable_id( user.id )
     fs.each { |f| f.delete }

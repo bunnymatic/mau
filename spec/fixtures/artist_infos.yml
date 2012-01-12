@@ -57,3 +57,30 @@ jesseponce:
 
 noaddress:
   artist: noaddress
+
+suspended:
+  artist: suspended
+
+old_password_holder:
+  artist: old_password_holder
+
+pending: 
+  artist: pending
+
+pending_artist:
+  artist: pending_artist
+
+badname:
+  artist: badname
+
+editor:
+  artist: editor
+  
+reset_password:
+  artist: reset_password
+
+admindude:
+  artist: admin
+
+quentin:
+  artist: quentin

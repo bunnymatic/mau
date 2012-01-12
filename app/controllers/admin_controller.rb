@@ -77,22 +77,19 @@ class AdminController < ApplicationController
     case arg
     when 'fans'
       @title = "Fans"
-      fans = User.find(:all, :conditions => "type <> 'Artist'")
+      artists = MAUFan.all
     when *Conf.open_studios_event_keys.map(&:to_s)
       yr = arg[0..3]
       mo = arg[4..-1]
       seas = (mo == '10') ? 'Oct':'Apr'
       @title = "%s %s Participants" % [ seas, yr ]
       artists = Artist.active.open_studios_participants(arg)
-    when 'activated'
-      @title = "All Activated Artsts"
-      artists = Artist.active.all
     when 'accounts'
       @title = "All Artist Accounts - active, suspended, pending etc *ALL*"
       artists = Artist.all
     when 'pending'
       @title = "Not yet activated artists"
-      artists = Artist.find(:all, :conditions => [ "state='pending'" ])
+      artists = Artist.pending.all
     when 'noprofile'
       @title = "Artists who haven't submitted a profile picture"
       artists = Artist.active.find(:all, :conditions => [ "profile_image is null" ])
@@ -108,14 +105,25 @@ class AdminController < ApplicationController
       artists = Artist.find(:all, :conditions => { :id => aids })
     else
       @emails = []
-      @msg = "What list did you want?"
+      @msg = "What list did you want?" if arg != 'activated'
       @title = "All Activated Artsts"
-      artists = Artist.find(:all, :conditions => [ "state='active'" ])
+      artists = Artist.active.all
     end
     @emails = []
     artists.each do |a|
       entry = { :id => a.id, :name => a.get_name, :email => a.email }
       @emails << entry
+    end
+    respond_to do |format|
+      format.html { render }
+      format.csv {
+        render_csv :filename => 'email' do |csv|
+          csv << ["First Name","Last Name","Full Name","Group Site Name","Studio Address","Studio Number","Email Address"]
+          artists.each do |artist|
+            csv << [ artist.csv_safe(:firstname), artist.csv_safe(:lastname), artist.get_name(true), artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, artist.email ]
+          end
+        end
+      }
     end
 
   end
