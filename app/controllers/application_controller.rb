@@ -211,8 +211,9 @@ class ApplicationController < ActionController::Base
       headers["Content-Type"] ||= 'text/csv'
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
     end
-    
+    p 'headers', headers
     render :text => Proc.new { |response, output|
+      p response.headers
       #monkey patch /duck typing. 2.3 rails ActionController::Response doesn't have <<, only write  
       def output.<<(*args)  
         write(*args)  

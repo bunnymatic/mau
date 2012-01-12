@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   include MailChimp
 
   named_scope :active, :conditions => ["users.state = 'active'"]
+  named_scope :pending, :conditions => ["users.state = 'pending'"]
   before_destroy do |user|
     fs = Favorite.artists.find_all_by_favoritable_id( user.id )
     fs.each { |f| f.delete }
@@ -195,16 +196,6 @@ class User < ActiveRecord::Base
       # if we have any issues, not admin
       false
     end 
-  end
-
-  def os2010?
-    osend = DateTime.new(2010,04,27)
-    self.artist_info.os2010 && (DateTime.now < osend)
-  end
-
-  def osoct2010?
-    osend = DateTime.new(2010,10,15)
-    self.artist_info.osoct2010 && (DateTime.now < osend)
   end
 
   def tags

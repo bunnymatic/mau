@@ -95,3 +95,9 @@ common:
    oslive: 201204
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2
+   open_studios_event_keys:
+      - 201004
+      - 201010
+      - 201104
+      - 201110
+      - 201204

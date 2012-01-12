@@ -27,8 +27,6 @@ class Artist < User
 
   [:representative_piece, 
    :bio, :bio=,
-   :os2010, 
-   :osoct2010,
    :facebook, :facebook=,
    :flickr, :flickr=,
    :twitter, :twitter=,
