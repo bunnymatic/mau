@@ -36,6 +36,60 @@ describe AdminController do
     end
   end
 
+  describe '#emaillist' do
+    before do
+      login_as(:admin)
+    end
+    describe 'html' do
+      describe 'without views' do
+        describe 'with no params' do
+          before do
+            get :emaillist
+          end
+          it 'returns success' do
+            response.should be_success
+          end
+          it 'assigns an error msg' do
+            assigns(:msg).should == 'What list did you want?'
+            assigns(:title).should == "All Activated Artsts"
+          end
+          it 'assigns list of artists emails' do
+            assigns(:emails).length.should == Artist.active.count
+          end
+        end
+        it 'assigns a list of fans emails when we ask for the fans list' do
+          get :emaillist, :listname => 'fans'
+          assigns(:emails).length.should == MAUFan.all.count
+        end
+        it 'assigns a list of pending artists emails when we ask for the pending list' do
+          get :emaillist, :listname => 'pending'
+          assigns(:emails).length.should == Artist.pending.count
+        end
+        Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+          it "assigns a list of os artists for #{ostag} when we ask for the #{ostag} list" do
+            get :emaillist, :listname => ostag
+            assigns(:emails).length.should == Artist.all.select{|a| a.os_participation[ostag]}.count
+          end
+        end
+      end
+    end
+    describe 'csv' do
+      before do 
+        get :emaillist, :format => :csv
+      end
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'should return a csv file' do
+        response.content_type.should == 'application/csv'
+      end
+      it 'returns a csv file' do
+        puts response.body
+        assert false
+      end
+    end
+  end
+  
   describe "#index" do
     describe 'without views' do
       before do
