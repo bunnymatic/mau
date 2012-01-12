@@ -80,13 +80,6 @@ describe AdminController do
       it 'returns success' do
         response.should be_success
       end
-      it 'should return a csv file' do
-        response.content_type.should == 'application/csv'
-      end
-      it 'returns a csv file' do
-        puts response.body
-        assert false
-      end
     end
   end
   

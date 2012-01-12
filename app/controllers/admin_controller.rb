@@ -66,7 +66,8 @@ class AdminController < ApplicationController
               [ :no_profile, 'Active with no profile image'],
               [ :no_images, 'Active with no artwork']
               ]
-    Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+    os_tags = Conf.open_studios_event_keys.map(&:to_s)
+    os_tags.each do |ostag|
       yr = ostag[0..3]
       mo = ostag[4..-1]
       seas = (mo == '10') ? 'Oct':'Apr'
@@ -74,40 +75,56 @@ class AdminController < ApplicationController
       @lists << [ ostag.to_sym, title ]
     end
 
-    case arg
-    when 'fans'
-      @title = "Fans"
-      artists = MAUFan.all
-    when *Conf.open_studios_event_keys.map(&:to_s)
-      yr = arg[0..3]
-      mo = arg[4..-1]
-      seas = (mo == '10') ? 'Oct':'Apr'
-      @title = "%s %s Participants" % [ seas, yr ]
-      artists = Artist.active.open_studios_participants(arg)
-    when 'accounts'
-      @title = "All Artist Accounts - active, suspended, pending etc *ALL*"
-      artists = Artist.all
-    when 'pending'
-      @title = "Not yet activated artists"
-      artists = Artist.pending.all
-    when 'noprofile'
-      @title = "Artists who haven't submitted a profile picture"
-      artists = Artist.active.find(:all, :conditions => [ "profile_image is null" ])
-    when 'noimages'
-      @title = "Artists who have not uploaded any images"
-      sql = ActiveRecord::Base.connection()
-      query = "select id from users where state='active' and id not in (select distinct artist_id from art_pieces);" 
-      cur = sql.execute query
-      aids = []
-      cur.each do |h|
-        aids << h[0]
+    if request.post? # or args contains an ostag key
+      for_title = []
+      tags = os_tags & params.keys()
+      artists = []
+      tags.each do |tag|
+        yr = tag[0..3]
+        mo = tag[4..-1]
+        seas = (mo == '10') ? 'Oct':'Apr'
+        for_title << '%s %s' % [seas, yr]
+        artists += Artist.active.open_studios_participants(tag)
       end
-      artists = Artist.find(:all, :conditions => { :id => aids })
+      artists.uniq!
+      @title = "OS Participants [#{for_title.join(', ')}]"
+      
     else
-      @emails = []
-      @msg = "What list did you want?" if arg != 'activated'
-      @title = "All Activated Artsts"
-      artists = Artist.active.all
+      case arg
+      when 'fans'
+        @title = "Fans"
+        artists = MAUFan.all
+      when *os_tags
+        yr = arg[0..3]
+        mo = arg[4..-1]
+        seas = (mo == '10') ? 'Oct':'Apr'
+        @title = "%s %s Participants" % [ seas, yr ]
+        artists = Artist.active.open_studios_participants(arg)
+      when 'accounts'
+        @title = "All Artist Accounts - active, suspended, pending etc *ALL*"
+        artists = Artist.all
+      when 'pending'
+        @title = "Not yet activated artists"
+        artists = Artist.pending.all
+      when 'noprofile'
+        @title = "Artists who haven't submitted a profile picture"
+        artists = Artist.active.find(:all, :conditions => [ "profile_image is null" ])
+      when 'noimages'
+        @title = "Artists who have not uploaded any images"
+        sql = ActiveRecord::Base.connection()
+        query = "select id from users where state='active' and id not in (select distinct artist_id from art_pieces);" 
+        cur = sql.execute query
+        aids = []
+        cur.each do |h|
+          aids << h[0]
+        end
+        artists = Artist.find(:all, :conditions => { :id => aids })
+      else
+        @emails = []
+        @msg = "What list did you want?" if arg != 'activated'
+        @title = "All Activated Artsts"
+        artists = Artist.active.all
+      end
     end
     @emails = []
     artists.each do |a|
