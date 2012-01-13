@@ -15,7 +15,7 @@
         %a#os_combo_link{:href => '#'} More OS Combos?
         #multi_form{:style => 'display:none;'}
           - form_tag do
-            - Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+            - Conf.open_studios_event_keys.map(&:to_s).reverse.each do |ostag|
               :ruby
                 yr = ostag[0..3]
                 mo = ostag[4..-1]

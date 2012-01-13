@@ -67,7 +67,7 @@ class AdminController < ApplicationController
               [ :no_images, 'Active with no artwork']
               ]
     os_tags = Conf.open_studios_event_keys.map(&:to_s)
-    os_tags.each do |ostag|
+    os_tags.reverse.each do |ostag|
       yr = ostag[0..3]
       mo = ostag[4..-1]
       seas = (mo == '10') ? 'Oct':'Apr'
