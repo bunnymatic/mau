@@ -1,13 +1,20 @@
 .admin-table#dashboard
   %h1 Dashboard
   %h2 Counts:
-  - [:total, :yesterday, :last_week, :last_30_days, :open_studios].each_with_index do |category, idx|
+  - [:total, :yesterday, :last_week, :last_30_days].each_with_index do |category, idx|
     - stats = @activity_stats[category]
     .section{:class => category}
       %h3 #{category.to_s.titleize}
       %ul
         - stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v| 
           %li #{"%s : %s" % [k.to_s.titleize,v]}
+  - category = :open_studios        
+  - stats = @activity_stats[category]
+  .section{:class => category}
+    %h3 #{category.to_s.titleize}
+    %ul
+      - stats.sort{|a,b| b.to_s <=> a.to_s }.each do |k,v| 
+        %li #{"%s : %s" % [k.to_s.titleize,v]}
   .clear
   %h2 Graphs:
   .graph.section

@@ -206,6 +206,11 @@ describe AdminController do
           assert_select '.section.%s' % sxn
         end
       end
+      it 'renders open studios info in reverse chrono order' do
+        css_select('.section.open_studios li').first.to_s.should match /2012 Apr/
+        css_select('.section.open_studios li').last.to_s.should match /2010 Apr/
+      end
+
     end
   end
   describe '#fans' do
