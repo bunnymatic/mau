@@ -88,6 +88,9 @@ describe AdminController do
           it 'returns success' do
             response.should be_success
           end
+          it 'shows the list selector' do
+            assert_select '.list_chooser'
+          end
           it 'shows the title and error block' do
             assert_select '.email_lists h4', "Activated [%s]" % Artist.active.count
           end
