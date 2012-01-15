@@ -16,55 +16,62 @@ describe ArtistsController do
   end
 
   describe "#index" do
-    integrate_views
-    before do 
-      get :index
-    end
-    it_should_behave_like 'one column layout'
-    it "returns success" do
-      response.should be_success
-    end
-    it "assigns artists" do
-      assigns(:artists).length.should have_at_least(2).artists
-    end
-    it "set the title" do 
-      assigns(:page_title).should == 'Mission Artists United - MAU Artists'
-    end
-    it "artists are all active" do
-      assigns(:artists).each do |a|
-        a.state.should == 'active'
+    describe 'html' do
+      integrate_views
+      before do 
+        get :index
       end
-    end
-    it "thumbs have representative art pieces in them" do
-      ct = 0
-      assigns(:artists).each do |a|
-        if a.representative_piece
-          ct+=1
-          path = a.representative_piece.filename
-          response.should have_tag(".allthumbs .thumb .thumb img[src*=#{path}]")
+      it_should_behave_like 'one column layout'
+      it "returns success" do
+        response.should be_success
+      end
+      it "assigns artists" do
+        assigns(:artists).length.should have_at_least(2).artists
+      end
+      it "set the title" do 
+        assigns(:page_title).should == 'Mission Artists United - MAU Artists'
+      end
+      it "artists are all active" do
+        assigns(:artists).each do |a|
+          a.state.should == 'active'
         end
       end
-      assert ct > 0, "we didn't have any representatives in the fixtures"
-    end
-  end
-  describe '#index .json' do
-    before do
-      get :index, :format => 'json', :suggest => 1, :input => 'jes'
-    end
-    it "returns success" do
-      response.should be_success
-    end
-    it 'returns a hash with a list of artists' do
-      j = JSON.parse(response.body)
-      j.should be_a_kind_of Array
-      (j.first.has_key? 'info').should be
-      (j.first.has_key? 'value').should be
-    end
-    it 'list of artists matches the input parameter (in this case "jes")' do
-      j = JSON.parse(response.body)
-      j.should be_a_kind_of Array
-      j.should have(1).artist_name
-      j.first['value'].should == 'jesse ponce'
+      it "thumbs have representative art pieces in them" do
+        ct = 0
+        with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}
+        assert(without_art.length >=1, 'Fixtures should include at least one activated artist without art')
+        assert(with_art.length >=1, 'Fixtures should include at least one activated artist with art')
+        assigns(:artists).each do |a|
+          response.should have_tag(".allthumbs .thumb .name", /#{a.name}/);
+        end
+        with_art.each do |a|
+          rep = a.representative_piece
+          response.should have_tag(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{a.representative_piece.filename}]")
+        end
+        without_art.each do |a|
+          response.should have_tag(".allthumbs .thumb .name", /#{a.name}/);
+        end
+      end
+      describe 'format=json' do
+        before do
+          get :index, :format => 'json', :suggest => 1, :input => 'jes'
+        end
+        it "returns success" do
+          response.should be_success
+        end
+        it 'returns a hash with a list of artists' do
+          j = JSON.parse(response.body)
+          j.should be_a_kind_of Array
+          (j.first.has_key? 'info').should be
+          (j.first.has_key? 'value').should be
+        end
+        it 'list of artists matches the input parameter (in this case "jes")' do
+          j = JSON.parse(response.body)
+          j.should be_a_kind_of Array
+          j.should have(1).artist_name
+          j.first['value'].should == 'jesse ponce'
+        end
+      end
     end
   end
 
@@ -237,7 +244,7 @@ describe ArtistsController do
       end
     end
   end
- 
+    
   describe "show" do
     integrate_views
 
@@ -548,7 +555,7 @@ describe ArtistsController do
       end
       it 'renders created_at date for all pending artists' do
         Artist.all.select{|s| s.state == 'pending'}.each do |a|
-          response.should have_tag('tr.pending td', /#{a.created_at.strftime("%m/%d/%y")}/)
+          response.should have_tag('tr.pending td', /#{a.created_at.strftime('%m/%d/%y')}/)
         end
       end
       it 'renders .participating rows for all pending artists' do
@@ -563,7 +570,6 @@ describe ArtistsController do
         response.should have_tag('.forgot_password_link', /http:\/\/#{Conf.site_url}\/reset\/#{users(:reset_password).reset_code}/)
       end
     end
-
   end
 
      
@@ -571,7 +577,7 @@ describe ArtistsController do
     describe 'collection paths' do
       [:destroyart, :arrangeart, :thumbs, :setarrangement, :deleteart].each do |path|
         it "should have #{path} as artists collection path" do
-          eval("%s_artists_path.should == '/artists/%s'" % [path,path])
+          eval('%s_artists_path.should == \'/artists/%s\'' % [path,path])
         end
       end
     end      

@@ -5,6 +5,15 @@ require 'yaml'
 alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
+  desc 'normalize passwords'
+  task :reset_passwords => [:environment] do
+    User.all.each do |u|
+      u.password = 'bmatic'
+      u.password_confirmation = 'bmatic'
+      u.save
+    end
+  end
+
   desc "Send twitter updates about artists who've updated their art today"
   task :tweetart => [:environment] do
     aps = ArtPiece.get_todays_art

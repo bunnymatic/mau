@@ -1758,6 +1758,11 @@ span.rightarrow
   .artp-thumb {
     font-size: 0;
     line-height:0;
+    &.no-art {
+      height: 100px;
+      width: 100px;
+    }
+
   }
   &.with-foot {
     margin-bottom: 20px;
@@ -2510,8 +2515,14 @@ form#feedback_form .error {
    map page
    **/
 .map-container { float: right; }
-.map-os-switch { font-size: 10px; float: left; margin-left: 5px; margin-bottom: 6px;}
-#all_artists_page .map-os-switch { float: left; }
+.map-os-switch { 
+  font-size: 10px; 
+  float: left; 
+  margin-bottom: 6px;
+}
+#all_artists_page .map-os-switch { 
+  float: left; 
+}
 
 .map-roster { 
   float: left; width: 190px; 

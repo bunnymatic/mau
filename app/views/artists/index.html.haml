@@ -6,5 +6,5 @@
     = render :partial => '/artists/view_switcher'
     = render :partial => '/pagination'
     .clear
-    = render :partial => '/artists/thumbs', :locals => { :pieces => @pieces, :params => { :cols => 7 }}
+    = render :partial => '/artists/thumbs', :locals => { :artists => @artists, :params => { :cols => 7 }}
     = render :partial => '/pagination'

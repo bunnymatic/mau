@@ -31,7 +31,7 @@
 		    <% if @artist.studio -%>
 		    <div><%= link_to @artist.studio.name, @artist.studio %></div>
    		    <div><%=h @artist.studio.street %> 
-		      <% if @artist.artist_info.studionumber -%>
+		      <% if @artist.artist_info.studionumber.present? -%>
                       <span>#<%=h @artist.artist_info.studionumber %></span>
                       <% end -%>
                       <% if !@artist.address_hash.empty? -%>
