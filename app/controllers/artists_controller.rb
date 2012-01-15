@@ -170,6 +170,7 @@ class ArtistsController < ApplicationController
       format.html {
         # collect query args to build links
         queryargs = {}
+        t = Time.now
         @os_only = is_os_only(params[:osonly])
         if @os_only
           artists = Artist.active.open_studios_participants.sort_by { |a| a.get_sort_name }
@@ -178,13 +179,13 @@ class ArtistsController < ApplicationController
         else
           artists = Artist.active.sort_by { |a| a.get_sort_name }
         end
-
+        dt = Time.now - t
+        logger.debug("Get Artists [%s ms]" % dt)
         nartists = artists.length
         curpage = params[:p] || 0
         curpage = curpage.to_i
         # build alphabetical list keyed by first letter
         @artists_by_name = {}
-        pieces = []
         
         vw = "gallery"
         queryargs["v"] = params[:v]
@@ -196,36 +197,19 @@ class ArtistsController < ApplicationController
         end
         @view_mode = vw
 
-        nltrs_for_link = 2
-        no_image_ct = 0
-        artists.each do |a|
-          artist_name = a.get_sort_name
-          ltr = artist_name[0].chr.upcase
-          if !@artists_by_name.has_key?(ltr)
-            @artists_by_name[ltr] = []
-          end
-          @artists_by_name[ltr].push(a)
-          piece = a.representative_piece
-          if piece == nil
-            no_image_ct += 1
-          else
-            piece['alpha'] = artist_name[0..nltrs_for_link-1].capitalize
-            pieces << piece
-          end
-        end
-        logger.debug("Found %d artists without any art" % no_image_ct)
         if vw == 'gallery'
-          npieces = pieces.length
-          lastpage = (npieces.to_f/@@PER_PAGE.to_f).floor
+          t = Time.now
+          lastpage = (nartists.to_f/@@PER_PAGE.to_f).floor
           curpage = [curpage, lastpage].min
-          @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, curpage, @@PER_PAGE)
-          @pieces.reverse!
+          @artists, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(artists, curpage, @@PER_PAGE)
+          # @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, curpage, @@PER_PAGE)
+          @artists.reverse!
           if curpage > lastpage
             curpage = lastpage
           elsif curpage < 0
             curpage = 0
           end
-          
+
           show_next = (curpage != lastpage)
           show_prev = (curpage > 0)
 
@@ -249,19 +233,18 @@ class ArtistsController < ApplicationController
 
           # compute text links
           @alpha_links = []
-          if pieces.length > 0
+          if artists.length > 0
             @last.times do |idx|
               firstidx = idx * @@PER_PAGE
-              lastidx = [ firstidx + @@PER_PAGE, pieces.length ].min - 1
-              firstltr = pieces[firstidx]['alpha']
-              lastltr = pieces[lastidx]['alpha']
+              lastidx = [ firstidx + @@PER_PAGE, artists.length ].min - 1
+              firstltr = artists[firstidx].lastname.capitalize[0..1]
+              lastltr = artists[lastidx].lastname.capitalize[0..1]
               lnktxt = "%s - %s" % [firstltr, lastltr]
               queryargs["p"] = idx
               @alpha_links << [lnktxt, HTMLHelper.queryencode(queryargs), curpage == idx ]
             end
           end
         end
-        @artists = artists
         @studio = nil
         @page_title = "Mission Artists United - MAU Artists"
         roster_args = {'v' => 'l'}
@@ -482,7 +465,7 @@ class ArtistsController < ApplicationController
     end
   end
   def sorted_by sort_column
-    @artists = Artist.active.find(:all, :order => sort_column).select{|a| a.representative_piece}
+    @artists = Artist.active.find(:all, :order => sort_column)
     respond_to do |format| 
       format.mobile { 
         render :layout => 'mobile', :template => 'artists/index.mobile'
@@ -505,7 +488,7 @@ class ArtistsController < ApplicationController
     else
       artist = safe_find_artist(params[:id])
       if artist && artist.suspended?
-        flash.now[:error] = "The artist '" + @artist.get_name(true) + "' is no longer with us."
+        flash.now[:error] = "The artist '" + artist.get_name(true) + "' is no longer with us."
         artist = nil
       end
     end
