@@ -1,4 +1,3 @@
-require 'memcache'
 require 'open-uri'
 require 'rss/2.0'
 require 'string_helpers'

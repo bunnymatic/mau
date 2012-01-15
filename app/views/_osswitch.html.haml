@@ -4,9 +4,9 @@
       - if params.present?
         - params.each do |k,v|
           - if !['osonly', 'all'].include? k
-            %input{:name => k, :id => k, :type => 'hidden', :value => v}
+            %input{:name => k, :id => 'os_only_switch', :type => 'hidden', :value => v}
       - if @os_only
         %input#map_cb{:name => 'all', :type => 'checkbox', :checked => 'checked'}
       - else
         %input#map_cb{:name => 'osonly', :type => 'checkbox'}
-      (showing only open studios artists)
+      %label{:for => "map_cb"} (showing only open studios artists)

@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe StudiosController do
 
-  fixtures :users, :studios
+  fixtures :users, :studios, :artist_infos, :art_pieces
 
   describe "#index" do
     context "while not logged in" do
@@ -67,31 +67,46 @@ describe StudiosController do
     end
   end
   
-  describe "#show by id" do
+  describe "#show" do
     integrate_views
-    before do
-      get :show, :id => studios(:as).id
+    describe 'individual studio' do
+      before do
+        get :show, :id => studios(:as).id
+      end
+      it "last studio should be independent studios" do
+        assigns(:studios).last.name.should == 'Independent Studios'
+      end
+      it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
+        s = assigns(:studios)
+        s.pop
+        s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
+      end
+      it "studio url is a link" do
+        response.should have_tag("div.url a[href=#{studios(:as).url}]")
+      end
+      it "studio includes cross street if there is one" do
+        Studio.any_instance.stubs(:cross_street => 'fillmore')
+        get :show, :id => studios(:as).id
+        response.should have_tag('.address', /\s+fillmore/)
+      end
+      it "studio info includes a phone if there is one" do
+        Studio.any_instance.stubs(:phone => '1234569999')
+        get :show, :id => studios(:as).id
+        response.should have_tag('.phone', :text => '(123) 456-9999')
+      end
     end
-    it "last studio should be independent studios" do
-      assigns(:studios).last.name.should == 'Independent Studios'
-    end
-    it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
-      s = assigns(:studios)
-      s.pop
-      s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
-    end
-    it "studio url is a link" do
-      response.should have_tag("div.url a[href=#{studios(:as).url}]")
-    end
-    it "studio includes cross street if there is one" do
-      Studio.any_instance.stubs(:cross_street => 'fillmore')
-      get :show, :id => studios(:as).id
-      response.should have_tag('.address', /\s+fillmore/)
-    end
-    it "studio info includes a phone if there is one" do
-      Studio.any_instance.stubs(:phone => '1234569999')
-      get :show, :id => studios(:as).id
-      response.should have_tag('.phone', :text => '(123) 456-9999')
+    Studio.all.each do |s|
+      describe "studio fixture #{s.name}" do
+        before do
+          get :show, :id => s.id
+        end
+        it 'get\'s a list of active artists with art' do
+        assigns(:artists).map(&:id).should == s.artists.active.select{|a| a.representative_piece}.map(&:id)
+        end
+        it 'get\'s a list of active artists with no art' do
+          assigns(:other_artists).map(&:id).should == s.artists.active.select{|a| !a.representative_piece}.map(&:id)
+        end
+      end
     end
   end    
 end

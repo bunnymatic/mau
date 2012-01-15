@@ -27,23 +27,11 @@ class ArtistInfo < ActiveRecord::Base
   end
 
   def representative_piece
-    pc = self.representative_pieces
-    if pc and pc.length 
-      return pc[0]
-    end
-    nil
+    self.artist.art_pieces.first
   end
 
   def representative_pieces(n=1)
-    aps = []
-    ap = self.artist.art_pieces
-    if ap.empty?
-      return nil
-    else
-      len = ap.length
-      num = [n, len].min
-      ap[0..num-1]
-    end
+    ap = self.artist.art_pieces[0..n-1]
   end
 
   protected

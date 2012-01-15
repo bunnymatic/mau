@@ -47,9 +47,9 @@
 	</div>
 	<div class="clear"><!-- pushes thumbnails below the floating img --></div>
 	<div><!-- leave here to avoid collapsing margins -->
-	  <% if @pieces and @pieces.length > 0 -%>
+	  <% if @artists.present? %>
 	  <div class="div-left">Artists:</div>
-	  <%= render :partial => '/artists/thumbs', :locals => { :pieces => @pieces, :params => { :cols => 5 }} %>
+	  <%= render :partial => '/artists/thumbs', :locals => { :artists => @artists, :params => { :cols => 5 }} %>
 	  <% end -%>
 	  <% if @other_artists.length > 0 -%>
 	  <div class="studio-memberlist">
