@@ -93,26 +93,18 @@ class StudiosController < ApplicationController
       return
     end
     @selected_studio = @studio.id
-    @pieces = []
+    @artists = []
     @other_artists = []
     @page_title = "Mission Artists United - Studio: %s" % @studio.name
     unless @_ismobile
-      @studio.artists.active.each do |a|
-        if a.active?
-          if a.representative_piece
-            @pieces << a.representative_piece
-          else
-            @other_artists << a
-          end
-        end
-      end
+      @artists, @other_artists = @studio.artists.active.partition{|a| a.representative_piece}
     else
       @page_title = "Studio: " + @studio.name
     end
 
     @other_artists.sort! { |a,b| a.lastname <=> b.lastname }
     @admin = logged_in? && current_user.is_admin?
-    logger.debug("StudiosController: found %d pieces to show" % @pieces.length)
+    logger.debug("StudiosController: found %d artists to show" % @artists.length)
     respond_to do |format|
       format.html { render :layout => 'mau' }
       format.mobile { render :layout => 'mobile' }
