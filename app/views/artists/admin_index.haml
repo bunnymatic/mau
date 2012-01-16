@@ -26,6 +26,9 @@
       %input{:type => 'checkbox', :value => 'pending', :id => 'hide_pending'}
       %label{:for => 'hide_pending'} pending
     .row-info
+      %input{:type => 'checkbox', :value => 'suspended', :id => 'hide_suspended'}
+      %label{:for => 'hide_suspended'} suspended
+    .row-info
       %input{:type => 'checkbox', :value => 'participating', :id => 'participating'}
       %label{:for => 'participating'} signed up for OS
 
@@ -39,8 +42,7 @@
     :ruby
       classes = []
       classes << (((idx%2)==0) ? 'even':'odd')
-      classes << 'pending' if a.state=='pending'
-      classes << 'active' if a.state=='active'
+      classes << a.state
       classes << 'participating' if a.os_participation['201204']
     %tr{:class => classes.join(' ')}
       %td.admin_artist_name

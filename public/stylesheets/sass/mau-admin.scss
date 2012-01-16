@@ -1,4 +1,5 @@
 @import 'mau-mixins';
+
 body.admin {
   .chunk {
     float: left; 
@@ -87,6 +88,19 @@ body.admin {
   }
   tr.pending {
     color: pink;
+    td {
+      input[type=checkbox] {
+        display:none;
+      }
+    }
+  }
+  tr.suspended, tr.deleted {
+    color: #743;
+    td {
+      input[type=checkbox] {
+        display:none;
+      }
+    }
   }
   margin-top: 40px;
   font-size: 85%;
