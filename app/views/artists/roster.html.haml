@@ -1,0 +1,26 @@
+#all_artists_page.roster-container
+  %h4 
+    MAU Artists
+  = render :partial => '/osswitch', :locals => { :params => @inparams}
+  = render :partial => '/artists/view_switcher'
+  .clear
+  .roster  
+    :ruby 
+       num_cols = 5 
+       per_col = 20
+       cols = 0 
+       first = 0
+       last = per_col - 1
+    - begin   
+      - if (cols > 0) && ((cols % num_cols) == 0)
+        .clear
+      .chunk
+        - @artists[first..last].each do |a|
+          .name 
+            = link_to a.get_name(true), a
+      :ruby 
+        first += per_col
+        last += per_col
+        cols += 1
+    - end while first < @artists.length
+  .clear

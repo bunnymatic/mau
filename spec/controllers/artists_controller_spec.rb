@@ -74,7 +74,27 @@ describe ArtistsController do
       end
     end
   end
-
+  describe 'roster view' do
+    integrate_views
+    before do
+      get :index, :v => 'l'
+    end
+    it_should_behave_like 'one column layout'
+    it "returns success" do
+      response.should be_success
+    end
+    it "assigns artists" do
+      assigns(:artists).length.should have_at_least(2).artists
+    end
+    it "set the title" do 
+      assigns(:page_title).should == 'Mission Artists United - MAU Artists'
+    end
+    it "artists are all active" do
+      assigns(:artists).each do |a|
+        a.state.should == 'active'
+      end
+    end
+  end
   describe "#update" do
     integrate_views
     before(:each) do
