@@ -33,7 +33,6 @@ MAUAdmin =  window.MAUAdmin || {};
       });
     });
     $$('button.update-artists').each(function(el) {
-      MAU.log('bind to ', el);
       el.observe('click', function() {
 	var oss = $$('.spring2012');
 	var cbs = $$('.cbspring2012');
@@ -67,14 +66,17 @@ MAUAdmin =  window.MAUAdmin || {};
       });
     });
 
-    $('os_combo_link').observe('click', function() {
-      var $frm = $('multi_form');
-      if (!$frm.visible()) {
-        $frm.slideDown();
-      } else {
-        $frm.slideUp();
-      }
-    });
+    var oscombo = $('os_combo_link');
+    if (oscombo) {
+        oscombo.observe('click', function() {
+          var $frm = $('multi_form');
+          if (!$frm.visible()) {
+            $frm.slideDown();
+          } else {
+            $frm.slideUp();
+          }
+        });
+    };
 
   };
   Event.observe(window,'load',M.init);
