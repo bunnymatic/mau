@@ -189,7 +189,6 @@ class ArtistsController < ApplicationController
         
         vw = "gallery"
         queryargs["v"] = params[:v]
-        
         if params[:v] == 'l'
           vw = 'list'
         end
@@ -202,7 +201,6 @@ class ArtistsController < ApplicationController
           lastpage = (nartists.to_f/@@PER_PAGE.to_f).floor
           curpage = [curpage, lastpage].min
           @artists, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(artists, curpage, @@PER_PAGE)
-          # @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, curpage, @@PER_PAGE)
           @artists.reverse!
           if curpage > lastpage
             curpage = lastpage
@@ -262,6 +260,7 @@ class ArtistsController < ApplicationController
         @inparams.delete('action')
         @inparams.delete('controller')
         if vw == "list"
+          @artists = artists
           render :action => 'roster', :layout => 'mau1col'
         else
           render :action => 'index', :layout => 'mau1col'
