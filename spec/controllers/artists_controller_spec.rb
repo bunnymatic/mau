@@ -573,6 +573,12 @@ describe ArtistsController do
       it 'renders .pending rows for all pending artists' do
         response.should have_tag('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
       end
+      it 'renders .suspended rows for all suspended artists' do
+        response.should have_tag('tr.suspended', :count => Artist.all.select{|s| s.state == 'suspended'}.count)
+      end
+      it 'renders .deleted rows for all deleted artists' do
+        response.should have_tag('tr.deleted', :count => Artist.all.select{|s| s.state == 'deleted'}.count)
+      end
       it 'renders created_at date for all pending artists' do
         Artist.all.select{|s| s.state == 'pending'}.each do |a|
           response.should have_tag('tr.pending td', /#{a.created_at.strftime('%m/%d/%y')}/)
