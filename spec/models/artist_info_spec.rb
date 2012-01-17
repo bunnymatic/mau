@@ -23,6 +23,19 @@ describe ArtistInfo do
       a.representative_piece.should == a.artist.art_pieces[0]
       a.representative_piece.should == a.representative_pieces(1)[0]
     end
+    it 'calls Cache.write if Cache.read returns nil' do
+      a = artist_infos(:artist1)
+      ap = users(:artist1).art_pieces[0]
+      Rails.cache.stubs(:read).returns(nil)
+      Rails.cache.expects(:write).with('ai_rep%s' % a.id, ap)
+      a.representative_piece
+    end    
+    it 'doesn\'t calls Cache.write if Cache.read returns something' do
+      a = artist_infos(:artist1)
+      Rails.cache.stubs(:read).returns(users(:artist1).art_pieces[0])
+      Rails.cache.expects(:write).never
+      a.representative_piece
+    end    
   end
   describe 'representative pieces' do
     it 'returns nil if there are no art pieces' do
