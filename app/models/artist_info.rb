@@ -7,6 +7,8 @@ class ArtistInfo < ActiveRecord::Base
 
   include AddressMixin
 
+  @@CACHE_KEY = 'ap_rep'
+
   def os_participation
     if self.open_studios_participation.blank? || !Conf.oslive
       {}
@@ -27,7 +29,13 @@ class ArtistInfo < ActiveRecord::Base
   end
 
   def representative_piece
-    self.artist.art_pieces.first
+    cache_key = "%s%s" % [@@CACHE_KEY, self.id]
+    piece = Rails.cache.read(cache_key)
+    if piece.nil?
+      piece = self.artist.art_pieces.first
+      Rails.cache.write(cache_key, piece)
+    end
+    return piece
   end
 
   def representative_pieces(n=1)
