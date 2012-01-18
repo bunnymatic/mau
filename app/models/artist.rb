@@ -98,14 +98,14 @@ class Artist < User
   end
 
   def representative_piece
-    return self.art_pieces.first
-#     cache_key = "%s%s" % [CACHE_KEY, self.id]
-#     piece = Rails.cache.read(cache_key)
-#     if piece.nil?
-#       logger.debug('cache miss');
-#       Rails.cache.write(cache_key, piece, :expires_in => 0) unless piece.nil?
-#     end
-#     piece
+    cache_key = "%s%s" % [CACHE_KEY, self.id]
+    piece = Rails.cache.read(cache_key)
+    if piece.nil?
+      logger.debug('cache miss');
+      piece = self.art_pieces.first
+      Rails.cache.write(cache_key, piece, :expires_in => 0) unless piece.nil?
+    end
+    piece
   end
 
   def representative_pieces(n)
