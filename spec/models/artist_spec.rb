@@ -15,7 +15,9 @@ end
 describe Artist do
   include ArtistSpecHelper
   fixtures :users, :artist_infos, :studios, :art_pieces
-
+  before do
+    Rails.cache.stubs(:read).returns(nil)
+  end
   describe "create" do
     describe 'auth helpers' do
       describe "make token " do

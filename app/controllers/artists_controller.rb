@@ -181,7 +181,6 @@ class ArtistsController < ApplicationController
         end
         dt = Time.now - t
         logger.debug("Get Artists [%s ms]" % dt)
-        nartists = artists.length
         curpage = params[:p] || 0
         curpage = curpage.to_i
         # build alphabetical list keyed by first letter
@@ -198,6 +197,8 @@ class ArtistsController < ApplicationController
 
         if vw == 'gallery'
           t = Time.now
+          artists.reject!{|a| !a.representative_piece}
+          nartists = artists.length
           lastpage = (nartists.to_f/@@PER_PAGE.to_f).floor
           curpage = [curpage, lastpage].min
           @artists, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(artists, curpage, @@PER_PAGE)

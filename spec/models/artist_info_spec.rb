@@ -24,11 +24,12 @@ describe ArtistInfo do
       a.representative_piece.should == a.representative_pieces(1)[0]
     end
     it 'calls Cache.write if Cache.read returns nil' do
+      ap = ArtPiece.find_by_artist_id(users(:artist1).id)
       a = artist_infos(:artist1)
-      ap = users(:artist1).art_pieces[0]
       Rails.cache.stubs(:read).returns(nil)
-      Rails.cache.expects(:write).with('ai_rep%s' % a.id, ap)
-      a.representative_piece
+      Rails.cache.expects(:write).once
+      Artist.any_instance.stubs(:art_pieces).returns([ap])
+      a.artist.representative_piece
     end    
     it 'doesn\'t calls Cache.write if Cache.read returns something' do
       a = artist_infos(:artist1)
