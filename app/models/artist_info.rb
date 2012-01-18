@@ -32,13 +32,14 @@ class ArtistInfo < ActiveRecord::Base
     cache_key = "%s%s" % [@@CACHE_KEY, self.id]
     piece = Rails.cache.read(cache_key)
     if piece.nil?
+      logger.debug('cache miss');
       piece = self.artist.art_pieces.first
-      Rails.cache.write(cache_key, piece)
+      Rails.cache.write(cache_key, piece, :expires_in => 0)
     end
-    return piece
+    piece
   end
 
-  def representative_pieces(n=1)
+  def representative_pieces(n)
     ap = self.artist.art_pieces[0..n-1]
   end
 
