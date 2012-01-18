@@ -26,14 +26,6 @@ class ArtistInfo < ActiveRecord::Base
     self.open_studios_participation = current.keys.join('|')
   end
 
-  def representative_piece
-    self.artist.art_pieces.first
-  end
-
-  def representative_pieces(n=1)
-    ap = self.artist.art_pieces[0..n-1]
-  end
-
   protected
     def compute_geocode
       # use artist's address

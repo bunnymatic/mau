@@ -2,7 +2,9 @@ class Artist < User
   BOUNDS = { 'NW' => [ 37.76978184422388, -122.42683410644531 ],
     'NE' => [ 37.76978184422388, -122.40539789199829 ],
     'SW' => [ 37.747787573475506, -122.42919445037842 ],
-    'SE' => [ 37.74707496171992, -122.40539789199829 ] }
+    'SE' => [ 37.74707496171992, -122.40539789199829 ] 
+  } if !defined? BOUNDS
+  CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
 
   include AddressMixin
   named_scope :open_studios_participants, lambda { |*oskey| 
@@ -25,8 +27,7 @@ class Artist < User
 
   before_create :make_activation_code
 
-  [:representative_piece, 
-   :bio, :bio=,
+  [:bio, :bio=,
    :facebook, :facebook=,
    :flickr, :flickr=,
    :twitter, :twitter=,
@@ -94,6 +95,21 @@ class Artist < User
     sorted = freq.sort{|a,b| b[1] <=> a[1]}.map{|f| [Medium.find(f[0]), f[1]]}
       
     sorted[0][0]
+  end
+
+  def representative_piece
+    cache_key = "%s%s" % [CACHE_KEY, self.id]
+    piece = Rails.cache.read(cache_key)
+    if piece.nil?
+      logger.debug('cache miss');
+      piece = self.art_pieces.first
+      Rails.cache.write(cache_key, piece, :expires_in => 0)
+    end
+    piece
+  end
+
+  def representative_pieces(n)
+    ap = self.art_pieces[0..n-1]
   end
 
   protected

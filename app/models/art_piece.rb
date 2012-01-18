@@ -7,6 +7,7 @@ class ArtPiece < ActiveRecord::Base
   has_many :art_pieces_tags
   has_many :art_piece_tags, :through => :art_pieces_tags
 
+  after_save :clear_representative_piece_cache
   default_scope :order => '`order`'
 
   validates_presence_of     :title
@@ -62,5 +63,11 @@ class ArtPiece < ActiveRecord::Base
     today = Time.now
     yesterday = (today - 24.days)
     ArtPiece.find(:all, :conditions => ['created_at > ? and created_at < ?', yesterday, today])
+  end
+  
+  def clear_representative_piece_cache
+    if self.artist && self.artist.id != nil?
+      Rails.cache.delete("%s%s" % [Artist::CACHE_KEY, self.artist.id])
+    end
   end
 end
