@@ -1,10 +1,9 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau.css?<%= @version %>" />
-	<% if @_ie -%>
+<!--[if lte IE 9]>
 	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie.css?<%= @version %>" />
-	<% end -%>
-	<% if @_ie7 -%>
-	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie7.css?<%= @version %>" />
-	<% end -%>
+<![endif]-->
+<!--[if lte IE 7]>
+	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-ie7.css?<%= @version %>" />	<![endif]-->
 	<% if @_safari -%>
 	<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/mau-safari.css?<%= @version %>" />
 	<% end -%>
