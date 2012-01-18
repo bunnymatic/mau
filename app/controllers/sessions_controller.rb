@@ -17,8 +17,8 @@ class SessionsController < ApplicationController
 
   def create
     respond_to do |fmt|
-      fmt.mobile { redirect_to "/" }
       fmt.html {
+        logger.debug('html session create')
         logout_keeping_session!
 
         # try finding artist by email
@@ -56,6 +56,7 @@ class SessionsController < ApplicationController
           render :action => 'new'
         end
       }
+      fmt.mobile { redirect_to "/" }
     end
   end
   def destroy
