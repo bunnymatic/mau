@@ -17,42 +17,6 @@ describe ArtistInfo do
 
   fixtures :artist_infos, :users, :art_pieces
 
-  describe 'representative piece' do
-    it 'is the first returned by art_pieces' do
-      a = artist_infos(:artist1)
-      a.representative_piece.should == a.artist.art_pieces[0]
-      a.representative_piece.should == a.representative_pieces(1)[0]
-    end
-    it 'calls Cache.write if Cache.read returns nil' do
-      ap = ArtPiece.find_by_artist_id(users(:artist1).id)
-      a = artist_infos(:artist1)
-      Rails.cache.stubs(:read).returns(nil)
-      Rails.cache.expects(:write).once
-      Artist.any_instance.stubs(:art_pieces).returns([ap])
-      a.artist.representative_piece
-    end    
-    it 'doesn\'t calls Cache.write if Cache.read returns something' do
-      a = artist_infos(:artist1)
-      Rails.cache.stubs(:read).returns(users(:artist1).art_pieces[0])
-      Rails.cache.expects(:write).never
-      a.representative_piece
-    end    
-  end
-  describe 'representative pieces' do
-    it 'returns nil if there are no art pieces' do
-      a = artist_infos(:badname)
-      a.representative_pieces(20).should be_empty
-    end
-    it 'is the list of art pieces' do
-      a = artist_infos(:artist1)
-      a.representative_pieces(3).should == a.artist.art_pieces[0..2]
-    end
-    it 'returns only as many pieces as the artist has' do
-      a = artist_infos(:artist1)
-      assert(a.artist.art_pieces.count <= 1000)
-      a.representative_pieces(1000).should == a.artist.art_pieces
-    end
-  end
   describe 'address mixin' do 
     it "responds to address" do
       artist_infos(:joeblogs).should respond_to :address
