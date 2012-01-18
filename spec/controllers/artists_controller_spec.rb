@@ -36,10 +36,13 @@ describe ArtistsController do
           a.state.should == 'active'
         end
       end
+      it 'shows no artists without a representative piece' do
+        with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}
+        without_art.length.should == 0
+      end
       it "thumbs have representative art pieces in them" do
         ct = 0
         with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}
-        assert(without_art.length >=1, 'Fixtures should include at least one activated artist without art')
         assert(with_art.length >=1, 'Fixtures should include at least one activated artist with art')
         assigns(:artists).each do |a|
           response.should have_tag(".allthumbs .thumb .name", /#{a.name}/);
@@ -405,7 +408,7 @@ describe ArtistsController do
     end
     it "most recently uploaded piece is the representative" do
       a = Artist.find_by_id(@artist.id)
-      a.artist_info.representative_piece.title.should == "third"
+      a.representative_piece.title.should == "third"
     end
 
     it "returns art_pieces in created time order" do

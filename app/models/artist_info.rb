@@ -7,8 +7,6 @@ class ArtistInfo < ActiveRecord::Base
 
   include AddressMixin
 
-  @@CACHE_KEY = 'ap_rep'
-
   def os_participation
     if self.open_studios_participation.blank? || !Conf.oslive
       {}
@@ -26,21 +24,6 @@ class ArtistInfo < ActiveRecord::Base
     current.merge!(os)
     current.delete_if{ |k,v| !(v=='true' || v==true || v=='on' || v=='1' || v==1) }
     self.open_studios_participation = current.keys.join('|')
-  end
-
-  def representative_piece
-    cache_key = "%s%s" % [@@CACHE_KEY, self.id]
-    piece = Rails.cache.read(cache_key)
-    if piece.nil?
-      logger.debug('cache miss');
-      piece = self.artist.art_pieces.first
-      Rails.cache.write(cache_key, piece, :expires_in => 0)
-    end
-    piece
-  end
-
-  def representative_pieces(n)
-    ap = self.artist.art_pieces[0..n-1]
   end
 
   protected
