@@ -103,7 +103,7 @@ class Artist < User
     if piece.nil?
       logger.debug('cache miss');
       piece = self.art_pieces.first
-      Rails.cache.write(cache_key, piece, :expires_in => 0)
+      Rails.cache.write(cache_key, piece, :expires_in => 0) unless piece.nil?
     end
     piece
   end
