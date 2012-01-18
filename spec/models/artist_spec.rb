@@ -273,14 +273,21 @@ describe Artist do
       Rails.cache.stubs(:read).returns(nil)
       Rails.cache.expects(:write).once
       Artist.any_instance.stubs(:art_pieces).returns([ap])
-      a.representative_piece
+      a.representative_piece.should == ap
     end    
-    it 'doesn\'t calls Cache.write if Cache.read returns something' do
+    it 'doesn\'t call Cache.write if Cache.read returns something' do
       a = users(:artist1)
       Rails.cache.stubs(:read).returns(users(:artist1).art_pieces[0])
       Rails.cache.expects(:write).never
       a.representative_piece
     end    
+    it 'doesn\'t call Cache.write if there are no art pieces' do
+      a = users(:artist1)
+      Rails.cache.stubs(:read).returns(nil)
+      Rails.cache.expects(:write).never
+      Artist.any_instance.stubs(:art_pieces).returns([])
+      a.representative_piece.should == nil
+    end
   end
   describe 'representative pieces' do
     it 'returns nil if there are no art pieces' do

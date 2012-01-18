@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + "/../spec_helper"
 
 describe ArtistsHelper do
-  fixtures :users, :studios, :artist_infos
+  fixtures :users, :studios, :artist_infos, :art_pieces
   describe "#get_map_info" do
     describe "for artist with group studio" do
       before do
