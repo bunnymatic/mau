@@ -4,7 +4,7 @@ class SearchController < ApplicationController
   layout 'mau2col'
 
   @@CACHE_EXPIRY = (Conf.cache_expiry['search'] or 20)
-  @@QUERY_KEY_PREFIX = (Conf.cache_ns or '') + "q:"
+  @@QUERY_KEY_PREFIX = "q:"
   @@PER_PAGE = 12
 
   def index

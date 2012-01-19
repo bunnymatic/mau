@@ -5,7 +5,6 @@ test:
    site_url: localhost:3000
    cache_server: localhost:11211
    image_servers: 
-   cache_ns: tst
    feedback_emails: 
    mailchimp_api_key: bogus-key
    oslive: 201110
@@ -14,7 +13,6 @@ ub:
    site_url: localhost:3000
    cache_server: localhost:11211
    image_servers: 
-   cache_ns: ub
    cache_expiry:
        feed: 5
        search: 20
@@ -27,7 +25,6 @@ local:
    site_url: localhost:3000
    cache_server: localhost:11211
    image_servers: 
-   cache_ns: lcl
    cache_expiry:
        feed: 20
        search: 20
@@ -40,7 +37,6 @@ development:
    site_url: artistsdev.missionartistsunited.org
    cache_server: localhost:11211
    image_servers: 
-   cache_ns: dev
    cache_expiry:
        feed: 300
        search: 20
@@ -59,7 +55,6 @@ production:
    image_servers: 
       - http://img1.missionartistsunited.org
       - http://img2.missionartistsunited.org
-   cache_ns: 
    cache_expiry:
        feed: 3600
        search: 300
@@ -67,8 +62,6 @@ production:
        media_frequency: 3600
        tag_frequency: 3600
 
-#     - feed: http://twitter.com/statuses/user_timeline/56806324.json
-#       url: http://twitter.com/SevillaGranger 
 common:
    feedback_emails:
       - feedback@missionartistsunited.org
