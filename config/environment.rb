@@ -46,7 +46,7 @@ Rails::Initializer.run do |config|
   config.active_record.observers = :art_piece_observer, :user_observer
 
   # Use the memcached store with an options hash
-  config.cache_store = :mem_cache_store, { :namespace => 'mau'}
+  config.cache_store = :mem_cache_store, { :namespace => 'maudev'}
 
 end
 
