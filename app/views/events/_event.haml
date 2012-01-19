@@ -1,11 +1,13 @@
 %a{:name => event.id}
+- event_classes = [event.publish ? 'published':'unpublished']
 - if event.in_progress?
-  - clz = 'in_progress'
+  - event_classes << 'in_progress'
 - if event.future?
-  - clz = 'future'
+  - event_classes << 'future'
 - if event.past?
-  - clz = 'past'
-.event{:class => clz, :style => ((event.in_progress? && !@_ismobile) ? 'display:none' : '')}
+  - event_classes << 'past'
+
+.event{:class => event_classes.join(' '), :style => ((event.in_progress? && !@_ismobile) ? 'display:none' : '')}
   .title
     #{event.title}
   .info 
