@@ -9,8 +9,7 @@ class FeedsController < ApplicationController
   include FeedsHelper
 
   @@CACHE_EXPIRY = (Conf.cache_expiry['feed'] or 4000)
-  @@FEEDS_KEY = (Conf.cache_ns or '') + 'sb-feeds'
-  @@FEED_KEY = (Conf.cache_ns or '') + 'sb-feed'
+  @@FEEDS_KEY = 'sb-feeds'
   @@NUM_FEEDS = 4
 
   @@CACHED_FEEDS_FILE = '_cached_feeds.html'
