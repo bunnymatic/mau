@@ -1,3 +1,4 @@
+
 - event_classes = [event.publish ? 'published':'unpublished']
 - if event.in_progress?
   - event_classes << 'in_progress'
@@ -9,8 +10,11 @@
 .event{:class => event_classes.join(' ')}
   .title 
     #{event.title}
+  .info 
     .time #{EventsHelper::event_time(event)}
-    .reception_time #{EventsHelper::reception_time(event)}
+
+    .reception_time Reception: #{EventsHelper::reception_time(event)}
+
   
   .venue
     .name #{event.venue}
@@ -19,7 +23,8 @@
       - txt = [address_hash[:street], address_hash[:city]]
       - txt << address_hash[:state] if address_hash[:state].downcase != 'ca'
       - txt << address_hash[:zip] if address_hash[:zip] != '94110'
-      = txt.join ' '
+      - txt.each do |item|
+        %span.nobr #{item}
       .maplink 
         %a{:target => '_blank', :href => event.map_link} (map)
   .clear        
@@ -27,10 +32,13 @@
   .url
     - if event.url.present?
       Event Website:
-      - url = event.url
-      - unless /http[s?]:\/\// =~ event.url
-        - url = 'http://' + event.url
-      %a{:href => url} #{event.url}
+      :ruby 
+        url = event.url
+        display = event.url.gsub(/^https?:\/\//, '')
+        unless /^https?:\/\// =~ url
+          url = 'http://' + event.url
+        end         
+      %a{:href => url} #{display}
     .ctrls
       - if event.publish
         = link_to 'unpublish', unpublish_event_path(event)

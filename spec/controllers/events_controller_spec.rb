@@ -166,6 +166,7 @@ describe EventsController do
   describe '#admin_index' do
     integrate_views
     before do
+      Event.any_instance.stubs(:description => "# header\n\n##header2\n\n*doit*")
       login_as(:admin)
       get :admin_index
     end
@@ -181,6 +182,21 @@ describe EventsController do
     it 'shows unpublish buttons for published events' do
       assert_select("a[href=#{unpublish_event_path(Event.published.first)}]")
     end
+    it 'runs markdown on event description' do
+      response.should have_tag('.desc h1', 'header')
+      response.should have_tag('.desc h2', 'header2')
+      response.should have_tag('.desc em', 'doit')
+    end
+    it 'makes sure the url includes http for the link' do
+      response.should have_tag('.url a[href=http://url.com]', 'url.com')
+    end
+    it 'makes sure the url includes http for the links that don\'t start with http' do
+      response.should have_tag('.url a[href=http://url.com]', 'url.com')
+    end
+    it 'makes sure the url includes http for the links that do start with http' do
+      response.should have_tag('.url a[href=http://www.example.com]', 'www.example.com')
+    end
+      
   end
 
   describe '#create' do
