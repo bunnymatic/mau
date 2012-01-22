@@ -42,11 +42,6 @@ class FeedsController < ApplicationController
     end
     begin
       cached_html = Rails.cache.read(@@FEEDS_KEY)
-      if !cached_html or cached_html.empty?
-        logger.info("FeedController: cache miss\n")
-      else
-        logger.info("FeedController: fetched feeds from cache\n")
-      end
     rescue TypeError
       Rails.cache.delete(@@FEEDS_KEY)
     rescue Exception => ex
@@ -54,7 +49,6 @@ class FeedsController < ApplicationController
       logger.error(ex)
     end
     if !cached_html.present?
-      logger.info("FeedController: fetch feeds\n")
       feedurls = []
       # pairs here are the feed url and the link url
 
@@ -71,7 +65,6 @@ class FeedsController < ApplicationController
         allfeeds += fetch_and_format_feed(ff.feed, ff.url, {:numentries => numentries})
       end
       begin
-        logger.info("FeedController: add feed to cache(expiry %d)" % @@CACHE_EXPIRY)
         Rails.cache.write(@@FEEDS_KEY, allfeeds, :expires_in => @@CACHE_EXPIRY)
       rescue Exception => ex
         logger.error("FeedController: failed to add to the cache")
