@@ -45,14 +45,14 @@ describe ArtistsController do
         with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}
         assert(with_art.length >=1, 'Fixtures should include at least one activated artist with art')
         assigns(:artists).each do |a|
-          response.should have_tag(".allthumbs .thumb .name", /#{a.name}/);
+          assert_select(".allthumbs .thumb .name", /#{a.name}/);
         end
         with_art.each do |a|
           rep = a.representative_piece
-          response.should have_tag(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{a.representative_piece.filename}]")
+          assert_select(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{a.representative_piece.filename}]")
         end
         without_art.each do |a|
-          response.should have_tag(".allthumbs .thumb .name", /#{a.name}/);
+          assert_select(".allthumbs .thumb .name", /#{a.name}/);
         end
       end
       describe 'format=json' do
@@ -77,7 +77,7 @@ describe ArtistsController do
       end
     end
   end
-  describe 'roster view' do
+  describe '#index roster view' do
     integrate_views
     before do
       get :index, :v => 'l'
@@ -128,7 +128,7 @@ describe ArtistsController do
           end
           it "shows new bio in edit form" do
             get :edit
-            response.should have_tag('textarea#artist_artist_info_bio')
+            assert_select('textarea#artist_artist_info_bio')
           end
         end
       end
@@ -144,7 +144,7 @@ describe ArtistsController do
         end
         it "shouldn't change anything" do
           get :show, :id => @a.id
-          response.should have_tag("div.bio-container")
+          assert_select("div.bio-container")
           response.should include_text(@old_bio)
         end
       end
@@ -223,31 +223,31 @@ describe ArtistsController do
           response.should be_success
         end
         it "has the edit form" do
-          response.should have_tag("div#artist_edit");
+          assert_select("div#artist_edit");
         end
         it "has the artists email in the email form input field" do
-          response.should have_tag("#info .inner-sxn input#artist_email[value=#{@a.email}]")
+          assert_select("#info .inner-sxn input#artist_email[value=#{@a.email}]")
         end
         it "has the website input box with the artists website in it" do
-          response.should have_tag("input#artist_url[value=#{@a.url}]")
+          assert_select("input#artist_url[value=#{@a.url}]")
         end
         it "has the artists correct links in their respective fields" do
           [:facebook, :blog].each do |k| 
             linkval = @a.send(k)
             linkid = "artist_artist_info_#{k}"
             tag = "input##{linkid}[value=#{linkval}]"
-            response.should have_tag(tag)
+            assert_select(tag)
           end
         end
         it "has the artists' bio textarea field" do
           get :edit
-          response.should have_tag("textarea#artist_artist_info_bio", @a.artist_info.bio)
+          assert_select("textarea#artist_artist_info_bio", @a.artist_info.bio)
         end
         it "has heart notification checkbox checked" do
-          response.should have_tag 'input#emailsettings_favorites[checked=checked]'
+          assert_select 'input#emailsettings_favorites[checked=checked]'
         end
         it 'has a hidden form for donation under the open studios section' do
-          response.should have_tag '#paypal_donate_openstudios'
+          assert_select '#paypal_donate_openstudios'
         end
       end
       context " if email_attrs['favorites'] is false " do
@@ -261,14 +261,14 @@ describe ArtistsController do
           get :edit
         end
         it "has heart notification checkbox unchecked" do 
-          response.should have_tag "input#emailsettings_favorites" 
+          assert_select "input#emailsettings_favorites" 
           response.should_not have_tag "input#emailsettings_favorites[checked=checked]" 
         end
       end
     end
   end
     
-  describe "show" do
+  describe "#show" do
     integrate_views
 
     context "while not logged in" do
@@ -279,25 +279,25 @@ describe ArtistsController do
         response.should be_success
       end
       it "has a twitter share icon it" do
-        response.should have_tag '.micro-icon.twitter'
+        assert_select '.micro-icon.twitter'
       end
       it "has a facebook share icon on it" do
-        response.should have_tag('.micro-icon.facebook')
+        assert_select('.micro-icon.facebook')
       end
       it "has a 'favorite' icon on it" do
-        response.should have_tag('.micro-icon.heart')
+        assert_select('.micro-icon.heart')
       end
       it 'has thumbnails' do
-        response.should have_tag("#bigthumbcolumn")
+        assert_select("#bigthumbcolumn")
       end
       it 'has other thumbnails' do
-        response.should have_tag('.artist-pieces')
+        assert_select('.artist-pieces')
       end
     end
 
     it "reports cannot find artist" do
       get :show, :id => users(:maufan1).id
-      response.should have_tag('.rcol .error-msg')
+      assert_select('.rcol .error-msg')
       response.body.should match(/artist you were looking for was not found/)
     end
 
@@ -311,22 +311,26 @@ describe ArtistsController do
       it_should_behave_like "logged in user"
       context "looking at your own page" do
         it "website is present" do
-          response.should have_tag("div#u_website a[href=#{@a.url}]")
+          assert_select("div#u_website a[href=#{@a.url}]")
         end
         it "facebook is present and correct" do
-          response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
+          assert_select("div#u_facebook a[href=#{@a.artist_info.facebook}]")
         end
         it "has sidebar nav when i look at my page" do
           get :show, :id => @a.id
-          response.should have_tag('#sidebar_nav')
+          assert_select('#sidebar_nav')
         end
         it "should not have heart icon" do
           response.should_not have_tag(".action-icons .micro-icon.heart")
-          response.should have_tag("#sidebar_nav .micro-icon.heart")
+          assert_select("#sidebar_nav .micro-icon.heart")
         end
         it "should not have note icon" do
           response.should_not have_tag(".micro-icon.email")
         end
+        it "should not have extra messaging about email the artist" do
+          response.should_not have_tag(".notify-artist")
+        end
+
       end
       context "looking at someone elses page" do
         before(:each) do 
@@ -334,10 +338,13 @@ describe ArtistsController do
         end
         it_should_behave_like "logged in user"
         it "should have heart icon" do
-          response.should have_tag(".micro-icon.heart")
+          assert_select(".micro-icon.heart")
         end
         it "should have note icon" do
-          response.should have_tag(".micro-icon.email")
+          assert_select(".micro-icon.email")
+        end
+        it "should have send message link" do
+          assert_select(".notify-artist", :count => 2)
         end
       end
       context "after a user favorites the logged in artist and show the artists page" do
@@ -351,10 +358,10 @@ describe ArtistsController do
           response.should be_success
         end
         it "has the user in the 'who favorites me' section" do
-          response.should have_tag('#favorites_me div.thumb')
+          assert_select '#favorites_me div.thumb'
         end
         it "has a link to that users page" do
-          response.should have_tag("#favorites_me a[href^=/users/#{@u.id}]")
+          assert_select("#favorites_me a[href^=/users/#{@u.id}]")
         end
       end
     end
@@ -370,7 +377,7 @@ describe ArtistsController do
         response.should be_success
       end
       it "shows favorites on show page with links" do
-        response.should have_tag("#my_favorites label a[href=#{favorites_user_path(users(:artist1))}]");
+        assert_select("#my_favorites label a[href=#{favorites_user_path(users(:artist1))}]");
       end
     end
 
@@ -381,13 +388,13 @@ describe ArtistsController do
       end
       it_should_behave_like "not logged in"
       it "website is present" do
-        response.should have_tag("div#u_website a[href=#{@a.url}]")
+        assert_select("div#u_website a[href=#{@a.url}]")
       end
       it "has no sidebar nav " do
         response.should_not have_tag('#sidebar_nav')
       end
       it "facebook is present and correct" do
-        response.should have_tag("div#u_facebook a[href=#{@a.artist_info.facebook}]")
+        assert_select("div#u_facebook a[href=#{@a.artist_info.facebook}]")
       end
     end
   end
@@ -562,41 +569,41 @@ describe ArtistsController do
         response.should be_success
       end
       it "renders sort by links" do
-        response.should have_tag('.sortby a', :count => 14)
+        assert_select('.sortby a', :count => 14)
       end
       it 'renders a csv export link' do
-        response.should have_tag('a.export-csv button', /export/)
+        assert_select('a.export-csv button', /export/)
       end
       it 'renders an update os status button' do
-        response.should have_tag('button.update-artists', /update os status/)
+        assert_select('button.update-artists', /update os status/)
       end
       it 'renders controls for hiding rows' do
-        response.should have_tag('.hide-rows .row-info');
+        assert_select('.hide-rows .row-info');
       end
       it 'renders .pending rows for all pending artists' do
-        response.should have_tag('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+        assert_select('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
       end
       it 'renders .suspended rows for all suspended artists' do
-        response.should have_tag('tr.suspended', :count => Artist.all.select{|s| s.state == 'suspended'}.count)
+        assert_select('tr.suspended', :count => Artist.all.select{|s| s.state == 'suspended'}.count)
       end
       it 'renders .deleted rows for all deleted artists' do
-        response.should have_tag('tr.deleted', :count => Artist.all.select{|s| s.state == 'deleted'}.count)
+        assert_select('tr.deleted', :count => Artist.all.select{|s| s.state == 'deleted'}.count)
       end
       it 'renders created_at date for all pending artists' do
         Artist.all.select{|s| s.state == 'pending'}.each do |a|
-          response.should have_tag('tr.pending td', /#{a.created_at.strftime('%m/%d/%y')}/)
+          assert_select('tr.pending td', /#{a.created_at.strftime('%m/%d/%y')}/)
         end
       end
       it 'renders .participating rows for all pending artists' do
-        response.should have_tag('tr.participating', :count => Artist.all.select{|a| a.os_participation['201204']}.count)
+        assert_select('tr.participating', :count => Artist.all.select{|a| a.os_participation['201204']}.count)
       end
       it 'renders activation link for inactive artists' do
-        response.should have_tag('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)
-        response.should have_tag('.activation_link', /http:\/\/#{Conf.site_url}\/activate\/#{users(:pending_artist).activation_code}/)
+        assert_select('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+        assert_select('.activation_link', /http:\/\/#{Conf.site_url}\/activate\/#{users(:pending_artist).activation_code}/)
       end
       it 'renders forgot link if there is a reset code' do
-        response.should have_tag('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)
-        response.should have_tag('.forgot_password_link', /http:\/\/#{Conf.site_url}\/reset\/#{users(:reset_password).reset_code}/)
+        assert_select('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)
+        assert_select('.forgot_password_link', /http:\/\/#{Conf.site_url}\/reset\/#{users(:reset_password).reset_code}/)
       end
     end
   end

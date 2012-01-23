@@ -1,0 +1,111 @@
+%table.tbl-content
+  = render :partial => "/twocol_top"
+  %tr
+    %td.lcol{:colspan => 2}
+      - if current_user && @artist == current_user
+        = render :partial => "/users/sidebar_nav"
+      = render :partial => "big_thumb_column"
+    %td.vstripe
+    %td.rcol{:colspan => 2}
+      - if flash[:error]
+        .error-msg Error: #{flash[:error]}
+      - if flash[:notice]
+        .notice #{flash[:notice]}
+      .content-block
+        - if @artist
+          .artist-profile
+            .info
+              #artist_profile_name
+                %h4 #{@artist.get_name(true)}
+                .artist
+                  .div-left
+                    - if @artist.studio
+                      %div
+                        = link_to @artist.studio.name, @artist.studio
+                      %div
+                        #{@artist.studio.street}
+                        - if @artist.artist_info.studionumber.present?
+                          %span #{"#" + @artist.artist_info.studionumber}
+                        - if !@artist.address_hash.empty?
+                          %span.lkmap
+                            (
+                            = link_to 'map', @artist.studio.map_link
+                            )
+                      %div #{@artist.studio.city}
+                    - else
+                      %div
+                        #{@artist.artist_info.street}
+                        - if !@artist.address_hash.empty? && !@artist.artist_info.street.blank?
+                          %span.lkmap
+                            (
+                            = link_to 'map', @artist.map_link
+                            )
+                      %div #{@artist.artist_info.city}
+                  - if (!current_user || (current_user && current_user.id != @artist.id))
+                    - if (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?))
+                      .div-left
+                        %span
+                          Contact:
+                          %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
+                            send a note to this artist
+                      
+                  - if @artist.media and @artist.media.length > 0
+                    .div-left
+                      %span Media:
+                      %span
+                        :ruby
+                          links = @artist.media.map{|m| link_to(m.name, m, :class => "")}
+                        = links.join(", ")
+                  - if has_links(@artist)
+                    .div-left
+                      - keyed_links.each do |key, name, _id|
+                        - lnk = @artist.send(key)
+                        - if lnk.present?
+                          %div{:id => _id}
+                            %span #{name + ":"}
+                            = link_to lnk, add_http(lnk), { :target => "_blank" }
+                  = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist }
+                  = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist }
+                .clear
+            #artist_profile_img
+              - if logged_in? && @artist && @artist.login == self.current_user.login
+                %a{:title => "update my picture", :href => addprofile_users_path}
+                  - if @artist.has_profile_image
+                    %img{:class => "profile", :src => "%s?%s" % [@artist.get_profile_image('small'), Time.now.to_i]}
+                  - else
+                    %img{:class => "profile", :src => "/images/default-profile-img.png"}
+              - else 
+                - if @artist.has_profile_image
+                  %img{:class => "profile", :src => "%s?%s" % [@artist.get_profile_image('small'), Time.now.to_i]}
+                - else
+                  %img{:class => "profile", :src => "/images/default-profile-img-not-me.png"}
+
+              .action-icons
+                %a{:target => '_new', :href => ArtistsHelper.tw_share_link(@artist), :title => "Share this page on Twitter"}
+                  .micro-icon.twitter
+                %a{:target => '_new', :href => ArtistsHelper.fb_share_link(@artist), :title => "Share this page on Facebook"}
+                  .micro-icon.facebook
+                - if (!current_user || (current_user && current_user.id != @artist.id))
+                  - if (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?))
+                    %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
+                      .micro-icon.email
+                  %a.favorite_this{:href => '#', :fav_type => 'Artist', :fav_id => @artist.id, :title => "Add this artist to your favorites"}
+                    .micro-icon.heart
+            - if @artist.os_participation[Conf.oslive.to_s]
+              .os-violator
+                %a{:href => openstudios_path}
+                  %img{:src => "/images/os_star_violator.png"}
+          - if @artist.bio and !@artist.bio.empty?
+            .clear
+            .div-left.bio-container
+              %span Bio:
+              = bio_html(@artist.artist_info.bio)
+          .clear           
+
+          .artist-pieces
+            - if @art_pieces.present?
+              = render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }}
+            - else         
+              %img{:src => "/images/default-art-img.png", :width => "200"}
+
+  = render :partial => "/twocol_bottom"
