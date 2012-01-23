@@ -70,13 +70,13 @@ describe MediaController do
       m2freq['ct'].should == 1
     end
     it "draws tag cloud" do
-      response.should have_tag('.tagcloud')
+      assert_select('.tagcloud')
     end
     it "tag cloud has items" do
-      response.should have_tag('.clouditem')
+      assert_select('.clouditem')
     end
     it "tag cloud has a selected one" do
-      response.should have_tag('.clouditem.tagmatch')
+      assert_select('.clouditem.tagmatch')
     end
     it "pieces are in order of art_piece updated_date" do
       assigns(:pieces).sort_by(&:updated_at).should == assigns(:pieces)
