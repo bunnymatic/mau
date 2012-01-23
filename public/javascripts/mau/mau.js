@@ -1025,7 +1025,7 @@ var TagMediaHelper = {
   
   
   N.init = function() {
-    var notes = $$('#notify_artist');
+    var notes = $$('.notify-artist');
     var nnotes = notes.length;
     for (var ii = 0; ii < nnotes; ++ii) {
       var n = notes[ii];
