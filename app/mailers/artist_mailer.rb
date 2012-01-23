@@ -1,4 +1,4 @@
-class ArtistMailer < ActionMailer::Base
+class ArtistMailer < MauMailer
   def activation(artist)
     setup_email(artist)
     @subject    += ': Your account has been activated!'

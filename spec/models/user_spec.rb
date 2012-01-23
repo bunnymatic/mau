@@ -2,9 +2,22 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 Rails.cache.stubs(:read).returns(:nil)
 
+def valid_attributes(opts = {})
+  {:login => 'whatever', 
+    :email => 'whatever@example.com', 
+    :password => 'mypass', 
+    :password_confirmation => 'mypass'}.merge(opts)
+end
+
 describe User do
   fixtures :users, :studios, :roles, :artist_infos, :art_pieces
-
+  describe 'new' do
+    it 'validates' do
+      u = User.new(valid_attributes)
+      p u.errors
+      User.new(valid_attributes).should be_valid
+    end
+  end
   describe 'named scope' do
     it "active returns only active users" do
       User.active.all.each do |u|

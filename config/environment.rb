@@ -48,6 +48,7 @@ Rails::Initializer.run do |config|
   # Use the memcached store with an options hash
   config.cache_store = :mem_cache_store, { :namespace => 'maudev'}
 
+  config.autoload_paths += %W(#{Rails.root}/app/mailers)
 end
 
 require 'has_many_polymorphs'

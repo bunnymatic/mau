@@ -1,4 +1,4 @@
-class EventMailer < ActionMailer::Base
+class EventMailer < MauMailer
   def event(ev)
     @recipients  = "events@missionartistsunited.org"
     @from        = 'noreply@missionartistsunited.org'

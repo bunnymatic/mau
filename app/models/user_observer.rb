@@ -9,9 +9,12 @@ class UserObserver < ActiveRecord::Observer
   def after_save(user)
     mailer_class = user.is_artist? ? ArtistMailer : UserMailer
     user.reload
+    p "UserObserver: after_save", user
     if user.recently_activated?
       mailer_class.deliver_activation(user)
-      FeaturedArtistQueue.create(:artist_id => user.id, :position => rand) if user.is_artist?
+      if user.is_artist?
+        FeaturedArtistQueue.create(:artist_id => user.id, :position => rand) if user.is_artist?
+      end
     end
     mailer_class.deliver_reset_notification(user) if user.recently_reset?
     mailer_class.deliver_resend_activation(user) if user.resent_activation?

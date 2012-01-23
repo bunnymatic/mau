@@ -608,7 +608,6 @@ describe ArtistsController do
     end
   end
 
-     
   describe "- named routes" do
     describe 'collection paths' do
       [:destroyart, :arrangeart, :thumbs, :setarrangement, :deleteart].each do |path|
