@@ -788,28 +788,40 @@ describe UsersController do
       end
     end
     describe 'with valid activation code' do
-      before do
-        get :activate, :activation_code => users(:pending).activation_code
-      end
       it 'redirects to login' do
+        get :activate, :activation_code => users(:pending).activation_code
         response.should redirect_to login_url
       end
       it 'flashes a notice' do
+        get :activate, :activation_code => users(:pending).activation_code
         flash[:notice].should include 'Signup complete!'
       end
+      it 'activates the user' do
+        User.any_instance.expects('activate!')
+        get :activate, :activation_code => users(:pending).activation_code
+      end
+      it 'sends an email to the user' do
+        UserMailer.expects(:deliver_activation).once
+        get :activate, :activation_code => users(:pending).activation_code
+      end        
     end
     describe 'with invalid activation code' do
-      before do
-        get :activate, :activation_code => 'blah'
-      end
       it 'redirects to login' do
+        get :activate, :activation_code => 'blah'
         response.should redirect_to login_url
       end
       it 'flashes an error' do
+        get :activate, :activation_code => 'blah'
         /find an artist with that activation code/.match(flash[:error]).should_not be []
       end
       it 'does not blow away all activation codes' do
+        get :activate, :activation_code => 'blah'
         User.all.map{|u| u.activation_code}.select{|u| u.present?}.count.should > 0
+      end
+      it 'does not send email' do
+        ArtistMailer.expects(:deliver_activation).never
+        UserMailer.expects(:deliver_activation).never
+        get :activate, :activation_code => 'blah'
       end
     end
   end

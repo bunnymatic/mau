@@ -25,7 +25,7 @@ maufan1:
 pending:
   login: pending
   email: pending@example.com
-  type: User
+  type: MAUFan
   activation_code: activation
 
 

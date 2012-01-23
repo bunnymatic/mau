@@ -1,4 +1,4 @@
-class FeedbackMailer < ActionMailer::Base
+class FeedbackMailer < MauMailer
   
   @@FEEDBACK_EMAIL_LIST = Conf.feedback_emails
   def feedback(feedback)
