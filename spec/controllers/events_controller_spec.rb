@@ -210,7 +210,7 @@ describe EventsController do
     end
     it 'emails the system' do
       ev = get_event_params
-      EventMailer.expects(:deliver_event)
+      EventMailer.expects(:deliver_event_added)
       post :create, :event => ev
     end
     context 'with artists list' do

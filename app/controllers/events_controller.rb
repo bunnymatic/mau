@@ -88,7 +88,7 @@ class EventsController < ApplicationController
     
     respond_to do |format|
       if @event.save
-        EventMailer.deliver_event(@event)
+        EventMailer.deliver_event_added(@event)
         redir = events_path
         flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
         format.html { redirect_to(redir) }
