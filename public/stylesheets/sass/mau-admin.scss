@@ -157,7 +157,7 @@ body.admin {
   }
   #dashboard {
     .section { 
-      width: 165px;
+      width: 160px;
       float: left;
       padding: 10px 10px 20px;
       margin: 7px;
@@ -173,6 +173,9 @@ body.admin {
       }
       &.graph {
         width: 360px;
+      }
+      .current {
+        margin-top: 10px;
       }
     }
   }
