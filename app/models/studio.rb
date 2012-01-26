@@ -12,9 +12,9 @@ class Studio < ActiveRecord::Base
 
   cattr_reader :sort_by_name
   @@sort_by_name = lambda{|a,b| 
-      if a.id == 0
+      if !a || a.id == 0
         1
-      elsif b.id == 0
+      elsif !b || b.id == 0
         -1
       else
         a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')

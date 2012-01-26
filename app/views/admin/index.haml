@@ -15,6 +15,11 @@
     %ul
       - stats.sort{|a,b| b.to_s <=> a.to_s }.each do |k,v| 
         %li #{"%s : %s" % [k.to_s.titleize,v]}
+    .current
+      Downloads:
+      %br
+      %a{:href => '/catalog?format=csv'} #{ @os_pretty } CSV File
+        
   .clear
   %h2 Graphs:
   .graph.section
