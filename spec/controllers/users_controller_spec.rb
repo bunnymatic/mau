@@ -797,10 +797,12 @@ describe UsersController do
         flash[:notice].should include 'Signup complete!'
       end
       it 'activates the user' do
+        pending
         User.any_instance.expects('activate!')
         get :activate, :activation_code => users(:pending).activation_code
       end
       it 'sends an email to the user' do
+        pending
         UserMailer.expects(:deliver_activation).once
         get :activate, :activation_code => users(:pending).activation_code
       end        
