@@ -9,10 +9,11 @@ class CatalogController < ApplicationController
     # organize artists so they are in a tree 
     # [ [ studio_id, [artist1, artist2]], [studio_id2, [artist3, artist4]]]
     # so where studio_ids are in order of studio sort_by_name
-    @studio_order = (group_studio_artists.map(&:studio).uniq.sort &Studio.sort_by_name).map(&:id)
+    @studio_order = (group_studio_artists.map(&:studio).uniq.sort &Studio.sort_by_name).map{|s| s ? s.id : 0}
     @group_studio_artists = group_studio_artists.each_with_object({}) do |a,hsh|
-      hsh[a.studio_id] = [] unless hsh[a.studio_id]
-      hsh[a.studio_id] << a
+      studio_id = a.studio_id || 0
+      hsh[studio_id] = [] unless hsh[studio_id]
+      hsh[studio_id] << a
     end
     @group_studio_artists.values.each do |artists| 
       artists.sort! &Artist.sort_by_lastname
@@ -34,10 +35,12 @@ class CatalogController < ApplicationController
       format.html # index.html.erb
       format.json  { render :json => 'this' }
       format.csv {
-        render_csv :filename => 'mau_os_artists' do |csv|
-          csv << ["First Name","Last Name","Full Name","Group Site Name","Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
+        render_csv :filename => 'mau_os_artists_%s' % (Conf.oslive.to_s || '') do |csv|
+          csv << ["First Name","Last Name","Full Name","Email", "Group Site Name","Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
           [@indy_artists, @group_studio_artists.values].flatten.sort(&Artist.sort_by_lastname).each do |artist|
-            csv << [ artist.firstname, artist.lastname, artist.get_name, artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, '', '', artist.primary_medium ? artist.primary_medium.name : '' ]
+            puts "YO %s" % artist.id
+
+            csv << [ artist.firstname, artist.lastname, artist.get_name, artist.email, artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, '', '', artist.primary_medium ? artist.primary_medium.name : '' ]
           end
         end
       }

@@ -210,7 +210,9 @@ describe AdminController do
         css_select('.section.open_studios li').first.to_s.should match /2012 Apr/
         css_select('.section.open_studios li').last.to_s.should match /2010 Apr/
       end
-
+      it 'renders the current open studios setting' do
+        css_select('.section.open_studios .current').first.to_s.should match /2012 Apr/
+      end
     end
   end
   describe '#fans' do
@@ -350,6 +352,23 @@ describe AdminController do
       end
     end
   end
+  
+  describe '#os_status' do
+    before do
+      login_as(:admin)
+    end
+    before do
+      get :os_status
+    end
+    it 'returns success' do
+      response.should be_success
+    end
+    it 'sets a list of artists in alpha order by last name' do
+      assigns(:os).should be_a_kind_of Array
+      assigns(:os).length == Artist.active.count
+      assigns(:totals).count == Conf.open_studios_event_keys.count
+    end
+  end
 
   context 'database backups' do 
     before do
@@ -403,7 +422,6 @@ describe AdminController do
               link = admin_path(:action => 'fetch_backup', :name => File.basename(f.path))
               assert_select("li a[href=#{link}]", /#{f.ctime.strftime("%b %d, %Y %H:%M")}/)
               assert_select("li a[href=#{link}]", /\d+\s+MB/)
-
             end
           end
         end

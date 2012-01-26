@@ -1,7 +1,9 @@
 class AdminController < ApplicationController
   before_filter :admin_required
   layout 'mau-admin'
+  include OsHelper
   def index
+    @os_pretty = os_pretty
     @activity_stats = {}
     created_clause = "created_at >= ?"
     queries = {:last_30_days => [created_clause, 30.days.ago],
@@ -31,10 +33,7 @@ class AdminController < ApplicationController
     }
     @activity_stats[:open_studios] = {}
     Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-      yr = ostag[0..3]
-      mo = ostag[4..-1]
-      seas = (mo == '10') ? 'Oct':'Apr'
-      key = "%s %s" % [ yr, seas ]
+      key = os_pretty(ostag)
       @activity_stats[:open_studios][key] = Artist.active.open_studios_participants(ostag).count
     end
   end
@@ -68,10 +67,7 @@ class AdminController < ApplicationController
               ]
     os_tags = Conf.open_studios_event_keys.map(&:to_s)
     os_tags.reverse.each do |ostag|
-      yr = ostag[0..3]
-      mo = ostag[4..-1]
-      seas = (mo == '10') ? 'Oct':'Apr'
-      title = "%s %s" % [ seas, yr ]
+      title = os_pretty(ostag)
       @lists << [ ostag.to_sym, title ]
     end
     titles = Hash[ @lists ]
@@ -80,10 +76,7 @@ class AdminController < ApplicationController
       tags = os_tags & params.keys
       artists = []
       tags.each do |tag|
-        yr = tag[0..3]
-        mo = tag[4..-1]
-        seas = (mo == '10') ? 'Oct':'Apr'
-        for_title << '%s %s' % [seas, yr]
+        for_title << os_pretty(tag)
         artists += Artist.active.open_studios_participants(tag)
       end
       artists.uniq!
@@ -148,10 +141,7 @@ class AdminController < ApplicationController
     @os = Artist.active.find(:all, :order =>'lastname asc')
     @totals = {}
     Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-      yr = ostag[0..3]
-      mo = ostag[4..-1]
-      seas = (mo == '10') ? 'Oct':'Apr'
-      key = "%s %s" % [ seas, yr ]
+      key = os_pretty(ostag)
       @totals[key] = @os.select{|a| a.os_participation[ostag].nil? ? false : a.os_participation[ostag] }.length
     end
   end

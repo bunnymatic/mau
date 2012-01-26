@@ -17,10 +17,7 @@
           - form_tag do
             - Conf.open_studios_event_keys.map(&:to_s).reverse.each do |ostag|
               :ruby
-                yr = ostag[0..3]
-                mo = ostag[4..-1]
-                seas = (mo == '10') ? 'Oct':'Apr'
-                title = "%s %s" % [ seas, yr ]
+                title = os_pretty ostag
               .cb
                 %label #{title}
                 %input{:type => 'checkbox', :name => ostag} 
