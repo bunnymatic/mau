@@ -55,3 +55,5 @@ require 'has_many_polymorphs'
 require 'tag_extensions'
 
 puts "Environment: #{RAILS_ENV}"
+
+POSTMARK_API_KEY = 'e3ff1e94-b1a9-4ae8-aba5-2e3a8ba3692e'

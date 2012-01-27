@@ -94,6 +94,7 @@ after "deploy:symlink", :symlink_data
 after "deploy:symlink", :setup_backup_dir
 after "deploy:symlink", "apache:reload"
 before "apache:reload", :build_sass
+after "deploy", 'deploy:cleanup'
 after "deploy", :ping
 
 desc "build db backup directory"

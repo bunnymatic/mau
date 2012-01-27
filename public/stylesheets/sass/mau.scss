@@ -459,8 +459,11 @@ a {
   margin:0;
   @include large-rounded-corners;
   position:relative;
+}
+#header_bar {
   z-index: 5;
 }
+
 #footer_bar {
   line-height: 30px;
   height: 30px;
