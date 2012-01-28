@@ -1,0 +1,5 @@
+admins:
+  type: AdminMailerList
+
+events:
+  type: EventMailerList
