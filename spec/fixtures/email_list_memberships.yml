@@ -1,0 +1,19 @@
+admin_admin1:
+  email_list: admins
+  email: admin1
+
+admin_admin2:
+  email_list: admins
+  email: admin2
+
+event_admin1:
+  email_list: events
+  email: admin1
+
+event_event_coordinator2:
+  email_list: events
+  email: event_coordinator2
+
+event_event_coordinator1:
+  email_list: events
+  email: event_coordinator1

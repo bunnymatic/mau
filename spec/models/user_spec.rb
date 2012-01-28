@@ -14,7 +14,6 @@ describe User do
   describe 'new' do
     it 'validates' do
       u = User.new(valid_attributes)
-      p u.errors
       User.new(valid_attributes).should be_valid
     end
   end
