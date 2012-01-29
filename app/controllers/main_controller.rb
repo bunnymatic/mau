@@ -8,17 +8,18 @@ FEEDS_KEY = 'news-feeds'
 class MainController < ApplicationController
   layout 'mau2col' 
   include MarkdownUtils
+  include MainHelper
   skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
   before_filter :no_cache, :only => :index
 
   def index
     respond_to do |format| 
       format.html { 
-        @rand_pieces = MainHelper.get_random_pieces
+        @rand_pieces = get_random_pieces
         render 
       }
       format.json { 
-        @rand_pieces = MainHelper.get_random_pieces
+        @rand_pieces = get_random_pieces
         render :json => @rand_pieces.to_json(:include => [:artist]) 
       }
       format.mobile { render :layout => 'mobile_welcome' }
@@ -29,7 +30,7 @@ class MainController < ApplicationController
   end
 
   def sampler
-    @rand_pieces = MainHelper.get_random_pieces
+    @rand_pieces = get_random_pieces
     render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }}
   end
 
