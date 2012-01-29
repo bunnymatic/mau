@@ -40,7 +40,6 @@ describe EmailListController do
       end
       it_should_behave_like 'returns success'
       [ [:feedback, 2, 'FeedbackMailerList'],
-        [:admin, 2, 'AdminMailerList'],
         [:event, 3, 'EventMailerList']].each do |listtype, ct, mailer|
         it "assigns #{ct} emails to the #{listtype} list" do
           assigns(:all_lists)[listtype].count.should == ct
@@ -56,11 +55,13 @@ describe EmailListController do
             
         end
       end
-      it 'renders the lists' do
-        assert_select '.email_lists ul.listtypes > li', :count => 3
+      it 'renders the 2 lists, Feedback and Events' do
+        assert_select '.email_lists ul.listtypes > li', :count => 2
+        assert_select '.email_lists ul.listtypes > li', /Feedback/
+        assert_select '.email_lists ul.listtypes > li', /Event/
       end
       it 'renders add email forms for each list' do
-        assert_select '.email_lists ul.listtypes form', :count => 3
+        assert_select '.email_lists ul.listtypes form', :count => 2
       end
     end
     describe 'POST' do
