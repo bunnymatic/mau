@@ -28,6 +28,10 @@ gem 'mime-types'
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
+
+# mailing with postmarkapp.com
+gem 'postmark-rails'
+
 group :test, :development do
   gem 'mocha','0.9.10'
   gem 'rspec','1.3.1'
