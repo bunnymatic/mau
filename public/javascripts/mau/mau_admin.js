@@ -173,10 +173,8 @@ MAUAdmin =  window.MAUAdmin || {};
           if (container) {
             var c = $(container[0]);
             if ($(c).visible()) {
-              console.log('show');
               $(c).slideUp();
             } else {
-              console.log('hide');
               $(c).slideDown();
             }
           }

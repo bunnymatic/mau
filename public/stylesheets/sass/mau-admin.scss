@@ -48,37 +48,48 @@ body.admin {
     }
   }
   
-  .listtypes > li {
-    width: 330px;
-    border: 1px dotted $bordergray;
-    float: left;
-    margin: 20px;
-    padding: 20px;
-    .header { 
-      border-bottom: 1px solid $bordergray;
-      margin-bottom: 10px;
-      .add_btn { float: right }
-    }
-    .add_email {
-      margin-top: 20px;
-      .entry label {
-        width: 40px
-      }
-      input[type=submit] { 
-        float: right;
-      }
-      input[type=text] {
-        width: 200px;
-      }
-    }
+  .listtypes {
     .list_entries {
-      .del_btn {
-        float: right;
-        a {
-          color: $error_red;
+      padding-bottom:20px;
+    }
+    > li {
+      width: 330px;
+      border: 1px dotted $bordergray;
+      float: left;
+      margin: 20px;
+      padding: 20px;
+      .header { 
+        border-bottom: 1px solid $bordergray;
+        margin-bottom: 10px;
+        .add_btn { float: right }
+      }
+      .add_email {
+        height: 54px;
+        .new_email_inputs {
+        }
+        .entry label {
+          width: 40px
+        }
+        input[type=submit] { 
+          float: right;
+        }
+        input[type=text] {
+          width: 200px;
+        }
+      }
+      .list_entries {
+        .del_btn {
+          float: right;
+          a {
+            color: $error_red;
+          }
         }
       }
     }
+  }
+  .footer {
+    margin-top: 20px;
+    font-size: 10px;
   }
 }
 .admin-table {
