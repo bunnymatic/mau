@@ -24,6 +24,14 @@ describe EmailList do
       }.to change(Email, :count).by(2)
 
     end
+    it "adds ids on the email_list_membership table" do
+      eml = WhateverMailList.new
+      ['a@example.com', 'b@example.com'].each do |email|
+        eml.emails << Email.new(:email => email)
+      end
+      eml.save
+      EmailListMembership.all.map(&:id).uniq.count.should >= 2
+    end
     it "does not add duplicate emails to a list" do
       lambda {
         eml = TestMailerList.new
@@ -32,6 +40,7 @@ describe EmailList do
         eml.save
       }.should raise_error ActiveRecord::StatementInvalid 
     end
+    
   end
   it "adds a new email list" do
     expect {  

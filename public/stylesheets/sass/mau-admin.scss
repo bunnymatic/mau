@@ -57,11 +57,32 @@ body.admin {
     .header { 
       border-bottom: 1px solid $bordergray;
       margin-bottom: 10px;
-      .btn { float: right }
+      .add_btn { float: right }
+    }
+    .add_email {
+      margin-top: 20px;
+      .entry label {
+        width: 40px
+      }
+      input[type=submit] { 
+        float: right;
+      }
+      input[type=text] {
+        width: 200px;
+      }
+    }
+    .list_entries {
+      .del_btn {
+        float: right;
+        a {
+          color: $error_red;
+        }
+      }
     }
   }
 }
 .admin-table {
+
   margin: auto;
   width: 800px;
   &.singlecolumn {

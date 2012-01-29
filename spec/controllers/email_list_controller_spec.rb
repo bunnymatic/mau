@@ -64,15 +64,60 @@ describe EmailListController do
       end
     end
     describe 'POST' do
-      context 'event list' do
-        it 'returns success' do
-          post :index, :listtype => :event, :email => {:name => 'new dude', :email => 'mr_new@example.com'}
-          assert_select('.error-msg', /not have all the required/)
+      context 'xhr' do
+        it 'redirects to itself with flash message when there is an error' do
+          xhr :post, :index, :listtype => :event, :email => {:name => 'new dude', :email => 'mr_new@example.com'}
+          response.content_type.should == 'application/json'
+          response.code.should == '400'
+          JSON.parse(response.body)['messages'].should match /not have all the required/
+        end
+        it 'returns 200 on success' do
+          new_email = 'mr_ew@ex.com'
+          xhr :post, :index, :method => 'add_email', :listtype => :event, :email => {:name => 'new dude', :email => new_email}
+          response.content_type.should == 'application/json'
+          response.should be_success
+          JSON.parse(response.body)['messages'].should match "Successfully added #{new_email} to Events"
+        end
+        it 'returns an error if the email id is missing when trying to delete' do
+          em = EventMailerList.first.emails.first
+          xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:name => 'jo'}
+          response.content_type.should == 'application/json'
+          response.should_not be_success
+          JSON.parse(response.body)['messages'].should match "Email ID is missing"
+        end
+        it 'deletes entries from an email list' do
+          em = EventMailerList.first.emails.first
+          expect {
+            xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:id => em.id}
+          }.to change(EventMailerList.first.emails, :count).by(-1);
+        end
+        it 'does not delete the email from the email table' do
+          em = EventMailerList.first.emails.first
+          expect {
+            xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:id => em.id}
+          }.to change(Email, :count).by(0);
         end
 
-        it 'returns success' do
-          post :index, :method => 'add_email', :listtype => :event, :email => {:name => 'new dude', :email => 'mr_ew@example.com'}
+        it 'returns a message indicating who was removed' do
+          em = EventMailerList.first.emails.first
+          xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:id => em.id}
+          response.content_type.should == 'application/json'
           response.should be_success
+          JSON.parse(response.body)['messages'].should match "Successfully removed #{em.email} from Events"
+        end
+      end
+
+      context 'event list' do
+        it 'redirects to itself with flash message when there is an error' do
+          post :index, :listtype => :event, :email => {:name => 'new dude', :email => 'mr_new@example.com'}
+          flash[:error].should be
+          flash[:error].should match /not have all the required/
+          response.should redirect_to email_list_path
+        end
+
+        it 'redirects to itself on success' do
+          post :index, :method => 'add_email', :listtype => :event, :email => {:name => 'new dude', :email => 'mr_ew@example.com'}
+          response.should redirect_to email_list_path
         end
         it 'adds a new email to the email list' do
           expect {
