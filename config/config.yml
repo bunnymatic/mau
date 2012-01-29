@@ -5,7 +5,6 @@ test:
    site_url: localhost:3000
    cache_server: localhost:11211
    image_servers: 
-   feedback_emails: 
    mailchimp_api_key: bogus-key
    oslive: 201110
 
@@ -46,10 +45,6 @@ development:
    mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
 
 production:
-   feedback_emails:
-      - feedback@missionartistsunited.org
-      - maufeedback@bunnymatic.com
-      - trish@trishtunney.com
    site_url: www.missionartistsunited.org
    cache_server: localhost:11211
    image_servers: 
