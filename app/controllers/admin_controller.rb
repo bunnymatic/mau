@@ -41,13 +41,13 @@ class AdminController < ApplicationController
   def featured_artist
     featured = FeaturedArtistQueue.current_entry
     if request.post?
-      next_featured = FeaturedArtistQueue.next_entry
+      next_featured = FeaturedArtistQueue.next_entry(params['override'])
       @featured = next_featured
-      if FeaturedArtistQueue.count != 1 && (featured == next_featured)
-        flash.now[:error] = "It looks like #{@featured.artist.get_name(true)} hasn\'t been featured for a full week yet."
-      else 
-        flash.now[:notice] = "Featuring : #{@featured.artist.get_name(true)} until #{(Time.now + 1.week).strftime('%a %D')}"
+      if FeaturedArtistQueue.count == 1
+        flash[:notice] = "Featuring : #{@featured.artist.get_name(true)} until #{(Time.now + 1.week).strftime('%a %D')}"
       end
+      redirect_to request.url
+      return
     else
       @featured = featured
     end
