@@ -131,6 +131,63 @@ MAUAdmin =  window.MAUAdmin || {};
   };
   Event.observe(window,'load',E.init);
 
+
+  /** internal email lists */
+  var EL = M.InternalEmailLists = MAUAdmin.InternalEmailLists || {};
+  EL.init = function() {
+    $$('.del_btn').each(function(btn) {
+      $(btn).observe('click', function(ev) {
+        var li = $(btn).firstParentByTagName('li');
+        var ul = $(btn).firstParentByTagName('ul');
+        if (li && ul) {
+          var email = li.firstChild.nodeValue.strip();
+          var email_id = li.getAttribute('email_id');
+          var listname = ul.getAttribute('list_type');
+          if ( email && listname && email_id ) {
+            if (confirm('Whoa Nelly!  Are you sure you want to remove ' + email + ' from the ' + listname + ' list?')) {
+              var data_url = '/email_list/'
+              var ajax = new Ajax.Request(data_url, {
+                method: 'post',
+                parameters: {
+                  authenticity_token:unescape(authenticityToken),
+                  'email[id]': email_id,
+                  listtype: listname,
+                  method: 'remove_email'
+                },
+                onSuccess: function(transport) {
+                  li.remove();
+                }
+              });
+            }
+          }
+        }
+        ev.stop();
+        return false;
+      });
+    });
+    $$('.add_btn').each(function(btn) {
+      $(btn).observe('click', function(ev) {
+        var li = $(btn).firstParentByTagName('li');
+        if (li) {
+          var container = $(li).select('.add_email');
+          if (container) {
+            var c = $(container[0]);
+            if ($(c).visible()) {
+              console.log('show');
+              $(c).slideUp();
+            } else {
+              console.log('hide');
+              $(c).slideDown();
+            }
+          }
+        };
+        ev.stop();
+        return false;
+      });
+    });
+  };
+  Event.observe(window, 'load', EL.init);
+
 })();
 
 /* mau admin js */

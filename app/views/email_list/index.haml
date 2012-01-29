@@ -11,20 +11,22 @@
       %li
         .header 
           = key.to_s.capitalize
-          %a.btn{:href => '#'} (+)
+          %a.add_btn{:href => '#', :title => 'add an email to this list'} (+)
         - form_tag do
           %input{:type => 'hidden', :name => 'listtype', :value => key}
           %input{:type => 'hidden', :name => 'method', :value => 'add_email'}
-          %ul.listcontents
+          %ul.list_entries{:list_type => key}
             - lst.each_with_index do |em,idx|
               %li{:email_id => em.id, :class => (idx % 2 == 0)? 'even':'odd'}
                 &= em.formatted
-          .add_email
+                .del_btn
+                  %a{:href => '#', :title => 'remove this person from the list'} (X)
+          .add_email{:style => 'display:none;'}
             .new_email_inputs
+              %input{:type => 'submit', :value => 'add'}
               .entry
                 %label{:for => 'email_name'} name
                 %input#email_name.name{:type => 'text', :name => 'email[name]'}
               .entry
                 %label{:for => 'email_email'} email
                 %input#email_email.email{:type => 'text', :name => 'email[email]'}
-              %input{:type => 'submit', :value => 'add'}                
