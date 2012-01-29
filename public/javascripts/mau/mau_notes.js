@@ -371,7 +371,7 @@ Object.extend(MAU.NotesMailer.prototype, {
       xx = xpos-250;
       yy = ypos;
       if (_that.options.note_class == 'feed_submission') {
-        _that.options.xoffset = -100;
+        _that.options.xoffset += 250;
       }
       if (_that.options.xoffset) {
         xx += _that.options.xoffset;
@@ -379,6 +379,7 @@ Object.extend(MAU.NotesMailer.prototype, {
       if (_that.options.yoffset) {
         yy += _that.options.yoffset;
       }
+      xx = (xx < 20) ? 20 : xx;
       var style = { left: '' + xx + 'px',
                     top: ''+ yy + 'px' };
       if (_that.options.note_class == 'feed_submission') {
