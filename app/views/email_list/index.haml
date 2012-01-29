@@ -10,7 +10,7 @@
     - @all_lists.each do |key, lst|
       %li
         .header 
-          = key.to_s.capitalize
+          = key.to_s.capitalize + "s"
           %a.add_btn{:href => '#', :title => 'add an email to this list'} (+)
         - form_tag do
           %input{:type => 'hidden', :name => 'listtype', :value => key}
@@ -30,3 +30,5 @@
               .entry
                 %label{:for => 'email_email'} email
                 %input#email_email.email{:type => 'text', :name => 'email[email]'}
+        .footer
+          = @purpose[key]

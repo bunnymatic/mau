@@ -4,9 +4,14 @@ class EmailListController < ApplicationController
   def index
     @all_lists = { 
       :feedback => FeedbackMailerList.first.emails,
-      :admin => AdminMailerList.first.emails,
       :event => EventMailerList.first.emails 
     }
+    @purpose = {
+      :feedback => 'This list is used to notify MAU staff that someone submitted feedback via the Feedback popup dialog.',
+      :event => 'This list is used to notify MAU staff when a new event is added.'
+    }
+    # :admin => AdminMailerList.first.emails  - not used
+ 
 
     msgs = {}
     if request.post?
