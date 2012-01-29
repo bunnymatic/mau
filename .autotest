@@ -1,0 +1,7 @@
+require 'active_support/inflector'
+Autotest.add_hook :initialize do |at|
+  print "Adding to #{at}"
+  at.add_mapping %r%spec/(mailers|jobs)/.*_spec\.rb$% do |f,_|
+    f
+  end     
+end

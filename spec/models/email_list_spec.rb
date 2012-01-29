@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+class TestMailerList < EmailList; end
+class WhateverMailList < EmailList; end
+
 describe EmailList do
   fixtures :email_lists, :email_list_memberships, :emails
-  describe 'validation' do
-    it 'returns false with no type' do
-      EmailList.new.should_not be_valid
-    end      
-    it 'requires type' do
-      AdminMailerList.new.should be_valid
-    end      
-  end
   describe 'adding elements' do
     ['this', 's p a c e d o u t', 'me at thatplace.com'].each do |email|
       it "does not allow #{email} because it\'s invalid" do
@@ -21,18 +16,29 @@ describe EmailList do
     end
     it "adds valid emails" do
       expect {  
-        eml = EmailList.new(:type => 'WhateverMailList')
+        eml = WhateverMailList.new
         ['a@example.com', 'b@example.com'].each do |email|
           eml.emails << Email.new(:email => email)
         end
         eml.save
+        p EmailList.all.map{|m| [m.id, m.type]}
+        p EmailList.find_by_type('WhateverMailList').emails
+        
       }.to change(Email, :count).by(2)
+
+    end
+    it "does not add duplicate emails to a list" do
+      lambda {
+        eml = TestMailerList.new
+        eml.emails << Email.new(:email => 'joe@example.com')
+        eml.emails << Email.new(:email => 'joe@example.com')
+      }.should raise_error ActiveRecord::StatementInvalid 
     end
   end
   it "adds a new email list" do
     expect {  
-      eml = AdminMailerList.new()
-      ['a@example.com', 'b@example.com'].each do |email|
+      eml = TestMailerList.new
+      ['uniq1@example.com', 'more_uniq@example.com'].each do |email|
         eml.emails << Email.new(:email => email)
       end
       eml.save

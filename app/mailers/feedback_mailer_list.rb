@@ -1,0 +1,3 @@
+class FeedbackMailerList < EmailList
+ 
+end

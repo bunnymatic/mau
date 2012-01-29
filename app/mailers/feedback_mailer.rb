@@ -1,11 +1,9 @@
 class FeedbackMailer < MauMailer
   
-  @@FEEDBACK_EMAIL_LIST = Conf.feedback_emails
   def feedback(feedback)
-    if !@@FEEDBACK_EMAIL_LIST || @@FEEDBACK_EMAIL_LIST.empty?
-      logger.info("No one to mail feedback to!")
-    else
-      @recipients  = @@FEEDBACK_EMAIL_LIST
+    email_list = FeedbackMailerList.first
+    if email_list.present?
+      @recipients  =  email_list.formatted_emails
       @from        = 'noreply@missionartistsunited.org'
       @subject     = "[MAU Feedback] #{feedback.subject}"
       @sent_on     = Time.now
@@ -15,3 +13,4 @@ class FeedbackMailer < MauMailer
   end
 
 end
+

@@ -53,7 +53,7 @@ end
 
 describe MainController do
 
-  fixtures :users, :studios, :artist_infos, :cms_documents, :roles
+  fixtures :users, :studios, :artist_infos, :cms_documents, :roles, :emails, :email_lists, :email_list_memberships
 
   describe "#index" do
     integrate_views
@@ -523,7 +523,7 @@ EOM
       context "email_list" do
         before do
           xhr :post, :notes_mailer, :note_type => 'email_list', 
-            :email => 'a@b.com', :email_confirm => 'a@b.com'
+            :email => 'a@b.com', :email_confirm => 'a@b.cogm'
           @resp = JSON::parse(response.body)
         end
         it_should_behave_like "successful notes mailer response"
