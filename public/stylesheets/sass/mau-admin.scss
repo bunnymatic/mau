@@ -265,8 +265,20 @@ body.admin {
   margin-left: 20px;
   .error-msg, .notice {
     width: 320px;
+    left: 290px;
     text-align: center;
+    margin: auto;
   }
+
+  .warning {
+    padding: 0 20px 20px;
+    margin: auto;
+    font-size: 12px;
+    text-align:center;
+    color: $error_red;
+  }
+
+
   h1 {
     margin-left: 0;
     margin-bottom: 20px;
