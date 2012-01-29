@@ -47,8 +47,42 @@ body.admin {
       float:left;
     }
   }
+  
+  .listtypes > li {
+    width: 330px;
+    border: 1px dotted $bordergray;
+    float: left;
+    margin: 20px;
+    padding: 20px;
+    .header { 
+      border-bottom: 1px solid $bordergray;
+      margin-bottom: 10px;
+      .add_btn { float: right }
+    }
+    .add_email {
+      margin-top: 20px;
+      .entry label {
+        width: 40px
+      }
+      input[type=submit] { 
+        float: right;
+      }
+      input[type=text] {
+        width: 200px;
+      }
+    }
+    .list_entries {
+      .del_btn {
+        float: right;
+        a {
+          color: $error_red;
+        }
+      }
+    }
+  }
 }
 .admin-table {
+
   margin: auto;
   width: 800px;
   &.singlecolumn {
@@ -161,7 +195,7 @@ body.admin {
       float: left;
       padding: 10px 10px 20px;
       margin: 7px;
-      border: 1px dotted #444;
+      border: 1px dotted $bordergray;
       &.first {
         margin-left: 0;
       }
@@ -296,13 +330,23 @@ body.admin {
 .colors {
   .color {
     @include dotted_border;
+    @include large-rounded-corners;
+    border: 1px solid $lightgray;
     float: left;
-    margin: 20px;
-    padding: 10px;
+    margin: 15px;
+    padding: 20px;
     width: 100px;
+    height: 100px;
+    position: relative;
     .block {
-      width: 75px;
-      height: 75px;
+      position: absolute;
+      bottom: 0px;
+      right: 16px;
+      width: 100px;
+      padding: 4px;
+      text-align:center;
+      background-color: black;
+      @include large-rounded-corners;
     }
   }
 }

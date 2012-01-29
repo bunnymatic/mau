@@ -161,4 +161,8 @@ describe "not authorized", :shared => true do
   end
 end
 
-
+shared_examples_for 'returns success' do
+  it 'returns success' do
+    response.should be_success
+  end
+end

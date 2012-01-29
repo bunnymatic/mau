@@ -41,6 +41,7 @@ ActionController::Routing::Routes.draw do |map|
   map.openstudios '/openstudios', :controller => 'main', :action => 'openstudios'
   map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
 
+
   map.resources :artists, 
   :member => {
     :update => :post,
@@ -81,6 +82,8 @@ ActionController::Routing::Routes.draw do |map|
   map.version '/_rev', :controller => 'main', :action => 'version'
 
   map.admin_update_artists '/admin/artists/update', :controller => 'artists', :action=> 'admin_update'
+
+  map.email_list '/email_list/:action', :controller => :email_list
 
   map.admin_events '/admin/events', :controller => 'events', :action=> 'admin_index'
   map.admin_artists '/admin/artists', :controller => 'artists', :action=> 'admin_index'
