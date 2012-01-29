@@ -1,9 +1,9 @@
 class MauMailer < ActionMailer::Base
-  def self.mailer_list
+  def mailer_list
     begin
-      Object.const_get(self.name + 'List')
+      Object.const_get(self.class.name + 'List').first
     rescue Exception => ex
-      logger.debug('There is no mailer for the %s class' % self.name)
+      logger.debug('There is no mailer for the %s class' % self.class.name)
       nil
     end
   end

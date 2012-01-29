@@ -21,9 +21,6 @@ describe EmailList do
           eml.emails << Email.new(:email => email)
         end
         eml.save
-        p EmailList.all.map{|m| [m.id, m.type]}
-        p EmailList.find_by_type('WhateverMailList').emails
-        
       }.to change(Email, :count).by(2)
 
     end
@@ -32,6 +29,7 @@ describe EmailList do
         eml = TestMailerList.new
         eml.emails << Email.new(:email => 'joe@example.com')
         eml.emails << Email.new(:email => 'joe@example.com')
+        eml.save
       }.should raise_error ActiveRecord::StatementInvalid 
     end
   end

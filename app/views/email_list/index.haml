@@ -1,0 +1,30 @@
+.singlecolumn.email_lists
+  %h4 Internal Email Lists
+
+  - if flash[:error]
+    .error-msg Error: #{flash[:error]}
+  - if flash[:notice]
+    .notice #{flash[:notice]}
+  
+  %ul.listtypes
+    - @all_lists.each do |key, lst|
+      %li
+        .header 
+          = key.to_s.capitalize
+          %a.btn{:href => '#'} (+)
+        - form_tag do
+          %input{:type => 'hidden', :name => 'listtype', :value => key}
+          %input{:type => 'hidden', :name => 'method', :value => 'add_email'}
+          %ul.listcontents
+            - lst.each_with_index do |em,idx|
+              %li{:email_id => em.id, :class => (idx % 2 == 0)? 'even':'odd'}
+                &= em.formatted
+          .add_email
+            .new_email_inputs
+              .entry
+                %label{:for => 'email_name'} name
+                %input#email_name.name{:type => 'text', :name => 'email[name]'}
+              .entry
+                %label{:for => 'email_email'} email
+                %input#email_email.email{:type => 'text', :name => 'email[email]'}
+              %input{:type => 'submit', :value => 'add'}                

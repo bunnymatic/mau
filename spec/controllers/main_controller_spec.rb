@@ -3,9 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 include AuthenticatedTestHelper
 
 describe "successful notes mailer response", :shared => true do
-  it "responds success" do
-    response.should be_success
-  end
+  it_should_behave_like "returns success"
   it "response should return status success" do
     @resp['status'].should == 'success'
   end
@@ -183,7 +181,7 @@ describe MainController do
         get :resources
       end
       it_should_behave_like "logged in with editor role"
-      it 
+
     end        
   end
   describe "#about" do
@@ -243,9 +241,7 @@ describe MainController do
       before do
         post :getinvolved, :p => 'paypal_success'
       end
-      it 'returns success' do
-        response.should be_success
-      end
+      it_should_behave_like 'returns success'
       it 'sets some info about the page' do
         (/Get Involved/ =~ assigns(:page_title)).should be
       end
@@ -432,9 +428,7 @@ EOM
         xhr :post, :notes_mailer
         @j = JSON::parse(response.body)
       end
-      it "returns success" do
-        response.should be_success
-      end
+      it_should_behave_like 'returns success'
       it "returns json" do
         response.content_type.should == 'application/json'
       end
@@ -523,7 +517,7 @@ EOM
       context "email_list" do
         before do
           xhr :post, :notes_mailer, :note_type => 'email_list', 
-            :email => 'a@b.com', :email_confirm => 'a@b.cogm'
+            :email => 'a@b.com', :email_confirm => 'a@b.com'
           @resp = JSON::parse(response.body)
         end
         it_should_behave_like "successful notes mailer response"
