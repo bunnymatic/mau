@@ -49,6 +49,11 @@ Rails::Initializer.run do |config|
   config.cache_store = :mem_cache_store, { :namespace => 'maudev'}
 
   config.autoload_paths += %W(#{Rails.root}/app/mailers)
+  config.gem 'postmark-rails'
+  require 'postmark-rails'
+  
+  config.action_mailer.postmark_api_key ='e3ff1e94-b1a9-4ae8-aba5-2e3a8ba3692e'
+  config.action_mailer.delivery_method = :postmark
 end
 
 require 'has_many_polymorphs'
