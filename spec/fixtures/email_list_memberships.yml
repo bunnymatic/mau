@@ -17,3 +17,11 @@ event_event_coordinator2:
 event_event_coordinator1:
   email_list: events
   email: event_coordinator1
+
+feedback_feedback_coordinator1:
+  email_list: feedback
+  email: feedback_coordinator1
+
+feedback_admin1:
+  email_list: feedback
+  email: admin1

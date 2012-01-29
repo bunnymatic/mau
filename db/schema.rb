@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120128052131) do
+ActiveRecord::Schema.define(:version => 20120128233115) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(:version => 20120128052131) do
   create_table "email_list_memberships", :id => false, :force => true do |t|
     t.integer "email_id"
     t.integer "email_list_id"
+    t.integer "id"
   end
 
   create_table "email_lists", :force => true do |t|
@@ -128,12 +129,16 @@ ActiveRecord::Schema.define(:version => 20120128052131) do
     t.datetime "updated_at"
   end
 
+  add_index "email_lists", ["type"], :name => "index_email_lists_on_type", :unique => true
+
   create_table "emails", :force => true do |t|
     t.string   "name"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "emails", ["email"], :name => "index_emails_on_email", :unique => true
 
   create_table "events", :force => true do |t|
     t.string   "title"

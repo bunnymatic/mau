@@ -3,3 +3,6 @@ admins:
 
 events:
   type: EventMailerList
+
+feedback:
+  type: FeedbackMailerList

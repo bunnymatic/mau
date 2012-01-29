@@ -1,6 +1,6 @@
 .colors
   - @colors.each do |color|
-    .color
-      .name #{color[0]}
-      .block{:style => "background-color: ##{color[1]}"} 
-      .hexval ##{color[1]}
+    .color{:style => "background-color: ##{color[1]}"}
+      .block
+        .name #{color[0]}
+        .hexval ##{color[1]}
