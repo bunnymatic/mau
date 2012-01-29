@@ -150,7 +150,6 @@ class MainController < ApplicationController
         FeedbackMailer.deliver_feedback(f)
       end
     end
-
     render :json => resp_hash
   end
 

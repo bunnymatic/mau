@@ -1,17 +1,17 @@
 class FeedbackMailer < MauMailer
   
-  @@FEEDBACK_EMAIL_LIST = Conf.feedback_emails
   def feedback(feedback)
-    if !@@FEEDBACK_EMAIL_LIST || @@FEEDBACK_EMAIL_LIST.empty?
-      logger.info("No one to mail feedback to!")
-    else
-      @recipients  = @@FEEDBACK_EMAIL_LIST
-      @from        = 'noreply@missionartistsunited.org'
-      @subject     = "[MAU Feedback] #{feedback.subject}"
-      @sent_on     = Time.now
+    emails = 'feedback@missionartistsunited.org','trish@trishtunney.com' #just in case
+    if mailer_list.present?
+      emails = mailer_list.formatted_emails
     end
+    @recipients  =  emails
+    @from        = 'noreply@missionartistsunited.org'
+    @subject     = "[MAU Feedback] #{feedback.subject}"
+    @sent_on     = Time.now
     @body[:feedback] = feedback
 
   end
 
 end
+

@@ -1,0 +1,12 @@
+admin1:
+  email: admin1@example.com
+  name: me
+admin2:
+  email: admin2@example.com
+  name: you
+event_coordinator1:
+  email: ev1@example.com
+event_coordinator2:
+  email: ev2@example.com
+feedback_coordinator1:
+  email: fb1@example.com

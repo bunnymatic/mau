@@ -1,0 +1,8 @@
+admins:
+  type: AdminMailerList
+
+events:
+  type: EventMailerList
+
+feedback:
+  type: FeedbackMailerList
