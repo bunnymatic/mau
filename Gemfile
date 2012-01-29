@@ -30,7 +30,7 @@ gem 'mime-types'
 #gem 'wkhtmltopdf-binary'
 
 # mailing with postmarkapp.com
-gem 'postmark-rails'
+#gem 'postmark-rails'
 
 group :test, :development do
   gem 'mocha','0.9.10'
