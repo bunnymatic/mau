@@ -199,7 +199,7 @@ describe AdminController do
         get :index
       end
       it 'has place holders for the graphs' do
-        response.should have_tag('.section.graph', :count => 3)
+        assert_select('.section.graph', :count => 3)
       end
       [:total, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
         it 'renders an #{sxn} stats section' do
@@ -255,7 +255,7 @@ describe AdminController do
       
       Role.all.each do |r|
         it "has the role #{r} in a list element" do
-          response.should have_tag 'li .role', :count => Role.count
+          assert_select 'li .role', :count => Role.count
         end
       end
     end
@@ -318,16 +318,12 @@ describe AdminController do
         get :featured_artist
       end
       it "includes previously featured artists" do
-        response.should have_tag('.previously_featured li', :count => 2)
+        assert_select('.previously_featured li', :count => 2)
       end
-      it 'has no button to get the next featured artist if the most recent featured artist was featured less than 1 week ago' do
-        response.should_not have_tag('#get_next_featured')
-      end
-      it 'includes a button to get the next featured artist if it\'s more than 1 week since the last one' do
-        FeaturedArtistQueue.featured.each_with_index {|fa, idx| fa.update_attributes(:featured => Time.now - (2*(1+idx)).weeks) }
+      it 'includes a button to get the next featured artist' do
         login_as(:admin)
         get :featured_artist
-        response.should have_tag('#get_next_featured')
+        assert_select('#get_next_featured')
       end
     end
     context "#post" do
@@ -338,17 +334,28 @@ describe AdminController do
         post :featured_artist
       end
       it "returns success" do
-        response.should be_success
-      end
-      it "renders the featured_artist template" do
-        response.should render_template :featured_artist
+        response.should redirect_to '/admin/featured_artist'
       end
       it "tries to get the next artist from the queue" do
         FeaturedArtistQueue.featured.count.should == (@featured_count + 1)
       end
-      it "calling it again flashes a warning" do
-        post :featured_artist
-        response.should have_tag('.featured .error-msg')
+      context 'immediately after setting a featured artist' do
+        before do
+          get :featured_artist
+        end
+        it "renders the featured_artist template" do
+          response.should render_template :featured_artist
+        end
+        it 'includes an override checkbox to get the next featured artist' do
+          assert_select('input#override_date')
+        end
+        it 'shows a warning message' do 
+          assert_select('.featured .warning')
+        end
+        it "post with override gets the next artist" do
+          post :featured_artist, :override => true
+          FeaturedArtistQueue.featured.count.should == (@featured_count + 2)
+        end
       end
     end
   end

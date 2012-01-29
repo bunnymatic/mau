@@ -13,8 +13,20 @@
       - else
         %img.profile{:src => "/images/default-profile-img-not-me.png", :width => '200'}
     .info      
-      - if @featured.featured < Time.now - 1.week 
-        - form_tag get_next_featured_path, :id => 'get_next_featured', :method => :post do
+      - clz = (@featured.featured > 1.week.ago) ? 'warning' :''
+      %div{:class => clz}
+        = "This artist has "
+        - if clz.present?
+          = "only "
+        = "been featured for about #{distance_of_time_in_words(@featured.featured, Time.now)}"
+
+
+      - form_tag get_next_featured_path, :id => 'get_next_featured', :method => :post do
+        .override
+        - if clz.present?
+          %label{:for => 'override_date'} Override Date Restriction?
+          %input{:id => 'override_date', :type => 'checkbox', :name => 'override'}
+        .submit
           %input{:type => 'submit', :value => 'get the next featured artist'}
       .name 
         %label Name: 
