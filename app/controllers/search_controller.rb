@@ -16,7 +16,6 @@ class SearchController < ApplicationController
       return
     end
     qq = (params[:query] || "").strip
-    
     page = 0
     if params[:p]
       page = params[:p].to_i
@@ -44,21 +43,19 @@ class SearchController < ApplicationController
     end
 
     # check for artist exact name match
+    results = {}
     active_artists.each do |a|
-      if a.get_name(false).downcase == qq
+      if /#{qq}/i =~ a.get_name(false)
         if a.representative_piece
           ap = a.representative_piece
-          results = { ap.id => ap }
+          results[ap.id] = ap
         end
       end
     end
       
-    qq = "%" + qq + "%"
+    qq = "%" + qq.to_s + "%"
     
-    if not results
-      qs = qq.split(/\s+/)
-      name_clause = ''
-      
+    if results.empty?
       by_artist = (Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) ", qq, qq, qq])).map { |a| a.representative_piece }
     
       tag_ids = (ArtPieceTag.find(:all, :conditions => ["name like ?", qq])).map { |tg| tg.id }
@@ -77,7 +74,6 @@ class SearchController < ApplicationController
       by_art_piece = ArtPiece.find(:all, :conditions => ["filename like ? or title like ? or medium_id in (?)", qq, qq, media_ids ]) 
 
       # join all uniquely and sort by recently added
-      results = {}
       begin 
         [by_art_piece, by_media, by_tags, by_artist].each do |lst|
           if lst.length > 0
