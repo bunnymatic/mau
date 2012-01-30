@@ -3,7 +3,6 @@ require 'htmlhelper'
 class ArtPieceTag < ActiveRecord::Base
   include TagMediaMixin
 
-  has_many :art_pieces_tags
   has_many :art_pieces, :through => :art_pieces_tags
 
   validates_presence_of     :name
@@ -58,8 +57,7 @@ class ArtPieceTag < ActiveRecord::Base
     # return sorted by freq
     keyed = {}
     dbr.each do |rowarr|
-      row = Hash[ 'tag', row[0], 'ct', row[1] ]
-      put "ROW ", row
+      row = Hash[ 'tag', rowarr[0], 'ct', rowarr[1] ]
       keyed[ row['tag'] ] = row['ct']
     end
     keyed

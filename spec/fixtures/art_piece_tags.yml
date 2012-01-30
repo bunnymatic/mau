@@ -20,5 +20,11 @@ three:
 with_spaces:
   name: this is the tag
 
+other:
+  name: other
+
+unused:
+  name: unused
+
 empty:
   name: 
