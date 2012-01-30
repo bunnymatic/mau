@@ -3,7 +3,7 @@ require 'json/add/core'
 require 'json/add/rails' 
 class ArtPieceTagsController < ApplicationController
   layout 'mau1col'
-  before_filter :admin_required, :except => [ 'index', 'show' ]
+  before_filter :admin_required, :except => [ :index, :show ]
   after_filter :store_location
 
   @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
@@ -14,8 +14,8 @@ class ArtPieceTagsController < ApplicationController
     tags = ArtPieceTag.all
     freq = ArtPieceTag.keyed_frequency
     tags.each do |t|
-      if freq.keys.include? t.id.to_s
-        t['count'] = freq[ t.id.to_s ].to_f
+      if freq.keys.include? t.id
+        t['count'] = freq[ t.id ].to_f
       else
         t['count'] = 0
       end
@@ -28,8 +28,8 @@ class ArtPieceTagsController < ApplicationController
     tags = ArtPieceTag.all
     freq = ArtPieceTag.keyed_frequency
     tags.each do |t|
-      if freq.keys.include? t.id.to_s
-        t['count'] = freq[ t.id.to_s ].to_f
+      if freq.keys.include? t.id
+        t['count'] = freq[ t.id ].to_f
       else
         t['count'] = 0
       end
