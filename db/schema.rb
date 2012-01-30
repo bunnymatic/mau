@@ -78,8 +78,8 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
   end
 
   create_table "basic_recipe_groups", :force => true do |t|
-    t.string   "name",                 :limit => 33, :null => false
-    t.integer  "index"
+    t.string   "name",                 :limit => 33
+    t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "basic_recipe_type_id"
@@ -91,8 +91,8 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
   end
 
   create_table "basic_recipe_types", :force => true do |t|
-    t.string   "name",       :limit => 33, :null => false
-    t.integer  "index"
+    t.string   "name",       :limit => 33
+    t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -113,6 +113,19 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
     t.string   "page"
     t.string   "section"
     t.text     "article"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -198,9 +211,33 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
     t.datetime "updated_at"
   end
 
+  create_table "foundation_notes", :force => true do |t|
+    t.integer  "position"
+    t.string   "navigation_label"
+    t.string   "title"
+    t.string   "caption"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "grain_notes", :force => true do |t|
+    t.string   "navigation_label"
+    t.string   "title"
+    t.text     "body"
+    t.string   "caption"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.integer  "grain_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "grain_recipe_groups", :force => true do |t|
-    t.string   "name",          :limit => 33,                :null => false
-    t.integer  "index",                       :default => 0
+    t.string   "name",          :limit => 33
+    t.integer  "position",                    :default => 0
     t.integer  "grain_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -212,14 +249,14 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
   end
 
   create_table "grain_types", :force => true do |t|
-    t.string   "name",       :limit => 33,                :null => false
+    t.string   "name",       :limit => 33
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "index",                    :default => 0
+    t.integer  "position",                 :default => 0
   end
 
   create_table "ingredient_groups", :force => true do |t|
-    t.integer  "index"
+    t.integer  "position"
     t.string   "heading"
     t.integer  "recipe_id"
     t.datetime "created_at"
@@ -229,16 +266,16 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
   create_table "ingredients", :force => true do |t|
     t.string   "name"
     t.string   "amount"
-    t.string   "units"
-    t.integer  "index",               :default => 0
+    t.integer  "position",            :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "ingredient_group_id"
+    t.integer  "product_id"
   end
 
   create_table "meal_recipe_groups", :force => true do |t|
-    t.string   "name",         :limit => 33,                :null => false
-    t.integer  "index",                      :default => 0
+    t.string   "name",         :limit => 33
+    t.integer  "position",                   :default => 0
     t.integer  "meal_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -250,13 +287,21 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
   end
 
   create_table "meal_types", :force => true do |t|
-    t.string   "name",       :limit => 33,                :null => false
+    t.string   "name",       :limit => 33
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "index",                    :default => 0
+    t.integer  "position",                 :default => 0
   end
 
   create_table "media", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "product_groups", :force => true do |t|
+    t.integer  "grain_type_id"
+    t.integer  "position"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -266,6 +311,9 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
     t.string   "shopify_product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "product_group_id"
+    t.text     "description"
+    t.string   "long_title"
   end
 
   create_table "rails_admin_histories", :force => true do |t|
@@ -282,7 +330,7 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_histories_on_item_and_table_and_month_and_year"
 
   create_table "recipe_step_images", :force => true do |t|
-    t.integer  "index",              :default => 0
+    t.integer  "position",           :default => 0
     t.string   "title"
     t.integer  "recipe_step_id"
     t.datetime "created_at"
@@ -295,7 +343,7 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
 
   create_table "recipe_steps", :force => true do |t|
     t.text     "body"
-    t.integer  "index",      :default => 0
+    t.integer  "position",   :default => 0
     t.integer  "recipe_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -305,7 +353,7 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "caption"
+    t.string   "caption",              :limit => 1024
     t.text     "headnote"
     t.string   "prep_time"
     t.integer  "difficulty"
@@ -417,6 +465,15 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
     t.string   "state",         :limit => 4
     t.integer  "zip"
     t.string   "description",   :limit => 2000
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "what_we_do_pages", :force => true do |t|
+    t.integer  "position"
+    t.string   "navigation_label"
+    t.string   "title"
+    t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
