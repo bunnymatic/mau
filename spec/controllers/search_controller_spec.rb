@@ -33,9 +33,8 @@ describe SearchController do
         response.should include_text("couldn't find anything that matched")
       end
     end
-
     [:annafizyta, :artist1].each do |artist|
-      [:firstname, :lastname, :login, :fullname].each do |term|
+      %w[ firstname lastname login fullname].each do |term|
         context "for #{artist} by #{term}" do
           before do
             @artist = users(artist)
@@ -52,8 +51,8 @@ describe SearchController do
         end
       end
 
-      [:firstname, :lastname, :login, :fullname].each do |term|
-        context "finds artists even if there are extra spaces in the query using artists' #{term}" do
+      %w[ firstname lastname fullname].each do |term|
+        context "finds artists even if there are extra spaces in the query using #{artist}.#{term}" do
           before do
             @artist = users(artist)
             get :index, :query => @artist.send(term) + " "
@@ -69,8 +68,8 @@ describe SearchController do
         end
       end
 
-      [:firstname, :lastname, :login, :fullname].each do |term|
-        context "capitalization of search term for #{term}" do
+      %w[firstname lastname fullname].each do |term|
+        context "capitalization of search term for #{artist}.#{term}" do
           before do
             @artist = users(artist)
             get :index, :query => @artist.send(term).capitalize
@@ -85,8 +84,8 @@ describe SearchController do
           end
         end
       end
-      [:firstname, :lastname, :login, :fullname].each do |term|
-        context "uppercase of search term for #{term}" do
+      %w[firstname lastname fullname].each do |term|
+        context "uppercase of search term for #{artist}.#{term}" do
           before do
             @artist = users(artist)
             get :index, :query => @artist.send(term).upcase
