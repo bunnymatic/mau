@@ -18,7 +18,7 @@ end
 
 describe ArtPieceTag do
   include TagSpecHelper
-  fixtures :art_piece_tags
+  fixtures :art_piece_tags, :art_pieces_tags, :art_pieces
   describe 'creation'  do
     it "should create tag" do
       t = ArtPieceTag.new
@@ -40,40 +40,19 @@ describe ArtPieceTag do
       lambda { ArtPieceTag.frequency }.should_not raise_error
     end
 
-    describe 'after art pieces are tagged' do
-      before do
-        one = art_piece_tags(:one)
-        two = art_piece_tags(:two)
-        three = art_piece_tags(:with_spaces)
-        
-        tags = [ one, two ]
-        ap = ArtPiece.new(:title => 'tt', :art_piece_tags => tags)
-        ap.save!
-        
-        tags = [ three, two ]
-        ap = ArtPiece.new(:title => 't2', :art_piece_tags => tags)
-        ap.save!
-        
-        ap = ArtPiece.new(:title => 'trauma', :art_piece_tags => tags)
-        ap.save!
-        
-        ap = ArtPiece.new(:title => 'trauma', :art_piece_tags => tags)
-        ap.save!
-      end
-      it "frequency returns normalized frequency correctly" do
-        f = ArtPieceTag.frequency
-        tags = f.collect {|t| t["tag"]}
-        cts = f.collect {|t| t["ct"]}
-        tags.should == [art_piece_tags(:two), art_piece_tags(:with_spaces), art_piece_tags(:one)].map(&:id)
-        cts.should == [1.0, 0.75, 0.25]
-      end
-      it "frequency returns un-normalized frequency correctly" do
-        f = ArtPieceTag.frequency(normalize=false)
-        tags = f.collect {|t| t["tag"]}
-        cts = f.collect {|t| t["ct"]}
-        tags.should == [art_piece_tags(:two), art_piece_tags(:with_spaces), art_piece_tags(:one)].map(&:id)
-        cts.should == [4,3,1]
-      end
+    it "frequency returns normalized frequency correctly" do
+      f = ArtPieceTag.frequency
+      tags = f.collect {|t| t["tag"]}
+      cts = f.collect {|t| t["ct"]}
+      tags.should == [art_piece_tags(:one), art_piece_tags(:two), art_piece_tags(:three),  art_piece_tags(:with_spaces)].map(&:id)
+      cts.should == [1.0, 0.8, 0.6, 0.4] 
+    end
+    it "frequency returns un-normalized frequency correctly" do
+      f = ArtPieceTag.frequency(normalize=false)
+      tags = f.collect {|t| t["tag"]}
+      cts = f.collect {|t| t["ct"]}
+      tags.should == [art_piece_tags(:one), art_piece_tags(:two), art_piece_tags(:three),  art_piece_tags(:with_spaces)].map(&:id)
+      cts.should == [5,4,3,2]
     end
 
   end
