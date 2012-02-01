@@ -6,7 +6,8 @@ class FeedbackMailer < MauMailer
       emails = mailer_list.formatted_emails
     end
     @recipients  =  emails
-    @from        = 'noreply@missionartistsunited.org'
+    @from        = 'info@missionartistsunited.org'
+    @reply_to    = 'noreply@missionartistsunited.org'
     @subject     = "[MAU Feedback] #{feedback.subject}"
     @sent_on     = Time.now
     @body[:feedback] = feedback
