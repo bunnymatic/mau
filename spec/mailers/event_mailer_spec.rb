@@ -7,6 +7,6 @@ describe EventMailer do
     EventMailerList.first.emails.each do |expected|
       m.to.should include expected.email
     end
-    m.from.should include 'noreply@missionartistsunited.org'
+    m.from.should include 'info@missionartistsunited.org'
   end
 end
