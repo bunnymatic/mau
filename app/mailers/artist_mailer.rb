@@ -54,7 +54,7 @@ class ArtistMailer < MauMailer
   protected
     def setup_email(artist)
       @recipients  = "#{artist.email}"
-      @from        = "Mission Artists United Accounts <mauadmin@missionartistsunited.org>"
+      @from        = "Mission Artists United Accounts <mau@missionartistsunited.org>"
       @subject     = "Mission Artists United "
       @sent_on     = Time.now
       @body[:artist] = artist
