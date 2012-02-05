@@ -2222,6 +2222,12 @@ div.studios .studio-list {
   li {
     list-style: inside disc;
   }
+  &.editable {
+    &.active {
+      opacity: 0.6;
+      cursor: pointer;
+    }
+  }
 }
 .markdown-ctrls {
   padding: 20px;

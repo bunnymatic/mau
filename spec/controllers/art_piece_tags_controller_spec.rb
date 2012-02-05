@@ -64,6 +64,7 @@ describe ArtPieceTagsController do
       login_as(:admin)
       get :admin_index
     end
+    it_should_behave_like 'logged in as admin'
     it_should_behave_like 'returns success'
     it 'shows tag frequency' do
       assert_select '.singlecolumn table td.input-name', :match => /^\d+\.{0,1}\d+$/

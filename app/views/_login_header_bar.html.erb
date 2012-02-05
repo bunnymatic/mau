@@ -4,9 +4,9 @@
 <% if logged_in? %>
 <div id="logout">
 
-  <% if current_user.is_editor? %>
-  <%= render :partial => '/editor_header' %>
-  <% end %>
+  <%# if current_user.is_editor? %>
+  <%#= render :partial => '/editor_header' %>
+  <%# end %>
   <% if current_user.is_admin? %>
   <%= render :partial => '/admin_header' %>
   <% end %>

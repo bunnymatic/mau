@@ -78,16 +78,19 @@ class MainController < ApplicationController
     page = 'main_openstudios'
     section = 'spring_2004_blurb'
     markdown_content = CmsDocument.find_by_page_and_section(page, section)
-    @spring_os_blurb = ''
-    if markdown_content
-      @spring_os_blurb = markdown(markdown_content.article)
-    end
+    @spring_os_blurb = { 
+      :page => page,
+      :section => section
+    }
+    @spring_os_blurb[:content] = markdown(markdown_content.article) unless markdown_content.nil?
+
     section = 'preview_reception'
     markdown_content = CmsDocument.find_by_page_and_section(page, section)
-    @preview_reception_html = ''
-    if markdown_content
-      @preview_reception_html = markdown(markdown_content.article)
-    end
+    @preview_reception_html = {
+      :page => page,
+      :section => section
+    }
+    @preview_reception_html[:content] = markdown(markdown_content.article) unless markdown_content.nil?
     @page_title = "Mission Artists United: Spring Open Studios"
 
     respond_to do |fmt|

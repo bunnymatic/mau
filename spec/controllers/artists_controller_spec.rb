@@ -16,6 +16,17 @@ describe ArtistsController do
   end
 
   describe "#index" do
+    describe 'logged in as admin' do
+      integrate_views
+      before do
+        login_as(:admin)
+        get :index
+      end
+      it_should_behave_like 'returns success'
+      it_should_behave_like 'logged in as admin'
+    end
+    
+
     describe 'html' do
       integrate_views
       before do 
@@ -270,7 +281,6 @@ describe ArtistsController do
     
   describe "#show" do
     integrate_views
-
     context "while not logged in" do
       before(:each) do 
         get :show, :id => users(:artist1).id
@@ -397,7 +407,16 @@ describe ArtistsController do
         assert_select("div#u_facebook a[href=#{@a.artist_info.facebook}]")
       end
     end
+    describe 'logged in as admin' do
+      before do
+        login_as(:admin)
+        get :show, :id => users(:artist1).id
+      end
+      it_should_behave_like 'returns success'
+      it_should_behave_like 'logged in as admin'
+    end
   end
+
 
   describe "arrange art for an artist " do
     before(:each) do 
@@ -425,7 +444,7 @@ describe ArtistsController do
       aps[1].title.should == "art piece 2"
       aps[2].title.should == "first"
     end
-    context "while logged" do
+    context "while logged in" do
       before(:each) do
         login_as(@artist)
       end
@@ -535,6 +554,14 @@ describe ArtistsController do
         end
       end
     end
+    describe 'logged in as admin' do
+      before do
+        login_as(:admin)
+        get :map
+      end
+      it_should_behave_like 'returns success'
+      it_should_behave_like 'logged in as admin'
+    end
   end
 
   describe "#admin_index" do
@@ -565,6 +592,7 @@ describe ArtistsController do
         login_as(:admin)
         get :admin_index
       end
+      it_should_behave_like 'logged in as admin'
       it "returns success" do
         response.should be_success
       end

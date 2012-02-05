@@ -198,6 +198,7 @@ describe AdminController do
         login_as(:admin)
         get :index
       end
+      it_should_behave_like 'logged in as admin'
       it 'has place holders for the graphs' do
         assert_select('.section.graph', :count => 3)
       end
@@ -252,6 +253,7 @@ describe AdminController do
     end
     context "(view tests)" do
       integrate_views
+      it_should_behave_like 'logged in as admin'
       
       Role.all.each do |r|
         it "has the role #{r} in a list element" do

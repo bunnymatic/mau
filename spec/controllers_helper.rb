@@ -97,10 +97,30 @@ describe 'logged in artist', :shared => true do
   end
 end
 
-describe "logged in with editor role", :shared => true do
-  it 'shows the editor nav' do
-    response.should have_tag('#editor_nav')
+shared_examples_for "logged in as editor" do
+  it 'includes the editor javascript' do
+    assert_select('script[src^=/javascripts/mau/mau_editor.js]')
   end
+end
+
+shared_examples_for "logged in as admin" do
+  it_should_behave_like 'logged in as editor'
+  it 'includes the editor javascript' do
+    assert_select('script[src^=/javascripts/mau/mau_editor.js]')
+  end
+  it "shows the admin bar" do
+    response.should have_tag("#admin_nav")
+  end
+  it "shows a link to the dashboard" do
+    response.should have_tag('#admin_nav a.lkdark[href=/admin]', 'dashboard')
+  end
+  
+  %w{ os_status featured_artist favorites artists studios fans media roles events }.each do |admin_link|
+    it ("shows a link to admin/%s" % admin_link) do
+      response.should have_tag('#admin_nav a.lkdark[href=/admin/'+admin_link+']', admin_link)
+    end
+  end
+ 
 end
 
 describe "redirects to login", :shared => true do 
