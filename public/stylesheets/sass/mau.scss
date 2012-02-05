@@ -2168,6 +2168,9 @@ textarea.artist-bio {
 #mymaunav li ul {
   width: 124px;
 }
+#studionav li ul {
+  width: 136px;
+}
 
 ul.dropdown li:hover a,
 .nav a.lknav {
@@ -2780,7 +2783,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     ul {
       left:0px;
       position:absolute;
-      top: 90%;
+      top: 100%;
       visibility:hidden;
       z-index:598;
       ul {

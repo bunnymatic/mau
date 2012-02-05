@@ -45,10 +45,21 @@
             = link_to 'join in!', login_path, {:class => 'lknav'}
 
       -# in reverse order              
-      - [ ['events','/events/'], ['spaces','/studios/'] ].each do |nm,lk,clz|
+      - [ ['events','/events/'] ].each do |nm,lk,clz|
         %ul.dropdown{:class => clz}
           %li.dir
             %a.lknav{:href => lk, :title => nm} #{nm}
+      %ul.dropdown#studionav
+        %li.dir
+          %a.lknav{:href => studios_path} spaces
+          %ul
+            :ruby
+              studionav = []
+              studionav << "<a title='group studios' href='#{studios_path}'>group studios</a>"
+              studionav << "<a title='independent studios' href='#{studio_path(0)}'>independent studios</a>"
+              studionav << "<a title='venues' href='#{venues_path}'>venues</a>"
+            = HTMLHelper::print_list('leaf', studionav)
+          
       %ul.dropdown#osnav
         %li.dir
           %a.lknav{:href => openstudios_path} open studios
