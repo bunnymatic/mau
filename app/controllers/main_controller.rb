@@ -71,27 +71,32 @@ class MainController < ApplicationController
   end
 
   def openstudios
-    @page_title = "Mission Artists United - Open Studios"
+    @page_title = "Mission Artists United: Spring Open Studios"
     @participating_studios = Artist.active.open_studios_participants.reject{|a| a.studio_id == 0}.map(&:studio).uniq.sort &Studio.sort_by_name
     @participating_indies = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.reject{ |a| !a.in_the_mission? }.sort &Artist.sort_by_lastname
 
     page = 'main_openstudios'
     section = 'spring_2004_blurb'
     markdown_content = CmsDocument.find_by_page_and_section(page, section)
+    
     @spring_os_blurb = { 
       :page => page,
-      :section => section
+      :section => section,
     }
-    @spring_os_blurb[:content] = markdown(markdown_content.article) unless markdown_content.nil?
-
+    if !markdown_content.nil?
+      @spring_os_blurb[:content] = markdown(markdown_content.article) 
+      @spring_os_blurb[:cmsid] = markdown_content.id
+    end
     section = 'preview_reception'
     markdown_content = CmsDocument.find_by_page_and_section(page, section)
     @preview_reception_html = {
       :page => page,
-      :section => section
+      :section => section,
     }
-    @preview_reception_html[:content] = markdown(markdown_content.article) unless markdown_content.nil?
-    @page_title = "Mission Artists United: Spring Open Studios"
+    if !markdown_content.nil?
+      @preview_reception_html[:content] = markdown(markdown_content.article) 
+      @preview_reception_html[:cmsid] = markdown_content.id
+    end
 
     respond_to do |fmt|
       fmt.html { render }

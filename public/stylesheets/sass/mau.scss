@@ -2219,13 +2219,28 @@ div.studios .studio-list {
 /** markdown */
 
 .markdown {
+  position: relative;
   li {
     list-style: inside disc;
   }
   &.editable {
     &.active {
-      opacity: 0.6;
+      opacity: 0.7;
       cursor: pointer;
+      .edit_indicator {
+        display: block;
+      }
+        
+    }
+    .edit_indicator {
+      position: absolute;
+      top: 20px;
+      right: 50%;
+      background-color: $purple;
+      color: $lightyellow;
+      padding: 10px;
+      border: 1px solid $lightyellow;
+      display: none;
     }
   }
 }
@@ -2233,9 +2248,13 @@ div.studios .studio-list {
   padding: 20px;
   clear:both;
 }
+.cms-content,
 .test-content {
   width: 850px;
   margin: 45px auto 20px;
+  .links {
+    text-align: right;
+  }
   .markdown-input {
     float: left;
   }

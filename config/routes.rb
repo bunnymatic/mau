@@ -99,7 +99,7 @@ ActionController::Routing::Routes.draw do |map|
   map.mau_fans '/maufans/:id', :controller => 'users', :action => 'show'
   # all other admin links connect to AdminController
 
-  map.discount_processor '/discount/process', :controller => 'discount', :action => 'process'
+  map.discount_processor '/discount/markup', :controller => 'discount', :action => 'markup'
   
   map.catalog '/catalog/:action', :controller => 'catalog'
 

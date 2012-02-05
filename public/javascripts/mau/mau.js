@@ -810,12 +810,14 @@ var TagMediaHelper = {
   };
 
   T.jumpToIdx = function (idx) {
-    var n = T.ThumbList.length;
-    if (idx < 0) { idx = n-1; }
-    idx = idx % n;
-    var ap = T.ThumbList[idx];
-    T.curIdx = idx;
-    T.Helpers.update_page();
+    if (T.ThumbList) {
+      var n = T.ThumbList.length;
+      if (idx < 0) { idx = n-1; }
+      idx = idx % n;
+      var ap = T.ThumbList[idx];
+      T.curIdx = idx;
+      T.Helpers.update_page();
+    }
     return false;
   };
 
@@ -1523,7 +1525,8 @@ var TagMediaHelper = {
           }
           
           var params = {
-            markdown: markdown.getValue()
+            markdown: markdown.getValue(),
+            authenticity_token:unescape(authenticityToken)
           };
 
           var xhr = new Ajax.Request('/discount/markup', { 
