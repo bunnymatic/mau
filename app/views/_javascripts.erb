@@ -8,6 +8,4 @@
 <%= calendar_date_select_includes :mau %>
 <% if current_user && current_user.is_editor? -%>
 <%= javascript_include_tag 'mau/mau_editor.js' %>
-<% else -%>
-SUCKIT
 <% end -%>

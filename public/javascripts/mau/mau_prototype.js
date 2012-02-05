@@ -15,7 +15,7 @@ var MauPrototypeExtensions = {
     return null;
   },
   hover: function(elem,infunc, outfunc) {
-    if (!elem) return;
+    if (!elem) { return; }
     var el = $(elem);
     el.observe('mouseover',infunc);
     el.observe('mouseout',outfunc);

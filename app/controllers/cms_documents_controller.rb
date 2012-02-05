@@ -19,9 +19,7 @@ class CmsDocumentsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       @cms_document = CmsDocument.new()
     end
-    respond_to do |fmt|
-      fmt.html { render :template => '/cms_documents/new_or_edit.html.erb' }
-    end
+    render :template => '/cms_documents/new_or_edit'
   end
 
   def update

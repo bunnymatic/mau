@@ -76,7 +76,7 @@ MAUAdmin =  window.MAUAdmin || {};
             $frm.slideUp();
           }
         });
-    };
+    }
 
   };
   Event.observe(window,'load',M.init);
@@ -145,7 +145,7 @@ MAUAdmin =  window.MAUAdmin || {};
           var listname = ul.getAttribute('list_type');
           if ( email && listname && email_id ) {
             if (confirm('Whoa Nelly!  Are you sure you want to remove ' + email + ' from the ' + listname + ' list?')) {
-              var data_url = '/email_list/'
+              var data_url = '/email_list/';
               var ajax = new Ajax.Request(data_url, {
                 method: 'post',
                 parameters: {
@@ -178,7 +178,7 @@ MAUAdmin =  window.MAUAdmin || {};
               $(c).slideDown();
             }
           }
-        };
+        }
         ev.stop();
         return false;
       });

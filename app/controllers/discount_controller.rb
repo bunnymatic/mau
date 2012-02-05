@@ -1,5 +1,6 @@
 require 'rdiscount'
 class DiscountController < ApplicationController
+  before_filter :admin_required
   def markup
     html = 'shit'
     begin

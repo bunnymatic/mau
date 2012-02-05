@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
-describe "successful notes mailer response", :shared => true do
+shared_examples_for "successful notes mailer response" do
   it_should_behave_like "returns success"
   it "response should return status success" do
     @resp['status'].should == 'success'
@@ -12,7 +12,7 @@ describe "successful notes mailer response", :shared => true do
   end
 end
 
-describe 'has some invalid params', :shared => true do
+shared_examples_for 'has some invalid params' do
   it "responds with error status" do
     @resp['status'].should == 'error'
   end
@@ -27,25 +27,25 @@ end
 shared_examples_for 'main#index page' do
   it_should_behave_like 'two column layout'
   it "shows search box" do
-    response.should have_tag('#search_box')
+    assert_select '#search_box'
   end
   it "shows thumbnails" do
-    response.should have_tag("#main_thumbs #sampler")
+    assert_select "#main_thumbs #sampler"
   end
   it "has a feed container" do
-    response.should have_tag("#feed_div")
+    assert_select "#feed_div"
   end
   it "has a header menu" do
-    response.should have_tag('#header_bar')
-    response.should have_tag('#artisthemission')
+    assert_select '#header_bar'
+    assert_select '#artisthemission'
   end
   it 'has all the action buttons' do
-    response.should have_tag('.action_button', :count => 4)
+    assert_select '.action_button', :count => 4
   end
   it "has a footer menu" do
-    response.should have_tag('#footer_bar')
-    response.should have_tag('#footer_copy')
-    response.should have_tag('#footer_links')
+    assert_select '#footer_bar'
+    assert_select '#footer_copy'
+    assert_select '#footer_links'
   end
 end
 
@@ -332,18 +332,6 @@ describe MainController do
     integrate_views
     context "while not logged in" do
       before do
-        ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201104|201110'")
-        Artist.any_instance.stubs(:in_the_mission? => true)
-        a = users(:jesseponce)
-        s = studios(:s1890)
-        a.studio = s
-        a.save
-
-        a = users(:artist1)
-        s = studios(:blue)
-        a.studio = s
-        a.save
-        
         get :openstudios
       end
       it_should_behave_like 'two column layout'
@@ -368,24 +356,20 @@ describe MainController do
       it 'participating artists are in alpha order by last name' do
         assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should == assigns(:participating_indies)
       end
-      it "uses cms for parties" do
-        CmsDocument.expects(:find_by_page_and_section).at_least(2).returns(cms_documents(:preview_reception))
-        get :openstudios
-      end
       it "renders the markdown version" do
-          CmsDocument.any_instance.stubs(:article => <<EOM
-# header
-
-## header2 
-
-stuff
-EOM
-)
-                            
+        assert_select '.markdown h1', :match => 'pr header'
+        assert_select '.markdown h2', :match => 'pr header2'
+        assert_select '.markdown p em', :match => 'preview'
+      end
+      it 'the markdown entries have cms document ids in them' do
+        [ CmsDocument.find_by_section('spring_2004_blurb'),
+          CmsDocument.find_by_section('preview_reception') ].each do |cmsdoc|
+          assert_select '.markdown.editable[data-cmsid=%s]' % cmsdoc.id
+        end
+      end
+      it "uses cms for parties" do
+        CmsDocument.expects(:find_by_page_and_section).at_least(2)
         get :openstudios
-        response.should have_tag('h1', :match => 'header')
-        response.should have_tag('h2', :match => 'header2')
-        response.should have_tag('p', :match => 'stuff')
       end
       context "while logged in as an art fan" do
         before do
