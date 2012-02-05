@@ -38,6 +38,7 @@ describe EmailListController do
       before do
         get :index
       end
+      it_should_behave_like 'logged in as admin'
       it_should_behave_like 'returns success'
       [ [:feedback, 2, 'FeedbackMailerList'],
         [:event, 3, 'EventMailerList']].each do |listtype, ct, mailer|

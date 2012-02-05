@@ -67,19 +67,7 @@ describe MainController do
         get :index
       end
       it_should_behave_like 'main#index page'
-
-      it "shows the admin bar" do
-        response.should have_tag("#admin_nav")
-      end
-      it "shows a link to the dashboard" do
-        response.should have_tag('#admin_nav a.lkdark[href=/admin]', 'dashboard')
-      end
-      
-      %w{ os_status featured_artist favorites artists studios fans media roles events }.each do |admin_link|
-        it ("shows a link to admin/%s" % admin_link) do
-          response.should have_tag('#admin_nav a.lkdark[href=/admin/'+admin_link+']', admin_link)
-        end
-      end
+      it_should_behave_like 'logged in as admin'
     end
 
   end
@@ -180,9 +168,16 @@ describe MainController do
         @logged_in_user = u
         get :resources
       end
-      it_should_behave_like "logged in with editor role"
-
+      it_should_behave_like "logged in as editor"
     end        
+    context 'logged in as admin' do
+      before do
+        login_as(:admin)
+        get :resources
+      end
+      it_should_behave_like 'returns success'
+      it_should_behave_like 'logged in as admin'
+    end
   end
   describe "#about" do
     integrate_views

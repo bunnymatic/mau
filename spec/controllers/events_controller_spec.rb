@@ -170,6 +170,7 @@ describe EventsController do
       login_as(:admin)
       get :admin_index
     end
+    it_should_behave_like 'logged in as admin'
     it "returns sucess" do
       response.should be_success
     end
