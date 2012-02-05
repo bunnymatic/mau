@@ -6,4 +6,6 @@
 <![endif]-->
 <%= javascript_include_tag "thirdparty/prototype/1.7/prototype.min", "thirdparty/scriptaculous.all.min", "thirdparty/prototype.feedback", "mau/mau_prototype", "mau/mau", "mau/mau_cookies", "mau/mau_notes", 'mau/mau_popup_view' %>
 <%= calendar_date_select_includes :mau %>
-
+<% if current_user && current_user.is_editor? -%>
+<%= javascript_include_tag 'mau/mau_editor.js' %>
+<% end -%>

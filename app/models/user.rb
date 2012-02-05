@@ -190,7 +190,7 @@ class User < ActiveRecord::Base
 
   def is_editor?
     begin
-      self.roles.include? Role.find_by_role('editor')
+      is_admin? || (self.roles.include? Role.find_by_role('editor'))
     rescue Exception => e
       logger.debug(e)
       # if we have any issues, not admin

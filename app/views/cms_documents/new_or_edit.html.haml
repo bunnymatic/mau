@@ -1,0 +1,40 @@
+.cms-content
+  %h1 CMS Content
+  .links
+    = link_to 'Show This Document', @cms_document
+    = "|"
+    = link_to 'Document Index', cms_documents_path 
+
+  - form_for(@cms_document) do |f|
+    - if flash[:error]
+      .error-msg Error: #{flash[:error]}
+    - if flash[:notice]
+      .notice #{flash[:notice]}
+    .header_inputs.clear
+      .section
+        = f.label :page
+        = f.text_field :page
+      .section
+        = f.label :section
+        = f.text_field :section
+      .markdown-ctrls
+        %span#process_markdown_btn.formbutton preview &raquo;
+        = f.submit 'Save', :class => 'formbutton' 
+       
+    .section.markdown-input
+      = f.text_area :article, :rows => 50, :cols => 50, :class => 'input-markdown'
+    .section.markdown-results
+      .markdown#processed_markdown
+        = markdown @cms_document.article
+    .clear
+      Find more about Markdown here
+      %a{:href =>"http://daringfireball.net/projects/markdown/basics",:target => "_blank"} markdown basics
+      or on our
+      %a{:href => "/tests/markdown"} markdown test page.
+    %p
+      = f.submit 'Save'
+  .links
+    = link_to 'Show', @cms_document
+    = "|"
+    = link_to 'All', cms_documents_path 
+

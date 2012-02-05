@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
           if user.active?
             self.current_user = user
             # force shutoff of remember_me cookie - too agressive
-            new_cookie_flag = (params[:remember_me] == "1")
+            new_cookie_flag = (params[:remember_me] == "0")
             handle_remember_cookie! new_cookie_flag
             
             flash[:notice] = "Logged in successfully"
@@ -46,13 +46,13 @@ class SessionsController < ApplicationController
           else
             note_inactive_signin
             @login       = params[:login]
-            #@remember_me = params[:remember_me]
+            # @remember_me = params[:remember_me]
             render :action => 'new'
           end
         else
           note_failed_signin
           @login       = params[:login]
-          @remember_me = params[:remember_me]
+          # @remember_me = params[:remember_me]
           render :action => 'new'
         end
       }

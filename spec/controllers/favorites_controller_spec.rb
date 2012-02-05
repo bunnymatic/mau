@@ -80,6 +80,7 @@ describe FavoritesController do
       before do
         get :index
       end
+      it_should_behave_like 'logged in as admin'
       it "aaron should have 1 favorite art piece" do
         response.should have_tag('table.favorites td', :match => users(:maufan1).login)
       end
