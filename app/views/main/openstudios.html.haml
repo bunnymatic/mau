@@ -1,16 +1,13 @@
-#open_studios.logo-space
-  %h1 Spring Open Studios in the Mission
-  .section
-    %h4 
-      Saturday April 14 and Sunday April 15, 2012
-      %br
-      12noon &mdash; 6pm
-    = @spring_os_blurb 
-    .artist-links
-      %h5
-        %a{:href => artists_path(:osonly => true)}Open Studios Art
-        =# <h5><a href="<%= map_artists_path :osonly => true %>">Online Map</a></h5>
-        =# <h5><a href="/catalog/spring2011/mau_spring_2011_guide_color.pdf">Download the Guide</a></h5>
+#open_studios
+  :ruby
+    data = Hash[@spring_os_blurb.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
+  .section.markdown.editable{data}
+    = @spring_os_blurb[:content]
+  .section.artist-links
+    %h5
+      %a{:href => artists_path(:osonly => true)}Open Studios Art
+      =# <h5><a href="<%= map_artists_path :osonly => true %>">Online Map</a></h5>
+      =# <h5><a href="/catalog/spring2011/mau_spring_2011_guide_color.pdf">Download the Guide</a></h5>
     .clear
   .section
     %h4 Participating Group Studios
@@ -29,6 +26,7 @@
         %li
           = link_to(a.get_name(true), a)
           #{street}
-  .section
-    .markdown
-      = @preview_reception_html
+  :ruby
+    data = Hash[@preview_reception_html.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
+  .section.markdown.editable{data}
+    = @preview_reception_html[:content]

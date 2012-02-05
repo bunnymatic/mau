@@ -4,14 +4,6 @@
 <% if logged_in? %>
 <div id="logout">
 
-  <% if current_user.is_editor? %>
-  <%= render :partial => '/editor_header' %>
-  <% end %>
-  <% if current_user.is_admin? %>
-  <%= render :partial => '/admin_header' %>
-  <% end %>
-
-
   <%# spans go in reverse order because they all float right %>
   <span class="navitem last">
     <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %> 
