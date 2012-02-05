@@ -2161,12 +2161,14 @@ textarea.artist-bio {
 }
 #artistsnav li ul {
   width: 136px;
-  li { width: 100%; }
+}
+#osnav li ul {
+  width: 136px;
 }
 #mymaunav li ul {
   width: 124px;
-  li { width: 100%; }
 }
+
 ul.dropdown li:hover a,
 .nav a.lknav {
   color: $darkgray;
@@ -2669,7 +2671,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   padding:0;
 }
 
-.nav > div {
+.nav > ul {
   display: inline;
 }
 
@@ -2690,6 +2692,9 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     background-image: url(/images/gradients.png);
     background-repeat: repeat-x;
     background-position: 0 -165px; /* 40px gradient */
+  }
+  .leaf {
+    width: 100%;
   }
   .dir {
     padding-right:15px;
@@ -2724,7 +2729,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       border-style:solid;
       border-width:0px 1px 1px 1px;
       float:left;
-      padding: 4px;
+      padding: 4px 8px;
       font-weight:normal;
       vertical-align:middle;
       body.firefox & {
@@ -2736,6 +2741,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       &.dir {
         background-color: transparent;
         border:0;
+        line-height:25px;
       }
       &:hover {
         cursor:pointer;
