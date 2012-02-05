@@ -67,15 +67,16 @@
             :ruby
               osnav = []
               if Conf.oslive
+                osnav << "<a href='#{ openstudios_path }' title='open studios'>event details</a>"
                 osnav << "<a href='#{ artists_path(:osonly => 1) }' title='particpating artists'>participating artists</a>"
-                osnav << "<a href='#{ map_artists_path(:osonly => 1) }' title='map of open studios artists'>map</a>"
+                osnav << "<a href='#{ map_artists_path(:osonly => 1) }' title='map of open studios artists'>os map</a>"
                 if current_user
                   signup_path = edit_artist_path(current_user) + "#events"
                 else
                   signup_path = login_path  
                 end
                 osnav << "<a href='#{signup_path}'>artist sign up</a>"
-                osnav << "<a href='#{ artist_resources_path }' title='artists resources'>resources</a>"
+                osnav << "<a href='#{ artist_resources_path }' title='artists resources'>artist resources</a>"
               end
             = HTMLHelper::print_list('leaf', osnav)
       %ul#artistsnav.dropdown.first

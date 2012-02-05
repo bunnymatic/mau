@@ -1,16 +1,7 @@
 <div class="div-center">
   <h4>Add/Update Profile Picture for <%=h current_user.get_name %></h4>
   <div id="profile_update">
-    <% if flash and flash[:notice] and !flash[:notice].empty? -%>
-    <div class="notice">
-      <%= flash[:notice] %>
-    </div>
-    <% end -%>
-    <% if flash and flash[:error] and !flash[:error].empty? -%>
-    <div class="error-msg">
-      <%= flash[:error] %>
-    </div>
-    <% end -%>
+    <%= render :partial => '/flash_notice_error' %>
     <div class="content-block">
       <% if current_user.has_profile_image -%>
       <img src="<%= current_user.get_profile_image('small') %>" />

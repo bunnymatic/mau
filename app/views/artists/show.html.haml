@@ -7,10 +7,7 @@
       = render :partial => "big_thumb_column"
     %td.vstripe
     %td.rcol{:colspan => 2}
-      - if flash[:error]
-        .error-msg Error: #{flash[:error]}
-      - if flash[:notice]
-        .notice #{flash[:notice]}
+      = render :partial => '/flash_notice_error'
       .content-block
         - if @artist
           .artist-profile
