@@ -173,8 +173,17 @@ class MainController < ApplicationController
 
   def venues
     @page_title = "Mission Artists United - Venues"
-    doc = CmsDocument.find_by_page_and_section('venues','all')
-    @content = doc.article unless doc.nil?
+    page = 'venues'
+    section = 'all'
+    doc = CmsDocument.find_by_page_and_section(page, section)
+    @content = {
+      :page => page, 
+      :section => section
+    }
+    if !doc.nil?
+      @content[:content] = doc.article
+      @content[:cmsid] = doc.id
+    end
 
     # temporary venues endpoint until we actually add a real
     # controller/model behind it
