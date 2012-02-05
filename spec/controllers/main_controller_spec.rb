@@ -328,6 +328,34 @@ describe MainController do
       it_should_behave_like "logged in user"
     end
   end
+  describe '#main/venues' do
+    integrate_views
+    context "while not logged in" do
+      before do
+        get :venues
+      end
+      it_should_behave_like 'two column layout'
+      it_should_behave_like "not logged in"
+    end
+    context 'logged in as admin' do
+      before do
+        login_as(:admin)
+        get :venues
+      end
+      it_should_behave_like 'logged in as admin'
+      it "renders the markdown version" do
+        assert_select '.markdown h1', :match => 'these'
+        assert_select '.markdown h2', :match => 'are'
+        assert_select '.markdown h3', :match => 'venues'
+        assert_select '.markdown ul li', :count => 3
+      end
+      it 'the markdown entry have cms document ids in them' do
+        cmsdoc = cms_documents(:venues)
+        assert_select '.markdown.editable[data-cmsid=%s]' % cmsdoc.id
+      end
+    end
+  end
+
   describe "#main/openstudios" do
     integrate_views
     context "while not logged in" do

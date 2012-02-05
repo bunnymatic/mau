@@ -11,4 +11,4 @@ os_blurb:
 venues:
   page: venues
   section: all
-  article: "# these \n\n ## are \n\n ### venues \n\n* one\n\n*two\n\n*three"
+  article: "# these \n\n## are \n\n### venues \n\n* one\n* two\n* three"
