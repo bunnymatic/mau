@@ -7,8 +7,6 @@
     %td.rcol{:colspan => 2}
       #studio_page
         = render :partial => 'view_switcher'
-
-        - if flash[:error]
-          .error-msg #{flass[:error]}       
+        = render :partial => '/flash_notice_error'
         = render :partial => 'thumbs', :locals => {:studios => (@studios_by_count || @studios) }
   = render :partial => '/twocol_bottom'

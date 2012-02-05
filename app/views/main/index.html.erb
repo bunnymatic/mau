@@ -3,16 +3,7 @@
 <% end -%>
 
 <div id="main_messages">
-  <% if flash[:error] -%>
-  <div class="error-msg">
-    <%=h flash[:error] %>
-  </div>
-  <% end -%>
-  <% if flash[:notice] -%>
-  <div class="notice">
-    <%=h flash[:notice] %>
-  </div>
-  <% end -%>
+  <%= render :partial => '/flash_notice_error' %>
 </div>
 <div class="main-text">
   <h1>There are more artists in the Mission than any other neighborhood in San Francisco</h1>
