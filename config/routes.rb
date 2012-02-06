@@ -23,10 +23,6 @@ ActionController::Routing::Routes.draw do |map|
   map.reset 'reset/:reset_code', :controller => 'users', :action => 'reset', :method => :get
   map.submit_reset 'reset', :controller => 'users', :action => 'reset', :method => :post
 
-  # for mobile
-  map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'
-  map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
-
   # clear this shit out
   map.flaxartshow '/flaxart', :controller => 'wizards', :action => 'flaxart'
   map.flaxarteventthingy '/flaxart/eventthingy', :controller => 'wizards', :action => 'flax_eventthingy'
@@ -56,6 +52,9 @@ ActionController::Routing::Routes.draw do |map|
     :map => :get,
     :thumbs => :get
   }
+  # for mobile
+  map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'
+  map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
 
   map.resources :users, :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get }
 
