@@ -7,11 +7,11 @@ class ArtPiece < ActiveRecord::Base
   has_many :art_pieces_tags
   has_many :art_piece_tags, :through => :art_pieces_tags
 
-  after_save :clear_representative_piece_cache
+  after_save :clear_caches
   default_scope :order => '`order`'
 
-  @@NEW_ART_CACHE_KEY = 'newart'
-  @@NEW_ART_CACHE_EXPIRY = Conf.cache_expiry['new_art'].to_i
+  NEW_ART_CACHE_KEY = 'newart'
+  NEW_ART_CACHE_EXPIRY = Conf.cache_expiry['new_art'].to_i
 
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
@@ -63,22 +63,20 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def self.get_new_art
-    cache_key = @@NEW_ART_CACHE_KEY
+    cache_key = NEW_ART_CACHE_KEY
     new_art = Rails.cache.read(cache_key)
     unless new_art
       new_art = ArtPiece.find(:all, :conditions => ['artist_id is not null'], :limit => 12, :order => 'created_at desc')
-      Rails.cache.write(cache_key, new_art, :expires_in => @@NEW_ART_CACHE_EXPIRY)
+      Rails.cache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
     end
     new_art || []
   end
 
   private
-  def self.clear_new_art_cache
-    cache_key = @@NEW_ART_CACHE_KEY 
+  def clear_caches
+    cache_key = NEW_ART_CACHE_KEY 
     Rails.cache.delete(cache_key)
-  end
 
-  def clear_representative_piece_cache
     if self.artist && self.artist.id != nil?
       Rails.cache.delete("%s%s" % [Artist::CACHE_KEY, self.artist.id])
     end

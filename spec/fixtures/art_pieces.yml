@@ -8,6 +8,7 @@ hot:
   medium_id: <%= Fixtures.identify(:medium1) %>
   dimensions: hot x hot
   created_at:                <%= 5.days.ago.to_s :db  %>
+  artist: joeblogs
 
 not:
   filename: not.jpg
@@ -27,6 +28,7 @@ h1024w2048:
   image_height: 1024
   image_width: 2048
   created_at:                <%= 3.days.ago.to_s :db  %>
+  artist: annafizyta
 
 negative_size:
   filename: negative.jpg
@@ -37,6 +39,7 @@ negative_size:
   image_height: -1024
   image_width: -2048
   created_at:                <%= 6.days.ago.to_s :db  %>
+  artist: jesseponce
 
 artpiece1:
   filename: art piece 1.jpg
@@ -70,6 +73,7 @@ valid_dimensions:
   image_height: 1024
   image_width: 2048
   created_at:                <%= 12.hours.ago.to_s :db  %>
+  artist: joeblogs
 
 namewithtag:
   filename: blow.jpg
