@@ -66,7 +66,7 @@ class ArtPiece < ActiveRecord::Base
     cache_key = @@NEW_ART_CACHE_KEY
     new_art = Rails.cache.read(cache_key)
     unless new_art
-      new_art = ArtPiece.find(:all, :limit => 12, :order => 'created_at desc')
+      new_art = ArtPiece.find(:all, :conditions => ['artist_id is not null'], :limit => 12, :order => 'created_at desc')
       Rails.cache.write(cache_key, new_art, :expires_in => @@NEW_ART_CACHE_EXPIRY)
     end
     new_art || []
