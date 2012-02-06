@@ -17,7 +17,7 @@ end
 
 describe EventsController do
 
-  fixtures :users, :events, :roles
+  fixtures :users, :events, :roles, :art_pieces
 
   [:edit].each do |endpoint| 
     it "##{endpoint} should redirect to login if not logged in" do
