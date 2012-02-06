@@ -86,14 +86,7 @@
             :ruby
               artistsnav = []
               artistsnav << "<a href='#{artists_path}' title='artists by name'>artists by name</a>"
-              if Conf.oslive
-                 artistsnav << "<a href='#{ artists_path(:osonly => 1) }' title='open studios artists'>open studios artists</a>"
-              end
               artistsnav << "<a href='#{ map_artists_path }' title='artists by map'>artists by map</a>"
               artistsnav << "<a href='#{ media_path :m => 'a' }' title='artists by medium'>artists by medium</a>"
               artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
-              if Conf.oslive
-                artistsnav << "<a href='#{ map_artists_path(:osonly => 1) }' title='map of open studios artists'>open studios map</a>"
-                artistsnav << "<a href='/main/openstudios' title='what is open studios?'>open studios info</a>"
-              end
             = HTMLHelper::print_list('leaf', artistsnav)
