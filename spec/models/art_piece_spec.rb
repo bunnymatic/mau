@@ -53,7 +53,7 @@ describe ArtPiece, "ImageDimensions helper" do
 end
 
 describe ArtPiece, "get_new_art" do 
-  fixtures :art_pieces
+  fixtures :art_pieces, :users, :artist_infos
   before do
     Rails.cache.stubs(:read).returns(nil)
     t = Time.now
@@ -63,7 +63,7 @@ describe ArtPiece, "get_new_art" do
     ArtPiece.get_new_art.should be_a_kind_of Array
   end
   it 'returns art pieces updated between today and 2 days ago' do
-    all = ArtPiece.find_by_sql("select * from art_pieces")
+    all = ArtPiece.find_by_sql("select * from art_pieces").select{|a| a.artist_id}
     all.length.should >= 1
     aps = ArtPiece.get_new_art
     aps.length.should >=1 
