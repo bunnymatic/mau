@@ -44,7 +44,7 @@ shared_examples_for 'main#index page' do
   it 'assigns new art sorted by created at' do
     new_art = assigns(:new_art)
     new_art.should be_present
-    new_art.sort_by(&:created_at).should == new_art
+    new_art.sort_by(&:created_at).reverse.should == new_art
   end
   it "has a header menu" do
     assert_select '#header_bar'
