@@ -8,30 +8,6 @@ test:
    mailchimp_api_key: bogus-key
    oslive: 201110
 
-ub:
-   site_url: localhost:3000
-   cache_server: localhost:11211
-   image_servers: 
-   cache_expiry:
-       feed: 5
-       search: 20
-       objects: 20
-       media_frequency: 3600
-       tag_frequency: 3600
-   # minimum artists before we show a studio
-
-local:
-   site_url: localhost:3000
-   cache_server: localhost:11211
-   image_servers: 
-   cache_expiry:
-       feed: 20
-       search: 20
-       objects: 20
-       media_frequency: 3600
-       tag_frequency: 3600
-   mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
-
 development:
    site_url: artistsdev.missionartistsunited.org
    cache_server: localhost:11211
@@ -42,6 +18,7 @@ development:
        objects: 0
        media_frequency: 3600
        tag_frequency: 3600
+       new_art: 300
    mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
 
 production:
@@ -56,7 +33,7 @@ production:
        objects: 0
        media_frequency: 3600
        tag_frequency: 3600
-
+       new_art: 86400
 common:
    feedback_emails:
       - feedback@missionartistsunited.org
@@ -67,6 +44,7 @@ common:
        objects: 
        media_frequency: 3600
        tag_frequency: 3600
+       new_art: 300
 
    yahoo_api_key: N.34cqHV34HBVzs_fNwThGrKQN8oMtEsizMOW14GriC2lceN7KrJKTklkpO2uUDX
    shop_url: http://www.cafepress.com/MissionArtists

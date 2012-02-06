@@ -52,19 +52,34 @@ describe ArtPiece, "ImageDimensions helper" do
   end
 end
 
-describe ArtPiece, "get_todays_art" do 
+describe ArtPiece, "get_new_art" do 
   fixtures :art_pieces
-  it 'returns art pieces updated between today and yesterday' do
-    pending "Not yet implemented"
+  before do
+    Rails.cache.stubs(:read).returns(nil)
+    t = Time.now
+    Time.stubs(:now).returns(t)
+  end
+  it 'returns an array' do
+    ArtPiece.get_new_art.should be_a_kind_of Array
+  end
+  it 'returns art pieces updated between today and 2 days ago' do
     all = ArtPiece.find_by_sql("select * from art_pieces")
     all.length.should >= 1
     today = Time.now
-    yesterday = (today - 24.hours)
-    todays = all.select{|ap| (ap.created_at > yesterday && ap.created_at < today)}.map{|a| a.title}.sort
-    aps = ArtPiece.get_todays_art
+    yesterday = (today - 1.week)
+    todays = all.select{|ap| (ap.created_at > yesterday)}.map{|a| a.title}.sort
+    aps = ArtPiece.get_new_art
     aps.length.should >=1 
     taps = aps.map{|a| a.title}.sort
     taps.should == todays
+  end
+  context 'from cache' do
+    before do
+      Rails.cache.stubs(:read).returns([ArtPiece.last])
+    end
+    it 'returns pulls from the cache if available' do
+      ArtPiece.get_new_art.should == [ArtPiece.last]
+    end
   end
 end
 

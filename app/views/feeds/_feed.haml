@@ -1,23 +1,5 @@
 %script Event.observe(window, 'load', function() { new MAU.NotesMailer(".mau-note-link.feed_submission", { note_class: 'feed_submission', url: "/main/notes_mailer" }); });
 
-.logo
-  %a{:href => '/main/openstudios'}
-    %img{:title => 'Art is the Mission', :src => "/images/mau-nextosg.png" }
-
-%a{:title => "Get on the mailing list to hear all about MAU Events and Open Studios.", :href => '/contact'}
-  .action_button.sprite.mailing_list
-:ruby
-  if current_user
-    path = edit_artist_path(current_user) + "#events"
-  else
-    path = login_path  
-  end
- 
-%a{:title => "Signup for Spring Open Studios Now!", :href => path}
-  .action_button.sprite.spring_os_signup
-%a{:title => "Tell us about your upcoming art show!", :href => new_event_path}
-  .action_button.sprite.list_your_show
-
 #feed_div
   .feed-sxn-hdr
     #{@feed_html}
@@ -25,5 +7,3 @@
 #feed_request
   %span.mau-note-link.feed_submission Recommend a feed we should add to this list
 
-%a{:title => "Volunteer, shop, send us your feedback, donate, participate...", :href => getinvolved_path }
-  .action_button.sprite.get_involved

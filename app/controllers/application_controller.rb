@@ -6,8 +6,8 @@ require 'cookies_helper'
 require 'mobile_fu'
 require 'mobilized_styles'
 
-@@revision = 0
 class ApplicationController < ActionController::Base
+  @@revision = 0
 
   has_mobile_fu
   helper :all # include all helpers, all the time
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   layout 'mau'
   include AuthenticatedSystem
   include MobilizedStyles
-  before_filter :check_browser, :set_version, :get_feeds
+  before_filter :check_browser, :set_version, :get_feeds, :get_new_art
   after_filter :update_cookies
 
   def non_mobile
@@ -87,6 +87,10 @@ class ApplicationController < ActionController::Base
 
   def set_version
     @version = revision()
+  end
+
+  def get_new_art
+    @new_art = ArtPiece.get_new_art
   end
 
   def get_feeds
