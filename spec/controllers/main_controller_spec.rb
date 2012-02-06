@@ -38,6 +38,14 @@ shared_examples_for 'main#index page' do
   it 'has a new art sidebar element' do
     assert_select '.lcol .new_art'
   end
+  it 'shows a link to the artist with the most recently uploaded art' do
+    assert_select '.lcol .new_art a[href=%s]' % artist_path(ArtPiece.last.artist)
+  end
+  it 'assigns new art sorted by created at' do
+    new_art = assigns(:new_art)
+    new_art.should be_present
+    new_art.sort_by(&:created_at).reverse.should == new_art
+  end
   it "has a header menu" do
     assert_select '#header_bar'
     assert_select '#artisthemission'

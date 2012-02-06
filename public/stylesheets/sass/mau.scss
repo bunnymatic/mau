@@ -7,7 +7,7 @@ body {
   font-size: 13px;
   font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana", Arial, sans-serif;
   position: relative;
-  padding: 5px;
+  padding: 0;
   #noscript, #ie7_warning {
     width: 900px;
     margin: 20px auto;
@@ -20,6 +20,18 @@ body {
     }
   }
 }
+
+/*
+#bg {
+  position: fixed;
+  top: -1px;
+  left: -1px;
+  background-image: url(/images/bg-5px.png);
+  width: 110%;
+  height: 2000px;
+  z-index: -10;
+}
+*/
 
 p {
   padding-left: 10px;
@@ -1093,15 +1105,19 @@ margin: 0 0 20px 0;
 #login_toplink, #logout {
   color:$darkgray;
   font-size:x-small;
-  margin: 3px auto 4px auto;
-  padding: 4px 0 4px 0;
+  margin: 0 auto;
+  padding: 7px 0 8px 0px;
   text-align:right;
   width:908px;
+  background-color: $lightbluegray;
+  a:last-child {
+    margin-right: 10px;
+  }
 }
 
 #container{
   background-color:$bluegray;
-  margin: auto;
+  margin: auto auto 20px auto;
   padding:5px;
   position:relative;
   width: 900px;
