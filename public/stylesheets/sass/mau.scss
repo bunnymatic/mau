@@ -672,14 +672,35 @@ div.formbutton {
   vertical-align:middle;
 }
 
+.new_art {
+  padding: 0 15px;
+  margin: 10px 0;
+}
 .new_art_thumbs {
-  padding: 10px;
+  @include small-rounded-corners;
+  @include dotted_border;
+  margin: 5px auto 8px auto;
+  padding-bottom: 5px;
+  text-align:left;
+  .title {
+    font-weight:bold;
+    text-align: left;
+    margin-top: 2px;
+    padding: 2px 5px 1px 5px;
+    color: $lightyellow;
+  }
   .square {
     border: 1px solid $xmediumgray;
     margin: 4px;
     float: left;
-    width: 75px;
-    height: 75px;
+    width: 50px;
+    height: 50px;
+    &.first {
+      margin-left: 6px;
+    }
+    &.last {
+      margin-right: 0px;
+    }
   }
 }
 /** feeds **/
@@ -792,7 +813,7 @@ span.micro-icon {
 .feed-entries, .feed-studio-list {
   @include small-rounded-corners;
   @include dotted_border;
-  margin: 5px auto 8px auto;
+  margin: 0 auto 13px auto;
   text-align:left;
 }
 
