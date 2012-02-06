@@ -9,7 +9,7 @@ describe ArtPiecesController do
   fixtures :art_pieces
   fixtures :media
 
-  before(:each) do 
+  before do 
     # stash an artist and art pieces
     art_pieces =[]
     m1 = media(:medium1)
@@ -36,28 +36,25 @@ describe ArtPiecesController do
     art_pieces << ap
     @artist = a
     @artpieces = art_pieces
-
   end
 
   describe "#show" do
     context "not logged in" do
       integrate_views
-      before(:each) do
+      before do
         get :show, :id => @artpieces.first.id
       end
-      it "returns success" do
-        response.should be_success
-      end
+      it_should_behave_like 'returns success'
       it "displays art piece" do
-        response.should have_tag("#artpiece_title", @artpieces.first.title)
-        response.should have_tag("#ap_title", @artpieces.first.title)
+        assert_select("#artpiece_title", @artpieces.first.title)
+        assert_select("#ap_title", @artpieces.first.title)
       end
       it "has no edit buttons" do
-        response.should have_tag("div.edit-buttons", "")
+        assert_select("div.edit-buttons", "")
         response.should_not have_tag("div.edit-buttons *")
       end
       it "has a favorite me icon" do
-        response.should have_tag('.micro-icon.heart')
+        assert_select('.micro-icon.heart')
       end
       context "piece has been favorited" do
         before do
@@ -85,10 +82,10 @@ describe ArtPiecesController do
       it_should_behave_like 'two column layout'
       it_should_behave_like 'logged in artist'
       it "shows edit button" do
-        response.should have_tag("div.edit-buttons span#artpiece_edit a", "edit")
+        assert_select("div.edit-buttons span#artpiece_edit a", "edit")
       end
       it "shows delete button" do
-        response.should have_tag(".edit-buttons #artpiece_del a", "delete")
+        assert_select(".edit-buttons #artpiece_del a", "delete")
       end
       it "doesn't show heart icon" do
         response.should_not have_tag('.micro-icon.heart')
@@ -102,7 +99,7 @@ describe ArtPiecesController do
       end
       it_should_behave_like 'two column layout'
       it "shows heart icon" do
-        response.should have_tag('.micro-icon.heart')
+        assert_select('.micro-icon.heart')
       end
       it "doesn't have edit button" do
         response.should_not have_tag("div.edit-buttons span#artpiece_edit a", "edit")
@@ -156,9 +153,7 @@ describe ArtPiecesController do
         before do
           get :edit, :id => art_pieces(:artpiece1).id
         end
-        it "returns error if you don't own the artpiece" do
-          response.should be_success
-        end
+        it_should_behave_like 'returns success'
       end
     end
       
