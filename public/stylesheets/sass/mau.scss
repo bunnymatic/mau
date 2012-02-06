@@ -83,10 +83,17 @@ h5 {
   text-align: left;
 }
 .notice {
-  z-index: 1000;
+  z-index: 1;
   position: absolute;
   text-align: center;
   margin: 0;
+  .close_btn {
+    font-size: small;
+    font-weight: bold;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+  }
 }
 .two_column .notice {
   top: 50px;
@@ -1387,15 +1394,6 @@ table.getinv-form{
   margin: 8px 0;
 }
 
-/* open close buttons */
-#open_btn, #close_btn {
-  background-image:url(/images/icons/openclose-sprite.png);
-  height:16px;
-  width: 16px; overflow:hidden;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-}
 
 #prev-browse, #next-browse
 {
@@ -2383,10 +2381,7 @@ img.help-icon {
 
 #note_modal_content .popup-title,
 #feedback_modal_content .popup-title {
-  -moz-border-radius-topleft: 4px;
-  -moz-border-radius-topright: 4px;
-  -webkit-border-top-left-radius: 4px;
-  -webkit-border-top-right-radius: 4px;
+  @include round-top-corners;
   border-bottom: 1px solid $mediumgray;
   background-color: transparent;
   line-height:2em;
@@ -2397,10 +2392,7 @@ img.help-icon {
 }
 
 .popup-header {
-  -moz-border-radius-topleft: 4px;
-  -moz-border-radius-topright: 4px;
-  -webkit-border-top-left-radius: 4px;
-  -webkit-border-top-right-radius: 4px;
+  @include round-top-corners(7px);
   border-bottom: 1px solid $mediumgray;
   line-height: 1.5em;
   background-color: $black;
@@ -2432,10 +2424,7 @@ img.help-icon {
   padding-right: 10px;
 }
 #feedback_modal_content .feedback-signup-msg {
-  -moz-border-radius-bottomleft: 4px;
-  -moz-border-radius-bottomright: 4px;
-  -webkit-border-bottom-left-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
+  @include round-bottom-corners;
 }
 
 
@@ -2652,10 +2641,7 @@ form#feedback_form .error {
   z-index: 200;
   opacity: 1;
   .credits-hdr {
-    -moz-border-radius-topleft: 4px;
-    -moz-border-radius-topright: 4px;
-    -webkit-border-top-left-radius: 4px;
-    -webkit-border-top-right-radius: 4px;
+    @include round-top-corners;
     background-color: $black;
     color: $xlightgray;
     height: 2em;
@@ -2730,14 +2716,11 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     padding-right:15px;
   }
   .last {
-    -moz-border-radius-bottomleft: 4px;
-    -moz-border-radius-bottomright: 4px;
-    -webkit-border-bottom-left-radius: 4px;
-    -webkit-border-bottom-right-radius: 4px;
+    @include round-bottom-corners;
   }
   .first {
-    -moz-border-radius-topright: 4px;
-    -webkit-border-top-right-radius: 4px;
+    @include round-corner("top-right");
+    @include round-corner-mozilla("topright");
   }
   &.dropdown {
     display: inline;
@@ -3085,24 +3068,12 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       cursor: pointer;
       font-weight: bold;
     }
-    -moz-border-radius-topleft: 8px;
-    -moz-border-radius-topright: 8px;
-    -webkit-border-top-left-radius: 8px;
-    -webkit-border-top-right-radius: 8px;
-    border-bottom: 1px solid $mediumgray;
-    line-height: 1.5em;
-    background-color: $black;
-    font-weight: bold;
-    padding: 6px 6px 6px 12px;
-    position: relative;
   }
   .popup-content {
     padding: 6px 18px 12px 12px;
     background-color: $darkgray;
-    -moz-border-radius-bottomleft: 8px;
-    -moz-border-radius-bottomright: 8px;
-    -webkit-border-bottom-left-radius: 8px;
-    -webkit-border-bottom-right-radius: 8px;
+    @include round-bottom-corners(8px);
+
     form ul {
       margin-top: 8px;
     }
@@ -3158,24 +3129,11 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       cursor: pointer;
       font-weight: bold;
     }
-    -moz-border-radius-topleft: 8px;
-    -moz-border-radius-topright: 8px;
-    -webkit-border-top-left-radius: 8px;
-    -webkit-border-top-right-radius: 8px;
-    border-bottom: 1px solid $mediumgray;
-    line-height: 1.5em;
-    background-color: $black;
-    font-weight: bold;
-    padding: 6px 6px 6px 12px;
-    position: relative;
   }
   .popup-content {
     padding: 6px 18px 12px 12px;
     background-color: $darkgray;
-    -moz-border-radius-bottomleft: 8px;
-    -moz-border-radius-bottomright: 8px;
-    -webkit-border-bottom-left-radius: 8px;
-    -webkit-border-bottom-right-radius: 8px;
+    @include round-bottom-corners(8px);
     li {
       width: 100%;
       div {
@@ -3550,9 +3508,7 @@ a.button:hover {
 a.button,
 a.button b.o,
 a.button b.m {
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
+  @include small-rounded-corners;
   border-width: 1px;
   border-style: solid;
   display: block;
@@ -3680,10 +3636,10 @@ a.button b.m b {
     border-top: none;
     width: 180px;
     padding: 2px 0;
-    -moz-border-radius-topleft: 4px;
-    -webkit-border-top-left-radius: 4px;
-    -webkit-border-bottom-right-radius: 4px;
-    -webkit-border-bottom-right-radius: 4px;
+    @include round-corner("top-left");
+    @include round-corner("bottom-right");
+    @include round-corner-mozilla("topleft");
+    @include round-corner-mozilla("bottomright");
     a {
       padding: 4px 8px;
     }

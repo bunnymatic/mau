@@ -141,6 +141,10 @@ var TagMediaHelper = {
   M.addFlashObserver = function() {
     var notice = $$('.notice').first();
     if (notice) {
+      var close = new Element('div',{'class':'close_btn'});
+      close.innerHTML ='x';
+      notice.insert(close);
+      
       notice.setStyle({display:'block'});
       /*notice.blindDown(M.BLIND_OPTS.down);*/
       notice.observe('click', function() {
