@@ -9,7 +9,7 @@
     = render :partial => '/javascripts' 
     = javascript_include_tag "thirdparty/flotr/0.2.0/flotr"
     = javascript_include_tag "mau/mau_admin"
-    %link{:rel => "stylesheet", :type => "text/css", :media => "screen", :href => "/stylesheets/mau-admin.css" }
+    = stylesheet_link_tag 'mau-admin'
 
   %body.admin{:class => @browser_as_class}
     - if @_ie7 
