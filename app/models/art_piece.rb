@@ -10,6 +10,9 @@ class ArtPiece < ActiveRecord::Base
   after_save :clear_representative_piece_cache
   default_scope :order => '`order`'
 
+  @@NEW_ART_CACHE_KEY = 'newart'
+  @@NEW_ART_CACHE_EXPIRY = Conf.cache_expiry['new_art'].to_i
+
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 
@@ -59,12 +62,24 @@ class ArtPiece < ActiveRecord::Base
     self.find(:all, :conditions => "artist_id in (select id from users where state = 'active' and type='Artist')")
   end
 
-  def self.get_todays_art
-    today = Time.now
-    yesterday = (today - 24.days)
-    ArtPiece.find(:all, :conditions => ['created_at > ? and created_at < ?', yesterday, today])
+  def self.get_new_art
+    cache_key = @@NEW_ART_CACHE_KEY
+    new_art = Rails.cache.read(cache_key)
+    recency = 1.week
+    unless new_art
+      back_in_time = (Time.now - recency)
+      new_art = ArtPiece.find(:all, :conditions => ['created_at > ?', back_in_time], :limit => 12, :order => 'created_at desc')
+      Rails.cache.write(cache_key, new_art, :expires_in => @@NEW_ART_CACHE_EXPIRY)
+    end
+    new_art || []
   end
-  
+
+  private
+  def self.clear_new_art_cache
+    cache_key = @@NEW_ART_CACHE_KEY 
+    Rails.cache.delete(cache_key)
+  end
+
   def clear_representative_piece_cache
     if self.artist && self.artist.id != nil?
       Rails.cache.delete("%s%s" % [Artist::CACHE_KEY, self.artist.id])

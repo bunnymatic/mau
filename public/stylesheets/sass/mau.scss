@@ -672,6 +672,16 @@ div.formbutton {
   vertical-align:middle;
 }
 
+.new_art_thumbs {
+  padding: 10px;
+  .square {
+    border: 1px solid $xmediumgray;
+    margin: 4px;
+    float: left;
+    width: 75px;
+    height: 75px;
+  }
+}
 /** feeds **/
 div.feed-icon {
   position: absolute;
@@ -3771,3 +3781,4 @@ a.button b.m b {
     text-align: left;
   }
 }
+
