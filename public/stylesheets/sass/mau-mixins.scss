@@ -55,27 +55,67 @@ $lightyellow: #FEF7CA;
 }
 
 
+$default_rounded_amount: 4px;
+
+// Round corner at position by amount.
+@mixin round-corner($position, $amount: $default_rounded_amount) {
+  border-#{$position}-radius: $amount;
+  -webkit-border-#{$position}-radius: $amount;
+}
+
+@mixin round-corner-mozilla($position, $amount: $default_rounded_amount) {
+  -moz-border-radius-#{$position}: $amount;
+}
+
+// Round left corners by amount
+@mixin round-left-corners($amount: $default_rounded_amount) {
+  @include round-corner("top-left", $amount);
+  @include round-corner("bottom-left", $amount);
+  @include round-corner-mozilla("topleft", $amount);
+  @include round-corner-mozilla("bottomleft", $amount);
+}
+
+// Round right corners by amount
+@mixin round-right-corners($amount: $default_rounded_amount) {
+  @include round-corner("top-right", $amount);
+  @include round-corner("bottom-right", $amount);
+  @include round-corner-mozilla("topright", $amount);
+  @include round-corner-mozilla("bottomright", $amount);
+}
+// Round top corners by amount
+@mixin round-top-corners($amount: 5px) {
+  @include round-corner("top-left", $amount);
+  @include round-corner("top-right", $amount);
+  @include round-corner-mozilla("topleft", $amount);
+  @include round-corner-mozilla("topright", $amount);
+}
+
+// Round bottom corners by amount
+@mixin round-bottom-corners($amount: $default_rounded_amount) {
+  @include round-corner("bottom-left", $amount);
+  @include round-corner("bottom-right", $amount);
+  @include round-corner-mozilla("bottomleft", $amount);
+  @include round-corner-mozilla("bottomright", $amount);
+}
+// Round all corners by amount
+@mixin round-corners($amount: $default_rounded_amount) {
+  border-radius: $amount;
+  -moz-border-radius: $amount;
+  -webkit-border-radius: $amount;
+}
+
 @mixin small-rounded-bottom-corners {
-  -moz-border-radius-bottomleft: 4px;
-  -moz-border-radius-bottomright: 4px;
-  -webkit-border-bottom-left-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
+  @include round-bottom-corners;
 }
 @mixin small-rounded-top-corners {
-  -moz-border-radius-topleft: 4px;
-  -moz-border-radius-topright: 4px;
-  -webkit-border-top-left-radius: 4px;
-  -webkit-border-top-right-radius: 4px;
+  @include round-bottom-corners;
 }
+
 @mixin small-rounded-corners {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
+  @include round-corners;
 }
 @mixin large-rounded-corners {
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
-    border-radius: 7px;
+  @include round-corners($amount: 7px);
 }
     
 @mixin floating-window-border {
