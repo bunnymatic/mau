@@ -35,6 +35,9 @@ shared_examples_for 'main#index page' do
   it "has a feed container" do
     assert_select "#feed_div"
   end
+  it 'has a new art sidebar element' do
+    assert_select '.lcol .new_art'
+  end
   it "has a header menu" do
     assert_select '#header_bar'
     assert_select '#artisthemission'
