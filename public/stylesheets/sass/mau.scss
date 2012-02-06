@@ -2786,7 +2786,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       left:0px;
       position:absolute;
       top: 100%;
-      visibility:hidden;
+      display: none;
       z-index:598;
       ul {
         left:99%;
@@ -2794,7 +2794,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       }
     }
     li:hover > ul {
-      visibility:visible;
+      display: block;
     }
   }
 }

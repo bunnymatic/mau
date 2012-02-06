@@ -77,55 +77,10 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
     t.datetime "updated_at"
   end
 
-  create_table "basic_recipe_groups", :force => true do |t|
-    t.string   "name",                 :limit => 33
-    t.integer  "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "basic_recipe_type_id"
-  end
-
-  create_table "basic_recipe_groups_recipes", :id => false, :force => true do |t|
-    t.integer "basic_recipe_group_id"
-    t.integer "recipe_id"
-  end
-
-  create_table "basic_recipe_types", :force => true do |t|
-    t.string   "name",       :limit => 33
-    t.integer  "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "biographies", :force => true do |t|
-    t.string   "name"
-    t.string   "title"
-    t.text     "body"
-    t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
-    t.datetime "photo_updated_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "cms_documents", :force => true do |t|
     t.string   "page"
     t.string   "section"
     t.text     "article"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "delayed_jobs", :force => true do |t|
-    t.integer  "priority",   :default => 0
-    t.integer  "attempts",   :default => 0
-    t.text     "handler"
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -211,168 +166,10 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
     t.datetime "updated_at"
   end
 
-  create_table "foundation_notes", :force => true do |t|
-    t.integer  "position"
-    t.string   "navigation_label"
-    t.string   "title"
-    t.string   "caption"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "grain_notes", :force => true do |t|
-    t.string   "navigation_label"
-    t.string   "title"
-    t.text     "body"
-    t.string   "caption"
-    t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
-    t.datetime "photo_updated_at"
-    t.integer  "grain_type_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "grain_recipe_groups", :force => true do |t|
-    t.string   "name",          :limit => 33
-    t.integer  "position",                    :default => 0
-    t.integer  "grain_type_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "grain_recipe_groups_recipes", :id => false, :force => true do |t|
-    t.integer "grain_recipe_group_id"
-    t.integer "recipe_id"
-  end
-
-  create_table "grain_types", :force => true do |t|
-    t.string   "name",       :limit => 33
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "position",                 :default => 0
-  end
-
-  create_table "ingredient_groups", :force => true do |t|
-    t.integer  "position"
-    t.string   "heading"
-    t.integer  "recipe_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "ingredients", :force => true do |t|
-    t.string   "name"
-    t.string   "amount"
-    t.integer  "position",            :default => 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "ingredient_group_id"
-    t.integer  "product_id"
-  end
-
-  create_table "meal_recipe_groups", :force => true do |t|
-    t.string   "name",         :limit => 33
-    t.integer  "position",                   :default => 0
-    t.integer  "meal_type_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "meal_recipe_groups_recipes", :id => false, :force => true do |t|
-    t.integer "meal_recipe_group_id"
-    t.integer "recipe_id"
-  end
-
-  create_table "meal_types", :force => true do |t|
-    t.string   "name",       :limit => 33
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "position",                 :default => 0
-  end
-
   create_table "media", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "product_groups", :force => true do |t|
-    t.integer  "grain_type_id"
-    t.integer  "position"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "products", :force => true do |t|
-    t.string   "shopify_product_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "product_group_id"
-    t.text     "description"
-    t.string   "long_title"
-  end
-
-  create_table "rails_admin_histories", :force => true do |t|
-    t.string   "message"
-    t.string   "username"
-    t.integer  "item"
-    t.string   "table"
-    t.integer  "month"
-    t.integer  "year"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_histories_on_item_and_table_and_month_and_year"
-
-  create_table "recipe_step_images", :force => true do |t|
-    t.integer  "position",           :default => 0
-    t.string   "title"
-    t.integer  "recipe_step_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
-    t.datetime "photo_updated_at"
-  end
-
-  create_table "recipe_steps", :force => true do |t|
-    t.text     "body"
-    t.integer  "position",   :default => 0
-    t.integer  "recipe_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "recipes", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "caption",              :limit => 1024
-    t.text     "headnote"
-    t.string   "prep_time"
-    t.integer  "difficulty"
-    t.text     "equipment"
-    t.text     "sidebar_notes"
-    t.text     "recipe_notes"
-    t.string   "yield"
-    t.text     "origin_text"
-    t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
-    t.datetime "photo_updated_at"
-    t.string   "long_name"
-    t.string   "pdf_file_name"
-    t.string   "pdf_content_type"
-    t.integer  "pdf_file_size"
-    t.datetime "pdf_updated_at"
-    t.string   "attribution_tag"
-    t.string   "recipe_notes_heading"
   end
 
   create_table "roles", :force => true do |t|
@@ -455,27 +252,5 @@ ActiveRecord::Schema.define(:version => 20120129033210) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
-
-  create_table "venues", :force => true do |t|
-    t.string   "phone",         :limit => 16
-    t.string   "url",           :limit => 200
-    t.string   "profile_image", :limit => 200
-    t.string   "street",        :limit => 200
-    t.string   "city",          :limit => 200
-    t.string   "state",         :limit => 4
-    t.integer  "zip"
-    t.string   "description",   :limit => 2000
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "what_we_do_pages", :force => true do |t|
-    t.integer  "position"
-    t.string   "navigation_label"
-    t.string   "title"
-    t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end
