@@ -65,10 +65,8 @@ class ArtPiece < ActiveRecord::Base
   def self.get_new_art
     cache_key = @@NEW_ART_CACHE_KEY
     new_art = Rails.cache.read(cache_key)
-    recency = 1.week
     unless new_art
-      back_in_time = (Time.now - recency)
-      new_art = ArtPiece.find(:all, :conditions => ['created_at > ?', back_in_time], :limit => 12, :order => 'created_at desc')
+      new_art = ArtPiece.find(:all, :limit => 12, :order => 'created_at desc')
       Rails.cache.write(cache_key, new_art, :expires_in => @@NEW_ART_CACHE_EXPIRY)
     end
     new_art || []
