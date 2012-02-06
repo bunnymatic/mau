@@ -1,18 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 module TagSpecHelper
-  LETTERS = [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  
-
-  def random_string(len=5)
-    if len < 0 or len > 100
-      return "bogus"
-    end
-    n = LETTERS.length
-    (0..len).map{ LETTERS[rand(n)]  }.join;
-  end
-
   def random_tag
-    { :name => random_string(10) }
+    { :name => gen_random_string(10) }
   end
 end
 
