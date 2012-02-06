@@ -65,13 +65,10 @@ describe ArtPiece, "get_new_art" do
   it 'returns art pieces updated between today and 2 days ago' do
     all = ArtPiece.find_by_sql("select * from art_pieces")
     all.length.should >= 1
-    today = Time.now
-    yesterday = (today - 1.week)
-    todays = all.select{|ap| (ap.created_at > yesterday)}.map{|a| a.title}.sort
     aps = ArtPiece.get_new_art
     aps.length.should >=1 
-    taps = aps.map{|a| a.title}.sort
-    taps.should == todays
+    aps.length.should <=12 
+    aps.sort_by(&:created_at).should == all[0..12].sort_by(&:created_at)
   end
   context 'from cache' do
     before do

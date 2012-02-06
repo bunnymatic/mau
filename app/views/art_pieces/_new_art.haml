@@ -1,7 +1,10 @@
-.new-art
+.new_art
   - if @new_art.present?
     .new_art_thumbs
+      .title art recently added:
       - @new_art.each do |ap|
         %a{:href => art_piece_path(ap), :title => ap.title}
-          .square{:style => "background-image:url(%s); background-position: center center" % ap.get_path('thumb')}
+          .square{:style => "background-image:url(%s); background-position: center center" % ap.get_path('thumb'), :class => cycle("first", "", "", "last", :name => "row_class")}
+
+      .clear
   .clear
