@@ -9,7 +9,7 @@ class UserObserver < ActiveRecord::Observer
   def after_save(user)
     mailer_class = user.is_artist? ? ArtistMailer : UserMailer
     user.reload
-    if user.recently_activated?
+    if user.recently_activated? && user.mailchimp_subscribed_at.nil?
       mailer_class.deliver_activation(user)
       if user.is_artist?
         FeaturedArtistQueue.create(:artist_id => user.id, :position => rand) if user.is_artist?
