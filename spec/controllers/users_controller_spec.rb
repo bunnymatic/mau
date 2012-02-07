@@ -91,6 +91,7 @@ describe UsersController do
       before do
         MAUFan.any_instance.expects(:make_activation_code).at_least(1)
         MAUFan.any_instance.expects(:subscribe_and_welcome)
+        UserMailer.expects(:deliver_activation).once
         post :create, :mau_fan => { :login => 'newuser',
           :password_confirmation => "blurpit", 
           :lastname => "bmatic2", 
