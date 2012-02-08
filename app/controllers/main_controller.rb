@@ -167,8 +167,20 @@ class MainController < ApplicationController
   end
 
   def resources
+    
     @page_title = "Mission Artists United - Open Studios"
-    render :action => 'resources', :layout => 'mau'
+    page = 'main'
+    section = 'artist_resources'
+    doc = CmsDocument.find_by_page_and_section(page, section)
+    @content = {
+      :page => page, 
+      :section => section
+    }
+    if !doc.nil?
+      @content[:content] = doc.article
+      @content[:cmsid] = doc.id
+    end
+    render :action => 'resources', :layout => 'mau2col'
   end
 
   def venues
