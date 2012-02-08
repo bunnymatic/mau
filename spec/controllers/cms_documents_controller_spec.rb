@@ -6,4 +6,5 @@ describe CmsDocumentsController do
     end
     it_should_behave_like "not authorized"
   end
+  
 end

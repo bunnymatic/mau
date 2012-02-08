@@ -12,3 +12,8 @@ venues:
   page: venues
   section: all
   article: "# these \n\n## are \n\n### venues \n\n* one\n* two\n* three"
+
+artist_resources:
+  page: main
+  section: artist_resources
+  article: '# this \n\n is where \n\n\n### we put stuff'
