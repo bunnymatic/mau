@@ -378,7 +378,24 @@ var TagMediaHelper = {
 	}
       });
     });
-
+    
+    var s = $('emailsettings_fromall');
+    if (s) {
+      s.observe('click', function() {
+        if (this.checked) {
+          $('emailsettings_fromartist').checked = true;
+        }
+      });
+    }
+    var s = $('emailsettings_fromartist');
+    if (s) {
+      s.observe('click', function() {
+        var t = $('emailsettings_fromall');
+        if (t.checked && !this.checked) {
+          t.checked = false;
+        }
+      });
+    }
     N.init = function() {};
   };
   Event.observe(window, 'load', N.init);
