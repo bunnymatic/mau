@@ -103,7 +103,7 @@ h5 {
     font-size: small;
     font-weight: bold;
     position: absolute;
-    right: 8px;
+    right: 10px;
     top: 8px;
   }
 }
@@ -1110,9 +1110,6 @@ margin: 0 0 20px 0;
   text-align:right;
   width:908px;
   background-color: $lightbluegray;
-  a:last-child {
-    margin-right: 10px;
-  }
 }
 
 #container{
