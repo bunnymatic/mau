@@ -17,5 +17,5 @@
         .event_filter.in_progress
           %label{:for => "event_filter_in_progress"} Show currently running events
           %input{:id => "event_filter_in_progress", :class => 'time', :type => :checkbox, :value => 'in_progress'}
-      - @events_by_month.sort.reverse.each do |month, events|
+      - @events_by_month.sort.each do |month, events|
         = render :partial => 'events_by_month', :locals => {:month => events[:display], :events => events[:events]}
