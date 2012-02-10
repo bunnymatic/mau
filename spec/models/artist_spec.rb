@@ -128,21 +128,14 @@ describe Artist do
     it "should update email settings" do
       attr_hash = JSON::parse(@a.email_attrs)
       attr_hash['fromartist'].should eql(true)
-      attr_hash['mauadmin'].should eql(true)
-      attr_hash['maunews'].should eql(true)
-      attr_hash['fromall'].should eql(false)
-      attr_hash['favorites'].should be_nil
-
-      attr_hash['maunews'] = false
+      attr_hash['fromall'].should eql(true)
       attr_hash['favorites'] = false
       @a.emailsettings = attr_hash
       @a.save
       @a.reload
       attr_hash = @a.emailsettings
       attr_hash['fromartist'].should eql(true)
-      attr_hash['mauadmin'].should eql(true)
-      attr_hash['maunews'].should eql(false)
-      attr_hash['fromall'].should eql(false)
+      attr_hash['fromall'].should eql(true)
       attr_hash['favorites'].should eql(false)
     end
   end

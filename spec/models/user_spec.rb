@@ -17,6 +17,12 @@ describe User do
       User.new(valid_attributes).should be_valid
     end
   end
+  describe 'create' do
+    it 'sets email attrs to true for everything' do
+      User.create(valid_attributes).should be_true
+      User.all.last.emailsettings.all?{|k,v| v}.should be_true
+    end
+  end
   describe 'named scope' do
     it "active returns only active users" do
       User.active.all.each do |u|
