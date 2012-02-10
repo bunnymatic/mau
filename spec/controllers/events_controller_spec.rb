@@ -91,31 +91,31 @@ describe EventsController do
       assigns(:events).count.should == Event.future.published.count
     end
     it 'assigns only future published events keyed by month' do
-      assigns(:events_by_month).values.flatten.count.should == Event.future.published.count
-      assigns(:events_by_month).keys.sort.should == Event.future.published.map(&:starttime).map{|st| st.strftime("%B %Y")}.uniq.sort
+      assigns(:events_by_month).keys.sort.should == Event.future.published.map(&:starttime).map{|st| st.strftime("%m%Y")}.uniq.sort
+      assigns(:events_by_month).values.map{|v| v[:events]}.flatten.count.should == Event.future.published.count
     end
     it 'runs markdown on event description' do
-      response.should have_tag('.desc h1', 'header')
-      response.should have_tag('.desc h2', 'header2')
-      response.should have_tag('.desc em', 'doit')
+      assert_select('.desc h1', 'header')
+      assert_select('.desc h2', 'header2')
+      assert_select('.desc em', 'doit')
     end
     it 'makes sure the url includes http for the link' do
-      response.should have_tag('.url a[href=http://url.com]', 'url.com')
+      assert_select('.url a[href=http://url.com]', 'url.com')
     end
     it 'makes sure the url includes http for the links that don\'t start with http' do
-      response.should have_tag('.url a[href=http://url.com]', 'url.com')
+      assert_select('.url a[href=http://url.com]', 'url.com')
     end
     it 'makes sure the url includes http for the links that do start with http' do
-      response.should have_tag('.url a[href=http://www.example.com]', 'www.example.com')
+      assert_select('.url a[href=http://www.example.com]', 'www.example.com')
     end
     it 'renders an anchor tag with the event id in each event' do
       Event.future.published.each do |ev|
-        response.should have_tag(".events a[name=#{ev.id}]")
+        assert_select(".events a[name=#{ev.id}]")
       end
     end
     it 'renders a break for each month with a header' do
       Event.future.published.map(&:starttime).map{|t| t.strftime("%B %Y")}.uniq.each do |month|
-        response.should have_tag('.events h4.month', month)
+        assert_select('.events h4.month', month)
       end
     end
   end
@@ -184,18 +184,18 @@ describe EventsController do
       assert_select("a[href=#{unpublish_event_path(Event.published.first)}]")
     end
     it 'runs markdown on event description' do
-      response.should have_tag('.desc h1', 'header')
-      response.should have_tag('.desc h2', 'header2')
-      response.should have_tag('.desc em', 'doit')
+      assert_select('.desc h1', 'header')
+      assert_select('.desc h2', 'header2')
+      assert_select('.desc em', 'doit')
     end
     it 'makes sure the url includes http for the link' do
-      response.should have_tag('.url a[href=http://url.com]', 'url.com')
+      assert_select('.url a[href=http://url.com]', 'url.com')
     end
     it 'makes sure the url includes http for the links that don\'t start with http' do
-      response.should have_tag('.url a[href=http://url.com]', 'url.com')
+      assert_select('.url a[href=http://url.com]', 'url.com')
     end
     it 'makes sure the url includes http for the links that do start with http' do
-      response.should have_tag('.url a[href=http://www.example.com]', 'www.example.com')
+      assert_select('.url a[href=http://www.example.com]', 'www.example.com')
     end
       
   end
