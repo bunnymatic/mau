@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120208094311) do
+ActiveRecord::Schema.define(:version => 20120210024709) do
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -448,7 +448,7 @@ ActiveRecord::Schema.define(:version => 20120208094311) do
     t.integer  "image_height",                             :default => 0
     t.integer  "image_width",                              :default => 0
     t.integer  "max_pieces",                               :default => 20
-    t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"mauadmin\": true, \"maunews\": true, \"fromall\": false}"
+    t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
     t.string   "studionumber"
     t.string   "type",                                     :default => "Artist"
     t.date     "mailchimp_subscribed_at"
