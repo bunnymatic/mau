@@ -23,8 +23,9 @@ class EventsController < ApplicationController
     @events_by_month = {}
     @events.each do |ev|
       month = ev.starttime.strftime('%B %Y')
-      @events_by_month[month] = [] unless @events_by_month.has_key? month
-      @events_by_month[month] << ev
+      month_key = ev.starttime.strftime('%m%Y')
+      @events_by_month[month_key] = {:display => month, :events => [] } unless @events_by_month.has_key? month_key
+      @events_by_month[month_key][:events] << ev
     end
     respond_to do |format|
       format.html # index.html.erb
