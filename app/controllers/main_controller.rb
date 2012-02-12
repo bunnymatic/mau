@@ -77,26 +77,11 @@ class MainController < ApplicationController
 
     page = 'main_openstudios'
     section = 'spring_2004_blurb'
-    markdown_content = CmsDocument.find_by_page_and_section(page, section)
     
-    @spring_os_blurb = { 
-      :page => page,
-      :section => section,
-    }
-    if !markdown_content.nil?
-      @spring_os_blurb[:content] = markdown(markdown_content.article) 
-      @spring_os_blurb[:cmsid] = markdown_content.id
-    end
+    @spring_os_blurb = CmsDocument.packaged(page,section)
+
     section = 'preview_reception'
-    markdown_content = CmsDocument.find_by_page_and_section(page, section)
-    @preview_reception_html = {
-      :page => page,
-      :section => section,
-    }
-    if !markdown_content.nil?
-      @preview_reception_html[:content] = markdown(markdown_content.article) 
-      @preview_reception_html[:cmsid] = markdown_content.id
-    end
+    @preview_reception_html = CmsDocument.packaged(page, section)
 
     respond_to do |fmt|
       fmt.html { render }
@@ -108,14 +93,18 @@ class MainController < ApplicationController
 
   end
 
+  def history
+    @page_title = "Mission Artists United - History"
+    @content = CmsDocument.packaged('main','history')
+  end
+
   def about
-    @show_history = false
-    if params[:id] == 'h'
-      @show_history = true
-    end
     @page_title = "Mission Artists United - About Us"
     respond_to do |fmt|
-      fmt.html { render }
+      fmt.html { 
+        @content = CmsDocument.packaged('main','about')
+        render 
+      }
       fmt.mobile { 
         @page_title = "About Us"
         render :layout => 'mobile' 
