@@ -33,6 +33,9 @@ ActionController::Routing::Routes.draw do |map|
   map.flaxartpaymentsuccess '/flaxart/payment_success', :controller => 'wizards', :action => 'flax_success'
   map.flaxartpaymentcancel '/flaxart/payment_cancel', :controller => 'wizards', :action => 'flax_payment_cancel'
 
+  map.mau_submissions '/flaxart/:action', :controller => 'wizards'
+
+
   map.faq '/faq', :controller => 'main', :action => 'faq'
   map.openstudios '/openstudios', :controller => 'main', :action => 'openstudios'
   map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
