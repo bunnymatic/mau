@@ -27,6 +27,14 @@ describe WizardsController do
   end
 
   describe '#mau042012' do
+    before do
+      get :mau042012
+    end
+    it 'fetches the markdown content properly' do
+      assigns(:content).should have_key :content
+      assigns(:content).should have_key :cmsid
+    end
+
   end
 
 end

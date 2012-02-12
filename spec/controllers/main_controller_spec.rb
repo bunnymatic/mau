@@ -197,7 +197,12 @@ describe MainController do
         get :about
       end
       it_should_behave_like "not logged in"
+      it 'fetches markdown content' do
+        assigns(:content).should have_key :content
+        assigns(:content).should have_key :cmsid
+      end
     end
+    
     context "while logged in as an art fan" do
       before do
         u = users(:maufan1)
@@ -213,6 +218,38 @@ describe MainController do
         login_as(users(:artist1))
         @logged_in_user = a
         get :about
+      end
+      it_should_behave_like "logged in user"
+    end
+  end
+  describe "#history" do
+    integrate_views
+    context "while not logged in" do
+      before do
+        get :history
+      end
+      it_should_behave_like "not logged in"
+      it 'fetches markdown content' do
+        assigns(:content).should have_key :content
+        assigns(:content).should have_key :cmsid
+      end
+    end
+    
+    context "while logged in as an art fan" do
+      before do
+        u = users(:maufan1)
+        login_as(users(:maufan1))
+        @logged_in_user = u
+        get :history
+      end
+      it_should_behave_like "logged in user"
+    end
+    context "while logged in as artist" do
+      before do
+        a = users(:artist1)
+        login_as(users(:artist1))
+        @logged_in_user = a
+        get :history
       end
       it_should_behave_like "logged in user"
     end
@@ -399,6 +436,12 @@ describe MainController do
         assert_select '.markdown h1', :match => 'pr header'
         assert_select '.markdown h2', :match => 'pr header2'
         assert_select '.markdown p em', :match => 'preview'
+      end
+      it 'fetches the markdown content properly' do
+        assigns(:spring_os_blurb).should have_key :content
+        assigns(:spring_os_blurb).should have_key :cmsid
+        assigns(:preview_reception_html).should have_key :content
+        assigns(:preview_reception_html).should have_key :cmsid
       end
       it 'the markdown entries have cms document ids in them' do
         [ CmsDocument.find_by_section('spring_2004_blurb'),

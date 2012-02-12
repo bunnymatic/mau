@@ -76,7 +76,8 @@ ActionController::Routing::Routes.draw do |map|
   map.venues '/venues', :controller => 'main', :action => 'venues'
   map.getinvolved '/getinvolved/:p', :controller => 'main', :action => 'getinvolved', :p => nil
   map.privacy '/privacy', :controller => 'main', :action => 'privacy'
-  map.about '/about/:id', :controller => 'main', :action => 'about'
+  map.about '/about', :controller => 'main', :action => 'about'
+  map.history '/history', :controller => 'main', :action => 'history'
   map.artist_resources '/resources', :controller => 'main', :action => 'resources'
   map.news_alt '/news', :controller => 'main', :action => 'resources'
   map.contact '/contact', :controller => 'main', :action => 'contact'

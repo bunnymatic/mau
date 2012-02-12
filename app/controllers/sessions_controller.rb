@@ -1,7 +1,6 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
   layout 'mau1col'
-  include MarkdownUtils
   # render new.rhtml
   def new
     respond_to do |fmt|
@@ -10,17 +9,7 @@ class SessionsController < ApplicationController
           flash[:notice] = "You're already logged in"
           redirect_back_or_default('/')
         else
-          page = 'signup'
-          section = 'signup'
-          doc = CmsDocument.find_by_page_and_section(page, section)
-          @content = {
-            :page => page, 
-            :section => section
-          }
-          if !doc.nil?
-            @content[:content] = markdown(doc.article)
-            @content[:cmsid] = doc.id
-          end
+          @content = CmsDocument.packaged('signup','signup')
         end
       }
       fmt.mobile { redirect_to "/" }
