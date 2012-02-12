@@ -17,3 +17,8 @@ artist_resources:
   page: main
   section: artist_resources
   article: '# this \n\n is where \n\n\n### we put stuff'
+
+spring_show:
+  page: show_submissions
+  section: spring2012
+  article: this is the info about the spring show submission
