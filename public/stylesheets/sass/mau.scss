@@ -990,6 +990,11 @@ div.feedtitle  {
   & blockquote p {
     line-height: 1.1em;
   }
+  & li li {
+    margin-left: 13px;
+  }
+  & ul ul {
+  }
 }
 #open_studios {
   .os-catalog-icon {
@@ -2269,6 +2274,9 @@ div.studios .studio-list {
   position: relative;
   li {
     list-style: inside disc;
+    li {
+      list-style: inside circle;
+    }
   }
   &.editable {
     &.active {
