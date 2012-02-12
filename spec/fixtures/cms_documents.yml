@@ -22,3 +22,8 @@ spring_show:
   page: show_submissions
   section: spring2012
   article: this is the info about the spring show submission
+
+signup_signup:
+  page: signup
+  section: signup
+  article:  why should i sign up?
