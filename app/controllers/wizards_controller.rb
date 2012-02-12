@@ -1,6 +1,5 @@
 class WizardsController < ApplicationController
 
-  include MarkdownUtils
   layout 'mau1col'
 
   before_filter :login_required, :except => [ :flaxart, :mau042012 ]
@@ -18,17 +17,7 @@ class WizardsController < ApplicationController
 
     page = 'show_submissions'
     section = 'spring2012'
-    markdown_content = CmsDocument.find_by_page_and_section(page, section)
-    
-    @content = { 
-      :page => page,
-      :section => section,
-    }
-    if !markdown_content.nil?
-      @content[:content] = markdown(markdown_content.article) 
-      @content[:cmsid] = markdown_content.id
-    end
-
+    @content = CmsDocument.packaged(page,section)
     render :layout => 'mau2col'
   end
 
