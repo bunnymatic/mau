@@ -1,26 +1,27 @@
-<div class="flaxart-wizard flax">
-  <div class="logo-spacer"></div>
-
-  <div class='entrythingy white'>
-    <div class="note">
-      <p>The information below is provided by EntryThingy.  You'll need to setup or use your EntryThingy account to submit work.</p>
-      <p>You can submit up to 3 images for your entry.  File size for the images must be larger than 100k and smaller than 2M.  Check the entry instruction page for more details.</p>
-      <p><a href='#' class="mau-note-link entrythingy-help" onclick="javascript:MAU.mailer('submissions','missionartistsunited.org','Help me submit my work!');">Having trouble?</a> Let us know.</p>
-    </div>
-<script src="http://entrythingy.s3.amazonaws.com/resources/entrythingy.js"></script>
-<iframe id="et_uploadtarget" name="et_uploadtarget" src=""
-style="width:0px;height:0px;border:0">&nbsp;</iframe>
-<span id='et_dataarea0'>&nbsp;</span><span
-id='et_dataarea1'>&nbsp;</span><span
-id='et_dataarea2'>&nbsp;</span><span
-id='et_dataarea3'>&nbsp;</span><span id='et_dataarea4'>&nbsp;</span>
-<div id='et_apparea' style='text-align:left;'><p><img
-src=http://entrythingy.s3.amazonaws.com/images/loading.gif>   <a
-href=http://www.entrythingy.com>Loading EntryThingy. Receive, manage
-and jury your calls for entries...</a></p></div>
-<script>
-var sitecode="s1.bWlzc2lvbmFydGlzdHN1bml0ZWQub3Jn";
-entryThingy();
-</script>
-</div>
-</div>
+%script
+  Event.observe(window, 'load', function() {
+  new MAU.NotesMailer(".mau-note-link.entrythingy-help", { note_class: 'entrythingy', url: "/main/notes_mailer" });
+  });
+.mau042012-wizard
+  .logo-spacer
+  .entrythingy.white
+    .note
+      %p The information below is provided by EntryThingy.  You'll need to setup or use your EntryThingy account to submit work.
+      %p You can submit up to 3 images for your entry.  File size for the images must be larger than 100k and smaller than 2M.  Check the entry instruction page for more details.
+      %p
+        %a.mau-note-link.entrythingy-help{:href=>"#"} Having trouble?
+        Let us know.
+    %script{:src=>"http://entrythingy.s3.amazonaws.com/resources/entrythingy.js"}
+    %iframe#et_uploadtarget{:name => "et_uploadtarget", :src => '', :style=>"width:0px;height:0px;border:0"} &nbsp;
+    %span#et_dataarea0 &nbsp;
+    %span#et_dataarea1 &nbsp;
+    %span#et_dataarea2 &nbsp;
+    %span#et_dataarea3 &nbsp;
+    %span#et_dataarea4 &nbsp;
+    #et_apparea{:style => "text-align:left;"}
+      %p
+        %img{:src => "http://entrythingy.s3.amazonaws.com/images/loading.gif"}
+          %a{:href => "http://www.entrythingy.com"} Loading EntryThingy. Receive, manage and jury your calls for entries...
+    %script
+      var sitecode="s1.bWlzc2lvbmFydGlzdHN1bml0ZWQub3Jn";
+      entryThingy();

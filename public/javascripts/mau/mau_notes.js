@@ -26,7 +26,7 @@ FormConstructors.login_required = {
 };
 
 FormConstructors.entrythingy = {
-  title: 'Flax Show Submission Help',
+  title: 'Show Submission Help',
   render: function() {
     var el = new Element('div');
     el.innerHTML = "Sorry you're having trouble.  Have you read the EntryThingy instructions?"+
@@ -396,8 +396,9 @@ Object.extend(MAU.NotesMailer.prototype, {
     if (this.options.note_class in this.form_builders) {
       var _that = this;
       $$(this.selector).each(function(el) {
-        Event.observe(Element.extend(el), 'click', function(ev) { 
+        el.observe('click', function(ev) { 
           _that.insert(ev); 
+          return false;
         });
       });
     }
