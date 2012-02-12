@@ -22,11 +22,10 @@ var MauPrototypeExtensions = {
   },
   data: function(elem, key, val) {
     var DATA_REGEX = /data-(\w+)/;
-    var el = $(elem);
     var ii = 0;
-    var nattr = el.attributes.length;
+    var nattr = elem.attributes.length;
     for (; ii < nattr; ++ii ) {
-      var attr = el.attributes[ii];
+      var attr = elem.attributes[ii];
       if (attr && attr.name) {
         var m = attr.name.match(DATA_REGEX);
         if (m && m.length > 1) {
