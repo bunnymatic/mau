@@ -2,5 +2,5 @@
   :ruby
     data = Hash[@content.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
   .section.markdown.editable{data}
-    = markdown(@content[:content])
+    = @content[:content]
     = render :partial => '/main/info_footer'

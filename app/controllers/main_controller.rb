@@ -177,7 +177,7 @@ class MainController < ApplicationController
       :section => section
     }
     if !doc.nil?
-      @content[:content] = doc.article
+      @content[:content] = markdown(doc.article)
       @content[:cmsid] = doc.id
     end
     render :action => 'resources', :layout => 'mau2col'
@@ -193,7 +193,7 @@ class MainController < ApplicationController
       :section => section
     }
     if !doc.nil?
-      @content[:content] = doc.article
+      @content[:content] = markdown(doc.article)
       @content[:cmsid] = doc.id
     end
 
