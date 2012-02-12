@@ -8,7 +8,7 @@ var MauPrototypeExtensions = {
     var tagMatch = tagname.toUpperCase();
     for (; ii < n; ++ii ) {
       var p = parents[ii];
-      if (p.tagName === tagMatch) {
+      if (p && (p.tagName === tagMatch)) {
         return p;
       }
     }
