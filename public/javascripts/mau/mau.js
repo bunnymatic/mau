@@ -480,12 +480,21 @@ var TagMediaHelper = {
         msg = 'Super!  The more the merrier!';
       }
       $(radio).writeAttribute('checked', 'checked');
+
     }
     // submit via ajax
     var submitForm = $$('form.edit_artist').first();
     if (submitForm) {
       submitForm.request({onComplete:function() {
+        var setting = type.charAt(0).toUpperCase() + type.slice(1);
         $$('.os-status span').first().innerHTML = type.charAt(0).toUpperCase() + type.slice(1);
+        if (type == 'yep') {
+          $$('#artist_edit .os-violator')[0].show();
+        }
+        else
+        {
+          $$('#artist_edit .os-violator')[0].hide();
+        }
         alert(msg);
       }});
     }

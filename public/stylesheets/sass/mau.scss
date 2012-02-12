@@ -1151,6 +1151,7 @@ margin: 0 0 20px 0;
   #profile_img {
     float:right;
     margin-right:20px;
+    position: relative;
     div {
       @include little_text;
     }

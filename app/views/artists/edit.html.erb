@@ -13,6 +13,9 @@
       <img src="/images/default-profile-img.png" width="100" />
       <% end -%>
       <div>update profile picture</div>
+      <div class="os-violator" style="<%= (current_artist.artist_info.os_participation[Conf.oslive.to_s]) ? '':'display:none;' %>">
+        <img src="/images/os_star_violator.png"/>
+      </div>
     </a>
   </div>
   <h4>My Account</h4>
