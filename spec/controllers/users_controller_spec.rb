@@ -34,18 +34,18 @@ describe UsersController do
     end
     it_should_behave_like 'one column layout'
     it "has fan signup form" do
-      response.should have_tag("#fan_signup_form")
+      assert_select("#fan_signup_form")
     end
     it "has artist signup form" do
-      response.should have_tag("#artist_signup_form")
+      assert_select("#artist_signup_form")
     end
     it "has 2 first name text boxes" do
-      response.should have_tag("#artist_firstname")
-      response.should have_tag("#mau_fan_firstname")
+      assert_select("#artist_firstname")
+      assert_select("#mau_fan_firstname")
     end
     it "has lastname text box" do
-      response.should have_tag("#mau_fan_lastname")
-      response.should have_tag("#artist_lastname")
+      assert_select("#mau_fan_lastname")
+      assert_select("#artist_lastname")
     end
   end
 
@@ -229,17 +229,17 @@ describe UsersController do
         response.should be_success
       end
       it "has the users name on it" do
-        response.should have_tag '#artist_profile_name h4', :text => "#{@u.firstname} #{@u.lastname}"
+        assert_select '#artist_profile_name h4', :text => "#{@u.firstname} #{@u.lastname}"
       end
       it "has a profile image" do
-        response.should have_tag "img.profile"
+        assert_select "img.profile"
       end
       it "shows the users website" do
-        response.should have_tag "#u_website a[href=#{@u.url}]"
+        assert_select "#u_website a[href=#{@u.url}]"
       end
     end
     context "while logged in as an user" do
-      before(:each) do 
+      before do 
         login_as(@u)
         @logged_in_user = @u
         get :show, :id => @u.id
@@ -247,7 +247,7 @@ describe UsersController do
       it_should_behave_like 'two column layout'
       it_should_behave_like "logged in user"
       it "has sidebar nav when i look at my page" do
-        response.should have_tag('#sidebar_nav')
+        assert_select('#sidebar_nav')
       end
       it "has no sidebar nav when i look at someone elses page" do
         get :show, :id => users(:artfan).id
@@ -256,7 +256,7 @@ describe UsersController do
     end
   end
   describe "#edit" do
-    before(:each) do
+    before do
       @a = users(:artist1)
       @a.save!
       @u = users(:maufan1)
@@ -264,26 +264,26 @@ describe UsersController do
     end
     context "while not logged in" do
       integrate_views
-      before(:each) do 
+      before do 
         get :edit
       end
       it_should_behave_like "redirects to login"
     end
     context "while logged in as an artist" do
-      before(:each) do
+      before do
         login_as(@a)
         get :edit
       end
       it "GET should redirect to artist edit" do
         response.should be_redirect
       end
-      it "renderers the edit template" do
+      it "renders the edit template" do
         response.should redirect_to edit_artist_url(@a)
       end
     end
     context "while logged in as an user" do
       integrate_views
-      before(:each) do
+      before do
         login_as(@u)
         get :edit
       end
@@ -305,7 +305,7 @@ describe UsersController do
 
   describe "login_required" do
     context " post redirects to root (referrer)" do
-      before(:each) do 
+      before do 
         @u = users(:quentin)
         post :add_favorite
       end
@@ -317,7 +317,7 @@ describe UsersController do
       end
     end
     context "get redirects to requested page via login" do
-      before(:each) do 
+      before do 
         @u = users(:quentin)
         get :edit
       end
@@ -330,31 +330,31 @@ describe UsersController do
     end
   end
   describe "update" do
-    before(:each) do 
+    before do 
       @u = users(:quentin)
     end
     context "while not logged in" do
       it_should_behave_like "get/post update redirects to login"
       context "with invalid params" do
-        before(:each) do
+        before do
           put :update, :id => @u.id, :user => {}
         end
         it_should_behave_like "redirects to login"
       end
       context "with valid params" do
-        before(:each) do
+        before do
           put :update, :id => @u.id, :user => { :firstname => 'blow' }
         end
         it_should_behave_like "redirects to login"
       end
     end
     context "while logged in" do
-      before(:each) do 
+      before do 
         login_as(@u)
         @logged_in_user = @u
       end
       context "with empty params" do
-        before(:each) do
+        before do
           put :update, :id => @u.id, :user => {}
         end
         it "redirects to user edit page" do
@@ -365,7 +365,7 @@ describe UsersController do
         end
       end
       context "with valid params" do
-        before(:each) do 
+        before do 
           put :update, :id => @u.id, :user => {:firstname => 'blow'}
         end
         it "redirects to user edit page" do
@@ -411,16 +411,16 @@ describe UsersController do
           assigns(:random_picks).size.should > 2
         end
         it "has the no favorites msg" do
-          response.should have_tag('.no-favorites-msg', :count => 1)
+          assert_select('.no-favorites-msg', :count => 1)
         end
         it "has section for 'artist by name'" do
-          response.should have_tag('h5', :text => 'Find Artists by Name')
+          assert_select('h5', :text => 'Find Artists by Name')
         end
         it "has section for 'artist by medium'" do
-          response.should have_tag('h5', :text => 'Find Artists by Medium')
+          assert_select('h5', :text => 'Find Artists by Medium')
         end
         it "has section for 'artist by tag'" do
-          response.should have_tag('h5', :text => 'Find Artists by Tag')
+          assert_select('h5', :text => 'Find Artists by Tag')
         end
         it "does not show the favorites sections" do
           response.should_not have_tag('.favorites > h5', :include_text => 'Artists')
@@ -463,23 +463,23 @@ describe UsersController do
             assigns(:random_picks).should be_nil
           end
           it "shows the title" do
-            response.should have_tag('h4', :include_text => 'My Favorites')
+            assert_select('h4', :include_text => 'My Favorites')
           end
           it "favorites sections show and include the count" do
-            response.should have_tag('h5', :text => "Artists (#{@a.fav_artists.count})")
-            response.should have_tag("h5", :text => "Art Pieces (#{@a.fav_art_pieces.count})")
+            assert_select('h5', :text => "Artists (#{@a.fav_artists.count})")
+            assert_select("h5", :text => "Art Pieces (#{@a.fav_art_pieces.count})")
           end
           it "shows the 1 art piece favorite" do
-            response.should have_tag('.favorites .art_pieces .thumb', :count => 1, :include_text => 'by blupr')
+            assert_select('.favorites .art_pieces .thumb', :count => 1, :include_text => 'by blupr')
           end
           it "shows the 1 artist favorite" do
-            response.should have_tag('.favorites .artists .thumb', :count => 1)
+            assert_select('.favorites .artists .thumb', :count => 1)
           end
           it "shows a delete button for each favorite" do
-            response.should have_tag('.favorites li .trash', :count => @a.favorites.count)
+            assert_select('.favorites li .trash', :count => @a.favorites.count)
           end
           it "shows a button back to the artists page" do
-            response.should have_tag('.buttons form')
+            assert_select('.buttons form')
           end
         end
       end
@@ -505,18 +505,18 @@ describe UsersController do
           response.should be_success
         end
         it "shows the title" do
-          response.should have_tag('h4', :include_text => @a.get_name )
-          response.should have_tag('h4', :include_text => 'Favorites')
+          assert_select('h4', :include_text => @a.get_name )
+          assert_select('h4', :include_text => 'Favorites')
         end
         it "shows the favorites sections" do
-          response.should have_tag('h5', :include_text => 'Artists')
-          response.should have_tag('h5', :include_text => 'Art Pieces')
+          assert_select('h5', :include_text => 'Artists')
+          assert_select('h5', :include_text => 'Art Pieces')
         end
         it "shows the 1 art piece favorite" do
-          response.should have_tag('.favorites .art_pieces .thumb', :count => 1)
+          assert_select('.favorites .art_pieces .thumb', :count => 1)
         end
         it "shows the 1 artist favorite" do
-          response.should have_tag('.favorites .artists .thumb', :count => 1)
+          assert_select('.favorites .artists .thumb', :count => 1)
         end
         it "does not show a delete button for each favorite" do
           response.should_not have_tag('.favorites li .trash')
@@ -658,10 +658,10 @@ describe UsersController do
         response.should be_success
       end
       it "asks for password" do
-        response.should have_tag('#user_password')
+        assert_select('#user_password')
       end
       it "asks for password confirmation" do
-        response.should have_tag('#user_password_confirmation')
+        assert_select('#user_password_confirmation')
       end
     end
     context "post" do
@@ -677,10 +677,10 @@ describe UsersController do
           response.should be_success
         end
         it "asks for password" do
-          response.should have_tag('#user_password')
+          assert_select('#user_password')
         end
         it "asks for password confirmation" do
-          response.should have_tag('#user_password_confirmation')
+          assert_select('#user_password_confirmation')
         end
         it "has an error message" do
           assigns(:user).errors.length.should == 1
@@ -715,7 +715,7 @@ describe UsersController do
     end
     
     it "shows email form" do
-      response.should have_tag('#user_email')
+      assert_select('#user_email')
     end
     
     context "post with email that's not in the system" do
