@@ -176,7 +176,7 @@ describe AdminController do
       end
       it 'assigns correct values for artists last month' do
         assigns(:activity_stats)[:last_30_days][:artists_activated].should == 5
-        assigns(:activity_stats)[:last_30_days][:artists_added].should == 12
+        assigns(:activity_stats)[:last_30_days][:artists_added].should == 11
       end
       it 'has totals' do
         assigns(:activity_stats)[:total].should be
