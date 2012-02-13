@@ -37,6 +37,16 @@
 
     <div class="open-close-div acct"><span id="events_toggle" class="title">Open Studios</span><span class="edit"><a href="#events" id="events_toggle_lnk">change</a></span><div class="clear"></div></div>
     <div class="edit-profile-sxn"  id="events" style="display:none;">
+      <% if !current_user.address.present? %>
+      <div class="inner-sxn">
+        <p>
+        You need to specify an address or studio affiliation to sign up for Open Studios!
+        </p>
+        <p>
+          Check the <em>Address/Studio Info</em> section below.
+        </p>
+      </div>
+      <% else -%>
       <div class="inner-sxn">
 	<p>
 	  Will you open your studio with the rest of the Mission artists this Spring <span class='nobr'>Apr 14,15, 2012</span>?
@@ -63,6 +73,7 @@
 	<%= f.submit 'Save Changes' %>
 	<%= f.submit 'Cancel' %>
       </div>
+      <% end %>
     </div>
 
     <%= render :partial => "/users/edit_notifications", :locals => {:f => f}%>

@@ -263,3 +263,14 @@ reset_password:
   activated_at:              <%= 3.days.ago.to_s :db %>
   reset_code:                my_reset_code
   studio: as  
+
+noaddress:
+  login:                     noaddress
+  email:                     noaddress@example.com
+  salt:                      1b6453892473a467d07372d45eb05abc2031647a # SHA1('0')
+  crypted_password:          6900d7c6156b36acbaeda4f9e26a9225274297ef # 'monkey'
+  created_at:                <%= 32.days.ago.to_s :db  %>
+  firstname:                 nowhere
+  lastname:                  man
+  type: Artist
+  state: active
