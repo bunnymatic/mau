@@ -25,4 +25,20 @@ describe SessionsController do
       end
     end
   end
+  describe '#create' do
+    context 'with invalid params' do
+      integrate_views
+      before do
+        post :create
+      end
+      it_should_behave_like 'returns success'
+      it 'should render the new template' do
+        response.should render_template 'new'
+      end
+      it 'assigns content for markdown' do
+        assigns(:content).should have_key :content
+        assigns(:content).should have_key :cmsid
+      end
+    end
+  end
 end

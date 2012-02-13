@@ -47,12 +47,15 @@ class SessionsController < ApplicationController
           else
             note_inactive_signin
             @login       = params[:login]
+            @content = CmsDocument.packaged('signup','signup')
             # @remember_me = params[:remember_me]
             render :action => 'new'
           end
         else
           note_failed_signin
           @login       = params[:login]
+          @content = CmsDocument.packaged('signup','signup')
+
           # @remember_me = params[:remember_me]
           render :action => 'new'
         end
