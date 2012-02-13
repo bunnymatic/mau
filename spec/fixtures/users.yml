@@ -274,3 +274,4 @@ noaddress:
   lastname:                  man
   type: Artist
   state: active
+  studio_id: 0
