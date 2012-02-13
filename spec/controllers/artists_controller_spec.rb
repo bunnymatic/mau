@@ -215,66 +215,98 @@ describe ArtistsController do
       end
       it_should_behave_like "redirects to login"
     end
+    context "while logged in as someone with no address" do
+      integrate_views
+      before do
+        login_as(:noaddress)
+        @logged_in_user = users(:noaddress)
+        @logged_in_artist = users(:noaddress)
+        get :edit
+      end
+
+      it_should_behave_like "logged in user"
+      it_should_behave_like "logged in artist"
+      it_should_behave_like "logged in edit page"
+      
+      it "returns success" do
+        response.should be_success
+      end
+      it "has the edit form" do
+        assert_select("div#artist_edit");
+      end
+      it 'shows open and close sections for each edit section' do
+        assert_select '.open-close-div.acct'
+        assert_select '.edit-profile-sxn', :count => (css_select '.open-close-div.acct').count
+      end
+      it 'shows the open studios section' do
+        assert_select '#events', /You need to specify an address or studio/
+      end
+    end
+
     context "while logged in" do
       integrate_views
-      before(:each) do
+      before do
         login_as(@a)
         @logged_in_user = @a
         @logged_in_artist = @a
+        get :edit
       end
-      context "#edit" do
-        before do
-          get :edit
-        end
-        it_should_behave_like "logged in user"
-        it_should_behave_like "logged in artist"
-        it_should_behave_like "logged in edit page"
-
-        it "returns success" do
-          response.should be_success
-        end
-        it "has the edit form" do
-          assert_select("div#artist_edit");
-        end
-        it "has the artists email in the email form input field" do
-          assert_select("#info .inner-sxn input#artist_email[value=#{@a.email}]")
-        end
-        it "has the website input box with the artists website in it" do
-          assert_select("input#artist_url[value=#{@a.url}]")
-        end
-        it "has the artists correct links in their respective fields" do
-          [:facebook, :blog].each do |k| 
-            linkval = @a.send(k)
-            linkid = "artist_artist_info_#{k}"
-            tag = "input##{linkid}[value=#{linkval}]"
-            assert_select(tag)
-          end
-        end
-        it "has the artists' bio textarea field" do
-          get :edit
-          assert_select("textarea#artist_artist_info_bio", @a.artist_info.bio)
-        end
-        it "has heart notification checkbox checked" do
-          assert_select 'input#emailsettings_favorites[checked=checked]'
-        end
-        it 'has a hidden form for donation under the open studios section' do
-          assert_select '#paypal_donate_openstudios'
+      it_should_behave_like "logged in user"
+      it_should_behave_like "logged in artist"
+      it_should_behave_like "logged in edit page"
+      
+      it "returns success" do
+        response.should be_success
+      end
+      it "has the edit form" do
+        assert_select("div#artist_edit");
+      end
+      it "has the artists email in the email form input field" do
+        assert_select("#info .inner-sxn input#artist_email[value=#{@a.email}]")
+      end
+      it "has the website input box with the artists website in it" do
+        assert_select("input#artist_url[value=#{@a.url}]")
+      end
+      it "has the artists correct links in their respective fields" do
+        [:facebook, :blog].each do |k| 
+          linkval = @a.send(k)
+          linkid = "artist_artist_info_#{k}"
+          tag = "input##{linkid}[value=#{linkval}]"
+          assert_select(tag)
         end
       end
-      context " if email_attrs['favorites'] is false " do
-        before do
-          esettings = @a.emailsettings
-          esettings['favorites'] = false
-          @a.emailsettings = esettings
-          @a.save!
-          @a.reload
-          login_as(@a)
-          get :edit
-        end
-        it "has heart notification checkbox unchecked" do 
-          assert_select "input#emailsettings_favorites" 
-          response.should_not have_tag "input#emailsettings_favorites[checked=checked]" 
-        end
+      it "has the artists' bio textarea field" do
+        get :edit
+        assert_select("textarea#artist_artist_info_bio", @a.artist_info.bio)
+      end
+      it "has heart notification checkbox checked" do
+        assert_select 'input#emailsettings_favorites[checked=checked]'
+      end
+      it 'has a hidden form for donation under the open studios section' do
+        assert_select '#paypal_donate_openstudios'
+      end
+      it 'shows open and close sections for each edit section' do
+        assert_select '.open-close-div.acct'
+        assert_select '.edit-profile-sxn', :count => (css_select '.open-close-div.acct').count
+      end
+      it 'shows the open studios section' do
+        assert_select '#events', /will you open/i
+      end
+    end
+    context " if email_attrs['favorites'] is false " do
+      integrate_views
+      before do
+        esettings = @a.emailsettings
+        esettings['favorites'] = false
+        @a.emailsettings = esettings
+        @a.save!
+        @a.reload
+        login_as(@a)
+        get :edit
+      end
+      it "has heart notification checkbox unchecked" do 
+        assert_select "input#emailsettings_favorites" 
+        response.should_not have_tag "input#emailsettings_favorites[checked=checked]" 
       end
     end
   end
