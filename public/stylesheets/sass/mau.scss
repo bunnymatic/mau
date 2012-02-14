@@ -2839,6 +2839,9 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 /** open studios info page
  */
 #about_text {
+  .markdown.section {
+    margin-top: 40px;
+  }
   ul {
     list-style: disc;
     margin-left: 15px;
