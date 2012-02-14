@@ -3811,7 +3811,12 @@ a.button b.m b {
   }
 }
 
+#letter_from_flax {
+  width: $rightcol;
+  text-align: justify;
+  margin: 25px auto 20px;
 
+}
 #admin_nav {
   color: $error_red;
   .admin-lk {
