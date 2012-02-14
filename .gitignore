@@ -1,5 +1,5 @@
 *~
-# /
+.#*
 /.bundle
 /tmp
 /studiodata
@@ -9,6 +9,6 @@
 /log
 /db/backup
 /backups
-# /public/stylesheets/
 /public/stylesheets/*.css
+.idea
 
