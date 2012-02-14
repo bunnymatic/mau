@@ -474,6 +474,17 @@ describe MainController do
     end
   end
 
+  describe 'letter_from_howard_flax' do
+    integrate_views
+    before do
+      get :letter_from_howard_flax
+    end
+    it_should_behave_like 'returns success'
+    it 'has the title' do
+      assert_select('h4', 'Letter from Howard Flax');
+    end
+  end
+
   describe 'notes mailer' do
     context "invalid calls" do
       ['get', 'post', 'put', 'delete'].each do |rtype|
