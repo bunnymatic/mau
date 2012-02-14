@@ -64,9 +64,3 @@ Object.extend(MAU.PopupView.prototype, {
   }
 });
 
-Event.observe(window, 'load', function() {  
-  var dummy = new MAU.PopupView("#news_text .read-more", { 
-    title:"Invitation from Howard Flax", 
-    data_div:"letter_from_flax"
-  });
-});
