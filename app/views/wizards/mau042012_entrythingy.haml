@@ -2,8 +2,11 @@
   .logo-spacer
   .entrythingy.white
     .note
-      %p The information below is provided by EntryThingy.  You'll need to setup or use your EntryThingy account to submit work.
-      %p You can submit up to 3 images for your entry.  File size for the images must be larger than 100k and smaller than 2M.  Check the entry instruction page for more details.
+      %p 
+        Did you already sign up to do Open Studios?  If not, click 
+        %a{:href => edit_artist_path(current_user) + "#events"} here. 
+      %p The information below is provided by EntryThingy.  You'll need to setup or use your EntryThingy account to submit work.  They have a separate login system from Mission Artists United.
+      %p Once you've signed up or logged in, you can submit up to 4 images for your entry.  Full instructions are available once you click on the Mission Arrtist United title below.
       %p
         %p
           %a.mau-note-link.entrythingy-help{:href=>"#", :onclick => "javascript:MAU.mailer('submissions','missionartistsunited.org','Help me submit my work!');"} Having trouble?
