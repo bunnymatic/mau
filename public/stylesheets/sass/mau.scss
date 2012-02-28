@@ -3547,9 +3547,16 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   &.list_your_show {
     background-position: 0 -100px;
   }
-  &.spring_os_signup {
+  &.call_for_entries {
     background-position: 0 -150px;
   }
+  &.spring_os_signup {
+    background-position: 0 -200px;
+  }
+}
+.lcol .buttons {
+  margin-top: 15px; 
+  margin-bottom: 15px; 
 }
 
 /***
