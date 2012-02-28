@@ -16,13 +16,14 @@ describe WizardsController do
     controller_actions_should_fail_if_not_logged_in(:wizard,
                                                     :except => exceptions)
   end
-
-  [:mau042012, :flaxart].each do |endpoint|
+  # ignoring tests for old flaxart endpoint
+  [:mau042012].each do |endpoint|
     describe 'GET #' + endpoint.to_s do
       before do
         get endpoint
       end
       it_should_behave_like 'returns success'
+      it_should_behave_like 'standard sidebar layout'
     end
   end
 

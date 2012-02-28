@@ -200,6 +200,22 @@ shared_examples_for "not logged in" do
   
 end
 
+shared_examples_for 'standard sidebar layout' do
+  it_should_behave_like 'two column layout'
+  it 'has a new art sidebar element' do
+    assert_select '.lcol .new_art'
+  end
+  it 'assigns new art sorted by created at' do
+    new_art = assigns(:new_art)
+    new_art.should be_present
+    new_art.sort_by(&:created_at).reverse.should == new_art
+  end
+  it 'has all the action buttons' do
+    ct = (Time.now > Time.utc(2012,3,12)) ? 4 : 5
+    assert_select '.action_button', :count => ct
+  end
+end
+
 shared_examples_for 'two column layout' do
   it 'has a two column body class' do
     assert_select('body.two_column')
