@@ -13,9 +13,5 @@
         %span Check back, cuz we're sure to have some soon!
   - else
     .event_list
-      .filters
-        .event_filter.in_progress
-          %label{:for => "event_filter_in_progress"} Show currently running events
-          %input{:id => "event_filter_in_progress", :class => 'time', :type => :checkbox, :value => 'in_progress'}
       - @events_by_month.sort.each do |month, events|
         = render :partial => 'events_by_month', :locals => {:month => events[:display], :events => events[:events]}
