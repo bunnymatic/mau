@@ -76,4 +76,23 @@ EOM
       response.should have_tag('p', :match => 'stuff')
     end
   end
+  describe "#news" do
+    integrate_views
+    context "while not logged in" do
+      before do
+        get :resources
+      end
+      it_should_behave_like 'returns success'
+      it 'has the mobile content section' do 
+        assert_select 'div#open_studios[data-role=content]'
+      end
+      it 'has a markdown section' do
+        assert_select '.section[data-cmsid]'
+      end
+      it "uses the welcome mobile layout" do
+        response.layout.should == 'layouts/mobile_welcome'
+      end
+    end
+  end
+
 end
