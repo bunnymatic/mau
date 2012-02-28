@@ -16,11 +16,7 @@
 	  <% end -%>
 	  </div>
 	  <h4><%= @studio.name %></h4>
-	  <% if flash[:error] -%>
-	  <div class="error-msg">
-	    <%= flash[:error] %>
-	  </div>
-	  <% end -%>
+          <%= render :partial => '/flash_notice_error' %>
 	  <div>
 	    <div class="address">
               <%=h @studio.street %>

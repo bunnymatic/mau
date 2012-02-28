@@ -7,11 +7,7 @@
     <td class="vstripe"></td>
     <td class="rcol" colspan='2'>
       <div id="search_results">
-      <% if flash[:error] %>
-      <div class="error-msg">
-	<%= flash[:error] %>
-      </div>
-      <% end %>
+      <%= render :partial => '/flash_notice_error' -%>
       <% if @pieces and !@pieces.empty? %> 
       <%=
 	 render :partial => '/art_pieces/thumbs', :locals => { :pieces => @pieces,

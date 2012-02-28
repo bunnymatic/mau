@@ -10,16 +10,7 @@
     </a>
   </div>
   <h4>My Account</h4>
-  <% if flash and flash[:notice] and !flash[:notice].empty? -%>
-  <div class="notice">
-    <%= flash[:notice] %>
-  </div>
-  <% end -%>
-  <% if flash and flash[:error] and !flash[:error].empty? -%>
-  <div class="error-msg">
-    <%= flash[:error] %>
-  </div>
-  <% end -%>
+  <%= render :partial => '/flash_notice_error' -%>
   <div class="edit-sections">
     <% form_for :user, current_user, 
        :url => { :action => "update" }, 

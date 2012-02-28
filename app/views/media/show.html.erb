@@ -14,11 +14,7 @@
 	  <%= render :partial => "/pagination" %>
 	  <%= render :partial => "/art_pieces/mode_selector" %>
 	</div>
-	<% if flash[:error] -%>
-	<div class="error-msg">
-	  <%= flash[:error] %>
-	</div>
-	<% end -%>
+        <%= render :partial => '/flash_notice_error' -%>
 	<div class="search-results">
 	  <% if @pieces and !@pieces.empty? -%> 
 	  <%=

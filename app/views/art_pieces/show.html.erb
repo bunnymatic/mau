@@ -21,17 +21,7 @@
     <td class="vstripe"></td> 
     <td class="rcol"  colspan='2'>
       <div class="logo-spacer"></div><!-- art_pieces/show -->
-      <% if flash[:error] -%>
-      <div class="error-msg">
-	<%= flash[:error] %>      
-      </div>
-      <% end -%>
-      <% if flash[:notice] -%>
-      <div class="notice">
-	<%= flash[:notice] %>      
-      </div>
-      <% end -%>
-
+      <%= render :partial => '/flash_notice_error' -%>
       <% if @art_piece -%>
       <div id="artpiece_title"><%=h @art_piece.title %></div>
       <div id="artpiece_container">

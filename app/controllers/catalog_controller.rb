@@ -19,12 +19,9 @@ class CatalogController < ApplicationController
       artists.sort! &Artist.sort_by_lastname
     end
 
-    if params[:preview]
-      page = 'main_openstudios'
-      section = 'preview_reception'
-      markdown_content = CmsDocument.find_by_page_and_section(page, section)
-      @preview_reception_html = (markdown_content ? markdown(markdown_content.article) : '')
-    end
+    page = 'main_openstudios'
+    section = 'preview_reception'
+    @preview_reception_html = CmsDocument.packaged(page, section)
         
     page = 'spring_2011_catalog'
     section = 'thanks'

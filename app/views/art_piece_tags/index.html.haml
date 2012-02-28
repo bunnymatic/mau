@@ -6,8 +6,7 @@
     %td.vstripe
     %td.rcol{:colspan => 2}
       #search_results
-        - if flash[:error]
-          .error-msg #{flash[:error]}
+        = render :partial => '/flash_notice_error'
         - if @pieces.present?
           = render :partial, '/art_pieces/thumbs', :locals => { :pieces => @pieces,:params => { :cols => 5, :show_footer => false, :size => 'thumb'  }}
   = render :partial => '/twocol_bottom' %>
