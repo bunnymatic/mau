@@ -10,7 +10,7 @@ describe SessionsController do
         get :new
       end
       it_should_behave_like 'returns success'
-      it 'fetches the markdown content properly' do
+      it 'fetches the text for the signup page via markdown' do
         assigns(:content).should have_key :content
         assigns(:content).should have_key :cmsid
       end
@@ -35,7 +35,7 @@ describe SessionsController do
       it 'should render the new template' do
         response.should render_template 'new'
       end
-      it 'assigns content for markdown' do
+      it 'fetches the text for the signup page via markdown' do
         assigns(:content).should have_key :content
         assigns(:content).should have_key :cmsid
       end
