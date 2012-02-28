@@ -25,7 +25,7 @@ shared_examples_for 'has some invalid params' do
 end
 
 shared_examples_for 'main#index page' do
-  it_should_behave_like 'two column layout'
+  it_should_behave_like 'standard sidebar layout'
   it "shows search box" do
     assert_select '#search_box'
   end
@@ -35,23 +35,12 @@ shared_examples_for 'main#index page' do
   it "has a feed container" do
     assert_select "#feed_div"
   end
-  it 'has a new art sidebar element' do
-    assert_select '.lcol .new_art'
-  end
   it 'shows a link to the artist with the most recently uploaded art' do
     assert_select '.lcol .new_art a[href=%s]' % artist_path(ArtPiece.last.artist)
-  end
-  it 'assigns new art sorted by created at' do
-    new_art = assigns(:new_art)
-    new_art.should be_present
-    new_art.sort_by(&:created_at).reverse.should == new_art
   end
   it "has a header menu" do
     assert_select '#header_bar'
     assert_select '#artisthemission'
-  end
-  it 'has all the action buttons' do
-    assert_select '.action_button', :count => 4
   end
   it "has a footer menu" do
     assert_select '#footer_bar'
@@ -71,6 +60,22 @@ describe MainController do
         get :index
       end
       it_should_behave_like 'main#index page'
+      it 'does show the action button for call for entries if the date is before March 11 2011 (the deadline)' do
+        t = Time.utc(2012, 3, 10)
+        Time.stubs(:now).returns(t)
+        get :index
+        assert_select '.sprite.call_for_entries.action_button'
+        assert_select 'a[href=/wizards/mau042012]'
+        assert_select '.action_button', :count => 5
+      end
+      it 'doesn\'t show the action button for call for entries if the date is after March 11 2011 (the deadline)' do
+        t = Time.utc(2012, 3, 13)
+        Time.stubs(:now).returns(t)
+        get :index
+        response.should_not have_tag '.sprite.call_for_entries.action_button'
+        response.should_not have_tag 'a[href=/wizards/mau042012]'
+        assert_select '.action_button', :count => 4
+      end
     end
     describe 'logged in' do
       before do
@@ -80,7 +85,7 @@ describe MainController do
       it_should_behave_like 'main#index page'
       it_should_behave_like 'logged in as admin'
     end
-
+    
   end
 
   describe "- route generation" do
@@ -150,7 +155,7 @@ describe MainController do
         get :resources
       end
       it_should_behave_like "not logged in"
-      it_should_behave_like 'two column layout'
+      it_should_behave_like 'standard sidebar layout'
     end
     context "while logged in as an art fan" do
       before do
@@ -362,7 +367,7 @@ describe MainController do
         @logged_in_user = u
         get :faq
       end
-      it_should_behave_like 'two column layout'
+      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
@@ -372,7 +377,7 @@ describe MainController do
         @logged_in_user = a
         get :faq
       end
-      it_should_behave_like 'two column layout'
+      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "logged in user"
     end
   end
@@ -382,7 +387,7 @@ describe MainController do
       before do
         get :venues
       end
-      it_should_behave_like 'two column layout'
+      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
     end
     context 'logged in as admin' do
@@ -410,7 +415,7 @@ describe MainController do
       before do
         get :openstudios
       end
-      it_should_behave_like 'two column layout'
+      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
       it 'assigns participating studios with only studios that have os artists without studio = 0' do
         n = Artist.active.open_studios_participants.select{|a| !a.studio_id.nil? && a.studio_id != 0}.map(&:studio).uniq.count
