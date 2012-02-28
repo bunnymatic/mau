@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
           flash[:notice] = "You're already logged in"
           redirect_back_or_default('/')
         else
-          @content = CmsDocument.packaged('signup','signup')
+          @cms_content = CmsDocument.packaged('signup','signup')
         end
       }
       fmt.mobile { redirect_to "/" }
@@ -47,14 +47,14 @@ class SessionsController < ApplicationController
           else
             note_inactive_signin
             @login       = params[:login]
-            @content = CmsDocument.packaged('signup','signup')
+            @cms_content = CmsDocument.packaged('signup','signup')
             # @remember_me = params[:remember_me]
             render :action => 'new'
           end
         else
           note_failed_signin
           @login       = params[:login]
-          @content = CmsDocument.packaged('signup','signup')
+          @cms_content = CmsDocument.packaged('signup','signup')
 
           # @remember_me = params[:remember_me]
           render :action => 'new'
