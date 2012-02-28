@@ -169,7 +169,10 @@ class MainController < ApplicationController
       @content[:content] = markdown(doc.article)
       @content[:cmsid] = doc.id
     end
-    render :action => 'resources', :layout => 'mau2col'
+    respond_to do |fmt|
+      fmt.html{ render :action => 'resources', :layout => 'mau2col' }
+      fmt.mobile { render :layout => 'mobile_welcome' }
+    end
   end
 
   def venues
