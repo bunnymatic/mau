@@ -1,11 +1,7 @@
 .admin-table.singlecolumn
   .featured
     %h1 Featured Artist: #{@featured_artist.get_name(true)}
-    - if flash[:error]
-      .error-msg Error: #{flash[:error]}
-    - if flash[:notice]
-      .notice #{flash[:notice]}
-
+    = render :partial => '/flash_notice_error'
 
     %a{:href => artist_path(@featured.artist), :title => @featured.artist.get_name(true)}
       - if @featured_artist.has_profile_image

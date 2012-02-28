@@ -1,15 +1,6 @@
 <div class="logo-spacer"></div>
 <div id="favorites_page">
-  <% if flash[:error] -%>
-  <div class="error-msg">Error:
-    <%= flash[:error] %>
-  </div>
-  <% end -%>
-  <% if flash[:notice] -%>
-  <div class="notice">
-    <%= flash[:notice] %>      
-  </div>
-  <% end -%>
+  <%= render :partial => '/flash_notice_error' -%>
   <% if current_user && current_user == @user -%>
   <h4>My Favorites</h4>
   <% else -%>

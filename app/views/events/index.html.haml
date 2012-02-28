@@ -1,9 +1,6 @@
 .events.logo-space
   %h3 Mission Artists' Events
-  - if flash[:error]
-    .error-msg Error: #{flash[:error]}
-  - if flash[:notice]
-    .notice #{flash[:notice]}
+  = render :partial => '/flash_notice_error'
   - if @events.count == 0
     .no_events 
       Sadly, we don't have any events on the list.
