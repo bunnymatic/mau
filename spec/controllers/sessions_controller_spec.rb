@@ -11,8 +11,8 @@ describe SessionsController do
       end
       it_should_behave_like 'returns success'
       it 'fetches the text for the signup page via markdown' do
-        assigns(:content).should have_key :content
-        assigns(:content).should have_key :cmsid
+        assigns(:cms_content).should have_key :content
+        assigns(:cms_content).should have_key :cmsid
       end
     end
     describe 'as logged in' do
@@ -36,8 +36,8 @@ describe SessionsController do
         response.should render_template 'new'
       end
       it 'fetches the text for the signup page via markdown' do
-        assigns(:content).should have_key :content
-        assigns(:content).should have_key :cmsid
+        assigns(:cms_content).should have_key :content
+        assigns(:cms_content).should have_key :cmsid
       end
     end
   end
