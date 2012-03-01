@@ -8,6 +8,7 @@ describe WizardsController do
   fixtures :users
   fixtures :artist_infos
   fixtures :art_pieces
+  fittures :contents
 
   integrate_views
 

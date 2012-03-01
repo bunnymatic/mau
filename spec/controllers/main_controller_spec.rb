@@ -51,7 +51,7 @@ end
 
 describe MainController do
 
-  fixtures :users, :studios, :artist_infos, :cms_documents, :roles, :emails, :email_lists, :email_list_memberships, :art_pieces
+  fixtures :users, :studios, :artist_infos, :cms_documents, :roles, :emails, :email_lists, :email_list_memberships, :art_pieces, :contents
 
   describe "#index" do
     integrate_views
