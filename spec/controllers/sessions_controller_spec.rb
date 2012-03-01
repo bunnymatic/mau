@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 include AuthenticatedTestHelper
 
 describe SessionsController do
-  fixtures :users, :roles, :contents
+  fixtures :users, :roles, :cms_documents
   describe '#new' do
     describe 'as logged out' do
       before do
