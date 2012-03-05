@@ -114,3 +114,18 @@ reception_full:
   url: url.com
   publish: <%= 3.days.since %>
   user: jesseponce
+
+past_open_future_reception:
+  title: Reception Start
+  description: my event with reception in the future, but the event has already started
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: <%= 4.days.ago %>
+  reception_starttime: <%= 5.days.since %>
+  url: http://www.futurepast.com
+  publish: <%= 1.days.ago %>
+  user: jesseponce
