@@ -39,7 +39,7 @@ describe Event do
 
   describe 'named scopes' do
     it "future returns only events whose end time is the future" do
-      Event.future.all?{|u| (u.endtime && u.endtime > Time.now) || (u.starttime > Time.now) }.should be
+      Event.future.all?{|u| u.future?}.should be_true
     end
     it "past returns only events that are in the past" do
       Event.past.all?{|u| (u.endtime && u.endtime < Time.now) || (u.starttime < Time.now)}.should be

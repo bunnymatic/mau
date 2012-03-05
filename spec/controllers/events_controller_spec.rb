@@ -118,6 +118,9 @@ describe EventsController do
         assert_select('.events h4.month', month)
       end
     end
+    it 'includes events who\'s start time has passed but receiption time is in the future' do
+      assert_select('.url a[href=http://www.futurepast.com]', 'www.futurepast.com')
+    end
   end
 
   describe "#publish" do
