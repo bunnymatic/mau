@@ -7,16 +7,17 @@
     = render :partial => '/stylesheets' 
     = render :partial => '/ganalytics' 
     = render :partial => '/javascripts' 
-  %body{ :class => "one_column %s " % @browser_as_class }
+  %body{ :class => "two_column %s" % @browser_as_class }
     - if @_ie7 
       = render :partial => '/ie7_warning' 
     = render :partial => '/noscript_msg' 
     #bg
     = render :partial => '/login_header_bar' 
     #container
-      = render :partial => '/header_bar' 
+      = render :partial => '/header_bar'
       .hstripe
-      = render :partial => '/content', :locals => { :cols => 1 } 
+      = render :partial => '/content', :locals => { :cols => 2 } 
       .hstripe
       = render :partial => '/footer' 
-  %script Feedback.init();
+  = javascript_include_tag "mau/mau_feeds"
+  %script Feedback.init()
