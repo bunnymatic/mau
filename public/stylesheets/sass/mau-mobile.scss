@@ -10,6 +10,19 @@ h1,h2,h3,h4,h5,h6 {
 .ui-page img { 
   max-width: 250px;
 }
+.ui-page {
+  .ui-content .f404 {
+    a {
+      color: #fcf;
+    }
+  }
+  .ui-footer .news-footer .ui-link {
+    color: #fff;
+    &:visited {
+      color: #999;
+    }
+  }
+}
 
 #art_pieces {
   list-style: none;
@@ -38,6 +51,17 @@ h1,h2,h3,h4,h5,h6 {
 
 .clear {
   clear:both;
+}
+.ui-listview {
+  .ui-btn-up-a, .ui-btn-hover-a, .ui-btn-down-a, .ui-btn-a {
+    background: -moz-linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
+    border: 1px solid #222;
+    font-weight: bold;
+    text-shadow: 0 -1px 1px #fff;
+    .ui-btn-text a {
+      color: #333; 
+    }
+  }
 }
 .ui-content {
   div { line-height: 1.4em; }
