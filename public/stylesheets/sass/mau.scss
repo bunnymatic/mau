@@ -108,8 +108,12 @@ h5 {
   }
 }
 .two_column .notice {
+  width: 400px;
   top: 50px;
-  left: 450px;
+  left: 386px;
+}
+
+.one_column .notice {
 }
 
 .singlecolumn {
@@ -403,7 +407,7 @@ a.lknav {
     color: $lightyellow;
   }
   &:active {
-    color: #738294;
+    color: $bluegray;
   }
 }
 
@@ -1468,7 +1472,7 @@ table.getinv-form{
 }
 
 .hstripe{
-  background-color:#738294;
+  background-color:$bluegray;
   height:5px;
   width:900px
 }
@@ -1561,7 +1565,7 @@ div.tiny-thumb-sel {
    */
 
 td.vstripe{
-  background-color:#738294;
+  background-color:$bluegray;
   width: 5px;
 }
 tr.tr-short{
@@ -2203,9 +2207,9 @@ textarea.artist-bio {
   background-image: url(/images/gradients.png);
   background-repeat: repeat-x;
   background-position: 0 -165px; /* 40px gradient */
-  -moz-box-shadow: 2px 1px 5px #738294;
-  -webkit-box-shadow: 2px 1px 5px #738294;
-  box-shadow: 1px 1px 5px #738294;
+  -moz-box-shadow: 2px 1px 5px $bluegray;
+  -webkit-box-shadow: 2px 1px 5px $bluegray;
+  box-shadow: 1px 1px 5px $bluegray;
   color: #606;
   line-height: 24px;
 }
@@ -2745,7 +2749,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 .dropdown {
-  border-left: 1px solid #738294;
+  border-left: 1px solid $bluegray;
   text-align:left;
   &.first {
     border: 0;
@@ -3621,7 +3625,6 @@ a.button b.m b {
   }
   .notice,
   .error-msg {
-    width: auto;
   }
   .notice {
     text-align: left;
