@@ -7,8 +7,10 @@
   .section.artist-links
     %h5
       %a{:href => artists_path(:osonly => true)}Open Studios Art
-      =# <h5><a href="<%= map_artists_path :osonly => true %>">Online Map</a></h5>
-      =# <h5><a href="/catalog/spring2011/mau_spring_2011_guide_color.pdf">Download the Guide</a></h5>
+    %h5
+      %a{:href => map_artists_path(:osonly => true)} Online Map
+    %h5
+      %a{:href => "/catalog/042012/spring2012guide.pdf"}Download the Guide
     .clear
   .section
     %h4 Participating Group Studios
