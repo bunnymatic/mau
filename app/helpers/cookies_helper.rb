@@ -3,8 +3,8 @@ module CookiesHelper
   def self.encode_cookie( hsh )
     begin
       v = Base64.encode64(JSON.generate(hsh))
-    rescue
-      RAILS_DEFAULT_LOGGER.error("Failed to encode %s for cookie" % hsh)
+    rescue Exception => ex
+      RAILS_DEFAULT_LOGGER.error("Failed to encode [#{hsh}] for cookie [#{ex.to_s}]")
       return ""
     end
     v

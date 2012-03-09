@@ -29,17 +29,18 @@ class ApplicationController < ActionController::Base
 
   def update_cookies
     @last_visit = nil;
-    last_visit = DateTime::now()
-    user_info = {}
-    if current_user
-      user_info.merge!({ :email => current_user.email,
-                        :firstname => current_user.firstname,
-                        :lastname => current_user.lastname,
-                        :fullname => current_user.get_name(true) })
-    end
-    cookie_data = {:last_visit => last_visit}.merge(user_info)
-    cookies[:mau] = CookiesHelper::encode_cookie(cookie_data)
-    @last_visit = last_visit
+    
+    #last_visit = DateTime::now()
+    #user_info = {}
+    #if current_user
+    #  user_info.merge!({ :email => current_user.email,
+    #                    :firstname => current_user.firstname,
+    #                    :lastname => current_user.lastname,
+    #                    :fullname => current_user.get_name(true) })
+    #end
+    #cookie_data = {:last_visit => last_visit}.merge(user_info)
+    #cookies[:mau] = CookiesHelper::encode_cookie(cookie_data)
+    #@last_visit = last_visit
   end
 
   # Scrub sensitive parameters from your log
@@ -159,7 +160,7 @@ class ApplicationController < ActionController::Base
     @_ismobile = (is_mobile_device? and is_mobile_device? > 0)? true:false
     @_mobile_device_name = user_agent_device_name 
     params[:format] = 'mobile' if @_ismobile
-    logger.info("Mobile? %s (device %s)" % [@_ismobile, @_mobile_device_name])
+    #logger.info("Mobile? %s (device %s)" % [@_ismobile, @_mobile_device_name])
 
     unless self.request[USERAGENT].blank?
       @_ie = is_ie?(self.request)
