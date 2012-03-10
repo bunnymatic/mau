@@ -320,6 +320,9 @@ describe ArtistsController do
       it "returns a page" do
         response.should be_success
       end
+      it 'shows the artists name' do
+        assert_select '.artist-profile h1', users(:artist1).get_name(true)
+      end
       it "has a twitter share icon it" do
         assert_select '.micro-icon.twitter'
       end
