@@ -21,6 +21,9 @@ module StringHelpers
     else
       msg
     end
+  end    
+  def trunc(msg, num_chars=100, ellipsis=true)
+    StringHelpers.trunc msg, num_chars, ellipsis
   end   
 end
 

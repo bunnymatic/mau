@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include MobilizedStyles
   before_filter :check_browser, :set_version, :get_feeds, :get_new_art
-  after_filter :update_cookies
+  after_filter :update_cookies, :set_keywords
 
   def non_mobile
     session[:mobile_view] = false
@@ -236,6 +236,9 @@ class ApplicationController < ActionController::Base
     # HTTP 1.1 'pre-check=0, post-check=0' (IE specific)
     response.headers["Cache-Control"] = 'no-store, no-cache, must-revalidate, max-age=0, pre-check=0, post-check=0'
   end
-
+  
+  def set_keywords
+    @page_keywords = ["art is the mission", "art", "artists","san francisco", @page_keywords || nil].flatten.compact.uniq.join(', ')
+  end
 
 end
