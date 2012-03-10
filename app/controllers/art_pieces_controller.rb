@@ -89,6 +89,8 @@ class ArtPiecesController < ApplicationController
     if @art_piece.artist_id > 0
       pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
       @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
+      @page_description = build_page_description @art_piece
+      @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
     end
     self._setup_thumb_browser_data(pieces, apid)
     respond_to do |format|
@@ -282,4 +284,12 @@ class ArtPiecesController < ApplicationController
     end
   end
 
+  def build_page_description art_piece
+    if (art_piece) 
+      if art_piece && !art_piece.title.empty?
+        return "Mission Artists United Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}"
+      end
+    end
+    return @page_description
+  end
 end

@@ -43,9 +43,30 @@ end
 
 require 'mocha'
 
-LETTERS_PLUS_SPACE =  [('a'..'z'),('A'..'Z'), ' '].map{|i| i.to_a}.flatten unless defined? LETTERS_PLUS_SPACE
+LETTERS_PLUS_SPACE =  []
+('a'..'z').each {|ltr| LETTERS_PLUS_SPACE << ltr}
+('A'..'Z').each {|ltr| LETTERS_PLUS_SPACE << ltr}
 
 def gen_random_string(len=8)
   numchars = LETTERS_PLUS_SPACE.length
   (0..len).map{ LETTERS_PLUS_SPACE[rand(numchars)] }.join
+end
+
+def gen_random_words *args
+  opts = {:min_length => 1, :min_words => 2}
+  if args.empty?
+    opts.merge!({:min_length => 15})
+  else
+    args.each do |arg|
+      opts.merge! arg
+    end
+  end
+  min_length = opts[:min_length]
+  min_words = opts[:min_words]
+  words = []
+
+  while words.empty? || ((words.length < min_words) || ((words.length > 1) && (words.map(&:length).sum < min_length)))
+    words << gen_random_string( 3 + rand(6) )
+  end
+  words.join(' ')
 end
