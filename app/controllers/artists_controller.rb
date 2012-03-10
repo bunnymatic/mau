@@ -2,12 +2,12 @@
 require 'xmlrpc/client'
 include ArtistsHelper
 include HTMLHelper
-
 def is_os_only(osonly)
   return (osonly && (["1",1,"on","true"].include? osonly))
 end
 
 class ArtistsController < ApplicationController
+  include StringHelpers
   # Be sure to include AuthenticationSystem in Application Controller instead
   @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
@@ -371,6 +371,8 @@ class ArtistsController < ApplicationController
     @artist = get_artist_from_params
     if !@artist.nil?
       @page_title = "Mission Artists United - Artist: %s" % @artist.get_name(true)
+      @page_description = trunc(@artist.bio, 500)
+      @page_keywords = @artist.media.map(&:name) + @artist.tags.map(&:name)
       # get artist pieces here instead of in the html
       num = @artist.max_pieces - 1
       @art_pieces = @artist.art_pieces[0..num]

@@ -335,6 +335,46 @@ describe ArtistsController do
       it 'has other thumbnails' do
         assert_select('.artist-pieces')
       end
+      it 'has the artist\'s bio as the description' do
+        assert_select 'head meta[name=description]' do tags
+          tags.length.should == 1
+          tags[0].attributes['content'].should == artist.bio
+        end
+      end
+      it 'has the artist\'s (truncated) bio as the description' do
+        long_bio = gen_random_words(:min_length => 800)
+        artist(:artist1).update_attribute(:bio, long_bio)
+        assert_select 'head meta[name=description]' do tags
+          tags.length.should == 1
+          tags[0].attributes['content'].should_not == artist.bio
+          tags[0].attributes['content'].should match artist.bio[0..490]
+          tags[0].attributes['content'].should match /\.\.\.$/
+        end
+      end
+
+      it 'has the artist tags and media as the keywords' do
+        artist = users(:artist1)
+        tags = artist.tags.map(&:name).map{|t| t[0..255]}
+        media = artist.media.map(&:name)
+        expected = tags + media
+        assert_select 'head meta[name=keywords]' do |content|
+          content.length.should == 1
+          actual = content[0].attributes['content'].split(',').map(&:strip)
+          expected.each do |ex|
+            actual.should include ex
+          end
+        end
+      end
+      it 'has the default keywords' do
+        assert_select 'head meta[name=keywords]' do |kws|
+          kws.length.should == 1
+          expected = ["art is the mission", "art", "artists", "san francisco"]
+          actual = kws[0].attributes['content'].split(',').map(&:strip)
+          expected.each do |ex|
+            actual.should include ex
+          end
+        end
+      end
     end
 
     it "reports cannot find artist" do
