@@ -397,7 +397,7 @@ Object.extend(MAU.NotesMailer.prototype, {
       var _that = this;
       $$(this.selector).each(function(el) {
         el.observe('click', function(ev) { 
-          _that.insert(ev.target); 
+          _that.insert(ev); 
           return false;
         });
       });
