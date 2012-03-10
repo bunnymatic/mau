@@ -45,6 +45,32 @@ describe ArtPiecesController do
         get :show, :id => @artpieces.first.id
       end
       it_should_behave_like 'returns success'
+      it 'has a description with the art piece name' do
+        assert_select 'head meta[name=description]' do |desc|
+          desc.length.should == 1
+          desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+        end
+      end
+      it 'has keywords that match the art piece' do
+        assert_select 'head meta[name=keywords]' do |keywords|
+          keywords.length.should == 1
+          expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.map(&:name)
+          actual = keywords[0].attributes['content'].split(',').map(&:strip)
+          expected.each do |ex|
+            actual.should include ex
+          end
+        end
+      end
+      it 'include the default keywords' do
+        assert_select 'head meta[name=keywords]' do |keywords|
+          keywords.length.should == 1
+          expected = ["art is the mission", "art", "artists", "san francisco"]
+          actual = keywords[0].attributes['content'].split(',').map(&:strip)
+          expected.each do |ex|
+            actual.should include ex
+          end
+        end
+      end
       it "displays art piece" do
         assert_select("#artpiece_title", @artpieces.first.title)
         assert_select("#ap_title", @artpieces.first.title)

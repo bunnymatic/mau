@@ -48,16 +48,16 @@ shared_examples_for 'main#index page' do
     assert_select '#footer_links'
   end
   it 'has the default description' do
-    assert_select 'head meta[name=description]' do |tags|
-      tags.length.should == 1
-      tags[0].attributes['content'].should == "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
+    assert_select 'head meta[name=description]' do |desc|
+      desc.length.should == 1
+      desc[0].attributes['content'].should == "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
     end
   end
   it 'has the default keywords' do
-    assert_select 'head meta[name=keywords]' do |tags|
-      tags.length.should == 1
+    assert_select 'head meta[name=keywords]' do |keywords|
+      keywords.length.should == 1
       expected = ["art is the mission", "art", "artists", "san francisco"]
-      actual = tags[0].attributes['content'].split(',').map(&:strip)
+      actual = keywords[0].attributes['content'].split(',').map(&:strip)
       expected.each do |ex|
         actual.should include ex
       end

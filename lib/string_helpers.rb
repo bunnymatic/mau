@@ -4,6 +4,7 @@ module StringHelpers
     # truncate string to num_chars
     # add ellipsis if ellipsis=true
     # num_chars includes ellipsis
+    return nil unless msg && !msg.empty?
     num_chars = num_chars.to_i
     if msg.length < num_chars
       return msg

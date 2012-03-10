@@ -371,8 +371,8 @@ class ArtistsController < ApplicationController
     @artist = get_artist_from_params
     if !@artist.nil?
       @page_title = "Mission Artists United - Artist: %s" % @artist.get_name(true)
-      @page_description = trunc(@artist.bio, 500)
-      @page_keywords = @artist.media.map(&:name) + @artist.tags.map(&:name)
+      @page_description = build_page_description @artist
+      @page_keywords += @artist.media.map(&:name) + @artist.tags.map(&:name)
       # get artist pieces here instead of in the html
       num = @artist.max_pieces - 1
       @art_pieces = @artist.art_pieces[0..num]
@@ -393,6 +393,9 @@ class ArtistsController < ApplicationController
 
   def bio
     @artist = get_artist_from_params
+    @page_description = build_page_description @artist
+    @page_keywords += @artist.media.map(&:name) + @artist.tags.map(&:name)
+
     if @artist.bio.present?
       respond_to do |format|
         format.html { render :action => 'show', :template => 'show', :layout => 'mau' }
@@ -497,4 +500,13 @@ class ArtistsController < ApplicationController
     return artist
   end
 
+  def build_page_description artist
+    if (artist) 
+      trim_bio = trunc(artist.bio, 500) 
+      if trim_bio && !trim_bio.empty?
+        return "Mission Artists United Artist : #{artist.get_name(true)} : " + trim_bio
+      end
+    end
+    return @page_description
+  end
 end

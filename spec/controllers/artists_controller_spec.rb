@@ -336,19 +336,25 @@ describe ArtistsController do
         assert_select('.artist-pieces')
       end
       it 'has the artist\'s bio as the description' do
-        assert_select 'head meta[name=description]' do tags
-          tags.length.should == 1
-          tags[0].attributes['content'].should == artist.bio
+        assert_select 'head meta[name=description]' do |desc|
+          desc.length.should == 1
+          desc[0].attributes['content'].should match users(:artist1).bio
+          desc[0].attributes['content'].should match /^Mission Artists United Artist/
+          desc[0].attributes['content'].should match users(:artist1).get_name(true)
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
         long_bio = gen_random_words(:min_length => 800)
-        artist(:artist1).update_attribute(:bio, long_bio)
-        assert_select 'head meta[name=description]' do tags
-          tags.length.should == 1
-          tags[0].attributes['content'].should_not == artist.bio
-          tags[0].attributes['content'].should match artist.bio[0..490]
-          tags[0].attributes['content'].should match /\.\.\.$/
+        users(:artist1).artist_info.update_attribute(:bio, long_bio)
+        artist = Artist.find(users(:artist1).id)
+        get :show, :id => users(:artist1).id
+        assert_select 'head meta[name=description]' do |desc|
+          desc.length.should == 1
+          desc[0].attributes['content'].should_not == artist.bio
+          desc[0].attributes['content'].should match artist.bio[0..490]
+          desc[0].attributes['content'].should match /\.\.\.$/
+          desc[0].attributes['content'].should match /^Mission Artists United Artist/
+          desc[0].attributes['content'].should match users(:artist1).get_name(true)
         end
       end
 
@@ -357,6 +363,7 @@ describe ArtistsController do
         tags = artist.tags.map(&:name).map{|t| t[0..255]}
         media = artist.media.map(&:name)
         expected = tags + media
+        assert expected.length > 0, 'Fixture for artist1 needs some tags or media associations'
         assert_select 'head meta[name=keywords]' do |content|
           content.length.should == 1
           actual = content[0].attributes['content'].split(',').map(&:strip)
