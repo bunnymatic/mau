@@ -4,6 +4,7 @@ module StringHelpers
     # truncate string to num_chars
     # add ellipsis if ellipsis=true
     # num_chars includes ellipsis
+    return nil unless msg && !msg.empty?
     num_chars = num_chars.to_i
     if msg.length < num_chars
       return msg
@@ -21,6 +22,9 @@ module StringHelpers
     else
       msg
     end
+  end    
+  def trunc(msg, num_chars=100, ellipsis=true)
+    StringHelpers.trunc msg, num_chars, ellipsis
   end   
 end
 

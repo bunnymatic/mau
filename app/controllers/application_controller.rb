@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   layout 'mau'
   include AuthenticatedSystem
   include MobilizedStyles
-  before_filter :check_browser, :set_version, :get_feeds, :get_new_art
+  before_filter :check_browser, :set_version, :get_feeds, :get_new_art, :set_meta_info
   after_filter :update_cookies
 
   def non_mobile
@@ -236,6 +236,10 @@ class ApplicationController < ActionController::Base
     # HTTP 1.1 'pre-check=0, post-check=0' (IE specific)
     response.headers["Cache-Control"] = 'no-store, no-cache, must-revalidate, max-age=0, pre-check=0, post-check=0'
   end
-
+  
+  def set_meta_info
+    @page_description = "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
+    @page_keywords = ["art is the mission", "art", "artists","san francisco"]
+  end
 
 end
