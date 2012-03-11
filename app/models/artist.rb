@@ -1,12 +1,13 @@
+require 'qr4r'
 class Artist < User
+
   BOUNDS = { 'NW' => [ 37.76978184422388, -122.42683410644531 ],
     'NE' => [ 37.76978184422388, -122.40539789199829 ],
     'SW' => [ 37.747787573475506, -122.42919445037842 ],
     'SE' => [ 37.74707496171992, -122.40539789199829 ] 
   } if !defined? BOUNDS
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
-
-  include AddressMixin
+  
   named_scope :open_studios_participants, lambda { |*oskey| 
       if oskey.blank?
         {
@@ -112,6 +113,15 @@ class Artist < User
     ap = self.art_pieces[0..n-1]
   end
 
+  def qrcode(pixel_size = 5)
+    path = File.join(Rails.root, "public/artistdata/#{self.id}/profile/qr.png")
+    if !File.exists? path
+      artist_url = "http://%s/%s?%s" % [Conf.site_url, "artists/#{self.id}", "qrgen=auto"]
+      path = Qr4r::encode(artist_url, path, :border => 10, :pixel_size => pixel_size)
+    end
+    return path
+  end
+  
   protected
   def call_address_method(method)
     if self.studio_id != 0 and self.studio
