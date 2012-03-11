@@ -1,4 +1,6 @@
 class Artist < User
+  include QrEncoder
+  
   BOUNDS = { 'NW' => [ 37.76978184422388, -122.42683410644531 ],
     'NE' => [ 37.76978184422388, -122.40539789199829 ],
     'SW' => [ 37.747787573475506, -122.42919445037842 ],
@@ -112,6 +114,15 @@ class Artist < User
     ap = self.art_pieces[0..n-1]
   end
 
+  def qrcode 
+    path = File.join(Rails.root, "public/artistdata/#{self.id}/profile/qr.png")
+    if !File.exists? path
+      artist_url = "http://%s/%s?%s" % [Conf.site_url, "artists/#{self.id}", "qrgen=1"]
+      path = qrencode path, artist_url
+    end
+    return path
+  end
+  
   protected
   def call_address_method(method)
     if self.studio_id != 0 and self.studio
