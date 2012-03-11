@@ -1,4 +1,4 @@
-# -*- coding: undecided -*-
+# -*- coding: utf-8 -*-
 require 'xmlrpc/client'
 include ArtistsHelper
 include HTMLHelper
@@ -366,7 +366,7 @@ class ArtistsController < ApplicationController
     @artist = self.current_user
   end
 
-
+  
   def show
     @artist = get_artist_from_params
     if !@artist.nil?
@@ -406,6 +406,24 @@ class ArtistsController < ApplicationController
       end
     else
       redirect_to artist_path(@artist) 
+    end
+  end
+
+  def qrcode
+    @artist = get_artist_from_params
+    if @artist
+      qrcode_system_path = @artist.qrcode
+      respond_to do |fmt|
+        fmt.html { 
+          redirect_to "/artistdata/#{@artist.id}/profile/qr.png"
+        }
+        fmt.png {
+          data = File.open(qrcode_system_path,'rb').read
+          send_data(data, :filename => 'qr.png', :type=>'image/png')
+        }
+      end
+    else
+      render :action => 'show', :layout => 'mau'
     end
   end
 
