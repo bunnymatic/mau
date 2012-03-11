@@ -62,8 +62,5 @@ end
 require 'has_many_polymorphs'
 require 'tag_extensions'
 
-# add custom mimetypes (for qrcode)
-Mime::Type.register "image/png", :png
-
 puts "Environment: #{RAILS_ENV}"
 

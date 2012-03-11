@@ -44,8 +44,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :artists, 
   :member => {
     :update => :post,
-    :bio => :get,
-    :qrcode => :get
+    :bio => :get
   }, 
   :collection => { 
     :destroyart => :post, 
