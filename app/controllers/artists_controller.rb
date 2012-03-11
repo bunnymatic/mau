@@ -15,7 +15,7 @@ class ArtistsController < ApplicationController
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
 
-  after_filter :store_location, :except => [:show]  # may handle these separately in case of error pages
+  after_filter :store_location, :except => [:show, :qrcode, :bio]  # may handle these separately in case of error pages
 
   layout 'mau1col', :except => 'faq'
 
