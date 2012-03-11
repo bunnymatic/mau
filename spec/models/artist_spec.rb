@@ -341,6 +341,24 @@ describe Artist do
 
   end
 
+  describe 'qrcode' do
+    it 'generates a qr code the first time' do
+      a = Artist.first
+      inpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
+      outpath = File.join(Rails.root, '/artists/#{id}?qrgen=1')
+      a.expects(:qrencode).with(inpath, outpath)
+      a.qrcode
+    end
+    it 'generates a qr code the first time' do
+      a = Artist.first
+      inpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
+      outpath = File.join(Rails.root, '/artists/#{id}?qrgen=1')
+      File.expects(:exists?).returns(true)
+      a.expects(:qrencode).with(inpath, outpath).never
+      a.qrcode
+    end
+  end
+
   describe 'named scopes' do
     describe ':open_studios_participants' do
       [['201104',2],['201110',3]].each do |arg|

@@ -1,4 +1,3 @@
-require 'lib/qrencoder'
 class Artist < User
   include QrEncoder
   
@@ -116,7 +115,7 @@ class Artist < User
   end
 
   def qrcode 
-    path = File.join(Rails.root, "public/artistdata/#{id}/qr.png")
+    path = File.join(Rails.root, "public/artistdata/#{id}/profile/qr.png")
     if !File.exists? path
       artist_path = File.join(Rails.root, '/artists/#{id}')
       path = qrencode path, artist_path + "?qrgen=1"
