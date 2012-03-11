@@ -115,12 +115,9 @@ class Artist < User
   end
 
   def qrcode 
-    dir = File.join(Rails.root, "public/artistdata/#{self.id}/profile")
-    FileUtils.mkdir_p(dir)
-    path = File.join(dir,'qr.png')
+    path = File.join(Rails.root, "public/artistdata/#{self.id}/profile/qr.png")
     if !File.exists? path
       artist_url = "http://%s/%s?%s" % [Conf.site_url, "artists/#{self.id}", "qrgen=1"]
-      logger.info("creating qr code for artist ##{self.id}, #{self.login}")
       path = qrencode path, artist_url
     end
     return path
