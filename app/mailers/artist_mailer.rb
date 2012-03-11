@@ -24,7 +24,7 @@ class ArtistMailer < MauMailer
 
   def notify(artist, notehash)
     setup_note(artist)
-    @subject += "An inquiry about your art."
+    @subject = "An inquiry about your art."
     @sender_name = notehash['name']
     @sender_email = notehash['email']
     @sender_note = notehash['comment']
