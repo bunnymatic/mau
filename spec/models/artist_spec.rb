@@ -345,14 +345,14 @@ describe Artist do
     it 'generates a qr code the first time' do
       a = Artist.first
       inpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
-      outpath = "http://#{Conf.site_url}/artists/#{a.id}?qrgen=1"
+      outpath = File.join(Rails.root, '/artists/#{id}?qrgen=1')
       a.expects(:qrencode).with(inpath, outpath)
       a.qrcode
     end
     it 'generates a qr code the first time' do
       a = Artist.first
       inpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
-      outpath = "http://#{Conf.site_url}/artists/#{a.id}?qrgen=1"
+      outpath = File.join(Rails.root, '/artists/#{id}?qrgen=1')
       File.expects(:exists?).returns(true)
       a.expects(:qrencode).with(inpath, outpath).never
       a.qrcode
