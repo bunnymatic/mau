@@ -1,4 +1,5 @@
 require 'qr4r'
+
 class Artist < User
 
   BOUNDS = { 'NW' => [ 37.76978184422388, -122.42683410644531 ],
