@@ -459,7 +459,7 @@ class ArtistsController < ApplicationController
       }
     end
   end
-
+  
   protected
   def safe_find_artist(id)
     begin
