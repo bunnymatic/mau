@@ -84,8 +84,8 @@ describe MainController do
         assert_select 'a[href=/wizards/mau042012]'
         assert_select '.action_button', :count => 5
       end
-      it 'doesn\'t show the action button for call for entries if the date is after March 11 2011 (the deadline)' do
-        t = Time.utc(2012, 3, 13)
+      it 'doesn\'t show the action button for call for entries if the date is after March 14 2011 (the deadline)' do
+        t = Time.utc(2012, 3, 14)
         Time.stubs(:now).returns(t)
         get :index
         response.should_not have_tag '.sprite.call_for_entries.action_button'

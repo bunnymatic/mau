@@ -5,12 +5,12 @@ gem "geokit"
 gem "geokit-rails"
 gem "nokogiri"
 gem "htmlentities"
-gem "json", '1.5.3'
+gem "json"
 gem 'mysql2', '~> 0.2.11'
 gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"
-gem 'mojo_magick', :git => 'git://github.com/2rye/mojo_magick.git'
+gem 'mojo_magick'
 gem 'passenger', '3.0.2'
 gem 'memcache'
 gem 'memcache-client'
@@ -25,6 +25,7 @@ gem 'calendar_date_select'
 gem 'rosie'
 gem 'grackle'
 gem 'mime-types'
+gem 'qr4r'
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
