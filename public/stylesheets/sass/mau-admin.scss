@@ -478,3 +478,24 @@ button.update-artists {
   float: right;
 }
 
+.qrcode_test {
+  .inputs, .outputs {
+    margin: 20px 0;
+    padding: 20px 0;
+  }
+  .img {
+    width: 300px;
+    float: left;
+    img {
+      background: white;
+      padding:20px;
+      border: 1px solid $bordergray;
+    }
+  }
+  .params {
+    width: 150px;
+    float: left;
+    margin-right: 20px;
+  }
+  
+}
