@@ -502,13 +502,13 @@ describe ArtistsController do
   describe 'qrcode' do
     before do
       Artist.any_instance.stubs(:system).returns true
-      File.stubs(:open).returns(stub(:read => '#png file data'))
+      File.stubs(:open).returns(stub(:read => '#png file data', :close => nil))
     end
-    it 'returns a path to the users qr code' do
+    it 'generates a png if you ask for one' do
       get :qrcode, :id => Artist.first.id, :format => 'png'
       response.content_type.should == 'image/png'
     end
-    it 'returns a path to the users qr code' do
+    it 'redirects to the png if you ask without format' do
       get :qrcode, :id => Artist.first.id
       response.should redirect_to '/artistdata/' + Artist.first.id.to_s + '/profile/qr.png'
     end
