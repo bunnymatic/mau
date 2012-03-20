@@ -343,10 +343,11 @@ describe Artist do
 
   describe 'qrcode' do
     it 'generates a qr code the first time' do
+      File.stubs(:exists? => false)
       a = Artist.first
-      inpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
+      outpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
       str = "http://#{Conf.site_url}/artists/#{a.id}?qrgen=auto"
-      a.expects(:qrencode).with(str, outpath)
+      Qr4r.expects(:encode).with(str, outpath, :border => 15, :pixel_size => 5)
       a.qrcode
     end
   end

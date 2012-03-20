@@ -8,7 +8,8 @@ class Artist < User
     'SE' => [ 37.74707496171992, -122.40539789199829 ] 
   } if !defined? BOUNDS
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
-  
+
+  include AddressMixin
   named_scope :open_studios_participants, lambda { |*oskey| 
       if oskey.blank?
         {
@@ -119,7 +120,7 @@ class Artist < User
     qropts = {:border => 15, :pixel_size => 5}.merge(opts)
     if !File.exists? path
       artist_url = "http://%s/%s?%s" % [Conf.site_url, "artists/#{self.id}", "qrgen=auto"]
-      path = Qr4r::encode(artist_url, path, *qropts)
+      path = Qr4r::encode(artist_url, path, qropts)
     end
     return path
   end
