@@ -341,6 +341,17 @@ describe Artist do
 
   end
 
+  describe 'qrcode' do
+    it 'generates a qr code the first time' do
+      File.stubs(:exists? => false)
+      a = Artist.first
+      outpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
+      str = "http://#{Conf.site_url}/artists/#{a.id}?qrgen=auto"
+      Qr4r.expects(:encode).with(str, outpath, :border => 15, :pixel_size => 5)
+      a.qrcode
+    end
+  end
+
   describe 'named scopes' do
     describe ':open_studios_participants' do
       [['201104',2],['201110',3]].each do |arg|

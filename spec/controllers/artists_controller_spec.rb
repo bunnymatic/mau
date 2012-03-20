@@ -499,6 +499,24 @@ describe ArtistsController do
     end
   end
 
+  describe 'qrcode' do
+    before do
+      Artist.any_instance.stubs(:system).returns true
+      File.stubs(:open).returns(stub(:read => '#png file data', :close => nil))
+    end
+    it 'generates a png if you ask for one' do
+      get :qrcode, :id => Artist.first.id, :format => 'png'
+      response.content_type.should == 'image/png'
+    end
+    it 'redirects to the png if you ask without format' do
+      get :qrcode, :id => Artist.first.id
+      response.should redirect_to '/artistdata/' + Artist.first.id.to_s + '/profile/qr.png'
+    end
+    it 'returns show with flash for an invalid id' do
+      get :qrcode, :id => 101
+      response.should render_template 'show'
+    end
+  end
 
   describe "arrange art for an artist " do
     before(:each) do 
