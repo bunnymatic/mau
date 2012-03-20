@@ -114,11 +114,12 @@ class Artist < User
     ap = self.art_pieces[0..n-1]
   end
 
-  def qrcode(pixel_size = 5)
+  def qrcode opts = {}
     path = File.join(Rails.root, "public/artistdata/#{self.id}/profile/qr.png")
+    qropts = {:border => 15, :pixel_size => 5}.merge(opts)
     if !File.exists? path
       artist_url = "http://%s/%s?%s" % [Conf.site_url, "artists/#{self.id}", "qrgen=auto"]
-      path = Qr4r::encode(artist_url, path, :border => 10, :pixel_size => pixel_size)
+      path = Qr4r::encode(artist_url, path, *qropts)
     end
     return path
   end
