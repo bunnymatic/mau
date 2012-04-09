@@ -20,6 +20,7 @@ gem 'rdiscount' # markdown processor
 gem 'mobile-fu', '2.x', :git => 'git://github.com/brendanlim/mobile-fu.git'
 gem 'fastercsv'
 gem 'capistrano'
+gem 'rvm-capistrano'
 gem 'gibbon' # mailchimp api plugin
 gem 'calendar_date_select'
 gem 'rosie'

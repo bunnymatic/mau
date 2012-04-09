@@ -107,6 +107,8 @@ GEM
     rspec-rails (1.3.4)
       rack (>= 1.0.0)
       rspec (~> 1.3.1)
+    rvm-capistrano (1.0.2)
+      capistrano (>= 2.0.0)
     sass (3.1.12)
     tins (0.3.6)
     tmail (1.2.7.1)
@@ -149,6 +151,7 @@ DEPENDENCIES
   rosie
   rspec (= 1.3.1)
   rspec-rails (= 1.3.4)
+  rvm-capistrano
   sass
   tmail
   tzinfo
