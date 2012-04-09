@@ -12,6 +12,10 @@
     %h5
       %a{:href => "/catalog/042012/spring2012guide.pdf"}Download the Guide
     .clear
+  :ruby
+    data = Hash[@preview_reception_html.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
+  .section.markdown.editable{data}
+    = @preview_reception_html[:content]
   .section
     %h4 Participating Group Studios
     %ul.participant_list
@@ -29,7 +33,3 @@
         %li
           = link_to(a.get_name(true), a)
           #{street}
-  :ruby
-    data = Hash[@preview_reception_html.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
-  .section.markdown.editable{data}
-    = @preview_reception_html[:content]
