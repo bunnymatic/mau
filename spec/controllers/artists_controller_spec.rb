@@ -4,12 +4,7 @@ include AuthenticatedTestHelper
 
 describe ArtistsController do
 
-  fixtures :users
-  fixtures :artist_infos
-  fixtures :art_pieces
-  fixtures :studios
-  fixtures :roles
-  fixtures :media
+  fixtures :users, :artist_infos, :art_pieces, :studios, :roles, :media, :art_piece_tags, :art_pieces_tags
 
   before do
     Rails.cache.stubs(:read).returns(nil)
