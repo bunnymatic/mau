@@ -1,7 +1,7 @@
-require 'bundler/capistrano'
-require 'rvm'
 require 'rvm/capistrano'
+require 'bundler/capistrano'
 set :rvm_ruby_string, '1.8.7-p302@mau'
+set :rvm_type, :system
 
 ####### VARIABLES #######
 set :application, "MAU"
@@ -105,11 +105,11 @@ end
 
 desc "Connect artist and studio data to website"
 task :symlink_data do
-  run "rm -rf ~/deployed/current/public/artistdata"
-  run "rm -rf ~/deployed/current/public/studiodata"
-  run "ln -s ~/artistdata ~/deployed/current/public/artistdata"
-  run "ln -s ~/studiodata ~/deployed/current/public/studiodata"
-  run "test -e ~/deployed/current/public/REVISION || ln -s ~/deployed/current/REVISION ~/deployed/current/public/REVISION"
+  run "rm -rf #{current_path}/public/artistdata"
+  run "rm -rf #{current_path}/public/studiodata"
+  run "ln -s #{shared_path}/system/artistdata #{current_path}/public/artistdata"
+  run "ln -s #{shared_path}/system/studiodata #{current_path}/public/studiodata"
+  run "test -e #{current_path}/public/REVISION || ln -s #{current_path}/REVISION #{current_path}/public/REVISION"
 end
 
 # for passenger
