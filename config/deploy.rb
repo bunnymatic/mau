@@ -3,6 +3,21 @@ require 'bundler/capistrano'
 set :rvm_ruby_string, '1.8.7-p302@mau'
 set :rvm_type, :system
 
+# capistrano task order of operations as of 4/22/2012
+#    deploy
+#    deploy:update
+#    deploy:update_code
+#    deploy:finalize_update
+#    bundle:install
+#    deploy:migrate
+#    deploy:create_symlink
+#    deploy:restart
+#    apache:reload
+#    build_sass
+#    deploy:cleanup
+#    ping
+
+
 ####### VARIABLES #######
 set :application, "MAU"
 set :scm, :git
@@ -90,7 +105,7 @@ task :build_sass do
 end
 
 after 'bundle:install', 'deploy:migrate'
-after "deploy:symlink", :symlink_data, :setup_backup_dir
+before "deploy:restart", :symlink_data, :setup_backup_dir
 before "apache:reload", :build_sass
 after "deploy", "apache:reload"
 after "deploy", 'deploy:cleanup'
