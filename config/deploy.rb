@@ -131,6 +131,18 @@ namespace :deploy do
   task :restart, :roles => :app do
     run "touch #{current_path}/tmp/restart.txt"
   end
+
+  namespace :web do
+    desc "turn on maintenance mode"
+    task :disable do
+      run "touch #{current_path}/public/maintenance_mode.txt"
+    end
+
+    desc "turn off maintenance mode"
+    task :enable do
+      run "rm -rf #{current_path}/public/maintenance_mode.txt"
+    end
+  end
 end
 
 desc "ping the server"
