@@ -90,10 +90,9 @@ task :build_sass do
 end
 
 after 'bundle:install', 'deploy:migrate'
-after "deploy:symlink", :symlink_data
-after "deploy:symlink", :setup_backup_dir
-after "deploy:symlink", "apache:reload"
+after "deploy:symlink", :symlink_data, :setup_backup_dir
 before "apache:reload", :build_sass
+after "deploy", "apache:reload"
 after "deploy", 'deploy:cleanup'
 after "deploy", :ping
 
