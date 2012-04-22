@@ -62,15 +62,6 @@ task :jy do
   set :deploy_to, "/home/jeremy/deployed"
 end
 
-desc "Setup Staging on Slicehost params"
-task :staging do
-  set :user, "maudev"
-  set :rails_env, 'development'
-  set :deploy_to, "/home/maudev/deployed"
-  set :ssh_port, '22022'
-  set :server_name, 'dev.missionartistsunited.org'
-end
-
 desc "Set up Dev on bunnymatic.com parameters."
 task :dev do
   set :user, "maudev"
@@ -113,8 +104,8 @@ after "deploy", :ping
 
 desc "build db backup directory"
 task :setup_backup_dir do
-  run "rm -rf ~/deployed/current/backups"
-  run "ln -s ~/deployed/shared/backups ~/deployed/current/backups"
+  run "rm -rf #{current_path}/backups"
+  run "ln -s #{shared_path}/backups #{current_path}/backups"
 end
 
 desc "Connect artist and studio data to website"
