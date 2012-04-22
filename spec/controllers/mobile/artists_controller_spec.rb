@@ -34,7 +34,7 @@ describe ArtistsController do
         get :by_lastname
       end
       it 'shows all active artists' do
-        response.should have_tag('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)
+        assert_select('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)
       end
     end
 
@@ -43,7 +43,7 @@ describe ArtistsController do
         get :by_firstname
       end
       it 'shows all active artists' do
-        response.should have_tag('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)
+        assert_select('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)
       end
     end
   end
@@ -60,7 +60,7 @@ describe ArtistsController do
 
     it "shows 1 thumb per artist who has a representative image" do
       artists = Artist.active.select{ |a| a.representative_piece }
-      response.should have_tag('div.thumb', :minimum => artists.count )
+      assert_select('div.thumb', :minimum => artists.count )
     end
   end
 
@@ -73,20 +73,20 @@ describe ArtistsController do
     it_should_behave_like "non-welcome mobile page"
 
     it 'shows the user name' do
-      response.should have_tag 'div[data-role=content] div h2', :text => @artist.get_name
+      assert_select 'div[data-role=content] div h2', :text => @artist.get_name
     end
     
     it 'shows the user\'s studio name' do
-      response.should have_tag('div[data-role=content] div.studio', :match => @artist.studio.name)
+      assert_select('div[data-role=content] div.studio', :match => @artist.studio.name)
     end
 
     it 'shows the users address' do
       address = @artist.address_hash
-      response.should have_tag 'div', :text => address[:street]
-      response.should have_tag 'div', :text => address[:city]
+      assert_select 'div', :text => address[:street]
+      assert_select 'div', :text => address[:city]
     end
     it 'renders a bio' do
-      response.should have_tag '.bio_link.section'
+      assert_select '.bio_link.section'
       response.should_not have_tag '.bio_link a'
     end
     it 'renders a truncated bio if the bio is big' do
@@ -96,8 +96,14 @@ describe ArtistsController do
       end
       a.artist_info.save
       get :show, :id => a.id
-      response.should have_tag('.bio_link.section', /\.\.\./)
-      response.should have_tag('.bio_link a', /Read More/)
+      assert_select('.bio_link.section', /\.\.\./)
+      assert_select('.bio_link a', /Read More/)
+    end
+
+    it 'shows the bio content in the metatag' do
+      assert_select('meta[name=description]').each do |tag|
+        tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
+      end
     end
 
     context 'invalid artist id' do
@@ -129,7 +135,12 @@ describe ArtistsController do
         response.should be_success
       end
       it 'renders the bio' do
-        response.should have_tag '.bio', /#{users(:artist1).bio}/
+        assert_select '.bio', /#{users(:artist1).bio}/
+      end
+      it 'shows the bio content in the metatag' do
+        assert_select('meta[name=description]').each do |tag|
+          tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
+        end
       end
     end
     context 'for user without a bio' do
