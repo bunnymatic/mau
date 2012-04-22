@@ -58,7 +58,7 @@ common:
        # expire daily
        cache_expiry: 86400
        cache_key: artistnamesuggest
-   oslive: 201210
+   oslive: 201204
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2
    open_studios_event_keys:
