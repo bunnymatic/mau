@@ -18,18 +18,21 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-
-    @events = Event.future.published
-    @events_by_month = {}
-    @events.each do |ev|
-      month = ev.starttime.strftime('%B %Y')
-      month_key = ev.starttime.strftime('%m%Y')
-      @events_by_month[month_key] = {:display => month, :events => [] } unless @events_by_month.has_key? month_key
-      @events_by_month[month_key][:events] << ev
-    end
+    
+#    @events = Event.future.published
+#    @events_by_month = {}
+#    @events.each do |ev|
+#      month = ev.starttime.strftime('%B %Y')
+#      month_key = ev.starttime.strftime('%m%Y')
+#      @events_by_month[month_key] = {:display => month, :events => [] } unless @events_by_month.has_key? month_key
+#      @events_by_month[month_key][:events] << ev
+#    end
     respond_to do |format|
-      format.html # index.html.erb
+      format.html {
+        redirect_to '/calendar'
+      }
       format.mobile { 
+        @events = Event.published
         @page_title = "MAU Events"
         render :layout => 'mobile'
       }
@@ -41,10 +44,10 @@ class EventsController < ApplicationController
   # GET /events/1.xml
   def show
     @event = Event.find(params[:id])
+    @page_title = "MAU Event: %s" % @event.title
     respond_to do |format|
-      format.html { redirect_to events_path  + "##{@event.id}" }
+      format.html
       format.mobile { 
-        @page_title = "MAU Event: %s" % @event.title
         render :layout => 'mobile'
       }
       #      format.xml  { render :xml => @event }
