@@ -1595,7 +1595,7 @@ var TagMediaHelper = {
   };
 
   E.init = function() {
-    if (!(/admin/.test(location.href))) {
+    if (!(/admin/.test(location.href) && !(/events\/\d+/.test(location.href)))) {
       E.update_visible_events();
     }
     $$('.filters input[type=checkbox]').each(function(lnk) {
