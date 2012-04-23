@@ -129,7 +129,6 @@ describe ArtistsController do
 
   describe '#bio' do
     context 'for user with a bio' do
-      integrate_views
       before do
         get :bio, :id => users(:artist1).id
       end
