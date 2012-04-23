@@ -101,7 +101,7 @@ describe ArtistsController do
     end
 
     it 'shows the bio content in the metatag' do
-      assert_select('meta[name=description]').each do |tag|
+      assert_select('head meta[name=description]').each do |tag|
         tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
       end
     end
@@ -111,9 +111,11 @@ describe ArtistsController do
         get :show, :id => 'whatever yo'
       end
       it 'returns success' do
-        response.should be_succes
+        response.should be_success
       end
-      it 'reports that the user cannot be found'
+      it 'reports that the user cannot be found' do
+        assert_select '.error', /unable to find that artist/
+      end
     end
 
     context 'with user login as id' do
@@ -138,7 +140,7 @@ describe ArtistsController do
         assert_select '.bio', /#{users(:artist1).bio}/
       end
       it 'shows the bio content in the metatag' do
-        assert_select('meta[name=description]').each do |tag|
+        assert_select('head meta[name=description]').each do |tag|
           tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
         end
       end

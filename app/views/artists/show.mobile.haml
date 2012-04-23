@@ -1,4 +1,6 @@
-- if @artist 
+- if !@artist 
+  .error Sorry, we were unable to find that artist.
+- else
   .artist
     - if @artist.artist_info && @artist.os_participation[Conf.oslive.to_s]
       %h2.os-star 
