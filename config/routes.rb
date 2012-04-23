@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :events, :member => { :publish => :get, :unpublish => :get }
+  map.calendar '/calendar/:year/:month', :controller => 'calendar', :action => 'index', 
+	:requirements => {:year => /\d{4}/, :month => /\d{1,2}/}, :year => nil, :month => nil
   map.resources :cms_documents
   map.resources :media
   map.resources :artist_feeds
