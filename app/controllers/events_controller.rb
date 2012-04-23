@@ -36,7 +36,14 @@ class EventsController < ApplicationController
         @page_title = "MAU Events"
         render :layout => 'mobile'
       }
-      format.xml  { render :xml => @events }
+      format.xml  { 
+        @events = Event.published
+        render :xml => @events 
+      }
+      format.json  { 
+        @events = Event.published
+        render :json => @events 
+      }
     end
   end
 

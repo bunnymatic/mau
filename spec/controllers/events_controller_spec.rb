@@ -229,4 +229,28 @@ describe EventsController do
       end
     end
   end
+
+  describe 'json' do
+    integrate_views
+    describe 'index' do
+      before do
+        get :index, :format => 'json'
+      end
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'returns json' do
+        response.content_type.should == 'application/json'
+      end
+      it 'returns the right number of events' do
+        j = JSON.parse(response.body)
+        j.count.should == Event.published.count
+        j.map{|ev| ev['event']}.each do |entry|
+          entry.should have_key 'title'
+          entry.should have_key 'starttime'
+        end
+      end
+    end
+  end
+
 end

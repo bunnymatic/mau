@@ -496,8 +496,8 @@ describe ArtistsController do
 
   describe 'qrcode' do
     before do
-      Artist.any_instance.stubs(:system).returns true
-      File.stubs(:open).returns(stub(:read => '#png file data', :close => nil))
+      FileUtils.mkdir_p File.join(Rails.root,'public','artistdata', Artist.first.id.to_s , 'profile')
+      FileUtils.mkdir_p File.join(Rails.root,'artistdata', Artist.first.id.to_s , 'profile')
     end
     it 'generates a png if you ask for one' do
       pending 'we need to figure out how to mock this shit'
