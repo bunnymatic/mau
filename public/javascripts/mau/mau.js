@@ -1595,6 +1595,9 @@ var TagMediaHelper = {
   };
 
   E.init = function() {
+    MAU.log('Admin?' + !(/admin/.test(location.href)));
+    MAU.log('Event show?' + !(/events\/\d+/.test(location.href)));
+    MAU.log("Loc " + location.href);
     if (!(/admin/.test(location.href) && !(/events\/\d+/.test(location.href)))) {
       E.update_visible_events();
     }
