@@ -3657,6 +3657,11 @@ a.button b.m b {
       display: inline;
     }
   }
+  .calendar_link {
+    text-align: right; 
+  }
+}
+.rcol, .singlecolumn {
   .event {
     position:relative;
     margin: 10px auto 15px;
@@ -3855,3 +3860,10 @@ a.button b.m b {
   }
 }
 
+.two_column .calendar {
+  margin: 20px;
+  h3 { 
+    text-align: center; 
+    margin-bottom: 20px;
+  }
+}

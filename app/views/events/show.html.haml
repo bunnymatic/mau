@@ -1,0 +1,4 @@
+.events
+  .calendar_link
+    = link_to "Calendar of Events", '/calendar'
+  = render :partial => 'event', :locals => { :event => @event, :force => true }

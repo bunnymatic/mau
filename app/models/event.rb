@@ -1,6 +1,8 @@
 require 'htmlhelper'
+require 'event_calendar'
 class Event < ActiveRecord::Base
-  
+  include EventCalendar
+  has_event_calendar :start_at_field => :starttime, :end_at_field => :endtime
   acts_as_mappable
 
   after_validation_on_create :compute_geocode
@@ -16,7 +18,7 @@ class Event < ActiveRecord::Base
   validate :validate_endtime
   validate :validate_reception_time
 
-  named_scope :future, :conditions => ['((starttime > NOW()) or (reception_starttime > NOW()))' ]
+  named_scope :future, :conditions => ['((starttime > NOW()) and (reception_starttime > NOW()))' ]
   named_scope :past, :conditions => ['(endtime is not null and endtime < NOW())']
   named_scope :published, :conditions => ['publish is not null']
 
@@ -26,6 +28,10 @@ class Event < ActiveRecord::Base
 
   include AddressMixin
 
+  def name
+    title
+  end
+  
   def validate_endtime
     if !endtime
       return

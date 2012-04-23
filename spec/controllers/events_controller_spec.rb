@@ -61,13 +61,6 @@ describe EventsController do
     it_should_behave_like 'event new or edit'
   end
 
-  describe '#show' do
-    it 'should redirect to index page with event id as a hash tag' do
-      get :show, :id => Event.published.first.id
-      response.should redirect_to(events_path + "##{Event.published.first.id}")
-    end
-  end
-
   describe "#edit" do
     integrate_views
     before do
@@ -81,18 +74,24 @@ describe EventsController do
   describe "#index" do
     integrate_views
     before do
-      Event.any_instance.stubs(:description => "# header\n\n##header2\n\n*doit*")
       get :index
+    end
+    it 'should redirect to index page with event id as a hash tag' do
+      response.should redirect_to(calendar_path)
+    end
+  end
+
+  describe '#show' do
+    integrate_views
+    before do 
+      Event.any_instance.stubs(:description => "# header\n\n##header2\n\n*doit*")
+      get :show, :id => Event.published.all.last
     end
     it "returns success" do
       response.should be_success
     end
     it 'assigns only future published events' do
-      assigns(:events).count.should == Event.future.published.count
-    end
-    it 'assigns only future published events keyed by month' do
-      assigns(:events_by_month).keys.sort.should == Event.future.published.map(&:starttime).map{|st| st.strftime("%m%Y")}.uniq.sort
-      assigns(:events_by_month).values.map{|v| v[:events]}.flatten.count.should == Event.future.published.count
+      assigns(:event).should == Event.published.all.last
     end
     it 'runs markdown on event description' do
       assert_select('.desc h1', 'header')
@@ -100,26 +99,13 @@ describe EventsController do
       assert_select('.desc em', 'doit')
     end
     it 'makes sure the url includes http for the link' do
-      assert_select('.url a[href=http://url.com]', 'url.com')
+      assert_select('.url a[href=http://www.example.com]', 'www.example.com')
     end
     it 'makes sure the url includes http for the links that don\'t start with http' do
-      assert_select('.url a[href=http://url.com]', 'url.com')
+      assert_select('.url a[href=http://www.example.com]', 'www.example.com')
     end
     it 'makes sure the url includes http for the links that do start with http' do
       assert_select('.url a[href=http://www.example.com]', 'www.example.com')
-    end
-    it 'renders an anchor tag with the event id in each event' do
-      Event.future.published.each do |ev|
-        assert_select(".events a[name=#{ev.id}]")
-      end
-    end
-    it 'renders a break for each month with a header' do
-      Event.future.published.map(&:starttime).map{|t| t.strftime("%B %Y")}.uniq.each do |month|
-        assert_select('.events h4.month', month)
-      end
-    end
-    it 'includes events who\'s start time has passed but receiption time is in the future' do
-      assert_select('.url a[href=http://www.futurepast.com]', 'www.futurepast.com')
     end
   end
 

@@ -1,0 +1,7 @@
+= stylesheet_link_tag "event_calendar" 
+
+.calendar
+  %h3 Mission Artists' Events
+  = event_calendar
+  = render :partial => '/main/info_footer'
+  = render :partial => '/flash_notice_error'
