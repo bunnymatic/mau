@@ -43,4 +43,11 @@ module AddressMixin
   def get_state
     (self.respond_to? :addr_state) ? self.addr_state : self.state
   end
+
+  def compute_geocode
+    result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", get_state || "CA", self.zip || "94110"])
+    errors.add(:street, "Unable to Geocode your address.") if !result.success
+    self.lat, self.lng = result.lat, result.lng if result.success
+  end
+
 end

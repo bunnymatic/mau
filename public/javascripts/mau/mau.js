@@ -1583,10 +1583,10 @@ var TagMediaHelper = {
         time_filters.push(checked.getValue());
       }
     });
-    $$('.event').each(function(el){el.hide();});
-    $$('.month').each(function(el){el.hide();});
+    $$('.event_list .event').each(function(el){el.hide();});
+    $$('.event_list .month').each(function(el){el.hide();});
     time_filters.each(function(time_class) {
-      $$( ['.event',time_class].join('.') ).each(function(el){
+      $$( ['.event_list .event',time_class].join('.') ).each(function(el){
         el.show();
         var month = el.previous('.month');
         if (month) { month.show(); }
@@ -1595,8 +1595,8 @@ var TagMediaHelper = {
   };
 
   E.init = function() {
-    MAU.log('Admin?' + !(/admin/.test(location.href)));
-    MAU.log('Event show?' + !(/events\/\d+/.test(location.href)));
+    MAU.log('Admin?' + (/admin/.test(location.href)));
+    MAU.log('Event show?' + (/events\/\d+/.test(location.href)));
     MAU.log("Loc " + location.href);
     if (!(/admin/.test(location.href) && !(/events\/\d+/.test(location.href)))) {
       E.update_visible_events();

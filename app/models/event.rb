@@ -2,6 +2,8 @@ require 'htmlhelper'
 require 'event_calendar'
 class Event < ActiveRecord::Base
   include EventCalendar
+  include AddressMixin
+
   has_event_calendar :start_at_field => :starttime, :end_at_field => :endtime
   acts_as_mappable
 
@@ -18,8 +20,9 @@ class Event < ActiveRecord::Base
   validate :validate_endtime
   validate :validate_reception_time
 
-  named_scope :future, :conditions => ['((starttime > NOW()) and (reception_starttime > NOW()))' ]
+  named_scope :future, :conditions => ['((starttime > NOW()) or (reception_starttime > NOW()))' ]
   named_scope :past, :conditions => ['(endtime is not null and endtime < NOW())']
+  named_scope :not_past, :conditions => ['not(endtime is not null and endtime < NOW())']
   named_scope :published, :conditions => ['publish is not null']
 
   default_scope :order => 'starttime'
@@ -64,12 +67,4 @@ class Event < ActiveRecord::Base
     (reception_starttime && reception_starttime > Time.now ) || (starttime > Time.now)
   end
 
-  protected
-    def compute_geocode
-      # use artist's address
-      result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city || "San Francisco", self.state || "CA", self.zip || "94110"])
-      errors.add(:street, "Unable to Geocode your address.") if !result.success
-      self.lat, self.lng = result.lat, result.lng if result.success
-    end
-  
 end

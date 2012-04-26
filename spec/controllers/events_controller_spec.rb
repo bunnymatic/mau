@@ -76,7 +76,11 @@ describe EventsController do
     before do
       get :index
     end
-    it 'should redirect to index page with event id as a hash tag' do
+    it 'returns success' do
+      response.should be_success
+    end
+    it 'shows this month\'s events' do
+      assigns(:events_by_month).should be_a_kind_of Hash
       response.should redirect_to(calendar_path)
     end
   end

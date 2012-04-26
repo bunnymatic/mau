@@ -50,6 +50,9 @@ describe Event do
     it 'returns events in order of starttime by default' do
       Event.all.should == Event.all.sort_by(&:starttime)
     end
+    it 'not_past returns events that are not yet over' do
+      Event.not_past.should == Event.all - Event.past
+    end
   end
 
   describe 'validation' do

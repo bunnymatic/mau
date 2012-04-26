@@ -7,7 +7,7 @@
 - if event.past?
   - event_classes << 'past'
 
-.event{:class => event_classes.join(' '), :style => ((event.in_progress? && !@_ismobile && !@force) ? 'display:none' : '')}
+.event{:class => event_classes.join(' ')}
   .title
     #{event.title}
   .info 
