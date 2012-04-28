@@ -452,7 +452,7 @@ a {
 
 /* for medium tag cloud matches */
 .tagmatch a:link {
-  color: #cc77cc;
+  color: $pink;
 }
 
 /* this is the search box on the header.  it has a different color than the other input fields to set it apart.
@@ -3620,6 +3620,15 @@ a.button b.m b {
   -webkit-user-select: none;
 }
 
+.event_nav {
+  .current {
+    color: $pink;
+    a {
+      color: $pink;
+    }
+  }
+}
+
 .events {
   width: $rightcol;
   margin: 20px auto;
@@ -3642,7 +3651,14 @@ a.button b.m b {
   }
   .event_list {
     position: relative;
+    .events_by_month {
+      display:none;
+      &.current {
+        display: block;
+      }
+    }
   }
+
   .filters {
     position: absolute;
     top: -3px;
