@@ -73,25 +73,44 @@ describe EventsController do
 
   describe "#index" do
     integrate_views
-    before do
-      get :index
-    end
-    it 'returns success' do
-      response.should be_success
-    end
-    it 'shows this month\'s events' do
-      assigns(:events_by_month).should be_a_kind_of Hash
-      assigns(:events_by_month).should have_key Time.now.strftime("%Y%m")
-      assert_select('.events_by_month.current')
-      assert_select('.event_nav li.by_month.current').each do |tag|
-        tag.attributes['data-viskey'].should == Time.now.strftime('%Y%m')
+    context 'with no args' do
+      before do
+        get :index
+      end
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'shows this month\'s events' do
+        assigns(:events_by_month).should be_a_kind_of Hash
+        assigns(:events_by_month).should have_key Time.now.strftime("%Y%m")
+        assert_select('.events_by_month.current')
+        assert_select('.event_nav li.by_month.current').each do |tag|
+          tag.attributes['data-viskey'].should == Time.now.strftime('%Y%m')
+        end
+      end
+      it 'has dom for all published events' do
+        assert_select '.event_list .event', :count => Event.published.count
+      end
+      it 'has dom for all published event months' do
+        assert_select '.event_list .events_by_month', :count => assigns(:events_by_month).count
       end
     end
-    it 'has dom for all published events' do
-      assert_select '.event_list .event', :count => Event.published.count
-    end
-    it 'has dom for all published event months' do
-      assert_select '.event_list .events_by_month', :count => assigns(:events_by_month).count
+    context 'with input month' do
+      before do
+        @two_months_ago = Time.now - 50.days
+        get :index, :m => @two_months_ago.strftime("%Y%m")
+      end
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'shows the requested month\'s events' do
+        assigns(:events_by_month).should have_key @two_months_ago.strftime("%Y%m")
+        assert_select('.events_by_month.current')
+        assert_select('.event_nav li.by_month.current').each do |tag|
+          tag.attributes['data-viskey'].should == @two_months_ago.strftime("%Y%m")
+        end
+      end
+
     end
   end
 
@@ -99,13 +118,13 @@ describe EventsController do
     integrate_views
     before do 
       Event.any_instance.stubs(:description => "# header\n\n##header2\n\n*doit*")
-      get :show, :id => Event.published.all.last
+      get :show, :id => events(:published).id
     end
     it "returns success" do
       response.should be_success
     end
     it 'assigns only future published events' do
-      assigns(:event).should == Event.published.all.last
+      assigns(:event).should == events(:published)
     end
     it 'runs markdown on event description' do
       assert_select('.desc h1', 'header')

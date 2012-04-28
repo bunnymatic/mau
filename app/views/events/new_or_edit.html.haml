@@ -33,6 +33,7 @@
           .entry{:class => dt}
             = f.label dt, labels[dt]
             = f.calendar_date_select dt
+        .note Note: without a reception time, your event will not show up on our calendar.  It will only show up on the main list of events.  
         .clear            
     .section   
       - [:url].each do |txtfld|
