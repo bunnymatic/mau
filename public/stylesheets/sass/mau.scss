@@ -3677,6 +3677,15 @@ a.button b.m b {
     text-align: right; 
   }
 }
+.rcol .calendar, .events {
+  .events_link {
+    text-align: right; 
+    margin-bottom: 8px;
+  }
+}
+.events_by_month .calendar_link {
+  margin-top: 8px;
+}
 .rcol, .singlecolumn {
   .event {
     position:relative;
@@ -3779,6 +3788,9 @@ a.button b.m b {
     .reception_time, .event_time {
       float:left;
       width: 48%;
+    }
+    .note {
+      font-size: 10px;
     }
     .entry {
       label { 

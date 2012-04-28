@@ -48,7 +48,7 @@ describe Event do
       Event.published.all{|u| u.publish}.should be
     end
     it 'returns events in order of starttime by default' do
-      Event.all.should == Event.all.sort_by(&:starttime)
+      Event.all.map(&:id).should == Event.all.sort_by(&:starttime).map(&:id)
     end
     it 'not_past returns events that are not yet over' do
       Event.not_past.should == Event.all - Event.past

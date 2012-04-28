@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   include EventCalendar
   include AddressMixin
 
-  has_event_calendar :start_at_field => :starttime, :end_at_field => :endtime
+  has_event_calendar :start_at_field => :reception_starttime, :end_at_field => :reception_endtime
   acts_as_mappable
 
   after_validation_on_create :compute_geocode
