@@ -81,7 +81,17 @@ describe EventsController do
     end
     it 'shows this month\'s events' do
       assigns(:events_by_month).should be_a_kind_of Hash
-      response.should redirect_to(calendar_path)
+      assigns(:events_by_month).should have_key Time.now.strftime("%Y%m")
+      assert_select('.events_by_month.current')
+      assert_select('.event_nav li.by_month.current').each do |tag|
+        tag.attributes['data-viskey'].should == Time.now.strftime('%Y%m')
+      end
+    end
+    it 'has dom for all published events' do
+      assert_select '.event_list .event', :count => Event.published.count
+    end
+    it 'has dom for all published event months' do
+      assert_select '.event_list .events_by_month', :count => assigns(:events_by_month).count
     end
   end
 
@@ -121,7 +131,7 @@ describe EventsController do
       get :publish, :id => @ev.id
     end
     it "redirects to index" do
-      response.should redirect_to(events_path)
+      response.should redirect_to(admin_events_path)
     end
     it "flashes that the event has been published" do
       flash[:notice].should include "#{@ev.title} has been successfully published"
@@ -145,7 +155,7 @@ describe EventsController do
       get :unpublish, :id => @ev.id
     end
     it "redirects to index" do
-      response.should redirect_to(events_path)
+      response.should redirect_to(admin_events_path)
     end
     it "flashes that the event has been unpublished" do
       flash[:notice].should include "#{@ev.title} has been successfully unpublished"
