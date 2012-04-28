@@ -36,7 +36,7 @@ past:
   city: MyString
   state: MyString
   zip: MyString
-  starttime: <%= 1.day.ago %>
+  starttime: <%= 25.hours.ago %>
   endtime: <%= 12.hours.ago %>
   url: url.com
   user: artist1
@@ -55,6 +55,21 @@ future:
   url: url.com
   user: admin
 
+published_two_months_ago:
+  title: Published Event
+  description: MyText
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: <%= 51.days.ago %>
+  endtime: <%= 50.days.ago %>
+  url: url.com
+  publish: <%= 48.days.ago %>
+  user: admin
+
 published:
   title: Published Event
   description: MyText
@@ -66,9 +81,10 @@ published:
   zip: MyString
   starttime: <%= 5.day.since %>
   endtime: <%= 6.days.since %>
-  url: url.com
+  url: http://www.example.com
   publish: <%= 9.days.since %>
-  user: admin
+  user: jesseponce
+
 
 noendtime:
   title: No End Time
