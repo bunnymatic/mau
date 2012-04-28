@@ -69,11 +69,4 @@ class Studio < ActiveRecord::Base
     phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
   end
 
-  protected
-  def compute_geocode
-    result = Geokit::Geocoders::MultiGeocoder.geocode("%s, %s, %s, %s" % [self.street, self.city, self.state, self.zip])
-    errors.add(:street, "Unable to Geocode the studio address.") if !result.success
-    self.lat, self.lng = result.lat, result.lng if result.success
-  end
-
 end

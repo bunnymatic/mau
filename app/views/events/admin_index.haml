@@ -1,5 +1,6 @@
 .events
   %h1 Events
+  = render :partial => '/flash_notice_error'
   .links
     = link_to '[Add Event]', new_event_path(@event)
   .filters

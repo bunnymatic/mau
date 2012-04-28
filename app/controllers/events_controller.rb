@@ -18,18 +18,25 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
+
+    @events = Event.published
+    @events_by_month = {}
+
+    today = Time.now
+    current_key = today.strftime('%Y%m')
+    current_display = today.strftime('%B %Y')
+    @events_by_month[current_key] = {:display => current_display, :events => [] }
+
+    @events.each do |ev|
+      month = ev.starttime.strftime('%B %Y')
+      month_key = ev.starttime.strftime('%Y%m')
+      @events_by_month[month_key] = {:display => month, :events => [] } unless @events_by_month.has_key? month_key
+      @events_by_month[month_key][:events] << ev
+    end
     
-#    @events = Event.future.published
-#    @events_by_month = {}
-#    @events.each do |ev|
-#      month = ev.starttime.strftime('%B %Y')
-#      month_key = ev.starttime.strftime('%m%Y')
-#      @events_by_month[month_key] = {:display => month, :events => [] } unless @events_by_month.has_key? month_key
-#      @events_by_month[month_key][:events] << ev
-#    end
     respond_to do |format|
-      format.html {
-        redirect_to '/calendar'
+      format.html { 
+        render :layout => 'mau'
       }
       format.mobile { 
         @events = Event.published
@@ -57,7 +64,7 @@ class EventsController < ApplicationController
       format.mobile { 
         render :layout => 'mobile'
       }
-      #      format.xml  { render :xml => @event }
+      format.xml  { render :xml => @event }
     end
   end
 
@@ -124,7 +131,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update_attributes(event_details)
         flash[:notice] = 'Event was successfully updated.'
-        format.html { redirect_to(events_path) }
+        format.html { redirect_to(admin_events_path) }
         format.xml  { head :ok }
       else
         format.html { render "new_or_edit", :layout => 'mau-admin' }
@@ -155,7 +162,7 @@ class EventsController < ApplicationController
       end
     end
     
-    redirect_to events_path  
+    redirect_to admin_events_path  
   end
 
   def unpublish
@@ -165,7 +172,7 @@ class EventsController < ApplicationController
     else
       flash[:error] = "There was a problem publishing #{@event.title}. " + (@event.errors.map{|e| e.join ' '}.join ',')
     end
-    redirect_to events_path
+    redirect_to admin_events_path
   end
 
 end
