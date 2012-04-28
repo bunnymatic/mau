@@ -23,14 +23,14 @@ class EventsController < ApplicationController
     @events_by_month = {}
     @events.each do |ev|
       month = ev.starttime.strftime('%B %Y')
-      month_key = ev.starttime.strftime('%m%Y')
+      month_key = ev.starttime.strftime('%Y%m')
       @events_by_month[month_key] = {:display => month, :events => [] } unless @events_by_month.has_key? month_key
       @events_by_month[month_key][:events] << ev
     end
     
     respond_to do |format|
       format.html { 
-        @events = @events_by_month[ Time.now.strftime('%m%Y') ]
+        render :layout => 'mau'
       }
       format.mobile { 
         @events = Event.published

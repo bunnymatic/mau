@@ -1,14 +1,33 @@
-.events.logo-space
-  %h3 Mission Artists' Events
-  = render :partial => '/flash_notice_error'
-  - if @events.count == 0
-    .no_events 
-      Sadly, we don't have any events on the list.
-      - if current_user
-        %span Next time you are in an art show, make sure to send us the details (under my mau -> plug my art show) and we'll put it up here!
-      - else
-        %span Check back, cuz we're sure to have some soon!
-  - else
-    .event_list
-      - @events_by_month.sort.each do |month, events|
-        = render :partial => 'events_by_month', :locals => {:month => events[:display], :events => events[:events]}
+%table.tbl-content
+  = render :partial => "/twocol_top"
+  %tr
+    %td.lcol{:colspan => 2}
+      %nav.event_nav
+        %ul 
+          - @events_by_month.sort.each do |key, events|
+            - clz = 'current' if key[4..-1].to_i == Time.now.month
+            %li.by_month{:class => clz, "data-viskey" => key}
+              %a{:href => '#'} #{events[:display]}
+    %td.vstripe
+    %td.rcol{:colspan => 2}
+      .events.logo-space
+        = render :partial => '/flash_notice_error'
+        - if @events.nil? || @events.count == 0
+          %h3 Mission Artists' Events
+          .no_events 
+            Sadly, we don't have any events on the list.
+            - if current_user
+              %span Next time you are in an art show, make sure to send us the details (under my mau -> plug my art show) and we'll put it up here!
+            - else
+              %span Check back, cuz we're sure to have some soon!
+        - else
+          .event_list
+            - @events_by_month.sort.each do |month, events|
+              - clz = 'current' if month[4..-1].to_i == Time.now.month
+              .events_by_month{:class => [clz, month].join(' ')}
+                %h3 
+                  Mission Artists' Events for 
+                  %span.month #{events[:display]}
+                = render :partial => 'events_by_month', :locals => {:month => events[:display], :events => events[:events], :xtra_class => clz}
+
+  = render :partial => "/twocol_bottom"
