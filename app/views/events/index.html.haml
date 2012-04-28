@@ -5,20 +5,25 @@
       %nav.event_nav
         %ul 
           - @events_by_month.sort.reverse.each do |key, events|
-            - clz = 'current' if key[4..-1].to_i == Time.now.month
+            - clz = 'current' if (key[4..-1].to_i == Time.now.month && (!@current || @current.empty?)) || (@current == key)
             %li.by_month{:class => clz, "data-viskey" => key}
               %a{:href => '#'} #{events[:display]}
+
     %td.vstripe
     %td.rcol{:colspan => 2}
       .events.logo-space
         = render :partial => '/flash_notice_error'
         .event_list
           - @events_by_month.sort.each do |month, events|
-            - clz = 'current' if month[4..-1].to_i == Time.now.month
+            - clz = 'current' if (month[4..-1].to_i == Time.now.month && (!@current || @current.empty?)) || (@current == month)
             .events_by_month{:class => [clz, month].join(' ')}
               %h3 
                 Mission Artists' Events for 
                 %span.month #{events[:display]}
+              .calendar_link 
+                %a{:href => calendar_path} View Events Calendar &raquo;
+
+
               - if events[:events].empty?
                 .no_events 
                   Sadly, we don't have any events for #{events[:display]}.

@@ -19,21 +19,11 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
 
-    @events = Event.published
-    @events_by_month = {}
-
-    today = Time.now
-    current_key = today.strftime('%Y%m')
-    current_display = today.strftime('%B %Y')
-    @events_by_month[current_key] = {:display => current_display, :events => [] }
-
-    @events.each do |ev|
-      month = ev.starttime.strftime('%B %Y')
-      month_key = ev.starttime.strftime('%Y%m')
-      @events_by_month[month_key] = {:display => month, :events => [] } unless @events_by_month.has_key? month_key
-      @events_by_month[month_key][:events] << ev
+    @events, @events_by_month = fetch_published_events_by_month
+    if params[:m] && (@events_by_month.keys.include? params[:m])
+      @current = params[:m]
     end
-    
+
     respond_to do |format|
       format.html { 
         render :layout => 'mau'
