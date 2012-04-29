@@ -28,6 +28,8 @@ gem 'grackle'
 gem 'mime-types'
 gem 'qr4r'
 gem 'event-calendar', :require => 'event_calendar'
+gem 'rack-cors', :require => 'rack/cors'
+
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
