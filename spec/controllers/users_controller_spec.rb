@@ -839,6 +839,46 @@ describe UsersController do
     end
   end
 
+  describe 'POST#notify' do
+    it 'returns success with valid data' do
+      notify_data = { 
+        :id => users(:jesseponce).id,
+        :comment => "what ever yo",
+        :email => "mrrogers@example.com",
+        :name => "whos there",
+        :page => users_path(users(:jesseponce))
+      }
+      post :notify, notify_data
+      response.should be_success
+    end
+    it 'emails the desired user given valid data' do
+      notify_data = { 
+        :id => users(:jesseponce).id,
+        :comment => "what ever yo",
+        :email => "mrrogers@example.com",
+        :name => "whos there",
+        :page => users_path(users(:jesseponce))
+      }
+      ArtistMailer.expects(:deliver_notify)
+      post :notify,  notify_data
+      response.should be_success
+    end
+    it 'emails the admin users if the honey_pot is set' do
+      notify_data = { 
+        :id => users(:jesseponce).id,
+        :comment => "what ever yo",
+        :email => "mrrogers@example.com",
+        :name => "whos there",
+        :i_love_honey => 'yummy',
+        :page => users_path(users(:jesseponce))
+      }
+      ArtistMailer.expects(:deliver_notify).never
+      AdminMailer.expects(:deliver_spammer)
+      post :notify, notify_data
+      response.should be_success
+    end
+  end
+
   describe "- routes" do
     it "route controller=users, action=edit to /users/edit" do
       route_for(:controller => "users", :action => "edit").should == '/users/edit'

@@ -5,12 +5,19 @@ require 'yaml'
 alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
-  desc 'normalize passwords'
+  desc 'reset all passwords to "bmatic"'
   task :reset_passwords => [:environment] do
     User.all.each do |u|
       u.password = 'bmatic'
       u.password_confirmation = 'bmatic'
       u.save
+    end
+  end
+
+  desc 'normalize emails - convert everyone to "@example.com"'
+  task :normalize_emails => [:environment] do
+    User.all.each do |u|
+      u.update_attribute(:email, u.email.gsub(/^(.*)\@(.*)/,'\1@example.com'))
     end
   end
 
@@ -42,46 +49,6 @@ namespace :mau do
     end
   end
 
-  namespace :db do
-    desc "backup the database"
-    task :backup => [:environment] do
-      env = ENV['RAILS_ENV']
-      dbcnf = alldbconf[env]
-      ts = Time.now.strftime('%Y%m%d%H%m%S')
-      db_backup_dir = File.join( [Rails.root, 'backups','db', ts]);
-      db_file = "#{dbcnf['database']}-#{ts}.backup.sql"
-      path = File.join([db_backup_dir, db_file])
-      sh "mkdir -p #{db_backup_dir} && mysqldump -u #{dbcnf['username']} -p#{dbcnf['password']} --single-transaction #{dbcnf['database']} > #{path}"
-      # tar up artists data dir
-    end
-    
-    desc "import database : specify database file with db=<databasefile.sql> on the command line"
-    task :import => [:environment] do
-      dbfile = ENV['db']
-      unless dbfile.blank?
-        env = ENV['RAILS_ENV']
-        dbcnf = alldbconf[env]
-        sh "mysql -u #{dbcnf['username']} -p#{dbcnf['password']} #{dbcnf['database']} < #{dbfile}"
-        
-        # reset all passwords to monkey
-        #
-        puts "updating artist passwords to monkey"
-        Artist.all.each_with_index do |a, idx|
-          if (0==(idx % 40))
-            print '.'
-          end
-          a.update_attributes(:password => 'monkey', :password_confirmation => 'monkey')
-        end
-        puts "done"
-      else
-        puts "***"
-        puts "*** import aborted"
-        puts "*** You must specify a database file to import with db=<databasefilename.sql>"
-        puts "***"
-      end
-    end
-  end
-  
   namespace :tags do
     desc "downcase existing tags"
     task :downcase => [:environment] do

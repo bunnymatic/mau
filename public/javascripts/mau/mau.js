@@ -978,7 +978,8 @@ var TagMediaHelper = {
   };
 
   N.submitNote = function(event){
-    var data = Form.serialize($(N.ID_FORM));
+    var data = $(N.ID_FORM).serialize(true);
+    console.log(data);
     var url = $(N.ID_FORM).action;
     N.loading('Sending...');
     var xhr = new Ajax.Updater(N.ID_CONTENT, url, {
