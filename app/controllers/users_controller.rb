@@ -255,7 +255,14 @@ class UsersController < ApplicationController
         noteinfo[k] = params[k]
       end
     end
-    ArtistMailer.deliver_notify( Artist.find(id), noteinfo)
+    if params.include? 'i_love_honey'
+      # spammer hit the honey pot.
+      noteinfo['artist_id'] = id
+      noteinfo['reason'] = 'hit the honey pot'
+      AdminMailer.deliver_spammer(noteinfo)
+    else
+      ArtistMailer.deliver_notify( Artist.find(id), noteinfo)
+    end
     render :layout => false
   end
 

@@ -57,12 +57,13 @@ describe EmailListController do
         end
       end
       it 'renders the 2 lists, Feedback and Events' do
-        assert_select '.email_lists ul.listtypes > li', :count => 2
+        assert_select '.email_lists ul.listtypes > li', :count => 3
         assert_select '.email_lists ul.listtypes > li', /Feedback/
         assert_select '.email_lists ul.listtypes > li', /Event/
+        assert_select '.email_lists ul.listtypes > li', /Admins/
       end
       it 'renders add email forms for each list' do
-        assert_select '.email_lists ul.listtypes form', :count => 2
+        assert_select '.email_lists ul.listtypes form', :count => 3
       end
     end
     describe 'POST' do

@@ -1455,7 +1455,9 @@ table.getinv-form{
 .fdbk-input {
   margin: 8px 0;
 }
-
+.fdbk-input#validate_me { /* honeypot */
+  display: none;
+}
 
 #prev-browse, #next-browse
 {
