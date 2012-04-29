@@ -3811,59 +3811,6 @@ a.button b.m b {
     }
   }
 }
-.calendar {
-  button {
-    background-image:url(/images/icons/playback-sprite.png);
-    background-position: 0px 0px;
-    height:16px;
-    width:16px;
-    overflow:hidden;
-  }
-  
-  .monthSelector {
-    width: 204px;
-    text-align: center;
-    color: #616161;
-    margin-bottom: 5px;
-    button {
-      text-indent: -9000px;
-      border:0;
-      background-color:transparent;
-    }
-    button.next {
-      background-position: -48px 0;
-      float: right;
-    }
-    button.back {
-      float: left;
-    }
-  }
-  .timeSelector {
-  }
-  table {
-    th, td {
-      height: 20px;
-      width: 20px;
-      margin: 2px;
-      padding: 2px;
-    }
-    th {
-      background-color: $darkgray;
-    }
-    td {
-      &.selected {
-        color: $lightyellow;
-        background-color: $mediumgray;
-      }
-      &:hover {
-        background-color: $bluegray;
-      }
-    }
-  }
-  .notThisMonth {
-    background-color: $darkbluegray;
-  }
-}
 
 #letter_from_flax {
   width: $rightcol;
