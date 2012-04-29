@@ -2,11 +2,11 @@
   Event Calendar stylesheet
   
   Colors:
-  #d5d5d5 - border (gray)
-  #303030 - day names bg (gray)
+  #666 - border (gray)
+  #222 - day names bg (gray)
   #444 - number (gray)
-  #ecede2 - day header bg (light tan)
-  ##d7d7ba - today header bg (tan)
+  #c6c7d6 - day header bg (light tan)
+  #d7d7ba - today header bg (tan)
   #ffffdd - today bg light (yellow)
   #777 - other month number (gray)
   #efefef - other month day header (gray)
@@ -20,7 +20,7 @@
   line-height: 14px;
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid #d5d5d5;
+  border-bottom: 1px solid #444;
 }
 
 /* Month name header & links */
@@ -42,8 +42,9 @@
 /* Containers */
 .ec-body {
   position: relative;
-  border-right: 1px solid #303030;
+  border-right: 1px solid #666;
   white-space: nowrap;
+  margin-top: 10px;
 }
 
 /* Day names */
@@ -54,7 +55,7 @@
   width: 100%;
   table-layout: fixed;
   padding: 2px 0;
-  background: #303030;
+  background: #222;
   color: white;
 }
 
@@ -70,7 +71,7 @@
   width: 100%;
   background: white;
   overflow: hidden;
-  border-right: 1px solid #d5d5d5;
+  border-right: 1px solid #999;
 }
 
 .ec-row {
@@ -91,11 +92,11 @@
 }
 
 .ec-day-bg {
-  border-left: 1px solid #d5d5d5;
+  border-left: 1px solid #aaa;
 }
 
 .ec-today-bg {
-  background-color: #ffffdd;
+  background-color: #ddd;
 }
 
 .ec-row-table {
@@ -106,14 +107,14 @@
 
 /* Day header */
 .ec-day-header {
-  color: #444;
+  color: #666;
   text-align: right;
   padding: 0 5px;
   line-height: 16px;
-  border-top: 1px solid #d5d5d5;
-  border-left: 1px solid #d5d5d5;
-  border-bottom: 1px dotted #bbbbbb;
-  background-color: #ecede2;
+  border-top: 1px solid #444;
+  border-left: 1px solid #aaa;
+  border-bottom: 1px dotted #aaa;
+  background-color: #c6c7d6;
   overflow: hidden;
 }
 
@@ -122,7 +123,7 @@ a.ec-day-link {
 }
 
 .ec-today-header {
-  background-color: #d7d7ba;
+  background-color: #ccc;
 }
 
 .ec-weekend-day-header {
@@ -131,7 +132,7 @@ a.ec-day-link {
 
 .ec-other-month-header {
   background-color: #efefef;
-  color: #777;
+  color: #999;
 }
 
 .ec-other-month-bg {

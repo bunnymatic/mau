@@ -3,12 +3,13 @@
  * Handles for when events span rows, or don't have a background color
  */
 Event.observe(window, "load", function() {
-  var highlight_color = "#2EAC6A";
+  var highlight_color = "#738294";
   
   // replace >> << with raquo and laquo
   $$('.ec-month-nav').each(function(el) {
-    el.innerHTML = el.innerHTML.replace('<< ', '&laquo; ').replace(' >>', ' &raquo;');
+    el.innerHTML = el.innerHTML.replace('&lt;&lt; ', '&laquo; ').replace(' &gt;&gt;', ' &raquo;');
   });
+
   // highlight events that have a background color
   $$(".ec-event-bg").each(function(ele) {
     ele.observe("mouseover", function(evt) {
