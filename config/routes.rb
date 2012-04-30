@@ -40,7 +40,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.faq '/faq', :controller => 'main', :action => 'faq'
   map.openstudios '/openstudios', :controller => 'main', :action => 'openstudios'
-  map.badge '/artists/:id/badge', :controller => 'artists', :action => 'badge'
 
 
   map.resources :artists, 
@@ -48,6 +47,8 @@ ActionController::Routing::Routes.draw do |map|
     :update => :post,
     :bio => :get,
     :qrcode => :get
+#    :badge => :get
+
   }, 
   :collection => { 
     :destroyart => :post, 
@@ -56,7 +57,8 @@ ActionController::Routing::Routes.draw do |map|
     :deleteart => :get, 
     :edit => :get,
     :map => :get,
-    :thumbs => :get
+    :thumbs => :get,
+    :suggest => :get
   }
   # for mobile
   map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'

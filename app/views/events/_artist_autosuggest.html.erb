@@ -5,7 +5,7 @@
   if (!artist_list_inp) { return; }
   artist_list_inp.observe('focus', function() {
      var options={ 
-       script:'/artists?format=json&suggest=1&', // form elements tagged on the end
+       script:'/artists/suggest?', // form elements tagged on the end
        varname:'input', 
        valueSep: ', ',
        json:true, 
@@ -17,18 +17,6 @@
      autocompleter=new AutoComplete('event_artist_list', options); 
      return true;
      });
-
-/*
-  var otherinputs = $$('input');
-  otherinputs.each( function(inp) {
-    if (inp.readAttribute('id')!='tags') {
-       inp.observe('focus', function() { 
-       if (autocompleter) { autocompleter.clearSuggestions(); }
-      });
-    }
-  });
-*/
-
   });
 </script>
 <%= javascript_include_tag 'thirdparty/autocomplete.min' %>

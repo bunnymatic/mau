@@ -1,7 +1,4 @@
 class StudiosController < ApplicationController
-  # GET /studios
-  # GET /studios.xml
-  
 
   STUDIO_KEYS = Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].freeze
   
@@ -24,6 +21,9 @@ class StudiosController < ApplicationController
     @studios_by_count = @studios.sort{|a,b| b.artists.active.count <=> a.artists.active.count} if @view_mode == 'count'
     respond_to do |format|
       format.html { render :layout => 'mau' }
+      format.json {
+        render :json => @studios
+      }
       format.mobile { 
         @page_title = "Studios"
         @studios.reject!{|s| s.artists.active.count < 1}
@@ -107,6 +107,7 @@ class StudiosController < ApplicationController
     logger.debug("StudiosController: found %d artists to show" % @artists.length)
     respond_to do |format|
       format.html { render :layout => 'mau' }
+      format.json { render :json => @studio.to_json(:methods => 'artists') }
       format.mobile { render :layout => 'mobile' }
     end
   end

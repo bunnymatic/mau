@@ -61,28 +61,24 @@ describe ArtistsController do
           assert_select(".allthumbs .thumb .name", /#{a.name}/);
         end
       end
-      describe 'format=json' do
-        before do
-          get :index, :format => 'json', :suggest => 1, :input => 'jes'
-        end
-        it "returns success" do
-          response.should be_success
-        end
-        it 'returns a hash with a list of artists' do
-          j = JSON.parse(response.body)
-          j.should be_a_kind_of Array
-          (j.first.has_key? 'info').should be
-          (j.first.has_key? 'value').should be
-        end
-        it 'list of artists matches the input parameter (in this case "jes")' do
-          j = JSON.parse(response.body)
-          j.should be_a_kind_of Array
-          j.should have(1).artist_name
-          j.first['value'].should == 'jesse ponce'
-        end
+    end
+    describe 'json' do
+      before do
+        get :index, :format => 'json'
+      end
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'returns json' do
+        response.content_type.should == 'application/json'
+      end
+      it 'returns all active artists' do
+        j = JSON.parse(response.body)
+        j.count.should == Artist.active.count
       end
     end
   end
+
   describe '#index roster view' do
     integrate_views
     before do
@@ -730,6 +726,27 @@ describe ArtistsController do
         assert_select('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)
         assert_select('.forgot_password_link', /http:\/\/#{Conf.site_url}\/reset\/#{users(:reset_password).reset_code}/)
       end
+    end
+  end
+
+  describe '#suggest' do
+    before do
+      get :suggest, :input => 'jes'
+    end
+    it "returns success" do
+      response.should be_success
+    end
+    it 'returns a hash with a list of artists' do
+      j = JSON.parse(response.body)
+      j.should be_a_kind_of Array
+      (j.first.has_key? 'info').should be
+      (j.first.has_key? 'value').should be
+    end
+    it 'list of artists matches the input parameter (in this case "jes")' do
+      j = JSON.parse(response.body)
+      j.should be_a_kind_of Array
+      j.should have(1).artist_name
+      j.first['value'].should == 'jesse ponce'
     end
   end
 
