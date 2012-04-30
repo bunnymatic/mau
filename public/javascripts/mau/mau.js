@@ -1577,46 +1577,6 @@ var TagMediaHelper = {
   Event.observe(window, 'load', D.init);    
 
   var E = M.Events = M.Events || {};
-/*
-  E.update_visible_events = function() {
-    var time_filters = [ 'future' ];
-    $$('.filters input.time[type=checkbox]').each(function(checked) {
-      if (checked.checked) {
-        time_filters.push(checked.getValue());
-      }
-    });
-    $$('.event_list .events_by_month').each(function(el){el.hide();});
-    $$('.event_list .events_by_month.current').each(function(el){el.show();});
-    time_filters.each(function(time_class) {
-      $$( ['.event_list .event',time_class].join('.') ).each(function(el){
-        el.show();
-        var month = el.previous('.month');
-        if (month) { month.show(); }
-      });
-    });
-  };
-
-########### in the init
-    E.update_visible_events();
-    $$('.filters input[type=checkbox]').each(function(lnk) {
-      lnk.observe('change',function() {
-        E.update_visible_events();
-      });
-      var vis = 0;
-      var ct = 0;
-      $$('.event_list .event').each(function(el) {
-        ct ++;
-        if ($(el).visible()) {
-          vis ++;
-        }
-      });
-      if (!vis) {
-        $('event_filter_in_progress').writeAttribute('checked', 'checked');
-        E.update_visible_events();
-      }
-    });
-
-*/
   E.init = function() {
     $$('.event_nav .by_month').each(function(nav_el) {
       nav_el.observe('click', function(el) {

@@ -69,4 +69,25 @@ describe Studio do
       studios(:s1890).formatted_phone.should == '(415) 617-1234'
     end
   end
+  
+  describe 'to_json' do
+    [:created_at, :updated_at].each do |field|
+      it "does not include #{field} by default" do
+        JSON.parse(studios(:s1890).to_json)['studio'].should_not have_key field.to_s
+      end
+    end
+    it "includes name" do
+      JSON.parse(studios(:s1890).to_json)['studio']['name'].should == studios(:s1890).name
+    end
+    it 'includes created_at if we except other fields' do
+      s = JSON.parse(studios(:s1890).to_json(:except => :name))
+      s['studio'].should have_key 'created_at'
+      s['studio'].should_not have_key 'name'
+    end
+    it 'includes the artist list if we ask for it' do
+      s = JSON.parse(studios(:s1890).to_json(:methods => :artists))
+      s['studio']['artists'].should be_a_kind_of Array
+      s['studio']['artists'][0]['firstname'].should == Studio.artists.first.firstname
+    end
+  end
 end

@@ -52,6 +52,21 @@ describe StudiosController do
       end
       it_should_behave_like "logged in user"
     end
+    describe 'json' do
+      before do
+        get :index, :format => 'json'
+      end
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'returns json' do
+        response.content_type.should == 'application/json'
+      end
+      it 'returns all studios' do
+        j = JSON.parse(response.body)
+        j.count.should == Studio.all.count
+      end
+    end
   end
 
   
@@ -70,30 +85,50 @@ describe StudiosController do
   describe "#show" do
     integrate_views
     describe 'individual studio' do
-      before do
-        get :show, :id => studios(:as).id
+      describe 'html' do
+        before do
+          get :show, :id => studios(:as).id
+        end
+        it "last studio should be independent studios" do
+          assigns(:studios).last.name.should == 'Independent Studios'
+        end
+        it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
+          s = assigns(:studios)
+          s.pop
+          s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
+        end
+        it "studio url is a link" do
+          response.should have_tag("div.url a[href=#{studios(:as).url}]")
+        end
+        it "studio includes cross street if there is one" do
+          Studio.any_instance.stubs(:cross_street => 'fillmore')
+          get :show, :id => studios(:as).id
+          response.should have_tag('.address', /\s+fillmore/)
+        end
+        it "studio info includes a phone if there is one" do
+          Studio.any_instance.stubs(:phone => '1234569999')
+          get :show, :id => studios(:as).id
+          response.should have_tag('.phone', :text => '(123) 456-9999')
+        end
       end
-      it "last studio should be independent studios" do
-        assigns(:studios).last.name.should == 'Independent Studios'
-      end
-      it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
-        s = assigns(:studios)
-        s.pop
-        s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
-      end
-      it "studio url is a link" do
-        response.should have_tag("div.url a[href=#{studios(:as).url}]")
-      end
-      it "studio includes cross street if there is one" do
-        Studio.any_instance.stubs(:cross_street => 'fillmore')
-        get :show, :id => studios(:as).id
-        response.should have_tag('.address', /\s+fillmore/)
-      end
-      it "studio info includes a phone if there is one" do
-        Studio.any_instance.stubs(:phone => '1234569999')
-        get :show, :id => studios(:as).id
-        response.should have_tag('.phone', :text => '(123) 456-9999')
-      end
+      describe 'json' do
+        before do
+          get :show, :id => studios(:as).id, :format => 'json'
+        end
+        it_should_behave_like 'returns success'
+        it 'returns json' do
+          response.content_type.should == 'application/json'
+        end
+        it 'returns the studio data' do
+          j = JSON.parse(response.body)
+          j['studio']['name'].should == studios(:as).name
+          j['studio']['street'].should == studios(:as).street
+        end
+        it 'includes a list of artist ids' do
+          j = JSON.parse(response.body)
+          j['studio']['artists'].should be_a_kind_of Array
+        end
+      end        
     end
     Studio.all.each do |s|
       describe "studio fixture #{s.name}" do
