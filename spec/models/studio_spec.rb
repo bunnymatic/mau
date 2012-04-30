@@ -20,7 +20,7 @@ describe Studio do
   
   include StudioSpecHelper
 
-  fixtures :studios
+  fixtures :studios, :users, :artist_infos
 
   describe 'address' do 
     it "responds to address" do
@@ -85,9 +85,11 @@ describe Studio do
       s['studio'].should_not have_key 'name'
     end
     it 'includes the artist list if we ask for it' do
-      s = JSON.parse(studios(:s1890).to_json(:methods => :artists))
+      studio = Studio.all.select{|s| s.artists.count > 1}.first
+      assert !studio.nil?, 'You need to fix your fixtures so at least 1 studio has at least 1 artist'
+      s = JSON.parse(studio.to_json(:methods => 'artists'))
       s['studio']['artists'].should be_a_kind_of Array
-      s['studio']['artists'][0]['firstname'].should == Studio.artists.first.firstname
+      s['studio']['artists'][0]['artist']['firstname'].should == studio.artists.first.firstname
     end
   end
 end
