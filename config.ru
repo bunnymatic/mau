@@ -3,15 +3,15 @@ require 'rack/cors'
 
 use Rack::Cors do
   allow do
-      origins %r{https?://(.*\.)?1890bryant\.com}
-            # regular expressions can be used here
-
-    resource %r{/artists/\d+.json},
-        :methods => [:get, :post], #, :put, :delete],
-        :headers => ['Origin', 'Accept', 'ContentType']
-        # headers to expose
-        # :expose => ['MAU-Custom-Response-Header']
-
+    origins %r{https?://(.*\.)?1890bryant\.com}
+    # regular expressions can be used here
+    
+    resource %r{(studios|artists)(\/\d+)?\.json},
+      :methods => [:get], #, :put, :delete],
+      :headers => ['Origin', 'Accept', 'ContentType']
+      # headers to expose
+      # :expose => ['MAU-Custom-Response-Header']
+    
   end
 end
 
