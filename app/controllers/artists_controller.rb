@@ -268,54 +268,56 @@ class ArtistsController < ApplicationController
         end      
       }
       format.json {
-        # grab all names from the cache
-        begin
-          cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
-        rescue MemCacheError => mce
-          logger.warning("Memcache (read) appears to be dead or unavailable")
-          cacheout = nil
-        end
-        artist_names = nil
-        if params[:suggest] && params[:input]
-          if cacheout
-            p 'cacheout', cacheout
-            logger.debug("Fetched artist name autosuggest tags from cache")
-            artist_names = ActiveSupport::JSON.decode cacheout
-          end
-          unless artist_names
-            all_names = Artist.active.map(&:fullname)
-            artist_names = Artist.active.map{|a| { 'value' => a.fullname, 'info' => a.id } }
-            cachein = ActiveSupport::JSON.encode artist_names
-            if cachein
-              begin
-                Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
-              rescue MemCacheError => mce
-                logger.warning("Memcache (write) appears to be dead or unavailable")
-              end
-            end
-          end
-          if params[:input].present?
-            # filter with input prefix
-            inp = params[:input].downcase
-            lin = inp.length - 1
-            begin
-              artist_names = artist_names.compact.delete_if {|nm| inp != nm['value'][0..lin].downcase}
-            rescue Exception => ex
-              artist_names = []
-            end
-          end
-        end        
-        render :json => artist_names
+        render :json => Artist.active
       }
       format.mobile { 
         @artists = []
         @page_title = "Artists"
         render :layout => 'mobile' 
       }
-
     end
   end
 
+  def suggest
+    # grab all names from the cache
+    begin
+      cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
+    rescue MemCacheError => mce
+      logger.warning("Memcache (read) appears to be dead or unavailable")
+      cacheout = nil
+    end
+    artist_names = nil
+    if params[:input]
+      if cacheout
+        p 'cacheout', cacheout
+        logger.debug("Fetched artist name autosuggest tags from cache")
+        artist_names = ActiveSupport::JSON.decode cacheout
+      end
+      unless artist_names
+        all_names = Artist.active.map(&:fullname)
+        artist_names = Artist.active.map{|a| { 'value' => a.fullname, 'info' => a.id } }
+        cachein = ActiveSupport::JSON.encode artist_names
+        if cachein
+          begin
+            Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
+          rescue MemCacheError => mce
+            logger.warning("Memcache (write) appears to be dead or unavailable")
+          end
+        end
+      end
+      if params[:input].present?
+        # filter with input prefix
+        inp = params[:input].downcase
+        lin = inp.length - 1
+        begin
+          artist_names = artist_names.compact.delete_if {|nm| inp != nm['value'][0..lin].downcase}
+        rescue Exception => ex
+          artist_names = []
+        end
+      end
+    end        
+    render :json => artist_names
+  end
 
   def destroyart
     # receives post from delete art form

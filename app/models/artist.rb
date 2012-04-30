@@ -47,6 +47,11 @@ class Artist < User
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
 
+  def to_json opts = {}
+    default_opts = { :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at, :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at, :max_pieces, :updated_at, :activation_code, :reset_code] }
+    super(default_opts.merge(opts))
+  end
+
   def self.find_all_by_fullname( names )
     inclause = ""
     lower_names = [names].flatten.map { |n| n.downcase }

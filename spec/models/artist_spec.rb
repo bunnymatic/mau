@@ -338,7 +338,28 @@ describe Artist do
       a = users(:artist1)
       a.representative_piece.should == a.art_pieces[0]
     end
+  end
 
+  describe 'to_json' do
+    [:password, :crypted_password, :remember_token, :remember_token_expires_at, 
+     :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at, 
+     :max_pieces, :updated_at, :activation_code, :reset_code].each do |field|
+      it "does not include #{field} by default" do
+        JSON.parse(users(:annafizyta).to_json)['artist'].should_not have_key field.to_s
+      end
+    end
+    it "includes firstname" do
+      JSON.parse(users(:annafizyta).to_json)['artist']['firstname'].should == users(:annafizyta).firstname
+    end
+    it 'includes created_at if we except other fields' do
+      a = JSON.parse(users(:annafizyta).to_json(:except => :firstname))
+      a['artist'].should have_key 'created_at'
+      a['artist'].should_not have_key 'firstname'
+    end
+    it 'includes the artist info if we ask for it' do
+      a = JSON.parse(users(:annafizyta).to_json(:include => :artist_info))
+      a['artist']['artist_info'].should be_a_kind_of Hash
+    end
   end
 
   describe 'qrcode' do
