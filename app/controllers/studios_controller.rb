@@ -14,6 +14,11 @@ class StudiosController < ApplicationController
   end
 
   def index
+    if request.xhr?
+      render :json => get_studio_list
+      return
+    end
+      
     @view_mode = (params[:v] == 'c') ? 'count' : 'name'
     @studios = get_studio_list
     @admin = logged_in? && self.current_user.is_admin?
@@ -87,6 +92,11 @@ class StudiosController < ApplicationController
         end
       end
     end
+    if request.xhr?
+      render :json => @studio.to_json(:methods => 'artists')
+      return
+    end
+
     unless @studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
       redirect_to studios_path
