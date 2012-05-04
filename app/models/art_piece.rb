@@ -54,8 +54,10 @@ class ArtPiece < ActiveRecord::Base
     HTMLHelper.encode(self.title)
   end
 
-  def get_path(size="medium")
-    ArtPieceImage.get_path(self, size)
+  def get_path(size = nil, full_path = false)
+    size ||= 'medium'
+    prefix = full_path ? "//%s" % Conf.site_url : ''
+    prefix + ArtPieceImage.get_path(self, size)
   end
     
   def self.all

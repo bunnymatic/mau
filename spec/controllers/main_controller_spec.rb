@@ -52,6 +52,10 @@ shared_examples_for 'main#index page' do
       desc.length.should == 1
       desc[0].attributes['content'].should == "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
     end
+    assert_select 'head meta[property=og:description]' do |desc|
+      desc.length.should == 1
+      desc[0].attributes['content'].should == "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
+    end
   end
   it 'has the default keywords' do
     assert_select 'head meta[name=keywords]' do |keywords|

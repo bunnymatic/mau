@@ -101,9 +101,13 @@ describe ArtistsController do
     end
 
     it 'shows the bio content in the metatag' do
-      pending
-      assert_select('head meta[name=description]').each do |tag|
-        tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
+      assert_select('head').each do |tag|
+        assert_select('meta[name=description]').each do |tag|
+          tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
+        end
+        assert_select('meta[property=og:description]').each do |tag|
+          tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
+        end
       end
     end
 

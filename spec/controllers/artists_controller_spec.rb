@@ -346,6 +346,12 @@ describe ArtistsController do
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
           desc[0].attributes['content'].should match users(:artist1).get_name(true)
         end
+        assert_select 'head meta[property=og:description]' do |desc|
+          desc.length.should == 1
+          desc[0].attributes['content'].should match users(:artist1).bio
+          desc[0].attributes['content'].should match /^Mission Artists United Artist/
+          desc[0].attributes['content'].should match users(:artist1).get_name(true)
+        end
       end
       it 'has the artist\'s (truncated) bio as the description' do
         long_bio = gen_random_words(:min_length => 800)

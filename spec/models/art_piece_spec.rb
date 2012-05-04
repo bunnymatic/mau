@@ -87,4 +87,12 @@ describe ArtPiece do
     end
   end
 
+  describe 'get_path' do
+    it 'returns a path to the art piece' do
+      ap = ArtPiece.first
+      artist = ap.artist
+      ArtPiece.first.get_path.should match %r{/artistdata/#{artist.id}/imgs}
+    end
+  end
+
 end
