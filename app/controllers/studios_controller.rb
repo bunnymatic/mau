@@ -14,10 +14,6 @@ class StudiosController < ApplicationController
   end
 
   def index
-    if request.xhr?
-      render :json => get_studio_list
-      return
-    end
       
     @view_mode = (params[:v] == 'c') ? 'count' : 'name'
     @studios = get_studio_list
@@ -91,10 +87,6 @@ class StudiosController < ApplicationController
           @studio = nil
         end
       end
-    end
-    if request.xhr?
-      render :json => @studio.to_json(:methods => 'artists')
-      return
     end
 
     unless @studio
@@ -201,12 +193,6 @@ class StudiosController < ApplicationController
   end
 
   def get_studio_list
-    studios = []
-    Studio.all.each do |s| 
-      if s.artists.active.count >= @@MIN_ARTISTS_PER_STUDIO
-        studios << s
-      end
-    end
-    studios.sort &Studio.sort_by_name
+    Studio.all.select{|s| s.artists.active.count >= @@MIN_ARTISTS_PER_STUDIO }
   end
 end

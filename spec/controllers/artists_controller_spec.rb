@@ -63,7 +63,10 @@ describe ArtistsController do
       end
     end
 
-    shared_examples_for 'index returning json' do
+    describe 'json' do
+      before do
+        get :index, :format => 'json'
+      end
       it 'returns success' do
         response.should be_success
       end
@@ -74,18 +77,6 @@ describe ArtistsController do
         j = JSON.parse(response.body)
         j.count.should == Artist.active.count
       end
-    end
-    describe 'json' do
-      before do
-        get :index, :format => 'json'
-      end
-      it_should_behave_like 'index returning json'
-    end
-    describe 'xhr' do
-      before do
-        xhr :get, :index
-      end
-      it_should_behave_like 'index returning json'
     end
   end
 
@@ -505,24 +496,14 @@ describe ArtistsController do
       it_should_behave_like 'logged in as admin'
     end
 
-    shared_examples_for 'show artist as json' do
-      it_should_behave_like 'returns success'
-      it 'returns json' do
-        response.content_type.should == 'application/json'
-      end
-    end
-    
     describe 'json' do
       before do
         get :show, :id => users(:artist1).id, :format => 'json'
       end
-      it_should_behave_like 'show artist as json'
-    end
-    describe 'json' do
-      before do
-        xhr :get, :show, :id => users(:artist1).id
+      it_should_behave_like 'returns success'
+      it 'returns json' do
+        response.content_type.should == 'application/json'
       end
-      it_should_behave_like 'show artist as json'
     end
   end
 

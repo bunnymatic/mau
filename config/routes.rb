@@ -141,6 +141,9 @@ ActionController::Routing::Routes.draw do |map|
   map.sitemap '/sitemap.xml', :controller => 'main', :action => 'sitemap'
   # See how all your routes lay out with "rake routes"
 
+  # external access - json only
+  map.connect '/api/*path', :controller => :api
+
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.

@@ -52,7 +52,10 @@ describe StudiosController do
       end
       it_should_behave_like "logged in user"
     end
-    shared_examples_for 'index as json' do
+    describe 'json' do
+      before do
+        get :index, :format => 'json'
+      end
       it 'returns success' do
         response.should be_success
       end
@@ -63,18 +66,6 @@ describe StudiosController do
         j = JSON.parse(response.body)
         j.count.should == Studio.all.count
       end
-    end
-    describe 'json' do
-      before do
-        get :index, :format => 'json'
-      end
-      it_should_behave_like 'index as json'
-    end
-    describe 'xhr' do
-      before do 
-        xhr :get, :index
-      end
-      it_should_behave_like 'index as json'
     end
   end
 
@@ -121,7 +112,10 @@ describe StudiosController do
         end
       end
 
-      shared_examples_for 'show studio as json' do
+      describe 'json' do
+        before do
+          get :show, :id => studios(:as).id, :format => 'json'
+        end
         it_should_behave_like 'returns success'
         it 'returns json' do
           response.content_type.should == 'application/json'
@@ -135,20 +129,7 @@ describe StudiosController do
           j = JSON.parse(response.body)
           j['studio']['artists'].should be_a_kind_of Array
         end
-      end
-      describe 'json' do
-        before do
-          get :show, :id => studios(:as).id, :format => 'json'
-        end
-        it_should_behave_like 'show studio as json'
       end        
-      describe 'xhr' do
-        before do
-          xhr :get, :show, :id => studios(:as).id
-        end
-        it_should_behave_like 'show studio as json'
-      end        
-
     end
     Studio.all.each do |s|
       describe "studio fixture #{s.name}" do
