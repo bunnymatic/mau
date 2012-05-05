@@ -6,7 +6,7 @@ use Rack::Cors do
     origins %r{https?://(.*\.)?1890bryant\.com}
     # regular expressions can be used here
     
-    resource %r{(studios|artists)(\/\d+)?(\.json)?$},
+    resource %r{api/(studios|artists|art_pieces)(\/\d+)?$},
       :methods => [:get], #, :put, :delete],
       :headers => ['Origin', 'Accept', 'ContentType']
       # headers to expose
