@@ -47,14 +47,7 @@ class Studio < ActiveRecord::Base
   end
 
   def self.all
-    logger.debug("Studio: Fetching from db")
-    studios = super(:order => 'name')
-    studios << Studio.indy 
-    studios.each do |s|
-      artists = s.artists.active.all
-      s[:num_artists] = artists.length
-    end
-    studios
+    super(:order => 'name') << Studio.indy
   end
 
   def has_profile_image
