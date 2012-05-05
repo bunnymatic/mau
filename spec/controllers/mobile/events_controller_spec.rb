@@ -24,8 +24,8 @@ describe EventsController do
     it 'shows a list of published events' do
       response.should have_tag 'li.mobile-menu', :count => Event.published.count
     end        
-    it 'the list is ordered by starttime' do
-      assigns(:events).sort_by(&:starttime) == assigns(:events)
+    it 'the list is ordered by reverse starttime' do
+      assigns(:events).sort_by(&:starttime).reverse.should == assigns(:events)
     end        
   end
   

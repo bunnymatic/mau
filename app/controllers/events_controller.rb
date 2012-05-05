@@ -29,7 +29,7 @@ class EventsController < ApplicationController
         render :layout => 'mau'
       }
       format.mobile { 
-        @events = Event.published
+        @events = Event.published.reverse
         @page_title = "MAU Events"
         render :layout => 'mobile'
       }
