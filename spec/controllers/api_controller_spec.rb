@@ -50,7 +50,19 @@ describe ApiController do
         JSON.parse(response.body)['message'].should match typ
       end
     end
+  end
 
+  context 'given [media] as input params' do
+    before do
+      get :index, :path => ['media']
+      @resp = JSON.parse(response.body)
+    end
+    it_should_behave_like 'good responses'
+    it 'returns a list of media' do
+      @resp.should be_a_kind_of Array
+      @resp.count.should == Medium.count
+      @resp.all? {|a| a.has_key? 'medium'}.should be_true, 'All items do not have the "name" key'
+    end
   end
 
   context 'given [artists] as input parameters' do

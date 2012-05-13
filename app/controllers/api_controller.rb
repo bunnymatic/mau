@@ -2,7 +2,7 @@ class ApiError < StandardError; end
 
 class ApiController < ActionController::Base
   
-  ALLOWED_OBJECTS = [:artists, :studios, :art_pieces].map(&:to_s)
+  ALLOWED_OBJECTS = [:media, :artists, :studios, :art_pieces].map(&:to_s)
   def index
     path_elements = params[:path]
     begin
@@ -13,6 +13,12 @@ class ApiController < ActionController::Base
       clz = obj_type.to_s.classify.constantize
       
       extra_scope = {'artists' => :active}
+      json_args = { 
+        'art_pieces' => {},
+        'media' => {},
+        'artists' => {:include => [:art_pieces, :artist_info]},
+        'studios' => {:include => :artists} 
+      }
       dat = nil
       case path_elements.count
       when 1:
@@ -26,7 +32,7 @@ class ApiController < ActionController::Base
       else
         raise ApiError.new(:message => 'Invalid request')
       end
-      render :json => dat
+      render :json => dat.to_json(json_args[obj_type.to_s]) 
     rescue NameError, ApiError => ex
       msg = "(%s) %s" % [ex.class, ex.message]
       RAILS_DEFAULT_LOGGER.error 'API Error: ' + msg
