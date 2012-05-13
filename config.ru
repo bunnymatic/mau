@@ -3,7 +3,7 @@ require 'rack/cors'
 
 use Rack::Cors do
   allow do
-    origins %r{https?://(.*\.)?1890bryant\.com}
+    origins %r{https?://(.*\.)?1890bryant\.com}, %r{localhost}
     # regular expressions can be used here
     
     resource %r{api/(studios|artists|art_pieces)(\/\d+)?$},
