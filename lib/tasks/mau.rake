@@ -56,10 +56,14 @@ namespace :mau do
           old_filename = ap.filename
           new_filename = ap.filename.gsub(/\.{2,}/, '.')
           ap.update_attribute(:filename, new_filename)
-          full_old = File.join(Rails.root, old_filename)
-          full_new = File.join(Rails.root, new_filename)
           puts "Trying to update artist #{ap.artist.id} and art_piece #{ap.id}"
           begin
+            
+            full_old = File.join(Rails.root, old_filename)
+            full_new = File.join(Rails.root, new_filename)
+            full_old = File.join(Rails.root, 'public', old_filename) if !File.exists?(full_old)
+            full_new = File.join(Rails.root, 'public', new_filename) if !File.exists?(full_new)
+
             if File.exists?(full_old)
               FileUtils.mv full_old, full_new
               [:m, :t, :l, :s].each do |pfx|
