@@ -1,4 +1,5 @@
 require 'find'
+require 'fileutils'
 require 'ftools'
 require 'yaml'
 
@@ -47,6 +48,41 @@ namespace :mau do
         end
       end
     end
+    
+    desc 'repair image filenames (make ..jpg into .jpg)'
+    task :repair_filenames => [:environment] do
+      ArtPiece.all.select{|a| /\.{2,}/.match(a.filename)}.each do |ap|
+        ArtPiece.transaction do
+          old_filename = ap.filename
+          new_filename = ap.filename.gsub(/\.{2,}/, '.')
+          ap.update_attribute(:filename, new_filename)
+          full_old = File.join(Rails.root, old_filename)
+          full_new = File.join(Rails.root, new_filename)
+          puts "Trying to update artist #{ap.artist.id} and art_piece #{ap.id}"
+          begin
+            if File.exists?(full_old)
+              FileUtils.mv full_old, full_new
+              [:m, :t, :l, :s].each do |pfx|
+                oldf = File.split(full_old)
+                newf = File.split(full_new)
+                newf.push(newf.pop.gsub(/\.{2,}/, '.').insert(0,pfx.to_s + "_"))
+                oldf.push(oldf.pop.insert(0,pfx.to_s + "_"))
+                o = File.join(oldf)
+                n = File.join(newf)
+                FileUtils.mv o, n if File.exists?(o)
+              end
+            else
+              puts "Unable to find file #{full_old}"
+            end
+          rescue Exception => ex
+            puts "Failed to update filename for #{ap.inspect}"
+            puts "Failure: ", ex
+            raise
+          end
+        end
+      end
+    end
+
   end
 
   namespace :tags do
