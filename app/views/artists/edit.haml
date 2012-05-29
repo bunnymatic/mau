@@ -12,7 +12,7 @@
         %img{:src=> "/images/default-profile-img.png", :width=> "100" }
       .tag 
         update profile picture
-        .os-violator{:style=> "<%= (current_artist.artist_info.os_participation[Conf.oslive.to_s]) ? '':'display:none;'"}
+        .os-violator{:style=> (current_artist.artist_info.os_participation[Conf.oslive.to_s]) ? '':'display:none;'}
           %img{:src=> "/images/os_star_violator.png"}
   %h4 My Account
   = render :partial => '/flash_notice_error'
@@ -46,6 +46,7 @@
             .yes-no-radios
               .radio-container.yep
                 = radio_button_tag "#{f.object_name}[artist_info[os_participation[#{Conf.oslive}]]]", "true",  @artist_info.os_participation['201110']
+                .formbutton Yep
               .radio-container.nope
                 = radio_button_tag "#{f.object_name}[artist_info[os_participation[#{Conf.oslive}]]]", "false",  (!@artist_info.os_participation['201110'])
                 .formbutton Nope

@@ -35,7 +35,7 @@ describe MainController do
   end
   describe 'openstudios' do
     before do
-      ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201110'")
+      ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201210'")
       Artist.any_instance.stubs(:in_the_mission? => true)
       @a = users(:artist1)
       @b = users(:joeblogs)
