@@ -37,3 +37,8 @@ signup_signup:
   page: signup
   section: signup
   article:  why should i sign up?
+
+os_question:
+  page: artists_edit
+  section: openstudios_question
+  article: ya wanna do os?

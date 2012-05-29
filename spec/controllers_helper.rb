@@ -31,7 +31,7 @@ shared_examples_for"logged in edit page" do
     get :edit
   end
   it "has at least 6 open-close divs" do
-    assert_select('.open-close-div.acct:nth-child(6)') 
+    assert_select('.open-close-div.acct')
   end
   it "has the info edit section" do
     assert_select('.open-close-div #info_toggle')

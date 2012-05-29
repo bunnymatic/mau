@@ -6,7 +6,7 @@ test:
    cache_server: localhost:11211
    image_servers: 
    mailchimp_api_key: bogus-key
-   oslive: 201204
+   oslive: 201210
 
 development:
    site_url: artistsdev.missionartistsunited.org
