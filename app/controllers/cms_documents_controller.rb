@@ -17,7 +17,7 @@ class CmsDocumentsController < ApplicationController
     begin
       @cms_document = CmsDocument.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      @cms_document = CmsDocument.new()
+      @cms_document = CmsDocument.new(params[:doc])
     end
     render :template => '/cms_documents/new_or_edit'
   end

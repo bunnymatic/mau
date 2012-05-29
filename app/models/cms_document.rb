@@ -5,10 +5,10 @@ class CmsDocument < ActiveRecord::Base
 
   def self.packaged(page, section)
     pkg = { 
-      :page => page,
-      :section => section,
+      :page => '',
+      :section => '',
     }
-    markdown_content = find_by_page_and_section(page, section)
+    markdown_content = find_by_page_and_section(page.to_s, section.to_s)
     if !markdown_content.nil?
       pkg[:content] = markdown(markdown_content.article) 
       pkg[:cmsid] = markdown_content.id

@@ -1,6 +1,7 @@
 #all_artists_page
   %h4 MAU Artists
   .artists_block
+    = render :partial => '/flash_notice_error'
     = render :partial => '/artists/alpha_pagination'
     = render :partial => '/osswitch', :locals => { :params => @inparams}
     = render :partial => '/artists/view_switcher'
