@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe ArtistsController do
 
-  fixtures :users, :artist_infos, :art_pieces, :studios, :roles, :media, :art_piece_tags, :art_pieces_tags
+  fixtures :users, :artist_infos, :art_pieces, :studios, :roles, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
 
   before do
     Rails.cache.stubs(:read).returns(nil)
@@ -282,7 +282,7 @@ describe ArtistsController do
         assert_select '.edit-profile-sxn', :count => (css_select '.open-close-div.acct').count
       end
       it 'shows the open studios section' do
-        assert_select '#events', /will you open/i
+        assert_select '#events', :match => cms_documents(:os_question).article
       end
     end
     context " if email_attrs['favorites'] is false " do
@@ -733,7 +733,7 @@ describe ArtistsController do
         end
       end
       it 'renders .participating rows for all pending artists' do
-        assert_select('tr.participating', :count => Artist.all.select{|a| a.os_participation['201204']}.count)
+        assert_select('tr.participating', :count => Artist.all.select{|a| a.os_participation['201210']}.count)
       end
       it 'renders activation link for inactive artists' do
         assert_select('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)

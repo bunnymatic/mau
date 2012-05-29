@@ -208,11 +208,11 @@ describe AdminController do
         end
       end
       it 'renders open studios info in reverse chrono order' do
-        css_select('.section.open_studios li').first.to_s.should match /2012 Apr/
+        css_select('.section.open_studios li').first.to_s.should match /2012 Oct/
         css_select('.section.open_studios li').last.to_s.should match /2010 Apr/
       end
       it 'renders the current open studios setting' do
-        css_select('.section.open_studios .current').first.to_s.should match /2011 Oct/
+        css_select('.section.open_studios .current').first.to_s.should match /2012 Oct/
       end
     end
   end

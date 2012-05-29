@@ -40,13 +40,13 @@
     %th name
     %th studio
     %th info
-    %th{:colspan => 2} Spring 2012 OS?
+    %th{:colspan => 2} Fall 2012 OS?
   - @artists.each_with_index do |a, idx| 
     :ruby
       classes = []
       classes << (((idx%2)==0) ? 'even':'odd')
       classes << a.state
-      classes << 'participating' if a.os_participation['201204']
+      classes << 'participating' if a.os_participation['201210']
     %tr{:class => classes.join(' ')}
       %td.admin_artist_name
         %a{:href => artist_path(a)}
@@ -75,9 +75,9 @@
             %br
             #{'http://%s/reset/%s' % [Conf.site_url, a.reset_code]}
               
-      %td.spring2012{ :artistid => a.id } #{a.os_participation['201204'].to_s}
+      %td.fall2012{ :artistid => a.id } #{a.os_participation['201210'].to_s}
       %td
-        %input.cbspring2012{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation['201204'].to_s, :checked => (a.os_participation['201204'] ? "checked" : nil) }
+        %input.cbfall2012{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation['201210'].to_s, :checked => (a.os_participation['201210'] ? "checked" : nil) }
    
 %button.update-artists update os status
 
