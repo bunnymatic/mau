@@ -2294,6 +2294,8 @@ div.studios .studio-list {
     }
   }
   &.editable {
+    min-height: 10px;
+    background-color: $darkgray;
     &.active {
       opacity: 0.7;
       cursor: pointer;
@@ -2304,7 +2306,7 @@ div.studios .studio-list {
     }
     .edit_indicator {
       position: absolute;
-      top: 20px;
+      top: 0px;
       right: 50%;
       background-color: $purple;
       color: $lightyellow;

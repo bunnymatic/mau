@@ -154,6 +154,7 @@ class ArtistsController < ApplicationController
     end
     @studios = Studio.all
     @artist_info = current_user.artist_info || ArtistInfo.new({ :id => current_user.id })
+    @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
   end
 
   def by_firstname 

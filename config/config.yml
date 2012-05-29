@@ -6,7 +6,7 @@ test:
    cache_server: localhost:11211
    image_servers: 
    mailchimp_api_key: bogus-key
-   oslive: 201110
+   oslive: 201204
 
 development:
    site_url: artistsdev.missionartistsunited.org
@@ -56,7 +56,7 @@ common:
        # expire daily
        cache_expiry: 86400
        cache_key: artistnamesuggest
-   oslive: 201204
+   oslive: 201210
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2
    open_studios_event_keys:
@@ -65,3 +65,4 @@ common:
       - 201104
       - 201110
       - 201204
+      - 201210
