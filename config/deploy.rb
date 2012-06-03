@@ -1,7 +1,7 @@
 require 'rvm/capistrano'
 require 'bundler/capistrano'
-set :rvm_ruby_string, '1.8.7-p302@mau'
-set :rvm_type, :system
+set :rvm_ruby_string, '1.8.7-p334@mau'
+set :rvm_type, :user
 
 # capistrano task order of operations as of 4/22/2012
 #    deploy
@@ -23,11 +23,11 @@ set :application, "MAU"
 set :scm, :git
 set :use_sudo, false
 set :rake, 'bundle exec rake'
-set :repository,  "git.bunnymatic.com:/projects/git/mau.git"
+set :repository,  "git@git.rcode5.com:/space/git/mau.git"
 set :branch, "master"
 set :scm_verbose, true
 
-BUNNYMATIC = 'bunnymatic.com'
+BUNNYMATIC = 'mau.rcode5.com'
 SLICE = '209.20.85.23'
 # these roles represent the servers on which all these things run
 # if db is run on different machine, you might change db
@@ -40,7 +40,7 @@ namespace :apache do
   [:stop, :start, :restart, :reload].each do |action|
     desc "#{action.to_s.capitalize} Apache"
     task action, :roles => :web do
-      invoke_command "sudo -u www /etc/init.d/httpd #{action.to_s}", :via => run_method
+      invoke_command "sudo /etc/init.d/apache2 #{action.to_s}", :via => run_method
     end
   end
 end
@@ -49,26 +49,20 @@ namespace :nginx do
   [:stop, :start, :restart, :reload].each do |action|
     desc "#{action.to_s.capitalize} Nginx"
     task action, :roles => :web do
-      invoke_command "sudo -u www-data /etc/init.d/nginx #{action.to_s}", :via => run_method
+      invoke_command "sudo /etc/init.d/nginx #{action.to_s}", :via => run_method
     end
   end
 end
 
 
 ####### CUSTOM TASKS #######
-desc "Set up Test specific paramters."
-task :jy do
-  set :user, "jeremy"
-  set :deploy_to, "/home/jeremy/deployed"
-end
-
 desc "Set up Dev on bunnymatic.com parameters."
 task :dev do
-  set :user, "maudev"
+  set :user, "deploy"
   set :rails_env, 'development'
-  set :deploy_to, "/home/maudev/deployed"
-  set :ssh_port, '2222'
-  set :server_name, 'dev.missionartistsunited.org'
+  set :deploy_to, "/home/deploy/mau"
+  set :ssh_port, '22022'
+  set :server_name, 'mau.rcode5.com'
 end
 
 desc "Set up Production bunnymatic.com parameters."
@@ -91,12 +85,12 @@ end
 
 task :build_sass do
   sass_cache_dir = "#{current_path}/tmp/sass-cache"
-  run "mkdir -p #{sass_cache_dir} && chgrp web #{sass_cache_dir} && chmod g+ws #{sass_cache_dir}"
+  run "mkdir -p #{sass_cache_dir} && chmod g+ws #{sass_cache_dir}"
   run "cd #{current_path} && rvm use #{rvm_ruby_string} && #{rake} RAILS_ENV=#{rails_env} sass:build"
 end
 
 after 'bundle:install', 'deploy:migrate'
-before "deploy:restart", :symlink_data, :setup_backup_dir
+before "deploy:restart", :symlink_data
 before "apache:reload", :build_sass
 after "deploy", "apache:reload"
 after "deploy", 'deploy:cleanup'
