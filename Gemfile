@@ -11,7 +11,7 @@ gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"
 gem 'mojo_magick'
-gem 'passenger', '3.0.2'
+gem 'passenger', '3.0.5'
 gem 'memcache'
 gem 'memcache-client'
 gem 'has_many_polymorphs'
