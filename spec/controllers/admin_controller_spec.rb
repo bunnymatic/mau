@@ -2,6 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
+class TestOsHelperClass; include OsHelper; end
+
 describe AdminController do
   use_transactional_fixtures = true
   fixtures :studios
@@ -67,7 +69,7 @@ describe AdminController do
         Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
           it "assigns a list of os artists for #{ostag} when we ask for the #{ostag} list" do
             get :emaillist, :listname => ostag
-            assigns(:emails).length.should == Artist.all.select{|a| a.os_participation[ostag]}.count
+            assigns(:emails).length.should == Artist.active.all.select{|a| a.os_participation[ostag]}.count
           end
         end
         describe 'multiple os keys' do
@@ -118,10 +120,11 @@ describe AdminController do
           end
         end
         Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-          it 'shows the title and list size and correct emails when we ask for #{ostag}' do
+          it "shows the title and list size and correct emails when we ask for #{ostag}" do
             get :emaillist, :listname => ostag
-            expected_participants = Artist.all.select{|a| a.os_participation[ostag]}
-            assert_select '.email_lists h4', /#{expected_participants.count}/
+            expected_participants = Artist.active.all.select{|a| a.os_participation[ostag]}
+            expected_tag = TestOsHelperClass.new.os_pretty(ostag)
+            assert_select '.email_lists h4', "#{expected_tag} [#{expected_participants.count}]"
             expected_participants.each do |f|
               assert_select '.email_results textarea', /#{f.get_name}/
               assert_select '.email_results textarea', /#{f.email}/
