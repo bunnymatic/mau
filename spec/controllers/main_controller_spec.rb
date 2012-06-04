@@ -469,7 +469,7 @@ describe MainController do
         assigns(:preview_reception_html).should have_key :cmsid
       end
       it 'the markdown entries have cms document ids in them' do
-        [ CmsDocument.find_by_section('spring_2004_blurb'),
+        [ CmsDocument.find_by_section('summary'),
           CmsDocument.find_by_section('preview_reception') ].each do |cmsdoc|
           assert_select '.markdown.editable[data-cmsid=%s]' % cmsdoc.id
         end
