@@ -463,8 +463,8 @@ describe MainController do
         assert_select '.markdown p em', :match => 'preview'
       end
       it 'fetches the markdown content properly' do
-        assigns(:spring_os_blurb).should have_key :content
-        assigns(:spring_os_blurb).should have_key :cmsid
+        assigns(:summary).should have_key :content
+        assigns(:summary).should have_key :cmsid
         assigns(:preview_reception_html).should have_key :content
         assigns(:preview_reception_html).should have_key :cmsid
       end
