@@ -76,9 +76,9 @@ class MainController < ApplicationController
     @participating_indies = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.reject{ |a| !a.in_the_mission? }.sort &Artist.sort_by_lastname
 
     page = 'main_openstudios'
-    section = 'spring_2004_blurb'
+    section = 'summary'
     
-    @spring_os_blurb = CmsDocument.packaged(page,section)
+    @summary = CmsDocument.packaged(page,section)
 
     section = 'preview_reception'
     @preview_reception_html = CmsDocument.packaged(page, section)
