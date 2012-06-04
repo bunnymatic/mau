@@ -1,9 +1,9 @@
 #open_studios
   = render :partial => '/flash_notice_error'
   :ruby
-    data = Hash[@spring_os_blurb.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
+    data = Hash[@summary.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
   .section.markdown.editable{data}
-    = @spring_os_blurb[:content]
+    = @summary[:content]
   .section.artist-links
     %h5
       %a{:href => artists_path(:osonly => true)}Open Studios Art

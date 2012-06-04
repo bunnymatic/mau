@@ -5,8 +5,8 @@ class CmsDocument < ActiveRecord::Base
 
   def self.packaged(page, section)
     pkg = { 
-      :page => '',
-      :section => '',
+      :page => page.to_s,
+      :section => section.to_s,
     }
     markdown_content = find_by_page_and_section(page.to_s, section.to_s)
     if !markdown_content.nil?

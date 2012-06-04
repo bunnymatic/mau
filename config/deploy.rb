@@ -72,6 +72,7 @@ task :prod do
   set :rails_env, 'production'
   set :ssh_port, '2222'
   set :server_name, 'www.missionartistsunited.org'
+  # we should build an .htaccess to specify PassengerAppRoot for the site5 deploy
 end
 
 desc "Sanity Check"
