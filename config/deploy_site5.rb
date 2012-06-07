@@ -1,7 +1,6 @@
-require 'rvm/capistrano'
 require 'bundler/capistrano'
-set :rvm_ruby_string, '1.8.7-p334@mau'
-set :rvm_type, :user
+#set :rvm_ruby_string, '1.8.7-p334@mau'
+#set :rvm_type, :user
 
 # capistrano task order of operations as of 4/22/2012
 #    deploy
@@ -28,42 +27,6 @@ set :branch, "master"
 set :scm_verbose, true
 
 ####### Apache commands ####
-namespace :apache do
-  [:stop, :start, :restart, :reload].each do |action|
-    desc "#{action.to_s.capitalize} Apache"
-    task action, :roles => :web do
-      invoke_command "sudo /etc/init.d/apache2 #{action.to_s}", :via => run_method unless rails_env != 'production'
-    end
-  end
-end
-
-namespace :nginx do
-  [:stop, :start, :restart, :reload].each do |action|
-    desc "#{action.to_s.capitalize} Nginx"
-    task action, :roles => :web do
-      invoke_command "sudo /etc/init.d/nginx #{action.to_s}", :via => run_method
-    end
-  end
-end
-
-
-####### CUSTOM TASKS #######
-desc "Set up Dev on bunnymatic.com parameters."
-task :dev do
-  # these roles represent the servers on which all these things run
-  # if db is run on different machine, you might change db
-  set :app_host, 'mau.rcode5.com'
-  role :app, app_host
-  role :web, app_host
-  role :db, app_host, :primary => true # This is where Rails migrations will run
-
-  set :user, "deploy"
-  set :rails_env, 'development'
-  set :deploy_to, "/home/deploy/mau"
-  set :ssh_port, '22022'
-  set :server_name, 'mau.rcode5.com'
-end
-
 desc "Set up Production bunnymatic.com parameters."
 task :prod do
   set :app_host, '50.97.213.210' #site5 host
@@ -88,13 +51,13 @@ end
 task :build_sass do
   sass_cache_dir = "#{current_path}/tmp/sass-cache"
   run "mkdir -p #{sass_cache_dir} && chmod g+ws #{sass_cache_dir}"
-  run "cd #{current_path} && rvm use #{rvm_ruby_string} && #{rake} RAILS_ENV=#{rails_env} sass:build"
+  run "cd #{current_path} && #{rake} RAILS_ENV=#{rails_env} sass:build"
 end
 
 after 'bundle:install', 'deploy:migrate'
 before "deploy:restart", :symlink_data
 before "apache:reload", :build_sass
-after "deploy", "apache:reload"
+after "deploy", :copy_htaccess
 after "deploy", 'deploy:cleanup'
 after "deploy", :ping
 
