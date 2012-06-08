@@ -34,8 +34,8 @@ class MainController < ApplicationController
     render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }}
   end
 
-  def version
-    render :text => self.revision
+  def version 
+    render :text => @@revision
   end
 
   def getinvolved

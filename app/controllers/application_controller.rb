@@ -7,7 +7,9 @@ require 'mobile_fu'
 require 'mobilized_styles'
 
 class ApplicationController < ActionController::Base
-  @@revision = 0
+  VERSION = 'Corvair 4.3'
+
+  @@revision = nil
 
   has_mobile_fu
   helper :all # include all helpers, all the time
@@ -87,9 +89,15 @@ class ApplicationController < ActionController::Base
   end
 
   def set_version
-    @version = revision()
+    unless @@revision
+      revision = VERSION
+      build_info_file = File.join(Rails.root, 'REVISION')
+      build = (File.exists?(build_info_file) ? File.open(build_info_file, 'r').read : 'unk')
+      @@revision = "#{revision} [#{build}]"
+    end
+    @@revision
   end
-
+  
   def get_new_art
     @new_art = ArtPiece.get_new_art
   end
@@ -101,21 +109,6 @@ class ApplicationController < ActionController::Base
     if @feed_html && @feed_html.length < 0
       @feed_html = "<div>Reload the page to get a new set of feeds</div>"
     end
-  end
-
-  def revision()
-    # file provided by cap deploy
-    if @@revision == 0
-      begin
-        file = File.expand_path('REVISION')
-        f = open(file,'r')
-        @@revision = f.read
-        f.close
-      rescue
-        @@revision = "unk"
-      end
-    end
-    @@revision
   end
 
   # redirect somewhere that will eventually return back to here

@@ -80,7 +80,7 @@ ActionController::Routing::Routes.draw do |map|
   map.news_alt '/news', :controller => 'main', :action => 'resources'
   map.contact '/contact', :controller => 'main', :action => 'contact'
   map.error '/error', :controller => 'error'
-  map.version '/_rev', :controller => 'main', :action => 'version'
+  map.version '/version', :controller => 'main', :action => 'version'
 
   map.admin_update_artists '/admin/artists/update', :controller => 'artists', :action=> 'admin_update'
 
