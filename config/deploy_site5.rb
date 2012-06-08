@@ -56,7 +56,7 @@ end
 
 after 'bundle:install', 'deploy:migrate'
 before "deploy:restart", :symlink_data
-before "apache:reload", :build_sass
+after "deploy", :build_sass
 after "deploy", :copy_htaccess
 after "deploy", 'deploy:cleanup'
 after "deploy", :ping
@@ -78,7 +78,7 @@ end
 
 desc "put htaccess in place (if available)" 
 task :copy_htaccess do
-  run "[[ -f #{shared_path}/_htacess ]] && cp #{shared_path}/_htaccess #{current_path}/public/.htaccess"
+  run "[[ -f #{current_path}/config/site5_htaccess ]] && cp #{current_path}/config/site5_htaccess #{current_path}/public/.htaccess"
 end
 
 # for passenger
