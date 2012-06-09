@@ -877,6 +877,35 @@ describe UsersController do
       post :notify, notify_data
       response.should be_success
     end
+
+    it 'emails the admin users if the body looks like spam' do
+      notify_data = { 
+        :id => users(:jesseponce).id,
+        :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
+        :email => "mrrogers@example.com",
+        :name => "whos there",
+        :page => users_path(users(:jesseponce))
+      }
+      ArtistMailer.expects(:deliver_notify).never
+      AdminMailer.expects(:deliver_spammer)
+      post :notify, notify_data
+      response.should be_success
+    end
+
+    it 'emails the admin users if the email is in our scammer list' do
+      notify_data = { 
+        :id => users(:jesseponce).id,
+        :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
+        :email => "evott@rocketmail.com",
+        :name => "whos there",
+        :page => users_path(users(:jesseponce))
+      }
+      ArtistMailer.expects(:deliver_notify).never
+      AdminMailer.expects(:deliver_spammer)
+      post :notify, notify_data
+      response.should be_success
+    end
+
   end
 
   describe "- routes" do

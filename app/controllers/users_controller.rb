@@ -255,10 +255,23 @@ class UsersController < ApplicationController
         noteinfo[k] = params[k]
       end
     end
+    scammer_emails = ['philipcolee@yahoo.com','evott@rocketmail.com']
     if params.include? 'i_love_honey'
       # spammer hit the honey pot.
       noteinfo['artist_id'] = id
       noteinfo['reason'] = 'hit the honey pot'
+      AdminMailer.deliver_spammer(noteinfo)
+    elsif scammer_emails.include? noteinfo['email'] 
+      noteinfo['artist_id'] = id
+      noteinfo['reason'] = 'matches suspect scammer email address'
+      AdminMailer.deliver_spammer(noteinfo)
+    elsif /Morning,I would love to purchase/i =~ noteinfo['comment']
+      noteinfo['artist_id'] = id
+      noteinfo['reason'] = 'matches suspect spam intro'
+      AdminMailer.deliver_spammer(noteinfo)
+    elsif /\s+details..i/i =~ noteinfo['comment']
+      noteinfo['artist_id'] = id
+      noteinfo['reason'] = 'matches suspect spam intro'
       AdminMailer.deliver_spammer(noteinfo)
     else
       ArtistMailer.deliver_notify( Artist.find(id), noteinfo)
