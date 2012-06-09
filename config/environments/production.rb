@@ -28,3 +28,10 @@ config.cache_store = :mem_cache_store, { :namespace => 'mau'}
 # Enable threaded mode
 # config.threadsafe!
 
+POSTMARK_API_KEY = 'e3ff1e94-b1a9-4ae8-aba5-2e3a8ba3692e'
+
+config.gem 'postmark-rails'
+require 'postmark-rails'
+
+config.action_mailer.postmark_api_key = POSTMARK_API_KEY
+config.action_mailer.delivery_method = :postmark

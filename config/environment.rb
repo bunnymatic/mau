@@ -19,6 +19,7 @@ c.use_file!("#{RAILS_ROOT}/config/config.local.yml")
 c.use_section!(RAILS_ENV)
 ::Conf = c
 
+
 POSTMARK_API_KEY = 'e3ff1e94-b1a9-4ae8-aba5-2e3a8ba3692e'
 
 
@@ -52,6 +53,8 @@ Rails::Initializer.run do |config|
 
   config.autoload_paths += %W(#{Rails.root}/app/mailers)
 
+  POSTMARK_API_KEY = 'POSTMARK_API_TEST'
+  
   config.gem 'postmark-rails'
   require 'postmark-rails'
   
