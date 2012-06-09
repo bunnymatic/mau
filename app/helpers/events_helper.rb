@@ -48,8 +48,9 @@ module EventsHelper
     events_by_month[current_key] = {:display => current_display, :events => [] }
 
     events.each do |ev|
-      month = ev.starttime.strftime('%B %Y')
-      month_key = ev.starttime.strftime('%Y%m')
+      stime = ev.reception_starttime || ev.starttime
+      month = stime.strftime('%B %Y')
+      month_key = stime.strftime('%Y%m')
       events_by_month[month_key] = {:display => month, :events => [] } unless events_by_month.has_key? month_key
       events_by_month[month_key][:events] << ev
     end
