@@ -56,8 +56,8 @@ end
 
 after 'bundle:install', 'deploy:migrate'
 before "deploy:restart", :symlink_data
+before "deploy:restart", :copy_htaccess
 after "deploy", :build_sass
-after "deploy", :copy_htaccess
 after "deploy", 'deploy:cleanup'
 after "deploy", :ping
 
