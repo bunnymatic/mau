@@ -255,7 +255,7 @@ class UsersController < ApplicationController
         noteinfo[k] = params[k]
       end
     end
-    scammer_emails = ['philipcolee@yahoo.com','evott@rocketmail.com']
+    scammer_emails = ['philipcolee@yahoo.com','evott@rocketmail.com', 'mrsute14@yahoo.com','garymartin@gmail.com']
     if params.include? 'i_love_honey'
       # spammer hit the honey pot.
       noteinfo['artist_id'] = id
