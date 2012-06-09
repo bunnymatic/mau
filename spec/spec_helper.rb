@@ -8,6 +8,9 @@ require 'spec/autorun'
 require 'spec/rails'
 require 'mocha'
 
+require 'fakeweb'
+puts "FakeWeb is on ---- no outside requests will be allowed!"
+FakeWeb.allow_net_connect = false
 
 require File.expand_path(File.join(File.dirname(__FILE__),'controllers_helper'))
 # Uncomment the next line to use webrat's matchers

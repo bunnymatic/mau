@@ -46,4 +46,5 @@ group :test, :development do
   gem 'ZenTest', '4.5.0'
   gem 'autotest-rails'
   gem 'jslint_on_rails'
+  gem 'fakeweb'
 end
