@@ -10,7 +10,6 @@
     pr_links = [[:events , {}],
                 [:featured_artist , {}],
                 [:favorites , {}],
-                [:internal_email , {:display => 'internal messaging', :link => '/email_list' }],
                 [:catalog, {:link => '/catalog'}]
                ]
     model_links = [[:fans , {}],
@@ -19,14 +18,18 @@
                    [:roles , {}],
                    [:art_piece_tags , {:display => 'tags'}]
                   ]
-    debug_links = [[:db_backups , {:display => 'backups'}],
+    admin_links = [[:app_events, {:display => 'app events', :link => '/application_events'}],
+                   [:event_subscribers, {:link => '/event_subscribers'}],
+                   [:internal_email , {:display => 'internal messaging', :link => '/email_lists' }],
+                   [:db_backups , {:display => 'backups'}],
                    [:palette , {:display => 'colors'}],
+
                    [:tests , {:link => '/tests'}]
                   ]
     links = [ [:usage, usage_links],
               [:pr, pr_links],
               [:lists, model_links],
-              [:debug, debug_links] ]
+              [:admin, admin_links] ]
 
     links.each do |sxn, entries|
       entries.each do |key, entry|

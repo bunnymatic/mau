@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 include AuthenticatedTestHelper
 
-describe EmailListController do
+describe EmailListsController do
   fixtures :email_lists, :emails, :email_list_memberships, :users
   [:index].each do |endpoint|
     describe 'not logged in' do
@@ -115,12 +115,12 @@ describe EmailListController do
           post :index, :listtype => :event, :email => {:name => 'new dude', :email => 'mr_new@example.com'}
           flash[:error].should be
           flash[:error].should match /not have all the required/
-          response.should redirect_to email_list_path
+          response.should redirect_to email_lists_path
         end
 
         it 'redirects to itself on success' do
           post :index, :method => 'add_email', :listtype => :event, :email => {:name => 'new dude', :email => 'mr_ew@example.com'}
-          response.should redirect_to email_list_path
+          response.should redirect_to email_lists_path
         end
         it 'adds a new email to the email list' do
           expect {

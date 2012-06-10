@@ -1,4 +1,4 @@
-class EmailListController < ApplicationController
+class EmailListsController < ApplicationController
   before_filter :admin_required
   layout 'mau-admin'
   def index
@@ -70,7 +70,7 @@ class EmailListController < ApplicationController
         msgs.reject{|k,v| v.nil?}.each do |k,v|
           flash[k] = v
         end
-        redirect_to email_list_path
+        redirect_to email_lists_path
       end
     end
       

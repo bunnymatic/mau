@@ -9,7 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120212225427) do
+ActiveRecord::Schema.define(:version => 20120610013416) do
+
+  create_table "application_events", :force => true do |t|
+    t.string   "type"
+    t.string   "message"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "art_piece_tags", :force => true do |t|
     t.string   "name"
@@ -106,6 +114,13 @@ ActiveRecord::Schema.define(:version => 20120212225427) do
   end
 
   add_index "emails", ["email"], :name => "index_emails_on_email", :unique => true
+
+  create_table "event_subscribers", :force => true do |t|
+    t.string   "url"
+    t.string   "event_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "events", :force => true do |t|
     t.string   "title"

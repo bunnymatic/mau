@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+generic:
+  url: http://example.com/generic
+  event_type: GenericEvent
+
+os:
+  url: http://example.com/openstudios
+  event_type: OpenStudiosSignupEvent

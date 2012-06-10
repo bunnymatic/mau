@@ -1,0 +1,2 @@
+class GenericEvent < ApplicationEvent
+end
