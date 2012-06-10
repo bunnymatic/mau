@@ -10,7 +10,16 @@ class EventSubscriber < ActiveRecord::Base
 
   def publish(ev)
     if ev
-      http_get(url,ev.attributes)
+      begin
+        resp = http_get(url,ev.attributes)
+        if resp.code != 200
+          RAILS_DEFAULT_LOGGER.warn "Failed to publish #{ev.inspect} to subscriber : Status => #{resp.code}"
+        else 
+          RAILS_DEFAULT_LOGGER.info "Sent #{ev.inspect} to subscriber #{self.inspect} with status #{resp.code}"
+        end
+      rescue Exception => ex
+        RAILS_DEFAULT_LOGGER.warn "Failed to publish #{ev.inspect} to subscriber #{self.inspect} => #{ex}"
+      end
     end
   end
 
@@ -24,7 +33,10 @@ class EventSubscriber < ActiveRecord::Base
       "#{k}=#{CGI::escape(val.to_s)}" 
     end.join('&') unless params.nil? || params.empty?
     parameterized_url = [url, qstring].compact.join("?")
-    return Net::HTTP.get( URI.parse(parameterized_url))
+    uri =  URI.parse(parameterized_url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    req = Net::HTTP::Get.new(uri.path)
+    http.request(req)
   end
 
 end
