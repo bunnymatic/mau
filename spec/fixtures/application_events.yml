@@ -1,0 +1,10 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+jesseponce_os_signup:
+  type: OpenStudiosSignupEvent
+  message: blurp
+  data: { user: jesseponce } 
+
+bland_event:
+  message: something happened
+  type: GenericEvent

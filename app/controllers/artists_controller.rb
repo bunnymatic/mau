@@ -457,6 +457,9 @@ class ArtistsController < ApplicationController
           if current_artist.address.blank?
             raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
           end
+          OpenStudiosSignupEvent.create(:message => "#{current_artist.fullname} signed up for #{os.inspect} open studios",
+                                        :data => {'user' => current_artist.login})
+
         end
         current_artist.artist_info.os_participation = os
         artist_info.delete(:os_participation)

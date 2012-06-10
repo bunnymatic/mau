@@ -193,6 +193,12 @@ describe ArtistsController do
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => false }}}}
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil
         end
+        it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
+          expect {
+            put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201210' => 'true' }}}}
+          }.to change(OpenStudiosSignupEvent,:count).by(1)
+        end
+        
       end
     end
   end

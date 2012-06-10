@@ -97,6 +97,8 @@ ActionController::Routing::Routes.draw do |map|
   map.get_next_featured '/admin/featured_artist', :controller => :admin, :action => 'featured_artist', :method => 'post'
   map.admin '/admin/:action', :controller => :admin
 
+  map.resources 'application_events', :only => [:index]
+
   map.mau_fans '/maufans/:id', :controller => 'users', :action => 'show'
   # all other admin links connect to AdminController
 

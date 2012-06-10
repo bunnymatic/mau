@@ -499,3 +499,24 @@ button.update-artists {
   }
   
 }
+
+/** application events */
+.application_events {
+  .events_list {
+    margin: 20px 0;
+    table {
+      width: 100%;
+      th {
+        font-weight: normal;
+        font-style: italic;
+        text-align:left;
+      }
+      td {
+        @include little-text;
+        &.odd {  
+          background-color: $darkgray;
+        }
+      }
+    }
+  }
+}
