@@ -334,7 +334,6 @@ describe UsersController do
       @u = users(:quentin)
     end
     context "while not logged in" do
-      it_should_behave_like "get/post update redirects to login"
       context "with invalid params" do
         before do
           put :update, :id => @u.id, :user => {}

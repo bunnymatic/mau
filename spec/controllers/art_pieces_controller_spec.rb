@@ -142,10 +142,20 @@ describe ArtPiecesController do
     end
   end
 
+  describe '#update' do
+    context "while not logged in" do
+      integrate_views
+      context "post " do
+        before do
+          post :update
+        end
+        it_should_behave_like "redirects to login"
+      end
+    end
+  end    
   describe "#edit" do
     context "while not logged in" do
       integrate_views
-      it_should_behave_like "get/post update redirects to login"
       context "post " do
         before do
           post :edit, :id => art_pieces(:artpiece1).id
@@ -193,7 +203,10 @@ describe ArtPiecesController do
   
   describe "#delete" do
     context "while not logged in" do
-      it_should_behave_like 'get/post update redirects to login'
+      before do
+        post :destroy
+      end
+      it_should_behave_like 'redirects to login'
     end
     context "while logged in as not art piece owner" do
       before do

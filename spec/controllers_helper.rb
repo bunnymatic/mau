@@ -132,21 +132,6 @@ describe "redirects to login", :shared => true do
   end
 end
 
-describe "get/post update redirects to login", :shared => true do
-  describe "get update" do
-    before do
-      get :update
-    end
-    it_should_behave_like "redirects to login"
-  end
-  describe "post update" do
-    before do
-      post :update
-    end
-    it_should_behave_like "redirects to login"
-  end
-end
-
 shared_examples_for "not logged in" do
   it "header bar should have login link" do
     assert_select("#login_toplink a[href=/login]")

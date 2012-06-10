@@ -110,7 +110,18 @@ describe ArtistsController do
       @a.reload
     end
     context "while not logged in" do
-      it_should_behave_like "get/post update redirects to login"
+      context "with invalid params" do
+        before do
+          put :update, :id => @a.id, :user => {}
+        end
+        it_should_behave_like "redirects to login"
+      end
+      context "with valid params" do
+        before do
+          put :update, :id => @a.id, :user => { :firstname => 'blow' }
+        end
+        it_should_behave_like "redirects to login"
+      end
     end
     context "while logged in" do
       before do
@@ -164,7 +175,7 @@ describe ArtistsController do
       end
       context "update os status" do
         it "updates artists os status to true for 201104" do
-          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => true }}}}
+          put :update, {:commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => true }}}}
           User.find(@logged_in_user.id).os_participation['201104'].should be_true
         end
         it "updates artists os status to true for 201104 given '201104' => 'on'" do
@@ -194,6 +205,7 @@ describe ArtistsController do
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil
         end
         it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
+          FakeWeb.register_uri(:get, Regexp.new( "http:\/\/example.com\/openstudios.*" ), {:status => 200})
           expect {
             put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201210' => 'true' }}}}
           }.to change(OpenStudiosSignupEvent,:count).by(1)
@@ -204,11 +216,11 @@ describe ArtistsController do
   end
 
   describe "#edit" do
-    before(:each) do
+    before do
       @a = users(:artist1)
     end
     context "while not logged in" do
-      before(:each) do 
+      before do 
         get :edit
       end
       it_should_behave_like "redirects to login"

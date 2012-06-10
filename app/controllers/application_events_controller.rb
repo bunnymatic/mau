@@ -1,6 +1,3 @@
-require 'qr4r'
-require 'tempfile'
-
 class ApplicationEventsController < ApplicationController
 
   before_filter :admin_required
