@@ -21,14 +21,14 @@ class ApiController < ActionController::Base
       }
       dat = nil
       case path_elements.count
-      when 1:
-          if extra_scope[obj_type]
-            dat = clz.send(extra_scope[obj_type]).all
-          else
-            dat = clz.all
-          end
-      when 2:
-          dat = clz.find(path_elements[1])
+      when 1
+        if extra_scope[obj_type]
+          dat = clz.send(extra_scope[obj_type]).all
+        else
+          dat = clz.all
+        end
+      when 2
+        dat = clz.find(path_elements[1])
       else
         raise ApiError.new(:message => 'Invalid request')
       end

@@ -26,7 +26,7 @@ class AppConfig
     if @params.key?(param)
       @params[param]
     else
-      raise "Invalid AppConfig Parameter " + param
+      nil
     end
   end
   

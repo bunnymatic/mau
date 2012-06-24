@@ -12,8 +12,7 @@ gem "haml"
 gem "sass"
 gem 'mojo_magick'
 gem 'passenger', '3.0.12'
-gem 'memcache'
-gem 'memcache-client'
+gem 'dalli', '~> 1.x'
 gem 'has_many_polymorphs'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
@@ -29,6 +28,8 @@ gem 'mime-types'
 gem 'qr4r'
 gem 'event-calendar', :require => 'event_calendar'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'momentarily'
+gem 'faye'
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'

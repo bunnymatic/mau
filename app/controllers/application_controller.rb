@@ -5,7 +5,7 @@ USERAGENT = 'HTTP_USER_AGENT'
 require 'cookies_helper'
 require 'mobile_fu'
 require 'mobilized_styles'
-
+require 'faye'
 class ApplicationController < ActionController::Base
   VERSION = 'Corvair 4.3'
 
@@ -17,8 +17,16 @@ class ApplicationController < ActionController::Base
   layout 'mau'
   include AuthenticatedSystem
   include MobilizedStyles
-  before_filter :check_browser, :set_version, :get_feeds, :get_new_art, :set_meta_info
+  before_filter :check_browser, :set_version, :get_feeds, :get_new_art, :set_meta_info, :publish_page_hit
   after_filter :update_cookies
+  
+  def publish_page_hit
+    puts "HIT PAGE"
+    Momentarily.later Proc.new {
+      pth = request.path || 'dunno'
+      Messager.new.publish request.path, 'hit page' 
+    }
+  end
 
   def non_mobile
     session[:mobile_view] = false
