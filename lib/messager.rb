@@ -25,7 +25,7 @@ class Messager
   end
 
   def publish channel, message
-    client.publish channel, {:path => channel, :text => message}
+    client.publish channel, {:path => channel, :text => message, :env => Rails.env}
   end
   
 end  

@@ -110,7 +110,7 @@ class ImageFile
         logger.debug("ImageFile: wrote %s" % destpath)
       rescue Exception => ex
         logger.error("ImageFile: ERROR : %s\n" % $!)
-        puts ex.backtrace unless RAILS_ENV == 'production'
+        puts ex.backtrace unless Rails.env == 'production'
       end
     end
     logger.info("Image conversion took %0.2f sec" % (Time.now.to_f - ts) )

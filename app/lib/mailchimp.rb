@@ -1,7 +1,7 @@
 module MailChimp
 
   API_KEY = Conf.mailchimp_api_key
-  if ENV['RAILS_ENV'] == 'production'
+  if Rails.env == 'production'
     FANS_LIST = 'Mission Artists United Events Only'
     ARTISTS_LIST = 'Mission Artists United List'
   else
