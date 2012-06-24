@@ -60,7 +60,7 @@ class ArtPieceTagsController < ApplicationController
           tagnames = []
           begin
             cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
-          rescue MemCacheError => mce
+          rescue Dalli::RingError => mce
             logger.warning("Memcache (read) appears to be dead or unavailable")
             cacheout = nil
           end
@@ -77,7 +77,7 @@ class ArtPieceTagsController < ApplicationController
             if cachein
               begin
                 Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
-              rescue MemCacheError => mce
+              rescue Dalli::RingError => mce
                 logger.warning("Memcache (write) appears to be dead or unavailable")
               end
             end

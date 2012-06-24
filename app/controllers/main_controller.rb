@@ -2,7 +2,7 @@ require 'rand_helpers'
 require 'open-uri'
 require 'rss/1.0'
 require 'rss/2.0'
-require 'ftools'
+
 FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
