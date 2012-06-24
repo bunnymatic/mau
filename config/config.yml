@@ -32,6 +32,9 @@ production:
        media_frequency: 3600
        tag_frequency: 3600
        new_art: 86400
+   messaging_server: 'http://mau-messages.herokuapp.com:80/maumessages'
+   messaging_token: 'traemosekamog'
+
 common:
    feedback_emails:
       - feedback@missionartistsunited.org

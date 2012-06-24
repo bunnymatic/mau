@@ -21,11 +21,11 @@ class ApplicationController < ActionController::Base
   after_filter :update_cookies
   
   def publish_page_hit
-    puts "HIT PAGE"
-    Momentarily.later Proc.new {
-      pth = request.path || 'dunno'
-      Messager.new.publish request.path, 'hit page' 
-    }
+    if request.get?
+      Momentarily.later Proc.new {
+        Messager.new.publish request.path, 'hit'
+      }
+    end
   end
 
   def non_mobile
