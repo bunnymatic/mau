@@ -22,9 +22,7 @@ class ApplicationController < ActionController::Base
   
   def publish_page_hit
     if request.get?
-      Momentarily.later Proc.new {
-        Messager.new.publish request.path, 'hit'
-      }
+      Messager.new.publish request.path, 'hit'
     end
   end
 

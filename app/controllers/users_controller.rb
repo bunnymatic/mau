@@ -186,6 +186,7 @@ class UsersController < ApplicationController
         @artist.reload
         @artist.build_artist_info
         @artist.save!
+        Messager.new.publish "/artists/create", "added a new artist"
         flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
         redirect_to "/"
       else

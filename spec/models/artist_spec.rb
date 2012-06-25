@@ -373,6 +373,16 @@ describe Artist do
     end
   end
 
+  describe 'default scope' do
+    it "most recent art piece should be the representative" do
+      users(:artist1).representative_piece.title.should == "third"
+    end
+
+    it "returns art_pieces in created time order" do
+      users(:artist1).art_pieces.should == users(:artist1).art_pieces.sort_by(&:created_at).reverse
+    end
+  end
+
   describe 'named scopes' do
     describe ':open_studios_participants' do
       [['201104',2],['201110',3]].each do |arg|

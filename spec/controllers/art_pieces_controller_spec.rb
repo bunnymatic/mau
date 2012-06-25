@@ -2,6 +2,14 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../controllers_helper')
 include AuthenticatedTestHelper
 
+def art_piece_attributes(overrides = {})
+  { :title => "hot title",
+    :description => "super hot description",
+    :medium_id => Medium.last,
+    :dimensions => "this x that"
+  }.merge(overrides)
+end
+
 describe ArtPiecesController do
 
   fixtures :users
@@ -142,6 +150,40 @@ describe ArtPiecesController do
     end
   end
 
+  describe '#create' do
+    context "while not logged in" do
+      integrate_views
+      context "post " do
+        before do
+          post :create
+        end
+        it_should_behave_like "redirects to login"
+      end
+    end
+    context "while logged in" do
+      before do
+        ArtPieceImage.expects(:save).returns(true)
+        login_as :joeblogs
+      end
+      it 'redirects to show page on success' do
+        post :create, :art_piece => art_piece_attributes, :upload => {}
+        response.should redirect_to artist_path(users(:joeblogs))
+      end
+      it 'sets a flash message on success' do
+        post :create, :art_piece => art_piece_attributes, :upload => {}
+        flash[:notice].should == 'Artwork was successfully added.'
+      end
+      it "flushes the cache" do
+        ArtPiecesController.any_instance.expects(:flush_cache)
+        post :create, :art_piece => art_piece_attributes, :upload => {}
+      end
+      it 'publishes a message' do
+        Messager.any_instance.expects(:publish)
+        post :create, :art_piece => art_piece_attributes, :upload => {}
+      end
+    end
+  end
+
   describe '#update' do
     context "while not logged in" do
       integrate_views
@@ -152,7 +194,31 @@ describe ArtPiecesController do
         it_should_behave_like "redirects to login"
       end
     end
+    context "while logged in" do
+      before do
+        @ap = ArtPiece.first
+        u = @ap.artist
+        login_as u
+      end
+      it 'redirects to show page on success' do
+        post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
+        response.should redirect_to art_piece_path(@ap)
+      end
+      it 'sets a flash message on success' do
+        post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
+        flash[:notice].should == 'Artwork was successfully updated.'
+      end
+      it "flushes the cache" do
+        ArtPiecesController.any_instance.expects(:flush_cache)
+        post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
+      end
+      it 'publishes a message' do
+        Messager.any_instance.expects(:publish)
+        post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
+      end
+    end
   end    
+
   describe "#edit" do
     context "while not logged in" do
       integrate_views
@@ -219,19 +285,28 @@ describe ArtPiecesController do
       it "does not removes that art piece" do
         lambda { ArtPiece.find(art_pieces(:artpiece1).id) }.should_not raise_error ActiveRecord::RecordNotFound
       end
+      it 'does not publish a message' do
+        Messager.any_instance.expects(:publish).never
+        post :destroy, :id => art_pieces(:artpiece1).id
+      end
 
     end
 
     context "while logged in as art piece owner" do
       before do
         login_as(@artist)
-        post :destroy, :id => art_pieces(:artpiece1).id
       end
       it "returns error page" do
+        post :destroy, :id => art_pieces(:artpiece1).id
         response.should be_redirect
       end
       it "removes that art piece" do
+        post :destroy, :id => art_pieces(:artpiece1).id
         lambda { ArtPiece.find(art_pieces(:artpiece1).id) }.should raise_error ActiveRecord::RecordNotFound
+      end
+      it "calls messager.publish" do
+        Messager.any_instance.expects(:publish).times(1)
+        post :destroy, :id => art_pieces(:artpiece1).id
       end
     end
   end

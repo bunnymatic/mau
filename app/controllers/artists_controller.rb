@@ -330,6 +330,7 @@ class ArtistsController < ApplicationController
     arts.each do |art| 
       art.destroy
     end
+    Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", "deleted art pieces"
     redirect_to(artist_path(current_user))
   end
 
@@ -356,6 +357,7 @@ class ArtistsController < ApplicationController
           ctr+=1
         end
         flash[:notice] = "Your images have been reordered."
+        Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
       rescue
         flash[:error] = "There was a problem reordering your images. You may try again but if the problem persists, please write to help@missionartistsunited.org."
       end
@@ -467,6 +469,7 @@ class ArtistsController < ApplicationController
       current_artist.artist_info.update_attributes!(artist_info)
       current_artist.update_attributes!(params[:artist])
       flash[:notice] = "Update successful"
+      Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
       redirect_to edit_artist_url(current_user)
     rescue 
       flash[:error] = "%s" % $!

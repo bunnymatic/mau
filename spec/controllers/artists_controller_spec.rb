@@ -103,7 +103,7 @@ describe ArtistsController do
   end
   describe "#update" do
     integrate_views
-    before(:each) do
+    before do
       @a = users(:artist1)
       @a.artist_info.open_studios_participation = '';
       @a.save
@@ -128,49 +128,51 @@ describe ArtistsController do
         @new_bio = "this is the new bio"
         @old_bio = @a.artist_info.bio
         login_as(@a)
-
         @logged_in_user = @a
       end
       context "submit" do
-        before do
-          post :update, { :commit => 'submit', :artist => { :artist_info => {:bio => @newbio }}}
-        end
         context "post with new bio data" do
           it "redirects to to edit page" do
+            put :update, { :commit => 'submit', :artist => { :artist_info => {:bio => @newbio }}}
             flash[:notice].should eql 'Update successful'
             response.should redirect_to(edit_artist_path(@a))
           end
-          it "shows new bio in edit form" do
-            get :edit
-            assert_select('textarea#artist_artist_info_bio')
+          it 'publishes an update message' do
+            Messager.any_instance.expects(:publish)
+            put :update, { :commit => 'submit', :artist => { :artist_info => {:bio => @newbio }}}
           end
         end
       end
       context "cancel post with new bio data" do
         before do
-          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
         end
         it "redirects to user page" do
+          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
           response.should redirect_to(user_path(@a))
         end
         it "should have no flash notice" do
+          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
           flash[:notice].should be_nil
         end
         it "shouldn't change anything" do
-          get :show, :id => @a.id
-          assert_select("div.bio-container")
-          response.should include_text(@old_bio)
+          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
+          @a.bio.should == @old_bio
         end
       end
       context "update address" do
         before(:each) do 
-          put :update, { :commit => 'submit', :artist => {:artist_info => {:street => '100 main st'}}}
         end
         it "contains flash notice of success" do
+          put :update, { :commit => 'submit', :artist => {:artist_info => {:street => '100 main st'}}}
           flash[:notice].should eql "Update successful"
         end
         it "updates user address" do
+          put :update, { :commit => 'submit', :artist => {:artist_info => {:street => '100 main st'}}}
           User.find(@logged_in_user.id).artist_info.address.should include '100 main st'
+        end
+        it 'publishes an update message' do
+          Messager.any_instance.expects(:publish)
+          post :update, { :commit => 'submit', :artist => { :artist_info => {:street => 'wherever' }}}
         end
       end
       context "update os status" do
@@ -547,63 +549,31 @@ describe ArtistsController do
   end
 
   describe "arrange art for an artist " do
-    before(:each) do 
+    before do 
       # stash an artist and art pieces
-      apids =[]
-      a = users(:artist1)
-      ap = art_pieces(:artpiece1)
-      apids << ap.id
-      ap = art_pieces(:artpiece2)
-      apids << ap.id
-      ap = art_pieces(:artpiece3)
-      apids << ap.id
-      @artist = a
-      @artpieces = apids
-    end
-    it "most recently uploaded piece is the representative" do
-      a = Artist.find_by_id(@artist.id)
-      a.representative_piece.title.should == "third"
-    end
-
-    it "returns art_pieces in created time order" do
-      aps = @artist.art_pieces
-      aps.count.should == 3
-      aps[0].title.should == "third"
-      aps[1].title.should == "art piece 2"
-      aps[2].title.should == "first"
+      @artist = users(:artist1)
+      @artpieces = @artist.art_pieces.map(&:id)
     end
     context "while logged in" do
       before(:each) do
         login_as(@artist)
       end
-      it "returns art_pieces in new order (2,1,3)" do
-        order1 = [ @artpieces[1], @artpieces[0], @artpieces[2] ]
-
-        # user should be logged in now
-        post :setarrangement, { :neworder => order1.join(",") }
-        response.should redirect_to user_url(@artist)
-        a = Artist.find(@artist.id)
-        aps = a.art_pieces
-        aps.count.should == 3
-        aps[0].title.should == "art piece 2"
-        aps[1].title.should == "first"
-        aps[2].title.should == "third"
-        aps[0].artist.representative_piece.id.should==aps[0].id
+      [[2,1,3], [1,3,2], [2,3,1]].each do |ord|
+        it "returns art_pieces in new order #{ord.inspect}" do
+          order1 = ord.map{|idx| @artpieces[idx-1]}
+          Artist.find(@artist.id).art_pieces.map(&:id).should_not == order1
+          post :setarrangement, { :neworder => order1.join(",") }
+          response.should redirect_to user_url(@artist)
+          aps = Artist.find(@artist.id).art_pieces
+          aps.map(&:id).should == order1
+          aps[0].artist.representative_piece.id.should==aps[0].id
+        end
       end
-
+      
       it "returns art_pieces in new order (1,3,2)" do
+        Messager.any_instance.expects(:publish)
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
-        
         post :setarrangement, { :neworder => order1.join(",") }
-        response.should redirect_to user_url(@artist)
-        
-        a = Artist.find(@artist.id)
-        aps = a.art_pieces
-        aps.count.should == 3
-        aps[0].title.should == "first"
-        aps[1].title.should == "third"
-        aps[2].title.should == "art piece 2"
-        aps[0].artist.representative_piece.id.should==aps[0].id
       end
     end
   end
