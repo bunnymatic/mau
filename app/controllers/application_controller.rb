@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   layout 'mau'
   include AuthenticatedSystem
   include MobilizedStyles
-  before_filter :check_browser, :set_version, :get_feeds, :get_new_art, :set_meta_info, :publish_page_hit
+  before_filter :check_browser, :set_version, :get_feeds, :get_new_art, :set_meta_info
   after_filter :update_cookies
   
   def publish_page_hit
