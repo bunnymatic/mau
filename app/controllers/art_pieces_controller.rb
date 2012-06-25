@@ -7,7 +7,7 @@ class ArtPiecesController < ApplicationController
   before_filter :admin_required, :only => [ :index, ]
   before_filter :login_required, :only => [ :new, :edit, :update, :create, :destroy]
 
-  after_filter :flush_cache, :only => [:new, :update, :destroy]
+  after_filter :flush_cache, :only => [:create, :update, :destroy]
   after_filter :store_location
 
   def flush_cache
@@ -160,8 +160,6 @@ class ArtPiecesController < ApplicationController
     end
   end
 
-  # POST /art_pieces
-  # POST /art_pieces.xml
   def create
     if commit_is_cancel
       redirect_to(current_user)
@@ -175,8 +173,7 @@ class ArtPiecesController < ApplicationController
     saved = false
     if not upload
       flash.now[:error] = "You must provide an image.<br/>Image filenames need to be simple.  Some characters can cause issues with your upload, like quotes &quot;, apostrophes &apos; or brackets ([{}])."
-      @art_piece = ArtPiece.new
-      @art_piece.attributes= params[:art_piece]
+      @art_piece = ArtPiece.new params[:art_piece]
       render :action => 'new'
       return
     else 
@@ -191,17 +188,16 @@ class ArtPiecesController < ApplicationController
               post = ArtPieceImage.save(upload, @art_piece)
             end
             flash[:notice] = 'Artwork was successfully added.'
+            Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
           else
             @errors = @art_piece.errors
-            @art_piece = ArtPiece.new
-            @art_piece.attributes= params[:art_piece]
+            @art_piece = ArtPiece.new params[:art_piece]
           end
         end
       rescue Exception => ex
         @errors << "%s" % ex.message
         logger.error("Failed to upload %s" % $!)
-        @art_piece = ArtPiece.new
-        @art_piece.attributes= params[:art_piece]
+        @art_piece = ArtPiece.new params[:art_piece]
         render :action => 'new'
         return
       end
@@ -240,12 +236,10 @@ class ArtPiecesController < ApplicationController
         return
       end
       if success
-        flash.now[:notice] = 'ArtPiece was successfully updated.'
-        pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist)
-        self._setup_thumb_browser_data(pieces, @art_piece.id)
-        render :action => 'show', :layout => 'mau'
+        flash[:notice] = 'Artwork was successfully updated.'
+        Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
+        redirect_to art_piece_path(@art_piece)
       else
-        msg = ""
         @errors = @art_piece.errors
         @art_piece = safe_find_art_piece(params[:id])
         @media = Medium.all
@@ -264,6 +258,7 @@ class ArtPiecesController < ApplicationController
     artist = art.artist
     if artist.id == current_user.id
       art.destroy
+      Messager.new.publish "/artists/#{artist.id}/art_pieces/delete", "removed art piece #{params[:id]}"
     end
     respond_to do |format|
       format.html { redirect_to(artist) }
@@ -279,7 +274,7 @@ class ArtPiecesController < ApplicationController
     begin
       ArtPiece.find(id)
     rescue ActiveRecord::RecordNotFound
-      flash.now[:error] = "The art piece you were looking for was not found."
+      flash.now[:error] = "We couldn't find the art you were looking for."
       return nil
     end
   end

@@ -25,7 +25,9 @@ class Messager
   end
 
   def publish channel, message
-    client.publish channel, {:path => channel, :text => message, :env => Rails.env}
+    Momentarily.later Proc.new {
+      client.publish channel, {:path => channel, :text => message, :env => Rails.env}
+    }
   end
   
 end  

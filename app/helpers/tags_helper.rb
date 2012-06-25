@@ -5,6 +5,7 @@ module TagsHelper
 
   def self.tags_from_s(tagstr)
     # split up tagstring into array of tags
+    return [] unless tagstr.present?
     tagnames = tagstr.strip.split(',').each { |h| h.strip! }.uniq
     tags = []
     alltags = ArtPieceTag.all
