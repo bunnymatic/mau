@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe EventMailer do
-  fixtures :emails, :email_lists, :email_list_memberships, :events
+  fixtures :emails, :email_lists, :email_list_memberships, :events, :users
   it 'delivers to the right folks' do
     m = EventMailer.create_event_added(Event.first)
     EventMailerList.first.emails.each do |expected|
