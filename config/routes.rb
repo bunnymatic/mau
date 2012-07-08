@@ -53,22 +53,17 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :studios
 
   map.resources :application_events, :only => [:index]
-  map.resources :event_subscribers, :except => [:show]
   map.resources :catalog, :only => [:index]
   map.resources :email_lists, :only => [:index]
 
   #map.analytics '/ganalytics', :controller => 'main', :action => 'ganalytics'
-  map.faq '/faq', :controller => 'main', :action => 'faq'
-  map.openstudios '/openstudios', :controller => 'main', :action => 'openstudios'
-  map.venues '/venues', :controller => 'main', :action => 'venues'
+  [:faq, :openstudios, :venues, :privacy, :about, :history, :contact, :version].each do |endpoint|
+    map.send(endpoint, "/" + endpoint.to_s, :controller => :main, :action => endpoint)
+  end
+
   map.getinvolved '/getinvolved/:p', :controller => 'main', :action => 'getinvolved', :p => nil
-  map.privacy '/privacy', :controller => 'main', :action => 'privacy'
-  map.about '/about', :controller => 'main', :action => 'about'
-  map.history '/history', :controller => 'main', :action => 'history'
   map.artist_resources '/resources', :controller => 'main', :action => 'resources'
   map.news_alt '/news', :controller => 'main', :action => 'resources'
-  map.contact '/contact', :controller => 'main', :action => 'contact'
-  map.version '/version', :controller => 'main', :action => 'version'
   map.error '/error', :controller => 'error'
 
   map.admin_update_artists '/admin/artists/update', :controller => 'artists', :action=> 'admin_update'

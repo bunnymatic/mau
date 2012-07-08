@@ -8,13 +8,6 @@ class ApplicationEvent < ActiveRecord::Base
   after_save :publish_event
   
   def publish_event
-  #  begin
-      EventSubscriber.find_all_by_event_type(self.class.to_s).each do |subscriber|
-        subscriber.publish(self)
-      end
-  #  rescue Exception => ex
-      #RAILS_DEFAULT_LOGGER.warn("Failed to send event #{self.inspect} to subscriber: #{ex}")
-  #  end
-    true
+    Messager.new.publish "/events/#{self.class.to_s.tableize}", data
   end
 end
