@@ -17,7 +17,8 @@
       .logo-spacer
       = render :partial => '/flash_notice_error' 
       - if @art_piece 
-        #artpiece_title #{@art_piece.title}
+        #artpiece_title 
+          &= @art_piece.title
         #artpiece_container{:width => @art_piece.get_scaled_dimensions(ImageFile.sizes[:std][:w]).first}
           .artpiece_wrapper
             - if @art_piece.filename
