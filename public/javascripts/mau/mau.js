@@ -387,7 +387,7 @@ var TagMediaHelper = {
         }
       });
     }
-    var s = $('emailsettings_fromartist');
+    s = $('emailsettings_fromartist');
     if (s) {
       s.observe('click', function() {
         var t = $('emailsettings_fromall');
@@ -1594,8 +1594,14 @@ var TagMediaHelper = {
     });
   };
   Event.observe(window,'load',E.init);
-  
+
+  var IM = M.ImageZoom = M.ImageZoom || {};
+  IM.init = function() {
+  };
+  Event.observe(window,'load',IM.init);
 }
+
+
 )();
 
 

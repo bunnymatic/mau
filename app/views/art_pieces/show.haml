@@ -1,0 +1,36 @@
+%script{:type => "text/javascript"}
+  var cur_idx = #{@cur_idx || 1};
+  var prev_idx = #{@prev_idx || 1};
+  var next_idx = #{@next_idx || 1};
+%table.tbl-content
+  = render :partial => "/twocol_top"
+  %tr
+    - artist = @art_piece.artist if @art_piece.artist
+    %td.lcol{:colspan => 2}
+      - if @art_piece
+        = render :partial => "sidebar_info", :locals => { :artist => artist }
+        = render :partial => "/art_pieces/thumb_browser"
+        %form{:method => 'get', :action => artist_path(artist)}
+          %input.formbutton{:type => "submit", :value => "Artist's Page", :name => "submit"}
+    %td.vstripe
+    %td.rcol{:colspan => 2}
+      .logo-spacer
+      = render :partial => '/flash_notice_error' 
+      - if @art_piece 
+        #artpiece_title #{@art_piece.title}
+        #artpiece_container
+          %span
+            - if @art_piece.filename
+              %img#artpiece_img{:src => @art_piece.get_path('medium')}
+            .action-icons
+              %a{:href => tw_share_link(@art_piece), :target => "_new",  :title => "Share this page on Twitter"}
+                .micro-icon.twitter
+              %a{:href => ArtPiecesHelper.fb_share_link(@art_piece), :target => "_new", :title =>"Share this page on Facebook"}
+                .micro-icon.facebook
+              - if (!current_user || (current_user && current_user.id != artist.id))
+                %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
+                  .micro-icon.heart
+        .edit-buttons
+          - if logged_in? and current_user == artist
+            = render :partial => "edit_delete_buttons.erb"
+  = render :partial => "/twocol_bottom"
