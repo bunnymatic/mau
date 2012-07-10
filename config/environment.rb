@@ -60,8 +60,11 @@ Rails::Initializer.run do |config|
   
   config.action_mailer.postmark_api_key = POSTMARK_API_KEY
   config.action_mailer.delivery_method = :postmark
+
 end
 
+Sass::Plugin.options[:style] = :compact
+Sass::Plugin.options[:template_location] = File.join(Rails.root, '/app/assets/stylesheets')
 require 'has_many_polymorphs'
 require 'tag_extensions'
 

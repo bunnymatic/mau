@@ -4,10 +4,12 @@ describe FeaturedArtistQueue do
   fixtures :users
   before do
     # simulate migration 
-    sql = "delete from featured_artist_queue"
-    ActiveRecord::Base.connection.execute sql
-    sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
-    ActiveRecord::Base.connection.execute sql
+    ActiveRecord::Base.transaction do 
+      sql = "delete from featured_artist_queue"
+      ActiveRecord::Base.connection.execute sql
+      sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
+      ActiveRecord::Base.connection.execute sql
+    end
   end
 
   describe '#current_entry' do

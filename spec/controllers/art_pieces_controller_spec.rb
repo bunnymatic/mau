@@ -16,37 +16,14 @@ describe ArtPiecesController do
   fixtures :artist_infos
   fixtures :art_pieces
   fixtures :media
-
-  before do 
-    # stash an artist and art pieces
-    art_pieces =[]
-    m1 = media(:medium1)
-    m1.save!
-    m2 = media(:medium2)
-    m2.save!
-
-    a = users(:artist1)
-    a.save!
-    ap = art_pieces(:artpiece1)
-    ap.artist_id = a.id
-    ap.medium_id = m2.id
-    ap.save!
-    art_pieces << ap
-    ap = art_pieces(:artpiece2)
-    ap.artist_id = a.id
-    ap.medium_id = m1.id
-    ap.save!
-    art_pieces << ap
-    ap = art_pieces(:artpiece3)
-    ap.artist_id = a.id
-    ap.medium_id = nil
-    ap.save!
-    art_pieces << ap
-    @artist = a
-    @artpieces = art_pieces
-  end
+  fixtures :art_piece_tags
+  fixtures :art_pieces_tags
 
   describe "#show" do
+    before do
+      @artist = users(:artist1)
+      @artpieces = @artist.art_pieces
+    end
     context "not logged in" do
       integrate_views
       before do
@@ -68,7 +45,7 @@ describe ArtPiecesController do
       it 'has keywords that match the art piece' do
         assert_select 'head meta[name=keywords]' do |keywords|
           keywords.length.should == 1
-          expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.map(&:name)
+          expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
           actual = keywords[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
             actual.should include ex
@@ -102,7 +79,9 @@ describe ArtPiecesController do
           users(:maufan1).add_favorite ap
           get :show, :id => ap.id
         end
-        it "shows the number of favorites"
+        it "shows the number of favorites" do
+          assert_select '#num_favorites', 1
+        end
       end
     end
     context "getting unknown art piece page" do
@@ -294,19 +273,21 @@ describe ArtPiecesController do
 
     context "while logged in as art piece owner" do
       before do
-        login_as(@artist)
+        artist = users(:artist1)
+        login_as :artist1
+        @ap = artist.art_pieces.first.id
       end
       it "returns error page" do
-        post :destroy, :id => art_pieces(:artpiece1).id
+        post :destroy, :id => @ap
         response.should be_redirect
       end
       it "removes that art piece" do
-        post :destroy, :id => art_pieces(:artpiece1).id
-        lambda { ArtPiece.find(art_pieces(:artpiece1).id) }.should raise_error ActiveRecord::RecordNotFound
+        post :destroy, :id => @ap
+        lambda { ArtPiece.find(@ap) }.should raise_error ActiveRecord::RecordNotFound
       end
       it "calls messager.publish" do
         Messager.any_instance.expects(:publish).times(1)
-        post :destroy, :id => art_pieces(:artpiece1).id
+        post :destroy, :id => @ap
       end
     end
   end

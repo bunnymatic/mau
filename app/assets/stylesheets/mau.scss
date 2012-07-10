@@ -748,12 +748,20 @@ div.feed-icon {
 span.micro-icon {
   padding: 0px 8px;
 }
-.action-icons div {
+.action-icons .micro-icon {
   float: right;
   width: 16px;
   height: 16px;
   margin: 6px 3px;
   cursor: pointer;
+}
+.action-icons #num_favorites {
+  color: #faa;
+  float:right;
+  font-size:xx-small; 
+  vertical-align:top;
+  height: 16px;
+  margin: 6px 3px;
 }
 
 .micro-icon.heart {
@@ -1767,19 +1775,27 @@ td.td-left{
   text-align: center;
 }
 #artpiece_container {
-  padding-bottom: 20px;
   text-align:center;
+  padding-bottom: 20px;
+  .artpiece_wrapper {
+    display: inline-block;
+    position: relative;
+    margin: auto;
+  }
   #artpiece_img{
     @include solid_border;
-  }
-  span {
-    position: relative;
-    min-width: 60px;
   }
   .action-icons {
     position: absolute;
     right: 0px;
-    top: 105%;
+    top: 100%;
+    a {
+      display: inline-block;
+      margin-left: 15px;
+      > div {
+        margin-left: 0px;
+      }
+    }
   }
   .edit-buttons {
     margin-top: 16px;
