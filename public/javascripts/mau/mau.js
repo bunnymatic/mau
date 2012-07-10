@@ -714,7 +714,7 @@ var TagMediaHelper = {
     },
     safe_update: function(id, val) {
       var el = $(id);
-      if (el) { el.update(val); }
+      if (el) { el.update(val ? val : ''); }
     },
     update_highlight: function() {
       var idx = T.curIdx;
@@ -739,6 +739,7 @@ var TagMediaHelper = {
 	this.safe_update('ap_dimensions', ap.dimensions);
 	this.safe_update('ap_year',ap.year);
 	this.safe_update('ap_favorites',ap.favorites_count);
+	this.safe_update('num_favorites',ap.favorites_count);
         
 	var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
 	var md = $("ap_medium");
