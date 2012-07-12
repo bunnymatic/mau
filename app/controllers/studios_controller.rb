@@ -174,7 +174,12 @@ class StudiosController < ApplicationController
   # DELETE /studios/1.xml
   def destroy
     @studio = Studio.find(params[:id])
-    @studio.destroy
+    if @studio
+      @studio.artists.each do |artist|
+        artist.update_attribute(:studio_id, 0)
+      end
+      @studio.destroy
+    end
 
     respond_to do |format|
       format.html { redirect_to(studios_url) }
