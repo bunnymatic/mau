@@ -144,5 +144,30 @@ describe StudiosController do
         end
       end
     end
-  end    
+  end  
+  describe 'destroy' do
+    describe 'unauthorized' do 
+      before do 
+        delete :destroy, :id => Studio.all[2].id
+      end
+      it_should_behave_like 'not authorized'
+    end
+    describe 'as admin' do
+      before do
+        login_as(:admin)
+      end
+      it 'deletes the studio' do
+        expect { delete :destroy, :id => Studio.all[2] }.to change(Studio, :count).by(-1)
+      end
+      it 'sets artists\' to indy for all artists in the deleted studio' do
+        s = Studio.all[2]
+        artist_ids = s.artists.map(&:id)
+        assert(artist_ids.length > 0, 'You need to have a couple artists on that studio in your fixtures')
+        delete :destroy, :id => s.id
+        users = User.find(artist_ids)
+        users.all?{|a| a.studio_id == 0}.should be_true, 'Not all the artists were moved into the "Indy" studio'
+      end
+    end
+
+  end
 end
