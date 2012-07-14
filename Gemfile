@@ -48,4 +48,6 @@ group :test, :development do
   gem 'autotest-rails'
   gem 'jslint_on_rails'
   gem 'fakeweb'
+  gem 'jasmine'
+  gem 'jasmine-headless-webkit'
 end

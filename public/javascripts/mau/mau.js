@@ -733,7 +733,6 @@ var TagMediaHelper = {
       if (f) {
 	f = this.get_image_path(f,'medium');
 	img.src = f;
-        M.log(ap);
 	this.safe_update('artpiece_title',ap.title);
 	this.safe_update('ap_title', ap.title);
 	this.safe_update('ap_dimensions', ap.dimensions);
@@ -829,7 +828,7 @@ var TagMediaHelper = {
 	      ap.cache=true;
 	    }
 	    catch(e) {
-	      M.log(e);
+	      // M.log(e);
 	    }
 	  },
 	  contentType: "application/json",
@@ -980,7 +979,6 @@ var TagMediaHelper = {
 
   N.submitNote = function(event){
     var data = $(N.ID_FORM).serialize(true);
-    console.log(data);
     var url = $(N.ID_FORM).action;
     N.loading('Sending...');
     var xhr = new Ajax.Updater(N.ID_CONTENT, url, {
