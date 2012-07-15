@@ -51,17 +51,17 @@ var MauPrototypeExtensions = {
     var DATA_REGEX = /data-(\w+)/;
     var ii = 0;
     var nattr = elem.attributes.length;
-    for (; ii < nattr; ++ii ) {
-      var attr = elem.attributes[ii];
-      if (attr && attr.name) {
-        var m = attr.name.match(DATA_REGEX);
-        if (m && m.length > 1) {
-          var datakey = m[1];
-          if (datakey === key) {
-            if (val) {
-              throw 'not ready to set values yet';
-            }
-            else {
+    if (key && val) {
+      elem.setAttribute('data-' + key, val);
+    } 
+    else {
+      for (; ii < nattr; ++ii ) {
+        var attr = elem.attributes[ii];
+        if (attr && attr.name) {
+          var m = attr.name.match(DATA_REGEX);
+          if (m && m.length > 1) {
+            var datakey = m[1];
+            if (datakey === key) {
               return attr.value;
             }
           }

@@ -21,6 +21,7 @@ ILB = Object.extend(ILB, {
     this.hide();
   },
   show:function(opts) {
+    opts = opts || {};
     var toPx = function(val) {
       return '' + parseInt(val, 10) + 'px';
     };

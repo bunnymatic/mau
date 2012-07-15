@@ -2,7 +2,6 @@
   MAU = window['MAU'] || {};
   MAU.Thumbs = MAU.Thumbs || {}
   MAU.Thumbs.ThumbList = <%= @thumbs.to_json %>;
-  MAU.Thumbs.InitArtpiece = <%=@art_piece.id%>;
 </script>
 <% if @thumbs.length > 0 -%>
 <div class="browser-buttons">

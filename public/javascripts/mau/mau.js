@@ -696,6 +696,7 @@ var TagMediaHelper = {
   T.APCache = {};
   T.Helpers = {
     find_thumb: function(apid) {
+      console.log('find thumb');
       var i = 0;
       if (T.ThumbList) {
         var n = T.ThumbList.length;
@@ -711,7 +712,8 @@ var TagMediaHelper = {
     get_image_path: function(fname, sz) {
       var sub = { thumb: "t_",
 	small:"s_",
-	medium: "m_" };
+	medium: "m_",
+        original: ''};
       if (sz in sub) {
         var f = fname.replace(/^public\//,'/');
         f = f.replace(/^\/public\//,'/');
@@ -786,6 +788,18 @@ var TagMediaHelper = {
                      afterFinish: function() {el.remove();}}); 
           }
         });
+
+        var $zoom = $$('a.zoom');
+        if (ap.image_height > 400 || ap.image_width > 400) {
+          var _that = this;
+          var el = $zoom[0];
+          el.show();
+          el.data('image', _that.get_image_path(ap.filename, 'original'));
+          el.data('imageheight', ap.image_height)
+          el.data('imagewidth', ap.image_width);
+        } else {
+          $zoom[0].hide();
+        }
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {
           $favs[0].setAttribute('fav_id', ap.id);
@@ -800,19 +814,10 @@ var TagMediaHelper = {
         }
       }
     },
-    update_links: function(ap) {
-      var b = ap.buttons;
-      if (b && b.length) {
-	var dv = $$('.edit-buttons').first();
-	if (dv) {
-	  dv.update(b);
-	}
-      }
-    },
     update_page: function() {
       var idx = T.curIdx;
       var ap = T.ThumbList[idx];
-      var url = "/art_pieces/" + ap.id + "?format=json";
+      var url = "/art_pieces/" + ap.id + ".json";
       
       T.Helpers.update_highlight();
       location.hash = "#" + ap.id;
@@ -820,7 +825,6 @@ var TagMediaHelper = {
       if (T.APCache[ap.id]) {
 	var a = T.APCache[ap.id];
 	T.Helpers.update_info(a);
-	T.Helpers.update_links(a);
       } else {
 	var resp = new Ajax.Request(url, {
 	  onSuccess: function(resp) {
@@ -836,11 +840,10 @@ var TagMediaHelper = {
 	      }
 	      T.APCache[ap.id] = ap;
 	      T.Helpers.update_info(ap);
-	      T.Helpers.update_links(ap);
 	      ap.cache=true;
 	    }
 	    catch(e) {
-	      // M.log(e);
+	      M.log(e);
 	    }
 	  },
 	  contentType: "application/json",
@@ -894,8 +897,6 @@ var TagMediaHelper = {
   T.curIdx = 0;
 
   T.init = function() {
-    T.curIdx = T.Helpers.find_thumb(T.InitArtpiece);
-
     Event.observe(document, 'keydown', keypressHandler );
     var prvlnk = $('prev_img_lnk');
     var nxtlnk = $('next_img_lnk');
