@@ -1,6 +1,4 @@
 (function() {
-MAU = window.MAU || {};
-
 Submissions = MAU.S = MAU.S || {};
 
 var S = Submissions;

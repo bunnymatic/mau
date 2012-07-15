@@ -5,8 +5,6 @@ out the appropriate info and fire off a note to mau emails
 avoids 'mailto' links
 */
 
-MAU = window.MAU || {};
-
 MAU.NotesMailer = Class.create();
 MAU.browser = MAU.browser || {};
 var FormConstructors = {};
