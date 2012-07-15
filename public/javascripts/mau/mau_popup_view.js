@@ -4,8 +4,6 @@ out the appropriate info and fire off a note to mau emails
 
 avoids 'mailto' links
 */
-MAU = window.MAU || {};
-
 MAU.PopupView = Class.create();
 
 Object.extend(MAU.PopupView.prototype, {

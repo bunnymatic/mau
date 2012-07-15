@@ -129,7 +129,6 @@ var decodeBase64 = function(str){
 
 /*jslint bitwise: true*/ 
 
-MAU = window.MAU || {};
 MAU.Cookie = {
   data: {},
   options: {expires: 1, domain: "", path: "", secure: false},

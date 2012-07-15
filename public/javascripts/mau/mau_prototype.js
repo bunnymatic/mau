@@ -1,3 +1,5 @@
+MAU = window.MAU || {};
+
 var MauPrototypeExtensions = {
   firstParentByTagName: function(elem, tagname){
     var el = $(elem);
@@ -19,6 +21,10 @@ var MauPrototypeExtensions = {
     var el = $(elem);
     el.observe('mouseover',infunc);
     el.observe('mouseout',outfunc);
+  },
+  html: function(elem, val) {
+    if (!elem) {return;}
+    elem.innerHTML = val;
   },
   data: function(elem, key, val) {
     var DATA_REGEX = /data-(\w+)/;

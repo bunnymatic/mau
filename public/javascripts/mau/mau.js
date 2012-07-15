@@ -1,5 +1,3 @@
-MAU = window.MAU || {};
-
 /** setup hash change observer */
 
 var Utils = {
@@ -613,7 +611,21 @@ var TagMediaHelper = {
 	}
       });
     });
-    
+
+    var zoomBtn = $$('.action-icons a.zoom');
+    _.each(zoomBtn, function(zoom) {
+      zoom.observe('click', function(ev) {
+        var t = ev.currentTarget;
+        MAU.ImageLightbox.init({image:{url: t.data('image'),
+                                       width: t.data('imagewidth'),
+                                       height: t.data('imageheight')
+                                      }
+                               });
+        MAU.ImageLightbox.show();
+        ev.stopPropagation();
+      });
+    });
+           
     var aafrm = $('arrange_art_form');
     if(aafrm) {
       aafrm.observe('submit', function(ev) {
