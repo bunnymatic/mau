@@ -17,20 +17,21 @@
         #{studio.street}
         %span{:class => "lkmap"}
           = link_to '(map)', studio.map_link, { :target => "_blank" }
-    :ruby
-      artist_count = studio.artists.active.count
-      if artist_count  > 0 
-        tag = "artists"
-        if artist_count == 1 
-          tag = "artist"
+    .populations
+      :ruby
+        artist_count = studio.artists.active.count
+        if artist_count  > 0 
+          tag = "artists"
+          if artist_count == 1 
+            tag = "artist"
+          end
         end
-      end
-    - if artist_count > 0
-      .population
-        = "%s %s" % [artist_count, tag]
-    :ruby
-      artist_count = studio.artists.active.open_studios_participants.count
-    - if artist_count > 0
-      .os_population
-        = "%s %s" % [artist_count, 'in spring 2011 open studios']
+      - if artist_count > 0
+        .population
+          = "%s %s" % [artist_count, tag]
+      :ruby
+        artist_count = studio.artists.active.open_studios_participants.count
+      - if artist_count > 0
+        .os_population
+          = "%s %s" % [artist_count, "in #{@os_pretty} Open Studios"]
 
