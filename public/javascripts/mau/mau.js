@@ -621,7 +621,7 @@ var TagMediaHelper = {
                                        height: t.data('imageheight')
                                       }
                                });
-        MAU.ImageLightbox.show();
+        MAU.ImageLightbox.show({position:'center'});
         ev.stopPropagation();
       });
     });

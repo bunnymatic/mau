@@ -58,6 +58,11 @@ $lightyellow: #FEF7CA;
 
 $default_rounded_amount: 4px;
 
+@mixin opacity($opacity) {
+  filter: unquote("progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})");
+  opacity: $opacity;
+}
+
 // Round corner at position by amount.
 @mixin round-corner($position, $amount: $default_rounded_amount) {
   border-#{$position}-radius: $amount;

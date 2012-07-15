@@ -657,7 +657,7 @@ input[type=submit], .formbutton {
   font-weight:bold;
   padding: 3px 4px;
   &:hover {
-    opacity: 0.85;
+    @include opacity(0.85);
   }
 }
 
@@ -1126,7 +1126,7 @@ margin: 0 0 20px 0;
   color:$darkgray;
   font-size:x-small;
   margin: 0 auto;
-  padding: 7px 0 8px 0px;
+  padding: 17px 0 8px 0px;
   text-align:right;
   width:908px;
   background-color: $lightbluegray;
@@ -1878,7 +1878,7 @@ span.rightarrow
     line-height: auto;
     width: 100px;
     padding: 4px 0;
-    opacity: 0.7;
+    @include opacity(0.7);
     font-size: x-small;
     text-align: center;
     a {
@@ -2323,7 +2323,7 @@ div.studios .studio-list {
   &.editable {
     min-height: 10px;
     &.active {
-      opacity: 0.7;
+      @include opacity(0.7);
       cursor: pointer;
       .edit_indicator {
         display: block;
@@ -2605,10 +2605,11 @@ a#note_close_link{
   height: 100%;
   width: 100%;
   background-color: $white;
-  opacity: 0.4;
+  @include opacity(0.4);
 }
 
 #img_modal_overlay {
+  z-index:100;
 }
   
 
@@ -2625,20 +2626,22 @@ a#note_close_link{
   @include floating-window-border;
   position: relative;
   left: 200px;
-  padding: 20px;
-  top: 50px;
+  padding: 25px;
+  top: 93px;
   display: inline-block;
   background-color: $darkgray;
+  border: 3px solid $white;
+  margin-bottom: 40px;
   .close-btn {
     position: absolute;
     font-size: 24px;
     font-style: bold;
-    background: $black;
-    @include round-corners(18px);
-    border: 3px solid $bordergray;
+    background: $darkgray;
+    @include round-corners(24px);
+    border: 3px solid $white;
     padding: 8px 11px 12px;
-    top: -15px;
-    right: -15px;
+    top: -25px;
+    right: -25px;
   }
 }
   

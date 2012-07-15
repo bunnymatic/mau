@@ -17,16 +17,31 @@ ILB.settings = {
 ILB = Object.extend(ILB, {
   init:function(opts) {
     this.container = $$('body')[0];
-    console.log(opts);
     this.settings = Object.extend(this.settings, opts || {});
     this.hide();
   },
-  show:function() {
-    console.log(this.settings);
+  show:function(opts) {
+    var toPx = function(val) {
+      return '' + parseInt(val, 10) + 'px';
+    };
     var overlay = this.overlayHTML();
     var modal = this.modalHTML();
     this.container.appendChild(overlay);
     this.container.appendChild(modal);
+    if (opts.position == 'center') {
+      var windim = $$('body')[0].outerDimensions(); 
+      var img = $$('.' + this.settings.imageContainer)[0].findChildByTagName('img');
+      var imgdim = img.outerDimensions();
+      var width = Math.min(0.9 * windim.width, imgdim.width);
+      var $img = $(img);
+      $img.setAttribute('width', width);
+      $img.setAttribute('height', null);
+
+      var $modal = $(this.settings.modalWindow);
+      var dim = $modal.outerDimensions();
+      var left = Math.max(10,(windim.width - dim.width)/2);
+      $modal.setStyle({left: toPx(left)});
+    }
   },
   hide:function() {
     if ($(this.settings.main)) {
@@ -55,6 +70,10 @@ ILB = Object.extend(ILB, {
     if (this.settings.image.height) {
       img.setAttribute('height', this.settings.image.height);
     }
+    img.observe('click', function(ev) {
+      ILB.hide(); 
+    });
+
     imgContainer.appendChild(img);
     var modalContent = new Element('div', {id:this.settings.modalContent});
     modalContent.appendChild(imgContainer);
