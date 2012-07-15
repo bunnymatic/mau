@@ -1479,7 +1479,7 @@ table.getinv-form{
   margin: 0 8px;
   overflow: hidden;
   width:35px;
-  z-index:100;
+  z-index:10;
 }
 
 #next-browse
@@ -1849,7 +1849,7 @@ span.rightarrow
     background-repeat: no-repeat;
     height: 28px;
     width: 27px;
-    z-index: 10;
+    z-index: 4;
     top: 7px;
     left: 2px;
   }
@@ -2376,7 +2376,7 @@ div.studios .studio-list {
   width: 160px;
   height: 40px;
   padding: 10px;
-  z-index: 100;
+  z-index: 15;
   position: absolute;
   left: 45%;
   top: 40%;
@@ -2413,7 +2413,7 @@ img.help-icon {
   width: 200px;
   left: 4px;
   top: 4px;
-  z-index: 405;
+  z-index: 20;
 }
 
 .feedback_msg {
@@ -2435,7 +2435,7 @@ img.help-icon {
   margin-right: 10px;
   vertical-align: top;
   position: relative;
-  z-index: 200;
+  z-index: 20;
 }
 
 /** top here is to get into the "h4" tag which has a margin of 1.3em */
@@ -2722,7 +2722,7 @@ form#feedback_form .error {
 .corner {
   width: 9px;
   height: 9px;
-  z-index: 100;
+  z-index: 10;
 }
 
 /*******
@@ -2757,10 +2757,10 @@ form#feedback_form .error {
 }
 
 #credits_bg {
-  z-index:3000;
+  z-index:300;
 }
 #credits_bg_contain {
-  z-index: 3001;
+  z-index: 301;
 }
 #credits_div {
   @include small-rounded-corners;
@@ -2858,7 +2858,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     height: 100%;
     float:right;
     position:relative;
-    z-index: 597;
+    z-index: 10;
     padding: 0px; 
     margin: 0px; 
     a:link, & a:visited {
@@ -2890,7 +2890,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       &:hover {
         cursor:pointer;
         position:relative;
-        z-index:599;
+        z-index:11;
         background-image: url(/images/gradients.png);
         background-repeat: repeat-x;
         background-position: 0 -165px; /* 40px gradient */
@@ -2901,7 +2901,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       position:absolute;
       top: 100%;
       display: none;
-      z-index:598;
+      z-index:10;
       ul {
         left:99%;
         top:0px;
