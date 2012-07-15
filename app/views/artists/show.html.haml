@@ -87,6 +87,7 @@
                     %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
                       .micro-icon.email
                   %a.favorite_this{:href => '#', :fav_type => 'Artist', :fav_id => @artist.id, :title => "Add this artist to your favorites"}
+                    #num_favorites #{@favorites_count if @favorites_count.to_i > 0}
                     .micro-icon.heart
               - if @artist.os_participation[Conf.oslive.to_s]
                 .os-violator

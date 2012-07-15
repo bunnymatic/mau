@@ -752,7 +752,7 @@ span.micro-icon {
   float: right;
   width: 16px;
   height: 16px;
-  margin: 6px 3px;
+  margin: 6px 4px;
   cursor: pointer;
 }
 .action-icons #num_favorites {
@@ -761,7 +761,7 @@ span.micro-icon {
   font-size:xx-small; 
   vertical-align:top;
   height: 16px;
-  margin: 6px 3px;
+  margin: 6px 4px 6px 0;
 }
 
 .micro-icon.heart {
@@ -2032,8 +2032,10 @@ span.rightarrow
 .studio-nfo {
   text-align: left;
   float: left;
-}
-.studio-nfo div {
+  .populations {
+    margin-top: 10px;
+    font-size: 10px;
+  }
 }
 .studio-img {
   margin-bottom: 3px;

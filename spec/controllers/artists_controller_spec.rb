@@ -447,13 +447,16 @@ describe ArtistsController do
           get :show, :id => users(:joeblogs).id
         end
         it_should_behave_like "logged in user"
-        it "should have heart icon" do
+        it "has a heart icon" do
           assert_select(".micro-icon.heart")
         end
-        it "should have note icon" do
+        it 'shows the number of people who have favorited for this artist' do
+          assert_select '#num_favorites', 1
+        end
+        it "has a note icon" do
           assert_select(".micro-icon.email")
         end
-        it "should have send message link" do
+        it "has a send message link" do
           assert_select(".notify-artist", :count => 2)
         end
       end

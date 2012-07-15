@@ -382,7 +382,7 @@ class ArtistsController < ApplicationController
       num = @artist.max_pieces - 1
       @art_pieces = @artist.art_pieces[0..num]
       store_location
-
+      @favorites_count = @artist.who_favorites_me.count
     end
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }

@@ -8,13 +8,15 @@ class StudiosController < ApplicationController
   @@MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
   layout 'mau1col'
 
+  include OsHelper
+
   def admin_index
     @studios = Studio.all
     render :layout => 'mau-admin'
   end
 
   def index
-      
+    @os_pretty = os_pretty(Conf.oslive.to_s, true)
     @view_mode = (params[:v] == 'c') ? 'count' : 'name'
     @studios = get_studio_list
     @admin = logged_in? && self.current_user.is_admin?
