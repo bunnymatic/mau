@@ -66,12 +66,14 @@ describe ArtPiecesController do
         assert_select("#artpiece_title", @artpieces.first.title)
         assert_select("#ap_title", @artpieces.first.title)
       end
-      it 'includes the zoom data for big art pieces' do
-        ap = @artpieces.first
-        assert_select('a.zoom').each do |tag|
-          tag.attributes['data-image'].should eql ap.get_path('original')
-          tag.attributes['data-imagewidth'].should be
-          tag.attributes['data-imageheight'].should be
+      if Conf.show_lightbox_feature
+        it 'includes the zoom data for big art pieces' do
+          ap = @artpieces.first
+          assert_select('a.zoom').each do |tag|
+            tag.attributes['data-image'].should eql ap.get_path('original')
+            tag.attributes['data-imagewidth'].should be
+            tag.attributes['data-imageheight'].should be
+          end
         end
       end
       it "has no edit buttons" do
