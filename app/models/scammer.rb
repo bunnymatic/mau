@@ -15,8 +15,17 @@ class Scammer < ActiveRecord::Base
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     req = Net::HTTP::Get.new(uri.request_uri)
     resp = http.request(req)
-    scammers = FasterCSV.parse(resp.body, :headers => true, :col_sep => '|').each do |row|
-      Scammer.new( :name => v['name_used'], :faso_id => v['id'], :email => v['email'])
+    headers = []
+    scammers = resp.body.map do |row| 
+      row.chomp!
+      (row.split '|').map{|entry| entry.gsub(/^"/, '').gsub(/"$/, '')}
+    end.each do |items|
+      if headers.empty?
+        headers = items
+      else
+        v = Hash[headers.zip( items ) ]
+        Scammer.new( :name => v['name_used'], :faso_id => v['id'], :email => v['email'])
+      end
     end
     scammers.each do |s|
       s.save if s.valid?
