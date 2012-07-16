@@ -5,6 +5,12 @@ require 'yaml'
 alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
+
+  desc 'import scammer emails from FASO'
+  task :import_scammer_list => [:environment] do
+    Scammer.importFromFASO
+  end
+
   desc 'reset all passwords to "bmatic"'
   task :reset_passwords => [:environment] do
     User.all.each do |u|

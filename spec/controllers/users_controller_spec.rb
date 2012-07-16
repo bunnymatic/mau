@@ -7,6 +7,7 @@ describe UsersController do
   fixtures :users
   fixtures :art_pieces
   fixtures :favorites # even though fixture is empty - this forces a db clear between tests
+  fixtures :scammers
 
   before do
     ####
@@ -896,6 +897,20 @@ describe UsersController do
         :id => users(:jesseponce).id,
         :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
         :email => "evott@rocketmail.com",
+        :name => "whos there",
+        :page => users_path(users(:jesseponce))
+      }
+      ArtistMailer.expects(:deliver_notify).never
+      AdminMailer.expects(:deliver_spammer)
+      post :notify, notify_data
+      response.should be_success
+    end
+
+    it 'emails the admin users if the email is in the Scammer table' do
+      notify_data = { 
+        :id => users(:jesseponce).id,
+        :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
+        :email => Scammer.last.email,
         :name => "whos there",
         :page => users_path(users(:jesseponce))
       }

@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  email: scam@example.com
+  name: Jack A Lope
+  faso_id: 144
+
+two:
+  email: mrstupid@example.com
+  name: Mr Stupid
+  faso_id: 12
