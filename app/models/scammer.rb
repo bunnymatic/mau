@@ -16,15 +16,16 @@ class Scammer < ActiveRecord::Base
     req = Net::HTTP::Get.new(uri.request_uri)
     resp = http.request(req)
     headers = []
-    scammers = resp.body.map do |row| 
+    scammers = []
+    resp.body.each do |row|
       row.chomp!
-      (row.split '|').map{|entry| entry.gsub(/^"/, '').gsub(/"$/, '')}
-    end.each do |items|
+      entries = (row.split '|').map{|entry| entry.gsub(/^"/, '').gsub(/"$/, '')}
+      
       if headers.empty?
-        headers = items
+        headers = entries
       else
-        v = Hash[headers.zip( items ) ]
-        Scammer.new( :name => v['name_used'], :faso_id => v['id'], :email => v['email'])
+        v = Hash[headers.zip( entries ) ]
+        scammers.push(Scammer.new( :name => v['name_used'], :faso_id => v['id'], :email => v['email']))
       end
     end
     scammers.each do |s|

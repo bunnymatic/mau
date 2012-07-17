@@ -5,42 +5,11 @@ describe Scammer do
   fixtures :scammers
   before do
     test_data =<<EOM
-{
-"response":{
-"status":"OK",
-"code":"200",
-"verb":"GET",
-"class":"scammers",
-"method":"get",
-"adminid":"1",
-"id":"",
-"message":"OK",
-"uri":"/1/scammers?key=2386ad2c89aa40dfa0ce90e868797a33&format=json",
-"host":"api.faso.com",
-"version":"1",
-"ip":"70.36.223.19",
-"location":"",
-"level":"1"
-},"data":{
-"0":{
-"id":"7443",
-"email":"help@gotartwork.com",
-"name_used":"Robert"
-},"1":{
-"id":"7441",
-"email":"i.artguide@yahoo.com",
-"name_used":"International Art Guide"
-},"2":{
-"id":"7439",
-"email":"yulet@elanexpo.net",
-"name_used":null
-},"3":{
-"id":"7437",
-"email":"laurynsley@gmail.com",
-"name_used":"Lauryn Masley"
-}
-}
-}
+"id"|"email"|"name_used"
+"7445"|"gatecharles73@gmail.com"|"Charles Gate"
+"7441"|"i.artguide@yahoo.com"|"International Art Guide"
+"7439"|"yulet@elanexpo.net"|"Yulet T<FC>ren"
+"7437"|"laurynsley@gmail.com"|"Lauryn Masley"
 EOM
 
     FakeWeb.register_uri(:get, Regexp.new( "https:\/\/api.faso.com\/1\/scammers*"), {:status => 200, :body => test_data})
@@ -55,7 +24,7 @@ EOM
     end
     it 'entries are correct after import' do
       Scammer.importFromFASO
-      Scammer.find_by_faso_id(7437).email.should == 'laurynsley@gmail.com'
+      Scammer.find_by_faso_id('7437').email.should == 'laurynsley@gmail.com'
     end
   end
   describe 'validations' do
