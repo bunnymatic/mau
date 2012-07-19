@@ -1,7 +1,7 @@
 # 5 min exp
 
 class SearchController < ApplicationController
-  layout 'mau2col'
+  layout 'mau'
 
   @@CACHE_EXPIRY = (Conf.cache_expiry['search'] or 20)
   @@QUERY_KEY_PREFIX = "q:"
