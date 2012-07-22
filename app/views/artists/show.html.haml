@@ -83,9 +83,6 @@
                 %a{:target => '_new', :href => ArtistsHelper.fb_share_link(@artist), :title => "Share this page on Facebook"}
                   .micro-icon.facebook
                 - if (!current_user || (current_user && current_user.id != @artist.id))
-                  - if (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?))
-                    %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
-                      .micro-icon.email
                   %a.favorite_this{:href => '#', :fav_type => 'Artist', :fav_id => @artist.id, :title => "Add this artist to your favorites"}
                     #num_favorites #{@favorites_count if @favorites_count.to_i > 0}
                     .micro-icon.heart
