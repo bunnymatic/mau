@@ -434,9 +434,6 @@ describe ArtistsController do
           response.should_not have_tag(".action-icons .micro-icon.heart")
           assert_select("#sidebar_nav .micro-icon.heart")
         end
-        it "should not have note icon" do
-          response.should_not have_tag(".micro-icon.email")
-        end
         it "should not have extra messaging about email the artist" do
           response.should_not have_tag(".notify-artist")
         end
@@ -453,11 +450,8 @@ describe ArtistsController do
         it 'shows the number of people who have favorited for this artist' do
           assert_select '#num_favorites', 1
         end
-        it "has a note icon" do
-          assert_select(".micro-icon.email")
-        end
         it "has a send message link" do
-          assert_select(".notify-artist", :count => 2)
+          assert_select(".notify-artist", :count => 1)
         end
       end
       context "after a user favorites the logged in artist and show the artists page" do
