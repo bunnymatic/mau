@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe FeedbackMailerList do
   fixtures :email_lists, :emails, :email_list_memberships

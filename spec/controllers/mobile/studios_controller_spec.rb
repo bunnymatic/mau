@@ -1,7 +1,5 @@
-specdir = File.expand_path(File.dirname(__FILE__)) + "/../../"
-
-require specdir + 'spec_helper'
-require specdir + 'mobile_shared_spec'
+require 'spec_helper'
+require 'mobile_shared_spec'
 
 describe StudiosController do
 

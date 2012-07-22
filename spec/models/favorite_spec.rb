@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require 'spec_helper'
 
 describe Favorite, 'named scopes' do
   fixtures :users, :artist_infos, :art_pieces

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/../spec_helper"
+require 'spec_helper'
 
 describe ArtistsHelper do
   fixtures :users, :studios, :artist_infos, :art_pieces
