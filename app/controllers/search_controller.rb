@@ -10,19 +10,19 @@ class SearchController < ApplicationController
   def index
 
     # add wildcard
-    if !params[:query]
+    if !params[:keywords]
       #TODO handle missing params with error page
       redirect_to('/')
       return
     end
-    qq = (params[:query] || "").strip
+    qq = (params[:keywords] || "").strip
     page = 0
     if params[:p]
       page = params[:p].to_i
     end
     @results_mode = params[:m]
     @user_query = qq
-    @cur_link = "?query=%s" % qq
+    @cur_link = "?keywords=%s" % qq
     @page_title = "Mission Artists United - Search Results - %s" % qq
     results = nil
     qq.downcase!

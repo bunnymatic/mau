@@ -13,22 +13,38 @@ describe SearchController do
   before do
     Rails.cache.stubs(:read).returns(nil)
   end
+  
+  shared_examples_for 'search page with results' do
+    it 'has search controls' do
+      assert_select '.lcol .refine_controls'
+      assert_select '.lcol .current_search'
+    end
+    ["Mediums", "Keywords", "Studio", "Open Studios Artist"].each do |sxn|
+      it "has blocks in refine your search for #{sxn}" do
+        assert_select ".refine_controls .block h5", sxn + ":"
+      end
+    end
+    it 'has search results' do
+      assert_select '#search_results'
+    end
+  end
+
   describe "#index" do
     integrate_views
     describe "(with views)" do
       before do
-        get :index, :query => "go fuck yourself.  this string ought to never match anything"
+        get :index, :keywords => "go fuck yourself.  this string ought to never match anything"
       end
       it_should_behave_like "not logged in"
     end
     
     context "for something we don't have" do
       it "returns nothing" do
-        get :index, :query => "go fuck yourself.  this string ought to never match anything"
+        get :index, :keywords => "go fuck yourself.  this string ought to never match anything"
         response.should_not have_tag('.search-thumb-info')
       end
       it "show message indicating that nothing matched" do
-        get :index, :query => "go fuck yourself.  this string ought to never match anything"
+        get :index, :keywords => "go fuck yourself.  this string ought to never match anything"
         response.should include_text("go fuck yourself")
         response.should include_text("couldn't find anything that matched")
       end
@@ -38,7 +54,7 @@ describe SearchController do
         context "for #{artist} by #{term}" do
           before do
             @artist = users(artist)
-            get :index, :query => @artist.send(term)
+            get :index, :keywords => @artist.send(term)
           end
           it "returns some results" do
             assigns(:pieces).should have_at_least(1).art_piece
@@ -55,7 +71,7 @@ describe SearchController do
         context "finds artists even if there are extra spaces in the query using #{artist}.#{term}" do
           before do
             @artist = users(artist)
-            get :index, :query => @artist.send(term) + " "
+            get :index, :keywords => @artist.send(term) + " "
           end
           it "returns some results" do
             assigns(:pieces).should have_at_least(1).art_piece
@@ -72,7 +88,7 @@ describe SearchController do
         context "capitalization of search term for #{artist}.#{term}" do
           before do
             @artist = users(artist)
-            get :index, :query => @artist.send(term).capitalize
+            get :index, :keywords => @artist.send(term).capitalize
           end
           it "returns some results" do
             assigns(:pieces).should have_at_least(1).art_piece
@@ -88,7 +104,7 @@ describe SearchController do
         context "uppercase of search term for #{artist}.#{term}" do
           before do
             @artist = users(artist)
-            get :index, :query => @artist.send(term).upcase
+            get :index, :keywords => @artist.send(term).upcase
           end
           it "returns some results" do
             assigns(:pieces).should have_at_least(1).art_piece

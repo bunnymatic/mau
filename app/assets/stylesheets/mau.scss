@@ -1941,6 +1941,19 @@ span.rightarrow
   }
 }
 
+/** search page **/
+.search-page {
+  .refine_controls {
+    h5 { 
+      display: inline-block;
+    }
+    .block {
+      text-align: left; 
+    }
+  }
+}  
+
+/** search results is used on medium/tag pages so don't over scope it */
 #search_results {
   .results-txt {
     text-align: center;

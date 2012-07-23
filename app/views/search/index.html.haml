@@ -1,13 +1,38 @@
-%table.tbl-content
+%table.tbl-content.search-page
   = render :partial => "/twocol_top"
   %tr
     %td.lcol{:colspan => 2}
-      %h4 Refine Your Search
-      - form_tag :class=>'power_search' do
-        .block 
-          %label{:for => 'by_medium'} By Medium
-          = select_tag "medium_id", options_from_collection_for_select([OpenStruct.new(:id=>nil, :name => 'Any')] + Medium.all, 'id','name')
-      
+      .current_search
+        %h4 Current Search
+  
+      .refine_controls 
+        %h4 Refine Your Search
+        - form_tag({}, :class=>'power_search') do
+          .block
+            %h5 Keywords:
+            = text_field_tag :keywords
+            = submit_tag :go
+          .block 
+            %h5 Mediums:
+            .cb_entry
+              = check_box_tag 'medium', 0
+              = label_tag 'Any'
+            - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
+              .cb_entry
+                = check_box_tag 'medium', m[:id]
+                = label_tag m[:name], m[:display]
+          .block
+            %h5 Studio:
+            .cb_entry
+              = check_box_tag 'studio', 0
+              = label_tag 'Any'
+            - Studio.all.map{ |m| {:id => m.id, :name => m.name.to_param, :display => m.name}}.each do |m|
+              .cb_entry
+                = check_box_tag 'studio', m[:id]
+                = label_tag m[:name], m[:display]
+          .block
+            %h5 Open Studios Artist:
+            = select_tag :os_artist, options_for_select([["Don't Care", nil], ['Yes', 1], ['No', 2]])
     %td.vstripe
     %td.rcol{:colspan => 2}
       = render :partial => '/flash_notice_error'
