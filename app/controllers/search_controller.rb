@@ -1,4 +1,7 @@
 # 5 min exp
+require 'pp'
+
+def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
 
 class SearchController < ApplicationController
   layout 'mau'
@@ -15,7 +18,11 @@ class SearchController < ApplicationController
       redirect_to('/')
       return
     end
-    qq = (params[:keywords] || "").strip
+    @keywords = params[:keywords].gsub(/[[:punct:]]/, '').split
+    lc_keywords = @keywords.map(&:downcase)
+    medium_ids = (params[:medium] || []).compact.map(&:to_i).reject{|v| v <= 0}
+    @mediums = Medium.find_all_by_id(medium_ids)
+    qq = @keywords.compact.join(" ")
     page = 0
     if params[:p]
       page = params[:p].to_i
@@ -24,61 +31,49 @@ class SearchController < ApplicationController
     @user_query = qq
     @cur_link = "?keywords=%s" % qq
     @page_title = "Mission Artists United - Search Results - %s" % qq
-    results = nil
     qq.downcase!
-    cache_key = "%s:%s:%s:%s" % [@@QUERY_KEY_PREFIX, qq, page, @results_mode]
-    cache_key.gsub!(' ','')
-    begin
-      results = Rails.cache.read(cache_key)
-    rescue
-      results = nil
-    end
-    active_artists = Artist.active.all
-    active_artist_ids = []
-    active_artists.each { |a| active_artist_ids << a.id }
-    # If it matches a studio, take them there
-    ss = Studio.find(:all, :conditions => ['name = ?', qq])
-    if ss and ss.length > 0
-      redirect_to( ss[0] )
-    end
+    results = nil
+    #if qq && !qq.empty?
+    #  cache_key = "%s:%s:%s:%s" % [@@QUERY_KEY_PREFIX, qq, page, @results_mode]
+    #  cache_key.gsub!(' ','')
+    #  begin
+    #    results = Rails.cache.read(cache_key)
+    #  rescue
+    #    results = nil
+    #  end
+    #end
+    if !results # nothing from the cache
 
-    # check for artist exact name match
-    results = {}
-    active_artists.each do |a|
-      if /#{qq}/i =~ a.get_name(false)
-        if a.representative_piece
-          ap = a.representative_piece
-          results[ap.id] = ap
-        end
+      active_artists = Artist.active.all
+
+      results_by_kw = {}
+      lc_keywords.each do |kw|
+       
+        kw_query_param = "%#{kw}%"
+        partial_results = ArtPiece.find(:all, :conditions => ["title like ?", kw_query_param]) 
+        partial_results += ((Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) ", kw_query_param, kw_query_param, kw_query_param])).map{ |a| a.art_pieces }.flatten - partial_results)
+        tag_ids = ArtPieceTag.find_all_by_name(kw)
+        tags = ArtPiecesTag.find(:all, :conditions => ["art_piece_tag_id in (?)", tag_ids])
+        partial_results += ArtPiece.find_all_by_id( tags.map(&:art_piece_id) )
+
+        results_by_kw[kw] = partial_results.uniq_by{|obj| obj.id}
       end
-    end
       
-    qq = "%" + qq.to_s + "%"
-    
-    if results.empty?
-      by_artist = (Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) ", qq, qq, qq])).map { |a| a.representative_piece }
-    
-      tag_ids = (ArtPieceTag.find(:all, :conditions => ["name like ?", qq])).map { |tg| tg.id }
-      tags = ArtPiecesTag.find(:all, :conditions => ["art_piece_tag_id in (?)", tag_ids.uniq])
-      ap_ids = tags.map { |tg| tg.art_piece_id }
-      begin
-        by_tags = ArtPiece.find(ap_ids)
-      rescue
-        logger.warn("Failed to find art piece ids %s" % ap_ids)
-        by_tags = []
+      partial_results = results_by_kw.values.compact.flatten
+      hits = histogram partial_results.map(&:id)
+      num_keywords = @keywords.size
+      partial_results.reject!{|ap| hits[ap.id] < num_keywords}
+
+      # if partial results && mediums filter by medium
+      if (medium_ids && !medium_ids.empty?)
+        partial_results.reject!{|ap| !ap.medium_id || !medium_ids.include?(ap.medium_id)}
       end
 
-      media_ids = (Medium.find(:all, :conditions=>["name like ?", qq])).map { |i| i.id }.uniq
-      by_media = ArtPiece.find_all_by_medium_id(media_ids)
-      
-      by_art_piece = ArtPiece.find(:all, :conditions => ["filename like ? or title like ? or medium_id in (?)", qq, qq, media_ids ]) 
-
-      # join all uniquely and sort by recently added
+      results = {}
       begin 
-        [by_art_piece, by_media, by_tags, by_artist].each do |lst|
-          if lst.length > 0
-            lst.map { |entry| results[entry.id] = entry if entry.id and entry.artist and active_artist_ids.include? entry.artist.id }
-          end
+        active_artist_ids = active_artists.map(&:id)
+        partial_results.flatten.compact.flatten.each do |entry|
+          results[entry.id] = entry if entry.id and entry.artist && entry.artist.active?
         end
       rescue Exception => ex
         logger.warn("Failed to map search results %s" % ex)
@@ -89,17 +84,10 @@ class SearchController < ApplicationController
       rescue
         logger.warn("Search Results: failed to set cache")
       end
-    end
+      
+    end 
 
-    tmps = {}
-    results.values.each do |pc|
-      if pc
-        if !tmps.include?  pc.artist_id
-          tmps[pc.artist_id] = pc
-        end
-      end
-    end
-    results = tmps.values.sort_by { |p| p.updated_at }
+    results = results.values.sort_by { |p| p.updated_at }
     @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(results, page, @@PER_PAGE)
     if curpage > lastpage
       curpage = lastpage

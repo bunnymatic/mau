@@ -1943,6 +1943,7 @@ span.rightarrow
 
 /** search page **/
 .search-page {
+  .column { margin: 0 10px; }
   .refine_controls {
     h5 { 
       display: inline-block;
@@ -1951,6 +1952,11 @@ span.rightarrow
       text-align: left; 
     }
   }
+  .current_search {
+    li {
+      text-align: left; 
+    }
+  }    
 }  
 
 /** search results is used on medium/tag pages so don't over scope it */

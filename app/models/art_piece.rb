@@ -16,6 +16,7 @@ class ArtPiece < ActiveRecord::Base
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 
+  alias :tags :art_piece_tags
   def get_share_link(urlsafe=false)
     link = 'http://%s/art_pieces/%s' % [Conf.site_url, self.id]
     urlsafe ? CGI::escape(link): link
