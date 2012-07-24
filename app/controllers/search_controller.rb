@@ -18,7 +18,7 @@ class SearchController < ApplicationController
       redirect_to('/')
       return
     end
-    @keywords = params[:keywords].gsub(/[[:punct:]]/, '').split
+    @keywords = params[:keywords].split(",").map(&:strip)
     lc_keywords = @keywords.map(&:downcase)
     medium_ids = (params[:medium] || []).compact.map(&:to_i).reject{|v| v <= 0}
     @mediums = Medium.find_all_by_id(medium_ids)
@@ -54,19 +54,23 @@ class SearchController < ApplicationController
         partial_results += ((Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) ", kw_query_param, kw_query_param, kw_query_param])).map{ |a| a.art_pieces }.flatten - partial_results)
         tag_ids = ArtPieceTag.find_all_by_name(kw)
         tags = ArtPiecesTag.find(:all, :conditions => ["art_piece_tag_id in (?)", tag_ids])
+
         partial_results += ArtPiece.find_all_by_id( tags.map(&:art_piece_id) )
+
+        partial_results += active_artists.select{|a| a.fullname.downcase == kw}.map(&:art_pieces).flatten
 
         results_by_kw[kw] = partial_results.uniq_by{|obj| obj.id}
       end
-      
+
       partial_results = results_by_kw.values.compact.flatten
       hits = histogram partial_results.map(&:id)
       num_keywords = @keywords.size
       partial_results.reject!{|ap| hits[ap.id] < num_keywords}
 
+
       # if partial results && mediums filter by medium
       if (medium_ids && !medium_ids.empty?)
-        partial_results.reject!{|ap| !ap.medium_id || !medium_ids.include?(ap.medium_id)}
+        partial_results.reject!{|ap| !ap.medium_id || !medium_ids.include?(ap.medium_id) }
       end
 
       results = {}

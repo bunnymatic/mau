@@ -139,7 +139,7 @@ describe SearchController do
     end
     context "find by 2 keywords which match the artist first name and a tag" do
       before do
-        q = [art_piece_tags(:two).name, users(:joeblogs).firstname].join(" ")
+        q = [art_piece_tags(:two).name, users(:joeblogs).firstname].join(", ")
         get :index, :keywords => q
       end
       it_should_behave_like 'search page with results'
