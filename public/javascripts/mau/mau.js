@@ -1602,6 +1602,14 @@ var TagMediaHelper = {
   });
   Event.observe(window, 'load', D.init);    
 
+  var Search = M.Search = M.Search || {};
+  Search.init = function() {
+    Search.init = function() {};
+  };
+  Event.observe(window, 'load', Search.init);
+    
+
+
   var E = M.Events = M.Events || {};
   E.init = function() {
     $$('.event_nav .by_month').each(function(nav_el) {

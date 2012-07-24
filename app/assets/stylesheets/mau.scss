@@ -192,6 +192,33 @@ input[type=image], input[type=hidden] {
   border: 0;
 }
 
+
+/*
+input[type=checkbox] {
+  padding:5px;
+  border-radius:15px;
+  
+  -webkit-appearance:button;
+  
+  border: double 2px $lightgray;
+  
+  background-color:$xmediumgray;
+  color:#FFF;
+  white-space: nowrap;
+  overflow:hidden;
+  
+  width:15px;
+  height:15px;
+  
+  vertical-align: bottom;
+}
+
+input[type=checkbox]:checked {
+  border-color: $bluegray;
+  background-color:$purple;
+}
+*/
+
 .input-name, .input, .input-err{
   font-size: 12px;
   padding: 5px;
@@ -644,11 +671,6 @@ select.ddsortby {
 
 input[type=image] {
   background-color: transparent;
-}
-
-input[type=radio],
-input[type=checkbox] {
-  background-color:transparent;
 }
 
 input[type=submit][disabled=disabled] {
@@ -1943,14 +1965,30 @@ span.rightarrow
 
 /** search page **/
 .search-page {
-  .column { margin: 0 10px; }
+  .column { 
+    margin: 0 10px; 
+    text-align: left;
+  }
+  #refine_accordion {
+    position:relative;
+    width: 100%;
+  }
   .refine_controls {
+    width: 100%;
     h5 { 
-      display: inline-block;
     }
     .block {
       text-align: left; 
     }
+    .expandable {
+      position:relative;
+      display:none;
+    }
+  }
+  .cb_entry {
+  }
+  .cb_entry label {
+    color: $mediumgray;
   }
   .current_search {
     li {
@@ -1961,11 +1999,13 @@ span.rightarrow
 
 /** search results is used on medium/tag pages so don't over scope it */
 #search_results {
+  font-size: 11px;
   .results-txt {
     text-align: center;
-    font-size: 11px;
   }
-  
+  .no-results {
+    font-size: 13px;
+  }
   
   .navlinks {
     text-align: right;

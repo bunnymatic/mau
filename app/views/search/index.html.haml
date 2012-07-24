@@ -24,12 +24,12 @@
         .refine_controls 
           %h4 Narrow Your Results
           - form_tag({}, :class=>'power_search') do
+            %h5.block_head Add Keyword(s):
             .block
-              %h5 Add Keyword(s):
               = text_field_tag :keywords
               = submit_tag :go
-            .block 
-              %h5 Mediums:
+            %h5.block_head.expandable_head Mediums:
+            .block.expandable
               .cb_entry
                 = check_box_tag 'medium', 0
                 = label_tag 'Any'
@@ -37,8 +37,8 @@
                 .cb_entry
                   = check_box_tag 'medium[]', m[:id]
                   = label_tag m[:name], m[:display]
-            .block
-              %h5 Studio:
+            %h5.block_head.expandable_head Studios:
+            .block.expandable
               .cb_entry
                 = check_box_tag 'studio', 0
                 = label_tag 'Any'
@@ -46,8 +46,8 @@
                 .cb_entry
                   = check_box_tag 'studio', m[:id]
                   = label_tag m[:name], m[:display]
+            %h5.block_head Open Studios Artist:
             .block
-              %h5 Open Studios Artist:
               = select_tag :os_artist, options_for_select([["Don't Care", nil], ['Yes', 1], ['No', 2]])
     %td.vstripe
     %td.rcol{:colspan => 2}
@@ -56,9 +56,7 @@
         %h4 Search Results - #{@user_query}
         #search_results
           - if @pieces.length <= 0
-            .results-txt 
-              We couldn't find anything that matched your search term 
-              %em &quot;#{@user_query}&quot;
+            = render :partial => 'empty_search_results'
           - else
             .results-txt
               The following #{"artist" + (@pieces.length > 1 ? "s" : '')} matched your query

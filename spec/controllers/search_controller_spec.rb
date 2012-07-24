@@ -11,6 +11,7 @@ describe SearchController do
   fixtures :media
   fixtures :art_piece_tags
   fixtures :art_pieces_tags
+  fixtures :studios
   before do
     Rails.cache.stubs(:read).returns(nil)
   end
@@ -20,9 +21,9 @@ describe SearchController do
       assert_select '.lcol .refine_controls'
       assert_select '.lcol .current_search'
     end
-    ["Mediums", "Add Keyword(s)", "Studio", "Open Studios Artist"].each do |sxn|
+    ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Artist"].each do |sxn|
       it "has blocks in refine your search for #{sxn}" do
-        assert_select ".refine_controls .block h5", sxn + ":"
+        assert_select ".refine_controls h5.block_head", sxn + ":"
       end
     end
     it 'has search results' do
@@ -54,7 +55,7 @@ describe SearchController do
       end
     end
     [:annafizyta, :artist1].each do |artist|
-      %w[ firstname lastname login fullname].each do |term|
+      %w[ firstname lastname fullname].each do |term|
         context "for #{artist} by #{term}" do
           before do
             @artist = users(artist)
@@ -198,5 +199,26 @@ describe SearchController do
         end
       end
     end
+
+    context "finding by studio" do
+      before do
+        @searched_studios = [ studios(:s1890), studios(:as) ]
+        get :index, :studios => @searched_studios.map(&:id), :keywords => 'title'
+      end
+      it_should_behave_like 'search page with results'
+      it "returns at least 1 result" do
+        results = assigns(:pieces)
+        results.should have_at_least(1).art_piece
+        results.map(&:title).should include 'negative title'
+      end
+      it 'all results should be from one of the included studios' do
+        results = assigns(:pieces).flatten
+        results.should have_at_least(1).piece
+        results.map(&:artist).map(&:studio_id).select{|s| s > 0}.each do |s|
+          @searched_studios.map(&:id).should include s
+        end
+      end
+    end
+
   end
 end

@@ -22,6 +22,8 @@ class SearchController < ApplicationController
     lc_keywords = @keywords.map(&:downcase)
     medium_ids = (params[:medium] || []).compact.map(&:to_i).reject{|v| v <= 0}
     @mediums = Medium.find_all_by_id(medium_ids)
+    studio_ids = (params[:studio] || []).compact.map(&:to_i).reject{|v| v <= 0}
+    @studios = Studio.find_all_by_id(studio_ids)
     qq = @keywords.compact.join(" ")
     page = 0
     if params[:p]
@@ -32,17 +34,9 @@ class SearchController < ApplicationController
     @cur_link = "?keywords=%s" % qq
     @page_title = "Mission Artists United - Search Results - %s" % qq
     qq.downcase!
-    results = nil
-    #if qq && !qq.empty?
-    #  cache_key = "%s:%s:%s:%s" % [@@QUERY_KEY_PREFIX, qq, page, @results_mode]
-    #  cache_key.gsub!(' ','')
-    #  begin
-    #    results = Rails.cache.read(cache_key)
-    #  rescue
-    #    results = nil
-    #  end
-    #end
-    if !results # nothing from the cache
+    results = {}
+
+    if !@keywords.empty?
 
       active_artists = Artist.active.all
 
@@ -51,7 +45,7 @@ class SearchController < ApplicationController
        
         kw_query_param = "%#{kw}%"
         partial_results = ArtPiece.find(:all, :conditions => ["title like ?", kw_query_param]) 
-        partial_results += ((Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ? or login like ?) ", kw_query_param, kw_query_param, kw_query_param])).map{ |a| a.art_pieces }.flatten - partial_results)
+        partial_results += ((Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ?) ", kw_query_param, kw_query_param ])).map{ |a| a.art_pieces }.flatten - partial_results)
         tag_ids = ArtPieceTag.find_all_by_name(kw)
         tags = ArtPiecesTag.find(:all, :conditions => ["art_piece_tag_id in (?)", tag_ids])
 
@@ -67,10 +61,12 @@ class SearchController < ApplicationController
       num_keywords = @keywords.size
       partial_results.reject!{|ap| hits[ap.id] < num_keywords}
 
-
-      # if partial results && mediums filter by medium
+      # filter by mediums and or studios
       if (medium_ids && !medium_ids.empty?)
         partial_results.reject!{|ap| !ap.medium_id || !medium_ids.include?(ap.medium_id) }
+      end
+      if (studio_ids && !studio_ids.empty?)
+        partial_results.reject!{|ap| !ap.artist || !ap.artist.studio || !studio_ids.include?(ap.artist.studio.id)}
       end
 
       results = {}
