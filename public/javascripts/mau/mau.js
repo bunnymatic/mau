@@ -562,6 +562,20 @@ var TagMediaHelper = {
     
     A.bindYepNopeButtons();
     A.bindDonateButton();
+    
+    var openCloseDivs = $$('.edit-sections .open-close-div');
+    if ( openCloseDivs ) {
+      _.each(openCloseDivs, function(t) {
+        t.observe('mouseover', function() {
+          $(this).addClassName('hover');
+        });
+        t.observe('mouseout', function() {
+          $(this).removeClassName('hover');
+        });
+      });
+    }
+                 
+      
     A.init = function() {};
   };
 

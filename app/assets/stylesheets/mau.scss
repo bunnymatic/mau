@@ -275,6 +275,15 @@ input[type=image], input[type=hidden] {
   margin: auto;
   width: $rightcol;
   padding-bottom: 20px;
+  span.edit {
+    display: none;
+  }
+
+  .hover {
+    .edit {
+      display:block;
+    }
+  }
 }
 
 .inner-sxn {
