@@ -39,7 +39,7 @@
                             )
                       %div #{@artist.artist_info.city}
                   - if (!current_user || (current_user && current_user.id != @artist.id))
-                    - if (@artist.emailsettings['fromall'] || (@artist.emailsettings['fromartist'] && logged_in?))
+                    - if (@artist.emailsettings['fromartist'] && logged_in?)
                       .div-left
                         %span
                           Contact:
