@@ -1973,6 +1973,37 @@ span.rightarrow
     position:relative;
     width: 100%;
   }
+  /*** for show/hide panels on search */
+  .block_head { 
+    line-height: 24px;
+    padding: 10px 6px 6px;
+  }
+  .trigger {
+    cursor: pointer;
+    &:hover {
+      background: $darkgray;
+    }
+    div.sprite {
+      width: 16px;
+      margin: 0;
+      padding: 0;
+      height:16px;
+      background-image: url(/images/icons/expando-controls-sprite.png);
+      background-repeat: none;
+      float:right;
+      &.minus {
+        background-position: -16px 0px;
+      }
+      display: inline-block;
+    }
+  }	
+  .expanded {
+    cursor: pointer;
+    &:hover {
+      background: $darkgray;
+    }
+  }
+
   .refine_controls {
     width: 100%;
     h5 { 
@@ -1982,7 +2013,6 @@ span.rightarrow
     }
     .expandable {
       position:relative;
-      display:none;
     }
   }
   .cb_entry {

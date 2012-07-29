@@ -28,7 +28,8 @@
             .block
               = text_field_tag :keywords
               = submit_tag :go
-            %h5.block_head.expandable_head Mediums:
+            %h5.block_head.trigger 
+              %span Mediums:
             .block.expandable
               .cb_entry
                 = check_box_tag 'medium', 0
@@ -37,7 +38,8 @@
                 .cb_entry
                   = check_box_tag 'medium[]', m[:id]
                   = label_tag m[:name], m[:display]
-            %h5.block_head.expandable_head Studios:
+            %h5.block_head.trigger 
+              %span Studios:
             .block.expandable
               .cb_entry
                 = check_box_tag 'studio', 0
