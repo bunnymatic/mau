@@ -14,6 +14,7 @@ src_files:
   - public/javascripts/thirdparty/underscore.min.js
   - public/javascripts/thirdparty/prototype/1.7/prototype.min.js
   - public/javascripts/thirdparty/scriptaculous.all.min.js
+  - public/javascripts/thirdparty/event.simulate.js
   - public/javascripts/thirdparty/prototype.feedback.js
   - public/javascripts/mau/mau_prototype.js
   - public/javascripts/mau/mau.js

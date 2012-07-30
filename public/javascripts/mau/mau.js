@@ -1654,7 +1654,7 @@ var TagMediaHelper = {
     },
     toggleTarget:function(event) {
       // NOTE:  Within an event handler, 'this' always refers to the element they are registered on.
-      var t = event.currentTarget;
+      var t = event.currentTarget || event.target;
       if(!t.hasClassName('expanded')) {
         t.addClassName('expanded');
         t.down('div').replace( Search.sprite_plus_dom );
