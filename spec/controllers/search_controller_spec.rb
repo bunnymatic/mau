@@ -220,5 +220,38 @@ describe SearchController do
       end
     end
 
+    context 'finding by openstudios status' do
+      before do
+        @searched_studios = [ studios(:s1890), studios(:as) ]
+      end
+      it 'returns artists both doing and not doing open studios with nothing' do
+        get :index, :os_artist => nil, :keywords => 'a'
+        results = assigns(:pieces).flatten
+        doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
+        doing.should have_at_least(1).artist
+        notdoing.should have_at_least(1).artist
+        p 'Y', doing.map(&:login)
+        p 'N', notdoing.map(&:login)
+      end
+      it 'returns artists doing open studios given os_artist = 1' do
+        get :index, :os_artist => 1, :keywords => 'a'
+        results = assigns(:pieces).flatten
+        doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
+        p 'Y2', doing.map(&:login)
+        p 'N2', notdoing.map(&:login)
+        doing.should have_at_least(1).artist
+        notdoing.should be_empty
+      end
+      it 'returns artists not doing open studios given os_artist = 0' do
+        get :index, :os_artist => 2, :keywords => 'a'
+        results = assigns(:pieces).flatten
+        doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
+        p 'Y3', doing.map(&:login)
+        p 'N3', notdoing.map(&:login)
+        doing.should be_empty
+        notdoing.should have_at_least(1).artist
+      end
+    end
+
   end
 end

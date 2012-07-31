@@ -1,6 +1,6 @@
 - if @artist 
   .artist
-    - if @artist.artist_info && @artist.os_participation[Conf.oslive.to_s]
+    - if @artist.artist_info && @artist.doing_open_studios?
       %h2.os-star 
         #{@artist.get_name(true)}
         .os-star

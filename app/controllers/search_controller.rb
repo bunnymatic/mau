@@ -24,6 +24,8 @@ class SearchController < ApplicationController
     @mediums = Medium.find_all_by_id(medium_ids)
     studio_ids = (params[:studio] || []).compact.map(&:to_i).reject{|v| v <= 0}
     @studios = Studio.find_all_by_id(studio_ids)
+    @open_studios_flag = { '1' => true, '2' => false }[params[:os_artist]]
+        
     qq = @keywords.compact.join(" ")
     page = 0
     if params[:p]
@@ -68,7 +70,14 @@ class SearchController < ApplicationController
       if (studio_ids && !studio_ids.empty?)
         partial_results.reject!{|ap| !ap.artist || !ap.artist.studio || !studio_ids.include?(ap.artist.studio.id)}
       end
-
+      unless @open_studios_flag.nil?
+        if @open_studios_flag
+          partial_results.reject!{|ap| !ap.artist.doing_open_studios?}
+        else
+          partial_results.reject!{|ap| ap.artist.doing_open_studios?}
+        end
+      end
+      
       results = {}
       begin 
         active_artist_ids = active_artists.map(&:id)

@@ -80,6 +80,10 @@ class Artist < User
     end
   end
 
+  def doing_open_studios?
+    Conf.oslive && os_participation[Conf.oslive.to_s]
+  end
+
   def address
     call_address_method :address
   end

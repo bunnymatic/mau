@@ -373,6 +373,14 @@ describe Artist do
     end
   end
 
+  describe 'doing_open_studios?' do
+    it 'returns true for an artist doing this open studios (with no args)' do
+      doing, notdoing = Artist.all.partition(&:doing_open_studios?)
+      doing.should have(4).artists
+      notdoing.should have(10).artists
+    end
+  end
+
   describe 'default scope' do
     it "most recent art piece should be the representative" do
       users(:artist1).representative_piece.title.should == "third"

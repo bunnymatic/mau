@@ -5,21 +5,27 @@
       .column 
         .current_search
           %h4 
-            Current Search
-          %label Keywords:
-          %ul.keywords
-            - @keywords.each_with_index do |k, idx|
-              %li #{ "AND " if idx > 0} #{k}
-          - if @mediums && !@mediums.empty?            
-            %label Mediums:
-            %ul.media
-              - @mediums.map(&:name).each do |n|
-                %li #{n}
-          - if @studios && !@studios.empty?
-            %label Studios:
-            %ul.media
-              - @studios.map(&:name).each do |n|
-                %li #{n}
+            Current Search 
+          .block          
+            %label Keywords:
+            %ul.keywords
+              - @keywords.each_with_index do |k, idx|
+                %li #{ "AND " if idx > 0} #{k}
+          .block
+            - if @mediums && !@mediums.empty?            
+              %label Mediums:
+              %ul.media
+                - @mediums.map(&:name).each do |n|
+                  %li #{n}
+          .block            
+            - if @studios && !@studios.empty?
+              %label Studios:
+              %ul.media
+                - @studios.map(&:name).each do |n|
+                  %li #{n}
+          .block
+            - unless @open_studios_flag.nil?
+              Open Studios Participants: #{@open_studios_flag}
 
         .refine_controls 
           %h4 Narrow Your Results

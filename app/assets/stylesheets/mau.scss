@@ -2021,8 +2021,16 @@ span.rightarrow
     color: $mediumgray;
   }
   .current_search {
+    .block {
+      margin: 10px 0;
+    }
+    label {
+      color: $mediumgray;
+    }
     li {
       text-align: left; 
+      margin-left: 10px;
+      font-style: italic;
     }
   }    
 }  
