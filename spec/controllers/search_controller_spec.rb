@@ -198,12 +198,22 @@ describe SearchController do
           @searched_medium.map(&:id).should include m
         end
       end
+      it 'shows the media you searched for' do
+        assert_select '.current_search .block.mediums li', :count => 2 do |tag|
+          tag.to_s.should match /#{media(:medium1).name}/
+          tag.to_s.should match /#{media(:medium2).name}/
+        end
+      end
+      it 'checks the media you searched for' do
+        assigns(:mediums).should have(2).media
+        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:mediums).count
+      end
     end
 
     context "finding by studio" do
       before do
         @searched_studios = [ studios(:s1890), studios(:as) ]
-        get :index, :studios => @searched_studios.map(&:id), :keywords => 'title'
+        get :index, :studio => @searched_studios.map(&:id), :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -218,6 +228,16 @@ describe SearchController do
           @searched_studios.map(&:id).should include s
         end
       end
+      it 'shows the studios you searched for' do
+        assert_select '.current_search .block.studios li', :count => 2 do |tag|
+          tag.to_s.should match /#{studios(:s1890).name}/
+            tag.to_s.should match /#{studios(:as).name}/
+        end
+      end
+      it 'checks the studios you searched for' do
+        assigns(:studios).should have(2).studios
+        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:studios).count
+      end
     end
 
     context 'finding by openstudios status' do
@@ -230,15 +250,11 @@ describe SearchController do
         doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
         doing.should have_at_least(1).artist
         notdoing.should have_at_least(1).artist
-        p 'Y', doing.map(&:login)
-        p 'N', notdoing.map(&:login)
       end
       it 'returns artists doing open studios given os_artist = 1' do
         get :index, :os_artist => 1, :keywords => 'a'
         results = assigns(:pieces).flatten
         doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
-        p 'Y2', doing.map(&:login)
-        p 'N2', notdoing.map(&:login)
         doing.should have_at_least(1).artist
         notdoing.should be_empty
       end
@@ -246,8 +262,6 @@ describe SearchController do
         get :index, :os_artist => 2, :keywords => 'a'
         results = assigns(:pieces).flatten
         doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
-        p 'Y3', doing.map(&:login)
-        p 'N3', notdoing.map(&:login)
         doing.should be_empty
         notdoing.should have_at_least(1).artist
       end

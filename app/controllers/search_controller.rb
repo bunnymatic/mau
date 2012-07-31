@@ -13,6 +13,7 @@ class SearchController < ApplicationController
   def index
 
     # add wildcard
+    params.symbolize_keys!
     if !params[:keywords]
       #TODO handle missing params with error page
       redirect_to('/')
@@ -20,6 +21,7 @@ class SearchController < ApplicationController
     end
     @keywords = params[:keywords].split(",").map(&:strip)
     lc_keywords = @keywords.map(&:downcase)
+
     medium_ids = (params[:medium] || []).compact.map(&:to_i).reject{|v| v <= 0}
     @mediums = Medium.find_all_by_id(medium_ids)
     studio_ids = (params[:studio] || []).compact.map(&:to_i).reject{|v| v <= 0}
@@ -95,7 +97,7 @@ class SearchController < ApplicationController
       end
       
     end 
-
+    
     results = results.values.sort_by { |p| p.updated_at }
     @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(results, page, @@PER_PAGE)
     if curpage > lastpage

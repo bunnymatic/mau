@@ -1989,7 +1989,7 @@ span.rightarrow
       padding: 0;
       height:16px;
       background-image: url(/images/icons/expando-controls-sprite.png);
-      background-repeat: none;
+      background-repeat: no-repeat;
       float:right;
       &.minus {
         background-position: -16px 0px;
@@ -2003,16 +2003,28 @@ span.rightarrow
       background: $darkgray;
     }
   }
-
+  .expandable {
+    border-bottom: 1px solid $mediumgray;
+  }
   .refine_controls {
+    h4 {
+      padding-bottom: 4px;
+      border-bottom: 1px solid $mediumgray;
+    }
+
     width: 100%;
     h5 { 
     }
     .block {
       text-align: left; 
+      font-size: 11px;
+      ul {
+        padding-bottom: 10px;
+      }
     }
     .expandable {
       position:relative;
+
     }
   }
   .cb_entry {
@@ -2023,11 +2035,17 @@ span.rightarrow
   .current_search {
     .block {
       margin: 10px 0;
+      .os {
+        margin-left: 10px;
+        font-size: 11px;
+        font-style: italic;
+      }
     }
     label {
       color: $mediumgray;
     }
     li {
+      font-size: 11px;
       text-align: left; 
       margin-left: 10px;
       font-style: italic;
