@@ -1987,7 +1987,7 @@ span.rightarrow
       width: 16px;
       margin: 0;
       padding: 0;
-      height:16px;
+      height:24px;
       background-image: url(/images/icons/expando-controls-sprite.png);
       background-repeat: no-repeat;
       float:right;
@@ -2004,12 +2004,12 @@ span.rightarrow
     }
   }
   .expandable {
-    border-bottom: 1px solid $mediumgray;
+    border-bottom: 1px dotted $bordergray
   }
   .refine_controls {
     h4 {
       padding-bottom: 4px;
-      border-bottom: 1px solid $mediumgray;
+      border-bottom: 1px solid $bordergray;
     }
 
     width: 100%;
@@ -2033,6 +2033,10 @@ span.rightarrow
     color: $mediumgray;
   }
   .current_search {
+    h4 {
+      padding-bottom: 4px;
+      border-bottom: 1px solid $bordergray;
+    }
     .block {
       margin: 10px 0;
       .os {
