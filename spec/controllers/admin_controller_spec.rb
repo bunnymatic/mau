@@ -273,12 +273,7 @@ describe AdminController do
           login_as(:admin)
           xhr :get, endpoint
         end
-        it "returns success" do
-          response.should be_success
-        end
-        it "returns json" do
-          response.content_type.should == 'application/json'
-        end
+        it_should_behave_like 'successful json'
         it "json is ready for flotr" do
           j = JSON.parse(response.body)
           j.keys.should include 'series'

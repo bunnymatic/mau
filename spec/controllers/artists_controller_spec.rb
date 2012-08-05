@@ -67,12 +67,7 @@ describe ArtistsController do
       before do
         get :index, :format => 'json'
       end
-      it 'returns success' do
-        response.should be_success
-      end
-      it 'returns json' do
-        response.content_type.should == 'application/json'
-      end
+      it_should_behave_like 'successful json'
       it 'returns all active artists' do
         j = JSON.parse(response.body)
         j.count.should == Artist.active.count
@@ -517,10 +512,7 @@ describe ArtistsController do
       before do
         get :show, :id => users(:artist1).id, :format => 'json'
       end
-      it_should_behave_like 'returns success'
-      it 'returns json' do
-        response.content_type.should == 'application/json'
-      end
+      it_should_behave_like 'successful json'
     end
   end
 

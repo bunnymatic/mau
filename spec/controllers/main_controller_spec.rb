@@ -525,10 +525,7 @@ describe MainController do
         xhr :post, :notes_mailer
         @j = JSON::parse(response.body)
       end
-      it_should_behave_like 'returns success'
-      it "returns json" do
-        response.content_type.should == 'application/json'
-      end
+      it_should_behave_like 'successful json'
       it "response has error status" do
         @j['status'].should == 'error'
       end

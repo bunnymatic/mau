@@ -223,3 +223,11 @@ shared_examples_for 'returns success' do
     response.should be_success
   end
 end
+
+shared_examples_for 'successful json' do
+  it_should_behave_like 'returns success'
+  it "returns json" do
+    response.content_type.should == 'application/json'
+  end
+end
+
