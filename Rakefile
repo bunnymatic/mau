@@ -18,5 +18,11 @@ rescue Exception => ex
   puts "Warning: unable to load jslint tasks. Shouldn't be required for production/staging environments"
 end
 
+begin
+  load "barista/tasks/barista.rake"
+rescue Exception => ex
+  puts "Warning: unable to load barista tasks. Shouldn't be required for production/staging environments"
+end
+
 require 'rosie'
 Dir["#{Gem.searcher.find('rosie').full_gem_path}/lib/tasks/**/*.rake"].each { |ext| load ext }

@@ -2,9 +2,11 @@ var Search = MAU.Search;
 
 describe('Search', function() {
   describe('ShowHide', function() {
+    var s;
     beforeEach(function() {
       loadFixtures('search_showhide.html');
-      Search.init();
+      s = new MAU.SearchPage();
+      s.init();
     });
     it('initializes setting everything hidden', function() {
       var triggers = $$('#fixture .trigger');
