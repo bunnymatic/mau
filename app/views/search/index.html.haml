@@ -9,10 +9,10 @@
           .block.keywords  
             %label Keywords:
             %ul.keywords
-              - @keywords.each_with_index do |k, idx|
+              - @keywords.present? && @keywords.each_with_index do |k, idx|
                 %li #{ "AND " if idx > 0} #{k}
           .block.mediums
-            - if @mediums && !@mediums.empty?            
+            - if @mediums && !@mediums.empty?
               %label Mediums:
               %ul
                 - @mediums.map(&:name).each do |n|
@@ -30,7 +30,7 @@
 
         .refine_controls 
           %h4 Narrow Your Results
-          - form_tag({}, :class=>'power_search') do
+          - form_tag({:action => 'fetch' }, :class=>'power_search') do
             %h5.block_head Add Keyword(s):
             .block
               = text_field_tag :keywords
@@ -67,17 +67,5 @@
     %td.rcol{:colspan => 2}
       = render :partial => '/flash_notice_error'
       .content-block
-        %h4 Search Results - #{@user_query}
-        #search_results
-          - if @pieces.length <= 0
-            = render :partial => 'empty_search_results'
-          - else
-            .results-txt
-              The following #{"artist" + (@pieces.length > 1 ? "s" : '')} matched your query
-            .search-view-ctrls
-              = render :partial => "/pagination"
-            #thumbs_by_artist.search-results
-              = render :partial => "thumbs", :locals => { :pieces => @pieces, :params => { :cols => 2, :art_link => true }}	
-            .search-view-ctrls
-              = render :partial => "/pagination"
+        = render :partial => 'search_results'
   = render :partial => "/twocol_bottom"

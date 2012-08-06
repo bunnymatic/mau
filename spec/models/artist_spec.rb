@@ -376,7 +376,7 @@ describe Artist do
   describe 'doing_open_studios?' do
     it 'returns true for an artist doing this open studios (with no args)' do
       doing, notdoing = Artist.all.partition(&:doing_open_studios?)
-      doing.should have(4).artists
+      doing.should have(5).artists
       notdoing.should have(10).artists
     end
   end
@@ -393,7 +393,7 @@ describe Artist do
 
   describe 'named scopes' do
     describe ':open_studios_participants' do
-      [['201104',2],['201110',3]].each do |arg|
+      [['201104',3],['201110',4]].each do |arg|
         it "returns #{arg[1]} artist(s) with '#{arg[0]}'" do
           artists = Artist.open_studios_participants(arg[0])
           artists.should have(arg[1]).artists

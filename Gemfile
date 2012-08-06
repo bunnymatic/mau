@@ -31,6 +31,7 @@ gem 'event-calendar', :require => 'event_calendar'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
+#gem 'barista' # coffeescript handler
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'

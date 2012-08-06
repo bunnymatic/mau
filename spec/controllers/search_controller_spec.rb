@@ -17,22 +17,14 @@ describe SearchController do
   end
   
   shared_examples_for 'search page with results' do
-    it 'has search controls' do
-      assert_select '.lcol .refine_controls'
-      assert_select '.lcol .current_search'
-    end
-    ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Artist"].each do |sxn|
-      it "has blocks in refine your search for #{sxn}" do
-        assert_select ".refine_controls h5.block_head", sxn + ":"
-      end
-    end
     it 'has search results' do
       assert_select '#search_results'
     end
   end
 
+  integrate_views
+
   describe "#index" do
-    integrate_views
     describe "(with views)" do
       before do
         get :index, :keywords => "go fuck yourself.  this string ought to never match anything"
@@ -53,13 +45,63 @@ describe SearchController do
         response.should include_text("go fuck yourself")
         response.should include_text("couldn't find anything that matched")
       end
+      ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Artist"].each do |sxn|
+        it "has blocks in refine your search for #{sxn}" do
+          assert_select ".refine_controls h5.block_head", sxn + ":"
+        end
+      end
+      it 'has search controls' do
+        assert_select '.lcol .refine_controls'
+        assert_select '.lcol .current_search'
+      end
     end
+
+    context "finding by studio" do
+      before do
+        @searched_studios = [ studios(:s1890), studios(:as) ]
+        get :index, :studio => @searched_studios.map(&:id), :keywords => 'title'
+      end
+      it_should_behave_like 'search page with results'
+      it 'shows the studios you searched for' do
+        assert_select '.current_search .block.studios li', :count => 2 do |tag|
+          tag.to_s.should match /#{studios(:s1890).name}/
+            tag.to_s.should match /#{studios(:as).name}/
+        end
+      end
+      it 'checks the studios you searched for' do
+        p assigns(:studios)
+        assigns(:studios).should have(2).studios
+        
+        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:studios).count
+      end
+    end
+
+    context "finding by medium" do
+      before do
+        @searched_medium = [ media(:medium1), media(:medium2) ]
+        get :index, :medium => @searched_medium.map(&:id), :keywords => 'title'
+      end
+      it_should_behave_like 'search page with results'
+      it 'shows the media you searched for' do
+        assert_select '.current_search .block.mediums li', :count => 2 do |tag|
+          tag.to_s.should match /#{media(:medium1).name}/
+          tag.to_s.should match /#{media(:medium2).name}/
+        end
+      end
+      it 'checks the media you searched for' do
+        assigns(:mediums).should have(2).media
+        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:mediums).count
+      end
+    end
+  end
+
+  describe '#fetch' do
     [:annafizyta, :artist1].each do |artist|
       %w[ firstname lastname fullname].each do |term|
         context "for #{artist} by #{term}" do
           before do
             @artist = users(artist)
-            get :index, :keywords => @artist.send(term)
+            post :fetch, :keywords => @artist.send(term)
           end
           it_should_behave_like 'search page with results'
           it "returns some results" do
@@ -77,7 +119,7 @@ describe SearchController do
         context "finds artists even if there are extra spaces in the query using #{artist}.#{term}" do
           before do
             @artist = users(artist)
-            get :index, :keywords => @artist.send(term) + " "
+            post :fetch, :keywords => @artist.send(term) + " "
           end
           it_should_behave_like 'search page with results'
           it "returns some results" do
@@ -95,7 +137,7 @@ describe SearchController do
         context "capitalization of search term for #{artist}.#{term}" do
           before do
             @artist = users(artist)
-            get :index, :keywords => @artist.send(term).capitalize
+            post :fetch, :keywords => @artist.send(term).capitalize
           end
           it_should_behave_like 'search page with results'
           it "returns some results" do
@@ -112,7 +154,7 @@ describe SearchController do
         context "uppercase of search term for #{artist}.#{term}" do
           before do
             @artist = users(artist)
-            get :index, :keywords => @artist.send(term).upcase
+            post :fetch, :keywords => @artist.send(term).upcase
           end
           it_should_behave_like 'search page with results'
           it "returns some results" do
@@ -129,7 +171,7 @@ describe SearchController do
     context "finding by art piece title" do
       before do
         @ap = ArtPiece.last
-        get :index, :keywords => @ap.title
+        post :fetch, :keywords => @ap.title
       end
       it_should_behave_like 'search page with results'
       it "returns 1 result" do
@@ -141,7 +183,7 @@ describe SearchController do
     context "find by 2 keywords which match the artist first name and a tag" do
       before do
         q = [art_piece_tags(:two).name, users(:joeblogs).firstname].join(", ")
-        get :index, :keywords => q
+        post :fetch, :keywords => q
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -158,7 +200,7 @@ describe SearchController do
     context "finding by art piece partial title" do
       before do
         @ap = ArtPiece.last
-        get :index, :keywords => @ap.title.split.first
+        post :fetch, :keywords => @ap.title.split.first
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -170,7 +212,7 @@ describe SearchController do
     context "finding by tag" do
       before do
         @tag = art_piece_tags(:one)
-        get :index, :keywords => @tag.name
+        post :fetch, :keywords => @tag.name
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -183,7 +225,7 @@ describe SearchController do
     context "finding by medium" do
       before do
         @searched_medium = [ media(:medium1), media(:medium2) ]
-        get :index, :medium => @searched_medium.map(&:id), :keywords => 'title'
+        post :fetch, :medium => @searched_medium.map(&:id), :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -198,22 +240,12 @@ describe SearchController do
           @searched_medium.map(&:id).should include m
         end
       end
-      it 'shows the media you searched for' do
-        assert_select '.current_search .block.mediums li', :count => 2 do |tag|
-          tag.to_s.should match /#{media(:medium1).name}/
-          tag.to_s.should match /#{media(:medium2).name}/
-        end
-      end
-      it 'checks the media you searched for' do
-        assigns(:mediums).should have(2).media
-        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:mediums).count
-      end
     end
 
     context "finding by studio" do
       before do
         @searched_studios = [ studios(:s1890), studios(:as) ]
-        get :index, :studio => @searched_studios.map(&:id), :keywords => 'title'
+        post :fetch, :studio => @searched_studios.map(&:id), :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -228,15 +260,22 @@ describe SearchController do
           @searched_studios.map(&:id).should include s
         end
       end
-      it 'shows the studios you searched for' do
-        assert_select '.current_search .block.studios li', :count => 2 do |tag|
-          tag.to_s.should match /#{studios(:s1890).name}/
-            tag.to_s.should match /#{studios(:as).name}/
-        end
+    end
+
+    context "finding by independent studio" do
+      before do
+        post :fetch, :studio => ['0'], :keywords => 'title'
       end
-      it 'checks the studios you searched for' do
-        assigns(:studios).should have(2).studios
-        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:studios).count
+      it_should_behave_like 'search page with results'
+      it "returns at least 1 result" do
+        results = assigns(:pieces)
+        results.should have_at_least(1).art_piece
+        results.map(&:title).should include 'hotter title'
+      end
+      it 'all results should be from one of the included studios' do
+        results = assigns(:pieces).flatten
+        results.should have_at_least(1).piece
+        results.map(&:artist).map(&:studio_id).uniq.should == [0]
       end
     end
 
@@ -245,21 +284,21 @@ describe SearchController do
         @searched_studios = [ studios(:s1890), studios(:as) ]
       end
       it 'returns artists both doing and not doing open studios with nothing' do
-        get :index, :os_artist => nil, :keywords => 'a'
+        post :fetch, :os_artist => nil, :keywords => 'a'
         results = assigns(:pieces).flatten
         doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
         doing.should have_at_least(1).artist
         notdoing.should have_at_least(1).artist
       end
       it 'returns artists doing open studios given os_artist = 1' do
-        get :index, :os_artist => 1, :keywords => 'a'
+        post :fetch, :os_artist => 1, :keywords => 'a'
         results = assigns(:pieces).flatten
         doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
         doing.should have_at_least(1).artist
         notdoing.should be_empty
       end
       it 'returns artists not doing open studios given os_artist = 0' do
-        get :index, :os_artist => 2, :keywords => 'a'
+        post :fetch, :os_artist => 2, :keywords => 'a'
         results = assigns(:pieces).flatten
         doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
         doing.should be_empty

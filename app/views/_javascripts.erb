@@ -4,7 +4,7 @@
 <!--[if lt IE 9]>
 <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<%= javascript_include_tag "thirdparty/underscore.min.js", "thirdparty/prototype/1.7/prototype.min", "thirdparty/scriptaculous.all.min", "thirdparty/event.simulate.js", "thirdparty/prototype.feedback", "mau/mau_prototype", "mau/mau", "mau/mau_image_lightbox", "mau/mau_cookies", "mau/mau_notes", 'mau/mau_popup_view' %>
+<%= javascript_include_tag "thirdparty/underscore.min.js", "thirdparty/prototype/1.7/prototype.min", "thirdparty/scriptaculous.all.min", "thirdparty/event.simulate.js", "thirdparty/prototype.feedback", "mau/mau_prototype", "mau/mau", "mau/mau_image_lightbox", "mau/mau_cookies", "mau/mau_notes", "mau/mau_popup_view", "mau/mau_search" %>
 <%= calendar_date_select_includes :mau %>
 <% if current_user && current_user.is_editor? -%>
 <%= javascript_include_tag 'mau/mau_editor.js' %>
