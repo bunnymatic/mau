@@ -47,6 +47,19 @@ MAU.SearchPage = class MAUSearch
       item.addClassName('trigger')
       item.observe('click', MAUSearch.toggleTarget)
 
+    # if we have the search form, bind ajax to the submit
+    #
+    searchForm =  $$('form.power_search')
+    if searchForm.length
+      frm = searchForm[0]
+      Event.observe frm,'submit', (ev) ->
+        opts = onSuccess: (resp) ->
+          $('search_results').innerHTML = resp.responseText
+          false
+        ev.stop()
+        frm.request(opts)
+        false
+
   @toggleTarget: (event) ->
     # NOTE:  Within an event handler, 'this' always refers to the element they are registered on.
     _that = this

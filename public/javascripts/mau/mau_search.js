@@ -13,7 +13,7 @@
     function MAUSearch() {}
 
     MAUSearch.prototype.init = function() {
-      var expandeds, triggers;
+      var expandeds, frm, searchForm, triggers;
       triggers = $$('.column .trigger');
       _.each(triggers, function(item) {
         item.insert({
@@ -23,13 +23,29 @@
         return item.observe('click', MAUSearch.toggleTarget);
       });
       expandeds = $$('.column .expanded');
-      return _.each(expandeds, function(item) {
+      _.each(expandeds, function(item) {
         item.insert({
           top: sprite_plus_dom
         });
         item.addClassName('trigger');
         return item.observe('click', MAUSearch.toggleTarget);
       });
+      searchForm = $$('form.power_search');
+      if (searchForm.length) {
+        frm = searchForm[0];
+        return Event.observe(frm, 'submit', function(ev) {
+          var opts;
+          opts = {
+            onSuccess: function(resp) {
+              $('search_results').innerHTML = resp.responseText;
+              return false;
+            }
+          };
+          ev.stop();
+          frm.request(opts);
+          return false;
+        });
+      }
     };
 
     MAUSearch.toggleTarget = function(event) {

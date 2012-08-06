@@ -1,5 +1,5 @@
-%h4 Search Results - #{@user_query}
 #search_results
+  %h4 Search Results - #{@user_query}
   - if !@pieces || @pieces.length <= 0
     = render :partial => 'empty_search_results'
   - else
