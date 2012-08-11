@@ -69,9 +69,7 @@ describe SearchController do
         end
       end
       it 'checks the studios you searched for' do
-        p assigns(:studios)
         assigns(:studios).should have(2).studios
-        
         assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:studios).count
       end
     end

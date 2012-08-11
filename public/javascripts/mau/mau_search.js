@@ -1,5 +1,5 @@
 (function() {
-  var MAU, MAUSearch, s;
+  var MAU, MAUSearch;
 
   MAU = window.MAU = window.MAU || {};
 
@@ -10,9 +10,80 @@
 
     sprite_plus_dom = '<div class="sprite plus" alt="show" />';
 
-    function MAUSearch() {}
+    function MAUSearch(chooser_ids) {
+      var _that;
+      this.choosers = !_.isArray(chooser_ids) ? [chooser_ids] : chooser_ids;
+      this.checkbox_selector = '.cb_entry input[type=checkbox]';
+      _that = this;
+      Event.observe(window, 'load', function() {
+        _that.initExpandos();
+        _that.initCBs();
+        return _that.initAnyLinks();
+      });
+    }
 
-    MAUSearch.prototype.init = function() {
+    MAUSearch.prototype.initAnyLinks = function() {
+      var _that;
+      _that = this;
+      return _.each(this.choosers, function(container) {
+        var c, lnk;
+        c = $(container);
+        if (c) {
+          lnk = c.select('a.reset').first();
+        }
+        if (lnk) {
+          return Event.observe(lnk, 'click', function(ev) {
+            var cbs;
+            cbs = c.select(_that.checkbox_selector);
+            _.each(cbs, function(el) {
+              return el.checked = false;
+            });
+            _that.setAnyLink(c);
+            ev.stop();
+            return false;
+          });
+        }
+      });
+    };
+
+    MAUSearch.prototype.setAnyLink = function(container) {
+      var a, c, cbs, _that;
+      _that = this;
+      c = $(container);
+      if (c) {
+        cbs = c.select(this.checkbox_selector);
+        a = c.select('a.reset');
+        if (a && a.length) {
+          if (_.uniq(_.map(cbs, function(c) {
+            return c.checked;
+          })).length > 1) {
+            return a.first().show();
+          } else {
+            return a.first().hide();
+          }
+        }
+      }
+    };
+
+    MAUSearch.prototype.initCBs = function() {
+      var _that;
+      _that = this;
+      return _.each(this.choosers, function(c) {
+        var $c, cbs;
+        $c = $(c);
+        if ($c) {
+          cbs = $c.select(_that.checkbox_selector) || [];
+          _.each(cbs, function(item, idx) {
+            return Event.observe(item, 'change', function(ev) {
+              return _that.setAnyLink(c);
+            });
+          });
+          return _that.setAnyLink(c);
+        }
+      });
+    };
+
+    MAUSearch.prototype.initExpandos = function() {
       var expandeds, frm, searchForm, triggers;
       triggers = $$('.column .trigger');
       _.each(triggers, function(item) {
@@ -55,20 +126,19 @@
       if (!t.hasClassName('expanded')) {
         t.addClassName('expanded');
         t.down('div').replace(sprite_plus_dom);
-        return t.next().blindDown(MAU.BLIND_OPTS.down);
+        t.next().blindDown(MAU.BLIND_OPTS.down);
       } else {
         t.removeClassName('expanded');
         t.down('div').replace(sprite_minus_dom);
-        return t.next().slideUp(MAU.BLIND_OPTS.up);
+        t.next().slideUp(MAU.BLIND_OPTS.up);
       }
+      return false;
     };
 
     return MAUSearch;
 
   })();
 
-  s = new MAUSearch();
-
-  Event.observe(window, 'load', s.init);
+  new MAUSearch(['medium_chooser', 'studio_chooser']);
 
 }).call(this);

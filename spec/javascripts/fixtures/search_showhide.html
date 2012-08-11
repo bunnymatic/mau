@@ -1,16 +1,56 @@
 <div id="fixture">
   <div class='column'>
     <h4 class='trigger' id='h1'>Header1</h4>
-    <div class='expandable_section' id='s1'>
+    <div class='expandable' id='s1' style="display:none;">
       stuff
     </div>
     <h4 class='trigger' id='h2'>Header2</h4>
-    <div class='expandable_section' id='s2'>
+    <div class='expandable' id='s2' style="display:none;">
       stuff2
     </div>
     <h4 class='trigger' id='h3'>Header3</h4>
-    <div class='expandable_section' id='s3'>
+    <div class='expandable' id='s3' style="display:none;">
       stuff
     </div>
+    <h4 class='trigger' id='h4'>Mediums</h4>
+    <div class="block expandable" id="medium_chooser" style="display:none;">
+      <ul>
+        <li class="cb_entry">
+          <a class='reset'>any</a>
+        </li>
+        <li class="cb_entry">
+          <input id="medium_1" name="medium[1]" type="checkbox" value="1">
+          <label for="medium_1">Drawing</label>
+        </li>
+        <li class="cb_entry">
+          <input id="medium_2" name="medium[2]" type="checkbox" value="2">
+          <label for="medium_2">Mixed-Media</label>
+        </li>
+      </ul>
+    </div>
+
+    <h4 class='trigger' id='h5'>Studios</h4>
+    <div class="block expandable" id="studio_chooser" style="display:none;">
+      <ul>
+        <li class="cb_entry">
+          <a class='reset'>any</a>
+        </li>
+        <li class="cb_entry">
+          <input id="studio_" name="studio[1]" type="checkbox" value="1">
+          <label for="1890_Bryant_St_Studios">1890 Bryant St Studios</label>
+        </li>
+        <li class="cb_entry">
+          <input id="studio_" name="studio[2]" type="checkbox" value="2">
+          <label for="ActivSpace">ActivSpace</label>
+        </li>
+        <li class="cb_entry">
+          <input id="studio_" name="studio[0]" type="checkbox" value="0">
+          <label for="Indy">Indy</label>
+        </li>
+      </ul>
+    </div>
+
   </div>
+
+
 </div>

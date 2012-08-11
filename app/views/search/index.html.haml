@@ -37,24 +37,24 @@
               = submit_tag :go
             %h5.block_head.trigger 
               %span Mediums:
-            .block.expandable
+            .block.expandable#medium_chooser
               %ul
                 %li.cb_entry
-                  = check_box_tag 'medium', 0
-                  = label_tag 'Any'
+                  %a.reset{:href => '#'} 
+                    &lt;any&gt;
                 - medium_ids = @mediums.map(&:id).map(&:to_i)
                 - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
                   - ck = (medium_ids.length && medium_ids.include?(m[:id]))
                   %li.cb_entry
-                    = check_box_tag 'medium[]', m[:id], ck
-                    = label_tag m[:name], m[:display]
+                    = check_box_tag "medium[#{m[:id]}]", m[:id], ck
+                    = label_tag "medium[#{m[:id]}]", m[:display]
             %h5.block_head.trigger 
               %span Studios:
-            .block.expandable
+            .block.expandable#studio_chooser
               %ul
-                %li.cb_entry
-                  = check_box_tag 'studio', -1
-                  = label_tag 'Any'
+                %li.cb_entry.reset
+                  %a.reset{:href => '#'} 
+                    &lt;any&gt;
                 - Studio.all.map{ |s| {:id => s.id, :name => s.name.to_param, :display => s.name}}.each do |s|
                   - ck = (@studios.length && @studios.map(&:id).map(&:to_i).include?(s[:id]))
                   %li.cb_entry

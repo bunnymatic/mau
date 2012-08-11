@@ -4,9 +4,62 @@ MAU.SearchPage = class MAUSearch
   sprite_minus_dom = '<div class="sprite minus" alt="hide" />'
   sprite_plus_dom = '<div class="sprite plus" alt="show" />'
 
-  constructor: ->
+  constructor: (chooser_ids) ->
+    @choosers = if !_.isArray(chooser_ids) then [chooser_ids] else chooser_ids
+    @checkbox_selector = '.cb_entry input[type=checkbox]'
+    _that = this
+    Event.observe window, 'load', ->
+      _that.initExpandos()
+      _that.initCBs()
+      _that.initAnyLinks()
 
-  init: ->
+
+  initAnyLinks: ->
+    _that = this
+    _.each @choosers, (container) ->
+      c = $(container)
+      lnk = c.select('a.reset').first() if c
+      Event.observe(lnk, 'click', (ev) ->
+        cbs = c.select _that.checkbox_selector
+        _.each cbs, (el) ->
+          el.checked = false
+        _that.setAnyLink(c)
+        ev.stop();
+        return false
+      ) if lnk
+
+  setAnyLink: (container) ->
+    _that = this
+    c = $(container)
+    if c
+      cbs = c.select @checkbox_selector
+      a = c.select('a.reset')
+      if a && a.length
+        if _.uniq( _.map(cbs, (c) ->
+           c.checked
+        )).length > 1
+          a.first().show()
+        else
+          a.first().hide()
+
+  initCBs: ->
+    _that = this
+
+    # if the first is checked, uncheck all others
+    # if none are checked, check the first
+    # if the first is checked and we check another, uncheck the first
+    # click happens before the 'check' is registered on the checkbox
+    # change happens after
+    _.each @choosers, (c) ->
+      $c = $(c)
+      if $c
+        cbs = $c.select(_that.checkbox_selector) || []
+        _.each cbs, (item,idx) ->
+          Event.observe item, 'change', (ev) ->
+            _that.setAnyLink(c)
+        _that.setAnyLink(c)
+
+  initExpandos: ->
     # expando based on
     #
     #  Written by Jonathan Callahan -
@@ -72,8 +125,6 @@ MAU.SearchPage = class MAUSearch
       t.removeClassName('expanded')
       t.down('div').replace( sprite_minus_dom )
       t.next().slideUp(MAU.BLIND_OPTS.up)
+    return false;
 
-
-s = new MAUSearch()
-
-Event.observe(window, 'load', s.init)
+new MAUSearch(['medium_chooser','studio_chooser'])
