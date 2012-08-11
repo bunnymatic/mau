@@ -20,19 +20,24 @@ class SearchController < ApplicationController
     opts = OpenStruct.new
     opts.keywords = (params[:keywords] || []).split(",").map(&:strip)
 
-    medium_ids = (params[:medium] || []).compact.map(&:to_i).reject{|v| v <= 0}
-    opts.mediums = Medium.find_all_by_id(medium_ids)
-    
-    studio_ids = (params[:studio] || []).compact.map(&:to_i)
+    medium_ids = []
+    studio_ids = []
 
-    opts.studios = []
-    if (studio_ids && !studio_ids.empty?)
-      if studio_ids.include? 0
-        opts.studios << Studio.indy
-        studio_ids.reject!{|s| s == 0}
-      end
-      if !studio_ids.empty?
-        opts.studios += Studio.find_all_by_id(studio_ids)
+    unless params[:medium].blank?
+      medium_ids = params[:medium].values.map(&:to_i).reject{|v| v <= 0}
+      opts.mediums = Medium.find_all_by_id(medium_ids)
+    end
+    unless params[:studio].blank?
+      studio_ids = params[:studio].values().compact.map(&:to_i)
+      opts.studios = []
+      if (studio_ids && !studio_ids.empty?)
+        if studio_ids.include? 0
+          opts.studios << Studio.indy
+          studio_ids.reject!{|s| s == 0}
+        end
+        if !studio_ids.empty?
+          opts.studios += Studio.find_all_by_id(studio_ids)
+        end
       end
     end
 
@@ -48,6 +53,24 @@ class SearchController < ApplicationController
   end
 
   def fetch
+    execute_search
+    render :layout => false
+  end
+
+  def index
+
+    # add wildcard
+    params.symbolize_keys!
+    if !params[:keywords]
+      #TODO handle missing params with error page
+      redirect_to('/')
+      return
+    end
+    execute_search
+
+  end
+
+  def execute_search
     params.symbolize_keys!
 
     opts = _parse_search_params
@@ -117,26 +140,6 @@ class SearchController < ApplicationController
     @keywords = opts.keywords || []
     @mediums = opts.mediums || []
     @studios = opts.studios || []
-
-    render :layout => false
   end
 
-  def index
-
-    # add wildcard
-    params.symbolize_keys!
-    if !params[:keywords]
-      #TODO handle missing params with error page
-      redirect_to('/')
-      return
-    end
-    
-    opts = _parse_search_params
-
-    @user_query = opts.query || ''
-    @keywords = opts.keywords || []
-    @mediums = opts.mediums || []
-    @studios = opts.studios || []
-
-  end
 end

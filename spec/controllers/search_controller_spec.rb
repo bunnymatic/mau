@@ -59,7 +59,7 @@ describe SearchController do
     context "finding by studio" do
       before do
         @searched_studios = [ studios(:s1890), studios(:as) ]
-        get :index, :studio => @searched_studios.map(&:id), :keywords => 'title'
+        get :index, :studio => Hash[@searched_studios.map{|s| [s.id.to_s, s.id.to_s]}], :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it 'shows the studios you searched for' do
@@ -77,7 +77,7 @@ describe SearchController do
     context "finding by medium" do
       before do
         @searched_medium = [ media(:medium1), media(:medium2) ]
-        get :index, :medium => @searched_medium.map(&:id), :keywords => 'title'
+        get :index, :medium => Hash[@searched_medium.map{|m| [m.id.to_s, m.id.to_s]}], :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it 'shows the media you searched for' do
@@ -223,7 +223,7 @@ describe SearchController do
     context "finding by medium" do
       before do
         @searched_medium = [ media(:medium1), media(:medium2) ]
-        post :fetch, :medium => @searched_medium.map(&:id), :keywords => 'title'
+        post :fetch, :medium => Hash[@searched_medium.map{|m| [m.id.to_s, m.id.to_s]}], :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -243,7 +243,7 @@ describe SearchController do
     context "finding by studio" do
       before do
         @searched_studios = [ studios(:s1890), studios(:as) ]
-        post :fetch, :studio => @searched_studios.map(&:id), :keywords => 'title'
+        post :fetch, :studio => Hash[@searched_studios.map{|s| [s.id.to_s, s.id.to_s]}], :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -262,7 +262,7 @@ describe SearchController do
 
     context "finding by independent studio" do
       before do
-        post :fetch, :studio => ['0'], :keywords => 'title'
+        post :fetch, :studio => {"0" => '0'}, :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do

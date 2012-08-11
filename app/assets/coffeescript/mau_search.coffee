@@ -89,31 +89,47 @@ MAU.SearchPage = class MAUSearch
     # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
     # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     # OTHER DEALINGS IN THE SOFTWARE.
+    _that = this
     triggers = $$('.column .trigger')
     _.each triggers, (item) ->
       item.insert({ top: sprite_minus_dom })
       item.next().hide()
-      item.observe('click', MAUSearch.toggleTarget)
+      item.observe('click', _that.toggleTarget)
     expandeds = $$('.column .expanded')
     _.each expandeds, (item) ->
       item.insert({ top: sprite_plus_dom })
       item.addClassName('trigger')
-      item.observe('click', MAUSearch.toggleTarget)
+      item.observe('click', _that.toggleTarget)
 
     # if we have the search form, bind ajax to the submit
     #
-    searchForm =  $$('form.power_search')
+    searchForm = $$('form.power_search')
     if searchForm.length
       frm = searchForm[0]
-      Event.observe frm,'submit', (ev) ->
-        opts = onSuccess: (resp) ->
+      Event.observe frm,'submit', _that._submitForm
+      return false;
+
+  _submitForm: (ev) ->
+    searchForm = $$('form.power_search')
+    if (searchForm.length)
+      searchForm = searchForm[0]
+      opts =
+        onSuccess: (resp) ->
+          alert('success')
           $('search_results').innerHTML = resp.responseText
           false
-        ev.stop()
-        frm.request(opts)
-        false
+        onFailure: (resp) ->
+          alert('fail')
+          false
+        onComplete: (resp) ->
+          alert('complete')
+          false
+      ev.stop()
+      searchForm.request(opts)
+    false
 
-  @toggleTarget: (event) ->
+
+  toggleTarget: (event) ->
     # NOTE:  Within an event handler, 'this' always refers to the element they are registered on.
     _that = this
     t = event.currentTarget || event.target
@@ -126,5 +142,6 @@ MAU.SearchPage = class MAUSearch
       t.down('div').replace( sprite_minus_dom )
       t.next().slideUp(MAU.BLIND_OPTS.up)
     return false;
+
 
 new MAUSearch(['medium_chooser','studio_chooser'])

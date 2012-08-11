@@ -84,14 +84,15 @@
     };
 
     MAUSearch.prototype.initExpandos = function() {
-      var expandeds, frm, searchForm, triggers;
+      var expandeds, frm, searchForm, triggers, _that;
+      _that = this;
       triggers = $$('.column .trigger');
       _.each(triggers, function(item) {
         item.insert({
           top: sprite_minus_dom
         });
         item.next().hide();
-        return item.observe('click', MAUSearch.toggleTarget);
+        return item.observe('click', _that.toggleTarget);
       });
       expandeds = $$('.column .expanded');
       _.each(expandeds, function(item) {
@@ -99,27 +100,43 @@
           top: sprite_plus_dom
         });
         item.addClassName('trigger');
-        return item.observe('click', MAUSearch.toggleTarget);
+        return item.observe('click', _that.toggleTarget);
       });
       searchForm = $$('form.power_search');
       if (searchForm.length) {
         frm = searchForm[0];
-        return Event.observe(frm, 'submit', function(ev) {
-          var opts;
-          opts = {
-            onSuccess: function(resp) {
-              $('search_results').innerHTML = resp.responseText;
-              return false;
-            }
-          };
-          ev.stop();
-          frm.request(opts);
-          return false;
-        });
+        Event.observe(frm, 'submit', _that._submitForm);
+        return false;
       }
     };
 
-    MAUSearch.toggleTarget = function(event) {
+    MAUSearch.prototype._submitForm = function(ev) {
+      var opts, searchForm;
+      searchForm = $$('form.power_search');
+      if (searchForm.length) {
+        searchForm = searchForm[0];
+        opts = {
+          onSuccess: function(resp) {
+            alert('success');
+            $('search_results').innerHTML = resp.responseText;
+            return false;
+          },
+          onFailure: function(resp) {
+            alert('fail');
+            return false;
+          },
+          onComplete: function(resp) {
+            alert('complete');
+            return false;
+          }
+        };
+        ev.stop();
+        searchForm.request(opts);
+      }
+      return false;
+    };
+
+    MAUSearch.prototype.toggleTarget = function(event) {
       var t, _that;
       _that = this;
       t = event.currentTarget || event.target;

@@ -2,9 +2,10 @@
   .navlinks
     - if @prev_link 
       %span
-        %a{:href => @prev_link, :title => "previous"} &lt;prev
-    %span.page_counter page #{@page} of #{@last}
-    - if @next_link -%>
+        %a{:href => @prev_link, :title => "previous"} < prev
+    %span.page_counter 
+      page #{@page} of #{@last}
+    - if @next_link
       %span
-        %a{:href => @next_link, :title => "next"} next&gt;
+        %a{:href => @next_link, :title => "next"} next >
 

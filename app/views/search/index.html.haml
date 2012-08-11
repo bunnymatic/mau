@@ -33,7 +33,7 @@
           - form_tag({:action => 'fetch' }, :class=>'power_search') do
             %h5.block_head Add Keyword(s):
             .block
-              = text_field_tag :keywords
+              = text_field_tag :keywords, @keywords
               = submit_tag :go
             %h5.block_head.trigger 
               %span Mediums:
