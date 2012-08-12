@@ -4,8 +4,11 @@ MAU.SearchPage = class MAUSearch
   sprite_minus_dom = '<div class="sprite minus" alt="hide" />'
   sprite_plus_dom = '<div class="sprite plus" alt="show" />'
 
-  constructor: (chooser_ids) ->
-    @choosers = if !_.isArray(chooser_ids) then [chooser_ids] else chooser_ids
+  # initialize with checkbox container ids,
+  # and the id of the box showing the current search params
+  constructor: (chooserIds, currentSearch) ->
+    @currentSearch = currentSearch
+    @choosers = if !_.isArray(chooserIds) then [chooserIds] else chooserIds
     @checkbox_selector = '.cb_entry input[type=checkbox]'
     _that = this
     Event.observe window, 'load', ->
@@ -14,11 +17,12 @@ MAU.SearchPage = class MAUSearch
       _that.initAnyLinks()
 
 
+  # intialize the a.reset links
   initAnyLinks: ->
     _that = this
     _.each @choosers, (container) ->
       c = $(container)
-      lnk = c.select('a.reset').first() if c
+      lnk = c.selectOne('a.reset') if c
       Event.observe(lnk, 'click', (ev) ->
         cbs = c.select _that.checkbox_selector
         _.each cbs, (el) ->
@@ -28,19 +32,20 @@ MAU.SearchPage = class MAUSearch
         return false
       ) if lnk
 
+  # set a.reset links based on the checkbox content
   setAnyLink: (container) ->
     _that = this
     c = $(container)
     if c
       cbs = c.select @checkbox_selector
-      a = c.select('a.reset')
+      a = c.selectOne('a.reset')
       if a && a.length
         if _.uniq( _.map(cbs, (c) ->
            c.checked
         )).length > 1
-          a.first().show()
+          a.show()
         else
-          a.first().hide()
+          a.hide()
 
   initCBs: ->
     _that = this
@@ -109,20 +114,24 @@ MAU.SearchPage = class MAUSearch
       Event.observe frm,'submit', _that._submitForm
       return false;
 
+  updateQueryParamsInView: ->
+    _that = this
+    # grab form params
+
+
   _submitForm: (ev) ->
+    _that = this
     searchForm = $$('form.power_search')
     if (searchForm.length)
       searchForm = searchForm[0]
       opts =
         onSuccess: (resp) ->
-          alert('success')
           $('search_results').innerHTML = resp.responseText
           false
         onFailure: (resp) ->
-          alert('fail')
           false
         onComplete: (resp) ->
-          alert('complete')
+          _that.updateQueryParamsInView();
           false
       ev.stop()
       searchForm.request(opts)

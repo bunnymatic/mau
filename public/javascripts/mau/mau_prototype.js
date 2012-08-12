@@ -16,19 +16,9 @@ var MauPrototypeExtensions = {
     }
     return null;
   },
-  findChildByTagName: function(elem, tagname) {
-    var el = $(elem);
-    var entry = null;
-    var kids = el.descendants();
-    var tagMatch = tagname.toUpperCase();
-    var ii = 0, n = kids.length;
-    for (; ii < n; ++ii ) {
-      var kid = kids[ii];
-      if (kid && kid.tagName == tagMatch) {
-        return kid
-      }
-    }
-    return null;
+  selectOne: function(elem, subSel) {
+    var el = $(elem).select(subSel);
+    return el.length ? el.first() : null;
   },
   hover: function(elem,infunc, outfunc) {
     if (!elem) { return; }
@@ -70,6 +60,9 @@ var MauPrototypeExtensions = {
     }
   }
 };
+
+/** add aliases */
+MauPrototypeExtensions.findChildByTagName = MauPrototypeExtensions.selectOne
 
 
 Element.addMethods(MauPrototypeExtensions);
