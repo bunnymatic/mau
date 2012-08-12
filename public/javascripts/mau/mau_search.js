@@ -10,10 +10,12 @@
 
     sprite_plus_dom = '<div class="sprite plus" alt="show" />';
 
-    function MAUSearch(chooser_ids) {
+    function MAUSearch(chooserIds, currentSearch) {
       var _that;
-      this.choosers = !_.isArray(chooser_ids) ? [chooser_ids] : chooser_ids;
-      this.checkbox_selector = '.cb_entry input[type=checkbox]';
+      this.currentSearch = currentSearch;
+      this.choosers = !_.isArray(chooserIds) ? [chooserIds] : chooserIds;
+      this.checkboxSelector = '.cb_entry input[type=checkbox]';
+      this.searchFormSelector = 'form.power_search';
       _that = this;
       Event.observe(window, 'load', function() {
         _that.initExpandos();
@@ -29,12 +31,12 @@
         var c, lnk;
         c = $(container);
         if (c) {
-          lnk = c.select('a.reset').first();
+          lnk = c.selectOne('a.reset');
         }
         if (lnk) {
           return Event.observe(lnk, 'click', function(ev) {
             var cbs;
-            cbs = c.select(_that.checkbox_selector);
+            cbs = c.select(_that.checkboxSelector);
             _.each(cbs, function(el) {
               return el.checked = false;
             });
@@ -51,15 +53,15 @@
       _that = this;
       c = $(container);
       if (c) {
-        cbs = c.select(this.checkbox_selector);
-        a = c.select('a.reset');
+        cbs = c.select(this.checkboxSelector);
+        a = c.selectOne('a.reset');
         if (a && a.length) {
           if (_.uniq(_.map(cbs, function(c) {
             return c.checked;
           })).length > 1) {
-            return a.first().show();
+            return a.show();
           } else {
-            return a.first().hide();
+            return a.hide();
           }
         }
       }
@@ -72,7 +74,7 @@
         var $c, cbs;
         $c = $(c);
         if ($c) {
-          cbs = $c.select(_that.checkbox_selector) || [];
+          cbs = $c.select(_that.checkboxSelector) || [];
           _.each(cbs, function(item, idx) {
             return Event.observe(item, 'change', function(ev) {
               return _that.setAnyLink(c);
@@ -102,7 +104,7 @@
         item.addClassName('trigger');
         return item.observe('click', _that.toggleTarget);
       });
-      searchForm = $$('form.power_search');
+      searchForm = $$(this.searchFormSelector);
       if (searchForm.length) {
         frm = searchForm[0];
         Event.observe(frm, 'submit', _that._submitForm);
@@ -110,23 +112,27 @@
       }
     };
 
+    MAUSearch.prototype.updateQueryParamsInView = function() {
+      var _that;
+      return _that = this;
+    };
+
     MAUSearch.prototype._submitForm = function(ev) {
-      var opts, searchForm;
-      searchForm = $$('form.power_search');
+      var opts, searchForm, _that;
+      _that = this;
+      searchForm = $$(this.searchFormSelector);
       if (searchForm.length) {
         searchForm = searchForm[0];
         opts = {
           onSuccess: function(resp) {
-            alert('success');
             $('search_results').innerHTML = resp.responseText;
             return false;
           },
           onFailure: function(resp) {
-            alert('fail');
             return false;
           },
           onComplete: function(resp) {
-            alert('complete');
+            _that.updateQueryParamsInView();
             return false;
           }
         };

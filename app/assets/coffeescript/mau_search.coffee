@@ -9,7 +9,8 @@ MAU.SearchPage = class MAUSearch
   constructor: (chooserIds, currentSearch) ->
     @currentSearch = currentSearch
     @choosers = if !_.isArray(chooserIds) then [chooserIds] else chooserIds
-    @checkbox_selector = '.cb_entry input[type=checkbox]'
+    @checkboxSelector = '.cb_entry input[type=checkbox]'
+    @searchFormSelector = 'form.power_search'
     _that = this
     Event.observe window, 'load', ->
       _that.initExpandos()
@@ -24,7 +25,7 @@ MAU.SearchPage = class MAUSearch
       c = $(container)
       lnk = c.selectOne('a.reset') if c
       Event.observe(lnk, 'click', (ev) ->
-        cbs = c.select _that.checkbox_selector
+        cbs = c.select _that.checkboxSelector
         _.each cbs, (el) ->
           el.checked = false
         _that.setAnyLink(c)
@@ -37,7 +38,7 @@ MAU.SearchPage = class MAUSearch
     _that = this
     c = $(container)
     if c
-      cbs = c.select @checkbox_selector
+      cbs = c.select @checkboxSelector
       a = c.selectOne('a.reset')
       if a && a.length
         if _.uniq( _.map(cbs, (c) ->
@@ -58,7 +59,7 @@ MAU.SearchPage = class MAUSearch
     _.each @choosers, (c) ->
       $c = $(c)
       if $c
-        cbs = $c.select(_that.checkbox_selector) || []
+        cbs = $c.select(_that.checkboxSelector) || []
         _.each cbs, (item,idx) ->
           Event.observe item, 'change', (ev) ->
             _that.setAnyLink(c)
@@ -108,7 +109,7 @@ MAU.SearchPage = class MAUSearch
 
     # if we have the search form, bind ajax to the submit
     #
-    searchForm = $$('form.power_search')
+    searchForm = $$(@searchFormSelector)
     if searchForm.length
       frm = searchForm[0]
       Event.observe frm,'submit', _that._submitForm
@@ -119,9 +120,10 @@ MAU.SearchPage = class MAUSearch
     # grab form params
 
 
+
   _submitForm: (ev) ->
     _that = this
-    searchForm = $$('form.power_search')
+    searchForm = $$(@searchFormSelector)
     if (searchForm.length)
       searchForm = searchForm[0]
       opts =
