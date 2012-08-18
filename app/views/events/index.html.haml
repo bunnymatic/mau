@@ -5,7 +5,8 @@
       %nav.event_nav
         %ul 
           - @events_by_month.sort.reverse.each do |key, events|
-            - clz = 'current' if (key[4..-1].to_i == Time.now.month && (!@current || @current.empty?)) || (@current == key)
+            - clz = 'current' if (@current && @current == key) || (key == Time.now.strftime('%Y%m'))
+
             %li.by_month{:class => clz, "data-viskey" => key}
               %a{:href => '#'} #{events[:display]}
 
@@ -14,9 +15,9 @@
       .events.logo-space
         = render :partial => '/flash_notice_error'
         .event_list
-          - @events_by_month.sort.each do |month, events|
-            - clz = 'current' if (month[4..-1].to_i == Time.now.month && (!@current || @current.empty?)) || (@current == month)
-            .events_by_month{:class => [clz, month].join(' ')}
+          - @events_by_month.sort.each do |key, events|
+            - clz = 'current' if (@current && @current == key) || (key == Time.now.strftime('%Y%m'))
+            .events_by_month{:class => [clz, key].join(' ')}
               %h3 
                 Mission Artists' Events for 
                 %span.month #{events[:display]}
