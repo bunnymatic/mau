@@ -1,7 +1,57 @@
 (function() {
-  var MAU, MAUSearch;
+  var MAU, MAUSearch, MAUSearchSpinner;
 
   MAU = window.MAU = window.MAU || {};
+
+  MAU.SearchSpinner = MAUSearchSpinner = (function() {
+
+    function MAUSearchSpinner() {
+      this.spinnerBG = 'spinnerbg';
+      this.spinnerFG = 'spinnerfg';
+    }
+
+    MAUSearchSpinner.prototype.create = function() {
+      var bg, fg;
+      if ($(this.spinnerBG)) {
+        $(this.spinnerBG).remove();
+      }
+      bg = new Element('div', {
+        id: this.spinnerBG,
+        style: 'display:none;'
+      });
+      fg = new Element('div', {
+        id: this.spinnerFG,
+        'class': 'search_spinner'
+      });
+      bg.insert(fg);
+      $$('#container')[0].insert(bg);
+      return bg;
+    };
+
+    MAUSearchSpinner.prototype.show = function() {
+      var spinner;
+      spinner = $(this.spinnerBG);
+      if (!spinner) {
+        spinner = this.create();
+      }
+      spinner.clonePosition($('container'), {
+        setLeft: false,
+        setTop: false
+      });
+      return spinner.show();
+    };
+
+    MAUSearchSpinner.prototype.hide = function() {
+      var spinner;
+      spinner = $(this.spinnerBG);
+      if (spinner) {
+        return spinner.hide();
+      }
+    };
+
+    return MAUSearchSpinner;
+
+  })();
 
   MAU.SearchPage = MAUSearch = (function() {
     var sprite_minus_dom, sprite_plus_dom;
@@ -16,6 +66,7 @@
       this.choosers = !_.isArray(chooserIds) ? [chooserIds] : chooserIds;
       this.checkboxSelector = '.cb_entry input[type=checkbox]';
       this.searchFormSelector = 'form.power_search';
+      this.spinner = new MAUSearchSpinner();
       _that = this;
       Event.observe(window, 'load', function() {
         _that.initExpandos();
@@ -31,8 +82,9 @@
         var c, lnk;
         c = $(container);
         if (c) {
-          lnk = c.selectOne('a.reset');
+          lnk = c.selectOne('.reset a');
         }
+        _that.setAnyLink(c);
         if (lnk) {
           return Event.observe(lnk, 'click', function(ev) {
             var cbs;
@@ -53,12 +105,10 @@
       _that = this;
       c = $(container);
       if (c) {
-        cbs = c.select(this.checkboxSelector);
-        a = c.selectOne('a.reset');
-        if (a && a.length) {
-          if (_.uniq(_.map(cbs, function(c) {
-            return c.checked;
-          })).length > 1) {
+        cbs = c.select(this.checkboxSelector + ":checked");
+        a = c.selectOne('.reset a');
+        if (a) {
+          if (cbs.length) {
             return a.show();
           } else {
             return a.hide();
@@ -192,6 +242,7 @@
       var frm, opts, _that;
       _that = this;
       frm = $$(_that.searchFormSelector);
+      this.spinner.show();
       if (frm.length) {
         frm = frm[0];
         opts = {
@@ -204,6 +255,7 @@
           },
           onComplete: function(resp) {
             _that.updateQueryParamsInView();
+            _that.spinner.hide();
             return false;
           }
         };

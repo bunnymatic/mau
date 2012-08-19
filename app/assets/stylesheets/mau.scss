@@ -518,6 +518,7 @@ a {
   margin:0;
   @include large-rounded-corners;
   position:relative;
+  @extend .clearfix;
 }
 #header_bar {
   z-index: 5;
@@ -1974,9 +1975,13 @@ span.rightarrow
     width: 100%;
   }
   /*** for show/hide panels on search */
+  .block {
+    padding: 0 5px;
+  }
   .block_head { 
+    @include large-rounded-corners;
     line-height: 24px;
-    padding: 10px 6px 6px;
+    padding: 10px 5px 6px 5px;
   }
   .trigger {
     cursor: pointer;
@@ -2007,13 +2012,11 @@ span.rightarrow
     border-bottom: 1px dotted $bordergray
   }
   .refine_controls {
+    width: 100%;
+    margin-bottom: 20px;
     h4 {
       padding-bottom: 4px;
       border-bottom: 1px solid $bordergray;
-    }
-
-    width: 100%;
-    h5 { 
     }
     .block {
       text-align: left; 
@@ -2024,13 +2027,15 @@ span.rightarrow
     }
     .expandable {
       position:relative;
-
     }
   }
   .cb_entry {
-  }
-  .cb_entry label {
-    color: $mediumgray;
+    label {
+      color: $mediumgray;
+    }
+    &.reset {
+      float: right;
+    }
   }
   .current_search {
     h4 {
@@ -2039,6 +2044,7 @@ span.rightarrow
     }
     .block {
       margin: 10px 0;
+      padding: 0 5px;
       .os {
         margin-left: 10px;
         font-size: 11px;
@@ -2056,6 +2062,23 @@ span.rightarrow
     }
   }    
 }  
+
+/***************
+
+search pages
+
+****************/
+#spinnerbg {
+  .search_spinner {
+    position: absolute;
+    left: 55%;
+    top: 200px;
+    height: 66px;
+    width: 66px;
+    background-image: url(/images/search_spinner.gif);
+    background-repeat: no-repeat;
+  }
+}
 
 /** search results is used on medium/tag pages so don't over scope it */
 #search_results {
@@ -2739,8 +2762,17 @@ a#note_close_link{
   height: 100%;
   width: 100%;
   background-color: $white;
-  @include opacity(0.4);
+  @include opacity(0.3);
 }
+#spinnerbg {
+  z-index:10;
+  position:absolute;
+  left: 0;
+  top: 0;
+  background-color: $white;
+  @include opacity(0.3);
+}
+
 
 #img_modal_overlay {
   z-index:100;

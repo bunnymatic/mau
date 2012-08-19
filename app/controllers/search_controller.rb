@@ -22,7 +22,7 @@ class SearchController < ApplicationController
 
     unless params[:medium].blank?
       medium_ids = params[:medium].values.map(&:to_i).reject{|v| v <= 0}
-      opts.mediums = Medium.find_all_by_id(medium_ids)
+      opts.mediums = Medium.find_all_by_id(medium_ids, :order => 'name')
     end
     unless params[:studio].blank?
       studio_ids = params[:studio].values().compact.map(&:to_i)

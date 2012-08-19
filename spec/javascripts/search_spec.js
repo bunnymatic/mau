@@ -92,7 +92,7 @@ describe('Search', function() {
     });
     it('sets all checkboxes unchecked after clicking the any button', function() {
       $$(full_selectors.medium_chooser).first().simulate('click');
-      $$('a.reset').first().simulate('click')
+      $$('.reset a').first().simulate('click')
       expect($$(full_selectors.medium_chooser).any(function(cb) { return cb.checked; })).toBeFalsy();
     });
 

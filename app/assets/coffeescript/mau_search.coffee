@@ -1,4 +1,32 @@
 MAU = window.MAU = window.MAU || {}
+MAU.SearchSpinner = class MAUSearchSpinner
+  constructor: ->
+    @spinnerBG = 'spinnerbg'
+    @spinnerFG = 'spinnerfg'
+
+  create: ->
+    if $(@spinnerBG)
+      $(@spinnerBG).remove()
+    bg = new Element('div', {id:@spinnerBG, style:'display:none;'})
+    fg = new Element('div', {id:@spinnerFG, 'class':'search_spinner'})
+    bg.insert(fg)
+    $$('#container')[0].insert(bg)
+    bg
+
+  show: ->
+    spinner = $(@spinnerBG)
+    if (!spinner)
+      spinner = this.create()
+
+    spinner.clonePosition($('container'), {setLeft:false, setTop:false})
+    spinner.show();
+
+  hide: ->
+    spinner = $(@spinnerBG)
+    if (spinner)
+      spinner.hide();
+
+
 MAU.SearchPage = class MAUSearch
 
   sprite_minus_dom = '<div class="sprite minus" alt="hide" />'
@@ -11,19 +39,20 @@ MAU.SearchPage = class MAUSearch
     @choosers = if !_.isArray(chooserIds) then [chooserIds] else chooserIds
     @checkboxSelector = '.cb_entry input[type=checkbox]'
     @searchFormSelector = 'form.power_search'
+    @spinner = new MAUSearchSpinner()
     _that = this
     Event.observe window, 'load', ->
       _that.initExpandos()
       _that.initCBs()
       _that.initAnyLinks()
 
-
   # intialize the a.reset links
   initAnyLinks: ->
     _that = this
     _.each @choosers, (container) ->
       c = $(container)
-      lnk = c.selectOne('a.reset') if c
+      lnk = c.selectOne('.reset a') if c
+      _that.setAnyLink(c)
       Event.observe(lnk, 'click', (ev) ->
         cbs = c.select _that.checkboxSelector
         _.each cbs, (el) ->
@@ -38,12 +67,10 @@ MAU.SearchPage = class MAUSearch
     _that = this
     c = $(container)
     if c
-      cbs = c.select @checkboxSelector
-      a = c.selectOne('a.reset')
-      if a && a.length
-        if _.uniq( _.map(cbs, (c) ->
-           c.checked
-        )).length > 1
+      cbs = c.select @checkboxSelector + ":checked"
+      a = c.selectOne('.reset a')
+      if a
+        if cbs.length
           a.show()
         else
           a.hide()
@@ -177,6 +204,7 @@ MAU.SearchPage = class MAUSearch
   _submitForm: (ev) ->
     _that = this
     frm = $$(_that.searchFormSelector)
+    this.spinner.show()
     if (frm.length)
       frm = frm[0]
       opts =
@@ -187,6 +215,7 @@ MAU.SearchPage = class MAUSearch
           false
         onComplete: (resp) ->
           _that.updateQueryParamsInView();
+          _that.spinner.hide()
           false
       ev.stop()
       frm.request(opts)

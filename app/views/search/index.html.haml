@@ -45,9 +45,9 @@
               %span Mediums:
             .block.expandable#medium_chooser
               %ul
-                %li.cb_entry
+                %li.cb_entry.reset
                   %a.reset{:href => '#'} 
-                    &lt;any&gt;
+                    [ reset ]
                 - medium_ids = @mediums.map(&:id).map(&:to_i)
                 - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
                   - ck = (medium_ids.length && medium_ids.include?(m[:id]))
@@ -60,7 +60,7 @@
               %ul
                 %li.cb_entry.reset
                   %a.reset{:href => '#'} 
-                    &lt;any&gt;
+                    [ reset ]
                 - Studio.all.map{ |s| {:id => s.id, :name => s.name.to_param, :display => s.name}}.each do |s|
                   - ck = (@studios.length && @studios.map(&:id).map(&:to_i).include?(s[:id]))
                   %li.cb_entry
