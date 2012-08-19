@@ -45,6 +45,7 @@ MAU.SearchPage = class MAUSearch
       _that.initExpandos()
       _that.initCBs()
       _that.initAnyLinks()
+      _that.initFormSubmitOnChange()
 
   # intialize the a.reset links
   initAnyLinks: ->
@@ -59,6 +60,7 @@ MAU.SearchPage = class MAUSearch
           el.checked = false
         _that.setAnyLink(c)
         ev.stop();
+        _that._submitForm();
         return false
       ) if lnk
 
@@ -75,6 +77,23 @@ MAU.SearchPage = class MAUSearch
         else
           a.hide()
 
+  initFormSubmitOnChange: ->
+    _that = this
+    os_chooser = $('os_artist')
+    if os_chooser
+      os_chooser.observe 'change', (ev) ->
+        _that._submitForm(ev)
+
+    _.each @choosers, (c) ->
+      $c = $(c)
+      if $c
+        s = ->
+          _that._submitForm()
+        debounced = s.debounce(500,false)
+        _.each $c.select(_that.checkboxSelector), (item) ->
+          Event.observe item, 'change', debounced
+
+
   initCBs: ->
     _that = this
 
@@ -86,8 +105,7 @@ MAU.SearchPage = class MAUSearch
     _.each @choosers, (c) ->
       $c = $(c)
       if $c
-        cbs = $c.select(_that.checkboxSelector) || []
-        _.each cbs, (item,idx) ->
+        _.each $c.select(_that.checkboxSelector), (item,idx) ->
           Event.observe item, 'change', (ev) ->
             _that.setAnyLink(c)
         _that.setAnyLink(c)
@@ -217,7 +235,7 @@ MAU.SearchPage = class MAUSearch
           _that.updateQueryParamsInView();
           _that.spinner.hide()
           false
-      ev.stop()
+      ev.stop() if ev
       frm.request(opts)
     false
 

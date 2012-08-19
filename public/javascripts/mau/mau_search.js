@@ -71,7 +71,8 @@
       Event.observe(window, 'load', function() {
         _that.initExpandos();
         _that.initCBs();
-        return _that.initAnyLinks();
+        _that.initAnyLinks();
+        return _that.initFormSubmitOnChange();
       });
     }
 
@@ -94,6 +95,7 @@
             });
             _that.setAnyLink(c);
             ev.stop();
+            _that._submitForm();
             return false;
           });
         }
@@ -117,15 +119,38 @@
       }
     };
 
+    MAUSearch.prototype.initFormSubmitOnChange = function() {
+      var os_chooser, _that;
+      _that = this;
+      os_chooser = $('os_artist');
+      if (os_chooser) {
+        os_chooser.observe('change', function(ev) {
+          return _that._submitForm(ev);
+        });
+      }
+      return _.each(this.choosers, function(c) {
+        var $c, debounced, s;
+        $c = $(c);
+        if ($c) {
+          s = function() {
+            return _that._submitForm();
+          };
+          debounced = s.debounce(500, false);
+          return _.each($c.select(_that.checkboxSelector), function(item) {
+            return Event.observe(item, 'change', debounced);
+          });
+        }
+      });
+    };
+
     MAUSearch.prototype.initCBs = function() {
       var _that;
       _that = this;
       return _.each(this.choosers, function(c) {
-        var $c, cbs;
+        var $c;
         $c = $(c);
         if ($c) {
-          cbs = $c.select(_that.checkboxSelector) || [];
-          _.each(cbs, function(item, idx) {
+          _.each($c.select(_that.checkboxSelector), function(item, idx) {
             return Event.observe(item, 'change', function(ev) {
               return _that.setAnyLink(c);
             });
@@ -259,7 +284,9 @@
             return false;
           }
         };
-        ev.stop();
+        if (ev) {
+          ev.stop();
+        }
         frm.request(opts);
       }
       return false;

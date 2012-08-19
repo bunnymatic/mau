@@ -66,3 +66,34 @@ MauPrototypeExtensions.findChildByTagName = MauPrototypeExtensions.selectOne
 
 
 Element.addMethods(MauPrototypeExtensions);
+
+if (!Function.prototype.debounce) {
+  /** 
+      execAsap -> if true, do the action and suppress subsequent requests for threshold ms
+                  if false, wait until threshold has passed, then execute
+   **/
+  Function.prototype.debounce = function (threshold, execAsap) {
+    
+    var func = this, timeout;
+    
+    return function debounced () {
+      var obj = this, args = arguments;
+      function delayed () {
+        if (!execAsap) {
+          func.apply(obj, args);
+        }
+        timeout = null; 
+      };
+      
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      else if (execAsap) {
+        func.apply(obj, args);
+      }
+      
+      timeout = setTimeout(delayed, threshold || 100); 
+    };
+    
+  }
+}
