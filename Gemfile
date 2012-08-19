@@ -7,6 +7,7 @@ gem "nokogiri"
 gem "htmlentities"
 gem "json"
 gem 'mysql2', '~> 0.2.11'
+gem 'activerecord-mysql2-adapter'
 gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"
