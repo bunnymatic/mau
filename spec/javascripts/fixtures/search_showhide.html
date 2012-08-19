@@ -1,56 +1,96 @@
 <div id="fixture">
   <div class='column'>
-    <h4 class='trigger' id='h1'>Header1</h4>
-    <div class='expandable' id='s1' style="display:none;">
-      stuff
-    </div>
-    <h4 class='trigger' id='h2'>Header2</h4>
-    <div class='expandable' id='s2' style="display:none;">
-      stuff2
-    </div>
-    <h4 class='trigger' id='h3'>Header3</h4>
-    <div class='expandable' id='s3' style="display:none;">
-      stuff
-    </div>
-    <h4 class='trigger' id='h4'>Mediums</h4>
-    <div class="block expandable" id="medium_chooser" style="display:none;">
-      <ul>
-        <li class="cb_entry">
-          <a class='reset'>any</a>
-        </li>
-        <li class="cb_entry">
-          <input id="medium_1" name="medium[1]" type="checkbox" value="1">
-          <label for="medium_1">Drawing</label>
-        </li>
-        <li class="cb_entry">
-          <input id="medium_2" name="medium[2]" type="checkbox" value="2">
-          <label for="medium_2">Mixed-Media</label>
-        </li>
-      </ul>
-    </div>
+    <div class="current_search">
+      <h4>Current Search</h4>
+      <div class="block keywords">
+        <label>Keywords:</label>
+        <ul class="keywords">
+          <li>rock</li>
+          <li>AND roll</li>
+        </ul>
+      </div>
+      <div class="block mediums">
+        <label>Mediums:</label>
+        <ul><li>Any</li></ul>
+      </div>
+      <div class="block studios">
+        <label>Studios:</label>
+        <ul><li>1890 Bryant St Studios</li><li>ActivSpace</li><li>Art, Wine and Dine Artists</li></ul>
+      </div>
+      <div class="block os">
+        <label>Open Studios Participants:</label>
+        <div class="os">Yes</div>
+      </div>
+    </div>  
+    <div class="refine_controls">
+      <form action="#" class="power_search">
+        <div class="block">
+          <input id="keywords" name="keywords" type="text" value="rock, roll">
+          <input name="commit" type="submit" value="go">
+        </div>
 
-    <h4 class='trigger' id='h5'>Studios</h4>
-    <div class="block expandable" id="studio_chooser" style="display:none;">
-      <ul>
-        <li class="cb_entry">
-          <a class='reset'>any</a>
-        </li>
-        <li class="cb_entry">
-          <input id="studio_" name="studio[1]" type="checkbox" value="1">
-          <label for="1890_Bryant_St_Studios">1890 Bryant St Studios</label>
-        </li>
-        <li class="cb_entry">
-          <input id="studio_" name="studio[2]" type="checkbox" value="2">
-          <label for="ActivSpace">ActivSpace</label>
-        </li>
-        <li class="cb_entry">
-          <input id="studio_" name="studio[0]" type="checkbox" value="0">
-          <label for="Indy">Indy</label>
-        </li>
-      </ul>
-    </div>
+        <h4 class='trigger' id='h1'>Header1</h4>
+        <div class='expandable' id='s1' style="display:none;">
+          stuff
+        </div>
+        <h4 class='trigger' id='h2'>Header2</h4>
+        <div class='expandable' id='s2' style="display:none;">
+          stuff2
+        </div>
+        <h4 class='trigger' id='h3'>Header3</h4>
+        <div class='expandable' id='s3' style="display:none;">
+          stuff
+        </div>
 
+        <h4 class='trigger' id='h4'>Mediums</h4>
+        <div class="block expandable" id="medium_chooser" style="display:none;">
+          <ul>
+            <li class="cb_entry">
+              <a class='reset'>any</a>
+            </li>
+            <li class="cb_entry">
+              <input id="medium_1" name="medium[1]" type="checkbox" value="1" data-display="Drawing">
+              <label for="medium_1">Drawing</label>
+            </li>
+            <li class="cb_entry">
+              <input id="medium_2" name="medium[2]" type="checkbox" value="2" data-display="MM">
+              <label for="medium_2">Mixed-Media</label>
+            </li>
+            <li class="cb_entry">
+              <input id="medium_3" name="medium[3]" type="checkbox" value="3" data-display="MMM">
+              <label for="medium_3">Maxed-Media</label>
+            </li>
+          </ul>
+        </div>
+
+        <h4 class='trigger' id='h5'>Studios</h4>
+        <div class="block expandable" id="studio_chooser" style="display:none;">
+          <ul>
+            <li class="cb_entry">
+              <a class='reset'>any</a>
+            </li>
+            <li class="cb_entry">
+              <input id="studio_1" name="studio[1]" type="checkbox" value="1" data-display="1890">
+              <label for="1890_Bryant_St_Studios">1890 Bryant St Studios</label>
+            </li>
+            <li class="cb_entry">
+              <input id="studio_2" name="studio[2]" type="checkbox" value="2" data-display="ActivSpace">
+              <label for="ActivSpace">ActivSpace</label>
+            </li>
+            <li class="cb_entry">
+              <input id="studio_0" name="studio[0]" type="checkbox" value="0"  data-display="Indy">
+              <label for="Indy">Indy</label>
+            </li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <select id="os_artist" name="os_artist"><option value="" selected="selected">Don't Care</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+          </select>
+        </div>
+      </form>
+    </div>
   </div>
-
-
 </div>

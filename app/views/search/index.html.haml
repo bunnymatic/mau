@@ -12,28 +12,34 @@
               - @keywords.present? && @keywords.each_with_index do |k, idx|
                 %li #{ "AND " if idx > 0} #{k}
           .block.mediums
-            - if @mediums && !@mediums.empty?
-              %label Mediums:
-              %ul
+            %label Mediums:
+            %ul
+              - if @mediums && !@mediums.empty?
                 - @mediums.map(&:name).each do |n|
                   %li #{n}
+              - else
+                %li Any
           .block.studios
-            - if @studios && !@studios.empty?
-              %label Studios:
-              %ul
+            %label Studios:
+            %ul
+              - if @studios && !@studios.empty?
                 - @studios.map(&:name).each do |n|
                   %li #{n}
+              - else                 
+                %li Any
           .block.os
+            %label Open Studios Participants: 
             - unless @open_studios_flag.nil?
-              %label Open Studios Participants: 
               .os #{@open_studios_flag ? 'Yes' : 'No'}
-
+            - else
+              .os Don't Care
+                
         .refine_controls 
           %h4 Narrow Your Results
           - form_tag({:action => 'fetch' }, :class=>'power_search') do
             %h5.block_head Add Keyword(s):
             .block
-              = text_field_tag :keywords, @keywords
+              = text_field_tag :keywords, @keywords.join(", ")
               = submit_tag :go
             %h5.block_head.trigger 
               %span Mediums:
@@ -46,7 +52,7 @@
                 - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
                   - ck = (medium_ids.length && medium_ids.include?(m[:id]))
                   %li.cb_entry
-                    = check_box_tag "medium[#{m[:id]}]", m[:id], ck
+                    = check_box_tag "medium[#{m[:id]}]", m[:id], ck, "data-display" => m[:display]
                     = label_tag "medium[#{m[:id]}]", m[:display]
             %h5.block_head.trigger 
               %span Studios:
@@ -58,7 +64,7 @@
                 - Studio.all.map{ |s| {:id => s.id, :name => s.name.to_param, :display => s.name}}.each do |s|
                   - ck = (@studios.length && @studios.map(&:id).map(&:to_i).include?(s[:id]))
                   %li.cb_entry
-                    = check_box_tag 'studio[]', s[:id], ck
+                    = check_box_tag "studio[#{s[:id]}]", s[:id], ck, "data-display" => s[:display]
                     = label_tag s[:name], s[:display]
             %h5.block_head Open Studios Artist:
             .block

@@ -2065,6 +2065,10 @@ span.rightarrow
   }
   .no-results {
     font-size: 13px;
+    em {
+      font-weight: bold;
+      color: $lightyellow;
+    }
   }
   
   .navlinks {

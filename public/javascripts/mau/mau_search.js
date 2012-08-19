@@ -107,22 +107,93 @@
       searchForm = $$(this.searchFormSelector);
       if (searchForm.length) {
         frm = searchForm[0];
-        Event.observe(frm, 'submit', _that._submitForm);
+        Event.observe(frm, 'submit', function(ev) {
+          return _that._submitForm(ev);
+        });
         return false;
       }
     };
 
     MAUSearch.prototype.updateQueryParamsInView = function() {
-      var _that;
-      return _that = this;
+      var ctx, frm, kw, kw_block, med_block, ms, os, os_info, oss, ss, studio_block, _that;
+      _that = this;
+      frm = $$(_that.searchFormSelector);
+      if (frm.length) {
+        frm = frm[0];
+        ms = _.map(frm.select('#medium_chooser input:checked'), function(item) {
+          return item.data('display');
+        });
+        ss = _.map(frm.select('#studio_chooser input:checked'), function(item) {
+          return item.data('display');
+        });
+        os = null;
+        try {
+          os = frm.select('#os_artist')[0].selected().value;
+        } catch (err) {
+          os = null;
+        }
+        kw = _.map(frm.select('#keywords')[0].getValue().split(","), function(s) {
+          return s.trim();
+        });
+        ctx = $$('.current_search');
+        if (ctx.length) {
+          ctx = ctx[0];
+          kw_block = ctx.select('.block.keywords ul.keywords')[0];
+          if (kw_block) {
+            kw_block.html('');
+            _.each(kw, function(k, idx) {
+              var li, s;
+              s = k;
+              if (!!idx) {
+                s = "AND " + s;
+              }
+              li = new Element('li').update(s);
+              return kw_block.insert(li);
+            });
+          }
+          med_block = ctx.select('.block.mediums ul')[0];
+          if (med_block) {
+            med_block.html('');
+            if (ms.length) {
+              _.each(ms, function(m) {
+                return med_block.insert(new Element('li').update(m));
+              });
+            } else {
+              med_block.insert(new Element('li').update('Any'));
+            }
+          }
+          studio_block = ctx.select('.block.studios ul')[0];
+          if (studio_block) {
+            studio_block.html('');
+            if (ss.length) {
+              _.each(ss, function(s) {
+                return studio_block.insert(new Element('li').update(s));
+              });
+            } else {
+              studio_block.insert(new Element('li').update('Any'));
+            }
+          }
+          os_info = ctx.select('.block.os .os')[0];
+          if (os_info) {
+            oss = "Don't Care";
+            if (os) {
+              oss = {
+                '1': 'Yes',
+                '2': 'No'
+              }[os];
+            }
+            return os_info.html(oss);
+          }
+        }
+      }
     };
 
     MAUSearch.prototype._submitForm = function(ev) {
-      var opts, searchForm, _that;
+      var frm, opts, _that;
       _that = this;
-      searchForm = $$(this.searchFormSelector);
-      if (searchForm.length) {
-        searchForm = searchForm[0];
+      frm = $$(_that.searchFormSelector);
+      if (frm.length) {
+        frm = frm[0];
         opts = {
           onSuccess: function(resp) {
             $('search_results').innerHTML = resp.responseText;
@@ -137,7 +208,7 @@
           }
         };
         ev.stop();
-        searchForm.request(opts);
+        frm.request(opts);
       }
       return false;
     };

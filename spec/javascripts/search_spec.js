@@ -15,10 +15,74 @@ describe('Search', function() {
     s.initAnyLinks()
   });
   
-  describe('  updateQueryParamsInView',function() {
-    it('works', function() {
-      expect(false).toBeTruthy();
+  describe('updateQueryParamsInView',function() {
+    describe('keywords', function() {
+      beforeEach(function() {
+        $('keywords').setValue('this, and that')
+        s.updateQueryParamsInView();
+      });
+      it('puts keywords from the form into the current search', function() {
+        var lis = $$('.block.keywords li');
+        expect(lis.length).toEqual(2)
+        expect(lis[0].innerHTML).toEqual('this')
+        expect(lis[1].innerHTML).toEqual('AND and that')
+      });
     });
+    describe('mediums', function() {
+      it('puts mediums from the form into the current search', function() {
+        _.each($$('#medium_chooser input[type=checkbox]'), function(item, idx) {
+          if (idx < 2) {
+            item.checked = true;
+          }
+        });
+        s.updateQueryParamsInView();
+        var lis = $$('.block.mediums li');
+        expect(lis.length).toEqual(2)
+        expect(lis[0].innerHTML).toEqual('Drawing')
+        expect(lis[1].innerHTML).toEqual('MM')
+      });
+      it('puts any in mediums if there are none selected in the form', function() {
+        _.each($$('#medium_chooser input[type=checkbox]'), function(item, idx) {
+          item.checked = false;
+        });
+        s.updateQueryParamsInView();
+        var lis = $$('.block.mediums li');
+        expect(lis.length).toEqual(1)
+        expect(lis[0].innerHTML).toEqual('Any')
+      });
+    });
+    describe('studios', function() {
+      it('puts studios from the form into the current search', function() {
+        _.each($$('#studio_chooser input[type=checkbox]'), function(item, idx) {
+          if (idx < 2) {
+            item.checked = true;
+          }
+        });
+        s.updateQueryParamsInView();
+        var lis = $$('.block.studios li');
+        expect(lis.length).toEqual(2)
+        expect(lis[0].innerHTML).toEqual('1890')
+        expect(lis[1].innerHTML).toEqual('ActivSpace')
+      });
+      it('puts any in studios if there are no studios selected', function() {
+        _.each($$('#studio_chooser input[type=checkbox]'), function(item, idx) {
+          item.checked = false;
+        });
+        s.updateQueryParamsInView();
+        var lis = $$('.block.studios li');
+        expect(lis.length).toEqual(1)
+        expect(lis[0].innerHTML).toEqual('Any')
+      });
+    });
+    describe('os choice', function() {
+      it('puts os choice from the form into the current search', function() {
+        $('os_artist').options[1].selected = true;
+        s.updateQueryParamsInView();
+        var os = $$('.block.os .os');
+        expect(os[0].innerHTML).toEqual('Yes')
+      });
+    });
+
   });
   
   describe('setAnyLink', function() {

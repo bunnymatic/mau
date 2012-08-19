@@ -1,6 +1,3 @@
-# 5 min exp
-require 'pp'
-
 def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
 
 class SearchController < ApplicationController
@@ -47,7 +44,7 @@ class SearchController < ApplicationController
     
     opts.mode = params[:m]
 
-    opts.query = opts.keywords.compact.join(" ")
+    opts.query = opts.keywords.compact.join(", ")
     
     opts
   end

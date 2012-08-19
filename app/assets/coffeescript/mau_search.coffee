@@ -112,20 +112,73 @@ MAU.SearchPage = class MAUSearch
     searchForm = $$(@searchFormSelector)
     if searchForm.length
       frm = searchForm[0]
-      Event.observe frm,'submit', _that._submitForm
-      return false;
+      Event.observe frm,'submit', (ev) ->
+        _that._submitForm(ev)
+      false
 
   updateQueryParamsInView: ->
     _that = this
     # grab form params
+    frm = $$(_that.searchFormSelector)
+    if (frm.length)
+      frm = frm[0]
+      # get checked mediums
+      ms = _.map frm.select('#medium_chooser input:checked'), (item) ->
+        item.data('display')
+      ss = _.map frm.select('#studio_chooser input:checked'), (item) ->
+        item.data('display')
+      os = null
+      try
+        os = frm.select('#os_artist')[0].selected().value
+      catch err
+        os = null
+      kw = _.map frm.select('#keywords')[0].getValue().split(","), (s) ->
+        s.trim()
 
+      ctx = $$('.current_search')
+      if ctx.length
+        ctx = ctx[0]
+        # set keywords
+        kw_block = ctx.select('.block.keywords ul.keywords')[0]
+        if kw_block
+          kw_block.html('')
+          _.each kw, (k,idx) ->
+            s = k
+            s = "AND " + s unless !idx
+            li = new Element('li').update(s)
+            kw_block.insert(li);
+        # set mediums
+        med_block = ctx.select('.block.mediums ul')[0]
+        if med_block
+          med_block.html('')
+          if ms.length
+            _.each ms, (m) ->
+              med_block.insert new Element('li').update(m)
+          else
+            med_block.insert new Element('li').update('Any')
+        # set studios
+        studio_block = ctx.select('.block.studios ul')[0]
+        if studio_block
+          studio_block.html('')
+          if ss.length
+            _.each ss, (s) ->
+              studio_block.insert new Element('li').update(s)
+          else
+            studio_block.insert new Element('li').update('Any')
+        # os
+        os_info = ctx.select('.block.os .os')[0]
+        if os_info
+          oss = "Don't Care"
+          if os
+            oss = {'1':'Yes', '2': 'No'}[os]
+          os_info.html(oss)
 
 
   _submitForm: (ev) ->
     _that = this
-    searchForm = $$(@searchFormSelector)
-    if (searchForm.length)
-      searchForm = searchForm[0]
+    frm = $$(_that.searchFormSelector)
+    if (frm.length)
+      frm = frm[0]
       opts =
         onSuccess: (resp) ->
           $('search_results').innerHTML = resp.responseText
@@ -136,7 +189,7 @@ MAU.SearchPage = class MAUSearch
           _that.updateQueryParamsInView();
           false
       ev.stop()
-      searchForm.request(opts)
+      frm.request(opts)
     false
 
 
