@@ -2084,7 +2084,6 @@ search pages
 #search_results {
   font-size: 11px;
   .results-txt {
-    text-align: center;
   }
   .no-results {
     font-size: 13px;
@@ -2093,7 +2092,9 @@ search pages
       color: $lightyellow;
     }
   }
-  
+  .result-count {
+    float:right;
+  }
   .navlinks {
     text-align: right;
     vertical-align: middle;
@@ -2129,6 +2130,7 @@ search pages
   float: left;
   font-size:11px;
   margin-top:6px;
+  margin-bottom: 10px;
   text-align: left;
   vertical-align:top;
   width: 142px;

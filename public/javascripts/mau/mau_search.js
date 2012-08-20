@@ -279,8 +279,20 @@
             return false;
           },
           onComplete: function(resp) {
+            var per_page;
             _that.updateQueryParamsInView();
             _that.spinner.hide();
+            per_page = $('results_per_page');
+            if (per_page) {
+              per_page.observe('change', function(ev) {
+                var pp;
+                pp = frm.selectOne('input[name=per_page]');
+                if (pp) {
+                  pp.value = per_page.selected().value;
+                  return _that._submitForm(ev);
+                }
+              });
+            }
             return false;
           }
         };

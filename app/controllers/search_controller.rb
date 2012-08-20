@@ -45,6 +45,8 @@ class SearchController < ApplicationController
     opts.mode = params[:m]
 
     opts.query = opts.keywords.compact.join(", ")
+
+    opts.per_page = (params[:per_page] || @@PER_PAGE).to_i
     
     opts
   end
@@ -121,7 +123,8 @@ class SearchController < ApplicationController
     end
     
     results = results.values.sort_by { |p| p.updated_at }
-    @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(results, opts.page, @@PER_PAGE)
+    @num_results = results.count
+    @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(results, opts.page, opts.per_page)
     if curpage > lastpage
       curpage = lastpage
     elsif curpage < 0
@@ -133,6 +136,7 @@ class SearchController < ApplicationController
     @last = lastpage + 1
     @page = curpage + 1
 
+    @per_page = opts.per_page
     @user_query = opts.query || ''
     @keywords = opts.keywords || []
     @mediums = opts.mediums || []
