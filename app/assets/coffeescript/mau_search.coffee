@@ -46,7 +46,7 @@ MAU.SearchPage = class MAUSearch
       _that.initCBs()
       _that.initAnyLinks()
       _that.initFormSubmitOnChange()
-      _that.initPerPage()
+      _that.initPaginator()
 
 
   # intialize the a.reset links
@@ -220,7 +220,16 @@ MAU.SearchPage = class MAUSearch
             oss = {'1':'Yes', '2': 'No'}[os]
           os_info.html(oss)
 
-  initPerPage: () ->
+  initPaginator: () ->
+    pages = $$('.paginator a')
+    if pages.length
+      _.each pages, (page) ->
+        page.observe 'click', (ev) ->
+          # add current_page input
+          # submit form
+          alert('clicked')
+          throw "WHAO!"
+          false
     # setup per page hook
     _that = this
     frm = $$(this.searchFormSelector)[0]
@@ -247,7 +256,9 @@ MAU.SearchPage = class MAUSearch
         onComplete: (resp) ->
           _that.updateQueryParamsInView()
           _that.spinner.hide()
-          _that.initPerPage()
+          _that.initPaginator()
+          curpage = frm.selectOne('input[name=current_page]')
+          curpage.remove() if curpage
           false
       ev.stop() if ev
       frm.request(opts)

@@ -73,7 +73,7 @@
         _that.initCBs();
         _that.initAnyLinks();
         _that.initFormSubmitOnChange();
-        return _that.initPerPage();
+        return _that.initPaginator();
       });
     }
 
@@ -264,8 +264,18 @@
       }
     };
 
-    MAUSearch.prototype.initPerPage = function() {
-      var frm, per_page, _that;
+    MAUSearch.prototype.initPaginator = function() {
+      var frm, pages, per_page, _that;
+      pages = $$('.paginator a');
+      if (pages.length) {
+        _.each(pages, function(page) {
+          return page.observe('click', function(ev) {
+            alert('clicked');
+            throw "WHAO!";
+            return false;
+          });
+        });
+      }
       _that = this;
       frm = $$(this.searchFormSelector)[0];
       per_page = $('results_per_page');
@@ -297,9 +307,14 @@
             return false;
           },
           onComplete: function(resp) {
+            var curpage;
             _that.updateQueryParamsInView();
             _that.spinner.hide();
-            _that.initPerPage();
+            _that.initPaginator();
+            curpage = frm.selectOne('input[name=current_page]');
+            if (curpage) {
+              curpage.remove();
+            }
             return false;
           }
         };
