@@ -46,6 +46,8 @@ MAU.SearchPage = class MAUSearch
       _that.initCBs()
       _that.initAnyLinks()
       _that.initFormSubmitOnChange()
+      _that.initPerPage()
+
 
   # intialize the a.reset links
   initAnyLinks: ->
@@ -218,6 +220,17 @@ MAU.SearchPage = class MAUSearch
             oss = {'1':'Yes', '2': 'No'}[os]
           os_info.html(oss)
 
+  initPerPage: () ->
+    # setup per page hook
+    _that = this
+    frm = $$(this.searchFormSelector)[0]
+    per_page = $('results_per_page')
+    if per_page
+      per_page.observe 'change', (ev) ->
+        pp = frm.selectOne('input[name=per_page]')
+        if pp
+          pp.value = per_page.selected().value
+          _that._submitForm(ev)
 
   _submitForm: (ev) ->
     _that = this
@@ -234,14 +247,7 @@ MAU.SearchPage = class MAUSearch
         onComplete: (resp) ->
           _that.updateQueryParamsInView()
           _that.spinner.hide()
-          # setup per page hook
-          per_page = $('results_per_page')
-          if per_page
-            per_page.observe 'change', (ev) ->
-              pp = frm.selectOne('input[name=per_page]')
-              if pp
-                pp.value = per_page.selected().value
-                _that._submitForm(ev)
+          _that.initPerPage()
           false
       ev.stop() if ev
       frm.request(opts)

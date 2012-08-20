@@ -130,9 +130,6 @@ class SearchController < ApplicationController
     elsif curpage < 0
       curpage = 0
     end
-    show_next = (curpage != lastpage)
-    show_prev = (curpage > 0)
-
     @last = lastpage + 1
     @page = curpage + 1
 

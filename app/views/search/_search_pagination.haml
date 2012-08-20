@@ -1,11 +1,12 @@
-- if @first_link || @prev_link || @next_link || @last_link
-  .navlinks
-    - if @prev_link 
-      %span
-        %a{:href => @prev_link, :title => "previous"} < prev
-    %span.page_counter 
-      page #{@page} of #{@last}
-    - if @next_link
-      %span
-        %a{:href => @next_link, :title => "next"} next >
+%ul.navlinks
+  - if @last > 1
+    %li
+      %a{:href => '#prev', 'data-page' => (@page.to_i-1), :title => "previous"} < prev
+  - @last.times do |x|
+    - x = x + 1
+    %li
+      %a{:href => "#%d" % x, 'data-page' => x, 'class' => "#{'current' if @page.to_i == x}" } #{x}
+  - if @last > 1
+    %li
+      %a{:href => '#next', 'data-page' => (@page.to_i + 1), :title => "next"} next >
 

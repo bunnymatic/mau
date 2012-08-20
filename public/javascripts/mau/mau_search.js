@@ -72,7 +72,8 @@
         _that.initExpandos();
         _that.initCBs();
         _that.initAnyLinks();
-        return _that.initFormSubmitOnChange();
+        _that.initFormSubmitOnChange();
+        return _that.initPerPage();
       });
     }
 
@@ -263,6 +264,23 @@
       }
     };
 
+    MAUSearch.prototype.initPerPage = function() {
+      var frm, per_page, _that;
+      _that = this;
+      frm = $$(this.searchFormSelector)[0];
+      per_page = $('results_per_page');
+      if (per_page) {
+        return per_page.observe('change', function(ev) {
+          var pp;
+          pp = frm.selectOne('input[name=per_page]');
+          if (pp) {
+            pp.value = per_page.selected().value;
+            return _that._submitForm(ev);
+          }
+        });
+      }
+    };
+
     MAUSearch.prototype._submitForm = function(ev) {
       var frm, opts, _that;
       _that = this;
@@ -279,20 +297,9 @@
             return false;
           },
           onComplete: function(resp) {
-            var per_page;
             _that.updateQueryParamsInView();
             _that.spinner.hide();
-            per_page = $('results_per_page');
-            if (per_page) {
-              per_page.observe('change', function(ev) {
-                var pp;
-                pp = frm.selectOne('input[name=per_page]');
-                if (pp) {
-                  pp.value = per_page.selected().value;
-                  return _that._submitForm(ev);
-                }
-              });
-            }
+            _that.initPerPage();
             return false;
           }
         };

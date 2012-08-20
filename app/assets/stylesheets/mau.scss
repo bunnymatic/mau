@@ -5,7 +5,7 @@ body {
   position: relative;
   color: $xlightgray;
   font-size: 13px;
-  font-family: "Lucida Grande", "Bitstream Vera Sans", "Verdana", Arial, sans-serif;
+  font-family: Verdana, Helvetica, Arial, sans-serif;
   position: relative;
   padding: 0;
   #noscript, #ie7_warning {
@@ -2084,6 +2084,7 @@ search pages
 #search_results {
   font-size: 11px;
   .results-txt {
+    height: 26px;
   }
   .no-results {
     font-size: 13px;
@@ -2098,8 +2099,26 @@ search pages
   .navlinks {
     text-align: right;
     vertical-align: middle;
-    margin-right: 14px;
     @include little-text;
+    margin: 5px 0 8px;
+    li {
+      display: inline;
+      > a {
+        @include small-rounded-corners;
+        padding: 5px;
+        font-style: italic;
+        &:hover {
+          background: $bordergray;
+          color: $lightgray;
+        }
+      }
+      .current {
+        font-style: normal;
+        background: $darkbluegray;
+        color: $lightgray;
+        @include dotted_border;
+      }
+    }
   }	
 }
 
@@ -2550,8 +2569,6 @@ div.studios .studio-list {
 
 .search-view-ctrls { 
   padding-top: 2px; 
-  margin-right: 15px;
-  height: 20px;
   .controls {
     float: right;
     font-size: x-small;
