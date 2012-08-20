@@ -221,18 +221,17 @@ MAU.SearchPage = class MAUSearch
           os_info.html(oss)
 
   initPaginator: () ->
+    _that = this
+    frm = $$(this.searchFormSelector)[0]
     pages = $$('.paginator a')
     if pages.length
       _.each pages, (page) ->
         page.observe 'click', (ev) ->
           # add current_page input
-          # submit form
-          alert('clicked')
-          throw "WHAO!"
+          frm.insert(new Element('input', {'class':'current_page',type:'hidden', name:'p', value: this.data('page')}))
+          _that._submitForm()
           false
     # setup per page hook
-    _that = this
-    frm = $$(this.searchFormSelector)[0]
     per_page = $('results_per_page')
     if per_page
       per_page.observe 'change', (ev) ->
@@ -257,7 +256,7 @@ MAU.SearchPage = class MAUSearch
           _that.updateQueryParamsInView()
           _that.spinner.hide()
           _that.initPaginator()
-          curpage = frm.selectOne('input[name=current_page]')
+          curpage = frm.selectOne('input.current_page')
           curpage.remove() if curpage
           false
       ev.stop() if ev

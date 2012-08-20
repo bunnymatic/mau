@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pp'
 
 include AuthenticatedTestHelper
 
@@ -38,7 +37,7 @@ describe SearchController do
       end
       it "puts the keywords back in the search box" do
         assert_select '#keywords' do |tag|
-          tag[0].attributes['value'].should == 'rock, the, rollerderby'
+          tag[0].attributes['value'].should eql 'rock, the, rollerderby'
         end
       end
       it "puts the keywords back in no results report" do
@@ -121,8 +120,14 @@ describe SearchController do
           end
           it "artist 1 owns all the art in those results" do
             assigns(:pieces).each do |ap|
-              ap.artist.id.should == @artist.id
+              ap.artist.id.should eql @artist.id
             end
+          end
+          it "sets the correct page" do
+            assigns(:page).should eql 1
+          end
+          it "sets the correct result count" do
+            assigns(:num_results).should eql ArtPiece.find_all_by_artist_id(@artist.id).count
           end
         end
       end
@@ -139,7 +144,7 @@ describe SearchController do
           end
           it "artist 1 owns all the art in those results" do
             assigns(:pieces).each do |ap|
-              ap.artist.id.should == @artist.id
+              ap.artist.id.should eql @artist.id
             end
           end
         end
@@ -157,7 +162,7 @@ describe SearchController do
           end
           it "artist 1 owns all the art in those results" do
             assigns(:pieces).each do |ap|
-              ap.artist.id.should == @artist.id
+              ap.artist.id.should eql @artist.id
             end
           end
         end
@@ -174,7 +179,7 @@ describe SearchController do
           end
           it "artist 1 owns all the art in those results" do
             assigns(:pieces).each do |ap|
-              ap.artist.id.should == @artist.id
+              ap.artist.id.should eql @artist.id
             end
           end
         end
@@ -189,7 +194,7 @@ describe SearchController do
       it "returns 1 result" do
         results = assigns(:pieces)
         results.should have(1).art_piece
-        results.first.title.should == @ap.title
+        results.first.title.should eql @ap.title
       end
     end
     context "find by 2 keywords which match the artist first name and a tag" do
@@ -287,7 +292,7 @@ describe SearchController do
       it 'all results should be from one of the included studios' do
         results = assigns(:pieces).flatten
         results.should have_at_least(1).piece
-        results.map(&:artist).map(&:studio_id).uniq.should == [0]
+        results.map(&:artist).map(&:studio_id).uniq.should eql [0]
       end
     end
 
@@ -318,5 +323,13 @@ describe SearchController do
       end
     end
 
+    context 'with per_page set' do
+      before do
+        post :fetch, :keywords => 'a', :per_page => 48
+      end
+      it 'resets the per_page to something reasonable' do
+        assigns(:per_page).should_not eql 48
+      end
+    end
   end
 end
