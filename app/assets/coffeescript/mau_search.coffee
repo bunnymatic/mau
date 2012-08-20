@@ -10,7 +10,8 @@ MAU.SearchSpinner = class MAUSearchSpinner
     bg = new Element('div', {id:@spinnerBG, style:'display:none;'})
     fg = new Element('div', {id:@spinnerFG, 'class':'search_spinner'})
     bg.insert(fg)
-    $$('#container')[0].insert(bg)
+    c = $$('#container')[0]
+    c.insert(bg) if c
     bg
 
   show: ->
@@ -18,7 +19,7 @@ MAU.SearchSpinner = class MAUSearchSpinner
     if (!spinner)
       spinner = this.create()
 
-    spinner.clonePosition($('container'), {setLeft:false, setTop:false})
+    #    spinner.clonePosition($('container'), {setLeft:false, setTop:false})
     spinner.show();
 
   hide: ->
