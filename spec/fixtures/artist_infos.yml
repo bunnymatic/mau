@@ -10,6 +10,18 @@ artist1:
   lng: -122.4279267
   artist: artist1
 
+indyartist:
+  facebook: http://facebook.com/mypage
+  blog: http://theartists.blogspot.com
+  bio: this is the bio and thats all there is
+  open_studios_participation: '201210|201204|201104|201110|201010'
+  street: 3987 18th st
+  city: san francisco
+  addr_state: ca
+  lat: 37.761299
+  lng: -122.4279267
+  artist: indyartist
+
 joeblogs:
   facebook: http://facebook.com/aaron
   twitter: http://www.twitter.com/aaron

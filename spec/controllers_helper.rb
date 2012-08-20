@@ -193,7 +193,7 @@ shared_examples_for 'standard sidebar layout' do
   it 'assigns new art sorted by created at' do
     new_art = assigns(:new_art)
     new_art.should be_present
-    new_art.sort_by(&:created_at).reverse.should == new_art
+    new_art.sort_by(&:created_at).reverse.map(&:id).should == new_art.map(&:id)
   end
   it 'has all the action buttons' do
     ct = (Time.now > Time.utc(2012,3,12)) ? 3 : 4
@@ -223,3 +223,11 @@ shared_examples_for 'returns success' do
     response.should be_success
   end
 end
+
+shared_examples_for 'successful json' do
+  it_should_behave_like 'returns success'
+  it "returns json" do
+    response.content_type.should == 'application/json'
+  end
+end
+

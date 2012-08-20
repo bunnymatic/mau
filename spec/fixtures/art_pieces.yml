@@ -7,8 +7,19 @@ hot:
   description: super hot description
   medium_id: <%= Fixtures.identify(:medium1) %>
   dimensions: hot x hot
-  created_at:                <%= 5.days.ago.to_s :db  %>
+  created_at:                <%= 125.hours.ago.to_s :db  %>
   artist: joeblogs
+
+hotter:
+  filename: hotter.jpg
+  title: hotter title
+  description: super hotter description
+  medium_id: <%= Fixtures.identify(:medium4) %>
+  dimensions: hotter x hot
+  image_height: 200
+  image_width: 40
+  created_at:                <%= 21.days.ago.to_s :db  %>
+  artist: indyartist
 
 not:
   filename: not.jpg
@@ -16,7 +27,7 @@ not:
   description: super not description
   medium_id: <%= Fixtures.identify(:medium2) %>
   dimensions: not x not
-  created_at:                <%= 4.days.ago.to_s :db  %>
+  created_at:                <%= 120.hours.ago.to_s :db  %>
   image_height: 1024
   image_width: 2048
   artist: joeblogs
@@ -29,7 +40,7 @@ h1024w2048:
   dimensions: this x that
   image_height: 1024
   image_width: 2048
-  created_at:                <%= 3.days.ago.to_s :db  %>
+  created_at:                <%= 75.hours.ago.to_s :db  %>
   artist: annafizyta
 
 negative_size:
@@ -60,7 +71,7 @@ artpiece2:
   dimensions: 2 x 2
   image_height: 1024
   image_width: 2048
-  created_at:                <%= 4.days.ago.to_s :db  %>
+  created_at:                <%= 29.hours.ago.to_s :db  %>
   artist: artist1
 
 artpiece3:

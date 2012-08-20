@@ -1,0 +1,12 @@
+- if @num_results >= @per_page
+  %ul.navlinks.paginator
+    - if @last > 1
+      %li
+        %a{:href => '#prev', 'data-page' => (@page.to_i-2), :title => "previous"} < prev
+    - @last.times do |x|
+      %li
+        %a{:href => "#%d" % x, 'data-page' => x, 'class' => "#{'current' if @page.to_i == x+1}" } #{x+1}
+    - if @last > 1
+      %li
+        %a{:href => '#next', 'data-page' => (@page.to_i), :title => "next"} next >
+

@@ -23,6 +23,7 @@ module ArtPiecesHelper
     if perpage < 0
       return nil
     end
+    perpage = [perpage, 1].max
     lastpage = ((ct.to_f-1.0) / perpage.to_f).floor.to_i
     if lastpage < 0
       lastpage = 0

@@ -56,12 +56,7 @@ describe StudiosController do
       before do
         get :index, :format => 'json'
       end
-      it 'returns success' do
-        response.should be_success
-      end
-      it 'returns json' do
-        response.content_type.should == 'application/json'
-      end
+      it_should_behave_like 'successful json'
       it 'returns all studios' do
         j = JSON.parse(response.body)
         j.count.should == Studio.all.count
@@ -116,10 +111,7 @@ describe StudiosController do
         before do
           get :show, :id => studios(:as).id, :format => 'json'
         end
-        it_should_behave_like 'returns success'
-        it 'returns json' do
-          response.content_type.should == 'application/json'
-        end
+        it_should_behave_like 'successful json'
         it 'returns the studio data' do
           j = JSON.parse(response.body)
           j['studio']['name'].should == studios(:as).name

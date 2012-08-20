@@ -131,3 +131,15 @@ $default_rounded_amount: 4px;
   -webkit-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
 }
 
+.clearfix {
+    zoom:1;
+    &:before, &:after {
+        content: "\0020";
+        display: block;
+        height: 0;
+        overflow: hidden;
+    }
+    &:after {
+        clear: both;
+    }
+}

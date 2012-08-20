@@ -16,19 +16,9 @@ var MauPrototypeExtensions = {
     }
     return null;
   },
-  findChildByTagName: function(elem, tagname) {
-    var el = $(elem);
-    var entry = null;
-    var kids = el.descendants();
-    var tagMatch = tagname.toUpperCase();
-    var ii = 0, n = kids.length;
-    for (; ii < n; ++ii ) {
-      var kid = kids[ii];
-      if (kid && kid.tagName == tagMatch) {
-        return kid
-      }
-    }
-    return null;
+  selectOne: function(elem, subSel) {
+    var el = $(elem).select(subSel);
+    return el.length ? el.first() : null;
   },
   hover: function(elem,infunc, outfunc) {
     if (!elem) { return; }
@@ -71,5 +61,39 @@ var MauPrototypeExtensions = {
   }
 };
 
+/** add aliases */
+MauPrototypeExtensions.findChildByTagName = MauPrototypeExtensions.selectOne
+
 
 Element.addMethods(MauPrototypeExtensions);
+
+if (!Function.prototype.debounce) {
+  /** 
+      execAsap -> if true, do the action and suppress subsequent requests for threshold ms
+                  if false, wait until threshold has passed, then execute
+   **/
+  Function.prototype.debounce = function (threshold, execAsap) {
+    
+    var func = this, timeout;
+    
+    return function debounced () {
+      var obj = this, args = arguments;
+      function delayed () {
+        if (!execAsap) {
+          func.apply(obj, args);
+        }
+        timeout = null; 
+      };
+      
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      else if (execAsap) {
+        func.apply(obj, args);
+      }
+      
+      timeout = setTimeout(delayed, threshold || 100); 
+    };
+    
+  }
+}

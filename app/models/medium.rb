@@ -1,6 +1,7 @@
 class Medium < ActiveRecord::Base
   belongs_to :art_piece
 
+  default_scope :order => :name
   include TagMediaMixin
 
   @@CACHE_KEY = 'medfreq'

@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.feedback 'feedbacks', :controller => 'feedbacks', :action => 'create'
   map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
 
+  map.resources :search, :only => [:index], :collection => {:fetch => :post}
   map.resources :art_pieces
   map.resources :art_piece_tags, :collection => {:cleanup => :get}
 

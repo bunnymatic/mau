@@ -710,7 +710,6 @@ var TagMediaHelper = {
   T.APCache = {};
   T.Helpers = {
     find_thumb: function(apid) {
-      console.log('find thumb');
       var i = 0;
       if (T.ThumbList) {
         var n = T.ThumbList.length;
@@ -1601,7 +1600,7 @@ var TagMediaHelper = {
     }
   });
   Event.observe(window, 'load', D.init);    
-
+  
   var E = M.Events = M.Events || {};
   E.init = function() {
     $$('.event_nav .by_month').each(function(nav_el) {
