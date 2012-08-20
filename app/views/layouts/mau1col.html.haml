@@ -13,7 +13,7 @@
     = render :partial => '/noscript_msg' 
     #bg
     = render :partial => '/login_header_bar' 
-    #container
+    #container{:class => controller_name}
       = render :partial => '/header_bar' 
       .hstripe
       = render :partial => '/content', :locals => { :cols => 1 } 

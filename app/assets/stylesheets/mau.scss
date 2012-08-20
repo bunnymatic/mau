@@ -2081,6 +2081,11 @@ search pages
 }
 
 /** search results is used on medium/tag pages so don't over scope it */
+#container.search #search_results {
+  .navlinks {
+    margin-right: 0px;
+  }
+}
 #search_results {
   font-size: 11px;
   .results-txt {
@@ -2100,7 +2105,7 @@ search pages
     text-align: right;
     vertical-align: middle;
     @include little-text;
-    margin: 5px 0 8px;
+    margin: 5px 6px 8px;
     li {
       display: inline;
       > a {

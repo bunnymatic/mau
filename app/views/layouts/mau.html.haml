@@ -14,7 +14,7 @@
     #bg
     .wrapper
       = render :partial => '/login_header_bar'
-      #container
+      #container{:class => controller_name}
         = render :partial => '/header_bar'
         .hstripe
         = yield
