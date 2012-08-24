@@ -11,7 +11,7 @@
     }
 
     MAUSearchSpinner.prototype.create = function() {
-      var bg, fg;
+      var bg, c, fg;
       if ($(this.spinnerBG)) {
         $(this.spinnerBG).remove();
       }
@@ -24,7 +24,10 @@
         'class': 'search_spinner'
       });
       bg.insert(fg);
-      $$('#container')[0].insert(bg);
+      c = $$('#container')[0];
+      if (c) {
+        c.insert(bg);
+      }
       return bg;
     };
 
@@ -34,10 +37,6 @@
       if (!spinner) {
         spinner = this.create();
       }
-      spinner.clonePosition($('container'), {
-        setLeft: false,
-        setTop: false
-      });
       return spinner.show();
     };
 
