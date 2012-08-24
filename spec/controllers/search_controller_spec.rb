@@ -58,7 +58,7 @@ describe SearchController do
         response.should include_text("go fuck yourself")
         response.should include_text("couldn't find anything that matched")
       end
-      ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Artist"].each do |sxn|
+      ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Participants"].each do |sxn|
         it "has blocks in refine your search for #{sxn}" do
           assert_select ".refine_controls h5.block_head", sxn + ":"
         end
@@ -242,7 +242,7 @@ describe SearchController do
     context "finding by medium" do
       before do
         @searched_medium = [ media(:medium1), media(:medium2) ]
-        post :fetch, :medium => Hash[@searched_medium.map{|m| [m.id.to_s, m.id.to_s]}], :keywords => 'title'
+        post :fetch, :medium => Hash[@searched_medium.map{|m| [m.id.to_s, m.id.to_s]}]
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -262,7 +262,7 @@ describe SearchController do
     context "finding by studio" do
       before do
         @searched_studios = [ studios(:s1890), studios(:as) ]
-        post :fetch, :studio => Hash[@searched_studios.map{|s| [s.id.to_s, s.id.to_s]}], :keywords => 'title'
+        post :fetch, :studio => Hash[@searched_studios.map{|s| [s.id.to_s, s.id.to_s]}]
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
@@ -281,7 +281,7 @@ describe SearchController do
 
     context "finding by independent studio" do
       before do
-        post :fetch, :studio => {"0" => '0'}, :keywords => 'title'
+        post :fetch, :studio => {"0" => '0'}
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
