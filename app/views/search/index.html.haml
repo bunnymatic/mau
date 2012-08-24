@@ -67,7 +67,7 @@
                   %li.cb_entry
                     = check_box_tag "studio[#{s[:id]}]", s[:id], ck, "data-display" => s[:display]
                     = label_tag s[:name], s[:display]
-            %h5.block_head Open Studios Artist:
+            %h5.block_head Open Studios Participants:
             .block
               = select_tag :os_artist, options_for_select([["Don't Care", nil], ['Yes', 1], ['No', 2]])
     %td.vstripe
