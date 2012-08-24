@@ -9,13 +9,13 @@ class SearchController < ApplicationController
 
   def _parse_search_params
 
-    if !params[:keywords]
+    if !params[:keywords] && !params[:medium] && !params[:studio]
       #TODO handle missing params with error page
       redirect_to('/')
-      return
+      return nil
     end
     opts = OpenStruct.new
-    opts.keywords = (params[:keywords] || []).split(",").map(&:strip)
+    opts.keywords = (params[:keywords] || '').split(",").map(&:strip)
 
     medium_ids = []
     studio_ids = []
@@ -56,16 +56,7 @@ class SearchController < ApplicationController
   end
 
   def index
-
-    # add wildcard
-    params.symbolize_keys!
-    if !params[:keywords]
-      #TODO handle missing params with error page
-      redirect_to('/')
-      return
-    end
-    execute_search
-
+    return unless execute_search 
   end
 
   def execute_search
@@ -74,24 +65,35 @@ class SearchController < ApplicationController
     opts = _parse_search_params
     
     results_by_kw = {}
-    
-    opts.keywords.map(&:downcase).each do |kw|
 
-      kw_query_param = "%#{kw}%"
-      partial_results = ArtPiece.find(:all, :conditions => ["title like ?", kw_query_param]) 
-      partial_results += ((Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ?) ", kw_query_param, kw_query_param ])).map{ |a| a.art_pieces }.flatten - partial_results)
-      tag_ids = ArtPieceTag.find_all_by_name(kw)
-      tags = ArtPiecesTag.find(:all, :conditions => ["art_piece_tag_id in (?)", tag_ids])
-
-      partial_results += ArtPiece.find_all_by_id( tags.map(&:art_piece_id) )
-
-      partial_results += Artist.find(:all, :conditions => ['lower(concat(trim(firstname), \' \', trim(lastname))) = ?', kw]).map(&:art_pieces).flatten
-
-      results_by_kw[kw] = partial_results.uniq_by{|obj| obj.id}
+    if opts.keywords.length > 0
+      opts.keywords.map(&:downcase).each do |kw|
+        
+        kw_query_param = "%#{kw}%"
+        partial_results = ArtPiece.find(:all, :conditions => ["title like ?", kw_query_param]) 
+        partial_results += ((Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ?) ", kw_query_param, kw_query_param ])).map{ |a| a.art_pieces }.flatten - partial_results)
+        tag_ids = ArtPieceTag.find_all_by_name(kw)
+        tags = ArtPiecesTag.find(:all, :conditions => ["art_piece_tag_id in (?)", tag_ids])
+        
+        partial_results += ArtPiece.find_all_by_id( tags.map(&:art_piece_id) )
+        
+        partial_results += Artist.find(:all, :conditions => ['lower(concat(trim(firstname), \' \', trim(lastname))) = ?', kw]).map(&:art_pieces).flatten
+        
+        results_by_kw[kw] = partial_results.uniq_by{|obj| obj.id}
+      end
+    else 
+      # if only medium search by art piece
+      if opts.mediums.present? && !opts.studios.present?
+        results_by_kw['by_medium'] = ArtPiece.find_all_by_medium_id(opts.mediums.map(&:id))
+      end
+      # else search by artists in studios then narrow by mediums
+      if opts.studios.present?
+        results_by_kw['by_studio'] = Artist.find_all_by_studio_id(opts.studios.map(&:id)).map(&:art_pieces).flatten
+      end
     end
 
     partial_results = results_by_kw.values.compact.flatten
-
+    
     hits = histogram partial_results.map(&:id)
 
     num_keywords = opts.keywords.size

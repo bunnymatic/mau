@@ -2069,6 +2069,9 @@ search pages
 
 ****************/
 #spinnerbg {
+  width: $fullwidth + 2 * $gutter;
+  z-index: 100;
+  height: 100%;
   .search_spinner {
     position: absolute;
     left: 55%;
@@ -2789,7 +2792,7 @@ a#note_close_link{
   @include opacity(0.3);
 }
 #spinnerbg {
-  z-index:10;
+  z-index:1000;
   position:absolute;
   left: 0;
   top: 0;
