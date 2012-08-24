@@ -5,9 +5,7 @@ include AuthenticatedTestHelper
 
 describe WizardsController do
 
-  fixtures :users
-  fixtures :artist_infos
-  fixtures :art_pieces
+  fixtures :users, :artist_infos, :art_piece_tags, :art_pieces_tags, :media, :art_pieces
   fixtures :cms_documents
 
   integrate_views
@@ -19,7 +17,7 @@ describe WizardsController do
   end
   # ignoring tests for old flaxart endpoint
   [:mau042012].each do |endpoint|
-    describe 'GET #' + endpoint.to_s do
+    describe'GET #' + endpoint.to_s do
       before do
         get endpoint
       end
