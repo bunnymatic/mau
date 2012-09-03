@@ -1154,19 +1154,26 @@ margin: 0 0 20px 0;
   span.navitem.last { border-right: 0; padding-right: 0;}
 }
 
-#login_toplink, #logout {
+#login_toplink, #logout, footer.credits {
   color:$darkgray;
   font-size:x-small;
   margin: 0 auto;
-  padding: 17px 0 8px 0px;
   text-align:right;
   width:908px;
   background-color: $lightbluegray;
 }
 
+#login_toplink, #logout {
+  padding: 17px 0 8px 0px;
+}
+footer.credits {
+  padding: 14px 0;
+  margin-bottom: 20px;
+}
+
 #container{
   background-color:$bluegray;
-  margin: auto auto 20px auto;
+  margin: auto;
   padding:5px;
   position:relative;
   width: 900px;

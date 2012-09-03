@@ -265,7 +265,8 @@ var TagMediaHelper = {
 	hd.update('Credits');
 	var bd = new Element('div').addClassName('credits-bdy');
 	bd.update('<div style="text-align: center;">'+
-                  '<p>Web Design/Construction: Mr Rogers & Trish Tunney</p>'+
+                  '<p>Web Design/QA: Trish Tunney</p>' +
+                  '<p>Web Construction: <a href="http://rcode5.com">Mr Rogers @ Rcode5 </a></p>' +
                   '<p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p>'+
                   '</div>'+
                   '<div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>'+
