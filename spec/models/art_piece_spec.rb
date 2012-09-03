@@ -95,4 +95,12 @@ describe ArtPiece do
     end
   end
 
+  describe 'destroy' do
+    it 'tries to delete the files associated with this art piece' do
+      File.stubs('exist?').returns(true)
+      ap = ArtPiece.first
+      File.expects(:delete).times(ap.get_paths.length)
+      ap.destroy
+    end
+  end
 end
