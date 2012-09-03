@@ -766,7 +766,6 @@ var TagMediaHelper = {
 	this.safe_update('ap_year',ap.year);
 	this.safe_update('ap_favorites',ap.favorites_count);
 	this.safe_update('num_favorites',ap.favorites_count);
-        
 	var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
 	var md = $("ap_medium");
 	if (md) {
@@ -786,7 +785,9 @@ var TagMediaHelper = {
 	    }
 	  }
 	}
-	img.show();
+	if (img) {
+          img.show();
+        }
         
         // hides errors/notices
         $$('.notice').each(function(el) { 
@@ -802,16 +803,18 @@ var TagMediaHelper = {
           }
         });
 
-        var $zoom = $$('a.zoom');
-        if (ap.image_height > 400 || ap.image_width > 400) {
-          var _that = this;
-          var el = $zoom[0];
-          el.show();
-          el.data('image', _that.get_image_path(ap.filename, 'original'));
-          el.data('imageheight', ap.image_height)
-          el.data('imagewidth', ap.image_width);
-        } else {
-          $zoom[0].hide();
+        var $zoom = $$('a.zoom')[0];
+        if ($zoom) {
+          if (ap.image_height > 400 || ap.image_width > 400) {
+            var _that = this;
+            var el = $zoom[0];
+            el.show();
+            el.data('image', _that.get_image_path(ap.filename, 'original'));
+            el.data('imageheight', ap.image_height)
+            el.data('imagewidth', ap.image_width);
+          } else {
+            $zoom[0].hide();
+          }
         }
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {
@@ -822,6 +825,14 @@ var TagMediaHelper = {
           $shares.each(function(lnk) {
             var href = lnk.getAttribute('href');
             href = href.replace(/(%2Fart_pieces%2F)\d+(.*)/,"$1"+ap.id+"$2" );
+            lnk.writeAttribute('href', href);
+          });
+        }
+        var $edits = $$('.edit-buttons a');
+        if ($edits.length > 0) {
+          $edits.each(function(lnk) {
+            var href = lnk.getAttribute('href');
+            href = href.replace(/(art_pieces\/)\d+(.*)/,"$1"+ap.id+"$2" );
             lnk.writeAttribute('href', href);
           });
         }
@@ -856,6 +867,7 @@ var TagMediaHelper = {
 	      ap.cache=true;
 	    }
 	    catch(e) {
+              M.log('Failed to update page');
 	      M.log(e);
 	    }
 	  },
