@@ -28,7 +28,7 @@ class ArtPieceImage < ImageFile
       owner = nil
     end
     return if ! owner
-    dir = "/artistdata/" + owner.id.to_s() + "/imgs/"
+    dir = "/artistdata/#{owner.id}/imgs/"
     if not artpiece.filename
       return ""
     end
