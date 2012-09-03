@@ -46,10 +46,11 @@ module ArtPiecesHelper
 
   # compute real image size given piece (which has wd/ht) and
   # size (string) indicating what we're drawing
-  #   size must be "small", "thumb", "orig"
+  #   size must be "small", "thumb", "orig", 'large', 'medium'
   # return wd, ht
   def compute_actual_image_size(size, piece)
-    sizemapper = { "medium" => "std",
+    sizemapper = { 
+      "medium" => "std",
       "med" => "std",
       "m" => "std",
       "standard" => "std",
@@ -61,12 +62,11 @@ module ArtPiecesHelper
     if size == "orig"
       return [piece.image_width, piece.image_height]
     end
-    k = eval(':' + size)
-    sz = ImageFile.sizes[k]
+    sz = ImageFile.sizes[size.to_sym]
     if !sz
       return 0,0
     end
-    maxdim = sz.values.max
+    maxdim = sz.values.map(&:to_i).max
     wd = ht = 0
     if piece.image_width > 0 and piece.image_height > 0
       rt = piece.image_height.to_f / piece.image_width.to_f

@@ -13,13 +13,11 @@ class ImageFile
 
   @@ALLOWED_IMAGE_EXTS = ["jpg", "jpeg" ,"gif","png" ]
   @@SIZES = { 
-    :thumb => { :w => 100, :h => 100 }, 
-    :cropped_thumb => { :w => 127, :h => 127 }, 
-    :small => { :w => 200, :h => 200 },
-    :std => { :w => 400, :h => 400 }}
-
-# leave out large
-#    :large => { :w => 1000, :h => 1000 }} 
+    :thumb => { :w => 100, :h => 100, :ext => 't_'}, 
+    :cropped_thumb => { :w => 127, :h => 127, :ext => 'ct_' }, 
+    :small => { :w => 200, :h => 200, :ext => 's_'},
+    :std => { :w => 400, :h => 400, :ext => 'm_' },
+    :large => { :w => 800, :h => 800, :ext => 'l_'}} 
   
   def self.sizes
     @@SIZES
@@ -41,8 +39,8 @@ class ImageFile
       prefix = "m_"
     when "cropped_thumb"
       prefix = 'ct_'
-#    when "large"
-#      prefix = "l_"
+    when "large"
+      prefix = "l_"
     else
       prefix = "m_"
     end
@@ -96,9 +94,10 @@ class ImageFile
     # store resized versions:
     file_match = Regexp.new(destfile + "$")
     #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
-    paths = [[:std , srcpath.gsub(file_match, "m_"+destfile)],
-             [:small , srcpath.gsub(file_match, "s_"+destfile)],
-             [:thumb , srcpath.gsub(file_match, "t_"+destfile)]]
+    paths = [:large, :std, :small, :thumb].map do |sz|
+      [sz, srcpath.gsub(file_match, sizes[sz][:ext] + destfile)]
+    end
+    p paths
     paths.each do |pthinfo|
       key = pthinfo[0]
       destpath = pthinfo[1]

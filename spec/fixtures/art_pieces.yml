@@ -28,8 +28,8 @@ not:
   medium_id: <%= Fixtures.identify(:medium2) %>
   dimensions: not x not
   created_at:                <%= 120.hours.ago.to_s :db  %>
-  image_height: 1024
-  image_width: 2048
+  image_height: 2024
+  image_width: 1048
   artist: joeblogs
 
 h1024w2048:
