@@ -2,6 +2,53 @@ require 'pathname'
 
 class ImageFile
 
+  class ImageSizes
+    class ImageSize < Struct.new(:width, :height, :prefix); end
+    @@sizes = {
+      :thumb => ImageSize.new(100, 100, 't_'),
+      :cropped_thumb => ImageSize.new( 127, 127, 'ct_'),
+      :small => ImageSize.new( 200, 200, 's_'),
+      :std => ImageSize.new( 400, 400, 'm_'), 
+      :large => ImageSize.new( 800, 800, 'l_')
+    }.freeze
+
+    def self.all
+      @@sizes
+    end
+
+    def self.prefix(sz)
+      k = keymap(sz)
+      (@@sizes.include? k) ? @@sizes[keymap(sz)].prefix : 'm_'
+    end
+
+    def self.width(sz)
+      k = keymap(sz)
+      (@@sizes.include? k) ? @@sizes[keymap(sz)].width : 0
+    end
+
+    def self.height(sz)
+      k = keymap(sz)
+      (@@sizes.include? k) ? @@sizes[keymap(sz)].height : 0
+    end
+
+
+    def self.keymap(sz) 
+      case sz.to_s
+      when "orig"
+        :original
+      when "sm", "s"
+        :small
+      when 'thumbnail'
+        :thumb
+      when 'medium','med', 'm', 'standard'
+        :std
+      else
+        sz.to_sym
+      end
+    end
+
+  end
+  
   @@IMG_SERVERS = ['']
   @@FILENAME_CLEANER = '/[\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\'/'
   if Conf.image_servers
@@ -12,44 +59,22 @@ class ImageFile
   end
 
   @@ALLOWED_IMAGE_EXTS = ["jpg", "jpeg" ,"gif","png" ]
-  @@SIZES = { 
-    :thumb => { :w => 100, :h => 100, :ext => 't_'}, 
-    :cropped_thumb => { :w => 127, :h => 127, :ext => 'ct_' }, 
-    :small => { :w => 200, :h => 200, :ext => 's_'},
-    :std => { :w => 400, :h => 400, :ext => 'm_' },
-    :large => { :w => 800, :h => 800, :ext => 'l_'}} 
-  
+ 
   def self.sizes
-    @@SIZES
+    ImageSizes.all
   end
 
   def self.get_path(dir, size, fname)
     if not fname or fname.length < 1
       return ''
     end
-    prefix = "m_"
-    case size
-    when "original"
-      prefix = ""
-    when "small"
-      prefix = "s_"
-    when "thumb", 'thumbnail'
-      prefix = "t_"
-    when "medium",'standard'
-      prefix = "m_"
-    when "cropped_thumb"
-      prefix = 'ct_'
-    when "large"
-      prefix = "l_"
-    else
-      prefix = "m_"
-    end
+    prefix = ImageSizes.prefix(size)
     idx = fname.hash % @@IMG_SERVERS.length
     svr = @@IMG_SERVERS[idx]
     svr + File.join(dir, prefix+fname)
   end
 
-  def self.save(upload, destdir, destfile=nil, sizes=@@SIZES)
+  def self.save(upload, destdir, destfile=nil)
     logger = RAILS_DEFAULT_LOGGER
     dot_pos = upload.original_filename.rindex(".")
     if not dot_pos
@@ -95,7 +120,7 @@ class ImageFile
     file_match = Regexp.new(destfile + "$")
     #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
     paths = [:large, :std, :small, :thumb].map do |sz|
-      [sz, srcpath.gsub(file_match, sizes[sz][:ext] + destfile)]
+      [sz, srcpath.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
     end
     p paths
     paths.each do |pthinfo|
@@ -103,8 +128,8 @@ class ImageFile
       destpath = pthinfo[1]
       begin
         MojoMagick::resize(srcpath, destpath,
-                           { :width => sizes[key][:w],
-                             :height => sizes[key][:h],
+                           { :width => ImageSizes.width(key),
+                             :height => ImageSizes.height(key),
                              :shrink_only => true })
         logger.debug("ImageFile: wrote %s" % destpath)
       rescue Exception => ex

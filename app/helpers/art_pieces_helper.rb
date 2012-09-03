@@ -49,24 +49,15 @@ module ArtPiecesHelper
   #   size must be "small", "thumb", "orig", 'large', 'medium'
   # return wd, ht
   def compute_actual_image_size(size, piece)
-    sizemapper = { 
-      "medium" => "std",
-      "med" => "std",
-      "m" => "std",
-      "standard" => "std",
-      "sm" => "small",
-      "s" => "small",
-      "original" => "orig",
-      "thumbnail" => "thumb" }
-    size = sizemapper[size] || size
-    if size == "orig"
+    size = ImageFile::ImageSizes::keymap(size)
+    if size == :original
       return [piece.image_width, piece.image_height]
     end
-    sz = ImageFile.sizes[size.to_sym]
+    sz = ImageFile.sizes[size]
     if !sz
       return 0,0
     end
-    maxdim = sz.values.map(&:to_i).max
+    maxdim = [sz.width, sz.height].max
     wd = ht = 0
     if piece.image_width > 0 and piece.image_height > 0
       rt = piece.image_height.to_f / piece.image_width.to_f

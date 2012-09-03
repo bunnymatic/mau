@@ -3,10 +3,10 @@ require 'spec_helper'
 
 describe ImageFile do
 
-  it 'sizes includes height and width and extension for all sizes' do
+  it 'sizes respond to height and width and prefix for all sizes' do
     ImageFile.sizes.keys.each do |sz_key|
-      [:h, :w, :ext].each do |key|
-        ImageFile.sizes[sz_key].keys.should include key
+      [:height, :width, :prefix].each do |key|
+        (ImageFile.sizes[sz_key].respond_to? key).should be
       end
     end
   end
