@@ -9,7 +9,8 @@ class ImageFile
       :cropped_thumb => ImageSize.new( 127, 127, 'ct_'),
       :small => ImageSize.new( 200, 200, 's_'),
       :std => ImageSize.new( 400, 400, 'm_'), 
-      :large => ImageSize.new( 800, 800, 'l_')
+      :large => ImageSize.new( 800, 800, 'l_'),
+      :original => ImageSize.new( nil, nil, '')
     }.freeze
 
     def self.all
@@ -42,6 +43,8 @@ class ImageFile
         :thumb
       when 'medium','med', 'm', 'standard'
         :std
+      when 'l'
+        :large
       else
         sz.to_sym
       end

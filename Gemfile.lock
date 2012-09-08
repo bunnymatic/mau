@@ -106,7 +106,7 @@ GEM
     mime-types (1.18)
     mocha (0.9.10)
       rake
-    mojo_magick (0.4.2)
+    mojo_magick (0.4.3)
     momentarily (0.0.3)
       activerecord
       activesupport

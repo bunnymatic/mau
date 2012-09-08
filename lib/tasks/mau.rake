@@ -37,6 +37,21 @@ namespace :mau do
   end
 
   namespace :images do
+    desc 'build large images'
+    task :build_large_image => [:environment] do
+      originals = []
+      originals += ArtPiece.all.map{|ap| [ap.get_path('original'), ap.get_path('large')]}
+      originals += Artist.all.map{|artist| [artist.get_profile_image('original'), artist.get_profile_image('large')]}
+      originals += Studio.all.map{|studio| [studio.get_profile_image('original'), studio.get_profile_image('large')]}
+
+      originals.select{|f| f.all?{|ff| !ff.nil?}}.each do |files|
+        infile, outfile = files.map{|f| File.join(Rails.root, 'public', f)}
+        if File.exists?(infile) && ((ENV['force'] == 'true') || !File.exists?(outfile))
+          MojoMagick::shrink infile, outfile, {:width => 800, :height => 800}
+        end
+      end
+    end
+
     desc 'build cropped thumbs - add force=true to force overwrites'
     task :build_cropped_thumbs => [:environment] do
       originals = []

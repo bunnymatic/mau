@@ -10,7 +10,12 @@ describe ImageFile do
       end
     end
   end
-
+  ['original', 'orig' ].each do |size|
+    it "get_path for #{size} returns a file name with no prefix" do
+      fname = ImageFile.get_path('dir',size,'myfile.jpg')
+      fname.should match /dir\/myfile\.jpg$/
+    end
+  end
   ['large'].each do |size|
     it "get_path for #{size} returns a file name with l_ as a prefix" do
       fname = ImageFile.get_path('dir',size,'myfile.jpg')
