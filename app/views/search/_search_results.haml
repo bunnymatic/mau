@@ -3,10 +3,11 @@
   - if !@pieces || @pieces.length <= 0
     = render :partial => 'empty_search_results'
   - else
-    .result-count
-      %form{:id => 'results_per_page'}
-        %label Results Per Page
-        = select_tag :per_page, options_for_select(@per_page_opts.map{|v| [v,v]}, @per_page)
+    - if @per_page_opts
+      .result-count
+        %form{:id => 'results_per_page'}
+          %label Results Per Page
+          = select_tag :per_page, options_for_select(@per_page_opts.map{|v| [v,v]}, @per_page)
 
     .results-txt
       We found #{@num_results} #{"piece" + (@num_results > 1 ? "s" : '')} that matched your query

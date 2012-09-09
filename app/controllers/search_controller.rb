@@ -122,9 +122,9 @@ class SearchController < ApplicationController
     @num_results = results.count
     per_page_opts = [12,24,48,96]
     @per_page_opts = per_page_opts[0..per_page_opts.select{|v| v < @num_results}.count]
-
+    
     opts.per_page = @num_results < opts.per_page ? @per_page_opts.max : opts.per_page
-
+    
     @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(results, opts.page, opts.per_page)
     if curpage > lastpage
       curpage = lastpage
@@ -134,6 +134,9 @@ class SearchController < ApplicationController
     @last = lastpage + 1
     @page = curpage + 1
 
+    if @num_results <= 12
+      @per_page_opts = nil
+    end
     @per_page = opts.per_page
     @user_query = opts.query || ''
     @keywords = opts.keywords || []
