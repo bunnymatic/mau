@@ -194,7 +194,7 @@
       _that = this;
       frm = $$(_that.searchFormSelector);
       if (frm.length) {
-        frm = frm[0];
+        frm = Element.extend(frm[0]);
         ms = _.map(frm.select('#medium_chooser input:checked'), function(item) {
           return item.data('display');
         });
@@ -312,8 +312,12 @@
           },
           onComplete: function(resp) {
             var curpage;
-            _that.updateQueryParamsInView();
-            _that.spinner.hide();
+            $(_that.spinner).hide();
+            try {
+              _that.updateQueryParamsInView();
+            } catch (err) {
+              MAU.log(err);
+            }
             _that.initPaginator();
             curpage = frm.selectOne('input.current_page');
             if (curpage) {
@@ -331,17 +335,16 @@
     };
 
     MAUSearch.prototype.toggleTarget = function(event) {
-      var t, _that;
-      _that = this;
-      t = event.currentTarget || event.target;
+      var t;
+      t = this;
       if (!t.hasClassName('expanded')) {
         t.addClassName('expanded');
-        t.down('div').replace(sprite_plus_dom);
-        t.next().blindDown(MAU.BLIND_OPTS.down);
+        $(t).down('div').replace(sprite_plus_dom);
+        $(t).next().blindDown(MAU.BLIND_OPTS.down);
       } else {
         t.removeClassName('expanded');
-        t.down('div').replace(sprite_minus_dom);
-        t.next().slideUp(MAU.BLIND_OPTS.up);
+        $(t).down('div').replace(sprite_minus_dom);
+        $(t).next().slideUp(MAU.BLIND_OPTS.up);
       }
       return false;
     };
