@@ -44,7 +44,7 @@
               = submit_tag :go
             %h5.block_head.trigger 
               %span Mediums:
-            .block.expandable#medium_chooser
+            .block.expandable#medium_chooser{:style => "display:none;"}
               %ul
                 %li.cb_entry.reset
                   %a.reset{:href => '#'} 
@@ -57,7 +57,7 @@
                     = label_tag "medium[#{m[:id]}]", m[:display]
             %h5.block_head.trigger 
               %span Studios:
-            .block.expandable#studio_chooser
+            .block.expandable#studio_chooser{:style => "display:none;"}
               %ul
                 %li.cb_entry.reset
                   %a.reset{:href => '#'} 
