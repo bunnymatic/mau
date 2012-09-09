@@ -26,7 +26,7 @@ describe SearchController do
   describe "#index" do
     describe "(with views)" do
       before do
-        get :index, :keywords => "rock, the, rollerderby"
+        get :index
       end
       it_should_behave_like "not logged in"
       it 'includes display data on the medium inputs' do
@@ -35,13 +35,8 @@ describe SearchController do
       it 'includes display data on the studio inputs' do
         assert_select '#studio_chooser input[data-display]'
       end
-      it "puts the keywords back in the search box" do
-        assert_select '#keywords' do |tag|
-          tag[0].attributes['value'].should eql 'rock, the, rollerderby'
-        end
-      end
       it "puts the keywords back in no results report" do
-        assert_select '.no-results em', :match => 'rock, the, rollerderby'
+        assert_select '.no-results', :match => 'match your query'
       end
     end
 
@@ -52,6 +47,11 @@ describe SearchController do
       it_should_behave_like 'search page with results'
       it "returns nothing" do
         response.should_not have_tag('.search-thumb-info')
+      end
+      it "puts the keywords back in the search box" do
+        assert_select '#keywords' do |tag|
+          tag[0].attributes['value'].should eql 'go fuck yourself.  this string ought to never match anything'
+        end
       end
       it "show message indicating that nothing matched" do
         get :index, :keywords => "go fuck yourself.  this string ought to never match anything"
