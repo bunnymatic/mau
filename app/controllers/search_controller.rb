@@ -9,11 +9,6 @@ class SearchController < ApplicationController
 
   def _parse_search_params
 
-    if !params[:keywords] && !params[:medium] && !params[:studio]
-      #TODO handle missing params with error page
-      redirect_to('/')
-      return nil
-    end
     opts = OpenStruct.new
     opts.keywords = (params[:keywords] || '').split(",").map(&:strip)
 
