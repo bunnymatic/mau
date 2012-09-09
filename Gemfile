@@ -32,6 +32,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
 gem 'barista' # coffeescript handler
+gem 'therubyracer' # coffeescript compiler for site5
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'
