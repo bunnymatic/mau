@@ -184,7 +184,7 @@ tr.error-row {
   }
 }
 
-input, textarea, select {
+input[type=text],input[type=password], textarea {
   @include input_style;
   @include small-rounded-corners;
 }

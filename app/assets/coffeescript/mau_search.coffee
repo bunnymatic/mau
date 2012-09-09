@@ -169,7 +169,7 @@ MAU.SearchPage = class MAUSearch
     # grab form params
     frm = $$(_that.searchFormSelector)
     if (frm.length)
-      frm = frm[0]
+      frm = Element.extend(frm[0])
       # get checked mediums
       ms = _.map frm.select('#medium_chooser input:checked'), (item) ->
         item.data('display')
@@ -254,8 +254,11 @@ MAU.SearchPage = class MAUSearch
         onFailure: (resp) ->
           false
         onComplete: (resp) ->
-          _that.updateQueryParamsInView()
-          _that.spinner.hide()
+          $(_that.spinner).hide()
+          try
+            _that.updateQueryParamsInView()
+          catch err
+            MAU.log err
           _that.initPaginator()
           curpage = frm.selectOne('input.current_page')
           curpage.remove() if curpage
@@ -267,16 +270,15 @@ MAU.SearchPage = class MAUSearch
 
   toggleTarget: (event) ->
     # NOTE:  Within an event handler, 'this' always refers to the element they are registered on.
-    _that = this
-    t = event.currentTarget || event.target
+    t = this
     if !t.hasClassName('expanded')
       t.addClassName('expanded');
-      t.down('div').replace( sprite_plus_dom )
-      t.next().blindDown(MAU.BLIND_OPTS.down)
+      $(t).down('div').replace( sprite_plus_dom )
+      $(t).next().blindDown(MAU.BLIND_OPTS.down)
     else
       t.removeClassName('expanded')
-      t.down('div').replace( sprite_minus_dom )
-      t.next().slideUp(MAU.BLIND_OPTS.up)
+      $(t).down('div').replace( sprite_minus_dom )
+      $(t).next().slideUp(MAU.BLIND_OPTS.up)
     return false;
 
 
