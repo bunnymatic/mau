@@ -62,7 +62,12 @@ class FeedsController < ApplicationController
         else 
           numentries = 1
         end
-        allfeeds += fetch_and_format_feed(ff.feed, ff.url, {:numentries => numentries})
+        begin
+          feed_content = allfeeds += fetch_and_format_feed(ff.feed, ff.url, {:numentries => numentries})
+          feeds += feed_content
+        rescue Exception => ex
+          logger.error("Failed to grab feed " + ff.inspect)
+        end
       end
       begin
         Rails.cache.write(@@FEEDS_KEY, allfeeds, :expires_in => @@CACHE_EXPIRY)

@@ -6,6 +6,17 @@ describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do
   fixtures :artist_feeds, :users
   cache_filename = '_cached_feeds.html'
+  context 'with bad feed data' do
+    it 'handles failure in fetch and format' do
+      FeedsController.stubs(:fetch_and_format_feed).raises
+      if File.exists?(cache_filename)
+        File.delete(cache_filename)
+      end
+      get :feed
+      response.should be_success
+    end
+  end
+    
   context "without cache" do
     before do
       tweet_response = [ { :user => {:screen_name => 'blurp'},
