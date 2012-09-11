@@ -449,7 +449,7 @@ a.lknav {
 
 /* link for light background like login and footer (dark text) */
 a.lkdark {
-  &:link, &:visited, &active {
+  &:link, &:visited, &:active {
     color: $xmediumgray;
   }
   &:hover {
@@ -472,7 +472,7 @@ a.lkthumb, a.lkthumb:link, a.lkthumb:visited, a.lkthumb:active {
 }
 
 a.formbutton {
-  &:link, &:visited, &active {
+  &:link, &:visited, &:active {
     color: #422;
   }
   &:hover {

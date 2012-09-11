@@ -5,7 +5,7 @@ class ApplicationEventsController < ApplicationController
 
   def index
     @events_by_type = ApplicationEvent.all.inject({}) do |result, item|
-      tp = item.type
+      tp = item.send(:type)
       result[tp] = [] unless result.has_key? tp
       result[tp] << item
       result
