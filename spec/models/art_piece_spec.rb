@@ -103,4 +103,21 @@ describe ArtPiece do
       ap.destroy
     end
   end
+
+  describe 'to_json' do
+    before do
+      @ap = JSON.parse(ArtPiece.first.to_json)['art_piece']
+    end
+    it 'does not include the filename' do
+      @ap.keys.should_not include 'filename'
+    end
+    it 'includes paths to all art pieces' do
+      p @ap
+      @ap.keys.should include 'image_paths'
+      ['small','medium','large'].each do |sz|
+        @ap['images'].keys.should include sz
+      end
+      @ap['images']['small'].should == 's_file.jpg'
+    end
+  end
 end
