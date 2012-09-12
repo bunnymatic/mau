@@ -30,7 +30,7 @@ class ApiController < ActionController::Base
       when 2
         dat = clz.find(path_elements[1])
       else
-        raise ApiError.new(:message => 'Invalid request')
+        raise ApiError.new('Invalid request')
       end
       render :json => dat.to_json(json_args[obj_type.to_s]) 
     rescue NameError, ApiError => ex

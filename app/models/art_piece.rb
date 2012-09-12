@@ -19,17 +19,17 @@ class ArtPiece < ActiveRecord::Base
   def to_json(opts={})
     opts[:methods] ||= []
     opts[:except] ||= []
-    if opts[:methods] && opts[:methods].is_a?(Array)
+    if opts[:methods].is_a?(Array)
       opts[:methods] << :image_urls
     end
-    if opts[:except] && opts[:except].is_a?(Array)
+    if opts[:except].is_a?(Array)
       opts[:except] << :filename
     end
     super opts
   end
 
   def image_urls
-    ArtPieceImage.get_paths(self)
+    Hash[ ArtPieceImage.get_paths(self).map{|k,v| [k, 'http://' + Conf.site_url + v]} ]
   end
 
   def image_paths
@@ -48,7 +48,6 @@ class ArtPiece < ActiveRecord::Base
     end
   end
 
-  def 
   def destroy
     id = self.id
     klassname = self.class.name

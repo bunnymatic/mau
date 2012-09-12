@@ -115,8 +115,8 @@ class ArtPiecesController < ApplicationController
           h['art_piece']['art_piece_tags'] << t.attributes
         }
         m = @art_piece.medium
-        if m:
-            h['art_piece']["medium"] = @art_piece.medium.attributes
+        if m
+          h['art_piece']["medium"] = @art_piece.medium.attributes
         end
         [ 'title','dimensions'].each do |k| 
           h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
