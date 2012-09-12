@@ -15,7 +15,6 @@
               %tr{:class => cycle('odd','even')}
                 %td.message #{ev.message}
                 %td.user 
-                  - if ev.data.present? && (ev.data.has_key? 'user') && /^\d+/.match(ev.data['user'])
-                    = link_to ev.data['user'], artist_path(:id => ev.data['user'])
+                  = link_to_user ev
                 %td.last.date #{ev.created_at.strftime("%b %d, %Y %H:%M")}
 

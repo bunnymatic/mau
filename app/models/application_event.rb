@@ -10,4 +10,5 @@ class ApplicationEvent < ActiveRecord::Base
   def publish_event
     Messager.new.publish "/events/#{self.class.to_s.tableize}", data
   end
+
 end
