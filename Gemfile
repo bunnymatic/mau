@@ -31,8 +31,7 @@ gem 'event-calendar', :require => 'event_calendar'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
-gem 'barista' # coffeescript handler
-gem 'therubyracer' # coffeescript compiler for site5
+
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
@@ -47,6 +46,7 @@ group :staging, :production do
 end
 
 group :test, :development do
+  gem 'guard-coffeescript'
   gem 'mocha','0.9.10'
   gem 'rspec','1.3.1'
   gem 'rspec-rails','1.3.4'
