@@ -33,7 +33,6 @@ gem 'momentarily'
 gem 'faye'
 gem 'barista' # coffeescript handler
 gem 'therubyracer' # coffeescript compiler for site5
-
 #gem 'pdfkit'
 #gem 'wicked_pdf'
 #gem 'wkhtmltopdf-binary'
@@ -42,6 +41,10 @@ gem 'therubyracer' # coffeescript compiler for site5
 gem 'postmark-rails'
 gem 'postmark'
 gem 'tmail'
+
+group :staging, :production do
+  gem 'newrelic_rpm'
+end
 
 group :test, :development do
   gem 'mocha','0.9.10'
