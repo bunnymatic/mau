@@ -22,7 +22,7 @@ development:
    mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
 
 production:
-   site_url: www.missionartistsunited.org
+   site_url: missionartistsunited.org
    cache_server: localhost:11211
    image_servers: 
    cache_expiry:
