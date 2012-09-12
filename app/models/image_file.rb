@@ -8,7 +8,7 @@ class ImageFile
       :thumb => ImageSize.new(100, 100, 't_'),
       :cropped_thumb => ImageSize.new( 127, 127, 'ct_'),
       :small => ImageSize.new( 200, 200, 's_'),
-      :std => ImageSize.new( 400, 400, 'm_'), 
+      :medium => ImageSize.new( 400, 400, 'm_'), 
       :large => ImageSize.new( 800, 800, 'l_'),
       :original => ImageSize.new( nil, nil, '')
     }.freeze
@@ -41,8 +41,8 @@ class ImageFile
         :small
       when 'thumbnail'
         :thumb
-      when 'medium','med', 'm', 'standard'
-        :std
+      when 'med', 'm', 'standard', 'std'
+        :medium
       when 'l'
         :large
       else
@@ -122,7 +122,7 @@ class ImageFile
     # store resized versions:
     file_match = Regexp.new(destfile + "$")
     #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
-    paths = [:large, :std, :small, :thumb].map do |sz|
+    paths = [:large, :medium, :small, :thumb].map do |sz|
       [sz, srcpath.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
     end
     p paths

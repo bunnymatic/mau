@@ -1,18 +1,10 @@
 class ArtPieceImage < ImageFile
   def self.get_paths(artpiece)
-    pths = []
-    self.sizes.map { |kk,vv| kk }.each do |nm|
-      path = self.get_path(artpiece, nm.to_s)
-      if path
-        pths << path
-      end
-    end
-    # add original
-    path = self.get_path(artpiece, 'original')
-    if path
-      pths << path
-    end
-    pths
+    Hash[ImageSizes.all.keys.map do |kk|
+           path = self.get_path(artpiece, kk.to_s)
+           [kk, path]
+         end
+        ]
   end
 
   def self.get_path(artpiece, size="medium")

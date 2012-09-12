@@ -1,7 +1,7 @@
 class ArtPieceObserver < ActiveRecord::Observer
   observe :art_piece
   def before_destroy(art)
-    paths = art.get_paths
+    paths = art.get_paths.values
     paths.each do |pth|
       pth = File.expand_path( File.join( Rails.root, 'public', pth ) )
       if File.exist? pth

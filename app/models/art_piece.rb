@@ -16,6 +16,26 @@ class ArtPiece < ActiveRecord::Base
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 
+  def to_json(opts={})
+    opts[:methods] ||= []
+    opts[:except] ||= []
+    if opts[:methods].is_a?(Array)
+      opts[:methods] << :image_urls
+    end
+    if opts[:except].is_a?(Array)
+      opts[:except] << :filename
+    end
+    super opts
+  end
+
+  def image_urls
+    Hash[ ArtPieceImage.get_paths(self).map{|k,v| [k, 'http://' + Conf.site_url + v]} ]
+  end
+
+  def image_paths
+    ArtPieceImage.get_paths(self)
+  end
+
   alias :tags :art_piece_tags
   def get_share_link(urlsafe=false)
     link = 'http://%s/art_pieces/%s' % [Conf.site_url, self.id]
@@ -84,4 +104,5 @@ class ArtPiece < ActiveRecord::Base
       Rails.cache.delete("%s%s" % [Artist::CACHE_KEY, self.artist.id])
     end
   end
+
 end

@@ -103,4 +103,23 @@ describe ArtPiece do
       ap.destroy
     end
   end
+
+  describe 'to_json' do
+    before do
+      @piece = ArtPiece.first
+      @artist = @piece.artist
+      @ap = JSON.parse(@piece.to_json)['art_piece']
+    end
+    it 'does not include the filename' do
+      @ap.keys.should_not include 'filename'
+    end
+    it 'includes paths to all art pieces' do
+      @ap.keys.should include 'image_urls'
+      ['small','medium','large'].each do |sz|
+        @ap['image_urls'].keys.should include sz
+        @ap['image_urls'][sz].should include Conf.site_url
+      end
+      @ap['image_urls']['small'].should == "http://localhost:3000/artistdata/#{@artist.id}/imgs/s_#{@piece.filename}"
+    end
+  end
 end
