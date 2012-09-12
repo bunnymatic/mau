@@ -98,5 +98,6 @@ if (!Function.prototype.debounce) {
   }
 }
 
-String.prototype.old_trim = String.prototype.trim
-String.prototype.trim = function() { return this.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
+if (!String.prototype.trim) {
+  String.prototype.trim = function() { return this.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
+}
