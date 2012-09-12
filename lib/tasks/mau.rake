@@ -47,7 +47,12 @@ namespace :mau do
       originals.select{|f| f.all?{|ff| !ff.nil?}}.each do |files|
         infile, outfile = files.map{|f| File.join(Rails.root, 'public', f)}
         if File.exists?(infile) && ((ENV['force'] == 'true') || !File.exists?(outfile))
-          MojoMagick::shrink infile, outfile, {:width => 800, :height => 800}
+          begin
+            MojoMagick::shrink infile, outfile, {:width => 800, :height => 800}
+          rescue Exception => ex
+            puts "Failed to convert #{infile}"
+            puts "Error #{ex}"
+          end
         end
       end
     end
