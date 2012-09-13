@@ -23,7 +23,7 @@ class ArtPiece < ActiveRecord::Base
       opts[:methods] << :image_urls
     end
     if opts[:except].is_a?(Array)
-      opts[:except] << :filename
+      #opts[:except] << :filename
     end
     super opts
   end

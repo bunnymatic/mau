@@ -110,8 +110,8 @@ describe ArtPiece do
       @artist = @piece.artist
       @ap = JSON.parse(@piece.to_json)['art_piece']
     end
-    it 'does not include the filename' do
-      @ap.keys.should_not include 'filename'
+    it 'includes the filename' do
+      @ap.keys.should include 'filename'
     end
     it 'includes paths to all art pieces' do
       @ap.keys.should include 'image_urls'
