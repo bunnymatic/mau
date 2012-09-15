@@ -28,7 +28,11 @@ class ApiController < ActionController::Base
           dat = clz.all
         end
       when 2
-        dat = clz.find(path_elements[1])
+        if path_elements[1] == 'ids'
+          dat = clz.all.map(&:id)
+        else
+          dat = clz.find(path_elements[1].to_i)
+        end
       else
         raise ApiError.new('Invalid request')
       end

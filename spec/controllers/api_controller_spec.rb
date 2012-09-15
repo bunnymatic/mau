@@ -146,5 +146,15 @@ describe ApiController do
     end
   end
 
-
+  context 'given art_pieces, ids as input params' do
+    before do
+      get :index, :path => ['art_pieces', 'ids']
+      @resp = JSON.parse(response.body)
+    end
+    it_should_behave_like 'good responses'
+    it 'returns the all art piece ids' do
+      @resp.should be_a_kind_of Array
+      @resp.count.should == ArtPiece.count
+    end
+  end
 end
