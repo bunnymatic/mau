@@ -38,6 +38,10 @@ class ApiController < ActionController::Base
           dat = clz.all.map(&:id)
         else
           dat = clz.find(path_elements[1].to_i)
+          if obj_type == 'art_pieces'
+            # validate that art is owned by active artist
+            raise ApiError.new('Nothing to see here') unless dat.artist && dat.artist.is_active?
+          end
         end
       when 3
         # get parameter named element 2 from id in element 1

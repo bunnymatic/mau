@@ -32,6 +32,17 @@ not:
   image_width: 1048
   artist: joeblogs
 
+wayout:
+  filename: wayout.jpg
+  title: not active
+  description: way out there
+  medium_id: <%= Fixtures.identify(:medium2) %>
+  dimensions: 20,40
+  created_at:                <%= 140.hours.ago.to_s :db  %>
+  image_height: 800
+  image_width: 1048
+  artist: wayout
+
 h1024w2048:
   filename: h1024.jpg
   title: h1024 title

@@ -178,6 +178,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def is_active?
+    state == 'active'
+  end
+
   def is_admin?
     begin
       self.roles.map(&:id).include? Role.find_by_role('admin').id

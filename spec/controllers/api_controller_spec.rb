@@ -130,7 +130,7 @@ describe ApiController do
     it_should_behave_like 'good responses'
     it 'returns a list of art_pieces' do
       @resp.should be_a_kind_of Array
-      @resp.count.should == ArtPiece.count
+      @resp.count.should eql 10
       @resp.all? {|s| s.has_key? 'art_piece'}.should be_true, 'All items do not have the "art_piece" key'
     end
   end
@@ -157,7 +157,7 @@ describe ApiController do
     it_should_behave_like 'good responses'
     it 'returns the all art piece ids' do
       @resp.should be_a_kind_of Array
-      @resp.count.should == ArtPiece.count
+      @resp.count.should eql 10
     end
   end
 
@@ -172,4 +172,13 @@ describe ApiController do
       @resp.should == {'name' => 'The Blue Studio'}
     end
   end
+
+  context 'get art piece of an inactive artist' do
+    before do
+      inactive = (Artist.all - Artist.active).last
+      get :index, :path => ['art_pieces', inactive.art_pieces.first.id]
+    end
+    it_should_behave_like 'error responses'
+  end
+      
 end
