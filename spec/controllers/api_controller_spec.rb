@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe ApiController do
   fixtures :users, :artist_infos, :studios, :art_pieces, :media, :art_piece_tags
+  before do
+    Rails.cache.stubs(:read).returns(nil)
+  end
 
   shared_examples_for 'all responses' do
     it 'returns json' do
@@ -35,7 +38,7 @@ describe ApiController do
   end
       
   context 'bad requests' do
-    [nil, ['bogus'], ['bogus',1], ['a','b','c','d'],  ['artists','2','edit'], ['studios',Studio.last.id.to_s,'destroy'], ['hash']].each do |params_path| 
+    [nil, ['bogus'], ['bogus',1], ['a','b','c','d'],  ['artists','2','edit'], ['studios', Fixtures.identify(:blue),'destroy'], ['hash']].each do |params_path| 
       context "given #{params_path.inspect} as input parameters" do
         before do
           get :index, :path => params_path
@@ -160,14 +163,13 @@ describe ApiController do
 
   context 'get parameter from object' do
     before do
-      get :index, :path => ['studios', Studio.last.id.to_s, 'name']
+      get :index, :path => ['studios', studios(:blue).id.to_s, 'name']
       @resp = JSON.parse(response.body)
     end
     it_should_behave_like 'good responses'
     it 'returns only the studio name' do
       @resp.keys.should include 'name'
-      @resp.keys.should_not include 'image_height'
-      @resp.keys.should_not include 'studio'
+      @resp.should == {'name' => 'The Blue Studio'}
     end
   end
 end
