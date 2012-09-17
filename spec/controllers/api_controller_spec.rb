@@ -35,7 +35,7 @@ describe ApiController do
   end
       
   context 'bad requests' do
-    [nil, ['bogus'], ['bogus',1], ['a','b','c','d'], ['artists','2','edit'], ['hash']].each do |params_path| 
+    [nil, ['bogus'], ['bogus',1], ['a','b','c','d'],  ['artists','2','edit'], ['studios',Studio.last.id.to_s,'destroy'], ['hash']].each do |params_path| 
       context "given #{params_path.inspect} as input parameters" do
         before do
           get :index, :path => params_path
@@ -155,6 +155,19 @@ describe ApiController do
     it 'returns the all art piece ids' do
       @resp.should be_a_kind_of Array
       @resp.count.should == ArtPiece.count
+    end
+  end
+
+  context 'get parameter from object' do
+    before do
+      get :index, :path => ['studios', Studio.last.id.to_s, 'name']
+      @resp = JSON.parse(response.body)
+    end
+    it_should_behave_like 'good responses'
+    it 'returns only the studio name' do
+      @resp.keys.should include 'name'
+      @resp.keys.should_not include 'image_height'
+      @resp.keys.should_not include 'studio'
     end
   end
 end
