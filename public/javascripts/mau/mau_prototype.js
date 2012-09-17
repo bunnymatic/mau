@@ -62,7 +62,7 @@ var MauPrototypeExtensions = {
 };
 
 /** add aliases */
-MauPrototypeExtensions.findChildByTagName = MauPrototypeExtensions.selectOne
+MauPrototypeExtensions.findChildByTagName = MauPrototypeExtensions.selectOne;
 
 
 Element.addMethods(MauPrototypeExtensions);
@@ -83,7 +83,7 @@ if (!Function.prototype.debounce) {
           func.apply(obj, args);
         }
         timeout = null; 
-      };
+      }
       
       if (timeout) {
         clearTimeout(timeout);
@@ -95,7 +95,7 @@ if (!Function.prototype.debounce) {
       timeout = setTimeout(delayed, threshold || 100); 
     };
     
-  }
+  };
 }
 
 if (!String.prototype.trim) {

@@ -811,7 +811,7 @@ var TagMediaHelper = {
             var el = $zoom[0];
             el.show();
             el.data('image', _that.get_image_path(ap.filename, 'original'));
-            el.data('imageheight', ap.image_height)
+            el.data('imageheight', ap.image_height);
             el.data('imagewidth', ap.image_width);
           } else {
             $zoom[0].hide();

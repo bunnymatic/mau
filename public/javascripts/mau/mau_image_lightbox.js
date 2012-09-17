@@ -63,7 +63,7 @@ ILB = Object.extend(ILB, {
     modalWindow.appendChild(close);
     var imgContainer = new Element('div', {'class':this.settings.imageContainer});
     var img = new Element('img', {
-      src:this.settings.image.url, 
+      src:this.settings.image.url
     });
     if (this.settings.image.width) {
       img.setAttribute('width', this.settings.image.width);
