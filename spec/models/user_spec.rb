@@ -10,7 +10,7 @@ def valid_attributes(opts = {})
 end
 
 describe User do
-  fixtures :users, :studios, :roles, :artist_infos, :art_pieces
+  fixtures :users, :studios, :roles, :artist_infos, :art_pieces, :roles_users
   describe 'new' do
     it 'validates' do
       u = User.new(valid_attributes)

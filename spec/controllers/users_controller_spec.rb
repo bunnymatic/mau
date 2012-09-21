@@ -4,10 +4,13 @@ include AuthenticatedTestHelper
 
 describe UsersController do
   
-  fixtures :users
+  fixtures :users, :roles_users
   fixtures :art_pieces
   fixtures :favorites # even though fixture is empty - this forces a db clear between tests
   fixtures :scammers
+
+  let(:admin) { users(:admin) }
+  let(:jesse) { users(:jesseponce) }
 
   before do
     ####
@@ -49,7 +52,7 @@ describe UsersController do
       assert_select("#artist_lastname")
     end
   end
-
+    
   describe "#create" do
     it "return 404 with :artist = {}" do
       post :create,  :artist => {}
@@ -920,6 +923,46 @@ describe UsersController do
       response.should be_success
     end
 
+  end
+
+  describe '#delete' do
+    context 'non-admin' do
+      before do 
+        delete user_path, :id => users(:jesseponce).id
+      end
+      it_should_behave_like 'not authorized'
+    end
+    context 'as yourself' do
+      before do 
+        login_as :admin
+        delete user_path, :id => admin.id
+      end
+      it 'redirects to users index' do
+        response.should redirect_to users_path
+      end
+      it 'flashes a message saying you can\'t delete yourself' do
+        flash[:error].should eql "You can't delete yourself."
+      end
+    end
+    context 'as admin' do
+      before do 
+        login_as :admin
+      end
+      context 'deleting a user' do
+        it 'deactivates the user' do
+          expect{ delete user_path, :id => jesse }.to change(User,:count).by(-1)
+        end
+        it 'redirects to the users index page' do
+          delete user_path, :id => jesse
+          response.should redirect_to users_path
+        end
+      end
+      context 'removing role from user' do
+        it 'removes the role' do
+          expect { delete user_path, :id => jesse.id, :role => jesse.roles.first.id }.to change(u.roles, :count).by(-1)
+        end
+      end
+    end
   end
 
   describe "- routes" do

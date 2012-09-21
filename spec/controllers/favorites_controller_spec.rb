@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe FavoritesController do
 
-  fixtures :users
+  fixtures :users, :roles_users
   fixtures :art_pieces
   fixtures :artist_infos
   fixtures :roles

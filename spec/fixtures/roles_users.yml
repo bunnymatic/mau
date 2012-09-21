@@ -1,0 +1,21 @@
+artist1_manager:
+  user: artist1
+  role: manager
+artist1_editor:
+  user: artist1
+  role: editor
+artist1_admin:
+  user: artist1
+  role: admin
+quentin_manager:
+  user: quentin
+  role: manager
+quentin_editor:
+  user: quentin
+  role: editor
+wayout_manager:
+  user: wayout
+  role: manager
+admin_admin:
+  user: admin
+  role: admin

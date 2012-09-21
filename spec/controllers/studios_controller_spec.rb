@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe StudiosController do
 
-  fixtures :users, :studios, :artist_infos, :art_pieces
+  fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users
 
   describe "#index" do
     context "while not logged in" do

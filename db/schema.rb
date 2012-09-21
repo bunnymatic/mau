@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120715225019) do
+ActiveRecord::Schema.define(:version => 20120921093706) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -186,7 +186,7 @@ ActiveRecord::Schema.define(:version => 20120715225019) do
     t.datetime "updated_at"
   end
 
-  create_table "roles_users", :id => false, :force => true do |t|
+  create_table "roles_users", :force => true do |t|
     t.integer "user_id"
     t.integer "role_id"
   end

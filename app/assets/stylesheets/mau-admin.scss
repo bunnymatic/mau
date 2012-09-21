@@ -248,6 +248,16 @@ body.admin {
   }
   ul {
     padding: 0 10px;
+    &.members_edit {
+      li { 
+        width: 170px;
+        float: left;
+        padding: 8px;
+      }
+      .remove {
+        margin-left: 10px;
+      }
+    }
   }
   .links {
     float:right;

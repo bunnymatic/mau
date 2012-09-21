@@ -3,7 +3,7 @@ require 'spec_helper'
 include AuthenticatedTestHelper
 
 describe EmailListsController do
-  fixtures :email_lists, :emails, :email_list_memberships, :users
+  fixtures :email_lists, :emails, :email_list_memberships, :users, :roles_users
   [:index].each do |endpoint|
     describe 'not logged in' do
       describe endpoint do

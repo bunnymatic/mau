@@ -8,7 +8,7 @@ describe AdminController do
   use_transactional_fixtures = true
   fixtures :studios
   fixtures :media
-  fixtures :users
+  fixtures :users, :roles_users
   fixtures :art_pieces
   fixtures :artist_infos
   fixtures :roles
@@ -232,37 +232,6 @@ describe AdminController do
     end
     it "assigns fans" do
       assigns(:fans).length.should == User.active.all(:conditions => 'type <> "Artist"').length
-    end
-  end
-  describe '#roles' do
-    before do
-      login_as(:admin)
-      get :roles
-    end
-    it "responds success" do
-      response.should be_success
-    end
-    it "renders roles" do
-      response.should render_template 'roles'
-    end
-    it "assigns artists" do
-      assigns(:users).should have(User.active.count).users
-    end
-    it 'assigns roles' do
-      assigns(:roles).should have(Role.count).roles
-    end
-    it 'assigns roles' do
-      assigns(:users_in_roles).keys.should have(Role.count).roles
-    end
-    context "(view tests)" do
-      integrate_views
-      it_should_behave_like 'logged in as admin'
-      
-      Role.all.each do |r|
-        it "has the role #{r} in a list element" do
-          assert_select 'li .role', :count => Role.count
-        end
-      end
     end
   end
 

@@ -26,22 +26,9 @@ class RolesController < ApplicationController
     end
   end
 
-  def edit 
-    users = RolesUser.all
-    
-    @users = User.active
-    @users_in_roles = {}
-    
-    invalid_roles = ['a', 'nil']
-    @users.each do |u|
-      @roles.compact.reject{|role| invalid_roles.include? role.role}.each do |r|
-        k = r.role
-        method = "is_#{k}?"
-        @users_in_roles[k] = [] if @users_in_roles[k].nil?
-        @users_in_roles[k] << u if u.respond_to?(method) && u.send(method)
-      end
-    end
-
+  def edit
+    @role = Role.find(params[:id])
+    @users = RolesUser.find_all_by_role_id(@role.id).map(&:user)
   end
   
   def destroy

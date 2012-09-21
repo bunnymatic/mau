@@ -1,9 +1,9 @@
 require 'spec_helper'
 describe RolesController do
   include AuthenticatedTestHelper
-  fixtures :roles, :users
+  fixtures :roles, :users, :roles_users
   describe 'non-admin' do
-    [:index].each do |endpoint|
+    [:index,:edit].each do |endpoint|
       before do
         get endpoint
       end
@@ -35,6 +35,9 @@ describe RolesController do
       it 'shows a list of administrators' do
         assert_select '.admin.role_container .role_members li', :count => 2, :match => /admin dude|artist1 Fixture/
       end
+    end
+    describe 'GET edit' do
+      it_should_behave_like 'logged in as admin'
     end
     describe 'POST create' do
       context 'with good params' do
