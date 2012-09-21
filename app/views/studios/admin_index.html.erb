@@ -26,7 +26,7 @@ no reason for this to be very pretty
       <div><%=h studio.state %></div>    
       <div><%=h studio.zip %></div>
     </td>
-    <td><% if studio.has_profile_image %>
+    <td><% if studio.profile_image? %>
      <img src="<%= studio.get_profile_image('thumb') %>"/>
     <% end %>
     </td>	

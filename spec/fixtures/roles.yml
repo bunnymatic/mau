@@ -3,3 +3,9 @@ admin:
 
 editor:
   role: editor
+
+manager:
+  role: manager
+
+juror:
+  role: juror

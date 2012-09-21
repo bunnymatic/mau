@@ -1,0 +1,13 @@
+.admin-table
+  %h1 Roles
+  
+  %table
+    %tr
+      %td Name
+      %td 
+        = link_to "Add New Role", new_role_path
+    - @roles.each do |role|
+      %tr
+        %td #{role.role}
+        %td
+          = link_to 'Destroy', role, :confirm => 'Are you sure?', :method => :delete

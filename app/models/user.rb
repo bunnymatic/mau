@@ -108,13 +108,6 @@ class User < ActiveRecord::Base
     ArtistProfileImage.get_path(self, size)
   end
 
-  def is_in_role?(role)
-    if role.nil?
-      return false;
-    end
-    return roles.include?(Role[role])
-  end
-
   def get_share_link(urlsafe=false, options = {})
     link = 'http://%s/artists/%s' % [Conf.site_url, self.login]
     if options.present?

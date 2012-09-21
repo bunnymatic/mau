@@ -108,6 +108,7 @@ end
 
 shared_examples_for "logged in as admin" do
   it_should_behave_like 'logged in as editor'
+
   it 'includes the editor javascript' do
     assert_select('script[src^=/javascripts/mau/mau_editor.js]')
   end
