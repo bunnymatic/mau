@@ -26,6 +26,15 @@ describe RolesController do
       it 'renders an admin layout' do
         response.layout.should eql 'layouts/mau-admin'
       end
+      it 'shows a list of managers' do
+        assert_select '.manager.role_container .role_members li', :count => 1, :match => 'admin dude'
+      end
+      it 'shows a list of editors' do
+        assert_select '.editor.role_container .role_members li', :count => 1, :match => 'editor dude'
+      end
+      it 'shows a list of administrators' do
+        assert_select '.admin.role_container .role_members li', :count => 2, :match => /admin dude|artist1 Fixture/
+      end
     end
     describe 'POST create' do
       context 'with good params' do

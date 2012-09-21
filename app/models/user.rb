@@ -185,6 +185,16 @@ class User < ActiveRecord::Base
     end 
   end
 
+  def is_manager?
+    begin
+      is_admin? || (self.roles.include? Role.find_by_role('manager'))
+    rescue Exception => e
+      logger.debug(e)
+      # if we have any issues, not admin
+      false
+    end
+  end
+
   def is_editor?
     begin
       is_admin? || (self.roles.include? Role.find_by_role('editor'))

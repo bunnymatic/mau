@@ -243,12 +243,29 @@ body.admin {
 
 #role_mgr {
   padding-left: 20px;
+  .role_controls {
+    float: right;
+  }
+  ul {
+    padding: 0 10px;
+  }
+  .links {
+    float:right;
+  }
   li {
-    .role-members{ float: right; }
-    width: 200px;
-    clear:both; 
-    width: 200px; 
-    margin: 8px 0;
+    &.role_container {
+      float: left;
+      width: 30%;
+      margin: 0;
+      padding: 20px;
+    }
+    .role {
+      font-size: 120%;
+      color: $xlightgray;
+      font-weight:bold;
+    }
+    .role_members li { 
+    }
   }
 
 }

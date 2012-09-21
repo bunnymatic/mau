@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :roles, :except => [:show, :edit, :update]
+  map.resources :roles, :except => [:show, :update]
   map.resources :cms_documents
   map.resources :media
   map.resources :artist_feeds

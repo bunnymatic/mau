@@ -1,13 +1,16 @@
-.admin-table
-  %h1 Roles
-  
-  %table
-    %tr
-      %td Name
-      %td 
-        = link_to "Add New Role", new_role_path
+#role_mgr
+  .links           
+    = link_to "[add new role]", new_role_path
+  %h3 Roles & Members
+  %ul
     - @roles.each do |role|
-      %tr
-        %td #{role.role}
-        %td
-          = link_to 'Destroy', role, :confirm => 'Are you sure?', :method => :delete
+      %li.role_container{:class => [cycle('even', 'odd'), role.role].join(' ')}
+        .role_controls
+          = link_to "[manage]", edit_role_path(role)
+          = link_to "[destroy]", role, :confirm => 'Are you sure?', :method => :delete
+
+        .role #{role.role}
+        %ul.role_members
+          - (@users_by_role[role.role] || []).each do |u|
+            %li #{u.fullname}
+         

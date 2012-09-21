@@ -51,6 +51,7 @@ artist1:
   lastname:                  Fixture
   state:                     active
   activated_at: <%= 9.hours.ago.to_s :db %>
+  roles: admin
   type: Artist
   url: http://myurl.com
   studio: blue
@@ -140,7 +141,7 @@ admin:
   lastname:                  dude
   state:                     active
   activated_at:              <%= 3.days.ago.to_s :db %>
-  roles: admin
+  roles: admin, manager
   studio: as
 
 artfan2:
@@ -251,6 +252,7 @@ wayout:
   firstname:                 way
   lastname:                  out
   studio_id: 0
+  roles: manager, editor
 
 editor:
   login:                     editordude
