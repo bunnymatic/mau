@@ -383,7 +383,11 @@ class User < ActiveRecord::Base
     self.deleted_at = nil
     self.activation_code = User.make_token
   end
-  
+
+  def uniqify_roles 
+    self.roles = roles.uniq{|r| r.id}
+  end
+
   protected
   def get_favorite_ids(tps)
     (favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }

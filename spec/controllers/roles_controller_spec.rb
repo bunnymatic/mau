@@ -6,7 +6,7 @@ describe RolesController do
   let(:jesse) { users(:jesseponce) }
 
   describe 'non-admin' do
-    [:index,:edit].each do |endpoint|
+    [:index,:edit,:show].each do |endpoint|
       before do
         get endpoint
       end
@@ -37,13 +37,29 @@ describe RolesController do
         end
       end
     end
-    describe 'GET edit' do
-      let(:manager_role) { roles(:manager) }
-      before do
-        get :edit, :id => manager_role
+    [:show, :edit].each do |endpoint|
+      describe "GET #{endpoint}" do
+        let(:manager_role) { roles(:manager) }
+        before do
+          get endpoint, :id => manager_role
+        end
+        it_should_behave_like 'logged in as admin'
       end
-      it_should_behave_like 'logged in as admin'
     end
+    describe 'POST update' do
+      context 'with good params' do
+        it 'adds a role to a user' do
+          expect{ post :update, :id => roles(:admin), :user => jesse}.to change(jesse.roles, :count).by(1)
+        end
+        it 'is idempotnent' do
+          expect{
+            post :update, :id => roles(:admin), :user => jesse
+            post :update, :id => roles(:admin), :user => jesse
+          }.to change(jesse.roles, :count).by(1)
+        end
+      end
+    end
+        
     describe 'POST create' do
       context 'with good params' do
         it 'creates a role' do
@@ -81,16 +97,22 @@ describe RolesController do
           expect { delete :destroy, :id => mgr.id }.to change(RolesUser, :count).by(-expected_change)
           jesse.reload
           jesse.roles.should_not include mgr
-
+        end
+        it 'redirects to the roles index page' do
+          delete :destroy, :id => mgr.id
+          response.should redirect_to roles_path
         end
       end
       context 'with role and user' do
-        it 'removes the role association from the user' do
-          expect{ delete :destroy, :user_id => jesse.id, :id => jesse.roles.first.id }.to change(jesse.roles, :count).by(-1)
+        before do
+          @role = roles(:editor)
         end
-        it 'redirects to the roles index page' do
-          delete :destroy, :user_id => jesse.id, :id => jesse.roles.first.id
-          response.should redirect_to roles_path
+        it 'removes the role association from the user' do
+          expect{ delete :destroy, :user_id => jesse.id, :id => @role.id }.to change(jesse.roles, :count).by(-1)
+        end
+        it 'redirects to the role page' do
+          delete :destroy, :user_id => jesse.id, :id => @role.id
+          response.should redirect_to role_path(@role)
         end
       end
     end
@@ -99,9 +121,6 @@ describe RolesController do
   describe 'routing' do
     it "should recognize DELETE /users/10/roles/3 as destroy role on user" do
       params_from(:delete, "/users/10/roles/3").should == {:controller => 'roles', :action => 'destroy', :user_id => '10', :id => '3' }
-    end
-    it "should recognize update /users/10/roles/3 as add user to role" do
-      params_from(:put, "/users/10/roles/3").should == {:controller => 'roles', :action => 'update', :user_id => '10', :id => '3' }
     end
   end
 end

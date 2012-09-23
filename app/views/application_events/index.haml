@@ -1,10 +1,7 @@
 .singlecolumn.application_events
   %h4 Application Events
 
-  - if flash[:error]
-    .error-msg Error: #{flash[:error]}
-  - if flash[:notice]
-    .notice #{flash[:notice]}
+  = render :partial => '/flash_notice_error'
   - @events_by_type.each do |key, events|
     - if events.length
       .events_list{:class => key.to_s.tableize}

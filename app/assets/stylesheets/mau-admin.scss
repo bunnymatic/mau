@@ -246,6 +246,10 @@ body.admin {
   .role_controls {
     float: right;
   }
+  .controls {
+    text-align:right;
+    float: right;
+  }
   ul {
     padding: 0 10px;
     &.members_edit {

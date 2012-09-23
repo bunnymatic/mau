@@ -78,6 +78,11 @@ describe User do
       artist1.should be_is_editor
       artist1.should be_is_manager
     end
+    it 'does not save multiple roles of the same type' do
+      expect {
+        artist1.roles << Role.find_by_role('manager')
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
   end
   describe 'auth helpers' do
     describe "make token " do

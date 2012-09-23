@@ -26,21 +26,49 @@ class RolesController < ApplicationController
     end
   end
 
-  def edit
-    @role = Role.find(params[:id])
-    @users = RolesUser.find_all_by_role_id(@role.id).map(&:user)
+  def show
+    show_or_edit
   end
-  
+
+  def edit
+    show_or_edit
+  end
+
+  def show_or_edit
+    @role = Role.find(params[:id])
+    @role_users = RolesUser.find_all_by_role_id(@role.id).map(&:user)
+    @users = User.active.all.reject{|u| @role_users.map(&:id).include? u.id}.sort_by(&:fullname)
+    render :edit
+  end
+
+  def update
+    if params[:id] && params[:user]
+      u = User.find(params[:user])
+      r = Role.find(params[:id])
+      begin
+        u.roles << r
+        u.save
+        flash[:notice] = "Added #{u.fullname} to role #{r.role}"
+      rescue ActiveRecord::RecordInvalid
+        flash[:notice] = "Looks like #{u.fullname} is already in that role."
+      end
+    end
+    redirect_to role_path(params[:id])
+  end
+
   def destroy
     if params[:id] && params[:user_id] 
       remove_role_from_user params[:id], params[:user_id]
+      redirect_to role_path(params[:id])
     else
-      r = Role.find_all_by_id(params[:id])
-      if r && !r.empty?
-        r.first.destroy
+      r = Role.find(params[:id])
+      if r
+        name = r.role
+        r.destroy
+        flash[:notice] = "Removed #{name} role"
       end
+      redirect_to roles_path
     end
-    redirect_to roles_path
   end
 
   private
