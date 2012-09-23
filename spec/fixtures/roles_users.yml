@@ -4,9 +4,9 @@ artist1_manager:
 artist1_editor:
   user: artist1
   role: editor
-artist1_admin:
-  user: artist1
-  role: admin
+editor_editor:
+  user: editor
+  role: editor
 quentin_manager:
   user: quentin
   role: manager
@@ -19,3 +19,9 @@ wayout_manager:
 admin_admin:
   user: admin
   role: admin
+jesseponce_manager:
+  user: jesseponce
+  role: manager
+jesseponce_editor:
+  user: jesseponce
+  role: editor

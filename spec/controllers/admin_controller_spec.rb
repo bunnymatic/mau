@@ -13,7 +13,7 @@ describe AdminController do
   fixtures :artist_infos
   fixtures :roles
 
-  [:index, :featured_artist, :fans, :emaillist, :artists_per_day, :roles, :art_pieces_per_day, :favorites_per_day, :db_backups].each do |endpoint|
+  [:index, :featured_artist, :fans, :emaillist, :artists_per_day, :art_pieces_per_day, :favorites_per_day, :db_backups].each do |endpoint|
     describe 'not logged in' do
       describe endpoint do
         before do
@@ -31,8 +31,8 @@ describe AdminController do
         it_should_behave_like 'not authorized'
       end
     end
-    it "responds success if logged in as admin" do
-      login_as(:admin)
+    it "#{endpoint} responds success if logged in as admin" do
+      login_as :admin
       get endpoint
       response.should be_success
     end

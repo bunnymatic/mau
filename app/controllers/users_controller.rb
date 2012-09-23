@@ -310,21 +310,17 @@ class UsersController < ApplicationController
     id = params[:id]
     u = safe_find_user(id)
     if u
-      if params[:role_id] 
-        # remove role from user
-        u.roles_users.find_all_by_role_id(params[:role_id],id).map(&:destroy)
-        redirect_to roles_path and return
+      if u != current_user
+        name = u.login
+        u.delete!
+        flash[:notice] = "The account for login %s has been deactivated." % name
       else
-        if u != current_user
-          name = u.login
-          u.delete!
-          flash[:notice] = "The account for login %s has been deactivated." % name
-        else
-          flash[:error] = "You can't delete yourself."
-        end
-        redirect_to users_path and return
+        flash[:error] = "You can't delete yourself."
       end
+    else 
+      flash[:error] = "Couldn't find user #{id}"
     end
+    redirect_to users_path and return
   end
 
 

@@ -47,8 +47,8 @@ class User < ActiveRecord::Base
   end
 
   belongs_to :studio
-  has_many :roles_users
-  has_many :roles, :through => :roles_users
+  has_many :roles_users, :dependent => :destroy
+  has_many :roles, :through => :roles_users, :dependent => :destroy
 
   include ImageDimensions
 

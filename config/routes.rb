@@ -1,7 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :roles, :except => [:show, :update] do |roles|
-    roles.resources :users, :only => [:destroy]
-  end
+  map.resources :roles, :except => [:show, :update]
   map.resources :cms_documents
   map.resources :media
   map.resources :artist_feeds
@@ -57,7 +55,12 @@ ActionController::Routing::Routes.draw do |map|
   map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'
   map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
 
-  map.resources :users, :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get }
+  map.resources :users, 
+  :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, 
+  :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get } do |users|
+    users.resources :roles, :only => [:update, :destroy]
+  end
+
 
   #map.analytics '/ganalytics', :controller => 'main', :action => 'ganalytics'
   [:faq, :openstudios, :venues, :privacy, :about, :history, :contact, :version].each do |endpoint|

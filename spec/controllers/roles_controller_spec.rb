@@ -2,6 +2,9 @@ require 'spec_helper'
 describe RolesController do
   include AuthenticatedTestHelper
   fixtures :roles, :users, :roles_users
+
+  let(:jesse) { users(:jesseponce) }
+
   describe 'non-admin' do
     [:index,:edit].each do |endpoint|
       before do
@@ -26,17 +29,19 @@ describe RolesController do
       it 'renders an admin layout' do
         response.layout.should eql 'layouts/mau-admin'
       end
-      it 'shows a list of managers' do
-        assert_select '.manager.role_container .role_members li', :count => 1, :match => 'admin dude'
-      end
-      it 'shows a list of editors' do
-        assert_select '.editor.role_container .role_members li', :count => 1, :match => 'editor dude'
-      end
-      it 'shows a list of administrators' do
-        assert_select '.admin.role_container .role_members li', :count => 2, :match => /admin dude|artist1 Fixture/
+      [:manager, :admin, :editor].each do |role|
+        it "shows a list of users with role #{role}" do
+          rol = roles(role)
+          expected = RolesUser.find_all_by_role_id(rol.id).select{|ru| ru.user.active?}
+          assert_select ".#{role}.role_container .role_members li", :count => expected.count
+        end
       end
     end
     describe 'GET edit' do
+      let(:manager_role) { roles(:manager) }
+      before do
+        get :edit, :id => manager_role
+      end
       it_should_behave_like 'logged in as admin'
     end
     describe 'POST create' do
@@ -62,6 +67,41 @@ describe RolesController do
           assigns(:role).errors.should_not be_empty
         end
       end
+    end
+
+    describe '#destroy' do
+      let(:mgr) { roles(:manager) }
+      context 'with role' do
+        it 'removes the role' do
+          expect { delete :destroy, :id => mgr.id }.to change(Role, :count).by(-1)
+        end
+        it 'removes the role from all users' do
+          ru = RolesUser.find_all_by_role_id(mgr.id)
+          expected_change = ru.count
+          expect { delete :destroy, :id => mgr.id }.to change(RolesUser, :count).by(-expected_change)
+          jesse.reload
+          jesse.roles.should_not include mgr
+
+        end
+      end
+      context 'with role and user' do
+        it 'removes the role association from the user' do
+          expect{ delete :destroy, :user_id => jesse.id, :id => jesse.roles.first.id }.to change(jesse.roles, :count).by(-1)
+        end
+        it 'redirects to the roles index page' do
+          delete :destroy, :user_id => jesse.id, :id => jesse.roles.first.id
+          response.should redirect_to roles_path
+        end
+      end
+    end
+  end
+
+  describe 'routing' do
+    it "should recognize DELETE /users/10/roles/3 as destroy role on user" do
+      params_from(:delete, "/users/10/roles/3").should == {:controller => 'roles', :action => 'destroy', :user_id => '10', :id => '3' }
+    end
+    it "should recognize update /users/10/roles/3 as add user to role" do
+      params_from(:put, "/users/10/roles/3").should == {:controller => 'roles', :action => 'update', :user_id => '10', :id => '3' }
     end
   end
 end

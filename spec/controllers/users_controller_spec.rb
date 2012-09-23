@@ -928,14 +928,14 @@ describe UsersController do
   describe '#delete' do
     context 'non-admin' do
       before do 
-        delete user_path, :id => users(:jesseponce).id
+        delete :destroy, :id => jesse.id
       end
       it_should_behave_like 'not authorized'
     end
     context 'as yourself' do
       before do 
         login_as :admin
-        delete user_path, :id => admin.id
+        delete :destroy, :id => admin.id
       end
       it 'redirects to users index' do
         response.should redirect_to users_path
@@ -950,16 +950,13 @@ describe UsersController do
       end
       context 'deleting a user' do
         it 'deactivates the user' do
-          expect{ delete user_path, :id => jesse }.to change(User,:count).by(-1)
+          delete :destroy, :id => jesse.id
+          jesse.reload
+          jesse.state.should == 'deleted'
         end
         it 'redirects to the users index page' do
-          delete user_path, :id => jesse
+          delete :destroy, :id => jesse.id
           response.should redirect_to users_path
-        end
-      end
-      context 'removing role from user' do
-        it 'removes the role' do
-          expect { delete user_path, :id => jesse.id, :role => jesse.roles.first.id }.to change(u.roles, :count).by(-1)
         end
       end
     end
@@ -993,7 +990,7 @@ describe UsersController do
     it "should recognize POST /users/10 as nonsense (action 10)" do
       params_from(:post, "/users/10").should == {:controller => 'users', :action => '10' }
     end
-    it "should recognize DELETE /users/10 as show" do
+    it "should recognize DELETE /users/10 as destroy user" do
       params_from(:delete, "/users/10").should == {:controller => 'users', :action => 'destroy', :id => '10' }
     end
   end

@@ -1,10 +1,13 @@
 #role_mgr
   .links
-    = link_to "[all roles]", roles_path
-  %h3 Manage #{@role.role} Role
+    = link_to "[back to all roles]", roles_path
+  %h3 
+    Manage 
+    %em #{@role.role} 
+  %h4 Members
   %ul.members_edit{"data-role" => @role.id}
     - @users.each do |u|
       %li{:class => cycle("even", "odd"), "data-user" => u.id}
         .user 
           = u.fullname
-          = link_to "X", "/roles/#{@role.id}/users/#{u.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.fullname} from the #{@role.role} group?" unless (u == current_user && @role == Role.find_by_role('admin'))
+          = link_to "X", "/users/#{u.id}/roles/#{@role.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.fullname} from the #{@role.role} group?" unless (u == current_user && @role == Role.find_by_role('admin'))
