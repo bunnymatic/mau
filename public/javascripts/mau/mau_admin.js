@@ -18,7 +18,30 @@ MAUAdmin =  window.MAUAdmin || {};
   };
 
   var M = MAUAdmin;
+  M.Roles = {
+    init: function() {
+      /** bind events */
+      var ctrls = $('role_mgr');
+      if (ctrls) {
+        var btn = ctrls.selectOne('.add_userrole');
+        if (btn) {
+          $(btn).observe('click', function() {
+            var frm = ctrls.selectOne('form.edit_role')
+            if (frm) {
+              if (frm.visible()) {
+                frm.hide();
+              } else {
+                frm.show();
+              }
+            }
+          });
+        }
+      }
+    }
+  };
+
   M.init = function() {
+    M.Roles.init();
     $$('.hide-rows input').each(function(el) {
       el.observe('change', function() {
         var clz = this.value;

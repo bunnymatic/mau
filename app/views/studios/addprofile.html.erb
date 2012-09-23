@@ -14,7 +14,7 @@
     <% end %>
     <tr>
       <td class="td-center">
-		<% if @studio.has_profile_image %>
+		<% if @studio.profile_image? %>
   			<img src="<%= @studio.get_profile_image('small') %>" />
 		<% else %>
   			<img src="/images/default-profile-img.png" width="200" />

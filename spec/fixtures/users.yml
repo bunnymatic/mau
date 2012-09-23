@@ -140,7 +140,6 @@ admin:
   lastname:                  dude
   state:                     active
   activated_at:              <%= 3.days.ago.to_s :db %>
-  roles: admin
   studio: as
 
 artfan2:
@@ -264,7 +263,6 @@ editor:
   lastname:                  dude
   state:                     active
   activated_at:              <%= 3.days.ago.to_s :db %>
-  roles: editor
   studio: as
 
 reset_password:

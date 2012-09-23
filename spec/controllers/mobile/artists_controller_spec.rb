@@ -5,7 +5,8 @@ describe ArtistsController do
 
   integrate_views
 
-  fixtures :users
+  fixtures :users, :roles_users
+  fixtures :media, :art_pieces_tags, :art_piece_tags
   fixtures :artist_infos
   fixtures :art_pieces
   fixtures :studios

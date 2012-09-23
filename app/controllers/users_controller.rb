@@ -308,13 +308,19 @@ class UsersController < ApplicationController
 
   def destroy
     id = params[:id]
-    a = safe_find_user(id)
-    if a
-      name = a.login
-      a.delete!
-      flash[:notice] = "The account for login %s has been deactivated." % name
-      redirect_to artists_path
+    u = safe_find_user(id)
+    if u
+      if u != current_user
+        name = u.login
+        u.delete!
+        flash[:notice] = "The account for login %s has been deactivated." % name
+      else
+        flash[:error] = "You can't delete yourself."
+      end
+    else 
+      flash[:error] = "Couldn't find user #{id}"
     end
+    redirect_to users_path and return
   end
 
 

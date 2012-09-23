@@ -146,25 +146,6 @@ class AdminController < ApplicationController
     end
   end
 
-  def roles
-    @roles = Role.all
-    @users = User.active
-    @users_in_roles = {}
-    
-    invalid_roles = ['a', 'nil']
-    @users.each do |u|
-      @roles.compact.reject{|role| invalid_roles.include? role.role}.each do |r|
-        k = r.role
-        method = "is_#{k}?"
-        @users_in_roles[k] = [] if @users_in_roles[k].nil?
-        begin 
-          @users_in_roles[k] << u if u.send(method)
-        rescue NoMethodError => nme
-        end
-      end
-    end
-  end
-
   def art_pieces_per_day
     apd = compute_art_pieces_per_day
     result = { :series => [ { :data => apd }],

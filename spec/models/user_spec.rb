@@ -10,7 +10,10 @@ def valid_attributes(opts = {})
 end
 
 describe User do
-  fixtures :users, :studios, :roles, :artist_infos, :art_pieces
+  fixtures :users, :studios, :roles, :artist_infos, :art_pieces, :roles_users
+
+  let(:artist1) { users(:artist1) }
+
   describe 'new' do
     it 'validates' do
       u = User.new(valid_attributes)
@@ -49,44 +52,36 @@ describe User do
   
   describe 'get_share_link' do
     it "returns the artists link" do
-      users(:artist1).get_share_link.should match /\/artists\/#{users(:artist1).login}$/
+      artist1.get_share_link.should match /\/artists\/#{artist1.login}$/
     end
     it "returns the html safe artists link given html_safe = true" do
-      users(:artist1).get_share_link(true).should match /%2fartists%2f#{users(:artist1).login}$/i
+      artist1.get_share_link(true).should match /%2fartists%2f#{artist1.login}$/i
     end
     it "returns the artists link with params given params" do
-      users(:artist1).get_share_link(false, { :this => 'that' }).should match /\/artists\/#{users(:artist1).login}\?this=that$/
+      artist1.get_share_link(false, { :this => 'that' }).should match /\/artists\/#{artist1.login}\?this=that$/
     end
   end
   describe 'roles' do
     it "without admin role user is not admin" do
-      User.all.first.should_not be_is_admin
+      users(:quentin).should_not be_is_admin
     end
     it "without editor role user is not editor" do
-      User.all.first.should_not be_is_editor
+      users(:wayout).should_not be_is_editor
     end
     it "with admin role, user is admin" do
-      u = User.all.first
-      u.roles << roles(:admin)
-      u.save
-      u.reload
-      u.should be_is_admin
+      users(:admin).should be_is_admin
     end
     it "with editor role, user is editor" do
-      u = User.all.first
-      u.roles << roles(:editor)
-      u.save
-      u.reload
-      u.should be_is_editor
+      artist1.should be_is_editor
     end
-    it "with editor and admin role, user is both editor and admin" do
-      u = User.all.first
-      u.roles << roles(:editor)
-      u.roles << roles(:admin)
-      u.save
-      u.reload
-      u.should be_is_editor
-      u.should be_is_admin
+    it "with editor and admin role, user is both editor and manager" do
+      artist1.should be_is_editor
+      artist1.should be_is_manager
+    end
+    it 'does not save multiple roles of the same type' do
+      expect {
+        artist1.roles << Role.find_by_role('manager')
+      }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
   describe 'auth helpers' do
@@ -108,10 +103,10 @@ describe User do
 
   describe 'address' do
     it "responds to address" do
-      users(:artist1).should respond_to :address
+      artist1.should respond_to :address
     end
     it "responds to full address" do
-      users(:artist1).should respond_to :full_address
+      artist1.should respond_to :full_address
     end
     it "returns nothing" do
       users(:noaddress).address.should_not be_present
@@ -129,7 +124,7 @@ describe User do
     describe "adding artist as favorite to a user" do
       before do
         @u = users(:maufan1) # he's a fan
-        @a = users(:artist1) 
+        @a = artist1 
         @u.add_favorite(@a)
         @u.save
       end
@@ -194,7 +189,7 @@ describe User do
     end
     describe "narcissism" do
       before do
-        @a = users(:artist1)
+        @a = artist1
         @ap = @a.art_pieces.first
       end
       it "favoriting yourself is not allowed" do
@@ -212,7 +207,7 @@ describe User do
     describe "mailer notifications" do
       before do
         @u = users(:maufan1) # he's a fan
-        @owner = users(:artist1)
+        @owner = artist1
         @ap = @owner.art_pieces.first
       end
       it "add art_piece favorite sends favorite notification to owner" do
@@ -237,7 +232,7 @@ describe User do
     describe "adding art_piece as favorite" do
       before do
         @u = users(:maufan1) # he's a fan
-        @owner = users(:artist1)
+        @owner = artist1
         @ap = @owner.art_pieces.first
         @u.add_favorite(@ap)
       end
@@ -314,15 +309,15 @@ describe User do
     context "artist" do
       it "create_reset_code should call mailer" do
         ArtistMailer.expects(:deliver_reset_notification).with() do |f|
-          f.login.should == users(:artist1).login
-          f.email.should include users(:artist1).email
+          f.login.should == artist1.login
+          f.email.should include artist1.email
         end
-        users(:artist1).create_reset_code
+        artist1.create_reset_code
       end
       it "create_reset_code creates a reset code" do
-        users(:artist1).reset_code.should be_nil
-        users(:artist1).create_reset_code
-        users(:artist1).reset_code.should_not be_nil
+        artist1.reset_code.should be_nil
+        artist1.create_reset_code
+        artist1.reset_code.should_not be_nil
       end
     end
   end
@@ -336,7 +331,7 @@ describe User do
   describe 'MailChimp includes' do
     describe "mailchimp_additional_data" do
       before do
-        @mail_data = users(:artist1).send(:mailchimp_additional_data)
+        @mail_data = artist1.send(:mailchimp_additional_data)
       end
       it 'returns allowed mapped attributes' do
         expected_keys =  ['FNAME','LNAME', 'CREATED']
@@ -344,14 +339,14 @@ describe User do
         @mail_data.keys.all?{|k| expected_keys.include? k}.should be
       end
       it 'returns correct values for mapped attributes' do
-        @mail_data['CREATED'].should == users(:artist1).activated_at
-        @mail_data['FNAME'].should == users(:artist1).firstname
-        @mail_data['LNAME'].should == users(:artist1).lastname
+        @mail_data['CREATED'].should == artist1.activated_at
+        @mail_data['FNAME'].should == artist1.firstname
+        @mail_data['LNAME'].should == artist1.lastname
       end
     end
     describe 'mailchimp_list_name' do
       it 'returns Mission Artists United List for artists' do
-        users(:artist1).send(:mailchimp_list_name).should == MailChimp::ARTISTS_LIST
+        artist1.send(:mailchimp_list_name).should == MailChimp::ARTISTS_LIST
       end
       it 'returns events only list for fans' do
         users(:maufan1).send(:mailchimp_list_name).should == MailChimp::FANS_LIST

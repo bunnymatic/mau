@@ -108,6 +108,7 @@ end
 
 shared_examples_for "logged in as admin" do
   it_should_behave_like 'logged in as editor'
+
   it 'includes the editor javascript' do
     assert_select('script[src^=/javascripts/mau/mau_editor.js]')
   end
@@ -117,12 +118,17 @@ shared_examples_for "logged in as admin" do
   it "shows a link to the dashboard" do
     assert_select('#admin_nav a.lkdark[href=/admin]', 'dashboard')
   end
-  
-  %w{ os_status featured_artist favorites artists studios fans media roles events }.each do |admin_link|
-    it ("shows a link to admin/%s" % admin_link) do
-      assert_select('#admin_nav a.lkdark[href=/admin/'+admin_link+']', admin_link)
+  %w{ os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
+    it "shows a link to admin/#{admin_link}" do
+      assert_select "#admin_nav a.lkdark[href=/admin/#{admin_link}]", admin_link
     end
   end
+  %w{ roles }.each do |direct_link|
+    it "shows a link to /#{direct_link}" do
+      assert_select "#admin_nav a.lkdark[href=/#{direct_link}]", direct_link
+    end
+  end
+
  
 end
 

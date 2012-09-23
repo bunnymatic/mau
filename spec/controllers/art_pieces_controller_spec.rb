@@ -12,7 +12,7 @@ end
 
 describe ArtPiecesController do
 
-  fixtures :users
+  fixtures :users, :roles_users
   fixtures :artist_infos
   fixtures :art_pieces
   fixtures :media

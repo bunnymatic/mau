@@ -1,0 +1,12 @@
+.admin-table
+  %h1 New role
+
+  - form_for(@role) do |f|
+    = f.error_messages
+
+    = f.label :role
+    = f.text_field :role
+    = f.submit 'Create'
+
+.links
+  = link_to '[all roles]', roles_path

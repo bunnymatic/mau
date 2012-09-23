@@ -4,10 +4,13 @@ include AuthenticatedTestHelper
 
 describe UsersController do
   
-  fixtures :users
+  fixtures :users, :roles_users
   fixtures :art_pieces
   fixtures :favorites # even though fixture is empty - this forces a db clear between tests
   fixtures :scammers
+
+  let(:admin) { users(:admin) }
+  let(:jesse) { users(:jesseponce) }
 
   before do
     ####
@@ -49,7 +52,7 @@ describe UsersController do
       assert_select("#artist_lastname")
     end
   end
-
+    
   describe "#create" do
     it "return 404 with :artist = {}" do
       post :create,  :artist => {}
@@ -922,6 +925,43 @@ describe UsersController do
 
   end
 
+  describe '#delete' do
+    context 'non-admin' do
+      before do 
+        delete :destroy, :id => jesse.id
+      end
+      it_should_behave_like 'not authorized'
+    end
+    context 'as yourself' do
+      before do 
+        login_as :admin
+        delete :destroy, :id => admin.id
+      end
+      it 'redirects to users index' do
+        response.should redirect_to users_path
+      end
+      it 'flashes a message saying you can\'t delete yourself' do
+        flash[:error].should eql "You can't delete yourself."
+      end
+    end
+    context 'as admin' do
+      before do 
+        login_as :admin
+      end
+      context 'deleting a user' do
+        it 'deactivates the user' do
+          delete :destroy, :id => jesse.id
+          jesse.reload
+          jesse.state.should == 'deleted'
+        end
+        it 'redirects to the users index page' do
+          delete :destroy, :id => jesse.id
+          response.should redirect_to users_path
+        end
+      end
+    end
+  end
+
   describe "- routes" do
     it "route controller=users, action=edit to /users/edit" do
       route_for(:controller => "users", :action => "edit").should == '/users/edit'
@@ -950,7 +990,7 @@ describe UsersController do
     it "should recognize POST /users/10 as nonsense (action 10)" do
       params_from(:post, "/users/10").should == {:controller => 'users', :action => '10' }
     end
-    it "should recognize DELETE /users/10 as show" do
+    it "should recognize DELETE /users/10 as destroy user" do
       params_from(:delete, "/users/10").should == {:controller => 'users', :action => 'destroy', :id => '10' }
     end
   end

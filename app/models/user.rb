@@ -47,7 +47,8 @@ class User < ActiveRecord::Base
   end
 
   belongs_to :studio
-  has_and_belongs_to_many :roles
+  has_many :roles_users, :dependent => :destroy
+  has_many :roles, :through => :roles_users, :dependent => :destroy
 
   include ImageDimensions
 
@@ -106,13 +107,6 @@ class User < ActiveRecord::Base
 
   def get_profile_image(size = :medium)
     ArtistProfileImage.get_path(self, size)
-  end
-
-  def is_in_role?(role)
-    if role.nil?
-      return false;
-    end
-    return roles.include?(Role[role])
   end
 
   def get_share_link(urlsafe=false, options = {})
@@ -190,6 +184,16 @@ class User < ActiveRecord::Base
       # if we have any issues, not admin
       false
     end 
+  end
+
+  def is_manager?
+    begin
+      is_admin? || (self.roles.include? Role.find_by_role('manager'))
+    rescue Exception => e
+      logger.debug(e)
+      # if we have any issues, not admin
+      false
+    end
   end
 
   def is_editor?
@@ -379,7 +383,11 @@ class User < ActiveRecord::Base
     self.deleted_at = nil
     self.activation_code = User.make_token
   end
-  
+
+  def uniqify_roles 
+    self.roles = roles.uniq{|r| r.id}
+  end
+
   protected
   def get_favorite_ids(tps)
     (favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }

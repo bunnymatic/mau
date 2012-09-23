@@ -1,17 +1,24 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :events, :member => { :publish => :get, :unpublish => :get }
-  map.calendar '/calendar/:year/:month', :controller => 'calendar', :action => 'index', 
-	:requirements => {:year => /\d{4}/, :month => /\d{1,2}/}, :year => nil, :month => nil
+  map.resources :roles
   map.resources :cms_documents
   map.resources :media
   map.resources :artist_feeds
+  map.resources :art_pieces
+  map.resource  :session
+  map.resources :studios
+  map.resources :application_events, :only => [:index]
+  map.resources :catalog, :only => [:index]
+  map.resources :email_lists, :only => [:index]
+  map.resources :art_piece_tags, :collection => {:cleanup => :get}
+
+  map.resources :events, :member => { :publish => :get, :unpublish => :get }
+  map.calendar '/calendar/:year/:month', :controller => 'calendar', :action => 'index', 
+	:requirements => {:year => /\d{4}/, :month => /\d{1,2}/}, :year => nil, :month => nil
 
   map.feedback 'feedbacks', :controller => 'feedbacks', :action => 'create'
   map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
 
   map.resources :search, :only => [:index], :collection => {:fetch => :post}
-  map.resources :art_pieces
-  map.resources :art_piece_tags, :collection => {:cleanup => :get}
 
   map.force_non_mobile '/non_mobile', :controller => 'application', :action => 'non_mobile'
 
@@ -48,14 +55,12 @@ ActionController::Routing::Routes.draw do |map|
   map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'
   map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
 
-  map.resources :users, :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get }
+  map.resources :users, 
+  :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, 
+  :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get } do |users|
+    users.resources :roles, :only => [:destroy]
+  end
 
-  map.resource :session
-  map.resources :studios
-
-  map.resources :application_events, :only => [:index]
-  map.resources :catalog, :only => [:index]
-  map.resources :email_lists, :only => [:index]
 
   #map.analytics '/ganalytics', :controller => 'main', :action => 'ganalytics'
   [:faq, :openstudios, :venues, :privacy, :about, :history, :contact, :version].each do |endpoint|

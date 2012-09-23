@@ -149,10 +149,25 @@ class ApplicationController < ActionController::Base
   def is_admin?
     current_user && current_user.is_admin?
   end
-    
+
+  def is_editor?
+    is_admin? || current_user && current_user.is_editor?
+  end
+
+  def is_manager?
+    is_admin? || current_user && current_user.is_manager?
+  end
+
   def admin_required
-    RAILS_DEFAULT_LOGGER.warn("ApplicationController: checking for admin")
     redirect_to "/error" unless is_admin?
+  end
+
+  def editor_required
+    redirect_to "/error" unless is_editor?
+  end
+
+  def manager_required
+    redirect_to "/error" unless is_manager?
   end
 
   def check_browser

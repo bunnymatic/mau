@@ -50,10 +50,6 @@ class Studio < ActiveRecord::Base
     super(:order => 'name') << Studio.indy
   end
 
-  def has_profile_image
-    self.profile_image
-  end
-
   def get_profile_image(size)
     StudioImage.get_path(self, size)
   end

@@ -3,7 +3,7 @@ require 'spec_helper'
 include AuthenticatedTestHelper
 
 describe ArtistFeedsController do
-  fixtures :users, :roles, :artist_feeds
+  fixtures :users, :roles, :artist_feeds, :roles_users
 
   shared_examples_for 'artist feeds controller new or edit' do
     it "returns success" do

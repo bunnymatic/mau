@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CatalogController do
 
-  fixtures :users, :studios, :artist_infos
+  fixtures :users, :studios, :artist_infos, :roles_users
 
   describe "#index" do
     before do
