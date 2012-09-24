@@ -22,6 +22,15 @@ MAUAdmin =  window.MAUAdmin || {};
   M.AdminNav = {
     init: function() {
       var tab = $('admin_nav_tab');
+      /** position tab and nav block */
+      var nav = $('admin_nav_body');
+      var dim = nav.innerDimensions();
+      tab.setStyle({top:dim.height + "px"});
+      var dim = nav.outerDimensions();
+      var offset = nav.positionedOffset();
+      /** +1 for border */
+      new Effect.Move(nav, {y: -(offset.top + dim.height + 1 ), mode: 'relative'});
+      
       tab.observe('click', function() {
         if ($(tab).hasClassName('open') && !$(tab).hasClassName('moving')) {
           var h = $('admin_nav_body').innerDimensions().height;

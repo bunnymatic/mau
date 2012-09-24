@@ -1,0 +1,18 @@
+%script{:type => 'text/javascript'}
+  var authenticityToken  = encodeURIComponent('#{form_authenticity_token}')
+- if logged_in? 
+  #logout
+    - if current_user.is_special?
+      = render :partial => '/admin_header'
+    =# spans go in reverse order because they all float right
+    %span.navitem.last
+      = link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" } 
+    %span.navitem.logout-nav
+      hello,  
+      %a.lkdark{:href => user_path(current_user)} #{current_user.login}
+    .clear
+- else
+  #login_toplink
+    = link_to "log in",  login_path,  { :title => "log in", :class => "lkdark" }
+    = "|"
+    = link_to "sign up", signup_path, { :title => "create an account", :class => "lkdark" }

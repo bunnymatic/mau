@@ -4087,11 +4087,9 @@ a.button b.m b {
     border: 1px solid $error_red;
     border-top: none;
     background-color: #eeaaaa;
-    margin: 8px auto;
     padding: 3px 8px;
     position: absolute;
     height: 16px;
-    top: 26px;
     left: 15px;
     z-index:20;
     @include round-bottom-corners();
@@ -4104,7 +4102,7 @@ a.button b.m b {
   .container {
     z-index:19;
     position: absolute;
-    top: -61px;
+    top: -100px; /* counting on js to put this right */
     left: 0px;
     color: $error_red;
     .admin-lk {

@@ -5,6 +5,11 @@
         admin 
         %span.arrow &#709;
     :ruby
+      manager_links = [[:dashboard, {:link => '/admin'}],
+                       [:studios , {}]]
+      editor_links = [[:dashboard, {:link => '/admin'}],
+                      [:cms_documents , {:display => 'cms', :link => '/cms_documents'}],
+                      [:featured_artist , {}]]
       usage_links = [[:dashboard, {:link => '/admin'}],
                      [:artists , {}],
                      [:studios , {}],
@@ -30,10 +35,17 @@
 
                      [:tests , {:link => '/tests'}]
                     ]
-      links = [ [:usage, usage_links],
-                [:pr, pr_links],
-                [:lists, model_links],
-                [:admin, admin_links] ]
+      links = []
+      if current_user.is_admin?
+        links =[ [:usage, usage_links],
+          [:pr, pr_links],
+          [:lists, model_links],
+          [:admin, admin_links] ]
+      else 
+        links << [ :editor, editor_links ] if current_user.is_editor?
+        links << [ :manager, manager_links ] if current_user.is_manager?
+      end
+       
 
       links.each do |sxn, entries|
         entries.each do |key, entry|
