@@ -3,7 +3,7 @@ require 'spec_helper'
 include AuthenticatedTestHelper
 
 describe EmailListsController do
-  fixtures :email_lists, :emails, :email_list_memberships, :users, :roles_users
+  fixtures :email_lists, :emails, :email_list_memberships, :users, :roles_users, :roles
   [:index].each do |endpoint|
     describe 'not logged in' do
       describe endpoint do
@@ -16,14 +16,14 @@ describe EmailListsController do
     describe 'logged in as plain user' do
       describe endpoint do
         before do
-          login_as(users(:maufan1))
+          login_as :maufan1
           get endpoint
         end
         it_should_behave_like 'not authorized'
       end
     end
     it "responds success if logged in as admin" do
-      login_as(:admin)
+      login_as :admin
       get endpoint
       response.should be_success
     end
@@ -32,7 +32,7 @@ describe EmailListsController do
   describe '#index' do
     integrate_views
     before do
-      login_as(:admin)
+      login_as :admin
     end
     describe 'GET' do
       before do
@@ -53,7 +53,6 @@ describe EmailListsController do
           assert_select ".email_lists ul.listtypes form input[name='listtype']" do |tg|
             tg.map{|t| t['type']}.uniq.should == ['hidden']
           end
-            
         end
       end
       it 'renders the 2 lists, Feedback and Events' do
