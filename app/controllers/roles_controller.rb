@@ -37,7 +37,7 @@ class RolesController < ApplicationController
   def show_or_edit
     @role = Role.find(params[:id])
     @role_users = RolesUser.find_all_by_role_id(@role.id).map(&:user)
-    @users = User.active.all.reject{|u| @role_users.map(&:id).include? u.id}.sort_by(&:fullname)
+    @users = User.active.all.reject{|u| @role_users.map(&:id).include? u.id}.sort_by{|u| u.fullname.downcase}
     render :edit
   end
 
