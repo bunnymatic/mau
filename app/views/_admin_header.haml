@@ -1,45 +1,50 @@
 #admin_nav
-  :ruby
-    usage_links = [[:dashboard, {:link => '/admin'}],
-                   [:artists , {}],
-                   [:studios , {}],
-                   [:cms_documents , {:display => 'cms', :link => '/cms_documents'}],
-                   [:emaillist , {:display => 'emails'}],
-                   [:os_status , {}]
-                  ]
-    pr_links = [[:events , {}],
-                [:featured_artist , {}],
-                [:favorites , {}],
-                [:catalog, {:link => '/catalog'}]
-               ]
-    model_links = [[:fans , {}],
-                   [:artist_feeds , {:display => 'feeds', :link => '/artist_feeds'}],
-                   [:media , {}],
-                   [:roles , {:link => '/roles'}],
-                   [:art_piece_tags , {:display => 'tags'}]
-                  ]
-    admin_links = [[:app_events, {:display => 'app events', :link => '/application_events'}],
-                   [:internal_email , {:display => 'internal messaging', :link => '/email_lists' }],
-                   [:db_backups , {:display => 'backups'}],
-                   [:palette , {:display => 'colors'}],
+  .container#admin_nav_body
+    .tab#admin_nav_tab 
+      %a{:href => "#", :class => 'lkdark'} 
+        admin 
+        %span.arrow &#709;
+    :ruby
+      usage_links = [[:dashboard, {:link => '/admin'}],
+                     [:artists , {}],
+                     [:studios , {}],
+                     [:cms_documents , {:display => 'cms', :link => '/cms_documents'}],
+                     [:emaillist , {:display => 'emails'}],
+                     [:os_status , {}]
+                    ]
+      pr_links = [[:events , {}],
+                  [:featured_artist , {}],
+                  [:favorites , {}],
+                  [:catalog, {:link => '/catalog'}]
+                 ]
+      model_links = [[:fans , {}],
+                     [:artist_feeds , {:display => 'feeds', :link => '/artist_feeds'}],
+                     [:media , {}],
+                     [:roles , {:link => '/roles'}],
+                     [:art_piece_tags , {:display => 'tags'}]
+                    ]
+      admin_links = [[:app_events, {:display => 'app events', :link => '/application_events'}],
+                     [:internal_email , {:display => 'internal messaging', :link => '/email_lists' }],
+                     [:db_backups , {:display => 'backups'}],
+                     [:palette , {:display => 'colors'}],
 
-                   [:tests , {:link => '/tests'}]
-                  ]
-    links = [ [:usage, usage_links],
-              [:pr, pr_links],
-              [:lists, model_links],
-              [:admin, admin_links] ]
+                     [:tests , {:link => '/tests'}]
+                    ]
+      links = [ [:usage, usage_links],
+                [:pr, pr_links],
+                [:lists, model_links],
+                [:admin, admin_links] ]
 
-    links.each do |sxn, entries|
-      entries.each do |key, entry|
-        entry[:display] = entry[:display] || key.to_s
-        entry[:link] = entry[:link] || ("/admin/%s" % key)
-      end
-    end             
-  - links.each do |sxn, entries|
-    %div{:class => 'link_section'}
-      %span.title #{sxn}
-      - entries.each do |key, opts|
-        %span.admin-lk
-          = link_to opts[:display], opts[:link], {:class => 'lkdark'}
-  .clear
+      links.each do |sxn, entries|
+        entries.each do |key, entry|
+          entry[:display] = entry[:display] || key.to_s
+          entry[:link] = entry[:link] || ("/admin/%s" % key)
+        end
+      end             
+    - links.each do |sxn, entries|
+      %div{:class => 'link_section'}
+        %span.title #{sxn}
+        - entries.each do |key, opts|
+          %span.admin-lk
+            = link_to opts[:display], opts[:link], {:class => 'lkdark'}
+    .clear

@@ -170,6 +170,20 @@ var TagMediaHelper = {
     }
   };
 
+
+  M.AdminNav = {
+    init: function() {
+      var tab = $('admin_nav_tab');
+      tab.observe('mouseover', function() {
+        if (!$(tab).hasClassName('open')) {
+          $(tab).addClassName('open');
+          new Effect.Move($('admin_nav_body'), {y: 20, mode: 'relative'});
+        }
+      });
+    }
+  };
+
+
   /** safe javascript log - for debug */
   M.log = function() {
     if (window.console && M.__debug__) {
@@ -1638,6 +1652,7 @@ var TagMediaHelper = {
   };
   Event.observe(window,'load',IM.init);
 }
+
 
 
 )();

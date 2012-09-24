@@ -2077,7 +2077,7 @@ search pages
 ****************/
 #spinnerbg {
   width: $fullwidth + 2 * $gutter;
-  z-index: 100;
+  z-index: 30;
   height: 100%;
   .search_spinner {
     position: absolute;
@@ -2719,7 +2719,7 @@ img.help-icon {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 100001;
+  z-index: 101;
 }
 #feedback_link {
   display:none;
@@ -2727,7 +2727,7 @@ img.help-icon {
 
 a#feedback_link {
   position: fixed;
-  z-index: 99999;
+  z-index: 99;
   background-color: #CC0000;
   width: 26px;
   height: 96px;
@@ -2793,7 +2793,7 @@ a#note_close_link{
   @include opacity(0.3);
 }
 #spinnerbg {
-  z-index:1000;
+  z-index:51;
   position:absolute;
   left: 0;
   top: 0;
@@ -2803,12 +2803,12 @@ a#note_close_link{
 
 
 #img_modal_overlay {
-  z-index:100;
+  z-index:30;
 }
   
 
 #img_modal {
-  z-index: 200;
+  z-index: 35;
   position: absolute;
   top: 0;
   left: 0;
@@ -2842,7 +2842,7 @@ a#note_close_link{
 .note_overlayBG,
 .feedback_overlayBG {
   background-color: $black;
-  z-index: 100000;
+  z-index: 100;
 }
 
 * html #feedback_overlay { /* ie6 hack */
@@ -2949,10 +2949,10 @@ form#feedback_form .error {
 }
 
 #credits_bg {
-  z-index:300;
+  z-index:40;
 }
 #credits_bg_contain {
-  z-index: 301;
+  z-index: 41;
 }
 #credits_div {
   @include small-rounded-corners;
@@ -2961,7 +2961,7 @@ form#feedback_form .error {
   position: absolute;
   text-align: left;
   width:420px;
-  z-index: 200;
+  z-index: 35;
   opacity: 1;
   .credits-hdr {
     @include round-top-corners;
@@ -3380,7 +3380,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     }
   }
   position: absolute;
-  z-index: 50;
+  z-index: 25;
   .popup-mailer {
     width: 480px;
     @include large-rounded-corners;
@@ -3431,7 +3431,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 .mau-popup-container {
-  z-index: 50;
+  z-index: 25;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -3532,7 +3532,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       padding: .2em .3em;
       width: 90%;
       float: left;
-      z-index: 999;
+      z-index: 50;
     }
   }
   #mce-responses {
@@ -4076,20 +4076,50 @@ a.button b.m b {
   margin: 25px auto 20px;
 
 }
-#admin_nav {
-  color: $error_red;
-  .admin-lk {
-    padding: 0 3px;
+#admin_nav 
+{
+  position:relative;
+  .tab {
+    color: $error_red;
+    .admin-lk {
+      padding: 0 3px;
+    }
+    border: 1px solid $error_red;
+    border-top: none;
+    background-color: #eeaaaa;
+    margin: 8px auto;
+    padding: 3px 8px;
+    position: absolute;
+    height: 16px;
+    top: 26px;
+    left: 15px;
+    z-index:20;
+    @include round-bottom-corners();
+    cursor: pointer;
   }
-  border: 1px solid $error_red;
-  background-color: #ffcccc;
-  margin: 8px auto;
-  padding: 3px;
-  .link_section {
-    float: left;
-    width: 420px;
-    margin-left: 20px;
-    text-align: left;
+  .arrow {
+    font-size: 20px;
+    vertical-align: middle;
+  }
+  .container {
+    z-index:19;
+    position: absolute;
+    top: -61px;
+    left: 0px;
+    color: $error_red;
+    .admin-lk {
+      padding: 0 3px;
+    }
+    border: 1px solid $error_red;
+    background-color: #ffcccc;
+    margin: 8px auto;
+    padding: 3px;
+    .link_section {
+      float: left;
+      width: 420px;
+      margin-left: 20px;
+      text-align: left;
+    }
   }
 }
 
