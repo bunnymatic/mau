@@ -1,5 +1,5 @@
 class CmsDocumentsController < ApplicationController
-  before_filter :admin_required
+  before_filter :editor_required
   layout 'mau-admin'
   
   def index

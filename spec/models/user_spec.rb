@@ -62,6 +62,7 @@ describe User do
     end
   end
   describe 'roles' do
+    let(:admin) { users(:admin) }
     it "without admin role user is not admin" do
       users(:quentin).should_not be_is_admin
     end
@@ -69,14 +70,20 @@ describe User do
       users(:wayout).should_not be_is_editor
     end
     it "with admin role, user is admin" do
-      users(:admin).should be_is_admin
+      admin.should be_is_admin
     end
     it "with editor role, user is editor" do
       artist1.should be_is_editor
     end
-    it "with editor and admin role, user is both editor and manager" do
+    it "with editor and manager role, user is editor and manager but not admin" do
       artist1.should be_is_editor
       artist1.should be_is_manager
+      artist1.should_not be_is_admin
+    end
+    it "with admin role, user is editor and manager and admin" do
+      admin.should be_is_editor
+      admin.should be_is_manager
+      admin.should be_is_admin
     end
     it 'does not save multiple roles of the same type' do
       expect {

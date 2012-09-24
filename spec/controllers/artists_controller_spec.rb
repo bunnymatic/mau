@@ -100,10 +100,7 @@ describe ArtistsController do
   describe "#update" do
     integrate_views
     before do
-
-      artist1.artist_info.open_studios_participation = '';
-      artist1.save
-      artist1.reload
+      artist1.artist_info.update_attribute(open_studios_participation,'')
     end
     context "while not logged in" do
       context "with invalid params" do
@@ -141,17 +138,15 @@ describe ArtistsController do
       end
       context "cancel post with new bio data" do
         before do
+          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
         end
         it "redirects to user page" do
-          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
           response.should redirect_to(user_path(artist1))
         end
         it "should have no flash notice" do
-          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
           flash[:notice].should be_nil
         end
         it "shouldn't change anything" do
-          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
           artist1.bio.should == @old_bio
         end
       end
