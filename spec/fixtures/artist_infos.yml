@@ -98,6 +98,9 @@ quentin:
   artist: quentin
   open_studios_participation: '201210'
   
+manager:
+  artist: manager
+  open_studios_participation: '200901'
 
 noaddress:
   artist: noaddress

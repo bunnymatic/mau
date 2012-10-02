@@ -176,12 +176,15 @@ class User < ActiveRecord::Base
     state == 'active'
   end
 
+  def is_special?
+    is_admin? || is_manager? || is_editor?
+  end
+
   def is_admin?
     begin
       self.roles.map(&:id).include? Role.find_by_role('admin').id
     rescue Exception => e
       logger.debug(e)
-      # if we have any issues, not admin
       false
     end 
   end
@@ -191,7 +194,6 @@ class User < ActiveRecord::Base
       is_admin? || (self.roles.include? Role.find_by_role('manager'))
     rescue Exception => e
       logger.debug(e)
-      # if we have any issues, not admin
       false
     end
   end
@@ -201,7 +203,6 @@ class User < ActiveRecord::Base
       is_admin? || (self.roles.include? Role.find_by_role('editor'))
     rescue Exception => e
       logger.debug(e)
-      # if we have any issues, not admin
       false
     end 
   end

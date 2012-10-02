@@ -377,7 +377,7 @@ describe Artist do
     it 'returns true for an artist doing this open studios (with no args)' do
       doing, notdoing = Artist.all.partition(&:doing_open_studios?)
       doing.should have(5).artists
-      notdoing.should have(10).artists
+      notdoing.should have(Artist.count - 5).artists
     end
   end
 

@@ -1,0 +1,41 @@
+.admin-table.edit
+  %h1 Editing studio #{@studio.name}
+  = render :partial => '/flash_notice_error'
+  .info.block
+    %h3 Address/Info
+    - form_for(@studio) do |f|
+      = f.error_messages
+    
+      - [:name, :street, :cross_street, :city, :state, :zip, :phone, :url].each do |textfield|
+        %p
+          = f.label textfield
+          = f.text_field textfield
+      %p.controls
+        = f.submit 'Update Studio Info'
+    = link_to 'Show', @studio 
+    = "|"
+    = link_to 'All Studios', studios_path 
+  .image.block
+    %h3 Logo
+    %p
+      %img{:src => @studio.get_profile_image('small') || '/images/default-profile-img.png'}
+    %p      
+      = link_to 'update profile img', addprofile_studio_path(@studio)
+  .clear
+
+  .artists.block
+    %h3 Artists
+    .instructions 
+      %p 
+        %span Use the 
+        %b X
+        %span to unaffiliate the artist from the studio.  
+      %p NOTE: please use that with care.  You can not undo that action.  Only the artist can re-affiliate themselves with a studio.
+    
+    %ul.artists
+    - @studio.artists.active.sort_by{|a| a.lastname.downcase}.each do |a|
+      %li.artist{"data-artist" => a.id}
+        %span #{a.fullname} 
+        = link_to "X", unaffiliate_artist_studio_path(@studio, :artist_id => a.id), :title => "Remove artist's affiliation with #{@studio.name}", :method => :post,  :confirm => "Are you sure you want to remove #{a.fullname} from #{@studio.name}'s list of artists?"
+      
+

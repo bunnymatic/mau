@@ -13,28 +13,47 @@ describe AdminController do
   fixtures :artist_infos
   fixtures :roles
 
-  [:index, :featured_artist, :fans, :emaillist, :artists_per_day, :art_pieces_per_day, :favorites_per_day, :db_backups].each do |endpoint|
-    describe 'not logged in' do
-      describe endpoint do
-        before do
-          get endpoint
+  context 'authorization' do
+    [:index, :os_status, :featured_artist, :fans, :emaillist, :artists_per_day, :art_pieces_per_day, :favorites_per_day, :db_backups].each do |endpoint|
+      describe 'not logged in' do
+        describe endpoint do
+          before do
+            get endpoint
+          end
+          it_should_behave_like 'not authorized'
         end
-        it_should_behave_like 'not authorized'
+      end
+      describe 'logged in as plain user' do
+        describe endpoint do
+          before do
+            login_as(users(:maufan1))
+            get endpoint
+          end
+          it_should_behave_like 'not authorized'
+        end
+      end
+      it "#{endpoint} responds success if logged in as admin" do
+        login_as :admin
+        get endpoint
+        response.should be_success
       end
     end
-    describe 'logged in as plain user' do
-      describe endpoint do
-        before do
-          login_as(users(:maufan1))
-          get endpoint
-        end
-        it_should_behave_like 'not authorized'
+  end
+
+  describe '#featured_artist' do
+    context 'as editor' do
+      before do
+        login_as :editor
+        get :featured_artist
       end
+      it_should_behave_like 'returns success'
     end
-    it "#{endpoint} responds success if logged in as admin" do
-      login_as :admin
-      get endpoint
-      response.should be_success
+    context 'as manager' do
+      before do
+        login_as :manager
+        get :featured_artist
+      end
+      it_should_behave_like 'not authorized'
     end
   end
 
@@ -42,109 +61,94 @@ describe AdminController do
     before do
       login_as(:admin)
     end
+    integrate_views
     describe 'html' do
-      describe 'without views' do
-        describe 'with no params' do
-          before do
-            get :emaillist
-          end
-          it 'returns success' do
-            response.should be_success
-          end
-          it 'assigns the title' do
-            assigns(:title).should == "Activated"
-          end
-          it 'assigns list of artists emails' do
-            assigns(:emails).length.should == Artist.active.count
-          end
+      describe 'with no params' do
+        before do
+          get :emaillist
         end
-        it 'assigns a list of fans emails when we ask for the fans list' do
-          get :emaillist, :listname => 'fans'
-          assigns(:emails).length.should == MAUFan.all.count
+        it 'returns success' do
+          response.should be_success
         end
-        it 'assigns a list of pending artists emails when we ask for the pending list' do
-          get :emaillist, :listname => 'pending'
-          assigns(:emails).length.should == Artist.pending.count
+        it 'assigns the title' do
+          assigns(:title).should == "Activated"
         end
-        Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-          it "assigns a list of os artists for #{ostag} when we ask for the #{ostag} list" do
-            get :emaillist, :listname => ostag
-            assigns(:emails).length.should == Artist.active.all.select{|a| a.os_participation[ostag]}.count
-          end
+        it 'assigns list of artists emails' do
+          assigns(:emails).length.should == Artist.active.count
         end
-        describe 'multiple os keys' do
-          it 'the emails list is an intersection of all artists in those open studios groups' do
-            get :emaillist, '201004' => 'on', '201010' => 'on'
-            emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
-              Artist.all.select{|a| a.os_participation['201010']}.map(&:email) 
-            emails.should == assigns(:emails).map{|em| em[:email]}
+        it 'shows the list selector' do
+          assert_select '.list_chooser'
+        end
+        it 'shows the title and error block' do
+          assert_select '.email_lists h4', "Activated [%s]" % Artist.active.count
+        end
+        it 'has the correct emails in the text box' do
+          Artist.active.each do |a|
+            assert_select '.email_results textarea', /#{a.get_name}/
+            assert_select '.email_results textarea', /#{a.email}/
           end
         end
       end
-      describe 'with views' do
-        integrate_views
-        describe 'and no params' do
-          before do
-            get :emaillist
-          end
-          it 'returns success' do
-            response.should be_success
-          end
-          it 'shows the list selector' do
-            assert_select '.list_chooser'
-          end
-          it 'shows the title and error block' do
-            assert_select '.email_lists h4', "Activated [%s]" % Artist.active.count
-          end
-          it 'has the correct emails in the text box' do
-            Artist.active.each do |a|
-              assert_select '.email_results textarea', /#{a.get_name}/
-              assert_select '.email_results textarea', /#{a.email}/
-            end
-          end
+      it 'assigns a list of fans emails when we ask for the fans list' do
+        get :emaillist, :listname => 'fans'
+        assigns(:emails).length.should == MAUFan.all.count
+      end
+      it 'assigns a list of pending artists emails when we ask for the pending list' do
+        get :emaillist, :listname => 'pending'
+        assigns(:emails).length.should == Artist.pending.count
+      end
+      Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+        it "assigns a list of os artists for #{ostag} when we ask for the #{ostag} list" do
+          get :emaillist, :listname => ostag
+          assigns(:emails).length.should == Artist.active.all.select{|a| a.os_participation[ostag]}.count
         end
-        it 'shows the title and list size and correct emails when we ask for fans' do
-          get :emaillist, :listname => 'fans'
-          assert_select '.email_lists h4', 'Fans [%s]' % MAUFan.count
-          MAUFan.all.each do |f|
+      end
+      it 'shows the title and list size and correct emails when we ask for fans' do
+        get :emaillist, :listname => 'fans'
+        assert_select '.email_lists h4', 'Fans [%s]' % MAUFan.count
+        MAUFan.all.each do |f|
+          assert_select '.email_results textarea', /#{f.get_name}/
+          assert_select '.email_results textarea', /#{f.email}/
+        end
+      end
+      it 'shows the title and list size and correct emails when we ask for pending' do
+        get :emaillist, :listname => 'pending'
+        assert_select '.email_lists h4', 'Pending [%s]' % Artist.pending.count
+        Artist.pending.each do |f|
+          assert_select '.email_results textarea', /#{f.get_name}/
+          assert_select '.email_results textarea', /#{f.email}/
+        end
+      end
+      Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
+        it "shows the title and list size and correct emails when we ask for #{ostag}" do
+          get :emaillist, :listname => ostag
+          expected_participants = Artist.active.all.select{|a| a.os_participation[ostag]}
+          expected_tag = TestOsHelperClass.new.os_pretty(ostag)
+          assert_select '.email_lists h4', "#{expected_tag} [#{expected_participants.count}]"
+          expected_participants.each do |f|
             assert_select '.email_results textarea', /#{f.get_name}/
             assert_select '.email_results textarea', /#{f.email}/
           end
         end
-        it 'shows the title and list size and correct emails when we ask for pending' do
-          get :emaillist, :listname => 'pending'
-          assert_select '.email_lists h4', 'Pending [%s]' % Artist.pending.count
-          Artist.pending.each do |f|
-            assert_select '.email_results textarea', /#{f.get_name}/
-            assert_select '.email_results textarea', /#{f.email}/
-          end
+      end
+      describe 'multiple os keys' do
+        before do
+          get :emaillist, '201004' => 'on', '201010' => 'on'
         end
-        Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-          it "shows the title and list size and correct emails when we ask for #{ostag}" do
-            get :emaillist, :listname => ostag
-            expected_participants = Artist.active.all.select{|a| a.os_participation[ostag]}
-            expected_tag = TestOsHelperClass.new.os_pretty(ostag)
-            assert_select '.email_lists h4', "#{expected_tag} [#{expected_participants.count}]"
-            expected_participants.each do |f|
-              assert_select '.email_results textarea', /#{f.get_name}/
-              assert_select '.email_results textarea', /#{f.email}/
-            end
-          end
+        it 'the emails list is an intersection of all artists in those open studios groups' do
+          emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
+            Artist.all.select{|a| a.os_participation['201010']}.map(&:email) 
+          emails.should == assigns(:emails).map{|em| em[:email]}
         end
-        describe 'multiple os keys' do
-          integrate_views
-          it 'the emails list is an intersection of all artists in those open studios groups' do
-            get :emaillist, '201004' => 'on', '201010' => 'on'
-            emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
-              Artist.all.select{|a| a.os_participation['201010']}.map(&:email) 
-            emails.should == assigns(:emails).map{|em| em[:email]}
-            emails.each do |em|
-              assert_select '.email_results textarea', /#{em}/
-            end
+        it 'the emails list is an intersection of all artists in those open studios groups' do
+          emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
+            Artist.all.select{|a| a.os_participation['201010']}.map(&:email) 
+          emails.should == assigns(:emails).map{|em| em[:email]}
+          emails.each do |em|
+            assert_select '.email_results textarea', /#{em}/
           end
         end
       end
-
     end
     describe 'csv' do
       before do 
@@ -158,65 +162,54 @@ describe AdminController do
   end
   
   describe "#index" do
-    describe 'without views' do
-      before do
-        login_as(:admin)
-        get :index
-      end
-      it 'returns success' do
-        response.should be_success
-      end
-      it 'assigns stats hash' do
-        assigns(:activity_stats).should be_a_kind_of(Hash)
-      end
-      it 'assigns correct values for artists yesterday' do
-        assigns(:activity_stats)[:yesterday][:artists_activated].should == 1
-        assigns(:activity_stats)[:yesterday][:artists_added].should == 1
-      end
-      it 'assigns correct values for artists last weeek' do
-        assigns(:activity_stats)[:last_week][:artists_activated].should == 4
-        assigns(:activity_stats)[:last_week][:artists_added].should == 7
-      end
-      it 'assigns correct values for artists last month' do
-        assigns(:activity_stats)[:last_30_days][:artists_activated].should == 5
-        assigns(:activity_stats)[:last_30_days][:artists_added].should == 11
-      end
-      it 'has totals' do
-        assigns(:activity_stats)[:total].should be
-      end
-      it 'has studio count' do
-        assigns(:activity_stats)[:total][:studios].should == 4
-      end
-      it 'has event info' do
-        assigns(:activity_stats)[:total][:events_past].should == Event.past.count
-        assigns(:activity_stats)[:total][:events_future].should == Event.future.count
-      end
-      it 'has open studios info' do
-        assigns(:activity_stats)[:open_studios].length.should >= 5
+    integrate_views
+    before do
+      login_as(:admin)
+      get :index
+    end
+    it_should_behave_like 'logged in as admin'
+    it 'assigns stats hash' do
+      assigns(:activity_stats).should be_a_kind_of(Hash)
+    end
+    it 'assigns correct values for artists yesterday' do
+      assigns(:activity_stats)[:yesterday][:artists_activated].should == 1
+      assigns(:activity_stats)[:yesterday][:artists_added].should == 1
+    end
+    it 'assigns correct values for artists last weeek' do
+      assigns(:activity_stats)[:last_week][:artists_activated].should == 4
+      assigns(:activity_stats)[:last_week][:artists_added].should == 7
+    end
+    it 'assigns correct values for artists last month' do
+      assigns(:activity_stats)[:last_30_days][:artists_activated].should == 5
+      assigns(:activity_stats)[:last_30_days][:artists_added].should == 11
+    end
+    it 'has totals' do
+      assigns(:activity_stats)[:total].should be
+    end
+    it 'has studio count' do
+      assigns(:activity_stats)[:total][:studios].should == 4
+    end
+    it 'has event info' do
+      assigns(:activity_stats)[:total][:events_past].should == Event.past.count
+      assigns(:activity_stats)[:total][:events_future].should == Event.future.count
+    end
+    it 'has open studios info' do
+      assigns(:activity_stats)[:open_studios].length.should >= 5
+    end
+    it 'has place holders for the graphs' do
+      assert_select('.section.graph', :count => 3)
+    end
+    [:total, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
+      it 'renders an #{sxn} stats section' do
+        assert_select '.section.%s' % sxn
       end
     end
-    describe 'with views' do
-      integrate_views
-      before do
-        login_as(:admin)
-        get :index
-      end
-      it_should_behave_like 'logged in as admin'
-      it 'has place holders for the graphs' do
-        assert_select('.section.graph', :count => 3)
-      end
-      [:total, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
-        it 'renders an #{sxn} stats section' do
-          assert_select '.section.%s' % sxn
-        end
-      end
-      it 'renders open studios info in reverse chrono order' do
-        css_select('.section.open_studios li').first.to_s.should match /2012 Oct/
-        css_select('.section.open_studios li').last.to_s.should match /2010 Apr/
-      end
-      it 'renders the current open studios setting' do
-        css_select('.section.open_studios .current').first.to_s.should match /2012 Oct/
-      end
+    it 'renders open studios info in reverse chrono order' do
+      css_select('.section.open_studios li').first.to_s.should match /2012 Oct/
+      css_select('.section.open_studios li').last.to_s.should match /2010 Apr/
+    end
+    it 'renders the current open studios setting' do
+      css_select('.section.open_studios .current').first.to_s.should match /2012 Oct/
     end
   end
   describe '#fans' do
@@ -253,60 +246,45 @@ describe AdminController do
   end
 
   describe '#featured_artist' do
+    integrate_views
     before do 
       # simulate migration 
       sql = "delete from featured_artist_queue"
       ActiveRecord::Base.connection.execute sql
       sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
       ActiveRecord::Base.connection.execute sql
+
+      login_as(:admin)
+      FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index {|fa, idx| fa.update_attributes(:featured => Time.now - (2*idx).weeks) }
+      get :featured_artist
     end
-    context "w/o views" do
-      before do
-        login_as(:admin)
-        get :featured_artist
-      end
-      it "renders the featured_artist template" do
-        response.should render_template 'featured_artist'
-      end
-      it "returns success" do
-        response.should be_success
-      end
-      it "assigns the featured artist and the featured queue entry" do
-        assigns(:featured).should be_present
-        assigns(:featured_artist).should be_present
-        assigns(:featured).should be_a_kind_of(FeaturedArtistQueue)
-        assigns(:featured_artist).should be_a_kind_of(Artist)
-      end
+    it "renders the featured_artist template" do
+      response.should render_template 'featured_artist'
     end
-    context "with views" do
-      integrate_views
-      before do
-        # set a few artists as featured
-        FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index {|fa, idx| fa.update_attributes(:featured => Time.now - (2*idx).weeks) }
-        login_as(:admin)
-        get :featured_artist
-      end
-      it "includes previously featured artists" do
-        assert_select('.previously_featured li', :count => 2)
-      end
-      it 'includes a button to get the next featured artist' do
-        login_as(:admin)
-        get :featured_artist
-        assert_select('#get_next_featured')
-      end
+    it "returns success" do
+      response.should be_success
+    end
+    it "assigns the featured artist and the featured queue entry" do
+      assigns(:featured).should be_present
+      assigns(:featured_artist).should be_present
+      assigns(:featured).should be_a_kind_of(FeaturedArtistQueue)
+      assigns(:featured_artist).should be_a_kind_of(Artist)
+    end
+    it "includes previously featured artists" do
+      assert_select('.previously_featured li', :count => 2)
+    end
+    it 'includes a button to get the next featured artist' do
+      assert_select('#get_next_featured')
     end
     context "#post" do
-      integrate_views
-      before do
-        @featured_count = FeaturedArtistQueue.featured.count
-        login_as(:admin)
+      it "redirects to the featured_artist page" do
         post :featured_artist
-      end
-      it "returns success" do
         response.should redirect_to '/admin/featured_artist'
       end
       it "tries to get the next artist from the queue" do
-        FeaturedArtistQueue.featured.count.should == (@featured_count + 1)
+        FeaturedArtistQueue.expects(:next_entry).once
+        FeaturedArtistQueue.expects(:current_entry).once
+        post :featured_artist 
       end
       context 'immediately after setting a featured artist' do
         before do
@@ -322,8 +300,9 @@ describe AdminController do
           assert_select('.featured .warning')
         end
         it "post with override gets the next artist" do
-          post :featured_artist, :override => true
-          FeaturedArtistQueue.featured.count.should == (@featured_count + 2)
+          expect {
+            post :featured_artist, :override => true
+          }.to change(FeaturedArtistQueue.featured, :count).by(1)
         end
       end
     end
@@ -332,8 +311,6 @@ describe AdminController do
   describe '#os_status' do
     before do
       login_as(:admin)
-    end
-    before do
       get :os_status
     end
     it 'returns success' do

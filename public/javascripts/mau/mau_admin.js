@@ -18,6 +18,57 @@ MAUAdmin =  window.MAUAdmin || {};
   };
 
   var M = MAUAdmin;
+
+  M.AdminNav = {
+    init: function() {
+      var tab = $('admin_nav_tab');
+      /** position tab and nav block */
+      var nav = $('admin_nav_body');
+      var dim = nav.innerDimensions();
+      tab.setStyle({top:dim.height + "px"});
+      var dim = nav.outerDimensions();
+      var offset = nav.positionedOffset();
+      /** +1 for border */
+      new Effect.Move(nav, {y: -(offset.top + dim.height + 1 ), mode: 'relative'});
+      
+      tab.observe('click', function() {
+        if ($(tab).hasClassName('open') && !$(tab).hasClassName('moving')) {
+          var h = $('admin_nav_body').innerDimensions().height;
+          new Effect.Move($('admin_nav_body'), {
+            y: -h, 
+            mode: 'relative', 
+            duration: .25,
+            beforeStart: function() {
+              $(tab).addClassName('moving');
+            },
+            afterFinish: function() {
+              $(tab).removeClassName('open').removeClassName('moving');
+              $(tab).selectOne('a .arrow').innerHTML = '&#709;'
+            }
+          });
+        }
+        return false;
+      });
+      tab.observe('mouseover', function() {
+        if (!$(tab).hasClassName('open') && !$(tab).hasClassName('moving')) {
+          var h = $('admin_nav_body').innerDimensions().height;
+          new Effect.Move($('admin_nav_body'), {
+            y: h, 
+            mode: 'relative', 
+            duration: .25,
+            beforeStart: function() {
+              $(tab).addClassName('moving');
+            },
+            afterFinish: function() {
+              $(tab).addClassName('open').removeClassName('moving');
+              $(tab).selectOne('a .arrow').innerHTML = '&#708;'
+            }
+          });
+        }
+      });
+    }
+  };
+
   M.Roles = {
     init: function() {
       /** bind events */
@@ -26,7 +77,7 @@ MAUAdmin =  window.MAUAdmin || {};
         var btn = ctrls.selectOne('.add_userrole');
         if (btn) {
           $(btn).observe('click', function() {
-            var frm = ctrls.selectOne('form.edit_role')
+            var frm = ctrls.selectOne('form.edit_role');
             if (frm) {
               if (frm.visible()) {
                 frm.hide();
@@ -41,9 +92,11 @@ MAUAdmin =  window.MAUAdmin || {};
   };
 
   M.init = function() {
-    M.Roles.init();
+    _.each([M.AdminNav, M.Roles], function(modul) {
+      if (modul && modul.init) { modul.init(); }
+    });
     $$('.hide-rows input').each(function(el) {
-      el.observe('change', function() {
+      el.observe('mousein', function() {
         var clz = this.value;
         var show = this.checked;
         $$('table.admin-table tr.' + clz).each(function(row) {

@@ -7,6 +7,9 @@ artist1_editor:
 editor_editor:
   user: editor
   role: editor
+manager_manager:
+  user: manager
+  role: manager
 quentin_manager:
   user: quentin
   role: manager

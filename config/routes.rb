@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :artist_feeds
   map.resources :art_pieces
   map.resource  :session
-  map.resources :studios
+  map.resources :studios, :member => { :addprofile => :get, :upload_profile => :post, :unaffiliate_artist => :post }
   map.resources :application_events, :only => [:index]
   map.resources :catalog, :only => [:index]
   map.resources :email_lists, :only => [:index]

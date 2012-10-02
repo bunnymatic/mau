@@ -30,6 +30,13 @@ var MauPrototypeExtensions = {
     if (!elem) {return;}
     elem.innerHTML = val;
   },
+  innerDimensions: function(elem) {
+    if (!elem) {return;}
+    var l = new Element.Layout(elem);
+    return ({ width: l.get('width') + l.get('padding-left') + l.get('padding-right'),
+              height: l.get('height') + l.get('padding-top') + l.get('padding-bottom')
+            });
+  },
   outerDimensions: function(elem) {
     if (!elem) {return;}
     var l = new Element.Layout(elem);

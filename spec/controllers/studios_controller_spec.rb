@@ -144,6 +144,15 @@ describe StudiosController do
       end
       it_should_behave_like 'not authorized'
     end
+    [:editor, :manager].each do |u|
+      describe "as #{u}" do
+        before do
+          login_as u
+          delete :destroy, :id => Studio.all[2].id
+        end
+        it_should_behave_like 'not authorized'
+      end  
+    end      
     describe 'as admin' do
       before do
         login_as(:admin)
@@ -160,6 +169,198 @@ describe StudiosController do
         users.all?{|a| a.studio_id == 0}.should be_true, 'Not all the artists were moved into the "Indy" studio'
       end
     end
+  end
 
+
+  # studio manager required endpoints
+  [:addprofile, :edit, :unaffiliate_artist].each do |endpoint|
+    describe "#{endpoint}" do
+      describe 'unauthorized' do 
+        before do 
+          get endpoint, :id => Studio.all[2].id
+        end
+        it_should_behave_like 'not authorized'
+      end
+      describe 'as editor' do
+        before do
+          login_as :editor
+          get endpoint, :id => studios(:as)
+        end
+        it_should_behave_like 'not authorized'
+      end      
+      describe 'as manager' do
+        before do
+          login_as :manager
+        end
+        context 'not my studio' do
+          before do
+            get endpoint, :id => studios(:as)
+          end
+          it 'redirects to the referrer' do
+            response.should redirect_to SHARED_REFERER
+          end
+          it 'flashes an error' do
+            flash[:error].should match /not a manager of that studio/
+          end
+        end
+      end
+    end
+  end
+
+  
+  describe 'edit' do
+    integrate_views
+    [:manager, :admin].each do |user|
+      context "as #{user}" do
+        before do
+          login_as user
+          @my_studio = users(:manager).studio
+          get :edit, :id => @my_studio.id
+        end
+        it_should_behave_like 'returns success'
+        it 'shows the studio info in a form' do
+          assert_select 'form input#studio_url' do |tag|
+            tag.first.attributes['value'].should eql @my_studio.url
+          end
+          assert_select 'form input#studio_name' do |tag|
+            tag.first.attributes['value'].should eql @my_studio.name
+          end
+          assert_select 'form input[type=submit]' do |tag|
+            tag.first.attributes['value'].should eql 'Update Studio Info'
+          end
+        end
+        it 'shows the logo' do
+          assert_select '.block.image img'
+        end
+        it 'has a link to update the logo' do
+          assert_select ".block.image a[href=#{addprofile_studio_path(@my_studio)}]"
+        end
+        it 'lists the active artists' do
+          assert_select "li.artist", :count => @my_studio.artists.active.count
+        end
+        it 'includes unaffiliate links for each artist' do
+          assert_select "li.artist a", :text => 'X', :count => @my_studio.artists.active.count
+        end
+      end
+    end
+  end
+
+  describe 'upload_profile' do
+    describe 'unauthorized' do
+      before do
+        post :upload_profile
+      end
+      it_should_behave_like 'not authorized'
+    end
+    describe 'as editor' do
+      before do
+        login_as :editor
+        post :upload_profile
+      end
+      it_should_behave_like 'not authorized'
+    end
+    describe 'as manager' do
+      context 'not my studio' do
+        before do
+          login_as :manager
+          post :upload_profile, :id => studios(:as)
+        end
+        it 'redirects to the referer' do
+          response.should redirect_to SHARED_REFERER
+        end
+        it 'flashes an error' do
+          flash[:error].should match /not a manager of that studio/
+        end
+      end
+    end
+  end
+
+  describe 'unaffiliate_artist' do
+    before do
+      login_as :admin
+    end
+    it 'removes the artist from the studio' do
+      expect {
+        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:as).artists.active.first.id
+      }.to change(studios(:as).artists.active, :count).by(-1)
+    end
+    it 'does nothing if the artist is not in the studio' do
+      expect {
+        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:s1890).artists.active.first.id
+      }.to change(studios(:as).artists.active, :count).by(0)
+    end
+    it 'redirects to the studio edit page' do
+      post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:s1890).artists.active.first.id
+      response.should redirect_to edit_studio_path(studios(:as))
+    end
+  end
+
+  describe 'admin_index' do
+    integrate_views
+    describe 'unauthorized' do 
+      before do 
+        get :admin_index
+      end
+      it_should_behave_like 'not authorized'
+    end
+    describe "as editor" do
+      before do
+        login_as :editor
+        get :admin_index
+      end
+      it_should_behave_like 'not authorized'
+    end  
+    [:manager, :admin].each do |u|
+      describe "as #{u}" do
+        before do
+          login_as u
+          get :admin_index
+        end
+        it_should_behave_like 'returns success'
+        it 'shows a table of all studios' do
+          Studio.all.each do |s|
+            assert_select ".admin-table tr td a[href=#{studio_path(s)}]", s.name
+            assert_select ".admin-table tr td a[href=#{s.url}]" if s.url && s.url.present?
+          end
+        end
+      end
+    end
+    context 'as manager' do
+      before do
+        login_as :manager
+        @my_studio = users(:manager).studio
+        get :admin_index
+      end
+      it 'has no destroy links' do
+        response.should_not have_tag ".admin-table tr td a", 'Destroy'
+      end
+      it 'shows an edit link for my studio only' do
+        assert_select ".admin-table tr td a[href=#{edit_studio_path(@my_studio)}]"
+      end
+      it 'has no link to add a studio' do
+        response.should_not have_tag ".admin-table a[href=#{new_studio_path}]"
+      end
+    end
+    context 'as admin' do
+      before do
+        login_as :admin
+        get :admin_index
+      end
+      it 'shows an edit link for all studios' do
+        assert_select(".admin-table tr td a") do |tag|
+          txt = tag.map(&:to_s)
+          txt.select{|t| /studios\/\d+\/edit/.match(t)}.count.should > 1
+        end
+      end
+      it 'shows destroy links for all studios' do
+        assert_select(".admin-table tr td a") do |tag|
+          txt = tag.map(&:to_s)
+          txt.select{|t| /onclick\=/.match(t) && /studios\/\d+/.match(t)}.count.should > 1
+        end
+      end
+      it 'includes a link to add a studio' do
+        assert_select ".admin-table a[href=#{new_studio_path}]"
+      end
+    end
   end
 end

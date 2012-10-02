@@ -1,0 +1,36 @@
+.admin-table
+  %h1 Listing studios
+
+  = render :partial => '/flash_notice_error'
+  .controls
+    = link_to 'Add Studio', new_studio_path if current_user.is_admin?
+  %table
+    %tr
+      %th Name
+      %th Address
+      %th Population
+      %th Logo
+      %th Website
+    - @studios.each do |studio|
+      %tr{:class => cycle('even','odd')}
+        %td 
+          = link_to studio.name, studio_path(studio)
+        %td
+          %div #{studio.street}
+          %div @ #{studio.cross_street || "(no cross street)"}
+          %div #{studio.city}, #{studio.state}
+          %div #{studio.zip}
+        %td
+          = studio.artists.active.count.to_s()
+        %td
+          - if studio.profile_image?
+            %img{:src => studio.get_profile_image('thumb')}
+        %td 
+          %a{:target => '_blank', :href => studio.url} #{studio.url}
+        %td          
+          %div
+            = link_to 'Show', studio
+          %div
+            = link_to 'Edit', edit_studio_path(studio) if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
+          %div
+            = link_to('Destroy', studio, :confirm => 'Are you sure?', :method => :delete) if current_user.is_admin?
