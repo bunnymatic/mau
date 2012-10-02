@@ -4111,12 +4111,16 @@ a.button b.m b {
     border: 1px solid $error_red;
     background-color: #ffcccc;
     margin: 8px auto;
-    padding: 3px;
+    padding: 5px 3px;
     .link_section {
-      float: left;
-      width: 420px;
+      float: right;
+      width: 250px;
       margin-left: 20px;
       text-align: left;
+      &.main {
+        float: left;
+        width: auto; 
+      }
     }
   }
 }

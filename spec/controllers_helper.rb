@@ -128,14 +128,16 @@ shared_examples_for "logged in as admin" do
       assert_select "#admin_nav a.lkdark[href=/#{direct_link}]", direct_link
     end
   end
-
- 
 end
 
-describe "redirects to login", :shared => true do 
+shared_examples_for 'login required' do
   it "redirects to login" do
     response.should redirect_to(new_session_path)
   end
+end
+
+describe "redirects to login", :shared => true do 
+  it_should_behave_like 'login required'
 end
 
 shared_examples_for "not logged in" do
@@ -218,7 +220,7 @@ shared_examples_for 'one column layout' do
   end
 end
 
-describe "not authorized", :shared => true do
+shared_examples_for "not authorized" do
   it "redirects to error page" do
     response.should redirect_to 'error'
   end

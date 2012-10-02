@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   include EventsHelper
 
   before_filter :login_required, :except => [:index, :show]
-  before_filter :admin_required, :only => [:admin_index, :publish, :unpublish]
+  before_filter :editor_required, :only => [:admin_index, :publish, :unpublish, :destroy]
 
   layout 'mau2col'
 

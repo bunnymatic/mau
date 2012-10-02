@@ -170,6 +170,10 @@ class ApplicationController < ActionController::Base
     redirect_to "/error" unless is_manager?
   end
 
+  def editor_or_manager_required
+    redirect_to "/error" unless is_manager? || is_editor?
+  end
+
   def check_browser
     @_ismobile = (is_mobile_device? and is_mobile_device? > 0)? true:false
     @_mobile_device_name = user_agent_device_name 

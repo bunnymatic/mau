@@ -2,7 +2,9 @@ class StudiosController < ApplicationController
 
   STUDIO_KEYS = Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].freeze
   
-  before_filter :admin_required, :except => [ 'index', 'show' ]
+  before_filter :manager_required, :except => [ :index, :show, :new ]
+  before_filter :admin_required, :only => [:new, :create, :destroy]
+  before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :addprofile, :unaffiliate_artist]
   after_filter :store_location
 
   @@MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
@@ -35,14 +37,28 @@ class StudiosController < ApplicationController
     end
   end
 
+  def unaffiliate_artist
+    @studio = safe_find(params[:id])
+    @artist = @studio.artists.select{|a| a.id.to_s == params[:artist_id].to_s}.first
+    if (@artist && @studio)
+      @artist.update_attribute(:studio, Studio.indy)
+      logger.warn "[#{Time.now.to_s(:short)}][#{current_user.login}][#{params[:action]}] #{@artist.fullname} is no longer associated with #{@studio.name}."
+      flash[:notice] = "#{@artist.fullname} is no longer associated with #{@studio.name}."
+    else
+      flash[:error] = "There was a problem finding that artist associated with this studio."
+    end
+    redirect_to edit_studio_path(@studio)
+  end
+
   def addprofile
     @errors = []
     @studio = safe_find(params[:id])
     @selected_studio = @studio.id
+    render :layout => 'mau-admin'
   end
 
   def upload_profile
-    @studio = safe_find(params[:studio_id])
+    @studio = safe_find(params[:id])
     if commit_is_cancel
       redirect_to(@studio)
       return
@@ -53,19 +69,16 @@ class StudiosController < ApplicationController
 
     if not upload
       flash[:error] = "You must provide a file."
-      redirect_to '/studios/addprofile/%d' % studio_id
-      return
+      redirect_to addprofile_studio_path(@studio) and return
     end
 
     begin
       post = StudioImage.save(upload, @studio)
-      redirect_to @studio
-      return
+      redirect_to @studio and return
     rescue
       logger.error("Failed to upload %s" % $!)
       flash[:error] = "%s" % $!
-      redirect_to '/studios/addprofile/%d' % studio_id
-      return
+      redirect_to addprofile_studio_path(@studio) and return
     end
   end
 
@@ -129,13 +142,9 @@ class StudiosController < ApplicationController
 
   # GET /studios/1/edit
   def edit
-    if self.current_user && self.current_user.is_admin?
-      @studio = Studio.find(params[:id])
-      @selected_studio = @studio.id
-      render :layout => 'mau-admin'
-    else
-      redirect_to "/error"
-    end
+    @studio = Studio.find(params[:id])
+    @selected_studio = @studio.id
+    render :layout => 'mau-admin'
   end
 
   # POST /studios
@@ -190,6 +199,12 @@ class StudiosController < ApplicationController
   end
 
   protected
+  def studio_manager_required
+    unless (is_manager? && current_user.studio.id.to_s == params[:id].to_s) || is_admin?
+      redirect_to request.referrer, :flash => {:error => "You are not a manager of that studio."}
+    end
+  end
+
   def safe_find(id)
     begin
       Studio.find(id)
