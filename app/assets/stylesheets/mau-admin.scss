@@ -338,6 +338,26 @@ body.admin {
     margin-left: 0;
     margin-bottom: 20px;
   }
+  .artist_info {
+    width: 200px;
+    float: left;
+    .img {
+      width: 200px;
+      clear: both;
+      min-height: 200px;
+      img {
+        width: 200px;
+      }
+    }
+    > a {
+      display:block;
+    }
+    > div {
+      margin-top: 20px;
+      width: inherit;
+    }
+  }
+  
   .info {
     float: left;
     width: 600px; 

@@ -270,6 +270,9 @@ describe AdminController do
       assigns(:featured).should be_a_kind_of(FeaturedArtistQueue)
       assigns(:featured_artist).should be_a_kind_of(Artist)
     end
+    it 'includes a button to send the featured artist a note' do
+      assert_select ''
+    end
     it "includes previously featured artists" do
       assert_select('.previously_featured li', :count => 2)
     end

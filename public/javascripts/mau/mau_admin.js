@@ -91,8 +91,17 @@ MAUAdmin =  window.MAUAdmin || {};
     }
   };
 
+  M.FeatureArtist = {
+    init: function() {
+      var imFeatured = $$('.featured .artist_info controls .formbutton');
+      imFeatured = (imFeatured.length ? imFeatured[0] : null);
+      if (imFeatured) {
+        var artist = imFeatured.data('artist');
+      }
+    }
+  }
   M.init = function() {
-    _.each([M.AdminNav, M.Roles], function(modul) {
+    _.each([M.AdminNav, M.Roles, M.FeaturedArtist], function(modul) {
       if (modul && modul.init) { modul.init(); }
     });
     $$('.hide-rows input').each(function(el) {

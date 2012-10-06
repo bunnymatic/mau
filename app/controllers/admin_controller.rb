@@ -54,7 +54,7 @@ class AdminController < ApplicationController
       @featured = featured
     end
     @featured_artist = @featured.artist if @featured
-    @already_featured = FeaturedArtistQueue.featured[1..-1]
+    @already_featured = (FeaturedArtistQueue.featured[1..-1] || []).first(10)
   end
 
   def emaillist

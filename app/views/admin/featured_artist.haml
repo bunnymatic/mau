@@ -3,11 +3,15 @@
     %h1 Featured Artist: #{@featured_artist.get_name(true)}
     = render :partial => '/flash_notice_error'
 
-    %a{:href => artist_path(@featured.artist), :title => @featured.artist.get_name(true)}
-      - if @featured_artist.has_profile_image
-        %img.profile{:src => @featured_artist.get_profile_image('small')}
-      - else
-        %img.profile{:src => "/images/default-profile-img-not-me.png", :width => '200'}
+    .artist_info
+      .img
+        %a{:href => artist_path(@featured.artist), :title => @featured.artist.get_name(true)}
+          - if @featured_artist.has_profile_image
+            %img.profile{:src => @featured_artist.get_profile_image('small')}
+          - else
+            %img.profile{:src => "/images/default-profile-img-not-me.png", :width => '200'}
+      .controls
+        %a{:href => '#', :class => 'formbutton', :"data-artist" => @featured_artist.id} Tell me I'm Featured
     .info      
       - clz = (@featured.featured > 1.week.ago) ? 'warning' :''
       %div{:class => clz}
@@ -23,7 +27,7 @@
           %label{:for => 'override_date'} Override Date Restriction?
           %input{:id => 'override_date', :type => 'checkbox', :name => 'override'}
         .submit
-          %input{:type => 'submit', :value => 'get the next featured artist'}
+          %input{:class => 'formbutton',:type => 'submit', :value => 'get the next featured artist'}
       .name 
         %label Name: 
         %span 
