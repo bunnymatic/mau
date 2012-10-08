@@ -38,8 +38,7 @@ ActionController::Routing::Routes.draw do |map|
     :update => :post,
     :bio => :get,
     :qrcode => :get,
-    :motify_featured => :put
-
+    :notify_featured => :post
   }, 
   :collection => { 
     :destroyart => :post, 

@@ -506,6 +506,33 @@ describe ArtistsController do
     end
   end
 
+  describe 'notify_featured' do
+    describe 'unauthorized' do
+      it 'not logged in redirects to error' do
+        post :notify_featured, :id => users(:artist1).id
+        response.should redirect_to '/error'
+      end
+      it 'logged in as normal redirects to error' do
+        login_as :manager
+        post :notify_featured, :id => users(:artist1).id
+        response.should redirect_to '/error'
+      end
+    end
+    describe 'authorized' do
+      before do
+        login_as :admin
+      end
+      it 'returns success' do
+        post :notify_featured, :id => users(:artist1).id
+        response.should be_success
+      end
+      it 'calls the notify_featured mailer' do
+        ArtistMailer.expects(:deliver_notify_featured).once
+        post :notify_featured, :id => users(:artist1).id
+      end
+    end
+  end
+      
   describe 'qrcode' do
     before do
       FileUtils.mkdir_p File.join(Rails.root,'public','artistdata', Artist.first.id.to_s , 'profile')
@@ -751,39 +778,4 @@ describe ArtistsController do
     end
   end
 
-
-  describe "- route generation" do
-    it "should map controller artists, id 10 and action show to /artists/10" do
-      route_for(:controller => "artists", :id => "10", :action => "show").should == "/artists/10"
-    end
-    it "should map edit action properly" do
-      route_for(:controller => "artists", :action => "edit").should == "/artists/edit"
-    end
-    
-    it "should map users/index to artists" do
-      route_for(:controller => "artists", :action => "index").should == "/artists"
-    end
-  end
-
-  describe "- route recognition" do
-    context "/artists/edit" do
-      it "map get to artists controller edit method" do
-        params_from(:get, "/artists/edit").should == {:controller => "artists", :action => "edit" }
-      end
-    end
-    context "/artists/10" do
-      it "map PUT to update" do 
-        params_from(:put, "/artists/10").should == {:controller => "artists", :action => "update", :id => "10" }
-      end
-      it "map GET to show" do
-        params_from(:get, "/artists/10").should == {:controller => "artists", :action => "show", :id => "10" }
-      end
-      it "map POST to action == 10 (nonsense)" do
-        params_from(:post, "/artists/10").should == {:controller => "artists", :action => "10" }
-      end
-      it "map DELETE /artists/10 as destroy" do
-        params_from(:delete, "/artists/10").should == {:controller => "artists", :action => "destroy", :id => "10" }
-      end
-    end
-  end
 end

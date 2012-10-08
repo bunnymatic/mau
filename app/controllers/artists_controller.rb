@@ -25,15 +25,8 @@ class ArtistsController < ApplicationController
 
   def notify_featured
     id = Integer(params[:id])
-    noteinfo = {}
-    ['comment','login','email','page','name'].each do |k|
-      if params.include? k
-        noteinfo[k] = params[k]
-      end
-    end
-      ArtistMailer.deliver_notify_featured( Artist.find(id), noteinfo)
-    end
-    render :layout => false
+    ArtistMailer.deliver_notify_featured(Artist.find(id))
+    render :layout => false, :nothing => true, :status => :ok
   end
 
   def map

@@ -843,6 +843,9 @@ describe UsersController do
   end
 
   describe 'POST#notify' do
+    before do
+      login_as :quentin
+    end
     it 'returns success with valid data' do
       notify_data = { 
         :id => users(:jesseponce).id,

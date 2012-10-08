@@ -29,7 +29,11 @@ class ArtistMailer < MauMailer
     @sender_email = notehash['email']
     @sender_note = notehash['comment']
   end
-             
+            
+  def notify_featured(artist)
+    setup_note(artist)
+    @subject = "You've been featured by Mission Artists United."
+  end
 
   def resend_activation(artist)
     setup_email(artist)
