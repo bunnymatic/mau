@@ -112,6 +112,7 @@ var TagMediaHelper = {
   var FR = M.FrontPage = M.FrontPage || {};
   var AC = M.Account = M.Account || {};
   var FV = M.Favorites = M.Favorites || {};
+  var JSF = M.Flash = M.Flash || {};
 
   M.__debug__ = true;
   M.BLIND_OPTS = { up: {duration: 0.25},
@@ -1244,6 +1245,46 @@ var TagMediaHelper = {
     MA.init = function(){};
   };
   Event.observe(window,'load',MA.init);
+
+  /** javascript flash */
+  Object.extend(JSF, {
+    WRAPPER: 'jsFlash',
+    show:function(msgs, container) {
+      var w = $(this.WRAPPER);
+      if ( w ) {
+        w.remove();
+      }
+      w = this.construct(msgs);
+      var c = $$(container).first() || document.body;
+      c.insert({top:w});
+      w.show();
+      M.addFlashObserver();
+    },
+    hide:function() {
+      var w = $(this.WRAPPER);
+      if (w) { w.hide(); }
+    },
+    construct: function(msgs) {
+      var flash = new Element('div', {id:this.WRAPPER, style:'display:none;'});
+      var err = msgs.error;
+      var notice = msgs.notice;
+      if ( err ) {
+        var contents = new Element('div', {'class':'error-msg'});
+        contents.innerHTML = err;
+        flash.insert(contents);
+      } 
+      if (notice) {
+        var contents = new Element('div', {'class':'notice'});
+        contents.innerHTML = notice;
+        flash.insert(contents);
+      }
+      return flash;
+    },
+    init:function() {
+    }
+  });
+  
+  Event.observe(window,'load', JSF.init);
 
   Object.extend(AC, {
     CHOOSER: 'account_type_chooser',

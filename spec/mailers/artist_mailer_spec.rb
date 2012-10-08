@@ -36,4 +36,15 @@ describe ArtistMailer do
       @mail.body.should include users(:artfan).get_name
     end
   end
+  describe "notify a featured artist" do
+    before do
+      @mail = ArtistMailer.create_notify_featured(users(:artist1))
+    end
+    it 'includes a link to facebook' do
+      @mail.body.should match /facebook.com\/MissionArtists/
+    end
+    it 'includes a link to twitter' do
+      @mail.body.should match /twitter.com\/sfmau/
+    end
+  end
 end

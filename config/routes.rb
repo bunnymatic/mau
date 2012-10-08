@@ -37,9 +37,8 @@ ActionController::Routing::Routes.draw do |map|
   :member => {
     :update => :post,
     :bio => :get,
-    :qrcode => :get
-#    :badge => :get
-
+    :qrcode => :get,
+    :notify_featured => :post
   }, 
   :collection => { 
     :destroyart => :post, 
@@ -56,8 +55,21 @@ ActionController::Routing::Routes.draw do |map|
   map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
 
   map.resources :users, 
-  :member => { :favorites => :get, :suspend => :put, :unsuspend => :put, :purge => :delete, :notify => :put, :noteform => :get }, 
-  :collection => { :addprofile => :get, :upload_profile => :post, :deactivate => :get, :add_favorite => :post, :remove_favorite => :post, :resend_activation => [:get, :post], :forgot => :get, :edit => :get } do |users|
+  :member => { 
+    :favorites => :get, 
+    :suspend => :put, 
+    :unsuspend => :put, 
+    :purge => :delete, 
+    :notify => :put, 
+    :noteform => :get }, 
+  :collection => { 
+    :addprofile => :get, 
+    :upload_profile => :post, 
+    :deactivate => :get, 
+    :add_favorite => :post, 
+    :remove_favorite => :post, 
+    :resend_activation => [:get, :post], 
+    :forgot => :get, :edit => :get } do |users|
     users.resources :roles, :only => [:destroy]
   end
 

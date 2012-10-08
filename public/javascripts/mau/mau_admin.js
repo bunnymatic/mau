@@ -91,8 +91,33 @@ MAUAdmin =  window.MAUAdmin || {};
     }
   };
 
+  M.FeaturedArtist = {
+    init: function() {
+      var imFeatured = $$('.featured .artist_info .controls .formbutton');
+      imFeatured = (imFeatured.length ? imFeatured[0] : null);
+      if (imFeatured) {
+        var artist = imFeatured.data('artist');
+        imFeatured.observe('click', function() {
+          var xhr = new Ajax.Request('/artists/' + artist + '/notify_featured', 
+                                     { method: 'post',
+                                       parameters: {
+                                         authenticity_token:unescape(authenticityToken)
+                                       },
+                                       onSuccess: function(transport) {
+                                         MAU.Flash.show({notice:'Awesome.  We\'ve sent this artist a note telling them they\'ve been featured.'}, '.singlecolumn .featured');
+                                       },
+                                       onFailure: function(transport) {
+                                         MAU.Flash.show({error:'failed to notify the artist.  please contact your system administrator'}, '.singlecolumn .featured');
+                                       },
+                                       onComplete: function(transport) {
+                                       }
+                                     });
+        });
+      }
+    }
+  }
   M.init = function() {
-    _.each([M.AdminNav, M.Roles], function(modul) {
+    _.each([M.AdminNav, M.Roles, M.FeaturedArtist], function(modul) {
       if (modul && modul.init) { modul.init(); }
     });
     $$('.hide-rows input').each(function(el) {

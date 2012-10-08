@@ -206,7 +206,7 @@ class ApplicationController < ActionController::Base
   def render_not_found(exception)
     logger.warn(exception)
     respond_to do |fmt|
-      fmt.html { render :template => "/error/index.html.erb", :status => 404 }
+      fmt.html { render :status => :not_found, :template => "/error/index.html.erb", :status => 404 }
       fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 404 }
     end
   end

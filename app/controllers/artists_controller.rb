@@ -14,6 +14,7 @@ class ArtistsController < ApplicationController
 
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
+  before_filter :editor_required, :only => [ :notify_featured ]
 
   after_filter :store_location, :except => [:show]  # may handle these separately in case of error pages
 
@@ -21,6 +22,12 @@ class ArtistsController < ApplicationController
 
   # num artists before we paginate
   @@PER_PAGE = 28
+
+  def notify_featured
+    id = Integer(params[:id])
+    ArtistMailer.deliver_notify_featured(Artist.find(id))
+    render :layout => false, :nothing => true, :status => :ok
+  end
 
   def map
     @view_mode = 'map'
