@@ -1,4 +1,4 @@
-describe('MauNotes', function() {
+describe('Flash', function() {
   beforeEach(function() {
     loadFixtures('jsflash.html');
   });
@@ -26,7 +26,7 @@ describe('MauNotes', function() {
 
     it ('draws an error div in the container', function() {
       MAU.Flash.show({'error': 'this is the new error', 'notice':'this is the notice'}, '#fixture .container');
-      expect($('fixture').selectOne('.error-msg').innerHTML).toEqual('this is the new error');
+      expect($$('#fixture .error-msg')[0].innerHTML).toEqual('this is the new error');
     });
 
   });
