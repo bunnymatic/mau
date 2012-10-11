@@ -8,7 +8,6 @@ class SearchController < ApplicationController
   @@PER_PAGE = 12
 
   def _parse_search_params
-
     opts = OpenStruct.new
     opts.keywords = (params[:keywords] || '').split(",").map(&:strip)
 
@@ -142,6 +141,7 @@ class SearchController < ApplicationController
     @keywords = opts.keywords || []
     @mediums = opts.mediums || []
     @studios = opts.studios || []
+
   end
 
 end

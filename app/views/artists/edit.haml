@@ -113,13 +113,13 @@
     = render :partial => "/users/edit_deactivate"
 
   .edit-buttons
-    %form{:method=> "get", :action=> new_art_piece_path }
+    - form_tag new_art_piece_path(), :method=> "get" do
       %input{:class=> "formbutton", :type =>  "submit",:value=> "Add Art" }
     - if current_user.art_pieces.length > 0 
       - if current_user.art_pieces.length > 1 
-        %form{:method=> "get",:action=> arrangeart_artists_path}
+        - form_tag arrangeart_artists_path(), :method => "get" do
           %input{:class=> "formbutton", :type =>  "submit",:value=> "Arrange Art" }
-        %form{:method=> "get",:action=> deleteart_artists_path}
+        - form_tag deleteart_artists_path(), :method => "get" do
           %input{:class=> "formbutton",:type =>  "submit",:value=> "Delete Art" }
       %a{:href=> artist_path(current_user)}
         %button.formbutton Back to Profile
