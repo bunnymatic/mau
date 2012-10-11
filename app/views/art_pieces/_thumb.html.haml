@@ -2,20 +2,20 @@
   cls = ""
   cls += size
   if piece 
-     linkto = ''
-     if artist_link && piece.artist
-        linkto = artist_path(piece.artist)
-     else
-        linkto = art_piece_path(piece)
-     end
-     dim = ""
-     wd, ht = compute_actual_image_size(size, piece)
-     if wd > 0 and ht > 0
-       dim = wd
-     end        
+    linkto = ''
+    if artist_link && piece.artist
+      linkto = artist_path(piece.artist)
+    else
+      linkto = art_piece_path(piece)
+    end
+    dim = ""
+    wd, ht = compute_actual_image_size(size, piece)
+    if wd > 0 and ht > 0
+      dim = wd
+    end        
   end
   if show_footer or delete or select
-     topcls =" with-foot "
+    topcls =" with-foot "
   end
 
 .artp-thumb-container{:class => "#{cls} #{topcls}", :pid => piece && piece.id}

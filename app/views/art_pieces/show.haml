@@ -10,7 +10,7 @@
       - if @art_piece
         = render :partial => "sidebar_info", :locals => { :artist => artist }
         = render :partial => "/art_pieces/thumb_browser"
-        %form{:method => 'get', :action => artist_path(artist)}
+        - form_tag artist_path(artist), :method => 'get' do
           %input.formbutton{:type => "submit", :value => "Artist's Page", :name => "submit"}
     %td.vstripe
     %td.rcol{:colspan => 2}

@@ -9,6 +9,6 @@
       .clear
       .help-txt Arrows shift image left and right. The top left image will be your Featured Image. Press SAVE when you're done. 
       .edit-buttons
-        %input{:type => 'submit', :value => 'save'}
+        %input.formbutton{:type => 'submit', :value => 'save'}
         %input{:type => 'hidden', :name => 'artist', :value => self.current_artist.id}
         %input.formbutton{:type => 'button', :value => 'cancel', :onclick => "MAU.goToArtist(#{self.current_artist.id});"}
