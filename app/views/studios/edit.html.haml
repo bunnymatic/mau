@@ -36,6 +36,6 @@
     - @studio.artists.active.sort_by{|a| a.lastname.downcase}.each do |a|
       %li.artist{"data-artist" => a.id}
         %span #{a.fullname} 
-        = link_to "X", unaffiliate_artist_studio_path(@studio, :artist_id => a.id), :title => "Remove artist's affiliation with #{@studio.name}", :method => :post,  :confirm => "Are you sure you want to remove #{a.fullname} from #{@studio.name}'s list of artists?"
+        = link_to "X", unaffiliate_artist_studio_path(@studio, :artist_id => a.id), :title => "Remove artist's affiliation with #{@studio.name}", :method => :post,  :confirm => "Are you sure you want to remove #{a.fullname} from #{@studio.name}'s list of artists?" unless a.id == current_user.id
       
 

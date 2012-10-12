@@ -214,6 +214,7 @@ describe StudiosController do
       context "as #{user}" do
         before do
           login_as user
+          @user = users(user)
           @my_studio = users(:manager).studio
           get :edit, :id => @my_studio.id
         end
@@ -238,8 +239,8 @@ describe StudiosController do
         it 'lists the active artists' do
           assert_select "li.artist", :count => @my_studio.artists.active.count
         end
-        it 'includes unaffiliate links for each artist' do
-          assert_select "li.artist a", :text => 'X', :count => @my_studio.artists.active.count
+        it 'includes unaffiliate links for each artist thats not the current user' do
+          assert_select "li.artist a", :text => 'X', :count => (@my_studio.artists.active.reject{|a| a == @user}.count)
         end
       end
     end
@@ -278,20 +279,28 @@ describe StudiosController do
   describe 'unaffiliate_artist' do
     before do
       login_as :admin
+      @artist = studios(:as).artists.active[1]
     end
     it 'removes the artist from the studio' do
       expect {
-        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:as).artists.active.first.id
+        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
       }.to change(studios(:as).artists.active, :count).by(-1)
     end
     it 'does nothing if the artist is not in the studio' do
       expect {
-        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:s1890).artists.active.first.id
+        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:s1890).artists.first.id
       }.to change(studios(:as).artists.active, :count).by(0)
     end
     it 'redirects to the studio edit page' do
-      post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:s1890).artists.active.first.id
+      post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
       response.should redirect_to edit_studio_path(studios(:as))
+    end
+    it 'removes the manager role if it\'s on the user' do
+      @artist.roles << Role.find_by_role('manager')
+      @artist.save
+      post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
+      @artist.reload
+      @artist.roles.should_not include Role.find_by_role('manager')
     end
   end
 

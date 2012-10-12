@@ -18,57 +18,6 @@ MAUAdmin =  window.MAUAdmin || {};
   };
 
   var M = MAUAdmin;
-
-  M.AdminNav = {
-    init: function() {
-      var tab = $('admin_nav_tab');
-      /** position tab and nav block */
-      var nav = $('admin_nav_body');
-      var dim = nav.innerDimensions();
-      tab.setStyle({top:dim.height + "px"});
-      var dim = nav.outerDimensions();
-      var offset = nav.positionedOffset();
-      /** +1 for border */
-      new Effect.Move(nav, {y: -(offset.top + dim.height + 1 ), mode: 'relative'});
-      
-      tab.observe('click', function() {
-        if ($(tab).hasClassName('open') && !$(tab).hasClassName('moving')) {
-          var h = $('admin_nav_body').innerDimensions().height;
-          new Effect.Move($('admin_nav_body'), {
-            y: -h, 
-            mode: 'relative', 
-            duration: .25,
-            beforeStart: function() {
-              $(tab).addClassName('moving');
-            },
-            afterFinish: function() {
-              $(tab).removeClassName('open').removeClassName('moving');
-              $(tab).selectOne('a .arrow').innerHTML = '&#709;'
-            }
-          });
-        }
-        return false;
-      });
-      tab.observe('mouseover', function() {
-        if (!$(tab).hasClassName('open') && !$(tab).hasClassName('moving')) {
-          var h = $('admin_nav_body').innerDimensions().height;
-          new Effect.Move($('admin_nav_body'), {
-            y: h, 
-            mode: 'relative', 
-            duration: .25,
-            beforeStart: function() {
-              $(tab).addClassName('moving');
-            },
-            afterFinish: function() {
-              $(tab).addClassName('open').removeClassName('moving');
-              $(tab).selectOne('a .arrow').innerHTML = '&#708;'
-            }
-          });
-        }
-      });
-    }
-  };
-
   M.Roles = {
     init: function() {
       /** bind events */
