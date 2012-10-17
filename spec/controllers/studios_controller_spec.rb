@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe StudiosController do
 
-  fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users
+  fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users, :roles
 
   describe "#index" do
     context "while not logged in" do
@@ -295,12 +295,13 @@ describe StudiosController do
       post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
       response.should redirect_to edit_studio_path(studios(:as))
     end
-    it 'removes the manager role if it\'s on the user' do
+    it 'removes the manager role if it\'s on the user but does not remove the role itself' do
       @artist.roles << Role.find_by_role('manager')
       @artist.save
       post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
       @artist.reload
       @artist.roles.should_not include Role.find_by_role('manager')
+      Role.find_by_role('manager').should be
     end
   end
 

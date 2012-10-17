@@ -44,7 +44,7 @@ class StudiosController < ApplicationController
       @artist.update_attribute(:studio, Studio.indy)
       manager = Role.find_by_role('manager')
       if @artist.roles.include? manager
-        @artist.roles.select{|r| r == manager}.each(&:destroy)
+        @artist.roles_users.select{|r| r.role_id == manager.id}.each(&:destroy)
         @artist.save
       end
       logger.warn "[#{Time.now.to_s(:short)}][#{current_user.login}][#{params[:action]}] #{@artist.fullname} is no longer associated with #{@studio.name}."
