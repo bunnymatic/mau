@@ -724,10 +724,11 @@ var TagMediaHelper = {
         return null;
       }
     },
-    get_image_path: function(fname, sz) {
+    getImagePath: function(fname, sz) {
       var sub = { thumb: "t_",
 	small:"s_",
 	medium: "m_",
+        large: 'l_',
         original: ''};
       if (sz in sub) {
         var f = fname.replace(/^public\//,'/');
@@ -760,7 +761,7 @@ var TagMediaHelper = {
       var f = ap.filename;
       var img = $('artpiece_img');
       if (f) {
-	f = this.get_image_path(f,'medium');
+	f = this.getImagePath(f,'medium');
 	img.src = f;
 	this.safe_update('artpiece_title',ap.title);
 	this.safe_update('ap_title', ap.title);
@@ -809,10 +810,10 @@ var TagMediaHelper = {
         if ($zoom) {
           if (ap.image_height > 400 || ap.image_width > 400) {
             var _that = this;
-            var el = $zoom[0];
+            var el = $zoom;
             el.show();
-            el.data('image', _that.get_image_path(ap.filename, 'original'));
-            el.data('imageheight', ap.image_height);
+            el.data('image', _that.getImagePath(ap.filename, 'large'));
+            el.data('imageheight', ap.image_height)
             el.data('imagewidth', ap.image_width);
           } else {
             $zoom[0].hide();

@@ -95,13 +95,13 @@ class ArtPiecesController < ApplicationController
     end
     self._setup_thumb_browser_data(pieces, apid)
     @art_piece_dimensions = {
-      :original => compute_actual_image_size('original', @art_piece),
+      :large => compute_actual_image_size('original', @art_piece),
       :medium => compute_actual_image_size('medium', @art_piece)
     }
-    if (@art_piece_dimensions[:original][0] > @art_piece_dimensions[:medium][0])
-      @zoomed_art_piece_path = @art_piece.get_path('original')
-      @zoomed_width = @art_piece_dimensions[:original][0]
-      @zoomed_height = @art_piece_dimensions[:original][1]
+    if (@art_piece_dimensions[:large][0] > @art_piece_dimensions[:medium][0])
+      @zoomed_art_piece_path = @art_piece.get_path(:large)
+      @zoomed_width = @art_piece_dimensions[:large][0]
+      @zoomed_height = @art_piece_dimensions[:large][1]
     end
     
     respond_to do |format|
