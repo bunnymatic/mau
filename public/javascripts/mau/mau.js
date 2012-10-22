@@ -756,7 +756,7 @@ var TagMediaHelper = {
       }
       ts[idx].addClassName('tiny-thumb-sel');
     },
-    update_info: function(ap) {
+    updateInfo: function(ap) {
       var dummy = null;
       var f = ap.filename;
       var img = $('artpiece_img');
@@ -812,9 +812,9 @@ var TagMediaHelper = {
             var _that = this;
             var el = $zoom;
             el.show();
-            el.data('image', _that.getImagePath(ap.filename, 'large'));
-            el.data('imageheight', ap.image_height)
-            el.data('imagewidth', ap.image_width);
+            el.data('image', ap.zoom.path);
+            el.data('imageheight', ap.zoom.height)
+            el.data('imagewidth', ap.zoom.width);
           } else {
             $zoom[0].hide();
           }
@@ -823,6 +823,17 @@ var TagMediaHelper = {
         if ($favs.length > 0) {
           $favs[0].setAttribute('fav_id', ap.id);
         }
+        var tw = $$('.action-icons .tw');
+        if (tw && tw.length && ap.twitter_link) {
+          var $tw = $(tw[0]);
+          $tw.setAttribute('href', ap.twitter_link);
+        }
+        var fb = $$('.action-icons .fb');
+        if (fb && fb.length && ap.facebook_link) {
+          var $fb = $(fb[0]);
+          $fb.setAttribute('href', ap.facebook_link);
+        }
+
         var $shares = $$('.action-icons a');
         if ($shares.length > 0) {
           $shares.each(function(lnk) {
@@ -851,7 +862,7 @@ var TagMediaHelper = {
       var img = $('artpiece_img');
       if (T.APCache[ap.id]) {
 	var a = T.APCache[ap.id];
-	T.Helpers.update_info(a);
+	T.Helpers.updateInfo(a);
       } else {
 	var resp = new Ajax.Request(url, {
 	  onSuccess: function(resp) {
@@ -866,7 +877,7 @@ var TagMediaHelper = {
 		ap = ap_raw.art_piece;
 	      }
 	      T.APCache[ap.id] = ap;
-	      T.Helpers.update_info(ap);
+	      T.Helpers.updateInfo(ap);
 	      ap.cache=true;
 	    }
 	    catch(e) {
@@ -875,8 +886,7 @@ var TagMediaHelper = {
 	    }
 	  },
 	  contentType: "application/json",
-	  method: 'get' }
-				   );
+	  method: 'get' });
       }
       return true;
     }

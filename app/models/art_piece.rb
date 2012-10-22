@@ -80,6 +80,30 @@ class ArtPiece < ActiveRecord::Base
     prefix = full_path ? "//%s" % Conf.site_url : ''
     prefix + ArtPieceImage.get_path(self, size)
   end
+
+  def compute_actual_image_size(size)
+    size = ImageFile::ImageSizes::keymap(size)
+    if size == :original
+      return [image_width,image_height]
+    end
+    sz = ImageFile.sizes[size]
+    if !sz
+      return 0,0
+    end
+    maxdim = [sz.width, sz.height].max
+    wd = ht = 0
+    if image_width > 0 and image_height > 0
+      rt = image_height.to_f / image_width.to_f
+      if rt < 1.0
+        wd = maxdim.to_i
+        ht = (wd * rt).to_i
+      else
+        ht = maxdim.to_i
+        wd = (ht / rt).to_i
+      end
+    end
+    [wd,ht]
+  end
     
   def self.all
     self.find(:all, :conditions => "artist_id in (select id from users where state = 'active' and type='Artist')")

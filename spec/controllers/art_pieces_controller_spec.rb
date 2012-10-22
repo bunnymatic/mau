@@ -24,81 +24,104 @@ describe ArtPiecesController do
       @artist = users(:artist1)
       @artpieces = @artist.art_pieces
     end
-    context "not logged in" do
-      integrate_views
+    context 'json' do
       before do
-        get :show, :id => @artpieces.first.id
+        get :show, :id => @artpieces.first.id, :format => 'json'
       end
-      it_should_behave_like 'returns success'
-      it 'has a description with the art piece name' do
-        assert_select 'head' do |tag|
-          assert_select 'meta[name=description]' do |desc|
-            desc.length.should == 1
-            desc[0].attributes['content'].should match /#{@artpieces.first.title}/
-          end
-          assert_select 'meta[property=og:description]' do |desc|
-            desc.length.should == 1
-            desc[0].attributes['content'].should match /#{@artpieces.first.title}/
-          end
-        end
+      it_should_behave_like 'successful json'
+      it 'includes the art piece filename' do
+        resp = JSON.parse(response.body)['art_piece']
+        resp['filename'].should eql File.basename(@artpieces.first.get_path('original'))
       end
-      it 'has keywords that match the art piece' do
-        assert_select 'head meta[name=keywords]' do |keywords|
-          keywords.length.should == 1
-          expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
-          actual = keywords[0].attributes['content'].split(',').map(&:strip)
-          expected.each do |ex|
-            actual.should include ex
-          end
-        end
+      it 'includes info for the zoom' do
+        resp = JSON.parse(response.body)['art_piece']
+        resp['zoom']['path'].should eql @artpieces.first.get_path('large')
+        resp['zoom']['width'].should eql @artpieces.first.compute_actual_image_size('large')[0]
+        resp['zoom']['height'].should eql @artpieces.first.compute_actual_image_size('large')[1]
       end
-      it 'include the default keywords' do
-        assert_select 'head meta[name=keywords]' do |keywords|
-          keywords.length.should == 1
-          expected = ["art is the mission", "art", "artists", "san francisco"]
-          actual = keywords[0].attributes['content'].split(',').map(&:strip)
-          expected.each do |ex|
-            actual.should include ex
-          end
-        end
-      end
-      it "displays art piece" do
-        assert_select("#artpiece_title", @artpieces.first.title)
-        assert_select("#ap_title", @artpieces.first.title)
-      end
-      if Conf.show_lightbox_feature
-        it 'includes the zoom data for big art pieces' do
-          ap = @artpieces.first
-          assert_select('a.zoom').each do |tag|
-            tag.attributes['data-image'].should eql ap.get_path('original')
-            tag.attributes['data-imagewidth'].should be
-            tag.attributes['data-imageheight'].should be
-          end
-        end
-      end
-      it "has no edit buttons" do
-        assert_select("div.edit-buttons", "")
-        response.should_not have_tag("div.edit-buttons *")
-      end
-      it "has a favorite me icon" do
-        assert_select('.micro-icon.heart')
-      end
-      context "piece has been favorited" do
-        before do
-          ap = @artpieces.first
-          users(:maufan1).add_favorite ap
-          get :show, :id => ap.id
-        end
-        it "shows the number of favorites" do
-          assert_select '#num_favorites', 1
-        end
+      it 'has a uniq list of tags' do
+        resp = JSON.parse(response.body)['art_piece']
+        tags = resp['art_piece_tags']
+        tags.map{|t| t['name']}.sort.should eql ['Tag1','Tag2']
       end
     end
-    context "getting unknown art piece page" do
-      it "should redirect to error page" do
-        get :show, :id => 'bogusid'
-        flash[:error].should match(/couldn't find that art piece/)
-        response.should redirect_to '/error'
+    context 'html' do
+      context "not logged in" do
+        integrate_views
+        before do
+          get :show, :id => @artpieces.first.id
+        end
+        it_should_behave_like 'returns success'
+        it 'has a description with the art piece name' do
+          assert_select 'head' do |tag|
+            assert_select 'meta[name=description]' do |desc|
+              desc.length.should == 1
+              desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+            end
+            assert_select 'meta[property=og:description]' do |desc|
+              desc.length.should == 1
+              desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+            end
+          end
+        end
+        it 'has keywords that match the art piece' do
+          assert_select 'head meta[name=keywords]' do |keywords|
+            keywords.length.should == 1
+            expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
+            actual = keywords[0].attributes['content'].split(',').map(&:strip)
+            expected.each do |ex|
+              actual.should include ex
+            end
+          end
+        end
+        it 'include the default keywords' do
+          assert_select 'head meta[name=keywords]' do |keywords|
+            keywords.length.should == 1
+            expected = ["art is the mission", "art", "artists", "san francisco"]
+            actual = keywords[0].attributes['content'].split(',').map(&:strip)
+            expected.each do |ex|
+              actual.should include ex
+            end
+          end
+        end
+        it "displays art piece" do
+          assert_select("#artpiece_title", @artpieces.first.title)
+          assert_select("#ap_title", @artpieces.first.title)
+        end
+        if Conf.show_lightbox_feature
+          it 'includes the zoom data for big art pieces' do
+            ap = @artpieces.first
+            assert_select('a.zoom').each do |tag|
+              tag.attributes['data-image'].should eql ap.get_path('large')
+              tag.attributes['data-imagewidth'].should be_present
+              tag.attributes['data-imageheight'].should be_present
+            end
+          end
+        end
+        it "has no edit buttons" do
+          assert_select("div.edit-buttons", "")
+          response.should_not have_tag("div.edit-buttons *")
+        end
+        it "has a favorite me icon" do
+          assert_select('.micro-icon.heart')
+        end
+        context "piece has been favorited" do
+          before do
+            ap = @artpieces.first
+            users(:maufan1).add_favorite ap
+            get :show, :id => ap.id
+          end
+          it "shows the number of favorites" do
+            assert_select '#num_favorites', 1
+          end
+        end
+      end
+      context "getting unknown art piece page" do
+        it "should redirect to error page" do
+          get :show, :id => 'bogusid'
+          flash[:error].should match(/couldn't find that art piece/)
+          response.should redirect_to '/error'
+        end
       end
     end
     context "when logged in as art piece owner" do
