@@ -9,7 +9,7 @@ test:
    oslive: 201210
 
 development:
-   site_url: artistsdev.missionartistsunited.org
+   site_url: mau.rcode5.com
    cache_server: localhost:11211
    image_servers: 
    cache_expiry:
