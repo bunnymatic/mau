@@ -95,13 +95,13 @@ class ArtPiecesController < ApplicationController
     end
     self._setup_thumb_browser_data(pieces, apid)
     @art_piece_dimensions = {
-      :original => compute_actual_image_size('original', @art_piece),
-      :medium => compute_actual_image_size('medium', @art_piece)
+      :large => @art_piece.compute_actual_image_size('large'),
+      :medium => @art_piece.compute_actual_image_size('medium')
     }
-    if (@art_piece_dimensions[:original][0] > @art_piece_dimensions[:medium][0])
-      @zoomed_art_piece_path = @art_piece.get_path('original')
-      @zoomed_width = @art_piece_dimensions[:original][0]
-      @zoomed_height = @art_piece_dimensions[:original][1]
+    if (@art_piece_dimensions[:large][0] > @art_piece_dimensions[:medium][0])
+      @zoomed_art_piece_path = @art_piece.get_path(:large)
+      @zoomed_width = @art_piece_dimensions[:large][0]
+      @zoomed_height = @art_piece_dimensions[:large][1]
     end
     
     respond_to do |format|
@@ -111,24 +111,29 @@ class ArtPiecesController < ApplicationController
         h['art_piece'] = @art_piece.attributes
         # make safe the art_piece entries
         h['art_piece']["art_piece_tags"] = []
-        @art_piece.art_piece_tags.each { |t|
+        @art_piece.art_piece_tags.uniq_by{|t| t.id}.each { |t|
           h['art_piece']['art_piece_tags'] << t.attributes
         }
         m = @art_piece.medium
-        if m
-          h['art_piece']["medium"] = @art_piece.medium.attributes
-        end
-        [ 'title','dimensions'].each do |k| 
+        h['art_piece']["medium"] = m.attributes if m
+        ['title','dimensions'].each do |k| 
           h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
         end
         h['art_piece']['art_piece_tags'].each do |t| 
           t['name'] = HTMLHelper.encode(t['name'])
         end
-
-        if (current_user && current_user.id == @art_piece.artist.id)
+        if (current_user && (current_user.id == @art_piece.artist.id))
           h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
         end
         h['art_piece'].merge!(:favorites_count => @favorites_count)
+        # add art_piece_paths and size
+        h['art_piece']['zoom'] = {
+          'path' => @zoomed_art_piece_path,
+          'width' => @zoomed_width,
+          'height' => @zoomed_height
+        }
+        h['art_piece']['facebook_link'] = ArtPiecesHelper.fb_share_link(@art_piece)
+        h['art_piece']['twitter_link'] = ArtPiecesHelper.tw_share_link(@art_piece)
         render :json => h.to_json
       }
     end

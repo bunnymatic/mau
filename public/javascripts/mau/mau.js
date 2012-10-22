@@ -724,10 +724,11 @@ var TagMediaHelper = {
         return null;
       }
     },
-    get_image_path: function(fname, sz) {
+    getImagePath: function(fname, sz) {
       var sub = { thumb: "t_",
 	small:"s_",
 	medium: "m_",
+        large: 'l_',
         original: ''};
       if (sz in sub) {
         var f = fname.replace(/^public\//,'/');
@@ -755,12 +756,12 @@ var TagMediaHelper = {
       }
       ts[idx].addClassName('tiny-thumb-sel');
     },
-    update_info: function(ap) {
+    updateInfo: function(ap) {
       var dummy = null;
       var f = ap.filename;
       var img = $('artpiece_img');
       if (f) {
-	f = this.get_image_path(f,'medium');
+	f = this.getImagePath(f,'medium');
 	img.src = f;
 	this.safe_update('artpiece_title',ap.title);
 	this.safe_update('ap_title', ap.title);
@@ -809,11 +810,11 @@ var TagMediaHelper = {
         if ($zoom) {
           if (ap.image_height > 400 || ap.image_width > 400) {
             var _that = this;
-            var el = $zoom[0];
+            var el = $zoom;
             el.show();
-            el.data('image', _that.get_image_path(ap.filename, 'original'));
-            el.data('imageheight', ap.image_height);
-            el.data('imagewidth', ap.image_width);
+            el.data('image', ap.zoom.path);
+            el.data('imageheight', ap.zoom.height)
+            el.data('imagewidth', ap.zoom.width);
           } else {
             $zoom[0].hide();
           }
@@ -822,6 +823,17 @@ var TagMediaHelper = {
         if ($favs.length > 0) {
           $favs[0].setAttribute('fav_id', ap.id);
         }
+        var tw = $$('.action-icons .tw');
+        if (tw && tw.length && ap.twitter_link) {
+          var $tw = $(tw[0]);
+          $tw.setAttribute('href', ap.twitter_link);
+        }
+        var fb = $$('.action-icons .fb');
+        if (fb && fb.length && ap.facebook_link) {
+          var $fb = $(fb[0]);
+          $fb.setAttribute('href', ap.facebook_link);
+        }
+
         var $shares = $$('.action-icons a');
         if ($shares.length > 0) {
           $shares.each(function(lnk) {
@@ -850,7 +862,7 @@ var TagMediaHelper = {
       var img = $('artpiece_img');
       if (T.APCache[ap.id]) {
 	var a = T.APCache[ap.id];
-	T.Helpers.update_info(a);
+	T.Helpers.updateInfo(a);
       } else {
 	var resp = new Ajax.Request(url, {
 	  onSuccess: function(resp) {
@@ -865,7 +877,7 @@ var TagMediaHelper = {
 		ap = ap_raw.art_piece;
 	      }
 	      T.APCache[ap.id] = ap;
-	      T.Helpers.update_info(ap);
+	      T.Helpers.updateInfo(ap);
 	      ap.cache=true;
 	    }
 	    catch(e) {
@@ -874,8 +886,7 @@ var TagMediaHelper = {
 	    }
 	  },
 	  contentType: "application/json",
-	  method: 'get' }
-				   );
+	  method: 'get' });
       }
       return true;
     }

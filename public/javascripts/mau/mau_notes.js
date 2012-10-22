@@ -312,7 +312,7 @@ Object.extend(MAU.NotesMailer.prototype, {
     $$(this._parent_class(true)).each(function(el) {
       if (el) {
         el.fade({duration:0.3, afterFinish: function() {
-          if (el) { 
+          if (el && el.parentNode) { 
             el.remove(); 
           } 
         }});
