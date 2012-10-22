@@ -30,7 +30,7 @@
 
               %a{:class => 'fb', :href => ArtPiecesHelper.fb_share_link(@art_piece), :target => "_new", :title =>"Share this page on Facebook"}
                 .micro-icon.facebook
-              %a{:class => 'tw', :href => ArtPiecesHelper.tw_share_link(@art_piece), :target => "_new",  :title => "Share this page on Twitter"}
+              %a{ :href => tw_share_link(@art_piece), :target => "_new",  :title => "Share this page on Twitter"}
                 .micro-icon.twitter
               - if (!current_user || (current_user && current_user.id != artist.id))
                 %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}

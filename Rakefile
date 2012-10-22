@@ -20,7 +20,3 @@ end
 
 require 'rosie'
 Dir["#{Gem.searcher.find('rosie').full_gem_path}/lib/tasks/**/*.rake"].each { |ext| load ext }
-
-# make default task run jasmine
-task(:default).clear
-task :default => [:spec, 'jasmine:headless']

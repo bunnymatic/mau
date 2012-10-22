@@ -9,7 +9,7 @@ test:
    oslive: 201210
 
 development:
-   site_url: mau.rcode5.com
+   site_url: artistsdev.missionartistsunited.org
    cache_server: localhost:11211
    image_servers: 
    cache_expiry:
@@ -36,7 +36,7 @@ production:
    messaging_token: 'traemosekamog'
 
 common:
-   show_lightbox_feature: true
+   show_lightbox_feature: false
    feedback_emails:
       - feedback@missionartistsunited.org
       - maufeedback@bunnymatic.com

@@ -87,18 +87,6 @@ describe ArtPiece do
     end
   end
 
-  describe 'compute_scaled_image_dimensions' do
-    it 'returns the scaled dimensions for a small version' do
-      art_pieces(:hotter).compute_actual_image_size(:small).should eql [40,200]
-    end
-    it 'returns the scaled dimensions for a medium version' do
-      art_pieces(:hotter).compute_actual_image_size(:medium).should eql [80,400]
-    end
-    it 'returns the scaled dimensions for a large version' do
-      art_pieces(:hotter).compute_actual_image_size(:large).should eql [160,800]
-    end
-  end
-
   describe 'get_path' do
     it 'returns a path to the art piece' do
       ap = ArtPiece.first

@@ -49,7 +49,27 @@ module ArtPiecesHelper
   #   size must be "small", "thumb", "orig", 'large', 'medium'
   # return wd, ht
   def compute_actual_image_size(size, piece)
-    piece.compute_actual_image_size(size)
+    size = ImageFile::ImageSizes::keymap(size)
+    if size == :original
+      return [piece.image_width, piece.image_height]
+    end
+    sz = ImageFile.sizes[size]
+    if !sz
+      return 0,0
+    end
+    maxdim = [sz.width, sz.height].max
+    wd = ht = 0
+    if piece.image_width > 0 and piece.image_height > 0
+      rt = piece.image_height.to_f / piece.image_width.to_f
+      if rt < 1.0
+        wd = maxdim.to_i
+        ht = (wd * rt).to_i
+      else
+        ht = maxdim.to_i
+        wd = (ht / rt).to_i
+      end
+    end
+    return wd,ht
   end
 
   def self.fb_share_link(artpiece)

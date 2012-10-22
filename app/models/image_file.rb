@@ -125,6 +125,7 @@ class ImageFile
     paths = [:large, :medium, :small, :thumb].map do |sz|
       [sz, srcpath.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
     end
+    p paths
     paths.each do |pthinfo|
       key = pthinfo[0]
       destpath = pthinfo[1]

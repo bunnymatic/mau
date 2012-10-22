@@ -5,51 +5,46 @@ var thumbHelperTestData2 = {"art_piece":{"image_height":1022,"medium":{"name":"M
 describe('Thumbs', function() {
   describe('Helpers', function() {
     describe("filename with leading public", function() {
-      it("computes large art piece path", function(){
-        var apfname = thumbHelperTestData2.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'large');
-        expect(f).toEqual('/artistdata/1/imgs/l_1271555666bunnymaticsparkleswindow_small.jpg');
-      });
       it("computes medium art piece path", function(){
         var apfname = thumbHelperTestData2.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'medium');
+        var f = MAU.Thumbs.Helpers.get_image_path(apfname, 'medium');
         expect(f).toEqual('/artistdata/1/imgs/m_1271555666bunnymaticsparkleswindow_small.jpg');
       });
       it("computes small art piece path", function(){
         var apfname = thumbHelperTestData2.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'small');
+        var f = MAU.Thumbs.Helpers.get_image_path(apfname, 'small');
         expect(f).toEqual('/artistdata/1/imgs/s_1271555666bunnymaticsparkleswindow_small.jpg');
       });
       it("computes thumb art piece path", function(){
         var apfname = thumbHelperTestData2.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'thumb');
+        var f = MAU.Thumbs.Helpers.get_image_path(apfname, 'thumb');
         expect(f).toEqual('/artistdata/1/imgs/t_1271555666bunnymaticsparkleswindow_small.jpg');
       });
       it("does nothing for bad size", function(){
         var apfname = thumbHelperTestData2.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'bogus');
+        var f = MAU.Thumbs.Helpers.get_image_path(apfname, 'bogus');
         expect(f).toEqual('public/artistdata/1/imgs/1271555666bunnymaticsparkleswindow_small.jpg');
       });
     });
     describe("filename without leading public", function() {
       it("computes medium art piece path", function(){
         var apfname = thumbHelperTestData.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'medium');
+        var f = MAU.Thumbs.Helpers.get_image_path(apfname, 'medium');
         expect(f).toEqual('/artistdata/1/imgs/m_1271555666bunnymaticsparkleswindow_small.jpg');
       });
       it("computes small art piece path", function(){
         var apfname = thumbHelperTestData.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'small');
+        var f = MAU.Thumbs.Helpers.get_image_path(apfname, 'small');
         expect(f).toEqual('/artistdata/1/imgs/s_1271555666bunnymaticsparkleswindow_small.jpg');
       });
       it("computes thumb art piece path", function(){
         var apfname = thumbHelperTestData.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'thumb');
+        var f = MAU.Thumbs.Helpers.get_image_path(apfname, 'thumb');
         expect(f).toEqual('/artistdata/1/imgs/t_1271555666bunnymaticsparkleswindow_small.jpg');
       });
       it("does nothing for bad size", function(){
         var apfname = thumbHelperTestData.art_piece.filename;
-        var f = MAU.Thumbs.Helpers.getImagePath(apfname, 'bogus');
+        var f = MAU.Thumbs.Helpers.get_image_path(apfname, 'bogus');
         expect(f).toEqual('artistdata/1/imgs/1271555666bunnymaticsparkleswindow_small.jpg');
       });
     });
