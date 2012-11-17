@@ -1,33 +1,17 @@
 # MySQL
-local:
-  adapter: mysql2
-  encoding: utf8
-  database: mau_dev
-  username: mauadmin
-  password: MrMau415
-  host: localhost
-
-ub:
-  adapter: mysql2
-  encoding: utf8
-  database: mau_dev
-  username: mauadmin
-  password: MrMau415
-  host: localhost
-
 development:
   adapter: mysql2
   encoding: utf8
   database: mau_dev
-  username: mauadmin
-  password: MrMau415
+  username: root
+  password:
   host: localhost
 
 test:
   adapter: mysql2
   encoding: utf8
   database: mau_test
-  username: 
+  username: root
   password: 
   host: localhost
 
