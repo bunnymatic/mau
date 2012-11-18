@@ -1274,65 +1274,17 @@ var TagMediaHelper = {
 
   Object.extend(AC, {
     CHOOSER: 'account_type_chooser',
-    DEFAULT_OPTION: 'select_account_default_option',
-    FORM_HASH: { Artist: { container:'artist_signup_form', 
-                           form: 'new_artist' },
-                 MAUFan: { container: 'fan_signup_form',
-                           form: 'new_mau_fan' } },
     onload: function() {
       var $chooser = $(AC.CHOOSER);
       if ($chooser) {
         Event.observe($chooser,'change', AC.open_selected_form);
-        if (intype) {
-          AC.open_selected_form(intype);
-        } else {
-          AC.open_form('Artist', false);
-          $(AC.CHOOSER).select('option').first().writeAttribute('selected','selected');
-        }
       }
     },
     open_selected_form: function() {
       var newform = $(AC.CHOOSER).selected();
-      AC.open_form(newform.value, true);
-      // remove dummy option
-      var $def = $(AC.DEFAULT_OPTION);
-      if ($def) { $def.remove(); }
-    },
-    open_form: function(frmtype, enabled) {
-      if (!(frmtype in AC.FORM_HASH)) {
-        return;
-      }
-      var form_info = AC.FORM_HASH[frmtype];
-      var div_id = form_info.container;
-      var $dv = $(div_id);
-      if ($dv) {
-        for (var k in AC.FORM_HASH) {
-          var current = AC.FORM_HASH[k];
-          var cdiv = current.container;
-          var cfrm = current.form;
-          var $cfrm = $(cfrm);
-          var $cdiv = $(cdiv);
-          if (div_id == cdiv) {
-            if (!$cdiv.visible()) { //show if necessary
-              $cdiv.fade(M.FADE_OPTS['in']);
-              $cdiv.setStyle({display:'block'});
-            }
-            // enable/disable all form inputs based on enabled input
-            $cfrm[enabled?'enable':'disable']();
-            if (enabled) {
-              $cfrm.removeClassName('disabled'); 
-              $cfrm.focus_first();
-            }
-            else {
-              $cfrm.addClassName('disabled');
-            }
-          } else { // hide
-            $cdiv.fade(M.FADE_OPTS.out);
-            $cdiv.setStyle({display:'none'});
-            $cfrm.disable();
-          }
-        }
-      }
+      var uri_parser = new MAU.QueryStringParser("/users/new");
+      uri_parser.query_params.type = newform.value;
+      window.location.href = uri_parser.toString();
     }
   });
   Event.observe(window,'load', AC.onload);

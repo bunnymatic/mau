@@ -335,6 +335,7 @@ describe StudiosController do
         end
       end
     end
+
     context 'as manager' do
       before do
         login_as :manager

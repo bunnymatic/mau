@@ -1,97 +1,36 @@
 <% form_for user, :url => users_path do |f| %>
 <input type="hidden" name="type" value="<%= type %>" />
-<table class="signup-table" >
-  <tr>
-    <td class="label"><%= label_tag 'login', 'Username' %></td>
-    <td class="input">
-      <%= f.text_field :login %>	  </td>
-    <td class="errors">
-      <% if user.errors[:login] %>
-      <div class="error-help">
-	<%= user.errors.select{ |k,v| k=='login' }[0][1] %>	    </div>
-      <% end %>	  
-    </td>
-  </tr>
-  <tr>
-    <td class="label" >
-      <%= label_tag 'email', 'E-mail' %>	  </td>
-    <td class="input">
-      <%= f.text_field :email %>	  </td>
-    <td>
-      <% if user.errors[:email] %>
-      <div class="error-help">
-	<%= user.errors.select{ |k,v| k=='email' }[0][1] %>	    </div>
-      <% end %>	  </td>
-  </tr>
-  <tr>
-    <td >
-      <%= label_tag 'password', 'Password' %>	  </td>
-    <td >
-      <%= f.password_field :password %>	  </td>
-    <td>
-      <% if user.errors[:password] %>
-      <div class="error-help">
-	<%= user.errors.select{ |k,v| k=='password' }[0][1] %>	    </div>
-      <% end %>	  </td>
-  </tr>
-  <tr>
-    <td >
-      <%= label_tag 'password_confirmation', 'Confirm Password' %>	  </td>
-    <td > 
-      <%= f.password_field :password_confirmation %>	  </td>
-    <td>
-      <% if user.errors[:password_confirmation] %>
-      <div class="error-help">
-	<%= user.errors.select{ |k,v| k=='password_confirmation' }[0][1] %>	    </div>
-      <% end %>	  </td>
-  </tr>
-  <tr>
-    <td >
-      <%= label_tag 'firstname', 'First Name' %>	  </td>
-    <td > 
-      <%= f.text_field :firstname %>	  </td>
-    <td>
-      <% if user.errors[:firstname] %>
-      <div class="error-help">
-	<%= user.errors.select{ |k,v| k=='firstname' }[0][1] %>	    </div>
-      <% end %>	  </td>
-  </tr>
-  <tr>
-    <td >
-      <%= label_tag 'lastname', 'Last Name' %>	  </td>
-    <td >
-      <%= f.text_field :lastname %>	  </td>
-    <td>
-      <% if user.errors[:lastname] %>
-      <div class="error-help">
-	<%= user.errors.select{ |k,v| k=='lastname' }[0][1] %>	    </div>
-      <% end %>	  </td>
-  </tr>
+<div class="signup-table" >
+  <%= signup_form_row f, :login, :text_field, :display => 'Username' %>
+  <%= signup_form_row f, :email, :text_field, :display => 'E-mail' %>
+  <%= signup_form_row f, :password, :password_field %>
+  <%= signup_form_row f, :password_confirmation, :password_field %>
+  <%= signup_form_row f, :firstname, :text_field %>
+  <%= signup_form_row f, :lastname, :text_field %>
   <% if type == 'Artist' %>
-  <tr>
-    <td >
-      <%= label_tag 'studio', 'Group Studio' %>	  </td>
-    <td >
-      <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>	  </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td colspan="3">
-      <div class="input-help">
-Choose "Independent studio" if you are not in a group studio. if you don't see your group studio, select "none" and 
+  <div class="row">
+    <div class="label">
+      <%= label_tag 'studio', 'Group Studio' %>
+    </div>
+    <div class="input">
+      <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-help">
+      Choose "Independent studio" if you are not in a group studio. if you don't see your group studio, select "none" and 
 	<a href="javascript:MAU.mailer('www','missionartistsunited.org','Please Add New Group Studio');">tell us</a> to add your studio.
-      </div>
-    </td>
-  </tr>
+    </div>
+  </div>
   <% end %>
-  <tr>
-    <td >&nbsp;</td>
-    <td ><span class="td-center"><%= submit_tag 'Sign up' %></span></td>
-    <td >&nbsp;</td>
-  </tr>
-  <tr class="last">
-    <td></td>
-    <td colspan="2" >Already a member? <%= link_to "Log in",  login_path,  { :title => "Log in" } %> here.</td>
-  </tr>
-</table>
+  <div class="row short">
+    <%= recaptcha_tags :display => {:theme => 'blackglass'} %>
+  </div>
+  <div class="row short">
+    <%= submit_tag 'Sign up', :class => 'formbutton' %>
+  </div>
+  <div class="row short last">
+    Already a member? <%= link_to "Log in",  login_path,  { :title => "Log in" } %> here.
+  </div>
+</div>
 <% end -%>

@@ -52,10 +52,11 @@ class UsersController < ApplicationController
       flash[:notice] = "You're already logged in"
       redirect_to current_artist || user_path(current_user)
     end
-    @artist = Artist.new
-    @fan = MAUFan.new
+    artist = Artist.new
+    fan = MAUFan.new
     @studios = Studio.all
-    #default type
+    @type = (['Artist','MAUFan'].include? params[:type]) ? params[:type] : 'Artist'
+    @user = (@type == 'MAUFan') ? fan : artist
   end
 
   def addprofile
@@ -146,68 +147,57 @@ class UsersController < ApplicationController
       render_not_found Exception.new("We can't create a user based on your input parameters.")
       return
     end
+    @user = nil
+    @type = type
+
     if type == 'Artist'
       # studio_id is in artist info
       studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
-      @artist = nil
+      @user = nil
       if studio_id > 0
         studio = Studio.find(studio_id)
         if studio
-          @artist = studio.artists.build(user_params)
+          @user = studio.artists.build(user_params)
         end
       else
-        @artist = Artist.create(user_params)
+        @user = Artist.new(user_params)
       end
-      if @artist.url && @artist.url.index('http') != 0
-        @artist.url = 'http://' + @artist.url
-      end
-      success = @artist && @artist.valid?
-      @artist.register! if success
-      errs = @artist.errors
     elsif type == 'MAUFan' || type == 'User'
       user_params[:login] = user_params[:login] || user_params[:email]
-      @fan = MAUFan.new(user_params)
-      if @fan.url && @fan.url.index('http') != 0
-        @fan.url = 'http://' + @fan.url
-      end
-      success = @fan && @fan.valid?
-      @fan.register! if success
-      errs = @fan.errors
+      @user = MAUFan.new(user_params)
     else
       logger.debug("Failed to create account - bad/empty params")
       render_not_found Exception.new("We can't create a user based on your input parameters.")
       return
     end
+    if @user.url && @user.url.index('http') != 0
+      @user.url = 'http://' + @user.url
+    end
+    @user.errors.add(:base, "Failed to prove that you're human.  Re-type your password and the blurry words at the bottom before re-submitting.") if !verify_recaptcha
+    success = @user && @user.valid? && @user.save
+    @user.register! if success
+    errs = @user.errors
+
     if success && errs.empty?
       # Protects against session fixation attacks, causes request forgery
       # protection if visitor resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
       if type == 'Artist'
-        @artist.reload
-        @artist.build_artist_info
-        @artist.save!
+        @user.reload
+        @user.build_artist_info
+        @user.save!
         Messager.new.publish "/artists/create", "added a new artist"
         flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
         redirect_to "/"
       else
-        @fan.activate!
-        @fan.subscribe_and_welcome
+        @user.activate!
+        @user.subscribe_and_welcome
         flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
         redirect_to login_path
       end
     else
       msg = "There was a problem creating your account.  If you can't solve the issues listed below, please try again later or contact the webmaster (link below). if you continue to have problems."
-      flash.now[:error] = msg
-      if !@artist
-        # make empty artist for the hidden artist form
-        @artist = Artist.new
-        @type = 'MAUFan'
-      end
-      if !@fan
-        # make empty fan for the hidden fan form
-        @fan = MAUFan.new
-        @type = 'Artist'
-      end
+      flash.now[:error] = msg +"<br/>" +  @user.errors[:base]
       @studios = Studio.all
       render :action => 'new'
     end
