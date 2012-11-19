@@ -108,7 +108,31 @@ describe UsersController do
       post :create
       response.should be_missing
     end
-    
+
+    context "with invalid recaptcha" do
+      before do
+        # disable sweep of flash.now messages
+        # so we can test them
+        @controller.instance_eval{flash.stubs(:sweep)}
+        @controller.expects(:verify_recaptcha).returns(false)
+        post :create, :mau_fan => { :login => 'newuser',
+          :password_confirmation => "blurpit", 
+          :lastname => "bmatic2", 
+          :firstname => "bmatic2", 
+          :password => "blurpit", 
+          :email => "bmatic2@b.com" }, :type => "MAUFan" 
+      end        
+      it "reports that you should be human" do
+        pending
+        response.should be_success
+      end
+      
+      it "sets a flash.now indicating failure" do
+        pending
+        flash.now[:error].should include 'human'
+      end
+    end
+
     context "with partial params" do
       before do
         # disable sweep of flash.now messages
@@ -125,6 +149,7 @@ describe UsersController do
         end
         
         it "sets a flash.now indicating failure" do
+          pending
           post :create, :user => { :login => 'newuser' }, :type => "MAUFan" 
         end
       end

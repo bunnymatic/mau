@@ -197,7 +197,8 @@ class UsersController < ApplicationController
       end
     else
       msg = "There was a problem creating your account.  If you can't solve the issues listed below, please try again later or contact the webmaster (link below). if you continue to have problems."
-      flash.now[:error] = msg +"<br/>" +  @user.errors[:base]
+      flash.now[:error] = msg
+      flash.now[:error] << "<br/>" +  @user.errors[:base] if @user.errors[:base]
       @studios = Studio.all
       render :action => 'new'
     end
