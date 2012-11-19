@@ -31,6 +31,7 @@ gem 'event-calendar', :require => 'event_calendar'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
+gem "recaptcha", "= 0.3.0", :require => "recaptcha/rails"
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'
@@ -56,4 +57,7 @@ group :test, :development do
   gem 'fakeweb'
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
+  gem 'pry'
+  gem 'ruby-debug', :require => 'ruby-debug'
+  gem 'ruby-debug-pry', :require => 'ruby-debug/pry'
 end

@@ -2310,11 +2310,43 @@ div.alt-login {
   margin: 1em;
   text-align: left;
 }
-
 .signup-table {
   width: 60%;
   margin: auto;
 }
+#signup_form {
+  .row {
+    @extend .clearfix;
+    &.short {
+      margin-left:140px;
+    }
+    > div {
+      vertical-align: bottom;
+      float: left;
+      padding: 5px;
+    }
+    .label {
+      padding-top:9px;
+      padding-bottom: 0px;
+      width: 126px;
+    }
+    .input {
+      width: 200px;
+      input {
+        width: 100%;
+      }
+    }
+    .errors {
+      width: 145px;
+      margin-left: 15px;
+      padding-top:11px;
+      padding-bottom: 0;
+      .errors-help {
+      }
+    }
+  }
+}
+
 .signup-table tr.last {
   margin-top: 10px;
 }

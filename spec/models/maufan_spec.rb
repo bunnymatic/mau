@@ -58,5 +58,5 @@ describe MAUFan do
       a.should have_at_least(1).error_on(:email)
     end
   end
-  
+
 end

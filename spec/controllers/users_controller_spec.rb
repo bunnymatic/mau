@@ -2,8 +2,19 @@ require 'spec_helper'
 
 include AuthenticatedTestHelper
 
+shared_examples_for 'common signup form' do
+  it_should_behave_like 'one column layout'
+  it "has signup form" do
+    assert_select("#signup_form")
+  end
+  it 'shows a captcha' do
+    assert_select('textarea[name=recaptcha_challenge_field]')
+  end
+
+end
+
 describe UsersController do
-  
+ 
   fixtures :users, :roles_users
   fixtures :art_pieces
   fixtures :favorites # even though fixture is empty - this forces a db clear between tests
@@ -30,27 +41,54 @@ describe UsersController do
   describe "#new" do
     integrate_views
 
-    before do
-      # disable sweep of flash.now messages
-      # so we can test them
-      @controller.instance_eval{flash.stubs(:sweep)}
-      get :new
+    context 'with no type' do
+      before do
+        # disable sweep of flash.now messages
+        # so we can test them
+        @controller.instance_eval{flash.stubs(:sweep)}
+        get :new
+      end
+      it_should_behave_like 'common signup form'
+      it "has a first name text boxes" do
+        assert_select("#artist_firstname")
+      end
+      it "has lastname text box" do
+        assert_select("#artist_lastname")
+      end
     end
-    it_should_behave_like 'one column layout'
-    it "has fan signup form" do
-      assert_select("#fan_signup_form")
+
+    context 'with type = artist' do
+      before do
+        # disable sweep of flash.now messages
+        # so we can test them
+        @controller.instance_eval{flash.stubs(:sweep)}
+        get :new, :type => 'Artist'
+      end
+      it_should_behave_like 'common signup form'
+      it "has a first name text boxes" do
+        assert_select("#artist_firstname")
+      end
+      it "has lastname text box" do
+        assert_select("#artist_lastname")
+      end
     end
-    it "has artist signup form" do
-      assert_select("#artist_signup_form")
+
+    context 'with no type' do
+      before do
+        # disable sweep of flash.now messages
+        # so we can test them
+        @controller.instance_eval{flash.stubs(:sweep)}
+        get :new, :type => 'MAUFan'
+      end
+      it_should_behave_like 'common signup form'
+      it "has a first name text boxes" do
+        assert_select("#mau_fan_firstname")
+      end
+      it "has lastname text box" do
+        assert_select("#mau_fan_lastname")
+      end
     end
-    it "has 2 first name text boxes" do
-      assert_select("#artist_firstname")
-      assert_select("#mau_fan_firstname")
-    end
-    it "has lastname text box" do
-      assert_select("#mau_fan_lastname")
-      assert_select("#artist_lastname")
-    end
+
   end
     
   describe "#create" do
@@ -792,6 +830,11 @@ describe UsersController do
       end
     end
     describe 'with valid activation code' do
+      before do
+        MAUFan.any_instance.stubs(:recently_activated?).returns(true)
+        MAUFan.any_instance.stubs(:mailchimp_subscribed_at).returns(true)
+        MAUFan.any_instance.expects('activate!')
+      end
       it 'redirects to login' do
         get :activate, :activation_code => users(:pending).activation_code
         response.should redirect_to login_url
@@ -801,15 +844,8 @@ describe UsersController do
         flash[:notice].should include 'Signup complete!'
       end
       it 'activates the user' do
-        pending
-        User.any_instance.expects('activate!')
         get :activate, :activation_code => users(:pending).activation_code
       end
-      it 'sends an email to the user' do
-        pending
-        UserMailer.expects(:deliver_activation).once
-        get :activate, :activation_code => users(:pending).activation_code
-      end        
     end
     describe 'with invalid activation code' do
       it 'redirects to login' do

@@ -71,5 +71,10 @@ require 'tag_extensions'
 # add custom mimetypes (for qrcode)
 Mime::Type.register "image/png", :png
 
+Recaptcha.configure do |config|
+  config.public_key  = '6Lc9BNkSAAAAAOmI_O3g_I9ky4IFIdHnY7YDU3Gc'
+  config.private_key = '6Lc9BNkSAAAAAAHJ-NxXih62VuSsqnUx3EJc91Bo'
+end
+
 puts "Environment: #{Rails.env}"
 
