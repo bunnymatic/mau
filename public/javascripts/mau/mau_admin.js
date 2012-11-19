@@ -70,7 +70,7 @@ MAUAdmin =  window.MAUAdmin || {};
       if (modul && modul.init) { modul.init(); }
     });
     $$('.hide-rows input').each(function(el) {
-      el.observe('mousein', function() {
+      el.observe('click', function() {
         var clz = this.value;
         var show = this.checked;
         $$('table.admin-table tr.' + clz).each(function(row) {
