@@ -312,7 +312,7 @@ var TagMediaHelper = {
   Object.extend(FR, {
     requests: [],
     init: function() {
-      setInterval( function() { FR.update_art(); }, 8000);
+      setInterval( function() { FR.update_art(); }, 10000);
       FR.init = function() {};
     },
     update_art: function() {
