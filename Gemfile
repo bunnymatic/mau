@@ -58,6 +58,6 @@ group :test, :development do
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
   gem 'pry'
-  gem 'ruby-debug', :require => 'ruby-debug'
-  gem 'ruby-debug-pry', :require => 'ruby-debug/pry'
+#  gem 'ruby-debug', :require => 'ruby-debug'
+#  gem 'ruby-debug-pry', :require => 'ruby-debug/pry'
 end
