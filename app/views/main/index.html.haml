@@ -1,0 +1,10 @@
+#main_messages
+  = render :partial => '/flash_notice_error'
+
+#main_thumbs
+  #sampler
+    = render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }}
+
+.main-text
+  %h1 There are more artists in the Mission than any other neighborhood in San Francisco
+  %img{:src => "/images/mau-text.png"}

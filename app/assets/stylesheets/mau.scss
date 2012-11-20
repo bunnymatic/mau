@@ -1759,7 +1759,7 @@ td.td-left{
 }
 #main_thumbs {
   position: relative;
-  margin: 26px auto 0px auto;
+  margin: 40px auto 0px auto;
   padding-bottom: 20px;
   div.clear {
     padding: 10px;
@@ -1780,14 +1780,11 @@ td.td-left{
 
 .main-text {
   width: $rightcol;
-  margin: 40px auto auto auto;
+  margin: auto;
   text-align: center;
-  vertical-align: bottom;
-}
-
-.main-subtext {
-  margin-bottom: 40px;
-  text-align: center;
+  img {
+    margin-top: 25px;
+  }
 }
 
 .input-help {
