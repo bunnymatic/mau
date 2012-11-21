@@ -11,7 +11,6 @@ class StudiosController < ApplicationController
   layout 'mau1col'
 
   include OsHelper
-
   def admin_index
     @studios = Studio.all
     render :layout => 'mau-admin'
