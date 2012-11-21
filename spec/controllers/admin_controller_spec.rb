@@ -326,10 +326,10 @@ describe AdminController do
     end
   end
 
+  let(tmpdir) { File.join(Dir.tmpdir, "backups") }
   context 'database backups' do 
     before do
-      @tmpdir = File.join(Dir.tmpdir, "backups")
-      Dir.mkdir(@tmpdir) unless File.exists?(@tmpdir)
+      Dir.mkdir(tmpdir) unless File.exists?(tmpdir)
     end
     context "when logged in" do
       before do
@@ -338,8 +338,8 @@ describe AdminController do
       describe "#fetch_backup" do 
         integrate_views
         before do
-          File.open("#{@tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
-          Dir.stubs(:glob => ["#{@tmpdir}/file1.tgz", "#{@tmpdir}/file2.tgz"])
+          File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
+          Dir.stubs(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
           get :fetch_backup, :name => "file1.tgz"
         end
         it "returns the file contents as text" do
@@ -348,10 +348,10 @@ describe AdminController do
       end
       describe '#db_backups' do
         before do
-          File.open("#{@tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
+          File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
           sleep(2)
-          File.open("#{@tmpdir}/file2.tgz",'w'){ |f| f.write('.tgz dump file contents2') }
-          Dir.stubs(:glob => ["#{@tmpdir}/file1.tgz", "#{@tmpdir}/file2.tgz"])
+          File.open("#{tmpdir}/file2.tgz",'w'){ |f| f.write('.tgz dump file contents2') }
+          Dir.stubs(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
         end
         context 'without views' do
           before do
@@ -385,12 +385,10 @@ describe AdminController do
     end
   end
 
-  let!(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
-  let!(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
+  let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
+  let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
   describe "helpers" do
     describe "compute_artists_per_day" do
-      before do
-      end
       it "returns an array" do
         artists_per_day.should be_a_kind_of(Array)
         artists_per_day.should have_at_least(6).items
@@ -443,8 +441,6 @@ describe AdminController do
       end
     end
     describe "compute_art_pieces_per_day" do
-      before do
-      end
       it "returns an array" do
         art_pieces_per_day.should be_a_kind_of(Array)
         art_pieces_per_day.should have_at_least(6).items
