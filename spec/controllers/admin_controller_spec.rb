@@ -326,7 +326,7 @@ describe AdminController do
     end
   end
 
-  let(tmpdir) { File.join(Dir.tmpdir, "backups") }
+  let(:tmpdir) { File.join(Dir.tmpdir, "backups") }
   context 'database backups' do 
     before do
       Dir.mkdir(tmpdir) unless File.exists?(tmpdir)

@@ -185,18 +185,21 @@ describe SearchController do
         end
       end
     end
+
+    let(:ap){ ArtPiece.last }
+
     context "finding by art piece title" do
       before do
-        @ap = ArtPiece.last
-        post :fetch, :keywords => @ap.title
+        post :fetch, :keywords => ap.title
       end
       it_should_behave_like 'search page with results'
       it "returns 1 result" do
         results = assigns(:pieces)
         results.should have(1).art_piece
-        results.first.title.should eql @ap.title
+        results.first.title.should eql ap.title
       end
     end
+
     context "find by 2 keywords which match the artist first name and a tag" do
       before do
         q = [art_piece_tags(:two).name, users(:joeblogs).firstname].join(", ")
@@ -216,14 +219,13 @@ describe SearchController do
 
     context "finding by art piece partial title" do
       before do
-        @ap = ArtPiece.last
-        post :fetch, :keywords => @ap.title.split.first
+        post :fetch, :keywords => ap.title.split.first
       end
       it_should_behave_like 'search page with results'
       it "returns at least 1 result" do
         results = assigns(:pieces)
         results.should have_at_least(1).art_piece
-        results.map(&:title).should include @ap.title
+        results.map(&:title).should include ap.title
       end
     end
     context "finding by tag" do
