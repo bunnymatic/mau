@@ -385,23 +385,24 @@ describe AdminController do
     end
   end
 
+  let!(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
+  let!(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
   describe "helpers" do
     describe "compute_artists_per_day" do
       before do
-        @artists_per_day = AdminController.new.send(:compute_artists_per_day)
       end
       it "returns an array" do
-        @artists_per_day.should be_a_kind_of(Array)
-        @artists_per_day.should have_at_least(6).items
+        artists_per_day.should be_a_kind_of(Array)
+        artists_per_day.should have_at_least(6).items
       end
       it "returns an entries have date and count" do
-        entry = @artists_per_day.first
+        entry = artists_per_day.first
         entry.should have(2).entries
         (Time.at(entry[0].to_i).to_date - Artist.active.all(:order => :created_at).last.created_at.to_date).should < 1.day
         entry[1].should >= 1
       end
       it "does not include nil dates" do
-        @artists_per_day.all?{|apd| !apd[0].nil?}.should be
+        artists_per_day.all?{|apd| !apd[0].nil?}.should be
       end
     end
     describe "compute_favorites_per_day" do
@@ -443,20 +444,19 @@ describe AdminController do
     end
     describe "compute_art_pieces_per_day" do
       before do
-        @art_pieces_per_day = AdminController.new.send(:compute_art_pieces_per_day)
       end
       it "returns an array" do
-        @art_pieces_per_day.should be_a_kind_of(Array)
-        @art_pieces_per_day.should have_at_least(6).items
+        art_pieces_per_day.should be_a_kind_of(Array)
+        art_pieces_per_day.should have_at_least(6).items
       end
       it "returns an entries have date and count" do
-        entry = @art_pieces_per_day.first
+        entry = art_pieces_per_day.first
         entry.should have(2).entries
         Time.at(entry[0].to_i).to_date.should == 2.hours.ago.to_date
         entry[1].should >= 1
       end
       it "does not include nil dates" do
-        @art_pieces_per_day.all?{|apd| !apd[0].nil?}.should be
+        art_pieces_per_day.all?{|apd| !apd[0].nil?}.should be
       end
     end
   end
