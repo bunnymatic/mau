@@ -26,7 +26,7 @@ describe ArtPieceTagsController do
       end
     end
     it "responds success if logged in as admin" do
-      login_as(:admin)
+      login_as(users(:admin))
       get endpoint
       response.should be_success
     end
@@ -61,7 +61,7 @@ describe ArtPieceTagsController do
   describe '#admin_index' do
     integrate_views
     before do
-      login_as(:admin)
+      login_as(users(:admin))
       get :admin_index
     end
     it_should_behave_like 'logged in as admin'
@@ -77,7 +77,7 @@ describe ArtPieceTagsController do
   describe '#cleanup' do
     integrate_views
     before do
-      login_as(:admin)
+      login_as(users(:admin))
     end
     it 'redirects to art_piece_tags page' do
       get :cleanup
