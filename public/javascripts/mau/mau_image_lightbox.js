@@ -35,8 +35,6 @@ ILB = Object.extend(ILB, {
       var imgdim = img.outerDimensions();
       var width = Math.min(0.9 * windim.width, imgdim.width);
       var $img = $(img);
-      $img.setAttribute('width', width);
-      $img.setAttribute('height', null);
 
       var $modal = $(this.settings.modalWindow);
       var dim = $modal.outerDimensions();

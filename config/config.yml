@@ -36,7 +36,7 @@ production:
    messaging_token: 'traemosekamog'
 
 common:
-   show_lightbox_feature: false
+   show_lightbox_feature: true
    feedback_emails:
       - feedback@missionartistsunited.org
       - maufeedback@bunnymatic.com
