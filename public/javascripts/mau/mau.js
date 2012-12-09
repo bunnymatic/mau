@@ -319,14 +319,14 @@ var TagMediaHelper = {
       var d = $('sampler');
       if (d) { 
 	var req = new Ajax.Request('/main/sampler', { method:'get',
-					    onSuccess: function(tr) {
-					      d.setOpacity(0);
-					      d.update('');
-					      var h = tr.responseText;
-					      var dummy = new Insertion.Top(d,h);
-					      d.appear();
-					    }
-					  });
+					              onSuccess: function(tr) {
+					                d.setOpacity(0);
+					                d.update('');
+					                var h = tr.responseText;
+					                var dummy = new Insertion.Top(d,h);
+					                d.appear();
+					              }
+					            });
         FR.requests.push(req);
       }
     },
@@ -401,8 +401,8 @@ var TagMediaHelper = {
   Event.observe(window, 'load', N.init);
   
   /** 
-     * scripty stuff related to artist and artist pages
-     */
+   * scripty stuff related to artist and artist pages
+   */
   ID_STUDIO_INFO_TOGGLE = 'studio_info_toggle';
   ID_LINKS_TOGGLE = 'links_toggle';
   ID_ARTIST_INFO_TOGGLE = 'info_toggle';
@@ -576,8 +576,8 @@ var TagMediaHelper = {
         });
       });
     }
-                 
-      
+    
+    
     A.init = function() {};
   };
 
@@ -631,7 +631,11 @@ var TagMediaHelper = {
     var zoomBtn = $$('.action-icons a.zoom');
     _.each(zoomBtn, function(zoom) {
       zoom.observe('click', function(ev) {
-        var t = ev.currentTarget;
+        var t = ev.currentTarget || ev.target;
+        /** current target/target work around for IE */
+        if (t.tagName == 'DIV' && /micro/.test(t.className)) { /* hit the zoom div */
+          t = t.up();
+        }
         MAU.ImageLightbox.init({image:{url: t.data('image'),
                                        width: t.data('imagewidth'),
                                        height: t.data('imageheight')
@@ -641,7 +645,7 @@ var TagMediaHelper = {
         ev.stopPropagation();
       });
     });
-           
+    
     var aafrm = $('arrange_art_form');
     if(aafrm) {
       aafrm.observe('submit', function(ev) {
@@ -726,9 +730,9 @@ var TagMediaHelper = {
     },
     get_image_path: function(fname, sz) {
       var sub = { thumb: "t_",
-	small:"s_",
-	medium: "m_",
-        original: ''};
+	          small:"s_",
+	          medium: "m_",
+                  original: ''};
       if (sz in sub) {
         var f = fname.replace(/^public\//,'/');
         f = f.replace(/^\/public\//,'/');
@@ -809,13 +813,12 @@ var TagMediaHelper = {
         if ($zoom) {
           if (ap.image_height > 400 || ap.image_width > 400) {
             var _that = this;
-            var el = $zoom[0];
-            el.show();
-            el.data('image', _that.get_image_path(ap.filename, 'original'));
-            el.data('imageheight', ap.image_height);
-            el.data('imagewidth', ap.image_width);
+            $zoom.show();
+            $zoom.data('image', _that.get_image_path(ap.filename, 'original'));
+            $zoom.data('imageheight', ap.image_height);
+            $zoom.data('imagewidth', ap.image_width);
           } else {
-            $zoom[0].hide();
+            $zoom.hide();
           }
         }
         var $favs = $$('.favorite_this');
@@ -1056,20 +1059,20 @@ var TagMediaHelper = {
       N.setWindowPosition();
       N.loading();
       var xhr = new Ajax.Updater(N.ID_CONTENT, '/users/' + aid + '/noteform',
-		       {
-			 method: 'get',
-			 onComplete: function(transport) {
-			   $(N.ID_CONTENT).removeClassName('note-loading');
-                           $(N.ID_FORM).focus_first();
-			   $(N.ID_FORM).observe('submit', N.submitNote);
-			   var b = $(N.ID_CLOSE_BTN);
-			   b.observe('click', function(){
-			     N.hideNote();
-			     return false;
-			   });
-			   MAU.addCommentBoxObserver($(N.ID_COMMENT));
-			 }
-		       });
+		                 {
+			           method: 'get',
+			           onComplete: function(transport) {
+			             $(N.ID_CONTENT).removeClassName('note-loading');
+                                     $(N.ID_FORM).focus_first();
+			             $(N.ID_FORM).observe('submit', N.submitNote);
+			             var b = $(N.ID_CLOSE_BTN);
+			             b.observe('click', function(){
+			               N.hideNote();
+			               return false;
+			             });
+			             MAU.addCommentBoxObserver($(N.ID_COMMENT));
+			           }
+		                 });
     }
     return false;				
   };
@@ -1154,7 +1157,7 @@ var TagMediaHelper = {
       G.showSection(s);
       return false;
     };
-      
+    
     // pick out special items 
     // shop -> cafe press
     // email -> mailto:
@@ -1411,17 +1414,17 @@ var TagMediaHelper = {
       var parent = this.up();
       if (favid && favtype && confirm("Are you sure you want to remove this favorite?")) {
 	var xhr = new Ajax.Request('/users/remove_favorite', 
-                         { method:'post',
-                           parameters: {fav_type: favtype,
-                                        fav_id: favid,
-                                        authenticityToken: authenticityToken,
-                                        format: 'json'},
-			   onSuccess: function(tr) {
-                             var blk = parent.up('.favorites-block');
-                             parent.remove();
-                             blk.fire('favorite:removed');
-			   }
-			 });
+                                   { method:'post',
+                                     parameters: {fav_type: favtype,
+                                                  fav_id: favid,
+                                                  authenticityToken: authenticityToken,
+                                                  format: 'json'},
+			             onSuccess: function(tr) {
+                                       var blk = parent.up('.favorites-block');
+                                       parent.remove();
+                                       blk.fire('favorite:removed');
+			             }
+			           });
       }
       ev.stop();
       return false;
