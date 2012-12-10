@@ -15,7 +15,7 @@ end
 
 describe UsersController do
  
-  fixtures :users, :roles_users
+  fixtures :users, :roles_users, :roles, :blacklist_domains
   fixtures :art_pieces
   fixtures :favorites # even though fixture is empty - this forces a db clear between tests
   fixtures :scammers
@@ -109,6 +109,32 @@ describe UsersController do
       response.should be_missing
     end
 
+    context 'with blacklisted domain' do
+      before do
+        # disable sweep of flash.now messages
+        # so we can test them
+        @controller.instance_eval{flash.stubs(:sweep)}
+        @controller.expects(:verify_recaptcha).returns(true)
+      end
+      it 'forbids email whose domain is on the blacklist' do
+        expect {
+          post :create, :mau_fan => { :login => 'newuser',
+            :password_confirmation => "blurpit", 
+            :lastname => "bmatic2", 
+            :firstname => "bmatic2", 
+            :password => "blurpit", 
+            :email => "bmatic2@blacklist.com" }, :type => "MAUFan" }.to change(User,:count).by(0)
+      end
+      it 'allows non blacklist domain to add a user' do
+        expect {
+          post :create, :mau_fan => { :login => 'newuser',
+            :password_confirmation => "blurpit", 
+            :lastname => "bmatic2", 
+            :firstname => "bmatic2", 
+            :password => "blurpit", 
+            :email => "bmatic2@nonblacklist.com" }, :type => "MAUFan" }.to change(User,:count).by(1)
+      end
+    end
     context "with invalid recaptcha" do
       before do
         # disable sweep of flash.now messages
@@ -123,12 +149,10 @@ describe UsersController do
           :email => "bmatic2@b.com" }, :type => "MAUFan" 
       end        
       it "reports that you should be human" do
-        pending
         response.should be_success
       end
       
       it "sets a flash.now indicating failure" do
-        pending
         flash.now[:error].should include 'human'
       end
     end
@@ -149,7 +173,6 @@ describe UsersController do
         end
         
         it "sets a flash.now indicating failure" do
-          pending
           post :create, :user => { :login => 'newuser' }, :type => "MAUFan" 
         end
       end

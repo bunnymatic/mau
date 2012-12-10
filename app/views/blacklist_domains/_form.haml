@@ -1,0 +1,9 @@
+- form_for(@domain) do |f|
+  = f.error_messages
+
+  %p
+    = f.label :domain
+    = f.text_field :domain
+    = f.submit 'Update'
+
+= link_to 'Back', blacklist_domains_path
