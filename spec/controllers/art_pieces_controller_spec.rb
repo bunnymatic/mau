@@ -70,7 +70,7 @@ describe ArtPiecesController do
         it 'includes the zoom data for big art pieces' do
           ap = @artpieces.first
           assert_select('a.zoom').each do |tag|
-            tag.attributes['data-image'].should eql ap.get_path('original')
+            tag.attributes['data-image'].should eql ap.get_path('large')
             tag.attributes['data-imagewidth'].should be
             tag.attributes['data-imageheight'].should be
           end

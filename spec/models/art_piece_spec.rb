@@ -41,37 +41,19 @@ describe ArtPiece do
       ap.save
     end
   end
-  describe "ImageDimensions helper" do
-    it "get_scaled_dimensions returns input dimension given art piece with no dimensions" do
-      a = art_pieces(:hot)
-      a.get_scaled_dimensions(100).should == [100,100]
-    end
-    it "get_scaled_dimensions returns input given art with negative dim" do 
-      a = art_pieces(:negative_size)
-      a.get_scaled_dimensions(100).should == [100,100]
-    end
-    it "get_scaled_dimensions returns the max of the dim given art with dimensions" do
-      a = art_pieces(:valid_dimensions)
-      a.get_scaled_dimensions(1000).should == [1000,500]
-    end
-    it "get_min_scaled_dimensions returns the max of the dim given art with dimensions" do
-      a = art_pieces(:valid_dimensions)
-      a.get_min_scaled_dimensions(400).should == [800,400]
-    end
-  end
 
   describe '#dimensions' do
     it 'computes proper dimension' do
       a = art_pieces(:hot)
-      a.dimensions[:small].should == [0,0]
+      a.compute_dimensions[:small].should == [0,0]
       
       a = art_pieces(:negative_size)
-      a.dimensions[:medium].should == [0,0]
-      a.dimensions[:large].should == [0,0]
+      a.compute_dimensions[:medium].should == [0,0]
+      a.compute_dimensions[:large].should == [0,0]
 
       a = art_pieces(:h1024w2048)
-      a.dimensions[:medium].should == [400,200]
-      a.dimensions[:large].should == [800,400]
+      a.compute_dimensions[:medium].should == [400,200]
+      a.compute_dimensions[:large].should == [800,400]
     end
   end
 

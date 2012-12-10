@@ -377,25 +377,11 @@ describe User do
   describe '#dimensions' do
     it 'computes proper dimension' do
       a = users(:joeblogs)
-      a.dimensions[:thumb].should == [100,33]
-      a.dimensions[:small].should == [200,66]
-      a.dimensions[:medium].should == [400,133]
-      a.dimensions[:large].should == [800,266]
+      a.compute_dimensions[:thumb].should == [100,33]
+      a.compute_dimensions[:small].should == [200,66]
+      a.compute_dimensions[:medium].should == [400,133]
+      a.compute_dimensions[:large].should == [800,266]
     end
   end
 
-  describe "ImageDimensions helper" do
-    it "get_scaled_dimensions returns input dimension given user profile with no dimensions" do
-      u = users(:maufan1)
-      u.get_scaled_dimensions(100).should == [100,100]
-    end
-    it "get_scaled_dimensions returns the max of the dim given user profile with dimensions" do
-      u = users(:joeblogs)
-      u.get_scaled_dimensions(1000).should == [1000,333]
-    end
-    it "get_min_scaled_dimensions returns the max of the dim given art with dimensions" do
-      u = users(:joeblogs)
-      u.get_min_scaled_dimensions(11).should == [33,11]
-    end
-  end
 end
