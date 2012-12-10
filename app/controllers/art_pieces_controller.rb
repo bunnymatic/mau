@@ -98,11 +98,9 @@ class ArtPiecesController < ApplicationController
       :original => compute_actual_image_size('original', @art_piece),
       :medium => compute_actual_image_size('medium', @art_piece)
     }
-    if (@art_piece_dimensions[:original][0] > @art_piece_dimensions[:medium][0])
-      @zoomed_art_piece_path = @art_piece.get_path('original')
-      @zoomed_width = @art_piece_dimensions[:original][0]
-      @zoomed_height = @art_piece_dimensions[:original][1]
-    end
+    @zoomed_art_piece_path = @art_piece.get_path('original')
+    @zoomed_width = @art_piece_dimensions[:original][0]
+    @zoomed_height = @art_piece_dimensions[:original][1]
     
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }
