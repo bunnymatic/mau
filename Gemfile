@@ -31,7 +31,7 @@ gem 'event-calendar', :require => 'event_calendar'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
-gem "recaptcha", "= 0.3.0", :require => "recaptcha/rails"
+gem "recaptcha", :require => "recaptcha/rails"
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'

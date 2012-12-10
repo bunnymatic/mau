@@ -38,8 +38,8 @@ production:
    messaging_token: 'traemosekamog'
 
 common:
-   recaptcha_public_key: '6Lc9BNkSAAAAAOmI_O3g_I9ky4IFIdHnY7YDU3Gc'
-   recaptcha_private_key: '6Lc9BNkSAAAAAAHJ-NxXih62VuSsqnUx3EJc91Bo'
+   recaptcha_public_key: 6Lc9BNkSAAAAAOmI_O3g_I9ky4IFIdHnY7YDU3Gc
+   recaptcha_private_key: 6Lc9BNkSAAAAAAHJ-NxXih62VuSsqnUx3EJc91Bo
 
    show_lightbox_feature: true
    feedback_emails:
