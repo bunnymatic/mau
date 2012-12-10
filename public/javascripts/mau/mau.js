@@ -811,15 +811,10 @@ var TagMediaHelper = {
 
         var $zoom = $$('a.zoom')[0];
         if ($zoom) {
-          if (ap.image_height > 400 || ap.image_width > 400) {
-            var _that = this;
-            $zoom.show();
-            $zoom.data('image', _that.get_image_path(ap.filename, 'original'));
-            $zoom.data('imageheight', ap.image_height);
-            $zoom.data('imagewidth', ap.image_width);
-          } else {
-            $zoom.hide();
-          }
+          var _that = this;
+          $zoom.data('image', _that.get_image_path(ap.filename, 'original'));
+          $zoom.data('imageheight', ap.image_height);
+          $zoom.data('imagewidth', ap.image_width);
         }
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {
