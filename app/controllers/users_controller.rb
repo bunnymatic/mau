@@ -153,8 +153,7 @@ class UsersController < ApplicationController
     if @user.url && @user.url.index('http') != 0
       @user.url = 'http://' + @user.url
     end
-    @user.valid?
-    if !verify_recaptcha
+    unless verify_recaptcha
       @user.errors.add(:base, "Failed to prove that you're human.  Re-type your password and the blurry words at the bottom before re-submitting.")
     end
     success = @user.errors.empty? && @user.save
