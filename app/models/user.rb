@@ -71,6 +71,7 @@ class User < ActiveRecord::Base
 
   # custom validations
   validate :validate_username
+  validate :validate_email
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
@@ -239,6 +240,10 @@ class User < ActiveRecord::Base
 
   def validate_phone
     errors.add(:phone, 'is an invalid phone number, must contain at least 5 digits, only the following characters are allowed: 0-9/-()+') unless User.valid_phone?(phone)
+  end
+
+  def validate_email
+    errors.add(:email, 'is an invalid email') unless BlacklistDomain::is_allowed?(email)
   end
 
   def validate_username

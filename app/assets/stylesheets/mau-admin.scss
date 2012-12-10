@@ -595,3 +595,24 @@ button.update-artists {
     }
   }
 }
+
+.blacklist_domains {
+  .container {
+    width: 85%;
+    margin: auto;
+  }
+  ul {
+    padding-top: 5px;
+    margin-top: 15px;
+    @extend .clearfix;
+    border-top: 1px dotted #999;
+  }
+  .domain {
+    width: 200px;
+    float: left;
+    margin: 6px;
+    span {
+      padding: 10px 0;
+    }
+  }
+}

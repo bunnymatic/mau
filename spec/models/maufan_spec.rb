@@ -20,7 +20,7 @@ describe MAUFan do
       a.should have(2).error_on(:password)
       a.should have(1).error_on(:password_confirmation)
       a.should have_at_least(2).error_on(:login)
-      a.should have(3).error_on(:email)
+      a.should have(4).error_on(:email)
     end
     
     it "should be valid fan" do 

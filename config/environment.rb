@@ -72,8 +72,8 @@ require 'tag_extensions'
 Mime::Type.register "image/png", :png
 
 Recaptcha.configure do |config|
-  config.public_key  = '6Lc9BNkSAAAAAOmI_O3g_I9ky4IFIdHnY7YDU3Gc'
-  config.private_key = '6Lc9BNkSAAAAAAHJ-NxXih62VuSsqnUx3EJc91Bo'
+  config.public_key  = c.recaptcha_public_key
+  config.private_key = c.recaptcha_private_key
 end
 
 puts "Environment: #{Rails.env}"

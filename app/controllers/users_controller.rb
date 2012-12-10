@@ -141,31 +141,11 @@ class UsersController < ApplicationController
     user_params = {}
     type = params[:type] || @@DEFAULT_ACCOUNT_TYPE
     params.delete :type
-    user_params = params[:artist] || params[:mau_fan] || params[:user] || {}
-    if user_params.empty?
-      logger.debug("Failed to create account - bad/empty params")
-      render_not_found Exception.new("We can't create a user based on your input parameters.")
-      return
-    end
-    @user = nil
     @type = type
 
-    if type == 'Artist'
-      # studio_id is in artist info
-      studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
-      @user = nil
-      if studio_id > 0
-        studio = Studio.find(studio_id)
-        if studio
-          @user = studio.artists.build(user_params)
-        end
-      else
-        @user = Artist.new(user_params)
-      end
-    elsif type == 'MAUFan' || type == 'User'
-      user_params[:login] = user_params[:login] || user_params[:email]
-      @user = MAUFan.new(user_params)
-    else
+    # validate email domain
+    build_user_from_params
+    if @user.nil?
       logger.debug("Failed to create account - bad/empty params")
       render_not_found Exception.new("We can't create a user based on your input parameters.")
       return
@@ -173,12 +153,13 @@ class UsersController < ApplicationController
     if @user.url && @user.url.index('http') != 0
       @user.url = 'http://' + @user.url
     end
-    @user.errors.add(:base, "Failed to prove that you're human.  Re-type your password and the blurry words at the bottom before re-submitting.") if !verify_recaptcha
-    success = @user && @user.valid? && @user.save
-    @user.register! if success
-    errs = @user.errors
-
-    if success && errs.empty?
+    @user.valid?
+    if !verify_recaptcha
+      @user.errors.add(:base, "Failed to prove that you're human.  Re-type your password and the blurry words at the bottom before re-submitting.")
+    end
+    success = @user.errors.empty? && @user.save
+    if success
+      @user.register!
       # Protects against session fixation attacks, causes request forgery
       # protection if visitor resubmits an earlier form using back
       # button. Uncomment if you understand the tradeoffs.
@@ -452,5 +433,27 @@ class UsersController < ApplicationController
     end
   end
 
+  def build_user_from_params
+    @user = nil
+    user_params = params[:artist] || params[:mau_fan] || params[:user] || {}
+    if user_params.empty?
+      return
+    end
+    if @type == 'Artist'
+      # studio_id is in artist info
+      studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
+      if studio_id > 0
+        studio = Studio.find(studio_id)
+        if studio
+          @user = studio.artists.build(user_params)
+        end
+      else
+        @user = Artist.new(user_params)
+      end
+    elsif @type == 'MAUFan' || @type == 'User'
+      user_params[:login] = user_params[:login] || user_params[:email]
+      @user = MAUFan.new(user_params)
+    end
+  end
 end
 

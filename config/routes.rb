@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :blacklist_domains
   map.resources :roles
   map.resources :cms_documents
   map.resources :media
