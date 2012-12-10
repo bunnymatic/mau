@@ -1,4 +1,35 @@
 module ImageDimensions
+
+  def compute_dimensions
+    dims = ImageFile::ImageSizes.all.keys.inject({}) do |r,k|
+      
+      key= ImageFile::ImageSizes.keymap(k)
+      sz = ImageFile::ImageSizes.all[key]
+      if !sz
+        r[k] = [0,0]
+      elsif k == :original
+        r[k] = [image_width.to_i, image_height.to_i]
+      else
+        maxdim = [sz.width, sz.height].max
+        wd = ht = 0
+        
+        if image_width.to_i > 0 and image_height.to_i> 0
+          rt = image_height.to_f / image_width.to_f
+          if rt < 1.0
+            wd = maxdim.to_i
+            ht = (wd * rt).to_i
+          else
+            ht = maxdim.to_i
+            wd = (ht / rt).to_i
+          end
+        end
+        r[k] = [wd,ht]
+      end
+      r
+    end
+    Hashie::Mash.new(dims)
+  end
+
   def get_scaled_dimensions(maxdim)
     # given maxdim, return width and height such that the max of width
     # or height = maxdim, and the other is scaled to the right aspect

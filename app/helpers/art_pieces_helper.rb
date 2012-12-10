@@ -44,34 +44,6 @@ module ArtPiecesHelper
     [ shows, nextpage, prevpage, curpage, lastpage ]
   end
 
-  # compute real image size given piece (which has wd/ht) and
-  # size (string) indicating what we're drawing
-  #   size must be "small", "thumb", "orig", 'large', 'medium'
-  # return wd, ht
-  def compute_actual_image_size(size, piece)
-    size = ImageFile::ImageSizes::keymap(size)
-    if size == :original
-      return [piece.image_width, piece.image_height]
-    end
-    sz = ImageFile.sizes[size]
-    if !sz
-      return 0,0
-    end
-    maxdim = [sz.width, sz.height].max
-    wd = ht = 0
-    if piece.image_width > 0 and piece.image_height > 0
-      rt = piece.image_height.to_f / piece.image_width.to_f
-      if rt < 1.0
-        wd = maxdim.to_i
-        ht = (wd * rt).to_i
-      else
-        ht = maxdim.to_i
-        wd = (ht / rt).to_i
-      end
-    end
-    return wd,ht
-  end
-
   def self.fb_share_link(artpiece)
     url = artpiece.get_share_link(true)
     raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name() 

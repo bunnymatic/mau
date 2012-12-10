@@ -61,14 +61,6 @@ class ArtPiecesController < ApplicationController
         thumb[:link] = art_piece_url(item)
         @thumbs << thumb
       end
-      @content_width = @thumbs.length * sz
-      if @init_offset > -250
-        @init_offset = 0
-      elsif @init_offset < 500 - @content_width
-        @init_offset = 500 - @content_width
-      else
-        @init_offset += 250
-      end
     end
   end
 
@@ -94,14 +86,12 @@ class ArtPiecesController < ApplicationController
       @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
     end
     self._setup_thumb_browser_data(pieces, apid)
-    @art_piece_dimensions = {
-      :original => compute_actual_image_size('original', @art_piece),
-      :medium => compute_actual_image_size('medium', @art_piece)
-    }
-    @zoomed_art_piece_path = @art_piece.get_path('original')
-    @zoomed_width = @art_piece_dimensions[:original][0]
-    @zoomed_height = @art_piece_dimensions[:original][1]
-    
+    @art_piece_dimensions = @art_piece.compute_dimensions
+
+    @zoomed_art_piece_path = @art_piece.get_path('large')
+    @zoomed_width = @art_piece_dimensions[:large][0]
+    @zoomed_height = @art_piece_dimensions[:large][1]
+
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }
       format.json { 
@@ -127,6 +117,8 @@ class ArtPiecesController < ApplicationController
           h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
         end
         h['art_piece'].merge!(:favorites_count => @favorites_count)
+        h['art_piece']['image_dimensions'] = @art_piece.compute_dimensions
+        h['art_piece']['image_files'] = @art_piece.get_paths
         render :json => h.to_json
       }
     end

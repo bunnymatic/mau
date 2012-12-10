@@ -60,6 +60,21 @@ describe ArtPiece do
     end
   end
 
+  describe '#dimensions' do
+    it 'computes proper dimension' do
+      a = art_pieces(:hot)
+      a.dimensions[:small].should == [0,0]
+      
+      a = art_pieces(:negative_size)
+      a.dimensions[:medium].should == [0,0]
+      a.dimensions[:large].should == [0,0]
+
+      a = art_pieces(:h1024w2048)
+      a.dimensions[:medium].should == [400,200]
+      a.dimensions[:large].should == [800,400]
+    end
+  end
+
   describe "get_new_art" do 
     before do
       Rails.cache.stubs(:read).returns(nil)

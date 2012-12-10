@@ -15,6 +15,7 @@ gem 'mojo_magick'
 gem 'passenger', '3.0.12'
 gem 'dalli', '~> 1.x'
 gem 'has_many_polymorphs'
+gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
 gem 'mobile-fu', '2.x', :git => 'git://github.com/brendanlim/mobile-fu.git'

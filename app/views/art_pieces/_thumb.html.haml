@@ -9,7 +9,7 @@
       linkto = art_piece_path(piece)
     end
     dim = ""
-    wd, ht = compute_actual_image_size(size, piece)
+    wd, ht = piece.compute_dimensions[size]
     if wd > 0 and ht > 0
       dim = wd
     end        

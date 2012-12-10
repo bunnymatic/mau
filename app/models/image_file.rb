@@ -32,7 +32,6 @@ class ImageFile
       (@@sizes.include? k) ? @@sizes[keymap(sz)].height : 0
     end
 
-
     def self.keymap(sz) 
       case sz.to_s
       when "orig"

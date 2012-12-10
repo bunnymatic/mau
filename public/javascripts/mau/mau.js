@@ -728,23 +728,24 @@ var TagMediaHelper = {
         return null;
       }
     },
-    get_image_path: function(fname, sz) {
-      var sub = { thumb: "t_",
-	          small:"s_",
-	          medium: "m_",
-                  original: ''};
-      if (sz in sub) {
-        var f = fname.replace(/^public\//,'/');
-        f = f.replace(/^\/public\//,'/');
-	var reg = /(^\/*artistdata\/\d+\/imgs\/)(.*)/;
-	f = f.replace(reg, "$1"+sub[sz]+"$2");
-	if (f[0] != '/') {
-	  f = '/'+f;
-	}
-	return f;
-      }
-      return fname;
-    },
+    // get_image_path: function(fname, sz) {
+    //   var sub = { thumb: "t_",
+    //               small:"s_",
+    //               medium: "m_",
+    //               large: "l_",
+    //               original: ''};
+    //   if (sz in sub) {
+    //     var f = fname.replace(/^public\//,'/');
+    //     f = f.replace(/^\/public\//,'/');
+    //     var reg = /(^\/*artistdata\/\d+\/imgs\/)(.*)/;
+    //     f = f.replace(reg, "$1"+sub[sz]+"$2");
+    //     if (f[0] != '/') {
+    //       f = '/'+f;
+    //     }
+    //     return f;
+    //   }
+    //   return fname;
+    // },
     safe_update: function(id, val) {
       var el = $(id);
       if (el) { el.update(val ? val : ''); }
@@ -761,10 +762,9 @@ var TagMediaHelper = {
     },
     update_info: function(ap) {
       var dummy = null;
-      var f = ap.filename;
+      var f = ap.image_files.medium;
       var img = $('artpiece_img');
       if (f) {
-	f = this.get_image_path(f,'medium');
 	img.src = f;
 	this.safe_update('artpiece_title',ap.title);
 	this.safe_update('ap_title', ap.title);
@@ -812,9 +812,9 @@ var TagMediaHelper = {
         var $zoom = $$('a.zoom')[0];
         if ($zoom) {
           var _that = this;
-          $zoom.data('image', _that.get_image_path(ap.filename, 'original'));
-          $zoom.data('imageheight', ap.image_height);
-          $zoom.data('imagewidth', ap.image_width);
+          $zoom.data('image', ap.image_files.large);
+          $zoom.data('imageheight', ap.image_dimensions.large[1]);
+          $zoom.data('imagewidth', ap.image_dimensions.large[0]);
         }
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {

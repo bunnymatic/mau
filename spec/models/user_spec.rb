@@ -374,6 +374,16 @@ describe User do
     end
   end
 
+  describe '#dimensions' do
+    it 'computes proper dimension' do
+      a = users(:joeblogs)
+      a.dimensions[:thumb].should == [100,33]
+      a.dimensions[:small].should == [200,66]
+      a.dimensions[:medium].should == [400,133]
+      a.dimensions[:large].should == [800,266]
+    end
+  end
+
   describe "ImageDimensions helper" do
     it "get_scaled_dimensions returns input dimension given user profile with no dimensions" do
       u = users(:maufan1)
