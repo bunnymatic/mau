@@ -135,7 +135,7 @@ module ArtistsHelper
     img = ''
     # tried to add title to these links, but it seems google maps
     # is too smart for that.
-    if (ap)
+    if (ap && ap.is_a?(ArtPiece))
       img = "<a class='lkdark' href='%s'><img src='%s'/></a>" % [ artist_path(artist), ap.get_path('thumb') ]
       html += '<div class="_mau1" style="float:right;">%s</div>' % img
     end
