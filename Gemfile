@@ -1,6 +1,6 @@
 source :gemcutter
 gem 'racc'
-gem "rails", '2.3.15'
+gem "rails", '2.3.16'
 gem "geokit"
 gem "geokit-rails"
 gem "nokogiri"
