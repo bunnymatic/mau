@@ -441,46 +441,47 @@ class ArtistsController < ApplicationController
   end
 
   def update
-    if commit_is_cancel
-      redirect_to user_path(current_user)
-      return
-    end
-    begin
-      if params[:emailsettings]
-        em = params[:emailsettings]
-        em2 = {}
-        em.each_pair do |k,v| 
-          em2[k] = ( v.to_i != 0 ? true : false)
-        end
-        params[:artist][:email_attrs] = em2.to_json
-      end
-      # clean os from radio buttons
-      artist_info = params[:artist][:artist_info]
-      params[:artist].delete(:artist_info)
-      
-      os = artist_info[:os_participation]
-      if !os.nil? 
-        # trueify params 
-        os = Hash[os.map{|k,v| [k, (v==true || v=='true' || v=='on' || v=='1' || v==1)]}]
-        if os.value?(true) 
-          if current_artist.address.blank?
-            raise "You don't appear to have a street address set.  If you are going to do Open Studios, please make sure you have a valid street address in 94110 zipcode (or studio affiliation) before setting your Open Studios status to YES."
+    params.symbolize_keys!
+    if request.xhr?
+      if params.has_key?(:artist_os_participation)
+        participating = (params[:artist_os_participation].to_i != 0)
+        if participating != current_artist.artist_info.os_participation[Conf.oslive]
+          begin
+            unless current_artist.address.blank?
+              ai = current_artist.artist_info
+              ai.update_os_participation(Conf.oslive, participating)
+              OpenStudiosSignupEvent.create(:message => "#{current_artist.fullname} set their os status to #{participating} for #{Conf.oslive} open studios",
+                                            :data => {'user' => current_artist.login, 'user_id' => current_artist.id})
+              ai.save!
+            end
+          rescue 
           end
-          OpenStudiosSignupEvent.create(:message => "#{current_artist.fullname} signed up for #{os.inspect} open studios",
-                                        :data => {'user' => current_artist.login, 'user_id' => current_artist.id})
-
         end
-        current_artist.artist_info.os_participation = os
-        artist_info.delete(:os_participation)
       end
-      current_artist.artist_info.update_attributes!(artist_info)
-      current_artist.update_attributes!(params[:artist])
-      flash[:notice] = "Update successful"
-      Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
-      redirect_to edit_artist_url(current_user)
-    rescue 
-      flash[:error] = "%s" % $!
-      redirect_to edit_artist_url(current_user)
+      Messager.new.publish "/artists/#{current_artist.id}/update", "updated os info"
+      render :json => {:success => true}
+    else
+      if commit_is_cancel
+        redirect_to user_path(current_user)
+        return
+      end
+      begin
+        if params[:emailsettings]
+          em = params[:emailsettings]
+          em = Hash[em.map{|k,v| [k, !!v.to_i]}]
+          params[:artist][:email_attrs] = em.to_json
+        end
+        artist_info = params[:artist].delete :artist_info
+        current_artist.artist_info.update_attributes!(artist_info)
+        current_artist.update_attributes!(params[:artist])
+        flash[:notice] = "Update successful"
+        Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
+        
+        redirect_to edit_artist_url(current_user)
+      rescue 
+        flash[:error] = "%s" % $!
+        redirect_to edit_artist_url(current_user)
+      end
     end
   end
 

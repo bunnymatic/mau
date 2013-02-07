@@ -466,29 +466,21 @@ var TagMediaHelper = {
     return false;
   };
   A.clickYepNope = function(type) {
-    var sel = '.radio-container.' + type + ' input[type=radio]';
-    var radio = $$(sel);
-    var joining = null;
+    var sel = 'artist_os_participation';
+    var new_setting = parseInt($(sel).value,10)
     var msg = null;
-    if (radio && radio.length) {
-      radio = radio.first();
-      if (type === 'nope') {
-        msg = 'So sorry you\'re not going to participate this year.'+
-          ' We\'d love to know why.  Tell us via the feedback link'+
-          ' at the bottom of the page.';
-      } else {
-        msg = 'Super!  The more the merrier!';
-      }
-      $(radio).writeAttribute('checked', 'checked');
-
+    if (!new_setting) {
+      msg = 'So sorry you\'re not going to participate this year.'+
+        ' We\'d love to know why.  Tell us via the feedback link'+
+        ' at the bottom of the page.';
+    } else {
+      msg = 'Super!  The more the merrier!';
     }
     // submit via ajax
     var submitForm = $$('form.edit_artist').first();
     if (submitForm) {
       submitForm.request({onComplete:function() {
-        var setting = type.charAt(0).toUpperCase() + type.slice(1);
-        $$('.os-status span').first().innerHTML = type.charAt(0).toUpperCase() + type.slice(1);
-        if (type == 'yep') {
+        if(new_setting) {
           $$('#artist_edit .os-violator')[0].show();
         }
         else
@@ -500,15 +492,19 @@ var TagMediaHelper = {
     }
   };
   A.clickYep = function() {
+    var sel = 'artist_os_participation';
+    $(sel).value = 1;
     A.clickYepNope('yep');
   };
   A.clickNope = function() {
+    var sel = 'artist_os_participation';
+    $(sel).value = 0;
     A.clickYepNope('nope');
   };
 
   A.bindYepNopeButtons = function() {
-    var yep = $$('.yes-no-radios .radio-container.yep .formbutton');
-    var nope = $$('.yes-no-radios .radio-container.nope .formbutton');
+    var yep = $$('#events .yep.formbutton');
+    var nope = $$('#events .nope.formbutton');
     if (yep && (yep.length > 0) && nope && (nope.length > 0)) {
       var $yep = $(yep[0]);
       var $nope = $(nope[0]);

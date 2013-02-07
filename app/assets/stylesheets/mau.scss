@@ -386,18 +386,13 @@ input[type=checkbox]:checked {
         margin: 10px auto;
       }
     }
-    .yes-no-radios {
+    .buttons {
       margin: auto;
       width: 220px;
       text-align: center;
-      input[type=radio] { 
-        display:none;
-      }
-      .radio-container {
-        float: left;
-        width: 110px;
-      }
       .formbutton {
+        width: 82px;
+        float: left;
         margin: 0 10px;
         padding: 2px;
         @include small-rounded-corners;
@@ -407,9 +402,6 @@ input[type=checkbox]:checked {
           color: $black;
         }
       }
-    }
-    .buttons {
-      display: none;
     }
     .os-status span {
       color: $white;
@@ -685,14 +677,17 @@ input[type=submit], .formbutton {
   background-position: 0 -90px;
   border:outset 1px $xlightgray;
   color:$darkbluegray;
-  cursor:pointer;
   font-weight:bold;
-  padding: 3px 4px;
+  cursor:pointer;
+  text-transform: lowercase;
+  padding: 5px;
   &:hover {
     @include opacity(0.85);
   }
 }
-
+.buttons input[type=submit] {
+  @include small-rounded-corners;
+}
 .formbutton {
   overflow: visible; /* seems to keep ie from adding extra moz */ 
   @include small-rounded-corners;
