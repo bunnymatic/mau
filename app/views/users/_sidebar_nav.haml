@@ -3,6 +3,7 @@
     %ul
       :ruby
         listitems = [ "<a href='" + edit_artist_path(current_artist) + "'>edit my page</a>",
+                      "<a href='#{edit_artist_path(current_artist)}#events'>open studio artist</a>",
                       "<a href='/art_pieces/new'>add art</a>",
                       "<a href='#{arrangeart_artists_path}'>arrange art</a>",
                       "<a href='#{deleteart_artists_path}'>delete art</a>",

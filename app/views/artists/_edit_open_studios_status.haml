@@ -1,0 +1,28 @@
+.edit-profile-sxn#events{:style=> "display:none;"}
+  .inner-sxn
+    - if !current_user.address.present?
+      %p You need to specify an address or studio affiliation to sign up for Open Studios!
+      %p 
+        Check the 
+        %em Address/Studio Info
+        section below.
+    - else
+      :ruby
+        data = Hash[@openstudios_question.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
+      %p.markdown.editable{data}
+        = @openstudios_question[:content]
+
+      %p.os-status
+        Your current answer is : 
+        %span #{@artist_info.os_participation[Conf.oslive.to_s] ? 'Yep' : 'Nope'}
+      = f.error_messages
+      = hidden_field_tag :artist_os_participation, @artist_info.os_participation[Conf.oslive.to_s]
+      .buttons
+        .formbutton.yep Yep
+        .formbutton.nope Nope
+      .clear.donate
+        And if you'd like to donate to help with our Open Studios promotion and keep this system running, here's a paypal donate button.  Thanks!
+        %a#donate_for_openstudios{:href=> "#"}
+          .donate_btn
+      .clear
+

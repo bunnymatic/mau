@@ -180,6 +180,11 @@ describe ArtistsController do
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'false' }}}}
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil
         end
+        it "updates artists os status to true" do
+          xhr :put, :update, :artist_os_participation => '1'
+          User.find(@logged_in_user.id).os_participation[Conf.oslive.to_s].should be_true
+        end
+
         it "sets false if artist has no address" do
           ai = @logged_in_user.artist_info
           ai.lat = nil
@@ -193,13 +198,13 @@ describe ArtistsController do
           @logged_in_user.studio_id = 0
           @logged_in_user.save
           @logged_in_user.reload
-          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => false }}}}
+          xhr :put, :update, { :commit => 'submit', :artist_os_participation => '0' }
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil
         end
         it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
           FakeWeb.register_uri(:get, Regexp.new( "http:\/\/example.com\/openstudios.*" ), {:status => 200})
           expect {
-            put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201210' => 'true' }}}}
+            xhr :put, :update, { :commit => 'submit', :artist_os_participation => '1' }
           }.to change(OpenStudiosSignupEvent,:count).by(1)
         end
         

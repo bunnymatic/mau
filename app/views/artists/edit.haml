@@ -25,40 +25,7 @@
         %span.edit>
           %a#events_toggle_lnk{:href=> "#events"}> change
       .clear
-      .edit-profile-sxn#events{:style=> "display:none;"}
-        .inner-sxn
-          - if !current_user.address.present?
-            %p You need to specify an address or studio affiliation to sign up for Open Studios!
-            %p 
-              Check the 
-              %em Address/Studio Info
-              section below.
-          - else
-            :ruby
-              data = Hash[@openstudios_question.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
-            %p.markdown.editable{data}
-              = @openstudios_question[:content]
-
-            %p.os-status
-              Your current answer is : 
-              %span #{@artist_info.os_participation[Conf.oslive.to_s] ? 'Yep' : 'Nope'}
-            = f.error_messages
-            .yes-no-radios
-              .radio-container.yep
-                = radio_button_tag "#{f.object_name}[artist_info[os_participation[#{Conf.oslive}]]]", "true",  @artist_info.os_participation['201110']
-                .formbutton Yep
-              .radio-container.nope
-                = radio_button_tag "#{f.object_name}[artist_info[os_participation[#{Conf.oslive}]]]", "false",  (!@artist_info.os_participation['201110'])
-                .formbutton Nope
-            .clear.donate
-              And if you'd like to donate to help with our Open Studios promotion and keep this system running, here's a paypal donate button.  Thanks!
-              %a#donate_for_openstudios{:href=> "#"}
-                .donate_btn
-            .clear
-          .buttons
-            = f.submit 'Save Changes'
-            = f.submit 'Cancel'
-
+      = render :partial => "edit_open_studios_status", :locals => {:f => f}      
       = render :partial => "/users/edit_notifications", :locals => {:f => f}
       = render :partial => "/users/edit_links", :locals => {:f => f}
 
@@ -113,13 +80,14 @@
     = render :partial => "/users/edit_deactivate"
 
   .edit-buttons
-    - form_tag new_art_piece_path(), :method=> "get" do
-      %input{:class=> "formbutton", :type =>  "submit",:value=> "Add Art" }
-    - if current_user.art_pieces.length > 0 
-      - if current_user.art_pieces.length > 1 
-        - form_tag arrangeart_artists_path(), :method => "get" do
-          %input{:class=> "formbutton", :type =>  "submit",:value=> "Arrange Art" }
-        - form_tag deleteart_artists_path(), :method => "get" do
-          %input{:class=> "formbutton",:type =>  "submit",:value=> "Delete Art" }
+    - if !current_user.art_pieces.any?
+      = link_to "Upload some of your art to share with the world!", new_art_piece_path
+    - if current_user.art_pieces.length > 1 
+      - form_tag new_art_piece_path(), :method=> "get" do
+        %input{:class=> "formbutton", :type =>  "submit",:value=> "Add Art" }
+      - form_tag arrangeart_artists_path(), :method => "get" do
+        %input{:class=> "formbutton", :type =>  "submit",:value=> "Arrange Art" }
+      - form_tag deleteart_artists_path(), :method => "get" do
+        %input{:class=> "formbutton",:type =>  "submit",:value=> "Delete Art" }
       %a{:href=> artist_path(current_user)}
         %button.formbutton Back to Profile
