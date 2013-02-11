@@ -8,18 +8,18 @@ GEM
   remote: http://rubygems.org/
   specs:
     ZenTest (4.5.0)
-    actionmailer (2.3.16)
-      actionpack (= 2.3.16)
-    actionpack (2.3.16)
-      activesupport (= 2.3.16)
+    actionmailer (2.3.17)
+      actionpack (= 2.3.17)
+    actionpack (2.3.17)
+      activesupport (= 2.3.17)
       rack (~> 1.1.0)
-    activerecord (2.3.16)
-      activesupport (= 2.3.16)
+    activerecord (2.3.17)
+      activesupport (= 2.3.17)
     activerecord-mysql2-adapter (0.0.3)
       mysql2
-    activeresource (2.3.16)
-      activesupport (= 2.3.16)
-    activesupport (2.3.16)
+    activeresource (2.3.17)
+      activesupport (= 2.3.17)
+    activesupport (2.3.17)
     addressable (2.2.8)
     autotest-rails (4.1.2)
       ZenTest (~> 4.5)
@@ -150,15 +150,15 @@ GEM
       mojo_magick
       rqrcode
     racc (1.4.8)
-    rack (1.1.5)
+    rack (1.1.6)
     rack-cors (0.2.7)
       rack
-    rails (2.3.16)
-      actionmailer (= 2.3.16)
-      actionpack (= 2.3.16)
-      activerecord (= 2.3.16)
-      activeresource (= 2.3.16)
-      activesupport (= 2.3.16)
+    rails (2.3.17)
+      actionmailer (= 2.3.17)
+      actionpack (= 2.3.17)
+      activerecord (= 2.3.17)
+      activeresource (= 2.3.17)
+      activesupport (= 2.3.17)
       rake (>= 0.8.3)
     rainbow (1.1.4)
     rake (10.0.3)
@@ -236,7 +236,7 @@ DEPENDENCIES
   qr4r
   racc
   rack-cors
-  rails (= 2.3.16)
+  rails (= 2.3.17)
   rdiscount
   recaptcha
   rosie
