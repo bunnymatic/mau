@@ -18,8 +18,11 @@
          if artist.artist_info
            os_star = artist.os_participation[Conf.oslive.to_s]
          end
-         
-         piece = (!artist.representative_piece.nil? ? artist.representative_piece.get_path('small') : artist.get_profile_image('small')) -%>
+         piece = artist.get_profile_image :small
+         if artist.representative_piece
+           piece = artist.representative_piece.get_path 'small'
+         end
+      %>
       <li><a href="<%= artist_path(artist) %>"><div class="thumb" style="background-image:url(<%= piece %>); "></div></a>
         <%= '<div class="os-star"></div>' if artist.os_participation[Conf.oslive.to_s] %>
       </li>

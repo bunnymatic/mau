@@ -33,6 +33,7 @@ class ImageFile
     end
 
     def self.keymap(sz) 
+      return :medium if sz.blank?
       case sz.to_s
       when "orig"
         :original
