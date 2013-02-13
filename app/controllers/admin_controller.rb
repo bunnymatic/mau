@@ -101,10 +101,7 @@ class AdminController < ApplicationController
         sql = ActiveRecord::Base.connection()
         query = "select id from users where state='active' and id not in (select distinct artist_id from art_pieces);" 
         cur = sql.execute query
-        aids = []
-        cur.each do |h|
-          aids << h[0]
-        end
+        aids = cur.map {|h| h.first}
         artists = Artist.find(:all, :conditions => { :id => aids })
       end
     end

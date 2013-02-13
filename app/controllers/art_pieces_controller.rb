@@ -42,7 +42,7 @@ class ArtPiecesController < ApplicationController
     end
     
     if npieces > 1
-      pieces.each do |item| 
+      @thumbs = pieces.map do |item| 
         thumb = { :path => item.get_path('thumb') }
         thumb[:clz] = "tiny-thumb" 
         thumb[:id] = item.id
@@ -59,7 +59,7 @@ class ArtPiecesController < ApplicationController
         end
         ctr += 1
         thumb[:link] = art_piece_url(item)
-        @thumbs << thumb
+        thumb
       end
     end
   end
