@@ -40,7 +40,7 @@ describe StudiosController do
 
   describe "show" do
     before do
-      Artist.any_instance.stubs(:os_participation => {'201104' => true})
+      Artist.any_instance.stubs(:representative_piece => nil, :os_participation => {Conf.oslive.to_s => true})
       get :show, :id => @s.id
     end
 
