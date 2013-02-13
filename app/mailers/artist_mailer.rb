@@ -60,14 +60,14 @@ class ArtistMailer < MauMailer
       @recipients  = "#{artist.email}"
       @from        = "Mission Artists United Accounts <mau@missionartistsunited.org>"
       @subject     = "Mission Artists United "
-      @sent_on     = Time.now
+      @sent_on     = Time.zone.now
       @body[:artist] = artist
     end
     def setup_note(artist)
       @recipients  = "#{artist.email}"
       @from        = "Mission Artists United <mau@missionartistsunited.org>"
       @subject     = "Mission Artists United "
-      @sent_on     = Time.now
+      @sent_on     = Time.zone.now
       @body[:artist] = artist
     end
     

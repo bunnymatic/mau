@@ -89,7 +89,7 @@ class ImageFile
       logger.error("ImageFile: bad filetype\n") 
       raise ArgumentError, "File type doesn't appear to be JPEG, GIF or PNG."
     end
-    ts = Time.now.to_i
+    ts = Time.zone.now.to_i
     destfile = ts.to_s + File.basename(upload.original_filename) if !destfile
     # make filename something nice
     destfile.gsub!(@@FILENAME_CLEANER,'')
@@ -98,13 +98,13 @@ class ImageFile
     path = File.join(dir, File.basename(destfile))
     if !File.exists?(dir)
       result = FileUtils.mkdir_p(dir) 
-      logger.debug("ImageFile: created %s (%0.2f sec)\n" % [ result, Time.now.to_f - ts ])
+      logger.debug("ImageFile: created %s (%0.2f sec)\n" % [ result, Time.zone.now.to_f - ts ])
     end
 
     # store the image
     result = File.open(path, "wb") { |f| f.write(upload.read) }
     srcpath = Pathname.new(path).realpath.to_s()
-    logger.info("ImageFile: wrote file %s (%0.2f sec)\n" % [ srcpath, Time.now.to_f - ts ])
+    logger.info("ImageFile: wrote file %s (%0.2f sec)\n" % [ srcpath, Time.zone.now.to_f - ts ])
 
      # check format
     fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + srcpath)
@@ -139,7 +139,7 @@ class ImageFile
         puts ex.backtrace unless Rails.env == 'production'
       end
     end
-    logger.info("Image conversion took %0.2f sec" % (Time.now.to_f - ts) )
+    logger.info("Image conversion took %0.2f sec" % (Time.zone.now.to_f - ts) )
     [ path, height, width ]
   end
 end

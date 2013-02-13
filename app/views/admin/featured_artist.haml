@@ -18,7 +18,7 @@
         = "This artist has "
         - if clz.present?
           = "only "
-        = "been featured for about #{distance_of_time_in_words(@featured.featured, Time.now)}"
+        = "been featured for about #{distance_of_time_in_words(@featured.featured, Time.zone.now)}"
 
 
       - form_tag get_next_featured_path, :id => 'get_next_featured', :method => :post do

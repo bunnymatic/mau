@@ -204,7 +204,7 @@ shared_examples_for 'standard sidebar layout' do
     new_art.sort_by(&:created_at).reverse.map(&:id).should == new_art.map(&:id)
   end
   it 'has all the action buttons' do
-    ct = (Time.now > Time.utc(2012,3,12)) ? 3 : 4
+    ct = (Time.zone.now > Time.utc(2012,3,12)) ? 3 : 4
     assert_select '.action_button', :count => ct
   end
 end

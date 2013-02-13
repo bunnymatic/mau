@@ -255,7 +255,7 @@ describe AdminController do
       ActiveRecord::Base.connection.execute sql
 
       login_as(:admin)
-      FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index {|fa, idx| fa.update_attributes(:featured => Time.now - (2*idx).weeks) }
+      FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index {|fa, idx| fa.update_attributes(:featured => Time.zone.now - (2*idx).weeks) }
       get :featured_artist
     end
     it "renders the featured_artist template" do

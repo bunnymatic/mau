@@ -12,7 +12,7 @@ module MailChimp
   def subscribe_and_welcome
     raise "Config:mailchimp_key not set" if API_KEY.blank?
     mailchimp_list_subscribe
-    update_attribute(:mailchimp_subscribed_at, Time.now)
+    update_attribute(:mailchimp_subscribed_at, Time.zone.now)
   end
 
   private

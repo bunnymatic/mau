@@ -11,7 +11,7 @@
 =#%a{:title => "Signup for Spring Open Studios Now!", :href => path}
 =#  .action_button.sprite.spring_os_signup
 - expiry = Time.utc(2012,3,14)
-- if (expiry > Time.now.utc)
+- if (expiry > Time.zone.now.utc)
   %a{:title => "Enter your work in the Spring Open Studios Directory Show!", :href => '/wizards/mau042012'}
     .action_button.sprite.call_for_entries
 %a{:title => "Tell us about your upcoming art show!", :href => new_event_path}

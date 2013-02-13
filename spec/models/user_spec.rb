@@ -369,7 +369,7 @@ describe User do
         User.first.subscribe_and_welcome
         u.reload
         u.mailchimp_subscribed_at.should_not be_nil
-        u.mailchimp_subscribed_at.should be <= Time.now.to_date
+        u.mailchimp_subscribed_at.should be <= Time.zone.now.to_date
       end
     end
   end

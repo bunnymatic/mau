@@ -21,7 +21,7 @@ describe FeedsController do
     before do
       tweet_response = [ { :user => {:screen_name => 'blurp'},
                            :text => "I tweeted this " + gen_random_string(rand(5)+10),
-                           :created_at => (Time.now - (rand(10)).days).to_s } ]
+                           :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
       mock_readable = stub(:read => tweet_response.to_json)
       FeedsController.any_instance.stubs(:open).yields(mock_readable)
       Rails.cache.stubs(:read => nil, :write => false, :delete => nil)
@@ -41,7 +41,7 @@ describe FeedsController do
       before_contents = File.open(cache_filename).read
       tweet_response = [ { :user => {:screen_name => 'blurp'},
                            :text => "I tweeted this " + gen_random_string(rand(5)+10),
-                           :created_at => (Time.now - (rand(10)).days).to_s } ]
+                           :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
       mock_readable = stub(:read => tweet_response.to_json)
       FeedsController.any_instance.stubs(:open).yields(mock_readable)
       get :feed

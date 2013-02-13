@@ -27,14 +27,14 @@ class FeaturedArtistQueue < ActiveRecord::Base
     current_featured_artist = featured.all(:limit => 1).first
     if current_featured_artist && !override
       # we found a featured item
-      if ((Time.now - current_featured_artist.featured) < FEATURE_LIFETIME)
+      if ((Time.zone.now - current_featured_artist.featured) < FEATURE_LIFETIME)
         return current_featured_artist
       end
     end
     # get a new artist
     a = not_yet_featured.first
     if a 
-      a.update_attributes(:featured => Time.now())
+      a.update_attributes(:featured => Time.zone.now)
       a
     end
   end

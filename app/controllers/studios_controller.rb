@@ -46,7 +46,7 @@ class StudiosController < ApplicationController
         @artist.roles_users.select{|r| r.role_id == manager.id}.each(&:destroy)
         @artist.save
       end
-      logger.warn "[#{Time.now.to_s(:short)}][#{current_user.login}][#{params[:action]}] #{@artist.fullname} is no longer associated with #{@studio.name}."
+      logger.warn "[#{Time.zone.now.to_s(:short)}][#{current_user.login}][#{params[:action]}] #{@artist.fullname} is no longer associated with #{@studio.name}."
       flash[:notice] = "#{@artist.fullname} is no longer associated with #{@studio.name}."
     else
       flash[:error] = "There was a problem finding that artist associated with this studio."

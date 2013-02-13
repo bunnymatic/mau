@@ -52,19 +52,19 @@ class Event < ActiveRecord::Base
   end
 
   def in_progress?
-    endtime && endtime > Time.now && starttime < Time.now
+    endtime && endtime > Time.zone.now && starttime < Time.zone.now
   end
 
   def past?
-    r = starttime < Time.now
+    r = starttime < Time.zone.now
     if endtime
-      r = r && (endtime < Time.now)
+      r = r && (endtime < Time.zone.now)
     end
     r
   end
 
   def future?
-    (reception_starttime && reception_starttime > Time.now ) || (starttime > Time.now)
+    (reception_starttime && reception_starttime > Time.zone.now ) || (starttime > Time.zone.now)
   end
 
 end

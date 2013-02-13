@@ -42,7 +42,7 @@ module EventsHelper
     events = Event.published
     events_by_month = {}
 
-    today = Time.now
+    today = Time.zone.now
     current_key = today.strftime('%Y%m')
     current_display = today.strftime('%B %Y')
     events_by_month[current_key] = {:display => current_display, :events => [] }

@@ -133,7 +133,12 @@ class Artist < User
     end
     return path
   end
-  
+
+  # tally up today's open studios count
+  def tally_os
+    #startdate 
+  end
+
   protected
   def call_address_method(method)
     if self.studio_id != 0 and self.studio

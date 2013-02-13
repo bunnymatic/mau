@@ -9,7 +9,7 @@ class FeedbackMailer < MauMailer
     @from        = 'info@missionartistsunited.org'
     @reply_to    = 'noreply@missionartistsunited.org'
     @subject     = "[MAU Feedback] #{feedback.subject}"
-    @sent_on     = Time.now
+    @sent_on     = Time.zone.now
     @body[:feedback] = feedback
 
   end

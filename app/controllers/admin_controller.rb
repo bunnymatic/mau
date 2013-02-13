@@ -46,7 +46,7 @@ class AdminController < ApplicationController
       next_featured = FeaturedArtistQueue.next_entry(params['override'])
       @featured = next_featured
       if FeaturedArtistQueue.count == 1
-        flash[:notice] = "Featuring : #{@featured.artist.get_name(true)} until #{(Time.now + 1.week).strftime('%a %D')}"
+        flash[:notice] = "Featuring : #{@featured.artist.get_name(true)} until #{(Time.zone.now + 1.week).strftime('%a %D')}"
       end
       redirect_to request.url
       return
