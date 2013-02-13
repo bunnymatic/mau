@@ -1,9 +1,10 @@
+require File.join([Rails.root, 'app','lib','tz_helper'])
 module EventsHelper
 
   def self.format_starttime( starttime )
     full_fmt = "%a %b %e, %l:%M%p"
     hr_fmt = "%l:%M%p"
-    starttime.strftime(full_fmt)
+    TzHelper.in_mau_time(starttime).strftime(full_fmt)
   end
   
   def self.format_fulltime( t0, t1 )
@@ -42,7 +43,7 @@ module EventsHelper
     events = Event.published
     events_by_month = {}
 
-    today = Time.now
+    today = Time.zone.now
     current_key = today.strftime('%Y%m')
     current_display = today.strftime('%B %Y')
     events_by_month[current_key] = {:display => current_display, :events => [] }

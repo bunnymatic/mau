@@ -10,9 +10,9 @@ def create_event(opts = {})
     :city => "MyString",
     :state => "MyString",
     :zip => "MyString",
-    :starttime => Time.now + 24.hours,
-    :endtime => Time.now + 25.hours,
-    :reception_starttime => Time.now + 24.hours,
+    :starttime => Time.zone.now + 24.hours,
+    :endtime => Time.zone.now + 25.hours,
+    :reception_starttime => Time.zone.now + 24.hours,
     :url => "MyString",
     :user_id => User.active.first.id
   }.merge(opts)
@@ -27,7 +27,7 @@ describe Event do
     before_now = 0
     after_now = 0
     Event.all.each do |ev|
-      if ev.starttime < Time.now
+      if ev.starttime < Time.zone.now
         before_now += 1
       else
         after_now += 1
@@ -42,7 +42,7 @@ describe Event do
       Event.future.all?{|u| u.future?}.should be_true
     end
     it "past returns only events that are in the past" do
-      Event.past.all?{|u| (u.endtime && u.endtime < Time.now) || (u.starttime < Time.now)}.should be
+      Event.past.all?{|u| (u.endtime && u.endtime < Time.zone.now) || (u.starttime < Time.zone.now)}.should be
     end
     it 'published only returns events whose publish flag has been set true' do
       Event.published.all{|u| u.publish}.should be

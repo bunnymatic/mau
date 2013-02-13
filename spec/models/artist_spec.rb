@@ -373,6 +373,18 @@ describe Artist do
     end
   end
 
+  describe '#tally_os' do
+    it 'tallies today\'s os participants' do
+      expect{ Artist.tally_os }.to change(OpenStudiosTally, :count).by(1)
+    end
+    it 'only records 1 entry per day' do
+      expect{ 
+        2.times { Artist.tally_os }
+      }.to change(OpenStudiosTally, :count).by(1)
+    end
+
+  end
+
   describe 'doing_open_studios?' do
     it 'returns true for an artist doing this open studios (with no args)' do
       doing, notdoing = Artist.all.partition(&:doing_open_studios?)

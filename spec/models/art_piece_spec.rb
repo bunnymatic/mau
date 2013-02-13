@@ -60,7 +60,7 @@ describe ArtPiece do
   describe "get_new_art" do 
     before do
       Rails.cache.stubs(:read).returns(nil)
-      t = Time.now
+      t = Time.zone.now
       Time.stubs(:now).returns(t)
     end
     it 'returns an array' do

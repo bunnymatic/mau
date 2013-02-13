@@ -178,7 +178,7 @@ class ArtistsController < ApplicationController
       format.html {
         # collect query args to build links
         queryargs = {}
-        t = Time.now
+        t = Time.zone.now
         @os_only = is_os_only(params[:osonly])
         if @os_only
           artists = Artist.active.open_studios_participants.sort_by { |a| a.get_sort_name }
@@ -187,7 +187,7 @@ class ArtistsController < ApplicationController
         else
           artists = Artist.active.sort_by { |a| a.get_sort_name }
         end
-        dt = Time.now - t
+        dt = Time.zone.now - t
         logger.debug("Get Artists [%s ms]" % dt)
         curpage = params[:p] || 0
         curpage = curpage.to_i
@@ -204,7 +204,7 @@ class ArtistsController < ApplicationController
         @view_mode = vw
 
         if vw == 'gallery'
-          t = Time.now
+          t = Time.zone.now
           artists.reject!{|a| !a.representative_piece}
           nartists = artists.length
           lastpage = (nartists.to_f/@@PER_PAGE.to_f).floor

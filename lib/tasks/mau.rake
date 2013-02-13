@@ -6,6 +6,11 @@ alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
 
+  desc 'record todays OS count'
+  task :daily_os_signup => [:environment] do
+    Artist.tally_os
+  end
+  
   desc 'import scammer emails from FASO'
   task :import_scammer_list => [:environment] do
     Scammer.importFromFASO

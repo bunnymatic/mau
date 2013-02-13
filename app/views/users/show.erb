@@ -39,7 +39,7 @@
 	      <% if logged_in? && @fan && @fan.login == self.current_user.login -%>
 	      <a title="update my picture" href="/users/addprofile/">
 		<% if @fan.has_profile_image -%>
-  		<img class="profile" src="<%= @fan.get_profile_image('small') %>?t=<%= Time.now.to_i() %>" />
+  		<img class="profile" src="<%= @fan.get_profile_image('small') %>?t=<%= Time.zone.now.to_i() %>" />
 		<% else -%>
   		<img class="profile" src="/images/default-profile-img.png" width="200" />
   		<% end -%>

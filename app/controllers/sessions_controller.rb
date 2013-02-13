@@ -73,10 +73,10 @@ class SessionsController < ApplicationController
   # Track failed login attempts
   def note_failed_signin
     flash.now[:error] = "Couldn't log you in as '#{params[:login]}'"
-    logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
+    logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.zone.now}"
   end
   def note_inactive_signin
     flash.now[:error] = "Couldn't log you in as '#{params[:login]}'. Have you activated your account?"
-    logger.warn "Tried to login to inactive acct.'#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
+    logger.warn "Tried to login to inactive acct.'#{params[:login]}' from #{request.remote_ip} at #{Time.zone.now}"
   end
 end

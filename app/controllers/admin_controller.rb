@@ -46,7 +46,7 @@ class AdminController < ApplicationController
       next_featured = FeaturedArtistQueue.next_entry(params['override'])
       @featured = next_featured
       if FeaturedArtistQueue.count == 1
-        flash[:notice] = "Featuring : #{@featured.artist.get_name(true)} until #{(Time.now + 1.week).strftime('%a %D')}"
+        flash[:notice] = "Featuring : #{@featured.artist.get_name(true)} until #{(Time.zone.now + 1.week).strftime('%a %D')}"
       end
       redirect_to request.url
       return
@@ -178,6 +178,18 @@ class AdminController < ApplicationController
     render :json => result
   end
 
+  def os_signups
+    tally = OpenStudiosTally.all(:conditions => ["oskey='?'", Conf.oslive])
+    tally = tally.map{|t| [ t.recorded_on.to_time.to_i, t.count ]}
+      
+    result = { :series => [{ :data => tally }],
+      :options => {
+        :mouse => { :track => true }
+      }
+    }
+    render :json => result
+  end
+
   def palette
 
     css_file = File.expand_path('app/assets/stylesheets/mau-mixins.scss')
@@ -215,13 +227,8 @@ class AdminController < ApplicationController
   private
   def compute_artists_per_day
     sql = ActiveRecord::Base.connection()
-    tbl = []
     cur = sql.execute "select count(*) ct,date(activated_at) d from users where activated_at is not null group by d order by d desc;"
-    ctr = 0
-    cur.each do |h|
-      tbl << [h[1].to_time.to_i, h[0].to_i]
-    end
-    tbl
+    cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
   end
 
   def compute_favorites_per_day
@@ -234,13 +241,9 @@ class AdminController < ApplicationController
 
   def compute_created_per_day(tablename)
     sql = ActiveRecord::Base.connection()
-    tbl = []
     query =  "select count(*) ct,date(created_at) d from #{tablename} where created_at is not null group by d order by d desc;"
     cur = sql.execute query
-    cur.each do |h|
-      tbl << [h[1].to_time.to_i, h[0].to_i]
-    end
-    tbl
+    cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
   end
 
 end

@@ -144,7 +144,7 @@ class EventsController < ApplicationController
 
   def publish
     @event = Event.find(params[:id])
-    if @event.update_attributes(:publish => Time.now())
+    if @event.update_attributes(:publish => Time.zone.now)
       flash[:notice] = "#{@event.title} has been successfully published."
       if (@event.user && @event.user.email)
         EventMailer.deliver_event_published(@event)

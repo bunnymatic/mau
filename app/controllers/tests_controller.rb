@@ -8,8 +8,8 @@ class TestsController < ApplicationController
   layout 'mau-admin'
 
   def flash_test
-    flash.now[:notice] = 'The current time is %s' % Time.now
-    flash.now[:error] = 'This is an error at %s' % Time.now
+    flash.now[:notice] = 'The current time is %s' % Time.zone.now
+    flash.now[:error] = 'This is an error at %s' % Time.zone.now
   end
 
   def qr
@@ -23,7 +23,7 @@ class TestsController < ApplicationController
             opts[opt.to_sym] = params[opt]
           end
         end
-        base_file = File.join('images', 'tmp', "qrtest_#{Time.now.to_i}.png")
+        base_file = File.join('images', 'tmp', "qrtest_#{Time.zone.now.to_i}.png")
         f = File.join(Rails.root, 'public', base_file)
         FileUtils.mkdir_p( File.dirname(f) )
         p opts

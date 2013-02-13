@@ -41,13 +41,13 @@ describe FeaturedArtistQueue do
       FeaturedArtistQueue.next_entry.artist_id.should == @a.id
     end
     it "calling it after a week should give you the next artist" do
-      Time.stubs(:now => Time.now() + 2.weeks)
+      Time.stubs(:now => Time.zone.now() + 2.weeks)
       a = FeaturedArtistQueue.next_entry.artist
       a.id.should == FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }[1].artist_id
     end
     describe "after everyone has been featured" do
       before do
-        sql = "update featured_artist_queue set featured='#{(Time.now - 10.weeks).strftime('%M/%D/%Y')}'"
+        sql = "update featured_artist_queue set featured='#{(Time.zone.now - 10.weeks).strftime('%M/%D/%Y')}'"
         ActiveRecord::Base.connection.execute(sql);
         FeaturedArtistQueue.next_entry
       end
@@ -68,7 +68,7 @@ describe FeaturedArtistQueue do
     before do
       FeaturedArtistQueue.all.each_with_index do |fa, idx| 
         if (idx % 2) == 0 
-          fa.featured = Time.now - idx.weeks - 1.day
+          fa.featured = Time.zone.now - idx.weeks - 1.day
           fa.save!
         end
       end

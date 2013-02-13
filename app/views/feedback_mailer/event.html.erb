@@ -6,7 +6,7 @@ Subject: <%=h @event_info.subject %>
 User's email: <%=h @event_info.email %>
 Logged in as: <%=h @event_info.login %>
 URL: <%=h @event_info.url %>
-Sent at: <%= Time.now %>
+Sent at: <%= Time.zone.now %>
 
 Comment: 
 <%=h @event_info.comment %>

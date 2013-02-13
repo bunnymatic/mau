@@ -8,7 +8,7 @@ Logged in as: <%=h @feedback.login %>
 Skillset: <%=h @feedback.skillsets %>
 Bug: <%=h @feedback.bugtype %>
 URL: <%=h @feedback.url %>
-Sent at: <%= Time.now %>
+Sent at: <%= Time.zone.now %>
 
 Comment: 
 <%=h @feedback.comment %>

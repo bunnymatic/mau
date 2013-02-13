@@ -5,7 +5,7 @@ class AdminMailer < MauMailer
       @from        = 'info@missionartistsunited.org'
       @reply_to    = 'noreply@missionartistsunited.org'
       @subject     = "[MAU Spammer] possible spammer email on page #{inf['page']}"
-      @sent_on     = Time.now
+      @sent_on     = Time.zone.now
     end
     @body[:data] = inf
   end
