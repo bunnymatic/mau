@@ -136,7 +136,8 @@ class Artist < User
 
   # tally up today's open studios count
   def tally_os
-    #startdate 
+    today = Time.zone.now.to_date.to_time
+    puts Artist.open_studios_participants.count
   end
 
   protected

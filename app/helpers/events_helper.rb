@@ -1,9 +1,10 @@
+require File.join([Rails.root, 'app','lib','tz_helper'])
 module EventsHelper
 
   def self.format_starttime( starttime )
     full_fmt = "%a %b %e, %l:%M%p"
     hr_fmt = "%l:%M%p"
-    starttime.strftime(full_fmt)
+    TzHelper.in_mau_time(starttime).strftime(full_fmt)
   end
   
   def self.format_fulltime( t0, t1 )
