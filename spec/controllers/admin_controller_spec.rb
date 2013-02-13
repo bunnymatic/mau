@@ -14,7 +14,7 @@ describe AdminController do
   fixtures :roles
 
   context 'authorization' do
-    [:index, :os_status, :featured_artist, :fans, :emaillist, :artists_per_day, :art_pieces_per_day, :favorites_per_day, :db_backups].each do |endpoint|
+    [:index, :os_status, :featured_artist, :fans, :emaillist, :artists_per_day, :art_pieces_per_day, :favorites_per_day, :db_backups, :os_signups].each do |endpoint|
       describe 'not logged in' do
         describe endpoint do
           before do
@@ -197,7 +197,7 @@ describe AdminController do
       assigns(:activity_stats)[:open_studios].length.should >= 5
     end
     it 'has place holders for the graphs' do
-      assert_select('.section.graph', :count => 3)
+      assert_select('.section.graph', :count => 4)
     end
     [:total, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
       it 'renders an #{sxn} stats section' do
@@ -229,7 +229,7 @@ describe AdminController do
   end
 
   describe "json endpoints" do
-    [:artists_per_day, :favorites_per_day, :art_pieces_per_day].each do |endpoint|
+    [:artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
       describe endpoint do
         before do 
           login_as(:admin)
@@ -388,6 +388,7 @@ describe AdminController do
   let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
   let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
   describe "helpers" do
+    
     describe "compute_artists_per_day" do
       it "returns an array" do
         artists_per_day.should be_a_kind_of(Array)
@@ -396,7 +397,7 @@ describe AdminController do
       it "returns an entries have date and count" do
         entry = artists_per_day.first
         entry.should have(2).entries
-        (Time.at(entry[0].to_i).to_date - Artist.active.all(:order => :created_at).last.created_at.to_date).should < 1.day
+        (Time.zone.at(entry[0].to_i).to_date - Artist.active.all(:order => :created_at).last.created_at.to_date).should < 1.day
         entry[1].should >= 1
       end
       it "does not include nil dates" do
@@ -433,7 +434,7 @@ describe AdminController do
       it "returns an entries have date and count" do
         entry = @favorites_per_day.first
         entry.should have(2).entries
-        Time.at(entry[0].to_i).to_date.should == Favorite.all(:order => :created_at).last.created_at.to_date
+        Time.zone.at(entry[0].to_i).utc.to_date.should == Favorite.all(:order => :created_at).last.created_at.utc.to_date
         entry[1].should >= 1
       end
       it "does not include nil dates" do
@@ -448,7 +449,7 @@ describe AdminController do
       it "returns an entries have date and count" do
         entry = art_pieces_per_day.first
         entry.should have(2).entries
-        Time.at(entry[0].to_i).to_date.should == 2.hours.ago.to_date
+        Time.zone.at(entry[0].to_i).utc.to_date.should == 2.hours.ago.utc.to_date
         entry[1].should >= 1
       end
       it "does not include nil dates" do

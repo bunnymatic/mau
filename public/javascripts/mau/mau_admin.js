@@ -297,6 +297,7 @@ MAUAdmin =  window.MAUAdmin || {};
     Event.observe(window, 'load', function() { GraphPerDay.load('artists_per_day', '/admin/artists_per_day'); });
     Event.observe(window, 'load', function() { GraphPerDay.load('favorites_per_day', '/admin/favorites_per_day'); });
     Event.observe(window, 'load', function() { GraphPerDay.load('art_pieces_per_day', '/admin/art_pieces_per_day'); });
+    Event.observe(window, 'load', function() { GraphPerDay.load('os_signups', '/admin/os_signups'); });
   }
   
 })();

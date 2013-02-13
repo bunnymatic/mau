@@ -52,17 +52,6 @@ class Artist < User
     super(default_opts.merge(opts))
   end
 
-  def self.find_all_by_fullname( names )
-    inclause = ""
-    lower_names = [names].flatten.map { |n| n.downcase }
-    sql = "select * from users where (lower(concat_ws(' ', firstname, lastname)) in (?)) and type='Artist'"
-    find_by_sql [sql, lower_names]
-  end
-
-  def self.find_by_fullname( name )
-    find_all_by_fullname([name])
-  end
-
   def in_the_mission?
     h = self.address_hash
     if h && h.has_key?(:latlng)
@@ -134,10 +123,34 @@ class Artist < User
     return path
   end
 
-  # tally up today's open studios count
-  def tally_os
-    today = Time.zone.now.to_date.to_time
-    puts Artist.open_studios_participants.count
+
+  class << self
+    def find_all_by_fullname( names )
+      inclause = ""
+      lower_names = [names].flatten.map { |n| n.downcase }
+      sql = "select * from users where (lower(concat_ws(' ', firstname, lastname)) in (?)) and type='Artist'"
+      find_by_sql [sql, lower_names]
+    end
+    
+    def find_by_fullname( name )
+      find_all_by_fullname([name])
+    end
+    
+    # tally up today's open studios count
+    def tally_os
+      today = Time.zone.now.to_date
+      count = Artist.open_studios_participants.count
+      conf = Conf.oslive.to_s
+      recorded_on = today
+      
+      o = OpenStudiosTally.find_by_recorded_on(today)
+      if o
+        o.update_attributes(:oskey => conf, :count => count)
+      else
+        OpenStudiosTally.create!(:oskey => conf, :count => count, :recorded_on => today)
+      end
+        
+    end
   end
 
   protected

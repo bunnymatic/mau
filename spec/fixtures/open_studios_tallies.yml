@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  count: 1
+  key: MyString
+  recorded_on: 2013-02-12
+
+two:
+  count: 1
+  key: MyString
+  recorded_on: 2013-02-12
