@@ -383,6 +383,16 @@ describe Artist do
       }.to change(OpenStudiosTally, :count).by(1)
     end
 
+    it 'updates the record if it runs more than once 1 entry per day' do
+      Artist.tally_os
+      a = Artist.all.reject{|a| a.doing_open_studios?}.first
+      t = OpenStudiosTally.last
+      a.artist_info.update_os_participation(Conf.oslive.to_s, true)
+      a.artist_info.save
+      Artist.tally_os
+      OpenStudiosTally.last.count.should eql (t.count + 1)
+    end
+
   end
 
   describe 'doing_open_studios?' do
