@@ -7,9 +7,8 @@
     <th># favorited</th>
   </tr>
   
-  <% @fans.each_with_index do |a,idx| 
-   clz = (((idx%2)==0)?'even':'odd') -%>
-  <tr class="<%= clz %>">
+  <% @fans.each_with_index do |a,idx| %>
+  <tr class="<%= cycle('even','odd') %>">
     <td id="admin_artist_name" style="width:100px; ">
       <a href="<%= user_path(a) %>"><%=h a.get_name %></a>
     </td>

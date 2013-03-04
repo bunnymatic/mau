@@ -45,7 +45,7 @@
   - @artists.each_with_index do |a, idx| 
     :ruby
       classes = []
-      classes << (((idx%2)==0) ? 'even':'odd')
+      classes << cycle('even', 'odd')
       classes << a.state
       classes << 'participating' if a.os_participation[ Conf.oslive.to_s ]
     %tr{:class => classes.join(' ')}
