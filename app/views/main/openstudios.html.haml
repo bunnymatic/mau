@@ -9,8 +9,8 @@
       %a{:href => artists_path(:osonly => true)} Open Studios Art
     %h5
       %a{:href => map_artists_path(:osonly => true)} Online Map
-    =# %h5
-    =#  %a{:href => "/catalog/042012/spring2012guide.pdf"}Download the Guide
+    %h5
+      %a{:href => "http://spider-t.com/map/mau2013.pdf"} Pretty Map (PDF)
     .clear
   :ruby
     data = Hash[@preview_reception_html.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
