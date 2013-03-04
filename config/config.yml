@@ -22,6 +22,7 @@ development:
        tag_frequency: 3600
        new_art: 300
    mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
+   oslive: 201304
 
 production:
    site_url: missionartistsunited.org

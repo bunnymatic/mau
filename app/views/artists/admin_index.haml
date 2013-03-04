@@ -40,13 +40,14 @@
     %th name
     %th studio
     %th info
-    %th{:colspan => 2} Fall 2012 OS?
+    %th{:colspan => 2} 
+      = pretty_print_os_tag(Conf.oslive, true)
   - @artists.each_with_index do |a, idx| 
     :ruby
       classes = []
       classes << (((idx%2)==0) ? 'even':'odd')
       classes << a.state
-      classes << 'participating' if a.os_participation['201210']
+      classes << 'participating' if a.os_participation[ Conf.oslive.to_s ]
     %tr{:class => classes.join(' ')}
       %td.admin_artist_name
         %a{:href => artist_path(a)}
@@ -75,9 +76,9 @@
             %br
             #{'http://%s/reset/%s' % [Conf.site_url, a.reset_code]}
               
-      %td.fall2012{ :artistid => a.id } #{a.os_participation['201210'].to_s}
+      %td.participating_status{ :artistid => a.id } #{a.os_participation[Conf.oslive.to_s].to_s}
       %td
-        %input.cbfall2012{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation['201210'].to_s, :checked => (a.os_participation['201210'] ? "checked" : nil) }
+        %input.cboslive{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation[Conf.oslive.to_s].to_s, :checked => (a.os_participation[Conf.oslive.to_s] ? "checked" : nil) }
    
 %button.update-artists update os status
 
