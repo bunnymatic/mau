@@ -84,8 +84,8 @@ MAUAdmin =  window.MAUAdmin || {};
     });
     $$('button.update-artists').each(function(el) {
       el.observe('click', function() {
-	var oss = $$('.fall2012');
-	var cbs = $$('.cbfall2012');
+	var oss = $$('.participating_status');
+	var cbs = $$('.cboslive');
 	var ii = 0;
 	var updates = {};
         if (oss && cbs) {
