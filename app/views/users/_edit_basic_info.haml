@@ -1,0 +1,36 @@
+.open-close-div.acct
+  %span#info_toggle.title 
+    Personal Info
+  %span.edit
+    %a#info_toggle_lnk{:href => "#info"} change
+.edit-profile-sxn#info{:style=>"display:none;"}
+  .inner-sxn
+    %table.entry-table
+      %tr
+        %td.input-name
+          First Name
+        %td
+          = f.text_field :firstname
+        %td.input-err
+      %tr
+        %td.input-name
+          Last Name
+        %td
+          = f.text_field :lastname
+        %td.input-err
+      %tr
+        %td.input-name
+          Display Name
+        %td
+          = f.text_field :nomdeplume
+        %td.input-err
+          (only if you want something different from your first name + last name)
+      %tr
+        %td.input-name
+          Email
+        %td
+          = f.text_field :email
+        %td.input-err
+    .buttons
+      = f.submit 'Save Changes'
+      = f.submit 'Cancel'
