@@ -40,7 +40,7 @@ class StudiosController < ApplicationController
     @studio = safe_find(params[:id])
     @artist = @studio.artists.select{|a| a.id.to_s == params[:artist_id].to_s}.first
     if (@artist && @studio && @artist != current_artist)
-      @artist.update_attribute(:studio, Studio.indy)
+      @artist.update_attribute(:studio_id, 0)
       manager = Role.find_by_role('manager')
       if @artist.roles.include? manager
         @artist.roles_users.select{|r| r.role_id == manager.id}.each(&:destroy)
@@ -219,6 +219,12 @@ class StudiosController < ApplicationController
   end
 
   def get_studio_list
-    Studio.all.select{|s| s.artists.active.count >= @@MIN_ARTISTS_PER_STUDIO }
+    Studio.all.select do |s| 
+      if s.id != 0 && s.name == 'Independent Studios'
+        false
+      else
+        s.artists.active.count >= @@MIN_ARTISTS_PER_STUDIO
+      end
+    end
   end
 end
