@@ -149,11 +149,7 @@ class User < ActiveRecord::Base
   end
 
   def get_name(htmlsafe=false)
-    if self.nomdeplume
-      name = self.nomdeplume
-    else
-      name = self.fullname
-    end
+    name = self.fullname
     if not name
       name = self.login
     end
