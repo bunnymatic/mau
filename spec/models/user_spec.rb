@@ -39,6 +39,26 @@ describe User do
     end
   end
 
+  describe 'get_name' do
+    it 'returns nom de plume if defined' do
+      u = User.new :nomdeplume => 'nom', :firstname => 'first', :lastname => 'last', :login => 'login'
+      u.get_name.should eql 'nom'
+    end
+    it 'returns first + last if defined' do
+      u = User.new :nomdeplume => '', :firstname => 'first', :lastname => 'last', :login => 'login'
+      u.get_name.should eql 'first last'
+    end
+    it 'returns login if nom, and firstname are not defined' do
+      u = User.new :lastname => 'last', :login => 'login'
+      u.get_name.should eql 'login'
+    end
+    it 'returns login if nom, and lastname are not defined' do
+      u = User.new :firstname => 'first', :login => 'login'
+      u.get_name.should eql 'login'
+    end
+
+  end
+
   describe 'get_profile_image' do
     it 'returns the medium artists profile image if there is one' do
       u = users(:annafizyta)
