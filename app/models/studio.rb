@@ -33,16 +33,19 @@ class Studio < ActiveRecord::Base
 
   # return faux indy studio
   def self.indy
-    s = Studio.new
-    s.id = 0
-    s.name = 'Independent Studios'
-    s.street = "The Mission District"
-    s.city = "San Francisco"
-    s.state = "CA"
-    s.artists = Artist.active.find(:all, :conditions => ["studio_id = 0 or studio_id is NULL"])
-    s.profile_image = "independent-studios.jpg"
-    s.image_height = 1
-    s.image_width = 1
+    s = Studio.find_by_id(0)
+    if !s
+      s = Studio.new
+      s.id = 0
+      s.name = 'Independent Studios'
+      s.street = "The Mission District"
+      s.city = "San Francisco"
+      s.state = "CA"
+      s.artists = Artist.active.find(:all, :conditions => ["studio_id = 0 or studio_id is NULL"])
+      s.profile_image = "independent-studios.jpg"
+      s.image_height = 1
+      s.image_width = 1
+    end
     s
   end
 

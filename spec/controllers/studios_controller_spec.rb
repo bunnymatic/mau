@@ -286,6 +286,11 @@ describe StudiosController do
         post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
       }.to change(studios(:as).artists.active, :count).by(-1)
     end
+    it 'does not add any studios' do
+      expect {
+        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
+      }.to change(Studio, :count).by(0)
+    end
     it 'does nothing if the artist is not in the studio' do
       expect {
         post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:s1890).artists.first.id
