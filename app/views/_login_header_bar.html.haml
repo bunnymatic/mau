@@ -1,6 +1,10 @@
 %script{:type => 'text/javascript'}
   var authenticityToken  = encodeURIComponent('#{form_authenticity_token}')
 
+- if @show_return_to_mobile
+  #return_to_mobile_bar
+    = link_to 'return to mobile site', mobile_path
+ 
 - if logged_in? 
   - if current_user.is_special?
     = render :partial => '/admin_header'

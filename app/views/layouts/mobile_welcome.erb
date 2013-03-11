@@ -10,17 +10,9 @@
 <div data-role="page" data-theme="a" >
   <div data-role="header" data-backbtn="false">
     <h1>Mission Artists United</h1>
-    <%= link_to "full site", non_mobile_path, :rel => "external" %>
-
   </div>
 <%= yield %>
-  <div data-role="footer">
-    <div class="news-footer">
-      <span >ART IS THE <span style="color: orange;">MISSION</span></span>
-      <a href="http://www.facebook.com/MissionArtists" target="_blank" ><img class="icons" src="/images/icons/fb32.png" alt="facebook"></a>
-      <a href="http://twitter.com/sfmau" target="_blank" ><img class="icons" src="/images/icons/twitter32.png" alt="twitter"></a>
-    </div>
-  </div>
+  <%= render :partial => '/mobile/footer' %>
 </div>
 </body>
 <script src="http://code.jquery.com/jquery-1.5.min.js"></script>

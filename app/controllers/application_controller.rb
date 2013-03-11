@@ -169,10 +169,13 @@ class ApplicationController < ActionController::Base
     redirect_to "/error" unless is_manager? || is_editor?
   end
 
+  def is_mobile?  
+    !!(is_mobile_device? and session[:mobile_view])
+  end
+
   def check_browser
-    @_ismobile = !!(is_mobile_device? and session[:mobile_view])
-    @_mobile_device_name = user_agent_device_name 
-    params[:format] = 'mobile' if @_ismobile
+    params[:format] = 'mobile' if is_mobile?
+    @show_return_to_mobile = (!is_mobile? && is_mobile_device?)
     #logger.info("Mobile? %s (device %s)" % [@_ismobile, @_mobile_device_name])
     #puts "Mobile? %s (device %s) %s" % [@_ismobile, @_mobile_device_name, params.inspect]
 
