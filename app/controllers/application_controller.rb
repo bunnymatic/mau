@@ -26,11 +26,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def non_mobile
-    session[:mobile_view] = false
-    redirect_to request.referer
-  end
-
   def commit_is_cancel
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
   end
@@ -175,10 +170,11 @@ class ApplicationController < ActionController::Base
   end
 
   def check_browser
-    @_ismobile = (is_mobile_device? and is_mobile_device? > 0)? true:false
+    @_ismobile = !!(is_mobile_device? and session[:mobile_view])
     @_mobile_device_name = user_agent_device_name 
     params[:format] = 'mobile' if @_ismobile
     #logger.info("Mobile? %s (device %s)" % [@_ismobile, @_mobile_device_name])
+    #puts "Mobile? %s (device %s) %s" % [@_ismobile, @_mobile_device_name, params.inspect]
 
     unless self.request[USERAGENT].blank?
       @_ie = is_ie?(self.request)

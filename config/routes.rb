@@ -21,8 +21,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :search, :only => [:index], :collection => {:fetch => :post}
 
-  map.force_non_mobile '/non_mobile', :controller => 'application', :action => 'non_mobile'
-
   # user account related remaps
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
@@ -76,7 +74,7 @@ ActionController::Routing::Routes.draw do |map|
 
 
   #map.analytics '/ganalytics', :controller => 'main', :action => 'ganalytics'
-  [:faq, :openstudios, :venues, :privacy, :about, :history, :contact, :version].each do |endpoint|
+  [:faq, :openstudios, :venues, :privacy, :about, :history, :contact, :version, :non_mobile, :mobile].each do |endpoint|
     map.send(endpoint, "/" + endpoint.to_s, :controller => :main, :action => endpoint)
   end
 
