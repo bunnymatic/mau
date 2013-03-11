@@ -16,10 +16,17 @@ h1,h2,h3,h4,h5,h6 {
       color: #fcf;
     }
   }
-  .ui-footer .news-footer .ui-link {
-    color: #fff;
-    &:visited {
-      color: #999;
+  .ui-footer {
+    min-height: 42px;
+    padding-top: 5px;
+    .ui-btn-left {
+      margin-left: 10px;
+    }
+    .news-footer .ui-link {
+      color: #fff;
+      &:visited {
+        color: #999;
+      }
     }
   }
 }
@@ -151,6 +158,9 @@ h1,h2,h3,h4,h5,h6 {
   margin-right: 8px;
   vertical-align: center;
   height: 36px;
+  .mission {
+    color: orange;
+  }
   a.ui-link {
     color: white;
     text-decoration: none;

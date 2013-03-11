@@ -12,13 +12,7 @@
     <h1>Mission Artists United</h1>
   </div>
 <%= yield %>
-  <div data-role="footer">
-    <div class="news-footer">
-      <span >ART IS THE <span style="color: orange;">MISSION</span></span>
-      <a href="http://www.facebook.com/MissionArtists" target="_blank" ><img class="icons" src="/images/icons/fb32.png" alt="facebook"></a>
-      <a href="http://twitter.com/sfmau" target="_blank" ><img class="icons" src="/images/icons/twitter32.png" alt="twitter"></a>
-    </div>
-  </div>
+  <%= render :partial => '/mobile/footer' %>
 </div>
 </body>
 <script src="http://code.jquery.com/jquery-1.5.min.js"></script>

@@ -998,11 +998,21 @@ div.feedtitle  {
 
 /* for news page */
 .news-footer {
+  text-align: right;
+  font-weight: 900;
+  font-family: helvetica;
+  font-size: 150%;
+  span {
+    vertical-align: 1px;
+    text-transform: uppercase;
+  }
+  .mission {
+    vertical-align: 0px;
+    color: orange;
+  }
+
   line-height: 32px;
   margin-top: 30px;
-}
-.news-footer span {
-  vertical-align: top;
 }
 
 .markdown, #open_studios, #venues {
@@ -1149,7 +1159,7 @@ margin: 0 0 20px 0;
   span.navitem.last { border-right: 0; padding-right: 0;}
 }
 
-#admin_nav, #login_toplink, #logout, footer.credits {
+#admin_nav, #login_toplink, #logout, footer.credits, #return_to_mobile_bar {
   color:$darkgray;
   font-size:x-small;
   margin: 0 auto;
@@ -1158,9 +1168,22 @@ margin: 0 0 20px 0;
   background-color: $lightbluegray;
 }
 
-#login_toplink, #logout {
+#login_toplink, #logout, #return_to_mobile_bar {
   padding: 17px 0 8px 0px;
 }
+
+#return_to_mobile_bar {
+  text-align: center;
+  font-size: large;
+  padding: 12px 0;
+  background-color: rgba(30,30,30,0.6);
+  a {
+    background-color: $darkgray;
+    padding: 7px 12px;
+    @include small-rounded-corners;
+  }
+}
+
 footer.credits {
   padding: 14px 0;
   margin-bottom: 20px;
