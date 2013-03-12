@@ -104,6 +104,9 @@ class ArtPieceTagsController < ApplicationController
   # GET /tags/1
   # GET /tags/1.xml
   def show
+    if is_mobile?
+      redirect_to '/' and return
+    end
     # get art pieces by tag
     @freq = ArtPieceTag.frequency(true)
     tags = []

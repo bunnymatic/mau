@@ -116,7 +116,7 @@ describe ArtPiece do
         @ap['image_urls'].keys.should include sz
         @ap['image_urls'][sz].should include Conf.site_url
       end
-      @ap['image_urls']['small'].should == "http://localhost:3000/artistdata/#{@artist.id}/imgs/s_#{@piece.filename}"
+      @ap['image_urls']['small'].should == "http://#{Conf.site_url}/artistdata/#{@artist.id}/imgs/s_#{@piece.filename}"
     end
   end
 end

@@ -195,12 +195,14 @@ class MainController < ApplicationController
 
   def non_mobile
     session[:mobile_view] = false
-    redirect_to request.referer || root_path
+    ref = request.referer if is_local_referer?
+    redirect_to ref || root_path
   end
 
   def mobile
     session[:mobile_view] = true
-    redirect_to request.referer || root_path
+    ref = request.referer if is_local_referer?
+    redirect_to ref || root_path
   end
 
 

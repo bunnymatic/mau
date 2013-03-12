@@ -70,4 +70,5 @@ describe DummyController do
       response.should render_template 'error/index.mobile.haml'
     end
   end
+
 end

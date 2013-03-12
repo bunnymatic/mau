@@ -2,7 +2,7 @@
 # 
 # note : no tabs and indent is ipmortant.
 test:
-   site_url: localhost:3000
+   site_url: test.host
    cache_server: localhost:11211
    image_servers: 
    mailchimp_api_key: bogus-key
@@ -11,7 +11,7 @@ test:
 development:
    recaptcha_public_key: 6LfgJ9oSAAAAAHDQ_PRgG60sIXtOjH3aWcp__Dav
    recaptcha_private_key: 6LfgJ9oSAAAAAELX8fI1cHywuLFikg7komNUkM_V
-   site_url: artistsdev.missionartistsunited.org
+   site_url: mau.rcode5.com
    cache_server: localhost:11211
    image_servers: 
    cache_expiry:

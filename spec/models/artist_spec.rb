@@ -390,7 +390,7 @@ describe Artist do
       a.artist_info.update_os_participation(Conf.oslive.to_s, true)
       a.artist_info.save
       Artist.tally_os
-      OpenStudiosTally.last.count.should eql (t.count + 1)
+      OpenStudiosTally.last.count.should eql(t.count + 1)
     end
 
   end

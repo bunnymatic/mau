@@ -194,19 +194,19 @@ class UsersController < ApplicationController
         
         if current_user.save!
           flash[:notice] = "Password successfully updated"
-          redirect_to request.env["HTTP_REFERER"] or current_user
+          redirect_to request.referer or current_user
         else
           flash[:error] = "Password not changed"
-          redirect_to request.env["HTTP_REFERER"] or current_user
+          redirect_to request.referer or current_user
         end
         
       else
         flash[:error] = "New Password mismatch" 
-        redirect_to request.env["HTTP_REFERER"] or current_user
+        redirect_to request.referer or current_user
       end
     else
       flash[:error] = "Old password incorrect" 
-      redirect_to request.env["HTTP_REFERER"] or "/"
+      redirect_to request.referer or root_path
     end
   end
 

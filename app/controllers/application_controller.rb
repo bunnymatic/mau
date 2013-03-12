@@ -258,5 +258,12 @@ class ApplicationController < ActionController::Base
     @page_description = "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
     @page_keywords = ["art is the mission", "art", "artists","san francisco"]
   end
-
+  
+  def is_local_referer?
+    if request.referer.to_s.match(/^https?\:\/\//i)
+      request.referer.to_s.match /#{Conf.site_url}/i
+    else
+      true
+    end
+  end
 end
