@@ -487,7 +487,8 @@ class ArtistsController < ApplicationController
 
   # for mobile only
   def thumbs
-    @artists = Artist.active.select{|a| a.representative_piece}
+    page = params[:page] || 1
+    @artists = Artist.active.paginate(:page => page, :per_page => 5)
     respond_to do |format|
       format.html { redirect_to root_path }
       format.mobile { 

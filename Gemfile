@@ -33,6 +33,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
+gem 'will_paginate', '~> 2.3.16'
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'

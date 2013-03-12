@@ -1,0 +1,10 @@
+#thumbs
+  %ul.artists-thumbs
+    - @artists.each do |artist| 
+      - piece = (artist.representative_piece ? artist.representative_piece.get_path('small') : artist.get_profile_image('small'))
+      %li
+        %a{:href => artist_path(artist)}
+          .thumb{:style => "background-image:url(#{piece});"}
+        - if artist.os_participation[Conf.oslive.to_s]
+          .os-star
+= will_paginate @artists, :class => 'apple_pagination'

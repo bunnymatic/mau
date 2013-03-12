@@ -191,6 +191,7 @@ GEM
     tilt (1.3.3)
     tmail (1.2.7.1)
     tzinfo (0.3.33)
+    will_paginate (2.3.16)
     yajl-ruby (1.1.0)
 
 PLATFORMS
@@ -246,3 +247,4 @@ DEPENDENCIES
   sass
   tmail
   tzinfo
+  will_paginate (~> 2.3.16)
