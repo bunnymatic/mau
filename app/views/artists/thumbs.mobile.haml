@@ -1,3 +1,4 @@
+= will_paginate @artists, :class => 'apple_pagination', :prev_label => '&laquo;', :next_label => '&raquo;'
 #thumbs
   %ul.artists-thumbs
     - @artists.each do |artist| 
@@ -5,6 +6,7 @@
       %li
         %a{:href => artist_path(artist)}
           .thumb{:style => "background-image:url(#{piece});"}
+          .name #{artist.get_name(true)}
         - if artist.os_participation[Conf.oslive.to_s]
           .os-star
-= will_paginate @artists, :class => 'apple_pagination'
+= will_paginate @artists, :class => 'apple_pagination', :prev_label => '&laquo;', :next_label => '&raquo;'

@@ -61,7 +61,7 @@ describe ArtistsController do
 
     it "shows 1 thumb per artist who has a representative image" do
       artists = Artist.active.select{ |a| a.representative_piece }
-      assert_select('div.thumb', :minimum => artists.count )
+      assert_select 'div.thumb', :minimum => artists.count
     end
   end
 

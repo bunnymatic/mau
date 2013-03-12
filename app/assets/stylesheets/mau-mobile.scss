@@ -116,7 +116,19 @@ h1,h2,h3,h4,h5,h6 {
       height: 120px;
       width: 120px;
       border: 1px solid white;
-      
+      .name { 
+        background: rgba(255,255,255,0.6);
+        position:absolute;
+        bottom: 0;
+        left: 0;
+        overflow:hidden;
+        text-align:center;
+        width: 100%;
+        font-weight: 100;
+        color: $xdarkgray;
+        height: 22px;
+        white-space:nowrap;
+      }
       .os-star {
         position: absolute;
         bottom: -12px;
@@ -261,14 +273,14 @@ h4, h5 {
   .apple_pagination .current {
     font-style: normal;
     font-weight: bold;
-    background-color: #bebebe;
+    background-color: $xdarkgray;
     display: inline-block;
     width: 1.4em;
     height: 1.4em;
     line-height: 1.5;
-    -moz-border-radius: 1em;
-    -webkit-border-radius: 1em;
-    border-radius: 1em;
+    -moz-border-radius: 0.25em;
+    -webkit-border-radius: 0.25em;
+    border-radius: 0.25em;
     text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 1px; }
   .apple_pagination a {
     text-decoration: none;

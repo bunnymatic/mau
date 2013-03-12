@@ -10,19 +10,16 @@ class Artist < User
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
 
   include AddressMixin
+  # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
+  named_scope :with_representative_image, {:joins => :art_pieces, :group => 'art_pieces.artist_id' }
+
   named_scope :open_studios_participants, lambda { |*oskey| 
-      if oskey.blank?
-        {
-        :joins => :artist_info, 
-        :conditions => ["artist_infos.open_studios_participation like '%%#{Conf.oslive}%%'"] 
-        }
-      else
-        {
-        :joins => :artist_info, 
-        :conditions => ["artist_infos.open_studios_participation like '%%#{oskey}%%'"] 
-        }
-      end
+    q = oskey.blank? ? Conf.oslive : oskey
+    {
+      :joins => :artist_info, 
+      :conditions => ["artist_infos.open_studios_participation like '%%#{q}%%'"] 
     }
+  }
   
   has_one :artist_info
 
@@ -125,6 +122,7 @@ class Artist < User
 
 
   class << self
+
     def find_all_by_fullname( names )
       inclause = ""
       lower_names = [names].flatten.map { |n| n.downcase }
