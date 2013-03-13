@@ -43,6 +43,7 @@ class Artist < User
    ].each do |delegat|
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
+  delegate :update_os_participation, :to => :artist_info
 
   def to_json opts = {}
     default_opts = { :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at, :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at, :max_pieces, :updated_at, :activation_code, :reset_code] }

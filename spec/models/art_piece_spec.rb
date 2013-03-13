@@ -10,20 +10,20 @@ describe ArtPiece do
   describe 'create'  do
     it 'should not allow short title' do
       ap = ArtPiece.new(:title => 't')
-      ap.save.should be_false
+      ap.should_not be_valid
       ap.should have(1).errors_on(:title)
     end
     
     it 'should not allow empty title' do
       ap = ArtPiece.new
-      ap.save.should be_false
+      ap.should_not be_valid
       ap.should have(2).errors
     end
     
     it 'allows quotes' do
       p = valid_attrs.merge({:title => 'what"ever'})
       ap = ArtPiece.new(p)
-      ap.valid?.should be_true
+      ap.should be_valid
     end
     
     it 'encodes quotes to html numerically' do

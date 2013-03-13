@@ -5,7 +5,9 @@
     - if @studio.id > 0 
       %span.lkmap
         = link_to 'map', @studio.map_link
-  .participants Open Studios Participants: #{@studio.artists.open_studios_participants.count}
+  .participants 
+    Open Studios Participants: #{@studio.artists.open_studios_participants.count} 
+    = link_to '(learn more)', openstudios_path
   - if @studio.artists.count > 0
     %ul.artists-thumbs
       - @studio.artists.active.select{|a| a.representative_piece}.each do |artist| 

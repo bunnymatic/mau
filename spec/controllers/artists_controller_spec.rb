@@ -10,6 +10,9 @@ describe ArtistsController do
     Rails.cache.stubs(:read).returns(nil)
   end
 
+  let(:artist1) { users(:artist1) }
+  let(:artist1_info) { artist1.artist_info }
+
   describe "#index" do
     describe 'logged in as admin' do
       integrate_views
@@ -99,18 +102,18 @@ describe ArtistsController do
   describe "#update" do
     integrate_views
     before do
-      users(:artist1).artist_info.update_attribute(:open_studios_participation,'')
+      artist1_info.update_attribute(:open_studios_participation,'')
     end
     context "while not logged in" do
       context "with invalid params" do
         before do
-          put :update, :id => users(:artist1).id, :user => {}
+          put :update, :id => artist1.id, :user => {}
         end
         it_should_behave_like "redirects to login"
       end
       context "with valid params" do
         before do
-          put :update, :id => users(:artist1).id, :user => { :firstname => 'blow' }
+          put :update, :id => artist1.id, :user => { :firstname => 'blow' }
         end
         it_should_behave_like "redirects to login"
       end
@@ -118,16 +121,16 @@ describe ArtistsController do
     context "while logged in" do
       before do
         @new_bio = "this is the new bio"
-        @old_bio = users(:artist1).artist_info.bio
-        login_as(users(:artist1))
-        @logged_in_user = users(:artist1)
+        @old_bio = artist1_info.bio
+        login_as(artist1)
+        @logged_in_user = artist1
       end
       context "submit" do
         context "post with new bio data" do
           it "redirects to to edit page" do
             put :update, { :commit => 'submit', :artist => { :artist_info => {:bio => @newbio }}}
             flash[:notice].should eql 'Update successful'
-            response.should redirect_to(edit_artist_path(users(:artist1)))
+            response.should redirect_to(edit_artist_path(artist1))
           end
           it 'publishes an update message' do
             Messager.any_instance.expects(:publish)
@@ -140,13 +143,13 @@ describe ArtistsController do
           post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
         end
         it "redirects to user page" do
-          response.should redirect_to(user_path(users(:artist1)))
+          response.should redirect_to(user_path(artist1))
         end
         it "should have no flash notice" do
           flash[:notice].should be_nil
         end
         it "shouldn't change anything" do
-          users(:artist1).bio.should == @old_bio
+          artist1.bio.should == @old_bio
         end
       end
       context "update address" do
@@ -250,9 +253,9 @@ describe ArtistsController do
     context "while logged in" do
       integrate_views
       before do
-        login_as :artist1
-        @logged_in_user = users(:artist1)
-        @logged_in_artist = users(:artist1)
+        login_as artist1
+        @logged_in_user = artist1
+        @logged_in_artist = artist1
         get :edit
       end
       it_should_behave_like "logged in user"
@@ -266,14 +269,14 @@ describe ArtistsController do
         assert_select("div#artist_edit");
       end
       it "has the artists email in the email form input field" do
-        assert_select("#info .inner-sxn input#artist_email[value=#{users(:artist1).email}]")
+        assert_select("#info .inner-sxn input#artist_email[value=#{artist1.email}]")
       end
       it "has the website input box with the artists website in it" do
-        assert_select("input#artist_url[value=#{users(:artist1).url}]")
+        assert_select("input#artist_url[value=#{artist1.url}]")
       end
       it "has the artists correct links in their respective fields" do
         [:facebook, :blog].each do |k| 
-          linkval = users(:artist1).send(k)
+          linkval = artist1.send(k)
           linkid = "artist_artist_info_#{k}"
           tag = "input##{linkid}[value=#{linkval}]"
           assert_select(tag)
@@ -281,7 +284,7 @@ describe ArtistsController do
       end
       it "has the artists' bio textarea field" do
         get :edit
-        assert_select("textarea#artist_artist_info_bio", users(:artist1).artist_info.bio)
+        assert_select("textarea#artist_artist_info_bio", artist1_info.bio)
       end
       it "has heart notification checkbox checked" do
         assert_select 'input#emailsettings_favorites[checked=checked]'
@@ -300,12 +303,12 @@ describe ArtistsController do
     context " if email_attrs['favorites'] is false " do
       integrate_views
       before do
-        esettings = users(:artist1).emailsettings
+        esettings = artist1.emailsettings
         esettings['favorites'] = false
-        users(:artist1).emailsettings = esettings
-        users(:artist1).save!
-        users(:artist1).reload
-        login_as(users(:artist1))
+        artist1.emailsettings = esettings
+        artist1.save!
+        artist1.reload
+        login_as(artist1)
         get :edit
       end
       it "has heart notification checkbox unchecked" do 
@@ -319,13 +322,13 @@ describe ArtistsController do
     integrate_views
     context "while not logged in" do
       before(:each) do 
-        get :show, :id => users(:artist1).id
+        get :show, :id => artist1.id
       end
       it "returns a page" do
         response.should be_success
       end
       it 'shows the artists name' do
-        assert_select '.artist-profile h1', users(:artist1).get_name(true)
+        assert_select '.artist-profile h1', artist1.get_name(true)
       end
       it "has a twitter share icon it" do
         assert_select '.micro-icon.twitter'
@@ -345,38 +348,37 @@ describe ArtistsController do
       it 'has the artist\'s bio as the description' do
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should == 1
-          desc[0].attributes['content'].should match users(:artist1).bio
+          desc[0].attributes['content'].should match artist1.bio
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
-          desc[0].attributes['content'].should match users(:artist1).get_name(true)
+          desc[0].attributes['content'].should match artist1.get_name(true)
         end
         assert_select 'head meta[property=og:description]' do |desc|
           desc.length.should == 1
-          desc[0].attributes['content'].should match users(:artist1).bio
+          desc[0].attributes['content'].should match artist1.bio
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
-          desc[0].attributes['content'].should match users(:artist1).get_name(true)
+          desc[0].attributes['content'].should match artist1.get_name(true)
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
         long_bio = gen_random_words(:min_length => 800)
-        users(:artist1).artist_info.update_attribute(:bio, long_bio)
-        artist = Artist.find(users(:artist1).id)
-        get :show, :id => users(:artist1).id
+        artist1_info.update_attribute(:bio, long_bio)
+        get :show, :id => artist1.id
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should == 1
-          desc[0].attributes['content'].should_not == artist.bio
-          desc[0].attributes['content'].should match artist.bio[0..490]
+          desc[0].attributes['content'].should_not == artist1.bio
+          desc[0].attributes['content'].should match artist1.bio[0..490]
           desc[0].attributes['content'].should match /\.\.\.$/
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
-          desc[0].attributes['content'].should match users(:artist1).get_name(true)
+          desc[0].attributes['content'].should match artist1.get_name(true)
         end
       end
 
       it 'has the artist tags and media as the keywords' do
-        artist = users(:artist1)
+        artist = artist1
         tags = artist.tags.map(&:name).map{|t| t[0..255]}
         media = artist.media.map(&:name)
         expected = tags + media
-        assert expected.length > 0, 'Fixture for users(:artist1) needs some tags or media associations'
+        assert expected.length > 0, 'Fixture for artist1 needs some tags or media associations'
         assert_select 'head meta[name=keywords]' do |content|
           content.length.should == 1
           actual = content[0].attributes['content'].split(',').map(&:strip)
@@ -405,20 +407,20 @@ describe ArtistsController do
 
     context "while logged in" do
       before do
-        login_as(users(:artist1))
-        @logged_in_user = users(:artist1)
-        get :show, :id => users(:artist1).id
+        login_as(artist1)
+        @logged_in_user = artist1
+        get :show, :id => artist1.id
       end
       it_should_behave_like "logged in user"
       context "looking at your own page" do
         it "website is present" do
-          assert_select("div#u_website a[href=#{users(:artist1).url}]")
+          assert_select("div#u_website a[href=#{artist1.url}]")
         end
         it "facebook is present and correct" do
-          assert_select("div#u_facebook a[href=#{users(:artist1).artist_info.facebook}]")
+          assert_select("div#u_facebook a[href=#{artist1_info.facebook}]")
         end
         it "has sidebar nav when i look at my page" do
-          get :show, :id => users(:artist1).id
+          get :show, :id => artist1.id
           assert_select('#sidebar_nav')
         end
         it "should not have heart icon" do
@@ -448,9 +450,9 @@ describe ArtistsController do
       context "after a user favorites the logged in artist and show the artists page" do
         before do
           @u = users(:quentin)
-          @u.add_favorite(users(:artist1))
-          login_as(users(:artist1))
-          get :show, :id => users(:artist1).id
+          @u.add_favorite(artist1)
+          login_as(artist1)
+          get :show, :id => artist1.id
         end
         it "returns success" do
           response.should be_success
@@ -467,37 +469,37 @@ describe ArtistsController do
     context "after an artist favorites another artist and show the artists page" do
       before do
         a = users(:joeblogs)
-        users(:artist1).add_favorite(a)
-        login_as(users(:artist1))
-        get :show, :id => users(:artist1).id
+        artist1.add_favorite(a)
+        login_as(artist1)
+        get :show, :id => artist1.id
       end
       it "returns success" do
         response.should be_success
       end
       it "shows favorites on show page with links" do
-        assert_select("#my_favorites label a[href=#{favorites_user_path(users(:artist1))}]");
+        assert_select("#my_favorites label a[href=#{favorites_user_path(artist1)}]");
       end
     end
 
     context "while not logged in" do
       before(:each) do 
-        get :show, :id => users(:artist1).id
+        get :show, :id => artist1.id
       end
       it_should_behave_like "not logged in"
       it "website is present" do
-        assert_select("div#u_website a[href=#{users(:artist1).url}]")
+        assert_select("div#u_website a[href=#{artist1.url}]")
       end
       it "has no sidebar nav " do
         response.should_not have_tag('#sidebar_nav')
       end
       it "facebook is present and correct" do
-        assert_select("div#u_facebook a[href=#{users(:artist1).artist_info.facebook}]")
+        assert_select("div#u_facebook a[href=#{artist1_info.facebook}]")
       end
     end
     describe 'logged in as admin' do
       before do
         login_as :admin
-        get :show, :id => users(:artist1).id
+        get :show, :id => artist1.id
       end
       it_should_behave_like 'returns success'
       it_should_behave_like 'logged in as admin'
@@ -505,7 +507,7 @@ describe ArtistsController do
 
     describe 'json' do
       before do
-        get :show, :id => users(:artist1).id, :format => 'json'
+        get :show, :id => artist1.id, :format => 'json'
       end
       it_should_behave_like 'successful json'
     end
@@ -514,12 +516,12 @@ describe ArtistsController do
   describe 'notify_featured' do
     describe 'unauthorized' do
       it 'not logged in redirects to error' do
-        post :notify_featured, :id => users(:artist1).id
+        post :notify_featured, :id => artist1.id
         response.should redirect_to '/error'
       end
       it 'logged in as normal redirects to error' do
         login_as :manager
-        post :notify_featured, :id => users(:artist1).id
+        post :notify_featured, :id => artist1.id
         response.should redirect_to '/error'
       end
     end
@@ -528,12 +530,12 @@ describe ArtistsController do
         login_as :admin
       end
       it 'returns success' do
-        post :notify_featured, :id => users(:artist1).id
+        post :notify_featured, :id => artist1.id
         response.should be_success
       end
       it 'calls the notify_featured mailer' do
         ArtistMailer.expects(:deliver_notify_featured).once
-        post :notify_featured, :id => users(:artist1).id
+        post :notify_featured, :id => artist1.id
       end
     end
   end
@@ -562,19 +564,19 @@ describe ArtistsController do
   describe "arrange art for an artist " do
     before do 
       # stash an artist and art pieces
-      @artpieces = users(:artist1).art_pieces.map(&:id)
+      @artpieces = artist1.art_pieces.map(&:id)
     end
     context "while logged in" do
       before(:each) do
-        login_as(users(:artist1))
+        login_as(artist1)
       end
       [[2,1,3], [1,3,2], [2,3,1]].each do |ord|
         it "returns art_pieces in new order #{ord.inspect}" do
           order1 = ord.map{|idx| @artpieces[idx-1]}
-          Artist.find(users(:artist1).id).art_pieces.map(&:id).should_not == order1
+          artist1.art_pieces.map(&:id).should_not == order1
           post :setarrangement, { :neworder => order1.join(",") }
-          response.should redirect_to user_url(users(:artist1))
-          aps = Artist.find(users(:artist1).id).art_pieces
+          response.should redirect_to user_url(artist1)
+          aps = Artist.find(artist1.id).art_pieces
           aps.map(&:id).should == order1
           aps[0].artist.representative_piece.id.should==aps[0].id
         end
@@ -683,8 +685,7 @@ describe ArtistsController do
     end
     context "while logged in as user" do
       before do
-        a = users(:artist1)
-        login_as(a)
+        login_as(artist1)
         get :admin_index
       end
       it "should report error" do

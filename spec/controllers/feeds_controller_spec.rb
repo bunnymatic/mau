@@ -99,9 +99,9 @@ describe FeedsController do
         login_as(:admin)
       end
       it 'dumps the cache file' do
-        pending
         File.exists?(cache_filename).should be
         Rails.cache.expects(:delete)
+        File.expects(:delete).with('_cached_feeds.html')
         get :clear_cache
       end
     end
