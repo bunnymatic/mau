@@ -53,15 +53,30 @@ describe ArtistsController do
   end
 
   describe "#thumbs" do
-    before do
-      get :thumbs
+    context 'with no params' do
+      before do
+        get :thumbs
+      end
+      it_should_behave_like "a regular mobile page"
+      it_should_behave_like "non-welcome mobile page"
+      
+      it "shows 1 thumb per artist who has a representative image" do
+        artists = Artist.active.select{ |a| a.representative_piece }
+        assert_select 'div.thumb', :count => artists.count
+      end
     end
-    it_should_behave_like "a regular mobile page"
-    it_should_behave_like "non-welcome mobile page"
-
-    it "shows 1 thumb per artist who has a representative image" do
-      artists = Artist.active.select{ |a| a.representative_piece }
-      assert_select 'div.thumb', :minimum => artists.count
+    context 'with osonly=true' do
+      before do
+        get :thumbs, :osonly => 'true'
+      end
+      it_should_behave_like "a regular mobile page"
+      it_should_behave_like "non-welcome mobile page"
+      
+      it "shows 1 thumb per artist who has a representative image and who is doing open studios" do
+        
+        artists = Artist.active.open_studios_participants.select{ |a| a.representative_piece }
+        assert_select 'div.thumb', :count => artists.count
+      end
     end
   end
 

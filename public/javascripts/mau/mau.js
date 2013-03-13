@@ -482,10 +482,12 @@ var TagMediaHelper = {
       submitForm.request({onComplete:function() {
         if(new_setting) {
           $$('#artist_edit .os-violator')[0].show();
+          $$('#events .os-status span')[0].innerHTML = 'Yep';
         }
         else
         {
           $$('#artist_edit .os-violator')[0].hide();
+          $$('#events .os-status span')[0].innerHTML = 'Nope';
         }
         alert(msg);
       }});
