@@ -287,3 +287,18 @@ h4, h5 {
     color: black; }
     .apple_pagination a:hover, .apple_pagination a:focus {
       text-decoration: underline; }
+
+.full_site {
+  text-align: center;
+  padding: 12px 0;
+  background-color: $xdarkgray;
+  a.ui-link {
+    text-decoration: none;
+    color: white;
+    text-decoration: 0;
+    font-weight: 300;
+    background-color: $darkgray;
+    padding: 7px 22px;
+    @include small-rounded-corners;
+  }
+}
