@@ -62,6 +62,8 @@ h1,h2,h3,h4,h5,h6 {
 .ui-listview {
   .ui-btn-up-a, .ui-btn-hover-a, .ui-btn-down-a, .ui-btn-a {
     background: -moz-linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
+    background: -webkit-linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
+    background: linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
     border: 1px solid #222;
     font-weight: bold;
     text-shadow: 0 -1px 1px #fff;
