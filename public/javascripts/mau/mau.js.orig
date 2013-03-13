@@ -312,21 +312,21 @@ var TagMediaHelper = {
   Object.extend(FR, {
     requests: [],
     init: function() {
-      setInterval( function() { FR.update_art(); }, 10000);
+      setInterval( function() { FR.update_art(); }, 8000);
       FR.init = function() {};
     },
     update_art: function() {
       var d = $('sampler');
       if (d) { 
 	var req = new Ajax.Request('/main/sampler', { method:'get',
-					              onSuccess: function(tr) {
-					                d.setOpacity(0);
-					                d.update('');
-					                var h = tr.responseText;
-					                var dummy = new Insertion.Top(d,h);
-					                d.appear();
-					              }
-					            });
+					    onSuccess: function(tr) {
+					      d.setOpacity(0);
+					      d.update('');
+					      var h = tr.responseText;
+					      var dummy = new Insertion.Top(d,h);
+					      d.appear();
+					    }
+					  });
         FR.requests.push(req);
       }
     },
@@ -401,8 +401,8 @@ var TagMediaHelper = {
   Event.observe(window, 'load', N.init);
   
   /** 
-   * scripty stuff related to artist and artist pages
-   */
+     * scripty stuff related to artist and artist pages
+     */
   ID_STUDIO_INFO_TOGGLE = 'studio_info_toggle';
   ID_LINKS_TOGGLE = 'links_toggle';
   ID_ARTIST_INFO_TOGGLE = 'info_toggle';
@@ -466,47 +466,49 @@ var TagMediaHelper = {
     return false;
   };
   A.clickYepNope = function(type) {
-    var sel = 'artist_os_participation';
-    var new_setting = parseInt($(sel).value,10)
+    var sel = '.radio-container.' + type + ' input[type=radio]';
+    var radio = $$(sel);
+    var joining = null;
     var msg = null;
-    if (!new_setting) {
-      msg = 'So sorry you\'re not going to participate this year.'+
-        ' We\'d love to know why.  Tell us via the feedback link'+
-        ' at the bottom of the page.';
-    } else {
-      msg = 'Super!  The more the merrier!';
+    if (radio && radio.length) {
+      radio = radio.first();
+      if (type === 'nope') {
+        msg = 'So sorry you\'re not going to participate this year.'+
+          ' We\'d love to know why.  Tell us via the feedback link'+
+          ' at the bottom of the page.';
+      } else {
+        msg = 'Super!  The more the merrier!';
+      }
+      $(radio).writeAttribute('checked', 'checked');
+
     }
     // submit via ajax
     var submitForm = $$('form.edit_artist').first();
     if (submitForm) {
       submitForm.request({onComplete:function() {
-        if(new_setting) {
+        var setting = type.charAt(0).toUpperCase() + type.slice(1);
+        $$('.os-status span').first().innerHTML = type.charAt(0).toUpperCase() + type.slice(1);
+        if (type == 'yep') {
           $$('#artist_edit .os-violator')[0].show();
-          $$('#events .os-status span')[0].innerHTML = 'Yep';
         }
         else
         {
           $$('#artist_edit .os-violator')[0].hide();
-          $$('#events .os-status span')[0].innerHTML = 'Nope';
         }
         alert(msg);
       }});
     }
   };
   A.clickYep = function() {
-    var sel = 'artist_os_participation';
-    $(sel).value = 1;
     A.clickYepNope('yep');
   };
   A.clickNope = function() {
-    var sel = 'artist_os_participation';
-    $(sel).value = 0;
     A.clickYepNope('nope');
   };
 
   A.bindYepNopeButtons = function() {
-    var yep = $$('#events .yep.formbutton');
-    var nope = $$('#events .nope.formbutton');
+    var yep = $$('.yes-no-radios .radio-container.yep .formbutton');
+    var nope = $$('.yes-no-radios .radio-container.nope .formbutton');
     if (yep && (yep.length > 0) && nope && (nope.length > 0)) {
       var $yep = $(yep[0]);
       var $nope = $(nope[0]);
@@ -574,8 +576,8 @@ var TagMediaHelper = {
         });
       });
     }
-    
-    
+                 
+      
     A.init = function() {};
   };
 
@@ -629,11 +631,7 @@ var TagMediaHelper = {
     var zoomBtn = $$('.action-icons a.zoom');
     _.each(zoomBtn, function(zoom) {
       zoom.observe('click', function(ev) {
-        var t = ev.currentTarget || ev.target;
-        /** current target/target work around for IE */
-        if (t.tagName == 'DIV' && /micro/.test(t.className)) { /* hit the zoom div */
-          t = t.up();
-        }
+        var t = ev.currentTarget;
         MAU.ImageLightbox.init({image:{url: t.data('image'),
                                        width: t.data('imagewidth'),
                                        height: t.data('imageheight')
@@ -643,7 +641,7 @@ var TagMediaHelper = {
         ev.stopPropagation();
       });
     });
-    
+           
     var aafrm = $('arrange_art_form');
     if(aafrm) {
       aafrm.observe('submit', function(ev) {
@@ -726,24 +724,24 @@ var TagMediaHelper = {
         return null;
       }
     },
-    // get_image_path: function(fname, sz) {
-    //   var sub = { thumb: "t_",
-    //               small:"s_",
-    //               medium: "m_",
-    //               large: "l_",
-    //               original: ''};
-    //   if (sz in sub) {
-    //     var f = fname.replace(/^public\//,'/');
-    //     f = f.replace(/^\/public\//,'/');
-    //     var reg = /(^\/*artistdata\/\d+\/imgs\/)(.*)/;
-    //     f = f.replace(reg, "$1"+sub[sz]+"$2");
-    //     if (f[0] != '/') {
-    //       f = '/'+f;
-    //     }
-    //     return f;
-    //   }
-    //   return fname;
-    // },
+    getImagePath: function(fname, sz) {
+      var sub = { thumb: "t_",
+	small:"s_",
+	medium: "m_",
+        large: 'l_',
+        original: ''};
+      if (sz in sub) {
+        var f = fname.replace(/^public\//,'/');
+        f = f.replace(/^\/public\//,'/');
+	var reg = /(^\/*artistdata\/\d+\/imgs\/)(.*)/;
+	f = f.replace(reg, "$1"+sub[sz]+"$2");
+	if (f[0] != '/') {
+	  f = '/'+f;
+	}
+	return f;
+      }
+      return fname;
+    },
     safe_update: function(id, val) {
       var el = $(id);
       if (el) { el.update(val ? val : ''); }
@@ -760,9 +758,10 @@ var TagMediaHelper = {
     },
     update_info: function(ap) {
       var dummy = null;
-      var f = ap.image_files.medium;
+      var f = ap.filename;
       var img = $('artpiece_img');
       if (f) {
+	f = this.getImagePath(f,'medium');
 	img.src = f;
 	this.safe_update('artpiece_title',ap.title);
 	this.safe_update('ap_title', ap.title);
@@ -809,10 +808,21 @@ var TagMediaHelper = {
 
         var $zoom = $$('a.zoom')[0];
         if ($zoom) {
-          var _that = this;
-          $zoom.data('image', ap.image_files.large);
-          $zoom.data('imageheight', ap.image_dimensions.large[1]);
-          $zoom.data('imagewidth', ap.image_dimensions.large[0]);
+          if (ap.image_height > 400 || ap.image_width > 400) {
+            var _that = this;
+            var el = $zoom;
+            el.show();
+<<<<<<< HEAD
+            el.data('image', _that.get_image_path(ap.filename, 'original'));
+            el.data('imageheight', ap.image_height);
+=======
+            el.data('image', _that.getImagePath(ap.filename, 'large'));
+            el.data('imageheight', ap.image_height)
+>>>>>>>  * turn on the zoom feature
+            el.data('imagewidth', ap.image_width);
+          } else {
+            $zoom[0].hide();
+          }
         }
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {
@@ -1052,20 +1062,20 @@ var TagMediaHelper = {
       N.setWindowPosition();
       N.loading();
       var xhr = new Ajax.Updater(N.ID_CONTENT, '/users/' + aid + '/noteform',
-		                 {
-			           method: 'get',
-			           onComplete: function(transport) {
-			             $(N.ID_CONTENT).removeClassName('note-loading');
-                                     $(N.ID_FORM).focus_first();
-			             $(N.ID_FORM).observe('submit', N.submitNote);
-			             var b = $(N.ID_CLOSE_BTN);
-			             b.observe('click', function(){
-			               N.hideNote();
-			               return false;
-			             });
-			             MAU.addCommentBoxObserver($(N.ID_COMMENT));
-			           }
-		                 });
+		       {
+			 method: 'get',
+			 onComplete: function(transport) {
+			   $(N.ID_CONTENT).removeClassName('note-loading');
+                           $(N.ID_FORM).focus_first();
+			   $(N.ID_FORM).observe('submit', N.submitNote);
+			   var b = $(N.ID_CLOSE_BTN);
+			   b.observe('click', function(){
+			     N.hideNote();
+			     return false;
+			   });
+			   MAU.addCommentBoxObserver($(N.ID_COMMENT));
+			 }
+		       });
     }
     return false;				
   };
@@ -1150,7 +1160,7 @@ var TagMediaHelper = {
       G.showSection(s);
       return false;
     };
-    
+      
     // pick out special items 
     // shop -> cafe press
     // email -> mailto:
@@ -1270,17 +1280,65 @@ var TagMediaHelper = {
 
   Object.extend(AC, {
     CHOOSER: 'account_type_chooser',
+    DEFAULT_OPTION: 'select_account_default_option',
+    FORM_HASH: { Artist: { container:'artist_signup_form', 
+                           form: 'new_artist' },
+                 MAUFan: { container: 'fan_signup_form',
+                           form: 'new_mau_fan' } },
     onload: function() {
       var $chooser = $(AC.CHOOSER);
       if ($chooser) {
         Event.observe($chooser,'change', AC.open_selected_form);
+        if (intype) {
+          AC.open_selected_form(intype);
+        } else {
+          AC.open_form('Artist', false);
+          $(AC.CHOOSER).select('option').first().writeAttribute('selected','selected');
+        }
       }
     },
     open_selected_form: function() {
       var newform = $(AC.CHOOSER).selected();
-      var uri_parser = new MAU.QueryStringParser("/users/new");
-      uri_parser.query_params.type = newform.value;
-      window.location.href = uri_parser.toString();
+      AC.open_form(newform.value, true);
+      // remove dummy option
+      var $def = $(AC.DEFAULT_OPTION);
+      if ($def) { $def.remove(); }
+    },
+    open_form: function(frmtype, enabled) {
+      if (!(frmtype in AC.FORM_HASH)) {
+        return;
+      }
+      var form_info = AC.FORM_HASH[frmtype];
+      var div_id = form_info.container;
+      var $dv = $(div_id);
+      if ($dv) {
+        for (var k in AC.FORM_HASH) {
+          var current = AC.FORM_HASH[k];
+          var cdiv = current.container;
+          var cfrm = current.form;
+          var $cfrm = $(cfrm);
+          var $cdiv = $(cdiv);
+          if (div_id == cdiv) {
+            if (!$cdiv.visible()) { //show if necessary
+              $cdiv.fade(M.FADE_OPTS['in']);
+              $cdiv.setStyle({display:'block'});
+            }
+            // enable/disable all form inputs based on enabled input
+            $cfrm[enabled?'enable':'disable']();
+            if (enabled) {
+              $cfrm.removeClassName('disabled'); 
+              $cfrm.focus_first();
+            }
+            else {
+              $cfrm.addClassName('disabled');
+            }
+          } else { // hide
+            $cdiv.fade(M.FADE_OPTS.out);
+            $cdiv.setStyle({display:'none'});
+            $cfrm.disable();
+          }
+        }
+      }
     }
   });
   Event.observe(window,'load', AC.onload);
@@ -1407,17 +1465,17 @@ var TagMediaHelper = {
       var parent = this.up();
       if (favid && favtype && confirm("Are you sure you want to remove this favorite?")) {
 	var xhr = new Ajax.Request('/users/remove_favorite', 
-                                   { method:'post',
-                                     parameters: {fav_type: favtype,
-                                                  fav_id: favid,
-                                                  authenticityToken: authenticityToken,
-                                                  format: 'json'},
-			             onSuccess: function(tr) {
-                                       var blk = parent.up('.favorites-block');
-                                       parent.remove();
-                                       blk.fire('favorite:removed');
-			             }
-			           });
+                         { method:'post',
+                           parameters: {fav_type: favtype,
+                                        fav_id: favid,
+                                        authenticityToken: authenticityToken,
+                                        format: 'json'},
+			   onSuccess: function(tr) {
+                             var blk = parent.up('.favorites-block');
+                             parent.remove();
+                             blk.fire('favorite:removed');
+			   }
+			 });
       }
       ev.stop();
       return false;

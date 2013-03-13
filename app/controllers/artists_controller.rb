@@ -487,7 +487,14 @@ class ArtistsController < ApplicationController
 
   # for mobile only
   def thumbs
-    @artists = Artist.active.select{|a| a.representative_piece}
+    page = params[:page] || 1
+    
+    paginate_options = {:page => page, :per_page => 20 }
+    if is_os_only(params[:osonly])
+      @artists = Artist.active.open_studios_participants.with_representative_image.all.paginate paginate_options
+    else
+      @artists = Artist.active.with_representative_image.all.paginate paginate_options
+    end
     respond_to do |format|
       format.html { redirect_to root_path }
       format.mobile { 

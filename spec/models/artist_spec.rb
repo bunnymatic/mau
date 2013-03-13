@@ -390,7 +390,7 @@ describe Artist do
       a.artist_info.update_os_participation(Conf.oslive.to_s, true)
       a.artist_info.save
       Artist.tally_os
-      OpenStudiosTally.last.count.should eql (t.count + 1)
+      OpenStudiosTally.last.count.should eql(t.count + 1)
     end
 
   end
@@ -414,7 +414,16 @@ describe Artist do
   end
 
   describe 'named scopes' do
-    describe ':open_studios_participants' do
+    describe 'with_representative_image' do
+      it 'returns only artists with a representative image' do
+        active = Artist.active
+        w_image = Artist.active.with_representative_image.all
+        active.count.should_not eql w_image.count
+        active.select{|a| a.representative_piece.blank?}.should have_at_least(1).item
+        w_image.select{|a| a.representative_piece.blank?}.should be_empty
+      end
+    end
+    describe 'open_studios_participants' do
       [['201104',3],['201110',4]].each do |arg|
         it "returns #{arg[1]} artist(s) with '#{arg[0]}'" do
           artists = Artist.open_studios_participants(arg[0])
