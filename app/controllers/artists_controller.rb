@@ -488,8 +488,7 @@ class ArtistsController < ApplicationController
   # for mobile only
   def thumbs
     page = params[:page] || 1
-    
-    paginate_options = {:page => page, :per_page => 20 }
+    paginate_options = {:page => page, :per_page => 20 }.merge({:params => Hash[ params.select{|k,v| ['osonly'].include? k}]})
     if is_os_only(params[:osonly])
       @artists = Artist.active.open_studios_participants.with_representative_image.all.paginate paginate_options
     else
