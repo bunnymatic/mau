@@ -47,6 +47,7 @@ ActionController::Routing::Routes.draw do |map|
     :edit => :get,
     :map => :get,
     :thumbs => :get,
+    :osthumbs => :get,
     :suggest => :get
   }
   # for mobile

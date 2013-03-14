@@ -4187,3 +4187,8 @@ a.button b.m b {
   }
 }
 
+.hidden {
+  text-indent: -10000px;
+  display:none;
+  visibility: hidden;
+}
