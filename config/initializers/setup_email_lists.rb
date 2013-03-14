@@ -1,6 +1,6 @@
 [FeedbackMailerList, EventMailerList, AdminMailerList].each do |mailing_list|
   begin
-    if mailinglist.all.empty?
+    if mailing_list.all.empty?
       puts "Creating #{mailing_list.name} list"
       mailing_list.create
     end
