@@ -165,10 +165,18 @@ class ArtistsController < ApplicationController
   end
 
   def by_firstname 
+    if !is_mobile?
+      redirect_to '/' and return
+    end
+
     @page_title = "Artists by first name"    
     return sorted_by 'firstname'
   end
   def by_lastname
+    if !is_mobile?
+      redirect_to '/' and return
+    end
+
     @page_title = "Artists by last name"
     return sorted_by 'lastname'
   end
@@ -512,7 +520,7 @@ class ArtistsController < ApplicationController
     end
   end
   def sorted_by sort_column
-    @artists = Artist.active.find(:all, :order => sort_column)
+    @artists = Artist.active.find(:all, :order => sort_column, :include => :artist_info)
     respond_to do |format| 
       format.mobile { 
         render :layout => 'mobile', :template => 'artists/index.mobile'

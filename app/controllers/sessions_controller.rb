@@ -64,8 +64,10 @@ class SessionsController < ApplicationController
     end
   end
   def destroy
+    mobile_view = session[:mobile_view]
     logout_killing_session!
     flash.now[:notice] = "You have been logged out."
+    session[:mobile_view] = mobile_view
     redirect_back_or_default('/')
   end
   
