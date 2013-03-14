@@ -69,8 +69,6 @@ class ArtPiecesController < ApplicationController
   def show
     apid = params[:id].to_i
     @art_piece = safe_find_art_piece(apid)
-    # get favorites
-    @favorites_count = Favorite.art_pieces.find_all_by_favoritable_id(apid).count
     # get all art pieces for this artist
     pieces = []
     if @art_piece.nil? || !@art_piece.artist_id
@@ -79,6 +77,11 @@ class ArtPiecesController < ApplicationController
       return 
     end
 
+    # get favorites
+    @favorites_count = Favorite.art_pieces.find_all_by_favoritable_id(apid).count
+    if is_mobile?
+      redirect_to artist_path(@art_piece.artist) and return
+    end
     if @art_piece.artist_id > 0
       pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
       @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
