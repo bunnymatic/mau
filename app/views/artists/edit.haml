@@ -42,7 +42,7 @@
               %td
                 = select :artist,"studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}, :selected => current_user.studio_id
               %td.input-err
-            %tr
+            %tr.studio-number-row
               %td.input-name Studio #
               %td
                 = text_field_tag "#{f.object_name}[artist_info[studionumber]]", @artist_info.studionumber

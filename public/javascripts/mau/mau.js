@@ -542,6 +542,7 @@ var TagMediaHelper = {
     var toggles = M.Artist.TOGGLES;
     var sxns = M.Artist.SECTIONS;
     var nsxn = sxns.length;
+    
     var bindToggleAction = function( section_idx ) {
       Event.observe(lnk, 'click', function(event){
         var nm = sxns[section_idx];
@@ -574,6 +575,19 @@ var TagMediaHelper = {
         });
       });
     }
+
+    /** hide/clear studio # when we choose indy */
+    $$('.edit-sections #artist_studio_id').each(function(s) {
+      s.observe('change', function(ev) {
+        
+        if (this.selected().value == 0) {
+          $('artist_artist_info_studionumber').value = ''
+          $$('.edit-sections #address .studio-number-row')[0].hide();
+        } else { 
+          $$('.edit-sections #address .studio-number-row')[0].show();
+        }
+      });
+    });
     
     
     A.init = function() {};
