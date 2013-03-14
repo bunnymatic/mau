@@ -10,7 +10,7 @@
            os_star = a.os_participation[Conf.oslive.to_s]
         end
 -%>
-  <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a), :os_star => os_star %>
+  <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a), :os_star => os_star, :xtra_class => 'artist' %>
 <%   end -%>
 <% end -%>
 </ul>

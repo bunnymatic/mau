@@ -64,6 +64,7 @@ h1,h2,h3,h4,h5,h6 {
     background: -moz-linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
     background: -webkit-linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
     background: linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ddd), color-stop(100%, #aaa));
     border: 1px solid #222;
     font-weight: bold;
     text-shadow: 0 -1px 1px #fff;
@@ -165,6 +166,13 @@ h1,h2,h3,h4,h5,h6 {
     font-weight: normal;
     display:inline-block;
     width: 130px;
+  }
+  &.artist {
+    .ui-li {
+      .ui-btn-text a {
+        padding-left: 40px;
+      }
+    }
   }
 }
 
@@ -290,7 +298,7 @@ h4, h5 {
     .apple_pagination a:hover, .apple_pagination a:focus {
       text-decoration: underline; }
 
-.full_site {
+.show_more, .full_site {
   text-align: center;
   padding: 12px 0;
   background-color: $xdarkgray;
@@ -302,5 +310,15 @@ h4, h5 {
     background-color: $darkgray;
     padding: 7px 22px;
     @include small-rounded-corners;
+    &:visited {
+      color: white;
+    }
+  }
+}
+
+.show_more {
+  background-color: $darkgray;
+  a.ui-link {
+    background-color: $xdarkgray;
   }
 }

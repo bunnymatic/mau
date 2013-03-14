@@ -494,23 +494,46 @@ class ArtistsController < ApplicationController
   end
 
   # for mobile only
-  def thumbs
-    page = params[:page] || 1
-    paginate_options = {:page => page, :per_page => 20 }.merge({:params => Hash[ params.select{|k,v| ['osonly'].include? k}]})
-    if is_os_only(params[:osonly])
-      @artists = Artist.active.open_studios_participants.with_representative_image.all.paginate paginate_options
-    else
-      @artists = Artist.active.with_representative_image.all.paginate paginate_options
-    end
+  def osthumbs
+    fetch_thumbs true
     respond_to do |format|
       format.html { redirect_to root_path }
       format.mobile { 
-        render :layout => 'mobile'
+        if params[:partial] 
+          render :thumbs, :layout => false
+        else
+          render :thumbs, :layout => 'mobile'
+        end
+      }
+    end
+  end
+
+  def thumbs
+    fetch_thumbs
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.mobile { 
+        if params[:partial] 
+          render :layout => false
+        else
+          render :layout => 'mobile'
+        end
       }
     end
   end
   
   protected
+  def fetch_thumbs(osonly = false)
+    page = params[:page] || 1
+    paginate_options = {:page => page, :per_page => 20 }
+    if osonly
+      @artists = Artist.active.open_studios_participants.with_representative_image.all.paginate paginate_options
+    else
+      @artists = Artist.active.with_representative_image.all.paginate paginate_options
+    end
+    @artists
+  end
+
   def safe_find_artist(id)
     begin
       Artist.find(id)
