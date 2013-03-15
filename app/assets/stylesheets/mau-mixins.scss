@@ -131,6 +131,13 @@ $default_rounded_amount: 4px;
   -webkit-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
 }
 
+@mixin transition($trans) {
+  -webkit-transition: $trans;
+  -moz-transition: $trans;
+  -o-transition: $trans;
+  transition: $trans;
+}
+
 .clearfix {
     zoom:1;
     &:before, &:after {
@@ -143,3 +150,4 @@ $default_rounded_amount: 4px;
         clear: both;
     }
 }
+
