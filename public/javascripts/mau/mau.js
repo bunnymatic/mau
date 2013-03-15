@@ -790,7 +790,7 @@ var TagMediaHelper = {
 	  md.update('');
 	  dummy = new Insertion.Bottom(md, med);
 	}
-	var ts = TagMediaHelper.format_tags.apply(ap.tags,[true]);
+	var ts = TagMediaHelper.format_tags.apply(ap.art_piece_tags,[true]);
 	var i = 0;
 	var ntags = ts.length;
 	var tgs = $('ap_tags');
@@ -1640,6 +1640,12 @@ var TagMediaHelper = {
   IM.init = function() {
   };
   Event.observe(window,'load',IM.init);
+
+  var Social = M.Social = M.Social || {};
+  Social.init = function() {
+  };
+  Event.observe(window,'load',Social.init);
+  
 }
 
 
