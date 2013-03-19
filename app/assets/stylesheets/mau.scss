@@ -4201,22 +4201,23 @@ a.button b.m b {
   visibility: hidden;
 }
 
-.social-buttons {
+#social_panel {
   position:absolute;
-  background: white;
-  border: red;
+  @include transparent_black_background;
+  border: 1px solid $bordergray;
+  @include small-rounded-corners;
+  border-bottom: none;
   right: 0;
-  bottom: 32px;
+  bottom: 2px;
   width: 16px;
   width: 200px;
   height: 0px;
   opacity:0.0;
-}
-.social-tools .social-buttons {
+  padding:20px;
   @include transition(all 1s ease);
-}
-.social-tools:hover .social-buttons {
-  height: 100px;
-  opacity:1.0;
-  width: 200px;
+  &.active, &:hover {
+    height: 100px;
+    opacity:1.0;
+    width: 200px;
+  }
 }

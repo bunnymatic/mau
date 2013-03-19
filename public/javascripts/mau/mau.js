@@ -597,6 +597,9 @@ var TagMediaHelper = {
 
   /** art piece methods */
   AP.init = function() {
+    if (!($$("#container.art_pieces").length)) {
+      return false;
+    }
     if (location.hash && location.href.match(/art_pieces\/\d+/)) {
       var newid = location.hash.substr(1);
       if (newid) {
@@ -656,6 +659,17 @@ var TagMediaHelper = {
         MAU.ImageLightbox.show({position:'center'});
         ev.stopPropagation();
       });
+
+      var socialTrigger = $('social_tools');
+      var socialPanel = $('social_panel');
+      if (socialTrigger && socialPanel) {
+        socialTrigger.hover(function() {
+          socialPanel.addClassName('active');
+        }, function() {
+          socialPanel.removeClassName('active');
+        },
+                            {});
+      }
     });
     
     var aafrm = $('arrange_art_form');
