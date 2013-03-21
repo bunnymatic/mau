@@ -3,9 +3,9 @@
   %head
     = render :partial => '/extra_html_head' 
     = render :partial => '/title' 
-    = render :partial => '/stylesheets' 
-    = render :partial => '/ganalytics' 
-    = render :partial => '/javascripts' 
+    = render :partial => '/common/stylesheets' 
+    = render :partial => '/common/ganalytics' 
+    = render :partial => '/common/javascripts' 
   %body{ :class => "one_column %s " % @browser_as_class }
     - if @_ie7 
       = render :partial => '/ie7_warning' 
@@ -17,7 +17,7 @@
       .hstripe
       = render :partial => '/content', :locals => { :cols => 1 } 
       .hstripe
-      = render :partial => '/footer' 
+      = render :partial => '/common/footer' 
     = render :partial => '/credits_footer'
 
   %script Feedback.init();

@@ -3,9 +3,9 @@
   %head
     = render :partial => '/extra_html_head' 
     = render :partial => '/title' 
-    = render :partial => '/stylesheets' 
-    = render :partial => '/ganalytics' 
-    = render :partial => '/javascripts' 
+    = render :partial => '/common/stylesheets' 
+    = render :partial => '/common/ganalytics' 
+    = render :partial => '/common/javascripts' 
   %body{:class => "two_column %s" % @browser_as_class}
     - if @_ie7 
       = render :partial => '/ie7_warning'
@@ -18,7 +18,7 @@
         .hstripe
         = yield
         .hstripe
-        = render :partial => '/footer'
+        = render :partial => '/common/footer'
       = render :partial => '/credits_footer'     
   = javascript_include_tag "mau/mau_feeds"
   %script Feedback.init();

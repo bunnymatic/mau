@@ -4215,6 +4215,9 @@ a.button b.m b {
   opacity:0.0;
   padding:20px;
   @include transition(all 1s ease);
+  > div {
+    margin: 4px;
+  }
   &.active, &:hover {
     height: 100px;
     opacity:1.0;
