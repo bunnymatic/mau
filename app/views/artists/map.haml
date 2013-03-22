@@ -1,0 +1,18 @@
+#map_page
+  - if params[:format] != 'mobile'
+    %div{:style => "margin: auto;" }
+      = render :partial => '/osswitch', :locals => {:params => @inparams} 
+      = render :partial => '/artists/view_switcher'
+    .clear
+    .map-roster
+      - @roster.each do |ky,v|
+        .map-addr
+          = ky
+        - v.each do |a|
+          .map-name
+            %a.artist-map-lnk{ :id => "artist_#{a.id}", :href => artist_path(a)}
+              =h a.get_name
+  .map-container
+    = GMap.header(:local_search => true)
+    = @map.to_html
+    = @map.div(:width => 600, :height => 500)
