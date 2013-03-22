@@ -1,5 +1,5 @@
 quentin:
-  login:                     quentin
+  login:                     quentin.tarantino@example.com
   email:                     quentin@example.com
   salt:                      1b6453892473a467d07372d45eb05abc2031647a # SHA1('0')
   crypted_password:          6900d7c6156b36acbaeda4f9e26a9225274297ef # 'monkey'
