@@ -1,0 +1,36 @@
+.open-close-div acct
+  %span#info_toggle.title Personal Info
+    .edit
+      %a#info_toggle_lnk{:href => "#info"} change
+.edit-profile-sxn#info{:style=>"display:none;"}
+  .inner-sxn
+    %table.entry-table
+      %tr
+	%td.input-name
+	  First Name
+        %td
+	  = f.text_field :firstname
+	%td.input-err
+      %tr
+	%td class="input-name">
+	  Last Name
+	%td
+          = f.text_field :lastname
+	%td.input-err
+      %tr
+	%td class="input-name">
+	  Email
+	</td>
+	%td>
+	  <%= f.text_field :email %>
+	</td>
+	%td class="input-err">
+	</td>
+      </tr>
+    </table>
+    <div class="buttons">
+      <%= f.submit 'Save Changes' %>
+      <%= f.submit 'Cancel' %>
+    </div>
+  </div>
+</div>
