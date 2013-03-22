@@ -26,6 +26,9 @@ class MainController < ApplicationController
     end
   end
 
+  def contact
+  end
+
   def faq
   end
 

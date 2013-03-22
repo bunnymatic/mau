@@ -202,6 +202,6 @@ class MediaController < ApplicationController
     items = ArtPiece.find_all_by_medium_id(@medium.id, :order => 'created_at')
     
     # if show by artists, pick 1 from each artist
-    @artists = Artist.find(items.map(&:artist_id).uniq)
+    @artists = Artist.find_all_by_id(items.map(&:artist_id).uniq)
   end
 end
