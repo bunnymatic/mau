@@ -760,6 +760,11 @@ div.feed-icon {
   font-size: 12px;
   margin:0;
 }
+div.micro-icon {
+  width: 16px;
+  height: 16px;
+}
+
 .xdelete-icon,
 .micro-icon,
 .feed-icon {
@@ -790,6 +795,7 @@ span.micro-icon {
   height: 16px;
   margin: 6px 4px 6px 0;
 }
+
 .micro-icon.heart {
   background-position: 0 -160px;
 }
@@ -1869,6 +1875,37 @@ td.td-left{
     display: inline-block;
     position: relative;
     margin: auto;
+    .mau_buttons {
+      margin-top: 4px;
+      margin-left: 8px;
+    }
+    .social_buttons {
+      margin-top: 8px;
+      margin-right: 8px;
+      .pinterest img {
+        vertical-align: top;
+      }
+      .facebook {
+        margin-right: 14px;
+      }
+    }
+    .micro-icon {
+      float: right;
+      margin: 6px 4px;
+      cursor: pointer;
+    }
+    #num_favorites {
+      color: $dark_red;
+      float:right;
+      font-size:small; 
+      vertical-align:top;
+      height: 16px;
+      margin: 5px 4px 6px 0;
+    }
+    &:hover #social_panel {
+      display:block;
+      opacity:1.0;
+    }
   }
   #artpiece_img{
     @include solid_border;
@@ -4200,27 +4237,28 @@ a.button b.m b {
   display:none;
   visibility: hidden;
 }
-
+  
 #social_panel {
   position:absolute;
-  @include transparent_black_background;
-  border: 1px solid $bordergray;
-  @include small-rounded-corners;
+  @include transparent_white_background;
   border-bottom: none;
-  right: 0;
-  bottom: 2px;
-  width: 16px;
-  width: 200px;
-  height: 0px;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  height: 36px;
   opacity:0.0;
-  padding:20px;
-  @include transition(all 1s ease);
-  > div {
-    margin: 4px;
+  @include transition(all 0.5s ease);
+  .mau_buttons {
+    float: left;
   }
-  &.active, &:hover {
-    height: 100px;
-    opacity:1.0;
-    width: 200px;
+  .social_buttons {
+    text-align: right;
+    float:right;
+    .facebook {
+      margin-top: 4px;
+    }
+    .pinterest {
+      margin-top: 6px;
+    }
   }
 }

@@ -122,6 +122,7 @@ class ArtPiecesController < ApplicationController
         h['art_piece'].merge!(:favorites_count => @favorites_count)
         h['art_piece']['image_dimensions'] = @art_piece.compute_dimensions
         h['art_piece']['image_files'] = @art_piece.get_paths
+        h['art_piece']['artist_name'] = @art_piece.artist.get_name(true)
         render :json => h.to_json
       }
     end

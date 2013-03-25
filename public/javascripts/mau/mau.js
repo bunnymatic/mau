@@ -659,17 +659,6 @@ var TagMediaHelper = {
         MAU.ImageLightbox.show({position:'center'});
         ev.stopPropagation();
       });
-
-      var socialTrigger = $('social_tools');
-      var socialPanel = $('social_panel');
-      if (socialTrigger && socialPanel) {
-        socialTrigger.hover(function() {
-          socialPanel.addClassName('active');
-        }, function() {
-          socialPanel.removeClassName('active');
-        },
-                            {});
-      }
     });
     
     var aafrm = $('arrange_art_form');
@@ -776,6 +765,19 @@ var TagMediaHelper = {
       var el = $(id);
       if (el) { el.update(val ? val : ''); }
     },
+    updatePinItButton: function(pinIt, artPiece) {
+      if (pinIt) {
+        var pic = location.protocol + "//" + location.host + artPiece.image_files.large
+        var url = location.protocol + "//" + location.host + '/art_pieces/' + artPiece.id
+        var desc = artPiece.title + " by " + artPiece.artist_name;
+        var parser = new MAU.QueryStringParser("//pinterest.com/pin/create/button/")
+        parser.query_params = { url: url,
+                                description: desc, 
+                                media: pic };
+        var newHref =  parser.toString(true);
+        pinIt.writeAttribute('href', newHref);
+      }
+    },
     update_highlight: function() {
       var idx = T.curIdx;
       var ts = $$('div.tiny-thumb');
@@ -788,7 +790,8 @@ var TagMediaHelper = {
     },
     update_info: function(ap) {
       var dummy = null;
-      var f = ap.image_files.medium;
+      var images = ap.image_files;
+      var f = images.medium
       var img = $('artpiece_img');
       if (f) {
 	img.src = f;
@@ -838,7 +841,7 @@ var TagMediaHelper = {
         var $zoom = $$('a.zoom')[0];
         if ($zoom) {
           var _that = this;
-          $zoom.data('image', ap.image_files.large);
+          $zoom.data('image', images.large);
           $zoom.data('imageheight', ap.image_dimensions.large[1]);
           $zoom.data('imagewidth', ap.image_dimensions.large[0]);
         }
@@ -862,6 +865,21 @@ var TagMediaHelper = {
             lnk.writeAttribute('href', href);
           });
         }
+        
+        try{
+          /* update facebook button*/
+          var fb = $('artpiece_container').selectOne('.fb-like');
+          if (fb) {
+            var href = (fb.getAttribute('data-href') || location.href).replace(/\#.*$/,'');
+            href = href.replace(/(art_pieces\/)\d+(.*)/,"$1"+ap.id+"$2" );
+            fb.writeAttribute("data-href", href)
+          }
+          FB.XFBML.parse();
+        } catch(ex) {}
+
+        /* update pinterest */
+        var pint = $('artpiece_container').selectOne('span.pinterest a');
+        this.updatePinItButton(pint, ap);
       }
     },
     update_page: function() {

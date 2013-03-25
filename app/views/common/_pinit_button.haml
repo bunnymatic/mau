@@ -1,2 +1,6 @@
-%a{"data-pin-config" => "beside", :href => "//pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.flickr.com%2Fphotos%2Fkentbrew%2F6851755809%2F&media=http%3A%2F%2Ffarm8.staticflickr.com%2F7027%2F6851755809_df5b2051c9_z.jpg&description=Next%20stop%3A%20Pinterest", "data-pin-do" => "buttonPin"}
+- url = request.url
+- desc = [@art_piece.title, @art_piece.artist.get_name(true)].join(' by ')
+- pic = @art_piece.get_path(:large)
+- href = "//pinterest.com/pin/create/button/" + HTMLHelper.queryencode({:url => url, :description => desc, :media => pic })
+%a{:class => 'pinit_art_piece', "data-pin-config" => "beside", :href => href.html_safe, "data-pin-do" => "buttonPin"}
   %img{:src => "//assets.pinterest.com/images/pidgets/pin_it_button.png"}
