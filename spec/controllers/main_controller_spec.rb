@@ -26,6 +26,12 @@ end
 
 shared_examples_for 'main#index page' do
   it_should_behave_like 'standard sidebar layout'
+  it 'has social icons in the main text section' do
+    assert_select '.main-text .social'
+  end
+  it 'does not have social icons in the sidebar' do
+    (css_select '.lcol .social').should be_empty
+  end
   it "shows search box" do
     assert_select '#search_box'
   end
@@ -176,6 +182,10 @@ describe MainController do
       end
       it_should_behave_like "not logged in"
       it_should_behave_like 'standard sidebar layout'
+      it 'has social icons in the sidebar' do
+        assert_select '.lcol .social'
+      end
+
     end
     context "while logged in as an art fan" do
       before do
@@ -389,6 +399,9 @@ describe MainController do
       end
       it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "logged in user"
+      it 'has social icons in the sidebar' do
+        assert_select '.lcol .social'
+      end
     end
     context "while logged in as artist" do
       before do
@@ -399,6 +412,10 @@ describe MainController do
       end
       it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "logged in user"
+      it 'has social icons in the sidebar' do
+        assert_select '.lcol .social'
+      end
+
     end
   end
   describe '#main/venues' do
@@ -409,6 +426,10 @@ describe MainController do
       end
       it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
+      it 'has social icons in the sidebar' do
+        assert_select '.lcol .social'
+      end
+
     end
     context 'logged in as admin' do
       before do
@@ -437,6 +458,10 @@ describe MainController do
       end
       it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
+      it 'has social icons in the sidebar' do
+        assert_select '.lcol .social'
+      end
+
       it 'assigns participating studios with only studios that have os artists without studio = 0' do
         n = Artist.active.open_studios_participants.select{|a| !a.studio_id.nil? && a.studio_id != 0}.map(&:studio).uniq.count
         assigns(:participating_studios).should have(n).studios
