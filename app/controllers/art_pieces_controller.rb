@@ -67,6 +67,9 @@ class ArtPiecesController < ApplicationController
   # GET /art_pieces/1
   # GET /art_pieces/1.xml
   def show
+    @facebook_required = true
+    @pinterest_required = true
+
     apid = params[:id].to_i
     @art_piece = safe_find_art_piece(apid)
     # get all art pieces for this artist
