@@ -1834,7 +1834,11 @@ td.td-left{
   margin: auto;
   text-align: center;
   h2 { 
+    margin-top: 0px;
     line-height: 1.4em;
+  }
+  .social {
+    margin-top: 30px;
   }
 }
 
