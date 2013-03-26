@@ -25,10 +25,10 @@
               %img#artpiece_img{:src => @art_piece.get_path('medium')}
             #social_panel
               .social_buttons
-                %span.facebook
-                  = render :partial => '/common/facebook_like_button'
                 %span.pinterest
                   = render :partial => '/common/pinit_button'
+                %span.facebook
+                  = render :partial => '/common/facebook_like_button'
               .mau_buttons
                 - if !current_user || (@art_piece.artist != current_user)
                   %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
