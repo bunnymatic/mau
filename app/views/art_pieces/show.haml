@@ -33,6 +33,9 @@
                 %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
                   #num_favorites #{@favorites_count if @favorites_count.to_i > 0}
                   .micro-icon.heart
+            - if Conf.show_lightbox_feature
+              %a{:class => 'zoom zoom-corner', :href => '#', 'data-image' => "#{@zoomed_art_piece_path}", 'data-imagewidth' => @zoomed_width, 'data-imageheight' => @zoomed_height, :style => (@zoomed_art_piece_path ? '' : 'display:none' ) }
+                .zoom
                 
             .action-icons{:style => 'display:none;'}
               - if Conf.show_lightbox_feature

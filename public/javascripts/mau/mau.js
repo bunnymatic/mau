@@ -643,7 +643,7 @@ var TagMediaHelper = {
       });
     });
 
-    var zoomBtn = $$('.action-icons a.zoom');
+    var zoomBtn = $$('#artpiece_container a.zoom');
     _.each(zoomBtn, function(zoom) {
       zoom.observe('click', function(ev) {
         var t = ev.currentTarget || ev.target;
