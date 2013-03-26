@@ -19,8 +19,19 @@ $black: #000;
 $purple: #404;
 $pink: #cc77cc;
 $error_red: #f33;
+$dark_red: #800;
 
 $lightyellow: #FEF7CA;
+
+@mixin transparent_black_background {
+  background-color: $black;
+  background-color: rgba(10,10,10, 0.8);
+}
+
+@mixin transparent_white_background {
+  background-color: $xlightgray;
+  background-color: rgba(240,240,240,0.7);
+}
 
 @mixin dotted_border {
   border: 1px dotted $bordergray;
@@ -131,6 +142,13 @@ $default_rounded_amount: 4px;
   -webkit-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
 }
 
+@mixin transition($trans) {
+  -webkit-transition: $trans;
+  -moz-transition: $trans;
+  -o-transition: $trans;
+  transition: $trans;
+}
+
 .clearfix {
     zoom:1;
     &:before, &:after {
@@ -143,3 +161,4 @@ $default_rounded_amount: 4px;
         clear: both;
     }
 }
+

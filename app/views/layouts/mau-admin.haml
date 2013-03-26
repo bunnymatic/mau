@@ -3,9 +3,9 @@
   %head
     = render :partial => '/extra_html_head' 
     = render :partial => '/title' 
-    = render :partial => '/stylesheets' 
-    = render :partial => '/ganalytics' 
-    = render :partial => '/javascripts' 
+    = render :partial => '/common/stylesheets' 
+    = render :partial => '/common/ganalytics' 
+    = render :partial => '/common/javascripts' 
     = javascript_include_tag "thirdparty/flotr/0.2.0/flotr"
     = stylesheet_link_tag 'mau-admin'
 
@@ -20,5 +20,5 @@
         .hstripe
         = render :partial => '/content', :locals => { :cols => 1 }
         .hstripe
-        = render :partial => '/footer'
+        = render :partial => '/common/footer'
   %script Feedback.init();

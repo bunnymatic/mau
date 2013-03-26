@@ -10,3 +10,5 @@
 <% if current_user && current_user.is_editor? -%>
 <%= javascript_include_tag 'mau/mau_editor.js' %>
 <% end -%>
+<%= render :partial => '/common/facebook_sdk' %>
+<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>

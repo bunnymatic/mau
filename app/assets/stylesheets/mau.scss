@@ -760,6 +760,11 @@ div.feed-icon {
   font-size: 12px;
   margin:0;
 }
+div.micro-icon {
+  width: 16px;
+  height: 16px;
+}
+
 .xdelete-icon,
 .micro-icon,
 .feed-icon {
@@ -844,6 +849,15 @@ span.micro-icon {
 .feed-icon.deviantart,
 .micro-icon.deviantart {
   background-position: 0 -32px;
+}
+
+.micro-icon.gear-black {
+  background-image: url(/images/icons/gear-sprite.png);
+  background-position: 0 0;
+}
+.micro-icon.gear-white {
+  background-image: url(/images/icons/gear-sprite.png);
+  background-position: 0 -16px;
 }
 
 #feed_div {
@@ -1820,7 +1834,11 @@ td.td-left{
   margin: auto;
   text-align: center;
   h2 { 
+    margin-top: 0px;
     line-height: 1.4em;
+  }
+  .social {
+    margin-top: 30px;
   }
 }
 
@@ -1861,6 +1879,56 @@ td.td-left{
     display: inline-block;
     position: relative;
     margin: auto;
+    .mau_buttons {
+      margin-top: 4px;
+      margin-left: 8px;
+    }
+    .social_buttons {
+      margin-top: 8px;
+      margin-right: 8px;
+      .pinterest img {
+        vertical-align: top;
+      }
+      .facebook {
+        margin-right: 14px;
+      }
+    }
+    .micro-icon {
+      float: right;
+      margin: 6px 4px;
+      cursor: pointer;
+    }
+    .zoom-corner {
+      height: 20px;
+      width: 20px;
+      background-image: url(/images/icons/zoom_corner.png);
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    a.zoom {
+      @include transition(all 0.5s ease);
+      display: none;
+      opacity: 0;
+    }
+    #num_favorites {
+      color: $dark_red;
+      float:right;
+      font-size:small; 
+      vertical-align:top;
+      height: 16px;
+      margin: 5px 4px 6px 0;
+    }
+    &:hover #social_panel {
+      display:block;
+      opacity:1.0;
+    }
+    &:hover a.zoom {
+      display: block;
+      opacity: 1.0;
+    }
+
   }
   #artpiece_img{
     @include solid_border;
@@ -4191,4 +4259,29 @@ a.button b.m b {
   text-indent: -10000px;
   display:none;
   visibility: hidden;
+}
+
+#social_panel {
+  position:absolute;
+  @include transparent_white_background;
+  border-bottom: none;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  height: 36px;
+  opacity:0.0;
+  @include transition(all 0.5s ease);
+  .mau_buttons {
+    float: left;
+  }
+  .social_buttons {
+    text-align: right;
+    float:right;
+    .facebook {
+      margin-top: 4px;
+    }
+    .pinterest {
+      margin-top: 6px;
+    }
+  }
 }

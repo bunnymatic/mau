@@ -23,15 +23,26 @@
           .artpiece_wrapper
             - if @art_piece.filename
               %img#artpiece_img{:src => @art_piece.get_path('medium')}
-            .action-icons
+            #social_panel
+              .social_buttons
+                %span.facebook
+                  = render :partial => '/common/facebook_like_button'
+                %span.pinterest
+                  = render :partial => '/common/pinit_button'
+              .mau_buttons
+                %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
+                  #num_favorites #{@favorites_count if @favorites_count.to_i > 0}
+                  .micro-icon.heart
+            - if Conf.show_lightbox_feature
+              %a{:class => 'zoom zoom-corner', :href => '#', 'data-image' => "#{@zoomed_art_piece_path}", 'data-imagewidth' => @zoomed_width, 'data-imageheight' => @zoomed_height, :style => (@zoomed_art_piece_path ? '' : 'display:none' ) }
+                .zoom
+                
+            .action-icons{:style => 'display:none;'}
               - if Conf.show_lightbox_feature
                 %a{:class => 'zoom', :href => '#', 'data-image' => "#{@zoomed_art_piece_path}", 'data-imagewidth' => @zoomed_width, 'data-imageheight' => @zoomed_height, :style => (@zoomed_art_piece_path ? '' : 'display:none' ) }
                   .micro-icon.zoom
-
-              %a{:class => 'fb', :href => ArtPiecesHelper.fb_share_link(@art_piece), :target => "_new", :title =>"Share this page on Facebook"}
-                .micro-icon.facebook
-              %a{ :href => tw_share_link(@art_piece), :target => "_new",  :title => "Share this page on Twitter"}
-                .micro-icon.twitter
+              %a{:id => 'social_tools', :class => 'social-tools', :href => '#', :title =>"Get Social"}
+                .micro-icon.gear-white
               - if (!current_user || (current_user && current_user.id != artist.id))
                 %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
                   #num_favorites #{@favorites_count if @favorites_count.to_i > 0}

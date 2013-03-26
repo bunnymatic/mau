@@ -15,6 +15,7 @@ class MainController < ApplicationController
   def index
     respond_to do |format| 
       format.html { 
+        @is_homepage = true
         @rand_pieces = get_random_pieces
         render 
       }
