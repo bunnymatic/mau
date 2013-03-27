@@ -11,4 +11,5 @@
 <%= javascript_include_tag 'mau/mau_editor.js' %>
 <% end -%>
 <%= render :partial => '/common/facebook_sdk' if @facebook_required %>
-<%= javascript_include_tag "//assets.pinterest.com/js/pinit.js" if @pinterest_required %>
+- if @pinterest_required
+  <script data-pin-do-not-log="true" type='text/javascript' src="//assets.pinterest.com/js/pinit.js"></script>
