@@ -237,8 +237,12 @@ input[type=checkbox]:checked {
   overflow: auto;
 }
 .artist-info-block {
-  width: 250px;
+  max-width: 282px;
+  margin: 30px auto;
   margin-top: 30px;
+  h3 {
+    text-align:center;
+  }
   div {
     padding: 1px 5px;
     width: 106px;
