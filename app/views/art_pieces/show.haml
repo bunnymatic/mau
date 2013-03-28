@@ -1,7 +1,7 @@
 %script{:type => "text/javascript"}
-  var cur_idx = #{@cur_idx || 1};
-  var prev_idx = #{@prev_idx || 1};
-  var next_idx = #{@next_idx || 1};
+  var MAU = MAU = MAU || {};
+  var T = MAU.Thumbs = MAU.Thumbs || {};
+  T.curIdx = #{@cur_idx || 1};
 %table.tbl-content
   = render :partial => "/twocol_top"
   %tr
