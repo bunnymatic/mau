@@ -1,0 +1,26 @@
+%script{:type => "text/javascript"}
+  MAU = window['MAU'] || {};
+  MAU.Thumbs = MAU.Thumbs || {}
+  MAU.Thumbs.ThumbList = #{@thumbs.to_json}
+
+- if @thumbs.length > 0
+  - row_count_class = "rows#{(@thumbs.length.to_f / 4.0).ceil.to_i}"
+
+  .clear
+  #artp_thumb_browser{:class => row_count_class}
+    .prev{:class => row_count_class}
+      %a#prev_img_lnk{:href=>"#",:apid => @prev_img}
+        #prev-browse
+    .thumb-browser-thumbs
+      - @thumbs.each do |t|
+        %a.jump-to{:href => "##{t[:id]}"}
+          %div{:class => t[:clz],:style =>"background-image:url(#{t[:path]}); background-position: center center;"}
+            &nbsp;
+            %img.tiny-thumb{:src=>"/images/pix.gif"}
+    .next{:class => row_count_class}
+      %a#next_img_lnk{:href=>"#",:apid => @next_img}
+        #next-browse
+  .clear  
+- else 
+  &nbsp;
+

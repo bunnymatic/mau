@@ -10,8 +10,6 @@
       - if @art_piece
         = render :partial => "sidebar_info", :locals => { :artist => artist }
         = render :partial => "/art_pieces/thumb_browser"
-        - form_tag artist_path(artist), :method => 'get' do
-          %input.formbutton{:type => "submit", :value => "Artist's Page", :name => "submit"}
     %td.vstripe
     %td.rcol{:colspan => 2}
       .logo-spacer
@@ -35,8 +33,20 @@
                     #num_favorites #{@favorites_count if @favorites_count.to_i > 0}
                     .micro-icon.heart
             - if Conf.show_lightbox_feature
-              %a{:class => 'zoom zoom-corner', :href => '#', 'data-image' => "#{@zoomed_art_piece_path}", 'data-imagewidth' => @zoomed_width, 'data-imageheight' => @zoomed_height, :style => (@zoomed_art_piece_path ? '' : 'display:none' ) }
-                .zoom
+              .zoom-corner
+                %a{:class => 'zoom', :href => '#', 'data-image' => "#{@zoomed_art_piece_path}", 'data-imagewidth' => @zoomed_width, 'data-imageheight' => @zoomed_height, :style => (@zoomed_art_piece_path ? '' : 'display:none' ) }
+                  %img.zoom{:src => '/images/icons/zoom_corner.png'}
+          .art-piece-info
+            .basic
+              %span#ap_medium
+                = link_to(@art_piece.medium.name, @art_piece.medium) if @art_piece.medium_id and @art_piece.medium_id > 0
+              %span#ap_dimensions
+                = @art_piece.dimensions if !@art_piece.dimensions.empty?
+              %span#ap_year
+                = @art_piece.year if @art_piece.year.present? and @art_piece.year.to_i > 1899
+            #ap_tags
+              - @art_piece.uniq_tags.each do |t|
+                = link_to t.safe_name, t, :class => 'tag'
                 
         .edit-buttons
           - if logged_in? and current_user == artist
