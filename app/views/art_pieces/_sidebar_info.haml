@@ -1,5 +1,5 @@
 .artist-info-block
-  %h3#ap_artistname
+  %h3
     = link_to artist.get_name(true), artist
   = render '/common/artist_profile_image', :artist => artist
   .both.clear

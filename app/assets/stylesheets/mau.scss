@@ -238,10 +238,10 @@ input[type=checkbox]:checked {
 }
 .artist-info-block {
   max-width: 282px;
-  margin: 30px auto;
-  margin-top: 30px;
+  margin: 37px auto;
   h3 {
     text-align:center;
+    padding: 0px 10px 10px;
   }
   div {
     padding: 1px 5px;
@@ -1902,20 +1902,6 @@ td.td-left{
       margin: 6px 4px;
       cursor: pointer;
     }
-    .zoom-corner {
-      height: 20px;
-      width: 20px;
-      background-image: url(/images/icons/zoom_corner.png);
-      background-repeat: no-repeat;
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-    a.zoom {
-      @include transition(all 0.5s ease);
-      display: none;
-      opacity: 0;
-    }
     #num_favorites {
       color: $dark_red;
       float:right;
@@ -1928,9 +1914,21 @@ td.td-left{
       display:block;
       opacity:1.0;
     }
-    &:hover a.zoom {
-      display: block;
+    &:hover .zoom-corner {
       opacity: 1.0;
+    }
+    .zoom-corner:hover {
+      cursor:pointer;
+    }
+    .zoom-corner {
+      display: block;
+      height: 20px;
+      width: 20px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      @include transition(all 0.75s ease);
+      opacity: 0.0;
     }
 
   }
@@ -4275,9 +4273,14 @@ a.button b.m b {
   display:none;
   height: 36px;
   opacity:0.0;
-  @include transition(all 0.5s ease);
+  @include transition(all 0.75s ease);
   .mau_buttons {
     float: left;
+  }
+  .micro-icon.heart, .pinterest, .facebook {
+    &:hover {
+      cursor: pointer;
+    }
   }
   .social_buttons {
     text-align: right;

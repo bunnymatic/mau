@@ -35,24 +35,20 @@
                     #num_favorites #{@favorites_count if @favorites_count.to_i > 0}
                     .micro-icon.heart
             - if Conf.show_lightbox_feature
-              %a{:class => 'zoom zoom-corner', :href => '#', 'data-image' => "#{@zoomed_art_piece_path}", 'data-imagewidth' => @zoomed_width, 'data-imageheight' => @zoomed_height, :style => (@zoomed_art_piece_path ? '' : 'display:none' ) }
-                .zoom
-
+              .zoom-corner
+                %a{:class => 'zoom', :href => '#', 'data-image' => "#{@zoomed_art_piece_path}", 'data-imagewidth' => @zoomed_width, 'data-imageheight' => @zoomed_height, :style => (@zoomed_art_piece_path ? '' : 'display:none' ) }
+                  %img.zoom{:src => '/images/icons/zoom_corner.png'}
           .art-piece-info
-            :ruby 
-              basic_info = []
-              basic_info << ['ap_medium', link_to(@art_piece.medium.name, @art_piece.medium)] if @art_piece.medium_id and @art_piece.medium_id > 0
-              basic_info << ['ap_dimensions', @art_piece.dimensions] if !@art_piece.dimensions.empty?
-              basic_info << ['ap_year', @art_piece.year] if @art_piece.year.present? and @art_piece.year.to_i > 1899
             .basic
-              %span{:id => bits[0]} 
-                - basic_info.each_with_index do |bits, idx|
-                  =h bits[1]
-                  = (idx != (basic_info.length - 1)) ? ", " : "."
-                
+              %span#ap_medium
+                = link_to(@art_piece.medium.name, @art_piece.medium) if @art_piece.medium_id and @art_piece.medium_id > 0
+              %span#ap_dimensions
+                = @art_piece.dimensions if !@art_piece.dimensions.empty?
+              %span#ap_year
+                = @art_piece.year if @art_piece.year.present? and @art_piece.year.to_i > 1899
             - if !@art_piece.art_piece_tags.empty? 
               .tags
-                %label Tagged with:
+                %label{:for => 'ap_tags'} Tagged with:
                 %span#ap_tags
                   = @art_piece.uniq_tags.map{ |t| link_to t.safe_name, t }.join(", ")
                 
