@@ -1,7 +1,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-USERAGENT = 'HTTP_USER_AGENT'
+#USERAGENT = 'HTTP_USER_AGENT'
 require 'cookies_helper'
 require 'mobile_fu'
 require 'mobilized_styles'
@@ -56,38 +56,6 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::UnknownController,  :with => :render_not_found
     rescue_from ActionController::UnknownAction,      :with => :render_not_found
   end 
-  
-  def browser_class(req) 
-    ua = req.env[USERAGENT]
-    if ua.include?('MSIE') || ua.include?("Trident/4.0")
-      'msie'
-    elsif ua.include?('AppleWebKit') || ua.include?("Safari")
-      'chrome'
-    elsif ua.include?('Mozilla') && ua.include?('Firefox')
-      'firefox'
-    else
-      'unk'
-    end
-  end
-
-  def is_ie8?(req)
-    req.env[USERAGENT].include?('MSIE 8.0') || req.env[USERAGENT].include?("Trident/4.0")
-  end
-  def is_ie7?(req)
-    req.env[USERAGENT].include?('MSIE 7.0') && !req.env[USERAGENT].include?("Trident/4.0")
-  end
-  def is_ie6?(req)
-    req.env[USERAGENT].include? 'MSIE 6.0'
-  end
-  def is_ie?(req)
-    is_ie7?(req) or is_ie8?(req)
-  end
-  def is_ff?(req)
-    req.env[USERAGENT].include? 'Firefox'
-  end
-  def is_safari?(req)
-    req.env[USERAGENT].include? 'Safari'
-  end
 
   def set_version
     unless @@revision
@@ -179,25 +147,17 @@ class ApplicationController < ActionController::Base
     #logger.info("Mobile? %s (device %s)" % [@_ismobile, @_mobile_device_name])
     #puts "Mobile? %s (device %s) %s" % [@_ismobile, @_mobile_device_name, params.inspect]
 
-    unless self.request[USERAGENT].blank?
-      @_ie = is_ie?(self.request)
-      @_ie6 = is_ie6?(self.request)
-      @_ie7 = is_ie7?(self.request)
-      @_ff = is_ff?(self.request)
-      @_safari = is_safari?(self.request)
-      @browser_as_class = browser_class(self.request)
-    end
+    @browser_as_class = browser.name.downcase.gsub(' ', '_') #_class(self.request)
+
     # set corners
     corners = ['corner1','corner2','corner3','corner4']
-    if @_ie6
+    if browser.ie?
       @corners = corners.collect { |c| "/images/%s.gif" % c }
       @logo_img = "/images/tiny-colored.gif"
     else
       @corners = corners.collect { |c| "/images/%s.png" % c }
       @logo_img = "/images/tiny-colored.png"
     end
-
-    logger.debug("Browser: FF %s IE %s Safari %s" % [@_ff, @_ie, @_safari])
   end
 
   private

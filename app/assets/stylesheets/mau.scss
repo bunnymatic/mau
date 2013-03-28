@@ -4268,6 +4268,7 @@ a.button b.m b {
   left: 0;
   bottom: 4px;
   width: 100%;
+  display:none;
   height: 36px;
   opacity:0.0;
   @include transition(all 0.5s ease);

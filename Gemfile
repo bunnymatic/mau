@@ -34,6 +34,7 @@ gem 'momentarily'
 gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'will_paginate', '~> 2.3.16'
+gem 'browser'
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'

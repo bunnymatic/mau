@@ -10,7 +10,7 @@
     = stylesheet_link_tag 'mau-admin'
 
   %body.admin{:class => @browser_as_class}
-    - if @_ie7 
+    - if browser.ie6? || browser.ie7?
       = render :partial => '/ie7_warning'
     = render :partial => '/noscript_msg'
     .wrapper
