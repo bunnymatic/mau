@@ -42,6 +42,20 @@ class MainController < ApplicationController
     render :text => @@revision
   end
 
+  # how many images do we need for the front page?
+  @@NUM_IMAGES = 15
+  def get_random_pieces(num_images=@@NUM_IMAGES)
+    # get random set of art pieces and draw them
+    @rand_pieces = []
+    all = ArtPiece.find(:all,:include => :artist).select{|a| a.artist.active?}
+    numpieces = all.length
+    if numpieces > num_images
+      @rand_pieces = choice(all, num_images)
+    else 
+      @rand_pieces = all
+    end
+  end
+
   def getinvolved
     @page_title = "Mission Artists United - Get Involved!"
     @page = params[:p]
