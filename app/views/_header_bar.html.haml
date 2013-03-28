@@ -1,7 +1,7 @@
 %a{:href => '/'}
   %img#logo{:title => 'Mission Artists United', :alt => 'Mission Artists United', :src => @logo_img}
 #header_bar
-  -if @_ie
+  -if browser.ie?
     .ltcorner
     .rtcorner
     .lbcorner

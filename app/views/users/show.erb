@@ -26,7 +26,7 @@
  	      <div class="artist">
 		<% if (!current_user || current_user.id != @fan.id) && (@fan.emailsettings['fromall'] || (@fan.emailsettings['fromartist'] && logged_in?)) -%>
 		<div class="div-left share">Send the fan a note:&nbsp;
-		  <a href="#" class='notify-artist' aid="<%= @fan.id %>" ><span  aid="<%= @fan.id %>"  class="micro-icon email"><% if @_ie7 -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
+		  <a href="#" class='notify-artist' aid="<%= @fan.id %>" ><span  aid="<%= @fan.id %>"  class="micro-icon email"><% if browser.ie7? || browser.ie6? -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
 		</div>
 		<% end -%>
 		<%= render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @fan } %>

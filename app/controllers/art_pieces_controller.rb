@@ -37,7 +37,7 @@ class ArtPiecesController < ApplicationController
     ctr = 0
     @init_offset = 0
     sz = 56
-    if @_ie
+    if browser.ie?
       sz = 60
     end
     
@@ -68,7 +68,7 @@ class ArtPiecesController < ApplicationController
   # GET /art_pieces/1.xml
   def show
     @facebook_required = true
-    @pinterest_required = true
+    @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
 
     apid = params[:id].to_i
     @art_piece = safe_find_art_piece(apid)
