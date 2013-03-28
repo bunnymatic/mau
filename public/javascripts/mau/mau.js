@@ -743,27 +743,17 @@ var TagMediaHelper = {
         return null;
       }
     },
-    // get_image_path: function(fname, sz) {
-    //   var sub = { thumb: "t_",
-    //               small:"s_",
-    //               medium: "m_",
-    //               large: "l_",
-    //               original: ''};
-    //   if (sz in sub) {
-    //     var f = fname.replace(/^public\//,'/');
-    //     f = f.replace(/^\/public\//,'/');
-    //     var reg = /(^\/*artistdata\/\d+\/imgs\/)(.*)/;
-    //     f = f.replace(reg, "$1"+sub[sz]+"$2");
-    //     if (f[0] != '/') {
-    //       f = '/'+f;
-    //     }
-    //     return f;
-    //   }
-    //   return fname;
-    // },
     safe_update: function(id, val) {
       var el = $(id);
-      if (el) { el.update(val ? val : ''); }
+      if (el) { 
+        el.update(val ? val : ''); 
+        if(val) {
+          el.show();
+        }
+        else {
+          el.hide();
+        }
+      }
     },
     updatePinItButton: function(pinIt, artPiece) {
       if (pinIt) {
@@ -807,7 +797,7 @@ var TagMediaHelper = {
 	  md.update('');
 	  dummy = new Insertion.Bottom(md, med);
 	}
-	var ts = TagMediaHelper.format_tags.apply(ap.art_piece_tags,[true]);
+	var ts = TagMediaHelper.format_tags.apply(ap.art_piece_tags,[true, {'class':'tag'}]);
 	var i = 0;
 	var ntags = ts.length;
 	var tgs = $('ap_tags');
@@ -815,9 +805,6 @@ var TagMediaHelper = {
 	  tgs.update('');
 	  for (;i<ntags;++i){
 	    dummy = new Insertion.Bottom(tgs, ts[i]);
-	    if (i != (ntags-1)) {
-	      dummy = new Insertion.Bottom(tgs,', ');
-	    }
 	  }
 	}
 	if (img) {

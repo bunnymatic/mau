@@ -1545,28 +1545,6 @@ table.getinv-form{
   display: none;
 }
 
-#prev-browse, #next-browse
-{
-  background-image:url(/images/icons/browse-sprite.png);
-  background-repeat: no-repeat;
-  background-position:1px 1px;
-  height:14px;
-  margin: 0 8px;
-  overflow: hidden;
-  width:35px;
-  z-index:10;
-}
-
-#next-browse
-{
-  background-position:1px -11px;
-}
-
-#prev-browse a
-{
-  border: 0;
-}
-
 .hstripe{
   background-color:$bluegray;
   height:5px;
@@ -1615,11 +1593,70 @@ img.tiny-thumb {
 /* margin here controls horiz spacing between thumbs
    use padding on td art-browser-container to control
    vert spacing */
+$browser_thumb_row_height: 51px;
 #artp_thumb_browser {
-  margin: 0 auto 15px auto;
-  text-align: center;
-  width: 213px;
+  margin: auto auto 40px auto;
+  position: relative;
+  &.rows2 {
+    min-height: 2 * $browser_thumb_row_height;
+  }
+  &.rows3 {
+    min-height: 3 * $browser_thumb_row_height;
+  }
+  &.rows4 {
+    min-height: 4 * $browser_thumb_row_height;
+  }
+  &.rows5 {
+    min-height: 5 * $browser_thumb_row_height;
+  }
+  .thumb-browser-thumbs {
+    margin: auto;
+    width: 212px;
+  }
+  #prev-browse, #next-browse {
+    width: 16px;
+    height: 22px;
+    background-image: url(/images/icons/browse-sprite2.png);
+    background-repeat: no-repeat;
+  }    
+  #next-browse {
+    background-position: 0px -44px;
+  }
+  #prev-browse {
+    background-position: 0px -66px;
+  }
+  #prev-browse:hover {
+    background-position: 0px -22px;
+  }
+  #next-browse:hover {
+    background-position: 0px 0px;
+  }
+  .prev, .next {
+    position: absolute;
+    top: 13px;
+    &.rows3, &.rows4 {
+      top: 62px;
+    }
+    &.rows5 {
+      top: 111px;
+    }
+  }
+  .prev {
+    left: 11px;
+  }
+  .next {
+    right: 11px;
+  }
+
+  #prev-browse, #next-browse
+  {
+    overflow: hidden;
+    z-index:10;
+  }
+  
+
 }
+
 
 
 div.tiny-thumb, div.tiny-thumb-sel {
@@ -1635,16 +1672,6 @@ div.tiny-thumb, div.tiny-thumb-sel {
 
 div.tiny-thumb-sel {
   border: 2px solid $lightyellow;
-}
-
-.browser-buttons {
-  font-size: 10px;
-  margin: 20px auto 5px;
-  width: 140px;
-  height: 14px;
-  .next, .prev, .middle {
-    float: left;
-  }
 }
 
 /* for thumb_browser 2
@@ -1879,6 +1906,26 @@ td.td-left{
 #artpiece_container {
   text-align:center;
   padding-bottom: 20px;
+  .art-piece-info {
+    margin-top: 20px;
+  }
+  #ap_tags { 
+    max-width: 500px;
+    margin: 20px auto 10px;
+    font-size: x-small;
+    line-height: 30px;
+    .tag { 
+      padding: 6px 10px;
+      margin: 4px;
+      white-space: nowrap;
+      background-color: $darkgray;
+      @include small-rounded-corners;
+    }
+  }
+  .basic > span {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
   .artpiece_wrapper {
     display: inline-block;
     position: relative;
@@ -1910,6 +1957,10 @@ td.td-left{
       height: 16px;
       margin: 5px 4px 6px 0;
     }
+    #social_panel {
+      min-width: 200px;
+    }
+
     &:hover #social_panel {
       display:block;
       opacity:1.0;
@@ -1930,30 +1981,9 @@ td.td-left{
       @include transition(all 0.75s ease);
       opacity: 0.0;
     }
-
   }
   #artpiece_img{
     @include solid_border;
-  }
-  .action-icons {
-    position: absolute;
-    right: 0px;
-    top: 100%;
-    width: 100%;
-    a {
-      float: right;
-      display: block;
-      margin-left: 3px;
-      > div {
-        margin-left: 0px;
-      }
-      .micro-icon.facebook {
-        margin-right: 0;
-      }
-    }
-    a.zoom {
-      float: left;
-    }
   }
   .edit-buttons {
     margin-top: 16px;

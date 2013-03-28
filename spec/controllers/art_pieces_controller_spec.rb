@@ -62,9 +62,14 @@ describe ArtPiecesController do
           end
         end
       end
+      it 'shows the artist name in the sidebar' do
+        artist_link = '/artists/%d' % @artpieces.first.artist.id
+        assert_select ".lcol h3 a[href=#{artist_link}]"
+        assert_select ".lcol a[href=#{artist_link}] img"
+      end
+
       it "displays art piece" do
         assert_select("#artpiece_title", @artpieces.first.title)
-        assert_select("#ap_title", @artpieces.first.title)
       end
       if Conf.show_lightbox_feature
         it 'includes the zoom data for big art pieces' do

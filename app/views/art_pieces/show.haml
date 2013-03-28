@@ -10,8 +10,6 @@
       - if @art_piece
         = render :partial => "sidebar_info", :locals => { :artist => artist }
         = render :partial => "/art_pieces/thumb_browser"
-        - form_tag artist_path(artist), :method => 'get' do
-          %input.formbutton{:type => "submit", :value => "Artist's Page", :name => "submit"}
     %td.vstripe
     %td.rcol{:colspan => 2}
       .logo-spacer
@@ -46,11 +44,9 @@
                 = @art_piece.dimensions if !@art_piece.dimensions.empty?
               %span#ap_year
                 = @art_piece.year if @art_piece.year.present? and @art_piece.year.to_i > 1899
-            - if !@art_piece.art_piece_tags.empty? 
-              .tags
-                %label{:for => 'ap_tags'} Tagged with:
-                %span#ap_tags
-                  = @art_piece.uniq_tags.map{ |t| link_to t.safe_name, t }.join(", ")
+            #ap_tags
+              - @art_piece.uniq_tags.each do |t|
+                = link_to t.safe_name, t, :class => 'tag'
                 
         .edit-buttons
           - if logged_in? and current_user == artist

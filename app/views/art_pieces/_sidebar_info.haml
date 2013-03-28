@@ -1,5 +1,9 @@
 .artist-info-block
   %h3
     = link_to artist.get_name(true), artist
-  = render '/common/artist_profile_image', :artist => artist
+  - link_to artist, :title => artist.get_name(true) do 
+    - if artist.has_profile_image
+      %img{:class => "profile", :src => "%s?%s" % [artist.get_profile_image('small'), Time.zone.now.to_i]}
+    - else
+      %img{:class => "profile", :src => "/images/default-profile-img-not-me.png"}
   .both.clear

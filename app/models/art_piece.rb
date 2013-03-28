@@ -48,6 +48,10 @@ class ArtPiece < ActiveRecord::Base
     end
   end
 
+  def add_tag(tag_string) 
+    art_piece_tags << TagsHelper.tags_from_s(tag_string)
+  end
+
   def destroy
     id = self.id
     klassname = self.class.name
