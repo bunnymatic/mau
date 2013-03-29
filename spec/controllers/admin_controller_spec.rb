@@ -173,26 +173,26 @@ describe AdminController do
       assigns(:activity_stats).should be_a_kind_of(Hash)
     end
     it 'assigns correct values for artists yesterday' do
-      assigns(:activity_stats)[:yesterday][:artists_activated].should == 1
-      assigns(:activity_stats)[:yesterday][:artists_added].should == 1
+      assigns(:activity_stats)[:yesterday][:artists_activated].should eql 1
+      assigns(:activity_stats)[:yesterday][:artists_added].should eql 1
     end
     it 'assigns correct values for artists last weeek' do
-      assigns(:activity_stats)[:last_week][:artists_activated].should == 4
-      assigns(:activity_stats)[:last_week][:artists_added].should == 7
+      assigns(:activity_stats)[:last_week][:artists_activated].should eql 4
+      assigns(:activity_stats)[:last_week][:artists_added].should eql 7
     end
     it 'assigns correct values for artists last month' do
-      assigns(:activity_stats)[:last_30_days][:artists_activated].should == 5
-      assigns(:activity_stats)[:last_30_days][:artists_added].should == 11
+      assigns(:activity_stats)[:last_30_days][:artists_activated].should eql 6
+      assigns(:activity_stats)[:last_30_days][:artists_added].should eql 12
     end
     it 'has totals' do
       assigns(:activity_stats)[:total].should be
     end
     it 'has studio count' do
-      assigns(:activity_stats)[:total][:studios].should == 4
+      assigns(:activity_stats)[:total][:studios].should eql 4
     end
     it 'has event info' do
-      assigns(:activity_stats)[:total][:events_past].should == Event.past.count
-      assigns(:activity_stats)[:total][:events_future].should == Event.future.count
+      assigns(:activity_stats)[:total][:events_past].should eql Event.past.count
+      assigns(:activity_stats)[:total][:events_future].should eql Event.future.count
     end
     it 'has open studios info' do
       assigns(:activity_stats)[:open_studios].length.should >= 5
@@ -225,7 +225,7 @@ describe AdminController do
       response.should render_template 'fans'
     end
     it "assigns fans" do
-      assigns(:fans).length.should == User.active.all(:conditions => 'type <> "Artist"').length
+      assigns(:fans).length.should eql User.active.all(:conditions => 'type <> "Artist"').length
     end
   end
 
@@ -344,7 +344,7 @@ describe AdminController do
           get :fetch_backup, :name => "file1.tgz"
         end
         it "returns the file contents as text" do
-          response.body.class.should == Proc
+          response.body.class.should eql Proc
         end
       end
       describe '#db_backups' do
@@ -435,7 +435,7 @@ describe AdminController do
       it "returns an entries have date and count" do
         entry = @favorites_per_day.first
         entry.should have(2).entries
-        Time.zone.at(entry[0].to_i).utc.to_date.should == Favorite.all(:order => :created_at).last.created_at.utc.to_date
+        Time.zone.at(entry[0].to_i).utc.to_date.should eql Favorite.all(:order => :created_at).last.created_at.utc.to_date
         entry[1].should >= 1
       end
       it "does not include nil dates" do
@@ -450,7 +450,7 @@ describe AdminController do
       it "returns an entries have date and count" do
         entry = art_pieces_per_day.first
         entry.should have(2).entries
-        Time.zone.at(entry[0].to_i).utc.to_date.should == 2.hours.ago.utc.to_date
+        Time.zone.at(entry[0].to_i).utc.to_date.should eql 2.hours.ago.utc.to_date
         entry[1].should >= 1
       end
       it "does not include nil dates" do
