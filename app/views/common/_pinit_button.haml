@@ -2,5 +2,5 @@
 - desc = [@art_piece.title, @art_piece.artist.get_name(true)].join(' by ')
 - pic = @art_piece.get_path(:large, true)
 - href = "http://pinterest.com/pin/create/button/" + HTMLHelper.queryencode({:url => url, :description => desc, :media => pic })
-%a{:class => 'pinit_art_piece', "data-pin-config" => "beside", :href => href, "data-pin-do" => "buttonPin"}
+%a{:target => '_blank', :class => 'pinit_art_piece', "data-pin-config" => "beside", :href => href, "data-pin-do" => "buttonPin"}
   %img{:src => "http://assets.pinterest.com/images/pidgets/pin_it_button.png"}
