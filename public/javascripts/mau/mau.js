@@ -597,9 +597,6 @@ var TagMediaHelper = {
 
   /** art piece methods */
   AP.init = function() {
-    if (!($$("#container.art_pieces").length)) {
-      return false;
-    }
     if (location.hash && location.href.match(/art_pieces\/\d+/)) {
       var newid = location.hash.substr(1);
       if (newid) {
@@ -615,6 +612,7 @@ var TagMediaHelper = {
       moveleft.first().addClassName("first");
       moveleft.each(function(ml) {
         ml.observe('click', function(ev) {
+          
           var parent = $(this).up();
           var _id = parent.readAttribute('pid');
           AP.move_art(_id,'left');
