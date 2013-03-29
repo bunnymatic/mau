@@ -2,6 +2,11 @@ require 'pathname'
 
 class ImageFile
 
+  FILENAME_CLEANER = /[\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\']/
+  def self.clean_filename(fname)
+    fname.gsub(FILENAME_CLEANER,'').gsub(/\s+/, '')
+  end
+
   class ImageSizes
     class ImageSize < Struct.new(:width, :height, :prefix); end
     @@sizes = {
@@ -53,7 +58,6 @@ class ImageFile
   end
   
   @@IMG_SERVERS = ['']
-  @@FILENAME_CLEANER = '/[\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\'/'
   if Conf.image_servers
     Conf.image_servers.each do |svr|
       @@IMG_SERVERS << svr
@@ -93,8 +97,7 @@ class ImageFile
     ts = Time.zone.now.to_i
     destfile = ts.to_s + File.basename(upload.original_filename) if !destfile
     # make filename something nice
-    destfile.gsub!(@@FILENAME_CLEANER,'')
-    destfile.gsub!(/ /,'')
+    destfile = self.clean_filename(destfile)
     dir = destdir
     path = File.join(dir, File.basename(destfile))
     if !File.exists?(dir)
