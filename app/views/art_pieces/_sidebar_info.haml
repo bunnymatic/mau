@@ -6,4 +6,30 @@
       %img{:class => "profile", :src => "%s?%s" % [artist.get_profile_image('small'), Time.zone.now.to_i]}
     - else
       %img{:class => "profile", :src => "/images/default-profile-img-not-me.png"}
-  .both.clear
+  .clear
+  .studio
+    - if artist.studio
+      .name
+        = link_to artist.studio.name, artist.studio
+      .address
+        #{artist.studio.street}
+        - if artist.artist_info.studionumber.present?
+          %span #{"#" + artist.artist_info.studionumber}
+        - if !artist.address_hash.empty?
+          %span.lkmap
+            (
+            = link_to 'map', artist.studio.map_link
+            )
+        .city #{artist.studio.city}
+    - else
+      .name Independent Studio
+      .address
+        #{artist.artist_info.street}
+        - if !artist.address_hash.empty? && !artist.artist_info.street.blank?
+          %span.lkmap
+            (
+            = link_to 'map', artist.map_link
+            )
+      .city #{artist.artist_info.city}
+  
+  
