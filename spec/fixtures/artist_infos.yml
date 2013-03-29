@@ -97,6 +97,10 @@ admindude:
 quentin:
   artist: quentin
   open_studios_participation: '201210'
+
+nomdeplume:
+  artist: nomdeplume
+  open_studios_participation: '201210|201304'
   
 manager:
   artist: manager
