@@ -104,9 +104,43 @@ describe SearchController do
         assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:mediums).count
       end
     end
+
+    context "finding medium hits by keyword" do
+      before do
+        @searched_medium = media(:medium1)
+        get :index, :keywords => @searched_medium.name
+      end
+      it_should_behave_like 'search page with results'
+      it 'finds things with that medium' do
+        assigns(:pieces).should have_at_least(1).art_piece
+        assigns(:pieces).map(&:medium_id).uniq.should eql [@searched_medium.id]
+      end
+    end
   end
 
   describe '#fetch' do
+    context "for 'boring dude' by partial nomdeplume 'Interesting'" do
+      before do
+        @artist = users(:nomdeplume)
+        post :fetch, :keywords => 'Interesting'
+      end
+      it_should_behave_like 'search page with results'
+      it "returns some results" do
+        assigns(:pieces).should have_at_least(1).art_piece
+      end
+      it "artist 1 owns all the art in those results" do
+        assigns(:pieces).each do |ap|
+          ap.artist.id.should eql @artist.id
+        end
+      end
+      it "sets the correct page" do
+        assigns(:page).should eql 1
+      end
+      it "sets the correct result count" do
+        assigns(:num_results).should eql ArtPiece.find_all_by_artist_id(@artist.id).count
+      end
+    end
+    
     [:annafizyta, :artist1].each do |artist|
       %w[ firstname lastname fullname].each do |term|
         context "for #{artist} by #{term}" do

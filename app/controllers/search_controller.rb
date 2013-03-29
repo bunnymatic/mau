@@ -65,11 +65,14 @@ class SearchController < ApplicationController
         
         kw_query_param = "%#{kw}%"
         partial_results = ArtPiece.find(:all, :conditions => ["title like ?", kw_query_param]) 
-        partial_results += ((Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ?) ", kw_query_param, kw_query_param ])).map{ |a| a.art_pieces }.flatten - partial_results)
+        partial_results += (Artist.active.find(:all, :conditions => ["(firstname like ? or lastname like ? or lower(nomdeplume) like ?) ", kw_query_param, kw_query_param, kw_query_param ])).map{ |a| a.art_pieces }.flatten
+
         tag_ids = ArtPieceTag.find_all_by_name(kw)
         tags = ArtPiecesTag.find(:all, :conditions => ["art_piece_tag_id in (?)", tag_ids])
-        
         partial_results += ArtPiece.find_all_by_id( tags.map(&:art_piece_id) )
+
+        media_ids = Medium.find_all_by_name(kw)
+        partial_results += ArtPiece.find_all_by_medium_id(media_ids)
         
         partial_results += Artist.find(:all, :conditions => ['lower(concat(trim(firstname), \' \', trim(lastname))) = ?', kw]).map(&:art_pieces).flatten
         

@@ -116,3 +116,10 @@ namewithtag:
   image_height: 1024
   image_width: 2048
   
+nomdeplume_art1:
+  filename: this.jpg
+  title: blather blither blother
+  created_at:                <%= 18.days.ago.to_s :db  %>
+  artist: nomdeplume
+  image_height: 102
+  image_width: 204
