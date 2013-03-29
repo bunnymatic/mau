@@ -792,25 +792,29 @@ var TagMediaHelper = {
 	this.safe_update('ap_favorites',ap.favorites_count);
 	this.safe_update('num_favorites',ap.favorites_count);
 	var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
-	var md = $("ap_medium");
-	if (md) {
-	  md.update('');
-	  dummy = new Insertion.Bottom(md, med);
-	}
+	this.safe_update('ap_medium', med);
 	var ts = TagMediaHelper.format_tags.apply(ap.art_piece_tags,[true, {'class':'tag'}]);
-	var i = 0;
-	var ntags = ts.length;
 	var tgs = $('ap_tags');
-	if (tgs) {
-	  tgs.update('');
-	  for (;i<ntags;++i){
-	    dummy = new Insertion.Bottom(tgs, ts[i]);
-	  }
-	}
+        if (tgs) {
+	  var i = 0;
+	  var ntags = ts.length;
+          if (ntags) {
+            tgs.update('');
+            for(;i<ntags;++i) {
+	      var dummy = new Insertion.Bottom(tgs, ts[i]);
+            }
+            tgs.show();
+          } else {
+            tgs.hide();
+          }
+        }
 	if (img) {
           img.show();
         }
-        
+        var inf = $('artpiece_container').selectOne('.art-piece-info');
+        if (inf) {
+          inf.setStyle({width: ap.image_dimensions.medium[0] + 'px'});
+        }
         // hides errors/notices
         $$('.notice').each(function(el) { 
           if (el.visible()) {

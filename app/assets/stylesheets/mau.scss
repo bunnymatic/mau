@@ -1894,14 +1894,35 @@ td.td-left{
   text-align:center;
   padding-bottom: 20px;
   .art-piece-info {
+    margin: auto;
     margin-top: 20px;
+    text-align:right;
+  }
+  #ap_medium {
+    &:before {
+      content: 'Medium: ';
+    }
+  }
+  #ap_year {
+    &:before {
+      content: 'Created: ';
+    }
+  }
+  #ap_dimensions {
+    &:before {
+      content: 'Dimensions: ';
+    }
   }
   #ap_tags { 
+    text-align:center;
+    &:before {
+      content: 'Tags: '
+    }
     max-width: 500px;
     margin: 20px auto 10px;
     font-size: x-small;
     line-height: 30px;
-    .tag { 
+    a.tag { 
       padding: 6px 10px;
       margin: 4px;
       white-space: nowrap;
@@ -1909,9 +1930,11 @@ td.td-left{
       @include small-rounded-corners;
     }
   }
-  .basic > span {
-    padding-right: 10px;
-    padding-left: 10px;
+  .basic {
+    font-size: x-small;
+    .entry {
+      line-height: 1.7em;
+    }
   }
   .artpiece_wrapper {
     display: inline-block;
