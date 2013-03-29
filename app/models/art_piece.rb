@@ -85,7 +85,7 @@ class ArtPiece < ActiveRecord::Base
 
   def get_path(size = nil, full_path = false)
     size ||= 'medium'
-    prefix = full_path ? "//%s" % Conf.site_url : ''
+    prefix = full_path ? "http://%s" % Conf.site_url : ''
     artpiece_path = ArtPieceImage.get_path(self, size)
     prefix + (artpiece_path || '')
   end

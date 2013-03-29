@@ -1584,6 +1584,7 @@ $browser_thumb_row_height: 51px;
 #artp_thumb_browser {
   margin: auto auto 40px auto;
   position: relative;
+  min-height: $browser_thumb_row_height;
   &.rows2 {
     min-height: 2 * $browser_thumb_row_height;
   }
