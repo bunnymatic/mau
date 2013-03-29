@@ -55,6 +55,7 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::RoutingError,       :with => :render_not_found
     rescue_from ActionController::UnknownController,  :with => :render_not_found
     rescue_from ActionController::UnknownAction,      :with => :render_not_found
+    rescue_from Exception, :with => :render_error
   end 
 
   def set_version
@@ -173,8 +174,8 @@ class ApplicationController < ActionController::Base
   def render_error(exception)
     logger.error(exception)
     respond_to do |fmt|
-      fmt.html { render :template => "/error/index.html.erb", :status => 500 }
-      fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 500 }
+      fmt.html { render :template => "/error/index.html.erb", :status => 500 and return}
+      fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 500 and return}
     end
   end
   
