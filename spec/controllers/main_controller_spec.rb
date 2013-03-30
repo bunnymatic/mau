@@ -748,5 +748,12 @@ describe MainController do
       end
     end
   end
+
+  describe 'get_random_pieces' do
+    it 'returns art pieces' do
+      pieces = @controller.get_random_pieces
+      pieces.map(&:class).uniq.should eql [ArtPiece]
+    end
+  end
 end
 

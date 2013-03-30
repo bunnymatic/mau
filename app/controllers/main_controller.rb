@@ -47,7 +47,7 @@ class MainController < ApplicationController
   def get_random_pieces(num_images=@@NUM_IMAGES)
     # get random set of art pieces and draw them
     @rand_pieces = []
-    all = ArtPiece.find(:all,:include => :artist).select{|a| a.artist && a.artist.active?}
+    all = Artist.active.find(:all,:include => :art_pieces).map(&:art_pieces).flatten
     numpieces = all.length
     if numpieces > num_images
       @rand_pieces = choice(all, num_images)
