@@ -333,6 +333,7 @@ describe SearchController do
     end
 
     context 'finding by openstudios status' do
+      integrate_views
       before do
         @searched_studios = [ studios(:s1890), studios(:as) ]
       end
@@ -344,6 +345,7 @@ describe SearchController do
         notdoing.should have_at_least(1).artist
       end
       it 'shows open studios stars as appropriate' do
+        post :fetch, :os_artist => nil, :keywords => 'a'
         assert_select '.os-star', :count => 8
       end
       it 'returns artists doing open studios given os_artist = 1' do
@@ -360,6 +362,11 @@ describe SearchController do
         doing.should be_empty
         notdoing.should have_at_least(1).artist
       end
+      it 'shows no open studios stars' do
+        post :fetch, :os_artist => 2, :keywords => 'a'
+        (css_select '.os-star').should be_empty
+      end
+
     end
 
     context 'with per_page set' do
