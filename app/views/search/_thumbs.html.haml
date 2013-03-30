@@ -1,0 +1,13 @@
+.search-thumbs
+  - if pieces and !pieces.empty?  
+    :ruby
+      size = params[:size] || 'thumb'
+      art_link = params[:art_link] || false
+      select = params[:select] || false
+      _params = { :select => select, :size => size, :artist_link => !art_link }
+    - pieces.each_with_index do |p, idx|
+      - _params[:piece] = p
+      = render :partial => '/search/thumb', :locals => _params
+      - if 0 == ((idx+1)%2)
+        .clear
+  .clear

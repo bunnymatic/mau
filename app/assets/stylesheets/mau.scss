@@ -2028,15 +2028,18 @@ span.rightarrow
   background-position: -48px 0;
 }
 
+.os-star {
+  background-image: url(/images/art_thumb_os_star.png);
+  background-repeat: no-repeat;
+  height: 28px;
+  width: 27px;
+}
+
 .artp-thumb-container {
   float: left;
   position: relative;
   .os-star {
     position:absolute;
-    background-image: url(/images/art_thumb_os_star.png);
-    background-repeat: no-repeat;
-    height: 28px;
-    width: 27px;
     z-index: 4;
     top: 7px;
     left: 2px;
@@ -2293,11 +2296,18 @@ search pages
   border: 0px;
   vertical-align: top;
   .artpiece-thumb {
+    position: relative;
     @include dotted_border;
     float:left;
     margin: 8px;
     width: 265px;
-    overflow: hidden;
+    .os-star {
+      position:absolute;
+      z-index: 4;
+      top: -6px;
+      right: -8px;
+    }
+
     &.last {
       clear: right;
     }
