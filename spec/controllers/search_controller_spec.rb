@@ -343,6 +343,9 @@ describe SearchController do
         doing.should have_at_least(1).artist
         notdoing.should have_at_least(1).artist
       end
+      it 'shows open studios stars as appropriate' do
+        assert_select '.os-star', :count => 8
+      end
       it 'returns artists doing open studios given os_artist = 1' do
         post :fetch, :os_artist => 1, :keywords => 'a'
         results = assigns(:pieces).flatten
