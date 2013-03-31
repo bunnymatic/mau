@@ -75,7 +75,7 @@ ActionController::Routing::Routes.draw do |map|
 
 
   #map.analytics '/ganalytics', :controller => 'main', :action => 'ganalytics'
-  [:faq, :openstudios, :venues, :privacy, :about, :history, :contact, :version, :non_mobile, :mobile].each do |endpoint|
+  [:status, :faq, :openstudios, :venues, :privacy, :about, :history, :contact, :version, :non_mobile, :mobile].each do |endpoint|
     map.send(endpoint, "/" + endpoint.to_s, :controller => :main, :action => endpoint)
   end
 

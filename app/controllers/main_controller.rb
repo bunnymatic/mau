@@ -128,7 +128,12 @@ class MainController < ApplicationController
         render :layout => 'mobile' 
       }
     end
+  end
 
+  def status
+    # do dummy db test
+    Medium.first
+    render :none => true, :status => 200
   end
 
   def notes_mailer
