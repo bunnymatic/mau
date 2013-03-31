@@ -748,7 +748,17 @@ describe MainController do
       end
     end
   end
-
+  
+  describe 'status' do
+    it 'hits the database' do
+      Medium.expects :first
+      get :status
+    end
+    it 'returns success' do
+      get :status
+      response.should be_success
+    end
+  end
   describe 'get_random_pieces' do
     it 'returns art pieces' do
       pieces = @controller.get_random_pieces
