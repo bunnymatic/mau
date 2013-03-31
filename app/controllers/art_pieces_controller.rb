@@ -74,7 +74,7 @@ class ArtPiecesController < ApplicationController
     @art_piece = safe_find_art_piece(apid)
     # get all art pieces for this artist
     pieces = []
-    if @art_piece.nil? || !@art_piece.artist_id
+    if !@art_piece || !@art_piece.artist
       flash[:error] = "We couldn't find that art piece."
       redirect_to "/error"
       return 
@@ -85,12 +85,11 @@ class ArtPiecesController < ApplicationController
     if is_mobile?
       redirect_to artist_path(@art_piece.artist) and return
     end
-    if @art_piece.artist_id > 0
-      pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
-      @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
-      @page_description = build_page_description @art_piece
-      @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
-    end
+    pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
+    @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
+    @page_description = build_page_description @art_piece
+    @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
+
     self._setup_thumb_browser_data(pieces, apid)
     @art_piece_dimensions = @art_piece.compute_dimensions
 
