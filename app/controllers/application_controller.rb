@@ -165,6 +165,7 @@ class ApplicationController < ActionController::Base
 
   def render_not_found(exception)
     logger.warn(exception)
+    @exception = exception
     respond_to do |fmt|
       fmt.html { render :status => :not_found, :template => "/error/index.html.erb", :status => 404 }
       fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 404 }
@@ -173,6 +174,7 @@ class ApplicationController < ActionController::Base
 
   def render_error(exception)
     logger.error(exception)
+    @exception = exception
     respond_to do |fmt|
       fmt.html { render :layout => 'mau2col', :template => "/error/index.html.erb", :status => 500}
       fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 500}

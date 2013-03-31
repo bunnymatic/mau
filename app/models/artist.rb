@@ -10,6 +10,7 @@ class Artist < User
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
 
   include AddressMixin
+  default_scope :include => :artist_info
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   named_scope :with_representative_image, {:joins => :art_pieces, :group => 'art_pieces.artist_id' }
 
