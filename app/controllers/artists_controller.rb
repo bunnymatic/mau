@@ -413,13 +413,14 @@ class ArtistsController < ApplicationController
   end
 
   def bio
+    
     @artist = get_artist_from_params
     @page_description = build_page_description @artist
     @page_keywords += @artist.media.map(&:name) + @artist.tags.map(&:name)
 
     if @artist.bio.present?
       respond_to do |format|
-        format.html { render :action => 'show', :template => 'show', :layout => 'mau' }
+        format.html { redirect_to artist_path(@artist) and return }
         format.mobile {
           @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
           render :layout => 'mobile'
