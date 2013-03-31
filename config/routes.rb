@@ -8,7 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource  :session
   map.resources :studios, :member => { :addprofile => :get, :upload_profile => :post, :unaffiliate_artist => :post }
   map.resources :application_events, :only => [:index]
-  map.resources :catalog, :only => [:index]
+  map.resources :catalog, :only => [:index], :collection => {:social => :get}
   map.resources :email_lists, :only => [:index]
   map.resources :art_piece_tags, :collection => {:cleanup => :get}
 
