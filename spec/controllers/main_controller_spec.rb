@@ -750,6 +750,7 @@ describe MainController do
   end
   
   describe 'status' do
+    integrate_views
     it 'hits the database' do
       Medium.expects :first
       get :status

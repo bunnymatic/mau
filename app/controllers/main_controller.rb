@@ -133,7 +133,7 @@ class MainController < ApplicationController
   def status
     # do dummy db test
     Medium.first
-    render :none => true, :status => 200
+    render :json => {:success => true}, :status => 200
   end
 
   def notes_mailer
