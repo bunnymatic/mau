@@ -119,7 +119,6 @@ class ArtPieceTagsController < ApplicationController
     end
 
     @results_mode = params[:m] || 'p'
-    artist_ids = Artist.active.all.map{|a| a.id}
     joiner = ArtPiecesTag.find_all_by_art_piece_tag_id(params[:id])
     results = {}
     joiner.each do |apt|
@@ -133,6 +132,7 @@ class ArtPieceTagsController < ApplicationController
     if @results_mode == 'p'
       pieces = results.map { |k,v| v }.sort_by { |p| p.updated_at }.reverse
     else
+      artist_ids = Artist.active.all.map{|a| a.id}
       tmps = {}
       results.values.each do |pc|
         if (pc && !tmps.include?(pc.artist_id) && 

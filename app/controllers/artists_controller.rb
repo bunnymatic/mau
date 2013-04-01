@@ -43,9 +43,9 @@ class ArtistsController < ApplicationController
     addresses = []
 
     if @os_only
-      artists = Artist.active.open_studios_participants
+      artists = Artist.active.open_studios_participants.find(:all,:include => :artist_info)
     else
-      artists = Artist.active
+      artists = Artist.active.find(:all,:include => :artist_info)
     end
 
     artists.reject!{ |a| !a.in_the_mission? }
@@ -113,7 +113,7 @@ class ArtistsController < ApplicationController
         reverse = true
       end
     end
-    @artists = Artist.all(:order => sortby)
+    @artists = Artist.all(:order => sortby, :include => :artist_info)
     if reverse
       @artists = @artists.reverse()
     end
@@ -189,11 +189,11 @@ class ArtistsController < ApplicationController
         t = Time.zone.now
         @os_only = is_os_only(params[:osonly])
         if @os_only
-          artists = Artist.active.open_studios_participants.sort_by { |a| a.get_sort_name }
+          artists = Artist.active.open_studios_participants.find(:all,:include => :artist_info).sort_by { |a| a.get_sort_name }
           queryargs['osonly'] = "on"
           artists.reject!{ |a| !a.in_the_mission? }
         else
-          artists = Artist.active.sort_by { |a| a.get_sort_name }
+          artists = Artist.active.find(:all,:include => :artist_info).sort_by { |a| a.get_sort_name }
         end
         dt = Time.zone.now - t
         logger.debug("Get Artists [%s ms]" % dt)
