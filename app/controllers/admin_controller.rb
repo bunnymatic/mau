@@ -222,9 +222,10 @@ class AdminController < ApplicationController
   end    
 
   private
+  GRAPH_LOOKBACK = '1 YEAR'
   def compute_artists_per_day
     sql = ActiveRecord::Base.connection()
-    cur = sql.execute "select count(*) ct,date(activated_at) d from users where activated_at is not null group by d order by d desc;"
+    cur = sql.execute "select count(*) ct,date(activated_at) d from users where activated_at is not null and adddate(activated_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW() group by d order by d desc;"
     cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
   end
 
@@ -238,7 +239,7 @@ class AdminController < ApplicationController
 
   def compute_created_per_day(tablename)
     sql = ActiveRecord::Base.connection()
-    query =  "select count(*) ct,date(created_at) d from #{tablename} where created_at is not null group by d order by d desc;"
+    query =  "select count(*) ct,date(created_at) d from #{tablename} where created_at is not null and adddate(created_at,INTERVAL #{GRAPH_LOOKBACK}) > NOW() group by d order by d desc;"
     cur = sql.execute query
     cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
   end
