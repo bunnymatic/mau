@@ -936,7 +936,7 @@ span.micro-icon {
   vertical-align: top;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 20px;
+  padding-top: 10px;
   &.top { 
     padding-top: 0;
     width:275px;
@@ -954,12 +954,12 @@ span.micro-icon {
     margin-bottom: 20px;
   }
   .logo {
-    margin: 5px auto;
+    margin: 0px auto 5px;
     text-align:center;
   }
 
   .logo img{
-    height:150px;
+    height:200px;
   }
   .feed-sxn-hdr {
     margin-top: 2px;
