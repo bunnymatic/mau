@@ -81,6 +81,11 @@ which sets all the user passwords for the system to 'bmatic'.
 
 Restart your server and take another look at http://localhost:3000/.  At this point you should see some artists and stuff.
 
+### Running the test suite
+
+Once you think things are running, you can try running the test suite:
+
+    rake
 
 # Cloud Resources Used
 
