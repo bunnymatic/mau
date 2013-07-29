@@ -6,12 +6,9 @@ We are striving to provide a simple easy to use platform for Artists to upload t
 
 Wanna run MAU?  Here's how (rules here assume MacOSX)
 
-Get the source code 
+### System Setup
 
-    cd /my_projects/  # Directory under which you want the mau source code to sit
-    git clone git@github.com:bunnymatic/mau.git
-
-This will generate a `mau` directory for you.
+Got git? If not get it.
 
 Do you have `homebrew`?  If this command
 
@@ -38,6 +35,14 @@ At this point, you should have all the binary resources you'll need (hopefully).
 Let's get started:
 
 ### MAU setup
+
+Get the source code 
+
+    cd /my_projects/  # Directory under which you want the mau source code to sit
+    git clone git@github.com:bunnymatic/mau.git
+
+This will generate a `mau` directory for you.
+
 
 Assuming MySQL is running, and you know have a root-level user, update your `config/database.yml` development section and test section to use that user password (unless your mysql user is `root` with no password).
 
