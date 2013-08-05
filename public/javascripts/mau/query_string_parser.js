@@ -30,13 +30,11 @@
       });
     }
 
-    QueryStringParser.prototype.toString = function(encode) {
-      encode = encode || false;
+    QueryStringParser.prototype.toString = function() {
       var bits, q;
       q = _.compact(_.map(this.query_params, function(v, k) {
         if ((typeof v !== 'undefined') && (v !== null)) {
-          var val = encode ? encodeURIComponent(v) : v;
-          return [k, val].join('=');
+          return [k, v].join('=');
         }
       })).join('&');
       bits = [this.origin, this.pathname].join('');

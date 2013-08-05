@@ -10,7 +10,7 @@
         u = User.find(p.user_id)
        -%>
     <tr>
-      <td><a href="<%= artist_path(u) %>"><%=h u.get_name %></a></td>
+      <td><a href="<%= artist_path(u) %>"><%= u.get_name %></a></td>
       <td><%= p.art_piece_ids.split("|").map{ |ap| "<a href='/art_pieces/#{ap}'>#{ap}</a>" }.join(",") %></td>
       <td><%= p.updated_at %></td>
     </tr>
@@ -27,7 +27,7 @@
         u = User.find(p.user_id)
        -%>
     <tr>
-      <td><a href="<%= artist_path(u) %>"><%=h u.get_name %></a></td>
+      <td><a href="<%= artist_path(u) %>"><%= u.get_name %></a></td>
       <td><%= p.art_piece_ids.split("|").map{ |ap| "<a href='/art_pieces/#{ap}'>#{ap}</a>" }.join(",") %></td>
       <td><%= p.updated_at %></td>
     </tr>

@@ -4,11 +4,11 @@ class DiscountController < ApplicationController
   def markup
     html = 'shit'
     begin
-      html = RDiscount.new(params[:markdown]).to_html
+      html = RDiscount.new(params[:markdown]).to_html.html_safe
     rescue Exception => ex
       logger.debug("Failed to markdown text")
       logger.debug(ex)
-      html = "shit.<br/> somethin went wrong<br/> #{ex}"
+      html = "shit.<br/> somethin went wrong<br/> #{ex}".html_safe
     end
     render :text => html
   end

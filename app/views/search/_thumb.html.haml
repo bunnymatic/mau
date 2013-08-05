@@ -27,5 +27,5 @@
         .artpiece_tag
           %span Tags:
           %span
-            = piece.uniq_tags.map{|t| link_to(t.safe_name, t)}.join(", ")
+            = piece.uniq_tags.map{|t| link_to(t.safe_name, t)}.join(", ").html_safe
     .clear

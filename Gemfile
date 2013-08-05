@@ -35,6 +35,8 @@ gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'will_paginate', '~> 2.3.16'
 gem 'browser'
+gem 'rails_xss' # get us closer to Rails3 behavior by auto html escaping
+gem 'erubis' # for rails_xss
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'
@@ -51,6 +53,7 @@ end
 
 group :test, :development do
   gem 'guard-coffeescript'
+  gem 'guard-rspec', '~> 1.2.0'  # 1.2.x is order rspec compatible
   gem 'mocha','0.9.10'
   gem 'rspec','1.3.1'
   gem 'rspec-rails','1.3.4'
@@ -61,6 +64,7 @@ group :test, :development do
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
   gem 'pry'
+  gem 'rb-fsevent', '~> 0.9.1' # for guard
 #  gem 'ruby-debug', :require => 'ruby-debug'
 #  gem 'ruby-debug-pry', :require => 'ruby-debug/pry'
 end

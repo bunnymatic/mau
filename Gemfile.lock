@@ -45,6 +45,7 @@ GEM
       addressable (>= 2.0.0)
       escape_utils
       eventmachine (>= 0.12.9)
+    erubis (2.7.0)
     escape_utils (0.2.4)
     event-calendar (2.3.3)
     eventmachine (0.12.10)
@@ -83,6 +84,8 @@ GEM
     guard-coffeescript (1.2.0)
       coffee-script (>= 2.2.0)
       guard (>= 1.1.0)
+    guard-rspec (1.2.1)
+      guard (>= 1.1)
     haml (3.1.6)
     has_many_polymorphs (2.13)
       activerecord
@@ -161,8 +164,10 @@ GEM
       activeresource (= 2.3.18)
       activesupport (= 2.3.18)
       rake (>= 0.8.3)
+    rails_xss (0.4.0)
     rainbow (1.1.4)
     rake (10.0.3)
+    rb-fsevent (0.9.3)
     rdiscount (1.6.8)
     rdoc (3.12)
       json (~> 1.4)
@@ -206,6 +211,7 @@ DEPENDENCIES
   calendar_date_select
   capistrano
   dalli (~> 1.x)
+  erubis
   event-calendar
   fakeweb
   fastercsv
@@ -215,6 +221,7 @@ DEPENDENCIES
   gibbon
   grackle
   guard-coffeescript
+  guard-rspec (~> 1.2.0)
   haml
   has_many_polymorphs
   hashie
@@ -240,6 +247,8 @@ DEPENDENCIES
   racc
   rack-cors
   rails (= 2.3.18)
+  rails_xss
+  rb-fsevent (~> 0.9.1)
   rdiscount
   recaptcha
   rosie

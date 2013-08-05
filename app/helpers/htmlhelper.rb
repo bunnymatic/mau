@@ -35,7 +35,7 @@ module HTMLHelper
       end
       lst << "<li class='#{cls}'>" + el + "</li>"
     end
-    lst.join("");
+    lst.join("").html_safe
   end
 end
 

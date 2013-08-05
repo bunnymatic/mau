@@ -5,20 +5,20 @@
   <h4>Get Involved with MAU!</h4>
     <% unless @error_message.blank? -%>
   <div class="error-msg">
-	<%=h @error_message %>
+	<%= @error_message %>
   </div>
     <% end -%>
     <% if flash[:error] -%>
     <center>
     <div class="error-msg">
-      <%=h flash[:error] %>
+      <%= flash[:error] %>
     </div>
     </center>
     <% end -%>
     <% if flash[:notice] -%>
     <center>
     <div class="notice">
-      <%=h flash[:notice] %>
+      <%= flash[:notice] %>
     </div>
     </center>
     <% end -%>

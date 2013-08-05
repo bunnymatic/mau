@@ -38,7 +38,7 @@
               mypath = user_path(current_user)
             end
           %li.dir
-            = link_to 'my&nbsp;mau', mypath, {:class => 'lknav'}
+            = link_to 'my&nbsp;mau'.html_safe, mypath, {:class => 'lknav'}
             %ul
               = HTMLHelper::print_list('leaf', navitems)
         - else
