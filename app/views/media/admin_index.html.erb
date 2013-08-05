@@ -11,8 +11,8 @@
 <%  clz = (((idx%2) == 0) ? 'even' : 'odd')
 -%>
   <tr class='<%= clz %>'>
-    <td><%=h medium.id %></td>
-    <td><%=h medium.name %></td>
+    <td><%= medium.id %></td>
+    <td><%= medium.name %></td>
     <td><%= link_to 'Show', medium %></td>
     <td><%= link_to 'Edit', edit_medium_path(medium) %></td>
     <td><%= link_to 'Destroy', medium, :confirm => 'Are you sure?', :method => :delete %></td>

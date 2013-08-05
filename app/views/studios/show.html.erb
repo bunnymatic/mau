@@ -19,9 +19,9 @@
           <%= render :partial => '/flash_notice_error' %>
 	  <div>
 	    <div class="address">
-              <%=h @studio.street %>
+              <%= @studio.street %>
               <% if @studio.cross_street -%>
-              <%=h "(@ #{@studio.cross_street})" %>
+              <%= "(@ #{@studio.cross_street})" %>
               <% end -%>
 	      <% if @studio.id > 0 -%>
 	      <span class="lkmap">(<%= link_to 'map', @studio.map_link, { :target => "_blank" } %>)</span>

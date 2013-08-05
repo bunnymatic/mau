@@ -9,9 +9,10 @@ module MobileHelper
       star_code = "<div class='os-star'></div>"
     end
     link += "/" unless (/\/$/.match(link) || /\?\w+/.match(link))
-    return <<EOM
+    s = <<EOM
        <li class="mobile-menu #{clz}"><a data-transition="slide" href="#{link}">#{star_code}#{content}</a></li>
 EOM
+    s.html_safe
   end
 
 end

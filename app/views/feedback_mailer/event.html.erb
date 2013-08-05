@@ -2,14 +2,14 @@ Dear MAU Events Watcher,
 
 We just got a new event from one of our members.
 
-Subject: <%=h @event_info.subject %>
-User's email: <%=h @event_info.email %>
-Logged in as: <%=h @event_info.login %>
-URL: <%=h @event_info.url %>
+Subject: <%= @event_info.subject %>
+User's email: <%= @event_info.email %>
+Logged in as: <%= @event_info.login %>
+URL: <%= @event_info.url %>
 Sent at: <%= Time.zone.now %>
 
 Comment: 
-<%=h @event_info.comment %>
+<%= @event_info.comment %>
 
 Environment: <%= Rails.env %>
 

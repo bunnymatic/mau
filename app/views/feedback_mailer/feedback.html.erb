@@ -2,15 +2,15 @@ Dear MAU Web Posse member,
 
 You're lucky today, you've got feedback from your users:
 
-Subject: <%=h @feedback.subject %>
-User's email: <%=h @feedback.email %>
-Logged in as: <%=h @feedback.login %>
-Skillset: <%=h @feedback.skillsets %>
-Bug: <%=h @feedback.bugtype %>
-URL: <%=h @feedback.url %>
+Subject: <%= @feedback.subject %>
+User's email: <%= @feedback.email %>
+Logged in as: <%= @feedback.login %>
+Skillset: <%= @feedback.skillsets %>
+Bug: <%= @feedback.bugtype %>
+URL: <%= @feedback.url %>
 Sent at: <%= Time.zone.now %>
 
 Comment: 
-<%=h @feedback.comment %>
+<%= @feedback.comment %>
 
 Environment: <%= Rails.env %>

@@ -9,7 +9,7 @@
     <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %> 
   </span>
   <span class="logout-nav navitem">hello, 
-    <a class="lkdark" href="<%=h user_path(current_user) %>"><%=h current_user.login %></a>
+    <a class="lkdark" href="<%= user_path(current_user) %>"><%= current_user.login %></a>
   </span>
   <div class="clear"></div>
 </div>

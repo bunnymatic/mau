@@ -11,18 +11,18 @@
 
 <% @art_pieces.each do |art_piece| %>
   <tr>
-	<td><%=h art_piece.artist.login if art_piece.artist %></td>
+	<td><%= art_piece.artist.login if art_piece.artist %></td>
     <td>
 	  <% if art_piece.filename %>
-	  <img src="<%=h art_piece.get_path('thumb') %>" />
+	  <img src="<%= art_piece.get_path('thumb') %>" />
 	  <% else %>
 	  No image
 	  <% end %>
 	</td>
-    <td><%=h art_piece.title %></td>
+    <td><%= art_piece.title %></td>
     <td>
     </td>
-    <td><%=h art_piece.dimensions %></td>
+    <td><%= art_piece.dimensions %></td>
     <td><%= link_to 'Show', art_piece %></td>
     <td><%= link_to 'Edit', edit_art_piece_path(art_piece) %></td>
     <td><%= link_to 'Destroy', art_piece, :confirm => 'Are you sure?', :method => :delete %></td>
