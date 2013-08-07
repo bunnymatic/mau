@@ -5,7 +5,7 @@
     = "|"
     = link_to 'Document Index', cms_documents_path
 
-  - form_for(@cms_document) do |f|
+  = form_for(@cms_document) do |f|
     - if flash[:error]
       .error-msg Error: #{flash[:error]}
     - if flash[:notice]

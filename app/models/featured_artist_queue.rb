@@ -1,12 +1,12 @@
 class FeaturedArtistQueue < ActiveRecord::Base
-  
-  default_scope :order => 'position'
-  named_scope :not_yet_featured, :conditions => 'featured is NULL'
-  named_scope :featured, :conditions => 'featured is not NULL', :order => 'featured desc'
-  
+
+  default_scope order('position')
+  scope :not_yet_featured, where('featured is NULL')
+  scope :featured, where('featured is not NULL').order('featured desc')
+
   TABLE_NAME = 'featured_artist_queue'
   set_table_name TABLE_NAME
-  
+
   FEATURE_LIFETIME = 1.week
 
   def self.reset_queue
@@ -14,7 +14,7 @@ class FeaturedArtistQueue < ActiveRecord::Base
   end
 
   def self.current_entry
-    if featured.count <= 0 
+    if featured.count <= 0
       next_entry
     else
       featured.all(:limit => 1).first
@@ -33,7 +33,7 @@ class FeaturedArtistQueue < ActiveRecord::Base
     end
     # get a new artist
     a = not_yet_featured.first
-    if a 
+    if a
       a.update_attributes(:featured => Time.zone.now)
       a
     end

@@ -17,7 +17,7 @@ module ArtPiecesHelper
     begin
       ct = pieces.length
     rescue Exception => ex
-      RAILS_DEFAULT_LOGGER.warn("Failed to compute length of [%s]" % pieces)
+      ::Rails.logger.warn("Failed to compute length of [%s]" % pieces)
       return nil
     end
     if perpage < 0

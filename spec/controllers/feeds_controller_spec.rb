@@ -16,11 +16,11 @@ describe FeedsController do
       response.should be_success
     end
   end
-    
+
   context "without cache" do
     before do
       tweet_response = [ { :user => {:screen_name => 'blurp'},
-                           :text => "I tweeted this " + gen_random_string(rand(5)+10),
+                           :text => "I tweeted this #{Faker::Lorem::words(5).join(' ')}",
                            :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
       mock_readable = stub(:read => tweet_response.to_json)
       FeedsController.any_instance.stubs(:open).yields(mock_readable)
@@ -30,7 +30,7 @@ describe FeedsController do
       end
       get :feed
     end
-    
+
     it 'returns success' do
       response.should be_success
     end
@@ -40,7 +40,7 @@ describe FeedsController do
     it 'if we call it again (assuming cache is expired), we should get a different file' do
       before_contents = File.open(cache_filename).read
       tweet_response = [ { :user => {:screen_name => 'blurp'},
-                           :text => "I tweeted this " + gen_random_string(rand(5)+10),
+                           :text => "I tweeted this #{Faker::Lorem.words(5).join(' ')}",
                            :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
       mock_readable = stub(:read => tweet_response.to_json)
       FeedsController.any_instance.stubs(:open).yields(mock_readable)
@@ -59,7 +59,7 @@ describe FeedsController do
       end
       get :feed
     end
-    
+
     it 'returns success' do
       response.should be_success
     end
@@ -107,4 +107,3 @@ describe FeedsController do
     end
   end
 end
-

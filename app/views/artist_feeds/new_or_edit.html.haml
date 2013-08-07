@@ -1,5 +1,5 @@
 %h1 Add/Edit an Artist Feed
-- form_for(@feed) do |f|
+= form_for(@feed) do |f|
   - if f.error_messages.present?
     .error-msg 
       = f.error_messages

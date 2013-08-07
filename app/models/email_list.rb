@@ -7,5 +7,5 @@ class EmailList < ActiveRecord::Base
       em.formatted
     end
   end
-  
+
 end

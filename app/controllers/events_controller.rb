@@ -25,21 +25,21 @@ class EventsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { 
+      format.html {
         render :layout => 'mau'
       }
-      format.mobile { 
+      format.mobile {
         @events = Event.published.reverse
         @page_title = "MAU Events"
         render :layout => 'mobile'
       }
-      format.xml  { 
+      format.xml  {
         @events = Event.published
-        render :xml => @events 
+        render :xml => @events
       }
-      format.json  { 
+      format.json  {
         @events = Event.published
-        render :json => @events 
+        render :json => @events
       }
     end
   end
@@ -51,7 +51,7 @@ class EventsController < ApplicationController
     @page_title = "MAU Event: %s" % @event.title
     respond_to do |format|
       format.html
-      format.mobile { 
+      format.mobile {
         render :layout => 'mobile'
       }
       format.xml  { render :xml => @event }
@@ -93,10 +93,10 @@ class EventsController < ApplicationController
 
     event_details[:user_id] = current_user.id
     @event = Event.new(event_details)
-    
+
     respond_to do |format|
       if @event.save
-        EventMailer.deliver_event_added(@event)
+        EventMailer.event_added(@event).deliver!
         redir = events_path
         flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
         format.html { redirect_to(redir) }
@@ -147,12 +147,12 @@ class EventsController < ApplicationController
     if @event.update_attributes(:publish => Time.zone.now)
       flash[:notice] = "#{@event.title} has been successfully published."
       if (@event.user && @event.user.email)
-        EventMailer.deliver_event_published(@event)
+        EventMailer.event_published(@event).deliver!
         flash[:notice] << " And we sent a notification email to #{@event.user.fullname} at #{@event.user.email}."
       end
     end
-    
-    redirect_to admin_events_path  
+
+    redirect_to admin_events_path
   end
 
   def unpublish

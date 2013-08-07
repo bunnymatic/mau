@@ -4,7 +4,6 @@
   MAU = window.MAU = window.MAU || {};
 
   MAU.SearchSpinner = MAUSearchSpinner = (function() {
-
     function MAUSearchSpinner() {
       this.spinnerBG = 'spinnerbg';
       this.spinnerFG = 'spinnerfg';
@@ -190,7 +189,7 @@
     };
 
     MAUSearch.prototype.updateQueryParamsInView = function() {
-      var ctx, frm, kw, kw_block, med_block, ms, os, os_info, oss, ss, studio_block, _that;
+      var ctx, err, frm, kw, kw_block, med_block, ms, os, os_info, oss, ss, studio_block, _that;
       _that = this;
       frm = $$(_that.searchFormSelector);
       if (frm.length) {
@@ -204,7 +203,8 @@
         os = null;
         try {
           os = frm.select('#os_artist')[0].selected().value;
-        } catch (err) {
+        } catch (_error) {
+          err = _error;
           os = null;
         }
         kw = _.map(frm.select('#keywords')[0].getValue().split(","), function(s) {
@@ -311,11 +311,12 @@
             return false;
           },
           onComplete: function(resp) {
-            var curpage;
+            var curpage, err;
             $(_that.spinner).hide();
             try {
               _that.updateQueryParamsInView();
-            } catch (err) {
+            } catch (_error) {
+              err = _error;
               MAU.log(err);
             }
             _that.initPaginator();

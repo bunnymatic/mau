@@ -13,13 +13,13 @@ class AdminController < ApplicationController
       :yesterday =>[created_clause,1.day.ago]}
     queries.keys.each do |k|
       @activity_stats[k] = {} unless @activity_stats.has_key? k
-      @activity_stats[k][:art_pieces_added] = ArtPiece.count(:all, :conditions => queries[k])
-      @activity_stats[k][:artists_added] = Artist.count(:all, :conditions => queries[k])
-      @activity_stats[k][:artists_activated] = Artist.active.count(:all, :conditions => queries[k])
-      @activity_stats[k][:fans_added] = MAUFan.count(:all, :conditions => queries[k])
-      @activity_stats[k][:favorites_added] = Favorite.count(:all, :conditions => queries[k])
+      @activity_stats[k][:art_pieces_added] = ArtPiece.where(queries[k]).count
+      @activity_stats[k][:artists_added] = Artist.where(queries[k]).count
+      @activity_stats[k][:artists_activated] = Artist.active.where(queries[k]).count
+      @activity_stats[k][:fans_added] = MAUFan.where(queries[k]).count
+      @activity_stats[k][:favorites_added] = Favorite.where(queries[k]).count
     end
-    @activity_stats[:total] = {:actived_artists => Artist.active.count, 
+    @activity_stats[:total] = {:actived_artists => Artist.active.count,
       :art_pieces_added => ArtPiece.count,
       :accounts => User.count,
       :fans => MAUFan.count,
@@ -83,7 +83,7 @@ class AdminController < ApplicationController
       end
       artists.uniq!
       @title = "OS Participants [#{for_title.join(', ')}]"
-      
+
     else
       @title = titles[arg.to_sym]
       case arg
@@ -96,13 +96,13 @@ class AdminController < ApplicationController
       when 'active', 'pending'
         artists = Artist.send(arg).all
       when 'no_profile'
-        artists = Artist.active.find(:all, :conditions => [ "profile_image is null" ])
+        artists = Artist.active.where("profile_image is null")
       when 'no_images'
         sql = ActiveRecord::Base.connection()
-        query = "select id from users where state='active' and id not in (select distinct artist_id from art_pieces);" 
+        query = "select id from users where state='active' and id not in (select distinct artist_id from art_pieces);"
         cur = sql.execute query
         aids = cur.map {|h| h.first}
-        artists = Artist.find(:all, :conditions => { :id => aids })
+        artists = Artist.where(:id => aids)
       end
     end
     @emails = []
@@ -133,11 +133,11 @@ class AdminController < ApplicationController
   end
 
   def fans
-    @fans = User.active.all(:conditions => 'type <> "Artist"')
-  end	
+    @fans = User.active.where('type <> "Artist"')
+  end
 
   def os_status
-    @os = Artist.active.find(:all, :order =>'lastname asc')
+    @os = Artist.active.order('lastname asc')
     @totals = {}
     Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
       key = os_pretty(ostag)
@@ -164,7 +164,7 @@ class AdminController < ApplicationController
     }
     render :json => result
   end
-  
+
   def artists_per_day
     apd = compute_artists_per_day
     result = { :series => [ { :data => apd }],
@@ -178,7 +178,7 @@ class AdminController < ApplicationController
   def os_signups
     tally = OpenStudiosTally.all(:conditions => ["oskey='?'", Conf.oslive])
     tally = tally.map{|t| [ t.recorded_on.to_time.to_i, t.count ]}
-      
+
     result = { :series => [{ :data => tally }],
       :options => {
         :mouse => { :track => true }
@@ -199,11 +199,11 @@ class AdminController < ApplicationController
     @colors = css_data
 
   end
-  
+
   def db_backups
     @dbfiles = Dir.glob(File.join(Rails.root, 'backups/**/*.tgz')).map{|f| File.new(f)}.sort_by(&:ctime).reverse
   end
-  
+
   def fetch_backup
     ### don't allow downloading of anything - only db backup files
     available_backup_files = Dir.glob(File.join(Rails.root, 'backups/**/*.tgz'))
@@ -219,7 +219,7 @@ class AdminController < ApplicationController
       redirect_to admin_path(:action => 'db_backups')
       return
     end
-  end    
+  end
 
   private
   GRAPH_LOOKBACK = '1 YEAR'

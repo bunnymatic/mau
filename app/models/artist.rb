@@ -11,14 +11,13 @@ class Artist < User
 
   include AddressMixin
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
-  named_scope :with_representative_image, {:joins => :art_pieces, :group => 'art_pieces.artist_id' }
+  scope :with_representative_image, lambda do |img|
+    joins(:art_pieces).group('art_pieces.artist_id')
+  end
 
-  named_scope :open_studios_participants, lambda { |*oskey|
+  scope :open_studios_participants, lambda { |*oskey|
     q = oskey.blank? ? Conf.oslive : oskey
-    {
-      :joins => :artist_info,
-      :conditions => ["artist_infos.open_studios_participation like '%%#{q}%%'"]
-    }
+    joins(:artist_info).where("artist_infos.open_studios_participation like '%%#{q}%%'")
   }
 
   has_one :artist_info

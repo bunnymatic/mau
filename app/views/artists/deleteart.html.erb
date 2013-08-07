@@ -1,4 +1,4 @@
-<% form_tag "/artists/destroyart" do -%>
+<%= form_tag "/artists/destroyart" do -%>
 <div id="delete_art">
   <h4>Remove <%= self.current_artist.get_name %>'s Artwork</h4>
   <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => self.current_artist.art_pieces, :params => { :select => false, :delete => true, :show_footer => false, :cols => 5 }} %>

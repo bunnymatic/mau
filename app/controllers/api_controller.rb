@@ -56,7 +56,7 @@ class ApiController < ActionController::Base
       render :json => dat.to_json(json_args[obj_type]) 
     rescue NameError, ApiError => ex
       msg = "(%s) %s" % [ex.class, ex.message]
-      RAILS_DEFAULT_LOGGER.error 'API Error: ' + msg
+      Rails.logger.error 'API Error: ' + msg
       render :json => {:status => 400, :message => "Error Accessing API: #{msg}"}, :status => 400
     rescue ActiveRecord::RecordNotFound => ex
       render :json => {:status => 400, :message => "Unable to find the record given #{params[:path]}"}

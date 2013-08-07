@@ -1,7 +1,7 @@
 #$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 # Load RVM's capistrano plugin.
 
-case ENV['RAILS_ENV']
+case Rails.env
   when 'production'
   require "bundler/capistrano"
   

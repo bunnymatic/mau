@@ -4,11 +4,11 @@ class UserMailer < MauMailer
     @subject    += ': Your account has been activated!'
     @body[:url]  = Conf.site_url
   end
-  
+
 
   def signup_notification(user)
     setup_email(user)
-    @subject    += ': Please activate your new account'  
+    @subject    += ': Please activate your new account'
     @body[:url]  = "http://%s/activate/#{user.activation_code}" % Conf.site_url
   end
 
@@ -20,11 +20,11 @@ class UserMailer < MauMailer
     @sender_email = notehash['email']
     @sender_note = notehash['comment']
   end
-             
+
 
   def resend_activation(user)
     setup_email(user)
-    @subject    += 'Reactivate your MAU account'  
+    @subject    += 'Reactivate your MAU account'
     @body[:url]  = "http://%s/activate/#{user.activation_code}" % Conf.site_url
   end
 
@@ -34,28 +34,26 @@ class UserMailer < MauMailer
     @body[:url]  = Conf.site_url
     @body[:usersurl]  = 'http://%s/users/' % [ Conf.site_url, user.id ]
   end
-  
+
 
   def reset_notification(user)
     setup_email(user)
     @subject    += 'Link to reset your password'
     @body[:url]  = "http://%s/reset/#{user.reset_code}" % Conf.site_url
   end
-  
+
   protected
-    def setup_email(user)
-      @recipients  = "#{user.email}"
-      @from        = "Mission Artists United Accounts <mau@missionartistsunited.org>"
-      @subject     = "Mission Artists United "
-      @sent_on     = Time.zone.now
-      @body[:user] = user
-    end
-    def setup_note(user)
-      @recipients  = "#{user.email}"
-      @from        = "Mission Artists United <mau@missionartistsunited.org>"
-      @subject     = "Mission Artists United "
-      @sent_on     = Time.zone.now
-      @body[:user] = user
-    end
-    
+  def setup_email(user)
+    @recipients  = "#{user.email}"
+    @from        = "Mission Artists United Accounts <mau@missionartistsunited.org>"
+    @subject     = "Mission Artists United "
+    @body[:user] = user
+  end
+  def setup_note(user)
+    @recipients  = "#{user.email}"
+    @from        = "Mission Artists United <mau@missionartistsunited.org>"
+    @subject     = "Mission Artists United "
+    @body[:user] = user
+  end
+
 end

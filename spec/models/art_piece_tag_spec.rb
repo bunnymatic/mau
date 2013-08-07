@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module TagSpecHelper
   def random_tag
-    { :name => gen_random_string(10) }
+    { :name => Faker::Lorem.words(2).join(' ') }
   end
 end
 

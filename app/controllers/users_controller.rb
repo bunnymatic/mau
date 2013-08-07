@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_update, :destroy ]
-  before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile, 
-                                            :addprofile, :deactivate, :setarrangement, :arrangeart, 
+  before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile,
+                                            :addprofile, :deactivate, :setarrangement, :arrangeart,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
 
   after_filter :store_location, :only => [ :edit, :show, :addprofile, :favorites ]
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
       return
     end
   end
-  
+
   def show
     if params[:id]
       @fan = safe_find_user(params[:id])
@@ -121,7 +121,7 @@ class UsersController < ApplicationController
       if params[:emailsettings]
         em = params[:emailsettings]
         em2 = {}
-        em.each_pair do |k,v| 
+        em.each_pair do |k,v|
           em2[k] = ( v.to_i != 0 ? true : false)
         end
         params[:user][:email_attrs] = em2.to_json
@@ -130,7 +130,7 @@ class UsersController < ApplicationController
       self.current_user.update_attributes!(params[:user])
       flash[:notice] = "Update successful"
       redirect_to(edit_user_url(current_user))
-    rescue 
+    rescue
       flash[:error] = "%s" % $!
       redirect_to(edit_user_url(current_user))
     end
@@ -183,7 +183,7 @@ class UsersController < ApplicationController
       render :action => 'new'
     end
   end
-  
+
 
   # Change user passowrd
   def change_password_update
@@ -191,7 +191,7 @@ class UsersController < ApplicationController
       if ((params[:password] == params[:password_confirmation]) && !params[:password_confirmation].blank?)
         current_user.password_confirmation = params[:password_confirmation]
         current_user.password = params[:password]
-        
+
         if current_user.save!
           flash[:notice] = "Password successfully updated"
           redirect_to request.referer or current_user
@@ -199,13 +199,13 @@ class UsersController < ApplicationController
           flash[:error] = "Password not changed"
           redirect_to request.referer or current_user
         end
-        
+
       else
-        flash[:error] = "New Password mismatch" 
+        flash[:error] = "New Password mismatch"
         redirect_to request.referer or current_user
       end
     else
-      flash[:error] = "Old password incorrect" 
+      flash[:error] = "Old password incorrect"
       redirect_to request.referer or root_path
     end
   end
@@ -232,28 +232,28 @@ class UsersController < ApplicationController
       # spammer hit the honey pot.
       noteinfo['artist_id'] = id
       noteinfo['reason'] = 'hit the honey pot'
-      AdminMailer.deliver_spammer(noteinfo)
-    elsif scammer_emails.include? noteinfo['email'] 
+      AdminMailer.spammer(noteinfo).deliver!
+    elsif scammer_emails.include? noteinfo['email']
       noteinfo['artist_id'] = id
       noteinfo['reason'] = 'matches suspect scammer email address'
-      AdminMailer.deliver_spammer(noteinfo)
+      AdminMailer.spammer(noteinfo).deliver!
     elsif /Morning,I would love to purchase/i =~ noteinfo['comment']
       noteinfo['artist_id'] = id
       noteinfo['reason'] = 'matches suspect spam intro'
-      AdminMailer.deliver_spammer(noteinfo)
+      AdminMailer.spammer(noteinfo).deliver!
     elsif /\s+details..i/i =~ noteinfo['comment']
       noteinfo['artist_id'] = id
       noteinfo['reason'] = 'matches suspect spam intro'
-      AdminMailer.deliver_spammer(noteinfo)
+      AdminMailer.spammer(noteinfo).deliver!
     else
-      ArtistMailer.deliver_notify( Artist.find(id), noteinfo)
+      ArtistMailer.notify( Artist.find(id), noteinfo).deliver!
     end
     render :layout => false
   end
 
   def reset
     @user = User.find_by_reset_code(params["reset_code"]) unless params["reset_code"].nil?
-    if @user.nil? 
+    if @user.nil?
       flash[:error] = "We were unable to find a user with that activation code"
       render_not_found (Exception.new('failed to find user with activation code'))
       return
@@ -288,7 +288,7 @@ class UsersController < ApplicationController
       else
         flash[:error] = "You can't delete yourself."
       end
-    else 
+    else
       flash[:error] = "Couldn't find user #{id}"
     end
     redirect_to users_path and return
@@ -305,7 +305,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Signup complete! Please sign in to continue."
     when params[:activation_code].blank?
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
-    else 
+    else
       flash[:error]  = "We couldn't find an artist with that activation code -- check your email? Or maybe you've already activated -- try signing in."
     end
     redirect_to '/login'
@@ -329,7 +329,7 @@ class UsersController < ApplicationController
       redirect_back_or_default('/')
     end
   end
-    
+
   def forgot
     if request.post?
       user = User.find_by_email(params[:user][:email])
@@ -371,7 +371,7 @@ class UsersController < ApplicationController
     flash[:notice] = "Your account has been deactivated."
     redirect_to "/"
   end
-  
+
 
   def add_favorite
     # POST
@@ -421,7 +421,7 @@ class UsersController < ApplicationController
       render_not_found({:message => "You can't unfavorite that type of object" })
     end
   end
-  
+
   protected
   def safe_find_user(id)
     begin
@@ -455,4 +455,3 @@ class UsersController < ApplicationController
     end
   end
 end
-

@@ -1,4 +1,5 @@
 require 'uri'
+require 'artist'
 class Studio < ActiveRecord::Base
 
   include AddressMixin
@@ -6,8 +7,7 @@ class Studio < ActiveRecord::Base
   has_many :artists
 
   acts_as_mappable
-  before_validation_on_create :compute_geocode
-  before_validation_on_update :compute_geocode
+  before_validation :compute_geocode
   before_save :normalize_phone_number
 
   cattr_reader :sort_by_name
@@ -33,7 +33,7 @@ class Studio < ActiveRecord::Base
 
   # return faux indy studio
   def self.indy
-    s = Studio.find_by_id(0)
+    s = Studio.where(:id => 0).first
     if !s
       s = Studio.new
       s.id = 0
@@ -41,7 +41,7 @@ class Studio < ActiveRecord::Base
       s.street = "The Mission District"
       s.city = "San Francisco"
       s.state = "CA"
-      s.artists = Artist.active.find(:all, :conditions => ["studio_id = 0 or studio_id is NULL"])
+      s.artists = Artist.active.where(["studio_id = 0 or studio_id is NULL"])
       s.profile_image = "independent-studios.jpg"
       s.image_height = 1
       s.image_width = 1
@@ -50,7 +50,7 @@ class Studio < ActiveRecord::Base
   end
 
   def self.all
-    super(:order => 'name') << Studio.indy
+    super.order('name') << Studio.indy
   end
 
   def get_profile_image(size)

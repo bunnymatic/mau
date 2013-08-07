@@ -6,7 +6,7 @@
   </div>
   <% end %>
   <h4>Request for Activation Email</h4>
-  <% form_for :user do |f| -%>
+  <%= form_for :user do |f| -%>
   <table id="reset_pass" class="signup-table">
     <tr>
       <td colspan="2" >
@@ -16,17 +16,17 @@
     <tr>
       <td align="right"><label>Email:</label></td>
       <td><%= f.text_field :email %></td>
-    </tr>       
+    </tr>
     <tr>
       <td></td>
       <td><%= submit_tag 'Submit' %></td>
     </tr>
-    
+
     <tr>
       <td></td>
       <td class="input-help"><a href="<%= forgot_users_path %>">Did you forget your password?</a></td>
     </tr>
-    
+
   </table>
   <% end -%>
 </div>

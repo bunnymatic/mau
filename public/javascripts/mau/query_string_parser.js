@@ -4,7 +4,6 @@
   MAU = window.MAU = window.MAU || {};
 
   MAU.QueryStringParser = QueryStringParser = (function() {
-
     function QueryStringParser(url) {
       var parser, _that;
       this.query_params = {};

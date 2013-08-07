@@ -4,7 +4,7 @@ module CookiesHelper
     begin
       v = Base64.encode64(JSON.generate(hsh))
     rescue Exception => ex
-      RAILS_DEFAULT_LOGGER.error("Failed to encode [#{hsh}] for cookie [#{ex.to_s}]")
+      ::Rails.logger.error("Failed to encode [#{hsh}] for cookie [#{ex.to_s}]")
       return ""
     end
     v
@@ -14,7 +14,7 @@ module CookiesHelper
     begin
       v = JSON.parse(Base64.decode64(str))
     rescue
-      RAILS_DEFAULT_LOGGER.error("Failed to decode %s for cookie" % str)
+      ::Rails.logger.error("Failed to decode %s for cookie" % str)
       return {}
     end
     v

@@ -1,7 +1,7 @@
 .admin-table
   %h1 New role
 
-  - form_for(@role) do |f|
+  = form_for(@role) do |f|
     = f.error_messages
 
     = f.label :role

@@ -2,7 +2,7 @@
 <div class="div-center">
   <div class="logo-spacer">&nbsp;</div>
   <h4>Add a new piece of art for <%= current_artist.get_name %></h4>
-  <% form_for(@art_piece, :html => {:id => 'new_artpiece_form', :multipart => true}) do |f| -%>
+  <%= form_for(@art_piece, :html => {:id => 'new_artpiece_form', :multipart => true}) do |f| -%>
   <%= hidden_field_tag :user_id, current_artist.login %>
   <div id="new_artpiece">
     <% if @errors or flash[:error] -%>

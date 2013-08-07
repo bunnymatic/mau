@@ -1,29 +1,29 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
+
 gem 'racc'
-gem "rails", '2.3.18'
+gem "rails", '= 3.0.10'
 gem "geokit"
 gem "geokit-rails"
-gem "nokogiri"
+gem "nokogiri", '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
 gem "htmlentities"
 gem "json"
-gem 'mysql2', '~> 0.2.11'
+gem 'mysql2', '~>0.2.11'
 gem 'activerecord-mysql2-adapter'
-gem "i18n", '~> 0.4.0'
 gem "haml"
 gem "sass"
 gem 'mojo_magick'
-gem 'passenger', '3.0.12'
-gem 'dalli', '~> 1.x'
+#gem 'passenger', '3.0.12'
+gem 'dalli'
 gem 'memcache-client'
-gem 'has_many_polymorphs'
+gem 'has_many_polymorphs', :git => 'git://github.com/jystewart/has_many_polymorphs.git' # rails3 compatible fork
 gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
-gem 'mobile-fu', '2.x', :git => 'git://github.com/brendanlim/mobile-fu.git'
+gem 'mobile-fu' #, :git => 'git://github.com/brendanlim/mobile-fu.git'
 gem 'fastercsv'
 gem 'capistrano'
 gem 'rvm-capistrano'
-gem 'gibbon' # mailchimp api plugin
+gem 'gibbon', '~> 0.3.5' # mailchimp connect
 gem 'calendar_date_select'
 gem 'rosie'
 gem 'grackle'
@@ -34,10 +34,10 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
-gem 'will_paginate', '~> 2.3.16'
-gem 'browser'
-gem 'rails_xss' # get us closer to Rails3 behavior by auto html escaping
-gem 'erubis' # for rails_xss
+gem 'will_paginate' #, '~> 2.3.16'
+#gem 'browser'
+#gem 'rails_xss' # get us closer to Rails3 behavior by auto html escaping
+#gem 'erubis' # for rails_xss
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'
@@ -55,15 +55,15 @@ end
 group :test, :development do
   gem 'guard-coffeescript'
   gem 'guard-rspec', '~> 1.2.0'  # 1.2.x is order rspec compatible
-  gem 'mocha','0.9.10'
-  gem 'rspec','1.3.1'
-  gem 'rspec-rails','1.3.4'
+  gem 'mocha' #,'0.9.10'
+  gem 'rspec' #,'1.3.1'
+  gem 'rspec-rails' #,'1.3.4'
+  gem 'faker'
   gem 'jslint_on_rails'
   gem 'fakeweb'
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
   gem 'pry'
-  gem 'rb-fsevent', '~> 0.9.1' # for guard
-#  gem 'ruby-debug', :require => 'ruby-debug'
-#  gem 'ruby-debug-pry', :require => 'ruby-debug/pry'
+  gem 'rb-fsevent' #, '~> 0.9.1' # for guard
+  # gem 'rails-upgrade'
 end

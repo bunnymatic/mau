@@ -35,7 +35,7 @@ module FeedsHelper
   def parse_entry(entry, link, opts)
     options = { :strip_tags => true,
       :include_date => false,
-      :truncate => true, 
+      :truncate => true,
       :css_class => ''}.merge(opts)
     strip_tags = options[:strip_tags]
     include_date = options[:include_date]
@@ -47,7 +47,7 @@ module FeedsHelper
     if strip_tags
       entry.description.gsub!(@@DESC_CLEANER," ")
     end
-    
+
     entry.description.strip!
     entry.title.strip!
     title = entry.title
@@ -57,39 +57,28 @@ module FeedsHelper
       feed += "<span class='feeddate'>%s</span>" % entry.date
     end
 
-    if !link.include? 'twitter'
-      if truncate
-        title = StringHelpers.trunc(title, TITLE_LENGTH)
-        desc = StringHelpers.trunc(desc, DESCRIPTION_LENGTH)
-      end
-      if title 
-        feed += "<div class='feedtitle'>%s</div>" % title
-      end
-      if desc
-        feed += "<div class='feedtxt'>%s</div>" % desc
-      end
-    else
-      if title
-        if truncate
-          title = StringHelpers.trunc(title, TITLE_LENGTH)
-        end
-        # replace links with links
-        feed += "<div class='feedtxt'>%s</div>" % title
-      end
+    if truncate
+      title = title.truncate TITLE_LENGTH if title
     end
+
+    if !link.include? 'twitter' && truncate
+      desc = desc.truncate DESCRIPTION_LENGTH
+    end
+
+    feed += "<div class='feedtitle'>%s</div>" % title if title
+    feed += "<div class='feedtxt'>%s</div>" % desc if desc
     feed += "</div>"
     feed
-    
   end
 
   def fetch_and_format_feed(url, link, opts = {})
-    options = { :numentries => NUM_POSTS, 
-      :strip_tags => true, 
-      :include_date => false, 
+    options = { :numentries => NUM_POSTS,
+      :strip_tags => true,
+      :include_date => false,
       :truncate => true }.merge(opts)
     numentries = options[:numentries]
 
-    logger = RAILS_DEFAULT_LOGGER
+    logger = ::Rails.logger
     logger.info("FeedsHelper: fetch/format %s posts." % numentries)
     feedcontent = ''
     begin
@@ -123,7 +112,7 @@ module FeedsHelper
           end
           feedcontent += "</div>"
         end
-        logger.info("FeedsHelper: done") 
+        logger.info("FeedsHelper: done")
       end
     rescue OpenURI::HTTPError => http
       logger.warn("FeedsHelper: failed to open/parse feed " + http.to_s)

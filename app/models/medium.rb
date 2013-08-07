@@ -1,7 +1,7 @@
 class Medium < ActiveRecord::Base
   belongs_to :art_piece
 
-  default_scope :order => :name
+  default_scope order('name')
   include TagMediaMixin
 
   @@CACHE_KEY = 'medfreq'
@@ -25,16 +25,16 @@ class Medium < ActiveRecord::Base
     meds = dbr.map do |row|
       Hash['medium', row[0], 'ct', row[1]]
     end
-    other = self.find(:all,:conditions => ["id not in (?)", meds.map { |m| m['medium'] } ])
+    other = self.where(["id not in (?)", meds.map { |m| m['medium'] } ])
     other.map { |m| meds << Hash["medium" => m.id, "ct" => 0 ] }
-    
+
     # compute max/min ct
     maxct = nil
     meds.each do |m|
       if maxct == nil || maxct < m['ct'].to_i
         maxct = m['ct'].to_i
       end
-    end  
+    end
     # normalize frequency to 1
     if maxct <= 0
       maxct = 1.0

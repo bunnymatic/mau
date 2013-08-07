@@ -62,7 +62,7 @@ class ImageFile
     Conf.image_servers.each do |svr|
       @@IMG_SERVERS << svr
     end
-    RAILS_DEFAULT_LOGGER.info("IMAGE SERVERS [%s]" % @@IMG_SERVERS)
+    ::Rails.logger.info("IMAGE SERVERS [%s]" % @@IMG_SERVERS)
   end
 
   @@ALLOWED_IMAGE_EXTS = ["jpg", "jpeg" ,"gif","png" ]
@@ -82,7 +82,7 @@ class ImageFile
   end
 
   def self.save(upload, destdir, destfile=nil)
-    logger = RAILS_DEFAULT_LOGGER
+    logger = ::Rails.logger
     dot_pos = upload.original_filename.rindex(".")
     if not dot_pos
       logger.error("ImageFile: no file extension\n") 

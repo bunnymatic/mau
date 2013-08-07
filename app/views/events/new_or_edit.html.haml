@@ -2,7 +2,7 @@
 #event_edit
   %h2 Plug Your Art Show!
   .instructions Please give us as much information (as accurately as possible) about your show.  If everything looks good with your submission, we'll add it to our list of MAU events and publish it to our Facebook and Twitter feeds a few days before the event.
-  - form_for(@event) do |f|
+  = form_for(@event) do |f|
     - if f.error_messages.present?
       .error-msg
         = f.error_messages

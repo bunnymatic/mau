@@ -2,15 +2,10 @@ class Favorite < ActiveRecord::Base
   belongs_to :user
   belongs_to :favorite, :polymorphic => true
 
-  named_scope :art_pieces, lambda { 
-    { :conditions => [ "favoritable_type = ?", ArtPiece.name ] } 
-  }
-  named_scope :users,  lambda { 
-    { :conditions => ["favoritable_type in (?)", [Artist.name, User.name]] }
-  }
-  named_scope :artists, lambda {
-    { :conditions => ["favoritable_type = ?", Artist.name] }
-  }
+  scope :art_pieces, where(:favoritable_type => ArtPiece.name)
+  scope :users, where(:favoritable_type => [Artist.name, User.name])
+  scope :artists, where(:favoritable_type => Artist.name)
+
   @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
 
   def to_s

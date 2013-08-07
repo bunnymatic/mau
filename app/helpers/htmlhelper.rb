@@ -16,8 +16,8 @@ module HTMLHelper
       end
       "?"+s.join("&")
     rescue Exception => ex
-      RAILS_DEFAULT_LOGGER.warn("Failed to encode urlencode %s" % d)
-      RAILS_DEFAULT_LOGGER.warn(ex)
+      ::Rails.logger.warn("Failed to encode urlencode %s" % d)
+      ::Rails.logger.warn(ex)
       return "?"
     end
   end

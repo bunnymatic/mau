@@ -17,7 +17,7 @@
   %h4 My Account
   = render :partial => '/flash_notice_error'
   .edit-sections
-    - form_for current_user do |f|
+    = form_for current_user do |f|
       = f.error_messages
       = render :partial => "/users/edit_basic_info", :locals => {:f => f}
       .open-close-div.acct>

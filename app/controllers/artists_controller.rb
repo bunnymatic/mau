@@ -7,7 +7,6 @@ def is_os_only(osonly)
 end
 
 class ArtistsController < ApplicationController
-  include StringHelpers
   # Be sure to include AuthenticationSystem in Application Controller instead
   @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
@@ -25,7 +24,7 @@ class ArtistsController < ApplicationController
 
   def notify_featured
     id = Integer(params[:id])
-    ArtistMailer.deliver_notify_featured(Artist.find(id))
+    ArtistMailer.notify_featured(Artist.find(id)).deliver!
     render :layout => false, :nothing => true, :status => :ok
   end
 
@@ -43,9 +42,9 @@ class ArtistsController < ApplicationController
     addresses = []
 
     if @os_only
-      artists = Artist.active.open_studios_participants.find(:all,:include => :artist_info)
+      artists = Artist.active.open_studios_participants.all(:include => :artist_info)
     else
-      artists = Artist.active.find(:all,:include => :artist_info)
+      artists = Artist.active.all(:include => :artist_info)
     end
 
     artists.reject!{ |a| !a.in_the_mission? }
@@ -189,11 +188,11 @@ class ArtistsController < ApplicationController
         t = Time.zone.now
         @os_only = is_os_only(params[:osonly])
         if @os_only
-          artists = Artist.active.open_studios_participants.find(:all,:include => :artist_info).sort_by { |a| a.get_sort_name }
+          artists = Artist.active.open_studios_participants.all(:include => :artist_info).sort_by { |a| a.get_sort_name }
           queryargs['osonly'] = "on"
           artists.reject!{ |a| !a.in_the_mission? }
         else
-          artists = Artist.active.find(:all,:include => :artist_info).sort_by { |a| a.get_sort_name }
+          artists = Artist.active.all(:include => :artist_info).sort_by { |a| a.get_sort_name }
         end
         dt = Time.zone.now - t
         logger.debug("Get Artists [%s ms]" % dt)
@@ -544,7 +543,7 @@ class ArtistsController < ApplicationController
     end
   end
   def sorted_by sort_column
-    @artists = Artist.active.find(:all, :order => sort_column, :include => :artist_info)
+    @artists = Artist.active.all(:include => :artist_info).order(sort_column)
     respond_to do |format|
       format.mobile {
         render :layout => 'mobile', :template => 'artists/index.mobile'
@@ -576,7 +575,7 @@ class ArtistsController < ApplicationController
 
   def build_page_description artist
     if (artist)
-      trim_bio = trunc(artist.bio, 500)
+      trim_bio = artist.bio.truncate(500)
       if trim_bio && !trim_bio.empty?
         return "Mission Artists United Artist : #{artist.get_name(true)} : " + trim_bio
       end

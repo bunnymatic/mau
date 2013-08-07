@@ -1,10 +1,10 @@
-[FeedbackMailerList, EventMailerList, AdminMailerList].each do |mailing_list|
+["FeedbackMailerList", "EventMailerList", "AdminMailerList"].each do |mailing_list|
   begin
-    if mailing_list.all.empty?
-      puts "Creating #{mailing_list.name} list"
-      mailing_list.create
+    if mailing_list.constantize.all.empty?
+      puts "Creating #{mailing_list} list"
+      mailing_list.constantize.create
     end
   rescue Exception => ex
-    RAILS_DEFAULT_LOGGER.debug("Failed to create #{mailing_list.name} : #{ex}")
+    ::Rails.logger.debug("Failed to create #{mailing_list} : #{ex}")
   end
 end

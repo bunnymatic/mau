@@ -1,7 +1,8 @@
 require 'digest/sha1'
 require 'htmlhelper'
 require 'json'
-require 'lib/mailchimp'
+require File.join(Rails.root, 'app','lib', 'mailchimp')
+
 RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
                            'deactivate','add','new','view','create','update',
                          'arrangeart', 'setarrangement']
@@ -15,10 +16,15 @@ class User < ActiveRecord::Base
 
   include MailChimp
 
-  named_scope :active, :conditions => ["users.state = 'active'"]
-  named_scope :pending, :conditions => ["users.state = 'pending'"]
-  before_destroy do |user|
-    fs = Favorite.artists.find_all_by_favoritable_id( user.id )
+  after_create :tell_user_they_signed_up
+  after_save :notify_user_about_state_change
+
+  scope :active, :conditions => ["users.state = 'active'"]
+  scope :pending, :conditions => ["users.state = 'pending'"]
+
+  before_destroy :delete_favorites
+  def delete_favorites
+    fs = Favorite.artists.find_all_by_favoritable_id( id )
     fs.each { |f| f.delete }
   end
 
@@ -35,14 +41,17 @@ class User < ActiveRecord::Base
     a.lastname.downcase <=> b.lastname.downcase
   }
 
-  has_many :favorites do
-    def to_obj
-      deletia = []
-      (proxy_owner.favorites.map { |f|
-         f.to_obj
-       }).select { |item| !item.nil? }
-    end
-  end
+  # has_many :favorites, :class_name => 'Favorite' do
+  #    def to_obj
+  #      deletia = []
+  #      # rails 3.1
+  #      # you'll need this
+  #      # http://stackoverflow.com/questions/7001810/alternative-method-for-proxy-owner-in-activerecord
+  #      (proxy_owner.favorites.map { |f|
+  #         f.to_obj
+  #       }).select { |item| !item.nil? }
+  #    end
+  # end
 
   belongs_to :studio
   has_many :roles_users, :dependent => :destroy
@@ -299,7 +308,7 @@ class User < ActiveRecord::Base
         fan = self
         artist = (fav.class == Artist) ? fav : fav.artist
         if artist && artist.emailsettings['favorites']
-          ArtistMailer.deliver_favorite_notification artist, fan
+          ArtistMailer.favorite_notification(artist, fan).deliver!
         end
       else
         false
@@ -390,6 +399,24 @@ class User < ActiveRecord::Base
   protected
   def get_favorite_ids(tps)
     (favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
+  end
+
+  def tell_user_they_signed_up
+    if is_artist?
+      reload
+      ArtistMailer.signup_notification(self).deliver!
+    end
+  end
+
+  def notify_user_about_state_change
+    mailer_class = is_artist? ? ArtistMailer : UserMailer
+    reload
+    if recently_activated? && mailchimp_subscribed_at.nil?
+      mailer_class.activation(self).deliver!
+      FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
+    end
+    mailer_class.reset_notification(self).deliver! if recently_reset?
+    mailer_class.resend_activation(self).deliver! if resent_activation?
   end
 
 end

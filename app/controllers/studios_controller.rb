@@ -1,3 +1,4 @@
+require 'studio'
 class StudiosController < ApplicationController
 
   STUDIO_KEYS = Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].freeze

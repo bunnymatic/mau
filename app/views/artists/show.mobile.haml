@@ -42,7 +42,7 @@
         %span
           Bio/Statement:
         %span.snippet
-          #{StringHelpers.trunc(@artist.bio,170)}
+          = @artist.bio.truncate(170)
         - if @artist.bio.length > 170
           %a.more{:href => bio_artist_path(@artist)} [Read More]
     .clear

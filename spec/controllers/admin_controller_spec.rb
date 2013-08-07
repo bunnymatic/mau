@@ -7,12 +7,12 @@ class TestOsHelperClass; include OsHelper; end
 
 describe AdminController do
   use_transactional_fixtures = true
-  fixtures :studios
-  fixtures :media
-  fixtures :users, :roles_users
   fixtures :art_pieces
   fixtures :artist_infos
   fixtures :roles
+  fixtures :studios
+  fixtures :media
+  fixtures :users, :roles_users
 
   context 'authorization' do
     [:index, :os_status, :featured_artist, :fans, :emaillist, :artists_per_day, :art_pieces_per_day, :favorites_per_day, :db_backups, :os_signups].each do |endpoint|

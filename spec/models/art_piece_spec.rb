@@ -13,19 +13,19 @@ describe ArtPiece do
       ap.should_not be_valid
       ap.should have(1).errors_on(:title)
     end
-    
+
     it 'should not allow empty title' do
       ap = ArtPiece.new
       ap.should_not be_valid
       ap.should have(2).errors
     end
-    
+
     it 'allows quotes' do
       p = valid_attrs.merge({:title => 'what"ever'})
       ap = ArtPiece.new(p)
       ap.should be_valid
     end
-    
+
     it 'encodes quotes to html numerically' do
       p = valid_attrs.merge({:title => 'what"ever'})
       ap = ArtPiece.new(p)
@@ -37,7 +37,7 @@ describe ArtPiece do
       ap = ArtPiece.first
       Rails.cache.expects(:delete).with("%s%s" % [Artist::CACHE_KEY, ap.artist.id])
       Rails.cache.expects(:delete).with(ArtPiece::NEW_ART_CACHE_KEY)
-      ap.title = gen_random_string
+      ap.title = Faker::Lorem.words(2).join(' ')
       ap.save
     end
   end
@@ -46,7 +46,7 @@ describe ArtPiece do
     it 'computes proper dimension' do
       a = art_pieces(:hot)
       a.compute_dimensions[:small].should == [0,0]
-      
+
       a = art_pieces(:negative_size)
       a.compute_dimensions[:medium].should == [0,0]
       a.compute_dimensions[:large].should == [0,0]
@@ -57,7 +57,7 @@ describe ArtPiece do
     end
   end
 
-  describe "get_new_art" do 
+  describe "get_new_art" do
     before do
       Rails.cache.stubs(:read).returns(nil)
       t = Time.zone.now
@@ -70,8 +70,8 @@ describe ArtPiece do
       all = ArtPiece.find_by_sql("select * from art_pieces").select{|a| a.artist_id}
       all.length.should >= 1
       aps = ArtPiece.get_new_art
-      aps.length.should >=1 
-      aps.length.should <=12 
+      aps.length.should >=1
+      aps.length.should <=12
       aps.sort_by(&:created_at).should == all[0..12].sort_by(&:created_at)
     end
     context 'from cache' do
@@ -86,15 +86,15 @@ describe ArtPiece do
 
   describe '#add_tag' do
     it 'adds a tag to the art piece' do
-      new_tag = gen_random_string
+      new_tag = Faker::Lorem.words(2).join(' ')
       ap = ArtPiece.first
       ap.add_tag(new_tag)
       ap.reload
       ap.art_piece_tags.map(&:name).should include new_tag
     end
   end
-      
-      
+
+
   describe 'get_path' do
     it 'returns a path to the art piece' do
       ap = ArtPiece.first

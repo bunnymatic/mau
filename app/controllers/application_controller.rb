@@ -3,8 +3,6 @@
 
 #USERAGENT = 'HTTP_USER_AGENT'
 require 'cookies_helper'
-require 'mobile_fu'
-require 'mobilized_styles'
 require 'faye'
 class ApplicationController < ActionController::Base
   VERSION = 'Corvair 4.3'
@@ -12,14 +10,14 @@ class ApplicationController < ActionController::Base
   @@revision = nil
 
   has_mobile_fu
-  helper :all # include all helpers, all the time
+  #helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   layout 'mau'
   include AuthenticatedSystem
-  include MobilizedStyles
+  #include MobilizedStyles
   before_filter :check_browser, :set_version, :get_feeds, :get_new_art, :set_meta_info
   after_filter :update_cookies
-  
+
   def publish_page_hit
     if request.get?
       Messager.new.publish request.path, 'hit'
@@ -32,7 +30,7 @@ class ApplicationController < ActionController::Base
 
   def update_cookies
     @last_visit = nil;
-    
+
     #last_visit = DateTime::now()
     #user_info = {}
     #if current_user
@@ -49,14 +47,14 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
-  unless ActionController::Base.consider_all_requests_local
+  unless Mau::Application.config.consider_all_requests_local
     filter_parameter_logging :password
     rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
     rescue_from ActionController::RoutingError,       :with => :render_not_found
     rescue_from ActionController::UnknownController,  :with => :render_not_found
     rescue_from ActionController::UnknownAction,      :with => :render_not_found
     rescue_from Exception, :with => :render_error
-  end 
+  end
 
   def set_version
     unless @@revision
@@ -67,7 +65,7 @@ class ApplicationController < ActionController::Base
     end
     @@revision
   end
-  
+
   def get_new_art
     @new_art = ArtPiece.get_new_art
   end
@@ -86,7 +84,7 @@ class ApplicationController < ActionController::Base
     session[:original_uri] = request.request_uri
     redirect_to(*params)
   end
-  
+
   # returns the person to either the original url from a redirect_away or to a default url
   def redirect_back(*params)
     uri = session[:original_uri]
@@ -138,7 +136,7 @@ class ApplicationController < ActionController::Base
     redirect_to "/error" unless is_manager? || is_editor?
   end
 
-  def is_mobile?  
+  def is_mobile?
     !!(is_mobile_device? and session[:mobile_view])
   end
 
@@ -177,29 +175,29 @@ class ApplicationController < ActionController::Base
       fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 500}
     end
   end
-  
+
   def render_csv opts
-    
+
     filename = opts[:filename] || params[:action]
     filename += '.csv' unless /\.csv$|\.CSV$/.match(filename)
-    
+
     if request.env['HTTP_USER_AGENT'] =~ /msie/i
       headers['Pragma'] = 'public'
-      headers["Content-type"] = "text/plain" 
+      headers["Content-type"] = "text/plain"
       headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
-      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\"" 
-      headers['Expires'] = "0" 
+      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+      headers['Expires'] = "0"
     else
       headers["Content-Type"] ||= 'text/csv'
-      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
+      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
     end
     p 'headers', headers
     render :text => Proc.new { |response, output|
       p response.headers
-      #monkey patch /duck typing. 2.3 rails ActionController::Response doesn't have <<, only write  
-      def output.<<(*args)  
-        write(*args)  
-      end  
+      #monkey patch /duck typing. 2.3 rails ActionController::Response doesn't have <<, only write
+      def output.<<(*args)
+        write(*args)
+      end
       csv = FasterCSV.new(output, :row_sep => "\n", :force_quotes => true)
       yield csv
     }
@@ -213,12 +211,12 @@ class ApplicationController < ActionController::Base
     # HTTP 1.1 'pre-check=0, post-check=0' (IE specific)
     response.headers["Cache-Control"] = 'no-store, no-cache, must-revalidate, max-age=0, pre-check=0, post-check=0'
   end
-  
+
   def set_meta_info
     @page_description = "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
     @page_keywords = ["art is the mission", "art", "artists","san francisco"]
   end
-  
+
   def is_local_referer?
     if request.referer.to_s.match(/^https?\:\/\//i)
       request.referer.to_s.match /#{Conf.site_url}/i

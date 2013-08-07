@@ -1,6 +1,6 @@
 class ArtistFeed < ActiveRecord::Base
 
-  named_scope :active, :conditions => ['(active != false)']
+  scope :active, where(:active => true)
 
   validates_presence_of :url
   validates_presence_of :feed

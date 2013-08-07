@@ -3,7 +3,7 @@ class FavoritesController < ApplicationController
   layout 'mau-admin'
 
   def index
-    favs = Favorite.find(:all)
+    favs = Favorite.all
     @favorites = {}
     favs.each do |f|
       fav_owner = f.user_id

@@ -2,7 +2,7 @@ class EmailListsController < ApplicationController
   before_filter :admin_required
   layout 'mau-admin'
   def index
-    @all_lists = { 
+    @all_lists = {
       :feedback => FeedbackMailerList.first.emails,
       :event => EventMailerList.first.emails,
       :admin => AdminMailerList.first.emails
@@ -13,7 +13,7 @@ class EmailListsController < ApplicationController
       :admin => 'This list is used to notify MAU Admins - typically for system issues.'
     }
     # :admin => AdminMailerList.first.emails  - not used
- 
+
 
     msgs = {}
     if request.post?
@@ -27,7 +27,7 @@ class EmailListsController < ApplicationController
         email_list = email_list_class.first
       end
       case params['method']
-      when 'remove_email' 
+      when 'remove_email'
         if email_list && params["email"] && params["email"]["id"]
           em_id = params["email"]["id"].to_i
           begin
@@ -73,6 +73,6 @@ class EmailListsController < ApplicationController
         redirect_to email_lists_path
       end
     end
-      
+
   end
 end
