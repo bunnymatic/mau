@@ -1,4 +1,4 @@
-source :gemcutter
+source "https://rubygems.org"
 gem 'racc'
 gem "rails", '2.3.18'
 gem "geokit"

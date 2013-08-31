@@ -5,7 +5,7 @@ GIT
     mobile-fu (2.x)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     ZenTest (4.5.0)
     actionmailer (2.3.18)

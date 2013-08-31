@@ -53,7 +53,7 @@ Install the MAU bundle
 
 Tell Rails to build you an empty database
 
-    rake db:create
+    rake db:create:all
 
 Tell Rails to setup that database and build a copy of that schema for testing
 
