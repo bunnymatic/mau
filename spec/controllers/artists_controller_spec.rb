@@ -23,11 +23,11 @@ describe ArtistsController do
       it_should_behave_like 'returns success'
       it_should_behave_like 'logged in as admin'
     end
-    
+
 
     describe 'html' do
       integrate_views
-      before do 
+      before do
         get :index
       end
       it_should_behave_like 'one column layout'
@@ -37,7 +37,7 @@ describe ArtistsController do
       it "assigns artists" do
         assigns(:artists).length.should have_at_least(2).artists
       end
-      it "set the title" do 
+      it "set the title" do
         assigns(:page_title).should == 'Mission Artists United - MAU Artists'
       end
       it "artists are all active" do
@@ -90,7 +90,7 @@ describe ArtistsController do
     it "assigns artists" do
       assigns(:artists).length.should have_at_least(2).artists
     end
-    it "set the title" do 
+    it "set the title" do
       assigns(:page_title).should == 'Mission Artists United - MAU Artists'
     end
     it "artists are all active" do
@@ -153,7 +153,7 @@ describe ArtistsController do
         end
       end
       context "update address" do
-        before(:each) do 
+        before(:each) do
         end
         it "contains flash notice of success" do
           put :update, { :commit => 'submit', :artist => {:artist_info => {:street => '100 main st'}}}
@@ -210,14 +210,14 @@ describe ArtistsController do
             xhr :put, :update, { :commit => 'submit', :artist_os_participation => '1' }
           }.to change(OpenStudiosSignupEvent,:count).by(1)
         end
-        
+
       end
     end
   end
 
   describe "#edit" do
     context "while not logged in" do
-      before do 
+      before do
         get :edit
       end
       it_should_behave_like "redirects to login"
@@ -234,7 +234,7 @@ describe ArtistsController do
       it_should_behave_like "logged in user"
       it_should_behave_like "logged in artist"
       it_should_behave_like "logged in edit page"
-      
+
       it "returns success" do
         response.should be_success
       end
@@ -261,7 +261,7 @@ describe ArtistsController do
       it_should_behave_like "logged in user"
       it_should_behave_like "logged in artist"
       it_should_behave_like "logged in edit page"
-      
+
       it "returns success" do
         response.should be_success
       end
@@ -275,7 +275,7 @@ describe ArtistsController do
         assert_select("input#artist_url[value=#{artist1.url}]")
       end
       it "has the artists correct links in their respective fields" do
-        [:facebook, :blog].each do |k| 
+        [:facebook, :blog].each do |k|
           linkval = artist1.send(k)
           linkid = "artist_artist_info_#{k}"
           tag = "input##{linkid}[value=#{linkval}]"
@@ -311,17 +311,17 @@ describe ArtistsController do
         login_as(artist1)
         get :edit
       end
-      it "has heart notification checkbox unchecked" do 
-        assert_select "input#emailsettings_favorites" 
-        response.should_not have_tag "input#emailsettings_favorites[checked=checked]" 
+      it "has heart notification checkbox unchecked" do
+        assert_select "input#emailsettings_favorites"
+        response.should_not have_tag "input#emailsettings_favorites[checked=checked]"
       end
     end
   end
-    
+
   describe "#show" do
     integrate_views
     context "while not logged in" do
-      before(:each) do 
+      before(:each) do
         get :show, :id => artist1.id
       end
       it "returns a page" do
@@ -371,6 +371,21 @@ describe ArtistsController do
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
           desc[0].attributes['content'].should match artist1.get_name(true)
         end
+      end
+
+      it 'displays links to the media' do
+        artist = artist1
+        tags = artist.tags.map(&:name).map{|t| t[0..255]}
+        media = artist.media.map(&:name)
+
+        # fixture validation
+        media.should have_at_least(1).medium
+
+        media.each do |m|
+          med = Medium.find_by_name(m)
+          assert_select "a[href=#{medium_path(med)}]", m
+        end
+
       end
 
       it 'has the artist tags and media as the keywords' do
@@ -433,7 +448,7 @@ describe ArtistsController do
 
       end
       context "looking at someone elses page" do
-        before(:each) do 
+        before(:each) do
           get :show, :id => users(:joeblogs).id
         end
         it_should_behave_like "logged in user"
@@ -482,7 +497,7 @@ describe ArtistsController do
     end
 
     context "while not logged in" do
-      before(:each) do 
+      before(:each) do
         get :show, :id => artist1.id
       end
       it_should_behave_like "not logged in"
@@ -539,19 +554,18 @@ describe ArtistsController do
       end
     end
   end
-      
+
   describe 'qrcode' do
     before do
       FileUtils.mkdir_p File.join(Rails.root,'public','artistdata', Artist.first.id.to_s , 'profile')
       FileUtils.mkdir_p File.join(Rails.root,'artistdata', Artist.first.id.to_s , 'profile')
     end
     it 'generates a png if you ask for one' do
-      pending 'we need to figure out how to mock this shit'
+      @controller.expects(:send_data)
       get :qrcode, :id => Artist.first.id, :format => 'png'
       response.content_type.should == 'image/png'
     end
     it 'redirects to the png if you ask without format' do
-      pending 'we need to figure out how to mock this shit'
       get :qrcode, :id => Artist.first.id
       response.should redirect_to '/artistdata/' + Artist.first.id.to_s + '/profile/qr.png'
     end
@@ -562,7 +576,7 @@ describe ArtistsController do
   end
 
   describe "arrange art for an artist " do
-    before do 
+    before do
       # stash an artist and art pieces
       @artpieces = artist1.art_pieces.map(&:id)
     end
@@ -581,7 +595,7 @@ describe ArtistsController do
           aps[0].artist.representative_piece.id.should==aps[0].id
         end
       end
-      
+
       it "returns art_pieces in new order (1,3,2)" do
         Messager.any_instance.expects(:publish)
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
@@ -624,7 +638,7 @@ describe ArtistsController do
         sw = [ 37.747787573475506, -122.42919445037842 ]
         roster = assigns(:roster).values.flatten.each do |a|
           lat,lng = a.address_hash[:latlng]
-          
+
           (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
           (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
         end
@@ -658,7 +672,7 @@ describe ArtistsController do
         sw = [ 37.747787573475506, -122.42919445037842 ]
         roster = assigns(:roster).values.flatten.each do |a|
           lat,lng = a.address_hash[:latlng]
-          
+
           (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
           (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
         end
@@ -773,7 +787,7 @@ describe ArtistsController do
           eval('%s_artists_path.should == \'/artists/%s\'' % [path,path])
         end
       end
-    end      
+    end
     describe 'member paths' do
       [:bio].each do |path|
         it "should have #{path} as an artist member path" do
