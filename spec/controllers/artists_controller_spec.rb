@@ -561,6 +561,7 @@ describe ArtistsController do
       FileUtils.mkdir_p File.join(Rails.root,'artistdata', Artist.first.id.to_s , 'profile')
     end
     it 'generates a png if you ask for one' do
+      File.stubs(:open).returns(stub(:read => 'the data from the file'))
       @controller.expects(:send_data)
       get :qrcode, :id => Artist.first.id, :format => 'png'
       response.content_type.should == 'image/png'
