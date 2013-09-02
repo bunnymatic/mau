@@ -87,6 +87,55 @@ Once you think things are running, you can try running the test suite:
 
     rake
 
+
+# Git Flow and Committing code
+
+Here is the preferred git flow for adding to the code:
+
+Get on your local master branch
+
+   git co master
+
+Make sure you're up to date by pulling
+
+   git pull
+
+Start a branch
+
+   git checkout -b branch-name
+
+Write some code.
+Check that you succeeded at the end by running the tests
+
+   rake
+
+Check in your code 
+
+   git add <files or .>
+   git commit
+
+Check out the branching structure
+
+   git lola
+
+Hop to your master branch and merge in the changes
+
+   git checkout master
+   git merge --no-ff branch-name
+
+Check out the new branching structure
+
+   git lola
+
+Double check that you have the latest master branch code
+
+   git pull --rebase
+
+Push your changes out
+
+   git push
+
+
 # Cloud Resources Used
 
 * Github:  https://github.com/bunnymatic/mau Source Code Revision Control
