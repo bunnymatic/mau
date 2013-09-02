@@ -238,6 +238,7 @@ input[type=checkbox]:checked {
 }
 .artist-info-block {
   max-width: 282px;
+  overflow:hidden;
   margin: 37px auto;
   h3 {
     text-align:center;
