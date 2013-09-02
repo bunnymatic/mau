@@ -151,12 +151,9 @@ class ApplicationController < ActionController::Base
     @browser_as_class = browser.name.downcase.gsub(' ', '_') #_class(self.request)
 
     # set corners
-    corners = ['corner1','corner2','corner3','corner4']
-    if browser.ie?
-      @corners = corners.collect { |c| "/images/%s.gif" % c }
+    if browser.ie7? || browser.ie8?
       @logo_img = "/images/tiny-colored.gif"
     else
-      @corners = corners.collect { |c| "/images/%s.png" % c }
       @logo_img = "/images/tiny-colored.png"
     end
   end
