@@ -12,7 +12,7 @@ describe ArtistsHelper do
       end
       it "includes studio's address" do
         @info.should match /#{studios(:s1890).street}/
-      end      
+      end
     end
     describe "for artist without group studio" do
       before do
@@ -26,4 +26,17 @@ describe ArtistsHelper do
       end
     end
   end
+
+  describe 'bio_html' do
+
+    it 'returns an html safe string' do
+      bio_html('this is the bio').should be_html_safe
+    end
+
+    it 'replaces newlines with html breaks' do
+      bio_html("this is\n\n the bio").should eql 'this is<br/><br/> the bio<br/>'
+    end
+
+  end
+
 end
