@@ -45,14 +45,12 @@
                           Contact:
                           %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
                             send a note to this artist
-                      
+
                   - if @artist.media and @artist.media.length > 0
                     .div-left
                       %span Media:
                       %span
-                        :ruby
-                          links = @artist.media.map{|m| link_to(m.name, m, :class => "")}
-                        = links.join(", ")
+                        = @artist.media.map{|m| link_to(m.name, m, :class => "")}.join(", ").html_safe
                   - if has_links(@artist)
                     .div-left
                       - keyed_links.each do |key, name, _id|
@@ -85,12 +83,12 @@
             .div-left.bio-container
               %span Bio:
               = bio_html(@artist.artist_info.bio)
-          .clear           
+          .clear
 
           .artist-pieces
             - if @art_pieces.present?
               = render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }}
-            - else         
+            - else
               %img{:src => "/images/default-art-img.png", :width => "200"}
 
   = render :partial => "/twocol_bottom"

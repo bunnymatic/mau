@@ -4,9 +4,9 @@ class ApplicationEvent < ActiveRecord::Base
   validates_length_of :type, :minimum => 2
   default_scope :order => 'created_at desc'
   serialize :data, Hash
-  
+
   after_save :publish_event
-  
+
   def publish_event
     Messager.new.publish "/events/#{self.class.to_s.tableize}", data
   end
