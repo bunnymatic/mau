@@ -94,7 +94,7 @@ Here is the preferred git flow for adding to the code:
 
 Get on your local master branch
 
-    git co master
+    git checkout master
 
 Make sure you're up to date by pulling
 
