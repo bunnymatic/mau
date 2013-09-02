@@ -24,6 +24,6 @@
         %li
           %a{:href => artist_path(artist)}
             .thumb{:style => "background-image:url(#{piece});"}
-            .name #{artist.get_name(true)}
+            .name #{artist.get_name}
           - if os_star
             .os-star

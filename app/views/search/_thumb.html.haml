@@ -13,11 +13,11 @@
       .artist
         %span Artist:
         %span
-          = link_to piece.artist.get_name(true), piece.artist
+          = link_to piece.artist.get_name, piece.artist
       .artpiece_title
         %span Title:
         %span
-          = link_to piece.get_name(true), piece
+          = link_to piece.get_name, piece
       - if piece.medium
         .artpiece_medium
           %span Medium:

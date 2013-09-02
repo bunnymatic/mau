@@ -1,18 +1,18 @@
 .admin-table.singlecolumn
   .featured
-    %h1 Featured Artist: #{@featured_artist.get_name(true)}
+    %h1 Featured Artist: #{@featured_artist.get_name}
     = render :partial => '/flash_notice_error'
 
     .artist_info
       .img
-        %a{:href => artist_path(@featured.artist), :title => @featured.artist.get_name(true)}
+        %a{:href => artist_path(@featured.artist), :title => @featured.artist.get_name}
           - if @featured_artist.has_profile_image
             %img.profile{:src => @featured_artist.get_profile_image('small')}
           - else
             %img.profile{:src => "/images/default-profile-img-not-me.png", :width => '200'}
       .controls
         %a{:href => '#', :class => 'formbutton', :"data-artist" => @featured_artist.id} Tell me I'm Featured
-    .info      
+    .info
       - clz = (@featured.featured > 1.week.ago) ? 'warning' :''
       %div{:class => clz}
         = "This artist has "
@@ -28,46 +28,46 @@
           %input{:id => 'override_date', :type => 'checkbox', :name => 'override'}
         .submit
           %input{:class => 'formbutton',:type => 'submit', :value => 'get the next featured artist'}
-      .name 
-        %label Name: 
-        %span 
-          %a{:href => artist_path(@featured.artist)} #{@featured.artist.get_name(true)} 
+      .name
+        %label Name:
+        %span
+          %a{:href => artist_path(@featured.artist)} #{@featured.artist.get_name}
       .artworks
         %label Uploaded Art:
         %span #{@featured.artist.art_pieces ? @featured.artist.art_pieces.count : 0}
-      .primary_medium 
-        %label Primary Medium: 
-        %span 
+      .primary_medium
+        %label Primary Medium:
+        %span
           - if @featured_artist.primary_medium
             #{@featured_artist.primary_medium.name}
           - else
-            N/A            
+            N/A
       .studio
         %label Studio:
         %span
           - if @featured_artist.studio
             #{@featured_artist.studio.name}
           - else
-            Independent Studio           
+            Independent Studio
       .featured_date
-        %label Featured: 
+        %label Featured:
         %span #{@featured.featured.strftime('%a %D')}
       .post
         %label For Facebook:
-        .text This Week's Featured Mission Artist: #{@featured_artist.get_name(true)} #{@featured_artist.get_share_link(false, {:fb => true})} #sfmau
+        .text This Week's Featured Mission Artist: #{@featured_artist.get_name} #{@featured_artist.get_share_link(false, {:fb => true})} #sfmau
       .post
         %label For Twitter:
-        .text  Featured Mission Artist: #{@featured_artist.get_name(true)} #{@featured_artist.get_share_link(false, {:tw => true})} #sfmau 
+        .text  Featured Mission Artist: #{@featured_artist.get_name} #{@featured_artist.get_share_link(false, {:tw => true})} #sfmau
       .instructions Cut/Paste the above into the Facebook or Twitter status.
-  - if @already_featured.present?    
+  - if @already_featured.present?
     .previously_featured
       %h2 Previously Featured
       %ul
         - @already_featured.each do |featured|
-          %li 
+          %li
             %span.featured_date #{featured.featured.strftime('%a %D')}
-            %a{:href => artist_path(featured.artist)} #{featured.artist.get_name(true)} 
+            %a{:href => artist_path(featured.artist)} #{featured.artist.get_name}
             - if featured.artist.studio
-              from #{featured.artist.studio.name} 
-            - else 
-              from an Independent Studio        
+              from #{featured.artist.studio.name}
+            - else
+              from an Independent Studio

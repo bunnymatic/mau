@@ -5,7 +5,7 @@
       <% if current_user && current_user.id == page_owner.id -%>
       me
       <% else  -%>
-      <%= page_owner.get_name(true) %>
+      <%= page_owner.get_name %>
       <% end -%>
       (<%= page_owner.who_favorites_me.count %>)
       <% if page_owner.who_favorites_me.count > favorites_per_row -%>

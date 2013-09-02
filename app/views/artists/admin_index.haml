@@ -9,7 +9,7 @@
   - if flash[:notice]
     .notice #{flash[:notice]}
 
-  .sortby 
+  .sortby
     Sort By:
     - @allowed_sortby.each do |s|
       %a{:href => "?sortby=#{s}"} #{s}
@@ -40,9 +40,9 @@
     %th name
     %th studio
     %th info
-    %th{:colspan => 2} 
+    %th{:colspan => 2}
       = pretty_print_os_tag(Conf.oslive, true)
-  - @artists.each_with_index do |a, idx| 
+  - @artists.each_with_index do |a, idx|
     :ruby
       classes = []
       classes << cycle('even', 'odd')
@@ -51,35 +51,33 @@
     %tr{:class => classes.join(' ')}
       %td.admin_artist_name
         %a{:href => artist_path(a)}
-          = a.get_name(true)
+          = a.get_name
         %br
         (activated? #{a.activated_at ? a.activated_at.strftime("%m/%d/%y") : a.state})
       %td.admin_artist_studio
         = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
-      %td.admin_artist_info        
+      %td.admin_artist_info
         .name
           Username: #{a.login}
         .email
           EM: #{a.email}
         .address
           Address: #{a.address}
-        .active        
+        .active
           Active? #{a.state=='active'}
         - if a.state != 'active' && a.activation_code.present?
           .activation_link
-            Activation Link (created : #{a.created_at.strftime("%m/%d/%y")}) : 
+            Activation Link (created : #{a.created_at.strftime("%m/%d/%y")}) :
             %br
             #{'http://%s/activate/%s' % [Conf.site_url, a.activation_code]}
         - if a.reset_code.present?
-          .forgot_password_link 
+          .forgot_password_link
             Reset Password Link:
             %br
             #{'http://%s/reset/%s' % [Conf.site_url, a.reset_code]}
-              
+
       %td.participating_status{ :artistid => a.id } #{a.os_participation[Conf.oslive.to_s].to_s}
       %td
         %input.cboslive{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation[Conf.oslive.to_s].to_s, :checked => (a.os_participation[Conf.oslive.to_s] ? "checked" : nil) }
-   
+
 %button.update-artists update os status
-
-

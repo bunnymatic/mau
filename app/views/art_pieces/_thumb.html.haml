@@ -1,7 +1,7 @@
 :ruby
   cls = ""
   cls += size
-  if piece 
+  if piece
     linkto = ''
     if artist_link && piece.artist
       linkto = artist_path(piece.artist)
@@ -12,37 +12,37 @@
     wd, ht = piece.compute_dimensions[size]
     if wd > 0 and ht > 0
       dim = wd
-    end        
+    end
   end
   if show_footer or delete or select
     topcls =" with-foot "
   end
 
 .artp-thumb-container{:class => "#{cls} #{topcls}", :pid => piece && piece.id}
-  - if !piece 
+  - if !piece
     .artp-thumb{:class => "#{cls} no-art"}
       nothing
-      .name 
-        = link_to artist.get_name(true), artist, :class => 'lkthumb'
+      .name
+        = link_to artist.get_name, artist, :class => 'lkthumb'
       - if Conf.oslive && artist.doing_open_studios?
         .os-star{:title => "I'll be in Open Studios!"}
 
-  - else 
+  - else
     .artp-thumb{:class => cls, :pid => piece.id}
       - if piece.get_path(size)
         - if !linkto.empty? && !delete && !select
           %a{:href => linkto}
             %img{:title => piece.title, :alt => piece.title, :width => dim, :src => piece.get_path(size) }
-        - else 
+        - else
           %img{:title => piece.title, :alt => piece.title, :src => piece.get_path(size) }
       - else
-        %span.no_image 
+        %span.no_image
           No Image
     - if Conf.oslive && piece.artist.doing_open_studios? && !delete && !select
       .os-star{:title => "I'll be in Open Studios!"}
     - if show_footer
-      .name 
-        = link_to piece.artist.get_name(true), art_piece_path(piece), :class => 'lkthumb'
+      .name
+        = link_to piece.artist.get_name, art_piece_path(piece), :class => 'lkthumb'
     - if delete
       .artp-thumb-ctrl
         = check_box( 'art', piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0")

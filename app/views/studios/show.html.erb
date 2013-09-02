@@ -51,11 +51,7 @@
 	  <div class="studio-memberlist">
 	    <% if @pieces and @pieces.length > 0 %>More<% end %>
 	    Artists:
-	    <% links = [] -%>
-	    <% @other_artists.each do |a| -%>
-	    <%   links << link_to(a.get_name(true), a ) -%>
-			  <% end -%>
-			  <%= links.join(", ") %>
+	    <%= @other_artists.map{|a| link_to(a.get_name, a )}.join(", ").html_safe %>
 	  </div>
 	  <% end -%>
 	</div>
