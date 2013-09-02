@@ -2296,6 +2296,7 @@ search pages
   border: 0px;
   vertical-align: top;
   .artpiece-thumb {
+    overflow: hidden;
     position: relative;
     @include dotted_border;
     float:left;
