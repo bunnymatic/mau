@@ -14,6 +14,7 @@ gem "sass"
 gem 'mojo_magick'
 gem 'passenger', '3.0.12'
 gem 'dalli', '~> 1.x'
+gem 'memcache-client'
 gem 'has_many_polymorphs'
 gem 'hashie'
 gem 'tzinfo'
