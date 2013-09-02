@@ -1,7 +1,7 @@
 %script{:type => "text/javascript"}
   MAU = window['MAU'] || {};
   MAU.Thumbs = MAU.Thumbs || {}
-  MAU.Thumbs.ThumbList = #{@thumbs.to_json}
+  MAU.Thumbs.ThumbList = #{@thumbs.to_json.html_safe}
 
 - if @thumbs.length > 0
   - row_count_class = "rows#{(@thumbs.length.to_f / 4.0).ceil.to_i}"
@@ -20,7 +20,6 @@
     .next{:class => row_count_class}
       %a#next_img_lnk{:href=>"#",:apid => @next_img}
         #next-browse
-  .clear  
-- else 
+  .clear
+- else
   &nbsp;
-
