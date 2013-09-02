@@ -123,7 +123,7 @@ module ArtistsHelper
     bio.split("\n").each do |line|
       biostr += (HTMLHelper.encode(line) + "<br/>")
     end
-    biostr
+    biostr.html_safe
   end
 
   # get info for google map info window as html

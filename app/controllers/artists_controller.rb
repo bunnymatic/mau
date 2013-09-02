@@ -53,7 +53,7 @@ class ArtistsController < ApplicationController
     @map = GMap.new("map")
     @map.control_init(:large_map => true, :map_type => true)
     # init icon
-    @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png', 
+    @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png',
                                      :iconSize => GSize.new(64.0, 64.0)),
                            'icon_name')
     markers = []
@@ -67,19 +67,19 @@ class ArtistsController < ApplicationController
         dx = dy = 0.0
         if !@roster[ky]
           @roster[ky] = []
-        else 
+        else
           # add offset
           dx = 0.00015 * rand * ( rand > 0.5 ? -1.0 : 1.0 )
           dy = 0.00025 * rand * ( rand > 0.5 ? -1.0 : 1.0 )
         end
-        
+
         @roster[ky] << a
         coord = address[:latlng]
         nentries += 1
         coord[0] += dx
         coord[1] += dy
         info = get_map_info(a)
-        
+
         m = GMarker.new(coord,:title => a.get_name(true),
                         :info_window => info)
         #:icon => artist_ico)
@@ -129,7 +129,7 @@ class ArtistsController < ApplicationController
       }
     end
   end
-  
+
   def admin_update
     begin
       ct = 0
@@ -147,7 +147,7 @@ class ArtistsController < ApplicationController
       end
       flash[:notice] = "Updated %d artists" % ct
       redirect_to(admin_artists_url())
-    rescue 
+    rescue
       flash[:error] = "%s" % $!
       redirect_to(admin_artists_url())
     end
@@ -164,12 +164,12 @@ class ArtistsController < ApplicationController
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
   end
 
-  def by_firstname 
+  def by_firstname
     if !is_mobile?
       redirect_to '/' and return
     end
 
-    @page_title = "Artists by first name"    
+    @page_title = "Artists by first name"
     return sorted_by 'firstname'
   end
   def by_lastname
@@ -180,9 +180,9 @@ class ArtistsController < ApplicationController
     @page_title = "Artists by last name"
     return sorted_by 'lastname'
   end
-  
+
   def index
-    respond_to do |format| 
+    respond_to do |format|
       format.html {
         # collect query args to build links
         queryargs = {}
@@ -201,7 +201,7 @@ class ArtistsController < ApplicationController
         curpage = curpage.to_i
         # build alphabetical list keyed by first letter
         @artists_by_name = {}
-        
+
         vw = "gallery"
         queryargs["v"] = params[:v]
         if params[:v] == 'l'
@@ -281,15 +281,15 @@ class ArtistsController < ApplicationController
           render :action => 'roster', :layout => 'mau1col'
         else
           render :action => 'index', :layout => 'mau1col'
-        end      
+        end
       }
       format.json {
         render :json => Artist.active
       }
-      format.mobile { 
+      format.mobile {
         @artists = []
         @page_title = "Artists"
-        render :layout => 'mobile' 
+        render :layout => 'mobile'
       }
     end
   end
@@ -331,7 +331,7 @@ class ArtistsController < ApplicationController
           artist_names = []
         end
       end
-    end        
+    end
     render :json => artist_names
   end
 
@@ -342,7 +342,7 @@ class ArtistsController < ApplicationController
     end
     ids = params[:art].map { |kk,vv| kk if vv != "0" }.compact
     arts = ArtPiece.find(ids)
-    arts.each do |art| 
+    arts.each do |art|
       art.destroy
     end
     Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", "deleted art pieces"
@@ -386,7 +386,7 @@ class ArtistsController < ApplicationController
     @artist = self.current_user
   end
 
-  
+
   def show
     @artist = get_artist_from_params
     if !@artist.nil?
@@ -401,7 +401,7 @@ class ArtistsController < ApplicationController
     end
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }
-      format.json  { 
+      format.json  {
         cleaned = @artist.clean_for_export(@art_pieces)
         render :json => cleaned
       }
@@ -413,7 +413,7 @@ class ArtistsController < ApplicationController
   end
 
   def bio
-    
+
     @artist = get_artist_from_params
     @page_description = build_page_description @artist
     @page_keywords += @artist.media.map(&:name) + @artist.tags.map(&:name)
@@ -427,7 +427,7 @@ class ArtistsController < ApplicationController
         }
       end
     else
-      redirect_to artist_path(@artist) 
+      redirect_to artist_path(@artist)
     end
   end
 
@@ -436,7 +436,7 @@ class ArtistsController < ApplicationController
     if @artist
       qrcode_system_path = @artist.qrcode
       respond_to do |fmt|
-        fmt.html { 
+        fmt.html {
           redirect_to "/artistdata/#{@artist.id}/profile/qr.png"
         }
         fmt.png {
@@ -463,7 +463,7 @@ class ArtistsController < ApplicationController
                                             :data => {'user' => current_artist.login, 'user_id' => current_artist.id})
               ai.save!
             end
-          rescue 
+          rescue
           end
         end
       end
@@ -485,9 +485,9 @@ class ArtistsController < ApplicationController
         current_artist.update_attributes!(params[:artist])
         flash[:notice] = "Update successful"
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
-        
+
         redirect_to edit_artist_url(current_user)
-      rescue 
+      rescue
         flash[:error] = "%s" % $!
         redirect_to edit_artist_url(current_user)
       end
@@ -499,8 +499,8 @@ class ArtistsController < ApplicationController
     fetch_thumbs true
     respond_to do |format|
       format.html { redirect_to root_path }
-      format.mobile { 
-        if params[:partial] 
+      format.mobile {
+        if params[:partial]
           render :thumbs, :layout => false
         else
           render :thumbs, :layout => 'mobile'
@@ -513,8 +513,8 @@ class ArtistsController < ApplicationController
     fetch_thumbs
     respond_to do |format|
       format.html { redirect_to root_path }
-      format.mobile { 
-        if params[:partial] 
+      format.mobile {
+        if params[:partial]
           render :layout => false
         else
           render :layout => 'mobile'
@@ -522,7 +522,7 @@ class ArtistsController < ApplicationController
       }
     end
   end
-  
+
   protected
   def fetch_thumbs(osonly = false)
     page = params[:page] || 1
@@ -545,8 +545,8 @@ class ArtistsController < ApplicationController
   end
   def sorted_by sort_column
     @artists = Artist.active.find(:all, :order => sort_column, :include => :artist_info)
-    respond_to do |format| 
-      format.mobile { 
+    respond_to do |format|
+      format.mobile {
         render :layout => 'mobile', :template => 'artists/index.mobile'
       }
     end
@@ -558,7 +558,7 @@ class ArtistsController < ApplicationController
     rescue ArgumentError
       use_id = false
     end
-    if !use_id 
+    if !use_id
       artist = Artist.find_by_login(params[:id])
       if !artist or artist.suspended?
         artist = nil
@@ -575,8 +575,8 @@ class ArtistsController < ApplicationController
   end
 
   def build_page_description artist
-    if (artist) 
-      trim_bio = trunc(artist.bio, 500) 
+    if (artist)
+      trim_bio = trunc(artist.bio, 500)
       if trim_bio && !trim_bio.empty?
         return "Mission Artists United Artist : #{artist.get_name(true)} : " + trim_bio
       end
