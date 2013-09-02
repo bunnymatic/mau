@@ -62,10 +62,21 @@ describe ArtPiecesController do
           end
         end
       end
+
       it 'shows the artist name in the sidebar' do
         artist_link = '/artists/%d' % @artpieces.first.artist.id
         assert_select ".lcol h3 a[href=#{artist_link}]"
         assert_select ".lcol a[href=#{artist_link}] img"
+      end
+
+      it 'shows the thumbnail browser' do
+        assert_select '#artp_thumb_browser'
+      end
+
+      it 'includes proper JSON for the thumblist' do
+        assert_select 'script' do |script_tag|
+          script_tag.join.should include 'Thumbs.ThumbList = [{"path":"/artistdata/'
+        end
       end
 
       it "displays art piece" do
@@ -211,7 +222,7 @@ describe ArtPiecesController do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
       end
     end
-  end    
+  end
 
   describe "#edit" do
     context "while not logged in" do
@@ -258,9 +269,9 @@ describe ArtPiecesController do
         it_should_behave_like 'returns success'
       end
     end
-      
+
   end
-  
+
   describe "#delete" do
     context "while not logged in" do
       before do
