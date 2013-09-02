@@ -7,7 +7,7 @@
       <% if current_user && current_user.id == page_owner.id -%>
       my 
       <% else -%>
-      <%= page_owner.get_name(true) %>'s
+      <%= page_owner.get_name %>'s
       <% end -%>
       favorites
       </a>

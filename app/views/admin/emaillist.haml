@@ -32,7 +32,7 @@
       %a.export-csv{:href => "?format=csv&%s" % request.query_string}
         %button export as csv
       %textarea{:rows => "15", :cols => "70", :readonly => "readonly"}
-        = @emails.select{|e| e.length > 0}.map{|e| "&quot;#{e[:name]}&quot; &lt;#{e[:email]}&gt;"}.join(",\n ")
+        = @emails.select{|e| e.length > 0}.map{|e| "&quot;#{e[:name]}&quot; &lt;#{e[:email]}&gt;"}.join(",\n ").html_safe
     - else
       %h5 nothing emails match the query
     .clear

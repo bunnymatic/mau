@@ -1,24 +1,24 @@
-- if !@artist 
+- if !@artist
   .error Sorry, we were unable to find that artist.
 - else
   .artist
     - if @artist.artist_info && @artist.os_participation[Conf.oslive.to_s]
-      %h2.os-star 
-        #{@artist.get_name(true)}
+      %h2.os-star
+        #{@artist.get_name}
         .os-star
       See this artist in their studio during Open Studios April 20-21, 2013
     - else
-      %h2 
-        #{@artist.get_name(true)}
+      %h2
+        #{@artist.get_name}
     .address
       - if @artist.studio
         .studio
           Studio:
-          = link_to @artist.studio.name, @artist.studio  
-          .street 
+          = link_to @artist.studio.name, @artist.studio
+          .street
             #{@artist.studio.street}
             - if @artist.artist_info.studionumber.present?
-              %span 
+              %span
                 #{"#%s" % @artist.artist_info.studionumber}
             %span.lkmap #{ "(" + link_to('map', @artist.studio.map_link) + ")" }
       - else
@@ -26,35 +26,35 @@
           - if @artist.artist_info.full_address.length > 1
             #{@artist.artist_info.street}
           %span.lkmap #{ "(" + link_to('map', @artist.artist_info.map_link) + ")"}
-    
+
     - if @artist.media.present?
       .media.section
         %span Media:
         %span
           :ruby
             links = []
-            @artist.media.each do |m| 
+            @artist.media.each do |m|
               links << link_to(m.name, m, :class => "")
             end
           #{links.join(", ")}
     - if @artist.bio.present?
       .bio_link.section
-        %span 
+        %span
           Bio/Statement:
-        %span.snippet 
+        %span.snippet
           #{StringHelpers.trunc(@artist.bio,170)}
         - if @artist.bio.length > 170
           %a.more{:href => bio_artist_path(@artist)} [Read More]
     .clear
     - if @artist.art_pieces.count
       %ul#art_pieces.section
-        - @artist.art_pieces.each do |artpiece| 
+        - @artist.art_pieces.each do |artpiece|
           %li
             .ap-thumb{:style => "background-image:url(#{artpiece.get_path('small')});"}
     .clear
     - if has_links(@artist)
       .links.section
-        - keyed_links.each do |key, name, _id|  
+        - keyed_links.each do |key, name, _id|
           - lnk = @artist.send(key)
           - if lnk and !lnk.empty?
             %div{:id => _id}

@@ -3,7 +3,7 @@
     .new_art_thumbs
       .title art recently added:
       - @new_art.select{|ap| ap.artist.present?}.each do |ap|
-        %a{:href => artist_path(ap.artist), :title => ap.artist.get_name(true)}
+        %a{:href => artist_path(ap.artist), :title => ap.artist.get_name}
           .square{:style => "background-image:url(%s); background-position: center center" % ap.get_path('thumb'), :class => cycle("first", "", "", "last", :name => "row_class")}
 
       .clear

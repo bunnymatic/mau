@@ -3,7 +3,7 @@
   %li
     %a{:href => artist_path(artist)}
       .thumb{:style => "background-image:url(#{piece});"}
-      .name #{artist.get_name(true)}
+      .name #{artist.get_name}
     - if artist.os_participation[Conf.oslive.to_s]
       .os-star
 - if @artists.respond_to? :total_pages

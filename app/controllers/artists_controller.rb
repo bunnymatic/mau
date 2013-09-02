@@ -123,7 +123,7 @@ class ArtistsController < ApplicationController
         render_csv :filename => 'mau_artists' do |csv|
           csv << ["First Name","Last Name","Full Name","Group Site Name","Studio Address","Studio Number","Email Address"]
           @artists.each do |artist|
-            csv << [ artist.csv_safe(:firstname), artist.csv_safe(:lastname), artist.get_name(true), artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, artist.email ]
+            csv << [ artist.csv_safe(:firstname), artist.csv_safe(:lastname), artist.get_name, artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, artist.email ]
           end
         end
       }
@@ -390,7 +390,7 @@ class ArtistsController < ApplicationController
   def show
     @artist = get_artist_from_params
     if !@artist.nil?
-      @page_title = "Mission Artists United - Artist: %s" % @artist.get_name(true)
+      @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
       @page_description = build_page_description @artist
       @page_keywords += @artist.media.map(&:name) + @artist.tags.map(&:name)
       # get artist pieces here instead of in the html

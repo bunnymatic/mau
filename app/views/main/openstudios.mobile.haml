@@ -23,7 +23,7 @@
       - @participating_indies.each do |a| 
         - street = " &mdash; #{a.address_hash[:parsed][:street]}"
         %li
-          = link_to(a.get_name(true), a)
+          = link_to(a.get_name, a)
           #{street}
   .section
     .markdown
