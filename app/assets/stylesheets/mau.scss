@@ -1720,16 +1720,13 @@ tr.tr-short{
 
 .graybg {
   background-color: $mediumgray;
-  &.top, &.ltcorner, &.rtcorner {
-    background-color: #bebebe;
-  }
+
   &.gradient {
     background-image: linear-gradient(bottom, rgb(153,153,153) 80%, rgb(190,190,190) 99%);
     background-image: -o-linear-gradient(bottom, rgb(153,153,153) 80%, rgb(190,190,190) 99%);
     background-image: -moz-linear-gradient(bottom, rgb(153,153,153) 80%, rgb(190,190,190) 99%);
     background-image: -webkit-linear-gradient(bottom, rgb(153,153,153) 80%, rgb(190,190,190) 99%);
     background-image: -ms-linear-gradient(bottom, rgb(153,153,153) 80%, rgb(190,190,190) 99%);
-    
     background-image: -webkit-gradient(
       linear,
       left bottom,
