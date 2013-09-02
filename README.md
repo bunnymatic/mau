@@ -94,46 +94,46 @@ Here is the preferred git flow for adding to the code:
 
 Get on your local master branch
 
-   git co master
+    git co master
 
 Make sure you're up to date by pulling
 
-   git pull
+    git pull
 
 Start a branch
 
-   git checkout -b branch-name
+    git checkout -b branch-name
 
 Write some code.
 Check that you succeeded at the end by running the tests
 
-   rake
+    rake
 
 Check in your code 
 
-   git add <files or .>
-   git commit
+    git add <files or .>
+    git commit
 
 Check out the branching structure
 
-   git lola
+    git lola
 
 Hop to your master branch and merge in the changes
 
-   git checkout master
-   git merge --no-ff branch-name
+    git checkout master
+    git merge --no-ff branch-name
 
 Check out the new branching structure
 
-   git lola
+    git lola
 
 Double check that you have the latest master branch code
 
-   git pull --rebase
+    git pull --rebase
 
 Push your changes out
 
-   git push
+    git push
 
 
 # Cloud Resources Used
