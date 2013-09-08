@@ -10,31 +10,25 @@
 .event{:class => event_classes.join(' ')}
   .title
     #{event.title}
-  .info 
+  .info
     .time #{EventsHelper::event_time(event)}
     - if event.reception_starttime.present?
       .reception_time Reception: #{EventsHelper::reception_time(event)}
- 
+
   .venue
     .name #{event.venue}
-    .address 
+    .address
       - address_hash = event.address_hash[:parsed]
       - txt = [address_hash[:street], address_hash[:city]]
       - txt << address_hash[:state] if address_hash[:state].downcase != 'ca'
       - txt << address_hash[:zip] if address_hash[:zip] != '94110'
       - txt.each do |item|
         %span.nobr #{item}
-      .maplink 
+      .maplink
         %a{:target => '_blank', :href => event.map_link} (map)
-  .clear        
-  .desc.markdown #{markdown(event.description)}
+  .clear
+  .desc.markdown #{markdown(event.description).html_safe}
   .url
     - if event.url.present?
       Event Website:
-      :ruby 
-        url = event.url
-        display = event.url.gsub(/^https?:\/\//, '')
-        unless /^https?:\/\// =~ url
-          url = 'http://' + event.url
-        end         
-      %a{:href => url} #{display}
+      = link_to_clean_url event.url
