@@ -1,5 +1,6 @@
-/** setup hash change observer */
+/*jshint -W031 */  /** don't warn for using "new" with side-effects : because of prototype new Insertion() */
 
+var MAU = window.MAU = window.MAU || {};
 var Utils = {
   selected : function(elid) {
     var opts = $(elid).select('option');
@@ -43,6 +44,7 @@ var FormMethods = {
 
 Element.addMethods('form', FormMethods);
 
+/** setup hash change observer */
 (function(){
   var curHash = window.location.hash;
   function doHashChange(){
@@ -403,25 +405,25 @@ var TagMediaHelper = {
   /**
    * scripty stuff related to artist and artist pages
    */
-  ID_STUDIO_INFO_TOGGLE = 'studio_info_toggle';
-  ID_LINKS_TOGGLE = 'links_toggle';
-  ID_ARTIST_INFO_TOGGLE = 'info_toggle';
-  ID_BIO_TOGGLE = 'bio_toggle';
-  ID_PASSWD_TOGGLE = 'passwd_toggle';
-  ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
-  ID_NOTIFICATION_TOGGLE = 'notification_toggle';
-  ID_EVENTS_TOGGLE = 'events_toggle';
-  ID_FAVORITES_TOGGLE = 'favorites_toggle';
+  var ID_STUDIO_INFO_TOGGLE = 'studio_info_toggle';
+  var ID_LINKS_TOGGLE = 'links_toggle';
+  var ID_ARTIST_INFO_TOGGLE = 'info_toggle';
+  var ID_BIO_TOGGLE = 'bio_toggle';
+  var ID_PASSWD_TOGGLE = 'passwd_toggle';
+  var ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
+  var ID_NOTIFICATION_TOGGLE = 'notification_toggle';
+  var ID_EVENTS_TOGGLE = 'events_toggle';
+  var ID_FAVORITES_TOGGLE = 'favorites_toggle';
 
-  ID_EVENTS_SXN = 'events';
-  ID_STUDIO_SXN = 'address';
-  ID_LINKS_SXN = 'links';
-  ID_ARTIST_SXN = 'info';
-  ID_BIO_SXN = 'bio';
-  ID_PASSWD_SXN = 'passwd';
-  ID_DEACTIVATE_SXN = 'deactivate';
-  ID_NOTIFICATION_SXN = 'notification';
-  ID_FAVORITES_SXN = 'favorites';
+  var ID_EVENTS_SXN = 'events';
+  var ID_STUDIO_SXN = 'address';
+  var ID_LINKS_SXN = 'links';
+  var ID_ARTIST_SXN = 'info';
+  var ID_BIO_SXN = 'bio';
+  var ID_PASSWD_SXN = 'passwd';
+  var ID_DEACTIVATE_SXN = 'deactivate';
+  var ID_NOTIFICATION_SXN = 'notification';
+  var ID_FAVORITES_SXN = 'favorites';
 
   A.SECTIONS = [ID_STUDIO_SXN,
 		            ID_LINKS_SXN,
@@ -467,7 +469,7 @@ var TagMediaHelper = {
   };
   A.clickYepNope = function(type) {
     var sel = 'artist_os_participation';
-    var new_setting = parseInt($(sel).value,10)
+    var new_setting = parseInt($(sel).value,10);
     var msg = null;
     if (!new_setting) {
       msg = 'So sorry you\'re not going to participate this year.'+
@@ -580,8 +582,8 @@ var TagMediaHelper = {
     $$('.edit-sections #artist_studio_id').each(function(s) {
       s.observe('change', function(ev) {
 
-        if (this.selected().value == 0) {
-          $('artist_artist_info_studionumber').value = ''
+        if (this.selected().value === 0) {
+          $('artist_artist_info_studionumber').value = '';
           $$('.edit-sections #address .studio-number-row')[0].hide();
         } else {
           $$('.edit-sections #address .studio-number-row')[0].show();
@@ -755,10 +757,10 @@ var TagMediaHelper = {
     },
     updatePinItButton: function(pinIt, artPiece) {
       if (pinIt) {
-        var pic = location.protocol + "//" + location.host + artPiece.image_files.large
-        var url = location.protocol + "//" + location.host + '/art_pieces/' + artPiece.id
+        var pic = location.protocol + "//" + location.host + artPiece.image_files.large;
+        var url = location.protocol + "//" + location.host + '/art_pieces/' + artPiece.id;
         var desc = artPiece.title + " by " + artPiece.artist_name;
-        var parser = new MAU.QueryStringParser("//pinterest.com/pin/create/button/")
+        var parser = new MAU.QueryStringParser("//pinterest.com/pin/create/button/");
         parser.query_params = { url: url,
                                 description: desc,
                                 media: pic };
@@ -779,7 +781,7 @@ var TagMediaHelper = {
     update_info: function(ap) {
       var dummy = null;
       var images = ap.image_files;
-      var f = images.medium
+      var f = images.medium;
       var img = $('artpiece_img');
       if (f) {
 	      img.src = f;
@@ -799,7 +801,7 @@ var TagMediaHelper = {
           if (ntags) {
             tgs.update('');
             for(;i<ntags;++i) {
-	            var dummy = new Insertion.Bottom(tgs, ts[i]);
+	            new Insertion.Bottom(tgs, ts[i]);
             }
             tgs.show();
           } else {
@@ -861,7 +863,7 @@ var TagMediaHelper = {
           if (fb) {
             var href = (fb.getAttribute('data-href') || location.href).replace(/\#.*$/,'');
             href = href.replace(/(art_pieces\/)\d+(.*)/,"$1"+ap.id+"$2" );
-            fb.writeAttribute("data-href", href)
+            fb.writeAttribute("data-href", href);
           }
           FB.XFBML.parse();
         } catch(ex) {}
@@ -1266,14 +1268,14 @@ var TagMediaHelper = {
   Object.extend(JSF, {
     WRAPPER: 'jsFlash',
     show:function(msgs, container) {
-      var w = $(this.WRAPPER);
-      if ( w ) {
-        w.remove();
+      jQuery('#' + this.WRAPPER).remove();
+      var $w = this.construct(msgs);
+      var c = jQuery(container).first();
+      if (!c.length) {
+        c = document.body;
       }
-      w = this.construct(msgs);
-      var c = $$(container).first() || document.body;
-      c.insert({top:w});
-      w.show();
+      jQuery(c).prepend($w);
+      $w.fadeIn();
       M.addFlashObserver();
     },
     hide:function() {
@@ -1281,20 +1283,24 @@ var TagMediaHelper = {
       if (w) { w.hide(); }
     },
     construct: function(msgs) {
-      var flash = new Element('div', {id:this.WRAPPER, style:'display:none;'});
+      /** do this with jQuery */
+      var $flash = jQuery('<div>', {id:this.WRAPPER, style:'display:none;'});
+      //var flash = new Element('div', {id:this.WRAPPER, style:'display:none;'});
       var err = msgs.error;
       var notice = msgs.notice;
-      if ( err ) {
-        var contents = new Element('div', {'class':'error-msg'});
-        contents.innerHTML = err;
-        flash.insert(contents);
+      var contents = jQuery('<div>');
+      ['error','notice'].each(function(k) {
+        if (msgs[k]) {
+          var msg = msgs[k];
+          var clz = k;
+          if (k == 'error') { clz = 'error-msg'; }
+          contents.append(jQuery('<div>', {'class': clz}).html(msg));
+        }
+      });
+      if (contents.html().length) {
+        $flash.html(contents);
       }
-      if (notice) {
-        var contents = new Element('div', {'class':'notice'});
-        contents.innerHTML = notice;
-        flash.insert(contents);
-      }
-      return flash;
+      return $flash;
     },
     init:function() {
     }
@@ -1656,18 +1662,5 @@ var TagMediaHelper = {
   };
   Event.observe(window,'load',E.init);
 
-  var IM = M.ImageZoom = M.ImageZoom || {};
-  IM.init = function() {
-  };
-  Event.observe(window,'load',IM.init);
-
-  var Social = M.Social = M.Social || {};
-  Social.init = function() {
-  };
-  Event.observe(window,'load',Social.init);
-
 }
-
-
-
 )();

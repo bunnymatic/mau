@@ -58,8 +58,6 @@ group :test, :development do
   gem 'mocha','0.9.10'
   gem 'rspec','1.3.1'
   gem 'rspec-rails','1.3.4'
-  gem 'ZenTest', '4.5.0'
-  gem 'autotest-rails'
   gem 'jslint_on_rails'
   gem 'fakeweb'
   gem 'jasmine'

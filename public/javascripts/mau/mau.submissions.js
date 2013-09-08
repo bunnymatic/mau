@@ -1,7 +1,8 @@
-(function() {
-Submissions = MAU.S = MAU.S || {};
-
+var MAU = window.MAU = window.MAU || {};
+var Submissions = MAU.Submissions || {};
 var S = Submissions;
+
+(function() {
 
 var countChecked = function() {
   var numChecked = 0;

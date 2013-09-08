@@ -8,10 +8,10 @@ MAUAdmin =  window.MAUAdmin || {};
     {
       var evt = document.createEvent('HTMLEvents');
       evt.initEvent(eventName, true, true);
-      
+
       return this.dispatchEvent(evt);
     }
-    
+
     if (this.fireEvent) {
       return this.fireEvent('on' + eventName);
     }
@@ -47,7 +47,7 @@ MAUAdmin =  window.MAUAdmin || {};
       if (imFeatured) {
         var artist = imFeatured.data('artist');
         imFeatured.observe('click', function() {
-          var xhr = new Ajax.Request('/artists/' + artist + '/notify_featured', 
+          var xhr = new Ajax.Request('/artists/' + artist + '/notify_featured',
                                      { method: 'post',
                                        parameters: {
                                          authenticity_token:unescape(authenticityToken)
@@ -92,7 +92,7 @@ MAUAdmin =  window.MAUAdmin || {};
 	  for ( ; ii < oss.length; ++ii ) {
 	    os = oss[ii];
 	    cb = cbs[ii];
-	    
+
 	    if ((os.innerHTML === 'true') !== (cbs[ii].checked)) {
 	      updates["ARTIST"+os.readAttribute('artistid')] = (cbs[ii].checked).toString();
 	    }
@@ -102,8 +102,8 @@ MAUAdmin =  window.MAUAdmin || {};
           action: "/admin/artists/update",
           method: "post"
         });
-	form.appendChild(new Element('input', { type:"hidden", 
-                                                name:"authenticity_token", 
+	form.appendChild(new Element('input', { type:"hidden",
+                                                name:"authenticity_token",
                                                 value:unescape(authenticityToken)}));
         var k = null;
 	for (k in updates) {
@@ -130,7 +130,7 @@ MAUAdmin =  window.MAUAdmin || {};
 
   };
   Event.observe(window,'load',M.init);
-  
+
   var E = M.Events = M.Events || {};
   E.init = function() {
     $$('.filters input[type=checkbox]').each(function(lnk) {
@@ -153,7 +153,7 @@ MAUAdmin =  window.MAUAdmin || {};
             $$( ['.event',time_class, state_class].join('.') ).each(function(el){el.show();});
           });
         });
-                          
+
       });
     });
     $$('.filters .show_all').each(function(el) {
@@ -166,10 +166,10 @@ MAUAdmin =  window.MAUAdmin || {};
     });
     // start with only future, inprogress and unpublished
     var k = null;
-    var init_state = { future: true, 
-                       in_progress: true, 
-                       past: false, 
-                       published: false, 
+    var init_state = { future: true,
+                       in_progress: true,
+                       past: false,
+                       published: false,
                        unpublished: true};
     for (k in init_state) {
       var $ev_filter = $('event_filter_'+k);
@@ -299,5 +299,5 @@ MAUAdmin =  window.MAUAdmin || {};
     Event.observe(window, 'load', function() { GraphPerDay.load('art_pieces_per_day', '/admin/art_pieces_per_day'); });
     Event.observe(window, 'load', function() { GraphPerDay.load('os_signups', '/admin/os_signups'); });
   }
-  
+
 })();

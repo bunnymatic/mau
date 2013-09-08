@@ -18,4 +18,4 @@ rescue Exception => ex
 end
 
 require 'rosie'
-Dir["#{Gem.searcher.find('rosie').full_gem_path}/lib/tasks/**/*.rake"].each { |ext| load ext }
+Dir["#{Gem::Specification.find('rosie').first.full_gem_path}/lib/tasks/**/*.rake"].each { |ext| load ext }
