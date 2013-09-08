@@ -136,6 +136,25 @@ Push your changes out
     git push
 
 
+# Issues/Versions etc
+
+Ran into issues with rubygems version 2.0.7.  It seems that some deprecations have been removed.  Rails 2.3.x has not been updated.  If you have issues that look like
+
+    /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/rails/gem_dependency.rb:21:in `add_frozen_gem_path': undefined method `source_index' for Gem:Module (NoMethodError)
+    	from /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/initializer.rb:298:in `add_gem_load_paths'
+    	from /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/initializer.rb:132:in `process'
+    	from /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/initializer.rb:113:in `send'
+    	from /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/initializer.rb:113:in `run'
+    	from /projects/mau/config/environment.rb:26
+    	from /projects/mau/spec/spec_helper.rb:6:in `require'
+
+you may need to use an older rubygems version.  I've had success with 1.8.25. 
+
+    gem update --system 1.8.25
+
+Hopefully, once we get away from Rails 2.3.x we won't have to worry about this so much.
+
+
 # Cloud Resources Used
 
 * Github:  https://github.com/bunnymatic/mau Source Code Revision Control
@@ -143,3 +162,4 @@ Push your changes out
 * Site5 for hosting
 * NewRelic for app performance analytics/monitoring
 * Google Analytics for web analytics
+
