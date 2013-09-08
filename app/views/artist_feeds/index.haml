@@ -9,12 +9,12 @@
   - @feeds.each_with_index do |feed, idx|
     - clz = ((idx % 2) == 0 ? 'even': 'odd')
     .feed_entry{:class => clz}
-      .feed 
+      .feed
         %a{:href => feed.feed} #{feed.feed}
-      .url 
+      .url
         %a{:href => feed.url} #{feed.url}
       .active #{feed.active}
-      .controls 
+      .controls
         = link_to 'edit', edit_artist_feed_path(feed)
         = link_to 'remove', feed, :confirm => 'Are you sure?', :method => :delete
   .links
@@ -25,4 +25,4 @@
   .controls
     %a{:href => '/feeds/clear_cache'} Fetch New Feeds
   .feeds
-    #{@feed_html}
+    != @feed_html
