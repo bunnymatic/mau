@@ -1,14 +1,4 @@
 %table.tbl-content{:cellpadding => "0", :cellspacing => "0", :id => "mau-content-html"}
-  %tr.tr-short
-    - if cols == 2
-      %td.ltcorner.graybg
-      %td.lcol.top.graybg
-      %td.vstripe
-      %td.rcol.top
-    - elsif cols == 1
-      %td.ltcorner.blackbg
-      %td.singlecolumn.top
-    %td.rtcorner
   %tr.nextrow
     - if cols == 2
       %td.lcol.graybg.gradient{:colspan => '2'}
@@ -20,13 +10,3 @@
     - elsif cols == 1
       %td.singlecolumn{:colspan => "3"}
         = yield
-  %tr.tr-short
-    - if cols == 2
-      %td.lbcorner.graybg
-      %td.lcol.graybg
-      %td.vstripe
-      %td.rcol.bottom
-    - else 
-      %td.lbcorner.blackbg
-      %td.singlecolumn.bottom
-    %td.rbcorner

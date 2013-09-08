@@ -1,11 +1,6 @@
 %a{:href => '/'}
   %img#logo{:title => 'Mission Artists United', :alt => 'Mission Artists United', :src => @logo_img}
 #header_bar
-  -if browser.ie?
-    .ltcorner
-    .rtcorner
-    .lbcorner
-    .rbcorner
   #artisthemission
     %img{ :title => "Art is the Mission", :alt => "Art is the Mission", :src => "/images/artisthimission4.gif" }
   #search_btn2
@@ -18,10 +13,10 @@
     .nav
       %div
         %ul#mymaunav.dropdown
-          - if logged_in? 
-            :ruby 
+          - if logged_in?
+            :ruby
               navitems = []
-              if current_artist 
+              if current_artist
                 navitems << "<a href='#{edit_artist_path(current_artist)}'>edit my page</a>"
                 navitems << "<a href='/art_pieces/new'>add art</a>"
                 navitems << "<a href='#{ arrangeart_artists_path }'>arrange art</a>"

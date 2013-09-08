@@ -1,6 +1,5 @@
 <table class="tbl-content" cellpadding="0" cellspacing="0">
-  <%= render :partial => "/twocol_top" %>
-  <tr>    
+  <tr>
     <td class="lcol"  colspan='2'>
       <% if current_user && @fan == current_user -%>
       <%= render :partial => "/users/sidebar_nav" %>
@@ -9,55 +8,53 @@
     <td class="vstripe"></td>
     <td class="rcol" colspan='2'>
       <%= render :partial => '/flash_notice_error' -%>
-      <div class="content-block" > 
-	<% if @fan -%>
-	<div class="artist-profile">
-	  <div class="info">
-	    <div id="artist_profile_name">
+      <div class="content-block" >
+	      <% if @fan -%>
+	      <div class="artist-profile">
+	        <div class="info">
+	          <div id="artist_profile_name">
               <% if @fan %>
- 	      <h4><%= @fan.get_name %></h4>
-	      <% if @fan.url -%>
-	      <div class="div-left">
-    		<div id="u_website"><span>Website: </span>
-		  <%= link_to @fan.url, add_http(@fan.url), { :target => "_blank" } %>
-  		</div>
+ 	            <h4><%= @fan.get_name %></h4>
+	            <% if @fan.url -%>
+	            <div class="div-left">
+    		        <div id="u_website"><span>Website: </span>
+		              <%= link_to @fan.url, add_http(@fan.url), { :target => "_blank" } %>
+  		          </div>
               </div>
               <% end -%>
- 	      <div class="artist">
-		<% if (!current_user || current_user.id != @fan.id) && (@fan.emailsettings['fromall'] || (@fan.emailsettings['fromartist'] && logged_in?)) -%>
-		<div class="div-left share">Send the fan a note:&nbsp;
-		  <a href="#" class='notify-artist' aid="<%= @fan.id %>" ><span  aid="<%= @fan.id %>"  class="micro-icon email"><% if browser.ie7? || browser.ie6? -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
-		</div>
-		<% end -%>
-		<%= render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @fan } %>
-		<%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @fan } %>
+ 	            <div class="artist">
+		            <% if (!current_user || current_user.id != @fan.id) && (@fan.emailsettings['fromall'] || (@fan.emailsettings['fromartist'] && logged_in?)) -%>
+		            <div class="div-left share">Send the fan a note:&nbsp;
+		              <a href="#" class='notify-artist' aid="<%= @fan.id %>" ><span  aid="<%= @fan.id %>"  class="micro-icon email"><% if browser.ie7? || browser.ie6? -%><img src="/images/pix.gif" height="16" width="0"/><% end -%></span></a>
+		            </div>
+		            <% end -%>
+		            <%= render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @fan } %>
+		            <%= render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @fan } %>
               </div>
               <div class="clear"></div>
             </div>
             <% end -%>
-	    <div id="artist_profile_img">
-	      <% if logged_in? && @fan && @fan.login == self.current_user.login -%>
-	      <a title="update my picture" href="/users/addprofile/">
-		<% if @fan.has_profile_image -%>
-  		<img class="profile" src="<%= @fan.get_profile_image('small') %>?t=<%= Time.zone.now.to_i() %>" />
-		<% else -%>
-  		<img class="profile" src="/images/default-profile-img.png" width="200" />
-  		<% end -%>
-	      </a>
-	      <% else -%>
-	      <%  if @fan.has_profile_image -%>
-  	      <img class="profile" src="<%= @fan.get_profile_image('small') %>" />
-	      <%  else %>
-  	      <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
-  	      <%  end -%>
+	          <div id="artist_profile_img">
+	            <% if logged_in? && @fan && @fan.login == self.current_user.login -%>
+	            <a title="update my picture" href="/users/addprofile/">
+		            <% if @fan.has_profile_image -%>
+  		          <img class="profile" src="<%= @fan.get_profile_image('small') %>?t=<%= Time.zone.now.to_i() %>" />
+		            <% else -%>
+  		          <img class="profile" src="/images/default-profile-img.png" width="200" />
+  		          <% end -%>
+	            </a>
+	            <% else -%>
+	            <%  if @fan.has_profile_image -%>
+  	          <img class="profile" src="<%= @fan.get_profile_image('small') %>" />
+	            <%  else %>
+  	          <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
+  	          <%  end -%>
+	            <% end -%>
+	          </div>
+	        </div>
+	      </div>
 	      <% end -%>
-	    </div>
-	  </div>
-	</div>
-	<% end -%>
       </div>
     </td>
   </tr>
-  <%= render :partial => "/twocol_bottom" %>
 </table>
-

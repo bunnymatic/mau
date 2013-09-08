@@ -1,6 +1,5 @@
 <table class="tbl-content" cellpadding="0" cellspacing="0">
-  <%= render :partial => '/twocol_top' %>
-  <tr>    
+  <tr>
     <td class="lcol"  colspan='2'>
       <%= render :partial => 'media_link_list' %>
     </td>
@@ -8,7 +7,7 @@
     <td class="rcol" colspan='2'>
       <div id="search_results">
       <%= render :partial => '/flash_notice_error' -%>
-      <% if @pieces and !@pieces.empty? %> 
+      <% if @pieces and !@pieces.empty? %>
       <%=
 	 render :partial => '/art_pieces/thumbs', :locals => { :pieces => @pieces,
                                                            :params => { :cols => 5,
@@ -21,5 +20,4 @@
       </div>
     </td>
   </tr>
-  <%= render :partial => '/twocol_bottom' %>
 </table>

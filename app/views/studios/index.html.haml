@@ -1,5 +1,4 @@
 %table.tbl-content
-  = render :partial => "/twocol_top"
   %tr
     %td.lcol{:colspan => 2}
       = render :partial => 'studio_list'
@@ -9,4 +8,3 @@
         = render :partial => 'view_switcher'
         = render :partial => '/flash_notice_error'
         = render :partial => 'thumbs', :locals => {:studios => (@studios_by_count || @studios) }
-  = render :partial => '/twocol_bottom'

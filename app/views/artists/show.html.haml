@@ -1,5 +1,4 @@
 %table.tbl-content
-  = render :partial => "/twocol_top"
   %tr
     %td.lcol{:colspan => 2}
       - if current_user && @artist == current_user
@@ -91,4 +90,3 @@
             - else
               %img{:src => "/images/default-art-img.png", :width => "200"}
 
-  = render :partial => "/twocol_bottom"

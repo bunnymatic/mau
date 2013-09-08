@@ -134,7 +134,7 @@ $default_rounded_amount: 4px;
 @mixin large-rounded-corners {
   @include round-corners($amount: 7px);
 }
-    
+
 @mixin floating-window-border {
   border: 1px solid $bordergray;
   box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
@@ -161,4 +161,3 @@ $default_rounded_amount: 4px;
         clear: both;
     }
 }
-

@@ -1,12 +1,11 @@
 %table.tbl-content.search-page
-  = render :partial => "/twocol_top"
   %tr
     %td.lcol{:colspan => 2}
-      .column 
+      .column
         .current_search
-          %h4 
-            Current Search 
-          .block.keywords  
+          %h4
+            Current Search
+          .block.keywords
             %label Keywords:
             %ul.keywords
               - @keywords.present? && @keywords.each_with_index do |k, idx|
@@ -25,16 +24,16 @@
               - if @studios && !@studios.empty?
                 - @studios.map(&:name).each do |n|
                   %li #{n}
-              - else                 
+              - else
                 %li Any
           .block.os
-            %label Open Studios Participants: 
+            %label Open Studios Participants:
             - unless @open_studios_flag.nil?
               .os #{@open_studios_flag ? 'Yes' : 'No'}
             - else
               .os Don't Care
-                
-        .refine_controls 
+
+        .refine_controls
           %h4 Narrow Your Results
           - form_tag({:action => "fetch" }, :class=>"power_search") do
             %input{ :type => :hidden, :name => :per_page, :value => @per_page}
@@ -42,12 +41,12 @@
             .block
               = text_field_tag :keywords, @keywords.join(", ")
               = submit_tag :go
-            %h5.block_head.trigger 
+            %h5.block_head.trigger
               %span Mediums:
             .block.expandable#medium_chooser{:style => "display:none;"}
               %ul
                 %li.cb_entry.reset
-                  %a.reset{:href => '#'} 
+                  %a.reset{:href => '#'}
                     [ clear all ]
                 - medium_ids = @mediums.map(&:id).map(&:to_i)
                 - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
@@ -55,12 +54,12 @@
                   %li.cb_entry
                     = check_box_tag "medium[#{m[:id]}]", m[:id], ck, "data-display" => m[:display]
                     = label_tag "medium[#{m[:id]}]", m[:display]
-            %h5.block_head.trigger 
+            %h5.block_head.trigger
               %span Studios:
             .block.expandable#studio_chooser{:style => "display:none;"}
               %ul
                 %li.cb_entry.reset
-                  %a.reset{:href => '#'} 
+                  %a.reset{:href => '#'}
                     [ clear all ]
                 - Studio.all.map{ |s| {:id => s.id, :name => s.name.to_param, :display => s.name}}.each do |s|
                   - ck = (@studios.length && @studios.map(&:id).map(&:to_i).include?(s[:id]))
@@ -75,4 +74,3 @@
       = render :partial => '/flash_notice_error'
       .content-block
         = render :partial => 'search_results'
-  = render :partial => "/twocol_bottom"
