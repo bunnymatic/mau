@@ -31,26 +31,23 @@ describe ArtistsController do
         get :index
       end
       it_should_behave_like 'one column layout'
-      it "returns success" do
-        response.should be_success
-      end
+      it { response.should be_success }
       it "assigns artists" do
         assigns(:artists).length.should have_at_least(2).artists
       end
       it "set the title" do
-        assigns(:page_title).should == 'Mission Artists United - MAU Artists'
+        assigns(:page_title).should eql 'Mission Artists United - MAU Artists'
       end
       it "artists are all active" do
         assigns(:artists).each do |a|
-          a.state.should == 'active'
+          a.state.should eql 'active'
         end
       end
       it 'shows no artists without a representative piece' do
         with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}
-        without_art.length.should == 0
+        without_art.length.should eql 0
       end
       it "thumbs have representative art pieces in them" do
-        ct = 0
         with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}
         assert(with_art.length >=1, 'Fixtures should include at least one activated artist with art')
         assigns(:artists).each do |a|
@@ -58,7 +55,7 @@ describe ArtistsController do
         end
         with_art.each do |a|
           rep = a.representative_piece
-          assert_select(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{a.representative_piece.filename}]")
+          assert_select(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{rep.filename}]")
         end
         without_art.each do |a|
           assert_select(".allthumbs .thumb .name", /#{a.name}/);
@@ -73,7 +70,7 @@ describe ArtistsController do
       it_should_behave_like 'successful json'
       it 'returns all active artists' do
         j = JSON.parse(response.body)
-        j.count.should == Artist.active.count
+        j.count.should eql Artist.active.count
       end
     end
   end
@@ -84,18 +81,16 @@ describe ArtistsController do
       get :index, :v => 'l'
     end
     it_should_behave_like 'one column layout'
-    it "returns success" do
-      response.should be_success
-    end
+    it { response.should be_success }
     it "assigns artists" do
       assigns(:artists).length.should have_at_least(2).artists
     end
     it "set the title" do
-      assigns(:page_title).should == 'Mission Artists United - MAU Artists'
+      assigns(:page_title).should eql 'Mission Artists United - MAU Artists'
     end
     it "artists are all active" do
       assigns(:artists).each do |a|
-        a.state.should == 'active'
+        a.state.should eql 'active'
       end
     end
   end
@@ -149,7 +144,7 @@ describe ArtistsController do
           flash[:notice].should be_nil
         end
         it "shouldn't change anything" do
-          artist1.bio.should == @old_bio
+          artist1.bio.should eql @old_bio
         end
       end
       context "update address" do
@@ -235,9 +230,7 @@ describe ArtistsController do
       it_should_behave_like "logged in artist"
       it_should_behave_like "logged in edit page"
 
-      it "returns success" do
-        response.should be_success
-      end
+      it { response.should be_success }
       it "has the edit form" do
         assert_select("div#artist_edit");
       end
@@ -262,9 +255,8 @@ describe ArtistsController do
       it_should_behave_like "logged in artist"
       it_should_behave_like "logged in edit page"
 
-      it "returns success" do
-        response.should be_success
-      end
+      it { response.should be_success }
+
       it "has the edit form" do
         assert_select("div#artist_edit");
       end
@@ -324,9 +316,7 @@ describe ArtistsController do
       before(:each) do
         get :show, :id => artist1.id
       end
-      it "returns a page" do
-        response.should be_success
-      end
+      it { response.should be_success }
       it 'shows the artists name' do
         assert_select '.artist-profile h1', artist1.get_name(true)
       end
@@ -347,13 +337,13 @@ describe ArtistsController do
       end
       it 'has the artist\'s bio as the description' do
         assert_select 'head meta[name=description]' do |desc|
-          desc.length.should == 1
+          desc.length.should eql 1
           desc[0].attributes['content'].should match artist1.bio
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
           desc[0].attributes['content'].should match artist1.get_name(true)
         end
         assert_select 'head meta[property=og:description]' do |desc|
-          desc.length.should == 1
+          desc.length.should eql 1
           desc[0].attributes['content'].should match artist1.bio
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
           desc[0].attributes['content'].should match artist1.get_name(true)
@@ -364,7 +354,7 @@ describe ArtistsController do
         artist1_info.update_attribute(:bio, long_bio)
         get :show, :id => artist1.id
         assert_select 'head meta[name=description]' do |desc|
-          desc.length.should == 1
+          desc.length.should eql 1
           desc[0].attributes['content'].should_not == artist1.bio
           desc[0].attributes['content'].should match artist1.bio[0..490]
           desc[0].attributes['content'].should match /\.\.\.$/
@@ -395,7 +385,7 @@ describe ArtistsController do
         expected = tags + media
         assert expected.length > 0, 'Fixture for artist1 needs some tags or media associations'
         assert_select 'head meta[name=keywords]' do |content|
-          content.length.should == 1
+          content.length.should eql 1
           actual = content[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
             actual.should include ex
@@ -404,7 +394,7 @@ describe ArtistsController do
       end
       it 'has the default keywords' do
         assert_select 'head meta[name=keywords]' do |kws|
-          kws.length.should == 1
+          kws.length.should eql 1
           expected = ["art is the mission", "art", "artists", "san francisco"]
           actual = kws[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
@@ -469,9 +459,7 @@ describe ArtistsController do
           login_as(artist1)
           get :show, :id => artist1.id
         end
-        it "returns success" do
-          response.should be_success
-        end
+        it { response.should be_success }
         it "has the user in the 'who favorites me' section" do
           assert_select '#favorites_me div.thumb'
         end
@@ -488,9 +476,7 @@ describe ArtistsController do
         login_as(artist1)
         get :show, :id => artist1.id
       end
-      it "returns success" do
-        response.should be_success
-      end
+      it { response.should be_success }
       it "shows favorites on show page with links" do
         assert_select("#my_favorites label a[href=#{favorites_user_path(artist1)}]");
       end
@@ -564,7 +550,7 @@ describe ArtistsController do
       File.stubs(:open).returns(stub(:read => 'the data from the file'))
       @controller.expects(:send_data)
       get :qrcode, :id => Artist.first.id, :format => 'png'
-      response.content_type.should == 'image/png'
+      response.content_type.should eql 'image/png'
     end
     it 'redirects to the png if you ask without format' do
       get :qrcode, :id => Artist.first.id
@@ -592,7 +578,7 @@ describe ArtistsController do
           post :setarrangement, { :neworder => order1.join(",") }
           response.should redirect_to user_url(artist1)
           aps = Artist.find(artist1.id).art_pieces
-          aps.map(&:id).should == order1
+          aps.map(&:id).should eql order1
           aps[0].artist.representative_piece.id.should==aps[0].id
         end
       end
@@ -631,7 +617,7 @@ describe ArtistsController do
       end
       it "artists should all be active" do
         assigns(:roster).values.flatten.each do |a|
-          a.state.should == 'active'
+          a.state.should eql 'active'
         end
       end
       it "roster does not include artists outside of 'the mission'" do
@@ -647,6 +633,14 @@ describe ArtistsController do
       it "get's map info all artists" do
         ArtistsController.any_instance.expects(:get_map_info).times(assigns(:roster).values.flatten.count)
         get :map
+      end
+      it 'renders the map html properly' do
+        assert_select "script[src^=http://maps.google.com/maps]"
+      end
+      it 'renders the artists' do
+        assigns(:roster).values.flatten.each do |a|
+          assert_select "a[href=#{artist_path(a)}]", a.get_name
+        end
       end
     end
     describe 'os only' do
@@ -664,7 +658,7 @@ describe ArtistsController do
       end
       it "artists should all be active" do
         assigns(:roster).values.flatten.each do |a|
-          a.state.should == 'active'
+          a.state.should eql 'active'
         end
       end
 
@@ -764,9 +758,7 @@ describe ArtistsController do
     before do
       get :suggest, :input => 'jes'
     end
-    it "returns success" do
-      response.should be_success
-    end
+    it_should_behave_like 'successful json'
     it 'returns a hash with a list of artists' do
       j = JSON.parse(response.body)
       j.should be_a_kind_of Array
@@ -777,7 +769,7 @@ describe ArtistsController do
       j = JSON.parse(response.body)
       j.should be_a_kind_of Array
       j.should have(1).artist_name
-      j.first['value'].should == 'jesse ponce'
+      j.first['value'].should eql 'jesse ponce'
     end
   end
 
@@ -785,15 +777,15 @@ describe ArtistsController do
     describe 'collection paths' do
       [:destroyart, :arrangeart, :thumbs, :setarrangement, :deleteart].each do |path|
         it "should have #{path} as artists collection path" do
-          eval('%s_artists_path.should == \'/artists/%s\'' % [path,path])
+          eval('%s_artists_path.should eql \'/artists/%s\'' % [path,path])
         end
       end
     end
     describe 'member paths' do
       [:bio].each do |path|
         it "should have #{path} as an artist member path" do
-          @a = Artist.first
-          eval("%s_artist_path(@a).should == '/artists/%s/%s'" % [ path, @a.id, path ])
+          a = Artist.first
+          send("#{path}_artist_path", a).should eql "/artists/#{a.id}/#{path}"
         end
       end
     end

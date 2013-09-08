@@ -37,7 +37,7 @@ p {
   padding-left: 10px;
   margin: 1em 0;
 }
-div,p { 
+div,p {
   line-height: 1.4em;
 }
 
@@ -56,7 +56,7 @@ h2 {
   margin: 0.53em 0;
 }
 h3, h4, h5 {
-  text-align: left; 
+  text-align: left;
   color: $bluegray;
 }
 h3 {
@@ -197,19 +197,19 @@ input[type=image], input[type=hidden] {
 input[type=checkbox] {
   padding:5px;
   border-radius:15px;
-  
+
   -webkit-appearance:button;
-  
+
   border: double 2px $lightgray;
-  
+
   background-color:$xmediumgray;
   color:#FFF;
   white-space: nowrap;
   overflow:hidden;
-  
+
   width:15px;
   height:15px;
-  
+
   vertical-align: bottom;
 }
 
@@ -329,11 +329,11 @@ input[type=checkbox]:checked {
   .entry-table {
     input {
     }
-    td { 
+    td {
       padding: 4px 4px;
     }
   }
-  
+
   .input-name, .input, .input-err {
     padding-top: 0;
   }
@@ -527,13 +527,13 @@ a {
   margin: 16px auto;
   border: 1px solid $bordergray;
   @include small-rounded-corners;
-  a { 
-    position: relative; 
+  a {
+    position: relative;
     letter-spacing: 0.1em;
   }
   ul {
   }
-  li { 
+  li {
     padding: 2px 12px 3px;
     text-align: left;
     line-height: 24px;
@@ -542,7 +542,7 @@ a {
       background: $darkgray;
     }
   }
-  
+
   .heart {
     float: left;
     width: 16px;
@@ -559,13 +559,13 @@ a {
   display: inline;
   float:right;
 }
-#search_nav2 { 
+#search_nav2 {
   height:33px;
-  position: relative; 
+  position: relative;
   line-height: 22px;
-  form { 
-    position: relative; 
-    top: 5px; 
+  form {
+    position: relative;
+    top: 5px;
   }
 }
 #footer_copy {
@@ -681,7 +681,7 @@ input[type=submit], .formbutton {
   @include small-rounded-corners;
 }
 .formbutton {
-  overflow: visible; /* seems to keep ie from adding extra moz */ 
+  overflow: visible; /* seems to keep ie from adding extra moz */
   @include small-rounded-corners;
 }
 
@@ -782,7 +782,7 @@ span.micro-icon {
 .action-icons #num_favorites {
   color: #faa;
   float:right;
-  font-size:xx-small; 
+  font-size:xx-small;
   vertical-align:top;
   height: 16px;
   margin: 6px 4px 6px 0;
@@ -907,7 +907,7 @@ span.micro-icon {
   font-weight:bold;
   text-align: left;
   padding: 2px 5px 1px 5px;
-  
+
 }
 
 .full {
@@ -918,7 +918,7 @@ span.micro-icon {
   padding-bottom:15px;
   vertical-align: top;
   width: $fullwidth - $leftcol - 3*$gutter;
-  h4 { 
+  h4 {
     text-align:center;
   }
   &.top {
@@ -938,7 +938,7 @@ span.micro-icon {
   margin-left: auto;
   margin-right: auto;
   padding-top: 10px;
-  &.top { 
+  &.top {
     padding-top: 0;
     width:275px;
   }
@@ -985,7 +985,7 @@ div.feedtitle  {
 
 .feedentry {
   max-width:250px;
-  &.even { 
+  &.even {
     border-top: 1px dotted $bordergray;
     border-bottom: 1px dotted $bordergray;
   }
@@ -1027,7 +1027,7 @@ div.feedtitle  {
     color: $xlightgray;
   }
   & h3, h4, h5 {
-    text-align: left; 
+    text-align: left;
     color: #8392a4;
   }
   & h4 {
@@ -1077,7 +1077,7 @@ div.feedtitle  {
     h5:first-child {
       float: left;
     }
-  }    
+  }
 }
 
 #news_text {
@@ -1257,8 +1257,8 @@ footer.credits {
   padding-bottom: 20px;
   margin:auto;
   width: 798px;
-  h4 { 
-    text-align:center; 
+  h4 {
+    text-align:center;
   }
   .artist_block {
     margin: auto;
@@ -1607,7 +1607,7 @@ $browser_thumb_row_height: 51px;
     height: 22px;
     background-image: url(/images/icons/browse-sprite2.png);
     background-repeat: no-repeat;
-  }    
+  }
   #next-browse {
     background-position: 0px -44px;
   }
@@ -1642,7 +1642,7 @@ $browser_thumb_row_height: 51px;
     overflow: hidden;
     z-index:10;
   }
-  
+
 
 }
 
@@ -1850,7 +1850,7 @@ td.td-left{
   width: $rightcol;
   margin: auto;
   text-align: center;
-  h2 { 
+  h2 {
     margin-top: 0px;
     line-height: 1.4em;
   }
@@ -1912,7 +1912,7 @@ td.td-left{
       content: 'Dimensions: ';
     }
   }
-  #ap_tags { 
+  #ap_tags {
     text-align:center;
     &:before {
       content: 'Tags: '
@@ -1921,7 +1921,7 @@ td.td-left{
     margin: 20px auto 10px;
     font-size: x-small;
     line-height: 30px;
-    a.tag { 
+    a.tag {
       padding: 6px 10px;
       margin: 4px;
       white-space: nowrap;
@@ -1961,7 +1961,7 @@ td.td-left{
     #num_favorites {
       color: $dark_red;
       float:right;
-      font-size:small; 
+      font-size:small;
       vertical-align:top;
       height: 16px;
       margin: 5px 4px 6px 0;
@@ -2084,8 +2084,8 @@ span.rightarrow
   bottom: 10px;
   height: 16px;
   margin-left: 4px;
-  & .mv-left.first, & .mv-right.last { 
-    display:none; 
+  & .mv-left.first, & .mv-right.last {
+    display:none;
   }
   & .mv-right, & .mv-left {
     position: absolute;
@@ -2123,8 +2123,8 @@ span.rightarrow
 
 /** search page **/
 .search-page {
-  .column { 
-    margin: 0 10px; 
+  .column {
+    margin: 0 10px;
     text-align: left;
   }
   #refine_accordion {
@@ -2135,7 +2135,7 @@ span.rightarrow
   .block {
     padding: 0 5px;
   }
-  .block_head { 
+  .block_head {
     @include large-rounded-corners;
     line-height: 24px;
     padding: 10px 5px 6px 5px;
@@ -2158,7 +2158,7 @@ span.rightarrow
       }
       display: inline-block;
     }
-  }	
+  }
   .expanded {
     cursor: pointer;
     &:hover {
@@ -2176,7 +2176,7 @@ span.rightarrow
       border-bottom: 1px solid $bordergray;
     }
     .block {
-      text-align: left; 
+      text-align: left;
       font-size: 11px;
       ul {
         padding-bottom: 10px;
@@ -2213,12 +2213,12 @@ span.rightarrow
     }
     li {
       font-size: 11px;
-      text-align: left; 
+      text-align: left;
       margin-left: 10px;
       font-style: italic;
     }
-  }    
-}  
+  }
+}
 
 /***************
 
@@ -2284,7 +2284,7 @@ search pages
         @include dotted_border;
       }
     }
-  }	
+  }
 }
 
 .search-results {
@@ -2426,7 +2426,7 @@ search pages
   .rcol & {
     width: 90%;
   }
-  
+
 }
 
 
@@ -2705,7 +2705,7 @@ ul.dropdown li:hover a,
       .edit_indicator {
         display: block;
       }
-        
+
     }
     .edit_indicator {
       position: absolute;
@@ -2766,8 +2766,8 @@ ul.dropdown li:hover a,
   margin-left: 4px;
 }
 
-.search-view-ctrls { 
-  padding-top: 2px; 
+.search-view-ctrls {
+  padding-top: 2px;
   .controls {
     float: right;
     font-size: x-small;
@@ -2777,7 +2777,7 @@ img.help-icon {
   border: 0;
 }
 
-.popup-help { 
+.popup-help {
   @include floating-window-border;
   @include large-rounded-corners;
   display: block;
@@ -2995,7 +2995,7 @@ a#note_close_link{
 #img_modal_overlay {
   z-index:30;
 }
-  
+
 
 #img_modal {
   z-index: 35;
@@ -3028,7 +3028,7 @@ a#note_close_link{
     right: -25px;
   }
 }
-  
+
 .note_overlayBG,
 .feedback_overlayBG {
   background-color: $black;
@@ -3052,17 +3052,17 @@ form#feedback_form .error {
    map page
    **/
 .map-container { float: right; }
-.map-os-switch { 
-  font-size: 10px; 
-  float: left; 
+.map-os-switch {
+  font-size: 10px;
+  float: left;
   margin-bottom: 6px;
 }
-#all_artists_page .map-os-switch { 
-  float: left; 
+#all_artists_page .map-os-switch {
+  float: left;
 }
 
-.map-roster { 
-  float: left; width: 190px; 
+.map-roster {
+  float: left; width: 190px;
   @include little-text;
 }
 .map-addr {
@@ -3164,27 +3164,27 @@ form#feedback_form .error {
   .credits-bdy {
     color: $xlightgray;
   }
-  
+
   .credits-img {
-    width:350px; 
-    text-align:center; border:0px; 
+    width:350px;
+    text-align:center; border:0px;
     margin:10px auto 10px auto;
     img {
       border: 1px solid #222;
-    } 
+    }
   }
   .close_btn {
-    float:right; 
-    font-size: x-small; 
-    text-align:right; 
-    padding-bottom: 12px; 
+    float:right;
+    font-size: x-small;
+    text-align:right;
+    padding-bottom: 12px;
     padding-right: 10px;
   }
   .release_version {
-    float:left; 
-    font-size: x-small; 
-    text-align:left; 
-    padding-bottom: 12px; 
+    float:left;
+    font-size: x-small;
+    text-align:left;
+    padding-bottom: 12px;
     padding-left: 10px;
   }
 }
@@ -3213,7 +3213,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 #header_bar ul {
-  &:hover { 
+  &:hover {
     color: #606;
   }
   li:hover {
@@ -3241,8 +3241,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     float:right;
     position:relative;
     z-index: 10;
-    padding: 0px; 
-    margin: 0px; 
+    padding: 0px;
+    margin: 0px;
     a:link, & a:visited {
       text-decoration:none;
     }
@@ -3258,10 +3258,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       padding: 4px 6px;
       font-weight:normal;
       vertical-align:middle;
-    
+
       padding: 7px 4px 5px 4px;
-      
-      
+
+
       &.dir {
         background-color: transparent;
         border:0;
@@ -3346,8 +3346,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 
 #arrange_art, #delete_art {
   margin: auto;
-  .allthumbs { 
-    clear: both; 
+  .allthumbs {
+    clear: both;
   }
   .edit-buttons {
     clear: both;
@@ -3456,7 +3456,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     @include dotted_border;
     padding: 9px;
     margin: 20px 5px;
-    &.first { 
+    &.first {
       margin-left:0;
     }
     &.last {
@@ -3478,7 +3478,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       }
     }
   }
-  
+
   h4 {
     margin-top:0;
     margin-bottom: 0;
@@ -3511,7 +3511,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin: 16px 16px 34px;
     height: 212px;
     position: relative;
-    div { 
+    div {
       text-align: center;
     }
     .thumb {
@@ -3615,7 +3615,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       height: 120px;
     }
   }
-  
+
 }
 
 .mau-popup-container {
@@ -3666,7 +3666,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       height: 120px;
     }
   }
-  
+
 }
 
 #mc_embed_signup {
@@ -3790,11 +3790,11 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       list-style: circle inside;
     }
   }
-  p { 
-    padding-left: 0; 
+  p {
+    padding-left: 0;
     color: $xlightgray;
   }
-  
+
   .formbutton {
     width: 220px;
     margin: 0 auto;
@@ -3843,7 +3843,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 .flax-chooser {
-  
+
   margin: auto;
   p {
     text-align: left;
@@ -3860,7 +3860,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     &.last {
       clear: right;
     }
-    div { 
+    div {
       text-align: center;
       &.thumb {
         @include dotted_border;
@@ -3888,7 +3888,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin: 16px 16px 44px;
     width: 220px;
     height: 210px;
-    div { 
+    div {
       &.name {
         width: 220px;
       }
@@ -3898,7 +3898,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
     margin: 16px 10px 44px;
     width: 120px;
     height: 110px;
-    div { 
+    div {
       &.name {
         width: 120px;
       }
@@ -3984,7 +3984,7 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 }
 
 .scaffold {
-  .section { 
+  .section {
     float:left;
     width: 300px;
   }
@@ -4013,8 +4013,8 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   }
 }
 .lcol .buttons {
-  margin-top: 15px; 
-  margin-bottom: 15px; 
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 /***
@@ -4115,17 +4115,17 @@ a.button b.m b {
       margin: 0 5px;
       padding: 4px;
     }
-    div, label, input { 
+    div, label, input {
       display: inline;
     }
   }
   .calendar_link {
-    text-align: right; 
+    text-align: right;
   }
 }
 .rcol .calendar, .events {
   .events_link {
-    text-align: right; 
+    text-align: right;
     margin-bottom: 8px;
   }
 }
@@ -4199,7 +4199,7 @@ a.button b.m b {
     }
   }
 
-  
+
 }
 
 .singlecolumn .events {
@@ -4210,7 +4210,7 @@ a.button b.m b {
 #event_edit {
   width: 520px;
   margin: 20px auto;
-  #event_submit { 
+  #event_submit {
     margin-top: 8px;
   }
   .notice,
@@ -4221,8 +4221,8 @@ a.button b.m b {
     h2 {
       display: none;
     }
-    p { 
-      margin-top: 0; 
+    p {
+      margin-top: 0;
     }
   }
   .instructions {
@@ -4239,7 +4239,7 @@ a.button b.m b {
       font-size: 10px;
     }
     .entry {
-      label { 
+      label {
         display: block;
         font-size: 11px;
       }
@@ -4264,7 +4264,7 @@ a.button b.m b {
   margin: 25px auto 20px;
 
 }
-#admin_nav 
+#admin_nav
 {
   text-align: left;
   position:relative;
@@ -4299,8 +4299,8 @@ a.button b.m b {
 
 .two_column .calendar {
   margin: 20px;
-  h3 { 
-    text-align: center; 
+  h3 {
+    text-align: center;
     margin-bottom: 20px;
   }
 }

@@ -5,7 +5,7 @@ class Artist < User
   BOUNDS = { 'NW' => [ 37.76978184422388, -122.42683410644531 ],
     'NE' => [ 37.76978184422388, -122.40539789199829 ],
     'SW' => [ 37.747787573475506, -122.42919445037842 ],
-    'SE' => [ 37.74707496171992, -122.40539789199829 ] 
+    'SE' => [ 37.74707496171992, -122.40539789199829 ]
   } if !defined? BOUNDS
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
 
@@ -13,14 +13,14 @@ class Artist < User
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   named_scope :with_representative_image, {:joins => :art_pieces, :group => 'art_pieces.artist_id' }
 
-  named_scope :open_studios_participants, lambda { |*oskey| 
+  named_scope :open_studios_participants, lambda { |*oskey|
     q = oskey.blank? ? Conf.oslive : oskey
     {
-      :joins => :artist_info, 
-      :conditions => ["artist_infos.open_studios_participation like '%%#{q}%%'"] 
+      :joins => :artist_info,
+      :conditions => ["artist_infos.open_studios_participation like '%%#{q}%%'"]
     }
   }
-  
+
   has_one :artist_info
 
   has_many :art_pieces, :order => "`order` ASC, `id` DESC"
@@ -74,7 +74,7 @@ class Artist < User
   def address
     call_address_method :address
   end
-  
+
   def full_address
     call_address_method :full_address
   end
@@ -92,7 +92,7 @@ class Artist < User
     end
     return nil unless freq && freq.count > 0
     sorted = freq.sort{|a,b| b[1] <=> a[1]}.map{|f| [Medium.find(f[0]), f[1]]}
-      
+
     sorted[0][0]
   end
 
@@ -130,25 +130,25 @@ class Artist < User
       sql = "select * from users where (lower(concat_ws(' ', firstname, lastname)) in (?)) and type='Artist'"
       find_by_sql [sql, lower_names]
     end
-    
+
     def find_by_fullname( name )
       find_all_by_fullname([name])
     end
-    
+
     # tally up today's open studios count
     def tally_os
       today = Time.zone.now.to_date
       count = Artist.open_studios_participants.count
       conf = Conf.oslive.to_s
       recorded_on = today
-      
+
       o = OpenStudiosTally.find_by_recorded_on(today)
       if o
         o.update_attributes(:oskey => conf, :count => count)
       else
         OpenStudiosTally.create!(:oskey => conf, :count => count, :recorded_on => today)
       end
-        
+
     end
   end
 
