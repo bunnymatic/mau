@@ -24,7 +24,7 @@ describe StudiosController do
       it "sets view_mode to name" do
         assigns(:view_mode).should == 'name'
       end
-      
+
       context "with view mode set to count" do
         before do
           get :index, :v => 'c'
@@ -64,7 +64,7 @@ describe StudiosController do
     end
   end
 
-  
+
   describe "#show keyed studios" do
 
     integrate_views
@@ -76,7 +76,7 @@ describe StudiosController do
       end
     end
   end
-  
+
   describe "#show" do
     integrate_views
     describe 'individual studio' do
@@ -121,7 +121,7 @@ describe StudiosController do
           j = JSON.parse(response.body)
           j['studio']['artists'].should be_a_kind_of Array
         end
-      end        
+      end
     end
     Studio.all.each do |s|
       describe "studio fixture #{s.name}" do
@@ -136,10 +136,10 @@ describe StudiosController do
         end
       end
     end
-  end  
+  end
   describe 'destroy' do
-    describe 'unauthorized' do 
-      before do 
+    describe 'unauthorized' do
+      before do
         delete :destroy, :id => Studio.all[2].id
       end
       it_should_behave_like 'not authorized'
@@ -151,8 +151,8 @@ describe StudiosController do
           delete :destroy, :id => Studio.all[2].id
         end
         it_should_behave_like 'not authorized'
-      end  
-    end      
+      end
+    end
     describe 'as admin' do
       before do
         login_as(:admin)
@@ -175,8 +175,8 @@ describe StudiosController do
   # studio manager required endpoints
   [:addprofile, :edit, :unaffiliate_artist].each do |endpoint|
     describe "#{endpoint}" do
-      describe 'unauthorized' do 
-        before do 
+      describe 'unauthorized' do
+        before do
           get endpoint, :id => Studio.all[2].id
         end
         it_should_behave_like 'not authorized'
@@ -187,7 +187,7 @@ describe StudiosController do
           get endpoint, :id => studios(:as)
         end
         it_should_behave_like 'not authorized'
-      end      
+      end
       describe 'as manager' do
         before do
           login_as :manager
@@ -207,7 +207,7 @@ describe StudiosController do
     end
   end
 
-  
+
   describe 'edit' do
     integrate_views
     [:manager, :admin].each do |user|
@@ -312,8 +312,8 @@ describe StudiosController do
 
   describe 'admin_index' do
     integrate_views
-    describe 'unauthorized' do 
-      before do 
+    describe 'unauthorized' do
+      before do
         get :admin_index
       end
       it_should_behave_like 'not authorized'
@@ -324,7 +324,7 @@ describe StudiosController do
         get :admin_index
       end
       it_should_behave_like 'not authorized'
-    end  
+    end
     [:manager, :admin].each do |u|
       describe "as #{u}" do
         before do
