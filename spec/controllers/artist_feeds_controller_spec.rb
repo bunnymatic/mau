@@ -6,9 +6,7 @@ describe ArtistFeedsController do
   fixtures :users, :roles, :artist_feeds, :roles_users
 
   shared_examples_for 'artist feeds controller new or edit' do
-    it "returns success" do
-      response.should be_success
-    end
+    it { response.should be_success }
     it "renders new or edit template" do
       response.should render_template 'new_or_edit'
     end
@@ -33,29 +31,31 @@ describe ArtistFeedsController do
     end
     describe '#index' do
       before do
+        File.stubs(:open).returns(mock(:read => "<div class='feed-entries'><div class='feed-sxn-hdr'><a target='_blank' href='http://studiomorin.blogspot.com/'>Studio Morin<div class='feed-icon blogger'></div></a></div><div class='feedentry  odd'>entry</div></div>"))
+
         get :index
       end
       it { response.should be_success }
       it 'sets the feed_html' do
-        assigns(:feed_html).should include "class='feed-entries'"
+        assigns(:feed_html).should match /feed-entries/
       end
       it 'draws the feed_html' do
         assert_select '.feed-entries'
       end
       it 'has edit link for each feed' do
-        ArtistFeed.all.each do |af|
-          assert_select ".feed_entry .controls a[href=/artist_feeds/#{of.id}/edit", 'edit'
+        ArtistFeed.all.each do |feed|
+          assert_select ".feed_entry .controls a[href=/artist_feeds/#{feed.id}/edit]", 'edit'
         end
       end
       it 'has remove link for each feed' do
-        ArtistFeed.all.each do |af|
-          assert_select ".feed_entry .controls a[href=/artist_feeds/#{of.id}", 'remove'
+        ArtistFeed.all.each do |feed|
+          assert_select ".feed_entry .controls a[href=/artist_feeds/#{feed.id}]", 'remove'
         end
       end
       it 'has the url and feed shown for each feed' do
-        ArtistFeed.all.each do |af|
-          assert_select ".feed_entry .url", af.url
-          assert_select ".feed_entry .feed", af.feed
+        ArtistFeed.all.each do |feed|
+          assert_select ".feed_entry .url", feed.url
+          assert_select ".feed_entry .feed", feed.feed
         end
       end
     end

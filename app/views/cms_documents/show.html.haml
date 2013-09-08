@@ -1,0 +1,22 @@
+= render '/flash_notice_error'
+.page
+  Page:
+  = @cms_document.page
+.section
+  Section:
+  = @cms_document.section
+
+.controls
+  = link_to 'Edit', edit_cms_document_path(@cms_document)
+  = "|"
+  = link_to 'Back', cms_documents_path
+%hr
+
+#processed_markdown.markdown
+  != markdown @cms_document.article
+
+%hr
+.controls
+  = link_to 'Edit', edit_cms_document_path(@cms_document)
+  = "|"
+  = link_to 'Back', cms_documents_path

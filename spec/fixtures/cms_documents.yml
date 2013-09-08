@@ -1,8 +1,8 @@
 os_preview_reception:
   page: main_openstudios
   section: preview_reception
-  article: "# pr header\n\n## pr header2 \n\ncome out to the *preview* receiption"
-  
+  article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption"
+
 os_blurb:
   page: main_openstudios
   section: summary
