@@ -25,7 +25,7 @@ describe ArtistFeedsController do
     end
     it_should_behave_like "not authorized"
   end
-  
+
   describe 'as admin ' do
     integrate_views
     before do
@@ -35,23 +35,27 @@ describe ArtistFeedsController do
       before do
         get :index
       end
-      it 'returns success' do
-        response.should be_success
+      it { response.should be_success }
+      it 'sets the feed_html' do
+        assigns(:feed_html).should include "class='feed-entries'"
+      end
+      it 'draws the feed_html' do
+        assert_select '.feed-entries'
       end
       it 'has edit link for each feed' do
         ArtistFeed.all.each do |af|
-          response.should have_tag ".feed_entry .controls a[href=/artist_feeds/%d/edit]" % af.id, 'edit'
+          assert_select ".feed_entry .controls a[href=/artist_feeds/#{of.id}/edit", 'edit'
         end
       end
       it 'has remove link for each feed' do
         ArtistFeed.all.each do |af|
-          response.should have_tag ".feed_entry .controls a[href=/artist_feeds/%d]" % af.id, 'remove'
+          assert_select ".feed_entry .controls a[href=/artist_feeds/#{of.id}", 'remove'
         end
       end
       it 'has the url and feed shown for each feed' do
         ArtistFeed.all.each do |af|
-          response.should have_tag ".feed_entry .url", af.url
-          response.should have_tag ".feed_entry .feed", af.feed
+          assert_select ".feed_entry .url", af.url
+          assert_select ".feed_entry .feed", af.feed
         end
       end
     end
@@ -59,17 +63,13 @@ describe ArtistFeedsController do
       before do
         get :edit, :id => artist_feeds(:twitter)
       end
-      it 'returns success' do
-        response.should be_success
-      end
+      it { response.should be_success }
     end
     describe '#new' do
       before do
         get :new
       end
-      it 'returns success' do
-        response.should be_success
-      end
+      it { response.should be_success }
     end
     describe '#create' do
       before do

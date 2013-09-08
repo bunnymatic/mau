@@ -138,12 +138,12 @@ describe AdminController do
         end
         it 'the emails list is an intersection of all artists in those open studios groups' do
           emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
-            Artist.all.select{|a| a.os_participation['201010']}.map(&:email) 
+            Artist.all.select{|a| a.os_participation['201010']}.map(&:email)
           emails.should == assigns(:emails).map{|em| em[:email]}
         end
         it 'the emails list is an intersection of all artists in those open studios groups' do
           emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
-            Artist.all.select{|a| a.os_participation['201010']}.map(&:email) 
+            Artist.all.select{|a| a.os_participation['201010']}.map(&:email)
           emails.should == assigns(:emails).map{|em| em[:email]}
           emails.each do |em|
             assert_select '.email_results textarea', /#{em}/
@@ -152,7 +152,7 @@ describe AdminController do
       end
     end
     describe 'csv' do
-      before do 
+      before do
         get :emaillist, :format => :csv
       end
       it 'returns success' do
@@ -161,7 +161,7 @@ describe AdminController do
       end
     end
   end
-  
+
   describe "#index" do
     integrate_views
     before do
@@ -232,7 +232,7 @@ describe AdminController do
   describe "json endpoints" do
     [:artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
       describe endpoint do
-        before do 
+        before do
           login_as(:admin)
           xhr :get, endpoint
         end
@@ -248,8 +248,8 @@ describe AdminController do
 
   describe '#featured_artist' do
     integrate_views
-    before do 
-      # simulate migration 
+    before do
+      # simulate migration
       sql = "delete from featured_artist_queue"
       ActiveRecord::Base.connection.execute sql
       sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
@@ -288,7 +288,7 @@ describe AdminController do
       it "tries to get the next artist from the queue" do
         FeaturedArtistQueue.expects(:next_entry).once
         FeaturedArtistQueue.expects(:current_entry).once
-        post :featured_artist 
+        post :featured_artist
       end
       context 'immediately after setting a featured artist' do
         before do
@@ -300,7 +300,7 @@ describe AdminController do
         it 'includes an override checkbox to get the next featured artist' do
           assert_select('input#override_date')
         end
-        it 'shows a warning message' do 
+        it 'shows a warning message' do
           assert_select('.featured .warning')
         end
         it "post with override gets the next artist" do
@@ -311,7 +311,7 @@ describe AdminController do
       end
     end
   end
-  
+
   describe '#os_status' do
     before do
       login_as(:admin)
@@ -328,7 +328,7 @@ describe AdminController do
   end
 
   let(:tmpdir) { File.join(Dir.tmpdir, "backups") }
-  context 'database backups' do 
+  context 'database backups' do
     before do
       Dir.mkdir(tmpdir) unless File.exists?(tmpdir)
     end
@@ -336,7 +336,7 @@ describe AdminController do
       before do
         login_as(:admin)
       end
-      describe "#fetch_backup" do 
+      describe "#fetch_backup" do
         integrate_views
         before do
           File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
@@ -389,7 +389,7 @@ describe AdminController do
   let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
   let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
   describe "helpers" do
-    
+
     describe "compute_artists_per_day" do
       it "returns an array" do
         artists_per_day.should be_a_kind_of(Array)
@@ -410,14 +410,14 @@ describe AdminController do
         u1 = users(:maufan1)
         u2 = users(:jesseponce)
         u3 = users(:annafizyta)
-        
+
         a1 = ArtPiece.first
         a1.artist = users(:artist1)
         a1.save
         a2 = ArtPiece.last
         a2.artist = users(:artist1)
         a2.save
-        
+
         ArtPiece.any_instance.stubs(:artist => stub(:id => 42, :emailsettings => {'favorites' => false}))
         u1.add_favorite a1
         u1.add_favorite users(:artist1)
@@ -425,7 +425,7 @@ describe AdminController do
         u2.add_favorite a1
         u2.add_favorite users(:artist1)
         u3.add_favorite a2
-        
+
         @favorites_per_day = AdminController.new.send(:compute_favorites_per_day)
       end
       it "returns an array" do
