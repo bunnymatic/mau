@@ -1,12 +1,11 @@
 %table.tbl-content
-  = render :partial => '/twocol_top'
-  %tr    
+  %tr
     %td.lcol{ :colspan => '2' }
       = render :partial => 'tag_list'
     %td.vstripe
     %td.rcol{ :colspan => '2'}
-      %h4 
-        Search for tag: 
+      %h4
+        Search for tag:
         %span.query
           = @tag.name
       #search_results
@@ -19,5 +18,3 @@
             = render :partial => '/search/thumbs', :locals => { :pieces => @pieces, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }}
         .search-view-ctrls
           = render :partial => "/pagination"
-  = render :partial => '/twocol_bottom'
-

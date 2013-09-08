@@ -11,6 +11,7 @@
 #   - dist/**/*.js
 #
 src_files:
+  - public/javascripts/thirdparty/jquery-1.8.2.min.js
   - public/javascripts/thirdparty/underscore.min.js
   - public/javascripts/thirdparty/prototype/1.7/prototype.min.js
   - public/javascripts/thirdparty/scriptaculous.all.min.js

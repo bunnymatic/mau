@@ -9,7 +9,7 @@ body {
   position: relative;
   padding: 0;
   #noscript, #ie7_warning {
-    width: 900px;
+    width: $fullwidth;
     margin: 20px auto;
     padding: 10px;
     background: #bbb;
@@ -111,9 +111,6 @@ h5 {
   width: 400px;
   top: 50px;
   left: 386px;
-}
-
-.one_column .notice {
 }
 
 .singlecolumn {
@@ -497,7 +494,7 @@ a {
   line-height: 33px;
   vertical-align:middle;
   height: 33px;
-  width: 900px;
+  width: $fullwidth;
   padding:0;
   margin:0;
   @include large-rounded-corners;
@@ -1200,7 +1197,7 @@ footer.credits {
   margin: auto;
   padding:5px;
   position:relative;
-  width: 900px;
+  width: $fullwidth;
 }
 
 
@@ -1377,19 +1374,22 @@ table{
     margin-right: auto;
   }
 }
-table.tbl-content{
+.tbl-content{
+  position: relative;
   padding:0;
   margin:0;
-  background-color:$black;
   vertical-align: top;
-  width: 900px;
+  width: $fullwidth;
+  .rcol {
+    background-color: $black;
+  }
 }
 #searchtools{
   float:left;
   background: $darkgray;
   margin: 5px 0 0 0;
   padding: 0;
-  width: 900px;
+  width: $fullwidth;
 }
 #topnav{
   clear:both;
@@ -1401,13 +1401,13 @@ table.tbl-content{
 
 #tagline{
   clear:both;
-  width:900px;
+  width:$fullwidth;
   padding:5px 0;
   text-align:left;
 }
 #searchbox{
   clear:both;
-  width:900px;
+  width:$fullwidth;
   padding:5px 0;
   text-align:right
 }
@@ -1536,7 +1536,7 @@ table.getinv-form{
 .hstripe{
   background-color:$bluegray;
   height:5px;
-  width:900px
+  width:$fullwidth;
 }
 div.thumbcontainer
 {
@@ -1680,47 +1680,22 @@ td.vstripe{
   background-color:$bluegray;
   width: 5px;
 }
-tr.tr-short{
-  font-size:0;
-  height:9px;
+
+.one_column .singlecolumn {
+  @include large-rounded-corners;
 }
-.tr-short {
-  td {
-    height:9px;
-  }
+
+.two_column {
   .lcol {
-    padding: 0;
-    margin: 0;
+    background-color: black;
   }
-}
-
-
-.ltcorner, .rtcorner, .lbcorner, .rbcorner {
-  background-image:url('/images/icons/cornersprite.png');
-  background-repeat: no-repeat;
-  font-size:0;
-  height:9px;
-  width:9px;
-  overflow: hidden;
-}
-
-.ltcorner {
-  background-position: top left;
-}
-.rtcorner {
-  background-position: top right;
-}
-.rbcorner {
-  background-position: bottom right;
-}
-.lbcorner {
-  background-position: bottom left;
+  .lcol, .rcol {
+    @include large-rounded-corners;
+  }
 }
 
 
 .graybg {
-  background-color: $mediumgray;
-
   &.gradient {
     background-image: linear-gradient(bottom, rgb(153,153,153) 80%, rgb(190,190,190) 99%);
     background-image: -o-linear-gradient(bottom, rgb(153,153,153) 80%, rgb(190,190,190) 99%);
@@ -1734,6 +1709,7 @@ tr.tr-short{
       color-stop(0.80, rgb(153,153,153)),
       color-stop(0.99, rgb(190,190,190))
     );
+    background-color: rgb(153,153,153);
   }
 }
 .blackbg {
@@ -2663,11 +2639,6 @@ ul.dropdown li:hover a,
 .cur-studio, .cur-studio a, .cur-studio a:visited  {
   color: #fc44ff;
 }
-
-.tbl-content {
-  position: relative;
-}
-
 
 .clear {
   clear:both;

@@ -84,26 +84,6 @@ a.fdbk-sel div#next_pg {
 	line-height: 25px;
 }
 
-#footer_bar .lbcorner,
-#footer_bar .ltcorner,
-#footer_bar	.rbcorner,
-#footer_bar	.rtcorner,
-#header_bar .lbcorner,
-#header_bar .ltcorner,
-#header_bar .rbcorner,
-#header_bar .rtcorner
-{
-	position:absolute;
-}
-#footer_bar .lbcorner,
-#header_bar .lbcorner { bottom:0; left:0; z-index:10; }
-#footer_bar .ltcorner,
-#header_bar .ltcorner { top:0; left:0; z-index:10; }
-#footer_bar .rbcorner,
-#header_bar .rbcorner { right:0; bottom:0; z-index:10; }
-#footer_bar .rtcorner,
-#header_bar .rtcorner { right:0; top:0; z-index:10; }
-
 ul.dropdown li { height:25px;}
 #all_artists_page {
   width: 810px;

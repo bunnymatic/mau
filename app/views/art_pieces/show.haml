@@ -3,7 +3,6 @@
   var T = MAU.Thumbs = MAU.Thumbs || {};
   T.curIdx = #{@cur_idx || 1};
 %table.tbl-content
-  = render :partial => "/twocol_top"
   %tr
     - artist = @art_piece.artist if @art_piece.artist
     %td.lcol{:colspan => 2}
@@ -13,9 +12,9 @@
     %td.vstripe
     %td.rcol{:colspan => 2}
       .logo-spacer
-      = render :partial => '/flash_notice_error' 
-      - if @art_piece 
-        #artpiece_title 
+      = render :partial => '/flash_notice_error'
+      - if @art_piece
+        #artpiece_title
           &= @art_piece.title
         #artpiece_container
           .artpiece_wrapper
@@ -47,8 +46,7 @@
             #ap_tags{:style => (@art_piece.tags.count > 0) ? '' : 'display:none;'}
               - @art_piece.uniq_tags.each do |t|
                 = link_to t.safe_name, t, :class => 'tag'
-                
+
         .edit-buttons
           - if logged_in? and current_user == artist
             = render :partial => "edit_delete_buttons.erb"
-  = render :partial => "/twocol_bottom"
