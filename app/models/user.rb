@@ -26,21 +26,19 @@ class User < ActiveRecord::Base
    ].each do |delegat|
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
-  
-  attr_reader :fullname, :emailsettings
 
   cattr_reader :sort_by_firstname, :sort_by_lastname
-  @@sort_by_firstname = lambda{|a,b| 
-    a.lastname.downcase <=> b.lastname.downcase 
+  @@sort_by_firstname = lambda{|a,b|
+    a.lastname.downcase <=> b.lastname.downcase
   }
-  @@sort_by_lastname = lambda{|a,b| 
-    a.lastname.downcase <=> b.lastname.downcase 
+  @@sort_by_lastname = lambda{|a,b|
+    a.lastname.downcase <=> b.lastname.downcase
   }
 
   has_many :favorites do
     def to_obj
       deletia = []
-      (proxy_owner.favorites.map { |f| 
+      (proxy_owner.favorites.map { |f|
          f.to_obj
        }).select { |item| !item.nil? }
     end
@@ -73,14 +71,11 @@ class User < ActiveRecord::Base
   validate :validate_username
   validate :validate_email
 
-  # HACK HACK HACK -- how to do attr_accessible from here?
-  # prevents a user from submitting a crafted form that bypasses activation
-  # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :url, :reset_code, :emailsettings, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
-  # uff.  this is really an authorization, not authentication routine.  
+  # uff.  this is really an authorization, not authentication routine.
   # We really need a Dispatch Chain here or something.
   # This will also let us return a human error message.
   #
@@ -185,7 +180,7 @@ class User < ActiveRecord::Base
     rescue Exception => e
       logger.debug(e)
       false
-    end 
+    end
   end
 
   def is_manager?
@@ -203,7 +198,7 @@ class User < ActiveRecord::Base
     rescue Exception => e
       logger.debug(e)
       false
-    end 
+    end
   end
 
   def tags
@@ -213,7 +208,7 @@ class User < ActiveRecord::Base
       tags = {}
       for ap in self.art_pieces
         if ap.art_piece_tags
-          ap.art_piece_tags.each do |t| 
+          ap.art_piece_tags.each do |t|
             tags[t.id] = t
           end
         end
@@ -277,11 +272,11 @@ class User < ActiveRecord::Base
     @reset = true
     self.attributes = {:reset_code => Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )}
     save(false)
-  end 
-  
+  end
+
   def recently_reset?
     @reset
-  end 
+  end
 
   def delete_reset_code
     self.attributes = {:reset_code => nil}
@@ -375,7 +370,7 @@ class User < ActiveRecord::Base
     retval
   end
 
-  def csv_safe(field) 
+  def csv_safe(field)
     self.send(field).gsub(/\W/, '')
   end
 
@@ -388,7 +383,7 @@ class User < ActiveRecord::Base
     self.activation_code = User.make_token
   end
 
-  def uniqify_roles 
+  def uniqify_roles
     self.roles = roles.uniq{|r| r.id}
   end
 

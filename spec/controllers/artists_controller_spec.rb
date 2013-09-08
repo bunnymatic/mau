@@ -648,6 +648,14 @@ describe ArtistsController do
         ArtistsController.any_instance.expects(:get_map_info).times(assigns(:roster).values.flatten.count)
         get :map
       end
+      it 'renders the map html properly' do
+        assert_select "script[src^=http://maps.google.com/maps]"
+      end
+      it 'renders the artists' do
+        assigns(:roster).values.flatten.each do |a|
+          assert_select "a[href=#{artist_path(a)}]", a.get_name
+        end
+      end
     end
     describe 'os only' do
       before do
