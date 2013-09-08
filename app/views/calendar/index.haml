@@ -1,10 +1,9 @@
-= stylesheet_link_tag "thirdparty/event_calendar" 
+= stylesheet_link_tag "thirdparty/event_calendar"
 = javascript_include_tag 'event_calendar'
 .calendar
   %h3 Mission Artists' Event Receptions
-  .events_link 
+  .events_link
     %a{:href => events_path} View Events List &raquo;
   = render :partial => '/flash_notice_error'
-  = event_calendar
+  = event_calendar.html_safe
   = render :partial => '/main/info_footer'
-  

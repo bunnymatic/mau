@@ -13,5 +13,5 @@ class CalendarController < ApplicationController
 
     published_events, @events_by_month = fetch_published_events_by_month
   end
-  
+
 end

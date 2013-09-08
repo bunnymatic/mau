@@ -1,12 +1,21 @@
 require File.join([Rails.root, 'app','lib','tz_helper'])
 module EventsHelper
 
+  def link_to_clean_url(_url)
+    display = _url.gsub(/^https?:\/\//, '')
+    url = _url
+    unless /^https?:\/\// =~ _url
+      url = 'http://' + _url
+    end
+    link_to display, url
+  end
+
   def self.format_starttime( starttime )
     full_fmt = "%a %b %e, %l:%M%p"
     hr_fmt = "%l:%M%p"
     TzHelper.in_mau_time(starttime).strftime(full_fmt)
   end
-  
+
   def self.format_fulltime( t0, t1 )
     full_fmt = "%a %b %e, %l:%M%p"
     hr_fmt = "%l:%M%p"
@@ -27,11 +36,11 @@ module EventsHelper
     format_starttime(event.starttime);
   end
 
-  def self.event_time(event) 
+  def self.event_time(event)
     format_fulltime(event.starttime, event.endtime)
   end
 
-  def self.reception_time(event) 
+  def self.reception_time(event)
     event.reception_starttime.present? ? format_fulltime(event.reception_starttime, event.reception_endtime) :''
   end
 

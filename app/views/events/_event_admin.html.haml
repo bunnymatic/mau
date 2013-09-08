@@ -8,41 +8,35 @@
   - event_classes << 'past'
 
 .event{:class => event_classes.join(' ')}
-  .title 
+  .title
     #{event.title}
-  .info 
+  .info
     .time #{EventsHelper::event_time(event)}
 
     .reception_time Reception: #{EventsHelper::reception_time(event)}
 
-  
+
   .venue
     .name #{event.venue}
-    .address 
+    .address
       - address_hash = event.address_hash[:parsed]
       - txt = [address_hash[:street], address_hash[:city]]
       - txt << address_hash[:state] if address_hash[:state].downcase != 'ca'
       - txt << address_hash[:zip] if address_hash[:zip] != '94110'
       - txt.each do |item|
         %span.nobr #{item}
-      .maplink 
+      .maplink
         %a{:target => '_blank', :href => event.map_link} (map)
-  .clear        
+  .clear
   .desc.markdown #{markdown(event.description)}
   .url
     - if event.url.present?
       Event Website:
-      :ruby 
-        url = event.url
-        display = event.url.gsub(/^https?:\/\//, '')
-        unless /^https?:\/\// =~ url
-          url = 'http://' + event.url
-        end         
-      %a{:href => url} #{display}
+      = link_to_clean_url event.url
     .ctrls
       - if event.publish
         = link_to 'unpublish', unpublish_event_path(event)
       - else
         = link_to 'publish', publish_event_path(event)
       = link_to 'edit', edit_event_path(event)
-      = link_to 'delete', event, :confirm => 'Are you sure?', :method => :delete 
+      = link_to 'delete', event, :confirm => 'Are you sure?', :method => :delete

@@ -1,5 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
+html_description:
+  title: Url with HTTP
+  description: <p>this <b>paragraph</b> is good </p>
+  tweet: MyString
+  venue: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: MyString
+  starttime: 2011-02-08 21:16:33
+  endtime: 2011-02-08 21:16:33
+  url: http://www.example.com
+  user: artist1
+
 url_with_http:
   title: Url with HTTP
   description: MyText
