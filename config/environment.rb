@@ -11,11 +11,11 @@ require "nokogiri"
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-require File.join("#{RAILS_ROOT}",'lib/app_config')
+require File.join("#{Rails.root}",'lib/app_config')
 
 c = AppConfig.new
-c.use_file!("#{RAILS_ROOT}/config/config.yml")
-c.use_file!("#{RAILS_ROOT}/config/config.local.yml")
+c.use_file!("#{Rails.root}/config/config.yml")
+c.use_file!("#{Rails.root}/config/config.local.yml")
 c.use_section!(RAILS_ENV)
 ::Conf = c
 
