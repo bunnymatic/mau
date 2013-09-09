@@ -43,8 +43,8 @@ maufan1:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 1.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 aaron
   lastname:                  dude
   type:                      MAUFan
@@ -72,8 +72,8 @@ artist1:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 10.hours.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 artist1
   lastname:                  Fixture
   state:                     active
@@ -88,8 +88,8 @@ indyartist:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 40.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 indy
   lastname:                  artist
   state:                     active
@@ -104,8 +104,8 @@ joeblogs:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 12.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 joe
   lastname:                  blogs
   state:                     active
@@ -115,7 +115,7 @@ joeblogs:
   type: Artist
   url: http://joe.blogs.com
   studio_id: 0
- 
+
 
 noaddress:
   login: noaddr
@@ -132,8 +132,8 @@ artfan:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 1.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 art
   lastname:                  fan
   type:                      MAUFan
@@ -147,8 +147,8 @@ suspended:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 1.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 sus
   lastname:                  pect
   type:                      Artist
@@ -161,8 +161,8 @@ admin:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 4.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 admin
   lastname:                  dude
   state:                     active
@@ -175,8 +175,8 @@ artfan2:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 7.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 art
   lastname:                  fan2
   type:                      MAUFan
@@ -195,7 +195,7 @@ annafizyta:
   created_at: 2010-07-29 06:34:21
   max_pieces: "20"
   blog: ""
-  remember_token_expires_at: 
+  remember_token_expires_at:
   crypted_password: 837c282481ebc9cb902befcf91cbb0d92af08672
   updated_at: 2010-08-30 22:26:27
   url: ""
@@ -217,7 +217,7 @@ annafizyta:
 jesseponce:
   email_attrs: "{\"fromall\":false,\"fromartist\":true,\"favorites\":true}"
   image_height: "640"
-  flickr: 
+  flickr:
   salt: 4386661945180e8340c620bd6bc3e72307c7a7ab
   name: ""
   created_at: 2011-01-29 01:39:14
@@ -234,7 +234,7 @@ jesseponce:
   login: ponceart
   state: active
   activated_at: 2011-01-29 01:43:04
-  twitter: 
+  twitter:
   email: poncesanlan@sbcglobal.net
 
 badname:
@@ -255,12 +255,12 @@ pending_artist:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 10.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 pending
   lastname:                  artist
   state:                     pending
-  activated_at: 
+  activated_at:
   type: Artist
   url: http://mypendingurl.com
   activation_code: my_activation_code
@@ -284,8 +284,8 @@ editor:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 4.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 editor
   lastname:                  dude
   state:                     active
@@ -298,14 +298,14 @@ reset_password:
   salt:                      ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 # SHA1('1')
   crypted_password:          57e20eb22f3de633a4895b6f42ac24fae516b52a # 'monkey'
   created_at:                <%= 5.days.ago.to_s :db %>
-  remember_token_expires_at: 
-  remember_token:            
+  remember_token_expires_at:
+  remember_token:
   firstname:                 forgot
   lastname:                  stuff
   state:                     active
   activated_at:              <%= 3.days.ago.to_s :db %>
   reset_code:                my_reset_code
-  studio: as  
+  studio: as
 
 noaddress:
   login:                     noaddress
