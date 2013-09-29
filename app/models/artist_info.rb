@@ -2,8 +2,8 @@ class ArtistInfo < ActiveRecord::Base
   belongs_to :artist
 
   acts_as_mappable
-  before_validation(:on => :create) :compute_geocode
-  before_validation(:on => :update) :compute_geocode
+  before_validation(:on => :create){ compute_geocode }
+  before_validation(:on => :update){ compute_geocode }
 
   include AddressMixin
 

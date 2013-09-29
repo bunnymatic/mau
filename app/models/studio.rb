@@ -50,7 +50,7 @@ class Studio < ActiveRecord::Base
   end
 
   def self.all
-    super.order('name') << Studio.indy
+    order('name').all << Studio.indy
   end
 
   def get_profile_image(size)

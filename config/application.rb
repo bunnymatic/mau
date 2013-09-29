@@ -56,7 +56,6 @@ end
 
 Sass::Plugin.options[:style] = :compact
 Sass::Plugin.options[:template_location] = File.join(Rails.root, '/app/assets/stylesheets')
-require 'has_many_polymorphs'
 require 'tag_extensions'
 
 # add custom mimetypes (for qrcode)

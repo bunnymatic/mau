@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'racc'
-gem "rails", '= 3.0.10'
+gem "rails", '~> 3.0.20'
 gem "geokit"
 gem "geokit-rails"
 gem "nokogiri", '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
@@ -15,7 +15,7 @@ gem 'mojo_magick'
 #gem 'passenger', '3.0.12'
 gem 'dalli'
 gem 'memcache-client'
-gem 'has_many_polymorphs', :git => 'git://github.com/jystewart/has_many_polymorphs.git' # rails3 compatible fork
+#gem 'has_many_polymorphs', :git => 'git://github.com/jystewart/has_many_polymorphs.git' # rails3 compatible fork
 gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
