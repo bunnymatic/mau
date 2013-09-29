@@ -9,13 +9,13 @@ class ArtistFeedsController < ApplicationController
 
   def new
     @feed = ArtistFeed.new(:active => true)
-    render 'new_or_edit'
+    render 'new_or_edit' and return
   end
 
   # GET /events/1/edit
   def edit
     @feed = ArtistFeed.find(params[:id])
-    render 'new_or_edit'
+    render 'new_or_edit' and return
   end
 
   def create

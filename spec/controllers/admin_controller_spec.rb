@@ -62,7 +62,7 @@ describe AdminController do
     before do
       login_as(:admin)
     end
-    integrate_views
+    render_views
     describe 'html' do
       describe 'with no params' do
         before do
@@ -72,10 +72,10 @@ describe AdminController do
           response.should be_success
         end
         it 'assigns the title' do
-          assigns(:title).should == "Activated"
+          assigns(:title).should eql "Activated"
         end
         it 'assigns list of artists emails' do
-          assigns(:emails).length.should == Artist.active.count
+          assigns(:emails).length.should eql Artist.active.count
         end
         it 'shows the list selector' do
           assert_select '.list_chooser'
@@ -92,16 +92,16 @@ describe AdminController do
       end
       it 'assigns a list of fans emails when we ask for the fans list' do
         get :emaillist, :listname => 'fans'
-        assigns(:emails).length.should == MAUFan.all.count
+        assigns(:emails).length.should eql MAUFan.all.count
       end
       it 'assigns a list of pending artists emails when we ask for the pending list' do
         get :emaillist, :listname => 'pending'
-        assigns(:emails).length.should == Artist.pending.count
+        assigns(:emails).length.should eql Artist.pending.count
       end
       Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
         it "assigns a list of os artists for #{ostag} when we ask for the #{ostag} list" do
           get :emaillist, :listname => ostag
-          assigns(:emails).length.should == Artist.active.all.select{|a| a.os_participation[ostag]}.count
+          assigns(:emails).length.should eql Artist.active.all.select{|a| a.os_participation[ostag]}.count
         end
       end
       it 'shows the title and list size and correct emails when we ask for fans' do
@@ -139,12 +139,12 @@ describe AdminController do
         it 'the emails list is an intersection of all artists in those open studios groups' do
           emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
             Artist.all.select{|a| a.os_participation['201010']}.map(&:email)
-          emails.should == assigns(:emails).map{|em| em[:email]}
+          emails.should eql assigns(:emails).map{|em| em[:email]}
         end
         it 'the emails list is an intersection of all artists in those open studios groups' do
           emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
             Artist.all.select{|a| a.os_participation['201010']}.map(&:email)
-          emails.should == assigns(:emails).map{|em| em[:email]}
+          emails.should eql assigns(:emails).map{|em| em[:email]}
           emails.each do |em|
             assert_select '.email_results textarea', /#{em}/
           end
@@ -156,14 +156,16 @@ describe AdminController do
         get :emaillist, :format => :csv
       end
       it 'returns success' do
-        pending "because this is a file upload link, i can't quite see how to test it"
         response.should be_success
+      end
+      it 'returns success' do
+        response.content_type.should eql 'text/csv'
       end
     end
   end
 
   describe "#index" do
-    integrate_views
+    render_views
     before do
       login_as(:admin)
       get :index
@@ -247,7 +249,7 @@ describe AdminController do
   end
 
   describe '#featured_artist' do
-    integrate_views
+    render_views
     before do
       # simulate migration
       sql = "delete from featured_artist_queue"
@@ -259,11 +261,9 @@ describe AdminController do
       FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index {|fa, idx| fa.update_attributes(:featured => Time.zone.now - (2*idx).weeks) }
       get :featured_artist
     end
+    it { response.should be_success }
     it "renders the featured_artist template" do
       response.should render_template 'featured_artist'
-    end
-    it "returns success" do
-      response.should be_success
     end
     it "assigns the featured artist and the featured queue entry" do
       assigns(:featured).should be_present
@@ -286,8 +286,8 @@ describe AdminController do
         response.should redirect_to '/admin/featured_artist'
       end
       it "tries to get the next artist from the queue" do
-        FeaturedArtistQueue.expects(:next_entry).once
-        FeaturedArtistQueue.expects(:current_entry).once
+        FeaturedArtistQueue.should_receive(:next_entry).once
+        FeaturedArtistQueue.should_receive(:current_entry).once
         post :featured_artist
       end
       context 'immediately after setting a featured artist' do
@@ -321,8 +321,8 @@ describe AdminController do
       response.should be_success
     end
     it 'sets a list of artists in alpha order by last name' do
-      assigns(:os).should be_a_kind_of Array
       assigns(:os).length == Artist.active.count
+      assigns(:os).map(&:lastname).map(&:downcase).should be_monotonically_increasing
       assigns(:totals).count == Conf.open_studios_event_keys.count
     end
   end
@@ -337,14 +337,16 @@ describe AdminController do
         login_as(:admin)
       end
       describe "#fetch_backup" do
-        integrate_views
+        render_views
         before do
           File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
-          Dir.stubs(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
+          Dir.stub(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
           get :fetch_backup, :name => "file1.tgz"
         end
-        it "returns the file contents as text" do
-          response.body.class.should eql Proc
+        it "returns the file" do
+          response.content_type.should eql 'application/octet-stream'
+          response.headers['Content-Disposition'].should include 'attachment'
+          response.headers['Content-Disposition'].should include 'file1.tgz'
         end
       end
       describe '#db_backups' do
@@ -352,7 +354,7 @@ describe AdminController do
           File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
           sleep(2)
           File.open("#{tmpdir}/file2.tgz",'w'){ |f| f.write('.tgz dump file contents2') }
-          Dir.stubs(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
+          Dir.stub(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
         end
         context 'without views' do
           before do
@@ -370,7 +372,7 @@ describe AdminController do
           end
         end
         context 'with views' do
-          integrate_views
+          render_views
           before do
             get :db_backups
           end
@@ -418,7 +420,7 @@ describe AdminController do
         a2.artist = users(:artist1)
         a2.save
 
-        ArtPiece.any_instance.stubs(:artist => stub(:id => 42, :emailsettings => {'favorites' => false}))
+        ArtPiece.any_instance.stub(:artist => double(Artist,:id => 42, :emailsettings => {'favorites' => false}))
         u1.add_favorite a1
         u1.add_favorite users(:artist1)
         u1.add_favorite u2

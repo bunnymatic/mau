@@ -7,7 +7,7 @@
     %a.lkdark#search_link{:title =>'search', :onclick => 'MAU.doSearch();', :href => '#'}
       %img#search_icon{:title => 'search', :src => '/images/icons/searchicon24.png'}
   #search_nav2
-    - form_tag '/search', :method => 'post' do
+    = form_tag '/search', :method => 'post' do
       %input#search_box.srch{:type => 'text', :name => 'keywords', :size => '14'}
   #nav_bar
     .nav

@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
 
   before_destroy :delete_favorites
   def delete_favorites
-    fs = Favorite.artists.find_all_by_favoritable_id( id )
+    fs = Favorite.artists.where(:favoritable_id => id)
     fs.each { |f| f.delete }
   end
 
@@ -41,17 +41,16 @@ class User < ActiveRecord::Base
     a.lastname.downcase <=> b.lastname.downcase
   }
 
-  # has_many :favorites, :class_name => 'Favorite' do
-  #    def to_obj
-  #      deletia = []
-  #      # rails 3.1
-  #      # you'll need this
-  #      # http://stackoverflow.com/questions/7001810/alternative-method-for-proxy-owner-in-activerecord
-  #      (proxy_owner.favorites.map { |f|
-  #         f.to_obj
-  #       }).select { |item| !item.nil? }
-  #    end
-  # end
+  has_many :favorites, :class_name => 'Favorite' do
+     def to_obj
+       # rails 3.1
+       # you'll need this
+       # http://stackoverflow.com/questions/7001810/alternative-method-for-proxy-owner-in-activerecord
+       (proxy_owner.favorites.map { |f|
+          f.to_obj
+        }).select { |item| !item.nil? }
+     end
+  end
 
   belongs_to :studio
   has_many :roles_users, :dependent => :destroy
@@ -270,7 +269,7 @@ class User < ActiveRecord::Base
   def resend_activation
     @resent_activation = true
     make_activation_code
-    save(false)
+    save(:validate => false)
   end
 
   def resent_activation?
@@ -280,7 +279,7 @@ class User < ActiveRecord::Base
   def create_reset_code
     @reset = true
     self.attributes = {:reset_code => Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )}
-    save(false)
+    save(:validate => false)
   end
 
   def recently_reset?
@@ -289,7 +288,7 @@ class User < ActiveRecord::Base
 
   def delete_reset_code
     self.attributes = {:reset_code => nil}
-    save(false)
+    save(:validate => false)
   end
 
   def suspended?
@@ -335,21 +334,18 @@ class User < ActiveRecord::Base
   end
 
   def who_favorites_me
-    favs = Favorite.users.find_all_by_favoritable_id(self.id, :order => 'created_at desc')
+    favs = Favorite.users.where(:favoritable_id => self.id).order('created_at desc')
     if self[:type] == 'Artist'
       if self.art_pieces && self.art_pieces.count > 0
-        favs << Favorite.art_pieces.find_all_by_favoritable_id( art_pieces.map{|ap| ap.id}, :order => 'created_at desc')
+        favs << Favorite.art_pieces.where(:favoritable_id => art_pieces.map{|ap| ap.id}).order('created_at desc')
       end
     end
     User.find(favs.flatten.select{|f| !f.nil? && !f.user_id.nil?}.map {|f| f.user_id})
   end
 
   def remove_favorite(fav)
-    f = favorites.select { |f| f.favoritable_type == fav.class.name && f.favoritable_id == fav.id }
-    r = f.each do |f|
-      f.destroy
-    end
-    r.first
+    f = self.favorites.select { |f| (f.favoritable_type == fav.class.name) && (f.favoritable_id == fav.id) }
+    f.map(&:destroy).first
   end
 
   def fav_artists

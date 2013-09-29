@@ -3,9 +3,7 @@
   %h2 Plug Your Art Show!
   .instructions Please give us as much information (as accurately as possible) about your show.  If everything looks good with your submission, we'll add it to our list of MAU events and publish it to our Facebook and Twitter feeds a few days before the event.
   = form_for(@event) do |f|
-    - if f.error_messages.present?
-      .error-msg
-        = f.error_messages
+    = render '/common/form_errors', :form => f
     .clear
     .section
       .entry
@@ -26,13 +24,13 @@
         - [:starttime, :endtime].each do |dt|
           .entry{:class => dt}
             = f.label dt, labels[dt]
-            = f.calendar_date_select dt
+            = "CALENDAR GOES HERE " #.calendar_date_select dt
       .reception_time
         %h6 Reception/Opening Date/Time
         - [:reception_starttime, :reception_endtime].each do |dt|
           .entry{:class => dt}
             = f.label dt, labels[dt]
-            = f.calendar_date_select dt
+            = "CALENDAR GOES HERE " #.calendar_date_select dt
         .note Note: without a reception time, your event will not show up on our calendar.  It will only show up on the main list of events.
         .clear
     .section

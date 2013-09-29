@@ -20,13 +20,8 @@ def controller_actions_should_fail_if_not_logged_in(cont, opts={})
   end
 end
 
-
-def response_should_be_json
-  Mime::Type.lookup(response.content_type).to_sym.should eql :json
-end
-
 # logged in - get edit page 
-shared_examples_for"logged in edit page" do
+shared_examples_for "logged in edit page" do
   before do
     get :edit
   end
@@ -55,7 +50,7 @@ shared_examples_for"logged in edit page" do
 end
 
 # for all
-describe "logged in user", :shared => true do
+shared_examples_for "logged in user" do
   it "header bar should say hello" do
     assert_select("span.logout-nav", :text => /hello/)
   end
@@ -74,7 +69,7 @@ describe "logged in user", :shared => true do
   end
 end
 
-describe 'logged in artist', :shared => true do
+shared_examples_for 'logged in artist' do
   describe "nav" do
     it 'has a nav bar' do
       assert_select('#nav_bar')
@@ -116,7 +111,7 @@ shared_examples_for "logged in as admin" do
     assert_select("#admin_nav")
   end
   it "shows a link to the dashboard" do
-    assert_select('#admin_nav a.lkdark[href=/admin]', 'dashboard')
+    assert_select("#admin_nav a.lkdark[href=#{admin_path}]", 'dashboard')
   end
   %w{ os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
     it "shows a link to admin/#{admin_link}" do
@@ -136,7 +131,7 @@ shared_examples_for 'login required' do
   end
 end
 
-describe "redirects to login", :shared => true do 
+shared_examples_for "redirects to login" do
   it_should_behave_like 'login required'
 end
 
@@ -222,20 +217,16 @@ end
 
 shared_examples_for "not authorized" do
   it "redirects to error page" do
-    response.should redirect_to 'error'
+    response.should redirect_to error_path
   end
 end
 
 shared_examples_for 'returns success' do
-  it 'returns success' do
-    response.should be_success
-  end
+  it { response.should be_success }
 end
 
 shared_examples_for 'successful json' do
-  it_should_behave_like 'returns success'
-  it "returns json" do
-    response.content_type.should == 'application/json'
-  end
+  it { response.should be_success }
+  it { response.should be_json }
 end
 

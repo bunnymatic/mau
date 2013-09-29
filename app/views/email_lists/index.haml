@@ -12,7 +12,7 @@
         .header 
           = key.to_s.capitalize + "s"
           %a.add_btn{:href => '#', :title => 'add an email to this list'} (+)
-        - form_tag do
+        = form_tag do
           %input{:type => 'hidden', :name => 'listtype', :value => key}
           %input{:type => 'hidden', :name => 'method', :value => 'add_email'}
           %ul.list_entries{:list_type => key}

@@ -1,6 +1,6 @@
 <% if !@artist.errors.empty? %>
 <div class="error-msg">
-<%= error_messages_for :artist %>
+<%= errors.full_messages_for :artist %>
 </div>
 <% end -%>
 

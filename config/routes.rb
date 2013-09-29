@@ -1,132 +1,137 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :blacklist_domains
-  map.resources :roles
-  map.resources :cms_documents
-  map.resources :media
-  map.resources :artist_feeds
-  map.resources :art_pieces
-  map.resource  :session
-  map.resources :studios, :member => { :addprofile => :get, :upload_profile => :post, :unaffiliate_artist => :post }
-  map.resources :application_events, :only => [:index]
-  map.resources :catalog, :only => [:index], :collection => {:social => :get}
-  map.resources :email_lists, :only => [:index]
-  map.resources :art_piece_tags, :collection => {:cleanup => :get}
+Mau::Application.routes.draw do
 
-  map.resources :events, :member => { :publish => :get, :unpublish => :get }
-  map.calendar '/calendar/:year/:month', :controller => 'calendar', :action => 'index', 
-	:requirements => {:year => /\d{4}/, :month => /\d{1,2}/}, :year => nil, :month => nil
-
-  map.feedback 'feedbacks', :controller => 'feedbacks', :action => 'create'
-  map.new_feedback 'feedbacks/new', :controller => 'feedbacks', :action => 'new'
-
-  map.resources :search, :only => [:index], :collection => {:fetch => :post}
-
-  # user account related remaps
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new'
-  map.register '/register', :controller => 'users', :action => 'create'
-  map.signup '/signup', :controller => 'users', :action => 'new'
-  map.change_password '/change_password', :controller => 'users', :action => 'change_password'  
-  map.change_password_update '/change_password_update', :controller => 'users', :action => 'change_password_update'  
-  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
-  map.reset 'reset/:reset_code', :controller => 'users', :action => 'reset', :method => :get
-  map.submit_reset 'reset', :controller => 'users', :action => 'reset', :method => :post
-
-  map.resources :artists, 
-  :member => {
-    :update => :post,
-    :bio => :get,
-    :qrcode => :get,
-    :notify_featured => :post
-  }, 
-  :collection => { 
-    :destroyart => :post, 
-    :arrangeart => :get, 
-    :setarrangement => :post, 
-    :deleteart => :get, 
-    :edit => :get,
-    :map => :get,
-    :thumbs => :get,
-    :osthumbs => :get,
-    :suggest => :get
-  }
-  # for mobile
-  map.by_lastname '/artists_by_lastname', :controller => 'artists', :action => 'by_lastname'
-  map.by_lastname '/artists_by_firstname', :controller => 'artists', :action => 'by_firstname'
-
-  map.resources :users, 
-  :member => { 
-    :favorites => :get, 
-    :suspend => :put, 
-    :unsuspend => :put, 
-    :purge => :delete, 
-    :notify => :put, 
-    :noteform => :get }, 
-  :collection => { 
-    :addprofile => :get, 
-    :upload_profile => :post, 
-    :deactivate => :get, 
-    :add_favorite => :post, 
-    :remove_favorite => :post, 
-    :resend_activation => [:get, :post], 
-    :forgot => :get, :edit => :get } do |users|
-    users.resources :roles, :only => [:destroy]
+  resources :blacklist_domains
+  resources :roles
+  resources :cms_documents
+  resources :media
+  resources :artist_feeds
+  resources :art_pieces
+  resource :session
+  resources :studios do
+    member do
+      post :upload_profile
+      post :unaffiliate_artist
+      get :addprofile
+    end
   end
 
-
-  #map.analytics '/ganalytics', :controller => 'main', :action => 'ganalytics'
-  [:status, :faq, :openstudios, :venues, :privacy, :about, :history, :contact, :version, :non_mobile, :mobile].each do |endpoint|
-    map.send(endpoint, "/" + endpoint.to_s, :controller => :main, :action => endpoint)
+  resources :application_events, :only => [:index]
+  resources :catalog, :only => [:index] do
+    collection do
+      get :social
+    end
   end
 
-  map.getinvolved '/getinvolved/:p', :controller => 'main', :action => 'getinvolved', :p => nil
-  map.artist_resources '/resources', :controller => 'main', :action => 'resources'
-  map.news_alt '/news', :controller => 'main', :action => 'resources'
-  map.error '/error', :controller => 'error'
+  resources :email_lists, :only => [:index]
+  resources :art_piece_tags do
+    collection do
+      get :cleanup
+    end
+  end
 
-  map.admin_update_artists '/admin/artists/update', :controller => 'artists', :action=> 'admin_update'
+  resources :events do
+    member do
+      get :unpublish
+      get :publish
+    end
+  end
 
-  map.admin_events '/admin/events', :controller => 'events', :action=> 'admin_index'
-  map.admin_artists '/admin/artists', :controller => 'artists', :action=> 'admin_index'
-  map.admin_studios '/admin/studios', :controller => 'studios', :action=> 'admin_index'
-  map.admin_tags '/admin/art_piece_tags', :controller => 'art_piece_tags', :action=> 'admin_index'
-  map.admin_media '/admin/media', :controller => 'media', :action=> 'admin_index'
-  map.admin_favorites '/admin/favorites', :controller => 'favorites', :action=> 'index'
+  match '/calendar/:year/:month' => 'calendar#index', :as => :calendar, :constraints => { :month => /\d{1,2}/, :year => /\d{4}/ }
+  match 'feedbacks' => 'feedbacks#create', :as => :feedback
+  match 'feedbacks/new' => 'feedbacks#new', :as => :new_feedback
+  resources :search, :only => [:index] do
+    collection do
+      post :fetch
+    end
+  end
 
-  # admin links
-  map.get_next_featured '/admin/featured_artist', :controller => :admin, :action => 'featured_artist', :method => 'post'
-  map.admin '/admin/:action', :controller => :admin
+  match '/logout' => 'sessions#destroy', :as => :logout
+  match '/login' => 'sessions#new', :as => :login
+  match '/register' => 'users#create', :as => :register
+  match '/signup' => 'users#new', :as => :signup
+  match '/change_password' => 'users#change_password', :as => :change_password
+  match '/change_password_update' => 'users#change_password_update', :as => :change_password_update
+  match '/activate/:activation_code' => 'users#activate', :as => :activate
+  match 'reset/:reset_code' => 'users#reset', :as => :reset, :method => :get
+  match 'reset' => 'users#reset', :as => :submit_reset, :method => :post
+  resources :artists do
+    collection do
+      get :thumbs
+      get :osthumbs
+      post :destroyart
+      get :suggest
+      get :arrangeart
+      post :setarrangement
+      get :map
+      get :edit
+      get :deleteart
+    end
+    member do
+      post :notify_featured
+      post :update
+      get :bio
+      get :qrcode
+    end
+  end
 
-  map.mau_fans '/maufans/:id', :controller => 'users', :action => 'show'
+  match '/artists_by_lastname' => 'artists#by_lastname', :as => :by_lastname
+  match '/artists_by_firstname' => 'artists#by_firstname', :as => :by_lastname
+  resources :users do
+    collection do
+      post :remove_favorite
+      post :upload_profile
+      get :resend_activation
+      post :resend_activation
+      get :forgot
+      get :deactivate
+      get :edit
+      post :add_favorite
+      get :addprofile
+    end
+    member do
+      put :suspend
+      put :unsuspend
+      get :noteform
+      put :notify
+      delete :purge
+      get :favorites
+    end
+    resources :roles, :only => [:destroy]
+  end
 
-  map.discount_processor '/discount/markup', :controller => 'discount', :action => 'markup'
+  match '/status' => 'main#status', :as => :status
+  match '/faq' => 'main#faq', :as => :faq
+  match '/openstudios' => 'main#openstudios', :as => :openstudios
+  match '/venues' => 'main#venues', :as => :venues
+  match '/privacy' => 'main#privacy', :as => :privacy
+  match '/about' => 'main#about', :as => :about
+  match '/history' => 'main#history', :as => :history
+  match '/contact' => 'main#contact', :as => :contact
+  match '/version' => 'main#version', :as => :version
+  match '/non_mobile' => 'main#non_mobile', :as => :non_mobile
+  match '/mobile' => 'main#mobile', :as => :mobile
+  match '/getinvolved/:p' => 'main#getinvolved', :as => :getinvolved
+  match '/resources' => 'main#resources', :as => :artist_resources
+  match '/news' => 'main#resources', :as => :news_alt
+  match '/error' => 'error#index', :as => :error
+  match '/admin/artists/update' => 'artists#admin_update', :as => :admin_update_artists
+  match '/admin/events' => 'events#admin_index', :as => :admin_events
+  match '/admin/artists' => 'artists#admin_index', :as => :admin_artists
+  match '/admin/studios' => 'studios#admin_index', :as => :admin_studios
+  match '/admin/art_piece_tags' => 'art_piece_tags#admin_index', :as => :admin_tags
+  match '/admin/media' => 'media#admin_index', :as => :admin_media
+  match '/admin/favorites' => 'favorites#index', :as => :admin_favorites
+  match '/admin/featured_artist' => 'admin#featured_artist', :as => :get_next_featured, :method => 'post'
+  match '/admin/:action' => 'admin#index', :as => :admin
+  match '/maufans/:id' => 'users#show', :as => :mau_fans
+  match '/discount/markup' => 'discount#markup', :as => :discount_processor
+  match '/mobile/main' => 'mobile/main#welcome', :as => :mobile_root
+  match '/' => 'main#index'
+  match '/sitemap.xml' => 'main#sitemap', :as => :sitemap
+  match '/api/*path' => 'api#index'
+  match '/:controller(/:action(/:id))'
+  match '*path' => 'error#index'
 
-  # clear this shit out
-  #map.flaxartshow '/flaxart', :controller => 'wizards', :action => 'flaxart'
-  #map.flaxarteventthingy '/flaxart/eventthingy', :controller => 'wizards', :action => 'flax_eventthingy'
-  #map.flaxartchooser '/flaxart/chooser', :controller => 'wizards', :action => 'flax_chooser'
-  #map.flaxartsubmitcheck '/flaxart/submit_check', :controller => 'wizards', :action => 'flax_submit_check', :method => :post
-  #map.flaxartsubmit '/flaxart/submit', :controller => 'wizards', :action => 'flax_submit', :method => :post
-  #map.flaxartpayment '/flaxart/payment', :controller => 'wizards', :action => 'flax_payment'
-  #map.flaxartpaymentsuccess '/flaxart/payment_success', :controller => 'wizards', :action => 'flax_success'
-  #map.flaxartpaymentcancel '/flaxart/payment_cancel', :controller => 'wizards', :action => 'flax_payment_cancel'
-  #map.mau_submissions '/flaxart/:action', :controller => 'wizards'
-
-  # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.mobile_root '/mobile/main', :controller => "mobile/main", :action => 'welcome'
-  map.root :controller => "main"
-  map.sitemap '/sitemap.xml', :controller => 'main', :action => 'sitemap'
-  # See how all your routes lay out with "rake routes"
-
-  # external access - json only
-  map.connect '/api/*path', :controller => :api
-
-  # Install the default routes as the lowest priority.
-  # Note: These default routes make all actions in every controller accessible via GET requests. You should
-  # consider removing the them or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
-
-  map.connect '*path', :controller => 'error'
+  root :to => "main#index"
 
 end

@@ -18,7 +18,7 @@
   = render :partial => '/flash_notice_error'
   .edit-sections
     = form_for current_user do |f|
-      = f.error_messages
+      = render '/common/form_errors', :form => f
       = render :partial => "/users/edit_basic_info", :locals => {:f => f}
       .open-close-div.acct>
         %span#events_toggle.title Open Studios
@@ -83,11 +83,11 @@
     - if !current_user.art_pieces.any?
       = link_to "Upload some of your art to share with the world!", new_art_piece_path
     - if current_user.art_pieces.length > 1 
-      - form_tag new_art_piece_path(), :method=> "get" do
+      = form_tag new_art_piece_path(), :method=> "get" do
         %input{:class=> "formbutton", :type =>  "submit",:value=> "Add Art" }
-      - form_tag arrangeart_artists_path(), :method => "get" do
+      = form_tag arrangeart_artists_path(), :method => "get" do
         %input{:class=> "formbutton", :type =>  "submit",:value=> "Arrange Art" }
-      - form_tag deleteart_artists_path(), :method => "get" do
+      = form_tag deleteart_artists_path(), :method => "get" do
         %input{:class=> "formbutton",:type =>  "submit",:value=> "Delete Art" }
       %a{:href=> artist_path(current_user)}
         %button.formbutton Back to Profile

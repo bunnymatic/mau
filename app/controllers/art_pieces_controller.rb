@@ -40,12 +40,12 @@ class ArtPiecesController < ApplicationController
     if browser.ie?
       sz = 60
     end
-    
+
     if npieces > 1
-      @thumbs = pieces.map do |item| 
+      @thumbs = pieces.map do |item|
         thumb = { :path => item.get_path('thumb') }
-        thumb[:clz] = "tiny-thumb" 
-        thumb[:id] = item.id
+        thumb[:clz] = "tiny-thumb"
+        thumb[:id] = item.send(:id)
         if item.id == cur_id
           thumb[:clz] = "tiny-thumb tiny-thumb-sel"
           @init_offset = (ctr * -56)
@@ -77,15 +77,15 @@ class ArtPiecesController < ApplicationController
     if !@art_piece || !@art_piece.artist
       flash[:error] = "We couldn't find that art piece."
       redirect_to "/error"
-      return 
+      return
     end
 
     # get favorites
-    @favorites_count = Favorite.art_pieces.find_all_by_favoritable_id(apid).count
+    @favorites_count = Favorite.art_pieces.where(:favoritable_id => apid).count
     if is_mobile?
       redirect_to artist_path(@art_piece.artist) and return
     end
-    pieces = ArtPiece.find_all_by_artist_id(@art_piece.artist, :order => '`order` asc, `created_at` desc')
+    pieces = ArtPiece.where(:artist_id => @art_piece.artist).order('`order` asc, `created_at` desc')
     @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
     @page_description = build_page_description @art_piece
     @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
@@ -99,7 +99,7 @@ class ArtPiecesController < ApplicationController
 
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }
-      format.json { 
+      format.json {
         h={}
         h['art_piece'] = @art_piece.attributes
         # make safe the art_piece entries
@@ -111,10 +111,10 @@ class ArtPiecesController < ApplicationController
         if m
           h['art_piece']["medium"] = @art_piece.medium.attributes
         end
-        [ 'title','dimensions'].each do |k| 
+        [ 'title','dimensions'].each do |k|
           h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
         end
-        h['art_piece']['art_piece_tags'].each do |t| 
+        h['art_piece']['art_piece_tags'].each do |t|
           t['name'] = HTMLHelper.encode(t['name'])
         end
 
@@ -183,7 +183,7 @@ class ArtPiecesController < ApplicationController
       @art_piece = ArtPiece.new params[:art_piece]
       render :action => 'new'
       return
-    else 
+    else
       params[:art_piece][:art_piece_tags] = TagsHelper.tags_from_s(params[:tags])
       @art_piece = current_user.art_pieces.build(params[:art_piece])
       begin
@@ -275,7 +275,7 @@ class ArtPiecesController < ApplicationController
 
   def sidebar_info
   end
-  
+
   protected
   def safe_find_art_piece(id)
     begin
@@ -287,7 +287,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def build_page_description art_piece
-    if (art_piece) 
+    if (art_piece)
       if art_piece && !art_piece.title.empty?
         return "Mission Artists United Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}"
       end

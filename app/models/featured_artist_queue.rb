@@ -1,11 +1,11 @@
 class FeaturedArtistQueue < ActiveRecord::Base
 
+  TABLE_NAME = 'featured_artist_queue'
+  self.table_name = TABLE_NAME
+
   default_scope order('position')
   scope :not_yet_featured, where('featured is NULL')
   scope :featured, where('featured is not NULL').order('featured desc')
-
-  TABLE_NAME = 'featured_artist_queue'
-  set_table_name TABLE_NAME
 
   FEATURE_LIFETIME = 1.week
 

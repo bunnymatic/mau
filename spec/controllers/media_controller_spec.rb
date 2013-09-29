@@ -8,7 +8,7 @@ describe MediaController do
   fixtures :users
   before do
     
-    Rails.cache.stubs(:read).returns(nil)
+    Rails.cache.stub(:read => nil)
 
     # media don't exist in a vaccuum
     aps = []
@@ -46,7 +46,7 @@ describe MediaController do
     end
   end
   describe "#show" do
-    integrate_views
+    render_views
     before do
       get :show, :id => Medium.first.id
     end

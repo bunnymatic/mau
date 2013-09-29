@@ -1,28 +1,29 @@
 require 'spec_helper'
 
-Rails.cache.stubs(:read).returns(:nil)
-
-def valid_attributes(opts = {})
-  {:login => 'whatever', 
-    :email => 'whatever@example.com', 
-    :password => 'mypass', 
-    :password_confirmation => 'mypass'}.merge(opts)
-end
+# def valid_attributes(opts = {})
+#   {:login => 'whatever',
+#     :email => 'whatever@example.com',
+#     :password => 'mypass',
+#     :password_confirmation => 'mypass'}.merge(opts)
+# end
 
 describe User do
   fixtures :users, :studios, :roles, :artist_infos, :art_pieces, :roles_users
 
   let(:artist1) { users(:artist1) }
 
+  before do
+    Rails.cache.stub(:read => :nil)
+  end
+
   describe 'new' do
     it 'validates' do
-      u = User.new(valid_attributes)
-      User.new(valid_attributes).should be_valid
+      FactoryGirl.build(:user).should be_valid
     end
   end
   describe 'create' do
     it 'sets email attrs to true for everything' do
-      User.create(valid_attributes).should be_true
+      FactoryGirl.create(:user)
       User.all.last.emailsettings.all?{|k,v| v}.should be_true
     end
   end
@@ -69,7 +70,7 @@ describe User do
       u.get_profile_image(:small).should == "/artistdata/#{u.id}/profile/s_profile.jpg"
     end
   end
-  
+
   describe 'get_share_link' do
     it "returns the artists link" do
       artist1.get_share_link.should match /\/artists\/#{artist1.login}$/
@@ -145,13 +146,13 @@ describe User do
         users(:maufan1).should_not respond_to method
       end
     end
-  end    
-  
+  end
+
   describe 'favorites -'  do
     describe "adding artist as favorite to a user" do
       before do
         @u = users(:maufan1) # he's a fan
-        @a = artist1 
+        @a = artist1
         @u.add_favorite(@a)
         @u.save
       end
@@ -226,7 +227,7 @@ describe User do
         @a.add_favorite(@ap).should be_false
       end
       it "it doesn't send favorite notification" do
-        ArtistMailer.expects('deliver_favorite_notification').never
+        ArtistMailer.should_receive('favorite_notification').never
         @a.add_favorite(@ap).should be_false
       end
     end
@@ -238,11 +239,11 @@ describe User do
         @ap = @owner.art_pieces.first
       end
       it "add art_piece favorite sends favorite notification to owner" do
-        ArtistMailer.expects('deliver_favorite_notification').with(@owner, @u).once
+        ArtistMailer.should_receive('favorite_notification').with(@owner, @u).once.and_return(double(:deliver! => true))
         @u.add_favorite(@ap)
       end
       it "add artist favorite sends favorite notification to user" do
-        ArtistMailer.expects('deliver_favorite_notification').with(@owner, @u).once
+        ArtistMailer.should_receive('favorite_notification').with(@owner, @u).once.and_return(double(:deliver! => true))
         @u.add_favorite(@owner)
       end
       it "add artist favorite doesn't send notification to user if user's email settings say no" do
@@ -251,10 +252,10 @@ describe User do
         @owner.emailsettings = h
         @owner.save!
         @owner.reload
-        ArtistMailer.expects('deliver_favorite_notification').with(@owner, @u).never
+        ArtistMailer.should_receive('favorite_notification').with(@owner, @u).never
         @u.add_favorite(@owner)
       end
-    end    
+    end
 
     describe "adding art_piece as favorite" do
       before do
@@ -282,7 +283,7 @@ describe User do
       it "art_piece is in the artists 'fav_art_pieces' list" do
         (@u.fav_art_pieces.map { |ap| ap.id }).should include(@ap.id)
       end
-      it "art piece is of type ArtPiece" do 
+      it "art piece is of type ArtPiece" do
         @u.fav_art_pieces.first.is_a?(ArtPiece).should be
       end
       it "user does not have 'art_pieces' because he's a user" do
@@ -299,16 +300,15 @@ describe User do
           @num_favs.should == @u.favorites.count
         end
       end
-      
+
       context "and removing it" do
         it "Favorite delete get's called" do
-          f = Favorite.find_by_favoritable_id_and_favoritable_type_and_user_id(@ap.id, @ap.class.name, @u.id)
-          Favorite.any_instance.expects(:destroy).times(1)
+          Favorite.any_instance.should_receive(:destroy).exactly(:once)
           @u.remove_favorite(@ap)
         end
         it "art_piece is no longer a favorite" do
-          f = users(:maufan1).remove_favorite(@ap)
-          Favorite.find_all_by_user_id(users(:maufan1).id).should_not include f
+          f = @u.remove_favorite(@ap)
+          Favorite.where(:user_id => users(:maufan1).id).should_not include f
         end
         it "user is not in the who favorites me list of the artist who owns that art piece" do
           @u.remove_favorite(@ap)
@@ -318,13 +318,13 @@ describe User do
     end
   end
 
-  describe "forgot password methods" do 
+  describe "forgot password methods" do
     context "artfan" do
       it "create_reset_code should call mailer" do
-        UserMailer.expects(:deliver_reset_notification).with() do |f|
+        UserMailer.should_receive(:reset_notification).with() do |f|
           f.login.should == users(:artfan).login
           f.email.should include users(:artfan).email
-        end
+        end.and_return(double(:deliver! => true))
         users(:artfan).create_reset_code
       end
       it "create_reset_code creates a reset code" do
@@ -335,10 +335,10 @@ describe User do
     end
     context "artist" do
       it "create_reset_code should call mailer" do
-        ArtistMailer.expects(:deliver_reset_notification).with() do |f|
+        ArtistMailer.should_receive(:reset_notification).with() do |f|
           f.login.should == artist1.login
           f.email.should include artist1.email
-        end
+        end.and_return(double(:deliver! => true))
         artist1.create_reset_code
       end
       it "create_reset_code creates a reset code" do
@@ -348,7 +348,7 @@ describe User do
       end
     end
   end
-  
+
   describe 'csv_safe' do
     it 'should clean the fields' do
       users(:badname).csv_safe('firstname').should == 'eat123'
@@ -381,7 +381,7 @@ describe User do
     end
     describe 'subscribe and welcome' do
       before do
-        Artist.any_instance.expects(:mailchimp_list_subscribe)
+        Artist.any_instance.should_receive(:mailchimp_list_subscribe)
       end
       it "updates mailchimp_subscribed_at column" do
         u = User.first

@@ -25,13 +25,13 @@ describe ArtistFeedsController do
   end
 
   describe 'as admin ' do
-    integrate_views
+    render_views
     before do
       login_as(:admin)
     end
     describe '#index' do
       before do
-        File.stubs(:open).returns(mock(:read => "<div class='feed-entries'><div class='feed-sxn-hdr'><a target='_blank' href='http://studiomorin.blogspot.com/'>Studio Morin<div class='feed-icon blogger'></div></a></div><div class='feedentry  odd'>entry</div></div>"))
+        File.stub(:open => double(:read => "<div class='feed-entries'><div class='feed-sxn-hdr'><a target='_blank' href='http://studiomorin.blogspot.com/'>Studio Morin<div class='feed-icon blogger'></div></a></div><div class='feedentry  odd'>entry</div></div>"))
 
         get :index
       end

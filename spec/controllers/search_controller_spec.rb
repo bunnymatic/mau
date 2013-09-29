@@ -12,7 +12,7 @@ describe SearchController do
   fixtures :art_pieces_tags
   fixtures :studios
   before do
-    Rails.cache.stubs(:read).returns(nil)
+    Rails.cache.stub(:read => nil)
   end
   
   shared_examples_for 'search page with results' do
@@ -21,7 +21,7 @@ describe SearchController do
     end
   end
 
-  integrate_views
+  render_views
 
   describe "#index" do
     describe "(with views)" do
@@ -333,7 +333,7 @@ describe SearchController do
     end
 
     context 'finding by openstudios status' do
-      integrate_views
+      render_views
       before do
         @searched_studios = [ studios(:s1890), studios(:as) ]
       end

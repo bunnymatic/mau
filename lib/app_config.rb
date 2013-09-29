@@ -23,10 +23,10 @@ class AppConfig
 
   def method_missing(param)
     param = param.to_s
-    if @params.key?(param)
+    if @params.has_key?(param)
       @params[param]
     else
-      raise "Invalid AppConfig Parameter " + param
+      nil
     end
   end
 

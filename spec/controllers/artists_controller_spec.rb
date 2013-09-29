@@ -7,7 +7,7 @@ describe ArtistsController do
   fixtures :users, :roles_users, :artist_infos, :art_pieces, :studios, :roles, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
 
   before do
-    Rails.cache.stubs(:read).returns(nil)
+    Rails.cache.stub(:read => nil)
   end
 
   let(:artist1) { users(:artist1) }
@@ -15,7 +15,7 @@ describe ArtistsController do
 
   describe "#index" do
     describe 'logged in as admin' do
-      integrate_views
+      render_views
       before do
         login_as :admin
         get :index
@@ -26,7 +26,7 @@ describe ArtistsController do
 
 
     describe 'html' do
-      integrate_views
+      render_views
       before do
         get :index
       end
@@ -76,7 +76,7 @@ describe ArtistsController do
   end
 
   describe '#index roster view' do
-    integrate_views
+    render_views
     before do
       get :index, :v => 'l'
     end
@@ -95,7 +95,7 @@ describe ArtistsController do
     end
   end
   describe "#update" do
-    integrate_views
+    render_views
     before do
       artist1_info.update_attribute(:open_studios_participation,'')
     end
@@ -128,7 +128,7 @@ describe ArtistsController do
             response.should redirect_to(edit_artist_path(artist1))
           end
           it 'publishes an update message' do
-            Messager.any_instance.expects(:publish)
+            Messager.any_instance.should_receive(:publish)
             put :update, { :commit => 'submit', :artist => { :artist_info => {:bio => @newbio }}}
           end
         end
@@ -159,7 +159,7 @@ describe ArtistsController do
           User.find(@logged_in_user.id).artist_info.address.should include '100 main st'
         end
         it 'publishes an update message' do
-          Messager.any_instance.expects(:publish)
+          Messager.any_instance.should_receive(:publish)
           post :update, { :commit => 'submit', :artist => { :artist_info => {:street => 'wherever' }}}
         end
       end
@@ -218,7 +218,7 @@ describe ArtistsController do
       it_should_behave_like "redirects to login"
     end
     context "while logged in as someone with no address" do
-      integrate_views
+      render_views
       before do
         login_as(:noaddress)
         @logged_in_user = users(:noaddress)
@@ -244,7 +244,7 @@ describe ArtistsController do
     end
 
     context "while logged in" do
-      integrate_views
+      render_views
       before do
         login_as artist1
         @logged_in_user = artist1
@@ -293,7 +293,7 @@ describe ArtistsController do
       end
     end
     context " if email_attrs['favorites'] is false " do
-      integrate_views
+      render_views
       before do
         esettings = artist1.emailsettings
         esettings['favorites'] = false
@@ -305,13 +305,13 @@ describe ArtistsController do
       end
       it "has heart notification checkbox unchecked" do
         assert_select "input#emailsettings_favorites"
-        response.should_not have_tag "input#emailsettings_favorites[checked=checked]"
+        expect(css_select "input#emailsettings_favorites[checked=checked]").to be_empty
       end
     end
   end
 
   describe "#show" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before(:each) do
         get :show, :id => artist1.id
@@ -344,9 +344,9 @@ describe ArtistsController do
         end
         assert_select 'head meta[property=og:description]' do |desc|
           desc.length.should eql 1
-          desc[0].attributes['content'].should match artist1.bio
+          desc[0].attributes['content'].should include artist1.bio
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
-          desc[0].attributes['content'].should match artist1.get_name(true)
+          desc[0].attributes['content'].should include artist1.get_name(true)
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
@@ -356,10 +356,10 @@ describe ArtistsController do
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
           desc[0].attributes['content'].should_not == artist1.bio
-          desc[0].attributes['content'].should match artist1.bio[0..490]
+          desc[0].attributes['content'].should include artist1.bio[0..490]
           desc[0].attributes['content'].should match /\.\.\.$/
           desc[0].attributes['content'].should match /^Mission Artists United Artist/
-          desc[0].attributes['content'].should match artist1.get_name(true)
+          desc[0].attributes['content'].should include artist1.get_name(true)
         end
       end
 
@@ -429,11 +429,11 @@ describe ArtistsController do
           assert_select('#sidebar_nav')
         end
         it "should not have heart icon" do
-          response.should_not have_tag(".action-icons .micro-icon.heart")
+          expect(css_select(".action-icons .micro-icon.heart")).to be_empty
           assert_select("#sidebar_nav .micro-icon.heart")
         end
         it "should not have extra messaging about email the artist" do
-          response.should_not have_tag(".notify-artist")
+          expect(css_select(".notify-artist")).to be_empty
         end
 
       end
@@ -491,7 +491,7 @@ describe ArtistsController do
         assert_select("div#u_website a[href=#{artist1.url}]")
       end
       it "has no sidebar nav " do
-        response.should_not have_tag('#sidebar_nav')
+        expect(css_select('#sidebar_nav')).to be_empty
       end
       it "facebook is present and correct" do
         assert_select("div#u_facebook a[href=#{artist1_info.facebook}]")
@@ -535,7 +535,7 @@ describe ArtistsController do
         response.should be_success
       end
       it 'calls the notify_featured mailer' do
-        ArtistMailer.expects(:deliver_notify_featured).once
+        ArtistMailer.should_receive(:notify_featured).exactly(:once).and_return(double(:deliver! => true))
         post :notify_featured, :id => artist1.id
       end
     end
@@ -547,8 +547,8 @@ describe ArtistsController do
       FileUtils.mkdir_p File.join(Rails.root,'artistdata', Artist.first.id.to_s , 'profile')
     end
     it 'generates a png if you ask for one' do
-      File.stubs(:open).returns(stub(:read => 'the data from the file'))
-      @controller.expects(:send_data)
+      File.stub(:open => double(:read => 'the data from the file'))
+      @controller.should_receive(:send_data)
       get :qrcode, :id => Artist.first.id, :format => 'png'
       response.content_type.should eql 'image/png'
     end
@@ -584,7 +584,7 @@ describe ArtistsController do
       end
 
       it "returns art_pieces in new order (1,3,2)" do
-        Messager.any_instance.expects(:publish)
+        Messager.any_instance.should_receive(:publish)
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
         post :setarrangement, { :neworder => order1.join(",") }
       end
@@ -600,7 +600,7 @@ describe ArtistsController do
   end
 
   describe "#map" do
-    integrate_views
+    render_views
     describe 'all artists' do
       before do
         get :map
@@ -631,7 +631,7 @@ describe ArtistsController do
         end
       end
       it "get's map info all artists" do
-        ArtistsController.any_instance.expects(:get_map_info).times(assigns(:roster).values.flatten.count)
+        ArtistsController.any_instance.should_receive(:get_map_info).exactly(assigns(:roster).values.flatten.count).times
         get :map
       end
       it 'renders the map html properly' do
@@ -702,10 +702,10 @@ describe ArtistsController do
       end
     end
     context "logged in as admin" do
-      integrate_views
+      render_views
       before do
-        ArtistInfo.any_instance.stubs(:os_participation => {'201204' => true})
-        Artist.any_instance.stubs(:os_participation => {'201204' => true})
+        ArtistInfo.any_instance.stub(:os_participation => {'201204' => true})
+        Artist.any_instance.stub(:os_participation => {'201204' => true})
 
         login_as :admin
         get :admin_index

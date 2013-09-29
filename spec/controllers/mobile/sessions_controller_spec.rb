@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'mobile_shared_spec'
 
 describe SessionsController do
   before do

@@ -11,8 +11,8 @@ describe ApplicationEventsController do
     it_should_behave_like 'not authorized'
   end
   describe 'index (as admin)' do
-    integrate_views
-    before do 
+    render_views
+    before do
       login_as(:admin)
       get :index
     end
@@ -33,12 +33,9 @@ describe ApplicationEventsController do
     end
     it 'renders all the events in sections' do
       assert_select '.singlecolumn .generic_events tr', :count => 1
-      assert_select '.singlecolumn .open_studios_signup_events tr td a[href=/artists/jesseponce]', :count =>1 
-      assert_select '.singlecolumn .open_studios_signup_events tr', :count =>1 
+      assert_select '.singlecolumn .open_studios_signup_events tr td a[href=/artists/jesseponce]', :count =>1
+      assert_select '.singlecolumn .open_studios_signup_events tr', :count =>1
     end
   end
-  
-end
-  
-  
 
+end

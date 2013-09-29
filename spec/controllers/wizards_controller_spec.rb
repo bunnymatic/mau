@@ -1,5 +1,4 @@
 require 'spec_helper'
-require File.expand_path(File.dirname(__FILE__) + '/../controllers_helper')
 
 include AuthenticatedTestHelper
 
@@ -8,7 +7,7 @@ describe WizardsController do
   fixtures :users, :artist_infos, :art_piece_tags, :art_pieces_tags, :media, :art_pieces
   fixtures :cms_documents
 
-  integrate_views
+  render_views
 
   it "actions should fail if not logged in" do
     exceptions = [:flaxart, :mau042012]

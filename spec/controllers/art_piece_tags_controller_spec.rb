@@ -1,5 +1,4 @@
 require 'spec_helper'
-require File.expand_path(File.dirname(__FILE__) + '/../controllers_helper')
 
 include AuthenticatedTestHelper
 
@@ -40,7 +39,7 @@ describe ArtPieceTagsController do
     end
   end
   describe '#show' do
-    integrate_views
+    render_views
     [:one, :two, :three].each do |tag|
       before do
         @tag = art_piece_tags(tag)
@@ -59,7 +58,7 @@ describe ArtPieceTagsController do
   end
 
   describe '#admin_index' do
-    integrate_views
+    render_views
     before do
       login_as(users(:admin))
       get :admin_index
@@ -75,7 +74,7 @@ describe ArtPieceTagsController do
   end
 
   describe '#cleanup' do
-    integrate_views
+    render_views
     before do
       login_as(users(:admin))
     end

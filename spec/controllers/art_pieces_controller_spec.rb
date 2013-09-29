@@ -1,5 +1,5 @@
 require 'spec_helper'
-require File.expand_path(File.dirname(__FILE__) + '/../controllers_helper')
+
 include AuthenticatedTestHelper
 
 def art_piece_attributes(overrides = {})
@@ -25,7 +25,7 @@ describe ArtPiecesController do
       @artpieces = @artist.art_pieces
     end
     context "not logged in" do
-      integrate_views
+      render_views
       before do
         get :show, :id => @artpieces.first.id
       end
@@ -64,7 +64,7 @@ describe ArtPiecesController do
       end
 
       it 'shows the artist name in the sidebar' do
-        artist_link = '/artists/%d' % @artpieces.first.artist.id
+        artist_link = artist_path(@artpieces.first.artist)
         assert_select ".lcol h3 a[href=#{artist_link}]"
         assert_select ".lcol a[href=#{artist_link}] img"
       end
@@ -95,7 +95,7 @@ describe ArtPiecesController do
       end
       it "has no edit buttons" do
         assert_select("div.edit-buttons", "")
-        response.should_not have_tag("div.edit-buttons *")
+        expect(css_select("div.edit-buttons *")).to be_empty
       end
       it "has a favorite me icon" do
         assert_select('.micro-icon.heart')
@@ -119,7 +119,7 @@ describe ArtPiecesController do
       end
     end
     context "when logged in as art piece owner" do
-      integrate_views
+      render_views
       before do
         login_as(@artist)
         @logged_in_artist = @artist
@@ -134,11 +134,11 @@ describe ArtPiecesController do
         assert_select(".edit-buttons #artpiece_del a", "delete")
       end
       it "doesn't show heart icon" do
-        response.should_not have_tag('.micro-icon.heart')
+        expect(css_select('.micro-icon.heart')).to be_empty
       end
     end
     context "when logged in as not artpiece owner" do
-      integrate_views
+      render_views
       before do
         login_as(users(:maufan1))
         get :show, :id => @artpieces.first.id
@@ -148,17 +148,17 @@ describe ArtPiecesController do
         assert_select('.micro-icon.heart')
       end
       it "doesn't have edit button" do
-        response.should_not have_tag("div.edit-buttons span#artpiece_edit a", "edit")
+        expect(css_select("div.edit-buttons span#artpiece_edit a")).to be_empty
       end
       it "doesn't have delete button" do
-        response.should_not have_tag(".edit-buttons #artpiece_del a", "delete")
+        expect(css_select(".edit-buttons #artpiece_del a")).to be_empty
       end
     end
   end
 
   describe '#create' do
     context "while not logged in" do
-      integrate_views
+      render_views
       context "post " do
         before do
           post :create
@@ -168,7 +168,7 @@ describe ArtPiecesController do
     end
     context "while logged in" do
       before do
-        ArtPieceImage.expects(:save).returns(true)
+        ArtPieceImage.should_receive(:save).and_return(true)
         login_as :joeblogs
       end
       it 'redirects to show page on success' do
@@ -180,11 +180,11 @@ describe ArtPiecesController do
         flash[:notice].should == 'Artwork was successfully added.'
       end
       it "flushes the cache" do
-        ArtPiecesController.any_instance.expects(:flush_cache)
+        ArtPiecesController.any_instance.should_receive(:flush_cache)
         post :create, :art_piece => art_piece_attributes, :upload => {}
       end
       it 'publishes a message' do
-        Messager.any_instance.expects(:publish)
+        Messager.any_instance.should_receive(:publish)
         post :create, :art_piece => art_piece_attributes, :upload => {}
       end
     end
@@ -192,7 +192,7 @@ describe ArtPiecesController do
 
   describe '#update' do
     context "while not logged in" do
-      integrate_views
+      render_views
       context "post " do
         before do
           post :update
@@ -215,11 +215,11 @@ describe ArtPiecesController do
         flash[:notice].should == 'Artwork was successfully updated.'
       end
       it "flushes the cache" do
-        ArtPiecesController.any_instance.expects(:flush_cache)
+        ArtPiecesController.any_instance.should_receive(:flush_cache)
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
       end
       it 'publishes a message' do
-        Messager.any_instance.expects(:publish)
+        Messager.any_instance.should_receive(:publish)
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
       end
     end
@@ -227,7 +227,7 @@ describe ArtPiecesController do
 
   describe "#edit" do
     context "while not logged in" do
-      integrate_views
+      render_views
       context "post " do
         before do
           post :edit, :id => art_pieces(:artpiece1).id
@@ -245,7 +245,7 @@ describe ArtPiecesController do
       before do
         login_as(users(:joeblogs))
       end
-      integrate_views
+      render_views
       context "get " do
         before do
           get :edit, :id => art_pieces(:artpiece1).id
@@ -262,7 +262,7 @@ describe ArtPiecesController do
       before do
         login_as(users(:artist1))
       end
-      integrate_views
+      render_views
       context "get " do
         before do
           get :edit, :id => art_pieces(:artpiece1).id
@@ -285,14 +285,12 @@ describe ArtPiecesController do
         login_as(users(:maufan1))
         post :destroy, :id => art_pieces(:artpiece1).id
       end
-      it "returns error page" do
-        response.should be_redirect
-      end
+      it { response.should be_redirect }
       it "does not removes that art piece" do
-        lambda { ArtPiece.find(art_pieces(:artpiece1).id) }.should_not raise_error ActiveRecord::RecordNotFound
+        expect{ ArtPiece.find(art_pieces(:artpiece1).id) }.not_to raise_error
       end
       it 'does not publish a message' do
-        Messager.any_instance.expects(:publish).never
+        Messager.any_instance.should_receive(:publish).never
         post :destroy, :id => art_pieces(:artpiece1).id
       end
 
@@ -310,10 +308,10 @@ describe ArtPiecesController do
       end
       it "removes that art piece" do
         post :destroy, :id => @ap
-        lambda { ArtPiece.find(@ap) }.should raise_error ActiveRecord::RecordNotFound
+        expect{ ArtPiece.find(@ap) }.to raise_error ActiveRecord::RecordNotFound
       end
       it "calls messager.publish" do
-        Messager.any_instance.expects(:publish).times(1)
+        Messager.any_instance.should_receive(:publish).exactly(:once)
         post :destroy, :id => @ap
       end
     end

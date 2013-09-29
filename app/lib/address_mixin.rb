@@ -21,7 +21,7 @@ module AddressMixin
   def map_link
     "http://maps.google.com/maps?q=%s" % URI.escape(self.full_address)
   end
-  
+
   def address_hash
     { :geocoded => !(self.lat.nil? || self.lng.nil?),
       :full => self.full_address,
@@ -32,12 +32,12 @@ module AddressMixin
         :city => self.city,
         :state => get_state,
         :zip => self.zip,
-        :lat => self.lat, 
-        :lng => self.lng 
+        :lat => self.lat,
+        :lng => self.lng
       }
-        
+
     }
-  end    
+  end
 
   protected
   def get_state

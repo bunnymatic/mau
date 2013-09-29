@@ -1,28 +1,9 @@
 require 'spec_helper'
 
-def create_event(opts = {}) 
-  params = {
-    :title => "MyString",
-    :description => "MyText",
-    :tweet => "MyString",
-    :venue => "MyString",
-    :street => "MyString",
-    :city => "MyString",
-    :state => "MyString",
-    :zip => "MyString",
-    :starttime => Time.zone.now + 24.hours,
-    :endtime => Time.zone.now + 25.hours,
-    :reception_starttime => Time.zone.now + 24.hours,
-    :url => "MyString",
-    :user_id => User.active.first.id
-  }.merge(opts)
-  Event.new(params)
-end
-    
 describe Event do
   fixtures :events, :users
-  
-  before do 
+
+  before do
     # validate fixture data
     before_now = 0
     after_now = 0
@@ -48,50 +29,52 @@ describe Event do
       Event.published.all{|u| u.publish}.should be
     end
     it 'returns events in order of starttime by default' do
-      Event.all.map(&:id).should == Event.all.sort_by(&:starttime).map(&:id)
+      Event.all.map(&:id).should eql Event.all.sort_by(&:starttime).map(&:id)
     end
     it 'not_past returns events that are not yet over' do
-      Event.not_past.should == Event.all - Event.past
+      (Event.not_past.all).should eql Event.all - Event.past
     end
   end
 
   describe 'validation' do
     it 'is an invalid event if end date is present and before start date' do
-      ev = create_event
+      Event.any_instance.stub(:compute_geocode)
+      ev = FactoryGirl.create(:event)
       ev.endtime = ev.starttime - 10.days
       ev.should_not be_valid
       ev.errors['endtime'].should be
     end
     it 'is an invalid event if reception endtime is present and before the reception start date' do
-      ev = create_event
+      Event.any_instance.stub(:compute_geocode)
+      ev = FactoryGirl.create(:event)
       ev.reception_endtime = ev.reception_starttime - 10.days
       ev.should_not be_valid
       ev.errors['reception_endtime'].should be
     end
   end
+
   describe 'creation' do
     it 'geocodes on create' do
-      Event.any_instance.expects(:compute_geocode)
-      ev = create_event
+      Event.any_instance.should_receive(:compute_geocode)
+      ev = FactoryGirl.build(:event)
       ev.save
     end
     it 'stores the user association' do
-      ev = create_event
-      ev.save
-      ev.reload
-      ev.user.should == User.active.first
+      Event.any_instance.stub(:compute_geocode)
+      FactoryGirl.create(:event, :user => User.active.first)
+      Event.where(:user_id => User.active.first.id).should be_present
     end
-      
   end
+
   describe 'updating' do
     it 'geocodes on update' do
-      Event.any_instance.expects(:compute_geocode)
+      Event.any_instance.should_receive(:compute_geocode)
       ev = events(:future)
       ev.description = 'blah'
       ev.save
     end
   end
-  
+
   describe '#future?' do
     it 'returns true for events in the future' do
       events(:future).future?.should be_true

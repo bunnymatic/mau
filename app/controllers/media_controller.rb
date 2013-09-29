@@ -122,7 +122,7 @@ class MediaController < ApplicationController
     end
   end
 
-  private 
+  private
   def _show_html
     page = params[:p]
     if not page
@@ -131,8 +131,8 @@ class MediaController < ApplicationController
     page = page.to_i
     @results_mode = params[:m] || 'p'
 
-    items = ArtPiece.find_all_by_medium_id(@medium.id, :order => 'created_at')
-    
+    items = ArtPiece.where(:medium_id => @medium.id).order('created_at')
+
     # if show by artists, pick 1 from each artist
     if @results_mode == 'p'
       pieces = items.sort_by { |i| i.updated_at }
@@ -166,7 +166,7 @@ class MediaController < ApplicationController
     nxtmod = arg % nextpage
     prvmod = arg % prevpage
     lastmod = arg % lastpage
-    
+
     if show_next
       @next_link = base_link + nxtmod
       @last_link = base_link + lastmod
@@ -199,9 +199,9 @@ class MediaController < ApplicationController
 
   def _show_mobile
     # find artists using this medium
-    items = ArtPiece.find_all_by_medium_id(@medium.id, :order => 'created_at')
-    
+    items = ArtPiece.where(:medium_id => @medium.id).order('created_at')
+
     # if show by artists, pick 1 from each artist
-    @artists = Artist.find_all_by_id(items.map(&:artist_id).uniq)
+    @artists = Artist.find(items.map(&:artist_id).uniq)
   end
 end

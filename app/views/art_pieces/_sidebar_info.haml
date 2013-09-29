@@ -1,7 +1,7 @@
 .artist-info-block
   %h3
     = link_to artist.get_name, artist
-  - link_to artist, :title => artist.get_name do 
+  = link_to artist, :title => artist.get_name do
     - if artist.has_profile_image
       %img{:class => "profile", :src => "%s?%s" % [artist.get_profile_image('small'), Time.zone.now.to_i]}
     - else
@@ -31,5 +31,3 @@
             = link_to 'map', artist.map_link
             )
       .city #{artist.artist_info.city}
-  
-  

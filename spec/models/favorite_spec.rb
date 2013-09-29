@@ -6,8 +6,8 @@ describe Favorite, 'named scopes' do
     u1 = users(:maufan1)
     u2 = users(:jesseponce)
     u3 = users(:annafizyta)
-    
-    ArtPiece.any_instance.stubs(:artist => stub(:id => 42, :emailsettings => {'favorites' => false}))
+
+    ArtPiece.any_instance.stub(:artist => double(Artist, :id => 42, :emailsettings => {'favorites' => false}))
     u1.add_favorite ArtPiece.first
     u1.add_favorite users(:artist1)
     u1.add_favorite u2
@@ -15,7 +15,7 @@ describe Favorite, 'named scopes' do
     u2.add_favorite users(:artist1)
     u3.add_favorite ArtPiece.last
   end
-  it "users finds only users or artists" do 
+  it "users finds only users or artists" do
     Favorite.users.count.should > 0
     Favorite.users.all.each do |f|
       ['Artist','User'].should include f.favoritable_type

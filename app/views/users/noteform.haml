@@ -4,7 +4,7 @@
       Send #{@artist.get_name} a note
 
     .popup-text
-      - form_tag '/users/' + @artist.id.to_s + '/notify', :id => 'note_form', :method => :put do
+      = form_tag '/users/' + @artist.id.to_s + '/notify', :id => 'note_form', :method => :put do
         .fdbk-form
           - unless @error_message.blank? 
             .error-msg #{@error_message}

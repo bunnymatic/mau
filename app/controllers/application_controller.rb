@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
   protected
   def rescue_optional_error_file(status_code)
     status = interpret_status(status_code)
-    render :template => "/error/#{status[0,3]}.html.erb", :status => status, :layout => 'mau'
+    render :template => "/error/#{status[0,3]}", :status => status, :layout => 'mau'
   end
 
   protected
@@ -143,8 +143,6 @@ class ApplicationController < ActionController::Base
   def check_browser
     params[:format] = 'mobile' if is_mobile?
     @show_return_to_mobile = (!is_mobile? && is_mobile_device?)
-    #logger.info("Mobile? %s (device %s)" % [@_ismobile, @_mobile_device_name])
-    #puts "Mobile? %s (device %s) %s" % [@_ismobile, @_mobile_device_name, params.inspect]
 
     @browser_as_class = browser.name.downcase.gsub(' ', '_') #_class(self.request)
 
@@ -162,8 +160,8 @@ class ApplicationController < ActionController::Base
     logger.warn(exception)
     @exception = exception
     respond_to do |fmt|
-      fmt.html { render :status => :not_found, :template => "/error/index.html.erb", :status => 404 }
-      fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 404 }
+      fmt.html { render :template => "/error/index", :status => 404 }
+      fmt.mobile { render :layout => 'mobile', :template => '/error/index', :status => 404 }
     end
   end
 
@@ -171,8 +169,8 @@ class ApplicationController < ActionController::Base
     logger.error(exception)
     @exception = exception
     respond_to do |fmt|
-      fmt.html { render :layout => 'mau2col', :template => "/error/index.html.erb", :status => 500}
-      fmt.mobile { render :layout => 'mobile', :template => '/error/index.mobile.haml', :status => 500}
+      fmt.html { render :layout => 'mau2col', :template => "/error/index", :status => 500}
+      fmt.mobile { render :layout => 'mobile', :template => '/error/index', :status => 500}
     end
   end
 
@@ -191,9 +189,7 @@ class ApplicationController < ActionController::Base
       headers["Content-Type"] ||= 'text/csv'
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
     end
-    p 'headers', headers
     render :text => Proc.new { |response, output|
-      p response.headers
       #monkey patch /duck typing. 2.3 rails ActionController::Response doesn't have <<, only write
       def output.<<(*args)
         write(*args)

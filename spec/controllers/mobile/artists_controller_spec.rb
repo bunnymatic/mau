@@ -1,9 +1,8 @@
 require 'spec_helper'
-require File.expand_path(File.dirname(__FILE__) + '/../../mobile_shared_spec')
 
 describe ArtistsController do
 
-  integrate_views
+  render_views
 
   fixtures :users, :roles_users
   fixtures :media, :art_pieces_tags, :art_piece_tags

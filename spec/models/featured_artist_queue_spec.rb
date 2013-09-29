@@ -3,8 +3,8 @@ require 'spec_helper'
 describe FeaturedArtistQueue do
   fixtures :users
   before do
-    # simulate migration 
-    ActiveRecord::Base.transaction do 
+    # simulate migration
+    ActiveRecord::Base.transaction do
       sql = "delete from featured_artist_queue"
       ActiveRecord::Base.connection.execute sql
       sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
@@ -19,8 +19,8 @@ describe FeaturedArtistQueue do
     it "calling it multiple times only invokes next_entry once" do
       # let it be called once, which will trigger the update, then it shouldn't be called again
       FeaturedArtistQueue.current_entry
-      FeaturedArtistQueue.expects(:next_entry).never
-      FeaturedArtistQueue.current_entry.should == FeaturedArtistQueue.current_entry
+      FeaturedArtistQueue.should_receive(:next_entry).never
+      FeaturedArtistQueue.current_entry.should eql FeaturedArtistQueue.current_entry
     end
   end
 
@@ -32,18 +32,20 @@ describe FeaturedArtistQueue do
       @a.should be_a_kind_of(Artist)
     end
     it "returns the artist with the first position" do
-      @a.id.should == FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }.first.artist_id
+      @a.id.should eql FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }.first.artist_id
     end
     it "marks the entry as featured with todays date" do
       FeaturedArtistQueue.find_by_artist_id(@a.id).featured.should_not be_nil
     end
     it "calling it again within a week gives you the same artist" do
-      FeaturedArtistQueue.next_entry.artist_id.should == @a.id
+      FeaturedArtistQueue.next_entry.artist_id.should eql @a.id
     end
     it "calling it after a week should give you the next artist" do
-      Time.stubs(:now => Time.zone.now() + 2.weeks)
+      t = Time.zone.now + 2.weeks
+      Time.stub(:now => t)
+      Time.zone.stub(:now => t)
       a = FeaturedArtistQueue.next_entry.artist
-      a.id.should == FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }[1].artist_id
+      a.id.should eql FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }[1].artist_id
     end
     describe "after everyone has been featured" do
       before do
@@ -52,7 +54,7 @@ describe FeaturedArtistQueue do
         FeaturedArtistQueue.next_entry
       end
       it "it unfeatures everyone and starts over" do
-        FeaturedArtistQueue.featured.count.should == 1
+        FeaturedArtistQueue.featured.count.should eql 1
       end
     end
   end
@@ -66,8 +68,8 @@ describe FeaturedArtistQueue do
 
   describe 'named scopes' do
     before do
-      FeaturedArtistQueue.all.each_with_index do |fa, idx| 
-        if (idx % 2) == 0 
+      FeaturedArtistQueue.all.each_with_index do |fa, idx|
+        if (idx % 2) == 0
           fa.featured = Time.zone.now - idx.weeks - 1.day
           fa.save!
         end
@@ -76,7 +78,7 @@ describe FeaturedArtistQueue do
     end
     describe "#featured" do
       it "only returns entrys where featured is not nil" do
-        FeaturedArtistQueue.featured.any?{|fa| fa.featured == nil}.should be_false      
+        FeaturedArtistQueue.featured.any?{|fa| fa.featured == nil}.should be_false
       end
     end
     describe "#not_yet_featured" do
@@ -86,7 +88,7 @@ describe FeaturedArtistQueue do
     end
     describe "default scope" do
       it "returns items ordered by position" do
-        FeaturedArtistQueue.all.map(&:position).should == FeaturedArtistQueue.all.sort{|a,b| a.position <=> b.position}.map(&:position)
+        FeaturedArtistQueue.all.map(&:position).should eql FeaturedArtistQueue.all.sort{|a,b| a.position <=> b.position}.map(&:position)
       end
     end
   end

@@ -2,28 +2,21 @@
   %a{:href => '/main/openstudios'}
     %img{:title => 'Art is the Mission', :src => "/images/mau-nextos.png" }
 
-:ruby
-  if current_user
-    path = edit_artist_path(current_user) + "#events"
-  else
-    path = login_path  
-  end
+  - path = current_user ? (edit_artist_path(current_user) + "#events") : login_path
+
 =#%a{:title => "Signup for Spring Open Studios Now!", :href => path}
 =#  .action_button.sprite.spring_os_signup
-- expiry = Time.utc(2012,3,14)
-- if (expiry > Time.zone.now.utc)
-  %a{:title => "Enter your work in the Spring Open Studios Directory Show!", :href => '/wizards/mau042012'}
-    .action_button.sprite.call_for_entries
+
 %a{:title => "Tell us about your upcoming art show!", :href => new_event_path}
   .action_button.sprite.list_your_show
 
 = render :partial => '/art_pieces/new_art'
-= render :partial => '/feeds/feed' 
+= render :partial => '/feeds/feed'
 
 .buttons
   %a{:title => "Get on the mailing list to hear all about MAU Events and Open Studios.", :href => '/contact'}
     .action_button.sprite.mailing_list
-  %a{:title => "Volunteer, shop, send us your feedback, donate, participate...", :href => getinvolved_path }
+      %a{:title => "Volunteer, shop, send us your feedback, donate, participate...", :href => "/getinvolved"}
     .action_button.sprite.get_involved
 
 = render :partial => '/common/social_links' unless @is_homepage

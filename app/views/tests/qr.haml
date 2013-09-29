@@ -3,7 +3,7 @@
 
   .inputs
     %h3 Input
-    - form_tag do
+    = form_tag do
       .entry
         %label{:for => 'string_to_encode'} Words:
         %input{:id => 'string_to_encode', :name => 'string_to_encode', :value => @string_to_encode}

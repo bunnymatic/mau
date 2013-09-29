@@ -26,9 +26,9 @@ describe UsersController do
   before do
     ####
     # stub mailchimp calls
-    User.any_instance.stubs(:mailchimp_list_subscribe)
-    Artist.any_instance.stubs(:mailchimp_list_subscribe)
-    MAUFan.any_instance.stubs(:mailchimp_list_subscribe)
+    User.any_instance.stub(:mailchimp_list_subscribe)
+    Artist.any_instance.stub(:mailchimp_list_subscribe)
+    MAUFan.any_instance.stub(:mailchimp_list_subscribe)
   end
 
   it "actions should fail if not logged in" do
@@ -39,13 +39,13 @@ describe UsersController do
                                                     :except => exceptions)
   end
   describe "#new" do
-    integrate_views
+    render_views
 
     context 'with no type' do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stubs(:sweep)}
+        @controller.instance_eval{flash.stub(:sweep)}
         get :new
       end
       it_should_behave_like 'common signup form'
@@ -61,7 +61,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stubs(:sweep)}
+        @controller.instance_eval{flash.stub(:sweep)}
         get :new, :type => 'Artist'
       end
       it_should_behave_like 'common signup form'
@@ -77,7 +77,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stubs(:sweep)}
+        @controller.instance_eval{flash.stub(:sweep)}
         get :new, :type => 'MAUFan'
       end
       it_should_behave_like 'common signup form'
@@ -113,8 +113,8 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stubs(:sweep)}
-        @controller.expects(:verify_recaptcha).returns(true)
+        @controller.instance_eval{flash.stub(:sweep)}
+        @controller.should_receive(:verify_recaptcha).returns(true)
       end
       it 'forbids email whose domain is on the blacklist' do
         expect {
@@ -139,8 +139,8 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stubs(:sweep)}
-        @controller.expects(:verify_recaptcha).returns(false)
+        @controller.instance_eval{flash.stub(:sweep)}
+        @controller.should_receive(:verify_recaptcha).returns(false)
         post :create, :mau_fan => { :login => 'newuser',
           :password_confirmation => "blurpit", 
           :lastname => "bmatic2", 
@@ -161,7 +161,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stubs(:sweep)}
+        @controller.instance_eval{flash.stub(:sweep)}
       end
       context "login = 'newuser'" do
         before do
@@ -179,9 +179,9 @@ describe UsersController do
     end
     context "valid user params and type = MAUFan" do
       before do
-        MAUFan.any_instance.expects(:make_activation_code).at_least(1)
-        MAUFan.any_instance.expects(:subscribe_and_welcome)
-        UserMailer.expects(:deliver_activation).once
+        MAUFan.any_instance.should_receive(:make_activation_code).at_least(1).times
+        MAUFan.any_instance.should_receive(:subscribe_and_welcome)
+        UserMailer.should_receive(:activation).exactly(:once)
         post :create, :mau_fan => { :login => 'newuser',
           :password_confirmation => "blurpit", 
           :lastname => "bmatic2", 
@@ -221,7 +221,7 @@ describe UsersController do
     end
     context "valid user param (email/password only) and type = MAUFan" do
       before do
-        MAUFan.any_instance.expects(:subscribe_and_welcome)
+        MAUFan.any_instance.should_receive(:subscribe_and_welcome)
         post :create, :mau_fan => { 
           :password_confirmation => "blurpit", 
           :password => "blurpit", 
@@ -260,8 +260,8 @@ describe UsersController do
     end
     context "valid artist params and type = Artist" do
       before do
-        Artist.any_instance.expects(:make_activation_code).at_least(1)
-        MAUFan.any_instance.expects(:subscribe_and_welcome).never
+        Artist.any_instance.should_receive(:make_activation_code).at_least(1)
+        MAUFan.any_instance.should_receive(:subscribe_and_welcome).never
         post :create, :artist => { :login => 'newuser2',
           :password_confirmation => "blurpt", 
           :lastname => "bmatic", 
@@ -299,7 +299,7 @@ describe UsersController do
   end
 
   describe "#show" do
-    integrate_views
+    render_views
     before do
       @a = users(:artist1)
       @u = users(:maufan1)
@@ -353,7 +353,7 @@ describe UsersController do
       @u.save!
     end
     context "while not logged in" do
-      integrate_views
+      render_views
       before do 
         get :edit
       end
@@ -372,7 +372,7 @@ describe UsersController do
       end
     end
     context "while logged in as an user" do
-      integrate_views
+      render_views
       before do
         login_as(@u)
         get :edit
@@ -471,7 +471,7 @@ describe UsersController do
   end
 
   describe "favorites" do
-    integrate_views
+    render_views
     context "show" do
       context "while not logged in" do
         before do
@@ -487,7 +487,7 @@ describe UsersController do
       end
       context "while logged in as fan with no favorites" do
         before do
-          ArtPiece.any_instance.stubs(:artist).returns(Artist.new(:login => 'blow'))
+          ArtPiece.any_instance.stub(:artist =>Artist.new(:login => 'blow'))
           @u = users(:maufan1)
           login_as(@u)
           get :favorites, :id => @u.id
@@ -521,7 +521,7 @@ describe UsersController do
       end
       context "while logged in as artist " do
         before do
-          ArtPiece.any_instance.stubs(:artist).returns(Artist.new(:login => 'blurp'))
+          ArtPiece.any_instance.stub(:artist => Artist.new(:login => 'blurp'))
           @a = users(:artist1)
           login_as(@a)
         end
@@ -531,8 +531,8 @@ describe UsersController do
         end
         context "who has favorites" do
           before do
-            User.any_instance.stubs(:get_profile_path).returns("/this")
-            ArtPiece.any_instance.stubs(:get_path).with('small').returns("/this")
+            User.any_instance.stub(:get_profile_path => "/this")
+            ArtPiece.any_instance.stub(:get_path).with('small').returns("/this")
             ap = art_pieces(:hot)
             ap.artist_id = users(:joeblogs)
             ap.save!
@@ -574,8 +574,8 @@ describe UsersController do
       end
       context "logged in as user looking at artist who has favorites " do
         before do 
-          User.any_instance.stubs(:get_profile_path).returns("/this")
-          ArtPiece.any_instance.stubs(:get_path).with('small').returns("/this")
+          User.any_instance.stub(:get_profile_path => "/this")
+          ArtPiece.any_instance.stub(:get_path).with('small').returns("/this")
           a = users(:artist1)
           aa = users(:joeblogs)
           ap = art_pieces(:hot)
@@ -685,9 +685,7 @@ describe UsersController do
               favs = u.favorites
               favs.map { |f| f.favoritable_id }.should include @ap.id
             end
-            it "returns json data" do
-              response_should_be_json
-            end
+            it { response.should be_json }
           end
           context "as standard POST" do
             before do
@@ -735,9 +733,9 @@ describe UsersController do
 
   describe "#reset" do
     context "get" do
-      integrate_views
+      render_views
       before do
-        User.expects(:find_by_reset_code).returns(users(:artfan))
+        User.should_receive(:find_by_reset_code).returns(users(:artfan))
         u = users(:artfan)
         u.reset_code = 'abc'
         u.save
@@ -754,10 +752,10 @@ describe UsersController do
       end
     end
     context "post" do
-      integrate_views
+      render_views
       context "with passwords that don't match" do
         before do
-          User.expects(:find_by_reset_code).with('abc').returns(users(:artfan))
+          User.should_receive(:find_by_reset_code).with('abc').returns(users(:artfan))
           post :reset, { :user => { :password => 'whatever', 
               :password_confirmation => 'whatev' } ,
               :reset_code => 'abc' }
@@ -777,8 +775,8 @@ describe UsersController do
       end
       context "with matching passwords" do
         before do
-          User.expects(:find_by_reset_code).with('abc').returns(users(:artfan))
-          MAUFan.any_instance.expects(:delete_reset_code).once
+          User.should_receive(:find_by_reset_code).with('abc').returns(users(:artfan))
+          MAUFan.any_instance.should_receive(:delete_reset_code).exactly(:once)
           post :reset, { :user => { :password => 'whatever', 
               :password_confirmation => 'whatever' },
               :reset_code => 'abc' }
@@ -794,7 +792,7 @@ describe UsersController do
   end
 
   describe "resend_activation" do
-    integrate_views
+    render_views
     before do
       get :resend_activation
     end
@@ -809,7 +807,7 @@ describe UsersController do
     
     context "post with email that's not in the system" do
       before do 
-        User.expects(:find_by_email).returns(nil)
+        User.should_receive(:find_by_email).returns(nil)
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
@@ -821,7 +819,7 @@ describe UsersController do
     end
     context "post with email that is for a fan" do
       before do 
-        User.expects(:find_by_email).returns(users(:artfan))
+        User.should_receive(:find_by_email).returns(users(:artfan))
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
@@ -833,7 +831,7 @@ describe UsersController do
     end
     context "post with email that is for an artist" do
       before do 
-        User.expects(:find_by_email).returns(users(:quentin))
+        User.should_receive(:find_by_email).returns(users(:quentin))
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
@@ -856,11 +854,11 @@ describe UsersController do
     
     context "post a fan email" do
       it "looks up user by email" do
-        User.expects(:find_by_email).with(users(:artfan).email).times(1)
+        User.should_receive(:find_by_email).with(users(:artfan).email).times(1)
         post :forgot, :user => { :email => users(:artfan).email }
       end
       it "calls create_reset_code" do
-        MAUFan.any_instance.expects(:create_reset_code).times(1)
+        MAUFan.any_instance.should_receive(:create_reset_code).times(1)
         post :forgot, :user => { :email => users(:artfan).email }
       end
       it "redirects to login" do
@@ -879,9 +877,9 @@ describe UsersController do
     end
     describe 'with valid activation code' do
       before do
-        MAUFan.any_instance.stubs(:recently_activated?).returns(true)
-        MAUFan.any_instance.stubs(:mailchimp_subscribed_at).returns(true)
-        MAUFan.any_instance.expects('activate!')
+        MAUFan.any_instance.stub(:recently_activated? => true)
+        MAUFan.any_instance.stub(:mailchimp_subscribed_at => true)
+        MAUFan.any_instance.should_receive('activate!')
       end
       it 'redirects to login' do
         get :activate, :activation_code => users(:pending).activation_code
@@ -909,8 +907,8 @@ describe UsersController do
         User.all.map{|u| u.activation_code}.select{|u| u.present?}.count.should > 0
       end
       it 'does not send email' do
-        ArtistMailer.expects(:deliver_activation).never
-        UserMailer.expects(:deliver_activation).never
+        ArtistMailer.should_receive(:activation).never
+        UserMailer.should_receive(:activation).never
         get :activate, :activation_code => 'blah'
       end
     end
@@ -949,7 +947,7 @@ describe UsersController do
         :name => "whos there",
         :page => users_path(users(:jesseponce))
       }
-      ArtistMailer.expects(:deliver_notify)
+      ArtistMailer.should_receive(:notify)
       post :notify,  notify_data
       response.should be_success
     end
@@ -962,8 +960,8 @@ describe UsersController do
         :i_love_honey => 'yummy',
         :page => users_path(users(:jesseponce))
       }
-      ArtistMailer.expects(:deliver_notify).never
-      AdminMailer.expects(:deliver_spammer)
+      ArtistMailer.should_receive(:notify).never
+      AdminMailer.should_receive(:spammer)
       post :notify, notify_data
       response.should be_success
     end
@@ -976,8 +974,8 @@ describe UsersController do
         :name => "whos there",
         :page => users_path(users(:jesseponce))
       }
-      ArtistMailer.expects(:deliver_notify).never
-      AdminMailer.expects(:deliver_spammer)
+      ArtistMailer.should_receive(:notify).never
+      AdminMailer.should_receive(:spammer)
       post :notify, notify_data
       response.should be_success
     end
@@ -990,8 +988,8 @@ describe UsersController do
         :name => "whos there",
         :page => users_path(users(:jesseponce))
       }
-      ArtistMailer.expects(:deliver_notify).never
-      AdminMailer.expects(:deliver_spammer)
+      ArtistMailer.should_receive(:notify).never
+      AdminMailer.should_receive(:spammer)
       post :notify, notify_data
       response.should be_success
     end
@@ -1004,8 +1002,8 @@ describe UsersController do
         :name => "whos there",
         :page => users_path(users(:jesseponce))
       }
-      ArtistMailer.expects(:deliver_notify).never
-      AdminMailer.expects(:deliver_spammer)
+      ArtistMailer.should_receive(:notify).never
+      AdminMailer.should_receive(:spammer)
       post :notify, notify_data
       response.should be_success
     end

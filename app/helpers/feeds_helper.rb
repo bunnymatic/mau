@@ -1,4 +1,4 @@
-require 'lib/twitter'
+
 NUM_POSTS = 3
 DESCRIPTION_LENGTH = 600
 TITLE_LENGTH = 140

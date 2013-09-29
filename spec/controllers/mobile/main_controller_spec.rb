@@ -1,9 +1,8 @@
 require 'spec_helper'
-require 'mobile_shared_spec'
 
 describe MainController do
 
-  integrate_views
+  render_views
   fixtures :users, :artist_infos, :cms_documents, :studios
   before do
     # do mobile
@@ -75,7 +74,7 @@ EOM
     end
   end
   describe "#news" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :resources

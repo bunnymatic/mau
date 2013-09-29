@@ -15,7 +15,7 @@
     <%= form_for :user, current_user, 
        :url => { :action => "update" }, 
        :html => { :method => :put } do |f| -%>
-    <%= f.error_messages %>
+    <%= f.errors.full_messages %>
 
     <%= render :partial => "/users/edit_basic_info", :locals => {:f => f} %>
 

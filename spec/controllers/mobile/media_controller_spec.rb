@@ -1,9 +1,8 @@
 require 'spec_helper'
-require 'mobile_shared_spec'
 
 describe MediaController do
 
-  integrate_views
+  render_views
   
   fixtures :media
   fixtures :art_pieces
@@ -15,7 +14,7 @@ describe MediaController do
 
     request.stubs(:user_agent).returns(IPHONE_USER_AGENT)
     
-    Rails.cache.stubs(:read).returns(nil)
+    Rails.cache.stub(:read => nil)
 
     # media don't exist in a vaccuum
     aps = []

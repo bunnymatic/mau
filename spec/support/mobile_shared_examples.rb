@@ -1,6 +1,6 @@
 IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; U; XXXXX like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A477c Safari/419.3' unless defined? IPHONE_USER_AGENT
 
-describe 'a regular mobile page', :shared => true do
+shared_examples_for 'a regular mobile page' do
   it "includes the default header reading art is the mission" do
     response.should have_tag('[data-role=header]', :match => /art is the mission/i)
   end
@@ -16,7 +16,7 @@ describe 'a regular mobile page', :shared => true do
   end
 end
 
-describe 'non-welcome mobile page', :shared => true do
+shared_examples_for 'non-welcome mobile page' do
   it "uses the mobile layout" do
     response.layout.should == 'layouts/mobile'
   end

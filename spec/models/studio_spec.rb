@@ -17,12 +17,12 @@ end
 
 
 describe Studio do
-  
+
   include StudioSpecHelper
 
   fixtures :studios, :users, :artist_infos
 
-  describe 'address' do 
+  describe 'address' do
     it "responds to address" do
       (studios(:s1890).respond_to? :address).should be
     end
@@ -36,40 +36,42 @@ describe Studio do
 
   describe 'create' do
     before do
-      @s = Studio.new
-      @s.attributes = valid_studio_attributes
+      @s = Studio.new(valid_studio_attributes)
     end
     it "studio is valid" do
+      @s.should_receive(:compute_geocode).and_return([-37,122])
       @s.should be_valid
     end
     it "save triggers geocode" do
-      @s.expects(:compute_geocode).returns([-37,122])
-      @s.save
+      s = Studio.new(valid_studio_attributes)
+      s.should_receive(:compute_geocode).and_return([-37,122])
+      s.save!
     end
     it "validates phone number" do
-      @s.save
+      Studio.any_instance.stub(:compute_geocode => [-40,120])
+      @s.save!
       @s.reload
       @s.phone.should == '4151234154'
     end
   end
 
-  describe 'update' do 
+  describe 'update' do
     it "triggers geocode given new street" do
-      
       s = studios(:s1890)
       s.street = '1891 Bryant St'
-      s.expects(:compute_geocode).returns([-37,122])
+      s.should_receive(:compute_geocode).and_return([-37,122])
       s.save!
     end
   end
-  
+
   describe 'formatted_phone' do
     it "returns nicely formatted phone #" do
-      Studio.any_instance.expects(:phone).returns('4156171234')
-      studios(:s1890).formatted_phone.should == '(415) 617-1234'
+      s = studios(:s1890)
+      s.should_receive(:phone).and_return('4156171234')
+      studios(:s1890).formatted_phone.should eql '(415) 617-1234'
     end
   end
-  
+
   describe 'to_json' do
     [:created_at, :updated_at].each do |field|
       it "does not include #{field} by default" do
@@ -77,7 +79,7 @@ describe Studio do
       end
     end
     it "includes name" do
-      JSON.parse(studios(:s1890).to_json)['studio']['name'].should == studios(:s1890).name
+      JSON.parse(studios(:s1890).to_json)['studio']['name'].should eql studios(:s1890).name
     end
     it 'includes created_at if we except other fields' do
       s = JSON.parse(studios(:s1890).to_json(:except => :name))
@@ -89,7 +91,7 @@ describe Studio do
       assert !studio.nil?, 'You need to fix your fixtures so at least 1 studio has at least 1 artist'
       s = JSON.parse(studio.to_json(:methods => 'artists'))
       s['studio']['artists'].should be_a_kind_of Array
-      s['studio']['artists'][0]['artist']['firstname'].should == studio.artists.first.firstname
+      s['studio']['artists'][0]['artist']['firstname'].should eql studio.artists.first.firstname
     end
   end
 end

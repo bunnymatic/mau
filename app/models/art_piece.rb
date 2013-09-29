@@ -3,11 +3,12 @@ require 'htmlhelper'
 class ArtPiece < ActiveRecord::Base
   belongs_to :artist
   has_many :art_pieces_tags
-  has_many :art_piece_tags, :through => :art_pieces_tags
+  has_many :art_piece_tags, :through => :art_pieces_tags, :dependent => :destroy
 
   include ImageDimensions
 
   before_destroy :remove_images
+  after_destroy :clear_tags_and_favorites
   after_save :remove_old_art
   after_save :clear_caches
   default_scope order('`order`')
@@ -58,13 +59,9 @@ class ArtPiece < ActiveRecord::Base
     art_piece_tags << TagsHelper.tags_from_s(tag_string)
   end
 
-  def destroy
-    id = self.id
+  def clear_tags_and_favorites
     klassname = self.class.name
-    super
-    # remove all tag entries from ArtPiecesTags
-    ArtPiecesTag.where(:art_piece_id => id).map(&:destroy)
-    Favorite.where(:favoritable_id => id, :favoritable_type => klassname).map(&:destroy)
+    Favorite.where(:favoritable_id => id, :favoritable_type => klassname).compact.map(&:destroy)
   end
 
   def get_paths()
@@ -92,15 +89,15 @@ class ArtPiece < ActiveRecord::Base
     prefix + (artpiece_path || '')
   end
 
-  def self.all
-    super("artist_id in (select id from users where state = 'active' and type='Artist')")
+  def self.owned
+    where("artist_id in (select id from users where state = 'active' and type='Artist')")
   end
 
   def self.get_new_art
     cache_key = NEW_ART_CACHE_KEY
     new_art = Rails.cache.read(cache_key)
     unless new_art
-      new_art = ArtPiece.where('artist_id is not null && artist_id > 0').limit(12).order('created_at desc')
+      new_art = ArtPiece.where('artist_id is not null && artist_id > 0').limit(12).order('created_at desc').all
       Rails.cache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
     end
     new_art || []

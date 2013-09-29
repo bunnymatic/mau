@@ -4,7 +4,7 @@ describe ArtistMailer do
   fixtures(:users)
   describe "email for a new member" do
     before do
-      @mail = ArtistMailer.create_activation(users(:artist1))
+      @mail = ArtistMailer.activation(users(:artist1))
     end
     it "works" do
       @mail.body.should include "Your account has been activated."
@@ -13,7 +13,7 @@ describe ArtistMailer do
   end
   describe "activation mail for a new signup" do
     before do
-      @mail = ArtistMailer.create_signup_notification(users(:pending))
+      @mail = ArtistMailer.signup_notification(users(:pending))
     end
     it "includes an activation code" do
       @mail.body.should match /activate\/\S+/
@@ -21,7 +21,7 @@ describe ArtistMailer do
   end
   describe "activation mail for a new signup" do
     before do
-      @mail = ArtistMailer.create_favorite_notification(users(:artist1), users(:artfan))
+      @mail = ArtistMailer.favorite_notification(users(:artist1), users(:artfan))
     end
     it "includes an edit link" do
       @mail.body.should match /http.*edit/
@@ -38,7 +38,7 @@ describe ArtistMailer do
   end
   describe "notify a featured artist" do
     before do
-      @mail = ArtistMailer.create_notify_featured(users(:artist1))
+      @mail = ArtistMailer.notify_featured(users(:artist1))
     end
     it 'includes a link to facebook' do
       @mail.body.should match /facebook.com\/MissionArtists/

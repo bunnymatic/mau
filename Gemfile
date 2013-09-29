@@ -12,10 +12,8 @@ gem 'activerecord-mysql2-adapter'
 gem "haml"
 gem "sass"
 gem 'mojo_magick'
-#gem 'passenger', '3.0.12'
 gem 'dalli'
 gem 'memcache-client'
-#gem 'has_many_polymorphs', :git => 'git://github.com/jystewart/has_many_polymorphs.git' # rails3 compatible fork
 gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
@@ -35,7 +33,9 @@ gem 'momentarily'
 gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'will_paginate' #, '~> 2.3.16'
-#gem 'browser'
+gem 'browser', "= 0.1.6" # 0.2.x does not support ruby 1.8.7
+gem 'geokit'
+gem 'geokit-rails'
 #gem 'rails_xss' # get us closer to Rails3 behavior by auto html escaping
 #gem 'erubis' # for rails_xss
 
@@ -55,15 +55,17 @@ end
 group :test, :development do
   gem 'guard-coffeescript'
   gem 'guard-rspec', '~> 1.2.0'  # 1.2.x is order rspec compatible
-  gem 'mocha' #,'0.9.10'
   gem 'rspec' #,'1.3.1'
   gem 'rspec-rails' #,'1.3.4'
   gem 'faker'
   gem 'jslint_on_rails'
   gem 'fakeweb'
+  gem 'factory_girl', '~> 2.0.x'
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
   gem 'pry'
+  gem 'ruby-debug'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
+  gem "rcov_rails"
   # gem 'rails-upgrade'
 end

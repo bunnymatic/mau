@@ -13,7 +13,7 @@ describe CmsDocumentsController do
   end
 
   context 'authorized' do
-    integrate_views
+    render_views
     before do
       login_as :admin
     end

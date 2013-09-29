@@ -8,11 +8,11 @@ end
 class TwitterChannel
   attr_accessor :title
 end
-class TwitterFeed 
+class TwitterFeed
   attr_accessor :channel
   attr_accessor :items
   def initialize(json=nil)
-    if json 
+    if json
       twitter_data = JSON.parse(json)
       twitter_data.each do |tweet|
         self.channel = TwitterChannel.new

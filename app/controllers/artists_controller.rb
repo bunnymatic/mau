@@ -449,7 +449,6 @@ class ArtistsController < ApplicationController
   end
 
   def update
-    params.symbolize_keys!
     if request.xhr?
       if params.has_key?(:artist_os_participation)
         participating = (params[:artist_os_participation].to_i != 0)

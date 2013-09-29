@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ApplicationEvent do
   fixtures :application_events
-  
+
   it 'serializes the data field' do
     ApplicationEvent.all.any?{|ae| ae.data}.should be_true, 'you need some application events with data in your fixtures'
     ApplicationEvent.all.select{|ae| ae.data}.each do |ae|
@@ -15,7 +15,7 @@ describe ApplicationEvent do
   end
 
   it 'sends events to subscribers after save' do
-    Messager.any_instance.expects(:publish)
+    Messager.any_instance.should_receive(:publish)
     OpenStudiosSignupEvent.create(:message => 'this is a new open studios event')
   end
 end

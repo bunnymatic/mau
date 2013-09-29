@@ -1,8 +1,6 @@
 %h1 Add/Edit an Artist Feed
 = form_for(@feed) do |f|
-  - if f.error_messages.present?
-    .error-msg 
-      = f.error_messages
+  = render 'common/form_errors', :form => f
   .clear
     .section
       .entry
@@ -13,7 +11,7 @@
         = f.label :feed
         = f.text_field :feed
         .help Should start with http://
-      .entry 
+      .entry
         = f.label :active
         = f.check_box :active
     .clear
@@ -31,14 +29,14 @@
           .feed
             %code
               feed: http://twitter.com/statuses/user_timeline/62131363.json
-          .url          
+          .url
             %code
-              url: http://twitter.com/sfmau 
+              url: http://twitter.com/sfmau
         %li.odd
-          .feed 
+          .feed
             %code
               feed: http://studiomorin.blogspot.com/feeds/posts/default?alt=rss
-          .url          
+          .url
             %code
               url: http://studiomorin.blogspot.com/
     .clear

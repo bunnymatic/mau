@@ -30,7 +30,7 @@ describe EmailListsController do
   end
   
   describe '#index' do
-    integrate_views
+    render_views
     before do
       login_as :admin
     end

@@ -1,12 +1,11 @@
 require 'spec_helper'
-require 'mobile_shared_spec'
 
 describe StudiosController do
 
   fixtures :studios
   fixtures :users
 
-  integrate_views
+  render_views
 
   before do
     # do mobile

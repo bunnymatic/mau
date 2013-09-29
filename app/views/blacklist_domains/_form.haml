@@ -1,5 +1,5 @@
 = form_for(@domain) do |f|
-  = f.error_messages
+  = render '/common/form_errors', :form => f
 
   %p
     = f.label :domain

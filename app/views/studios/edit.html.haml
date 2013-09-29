@@ -4,7 +4,7 @@
   .info.block
     %h3 Address/Info
     = form_for(@studio) do |f|
-      = f.error_messages
+      = render '/common/form_errors', :form => f
 
       - [:name, :street, :cross_street, :city, :state, :zip, :phone, :url].each do |textfield|
         %p

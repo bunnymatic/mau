@@ -1,9 +1,8 @@
 require 'spec_helper'
-require 'mobile_shared_spec'
 
 describe EventsController do
 
-  integrate_views
+  render_views
 
   fixtures :users
   fixtures :artist_infos

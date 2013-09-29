@@ -8,7 +8,7 @@ describe StudiosController do
 
   describe "#index" do
     context "while not logged in" do
-      integrate_views
+      render_views
       before do
         get :index
       end
@@ -43,7 +43,7 @@ describe StudiosController do
       end
     end
     context "while logged in as an art fan" do
-      integrate_views
+      render_views
       before do
         u = users(:maufan1)
         login_as(users(:maufan1))
@@ -67,7 +67,7 @@ describe StudiosController do
 
   describe "#show keyed studios" do
 
-    integrate_views
+    render_views
 
     Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].each do |k,v|
       it "should return studio #{v} for key #{k}" do
@@ -78,7 +78,7 @@ describe StudiosController do
   end
 
   describe "#show" do
-    integrate_views
+    render_views
     describe 'individual studio' do
       describe 'html' do
         before do
@@ -209,7 +209,7 @@ describe StudiosController do
 
 
   describe 'edit' do
-    integrate_views
+    render_views
     [:manager, :admin].each do |user|
       context "as #{user}" do
         before do
@@ -311,7 +311,7 @@ describe StudiosController do
   end
 
   describe 'admin_index' do
-    integrate_views
+    render_views
     describe 'unauthorized' do
       before do
         get :admin_index

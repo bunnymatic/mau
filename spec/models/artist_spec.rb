@@ -16,7 +16,7 @@ describe Artist do
   include ArtistSpecHelper
   fixtures :users, :artist_infos, :studios, :art_pieces
   before do
-    Rails.cache.stubs(:read).returns(nil)
+    Rails.cache.stub(:read => nil)
   end
   describe "create" do
     describe 'auth helpers' do
@@ -63,8 +63,8 @@ describe Artist do
         a.should have_at_least(2).error_on(:login)
         a.should have(4).error_on(:email)
       end
-      
-      it "should be valid artist" do 
+
+      it "should be valid artist" do
         a = Artist.new
         a.attributes = valid_user_attributes
         a.should be_valid
@@ -76,7 +76,7 @@ describe Artist do
         a.should have(1).error_on(:password_confirmation)
       end
 
-      it "should be not allow 'reserved' names for users" do 
+      it "should be not allow 'reserved' names for users" do
         reserved = [ 'addprofile','delete','destroy','deleteart',
                      'deactivate','add','new','view','create','update']
 
@@ -88,8 +88,8 @@ describe Artist do
           a.should have_at_least(1).error_on(:login)
         end
       end
-      
-      it "should not allow 'bogus email' for email address" do 
+
+      it "should not allow 'bogus email' for email address" do
         a = Artist.new
         a.attributes = valid_user_attributes.except(:email)
         a.email = 'bogus email'
@@ -97,14 +97,14 @@ describe Artist do
         a.should have_at_least(1).error_on(:email)
       end
 
-      it "should not allow '   ' for email" do 
+      it "should not allow '   ' for email" do
         a = Artist.new
         a.attributes = valid_user_attributes.except(:email)
         a.email = '   '
         a.should_not be_valid
         a.should have_at_least(1).error_on(:email)
       end
-      it "should not allow blow@ for email" do 
+      it "should not allow blow@ for email" do
         a = Artist.new
         a.attributes = valid_user_attributes.except(:email)
         a.email = 'blow@'
@@ -115,25 +115,25 @@ describe Artist do
   end
 
   describe "update" do
-    before do 
-      @a = users(:artist1)
-    end
+    let(:this_artist) { users(:artist1) }
     it "should update bio" do
-      @a.bio = 'stuff'
-      @a.artist_info.save.should be_true
-      a = Artist.find(@a.id)
-      a.bio.should == 'stuff'
+      ArtistInfo.any_instance.should_receive(:compute_geocode).and_return([-40,122])
+
+      this_artist.bio = 'stuff'
+      this_artist.artist_info.save!
+      a = Artist.find(this_artist.id)
+      a.bio.should eql 'stuff'
     end
 
     it "should update email settings" do
-      attr_hash = JSON::parse(@a.email_attrs)
+      attr_hash = JSON::parse(this_artist.email_attrs)
       attr_hash['fromartist'].should eql(true)
       attr_hash['fromall'].should eql(true)
       attr_hash['favorites'] = false
-      @a.emailsettings = attr_hash
-      @a.save
-      @a.reload
-      attr_hash = @a.emailsettings
+      this_artist.emailsettings = attr_hash
+      this_artist.save
+      this_artist.reload
+      attr_hash = this_artist.emailsettings
       attr_hash['fromartist'].should eql(true)
       attr_hash['fromall'].should eql(true)
       attr_hash['favorites'].should eql(false)
@@ -149,7 +149,7 @@ describe Artist do
         u = users(:joeblogs)
         @address_methods.each do |method|
           u.send(method).should_not be_nil
-          u.send(method).should == u.artist_info.send(method)
+          u.send(method).should eql u.artist_info.send(method)
         end
       end
     end
@@ -158,7 +158,7 @@ describe Artist do
         a = users(:jesseponce)
         @address_methods.each do |method|
           a.send(method).should_not be_nil
-          a.send(method).should == a.studio.send(method)
+          a.send(method).should eql a.studio.send(method)
         end
       end
     end
@@ -168,7 +168,7 @@ describe Artist do
         hsh = users(:noaddress).send(:address_hash)
         hsh[:geocoded].should be_false
         hsh[:parsed][:street].should be_nil
-        hsh[:latlng].should == [nil,nil]
+        hsh[:latlng].should eql [nil,nil]
       end
     end
   end
@@ -228,7 +228,7 @@ describe Artist do
         @a = users(:wayout)
       end
       it "returns correct street" do
-        @a.artist_info.street.should == @a.street
+        @a.artist_info.street.should eql @a.street
       end
       it "returns correct address" do
         @a.address.should include @a.street
@@ -243,43 +243,43 @@ describe Artist do
         @a = users(:jesseponce)
       end
       it "returns correct street" do
-        @a.artist_info.street.should == @a.street
+        @a.artist_info.street.should eql @a.street
       end
       it "returns studio address" do
-        @a.address.should == @a.address
+        @a.address.should eql @a.address
       end
       it "returns correct artist info lat/lng" do
-        @a.artist_info.lat.should be_close(@a.lat, 0.001)
-        @a.artist_info.lng.should be_close(@a.lng, 0.001)
+        @a.artist_info.lat.should be_within(0.001).of(@a.lat)
+        @a.artist_info.lng.should be_within(0.001).of(@a.lng)
       end
     end
-  end    
+  end
   describe 'representative piece' do
     it 'is the first returned by art_pieces' do
       a = users(:artist1)
-      a.representative_piece.should == a.art_pieces[0]
-      a.representative_piece.should == a.representative_pieces(1)[0]
+      a.representative_piece.should eql a.art_pieces[0]
+      a.representative_piece.should eql a.representative_pieces(1)[0]
     end
     it 'calls Cache.write if Cache.read returns nil' do
       ap = ArtPiece.find_by_artist_id(users(:artist1).id)
       a = users(:artist1)
-      Rails.cache.stubs(:read).returns(nil)
-      Rails.cache.expects(:write).once
-      Artist.any_instance.stubs(:art_pieces).returns([ap])
-      a.representative_piece.should == ap
-    end    
+      Rails.cache.stub(:read => nil)
+      Rails.cache.should_receive(:write).once
+      a.stub(:art_pieces => [ap])
+      a.representative_piece.should eql ap
+    end
     it 'doesn\'t call Cache.write if Cache.read returns something' do
       a = users(:artist1)
-      Rails.cache.stubs(:read).returns(users(:artist1).art_pieces[0])
-      Rails.cache.expects(:write).never
+      Rails.cache.stub(:read => users(:artist1).art_pieces[0])
+      Rails.cache.should_receive(:write).never
       a.representative_piece
-    end    
+    end
     it 'doesn\'t call Cache.write if there are no art pieces' do
       a = users(:artist1)
-      Rails.cache.stubs(:read).returns(nil)
-      Rails.cache.expects(:write).never
-      Artist.any_instance.stubs(:art_pieces).returns([])
-      a.representative_piece.should == nil
+      Rails.cache.stub(:read => nil)
+      Rails.cache.should_receive(:write).never
+      a.stub(:art_pieces => [])
+      a.representative_piece.should eql nil
     end
   end
   describe 'representative pieces' do
@@ -289,12 +289,12 @@ describe Artist do
     end
     it 'is the list of art pieces' do
       a = users(:artist1)
-      a.representative_pieces(3).should == a.art_pieces[0..2]
+      a.representative_pieces(3).should eql a.art_pieces[0..2]
     end
     it 'returns only as many pieces as the artist has' do
       a = users(:artist1)
       assert(a.art_pieces.count <= 1000)
-      a.representative_pieces(1000).should == a.art_pieces
+      a.representative_pieces(1000).should eql a.art_pieces.all
     end
   end
   describe 'primary_medium' do
@@ -302,14 +302,14 @@ describe Artist do
     before do
       @a = users(:artist1)
       media_ids = Medium.find(:all, :order => :name).map(&:id)
-      8.times.each do |ct| 
+      8.times.each do |ct|
         idx = ((media_ids.count-1)/(ct+1)).to_i
         @a.art_pieces << ArtPiece.new(:title => 'abc', :medium_id => media_ids[idx])
       end
-      @a.save 
+      @a.save
     end
     it 'finds medium 1 as the most common' do
-      @a.primary_medium.should == media(:medium1)
+      @a.primary_medium.should eql media(:medium1)
     end
     it 'works with no media on artist' do
       lambda {users(:quentin).primary_medium}.should_not raise_error
@@ -317,7 +317,7 @@ describe Artist do
   end
 
   describe 'representative piece' do
-    before do 
+    before do
       Artist.all.map(&:art_pieces).flatten.count.should > 2
     end
     it 'is included in the users art pieces' do
@@ -336,20 +336,20 @@ describe Artist do
     end
     it 'is the same as the first piece from art_pieces' do
       a = users(:artist1)
-      a.representative_piece.should == a.art_pieces[0]
+      a.representative_piece.should eql a.art_pieces[0]
     end
   end
 
   describe 'to_json' do
-    [:password, :crypted_password, :remember_token, :remember_token_expires_at, 
-     :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at, 
+    [:password, :crypted_password, :remember_token, :remember_token_expires_at,
+     :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at,
      :max_pieces, :updated_at, :activation_code, :reset_code].each do |field|
       it "does not include #{field} by default" do
         JSON.parse(users(:annafizyta).to_json)['artist'].should_not have_key field.to_s
       end
     end
     it "includes firstname" do
-      JSON.parse(users(:annafizyta).to_json)['artist']['firstname'].should == users(:annafizyta).firstname
+      JSON.parse(users(:annafizyta).to_json)['artist']['firstname'].should eql users(:annafizyta).firstname
     end
     it 'includes created_at if we except other fields' do
       a = JSON.parse(users(:annafizyta).to_json(:except => :firstname))
@@ -364,11 +364,11 @@ describe Artist do
 
   describe 'qrcode' do
     it 'generates a qr code the first time' do
-      File.stubs(:exists? => false)
+      File.stub(:exists? => false)
       a = Artist.first
       outpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
       str = "http://#{Conf.site_url}/artists/#{a.id}?qrgen=auto"
-      Qr4r.expects(:encode).with(str, outpath, :border => 15, :pixel_size => 5)
+      Qr4r.should_receive(:encode).with(str, outpath, :border => 15, :pixel_size => 5)
       a.qrcode
     end
   end
@@ -378,7 +378,7 @@ describe Artist do
       expect{ Artist.tally_os }.to change(OpenStudiosTally, :count).by(1)
     end
     it 'only records 1 entry per day' do
-      expect{ 
+      expect{
         2.times { Artist.tally_os }
       }.to change(OpenStudiosTally, :count).by(1)
     end
@@ -405,11 +405,11 @@ describe Artist do
 
   describe 'default scope' do
     it "most recent art piece should be the representative" do
-      users(:artist1).representative_piece.title.should == "third"
+      users(:artist1).representative_piece.title.should eql "third"
     end
 
     it "returns art_pieces in created time order" do
-      users(:artist1).art_pieces.should == users(:artist1).art_pieces.sort_by(&:created_at).reverse
+      users(:artist1).art_pieces.should eql users(:artist1).art_pieces.sort_by(&:created_at).reverse
     end
   end
 

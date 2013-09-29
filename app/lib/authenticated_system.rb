@@ -91,7 +91,7 @@ module AuthenticatedSystem
       if request.post? || request.xhr?
         session[:return_to] = request.referrer
       else
-        session[:return_to] = request.request_uri
+        session[:return_to] = request.fullpath
       end
     end
 

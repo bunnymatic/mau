@@ -21,7 +21,7 @@
         = "been featured for about #{distance_of_time_in_words(@featured.featured, Time.zone.now)}"
 
 
-      - form_tag get_next_featured_path, :id => 'get_next_featured', :method => :post do
+      = form_tag get_next_featured_path, :id => 'get_next_featured', :method => :post do
         .override
         - if clz.present?
           %label{:for => 'override_date'} Override Date Restriction?

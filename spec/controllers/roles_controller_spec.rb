@@ -14,7 +14,7 @@ describe RolesController do
     end
   end
   describe 'authorized' do
-    integrate_views
+    render_views
     before do
       login_as :admin
     end

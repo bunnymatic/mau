@@ -27,7 +27,7 @@ describe SessionsController do
   end
   describe '#create' do
     context 'with invalid params' do
-      integrate_views
+      render_views
       before do
         post :create
       end

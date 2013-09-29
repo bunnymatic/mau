@@ -4,7 +4,7 @@
   %img{:src => @studio.get_profile_image('small') || '/images/default-profile-img.png'}
   .instructions Your profile image should be a JPEG, GIF or PNG file and must not be more than 200KB.
   .upload-form
-  - form_tag({:action => 'upload_profile'}, :multipart => true) do
+  = form_tag({:action => 'upload_profile'}, :multipart => true) do
     %p
       %label{:for => "upload_file"} Select File:
       = file_field 'upload', 'datafile'

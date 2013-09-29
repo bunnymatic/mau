@@ -4,7 +4,7 @@ describe CalendarController do
 
   fixtures :users, :studios, :artist_infos, :roles, :roles_users, :events
 
-  integrate_views
+  render_views
 
   describe 'index' do
     before do

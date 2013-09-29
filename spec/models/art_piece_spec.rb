@@ -35,8 +35,8 @@ describe ArtPiece do
   describe 'after save' do
     it 'clears representative image cache and new art cache on save' do
       ap = ArtPiece.first
-      Rails.cache.expects(:delete).with("%s%s" % [Artist::CACHE_KEY, ap.artist.id])
-      Rails.cache.expects(:delete).with(ArtPiece::NEW_ART_CACHE_KEY)
+      Rails.cache.should_receive(:delete).with("%s%s" % [Artist::CACHE_KEY, ap.artist.id])
+      Rails.cache.should_receive(:delete).with(ArtPiece::NEW_ART_CACHE_KEY)
       ap.title = Faker::Lorem.words(2).join(' ')
       ap.save
     end
@@ -59,9 +59,10 @@ describe ArtPiece do
 
   describe "get_new_art" do
     before do
-      Rails.cache.stubs(:read).returns(nil)
+      Rails.cache.stub(:read => nil)
       t = Time.zone.now
-      Time.stubs(:now).returns(t)
+      Time.stub(:now => t)
+      Time.zone.stub(:now => t)
     end
     it 'returns an array' do
       ArtPiece.get_new_art.should be_a_kind_of Array
@@ -76,7 +77,7 @@ describe ArtPiece do
     end
     context 'from cache' do
       before do
-        Rails.cache.stubs(:read).returns([ArtPiece.last])
+        Rails.cache.stub(:read => [ArtPiece.last])
       end
       it 'returns pulls from the cache if available' do
         ArtPiece.get_new_art.should == [ArtPiece.last]
@@ -105,9 +106,9 @@ describe ArtPiece do
 
   describe 'destroy' do
     it 'tries to delete the files associated with this art piece' do
-      File.stubs('exist?').returns(true)
+      File.stub('exist?' => true)
       ap = ArtPiece.first
-      File.expects(:delete).times(ap.get_paths.length)
+      File.should_receive(:delete).exactly(ap.get_paths.length).times
       ap.destroy
     end
   end

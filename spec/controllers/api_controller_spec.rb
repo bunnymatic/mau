@@ -3,13 +3,11 @@ require 'spec_helper'
 describe ApiController do
   fixtures :roles_users, :users, :artist_infos, :studios, :art_pieces, :media, :art_piece_tags
   before do
-    Rails.cache.stubs(:read).returns(nil)
+    Rails.cache.stub(:read => nil)
   end
 
   shared_examples_for 'all responses' do
-    it 'returns json' do
-      response.content_type.should == 'application/json'
-    end
+    it { response.should be_json }
   end
   shared_examples_for 'good responses' do
     it_should_behave_like 'all responses'
@@ -36,9 +34,9 @@ describe ApiController do
       resp['status'].to_s.should eql response.code
     end
   end
-      
+
   context 'bad requests' do
-    [nil, ['bogus'], ['bogus',1], ['a','b','c','d'],  ['artists','2','edit'], ['studios', Fixtures.identify(:blue),'destroy'], ['hash']].each do |params_path| 
+    [nil, ['bogus'], ['bogus',1], ['a','b','c','d'],  ['artists','2','edit'], ['studios', Fixtures.identify(:blue),'destroy'], ['hash']].each do |params_path|
       context "given #{params_path.inspect} as input parameters" do
         before do
           get :index, :path => params_path
@@ -180,5 +178,5 @@ describe ApiController do
     end
     it_should_behave_like 'error responses'
   end
-      
+
 end

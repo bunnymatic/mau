@@ -10,24 +10,23 @@ class ArtistInfo < ActiveRecord::Base
   def os_participation
     if self.open_studios_participation.blank? || !Conf.oslive
       {}
-    else 
+    else
       parse_open_studios_participation(self.open_studios_participation)
     end
   end
 
   def update_os_participation(key,value)
     self.os_participation = Hash[key.to_s,value]
-    self.save
   end
 
   def os_participation=(os)
     current = parse_open_studios_participation(self.open_studios_participation)
     current.merge!(os)
     current.delete_if{ |k,v| !(v=='true' || v==true || v=='on' || v=='1' || v==1) }
-    self.open_studios_participation = current.keys.join('|')
+    update_attribute(:open_studios_participation, current.keys.join('|'))
   end
 
-  private 
+  private
   def parse_open_studios_participation(os)
     if os.blank?
       {}

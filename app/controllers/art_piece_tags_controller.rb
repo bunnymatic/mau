@@ -111,7 +111,7 @@ class ArtPieceTagsController < ApplicationController
     @freq = ArtPieceTag.frequency(true)
     tags = []
     @freq.each { |t| tags.push(t['tag']) }
-    @tags = ArtPieceTag.find_all_by_id(tags)
+    @tags = ArtPieceTag.where(:id => tags)
     @tag = ArtPieceTag.find(params[:id])
     page = 0
     if params[:p]

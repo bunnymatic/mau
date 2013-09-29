@@ -80,7 +80,7 @@ describe MainController do
   fixtures :users, :studios, :artist_infos, :cms_documents, :roles, :emails, :email_lists, :email_list_memberships, :art_pieces, :roles_users
 
   describe "#index" do
-    integrate_views
+    render_views
     context 'not logged in' do
       before do
         get :index
@@ -111,7 +111,7 @@ describe MainController do
       it_should_behave_like 'main#index page'
       it_should_behave_like 'logged in as admin'
     end
-    
+
   end
 
   describe "- route generation" do
@@ -175,7 +175,7 @@ describe MainController do
   end
 
   describe "#news" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :resources
@@ -215,7 +215,7 @@ describe MainController do
         get :resources
       end
       it_should_behave_like "logged in as editor"
-    end        
+    end
     context 'logged in as admin' do
       before do
         login_as(:admin)
@@ -226,7 +226,7 @@ describe MainController do
     end
   end
   describe "#about" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :about
@@ -237,7 +237,7 @@ describe MainController do
         assigns(:content).should have_key :cmsid
       end
     end
-    
+
     context "while logged in as an art fan" do
       before do
         u = users(:maufan1)
@@ -258,7 +258,7 @@ describe MainController do
     end
   end
   describe "#history" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :history
@@ -269,7 +269,7 @@ describe MainController do
         assigns(:content).should have_key :cmsid
       end
     end
-    
+
     context "while logged in as an art fan" do
       before do
         u = users(:maufan1)
@@ -290,7 +290,7 @@ describe MainController do
     end
   end
   describe "#getinvolved" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :getinvolved
@@ -329,7 +329,7 @@ describe MainController do
     end
   end
   describe "#privacy" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :privacy
@@ -356,7 +356,7 @@ describe MainController do
     end
   end
   describe "#about" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :about
@@ -383,7 +383,7 @@ describe MainController do
     end
   end
   describe "#faq" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :faq
@@ -419,7 +419,7 @@ describe MainController do
     end
   end
   describe '#main/venues' do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :venues
@@ -451,7 +451,7 @@ describe MainController do
   end
 
   describe "#main/openstudios" do
-    integrate_views
+    render_views
     context "while not logged in" do
       before do
         get :openstudios
@@ -500,7 +500,7 @@ describe MainController do
         end
       end
       it "uses cms for parties" do
-        CmsDocument.expects(:find_by_page_and_section).at_least(2)
+        CmsDocument.should_receive(:find_by_page_and_section).at_least(2)
         get :openstudios
       end
       context "while logged in as an art fan" do
@@ -577,7 +577,7 @@ describe MainController do
   end
 
   describe 'letter_from_howard_flax' do
-    integrate_views
+    render_views
     before do
       get :letter_from_howard_flax
     end
@@ -590,7 +590,7 @@ describe MainController do
   describe 'notes mailer' do
     context "invalid calls" do
       ['get', 'post', 'put', 'delete'].each do |rtype|
-        desc = "returns error if request type is %s" % rtype 
+        desc = "returns error if request type is %s" % rtype
         it desc do
           eval rtype + " :notes_mailer"
           response.should be_missing
@@ -626,7 +626,7 @@ describe MainController do
         @resp['messages'].should include 'invalid note type'
       end
     end
-      
+
     describe "submission given note_type email_list and email only" do
       before do
         xhr :post, :notes_mailer, :note_type => 'email_list', :email => 'a@b.com'
@@ -671,7 +671,7 @@ describe MainController do
 
     describe "submission given note_type inquiry, both emails but no inquiry" do
       before do
-        xhr :post, :notes_mailer, :note_type => 'inquiry', 
+        xhr :post, :notes_mailer, :note_type => 'inquiry',
           :email => 'a@b.com', :email_confirm => 'a@b.com'
         @resp = JSON::parse(response.body)
       end
@@ -687,31 +687,31 @@ describe MainController do
     describe "submission with valid params" do
       context "email_list" do
         before do
-          xhr :post, :notes_mailer, :note_type => 'email_list', 
+          xhr :post, :notes_mailer, :note_type => 'email_list',
             :email => 'a@b.com', :email_confirm => 'a@b.com'
           @resp = JSON::parse(response.body)
         end
         it_should_behave_like "successful notes mailer response"
-        it 'triggers FeedbackMailer.deliver_feedback' do
-          FeedbackMailer.expects(:deliver_feedback).with() do |f|
+        it 'triggers FeedbackMailer.feedback' do
+          FeedbackMailer.should_receive(:feedback).with() do |f|
             f.login.should == 'anon'
             f.comment.should include 'a@b.com'
             f.subject.should == 'MAU Submit Form : email_list'
             f.email.should == 'a@b.com'
           end
-          xhr :post, :notes_mailer, :note_type => 'email_list', 
+          xhr :post, :notes_mailer, :note_type => 'email_list',
             :email => 'a@b.com', :email_confirm => 'a@b.com'
         end
         it 'adds a feedback item to the db' do
           expect {
-            xhr :post, :notes_mailer, :note_type => 'email_list', 
+            xhr :post, :notes_mailer, :note_type => 'email_list',
                  :email => 'a@b.com', :email_confirm => 'a@b.com'
           }.to change(Feedback, :count).by(1)
         end
       end
       context "inquiry" do
         before do
-          xhr :post, :notes_mailer, :note_type => 'inquiry', 
+          xhr :post, :notes_mailer, :note_type => 'inquiry',
             :inquiry => 'cool note',
             :email => 'a@b.com', :email_confirm => 'a@b.com'
           @resp = JSON::parse(response.body)
@@ -721,7 +721,7 @@ describe MainController do
 
       context "help" do
         before do
-          xhr :post, :notes_mailer, :note_type => 'help', 
+          xhr :post, :notes_mailer, :note_type => 'help',
             :inquiry => 'cool note',
             :email => 'a@b.com', :email_confirm => 'a@b.com'
           @resp = JSON::parse(response.body)
@@ -730,29 +730,29 @@ describe MainController do
       end
       context "feeds link" do
         before do
-          xhr :post, :notes_mailer, :note_type => 'feed_submission', 
+          xhr :post, :notes_mailer, :note_type => 'feed_submission',
             :feedlink => 'http://feed/feed.rss'
           @resp = JSON::parse(response.body)
         end
         it_should_behave_like 'successful notes mailer response'
 
         it 'triggers FeedbackMailer.deliver_feedback' do
-          FeedbackMailer.expects(:deliver_feedback).with() do |f|
+          FeedbackMailer.should_receive(:feedback).with() do |f|
             f.login.should == 'anon'
             f.comment.should include 'feed.rss'
             f.subject.should == 'MAU Submit Form : feed_submission'
           end
-          xhr :post, :notes_mailer, :note_type => 'feed_submission', 
+          xhr :post, :notes_mailer, :note_type => 'feed_submission',
             :feedlink => 'http://feed/feed.rss'
         end
       end
     end
   end
-  
+
   describe 'status' do
-    integrate_views
+    render_views
     it 'hits the database' do
-      Medium.expects :first
+      Medium.should_receive :first
       get :status
     end
     it 'returns success' do
@@ -767,4 +767,3 @@ describe MainController do
     end
   end
 end
-
