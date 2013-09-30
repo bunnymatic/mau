@@ -183,7 +183,7 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United - Open Studios"
     page = 'main'
     section = 'artist_resources'
-    doc = CmsDocument.find_by_page_and_section(page, section)
+    doc = CmsDocument.find(:page => page, :section => section)
     @content = {
       :page => page,
       :section => section
@@ -202,7 +202,7 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United - Venues"
     page = 'venues'
     section = 'all'
-    doc = CmsDocument.find_by_page_and_section(page, section)
+    doc = CmsDocument.find(:page => page, :section => section)
     @content = {
       :page => page,
       :section => section

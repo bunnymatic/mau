@@ -25,7 +25,7 @@
       = f.text_area :article, :rows => 50, :cols => 50, :class => 'input-markdown'
     .section.markdown-results
       .markdown#processed_markdown
-        != markdown @cms_document.article
+        != MarkdownUtils::markdown @cms_document.article
     .clear
       Find more about Markdown here
       %a{:href =>"http://daringfireball.net/projects/markdown/basics",:target => "_blank"} markdown basics

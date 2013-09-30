@@ -25,7 +25,7 @@ class CatalogController < ApplicationController
         
     page = 'spring_2011_catalog'
     section = 'thanks'
-    markdown_content = CmsDocument.find_by_page_and_section(page, section)
+    markdown_content = CmsDocument.find(:page => page, :section => section)
     @thanks = (markdown_content ? markdown(markdown_content.article) : '')
 
     respond_to do |format|

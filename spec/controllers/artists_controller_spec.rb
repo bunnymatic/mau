@@ -372,7 +372,7 @@ describe ArtistsController do
         media.should have_at_least(1).medium
 
         media.each do |m|
-          med = Medium.find_by_name(m)
+          med = Medium.find(:name => m)
           assert_select "a[href=#{medium_path(med)}]", m
         end
 

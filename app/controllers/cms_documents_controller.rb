@@ -1,7 +1,7 @@
 class CmsDocumentsController < ApplicationController
   before_filter :editor_required
   layout 'mau-admin'
-  
+
   def index
     @cms_documents = CmsDocument.all
   end

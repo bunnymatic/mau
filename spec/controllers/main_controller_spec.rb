@@ -494,13 +494,13 @@ describe MainController do
         assigns(:preview_reception_html).should have_key :cmsid
       end
       it 'the markdown entries have cms document ids in them' do
-        [ CmsDocument.find_by_section('summary'),
-          CmsDocument.find_by_section('preview_reception') ].each do |cmsdoc|
+        [ CmsDocument.find(:section => 'summary'),
+          CmsDocument.find(:section => 'preview_reception') ].each do |cmsdoc|
           assert_select '.markdown.editable[data-cmsid=%s]' % cmsdoc.id
         end
       end
       it "uses cms for parties" do
-        CmsDocument.should_receive(:find_by_page_and_section).at_least(2)
+        CmsDocument.should_receive(:find).at_least(2)
         get :openstudios
       end
       context "while logged in as an art fan" do

@@ -31,7 +31,7 @@ describe ArtistFeedsController do
     end
     describe '#index' do
       before do
-        File.stub(:open => double(:read => "<div class='feed-entries'><div class='feed-sxn-hdr'><a target='_blank' href='http://studiomorin.blogspot.com/'>Studio Morin<div class='feed-icon blogger'></div></a></div><div class='feedentry  odd'>entry</div></div>"))
+        File.stub(:open => double(:read => "<div class='feed-entries'><div class='feed-sxn-hdr'><a target='_blank' href='http://studiomorin.blogspot.com/'>Studio Morin<div class='feed-icon blogger'></div></a></div><div class='feedentry  odd'>entry</div></div>", :encoding_aware? => true))
 
         get :index
       end
@@ -79,7 +79,7 @@ describe ArtistFeedsController do
         response.should redirect_to artist_feeds_path
       end
       it 'creates the item' do
-        feed = ArtistFeed.find_by_url('http://this.url')
+        feed = ArtistFeed.find(:url => 'http://this.url')
         feed.should be
         feed.feed.should == 'http://this.url/feed?rss=true'
         feed.active.should be
