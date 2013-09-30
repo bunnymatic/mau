@@ -70,6 +70,7 @@ describe EventsController do
       it 'publishes the event' do
         expect{
           post :publish, :id => @event.id
+          puts response.body
           @event.reload
         }.to change(@event, :publish)
       end

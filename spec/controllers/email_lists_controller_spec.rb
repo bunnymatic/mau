@@ -128,7 +128,7 @@ describe EmailListsController do
         end
         it 'adds a new email to the email list' do
           post :index, :method => 'add_email', :listtype => :admin, :email => {:name => 'new dude', :email => 'r_new@example.com'}
-          AdminMailerList.first.emails.map(&:formatted).should include Email.find(:email => 'r_new@example.com').formatted
+          AdminMailerList.first.emails.map(&:formatted).should include Email.where(:email => 'r_new@example.com').first.formatted
         end
       end
     end
