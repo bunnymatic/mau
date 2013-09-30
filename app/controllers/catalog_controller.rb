@@ -6,7 +6,7 @@ class CatalogController < ApplicationController
     all_artists = Artist.active.open_studios_participants.partition{|a| (a.studio_id.nil? || a.studio_id == 0)}
     @indy_artists = all_artists[0].reject{|a| a.street.blank?}.sort &Artist.sort_by_lastname
     group_studio_artists = all_artists[1]
-    # organize artists so they are in a tree 
+    # organize artists so they are in a tree
     # [ [ studio_id, [artist1, artist2]], [studio_id2, [artist3, artist4]]]
     # so where studio_ids are in order of studio sort_by_name
     @studio_order = (group_studio_artists.map(&:studio).uniq.sort &Studio.sort_by_name).map{|s| s ? s.id : 0}
@@ -15,17 +15,17 @@ class CatalogController < ApplicationController
       hsh[studio_id] = [] unless hsh[studio_id]
       hsh[studio_id] << a
     end
-    @group_studio_artists.values.each do |artists| 
+    @group_studio_artists.values.each do |artists|
       artists.sort! &Artist.sort_by_lastname
     end
 
     page = 'main_openstudios'
     section = 'preview_reception'
     @preview_reception_html = CmsDocument.packaged(page, section)
-        
+
     page = 'spring_2011_catalog'
     section = 'thanks'
-    markdown_content = CmsDocument.find(:page => page, :section => section)
+    markdown_content = CmsDocument.where(:page => page, :section => section).first
     @thanks = (markdown_content ? markdown(markdown_content.article) : '')
 
     respond_to do |format|

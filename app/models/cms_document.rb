@@ -8,7 +8,7 @@ class CmsDocument < ActiveRecord::Base
       :page => page.to_s,
       :section => section.to_s,
     }
-    markdown_content = find(:page => page.to_s, :section => section.to_s)
+    markdown_content = where(:page => page.to_s, :section => section.to_s).first
 
     if !markdown_content.nil?
       pkg[:content] = markdown(markdown_content.article)

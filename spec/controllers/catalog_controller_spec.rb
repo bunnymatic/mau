@@ -7,17 +7,17 @@ describe CatalogController do
   describe "#index" do
     before do
       ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201210'")
-      Artist.any_instance.stubs(:in_the_mission? => true)
+      Artist.any_instance.stub(:in_the_mission? => true)
       a = users(:jesseponce)
       s = studios(:s1890)
       a.studio = s
       a.save
-      
+
       a = users(:artist1)
       s = studios(:blue)
       a.studio = s
       a.save
-      
+
       get :index
     end
     it "has independent artists in a bin" do
