@@ -9,15 +9,15 @@ describe MauTweeter do
         :token => '62131363-mPnEym1H3rBeA0wKnqNRAPMpSBr6UZOdLpUM7yx0W',
         :token_secret => 'XSDpwrfxRya6KHB3azNrtBKxG0hAjxJKJc8JGFRQhxQ' 
       }
-      m = stub(:statuses => stub( :update! => 'go' ))
-      Grackle::Client.expects(:new).once.with(:auth => auth).returns(m)
+      m = double(:statuses => double( :update! => 'go' ))
+      Grackle::Client.should_receive(:new).exactly(:once).with(:auth => auth).and_return(m)
       MauTweeter.new.send(:tweet, stub(:message =>'give me pith or give me death'))
     end
     it 'tweets a message' do
-      m = mock "GrackleClient"
-      Grackle::Client.any_instance.expects(:statuses).once.returns(m)
-      m.expects(:update!).once
-      MauTweeter.new.send(:tweet, stub(:pithy_message =>'give me pith or give me death'))
+      m = double "GrackleClient"
+      Grackle::Client.any_instance.should_receive(:statuses).exactly(:once).and_return(m)
+      m.should_receive(:update!).exactly(:once)
+      MauTweeter.new.send(:tweet, double(:pithy_message =>'give me pith or give me death'))
     end
   end
 end
