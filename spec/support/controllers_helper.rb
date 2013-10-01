@@ -2,7 +2,7 @@
 
 def get_all_actions(cont)
   c= Module.const_get(cont.to_s.pluralize.capitalize + "Controller")
-  c.public_instance_methods(false).reject{ |action| ['rescue_action'].include?(action) }
+  c.public_instance_methods(false).reject{ |action| ['rescue_action'].include?(action) || action.match(/^_/)}
 end
 
 # test actions fail if not logged in

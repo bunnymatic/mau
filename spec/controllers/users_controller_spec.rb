@@ -769,7 +769,7 @@ describe UsersController do
           assert_select('#user_password_confirmation')
         end
         it "has an error message" do
-          assigns(:user).errors.length.should eql 1
+          assigns(:user).errors.full_messages.length.should eql 1
         end
       end
       context "with matching passwords" do
@@ -853,11 +853,11 @@ describe UsersController do
 
     context "post a fan email" do
       it "looks up user by email" do
-        User.should_receive(:find_by_email).with(users(:artfan).email).times(1)
+        User.should_receive(:find_by_email).with(users(:artfan).email).exactly(:once)
         post :forgot, :user => { :email => users(:artfan).email }
       end
       it "calls create_reset_code" do
-        MAUFan.any_instance.should_receive(:create_reset_code).times(1)
+        MAUFan.any_instance.should_receive(:create_reset_code).exactly(:once)
         post :forgot, :user => { :email => users(:artfan).email }
       end
       it "redirects to login" do
@@ -961,7 +961,7 @@ describe UsersController do
         :page => users_path(users(:jesseponce))
       }
       ArtistMailer.should_receive(:notify).never
-      AdminMailer.should_receive(:spammer)
+      AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
       post :notify, notify_data
       response.should be_success
     end
@@ -975,7 +975,7 @@ describe UsersController do
         :page => users_path(users(:jesseponce))
       }
       ArtistMailer.should_receive(:notify).never
-      AdminMailer.should_receive(:spammer)
+      AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
       post :notify, notify_data
       response.should be_success
     end
@@ -989,7 +989,7 @@ describe UsersController do
         :page => users_path(users(:jesseponce))
       }
       ArtistMailer.should_receive(:notify).never
-      AdminMailer.should_receive(:spammer)
+      AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
       post :notify, notify_data
       response.should be_success
     end
@@ -1003,7 +1003,7 @@ describe UsersController do
         :page => users_path(users(:jesseponce))
       }
       ArtistMailer.should_receive(:notify).never
-      AdminMailer.should_receive(:spammer)
+      AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
       post :notify, notify_data
       response.should be_success
     end
