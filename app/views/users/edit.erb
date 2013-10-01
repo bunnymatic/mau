@@ -12,10 +12,10 @@
   <h4>My Account</h4>
   <%= render :partial => '/flash_notice_error' -%>
   <div class="edit-sections">
-    <%= form_for :user, current_user, 
-       :url => { :action => "update" }, 
+    <%= form_for current_user,
+       :url => { :action => "update" },
        :html => { :method => :put } do |f| -%>
-    <%= f.errors.full_messages %>
+    <%= render '/common/form_errors', :form => f %>
 
     <%= render :partial => "/users/edit_basic_info", :locals => {:f => f} %>
 

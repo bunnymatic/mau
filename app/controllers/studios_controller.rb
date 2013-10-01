@@ -2,7 +2,7 @@ require 'studio'
 class StudiosController < ApplicationController
 
   STUDIO_KEYS = Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].freeze
-  
+
   before_filter :manager_required, :except => [ :index, :show, :new ]
   before_filter :admin_required, :only => [:new, :create, :destroy]
   before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :addprofile, :unaffiliate_artist]
@@ -29,10 +29,10 @@ class StudiosController < ApplicationController
       format.json {
         render :json => @studios
       }
-      format.mobile { 
+      format.mobile {
         @page_title = "Studios"
         @studios.reject!{|s| s.artists.active.count < 1}
-        render :layout => 'mobile' 
+        render :layout => 'mobile'
       }
     end
   end
@@ -220,7 +220,7 @@ class StudiosController < ApplicationController
   end
 
   def get_studio_list
-    Studio.all.select do |s| 
+    Studio.all.select do |s|
       if s.id != 0 && s.name == 'Independent Studios'
         false
       else

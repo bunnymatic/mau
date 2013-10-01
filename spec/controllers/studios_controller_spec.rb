@@ -14,15 +14,15 @@ describe StudiosController do
       end
       it_should_behave_like "not logged in"
       it "last studio should be independent studios" do
-        assigns(:studios).last.name.should == 'Independent Studios'
+        assigns(:studios).last.name.should eql 'Independent Studios'
       end
       it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
         s = assigns(:studios)
         s.pop
-        s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
+        s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should eql s.map(&:name)
       end
       it "sets view_mode to name" do
-        assigns(:view_mode).should == 'name'
+        assigns(:view_mode).should eql 'name'
       end
 
       context "with view mode set to count" do
@@ -30,7 +30,7 @@ describe StudiosController do
           get :index, :v => 'c'
         end
         it "sets view_mode to count" do
-          assigns(:view_mode).should == 'count'
+          assigns(:view_mode).should eql 'count'
         end
         it "studios are sorted by count descending" do
           artist_count = assigns(:studios_by_count).map{|s| s.artists.active.count}
@@ -59,7 +59,7 @@ describe StudiosController do
       it_should_behave_like 'successful json'
       it 'returns all studios' do
         j = JSON.parse(response.body)
-        j.count.should == Studio.all.count
+        j.count.should eql Studio.all.count
       end
     end
   end
@@ -72,7 +72,7 @@ describe StudiosController do
     Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].each do |k,v|
       it "should return studio #{v} for key #{k}" do
         get :show, :id => k
-        response.should have_tag('h4', :text => v)
+        assert_select('h4', :text => v)
       end
     end
   end
@@ -85,25 +85,25 @@ describe StudiosController do
           get :show, :id => studios(:as).id
         end
         it "last studio should be independent studios" do
-          assigns(:studios).last.name.should == 'Independent Studios'
+          assigns(:studios).last.name.should eql 'Independent Studios'
         end
         it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
           s = assigns(:studios)
           s.pop
-          s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == s.map(&:name)
+          s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should eql s.map(&:name)
         end
         it "studio url is a link" do
-          response.should have_tag("div.url a[href=#{studios(:as).url}]")
+          assert_select("div.url a[href=#{studios(:as).url}]")
         end
         it "studio includes cross street if there is one" do
-          Studio.any_instance.stubs(:cross_street => 'fillmore')
+          Studio.any_instance.stub(:cross_street => 'fillmore')
           get :show, :id => studios(:as).id
-          response.should have_tag('.address', /\s+fillmore/)
+          assert_select('.address', /\s+fillmore/)
         end
         it "studio info includes a phone if there is one" do
-          Studio.any_instance.stubs(:phone => '1234569999')
+          Studio.any_instance.stub(:phone => '1234569999')
           get :show, :id => studios(:as).id
-          response.should have_tag('.phone', :text => '(123) 456-9999')
+          assert_select('.phone', :text => '(123) 456-9999')
         end
       end
 
@@ -114,8 +114,8 @@ describe StudiosController do
         it_should_behave_like 'successful json'
         it 'returns the studio data' do
           j = JSON.parse(response.body)
-          j['studio']['name'].should == studios(:as).name
-          j['studio']['street'].should == studios(:as).street
+          j['studio']['name'].should eql studios(:as).name
+          j['studio']['street'].should eql studios(:as).street
         end
         it 'includes a list of artist ids' do
           j = JSON.parse(response.body)
@@ -129,10 +129,10 @@ describe StudiosController do
           get :show, :id => s.id
         end
         it 'get\'s a list of active artists with art' do
-        assigns(:artists).map(&:id).should == s.artists.active.select{|a| a.representative_piece}.map(&:id)
+        assigns(:artists).map(&:id).should eql s.artists.active.select{|a| a.representative_piece}.map(&:id)
         end
         it 'get\'s a list of active artists with no art' do
-          assigns(:other_artists).map(&:id).should == s.artists.active.select{|a| !a.representative_piece}.map(&:id)
+          assigns(:other_artists).map(&:id).should eql s.artists.active.select{|a| !a.representative_piece}.map(&:id)
         end
       end
     end
@@ -348,13 +348,13 @@ describe StudiosController do
         get :admin_index
       end
       it 'has no destroy links' do
-        response.should_not have_tag ".admin-table tr td a", 'Destroy'
+        css_select(".admin-table tr td a").map(&:name).should_not include 'Destroy'
       end
       it 'shows an edit link for my studio only' do
         assert_select ".admin-table tr td a[href=#{edit_studio_path(@my_studio)}]"
       end
       it 'has no link to add a studio' do
-        response.should_not have_tag ".admin-table a[href=#{new_studio_path}]"
+        css_select(".admin-table a[href=#{new_studio_path}]").should be_empty
       end
     end
     context 'as admin' do
@@ -369,9 +369,8 @@ describe StudiosController do
         end
       end
       it 'shows destroy links for all studios' do
-        assert_select(".admin-table tr td a") do |tag|
-          txt = tag.map(&:to_s)
-          txt.select{|t| /onclick\=/.match(t) && /studios\/\d+/.match(t)}.count.should > 1
+        assert_select(".admin-table tr td a[data-method=delete]") do |tags|
+          (tags.map(&:to_s)).all?{|t| /Destroy/ =~ t}.should be_true
         end
       end
       it 'includes a link to add a studio' do

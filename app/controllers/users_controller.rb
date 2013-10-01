@@ -165,6 +165,7 @@ class UsersController < ApplicationController
       if type == 'Artist'
         @user.reload
         @user.build_artist_info
+        @user.artist_info.save!
         @user.save!
         Messager.new.publish "/artists/create", "added a new artist"
         flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
@@ -178,7 +179,7 @@ class UsersController < ApplicationController
     else
       msg = "There was a problem creating your account.  If you can't solve the issues listed below, please try again later or contact the webmaster (link below). if you continue to have problems."
       flash.now[:error] = msg
-      flash.now[:error] << "<br/>" +  @user.errors[:base] if @user.errors[:base]
+      flash.now[:error] << "<br/>#{@user.errors[:base]}" if @user.errors[:base]
       @studios = Studio.all
       render :action => 'new'
     end

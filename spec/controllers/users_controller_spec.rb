@@ -14,7 +14,7 @@ shared_examples_for 'common signup form' do
 end
 
 describe UsersController do
- 
+
   fixtures :users, :roles_users, :roles, :blacklist_domains
   fixtures :art_pieces
   fixtures :favorites # even though fixture is empty - this forces a db clear between tests
@@ -33,9 +33,9 @@ describe UsersController do
 
   it "actions should fail if not logged in" do
     exceptions = [:index, :show, :artists, :resend_activation, :favorites,
-                  :forgot, :unsuspend, :destroy, :create, :new, :activate, 
+                  :forgot, :unsuspend, :destroy, :create, :new, :activate,
                   :notify, :noteform, :purge, :reset, :favorites_notify]
-    controller_actions_should_fail_if_not_logged_in(:user, 
+    controller_actions_should_fail_if_not_logged_in(:user,
                                                     :except => exceptions)
   end
   describe "#new" do
@@ -90,14 +90,14 @@ describe UsersController do
     end
 
   end
-    
+
   describe "#create" do
     it "return 404 with :artist = {}" do
       post :create,  :artist => {}
       response.should be_missing
     end
     it "return 404 with :user = {}" do
-      post :create, :user => {} 
+      post :create, :user => {}
       response.should be_missing
     end
     it "return 404 with params :mau_fan {}" do
@@ -114,24 +114,24 @@ describe UsersController do
         # disable sweep of flash.now messages
         # so we can test them
         @controller.instance_eval{flash.stub(:sweep)}
-        @controller.should_receive(:verify_recaptcha).returns(true)
+        @controller.should_receive(:verify_recaptcha).and_return(true)
       end
       it 'forbids email whose domain is on the blacklist' do
         expect {
           post :create, :mau_fan => { :login => 'newuser',
-            :password_confirmation => "blurpit", 
-            :lastname => "bmatic2", 
-            :firstname => "bmatic2", 
-            :password => "blurpit", 
+            :password_confirmation => "blurpit",
+            :lastname => "bmatic2",
+            :firstname => "bmatic2",
+            :password => "blurpit",
             :email => "bmatic2@blacklist.com" }, :type => "MAUFan" }.to change(User,:count).by(0)
       end
       it 'allows non blacklist domain to add a user' do
         expect {
           post :create, :mau_fan => { :login => 'newuser',
-            :password_confirmation => "blurpit", 
-            :lastname => "bmatic2", 
-            :firstname => "bmatic2", 
-            :password => "blurpit", 
+            :password_confirmation => "blurpit",
+            :lastname => "bmatic2",
+            :firstname => "bmatic2",
+            :password => "blurpit",
             :email => "bmatic2@nonblacklist.com" }, :type => "MAUFan" }.to change(User,:count).by(1)
       end
     end
@@ -140,18 +140,18 @@ describe UsersController do
         # disable sweep of flash.now messages
         # so we can test them
         @controller.instance_eval{flash.stub(:sweep)}
-        @controller.should_receive(:verify_recaptcha).returns(false)
+        @controller.should_receive(:verify_recaptcha).and_return(false)
         post :create, :mau_fan => { :login => 'newuser',
-          :password_confirmation => "blurpit", 
-          :lastname => "bmatic2", 
-          :firstname => "bmatic2", 
-          :password => "blurpit", 
-          :email => "bmatic2@b.com" }, :type => "MAUFan" 
-      end        
+          :password_confirmation => "blurpit",
+          :lastname => "bmatic2",
+          :firstname => "bmatic2",
+          :password => "blurpit",
+          :email => "bmatic2@b.com" }, :type => "MAUFan"
+      end
       it "reports that you should be human" do
         response.should be_success
       end
-      
+
       it "sets a flash.now indicating failure" do
         flash.now[:error].should include 'human'
       end
@@ -165,15 +165,15 @@ describe UsersController do
       end
       context "login = 'newuser'" do
         before do
-          post :create, :user => { :login => 'newuser' }, :type => "MAUFan" 
+          post :create, :user => { :login => 'newuser' }, :type => "MAUFan"
         end
-        
-        it "login=>newuser : should return success" do 
+
+        it "login=>newuser : should return success" do
           response.should be_success
         end
-        
+
         it "sets a flash.now indicating failure" do
-          post :create, :user => { :login => 'newuser' }, :type => "MAUFan" 
+          post :create, :user => { :login => 'newuser' }, :type => "MAUFan"
         end
       end
     end
@@ -181,19 +181,19 @@ describe UsersController do
       before do
         MAUFan.any_instance.should_receive(:make_activation_code).at_least(1).times
         MAUFan.any_instance.should_receive(:subscribe_and_welcome)
-        UserMailer.should_receive(:activation).exactly(:once)
+        UserMailer.should_receive(:activation).exactly(:once).and_return(double(:deliver! => true))
         post :create, :mau_fan => { :login => 'newuser',
-          :password_confirmation => "blurpit", 
-          :lastname => "bmatic2", 
-          :firstname => "bmatic2", 
-          :password => "blurpit", 
-          :email => "bmatic2@b.com" }, :type => "MAUFan" 
+          :password_confirmation => "blurpit",
+          :lastname => "bmatic2",
+          :firstname => "bmatic2",
+          :password => "blurpit",
+          :email => "bmatic2@b.com" }, :type => "MAUFan"
       end
       it "redirects to index" do
         response.should redirect_to( login_url )
       end
       it "sets flash indicating that activation email has been sent" do
-        flash[:notice].should include_text(" ready to roll")
+        flash[:notice].should include(" ready to roll")
       end
       context "creates an account" do
         before do
@@ -222,16 +222,16 @@ describe UsersController do
     context "valid user param (email/password only) and type = MAUFan" do
       before do
         MAUFan.any_instance.should_receive(:subscribe_and_welcome)
-        post :create, :mau_fan => { 
-          :password_confirmation => "blurpit", 
-          :password => "blurpit", 
-          :email => "bmati2@b.com" }, :type => "MAUFan" 
+        post :create, :mau_fan => {
+          :password_confirmation => "blurpit",
+          :password => "blurpit",
+          :email => "bmati2@b.com" }, :type => "MAUFan"
       end
       it "redirects to index" do
         response.should redirect_to( login_url )
       end
       it "sets flash indicating that activation email has been sent" do
-        flash[:notice].should include_text(" ready to roll")
+        flash[:notice].should include(" ready to roll")
       end
       context "creates an account" do
 
@@ -262,18 +262,19 @@ describe UsersController do
       before do
         Artist.any_instance.should_receive(:make_activation_code).at_least(1)
         MAUFan.any_instance.should_receive(:subscribe_and_welcome).never
+        ArtistInfo.any_instance.stub(:compute_geocode => [-44,122])
         post :create, :artist => { :login => 'newuser2',
-          :password_confirmation => "blurpt", 
-          :lastname => "bmatic", 
-          :firstname => "bmatic", 
-          :password => "blurpt", 
-          :email => "bmatic2@b.com" }, :type => "Artist" 
+          :password_confirmation => "blurpt",
+          :lastname => "bmatic",
+          :firstname => "bmatic",
+          :password => "blurpt",
+          :email => "bmatic2@b.com" }, :type => "Artist"
       end
       it "redirects to index" do
         response.should redirect_to( root_url )
       end
       it "sets flash indicating that activation email has been sent" do
-        flash[:notice].should include_text(" email with your activation code")
+        flash[:notice].should include(" email with your activation code")
       end
       context "creates an account" do
         before do
@@ -283,10 +284,10 @@ describe UsersController do
           @found_artist.should be
         end
         it "whose state is 'pending'" do
-          @found_artist.state.should be == 'pending'
+          @found_artist.state.should eql 'pending'
         end
         it "whose type is 'Artist'" do
-          @found_artist.type == 'Artist'
+          @found_artist.type.should eql 'Artist'
         end
         it "has an associated artist_info" do
           @found_artist.artist_info.should_not be_nil
@@ -305,7 +306,7 @@ describe UsersController do
       @u = users(:maufan1)
     end
     context "while not logged in" do
-      before do 
+      before do
         get :show
       end
       it_should_behave_like "not logged in"
@@ -329,7 +330,7 @@ describe UsersController do
       end
     end
     context "while logged in as an user" do
-      before do 
+      before do
         login_as(@u)
         @logged_in_user = @u
         get :show, :id => @u.id
@@ -341,7 +342,7 @@ describe UsersController do
       end
       it "has no sidebar nav when i look at someone elses page" do
         get :show, :id => users(:artfan).id
-        response.should_not have_tag('#sidebar_nav')
+        css_select('#sidebar_nav').should be_empty
       end
     end
   end
@@ -354,7 +355,7 @@ describe UsersController do
     end
     context "while not logged in" do
       render_views
-      before do 
+      before do
         get :edit
       end
       it_should_behave_like "redirects to login"
@@ -388,14 +389,14 @@ describe UsersController do
         response.should render_template("edit")
       end
       it "has no heart notification checkbox" do
-        response.should_not have_tag "#notification input#emailsettings_favorites"
+        css_select( "#notification input#emailsettings_favorites").should be_empty
       end
     end
   end
 
   describe "login_required" do
     context " post redirects to root (referrer)" do
-      before do 
+      before do
         @u = users(:quentin)
         post :add_favorite
       end
@@ -407,7 +408,7 @@ describe UsersController do
       end
     end
     context "get redirects to requested page via login" do
-      before do 
+      before do
         @u = users(:quentin)
         get :edit
       end
@@ -420,7 +421,7 @@ describe UsersController do
     end
   end
   describe "update" do
-    before do 
+    before do
       @u = users(:quentin)
     end
     context "while not logged in" do
@@ -438,7 +439,7 @@ describe UsersController do
       end
     end
     context "while logged in" do
-      before do 
+      before do
         login_as(@u)
         @logged_in_user = @u
       end
@@ -454,7 +455,7 @@ describe UsersController do
         end
       end
       context "with valid params" do
-        before do 
+        before do
           put :update, :id => @u.id, :user => {:firstname => 'blow'}
         end
         it "redirects to user edit page" do
@@ -482,7 +483,7 @@ describe UsersController do
           response.should be_success
         end
         it "doesn't have the no favorites msg" do
-          response.should_not have_tag('.no-favorites-msg')
+          css_select('.no-favorites-msg').should be_empty
         end
       end
       context "while logged in as fan with no favorites" do
@@ -493,9 +494,7 @@ describe UsersController do
           get :favorites, :id => @u.id
         end
         it_should_behave_like 'one column layout'
-        it "returns success" do
-          response.should be_success
-        end
+        it { response.should be_success }
         it "gets some random links assigned" do
           assigns(:random_picks).size.should > 2
         end
@@ -512,11 +511,11 @@ describe UsersController do
           assert_select('h5', :text => 'Find Artists by Tag')
         end
         it "does not show the favorites sections" do
-          response.should_not have_tag('.favorites > h5', :include_text => 'Artists')
-          response.should_not have_tag('.favorites > h5', :include_text => 'Art Pieces')
+          css_select('.favorites > h5').should be_empty
+          css_select('.favorites > h5').should be_empty
         end
         it "doesn't show a button back to the artists page" do
-          response.should_not have_tag('.buttons form')
+          css_select('.buttons form').should be_empty
         end
       end
       context "while logged in as artist " do
@@ -532,7 +531,7 @@ describe UsersController do
         context "who has favorites" do
           before do
             User.any_instance.stub(:get_profile_path => "/this")
-            ArtPiece.any_instance.stub(:get_path).with('small').returns("/this")
+            ArtPiece.any_instance.stub(:get_path).with('small').and_return("/this")
             ap = art_pieces(:hot)
             ap.artist_id = users(:joeblogs)
             ap.save!
@@ -552,14 +551,14 @@ describe UsersController do
             assigns(:random_picks).should be_nil
           end
           it "shows the title" do
-            assert_select('h4', :include_text => 'My Favorites')
+            assert_select('h4', :match => 'My Favorites')
           end
           it "favorites sections show and include the count" do
             assert_select('h5', :text => "Artists (#{@a.fav_artists.count})")
             assert_select("h5", :text => "Art Pieces (#{@a.fav_art_pieces.count})")
           end
           it "shows the 1 art piece favorite" do
-            assert_select('.favorites .art_pieces .thumb', :count => 1, :include_text => 'by blupr')
+            assert_select('.favorites .art_pieces .thumb', :count => 1, :include => 'by blupr')
           end
           it "shows the 1 artist favorite" do
             assert_select('.favorites .artists .thumb', :count => 1)
@@ -573,9 +572,9 @@ describe UsersController do
         end
       end
       context "logged in as user looking at artist who has favorites " do
-        before do 
+        before do
           User.any_instance.stub(:get_profile_path => "/this")
-          ArtPiece.any_instance.stub(:get_path).with('small').returns("/this")
+          ArtPiece.any_instance.stub(:get_path).with('small').and_return("/this")
           a = users(:artist1)
           aa = users(:joeblogs)
           ap = art_pieces(:hot)
@@ -594,12 +593,12 @@ describe UsersController do
           response.should be_success
         end
         it "shows the title" do
-          assert_select('h4', :include_text => @a.get_name )
-          assert_select('h4', :include_text => 'Favorites')
+          assert_select('h4', :include => @a.get_name )
+          assert_select('h4', :include => 'Favorites')
         end
         it "shows the favorites sections" do
-          assert_select('h5', :include_text => 'Artists')
-          assert_select('h5', :include_text => 'Art Pieces')
+          assert_select('h5', :include => 'Artists')
+          assert_select('h5', :include => 'Art Pieces')
         end
         it "shows the 1 art piece favorite" do
           assert_select('.favorites .art_pieces .thumb', :count => 1)
@@ -608,10 +607,10 @@ describe UsersController do
           assert_select('.favorites .artists .thumb', :count => 1)
         end
         it "does not show a delete button for each favorite" do
-          response.should_not have_tag('.favorites li .trash')
+          css_select('.favorites li .trash').should be_empty
         end
       end
-    end 
+    end
     context "POST favorites" do
       context "requesting anything but a post" do
         it "redirects to login" do
@@ -638,13 +637,13 @@ describe UsersController do
         end
       end
       context "while logged in" do
-        before do 
+        before do
           @u = users(:quentin)
           login_as(@u)
           @a = users(:artist1)
-          @ap = art_pieces(:namewithtag) 
+          @ap = art_pieces(:namewithtag)
           @ap.artist = @a
-          @ap.save.should be_true      
+          @ap.save.should be_true
         end
         context "add a favorite artist" do
           before do
@@ -659,7 +658,7 @@ describe UsersController do
             favs.map { |f| f.favoritable_id }.should include @a.id
           end
           context "then remove that artist from favorites" do
-            before do 
+            before do
               post :remove_favorite, :fav_type => "Artist", :fav_id => @a.id
             end
             it "redirects to the referer" do
@@ -720,7 +719,7 @@ describe UsersController do
         context "add a favorite bogus model" do
           before do
             @nfavs = @u.favorites.count
-            post :add_favorite, :fav_type => 'Bogus', :fav_id => 2 
+            post :add_favorite, :fav_type => 'Bogus', :fav_id => 2
           end
           it "returns 404" do
             response.should be_missing
@@ -735,7 +734,7 @@ describe UsersController do
     context "get" do
       render_views
       before do
-        User.should_receive(:find_by_reset_code).returns(users(:artfan))
+        User.should_receive(:find_by_reset_code).and_return(users(:artfan))
         u = users(:artfan)
         u.reset_code = 'abc'
         u.save
@@ -755,8 +754,8 @@ describe UsersController do
       render_views
       context "with passwords that don't match" do
         before do
-          User.should_receive(:find_by_reset_code).with('abc').returns(users(:artfan))
-          post :reset, { :user => { :password => 'whatever', 
+          User.should_receive(:find_by_reset_code).with('abc').and_return(users(:artfan))
+          post :reset, { :user => { :password => 'whatever',
               :password_confirmation => 'whatev' } ,
               :reset_code => 'abc' }
         end
@@ -770,14 +769,14 @@ describe UsersController do
           assert_select('#user_password_confirmation')
         end
         it "has an error message" do
-          assigns(:user).errors.length.should == 1
+          assigns(:user).errors.length.should eql 1
         end
       end
       context "with matching passwords" do
         before do
-          User.should_receive(:find_by_reset_code).with('abc').returns(users(:artfan))
+          User.should_receive(:find_by_reset_code).with('abc').and_return(users(:artfan))
           MAUFan.any_instance.should_receive(:delete_reset_code).exactly(:once)
-          post :reset, { :user => { :password => 'whatever', 
+          post :reset, { :user => { :password => 'whatever',
               :password_confirmation => 'whatever' },
               :reset_code => 'abc' }
         end
@@ -785,7 +784,7 @@ describe UsersController do
           response.should redirect_to "/"
         end
         it "sets notice" do
-          flash[:notice].should include_text('reset successfully for ')
+          flash[:notice].should include('reset successfully for ')
         end
       end
     end
@@ -800,14 +799,14 @@ describe UsersController do
     it "returns sucess" do
       response.should be_success
     end
-    
+
     it "shows email form" do
       assert_select('#user_email')
     end
-    
+
     context "post with email that's not in the system" do
-      before do 
-        User.should_receive(:find_by_email).returns(nil)
+      before do
+        User.should_receive(:find_by_email).and_return(nil)
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
@@ -818,27 +817,27 @@ describe UsersController do
       end
     end
     context "post with email that is for a fan" do
-      before do 
-        User.should_receive(:find_by_email).returns(users(:artfan))
+      before do
+        User.should_receive(:find_by_email).and_return(users(:artfan))
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
         response.should redirect_to( root_url )
       end
       it "has notice message" do
-        flash[:notice].should include_text "MAU Fan accounts need no activation"
+        flash[:notice].should include "MAU Fan accounts need no activation"
       end
     end
     context "post with email that is for an artist" do
-      before do 
-        User.should_receive(:find_by_email).returns(users(:quentin))
+      before do
+        User.should_receive(:find_by_email).and_return(users(:quentin))
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
         response.should redirect_to( root_url )
       end
       it "has notice message" do
-        flash[:notice].should include_text "sent your activation code to #{users(:quentin).email}"
+        flash[:notice].should include "sent your activation code to #{users(:quentin).email}"
       end
     end
   end
@@ -851,7 +850,7 @@ describe UsersController do
     it "returns sucess" do
       response.should be_success
     end
-    
+
     context "post a fan email" do
       it "looks up user by email" do
         User.should_receive(:find_by_email).with(users(:artfan).email).times(1)
@@ -929,30 +928,31 @@ describe UsersController do
       login_as :quentin
     end
     it 'returns success with valid data' do
-      notify_data = { 
+      notify_data = {
         :id => users(:jesseponce).id,
         :comment => "what ever yo",
         :email => "mrrogers@example.com",
         :name => "whos there",
         :page => users_path(users(:jesseponce))
       }
+      ArtistMailer.should_receive(:notify).and_return( double(:deliver! => true) )
       post :notify, notify_data
       response.should be_success
     end
     it 'emails the desired user given valid data' do
-      notify_data = { 
+      notify_data = {
         :id => users(:jesseponce).id,
         :comment => "what ever yo",
         :email => "mrrogers@example.com",
         :name => "whos there",
         :page => users_path(users(:jesseponce))
       }
-      ArtistMailer.should_receive(:notify)
+      ArtistMailer.should_receive(:notify).and_return( double(:deliver! => true) )
       post :notify,  notify_data
       response.should be_success
     end
     it 'emails the admin users if the honey_pot is set' do
-      notify_data = { 
+      notify_data = {
         :id => users(:jesseponce).id,
         :comment => "what ever yo",
         :email => "mrrogers@example.com",
@@ -967,7 +967,7 @@ describe UsersController do
     end
 
     it 'emails the admin users if the body looks like spam' do
-      notify_data = { 
+      notify_data = {
         :id => users(:jesseponce).id,
         :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
         :email => "mrrogers@example.com",
@@ -981,7 +981,7 @@ describe UsersController do
     end
 
     it 'emails the admin users if the email is in our scammer list' do
-      notify_data = { 
+      notify_data = {
         :id => users(:jesseponce).id,
         :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
         :email => "evott@rocketmail.com",
@@ -995,7 +995,7 @@ describe UsersController do
     end
 
     it 'emails the admin users if the email is in the Scammer table' do
-      notify_data = { 
+      notify_data = {
         :id => users(:jesseponce).id,
         :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
         :email => Scammer.last.email,
@@ -1012,13 +1012,13 @@ describe UsersController do
 
   describe '#delete' do
     context 'non-admin' do
-      before do 
+      before do
         delete :destroy, :id => jesse.id
       end
       it_should_behave_like 'not authorized'
     end
     context 'as yourself' do
-      before do 
+      before do
         login_as :admin
         delete :destroy, :id => admin.id
       end
@@ -1030,14 +1030,14 @@ describe UsersController do
       end
     end
     context 'as admin' do
-      before do 
+      before do
         login_as :admin
       end
       context 'deleting a user' do
         it 'deactivates the user' do
           delete :destroy, :id => jesse.id
           jesse.reload
-          jesse.state.should == 'deleted'
+          jesse.state.should eql 'deleted'
         end
         it 'redirects to the users index page' do
           delete :destroy, :id => jesse.id
@@ -1047,36 +1047,4 @@ describe UsersController do
     end
   end
 
-  describe "- routes" do
-    it "route controller=users, action=edit to /users/edit" do
-      route_for(:controller => "users", :action => "edit").should == '/users/edit'
-    end
-  end
-
-  describe "- named routes" do
-    it "addprofile as users collection path" do
-      addprofile_users_path.should == '/users/addprofile'
-    end
-    it "upload_profile as users collection path" do
-      upload_profile_users_path.should == '/users/upload_profile'
-    end
-  end
-  describe "- route recognition" do
-    it "should recognize get /users/10/edit as edit user id = 10" do
-      params_from(:get, "/users/10/edit").should == {:controller => 'users', :action => 'edit', :id => '10' }
-    end
-    
-    it "should recognize PUT /users/10 as update" do
-      params_from(:put, "/users/10").should == {:controller => 'users', :action => 'update', :id => '10' }
-    end
-    it "should recognize GET /users/10 as show" do
-      params_from(:get, "/users/10").should == {:controller => 'users', :action => 'show', :id => '10' }
-    end
-    it "should recognize POST /users/10 as nonsense (action 10)" do
-      params_from(:post, "/users/10").should == {:controller => 'users', :action => '10' }
-    end
-    it "should recognize DELETE /users/10 as destroy user" do
-      params_from(:delete, "/users/10").should == {:controller => 'users', :action => 'destroy', :id => '10' }
-    end
-  end
 end

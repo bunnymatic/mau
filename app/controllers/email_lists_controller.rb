@@ -32,7 +32,7 @@ class EmailListsController < ApplicationController
           em_id = params["email"]["id"].to_i
           begin
             email = Email.find(em_id)
-            member = EmailListMembership.find_by_email_list_id_and_email_id(email_list.id, email.id)
+            member = EmailListMembership.find(:email_list_id => email_list.id, :email_id => email.id)
             member.destroy if member.present?
             msgs[:notice] = "Successfully removed #{email.email} from #{params['listtype'].to_s.capitalize}s"
           rescue Exception => ex
