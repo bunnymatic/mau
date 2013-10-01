@@ -54,7 +54,6 @@ class SearchController < ApplicationController
   end
 
   def execute_search
-    params.symbolize_keys!
 
     opts = _parse_search_params
 

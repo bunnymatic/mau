@@ -25,7 +25,7 @@ describe 'ArtistsController Routes' do
     it "should map edit action properly" do
       route_for(:controller => "artists", :action => "edit").should == "/artists/edit"
     end
-    
+
     it "should map users/index to artists" do
       route_for(:controller => "artists", :action => "index").should == "/artists"
     end
@@ -38,7 +38,7 @@ describe 'ArtistsController Routes' do
       end
     end
     context "/artists/10" do
-      it "map PUT to update" do 
+      it "map PUT to update" do
         params_from(:put, "/artists/10").should == {:controller => "artists", :action => "update", :id => "10" }
       end
       it "map GET to show" do

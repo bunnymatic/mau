@@ -14,7 +14,7 @@ describe SearchController do
   before do
     Rails.cache.stub(:read => nil)
   end
-  
+
   shared_examples_for 'search page with results' do
     it 'has search results' do
       assert_select '#search_results'
@@ -46,7 +46,7 @@ describe SearchController do
       end
       it_should_behave_like 'search page with results'
       it "returns nothing" do
-        response.should_not have_tag('.search-thumb-info')
+        css_select('.search-thumb-info').should be_empty
       end
       it "puts the keywords back in the search box" do
         assert_select '#keywords' do |tag|
@@ -55,8 +55,8 @@ describe SearchController do
       end
       it "show message indicating that nothing matched" do
         get :index, :keywords => "go fuck yourself.  this string ought to never match anything"
-        response.should include_text("go fuck yourself")
-        response.should include_text("couldn't find anything that matched")
+        response.body.should include("go fuck yourself")
+        response.body.should include("couldn't find anything that matched")
       end
       ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Participants"].each do |sxn|
         it "has blocks in refine your search for #{sxn}" do
@@ -140,7 +140,7 @@ describe SearchController do
         assigns(:num_results).should eql ArtPiece.find_all_by_artist_id(@artist.id).count
       end
     end
-    
+
     [:annafizyta, :artist1].each do |artist|
       %w[ firstname lastname fullname].each do |term|
         context "for #{artist} by #{term}" do
@@ -274,7 +274,7 @@ describe SearchController do
         results.map(&:tags).flatten.compact.map(&:id).flatten.should include @tag.id
       end
     end
-      
+
     context "finding by medium" do
       before do
         @searched_medium = [ media(:medium1), media(:medium2) ]
@@ -349,21 +349,21 @@ describe SearchController do
         assert_select '.os-star', :count => 8
       end
       it 'returns artists doing open studios given os_artist = 1' do
-        post :fetch, :os_artist => 1, :keywords => 'a'
+        post :fetch, :os_artist => "1", :keywords => 'a'
         results = assigns(:pieces).flatten
         doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
         doing.should have_at_least(1).artist
         notdoing.should be_empty
       end
       it 'returns artists not doing open studios given os_artist = 0' do
-        post :fetch, :os_artist => 2, :keywords => 'a'
+        post :fetch, :os_artist => "2", :keywords => 'a'
         results = assigns(:pieces).flatten
         doing, notdoing = results.map(&:artist).partition(&:doing_open_studios?)
         doing.should be_empty
         notdoing.should have_at_least(1).artist
       end
       it 'shows no open studios stars' do
-        post :fetch, :os_artist => 2, :keywords => 'a'
+        post :fetch, :os_artist => "2", :keywords => 'a'
         (css_select '.os-star').should be_empty
       end
 

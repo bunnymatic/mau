@@ -26,9 +26,7 @@ describe RolesController do
       it 'shows all roles' do
         assigns(:roles).count.should eql Role.count
       end
-      it 'renders an admin layout' do
-        response.layout.should eql 'layouts/mau-admin'
-      end
+      it { response.should render_template 'layouts/mau-admin' }
       [:manager, :admin, :editor].each do |role|
         it "shows a list of users with role #{role}" do
           rol = roles(role)
@@ -118,9 +116,4 @@ describe RolesController do
     end
   end
 
-  describe 'routing' do
-    it "should recognize DELETE /users/10/roles/3 as destroy role on user" do
-      params_from(:delete, "/users/10/roles/3").should == {:controller => 'roles', :action => 'destroy', :user_id => '10', :id => '3' }
-    end
-  end
 end
