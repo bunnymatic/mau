@@ -1,6 +1,3 @@
-require 'open-uri'
-require 'rss/2.0'
-
 class FeedsController < ApplicationController
 
   before_filter :admin_required, :only => [ :clear_cache ]
@@ -58,12 +55,12 @@ class FeedsController < ApplicationController
         next unless ff
         if ff.url.match /twitter.com/
           numentries = 3
-        else 
+        else
           numentries = 1
         end
         begin
-          feed_content = allfeeds += fetch_and_format_feed(ff.feed, ff.url, {:numentries => numentries})
-          feeds += feed_content
+          feed_parser = FeedParser.new(ff.feed, ff.url, {:numentries => numentries})
+          feed_content = allfeeds += feed_parser.fetch
         rescue Exception => ex
           logger.error("Failed to grab feed " + ff.inspect)
         end

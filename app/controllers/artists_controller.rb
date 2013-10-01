@@ -2,6 +2,9 @@
 require 'xmlrpc/client'
 include ArtistsHelper
 include HTMLHelper
+
+Mime::Type.register "image/png", :png
+
 def is_os_only(osonly)
   return (osonly && (["1",1,"on","true"].include? osonly))
 end

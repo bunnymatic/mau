@@ -8,7 +8,7 @@ describe FeedsController do
   cache_filename = '_cached_feeds.html'
   context 'with bad feed data' do
     it 'handles failure in fetch and format' do
-      FeedsController.stubs(:fetch_and_format_feed).raises
+      FeedParser.any_instance.stub(:fetch).and_raise
       if File.exists?(cache_filename)
         File.delete(cache_filename)
       end
@@ -22,9 +22,9 @@ describe FeedsController do
       tweet_response = [ { :user => {:screen_name => 'blurp'},
                            :text => "I tweeted this #{Faker::Lorem::words(5).join(' ')}",
                            :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
-      mock_readable = stub(:read => tweet_response.to_json)
-      FeedsController.any_instance.stubs(:open).yields(mock_readable)
-      Rails.cache.stubs(:read => nil, :write => false, :delete => nil)
+      mock_readable = double(:read => tweet_response.to_json)
+      FeedParser.any_instance.stub(:open).and_yield(mock_readable)
+      Rails.cache.stub(:read => nil, :write => false, :delete => nil)
       if File.exists?(cache_filename)
         File.delete(cache_filename)
       end
@@ -42,10 +42,10 @@ describe FeedsController do
       tweet_response = [ { :user => {:screen_name => 'blurp'},
                            :text => "I tweeted this #{Faker::Lorem.words(5).join(' ')}",
                            :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
-      mock_readable = stub(:read => tweet_response.to_json)
-      FeedsController.any_instance.stubs(:open).yields(mock_readable)
+      mock_readable = double(:read => tweet_response.to_json)
+      FeedParser.any_instance.stub(:open).and_yield(mock_readable)
       get :feed
-      File.open(cache_filename).read.should_not == before_contents
+      File.open(cache_filename).read.should_not eql before_contents
     end
     it 'it should include this is it' do
       File.open(cache_filename).read.should include 'I tweeted this'
@@ -53,7 +53,7 @@ describe FeedsController do
   end
   context "with cache" do
     before do
-      Rails.cache.stubs(:read => 'this and that', :write => nil, :delete => nil)
+      Rails.cache.stub(:read => 'this and that', :write => nil, :delete => nil)
       if File.exists?(cache_filename)
         File.delete(cache_filename)
       end
@@ -67,15 +67,15 @@ describe FeedsController do
       File.exists?(cache_filename).should be
     end
     it 'file contains the text "this and that"' do
-      File.open(cache_filename).read.should == 'this and that'
+      File.open(cache_filename).read.should eql 'this and that'
     end
     it 'if we call it again, we should get the same' do
       before_sz = File.size(cache_filename)
       get :feed
-      File.size(cache_filename).should == before_sz
+      File.size(cache_filename).should eql before_sz
     end
     it 'does not call the Feeds fetch routine' do
-      FeedsController.any_instance.expects(:fetch_and_format_feed).never
+      FeedsController.any_instance.should_receive(:fetch_and_format_feed).never
       get :feed
     end
   end
@@ -100,8 +100,9 @@ describe FeedsController do
       end
       it 'dumps the cache file' do
         File.exists?(cache_filename).should be
-        Rails.cache.expects(:delete)
-        File.expects(:delete).with('_cached_feeds.html')
+        Rails.cache.should_receive(:delete)
+        File.should_receive(:delete).with('_cached_feeds.html')
+        FeedsController.any_instance.stub(:fetch_feeds)
         get :clear_cache
       end
     end
