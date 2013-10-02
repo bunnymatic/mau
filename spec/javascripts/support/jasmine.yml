@@ -22,7 +22,6 @@ src_files:
   - public/javascripts/mau/mau_image_lightbox.js
   - public/javascripts/mau/mau_cookies.js
   - public/javascripts/mau/mau_notes.js
-  - public/javascripts/mau/mau_popup_view.js
   - public/javascripts/mau/mau_search.js
 
 # stylesheets
