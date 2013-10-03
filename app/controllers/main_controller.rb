@@ -80,11 +80,13 @@ class MainController < ApplicationController
       feedback = Feedback.new(params[:feedback])
       saved = feedback.save
       if saved
-        FeedbackMailer.feedback(feedback).deliver!
+        FeedbackMailer.feedback(@feedback).deliver!
         flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
       else
         flash.now[:error] = "There was a problem submitting your feedback.  Was your comment empty?"
       end
+    else
+      @feedback = Feedback.new
     end
   end
 
@@ -130,7 +132,7 @@ class MainController < ApplicationController
     end
   end
 
-  def status
+  def status_page
     # do dummy db test
     Medium.first
     render :json => {:success => true}, :status => 200

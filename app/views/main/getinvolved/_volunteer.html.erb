@@ -2,38 +2,38 @@
 We do Open Studios twice a year and we're always on the look out for people who can help out. We have a list of general task areas and would love to get your help in areas that you enjoy. Killer computer skills? Help us with our website. Great contacts in the press?  We need you for PR outreach.  Grant writer extraordinaire?   Help us to fund our efforts.
 <p/>
 Please tell us as much as you can about your skills, your thoughts on Mission Artists United and anything else that might help us get you helping us soon, and in the best capacity. 
-  <div class="getinv-form-container content-block">
-    <%= form_for  @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
-    <table class="getinv-form">
-      <tr>
-	<td class="getinv-form-container">
-	  <div id="vemail_input" class="getinv-input" >
-	    <%= f.label 'email' %>
-	    <% if !logged_in? -%>
-	    <%= f.text_field 'email' %>
-	    <% else %>
-	    <%= f.text_field 'email', :readonly => 'readonly', :value => current_user.email %>
-	    <% end -%>
-	  </div>
-	  <div id="vskills_input" class="getinv-input" >
-	    <%= f.label 'Skills' %>
-	    <%= f.select 'skillsets', feedback_skillsets , :multiple => true %>
-	  </div>
-	  <div id="vcomment_input" class="getinv-input" >
-	    <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
-	  </div>
-	  <div id="vsend_input" >
-	    <%= f.submit 'Send' %>
-	  </div>
-	</td>
-      </tr>
-    </table>
-    <%= f.hidden_field 'subject', :value => "Volunteer" %>
-    <%= f.hidden_field 'page', :value => request.referer %>
-    <% if current_user -%>
-    <%= f.hidden_field 'login', :value => current_user.login %>
-    <%= f.hidden_field 'email', :value => current_user.email %>
-    <% end -%>
-    <% end -%>
+<div class="getinv-form-container content-block">
+  <%= form_for  @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
+  <table class="getinv-form">
+    <tr>
+	    <td class="getinv-form-container">
+	      <div id="vemail_input" class="getinv-input" >
+	        <%= f.label 'email' %>
+	        <% if !logged_in? -%>
+	        <%= f.text_field 'email' %>
+	        <% else %>
+	        <%= f.text_field 'email', :readonly => 'readonly', :value => current_user.email %>
+	        <% end -%>
+	      </div>
+	      <div id="vskills_input" class="getinv-input" >
+	        <%= f.label 'Skills' %>
+	        <%= f.select 'skillsets', feedback_skillsets , :multiple => true %>
+	      </div>
+	      <div id="vcomment_input" class="getinv-input" >
+	        <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
+	      </div>
+	      <div id="vsend_input" >
+	        <%= f.submit 'Send' %>
+	      </div>
+	    </td>
+    </tr>
+  </table>
+  <%= f.hidden_field 'subject', :value => "Volunteer" %>
+  <%= f.hidden_field 'page', :value => request.referer %>
+  <% if current_user -%>
+  <%= f.hidden_field 'login', :value => current_user.login %>
+  <%= f.hidden_field 'email', :value => current_user.email %>
+  <% end -%>
+  <% end -%>
 
-  </div>
+</div>

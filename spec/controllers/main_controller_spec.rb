@@ -86,22 +86,6 @@ describe MainController do
         get :index
       end
       it_should_behave_like 'main#index page'
-      it 'does show the action button for call for entries if the date is before March 11 2011 (the deadline)' do
-        t = Time.utc(2012, 3, 10)
-        Time.stubs(:now).returns(t)
-        get :index
-        assert_select '.sprite.call_for_entries.action_button'
-        assert_select 'a[href=/wizards/mau042012]'
-        assert_select '.action_button', :count => 4
-      end
-      it 'doesn\'t show the action button for call for entries if the date is after March 14 2011 (the deadline)' do
-        t = Time.utc(2012, 3, 14)
-        Time.stubs(:now).returns(t)
-        get :index
-        response.should_not have_tag '.sprite.call_for_entries.action_button'
-        response.should_not have_tag 'a[href=/wizards/mau042012]'
-        assert_select '.action_button', :count => 3
-      end
     end
     describe 'logged in' do
       before do
@@ -112,66 +96,6 @@ describe MainController do
       it_should_behave_like 'logged in as admin'
     end
 
-  end
-
-  describe "- route generation" do
-    it 'has named openstudios route which points to main/openstudios' do
-      openstudios_path.should match /^\/openstudios/
-    end
-  end
-  describe "- route recognition" do
-    it "calls main controller openstudios method for '/openstudios'" do
-      params_from(:get, "/openstudios").should == {:controller => 'main', :action => 'openstudios' }
-    end
-    it "should generate {:controller=>main, action=>venues} from ANY 'venues'" do
-      methods = [:get, :put, :delete, :post]
-      methods.each do |m|
-        params_from(m, "/venues").should == {:controller => 'main', :action => 'venues' }
-      end
-    end
-    it "should generate {:controller=>main, action=>faq} from ANY 'faq'" do
-      methods = [:get, :put, :delete, :post]
-      methods.each do |m|
-        params_from(m, "/faq").should == {:controller => 'main', :action => 'faq' }
-      end
-    end
-
-    it "should generate {:controller=>main, action=>getinvolved} from ANY 'getinvolved'" do
-      methods = [:get, :put, :delete, :post]
-      methods.each do |m|
-        params_from(m, "/getinvolved").should == {:controller => 'main', :action => 'getinvolved' }
-      end
-    end
-    it "should generate {:controller=>main, action=>about} from ANY 'about'" do
-      methods = [:get, :put, :delete, :post]
-      methods.each do |m|
-        params_from(m, "/about").should == {:controller => 'main', :action => 'about' }
-      end
-    end
-    it "should generate {:controller=>main, action=>privacy} from ANY 'privacy'" do
-      methods = [:get, :put, :delete, :post]
-      methods.each do |m|
-        params_from(m, "/privacy").should == {:controller => 'main', :action => 'privacy' }
-      end
-    end
-    it "should generate {:controller=>main, action=>contact} from ANY 'contact'" do
-      methods = [:get, :put, :delete, :post]
-      methods.each do |m|
-        params_from(m, "/contact").should == {:controller => 'main', :action => 'contact' }
-      end
-    end
-    it "should generate {:controller=>main, action=>resources} from ANY 'news'" do
-      methods = [:get, :put, :delete, :post]
-      methods.each do |m|
-        params_from(m, "/news").should == {:controller => 'main', :action => 'resources' }
-      end
-    end
-    it "should generate {:controller=>main, action=>resources} from ANY 'resources'" do
-      methods = [:get, :put, :delete, :post]
-      methods.each do |m|
-        params_from(m, "/resources").should == {:controller => 'main', :action => 'resources' }
-      end
-    end
   end
 
   describe "#news" do
@@ -494,13 +418,14 @@ describe MainController do
         assigns(:preview_reception_html).should have_key :cmsid
       end
       it 'the markdown entries have cms document ids in them' do
-        [ CmsDocument.find(:section => 'summary'),
-          CmsDocument.find(:section => 'preview_reception') ].each do |cmsdoc|
+        [ CmsDocument.where(:section => 'summary').all,
+          CmsDocument.where(:section => 'preview_reception').all ].flatten.each do |cmsdoc|
           assert_select '.markdown.editable[data-cmsid=%s]' % cmsdoc.id
         end
       end
       it "uses cms for parties" do
-        CmsDocument.should_receive(:find).at_least(2)
+        CmsDocument.should_receive(:where).at_least(2).and_return([:os_blurb,:os_preview_reception].map{|k| cms_documents(k)})
+
         get :openstudios
       end
       context "while logged in as an art fan" do
@@ -588,6 +513,9 @@ describe MainController do
   end
 
   describe 'notes mailer' do
+    before do
+      FeedbackMailer.any_instance.stub(:deliver! => true)
+    end
     context "invalid calls" do
       ['get', 'post', 'put', 'delete'].each do |rtype|
         desc = "returns error if request type is %s" % rtype
@@ -616,6 +544,7 @@ describe MainController do
 
     describe "submission given invalid note_type" do
       before do
+
         xhr :post, :notes_mailer, :note_type => 'bogus', :email => 'a@b.com'
         @resp = JSON::parse(response.body)
       end
@@ -698,7 +627,7 @@ describe MainController do
             f.comment.should include 'a@b.com'
             f.subject.should == 'MAU Submit Form : email_list'
             f.email.should == 'a@b.com'
-          end
+          end.and_return(double(:deliver! => true))
           xhr :post, :notes_mailer, :note_type => 'email_list',
             :email => 'a@b.com', :email_confirm => 'a@b.com'
         end
@@ -741,7 +670,8 @@ describe MainController do
             f.login.should == 'anon'
             f.comment.should include 'feed.rss'
             f.subject.should == 'MAU Submit Form : feed_submission'
-          end
+          end.and_return(double(:deliver! => true))
+
           xhr :post, :notes_mailer, :note_type => 'feed_submission',
             :feedlink => 'http://feed/feed.rss'
         end
@@ -753,10 +683,10 @@ describe MainController do
     render_views
     it 'hits the database' do
       Medium.should_receive :first
-      get :status
+      get :status_page
     end
     it 'returns success' do
-      get :status
+      get :status_page
       response.should be_success
     end
   end

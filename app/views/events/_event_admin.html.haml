@@ -28,12 +28,13 @@
       .maplink
         %a{:target => '_blank', :href => event.map_link} (map)
   .clear
-  .desc.markdown #{markdown(event.description).html_safe}
+  .desc.markdown #{MarkdownUtils.markdown(event.description).html_safe}
   .url
     - if event.url.present?
       Event Website:
       = link_to_clean_url event.url
     .ctrls
+      = link_to 'show', event_path(event)
       - if event.publish
         = link_to 'unpublish', unpublish_event_path(event)
       - else

@@ -101,7 +101,7 @@ Mau::Application.routes.draw do
     resources :roles, :only => [:destroy]
   end
 
-  match '/status' => 'main#status', :as => :status
+  match '/status' => 'main#status_page', :as => :status
   match '/faq' => 'main#faq', :as => :faq
   match '/openstudios' => 'main#openstudios', :as => :openstudios
   match '/venues' => 'main#venues', :as => :venues
@@ -113,6 +113,7 @@ Mau::Application.routes.draw do
   match '/non_mobile' => 'main#non_mobile', :as => :non_mobile
   match '/mobile' => 'main#mobile', :as => :mobile
   match '/getinvolved/:p' => 'main#getinvolved', :as => :getinvolved
+  match '/getinvolved' => 'main#getinvolved', :as => :getinvolved
   match '/resources' => 'main#resources', :as => :artist_resources
   match '/news' => 'main#resources', :as => :news_alt
   match '/error' => 'error#index', :as => :error
