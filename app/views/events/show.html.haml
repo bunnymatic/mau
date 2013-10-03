@@ -1,7 +1,7 @@
 .events
   = render :partial => '/flash_notice_error'
   .events_link
-    = link_to "View Events List &raquo;", events_path
+    = link_to "View Events List &raquo;".html_safe, events_path
   .calendar_link
-    = link_to "View Events Calendar &raquo;", calendar_path
+    = link_to "View Events Calendar &raquo;".html_safe, calendar_path
   = render :partial => 'event', :locals => { :event => @event, :force => true }

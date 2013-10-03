@@ -6,22 +6,22 @@ require 'rss/2.0'
 FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
-  layout 'mau2col' 
+  layout 'mau2col'
   include MarkdownUtils
   include MainHelper
   skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
   before_filter :no_cache, :only => :index
 
   def index
-    respond_to do |format| 
-      format.html { 
+    respond_to do |format|
+      format.html {
         @is_homepage = true
         @rand_pieces = get_random_pieces
-        render 
+        render
       }
-      format.json { 
+      format.json {
         @rand_pieces = get_random_pieces
-        render :json => @rand_pieces.to_json(:include => [:artist]) 
+        render :json => @rand_pieces.to_json(:include => [:artist])
       }
       format.mobile { render :layout => 'mobile_welcome' }
     end
@@ -38,7 +38,7 @@ class MainController < ApplicationController
     render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }}
   end
 
-  def version 
+  def version
     render :text => @@revision
   end
 
@@ -51,7 +51,7 @@ class MainController < ApplicationController
     numpieces = all.length
     if numpieces > num_images
       @rand_pieces = choice(all, num_images)
-    else 
+    else
       @rand_pieces = all
     end
   end
@@ -76,7 +76,7 @@ class MainController < ApplicationController
         flash.now[:error] = "There was a problem submitting your feedback.  Please fill something in for the comment."
         return
       end
-      
+
       feedback = Feedback.new(params[:feedback])
       saved = feedback.save
       if saved
@@ -95,7 +95,7 @@ class MainController < ApplicationController
 
     page = 'main_openstudios'
     section = 'summary'
-    
+
     @summary = CmsDocument.packaged(page,section)
 
     section = 'preview_reception'
@@ -103,9 +103,9 @@ class MainController < ApplicationController
 
     respond_to do |fmt|
       fmt.html { render }
-      fmt.mobile { 
+      fmt.mobile {
         @page_title = "Spring Open Studios"
-        render :layout => 'mobile' 
+        render :layout => 'mobile'
       }
     end
 
@@ -119,13 +119,13 @@ class MainController < ApplicationController
   def about
     @page_title = "Mission Artists United - About Us"
     respond_to do |fmt|
-      fmt.html { 
+      fmt.html {
         @content = CmsDocument.packaged('main','about')
-        render 
+        render
       }
-      fmt.mobile { 
+      fmt.mobile {
         @page_title = "About Us"
-        render :layout => 'mobile' 
+        render :layout => 'mobile'
       }
     end
   end
@@ -139,9 +139,9 @@ class MainController < ApplicationController
   def notes_mailer
     if !request.xhr?
       render_not_found("Method Unavaliable")
-      return 
+      return
     end
-    resp_hash = MainController::validate_params(params) 
+    resp_hash = MainController::validate_params(params)
     if resp_hash[:messages].size < 1
       # process
       email = params["email"] || ""
@@ -162,9 +162,9 @@ class MainController < ApplicationController
       when 'feed_submission'
         comment += "Feed Link: #{params['feedlink']}\n"
       end
-      
+
       f = Feedback.new( { :email => email,
-                          :subject => subject, 
+                          :subject => subject,
                           :login => login,
                           :comment => comment })
       if f.save
@@ -179,13 +179,13 @@ class MainController < ApplicationController
   end
 
   def resources
-    
+
     @page_title = "Mission Artists United - Open Studios"
     page = 'main'
     section = 'artist_resources'
     doc = CmsDocument.find_by_page_and_section(page, section)
     @content = {
-      :page => page, 
+      :page => page,
       :section => section
     }
     if !doc.nil?
@@ -204,7 +204,7 @@ class MainController < ApplicationController
     section = 'all'
     doc = CmsDocument.find_by_page_and_section(page, section)
     @content = {
-      :page => page, 
+      :page => page,
       :section => section
     }
     if !doc.nil?
@@ -272,7 +272,7 @@ EOM
     results = { :status => 'success', :messages => [] }
 
     # common validation
-    unless ["feed_submission", "help", "inquiry", "email_list"].include? params[:note_type] 
+    unless ["feed_submission", "help", "inquiry", "email_list"].include? params[:note_type]
       results[:messages] << "invalid note type"
     else
       if !(['feed_submission'].include? params[:note_type])
@@ -282,8 +282,8 @@ EOM
             results[:messages] << "#{humanized} can't be blank"
           end
         end
-        
-        if (params.keys.select { |k| ['email', 'email_confirm' ].include? k }).size < 2 
+
+        if (params.keys.select { |k| ['email', 'email_confirm' ].include? k }).size < 2
           results[:messages] << 'not enough parameters'
         end
         if params['email'] != params['email_confirm']
@@ -296,7 +296,7 @@ EOM
       end
       # specific
       case params[:note_type]
-      when 'inquiry' 
+      when 'inquiry'
         if params['inquiry'].blank?
           results[:messages] << 'note cannot be empty'
           results[:messages] << 'not enough parameters'
