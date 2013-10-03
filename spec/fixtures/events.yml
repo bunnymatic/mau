@@ -16,7 +16,7 @@ html_description:
 
 url_with_http:
   title: Url with HTTP
-  description: MyText
+  description: <p>this <b>paragraph</b> is better </p>
   tweet: MyString
   venue: MyString
   street: MyString
@@ -30,7 +30,7 @@ url_with_http:
 
 in_progress:
   title: In Progress
-  description: MyText
+  description: <p>this <b>paragraph</b> is eve better </p>a
   tweet: MyString
   venue: MyString
   street: MyString
@@ -43,7 +43,7 @@ in_progress:
 
 past:
   title: Past Event
-  description: MyText
+  description: <p>this <b>paragraph</b> is eve better </p>a
   tweet: MyString
   venue: MyString
   street: MyString
@@ -57,7 +57,7 @@ past:
 
 future:
   title: Future Event
-  description: MyText
+  description: "## here\n\nwe\n\ngo\n\n"
   tweet: MyString
   venue: MyString
   street: MyString
@@ -71,7 +71,7 @@ future:
 
 published_two_months_ago:
   title: Published Event
-  description: MyText
+  description: "## here\n\nwe\n\ngo\n\n"
   tweet: MyString
   venue: MyString
   street: MyString
@@ -86,7 +86,7 @@ published_two_months_ago:
 
 published:
   title: Published Event
-  description: MyText
+  description: "## here\n\nwe\n\ngo\n\n"
   tweet: MyString
   venue: MyString
   street: MyString
