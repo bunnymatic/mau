@@ -183,7 +183,7 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United - Open Studios"
     page = 'main'
     section = 'artist_resources'
-    doc = CmsDocument.find(:page => page, :section => section)
+    doc = CmsDocument.where(:page => page, :section => section).first
     @content = {
       :page => page,
       :section => section
@@ -202,12 +202,12 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United - Venues"
     page = 'venues'
     section = 'all'
-    doc = CmsDocument.find(:page => page, :section => section)
+    doc = CmsDocument.where(:page => page, :section => section).first
     @content = {
       :page => page,
       :section => section
     }
-    if !doc.nil?
+    if doc
       @content[:content] = markdown(doc.article)
       @content[:cmsid] = doc.id
     end
