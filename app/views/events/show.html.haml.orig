@@ -3,5 +3,9 @@
   .events_link
     = link_to "View Events List &raquo;".html_safe, events_path
   .calendar_link
+<<<<<<< HEAD
+    = link_to "View Events Calendar &raquo;", calendar_path(:month => Time.zone.now.month, :year => Time.zone.now.year)
+=======
     = link_to "View Events Calendar &raquo;".html_safe, calendar_path
+>>>>>>> master
   = render :partial => 'event', :locals => { :event => @event, :force => true }

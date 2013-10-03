@@ -28,7 +28,11 @@
       .maplink
         %a{:target => '_blank', :href => event.map_link} (map)
   .clear
+<<<<<<< HEAD
+  .desc.markdown #{MarkdownUtils.markdown(event.description)}
+=======
   .desc.markdown #{markdown(event.description).html_safe}
+>>>>>>> master
   .url
     - if event.url.present?
       Event Website:

@@ -43,10 +43,19 @@ describe EventsController do
       it 'renders the event text properly' do
         assert_select 'p b', 'paragraph'
       end
+      it 'renders the page links properly' do
+        assert_select ".events_link a", /View.*\&raquo;/
+        assert_select ".calendar_link a", /View.*\&raquo;/
+      end
       it 'renders the event_url properly' do
         expected_url = events(:html_description).url
         assert_select ".url a[href=#{expected_url}]", expected_url.gsub(/https?:\/\//, '')
       end
+      it 'renders the event_url properly' do
+        expected_url = events(:html_description).url
+        assert_select ".url a[href=#{expected_url}]", expected_url.gsub(/https?:\/\//, '')
+      end
+
     end
 
   end
@@ -60,6 +69,9 @@ describe EventsController do
         get :admin_index
       end
       it_should_behave_like 'returns success'
+      it "marks down the event content" do
+        response.body.should_not include 'lt;p&gt;'
+      end
     end
 
     context 'publish' do

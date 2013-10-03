@@ -1,0 +1,23 @@
+# MySQL
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: mau_dev
+  username: root
+  password:
+  host: localhost
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  database: mau_test
+  username: root
+  password: 
+  host: localhost
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: missiona_prod
+  username: missiona_mau
+  password: Zo0Tdha0sXTWD9Qji
