@@ -20,12 +20,12 @@
             - if @artist.artist_info.studionumber.present?
               %span
                 #{"#%s" % @artist.artist_info.studionumber}
-            %span.lkmap #{ "(" + link_to('map', @artist.studio.map_link) + ")" }
+            %span.lkmap #{ raw("(" + link_to('map', @artist.studio.map_link) + ")") }
       - else
         .indy
           - if @artist.artist_info.full_address.length > 1
             #{@artist.artist_info.street}
-          %span.lkmap #{ "(" + link_to('map', @artist.artist_info.map_link) + ")"}
+          %span.lkmap #{ raw("(" + link_to('map', @artist.artist_info.map_link) + ")") }
 
     - if @artist.media.present?
       .media.section
@@ -36,13 +36,13 @@
             @artist.media.each do |m|
               links << link_to(m.name, m, :class => "")
             end
-          #{links.join(", ")}
+          #{links.join(", ").html_safe}
     - if @artist.bio.present?
       .bio_link.section
         %span
           Bio/Statement:
         %span.snippet
-          = @artist.bio.truncate(170)
+          = @artist.bio.truncate(170).html_safe
         - if @artist.bio.length > 170
           %a.more{:href => bio_artist_path(@artist)} [Read More]
     .clear

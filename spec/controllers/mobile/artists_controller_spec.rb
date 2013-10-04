@@ -12,7 +12,7 @@ describe ArtistsController do
 
   before do
     # do mobile
-    request.stubs(:user_agent).returns(IPHONE_USER_AGENT)
+    request.stub(:user_agent => IPHONE_USER_AGENT)
   end
 
   describe "#index" do
@@ -21,7 +21,7 @@ describe ArtistsController do
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
-    
+
     context 'invalid sortby param' do
       it 'responds with success page' do
         get :index, :sortby => 'crapass'
@@ -47,7 +47,7 @@ describe ArtistsController do
       end
     end
   end
-  
+
   describe "#search" do
   end
 
@@ -57,7 +57,7 @@ describe ArtistsController do
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
-    
+
     it "shows 1 thumb per artist who has a representative image" do
       artists = Artist.active.select{ |a| a.representative_piece }
       assert_select 'div.thumb', :count => artists.count
@@ -69,9 +69,9 @@ describe ArtistsController do
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
-    
+
     it "shows 1 thumb per artist who has a representative image and who is doing open studios" do
-      
+
       artists = Artist.active.open_studios_participants.select{ |a| a.representative_piece }
       assert_select 'div.thumb', :count => artists.count
     end
@@ -88,9 +88,13 @@ describe ArtistsController do
     it 'shows the user name' do
       assert_select 'div[data-role=content] div h2', :text => @artist.get_name
     end
-    
+
     it 'shows the user\'s studio name' do
       assert_select('div[data-role=content] div.studio', :match => @artist.studio.name)
+    end
+
+    it 'shows the user\'s media' do
+      assert_selct(".media.section a")
     end
 
     it 'shows the users address' do
@@ -100,11 +104,11 @@ describe ArtistsController do
     end
     it 'renders a bio' do
       assert_select '.bio_link.section'
-      response.should_not have_tag '.bio_link a'
+      css_select( '.bio_link a' ).should be_empty
     end
     it 'renders a truncated bio if the bio is big' do
       a = Artist.find_by_login('ponceart')
-      5.times.each do 
+      5.times.each do
         a.artist_info.bio += a.artist_info.bio
       end
       a.artist_info.save

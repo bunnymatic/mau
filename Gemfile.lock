@@ -149,9 +149,8 @@ GEM
     memcache-client (1.8.5)
     method_source (0.8.2)
     mime-types (1.25)
-    mobile-fu (1.2.1)
-      rack-mobile-detect
-      rails
+    mobile_fu-rails3 (1.0.6)
+      rails (>= 3.0.0)
     mojo_magick (0.4.3)
     momentarily (0.0.3)
       activerecord
@@ -187,8 +186,6 @@ GEM
     racc (1.4.9)
     rack (1.2.8)
     rack-cors (0.2.8)
-      rack
-    rack-mobile-detect (0.4.0)
       rack
     rack-mount (0.6.14)
       rack (>= 1.0.0)
@@ -302,7 +299,7 @@ DEPENDENCIES
   json
   memcache-client
   mime-types
-  mobile-fu
+  mobile_fu-rails3
   mojo_magick
   momentarily
   mysql2 (~> 0.2.11)

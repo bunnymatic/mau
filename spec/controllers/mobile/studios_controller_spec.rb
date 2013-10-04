@@ -9,7 +9,7 @@ describe StudiosController do
 
   before do
     # do mobile
-    request.stubs(:user_agent).returns(IPHONE_USER_AGENT)
+    request.stub(:user_agent => IPHONE_USER_AGENT)
     assert(Studio.all.length >= 2)
     @s = Studio.all[2]
     Artist.active.each_with_index do |a, idx|
@@ -26,7 +26,7 @@ describe StudiosController do
 
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
-    
+
     it "includes a link to each studio" do
       Studio.all.each do |s|
         if s.artists.active.count > 0
@@ -40,7 +40,7 @@ describe StudiosController do
 
   describe "show" do
     before do
-      Artist.any_instance.stubs(:representative_piece => nil, :os_participation => {Conf.oslive.to_s => true})
+      Artist.any_instance.stub(:representative_piece => nil, :os_participation => {Conf.oslive.to_s => true})
       get :show, :id => @s.id
     end
 
@@ -54,7 +54,7 @@ describe StudiosController do
       assert_select '.address', /#{@s.street}/
     end
 
-    it "includes list of artists in that studio" do 
+    it "includes list of artists in that studio" do
       assert_select("li .thumb", :minimum => @s.artists.active.select{|a| a.representative_piece}.count)
     end
 
@@ -66,4 +66,3 @@ describe StudiosController do
   end
 
 end
-

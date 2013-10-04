@@ -17,7 +17,7 @@ gem 'memcache-client'
 gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
-gem 'mobile-fu' #, :git => 'git://github.com/brendanlim/mobile-fu.git'
+gem 'mobile_fu-rails3'
 gem 'fastercsv'
 gem 'capistrano'
 gem 'rvm-capistrano'

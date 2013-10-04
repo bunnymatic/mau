@@ -3,17 +3,17 @@ require 'spec_helper'
 describe MediaController do
 
   render_views
-  
+
   fixtures :media
   fixtures :art_pieces
   fixtures :users
-  
+
   before do
     # do mobile
-    Artist.any_instance.stubs(:os_participation => {'201104' => true})
+    Artist.any_instance.stub(:os_participation => {'201104' => true})
 
-    request.stubs(:user_agent).returns(IPHONE_USER_AGENT)
-    
+    request.stub(:user_agent => IPHONE_USER_AGENT)
+
     Rails.cache.stub(:read => nil)
 
     # media don't exist in a vaccuum
@@ -25,7 +25,7 @@ describe MediaController do
     aps << art_pieces(:artpiece1)
     aps << art_pieces(:artpiece2)
     aps << art_pieces(:artpiece3)
-    
+
     meds = []
     meds << media(:medium1)
     meds << media(:medium2)
@@ -78,4 +78,3 @@ describe MediaController do
     end
   end
 end
-      

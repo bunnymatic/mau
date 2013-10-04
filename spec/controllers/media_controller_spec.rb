@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe MediaController do
-  
+
   fixtures :media
   fixtures :art_pieces
   fixtures :artist_infos
   fixtures :users
   before do
-    
+
     Rails.cache.stub(:read => nil)
 
     # media don't exist in a vaccuum
@@ -19,7 +19,7 @@ describe MediaController do
     aps << art_pieces(:artpiece1)
     aps << art_pieces(:artpiece2)
     aps << art_pieces(:artpiece3)
-    
+
     meds = []
     meds << media(:medium1)
     meds << media(:medium2)
@@ -38,7 +38,7 @@ describe MediaController do
       ap.save
     end
   end
-    
+
   describe "#index" do
     it "redirect to show" do
       get :index
@@ -101,4 +101,3 @@ describe MediaController do
     end
   end
 end
-      

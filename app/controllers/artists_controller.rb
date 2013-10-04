@@ -172,15 +172,18 @@ class ArtistsController < ApplicationController
     end
 
     @page_title = "Artists by first name"
-    return sorted_by 'firstname'
+    @artists = Artist.active.includes(:artist_info).order('firstname').all
+    render 'artists/index.mobile', :layout => 'mobile'
   end
+
   def by_lastname
     if !is_mobile?
       redirect_to '/' and return
     end
 
     @page_title = "Artists by last name"
-    return sorted_by 'lastname'
+    @artists = Artist.active.includes(:artist_info).order('lastname').all
+    render 'artists/index.mobile', :layout => 'mobile'
   end
 
   def index
@@ -544,14 +547,6 @@ class ArtistsController < ApplicationController
       return nil
     end
   end
-  def sorted_by sort_column
-    @artists = Artist.active.all(:include => :artist_info).order(sort_column)
-    respond_to do |format|
-      format.mobile {
-        render :layout => 'mobile', :template => 'artists/index.mobile'
-      }
-    end
-  end
   def get_artist_from_params
     artist = nil
     begin
@@ -577,7 +572,7 @@ class ArtistsController < ApplicationController
 
   def build_page_description artist
     if (artist)
-      trim_bio = artist.bio.truncate(500)
+      trim_bio = (artist.bio || '').truncate(500)
       if trim_bio && !trim_bio.empty?
         return "Mission Artists United Artist : #{artist.get_name(true)} : " + trim_bio
       end
