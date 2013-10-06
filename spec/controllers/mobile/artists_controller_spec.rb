@@ -94,7 +94,7 @@ describe ArtistsController do
     end
 
     it 'shows the user\'s media' do
-      assert_selct(".media.section a")
+      assert_select(".media.section a")
     end
 
     it 'shows the users address' do
