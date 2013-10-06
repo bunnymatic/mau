@@ -16,7 +16,7 @@ describe DummyController do
       get :not_found_page
     end
     it 'response status is 404' do 
-      response.code.should == '404'
+      response.code.should eql '404'
     end
     it 'uses error template' do
       response.should render_template 'error/index'
@@ -31,7 +31,7 @@ describe DummyController do
       get :not_found_page
     end
     it 'response status is 404' do 
-      response.code.should == '404'
+      response.code.should eql '404'
     end
     it 'uses error template' do
       response.should render_template 'error/index'
@@ -45,7 +45,7 @@ describe DummyController do
       get :error_page
     end
     it 'response status is 500' do 
-      response.code.should == '500'
+      response.code.should eql '500'
     end
     it 'uses error template' do
       response.should render_template 'error/index'
@@ -60,7 +60,7 @@ describe DummyController do
       get :error_page
     end
     it 'response status is 500' do 
-      response.code.should == '500'
+      response.code.should eql '500'
     end
     it 'includes an f404 block' do
       assert_select('.f404 p')

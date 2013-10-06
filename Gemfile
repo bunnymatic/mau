@@ -3,7 +3,8 @@ source 'https://rubygems.org'
 gem 'racc'
 gem "rails", '~> 3.0.20'
 gem "geokit"
-gem "geokit-rails"
+#gem "geokit-rails"
+gem 'geokit-rails3', :git => 'https://github.com/geokit/geokit-rails3.git'
 gem "nokogiri", '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
 gem "htmlentities"
 gem "json"

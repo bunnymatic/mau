@@ -63,7 +63,7 @@ describe MediaController do
     it "assigns frequency correctly" do
       freq = assigns(:freq)
       m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
-      m2freq['ct'].should == 1
+      m2freq['ct'].should eql 1
     end
     context "an id that doesn't exist" do
       before do
@@ -74,7 +74,7 @@ describe MediaController do
       end
     end
     it 'artists list should not include duplicates' do
-      assigns(:artists).uniq.count.should == assigns(:artists).count
+      assigns(:artists).uniq.count.should eql assigns(:artists).count
     end
   end
 end

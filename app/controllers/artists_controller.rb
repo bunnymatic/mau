@@ -52,12 +52,12 @@ class ArtistsController < ApplicationController
 
     artists.reject!{ |a| !a.in_the_mission? }
 
-    @map = GMap.new("map")
-    @map.control_init(:large_map => true, :map_type => true)
-    # init icon
-    @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png',
-                                     :iconSize => GSize.new(64.0, 64.0)),
-                           'icon_name')
+    # @map = GMap.new("map")
+    # @map.control_init(:large_map => true, :map_type => true)
+    # # init icon
+    # @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png',
+    #                                  :iconSize => GSize.new(64.0, 64.0)),
+    #                        'icon_name')
     markers = []
     @roster = {}
     nentries = 0
@@ -82,16 +82,16 @@ class ArtistsController < ApplicationController
         coord[1] += dy
         info = get_map_info(a)
 
-        m = GMarker.new(coord,:title => a.get_name(true),
-                        :info_window => info)
-        #:icon => artist_ico)
-        markers << m
-        @map.overlay_init(m)
+        # m = GMarker.new(coord,:title => a.get_name(true),
+        #                 :info_window => info)
+        # #:icon => artist_ico)
+        # markers << m
+        # @map.overlay_init(m)
       end
     end
     sw = Artist::BOUNDS['SW']
     ne = Artist::BOUNDS['NE']
-    @map.center_zoom_on_bounds_init([sw,ne])
+    #    @map.center_zoom_on_bounds_init([sw,ne])
     @selfurl = map_artists_url
     @inparams = params
     @inparams.delete('action')
@@ -446,7 +446,8 @@ class ArtistsController < ApplicationController
         }
         fmt.png {
           data = File.open(qrcode_system_path,'rb').read
-          send_data(data, :filename => 'qr.png', :type=>'image/png')
+          send_data(data, :filename => 'qr.png', :type=>'image/png', :disposition => "inline")
+          return
         }
       end
     else
@@ -467,7 +468,8 @@ class ArtistsController < ApplicationController
                                             :data => {'user' => current_artist.login, 'user_id' => current_artist.id})
               ai.save!
             end
-          rescue
+          rescue Exception => ex
+            puts ex.to_s
           end
         end
       end
@@ -491,8 +493,9 @@ class ArtistsController < ApplicationController
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
 
         redirect_to edit_artist_url(current_user)
-      rescue
-        flash[:error] = "%s" % $!
+      rescue Exception => ex
+        puts "EX", ex
+        flash[:error] = ex.to_s
         redirect_to edit_artist_url(current_user)
       end
     end
@@ -532,9 +535,9 @@ class ArtistsController < ApplicationController
     page = params[:page] || 1
     paginate_options = {:page => page, :per_page => 20 }
     if osonly
-      @artists = Artist.active.open_studios_participants.with_representative_image.all.paginate paginate_options
+      @artists = Artist.active.open_studios_participants.with_representative_image.paginate paginate_options
     else
-      @artists = Artist.active.with_representative_image.all.paginate paginate_options
+      @artists = Artist.active.with_representative_image.paginate paginate_options
     end
     @artists
   end
@@ -573,7 +576,7 @@ class ArtistsController < ApplicationController
   def build_page_description artist
     if (artist)
       trim_bio = (artist.bio || '').truncate(500)
-      if trim_bio && !trim_bio.empty?
+      if trim_bio.present?
         return "Mission Artists United Artist : #{artist.get_name(true)} : " + trim_bio
       end
     end

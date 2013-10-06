@@ -79,10 +79,10 @@ describe ArtistFeedsController do
         response.should redirect_to artist_feeds_path
       end
       it 'creates the item' do
-        feed = ArtistFeed.find(:url => 'http://this.url')
+        feed = ArtistFeed.where(:url => 'http://this.url').first
         feed.should be
-        feed.feed.should == 'http://this.url/feed?rss=true'
-        feed.active.should be
+        feed.feed.should eql 'http://this.url/feed?rss=true'
+        feed.active.should be_present
       end
 
     end
@@ -95,9 +95,9 @@ describe ArtistFeedsController do
       end
       it 'updates the item' do
         feed = ArtistFeed.find(artist_feeds(:inactive).id)
-        feed.url.should == 'http://this.url'
-        feed.feed.should == 'http://this.url/feed?rss=true'
-        feed.active.should be
+        feed.url.should eql 'http://this.url'
+        feed.feed.should eql 'http://this.url/feed?rss=true'
+        feed.active.should be_present
       end
     end
 

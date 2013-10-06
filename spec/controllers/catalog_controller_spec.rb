@@ -27,7 +27,7 @@ describe CatalogController do
     end
     it "indy artists are sorted by last name" do
       artists = assigns(:indy_artists)
-      (artists.sort &Artist.sort_by_lastname).should == artists
+      (artists.sort &Artist.sort_by_lastname).should eql artists
     end
     it "has group studio artists in a bin" do
       artists = assigns(:group_studio_artists)
@@ -35,12 +35,12 @@ describe CatalogController do
       artists.should have_at_least(1).artist
     end
     it "assigns studio order in the correct order" do
-      (assigns(:studio_order).map{|sid| Studio.find(sid)}.sort &Studio.sort_by_name).map(&:id).should == assigns(:studio_order)
+      (assigns(:studio_order).map{|sid| Studio.find(sid)}.sort &Studio.sort_by_name).map(&:id).should eql assigns(:studio_order)
     end
     it "studio artists are sorted alpha by lastname" do
       pending "we need better test data for this to fail"
       assigns(:group_studio_artists).values.each do |artists|
-        (artists.sort &Artist.sort_by_lastname).should == artists
+        (artists.sort &Artist.sort_by_lastname).should eql artists
       end
     end
   end

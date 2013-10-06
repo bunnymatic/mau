@@ -69,6 +69,11 @@ common:
    oslive: 201310
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2
+   ga_key: UA-11097408-3
+   ga_api_key: AIzaSyDEsN3CF30SVYHrCTleSPe_EaERFvIRXnU
+   # old key
+   #ABQIAAAAbD_lhY5wFaR_9YsyMHgo_hQ5DYjH_N4HA24Iofus6u_r9JmbOBQYZL9AmYmNhPcGegikfkMM9BY-Ng
+   #AIzaSyDEsN3CF30SVYHrCTleSPe_EaERFvIRXnU
    open_studios_event_keys:
       - 201004
       - 201010

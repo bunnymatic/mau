@@ -18,7 +18,7 @@ describe ApiController do
   shared_examples_for 'error responses' do
     it_should_behave_like 'all responses'
     it 'returns status 400' do
-      response.code.should == '400'
+      response.code.should eql '400'
     end
     it 'returns a message in the json response' do
       JSON.parse(response.body).should have_key 'message'
@@ -61,7 +61,7 @@ describe ApiController do
     it_should_behave_like 'good responses'
     it 'returns a list of media' do
       @resp.should be_a_kind_of Array
-      @resp.count.should == Medium.count
+      @resp.count.should eql Medium.count
       @resp.all? {|a| a.has_key? 'medium'}.should be_true, 'All items do not have the "name" key'
     end
   end
@@ -74,7 +74,7 @@ describe ApiController do
     it_should_behave_like 'good responses'
     it 'returns a list of active artists' do
       @resp.should be_a_kind_of Array
-      @resp.count.should == Artist.active.count
+      @resp.count.should eql Artist.active.count
       @resp.all? {|a| a.has_key? 'artist'}.should be_true, 'All items do not have the "artist" key'
     end
   end
@@ -88,8 +88,8 @@ describe ApiController do
     it 'returns the artist we asked for' do
       @resp.should be_a_kind_of Hash
       @resp['artist'].should be_a_kind_of Hash
-      @resp['artist']['id'].should == users(:jesseponce).id
-      @resp['artist']['firstname'].should == users(:jesseponce).firstname
+      @resp['artist']['id'].should eql users(:jesseponce).id
+      @resp['artist']['firstname'].should eql users(:jesseponce).firstname
     end
   end
 
@@ -101,7 +101,7 @@ describe ApiController do
     it_should_behave_like 'good responses'
     it 'returns a list of studios' do
       @resp.should be_a_kind_of Array
-      @resp.count.should == Studio.count + 1 # add 1 for indy
+      @resp.count.should eql Studio.count + 1 # add 1 for indy
       @resp.all? {|s| s.has_key? 'studio'}.should be_true, 'All items do not have the "studio" key'
     end
   end
@@ -115,8 +115,8 @@ describe ApiController do
     it 'returns the studio we asked for' do
       @resp.should be_a_kind_of Hash
       @resp['studio'].should be_a_kind_of Hash
-      @resp['studio']['id'].should == studios(:s1890).id
-      @resp['studio']['name'].should == studios(:s1890).name
+      @resp['studio']['id'].should eql studios(:s1890).id
+      @resp['studio']['name'].should eql studios(:s1890).name
     end
   end
 
@@ -142,8 +142,8 @@ describe ApiController do
     it 'returns the art_piece we asked for' do
       @resp.should be_a_kind_of Hash
       @resp['art_piece'].should be_a_kind_of Hash
-      @resp['art_piece']['id'].should == art_pieces(:hot).id
-      @resp['art_piece']['title'].should == art_pieces(:hot).title
+      @resp['art_piece']['id'].should eql art_pieces(:hot).id
+      @resp['art_piece']['title'].should eql art_pieces(:hot).title
     end
   end
 
@@ -167,7 +167,7 @@ describe ApiController do
     it_should_behave_like 'good responses'
     it 'returns only the studio name' do
       @resp.keys.should include 'name'
-      @resp.should == {'name' => 'The Blue Studio'}
+      @resp.should eql({'name' => 'The Blue Studio'})
     end
   end
 

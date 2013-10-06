@@ -1,5 +1,5 @@
 require 'spec_helper'
-
+require 'htmlentities'
 include AuthenticatedTestHelper
 
 describe ArtistsController do
@@ -14,7 +14,7 @@ describe ArtistsController do
   let(:artist1_info) { artist1.artist_info }
 
   describe "#index" do
-    describe 'logged in as admin' do
+   describe 'logged in as admin' do
       render_views
       before do
         login_as :admin
@@ -119,6 +119,7 @@ describe ArtistsController do
         @old_bio = artist1_info.bio
         login_as(artist1)
         @logged_in_user = artist1
+        ArtistInfo.any_instance.stub(:compute_geocode => [-22,123])
       end
       context "submit" do
         context "post with new bio data" do
@@ -166,10 +167,12 @@ describe ArtistsController do
       context "update os status" do
         it "updates artists os status to true for 201104" do
           put :update, {:commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => true }}}}
+          response.should be_redirect
           User.find(@logged_in_user.id).os_participation['201104'].should be_true
         end
         it "updates artists os status to true for 201104 given '201104' => 'on'" do
           put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'on' }}}}
+          response.should be_redirect
           User.find(@logged_in_user.id).os_participation['201104'].should be_true
         end
         it "updates artists os status to false for 201104" do
@@ -338,15 +341,17 @@ describe ArtistsController do
       it 'has the artist\'s bio as the description' do
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
-          desc[0].attributes['content'].should match artist1.bio
-          desc[0].attributes['content'].should match /^Mission Artists United Artist/
-          desc[0].attributes['content'].should match artist1.get_name(true)
+          c = desc.first.attributes['content']
+          c.should match artist1.bio
+          c.should match /^Mission Artists United Artist/
+          c.should match artist1.get_name(true)
         end
         assert_select 'head meta[property=og:description]' do |desc|
           desc.length.should eql 1
-          desc[0].attributes['content'].should include artist1.bio
-          desc[0].attributes['content'].should match /^Mission Artists United Artist/
-          desc[0].attributes['content'].should include artist1.get_name(true)
+          c = desc.first.attributes['content']
+          c.should include artist1.bio
+          c.should match /^Mission Artists United Artist/
+          c.should include artist1.get_name(true)
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
@@ -355,11 +360,12 @@ describe ArtistsController do
         get :show, :id => artist1.id
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
-          desc[0].attributes['content'].should_not == artist1.bio
-          desc[0].attributes['content'].should include artist1.bio[0..490]
-          desc[0].attributes['content'].should match /\.\.\.$/
-          desc[0].attributes['content'].should match /^Mission Artists United Artist/
-          desc[0].attributes['content'].should include artist1.get_name(true)
+          c = desc.first.attributes['content']
+          c.should_not eql artist1.bio
+          c.should include artist1.bio.to_s[0..420]
+          c.should match /\.\.\.$/
+          c.should match /^Mission Artists United Artist/
+          c.should include artist1.get_name(true)
         end
       end
 
@@ -371,9 +377,8 @@ describe ArtistsController do
         # fixture validation
         media.should have_at_least(1).medium
 
-        media.each do |m|
-          med = Medium.find(:name => m)
-          assert_select "a[href=#{medium_path(med)}]", m
+        Medium.where(:name => media).each do |med|
+          assert_select "a[href=#{medium_path(med)}]", med.name
         end
 
       end
@@ -574,7 +579,7 @@ describe ArtistsController do
       [[2,1,3], [1,3,2], [2,3,1]].each do |ord|
         it "returns art_pieces in new order #{ord.inspect}" do
           order1 = ord.map{|idx| @artpieces[idx-1]}
-          artist1.art_pieces.map(&:id).should_not == order1
+          artist1.art_pieces.map(&:id).should_not eql order1
           post :setarrangement, { :neworder => order1.join(",") }
           response.should redirect_to user_url(artist1)
           aps = Artist.find(artist1.id).art_pieces
@@ -610,6 +615,7 @@ describe ArtistsController do
         response.should be_success
       end
       it "assigns map" do
+        pending "REMOVED GOOGLE MAPS - Once the js is implemented, remove this spec"
         assigns(:map).should be
       end
       it "assigns roster" do
@@ -635,7 +641,7 @@ describe ArtistsController do
         get :map
       end
       it 'renders the map html properly' do
-        assert_select "script[src^=http://maps.google.com/maps]"
+        assert_select "script[src^=https://maps.googleapis.com/maps/api]"
       end
       it 'renders the artists' do
         assigns(:roster).values.flatten.each do |a|
@@ -651,7 +657,8 @@ describe ArtistsController do
         response.should be_success
       end
       it "assigns map" do
-        assigns(:map).should be
+        pending "REMOVED GOOGLE MAPS - Once the js is implemented, remove this spec"
+        assigns(:map).should be_true
       end
       it "assigns roster" do
         assigns(:roster).should have_at_least(1).locations

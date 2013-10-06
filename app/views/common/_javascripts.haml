@@ -16,6 +16,4 @@
 =# calendar_date_select_includes :mau
 - if current_user && current_user.is_editor?
   = javascript_include_tag 'mau/mau_editor.js'
-= render :partial => '/common/facebook_sdk' if @facebook_required
-- if @pinterest_required
-  %script{ "data-pin-do-not-log" => "true",  "type" => 'text/javascript', "src" => "//assets.pinterest.com/js/pinit.js" }
+

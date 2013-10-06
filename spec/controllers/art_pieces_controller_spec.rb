@@ -33,18 +33,18 @@ describe ArtPiecesController do
       it 'has a description with the art piece name' do
         assert_select 'head' do |tag|
           assert_select 'meta[name=description]' do |desc|
-            desc.length.should == 1
+            desc.length.should eql 1
             desc[0].attributes['content'].should match /#{@artpieces.first.title}/
           end
           assert_select 'meta[property=og:description]' do |desc|
-            desc.length.should == 1
+            desc.length.should eql 1
             desc[0].attributes['content'].should match /#{@artpieces.first.title}/
           end
         end
       end
       it 'has keywords that match the art piece' do
         assert_select 'head meta[name=keywords]' do |keywords|
-          keywords.length.should == 1
+          keywords.length.should eql 1
           expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
           actual = keywords[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
@@ -54,7 +54,7 @@ describe ArtPiecesController do
       end
       it 'include the default keywords' do
         assert_select 'head meta[name=keywords]' do |keywords|
-          keywords.length.should == 1
+          keywords.length.should eql 1
           expected = ["art is the mission", "art", "artists", "san francisco"]
           actual = keywords[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
@@ -177,7 +177,7 @@ describe ArtPiecesController do
       end
       it 'sets a flash message on success' do
         post :create, :art_piece => art_piece_attributes, :upload => {}
-        flash[:notice].should == 'Artwork was successfully added.'
+        flash[:notice].should eql 'Artwork was successfully added.'
       end
       it "flushes the cache" do
         ArtPiecesController.any_instance.should_receive(:flush_cache)
@@ -212,7 +212,7 @@ describe ArtPiecesController do
       end
       it 'sets a flash message on success' do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
-        flash[:notice].should == 'Artwork was successfully updated.'
+        flash[:notice].should eql 'Artwork was successfully updated.'
       end
       it "flushes the cache" do
         ArtPiecesController.any_instance.should_receive(:flush_cache)
@@ -254,7 +254,7 @@ describe ArtPiecesController do
           response.should redirect_to "/error"
         end
         it "sets a flash error" do
-          flash[:error].should be
+          flash[:error].should be_present
         end
       end
     end

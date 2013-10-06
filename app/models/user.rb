@@ -19,13 +19,13 @@ class User < ActiveRecord::Base
   after_create :tell_user_they_signed_up
   after_save :notify_user_about_state_change
 
-  scope :active, :conditions => ["users.state = 'active'"]
-  scope :pending, :conditions => ["users.state = 'pending'"]
+  scope :active, where(:state => 'active')
+  scope :pending, where(:state => 'pending')
 
   before_destroy :delete_favorites
   def delete_favorites
     fs = Favorite.artists.where(:favoritable_id => id)
-    fs.each { |f| f.delete }
+    fs.each(&:delete)
   end
 
   [:studionumber, :studionumber=
@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
        # http://stackoverflow.com/questions/7001810/alternative-method-for-proxy-owner-in-activerecord
        (proxy_owner.favorites.map { |f|
           f.to_obj
-        }).select { |item| !item.nil? }
+        }).reject(&:nil?)
      end
   end
 

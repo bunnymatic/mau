@@ -26,10 +26,10 @@ describe ApplicationEventsController do
       events.keys.should include 'OpenStudiosSignupEvent'
       generics = events['GenericEvent']
       generics.should have(1).event
-      generics.first.message.should == 'something happened'
+      generics.first.message.should eql 'something happened'
       oss = events['OpenStudiosSignupEvent']
       oss.should have(1).event
-      oss.first.data.should == {'user' => 'jesseponce'}
+      oss.first.data.should eql({'user' => 'jesseponce'})
     end
     it 'renders all the events in sections' do
       assert_select '.singlecolumn .generic_events tr', :count => 1

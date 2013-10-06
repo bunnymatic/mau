@@ -53,7 +53,7 @@ describe MediaController do
     it_should_behave_like 'two column layout'
     it_should_behave_like "not logged in"
     it "assigns results_mode p" do
-      assigns(:results_mode).should == 'p'
+      assigns(:results_mode).should eql 'p'
     end
     it "assigns pieces" do
       assigns(:pieces).should have_at_least(1).medium
@@ -67,7 +67,7 @@ describe MediaController do
     it "assigns frequency" do
       freq = assigns(:freq)
       m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
-      m2freq['ct'].should == 1
+      m2freq['ct'].should eql 1
     end
     it "draws tag cloud" do
       assert_select('.tagcloud')
@@ -79,7 +79,7 @@ describe MediaController do
       assert_select('.clouditem.tagmatch')
     end
     it "pieces are in order of art_piece updated_date" do
-      assigns(:pieces).sort_by(&:updated_at).should == assigns(:pieces)
+      assigns(:pieces).sort_by(&:updated_at).should eql assigns(:pieces)
     end
     context " an id that doesn't exist " do
       before do

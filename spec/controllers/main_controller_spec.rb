@@ -5,16 +5,16 @@ include AuthenticatedTestHelper
 shared_examples_for "successful notes mailer response" do
   it_should_behave_like "returns success"
   it "response should return status success" do
-    @resp['status'].should == 'success'
+    @resp['status'].should eql 'success'
   end
   it "response should not have messages" do
-    @resp['messages'].length.should == 0
+    @resp['messages'].length.should eql 0
   end
 end
 
 shared_examples_for 'has some invalid params' do
   it "responds with error status" do
-    @resp['status'].should == 'error'
+    @resp['status'].should eql 'error'
   end
   it "response does not report 'invalid note type'" do
     @resp['messages'].should_not include 'invalid note type'
@@ -55,17 +55,17 @@ shared_examples_for 'main#index page' do
   end
   it 'has the default description' do
     assert_select 'head meta[name=description]' do |desc|
-      desc.length.should == 1
-      desc[0].attributes['content'].should == "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
+      desc.length.should eql 1
+      desc[0].attributes['content'].should eql "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
     end
     assert_select 'head meta[property=og:description]' do |desc|
-      desc.length.should == 1
-      desc[0].attributes['content'].should == "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
+      desc.length.should eql 1
+      desc[0].attributes['content'].should eql "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
     end
   end
   it 'has the default keywords' do
     assert_select 'head meta[name=keywords]' do |keywords|
-      keywords.length.should == 1
+      keywords.length.should eql 1
       expected = ["art is the mission", "art", "artists", "san francisco"]
       actual = keywords[0].attributes['content'].split(',').map(&:strip)
       expected.each do |ex|
@@ -248,7 +248,7 @@ describe MainController do
         (/Get Involved/ =~ assigns(:page_title)).should be
       end
       it 'assigns the proper paypal page' do
-        assigns(:page).should == 'paypal_success'
+        assigns(:page).should eql 'paypal_success'
       end
     end
   end
@@ -396,7 +396,7 @@ describe MainController do
         end
       end
       it "participating studios should be in alpha order by name (ignoring 'the')" do
-        assigns(:participating_studios).sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should == assigns(:participating_studios).map(&:name)
+        assigns(:participating_studios).sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should eql assigns(:participating_studios).map(&:name)
       end
       it 'assigns the right number of participating indies (all os participants with studio = 0)' do
         n = Artist.active.open_studios_participants.map(&:studio_id).select{|sid| sid==0}.count
@@ -404,7 +404,7 @@ describe MainController do
         assigns(:participating_indies).should have(n).artists
       end
       it 'participating artists are in alpha order by last name' do
-        assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should == assigns(:participating_indies)
+        assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should eql assigns(:participating_indies)
       end
       it "renders the markdown version" do
         assert_select '.markdown h1', :match => 'pr header'
@@ -532,13 +532,13 @@ describe MainController do
       end
       it_should_behave_like 'successful json'
       it "response has error status" do
-        @j['status'].should == 'error'
+        @j['status'].should eql 'error'
       end
       it "response reports 'invalid note type'" do
         @j['messages'].should include 'invalid note type'
       end
       it "response only has one error message" do
-        @j['messages'].size.should == 1
+        @j['messages'].size.should eql 1
       end
     end
 
@@ -549,7 +549,7 @@ describe MainController do
         @resp = JSON::parse(response.body)
       end
       it "response has error status" do
-        @resp['status'].should == 'error'
+        @resp['status'].should eql 'error'
       end
       it "response reports 'invalid note type'" do
         @resp['messages'].should include 'invalid note type'
@@ -623,10 +623,10 @@ describe MainController do
         it_should_behave_like "successful notes mailer response"
         it 'triggers FeedbackMailer.feedback' do
           FeedbackMailer.should_receive(:feedback).with() do |f|
-            f.login.should == 'anon'
+            f.login.should eql 'anon'
             f.comment.should include 'a@b.com'
-            f.subject.should == 'MAU Submit Form : email_list'
-            f.email.should == 'a@b.com'
+            f.subject.should eql 'MAU Submit Form : email_list'
+            f.email.should eql 'a@b.com'
           end.and_return(double(:deliver! => true))
           xhr :post, :notes_mailer, :note_type => 'email_list',
             :email => 'a@b.com', :email_confirm => 'a@b.com'
@@ -667,9 +667,9 @@ describe MainController do
 
         it 'triggers FeedbackMailer.deliver_feedback' do
           FeedbackMailer.should_receive(:feedback).with() do |f|
-            f.login.should == 'anon'
+            f.login.should eql 'anon'
             f.comment.should include 'feed.rss'
-            f.subject.should == 'MAU Submit Form : feed_submission'
+            f.subject.should eql 'MAU Submit Form : feed_submission'
           end.and_return(double(:deliver! => true))
 
           xhr :post, :notes_mailer, :note_type => 'feed_submission',

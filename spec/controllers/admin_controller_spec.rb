@@ -203,8 +203,8 @@ describe AdminController do
       assert_select('.section.graph', :count => 4)
     end
     [:total, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
-      it 'renders an #{sxn} stats section' do
-        assert_select '.section.%s' % sxn
+      it "renders an #{sxn} stats section" do
+        assert_select('.section.%s' % sxn)
       end
     end
     it 'renders open studios info in reverse chrono order' do

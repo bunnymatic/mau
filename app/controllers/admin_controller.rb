@@ -28,9 +28,9 @@ class AdminController < ApplicationController
       :events_future => Event.future.count,
       :favorited_art_pieces => Favorite.art_pieces.count,
       :favorited_artists => Favorite.artists.count,
-      :favorites_users_using => Favorite.count(:select => 'distinct user_id'),
-      :artists_pending => Artist.count(:conditions => "state='pending'"),
-      :artists_no_profile_image => Artist.active.count(:conditions => "profile_image is not null"),
+      :favorites_users_using => Favorite.group('user_id').all.count,
+      :artists_pending => Artist.where(:state => 'pending').count,
+      :artists_no_profile_image => Artist.active.where("profile_image is not null").count,
       :studios => Studio.count
     }
     @activity_stats[:open_studios] = {}
@@ -176,7 +176,7 @@ class AdminController < ApplicationController
   end
 
   def os_signups
-    tally = OpenStudiosTally.all(:conditions => ["oskey='?'", Conf.oslive])
+    tally = OpenStudiosTally.where(:oskey => Conf.oslive)
     tally = tally.map{|t| [ t.recorded_on.to_time.to_i, t.count ]}
 
     result = { :series => [{ :data => tally }],

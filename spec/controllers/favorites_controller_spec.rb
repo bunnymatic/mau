@@ -62,15 +62,15 @@ describe FavoritesController do
       end
 
       it "aaron should have 1 favorite art piece" do
-        assigns(:favorites)[users(:maufan1).login][:art_pieces].should == 1
+        assigns(:favorites)[users(:maufan1).login][:art_pieces].should eql 1
       end
 
       it "aaron should have 1 favorite art piece" do
-        assigns(:favorites)[users(:maufan1).login][:artists].should == 2
+        assigns(:favorites)[users(:maufan1).login][:artists].should eql 2
       end
 
       it "artist 1 should have 2 favorited" do
-        assigns(:favorites)[users(:artist1).login][:favorited].should == 2
+        assigns(:favorites)[users(:artist1).login][:favorited].should eql 2
       end
 
 

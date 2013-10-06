@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_mobile?
-    !!(is_mobile_device? and session[:mobile_view])
+    !!(is_mobile_device? && session[:mobile_view])
   end
 
   def check_browser

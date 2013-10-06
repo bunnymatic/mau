@@ -3022,7 +3022,15 @@ form#feedback_form .error {
 /**
    map page
    **/
-.map-container { float: right; }
+.map-container {
+  float: right;
+  width: 600px;
+  height: 500px;
+  #map-canvas {
+    border: 1px solid $darkbluegray;
+    height: 100%;
+  }
+}
 .map-os-switch {
   font-size: 10px;
   float: left;
