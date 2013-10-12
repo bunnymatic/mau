@@ -18,4 +18,5 @@ public/stylesheets/*.css
 public/studiodata
 public/artistdata
 log
-
+coverage/*
+flog.report*

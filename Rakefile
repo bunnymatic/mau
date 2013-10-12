@@ -5,6 +5,25 @@ require 'thread'
 
 require(File.join(File.dirname(__FILE__), 'config', 'boot'))
 
+
+begin 
+  require 'rcov'
+  require 'rcov/rcovtask'
+  
+  desc "Run RCov to get coverage of Specs"
+  Rcov::RcovTask.new(:rcov_spec) do |t|
+    t.pattern = 'spec/**/*_spec.rb'
+    t.verbose = true
+    t.rcov_opts << "--html"
+    t.rcov_opts << "--text-summary"
+    t.output_dir = "coverage/spec"
+    t.libs << File.join(File.dirname(__FILE__), 'spec')
+  end
+rescue LoadError => ex
+  puts "Failed to load RCov - rcov_spec task will not be available"
+end
+
+
 require 'rake'
 require 'rake/testtask'
 

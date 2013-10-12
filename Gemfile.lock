@@ -166,6 +166,7 @@ GEM
     rainbow (1.1.4)
     rake (10.0.3)
     rb-fsevent (0.9.3)
+    rcov (1.0.0)
     rdiscount (1.6.8)
     rdoc (3.12)
       json (~> 1.4)
@@ -246,6 +247,7 @@ DEPENDENCIES
   rails (= 2.3.18)
   rails_xss
   rb-fsevent (~> 0.9.1)
+  rcov
   rdiscount
   recaptcha
   rosie

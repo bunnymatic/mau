@@ -66,4 +66,6 @@ group :test, :development do
   gem 'rb-fsevent', '~> 0.9.1' # for guard
 #  gem 'ruby-debug', :require => 'ruby-debug'
 #  gem 'ruby-debug-pry', :require => 'ruby-debug/pry'
+  #
+  gem 'rcov'
 end
