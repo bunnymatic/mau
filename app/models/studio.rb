@@ -5,9 +5,9 @@ class Studio < ActiveRecord::Base
 
   has_many :artists
 
-  acts_as_mappable
-  before_validation_on_create :compute_geocode
-  before_validation_on_update :compute_geocode
+  #acts_as_mappable
+  #before_validation_on_create :compute_geocode
+  #before_validation_on_update :compute_geocode
   before_save :normalize_phone_number
 
   cattr_reader :sort_by_name

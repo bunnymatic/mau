@@ -70,11 +70,6 @@ describe Event do
     end
   end
   describe 'creation' do
-    it 'geocodes on create' do
-      Event.any_instance.expects(:compute_geocode)
-      ev = create_event
-      ev.save
-    end
     it 'stores the user association' do
       ev = create_event
       ev.save
@@ -84,12 +79,6 @@ describe Event do
       
   end
   describe 'updating' do
-    it 'geocodes on update' do
-      Event.any_instance.expects(:compute_geocode)
-      ev = events(:future)
-      ev.description = 'blah'
-      ev.save
-    end
   end
   
   describe '#future?' do
