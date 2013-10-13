@@ -2,10 +2,10 @@
 # Likewise, all the methods added will be available for all controllers.
 
 #USERAGENT = 'HTTP_USER_AGENT'
-require 'cookies_helper'
 require 'faye'
 class ApplicationController < ActionController::Base
-  VERSION = 'Corvair 4.3'
+  #  VERSION = 'Corvair 4.3'
+  VERSION = 'Dart 5.0'
 
   @@revision = nil
 
@@ -16,7 +16,6 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   #include MobilizedStyles
   before_filter :check_browser, :set_version, :get_feeds, :get_new_art, :set_meta_info
-  after_filter :update_cookies
 
   def publish_page_hit
     if request.get?
@@ -26,22 +25,6 @@ class ApplicationController < ActionController::Base
 
   def commit_is_cancel
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
-  end
-
-  def update_cookies
-    @last_visit = nil;
-
-    #last_visit = DateTime::now()
-    #user_info = {}
-    #if current_user
-    #  user_info.merge!({ :email => current_user.email,
-    #                    :firstname => current_user.firstname,
-    #                    :lastname => current_user.lastname,
-    #                    :fullname => current_user.get_name(true) })
-    #end
-    #cookie_data = {:last_visit => last_visit}.merge(user_info)
-    #cookies[:mau] = CookiesHelper::encode_cookie(cookie_data)
-    #@last_visit = last_visit
   end
 
   # Scrub sensitive parameters from your log

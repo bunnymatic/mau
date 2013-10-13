@@ -30,5 +30,18 @@ describe BlacklistDomainsController do
       end
     end
   end
-  
+
+  context 'authorized' do
+    describe '#new' do
+      before do
+        login_as :admin
+        get :new
+      end
+      it 'assigns a new blacklist domain' do
+        assigns(:domain).should be_a_kind_of BlacklistDomain
+        assigns(:domain).should be_new_record
+      end
+    end
+  end
+
 end

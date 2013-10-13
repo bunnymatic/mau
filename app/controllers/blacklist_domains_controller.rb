@@ -2,11 +2,11 @@ class BlacklistDomainsController < AdminController
   def index
     @domains = BlacklistDomain.all
   end
-  
+
   def new
     new_or_edit
   end
-  
+
   def edit
     new_or_edit
   end
@@ -27,13 +27,13 @@ class BlacklistDomainsController < AdminController
   def update
     @domain = BlacklistDomain.find(params[:id])
 
-    if (@domain.update_attributes(params[:blacklist_domain])) 
+    if (@domain.update_attributes(params[:blacklist_domain]))
       redirect_to blacklist_domains_path, :notice => "Updated entry for #{@domain.domain}"
     else
       render 'edit'
     end
   end
-  
+
   def destroy
     @domain = BlacklistDomain.find(params[:id])
     @domain.destroy
