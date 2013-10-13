@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ArtPiecesHelper do
 
+  fixtures :art_pieces, :users, :studios, :media
+
   describe 'compute_pagination' do
     it 'works when there are fewer images than the page size' do
       showing, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(['a'], 0, 10)
@@ -28,4 +30,25 @@ describe ArtPiecesHelper do
       lastpage.should eql 4
     end
   end
+
+  describe 'fb_share_link' do
+    let(:art) { art_pieces(:hot) }
+    it 'builds the facebook share link as expected' do
+      fb = ArtPiecesHelper.fb_share_link(art)
+      fb.should match %r|^http://www.facebook.com/sharer.php?|
+      fb.should include art.get_share_link(true)
+      fb.should include "&t=#{CGI::escape("Check out #{art.artist.get_name()} ")}"
+    end
+  end
+
+  describe 'tw_share_link' do
+    let(:art) { art_pieces(:hot) }
+    it 'builds the twitter share link as expected' do
+      tw = ArtPiecesHelper.tw_share_link(art)
+      tw.should match %r|^http://twitter.com/home|
+      tw.should include art.get_share_link(true)
+      tw.should include CGI.escape('@sfmau #missionartistsunited')
+    end
+  end
+
 end

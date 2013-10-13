@@ -24,24 +24,16 @@ describe ArtistFeedsController do
     it_should_behave_like "not authorized"
   end
 
-  describe 'as admin ' do
+  describe 'as admin' do
     render_views
     before do
       login_as(:admin)
     end
     describe '#index' do
       before do
-        File.stub(:open => double('MockFile', :read => "<div class='feed-entries'><div class='feed-sxn-hdr'><a target='_blank' href='http://studiomorin.blogspot.com/'>Studio Morin<div class='feed-icon blogger'></div></a></div><div class='feedentry  odd'>entry</div></div>"), :encoding_aware? => true)
-
         get :index
       end
       it { response.should be_success }
-      it 'sets the feed_html' do
-        assigns(:feed_html).should match /feed-entries/
-      end
-      it 'draws the feed_html' do
-        assert_select '.feed-entries'
-      end
       it 'has edit link for each feed' do
         ArtistFeed.all.each do |feed|
           assert_select ".feed_entry .controls a[href=/artist_feeds/#{feed.id}/edit]", 'edit'

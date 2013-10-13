@@ -5,12 +5,12 @@ module ArtPiecesHelper
     # curpage:  what page are you on (integer)
     # perpage:  how many results to we show per page
     #
-    # return trimmed array of pieces to show, the next page index, 
-    # previous page index, and booleans indicating whether to show the 
+    # return trimmed array of pieces to show, the next page index,
+    # previous page index, and booleans indicating whether to show the
     # next link and previous link
     #
-    # return as a tuple:  
-    #    array: pieces to show 
+    # return as a tuple:
+    #    array: pieces to show
     #    int: next page index
     #    int: previous page index
     #    int: last page index
@@ -31,8 +31,8 @@ module ArtPiecesHelper
     curpage = [curpage.to_i, 0].max
     firstpage = 0
     nextpage = [curpage + 1, lastpage].min
-    prevpage = [curpage - 1, firstpage].max 
-    
+    prevpage = [curpage - 1, firstpage].max
+
     firstimg = curpage * perpage
     lastimg = firstimg + perpage - 1
     shows = pieces[firstimg..lastimg]
@@ -46,14 +46,14 @@ module ArtPiecesHelper
 
   def self.fb_share_link(artpiece)
     url = artpiece.get_share_link(true)
-    raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name() 
+    raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name()
     title = CGI::escape( raw_title )
     "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
   end
 
   def self.tw_share_link(artpiece)
     url = artpiece.get_share_link(true)
-    raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name() 
+    raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name()
     status = CGI::escape("%s @sfmau #missionartistsunited " % raw_title)
     "http://twitter.com/home?status=%s%s" % [status, url]
   end

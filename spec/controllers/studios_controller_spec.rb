@@ -129,7 +129,7 @@ describe StudiosController do
           get :show, :id => s.id
         end
         it 'get\'s a list of active artists with art' do
-        assigns(:artists).map(&:id).should eql s.artists.active.select{|a| a.representative_piece}.map(&:id)
+          assigns(:artists).map(&:id).should eql s.artists.active.select{|a| a.representative_piece}.map(&:id)
         end
         it 'get\'s a list of active artists with no art' do
           assigns(:other_artists).map(&:id).should eql s.artists.active.select{|a| !a.representative_piece}.map(&:id)

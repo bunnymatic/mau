@@ -340,13 +340,29 @@ describe AdminController do
         render_views
         before do
           File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
-          Dir.stub(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
-          get :fetch_backup, :name => "file1.tgz"
         end
-        it "returns the file" do
-          response.content_type.should eql 'application/octet-stream'
-          response.headers['Content-Disposition'].should include 'attachment'
-          response.headers['Content-Disposition'].should include 'file1.tgz'
+        context 'with good args' do
+          before do
+            Dir.stub(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
+            get :fetch_backup, :name => "file1.tgz"
+          end
+          it "returns the file" do
+            response.content_type.should eql 'application/octet-stream'
+            response.headers['Content-Disposition'].should include 'attachment'
+            response.headers['Content-Disposition'].should include 'file1.tgz'
+          end
+        end
+        context 'with no args' do
+          before do
+            get :fetch_backup
+          end
+          it { response.should redirect_to(admin_path(:action => :db_backups)) }
+        end
+        context 'with bad filename args' do
+          before do
+            get :fetch_backup, :name => 'blow'
+          end
+          it { response.should redirect_to(admin_path(:action => :db_backups)) }
         end
       end
       describe '#db_backups' do

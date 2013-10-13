@@ -33,7 +33,7 @@ class Studio < ActiveRecord::Base
 
   # return faux indy studio
   def self.indy
-    s = Studio.where(:id => 0).first
+    s = Studio.where(:name => "Indepedent Studios").first
     if !s
       s = Studio.new
       s.id = 0

@@ -95,14 +95,14 @@ class StudiosController < ApplicationController
     if params[:id] == 'independent_studios'
       @studio = Studio.indy()
     elsif STUDIO_KEYS.keys.include? params[:id]
-      @studio = Studio.find_by_name(STUDIO_KEYS[params[:id]])
+      @studio = Studio.where(:name => STUDIO_KEYS[params[:id]]).first
     end
     unless @studio
-      if params[:id] == "0"
+      if params[:id].to_s == "0"
         @studio = Studio.indy()
       else
         begin
-          @studio = Studio.find(params[:id])
+          @studio = Studio.find params[:id]
         rescue ActiveRecord::RecordNotFound
           @studio = nil
         end
