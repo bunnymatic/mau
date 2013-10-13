@@ -355,7 +355,7 @@ describe ArtistsController do
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
-        long_bio = Faker::Lorem.paragraphs(5)
+        long_bio = Faker::Lorem.paragraphs(5).join
         artist1_info.update_attribute(:bio, long_bio)
         get :show, :id => artist1.id
         assert_select 'head meta[name=description]' do |desc|
@@ -553,6 +553,7 @@ describe ArtistsController do
     end
     it 'generates a png if you ask for one' do
       File.stub(:open => double(:read => 'the data from the file'))
+      @controller.stub(:render)
       @controller.should_receive(:send_data)
       get :qrcode, :id => Artist.first.id, :format => 'png'
       response.content_type.should eql 'image/png'

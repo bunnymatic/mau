@@ -449,7 +449,6 @@ class ArtistsController < ApplicationController
         fmt.png {
           data = File.open(qrcode_system_path,'rb').read
           send_data(data, :filename => 'qr.png', :type=>'image/png', :disposition => "inline")
-          return
         }
       end
     else
