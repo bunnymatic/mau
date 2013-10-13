@@ -31,7 +31,7 @@ class ArtistsController < ApplicationController
     render :layout => false, :nothing => true, :status => :ok
   end
 
-  def map
+  def map_page
     @view_mode = 'map'
     @os_only = is_os_only(params[:osonly])
     roster_args = {'v' => 'l'}
@@ -96,6 +96,8 @@ class ArtistsController < ApplicationController
     @inparams = params
     @inparams.delete('action')
     @inparams.delete('controller')
+
+    render :map
   end
 
   def admin_index

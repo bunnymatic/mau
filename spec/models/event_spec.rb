@@ -38,14 +38,12 @@ describe Event do
 
   describe 'validation' do
     it 'is an invalid event if end date is present and before start date' do
-      Event.any_instance.stub(:compute_geocode)
       ev = FactoryGirl.create(:event)
       ev.endtime = ev.starttime - 10.days
       ev.should_not be_valid
       ev.errors['endtime'].should be
     end
     it 'is an invalid event if reception endtime is present and before the reception start date' do
-      Event.any_instance.stub(:compute_geocode)
       ev = FactoryGirl.create(:event)
       ev.reception_endtime = ev.reception_starttime - 10.days
       ev.should_not be_valid
@@ -54,11 +52,6 @@ describe Event do
   end
 
   describe 'creation' do
-    it 'geocodes on create' do
-      Event.any_instance.should_receive(:compute_geocode)
-      ev = FactoryGirl.build(:event)
-      ev.save
-    end
     it 'stores the user association' do
       Event.any_instance.stub(:compute_geocode)
       FactoryGirl.create(:event, :user => User.active.first)
@@ -67,12 +60,6 @@ describe Event do
   end
 
   describe 'updating' do
-    it 'geocodes on update' do
-      Event.any_instance.should_receive(:compute_geocode)
-      ev = events(:future)
-      ev.description = 'blah'
-      ev.save
-    end
   end
 
   describe '#future?' do

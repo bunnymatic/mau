@@ -48,7 +48,7 @@ class Artist < User
   end
 
   def in_the_mission?
-    h = self.address_hash
+    h = address_hash
     if h && h.has_key?(:latlng)
       lat = h[:latlng][0]
       lng = h[:latlng][1]
@@ -94,25 +94,25 @@ class Artist < User
   end
 
   def representative_piece
-    cache_key = "%s%s" % [CACHE_KEY, self.id]
+    cache_key = "%s%s" % [CACHE_KEY, id]
     piece = Rails.cache.read(cache_key)
     if piece.nil?
       logger.debug('cache miss');
-      piece = self.art_pieces.first
+      piece = art_pieces.first
       Rails.cache.write(cache_key, piece, :expires_in => 0) unless piece.nil?
     end
     piece
   end
 
   def representative_pieces(n)
-    ap = self.art_pieces[0..n-1]
+    ap = art_pieces[0..n-1]
   end
 
   def qrcode opts = {}
-    path = File.join(Rails.root, "public/artistdata/#{self.id}/profile/qr.png")
+    path = File.join(Rails.root, "public/artistdata/#{id}/profile/qr.png")
     qropts = {:border => 15, :pixel_size => 5}.merge(opts)
     if !File.exists? path
-      artist_url = "http://%s/%s?%s" % [Conf.site_url, "artists/#{self.id}", "qrgen=auto"]
+      artist_url = "http://%s/%s?%s" % [Conf.site_url, "artists/#{id}", "qrgen=auto"]
       path = Qr4r::encode(artist_url, path, qropts)
     end
     return path
@@ -151,11 +151,11 @@ class Artist < User
 
   protected
   def call_address_method(method)
-    if self.studio_id != 0 and self.studio
-      self.studio.send method
+    if studio_id != 0 and studio
+      studio.send method
     else
-      if self.artist_info
-        self.artist_info.send method
+      if artist_info
+        artist_info.send method
       end
     end
   end

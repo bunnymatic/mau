@@ -69,21 +69,21 @@ describe EmailListsController do
       context 'xhr' do
         it 'redirects to itself with flash message when there is an error' do
           xhr :post, :index, :listtype => :event, :email => {:name => 'new dude', :email => 'mr_new@example.com'}
-          response.content_type.should eql 'application/json'
+          response.content_type.should eql Mime::Type.lookup("application/json")
           response.code.should eql '400'
           JSON.parse(response.body)['messages'].should match /not have all the required/
         end
         it 'returns 200 on success' do
           new_email = 'mr_ew@ex.com'
           xhr :post, :index, :method => 'add_email', :listtype => :event, :email => {:name => 'new dude', :email => new_email}
-          response.content_type.should eql 'application/json'
+          response.content_type.should eql Mime::Type.lookup("application/json")
           response.should be_success
           JSON.parse(response.body)['messages'].should match "Successfully added #{new_email} to Events"
         end
         it 'returns an error if the email id is missing when trying to delete' do
           em = EventMailerList.first.emails.first
           xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:name => 'jo'}
-          response.content_type.should eql 'application/json'
+          response.content_type.should eql Mime::Type.lookup("application/json")
           response.should_not be_success
           JSON.parse(response.body)['messages'].should match "Email ID is missing"
         end
@@ -103,7 +103,7 @@ describe EmailListsController do
         it 'returns a message indicating who was removed' do
           em = EventMailerList.first.emails.first
           xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:id => em.id}
-          response.content_type.should eql 'application/json'
+          response.content_type.should eql Mime::Type.lookup("application/json")
           response.should be_success
           JSON.parse(response.body)['messages'].should match "Successfully removed #{em.email} from Events"
         end

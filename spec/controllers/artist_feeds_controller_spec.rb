@@ -31,7 +31,7 @@ describe ArtistFeedsController do
     end
     describe '#index' do
       before do
-        File.stub(:open => double(:read => "<div class='feed-entries'><div class='feed-sxn-hdr'><a target='_blank' href='http://studiomorin.blogspot.com/'>Studio Morin<div class='feed-icon blogger'></div></a></div><div class='feedentry  odd'>entry</div></div>", :encoding_aware? => true))
+        File.stub(:open => double('MockFile', :read => "<div class='feed-entries'><div class='feed-sxn-hdr'><a target='_blank' href='http://studiomorin.blogspot.com/'>Studio Morin<div class='feed-icon blogger'></div></a></div><div class='feedentry  odd'>entry</div></div>"), :encoding_aware? => true)
 
         get :index
       end

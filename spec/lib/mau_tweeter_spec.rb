@@ -11,7 +11,7 @@ describe MauTweeter do
       }
       m = double(:statuses => double( :update! => 'go' ))
       Grackle::Client.should_receive(:new).exactly(:once).with(:auth => auth).and_return(m)
-      MauTweeter.new.send(:tweet, stub(:message =>'give me pith or give me death'))
+      MauTweeter.new.send(:tweet, double(:message =>'give me pith or give me death'))
     end
     it 'tweets a message' do
       m = double "GrackleClient"

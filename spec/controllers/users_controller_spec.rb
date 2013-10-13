@@ -878,7 +878,7 @@ describe UsersController do
       before do
         MAUFan.any_instance.stub(:recently_activated? => true)
         MAUFan.any_instance.stub(:mailchimp_subscribed_at => true)
-        MAUFan.any_instance.should_receive('activate!')
+        MAUFan.any_instance.should_receive(:activate!)
       end
       it 'redirects to login' do
         get :activate, :activation_code => users(:pending).activation_code

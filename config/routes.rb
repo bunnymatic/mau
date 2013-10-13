@@ -64,7 +64,7 @@ Mau::Application.routes.draw do
       get :suggest
       get :arrangeart
       post :setarrangement
-      get :map
+      get :map_page, :as => :map
       get :edit
       get :deleteart
     end

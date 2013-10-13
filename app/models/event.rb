@@ -7,8 +7,8 @@ class Event < ActiveRecord::Base
   has_event_calendar :start_at_field => :reception_starttime, :end_at_field => :reception_endtime
   acts_as_mappable
 
-  after_validation(:on => :create) { compute_geocode }
-  after_validation(:on => :update) { compute_geocode }
+  #after_validation(:on => :create) { compute_geocode }
+  #after_validation(:on => :update) { compute_geocode }
 
   validates_presence_of :title
   validates_presence_of :description

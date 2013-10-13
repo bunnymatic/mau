@@ -608,7 +608,7 @@ describe ArtistsController do
     render_views
     describe 'all artists' do
       before do
-        get :map
+        get :map_page
       end
       it_should_behave_like 'one column layout'
       it "returns success" do
@@ -638,7 +638,7 @@ describe ArtistsController do
       end
       it "get's map info all artists" do
         ArtistsController.any_instance.should_receive(:get_map_info).exactly(assigns(:roster).values.flatten.count).times
-        get :map
+        get :map_page
       end
       it 'renders the map html properly' do
         assert_select "script[src^=https://maps.googleapis.com/maps/api]"
@@ -651,7 +651,7 @@ describe ArtistsController do
     end
     describe 'os only' do
       before do
-        get :map, :osonly => true
+        get :map_page, :osonly => true
       end
       it "returns success" do
         response.should be_success
@@ -683,7 +683,7 @@ describe ArtistsController do
     describe 'logged in as admin' do
       before do
         login_as :admin
-        get :map
+        get :map_page
       end
       it_should_behave_like 'returns success'
       it_should_behave_like 'logged in as admin'

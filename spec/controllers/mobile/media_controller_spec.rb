@@ -63,7 +63,7 @@ describe MediaController do
     it "assigns frequency correctly" do
       freq = assigns(:freq)
       m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
-      m2freq['ct'].should eql 1
+      m2freq['ct'].should eql 1.0
     end
     context "an id that doesn't exist" do
       before do
