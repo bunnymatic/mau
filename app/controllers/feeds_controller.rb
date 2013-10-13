@@ -51,7 +51,7 @@ class FeedsController < ApplicationController
       # don't show mau news on the feed if we're on the news page
       feeds = ArtistFeed.active.all
       strip_tags = true
-      choice(feeds, @@NUM_FEEDS).each do |ff|
+      feeds.sample(@@NUM_FEEDS).each do |ff|
         next unless ff
         if ff.url.match /twitter.com/
           numentries = 3

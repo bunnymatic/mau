@@ -230,6 +230,7 @@ describe AdminController do
   describe 'palette' do
     before do
       login_as(:admin)
+      ScssFileReader.any_instance.stub(:parse_colors => [['black', '000'], ['white', 'ffffff']])
       get :palette
     end
     it{ response.should be_success }

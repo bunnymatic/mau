@@ -1,4 +1,3 @@
-require 'rand_helpers'
 require 'open-uri'
 require 'rss/1.0'
 require 'rss/2.0'
@@ -47,12 +46,12 @@ class MainController < ApplicationController
   def get_random_pieces(num_images=@@NUM_IMAGES)
     # get random set of art pieces and draw them
     @rand_pieces = []
-    all = Artist.active.all(:include => :art_pieces).map(&:art_pieces).flatten
-    numpieces = all.length
+    art_pieces = Artist.active.all(:include => :art_pieces).map(&:art_pieces).flatten
+    numpieces = art_pieces.count
     if numpieces > num_images
-      @rand_pieces = choice(all, num_images)
+      @rand_pieces = art_pieces.sample(num_images)
     else
-      @rand_pieces = all
+      @rand_pieces = art_pieces
     end
   end
 

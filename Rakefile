@@ -37,7 +37,7 @@ begin
     t.rcov_opts << "--text-summary"
     t.rcov_opts << ['--exclude', 'spec']
     t.output_dir = "coverage/spec"
-    t.libs << File.join(File.dirname(__FILE__), 'spec')
+    t.libs << 'spec'
   end
 rescue LoadError => ex
   puts "Failed to load RCov - rcov_spec task will not be available"
