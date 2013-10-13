@@ -188,15 +188,8 @@ class AdminController < ApplicationController
   end
 
   def palette
-    css_file = File.expand_path('app/assets/stylesheets/mau-mixins.scss')
-    css_data = []
-    File.open(css_file, 'r').each do |line|
-      if /\$(.*)\:\s*\#(.*)\;/.match(line.strip)
-        css_data << [$1, $2]
-      end
-    end
-    @colors = css_data
-
+    f = File.expand_path('app/assets/stylesheets/mau-mixins.scss')
+    @colors = ScssFileReader.new(f).parse_colors
   end
 
   def db_backups

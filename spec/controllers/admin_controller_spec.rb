@@ -220,15 +220,19 @@ describe AdminController do
       login_as(:admin)
       get :fans
     end
-    it "responds success" do
-      response.should be_success
-    end
-    it "renders fans template" do
-      response.should render_template 'fans'
-    end
+    it { response.should be_success }
+    it {  response.should render_template 'fans' }
     it "assigns fans" do
       assigns(:fans).length.should eql User.active.all(:conditions => 'type <> "Artist"').length
     end
+  end
+
+  describe 'palette' do
+    before do
+      login_as(:admin)
+      get :palette
+    end
+    it{ response.should be_success }
   end
 
   describe "json endpoints" do
