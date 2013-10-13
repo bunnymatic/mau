@@ -1,13 +1,10 @@
-<<<<<<< HEAD
-source "https://rubygems.org"
-=======
 source 'https://rubygems.org'
 
->>>>>>> Built a gemfile that looks like it's on the right track
 gem 'racc'
 gem "rails", '~> 3.0.20'
 gem "geokit"
-gem "geokit-rails"
+#gem "geokit-rails"
+gem 'geokit-rails3', :git => 'https://github.com/geokit/geokit-rails3.git'
 gem "nokogiri", '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
 gem "htmlentities"
 gem "json"
@@ -16,18 +13,12 @@ gem 'activerecord-mysql2-adapter'
 gem "haml"
 gem "sass"
 gem 'mojo_magick'
-#gem 'passenger', '3.0.12'
-gem 'dalli', '~> 1.x'
-<<<<<<< HEAD
+gem 'dalli'
 gem 'memcache-client'
-gem 'has_many_polymorphs'
-=======
-gem 'has_many_polymorphs', :git => 'git://github.com/jystewart/has_many_polymorphs.git' # rails3 compatible fork
->>>>>>> Built a gemfile that looks like it's on the right track
 gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
-gem 'mobile-fu' #, '2.x', :git => 'git://github.com/brendanlim/mobile-fu.git'
+gem 'mobile_fu-rails3'
 gem 'fastercsv'
 gem 'capistrano'
 gem 'rvm-capistrano'
@@ -43,9 +34,11 @@ gem 'momentarily'
 gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'will_paginate' #, '~> 2.3.16'
-#gem 'browser'
-gem 'rails_xss' # get us closer to Rails3 behavior by auto html escaping
-gem 'erubis' # for rails_xss
+gem 'browser', "= 0.1.6" # 0.2.x does not support ruby 1.8.7
+gem 'geokit'
+gem 'geokit-rails'
+#gem 'rails_xss' # get us closer to Rails3 behavior by auto html escaping
+#gem 'erubis' # for rails_xss
 
 #gem 'pdfkit'
 #gem 'wicked_pdf'
@@ -63,22 +56,25 @@ end
 group :test, :development do
   gem 'guard-coffeescript'
   gem 'guard-rspec', '~> 1.2.0'  # 1.2.x is order rspec compatible
-<<<<<<< HEAD
-  gem 'mocha','0.9.10'
-  gem 'rspec','1.3.1'
-  gem 'rspec-rails','1.3.4'
-=======
-  gem 'mocha' #,'0.9.10'
   gem 'rspec' #,'1.3.1'
   gem 'rspec-rails' #,'1.3.4'
-  #gem 'ZenTest', '4.5.0'
-  #gem 'autotest-rails'
->>>>>>> Built a gemfile that looks like it's on the right track
+  gem 'faker'
   gem 'jslint_on_rails'
   gem 'fakeweb'
+  gem 'factory_girl', '~> 2.0.x'
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
   gem 'pry'
+<<<<<<< HEAD
+  gem 'ruby-debug'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
+  gem "rcov_rails"
   # gem 'rails-upgrade'
+=======
+  gem 'rb-fsevent', '~> 0.9.1' # for guard
+#  gem 'ruby-debug', :require => 'ruby-debug'
+#  gem 'ruby-debug-pry', :require => 'ruby-debug/pry'
+  #
+  gem 'rcov'
+>>>>>>> master
 end
