@@ -1,5 +1,4 @@
 require 'uri'
-require 'artist'
 class Studio < ActiveRecord::Base
 
   include AddressMixin
@@ -7,11 +6,12 @@ class Studio < ActiveRecord::Base
   has_many :artists
 
   acts_as_mappable
-  before_validation :compute_geocode
+  before_validation(:on => :create) { :compute_geocode }
+  before_validation(:on => :update) { :compute_geocode }
   before_save :normalize_phone_number
 
   cattr_reader :sort_by_name
-  @@sort_by_name = lambda{|a,b| 
+  @@sort_by_name = lambda{|a,b|
       if !a || a.id == 0
         1
       elsif !b || b.id == 0
