@@ -42,6 +42,10 @@ describe Studio do
     it "studio is valid" do
       @s.should be_valid
     end
+    it "save triggers geocode" do
+      @s.expects(:compute_geocode).returns([-37,122])
+      @s.save
+    end
     it "validates phone number" do
       @s.save
       @s.reload
@@ -49,7 +53,13 @@ describe Studio do
     end
   end
 
-  describe 'update' do 
+  describe 'update' do
+    it "triggers geocode given new street" do
+      s = studios(:s1890)
+      s.street = '1891 Bryant St'
+      s.expects(:compute_geocode).returns([-37,122])
+      s.save!
+    end
   end
   
   describe 'formatted_phone' do
