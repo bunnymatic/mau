@@ -39,19 +39,19 @@ describe Studio do
       @s = Studio.new(valid_studio_attributes)
     end
     it "studio is valid" do
-      @s.should_receive(:compute_geocode).and_return([-37,122])
+      @s.should_receive(:compute_geocode).at_least(:once).and_return([-37,122])
       @s.should be_valid
     end
     it "save triggers geocode" do
       s = Studio.new(valid_studio_attributes)
-      s.should_receive(:compute_geocode).and_return([-37,122])
+      s.should_receive(:compute_geocode).at_least(:once).and_return([-37,122])
       s.save!
     end
     it "validates phone number" do
-      Studio.any_instance.stub(:compute_geocode => [-40,120])
+      @s.stub(:compute_geocode => [-40,120])
       @s.save!
       @s.reload
-      @s.phone.should == '4151234154'
+      @s.phone.should eql '4151234154'
     end
   end
 
@@ -59,7 +59,7 @@ describe Studio do
     it "triggers geocode given new street" do
       s = studios(:s1890)
       s.street = '1891 Bryant St'
-      s.should_receive(:compute_geocode).and_return([-37,122])
+      s.should_receive(:compute_geocode).at_least(:once).and_return([-37,122])
       s.save!
     end
   end
