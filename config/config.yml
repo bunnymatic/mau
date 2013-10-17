@@ -4,7 +4,7 @@
 test:
    site_url: test.host
    cache_server: localhost:11211
-   image_servers: 
+   #image_servers: 
    mailchimp_api_key: bogus-key
    oslive: 201210
 
@@ -13,7 +13,7 @@ development:
    recaptcha_private_key: 6LfgJ9oSAAAAAELX8fI1cHywuLFikg7komNUkM_V
    site_url: mau.rcode5.com
    cache_server: localhost:11211
-   image_servers: 
+   #image_servers: 
    cache_expiry:
        feed: 300
        search: 20
@@ -27,7 +27,7 @@ development:
 production:
    site_url: missionartistsunited.org
    cache_server: localhost:11211
-   image_servers: 
+   #image_servers: 
    cache_expiry:
        feed: 3600
        search: 300

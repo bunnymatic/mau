@@ -2,10 +2,7 @@ require 'pathname'
 
 class ImageFile
 
-  FILENAME_CLEANER = /[\#|\*|\(|\)|\[|\]|\{|\}|\&|\<|\>|\$|\!\?|\;|\']/
-  def self.clean_filename(fname)
-    fname.gsub(FILENAME_CLEANER,'').gsub(/\s+/, '')
-  end
+  extend ImageFileHelpers
 
   class ImageSizes
     class ImageSize < Struct.new(:width, :height, :prefix); end
@@ -58,12 +55,14 @@ class ImageFile
   end
   
   @@IMG_SERVERS = ['']
-  if Conf.image_servers
-    Conf.image_servers.each do |svr|
-      @@IMG_SERVERS << svr
-    end
-    ::Rails.logger.info("IMAGE SERVERS [%s]" % @@IMG_SERVERS)
-  end
+  # Currenly not using image_servers
+  #
+  # if Conf.image_servers
+  #   Conf.image_servers.each do |svr|
+  #     @@IMG_SERVERS << svr
+  #   end
+  #   ::Rails.logger.info("IMAGE SERVERS [%s]" % @@IMG_SERVERS)
+  # end
 
   @@ALLOWED_IMAGE_EXTS = ["jpg", "jpeg" ,"gif","png" ]
  
@@ -82,22 +81,16 @@ class ImageFile
   end
 
   def self.save(upload, destdir, destfile=nil)
+    ts = Time.zone.now.to_f
     logger = ::Rails.logger
-    dot_pos = upload.original_filename.rindex(".")
-    if not dot_pos
-      logger.error("ImageFile: no file extension\n") 
-      raise ArgumentError, "Cannot determine file type without an extension."
-    end
-    dot_pos += 1
-    ext = upload.original_filename[dot_pos..-1]
+
+    ext = get_file_extension(upload.original_filename)
     if @@ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
       logger.error("ImageFile: bad filetype\n") 
       raise ArgumentError, "File type doesn't appear to be JPEG, GIF or PNG."
     end
-    ts = Time.zone.now.to_i
-    destfile = ts.to_s + File.basename(upload.original_filename) if !destfile
-    # make filename something nice
-    destfile = self.clean_filename(destfile)
+    destfile ||= create_timestamped_filename(upload.original_filename)
+
     dir = destdir
     path = File.join(dir, File.basename(destfile))
     if !File.exists?(dir)
@@ -125,13 +118,10 @@ class ImageFile
     # store resized versions:
     file_match = Regexp.new(destfile + "$")
     #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
-    paths = [:large, :medium, :small, :thumb].map do |sz|
+    paths = Hash[ [:large, :medium, :small, :thumb].map do |sz|
       [sz, srcpath.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
-    end
-    p paths
-    paths.each do |pthinfo|
-      key = pthinfo[0]
-      destpath = pthinfo[1]
+    end ]
+    paths.each do |key, destpath|
       begin
         MojoMagick::resize(srcpath, destpath,
                            { :width => ImageSizes.width(key),

@@ -11,7 +11,7 @@ describe ApplicationEvent do
   end
 
   it 'functions as an STI table' do
-    OpenStudiosSignupEvent.all.should eql ApplicationEvent.find_all_by_type('OpenStudiosSignupEvent')
+    OpenStudiosSignupEvent.all.should eql ApplicationEvent.where(:type => 'OpenStudiosSignupEvent').to_a
   end
 
   it 'sends events to subscribers after save' do

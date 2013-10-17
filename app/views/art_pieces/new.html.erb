@@ -10,13 +10,11 @@
       <div class="error-msg"><%= flash[:error] %></div>
       <% elsif @errors -%>
       <div class="error-msg">
-	There were problems with your request:
-	<%= @errors.map { |k, v| 
-            k == :base ? "<div>%s</div>" % v : "<div>%s %s</div>" % [ k.capitalize,v ] 
-            } %>
+	      There were problems with your request:
+	      <%= @errors.map{|e| content_tag('div',e)}.join.html_safe %>
       </div>
-      <% end -%>
-    <% end -%>
+      <% end %>
+    <% end %>
     <table align="center" cellspacing="0" cellpadding="8">
       <tr>
         <td class="input-name" width="224"><%= f.label :title %></td>

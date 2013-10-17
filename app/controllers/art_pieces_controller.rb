@@ -197,7 +197,7 @@ class ArtPiecesController < ApplicationController
             flash[:notice] = 'Artwork was successfully added.'
             Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
           else
-            @errors = @art_piece.errors
+            @errors = @art_piece.errors.full_messages
             @art_piece = ArtPiece.new params[:art_piece]
           end
         end

@@ -53,15 +53,18 @@ group :staging, :production do
   gem 'newrelic_rpm'
 end
 
+group :test do
+  gem 'faker'
+  gem 'fakeweb'
+  gem 'factory_girl', '~> 2.0.x'
+end
+
 group :test, :development do
   gem 'guard-coffeescript'
   gem 'guard-rspec', '~> 1.2.0'  # 1.2.x is order rspec compatible
   gem 'rspec' #,'1.3.1'
   gem 'rspec-rails' #,'1.3.4'
-  gem 'faker'
   gem 'jslint_on_rails'
-  gem 'fakeweb'
-  gem 'factory_girl', '~> 2.0.x'
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
   gem 'pry'

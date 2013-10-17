@@ -52,5 +52,5 @@ describe ImageFile do
     end
   end
 
-
+  it_should_behave_like ImageFileHelpers
 end
