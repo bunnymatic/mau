@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StudiosController do
 
   fixtures :studios
-  fixtures :users
+  fixtures :users, :artist_infos, :roles
 
   render_views
 
