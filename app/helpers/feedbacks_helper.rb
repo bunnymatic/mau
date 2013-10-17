@@ -37,32 +37,32 @@ module FeedbacksHelper
       'Other' ]
   end
 
-  def feedback_bugtypes
-    [ '',
-      'Found a bug',
-      'Feature request',
-      'General feedback' ]
-  end
+  # def feedback_bugtypes
+  #   [ '',
+  #     'Found a bug',
+  #     'Feature request',
+  #     'General feedback' ]
+  # end
 
-  def feedback_subjects(section='general')
-    # logic for links and fields shown is in javascript
-    subjects = [ { 'general' => 'General feedback' },
-                 { 'suggest' => 'Suggestion' },
-                 { 'volunteer' => 'Volunteer for MAU' },
-                 { 'gallery' => 'Gallery interest'},
-                 { 'business' => 'Local Business interest'},
-                 { 'donate' => 'Donate to MAU'},
-                 { 'feedsuggest' => 'Suggest a feed'},
-                 { 'website' => 'Website Feedback'},
-                { 'emaillist' => 'Get on the MAU email list'}
-               ]
-    html = ''
-    subjects.each do |a|
-      cls = 'fdbk-subj'
-      kk = a.keys()[0]
-      vv = a.values()[0]
-      html += '<div class="%s"><a class="%s" href="#%s" >%s<div id="next_pg"></div></a></div>' % [cls, cls, kk, vv]
-    end
-    html
-  end
+  # def feedback_subjects(section='general')
+  #   # logic for links and fields shown is in javascript
+  #   subjects = [ { 'general' => 'General feedback' },
+  #                { 'suggest' => 'Suggestion' },
+  #                { 'volunteer' => 'Volunteer for MAU' },
+  #                { 'gallery' => 'Gallery interest'},
+  #                { 'business' => 'Local Business interest'},
+  #                { 'donate' => 'Donate to MAU'},
+  #                { 'feedsuggest' => 'Suggest a feed'},
+  #                { 'website' => 'Website Feedback'},
+  #               { 'emaillist' => 'Get on the MAU email list'}
+  #              ]
+  #   html = ''
+  #   subjects.each do |a|
+  #     cls = 'fdbk-subj'
+  #     kk = a.keys()[0]
+  #     vv = a.values()[0]
+  #     html += '<div class="%s"><a class="%s" href="#%s" >%s<div id="next_pg"></div></a></div>' % [cls, cls, kk, vv]
+  #   end
+  #   html
+  # end
 end

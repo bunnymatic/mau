@@ -1182,6 +1182,7 @@ var TagMediaHelper = {
 
   G.init = function() {
     var showSection = function(ev) {
+      ev.stopPropagation();
       var s = _giLnk2Div(this.id);
       G.showSection(s);
       return false;
