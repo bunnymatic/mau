@@ -8,20 +8,7 @@
 	<%= @error_message %>
   </div>
     <% end -%>
-    <% if flash[:error] -%>
-    <center>
-    <div class="error-msg">
-      <%= flash[:error] %>
-    </div>
-    </center>
-    <% end -%>
-    <% if flash[:notice] -%>
-    <center>
-    <div class="notice">
-      <%= flash[:notice] %>
-    </div>
-    </center>
-    <% end -%>
+    <%= render '/flash_notice_error' %>
   <div id="getinv_overview" class="getinv-content" >
     Mission Artists United is small but growing!  Focused on promoting and unifying all the artists in the Mission district of San Francisco, MAU is concentrating its efforts to bring attention to both the artists, and the Mission community. To accomplish all the great things that we'd like to, we know that we're going to need some help. Here are a bunch of ways you can help out.
   </div>
