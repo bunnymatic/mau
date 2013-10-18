@@ -21,7 +21,7 @@ shared_examples_for ImageFileHelpers do
 
     it 'builds a timestamped filename given an input filename' do
       fname = described_class.create_timestamped_filename("/a/b/c/whatever.jpg")
-      fname.should eql ([Time.zone.now.to_i.to_s, 'whatever.jpg'].join)
+      fname.should eql([Time.zone.now.to_i.to_s, 'whatever.jpg'].join)
     end
   end
   describe 'get_file_extension' do
