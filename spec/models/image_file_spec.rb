@@ -52,5 +52,29 @@ describe ImageFile do
     end
   end
 
+  describe '#get_path' do
+    let(:directory) { Faker::Files.dir }
+    let(:file) { Faker::Files.file }
+    it "returns the right path where size is thumb" do
+      (ImageFile.get_path(directory,:thumb,file)).should eql([directory,'t_' +file].join '/')
+    end
+    it "returns the right path where size is cropped_thumb" do
+      (ImageFile.get_path(directory,:cropped_thumb,file)).should eql([directory,'ct_' +file].join '/')
+    end
+    it "returns the right path where size is small" do
+      (ImageFile.get_path(directory,:small,file)).should eql([directory,'s_' +file].join '/')
+    end
+    it "returns the right path where size is medium" do
+      (ImageFile.get_path(directory,:medium,file)).should eql([directory,'m_' +file].join '/')
+    end
+    it "returns the right path where size is large" do
+      (ImageFile.get_path(directory,:large,file)).should eql([directory,'l_' +file].join '/')
+    end
+    it "returns the right path where size is original" do
+      (ImageFile.get_path(directory,:original,file)).should eql([directory,file].join '/')
+    end
+  end
+
+
   it_should_behave_like ImageFileHelpers
 end
