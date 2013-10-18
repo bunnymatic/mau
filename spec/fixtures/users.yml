@@ -81,6 +81,7 @@ artist1:
   type: Artist
   url: http://myurl.com
   studio: blue
+  profile_image: this_that.jpg
 
 indyartist:
   login:                     indyartist1

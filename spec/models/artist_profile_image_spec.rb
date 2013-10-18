@@ -25,4 +25,29 @@ describe ArtistProfileImage do
       @artist.image_width.should eql 2233
     end
   end
+
+  describe '#get_path' do
+    let(:artist) { users(:artist1) }
+    let(:directory) { 'artistdata' }
+    it "returns the right path where size is thumb" do
+      (ArtistProfileImage.get_path(artist, :thumb)).should eql('/'+ [directory,artist.id,'profile','t_'+artist.profile_image].join('/'))
+    end
+    it "returns the right path where size is cropped_thumb" do
+      (ArtistProfileImage.get_path(artist, :cropped_thumb)).should eql('/'+ [directory,artist.id,'profile','ct_'+artist.profile_image].join('/'))
+    end
+    it "returns the right path where size is small" do
+      (ArtistProfileImage.get_path(artist, :small)).should eql('/'+ [directory,artist.id,'profile','s_'+artist.profile_image].join('/'))
+    end
+    it "returns the right path where size is medium" do
+      (ArtistProfileImage.get_path(artist, :medium)).should eql('/'+  [directory,artist.id,'profile','m_'+artist.profile_image].join('/'))
+      (ArtistProfileImage.get_path(artist)).should eql('/'+  [directory,artist.id,'profile','m_'+artist.profile_image].join('/'))
+    end
+    it "returns the right path where size is large" do
+      (ArtistProfileImage.get_path(artist, :large)).should eql("/"+ [directory,artist.id,'profile','l_'+artist.profile_image].join('/'))
+    end
+    it "returns the right path where size is original" do
+      (ArtistProfileImage.get_path(artist, :original)).should eql("/"+ [directory,artist.id,'profile',artist.profile_image].join('/'))
+    end
+  end
+
 end
