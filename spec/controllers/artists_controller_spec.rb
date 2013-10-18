@@ -548,6 +548,7 @@ describe ArtistsController do
     end
     it 'generates a png if you ask for one' do
       File.stubs(:open).returns(stub(:read => 'the data from the file'))
+      File.stubs(:close)
       @controller.expects(:send_data)
       get :qrcode, :id => Artist.first.id, :format => 'png'
       response.content_type.should eql 'image/png'
