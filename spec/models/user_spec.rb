@@ -108,7 +108,7 @@ describe User do
     end
     it 'does not save multiple roles of the same type' do
       expect {
-        artist1.roles << Role.find_by_role('manager')
+        artist1.roles << Role.where(:role => :manager).first
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end

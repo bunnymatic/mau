@@ -31,13 +31,39 @@ describe ArtPieceTagsController do
     end
   end
   describe '#index' do
-    before do
-      get :index
+    describe 'format=html' do
+      before do
+        get :index
+      end
+      it 'redirects to show page with the most popular tag' do
+        response.should redirect_to art_piece_tag_path(art_piece_tags(:one))
+      end
     end
-    it 'redirects to show page with the most popular tag' do
-      response.should redirect_to art_piece_tag_path(art_piece_tags(:one))
+    describe 'format=json' do
+      before do
+        get :index, :format => :json
+      end
+      it_should_behave_like 'successful json'
+      it 'returns all tags as json' do
+        j = JSON.parse(response.body)
+        j.should have(ArtPieceTag.count).tags
+      end
+
+      it 'writes to the cache if theres nothing there' do
+        Rails.cache.should_receive(:read).and_return(nil)
+        Rails.cache.should_receive(:write)
+        get :index, :format => :json
+      end
+
+      it 'uses the cache there is data' do
+        Rails.cache.should_receive(:read).and_return( [ ArtPieceTag.first ].to_json )
+        Rails.cache.should_not_receive(:write)
+        get :index, :format => :json
+      end
+
     end
   end
+
   describe '#show' do
     render_views
     [:one, :two, :three].each do |tag|
@@ -88,5 +114,6 @@ describe ArtPieceTagsController do
       }.to change(ArtPieceTag,:count).by(-3)
     end
   end
+
   
 end

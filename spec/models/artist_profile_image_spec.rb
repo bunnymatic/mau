@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ArtistProfileImage do
 
-  fixtures :users, :artist_infos, :studios, :roles
+  fixtures :users, :artist_infos, :studios
 
   describe '#save' do
     let(:file) { Faker::Files.file }
