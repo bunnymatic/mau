@@ -4,5 +4,10 @@ class Role < ActiveRecord::Base
 
   validates_presence_of :role
   validates_uniqueness_of :role
+
+  scope :managers, where(:role => :manager)   
+  scope :admins, where(:role => :admins)
+  scope :editors, where(:role => :editors)
+
 end
 

@@ -107,11 +107,12 @@ describe ArtistsController do
       css_select( '.bio_link a' ).should be_empty
     end
     it 'renders a truncated bio if the bio is big' do
-      a = Artist.find_by_login('ponceart')
+      a = Artist.where(:login =>'ponceart')
       5.times.each do
         a.artist_info.bio += a.artist_info.bio
       end
       a.artist_info.save
+
       get :show, :id => a.id
       assert_select('.bio_link.section', /\.\.\./)
       assert_select('.bio_link a', /Read More/)
