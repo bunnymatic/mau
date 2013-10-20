@@ -153,7 +153,7 @@ describe ImageFile do
     end
 
     it 'sets up the right path name' do
-      Mojo::Magick.should_receive(:raw_command).with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
+      MojoMagick.should_receive(:raw_command).with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
       File.should_receive(:open).with('destination/directory/destfile.file', 'wb').and_yield(writable)
       ImageFile.save(upload, 'destination/directory', 'destfile.file')
     end

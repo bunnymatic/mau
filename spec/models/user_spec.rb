@@ -16,6 +16,8 @@ describe User do
     Rails.cache.stub(:read => :nil)
   end
 
+  it_should_behave_like MailChimp
+
   describe 'new' do
     it 'validates' do
       FactoryGirl.build(:user).should be_valid
