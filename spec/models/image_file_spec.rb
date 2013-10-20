@@ -41,6 +41,74 @@ describe ImageFile do
     end
   end
 
+  describe ImageFile::ImageSizes do
+    describe '#height' do
+      it 'returns height for small' do
+        ImageFile::ImageSizes.height(:small).should eql 200
+      end
+      it 'returns height for l' do
+        ImageFile::ImageSizes.height('l').should eql 800
+      end
+      it 'returns nil for orig' do
+        ImageFile::ImageSizes.height('orig').should be_nil
+      end
+      it 'returns 400 for unknown' do
+        ImageFile::ImageSizes.height('unk').should eql 400
+      end
+    end
+
+    describe '#width' do
+      it 'returns width for small' do
+        ImageFile::ImageSizes.width(:small).should eql 200
+      end
+      it 'returns width for l' do
+        ImageFile::ImageSizes.width('l').should eql 800
+      end
+      it 'returns nil for orig' do
+        ImageFile::ImageSizes.width('orig').should be_nil
+      end
+      it 'returns 400 for unknown' do
+        ImageFile::ImageSizes.width('unk').should eql 400
+      end
+    end
+
+    describe '#keymap' do
+      it 'returns medium given nothing' do
+        ImageFile::ImageSizes.keymap(nil).should eql :medium
+        ImageFile::ImageSizes.keymap('').should eql :medium
+      end
+      it 'returns original for "orig"' do
+        ImageFile::ImageSizes.keymap('orig').should eql :original
+        ImageFile::ImageSizes.keymap(:orig).should eql :original
+      end
+      it 'returns thumb for thumbnail & thumb' do
+        %w(thumb thumbnail).each do |sz|
+          ImageFile::ImageSizes.keymap(sz).should eql :thumb
+          ImageFile::ImageSizes.keymap(sz.to_sym).should eql :thumb
+        end
+      end
+      it 'returns small for s or sm' do 
+        %w(s sm).each do |sz|
+          ImageFile::ImageSizes.keymap(sz).should eql :small
+          ImageFile::ImageSizes.keymap(sz.to_sym).should eql :small
+        end
+      end
+      it 'returns large for l' do
+        ImageFile::ImageSizes.keymap('l').should eql :large
+        ImageFile::ImageSizes.keymap(:l).should eql :large
+      end
+      it 'returns medium for m, med, standard, std or medium' do
+        %w(m med standard std medium).each do |sz|
+          ImageFile::ImageSizes.keymap(sz).should eql :medium
+        end
+      end
+      it 'returns the medium for something it doesn\'t recognize' do
+        ImageFile::ImageSizes.keymap('blow').should eql :medium
+        ImageFile::ImageSizes.keymap(:blow).should eql :medium
+      end
+    end
+  end
+
   describe 'clean_filename' do
     [['fname.jpg', 'fname.jpg'],
      ['f & name.jpg', 'fname.jpg'],
@@ -75,6 +143,9 @@ describe ImageFile do
     end
   end
 
-
   it_should_behave_like ImageFileHelpers
+
+  describe "#save" do
+  end
+
 end

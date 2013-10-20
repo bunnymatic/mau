@@ -44,4 +44,27 @@ describe CatalogController do
       end
     end
   end
+
+  describe '#social' do
+    context 'format=html' do
+      before do
+        get :social
+      end
+      it { response.should_not be_success }
+    end
+    context 'format=mobile' do
+      before do
+        get :social, :format => :mobile
+      end
+      it { response.should redirect_to root_path }
+    end
+    context 'format=csv' do
+      before do
+        get :social, :format => :csv
+      end
+      it { response.should be_success }
+      pending "test data in csv"
+    end
+
+  end
 end

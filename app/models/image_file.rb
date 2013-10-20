@@ -36,6 +36,8 @@ class ImageFile
 
     def self.keymap(sz) 
       return :medium if sz.blank?
+      allowed_sizes = @@sizes.keys
+      return sz.to_sym if (allowed_sizes.include? sz.to_sym)
       case sz.to_s
       when "orig"
         :original
@@ -48,7 +50,7 @@ class ImageFile
       when 'l'
         :large
       else
-        sz.to_sym
+        :medium
       end
     end
 
@@ -71,9 +73,7 @@ class ImageFile
   end
 
   def self.get_path(dir, size, fname)
-    if not fname or fname.length < 1
-      return ''
-    end
+    return '' if fname.empty?
     prefix = ImageSizes.prefix(size)
     idx = fname.hash % @@IMG_SERVERS.length
     svr = @@IMG_SERVERS[idx]

@@ -1,4 +1,7 @@
 class ArtPieceImage < ImageFile
+
+  MISSING_ART_PIECE = '/images/missing_artpiece.gif'
+
   def self.get_paths(artpiece)
     Hash[ImageSizes.all.keys.map do |kk|
            path = self.get_path(artpiece, kk.to_s)
@@ -10,8 +13,8 @@ class ArtPieceImage < ImageFile
   def self.get_path(artpiece, size="medium")
     # get path for image of size
     # size should be either "thumb","medium","original"
-    if not artpiece
-      return "/images/missing_artpiece.gif"
+    unless artpiece.is_a? ArtPiece
+      return MISSING_ART_PIECE
     end
     # should happen only if there has been data corruption
     begin
@@ -19,10 +22,10 @@ class ArtPieceImage < ImageFile
     rescue
       owner = nil
     end
-    return if ! owner
+    return MISSING_ART_PIECE if ! owner
     dir = "/artistdata/#{owner.id}/imgs/"
     if not artpiece.filename
-      return ""
+      return MISSING_ART_PIECE
     end
     fname = File.basename(artpiece.filename)
     ImageFile.get_path(dir, size, fname)
