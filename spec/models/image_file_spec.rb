@@ -152,8 +152,18 @@ describe ImageFile do
       Pathname.stub(:new => double("Path", :realpath => 'blah_de_blah'))
     end
 
-    it 'sets up the right path name' do
+    it 'disallows CMYK format' do
       MojoMagick.should_receive(:raw_command).with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
+      File.should_receive(:open).with('destination/directory/destfile.file', 'wb').and_yield(writable)
+      expect {
+        ImageFile.save(upload, 'destination/directory', 'destfile.file')
+      }.to raise_error ArgumentError
+    end
+
+    it 'sets up the right path name and calls resize for all the desired sizes' do
+      MojoMagick.stub(:raw_command)
+      MojoMagick.should_receive(:raw_command).with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 RGB")
+      MojoMagick.should_receive(:resize).exactly(4).times
       File.should_receive(:open).with('destination/directory/destfile.file', 'wb').and_yield(writable)
       ImageFile.save(upload, 'destination/directory', 'destfile.file')
     end
