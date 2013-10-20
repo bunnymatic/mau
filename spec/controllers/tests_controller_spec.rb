@@ -11,14 +11,31 @@ describe TestsController do
   end
 
   describe 'as admin' do
+    fixtures :users, :roles, :roles_users
+
     before do
       login_as :admin
     end
 
     describe '#flash_test' do
       it 'sets up the flash notice/error messages' do
+        get :flash_test
         flash[:notice].should be_present
         flash[:error].should be_present
+      end
+    end
+
+    describe '#qr' do
+      before do
+        t = Time.zone.now
+        Time.zone.stub(:now => t)
+        @t = t
+        FileUtils.should_receive(:mkdir_p).with '/projects/mau/public/images/tmp'
+        Qr4r.stub(:encode)
+      end
+      it 'builds a qr image' do
+        post :qr, 'string_to_encode' => 'this string', 'pixel_size' => '10'
+        assigns(:qrfile).should eql "/images/tmp/qrtest_#{@t.to_i}.png"
       end
     end
 

@@ -26,7 +26,6 @@ class TestsController < ApplicationController
         base_file = File.join('images', 'tmp', "qrtest_#{Time.zone.now.to_i}.png")
         f = File.join(Rails.root, 'public', base_file)
         FileUtils.mkdir_p( File.dirname(f) )
-        p opts
         Qr4r::encode(params["string_to_encode"], f, opts )
         @qrfile = "/" + base_file 
       end
