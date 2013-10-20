@@ -146,6 +146,18 @@ describe ImageFile do
   it_should_behave_like ImageFileHelpers
 
   describe "#save" do
+    let (:writable) { double('Writable',:write => nil) }
+    let (:upload) { double('Uploadable', :read => '', :original_filename => 'uploaded_file.jpg') }
+    before do
+      Pathname.stub(:new => double("Path", :realpath => 'blah_de_blah'))
+    end
+
+    it 'sets up the right path name' do
+      Mojo::Magick.should_receive(:raw_command).with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
+      File.should_receive(:open).with('destination/directory/destfile.file', 'wb').and_yield(writable)
+      ImageFile.save(upload, 'destination/directory', 'destfile.file')
+    end
+
   end
 
 end
