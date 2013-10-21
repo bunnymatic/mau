@@ -74,6 +74,63 @@ describe EventsController do
       end
     end
 
+    context 'new' do
+      before do
+        get :new
+      end
+      it_should_behave_like 'returns success'
+      it 'constructs a new event' do
+        assigns(:event).should be_new_record
+        assigns(:event).state.should eql 'CA'
+      end
+      it 'renders new_or_edit' do
+        response.should render_template 'new_or_edit'
+      end
+    end
+
+    context 'create' do
+      let(:event_attrs) { FactoryGirl.attributes_for(:event) }
+      before do
+        EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
+        post :create, :event => event_attrs
+      end
+      it { response.should redirect_to events_path }
+      it "saves a new event" do
+        Event.where(:url => event_attrs[:url]).should be_present
+      end
+    end
+
+    context 'update' do
+      let (:event) { Event.last }
+      before do
+        put :update, :id => event, :event => { :title => 'new event title' }
+      end
+      it { response.should redirect_to admin_events_path }
+      it "updates the title" do
+        event.reload.title.should eql 'new event title'
+      end
+    end
+
+    context 'destroy' do
+      before do
+        delete :destroy, :id => Event.last
+      end
+      it { response.should redirect_to events_path }
+    end
+
+    context 'edit' do
+      before do
+        get :edit, :id => Event.last
+      end
+      it_should_behave_like 'returns success'
+      it 'pulls the event' do
+        assigns(:event).should eql Event.last
+      end
+      it 'renders new_or_edit' do
+        response.should render_template 'new_or_edit'
+      end
+    end
+
     context 'publish' do
       before do
         @event = events(:reception_full)

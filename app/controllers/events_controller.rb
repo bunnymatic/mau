@@ -59,7 +59,6 @@ class EventsController < ApplicationController
   end
 
   # GET /events/new
-  # GET /events/new.xml
   def new
     @event = Event.new(:state => 'CA', :city => 'San Francisco')
     render 'new_or_edit'
@@ -72,7 +71,6 @@ class EventsController < ApplicationController
   end
 
   # POST /events
-  # POST /events.xml
   def create
     event_details = params[:event]
     if event_details[:artist_list]
@@ -94,22 +92,18 @@ class EventsController < ApplicationController
     event_details[:user_id] = current_user.id
     @event = Event.new(event_details)
 
-    respond_to do |format|
-      if @event.save
-        EventMailer.event_added(@event).deliver!
-        redir = events_path
-        flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
-        format.html { redirect_to(redir) }
-        format.xml  { render :xml => @event, :status => :created, :location => @event }
-      else
-        format.html { render "new_or_edit"}
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-      end
+    if @event.save
+      EventMailer.event_added(@event).deliver!
+      redir = events_path
+      flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
+      redirect_to(redir)
+    else
+      puts @event.errors.full_messages.join
+      render "new_or_edit"
     end
   end
 
   # PUT /events/1
-  # PUT /events/1.xml
   def update
     @event = Event.find(params[:id])
     event_details = params[:event]
@@ -118,28 +112,21 @@ class EventsController < ApplicationController
       event_details.delete :artist_list
     end
 
-    respond_to do |format|
-      if @event.update_attributes(event_details)
-        flash[:notice] = 'Event was successfully updated.'
-        format.html { redirect_to(admin_events_path) }
-        format.xml  { head :ok }
-      else
-        format.html { render "new_or_edit", :layout => 'mau-admin' }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-      end
+    if @event.update_attributes(event_details)
+      flash[:notice] = 'Event was successfully updated.'
+      redirect_to(admin_events_path)
+    else
+      puts @event.errors.full_messages.join
+      render "new_or_edit", :layout => 'mau-admin'
     end
   end
 
   # DELETE /events/1
-  # DELETE /events/1.xml
   def destroy
     @event = Event.find(params[:id])
     @event.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(events_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(events_url)
   end
 
   def publish
