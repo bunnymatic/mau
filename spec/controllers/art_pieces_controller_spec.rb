@@ -25,134 +25,174 @@ describe ArtPiecesController do
       @artpieces = @artist.art_pieces
     end
     context "not logged in" do
-      render_views
-      before do
-        get :show, :id => @artpieces.first.id
-      end
-      it_should_behave_like 'returns success'
-      it 'has a description with the art piece name' do
-        assert_select 'head' do |tag|
-          assert_select 'meta[name=description]' do |desc|
-            desc.length.should eql 1
-            desc[0].attributes['content'].should match /#{@artpieces.first.title}/
-          end
-          assert_select 'meta[property=og:description]' do |desc|
-            desc.length.should eql 1
-            desc[0].attributes['content'].should match /#{@artpieces.first.title}/
-          end
-        end
-      end
-      it 'has keywords that match the art piece' do
-        assert_select 'head meta[name=keywords]' do |keywords|
-          keywords.length.should eql 1
-          expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
-          actual = keywords[0].attributes['content'].split(',').map(&:strip)
-          expected.each do |ex|
-            actual.should include ex
-          end
-        end
-      end
-      it 'include the default keywords' do
-        assert_select 'head meta[name=keywords]' do |keywords|
-          keywords.length.should eql 1
-          expected = ["art is the mission", "art", "artists", "san francisco"]
-          actual = keywords[0].attributes['content'].split(',').map(&:strip)
-          expected.each do |ex|
-            actual.should include ex
-          end
-        end
-      end
-
-      it 'shows the artist name in the sidebar' do
-        artist_link = artist_path(@artpieces.first.artist)
-        assert_select ".lcol h3 a[href=#{artist_link}]"
-        assert_select ".lcol a[href=#{artist_link}] img"
-      end
-
-      it 'shows the thumbnail browser' do
-        assert_select '#artp_thumb_browser'
-      end
-
-      it 'includes proper JSON for the thumblist' do
-        assert_select 'script' do |script_tag|
-          script_tag.join.should include 'Thumbs.ThumbList ='
-          script_tag.join.should include '"path":"/artistdata/'
-        end
-      end
-
-      it "displays art piece" do
-        assert_select("#artpiece_title", @artpieces.first.title)
-      end
-      if Conf.show_lightbox_feature
-        it 'includes the zoom data for big art pieces' do
-          ap = @artpieces.first
-          assert_select('a.zoom').each do |tag|
-            tag.attributes['data-image'].should eql ap.get_path('large')
-            tag.attributes['data-imagewidth'].should be
-            tag.attributes['data-imageheight'].should be
-          end
-        end
-      end
-      it "has no edit buttons" do
-        assert_select("div.edit-buttons", "")
-        expect(css_select("div.edit-buttons *")).to be_empty
-      end
-      it "has a favorite me icon" do
-        assert_select('.micro-icon.heart')
-      end
-      context "piece has been favorited" do
+      context "format=html" do
+        render_views
         before do
-          ap = @artpieces.first
-          users(:maufan1).add_favorite ap
-          get :show, :id => ap.id
+          get :show, :id => @artpieces.first.id
         end
-        it "shows the number of favorites" do
-          assert_select '#num_favorites', 1
+        it_should_behave_like 'returns success'
+        it 'has a description with the art piece name' do
+          assert_select 'head' do |tag|
+            assert_select 'meta[name=description]' do |desc|
+              desc.length.should eql 1
+              desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+            end
+            assert_select 'meta[property=og:description]' do |desc|
+              desc.length.should eql 1
+              desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+            end
+          end
+        end
+        it 'has keywords that match the art piece' do
+          assert_select 'head meta[name=keywords]' do |keywords|
+            keywords.length.should eql 1
+            expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
+            actual = keywords[0].attributes['content'].split(',').map(&:strip)
+            expected.each do |ex|
+              actual.should include ex
+            end
+          end
+        end
+        it 'include the default keywords' do
+          assert_select 'head meta[name=keywords]' do |keywords|
+            keywords.length.should eql 1
+            expected = ["art is the mission", "art", "artists", "san francisco"]
+            actual = keywords[0].attributes['content'].split(',').map(&:strip)
+            expected.each do |ex|
+              actual.should include ex
+            end
+          end
+        end
+
+        it 'shows the artist name in the sidebar' do
+          artist_link = artist_path(@artpieces.first.artist)
+          assert_select ".lcol h3 a[href=#{artist_link}]"
+          assert_select ".lcol a[href=#{artist_link}] img"
+        end
+
+        it 'shows the thumbnail browser' do
+          assert_select '#artp_thumb_browser'
+        end
+
+        it 'includes proper JSON for the thumblist' do
+          assert_select 'script' do |script_tag|
+            script_tag.join.should include 'Thumbs.ThumbList ='
+            script_tag.join.should include '"path":"/artistdata/'
+          end
+        end
+
+        it "displays art piece" do
+          assert_select("#artpiece_title", @artpieces.first.title)
+        end
+        if Conf.show_lightbox_feature
+          it 'includes the zoom data for big art pieces' do
+            ap = @artpieces.first
+            assert_select('a.zoom').each do |tag|
+              tag.attributes['data-image'].should eql ap.get_path('large')
+              tag.attributes['data-imagewidth'].should be
+              tag.attributes['data-imageheight'].should be
+            end
+          end
+        end
+        it "has no edit buttons" do
+          assert_select("div.edit-buttons", "")
+          expect(css_select("div.edit-buttons *")).to be_empty
+        end
+        it "has a favorite me icon" do
+          assert_select('.micro-icon.heart')
+        end
+        context "piece has been favorited" do
+          before do
+            ap = @artpieces.first
+            users(:maufan1).add_favorite ap
+            get :show, :id => ap.id
+          end
+          it "shows the number of favorites" do
+            assert_select '#num_favorites', 1
+          end
+        end
+      end
+      context "getting unknown art piece page" do
+        it "should redirect to error page" do
+          get :show, :id => 'bogusid'
+          flash[:error].should match(/couldn't find that art piece/)
+          response.should redirect_to '/error'
+        end
+      end
+      context "when logged in as art piece owner" do
+        render_views
+        before do
+          login_as(@artist)
+          @logged_in_artist = @artist
+          get :show, :id => @artpieces.first.id
+        end
+        it_should_behave_like 'two column layout'
+        it_should_behave_like 'logged in artist'
+        it "shows edit button" do
+          assert_select("div.edit-buttons span#artpiece_edit a", "edit")
+        end
+        it "shows delete button" do
+          assert_select(".edit-buttons #artpiece_del a", "delete")
+        end
+        it "doesn't show heart icon" do
+          expect(css_select('.micro-icon.heart')).to be_empty
+        end
+      end
+      context "when logged in as not artpiece owner" do
+        render_views
+        before do
+          login_as(users(:maufan1))
+          get :show, :id => @artpieces.first.id
+        end
+        it_should_behave_like 'two column layout'
+        it "shows heart icon" do
+          assert_select('.micro-icon.heart')
+        end
+        it "doesn't have edit button" do
+          expect(css_select("div.edit-buttons span#artpiece_edit a")).to be_empty
+        end
+        it "doesn't have delete button" do
+          expect(css_select(".edit-buttons #artpiece_del a")).to be_empty
         end
       end
     end
-    context "getting unknown art piece page" do
-      it "should redirect to error page" do
-        get :show, :id => 'bogusid'
-        flash[:error].should match(/couldn't find that art piece/)
-        response.should redirect_to '/error'
+    context 'format=json' do
+      before do
+        ap = ArtPiece.first
+        ap.medium_id = Medium.first.id
+        ap.save
+        get :show, :id => ArtPiece.first.id, :format => :json
+      end
+      it_should_behave_like 'successful json'
+      it 'includes medium' do
+        j = JSON.parse(response.body)
+        ap = j['art_piece']
+        ap.should have_key 'art_piece_tags'
+        ap.should have_key 'medium'
+        ap.should have_key 'image_dimensions'
+        ap.should have_key 'image_files'
+        ap['artist_name'].should eql ArtPiece.first.artist.get_name
+        ap['title'].should eql ArtPiece.first.title
       end
     end
-    context "when logged in as art piece owner" do
-      render_views
-      before do
-        login_as(@artist)
-        @logged_in_artist = @artist
-        get :show, :id => @artpieces.first.id
-      end
-      it_should_behave_like 'two column layout'
-      it_should_behave_like 'logged in artist'
-      it "shows edit button" do
-        assert_select("div.edit-buttons span#artpiece_edit a", "edit")
-      end
-      it "shows delete button" do
-        assert_select(".edit-buttons #artpiece_del a", "delete")
-      end
-      it "doesn't show heart icon" do
-        expect(css_select('.micro-icon.heart')).to be_empty
-      end
+  end
+
+  describe '#new' do
+    before do
+      login_as :artist1
     end
-    context "when logged in as not artpiece owner" do
-      render_views
-      before do
-        login_as(users(:maufan1))
-        get :show, :id => @artpieces.first.id
-      end
-      it_should_behave_like 'two column layout'
-      it "shows heart icon" do
-        assert_select('.micro-icon.heart')
-      end
-      it "doesn't have edit button" do
-        expect(css_select("div.edit-buttons span#artpiece_edit a")).to be_empty
-      end
-      it "doesn't have delete button" do
-        expect(css_select(".edit-buttons #artpiece_del a")).to be_empty
-      end
+    it 'sets a flash for artists with a full portfolio' do
+      Artist.any_instance.stub(:max_pieces => 0)
+      get :new
+      flash.now[:error].should be_present
+    end
+    it 'assigns all media' do
+      get :new
+      assigns(:media).should eql Medium.all
+    end
+    it 'assigns a new art piece' do
+      get :new
+      assigns(:art_piece).should be_a_kind_of ArtPiece
     end
   end
 

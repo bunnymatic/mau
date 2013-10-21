@@ -5,6 +5,7 @@ class ArtPiece < ActiveRecord::Base
   has_many :art_pieces_tags
   has_many :art_piece_tags, :through => :art_pieces_tags, :dependent => :destroy
 
+  belongs_to :medium
   include ImageDimensions
 
   before_destroy :remove_images
@@ -49,11 +50,11 @@ class ArtPiece < ActiveRecord::Base
     urlsafe ? CGI::escape(link): link
   end
 
-  def medium
-    if self.medium_id && self.medium_id > 0
-      Medium.find(self.medium_id)
-    end
-  end
+  # def medium
+  #   if self.medium_id && self.medium_id > 0
+  #     Medium.find(self.medium_id)
+  #   end
+  # end
 
   def add_tag(tag_string)
     art_piece_tags << TagsHelper.tags_from_s(tag_string)

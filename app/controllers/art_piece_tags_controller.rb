@@ -119,7 +119,7 @@ class ArtPieceTagsController < ApplicationController
     end
 
     @results_mode = params[:m] || 'p'
-    joiner = ArtPiecesTag.find_all_by_art_piece_tag_id(params[:id])
+    joiner = ArtPiecesTag.where(:art_piece_tag_id => params[:id])
     results = {}
     joiner.each do |apt|
       art = apt.art_piece

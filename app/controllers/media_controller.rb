@@ -109,7 +109,7 @@ class MediaController < ApplicationController
     page = page.to_i
     @results_mode = params[:m] || 'p'
 
-    items = ArtPiece.where(:medium_id => @medium.id).order('created_at')
+    items = @medium.art_pieces.order('created_at')
 
     # if show by artists, pick 1 from each artist
     if @results_mode == 'p'
