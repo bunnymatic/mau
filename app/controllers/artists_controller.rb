@@ -399,7 +399,7 @@ class ArtistsController < ApplicationController
     if !@artist.nil?
       @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
       @page_description = build_page_description @artist
-      @page_keywords += @artist.media.map(&:name) + @artist.tags.map(&:name)
+      @page_keywords += [@artist.media.map(&:name), @artist.tags.map(&:name)].flatten.compact.uniq
       # get artist pieces here instead of in the html
       num = @artist.max_pieces - 1
       @art_pieces = @artist.art_pieces[0..num]

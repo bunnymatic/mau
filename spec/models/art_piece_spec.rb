@@ -7,6 +7,9 @@ end
 
 describe ArtPiece do
   fixtures :art_pieces, :users, :artist_infos
+
+  it_should_behave_like ImageDimensions
+
   describe 'create'  do
     it 'should not allow short title' do
       ap = ArtPiece.new(:title => 't')

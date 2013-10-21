@@ -9,10 +9,7 @@ class EventsController < ApplicationController
   def admin_index
     @events = Event.all
 
-    respond_to do |format|
-      format.html { render :layout => 'mau-admin' }
-      format.xml  { render :xml => @events }
-    end
+    render :layout => 'mau-admin'
   end
 
   # GET /events
@@ -54,7 +51,6 @@ class EventsController < ApplicationController
       format.mobile {
         render :layout => 'mobile'
       }
-      format.xml  { render :xml => @event }
     end
   end
 

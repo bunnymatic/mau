@@ -2,10 +2,10 @@ Mau::Application.routes.draw do
 
   resources :blacklist_domains
   resources :roles
-  resources :cms_documents
+  resources :cms_documents, :except => [:destroy]
   resources :media
   resources :artist_feeds
-  resources :art_pieces
+  resources :art_pieces, :except => ['index']
   resource :session
   resources :studios do
     member do

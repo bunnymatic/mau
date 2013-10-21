@@ -5,25 +5,11 @@ module ImageDimensions
 
       key= ImageFile::ImageSizes.keymap(k)
       sz = ImageFile::ImageSizes.all[key]
-      if !sz
-        r[k] = [0,0]
-      elsif k == :original
+      if k == :original
         r[k] = [image_width.to_i, image_height.to_i]
       else
         maxdim = [sz.width, sz.height].max
-        wd = ht = 0
-
-        if image_width.to_i > 0 and image_height.to_i> 0
-          rt = image_height.to_f / image_width.to_f
-          if rt < 1.0
-            wd = maxdim.to_i
-            ht = (wd * rt).to_i
-          else
-            ht = maxdim.to_i
-            wd = (ht / rt).to_i
-          end
-        end
-        r[k] = [wd,ht]
+        r[k] = get_max_scaled_dimensions maxdim
       end
       r
     end
@@ -31,11 +17,12 @@ module ImageDimensions
   end
 
   def get_min_scaled_dimensions(mindim)
-    # given maxdim, return width and height such that the max of width
+    # given mindim, return width and height such that the max of width
     # or height = mindim, and the other is scaled to the right aspect
     # ratio
-    if self.image_height > 0 and self.image_width > 0
-      ratio = self.image_width.to_f / self.image_height.to_f
+    w, h = [image_width, image_height].map(&:to_i)
+    if h > 0 and w > 0
+      ratio = w.to_f / h.to_f
       if ratio < 1.0
         [ mindim, (mindim / ratio).to_i ]
       else
@@ -46,4 +33,21 @@ module ImageDimensions
       [mindim, mindim]
     end
   end
+
+  def get_max_scaled_dimensions(maxdim)
+    # given maxdim, return the scaled version of size such that the
+    # largest dimension fits in maxdim
+    w, h = [image_width, image_height].map(&:to_i)
+    if w > 0 && h > 0
+      ratio = (h.to_f/w.to_f)
+      if ratio < 1.0
+        [maxdim, maxdim.to_i * ratio].map(&:to_i)
+      else
+        [maxdim.to_i / ratio, maxdim].map(&:to_i)
+      end
+    else
+      [0,0]
+    end
+  end
+
 end

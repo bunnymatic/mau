@@ -6,6 +6,7 @@ def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
 
 describe ArtPieceTagsController do
   fixtures :users, :roles_users, :art_piece_tags, :art_pieces_tags, :art_pieces, :artist_infos, :media
+
   [:admin_index, :new].each do |endpoint|
     describe 'not logged in' do
       describe endpoint do
@@ -30,6 +31,7 @@ describe ArtPieceTagsController do
       response.should be_success
     end
   end
+
   describe '#index' do
     describe 'format=html' do
       before do
@@ -50,40 +52,39 @@ describe ArtPieceTagsController do
           j.should have(ArtPieceTag.count).tags
         end
 
-        it 'writes to the cache if theres nothing there' do
-          Rails.cache.should_receive(:read).and_return(nil)
-          Rails.cache.should_receive(:write)
-          get :index, :format => :json
-        end
-
-        it 'uses the cache there is data' do
-          Rails.cache.should_receive(:read).and_return( [ ArtPieceTag.first ].to_json )
-          Rails.cache.should_not_receive(:write)
-          get :index, :format => :json
-        end
       end
       context 'with input suggestor' do
         before do
-          get :index, :format => :json, :input => 'tag'
+          get :index, :format => :json, :input => 'tag', :suggest => true
         end
         it_should_behave_like 'successful json'
         it 'returns all tags as json' do
           j = JSON.parse(response.body)
-          tag_names = j.map do |entry|
-            entry['art_piece_tag']['name']
-          end.uniq.compact
-          tag_names.all?{ /^tag/i }.should be_true
+          j.first.should have_key 'info'
+          j.first.should have_key 'value'
+          j.map{|entry| entry['value'] =~ /tag/i}.all?.should be_true
         end
+
         it 'writes to the cache if theres nothing there' do
           Rails.cache.should_receive(:read).and_return(nil)
           Rails.cache.should_receive(:write)
-          get :index, :format => :json, :input => 'tag'
+          get :index, :format => :json, :input => 'tag', :suggest => true
+        end
+
+        it 'returns tags using the input' do
+          get :index, :format => :json, :input => 'this', :suggest => true
+          j = JSON.parse(response.body)
+          tag_names = j.map{|entry| entry['value']}
+          tag_names.should eql ['this is the tag']
         end
 
         it 'uses the cache there is data' do
-          Rails.cache.should_receive(:read).and_return( [ ArtPieceTag.first ].to_json )
+          Rails.cache.should_receive(:read).with(Conf.autosuggest['tags']['cache_key']).
+            and_return(JSON.generate([ {"info" => ArtPieceTag.first.id, "value" => ArtPieceTag.last.name }]))
           Rails.cache.should_not_receive(:write)
-          get :index, :format => :json, :input => 'tag'
+          get :index, :format => :json, :input => 'tag', :suggest => 'blo'
+          j = JSON.parse(response.body)
+          j.first['value'].should eql ArtPieceTag.last.name
         end
       end
     end
@@ -104,11 +105,10 @@ describe ArtPieceTagsController do
           @disp = @tag.name.gsub(/\s+/, '&nbsp;')
         end
         it_should_behave_like 'returns success'
-        it 'renders the requested tag highlighted' do
-          assert_select '.tagcloud .clouditem.tagmatch', :count => 1
-          assert_select '.tagcloud .clouditem.tagmatch', @disp
+        it "renders the requested tag #{tag} highlighted" do
+          assert_select '.tagcloud .clouditem.tagmatch', :count => 1, :text => @disp
         end
-        it 'renders art that has that tag' do
+        it "renders art that has the requested tag #{tag}" do
           assert_select '.search-thumbs .artpiece_tag a', @disp
         end
       end
@@ -142,7 +142,7 @@ describe ArtPieceTagsController do
       it 'removes empty tags' do
         expect {
           get :cleanup
-        }.to change(ArtPieceTag,:count).by(-3)
+        }.to change(ArtPieceTag,:count).by(-2)
       end
     end
   end

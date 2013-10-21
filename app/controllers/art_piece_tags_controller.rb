@@ -1,6 +1,6 @@
 require 'json'
 require 'json/add/core'
-#require 'json/add/rails' 
+#require 'json/add/rails'
 class ArtPieceTagsController < ApplicationController
   layout 'mau1col'
   before_filter :admin_required, :except => [ :index, :show ]
@@ -8,7 +8,7 @@ class ArtPieceTagsController < ApplicationController
 
   @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
   @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
-  
+
   @@PER_PAGE = 12
   def admin_index
     tags = ArtPieceTag.all
@@ -20,7 +20,7 @@ class ArtPieceTagsController < ApplicationController
         t['count'] = 0
       end
     end
-    @tags = tags.sort { |a,b| b['count'] <=> a['count'] } 
+    @tags = tags.sort { |a,b| b['count'] <=> a['count'] }
     render :layout => "mau-admin"
   end
 
@@ -34,19 +34,19 @@ class ArtPieceTagsController < ApplicationController
         t['count'] = 0
       end
     end
-    @tags = tags.sort { |a,b| a['count'] <=> b['count'] } 
+    @tags = tags.sort { |a,b| a['count'] <=> b['count'] }
     @tags.each do |t|
       if t['count'] <= 0
         t.destroy
       end
     end
     redirect_to '/admin/art_piece_tags'
-  end    
+  end
 
   def index
     xtra_params = Hash[ params.select{ |k,v| [:m,"m"].include? k } ]
     respond_to do |format|
-      format.html { 
+      format.html {
         freq = ArtPieceTag.frequency
         if !freq || freq.empty?
           render_not_found Exception.new("No tags in the system")
@@ -55,7 +55,7 @@ class ArtPieceTagsController < ApplicationController
           redirect_to art_piece_tag_path(params[:id], xtra_params)
         end
       }
-      format.json  { 
+      format.json  {
         if params[:suggest]
           tagnames = []
           begin
@@ -68,9 +68,9 @@ class ArtPieceTagsController < ApplicationController
             logger.debug("Fetched autosuggest tags from cache")
             tagnames = ActiveSupport::JSON.decode cacheout
           end
-          if !tagnames or tagnames.empty?
+          if tagnames.blank?
             alltags = ArtPieceTag.all
-            alltags.each do |t| 
+            alltags.each do |t|
               tagnames << { "value" => t.name, "info" => t.id }
             end
             cachein = ActiveSupport::JSON.encode tagnames
@@ -95,7 +95,7 @@ class ArtPieceTagsController < ApplicationController
           render :json => tagnames
         else
           tags = ArtPieceTag.all
-          render :json => tags 
+          render :json => tags
         end
       }
     end
@@ -135,7 +135,7 @@ class ArtPieceTagsController < ApplicationController
       artist_ids = Artist.active.all.map{|a| a.id}
       tmps = {}
       results.values.each do |pc|
-        if (pc && !tmps.include?(pc.artist_id) && 
+        if (pc && !tmps.include?(pc.artist_id) &&
             artist_ids.include?(pc.artist_id))
           tmps[pc.artist_id] = pc
         end
@@ -164,7 +164,7 @@ class ArtPieceTagsController < ApplicationController
     nxtmod = arg % nextpage
     prvmod = arg % prevpage
     lastmod = arg % lastpage
-    
+
     if show_next
       @next_link = base_link + nxtmod
       @last_link = base_link + lastmod
@@ -183,10 +183,6 @@ class ArtPieceTagsController < ApplicationController
   def new
     @tag = ArtPieceTag.new
     ArtPieceTag.flush_cache
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @tag }
-    end
   end
 
   def edit
@@ -196,32 +192,25 @@ class ArtPieceTagsController < ApplicationController
   def create
     @tag = ArtPieceTag.new(params[:tag])
 
-    respond_to do |format|
-      if @tag.save
-        ArtPieceTag.flush_cache
-        flash[:notice] = 'ArtPieceTag was successfully created.'
-        format.html { redirect_to(@tag) }
-        format.xml  { render :xml => @tag, :status => :created, :location => @tag }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @tag.errors, :status => :unprocessable_entity }
-      end
+    if @tag.save
+      ArtPieceTag.flush_cache
+      flash[:notice] = 'ArtPieceTag was successfully created.'
+      redirect_to(@tag)
+    else
+      render :action => "new"
     end
+
   end
 
   def update
     @tag = ArtPieceTag.find(params[:id])
 
-    respond_to do |format|
-      if @tag.update_attributes(params[:tag])
-        ArtPieceTag.flush_cache
-        flash[:notice] = 'ArtPieceTag was successfully updated.'
-        format.html { redirect_to(@tag) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @tag.errors, :status => :unprocessable_entity }
-      end
+    if @tag.update_attributes(params[:tag])
+      ArtPieceTag.flush_cache
+      flash[:notice] = 'ArtPieceTag was successfully updated.'
+      redirect_to(@tag)
+    else
+      render :action => "edit"
     end
   end
 
@@ -229,10 +218,7 @@ class ArtPieceTagsController < ApplicationController
     @tag = ArtPieceTag.find(params[:id])
     @tag.destroy
     ArtPieceTag.flush_cache
-    respond_to do |format|
-      format.html { redirect_to(art_piece_tags_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(art_piece_tags_url)
   end
 
   def autosuggest

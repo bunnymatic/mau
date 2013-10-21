@@ -6,16 +6,8 @@ one:
 two:
   name: Tag2
 
-
-
-<% ltrs = ('a'..'z').to_a << ' '
-   nltrs = ltrs.length
-   w = "ABC"
-   260.times { |i| w<<ltrs[i%nltrs] }
-%>
-
 three:
-  name: <%= w %>
+  name: Tag3
 
 with_spaces:
   name: this is the tag
@@ -26,5 +18,3 @@ other:
 unused:
   name: unused
 
-empty:
-  name: 

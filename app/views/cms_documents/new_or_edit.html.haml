@@ -4,12 +4,9 @@
     = link_to 'Show This Document', @cms_document
     = "|"
     = link_to 'Document Index', cms_documents_path
-
+  = render '/flash_notice_error'
   = form_for(@cms_document) do |f|
-    - if flash[:error]
-      .error-msg Error: #{flash[:error]}
-    - if flash[:notice]
-      .notice #{flash[:notice]}
+    = render '/common/form_errors', :form => f
     .header_inputs.clear
       .section
         = f.label :page

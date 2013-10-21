@@ -138,11 +138,7 @@ class StudiosController < ApplicationController
   # GET /studios/new.xml
   def new
     @studio = Studio.new
-
-    respond_to do |format|
-      format.html { render :layout => 'mau-admin' }# new.html.erb
-      format.xml  { render :xml => @studio }
-    end
+    render :layout => 'mau-admin'
   end
 
   # GET /studios/1/edit
@@ -153,36 +149,27 @@ class StudiosController < ApplicationController
   end
 
   # POST /studios
-  # POST /studios.xml
   def create
     @studio = Studio.new(params[:studio])
 
-    respond_to do |format|
-      if @studio.save
-        flash[:notice] = 'Studio was successfully created.'
-        format.html { redirect_to(@studio) }
-        format.xml  { render :xml => @studio, :status => :created, :location => @studio }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @studio.errors, :status => :unprocessable_entity }
-      end
+    if @studio.save
+      flash[:notice] = 'Studio was successfully created.'
+      redirect_to(@studio)
+    else
+      render :action => "new"
     end
+
   end
 
   # PUT /studios/1
-  # PUT /studios/1.xml
   def update
     @studio = Studio.find(params[:id])
     @selected_studio = @studio.id
-    respond_to do |format|
-      if @studio.update_attributes(params[:studio])
-        flash[:notice] = 'Studio was successfully updated.'
-        format.html { redirect_to(@studio) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @studio.errors, :status => :unprocessable_entity }
-      end
+    if @studio.update_attributes(params[:studio])
+      flash[:notice] = 'Studio was successfully updated.'
+      redirect_to(@studio)
+    else
+      render :action => "edit"
     end
   end
 
@@ -197,10 +184,7 @@ class StudiosController < ApplicationController
       @studio.destroy
     end
 
-    respond_to do |format|
-      format.html { redirect_to(studios_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(studios_url)
   end
 
   protected

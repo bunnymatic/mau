@@ -18,18 +18,6 @@ class ArtPiecesController < ApplicationController
 
   @@THUMB_BROWSE_SIZE = 65
 
-  # GET /art_pieces
-  # GET /art_pieces.xml
-  def index
-    @art_pieces = ArtPiece.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @art_pieces }
-      format.json  { render :json => @art_pieces }
-    end
-  end
-
   def _setup_thumb_browser_data(pieces, cur_id)
     npieces = pieces.length()
     @thumbs = []
@@ -64,8 +52,6 @@ class ArtPiecesController < ApplicationController
     end
   end
 
-  # GET /art_pieces/1
-  # GET /art_pieces/1.xml
   def show
     @facebook_required = true
     @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
@@ -131,8 +117,6 @@ class ArtPiecesController < ApplicationController
 
   end
 
-  # GET /art_pieces/new
-  # GET /art_pieces/new.xml
   def new
     artist = Artist.find(current_user.id)
     cur_pieces = artist.art_pieces.length
@@ -141,10 +125,6 @@ class ArtPiecesController < ApplicationController
     end
     @art_piece = ArtPiece.new
     @media = Medium.all
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @art_piece }
-    end
   end
 
   # GET /art_pieces/1/edit
@@ -210,15 +190,11 @@ class ArtPiecesController < ApplicationController
       end
     end
 
-    respond_to do |format|
-      if saved
-        format.html { redirect_to(current_user) }
-        format.xml  { render :xml => @art_piece, :status => :created, :location => @art_piece }
-      else
-        @media = Medium.all
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @art_piece.errors, :status => :unprocessable_entity }
-      end
+    if saved
+      redirect_to(current_user)
+    else
+      @media = Medium.all
+      render :action => "new"
     end
   end
 
@@ -267,10 +243,7 @@ class ArtPiecesController < ApplicationController
       art.destroy
       Messager.new.publish "/artists/#{artist.id}/art_pieces/delete", "removed art piece #{params[:id]}"
     end
-    respond_to do |format|
-      format.html { redirect_to(artist) }
-      format.xml  { head :ok }
-    end
+    redirect_to(artist)
   end
 
   def sidebar_info

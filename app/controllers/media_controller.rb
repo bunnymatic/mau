@@ -61,11 +61,6 @@ class MediaController < ApplicationController
   # GET /media/new.xml
   def new
     @medium = Medium.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @medium }
-    end
   end
 
   # GET /media/1/edit
@@ -73,53 +68,36 @@ class MediaController < ApplicationController
     @medium = Medium.find(params[:id])
   end
 
-  # POST /media
-  # POST /media.xml
   def create
     @medium = Medium.new(params[:medium])
 
-    respond_to do |format|
-      if @medium.save
-        Medium.flush_cache
-        flash[:notice] = 'Medium was successfully created.'
-        format.html { redirect_to(@medium) }
-        format.xml  { render :xml => @medium, :status => :created, :location => @medium }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @medium.errors, :status => :unprocessable_entity }
-      end
+    if @medium.save
+      Medium.flush_cache
+      flash[:notice] = 'Medium was successfully created.'
+      redirect_to(@medium) 
+    else
+      render :action => "new" 
     end
   end
 
-  # PUT /media/1
-  # PUT /media/1.xml
   def update
     @medium = Medium.find(params[:id])
 
-    respond_to do |format|
-      if @medium.update_attributes(params[:medium])
-        Medium.flush_cache
-        flash[:notice] = 'Medium was successfully updated.'
-        format.html { redirect_to(@medium) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @medium.errors, :status => :unprocessable_entity }
-      end
+    if @medium.update_attributes(params[:medium])
+      Medium.flush_cache
+      flash[:notice] = 'Medium was successfully updated.'
+      redirect_to(@medium)
+    else
+      render :action => "edit"
     end
   end
 
-  # DELETE /media/1
-  # DELETE /media/1.xml
   def destroy
     @medium = Medium.find(params[:id])
     @medium.destroy
 
     Medium.flush_cache
-    respond_to do |format|
-      format.html { redirect_to(media_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(media_url)
   end
 
   private

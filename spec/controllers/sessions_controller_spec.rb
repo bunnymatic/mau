@@ -40,5 +40,16 @@ describe SessionsController do
         assigns(:cms_content).should have_key :cmsid
       end
     end
+
+    context 'with email' do
+      render_views
+      before do
+        post :create, :login => User.last.email, :password => User.last.password
+      end
+      it_should_behave_like 'returns success'
+      it 'should redirect to root' do
+        response.should redirect_to root_path
+      end
+    end
   end
 end

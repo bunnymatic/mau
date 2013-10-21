@@ -3,10 +3,14 @@ module Faker
     FILE_EXTENSIONS = %w(.jpg .csv .txt .whatever)
     class << self
       def file
-        Faker::Files.dir + Faker::Internet.domain_name + FILE_EXTENSIONS.sample
+        Faker::Lorem.word + FILE_EXTENSIONS.sample
       end
-      def dir
-        rand(2).times.map{ Faker::Internet.domain_name }.join('/')
+      def file_with_path
+        dir + file
+      end
+      def dir(depth=nil)
+        depth ||= 1+rand(2)
+        depth.times.map{ Faker::Lorem.word }.join('/')
       end
     end
   end

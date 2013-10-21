@@ -75,42 +75,6 @@ describe Artist do
         a.attributes = valid_user_attributes.except(:password_confirmation)
         a.should have(1).error_on(:password_confirmation)
       end
-
-      it "should be not allow 'reserved' names for users" do
-        reserved = [ 'addprofile','delete','destroy','deleteart',
-                     'deactivate','add','new','view','create','update']
-
-        a = Artist.new
-        a.attributes = valid_user_attributes.except(:login)
-        reserved.each do |login|
-          a.login = login
-          a.should_not be_valid
-          a.should have_at_least(1).error_on(:login)
-        end
-      end
-
-      it "should not allow 'bogus email' for email address" do
-        a = Artist.new
-        a.attributes = valid_user_attributes.except(:email)
-        a.email = 'bogus email'
-        a.should_not be_valid
-        a.should have_at_least(1).error_on(:email)
-      end
-
-      it "should not allow '   ' for email" do
-        a = Artist.new
-        a.attributes = valid_user_attributes.except(:email)
-        a.email = '   '
-        a.should_not be_valid
-        a.should have_at_least(1).error_on(:email)
-      end
-      it "should not allow blow@ for email" do
-        a = Artist.new
-        a.attributes = valid_user_attributes.except(:email)
-        a.email = 'blow@'
-        a.should_not be_valid
-        a.should have_at_least(1).error_on(:email)
-      end
     end
   end
 

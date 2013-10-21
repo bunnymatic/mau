@@ -7,10 +7,10 @@ shared_examples_for MailChimp do
   end
   describe '.mailchimp_list_id' do
     it 'raises if list name can\'t be found' do
-      expect{ User.first.send(:mailchimp_list_id,'thing') }.to raise_error
+      expect{ described_class.first.send(:mailchimp_list_id,'thing') }.to raise_error
     end
     it 'returns the list if the name is right' do
-      User.first.send(:mailchimp_list_id,'list2').should eql 'list_id'
+      described_class.first.send(:mailchimp_list_id,'list2').should eql 'list_id'
     end
   end
 

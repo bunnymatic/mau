@@ -13,6 +13,7 @@ describe CmsDocumentsController do
   end
 
   context 'authorized' do
+    let(:cms_document) { cms_documents(:os_preview_reception) }
     render_views
     before do
       login_as :admin
@@ -27,7 +28,7 @@ describe CmsDocumentsController do
 
     describe '#show' do
       before do
-        get :show, :id => cms_documents(:os_preview_reception)
+        get :show, :id => cms_document
       end
       it { response.should be_success }
       it 'renders the cms data properly' do
@@ -37,7 +38,7 @@ describe CmsDocumentsController do
 
     describe '#edit' do
       before do
-        get :edit, :id => cms_documents(:os_preview_reception)
+        get :edit, :id => cms_document
       end
       it { response.should be_success }
       it 'renders the cms preview' do
@@ -54,6 +55,48 @@ describe CmsDocumentsController do
       end
       it { response.should be_success }
     end
+
+    describe '#create' do
+      before do
+        login_as :admin
+      end
+      it 'creates a new cms document' do
+        expect{
+          post :create, :cms_document => FactoryGirl.attributes_for(:cms_document)
+        }.to change(CmsDocument,:count).by(1)
+      end
+      it 'renders new on failure' do
+        expect{
+          post :create, :cms_document => { :page => '', :section => '', :article => ''}
+          response.should render_template 'new_or_edit'
+          assigns(:cms_document).errors.should have_at_least(2).errors
+        }.to change(CmsDocument,:count).by(0)
+      end
+      it 'sets a notification' do
+        post :create, :cms_document => FactoryGirl.attributes_for(:cms_document)
+        flash[:notice].should be_present
+      end
+    end
+
+    describe '#update' do
+      before do
+        login_as :admin
+      end
+      it 'creates a new cms document' do
+        put :update, :id => cms_document.id, :cms_document => { :section => 'new_section' }
+        CmsDocument.find(cms_document.id).section.should eql 'new_section'
+      end
+      it 'sets a notification' do
+        put :update, :id => cms_document.id, :cms_document => { :section => 'this place' }
+        flash[:notice].should be_present
+      end
+      it 'renders edit on failure' do
+        put :update, :id => cms_document.id, :cms_document => { :page => '' }
+        response.should render_template :new_or_edit
+        assigns(:cms_document).errors.should be_present
+      end
+    end
+
 
   end
 

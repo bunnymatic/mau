@@ -17,11 +17,43 @@ describe User do
   end
 
   it_should_behave_like MailChimp
+  it_should_behave_like ImageDimensions
+
+  let(:user) { FactoryGirl.build(:user) }
 
   describe 'new' do
     it 'validates' do
-      FactoryGirl.build(:user).should be_valid
+      user.should be_valid
     end
+
+    it "should be not allow 'reserved' names for users" do
+      reserved = [ 'addprofile','delete','destroy','deleteart',
+                   'deactivate','add','new','view','create','update']
+
+      reserved.each do |login|
+        user = FactoryGirl.build(:user, :login => login)
+        user.should_not be_valid
+        user.should have_at_least(1).error_on(:login)
+      end
+    end
+
+    it "should not allow 'bogus email' for email address" do
+      user = FactoryGirl.build(:user, :email => 'bogus email')
+      user.should_not be_valid
+      user.should have_at_least(1).error_on(:email)
+    end
+
+    it "should not allow '   ' for email" do
+      user = FactoryGirl.build(:user, :email => '  ')
+      user.should_not be_valid
+      user.should have_at_least(1).error_on(:email)
+    end
+    it "should not allow blow@ for email" do
+      user = FactoryGirl.build(:user, :email => 'blow@')
+      user.should_not be_valid
+      user.should have_at_least(1).error_on(:email)
+    end
+
   end
   describe 'create' do
     it 'sets email attrs to true for everything' do
@@ -32,32 +64,31 @@ describe User do
   describe 'named scope' do
     it "active returns only active users" do
       User.active.all.each do |u|
-        u.state.should == 'active'
+        u.state.should eql 'active'
       end
     end
     it "pending returns only pending users" do
       User.pending.all.each do |u|
-        u.state.should == 'pending'
+        u.state.should eql 'pending'
       end
     end
   end
 
   describe 'get_name' do
     it 'returns nom de plume if defined' do
-      u = User.new :nomdeplume => 'nom', :firstname => 'first', :lastname => 'last', :login => 'login'
-      u.get_name.should eql 'nom'
+      user.get_name.should eql user.nomdeplume
     end
     it 'returns first + last if defined' do
-      u = User.new :nomdeplume => '', :firstname => 'first', :lastname => 'last', :login => 'login'
-      u.get_name.should eql 'first last'
+      user = FactoryGirl.build(:user, :nomdeplume => '')
+      user.get_name.should eql([user.firstname, user.lastname].join ' ')
     end
     it 'returns login if nom, and firstname are not defined' do
-      u = User.new :lastname => 'last', :login => 'login'
-      u.get_name.should eql 'login'
+      user = FactoryGirl.build(:user, :nomdeplume => '', :firstname => '')
+      user.get_name.should eql user.login
     end
     it 'returns login if nom, and lastname are not defined' do
-      u = User.new :firstname => 'first', :login => 'login'
-      u.get_name.should eql 'login'
+      user = FactoryGirl.build(:user, :nomdeplume => '', :lastname => '')
+      user.get_name.should eql user.login
     end
 
   end
@@ -65,25 +96,26 @@ describe User do
   describe 'get_profile_image' do
     it 'returns the medium artists profile image if there is one' do
       u = users(:annafizyta)
-      u.get_profile_image.should == "/artistdata/#{u.id}/profile/m_profile.jpg"
+      u.get_profile_image.should eql "/artistdata/#{u.id}/profile/m_profile.jpg"
     end
     it 'returns the small artists profile image if there is one give size = small' do
       u = users(:annafizyta)
-      u.get_profile_image(:small).should == "/artistdata/#{u.id}/profile/s_profile.jpg"
+      u.get_profile_image(:small).should eql "/artistdata/#{u.id}/profile/s_profile.jpg"
     end
   end
 
   describe 'get_share_link' do
     it "returns the artists link" do
-      artist1.get_share_link.should match /\/artists\/#{artist1.login}$/
+      user.get_share_link.should match %r|/artists/#{user.login}$|
     end
     it "returns the html safe artists link given html_safe = true" do
-      artist1.get_share_link(true).should match /%2fartists%2f#{artist1.login}$/i
+      user.get_share_link(true).downcase.should match %r|%2fartists%2f#{user.login}$|
     end
     it "returns the artists link with params given params" do
-      artist1.get_share_link(false, { :this => 'that' }).should match /\/artists\/#{artist1.login}\?this=that$/
+      user.get_share_link(false, :this => "that").should match %r|artists/#{user.login}\?this=that$|
     end
   end
+
   describe 'roles' do
     let(:admin) { users(:admin) }
     it "without admin role user is not admin" do
@@ -170,8 +202,8 @@ describe User do
       it "artist is in the users favorite.to_obj list as an artist model" do
         fs = @u.favorites.to_obj.select { |f| f.id == @a.id }
         fs.should have(1).artist
-        fs[0].id.should == @a.id
-        fs[0].class.should == Artist
+        fs[0].id.should eql @a.id
+        fs[0].class.should eql Artist
       end
       it "artist is in user.fav_artists list" do
         (@u.fav_artists.map { |a| a.id }).should include(@a.id)
@@ -200,7 +232,7 @@ describe User do
         end
         it "doesn't add" do
           @result.should be_false
-          @num_favs.should == @u.favorites.count
+          @num_favs.should eql @u.favorites.count
         end
       end
       context "then artist deactivates" do
@@ -213,7 +245,7 @@ describe User do
           (@u.fav_artists.map { |a| a.id }).should_not include(@aid)
         end
         it "favorites list should be smaller" do
-          @u.favorites.count.should == @favs - 1
+          @u.favorites.count.should eql @favs - 1
         end
       end
     end
@@ -272,14 +304,14 @@ describe User do
       it "art_piece is in favorites list" do
         fs = @u.favorites.select { |f| f.favoritable_id == @ap.id }
         fs.should have(1).art_piece
-        fs[0].favoritable_id.should == @ap.id
-        fs[0].favoritable_type.should == 'ArtPiece'
+        fs[0].favoritable_id.should eql @ap.id
+        fs[0].favoritable_type.should eql 'ArtPiece'
       end
       it "art_piece is in favorites_to_obj list as an ArtPiece" do
         fs = @u.favorites.to_obj.select { |f| f.id == @ap.id }
         fs.should have(1).art_piece
-        fs[0].id.should == @ap.id
-        fs[0].class.should == ArtPiece
+        fs[0].id.should eql @ap.id
+        fs[0].class.should eql ArtPiece
       end
 
       it "art_piece is in the artists 'fav_art_pieces' list" do
@@ -299,7 +331,7 @@ describe User do
         end
         it "doesn't add" do
           @result.should be_false
-          @num_favs.should == @u.favorites.count
+          @num_favs.should eql @u.favorites.count
         end
       end
 
@@ -324,7 +356,7 @@ describe User do
     context "artfan" do
       it "create_reset_code should call mailer" do
         UserMailer.should_receive(:reset_notification).with() do |f|
-          f.login.should == users(:artfan).login
+          f.login.should eql users(:artfan).login
           f.email.should include users(:artfan).email
         end.and_return(double(:deliver! => true))
         users(:artfan).create_reset_code
@@ -338,7 +370,7 @@ describe User do
     context "artist" do
       it "create_reset_code should call mailer" do
         ArtistMailer.should_receive(:reset_notification).with() do |f|
-          f.login.should == artist1.login
+          f.login.should eql artist1.login
           f.email.should include artist1.email
         end.and_return(double(:deliver! => true))
         artist1.create_reset_code
@@ -353,7 +385,7 @@ describe User do
 
   describe 'csv_safe' do
     it 'should clean the fields' do
-      users(:badname).csv_safe('firstname').should == 'eat123'
+      users(:badname).csv_safe('firstname').should eql 'eat123'
     end
   end
 
@@ -364,21 +396,21 @@ describe User do
       end
       it 'returns allowed mapped attributes' do
         expected_keys =  ['FNAME','LNAME', 'CREATED']
-        @mail_data.keys.length.should == expected_keys.length
+        @mail_data.keys.length.should eql expected_keys.length
         @mail_data.keys.all?{|k| expected_keys.include? k}.should be
       end
       it 'returns correct values for mapped attributes' do
-        @mail_data['CREATED'].should == artist1.activated_at
-        @mail_data['FNAME'].should == artist1.firstname
-        @mail_data['LNAME'].should == artist1.lastname
+        @mail_data['CREATED'].should eql artist1.activated_at
+        @mail_data['FNAME'].should eql artist1.firstname
+        @mail_data['LNAME'].should eql artist1.lastname
       end
     end
     describe 'mailchimp_list_name' do
       it 'returns Mission Artists United List for artists' do
-        artist1.send(:mailchimp_list_name).should == MailChimp::ARTISTS_LIST
+        artist1.send(:mailchimp_list_name).should eql MailChimp::ARTISTS_LIST
       end
       it 'returns events only list for fans' do
-        users(:maufan1).send(:mailchimp_list_name).should == MailChimp::FANS_LIST
+        users(:maufan1).send(:mailchimp_list_name).should eql MailChimp::FANS_LIST
       end
     end
     describe 'subscribe and welcome' do
@@ -395,14 +427,5 @@ describe User do
     end
   end
 
-  describe '#dimensions' do
-    it 'computes proper dimension' do
-      a = users(:joeblogs)
-      a.compute_dimensions[:thumb].should == [100,33]
-      a.compute_dimensions[:small].should == [200,66]
-      a.compute_dimensions[:medium].should == [400,133]
-      a.compute_dimensions[:large].should == [800,266]
-    end
-  end
 
 end

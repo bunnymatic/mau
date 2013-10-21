@@ -3,6 +3,9 @@ class CmsDocument < ActiveRecord::Base
   before_save :clean_newlines
   extend MarkdownUtils
 
+  validates :page, :presence => true, :length => {:within => (2..255)}
+  validates :article, :presence => true, :length => {:minimum => 2}
+
   def self.packaged(page, section)
     pkg = {
       :page => page.to_s,

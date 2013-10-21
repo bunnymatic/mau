@@ -30,7 +30,7 @@ describe TestsController do
         t = Time.zone.now
         Time.zone.stub(:now => t)
         @t = t
-        FileUtils.should_receive(:mkdir_p).with '/projects/mau/public/images/tmp'
+        FileUtils.should_receive(:mkdir_p).with %r|/public/images/tmp$|
         Qr4r.stub(:encode)
       end
       it 'builds a qr image' do

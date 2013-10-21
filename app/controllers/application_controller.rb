@@ -15,7 +15,11 @@ class ApplicationController < ActionController::Base
   layout 'mau'
   include AuthenticatedSystem
   #include MobilizedStyles
-  before_filter :check_browser, :set_version, :get_feeds, :get_new_art, :set_meta_info
+  before_filter :check_browser, :unless => :format_json?
+  before_filter :set_version
+  before_filter :get_feeds
+  before_filter :get_new_art, :unless => :format_json?
+  before_filter :set_meta_info
 
   def publish_page_hit
     if request.get?
@@ -194,6 +198,10 @@ class ApplicationController < ActionController::Base
   def set_meta_info
     @page_description = "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
     @page_keywords = ["art is the mission", "art", "artists","san francisco"]
+  end
+
+  def format_json?
+    request.format.json?
   end
 
   def is_local_referer?

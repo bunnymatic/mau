@@ -37,6 +37,6 @@ class BlacklistDomainsController < AdminController
   def destroy
     @domain = BlacklistDomain.find(params[:id])
     @domain.destroy
-    redirect_to blacklist_domains_path :notice => "Removed entry for #{@domain.domain}"
+    redirect_to blacklist_domains_path, :notice => "Removed entry for #{@domain.domain}"
   end
 end

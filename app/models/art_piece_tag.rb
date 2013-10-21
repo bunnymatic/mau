@@ -5,8 +5,7 @@ class ArtPieceTag < ActiveRecord::Base
 
   has_many :art_pieces, :through => :art_pieces_tags
 
-  validates_presence_of     :name
-  validates_length_of       :name,    :within => 3..25
+  validates :name, :presence => true, :length => { :within => 3..25 }
 
   # class level constants
   @@MAX_SHOW_TAGS = 80

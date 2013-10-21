@@ -20,15 +20,11 @@ class ArtistFeedsController < ApplicationController
 
   def create
     @feed = ArtistFeed.new(params[:artist_feed])
-    respond_to do |format|
-      if @feed.save
-        redir = artist_feeds_path
-        format.html { redirect_to(redir) }
-        format.xml  { render :xml => @artist_feed, :status => :created, :location => @artist_feed }
-      else
-        format.html { render "new_or_edit"}
-        format.xml  { render :xml => @artist_feed.errors, :status => :unprocessable_entity }
-      end
+    if @feed.save
+      redir = artist_feeds_path
+      redirect_to(redir)
+    else
+      render "new_or_edit"
     end
   end
 
@@ -40,15 +36,11 @@ class ArtistFeedsController < ApplicationController
       artist_feed_details.delete :artist_list
     end
 
-    respond_to do |format|
-      if @feed.update_attributes(artist_feed_details)
-        flash[:notice] = 'ArtistFeed was successfully updated.'
-        format.html { redirect_to(artist_feeds_path) }
-        format.xml  { head :ok }
-      else
-        format.html { render "new_or_edit", :layout => 'mau-admin' }
-        format.xml  { render :xml => @feed.errors, :status => :unprocessable_entity }
-      end
+    if @feed.update_attributes(artist_feed_details)
+      flash[:notice] = 'ArtistFeed was successfully updated.'
+      redirect_to(artist_feeds_path)
+    else
+      render "new_or_edit", :layout => 'mau-admin'
     end
   end
 
@@ -56,9 +48,6 @@ class ArtistFeedsController < ApplicationController
     @artist_feed = ArtistFeed.find(params[:id])
     @artist_feed.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(artist_feeds_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(artist_feeds_url)
   end
 end
