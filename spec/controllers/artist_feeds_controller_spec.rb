@@ -64,19 +64,32 @@ describe ArtistFeedsController do
       it { response.should be_success }
     end
     describe '#create' do
-      before do
-        post :create, {:artist_feed => {:url => 'http://this.url', :feed => 'http://this.url/feed?rss=true', :active => true}}
+      context 'good params' do
+        before do
+          post :create, {:artist_feed => {:url => 'http://this.url', :feed => 'http://this.url/feed?rss=true', :active => true}}
+        end
+        it 'redirects to index' do
+          response.should redirect_to artist_feeds_path
+        end
+        it 'creates the item' do
+          feed = ArtistFeed.where(:url => 'http://this.url').first
+          feed.should be
+          feed.feed.should eql 'http://this.url/feed?rss=true'
+          feed.active.should be_present
+        end
       end
-      it 'redirects to index' do
-        response.should redirect_to artist_feeds_path
+      context 'bad inputs' do
+        render_views
+        before do
+          post :create, {:artist_feed => {:url => 'h', :feed => 'http://this.url/feed?rss=true', :active => true}}
+        end
+        it 'renders the form' do
+          response.should render_template 'new_or_edit'
+        end
+        it 'renders the errors' do
+          assert_select '.error-msg', /too short/
+        end
       end
-      it 'creates the item' do
-        feed = ArtistFeed.where(:url => 'http://this.url').first
-        feed.should be
-        feed.feed.should eql 'http://this.url/feed?rss=true'
-        feed.active.should be_present
-      end
-
     end
     describe '#update' do
       before do
