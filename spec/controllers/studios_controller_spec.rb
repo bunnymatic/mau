@@ -207,6 +207,15 @@ describe StudiosController do
     end
   end
 
+  describe '#addprofile' do
+    let(:manager) { users(:manager) }
+    before do
+      login_as manager
+      get :addprofile, :id => manager.studio.id
+    end
+    it { response.should be_success }
+    it { assigns(:studio).should eql manager.studio }
+  end
 
   describe 'edit' do
     render_views

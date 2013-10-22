@@ -3,7 +3,11 @@
 jesseponce_os_signup:
   type: OpenStudiosSignupEvent
   message: blurp
-  data: { user: jesseponce } 
+  data: { user: jesseponce }
+
+unknown_user:
+  message: blop
+  data: { user: }
 
 bland_event:
   message: something happened
