@@ -10,14 +10,14 @@ module TagsHelper
     tags = []
     alltags = ArtPieceTag.all
     tag_lut = {}
-    alltags.map do |t| 
+    alltags.map do |t|
       if t && t.name != nil && !t.name.empty?
-        tag_lut[t.name.downcase] = t 
+        tag_lut[t.name.downcase] = t
       end
     end
     tagnames.each do |tg|
       tag = tag_lut[tg.downcase]
-      if !tag 
+      if !tag
         tag = ArtPieceTag.new
         tag.name = tg
         tag.save
@@ -26,15 +26,15 @@ module TagsHelper
     end
     tags
   end
-  
+
+  # input frequency is assumed to be already scaled between [0.0, 1.0]
   def self.fontsize_from_frequency(freq)
-    """ input frequency is assumed to be already scaled between [0.0, 1.0] """
+    maximum = 24.0
+    minimum = 8.0
     freq = freq.to_f
-    f = [(24.0 * (Math.cos(1.0-freq) ** 2)).round,8.0].max
-    #m = [(15.0 * (Math.cos(1.0-freq) ** 2)).round,6.0].max
+    f = [(maximum * (Math.cos(1.0-freq) ** 2)).round,minimum].max
     m = 4
     # return fontsize and margin
-    result = [ "%dpx" % f, "%dpx" % m ]
-    result
+    [ "%dpx" % f, "%dpx" % m ]
   end
 end

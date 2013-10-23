@@ -6,7 +6,7 @@ class Artist < User
     'NE' => [ 37.76978184422388, -122.40539789199829 ],
     'SW' => [ 37.747787573475506, -122.42919445037842 ],
     'SE' => [ 37.74707496171992, -122.40539789199829 ]
-  } if !defined? BOUNDS
+  }.freeze
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
 
   include AddressMixin

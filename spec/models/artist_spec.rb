@@ -18,6 +18,7 @@ describe Artist do
   before do
     Rails.cache.stub(:read => nil)
   end
+
   describe "create" do
     describe 'auth helpers' do
       describe "make token " do

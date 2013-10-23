@@ -14,8 +14,9 @@ end
 describe ArtistInfo do
 
   include ArtistInfoSpecHelper
-
   fixtures :artist_infos, :users, :art_pieces
+
+  it_should_behave_like AddressMixin
 
   describe 'address mixin' do
     it "responds to address" do

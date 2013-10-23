@@ -22,6 +22,10 @@ describe Studio do
 
   fixtures :studios, :users, :artist_infos
 
+
+  it_should_behave_like AddressMixin
+
+
   describe 'address' do
     it "responds to address" do
       (studios(:s1890).respond_to? :address).should be
