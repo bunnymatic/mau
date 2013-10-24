@@ -303,12 +303,7 @@ class ArtistsController < ApplicationController
 
   def suggest
     # grab all names from the cache
-    begin
-      cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
-    rescue Dalli::RingError => mce
-      logger.warning("Memcache (read) appears to be dead or unavailable")
-      cacheout = nil
-    end
+    cacheout = SafeCache.read(@@AUTOSUGGEST_CACHE_KEY)
     artist_names = nil
     if params[:input]
       if cacheout
@@ -321,11 +316,7 @@ class ArtistsController < ApplicationController
         artist_names = Artist.active.map{|a| { 'value' => a.fullname, 'info' => a.id } }
         cachein = ActiveSupport::JSON.encode artist_names
         if cachein
-          begin
-            Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
-          rescue Dalli::RingError => mce
-            logger.warning("Memcache (write) appears to be dead or unavailable")
-          end
+          SafeCache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
         end
       end
       if params[:input].present?

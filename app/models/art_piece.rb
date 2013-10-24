@@ -96,10 +96,10 @@ class ArtPiece < ActiveRecord::Base
 
   def self.get_new_art
     cache_key = NEW_ART_CACHE_KEY
-    new_art = Rails.cache.read(cache_key)
+    new_art = SafeCache.read(cache_key)
     unless new_art
       new_art = ArtPiece.where('artist_id is not null && artist_id > 0').limit(12).order('created_at desc').all
-      Rails.cache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
+      SafeCache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
     end
     new_art || []
   end
@@ -107,10 +107,10 @@ class ArtPiece < ActiveRecord::Base
   private
   def clear_caches
     cache_key = NEW_ART_CACHE_KEY
-    Rails.cache.delete(cache_key)
+    SafeCache.delete(cache_key)
 
     if self.artist && self.artist.id != nil?
-      Rails.cache.delete("%s%s" % [Artist::CACHE_KEY, self.artist.id])
+      SafeCache.delete("%s%s" % [Artist::CACHE_KEY, self.artist.id])
     end
   end
 

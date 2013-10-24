@@ -8,13 +8,13 @@ class Medium < ActiveRecord::Base
   @@CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
 
   def self.flush_cache
-    Rails.cache.delete(@@CACHE_KEY + true.to_s)
-    Rails.cache.delete(@@CACHE_KEY + false.to_s)
+    SafeCache.delete(@@CACHE_KEY + true.to_s)
+    SafeCache.delete(@@CACHE_KEY + false.to_s)
   end
 
   def self.frequency(normalize=false)
     cache_key = @@CACHE_KEY + normalize.to_s
-    freq = Rails.cache.read(cache_key)
+    freq = SafeCache.read(cache_key)
     if freq
       logger.debug('read medium frequency from cache')
       return freq
@@ -44,7 +44,7 @@ class Medium < ActiveRecord::Base
         m['ct'] = m['ct'].to_f / maxct.to_f
       end
     end
-    Rails.cache.write(cache_key, meds, :expires_in => @@CACHE_EXPIRY)
+    SafeCache.write(cache_key, meds, :expires_in => @@CACHE_EXPIRY)
     meds
   end
 

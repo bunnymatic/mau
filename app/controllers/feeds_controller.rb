@@ -13,7 +13,7 @@ class FeedsController < ApplicationController
   end
 
   def clear_cache
-    Rails.cache.delete(@@FEEDS_KEY)
+    SafeCache.delete(@@FEEDS_KEY)
     begin
       File.delete(@@CACHED_FEEDS_FILE)
     rescue Exception => ex
@@ -37,12 +37,9 @@ class FeedsController < ApplicationController
       page = params[:page]
     end
     begin
-      cached_html = Rails.cache.read(@@FEEDS_KEY)
+      cached_html = SafeCache.read(@@FEEDS_KEY)
     rescue TypeError
-      Rails.cache.delete(@@FEEDS_KEY)
-    rescue Exception => ex
-      cached_html = ''
-      logger.error(ex)
+      SafeCache.delete(@@FEEDS_KEY)
     end
     if !cached_html.present?
       feedurls = []
@@ -65,16 +62,12 @@ class FeedsController < ApplicationController
           logger.error("Failed to grab feed " + ff.inspect)
         end
       end
-      begin
-        Rails.cache.write(@@FEEDS_KEY, allfeeds, :expires_in => @@CACHE_EXPIRY)
-      rescue Exception => ex
-        logger.error("FeedController: failed to add to the cache")
-      end
+      SafeCache.write(@@FEEDS_KEY, allfeeds, :expires_in => @@CACHE_EXPIRY)
       cached_html = allfeeds
     end
     partial = File.open(@@CACHED_FEEDS_FILE, 'w')
     if partial
-      partial.write(cached_html)
+      partial.write(cached_html.to_s)
       partial.close
     end
   end

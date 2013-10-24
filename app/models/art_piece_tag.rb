@@ -13,12 +13,12 @@ class ArtPieceTag < ActiveRecord::Base
   @@CACHE_EXPIRY = Conf.cache_expiry['tag_frequency'] || 300
 
   def self.flush_cache
-    Rails.cache.delete(@@CACHE_KEY + true.to_s)
-    Rails.cache.delete(@@CACHE_KEY + false.to_s)
+    SafeCache.delete(@@CACHE_KEY + true.to_s)
+    SafeCache.delete(@@CACHE_KEY + false.to_s)
   end
 
   def self.frequency(normalize=true)
-    freq = Rails.cache.read(@@CACHE_KEY + normalize.to_s)
+    freq = SafeCache.read(@@CACHE_KEY + normalize.to_s)
     if freq
       logger.debug('read tag frequency from cache')
       return freq
@@ -44,7 +44,7 @@ class ArtPieceTag < ActiveRecord::Base
     else
       tags.map {|t| t['ct'] = t['ct'].to_i}
     end
-    Rails.cache.write(@@CACHE_KEY, tags[0..@@MAX_SHOW_TAGS], :expires_in => @@CACHE_EXPIRY)
+    SafeCache.write(@@CACHE_KEY, tags[0..@@MAX_SHOW_TAGS], :expires_in => @@CACHE_EXPIRY)
     tags[0..@@MAX_SHOW_TAGS]
 
   end

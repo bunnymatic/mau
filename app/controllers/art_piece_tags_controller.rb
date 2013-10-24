@@ -58,12 +58,7 @@ class ArtPieceTagsController < ApplicationController
       format.json  {
         if params[:suggest]
           tagnames = []
-          begin
-            cacheout = Rails.cache.read(@@AUTOSUGGEST_CACHE_KEY)
-          rescue Dalli::RingError => mce
-            logger.warning("Memcache (read) appears to be dead or unavailable")
-            cacheout = nil
-          end
+          cacheout = SafeCache.read(@@AUTOSUGGEST_CACHE_KEY)
           if cacheout
             logger.debug("Fetched autosuggest tags from cache")
             tagnames = ActiveSupport::JSON.decode cacheout
@@ -75,11 +70,7 @@ class ArtPieceTagsController < ApplicationController
             end
             cachein = ActiveSupport::JSON.encode tagnames
             if cachein
-              begin
-                Rails.cache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
-              rescue Dalli::RingError => mce
-                logger.warning("Memcache (write) appears to be dead or unavailable")
-              end
+              SafeCache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
             end
           end
           if params[:input]
