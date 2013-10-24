@@ -1,3 +1,4 @@
+require 'spec_helper'
 describe ScssFileReader do
 
   it 'parses colors from a scss file' do
@@ -6,7 +7,7 @@ describe ScssFileReader do
         $black: #000;
         $white: #ffffff;
         $red: #ff0000;
-        $yellr: #fc2; 
+        $yellr: #fc2;
       @mixin this = that
       .style { overflow:hidden; }
 

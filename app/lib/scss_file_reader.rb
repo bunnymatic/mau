@@ -5,10 +5,11 @@ class ScssFileReader
   end
 
   def parse_colors
-    File.open(@scss_file, 'r').map do |line|
+    c = (File.open(@scss_file, 'r').map do |line|
       if /\$(.*)\:\s*\#(.*)\;/.match(line.strip)
         [$1, $2]
       end
-    end.compact
+    end)
+    c.compact
   end
 end

@@ -96,6 +96,17 @@ describe MainController do
       it_should_behave_like 'logged in as admin'
     end
 
+    describe 'format=json' do
+      before do
+        FactoryGirl.create_list(:art_piece, 15, :artist => users(:joeblogs))
+        get :index, :format => "json"
+      end
+      it_should_behave_like 'successful json'
+      it 'returns up to 15 random images' do
+        j = JSON.parse(response.body)
+        j.should have(15).images
+      end
+    end
   end
 
   describe "#news" do
@@ -694,6 +705,13 @@ describe MainController do
     it 'returns art pieces' do
       pieces = @controller.get_random_pieces
       pieces.map(&:class).uniq.should eql [ArtPiece]
+    end
+  end
+
+  describe 'version' do
+    it 'returns the app version' do
+      get :version
+      response.body.should eql 'Dart 5.0 [unk]'
     end
   end
 end

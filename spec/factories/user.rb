@@ -1,4 +1,3 @@
-
 FactoryGirl.define do
 
   sequence(:login) {|n| "whatever#{n}" }
@@ -15,4 +14,20 @@ FactoryGirl.define do
     image_width { 2000 + rand(1000) }
 
   end
+
+  factory :artist do
+    type { 'Artist' }
+    login
+    email { "#{login}@example.com" }
+    password { 'mypass' }
+    password_confirmation { 'mypass' }
+    firstname { Faker::Name.first_name }
+    lastname { Faker::Name.first_name }
+    nomdeplume{ Faker::Name.name }
+    profile_image { Faker::Files.file_with_path }
+    image_height { 2000 + rand(1000) }
+    image_width { 2000 + rand(1000) }
+
+  end
+
 end
