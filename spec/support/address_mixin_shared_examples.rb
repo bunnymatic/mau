@@ -55,4 +55,15 @@ shared_examples_for AddressMixin do
     end
   end
 
+  describe '#compute_geocode' do
+    it 'calls Geocode with the full address' do
+      Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).with(with_address.full_address).and_return((double("GeocodeResult", :success =>true, :lat => with_address.lat, :lng => with_address.lng)))
+      with_address.send(:compute_geocode).should eql [with_address.lat, with_address.lng]
+    end
+    it 'returns nothing on failure' do
+      Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).and_return(double("GeocodeResult", :success =>false))
+      with_address.send(:compute_geocode).should eql ['Unable to Geocode your address.']
+    end
+  end
+
 end
