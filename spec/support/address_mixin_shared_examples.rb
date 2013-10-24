@@ -2,27 +2,40 @@ require 'spec_helper'
 
 shared_examples_for AddressMixin do
 
-  let(:address_attributes) {
+  let(:the_state) {
+    Faker::Address.state
+  }
+  let(:base_attributes) {
     {
       :street => Faker::Address.street_name,
       :city => Faker::Address.city,
-      :state => Faker::Address.state,
       :zip => Faker::Address.zip_code,
       :lat => rand(180) - 90,
       :lng => rand(360) - 180
     }
   }
-
-  let(:with_address) { described_class.new(address_attributes) }
+  let(:with_state) {
+    base_attributes.merge(:state => the_state)
+  }
+  let(:with_addr_state) {
+    base_attributes.merge(:addr_state => the_state)
+  }
+  let(:with_address) {
+    if (described_class.new.respond_to? :addr_state)
+      described_class.new(with_addr_state)
+    else
+      described_class.new(with_state)
+    end
+  }
   let(:without_address) { described_class.new }
 
   describe '#full_address' do
 
     it 'builds a full address for maps' do
-      with_address.full_address.should eql [with_address.street, with_address.city, with_address.state, with_address.zip].join(", ")
+      with_address.full_address.should eql [base_attributes[:street], base_attributes[:city], the_state, base_attributes[:zip].to_i].join(", ")
     end
     it 'builds a full address for maps' do
-      with_address.address.should eql [with_address.street, with_address.zip].join(" ")
+      with_address.address.should eql [base_attributes[:street], base_attributes[:zip].to_i].join(" ")
     end
 
   end
@@ -38,7 +51,7 @@ shared_examples_for AddressMixin do
 
   describe '#map_link' do
     it 'returns a google map link' do
-      with_address.map_link.should match /maps\.google\.com\/maps\?q=#{URI.escape(with_address.street)}/
+      with_address.map_link.should match /maps\.google\.com\/maps\?q=#{URI.escape(base_attributes[:street])}/
     end
   end
 
