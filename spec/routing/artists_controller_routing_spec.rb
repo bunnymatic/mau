@@ -34,21 +34,22 @@ describe 'ArtistsController Routes' do
   describe "- route recognition" do
     context "/artists/edit" do
       it "map get to artists controller edit method" do
-        {:get, "/artists/edit"}.should route_to({:controller => "artists", :action => "edit" })
+        (get "/artists/edit").should route_to({:controller => "artists", :action => "edit" })
       end
     end
     context "/artists/10" do
       it "map PUT to update" do
-        {:put, "/artists/10"}.should route_to({:controller => "artists", :action => "update", :id => "10" })
+        (put "/artists/10").should route_to({:controller => "artists", :action => "update", :id => "10" })
       end
       it "map GET to show" do
-        {:get, "/artists/10"}.should route_to({:controller => "artists", :action => "show", :id => "10" })
+        (get "/artists/10").should route_to({:controller => "artists", :action => "show", :id => "10" })
       end
       it "map POST to update" do
-        {:post, "/artists/10"}.should route_to({:controller => "artists", :action => 'update' , :id => '10'})
+        (post "/artists/10").should route_to({:controller => "artists", :action => 'update' , :id => '10'})
       end
       it "map DELETE /artists/10 as destroy" do
-        {:delete, "/artists/10"}.should route_to({:controller => "artists", :action => "destroy", :id => "10" })
+
+        (delete "/artists/10").should route_to({:controller => "artists", :action => "destroy", :id => "10" })
       end
     end
   end

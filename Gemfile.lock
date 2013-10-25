@@ -56,7 +56,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
-    columnize (0.3.6)
     cookiejar (0.3.0)
     dalli (1.1.5)
     diff-lcs (1.2.4)
@@ -142,8 +141,6 @@ GEM
       sprockets (~> 2)
     jslint_on_rails (1.1.1)
     json (1.8.0)
-    linecache (0.46)
-      rbx-require-relative (> 0.0.4)
     listen (1.2.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -220,10 +217,6 @@ GEM
       ffi (>= 0.5.0)
     rb-kqueue (0.2.0)
       ffi (>= 0.5.0)
-    rbx-require-relative (0.0.9)
-    rcov (1.0.0)
-    rcov_rails (0.3.1)
-      rcov
     rdiscount (2.1.6)
     rdoc (3.12.2)
       json (~> 1.4)
@@ -245,11 +238,6 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    ruby-debug (0.10.4)
-      columnize (>= 0.1)
-      ruby-debug-base (~> 0.10.4.0)
-    ruby-debug-base (0.10.4)
-      linecache (>= 0.3)
     rubyzip (0.9.9)
     rvm-capistrano (1.4.1)
       capistrano (>= 2.0.0)
@@ -322,13 +310,11 @@ DEPENDENCIES
   rack-cors
   rails (~> 3.0.20)
   rb-fsevent
-  rcov_rails
   rdiscount
   recaptcha
   rosie
   rspec
   rspec-rails
-  ruby-debug
   rvm-capistrano
   sass
   tmail

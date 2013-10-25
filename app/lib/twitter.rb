@@ -20,9 +20,7 @@ class TwitterFeed
         entry = TwitterEntry.new
         entry.description = tweet["text"]
         entry.date = Date.parse(tweet['created_at'])
-        if !self.items:
-            self.items = []
-        end
+        self.items ||= []
         self.items << entry
       end
     end

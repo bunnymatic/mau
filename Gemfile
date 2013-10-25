@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '1.9.3'
 
 gem 'racc'
 gem "rails", '~> 3.0.20'
@@ -68,8 +69,8 @@ group :test, :development do
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
   gem 'pry'
-  gem 'ruby-debug'
+  #gem 'ruby-debug'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
-  gem "rcov_rails"
+  #gem "rcov_rails"
   # gem 'rails-upgrade'
 end
