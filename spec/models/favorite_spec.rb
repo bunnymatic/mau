@@ -30,4 +30,11 @@ describe Favorite, 'named scopes' do
     end
   end
 
+  it 'destroys unused ones as necessary' do
+    f = Favorite.create(:favoritable_type => 'Artist', :favoritable_id => 55555)
+    f.to_obj
+    Favorite.where(:favoritable_type => 'Artist', :favoritable_id => 55555).should be_empty
+  end
+
+
 end

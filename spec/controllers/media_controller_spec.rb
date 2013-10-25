@@ -141,4 +141,31 @@ describe MediaController do
     end
   end
 
+  describe "#update" do
+    context 'as unauthorized' do
+      before do
+        post :update
+      end
+      it_should_behave_like 'not authorized'
+    end
+    context "as an admin" do
+      let(:medium) { Medium.first }
+      before do
+        login_as :admin
+      end
+      it 'redirects back to the new medium show page' do
+        post :update, :id => medium.id, :medium => {:name => 'brand spankin new'}
+        response.should redirect_to medium_path(medium)
+      end
+      it 'updates the medium' do
+        post :update, :id => medium.id, :medium => {:name => 'brand spankin'}
+        medium.reload.name.should eql 'brand spankin'
+      end
+      it 'renders new on error' do
+        post :update, :id => medium.id, :medium => {:name => nil}
+        response.should render_template 'edit'
+      end
+    end
+  end
+
 end

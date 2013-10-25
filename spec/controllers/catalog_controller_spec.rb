@@ -2,21 +2,14 @@ require 'spec_helper'
 
 describe CatalogController do
 
-  fixtures :users, :studios, :artist_infos, :roles_users
+  fixtures :users, :studios, :artist_infos
 
   describe "#index" do
     before do
       ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201210'")
       Artist.any_instance.stub(:in_the_mission? => true)
-      a = users(:jesseponce)
-      s = studios(:s1890)
-      a.studio = s
-      a.save
-
-      a = users(:artist1)
-      s = studios(:blue)
-      a.studio = s
-      a.save
+      users(:jesseponce).update_attribute(:studio, studios(:s1890))
+      users(:artist1).update_attribute(:studio, studios(:blue))
 
       get :index
     end
@@ -27,7 +20,7 @@ describe CatalogController do
     end
     it "indy artists are sorted by last name" do
       artists = assigns(:indy_artists)
-      (artists.sort &Artist.sort_by_lastname).should eql artists
+      artists.map(&:lastname).map(&:downcase).should be_monotonically_increasing
     end
     it "has group studio artists in a bin" do
       artists = assigns(:group_studio_artists)
@@ -38,9 +31,8 @@ describe CatalogController do
       (assigns(:studio_order).map{|sid| Studio.find(sid)}.sort &Studio.sort_by_name).map(&:id).should eql assigns(:studio_order)
     end
     it "studio artists are sorted alpha by lastname" do
-      pending "we need better test data for this to fail"
-      assigns(:group_studio_artists).values.each do |artists|
-        (artists.sort &Artist.sort_by_lastname).should eql artists
+      assigns(:group_studio_artists).each do |s,artists|
+        artists.map(&:lastname).map(&:downcase).should be_monotonically_increasing
       end
     end
   end
@@ -63,7 +55,9 @@ describe CatalogController do
         get :social, :format => :csv
       end
       it { response.should be_success }
-      pending "test data in csv"
+      it {
+        pending "test data in csv"
+      }
     end
 
   end
