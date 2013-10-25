@@ -1,12 +1,11 @@
 require File.join([Rails.root, 'app','lib','tz_helper'])
 module EventsHelper
 
+  include MauUrlHelpers
+
   def link_to_clean_url(_url)
     display = _url.gsub(/^https?:\/\//, '')
-    url = _url
-    unless /^https?:\/\// =~ _url
-      url = 'http://' + _url
-    end
+    url = add_http(_url)
     link_to display, url
   end
 

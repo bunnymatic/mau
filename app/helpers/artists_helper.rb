@@ -1,24 +1,7 @@
 require 'htmlhelper'
 
 module ArtistsHelper
-  
-  #
-  # Use this to wrap view elements that the user can't access.
-  # !! Note: this is an *interface*, not *security* feature !!
-  # You need to do all access control at the controller level.
-  #
-  # Example:
-  # <%= if_authorized?(:index,   User)  do link_to('List all users', users_path) end %> |
-  # <%= if_authorized?(:edit,    @user) do link_to('Edit this user', edit_user_path) end %> |
-  # <%= if_authorized?(:destroy, @user) do link_to 'Destroy', @user, :confirm => 'Are you sure?', :method => :delete end %> 
-  #
-  #
-  def if_authorized?(action, resource, &block)
-    if authorized?(action, resource)
-      yield action, resource
-    end
-  end
-
+  include MauUrlHelpers
   #
   # Link to user's page ('artists/1')
   #
@@ -45,68 +28,60 @@ module ArtistsHelper
   #   link_to_artist @artist, :content_text => 'Your user page'
   #   # => <a href="/artists/3" title="barmy" class="nickname">Your user page</a>
   #
-  def link_to_artist(artist, options={})
-    raise "Invalid artist" unless artist
-    options.reverse_merge! :content_method => :login, :title_method => :login, :class => :nickname
-    content_text      = options.delete(:content_text)
-    content_text    ||= artist.send(options.delete(:content_method))
-    options[:title] ||= artist.send(options.delete(:title_method))
-    link_to h(content_text), artist_path(artist), options
-  end
+  # def link_to_artist(artist, options={})
+  #   raise "Invalid artist" unless artist
+  #   options.reverse_merge! :content_method => :login, :title_method => :login, :class => :nickname
+  #   content_text      = options.delete(:content_text)
+  #   content_text    ||= artist.send(options.delete(:content_method))
+  #   options[:title] ||= artist.send(options.delete(:title_method))
+  #   link_to h(content_text), artist_path(artist), options
+  # end
 
-  #
-  # Link to login page using remote ip address as link content
-  #
-  # The :title (and thus, tooltip) is set to the IP address 
-  #
-  # Examples:
-  #   link_to_login_with_IP
-  #   # => <a href="/login" title="169.69.69.69">169.69.69.69</a>
-  #
-  #   link_to_login_with_IP :content_text => 'not signed in'
-  #   # => <a href="/login" title="169.69.69.69">not signed in</a>
-  #
-  def link_to_login_with_IP content_text=nil, options={}
-    ip_addr           = request.remote_ip
-    content_text    ||= ip_addr
-    options.reverse_merge! :title => ip_addr
-    if tag = options.delete(:tag)
-      content_tag tag, h(content_text), options
-    else
-      link_to h(content_text), login_path, options
-    end
-  end
+  # #
+  # # Link to login page using remote ip address as link content
+  # #
+  # # The :title (and thus, tooltip) is set to the IP address 
+  # #
+  # # Examples:
+  # #   link_to_login_with_IP
+  # #   # => <a href="/login" title="169.69.69.69">169.69.69.69</a>
+  # #
+  # #   link_to_login_with_IP :content_text => 'not signed in'
+  # #   # => <a href="/login" title="169.69.69.69">not signed in</a>
+  # #
+  # def link_to_login_with_IP content_text=nil, options={}
+  #   ip_addr           = request.remote_ip
+  #   content_text    ||= ip_addr
+  #   options.reverse_merge! :title => ip_addr
+  #   if tag = options.delete(:tag)
+  #     content_tag tag, h(content_text), options
+  #   else
+  #     link_to h(content_text), login_path, options
+  #   end
+  # end
 
-  #
-  # Link to the current user's page (using link_to_artist) or to the login page
-  # (using link_to_login_with_IP).
-  #
-  def link_to_current_artist(options={})
-    if current_artist
-      link_to_artist current_artist, options
-    else
-      content_text = options.delete(:content_text) || 'not signed in'
-      # kill ignored options from link_to_artist
-      [:content_method, :title_method].each{|opt| options.delete(opt)} 
-      link_to_login_with_IP content_text, options
-    end
-  end
-
-
-  def add_http(lnk)
-    if lnk && !lnk.empty? && lnk.index('http') != 0
-      lnk = 'http://' + lnk
-    end
-    lnk
-  end
+  # #
+  # # Link to the current user's page (using link_to_artist) or to the login page
+  # # (using link_to_login_with_IP).
+  # #
+  # def link_to_current_artist(options={})
+  #   if current_artist
+  #     link_to_artist current_artist, options
+  #   else
+  #     content_text = options.delete(:content_text) || 'not signed in'
+  #     # kill ignored options from link_to_artist
+  #     [:content_method, :title_method].each{|opt| options.delete(opt)} 
+  #     link_to_login_with_IP content_text, options
+  #   end
+  # end
 
   def keyed_links
     [ [:url, 'Website', :u_website],
-	       [:facebook, 'Facebook', :u_facebook],
-	       [:flickr, 'Flickr', :u_flickr],
-	       [:twitter, 'Twitter', :u_twitter],
-	       [:blog, 'Blog', :u_blog],
-	       [:myspace, 'MySpace', :u_myspace]]
+      [:facebook, 'Facebook', :u_facebook],
+      [:flickr, 'Flickr', :u_flickr],
+      [:twitter, 'Twitter', :u_twitter],
+      [:blog, 'Blog', :u_blog],
+      [:myspace, 'MySpace', :u_myspace]]
   end
 
   def has_links(artist)
@@ -148,10 +123,10 @@ module ArtistsHelper
       html += "%s<div>%s</div><div>%s</div>" % [name, artist.studio.name, street]
     end
     html += '<div style="clear"></div>'
-    if 
-      lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HTMLHelper.encode(artist.full_address)
-      html += '<div style="margin-top:8px">%s</div>' % lnk
-    end
+    # if
+    #   lnk = '<a class="lkdark" href="http://maps.google.com/maps?saddr=&daddr=%s" target ="_blank">Get directions</a>' % HTMLHelper.encode(artist.full_address)
+    #   html += '<div style="margin-top:8px">%s</div>' % lnk
+    # end
       
     html += "</div>"
   end
