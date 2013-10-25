@@ -4,6 +4,8 @@ class Medium < ActiveRecord::Base
   default_scope order('name')
   include TagMediaMixin
 
+  validates :name, :presence => true, :length => {:within => (2..244)}
+
   @@CACHE_KEY = 'medfreq'
   @@CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
 

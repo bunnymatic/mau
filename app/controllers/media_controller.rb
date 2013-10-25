@@ -76,7 +76,7 @@ class MediaController < ApplicationController
       flash[:notice] = 'Medium was successfully created.'
       redirect_to(@medium) 
     else
-      render :action => "new" 
+      render "new" 
     end
   end
 
