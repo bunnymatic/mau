@@ -24,10 +24,9 @@ describe EventsController do
       assert_select 'li.mobile-menu', :count => Event.published.count
     end
     it 'the list is ordered by reverse starttime' do
-      assigns(:events).sort_by(&:starttime).reverse.should eql assigns(:events)
+      assigns(:events).map(&:starttime).should be_monotonically_decreasing
     end
   end
-
 
   describe "#show" do
     before do

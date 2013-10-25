@@ -66,26 +66,25 @@ class MainController < ApplicationController
       flash.now[:error] = "Did you have problems submitting your donation?  If so, please tell us with the feedback link at the bottom of the page.  We'd love to know if the website or the PayPal connection is not working."
     end
 
+    @feedback = Feedback.new
     if params[:commit]
-      if params[:feedback][:email].empty?
+      if params[:feedback][:email].blank?
         flash.now[:error] = "There was a problem submitting your feedback.  Your email was blank."
         return
       end
-      if params[:feedback][:comment].empty?
+      if params[:feedback][:comment].blank?
         flash.now[:error] = "There was a problem submitting your feedback.  Please fill something in for the comment."
         return
       end
 
-      feedback = Feedback.new(params[:feedback])
-      saved = feedback.save
+      @feedback = Feedback.new(params[:feedback])
+      saved = @feedback.save
       if saved
         FeedbackMailer.feedback(@feedback).deliver!
         flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
       else
         flash.now[:error] = "There was a problem submitting your feedback.  Was your comment empty?"
       end
-    else
-      @feedback = Feedback.new
     end
   end
 

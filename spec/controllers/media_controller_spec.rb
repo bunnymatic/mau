@@ -72,7 +72,7 @@ describe MediaController do
         assert_select('.clouditem.tagmatch')
       end
       it "pieces are in order of art_piece updated_date" do
-        assigns(:pieces).sort_by(&:updated_at).should eql assigns(:pieces)
+        assigns(:pieces).map(&:updated_at).should be_monotonically_increasing
       end
     end
     context " an id that doesn't exist " do

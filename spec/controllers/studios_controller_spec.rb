@@ -79,6 +79,17 @@ describe StudiosController do
 
   describe "#show" do
     render_views
+
+    describe 'unknown studio' do
+      before do
+        get :show, :id => 'blurp'
+      end
+      it {response.should redirect_to studios_path}
+      it 'sets the flash' do
+        flash[:error].should be_present
+      end
+    end
+
     describe 'individual studio' do
       describe 'html' do
         before do

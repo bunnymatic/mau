@@ -262,7 +262,44 @@ describe MainController do
         assigns(:page).should eql 'paypal_success'
       end
     end
+    describe 'send feedback' do
+      context 'with no email' do
+        before do
+          get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback, :email => nil)
+        end
+        it 'renders a flash' do
+          flash[:error].should match /email was blank/
+        end
+      end
+      context 'with no comment' do
+        before do
+          get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback, :comment => nil)
+        end
+        it 'renders a flash' do
+          flash[:error].should match /fill something in/
+        end
+      end
+      context 'with data' do
+        before do
+          FeedbackMailer.stub(:feedback => double("FeedbackMailer", :deliver! => true))
+        end
+        it 'saves a feedback record' do
+          expect {
+            get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback)
+          }.to change(Feedback, :count).by(1)
+        end
+        it 'sets the flash notice' do
+          get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback)
+          flash.now[:notice].should be_present
+        end
+        it 'sends an email' do
+          FeedbackMailer.should_receive(:feedback).and_return(double("deliverable", :deliver! => true))
+          get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback)
+        end
+      end
+    end
   end
+
   describe "#privacy" do
     render_views
     context "while not logged in" do
@@ -712,6 +749,20 @@ describe MainController do
     it 'returns the app version' do
       get :version
       response.body.should eql 'Dart 5.0 [unk]'
+    end
+  end
+
+  describe 'sampler' do
+    before do
+      get :sampler
+    end
+    it 'grabs some random pieces' do
+      assigns(:rand_pieces).should have_at_least(1).piece
+      assigns(:rand_pieces).map(&:class).uniq.should eql [ArtPiece]
+    end
+
+    it 'renders the thumbs partial' do
+      response.should render_template 'thumbs'
     end
   end
 end
