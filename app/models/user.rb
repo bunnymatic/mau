@@ -46,9 +46,13 @@ class User < ActiveRecord::Base
        # rails 3.1
        # you'll need this
        # http://stackoverflow.com/questions/7001810/alternative-method-for-proxy-owner-in-activerecord
-       (proxy_owner.favorites.map { |f|
-          f.to_obj
-        }).reject(&:nil?)
+       
+       # < Rails 3.0
+       # (proxy_owner.favorites.map { |f|
+       #    f.to_obj
+       #  }).reject(&:nil?)
+
+       proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
      end
   end
 

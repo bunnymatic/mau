@@ -2,8 +2,9 @@ require 'htmlhelper'
 
 class ArtPiece < ActiveRecord::Base
   belongs_to :artist
+
   has_many :art_pieces_tags
-  has_many :art_piece_tags, :through => :art_pieces_tags, :dependent => :destroy
+  has_many :art_piece_tags, :through => :art_pieces_tags
 
   belongs_to :medium
   include ImageDimensions

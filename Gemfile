@@ -1,16 +1,17 @@
 source 'https://rubygems.org'
-ruby '1.9.3'
+ruby '2.0.0'
 
 gem 'racc'
-gem "rails", '~> 3.0.20'
+gem "rails", '~> 3.1.12'
+gem 'aasm'
 gem "geokit"
 #gem "geokit-rails"
 gem 'geokit-rails3', :git => 'https://github.com/geokit/geokit-rails3.git'
 gem "nokogiri", '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
 gem "htmlentities"
 gem "json"
-gem 'mysql2', '~>0.2.11'
-gem 'activerecord-mysql2-adapter'
+gem 'mysql2'
+#gem 'activerecord-mysql2-adapter'
 gem "haml"
 gem "sass"
 gem 'mojo_magick'
@@ -47,7 +48,7 @@ gem 'geokit-rails'
 # mailing with postmarkapp.com
 gem 'postmark-rails'
 gem 'postmark'
-gem 'tmail'
+#gem 'tmail'
 
 group :staging, :production do
   gem 'newrelic_rpm'
@@ -71,6 +72,7 @@ group :test, :development do
   gem 'pry-debugger'
   #gem 'ruby-debug'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
+  gem 'simplecov'
   #gem "rcov_rails"
   # gem 'rails-upgrade'
 end

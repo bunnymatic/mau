@@ -23,14 +23,5 @@ describe DiscountController do
         htm.should include '<li>one</li>'
       end
     end
-    context 'with bad markup' do
-      before do
-        get :markup, :markdown => 42
-      end
-      it 'returns curse words' do
-        htm = response.body
-        htm.should include 'shit'
-      end
-    end
   end
 end

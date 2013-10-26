@@ -36,7 +36,7 @@ describe ApiController do
   end
 
   context 'bad requests' do
-    [nil, ['bogus'], ['bogus',1], ['artists','b','c','d'],  ['artists','2','edit'], ['studios', Fixtures.identify(:blue),'destroy'], ['hash']].each do |params_path|
+    [nil, ['bogus'], ['bogus',1], ['artists','b','c','d'],  ['artists','2','edit'], ['studios', ActiveRecord::Fixtures.identify(:blue),'destroy'], ['hash']].each do |params_path|
       context "given #{params_path.inspect} as input parameters" do
         before do
           get :index, :path => params_path
