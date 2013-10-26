@@ -15,7 +15,6 @@ gem "haml"
 gem "sass"
 gem 'mojo_magick'
 gem 'dalli'
-gem 'memcache-client'
 gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
@@ -69,6 +68,7 @@ group :test, :development do
   gem 'jasmine'
   gem 'jasmine-headless-webkit'
   gem 'pry'
+  gem 'pry-debugger'
   #gem 'ruby-debug'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
   #gem "rcov_rails"

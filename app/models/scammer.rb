@@ -17,7 +17,7 @@ class Scammer < ActiveRecord::Base
     resp = http.request(req)
     headers = []
     scammers = []
-    resp.body.each do |row|
+    resp.body.split("\n").each do |row|
       row.chomp!
       entries = (row.split '|').map{|entry| entry.gsub(/^"/, '').gsub(/"$/, '')}
       

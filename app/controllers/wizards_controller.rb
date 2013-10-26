@@ -6,13 +6,6 @@ class WizardsController < ApplicationController
   before_filter :post_only, :only => [:flax_submit]
   before_filter :artists_only, :except => [ :mau042012 ]
 
-  def artists_only
-    if current_user and !current_artist
-      # fan login
-      render_not_found({:message => 'Sorry, you need a full fledged Artist account to submit to this show.'})
-    end
-  end
-
   def mau042012
     page = 'show_submissions'
     section = 'spring2012'
@@ -22,5 +15,14 @@ class WizardsController < ApplicationController
 
   def mau042012_entrythingy
   end
+
+  private
+  def artists_only
+    if current_user and !current_artist
+      # fan login
+      render_not_found({:message => 'Sorry, you need a full fledged Artist account to submit to this show.'})
+    end
+  end
+
 
 end

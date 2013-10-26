@@ -12,7 +12,7 @@ end
 def controller_actions_should_fail_if_not_logged_in(cont, opts={})
   except= opts[:except] || []
   excepts = except.map { |ex| ex.to_s }
-  actions_to_test= get_all_actions(cont).reject{ |a| excepts.include?(a) }
+  actions_to_test = get_all_actions(cont).reject{ |a| excepts.include?(a.to_s) }
   actions_to_test += opts[:include] if opts[:include]
   actions_to_test.each do |a|
     get a
