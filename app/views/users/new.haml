@@ -15,7 +15,7 @@
                  :display => "Mission Art Fan",
                  :selected => (@type == 'MAUFan') ? "selected=selected" : "" 
                  } ]
-    opts = sel_opts.map{ |opt| "<option value='#{opt[:key]}' id='#{opt[:id]}' #{opt[:selected]}>#{opt[:display]}</option>" }.join('')
+    opts = sel_opts.map{ |opt| "<option value='#{opt[:key]}' id='#{opt[:id]}' #{opt[:selected]}>#{opt[:display]}</option>" }.join('').html_safe
   %h2 Create Your MAU Account
   = render :partial => '/flash_notice_error'
   %table.signup-table

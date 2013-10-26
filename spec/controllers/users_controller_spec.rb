@@ -10,6 +10,10 @@ shared_examples_for 'common signup form' do
   it 'shows a captcha' do
     assert_select('textarea[name=recaptcha_challenge_field]')
   end
+  it 'shows options for fan or artist' do
+    assert_select 'select option[value=Artist]'
+    assert_select 'select option[value=MAUFan]'
+  end
 
 end
 

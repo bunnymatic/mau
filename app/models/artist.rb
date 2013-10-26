@@ -13,11 +13,6 @@ class Artist < User
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
 
-  scope :open_studios_participants, lambda { |*oskey|
-    q = oskey.blank? ? Conf.oslive : oskey
-    joins(:artist_info).where("artist_infos.open_studios_participation like '%%#{q}%%'")
-  }
-
   has_one :artist_info
 
   has_many :art_pieces, :order => "`order` ASC, `id` DESC"
@@ -147,6 +142,11 @@ class Artist < User
       end
 
     end
+  end
+
+  def self.open_studios_participants(oskey = nil)
+    q = (oskey || Conf.oslive).to_s
+    joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
   end
 
   protected

@@ -5,7 +5,7 @@ hot:
   filename: hot.jpg
   title: hot title
   description: super hot description
-  medium_id: <%= Fixtures.identify(:medium1) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium1) %>
   dimensions: hot x hot
   created_at:                <%= 125.hours.ago.to_s :db  %>
   artist: joeblogs
@@ -14,7 +14,7 @@ hotter:
   filename: hotter.jpg
   title: hotter title
   description: super hotter description
-  medium_id: <%= Fixtures.identify(:medium4) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium4) %>
   dimensions: hotter x hot
   image_height: 200
   image_width: 40
@@ -25,7 +25,7 @@ not:
   filename: not.jpg
   title: not title
   description: super not description
-  medium_id: <%= Fixtures.identify(:medium2) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium2) %>
   dimensions: not x not
   created_at:                <%= 120.hours.ago.to_s :db  %>
   image_height: 2024
@@ -36,7 +36,7 @@ wayout:
   filename: wayout.jpg
   title: not active
   description: way out there
-  medium_id: <%= Fixtures.identify(:medium2) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium2) %>
   dimensions: 20,40
   created_at:                <%= 140.hours.ago.to_s :db  %>
   image_height: 800
@@ -47,7 +47,7 @@ h1024w2048:
   filename: h1024.jpg
   title: h1024 title
   description: h1024 description
-  medium_id: <%= Fixtures.identify(:medium2) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium2) %>
   dimensions: this x that
   image_height: 1024
   image_width: 2048
@@ -58,7 +58,7 @@ negative_size:
   filename: negative.jpg
   title: negative title
   description: super negative description
-  medium_id: <%= Fixtures.identify(:medium2) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium2) %>
   dimensions: negative x negative
   image_height: -1024
   image_width: -2048
@@ -73,7 +73,7 @@ artpiece1:
   image_height: 1024
   image_width: 2048
   created_at:                <%= 8.days.ago.to_s :db  %>
-  medium_id: <%= Fixtures.identify(:medium1) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium1) %>
   artist: artist1
 
 artpiece2:
@@ -84,7 +84,7 @@ artpiece2:
   image_height: 1024
   image_width: 2048
   created_at:                <%= 29.hours.ago.to_s :db  %>
-  medium_id: <%= Fixtures.identify(:medium2) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium2) %>
   artist: artist1
 
 artpiece3:
@@ -95,7 +95,7 @@ artpiece3:
   image_height: 1024
   image_width: 2048
   created_at:                <%= 2.hours.ago.to_s :db  %>
-  medium_id: <%= Fixtures.identify(:medium3) %>
+  medium_id: <%= ActiveRecord::Fixtures.identify(:medium3) %>
   artist: artist1
 
 valid_dimensions:

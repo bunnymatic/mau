@@ -6,7 +6,7 @@ describe ApplicationEvent do
   it 'serializes the data field' do
     ApplicationEvent.all.any?{|ae| ae.data}.should be_true, 'you need some application events with data in your fixtures'
     ApplicationEvent.all.select{|ae| ae.data}.each do |ae|
-      ae.data.keys.should_not be_empty
+      ae.data.should be_a_kind_of Hash
     end
   end
 
