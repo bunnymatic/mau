@@ -4,14 +4,10 @@ ruby '2.0.0'
 gem 'racc'
 gem "rails", '~> 3.1.12'
 gem 'aasm'
-gem "geokit"
-#gem "geokit-rails"
-gem 'geokit-rails3', :git => 'https://github.com/geokit/geokit-rails3.git'
 gem "nokogiri", '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
 gem "htmlentities"
 gem "json"
 gem 'mysql2'
-#gem 'activerecord-mysql2-adapter'
 gem "haml"
 gem "sass"
 gem 'mojo_magick'
@@ -37,18 +33,13 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem 'will_paginate' #, '~> 2.3.16'
 gem 'browser', "= 0.1.6" # 0.2.x does not support ruby 1.8.7
 gem 'geokit'
-gem 'geokit-rails'
-#gem 'rails_xss' # get us closer to Rails3 behavior by auto html escaping
-#gem 'erubis' # for rails_xss
-
-#gem 'pdfkit'
-#gem 'wicked_pdf'
-#gem 'wkhtmltopdf-binary'
+#gem 'geokit-rails'
+gem 'geokit-rails3'
+gem 'gmaps4rails'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'
 gem 'postmark'
-#gem 'tmail'
 
 group :staging, :production do
   gem 'newrelic_rpm'

@@ -4,10 +4,9 @@ include AuthenticatedTestHelper
 
 describe FavoritesController do
 
-  fixtures :users, :roles_users
+  fixtures :users, :roles_users, :roles
   fixtures :art_pieces
   fixtures :artist_infos
-  fixtures :roles
   fixtures :favorites # even though fixture is empty - this forces a db clear between tests
 
   [:index].each do |endpoint|

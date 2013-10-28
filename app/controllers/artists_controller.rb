@@ -65,33 +65,22 @@ class ArtistsController < ApplicationController
     artists.each do |a|
       address = a.address_hash
       if !address.nil? && address[:geocoded] && !address[:simple].blank?
-        ky = "%s" % address[:simple]
-        dx = dy = 0.0
+        ky = "%s" % address[:simple] 
         if !@roster[ky]
           @roster[ky] = []
-        else
-          # add offset
-          dx = 0.00015 * rand * ( rand > 0.5 ? -1.0 : 1.0 )
-          dy = 0.00025 * rand * ( rand > 0.5 ? -1.0 : 1.0 )
         end
 
         @roster[ky] << a
-        coord = address[:latlng]
-        nentries += 1
-        coord[0] += dx
-        coord[1] += dy
-        info = get_map_info(a)
-
-        # m = GMarker.new(coord,:title => a.get_name(true),
-        #                 :info_window => info)
-        # #:icon => artist_ico)
-        # markers << m
-        # @map.overlay_init(m)
       end
     end
-    sw = Artist::BOUNDS['SW']
-    ne = Artist::BOUNDS['NE']
-    #    @map.center_zoom_on_bounds_init([sw,ne])
+
+    @map_data = Gmaps4rails.build_markers(@roster.values.flatten) do |artist, marker|
+      address = artist.address_hash
+      marker.lat address[:latlng][0]
+      marker.lng address[:latlng][1]
+      marker.infowindow get_map_info(artist)
+    end
+
     @selfurl = map_artists_url
     @inparams = params
     @inparams.delete('action')

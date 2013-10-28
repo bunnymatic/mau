@@ -3,7 +3,7 @@ describe CmsDocumentsController do
 
   include AuthenticatedTestHelper
 
-  fixtures :cms_documents, :users
+  fixtures :cms_documents, :users, :roles, :roles_users
 
   [:index, :show, :edit, :update].each do |meth|
     before do
