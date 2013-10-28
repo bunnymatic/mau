@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe WizardsController do
 
-  fixtures :users, :artist_infos, :art_piece_tags, :art_pieces_tags, :media, :art_pieces
+  fixtures :users, :roles, :roles_users, :artist_infos, :art_piece_tags, :art_pieces_tags, :media, :art_pieces
   fixtures :cms_documents
 
   render_views

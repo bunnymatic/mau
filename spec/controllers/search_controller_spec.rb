@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe SearchController do
 
-  fixtures :users
+  fixtures :users, :roles, :roles_users
   fixtures :artist_infos
   fixtures :art_pieces
   fixtures :media

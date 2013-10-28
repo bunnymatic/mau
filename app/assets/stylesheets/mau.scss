@@ -3025,7 +3025,7 @@ form#feedback_form .error {
 .map-container {
   float: right;
   width: 600px;
-  height: 500px;
+  height: 700px;
   #map-canvas {
     border: 1px solid $darkbluegray;
     height: 100%;
@@ -3039,9 +3039,14 @@ form#feedback_form .error {
 #all_artists_page .map-os-switch {
   float: left;
 }
+.address-wrapper {
+  float: left;
+  padding:15px;
+  width: 160px;
 
+}
 .map-roster {
-  float: left; width: 190px;
+  float: left; 
   @include little-text;
 }
 .map-addr {

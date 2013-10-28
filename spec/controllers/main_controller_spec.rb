@@ -77,7 +77,7 @@ end
 
 describe MainController do
 
-  fixtures :users, :studios, :artist_infos, :cms_documents, :roles, :emails, :email_lists, :email_list_memberships, :art_pieces, :roles_users
+  fixtures :users, :roles, :roles_users, :studios, :artist_infos, :cms_documents,  :emails, :email_lists, :email_list_memberships, :art_pieces
 
   describe "#index" do
     render_views

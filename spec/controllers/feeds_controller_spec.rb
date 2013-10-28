@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do
-  fixtures :artist_feeds, :users, :roles_users
+  fixtures :artist_feeds, :users, :roles_users, :roles
   cache_filename = '_cached_feeds.html'
   context 'with bad feed data' do
     it 'handles failure in fetch and format' do

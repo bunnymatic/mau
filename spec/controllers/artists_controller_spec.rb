@@ -4,7 +4,7 @@ include AuthenticatedTestHelper
 
 describe ArtistsController do
 
-  fixtures :users, :roles_users, :artist_infos, :art_pieces, :studios, :roles, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
+  fixtures :users, :roles_users,  :roles, :artist_infos, :art_pieces, :studios, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
 
   before do
     Rails.cache.stub(:read => nil)
@@ -615,12 +615,14 @@ describe ArtistsController do
       it "returns success" do
         response.should be_success
       end
-      it "assigns map" do
-        pending "REMOVED GOOGLE MAPS - Once the js is implemented, remove this spec"
-        assigns(:map).should be
-      end
       it "assigns roster" do
         assigns(:roster).should have_at_least(1).locations
+      end
+      it "assigns map" do
+        assigns(:map_data).should have(assigns(:roster).values.flatten.count).artists
+      end
+      it 'puts the map data as json on the page' do
+        response.body.should match /MAU.map_markers = \[\{/
       end
       it "artists should all be active" do
         assigns(:roster).values.flatten.each do |a|
@@ -642,7 +644,7 @@ describe ArtistsController do
         get :map_page
       end
       it 'renders the map html properly' do
-        assert_select "script[src^=https://maps.googleapis.com/maps/api]"
+        assert_select "script[src^=//maps.google.com/maps/api/js]"
       end
       it 'renders the artists' do
         assigns(:roster).values.flatten.each do |a|
@@ -657,12 +659,14 @@ describe ArtistsController do
       it "returns success" do
         response.should be_success
       end
-      it "assigns map" do
-        pending "REMOVED GOOGLE MAPS - Once the js is implemented, remove this spec"
-        assigns(:map).should be_true
-      end
       it "assigns roster" do
         assigns(:roster).should have_at_least(1).locations
+      end
+      it "assigns map" do
+        assigns(:map_data).should have(assigns(:roster).values.flatten.count).artists
+      end
+      it 'puts the map data as json on the page' do
+        response.body.should match /MAU.map_markers = \[\{/
       end
       it "artists should all be active" do
         assigns(:roster).values.flatten.each do |a|

@@ -6,7 +6,7 @@ describe MediaController do
 
   fixtures :media
   fixtures :art_pieces
-  fixtures :users
+  fixtures :users, :roles, :roles_users
 
   before do
     # do mobile

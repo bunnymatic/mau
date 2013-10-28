@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ApiController do
-  fixtures :roles_users, :users, :artist_infos, :studios, :art_pieces, :media, :art_piece_tags
+  fixtures :roles_users, :users, :roles, :artist_infos, :studios, :art_pieces, :media, :art_piece_tags
   before do
     Rails.cache.stub(:read => nil)
   end
