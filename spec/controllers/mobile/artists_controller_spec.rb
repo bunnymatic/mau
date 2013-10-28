@@ -92,15 +92,16 @@ describe ArtistsController do
     it 'shows the user\'s studio name' do
       assert_select('div[data-role=content] div.studio', :match => @artist.studio.name)
     end
-
-    it 'shows the user\'s media' do
-      assert_select(".media.section a")
-    end
-
     it 'shows the users address' do
       address = @artist.address_hash
       assert_select 'div', :text => address[:street]
       assert_select 'div', :text => address[:city]
+    end
+    it 'renders a map link for their address' do
+      assert_select '.address a[href*=maps.google.com]'
+    end
+    it 'renders a medium links' do
+      assert_select '.media a[href*=/media/]'
     end
     it 'renders a bio' do
       assert_select '.bio_link.section'
