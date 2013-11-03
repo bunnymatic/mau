@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: art_pieces
+#
+#  id           :integer          not null, primary key
+#  filename     :string(255)
+#  title        :string(255)
+#  description  :text
+#  dimensions   :string(255)
+#  artist_id    :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  medium_id    :integer
+#  year         :integer
+#  image_height :integer          default(0)
+#  image_width  :integer          default(0)
+#  order        :integer
+#
+
 require 'htmlhelper'
 
 class ArtPiece < ActiveRecord::Base

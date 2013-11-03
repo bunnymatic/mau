@@ -12,7 +12,7 @@ FactoryGirl.define do
     profile_image { Faker::Files.file_with_path }
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }
-
+    os_participation
   end
 
   factory :artist do
@@ -27,6 +27,13 @@ FactoryGirl.define do
     profile_image { Faker::Files.file_with_path }
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }
+
+    after_build do |artist|
+      artist_info(:artist => artist)
+    end
+    trait :activated do
+      state :active
+    end
 
   end
 

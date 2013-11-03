@@ -48,7 +48,7 @@ module AddressMixin
     result = Geokit::Geocoders::MultiGeocoder.geocode(full_address)
     if !result.success
       #puts "Failed to geocode #{self.inspect}"
-      errors.add(:street, "Unable to Geocode your address.")
+      #errors.add(:street, "Unable to Geocode your address.")
     else
       self.lat, self.lng = result.lat, result.lng
     end

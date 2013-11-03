@@ -36,6 +36,7 @@ gem 'geokit'
 #gem 'geokit-rails'
 gem 'geokit-rails3'
 gem 'gmaps4rails'
+gem 'annotate'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'
@@ -49,6 +50,9 @@ group :test do
   gem 'faker'
   gem 'fakeweb'
   gem 'factory_girl', '~> 2.0.x'
+  gem 'factory_girl_rails'
+  gem 'cucumber'
+  gem 'cucumber-rails', :require => false
 end
 
 group :test, :development do
@@ -66,4 +70,6 @@ group :test, :development do
   gem 'simplecov'
   #gem "rcov_rails"
   # gem 'rails-upgrade'
+  gem 'guard-cucumber'
+  gem 'database_cleaner'
 end

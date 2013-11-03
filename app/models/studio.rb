@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: studios
+#
+#  id            :integer          not null, primary key
+#  name          :string(255)
+#  street        :string(255)
+#  city          :string(255)
+#  state         :string(255)
+#  zip           :integer
+#  url           :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  profile_image :string(255)
+#  image_height  :integer          default(0)
+#  image_width   :integer          default(0)
+#  lat           :float
+#  lng           :float
+#  cross_street  :string(255)
+#  phone         :string(255)
+#
+
 require 'uri'
 class Studio < ActiveRecord::Base
 

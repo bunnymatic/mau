@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: cms_documents
+#
+#  id         :integer          not null, primary key
+#  page       :string(255)
+#  section    :string(255)
+#  article    :text
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class CmsDocument < ActiveRecord::Base
 
   before_save :clean_newlines

@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id                  :integer          not null, primary key
+#  title               :string(255)
+#  description         :text
+#  tweet               :string(255)
+#  street              :string(255)
+#  venue               :string(255)
+#  state               :string(255)
+#  city                :string(255)
+#  zip                 :string(255)
+#  starttime           :datetime
+#  endtime             :datetime
+#  url                 :string(255)
+#  lat                 :float
+#  lng                 :float
+#  user_id             :integer
+#  publish             :datetime
+#  reception_starttime :datetime
+#  reception_endtime   :datetime
+#
+
 require 'htmlhelper'
 require 'event_calendar'
 class Event < ActiveRecord::Base

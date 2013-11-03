@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: featured_artist_queue
+#
+#  id        :integer          not null, primary key
+#  artist_id :integer
+#  featured  :datetime
+#  position  :float
+#
+# Indexes
+#
+#  index_featured_artist_queue_on_position  (position)
+#
+
 class FeaturedArtistQueue < ActiveRecord::Base
 
   TABLE_NAME = 'featured_artist_queue'

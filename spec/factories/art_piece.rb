@@ -3,7 +3,7 @@ FactoryGirl.define do
     title { Faker::Company.name }
     filename { Faker::Files.file_with_path }
     artist {
-      FactoryGirl.create(:artist,:state => :active)
+      FactoryGirl.create(:artist,:activated)
     }
   end
 end
