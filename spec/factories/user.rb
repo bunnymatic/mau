@@ -12,7 +12,6 @@ FactoryGirl.define do
     profile_image { Faker::Files.file_with_path }
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }
-    os_participation
   end
 
   factory :artist do
@@ -22,7 +21,7 @@ FactoryGirl.define do
     password { 'mypass' }
     password_confirmation { 'mypass' }
     firstname { Faker::Name.first_name }
-    lastname { Faker::Name.first_name }
+    lastname { Faker::Name.last_name }
     nomdeplume{ Faker::Name.name }
     profile_image { Faker::Files.file_with_path }
     image_height { 2000 + rand(1000) }

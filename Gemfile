@@ -50,7 +50,7 @@ group :test do
   gem 'faker'
   gem 'fakeweb'
   gem 'factory_girl', '~> 2.0.x'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', :require => false
   gem 'cucumber'
   gem 'cucumber-rails', :require => false
 end
@@ -62,7 +62,8 @@ group :test, :development do
   gem 'rspec-rails' #,'1.3.4'
   gem 'jslint_on_rails'
   gem 'jasmine'
-  gem 'jasmine-headless-webkit'
+  #  gem 'jasmine-headless-webkit'
+  gem 'poltergeist'
   gem 'pry'
   gem 'pry-debugger'
   #gem 'ruby-debug'
