@@ -117,7 +117,7 @@ class ArtPiece < ActiveRecord::Base
   def self.get_new_art
     cache_key = NEW_ART_CACHE_KEY
     new_art = SafeCache.read(cache_key)
-    unless new_art
+    unless new_art.present?
       new_art = ArtPiece.where('artist_id is not null && artist_id > 0').limit(12).order('created_at desc').all
       SafeCache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
     end

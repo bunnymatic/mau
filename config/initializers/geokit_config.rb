@@ -52,7 +52,12 @@ Mau::Application.configure do
 	# Be aware that there are Terms of Use restrictions on how you can use the
 	# various geocoders.  Make sure you read up on relevant Terms of Use for each
 	# geocoder you are going to use.
-	config.geokit.geocoders.provider_order = [:google3,:yahoo]
+  if Rails.env.test?
+    puts "Using fake geocoder for tests"
+    config.geokit.geocoders.provider_order = [:fake]
+  else
+    config.geokit.geocoders.provider_order = [:google3,:yahoo]
+  end
 
 	# The IP provider order. Valid symbols are :ip,:geo_plugin.
 	# As before, make sure you read up on relevant Terms of Use for each

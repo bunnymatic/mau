@@ -52,7 +52,6 @@ describe Studio do
       s.save!
     end
     it "validates phone number" do
-      @s.stub(:compute_geocode => [-40,120])
       @s.save!
       @s.reload
       @s.phone.should eql '4151234154'

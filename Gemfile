@@ -53,6 +53,8 @@ group :test do
   gem 'factory_girl_rails', :require => false
   gem 'cucumber'
   gem 'cucumber-rails', :require => false
+  gem 'poltergeist'
+  gem 'launchy'             # Required to dump the page when running cucumber features
 end
 
 group :test, :development do
@@ -63,7 +65,6 @@ group :test, :development do
   gem 'jslint_on_rails'
   gem 'jasmine'
   #  gem 'jasmine-headless-webkit'
-  gem 'poltergeist'
   gem 'pry'
   gem 'pry-debugger'
   #gem 'ruby-debug'

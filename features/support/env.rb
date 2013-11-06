@@ -7,6 +7,8 @@ require './spec/support/simplecov'
 require './spec/support/faker_files'
 require 'cucumber/rails'
 
+Dir[Rails.root.join("spec/factories/**/*.rb")].each { |f| require f }
+
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.
