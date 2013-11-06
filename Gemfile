@@ -36,6 +36,7 @@ gem 'geokit'
 #gem 'geokit-rails'
 gem 'geokit-rails3'
 gem 'gmaps4rails'
+gem 'annotate'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'
@@ -49,6 +50,11 @@ group :test do
   gem 'faker'
   gem 'fakeweb'
   gem 'factory_girl', '~> 2.0.x'
+  gem 'factory_girl_rails', :require => false
+  gem 'cucumber'
+  gem 'cucumber-rails', :require => false
+  gem 'poltergeist'
+  gem 'launchy'             # Required to dump the page when running cucumber features
 end
 
 group :test, :development do
@@ -58,7 +64,7 @@ group :test, :development do
   gem 'rspec-rails' #,'1.3.4'
   gem 'jslint_on_rails'
   gem 'jasmine'
-  gem 'jasmine-headless-webkit'
+  #  gem 'jasmine-headless-webkit'
   gem 'pry'
   gem 'pry-debugger'
   #gem 'ruby-debug'
@@ -66,4 +72,6 @@ group :test, :development do
   gem 'simplecov'
   #gem "rcov_rails"
   # gem 'rails-upgrade'
+  gem 'guard-cucumber'
+  gem 'database_cleaner'
 end

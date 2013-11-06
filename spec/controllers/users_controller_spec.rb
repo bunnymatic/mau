@@ -266,7 +266,6 @@ describe UsersController do
       before do
         Artist.any_instance.should_receive(:make_activation_code).at_least(1)
         MAUFan.any_instance.should_receive(:subscribe_and_welcome).never
-        ArtistInfo.any_instance.stub(:compute_geocode => [-44,122])
         post :create, :artist => { :login => 'newuser2',
           :password_confirmation => "blurpt",
           :lastname => "bmatic",

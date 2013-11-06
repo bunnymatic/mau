@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: art_pieces
+#
+#  id           :integer          not null, primary key
+#  filename     :string(255)
+#  title        :string(255)
+#  description  :text
+#  dimensions   :string(255)
+#  artist_id    :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  medium_id    :integer
+#  year         :integer
+#  image_height :integer          default(0)
+#  image_width  :integer          default(0)
+#  order        :integer
+#
+
 require 'htmlhelper'
 
 class ArtPiece < ActiveRecord::Base
@@ -98,7 +117,7 @@ class ArtPiece < ActiveRecord::Base
   def self.get_new_art
     cache_key = NEW_ART_CACHE_KEY
     new_art = SafeCache.read(cache_key)
-    unless new_art
+    unless new_art.present?
       new_art = ArtPiece.where('artist_id is not null && artist_id > 0').limit(12).order('created_at desc').all
       SafeCache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
     end

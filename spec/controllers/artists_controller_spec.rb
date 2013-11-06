@@ -119,7 +119,6 @@ describe ArtistsController do
         @old_bio = artist1_info.bio
         login_as(artist1)
         @logged_in_user = artist1
-        ArtistInfo.any_instance.stub(:compute_geocode => [-22,123])
       end
       context "submit" do
         context "post with new bio data" do

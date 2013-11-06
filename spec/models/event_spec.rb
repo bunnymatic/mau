@@ -53,7 +53,6 @@ describe Event do
 
   describe 'creation' do
     it 'stores the user association' do
-      Event.any_instance.stub(:compute_geocode)
       FactoryGirl.create(:event, :user => User.active.first)
       Event.where(:user_id => User.active.first.id).should be_present
     end

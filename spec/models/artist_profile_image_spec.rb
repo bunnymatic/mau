@@ -8,7 +8,6 @@ describe ArtistProfileImage do
     let(:file) { Faker::Files.file }
     let(:upload) { double('UploadedFile', :original_filename => file) }
     before do
-      Artist.any_instance.stub(:compute_geocode).and_return([33,-120])
       @artist = users(:artist1)
       ImageFile.should_receive(:save).with(upload,
                                            "public/artistdata/#{@artist.id}/profile",

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: artist_feeds
+#
+#  id         :integer          not null, primary key
+#  url        :string(255)
+#  feed       :string(255)
+#  active     :boolean
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class ArtistFeed < ActiveRecord::Base
 
   scope :active, where(:active => true)

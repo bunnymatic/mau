@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe StudioImage do
-  before do
-    Studio.any_instance.stub(:compute_geocode).and_return([33,-120])
-  end
 
   describe '#save' do
     let(:file) { Faker::Files.file }
