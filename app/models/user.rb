@@ -408,15 +408,15 @@ class User < ActiveRecord::Base
 
   # reformat data so that the artist contains the art pieces
   # and that any security related data is missing (salt, password etc)
-  def clean_for_export( art_pieces)
+  def clean_for_export(art_pieces)
     retval = { "artist" => {}, "artpieces" => [] }
     keys = [ 'firstname','lastname','login', 'street' ]
     keys.each do |k|
-      retval["artist"][k] = self[k]
+      retval["artist"][k] = self.send(k)
     end
     apkeys = ['title','filename']
-    retval['artpieces'] = art_pieces.map do |ap|
-      Hash[apkeys.map{|k| [k,ap[k]]}]
+    retval['artpieces'] = (art_pieces||[]).map do |ap|
+      Hash[apkeys.map{|k| [k,ap.send(k)]}]
     end
     retval
   end

@@ -54,7 +54,7 @@
     .clear
     - if has_links(@artist)
       .links.section
-        - keyed_links.each do |key, name, _id|
+        - Artist::KEYED_LINKS.each do |key, name, _id|
           - lnk = @artist.send(key)
           - if lnk and !lnk.empty?
             %div{:id => _id}

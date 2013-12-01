@@ -539,10 +539,6 @@ describe MainController do
       response.should redirect_to root_path
     end
     it 'redirects to referrer if there is one' do
-      get :mobile
-      response.should redirect_to SHARED_REFERER
-    end
-    it 'redirects to referrer if there is one' do
       request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
       get :mobile
       response.should redirect_to SHARED_REFERER

@@ -46,6 +46,14 @@ require 'qr4r'
 
 class Artist < User
 
+  KEYED_LINKS = [ [:url, 'Website', :u_website],
+                  [:facebook, 'Facebook', :u_facebook],
+                  [:flickr, 'Flickr', :u_flickr],
+                  [:twitter, 'Twitter', :u_twitter],
+                  [:blog, 'Blog', :u_blog],
+                  [:myspace, 'MySpace', :u_myspace]]
+
+
   BOUNDS = { 'NW' => [ 37.76978184422388, -122.42683410644531 ],
     'NE' => [ 37.76978184422388, -122.40539789199829 ],
     'SW' => [ 37.747787573475506, -122.42919445037842 ],
