@@ -33,8 +33,8 @@ FactoryGirl.define do
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }
 
-    after_build do |artist|
-      artist_info(:artist => artist)
+    after_create do |artist|
+      artist.artist_info = FactoryGirl.create(:artist_info, :artist => artist)
     end
 
     trait :pending do
@@ -49,6 +49,12 @@ FactoryGirl.define do
     trait :with_art do
       after_build do |artist|
         FactoryGirl.create_list(:art_piece, 3, :artist => artist)
+      end
+    end
+
+    trait :with_studio do
+      after_build do |artist|
+        artist.build_studio(FactoryGirl.attributes_for(:studio))
       end
     end
 

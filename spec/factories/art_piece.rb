@@ -5,5 +5,8 @@ FactoryGirl.define do
     artist {
       FactoryGirl.create(:artist,:activated)
     }
+    after_build do |art_piece|
+      art_piece.medium = FactoryGirl.create(:medium)
+    end
   end
 end

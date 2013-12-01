@@ -9,7 +9,7 @@ class ArtistPresenter
   end
 
   def has_media?
-    @artist.media && @artist.media.length > 0
+    @artist.media.present?
   end
 
   def has_bio?
@@ -22,8 +22,8 @@ class ArtistPresenter
 
   def has_links?
     @has_links ||= (Artist::KEYED_LINKS.detect do |kk, disp|
-      artist[kk] && !artist[kk].empty?
-    end).present?
+                      artist.send(kk).present?
+                    end).present?
   end
 
   def links
@@ -48,7 +48,7 @@ class ArtistPresenter
   end
 
   def has_art?
-    @art_pieces.length > 0
+    art_pieces.length > 0
   end
 
   def art_pieces
@@ -69,7 +69,7 @@ class ArtistPresenter
   end
 
   def is_current_user?
-    @artist == @view_context.controller.current_user
+    @view_context.current_user == @artist
   end
 
   def studio_name

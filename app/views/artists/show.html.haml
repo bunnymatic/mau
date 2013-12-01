@@ -2,13 +2,13 @@
   %tr
     %td.lcol{:colspan => 2}
       - if current_user && @artist.is_current_user?
-        = render :partial => "/users/sidebar_nav"
-      = render :partial => "big_thumb_column"
+        = render "/users/sidebar_nav"
+      = render "big_thumb_column", :artist => @artist.artist
     %td.vstripe
     %td.rcol{:colspan => 2}
       = render :partial => '/flash_notice_error'
       .content-block
-        - if @artist
+        - if @artist.artist
           .artist-profile
             .info
               #artist_profile_name
@@ -66,7 +66,7 @@
                   .micro-icon.twitter
                 %a{:target => '_new', :href => @artist.fb_share_link, :title => "Share this page on Facebook"}
                   .micro-icon.facebook
-                - if (!current_user || (current_user && @artist.is_current_user?))
+                - if !current_user || !@artist.is_current_user?
                   %a.favorite_this{:href => '#', :fav_type => 'Artist', :fav_id => @artist.id, :title => "Add this artist to your favorites"}
                     #num_favorites #{@artist.favorites_count}
                     .micro-icon.heart
@@ -84,6 +84,6 @@
 
           .artist-pieces
             - if @artist.has_art?
-              = render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }}
+              = render '/art_pieces/thumbs', :pieces => @artist.art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }
             - else
               %img{:src => "/images/default-art-img.png", :width => "200"}

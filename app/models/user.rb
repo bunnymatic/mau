@@ -277,16 +277,7 @@ class User < ActiveRecord::Base
   end
 
   def media
-    if @mymedia == nil
-      media = {}
-      for ap in self.art_pieces
-        if ap.medium
-          media[ap.medium.id] = ap.medium
-        end
-      end
-      @mymedia = media.values
-    end
-    @mymedia
+    @mymedia ||= art_pieces.map(&:medium).compact.uniq
   end
 
   def validate_phone
