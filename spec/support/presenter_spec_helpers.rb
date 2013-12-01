@@ -2,7 +2,7 @@ module PresenterSpecHelpers
   class MockViewContext
     include Rails.application.routes.url_helpers
 
-    def initialize(logged_in_as)
+    def initialize(logged_in_as = nil)
       @user = logged_in_as
     end
 
@@ -17,7 +17,7 @@ module PresenterSpecHelpers
   end
 
   module InstanceMethods
-    def mock_view_context(logged_in_as)
+    def mock_view_context(logged_in_as = nil)
       @mock_view_context ||= MockViewContext.new(logged_in_as)
     end
   end

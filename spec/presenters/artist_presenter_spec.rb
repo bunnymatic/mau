@@ -17,4 +17,32 @@ describe ArtistPresenter do
   its(:is_current_user?) { should be_false }
   its(:favorites_count) { should be_nil }
   its(:studio_name) { should be_present }
+
+  context 'without media' do
+    before do
+      ArtPiece.any_instance.stub(:medium => nil)
+    end
+    its(:has_media?) { should be_false }
+  end
+
+  context 'without bio' do
+    before do
+      ArtistInfo.any_instance.stub(:bio => '')
+    end
+    its(:has_bio?) { should be_false }
+  end
+
+  context 'without links' do
+    before do
+      Artist.any_instance.stub(:facebook => '')
+    end
+    its(:has_links?) { should be_false }
+    its(:links) { should be_empty }
+  end
+
+  context 'when logged in' do
+    subject(:presenter) { ArtistPresenter.new(mock_view_context(artist), artist) }
+    its(:is_current_user?) { should be_true }
+  end
+
 end

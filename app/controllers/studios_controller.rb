@@ -92,43 +92,44 @@ class StudiosController < ApplicationController
   def show
     @studios = get_studio_list
     if params[:id] == 'independent_studios'
-      @studio = Studio.indy()
+      studio = Studio.indy()
     elsif STUDIO_KEYS.keys.include? params[:id]
-      @studio = Studio.where(:name => STUDIO_KEYS[params[:id]]).first
+      studio = Studio.where(:name => STUDIO_KEYS[params[:id]]).first
     end
-    unless @studio
+    unless studio
       if params[:id].to_s == "0"
-        @studio = Studio.indy()
+        studio = Studio.indy()
       else
         begin
-          @studio = Studio.find params[:id]
+          studio = Studio.find params[:id]
         rescue ActiveRecord::RecordNotFound
-          @studio = nil
+          studio = nil
         end
       end
     end
 
-    unless @studio
+    unless studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
       redirect_to studios_path
       return
     end
-    @selected_studio = @studio.id
-    @artists = []
-    @other_artists = []
-    @page_title = "Mission Artists United - Studio: %s" % @studio.name
-    unless is_mobile?
-      @artists, @other_artists = @studio.artists.active.partition{|a| a.representative_piece}
+    # @artists = []
+    # @other_artists = []
+    @page_title = "Mission Artists United - Studio: %s" % studio.name
+    if !is_mobile?
+      # @artists, @other_artists = studio.artists.active.partition{|a| a.representative_piece}
     else
-      @page_title = "Studio: #{@studio.name}"
+      @page_title = "Studio: #{studio.name}"
     end
 
-    @other_artists.sort! { |a,b| a.lastname <=> b.lastname }
-    @admin = logged_in? && current_user.is_admin?
-    logger.debug("StudiosController: found %d artists to show" % @artists.length)
+    # @other_artists.sort! { |a,b| a.lastname <=> b.lastname }
+    # @admin = logged_in? && current_user.is_admin?
+
+    @studio = StudioPresenter.new(view_context, studio)
+
     respond_to do |format|
       format.html { render :layout => 'mau' }
-      format.json { render :json => @studio.to_json(:methods => 'artists') }
+      format.json { render :json => studio.to_json(:methods => 'artists') }
       format.mobile { render :layout => 'mobile' }
     end
   end

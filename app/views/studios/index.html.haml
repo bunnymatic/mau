@@ -1,7 +1,7 @@
 %table.tbl-content
   %tr
     %td.lcol{:colspan => 2}
-      = render :partial => 'studio_list'
+      = render 'studio_list', :studios => @studios
     %td.vstripe
     %td.rcol{:colspan => 2}
       #studio_page

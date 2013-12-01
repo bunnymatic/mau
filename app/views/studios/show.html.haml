@@ -1,0 +1,38 @@
+%table.tbl-content
+  %tr
+    %td.lcol{ :colspan => 2 }
+      = render 'studio_list', :studios => @studios, :selected_studio => @studio.studio
+    %td.vstripe
+    %td.rcol{ :colspan => 2 }
+      #studio_page
+        .studio-info
+          .studio-img
+            %img.profile{ :src => @studio.image }
+          %h4 #{@studio.name}
+          = render '/flash_notice_error'
+          %div
+            .address
+              = @studio.street_with_cross
+              - if !@studio.indy?
+                %span.lkmap
+                  \(
+                  = link_to 'map', @studio.map_link, :target => '_blank'
+                  \)
+            .city #{@studio.city}
+            .url
+              - if @studio.url.present?
+                = link_to @studio.display_url, @studio.url
+            - if @studio.phone.present?
+              .phone #{@studio.formatted_phone}
+          .clear
+          / pushes thumbnails below the floating img
+        .clear
+        .artists
+          .div-left Artists:
+          - if @studio.has_artists_with_art?
+            = render '/artists/thumbs',:artists => @studio.artists_with_art, :params => { :cols => 5 }
+          - if @studio.has_artists_without_art?
+            .studio-memberlist
+              - if @studio.has_artists_with_art?
+                More:
+              = @studio.artists_without_art.map{|a| link_to(a.get_name, a )}.join(", ").html_safe
