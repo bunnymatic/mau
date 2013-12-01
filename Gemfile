@@ -64,14 +64,10 @@ group :test, :development do
   gem 'rspec-rails' #,'1.3.4'
   gem 'jslint_on_rails'
   gem 'jasmine'
-  #  gem 'jasmine-headless-webkit'
   gem 'pry'
   gem 'pry-debugger'
-  #gem 'ruby-debug'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
   gem 'simplecov'
-  #gem "rcov_rails"
-  # gem 'rails-upgrade'
   gem 'guard-cucumber'
   gem 'database_cleaner'
 end
