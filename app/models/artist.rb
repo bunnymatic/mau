@@ -123,7 +123,7 @@ class Artist < User
     freq = {}
     return nil unless art_pieces && art_pieces.count > 0
     art_pieces.map(&:medium).select{|m| m}.each do |m|
-      freq[m.id] = 0 unless freq.has_key? m.id
+      freq[m.id] ||= 0
       freq[m.id] += 1
     end
     return nil unless freq && freq.count > 0

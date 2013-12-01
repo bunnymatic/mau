@@ -23,7 +23,7 @@ class ArtistMailer < MauMailer
   def signup_notification(artist)
     subject = 'Please activate your new account'
     setup_email(artist)
-    @url  = "http://%s/activate/#{artist.activation_code}" % Conf.site_url
+    @url  = activate_url(:activation_code => artist.activation_code)
     mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
   end
 
@@ -47,7 +47,7 @@ class ArtistMailer < MauMailer
   def resend_activation(artist)
     setup_email(artist)
     subject    = 'Reactivate your MAU account'
-    @url  = "http://%s/activate/#{artist.activation_code}" % Conf.site_url
+    @url  = activate_url(:activation_code => artist.activation_code)
     mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
   end
 
@@ -55,7 +55,7 @@ class ArtistMailer < MauMailer
     setup_email(artist)
     subject    = 'Your account has been activated!'
     @url  = Conf.site_url
-    @artistsurl  = 'http://%s/artists/' % [ Conf.site_url, artist.id ]
+    @artistsurl  = artist_url(artist)
     mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
 
   end

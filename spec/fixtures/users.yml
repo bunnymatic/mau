@@ -54,7 +54,7 @@ pending:
   login: pending
   email: pending@example.com
   type: MAUFan
-  activation_code: activation
+  activation_code: pending_activation_code
 
 
 old_password_holder:

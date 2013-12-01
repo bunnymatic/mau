@@ -185,7 +185,7 @@ class ArtistsController < ApplicationController
         t = Time.zone.now
         @os_only = is_os_only(params[:osonly])
         if @os_only
-          artists = Artist.active.open_studios_participants.all(:include => :artist_info).sort_by { |a| a.get_sort_name }
+          artists = Artist.active.open_studios_participants.all(:include => :artist_info).sort_by(&:sortable_name)
           queryargs['osonly'] = "on"
           artists.reject!{ |a| !a.in_the_mission? }
         else

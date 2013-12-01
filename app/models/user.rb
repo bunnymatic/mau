@@ -213,14 +213,16 @@ class User < ActiveRecord::Base
 
   def get_sort_name
     # get name for sorting:  try lastname, then firstname then login
-    if !self.lastname.blank? && self.lastname[0].chr.match('[\w\d]')
-      self.lastname.downcase
-    elsif !self.firstname.blank? && self.firstname[0].chr.match('[\w\d]')
-      self.firstname.downcase
+    word_num_regex = %r|^[\w\d]|
+    if word_num_regex =~ (lastname ||'')
+      lastname.downcase
+    elsif word_num_regex =~ (firstname || '')
+      firstname.downcase
     else
-      self.login.downcase
+      login.downcase
     end
   end
+  alias_method :sortable_name, :get_sort_name
 
   def is_active?
     state == 'active'
@@ -232,7 +234,7 @@ class User < ActiveRecord::Base
 
   def is_admin?
     begin
-      self.roles.map(&:id).include? Role.find_by_role('admin').id
+      roles.map(&:id).include? Role.admin.id
     rescue Exception => e
       logger.debug(e)
       false
@@ -241,7 +243,7 @@ class User < ActiveRecord::Base
 
   def is_manager?
     begin
-      is_admin? || (self.roles.include? Role.find_by_role('manager'))
+      is_admin? || (roles.include? Role.manager)
     rescue Exception => e
       logger.debug(e)
       false
@@ -250,7 +252,7 @@ class User < ActiveRecord::Base
 
   def is_editor?
     begin
-      is_admin? || (self.roles.include? Role.find_by_role('editor'))
+      is_admin? || (roles.include? Role.editor)
     rescue Exception => e
       logger.debug(e)
       false
@@ -413,12 +415,8 @@ class User < ActiveRecord::Base
       retval["artist"][k] = self[k]
     end
     apkeys = ['title','filename']
-    art_pieces.each do |ap|
-      newap = {}
-      apkeys.each do |k|
-        newap[k] = ap[k]
-      end
-      retval["artpieces"] << newap
+    retval['artpieces'] = art_pieces.map do |ap|
+      Hash[apkeys.map{|k| [k,ap[k]]}]
     end
     retval
   end

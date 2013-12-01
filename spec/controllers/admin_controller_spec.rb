@@ -434,11 +434,9 @@ describe AdminController do
         u3 = users(:annafizyta)
 
         a1 = ArtPiece.first
-        a1.artist = users(:artist1)
-        a1.save
+        a1.update_attribute(:artist_id, users(:artist1).id)
         a2 = ArtPiece.last
-        a2.artist = users(:artist1)
-        a2.save
+        a2.update_attribute(:artist_id, users(:artist1).id)
 
         ArtPiece.any_instance.stub(:artist => double(Artist,:id => 42, :emailsettings => {'favorites' => false}))
         u1.add_favorite a1

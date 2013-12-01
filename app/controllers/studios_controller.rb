@@ -42,9 +42,8 @@ class StudiosController < ApplicationController
     @artist = @studio.artists.select{|a| a.id.to_s == params[:artist_id].to_s}.first
     if (@artist && @studio && @artist != current_artist)
       @artist.update_attribute(:studio_id, 0)
-      manager = Role.find_by_role('manager')
-      if @artist.roles.include? manager
-        @artist.roles_users.select{|r| r.role_id == manager.id}.each(&:destroy)
+      if @artist.is_manager?
+        @artist.roles_users.select{|r| r.role_id == Role.manager.id}.each(&:destroy)
         @artist.save
       end
       logger.warn "[#{Time.zone.now.to_s(:short)}][#{current_user.login}][#{params[:action]}] #{@artist.fullname} is no longer associated with #{@studio.name}."
@@ -188,7 +187,7 @@ class StudiosController < ApplicationController
   end
 
   protected
-  def studio_manager_required
+  def studio_manager_required 
     unless (is_manager? && current_user.studio.id.to_s == params[:id].to_s) || is_admin?
       redirect_to request.referrer, :flash => {:error => "You are not a manager of that studio."}
     end
