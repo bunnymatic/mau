@@ -201,7 +201,7 @@ class ApplicationController < ActionController::Base
 
   def is_local_referer?
     if request.referer.to_s.match(/^https?\:\/\//i)
-      request.referer.to_s.match /#{Conf.site_url}/i
+      request.referer.to_s.match /#{request.domain}/
     else
       true
     end

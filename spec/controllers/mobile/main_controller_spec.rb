@@ -39,20 +39,7 @@ describe MainController do
       get :openstudios
     end
     it_should_behave_like "a regular mobile page"
-    it 'assigns participating studios with only studios that have os artists without studio = 0' do
-      n = Artist.active.open_studios_participants.select{|a| !a.studio_id.nil? && a.studio_id != 0}.map(&:studio).uniq.count
-      assigns(:participating_studios).should have(n).studios
-    end
-    it 'contains participant count for studios should be > 0' do
-      assigns(:participating_studios).each do |s|
-        s.artists.open_studios_participants.length.should > 0
-      end
-    end
-    it 'assigns the right number of participating indies (all os participants with studio = 0)' do
-      n = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.count
-      n.should > 0
-      assigns(:participating_indies).should have(n).artists
-    end
+
     it "uses cms for parties" do
       CmsDocument.should_receive(:where).at_least(2).and_return([:os_blurb,:os_preview_reception].map{|k| cms_documents(k)})
 

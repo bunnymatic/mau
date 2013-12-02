@@ -77,11 +77,7 @@ class User < ActiveRecord::Base
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
 
-  cattr_reader :sort_by_firstname, :sort_by_lastname
-  @@sort_by_firstname = lambda{|a,b|
-    a.lastname.downcase <=> b.lastname.downcase
-  }
-  @@sort_by_lastname = lambda{|a,b|
+  SORT_BY_LASTNAME = lambda{|a,b|
     a.lastname.downcase <=> b.lastname.downcase
   }
 

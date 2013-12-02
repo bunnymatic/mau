@@ -1,9 +1,7 @@
 #open_studios
   = render :partial => '/flash_notice_error'
-  :ruby
-    data = Hash[@summary.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
-  .section.markdown.editable{data}
-    = @summary[:content]
+  .section.markdown.editable{@presenter.summary_data}
+    = @presenter.summary
   -# .section.artist-links
   -#   %h5
   -#     %a{:href => artists_path(:osonly => true)} Open Studios Art
@@ -12,24 +10,22 @@
   -#   %h5
   -#     %a{:href => "http://spider-t.com/map/mau2013.pdf"} Pretty Map (PDF)
   -#   .clear
-  :ruby
-    data = Hash[@preview_reception_html.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
-  .section.markdown.editable{data}
-    = @preview_reception_html[:content]
+  .section.markdown.editable{@presenter.preview_reception_data}
+    = @presenter.preview_reception
   .section
     %h4 Participating Group Studios
     %ul.participant_list
-      - @participating_studios.each do |s| 
+      - @presenter.participating_studios.each do |s|
         - ct = s.artists.open_studios_participants.count
         - wd = (ct > 1) ? "artists" : "artist"
         %li
           = link_to(s.name,s)
           (#{ct} #{wd}) &mdash; #{s.street}
-  .section 
+  .section
     %h4 Participating Independent Artists
     %ul
-      - @participating_indies.each do |a| 
-        - street = " &mdash; #{a.address_hash[:parsed][:street]}"
+      - @presenter.participating_indies.each do |a|
+        - street = " &mdash; #{a.address_hash[:parsed][:street]}".html_safe
         %li
           = link_to(a.get_name, a)
           #{street}

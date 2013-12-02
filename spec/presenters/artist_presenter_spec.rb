@@ -45,4 +45,8 @@ describe ArtistPresenter do
     its(:is_current_user?) { should be_true }
   end
 
+  context 'without art' do
+    let(:artist) { FactoryGirl.create(:artist, :activated) }
+    its(:art_pieces) { should be_empty }
+  end
 end

@@ -1,52 +1,48 @@
 %script{:type => "text/javascript"}
   var MAU = MAU = MAU || {};
   var T = MAU.Thumbs = MAU.Thumbs || {};
-  T.curIdx = #{@cur_idx || 1};
 %table.tbl-content
   %tr
     - artist = @art_piece.artist if @art_piece.artist
     %td.lcol{:colspan => 2}
-      - if @art_piece
-        = render :partial => "sidebar_info", :locals => { :artist => artist }
-        = render :partial => "/art_pieces/thumb_browser"
+      = render "sidebar_info", :artist => artist
+      = render "/art_pieces/thumb_browser", :browser => @thumb_browser
     %td.vstripe
     %td.rcol{:colspan => 2}
       .logo-spacer
       = render :partial => '/flash_notice_error'
-      - if @art_piece
-        #artpiece_title
-          &= @art_piece.title
-        #artpiece_container
-          .artpiece_wrapper
-            - if @art_piece.filename
-              %img#artpiece_img{:src => @art_piece.get_path('medium')}
-            #social_panel
-              .social_buttons
-                %span.pinterest
-                  = render :partial => '/common/pinit_button'
-                %span.facebook
-                  = render :partial => '/common/facebook_like_button'
-              .mau_buttons
-                - if !current_user || (@art_piece.artist != current_user)
-                  %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
-                    #num_favorites #{@favorites_count if @favorites_count.to_i > 0}
-                    .micro-icon.heart
-            - if Conf.show_lightbox_feature
-              .zoom-corner
-                %a{:class => 'zoom', :href => '#', 'data-image' => "#{@zoomed_art_piece_path}", 'data-imagewidth' => @zoomed_width, 'data-imageheight' => @zoomed_height, :style => (@zoomed_art_piece_path ? '' : 'display:none' ) }
-                  %img.zoom{:src => '/images/icons/zoom_corner.png'}
-          .art-piece-info{:style => "width: #{@art_piece.compute_dimensions[:medium].first}px;"}
-            .basic
-              .entry#ap_medium{:style => (@art_piece.medium_id and @art_piece.medium_id > 0) ? '' : 'display:none;'}
-                = link_to(@art_piece.medium.name, @art_piece.medium) if @art_piece.medium_id and @art_piece.medium_id > 0
-              .entry#ap_dimensions{:style => @art_piece.dimensions.present? ? '' : 'display:none;'}
-                = @art_piece.dimensions if !@art_piece.dimensions.empty?
-              .entry#ap_year{:style => @art_piece.valid_year? ? '' : 'display:none;'}
-                = @art_piece.year if @art_piece.valid_year?
-            #ap_tags{:style => (@art_piece.tags.count > 0) ? '' : 'display:none;'}
-              - @art_piece.uniq_tags.each do |t|
-                = link_to t.safe_name, t, :class => 'tag'
+      #artpiece_title
+        &= @art_piece.title
+      #artpiece_container
+        .artpiece_wrapper
+          %img#artpiece_img{:src => @art_piece.get_path('medium')}
+          #social_panel
+            .social_buttons
+              %span.pinterest
+                = render '/common/pinit_button'
+              %span.facebook
+                = render '/common/facebook_like_button'
+            .mau_buttons
+              - if !current_user || (@art_piece.artist != current_user)
+                %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
+                  #num_favorites #{@art_piece.favorites_count}
+                  .micro-icon.heart
+          - if Conf.show_lightbox_feature
+            .zoom-corner
+              %a{:class => 'zoom', :href => '#', 'data-image' => "#{@art_piece.zoomed}", 'data-imagewidth' => @art_piece.zoomed_width, 'data-imageheight' => @art_piece.zoomed_height }
+                %img.zoom{:src => '/images/icons/zoom_corner.png'}
+        .art-piece-info{:style => @art_piece.css_width}
+          .basic
+            .entry#ap_medium{:style => (@art_piece.has_medium? ? '' : 'display:none;')}
+              = link_to(@art_piece.medium.name, @art_piece.medium) if @art_piece.has_medium?
+            .entry#ap_dimensions{:style => @art_piece.has_dimensions? ? '' : 'display:none;'}
+              = @art_piece.display_dimensions if @art_piece.has_dimensions?
+            .entry#ap_year{:style => (@art_piece.has_year? ? '' : 'display:none;')}
+              = @art_piece.year if @art_piece.has_year?
+          #ap_tags{:style => (@art_piece.has_tags? ? '' : 'display:none;')}
+            - @art_piece.tags.each do |t|
+              = link_to t.safe_name, t, :class => 'tag'
 
         .edit-buttons
           - if logged_in? and current_user == artist
-            = render :partial => "edit_delete_buttons.erb"
+            = render "edit_delete_buttons.erb", :art_piece => @art_piece

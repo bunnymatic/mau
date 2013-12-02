@@ -3,29 +3,28 @@
   %ul{"data-role" => 'listview'}
     = render_as_mobile_list_item 'see open studios artists', :link => osthumbs_artists_path
   .section
-    %h4 
+    %h4
       April 20-21, 2013
       %br
       12am &mdash; 6pm
-    = @summary[:content]
+    = @presenter.summary
   .section
     %h4 Participating Group Studios
     %ul.participant_list
-      - @participating_studios.each do |s| 
+      - @presenter.participating_studios.each do |s|
         - ct = (s.artists && s.artists.open_studios_participants.count) || 0
         - wd = (ct > 1) ? "artists" : "artist"
         %li
           = link_to(s.name,s)
           (#{ct} #{wd}) &mdash; #{s.street}
-  .section 
+  .section
     %h4 Participating Independent Artists
     %ul
-      - @participating_indies.each do |a| 
-        - street = " &mdash; #{a.address_hash[:parsed][:street]}"
+      - @presenter.participating_indies.each do |a|
+        - street = " &mdash; #{a.address_hash[:parsed][:street]}".html_safe
         %li
           = link_to(a.get_name, a)
           #{street}
   .section
     .markdown
-      = @preview_reception_html[:content]
-
+      = @presenter.preview_reception

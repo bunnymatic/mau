@@ -22,7 +22,6 @@ class ArtPiecesController < ApplicationController
     npieces = pieces.length()
     @thumbs = []
     thumb_size = 32
-    ctr = 0
     @init_offset = 0
     sz = 56
     if browser.ie?
@@ -30,22 +29,21 @@ class ArtPiecesController < ApplicationController
     end
 
     if npieces > 1
-      @thumbs = pieces.map do |item|
+      @thumbs = pieces.map.with_index do |item, idx|
         thumb = { :path => item.get_path('thumb') }
         thumb[:clz] = "tiny-thumb"
         thumb[:id] = item.send(:id)
         if item.id == cur_id
           thumb[:clz] = "tiny-thumb tiny-thumb-sel"
-          @init_offset = (ctr * -56)
-          nxt = [ctr + 1, npieces -1].min
-          prv = [ctr - 1, 0].max
+          @init_offset = (idx * -56)
+          nxt = [idx + 1, npieces -1].min
+          prv = [idx - 1, 0].max
           @next_idx = nxt
-          @cur_idx = ctr
+          @cur_idx = idx
           @prev_idx = prv
           @next_img = pieces[nxt].id
           @prev_img = pieces[prv].id
         end
-        ctr += 1
         thumb[:link] = art_piece_url(item)
         thumb
       end
@@ -57,45 +55,44 @@ class ArtPiecesController < ApplicationController
     @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
 
     apid = params[:id].to_i
-    @art_piece = safe_find_art_piece(apid)
+    art_piece = safe_find_art_piece(apid)
     # get all art pieces for this artist
     pieces = []
-    if !@art_piece || !@art_piece.artist
+    if !art_piece || !art_piece.artist
       flash[:error] = "We couldn't find that art piece."
       redirect_to "/error"
       return
     end
 
     # get favorites
-    @favorites_count = Favorite.art_pieces.where(:favoritable_id => apid).count
     if is_mobile?
-      redirect_to artist_path(@art_piece.artist) and return
+      redirect_to artist_path(art_piece.artist) and return
     end
-    pieces = ArtPiece.where(:artist_id => @art_piece.artist).order('`order` asc, `created_at` desc')
-    @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
-    @page_description = build_page_description @art_piece
-    @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
 
-    self._setup_thumb_browser_data(pieces, apid)
-    @art_piece_dimensions = @art_piece.compute_dimensions
+    # non-mobile
 
-    @zoomed_art_piece_path = @art_piece.get_path('large')
-    @zoomed_width = @art_piece_dimensions[:large][0]
-    @zoomed_height = @art_piece_dimensions[:large][1]
+    pieces = art_piece.artist.art_pieces.order('`order` asc, `created_at` desc')
 
+    @page_title = "Mission Artists United - Artist: %s" % art_piece.artist.get_name
+    @page_description = build_page_description art_piece
+    @page_keywords += [art_piece.art_piece_tags + [art_piece.medium]].flatten.compact.map(&:name)
+
+    @thumb_browser = ThumbnailBrowserPresenter.new(view_context, art_piece.artist, art_piece)
+
+    @art_piece = ArtPiecePresenter.new(view_context, art_piece)
     respond_to do |format|
       format.html { render :action => 'show', :layout => 'mau' }
       format.json {
         h={}
-        h['art_piece'] = @art_piece.attributes
+        h['art_piece'] = art_piece.attributes
         # make safe the art_piece entries
         h['art_piece']["art_piece_tags"] = []
-        @art_piece.art_piece_tags.each { |t|
+        art_piece.art_piece_tags.each { |t|
           h['art_piece']['art_piece_tags'] << t.attributes
         }
-        m = @art_piece.medium
+        m = art_piece.medium
         if m
-          h['art_piece']["medium"] = @art_piece.medium.attributes
+          h['art_piece']["medium"] = art_piece.medium.attributes
         end
         [ 'title','dimensions'].each do |k|
           h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
@@ -104,13 +101,13 @@ class ArtPiecesController < ApplicationController
           t['name'] = HTMLHelper.encode(t['name'])
         end
 
-        if (current_user && current_user.id == @art_piece.artist.id)
-          h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons"
+        if (current_user && current_user.id == art_piece.artist.id)
+          h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons", :locals => {:art_piece => @art_piece}
         end
         h['art_piece'].merge!(:favorites_count => @favorites_count)
-        h['art_piece']['image_dimensions'] = @art_piece.compute_dimensions
-        h['art_piece']['image_files'] = @art_piece.get_paths
-        h['art_piece']['artist_name'] = @art_piece.artist.get_name(true)
+        h['art_piece']['image_dimensions'] = art_piece.compute_dimensions
+        h['art_piece']['image_files'] = art_piece.get_paths
+        h['art_piece']['artist_name'] = art_piece.artist.get_name(true)
         render :json => h.to_json
       }
     end
@@ -201,34 +198,36 @@ class ArtPiecesController < ApplicationController
   # PUT /art_pieces/1
   # PUT /art_pieces/1.xml
   def update
-    @art_piece = safe_find_art_piece(params[:id])
+    art_piece = safe_find_art_piece(params[:id])
     if commit_is_cancel
-      self._setup_thumb_browser_data([], 0)
+      @thumb_browser = ThumbnailBrowserPresenter.new(view_context, art_piece.artist, art_piece)
+      @art_piece = ArtPiecePresenter.new(view_context, art_piece)
       render :action => 'show', :layout => 'mau'
       return
     else
+      @media = Medium.all
       begin
         params[:art_piece][:art_piece_tags] = TagsHelper.tags_from_s(params[:tags])
-        success = @art_piece.update_attributes(params[:art_piece])
+        success = art_piece.update_attributes(params[:art_piece])
       rescue
         logger.warn("Failed to update artpiece : %s" % $!)
-        @errors = @art_piece.errors
+        @errors = art_piece.errors
         @errors.add('ArtPieceTags','%s' % $!)
-        @media = Medium.all
+        @art_piece = art_piece
         render :action => "edit"
         return
       end
       if success
         flash[:notice] = 'Artwork was successfully updated.'
-        Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
-        redirect_to art_piece_path(@art_piece)
+        Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{art_piece.id}"
+        redirect_to art_piece_path(art_piece)
       else
-        @errors = @art_piece.errors
-        @art_piece = safe_find_art_piece(params[:id])
-        @media = Medium.all
-        if @art_piece.medium
-          @selected_medium = @art_piece.medium
+        @errors = art_piece.errors
+        art_piece = safe_find_art_piece(params[:id])
+        if art_piece.medium
+          @selected_medium = art_piece.medium
         end
+        @art_piece = art_piece
         render :action => "edit"
       end
     end

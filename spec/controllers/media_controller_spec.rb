@@ -36,7 +36,37 @@ describe MediaController do
       get :index
       response.should be_redirect
     end
+    context 'with no frequency' do
+      before do
+        Media.stub(:frequency => [])
+      end
+      it "redirect to show first" do
+        get :index
+        response.should redirect_to Medium.first
+      end
+    end
   end
+
+  describe '#destroy' do
+    context 'as unauthorized' do
+      before do
+        delete :destroy, :id => Medium.first.id
+      end
+      it_should_behave_like 'not authorized'
+    end
+    context "as an admin" do
+      before do
+        login_as :admin
+      end
+      it "destroys and redirects" do
+        exepect{
+          delete :destroy, :id => Medium.first.id
+          response.should redirect_to media_url
+        }.to.change(Medium,:count).by(-1)
+      end
+    end
+  end
+
   describe "#show" do
     context 'for valid medium' do
       render_views
@@ -168,4 +198,23 @@ describe MediaController do
     end
   end
 
+
+  describe '#admin_index' do
+    context 'as unauthorized' do
+      before do
+        get :admin_index
+      end
+      it_should_behave_like 'not authorized'
+    end
+    context "as an admin" do
+      let(:medium) { Medium.first }
+      before do
+        login_as :admin
+        get :admin_index
+      end
+      it 'returns media' do
+        assigns(:media).should eql Medium.all
+      end
+    end
+  end
 end

@@ -41,10 +41,6 @@ class ArtPiece < ActiveRecord::Base
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 
-  def valid_year?
-    year.present? and year.to_i > 1899
-  end
-
   def to_json(opts={})
     opts[:methods] ||= []
     opts[:except] ||= []

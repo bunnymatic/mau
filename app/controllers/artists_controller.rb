@@ -5,10 +5,6 @@ include HTMLHelper
 
 Mime::Type.register "image/png", :png
 
-def is_os_only(osonly)
-  return (osonly && (["1",1,"on","true"].include? osonly))
-end
-
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
@@ -350,13 +346,10 @@ class ArtistsController < ApplicationController
     if params.has_key? :neworder
       # new endpoint for rearranging - more than just setting representative
       neworder = params[:neworder].split(',')
-      ctr = 0
       begin
-        neworder.each do |apid|
+        neworder.each_with_index do |apid, idx|
           a = ArtPiece.find(apid)
-          a.order = ctr
-          a.save
-          ctr+=1
+          a.update_attribute(:order, idx)
         end
         flash[:notice] = "Your images have been reordered."
         Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
@@ -565,4 +558,10 @@ class ArtistsController < ApplicationController
     end
     @page_description
   end
+
+  private
+  def is_os_only(osonly)
+    return (osonly && (["1",1,"on","true"].include? osonly))
+  end
+
 end
