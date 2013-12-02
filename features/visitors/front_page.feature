@@ -11,6 +11,5 @@ Background:
 
 Scenario:  Visiting the home page
   When I visit the home page
-  And show me the page
   Then I should see some of the art that's in the system
   And I should see art newly added to the system
