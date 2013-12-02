@@ -206,24 +206,42 @@ describe ArtPiecesController do
     end
     context "while logged in" do
       before do
-        ArtPieceImage.should_receive(:save).and_return(true)
         login_as :joeblogs
       end
-      it 'redirects to show page on success' do
-        post :create, :art_piece => art_piece_attributes, :upload => {}
+      it 'sets a flash message without image' do
+        post :create, :art_piece => art_piece_attributes
+        flash.now[:error].should match /provide an image/
+      end
+      it 'redirects to user page on cancel' do
+        post :create, :art_piece => art_piece_attributes, :commit => 'Cancel'
         response.should redirect_to artist_path(users(:joeblogs))
       end
-      it 'sets a flash message on success' do
+      it 'renders new on failed save' do
+        ArtPiece.any_instance.should_receive(:save).and_return(false)
         post :create, :art_piece => art_piece_attributes, :upload => {}
-        flash[:notice].should eql 'Artwork was successfully added.'
+        response.should render_template 'new'
       end
-      it "flushes the cache" do
-        ArtPiecesController.any_instance.should_receive(:flush_cache)
-        post :create, :art_piece => art_piece_attributes, :upload => {}
-      end
-      it 'publishes a message' do
-        Messager.any_instance.should_receive(:publish)
-        post :create, :art_piece => art_piece_attributes, :upload => {}
+
+      context 'with successful save' do
+        before do
+          ArtPieceImage.should_receive(:save).and_return(true)
+        end
+        it 'redirects to show page on success' do
+          post :create, :art_piece => art_piece_attributes, :upload => {}
+          response.should redirect_to artist_path(users(:joeblogs))
+        end
+        it 'sets a flash message on success' do
+          post :create, :art_piece => art_piece_attributes, :upload => {}
+          flash[:notice].should eql 'Artwork was successfully added.'
+        end
+        it "flushes the cache" do
+          ArtPiecesController.any_instance.should_receive(:flush_cache)
+          post :create, :art_piece => art_piece_attributes, :upload => {}
+        end
+        it 'publishes a message' do
+          Messager.any_instance.should_receive(:publish)
+          post :create, :art_piece => art_piece_attributes, :upload => {}
+        end
       end
     end
   end

@@ -16,40 +16,6 @@ class ArtPiecesController < ApplicationController
     ArtPieceTag.flush_cache
   end
 
-  @@THUMB_BROWSE_SIZE = 65
-
-  def _setup_thumb_browser_data(pieces, cur_id)
-    npieces = pieces.length()
-    @thumbs = []
-    thumb_size = 32
-    @init_offset = 0
-    sz = 56
-    if browser.ie?
-      sz = 60
-    end
-
-    if npieces > 1
-      @thumbs = pieces.map.with_index do |item, idx|
-        thumb = { :path => item.get_path('thumb') }
-        thumb[:clz] = "tiny-thumb"
-        thumb[:id] = item.send(:id)
-        if item.id == cur_id
-          thumb[:clz] = "tiny-thumb tiny-thumb-sel"
-          @init_offset = (idx * -56)
-          nxt = [idx + 1, npieces -1].min
-          prv = [idx - 1, 0].max
-          @next_idx = nxt
-          @cur_idx = idx
-          @prev_idx = prv
-          @next_img = pieces[nxt].id
-          @prev_img = pieces[prv].id
-        end
-        thumb[:link] = art_piece_url(item)
-        thumb
-      end
-    end
-  end
-
   def show
     @facebook_required = true
     @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
@@ -126,22 +92,13 @@ class ArtPiecesController < ApplicationController
 
   # GET /art_pieces/1/edit
   def edit
-    begin
-      @art_piece = safe_find_art_piece(params[:id])
-      if @art_piece.artist != current_user
-        flash[:error] = "You're not allowed to edit that work."
-        redirect_to "/error"
-      end
-      @media = Medium.all
-      if @art_piece.medium
-        @selected_medium = @art_piece.medium
-      else
-        @selected_medium = []
-      end
-    rescue ActiveRecord::RecordNotFound
-      @art_piece = nil
-      @selected_medium = nil
+    @art_piece = safe_find_art_piece(params[:id])
+    if @art_piece.artist != current_user
+      flash[:error] = "You're not allowed to edit that work."
+      redirect_to "/error"
     end
+    @media = Medium.all
+    @selected_medium = @art_piece.medium
   end
 
   def create
@@ -155,7 +112,7 @@ class ArtPiecesController < ApplicationController
     @errors = []
     upload = params[:upload]
     saved = false
-    if not upload
+    if !upload
       flash.now[:error] = "You must provide an image.<br/>Image filenames need to be simple.  Some characters can cause issues with your upload, like quotes &quot;, apostrophes &apos; or brackets ([{}])."
       @art_piece = ArtPiece.new params[:art_piece]
       render :action => 'new'
