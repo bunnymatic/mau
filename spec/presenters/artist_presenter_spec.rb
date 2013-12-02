@@ -9,10 +9,10 @@ describe ArtistPresenter do
   subject(:presenter) { ArtistPresenter.new(mock_view_context(user), artist) }
 
   its(:has_media?) { should be_true }
-  its(:has_bio?) { should be_true }
+  its(:has_bio?) { should be_false }
   its(:allows_email_from_artists?) { should be_true }
-  its(:has_links?) { should be_true }
-  its("links.first") { should eql [:u_facebook, "Facebook", artist.facebook] }
+  its(:has_links?) { should be_false }
+  its(:links) { should be_empty }
   its(:fb_share_link) { should include "http://www.facebook.com\/sharer.php?u=#{artist.get_share_link(true)}" }
   its(:is_current_user?) { should be_false }
   its(:favorites_count) { should be_nil }
@@ -25,19 +25,20 @@ describe ArtistPresenter do
     its(:has_media?) { should be_false }
   end
 
-  context 'without bio' do
+  context 'with bio' do
     before do
-      ArtistInfo.any_instance.stub(:bio => '')
+      ArtistInfo.any_instance.stub(:bio => 'here we go')
+      Artist.any_instance.stub(:bio => 'here we go')
     end
-    its(:has_bio?) { should be_false }
+    its(:has_bio?) { should be_true }
   end
 
-  context 'without links' do
+  context 'with links' do
     before do
-      Artist.any_instance.stub(:facebook => '')
+      Artist.any_instance.stub(:facebook => 'http://facebookit.com')
     end
-    its(:has_links?) { should be_false }
-    its(:links) { should be_empty }
+    its(:has_links?) { should be_true }
+    its(:links) { should eql [[:u_facebook, 'Facebook', 'http://facebookit.com']] }
   end
 
   context 'when logged in' do
