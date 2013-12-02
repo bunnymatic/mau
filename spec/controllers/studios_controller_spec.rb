@@ -134,20 +134,8 @@ describe StudiosController do
         end
       end
     end
-    Studio.all.each do |s|
-      describe "studio fixture #{s.name}" do
-        before do
-          get :show, :id => s.id
-        end
-        it 'get\'s a list of active artists with art' do
-          assigns(:artists).map(&:id).should eql s.artists.active.select{|a| a.representative_piece}.map(&:id)
-        end
-        it 'get\'s a list of active artists with no art' do
-          assigns(:other_artists).map(&:id).should eql s.artists.active.select{|a| !a.representative_piece}.map(&:id)
-        end
-      end
-    end
   end
+
   describe 'destroy' do
     describe 'unauthorized' do
       before do

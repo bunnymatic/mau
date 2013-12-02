@@ -1,11 +1,11 @@
+- selected_studio ||= nil
 .studio-list
   %h4 MAU Studios
-  - if @studios
-    - @studios.each do |s|
-      - clz = (s.id == @selected_studio) ? 'cur-studio' : ''
-      - if s.id > 0
-        %div{:class => clz}
-          = link_to s.name, s
-      - else
-        %div{:class => clz}
-          = link_to s.name, "/studios/0"
+  - studios.each do |s|
+    - clz = (s == selected_studio) ? 'cur-studio' : ''
+    - if s.id > 0
+      %div{:class => clz}
+        = link_to s.name, s
+    - else
+      %div{:class => clz}
+        = link_to s.name, "/studios/0"

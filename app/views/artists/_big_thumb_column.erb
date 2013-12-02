@@ -1,11 +1,11 @@
-<% if @artist -%>
+<% if artist -%>
 <div id="bigthumbcolumn">
-  <% if @artist.art_pieces.count > 0 -%>
-  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.art_pieces[0..3], :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
+  <% if artist.art_pieces.count > 0 -%>
+  <%= render :partial => '/art_pieces/thumbs', :locals => { :pieces => artist.art_pieces[0..3], :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}} %>
   <% else -%>
   <div class="allthumbs">
     <%  title = "Generic Art"
-        if logged_in? and current_user.id == @artist.id 
+        if logged_in? and current_user.id == artist.id 
 	title = "Click to Upload Some Art!"
         -%>
     <div class="artp-thumb small">

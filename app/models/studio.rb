@@ -32,8 +32,7 @@ class Studio < ActiveRecord::Base
   before_validation(:on => :update) { compute_geocode }
   before_save :normalize_phone_number
 
-  cattr_reader :sort_by_name
-  @@sort_by_name = lambda{|a,b|
+  SORT_BY_NAME = lambda{|a,b|
       if !a || a.id == 0
         1
       elsif !b || b.id == 0

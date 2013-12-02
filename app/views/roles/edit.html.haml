@@ -17,4 +17,4 @@
       %li{:class => cycle("even", "odd"), "data-user" => u.id}
         .user
           = u.fullname
-          = link_to "X", "/users/#{u.id}/roles/#{@role.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.fullname} from the #{@role.role} group?" unless (u == current_user && @role == Role.find_by_role('admin'))
+          = link_to "X", "/users/#{u.id}/roles/#{@role.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.fullname} from the #{@role.role} group?" unless (u == current_user && @role == Role.admin)

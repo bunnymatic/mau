@@ -158,9 +158,7 @@ describe ArtPiecesController do
     end
     context 'format=json' do
       before do
-        ap = ArtPiece.first
-        ap.medium_id = Medium.first.id
-        ap.save
+        ArtPiece.first.update_attribute(:medium_id, Medium.first.id)
         get :show, :id => ArtPiece.first.id, :format => :json
       end
       it_should_behave_like 'successful json'

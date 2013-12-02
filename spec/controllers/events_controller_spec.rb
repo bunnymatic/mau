@@ -4,7 +4,7 @@ describe EventsController do
 
   include AuthenticatedTestHelper
 
-  fixtures :users, :studios, :artist_infos, :roles, :roles_users, :events
+  fixtures :users, :studios, :artist_infos, :roles, :roles_users, :events, :art_pieces
 
   render_views
 

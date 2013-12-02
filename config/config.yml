@@ -2,7 +2,7 @@
 # 
 # note : no tabs and indent is ipmortant.
 test:
-   site_url: test.host
+   site_url: test.missionartistsunited.org
    cache_server: localhost:11211
    #image_servers: 
    mailchimp_api_key: bogus-key

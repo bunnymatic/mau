@@ -12,7 +12,7 @@ class RolesController < ApplicationController
       @users_by_role[u.role.role] << u.user if u.user.active?
     end
   end
-  
+
   def new
     @role = Role.new
   end
@@ -57,7 +57,7 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    if params[:id] && params[:user_id] 
+    if params[:id] && params[:user_id]
       remove_role_from_user params[:id], params[:user_id]
       redirect_to role_path(params[:id])
     else

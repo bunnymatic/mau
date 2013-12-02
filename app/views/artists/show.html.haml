@@ -1,14 +1,14 @@
 %table.tbl-content
   %tr
     %td.lcol{:colspan => 2}
-      - if current_user && @artist == current_user
-        = render :partial => "/users/sidebar_nav"
-      = render :partial => "big_thumb_column"
+      - if current_user && @artist.is_current_user?
+        = render "/users/sidebar_nav"
+      = render "big_thumb_column", :artist => @artist.artist
     %td.vstripe
     %td.rcol{:colspan => 2}
       = render :partial => '/flash_notice_error'
       .content-block
-        - if @artist
+        - if @artist.artist
           .artist-profile
             .info
               #artist_profile_name
@@ -17,76 +17,73 @@
                   .div-left
                     - if @artist.studio
                       %div
-                        = link_to @artist.studio.name, @artist.studio
+                        = link_to @artist.studio_name, @artist.studio
                       %div
-                        #{@artist.studio.street}
-                        - if @artist.artist_info.studionumber.present?
-                          %span #{"#" + @artist.artist_info.studionumber}
-                        - if !@artist.address_hash.empty?
+                        #{@artist.studio.street} #{@artist.studio_number}
+                        - if @artist.has_address?
                           %span.lkmap
                             (
-                            = link_to 'map', @artist.studio.map_link
+                            = link_to 'map', @artist.map_url
                             )
                       %div #{@artist.studio.city}
                     - else
                       %div
-                        #{@artist.artist_info.street}
-                        - if !@artist.address_hash.empty? && !@artist.artist_info.street.blank?
+                        #{@artist.street}
+                        - if @artist.has_address?
                           %span.lkmap
                             (
-                            = link_to 'map', @artist.map_link
+                            = link_to 'map', @artist.map_url
                             )
-                      %div #{@artist.artist_info.city}
-                  - if (!current_user || (current_user && current_user.id != @artist.id))
-                    - if (@artist.emailsettings['fromartist'] && logged_in?)
+                      %div #{@artist.city}
+                  - if !@artist.is_current_user?
+                    - if @artist.allows_email_from_artists?
                       .div-left
                         %span
                           Contact:
                           %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
                             send a note to this artist
 
-                  - if @artist.media and @artist.media.length > 0
+                  - if @artist.has_media?
                     .div-left
                       %span Media:
                       %span
                         = @artist.media.map{|m| link_to(m.name, m, :class => "")}.join(", ").html_safe
-                  - if has_links(@artist)
+                  - if @artist.has_links?
                     .div-left
-                      - keyed_links.each do |key, name, _id|
-                        - lnk = @artist.send(key)
-                        - if lnk.present?
-                          %div{:id => _id}
-                            %span #{name + ":"}
-                            = link_to lnk, add_http(lnk), { :target => "_blank" }
-                  = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist }
-                  = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist }
+                      - @artist.links.each do |key, name, lnk|
+                        %div{:id => key}
+                          %span #{name + ":"}
+                          = link_to lnk, add_http(lnk), { :target => "_blank" }
+                  = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist.artist }
+                  = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist.artist }
                 .clear
+
             #artist_profile_img
-              = render '/common/artist_profile_image', :artist => @artist
+              = render '/common/artist_profile_image', :artist => @artist.artist
 
               .action-icons
-                %a{:target => '_new', :href => ArtistsHelper.tw_share_link(@artist), :title => "Share this page on Twitter"}
+                %a{:target => '_new', :href => @artist.tw_share_link, :title => "Share this page on Twitter"}
                   .micro-icon.twitter
-                %a{:target => '_new', :href => ArtistsHelper.fb_share_link(@artist), :title => "Share this page on Facebook"}
+                %a{:target => '_new', :href => @artist.fb_share_link, :title => "Share this page on Facebook"}
                   .micro-icon.facebook
-                - if (!current_user || (current_user && current_user.id != @artist.id))
+                - if !current_user || !@artist.is_current_user?
                   %a.favorite_this{:href => '#', :fav_type => 'Artist', :fav_id => @artist.id, :title => "Add this artist to your favorites"}
-                    #num_favorites #{@favorites_count if @favorites_count.to_i > 0}
+                    #num_favorites #{@artist.favorites_count}
                     .micro-icon.heart
-              - if @artist.os_participation[Conf.oslive.to_s]
+              - if @artist.doing_open_studios?
                 .os-violator
                   %a{:href => openstudios_path}
                     %img{:src => "/images/os_star_violator.png"}
-          - if @artist.bio and !@artist.bio.empty?
+
+          - if @artist.has_bio?
             .clear
             .div-left.bio-container
               %span Bio:
-              = bio_html(@artist.artist_info.bio)
+              = bio_html(@artist.bio)
           .clear
 
           .artist-pieces
-            - if @art_pieces.present?
-              = render :partial => '/art_pieces/thumbs', :locals => { :pieces => @art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }}
+            - if @artist.has_art?
+              = render '/art_pieces/thumbs', :pieces => @artist.art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }
             - else
               %img{:src => "/images/default-art-img.png", :width => "200"}
-

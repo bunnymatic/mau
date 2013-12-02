@@ -28,7 +28,7 @@ describe CatalogController do
       artists.should have_at_least(1).artist
     end
     it "assigns studio order in the correct order" do
-      (assigns(:studio_order).map{|sid| Studio.find(sid)}.sort &Studio.sort_by_name).map(&:id).should eql assigns(:studio_order)
+      (assigns(:studio_order).map{|sid| Studio.find(sid)}.sort &Studio::SORT_BY_NAME).map(&:id).should eql assigns(:studio_order)
     end
     it "studio artists are sorted alpha by lastname" do
       assigns(:group_studio_artists).each do |s,artists|

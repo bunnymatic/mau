@@ -187,16 +187,15 @@ describe ArtistsController do
 
         it "sets false if artist has no address" do
           ai = @logged_in_user.artist_info
-          ai.lat = nil
-          ai.lng = nil
-          ai.street = ''
-          ai.city = ''
-          ai.addr_state = ''
-          ai.zip = ''
-          ai.open_studios_participation = ''
-          ai.save
-          @logged_in_user.studio_id = 0
-          @logged_in_user.save
+          ai.update_attributes({ :lat => nil,
+                                 :lng => nil, 
+                                 :street => '',
+                                 :city => '',
+                                 :addr_state => '',
+                                 :zip => '',
+                                 :open_studios_participation => '' })
+                                 
+          @logged_in_user.update_attribute(:studio_id,0)
           @logged_in_user.reload
           xhr :put, :update, { :commit => 'submit', :artist_os_participation => '0' }
           User.find(@logged_in_user.id).os_participation['201104'].should be_nil

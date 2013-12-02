@@ -90,16 +90,8 @@ class MainController < ApplicationController
 
   def openstudios
     @page_title = "Mission Artists United: Spring Open Studios"
-    @participating_studios = Artist.active.open_studios_participants.reject{|a| a.studio_id == 0}.map(&:studio).compact.uniq.sort &Studio.sort_by_name
-    @participating_indies = Artist.active.open_studios_participants.select{|a| a.studio_id == 0}.sort &Artist.sort_by_lastname
 
-    page = 'main_openstudios'
-    section = 'summary'
-
-    @summary = CmsDocument.packaged(page,section)
-
-    section = 'preview_reception'
-    @preview_reception_html = CmsDocument.packaged(page, section)
+    @presenter = OpenStudiosPresenter.new
 
     respond_to do |fmt|
       fmt.html { render }

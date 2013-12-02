@@ -264,6 +264,7 @@ describe UsersController do
     end
     context "valid artist params and type = Artist" do
       before do
+        Artist.any_instance.stub(:activation_code => 'random_activation_code')
         Artist.any_instance.should_receive(:make_activation_code).at_least(1)
         MAUFan.any_instance.should_receive(:subscribe_and_welcome).never
         post :create, :artist => { :login => 'newuser2',

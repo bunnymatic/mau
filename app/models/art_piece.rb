@@ -27,6 +27,7 @@ class ArtPiece < ActiveRecord::Base
 
   belongs_to :medium
   include ImageDimensions
+  include ImageFileHelpers
 
   before_destroy :remove_images
   after_destroy :clear_tags_and_favorites
@@ -39,10 +40,6 @@ class ArtPiece < ActiveRecord::Base
 
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
-
-  def valid_year?
-    year.present? and year.to_i > 1899
-  end
 
   def to_json(opts={})
     opts[:methods] ||= []
@@ -57,7 +54,7 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def image_urls
-    Hash[ ArtPieceImage.get_paths(self).map{|k,v| [k, 'http://' + Conf.site_url + v]} ]
+    Hash[ ArtPieceImage.get_paths(self).map{|k,v| [k, full_image_path(v)]} ]
   end
 
   def image_paths
@@ -69,12 +66,6 @@ class ArtPiece < ActiveRecord::Base
     link = 'http://%s/art_pieces/%s' % [Conf.site_url, self.id]
     urlsafe ? CGI::escape(link): link
   end
-
-  # def medium
-  #   if self.medium_id && self.medium_id > 0
-  #     Medium.find(self.medium_id)
-  #   end
-  # end
 
   def add_tag(tag_string)
     art_piece_tags << TagsHelper.tags_from_s(tag_string)
@@ -90,9 +81,7 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def uniq_tags
-    htags = {}
-    self.art_piece_tags.each { |t| htags[t.name] = t }
-    htags.values
+    art_piece_tags.uniq_by(&:name)
   end
 
   def get_name(escape = false)
@@ -105,9 +94,9 @@ class ArtPiece < ActiveRecord::Base
 
   def get_path(size = nil, full_path = false)
     size ||= 'medium'
-    prefix = full_path ? "http://%s" % Conf.site_url : ''
     artpiece_path = ArtPieceImage.get_path(self, size)
-    prefix + (artpiece_path || '')
+    (full_path ? full_image_path(artpiece_path) : artpiece_path)
+    #prefix + (artpiece_path || '')
   end
 
   def self.owned

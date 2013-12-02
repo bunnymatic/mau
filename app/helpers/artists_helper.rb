@@ -75,17 +75,8 @@ module ArtistsHelper
   #   end
   # end
 
-  def keyed_links
-    [ [:url, 'Website', :u_website],
-      [:facebook, 'Facebook', :u_facebook],
-      [:flickr, 'Flickr', :u_flickr],
-      [:twitter, 'Twitter', :u_twitter],
-      [:blog, 'Blog', :u_blog],
-      [:myspace, 'MySpace', :u_myspace]]
-  end
-
   def has_links(artist)
-    keyed_links.each do |kk, disp|
+    Artist::KEYED_LINKS.each do |kk, disp|
       if artist[kk] and !artist[kk].empty?
         return true
       end

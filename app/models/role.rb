@@ -15,5 +15,19 @@ class Role < ActiveRecord::Base
   validates_presence_of :role
   validates_uniqueness_of :role
 
-end
+  class << self
+    def admin
+      @@admin ||= Role.find_by_role("admin")
+    end
 
+    def manager
+      @@manager ||= Role.find_by_role("manager")
+    end
+
+    def editor
+      @@editor ||= Role.find_by_role("editor")
+    end
+
+  end
+
+end

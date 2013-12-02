@@ -5,10 +5,6 @@ include HTMLHelper
 
 Mime::Type.register "image/png", :png
 
-def is_os_only(osonly)
-  return (osonly && (["1",1,"on","true"].include? osonly))
-end
-
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
@@ -185,7 +181,7 @@ class ArtistsController < ApplicationController
         t = Time.zone.now
         @os_only = is_os_only(params[:osonly])
         if @os_only
-          artists = Artist.active.open_studios_participants.all(:include => :artist_info).sort_by { |a| a.get_sort_name }
+          artists = Artist.active.open_studios_participants.all(:include => :artist_info).sort_by(&:sortable_name)
           queryargs['osonly'] = "on"
           artists.reject!{ |a| !a.in_the_mission? }
         else
@@ -350,13 +346,10 @@ class ArtistsController < ApplicationController
     if params.has_key? :neworder
       # new endpoint for rearranging - more than just setting representative
       neworder = params[:neworder].split(',')
-      ctr = 0
       begin
-        neworder.each do |apid|
+        neworder.each_with_index do |apid, idx|
           a = ArtPiece.find(apid)
-          a.order = ctr
-          a.save
-          ctr+=1
+          a.update_attribute(:order, idx)
         end
         flash[:notice] = "Your images have been reordered."
         Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
@@ -376,18 +369,13 @@ class ArtistsController < ApplicationController
 
   def show
     @artist = get_artist_from_params
-    if !@artist.nil?
-      @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
-      @page_description = build_page_description @artist
-      @page_keywords += [@artist.media.map(&:name), @artist.tags.map(&:name)].flatten.compact.uniq
-      # get artist pieces here instead of in the html
-      num = @artist.max_pieces - 1
-      @art_pieces = @artist.art_pieces[0..num]
-      store_location
-      @favorites_count = @artist.who_favorites_me.count
-    end
+    set_artist_meta
     respond_to do |format|
-      format.html { render :action => 'show', :layout => 'mau' }
+      format.html {
+        @artist = ArtistPresenter.new(view_context, @artist)
+        store_location
+        render :action => 'show', :layout => 'mau'
+      }
       format.json  {
         cleaned = @artist.clean_for_export(@art_pieces)
         render :json => cleaned
@@ -402,8 +390,7 @@ class ArtistsController < ApplicationController
   def bio
 
     @artist = get_artist_from_params
-    @page_description = build_page_description @artist
-    @page_keywords += @artist.media.map(&:name) + @artist.tags.map(&:name)
+    set_artist_meta
 
     if @artist.bio.present?
       respond_to do |format|
@@ -531,6 +518,14 @@ class ArtistsController < ApplicationController
       return nil
     end
   end
+
+  def set_artist_meta
+    return if !@artist
+    @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
+    @page_description = build_page_description @artist
+    @page_keywords += [@artist.media.map(&:name), @artist.tags.map(&:name)].flatten.compact.uniq
+  end
+
   def get_artist_from_params
     artist = nil
     begin
@@ -551,7 +546,7 @@ class ArtistsController < ApplicationController
         artist = nil
       end
     end
-    return artist
+    artist
   end
 
   def build_page_description artist
@@ -561,6 +556,12 @@ class ArtistsController < ApplicationController
         return "Mission Artists United Artist : #{artist.get_name(true)} : " + trim_bio
       end
     end
-    return @page_description
+    @page_description
   end
+
+  private
+  def is_os_only(osonly)
+    return (osonly && (["1",1,"on","true"].include? osonly))
+  end
+
 end

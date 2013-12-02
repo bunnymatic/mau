@@ -62,6 +62,7 @@ describe AdminController do
       login_as(:admin)
     end
     render_views
+
     describe 'html' do
       describe 'with no params' do
         before do
@@ -149,15 +150,62 @@ describe AdminController do
           end
         end
       end
+
+      describe 'list name = all' do
+        it 'grabs all artists' do
+          all_artists = Artist.all
+          Artist.should_receive(:all).and_return(all_artists)
+          get :emaillist, :listname => 'all'
+        end
+      end
+
+      describe 'list name = active' do
+        it 'grabs only active artists' do
+          active_artist_scope = double(:active_artist_scope)
+          active_artist_scope.should_receive(:all).and_return([])
+          Artist.should_receive(:active).and_return(active_artist_scope)
+          get :emaillist, :listname => 'active'
+        end
+      end
+
+      describe 'list name = pending' do
+        it 'grabs only pending artists' do
+          pending_artist_scope = double(:pending_artist_scope)
+          pending_artist_scope.should_receive(:all).and_return([])
+          Artist.should_receive(:pending).and_return(pending_artist_scope)
+          get :emaillist, :listname => 'pending'
+        end
+      end
+
+      describe 'list name = no_images' do
+        it 'grabs only artists with no art' do
+          get :emaillist, :listname => 'no_images'
+          emails = assigns(:emails)
+          artists = Artist.active.all.select{|a| a.art_pieces.empty?}
+          artists.should have_at_least(1).artist
+          emails.map{|e| e['email']}.sort.should eql artists.map(&:email).sort
+        end
+      end
+
+      describe 'list name = no_profile' do
+        it 'grabs only artists with no profile' do
+          get :emaillist, :listname => 'no_profile'
+          emails = assigns(:emails)
+          artists = Artist.active.all.reject{|a| a.profile_image}
+          artists.should have_at_least(1).artist
+          emails.map{|e| e['email']}.sort.should eql artists.map(&:email).sort
+        end
+      end
+
     end
     describe 'csv' do
       before do
-        get :emaillist, :format => :csv
+        get :emaillist, :format => :csv, :listname => 'pending'
       end
       it 'returns success' do
         response.should be_success
       end
-      it 'returns success' do
+      it 'returns a csv' do
         response.content_type.should eql 'text/csv'
       end
     end
@@ -434,11 +482,9 @@ describe AdminController do
         u3 = users(:annafizyta)
 
         a1 = ArtPiece.first
-        a1.artist = users(:artist1)
-        a1.save
+        a1.update_attribute(:artist_id, users(:artist1).id)
         a2 = ArtPiece.last
-        a2.artist = users(:artist1)
-        a2.save
+        a2.update_attribute(:artist_id, users(:artist1).id)
 
         ArtPiece.any_instance.stub(:artist => double(Artist,:id => 42, :emailsettings => {'favorites' => false}))
         u1.add_favorite a1

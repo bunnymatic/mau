@@ -434,37 +434,12 @@ describe MainController do
         assert_select '.lcol .social'
       end
 
-      it 'assigns participating studios with only studios that have os artists without studio = 0' do
-        n = Artist.active.open_studios_participants.select{|a| !a.studio_id.nil? && a.studio_id != 0}.map(&:studio).uniq.count
-        assigns(:participating_studios).should have(n).studios
-      end
-      it 'contains participant count for studios should be > 0' do
-        assigns(:participating_studios).each do |s|
-          s.artists.open_studios_participants.length.should > 0
-        end
-      end
-      it "participating studios should be in alpha order by name (ignoring 'the')" do
-        assigns(:participating_studios).sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should eql assigns(:participating_studios).map(&:name)
-      end
-      it 'assigns the right number of participating indies (all os participants with studio = 0)' do
-        n = Artist.active.open_studios_participants.map(&:studio_id).select{|sid| sid==0}.count
-        n.should > 0
-        assigns(:participating_indies).should have(n).artists
-      end
-      it 'participating artists are in alpha order by last name' do
-        assigns(:participating_indies).sort{|a,b| a.lastname.downcase <=> b.lastname.downcase}.should eql assigns(:participating_indies)
-      end
       it "renders the markdown version" do
         assert_select '.markdown h1', :match => 'pr header'
         assert_select '.markdown h2', :match => 'pr header2'
         assert_select '.markdown p em', :match => 'preview'
       end
-      it 'fetches the markdown content properly' do
-        assigns(:summary).should have_key :content
-        assigns(:summary).should have_key :cmsid
-        assigns(:preview_reception_html).should have_key :content
-        assigns(:preview_reception_html).should have_key :cmsid
-      end
+
       it 'the markdown entries have cms document ids in them' do
         [ CmsDocument.where(:section => 'summary').all,
           CmsDocument.where(:section => 'preview_reception').all ].flatten.each do |cmsdoc|
@@ -537,10 +512,6 @@ describe MainController do
       request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
       get :mobile
       response.should redirect_to root_path
-    end
-    it 'redirects to referrer if there is one' do
-      get :mobile
-      response.should redirect_to SHARED_REFERER
     end
     it 'redirects to referrer if there is one' do
       request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER

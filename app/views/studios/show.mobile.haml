@@ -2,15 +2,15 @@
   %h2 #{@studio.name}
   .address
     .street #{@studio.street}
-    - if @studio.id > 0 
+    - if !@studio.indy?
       %span.lkmap
         = link_to 'map', @studio.map_link
-  .participants 
-    Open Studios Participants: #{@studio.artists.open_studios_participants.count} 
+  .participants
+    Open Studios Participants: #{@studio.open_studios_artists.count}
     = link_to '(learn more)', openstudios_path
-  - if @studio.artists.count > 0
+  - if @studio.has_artists_with_art?
     %ul.artists-thumbs
-      - @studio.artists.active.select{|a| a.representative_piece}.each do |artist| 
+      - @studio.artists_with_art.select{|a| a.representative_piece}.each do |artist| 
         :ruby
            next if artist.nil?
            os_star = false

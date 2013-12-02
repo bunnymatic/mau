@@ -17,4 +17,10 @@ module ImageFileHelpers
     ts = Time.zone.now.to_i
     clean_filename("#{ts}#{File::basename(fname)}")
   end
+
+  def full_image_path(fname)
+    if /^http/ !~ fname
+      'http://' + Conf.site_url + fname
+    end
+  end
 end

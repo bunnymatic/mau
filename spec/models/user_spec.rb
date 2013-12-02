@@ -57,7 +57,7 @@ describe User do
   end
   describe 'create' do
     it 'sets email attrs to true for everything' do
-      FactoryGirl.create(:user)
+      FactoryGirl.create(:user, :pending)
       User.all.last.emailsettings.all?{|k,v| v}.should be_true
     end
   end
