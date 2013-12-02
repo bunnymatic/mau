@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 shared_examples_for ImageDimensions do
   before do
     subject.image_height = 500

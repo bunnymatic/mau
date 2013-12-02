@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 shared_examples_for AddressMixin do
 
   let(:the_state) {

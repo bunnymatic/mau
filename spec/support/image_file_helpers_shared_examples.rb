@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 shared_examples_for ImageFileHelpers do
 
   describe 'clean_filename' do

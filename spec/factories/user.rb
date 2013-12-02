@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  sequence(:login) {|n| "whatever#{n}" }
+  sequence(:login) {|n| "whatever%08d" % n }
   factory :user do
     login
     email { "#{login}@example.com" }
@@ -32,8 +32,8 @@ FactoryGirl.define do
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }
 
-    after_create do |artist|
-      artist.artist_info = FactoryGirl.create(:artist_info, :artist => artist)
+    after_build do |artist|
+      artist.build_artist_info(FactoryGirl.attributes_for(:artist_info))
     end
 
     ignore do
