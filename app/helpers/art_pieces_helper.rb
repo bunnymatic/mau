@@ -44,17 +44,17 @@ module ArtPiecesHelper
     [ shows, nextpage, prevpage, curpage, lastpage ]
   end
 
-  def self.fb_share_link(artpiece)
-    url = artpiece.get_share_link(true)
-    raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name()
-    title = CGI::escape( raw_title )
-    "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
-  end
+  # def self.fb_share_link(artpiece)
+  #   url = artpiece.get_share_link(true)
+  #   raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name()
+  #   title = CGI::escape( raw_title )
+  #   "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
+  # end
 
-  def self.tw_share_link(artpiece)
-    url = artpiece.get_share_link(true)
-    raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name()
-    status = CGI::escape("%s @sfmau #missionartistsunited " % raw_title)
-    "http://twitter.com/home?status=%s%s" % [status, url]
-  end
+  # def self.tw_share_link(artpiece)
+  #   url = artpiece.get_share_link(true)
+  #   raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name()
+  #   status = CGI::escape("%s @sfmau #missionartistsunited " % raw_title)
+  #   "http://twitter.com/home?status=%s%s" % [status, url]
+  # end
 end

@@ -2,7 +2,7 @@ When(/^I click "(.*?)"$/) do |link_text|
   click_link_or_button link_text
 end
 
-When(/^I fill in a valid username and password$/) do
+When(/^I fill in valid credentials$/) do
   fill_in :login, :with => 'bmatic'
   fill_in :password, :with => 'bmatic'
 end

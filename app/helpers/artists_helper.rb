@@ -122,19 +122,6 @@ module ArtistsHelper
     html += "</div>"
   end
 
-  def fb_share_link(artist)
-    url = artist.get_share_link(true)
-    raw_title = "Check out %s at Mission Artists United" % artist.get_name() 
-    title = CGI::escape( raw_title )
-    "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
-  end
-  def tw_share_link(artist)
-    url = artist.get_share_link(true)
-    raw_title = "Check out %s at Mission Artists United" % artist.get_name() 
-    status = "%s @sfmau #missionartistsunited " % raw_title
-    @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), url]
-  end
-
   def for_mobile_list(artist)
     artist.get_name true
   end

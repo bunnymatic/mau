@@ -1,8 +1,11 @@
 Given(/^an account has been created/) do
-  @artist = Artist.where(:login => 'bmatic')
+  @artist = Artist.where(:login => 'bmatic').first
   if !@artist
-    FactoryGirl.create(:artist, :activated, :with_art, :login => 'bmatic', :password => 'bmatic')
+    @artist = FactoryGirl.create(:artist, :activated, :with_art, :login => 'bmatic')
   end
+  @artist.password = 'bmatic'
+  @artist.password_confirmation = 'bmatic'
+  @artist.save!
 end
 
 Given /there are artists with art in the system/ do
