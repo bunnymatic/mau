@@ -38,7 +38,7 @@ describe MediaController do
     end
     context 'with no frequency' do
       before do
-        Media.stub(:frequency => [])
+        Medium.stub(:frequency => [])
       end
       it "redirect to show first" do
         get :index
@@ -59,10 +59,10 @@ describe MediaController do
         login_as :admin
       end
       it "destroys and redirects" do
-        exepect{
+        expect{
           delete :destroy, :id => Medium.first.id
           response.should redirect_to media_url
-        }.to.change(Medium,:count).by(-1)
+        }.to change(Medium,:count).by(-1)
       end
     end
   end
@@ -207,7 +207,6 @@ describe MediaController do
       it_should_behave_like 'not authorized'
     end
     context "as an admin" do
-      let(:medium) { Medium.first }
       before do
         login_as :admin
         get :admin_index
