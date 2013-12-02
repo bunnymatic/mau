@@ -155,7 +155,7 @@ class ArtistsController < ApplicationController
 
   def by_firstname
     if !is_mobile?
-      redirect_to '/' and return
+      redirect_to root_path and return
     end
 
     @page_title = "Artists by first name"
@@ -165,7 +165,7 @@ class ArtistsController < ApplicationController
 
   def by_lastname
     if !is_mobile?
-      redirect_to '/' and return
+      redirect_to root_path and return
     end
 
     @page_title = "Artists by last name"

@@ -67,7 +67,11 @@ class ImageFile
   # end
 
   @@ALLOWED_IMAGE_EXTS = ["jpg", "jpeg" ,"gif","png" ]
- 
+
+  def self.logger
+    ::Rails.logger
+  end
+
   def self.sizes
     ImageSizes.all
   end
@@ -82,7 +86,6 @@ class ImageFile
 
   def self.save(upload, destdir, destfile=nil)
     ts = Time.zone.now.to_f
-    logger = ::Rails.logger
 
     ext = get_file_extension(upload.original_filename)
     if @@ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
@@ -91,12 +94,33 @@ class ImageFile
     end
     destfile ||= create_timestamped_filename(upload.original_filename)
 
-    dir = destdir
-    path = File.join(dir, File.basename(destfile))
-    if !File.exists?(dir)
-      result = FileUtils.mkdir_p(dir) 
-      logger.debug("ImageFile: created %s (%0.2f sec)\n" % [ result, Time.zone.now.to_f - ts ])
+    image_info = save_uploaded_file(upload, destdir, destfile)
+
+    # store resized versions:
+    file_match = Regexp.new(destfile + "$")
+    #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
+    paths = Hash[ [:large, :medium, :small, :thumb].map do |sz|
+      [sz, image_info.path.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
+    end ]
+    paths.each do |key, destpath|
+      begin
+        MojoMagick::resize(image_info.path, destpath,
+                           { :width => ImageSizes.width(key),
+                             :height => ImageSizes.height(key),
+                             :shrink_only => true })
+        logger.debug("ImageFile: wrote %s" % destpath)
+      rescue Exception => ex
+        logger.error("ImageFile: ERROR : %s\n" % $!)
+        puts ex.backtrace unless Rails.env == 'production'
+      end
     end
+    logger.info("Image conversion took %0.2f sec" % (Time.zone.now.to_f - ts) )
+    image_info
+  end
+
+  def self.save_uploaded_file(upload, destdir, destfile)
+    ts = Time.zone.now.to_f
+    path = create_dir(destdir, destfile)
 
     # store the image
     result = File.open(path, "wb") { |f| f.write(upload.read) }
@@ -112,28 +136,18 @@ class ImageFile
     if colorspace.downcase.match /cmyk/
       raise ArgumentError, "[%s] is not a supported color space.  Please save your image with an RGB colorspace." % colorspace.to_s
     end
-    height = height.to_i
-    width = width.to_i
 
-    # store resized versions:
-    file_match = Regexp.new(destfile + "$")
-    #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
-    paths = Hash[ [:large, :medium, :small, :thumb].map do |sz|
-      [sz, srcpath.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
-    end ]
-    paths.each do |key, destpath|
-      begin
-        MojoMagick::resize(srcpath, destpath,
-                           { :width => ImageSizes.width(key),
-                             :height => ImageSizes.height(key),
-                             :shrink_only => true })
-        logger.debug("ImageFile: wrote %s" % destpath)
-      rescue Exception => ex
-        logger.error("ImageFile: ERROR : %s\n" % $!)
-        puts ex.backtrace unless Rails.env == 'production'
-      end
-    end
-    logger.info("Image conversion took %0.2f sec" % (Time.zone.now.to_f - ts) )
-    [ path, height, width ]
+    ImageInfo.new(:path => srcpath, :height => height, :width => width, :colorspace => colorspace, :type => type)
   end
+
+  def self.create_dir(dir, destfile)
+    ts = Time.zone.now.to_f
+    path = File.join(dir, File.basename(destfile))
+    if !File.exists?(dir)
+      result = FileUtils.mkdir_p(dir) 
+      logger.debug("ImageFile: created %s (%0.2f sec)\n" % [ result, Time.zone.now.to_f - ts ])
+    end
+    path
+  end
+
 end

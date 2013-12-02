@@ -37,12 +37,12 @@ class ArtPieceImage < ImageFile
     owner = artpiece.artist
     return if ! owner
     dir = "public/artistdata/" + owner.id.to_s() + "/imgs/"
-    (saved, ht, wd) = ImageFile.save(upload, dir)
+    info = ImageFile.save(upload, dir)
     # save data to the artpiece
     # fname for html is same as dir without leading "public"
-    artpiece.filename = saved
-    artpiece.image_height = ht
-    artpiece.image_width = wd
-    artpiece.save ? saved : ""
+    artpiece.filename = info.path
+    artpiece.image_height = info.height
+    artpiece.image_width = info.width
+    artpiece.save ? info.path : ""
   end
 end

@@ -7,11 +7,13 @@ describe ArtistProfileImage do
   describe '#save' do
     let(:file) { Faker::Files.file }
     let(:upload) { double('UploadedFile', :original_filename => file) }
+    let(:image_info) { OpenStruct.new({:path => 'artist_image.jpg', :height => 1234, :width => 2233} ) }
+
     before do
       @artist = users(:artist1)
       ImageFile.should_receive(:save).with(upload,
                                            "public/artistdata/#{@artist.id}/profile",
-                                           "profile#{File.extname(file)}" ).and_return(['artist_image.jpg',1234,2233])
+                                           "profile#{File.extname(file)}" ).and_return(image_info)
       ArtistProfileImage.save({'datafile' => upload}, @artist)
       @artist.reload
     end

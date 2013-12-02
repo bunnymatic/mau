@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ostruct'
 
 describe ArtPieceImage do
   fixtures :users, :art_pieces, :artist_infos
@@ -20,9 +21,10 @@ describe ArtPieceImage do
     let(:upload) { double('UploadedFile', :original_filename => file) }
     let(:art_piece) { ArtPiece.first }
     let(:artist) { art_piece.artist }
+    let(:image_info) { OpenStruct.new({:path => 'new_art_piece.jpg', :height => 1234, :width => 2233} ) }
     before do
       ImageFile.should_receive(:save).with(upload,
-                                           "public/artistdata/#{artist.id}/imgs/").and_return(['new_art_piece.jpg',1234,2233])
+                                           "public/artistdata/#{artist.id}/imgs/").and_return(image_info)
       ArtPieceImage.save({'datafile' => upload}, art_piece)
     end
 

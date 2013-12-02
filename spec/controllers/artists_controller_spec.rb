@@ -783,6 +783,14 @@ describe ArtistsController do
     end
   end
 
+  describe '#by_lastname' do
+    it { resposne.should redirect_to root_path }
+  end
+
+  describe '#by_firstname' do
+    it { resposne.should redirect_to root_path }
+  end
+
   describe "- named routes" do
     describe 'collection paths' do
       [:destroyart, :arrangeart, :thumbs, :setarrangement, :deleteart].each do |path|

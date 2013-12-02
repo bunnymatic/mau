@@ -5,11 +5,13 @@ describe StudioImage do
   describe '#save' do
     let(:file) { Faker::Files.file }
     let(:upload) { double('UploadedFile', :original_filename => file) }
+    let(:image_info) { OpenStruct.new({:path => 'studio_image.jpg', :height => 1234, :width => 2233} ) }
+
     before do
       @studio = FactoryGirl.create(:studio)
       ImageFile.should_receive(:save).with(upload,
                                            "public/studiodata/#{@studio.id}/profile",
-                                           "profile#{File.extname(file)}" ).and_return(['studio_image.jpg',1234,2233])
+                                           "profile#{File.extname(file)}" ).and_return(image_info)
       StudioImage.save({'datafile' => upload}, @studio)
       @studio.reload
     end
