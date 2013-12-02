@@ -784,11 +784,13 @@ describe ArtistsController do
   end
 
   describe '#by_lastname' do
-    it { resposne.should redirect_to root_path }
+    before { get :by_lastname }
+    it { response.should redirect_to root_path }
   end
 
   describe '#by_firstname' do
-    it { resposne.should redirect_to root_path }
+    before { get :by_firstname }
+    it { response.should redirect_to root_path }
   end
 
   describe "- named routes" do

@@ -70,39 +70,51 @@ describe MediaController do
   describe "#show" do
     context 'for valid medium' do
       render_views
-      before do
-        get :show, :id => Medium.first.id
+      context 'by artist' do
+        before do
+          get :show, :id => Medium.first.id, :m => 'a'
+        end
+        it_should_behave_like 'two column layout'
+        it_should_behave_like "not logged in"
+        it "assigns results_mode a" do
+          assigns(:results_mode).should eql 'a'
+        end
       end
-      it_should_behave_like 'two column layout'
-      it_should_behave_like "not logged in"
-      it "assigns results_mode p" do
-        assigns(:results_mode).should eql 'p'
-      end
-      it "assigns pieces" do
-        assigns(:pieces).should have_at_least(1).medium
-      end
-      it "assigns all media" do
-        assigns(:media).should have_at_least(1).medium
-      end
-      it "assigns frequency" do
-        assigns(:freq).should have_at_least(1).item
-      end
-      it "assigns frequency" do
-        freq = assigns(:freq)
-        m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
-        m2freq['ct'].should eql 1.0
-      end
-      it "draws tag cloud" do
-        assert_select('.tagcloud')
-      end
-      it "tag cloud has items" do
-        assert_select('.clouditem')
-      end
-      it "tag cloud has a selected one" do
-        assert_select('.clouditem.tagmatch')
-      end
-      it "pieces are in order of art_piece updated_date" do
-        assigns(:pieces).map(&:updated_at).should be_monotonically_increasing
+      context 'by art piece' do
+        before do
+          get :show, :id => Medium.first.id
+        end
+        it_should_behave_like 'two column layout'
+        it_should_behave_like "not logged in"
+        it "assigns results_mode p" do
+          assigns(:results_mode).should eql 'p'
+        end
+        it "assigns pieces" do
+          assigns(:pieces).should have_at_least(1).medium
+        end
+        it "assigns all media" do
+          assigns(:media).should have_at_least(1).medium
+        end
+        it "assigns frequency" do
+          assigns(:freq).should have_at_least(1).item
+        end
+        it "assigns frequency" do
+          freq = assigns(:freq)
+          m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
+          m2freq['ct'].should eql 1.0
+        end
+        it "draws tag cloud" do
+          assert_select('.tagcloud')
+        end
+        it "tag cloud has items" do
+          assert_select('.clouditem')
+        end
+        it "tag cloud has a selected one" do
+          assert_select('.clouditem.tagmatch')
+        end
+        it "pieces are in order of art_piece updated_date" do
+          assigns(:pieces).map(&:updated_at).should be_monotonically_increasing
+        end
       end
     end
     context " an id that doesn't exist " do
