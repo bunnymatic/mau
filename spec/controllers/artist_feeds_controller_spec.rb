@@ -106,5 +106,14 @@ describe ArtistFeedsController do
       end
     end
 
+    describe "#destroy" do
+      it "destroys and redirects" do
+        expect{
+          delete :destroy, :id => ArtistFeed.first.id
+          response.should redirect_to artist_feeds_url
+        }.to change(ArtistFeed,:count).by(-1)
+      end
+    end
+
   end
 end
