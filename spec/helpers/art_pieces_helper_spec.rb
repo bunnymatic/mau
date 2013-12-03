@@ -29,26 +29,17 @@ describe ArtPiecesHelper do
       curpage.should eql 2
       lastpage.should eql 4
     end
+
+    it 'retuns nil if perpage is -1' do
+      expect(ArtPiecesHelper.compute_pagination(10.times.map(&:to_s), 0, -1)).to be_nil
+    end
+
+    it 'handles current page less than 0' do
+      expect(ArtPiecesHelper.compute_pagination(%w(c d e), -2, 1)).to include ['c']
+    end
+    it 'handles current page more than max' do
+      expect(ArtPiecesHelper.compute_pagination(%w(c d e), 1000, 1)).to include ['e']
+    end
+
   end
-
-  # describe 'fb_share_link' do
-  #   let(:art) { art_pieces(:hot) }
-  #   it 'builds the facebook share link as expected' do
-  #     fb = ArtPiecesHelper.fb_share_link(art)
-  #     fb.should match %r|^http://www.facebook.com/sharer.php?|
-  #     fb.should include art.get_share_link(true)
-  #     fb.should include "&t=#{CGI::escape("Check out #{art.artist.get_name()} ")}"
-  #   end
-  # end
-
-  # describe 'tw_share_link' do
-  #   let(:art) { art_pieces(:hot) }
-  #   it 'builds the twitter share link as expected' do
-  #     tw = ArtPiecesHelper.tw_share_link(art)
-  #     tw.should match %r|^http://twitter.com/home|
-  #     tw.should include art.get_share_link(true)
-  #     tw.should include CGI.escape('@sfmau #missionartistsunited')
-  #   end
-  # end
-
 end

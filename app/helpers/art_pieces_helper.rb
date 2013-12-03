@@ -14,12 +14,7 @@ module ArtPiecesHelper
     #    int: next page index
     #    int: previous page index
     #    int: last page index
-    begin
-      ct = pieces.length
-    rescue Exception => ex
-      ::Rails.logger.warn("Failed to compute length of [%s]" % pieces)
-      return nil
-    end
+    ct = (pieces||[]).length
     if perpage < 0
       return nil
     end
@@ -29,32 +24,15 @@ module ArtPiecesHelper
       lastpage = 0
     end
     curpage = [curpage.to_i, 0].max
+    curpage = [curpage,lastpage].min
     firstpage = 0
     nextpage = [curpage + 1, lastpage].min
     prevpage = [curpage - 1, firstpage].max
 
     firstimg = curpage * perpage
     lastimg = firstimg + perpage - 1
-    shows = pieces[firstimg..lastimg]
-    if shows
-      shows.reverse!
-    else
-      nil
-    end
+    shows = pieces[firstimg..lastimg].reverse
     [ shows, nextpage, prevpage, curpage, lastpage ]
   end
 
-  # def self.fb_share_link(artpiece)
-  #   url = artpiece.get_share_link(true)
-  #   raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name()
-  #   title = CGI::escape( raw_title )
-  #   "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
-  # end
-
-  # def self.tw_share_link(artpiece)
-  #   url = artpiece.get_share_link(true)
-  #   raw_title = "Check out %s at Mission Artists United" % artpiece.artist.get_name()
-  #   status = CGI::escape("%s @sfmau #missionartistsunited " % raw_title)
-  #   "http://twitter.com/home?status=%s%s" % [status, url]
-  # end
 end

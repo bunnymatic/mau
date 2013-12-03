@@ -12,5 +12,4 @@ Scenario: login with bad info
 Scenario: login with good info
   When I fill in valid credentials
   And I click "Log in"
-  And show me the page
   Then I see that I'm logged in

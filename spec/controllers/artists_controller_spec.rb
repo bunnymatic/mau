@@ -652,7 +652,7 @@ describe ArtistsController do
     end
     describe 'os only' do
       before do
-        get :map_page, :osonly => true
+        get :map_page, "osonly" => true
       end
       it "returns success" do
         response.should be_success

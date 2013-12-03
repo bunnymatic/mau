@@ -2,11 +2,11 @@
   = render '/flash_notice_error'
   %h4 MAU Artists
   .artists_block
-    = render :partial => '/flash_notice_error'
-    = render :partial => '/artists/alpha_pagination'
-    = render :partial => '/osswitch', :locals => { :params => @inparams}
-    = render :partial => '/artists/view_switcher'
-    = render :partial => '/pagination'
+    = render '/flash_notice_error'
+    = render '/artists/alpha_pagination'
+    = render '/osswitch', :params => @inparams
+    = render '/artists/view_switcher'
+    = render '/pagination'
     .clear
-    = render :partial => '/artists/thumbs', :locals => { :artists => @artists, :params => { :cols => 7 }}
-    = render :partial => '/pagination'
+    = render '/artists/thumbs', :artists => @artists, :params => { :cols => 7 }
+    = render '/pagination'
