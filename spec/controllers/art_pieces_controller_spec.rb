@@ -23,6 +23,10 @@ describe ArtPiecesController do
     before do
       @artist = users(:artist1)
       @artpieces = @artist.art_pieces
+      ap = @artpieces.first
+      ap.art_piece_tags << ArtPieceTag.last
+      ap.art_piece_tags << ArtPieceTag.last(2).first
+      ap.save
     end
     context "not logged in" do
       context "format=html" do

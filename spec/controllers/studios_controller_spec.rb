@@ -102,6 +102,8 @@ describe StudiosController do
     describe 'individual studio' do
       describe 'html' do
         before do
+          Studio.any_instance.stub(:phone => '1234569999')
+          Studio.any_instance.stub(:cross_street => 'fillmore')
           get :show, :id => studios(:as).id
         end
         it "last studio should be independent studios" do
@@ -116,13 +118,9 @@ describe StudiosController do
           assert_select("div.url a[href=#{studios(:as).url}]")
         end
         it "studio includes cross street if there is one" do
-          Studio.any_instance.stub(:cross_street => 'fillmore')
-          get :show, :id => studios(:as).id
           assert_select('.address', /\s+fillmore/)
         end
         it "studio info includes a phone if there is one" do
-          Studio.any_instance.stub(:phone => '1234569999')
-          get :show, :id => studios(:as).id
           assert_select('.phone', :text => '(123) 456-9999')
         end
       end
