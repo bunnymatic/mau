@@ -29,7 +29,7 @@ class ArtistsController < ApplicationController
 
   def map_page
     @view_mode = 'map'
-    @os_only = is_os_only(params[:osonly])
+    @os_only = is_os_only(params["osonly"])
     roster_args = {'v' => 'l'}
     gallery_args = {'v' => 'g'}
     if @os_only
@@ -40,20 +40,15 @@ class ArtistsController < ApplicationController
     @gallery_link = artists_path + HTMLHelper.queryencode(gallery_args)
     addresses = []
 
+    active_artists = Artist.active
     if @os_only
-      artists = Artist.active.open_studios_participants.all(:include => :artist_info)
+      artists = active_artists.open_studios_participants.all(:include => :artist_info)
     else
-      artists = Artist.active.all(:include => :artist_info)
+      artists = active_artists.active.all(:include => :artist_info)
     end
 
     artists.reject!{ |a| !a.in_the_mission? }
 
-    # @map = GMap.new("map")
-    # @map.control_init(:large_map => true, :map_type => true)
-    # # init icon
-    # @map.icon_global_init( GIcon.new(:image => '/images/icon/map_icon.png',
-    #                                  :iconSize => GSize.new(64.0, 64.0)),
-    #                        'icon_name')
     markers = []
     @roster = {}
     nentries = 0
@@ -561,7 +556,7 @@ class ArtistsController < ApplicationController
 
   private
   def is_os_only(osonly)
-    return (osonly && (["1",1,"on","true"].include? osonly))
+    [true, "1",1,"on","true"].include? osonly
   end
 
 end

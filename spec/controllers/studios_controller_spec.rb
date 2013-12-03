@@ -90,6 +90,15 @@ describe StudiosController do
       end
     end
 
+    describe 'indy studio' do
+      before do
+        get :show, :id => 0
+      end
+      it "sets the studio to the indy studio" do
+        assigns(:studio).studio.should eql Studio.indy
+      end
+    end
+
     describe 'individual studio' do
       describe 'html' do
         before do

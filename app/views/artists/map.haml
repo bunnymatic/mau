@@ -10,8 +10,8 @@
 #map_page
   - if params[:format] != 'mobile'
     %div{:style => "margin: auto;" }
-      = render :partial => '/osswitch', :locals => {:params => @inparams} 
-      = render :partial => '/artists/view_switcher'
+      = render '/osswitch', :params => @inparams
+      = render '/artists/view_switcher'
   .clear
   .map-roster
     .map-container
