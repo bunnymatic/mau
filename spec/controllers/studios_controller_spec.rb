@@ -71,7 +71,7 @@ describe StudiosController do
 
     Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].each do |k,v|
       it "should return studio #{v} for key #{k}" do
-        get :show, :id => k
+        get :show, "id" => k
         assert_select('h4', :text => v)
       end
     end
@@ -82,7 +82,7 @@ describe StudiosController do
 
     describe 'unknown studio' do
       before do
-        get :show, :id => 'blurp'
+        get :show, "id" => 'blurp'
       end
       it {response.should redirect_to studios_path}
       it 'sets the flash' do
@@ -92,7 +92,7 @@ describe StudiosController do
 
     describe 'indy studio' do
       before do
-        get :show, :id => 0
+        get :show, "id" => 0
       end
       it "sets the studio to the indy studio" do
         assigns(:studio).studio.should eql Studio.indy
@@ -104,7 +104,7 @@ describe StudiosController do
         before do
           Studio.any_instance.stub(:phone => '1234569999')
           Studio.any_instance.stub(:cross_street => 'fillmore')
-          get :show, :id => studios(:as).id
+          get :show, "id" => studios(:as).id
         end
         it "last studio should be independent studios" do
           assigns(:studios).last.name.should eql 'Independent Studios'

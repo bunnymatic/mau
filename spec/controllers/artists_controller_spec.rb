@@ -712,54 +712,84 @@ describe ArtistsController do
       end
     end
     context "logged in as admin" do
-      render_views
       before do
-        ArtistInfo.any_instance.stub(:os_participation => {'201204' => true})
-        Artist.any_instance.stub(:os_participation => {'201204' => true})
-
         login_as :admin
-        get :admin_index
       end
-      it_should_behave_like 'logged in as admin'
-      it "returns success" do
-        response.should be_success
-      end
-      it "renders sort by links" do
-        assert_select('.sortby a', :count => 14)
-      end
-      it 'renders a csv export link' do
-        assert_select('a.export-csv button', /export/)
-      end
-      it 'renders an update os status button' do
-        assert_select('button.update-artists', /update os status/)
-      end
-      it 'renders controls for hiding rows' do
-        assert_select('.hide-rows .row-info');
-      end
-      it 'renders .pending rows for all pending artists' do
-        assert_select('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
-      end
-      it 'renders .suspended rows for all suspended artists' do
-        assert_select('tr.suspended', :count => Artist.all.select{|s| s.state == 'suspended'}.count)
-      end
-      it 'renders .deleted rows for all deleted artists' do
-        assert_select('tr.deleted', :count => Artist.all.select{|s| s.state == 'deleted'}.count)
-      end
-      it 'renders created_at date for all pending artists' do
-        Artist.all.select{|s| s.state == 'pending'}.each do |a|
-          assert_select('tr.pending td', /#{a.created_at.strftime('%m/%d/%y')}/)
+      context 'with no params' do
+        render_views
+        before do
+          ArtistInfo.any_instance.stub(:os_participation => {'201204' => true})
+          Artist.any_instance.stub(:os_participation => {'201204' => true})
+
+          get :admin_index
+        end
+        it_should_behave_like 'logged in as admin'
+        it "returns success" do
+          response.should be_success
+        end
+        it "renders sort by links" do
+          assert_select('.sortby a', :count => 14)
+        end
+        it 'renders a csv export link' do
+          assert_select('a.export-csv button', /export/)
+        end
+        it 'renders an update os status button' do
+          assert_select('button.update-artists', /update os status/)
+        end
+        it 'renders controls for hiding rows' do
+          assert_select('.hide-rows .row-info');
+        end
+        it 'renders .pending rows for all pending artists' do
+          assert_select('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+        end
+        it 'renders .suspended rows for all suspended artists' do
+          assert_select('tr.suspended', :count => Artist.all.select{|s| s.state == 'suspended'}.count)
+        end
+        it 'renders .deleted rows for all deleted artists' do
+          assert_select('tr.deleted', :count => Artist.all.select{|s| s.state == 'deleted'}.count)
+        end
+        it 'renders created_at date for all pending artists' do
+          Artist.all.select{|s| s.state == 'pending'}.each do |a|
+            expected_match = a.created_at.strftime("%m/%d/%y")
+            assert_select('tr.pending td', /#{expected_match}/)
+          end
+        end
+        it 'renders .participating rows for all pending artists' do
+          assert_select('tr.participating', :count => Artist.all.select{|a| a.os_participation['201210']}.count)
+        end
+        it 'renders activation link for inactive artists' do
+          assert_select('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+          assert_select('.activation_link', :match => activate_url(:activation_code => users(:pending_artist).activation_code))
+        end
+        it 'renders forgot link if there is a reset code' do
+          assert_select('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)
+          assert_select('.forgot_password_link', :match => reset_url(:reset_code => users(:reset_password).reset_code))
         end
       end
-      it 'renders .participating rows for all pending artists' do
-        assert_select('tr.participating', :count => Artist.all.select{|a| a.os_participation['201210']}.count)
+      context "with sort_by" do
+        it 'sorts by lastname' do
+          get :admin_index, 'sortby' => 'lastname'
+          assigns(:artists).map{|a| a.lastname.downcase}.should be_monotonically_increasing
+        end
+        it 'sorts by lastname' do
+          get :admin_index, 'rsortby' => 'lastname'
+          assigns(:artists).map{|a| a.lastname.downcase}.should be_monotonically_decreasing
+        end
+        it 'sorts by login' do
+          get :admin_index, 'sortby' => 'login'
+          assigns(:artists).map{|a| a.login.downcase}.should be_monotonically_increasing
+        end
+        it 'sorts by login' do
+          get :admin_index, 'rsortby' => 'login'
+          assigns(:artists).map{|a| a.login.downcase}.should be_monotonically_decreasing
+        end
       end
-      it 'renders activation link for inactive artists' do
-        assert_select('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)
-        assert_select('.activation_link', /http:\/\/#{Conf.site_url}\/activate\/#{users(:pending_artist).activation_code}/)
-      end
-      it 'renders forgot link if there is a reset code' do
-        assert_select('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)
-        assert_select('.forgot_password_link', /http:\/\/#{Conf.site_url}\/reset\/#{users(:reset_password).reset_code}/)
+
+      render_views
+      it 'returns a csv' do
+        get :admin_index, 'format' => 'csv'
+        response.should be_csv_type
+        response.should be_csv
       end
     end
   end

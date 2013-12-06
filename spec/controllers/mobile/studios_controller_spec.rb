@@ -9,6 +9,7 @@ describe StudiosController do
 
   before do
     # do mobile
+    controller.stub(:is_mobile? => true)
     request.stub(:user_agent => IPHONE_USER_AGENT)
     assert(Studio.all.length >= 2)
     @s = Studio.all[2]
@@ -41,11 +42,15 @@ describe StudiosController do
   describe "show" do
     before do
       Artist.any_instance.stub(:representative_piece => nil, :os_participation => {Conf.oslive.to_s => true})
-      get :show, :id => @s.id
+      get :show, "id" => @s.id
     end
 
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
+
+    it "assigns a page title" do
+      assigns(:page_title).should eql "Studio: #{@s.name}"
+    end
 
     it "includes studio title" do
       assert_select 'h2', /#{@s.name}/
