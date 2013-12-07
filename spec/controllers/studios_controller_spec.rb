@@ -6,6 +6,27 @@ describe StudiosController do
 
   fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users, :roles
 
+  describe '#new' do
+    pending 'shows a new studio form'
+  end
+
+  describe '#create' do
+    pending 'creates a new studio'
+  end
+
+  describe '#update' do
+    pending 'updates a studio record'
+  end
+
+  describe 'safe_find' do
+    pending 'does not raise when you ask for an unknown studio'
+    pending 'finds the studio if it exists'
+  end
+
+  describe 'get_studio_list' do
+    pending 'includes all studios except indy studios'
+  end
+
   describe "#index" do
     context "while not logged in" do
       render_views

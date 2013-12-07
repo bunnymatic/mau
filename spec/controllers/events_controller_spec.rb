@@ -33,6 +33,22 @@ describe EventsController do
         it_should_behave_like 'not authorized'
       end
     end
+    
+    describe '#index' do
+      context 'with params' do
+        pending 'sets current month if params m=current_month'
+      end
+      context '.xml' do
+        pending 'returns xml list of events'
+      end
+      context '.json' do
+        before do
+          get :index, :format => 'json'
+        end
+        it_should_behave_like 'successful json'
+        pending 'returns json list of events'
+      end
+    end
 
     describe '#show' do
       before do
@@ -90,13 +106,18 @@ describe EventsController do
 
     context 'create' do
       let(:event_attrs) { FactoryGirl.attributes_for(:event) }
-      before do
-        EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
-        post :create, :event => event_attrs
+      context 'with standard params' do
+        before do
+          EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
+          post :create, :event => event_attrs
+        end
+        it { response.should redirect_to events_path }
+        it "saves a new event" do
+          Event.where(:url => event_attrs[:url]).should be_present
+        end
       end
-      it { response.should redirect_to events_path }
-      it "saves a new event" do
-        Event.where(:url => event_attrs[:url]).should be_present
+      context 'with an artist list' do
+        pending "adds artists to the description"
       end
     end
 
