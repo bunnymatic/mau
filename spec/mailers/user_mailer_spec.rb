@@ -11,7 +11,7 @@ describe UserMailer do
       @mail.body.should include users(:maufan1).firstname
     end
   end
-  describe "activation mail for a new signup" do
+  describe "notification mail for a new signup" do
     before do
       @mail = UserMailer.signup_notification(users(:pending))
     end
@@ -19,4 +19,13 @@ describe UserMailer do
       @mail.body.should match /activate\/\S+/
     end
   end
+  describe "new activated account" do
+    before do
+      @mail = UserMailer.activation(artist1)
+    end
+    it "includes their name" do
+      @mail.body.should include artist1.login
+    end
+  end
+
 end
