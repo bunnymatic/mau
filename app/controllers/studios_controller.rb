@@ -1,14 +1,14 @@
 require 'studio'
 class StudiosController < ApplicationController
 
-  STUDIO_KEYS = Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].freeze
-
   before_filter :manager_required, :except => [ :index, :show, :new ]
   before_filter :admin_required, :only => [:new, :create, :destroy]
   before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :addprofile, :unaffiliate_artist]
   after_filter :store_location
 
-  @@MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
+  @@studio_keys = nil
+
+  MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
   layout 'mau1col'
 
   include OsHelper
@@ -93,8 +93,8 @@ class StudiosController < ApplicationController
     @studios = get_studio_list
     if params[:id] == 'independent_studios'
       studio = Studio.indy()
-    elsif STUDIO_KEYS.keys.include? params[:id]
-      studio = Studio.where(:name => STUDIO_KEYS[params[:id]]).first
+    elsif self.class.studio_keys.keys.include? params[:id]
+      studio = Studio.where(:name => self.class.studio_keys[params[:id]]).first
     end
     unless studio
       if params[:id].to_s == "0"
@@ -144,7 +144,6 @@ class StudiosController < ApplicationController
   # GET /studios/1/edit
   def edit
     @studio = Studio.find(params[:id])
-    @selected_studio = @studio.id
     render :layout => 'mau-admin'
   end
 
@@ -156,7 +155,7 @@ class StudiosController < ApplicationController
       flash[:notice] = 'Studio was successfully created.'
       redirect_to(@studio)
     else
-      render :action => "new"
+      render 'new', :layout => 'mau-admin'
     end
 
   end
@@ -169,7 +168,7 @@ class StudiosController < ApplicationController
       flash[:notice] = 'Studio was successfully updated.'
       redirect_to(@studio)
     else
-      render :action => "edit"
+      render "edit", :layout => 'mau-admin'
     end
   end
 
@@ -208,8 +207,14 @@ class StudiosController < ApplicationController
       if s.id != 0 && s.name == 'Independent Studios'
         false
       else
-        s.artists.active.count >= @@MIN_ARTISTS_PER_STUDIO
+        s.artists.active.count >= MIN_ARTISTS_PER_STUDIO
       end
     end
   end
+
+  def self.studio_keys
+    return @@studio_keys unless @@studio_keys.blank?
+    @@studio_keys ||= Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].freeze
+  end
+
 end

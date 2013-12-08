@@ -6,6 +6,68 @@ describe StudiosController do
 
   fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users, :roles
 
+  let(:studio_list) { controller.send(:get_studio_list) }
+
+  context 'as an admin' do
+    before do
+      login_as :admin
+    end
+    describe '#new' do
+      before do 
+        get :new
+      end
+      it 'setups up a new studio' do
+        expect(assigns(:studio)).to be_a_kind_of Studio
+      end
+    end
+
+    describe '#create' do
+      let(:studio_attrs) { FactoryGirl.attributes_for(:studio) }
+      it 'setups up a new studio' do
+        expect{
+          put :create, :studio => studio_attrs
+        }.to change(Studio, :count).by(1)
+      end
+      it 'renders new on failure' do
+        expect{
+          put :create, :studio => {:name =>''}
+          expect(response).to render_template 'new'
+        }.to change(Studio, :count).by(0)
+
+      end
+    end
+
+    describe '#update' do
+      it 'updates a studio' do
+        post :update, :id => studios(:as).id, :studio => {:name =>'new name'}
+        expect(studios(:as).reload.name).to eql 'new name'
+      end
+      it 'renders edit on failure' do
+        post :update, :id => studios(:as).id, :studio => {:name =>''}
+        expect(response).to render_template 'edit'
+      end
+    end
+  end
+
+  describe 'safe_find' do
+    it 'does not raise when you ask for an unknown studio' do
+      expect{ controller.send(:safe_find,'bogus') }.to_not raise_error
+    end
+    it 'finds the studio if it exists' do
+      expect(controller.send(:safe_find,studios(:as).id)).to eql studios(:as)
+    end
+  end
+
+  describe 'get_studio_list' do
+    it 'includes all studios with at least MIN_STUDIOS_PER_ARTIST artists' do
+      counts = studio_list.map{|s| s.artists.active.count}
+      expect(counts.min).to be > StudiosController::MIN_ARTISTS_PER_STUDIO
+    end
+    it 'includes all studios with artists' do
+      expect(studio_list.select{|s| s.name == 'Independent Studios'}.length).to eql 1
+    end
+  end
+
   describe "#index" do
     context "while not logged in" do
       render_views
@@ -59,7 +121,7 @@ describe StudiosController do
       it_should_behave_like 'successful json'
       it 'returns all studios' do
         j = JSON.parse(response.body)
-        j.count.should eql Studio.all.count
+        j.count.should eql studio_list.count
       end
     end
   end
@@ -68,7 +130,7 @@ describe StudiosController do
   describe "#show keyed studios" do
 
     render_views
-
+    
     Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].each do |k,v|
       it "should return studio #{v} for key #{k}" do
         get :show, :id => k
@@ -82,7 +144,7 @@ describe StudiosController do
 
     describe 'unknown studio' do
       before do
-        get :show, :id => 'blurp'
+        get :show, "id" => 'blurp'
       end
       it {response.should redirect_to studios_path}
       it 'sets the flash' do
@@ -92,7 +154,7 @@ describe StudiosController do
 
     describe 'indy studio' do
       before do
-        get :show, :id => 0
+        get :show, "id" => 0
       end
       it "sets the studio to the indy studio" do
         assigns(:studio).studio.should eql Studio.indy
@@ -104,7 +166,7 @@ describe StudiosController do
         before do
           Studio.any_instance.stub(:phone => '1234569999')
           Studio.any_instance.stub(:cross_street => 'fillmore')
-          get :show, :id => studios(:as).id
+          get :show, "id" => studios(:as).id
         end
         it "last studio should be independent studios" do
           assigns(:studios).last.name.should eql 'Independent Studios'
@@ -242,7 +304,7 @@ describe StudiosController do
             tag.first.attributes['value'].should eql @my_studio.name
           end
           assert_select 'form input[type=submit]' do |tag|
-            tag.first.attributes['value'].should eql 'Update Studio Info'
+            tag.first.attributes['value'].should eql 'Update Studio'
           end
         end
         it 'shows the logo' do

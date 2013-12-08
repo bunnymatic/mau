@@ -47,24 +47,24 @@ module EventsHelper
     "<span class='starttime'>%s</span><span class='event_title'>%s</span>" % [EventsHelper::start_time(ev), ev.title]
   end
 
-  def fetch_published_events_by_month
-    events = Event.published
-    events_by_month = {}
+  # def fetch_published_events_by_month
+  #   events = Event.published
+  #   events_by_month = {}
 
-    today = Time.zone.now
-    current_key = today.strftime('%Y%m')
-    current_display = today.strftime('%B %Y')
-    events_by_month[current_key] = {:display => current_display, :events => [] }
+  #   today = Time.zone.now
+  #   current_key = today.strftime('%Y%m')
+  #   current_display = today.strftime('%B %Y')
+  #   events_by_month[current_key] = {:display => current_display, :events => [] }
 
-    events.each do |ev|
-      stime = ev.reception_starttime || ev.starttime
-      month = stime.strftime('%B %Y')
-      month_key = stime.strftime('%Y%m')
-      events_by_month[month_key] = {:display => month, :events => [] } unless events_by_month.has_key? month_key
-      events_by_month[month_key][:events] << ev
-    end
-    [events, events_by_month]
-  end
+  #   events.each do |ev|
+  #     stime = ev.reception_starttime || ev.starttime
+  #     month = stime.strftime('%B %Y')
+  #     month_key = stime.strftime('%Y%m')
+  #     events_by_month[month_key] = {:display => month, :events => [] } unless events_by_month.has_key? month_key
+  #     events_by_month[month_key][:events] << ev
+  #   end
+  #   [events, events_by_month]
+  # end
 
 
 end

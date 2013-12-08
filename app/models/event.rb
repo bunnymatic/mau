@@ -55,10 +55,29 @@ class Event < ActiveRecord::Base
 
   include AddressMixin
 
+  def self.keyed_by_month
+    by_month = {}
+
+    all.each do |ev|
+      key = ev.month_year_key
+      by_month[key] ||= {:display => ev.display_month, :events => [] }
+      by_month[key][:events] << ev
+    end
+    by_month
+  end
+
   def name
     title
   end
-  
+
+  def month_year_key
+    @month_year_key ||= stime.strftime('%Y%m')
+  end
+
+  def display_month
+    @display_month ||= stime.strftime('%B %Y')
+  end
+ 
   def validate_endtime
     if !endtime
       return
@@ -75,6 +94,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def published?
+    !!publish
+  end
+
   def in_progress?
     endtime && endtime > Time.zone.now && starttime < Time.zone.now
   end
@@ -89,6 +112,11 @@ class Event < ActiveRecord::Base
 
   def future?
     (reception_starttime && reception_starttime > Time.zone.now ) || (starttime > Time.zone.now)
+  end
+
+  # get start time or reception start time
+  def stime
+    @stime ||= (reception_starttime || starttime)
   end
 
 end

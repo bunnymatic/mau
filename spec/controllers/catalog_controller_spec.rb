@@ -55,9 +55,7 @@ describe CatalogController do
         get :social, :format => :csv
       end
       it { response.should be_success }
-      it {
-        pending "test data in csv"
-      }
+      it { response.should be_csv_type }
     end
 
   end

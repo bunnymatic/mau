@@ -93,7 +93,6 @@ class ArtPieceTagsController < ApplicationController
   end
 
   # GET /tags/1
-  # GET /tags/1.xml
   def show
     if is_mobile?
       redirect_to root_path and return

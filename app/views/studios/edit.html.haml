@@ -3,15 +3,7 @@
   = render :partial => '/flash_notice_error'
   .info.block
     %h3 Address/Info
-    = form_for(@studio) do |f|
-      = render '/common/form_errors', :form => f
-
-      - [:name, :street, :cross_street, :city, :state, :zip, :phone, :url].each do |textfield|
-        %p
-          = f.label textfield
-          = f.text_field textfield
-      %p.controls
-        = f.submit 'Update Studio Info'
+    = render 'form', :studio => @studio
     = link_to 'Show', @studio
     = "|"
     = link_to 'All Studios', studios_path

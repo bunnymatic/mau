@@ -4,7 +4,7 @@ ruby '2.0.0'
 gem 'racc'
 gem "rails", '~> 3.1.12'
 gem 'aasm'
-gem "nokogiri", '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
+gem "nokogiri" #, '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
 gem "htmlentities"
 gem "json"
 gem 'mysql2'
@@ -70,4 +70,5 @@ group :test, :development do
   gem 'simplecov'
   gem 'guard-cucumber'
   gem 'database_cleaner'
+  gem 'shoulda-matchers'
 end

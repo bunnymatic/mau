@@ -153,7 +153,6 @@ class ArtPiecesController < ApplicationController
   end
 
   # PUT /art_pieces/1
-  # PUT /art_pieces/1.xml
   def update
     art_piece = safe_find_art_piece(params[:id])
     if commit_is_cancel

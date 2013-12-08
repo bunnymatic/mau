@@ -25,6 +25,7 @@ describe Studio do
 
   it_should_behave_like AddressMixin
 
+  it { should validate_presence_of(:name) }
 
   describe 'address' do
     it "responds to address" do

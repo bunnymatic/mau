@@ -1,33 +1,16 @@
 require 'spec_helper'
 
-module TagSpecHelper
-  def random_tag
-    { :name => Faker::Lorem.words(2).join(' ') }
-  end
-end
-
 describe ArtPieceTag do
-  include TagSpecHelper
+
   fixtures :art_piece_tags, :art_pieces_tags, :art_pieces
-  describe 'creation'  do
-    it "should create tag" do
-      t = ArtPieceTag.new
-      t.attributes = random_tag
-      t.should be_valid
-    end
 
-    it "should not create an empty tag" do
-      t = ArtPieceTag.new
-      t.should_not be_valid
-    end
-
-  end
+  it{ should validate_presence_of(:name) }
+  it{ should ensure_length_of(:name).is_at_least(3).is_at_most(25) }
 
   describe 'frequency'  do
-    include TagSpecHelper
 
     it "should not throw when getting frequency with no tags" do
-      lambda { ArtPieceTag.frequency }.should_not raise_error
+      expect { ArtPieceTag.frequency }.to_not raise_error
     end
 
     it "frequency returns normalized frequency correctly" do

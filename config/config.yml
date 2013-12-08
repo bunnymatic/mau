@@ -7,6 +7,7 @@ test:
    #image_servers: 
    mailchimp_api_key: bogus-key
    oslive: 201210
+   min_artists_per_studio: 1
 
 development:
    recaptcha_public_key: 6LfgJ9oSAAAAAHDQ_PRgG60sIXtOjH3aWcp__Dav
