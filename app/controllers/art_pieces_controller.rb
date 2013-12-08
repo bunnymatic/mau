@@ -1,6 +1,8 @@
 require 'json'
 class ArtPiecesController < ApplicationController
 
+  PER_PAGE = 12
+
   include ArtPiecesHelper
   include TagsHelper
   layout 'mau1col', :except => :show

@@ -5,6 +5,7 @@ include AuthenticatedTestHelper
 def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
 
 describe ArtPieceTagsController do
+  
   fixtures :users, :roles_users, :art_piece_tags, :art_pieces_tags, :art_pieces, :artist_infos, :media
 
   [:admin_index, :new].each do |endpoint|

@@ -15,7 +15,8 @@ describe ArtistMailer do
       @mail.body.should include artist1.get_name
     end
   end
-  describe "activation mail for a new signup" do
+
+  describe "notification mail for a new signup" do
     before do
       @mail = ArtistMailer.signup_notification(pending_artist)
     end
@@ -23,6 +24,19 @@ describe ArtistMailer do
       @mail.body.should match activate_url(:activation_code => pending_artist.activation_code)
     end
   end
+
+  describe "new activated account" do
+    before do
+      @mail = ArtistMailer.activation(artist1)
+    end
+    it "includes their name" do
+      @mail.body.should include artist1.get_name
+    end
+    it 'includes a welcome message' do
+      @mail.body.should include "YOUR MAU TODO LIST"
+    end
+  end
+
   describe 'resend activation mail' do
     before do
       @mail = ArtistMailer.resend_activation(pending_artist)

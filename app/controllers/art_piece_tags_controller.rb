@@ -9,7 +9,7 @@ class ArtPieceTagsController < ApplicationController
   @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
   @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
 
-  @@PER_PAGE = 12
+  PER_PAGE = 12
   def admin_index
     tags = ArtPieceTag.all
     freq = ArtPieceTag.keyed_frequency
@@ -64,10 +64,7 @@ class ArtPieceTagsController < ApplicationController
             tagnames = ActiveSupport::JSON.decode cacheout
           end
           if tagnames.blank?
-            alltags = ArtPieceTag.all
-            alltags.each do |t|
-              tagnames << { "value" => t.name, "info" => t.id }
-            end
+            tagnames = ArtPieceTag.all.map{|t| { "value" => t.name, "info" => t.id }}
             cachein = ActiveSupport::JSON.encode tagnames
             if cachein
               SafeCache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
@@ -134,7 +131,7 @@ class ArtPieceTagsController < ApplicationController
     end
     pieces.reverse!
 
-    @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, page, @@PER_PAGE)
+    @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, page, PER_PAGE)
     if curpage > lastpage
       curpage = lastpage
     elsif curpage < 0
