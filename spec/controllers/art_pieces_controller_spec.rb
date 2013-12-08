@@ -347,7 +347,7 @@ describe ArtPiecesController do
       end
       it { response.should be_redirect }
       it "does not removes that art piece" do
-        expect{ ArtPiece.find(art_pieces(:artpiece1).id) }.not_to raise_error
+        expect{ ArtPiece.find(art_pieces(:artpiece1).id) }.to_not raise_error
       end
       it 'does not publish a message' do
         Messager.any_instance.should_receive(:publish).never

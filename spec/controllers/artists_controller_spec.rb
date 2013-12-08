@@ -789,7 +789,6 @@ describe ArtistsController do
       it 'returns a csv' do
         get :admin_index, 'format' => 'csv'
         response.should be_csv_type
-        response.should be_csv
       end
     end
   end

@@ -49,7 +49,8 @@ describe FeaturedArtistQueue do
     end
     describe "after everyone has been featured" do
       before do
-        sql = "update featured_artist_queue set featured='#{(Time.zone.now - 10.weeks).strftime('%M/%D/%Y')}'"
+        t = (Time.zone.now - 10.weeks).strftime('%Y-%m-%d')
+        sql = "update featured_artist_queue set featured='#{t}'"
         ActiveRecord::Base.connection.execute(sql);
         FeaturedArtistQueue.next_entry
       end

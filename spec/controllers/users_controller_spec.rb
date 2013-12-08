@@ -42,6 +42,11 @@ describe UsersController do
     controller_actions_should_fail_if_not_logged_in(:user,
                                                     :except => exceptions)
   end
+
+  describe '#index' do
+    it { get :index; expect(response).to redirect_to artists_path }
+  end
+
   describe "#new" do
     render_views
 

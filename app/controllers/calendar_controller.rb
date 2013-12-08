@@ -11,7 +11,8 @@ class CalendarController < ApplicationController
     @events = Event.published.events_for_date_range(start_d, end_d)
     @event_strips = Event.create_event_strips(start_d, end_d, @events)
 
-    published_events, @events_by_month = fetch_published_events_by_month
+    @events_by_month = Event.published.keyed_by_month
+    #published_events, @events_by_month = fetch_published_events_by_month
   end
 
 end

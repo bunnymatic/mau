@@ -93,7 +93,6 @@ body.admin {
   }
 }
 .admin-table {
-
   margin: auto;
   width: 800px;
   margin-top: 40px;
@@ -103,6 +102,10 @@ body.admin {
     h1 {
       margin-bottom: 10px;
     }
+    .field_with_errors {
+      display:inline;
+    }
+      
     label {
       display: inline-block;
       width: 120px;
@@ -614,5 +617,11 @@ button.update-artists {
     span {
       padding: 10px 0;
     }
+  }
+}
+
+.field_with_errors {
+  input {
+    border: 1px solid red;
   }
 }

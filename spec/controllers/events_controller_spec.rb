@@ -36,17 +36,29 @@ describe EventsController do
     
     describe '#index' do
       context 'with params' do
-        pending 'sets current month if params m=current_month'
-      end
-      context '.xml' do
-        pending 'returns xml list of events'
+        let(:first_event) { Event.published.first }
+        before do
+          get :index, "m" => first_event.month_year_key
+        end
+        it 'sets current month if params m=current_month' do
+          expect(assigns(:current)).to eql first_event.month_year_key
+        end
+        it 'orders events by start date inverse' do
+          expect(assigns(:events).map(&:stime)).to be_monotonically_decreasing
+        end
+
       end
       context '.json' do
         before do
           get :index, :format => 'json'
         end
         it_should_behave_like 'successful json'
-        pending 'returns json list of events'
+        it 'returns json list of events' do
+          j = JSON.parse(response.body)
+          expect(j).to have_at_least(1).event
+          expect(j.count).to eql Event.published.count
+        end
+      
       end
     end
 
@@ -105,7 +117,8 @@ describe EventsController do
     end
 
     context 'create' do
-      let(:event_attrs) { FactoryGirl.attributes_for(:event) }
+      let(:event_attrs) { FactoryGirl.attributes_for(:event).merge({:artist_list => Artist.active.first.get_name}) }
+
       context 'with standard params' do
         before do
           EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
@@ -113,11 +126,12 @@ describe EventsController do
         end
         it { response.should redirect_to events_path }
         it "saves a new event" do
-          Event.where(:url => event_attrs[:url]).should be_present
+          expect(Event.where(:url => event_attrs[:url])).to be_present
         end
-      end
-      context 'with an artist list' do
-        pending "adds artists to the description"
+        it 'adds the artist name to the event' do
+          event = Event.where(:url => event_attrs[:url]).first!
+          expect(event.description).to include Artist.active.first.get_name
+        end
       end
     end
 

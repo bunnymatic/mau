@@ -12,8 +12,8 @@ class UsersController < ApplicationController
 
   include MauUrlHelpers
 
-  @@DEFAULT_ACCOUNT_TYPE = 'MAUFan'
-  @@FAVORITABLE_TYPES = ['Artist','ArtPiece']
+  DEFAULT_ACCOUNT_TYPE = 'MAUFan'
+
   def index
     redirect_to artists_path
   end
@@ -139,7 +139,7 @@ class UsersController < ApplicationController
   def create
     logout_keeping_session!
     user_params = {}
-    type = params[:type] || @@DEFAULT_ACCOUNT_TYPE
+    type = params[:type] || DEFAULT_ACCOUNT_TYPE
     params.delete :type
     @type = type
 
@@ -376,7 +376,7 @@ class UsersController < ApplicationController
     # POST
     type = params[:fav_type]
     _id = params[:fav_id]
-    if @@FAVORITABLE_TYPES.include? type
+    if Favorite::FAVORITABLE_TYPES.include? type
       obj = type.constantize.find(_id)
       if obj
         r = current_user.add_favorite(obj)
@@ -404,7 +404,7 @@ class UsersController < ApplicationController
     type = params[:fav_type]
     _id = params[:fav_id]
     result = {}
-    if @@FAVORITABLE_TYPES.include? type
+    if Favorite::FAVORITABLE_TYPES.include? type
       obj = type.constantize.find(_id)
       if obj
         current_user.remove_favorite(obj)

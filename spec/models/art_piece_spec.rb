@@ -10,19 +10,10 @@ describe ArtPiece do
 
   it_should_behave_like ImageDimensions
 
+  it{ should validate_presence_of(:title) }
+  it{ should ensure_length_of(:title).is_at_least(2).is_at_most(80) }
+  
   describe 'create'  do
-    it 'should not allow short title' do
-      ap = ArtPiece.new(:title => 't')
-      ap.should_not be_valid
-      ap.should have(1).errors_on(:title)
-    end
-
-    it 'should not allow empty title' do
-      ap = ArtPiece.new
-      ap.should_not be_valid
-      ap.should have(2).errors
-    end
-
     it 'allows quotes' do
       p = valid_attrs.merge({:title => 'what"ever'})
       ap = ArtPiece.new(p)

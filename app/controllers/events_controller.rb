@@ -16,9 +16,10 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
 
-    @events, @events_by_month = fetch_published_events_by_month
-    if params[:m] && (@events_by_month.keys.include? params[:m])
-      @current = params[:m]
+    @events_by_month = Event.published.keyed_by_month
+    @events = @events_by_month.values.map{|v| v[:events]}.flatten.sort_by(&:stime).reverse
+    if params["m"] && (@events_by_month.keys.include? params["m"])
+      @current = params["m"]
     end
 
     respond_to do |format|
@@ -26,13 +27,9 @@ class EventsController < ApplicationController
         render :layout => 'mau'
       }
       format.mobile {
-        @events = Event.published.reverse
+        # @events = Event.published.reverse
         @page_title = "MAU Events"
         render :layout => 'mobile'
-      }
-      format.xml  {
-        @events = Event.published
-        render :xml => @events
       }
       format.json  {
         @events = Event.published

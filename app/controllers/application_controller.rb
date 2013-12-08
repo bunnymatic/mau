@@ -196,7 +196,7 @@ class ApplicationController < ActionController::Base
   end
 
   def format_json?
-    request.format.json?
+    request.format == Mime::Type.lookup_by_extension(:json)
   end
 
   def is_local_referer?
