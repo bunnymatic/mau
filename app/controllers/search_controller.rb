@@ -5,7 +5,7 @@ class SearchController < ApplicationController
 
   @@CACHE_EXPIRY = (Conf.cache_expiry['search'] or 20)
   @@QUERY_KEY_PREFIX = "q:"
-  @@PER_PAGE = 12
+  PER_PAGE = 12
 
   def _parse_search_params
     opts = OpenStruct.new
@@ -40,7 +40,7 @@ class SearchController < ApplicationController
 
     opts.query = opts.keywords.compact.join(", ")
 
-    opts.per_page = (params[:per_page] || @@PER_PAGE).to_i
+    opts.per_page = (params[:per_page] || PER_PAGE).to_i
     opts
   end
 
@@ -126,12 +126,13 @@ class SearchController < ApplicationController
 
     opts.per_page = @num_results < opts.per_page ? @per_page_opts.max : opts.per_page
 
-    @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(results, opts.page, opts.per_page)
-    if curpage > lastpage
-      curpage = lastpage
-    elsif curpage < 0
-      curpage = 0
-    end
+    @paginator = Pagination.new(results, opts.page, opts.per_page)
+    @pieces = @paginator.items
+    nextpage = @paginator.next_page
+    prevpage = @paginator.previous_page
+    curpage = @paginator.current_page
+    lastpage = @paginator.last_page
+
     @last = lastpage + 1
     @page = curpage + 1
 

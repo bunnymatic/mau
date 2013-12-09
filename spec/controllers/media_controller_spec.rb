@@ -113,7 +113,7 @@ describe MediaController do
           assert_select('.clouditem.tagmatch')
         end
         it "pieces are in order of art_piece updated_date" do
-          assigns(:pieces).map(&:updated_at).should be_monotonically_increasing
+          assigns(:pieces).map(&:updated_at).should be_monotonically_decreasing
         end
       end
     end

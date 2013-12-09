@@ -9,7 +9,6 @@ class ArtPieceTagsController < ApplicationController
   @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
   @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
 
-  PER_PAGE = 12
   def admin_index
     tags = ArtPieceTag.all
     freq = ArtPieceTag.keyed_frequency
@@ -131,38 +130,11 @@ class ArtPieceTagsController < ApplicationController
     end
     pieces.reverse!
 
-    @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, page, PER_PAGE)
-    if curpage > lastpage
-      curpage = lastpage
-    elsif curpage < 0
-      curpage = 0
-    end
-    show_next = (curpage != lastpage)
-    show_prev = (curpage > 0)
+    @paginator = ArtPieceTagPagination.new(view_context, pieces, @tag, page)
+    @pieces = @paginator.items
 
-    @by_artists_link = art_piece_tag_url(@tag) + "?m=a"
-    @by_pieces_link = art_piece_tag_url(@tag) + "?m=p"
-    if @results_mode == 'p'
-      base_link = @by_pieces_link + "&"
-    else
-      base_link = @by_artists_link + "&"
-    end
-    arg = "p=%d"
-    nxtmod = arg % nextpage
-    prvmod = arg % prevpage
-    lastmod = arg % lastpage
-
-    if show_next
-      @next_link = base_link + nxtmod
-      @last_link = base_link + lastmod
-    end
-    if show_prev
-      @prev_link = base_link + prvmod
-      @first_link = base_link
-    end
-    # display page and last should be indexed staring with 1 not 0
-    @last = lastpage + 1
-    @page = curpage + 1
+    @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })
+    @by_pieces_link = art_piece_tag_url(@tag, { :m => 'p' })
 
     render :action => "show", :layout => "mau"
   end
