@@ -1502,7 +1502,7 @@ span.navlinks {
   @include little-text;
   span {
     padding: 0px 2px;
-    &#txt {
+    &.txt {
       font-weight: normal;
     }
   }

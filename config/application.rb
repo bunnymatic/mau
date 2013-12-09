@@ -43,7 +43,8 @@ module Mau
     # Use the memcached store with an options hash
     config.cache_store = :dalli_store, { :namespace => 'maudev'}
 
-    config.autoload_paths += %W(#{Rails.root}/app/mailers #{Rails.root}/app/lib, #{Rails.root}/app/presenters)
+    app_paths = %w(lib mailers presenters paginators)
+    config.autoload_paths += app_paths.map{|path| File.join(Rails.root,'app', path)}
 
     POSTMARK_API_KEY = 'POSTMARK_API_TEST'
 
