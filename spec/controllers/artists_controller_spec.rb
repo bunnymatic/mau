@@ -32,20 +32,14 @@ describe ArtistsController do
       end
       it_should_behave_like 'one column layout'
       it { response.should be_success }
-      it "assigns artists" do
-        assigns(:artists).length.should have_at_least(2).artists
+      it "builds a presenter with only active artists" do
+        presenter = assigns(:gallery_presenter)
+        expect( presenter ).to be_a_kind_of ArtistGalleryPresenter
+        expect( presenter.items).to have_at_least(2).artists
+        expect( presenter.items.select{|artist| !artist.active?} ).to be_empty
       end
       it "set the title" do
         assigns(:page_title).should eql 'Mission Artists United - MAU Artists'
-      end
-      it "artists are all active" do
-        assigns(:artists).each do |a|
-          a.state.should eql 'active'
-        end
-      end
-      it 'shows no artists without a representative piece' do
-        with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}
-        without_art.length.should eql 0
       end
       it "thumbs have representative art pieces in them" do
         with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}

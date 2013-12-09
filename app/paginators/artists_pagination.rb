@@ -30,11 +30,24 @@ class ArtistsPagination < Pagination
   end
 
   def previous_link
-    @view_context.artists_path(@current_tag, :p => previous_page)
+    index_path(:p => previous_page)
   end
 
   def next_link
-    @view_context.artists_path(@current_tag, :p => next_page)
+    index_path(:p => next_page)
+  end
+
+  def last_link
+    index_path(:p => last_page)
+  end
+
+  def first_link
+    index_path(:p => first_page)
+  end
+
+  private 
+  def index_path(opts)
+    @view_context.artists_path(opts)
   end
 
 end
