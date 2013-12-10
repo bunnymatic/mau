@@ -7,8 +7,8 @@ Mime::Type.register "image/png", :png
 
 class ArtistsController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
-  @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
-  @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
+  AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
+  AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_update ]
   before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
@@ -19,7 +19,6 @@ class ArtistsController < ApplicationController
   layout 'mau1col', :except => 'faq'
 
   # num artists before we paginate
-  @@PER_PAGE = 28
 
   def notify_featured
     id = Integer(params[:id])
@@ -199,53 +198,7 @@ class ArtistsController < ApplicationController
         @view_mode = vw
 
         if vw == 'gallery'
-          t = Time.zone.now
-          artists.reject!{|a| !a.representative_piece}
-          nartists = artists.length
-          lastpage = (nartists.to_f/@@PER_PAGE.to_f).floor
-          curpage = [curpage, lastpage].min
-          @artists, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(artists, curpage, @@PER_PAGE)
-          @artists.reverse!
-          if curpage > lastpage
-            curpage = lastpage
-          elsif curpage < 0
-            curpage = 0
-          end
-
-          show_next = (curpage != lastpage)
-          show_prev = (curpage > 0)
-
-          base_link = "/artists/"
-
-          if show_next
-            queryargs["p"] = nextpage
-            @next_link = base_link + HTMLHelper.queryencode(queryargs)
-            queryargs["p"] = lastpage
-            @last_link = base_link + HTMLHelper.queryencode(queryargs)
-          end
-          if show_prev
-            queryargs["p"] = prevpage
-            @prev_link = base_link + HTMLHelper.queryencode(queryargs)
-            queryargs.delete('p')
-            @first_link = base_link + HTMLHelper.queryencode(queryargs)
-          end
-          # display page and last should be indexed staring with 1 not 0
-          @last = lastpage + 1
-          @page = curpage + 1
-
-          # compute text links
-          @alpha_links = []
-          if artists.length > 0
-            @last.times do |idx|
-              firstidx = idx * @@PER_PAGE
-              lastidx = [ firstidx + @@PER_PAGE, artists.length ].min - 1
-              firstltr = artists[firstidx].lastname.capitalize[0..1]
-              lastltr = artists[lastidx].lastname.capitalize[0..1]
-              lnktxt = "%s - %s" % [firstltr, lastltr]
-              queryargs["p"] = idx
-              @alpha_links << [lnktxt, HTMLHelper.queryencode(queryargs), curpage == idx ]
-            end
-          end
+          @gallery_presenter = ArtistGalleryPresenter.new(view_context, artists, curpage)
         end
         @studio = nil
         @page_title = "Mission Artists United - MAU Artists"
@@ -283,11 +236,10 @@ class ArtistsController < ApplicationController
 
   def suggest
     # grab all names from the cache
-    cacheout = SafeCache.read(@@AUTOSUGGEST_CACHE_KEY)
+    cacheout = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     artist_names = nil
     if params[:input]
       if cacheout
-        p 'cacheout', cacheout
         logger.debug("Fetched artist name autosuggest tags from cache")
         artist_names = ActiveSupport::JSON.decode cacheout
       end
@@ -296,7 +248,7 @@ class ArtistsController < ApplicationController
         artist_names = Artist.active.map{|a| { 'value' => a.fullname, 'info' => a.id } }
         cachein = ActiveSupport::JSON.encode artist_names
         if cachein
-          SafeCache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
+          SafeCache.write(AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
         end
       end
       if params[:input].present?

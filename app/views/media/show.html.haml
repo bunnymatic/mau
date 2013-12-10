@@ -1,13 +1,13 @@
 %table.tbl-content
   %tr
     %td.lcol{ :colspan => '2' }
-      = render :partial => 'tag_list'
+      = render 'media_link_list', :match => @medium
     %td.vstripe
     %td.rcol{ :colspan => '2'}
       %h4
-        Search for tag:
+        Search for medium: 
         %span.query
-          = @tag.name
+          = @medium.name
       #search_results
         .search-view-ctrls
           = render "/common/pagination", :paginator => @paginator
@@ -15,6 +15,7 @@
         = render '/flash_notice_error'
         .search-results
           - if @pieces and !@pieces.empty?
-            = render :partial => '/search/thumbs', :locals => { :pieces => @pieces, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }}
+            = render '/search/thumbs', :pieces => @pieces, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }
         .search-view-ctrls
           = render "/common/pagination", :paginator => @paginator
+

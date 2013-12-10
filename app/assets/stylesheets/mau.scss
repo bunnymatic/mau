@@ -1502,7 +1502,7 @@ span.navlinks {
   @include little-text;
   span {
     padding: 0px 2px;
-    &#txt {
+    &.txt {
       font-weight: normal;
     }
   }
@@ -2284,8 +2284,8 @@ search pages
     .os-star {
       position:absolute;
       z-index: 4;
-      top: -6px;
-      right: -8px;
+      top: 0px;
+      left: 0px;
     }
 
     &.last {

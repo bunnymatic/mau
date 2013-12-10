@@ -1,9 +1,6 @@
 require 'json'
 class ArtPiecesController < ApplicationController
 
-  PER_PAGE = 12
-
-  include ArtPiecesHelper
   include TagsHelper
   layout 'mau1col', :except => :show
 
@@ -115,7 +112,7 @@ class ArtPiecesController < ApplicationController
     upload = params[:upload]
     saved = false
     if !upload
-      flash.now[:error] = "You must provide an image.<br/>Image filenames need to be simple.  Some characters can cause issues with your upload, like quotes &quot;, apostrophes &apos; or brackets ([{}])."
+      flash.now[:error] = "You must provide an image.<br/>Image filenames need to be simple.  Some characters can cause issues with your upload, like quotes &quot;, apostrophes &apos; or brackets ([{}]).".html_safe
       @art_piece = ArtPiece.new params[:art_piece]
       render :action => 'new'
       return

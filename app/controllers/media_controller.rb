@@ -5,7 +5,6 @@ class MediaController < ApplicationController
   before_filter :admin_required, :except => [ :index, :show ]
   after_filter :store_location
 
-  @@PER_PAGE = 12
   def admin_index
     @media = Medium.all
     render :layout => 'mau-admin'
@@ -124,55 +123,12 @@ class MediaController < ApplicationController
       pieces = tmps.values.sort_by { |p| p.updated_at }
     end
     pieces.reverse!
-    @pieces, nextpage, prevpage, curpage, lastpage = ArtPiecesHelper.compute_pagination(pieces, page, @@PER_PAGE)
-    if curpage > lastpage
-      curpage = lastpage
-    elsif curpage < 0
-      curpage = 0
-    end
-    show_next = (curpage != lastpage)
-    show_prev = (curpage > 0)
+    @paginator = MediumPagination.new(view_context, pieces, @medium, page, {:m => params[:m]},  4)
+    @pieces = @paginator.items
 
     @by_artists_link = medium_path(@medium, { :m => 'a' })
     @by_pieces_link = medium_path(@medium, { :m => 'p' })
-    if @results_mode == 'p'
-      base_link = @by_pieces_link + "&"
-    else
-      base_link = @by_artists_link + "&"
-    end
-    arg = "p=%d"
-    nxtmod = arg % nextpage
-    prvmod = arg % prevpage
-    lastmod = arg % lastpage
 
-    if show_next
-      @next_link = base_link + nxtmod
-      @last_link = base_link + lastmod
-    end
-    if show_prev
-      @prev_link = base_link + prvmod
-      @first_link = base_link
-    end
-    # display page and last should be indexed staring with 1 not 0
-    @last = lastpage + 1
-    @page = curpage + 1
-
-    match = @medium
-    if @freq
-      @freq.each do |t|
-        mid = t["medium"]
-        ct = t["ct"]
-        (sz, mrg) = TagsHelper.fontsize_from_frequency(ct)
-        medium = @media.select do |m|
-          m.id.to_i == mid.to_i
-        end.first
-        if medium == match
-          matchclass = "tagmatch"
-        else
-          matchclass = ""
-        end
-      end
-    end
   end
 
   def _show_mobile
