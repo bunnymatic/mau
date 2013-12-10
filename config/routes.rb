@@ -58,6 +58,7 @@ Mau::Application.routes.draw do
   match 'reset' => 'users#reset', :as => :submit_reset, :method => :post
   resources :artists do
     collection do
+      get :roster
       get :thumbs
       get :osthumbs
       post :destroyart
