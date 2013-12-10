@@ -123,28 +123,12 @@ class MediaController < ApplicationController
       pieces = tmps.values.sort_by { |p| p.updated_at }
     end
     pieces.reverse!
-    @paginator = MediumPagination.new(view_context, pieces, @medium, page)
+    @paginator = MediumPagination.new(view_context, pieces, @medium, page, {:m => params[:m]},  4)
     @pieces = @paginator.items
 
     @by_artists_link = medium_path(@medium, { :m => 'a' })
     @by_pieces_link = medium_path(@medium, { :m => 'p' })
 
-    match = @medium
-    if @freq
-      @freq.each do |t|
-        mid = t["medium"]
-        ct = t["ct"]
-        (sz, mrg) = TagsHelper.fontsize_from_frequency(ct)
-        medium = @media.select do |m|
-          m.id.to_i == mid.to_i
-        end.first
-        if medium == match
-          matchclass = "tagmatch"
-        else
-          matchclass = ""
-        end
-      end
-    end
   end
 
   def _show_mobile

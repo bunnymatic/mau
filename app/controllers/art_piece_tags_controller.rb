@@ -130,7 +130,7 @@ class ArtPieceTagsController < ApplicationController
     end
     pieces.reverse!
 
-    @paginator = ArtPieceTagPagination.new(view_context, pieces, @tag, page)
+    @paginator = ArtPieceTagPagination.new(view_context, pieces, @tag, page, {:m => params[:m]})
     @pieces = @paginator.items
 
     @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })

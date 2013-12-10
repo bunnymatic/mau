@@ -42,17 +42,11 @@ describe ArtistsController do
         assigns(:page_title).should eql 'Mission Artists United - MAU Artists'
       end
       it "thumbs have representative art pieces in them" do
-        with_art, without_art = assigns(:artists).partition{|a| !a.representative_piece.nil?}
-        assert(with_art.length >=1, 'Fixtures should include at least one activated artist with art')
-        assigns(:artists).each do |a|
-          assert_select(".allthumbs .thumb .name", /#{a.name}/);
-        end
-        with_art.each do |a|
+        presenter = assigns(:gallery_presenter)
+        presenter.items.each do |a|
           rep = a.representative_piece
-          assert_select(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{rep.filename}]")
-        end
-        without_art.each do |a|
           assert_select(".allthumbs .thumb .name", /#{a.name}/);
+          assert_select(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{rep.filename}]")
         end
       end
     end
