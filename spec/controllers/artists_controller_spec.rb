@@ -66,7 +66,7 @@ describe ArtistsController do
   describe '#index roster view' do
     render_views
     before do
-      get :index, :v => 'l'
+      get :roster
     end
     it_should_behave_like 'one column layout'
     it { response.should be_success }

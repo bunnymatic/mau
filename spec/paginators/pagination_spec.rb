@@ -15,6 +15,8 @@ describe Pagination do
     its(:items) { should eq [1,2,3] }
     its(:next_page) { should eq 1 }
     its(:previous_page) { should eq 0 }
+    its(:next_link?) { should be_true }
+    its(:previous_link?) { should be_false }
   end
 
   context 'on an inner page' do
@@ -33,6 +35,8 @@ describe Pagination do
     its(:items) { should eq [7,8] }
     its(:next_page) { should eq 2 }
     its(:previous_page) { should eq 1 }
+    its(:next_link?) { should be_false }
+    its(:previous_link?) { should be_true }
   end
 
   context 'when current page is bigger than the number of pages' do
@@ -42,6 +46,8 @@ describe Pagination do
     its(:items) { should eq [7,8] }
     its(:next_page) { should eq 2 }
     its(:previous_page) { should eq 1 }
+    its(:next_link?) { should be_false }
+    its(:previous_link?) { should be_true }
   end
 
   context 'when current page is less than 0' do
@@ -56,5 +62,5 @@ describe Pagination do
   it 'raises an error if per_page is not valid' do
     expect{Pagination.new( [], 1, -1)}.to raise_error PaginationError
   end
-    
+
 end

@@ -29,14 +29,10 @@ class ArtistsController < ApplicationController
   def map_page
     @view_mode = 'map'
     @os_only = is_os_only(params["osonly"])
-    roster_args = {'v' => 'l'}
-    gallery_args = {'v' => 'g'}
-    if @os_only
-      gallery_args['osonly'] = 'on'
-      roster_args['osonly'] = 'on'
-    end
-    @roster_link = artists_path + HTMLHelper.queryencode(roster_args)
-    @gallery_link = artists_path + HTMLHelper.queryencode(gallery_args)
+    os_args = (@os_only ? {:osonly => 'on'} : {})
+    @roster_link = roster_artists_url(os_args)
+    @gallery_link = artists_url(os_args)
+    @map_link = map_artists_path(os_args)
     addresses = []
 
     active_artists = Artist.active
@@ -167,6 +163,38 @@ class ArtistsController < ApplicationController
     render 'artists/index.mobile', :layout => 'mobile'
   end
 
+  def roster
+    # collect query args to build links
+    queryargs = {}
+    t = Time.zone.now
+    @os_only = is_os_only(params[:osonly])
+    if @os_only
+      artists = Artist.active.open_studios_participants.all(:include => :artist_info).sort_by(&:sortable_name)
+      queryargs['osonly'] = "on"
+      artists.reject!{ |a| !a.in_the_mission? }
+    else
+      artists = Artist.active.all(:include => :artist_info).sort_by { |a| a.get_sort_name }
+    end
+    dt = Time.zone.now - t
+    logger.debug("Get Artists [%s ms]" % dt)
+    curpage = params[:p] || 0
+    curpage = curpage.to_i
+    # build alphabetical list keyed by first letter
+    @artists_by_name = {}
+
+    @page_title = "Mission Artists United - MAU Artists"
+    os_args = (@os_only ? {:osonly => 'on'} : {})
+    @roster_link = roster_artists_url(os_args)
+    @gallery_link = artists_url(os_args)
+    @map_link = map_artists_path(os_args)
+
+    @inparams = params
+    @inparams.delete('action')
+    @inparams.delete('controller')
+    @artists = artists
+    render :action => 'roster', :layout => 'mau1col'
+  end
+
   def index
     respond_to do |format|
       format.html {
@@ -188,40 +216,17 @@ class ArtistsController < ApplicationController
         # build alphabetical list keyed by first letter
         @artists_by_name = {}
 
-        vw = "gallery"
-        queryargs["v"] = params[:v]
-        if params[:v] == 'l'
-          vw = 'list'
-        end
-        if @os_only
-        end
-        @view_mode = vw
-
-        if vw == 'gallery'
-          @gallery_presenter = ArtistGalleryPresenter.new(view_context, artists, curpage)
-        end
-        @studio = nil
+        @gallery_presenter = ArtistGalleryPresenter.new(view_context, artists, curpage)
         @page_title = "Mission Artists United - MAU Artists"
-        roster_args = {'v' => 'l'}
-        gallery_args = {'v' => 'g'}
-        if @os_only
-          gallery_args['osonly'] = 'on'
-          roster_args['osonly'] = 'on'
-        end
-        @roster_link = HTMLHelper.queryencode(roster_args)
-        @gallery_link = HTMLHelper.queryencode(gallery_args)
-        roster_args.delete('v')
-        @map_link = map_artists_path + HTMLHelper.queryencode(roster_args)
+        os_args = (@os_only ? {:osonly => 'on'} : {})
+        @roster_link = roster_artists_url(os_args)
+        @gallery_link = artists_url(os_args)
+        @map_link = map_artists_path(os_args)
 
         @inparams = params
         @inparams.delete('action')
         @inparams.delete('controller')
-        if vw == "list"
-          @artists = artists
-          render :action => 'roster', :layout => 'mau1col'
-        else
-          render :action => 'index', :layout => 'mau1col'
-        end
+        render :action => 'index', :layout => 'mau1col'
       }
       format.json {
         render :json => Artist.active

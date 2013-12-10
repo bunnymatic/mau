@@ -59,4 +59,13 @@ class Pagination
     @array[first_item..last_item]
   end
 
+  def previous_link?
+    current_page != first_page
+  end
+
+  def next_link?
+    current_page != last_page
+  end
+
+
 end
