@@ -23,7 +23,7 @@ development:
        tag_frequency: 3600
        new_art: 300
    mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
-   oslive: 201210
+   oslive: 201404
 
 production:
    site_url: missionartistsunited.org
@@ -68,7 +68,7 @@ common:
        # expire daily
        cache_expiry: 86400
        cache_key: artistnamesuggest
-   oslive: 201310
+   oslive: 201404
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2
    ga_key: UA-11097408-3
@@ -84,3 +84,4 @@ common:
       - 201210
       - 201304
       - 201310
+      - 201404
