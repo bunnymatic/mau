@@ -68,6 +68,8 @@ group :test, :development do
   gem 'pry-debugger'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
   gem 'simplecov'
+  gem 'cane'
+  gem 'morecane'
   gem 'guard-cucumber'
   gem 'database_cleaner'
   gem 'shoulda-matchers'

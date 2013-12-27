@@ -37,6 +37,8 @@ GEM
     browser (0.1.6)
     builder (3.0.4)
     calendar_date_select (1.16.4)
+    cane (2.6.0)
+      parallel
     capistrano (2.15.5)
       highline
       net-scp (>= 1.0.0)
@@ -186,6 +188,8 @@ GEM
       activerecord
       activesupport
       eventmachine
+    morecane (0.1.0)
+      cane (>= 2.1.0)
     multi_json (1.8.2)
     multi_test (0.0.2)
     multi_xml (0.5.5)
@@ -200,6 +204,7 @@ GEM
     newrelic_rpm (3.6.6.147)
     nokogiri (1.5.10)
     oauth (0.4.7)
+    parallel (0.7.1)
     poltergeist (1.4.0)
       capybara (~> 2.1.0)
       cliver (~> 0.2.1)
@@ -317,6 +322,7 @@ DEPENDENCIES
   annotate
   browser (= 0.1.6)
   calendar_date_select
+  cane
   capistrano
   cucumber
   cucumber-rails
@@ -348,6 +354,7 @@ DEPENDENCIES
   mobile_fu-rails3
   mojo_magick
   momentarily
+  morecane
   mysql2
   newrelic_rpm
   nokogiri
