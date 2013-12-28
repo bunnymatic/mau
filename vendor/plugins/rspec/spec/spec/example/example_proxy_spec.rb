@@ -11,7 +11,7 @@ module Spec
           proxy.description.should   == "the description"
         end
       end
-      
+
       describe "#update" do
         it "updates the description" do
           proxy = ExampleProxy.new("old description")
@@ -31,26 +31,26 @@ module Spec
         before(:each) do
           Spec.stub!(:deprecate)
         end
-        
+
         it "is deprecated" do
           Spec.should_receive(:deprecate)
           proxy = ExampleProxy.new(:ignore, {}, "path/to/location:37")
           proxy.backtrace
         end
-        
+
         it "provides the location of the declaration of this group" do
           proxy = ExampleProxy.new(:ignore, {}, "path/to/location:37")
           proxy.backtrace.should             == "path/to/location:37"
         end
       end
-      
+
       describe "#location" do
         it "provides the location of the declaration of this group" do
           proxy = ExampleProxy.new(:ignore, {}, "path/to/location:37")
           proxy.location.should              == "path/to/location:37"
         end
       end
-      
+
     end
 
   end

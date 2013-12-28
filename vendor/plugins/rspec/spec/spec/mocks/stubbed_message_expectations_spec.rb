@@ -21,6 +21,6 @@ module Spec
         m.rspec_reset
       end
     end
-    
+
   end
 end

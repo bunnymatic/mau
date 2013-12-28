@@ -9,7 +9,7 @@ module Spec
           @err = options.error_stream
           @out = options.output_stream
         end
-      
+
         it "should run directory" do
           file = File.dirname(__FILE__) + '/../../../examples/passing'
           run_with(OptionParser.parse([file,"-p","**/*_spec.rb,**/*_example.rb"], @err, @out))
@@ -107,7 +107,7 @@ module Spec
 
           ::Spec::Runner::Options.should_receive(:new).with(@err, @out).and_return(options)
           options.reporter.should_receive(:add_example_group).with(Spec::Example::ExampleGroupProxy.new(example_group))
-        
+
           Spec::Runner::CommandLine.run(OptionParser.parse([], @err, @out))
         end
 

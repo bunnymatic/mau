@@ -1,6 +1,6 @@
 # This demonstrates the use of the options hash to support custom reporting.
 # To see the result, run this command from the project root:
-# 
+#
 #   bin/spec --require examples/passing/options_formatter.rb examples/passing/options_example.rb \
 #     --format OptionsFormatter
 

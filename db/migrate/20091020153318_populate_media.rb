@@ -21,7 +21,7 @@ class PopulateMedia < ActiveRecord::Migration
     self.add_medium('Jewelry')
     self.add_medium('Fiber/Textile')
     self.add_medium('Furniture')
-    self.add_medium('Books') 
+    self.add_medium('Books')
   end
 
   def self.down

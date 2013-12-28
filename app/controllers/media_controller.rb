@@ -73,9 +73,9 @@ class MediaController < ApplicationController
     if @medium.save
       Medium.flush_cache
       flash[:notice] = 'Medium was successfully created.'
-      redirect_to(@medium) 
+      redirect_to(@medium)
     else
-      render "new" 
+      render "new"
     end
   end
 

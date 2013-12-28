@@ -1,15 +1,15 @@
 class MessageAppender
-  
+
   def initialize(appendage)
     @appendage = appendage
   end
-  
+
   def append_to(message)
     if_told_to_yield do
       message << @appendage
     end
   end
-    
+
 end
 
 describe "a message expectation yielding to a block" do

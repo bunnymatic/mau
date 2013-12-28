@@ -18,11 +18,11 @@ module Spec
         match do |actual|
           actual.equal?(_expected_)
         end
-        
+
         def inspect_object(o)
           "#<#{o.class}:#{o.object_id}> => #{o.inspect}"
         end
-        
+
         failure_message_for_should do |actual|
           <<-MESSAGE
 

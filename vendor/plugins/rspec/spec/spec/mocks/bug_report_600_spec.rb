@@ -8,7 +8,7 @@ module BugReport600
       end
     end
   end
- 
+
   describe "stubbing a class method" do
     it "should work" do
       ExampleClass.should_receive(:define_method).with("defined_method")

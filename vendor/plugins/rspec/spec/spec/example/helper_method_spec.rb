@@ -8,17 +8,17 @@ module HelperMethodExample
     def helper_method
       "received call"
     end
-  
+
     it "is available to examples in the same group" do
       helper_method.should == "received call"
     end
-    
+
     describe "from a nested group" do
       it "is available to examples in a nested group" do
         helper_method.should == "received call"
       end
     end
-    
+
   end
 end
 

@@ -1,3 +1,3 @@
 class AdminMailerList < EmailList
- 
+
 end

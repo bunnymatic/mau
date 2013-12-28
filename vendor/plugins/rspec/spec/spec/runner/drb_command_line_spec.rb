@@ -13,13 +13,13 @@ module Spec
             err.rewind
             err.read.should =~ /No server is running/
           end
-          
+
           it "returns nil" do
             err = out = StringIO.new
             result = DrbCommandLine.run(OptionParser.parse(['--version'], err, out))
             result.should be_false
           end
-        end    
+        end
 
         context "with server running" do
           class ::CommandLineForDrbSpec

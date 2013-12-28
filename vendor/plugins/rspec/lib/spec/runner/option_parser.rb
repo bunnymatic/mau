@@ -161,7 +161,7 @@ module Spec
             options_file = @argv.delete_at(index)
           end
         end
-        
+
         if options_file.nil? &&
            File.exist?('spec/spec.opts') &&
            !@argv.any?{|a| a =~ /^\-/ }

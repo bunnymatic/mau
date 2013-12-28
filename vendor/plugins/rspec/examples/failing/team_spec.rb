@@ -19,15 +19,15 @@ class Players
 end
 
 describe "A new team" do
-  
+
   before(:each) do
     @team = Team.new
   end
-  
+
   it "should have 3 players (failing example)" do
     @team.should have(3).players
   end
-  
+
   it "should include some player (failing example)" do
     @team.players.should include("Some Player")
   end
@@ -35,7 +35,7 @@ describe "A new team" do
   it "should include 5 (failing example)" do
     @team.players.should include(5)
   end
-  
+
   it "should have no players"
-  
+
 end

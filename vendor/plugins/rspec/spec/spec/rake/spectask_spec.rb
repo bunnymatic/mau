@@ -12,15 +12,15 @@ module Spec
       def self.tasks
         @tasks ||= {}
       end
-      
+
       def self.reset_tasks
         @tasks = {}
       end
-      
+
       def self.task(name)
         tasks[name]
       end
-      
+
       def self.register_task(name, block)
         tasks[name] = block
       end
@@ -29,7 +29,7 @@ module Spec
         MockTask.register_task(name, block)
         MockTask.last_instance = block
       end
-      
+
       def self.create_task(name, &block)
         new(name, &block)
       end
@@ -49,7 +49,7 @@ module Spec
         RUBY
       end
     end
-    
+
     describe SpecTask do
 
       before(:each) do
@@ -73,32 +73,32 @@ module Spec
         MockTask.last_instance.call
         MockTask.last_cmd.should match(/^path_to_multiruby /)
       end
-      
+
       it "should produce a deprecation warning if the out option is used" do
         SpecTask.new {|t| t.out = "somewhere_over_the_rainbow"}
         STDERR.should_receive(:puts).with("The Spec::Rake::SpecTask#out attribute is DEPRECATED and will be removed in a future version. Use --format FORMAT:WHERE instead.")
         MockTask.last_instance.call
       end
-      
+
       it "should produce an error if failure_message is set and the command fails" do
         task = SpecTask.new {|t| t.failure_message = "oops"; t.fail_on_error = false}
         STDERR.should_receive(:puts).with("oops")
         task.stub(:system).and_return(false)
         MockTask.last_instance.call
       end
-      
+
       it "should raise if fail_on_error is set and the command fails" do
         task = SpecTask.new
         task.stub(:system).and_return(false)
         lambda {MockTask.last_instance.call}.should raise_error
       end
-      
+
       it "should not raise if fail_on_error is not set and the command fails" do
         task = SpecTask.new {|t| t.fail_on_error = false}
         task.stub(:system).and_return(false)
         lambda {MockTask.last_instance.call}.should_not raise_error
       end
-      
+
       context "with ENV['SPEC'] set" do
         before(:each) do
           @orig_env_spec = ENV['SPEC']
@@ -112,9 +112,9 @@ module Spec
           task.spec_file_list.should == ["foo.rb"]
         end
       end
-      
+
       context "with the rcov option" do
-        
+
         it "should create a clobber_rcov task" do
           MockTask.stub!(:create_task)
           MockTask.should_receive(:create_task).with(:clobber_rcov)
@@ -138,7 +138,7 @@ module Spec
           MockTask.should_receive(:create_task).with(:rcov => :clobber_rcov)
           SpecTask.new(:rcov) {|t| t.rcov = true}
         end
-        
+
         it "creates an rcov options list" do
           MockTask.stub!(:create_task)
           task = SpecTask.new(:rcov) {|t| t.rcov = true, t.rcov_opts = ['a','b']}

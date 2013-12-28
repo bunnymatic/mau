@@ -5,7 +5,7 @@ module Spec
     describe Configuration do
       with_sandboxed_options do
         with_sandboxed_config do
-          
+
           describe "#mock_with" do
             it "should default mock framework to rspec" do
               config.mock_framework.should =~ /^spec\/adapters\/mock_frameworks\/rspec$/
@@ -39,7 +39,7 @@ module Spec
           end
 
           describe "#include" do
-          
+
             before(:each) do
               @example_group_class = Class.new(::Spec::Example::ExampleGroupDouble) {}
               Spec::Example::ExampleGroupFactory.register(:foobar, @example_group_class)
@@ -66,7 +66,7 @@ module Spec
 
               Class.new(@other_example_group_class).included_modules.should_not include(mod)
             end
-            
+
             it "accepts an Array of types" do
               mod = Module.new
               @other_example_group_class = Class.new(::Spec::Example::ExampleGroupDouble)
@@ -79,9 +79,9 @@ module Spec
             end
 
           end
-      
+
           describe "#extend" do
-        
+
             before(:each) do
               @example_group_class = Class.new(::Spec::Example::ExampleGroupDouble) {}
               Spec::Example::ExampleGroupFactory.register(:foobar, @example_group_class)
@@ -92,28 +92,28 @@ module Spec
               ExampleGroup.should_receive(:extend).with(mod)
               Spec::Runner.configuration.extend mod
             end
-      
+
             it "should extend specified groups" do
               mod = Module.new
               @example_group_class.should_receive(:extend).with(mod)
               Spec::Runner.configuration.extend mod, :type => :foobar
             end
-      
+
             it "should not extend non-specified groups" do
               @other_example_group_class = Class.new(::Spec::Example::ExampleGroupDouble)
               Spec::Example::ExampleGroupFactory.register(:baz, @other_example_group_class)
 
               mod = Module.new
-              @other_example_group_class.should_not_receive(:extend)          
+              @other_example_group_class.should_not_receive(:extend)
 
               Spec::Runner.configuration.extend mod, :type => :foobar
             end
-        
+
           end
         end
-      
+
         describe "ordering methods: " do
-        
+
           before(:each) do
             @special_example_group = Class.new(::Spec::Example::ExampleGroupDouble).describe("special_example_group")
             @special_child_example_group = Class.new(@special_example_group).describe("special_child_example_group")
@@ -154,7 +154,7 @@ module Spec
               end
               @example_group.it "calls prepend_before" do
               end
-      
+
               @example_group.run(options)
               order.should == [
                 :prepend__before_all,
@@ -305,7 +305,7 @@ module Spec
               config.ignored_backtrace_patterns.should include(/spork/)
             end
           end
-          
+
           describe "#predicate_matchers (DEPRECATED)" do
             it "is deprecated" do
               Spec.should_receive(:deprecate)

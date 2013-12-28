@@ -1,7 +1,7 @@
 # This is an example of how you can use a custom formatter to do custom
 # reporting. This formatter will only report example groups and examples that
 # have :report => true (or anything truthy) in the declaration. See
-# options_example.rb in this directory.  
+# options_example.rb in this directory.
 
 require 'spec/runner/formatter/base_text_formatter'
 

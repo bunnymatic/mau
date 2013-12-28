@@ -27,7 +27,7 @@ class TestsController < ApplicationController
         f = File.join(Rails.root, 'public', base_file)
         FileUtils.mkdir_p( File.dirname(f) )
         Qr4r::encode(params["string_to_encode"], f, opts )
-        @qrfile = "/" + base_file 
+        @qrfile = "/" + base_file
       end
     end
   end

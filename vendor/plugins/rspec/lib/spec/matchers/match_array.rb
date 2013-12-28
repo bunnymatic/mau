@@ -3,13 +3,13 @@ module Spec
 
     class MatchArray #:nodoc:
       include Spec::Matchers::Pretty
-      
+
       def initialize(expected)
         @expected = expected
       end
 
       def matches?(actual)
-        @actual = actual        
+        @actual = actual
         @extra_items = difference_between_arrays(@actual, @expected)
         @missing_items = difference_between_arrays(@expected, @actual)
         @extra_items.empty? & @missing_items.empty?
@@ -22,11 +22,11 @@ module Spec
         message += "the extra elements were:        #{safe_sort(@extra_items).inspect}\n"   unless @extra_items.empty?
         message
       end
-      
+
       def failure_message_for_should_not
         "Matcher does not support should_not"
       end
-      
+
       def description
         "contain exactly #{_pretty_print(@expected)}"
       end
@@ -53,12 +53,12 @@ module Spec
     # :call-seq:
     #   should =~ expected
     #
-    # Passes if actual contains all of the expected regardless of order. 
-    # This works for collections. Pass in multiple args  and it will only 
+    # Passes if actual contains all of the expected regardless of order.
+    # This works for collections. Pass in multiple args  and it will only
     # pass if all args are found in collection.
     #
     # NOTE: there is no should_not version of array.should =~ other_array
-    # 
+    #
     # == Examples
     #
     #   [1,2,3].should   =~ [1,2,3]   # => would pass

@@ -20,8 +20,8 @@ class CreateArtists < ActiveRecord::Migration
       t.column :city, :string, :limit => 200
       t.column :state, :string, :limit => 4
       t.column :zip, :integer
-      t.column :bio, :text 
-      t.column :news, :text 
+      t.column :bio, :text
+      t.column :news, :text
       t.column :role_id, :integer
       t.column :studio_id, :integer
 

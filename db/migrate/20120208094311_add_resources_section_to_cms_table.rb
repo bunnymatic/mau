@@ -1,7 +1,7 @@
 class AddResourcesSectionToCmsTable < ActiveRecord::Migration
 
   ARTICLE = <<EOM
-## Artist Resources  
+## Artist Resources
 ### Open Studios
 
 Spring Open Studios is going to be here before you know it.  [Get more info here](/main/openstudios)
@@ -23,7 +23,7 @@ To keep up on all the latest MAU news, you can join our <a href="/contact">email
 
 ##### Sign up for Flax Live Painting!
 
-Howard Flax is inviting all MAU artists to join in and participate in a live painting program he's recently started in the store.  It's an opportunity to give you, the artist, more exposure, and to help promote Mission Artists United.  The store, in return, get's new energy and excitement in the store.  If you are interested, please read <a href="#" class="read-more">click here to read more</a>.  To sign up, <a href="javascript:MAU.mailer('leslie','flaxart.com','Sign me up for Live Painting!');">email Leslie Flax</a>.  
+Howard Flax is inviting all MAU artists to join in and participate in a live painting program he's recently started in the store.  It's an opportunity to give you, the artist, more exposure, and to help promote Mission Artists United.  The store, in return, get's new energy and excitement in the store.  If you are interested, please read <a href="#" class="read-more">click here to read more</a>.  To sign up, <a href="javascript:MAU.mailer('leslie','flaxart.com','Sign me up for Live Painting!');">email Leslie Flax</a>.
 
 
 ##### Open Studios Guide

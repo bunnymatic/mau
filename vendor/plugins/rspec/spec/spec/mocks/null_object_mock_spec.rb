@@ -43,7 +43,7 @@ module Spec
         obj.should_not be_null_object
       end
     end
-    
+
     describe "#as_null_object" do
       it "should set the object to null_object" do
         obj = mock('anything').as_null_object

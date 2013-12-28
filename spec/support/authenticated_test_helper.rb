@@ -8,5 +8,5 @@ module AuthenticatedTestHelper
   def authorize_as(artist)
     @request.env["HTTP_AUTHORIZATION"] = artist ? ActionController::HttpAuthentication::Basic.encode_credentials(users(artist).login, 'monkey') : nil
   end
-  
+
 end

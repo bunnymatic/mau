@@ -28,7 +28,7 @@ describe EmailListsController do
       response.should be_success
     end
   end
-  
+
   describe '#index' do
     render_views
     before do

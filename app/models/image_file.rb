@@ -10,7 +10,7 @@ class ImageFile
       :thumb => ImageSize.new(100, 100, 't_'),
       :cropped_thumb => ImageSize.new( 127, 127, 'ct_'),
       :small => ImageSize.new( 200, 200, 's_'),
-      :medium => ImageSize.new( 400, 400, 'm_'), 
+      :medium => ImageSize.new( 400, 400, 'm_'),
       :large => ImageSize.new( 800, 800, 'l_'),
       :original => ImageSize.new( nil, nil, '')
     }.freeze
@@ -34,7 +34,7 @@ class ImageFile
       (@@sizes.include? k) ? @@sizes[keymap(sz)].height : 0
     end
 
-    def self.keymap(sz) 
+    def self.keymap(sz)
       return :medium if sz.blank?
       allowed_sizes = @@sizes.keys
       return sz.to_sym if (allowed_sizes.include? sz.to_sym)
@@ -55,7 +55,7 @@ class ImageFile
     end
 
   end
-  
+
   @@IMG_SERVERS = ['']
   # Currenly not using image_servers
   #
@@ -89,7 +89,7 @@ class ImageFile
 
     ext = get_file_extension(upload.original_filename)
     if @@ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
-      logger.error("ImageFile: bad filetype\n") 
+      logger.error("ImageFile: bad filetype\n")
       raise ArgumentError, "File type doesn't appear to be JPEG, GIF or PNG."
     end
     destfile ||= create_timestamped_filename(upload.original_filename)
@@ -144,7 +144,7 @@ class ImageFile
     ts = Time.zone.now.to_f
     path = File.join(dir, File.basename(destfile))
     if !File.exists?(dir)
-      result = FileUtils.mkdir_p(dir) 
+      result = FileUtils.mkdir_p(dir)
       logger.debug("ImageFile: created %s (%0.2f sec)\n" % [ result, Time.zone.now.to_f - ts ])
     end
     path

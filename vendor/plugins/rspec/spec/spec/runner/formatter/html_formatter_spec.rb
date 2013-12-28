@@ -13,7 +13,7 @@ module Spec
         treats_method_missing_as_private
 
         attr_reader :root, :expected_file, :expected_html
-          
+
         before do
           @root = File.expand_path("#{File.dirname(__FILE__)}/../../../..")
           suffix = jruby? ? '-jruby' : ''
@@ -39,10 +39,10 @@ module Spec
        #       err = StringIO.new
        #       out = StringIO.new
        #       run_with ::Spec::Runner::OptionParser.parse(args, err, out)
-       # 
+       #
        #       seconds = /\d+\.\d+ seconds/
        #       html = out.string.gsub seconds, 'x seconds'
-       # 
+       #
        #       File.open(expected_file, 'w') {|io| io.write(html)}
        #     end
        #   end

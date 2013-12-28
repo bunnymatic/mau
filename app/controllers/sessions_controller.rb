@@ -1,4 +1,4 @@
-# This controller handles the login/logout function of the site.  
+# This controller handles the login/logout function of the site.
 class SessionsController < ApplicationController
   layout 'mau1col'
   # render new.rhtml
@@ -40,7 +40,7 @@ class SessionsController < ApplicationController
             # force shutoff of remember_me cookie - too agressive
             new_cookie_flag = (params[:remember_me] == "0")
             handle_remember_cookie! new_cookie_flag
-            
+
             flash[:notice] = "Logged in successfully"
             redirect_back_or_default('/')
             return
@@ -70,7 +70,7 @@ class SessionsController < ApplicationController
     session[:mobile_view] = mobile_view
     redirect_back_or_default('/')
   end
-  
+
   protected
   # Track failed login attempts
   def note_failed_signin

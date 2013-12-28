@@ -20,7 +20,7 @@ module Spec
         end
       end
     end
-    
+
     alias_method :be_kind_of, :be_a_kind_of
   end
 end

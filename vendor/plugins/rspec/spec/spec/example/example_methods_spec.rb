@@ -25,7 +25,7 @@ module Spec
       module ModuleThatIsReopened
         def module_that_is_reopened_method; end
       end
-      
+
       describe "with an included module that is reopened" do
         it "should have reopened methods" do
           method(:module_that_is_reopened_method).should_not be_nil
@@ -37,7 +37,7 @@ module Spec
           @example_group = Class.new(ExampleGroupDouble)
           @options = ::Spec::Runner::Options.new(StringIO.new, StringIO.new)
         end
-        
+
         context "in an ExampleGroup with an implicit subject" do
           it "delegates matcher to the implied subject" do
             @example_group.describe(::Thing)
@@ -46,7 +46,7 @@ module Spec
             @example_group.run(@options).should be_true
           end
         end
-        
+
         context "in an ExampleGroup using an explicit subject" do
           it "delegates matcher to the declared subject" do
             @example_group.describe(::Thing)
@@ -56,7 +56,7 @@ module Spec
             @example_group.run(@options).should be_true
           end
         end
-		
+
         context "in an ExampleGroup using 'self' as an explicit subject" do
           it "delegates matcher to the ExampleGroup" do
             @example_group.describe(::Thing)
@@ -86,7 +86,7 @@ module Spec
             @example_group.run(@options).should be_true
           end
         end
-        
+
         context "in an ExampleGroup using an explicit subject" do
           it "delegates matcher to the declared subject" do
             @example_group.describe(::Thing)
@@ -96,7 +96,7 @@ module Spec
             @example_group.run(@options).should be_true
           end
         end
-		
+
         context "in an ExampleGroup using 'self' as an explicit subject" do
           it "delegates matcher to the ExampleGroup" do
             @example_group.describe(::Thing)
@@ -119,7 +119,7 @@ module Spec
         example.options[:this].should == 'that'
       end
     end
-    
+
     describe "#set_instance_variables_from_hash" do
       it "preserves the options" do
         example = ExampleGroupDouble.new ExampleProxy.new("name", :this => 'that') do; end
@@ -127,7 +127,7 @@ module Spec
         example.options[:this].should == 'that'
       end
     end
-    
+
     describe "#description" do
       it "returns the supplied description" do
         example = ExampleGroupDouble.new ExampleProxy.new("name") do; end
@@ -145,7 +145,7 @@ module Spec
         example.description
       end
     end
-    
+
     describe "#expect" do
       it "aliases #should with #to on the proc" do
         a = 3

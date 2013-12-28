@@ -1,7 +1,7 @@
 module UsersHelper
   def signup_form_row(form, field, field_helper, opts = {})
     display_text = opts[:display] || field.to_s.humanize.titleize
-    
+
     label = content_tag 'div', :class => 'label' do
       form.label field, display_text
     end
@@ -9,7 +9,7 @@ module UsersHelper
       form.send(field_helper, field)
     end
     errors = content_tag 'div', :class => 'errors' do
-      if (form.object.errors[field]) 
+      if (form.object.errors[field])
         content_tag 'div', :class => 'error-help' do
           concat([form.object.errors[field]].flatten.join(' and '))
         end

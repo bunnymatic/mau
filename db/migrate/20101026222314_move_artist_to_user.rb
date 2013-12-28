@@ -1,8 +1,8 @@
 class MoveArtistToUser < ActiveRecord::Migration
   # list of columns to move from artist to the new artist_info table
   COLUMNS_TO_MOVE = [
-                     {:name => "bio", :type => "text", :args => {}}, 
-                     {:name => "news", :type => "text", :args => {}}, 
+                     {:name => "bio", :type => "text", :args => {}},
+                     {:name => "news", :type => "text", :args => {}},
                      {:name => "street", :type => :string, :args => {}},
                      {:name => "city", :type => :string, :args => { :limit => 200 }},
                      {:name => "addr_state", :type => :string, :args => { :limit => 4}},
@@ -20,7 +20,7 @@ class MoveArtistToUser < ActiveRecord::Migration
                      {:name => "lat", :type => :float, :args => {}},
                      {:name => "lng", :type => :float, :args => {}}
                     ]
-                 
+
 
   def self.up
     create_table :artist_infos do |t|
@@ -30,7 +30,7 @@ class MoveArtistToUser < ActiveRecord::Migration
         t.send(c[:type], c[:name], c[:args])
       end
     end
-    
+
     rename_table :artists, :users
     rename_column :art_pieces, :artist_id, :user_id
     rename_table :artists_roles, :roles_users

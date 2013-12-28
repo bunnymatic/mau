@@ -1,9 +1,9 @@
 # This demonstrates how you can write custom formatters to handle arbitrary
 # options passed to the +describe+ and +it+ methods. To see it in action, stand
 # in the project root and say:
-# 
+#
 #   bin/spec -r examples/passing/filtered_formatter.rb examples/passing/filtered_formatter_example.rb -f FilteredFormatter
-#   
+#
 # You should only see the examples and groups below that are not explicitly
 # marked :show => false
 #

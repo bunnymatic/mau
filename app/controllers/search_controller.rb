@@ -57,86 +57,23 @@ class SearchController < ApplicationController
 
     opts = _parse_search_params
 
-    results_by_kw = {}
+    results = MauSearch.new(opts).search
 
-    if opts.keywords.length > 0
-      opts.keywords.map(&:downcase).each do |kw|
-
-        kw_query_param = "%#{kw}%"
-        partial_results = ArtPiece.where(["title like ?", kw_query_param])
-        partial_results += (Artist.active.where(["(firstname like ? or lastname like ? or lower(nomdeplume) like ?) ", kw_query_param, kw_query_param, kw_query_param ])).map{ |a| a.art_pieces }.flatten
-
-        tag_ids = ArtPieceTag.where(:name => kw)
-        tags = ArtPiecesTag.where(:art_piece_tag_id => tag_ids)
-        partial_results += ArtPiece.where(:id => tags.map(&:art_piece_id) )
-
-        media_ids = Medium.where(:name => kw)
-        partial_results += ArtPiece.where(:medium_id => media_ids)
-
-        partial_results += Artist.where(['lower(concat(trim(firstname), \' \', trim(lastname))) = ?', kw]).map(&:art_pieces).flatten
-
-        results_by_kw[kw] = partial_results.uniq_by{|obj| obj.id}
-      end
-    else
-      # if only medium search by art piece
-      if opts.mediums.present? && !opts.studios.present?
-        results_by_kw['by_medium'] = ArtPiece.where(:medium_id => opts.mediums.map(&:id))
-      end
-      # else search by artists in studios then narrow by mediums
-      if opts.studios.present?
-        results_by_kw['by_studio'] = Artist.where(:studio_id => opts.studios.map(&:id)).map(&:art_pieces).flatten
-      end
-    end
-
-    partial_results = results_by_kw.values.compact.flatten
-
-    hits = histogram partial_results.map(&:id)
-
-    num_keywords = opts.keywords.size
-    partial_results.reject!{|ap| hits[ap.id] < num_keywords}
-
-    # filter by mediums and or studios
-    if opts.mediums.present?
-      mids = opts.mediums.map(&:id)
-      partial_results.reject!{|ap| !ap.medium_id || !mids.include?(ap.medium_id) }
-    end
-    if opts.studios.present?
-      sids = opts.studios.map(&:id).compact
-      partial_results.reject!{|ap| !ap.artist || !sids.include?(ap.artist.studio_id)}
-    end
-    if opts.os_flag == true
-      partial_results.reject!{|ap| !ap.artist.doing_open_studios?}
-    elsif opts.os_flag == false
-      partial_results.reject!{|ap| ap.artist.doing_open_studios?}
-    end
-
-    results = {}
-    begin
-      partial_results.flatten.compact.flatten.each do |entry|
-        results[entry.id] = entry if entry.id and entry.artist && entry.artist.active?
-      end
-    rescue Exception => ex
-      logger.warn("Failed to map search results %s" % ex)
-    end
-
-    results = results.values.sort_by { |p| p.updated_at }
-    @num_results = results.count
+    num_results = results.count
     per_page_opts = [12,24,48,96]
-    @per_page_opts = per_page_opts[0..per_page_opts.select{|v| v < @num_results}.count]
+    @per_page_opts = per_page_opts[0..per_page_opts.select{|v| v < num_results}.count]
 
-    opts.per_page = @num_results < opts.per_page ? @per_page_opts.max : opts.per_page
+    opts.per_page = num_results < opts.per_page ? @per_page_opts.max : opts.per_page
 
     @paginator = Pagination.new(results, opts.page, opts.per_page)
-    @pieces = @paginator.items
-    nextpage = @paginator.next_page
-    prevpage = @paginator.previous_page
+    # @pieces = @paginator.items
     curpage = @paginator.current_page
     lastpage = @paginator.last_page
 
     @last = lastpage + 1
     @page = curpage + 1
 
-    if @num_results <= 12
+    if @paginator.count <= 12
       @per_page_opts = nil
     end
     @per_page = opts.per_page

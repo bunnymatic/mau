@@ -52,7 +52,7 @@ module Spec
         extract_option(stubs_and_options, options, :__declared_as, 'Mock')
         options
       end
-      
+
       def extract_option(source, target, key, default=nil)
         if source[key]
           target[key] = source.delete(key)

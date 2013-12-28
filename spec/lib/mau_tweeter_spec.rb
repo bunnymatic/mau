@@ -7,7 +7,7 @@ describe MauTweeter do
         :consumer_key => 'V7Nif8IiVQnajQ3XUslwcg',
         :consumer_secret => 'UUvDXjUu6SK8DxrqwNNSYrcROYP0osMJmPUSOpxZ0',
         :token => '62131363-mPnEym1H3rBeA0wKnqNRAPMpSBr6UZOdLpUM7yx0W',
-        :token_secret => 'XSDpwrfxRya6KHB3azNrtBKxG0hAjxJKJc8JGFRQhxQ' 
+        :token_secret => 'XSDpwrfxRya6KHB3azNrtBKxG0hAjxJKJc8JGFRQhxQ'
       }
       m = double(:statuses => double( :update! => 'go' ))
       Grackle::Client.should_receive(:new).exactly(:once).with(:auth => auth).and_return(m)

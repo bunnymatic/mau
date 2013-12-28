@@ -4,7 +4,7 @@ module Spec
   module Mocks
     describe Mock do
       treats_method_missing_as_private :subject => Mock.new, :noop => false
-      
+
       before(:each) do
         @mock = mock("test mock")
       end
@@ -573,7 +573,7 @@ module Spec
         mock = mock()
         expect {mock.foo}.to raise_error(/Mock received/)
       end
-      
+
       it "should respond to initially stubbed methods" do
         mock = mock(:foo => "woo", :bar => "car")
         mock.foo.should == "woo"

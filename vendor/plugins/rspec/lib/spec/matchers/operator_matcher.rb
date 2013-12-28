@@ -42,9 +42,9 @@ module Spec
       def description
         "#{@operator} #{@expected.inspect}"
       end
-      
+
     private
-      
+
       def eval_match(actual, operator, expected)
         ::Spec::Matchers.last_matcher = self
         @operator, @expected = operator, expected
@@ -58,7 +58,7 @@ module Spec
         if actual.__send__(operator, expected)
           true
         elsif ['==','===', '=~'].include?(operator)
-          fail_with_message("expected: #{expected.inspect},\n     got: #{actual.inspect} (using #{operator})") 
+          fail_with_message("expected: #{expected.inspect},\n     got: #{actual.inspect} (using #{operator})")
         else
           fail_with_message("expected: #{operator} #{expected.inspect},\n     got: #{operator.gsub(/./, ' ')} #{actual.inspect}")
         end

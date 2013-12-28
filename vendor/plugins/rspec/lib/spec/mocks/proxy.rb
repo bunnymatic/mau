@@ -4,12 +4,12 @@ module Spec
       DEFAULT_OPTIONS = {
         :null_object => false,
       }
-      
+
       @@warn_about_expectations_on_nil = true
-      
+
       def self.allow_message_expectations_on_nil
         @@warn_about_expectations_on_nil = false
-        
+
         # ensure nil.rspec_verify is called even if an expectation is not set in the example
         # otherwise the allowance would effect subsequent examples
         $rspec_mocks.add(nil) unless $rspec_mocks.nil?
@@ -31,13 +31,13 @@ module Spec
       def null_object?
         @options[:null_object]
       end
-      
+
       def as_null_object
         @options[:null_object] = true
         @target
       end
 
-      def add_message_expectation(expected_from, sym, opts={}, &block)        
+      def add_message_expectation(expected_from, sym, opts={}, &block)
         __add sym
         warn_if_nil_class sym
         if existing_stub = @stubs.detect {|s| s.sym == sym }
@@ -64,7 +64,7 @@ module Spec
 
       def remove_stub(message)
         message = message.to_sym
-        
+
         if stub_to_remove = @stubs.detect { |s| s.matches_name?(message) }
           reset_proxied_method(message)
           @stubs.delete(stub_to_remove)
@@ -72,7 +72,7 @@ module Spec
           raise MockExpectationError, "The method `#{message}` was not stubbed or was already unstubbed"
         end
       end
-      
+
       def verify #:nodoc:
         verify_expectations
       ensure
@@ -94,7 +94,7 @@ module Spec
       def has_negative_expectation?(sym)
         @expectations.detect {|expectation| expectation.negative_expectation_for?(sym)}
       end
-      
+
       def record_message_received(sym, args, block)
         @messages_received << [sym, args, block]
       end
@@ -125,24 +125,24 @@ module Spec
       def raise_unexpected_message_error(sym, *args)
         @error_generator.raise_unexpected_message_error sym, *args
       end
-      
+
       def find_matching_method_stub(sym, *args)
         @stubs.find {|stub| stub.matches(sym, args)}
       end
-      
+
     private
 
       def __add(sym)
         $rspec_mocks.add(@target) unless $rspec_mocks.nil?
         define_expected_method(sym)
       end
-      
+
       def warn_if_nil_class(sym)
-        if proxy_for_nil_class? & @@warn_about_expectations_on_nil          
+        if proxy_for_nil_class? & @@warn_about_expectations_on_nil
           Kernel.warn("An expectation of :#{sym} was set on nil. Called from #{caller[2]}. Use allow_message_expectations_on_nil to disable warnings.")
         end
       end
-      
+
       def define_expected_method(sym)
         unless @proxied_methods.include?(sym)
           visibility_string = "#{visibility(sym)} :#{sym}"
@@ -222,17 +222,17 @@ module Spec
           end
         end
       end
-      
+
       def proxy_for_nil_class?
         @target.nil?
       end
-      
+
       def reset_nil_expectations_warning
         @@warn_about_expectations_on_nil = true if proxy_for_nil_class?
       end
 
       def find_matching_expectation(sym, *args)
-        @expectations.find {|expectation| expectation.matches(sym, args) && !expectation.called_max_times?} || 
+        @expectations.find {|expectation| expectation.matches(sym, args) && !expectation.called_max_times?} ||
         @expectations.find {|expectation| expectation.matches(sym, args)}
       end
 

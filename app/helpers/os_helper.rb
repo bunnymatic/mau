@@ -10,4 +10,4 @@ module OsHelper
   alias_method :os_pretty, :pretty_print_os_tag
 
 end
-    
+

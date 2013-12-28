@@ -10,22 +10,22 @@ module Spec
           actual.matches?(examples)
         end
       end
-      
+
       it "should match correct example_group and example" do
         matcher = ExampleMatcher.new("example_group", "example")
         matcher.should match_examples(["example_group example"])
       end
-      
+
       it "should not match wrong example" do
         matcher = ExampleMatcher.new("example_group", "other example")
         matcher.should_not match_examples(["example_group example"])
       end
-      
+
       it "should not match wrong example_group" do
         matcher = ExampleMatcher.new("other example_group", "example")
         matcher.should_not match_examples(["example_group example"])
       end
-      
+
       it "should match example only" do
         matcher = ExampleMatcher.new("example_group", "example")
         matcher.should match_examples(["example"])
@@ -40,16 +40,16 @@ module Spec
         matcher = ExampleMatcher.new("example_group", "example")
         matcher.should match_examples(["example_group before(:all)"])
       end
-      
+
       it "should escape regexp chars" do
         matcher = ExampleMatcher.new("(con|text)", "[example]")
         matcher.should_not match_examples(["con p"])
       end
-      
+
       it "should match when example_group is modularized" do
         matcher = ExampleMatcher.new("MyModule::MyClass", "example")
         matcher.should match_examples(["MyClass example"])
-      end      
+      end
     end
 
     describe ExampleMatcher, "#matches? normal case" do
@@ -75,7 +75,7 @@ module Spec
         matcher.matches?(["no match1", "no match2"]).should == false
       end
     end
-    
+
     describe ExampleMatcher, "called with nil example" do
       it "does not puke" do
         matcher = ExampleMatcher.new("Foo::Bar", nil)

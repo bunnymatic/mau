@@ -21,7 +21,7 @@ module Spec
         match do |actual|
           helper(actual, *_expected_)
         end
-        
+
         def helper(actual, *_expected_)
           _expected_.each do |expected|
             if actual.is_a?(Hash)

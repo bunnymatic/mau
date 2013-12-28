@@ -25,7 +25,7 @@ module Spec
         # don't identify an output destination, the default is STDOUT.
         def initialize(options, output)
         end
-        
+
         # This method is invoked before any examples are run, right after
         # they have all been collected. This can be useful for special
         # formatters that need to provide progress on feedback (graphical ones)
@@ -46,7 +46,7 @@ module Spec
         # example_group_proxy:: instance of Spec::Example::ExampleGroupProxy
         def example_group_started(example_group_proxy)
         end
-        
+
         # Deprecated - use example_group_started instead
         def add_example_group(example_group_proxy)
           Spec.deprecate("BaseFormatter#add_example_group", "BaseFormatter#example_group_started")
@@ -84,7 +84,7 @@ module Spec
         # failure:: instance of Spec::Runner::Reporter::Failure
         def example_failed(example_proxy, counter, failure)
         end
-        
+
         # This method is invoked when an example is not yet implemented (i.e. has not
         # been provided a block), or when an ExamplePendingError is raised.
         # +message+ is the message from the ExamplePendingError, if it exists, or the
@@ -115,7 +115,7 @@ module Spec
         # failure:: instance of Spec::Runner::Reporter::Failure
         def dump_failure(counter, failure)
         end
-      
+
         # This method is invoked after the dumping of examples and failures.
         #
         # ==== Parameters
@@ -125,7 +125,7 @@ module Spec
         # pending_count:: the number of examples that are pending
         def dump_summary(duration, example_count, failure_count, pending_count)
         end
-        
+
         # This gets invoked after the summary
         def dump_pending
         end

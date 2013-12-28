@@ -20,7 +20,7 @@ def controller_actions_should_fail_if_not_logged_in(cont, opts={})
   end
 end
 
-# logged in - get edit page 
+# logged in - get edit page
 shared_examples_for "logged in edit page" do
   before do
     get :edit
@@ -57,7 +57,7 @@ shared_examples_for "logged in user" do
   it "header bar should have my login name as a link" do
     if @logged_in_user.type == "Artist"
       assert_select("span.logout-nav a", :text => @logged_in_user.login)
-    else 
+    else
       assert_select("span.logout-nav ", :text => /#{@logged_in_user.login}/)
     end
   end
@@ -142,7 +142,7 @@ shared_examples_for "not logged in" do
   it "header bar should have signup link" do
     assert_select("#login_toplink a[href=/signup]")
   end
-  it "header has artists section" do 
+  it "header has artists section" do
     assert_select("ul#artistsnav")
   end
   it "artists section has by tag and by medium" do
@@ -182,10 +182,10 @@ shared_examples_for "not logged in" do
     end
   end
 
-  it "nav bar suggests join in" do 
+  it "nav bar suggests join in" do
     assert_select("div ul#mymaunav li.dir a[href=/login]", :include_text => "join in")
   end
-  
+
 end
 
 shared_examples_for 'standard sidebar layout' do

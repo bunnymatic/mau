@@ -77,7 +77,7 @@ class Event < ActiveRecord::Base
   def display_month
     @display_month ||= stime.strftime('%B %Y')
   end
- 
+
   def validate_endtime
     if !endtime
       return

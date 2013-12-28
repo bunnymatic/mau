@@ -5,7 +5,7 @@ module Spec
     describe ThrowSymbol do
       describe "with no args" do
         before(:each) { @matcher = ThrowSymbol.new }
-      
+
         it "should match if any Symbol is thrown" do
           @matcher.matches?(lambda{ throw :sym }).should be_true
         end
@@ -24,10 +24,10 @@ module Spec
           @matcher.failure_message_for_should_not.should == "expected no Symbol, got :sym"
         end
       end
-          
+
       describe "with a symbol" do
         before(:each) { @matcher = ThrowSymbol.new(:sym) }
-      
+
         it "should match if correct Symbol is thrown" do
           @matcher.matches?(lambda{ throw :sym }).should be_true
         end
@@ -59,7 +59,7 @@ module Spec
 
       describe "with a symbol and an arg" do
         before(:each) { @matcher = ThrowSymbol.new(:sym, "a") }
-    
+
         it "should match if correct Symbol and args are thrown" do
           @matcher.matches?(lambda{ throw :sym, "a" }).should be_true
         end

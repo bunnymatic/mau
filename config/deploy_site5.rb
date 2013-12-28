@@ -76,7 +76,7 @@ task :symlink_data do
   run "test -e #{current_path}/public/REVISION || ln -s #{current_path}/REVISION #{current_path}/public/REVISION"
 end
 
-desc "put htaccess in place (if available)" 
+desc "put htaccess in place (if available)"
 task :copy_htaccess do
   run "[[ -f #{current_path}/config/site5_htaccess ]] && cp #{current_path}/config/site5_htaccess #{current_path}/public/.htaccess"
 end

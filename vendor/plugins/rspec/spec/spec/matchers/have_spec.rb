@@ -50,7 +50,7 @@ describe "should have(n).items" do
       owner.should have(4).items_in_collection_with_size_method
     }.should fail_with("expected 4 items_in_collection_with_size_method, got 3")
   end
-  
+
   it "should fail if target has a collection of items with > n members" do
     owner = create_collection_owner_with(3)
     lambda {
@@ -64,12 +64,12 @@ end
 
 describe 'should have(1).item when ActiveSupport::Inflector is defined' do
   include HaveSpecHelper
-  
+
   it 'should pluralize the collection name' do
     owner = create_collection_owner_with(1)
     owner.should have(1).item
   end
-  
+
   after(:each) do
     unless @active_support_was_defined
       Object.__send__ :remove_const, :ActiveSupport
@@ -79,7 +79,7 @@ end
 
 describe 'should have(1).item when Inflector is defined' do
   include HaveSpecHelper
-  
+
   before(:each) do
     if defined?(Inflector)
       @inflector_was_defined = true
@@ -92,7 +92,7 @@ describe 'should have(1).item when Inflector is defined' do
       end
     end
   end
-  
+
   it 'should pluralize the collection name' do
     owner = create_collection_owner_with(1)
     owner.should have(1).item
@@ -126,7 +126,7 @@ describe "should_not have(n).items" do
     owner.should_not have(4).items_in_collection_with_length_method
     owner.should_not have(4).items_in_collection_with_size_method
   end
-  
+
   it "should pass if target has a collection of items with > n members" do
     owner = create_collection_owner_with(3)
     owner.should_not have(2).items_in_collection_with_length_method
@@ -168,7 +168,7 @@ describe "should have_exactly(n).items" do
       owner.should have_exactly(4).items_in_collection_with_size_method
     }.should fail_with("expected 4 items_in_collection_with_size_method, got 3")
   end
-  
+
   it "should fail if target has a collection of items with > n members" do
     owner = create_collection_owner_with(3)
     lambda {
@@ -188,7 +188,7 @@ describe "should have_at_least(n).items" do
     owner.should have_at_least(3).items_in_collection_with_length_method
     owner.should have_at_least(3).items_in_collection_with_size_method
   end
-  
+
   it "should pass if target has a collection of items with > n members" do
     owner = create_collection_owner_with(3)
     owner.should have_at_least(2).items_in_collection_with_length_method
@@ -204,17 +204,17 @@ describe "should have_at_least(n).items" do
       owner.should have_at_least(4).items_in_collection_with_size_method
     }.should fail_with("expected at least 4 items_in_collection_with_size_method, got 3")
   end
-  
+
   it "should provide educational negative failure messages" do
     #given
     owner = create_collection_owner_with(3)
     length_matcher = have_at_least(3).items_in_collection_with_length_method
     size_matcher = have_at_least(3).items_in_collection_with_size_method
-    
+
     #when
     length_matcher.matches?(owner)
     size_matcher.matches?(owner)
-    
+
     #then
     length_matcher.failure_message_for_should_not.should == <<-EOF
 Isn't life confusing enough?
@@ -252,7 +252,7 @@ describe "should have_at_most(n).items" do
       owner.should have_at_most(2).items_in_collection_with_size_method
     }.should fail_with("expected at most 2 items_in_collection_with_size_method, got 3")
   end
-  
+
   it "should pass if target has a collection of items with < n members" do
     owner = create_collection_owner_with(3)
     owner.should have_at_most(4).items_in_collection_with_length_method
@@ -264,11 +264,11 @@ describe "should have_at_most(n).items" do
     owner = create_collection_owner_with(3)
     length_matcher = have_at_most(3).items_in_collection_with_length_method
     size_matcher = have_at_most(3).items_in_collection_with_size_method
-    
+
     #when
     length_matcher.matches?(owner)
     size_matcher.matches?(owner)
-    
+
     #then
     length_matcher.failure_message_for_should_not.should == <<-EOF
 Isn't life confusing enough?
@@ -277,7 +277,7 @@ Instead of having to figure out the meaning of this:
 We recommend that you use this instead:
   should have_at_least(4).items_in_collection_with_length_method
 EOF
-    
+
     size_matcher.failure_message_for_should_not.should == <<-EOF
 Isn't life confusing enough?
 Instead of having to figure out the meaning of this:
@@ -331,13 +331,13 @@ end
 
 describe Spec::Matchers::Have, "for a collection owner that implements #send" do
   include HaveSpecHelper
-  
+
   before(:each) do
     @collection = Object.new
     def @collection.floozles; [1,2] end
     def @collection.send(*args); raise "DOH! Library developers shouldn't use #send!" end
   end
-  
+
   it "should work in the straightforward case" do
     lambda {
       @collection.should have(2).floozles
@@ -361,31 +361,31 @@ module Spec
   module Matchers
     describe Have do
       treats_method_missing_as_private :noop => false
-      
+
       describe "respond_to?" do
         before :each do
           @have = Have.new(:foo)
           @a_method_which_have_defines = Have.instance_methods.first
           @a_method_which_object_defines = Object.instance_methods.first
         end
-        
+
         it "should be true for a method which Have defines" do
           @have.should respond_to(@a_method_which_have_defines)
         end
-        
+
         it "should be true for a method that it's superclass (Object) defines" do
           @have.should respond_to(@a_method_which_object_defines)
         end
-        
+
         it "should be false for a method which neither Object nor nor Have defines" do
           @have.should_not respond_to(:foo_bar_baz)
         end
-        
+
         it "should be false if the owner doesn't respond to the method" do
           have = Have.new(99)
           have.should_not respond_to(:problems)
         end
-        
+
         it "should be true if the owner responds to the method" do
           have = Have.new(:a_symbol)
           have.should respond_to(:to_sym)

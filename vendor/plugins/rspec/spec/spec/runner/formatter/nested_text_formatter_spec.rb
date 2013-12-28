@@ -51,7 +51,7 @@ OUT
 
             describe "#example_group_started" do
               describe "when ExampleGroup has a nested description" do
-                
+
                 describe "when ExampleGroup has no parents with nested description" do
                   it "should push ExampleGroup name" do
                     io.string.should eql("ExampleGroup\n")
@@ -102,7 +102,7 @@ OUT
                   describe "and parent ExampleGroups have not been printed" do
                     before do
                       formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(grand_child_example_group))
-                      
+
                     end
 
                     it "should print the entire nested ExampleGroup heirarchy" do

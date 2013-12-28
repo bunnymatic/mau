@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe "LineNumberQuery" do
-  with_sandboxed_options do    
+  with_sandboxed_options do
     attr_reader :parser, :file
-    
+
     before do
       @parser = Spec::Runner::LineNumberQuery.new(options)
       @file = "#{File.dirname(__FILE__)}/line_number_query/line_number_query_fixture.rb"
@@ -86,7 +86,7 @@ describe "LineNumberQuery" do
         parser.send(:parse_location, input ).should == [expected, 999]
       end
     end
-    
+
     it "should handle paths which contain colons and backslashes" do
       fixture =
          { "c:\\somepath\\somefile.rb:999:in 'method'" => "c:\\somepath\\somefile.rb",
@@ -95,7 +95,7 @@ describe "LineNumberQuery" do
         parser.send(:parse_location, input ).should == [expected, 999]
       end
     end
-    
+
     it "ignores example group base classes which have no location" do
       options = stub('options', :example_groups => [
         stub('example_group', :location => nil)

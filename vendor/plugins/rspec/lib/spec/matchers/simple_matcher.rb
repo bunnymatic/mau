@@ -2,7 +2,7 @@ module Spec
   module Matchers
     class SimpleMatcher
       attr_writer :failure_message, :negative_failure_message, :description
-      
+
       def initialize(description, &match_block)
         @description = description
         @match_block = match_block
@@ -18,7 +18,7 @@ module Spec
           @match_block.call(@given)
         end
       end
-      
+
       def description
         @description || explanation
       end
@@ -35,7 +35,7 @@ module Spec
         "No description provided. See RDoc for simple_matcher()"
       end
     end
-  
+
     # simple_matcher makes it easy for you to create your own custom matchers
     # in just a few lines of code when you don't need all the power of a
     # completely custom matcher object.
@@ -62,7 +62,7 @@ module Spec
     #   def be_even
     #     simple_matcher("an even number") { |given| given % 2 == 0 }
     #   end
-    #                    
+    #
     #   describe 2 do
     #     it "should be even" do
     #       2.should be_even

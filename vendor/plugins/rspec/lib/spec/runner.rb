@@ -12,15 +12,15 @@ require 'spec/runner/extensions/kernel'
 
 module Spec
   module Runner
-    
+
     class ExampleGroupCreationListener
       def register_example_group(klass)
         Spec::Runner.options.add_example_group klass
       end
     end
-    
+
     Spec::Example::ExampleGroupFactory.example_group_creation_listeners << ExampleGroupCreationListener.new
-    
+
     class << self
       def configuration # :nodoc:
         @configuration ||= Spec::Runner::Configuration.new
@@ -40,7 +40,7 @@ module Spec
       def configure
         yield configuration
       end
-      
+
       def autorun # :nodoc:
         at_exit {exit run unless $!}
       end
@@ -52,7 +52,7 @@ module Spec
           parser.options
         end
       end
-    
+
       def use options
         @options = options
       end

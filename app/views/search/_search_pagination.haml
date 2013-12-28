@@ -1,18 +1,18 @@
-- if @num_results >= @per_page
-  - pages = get_pages_for_pagination @page-1, @last
-
-  - if pages.count > 1
-    %ul.navlinks.paginator
-      - if @last > 1
-        %li
-          %a{:href => '#prev', 'data-page' => (@page.to_i-2), :title => "previous"} < prev
-      - pages.length.times do |idx|
-        - pg = pages[idx]
-        - if pages[idx] > 0 && ((pages[idx] - pages[idx-1]) > 1)
-          %li ...
-        %li
-          %a{:href => "#%d" % pg, 'data-page' => pg, 'class' => "#{'current' if @page.to_i == pg+1}" } #{pg+1}
-      - if @last > 1
-        %li
-          %a{:href => '#next', 'data-page' => (@page.to_i), :title => "next"} next >
+- paginator ||= nil
+- page = paginator.current_page.to_i
+- pages = get_pages_for_pagination page, paginator.last_page + 1
+- if paginator.last_page > paginator.first_page
+  %ul.navlinks.paginator
+    - if paginator.last_page > 0
+      %li
+        %a{:href => '#prev', 'data-page' => (page-1), :title => "previous"} < prev
+    - pages.length.times do |idx|
+      - pg = pages[idx]
+      - if pages[idx] > 0 && ((pages[idx] - pages[idx-1]) > 1)
+        %li ...
+      %li
+        %a{:href => "#%d" % pg, 'data-page' => pg, 'class' => "#{'current' if page.to_i == pg}" } #{pg+1}
+    - if paginator.last_page > 0
+      %li
+        %a{:href => '#next', 'data-page' => (page+1), :title => "next"} next >
 

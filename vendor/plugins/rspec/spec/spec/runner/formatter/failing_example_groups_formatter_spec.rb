@@ -13,7 +13,7 @@ module Spec
           @formatter = FailingExampleGroupsFormatter.new(options, io)
           @example_group = Class.new(::Spec::Example::ExampleGroup)
         end
-        
+
         it "should add example name for each failure" do
           formatter.example_group_started(Spec::Example::ExampleGroupProxy.new(Class.new(::Spec::Example::ExampleGroupDouble).describe("b 1")))
           formatter.example_failed("e 1", nil, Spec::Runner::Reporter::Failure.new("g", nil, RuntimeError.new))

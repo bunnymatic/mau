@@ -26,7 +26,7 @@ module Kernel
   def should(matcher=nil, message=nil, &block)
     Spec::Expectations::PositiveExpectationHandler.handle_matcher(self, matcher, message, &block)
   end
-  
+
   # :call-seq:
   #   should_not(matcher)
   #   should_not == expected

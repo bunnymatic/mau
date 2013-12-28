@@ -5,6 +5,6 @@ describe CmsDocument do
   it { invalid_document.should_not be_valid }
 
   describe '#packaged' do
-    
+
   end
 end

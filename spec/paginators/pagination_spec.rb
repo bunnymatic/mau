@@ -4,12 +4,12 @@ describe Pagination do
   let(:num_items) { 8 }
   let(:per_page) { 3 }
   let(:current_page) { 0 }
-  
+
   subject(:paginator) { Pagination.new( num_items.times.map{|x| x + 1}, current_page, per_page ) }
 
   its(:last_page) { should eq 2 }
   its(:first_page) { should eq 0 }
-  
+
   context 'on the first page' do
     its(:current_page) { should eq current_page }
     its(:items) { should eq [1,2,3] }

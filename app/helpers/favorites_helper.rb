@@ -33,7 +33,7 @@ module FavoritesHelper
     title = fav.get_name true
     wd, ht = fav.get_min_scaled_dimensions 24
     result = ""
-    if img && path 
+    if img && path
       result << "<li #{xstyle}>"
       result << "<a href='#{path}' title='#{title}'>" unless options[:linkless]
       result << "<div class='thumb #{xclass}' ><img src='#{img}' title='#{title}' height='#{ht}' width='#{wd}'/></div>"

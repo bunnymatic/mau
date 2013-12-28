@@ -13,7 +13,7 @@ module Spec
       before(:each) do
         @instance_variable = :instance_variable
       end
-      
+
       after(:all) do
         self.class.examples_ran = true
       end
@@ -39,7 +39,7 @@ module Spec
       it "can access methods defined in the Example Group" do
         a_method.should == 22
       end
-      
+
     end
 
     describe ExampleGroupSubclass do

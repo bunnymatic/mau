@@ -33,12 +33,12 @@ module Spec
       it "should assign itself as the reporter to options" do
         options.reporter.should equal(@reporter)
       end
-      
+
       it "should tell formatter when example_group is added" do
         formatter.should_receive(:example_group_started).with(example_group_proxy)
         example_group.notify(reporter)
       end
-      
+
       it "should handle multiple example_groups with same name" do
         formatter.should_receive(:example_group_started).exactly(3).times
         formatter.should_receive(:example_started).exactly(3).times
@@ -58,7 +58,7 @@ module Spec
         reporter.example_finished(description_of("spec 3"))
         reporter.dump
       end
-      
+
       def description_of(example)
         ::Spec::Example::ExampleProxy.new(String === example ? example : example.description)
       end
@@ -72,7 +72,7 @@ module Spec
         formatter.should_receive(:example_passed).with(description_of(passing)).exactly(2).times
         formatter.should_receive(:example_failed).with(description_of(failing), 1, failure)
         formatter.should_receive(:example_failed).with(description_of(failing), 2, failure)
-        formatter.should_receive(:dump_failure).exactly(2).times 
+        formatter.should_receive(:dump_failure).exactly(2).times
         formatter.should_receive(:start_dump)
         formatter.should_receive(:dump_pending)
         formatter.should_receive(:close).with(no_args)
@@ -96,7 +96,7 @@ module Spec
         formatter.should_receive(:close).with(no_args)
         reporter.dump
       end
-      
+
       it "should push time to formatter" do
         formatter.should_receive(:start).with(5)
         formatter.should_receive(:start_dump)
@@ -109,19 +109,19 @@ module Spec
         reporter.end
         reporter.dump
       end
-      
+
       describe "reporting one passing example" do
         it "should tell formatter example passed" do
           formatter.should_receive(:example_passed)
           reporter.example_finished(description_of("example"))
         end
-      
+
         it "should not delegate to backtrace tweaker" do
           formatter.should_receive(:example_passed)
           backtrace_tweaker.should_not_receive(:tweak_backtrace)
           reporter.example_finished(description_of("example"))
         end
-      
+
         it "should account for passing example in stats" do
           formatter.should_receive(:example_passed)
           formatter.should_receive(:start_dump)
@@ -132,20 +132,20 @@ module Spec
           reporter.dump
         end
       end
-      
+
       describe "reporting one failing example" do
         it "should tell formatter that example failed" do
           example = example_group.it("should do something") {}
           formatter.should_receive(:example_failed)
           reporter.example_finished(description_of(example), RuntimeError.new)
         end
-      
+
         it "should delegate to backtrace tweaker" do
           formatter.should_receive(:example_failed)
           backtrace_tweaker.should_receive(:tweak_backtrace)
           reporter.example_finished(example_proxy, RuntimeError.new)
         end
-      
+
         it "should account for failing example in stats" do
           example = ::Spec::Example::ExampleGroupDouble.new(example_proxy)
           formatter.should_receive(:example_failed).with(description_of(example), 1, failure)
@@ -157,14 +157,14 @@ module Spec
           reporter.example_finished(description_of(example), RuntimeError.new)
           reporter.dump
         end
-      
+
       end
-      
+
       describe "reporting one pending example (ExamplePendingError)" do
         before :each do
           @pending_error = Spec::Example::ExamplePendingError.new("reason")
         end
-        
+
         it "should tell formatter example is pending" do
           example = ExampleGroup.new(example_proxy)
           formatter.should_receive(:example_pending).with(description_of(example), "reason")
@@ -172,7 +172,7 @@ module Spec
           example_group.notify(reporter)
           reporter.example_finished(description_of(example), @pending_error)
         end
-      
+
         it "should account for pending example in stats" do
           example = ExampleGroup.new(example_proxy)
           formatter.should_receive(:example_pending).with(description_of(example), "reason")
@@ -185,50 +185,50 @@ module Spec
           reporter.example_finished(description_of(example), @pending_error)
           reporter.dump
         end
-        
+
         describe "to formatters which have example_pending's arity of 3 (which is now deprecated)" do
           before :each do
             Spec.stub!(:warn)
-          
+
             @deprecated_formatter = Class.new(@formatter.class) do
               attr_reader :example_passed_to_method, :message_passed_to_method
-      
+
               def example_pending(example_passed_to_method, message_passed_to_method, deprecated_pending_location)
                 @example_passed_to_method = example_passed_to_method
                 @message_passed_to_method = message_passed_to_method
               end
             end.new(options, formatter_output)
-            
+
             options.formatters << @deprecated_formatter
           end
-          
+
           it "should pass the correct example description to the formatter" do
             proxy = Spec::Example::ExampleProxy.new("name")
             example = ExampleGroup.new(proxy)
             example_group.notify(reporter)
             reporter.example_finished(description_of(example), @pending_error)
-            
+
             @deprecated_formatter.example_passed_to_method.should == proxy
           end
-          
+
           it "should pass the correct pending error message to the formatter" do
             example = ExampleGroup.new(example_proxy)
             example_group.notify(reporter)
             reporter.example_finished(description_of(example), @pending_error)
-            
+
             @deprecated_formatter.message_passed_to_method.should ==  @pending_error.message
           end
-          
+
           it "should raise a deprecation warning" do
             Spec.should_receive(:warn)
-            
+
             example = ExampleGroup.new(example_proxy)
             example_group.notify(reporter)
             reporter.example_finished(description_of(example), @pending_error)
           end
         end
       end
-      
+
       describe "reporting one pending example (PendingExampleFixedError)" do
         it "should tell formatter pending example is fixed" do
           formatter.should_receive(:example_failed) do |name, counter, failure|

@@ -12,14 +12,14 @@ describe "arrays" do
       end
     end
   end
-  
+
   describe "can be matched by their contents disregarding order" do
     subject { [1,2,2,3] }
     it { should contain_same_elements_as([1,2,2,3]) }
     it { should contain_same_elements_as([2,3,2,1]) }
     it { should_not contain_same_elements_as([3,3,2,1]) }
   end
-  
+
   describe "fail the match with different contents" do
     subject { [1,2,3] }
     it { should_not contain_same_elements_as([2,3,4])}

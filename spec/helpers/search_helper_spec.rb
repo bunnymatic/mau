@@ -39,5 +39,5 @@ describe SearchHelper do
       end
     end
   end
-    
+
 end

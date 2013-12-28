@@ -2,7 +2,7 @@ module Spec
   module Runner
     class Configuration
       include Spec::Example::ArgsAndOptions
-      
+
       # Chooses what mock framework to use. Example:
       #
       #   Spec::Runner.configure do |config|
@@ -38,11 +38,11 @@ module Spec
           mock_framework
         end
       end
-      
+
       def mock_framework # :nodoc:
         @mock_framework ||= mock_framework_path("rspec")
       end
-      
+
       # :call-seq:
       #   include(Some::Helpers)
       #   include(Some::Helpers, More::Helpers)
@@ -79,7 +79,7 @@ module Spec
       def include(*modules_and_options)
         include_or_extend(:include, *modules_and_options)
       end
-      
+
       # :call-seq:
       #   extend(Some::Helpers)
       #   extend(Some::Helpers, More::Helpers)
@@ -90,7 +90,7 @@ module Spec
       def extend(*modules_and_options)
         include_or_extend(:extend, *modules_and_options)
       end
-      
+
       # Appends a global <tt>before</tt> block to all example groups.
       # <tt>scope</tt> can be any of <tt>:each</tt> (default), <tt>:all</tt>, or
       # <tt>:suite</tt>. When <tt>:each</tt>, the block is executed before each
@@ -103,22 +103,22 @@ module Spec
       alias_method :before, :append_before
 
       # Prepends a global <tt>before</tt> block to all example groups.
-      # 
+      #
       # See <tt>append_before</tt> for scoping semantics.
       def prepend_before(scope = :each, options={}, &proc)
         add_callback(:prepend_before, scope, options, &proc)
       end
-      
+
       # Prepends a global <tt>after</tt> block to all example groups.
-      # 
+      #
       # See <tt>append_before</tt> for scoping semantics.
       def prepend_after(scope = :each, options={}, &proc)
         add_callback(:prepend_after, scope, options, &proc)
       end
       alias_method :after, :prepend_after
-      
+
       # Appends a global <tt>after</tt> block to all example groups.
-      # 
+      #
       # See <tt>append_before</tt> for scoping semantics.
       def append_after(scope = :each, options={}, &proc)
         add_callback(:append_after, scope, options, &proc)
@@ -154,9 +154,9 @@ module Spec
       def ignored_backtrace_patterns # :nodoc:
         @ignored_backtrace_patterns ||= []
       end
-      
+
     private
-    
+
       def include_or_extend(action, *args)
         modules, options = args_and_options(*args)
         [get_type_from_options(options)].flatten.each do |required_example_group|
@@ -176,7 +176,7 @@ module Spec
       def get_type_from_options(options)
         options[:type] || options[:behaviour_type]
       end
-    
+
       def mock_framework_path(framework_name)
         "spec/adapters/mock_frameworks/#{framework_name}"
       end

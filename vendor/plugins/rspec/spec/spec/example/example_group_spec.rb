@@ -23,7 +23,7 @@ module Spec
           @@class_variable.should == "a class variable"
         end
       end
-      
+
       it "can NOT access class variables in examples in Ruby 1.9" do
         with_ruby 1.9 do
           lambda do
@@ -31,8 +31,8 @@ module Spec
           end.should raise_error(NameError)
         end
       end
-      
-      
+
+
     end
 
     class ExampleClassVariablePollutionSpec < ExampleGroup
@@ -123,7 +123,7 @@ module Spec
           end
           example_group.run(options)
         end
-      
+
         describe "when before_each fails" do
           before(:each) do
             $example_ran = $after_each_ran = false
@@ -142,7 +142,7 @@ module Spec
             example_group.run(options)
             $example_ran.should be_false
           end
-        
+
           it "should run after_each" do
             example_group.run(options)
             $after_each_ran.should be_true

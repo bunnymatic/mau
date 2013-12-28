@@ -11,4 +11,4 @@ describe EventMailerList do
 
   end
 end
-  
+

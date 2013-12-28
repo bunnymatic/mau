@@ -51,7 +51,7 @@ class ArtistsController < ApplicationController
     artists.each do |a|
       address = a.address_hash
       if !address.nil? && address[:geocoded] && !address[:simple].blank?
-        ky = "%s" % address[:simple] 
+        ky = "%s" % address[:simple]
         if !@roster[ky]
           @roster[ky] = []
         end

@@ -57,7 +57,7 @@ describe RolesController do
         end
       end
     end
-        
+
     describe 'POST create' do
       context 'with good params' do
         it 'creates a role' do

@@ -7,12 +7,12 @@ module Spec
         distance_in_yards < 1000
       end
     end
-    
+
     describe "predicate_matcher[method_on_object] = matcher_method" do
       before(:each) do
         Spec.stub!(:deprecate)
       end
-      
+
       it "is deprecated" do
         Spec.should_receive(:deprecate)
         group = ExampleGroupDouble.describe("foo") do

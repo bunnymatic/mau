@@ -1,6 +1,6 @@
 module Spec
   module Matchers
-    
+
     #Based on patch from Wilson Bilkovich
     class Change #:nodoc:
       def initialize(receiver=nil, message=nil, &block)
@@ -8,33 +8,33 @@ module Spec
         @value_proc = block || lambda {receiver.__send__(message)}
         @to = @from = @minimum = @maximum = @amount = nil
       end
-      
+
       def matches?(event_proc)
         raise_block_syntax_error if block_given?
-        
+
         @before = evaluate_value_proc
         event_proc.call
         @after = evaluate_value_proc
-        
+
         return (@to = false) if @from unless @from == @before
         return false if @to unless @to == @after
         return (@before + @amount == @after) if @amount
         return ((@after - @before) >= @minimum) if @minimum
-        return ((@after - @before) <= @maximum) if @maximum        
+        return ((@after - @before) <= @maximum) if @maximum
         return @before != @after
       end
-      
+
       def raise_block_syntax_error
         raise MatcherError.new(<<-MESSAGE
 block passed to should or should_not change must use {} instead of do/end
 MESSAGE
         )
       end
-      
+
       def evaluate_value_proc
         @value_proc.call
       end
-      
+
       def failure_message_for_should
         if @to
           "#{@message} should have been changed to #{@to.inspect}, but is now #{@after.inspect}"
@@ -50,45 +50,45 @@ MESSAGE
           "#{@message} should have changed, but is still #{@before.inspect}"
         end
       end
-      
+
       def actual_delta
         @after - @before
       end
-      
+
       def failure_message_for_should_not
         "#{@message} should not have changed, but did change from #{@before.inspect} to #{@after.inspect}"
       end
-      
+
       def by(amount)
         @amount = amount
         self
       end
-      
+
       def by_at_least(minimum)
         @minimum = minimum
         self
       end
-      
+
       def by_at_most(maximum)
         @maximum = maximum
         self
-      end      
-      
+      end
+
       def to(to)
         @to = to
         self
       end
-      
+
       def from (from)
         @from = from
         self
       end
-      
+
       def description
         "change ##{@message}"
       end
     end
-    
+
     # :call-seq:
     #   should change(receiver, message, &block)
     #   should change(receiver, message, &block).by(value)
@@ -100,20 +100,20 @@ MESSAGE
     # == Examples
     #
     #   lambda {
-    #     team.add_player(player) 
+    #     team.add_player(player)
     #   }.should change(roster, :count)
     #
     #   lambda {
-    #     team.add_player(player) 
+    #     team.add_player(player)
     #   }.should change(roster, :count).by(1)
     #
     #   lambda {
-    #     team.add_player(player) 
+    #     team.add_player(player)
     #   }.should change(roster, :count).by_at_least(1)
     #
     #   lambda {
     #     team.add_player(player)
-    #   }.should change(roster, :count).by_at_most(1)    
+    #   }.should change(roster, :count).by_at_most(1)
     #
     #   string = "string"
     #   lambda {
@@ -123,7 +123,7 @@ MESSAGE
     #   lambda {
     #     person.happy_birthday
     #   }.should change(person, :birthday).from(32).to(33)
-    #       
+    #
     #   lambda {
     #     employee.develop_great_new_social_networking_app
     #   }.should change(employee, :title).from("Mail Clerk").to("CEO")

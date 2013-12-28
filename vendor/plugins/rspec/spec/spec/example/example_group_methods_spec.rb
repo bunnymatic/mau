@@ -17,7 +17,7 @@ module Spec
             it "does nothing"
           end
         end
-        
+
         after(:each) do
           ExampleGroupDouble.reset
         end
@@ -42,12 +42,12 @@ module Spec
               it "should not inherit examples" do
                 @child_example_group.should have(1).examples
               end
-              
+
               it "records the spec path" do
                 @child_example_group.location.should =~ /#{__FILE__}:#{__LINE__ - 15}/
               end
             end
-            
+
             describe "when creating an example group with no description" do
               it "raises an ArgumentError" do
                 lambda do
@@ -73,7 +73,7 @@ module Spec
 
           end
         end
-        
+
         [:example, :specify, :it].each do |method|
           describe "##{method.to_s}" do
             it "should add an example" do
@@ -81,7 +81,7 @@ module Spec
                 @example_group.__send__(method, "")
               }.should change { @example_group.examples.length }.by(1)
             end
-            
+
             describe "with no location supplied" do
               describe "creates an ExampleProxy" do
                 before(:all) do
@@ -108,7 +108,7 @@ module Spec
                 end
               end
             end
-            
+
             describe "with a location supplied" do
               describe "creates an ExampleProxy" do
                 before(:all) do
@@ -126,11 +126,11 @@ module Spec
                 end
               end
             end
-          
-            
+
+
           end
         end
-        
+
         [:xexample, :xit, :xspecify].each do |method|
           describe "##{method.to_s}" do
             before(:each) do
@@ -149,7 +149,7 @@ module Spec
             end
           end
         end
-        
+
         describe "#examples" do
           it "should have Examples" do
             example_group = Class.new(ExampleGroupDouble) do
@@ -177,7 +177,7 @@ module Spec
                 # forces the run
               end
             end
-            
+
             example_group.examples.length.should == 1
             example_group.run(options).should be_true
           end
@@ -402,17 +402,17 @@ module Spec
             end
             child_example_group.description.should == "ExampleGroup.foobar Does something"
           end
-        
+
           it "should return the class name if nil" do
             example_group.set_description(nil)
             example_group.description.should =~ /Class:/
           end
-        
+
           it "should return the class name if nil" do
             example_group.set_description("")
             example_group.description.should =~ /Class:/
           end
-          
+
           it "is cached" do
             example_group.set_description("describe me")
             example_group.description.should be(example_group.description)
@@ -428,7 +428,7 @@ module Spec
             parent_example_group = Class.new(ExampleGroupDouble) do
               describe("Parent")
             end
-            
+
             child_example_group = Class.new(parent_example_group)
             child_example_group.describe("Child", ExampleGroup)
             child_example_group.description.should_not be_empty
@@ -445,7 +445,7 @@ module Spec
               Spec::Example::ExampleGroup
             ]
           end
-          
+
           it "caches the description parts" do
             example_group.description_parts.should equal(example_group.description_parts)
           end
@@ -468,7 +468,7 @@ module Spec
             end
             child_example_group.described_type.should == Object
           end
-          
+
           it "is cached per example group" do
             klass = Class.new
             group = Class.new(ExampleGroupDouble) do
@@ -548,7 +548,7 @@ module Spec
             options.example_groups.should_not include(example_group)
           end
         end
-      
+
         describe "#run" do
           describe "given an example group with at least one example" do
             it "should call add_example_group" do
@@ -569,8 +569,8 @@ module Spec
           end
         end
 
-        describe "#matcher_class=" do 
-          it "should call new and matches? on the class used for matching examples" do 
+        describe "#matcher_class=" do
+          it "should call new and matches? on the class used for matching examples" do
             example_group = Class.new(ExampleGroupDouble) do
               it "should do something" do end
               def self.specified_examples
@@ -583,15 +583,15 @@ module Spec
 
             matcher = mock("matcher")
             matcher.should_receive(:matches?).with(["something"]).any_number_of_times
-          
+
             matcher_class = Class.new
             matcher_class.should_receive(:new).with("TestMatcher", "should do something").and_return(matcher)
 
-            begin 
+            begin
               ExampleGroupMethods.matcher_class = matcher_class
 
               example_group.run(options)
-            ensure 
+            ensure
               ExampleGroupMethods.matcher_class = ExampleMatcher
             end
           end
@@ -629,7 +629,7 @@ module Spec
           end
         end
 
-        
+
         describe "#after" do
           it "stores after(:each) blocks" do
             example_group = Class.new(ExampleGroupDouble) {}
@@ -662,7 +662,7 @@ module Spec
             example_group.__send__ :run_before_all, nil
           end
         end
-        
+
         describe "#run_after_all" do
           it "does not create an instance if after_all_parts are empty" do
             example_group = Class.new(ExampleGroupDouble) { example("one example") {} }
@@ -670,7 +670,7 @@ module Spec
             example_group.__send__ :run_after_all, true, {}, nil
           end
         end
-        
+
         describe "#examples_to_run" do
           it "runs only the example identified by a line number" do
             example_group = Class.new(ExampleGroupDouble).describe("this") do
@@ -746,7 +746,7 @@ module Spec
           it "generates an instance method" do
             counter.count.should == 1
           end
-          
+
           it "caches the value" do
             counter.count.should == 1
             counter.count.should == 2

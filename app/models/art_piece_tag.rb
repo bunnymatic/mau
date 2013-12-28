@@ -44,7 +44,7 @@ class ArtPieceTag < ActiveRecord::Base
       if maxct == nil || maxct < t['ct'].to_i
         maxct = t['ct'].to_f
       end
-    end  
+    end
     if !maxct || maxct <= 0
       maxct = 1
     end

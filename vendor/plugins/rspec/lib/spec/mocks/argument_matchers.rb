@@ -28,7 +28,7 @@ module Spec
         def ==(other)
           true
         end
-        
+
         def description
           "anything"
         end
@@ -72,7 +72,7 @@ module Spec
           "hash_including(#{@expected.inspect.sub(/^\{/,"").sub(/\}$/,"")})"
         end
       end
-      
+
       class HashNotIncludingMatcher
         def initialize(expected)
           @expected = expected
@@ -91,7 +91,7 @@ module Spec
           "hash_not_including(#{@expected.inspect.sub(/^\{/,"").sub(/\}$/,"")})"
         end
       end
-      
+
       class DuckTypeMatcher
         def initialize(*methods_to_respond_to)
           @methods_to_respond_to = methods_to_respond_to
@@ -121,22 +121,22 @@ module Spec
           @given == expected
         end
       end
-      
+
       class InstanceOf
         def initialize(klass)
           @klass = klass
         end
-        
+
         def ==(actual)
           actual.instance_of?(@klass)
         end
       end
-      
+
       class KindOf
         def initialize(klass)
           @klass = klass
         end
-        
+
         def ==(actual)
           actual.kind_of?(@klass)
         end
@@ -149,7 +149,7 @@ module Spec
       def no_args
         NoArgsMatcher.new
       end
-      
+
       # :call-seq:
       #   object.should_receive(:message).with(any_args())
       #
@@ -158,7 +158,7 @@ module Spec
       def any_args
         AnyArgsMatcher.new
       end
-      
+
       # :call-seq:
       #   object.should_receive(:message).with(anything())
       #
@@ -166,7 +166,7 @@ module Spec
       def anything
         AnyArgMatcher.new(nil)
       end
-      
+
       # :call-seq:
       #   object.should_receive(:message).with(duck_type(:hello))
       #   object.should_receive(:message).with(duck_type(:hello, :goodbye))
@@ -190,7 +190,7 @@ module Spec
       def boolean
         BooleanMatcher.new(nil)
       end
-      
+
       # :call-seq:
       #   object.should_receive(:message).with(hash_including(:key => val))
       #   object.should_receive(:message).with(hash_including(:key))
@@ -200,7 +200,7 @@ module Spec
       def hash_including(*args)
         HashIncludingMatcher.new(anythingize_lonely_keys(*args))
       end
-      
+
       # :call-seq:
       #   object.should_receive(:message).with(hash_not_including(:key => val))
       #   object.should_receive(:message).with(hash_not_including(:key))
@@ -210,23 +210,23 @@ module Spec
       def hash_not_including(*args)
         HashNotIncludingMatcher.new(anythingize_lonely_keys(*args))
       end
-      
+
       # Passes if arg.instance_of?(klass)
       def instance_of(klass)
         InstanceOf.new(klass)
       end
-      
+
       alias_method :an_instance_of, :instance_of
-      
+
       # Passes if arg.kind_of?(klass)
       def kind_of(klass)
         KindOf.new(klass)
       end
-      
+
       alias_method :a_kind_of, :kind_of
-      
+
     private
-      
+
       def anythingize_lonely_keys(*args)
         hash = args.last.class == Hash ? args.delete_at(-1) : {}
         args.each { | arg | hash[arg] = anything }

@@ -9,7 +9,7 @@ end
 if __FILE__ == $0
   require 'examples/passing/io_processor'
   require 'pathname'
-  
+
   accessor = FileAccessor.new
   io_processor = IoProcessor.new
   file = Pathname.new ARGV[0]

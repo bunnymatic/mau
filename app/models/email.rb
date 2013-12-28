@@ -19,7 +19,7 @@ class Email < ActiveRecord::Base
   has_many :email_list, :through => :email_list_membership
   validates_presence_of :email
   validates_format_of :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
-  
+
   def formatted
     name.present? ? "#{name} <#{email}>" : email
   end
@@ -29,5 +29,5 @@ class Email < ActiveRecord::Base
     found = Email.find_by_email(email.email)
     found ? found : email
   end
-      
+
 end

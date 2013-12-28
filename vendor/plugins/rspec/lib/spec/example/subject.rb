@@ -19,7 +19,7 @@ module Spec
           block.nil? ?
             explicit_subject || implicit_subject : @explicit_subject_block = block
         end
-        
+
         def its(attribute, &block)
           describe(attribute) do
             define_method(:subject) { super().send(attribute) }

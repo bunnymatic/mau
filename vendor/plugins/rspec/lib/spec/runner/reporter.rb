@@ -2,7 +2,7 @@ module Spec
   module Runner
     class Reporter
       attr_reader :options
-      
+
       def initialize(options)
         @options = options
         @options.reporter = self
@@ -12,21 +12,21 @@ module Spec
         @start_time = nil
         @end_time = nil
       end
-      
+
       def example_group_started(example_group)
         @example_group = example_group
         formatters.each do |f|
           f.example_group_started(example_group)
         end
       end
-      
+
       def example_started(example)
         formatters.each{|f| f.example_started(example)}
       end
-      
+
       def example_finished(example, error=nil)
         @example_count += 1
-        
+
         if error.nil?
           example_passed(example)
         elsif Spec::Example::ExamplePendingError === error
@@ -49,11 +49,11 @@ module Spec
         @start_time = Time.new
         formatters.each{|f| f.start(number_of_examples)}
       end
-  
+
       def end
         @end_time = Time.new
       end
-  
+
       # Dumps the summary and returns the total number of failures
       def dump
         formatters.each{|f| f.start_dump}
@@ -71,16 +71,16 @@ module Spec
           @example_name = "#{group_description} #{example_description}"
           @exception = exception
         end
-        
+
         # The Exception object raised
         attr_reader :exception
-        
+
         # Header messsage for reporting this failure, including the name of the
         # example and an indicator of the type of failure. FAILED indicates a
         # failed expectation. FIXED indicates a pending example that passes, and
         # no longer needs to be pending. RuntimeError indicates that a
         # RuntimeError occured.
-        # 
+        #
         # == Examples
         #
         #   'A new account should have a zero balance' FAILED
@@ -95,7 +95,7 @@ module Spec
             "#{@exception.class.name} in '#{@example_name}'"
           end
         end
-        
+
         def pending_fixed? # :nodoc:
           @exception.is_a?(Spec::Example::PendingExampleFixedError)
         end
@@ -114,7 +114,7 @@ module Spec
       def backtrace_tweaker
         @options.backtrace_tweaker
       end
-  
+
       def dump_failures
         return if @failures.empty?
         @failures.inject(1) do |index, failure|
@@ -131,7 +131,7 @@ module Spec
         return @end_time - @start_time unless (@end_time.nil? or @start_time.nil?)
         return "0.0"
       end
-      
+
       def example_passed(example)
         formatters.each{|f| f.example_passed(example)}
       end
@@ -143,13 +143,13 @@ DEPRECATION WARNING: RSpec's formatters have changed example_pending
 to accept two arguments instead of three. Please see the rdoc
 for Spec::Runner::Formatter::BaseFormatter#example_pending
 for more information.
-  
+
 Please update any custom formatters to accept only two arguments
 to example_pending. Support for example_pending with two arguments
 and this warning message will be removed after the RSpec 2.0 release.
-*********************************************************************      
+*********************************************************************
 WARNING
-      
+
       def example_pending(example, ignore, message="Not Yet Implemented")
         @pending_count += 1
         formatters.each do |formatter|
@@ -161,11 +161,11 @@ WARNING
           end
         end
       end
-      
+
       def formatter_uses_deprecated_example_pending_method?(formatter)
         formatter.method(:example_pending).arity == 3
       end
-      
+
     end
   end
 end

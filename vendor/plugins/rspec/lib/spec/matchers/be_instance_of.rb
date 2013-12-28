@@ -20,7 +20,7 @@ module Spec
         end
       end
     end
-    
+
     alias_method :be_instance_of, :be_an_instance_of
   end
 end

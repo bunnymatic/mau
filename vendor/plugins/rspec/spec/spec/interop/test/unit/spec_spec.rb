@@ -2,7 +2,7 @@ require 'spec/interop/test/unit/test_unit_spec_helper'
 
 describe "ExampleGroup with test/unit/interop" do
   include TestUnitSpecHelper
-    
+
   describe "with passing examples" do
     it "should output 0 failures" do
       output = ruby("#{resources}/spec_that_passes.rb")
@@ -38,7 +38,7 @@ describe "ExampleGroup with test/unit/interop" do
       $?.should == 256
     end
   end
-  
+
   describe "options hash" do
     it "should be exposed" do
       output = ruby("#{resources}/spec_with_options_hash.rb")

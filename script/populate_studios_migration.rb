@@ -10,7 +10,7 @@ class PopulateStudios < ActiveRecord::Migration
         s.zip = zip
         s.url = url
       end
-      st.save 
+      st.save
       st.id
     else
       puts "Studio " + name + " has already been added"

@@ -11,7 +11,7 @@ module Spec
           mod.create(:foo)
         end
       end
-      
+
       describe "#define" do
         it "creates a method that initializes a new matcher with the submitted name and expected arg" do
           # FIXME - this expects new to be called, but we need something
@@ -20,12 +20,12 @@ module Spec
           mod = Module.new
           mod.extend Spec::Matchers::DSL
           mod.define(:foo)
-    
+
           obj = Object.new
           obj.extend mod
-    
+
           Spec::Matchers::Matcher.should_receive(:new).with(:foo, 3)
-    
+
           obj.foo(3)
         end
       end

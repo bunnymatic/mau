@@ -15,7 +15,7 @@ describe DummyController do
     before do
       get :not_found_page
     end
-    it 'response status is 404' do 
+    it 'response status is 404' do
       response.code.should eql '404'
     end
     it 'uses error template' do
@@ -30,7 +30,7 @@ describe DummyController do
       request.stub(:user_agent => IPHONE_USER_AGENT)
       get :not_found_page
     end
-    it 'response status is 404' do 
+    it 'response status is 404' do
       response.code.should eql '404'
     end
     it 'uses error template' do
@@ -44,7 +44,7 @@ describe DummyController do
     before do
       get :error_page
     end
-    it 'response status is 500' do 
+    it 'response status is 500' do
       response.code.should eql '500'
     end
     it 'uses error template' do
@@ -59,7 +59,7 @@ describe DummyController do
       request.stub(:user_agent => IPHONE_USER_AGENT)
       get :error_page
     end
-    it 'response status is 500' do 
+    it 'response status is 500' do
       response.code.should eql '500'
     end
     it 'includes an f404 block' do

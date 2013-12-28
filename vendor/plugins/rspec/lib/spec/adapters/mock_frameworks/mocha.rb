@@ -5,7 +5,7 @@ require 'mocha/object'
 module Spec
   module Adapters
     module MockFramework
-      # Mocha::Standalone was deprecated as of Mocha 0.9.7.  
+      # Mocha::Standalone was deprecated as of Mocha 0.9.7.
       begin
         include Mocha::API
       rescue NameError

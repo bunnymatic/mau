@@ -6,4 +6,4 @@ feeds.each do |feed|
   feed['active'] = true
   ArtistFeed.create(feed)
 end
- 
+

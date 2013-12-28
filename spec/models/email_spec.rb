@@ -13,5 +13,5 @@ describe Email do
       end
     end
   end
-  
+
 end

@@ -8,7 +8,7 @@ module Spec
       def should_not_receive(sym, &block)
         __mock_proxy.add_negative_message_expectation(caller(1)[0], sym.to_sym, &block)
       end
-      
+
       def stub!(sym_or_hash, opts={}, &block)
         if Hash === sym_or_hash
           sym_or_hash.each {|method, value| stub!(method).and_return value }
@@ -16,7 +16,7 @@ module Spec
           __mock_proxy.add_stub(caller(1)[0], sym_or_hash.to_sym, opts, &block)
         end
       end
-      
+
       alias_method :stub, :stub!
 
       def unstub!(message)
@@ -34,7 +34,7 @@ module Spec
       # is passed to +and_return_.
       #
       # == Examples
-      #   
+      #
       #   # with this in an example ...
       #   article = double('article')
       #   Article.stub_chain(:authored_by, :published, :recent).and_return([article])
@@ -54,11 +54,11 @@ module Spec
           stub!(methods.shift)
         end
       end
-      
+
       def received_message?(sym, *args, &block) #:nodoc:
         __mock_proxy.received_message?(sym.to_sym, *args, &block)
       end
-      
+
       def rspec_verify #:nodoc:
         __mock_proxy.verify
       end
@@ -66,11 +66,11 @@ module Spec
       def rspec_reset #:nodoc:
         __mock_proxy.reset
       end
-      
+
       def as_null_object
         __mock_proxy.as_null_object
       end
-      
+
       def null_object?
         __mock_proxy.null_object?
       end

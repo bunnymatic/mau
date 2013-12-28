@@ -6,10 +6,10 @@ class FilteredFormatter < Spec::Runner::Formatter::NestedTextFormatter
       @showing = false
     else
       @showing = true
-      puts example_group.description 
+      puts example_group.description
     end
   end
-  
+
   def example_passed(example)
     puts "  " << example.description if @showing unless example.options[:show] == false
   end

@@ -87,7 +87,7 @@ describe ImageFile do
           ImageFile::ImageSizes.keymap(sz.to_sym).should eql :thumb
         end
       end
-      it 'returns small for s or sm' do 
+      it 'returns small for s or sm' do
         %w(s sm).each do |sz|
           ImageFile::ImageSizes.keymap(sz).should eql :small
           ImageFile::ImageSizes.keymap(sz.to_sym).should eql :small

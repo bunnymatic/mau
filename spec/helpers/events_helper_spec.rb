@@ -14,7 +14,7 @@ describe EventsHelper do
       EventsHelper::event_time(ev).should == 'Wed Sep 7, 6:00p - Thu Sep 8, 10:00p'
     end
   end
-      
+
   describe '#for_mobile_list' do
     it 'returns the title and start date of the event' do
       nuevo_titulo = "<div>the title is here</div>"

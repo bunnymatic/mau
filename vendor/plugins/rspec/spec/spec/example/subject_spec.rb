@@ -10,7 +10,7 @@ module Spec
           example.subject.should == []
         end
       end
-      
+
       describe "with a Module" do
         it "returns the Module" do
           group = Class.new(ExampleGroupDouble).describe(Enumerable)
@@ -18,7 +18,7 @@ module Spec
           example.subject.should == Enumerable
         end
       end
-      
+
       describe "with a string" do
         it "return the string" do
           group = Class.new(ExampleGroupDouble).describe('foo')
@@ -34,9 +34,9 @@ module Spec
           example.subject.should == 15
         end
       end
-      
+
     end
-    
+
     describe "explicit subject" do
       describe "defined in a top level group" do
         it "replaces the implicit subject in that group" do
@@ -60,7 +60,7 @@ module Spec
             def described_class
               self.class.described_class
             end
-            
+
             subject {
               [1,2,3]
             }
@@ -69,7 +69,7 @@ module Spec
 
         it "is available in a nested group (subclass)" do
           nested_group = Class.new(@group)
-          
+
           example = nested_group.new
           example.subject.should == [1,2,3]
         end
@@ -91,7 +91,7 @@ module Spec
           child = group.its(:length) { should == 0 }
           child.run(options).should == true
         end
-        
+
         it "fails when expectation should fail" do
           group = Class.new(ExampleGroupDouble).describe(Array)
           child = group.its(:length) { should == 1 }

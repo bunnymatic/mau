@@ -32,7 +32,7 @@ class Scammer < ActiveRecord::Base
     resp.body.split("\n").each do |row|
       row.chomp!
       entries = (row.split '|').map{|entry| entry.gsub(/^"/, '').gsub(/"$/, '')}
-      
+
       if headers.empty?
         headers = entries
       else

@@ -5,13 +5,13 @@ class RecreateEvents < ActiveRecord::Migration
       t.text :description
       t.string :tweet
       t.string :street
-      t.string :venue 
-      t.string :state 
-      t.string :city 
-      t.string :zip 
-      t.timestamp :starttime 
-      t.timestamp :endtime 
-      t.string :url 
+      t.string :venue
+      t.string :state
+      t.string :city
+      t.string :zip
+      t.timestamp :starttime
+      t.timestamp :endtime
+      t.string :url
     end
   end
 

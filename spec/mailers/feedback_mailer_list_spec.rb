@@ -37,5 +37,5 @@ describe FeedbackMailerList do
       end
     end
   end
-    
+
 end

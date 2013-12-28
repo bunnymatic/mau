@@ -11,7 +11,7 @@ module Spec
         end
 
       private
-        
+
         def method_missing(sym, *args)
           # a no-op
         end

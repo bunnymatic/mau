@@ -45,7 +45,7 @@ class ArtistsPagination < Pagination
     index_path(:p => first_page)
   end
 
-  private 
+  private
   def index_path(opts)
     @view_context.artists_path(opts)
   end

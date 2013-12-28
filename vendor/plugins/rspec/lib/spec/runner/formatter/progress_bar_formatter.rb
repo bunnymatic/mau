@@ -16,13 +16,13 @@ module Spec
           @output.print green('.')
           @output.flush
         end
-      
+
         def example_pending(example, message, deprecated_pending_location=nil)
           super
           @output.print yellow('*')
           @output.flush
         end
-        
+
         def start_dump
           @output.puts
           @output.flush

@@ -1,5 +1,5 @@
 def choice(arr, num)
-  arrlen = arr.length 
+  arrlen = arr.length
   if num >= arrlen
     arr
   else

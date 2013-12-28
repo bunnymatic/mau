@@ -13,5 +13,5 @@
 #
 
 class AdminMailerList < EmailList
- 
+
 end

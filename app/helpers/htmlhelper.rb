@@ -1,11 +1,11 @@
 require 'htmlentities'
 module HTMLHelper
   @@HTMLcoder = HTMLEntities.new
-  
+
   def self.encode(s)
     @@HTMLcoder.encode(s, :hexadecimal)
   end
-  
+
   def self.queryencode(d)
     "?" + d.map{|k,v| "%s=%s" % [k,CGI::escape(v.to_s)] if v}.compact.uniq.join("&")
   end

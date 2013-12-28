@@ -18,7 +18,7 @@ module Spec
       after(:each) do
         Spec::Expectations.differ = nil
       end
-      
+
       describe "#require_ruby_debug" do
         it "should require ruby-debug" do
           @options.stub!(:require)

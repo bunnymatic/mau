@@ -61,24 +61,24 @@ class ApplicationCheckerTest < ActiveSupport::TestCase
     assert @checker.alerts.has_key?(key)
     assert_equal "app/models/post.rb", @checker.culprits[key].first
   end
-  
+
   def test_check_svn_subdirs_are_not_included
     make_file("app/models/.svn/text-base", "foo.rb.tmp", "Post.find(:all)")
     @checker.check_ar_methods
     assert @checker.alerts.empty?
   end
-  
+
   def test_check_validation_on_methods
     make_file("app/models", "post.rb", "validate_on_create :comments_valid?")
     @checker.check_validation_on_methods
-    
+
     assert @checker.alerts.has_key?("Updated syntax for validate_on_* methods")
   end
-  
+
   def test_check_before_validation_on_methods
     make_file("app/models", "post.rb", "before_validation_on_create :comments_valid?")
     @checker.check_before_validation_on_methods
-    
+
     assert @checker.alerts.has_key?("Updated syntax for before_validation_on_* methods")
   end
 
@@ -136,13 +136,13 @@ class ApplicationCheckerTest < ActiveSupport::TestCase
 
     assert @checker.alerts.has_key?("Old gem bundling (config.gems)")
   end
-  
+
   def test_check_gems_finds_nothing
     @checker.check_gems
 
     assert_equal false, @checker.alerts.has_key?("Old gem bundling (config.gems)")
   end
-  
+
   def test_check_mailer_finds_nothing
     @checker.check_mailers
 
@@ -239,7 +239,7 @@ class ApplicationCheckerTest < ActiveSupport::TestCase
 
     assert @checker.alerts.has_key?("Deprecated constant(s)")
   end
-  
+
   def test_check_deprecated_cookie_finds_nothing
     @checker.check_old_cookie_secret
     assert_equal false, @checker.alerts.has_key?("Deprecated cookie secret setting")
@@ -263,7 +263,7 @@ class ApplicationCheckerTest < ActiveSupport::TestCase
 
     assert @checker.alerts.has_key?("Deprecated session secret setting")
   end
-  
+
   def test_check_old_session_setting_finds_nothing
     @checker.check_old_session_setting
     assert_equal false, @checker.alerts.has_key?("Old session store setting")
@@ -281,16 +281,16 @@ class ApplicationCheckerTest < ActiveSupport::TestCase
     @checker.check_old_helpers
 
     assert @checker.alerts.has_key?("Deprecated ERb helper calls")
-    
+
   end
-  
+
   def test_check_old_helpers_lets_regular_blocks_pass
     make_file("app/views/users/", "another_test.html.erb", "<b>blah blah blah</b><% @some_items.each do |item| %> <label>doo dah</label> <%= item %> <% end %>")
     @checker.check_old_helpers
 
     assert_equal @checker.alerts.has_key?("Deprecated ERb helper calls"), false
   end
-  
+
   def test_check_old_helpers_lets_regular_blocks_pass
     make_file("app/views/users/", "another_test.html.erb", "<b>blah blah blah</b><% @some_items.each do |item| %> <label>doo dah</label> <%= item %> <% end %>")
     @checker.check_old_helpers
@@ -304,7 +304,7 @@ class ApplicationCheckerTest < ActiveSupport::TestCase
 
     assert @checker.alerts.has_key?("Deprecated AJAX helper calls")
   end
-  
+
   def test_check_old_ajax_helpers
     make_file("app/controllers", "application_controller.rb", "filter_parameter_logging :password")
     @checker.check_old_filter_parameter

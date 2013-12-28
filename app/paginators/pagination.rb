@@ -14,7 +14,7 @@ class Pagination
     last_page > first_page
   end
 
-  def count 
+  def count
     @count ||= (@array||[]).length
   end
 
@@ -29,7 +29,7 @@ class Pagination
   end
 
   def current_page
-    unless @current_page 
+    unless @current_page
       @current_page = [[@current.to_i, 0].max, last_page].min
     end
     @current_page

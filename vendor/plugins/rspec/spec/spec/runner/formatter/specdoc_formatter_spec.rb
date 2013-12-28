@@ -72,7 +72,7 @@ module Spec
 
               describe "where ExampleGroup has two superclasses with a description" do
                 attr_reader :child_example_group, :grand_child_example_group
-              
+
                 def example_group_started
                   @child_example_group = Class.new(example_group).describe("Child ExampleGroup")
                   @grand_child_example_group = Class.new(child_example_group).describe("GrandChild ExampleGroup")
@@ -116,7 +116,7 @@ module Spec
                 io.string.should have_example_group_output("")
               end
             end
-          
+
             describe "#start_dump" do
               it "should push nothing on start dump" do
                 formatter.start_dump

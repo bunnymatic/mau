@@ -187,7 +187,7 @@ class StudiosController < ApplicationController
   end
 
   protected
-  def studio_manager_required 
+  def studio_manager_required
     unless (is_manager? && current_user.studio.id.to_s == params[:id].to_s) || is_admin?
       redirect_to request.referrer, :flash => {:error => "You are not a manager of that studio."}
     end

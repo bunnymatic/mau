@@ -6,7 +6,7 @@ module Spec
         @relativity = relativity
         @actual = nil
       end
-    
+
       def relativities
         @relativities ||= {
           :exactly => "",
@@ -14,7 +14,7 @@ module Spec
           :at_most => "at most "
         }
       end
-    
+
       def matches?(collection_owner)
         if collection_owner.respond_to?(@collection_name)
           collection = collection_owner.__send__(@collection_name, *@args, &@block)
@@ -32,11 +32,11 @@ module Spec
         return @actual <= @expected if @relativity == :at_most
         return @actual == @expected
       end
-      
+
       def not_a_collection
         "expected #{@collection_name} to be a collection but it does not respond to #length or #size"
       end
-    
+
       def failure_message_for_should
         "expected #{relative_expectation} #{@collection_name}, got #{@actual}"
       end
@@ -62,17 +62,17 @@ We recommend that you use this instead:
 EOF
         end
       end
-      
+
       def description
         "have #{relative_expectation} #{@collection_name}"
       end
-      
+
       def respond_to?(sym)
         @expected.respond_to?(sym) || super
       end
-    
+
       private
-      
+
       def method_missing(sym, *args, &block)
         @collection_name = sym
         if inflector = (defined?(ActiveSupport::Inflector) ? ActiveSupport::Inflector : (defined?(Inflector) ? Inflector : nil))
@@ -82,7 +82,7 @@ EOF
         @block = block
         self
       end
-      
+
       def relative_expectation
         "#{relativities[@relativity]}#{@expected}"
       end

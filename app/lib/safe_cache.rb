@@ -1,4 +1,4 @@
-class SafeCache 
+class SafeCache
 
   def self.read(k)
     begin

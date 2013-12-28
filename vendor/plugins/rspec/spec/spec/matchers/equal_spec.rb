@@ -2,11 +2,11 @@ require 'spec_helper'
 module Spec
   module Matchers
     describe "equal" do
-      
+
       def inspect_object(o)
         "#<#{o.class}:#{o.object_id}> => #{o.inspect}"
       end
-      
+
       it "should match when actual.equal?(expected)" do
         1.should equal(1)
       end
@@ -14,18 +14,18 @@ module Spec
       it "should not match when !actual.equal?(expected)" do
         1.should_not equal("1")
       end
-      
+
       it "should describe itself" do
         matcher = equal(1)
         matcher.matches?(1)
         matcher.description.should == "equal 1"
       end
-      
+
       it "should provide message on #failure_message" do
         expected, actual = "1", "1"
         matcher = equal(expected)
         matcher.matches?(actual)
-        
+
         matcher.failure_message_for_should.should == <<-MESSAGE
 
 expected #{inspect_object(expected)}
@@ -38,7 +38,7 @@ object identity in this example.
 
 MESSAGE
       end
-      
+
       it "should provide message on #negative_failure_message" do
         expected = actual = "1"
         matcher = equal(expected)

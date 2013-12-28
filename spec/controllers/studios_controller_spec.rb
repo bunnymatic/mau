@@ -13,7 +13,7 @@ describe StudiosController do
       login_as :admin
     end
     describe '#new' do
-      before do 
+      before do
         get :new
       end
       it 'setups up a new studio' do
@@ -130,7 +130,7 @@ describe StudiosController do
   describe "#show keyed studios" do
 
     render_views
-    
+
     Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].each do |k,v|
       it "should return studio #{v} for key #{k}" do
         get :show, :id => k

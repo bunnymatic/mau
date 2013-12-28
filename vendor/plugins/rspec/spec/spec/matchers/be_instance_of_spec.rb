@@ -22,9 +22,9 @@ module Spec
           matcher.description.should == "be an instance of Fixnum"
         end
       end
-      
+
       describe "actual.should_not #{method}(expected)" do
-        
+
         it "fails with failure message for should_not if actual is instance of expected class" do
           lambda { "foo".should_not send(method, String) }.should fail_with(%Q{expected "foo" not to be an instance of String})
         end

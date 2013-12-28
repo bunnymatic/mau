@@ -5,7 +5,7 @@ module Spec
   module Runner
     module Formatter
       describe ProgressBarFormatter do
-        
+
         treats_method_missing_as_private
 
         before(:each) do
@@ -26,7 +26,7 @@ module Spec
           @formatter.dump_summary(3, 2, 1, 0)
           @io.string.should eql("\nFinished in 3 seconds\n\n2 examples, 1 failure\n")
         end
-        
+
         it "should produce standard summary" do
           example_group = ExampleGroup.describe("example_group") do
             specify "example" do
@@ -96,7 +96,7 @@ EOE
 /tmp/x.rb:3:
 EOE
         end
-        
+
         it "should dump pending with file and line number" do
           example_group = ExampleGroup.describe("example_group") do
             specify "example" do
@@ -111,7 +111,7 @@ EOE
           @io.string.should =~ /Pending:\n\nexample_group example \(message\)\n#{file}:#{line}/m
         end
       end
-      
+
       describe "ProgressBarFormatter outputting to custom out" do
         before(:each) do
           @out = mock("out")
@@ -138,7 +138,7 @@ EOE
           options.stub!(:dry_run).and_return(true)
           @formatter = ProgressBarFormatter.new(options, @io)
         end
-      
+
         it "should not produce summary on dry run" do
           @formatter.dump_summary(3, 2, 1, 0)
           @io.string.should eql("")

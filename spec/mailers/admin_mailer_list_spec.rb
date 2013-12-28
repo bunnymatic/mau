@@ -16,7 +16,7 @@ describe AdminMailerList do
     mailing_list = AdminMailerList.all.first
     expect {
       mailing_list.emails << Email.new(:email => 'whatever@dude.com')
-      mailing_list.save 
+      mailing_list.save
     }.to change(Email, :count).by(1)
   end
   it 'adds email to this list' do
@@ -31,7 +31,7 @@ describe AdminMailerList do
     lambda {
       mailing_list.emails << Email.new(:email => 'whatever@dude.com')
       mailing_list.emails << Email.new(:email => 'whatever@dude.com')
-      mailing_list.save 
+      mailing_list.save
     }.should raise_error(ActiveRecord::StatementInvalid)
   end
 
@@ -42,6 +42,6 @@ describe AdminMailerList do
       end
     end
   end
-    
+
 end
 

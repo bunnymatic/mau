@@ -28,9 +28,9 @@ module Spec
         determine_best_match(file, line_number)
         best_match[:line]
       end
-    
+
     protected
-    
+
       def determine_best_match(file, line_number)
         best_match.clear
         file = File.expand_path(file)
@@ -68,7 +68,7 @@ module Spec
                 example_line <= line_number &&
                 example_line > best_match[:line].to_i
       end
-      
+
       def parse_location(location)
         location =~ /(.*)\:(\d*)(\:|$)/
         return $1, Integer($2)

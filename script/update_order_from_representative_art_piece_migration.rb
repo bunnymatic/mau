@@ -4,7 +4,7 @@ class SetOrderFromRepresentativeArtPiece < ActiveRecord::Migration
     if reps.length > 0
       reps.each do |r|
         aps = ArtPiece.find(:all, :conditions => [ 'id in (?)', reps ])
-        aps.each do |a| 
+        aps.each do |a|
           a.order = 1
           a.save
         end

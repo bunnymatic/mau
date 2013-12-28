@@ -73,11 +73,11 @@ EOD
     diff = @differ.diff_as_object(expected,actual)
     diff.should == expected_diff
   end
-  
+
   it "should output a friendly message if comparing simple hashes" do
     expected = { "foo" => "bar" }
     actual   = { "foo" => "baz" }
-    
+
     expected_diff = <<'EOD'
 
 Expected the key "foo" to be "bar", but was "baz"
@@ -88,8 +88,8 @@ EOD
     diff = @differ.diff_as_hash(actual, expected)
     diff.should == expected_diff
   end
-  
-  
+
+
   it "should output a friendly message if comparing simple hashes that contain different keys" do
     expected = { "bar" => "foo" }
     actual   = { "foo" => "baz" }
@@ -106,7 +106,7 @@ EOD
     diff = @differ.diff_as_hash(actual, expected)
     diff.should == expected_diff
   end
-  
+
   it "should output diff message if the hash is complex (containing Array or Hash)" do
     expected = { "foo" => "bar", "fizz" => [1, 2, 3] }
     actual   = { "foo" => "baz", "fizz" => [1, 2] }
@@ -139,7 +139,7 @@ EOD
     diff = @differ.diff_as_hash(actual, expected)
     diff.should == expected_diff
   end
-  
+
 
   it "should output unified diff message of two objects" do
     expected = Spec::Fixtures::Animal.new "bob", "giraffe"

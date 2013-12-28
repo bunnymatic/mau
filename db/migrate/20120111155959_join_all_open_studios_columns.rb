@@ -1,9 +1,9 @@
 class JoinAllOpenStudiosColumns < ActiveRecord::Migration
   def self.up
     ArtistInfo.all.each do |a|
-      a.os_participation = { 
+      a.os_participation = {
         '201010' => a.osoct2010,
-        '201004' => a.os2010 
+        '201004' => a.os2010
       }
       a.save
     end

@@ -19,7 +19,7 @@ module Spec
           @example_group = nil
           Spec::Example::SharedExampleGroup.clear
         end
-        
+
         describe "#register" do
           it "creates a new shared example group with the submitted args" do
             block = lambda {|a|}
@@ -43,7 +43,7 @@ module Spec
             end
           end.should raise_error(ArgumentError)
         end
-        
+
         it "does NOT add the same group twice" do
           lambda do
             2.times do
@@ -121,11 +121,11 @@ module Spec
           shared_example_group = describe "all things", :shared => true do
             it "should do stuff" do end
           end
-        
+
           example_group = describe "one thing" do
             include shared_example_group
           end
-        
+
           example_group.number_of_examples.should == 1
         end
 
@@ -133,11 +133,11 @@ module Spec
           ::AllThings = describe "all things", :shared => true do
             it "should do stuff" do end
           end
-        
+
           example_group = describe "one thing" do
             it_should_behave_like ::AllThings
           end
-        
+
           example_group.number_of_examples.should == 1
         end
 

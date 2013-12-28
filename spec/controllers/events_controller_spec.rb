@@ -33,7 +33,7 @@ describe EventsController do
         it_should_behave_like 'not authorized'
       end
     end
-    
+
     describe '#index' do
       context 'with params' do
         let(:first_event) { Event.published.first }
@@ -58,7 +58,7 @@ describe EventsController do
           expect(j).to have_at_least(1).event
           expect(j.count).to eql Event.published.count
         end
-      
+
       end
     end
 

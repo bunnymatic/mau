@@ -2,7 +2,7 @@ module Spec
   module Expectations
     class << self
       attr_accessor :differ
-      
+
       # raises a Spec::Expectations::ExpectationNotMetError with message
       #
       # When a differ has been assigned and fail_with is passed

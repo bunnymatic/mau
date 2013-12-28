@@ -15,7 +15,7 @@ describe EmailList do
       end
     end
     it "adds valid emails" do
-      expect {  
+      expect {
         eml = WhateverMailList.new
         ['a@example.com', 'b@example.com'].each do |email|
           eml.emails << Email.new(:email => email)
@@ -38,12 +38,12 @@ describe EmailList do
         eml.emails << Email.new(:email => 'joe@example.com')
         eml.emails << Email.new(:email => 'joe@example.com')
         eml.save
-      }.should raise_error ActiveRecord::StatementInvalid 
+      }.should raise_error ActiveRecord::StatementInvalid
     end
-    
+
   end
   it "adds a new email list" do
-    expect {  
+    expect {
       eml = TestMailerList.new
       ['uniq1@example.com', 'more_uniq@example.com'].each do |email|
         eml.emails << Email.new(:email => email)
