@@ -81,8 +81,12 @@ describe StudiosController do
       it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
         s = assigns(:studios)
         s.pop
-        s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should eql s.map(&:name)
+        def prep_name(a)
+          a.name.downcase.gsub(/^the\ /, '')
+        end
+        s.sort_by{|a| prep_name(a)}.map(&:name).should eql s.map(&:name)
       end
+
       it "sets view_mode to name" do
         assigns(:view_mode).should eql 'name'
       end
@@ -174,7 +178,11 @@ describe StudiosController do
         it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
           s = assigns(:studios)
           s.pop
-          s.sort{|a,b| a.name.downcase.gsub(/^the\ /, '') <=> b.name.downcase.gsub(/^the\ /,'')}.map(&:name).should eql s.map(&:name)
+          def prep_name(a)
+            a.name.downcase.gsub(/^the\ /, '')
+          end
+
+          s.sort_by{|a| prep_name(a)}.map(&:name).should eql s.map(&:name)
         end
         it "studio url is a link" do
           assert_select("div.url a[href=#{studios(:as).url}]")
@@ -287,21 +295,22 @@ describe StudiosController do
 
   describe 'edit' do
     render_views
-    [:manager, :admin].each do |user|
-      context "as #{user}" do
+    [:manager, :admin].each do |user_key|
+      context "as #{user_key}" do
+        let(:user) { users(user_key) }
+        let(:studio) { users(:manager).studio }
+
         before do
           login_as user
-          @user = users(user)
-          @my_studio = users(:manager).studio
-          get :edit, :id => @my_studio.id
+          get :edit, :id => studio.id
         end
         it_should_behave_like 'returns success'
         it 'shows the studio info in a form' do
           assert_select 'form input#studio_url' do |tag|
-            tag.first.attributes['value'].should eql @my_studio.url
+            tag.first.attributes['value'].should eql studio.url
           end
           assert_select 'form input#studio_name' do |tag|
-            tag.first.attributes['value'].should eql @my_studio.name
+            tag.first.attributes['value'].should eql studio.name
           end
           assert_select 'form input[type=submit]' do |tag|
             tag.first.attributes['value'].should eql 'Update Studio'
@@ -311,13 +320,14 @@ describe StudiosController do
           assert_select '.block.image img'
         end
         it 'has a link to update the logo' do
-          assert_select ".block.image a[href=#{addprofile_studio_path(@my_studio)}]"
+          assert_select ".block.image a[href=#{addprofile_studio_path(studio)}]"
         end
         it 'lists the active artists' do
-          assert_select "li.artist", :count => @my_studio.artists.active.count
+          assert_select "li.artist", :count => studio.artists.active.count
         end
         it 'includes unaffiliate links for each artist thats not the current user' do
-          assert_select "li.artist a", :text => 'X', :count => (@my_studio.artists.active.reject{|a| a == @user}.count)
+          ct = studio.artists.active.reject{|a| a == user}.length
+          assert_select "li.artist a", :text => 'X', :count => ct
         end
       end
     end
@@ -354,6 +364,7 @@ describe StudiosController do
   end
 
   describe 'unaffiliate_artist' do
+    let(:manager_role) { Role.find_by_role('manager') }
     before do
       login_as :admin
       @artist = studios(:as).artists.active[1]
@@ -378,12 +389,11 @@ describe StudiosController do
       response.should redirect_to edit_studio_path(studios(:as))
     end
     it 'removes the manager role if it\'s on the user but does not remove the role itself' do
-      @artist.roles << Role.find_by_role('manager')
+      @artist.roles << manager_role
       @artist.save
       post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
       @artist.reload
-      @artist.roles.should_not include Role.find_by_role('manager')
-      Role.find_by_role('manager').should be
+      @artist.roles.should_not include manager_role
     end
   end
 

@@ -54,22 +54,21 @@ describe FavoritesController do
         response.should be_success
       end
       it "assigns :favorites to a hash keyed by user login" do
-        assigns(:favorites).should be_is_a Hash
-        logins = User.all.map(&:login)
-        assigns(:favorites).count.should be > 0
-        assigns(:favorites).keys.all?{|login| logins.include? login}.should be_true
+        assigns(:favorites).should be_a_kind_of AdminFavoritesPresenter
+        assigns(:favorites).favorites.count.should be > 0
+        assigns(:favorites).favorites.first.first.should be_a_kind_of User
       end
 
       it "aaron should have 1 favorite art piece" do
-        assigns(:favorites)[users(:maufan1).login][:art_pieces].should eql 1
+        assigns(:favorites).favorites.detect{|f| f[0] == users(:maufan1)}.last.art_pieces.should eql 1
       end
 
       it "aaron should have 1 favorite art piece" do
-        assigns(:favorites)[users(:maufan1).login][:artists].should eql 2
+        assigns(:favorites).favorites.detect{|f| f[0] == users(:maufan1)}.last.artists.should eql 2
       end
 
       it "artist 1 should have 2 favorited" do
-        assigns(:favorites)[users(:artist1).login][:favorited].should eql 2
+        assigns(:favorites).favorites.detect{|f| f[0] == users(:artist1)}.last.favorited.should eql 2
       end
 
 

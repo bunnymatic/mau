@@ -12,7 +12,11 @@ describe MediumPagination do
   let(:medium) { Medium.last }
   let(:page_args) { {} }
 
-  subject(:paginator) { MediumPagination.new(mock_view_context, num_items.times.map{|x| x + 1}, medium, current_page, page_args, per_page ) }
+  subject(:paginator) do
+    MediumPagination.new(mock_view_context,
+                         num_items.times.map{|x| x + 1},
+                         medium, current_page, page_args, per_page )
+  end
 
   its(:previous_title) { should eq 'previous' }
   its(:previous_label) { should eq '&lt;prev' }

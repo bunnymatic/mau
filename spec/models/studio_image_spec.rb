@@ -28,25 +28,53 @@ describe StudioImage do
   describe '#get_path' do
     let(:studio) { FactoryGirl.create(:studio) }
     let(:directory) { 'studiodata' }
-    it "returns the right path where size is thumb" do
-      (StudioImage.get_path(studio, :thumb)).should eql('/'+ [directory,studio.id,'profile','t_'+studio.profile_image].join('/'))
+    let(:size) { :thumb }
+    let(:prefix) { 't_' }
+    let(:expected_path) {
+      ('/'+ [directory,studio.id,'profile', prefix+studio.profile_image].join('/'))
+    }
+    context 'thumb' do
+      it 'returns the right path' do
+        (StudioImage.get_path(studio, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is cropped_thumb" do
-      (StudioImage.get_path(studio, :cropped_thumb)).should eql('/'+ [directory,studio.id,'profile','ct_'+studio.profile_image].join('/'))
+    context 'cropped_thumb' do
+      let(:size) { :cropped_thumb }
+      let(:prefix) { 'ct_' }
+      it 'returns the right path' do
+        (StudioImage.get_path(studio, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is small" do
-      (StudioImage.get_path(studio, :small)).should eql('/'+ [directory,studio.id,'profile','s_'+studio.profile_image].join('/'))
+
+    context 'small' do
+      let(:size) { :small }
+      let(:prefix) { 's_' }
+      it 'returns the right path' do
+        (StudioImage.get_path(studio, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is medium" do
-      (StudioImage.get_path(studio, :medium)).should eql('/'+  [directory,studio.id,'profile','m_'+studio.profile_image].join('/'))
-      (StudioImage.get_path(studio)).should eql('/'+  [directory,studio.id,'profile','m_'+studio.profile_image].join('/'))
+    context 'medium' do
+      let(:size) { :medium }
+      let(:prefix) { 'm_' }
+      it 'returns the right path' do
+        (StudioImage.get_path(studio, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is large" do
-      (StudioImage.get_path(studio, :large)).should eql("/"+ [directory,studio.id,'profile','l_'+studio.profile_image].join('/'))
+    context 'large' do
+      let(:size) { :large }
+      let(:prefix) { 'l_' }
+      it 'returns the right path' do
+        (StudioImage.get_path(studio, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is original" do
-      (StudioImage.get_path(studio, :original)).should eql("/"+ [directory,studio.id,'profile',studio.profile_image].join('/'))
+    context 'original' do
+      let(:size) { :original }
+      let(:prefix) { '' }
+      it 'returns the right path' do
+        (StudioImage.get_path(studio, size)).should eql expected_path
+      end
     end
+
   end
 
 end

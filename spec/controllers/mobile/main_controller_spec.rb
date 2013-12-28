@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MainController do
 
   render_views
-  fixtures :users, :artist_infos, :cms_documents, :studios
+  fixtures :cms_documents
   before do
     # do mobile
     request.stub(:user_agent => IPHONE_USER_AGENT)
@@ -30,18 +30,16 @@ describe MainController do
       assert_select('ul li a[href="/openstudios/"]', :count => 1)
     end
   end
+
   describe 'openstudios' do
     before do
-      ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201210'")
-      Artist.any_instance.stub(:in_the_mission? => true)
-      @a = users(:artist1)
-      @b = users(:joeblogs)
       get :openstudios
     end
     it_should_behave_like "a regular mobile page"
 
     it "uses cms for parties" do
-      CmsDocument.should_receive(:where).at_least(2).and_return([:os_blurb,:os_preview_reception].map{|k| cms_documents(k)})
+      docs = [:os_blurb,:os_preview_reception].map{|k| cms_documents(k)}
+      CmsDocument.should_receive(:where).at_least(2).and_return(docs)
 
       get :openstudios
     end
@@ -61,8 +59,8 @@ EOM
       assert_select('p', :match => 'stuff')
     end
   end
+
   describe "#news" do
-    render_views
     context "while not logged in" do
       before do
         get :resources

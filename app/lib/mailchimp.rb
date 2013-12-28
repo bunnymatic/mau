@@ -34,7 +34,6 @@ module MailChimp
   end
 
   # http://www.mailchimp.com/api/rtfm/listsubscribe.func.php
-  # public static listSubscribe(string apikey, string id, string email_address, array merge_vars, string email_type, bool double_optin, bool update_existing, bool replace_interests, bool send_welcome)
 
   # extract the list_id for the given list_name
   def mailchimp_list_id(list_name)

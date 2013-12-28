@@ -10,7 +10,7 @@
     <div id="my_favorite_artists" class="favorites-block" >
       <div>Artists (<span class="fav-count"><%= current_user.fav_artists.count %></span>)</div>
       <% favs = current_user.fav_artists
-         favs.each do |f| 
+         favs.each do |f|
          clz = (f == favs.last) ?"last" :""
          %>
       <%= render :partial => "/users/favorite_thumb_edit", :locals => { :favorite => f, :xclass => clz } %>
@@ -22,7 +22,7 @@
     <div id="my_favorite_artpieces" class="favorites-block" >
       <div>Art Pieces (<span class="fav-count"><%= current_user.fav_art_pieces.count %></span>)</div>
       <% favs = current_user.fav_art_pieces
-         favs.each do |f| 
+         favs.each do |f|
          clz = (f == favs.last) ?"last" :""
          %>
       <%= render :partial => "/users/favorite_thumb_edit", :locals => { :favorite => f, :xclass => clz } %>

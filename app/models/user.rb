@@ -39,11 +39,11 @@
 #
 # Indexes
 #
-#  index_artists_on_login  (login) UNIQUE
+#  index_artists_on_login    (login) UNIQUE
+#  index_users_on_studio_id  (studio_id)
 #
 
 require 'digest/sha1'
-require 'htmlhelper'
 require 'json'
 require File.join(Rails.root, 'app','lib', 'mailchimp')
 
@@ -59,6 +59,7 @@ RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
 class User < ActiveRecord::Base
 
   include MailChimp
+  include HtmlHelper
 
   after_create :tell_user_they_signed_up
   after_save :notify_user_about_state_change
@@ -123,7 +124,8 @@ class User < ActiveRecord::Base
   validate :validate_username
   validate :validate_email
 
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume
+  attr_accessible :login, :email, :name, :password, :password_confirmation,
+   :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
@@ -201,7 +203,7 @@ class User < ActiveRecord::Base
       name = self.login
     end
     if htmlsafe
-      HTMLHelper.encode(name)
+      html_encode(name)
     else
       name
     end
@@ -277,7 +279,8 @@ class User < ActiveRecord::Base
   end
 
   def validate_phone
-    errors.add(:phone, 'is an invalid phone number, must contain at least 5 digits, only the following characters are allowed: 0-9/-()+') unless User.valid_phone?(phone)
+    errors.add(:phone, 'is an invalid phone number, must contain at least 5 digits,'+
+               ' only the following characters are allowed: 0-9/-()+') unless User.valid_phone?(phone)
   end
 
   def validate_email

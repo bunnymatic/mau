@@ -39,7 +39,8 @@
 #
 # Indexes
 #
-#  index_artists_on_login  (login) UNIQUE
+#  index_artists_on_login    (login) UNIQUE
+#  index_users_on_studio_id  (studio_id)
 #
 
 require 'qr4r'
@@ -90,7 +91,11 @@ class Artist < User
   delegate :update_os_participation, :to => :artist_info
 
   def to_json opts = {}
-    default_opts = { :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at, :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at, :max_pieces, :updated_at, :activation_code, :reset_code] }
+    default_opts = {
+      :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at,
+                  :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at,
+                  :max_pieces, :updated_at, :activation_code, :reset_code]
+    }
     super(default_opts.merge(opts))
   end
 
@@ -112,7 +117,7 @@ class Artist < User
   end
 
   def doing_open_studios?
-    Conf.oslive && os_participation && os_participation[Conf.oslive.to_s]
+    !!(Conf.oslive && os_participation && os_participation[Conf.oslive.to_s])
   end
 
   def address
@@ -128,16 +133,12 @@ class Artist < User
   end
 
   def primary_medium
-    freq = {}
     return nil unless art_pieces && art_pieces.count > 0
-    art_pieces.map(&:medium).select{|m| m}.each do |m|
-      freq[m.id] ||= 0
-      freq[m.id] += 1
-    end
-    return nil unless freq && freq.count > 0
-    sorted = freq.sort{|a,b| b[1] <=> a[1]}.map{|f| [Medium.find(f[0]), f[1]]}
-
-    sorted[0][0]
+    @primary_medium ||=
+      begin
+        hist = histogram(art_pieces.map(&:medium).compact)
+        hist.sort_by{|k,v| v}.last.first
+      end
   end
 
   def representative_piece

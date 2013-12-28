@@ -1,9 +1,9 @@
 beforeEach(function() {
   this.addMatchers({
-    /** 
+    /**
     toBePlaying: function(expectedSong) {
       var player = this.actual;
-      return player.currentlyPlayingSong === expectedSong && 
+      return player.currentlyPlayingSong === expectedSong &&
              player.isPlaying;
     }
     **/
@@ -16,9 +16,9 @@ jasmine.get_events = function(sel, event_name) {
   try {
     var evs = $$(sel)[0].getStorage().get('prototype_event_registry');
     events = evs.get(event_name);
-  } 
+  }
   catch(e) {}
-  return events; 
+  return events;
 };
 
 jasmine.get_click_events = function(sel) {
@@ -33,6 +33,6 @@ jasmine.triggerEvent = function(sel, event_name) {
     });
   });
 };
-  
+
 
 var authenticityToken = 'faux_auth_token';

@@ -13,6 +13,10 @@ class ThumbnailBrowserPresenter
     @art_pieces ||= @artist.art_pieces
   end
 
+  def num_pieces
+    @num_pieces ||= pieces.count
+  end
+
   def has_thumbs?
     thumbs.count > 0
   end
@@ -23,7 +27,6 @@ class ThumbnailBrowserPresenter
   end
 
   def thumbs
-    npieces = pieces.count
     @thumbs ||= pieces.map.with_index do |item, idx|
       item_id = item.send(:id)
       item_path = item.get_path('thumb')
@@ -36,12 +39,8 @@ class ThumbnailBrowserPresenter
         :background_style => style
       }
       if item_id == @current_piece.id
-        @current_index = idx
+        set_current_piece(idx)
         thumb[:clz] << ' tiny-thumb-sel'
-        nxt = (idx + 1) % npieces
-        prv = (idx - 1) % npieces
-        @next_img = pieces[nxt].id
-        @prev_img = pieces[prv].id
       end
       OpenStruct.new(thumb)
     end
@@ -51,4 +50,12 @@ class ThumbnailBrowserPresenter
     @json ||= thumbs.map(&:marshal_dump).to_json.html_safe
   end
 
+  private
+  def set_current_piece(idx)
+    @current_index = idx
+    nxt = (idx + 1) % num_pieces
+    prv = (idx - 1) % num_pieces
+    @next_img = pieces[nxt].id
+    @prev_img = pieces[prv].id
+  end
 end

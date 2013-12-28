@@ -95,11 +95,11 @@
     if ($(settings.overlay).length == 0)
       $("body").append(settings.overlayHtml)
     return $(settings.overlay).hide().addClass("feedback_overlayBG")
-  } 
+  }
  
   var showOverlay = function() {
     initOverlay().show();  	
-  } 
+  }
  
   var hideOverlay = function() {  
     if ($(settings.overlay).length == 0) return false;

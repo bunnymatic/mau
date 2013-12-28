@@ -1,5 +1,5 @@
-:ruby 
-  if pieces and !pieces.empty?  
+:ruby
+  if pieces and !pieces.empty?
     numpieces = params[:numpieces]
     if not numpieces
       numpieces = pieces.length
@@ -16,7 +16,7 @@
     delete = params[:delete] || false
     rows = (numpieces.to_f / cols.to_f ).ceil
     numspots = rows * cols
-    _params = { :delete => delete, :select => select, 
+    _params = { :delete => delete, :select => select,
                 :show_footer => show_footer,
                :size => size, :artist_link => !art_link }
     clz =""
@@ -25,7 +25,7 @@
     end
   end
 .allthumbs{:class => clz}
-  - pieces.each_with_index do |piece, idx| 
+  - pieces.each_with_index do |piece, idx|
     - _params[:piece] = piece
     = render :partial => '/art_pieces/thumb', :locals => _params
   .clear

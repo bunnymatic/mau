@@ -152,7 +152,8 @@ class UsersController < ApplicationController
     end
     @user.url = add_http(@user.url)
     unless verify_recaptcha
-      @user.errors.add(:base, "Failed to prove that you're human.  Re-type your password and the blurry words at the bottom before re-submitting.")
+      @user.errors.add(:base, "Failed to prove that you're human."+
+                       " Re-type your password and the blurry words at the bottom before re-submitting.")
     end
     success = @user.errors.empty? && @user.save
     if success
@@ -175,7 +176,9 @@ class UsersController < ApplicationController
         redirect_to login_path
       end
     else
-      msg = "There was a problem creating your account.  If you can't solve the issues listed below, please try again later or contact the webmaster (link below). if you continue to have problems."
+      msg = "There was a problem creating your account."+
+        " If you can't solve the issues listed below, please try again later or"+
+        " contact the webmaster (link below). if you continue to have problems."
       flash.now[:error] = msg
       flash.now[:error] << "<br/>#{@user.errors[:base]}" if @user.errors[:base]
       @studios = Studio.all
@@ -226,7 +229,8 @@ class UsersController < ApplicationController
         noteinfo[k] = params[k]
       end
     end
-    scammer_emails = Scammer.all.map(&:email) + ['philipcolee@yahoo.com','evott@rocketmail.com', 'mrsute14@yahoo.com','garymartin@gmail.com']
+    fixed_names = ['philipcolee@yahoo.com','evott@rocketmail.com', 'mrsute14@yahoo.com','garymartin@gmail.com]']
+    scammer_emails = Scammer.all.map(&:email) + fixed_names
     if params.include? 'i_love_honey'
       # spammer hit the honey pot.
       noteinfo['artist_id'] = id
@@ -258,7 +262,8 @@ class UsersController < ApplicationController
       return
     end
     if request.post? && params[:user]
-      if @user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
+
+      if @user.update_attributes(params[:user].slice(:password, :password_confirmation))
         self.current_user = @user
         @user.delete_reset_code
         flash[:notice] = "Password reset successfully for #{@user.email}"
@@ -305,7 +310,8 @@ class UsersController < ApplicationController
     when params[:activation_code].blank?
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
     else
-      flash[:error]  = "We couldn't find an artist with that activation code -- check your email? Or maybe you've already activated -- try signing in."
+      flash[:error]  = "We couldn't find an artist with that activation code -- check your email?"+
+        " Or maybe you've already activated -- try signing in."
     end
     redirect_to '/login'
   end
@@ -317,9 +323,10 @@ class UsersController < ApplicationController
         if user
           if user.class == Artist
             user.resend_activation
-            flash[:notice] = "We sent your activation code to #{user.email}.  Please check your email for instructions."
+            flash[:notice] = "We sent your activation code to #{user.email}. Please check your email for instructions."
           else
-            flash[:notice] = "MAU Fan accounts need no activation.  If you've forgotten your password, click the 'login' link and follow the 'forgot your password?' link"
+            flash[:notice] = "MAU Fan accounts need no activation.  If you've forgotten your password,"+
+              " click the 'login' link and follow the 'forgot your password?' link"
           end
         else
           flash[:error] = "We can't find any users with email #{params[:user][:email]} in our system."
@@ -335,14 +342,17 @@ class UsersController < ApplicationController
       if user
         if user.state == 'active'
           user.create_reset_code
-          flash[:notice] = "We've sent email to #{user.email} with instructions on how to reset your password.  Please check your email."
+          flash[:notice] = "We've sent email to #{user.email} with instructions on how to reset your password."+
+            "  Please check your email."
         else
-          flash[:error] = "That account is not yet active.  Have you responded to the activation email we already sent?  Enter your email below if you need us to send you a new activation email."
+          flash[:error] = "That account is not yet active.  Have you responded to the activation email we"+
+            " already sent?  Enter your email below if you need us to send you a new activation email."
           redirect_back_or_default('/resend_activation')
           return
         end
       else
-        flash[:error] = "No account with email #{params[:user][:email]} exists.  Are you sure you got the correct email address?"
+        flash[:error] = "No account with email #{params[:user][:email]} exists.  Are you sure you got the"+
+          " correct email address?"
       end
       redirect_back_or_default('/login')
     end

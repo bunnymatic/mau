@@ -53,12 +53,8 @@ class ArtistPresenter
 
   def art_pieces
     unless @art_pieces
-      if @artist.is_a? Artist
-        num = @artist.max_pieces - 1
-        @art_pieces = @artist.art_pieces[0..num]
-      else
-        @art_pieces = []
-      end
+      num = @artist.max_pieces - 1
+      @art_pieces = @artist.art_pieces[0..num]
     end
     @art_pieces
   end

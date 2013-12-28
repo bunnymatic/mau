@@ -2,30 +2,30 @@
   autocompleter = null;
   Event.observe(window, 'load', function() {
      $('tags').observe('focus', function() {
-     var options={ 
+     var options={
        script:'/art_piece_tags?format=json&suggest=1&', // form elements tagged on the end
-       varname:'input', 
+       varname:'input',
        valueSep: ',',
-       json:true, 
+       json:true,
        minchars:2,
        shownoresults:false,
        maxresults:10,
        callback: null
-     }; 
-     autocompleter=new AutoComplete('tags', options); 
+     };
+     autocompleter=new AutoComplete('tags', options);
      return true;
      });
 
   var otherinputs = $$('input');
   otherinputs.each( function(inp) {
   if (inp.readAttribute('id')!='tags') {
-    inp.observe('focus', function() { 
+    inp.observe('focus', function() {
      if (autocompleter) { autocompleter.clearSuggestions(); }
     });
   }
 });
 
   });
-  
+
 </script>
 <%= javascript_include_tag 'thirdparty/autocomplete.min' %>

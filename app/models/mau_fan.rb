@@ -39,7 +39,8 @@
 #
 # Indexes
 #
-#  index_artists_on_login  (login) UNIQUE
+#  index_artists_on_login    (login) UNIQUE
+#  index_users_on_studio_id  (studio_id)
 #
 
 class MAUFan < User

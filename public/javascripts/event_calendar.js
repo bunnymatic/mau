@@ -15,7 +15,7 @@
 
   // highlight events that have a background color
   jQuery('.ec-event-bg').each(function() {
-    jQuery(this).bind('mouseover', function() { 
+    jQuery(this).bind('mouseover', function() {
       var eventId = jQuery(this).data('event-id')
       var className = '.ec-event-' + eventId;
       jQuery(className).css({backgroundColor: highlight_color});
@@ -27,4 +27,4 @@
       jQuery(className).css({backgroundColor: event_color});
     })
   });
-}); 
+});

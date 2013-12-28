@@ -11,7 +11,11 @@ describe ArtPieceTagPagination do
   let(:tag) { ArtPieceTag.last }
   let(:page_args) { {} }
 
-  subject(:paginator) { ArtPieceTagPagination.new(mock_view_context, num_items.times.map{|x| x + 1}, tag, current_page, page_args, per_page) }
+  subject(:paginator) do
+    ArtPieceTagPagination.new(mock_view_context,
+                              num_items.times.map{|x| x + 1},
+                              tag, current_page, page_args, per_page)
+  end
 
   context 'with minimal arguments' do
     its(:previous_title) { should eq 'previous' }

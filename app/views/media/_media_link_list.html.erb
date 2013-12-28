@@ -4,9 +4,9 @@
   <% @freq.each do |t| %>
   <%   mid = t["medium"]
        ct = t["ct"]
-       (sz, mrg) = TagsHelper.fontsize_from_frequency(ct)
+       (sz, mrg) = fontsize_from_frequency(ct)
        medium = @media.select{ |m| m.id.to_i == mid.to_i }[0]
-       unless medium.nil? 
+       unless medium.nil?
          if medium == match
            matchclass = "tagmatch"
          else
@@ -20,7 +20,7 @@
        <%= medium.safe_name %>
        <% end %>
   </span>
-  <% end 
+  <% end
      end
      end -%>
 </div>

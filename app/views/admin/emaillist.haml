@@ -1,8 +1,5 @@
 .singlecolumn.email_lists
   %h4 #{@title} [#{@emails.length}]
-  - if @msg.present?
-    .error-msg
-      #{@msg}
   .list_chooser
     %h5 Available Lists
     %ul
@@ -23,7 +20,7 @@
                 title = "%s %s" % [ seas, yr ]
               .cb
                 %label #{title}
-                %input{:type => 'checkbox', :name => ostag} 
+                %input{:type => 'checkbox', :name => ostag}
 
             %input{:type => 'submit'}
   .email_results
@@ -31,8 +28,16 @@
       %h5 Emails
       %a.export-csv{:href => "?format=csv&%s" % request.query_string}
         %button export as csv
-      %textarea{:rows => "15", :cols => "70", :readonly => "readonly"}
-        = @emails.select{|e| e.length > 0}.map{|e| "&quot;#{e[:name]}&quot; &lt;#{e[:email]}&gt;"}.join(",\n ").html_safe
+      %table
+        %thead
+          %tr
+            %th name
+            %th email
+        %tbody
+          - @emails.each do |e|
+            %tr{'class' => cycle('odd','even')}
+              %td.name #{e[:name]}
+              %td.email #{e[:email]}
     - else
       %h5 nothing emails match the query
     .clear

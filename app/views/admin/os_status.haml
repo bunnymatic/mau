@@ -8,7 +8,7 @@
       %td Totals:
       - @totals.keys.sort.each do |key|
         %td.tf #{@totals[key]}
-    - @os.each_with_index do |a,idx| 
+    - @os.each_with_index do |a,idx|
       %tr{:class => cycle('even','odd')}
         %td#admin_artist_name
           %a{:href => user_path(a)} #{a.get_name}

@@ -10,8 +10,9 @@ begin
     cane.style_measure = 120   # Maximum line length
     cane.style_exclude = %w{
       lib/templates/rspec/scaffold/controller_spec.rb
-      lib/restful_authentication/
+      lib/restful_authentication/**/*.rb
     }
+    cane.abc_exclude = %w|AuthenticatedGenerator#manifest|
 
     cane.no_doc = true # Change to false to enable documentation checks
 

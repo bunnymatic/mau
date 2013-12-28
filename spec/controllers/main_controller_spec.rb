@@ -56,11 +56,11 @@ shared_examples_for 'main#index page' do
   it 'has the default description' do
     assert_select 'head meta[name=description]' do |desc|
       desc.length.should eql 1
-      desc[0].attributes['content'].should eql "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
+      desc[0].attributes['content'].should match /^Mission Artists United is a website/
     end
     assert_select 'head meta[property=og:description]' do |desc|
       desc.length.should eql 1
-      desc[0].attributes['content'].should eql "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
+      desc[0].attributes['content'].should match /^Mission Artists United is a website/
     end
   end
   it 'has the default keywords' do
@@ -77,7 +77,8 @@ end
 
 describe MainController do
 
-  fixtures :users, :roles, :roles_users, :studios, :artist_infos, :cms_documents,  :emails, :email_lists, :email_list_memberships, :art_pieces
+  fixtures :users, :roles, :roles_users, :studios, :artist_infos,
+  :cms_documents,  :emails, :email_lists, :email_list_memberships, :art_pieces
 
   describe "#index" do
     render_views
@@ -263,17 +264,22 @@ describe MainController do
       end
     end
     describe 'send feedback' do
+      let(:email) { 'joe@wherever.com' }
+      let(:comment) { 'here we are' }
+      let(:feedback_attrs) { FactoryGirl.attributes_for(:feedback, :email => email, :comment => comment) }
       context 'with no email' do
+        let(:email) { nil }
         before do
-          get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback, :email => nil)
+          get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
         it 'renders a flash' do
           flash[:error].should match /email was blank/
         end
       end
       context 'with no comment' do
+        let(:comment) { nil }
         before do
-          get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback, :comment => nil)
+          get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
         it 'renders a flash' do
           flash[:error].should match /fill something in/
@@ -285,16 +291,16 @@ describe MainController do
         end
         it 'saves a feedback record' do
           expect {
-            get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback)
+            get :getinvolved, :commit => true, :feedback => feedback_attrs
           }.to change(Feedback, :count).by(1)
         end
         it 'sets the flash notice' do
-          get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback)
+          get :getinvolved, :commit => true, :feedback => feedback_attrs
           flash.now[:notice].should be_present
         end
         it 'sends an email' do
           FeedbackMailer.should_receive(:feedback).and_return(double("deliverable", :deliver! => true))
-          get :getinvolved, :commit => true, :feedback => FactoryGirl.attributes_for(:feedback)
+          get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
       end
     end
@@ -447,24 +453,22 @@ describe MainController do
         end
       end
       it "uses cms for parties" do
-        CmsDocument.should_receive(:where).at_least(2).and_return([:os_blurb,:os_preview_reception].map{|k| cms_documents(k)})
-
+        docs = [:os_blurb,:os_preview_reception].map{|k| cms_documents(k)}
+        CmsDocument.should_receive(:where).at_least(2).and_return(docs)
         get :openstudios
       end
       context "while logged in as an art fan" do
+        let(:fan) { users(:maufan1) }
         before do
-          u = users(:maufan1)
-          login_as(users(:maufan1))
-          @logged_in_user = u
+          @logged_in_user = login_as fan
           get :openstudios
         end
         it_should_behave_like "logged in user"
       end
       context "while logged in as artist" do
+        let(:artist) { users(:artist1) }
         before do
-          a = users(:artist1)
-          login_as(users(:artist1))
-          @logged_in_user = a
+          @logged_in_user = login_as artist
           get :openstudios
         end
         it_should_behave_like "logged in user"

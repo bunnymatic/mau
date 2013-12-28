@@ -8,8 +8,6 @@
 #  updated_at :datetime
 #
 
-require 'htmlhelper'
-
 class ArtPieceTag < ActiveRecord::Base
   include TagMediaMixin
 
@@ -19,35 +17,30 @@ class ArtPieceTag < ActiveRecord::Base
   validates :name, :presence => true, :length => { :within => 3..25 }
 
   # class level constants
-  @@MAX_SHOW_TAGS = 80
-  @@CACHE_KEY = 'tagfreq'
-  @@CACHE_EXPIRY = Conf.cache_expiry['tag_frequency'] || 300
+  MAX_SHOW_TAGS = 80
+  CACHE_KEY = 'tagfreq'
+  CACHE_EXPIRY = Conf.cache_expiry['tag_frequency'] || 300
 
   def self.flush_cache
-    SafeCache.delete(@@CACHE_KEY + true.to_s)
-    SafeCache.delete(@@CACHE_KEY + false.to_s)
+    SafeCache.delete(CACHE_KEY + true.to_s)
+    SafeCache.delete(CACHE_KEY + false.to_s)
   end
 
   def self.frequency(normalize=true)
-    freq = SafeCache.read(@@CACHE_KEY + normalize.to_s)
+    freq = SafeCache.read(CACHE_KEY + normalize.to_s)
     if freq
       logger.debug('read tag frequency from cache')
       return freq
     end
     tags = []
-    dbr = connection.execute("/* hand generated sql */ Select art_piece_tag_id tag,count(*) ct from art_pieces_tags where art_piece_id in (select id from art_pieces) group by art_piece_tag_id order by ct desc;")
+    dbr = connection.execute("/* hand generated sql */ select art_piece_tag_id tag,count(*) ct from "+
+                             "art_pieces_tags where art_piece_id in (select id from art_pieces) "+
+                             "group by art_piece_tag_id order by ct desc;")
     tags = dbr.map{|row| Hash[ 'tag', row[0], 'ct', row[1] ]}
     # compute max/min ct
-    maxct = nil
-    minct = nil
-    tags.each do |t|
-      if maxct == nil || maxct < t['ct'].to_i
-        maxct = t['ct'].to_f
-      end
-    end
-    if !maxct || maxct <= 0
-      maxct = 1
-    end
+    maxct = tags.map{|t| t['ct'].to_i}.max
+    maxct = 1.0 if maxct.to_i <= 0
+
     if normalize
       tags.each do |t|
         t['ct'] = t['ct'].to_f / maxct.to_f
@@ -55,15 +48,16 @@ class ArtPieceTag < ActiveRecord::Base
     else
       tags.map {|t| t['ct'] = t['ct'].to_i}
     end
-    SafeCache.write(@@CACHE_KEY, tags[0..@@MAX_SHOW_TAGS], :expires_in => @@CACHE_EXPIRY)
-    tags[0..@@MAX_SHOW_TAGS]
+    SafeCache.write(CACHE_KEY, tags[0..MAX_SHOW_TAGS], :expires_in => CACHE_EXPIRY)
+    tags[0..MAX_SHOW_TAGS]
 
   end
 
   def self.keyed_frequency
     # return frequency of tag usage keyed by tag id
     tags = []
-    dbr = connection.execute("/* hand generated sql */ select art_piece_tag_id tag,count(*) ct from art_pieces_tags group by art_piece_tag_id;")
+    dbr = connection.execute("/* hand generated sql */ select art_piece_tag_id tag,count(*) ct from "+
+                             "art_pieces_tags group by art_piece_tag_id;")
     # return sorted by freq
     keyed = {}
     dbr.each do |rowarr|

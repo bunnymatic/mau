@@ -16,8 +16,11 @@
 #  image_width  :integer          default(0)
 #  order        :integer
 #
-
-require 'htmlhelper'
+# Indexes
+#
+#  index_art_pieces_on_artist_id  (artist_id)
+#  index_art_pieces_on_medium_id  (medium_id)
+#
 
 class ArtPiece < ActiveRecord::Base
   belongs_to :artist
@@ -28,6 +31,8 @@ class ArtPiece < ActiveRecord::Base
   belongs_to :medium
   include ImageDimensions
   include ImageFileHelpers
+  include HtmlHelper
+  include TagsHelper
 
   before_destroy :remove_images
   after_destroy :clear_tags_and_favorites
@@ -68,7 +73,7 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def add_tag(tag_string)
-    art_piece_tags << TagsHelper.tags_from_s(tag_string)
+    art_piece_tags << tags_from_s(tag_string)
   end
 
   def clear_tags_and_favorites
@@ -89,7 +94,7 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def safe_title
-    HTMLHelper.encode(self.title)
+    html_encode(self.title)
   end
 
   def get_path(size = nil, full_path = false)

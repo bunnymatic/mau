@@ -14,7 +14,7 @@ describe('Search', function() {
     s.initCBs()
     s.initAnyLinks()
   });
-  
+
   describe('updateQueryParamsInView',function() {
     describe('keywords', function() {
       beforeEach(function() {
@@ -84,7 +84,7 @@ describe('Search', function() {
     });
 
   });
-  
+
   describe('setAnyLink', function() {
     it('shows any link if any checkboxes are checked', function() {
       $$(full_selectors.medium_chooser).first().simulate('click');
@@ -98,7 +98,7 @@ describe('Search', function() {
 
   });
 
-  
+
   describe('ShowHide', function() {
     it('initializes setting everything hidden', function() {
       var triggers = $$('#fixture .trigger');

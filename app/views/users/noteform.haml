@@ -1,15 +1,15 @@
 .noteform
-  - if !@errmsg 
+  - if !@errmsg
     .popup-title
       Send #{@artist.get_name} a note
 
     .popup-text
       = form_tag '/users/' + @artist.id.to_s + '/notify', :id => 'note_form', :method => :put do
         .fdbk-form
-          - unless @error_message.blank? 
+          - unless @error_message.blank?
             .error-msg #{@error_message}
           .note-form-container
-            #name_input.fdbk-input 
+            #name_input.fdbk-input
               Your Name
               = text_field_tag 'name', logged_in? ? current_user.get_name: ''
             #email_input.fdbk-input

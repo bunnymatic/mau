@@ -1,6 +1,6 @@
 #role_mgr
   = render :partial => '/flash_notice_error'
-  .links           
+  .links
     = link_to "[add new role]", new_role_path
   %h3 Roles & Members
   %ul
@@ -14,4 +14,4 @@
         %ul.role_members
           - (@users_by_role[role.role] || []).each do |u|
             %li #{u.fullname}
-         
+

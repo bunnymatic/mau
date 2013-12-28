@@ -7,14 +7,19 @@ describe FeaturedArtistQueue do
     ActiveRecord::Base.transaction do
       sql = "delete from featured_artist_queue"
       ActiveRecord::Base.connection.execute sql
-      sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
+      sql = "insert into featured_artist_queue(artist_id, position)"+
+        " (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
       ActiveRecord::Base.connection.execute sql
     end
   end
 
+  let(:queue) { FeaturedArtistQueue.all }
+  let(:sorted_queue) { queue.sort_by(&:position) }
+
   describe '#current_entry' do
+    let(:current_entry) { FeaturedArtistQueue.current_entry }
     it "returns the artist with the first position" do
-      FeaturedArtistQueue.current_entry == FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }.first.artist_id
+      expect(current_entry).to eql sorted_queue.first
     end
     it "calling it multiple times only invokes next_entry once" do
       # let it be called once, which will trigger the update, then it shouldn't be called again
@@ -25,22 +30,21 @@ describe FeaturedArtistQueue do
   end
 
   describe '#next_entry' do
-    before do
-      @a = FeaturedArtistQueue.next_entry.artist
-    end
+    let(:next_entry) { FeaturedArtistQueue.next_entry.artist }
     it "returns an artist" do
-      @a.should be_a_kind_of(Artist)
+      next_entry.should be_a_kind_of(Artist)
     end
     it "returns the artist with the first position" do
-      @a.id.should eql FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }.first.artist_id
+      next_entry.id.should eql sorted_queue.first.artist_id
     end
     it "marks the entry as featured with todays date" do
-      FeaturedArtistQueue.find_by_artist_id(@a.id).featured.should_not be_nil
+      FeaturedArtistQueue.find_by_artist_id(next_entry.id).featured.should_not be_nil
     end
     it "calling it again within a week gives you the same artist" do
-      FeaturedArtistQueue.next_entry.artist_id.should eql @a.id
+      FeaturedArtistQueue.next_entry.artist_id.should eql next_entry.id
     end
     it "calling it after a week should give you the next artist" do
+      next_entry
       t = Time.zone.now + 2.weeks
       Time.stub(:now => t)
       Time.zone.stub(:now => t)
@@ -89,7 +93,7 @@ describe FeaturedArtistQueue do
     end
     describe "default scope" do
       it "returns items ordered by position" do
-        FeaturedArtistQueue.all.map(&:position).should eql FeaturedArtistQueue.all.sort{|a,b| a.position <=> b.position}.map(&:position)
+        FeaturedArtistQueue.all.map(&:position).should be_strictly_increasing
       end
     end
   end

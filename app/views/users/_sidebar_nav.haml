@@ -10,7 +10,7 @@
                       "<a href='#{favorites_user_path current_user}'><div class='micro-icon heart'></div> favorites</a>",
                       "<a href='#{ qrcode_artist_path current_user }' target='_blank' title='my qrcode'>my qrcode</a>"]
 
-      = HTMLHelper::print_list('leaf', listitems)
+      = print_html_list('leaf', listitems)
 
   - else
     %ul

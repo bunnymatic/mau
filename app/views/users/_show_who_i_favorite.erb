@@ -5,7 +5,7 @@
     <label>
       <a href="<%= favorites_user_path(page_owner) %>" title="see all">
       <% if current_user && current_user.id == page_owner.id -%>
-      my 
+      my
       <% else -%>
       <%= page_owner.get_name %>'s
       <% end -%>
@@ -19,7 +19,7 @@
   </div>
   <ul class="favorite-thumbs">
   <% favs = page_owner.what_i_favorite
-     favs.each_with_index do |f, idx| 
+     favs.each_with_index do |f, idx|
      clz = (f == favs.last) ?"last" :""
      if idx >= favorites_per_row
         style = "display:none;"

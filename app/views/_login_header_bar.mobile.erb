@@ -6,9 +6,9 @@
 
   <%# spans go in reverse order because they all float right %>
   <span class="navitem last">
-    <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %> 
+    <%= link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }  %>
   </span>
-  <span class="logout-nav navitem">hello, 
+  <span class="logout-nav navitem">hello,
     <a class="lkdark" href="<%= user_path(current_user) %>"><%= current_user.login %></a>
   </span>
   <div class="clear"></div>
@@ -17,4 +17,4 @@
 <div id="login_toplink"  ><%= link_to "log in",  login_path,  { :title => "log in", :class => "lkdark" } %> |
   <%= link_to "sign up", signup_path, { :title => "create an account", :class => "lkdark" } %>
 </div>
-<% end %>       
+<% end %>

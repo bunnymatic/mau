@@ -5,6 +5,11 @@ include AuthenticatedTestHelper
 describe ArtistFeedsController do
   fixtures :users, :roles, :artist_feeds, :roles_users
 
+  let(:url) { 'http://this.url' }
+  let(:feed_url) { 'http://this.url/feed?rss=true' }
+  let(:active) { true }
+  let(:feed_attrs) { {:url => url, :feed => feed_url, :active => active } }
+
   shared_examples_for 'artist feeds controller new or edit' do
     it { response.should be_success }
     it "renders new or edit template" do
@@ -66,22 +71,23 @@ describe ArtistFeedsController do
     describe '#create' do
       context 'good params' do
         before do
-          post :create, {:artist_feed => {:url => 'http://this.url', :feed => 'http://this.url/feed?rss=true', :active => true}}
+          post :create, :artist_feed => feed_attrs
         end
         it 'redirects to index' do
           response.should redirect_to artist_feeds_path
         end
         it 'creates the item' do
-          feed = ArtistFeed.where(:url => 'http://this.url').first
+          feed = ArtistFeed.where(:url => url).first
           feed.should be
-          feed.feed.should eql 'http://this.url/feed?rss=true'
-          feed.active.should be_present
+          feed.feed.should eql feed_url
+          feed.active.should be_true
         end
       end
       context 'bad inputs' do
+        let(:url) { 'h' }
         render_views
         before do
-          post :create, {:artist_feed => {:url => 'h', :feed => 'http://this.url/feed?rss=true', :active => true}}
+          post :create, :artist_feed => feed_attrs
         end
         it 'renders the form' do
           response.should render_template 'new_or_edit'
@@ -93,16 +99,16 @@ describe ArtistFeedsController do
     end
     describe '#update' do
       before do
-        post :update, {:id => artist_feeds(:inactive).id, :artist_feed => {:url => 'http://this.url', :feed => 'http://this.url/feed?rss=true', :active => true}}
+        post :update, :id => artist_feeds(:inactive).id, :artist_feed => feed_attrs
       end
       it 'redirects to index' do
         response.should redirect_to artist_feeds_path
       end
       it 'updates the item' do
         feed = ArtistFeed.find(artist_feeds(:inactive).id)
-        feed.url.should eql 'http://this.url'
-        feed.feed.should eql 'http://this.url/feed?rss=true'
-        feed.active.should be_present
+        feed.url.should eql url
+        feed.feed.should eql feed_url
+        feed.active.should be_true
       end
     end
 

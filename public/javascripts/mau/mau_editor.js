@@ -16,13 +16,13 @@ var MAUEdit = {
         });
         el.insert(edit_indicator);
         el.hover(
-          function(ev) { 
+          function(ev) {
             var item = el;
             $(item).addClassName('active');
           },
-          function(ev) { 
+          function(ev) {
             var item = el;
-            $(item).removeClassName('active'); 
+            $(item).removeClassName('active');
           }
         );
       });

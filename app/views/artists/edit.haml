@@ -6,11 +6,11 @@
 #artist_edit
   #profile_img
     %a{:title=> "update profile picture", :href=> addprofile_users_path}
-      - if current_user.has_profile_image 
+      - if current_user.has_profile_image
         %img{:src=> current_user.get_profile_image('thumb') }
       - else
         %img{:src=> "/images/default-profile-img.png", :width=> "100" }
-      .tag 
+      .tag
         update profile picture
         .os-violator{:style=> (current_artist.doing_open_studios? ? '':'display:none;')}
           %img{:src=> "/images/os_star_violator.png"}
@@ -25,7 +25,7 @@
         %span.edit>
           %a#events_toggle_lnk{:href=> "#events"}> change
       .clear
-      = render :partial => "edit_open_studios_status", :locals => {:f => f}      
+      = render :partial => "edit_open_studios_status", :locals => {:f => f}
       = render :partial => "/users/edit_notifications", :locals => {:f => f}
       = render :partial => "/users/edit_links", :locals => {:f => f}
 
@@ -82,7 +82,7 @@
   .edit-buttons
     - if !current_user.art_pieces.any?
       = link_to "Upload some of your art to share with the world!", new_art_piece_path
-    - if current_user.art_pieces.length > 1 
+    - if current_user.art_pieces.length > 1
       = form_tag new_art_piece_path(), :method=> "get" do
         %input{:class=> "formbutton", :type =>  "submit",:value=> "Add Art" }
       = form_tag arrangeart_artists_path(), :method => "get" do

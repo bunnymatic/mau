@@ -4,16 +4,16 @@
 - if @show_return_to_mobile
   #return_to_mobile_bar
     = link_to 'return to mobile site', mobile_path
- 
-- if logged_in? 
+
+- if logged_in?
   - if current_user.is_special?
     = render :partial => '/admin_header'
   #logout
     =# spans go in reverse order because they all float right
     %span.navitem.last
-      = link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" } 
+      = link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }
     %span.navitem.logout-nav
-      hello,  
+      hello,
       %a.lkdark{:href => user_path(current_user)} #{current_user.login}
     .clear
 - else

@@ -5,11 +5,11 @@
     .error-msg Error: #{flash[:error]}
   - if flash[:notice]
     .notice #{flash[:notice]}
-  
+
   %ul.listtypes
     - @all_lists.each do |key, lst|
       %li
-        .header 
+        .header
           = key.to_s.capitalize + "s"
           %a.add_btn{:href => '#', :title => 'add an email to this list'} (+)
         = form_tag do

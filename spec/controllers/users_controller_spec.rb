@@ -933,90 +933,74 @@ describe UsersController do
   end
 
   describe 'POST#notify' do
+    let(:scam_msg) {
+      "Morning,I would love to purchase Bait and tackle," +
+      "please get back to me with details..I appreciate your prompt response"
+    }
+    let(:user) { users(:jesseponce) }
+    let(:user_id) { user.id }
+    let(:comment) { 'whatever, yo' }
+    let(:email) { 'mrrogers@example.com' }
+    let(:name) { 'who dere' }
+    let(:page) { users_path(user) }
+    let(:honey) { nil }
+    let(:notify_data) {
+      { :id => user_id,
+        :comment => comment,
+        :email => email,
+        :name => name,
+        :page => page
+      }
+    }
+    let(:notify_with_honey) {
+      notify_data.merge(:i_love_honey => 'yum')
+    }
+
     before do
       login_as :quentin
     end
-    it 'returns success with valid data' do
-      notify_data = {
-        :id => users(:jesseponce).id,
-        :comment => "what ever yo",
-        :email => "mrrogers@example.com",
-        :name => "whos there",
-        :page => users_path(users(:jesseponce))
-      }
-      ArtistMailer.should_receive(:notify).and_return( double(:deliver! => true) )
-      post :notify, notify_data
-      response.should be_success
+    context 'with valid data' do
+      it 'emails the desired user and returns success' do
+        ArtistMailer.should_receive(:notify).and_return( double(:deliver! => true) )
+        post :notify,  notify_data
+        response.should be_success
+      end
     end
-    it 'emails the desired user given valid data' do
-      notify_data = {
-        :id => users(:jesseponce).id,
-        :comment => "what ever yo",
-        :email => "mrrogers@example.com",
-        :name => "whos there",
-        :page => users_path(users(:jesseponce))
-      }
-      ArtistMailer.should_receive(:notify).and_return( double(:deliver! => true) )
-      post :notify,  notify_data
-      response.should be_success
+    context 'if the honey pot is set' do
+      it 'emails the admin users' do
+        ArtistMailer.should_receive(:notify).never
+        AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
+        post :notify, notify_with_honey
+        response.should be_success
+      end
     end
-    it 'emails the admin users if the honey_pot is set' do
-      notify_data = {
-        :id => users(:jesseponce).id,
-        :comment => "what ever yo",
-        :email => "mrrogers@example.com",
-        :name => "whos there",
-        :i_love_honey => 'yummy',
-        :page => users_path(users(:jesseponce))
-      }
-      ArtistMailer.should_receive(:notify).never
-      AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
-      post :notify, notify_data
-      response.should be_success
+    context 'if the body looks like spam' do
+      let(:comment) { scam_msg }
+      it 'emails the admin users' do
+        ArtistMailer.should_receive(:notify).never
+        AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
+        post :notify, notify_data
+        response.should be_success
+      end
     end
-
-    it 'emails the admin users if the body looks like spam' do
-      notify_data = {
-        :id => users(:jesseponce).id,
-        :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
-        :email => "mrrogers@example.com",
-        :name => "whos there",
-        :page => users_path(users(:jesseponce))
-      }
-      ArtistMailer.should_receive(:notify).never
-      AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
-      post :notify, notify_data
-      response.should be_success
+    context 'if the email is in our hardcoded scammer list' do
+      let(:email) { 'evott@rocketmail.com' }
+      it 'emails the admin users' do
+        ArtistMailer.should_receive(:notify).never
+        AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
+        post :notify, notify_data
+        response.should be_success
+      end
     end
-
-    it 'emails the admin users if the email is in our scammer list' do
-      notify_data = {
-        :id => users(:jesseponce).id,
-        :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
-        :email => "evott@rocketmail.com",
-        :name => "whos there",
-        :page => users_path(users(:jesseponce))
-      }
-      ArtistMailer.should_receive(:notify).never
-      AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
-      post :notify, notify_data
-      response.should be_success
+    context 'if the email is in our scammer table' do
+      let(:email) { Scammer.last.email }
+      it 'emails the admin users' do
+        ArtistMailer.should_receive(:notify).never
+        AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
+        post :notify, notify_data
+        response.should be_success
+      end
     end
-
-    it 'emails the admin users if the email is in the Scammer table' do
-      notify_data = {
-        :id => users(:jesseponce).id,
-        :comment => "Morning,I would love to purchase Bait and tackle,please get back to me with details..I appreciate your prompt response",
-        :email => Scammer.last.email,
-        :name => "whos there",
-        :page => users_path(users(:jesseponce))
-      }
-      ArtistMailer.should_receive(:notify).never
-      AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
-      post :notify, notify_data
-      response.should be_success
-    end
-
   end
 
   describe '#delete' do

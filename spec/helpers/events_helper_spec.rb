@@ -18,11 +18,13 @@ describe EventsHelper do
   describe '#for_mobile_list' do
     it 'returns the title and start date of the event' do
       nuevo_titulo = "<div>the title is here</div>"
+      expected_title =  "<span class='starttime'>Mon Feb  7,  6:00PM</span>"+
+        "<span class='event_title'>%s</span>" % nuevo_titulo
       ev = Event.create(:starttime => Time.zone.parse('Feb  7, 2011 6:00pm'),
                         :endtime => Time.zone.parse('Sept 8, 2011 10:00pm'))
       ev.update_attribute(:title, nuevo_titulo)
       title = EventsHelper::for_mobile_list(ev);
-      title.should == "<span class='starttime'>Mon Feb  7,  6:00PM</span><span class='event_title'>%s</span>" % nuevo_titulo
+      title.should eql expected_title
     end
   end
 

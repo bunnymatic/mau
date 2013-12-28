@@ -3,7 +3,7 @@
 
 #USERAGENT = 'HTTP_USER_AGENT'
 require 'faye'
-class ApplicationController < ActionController::Base           
+class ApplicationController < ActionController::Base
   #  VERSION = 'Corvair 4.3'
   VERSION = 'Dart 5.0'
 
@@ -191,7 +191,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_meta_info
-    @page_description = "Mission Artists United is a website dedicated to the unification of artists in the Mission District of San Francisco.  We promote the artists and the community. Art is the Mission!"
+    @page_description =<<EOF
+Mission Artists United is a website dedicated to the unification of artists
+in the Mission District of San Francisco.  We promote the artists and the
+community. Art is the Mission!
+EOF
     @page_keywords = ["art is the mission", "art", "artists","san francisco"]
   end
 

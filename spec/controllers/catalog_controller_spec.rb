@@ -20,7 +20,7 @@ describe CatalogController do
     end
     it "indy artists are sorted by last name" do
       artists = assigns(:indy_artists)
-      artists.map(&:lastname).map(&:downcase).should be_monotonically_increasing
+      artists.map{|a| a.lastname.downcase}.should be_monotonically_increasing
     end
     it "has group studio artists in a bin" do
       artists = assigns(:group_studio_artists)
@@ -28,11 +28,14 @@ describe CatalogController do
       artists.should have_at_least(1).artist
     end
     it "assigns studio order in the correct order" do
-      (assigns(:studio_order).map{|sid| Studio.find(sid)}.sort &Studio::SORT_BY_NAME).map(&:id).should eql assigns(:studio_order)
+      the_order = assigns(:studio_order)
+      sorted = Studio.where(:id => the_order).sort(&Studio::SORT_BY_NAME).map(&:id)
+      expect(sorted).to eql assigns(:studio_order)
     end
+
     it "studio artists are sorted alpha by lastname" do
       assigns(:group_studio_artists).each do |s,artists|
-        artists.map(&:lastname).map(&:downcase).should be_monotonically_increasing
+        artists.map{|a| a.lastname.downcase}.should be_monotonically_increasing
       end
     end
   end

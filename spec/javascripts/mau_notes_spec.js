@@ -115,7 +115,7 @@ describe('MauNotes', function() {
         expect($$(m._parent_class(true) + ' .popup-mailer .popup-content form[action=myurl]').length).toEqual(1);
       });
       it ('fills in the title', function() {
-        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Join our mailing list')[0]).toEqual( 'Join our mailing list');      
+        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Join our mailing list')[0]).toEqual( 'Join our mailing list');
       });
       it ('has a close button', function() {
         expect($$('.popup-mailer .popup-header .close-btn').length).toEqual(1);
@@ -126,7 +126,7 @@ describe('MauNotes', function() {
       var m;
       beforeEach(function() {
         m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'myurl'} );
-        m.insert(); 
+        m.insert();
       });
       it ("doesn't add 2 of everything", function() {
         expect($$(m._parent_class(true) + ' .popup-mailer').length).toEqual( 1);
@@ -152,7 +152,7 @@ describe('MauNotes', function() {
         expect($$(m._parent_class(true) + ' .popup-mailer form[action=feeder]').length).toEqual(1);
       });
       it ('fills in the title', function() {
-        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Art Feeds')[0]).toEqual( 'Art Feeds');      
+        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Art Feeds')[0]).toEqual( 'Art Feeds');
       });
       it ('has a feedlink input', function() {
         expect($$(m._parent_class(true) + ' #feedlink').length).toEqual( 1);
@@ -176,7 +176,7 @@ describe('MauNotes', function() {
         expect($$(m._parent_class(true) + ' .popup-mailer form[action=help]').length).toEqual(1);
       });
       it ('fills in the title', function() {
-        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Help')[0]).toEqual( 'Help');      
+        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('Help')[0]).toEqual( 'Help');
       });
     });
     describe("inquiry", function() {
@@ -196,7 +196,7 @@ describe('MauNotes', function() {
         expect($$(m._parent_class(true) + ' .popup-mailer form[action=theurl]').length).toEqual(1);
       });
       it ('fills in the title', function() {
-        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('General Inquiry')[0]).toEqual( 'General Inquiry');      
+        expect($$('.popup-mailer .popup-header')[0].innerHTML.match('General Inquiry')[0]).toEqual( 'General Inquiry');
       });
     });
     describe("both forms on same page", function() {
@@ -211,7 +211,7 @@ describe('MauNotes', function() {
         m2.insert();
       });
       it("shows general form", function() {
-        expect($$(m1._parent_class(true) +' .popup-mailer').length).toEqual(1);      
+        expect($$(m1._parent_class(true) +' .popup-mailer').length).toEqual(1);
       });
       it("shows email form", function() {
         expect($$(m2._parent_class(true) +' .popup-mailer').length).toEqual(1);

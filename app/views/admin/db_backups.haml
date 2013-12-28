@@ -7,6 +7,6 @@
         - @dbfiles.each do |f|
           - cnt+=1
           %li{:class => cycle('even','odd')}
-            %a{:href => admin_path(:action => 'fetch_backup', :name => File.basename(f.path))} 
+            %a{:href => admin_path(:action => 'fetch_backup', :name => File.basename(f.path))}
               #{f.ctime.strftime("%b %d, %Y %H:%M")}
-              (#{"%02.2f" % (File.size(f).to_f/1000000.to_f)} MB)             
+              (#{"%02.2f" % (File.size(f).to_f/1000000.to_f)} MB)

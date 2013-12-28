@@ -33,12 +33,12 @@ var setBase64Str = function(str){
   base64Str = str;
   base64Count = 0;
 };
-var readBase64 = function(){ 
-  if (!base64Str) { 
-    return END_OF_INPUT; 
+var readBase64 = function(){
+  if (!base64Str) {
+    return END_OF_INPUT;
   }
-  if (base64Count >= base64Str.length) { 
-    return END_OF_INPUT; 
+  if (base64Count >= base64Str.length) {
+    return END_OF_INPUT;
   }
   var c = (base64Str.charCodeAt(base64Count) & 0xff);
   base64Count++;
@@ -78,11 +78,11 @@ var encodeBase64 = function(str){
   }
   return result;
 };
-var readReverseBase64 = function(){   
+var readReverseBase64 = function(){
   if (!base64Str) {
     return END_OF_INPUT;
   }
-  while (true){      
+  while (true){
     if (base64Count >= base64Str.length) { return END_OF_INPUT; }
     var nextCharacter = base64Str.charAt(base64Count);
     base64Count++;
@@ -127,15 +127,15 @@ var decodeBase64 = function(str){
   return result;
 };
 
-/*jslint bitwise: true*/ 
+/*jslint bitwise: true*/
 
 MAU.Cookie = {
   data: {},
   options: {expires: 1, domain: "", path: "", secure: false},
-  
+
   init: function(options, data) {
     MAU.Cookie.options = Object.extend(MAU.Cookie.options, options || {});
-    
+
     var payload = MAU.Cookie.retrieve();
     if(payload) {
       MAU.Cookie.data = payload.evalJSON();
@@ -158,33 +158,33 @@ MAU.Cookie = {
   },
   retrieve: function() {
     var start = document.cookie.indexOf(MAU.Cookie.options.name + "=");
-    
+
     if(start == -1) {
       return null;
     }
     if(MAU.Cookie.options.name != document.cookie.substr(start, MAU.Cookie.options.name.length)) {
       return null;
     }
-    
-    var len = start + MAU.Cookie.options.name.length + 1;   
+
+    var len = start + MAU.Cookie.options.name.length + 1;
     var end = document.cookie.indexOf(';', len);
-    
+
     if(end == -1) {
       end = document.cookie.length;
-    } 
+    }
     return decodeBase64(unescape(document.cookie.substring(len, end)));
   },
   store: function() {
     var expires = '';
-    
+
     if (MAU.Cookie.options.expires) {
       var today = new Date();
       expires = MAU.Cookie.options.expires * 86400000;
       expires = ';expires=' + new Date(today.getTime() + expires);
     }
-    
-    document.cookie = MAU.Cookie.options.name + '=' + 
-      escape(encodeBase64(Object.toJSON(MAU.Cookie.data))) + 
+
+    document.cookie = MAU.Cookie.options.name + '=' +
+      escape(encodeBase64(Object.toJSON(MAU.Cookie.data))) +
       MAU.Cookie.getOptions() + expires;
   },
   erase: function() {
@@ -192,8 +192,8 @@ MAU.Cookie = {
       MAU.Cookie.getOptions() + ';expires=Thu, 01-Jan-1970 00:00:01 GMT';
   },
   getOptions: function() {
-    return (MAU.Cookie.options.path ? ';path=' + MAU.Cookie.options.path : '') + 
-      (MAU.Cookie.options.domain ? ';domain=' + MAU.Cookie.options.domain : '') + 
-      (MAU.Cookie.options.secure ? ';secure' : '');      
+    return (MAU.Cookie.options.path ? ';path=' + MAU.Cookie.options.path : '') +
+      (MAU.Cookie.options.domain ? ';domain=' + MAU.Cookie.options.domain : '') +
+      (MAU.Cookie.options.secure ? ';secure' : '');
   }
 };

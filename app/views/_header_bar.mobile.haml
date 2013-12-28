@@ -35,7 +35,7 @@
             %li.dir
               = link_to 'my&nbsp;mau'.html_safe, mypath, {:class => 'lknav'}
               %ul
-                = HTMLHelper::print_list('leaf', navitems)
+                = print_html_list('leaf', navitems)
           - else
             %li.dir
               = link_to 'join in!', login_path, {:class => 'lknav'}
@@ -64,4 +64,4 @@
                   artistsnav << "<a href='#{ map_artists_path(:osonly => 1) }' title='map of open studios artists'>open studios map</a>"
                   artistsnav << "<a href='/main/openstudios' title='what is open studios?'>open studios info</a>"
                 end
-              = HTMLHelper::print_list('leaf', artistsnav)
+              = print_html_list('leaf', artistsnav)

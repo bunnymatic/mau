@@ -1,15 +1,9 @@
 require 'rdiscount'
 class DiscountController < ApplicationController
   before_filter :admin_required
+  include MarkdownUtils
   def markup
-    html = 'shit'
-    begin
-      html = RDiscount.new(params[:markdown]).to_html.html_safe
-    rescue Exception => ex
-      logger.debug("Failed to markdown text")
-      logger.debug(ex)
-      html = "shit.<br/> somethin went wrong<br/> #{ex}".html_safe
-    end
+    html = markdown(params[:markdown])
     render :text => html
   end
 end

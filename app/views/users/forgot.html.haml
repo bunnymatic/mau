@@ -1,0 +1,20 @@
+.forgot
+  = render :partial => '/flash_notice_error'
+  .logo-spacer
+  %h4 Request for Password Reset
+  = form_for :user do |f|
+    = render "common/form_errors", :form => f
+    %table#reset_pass.signup-table
+      %tbody
+        %tr
+          %td{ :colspan => '2' }
+            %p Type in your MAU account email below. We'll email instructions on how to reset your password.
+        %tr
+          %td{ :colspan => '2' }
+            %label{:for => :email} Email:
+            = f.text_field :email
+            = submit_tag 'Submit', :class => 'formbutton'
+        %tr
+          %td
+          %td.input-help 
+            = link_to 'Do you need to activate your account?', resend_activation_users_path 

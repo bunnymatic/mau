@@ -30,25 +30,51 @@ describe ArtistProfileImage do
   describe '#get_path' do
     let(:artist) { users(:artist1) }
     let(:directory) { 'artistdata' }
-    it "returns the right path where size is thumb" do
-      (ArtistProfileImage.get_path(artist, :thumb)).should eql('/'+ [directory,artist.id,'profile','t_'+artist.profile_image].join('/'))
+    let(:size) { :thumb }
+    let(:prefix) { 't_' }
+    let(:expected_path) {
+      ('/'+ [directory,artist.id,'profile', prefix+artist.profile_image].join('/'))
+    }
+    context 'thumb' do
+      it 'returns the right path' do
+        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is cropped_thumb" do
-      (ArtistProfileImage.get_path(artist, :cropped_thumb)).should eql('/'+ [directory,artist.id,'profile','ct_'+artist.profile_image].join('/'))
+    context 'cropped_thumb' do
+      let(:size) { :cropped_thumb }
+      let(:prefix) { 'ct_' }
+      it 'returns the right path' do
+        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is small" do
-      (ArtistProfileImage.get_path(artist, :small)).should eql('/'+ [directory,artist.id,'profile','s_'+artist.profile_image].join('/'))
+
+    context 'small' do
+      let(:size) { :small }
+      let(:prefix) { 's_' }
+      it 'returns the right path' do
+        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is medium" do
-      (ArtistProfileImage.get_path(artist, :medium)).should eql('/'+  [directory,artist.id,'profile','m_'+artist.profile_image].join('/'))
-      (ArtistProfileImage.get_path(artist)).should eql('/'+  [directory,artist.id,'profile','m_'+artist.profile_image].join('/'))
+    context 'medium' do
+      let(:size) { :medium }
+      let(:prefix) { 'm_' }
+      it 'returns the right path' do
+        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is large" do
-      (ArtistProfileImage.get_path(artist, :large)).should eql("/"+ [directory,artist.id,'profile','l_'+artist.profile_image].join('/'))
+    context 'large' do
+      let(:size) { :large }
+      let(:prefix) { 'l_' }
+      it 'returns the right path' do
+        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+      end
     end
-    it "returns the right path where size is original" do
-      (ArtistProfileImage.get_path(artist, :original)).should eql("/"+ [directory,artist.id,'profile',artist.profile_image].join('/'))
+    context 'original' do
+      let(:size) { :original }
+      let(:prefix) { '' }
+      it 'returns the right path' do
+        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+      end
     end
   end
-
 end

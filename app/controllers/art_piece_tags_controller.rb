@@ -6,8 +6,8 @@ class ArtPieceTagsController < ApplicationController
   before_filter :admin_required, :except => [ :index, :show ]
   after_filter :store_location
 
-  @@AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
-  @@AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
+  AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
+  AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
 
   def admin_index
     tags = ArtPieceTag.all
@@ -57,7 +57,7 @@ class ArtPieceTagsController < ApplicationController
       format.json  {
         if params[:suggest]
           tagnames = []
-          cacheout = SafeCache.read(@@AUTOSUGGEST_CACHE_KEY)
+          cacheout = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
           if cacheout
             logger.debug("Fetched autosuggest tags from cache")
             tagnames = ActiveSupport::JSON.decode cacheout
@@ -66,7 +66,7 @@ class ArtPieceTagsController < ApplicationController
             tagnames = ArtPieceTag.all.map{|t| { "value" => t.name, "info" => t.id }}
             cachein = ActiveSupport::JSON.encode tagnames
             if cachein
-              SafeCache.write(@@AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => @@AUTOSUGGEST_CACHE_EXPIRY)
+              SafeCache.write(AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
             end
           end
           if params[:input]
@@ -94,10 +94,6 @@ class ArtPieceTagsController < ApplicationController
       redirect_to root_path and return
     end
     # get art pieces by tag
-    @freq = ArtPieceTag.frequency(true)
-    tags = []
-    @freq.each { |t| tags.push(t['tag']) }
-    @tags = ArtPieceTag.where(:id => tags)
     @tag = ArtPieceTag.find(params[:id])
     page = 0
     if params[:p]
@@ -130,6 +126,7 @@ class ArtPieceTagsController < ApplicationController
     end
     pieces.reverse!
 
+    @tag_cloud_presenter = TagCloudPresenter.new(view_context, ArtPieceTag, @tag, @results_mode)
     @paginator = ArtPieceTagPagination.new(view_context, pieces, @tag, page, {:m => params[:m]})
     @pieces = @paginator.items
 

@@ -22,7 +22,6 @@
 #  reception_endtime   :datetime
 #
 
-require 'htmlhelper'
 require 'event_calendar'
 class Event < ActiveRecord::Base
   include EventCalendar
@@ -86,11 +85,13 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def valid_reception_time?
+    reception_endtime >= reception_starttime
+  end
+
   def validate_reception_time
     if reception_starttime && reception_endtime
-      errors.add(:reception_endtime, 'should be after reception start time.') unless reception_endtime >= reception_starttime
-    else
-      return
+      errors.add(:reception_endtime, 'should be after reception start time.') unless valid_reception_time?
     end
   end
 

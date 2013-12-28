@@ -11,17 +11,3 @@ class SimpleCov::Formatter::QualityFormatter
 end
 SimpleCov.formatter = SimpleCov::Formatter::QualityFormatter
 
-SimpleCov.start do
-  add_filter '/spec/'
-  add_filter '/config/'
-  add_filter '/vendor/'
-  add_filter '/features/'
-  add_group 'Controllers', 'app/controllers'
-  add_group 'Forms', 'app/forms'
-  add_group 'Helpers', 'app/helpers'
-  add_group 'Mailers', 'app/mailers'
-  add_group 'Models', 'app/models'
-  add_group 'Presenters', 'app/presenters'
-  add_group 'Views', 'app/views'
-end
-
