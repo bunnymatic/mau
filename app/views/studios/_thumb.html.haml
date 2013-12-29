@@ -1,16 +1,16 @@
 .studio-thumb
   .studio-img
-    :ruby 
-      if studio.id > 0 
+    :ruby
+      if studio.id > 0
         p = studio_url(studio)
       else
         p = "/studios/0"
-      end      
+      end
     %a{:href => p, :title => studio.name}
       %img{:class => "studio-img", :src => studio.get_profile_image('thumb') }
   .studio-nfo
     .name
-      %a{:href => p, :title => studio.name} 
+      %a{:href => p, :title => studio.name}
         #{studio.name}
     - if studio.id > 0
       .address
@@ -20,9 +20,9 @@
     .populations
       :ruby
         artist_count = studio.artists.active.count
-        if artist_count  > 0 
+        if artist_count  > 0
           tag = "artists"
-          if artist_count == 1 
+          if artist_count == 1
             tag = "artist"
           end
         end

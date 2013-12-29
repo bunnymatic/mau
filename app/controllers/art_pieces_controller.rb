@@ -2,6 +2,8 @@ require 'json'
 class ArtPiecesController < ApplicationController
 
   include TagsHelper
+  include HtmlHelper
+
   layout 'mau1col', :except => :show
 
   before_filter :admin_required, :only => [ :index, ]
@@ -44,36 +46,14 @@ class ArtPiecesController < ApplicationController
 
     @thumb_browser = ThumbnailBrowserPresenter.new(view_context, art_piece.artist, art_piece)
 
-    @art_piece = ArtPiecePresenter.new(view_context, art_piece)
     respond_to do |format|
-      format.html { render :action => 'show', :layout => 'mau' }
+      format.html {
+        @art_piece = ArtPieceHtmlPresenter.new(view_context, art_piece)
+        render :action => 'show', :layout => 'mau'
+      }
       format.json {
-        h={}
-        h['art_piece'] = art_piece.attributes
-        # make safe the art_piece entries
-        h['art_piece']["art_piece_tags"] = []
-        art_piece.art_piece_tags.each { |t|
-          h['art_piece']['art_piece_tags'] << t.attributes
-        }
-        m = art_piece.medium
-        if m
-          h['art_piece']["medium"] = art_piece.medium.attributes
-        end
-        [ 'title','dimensions'].each do |k|
-          h['art_piece'][k] = HTMLHelper.encode(h['art_piece'][k])
-        end
-        h['art_piece']['art_piece_tags'].each do |t|
-          t['name'] = HTMLHelper.encode(t['name'])
-        end
-
-        if (current_user && current_user.id == art_piece.artist.id)
-          h['art_piece']['buttons'] = render_to_string :partial => "edit_delete_buttons", :locals => {:art_piece => @art_piece}
-        end
-        h['art_piece'].merge!(:favorites_count => @favorites_count)
-        h['art_piece']['image_dimensions'] = art_piece.compute_dimensions
-        h['art_piece']['image_files'] = art_piece.get_paths
-        h['art_piece']['artist_name'] = art_piece.artist.get_name(true)
-        render :json => h.to_json
+        art_piece = ArtPieceJsonPresenter.new(art_piece)
+        render :json => art_piece.to_json
       }
     end
 
@@ -83,7 +63,10 @@ class ArtPiecesController < ApplicationController
     artist = Artist.find(current_user.id)
     cur_pieces = artist.art_pieces.length
     if cur_pieces >= artist.max_pieces
-      flash.now[:error] = "You cannot have more than %s art pieces.  If you decide to continue adding art, the oldest pieces will be removed to make space for the new ones.  Alternatively, you could go delete specific pieces to make room for the new ones." % artist.max_pieces
+      flash.now[:error] = "You cannot have more than %s art pieces.  "+
+        "If you decide to continue adding art, the oldest pieces will "+
+        "be removed to make space for the new ones.  Alternatively, you "+
+        "could go delete specific pieces to make room for the new ones." % artist.max_pieces
     end
     @art_piece = ArtPiece.new
     @media = Medium.all
@@ -92,7 +75,7 @@ class ArtPiecesController < ApplicationController
   # GET /art_pieces/1/edit
   def edit
     @art_piece = safe_find_art_piece(params[:id])
-    if @art_piece.artist != current_user
+    if !owned_by_current_user?(@art_piece)
       flash[:error] = "You're not allowed to edit that work."
       redirect_to "/error"
     end
@@ -112,12 +95,14 @@ class ArtPiecesController < ApplicationController
     upload = params[:upload]
     saved = false
     if !upload
-      flash.now[:error] = "You must provide an image.<br/>Image filenames need to be simple.  Some characters can cause issues with your upload, like quotes &quot;, apostrophes &apos; or brackets ([{}]).".html_safe
+      flash.now[:error] = "You must provide an image.<br/>"+
+        "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
+        " like quotes &quot;, apostrophes &apos; or brackets ([{}]).".html_safe
       @art_piece = ArtPiece.new params[:art_piece]
       render :action => 'new'
       return
     else
-      params[:art_piece][:art_piece_tags] = TagsHelper.tags_from_s(params[:tags])
+      params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
       @art_piece = current_user.art_pieces.build(params[:art_piece])
       begin
         ActiveRecord::Base.transaction do
@@ -162,7 +147,7 @@ class ArtPiecesController < ApplicationController
     else
       @media = Medium.all
       begin
-        params[:art_piece][:art_piece_tags] = TagsHelper.tags_from_s(params[:tags])
+        params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
         success = art_piece.update_attributes(params[:art_piece])
       rescue
         logger.warn("Failed to update artpiece : %s" % $!)
@@ -193,7 +178,7 @@ class ArtPiecesController < ApplicationController
   def destroy
     art = safe_find_art_piece(params[:id])
     artist = art.artist
-    if artist.id == current_user.id
+    if owned_by_current_user?(art)
       art.destroy
       Messager.new.publish "/artists/#{artist.id}/art_pieces/delete", "removed art piece #{params[:id]}"
     end
@@ -204,6 +189,11 @@ class ArtPiecesController < ApplicationController
   end
 
   protected
+
+  def owned_by_current_user?(art_piece)
+    (art_piece.artist == current_user)
+  end
+
   def safe_find_art_piece(id)
     begin
       ArtPiece.find(id)

@@ -8,7 +8,7 @@
   <% end -%>
   <div class="favorites">
     <% if @random_picks %>
-       <p class="no-favorites-msg">It looks like you don't have any favorites yet.  Go find an artist or some artwork that you like.  You'll see this <span class="micro-icon heart"></span>.  Start your search below or use the &quot;artist&quot; link above.  
+       <p class="no-favorites-msg">It looks like you don't have any favorites yet.  Go find an artist or some artwork that you like.  You'll see this <span class="micro-icon heart"></span>.  Start your search below or use the &quot;artist&quot; link above.
        </p>
        <div class="random-picks">
          <a href="<%= artists_path %>">
@@ -43,7 +43,7 @@
          </a>
        </div>
     <% else -%>
-    <h5>Art Pieces (<%= @user.fav_art_pieces.count %>)</h5>    
+    <h5>Art Pieces (<%= @user.fav_art_pieces.count %>)</h5>
     <p>Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.</p>
     <ul class="art_pieces">
       <% @user.fav_art_pieces.each do |f| %>

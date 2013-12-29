@@ -13,7 +13,7 @@
       %th Website
     - @studios.each do |studio|
       %tr{:class => cycle('even','odd')}
-        %td 
+        %td
           = link_to studio.name, studio_path(studio)
         %td
           %div #{studio.street}
@@ -25,9 +25,9 @@
         %td
           - if studio.profile_image?
             %img{:src => studio.get_profile_image('thumb')}
-        %td 
+        %td
           %a{:target => '_blank', :href => studio.url} #{studio.url}
-        %td          
+        %td
           %div
             = link_to 'Show', studio
           %div

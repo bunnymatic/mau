@@ -1,10 +1,10 @@
--# expects a paginator 
+-# expects a paginator
 - if paginator.should_paginate?
   .navlinks
     - if paginator.previous_link?
       %span
         = paginator.link_to_previous
-    %span.text 
+    %span.text
       = paginator.display_current_position
     - if paginator.next_link?
       %span

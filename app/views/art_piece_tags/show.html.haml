@@ -1,7 +1,7 @@
 %table.tbl-content
   %tr
     %td.lcol{ :colspan => '2' }
-      = render :partial => 'tag_list'
+      = render 'tag_list', :cloud => @tag_cloud_presenter
     %td.vstripe
     %td.rcol{ :colspan => '2'}
       %h4

@@ -4,7 +4,7 @@
       %img{:class => "profile", :src => "%s?%s" % [artist.get_profile_image('small'), Time.zone.now.to_i]}
     - else
       %img{:class => "profile", :src => "/images/default-profile-img.png"}
-- else 
+- else
   - if artist.has_profile_image
     %img{:class => "profile", :src => "%s?%s" % [artist.get_profile_image('small'), Time.zone.now.to_i]}
   - else

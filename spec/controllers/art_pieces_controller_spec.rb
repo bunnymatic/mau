@@ -161,22 +161,63 @@ describe ArtPiecesController do
       end
     end
     context 'format=json' do
+      let(:parsed) { JSON.parse(response.body)['art_piece'] }
+      let(:tag) { FactoryGirl.create :art_piece_tag, :name => 'my first tag' }
+      let(:piece) { ArtPiece.first }
+      let(:medium) { Medium.first }
+
       before do
-        ArtPiece.first.update_attribute(:medium_id, Medium.first.id)
-        get :show, :id => ArtPiece.first.id, :format => :json
+        piece.medium = medium
+        piece.tags << tag
+        piece.save!
+
+        get :show, :id => piece.id, :format => :json
       end
+
       it_should_behave_like 'successful json'
-      it 'includes medium' do
-        j = JSON.parse(response.body)
-        ap = j['art_piece']
-        ap.should have_key 'art_piece_tags'
-        ap.should have_key 'medium'
-        ap.should have_key 'image_dimensions'
-        ap.should have_key 'image_files'
-        ap['artist_name'].should eql ArtPiece.first.artist.get_name
-        ap['title'].should eql ArtPiece.first.title
+
+      it 'includes the fields we care about' do
+        %w( id filename title description dimensions artist_id
+            medium_id year image_height image_width order
+            art_piece_tags medium favorites_count
+            image_dimensions image_files artist_name ).each do |expected|
+          expect(parsed).to have_key expected
+        end
+      end
+
+      it 'includes paths to the images' do
+        sizes = ['cropped_thumb','large','medium','original', 'small','thumb']
+        files = parsed['image_files']
+        expect(files.keys.sort).to eql sizes
+        sizes.each do |sz|
+          expect(files[sz]).to eql piece.get_path(sz)
+        end
+      end
+
+      it 'includes image dimensions' do
+        sizes = ['cropped_thumb','large','medium','original', 'small','thumb']
+        dimensions = parsed['image_dimensions']
+        expect(dimensions.keys.sort).to eql sizes
+        sizes.each do |sz|
+          expect(dimensions[sz]).to eql piece.compute_dimensions[sz]
+        end
+      end
+
+      it 'includes the tags' do
+        parsed['art_piece_tags'].should be_a_kind_of Array
+        parsed['art_piece_tags'].first['name'].should eql 'my first tag'
+      end
+      it 'includes the artists name' do
+        parsed['artist_name'].should eql piece.artist.get_name
+      end
+      it 'includes the art piece title' do
+        parsed['title'].should eql piece.title
+      end
+      it 'includes the medium' do
+        parsed['medium']['name'].should eql medium.name
       end
     end
+
   end
 
   describe '#new' do

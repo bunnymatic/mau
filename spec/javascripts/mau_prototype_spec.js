@@ -52,4 +52,3 @@ describe("MAU Prototype Extensions", function() {
     });
   });
 });
-        

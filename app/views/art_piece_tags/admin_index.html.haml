@@ -1,8 +1,8 @@
 .admin-table.singlecolumn
   %h1 listing tags
-  
+
   .controls
-    = link_to 'New tag', new_art_piece_tag_path 
+    = link_to 'New tag', new_art_piece_tag_path
     %a{:href => '/art_piece_tags/cleanup'} delete unused tags
   %table
     %tr
@@ -18,9 +18,9 @@
           %td.input-name.ct #{tag['count']}
           %td.input-name
             = link_to 'Show', tag
-          %td.input-name 
+          %td.input-name
             = link_to('Edit', edit_art_piece_tag_path(tag))
-          %td.input-name 
+          %td.input-name
             = link_to('Destroy', tag, :confirm => 'Are you sure?', :method => :delete)
   = link_to('New tag', new_art_piece_tag_path )
-          
+

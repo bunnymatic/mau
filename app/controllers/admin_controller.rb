@@ -4,40 +4,10 @@ class AdminController < ApplicationController
   before_filter :editor_required, :only => [:featured_artist]
   layout 'mau-admin'
   include OsHelper
+
   def index
     @os_pretty = os_pretty
-    @activity_stats = {}
-    created_clause = "created_at >= ?"
-    queries = {:last_30_days => [created_clause, 30.days.ago],
-      :last_week =>[created_clause,1.week.ago],
-      :yesterday =>[created_clause,1.day.ago]}
-    queries.keys.each do |k|
-      @activity_stats[k] = {} unless @activity_stats.has_key? k
-      @activity_stats[k][:art_pieces_added] = ArtPiece.where(queries[k]).count
-      @activity_stats[k][:artists_added] = Artist.where(queries[k]).count
-      @activity_stats[k][:artists_activated] = Artist.active.where(queries[k]).count
-      @activity_stats[k][:fans_added] = MAUFan.where(queries[k]).count
-      @activity_stats[k][:favorites_added] = Favorite.where(queries[k]).count
-    end
-    @activity_stats[:total] = {:actived_artists => Artist.active.count,
-      :art_pieces_added => ArtPiece.count,
-      :accounts => User.count,
-      :fans => MAUFan.count,
-      :artists => Artist.count,
-      :events_past => Event.past.count,
-      :events_future => Event.future.count,
-      :favorited_art_pieces => Favorite.art_pieces.count,
-      :favorited_artists => Favorite.artists.count,
-      :favorites_users_using => Favorite.group('user_id').all.count,
-      :artists_pending => Artist.where(:state => 'pending').count,
-      :artists_no_profile_image => Artist.active.where("profile_image is not null").count,
-      :studios => Studio.count
-    }
-    @activity_stats[:open_studios] = {}
-    Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-      key = os_pretty(ostag)
-      @activity_stats[:open_studios][key] = Artist.active.open_studios_participants(ostag).count
-    end
+    @activity_stats = SiteStatistics.new
   end
 
   def featured_artist
@@ -46,7 +16,8 @@ class AdminController < ApplicationController
       next_featured = FeaturedArtistQueue.next_entry(params['override'])
       @featured = next_featured
       if FeaturedArtistQueue.count == 1
-        flash[:notice] = "Featuring : #{@featured.artist.get_name(true)} until #{(Time.zone.now + 1.week).strftime('%a %D')}"
+        flash[:notice] = "Featuring : #{@featured.artist.get_name(true)}"+
+          " until #{(Time.zone.now + 1.week).strftime('%a %D')}"
       end
       redirect_to request.url
       return
@@ -59,7 +30,7 @@ class AdminController < ApplicationController
 
   def emaillist
     artists = []
-    arg = params[:listname] || 'active'
+    listname = params[:listname] || 'active'
     @lists = [[ :all, 'Artists'],
               [ :active, 'Activated'],
               [ :pending, 'Pending'],
@@ -67,7 +38,6 @@ class AdminController < ApplicationController
               [ :no_profile, 'Active with no profile image'],
               [ :no_images, 'Active with no artwork']
               ]
-    os_tags = Conf.open_studios_event_keys.map(&:to_s)
     os_tags.reverse.each do |ostag|
       title = os_pretty(ostag)
       @lists << [ ostag.to_sym, title ]
@@ -83,35 +53,14 @@ class AdminController < ApplicationController
       end
       artists.uniq!
       @title = "OS Participants [#{for_title.join(', ')}]"
-
     else
-      @title = titles[arg.to_sym]
-      case arg
-      when 'fans'
-        artists = MAUFan.all
-      when *os_tags
-        artists = Artist.active.open_studios_participants(arg)
-      when 'all'
-        artists = Artist.all
-      when 'active', 'pending'
-        artists = Artist.send(arg).all
-      when 'no_profile'
-        artists = Artist.active.where("profile_image is null")
-      when 'no_images'
-        sql = ActiveRecord::Base.connection()
-        query = "select id from users where state='active' and id not in (select distinct artist_id from art_pieces);"
-        cur = sql.execute query
-        aids = cur.map {|h| h.first}
-        artists = Artist.where(:id => aids)
-      end
-    end
-    @emails = []
-    artists.each do |a|
-      entry = { :id => a.id, :name => a.get_name, :email => a.email }
-      @emails << entry
+      @title = titles[listname.to_sym]
+      artists = fetch_artists_for_email(listname)
     end
     respond_to do |format|
-      format.html { render }
+      format.html {
+        @emails = package_artist_emails(artists)
+      }
       format.csv {
         fname = 'email'
         if params[:listname].present?
@@ -120,7 +69,11 @@ class AdminController < ApplicationController
         render_csv :filename => fname do |csv|
           csv << ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + os_tags
           artists.each do |artist|
-            data = [ artist.csv_safe(:firstname), artist.csv_safe(:lastname), artist.get_name(true),artist.email, artist.studio ? artist.studio.name : '' ]
+            data = [ artist.csv_safe(:firstname),
+                     artist.csv_safe(:lastname),
+                     artist.get_name(true),
+                     artist.email,
+                     artist.studio ? artist.studio.name : '' ]
             os_tags.each do |ostag|
               data << artist.os_participation[ostag]
             end
@@ -217,7 +170,9 @@ class AdminController < ApplicationController
   GRAPH_LOOKBACK = '1 YEAR'
   def compute_artists_per_day
     sql = ActiveRecord::Base.connection()
-    cur = sql.execute "select count(*) ct,date(activated_at) d from users where activated_at is not null and adddate(activated_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW() group by d order by d desc;"
+    cur = sql.execute "select count(*) ct,date(activated_at) d from users"+
+      " where activated_at is not null and"+
+      " adddate(activated_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW() group by d order by d desc;"
     cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
   end
 
@@ -231,9 +186,41 @@ class AdminController < ApplicationController
 
   def compute_created_per_day(tablename)
     sql = ActiveRecord::Base.connection()
-    query =  "select count(*) ct,date(created_at) d from #{tablename} where created_at is not null and adddate(created_at,INTERVAL #{GRAPH_LOOKBACK}) > NOW() group by d order by d desc;"
+    query =  "select count(*) ct,date(created_at) d from #{tablename}"+
+      " where created_at is not null and"+
+      " adddate(created_at,INTERVAL #{GRAPH_LOOKBACK}) > NOW() group by d order by d desc;"
     cur = sql.execute query
     cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
+  end
+
+  def package_artist_emails(artists)
+    artists.select{|a| a.email.present?}.map{|a| { :id => a.id, :name => a.get_name, :email => a.email }}
+  end
+
+  def os_tags
+    @os_tags ||= Conf.open_studios_event_keys.map(&:to_s)
+  end
+
+  def fetch_artists_for_email(section)
+    case section
+    when 'fans'
+      MAUFan.all
+    when *os_tags
+      Artist.active.open_studios_participants(section)
+    when 'all'
+      Artist.all
+    when 'active', 'pending'
+      Artist.send(section).all
+    when 'no_profile'
+      Artist.active.where("profile_image is null")
+    when 'no_images'
+      sql = ActiveRecord::Base.connection()
+      query = "select id from users where " +
+        "state='active' and type='Artist' and " +
+        "id not in (select distinct artist_id from art_pieces);"
+      a_ids = (sql.execute query).map(&:first)
+      Artist.where(:id => a_ids)
+    end
   end
 
 end

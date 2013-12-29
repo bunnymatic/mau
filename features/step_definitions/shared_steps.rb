@@ -9,3 +9,7 @@ end
 Then(/^I see an error message "(.*?)"$/) do |msg|
   expect(page).to have_content msg
 end
+
+Then(/^I see an flash notice "(.*?)"$/) do |msg|
+  expect(page).to have_selector '.notice', :text => msg
+end

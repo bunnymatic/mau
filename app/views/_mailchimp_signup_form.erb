@@ -4,7 +4,7 @@
 #mc_embed_signup fieldset {position: relative;}
 #mc_embed_signup legend {position: absolute; top: -1em; left: .2em;}
 </style>
-<![endif]--> 
+<![endif]-->
 <!--[if IE 7]>
 <style type="text/css" media="screen">
 .mc-field-group {overflow:visible;}
@@ -37,7 +37,7 @@
   <div class="response" id="mce-success-response" style="display:none"></div>
  </div>
  <div><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="formbutton btn"></div>
- </fieldset> 
+ </fieldset>
 </form>
 </div>
 <script type="text/javascript">
@@ -47,7 +47,7 @@ try{ err_style = mc_custom_error_style;} catch(e){
 }
 var mce_jQuery = jQuery.noConflict();
 mce_jQuery(document).ready( function($) {
-  if ( MAU && MAU.Cookie && MAU.Cookie.init ) { 
+  if ( MAU && MAU.Cookie && MAU.Cookie.init ) {
     MAU.Cookie.init({name:'mau'});
     var email_addr = MAU.Cookie.getData('email') || '';
     var firstname = MAU.Cookie.getData('firstname') || '';
@@ -83,7 +83,7 @@ mce_jQuery('.datefield','#mc_embed_signup').each(
                 });
             });
           return mce_validator.form();
-        }, 
+        },
         success: mce_success_cb
       };
  mce_jQuery('#mc-embedded-subscribe-form').ajaxForm(options);
@@ -122,11 +122,11 @@ function mce_success_cb(resp){
     try{
       if (index== -1){
         mce_jQuery('#mce-'+resp.result+'-response').show();
-        mce_jQuery('#mce-'+resp.result+'-response').html(msg);      
+        mce_jQuery('#mce-'+resp.result+'-response').html(msg);
       } else {
         err_id = 'mce_tmp_error_msg';
         html = '<div id="'+err_id+'" style="'+err_style+'"> '+msg+'</div>';
-        
+
         var input_id = '#mc_embed_signup';
         var f = mce_jQuery(input_id);
         if (ftypes[index]=='address'){

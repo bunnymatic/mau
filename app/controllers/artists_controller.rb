@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 require 'xmlrpc/client'
-include ArtistsHelper
-include HTMLHelper
 
 Mime::Type.register "image/png", :png
 
 class ArtistsController < ApplicationController
+
+  include ArtistsHelper
+  include HtmlHelper
+
   # Be sure to include AuthenticationSystem in Application Controller instead
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
@@ -99,10 +101,18 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html { render :layout => 'mau-admin' }
       format.csv {
+        headers = ["First Name","Last Name","Full Name","Group Site Name",
+                   "Studio Address","Studio Number","Email Address"]
         render_csv :filename => 'mau_artists' do |csv|
-          csv << ["First Name","Last Name","Full Name","Group Site Name","Studio Address","Studio Number","Email Address"]
+          csv << headers
           @artists.each do |artist|
-            csv << [ artist.csv_safe(:firstname), artist.csv_safe(:lastname), artist.get_name, artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street], artist.studionumber, artist.email ]
+            csv << [ artist.csv_safe(:firstname),
+                     artist.csv_safe(:lastname),
+                     artist.get_name,
+                     artist.studio ? artist.studio.name : '',
+                     artist.address_hash[:parsed][:street],
+                     artist.studionumber,
+                     artist.email ]
           end
         end
       }
@@ -306,7 +316,9 @@ class ArtistsController < ApplicationController
         flash[:notice] = "Your images have been reordered."
         Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
       rescue
-        flash[:error] = "There was a problem reordering your images. You may try again but if the problem persists, please write to help@missionartistsunited.org."
+        flash[:error] = "There was a problem reordering your images."+
+          " You may try again but if the problem persists, please write"+
+          " to help@missionartistsunited.org."
       end
     else
       flash[:error] ="There was a problem interpreting the input parameters.  Please try again."
@@ -384,8 +396,11 @@ class ArtistsController < ApplicationController
             unless current_artist.address.blank?
               ai = current_artist.artist_info
               ai.update_os_participation(Conf.oslive, participating)
-              OpenStudiosSignupEvent.create(:message => "#{current_artist.fullname} set their os status to #{participating} for #{Conf.oslive} open studios",
-                                            :data => {'user' => current_artist.login, 'user_id' => current_artist.id})
+              msg = "#{current_artist.fullname} set their os status to"+
+                " #{participating} for #{Conf.oslive} open studios"
+              data = {'user' => current_artist.login, 'user_id' => current_artist.id}
+              OpenStudiosSignupEvent.create(:message => msg,
+                                            :data => data)
               ai.save!
             end
           rescue Exception => ex

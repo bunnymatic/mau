@@ -16,48 +16,56 @@ class Medium < ActiveRecord::Base
 
   validates :name, :presence => true, :length => {:within => (2..244)}
 
-  @@CACHE_KEY = 'medfreq'
-  @@CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
+  CACHE_KEY = 'medfreq'
+  CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
 
   def self.flush_cache
-    SafeCache.delete(@@CACHE_KEY + true.to_s)
-    SafeCache.delete(@@CACHE_KEY + false.to_s)
+    SafeCache.delete(CACHE_KEY + true.to_s)
+    SafeCache.delete(CACHE_KEY + false.to_s)
   end
 
   def self.frequency(normalize=false)
-    cache_key = @@CACHE_KEY + normalize.to_s
+    cache_key = CACHE_KEY + normalize.to_s
     freq = SafeCache.read(cache_key)
     if freq
       logger.debug('read medium frequency from cache')
       return freq
     end
     # if normalize = true, scale counts from 1.0
-    meds = []
-    dbr = connection.execute("/* hand generated sql */  select medium_id medium, count(*) ct from art_pieces where medium_id <> 0 group by medium_id;")
-    meds = dbr.map do |row|
-      Hash['medium', row[0], 'ct', row[1]]
-    end
-    other = self.where(["id not in (?)", meds.map { |m| m['medium'] } ])
-    other.map { |m| meds << Hash["medium" => m.id, "ct" => 0 ] }
+    meds = get_media_usage
 
     # compute max/min ct
-    maxct = nil
-    meds.each do |m|
-      if maxct == nil || maxct < m['ct'].to_i
-        maxct = m['ct'].to_i
-      end
-    end
+    maxct = meds.map{|m| m['ct'].to_i}.max
+
+    maxct = 1.0 if maxct <= 0
+
     # normalize frequency to 1
-    if maxct <= 0
-      maxct = 1.0
+    normalize(meds, 'ct', maxct) if normalize
+
+    SafeCache.write(cache_key, meds, :expires_in => CACHE_EXPIRY)
+    meds
+  end
+
+  def self.by_name
+    order(:name)
+  end
+
+  private
+
+  class << self
+    def get_media_usage
+      dbr = connection.execute("/* hand generated sql */  select medium_id medium, count(*) ct"+
+                               " from art_pieces where medium_id <> 0 group by medium_id;")
+      meds = dbr.map{|row| Hash[['medium','ct'].zip(row)] }
+      other = self.where(["id not in (?)", meds.map { |m| m['medium'] } ])
+      meds += other.map { |m| Hash[["medium", 'ct'].zip([m.id,0])]}
     end
-    if normalize
-      meds.each do |m|
-        m['ct'] = m['ct'].to_f / maxct.to_f
+
+    def normalize(arr, fld, maxct)
+      arr.each do |m|
+        m[fld] = m[fld].to_f / maxct.to_f
       end
     end
-    SafeCache.write(cache_key, meds, :expires_in => @@CACHE_EXPIRY)
-    meds
   end
 
 end

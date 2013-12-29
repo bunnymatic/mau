@@ -1,1 +1,10 @@
-_title.html.erb
+<title>
+  <% if @page_title && !@page_title.empty? %>
+  <%= @page_title %>
+  <% else %>
+  Mission Artists United - Art is the Mission
+  <% end %>
+  <% if Rails.env != 'production' %>
+  ( <%= Rails.env %> )
+  <% end %>
+</title>

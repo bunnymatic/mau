@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131208011713) do
+ActiveRecord::Schema.define(:version => 20131229013309) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -41,6 +41,9 @@ ActiveRecord::Schema.define(:version => 20131208011713) do
     t.integer  "image_width",  :default => 0
     t.integer  "order"
   end
+
+  add_index "art_pieces", ["artist_id"], :name => "index_art_pieces_on_artist_id"
+  add_index "art_pieces", ["medium_id"], :name => "index_art_pieces_on_medium_id"
 
   create_table "art_pieces_tags", :id => false, :force => true do |t|
     t.integer "art_piece_tag_id"
@@ -81,6 +84,8 @@ ActiveRecord::Schema.define(:version => 20131208011713) do
     t.float    "lng"
     t.string   "open_studios_participation"
   end
+
+  add_index "artist_infos", ["artist_id"], :name => "index_artist_infos_on_artist_id"
 
   create_table "artist_profile_images", :force => true do |t|
     t.datetime "created_at"
@@ -170,16 +175,6 @@ ActiveRecord::Schema.define(:version => 20131208011713) do
     t.string   "url"
     t.string   "skillsets"
     t.string   "bugtype"
-  end
-
-  create_table "flax_art_submissions", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "art_piece_ids"
-    t.boolean  "paid",          :default => false
-    t.boolean  "accepted",      :default => false
-    t.string   "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "media", :force => true do |t|
@@ -305,5 +300,6 @@ ActiveRecord::Schema.define(:version => 20131208011713) do
   end
 
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
+  add_index "users", ["studio_id"], :name => "index_users_on_studio_id"
 
 end

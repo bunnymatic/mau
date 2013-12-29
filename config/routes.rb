@@ -1,12 +1,12 @@
 Mau::Application.routes.draw do
 
-  resources :blacklist_domains
+  resources :blacklist_domains, :except => [:show]
   resources :roles
   resources :cms_documents, :except => [:destroy]
   resources :media
-  resources :artist_feeds
+  resources :artist_feeds, :except => [:show]
   resources :art_pieces, :except => ['index']
-  resource :session
+  resource :session, :only => [:new, :create, :destroy]
   resources :studios do
     member do
       post :upload_profile
@@ -56,7 +56,7 @@ Mau::Application.routes.draw do
   match '/activate/:activation_code' => 'users#activate', :as => :activate
   match 'reset/:reset_code' => 'users#reset', :as => :reset, :method => :get
   match 'reset' => 'users#reset', :as => :submit_reset, :method => :post
-  resources :artists do
+  resources :artists, :except => [:new, :create] do
     collection do
       get :roster
       get :thumbs

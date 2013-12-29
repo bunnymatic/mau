@@ -4,7 +4,8 @@ include AuthenticatedTestHelper
 
 describe ArtistsController do
 
-  fixtures :users, :roles_users,  :roles, :artist_infos, :art_pieces, :studios, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
+  fixtures :users, :roles_users,  :roles, :artist_infos, :art_pieces,
+    :studios, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
 
   before do
     Rails.cache.stub(:read => nil)
@@ -102,28 +103,28 @@ describe ArtistsController do
       end
     end
     context "while logged in" do
+      let(:old_bio) { artist1_info.bio }
+      let(:new_bio) { "this is the new bio" }
+      let(:artist_info_attrs) { { :bio => new_bio } }
       before do
-        @new_bio = "this is the new bio"
-        @old_bio = artist1_info.bio
-        login_as(artist1)
-        @logged_in_user = artist1
+        @logged_in_user = login_as(artist1)
       end
       context "submit" do
         context "post with new bio data" do
           it "redirects to to edit page" do
-            put :update, { :commit => 'submit', :artist => { :artist_info => {:bio => @newbio }}}
+            put :update, { :commit => 'submit', :artist => { :artist_info => artist_info_attrs}}
             flash[:notice].should eql 'Update successful'
             response.should redirect_to(edit_artist_path(artist1))
           end
           it 'publishes an update message' do
             Messager.any_instance.should_receive(:publish)
-            put :update, { :commit => 'submit', :artist => { :artist_info => {:bio => @newbio }}}
+            put :update, { :commit => 'submit', :artist => { :artist_info => artist_info_attrs}}
           end
         end
       end
       context "cancel post with new bio data" do
         before do
-          post :update, { :commit => 'cancel', :artist => { :artist_info => {:bio => @newbio }}}
+          post :update, { :commit => 'cancel', :artist => { :artist_info => artist_info_attrs}}
         end
         it "redirects to user page" do
           response.should redirect_to(user_path(artist1))
@@ -132,19 +133,21 @@ describe ArtistsController do
           flash[:notice].should be_nil
         end
         it "shouldn't change anything" do
-          artist1.bio.should eql @old_bio
+          artist1.bio.should eql old_bio
         end
       end
       context "update address" do
+        let(:artist_info_attrs) { { :street => '100 main st' } }
+        let(:street) { artist_info_attrs[:street] }
         before(:each) do
         end
         it "contains flash notice of success" do
-          put :update, { :commit => 'submit', :artist => {:artist_info => {:street => '100 main st'}}}
+          put :update, { :commit => 'submit', :artist => {:artist_info => artist_info_attrs}}
           flash[:notice].should eql "Update successful"
         end
         it "updates user address" do
-          put :update, { :commit => 'submit', :artist => {:artist_info => {:street => '100 main st'}}}
-          User.find(@logged_in_user.id).artist_info.address.should include '100 main st'
+          put :update, { :commit => 'submit', :artist => {:artist_info => artist_info_attrs}}
+          artist1_info.reload.address.should include street
         end
         it 'publishes an update message' do
           Messager.any_instance.should_receive(:publish)
@@ -152,25 +155,37 @@ describe ArtistsController do
         end
       end
       context "update os status" do
-        it "updates artists os status to true for 201104" do
-          put :update, {:commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => true }}}}
+        it "updates artists os statuss to true for 201104" do
+          put :update, :commit => 'submit', :artist => {
+            :artist_info => {
+              :os_participation => { '201104' => true }
+            }
+          }
           response.should be_redirect
-          User.find(@logged_in_user.id).os_participation['201104'].should be_true
+          artist1.reload.os_participation['201104'].should be_true
         end
         it "updates artists os status to true for 201104 given '201104' => 'on'" do
-          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'on' }}}}
+          put :update, :commit => 'submit', :artist => {
+            :artist_info => {
+              :os_participation => { '201104' => 'on' }
+            }
+          }
           response.should be_redirect
-          User.find(@logged_in_user.id).os_participation['201104'].should be_true
+          artist1.reload.os_participation['201104'].should be_true
         end
         it "updates artists os status to false for 201104" do
           @logged_in_user.os_participation = {'201104' => 'true'}
           @logged_in_user.save
-          put :update, { :commit => 'submit', :artist => {:artist_info => {:os_participation => { '201104' => 'false' }}}}
-          User.find(@logged_in_user.id).os_participation['201104'].should be_nil
+          put :update, :commit => 'submit', :artist => {
+            :artist_info => {
+              :os_participation => { '201104' => 'false' }
+            }
+          }
+          artist1.reload.os_participation['201104'].should be_nil
         end
         it "updates artists os status to true" do
           xhr :put, :update, :artist_os_participation => '1'
-          User.find(@logged_in_user.id).os_participation[Conf.oslive.to_s].should be_true
+          artist1.reload.os_participation[Conf.oslive.to_s].should be_true
         end
 
         it "sets false if artist has no address" do
@@ -186,7 +201,7 @@ describe ArtistsController do
           @logged_in_user.update_attribute(:studio_id,0)
           @logged_in_user.reload
           xhr :put, :update, { :commit => 'submit', :artist_os_participation => '0' }
-          User.find(@logged_in_user.id).os_participation['201104'].should be_nil
+          artist1.reload.os_participation['201104'].should be_nil
         end
         it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
           FakeWeb.register_uri(:get, Regexp.new( "http:\/\/example.com\/openstudios.*" ), {:status => 200})
@@ -533,18 +548,24 @@ describe ArtistsController do
   end
 
   describe 'qrcode' do
+    let(:file_double) {
+      double(:read => 'the data from the file', :write => nil, :close => nil, :binmode => true)
+    }
     before do
+      MojoMagick.stub(:raw_command).and_return(true)
       FileUtils.mkdir_p File.join(Rails.root,'public','artistdata', Artist.first.id.to_s , 'profile')
       FileUtils.mkdir_p File.join(Rails.root,'artistdata', Artist.first.id.to_s , 'profile')
     end
     it 'generates a png if you ask for one' do
-      File.stub(:open => double(:read => 'the data from the file'))
+      File.stub(:open => file_double)
       @controller.stub(:render)
       @controller.should_receive(:send_data)
       get :qrcode, :id => Artist.first.id, :format => 'png'
       response.content_type.should eql 'image/png'
     end
     it 'redirects to the png if you ask without format' do
+      File.stub(:open => file_double)
+      @controller.stub(:render)
       get :qrcode, :id => Artist.first.id
       response.should redirect_to '/artistdata/' + Artist.first.id.to_s + '/profile/qr.png'
     end
@@ -626,7 +647,8 @@ describe ArtistsController do
         end
       end
       it "get's map info all artists" do
-        ArtistsController.any_instance.should_receive(:get_map_info).exactly(assigns(:roster).values.flatten.count).times
+        ArtistsController.any_instance.should_receive(:get_map_info).
+          exactly(assigns(:roster).values.flatten.count).times
         get :map_page
       end
       it 'renders the map html properly' do
@@ -728,7 +750,7 @@ describe ArtistsController do
           assert_select('.hide-rows .row-info');
         end
         it 'renders .pending rows for all pending artists' do
-          assert_select('tr.pending', :count => Artist.all.select{|s| s.state == 'pending'}.count)
+          assert_select('tr.pending', :count => Artist.pending.count)
         end
         it 'renders .suspended rows for all suspended artists' do
           assert_select('tr.suspended', :count => Artist.all.select{|s| s.state == 'suspended'}.count)
@@ -746,8 +768,9 @@ describe ArtistsController do
           assert_select('tr.participating', :count => Artist.all.select{|a| a.os_participation['201210']}.count)
         end
         it 'renders activation link for inactive artists' do
+          activation_url = activate_url(:activation_code => users(:pending_artist).activation_code)
           assert_select('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)
-          assert_select('.activation_link', :match => activate_url(:activation_code => users(:pending_artist).activation_code))
+          assert_select('.activation_link', :match => activation_url )
         end
         it 'renders forgot link if there is a reset code' do
           assert_select('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)

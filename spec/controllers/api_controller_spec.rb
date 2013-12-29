@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe ApiController do
-  fixtures :roles_users, :users, :roles, :artist_infos, :studios, :art_pieces, :media, :art_piece_tags
+  fixtures :roles_users, :users, :roles, :artist_infos,
+    :studios, :art_pieces, :media, :art_piece_tags
   before do
     Rails.cache.stub(:read => nil)
   end
@@ -36,7 +37,10 @@ describe ApiController do
   end
 
   context 'bad requests' do
-    [nil, ['bogus'], ['bogus',1], ['artists','b','c','d'],  ['artists','2','edit'], ['studios', ActiveRecord::Fixtures.identify(:blue),'destroy'], ['hash']].each do |params_path|
+    [nil, ['bogus'], ['bogus',1],
+     ['artists','b','c','d'],  ['artists','2','edit'],
+     ['studios', ActiveRecord::Fixtures.identify(:blue),'destroy'],
+     ['hash']].each do |params_path|
       context "given #{params_path.inspect} as input parameters" do
         before do
           get :index, :path => params_path

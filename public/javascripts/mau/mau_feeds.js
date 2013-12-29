@@ -20,7 +20,7 @@ MAUFEEDS = window.MAUFEEDS || {};
     spans = $$('#'+feeddiv_id+" span");
     // clean style attributes from spans
     spans.each(function(sp){ sp.writeAttribute('style','');});
-    
+
   };
   MAUFEEDS.abort_requests = function() {
     if (MAUFEEDS.requests.length > 0) {

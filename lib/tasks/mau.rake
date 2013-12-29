@@ -10,7 +10,7 @@ namespace :mau do
   task :daily_os_signup => [:environment] do
     Artist.tally_os
   end
-  
+
   desc 'import scammer emails from FASO'
   task :import_scammer_list => [:environment] do
     Scammer.importFromFASO
@@ -35,7 +35,7 @@ namespace :mau do
   desc "Send twitter updates about artists who've updated their art today"
   task :tweetart => [:environment] do
     aps = ArtPiece.get_todays_art
-    if aps.length 
+    if aps.length
       artists = Artist.active.find_all_by_id( aps.map{ |ap| ap.artist_id })
       names = artists.map{|a| a.get_name}
     end
@@ -78,7 +78,7 @@ namespace :mau do
         end
       end
     end
-    
+
     desc 'repair image filenames (make ..jpg into .jpg)'
     task :repair_filenames => [:environment] do
       ArtPiece.all.select{|a| /\.{2,}/.match(a.filename)}.each do |ap|
@@ -88,7 +88,7 @@ namespace :mau do
           ap.update_attribute(:filename, new_filename)
           puts "Trying to update artist #{ap.artist.id} and art_piece #{ap.id}"
           begin
-            
+
             full_old = File.join(Rails.root, old_filename)
             full_new = File.join(Rails.root, new_filename)
             full_old = File.join(Rails.root, 'public', old_filename) if !File.exists?(full_old)
@@ -127,7 +127,7 @@ namespace :mau do
         t.save!
       end
     end
-      
+
     desc "remove duplicate tags"
     task :cleanup => [:environment] do
       all_tags = ArtPieceTag.all
@@ -135,7 +135,7 @@ namespace :mau do
       all_tags.each do |t|
         key = t.name.downcase
         if !tags_by_downcase.has_key?(key)
-          tags_by_downcase[key] = {} 
+          tags_by_downcase[key] = {}
           lowercase_tag = nil
           if key == t.name
             lowercase_tag = t

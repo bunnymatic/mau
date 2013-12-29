@@ -6,6 +6,7 @@ class FeedParser
   NUM_POSTS = 3
   DESCRIPTION_LENGTH = 600
   TITLE_LENGTH = 140
+  DESC_CLEANER = Regexp.new(/<\/?[^>]*>/)
 
   attr_accessor :options, :url, :link
 
@@ -30,7 +31,7 @@ class FeedParser
     end
     # process entry if we want to.
     if strip_tags
-      entry.description.gsub!(@@DESC_CLEANER," ")
+      entry.description.gsub!(DESC_CLEANER," ")
     end
 
     entry.description.strip!
@@ -105,7 +106,8 @@ class FeedParser
     feedcontent
   end
 
-  @@URLMATCH_TO_CLASS = { 'facebook.com' => 'facebook',
+  URLMATCH_TO_CLASS = {
+    'facebook.com' => 'facebook',
     'flickr.com' => 'flickr',
     'livejournal.com' => 'livejournal',
     'twitter.com' => 'twitter',
@@ -114,17 +116,14 @@ class FeedParser
     'blogger.com' => 'blogger',
     'blogspot.com' => 'blogger',
     'deviantart.com' => 'deviantart',
-    'flaxart.com' => 'flaxart' }
+    'flaxart.com' => 'flaxart' }.freeze
 
-  @@DESC_CLEANER = Regexp.new(/<\/?[^>]*>/)
 
-  @@LINK_MATCH = Regexp.new( '\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))')
-#'((http?:\/\/|www\.)([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)')
 
   def get_icon_class(url)
     # guess icon class based on url.
     # default is rss
-    @@URLMATCH_TO_CLASS.each do |k,v|
+    URLMATCH_TO_CLASS.each do |k,v|
       if url.include? k
         return v
       end

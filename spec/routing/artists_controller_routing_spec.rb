@@ -5,14 +5,16 @@ describe 'ArtistsController Routes' do
     describe 'gets' do
       [:bio, :qrcode].each do |endpoint|
         it "routes #{endpoint} to the ArtistsController##{endpoint}" do
-          { :get => "/artists/123/#{endpoint}" }.should route_to({:controller => 'artists', :id => '123', :action => endpoint.to_s})
+          { :get => "/artists/123/#{endpoint}" }.
+            should route_to({:controller => 'artists', :id => '123', :action => endpoint.to_s})
         end
       end
     end
     describe 'posts' do
       [:notify_featured].each do |endpoint|
         it "routes #{endpoint} to the ArtistsController##{endpoint}" do
-          { :post => "/artists/123/#{endpoint}" }.should route_to({:controller => 'artists', :id => '123', :action => endpoint.to_s})
+          { :post => "/artists/123/#{endpoint}" }.
+            should route_to({:controller => 'artists', :id => '123', :action => endpoint.to_s})
         end
       end
     end

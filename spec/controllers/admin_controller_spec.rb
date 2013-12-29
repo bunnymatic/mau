@@ -6,7 +6,6 @@ include OsHelper
 class TestOsHelperClass; include OsHelper; end
 
 describe AdminController do
-  use_transactional_fixtures = true
   fixtures :art_pieces
   fixtures :artist_infos
   fixtures :studios
@@ -14,7 +13,9 @@ describe AdminController do
   fixtures :users, :roles_users, :roles
 
   context 'authorization' do
-    [:index, :os_status, :featured_artist, :fans, :emaillist, :artists_per_day, :art_pieces_per_day, :favorites_per_day, :db_backups, :os_signups].each do |endpoint|
+    [:index, :os_status, :featured_artist, :fans,
+     :emaillist, :artists_per_day, :art_pieces_per_day,
+     :favorites_per_day, :db_backups, :os_signups].each do |endpoint|
       describe 'not logged in' do
         describe endpoint do
           before do
@@ -85,8 +86,8 @@ describe AdminController do
         end
         it 'has the correct emails in the text box' do
           Artist.active.each do |a|
-            assert_select '.email_results textarea', /#{a.get_name}/
-            assert_select '.email_results textarea', /#{a.email}/
+            assert_select '.email_results table tbody tr td', /#{a.get_name}/
+            assert_select '.email_results table tbody tr td', /#{a.email}/
           end
         end
       end
@@ -108,16 +109,16 @@ describe AdminController do
         get :emaillist, :listname => 'fans'
         assert_select '.email_lists h4', 'Fans [%s]' % MAUFan.count
         MAUFan.all.each do |f|
-          assert_select '.email_results textarea', /#{f.get_name}/
-          assert_select '.email_results textarea', /#{f.email}/
+          assert_select '.email_results table tbody tr td', /#{f.get_name}/
+          assert_select '.email_results table tbody tr td', /#{f.email}/
         end
       end
       it 'shows the title and list size and correct emails when we ask for pending' do
         get :emaillist, :listname => 'pending'
         assert_select '.email_lists h4', 'Pending [%s]' % Artist.pending.count
         Artist.pending.each do |f|
-          assert_select '.email_results textarea', /#{f.get_name}/
-          assert_select '.email_results textarea', /#{f.email}/
+          assert_select '.email_results table tbody tr td', /#{f.get_name}/
+          assert_select '.email_results table tbody tr td', /#{f.email}/
         end
       end
       Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
@@ -127,8 +128,8 @@ describe AdminController do
           expected_tag = TestOsHelperClass.new.os_pretty(ostag)
           assert_select '.email_lists h4', "#{expected_tag} [#{expected_participants.count}]"
           expected_participants.each do |f|
-            assert_select '.email_results textarea', /#{f.get_name}/
-            assert_select '.email_results textarea', /#{f.email}/
+            assert_select '.email_results table tbody tr td', /#{f.get_name}/
+            assert_select '.email_results table tbody tr td', /#{f.email}/
           end
         end
       end
@@ -146,7 +147,7 @@ describe AdminController do
             Artist.all.select{|a| a.os_participation['201010']}.map(&:email)
           emails.should eql assigns(:emails).map{|em| em[:email]}
           emails.each do |em|
-            assert_select '.email_results textarea', /#{em}/
+            assert_select '.email_results table tbody tr td', /#{em}/
           end
         end
       end
@@ -218,45 +219,19 @@ describe AdminController do
       get :index
     end
     it_should_behave_like 'logged in as admin'
-    it 'assigns stats hash' do
-      assigns(:activity_stats).should be_a_kind_of(Hash)
-    end
-    it 'assigns correct values for artists yesterday' do
-      assigns(:activity_stats)[:yesterday][:artists_activated].should eql 1
-      assigns(:activity_stats)[:yesterday][:artists_added].should eql 1
-    end
-    it 'assigns correct values for artists last weeek' do
-      assigns(:activity_stats)[:last_week][:artists_activated].should eql 4
-      assigns(:activity_stats)[:last_week][:artists_added].should eql 7
-    end
-    it 'assigns correct values for artists last month' do
-      assigns(:activity_stats)[:last_30_days][:artists_activated].should eql 6
-      assigns(:activity_stats)[:last_30_days][:artists_added].should eql 12
-    end
-    it 'has totals' do
-      assigns(:activity_stats)[:total].should be
-    end
-    it 'has studio count' do
-      assigns(:activity_stats)[:total][:studios].should eql 4
-    end
-    it 'has event info' do
-      assigns(:activity_stats)[:total][:events_past].should eql Event.past.count
-      assigns(:activity_stats)[:total][:events_future].should eql Event.future.count
-    end
-    it 'has open studios info' do
-      assigns(:activity_stats)[:open_studios].length.should >= 5
-    end
     it 'has place holders for the graphs' do
       assert_select('.section.graph', :count => 4)
     end
-    [:total, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
+    [:totals, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
       it "renders an #{sxn} stats section" do
         assert_select('.section.%s' % sxn)
       end
     end
     it 'renders open studios info in reverse chrono order' do
-      css_select('.section.open_studios li').first.to_s.should match /#{pretty_print_os_tag(Conf.open_studios_event_keys.sort.last)}/
-      css_select('.section.open_studios li').last.to_s.should match /#{pretty_print_os_tag(Conf.open_studios_event_keys.sort.first)}/
+      css_select('.section.open_studios li').first.to_s.
+        should match /#{pretty_print_os_tag(Conf.open_studios_event_keys.sort.last)}/
+      css_select('.section.open_studios li').last.to_s.
+        should match /#{pretty_print_os_tag(Conf.open_studios_event_keys.sort.first)}/
     end
     it 'renders the current open studios setting' do
       css_select('.section.open_studios .current').first.to_s.should match /#{pretty_print_os_tag}/
@@ -306,11 +281,15 @@ describe AdminController do
       # simulate migration
       sql = "delete from featured_artist_queue"
       ActiveRecord::Base.connection.execute sql
-      sql = "insert into featured_artist_queue(artist_id, position) (select id, rand() from users where type='Artist' and activated_at is not null and state='active')"
+      sql = "insert into featured_artist_queue(artist_id, position)"+
+        " (select id, rand() from users where type='Artist' and "+
+        " activated_at is not null and state='active')"
       ActiveRecord::Base.connection.execute sql
 
       login_as(:admin)
-      FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index {|fa, idx| fa.update_attributes(:featured => Time.zone.now - (2*idx).weeks) }
+      FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index do |fa, idx|
+        fa.update_attributes(:featured => Time.zone.now - (2*idx).weeks)
+      end
       get :featured_artist
     end
     it { response.should be_success }
@@ -468,8 +447,9 @@ describe AdminController do
       it "returns an entries have date and count" do
         entry = artists_per_day.first
         entry.should have(2).entries
-        (Time.zone.at(entry[0].to_i).to_date - Artist.active.all(:order => :created_at).last.created_at.to_date).should < 1.day
-        entry[1].should >= 1
+        last_created_date = Artist.active.all(:order => :created_at).last.created_at.to_date
+        (Time.zone.at(entry[0].to_i).to_date - last_created_date).should be < 1.day
+        entry[1].should be >= 1
       end
       it "does not include nil dates" do
         artists_per_day.all?{|apd| !apd[0].nil?}.should be
@@ -486,7 +466,8 @@ describe AdminController do
         a2 = ArtPiece.last
         a2.update_attribute(:artist_id, users(:artist1).id)
 
-        ArtPiece.any_instance.stub(:artist => double(Artist,:id => 42, :emailsettings => {'favorites' => false}))
+        artist_stub = double(Artist,:id => 42, :emailsettings => {'favorites' => false})
+        ArtPiece.any_instance.stub(:artist => artist_stub)
         u1.add_favorite a1
         u1.add_favorite users(:artist1)
         u1.add_favorite u2
@@ -503,7 +484,8 @@ describe AdminController do
       it "returns an entries have date and count" do
         entry = @favorites_per_day.first
         entry.should have(2).entries
-        Time.zone.at(entry[0].to_i).utc.to_date.should eql Favorite.all(:order => :created_at).last.created_at.utc.to_date
+        last_favorite_date = Favorite.all(:order => :created_at).last.created_at.utc.to_date
+        Time.zone.at(entry[0].to_i).utc.to_date.should eql last_favorite_date
         entry[1].should >= 1
       end
       it "does not include nil dates" do

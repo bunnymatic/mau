@@ -12,7 +12,7 @@
  * Copyright 2009 Jean-Sebastien Boulanger [ jsboulanger@gmail.com ]
  *
  * Usage:
- *  
+ *
  *  Feedback.init('feedback_link_tab', {
  *    // options
  *  });
@@ -40,15 +40,15 @@ if(Feedback == undefined) {
       loadingText: 'Loading...',
       sendingText: 'Sending...'
     }, callerSettings || {});
-    
-    this.settings.feedbackHtml = '<div id="' + this.settings.main + '" style="display: none;">' +  	  
-      '<div id="' + this.settings.modalWindow + '">' +	
+
+    this.settings.feedbackHtml = '<div id="' + this.settings.main + '" style="display: none;">' +
+      '<div id="' + this.settings.modalWindow + '">' +
       '<a href="#" id="' + this.settings.closeLink + '">x</a>' +
       '<div id="' + this.settings.modalContent + '"></div>' +
       '</div>' +
       '</div>'
     this.settings.overlayHtml = '<div id="' + this.settings.overlay + '" class="feedback_hide"></div>';
-    
+
     $$('.' + this.settings.tabControl).each(function(e) {
       $(e).observe('click', function() {
 	Feedback.loading();
@@ -63,13 +63,13 @@ if(Feedback == undefined) {
 	      return false;
 	    });
 	    MAU.addCommentBoxObserver('')
-	  }		  
-	});	
-	return false;				
+	  }
+	});
+	return false;
       });
     });
   }
-  
+
   Feedback.submitFeedback = function(event){
     var data = Form.serialize($(Feedback.settings.form));
     var url = $(Feedback.settings.form).action;
@@ -83,7 +83,7 @@ if(Feedback == undefined) {
 	    duration: 3.0,
 	    afterFinish: function() {
 	      Feedback.hideFeedback();
-	    }	
+	    }
 	  });
 	}
 	else {
@@ -101,30 +101,30 @@ if(Feedback == undefined) {
       }
     });    Event.stop(event);
   }
-  
+
   Feedback.initOverlay = function() {
     if ($$('#' + this.settings.overlay).length == 0)
       $$("body").first().insert(this.settings.overlayHtml);
     $(this.settings.overlay).addClassName('feedback_overlayBG');
   }
-  
+
   Feedback.showOverlay = function() {
     Feedback.initOverlay();
     $(this.settings.overlay).show();
   }
-  
+
   Feedback.hideOverlay = function() {
     if ($$('#' + this.settings.overlay).length == 0) return false;
     $(this.settings.overlay).remove();
-  }	
-  
-  
+  }
+
+
   Feedback.hideFeedback = function() {
     $(this.settings.main).hide();
     $(this.settings.main).remove();
     Feedback.hideOverlay();
-  }	
-  
+  }
+
   Feedback.initFeedback = function() {
     if ($$('#' + this.settings.main).length == 0) {
       $$("body").first().insert(this.settings.feedbackHtml);
@@ -135,32 +135,32 @@ if(Feedback == undefined) {
       });
       Feedback.setWindowPosition();
     }
-  }	
-  
+  }
+
   Feedback.showFeedback = function() {
     Feedback.initFeedback();
     $(this.settings.main).show();
-  }	
+  }
 
   Feedback.loading = function(text){
     Feedback.showOverlay();
     Feedback.initFeedback();
-    if (text == null) 
+    if (text == null)
       text = this.settings.loadingText;
 
-    $(this.settings.modalContent).update('<h4>' + text + '<img src="' + this.settings.loadingImage + '" /></h4>');	
+    $(this.settings.modalContent).update('<h4>' + text + '<img src="' + this.settings.loadingImage + '" /></h4>');
 
     $(this.settings.main).show()
   }
-  
+
   Feedback.setWindowPosition = function() {
     var scrollTop, clientHeight;
     if (self.pageYOffset) {
-      scrollTop = self.pageYOffset;      				
+      scrollTop = self.pageYOffset;
     } else if (document.documentElement && document.documentElement.scrollTop) {	 // Explorer 6 Strict
-      scrollTop = document.documentElement.scrollTop;      
+      scrollTop = document.documentElement.scrollTop;
     } else if (document.body) {// all other Explorers
-      scrollTop = document.body.scrollTop;			     
+      scrollTop = document.body.scrollTop;
     }
     if (self.innerHeight) {	// all except Explorer
       clientHeight = self.innerHeight;
@@ -172,5 +172,5 @@ if(Feedback == undefined) {
     $(this.settings.modalWindow).setStyle({
       top: (clientHeight / 10) + 'px'
     });
-  }				
+  }
 }

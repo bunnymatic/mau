@@ -7,7 +7,7 @@
                 :show_footer => true,
                 :size => size, :artist_link => true }
 .allthumbs
-  - artists.each_with_index do |artist, idx| 
+  - artists.each_with_index do |artist, idx|
     - _params[:piece] = artist.representative_piece
     - _params[:artist] = artist
     = render :partial => '/art_pieces/thumb', :locals => _params

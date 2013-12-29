@@ -8,7 +8,7 @@ ILB.settings = {
   overlay: 'img_modal_overlay',
   imageContainer: 'img_container',
   image: {
-    url: null, 
+    url: null,
     width: null,
     height: null
   }
@@ -30,7 +30,7 @@ ILB = Object.extend(ILB, {
     this.container.appendChild(overlay);
     this.container.appendChild(modal);
     if (opts.position == 'center') {
-      var windim = $$('body')[0].outerDimensions(); 
+      var windim = $$('body')[0].outerDimensions();
       var img = $$('.' + this.settings.imageContainer)[0].findChildByTagName('img');
       var imgdim = img.outerDimensions();
       var width = Math.min(0.9 * windim.width, imgdim.width);
@@ -56,7 +56,7 @@ ILB = Object.extend(ILB, {
     var close = new Element("a", {href:'#', 'class':this.settings.closeBtn});
     close.html('x');
     close.observe('click', function(ev) {
-      ILB.hide(); 
+      ILB.hide();
     });
     modalWindow.appendChild(close);
     var imgContainer = new Element('div', {'class':this.settings.imageContainer});
@@ -70,7 +70,7 @@ ILB = Object.extend(ILB, {
       img.setAttribute('height', this.settings.image.height);
     }
     img.observe('click', function(ev) {
-      ILB.hide(); 
+      ILB.hide();
     });
 
     imgContainer.appendChild(img);

@@ -10,7 +10,7 @@
     = link_to '(learn more)', openstudios_path
   - if @studio.has_artists_with_art?
     %ul.artists-thumbs
-      - @studio.artists_with_art.select{|a| a.representative_piece}.each do |artist| 
+      - @studio.artists_with_art.select{|a| a.representative_piece}.each do |artist|
         :ruby
            next if artist.nil?
            os_star = false

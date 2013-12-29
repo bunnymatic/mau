@@ -10,7 +10,7 @@
   @stats.each_pair do |section, hsh|
    %>
 <tr><td colspan="2"><h4><%= section.to_s.gsub('_',' ') %></h4></td></tr>
-  <% 
+  <%
      hsh.each_pair do |k,v|
      name = v[:name]
      data = v[:data]
@@ -22,7 +22,7 @@
 </td></tr>
    <% end %>
 <%
-  end 
+  end
 -%>
 <tr><td>Art Pieces</td><td><%= @artpieces %></td><tr>
 </table>

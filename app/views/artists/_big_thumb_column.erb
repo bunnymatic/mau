@@ -5,7 +5,7 @@
   <% else -%>
   <div class="allthumbs">
     <%  title = "Generic Art"
-        if logged_in? and current_user.id == artist.id 
+        if logged_in? and current_user.id == artist.id
 	title = "Click to Upload Some Art!"
         -%>
     <div class="artp-thumb small">

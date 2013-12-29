@@ -1,13 +1,13 @@
 %ul.artists-thumbs
-  - @artists.each do |artist| 
+  - @artists.each do |artist|
     :ruby
       next if artist.nil?
       os_star = false
       if artist.artist_info
       os_star = artist.os_participation[Conf.oslive.to_s]
       end
-      piece = (artist.representative_piece ? artist.representative_piece.get_path('small') : artist.get_profile_image('small')) 
- 
+      piece = (artist.representative_piece ? artist.representative_piece.get_path('small') : artist.get_profile_image('small'))
+
     %li
       %a{:href => artist_path(artist)}
         .thumb{:style => "background-image:url(#{piece});"}

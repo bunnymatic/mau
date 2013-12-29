@@ -1,0 +1,21 @@
+.admin-table.singlecolumn
+  %h1 Favorites!
+  %table.favorites
+    %thead
+      %tr
+        %th login
+        %th artists
+        %th pieces
+        %th favorited
+    %tbody
+      - @favorites.favorites.each_with_index do |pair, idx|
+        - (user, favinfo) = pair
+        %tr{:class => cycle('even','odd')}
+          %td 
+            = link_to user.login, user_path(user)
+          %td 
+            = favinfo.artists
+          %td 
+            = favinfo.art_pieces
+          %td 
+            = favinfo.favorited

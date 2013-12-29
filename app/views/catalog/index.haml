@@ -15,13 +15,13 @@
           .entry
             .title
               %span.studioname
-                = studio.name 
+                = studio.name
               %span.count
                 = studio_artists.count > 1 ? "(#{studio_artists.count})": ''
-              %br  
+              %br
               %span.address
                 = studio.street
-          %ul.artists                
+          %ul.artists
             - studio_artists.each_with_index do |artist, idx|
               %li{:class => ((idx%2)==0) ? 'even':'odd'}
                 = artist.fullname

@@ -14,7 +14,7 @@ end
 
 describe Artist do
   include ArtistSpecHelper
-  fixtures :users, :artist_infos, :studios, :art_pieces
+  fixtures :users, :artist_infos, :studios, :art_pieces, :media, :roles, :roles_users
   before do
     Rails.cache.stub(:read => nil)
   end
@@ -263,7 +263,6 @@ describe Artist do
     end
   end
   describe 'primary_medium' do
-    fixtures :media
     before do
       @a = users(:artist1)
       media_ids = Medium.find(:all, :order => :name).map(&:id)

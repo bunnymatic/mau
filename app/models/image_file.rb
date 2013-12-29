@@ -134,7 +134,8 @@ class ImageFile
       raise ArgumentError, "Image type %s is not supported." % type
     end
     if colorspace.downcase.match /cmyk/
-      raise ArgumentError, "[%s] is not a supported color space.  Please save your image with an RGB colorspace." % colorspace.to_s
+      raise ArgumentError, "[%s] is not a supported color space."+
+        "  Please save your image with an RGB colorspace." % colorspace.to_s
     end
 
     ImageInfo.new(:path => srcpath, :height => height, :width => width, :colorspace => colorspace, :type => type)

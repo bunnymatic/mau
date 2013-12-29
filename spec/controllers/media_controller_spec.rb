@@ -117,14 +117,6 @@ describe MediaController do
         end
       end
     end
-    context " an id that doesn't exist " do
-      before do
-        get :show, :id => 0
-      end
-      it "should redirect" do
-        response.should redirect_to medium_path Medium.first
-      end
-    end
   end
   describe "#edit" do
     context 'as unauthorized' do

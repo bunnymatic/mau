@@ -35,7 +35,7 @@
           %li.dir
             = link_to 'my&nbsp;mau'.html_safe, mypath, {:class => 'lknav'}
             %ul
-              = HTMLHelper::print_list('leaf', navitems)
+              = print_html_list('leaf', navitems)
         - else
           %li.dir
             = link_to 'join in!', login_path, {:class => 'lknav'}
@@ -54,7 +54,7 @@
               studionav << "<a title='group studios' href='#{studios_path}'>group studios</a>"
               studionav << "<a title='independent studios' href='#{studio_path(0)}'>independent studios</a>"
               studionav << "<a title='venues' href='#{venues_path}'>venues</a>"
-            = HTMLHelper::print_list('leaf', studionav)
+            = print_html_list('leaf', studionav)
 
       %ul.dropdown#osnav
         %li.dir
@@ -74,7 +74,7 @@
                 osnav << "<a href='#{signup_path}'>artist sign up</a>"
                 osnav << "<a href='#{ artist_resources_path }' title='artists resources'>artist resources</a>"
               end
-            = HTMLHelper::print_list('leaf', osnav)
+            = print_html_list('leaf', osnav)
       %ul#artistsnav.dropdown.first
         %li.dir
           %a.lknav{:href => artists_path, :title => 'artists'} artists
@@ -85,4 +85,4 @@
               artistsnav << "<a href='#{ map_artists_path }' title='artists by map'>artists by map</a>"
               artistsnav << "<a href='#{ media_path :m => 'a' }' title='artists by medium'>artists by medium</a>"
               artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
-            = HTMLHelper::print_list('leaf', artistsnav)
+            = print_html_list('leaf', artistsnav)

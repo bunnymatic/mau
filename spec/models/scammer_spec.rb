@@ -12,7 +12,8 @@ describe Scammer do
 "7437"|"laurynsley@gmail.com"|"Lauryn Masley"
 EOM
 
-    FakeWeb.register_uri(:get, Regexp.new( "https:\/\/api.faso.com\/1\/scammers*"), {:status => 200, :body => test_data})
+    FakeWeb.register_uri(:get, Regexp.new( "https:\/\/api.faso.com\/1\/scammers*"),
+                         {:status => 200, :body => test_data})
   end
   describe '#importFromFASO' do
     it 'adds new data to the scammers list' do

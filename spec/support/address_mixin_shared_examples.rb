@@ -30,7 +30,8 @@ shared_examples_for AddressMixin do
   describe '#full_address' do
 
     it 'builds a full address for maps' do
-      with_address.full_address.should eql [base_attributes[:street], base_attributes[:city], the_state, base_attributes[:zip].to_i].join(", ")
+      with_address.full_address.should eql [base_attributes[:street], base_attributes[:city],
+                                            the_state, base_attributes[:zip].to_i].join(", ")
     end
     it 'builds a full address for maps' do
       with_address.address.should eql [base_attributes[:street], base_attributes[:zip].to_i].join(" ")
@@ -55,11 +56,16 @@ shared_examples_for AddressMixin do
 
   describe '#compute_geocode' do
     it 'calls Geocode with the full address' do
-      Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).with(with_address.full_address).and_return((double("Geokit::GeoLoc", :success => true, :lat => with_address.lat.to_f, :lng => with_address.lng.to_f)))
+      Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).
+        with(with_address.full_address).
+        and_return((double("Geokit::GeoLoc", :success => true,
+                           :lat => with_address.lat.to_f,
+                           :lng => with_address.lng.to_f)))
       with_address.send(:compute_geocode).should eql [with_address.lat.to_f, with_address.lng.to_f]
     end
     it 'returns nothing on failure' do
-      Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).and_return(double("Geokit::GeoLoc", :success =>false))
+      Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).
+        and_return(double("Geokit::GeoLoc", :success =>false))
       with_address.send(:compute_geocode).should eql ['Unable to Geocode your address.']
     end
   end

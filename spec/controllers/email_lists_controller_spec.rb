@@ -66,69 +66,73 @@ describe EmailListsController do
       end
     end
     describe 'POST' do
+      let(:test_email) { 'mr_new@example.com' }
+      let(:email_attrs) { {:name => 'new dude', :email => test_email } }
+      let(:lookup_email) { Email.where(:email => test_email).first }
+      let(:first_email) { EventMailerList.first.emails.first }
+      let(:email) { email_attrs[:email] }
       context 'xhr' do
         it 'redirects to itself with flash message when there is an error' do
-          xhr :post, :index, :listtype => :event, :email => {:name => 'new dude', :email => 'mr_new@example.com'}
+          xhr :post, :index, :listtype => :event, :email => email_attrs
           response.content_type.should eql Mime::Type.lookup("application/json")
           response.code.should eql '400'
           JSON.parse(response.body)['messages'].should match /not have all the required/
         end
         it 'returns 200 on success' do
-          new_email = 'mr_ew@ex.com'
-          xhr :post, :index, :method => 'add_email', :listtype => :event, :email => {:name => 'new dude', :email => new_email}
+          xhr :post, :index, :method => 'add_email', :listtype => :event, :email => email_attrs
           response.content_type.should eql Mime::Type.lookup("application/json")
           response.should be_success
-          JSON.parse(response.body)['messages'].should match "Successfully added #{new_email} to Events"
+          JSON.parse(response.body)['messages'].should match "Successfully added #{email} to Events"
         end
         it 'returns an error if the email id is missing when trying to delete' do
-          em = EventMailerList.first.emails.first
           xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:name => 'jo'}
           response.content_type.should eql Mime::Type.lookup("application/json")
           response.should_not be_success
           JSON.parse(response.body)['messages'].should match "Email ID is missing"
         end
-        it 'deletes entries from an email list' do
-          em = EventMailerList.first.emails.first
-          expect {
-            xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:id => em.id}
-          }.to change(EventMailerList.first.emails, :count).by(-1);
-        end
-        it 'does not delete the email from the email table' do
-          em = EventMailerList.first.emails.first
-          expect {
-            xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:id => em.id}
-          }.to change(Email, :count).by(0);
-        end
+        context 'when method is remove_email' do
+          let(:email_attrs) { { :id => first_email.id } }
+          it 'deletes entries from an email list' do
+            expect {
+              xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => email_attrs
+            }.to change(EventMailerList.first.emails, :count).by(-1);
+          end
+          it 'does not delete the email from the email table' do
+            expect {
+              xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => email_attrs
+            }.to change(Email, :count).by(0);
+          end
 
-        it 'returns a message indicating who was removed' do
-          em = EventMailerList.first.emails.first
-          xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:id => em.id}
-          response.content_type.should eql Mime::Type.lookup("application/json")
-          response.should be_success
-          JSON.parse(response.body)['messages'].should match "Successfully removed #{em.email} from Events"
+          it 'returns a message indicating who was removed' do
+            xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => email_attrs
+            response.content_type.should eql Mime::Type.lookup("application/json")
+            response.should be_success
+            JSON.parse(response.body)['messages'].should match "Successfully removed #{first_email.email} from Events"
+          end
         end
       end
 
       context 'event list' do
+
         it 'redirects to itself with flash message when there is an error' do
-          post :index, :listtype => :event, :email => {:name => 'new dude', :email => 'mr_new@example.com'}
+          post :index, :listtype => :event, :email => email_attrs
           flash[:error].should be
           flash[:error].should match /not have all the required/
           response.should redirect_to email_lists_path
         end
 
         it 'redirects to itself on success' do
-          post :index, :method => 'add_email', :listtype => :event, :email => {:name => 'new dude', :email => 'mr_ew@example.com'}
+          post :index, :method => 'add_email', :listtype => :event, :email => email_attrs
           response.should redirect_to email_lists_path
         end
         it 'adds a new email to the email list' do
           expect {
-            post :index, :method => 'add_email',  :listtype => :event, :email => {:name => 'new dude', :email => 'mrnew@example.com'}
+            post :index, :method => 'add_email',  :listtype => :event, :email => email_attrs
           }.to change(Email,:count).by(1)
         end
         it 'adds a new email to the email list' do
-          post :index, :method => 'add_email', :listtype => :admin, :email => {:name => 'new dude', :email => 'r_new@example.com'}
-          AdminMailerList.first.emails.map(&:formatted).should include Email.where(:email => 'r_new@example.com').first.formatted
+          post :index, :method => 'add_email', :listtype => :admin, :email => email_attrs
+          AdminMailerList.first.emails.map(&:formatted).should include lookup_email.formatted
         end
       end
     end

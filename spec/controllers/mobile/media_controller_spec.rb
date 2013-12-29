@@ -65,14 +65,6 @@ describe MediaController do
       m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
       m2freq['ct'].should eql 1.0
     end
-    context "an id that doesn't exist" do
-      before do
-        get :show, :id => 0
-      end
-      it "should redirect" do
-        response.should redirect_to medium_path Medium.first
-      end
-    end
     it 'artists list should not include duplicates' do
       assigns(:artists).uniq.count.should eql assigns(:artists).count
     end

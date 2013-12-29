@@ -79,7 +79,8 @@ class EventsController < ApplicationController
         end
         artists << a if a
       end
-      event_details[:description] << "\n\n" << artists.flatten.map{|a| "[#{a.get_name}](#{a.get_share_link})"}.join(', ')
+      links = artists.flatten.map{|a| "[#{a.get_name}](#{a.get_share_link})"}.join(', ')
+      event_details[:description] << "\n\n" << links
     end
 
     event_details[:user_id] = current_user.id

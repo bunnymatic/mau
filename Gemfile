@@ -70,6 +70,7 @@ group :test, :development do
   gem 'simplecov'
   gem 'cane'
   gem 'morecane'
+  gem 'rails_best_practices'
   gem 'guard-cucumber'
   gem 'database_cleaner'
   gem 'shoulda-matchers'

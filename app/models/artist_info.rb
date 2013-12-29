@@ -23,6 +23,10 @@
 #  lng                        :float
 #  open_studios_participation :string(255)
 #
+# Indexes
+#
+#  index_artist_infos_on_artist_id  (artist_id)
+#
 
 class ArtistInfo < ActiveRecord::Base
   belongs_to :artist
