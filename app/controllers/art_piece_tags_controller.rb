@@ -101,34 +101,11 @@ class ArtPieceTagsController < ApplicationController
     end
 
     @results_mode = params[:m] || 'p'
-    joiner = ArtPiecesTag.where(:art_piece_tag_id => params[:id])
-    results = {}
-    joiner.each do |apt|
-      art = apt.art_piece
-      if art
-        results[art.id]=art
-      end
-    end
 
-    # if show by artists, pick 1 from each artist
-    if @results_mode == 'p'
-      pieces = results.map { |k,v| v }.sort_by { |p| p.updated_at }.reverse
-    else
-      artist_ids = Artist.active.all.map{|a| a.id}
-      tmps = {}
-      results.values.each do |pc|
-        if (pc && !tmps.include?(pc.artist_id) &&
-            artist_ids.include?(pc.artist_id))
-          tmps[pc.artist_id] = pc
-        end
-      end
-      pieces = tmps.values.sort_by { |p| p.updated_at }.reverse
-    end
-    pieces.reverse!
-
+    @tag_presenter = ArtPieceTagPresenter.new(@tag, @results_mode)
+    @pieces = @tag_presenter.art_pieces
     @tag_cloud_presenter = TagCloudPresenter.new(view_context, ArtPieceTag, @tag, @results_mode)
-    @paginator = ArtPieceTagPagination.new(view_context, pieces, @tag, page, {:m => params[:m]})
-    @pieces = @paginator.items
+    @paginator = ArtPieceTagPagination.new(view_context, @pieces, @tag, page, {:m => @results_mode})
 
     @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })
     @by_pieces_link = art_piece_tag_url(@tag, { :m => 'p' })

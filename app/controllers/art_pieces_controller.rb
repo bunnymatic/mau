@@ -24,7 +24,6 @@ class ArtPiecesController < ApplicationController
     apid = params[:id].to_i
     art_piece = safe_find_art_piece(apid)
     # get all art pieces for this artist
-    pieces = []
     if !art_piece || !art_piece.artist
       flash[:error] = "We couldn't find that art piece."
       redirect_to "/error"

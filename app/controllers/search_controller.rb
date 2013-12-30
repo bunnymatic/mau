@@ -78,7 +78,7 @@ class SearchController < ApplicationController
     @per_page_opts = per_page_options(results)
     opts.per_page = results.count < opts.per_page ? @per_page_opts.max : opts.per_page
 
-    @paginator = Pagination.new(results, opts.page, opts.per_page)
+    @paginator = Pagination.new(view_context, results, opts.page, opts.per_page)
 
     @per_page = opts.per_page
     @user_query = opts.query || ''

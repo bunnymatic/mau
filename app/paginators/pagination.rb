@@ -2,9 +2,9 @@ class PaginationError < StandardError; end
 
 class Pagination
 
-  def initialize(array, current, per_page)
+  def initialize(view_context, array, current, per_page)
     raise PaginationError.new("per_page must be present and greater than 0") unless per_page && (per_page.to_i > 0)
-
+    @view_context = view_context
     @array = array
     @current = current
     @per_page = [per_page,1].max
@@ -67,5 +67,30 @@ class Pagination
     current_page != last_page
   end
 
+  def previous_title
+    @previous_title || 'previous'
+  end
+
+  def link_to_previous
+    raise PaginationError.new("link_to_previous requires previous_link to be defined!") unless respond_to? :previous_link
+    @view_context.link_to previous_label, previous_link, :title => previous_title
+  end
+
+  def link_to_next
+    raise PaginationError.new("link_to_next requires next_link to be defined!") unless respond_to? :next_link
+    @view_context.link_to next_label, next_link, :title => next_title
+  end
+
+  def previous_label
+    (@previous_label || '&lt;prev').html_safe
+  end
+
+  def next_title
+    @next_title || 'next'
+  end
+
+  def next_label
+    (@next_label || 'next&gt;').html_safe
+  end
 
 end

@@ -14,7 +14,7 @@
           = render "/art_pieces/mode_selector"
         = render '/flash_notice_error'
         .search-results
-          - if @pieces and !@pieces.empty?
-            = render :partial => '/search/thumbs', :locals => { :pieces => @pieces, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }}
+          - if @tag_presenter.art_pieces.present?
+            = render '/search/thumbs', :pieces => @tag_presenter.art_pieces, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }
         .search-view-ctrls
           = render "/common/pagination", :paginator => @paginator
