@@ -8,11 +8,11 @@ module ResponseMatchers
     failure_message_for_should do |actual|
       "expected response to be 4xx error"
     end
-    
+
     failure_message_for_should_not do |actual|
       "expected response not to be 4xx error"
     end
-    
+
     description do
       'have 4xx error code'
     end

@@ -3,7 +3,7 @@ module PresenterSpecHelpers
 
     include ActionView::Helpers::UrlHelper
     include Rails.application.routes.url_helpers
-    
+
     def initialize(logged_in_as = nil)
       @user = logged_in_as
     end

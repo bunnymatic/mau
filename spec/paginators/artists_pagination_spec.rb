@@ -19,7 +19,7 @@ describe ArtistsPagination, :type => :controller do
     lnk = HTML::Document.new(subject.link_to_next).root
     assert_select lnk, 'a' do |tag|
       tag.first["href"].should eql subject.next_link
-      tag.first["title"].should eql subject.next_title 
+      tag.first["title"].should eql subject.next_title
     end
   end
 
@@ -27,7 +27,7 @@ describe ArtistsPagination, :type => :controller do
     lnk = HTML::Document.new(subject.link_to_previous).root
     assert_select lnk, 'a' do |tag|
       tag.first['href'].should eql subject.previous_link
-      tag.first["title"].should eql subject.previous_title 
+      tag.first["title"].should eql subject.previous_title
     end
   end
 end
