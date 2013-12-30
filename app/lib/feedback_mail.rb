@@ -1,87 +1,93 @@
+require 'active_model'
+
 class FeedbackMail
 
-  def initialize(opts)
-    @params = opts
-  end
+  include ActiveModel::Validations
+  include ActiveModel::Conversion
+  extend ActiveModel::Naming
+  
+  attr_accessor :note_type, :email, :email_confirm, 
+    :feedlink, :inquiry, :current_user, :operating_system, :browser
+  
 
-  def construct_and_mail_feedback
-    resp_hash = MainController::validate_params(params)
-    if resp_hash[:messages].size < 1
-      # process
-      email = params["email"] || ""
-      subject = "MAU Submit Form : #{params["note_type"]}"
-      login = "anon"
-      if current_user
-        login = current_user.login
-        email += " (account email : #{current_user.email})"
-      end
-      comment = ''
-      comment += "OS: #{params["operating_system"]}\n"
-      comment += "Browser: #{params["browser"]}\n"
-      case params["note_type"]
-      when 'inquiry', 'help'
-        comment += "From: #{email}\nQuestion: #{params['inquiry']}\n"
-      when 'email_list'
-        comment += "From: #{email}\n Add me to your email list\n"
-      when 'feed_submission'
-        comment += "Feed Link: #{params['feedlink']}\n"
-      end
+  VALID_NOTE_TYPES = %w(feed_submission help inquiry email_list)
 
-      f = Feedback.new( { :email => email,
-                          :subject => subject,
-                          :login => login,
-                          :comment => comment })
-      if f.save
-        FeedbackMailer.feedback(f).deliver!
-      end
+  validates :note_type, :presence => true, :inclusion => { :in => VALID_NOTE_TYPES,
+    :message => "%{value} is not a valid note type" }  
+  
+  validates :email, :presence => true, :unless => :is_a_feed_submission?
+  validates :email_confirm, :presence => true, :unless => :is_a_feed_submission?
+
+  validates :feedlink, :presence => true, :if => :is_a_feed_submission?
+
+  validates :inquiry, :presence => true, :if => :is_an_inquiry?
+
+  validate :emails_must_match
+
+  def initialize(attributes = {})
+    attributes.each do |name, value|
+      send("#{name}=", value)
     end
   end
 
-  def validate_params(params)
-    results = { :status => 'success', :messages => [] }
+  def emails_must_match
+    errors.add(:base, "Please reconfirm your email. The emails don't match.") unless email == email_confirm
+  end
 
-    # common validation
-    unless ["feed_submission", "help", "inquiry", "email_list"].include? params[:note_type]
-      results[:messages] << "invalid note type"
-    else
-      if !(['feed_submission'].include? params[:note_type])
-        ['email','email_confirm'].each do |k|
-          if params[k].blank?
-            humanized = ActiveSupport::Inflector.humanize(k)
-            results[:messages] << "#{humanized} can't be blank"
+  def is_a_feed_submission?
+    @is_a_feed_submission ||= (note_type == 'feed_submission')
+  end
+
+  def is_an_inquiry?
+    @is_an_inquiry ||= (note_type == 'inquiry')
+  end
+
+  def subject
+    @subject ||= "MAU Submit Form : #{note_type}"
+  end
+
+  def login
+    @login ||= 
+      current_user.try(:login) || 'anon'
+  end
+  
+  def has_account?
+    !!(current_user)
+  end
+
+  def comment
+    @comment ||= 
+      begin
+        [].tap do |comment|
+          comment << "OS: #{operating_system}"
+          comment << "Browser: #{browser}"
+          case note_type
+          when 'inquiry', 'help'
+            comment << "From: #{email}"
+            comment << "Question: #{inquiry}"
+          when 'email_list'
+            comment << "From: #{email}"
+            comment << "Add me to your email list"
+          when 'feed_submission'
+            comment << "Feed Link: #{feedlink}"
           end
-        end
+        end.join("\n")
+      end
+  end
+  
+  def account_email
+    "#{login} (account email : #{current_user.email})"
+  end
 
-        if (params.keys.select { |k| ['email', 'email_confirm' ].include? k }).size < 2
-          results[:messages] << 'not enough parameters'
-        end
-        if params['email'] != params['email_confirm']
-          results[:messages] << 'emails do not match'
-        end
-      elsif 'feed_submission' == params[:note_type]
-        if (params.keys.select { |k| ['feedlink' ].include? k }).size < 1
-          results[:messages] << 'not enough parameters'
-        end
-      end
-      # specific
-      case params[:note_type]
-      when 'inquiry'
-        if params['inquiry'].blank?
-          results[:messages] << 'note cannot be empty'
-          results[:messages] << 'not enough parameters'
-        end
-      when 'email_list'
-      when 'feed_submission'
-        if params["feedlink"].blank?
-          results[:messages] << 'feed url can\'t be empty'
-        end
-      else
-      end
+  def save
+    em = (has_account? ? account_email : email)
+    f = Feedback.new( { :email => em,
+                        :subject => subject,
+                        :login => login,
+                        :comment => comment })
+    if f.save
+      FeedbackMailer.feedback(f).deliver!
     end
-    if results[:messages].size > 0
-      results[:status] = 'error'
-    end
-    results
   end
 
 end
