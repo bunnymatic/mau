@@ -17,6 +17,7 @@ describe Pagination do
     its(:previous_page) { should eq 0 }
     its(:next_link?) { should be_true }
     its(:previous_link?) { should be_false }
+    its(:display_current_position) { should eql 'page 1 of 3' }
   end
 
   context 'on an inner page' do
@@ -26,6 +27,7 @@ describe Pagination do
     its(:items) { should eq [4,5,6] }
     its(:next_page) { should eq 2 }
     its(:previous_page) { should eq 0 }
+    its(:display_current_position) { should eql 'page 2 of 3' }
   end
 
   context 'on the last page' do
@@ -37,6 +39,7 @@ describe Pagination do
     its(:previous_page) { should eq 1 }
     its(:next_link?) { should be_false }
     its(:previous_link?) { should be_true }
+    its(:display_current_position) { should eql 'page 3 of 3' }
   end
 
   context 'when current page is bigger than the number of pages' do
