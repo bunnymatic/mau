@@ -7,299 +7,180 @@ avoids 'mailto' links
 
 MAU.NotesMailer = Class.create();
 MAU.browser = MAU.browser || {};
-var FormConstructors = {};
+var FormConstructors = function() {
 
-FormConstructors.login_required = {
-  title: "Login Required",
-  render: function() {
-    var el = new Element('div');
-    var msg = new Element('div');
-    msg.innerHTML = "Sorry, but you need to login first.";
-    var msg2 = new Element('div');
-    msg2.innerHTML = "Click <a href='/login'>here to login.</a>";
-    el.insert(msg);
-    el.insert(msg2);
-    return el;
-  }
-};
+  var input_button = function(opts) {
+    var o = _.extend(opts || {}, { "class": 'formbutton', type: 'submit', value: 'send' });
+    return new Element('input', o);
+  };
 
-FormConstructors.entrythingy = {
-  title: 'Show Submission Help',
-  render: function() {
-    var el = new Element('div');
-    el.innerHTML = "Sorry you're having trouble.  Have you read the EntryThingy instructions?"+
-      "  If not, check those out and see if they answer your question.   If you've already read"+
-      " all that and are still having issues, tell us as much as you can about the specific "+
-      "problem and we'll do our best to help you out.";
+  var email_fields = function(email) {
+    email = email || '';
+    return(
+      [
+        new Element('label').update('Email'),
+        new Element('div').insert(new Element('input', { type: 'text',
+                                                         id: 'email',
+                                                         name: 'feedback_mail[email]',
+                                                         value: email})),
+        new Element('label').update('Confirm Email'),
+        new Element('div').insert(new Element('input', { type: 'text',
+                                                         id: 'email_confirm',
+                                                         name: 'feedback_mail[email_confirm]',
+                                                         value: email })) ]
+    );
+  };
 
-    var inputs = new Element('ul');
-    var entries = [];
+  this.types = ['inquiry', 'email_list', 'feed_submission', 'help'];
 
-    MAU.Cookie.init({name:'mau'});
-    var email = MAU.Cookie.getData('email') || '';
-    entries.push( [
-      new Element('label').update('Email'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'email',
-                                                       name: 'email',
-                                                       value: email}))
-    ]);
-    entries.push( [
-      new Element('label').update('Confirm Email'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'email_confirm',
-                                                       name: 'email_confirm',
-                                                       value: email }))
-    ]);
-    entries.push( [
-      new Element('label').update('Describe the problem'),
-      new Element('div').insert(new Element('textarea', { columns: 80,
-                                                          rows: 7,
-                                                          id: 'inquiry',
-                                                          name: 'inquiry' }))
-    ]);
-    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
+  this.login_required = {
+    title: "Login Required",
+    render: function() {
+      var el = new Element('div');
+      var msg = new Element('div');
+      msg.innerHTML = "Sorry, but you need to login first.";
+      var msg2 = new Element('div');
+      msg2.innerHTML = "Click <a href='/login'>here to login.</a>";
+      el.insert(msg);
+      el.insert(msg2);
+      return el;
+    }
+  };
 
-    $(entries).each(function(entry) {
-      var li = new Element('li');
-      $(entry).each(function(chunk) {
-        li.insert(chunk);
+  this.inquiry = {
+    title: 'General Inquiry',
+    render: function() {
+      var el = new Element('div');
+      el.innerHTML = "We love to hear from you.  Please let us know your thoughts,"+
+        " questions, rants.  We'll do our best to respond in a timely manner.";
+
+      var inputs = new Element('ul');
+      var entries = [];
+
+      MAU.Cookie.init({name:'mau'});
+      var email = MAU.Cookie.getData('email') || '';
+      entries.push( email_fields() );
+      entries.push( [
+        new Element('label').update('Question'),
+        new Element('div').insert(new Element('textarea', { columns: 80,
+                                                            rows: 7,
+                                                            id: 'inquiry',
+                                                            name: 'feedback_mail[inquiry]' })) ]);
+      entries.push( [ input_button() ] );
+
+      $(entries).each(function(entry) {
+        var li = new Element('li');
+        $(entry).each(function(chunk) {
+          li.insert(chunk);
+        });
+        inputs.insert(li);
       });
-      inputs.insert(li);
-    });
-    el.insert(inputs);
-    return el;
-  }
-};
+      el.insert(inputs);
+      return el;
+    }
+  };
 
-FormConstructors.inquiry = {
-  title: 'General Inquiry',
-  render: function() {
-    var el = new Element('div');
-    el.innerHTML = "We love to hear from you.  Please let us know your thoughts,"+
-      " questions, rants.  We'll do our best to respond in a timely manner.";
+  this.feed_submission = {
+    title: "Art Feeds",
+    render: function() {
+      var el = new Element('div');
+      el.innerHTML = "Tell us about your favorite art related feed.  We'll check"+
+        " it out and if it stays current and is interesting, we'll add it to our list.";
 
-    var inputs = new Element('ul');
-    var entries = [];
+      var inputs = new Element('ul');
+      var entries = [];
 
-    MAU.Cookie.init({name:'mau'});
-    var email = MAU.Cookie.getData('email') || '';
-    entries.push( [
-      new Element('label').update('Email'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'email',
-                                                       name: 'email',
-                                                       value: email})) ]);
-    entries.push( [
-      new Element('label').update('Confirm Email'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'email_confirm',
-                                                       name: 'email_confirm',
-                                                       value: email })) ]);
-    entries.push( [
-      new Element('label').update('Question'),
-      new Element('div').insert(new Element('textarea', { columns: 80,
-                                                          rows: 7,
-                                                          id: 'inquiry',
-                                                          name: 'inquiry' })) ]);
-    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
+      entries.push( [
+        new Element('label').update('Feed Link'),
+        new Element('div').insert(new Element('input', { type: 'text',
+                                                         id: 'feedlink',
+                                                         name: 'feedback_mail[feedlink]' })) ]);
+      entries.push( [ input_button() ] );
 
-    $(entries).each(function(entry) {
-      var li = new Element('li');
-      $(entry).each(function(chunk) {
-        li.insert(chunk);
+      $(entries).each(function(entry) {
+        var li = new Element('li');
+        $(entry).each(function(chunk) {
+          li.insert(chunk);
+        });
+        inputs.insert(li);
       });
-      inputs.insert(li);
-    });
-    el.insert(inputs);
-    return el;
-  }
-};
+      el.insert(inputs);
+      return el;
+    }
+  };
 
-FormConstructors.event_submission = {
-  title: "My Art Show",
-  login_required: true,
-  render: function() {
-    var el = new Element('div');
-    el.innerHTML = "Tell us about your art show or event.  We'll help you plug"+
-      " it by posting it on our Facebook and Twitter.  Please give as much "+
-      "information as you can.";
+  this.help = {
+    title: "Help!",
+    render: function() {
+      var el = new Element('div');
+      el.innerHTML = "Ack.  So sorry you're having issues.  Our developers are only human."+
+        "  You may have found a bug in our system.  Please tell us what you were doing "+
+        "and what wasn't working.  We'll do our best to fix the issue and get you rolling "+
+        "as soon as we can.";
 
-    var inputs = new Element('ul');
-    var entries = [];
+      var inputs = new Element('ul');
+      var entries = [];
 
-    entries.push( [
-      new Element('label').update('Title'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'eventtitle',
-                                                       name: 'eventtitle' })) ]);
-    entries.push( [
-      new Element('label').update('Description'),
-      new Element('div').insert(new Element('textarea', { rows: 7,
-                                                          id: 'eventdesc',
-                                                          name: 'eventdesc' })) ]);
-    entries.push( [
-      new Element('label').update('Time & Date'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'eventtimedate',
-                                                       name: 'eventtimedate' })) ]);
-    entries.push( [
-      new Element('label').update('Venue Name'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'eventvenuename',
-                                                       name: 'eventvenuename' })) ]);
-    entries.push( [
-      new Element('label').update('Venue Address'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'eventaddress',
-                                                       name: 'eventaddress' })) ]);
-    entries.push( [
-      new Element('label').update('Event Website'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'eventlink',
-                                                       name: 'eventlink' })) ]);
-    entries.push( [
-      new Element('label').update('Participating MAU Artists (comma separated list)'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'eventartists',
-                                                       name: 'eventartists' })) ]);
-    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
+      MAU.Cookie.init({name:'mau'});
+      var email = MAU.Cookie.getData('email') || '';
+      entries.push( email_fields() );
+      entries.push( [
+        new Element('label').update('Report your issue'),
+        new Element('div').insert(new Element('textarea', { columns: 80,
+                                                            rows: 7,
+                                                            id: 'inquiry',
+                                                            name: 'feedback_mail[inquiry]' })) ]);
+      entries.push( [ input_button() ] );
 
-    $(entries).each(function(entry) {
-      var li = new Element('li');
-      $(entry).each(function(chunk) {
-        li.insert(chunk);
+      $(entries).each(function(entry) {
+        var li = new Element('li');
+        $(entry).each(function(chunk) {
+          li.insert(chunk);
+        });
+        inputs.insert(li);
       });
-      inputs.insert(li);
-    });
-    el.insert(inputs);
-    return el;
-  }
-};
+      el.insert(inputs);
+      return el;
+    }
+  };
 
-FormConstructors.feed_submission = {
-  title: "Art Feeds",
-  render: function() {
-    var el = new Element('div');
-    el.innerHTML = "Tell us about your favorite art related feed.  We'll check"+
-      " it out and if it stays current and is interesting, we'll add it to our list.";
+  this.email_list = {
+    title: 'Join our mailing list',
+    render: function() {
+      var el = new Element('div');
+      el.innerHTML = "Awesome!  We'll notify you of upcoming MAU events.  "+
+        "We hate spam just like you do so the only things you'll be apprised"+
+        " of will be great!  Enter your email twice below and we'll put you "+
+        "on the list.";
 
-    var inputs = new Element('ul');
-    var entries = [];
+      var inputs = new Element('ul');
+      var entries = [];
 
-    entries.push( [
-      new Element('label').update('Feed Link'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'feedlink',
-                                                       name: 'feedlink' })) ]);
-    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
+      MAU.Cookie.init({name:'mau'});
+      var email = MAU.Cookie.getData('email') || '';
+      entries.push( email_fields() );
+      entries.push( [ input_button() ] );
 
-    $(entries).each(function(entry) {
-      var li = new Element('li');
-      $(entry).each(function(chunk) {
-        li.insert(chunk);
+      $(entries).each(function(entry) {
+        var li = new Element('li');
+        $(entry).each(function(chunk) {
+          li.insert(chunk);
+        });
+        inputs.insert(li);
       });
-      inputs.insert(li);
-    });
-    el.insert(inputs);
-    return el;
-  }
-};
-
-FormConstructors.help = {
-  title: "Help!",
-  render: function() {
-    var el = new Element('div');
-    el.innerHTML = "Ack.  So sorry you're having issues.  Our developers are only human."+
-      "  You may have found a bug in our system.  Please tell us what you were doing "+
-      "and what wasn't working.  We'll do our best to fix the issue and get you rolling "+
-      "as soon as we can.";
-
-    var inputs = new Element('ul');
-    var entries = [];
-
-    MAU.Cookie.init({name:'mau'});
-    var email = MAU.Cookie.getData('email') || '';
-
-    entries.push( [
-      new Element('label').update('Email'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'email',
-                                                       name: 'email',
-                                                       value: email})) ]);
-    entries.push( [
-      new Element('label').update('Confirm Email'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'email_confirm',
-                                                       name: 'email_confirm',
-                                                       value: email })) ]);
-    entries.push( [
-      new Element('label').update('Report your issue'),
-      new Element('div').insert(new Element('textarea', { columns: 80,
-                                                          rows: 7,
-                                                          id: 'inquiry',
-                                                          name: 'inquiry' })) ]);
-    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
-
-    $(entries).each(function(entry) {
-      var li = new Element('li');
-      $(entry).each(function(chunk) {
-        li.insert(chunk);
-      });
-      inputs.insert(li);
-    });
-    el.insert(inputs);
-    return el;
-  }
-};
-
-FormConstructors.email_list = {
-  title: 'Join our mailing list',
-  render: function() {
-    var el = new Element('div');
-    el.innerHTML = "Awesome!  We'll notify you of upcoming MAU events.  "+
-      "We hate spam just like you do so the only things you'll be apprised"+
-      " of will be great!  Enter your email twice below and we'll put you "+
-      "on the list.";
-
-    var inputs = new Element('ul');
-    var entries = [];
-
-    MAU.Cookie.init({name:'mau'});
-    var email = MAU.Cookie.getData('email') || '';
-
-    entries.push( [
-      new Element('div').update('Email:'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'email',
-                                                       name: 'email',
-                                                       value: email })) ]);
-    entries.push( [
-      new Element('div').update('Confirm Email:'),
-      new Element('div').insert(new Element('input', { type: 'text',
-                                                       id: 'email_confirm',
-                                                       name: 'email_confirm', value: email })) ]);
-    entries.push( [ new Element('input', {type: 'submit', value: 'send'}) ]);
-
-    $(entries).each(function(entry) {
-      var li = new Element('li');
-      $(entry).each(function(chunk) {
-        li.insert(chunk);
-      });
-      inputs.insert(li);
-    });
-    el.insert(inputs);
-    return el;
-  },
-  submit: function() {
-  }
+      el.insert(inputs);
+      return el;
+    },
+    submit: function() {
+    }
+  };
 };
 
 Object.extend(MAU.NotesMailer.prototype, {
   defaults: {
     url: '/email'
   },
-  form_builders: FormConstructors,
+  form_builders: new FormConstructors(),
   selector: null,
   _parent_class: function(selector) {
     if (selector) {
@@ -344,13 +225,13 @@ Object.extend(MAU.NotesMailer.prototype, {
       $(f).insert(new Element('input', { name: 'authenticity_token',
                                          type: 'hidden',
                                          value: unescape(authenticityToken) }));
-      $(f).insert(new Element('input', { name: 'note_type',
+      $(f).insert(new Element('input', { name: 'feedback_mail[note_type]',
                                          type: 'hidden',
                                          value: _that.options.note_class }));
-      $(f).insert(new Element('input', { name: 'browser',
+      $(f).insert(new Element('input', { name: 'feedback_mail[browser]',
                                          type: 'hidden',
                                          value: MAU.browser.browser + ' ' + MAU.browser.version }));
-      $(f).insert(new Element('input', { name: 'operating_system',
+      $(f).insert(new Element('input', { name: 'feedback_mail[operating_system]',
                                          type: 'hidden',
                                          value: MAU.browser.OS }));
       $(f).insert(inner);
@@ -408,8 +289,3 @@ Object.extend(MAU.NotesMailer.prototype, {
     }
   }
 });
-
-
-
-
-

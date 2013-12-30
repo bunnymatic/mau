@@ -100,7 +100,6 @@ class Artist < User
   end
 
   def in_the_mission?
-    h = address_hash
     if h && h.has_key?(:latlng)
       lat = h[:latlng][0]
       lng = h[:latlng][1]
@@ -108,11 +107,7 @@ class Artist < User
       ne = BOUNDS['NE']
       if lat && lng
         (lat>sw[0] and lat<ne[0] and lng>sw[1] and lng<ne[1])
-      else
-        false
       end
-    else
-      false
     end
   end
 
