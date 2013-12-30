@@ -1,38 +1,35 @@
 #catalog
-  :ruby
-    data = Hash[@preview_reception_html.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
   .page
-    .section.markdown.editable{data}
-      = @preview_reception_html[:content]
+    .section.markdown.editable{@catalog.preview_reception_data}
+      = @catalog.preview_reception_content
   .page
     .header
     .section.studios
       .header
         %h3 Artists by Studio
       .list
-        - @studio_order.map{|sid| Studio.find(sid)}.each_with_index do |studio, idx|
-          - studio_artists = @group_studio_artists[studio.id]
+        - @catalog.artists_by_studio.map do |studio, artist_list|
           .entry
             .title
               %span.studioname
                 = studio.name
               %span.count
-                = studio_artists.count > 1 ? "(#{studio_artists.count})": ''
+                = artist_list.count > 1 ? "(#{artist_list.length})": ''
               %br
               %span.address
                 = studio.street
           %ul.artists
-            - studio_artists.each_with_index do |artist, idx|
-              %li{:class => ((idx%2)==0) ? 'even':'odd'}
+            - artist_list.each do |artist|
+              %li{:class => cycle('even','odd')}
                 = artist.fullname
         .entry
           .title.indy
             %span.studioname Independent Studios
             %span.count
-              = "(#{@indy_artists.count})"
+              = "(#{@catalog.indy_artists_count})"
           %ul
-            - @indy_artists.each_with_index do |artist,idx|
-              %li{:class => ((idx%2)==0) ? 'even':'odd' }
+            - @catalog.indy_artists.each do |artist|
+              %li{:class => cycle('even','odd')}
                 %span.name
                   = artist.fullname
                 %span.address

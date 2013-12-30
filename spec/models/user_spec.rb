@@ -16,6 +16,20 @@ describe User do
     Rails.cache.stub(:read => :nil)
   end
 
+  it{ should validate_presence_of(:password) }
+  it{ should validate_presence_of(:password_confirmation) }
+
+  it{ should validate_presence_of(:login) }
+  it{ should validate_uniqueness_of(:login) }
+  it{ should ensure_length_of(:login).is_at_least(5).is_at_most(40) }
+
+  it{ should validate_presence_of(:email) }
+  it{ should validate_uniqueness_of(:email) }
+  it{ should ensure_length_of(:email).is_at_least(6).is_at_most(100) }
+
+  it{ should ensure_length_of(:firstname).is_at_most(100) }
+  it{ should ensure_length_of(:lastname).is_at_most(100) }
+
   it_should_behave_like MailChimp
   it_should_behave_like ImageDimensions
 

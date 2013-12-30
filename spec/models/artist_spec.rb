@@ -1,23 +1,15 @@
 require 'spec_helper'
 
-module ArtistSpecHelper
-  def valid_user_attributes
-    { :email => "joey@bloggs.com",
-      :login => "joeybloggs",
-      :password => "yabcdefg",
-      :password_confirmation => "yabcdefg",
-      :firstname => 'joey',
-      :lastname => 'blogs'
-    }
-  end
-end
-
 describe Artist do
-  include ArtistSpecHelper
+
   fixtures :users, :artist_infos, :studios, :art_pieces, :media, :roles, :roles_users
   before do
     Rails.cache.stub(:read => nil)
   end
+
+  let(:artist) { users(:artist1) }
+  let(:artist_info) { artist.artist_info }
+
 
   describe "create" do
     describe 'auth helpers' do
@@ -36,51 +28,24 @@ describe Artist do
         end
       end
       describe "make activation token " do
-        before do
-          a = Artist.new
-          a.attributes = valid_user_attributes
-          a.should be_valid
-          @a = a
-          @token = a.make_activation_code
-        end
+        let(:new_artist) { FactoryGirl.create(:artist) }
+        let(:token) { new_artist.make_activation_code }
         it "returns a string greater than 20 chars" do
-          @token.length.should > 20
+          token.length.should > 20
         end
         it "returns a string with only numbers and letters" do
-          @token.should_not match /\W+/
+          token.should_not match /\W+/
         end
         it "when called again returns something different" do
-          @token.should_not eql(@a.make_activation_code)
+          token.should_not eql(new_artist.make_activation_code)
         end
       end
     end
 
-    describe "validation" do
-      it "should not be valid artist from blank new artist" do
-        a = Artist.new
-        a.should_not be_valid
-        a.should have(2).error_on(:password)
-        a.should have(1).error_on(:password_confirmation)
-        a.should have_at_least(2).error_on(:login)
-        a.should have(4).error_on(:email)
-      end
-
-      it "should be valid artist" do
-        a = Artist.new
-        a.attributes = valid_user_attributes
-        a.should be_valid
-      end
-
-      it "should be require password confirmation" do
-        a = Artist.new
-        a.attributes = valid_user_attributes.except(:password_confirmation)
-        a.should have(1).error_on(:password_confirmation)
-      end
-    end
   end
 
   describe "update" do
-    let(:this_artist) { users(:artist1) }
+    let(:this_artist) { artist }
     it "should update bio" do
       ArtistInfo.any_instance.should_receive(:compute_geocode).and_return([-40,122])
 
@@ -157,123 +122,111 @@ describe Artist do
     end
   end
   describe 'find by fullname' do
-    context ' after adding artist with firstname joe and lastname blogs ' do
-      it "finds joe blogs" do
-        artists = Artist.find_by_fullname('joe blogs')
-        artists.length.should eql(1)
-        artists[0].get_name.should eql('joe blogs')
-      end
-      it "finds Joe Blogs" do
-        artists = Artist.find_by_fullname('Joe Blogs')
-        artists.length.should eql(1)
-        artists[0].get_name.should eql('joe blogs')
-      end
-      it "finds Joe blogs" do
-        artists = Artist.find_by_fullname('Joe blogs')
-        artists.length.should eql(1)
-        artists[0].get_name.should eql('joe blogs')
-      end
-      it "does not find jo blogs" do
-        artists = Artist.find_by_fullname('Jo blogs')
-        artists.length.should eql(0)
-      end
+    let(:artist) { users(:joeblogs) }
+    let(:fullname) { 'joe blogs' }
+    let(:artists) { Artist.find_by_fullname( fullname ) }
+    context 'with lowercase name' do
+      it { artists.should have(1).artist }
+      it { artists.first.should eql artist }
+    end
+    context 'with capitalized name search' do
+      let(:fullname) { "Joe Blogs" }
+      it { artists.should have(1).artist }
+      it { artists.first.should eql artist }
+    end
+    context 'with mixed case search' do
+      let(:fullname) { "Joe blogs" }
+      it { artists.should have(1).artist }
+      it { artists.first.should eql artist }
+    end
+    context 'with substring' do
+      let(:fullname) { "Jo blogs" }
+      it { artists.should be_empty }
     end
   end
   describe 'get from info' do
-    before do
-      @a = users(:artist1)
-    end
     it "responds to method bio" do
-      lambda { @a.bio }.should_not raise_error
+      lambda { artist.bio }.should_not raise_error
     end
   end
   describe "fetch address" do
     context "without studio association" do
-      before do
-        @a = users(:wayout)
-      end
+      let(:artist) { users(:wayout) }
       it "returns correct street" do
-        @a.artist_info.street.should eql @a.street
+        artist_info.street.should eql artist.street
       end
       it "returns correct address" do
-        @a.address.should include @a.street
+        artist.address.should include artist.street
       end
       it "returns correct lat/lng" do
-        @a.artist_info.lat.should be
-        @a.artist_info.lng.should be
+        artist_info.lat.should be
+        artist_info.lng.should be
       end
     end
     context 'with studio association' do
-      before do
-        @a = users(:jesseponce)
-      end
+      let(:artist) { users(:jesseponce) }
       it "returns correct street" do
-        @a.artist_info.street.should eql @a.street
+        artist_info.street.should eql artist.street
       end
       it "returns studio address" do
-        @a.address.should eql @a.address
+        artist.address.should eql artist.address
       end
       it "returns correct artist info lat/lng" do
-        @a.artist_info.lat.should be_within(0.001).of(@a.lat)
-        @a.artist_info.lng.should be_within(0.001).of(@a.lng)
+        artist_info.lat.should be_within(0.001).of(artist.lat)
+        artist_info.lng.should be_within(0.001).of(artist.lng)
       end
     end
   end
   describe 'representative piece' do
     it 'is the first returned by art_pieces' do
-      a = users(:artist1)
-      a.representative_piece.should eql a.art_pieces[0]
-      a.representative_piece.should eql a.representative_pieces(1)[0]
+      artist.representative_piece.should eql artist.art_pieces[0]
+      artist.representative_piece.should eql artist.representative_pieces(1)[0]
     end
     it 'calls Cache.write if Cache.read returns nil' do
-      ap = ArtPiece.find_by_artist_id(users(:artist1).id)
-      a = users(:artist1)
+      ap = ArtPiece.find_by_artist_id(artist.id)
       Rails.cache.stub(:read => nil)
       Rails.cache.should_receive(:write).once
-      a.stub(:art_pieces => [ap])
-      a.representative_piece.should eql ap
+      artist.stub(:art_pieces => [ap])
+      artist.representative_piece.should eql ap
     end
     it 'doesn\'t call Cache.write if Cache.read returns something' do
-      a = users(:artist1)
-      Rails.cache.stub(:read => users(:artist1).art_pieces[0])
+      Rails.cache.stub(:read => artist.art_pieces[0])
       Rails.cache.should_receive(:write).never
-      a.representative_piece
+      artist.representative_piece
     end
     it 'doesn\'t call Cache.write if there are no art pieces' do
-      a = users(:artist1)
       Rails.cache.stub(:read => nil)
       Rails.cache.should_receive(:write).never
-      a.stub(:art_pieces => [])
-      a.representative_piece.should eql nil
+      artist.stub(:art_pieces => [])
+      artist.representative_piece.should eql nil
     end
   end
   describe 'representative pieces' do
-    it 'returns nil if there are no art pieces' do
-      a = users(:badname)
-      a.representative_pieces(20).should be_empty
+    context 'when the artist has none' do
+      let(:artist) { users(:badname) }
+      it { artist.representative_pieces(20).should be_empty }
     end
-    it 'is the list of art pieces' do
-      a = users(:artist1)
-      a.representative_pieces(3).should eql a.art_pieces[0..2]
-    end
-    it 'returns only as many pieces as the artist has' do
-      a = users(:artist1)
-      assert(a.art_pieces.count <= 1000)
-      a.representative_pieces(1000).should eql a.art_pieces.all
+    context 'when the artist has art' do
+      it 'is the list of art pieces' do
+        artist.representative_pieces(3).should eql artist.art_pieces[0..2]
+      end
+      it 'returns only as many pieces as the artist has' do
+        artist.representative_pieces(1000).should eql artist.art_pieces.all
+        artist.representative_pieces(1000).count.should be < 1000
+      end
     end
   end
   describe 'primary_medium' do
     before do
-      @a = users(:artist1)
       media_ids = Medium.find(:all, :order => :name).map(&:id)
       8.times.each do |ct|
         idx = ((media_ids.count-1)/(ct+1)).to_i
-        @a.art_pieces << ArtPiece.new(:title => 'abc', :medium_id => media_ids[idx])
+        artist.art_pieces << ArtPiece.new(:title => 'abc', :medium_id => media_ids[idx])
       end
-      @a.save
+      artist.save
     end
     it 'finds medium 1 as the most common' do
-      @a.primary_medium.should eql media(:medium1)
+      artist.primary_medium.should eql media(:medium1)
     end
     it 'works with no media on artist' do
       lambda {users(:quentin).primary_medium}.should_not raise_error
@@ -299,8 +252,7 @@ describe Artist do
       end
     end
     it 'is the same as the first piece from art_pieces' do
-      a = users(:artist1)
-      a.representative_piece.should eql a.art_pieces[0]
+      artist.representative_piece.should eql artist.art_pieces[0]
     end
   end
 
@@ -369,11 +321,11 @@ describe Artist do
 
   describe 'default scope' do
     it "most recent art piece should be the representative" do
-      users(:artist1).representative_piece.title.should eql "third"
+      artist.representative_piece.title.should eql "third"
     end
 
     it "returns art_pieces in created time order" do
-      users(:artist1).art_pieces.should eql users(:artist1).art_pieces.sort_by(&:created_at).reverse
+      artist.art_pieces.should eql artist.art_pieces.sort_by(&:created_at).reverse
     end
   end
 

@@ -116,6 +116,10 @@ class Artist < User
     end
   end
 
+  def in_a_group_studio?
+    (studio_id.present? && studio_id != 0 && studio.present?)
+  end
+
   def doing_open_studios?
     !!(Conf.oslive && os_participation && os_participation[Conf.oslive.to_s])
   end
