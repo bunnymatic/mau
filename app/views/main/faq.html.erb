@@ -22,7 +22,7 @@
       <% if logged_in? && current_user[:type] == 'Artist'
          nm = current_user.login
          else
-         nm = "&lt;your username&gt;"
+         nm = "&lt;your username&gt;".html_safe
          end
          -%>
       <span style="color:#eee" class="nobr">http://www.missionartistsunited.org/artists/<b><%= nm %></b></span>
@@ -37,15 +37,7 @@
       Q: can i receive inquiries from website visitors while keeping my email address private?
     </div>
     <div class="faq_a">
-      A: Yes!
-<ul>
-<li>Login</li>
-<li>Go to the profile edit page (click the "Edit Profile" button on your profile page)</li>
-<li>Open up the <b>Notifications</b> section.</li>
-<li>Check the box that reads <b>Allow notes from everyone</b>.</li>
-<li>Click "Save Changes"</li>
-</ul>
-    Now when visitors see your profile page, they'll see a little email icon and they can use that to send you a note.  We will not give away your email, but instead, the MAU server will send you a note with information about how to get a hold of the person making the inquiry.
+      A: Nope! We had a problem with Art scammers combing the site and hitting everyone up so we've disabled this feature.  You can send notes (without sharing emails directly) to other artists on the site.
     </div>
 
 

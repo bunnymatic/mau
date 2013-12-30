@@ -5,16 +5,16 @@ class FeedbackMail
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
-  
-  attr_accessor :note_type, :email, :email_confirm, 
+
+  attr_accessor :note_type, :email, :email_confirm,
     :feedlink, :inquiry, :current_user, :operating_system, :browser
-  
+
 
   VALID_NOTE_TYPES = %w(feed_submission help inquiry email_list)
 
   validates :note_type, :presence => true, :inclusion => { :in => VALID_NOTE_TYPES,
-    :message => "%{value} is not a valid note type" }  
-  
+    :message => "%{value} is not a valid note type" }
+
   validates :email, :presence => true, :unless => :is_a_feed_submission?
   validates :email_confirm, :presence => true, :unless => :is_a_feed_submission?
 
@@ -47,16 +47,16 @@ class FeedbackMail
   end
 
   def login
-    @login ||= 
+    @login ||=
       current_user.try(:login) || 'anon'
   end
-  
+
   def has_account?
     !!(current_user)
   end
 
   def comment
-    @comment ||= 
+    @comment ||=
       begin
         [].tap do |comment|
           comment << "OS: #{operating_system}"
@@ -74,7 +74,7 @@ class FeedbackMail
         end.join("\n")
       end
   end
-  
+
   def account_email
     "#{login} (account email : #{current_user.email})"
   end

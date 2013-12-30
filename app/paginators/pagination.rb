@@ -18,9 +18,11 @@ class Pagination
     @count ||= (@array||[]).length
   end
 
-  def display_current_position
-    "page #{current_page + 1} of #{last_page + 1}"
-  end
+  # currently unused, but it seems like it might come in handy
+  # 
+  #def display_current_position
+  #  "page #{current_page + 1} of #{last_page + 1}"
+  #end
 
   def last_page
     @last_page ||= ((count.to_f-1.0) / @per_page.to_f).floor.to_i

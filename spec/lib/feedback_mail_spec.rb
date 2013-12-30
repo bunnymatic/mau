@@ -11,9 +11,9 @@ describe FeedbackMail do
   it{ should ensure_inclusion_of(:note_type).in_array(FeedbackMail::VALID_NOTE_TYPES) }
 
   context 'if emails don\'t match (and are required' do
-    subject(:feedback_mail) { 
-      FactoryGirl.build(:feedback_mail, 
-                        :email => 'jon@here.com', 
+    subject(:feedback_mail) {
+      FactoryGirl.build(:feedback_mail,
+                        :email => 'jon@here.com',
                         :email_confirm => 'joe@here.com')
     }
     it{ should_not be_valid }
@@ -29,7 +29,7 @@ describe FeedbackMail do
     it{ should_not validate_presence_of :email }
     it{ should_not validate_presence_of :email_confirm }
     it{ should validate_presence_of :feedlink }
-    
+
     it 'includes the feed link in the comment' do
       expect(comment).to match "Feed Link: #{subject.feedlink}"
     end

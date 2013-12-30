@@ -135,8 +135,13 @@ class MainController < ApplicationController
       render_not_found("Method Unavaliable")
       return
     end
-    f = FeedbackMail.new(params.merge({:current_user => current_user}))
-    render :json => resp_hash
+    f = FeedbackMail.new( (params[:feedback_mail] ||{}).merge({:current_user => current_user}))
+    status = 400
+    if f.valid?
+      f.save
+      status = 200
+    end
+    render :json => f.to_json, :status => status
   end
 
   def news

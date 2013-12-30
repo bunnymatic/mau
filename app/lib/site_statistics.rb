@@ -48,7 +48,7 @@ class SiteStatistics
     {:art_pieces_added => ArtPiece.count}
   end
 
-  def favorites_stats 
+  def favorites_stats
     {
       :favorited_art_pieces => Favorite.art_pieces.count,
       :favorited_artists => Favorite.artists.count,
@@ -59,7 +59,7 @@ class SiteStatistics
   def studios_stats
     {:studios => Studio.count}
   end
-    
+
   def artists_stats
     { :actived_artists => Artist.active.count,
       :artists_pending => Artist.pending.count,
@@ -74,7 +74,7 @@ class SiteStatistics
       :fans => MAUFan.count
     }
   end
-    
+
   def events_stats
     {
       :events_past => Event.past.count,

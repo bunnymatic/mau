@@ -13,9 +13,23 @@ describe CatalogController do
       Artist.any_instance.stub(:in_the_mission? => true)
       jesse.update_attribute(:studio, studios(:s1890))
       artist.update_attribute(:studio, studios(:blue))
-      get :index
     end
-    it{response.should be_success}
+    context 'format=html' do
+      render_views
+      before do
+        get :index
+      end
+      it{response.should be_success}
+    end
+
+    context 'format=csv' do
+      before do
+        get :index, :format => :csv
+      end
+      it { response.should be_success }
+      it { response.should be_csv_type }
+    end
+
   end
 
   describe '#social' do
