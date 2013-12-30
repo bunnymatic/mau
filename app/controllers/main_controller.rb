@@ -135,36 +135,7 @@ class MainController < ApplicationController
       render_not_found("Method Unavaliable")
       return
     end
-    resp_hash = MainController::validate_params(params)
-    if resp_hash[:messages].size < 1
-      # process
-      email = params["email"] || ""
-      subject = "MAU Submit Form : #{params["note_type"]}"
-      login = "anon"
-      if current_user
-        login = current_user.login
-        email += " (account email : #{current_user.email})"
-      end
-      comment = ''
-      comment += "OS: #{params["operating_system"]}\n"
-      comment += "Browser: #{params["browser"]}\n"
-      case params["note_type"]
-      when 'inquiry', 'help'
-        comment += "From: #{email}\nQuestion: #{params['inquiry']}\n"
-      when 'email_list'
-        comment += "From: #{email}\n Add me to your email list\n"
-      when 'feed_submission'
-        comment += "Feed Link: #{params['feedlink']}\n"
-      end
-
-      f = Feedback.new( { :email => email,
-                          :subject => subject,
-                          :login => login,
-                          :comment => comment })
-      if f.save
-        FeedbackMailer.feedback(f).deliver!
-      end
-    end
+    resp_hash = FeedbackMail(params)
     render :json => resp_hash
   end
 
