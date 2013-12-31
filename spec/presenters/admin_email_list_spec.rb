@@ -11,14 +11,14 @@ describe AdminEmailList do
   its("artists.to_a") { should eql Artist.active.to_a }
   
   it 'includes the normal lists' do
-    [:all, :active, :pending, :fans, :no_profile, :no_images].each do |k|
+    %w(all active pending fans no_profile no_images).each do |k|
       Hash[email_list.lists].keys.should include k
     end
   end
 
   it 'includes all the os keys' do
     Conf.open_studios_event_keys.map(&:to_s).each do |k|
-      Hash[email_list.lists].keys.should include k.to_sym
+      Hash[email_list.lists].keys.should include k
     end
   end
 

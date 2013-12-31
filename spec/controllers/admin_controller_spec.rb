@@ -107,7 +107,7 @@ describe AdminController do
             get :emaillist, 'listname' => list_name
           end 
           it 'sets the right list name' do
-            assigns(:email_list).list_names.should eql [list_name]
+            assigns(:email_list).list_names.should eql [list_name.to_s]
           end
         end
       end
@@ -348,9 +348,6 @@ describe AdminController do
       end
     end
   end
-
-  let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
-  let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
   describe "helpers" do
 
     describe "compute_artists_per_day" do
@@ -422,4 +419,5 @@ describe AdminController do
       end
     end
   end
+
 end

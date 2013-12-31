@@ -5,7 +5,7 @@ class AdminEmailList
   attr_accessor :list_names
 
   def initialize(list_names)
-    @list_names = [list_names].map(&:to_s).flatten
+    @list_names = [list_names].flatten.map(&:to_s)
   end
 
   def artists
@@ -21,7 +21,7 @@ class AdminEmailList
   end
 
   def title
-    list_names.map{|n| titles[n.to_sym]}.join ", "
+    list_names.map{|n| titles[n.to_s]}.join ", "
   end
 
   def os_participants
@@ -57,15 +57,15 @@ class AdminEmailList
     @lists ||=
       begin
         os_lists = os_tags.reverse.map do |ostag|
-          [ ostag.to_sym, os_pretty(ostag) ]
+          [ ostag, os_pretty(ostag) ]
         end
 
-        [[ :all, 'Artists'],
-         [ :active, 'Activated'],
-         [ :pending, 'Pending'],
-         [ :fans, 'Fans' ],
-         [ :no_profile, 'Active with no profile image'],
-         [ :no_images, 'Active with no artwork']
+        [[ "all", 'Artists'],
+         [ "active", 'Activated'],
+         [ "pending", 'Pending'],
+         [ "fans", 'Fans' ],
+         [ "no_profile", 'Active with no profile image'],
+         [ "no_images", 'Active with no artwork']
         ] + os_lists
       end
   end
