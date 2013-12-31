@@ -25,6 +25,7 @@ Mau::Application.routes.draw do
   resources :email_lists, :only => [:index]
   resources :art_piece_tags do
     collection do
+      get :autosuggest # autocomplete for prototype doesn't easily do ajax with authenticity token :(
       get :cleanup
     end
   end

@@ -1,9 +1,9 @@
 .singlecolumn.email_lists
-  %h4 #{@title} [#{@emails.length}]
+  %h4 #{@email_list.display_title}
   .list_chooser
     %h5 Available Lists
     %ul
-      - @lists.each do |listinfo|
+      - @email_list.lists.each do |listinfo|
         - key = listinfo[0]
         - name = listinfo[1]
         %li
@@ -22,9 +22,9 @@
                 %label #{title}
                 %input{:type => 'checkbox', :name => ostag}
 
-            %input{:type => 'submit'}
+            %input.formbutton{:type => 'submit'}
   .email_results
-    - if @emails.present? && @title.present?
+    - if @email_list.emails.present?
       %h5 Emails
       %a.export-csv{:href => "?format=csv&%s" % request.query_string}
         %button export as csv
@@ -34,7 +34,7 @@
             %th name
             %th email
         %tbody
-          - @emails.each do |e|
+          - @email_list.emails.each do |e|
             %tr{'class' => cycle('odd','even')}
               %td.name #{e[:name]}
               %td.email #{e[:email]}
