@@ -95,11 +95,11 @@ class ApplicationController < ActionController::Base
   end
 
   def is_editor?
-    is_admin? || current_user && current_user.is_editor?
+    is_admin? || (current_user && current_user.is_editor?)
   end
 
   def is_manager?
-    is_admin? || current_user && current_user.is_manager?
+    is_admin? || (current_user && current_user.is_manager?)
   end
 
   def admin_required

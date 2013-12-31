@@ -46,7 +46,7 @@ class MainController < ApplicationController
   def get_random_pieces(num_images=@@NUM_IMAGES)
     # get random set of art pieces and draw them
     @rand_pieces = []
-    art_pieces = Artist.active.all(:include => :art_pieces).map(&:art_pieces).flatten
+    art_pieces = Artist.active.all(:include => [:art_pieces,:artist_info]).map(&:art_pieces).flatten
     numpieces = art_pieces.count
     if numpieces > num_images
       @rand_pieces = art_pieces.sample(num_images)
