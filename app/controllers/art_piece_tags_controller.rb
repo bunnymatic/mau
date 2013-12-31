@@ -3,7 +3,7 @@ require 'json/add/core'
 #require 'json/add/rails'
 class ArtPieceTagsController < ApplicationController
   layout 'mau1col'
-  before_filter :admin_required, :except => [ :index, :show ]
+  before_filter :admin_required, :except => [ :index, :show, :autosuggest ]
   after_filter :store_location
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
@@ -50,7 +50,6 @@ class ArtPieceTagsController < ApplicationController
       # filter with input prefix
       inp = params[:input].downcase
       begin
-        puts tags
         tags.select!{|tag| tag['value'].downcase.starts_with? inp}
       rescue Exception => ex
         puts "Failed to autosuggest", ex

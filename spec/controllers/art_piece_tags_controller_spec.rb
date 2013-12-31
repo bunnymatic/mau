@@ -58,7 +58,8 @@ describe ArtPieceTagsController do
 
   describe '#autosuggest' do
     before do
-      get :autosuggest, :format => :json, :input => 'tag'
+      Rails.cache.delete(Conf.autosuggest['tags']['cache_key'])
+      get :autosuggest, :format => "json", :input => 'tag'
     end
     it_should_behave_like 'successful json'
     it 'returns all tags as json' do
@@ -71,11 +72,11 @@ describe ArtPieceTagsController do
     it 'writes to the cache if theres nothing there' do
       Rails.cache.should_receive(:read).and_return(nil)
       Rails.cache.should_receive(:write)
-      get :index, :format => :json, :input => 'tag'
+      get :autosuggest, :format => :json, :input => 'tag'
     end
 
     it 'returns tags using the input' do
-      get :index, :format => :json, :input => 'this'
+      get :autosuggest, :format => :json, :input => 'this'
       j = JSON.parse(response.body)
       tag_names = j.map{|entry| entry['value']}
       tag_names.should eql ['this is the tag']
@@ -83,9 +84,9 @@ describe ArtPieceTagsController do
 
     it 'uses the cache there is data' do
       Rails.cache.should_receive(:read).with(Conf.autosuggest['tags']['cache_key']).
-        and_return(JSON.generate([ {"info" => ArtPieceTag.first.id, "value" => ArtPieceTag.last.name }]))
+        and_return([ {"info" => ArtPieceTag.first.id, "value" => ArtPieceTag.last.name }])
       Rails.cache.should_not_receive(:write)
-      get :index, :format => :json, :input => 'tag', :suggest => 'blo'
+      get :autosuggest, :format => :json, :input => 'tag'
       j = JSON.parse(response.body)
       j.first['value'].should eql ArtPieceTag.last.name
     end
@@ -119,7 +120,7 @@ describe ArtPieceTagsController do
   describe '#admin_index' do
     render_views
     before do
-      login_as(users(:admin))
+      login_as(:admin)
       get :admin_index
     end
     it_should_behave_like 'logged in as admin'
@@ -135,7 +136,7 @@ describe ArtPieceTagsController do
   describe '#cleanup' do
     render_views
     before do
-      login_as(users(:admin))
+      login_as :admin
     end
     it 'redirects to art_piece_tags page' do
       get :cleanup
