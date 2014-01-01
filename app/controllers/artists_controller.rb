@@ -29,7 +29,6 @@ class ArtistsController < ApplicationController
   end
 
   def map_page
-    @view_mode = 'map'
     @os_only = is_os_only(params["osonly"])
     os_args = (@os_only ? {:osonly => 'on'} : {})
     @roster_link = roster_artists_url(os_args)
@@ -70,9 +69,6 @@ class ArtistsController < ApplicationController
     end
 
     @selfurl = map_artists_url
-    @inparams = params
-    @inparams.delete('action')
-    @inparams.delete('controller')
 
     render :map
   end
@@ -175,22 +171,9 @@ class ArtistsController < ApplicationController
 
   def roster
     # collect query args to build links
-    queryargs = {}
-    t = Time.zone.now
     @os_only = is_os_only(params[:osonly])
-    if @os_only
-      artists = Artist.active.open_studios_participants.all(:include => :artist_info).sort_by(&:sortable_name)
-      queryargs['osonly'] = "on"
-      artists.reject!{ |a| !a.in_the_mission? }
-    else
-      artists = Artist.active.all(:include => :artist_info).sort_by { |a| a.get_sort_name }
-    end
-    dt = Time.zone.now - t
-    logger.debug("Get Artists [%s ms]" % dt)
-    curpage = params[:p] || 0
-    curpage = curpage.to_i
-    # build alphabetical list keyed by first letter
-    @artists_by_name = {}
+
+    @roster = ArtistsRoster.new(view_context, @os_only)
 
     @page_title = "Mission Artists United - MAU Artists"
     os_args = (@os_only ? {:osonly => 'on'} : {})
@@ -198,10 +181,6 @@ class ArtistsController < ApplicationController
     @gallery_link = artists_url(os_args)
     @map_link = map_artists_path(os_args)
 
-    @inparams = params
-    @inparams.delete('action')
-    @inparams.delete('controller')
-    @artists = artists
     render :action => 'roster', :layout => 'mau1col'
   end
 
@@ -209,33 +188,19 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html {
         # collect query args to build links
-        queryargs = {}
-        t = Time.zone.now
         @os_only = is_os_only(params[:osonly])
-        if @os_only
-          artists = Artist.active.open_studios_participants.all(:include => :artist_info).sort_by(&:sortable_name)
-          queryargs['osonly'] = "on"
-          artists.reject!{ |a| !a.in_the_mission? }
-        else
-          artists = Artist.active.all(:include => :artist_info).sort_by { |a| a.get_sort_name }
-        end
-        dt = Time.zone.now - t
-        logger.debug("Get Artists [%s ms]" % dt)
-        curpage = params[:p] || 0
-        curpage = curpage.to_i
-        # build alphabetical list keyed by first letter
-        @artists_by_name = {}
 
-        @gallery_presenter = ArtistGalleryPresenter.new(view_context, artists, curpage)
+        cur_page = (params[:p] || 0).to_i
+
+        # build alphabetical list keyed by first letter
+        @gallery = ArtistsGallery.new(view_context, @os_only, cur_page)
+
         @page_title = "Mission Artists United - MAU Artists"
         os_args = (@os_only ? {:osonly => 'on'} : {})
         @roster_link = roster_artists_url(os_args)
         @gallery_link = artists_url(os_args)
         @map_link = map_artists_path(os_args)
 
-        @inparams = params
-        @inparams.delete('action')
-        @inparams.delete('controller')
         render :action => 'index', :layout => 'mau1col'
       }
       format.json {

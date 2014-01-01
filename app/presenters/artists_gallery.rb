@@ -1,27 +1,26 @@
-class ArtistGalleryPresenter
+class ArtistsGallery < ArtistsPresenter
 
   PER_PAGE = 28
 
-  attr_accessor :pagination, :artists, :per_page
+  attr_reader :pagination, :per_page
 
-  delegate :items, :first_link, :previous_link,
+  delegate :first_link, :previous_link, :items,
     :next_link, :last_link, :last_page, :first_page,
     :previous_page, :current_page, :next_page, :to => :pagination
 
-  def initialize(view_context, artists, current_page, per_page = PER_PAGE)
-    @view_context = view_context
-    @artists = artists.select(&:representative_piece).sort_by{|a| a.lastname.downcase}
+  def initialize(view_context, os_only, current_page,  per_page = PER_PAGE)
+    super view_context, os_only
     @per_page = per_page
-    @pagination = ArtistsPagination.new(@view_context, @artists, current_page, @per_page)
+    @pagination = ArtistsPagination.new(@view_context, artists, current_page, @per_page)
   end
-
-  def num_artists
-    @num_artists ||= artists.length
+  
+  def artists
+    super.select(&:representative_piece)
   end
 
   def alpha_links
     return @alpha_links if @alpha_links
-    if @artists.length > 0
+    if num_artists > 0
 
       @alpha_links = (last_page + 1).times.map do |idx|
         firstidx = idx * per_page
@@ -36,3 +35,5 @@ class ArtistGalleryPresenter
   end
 
 end
+
+

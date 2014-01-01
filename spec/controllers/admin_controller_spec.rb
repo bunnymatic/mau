@@ -349,6 +349,8 @@ describe AdminController do
     end
   end
   describe "helpers" do
+    let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
+    let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
 
     describe "compute_artists_per_day" do
       it "returns an array" do

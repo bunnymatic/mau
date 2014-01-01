@@ -1,0 +1,3 @@
+class ArtistsRoster < ArtistsPresenter
+
+end

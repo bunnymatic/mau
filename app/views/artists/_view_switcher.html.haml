@@ -1,8 +1,8 @@
 .navlinks
   View:
   %span.nobr
-    = (@view_mode == 'gallery') ? "gallery" : link_to("gallery", @gallery_link)
+    = link_to 'gallery', gallery_link
     = "/"
-    = (@view_mode == 'list') ? "roster" : link_to('roster', @roster_link)
+    = link_to 'roster', roster_link
     = "/"
-    = (@view_mode == 'map') ? "map" : link_to('map', @map_link)
+    = link_to 'map', map_link
