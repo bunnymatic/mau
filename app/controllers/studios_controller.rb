@@ -76,7 +76,7 @@ class StudiosController < ApplicationController
     end
 
     begin
-      post = StudioImage.save(upload, @studio)
+      post = StudioImage.new(upload, @studio).save
       redirect_to @studio and return
     rescue
       logger.error("Failed to upload %s" % $!)

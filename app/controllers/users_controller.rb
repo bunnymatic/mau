@@ -101,7 +101,7 @@ class UsersController < ApplicationController
     end
 
     begin
-      post = ArtistProfileImage.save(upload, @user)
+      post = ArtistProfileImage.new(upload, @user).save
       redirect_to user_path(@user)
       return
     rescue

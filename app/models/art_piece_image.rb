@@ -1,48 +1,52 @@
+class ArtPieceImageError < StandardError; end
+
 class ArtPieceImage < ImageFile
 
   MISSING_ART_PIECE = '/images/missing_artpiece.gif'
 
-  def self.get_paths(artpiece)
+  delegate :artist, :filename, :to => :art_piece
+
+  attr_accessor :art_piece
+
+  def initialize(art_piece, upload)
+    @art_piece = art_piece
+    dir = File.join("public", image_dir)
+    super upload, dir
+  end
+
+  def valid?
+    @valid ||= ((art_piece.is_a? ArtPiece) || art_piece.filename.blank? || !artist)
+  end
+
+  def image_dir 
+    @image_dir ||= "/artistdata/#{artist.id}/imgs/"
+  end
+
+
+  def self.get_paths(art_piece)
     Hash[ImageSizes.all.keys.map do |kk|
-           path = self.get_path(artpiece, kk.to_s)
+           path = self.get_path(art_piece, kk.to_s)
            [kk, path]
          end
         ]
   end
 
-  def self.get_path(artpiece, size="medium")
-    # get path for image of size
-    # size should be either "thumb","medium","original"
-    unless artpiece.is_a? ArtPiece
-      return MISSING_ART_PIECE
-    end
-    # should happen only if there has been data corruption
-    begin
-      owner = artpiece.artist
-    rescue
-      owner = nil
-    end
-    return MISSING_ART_PIECE if ! owner
-    dir = "/artistdata/#{owner.id}/imgs/"
-    if not artpiece.filename
-      return MISSING_ART_PIECE
-    end
-    fname = File.basename(artpiece.filename)
-    ImageFile.get_path(dir, size, fname)
+  def self.get_path(piece, size="medium")
+    return MISSING_ART_PIECE if !piece || !piece.is_a?(ArtPiece) || !piece.artist || piece.filename.blank?
+
+    fname = File.basename(piece.filename)
+    path = "/artistdata/#{piece.artist.id}/imgs/"
+    ImageFile.get_path(path, size, fname)
   end
 
-  def self.save(upload, artpiece)
-    upload = upload['datafile']
-    name = upload
-    owner = artpiece.artist
-    return if ! owner
-    dir = "public/artistdata/" + owner.id.to_s() + "/imgs/"
-    info = ImageFile.save(upload, dir)
+  def save
+    return if !artist
+    info = super
     # save data to the artpiece
     # fname for html is same as dir without leading "public"
-    artpiece.filename = info.path
-    artpiece.image_height = info.height
-    artpiece.image_width = info.width
-    artpiece.save ? info.path : ""
+    art_piece.filename = info.path
+    art_piece.image_height = info.height
+    art_piece.image_width = info.width
+    art_piece.save ? info.path : ""
   end
 end

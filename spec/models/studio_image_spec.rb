@@ -2,31 +2,36 @@ require 'spec_helper'
 
 describe StudioImage do
 
+  let (:studio) { FactoryGirl.create(:studio) }
+
   describe '#save' do
     let(:file) { Faker::Files.file }
-    let(:upload) { double('UploadedFile', :original_filename => file) }
+    let(:upload) { {'datafile' => double('UploadedFile', :original_filename => file) } }
     let(:image_info) { OpenStruct.new({:path => 'studio_image.jpg', :height => 1234, :width => 2233} ) }
+    let(:mock_image_file) { double("MockImageFile", :save => image_info) }
+
+    let (:writable) { double('Writable',:write => nil) }
+
+    subject(:studio_image) { StudioImage.new(upload, studio) }
 
     before do
-      @studio = FactoryGirl.create(:studio)
-      ImageFile.should_receive(:save).with(upload,
-                                           "public/studiodata/#{@studio.id}/profile",
-                                           "profile#{File.extname(file)}" ).and_return(image_info)
-      StudioImage.save({'datafile' => upload}, @studio)
-      @studio.reload
+      ImageFile.should_receive(:new).with(upload,
+                                          "public/studiodata/#{studio.id}/profile",
+                                          "profile#{File.extname(file)}" ).and_return(mock_image_file)
+      studio_image.save
+      studio.reload
     end
 
     it 'updates the filename' do
-      @studio.profile_image.should eql "studio_image.jpg"
+      studio.profile_image.should eql "studio_image.jpg"
     end
     it 'updates the image dimensions' do
-      @studio.image_height.should eql 1234
-      @studio.image_width.should eql 2233
+      studio.image_height.should eql 1234
+      studio.image_width.should eql 2233
     end
   end
 
   describe '#get_path' do
-    let(:studio) { FactoryGirl.create(:studio) }
     let(:directory) { 'studiodata' }
     let(:size) { :thumb }
     let(:prefix) { 't_' }

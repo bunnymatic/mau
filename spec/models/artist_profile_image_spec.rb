@@ -4,31 +4,35 @@ describe ArtistProfileImage do
 
   fixtures :users, :artist_infos, :studios
 
+  let(:artist) { users(:artist1) }
+
   describe '#save' do
     let(:file) { Faker::Files.file }
-    let(:upload) { double('UploadedFile', :original_filename => file) }
+    let(:upload) { {'datafile' => double('UploadedFile', :original_filename => file) } }
     let(:image_info) { OpenStruct.new({:path => 'artist_image.jpg', :height => 1234, :width => 2233} ) }
+    let(:mock_image_file) { double("MockImageFile", :save => image_info) }
+    let (:writable) { double('Writable',:write => nil) }
+
+    subject(:profile_image) { StudioImage.new(upload, artist) }
 
     before do
-      @artist = users(:artist1)
-      ImageFile.should_receive(:save).with(upload,
-                                           "public/artistdata/#{@artist.id}/profile",
-                                           "profile#{File.extname(file)}" ).and_return(image_info)
-      ArtistProfileImage.save({'datafile' => upload}, @artist)
-      @artist.reload
+      ImageFile.should_receive(:new).with(upload,
+                                          "public/artistdata/#{artist.id}/profile",
+                                          "profile#{File.extname(file)}" ).and_return(mock_image_file)
+      ArtistProfileImage.new(upload, artist).save
+      artist.reload
     end
 
     it 'updates the filename' do
-      @artist.profile_image.should eql "artist_image.jpg"
+      artist.profile_image.should eql "artist_image.jpg"
     end
     it 'updates the image dimensions' do
-      @artist.image_height.should eql 1234
-      @artist.image_width.should eql 2233
+      artist.image_height.should eql 1234
+      artist.image_width.should eql 2233
     end
   end
 
   describe '#get_path' do
-    let(:artist) { users(:artist1) }
     let(:directory) { 'artistdata' }
     let(:size) { :thumb }
     let(:prefix) { 't_' }

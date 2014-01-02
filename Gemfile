@@ -41,6 +41,8 @@ gem 'gmaps4rails'
 gem 'postmark-rails'
 gem 'postmark'
 
+gem 'jquery-rails'
+
 group :staging, :production do
   gem 'newrelic_rpm'
 end

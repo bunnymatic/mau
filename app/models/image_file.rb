@@ -2,7 +2,7 @@ require 'pathname'
 
 class ImageFile
 
-  extend ImageFileHelpers
+  include ImageFileHelpers
 
   class ImageSizes
     class ImageSize < Struct.new(:width, :height, :prefix); end
@@ -66,14 +66,26 @@ class ImageFile
   #   ::Rails.logger.info("IMAGE SERVERS [%s]" % @@IMG_SERVERS)
   # end
 
-  @@ALLOWED_IMAGE_EXTS = ["jpg", "jpeg" ,"gif","png" ]
+  ALLOWED_IMAGE_EXTS = ["jpg", "jpeg" ,"gif","png" ]
 
-  def self.logger
-    ::Rails.logger
+  attr_reader :upload, :destdir, :destfile
+
+  def initialize(upload, destdir, destfile=nil)
+    @upload = upload
+    @destdir = destdir
+    @destfile = (destfile || create_timestamped_filename(uploaded_filename))
   end
 
-  def self.sizes
-    ImageSizes.all
+  def datafile
+    @datafile ||= upload['datafile']
+  end
+
+  def uploaded_filename
+    @uploaded_filename ||= datafile.original_filename
+  end
+
+  def sizes
+    @sizes ||= ImageSizes.all
   end
 
   def self.get_path(dir, size, fname)
@@ -84,53 +96,48 @@ class ImageFile
     svr + File.join(dir, prefix+fname)
   end
 
-  def self.save(upload, destdir, destfile=nil)
-    ts = Time.zone.now.to_f
-
-    ext = get_file_extension(upload.original_filename)
-    if @@ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
-      logger.error("ImageFile: bad filetype\n")
+  def save
+    ext = get_file_extension(uploaded_filename)
+    if ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
+      Rails::logger.error("ImageFile: bad filetype\n")
       raise ArgumentError, "File type doesn't appear to be JPEG, GIF or PNG."
     end
-    destfile ||= create_timestamped_filename(upload.original_filename)
 
-    image_info = save_uploaded_file(upload, destdir, destfile)
+    image_info = save_uploaded_file
 
     # store resized versions:
     file_match = Regexp.new(destfile + "$")
     #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
     paths = Hash[ [:large, :medium, :small, :thumb].map do |sz|
-      [sz, image_info.path.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
-    end ]
+                    [sz, image_info.path.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
+                  end ]
+
     paths.each do |key, destpath|
       begin
         MojoMagick::resize(image_info.path, destpath,
                            { :width => ImageSizes.width(key),
                              :height => ImageSizes.height(key),
                              :shrink_only => true })
-        logger.debug("ImageFile: wrote %s" % destpath)
+        Rails::logger.debug("ImageFile: wrote %s" % destpath)
       rescue Exception => ex
-        logger.error("ImageFile: ERROR : %s\n" % $!)
+        Rails::logger.error("ImageFile: ERROR : %s\n" % $!)
         puts ex.backtrace unless Rails.env == 'production'
       end
     end
-    logger.info("Image conversion took %0.2f sec" % (Time.zone.now.to_f - ts) )
-    image_info
+    return image_info
   end
 
-  def self.save_uploaded_file(upload, destdir, destfile)
-    ts = Time.zone.now.to_f
-    path = create_dir(destdir, destfile)
+  def save_uploaded_file
+    path = create_dest_dir
 
     # store the image
-    result = File.open(path, "wb") { |f| f.write(upload.read) }
+    result = File.open(path, "wb") { |f| f.write(datafile.read) }
     srcpath = Pathname.new(path).realpath.to_s()
-    logger.info("ImageFile: wrote file %s (%0.2f sec)\n" % [ srcpath, Time.zone.now.to_f - ts ])
 
      # check format
     fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + srcpath)
     (type, height, width, colorspace) = fmt.split
-    if @@ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
+    if ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
       raise ArgumentError, "Image type %s is not supported." % type
     end
     if colorspace.downcase.match /cmyk/
@@ -141,12 +148,10 @@ class ImageFile
     ImageInfo.new(:path => srcpath, :height => height, :width => width, :colorspace => colorspace, :type => type)
   end
 
-  def self.create_dir(dir, destfile)
-    ts = Time.zone.now.to_f
-    path = File.join(dir, File.basename(destfile))
-    if !File.exists?(dir)
-      result = FileUtils.mkdir_p(dir)
-      logger.debug("ImageFile: created %s (%0.2f sec)\n" % [ result, Time.zone.now.to_f - ts ])
+  def create_dest_dir
+    path = File.join(destdir, File.basename(destfile))
+    if !File.exists?(destdir)
+      result = FileUtils.mkdir_p(destdir)
     end
     path
   end

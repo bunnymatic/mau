@@ -51,6 +51,7 @@ class TagCloudPresenter
         frequency.map do |entry|
           style = compute_style(entry)
           tag = find_tag(entry['tag'])
+          next unless tag
           clz = "tagmatch" if is_current_tag?(tag)
           @view_context.content_tag 'span', :class => ['clouditem', clz].compact.join(' '), :style => style do
             @view_context.link_to tag.safe_name, tag_path(tag)

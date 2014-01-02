@@ -34,7 +34,7 @@ class FeedParser
         html << items.map.with_index do |entry, idx|
           xtra_class = (0==(idx % 2)) ? "odd":"even"
           parse_entry(entry, xtra_class)
-        end
+        end.join("").html_safe
         div(html, :class => 'feed-entries')
       end
   end

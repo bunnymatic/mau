@@ -18,14 +18,13 @@ describe ArtPieceImage do
 
   describe '#save' do
     let(:file) { Faker::Files.file }
-    let(:upload) { double('UploadedFile', :original_filename => file) }
+    let(:upload) { {'datafile' => double('UploadedFile', :read => '', :original_filename => file, :close => '') } }
     let(:art_piece) { ArtPiece.first }
     let(:artist) { art_piece.artist }
     let(:image_info) { OpenStruct.new({:path => 'new_art_piece.jpg', :height => 1234, :width => 2233} ) }
+    let(:mock_image_file) { double("MockImageFile", :save => image_info) }
     before do
-      ImageFile.should_receive(:save).with(upload,
-                                           "public/artistdata/#{artist.id}/imgs/").and_return(image_info)
-      ArtPieceImage.save({'datafile' => upload}, art_piece)
+      ArtPieceImage.new(art_piece, upload).save
     end
 
     it 'updates the filename' do

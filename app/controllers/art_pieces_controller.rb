@@ -109,7 +109,7 @@ class ArtPiecesController < ApplicationController
           if saved
             # upload image
             if upload
-              post = ArtPieceImage.save(upload, @art_piece)
+              post = ArtPieceImage.new(@art_piece, upload).save
             end
             flash[:notice] = 'Artwork was successfully added.'
             Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
@@ -119,6 +119,8 @@ class ArtPiecesController < ApplicationController
           end
         end
       rescue Exception => ex
+        puts ex
+        puts ex.backtrace
         @errors << "%s" % ex.message
         logger.error("Failed to upload %s" % $!)
         @art_piece = ArtPiece.new params[:art_piece]

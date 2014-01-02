@@ -125,7 +125,9 @@ class User < ActiveRecord::Base
   validate :validate_email
 
   attr_accessible :login, :email, :name, :password, :password_confirmation,
-   :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume
+   :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume,
+   :profile_image, :image_height, :image_width
+
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
