@@ -191,7 +191,7 @@ class StudiosController < ApplicationController
     def studio_keys
       @studio_keys ||= Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s]}].freeze
     end
-    
+
     if (_id == 'independent_studios') || (_id.to_s == '0')
       studio = Studio.indy()
     else
@@ -202,7 +202,7 @@ class StudiosController < ApplicationController
     else
       begin
         Studio.find _id
-      rescue ActiveRecord::RecordNotFound 
+      rescue ActiveRecord::RecordNotFound
       end
     end
   end

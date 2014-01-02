@@ -12,7 +12,7 @@ class StudioPresenter
   def mobile_title
     @mobile_title ||= "Studio: #{studio.name}"
   end
-  
+
   def fullsite_title
     @fullsite_title ||= "Mission Artists United - Studio: %s" % studio.name
   end

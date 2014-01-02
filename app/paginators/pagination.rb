@@ -72,7 +72,9 @@ class Pagination
   end
 
   def link_to_previous
-    raise PaginationError.new("link_to_previous requires previous_link to be defined!") unless respond_to? :previous_link
+    unless respond_to? :previous_link
+      raise PaginationError.new "link_to_previous requires previous_link to be defined!"
+    end
     @view_context.link_to previous_label, previous_link, :title => previous_title
   end
 

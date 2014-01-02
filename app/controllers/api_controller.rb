@@ -35,13 +35,13 @@ class ApiController < ActionController::Base
   end
 
   private
-  def fetch_parameter(obj_id, prop) 
+  def fetch_parameter(obj_id, prop)
     # get parameter named element 2 from id in element 1
     raise ApiError.new('Invalid request') unless allowed_property(prop)
     data = @clz.find(obj_id.to_i)
     {prop => data.send(prop)}
   end
-  
+
   def fetch_ids(_id)
     if _id == 'ids'
       dat = fetch_all.map(&:id)
@@ -83,7 +83,7 @@ class ApiController < ActionController::Base
     }.freeze
   end
 
-  def allowed_attrs 
+  def allowed_attrs
     @allowed_attrs ||= {
       'studios' => [:name, :street, :url],
       'media' => [],
@@ -91,5 +91,5 @@ class ApiController < ActionController::Base
       'art_pieces' => []
     }.freeze
   end
-  
+
 end

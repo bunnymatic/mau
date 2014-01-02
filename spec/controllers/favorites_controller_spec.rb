@@ -34,7 +34,7 @@ describe FavoritesController do
     let(:anna) { users(:annafizyta) }
     let(:artist) { users(:artist1) }
     let(:art_pieces) { [ArtPiece.first, ArtPiece.last] }
-  
+
     render_views
 
     before do

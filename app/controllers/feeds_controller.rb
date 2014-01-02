@@ -58,12 +58,10 @@ class FeedsController < ApplicationController
         end
         begin
           feed_parser = FeedParser.new(ff.feed, ff.url, {:num_entries => numentries})
-          feed_content = allfeeds += feed_parser.fetch
+          feed_content = allfeeds += feed_parser.feed_content
         rescue Exception => ex
-          puts "Failed to grab feed " + ff.inspect
-          puts "EXCEPTION", ex
-
           logger.error("Failed to grab feed " + ff.inspect)
+          logger.error(ex)
         end
       end
       SafeCache.write(FEEDS_KEY, allfeeds, :expires_in => CACHE_EXPIRY)

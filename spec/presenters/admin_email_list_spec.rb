@@ -9,7 +9,7 @@ describe AdminEmailList do
 
   its(:display_title) { should eql "Activated [#{Artist.active.count}]" }
   its("artists.to_a") { should eql Artist.active.to_a }
-  
+
   it 'includes the normal lists' do
     %w(all active pending fans no_profile no_images).each do |k|
       Hash[email_list.lists].keys.should include k
@@ -60,7 +60,7 @@ describe AdminEmailList do
 
     end
   end
-  
+
 end
 
 

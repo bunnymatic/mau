@@ -7,7 +7,7 @@ class FeedEntry
   delegate :date, :to => :entry
 
   attr_reader :entry, :truncate, :source, :clean_description
-  
+
   def initialize(entry, source_url, clean_description = true, truncate = false)
     @entry = entry
     @source = source_url
@@ -24,7 +24,7 @@ class FeedEntry
   end
 
   def description
-    @desc ||= 
+    @desc ||=
       begin
         d = entry.description || ''
         if clean_description

@@ -25,7 +25,7 @@ class AdminEmailList
   end
 
   def os_participants
-    @os_participants ||= 
+    @os_participants ||=
       begin
         queried_os_tags.map do |tag|
           Artist.active.open_studios_participants(tag)

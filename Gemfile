@@ -36,7 +36,6 @@ gem 'geokit'
 #gem 'geokit-rails'
 gem 'geokit-rails3'
 gem 'gmaps4rails'
-gem 'annotate'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'
@@ -58,6 +57,7 @@ group :test do
 end
 
 group :test, :development do
+  gem 'annotate'
   gem 'guard-coffeescript'
   gem 'guard-rspec', '~> 1.2.0'  # 1.2.x is order rspec compatible
   gem 'rspec' #,'1.3.1'

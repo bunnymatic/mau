@@ -105,14 +105,14 @@ describe AdminController do
         describe "list name = #{list_name}" do
           before do
             get :emaillist, 'listname' => list_name
-          end 
+          end
           it 'sets the right list name' do
             assigns(:email_list).list_names.should eql [list_name.to_s]
           end
         end
       end
     end
-    
+
     describe 'csv' do
       before do
         get :emaillist, :format => :csv, :listname => 'pending'

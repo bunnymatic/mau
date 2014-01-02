@@ -13,7 +13,7 @@ class ArtistsGallery < ArtistsPresenter
     @per_page = per_page
     @pagination = ArtistsPagination.new(@view_context, artists, current_page, @per_page)
   end
-  
+
   def artists
     super.select(&:representative_piece)
   end
