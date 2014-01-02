@@ -6,8 +6,6 @@ class StudiosController < ApplicationController
   before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :addprofile, :unaffiliate_artist]
   after_filter :store_location
 
-  @@studio_keys = nil
-
   MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
   layout 'mau1col'
 
@@ -92,41 +90,16 @@ class StudiosController < ApplicationController
   # GET /studios/1.xml
   def show
     @studios = get_studio_list
-    if params[:id] == 'independent_studios'
-      studio = Studio.indy()
-    elsif self.class.studio_keys.keys.include? params[:id]
-      studio = Studio.where(:name => self.class.studio_keys[params[:id]]).first
-    end
-    unless studio
-      if params[:id].to_s == "0"
-        studio = Studio.indy()
-      else
-        begin
-          studio = Studio.find params[:id]
-        rescue ActiveRecord::RecordNotFound
-          studio = nil
-        end
-      end
-    end
+    studio = get_studio_from_id(params[:id])
 
     unless studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
       redirect_to studios_path
       return
     end
-    # @artists = []
-    # @other_artists = []
-    @page_title = "Mission Artists United - Studio: %s" % studio.name
-    if !is_mobile?
-      # @artists, @other_artists = studio.artists.active.partition{|a| a.representative_piece}
-    else
-      @page_title = "Studio: #{studio.name}"
-    end
 
-    # @other_artists.sort! { |a,b| a.lastname <=> b.lastname }
-    # @admin = logged_in? && current_user.is_admin?
-
-    @studio = StudioPresenter.new(view_context, studio)
+    @studio = StudioPresenter.new(view_context, studio, is_mobile?)
+    @page_title = @studio.page_title
 
     respond_to do |format|
       format.html { render :layout => 'mau' }
@@ -213,9 +186,24 @@ class StudiosController < ApplicationController
     end
   end
 
-  def self.studio_keys
-    return @@studio_keys unless @@studio_keys.blank?
-    @@studio_keys ||= Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].freeze
-  end
+  def get_studio_from_id(_id)
 
+    def studio_keys
+      @studio_keys ||= Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s]}].freeze
+    end
+    
+    if (_id == 'independent_studios') || (_id.to_s == '0')
+      studio = Studio.indy()
+    else
+      studio = studio_keys[_id]
+    end
+    if studio
+      studio
+    else
+      begin
+        Studio.find _id
+      rescue ActiveRecord::RecordNotFound 
+      end
+    end
+  end
 end

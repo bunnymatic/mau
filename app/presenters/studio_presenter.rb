@@ -1,11 +1,24 @@
 class StudioPresenter
 
-  attr_reader :studio
+  attr_reader :studio, :is_mobile
   delegate :name, :phone, :formatted_phone, :map_link, :city, :street, :url, :to => :studio
 
-  def initialize(view_context, studio)
+  def initialize(view_context, studio, is_mobile = false)
     @studio = studio
     @view_context = view_context
+    @is_mobile = is_mobile
+  end
+
+  def mobile_title
+    @mobile_title ||= "Studio: #{studio.name}"
+  end
+  
+  def fullsite_title
+    @fullsite_title ||= "Mission Artists United - Studio: %s" % studio.name
+  end
+
+  def page_title
+    @page_title ||= (is_mobile) ? mobile_title : fullsite_title
   end
 
   def image
