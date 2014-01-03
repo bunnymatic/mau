@@ -18,7 +18,7 @@ class ProfileImage
   def dir_prefix
     @dir_prefix ||= object.class.name.downcase + 'data'
   end
- 
+
   def dir
     @dir ||= (File.join %W|public #{dir_prefix} #{object.id.to_s} profile|)
   end

@@ -130,7 +130,7 @@ describe ImageFile do
     let (:upload) { {'datafile' => double('Uploadable', :read => '', :original_filename => 'uploaded_file.jpg') } }
     let (:destdir) { 'destination/directory'}
     let (:destfile) { 'destfile.file' }
-    let (:full_destpath) { File.join(destdir, destfile) } 
+    let (:full_destpath) { File.join(destdir, destfile) }
     subject(:image_file) { ImageFile.new(upload, destdir, destfile) }
 
     before do

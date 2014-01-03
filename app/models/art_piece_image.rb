@@ -18,7 +18,7 @@ class ArtPieceImage < ImageFile
     @valid ||= ((art_piece.is_a? ArtPiece) || art_piece.filename.blank? || !artist)
   end
 
-  def image_dir 
+  def image_dir
     @image_dir ||= "/artistdata/#{artist.id}/imgs/"
   end
 

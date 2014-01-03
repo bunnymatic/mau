@@ -47,7 +47,7 @@ class FeedParser
   def is_twitter?
     url.host.include? 'twitter'
   end
-  
+
   def fetched
     @fetched ||=
       begin
@@ -73,7 +73,7 @@ class FeedParser
 
   def link_to_feed
     title = fetched.try(:channel).try(:title)
-    if title.present? 
+    if title.present?
       the_icon = icon(get_icon_class(url.host))
       link_to(title + the_icon, feed_link, :class => FEED_SECTION_HEADER_CLASS).html_safe
     else
@@ -81,7 +81,7 @@ class FeedParser
     end
   end
 
-  def link_to(text, link, opts={}) 
+  def link_to(text, link, opts={})
     if link.present?
       content_tag(:a, text, opts.merge({:href => link}), false)
     else
@@ -105,10 +105,10 @@ class FeedParser
     @header_html = div(link_to_feed)
   end
 
-  def num_available_entries 
+  def num_available_entries
     @available_entries ||= fetched.try(:items).try(:length)
   end
-  
+
   def num_items_to_show
     [num_available_entries, num_entries].min
   end
