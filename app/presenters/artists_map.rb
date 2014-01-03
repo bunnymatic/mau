@@ -7,20 +7,17 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def grouped_by_address_and_sorted
-    @sorted ||= 
-      begin
-        grouped_by_address.sort_by{|k,v| -v.count}
-      end
+    @sorted ||= grouped_by_address.sort_by{|k,v| -v.count}
   end
 
   def grouped_by_address
     @grouped_by_address ||= 
-      {}.tap do |keyed|
       begin
-        artists.each do |a|
-          ky = address_key(a)
-          (keyed[ky] ||= []) << a if ky
-        end
+        {}.tap do |keyed|
+          artists.each do |a|
+            ky = address_key(a)
+            (keyed[ky] ||= []) << a if ky
+          end
       end
     end
   end
