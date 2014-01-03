@@ -2,7 +2,7 @@ class ArtistsMap < ArtistsPresenter
 
   include ArtistsHelper
 
-  def addresses
+  def with_addresses
     @addresses ||= grouped_by_address.values.flatten.compact
   end
 
@@ -37,7 +37,7 @@ class ArtistsMap < ArtistsPresenter
   end        
 
   def map_data
-    Gmaps4rails.build_markers(addresses) do |artist, marker|
+    Gmaps4rails.build_markers(with_addresses) do |artist, marker|
       address = artist.address_hash
       marker.lat address[:latlng][0]
       marker.lng address[:latlng][1]

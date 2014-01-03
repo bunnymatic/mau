@@ -13,6 +13,8 @@ describe ArtistsController do
 
   let(:artist1) { users(:artist1) }
   let(:artist1_info) { artist1.artist_info }
+  let(:ne_bounds) { Artist::BOUNDS['NE'] }
+  let(:sw_bounds) { Artist::BOUNDS['SW'] }
 
   describe "#index" do
    describe 'logged in as admin' do
@@ -622,40 +624,33 @@ describe ArtistsController do
       it "returns success" do
         response.should be_success
       end
-      it "assigns roster" do
-        assigns(:roster).should have_at_least(1).locations
-      end
-      it "assigns map" do
-        assigns(:map_data).should have(assigns(:roster).values.flatten.count).artists
+      it "sets up a presenter" do
+        assigns(:map_info).should be_a_kind_of ArtistsMap
       end
       it 'puts the map data as json on the page' do
         response.body.should match /MAU.map_markers = \[\{/
       end
       it "artists should all be active" do
-        assigns(:roster).values.flatten.each do |a|
+        assigns(:map_info).with_addresses.each do |a|
           a.state.should eql 'active'
         end
       end
       it "roster does not include artists outside of 'the mission'" do
-        ne = [ 37.76978184422388, -122.40539789199829 ]
-        sw = [ 37.747787573475506, -122.42919445037842 ]
-        roster = assigns(:roster).values.flatten.each do |a|
+        roster = assigns(:map_info).with_addresses.each do |a|
           lat,lng = a.address_hash[:latlng]
-
-          (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
-          (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
+          (sw_bounds[0] < lat && lat < ne_bounds[0]).should be_true, "Latitude #{lat} is not within bounds"
+          (sw_bounds[1] < lng && lng < ne_bounds[1]).should be_true ,"Longitude #{lng} is not within bounds"
         end
       end
-      it "get's map info all artists" do
-        ArtistsController.any_instance.should_receive(:get_map_info).
-          exactly(assigns(:roster).values.flatten.count).times
+      it "get's map info for all artists" do
+        ArtistsMap.any_instance.should_receive(:get_map_info).at_least.once
         get :map_page
       end
       it 'renders the map html properly' do
         assert_select "script[src^=//maps.google.com/maps/api/js]"
       end
       it 'renders the artists' do
-        assigns(:roster).values.flatten.each do |a|
+        assigns(:map_info).with_addresses.each do |a|
           assert_select "a[href=#{artist_path(a)}]", a.get_name
         end
       end
@@ -667,29 +662,24 @@ describe ArtistsController do
       it "returns success" do
         response.should be_success
       end
-      it "assigns roster" do
-        assigns(:roster).should have_at_least(1).locations
-      end
-      it "assigns map" do
-        assigns(:map_data).should have(assigns(:roster).values.flatten.count).artists
+      it "sets up a presenter" do
+        assigns(:map_info).should be_a_kind_of ArtistsMap
       end
       it 'puts the map data as json on the page' do
         response.body.should match /MAU.map_markers = \[\{/
       end
       it "artists should all be active" do
-        assigns(:roster).values.flatten.each do |a|
+        assigns(:map_info).with_addresses.each do |a|
           a.state.should eql 'active'
         end
       end
 
       it "roster does not include artists outside of 'the mission'" do
-        ne = [ 37.76978184422388, -122.40539789199829 ]
-        sw = [ 37.747787573475506, -122.42919445037842 ]
-        roster = assigns(:roster).values.flatten.each do |a|
+        roster = assigns(:map_info).with_addresses.each do |a|
           lat,lng = a.address_hash[:latlng]
 
-          (sw[0] < lat && lat < ne[0]).should be_true, "Latitude #{lat} is not within bounds"
-          (sw[1] < lng && lng < ne[1]).should be_true ,"Longitude #{lng} is not within bounds"
+          (sw_bounds[0] < lat && lat < ne_bounds[0]).should be_true, "Latitude #{lat} is not within bounds"
+          (sw_bounds[1] < lng && lng < ne_bounds[1]).should be_true ,"Longitude #{lng} is not within bounds"
         end
       end
     end
