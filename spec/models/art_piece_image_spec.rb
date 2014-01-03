@@ -17,6 +17,7 @@ describe ArtPieceImage do
   end
 
   describe '#save' do
+
     let(:file) { 'filename.jpg' }
     let(:path) { 'whatever/' + file }
     let(:upload) { {'datafile' => double('UploadedFile', :read => '', :original_filename => path, :close => '') } }
@@ -24,15 +25,17 @@ describe ArtPieceImage do
     let(:artist) { art_piece.artist }
 
     before do
-
+      now = Time.zone.now
+      Time.zone.stub(:now => now)
       MojoMagick.stub(:resize => nil, :raw_command => 'JPG 100 200 RGB')
 
       ArtPieceImage.new(art_piece, upload).save
     end
 
     it 'updates the filename' do
-      art_piece.filename.should eql file
+      art_piece.filename.should eql "/projects/mau/public/artistdata/#{artist.id}/imgs/#{Time.zone.now.to_i}#{file}"
     end
+
     it 'updates the image dimensions' do
       art_piece.image_height.should eql 100
       art_piece.image_width.should eql 200
