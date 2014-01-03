@@ -20,7 +20,7 @@ class ArtPiecesController < ApplicationController
   def show
     @facebook_required = true
     @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
-    
+
     art_piece = safe_find_art_piece(params[:id])
     if !art_piece || !art_piece.artist
       flash[:error] = "We couldn't find that art piece."

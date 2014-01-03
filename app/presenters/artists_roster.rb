@@ -1,3 +1,2 @@
 class ArtistsRoster < ArtistsPresenter
-
 end

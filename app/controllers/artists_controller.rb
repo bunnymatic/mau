@@ -29,46 +29,12 @@ class ArtistsController < ApplicationController
   end
 
   def map_page
+
     @os_only = is_os_only(params["osonly"])
-    os_args = (@os_only ? {:osonly => 'on'} : {})
-    @roster_link = roster_artists_url(os_args)
-    @gallery_link = artists_url(os_args)
-    @map_link = map_artists_path(os_args)
-    addresses = []
 
-    active_artists = Artist.active
-    if @os_only
-      artists = active_artists.open_studios_participants.all(:include => :artist_info)
-    else
-      artists = active_artists.active.all(:include => :artist_info)
-    end
+    set_artists_index_links
 
-    artists.reject!{ |a| !a.in_the_mission? }
-
-    markers = []
-    @roster = {}
-    nentries = 0
-
-    artists.each do |a|
-      address = a.address_hash
-      if !address.nil? && address[:geocoded] && !address[:simple].blank?
-        ky = "%s" % address[:simple]
-        if !@roster[ky]
-          @roster[ky] = []
-        end
-
-        @roster[ky] << a
-      end
-    end
-
-    @map_data = Gmaps4rails.build_markers(@roster.values.flatten) do |artist, marker|
-      address = artist.address_hash
-      marker.lat address[:latlng][0]
-      marker.lng address[:latlng][1]
-      marker.infowindow get_map_info(artist)
-    end
-
-    @selfurl = map_artists_url
+    @map_info = ArtistsMap.new(view_context, @os_only)
 
     render :map
   end
@@ -176,10 +142,7 @@ class ArtistsController < ApplicationController
     @roster = ArtistsRoster.new(view_context, @os_only)
 
     @page_title = "Mission Artists United - MAU Artists"
-    os_args = (@os_only ? {:osonly => 'on'} : {})
-    @roster_link = roster_artists_url(os_args)
-    @gallery_link = artists_url(os_args)
-    @map_link = map_artists_path(os_args)
+    set_artists_index_links
 
     render :action => 'roster', :layout => 'mau1col'
   end
@@ -196,10 +159,7 @@ class ArtistsController < ApplicationController
         @gallery = ArtistsGallery.new(view_context, @os_only, cur_page)
 
         @page_title = "Mission Artists United - MAU Artists"
-        os_args = (@os_only ? {:osonly => 'on'} : {})
-        @roster_link = roster_artists_url(os_args)
-        @gallery_link = artists_url(os_args)
-        @map_link = map_artists_path(os_args)
+        set_artists_index_links
 
         render :action => 'index', :layout => 'mau1col'
       }
@@ -496,4 +456,10 @@ class ArtistsController < ApplicationController
     [true, "1",1,"on","true"].include? osonly
   end
 
+  def set_artists_index_links
+    os_args = (@os_only ? {:osonly => 'on'} : {})
+    @roster_link = roster_artists_url(os_args)
+    @gallery_link = artists_url(os_args)
+    @map_link = map_artists_path(os_args)
+  end
 end
