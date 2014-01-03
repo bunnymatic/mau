@@ -4,7 +4,7 @@
   <% if current_user && current_user == @user -%>
   <h4>My Favorites</h4>
   <% else -%>
-  <h4><%= @user.get_name true %>'s Favorites</h4>
+  <h4><%= @user.get_name %>'s Favorites</h4>
   <% end -%>
   <div class="favorites">
     <% if @random_picks %>
@@ -62,7 +62,7 @@
   </div>
   <% if !@random_picks %>
   <div class="buttons">
-    <form method="get" action="<%= user_path(@user) %>"><input class="formbutton" type="submit" value="Back to <%= @user.get_name true %>'s Page" name="submit">
+    <form method="get" action="<%= user_path(@user) %>"><input class="formbutton" type="submit" value="Back to <%= @user.get_name %>'s Page" name="submit">
     </form>
   </div>
   <% end -%>

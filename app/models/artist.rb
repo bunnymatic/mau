@@ -100,20 +100,16 @@ class Artist < User
   end
 
   def in_the_mission?
-    h = address_hash
-    if h && h.has_key?(:latlng)
-      lat = h[:latlng][0]
-      lng = h[:latlng][1]
-      sw = BOUNDS['SW']
-      ne = BOUNDS['NE']
-      if lat && lng
-        (lat>sw[0] and lat<ne[0] and lng>sw[1] and lng<ne[1])
-      else
-        false
-      end
-    else
-      false
-    end
+    return false unless address_hash && address_hash.has_key?(:latlng)
+
+    lat,lng = address_hash[:latlng]
+    sw = BOUNDS['SW']
+    ne = BOUNDS['NE']
+    !!((lat && lng) && (lat>sw[0] && lat<ne[0] && lng>sw[1] && lng<ne[1]))
+  end
+
+  def in_a_group_studio?
+    (studio_id.present? && studio_id != 0 && studio.present?)
   end
 
   def doing_open_studios?

@@ -81,7 +81,7 @@ class ArtPiece < ActiveRecord::Base
     Favorite.where(:favoritable_id => id, :favoritable_type => klassname).compact.map(&:destroy)
   end
 
-  def get_paths()
+  def get_paths
     ArtPieceImage.get_paths(self)
   end
 

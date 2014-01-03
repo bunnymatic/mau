@@ -34,8 +34,8 @@ describe ArtistsController do
       it_should_behave_like 'one column layout'
       it { response.should be_success }
       it "builds a presenter with only active artists" do
-        presenter = assigns(:gallery_presenter)
-        expect( presenter ).to be_a_kind_of ArtistGalleryPresenter
+        presenter = assigns(:gallery)
+        expect( presenter ).to be_a_kind_of ArtistsGallery
         expect( presenter.items).to have_at_least(2).artists
         expect( presenter.items.select{|artist| !artist.active?} ).to be_empty
       end
@@ -43,7 +43,7 @@ describe ArtistsController do
         assigns(:page_title).should eql 'Mission Artists United - MAU Artists'
       end
       it "thumbs have representative art pieces in them" do
-        presenter = assigns(:gallery_presenter)
+        presenter = assigns(:gallery)
         presenter.items.each do |a|
           rep = a.representative_piece
           assert_select(".allthumbs .thumb .name", /#{a.name}/);
@@ -72,13 +72,13 @@ describe ArtistsController do
     it_should_behave_like 'one column layout'
     it { response.should be_success }
     it "assigns artists" do
-      assigns(:artists).length.should have_at_least(2).artists
+      assigns(:roster).artists.length.should have_at_least(2).artists
     end
     it "set the title" do
       assigns(:page_title).should eql 'Mission Artists United - MAU Artists'
     end
     it "artists are all active" do
-      assigns(:artists).each do |a|
+      assigns(:roster).artists.each do |a|
         a.state.should eql 'active'
       end
     end

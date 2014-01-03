@@ -8,7 +8,7 @@ describe FeedsController do
   cache_filename = '_cached_feeds.html'
   context 'with bad feed data' do
     it 'handles failure in fetch and format' do
-      FeedParser.any_instance.stub(:fetch).and_raise
+      FeedParser.any_instance.stub(:feed_content).and_raise
       if File.exists?(cache_filename)
         File.delete(cache_filename)
       end

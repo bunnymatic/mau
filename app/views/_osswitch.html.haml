@@ -1,11 +1,7 @@
 - if Conf.oslive
   .map-os-switch
     %form#map_osswitcher{:action => ''}
-      - if params.present?
-        - params.each do |k,v|
-          - if !['osonly', 'all'].include? k
-            %input{:name => k, :id => 'os_only_switch', :type => 'hidden', :value => v}
-      - if @os_only
+      - if os_only
         %input#map_cb{:name => 'all', :type => 'checkbox', :checked => 'checked'}
       - else
         %input#map_cb{:name => 'osonly', :type => 'checkbox'}

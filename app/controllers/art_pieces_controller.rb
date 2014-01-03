@@ -20,11 +20,8 @@ class ArtPiecesController < ApplicationController
   def show
     @facebook_required = true
     @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
-
-    apid = params[:id].to_i
-    art_piece = safe_find_art_piece(apid)
-    # get all art pieces for this artist
-    pieces = []
+    
+    art_piece = safe_find_art_piece(params[:id])
     if !art_piece || !art_piece.artist
       flash[:error] = "We couldn't find that art piece."
       redirect_to "/error"
@@ -35,10 +32,6 @@ class ArtPiecesController < ApplicationController
     if is_mobile?
       redirect_to artist_path(art_piece.artist) and return
     end
-
-    # non-mobile
-
-    pieces = art_piece.artist.art_pieces.order('`order` asc, `created_at` desc')
 
     @page_title = "Mission Artists United - Artist: %s" % art_piece.artist.get_name
     @page_description = build_page_description art_piece
@@ -110,7 +103,7 @@ class ArtPiecesController < ApplicationController
           if saved
             # upload image
             if upload
-              post = ArtPieceImage.save(upload, @art_piece)
+              post = ArtPieceImage.new(@art_piece, upload).save
             end
             flash[:notice] = 'Artwork was successfully added.'
             Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
@@ -120,6 +113,8 @@ class ArtPiecesController < ApplicationController
           end
         end
       rescue Exception => ex
+        puts ex
+        puts ex.backtrace
         @errors << "%s" % ex.message
         logger.error("Failed to upload %s" % $!)
         @art_piece = ArtPiece.new params[:art_piece]

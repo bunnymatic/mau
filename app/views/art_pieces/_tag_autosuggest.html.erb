@@ -3,7 +3,7 @@
   Event.observe(window, 'load', function() {
      $('tags').observe('focus', function() {
      var options={
-       script:'/art_piece_tags?format=json&suggest=1&', // form elements tagged on the end
+       script: '<%= autosuggest_art_piece_tags_path(:format => 'json') %>?', // form elements tagged on the end
        varname:'input',
        valueSep: ',',
        json:true,

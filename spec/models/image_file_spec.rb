@@ -3,13 +3,6 @@ require 'spec_helper'
 
 describe ImageFile do
 
-  it 'sizes respond to height and width and prefix for all sizes' do
-    ImageFile.sizes.keys.each do |sz_key|
-      [:height, :width, :prefix].each do |key|
-        (ImageFile.sizes[sz_key].respond_to? key).should be
-      end
-    end
-  end
   ['original', 'orig' ].each do |size|
     it "get_path for #{size} returns a file name with no prefix" do
       fname = ImageFile.get_path('dir',size,'myfile.jpg')
@@ -109,17 +102,6 @@ describe ImageFile do
     end
   end
 
-  describe 'clean_filename' do
-    [['fname.jpg', 'fname.jpg'],
-     ['f & name.jpg', 'fname.jpg'],
-     ['f & *#q45sd  name.jpg', 'fq45sdname.jpg'],
-     ['fname .jpg', 'fname.jpg']].each do |f|
-      it "cleans #{f[0]} to #{f[1]}" do
-        (ImageFile.clean_filename f[0]).should eql f[1]
-      end
-    end
-  end
-
   describe '#get_path' do
     let(:directory) { Faker::Files.dir }
     let(:file) { Faker::Files.file }
@@ -143,11 +125,14 @@ describe ImageFile do
     end
   end
 
-  it_should_behave_like ImageFileHelpers
-
   describe "#save" do
     let (:writable) { double('Writable',:write => nil) }
-    let (:upload) { double('Uploadable', :read => '', :original_filename => 'uploaded_file.jpg') }
+    let (:upload) { {'datafile' => double('Uploadable', :read => '', :original_filename => 'uploaded_file.jpg') } }
+    let (:destdir) { 'destination/directory'}
+    let (:destfile) { 'destfile.file' }
+    let (:full_destpath) { File.join(destdir, destfile) }
+    subject(:image_file) { ImageFile.new(upload, destdir, destfile) }
+
     before do
       Pathname.stub(:new => double("Path", :realpath => 'blah_de_blah'))
     end
@@ -155,9 +140,9 @@ describe ImageFile do
     it 'disallows CMYK format' do
       MojoMagick.should_receive(:raw_command).
         with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
-      File.should_receive(:open).with('destination/directory/destfile.file', 'wb').and_yield(writable)
+      File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
       expect {
-        ImageFile.save(upload, 'destination/directory', 'destfile.file')
+        image_file.save
       }.to raise_error ArgumentError
     end
 
@@ -166,8 +151,16 @@ describe ImageFile do
       MojoMagick.should_receive(:raw_command).
         with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 RGB")
       MojoMagick.should_receive(:resize).exactly(4).times
-      File.should_receive(:open).with('destination/directory/destfile.file', 'wb').and_yield(writable)
-      ImageFile.save(upload, 'destination/directory', 'destfile.file')
+      File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
+      image_file.save
+    end
+
+    it 'sizes respond to height and width and prefix for all sizes' do
+      image_file.sizes.keys.each do |sz_key|
+        [:height, :width, :prefix].each do |key|
+          image_file.sizes[sz_key].should respond_to key
+        end
+      end
     end
 
   end

@@ -3,7 +3,7 @@ require 'json/add/core'
 #require 'json/add/rails'
 class ArtPieceTagsController < ApplicationController
   layout 'mau1col'
-  before_filter :admin_required, :except => [ :index, :show ]
+  before_filter :admin_required, :except => [ :index, :show, :autosuggest ]
   after_filter :store_location
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
@@ -42,48 +42,29 @@ class ArtPieceTagsController < ApplicationController
     redirect_to '/admin/art_piece_tags'
   end
 
+  def autosuggest
+
+    tags = fetch_tags_for_autosuggest
+
+    if params[:input]
+      # filter with input prefix
+      inp = params[:input].downcase
+      begin
+        tags.select!{|tag| tag['value'].downcase.starts_with? inp}
+      rescue Exception => ex
+        puts "Failed to autosuggest", ex
+        tags = []
+      end
+    end
+    render :json => tags
+  end
+
   def index
-    xtra_params = Hash[ params.select{ |k,v| [:m,"m"].include? k } ]
     respond_to do |format|
-      format.html {
-        freq = ArtPieceTag.frequency
-        if !freq || freq.empty?
-          render_not_found Exception.new("No tags in the system")
-        else
-          params[:id] = freq[0]['tag']
-          redirect_to art_piece_tag_path(params[:id], xtra_params)
-        end
-      }
-      format.json  {
-        if params[:suggest]
-          tagnames = []
-          cacheout = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
-          if cacheout
-            logger.debug("Fetched autosuggest tags from cache")
-            tagnames = ActiveSupport::JSON.decode cacheout
-          end
-          if tagnames.blank?
-            tagnames = ArtPieceTag.all.map{|t| { "value" => t.name, "info" => t.id }}
-            cachein = ActiveSupport::JSON.encode tagnames
-            if cachein
-              SafeCache.write(AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
-            end
-          end
-          if params[:input]
-            # filter with input prefix
-            inp = params[:input].downcase
-            lin = inp.length - 1
-            begin
-              tagnames.delete_if {|nm| inp != nm['value'][0..lin].downcase}
-            rescue
-              tagnames = []
-            end
-          end
-          render :json => tagnames
-        else
-          tags = ArtPieceTag.all
-          render :json => tags
-        end
+      format.html { redirect_to_most_popular_tag }
+      format.json {
+        tags = ArtPieceTag.all
+        render :json => tags
       }
     end
   end
@@ -101,34 +82,11 @@ class ArtPieceTagsController < ApplicationController
     end
 
     @results_mode = params[:m] || 'p'
-    joiner = ArtPiecesTag.where(:art_piece_tag_id => params[:id])
-    results = {}
-    joiner.each do |apt|
-      art = apt.art_piece
-      if art
-        results[art.id]=art
-      end
-    end
 
-    # if show by artists, pick 1 from each artist
-    if @results_mode == 'p'
-      pieces = results.map { |k,v| v }.sort_by { |p| p.updated_at }.reverse
-    else
-      artist_ids = Artist.active.all.map{|a| a.id}
-      tmps = {}
-      results.values.each do |pc|
-        if (pc && !tmps.include?(pc.artist_id) &&
-            artist_ids.include?(pc.artist_id))
-          tmps[pc.artist_id] = pc
-        end
-      end
-      pieces = tmps.values.sort_by { |p| p.updated_at }.reverse
-    end
-    pieces.reverse!
-
+    @tag_presenter = ArtPieceTagPresenter.new(@tag, @results_mode)
+    @pieces = @tag_presenter.art_pieces
     @tag_cloud_presenter = TagCloudPresenter.new(view_context, ArtPieceTag, @tag, @results_mode)
-    @paginator = ArtPieceTagPagination.new(view_context, pieces, @tag, page, {:m => params[:m]})
-    @pieces = @paginator.items
+    @paginator = ArtPieceTagPagination.new(view_context, @pieces, @tag, page, {:m => @results_mode})
 
     @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })
     @by_pieces_link = art_piece_tag_url(@tag, { :m => 'p' })
@@ -177,6 +135,25 @@ class ArtPieceTagsController < ApplicationController
     redirect_to(art_piece_tags_url)
   end
 
-  def autosuggest
+  private
+  def fetch_tags_for_autosuggest
+    tags = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
+    unless tags
+      tags = ArtPieceTag.all.map{|t| { "value" => t.name, "info" => t.id }}
+      if tags.present?
+        SafeCache.write(AUTOSUGGEST_CACHE_KEY, tags, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
+      end
+    end
+    tags
+  end
+
+  def redirect_to_most_popular_tag
+    xtra_params = params.slice(:m, 'm')
+    freq = ArtPieceTag.frequency
+    if !freq || freq.empty?
+      render_not_found Exception.new("No tags in the system")
+    else
+      redirect_to art_piece_tag_path(freq.first['tag'], xtra_params)
+    end
   end
 end

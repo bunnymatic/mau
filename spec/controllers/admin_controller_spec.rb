@@ -65,7 +65,7 @@ describe AdminController do
     render_views
 
     describe 'html' do
-      describe 'with no params' do
+      context 'with no params' do
         before do
           get :emaillist
         end
@@ -73,10 +73,10 @@ describe AdminController do
           response.should be_success
         end
         it 'assigns the title' do
-          assigns(:title).should eql "Activated"
+          assigns(:email_list).title.should eql "Activated"
         end
         it 'assigns list of artists emails' do
-          assigns(:emails).length.should eql Artist.active.count
+          assigns(:email_list).emails.length.should eql Artist.active.count
         end
         it 'shows the list selector' do
           assert_select '.list_chooser'
@@ -91,114 +91,28 @@ describe AdminController do
           end
         end
       end
-      it 'assigns a list of fans emails when we ask for the fans list' do
-        get :emaillist, :listname => 'fans'
-        assigns(:emails).length.should eql MAUFan.all.count
-      end
-      it 'assigns a list of pending artists emails when we ask for the pending list' do
-        get :emaillist, :listname => 'pending'
-        assigns(:emails).length.should eql Artist.pending.count
-      end
-      Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-        it "assigns a list of os artists for #{ostag} when we ask for the #{ostag} list" do
-          get :emaillist, :listname => ostag
-          assigns(:emails).length.should eql Artist.active.all.select{|a| a.os_participation[ostag]}.count
-        end
-      end
-      it 'shows the title and list size and correct emails when we ask for fans' do
-        get :emaillist, :listname => 'fans'
-        assert_select '.email_lists h4', 'Fans [%s]' % MAUFan.count
-        MAUFan.all.each do |f|
-          assert_select '.email_results table tbody tr td', /#{f.get_name}/
-          assert_select '.email_results table tbody tr td', /#{f.email}/
-        end
-      end
-      it 'shows the title and list size and correct emails when we ask for pending' do
-        get :emaillist, :listname => 'pending'
-        assert_select '.email_lists h4', 'Pending [%s]' % Artist.pending.count
-        Artist.pending.each do |f|
-          assert_select '.email_results table tbody tr td', /#{f.get_name}/
-          assert_select '.email_results table tbody tr td', /#{f.email}/
-        end
-      end
-      Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-        it "shows the title and list size and correct emails when we ask for #{ostag}" do
-          get :emaillist, :listname => ostag
-          expected_participants = Artist.active.all.select{|a| a.os_participation[ostag]}
-          expected_tag = TestOsHelperClass.new.os_pretty(ostag)
-          assert_select '.email_lists h4', "#{expected_tag} [#{expected_participants.count}]"
-          expected_participants.each do |f|
-            assert_select '.email_results table tbody tr td', /#{f.get_name}/
-            assert_select '.email_results table tbody tr td', /#{f.email}/
-          end
-        end
-      end
+
       describe 'multiple os keys' do
         before do
           get :emaillist, '201004' => 'on', '201010' => 'on'
         end
-        it 'the emails list is an intersection of all artists in those open studios groups' do
-          emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
-            Artist.all.select{|a| a.os_participation['201010']}.map(&:email)
-          emails.should eql assigns(:emails).map{|em| em[:email]}
+        it 'sets up the correct list name' do
+          assigns(:email_list).list_names.should eql(['201004','201010'])
         end
-        it 'the emails list is an intersection of all artists in those open studios groups' do
-          emails = Artist.all.select{|a| a.os_participation['201004']}.map(&:email) |
-            Artist.all.select{|a| a.os_participation['201010']}.map(&:email)
-          emails.should eql assigns(:emails).map{|em| em[:email]}
-          emails.each do |em|
-            assert_select '.email_results table tbody tr td', /#{em}/
+      end
+
+      [:all, :active, :pending, :no_images, :no_profile ].each do |list_name|
+        describe "list name = #{list_name}" do
+          before do
+            get :emaillist, 'listname' => list_name
+          end
+          it 'sets the right list name' do
+            assigns(:email_list).list_names.should eql [list_name.to_s]
           end
         end
       end
-
-      describe 'list name = all' do
-        it 'grabs all artists' do
-          all_artists = Artist.all
-          Artist.should_receive(:all).and_return(all_artists)
-          get :emaillist, :listname => 'all'
-        end
-      end
-
-      describe 'list name = active' do
-        it 'grabs only active artists' do
-          active_artist_scope = double(:active_artist_scope)
-          active_artist_scope.should_receive(:all).and_return([])
-          Artist.should_receive(:active).and_return(active_artist_scope)
-          get :emaillist, :listname => 'active'
-        end
-      end
-
-      describe 'list name = pending' do
-        it 'grabs only pending artists' do
-          pending_artist_scope = double(:pending_artist_scope)
-          pending_artist_scope.should_receive(:all).and_return([])
-          Artist.should_receive(:pending).and_return(pending_artist_scope)
-          get :emaillist, :listname => 'pending'
-        end
-      end
-
-      describe 'list name = no_images' do
-        it 'grabs only artists with no art' do
-          get :emaillist, :listname => 'no_images'
-          emails = assigns(:emails)
-          artists = Artist.active.all.select{|a| a.art_pieces.empty?}
-          artists.should have_at_least(1).artist
-          emails.map{|e| e['email']}.sort.should eql artists.map(&:email).sort
-        end
-      end
-
-      describe 'list name = no_profile' do
-        it 'grabs only artists with no profile' do
-          get :emaillist, :listname => 'no_profile'
-          emails = assigns(:emails)
-          artists = Artist.active.all.reject{|a| a.profile_image}
-          artists.should have_at_least(1).artist
-          emails.map{|e| e['email']}.sort.should eql artists.map(&:email).sort
-        end
-      end
-
     end
+
     describe 'csv' do
       before do
         get :emaillist, :format => :csv, :listname => 'pending'
@@ -230,7 +144,7 @@ describe AdminController do
     it 'renders open studios info in reverse chrono order' do
       css_select('.section.open_studios li').first.to_s.
         should match /#{pretty_print_os_tag(Conf.open_studios_event_keys.sort.last)}/
-      css_select('.section.open_studios li').last.to_s.
+        css_select('.section.open_studios li').last.to_s.
         should match /#{pretty_print_os_tag(Conf.open_studios_event_keys.sort.first)}/
     end
     it 'renders the current open studios setting' do
@@ -434,10 +348,9 @@ describe AdminController do
       end
     end
   end
-
-  let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
-  let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
   describe "helpers" do
+    let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
+    let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
 
     describe "compute_artists_per_day" do
       it "returns an array" do
@@ -508,4 +421,5 @@ describe AdminController do
       end
     end
   end
+
 end

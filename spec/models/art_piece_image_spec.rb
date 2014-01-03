@@ -17,23 +17,28 @@ describe ArtPieceImage do
   end
 
   describe '#save' do
-    let(:file) { Faker::Files.file }
-    let(:upload) { double('UploadedFile', :original_filename => file) }
+
+    let(:file) { 'filename.jpg' }
+    let(:path) { 'whatever/' + file }
+    let(:upload) { {'datafile' => double('UploadedFile', :read => '', :original_filename => path, :close => '') } }
     let(:art_piece) { ArtPiece.first }
     let(:artist) { art_piece.artist }
-    let(:image_info) { OpenStruct.new({:path => 'new_art_piece.jpg', :height => 1234, :width => 2233} ) }
+
     before do
-      ImageFile.should_receive(:save).with(upload,
-                                           "public/artistdata/#{artist.id}/imgs/").and_return(image_info)
-      ArtPieceImage.save({'datafile' => upload}, art_piece)
+      now = Time.zone.now
+      Time.zone.stub(:now => now)
+      MojoMagick.stub(:resize => nil, :raw_command => 'JPG 100 200 RGB')
+
+      ArtPieceImage.new(art_piece, upload).save
     end
 
     it 'updates the filename' do
-      art_piece.filename.should eql "new_art_piece.jpg"
+      art_piece.filename.should eql "/projects/mau/public/artistdata/#{artist.id}/imgs/#{Time.zone.now.to_i}#{file}"
     end
+
     it 'updates the image dimensions' do
-      art_piece.image_height.should eql 1234
-      art_piece.image_width.should eql 2233
+      art_piece.image_height.should eql 100
+      art_piece.image_width.should eql 200
     end
   end
 

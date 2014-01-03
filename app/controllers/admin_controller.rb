@@ -29,39 +29,15 @@ class AdminController < ApplicationController
   end
 
   def emaillist
-    artists = []
-    listname = params[:listname] || 'active'
-    @lists = [[ :all, 'Artists'],
-              [ :active, 'Activated'],
-              [ :pending, 'Pending'],
-              [ :fans, 'Fans' ],
-              [ :no_profile, 'Active with no profile image'],
-              [ :no_images, 'Active with no artwork']
-              ]
-    os_tags.reverse.each do |ostag|
-      title = os_pretty(ostag)
-      @lists << [ ostag.to_sym, title ]
+    list_names = [params[:listname], (params.keys & os_tags)].flatten.compact.uniq
+    if list_names.blank?
+      list_names = 'active'
     end
-    titles = Hash[ @lists ]
-    if (params.keys & os_tags).present?
-      for_title = []
-      tags = os_tags & params.keys
-      artists = []
-      tags.each do |tag|
-        for_title << os_pretty(tag)
-        artists += Artist.active.open_studios_participants(tag)
-      end
-      artists.uniq!
-      @title = "OS Participants [#{for_title.join(', ')}]"
-    else
-      @title = titles[listname.to_sym]
-      artists = fetch_artists_for_email(listname)
-    end
+    @email_list = AdminEmailList.new(list_names)
     respond_to do |format|
-      format.html {
-        @emails = package_artist_emails(artists)
-      }
+      format.html {}
       format.csv {
+        artists = @email_list.artists
         fname = 'email'
         if params[:listname].present?
           fname += '_' + params[:listname]
@@ -193,34 +169,8 @@ class AdminController < ApplicationController
     cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
   end
 
-  def package_artist_emails(artists)
-    artists.select{|a| a.email.present?}.map{|a| { :id => a.id, :name => a.get_name, :email => a.email }}
-  end
-
   def os_tags
     @os_tags ||= Conf.open_studios_event_keys.map(&:to_s)
-  end
-
-  def fetch_artists_for_email(section)
-    case section
-    when 'fans'
-      MAUFan.all
-    when *os_tags
-      Artist.active.open_studios_participants(section)
-    when 'all'
-      Artist.all
-    when 'active', 'pending'
-      Artist.send(section).all
-    when 'no_profile'
-      Artist.active.where("profile_image is null")
-    when 'no_images'
-      sql = ActiveRecord::Base.connection()
-      query = "select id from users where " +
-        "state='active' and type='Artist' and " +
-        "id not in (select distinct artist_id from art_pieces);"
-      a_ids = (sql.execute query).map(&:first)
-      Artist.where(:id => a_ids)
-    end
   end
 
 end

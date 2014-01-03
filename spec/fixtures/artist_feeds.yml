@@ -3,7 +3,7 @@ flaxart:
   url: http://flaxart.com
   active: true
 twitter:
-  feed: http://twitter.com/statuses/user_timeline/62131363.json
+  feed: https://twitter.com/statuses/user_timeline/62131363.json
   url: http://twitter.com/sfmau 
   active: true
 blogspot:

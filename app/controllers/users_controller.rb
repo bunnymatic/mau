@@ -101,7 +101,7 @@ class UsersController < ApplicationController
     end
 
     begin
-      post = ArtistProfileImage.save(upload, @user)
+      post = ArtistProfileImage.new(upload, @user).save
       redirect_to user_path(@user)
       return
     rescue
@@ -158,23 +158,7 @@ class UsersController < ApplicationController
     success = @user.errors.empty? && @user.save
     if success
       @user.register!
-      # Protects against session fixation attacks, causes request forgery
-      # protection if visitor resubmits an earlier form using back
-      # button. Uncomment if you understand the tradeoffs.
-      if type == 'Artist'
-        @user.reload
-        @user.build_artist_info
-        @user.artist_info.save!
-        @user.save!
-        Messager.new.publish "/artists/create", "added a new artist"
-        flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
-        redirect_to "/"
-      else
-        @user.activate!
-        @user.subscribe_and_welcome
-        flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
-        redirect_to login_path
-      end
+      redirect_after_create
     else
       msg = "There was a problem creating your account."+
         " If you can't solve the issues listed below, please try again later or"+
@@ -185,7 +169,6 @@ class UsersController < ApplicationController
       render :action => 'new'
     end
   end
-
 
   # Change user passowrd
   def change_password_update
@@ -432,6 +415,23 @@ class UsersController < ApplicationController
   end
 
   protected
+  def redirect_after_create
+    if @type == 'Artist'
+      @user.reload
+      @user.build_artist_info
+      @user.artist_info.save!
+      @user.save!
+      Messager.new.publish "/artists/create", "added a new artist"
+      flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
+      redirect_to root_path
+    else
+      @user.activate!
+      @user.subscribe_and_welcome
+      flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
+      redirect_to login_path
+    end
+  end
+
   def safe_find_user(id)
     begin
       User.find(id)

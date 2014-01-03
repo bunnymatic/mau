@@ -1,6 +1,6 @@
 <div class="popup-title"><%= @title %></div>
 <div class="popup-text">
-  <%= form_for :feedback, @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
+  <%= form_for @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
   <div class="fdbk-form">
     <% unless @error_message.blank? -%>
     <div class="error-msg">

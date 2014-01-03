@@ -37,20 +37,48 @@ class SiteStatistics
   end
 
   def compute_totals
-    @totals ||= {
-      :actived_artists => Artist.active.count,
-      :art_pieces_added => ArtPiece.count,
-      :accounts => User.count,
-      :fans => MAUFan.count,
-      :artists => Artist.count,
-      :events_past => Event.past.count,
-      :events_future => Event.future.count,
+    @totals ||= {}.tap do |tally|
+      %w( art_pieces_stats favorites_stats studios_stats artists_stats events_stats other_users_stats).each do |m|
+        tally.merge!(send(m))
+      end
+    end
+  end
+
+  def art_pieces_stats
+    {:art_pieces_added => ArtPiece.count}
+  end
+
+  def favorites_stats
+    {
       :favorited_art_pieces => Favorite.art_pieces.count,
       :favorited_artists => Favorite.artists.count,
       :favorites_users_using => Favorite.group('user_id').all.count,
+    }
+  end
+
+  def studios_stats
+    {:studios => Studio.count}
+  end
+
+  def artists_stats
+    { :actived_artists => Artist.active.count,
       :artists_pending => Artist.pending.count,
       :artists_no_profile_image => Artist.active.where("profile_image is not null").count,
-      :studios => Studio.count
+      :artists => Artist.count,
+    }
+  end
+
+  def other_users_stats
+    {
+      :accounts => User.count,
+      :fans => MAUFan.count
+    }
+  end
+
+  def events_stats
+    {
+      :events_past => Event.past.count,
+      :events_future => Event.future.count
     }
   end
 

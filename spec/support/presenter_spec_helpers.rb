@@ -1,5 +1,7 @@
 module PresenterSpecHelpers
   class MockViewContext
+
+    include ActionView::Helpers::UrlHelper
     include Rails.application.routes.url_helpers
 
     def initialize(logged_in_as = nil)
@@ -9,6 +11,10 @@ module PresenterSpecHelpers
     def current_user
       @user
     end
+
+    def controller
+    end
+
   end
 
   def self.included(base)

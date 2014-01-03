@@ -21,7 +21,7 @@
  *
  * GMAIL like AutoComplete (semicolon separator) Update
  *
- }}}*/
+  }}}*/
 
 String.prototype.trim = function() {
   return this.replace(/^\s+|\s+$/g,"");
@@ -93,7 +93,7 @@ AutoComplete.prototype = { // {{{
     for (k in def)
     {
       if (typeof(this.options[k]) != typeof(def[k]))
-	this.options[k] = def[k];
+	      this.options[k] = def[k];
     }
     // End of Parameter Handling }}}
 
@@ -127,9 +127,9 @@ AutoComplete.prototype = { // {{{
        (typeof Element == 'undefined') ||
        (typeof Element.Methods=='undefined') ||
        (this.convertVersionString(Prototype.Version) <
-	this.convertVersionString(this.REQUIRED_PROTOTYPE)))
+	      this.convertVersionString(this.REQUIRED_PROTOTYPE)))
       throw("AutoComplete requires the Prototype JavaScript framework >= " +
-	    this.REQUIRED_PROTOTYPE);
+	          this.REQUIRED_PROTOTYPE);
   }, // }}}
 
   // set responses to keypress events in the field
@@ -145,15 +145,15 @@ AutoComplete.prototype = { // {{{
 
     switch(key)
     {
-    case Event.KEY_RETURN:
+      case Event.KEY_RETURN:
       this.setHighlightedValue();
       Event.stop(e);
       break;
-    case Event.KEY_TAB:
+      case Event.KEY_TAB:
       this.setHighlightedValue();
       //Event.stop(e);
       break;
-    case Event.KEY_ESC:
+      case Event.KEY_ESC:
       this.clearSuggestions();
       break;
     }
@@ -206,10 +206,10 @@ AutoComplete.prototype = { // {{{
     {
       var arr = new Array();
       for (var i=0;i<l;i++) {
-  	if (this.aSug[i].value.toLowerCase().indexOf(val.toLowerCase()) != -1)
-	{
-  	  arr.push(this.aSug[i]);
-	}
+  	    if (this.aSug[i].value.toLowerCase().indexOf(val.toLowerCase()) != -1)
+	      {
+  	      arr.push(this.aSug[i]);
+	      }
       }
       this.aSug = arr;
 
@@ -263,30 +263,30 @@ AutoComplete.prototype = { // {{{
     var options = {
       method: m,
       onSuccess: function (req) { // {{{
-	if( p.options.useNotifier )
-	{
-	  p.fld.removeClassName('ac_field_busy');
-	  p.fld.addClassName('ac_field');
-	};
-	p.setSuggestions(req,input);
+	      if( p.options.useNotifier )
+	      {
+	        p.fld.removeClassName('ac_field_busy');
+	        p.fld.addClassName('ac_field');
+	      };
+	      p.setSuggestions(req,input);
       }, // }}}
 
       onFailure: (typeof p.options.onAjaxError == 'function')? function (status) { // {{{
-	if (p.options.useNotifier)
-	{
-	  p.fld.removeClassName('ac_field_busy');
-	  p.fld.addClassName('ac_field');
-	}
-	p.options.onAjaxError(status)
-      } : // }}}
+	                                                               if (p.options.useNotifier)
+	                                                               {
+	                                                                 p.fld.removeClassName('ac_field_busy');
+	                                                                 p.fld.addClassName('ac_field');
+	                                                               }
+	                                                               p.options.onAjaxError(status)
+                                                               } : // }}}
 
       function (status) { // {{{
-	if (p.options.useNotifier)
-	{
-	  p.fld.removeClassName('ac_field_busy');
-	  p.fld.addClassName('ac_field');
-	}
-	this.log("AJAX error: "+status);
+	      if (p.options.useNotifier)
+	      {
+	        p.fld.removeClassName('ac_field_busy');
+	        p.fld.addClassName('ac_field');
+	      }
+	      this.log("AJAX error: "+status);
       } // }}}
     }
     // make new ajax request
@@ -312,8 +312,8 @@ AutoComplete.prototype = { // {{{
 
       for(var i=0;i<results.length;i++)
       {
-	if(results[i].hasChildNodes())
-	  this.aSug.push(  { 'id':results[i].getAttribute('id'), 'value':results[i].childNodes[0].nodeValue, 'info':results[i].getAttribute('info') }  );
+	      if(results[i].hasChildNodes())
+	        this.aSug.push(  { 'id':results[i].getAttribute('id'), 'value':results[i].childNodes[0].nodeValue, 'info':results[i].getAttribute('info') }  );
       }
     }
     this.acID = 'ac_'+this.fld.id;
@@ -374,47 +374,47 @@ AutoComplete.prototype = { // {{{
       // loop through arr of suggestions creating an LI element for each of them
       for (var i=0,l = arr.length; i<l; i++)
       {
-	// format output with the input enclosed in a EM elementFromPoint
-	// (as HTML not DOM)
-	var val 	= arr[i].value;
-	var st 		= val.toLowerCase().indexOf(this.sInp.toLowerCase()); // HERE WE CHECK AGAINST THE SPLITTED VALUE IF ANY***
-	var output 	= val.substring(0,st) + '<em>' + val.substring(st,st+this.sInp.length) + '</em>' + val.substring(st+this.sInp.length);
+	      // format output with the input enclosed in a EM elementFromPoint
+	      // (as HTML not DOM)
+	      var val 	= arr[i].value;
+	      var st 		= val.toLowerCase().indexOf(this.sInp.toLowerCase()); // HERE WE CHECK AGAINST THE SPLITTED VALUE IF ANY***
+	      var output 	= val.substring(0,st) + '<em>' + val.substring(st,st+this.sInp.length) + '</em>' + val.substring(st+this.sInp.length);
 
-	var span = this.createDOMElement('span',{},output,true); // type of, properties, output, isHTML?
+	      var span = this.createDOMElement('span',{},output,true); // type of, properties, output, isHTML?
 
-	if(arr[i].info != '') // do we need to add extra info?
-	{
-	  var br	= this.createDOMElement('br',{});
-	  span.appendChild(br);
+	      if(arr[i].info != '') // do we need to add extra info?
+	      {
+	        var br	= this.createDOMElement('br',{});
+	        span.appendChild(br);
 
-	  var small = this.createDOMElement('small',{}, arr[i].info);
-	  span.appendChild(small);
-	}
-	var a 	= this.createDOMElement('a',{className: 'lkdark', href:'#'});
+	        var small = this.createDOMElement('small',{}, arr[i].info);
+	        span.appendChild(small);
+	      }
+	      var a 	= this.createDOMElement('a',{className: 'lkdark', href:'#'});
 
-	var tl	= this.createDOMElement('span',{className:'tl'},'&nbsp;',true);
-	var tr	= this.createDOMElement('span',{className:'tr'},'&nbsp;',true);
+	      var tl	= this.createDOMElement('span',{className:'tl'},'&nbsp;',true);
+	      var tr	= this.createDOMElement('span',{className:'tr'},'&nbsp;',true);
 
-	a.appendChild(tl);
-	a.appendChild(tr);
-	a.appendChild(span); // add the object span into the link
+	      a.appendChild(tl);
+	      a.appendChild(tr);
+	      a.appendChild(span); // add the object span into the link
 
-	a.name = i+1;
+	      a.name = i+1;
 
-	a.onclick 		= function () { // {{{
-	  p.setHighlightedValue();
-	  return false;
-	}; // }}}
-	a.onmouseover	= function () { // {{{
-	  p.setHighlight(this.name);
-	}; // }}}
+	      a.onclick 		= function () { // {{{
+	        p.setHighlightedValue();
+	        return false;
+	      }; // }}}
+	      a.onmouseover	= function () { // {{{
+	        p.setHighlight(this.name);
+	      }; // }}}
 
-	var li = this.createDOMElement('li', {}, a); // add the link element to a li element
-	if (i==0) { li.addClassName('first'); this.log(li);}
-	if (i==(l-1)) { li.addClassName('last'); }
+	      var li = this.createDOMElement('li', {}, a); // add the link element to a li element
+	      if (i==0) { li.addClassName('first'); this.log(li);}
+	      if (i==(l-1)) { li.addClassName('last'); }
 
-	// finally add the newly created li element to the ul element
-	ul.appendChild(li);
+	      // finally add the newly created li element to the ul element
+	      ul.appendChild(li);
       }
     }
 
@@ -440,13 +440,13 @@ AutoComplete.prototype = { // {{{
 
     var w =
       (
-	this.options.setWidth && this.fld.offsetWidth < this.options.minWidth
+	      this.options.setWidth && this.fld.offsetWidth < this.options.minWidth
       )
-      ? this.options.minWidth :
+           ? this.options.minWidth :
       (
-	this.options.setWidth && this.fld.offsetWidth > this.options.maxWidth
+	      this.options.setWidth && this.fld.offsetWidth > this.options.maxWidth
       )
-      ? this.options.maxWidth :
+                                    ? this.options.maxWidth :
       this.fld.offsetWidth;
 
     div.style.width 	= (w - 10) + "px";
@@ -467,7 +467,7 @@ AutoComplete.prototype = { // {{{
     // remove list after interval
     this.toID	= setTimeout(
       function () {
-	p.clearSuggestions()
+	      p.clearSuggestions()
       }, this.options.timeout
     );
 
@@ -528,27 +528,27 @@ AutoComplete.prototype = { // {{{
 
       // Gmail like
       if (undefined != this.options.valueSep) {
-	var str = this.getLastInput(this.fld.value);
-	var idx = this.fld.value.lastIndexOf(str);
-	str = this.aSug[ this.iHigh -1 ].value + this.options.valueSep;
-	this.sInp = this.fld.value = idx == -1 ? str : this.fld.value.substring(0, idx) + str;
+	      var str = this.getLastInput(this.fld.value);
+	      var idx = this.fld.value.lastIndexOf(str);
+	      str = this.aSug[ this.iHigh -1 ].value + this.options.valueSep;
+	      this.sInp = this.fld.value = idx == -1 ? str : this.fld.value.substring(0, idx) + str;
       } else {
-	var str = this.getLastInput(this.fld.value);
-	var idx = this.fld.value.lastIndexOf(str);
-	str = this.aSug[ this.iHigh -1 ].value;
-	this.sInp = this.fld.value = idx == -1 ? str : this.fld.value.substring(0, idx) + str;
+	      var str = this.getLastInput(this.fld.value);
+	      var idx = this.fld.value.lastIndexOf(str);
+	      str = this.aSug[ this.iHigh -1 ].value;
+	      this.sInp = this.fld.value = idx == -1 ? str : this.fld.value.substring(0, idx) + str;
       }
 
       // move cursor to end of input (safari)
       this.fld.focus();
       if(this.fld.selectionStart)
-  	this.fld.setSelectionRange(this.sInp.length, this.sInp.length);
+  	    this.fld.setSelectionRange(this.sInp.length, this.sInp.length);
 
       this.clearSuggestions();
 
       // pass selected object to callback function, if exists
       if (typeof this.options.callback == 'function')
-  	this.options.callback(this.aSug[this.iHigh-1]); // the object has the properties we want, it will depend of
+  	    this.options.callback(this.aSug[this.iHigh-1]); // the object has the properties we want, it will depend of
     }
   }, // }}}
 
@@ -561,7 +561,7 @@ AutoComplete.prototype = { // {{{
     var p = this;
     this.toID = setTimeout(
       function () {
-	p.clearSuggestions();
+	      p.clearSuggestions();
       }, p.options.timeout
     );
     // ARN-DEBUG Added p.options.timeout back :|
@@ -574,7 +574,7 @@ AutoComplete.prototype = { // {{{
     if ($(this.acID))
     {
       this.fadeOut(600,function () {
-	if (remove) $(this.acID).remove();
+	      if (remove) $(this.acID).remove();
       } );
     }
   }, // }}}
@@ -590,7 +590,7 @@ AutoComplete.prototype = { // {{{
     var p = this;
     this._fadeIntervalID = setInterval(
       function() {
-	p._changeOpacity()
+	      p._changeOpacity()
       }, this._fadeInterval
     );
 
@@ -612,11 +612,11 @@ AutoComplete.prototype = { // {{{
     if (el.filters) // internet explorer
     {
       try {
-	el.filters.item("DXImageTransform.Microsoft.Alpha").opacity = ieop;
+	      el.filters.item("DXImageTransform.Microsoft.Alpha").opacity = ieop;
       } catch (e) {
-	// If it is not set initially, the browser will throw an error.
-	// This will set it if it is not set yet.
-	el.style.filter = 'progid:DXImageTransform.Microsoft.Alpha(opacity='+ieop+')';
+	      // If it is not set initially, the browser will throw an error.
+	      // This will set it if it is not set yet.
+	      el.style.filter = 'progid:DXImageTransform.Microsoft.Alpha(opacity='+ieop+')';
       }
     } else	{
       el.style.opacity = op;
@@ -626,7 +626,7 @@ AutoComplete.prototype = { // {{{
     {
       clearInterval( this._fadeIntervalID );
       if (typeof this._afterUpdateInternal == 'function')
-	this._afterUpdateInternal();
+	      this._afterUpdateInternal();
     }
 
   } // }}}
