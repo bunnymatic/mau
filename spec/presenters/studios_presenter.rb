@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe StudiosPresenter do
-  
+
   fixtures :studios, :users
 
   let(:studios) { Studio.all }
@@ -13,7 +13,7 @@ describe StudiosPresenter do
     expect(list.pop).to eql Studio.indy
     expect(list.map{|s| s.name.downcase}).to be_monotonically_increasing
   end
- 
+
   context 'view mode is count' do
     let(:view_mode) { 'count' }
     it 'studios are sorted by active artist count' do
@@ -21,5 +21,5 @@ describe StudiosPresenter do
       expect(list.map{|s| s.active_artists.count}).to be_monotonically_decreasing
     end
   end
-   
+
 end

@@ -71,40 +71,25 @@ describe StudiosController do
   describe "#index" do
     context "while not logged in" do
       render_views
-      before do
-        get :index
-      end
-      it_should_behave_like "not logged in"
-      it "last studio should be independent studios" do
-        assigns(:studios).last.name.should eql 'Independent Studios'
-      end
-      it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
-        s = assigns(:studios)
-        s.pop
-        def prep_name(a)
-          a.name.downcase.gsub(/^the\ /, '')
+      context 'default mode' do
+        before do
+          get :index
         end
-        s.sort_by{|a| prep_name(a)}.map(&:name).should eql s.map(&:name)
-      end
+        it_should_behave_like "not logged in"
+        it "last studio should be independent studios" do
+          assigns(:studios).studios.last.name.should eql 'Independent Studios'
+        end
 
-      it "sets view_mode to name" do
-        assigns(:view_mode).should eql 'name'
+        it "sets view_mode to name" do
+          assigns(:view_mode).should eql 'name'
+        end
       end
-
       context "with view mode set to count" do
         before do
           get :index, :v => 'c'
         end
         it "sets view_mode to count" do
           assigns(:view_mode).should eql 'count'
-        end
-        it "studios are sorted by count descending" do
-          artist_count = assigns(:studios_by_count).map{|s| s.artists.active.count}
-          min = artist_count.first
-          artist_count.each do |ct|
-            ct.should <= min
-            min = ct
-          end
         end
       end
     end

@@ -24,11 +24,11 @@ class StudiosController < ApplicationController
     respond_to do |format|
       format.html { render :layout => 'mau' }
       format.json {
-        render :json => @studios
+        render :json => studios
       }
       format.mobile {
         @page_title = "Studios"
-        @studios.reject!{|s| s.artists.active.count < 1}
+        @studios = studios.reject{|s| s.active_artists.length < 1}
         render :layout => 'mobile'
       }
     end

@@ -49,12 +49,7 @@ class ArtPieceTagsController < ApplicationController
     if params[:input]
       # filter with input prefix
       inp = params[:input].downcase
-      begin
-        tags.select!{|tag| tag['value'].downcase.starts_with? inp}
-      rescue Exception => ex
-        puts "Failed to autosuggest", ex
-        tags = []
-      end
+      tags = (inp.present? ? tags.select{|tag| tag['value'].downcase.starts_with? inp} : [])
     end
     render :json => tags
   end
@@ -99,10 +94,6 @@ class ArtPieceTagsController < ApplicationController
     ArtPieceTag.flush_cache
   end
 
-  def edit
-    @tag = ArtPieceTag.find(params[:id])
-  end
-
   def create
     @tag = ArtPieceTag.new(params[:tag])
 
@@ -114,18 +105,6 @@ class ArtPieceTagsController < ApplicationController
       render :action => "new"
     end
 
-  end
-
-  def update
-    @tag = ArtPieceTag.find(params[:id])
-
-    if @tag.update_attributes(params[:tag])
-      ArtPieceTag.flush_cache
-      flash[:notice] = 'ArtPieceTag was successfully updated.'
-      redirect_to(@tag)
-    else
-      render :action => "edit"
-    end
   end
 
   def destroy

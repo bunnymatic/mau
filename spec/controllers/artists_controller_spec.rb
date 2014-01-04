@@ -358,7 +358,7 @@ describe ArtistsController do
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
-        long_bio = Faker::Lorem.paragraphs(5).join
+        long_bio = Faker::Lorem.paragraphs(15).join
         artist1_info.update_attribute(:bio, long_bio)
         get :show, :id => artist1.id
         assert_select 'head meta[name=description]' do |desc|
