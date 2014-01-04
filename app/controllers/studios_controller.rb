@@ -35,14 +35,20 @@ class StudiosController < ApplicationController
   end
 
   def unaffiliate_artist
-    @studio = safe_find(params[:id])
-    @artist = @studio.artists.select{|a| a.id.to_s == params[:artist_id].to_s}.first
-    if (@artist && @studio && @artist != current_artist)
-      @artist.update_attribute(:studio_id, 0)
-      if @artist.is_manager?
-        @artist.roles_users.select{|r| r.role_id == Role.manager.id}.each(&:destroy)
-        @artist.save
-      end
+    studio = safe_find(params[:id])
+    artist = Artist.find(params[:artist_id])
+
+    if StudioArtist.new(studio,artist).unaffiliate
+      
+
+    # @artist = @studio.artists.select{|a| a.id.to_s == params[:artist_id].to_s}.first
+     
+    # if (@artist && @studio && @artist != current_artist)
+    #   @artist.update_attribute(:studio_id, 0)
+    #   if @artist.is_manager?
+    #     @artist.roles_users.select{|r| r.role_id == Role.manager.id}.each(&:destroy)
+    #     @artist.save
+    #   end
       msg = "#{@artist.fullname} is no longer associated with #{@studio.name}."
       logger.warn "[#{Time.zone.now.to_s(:short)}][#{current_user.login}][#{params[:action]}] " + msg
       flash[:notice] = msg
