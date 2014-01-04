@@ -108,7 +108,7 @@ class MauSearch
 
   def filter_by_medium(results)
     # filter by mediums and or studios
-    mediums.present? ? results.reject{|ap| !ap.medium_id || !medium_ids.include?(ap.medium_id) } : results 
+    mediums.present? ? results.reject{|ap| !ap.medium_id || !medium_ids.include?(ap.medium_id) } : results
   end
 
   def filter_by_studios(results)

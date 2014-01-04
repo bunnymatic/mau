@@ -75,6 +75,10 @@ class Studio < ActiveRecord::Base
     order('name').all << Studio.indy
   end
 
+  def active_artists
+    artists.active
+  end
+
   def get_profile_image(size)
     StudioImage.get_path(self, size)
   end

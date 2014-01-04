@@ -11,7 +11,7 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def grouped_by_address
-    @grouped_by_address ||= 
+    @grouped_by_address ||=
       begin
         {}.tap do |keyed|
           artists.each do |a|
@@ -27,11 +27,11 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def address_key(artist)
-    address = artist.address_hash
-    if !address.nil? && address[:geocoded] && !address[:simple].blank?
+    if artist.has_address?
+      address = artist.address_hash
       "%s" % address[:simple]
     end
-  end        
+  end
 
   def map_data
     Gmaps4rails.build_markers(with_addresses) do |artist, marker|

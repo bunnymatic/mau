@@ -642,10 +642,6 @@ describe ArtistsController do
           (sw_bounds[1] < lng && lng < ne_bounds[1]).should be_true ,"Longitude #{lng} is not within bounds"
         end
       end
-      it "get's map info for all artists" do
-        ArtistsMap.any_instance.should_receive(:get_map_info).at_least.once
-        get :map_page
-      end
       it 'renders the map html properly' do
         assert_select "script[src^=//maps.google.com/maps/api/js]"
       end

@@ -93,32 +93,39 @@ describe Artist do
       end
     end
     describe 'neither address in artist info nor studio' do
+      subject(:noaddress) { users(:noaddress) }
       it "returns empty for address" do
-        users(:noaddress).send(:address).should be_empty
-        hsh = users(:noaddress).send(:address_hash)
+        noaddress.send(:address).should be_empty
+        hsh = noaddress.send(:address_hash)
         hsh[:geocoded].should be_false
         hsh[:parsed][:street].should be_nil
         hsh[:latlng].should eql [nil,nil]
       end
+      its(:has_address?) { should be_false }
     end
   end
   describe 'in_the_mission?' do
     it "returns true for artist in the mission with no studio" do
       a = users(:joeblogs)
-      a.in_the_mission?.should be_true
+      a.should be_in_the_mission
+      a.should have_address
     end
     it "returns true for artist in the mission with a studio in the mission" do
-      users(:jesseponce).in_the_mission?.should be_true
+      a = users(:jesseponce)
+      a.should be_in_the_mission
+      a.should have_address
     end
     it "returns false for artist with wayout address" do
       a = users(:wayout)
-      a.in_the_mission?.should be_false
+      a.should_not be_in_the_mission
+      a.should have_address
     end
     it "returns true for artist with wayout address but studio in the mission" do
       a = users(:wayout)
       a.studio = studios(:blue)
       a.save
-      a.in_the_mission?.should be_true
+      a.should have_address
+      a.should be_in_the_mission
     end
   end
   describe 'find by fullname' do
