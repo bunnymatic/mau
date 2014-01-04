@@ -7,7 +7,14 @@ class MauSearch
     @os_flag = opts.os_flag
     @mediums = opts.mediums
     @studios = opts.studios
+  end
 
+  def medium_ids
+    @medium_ids ||= @mediums.map(&:id)
+  end
+
+  def studio_ids
+    @studio_ids ||= @studios.map(&:id)
   end
 
   def keyword_count
@@ -22,17 +29,15 @@ class MauSearch
     else
       # if only medium search by art piece
       if mediums.present? && !studios.present?
-        results_by_kw['by_medium'] = ArtPiece.where(:medium_id => mediums.map(&:id))
+        results_by_kw['by_medium'] = ArtPiece.where(:medium_id => medium_ids)
       end
       # else search by artists in studios then narrow by mediums
       if studios.present?
-        results_by_kw['by_studio'] = Artist.where(:studio_id => studios.map(&:id)).map(&:art_pieces).flatten
+        results_by_kw['by_studio'] = Artist.where(:studio_id => studio_ids).map(&:art_pieces).flatten
       end
     end
 
-    partial_results = results_by_kw.values.compact.flatten
-
-    partial_results = filter_results(partial_results)
+    partial_results = filter_results(results_by_kw)
 
     results = {}
 
@@ -90,28 +95,35 @@ class MauSearch
     end
   end
 
-  def filter_results(results)
+  def filter_results(results_by_kw)
+    results = results_by_kw.values.compact.flatten
 
-    # if there are not enough keyword hits
     hits = histogram results.map(&:id)
     results.reject!{|ap| hits[ap.id] < keyword_count}
 
-    # filter by mediums and or studios
-    if mediums.present?
-      mids = mediums.map(&:id)
-      results.reject!{|ap| !ap.medium_id || !mids.include?(ap.medium_id) }
-    end
-    if studios.present?
-      sids = studios.map(&:id).compact
-      results.reject!{|ap| !ap.artist || !sids.include?(ap.artist.studio_id)}
-    end
-    if os_flag == true
-      results.reject!{|ap| !ap.artist.doing_open_studios?}
-    elsif os_flag == false
-      results.reject!{|ap| ap.artist.doing_open_studios?}
-    end
+    results = filter_by_medium(results)
+    results = filter_by_studios(results)
+    filter_by_os_flag(results)
+  end
 
-    results
+  def filter_by_medium(results)
+    # filter by mediums and or studios
+    mediums.present? ? results.reject{|ap| !ap.medium_id || !medium_ids.include?(ap.medium_id) } : results
+  end
+
+  def filter_by_studios(results)
+    studios.present? ? results.reject{|ap| !ap.artist || !studio_ids.include?(ap.artist.studio_id)} : results
+  end
+
+  def filter_by_os_flag(results)
+    case os_flag
+    when true
+      results.reject{|ap| !ap.artist.doing_open_studios?}
+    when false
+      results.reject{|ap| ap.artist.doing_open_studios?}
+    else
+      results
+    end
   end
 
 end

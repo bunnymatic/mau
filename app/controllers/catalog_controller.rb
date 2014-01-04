@@ -24,11 +24,7 @@ class CatalogController < ApplicationController
   end
 
   def social
-    artists = Artist.active.open_studios_participants
-    social_keys = [:facebook, :flickr, :twitter, :blog, :myspace]
-    social_artists = artists.select do |a|
-      social_keys.map{|s| a.send(s).present?}.any?
-    end
+    artists = fetch_social_artists
     respond_to do |format|
       format.html { render_error :message => 'Dunno what you were looking for.' }
       format.mobile { redirect_to root_path }
@@ -43,4 +39,13 @@ class CatalogController < ApplicationController
       }
     end
   end
+
+  SOCIAL_KEYS = [:facebook, :flickr, :twitter, :blog, :myspace]
+
+  def fetch_social_artists
+    Artist.active.open_studios_participants.select do |a|
+      SOCIAL_KEYS.map{|s| a.send(s).present?}.any?
+    end
+  end
+
 end

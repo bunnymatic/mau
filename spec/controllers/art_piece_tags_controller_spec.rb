@@ -115,6 +115,12 @@ describe ArtPieceTagsController do
         assert_select '.search-thumbs .artpiece_tag a', @disp
       end
     end
+
+    it 'grabs the next page' do
+      @tag = art_piece_tags(:one)
+      get :show, :id => @tag.id, :p => 1
+    end
+    it_should_behave_like 'returns success'
   end
 
   describe '#admin_index' do

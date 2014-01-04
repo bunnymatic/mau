@@ -5,6 +5,6 @@
     %td.vstripe
     %td.rcol{:colspan => 2}
       #studio_page
-        = render :partial => 'view_switcher'
-        = render :partial => '/flash_notice_error'
-        = render :partial => 'thumbs', :locals => {:studios => (@studios_by_count || @studios) }
+        = render 'view_switcher', :mode => @studios.view_mode
+        = render '/flash_notice_error'
+        = render 'thumbs', :studios => @studios

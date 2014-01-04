@@ -15,7 +15,8 @@ describe ArtistsPresenter do
 
   context 'os_only is true' do
     let(:os_only) { true }
-    its('artists.to_a') { should eql Artist.active.open_studios_participants.reject{|a| !a.in_the_mission? }.sort_by(&:sortable_name).to_a }
+    let(:os_participants) { Artist.active.open_studios_participants }
+    its('artists.to_a') { should eql os_participants.reject{|a| !a.in_the_mission? }.sort_by(&:sortable_name).to_a }
 
   end
 

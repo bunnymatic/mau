@@ -36,10 +36,10 @@ module ArtistsHelper
     address = artist.address_hash
     name = "<a class='lkdark' href='%s'>%s</a>" % [ artist_path(artist), aname ]
     street = address[:parsed][:street]
-    if artist.studio_id.nil? or artist.studio_id == 0
+    if artist.studio && artist.studio_id != 0
       html += "%s<div>%s</div>" % [ name, street ]
     else
-      html += "%s<div>%s</div><div>%s</div>" % [name, artist.studio.name, street]
+      html += "%s<div>%s</div><div>%s</div>" % [name, artist.try(:studio).try(:name), street]
     end
     html += '<div style="clear"></div>'
     html += "</div>"

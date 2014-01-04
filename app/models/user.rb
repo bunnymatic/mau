@@ -185,10 +185,6 @@ class User < ActiveRecord::Base
     s
   end
 
-  def fancy_link()
-    return "http://" + Conf.site_url + "/artists/" + self.login
-  end
-
   def fullname
     fullname = nil
     if nomdeplume.present?
