@@ -43,9 +43,7 @@ class ArtPieceTagsController < ApplicationController
   end
 
   def autosuggest
-
     tags = fetch_tags_for_autosuggest
-
     if params[:input]
       # filter with input prefix
       inp = params[:input].downcase
