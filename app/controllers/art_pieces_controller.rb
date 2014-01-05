@@ -9,8 +9,8 @@ class ArtPiecesController < ApplicationController
   before_filter :admin_required, :only => [ :index, ]
   before_filter :login_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :artist_required, :only => [ :new, :edit, :update, :create, :destroy]
-  before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update] 
-  
+  before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update]
+
   after_filter :flush_cache, :only => [:create, :update, :destroy]
   after_filter :store_location
 
@@ -26,7 +26,7 @@ class ArtPiecesController < ApplicationController
     if is_mobile?
       redirect_to artist_path(@art_piece.artist) and return
     end
-    
+
     set_page_info_from_art_piece
 
     respond_to do |format|

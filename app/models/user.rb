@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   # the site.  maybe we make a migration to create these accounts
   RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','deleteart',
                              'deactivate','add','new','view','create','update',
-                             'arrangeart', 'setarrangement', 
+                             'arrangeart', 'setarrangement',
                              'admin','root','mau', 'mauadmin','maudev',
                              'jon','mrrogers','trish','trishtunney' ]
 
