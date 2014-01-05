@@ -102,8 +102,16 @@ class ApplicationController < ActionController::Base
     is_admin? || (current_user && current_user.is_manager?)
   end
 
+  def is_artist?
+    current_user && current_user.is_a?(Artist)
+  end
+
   def admin_required
     redirect_to "/error" unless is_admin?
+  end
+
+  def artist_required
+    redirect_to "/error" unless is_artist?
   end
 
   def editor_required

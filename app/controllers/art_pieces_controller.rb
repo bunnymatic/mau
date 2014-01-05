@@ -8,7 +8,9 @@ class ArtPiecesController < ApplicationController
 
   before_filter :admin_required, :only => [ :index, ]
   before_filter :login_required, :only => [ :new, :edit, :update, :create, :destroy]
-
+  before_filter :artist_required, :only => [ :new, :edit, :update, :create, :destroy]
+  before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update] 
+  
   after_filter :flush_cache, :only => [:create, :update, :destroy]
   after_filter :store_location
 
@@ -21,31 +23,24 @@ class ArtPiecesController < ApplicationController
     @facebook_required = true
     @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
 
-    art_piece = safe_find_art_piece(params[:id])
-    if !art_piece || !art_piece.artist
-      flash[:error] = "We couldn't find that art piece."
-      redirect_to "/error"
-      return
-    end
-
     # get favorites
     if is_mobile?
-      redirect_to artist_path(art_piece.artist) and return
+      redirect_to artist_path(@art_piece.artist) and return
     end
 
-    @page_title = "Mission Artists United - Artist: %s" % art_piece.artist.get_name
-    @page_description = build_page_description art_piece
-    @page_keywords += [art_piece.art_piece_tags + [art_piece.medium]].flatten.compact.map(&:name)
+    @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
+    @page_description = build_page_description @art_piece
+    @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
 
-    @thumb_browser = ThumbnailBrowserPresenter.new(view_context, art_piece.artist, art_piece)
+    @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
 
     respond_to do |format|
       format.html {
-        @art_piece = ArtPieceHtmlPresenter.new(view_context, art_piece)
+        @art_piece = ArtPieceHtmlPresenter.new(view_context, @art_piece)
         render :action => 'show', :layout => 'mau'
       }
       format.json {
-        art_piece = ArtPieceJsonPresenter.new(art_piece)
+        art_piece = ArtPieceJsonPresenter.new(@art_piece)
         render :json => art_piece.to_json
       }
     end
@@ -67,7 +62,6 @@ class ArtPiecesController < ApplicationController
 
   # GET /art_pieces/1/edit
   def edit
-    @art_piece = safe_find_art_piece(params[:id])
     if !owned_by_current_user?(@art_piece)
       flash[:error] = "You're not allowed to edit that work."
       redirect_to "/error"
@@ -133,36 +127,32 @@ class ArtPiecesController < ApplicationController
 
   # PUT /art_pieces/1
   def update
-    art_piece = safe_find_art_piece(params[:id])
     if commit_is_cancel
-      @thumb_browser = ThumbnailBrowserPresenter.new(view_context, art_piece.artist, art_piece)
-      @art_piece = ArtPiecePresenter.new(view_context, art_piece)
+      @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
+      @art_piece = ArtPiecePresenter.new(view_context, @art_piece)
       render :action => 'show', :layout => 'mau'
       return
     else
       @media = Medium.all
       begin
         params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
-        success = art_piece.update_attributes(params[:art_piece])
+        success = @art_piece.update_attributes(params[:art_piece])
       rescue
         logger.warn("Failed to update artpiece : %s" % $!)
-        @errors = art_piece.errors
+        @errors = @art_piece.errors
         @errors.add('ArtPieceTags','%s' % $!)
-        @art_piece = art_piece
         render :action => "edit"
         return
       end
       if success
         flash[:notice] = 'Artwork was successfully updated.'
-        Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{art_piece.id}"
-        redirect_to art_piece_path(art_piece)
+        Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
+        redirect_to art_piece_path(@art_piece)
       else
         @errors = art_piece.errors
-        art_piece = safe_find_art_piece(params[:id])
-        if art_piece.medium
-          @selected_medium = art_piece.medium
+        if @art_piece.medium
+          @selected_medium = @art_piece.medium
         end
-        @art_piece = art_piece
         render :action => "edit"
       end
     end
@@ -171,11 +161,10 @@ class ArtPiecesController < ApplicationController
   # DELETE /art_pieces/1
   # DELETE /art_pieces/1.xml
   def destroy
-    art = safe_find_art_piece(params[:id])
-    artist = art.artist
-    if owned_by_current_user?(art)
-      art.destroy
-      Messager.new.publish "/artists/#{artist.id}/art_pieces/delete", "removed art piece #{params[:id]}"
+    artist = @art_piece.artist
+    if owned_by_current_user?(@art_piece)
+      @art_piece.destroy
+      Messager.new.publish "/artists/#{artist.id}/art_pieces/delete", "removed art piece #{@art_piece.id}"
     end
     redirect_to(artist)
   end
@@ -187,6 +176,14 @@ class ArtPiecesController < ApplicationController
 
   def owned_by_current_user?(art_piece)
     (art_piece.artist == current_user)
+  end
+
+  def load_art_piece
+    @art_piece = safe_find_art_piece(params[:id])
+    if !@art_piece || !@art_piece.artist
+      flash[:error] = "We couldn't find that art piece."
+      redirect_to "/error"
+    end
   end
 
   def safe_find_art_piece(id)
