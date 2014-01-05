@@ -696,7 +696,7 @@ describe MainController do
   describe 'version' do
     it 'returns the app version' do
       get :version
-      response.body.should eql 'Dart 5.0 [unk]'
+      response.body.should eql 'Charger 6.0 [unk]'
     end
   end
 

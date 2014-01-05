@@ -16,7 +16,6 @@ gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
 gem 'mobile_fu-rails3'
-gem 'fastercsv'
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'gibbon', '~> 0.3.5' # mailchimp connect

@@ -4,9 +4,8 @@
 #USERAGENT = 'HTTP_USER_AGENT'
 require 'faye'
 class ApplicationController < ActionController::Base
-  #  VERSION = 'Corvair 4.3'
-  VERSION = 'Dart 5.0'
-
+  VERSION = 'Charger 6.0'
+  DEFAULT_CSV_OPTS = {:row_sep => "\n", :force_quotes => true}
   @@revision = nil
 
   has_mobile_fu
@@ -164,29 +163,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def render_csv opts
-
-    filename = opts[:filename] || params[:action]
-    filename += '.csv' unless /\.csv$|\.CSV$/.match(filename)
-
-    if request.env['HTTP_USER_AGENT'] =~ /msie/i
-      headers['Pragma'] = 'public'
-      headers["Content-type"] = "text/plain"
-      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
-      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
-      headers['Expires'] = "0"
-    else
-      headers["Content-Type"] ||= 'text/csv'
-      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
+  def render_csv_string csv_data, filename
+    disposition = ['attachment']
+    if filename
+      filename = filename + '.csv' unless /\.csv$|\.CSV$/.match(filename)
+      disposition << "filename=#{filename}"
     end
-    render :text => Proc.new { |response, output|
-      #monkey patch /duck typing. 2.3 rails ActionController::Response doesn't have <<, only write
-      def output.<<(*args)
-        write(*args)
-      end
-      csv = FasterCSV.new(output, :row_sep => "\n", :force_quotes => true)
-      yield csv
-    }
+    send_data csv_data, :type => 'text/csv', :disposition => disposition.compact.join('; ')
   end
 
   def no_cache
