@@ -114,15 +114,25 @@ describe AdminController do
     end
 
     describe 'csv' do
+      let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
+      let(:parsed) { CSV.parse(response.body, parse_args) }
+      let(:pending) { users(:pending) }
       before do
         get :emaillist, :format => :csv, :listname => 'pending'
       end
-      it 'returns success' do
-        response.should be_success
+      it { response.should be_success }
+      it { response.should be_csv_type }
+      it 'includes the right headers' do
+        expected_headers = ["First Name","Last Name","Full Name","Email Address","Group Site Name"]
+        expected_headers += Conf.open_studios_event_keys.map(&:to_s)
+        parsed.headers.should == expected_headers
       end
-      it 'returns a csv' do
-        response.content_type.should eql 'text/csv'
+      it 'includes the right data' do
+        expect(parsed.length).to eql 1
+        expect(parsed.first["Full Name"]).to eql pending.full_name
+        expect(parsed.first["Group Site Name"]).to eql pending.studio.name
       end
+      
     end
   end
 

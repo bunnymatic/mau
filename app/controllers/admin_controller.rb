@@ -44,7 +44,7 @@ class AdminController < ApplicationController
         if params[:listname].present?
           fname += '_' + params[:listname]
         end
-        csv_data = CSV.generate(:row_sep => "\n", :force_quotes => true) do |csv|
+        csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |csv|
           csv << ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + os_tags
           artists.each do |artist|
             data = [ artist.csv_safe(:firstname),

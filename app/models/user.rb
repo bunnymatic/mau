@@ -165,11 +165,7 @@ class User < ActiveRecord::Base
     if options.present?
       link += "?" + options.map{ |k,v| "#{k}=#{v}" }.join('&')
     end
-    if urlsafe
-      CGI::escape(link)
-    else
-      link
-    end
+    urlsafe ? CGI::escape(link) : link
   end
 
   def emailsettings=(v)
@@ -185,25 +181,18 @@ class User < ActiveRecord::Base
   end
 
   def fullname
-    fullname = nil
-    if nomdeplume.present?
-      fullname = nomdeplume
-    elsif firstname.present? && lastname.present?
+    fullname = nomdeplume if nomdeplume.present?
+    if !fullname && firstname.present? && lastname.present?
       fullname = [firstname, lastname].join(" ")
     end
     fullname || self.login
   end
 
+  alias_method :full_name, :fullname
+
   def get_name(htmlsafe=false)
-    name = self.fullname
-    if not name
-      name = self.login
-    end
-    if htmlsafe
-      html_encode(name)
-    else
-      name
-    end
+    name = full_name || login
+    htmlsafe ? html_encode(name) : name
   end
 
   def get_sort_name
@@ -256,23 +245,11 @@ class User < ActiveRecord::Base
 
   def tags
     # rollup and return most popular 15 tags
-    if @mytags == nil
-      logger.debug("Fetching my tags")
-      tags = {}
-      for ap in self.art_pieces
-        if ap.art_piece_tags
-          ap.art_piece_tags.each do |t|
-            tags[t.id] = t
-          end
-        end
-      end
-      @mytags = tags.values
-    end
-    @mytags
+    @mytags ||= art_pieces.map(&:art_piece_tags).flatten.compact.uniq
   end
 
   def media
-    @mymedia ||= art_pieces.map(&:medium).compact.uniq
+    @mymedia ||= art_pieces.map(&:medium).flatten.compact.uniq
   end
 
   def validate_phone

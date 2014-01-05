@@ -8,9 +8,11 @@ require 'spec_helper'
 # end
 
 describe User do
-  fixtures :users, :studios, :roles, :artist_infos, :art_pieces, :roles_users
+  fixtures :users, :studios, :roles, :artist_infos, :art_pieces, :roles_users, :art_piece_tags, 
+    :art_pieces_tags, :media
 
   let(:artist1) { users(:artist1) }
+  subject(:user) { FactoryGirl.build(:user) }
 
   before do
     Rails.cache.stub(:read => :nil)
@@ -33,39 +35,46 @@ describe User do
   it_should_behave_like MailChimp
   it_should_behave_like ImageDimensions
 
-  let(:user) { FactoryGirl.build(:user) }
+  context 'with an artist that has tags and media' do
+    subject { artist1 }
+    its(:tags) { should eql subject.art_pieces.map(&:art_piece_tags).flatten.compact.uniq }
+    its(:media) { should eql subject.art_pieces.map(&:medium).flatten.compact.uniq }
+  end
 
   describe 'new' do
     it 'validates' do
       user.should be_valid
     end
 
-    let(:reserved) { User::RESTRICTED_LOGIN_NAMES }
-    it "should be not allow 'reserved' names for users" do
-      reserved.each do |login|
-        user = FactoryGirl.build(:user, :login => login)
-        user.should_not be_valid
-        user.should have_at_least(1).error_on(:login)
+    context 'with a reserved login name' do
+      let(:reserved) { User::RESTRICTED_LOGIN_NAMES }
+      it "should be not allow 'reserved' names for users" do
+        reserved.each do |login|
+          user = FactoryGirl.build(:user, :login => login)
+          user.should_not be_valid
+          user.should have_at_least(1).error_on(:login)
+        end
       end
     end
 
-    it "should not allow 'bogus email' for email address" do
-      user = FactoryGirl.build(:user, :email => 'bogus email')
-      user.should_not be_valid
-      user.should have_at_least(1).error_on(:email)
+    context 'with a bad email' do
+      it "should not allow 'bogus email' for email address" do
+        user = FactoryGirl.build(:user, :email => 'bogus email')
+        user.should_not be_valid
+        user.should have_at_least(1).error_on(:email)
+      end
+      
+      it "should not allow '   ' for email" do
+        user = FactoryGirl.build(:user, :email => '  ')
+        user.should_not be_valid
+        user.should have_at_least(1).error_on(:email)
+      end
+      it "should not allow blow@ for email" do
+        user = FactoryGirl.build(:user, :email => 'blow@')
+        user.should_not be_valid
+        user.should have_at_least(1).error_on(:email)
+      end
     end
-
-    it "should not allow '   ' for email" do
-      user = FactoryGirl.build(:user, :email => '  ')
-      user.should_not be_valid
-      user.should have_at_least(1).error_on(:email)
-    end
-    it "should not allow blow@ for email" do
-      user = FactoryGirl.build(:user, :email => 'blow@')
-      user.should_not be_valid
-      user.should have_at_least(1).error_on(:email)
-    end
-
   end
   describe 'create' do
     it 'sets email attrs to true for everything' do

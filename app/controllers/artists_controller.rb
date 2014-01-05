@@ -64,12 +64,13 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html { render :layout => 'mau-admin' }
       format.csv {
-        headers = ["First Name","Last Name","Full Name","Group Site Name",
+        headers = ["Login", "First Name","Last Name","Full Name","Group Site Name",
                    "Studio Address","Studio Number","Email Address"]
-        csv_data = CSV.generate(:row_sep => "\n", :force_quotes => true) do |csv|
+        csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |csv|
           csv << headers
           @artists.each do |artist|
-            csv << [ artist.csv_safe(:firstname),
+            csv << [ artist.csv_safe(:login),
+                     artist.csv_safe(:firstname),
                      artist.csv_safe(:lastname),
                      artist.get_name,
                      artist.studio ? artist.studio.name : '',

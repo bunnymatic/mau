@@ -10,7 +10,7 @@ class CatalogController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.csv {
-        csv_data = CSV.generate(:row_sep => "\n", :force_quotes => true) do |csv|
+        csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |csv|
           csv << ["First Name","Last Name","Full Name","Email", "Group Site Name",
                   "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
           @catalog.all_artists.sort(&Artist::SORT_BY_LASTNAME).each do |artist|
@@ -30,8 +30,8 @@ class CatalogController < ApplicationController
       format.html { render_error :message => 'Dunno what you were looking for.' }
       format.mobile { redirect_to root_path }
       format.csv {
-        csv_data = CSV.generate(:row_sep => "\n", :force_quotes => true) do |csv|
-          csv_keys = [:fullname, :email]  + SOCIAL_KEYS
+        csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |csv|
+          csv_keys = [:full_name, :email]  + SOCIAL_KEYS
           csv << csv_keys.map{|s| s.to_s.humanize.capitalize}
           artists.sort(&Artist::SORT_BY_LASTNAME).each do |artist|
             csv << csv_keys.map{|s| artist.send s}
