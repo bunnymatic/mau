@@ -1,5 +1,5 @@
 - if logged_in? && artist && artist.login == self.current_user.login
-  %a{:title => "update my picture", :href => addprofile_users_path}
+  %a{:title => "update my picture", :href => add_profile_users_path}
     - if artist.has_profile_image
       %img{:class => "profile", :src => "%s?%s" % [artist.get_profile_image('small'), Time.zone.now.to_i]}
     - else

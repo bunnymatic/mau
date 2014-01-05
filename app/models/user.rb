@@ -47,7 +47,7 @@ require 'digest/sha1'
 require 'json'
 require File.join(Rails.root, 'app','lib', 'mailchimp')
 
-RESTRICTED_LOGIN_NAMES = [ 'addprofile','delete','destroy','deleteart',
+RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','deleteart',
                            'deactivate','add','new','view','create','update',
                          'arrangeart', 'setarrangement']
 

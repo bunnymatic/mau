@@ -24,4 +24,8 @@ class ArtistFeed < ActiveRecord::Base
     return self.active.present?
   end
 
+  def is_twitter?
+    url.match /twitter.com/
+  end
+
 end

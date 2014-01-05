@@ -11,7 +11,7 @@ Mau::Application.routes.draw do
     member do
       post :upload_profile
       post :unaffiliate_artist
-      get :addprofile
+      get :add_profile
     end
   end
 
@@ -90,7 +90,7 @@ Mau::Application.routes.draw do
       get :deactivate
       get :edit
       post :add_favorite
-      get :addprofile
+      get :add_profile
     end
     member do
       put :suspend

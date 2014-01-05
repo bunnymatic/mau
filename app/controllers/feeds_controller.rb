@@ -29,47 +29,38 @@ class FeedsController < ApplicationController
 
   private
   def fetch_feeds
-    allfeeds = ''
-    numentries = params[:numentries].to_i or nil
-    page = ''
-    cached_html = nil
-    if !params[:page].blank?
-      page = params[:page]
+    feed_html = SafeCache.read(FEEDS_KEY)
+    if !feed_html
+      feed_html = force_fetch_feeds
     end
-    begin
-      cached_html = SafeCache.read(FEEDS_KEY)
-    rescue TypeError
-      SafeCache.delete(FEEDS_KEY)
-    end
-    if !cached_html.present?
+    write_local_cache_file(feed_html)
+  end
 
-      feedurls = []
-      # pairs here are the feed url and the link url
+  def random_feeds
+    ArtistFeed.active.all.sample(NUM_FEEDS)
+  end
 
-      # don't show mau news on the feed if we're on the news page
-      feeds = ArtistFeed.active.all
-      strip_tags = true
-      feeds.sample(NUM_FEEDS).each do |ff|
-        next unless ff
-        if ff.url.match /twitter.com/
-          numentries = 3
-        else
-          numentries = 1
-        end
-        begin
-          feed_parser = FeedParser.new(ff.feed, ff.url, {:num_entries => numentries})
-          feed_content = allfeeds += feed_parser.feed_content
-        rescue Exception => ex
-          logger.error("Failed to grab feed " + ff.inspect)
-          logger.error(ex)
-        end
+  def force_fetch_feeds
+    feedurls = []
+    feeds_content = random_feeds.map do |feed|
+      next unless feed
+      num_entries = (feed.is_twitter? ? 3 : 1)
+      begin
+        feed_parser = FeedParser.new(feed.feed, feed.url, {:num_entries => num_entries})
+        feed_parser.feed_content
+      rescue Exception => ex
+        logger.error("Failed to grab feed " + feed.inspect)
+        logger.error(ex)
       end
-      SafeCache.write(FEEDS_KEY, allfeeds, :expires_in => CACHE_EXPIRY)
-      cached_html = allfeeds
-    end
+    end.join
+    SafeCache.write(FEEDS_KEY, feeds_content, :expires_in => CACHE_EXPIRY)
+    feeds_content
+  end
+
+  def write_local_cache_file(feed_html)
     partial = File.open(@@CACHED_FEEDS_FILE, 'w')
     if partial
-      partial.write(cached_html.to_s)
+      partial.write(feed_html.to_s)
       partial.close
     end
   end

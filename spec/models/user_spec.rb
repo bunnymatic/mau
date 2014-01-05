@@ -40,10 +40,8 @@ describe User do
       user.should be_valid
     end
 
+    let(:reserved) { User::RESTRICTED_LOGIN_NAMES }
     it "should be not allow 'reserved' names for users" do
-      reserved = [ 'addprofile','delete','destroy','deleteart',
-                   'deactivate','add','new','view','create','update']
-
       reserved.each do |login|
         user = FactoryGirl.build(:user, :login => login)
         user.should_not be_valid

@@ -3,10 +3,10 @@ class UsersController < ApplicationController
 
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_update, :destroy ]
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile,
-                                            :addprofile, :deactivate, :setarrangement, :arrangeart,
+                                            :add_profile, :deactivate, :setarrangement, :arrangeart,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
 
-  after_filter :store_location, :only => [ :edit, :show, :addprofile, :favorites ]
+  after_filter :store_location, :only => [ :edit, :show, :add_profile, :favorites ]
 
   layout 'mau1col'
 
@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     @user = (@type == 'MAUFan') ? fan : artist
   end
 
-  def addprofile
+  def add_profile
     @errors = []
     if !current_user
       flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
@@ -96,7 +96,7 @@ class UsersController < ApplicationController
 
     if not upload
       flash[:error] = "You must provide a file."
-      redirect_to addprofile_users_path
+      redirect_to add_profile_users_path
       return
     end
 
@@ -107,7 +107,7 @@ class UsersController < ApplicationController
     rescue
       logger.error("Failed to upload %s" % $!)
       flash[:error] = "%s" % $!
-      redirect_to addprofile_users_path
+      redirect_to add_profile_users_path
       return
     end
   end
