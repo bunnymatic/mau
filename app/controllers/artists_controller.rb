@@ -176,33 +176,13 @@ class ArtistsController < ApplicationController
 
   def suggest
     # grab all names from the cache
-    cacheout = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
-    artist_names = nil
+    names = fetch_artists_for_autosuggest
     if params[:input]
-      if cacheout
-        logger.debug("Fetched artist name autosuggest tags from cache")
-        artist_names = ActiveSupport::JSON.decode cacheout
-      end
-      unless artist_names
-        all_names = Artist.active.map(&:fullname)
-        artist_names = Artist.active.map{|a| { 'value' => a.fullname, 'info' => a.id } }
-        cachein = ActiveSupport::JSON.encode artist_names
-        if cachein
-          SafeCache.write(AUTOSUGGEST_CACHE_KEY, cachein, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
-        end
-      end
-      if params[:input].present?
-        # filter with input prefix
-        inp = params[:input].downcase
-        lin = inp.length - 1
-        begin
-          artist_names = artist_names.compact.delete_if {|nm| inp != nm['value'][0..lin].downcase}
-        rescue Exception => ex
-          artist_names = []
-        end
-      end
+      # filter with input prefix
+      inp = params[:input].downcase
+      names = (inp.present? ? names.select{|name| name['value'].downcase.starts_with?(inp)} : [])
     end
-    render :json => artist_names
+    render :json => names
   end
 
   def destroyart
@@ -462,4 +442,16 @@ class ArtistsController < ApplicationController
     @gallery_link = artists_url(os_args)
     @map_link = map_artists_path(os_args)
   end
+
+  def fetch_artists_for_autosuggest
+    artist_names = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
+    unless artist_names
+      artist_names = Artist.active.map{|a| { 'value' => a.fullname, 'info' => a.id } }
+      if artist_names.present?
+        SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
+      end
+    end
+    artist_names
+  end
+
 end

@@ -52,7 +52,7 @@ class FeedParser
     @fetched ||=
       begin
         logger = ::Rails.logger
-        logger.info("FeedsHelper: fetch/format %s posts." % @num_entries)
+        logger.info("FeedParser: fetch/format %s posts." % @num_entries)
         begin
           open(url) do |http|
             if is_twitter?
@@ -60,13 +60,13 @@ class FeedParser
             else
               RSS::Parser.parse(http.read, false)
             end
-         end
+          end
         rescue OpenURI::HTTPError => http
-          puts "FeedsHelper: failed to open/parse feed #{url}:" + http.to_s
-          puts "FeedsHelper: skipping to the next"
+          puts "FeedParser: failed to open/parse feed #{url}:" + http.to_s
+          puts "FeedParser: skipping to the next"
         rescue Exception => e
-          puts "FeedsHelper: failed to open/parse feed #{url}:" + e.to_s
-          raise
+          puts "FeedParser: failed to open/parse feed #{url}:" + e.to_s
+          ''
         end
       end
   end
