@@ -47,16 +47,15 @@ require 'digest/sha1'
 require 'json'
 require File.join(Rails.root, 'app','lib', 'mailchimp')
 
-RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','deleteart',
-                           'deactivate','add','new','view','create','update',
-                         'arrangeart', 'setarrangement']
-
-# here are names we should probably capture or disallow before we release
-# the site.  maybe we make a migration to create these accounts
-#'admin','root','mau', 'mauadmin','maudev',
-#'jon','mrrogers','trish','trishtunney',
-
 class User < ActiveRecord::Base
+
+  # here are names we should probably capture or disallow before we release
+  # the site.  maybe we make a migration to create these accounts
+  RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','deleteart',
+                             'deactivate','add','new','view','create','update',
+                             'arrangeart', 'setarrangement', 
+                             'admin','root','mau', 'mauadmin','maudev',
+                             'jon','mrrogers','trish','trishtunney' ]
 
   include MailChimp
   include HtmlHelper

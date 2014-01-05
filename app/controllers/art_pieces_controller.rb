@@ -23,19 +23,15 @@ class ArtPiecesController < ApplicationController
     @facebook_required = true
     @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
 
-    # get favorites
     if is_mobile?
       redirect_to artist_path(@art_piece.artist) and return
     end
-
-    @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
-    @page_description = build_page_description @art_piece
-    @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
-
-    @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
+    
+    set_page_info_from_art_piece
 
     respond_to do |format|
       format.html {
+        @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
         @art_piece = ArtPieceHtmlPresenter.new(view_context, @art_piece)
         render :action => 'show', :layout => 'mau'
       }
@@ -173,6 +169,12 @@ class ArtPiecesController < ApplicationController
   end
 
   protected
+
+  def set_page_info_from_art_piece
+    @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
+    @page_description = build_page_description @art_piece
+    @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
+  end
 
   def owned_by_current_user?(art_piece)
     (art_piece.artist == current_user)

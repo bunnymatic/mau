@@ -158,6 +158,17 @@ describe User do
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
+
+  describe '#authenticate' do
+    let(:user) { users(:quentin) }
+    it 'returns true for a valid authentication' do
+      expect(User.authenticate(user.login, 'monkey')).to be_true
+    end
+    it 'returns false for a valid authentication' do
+      expect(User.authenticate(user.login, 'fuck the party up')).to be_false
+    end
+  end
+
   describe 'auth helpers' do
     describe "make token " do
       before do
