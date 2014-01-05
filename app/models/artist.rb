@@ -133,7 +133,7 @@ class Artist < User
     @primary_medium ||=
       begin
         hist = histogram(art_pieces.map(&:medium).compact)
-        hist.sort_by{|k,v| v}.last.first
+        hist.sort_by{|k,v| v}.last.try(:first)
       end
   end
 

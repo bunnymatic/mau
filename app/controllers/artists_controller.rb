@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+require 'csv'
 require 'xmlrpc/client'
 
 Mime::Type.register "image/png", :png
@@ -65,7 +66,7 @@ class ArtistsController < ApplicationController
       format.csv {
         headers = ["First Name","Last Name","Full Name","Group Site Name",
                    "Studio Address","Studio Number","Email Address"]
-        render_csv :filename => 'mau_artists' do |csv|
+        csv_data = CSV.generate(:row_sep => "\n", :force_quotes => true) do |csv|
           csv << headers
           @artists.each do |artist|
             csv << [ artist.csv_safe(:firstname),
@@ -77,6 +78,7 @@ class ArtistsController < ApplicationController
                      artist.email ]
           end
         end
+        render_csv_string(csv_data.to_s, "mau_artists")
       }
     end
   end

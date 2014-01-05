@@ -409,7 +409,7 @@ class User < ActiveRecord::Base
   end
 
   def csv_safe(field)
-    self.send(field).gsub(/\W/, '')
+    (self.send(field) || '').gsub(/\W/, '')
   end
 
   def is_artist?

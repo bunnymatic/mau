@@ -1,3 +1,5 @@
+require 'csv'
+
 class AdminController < ApplicationController
   before_filter :admin_required, :except => [:index, :featured_artist]
   before_filter :editor_or_manager_required, :only => [:index]
@@ -42,7 +44,7 @@ class AdminController < ApplicationController
         if params[:listname].present?
           fname += '_' + params[:listname]
         end
-        render_csv :filename => fname do |csv|
+        csv_data = CSV.generate(:row_sep => "\n", :force_quotes => true) do |csv|
           csv << ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + os_tags
           artists.each do |artist|
             data = [ artist.csv_safe(:firstname),
@@ -51,11 +53,12 @@ class AdminController < ApplicationController
                      artist.email,
                      artist.studio ? artist.studio.name : '' ]
             os_tags.each do |ostag|
-              data << artist.os_participation[ostag]
+              data << ((artist.respond_to? :os_participation) && artist.os_participation[ostag]).to_s
             end
             csv << data
           end
         end
+        render_csv_string(csv_data.to_s,fname)
       }
     end
 

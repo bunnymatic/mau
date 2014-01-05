@@ -1,4 +1,4 @@
-require 'fastercsv'
+require 'csv'
 class CatalogController < ApplicationController
   include MarkdownUtils
   layout 'catalog'
@@ -10,15 +10,16 @@ class CatalogController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.csv {
-        render_csv :filename => 'mau_os_artists_%s' % (Conf.oslive.to_s || '') do |csv|
+        csv_data = CSV.generate(:row_sep => "\n", :force_quotes => true) do |csv|
           csv << ["First Name","Last Name","Full Name","Email", "Group Site Name",
                   "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
-          [@indy_artists, @group_studio_artists.values].flatten.sort(&Artist::SORT_BY_LASTNAME).each do |artist|
+          @catalog.all_artists.sort(&Artist::SORT_BY_LASTNAME).each do |artist|
             csv << [ artist.firstname, artist.lastname, artist.get_name, artist.email,
                      artist.studio ? artist.studio.name : '', artist.address_hash[:parsed][:street],
                      artist.studionumber, '', '', artist.primary_medium ? artist.primary_medium.name : '' ]
           end
         end
+        render_csv_string(csv_data.to_s, 'mau_os_artists_%s' % (Conf.oslive.to_s || ''))
       }
     end
   end
@@ -29,13 +30,14 @@ class CatalogController < ApplicationController
       format.html { render_error :message => 'Dunno what you were looking for.' }
       format.mobile { redirect_to root_path }
       format.csv {
-        render_csv :filename => 'mau_social_artists_%s' % (Conf.oslive.to_s || '') do |csv|
-          csv_keys = [:fullname, :email]  + social_keys
+        csv_data = CSV.generate(:row_sep => "\n", :force_quotes => true) do |csv|
+          csv_keys = [:fullname, :email]  + SOCIAL_KEYS
           csv << csv_keys.map{|s| s.to_s.humanize.capitalize}
-          social_artists.sort(&Artist::SORT_BY_LASTNAME).each do |artist|
+          artists.sort(&Artist::SORT_BY_LASTNAME).each do |artist|
             csv << csv_keys.map{|s| artist.send s}
           end
         end
+        render_csv_string(csv_data.to_s,'mau_social_artists_%s' % (Conf.oslive.to_s || ''))
       }
     end
   end
