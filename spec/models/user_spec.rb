@@ -8,7 +8,7 @@ require 'spec_helper'
 # end
 
 describe User do
-  fixtures :users, :studios, :roles, :artist_infos, :art_pieces, :roles_users, :art_piece_tags, 
+  fixtures :users, :studios, :roles, :artist_infos, :art_pieces, :roles_users, :art_piece_tags,
     :art_pieces_tags, :media
 
   let(:artist1) { users(:artist1) }
@@ -41,6 +41,22 @@ describe User do
     its(:media) { should eql subject.art_pieces.map(&:medium).flatten.compact.uniq }
   end
 
+  describe '#fullname' do
+    context 'an artist with a login but no names' do
+      it 'returns login for full name' do
+        u = FactoryGirl.build(:user, :firstname => nil, :lastname => nil, :nomdeplume => nil)
+        u.full_name.should eql u.login
+      end
+      it 'returns first/last name for full name' do
+        u = FactoryGirl.build(:user, :firstname => 'yo', :lastname => 'tHere', :nomdeplume => nil)
+        u.full_name.should eql [u.firstname, u.lastname].join(' ')
+      end
+      it 'returns nom de plume if it\'s available' do
+        u = FactoryGirl.build(:user, :firstname => 'yo', :lastname => 'tHere', :nomdeplume => "I'm So Famous")
+        u.full_name.should eql u.nomdeplume
+      end
+    end
+  end
   describe 'new' do
     it 'validates' do
       user.should be_valid
@@ -63,7 +79,7 @@ describe User do
         user.should_not be_valid
         user.should have_at_least(1).error_on(:email)
       end
-      
+
       it "should not allow '   ' for email" do
         user = FactoryGirl.build(:user, :email => '  ')
         user.should_not be_valid

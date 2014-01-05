@@ -717,7 +717,7 @@ describe ArtistsController do
           before do
             ArtistInfo.any_instance.stub(:os_participation => {'201204' => true})
             Artist.any_instance.stub(:os_participation => {'201204' => true})
-            
+
             get :admin_index
           end
           it_should_behave_like 'logged in as admin'
@@ -787,11 +787,11 @@ describe ArtistsController do
         let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
         let(:parsed) { CSV.parse(response.body, parse_args) }
         let(:artist) { users(:artist1) }
-        
+
         before do
           get :admin_index, 'format' => 'csv'
         end
-        
+
         it { response.should be_success }
         it { response.should be_csv_type }
 

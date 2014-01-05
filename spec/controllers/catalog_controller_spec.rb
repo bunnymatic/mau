@@ -35,7 +35,7 @@ describe CatalogController do
       it 'includes the right headers' do
         expected_headers =  ["First Name","Last Name","Full Name","Email", "Group Site Name",
                              "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
-        
+
         parsed.headers.should == expected_headers
       end
 
@@ -77,7 +77,7 @@ describe CatalogController do
         expected_headers = ([:full_name, :email] + social_keys).map{|s| s.to_s.humanize.capitalize}
         parsed.headers.should == expected_headers
       end
-      
+
       it 'includes the right data' do
         expected_artists = Artist.active.open_studios_participants.select do |a|
           social_keys.map{|s| a.send(s).present?}.any?

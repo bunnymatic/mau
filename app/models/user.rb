@@ -123,7 +123,7 @@ class User < ActiveRecord::Base
   validate :validate_username
   validate :validate_email
 
-  attr_accessible :login, :email, :name, :password, :password_confirmation,
+  attr_accessible :login, :email, :password, :password_confirmation,
    :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume,
    :profile_image, :image_height, :image_width
 

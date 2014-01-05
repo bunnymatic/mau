@@ -9,7 +9,7 @@ describe AdminController do
   fixtures :art_pieces
   fixtures :artist_infos
   fixtures :studios
-  fixtures :media
+  fixtures :media, :art_piece_tags, :art_pieces_tags
   fixtures :users, :roles_users, :roles
 
   context 'authorization' do
@@ -116,7 +116,7 @@ describe AdminController do
     describe 'csv' do
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
-      let(:pending) { users(:pending) }
+      let(:pending) { users(:pending_artist) }
       before do
         get :emaillist, :format => :csv, :listname => 'pending'
       end
@@ -132,7 +132,7 @@ describe AdminController do
         expect(parsed.first["Full Name"]).to eql pending.full_name
         expect(parsed.first["Group Site Name"]).to eql pending.studio.name
       end
-      
+
     end
   end
 
