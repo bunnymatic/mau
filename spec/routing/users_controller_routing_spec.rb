@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'UsersController Routes' do
 
-  it "addprofile as users collection path" do
-    addprofile_users_path.should eql '/users/addprofile'
+  it "add_profile as users collection path" do
+    add_profile_users_path.should eql '/users/add_profile'
   end
   it "upload_profile as users collection path" do
     upload_profile_users_path.should eql '/users/upload_profile'

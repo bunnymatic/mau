@@ -269,7 +269,7 @@ describe ArtPiecesController do
 
       context 'with successful save' do
         before do
-          mock_art_piece_image = double('MockArtPieceImage', :save => true) 
+          mock_art_piece_image = double('MockArtPieceImage', :save => true)
           ArtPieceImage.should_receive(:new).and_return(mock_art_piece_image)
         end
         it 'redirects to show page on success' do

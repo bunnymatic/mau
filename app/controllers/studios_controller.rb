@@ -3,9 +3,10 @@ class StudiosController < ApplicationController
 
   before_filter :manager_required, :except => [ :index, :show, :new ]
   before_filter :admin_required, :only => [:new, :create, :destroy]
-  before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :addprofile, :unaffiliate_artist]
+  before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :add_profile, :unaffiliate_artist]
   after_filter :store_location
 
+  before_filter :load_studio, :only => [:edit, :update, :destroy, :show, :unaffiliate_artist, :upload_profile, :add_profile]
   MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
   layout 'mau1col'
 
@@ -35,38 +36,29 @@ class StudiosController < ApplicationController
   end
 
   def unaffiliate_artist
-    studio = safe_find(params[:id])
     artist = Artist.find(params[:artist_id])
-
-    if StudioArtist.new(studio,artist).unaffiliate
-      
-
-    # @artist = @studio.artists.select{|a| a.id.to_s == params[:artist_id].to_s}.first
-     
-    # if (@artist && @studio && @artist != current_artist)
-    #   @artist.update_attribute(:studio_id, 0)
-    #   if @artist.is_manager?
-    #     @artist.roles_users.select{|r| r.role_id == Role.manager.id}.each(&:destroy)
-    #     @artist.save
-    #   end
-      msg = "#{@artist.fullname} is no longer associated with #{@studio.name}."
-      logger.warn "[#{Time.zone.now.to_s(:short)}][#{current_user.login}][#{params[:action]}] " + msg
-      flash[:notice] = msg
-    else
-      flash[:error] = "There was a problem finding that artist associated with this studio."
+    if artist == current_artist
+      redirect_to_edit :error => 'You cannot unaffiliate yourself' and return
     end
-    redirect_to edit_studio_path(@studio)
+    if StudioArtist.new(@studio,artist).unaffiliate
+      msg = {:notice => "#{artist.fullname} is no longer associated with #{@studio.name}."}
+    else
+      msg = {:error => "There was a problem finding that artist associated with this studio."}
+    end
+    redirect_to_edit msg
   end
 
-  def addprofile
+  def redirect_to_edit(flash_opts)
+    redirect_to edit_studio_path(@studio), :flash => flash_opts
+  end
+
+  def add_profile
     @errors = []
-    @studio = safe_find(params[:id])
     @selected_studio = @studio.id
     render :layout => 'mau-admin'
   end
 
   def upload_profile
-    @studio = safe_find(params[:id])
     if commit_is_cancel
       redirect_to(@studio)
       return
@@ -77,7 +69,7 @@ class StudiosController < ApplicationController
 
     if not upload
       flash[:error] = "You must provide a file."
-      redirect_to addprofile_studio_path(@studio) and return
+      redirect_to add_profile_studio_path(@studio) and return
     end
 
     begin
@@ -86,47 +78,39 @@ class StudiosController < ApplicationController
     rescue
       logger.error("Failed to upload %s" % $!)
       flash[:error] = "%s" % $!
-      redirect_to addprofile_studio_path(@studio) and return
+      redirect_to add_profile_studio_path(@studio) and return
     end
   end
 
 
-  # GET /studios/1
-  # GET /studios/1.xml
   def show
     @studios = get_studio_list
-    studio = get_studio_from_id(params[:id])
 
-    unless studio
+    unless @studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
       redirect_to studios_path
       return
     end
 
-    @studio = StudioPresenter.new(view_context, studio, is_mobile?)
+    @studio = StudioPresenter.new(view_context, @studio, is_mobile?)
     @page_title = @studio.page_title
 
     respond_to do |format|
       format.html { render :layout => 'mau' }
-      format.json { render :json => studio.to_json(:methods => 'artists') }
+      format.json { render :json => @studio.studio.to_json(:methods => 'artists') }
       format.mobile { render :layout => 'mobile' }
     end
   end
 
-  # GET /studios/new
-  # GET /studios/new.xml
   def new
     @studio = Studio.new
     render :layout => 'mau-admin'
   end
 
-  # GET /studios/1/edit
   def edit
-    @studio = Studio.find(params[:id])
     render :layout => 'mau-admin'
   end
 
-  # POST /studios
   def create
     @studio = Studio.new(params[:studio])
 
@@ -141,7 +125,6 @@ class StudiosController < ApplicationController
 
   # PUT /studios/1
   def update
-    @studio = Studio.find(params[:id])
     @selected_studio = @studio.id
     if @studio.update_attributes(params[:studio])
       flash[:notice] = 'Studio was successfully updated.'
@@ -151,10 +134,7 @@ class StudiosController < ApplicationController
     end
   end
 
-  # DELETE /studios/1
-  # DELETE /studios/1.xml
   def destroy
-    @studio = Studio.find(params[:id])
     if @studio
       @studio.artists.each do |artist|
         artist.update_attribute(:studio_id, 0)
@@ -189,6 +169,10 @@ class StudiosController < ApplicationController
         s.artists.active.count >= MIN_ARTISTS_PER_STUDIO
       end
     end
+  end
+
+  def load_studio
+    @studio ||= get_studio_from_id(params[:id])
   end
 
   def get_studio_from_id(_id)

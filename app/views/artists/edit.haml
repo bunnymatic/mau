@@ -5,7 +5,7 @@
 
 #artist_edit
   #profile_img
-    %a{:title=> "update profile picture", :href=> addprofile_users_path}
+    %a{:title=> "update profile picture", :href=> add_profile_users_path}
       - if current_user.has_profile_image
         %img{:src=> current_user.get_profile_image('thumb') }
       - else

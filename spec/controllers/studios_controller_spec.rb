@@ -234,7 +234,7 @@ describe StudiosController do
 
 
   # studio manager required endpoints
-  [:addprofile, :edit, :unaffiliate_artist].each do |endpoint|
+  [:add_profile, :edit, :unaffiliate_artist].each do |endpoint|
     describe "#{endpoint}" do
       describe 'unauthorized' do
         before do
@@ -268,11 +268,11 @@ describe StudiosController do
     end
   end
 
-  describe '#addprofile' do
+  describe '#add_profile' do
     let(:manager) { users(:manager) }
     before do
       login_as manager
-      get :addprofile, :id => manager.studio.id
+      get :add_profile, :id => manager.studio.id
     end
     it { response.should be_success }
     it { assigns(:studio).should eql manager.studio }
@@ -305,7 +305,7 @@ describe StudiosController do
           assert_select '.block.image img'
         end
         it 'has a link to update the logo' do
-          assert_select ".block.image a[href=#{addprofile_studio_path(studio)}]"
+          assert_select ".block.image a[href=#{add_profile_studio_path(studio)}]"
         end
         it 'lists the active artists' do
           assert_select "li.artist", :count => studio.artists.active.count
@@ -350,36 +350,51 @@ describe StudiosController do
 
   describe 'unaffiliate_artist' do
     let(:manager_role) { Role.find_by_role('manager') }
+    let(:admin) { users(:admin) }
+    let(:artist) { (studio.active_artists.to_a - [admin]).first }
+    let(:non_studio_artist) { studios(:s1890).active_artists.first }
+    let(:studio) { studios(:as) }
+
     before do
-      login_as :admin
-      @artist = studios(:as).artists.active[1]
+      login_as admin
     end
-    it 'removes the artist from the studio' do
-      expect {
-        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
-      }.to change(studios(:as).artists.active, :count).by(-1)
+
+    context 'artist to unaffiliate is not the logged in artist' do
+      it 'removes the artist from the studio' do
+        expect {
+          post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
+        }.to change(studio.active_artists, :count).by(-1)
+      end
+      it 'does not add any studios' do
+        expect {
+          post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
+        }.to change(Studio, :count).by(0)
+      end
+      it 'does nothing if the artist is not in the studio' do
+        expect {
+          post :unaffiliate_artist, :id => studio.id, :artist_id => non_studio_artist.id
+        }.to change(studio.active_artists, :count).by(0)
+      end
+      it 'redirects to the studio edit page' do
+        post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
+        response.should redirect_to edit_studio_path(studios(:as))
+      end
     end
-    it 'does not add any studios' do
-      expect {
-        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
-      }.to change(Studio, :count).by(0)
+
+    context 'artist to unaffiliate is the logged in artist' do
+      let(:artist) { admin }
+      before do
+        # validate fixtures
+        expect(admin.studio).to eql studio
+      end
+
+      it 'does not let you unaffiliate yourself' do
+        post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
+        response.should redirect_to edit_studio_path(studios(:as))
+        expect(artist.studio).to eql studio
+      end
     end
-    it 'does nothing if the artist is not in the studio' do
-      expect {
-        post :unaffiliate_artist, :id => studios(:as).id, :artist_id => studios(:s1890).artists.first.id
-      }.to change(studios(:as).artists.active, :count).by(0)
-    end
-    it 'redirects to the studio edit page' do
-      post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
-      response.should redirect_to edit_studio_path(studios(:as))
-    end
-    it 'removes the manager role if it\'s on the user but does not remove the role itself' do
-      @artist.roles << manager_role
-      @artist.save
-      post :unaffiliate_artist, :id => studios(:as).id, :artist_id => @artist.id
-      @artist.reload
-      @artist.roles.should_not include manager_role
-    end
+
   end
 
   describe 'admin_index' do
