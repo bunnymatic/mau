@@ -28,6 +28,7 @@ describe CatalogController do
       end
       it { response.should be_success }
       it { response.should be_csv_type }
+      pending 'this should be busted... we need to better test csv'
     end
 
   end
