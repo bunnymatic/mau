@@ -6,11 +6,11 @@ class FasoImporter
     @headers = nil
   end
 
-  def scammers 
+  def scammers
     @scammers ||= fetch
   end
 
-  def uri 
+  def uri
     @uri ||= URI.parse("https://api.faso.com/1/scammers?key=2386ad2c89aa40dfa0ce90e868797a33&format=pipe")
   end
 
