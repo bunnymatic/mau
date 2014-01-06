@@ -60,7 +60,6 @@ class UsersController < ApplicationController
   end
 
   def add_profile
-    @errors = []
     if !current_user
       flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
       redirect_back_or_default( user_path(current_user) || "/")

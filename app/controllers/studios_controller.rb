@@ -6,7 +6,8 @@ class StudiosController < ApplicationController
   before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :add_profile, :unaffiliate_artist]
   after_filter :store_location
 
-  before_filter :load_studio, :only => [:edit, :update, :destroy, :show, :unaffiliate_artist, :upload_profile, :add_profile]
+  before_filter :load_studio, :only => [:edit, :update, :destroy, :show, 
+                                        :unaffiliate_artist, :upload_profile, :add_profile]
   MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
   layout 'mau1col'
 
@@ -53,7 +54,6 @@ class StudiosController < ApplicationController
   end
 
   def add_profile
-    @errors = []
     @selected_studio = @studio.id
     render :layout => 'mau-admin'
   end
