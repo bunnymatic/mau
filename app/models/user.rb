@@ -314,8 +314,8 @@ class User < ActiveRecord::Base
     unless trying_to_favorite_yourself?(fav)
       # don't add dups
       favorite_params = {
-        :favoritable_type => fav.class.name, 
-        :favoritable_id => fav.id, 
+        :favoritable_type => fav.class.name,
+        :favoritable_id => fav.id,
         :user_id => self.id
       }
       if Favorite.where(favorite_params).limit(1).blank?
@@ -377,12 +377,12 @@ class User < ActiveRecord::Base
   end
 
   def favorites_of_my_work
-    @favorites_of_my_work ||= 
+    @favorites_of_my_work ||=
       begin
         if self.respond_to? :art_pieces
           art_piece_ids = art_pieces.map(&:id)
           Favorite.art_pieces.where(:favoritable_id => art_piece_ids).order('created_at desc')
-        else 
+        else
           []
         end
       end

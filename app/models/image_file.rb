@@ -115,7 +115,7 @@ class ImageFile
             [sz, image_info.path.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
           end ]
   end
-  
+
   def save_resized_versions(image_info)
     # store resized versions:
     #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
@@ -147,7 +147,7 @@ class ImageFile
 
     type, height, width, colorspace = check_file_format(src_path)
 
-    ImageInfo.new(:path => src_path, :height => height, :width => width, 
+    ImageInfo.new(:path => src_path, :height => height, :width => width,
                   :colorspace => colorspace, :type => type)
   end
 
