@@ -105,14 +105,21 @@ class ImageFile
 
     image_info = save_uploaded_file
 
-    # store resized versions:
-    file_match = Regexp.new(destfile + "$")
-    #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
-    paths = Hash[ [:large, :medium, :small, :thumb].map do |sz|
-                    [sz, image_info.path.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
-                  end ]
+    save_resized_versions(image_info)
 
-    paths.each do |key, destpath|
+  end
+
+  def image_paths(image_info)
+    file_match = Regexp.new(destfile + "$")
+    Hash[ [:large, :medium, :small, :thumb].map do |sz|
+            [sz, image_info.path.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
+          end ]
+  end
+  
+  def save_resized_versions(image_info)
+    # store resized versions:
+    #[:cropped_thumb , srcpath.gsub(file_match, "ct_"+destfile)],
+    image_paths(image_info).each do |key, destpath|
       begin
         MojoMagick::resize(image_info.path, destpath,
                            { :width => ImageSizes.width(key),
@@ -124,18 +131,29 @@ class ImageFile
         puts ex.backtrace unless Rails.env == 'production'
       end
     end
-    return image_info
+    image_info
   end
 
-  def save_uploaded_file
+  def write_temp_file
     path = create_dest_dir
 
     # store the image
-    result = File.open(path, "wb") { |f| f.write(datafile.read) }
-    srcpath = Pathname.new(path).realpath.to_s()
+    File.open(path, "wb") { |f| f.write(datafile.read) }
+    Pathname.new(path).realpath.to_s()
+  end
 
+  def save_uploaded_file
+    src_path = write_temp_file
+
+    type, height, width, colorspace = check_file_format(src_path)
+
+    ImageInfo.new(:path => src_path, :height => height, :width => width, 
+                  :colorspace => colorspace, :type => type)
+  end
+
+  def check_file_format(src_path)
      # check format
-    fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + srcpath)
+    fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + src_path)
     (type, height, width, colorspace) = fmt.split
     if ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
       raise ArgumentError, "Image type %s is not supported." % type
@@ -144,8 +162,7 @@ class ImageFile
       raise ArgumentError, "[%s] is not a supported color space."+
         "  Please save your image with an RGB colorspace." % colorspace.to_s
     end
-
-    ImageInfo.new(:path => srcpath, :height => height, :width => width, :colorspace => colorspace, :type => type)
+    [type, height, width, colorspace]
   end
 
   def create_dest_dir
