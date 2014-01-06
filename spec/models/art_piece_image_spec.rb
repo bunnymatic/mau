@@ -33,7 +33,7 @@ describe ArtPieceImage do
     end
 
     it 'updates the filename' do
-      art_piece.filename.should eql "/projects/mau/public/artistdata/#{artist.id}/imgs/#{Time.zone.now.to_i}#{file}"
+      art_piece.filename.should match %r{public/artistdata/#{artist.id}/imgs/#{Time.zone.now.to_i}#{file}$}
     end
 
     it 'updates the image dimensions' do
