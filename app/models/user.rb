@@ -326,26 +326,25 @@ class User < ActiveRecord::Base
 
   def what_i_favorite
     # collect artist and art piece stuff
-    favs = self.favorites.reverse
-    result = []
-    favs.each do |f|
-      out = case f.favoritable_type
-            when 'Artist','User','MAUFan' then
-              User.find(f.favoritable_id)
-            when 'ArtPiece' then
-              ArtPiece.find(f.favoritable_id)
-            end
-      result << out unless out.nil?
+    @what_i_favorite ||=
+      begin
+        favorites.reverse.map do |f|
+          case f.favoritable_type
+          when 'Artist','User','MAUFan' then
+            User.find(f.favoritable_id)
+          when 'ArtPiece' then
+            ArtPiece.find(f.favoritable_id)
+          end
+        end.compact.uniq
     end
-    result.uniq
   end
 
   def who_favorites_me
-    favs = Favorite.users.where(:favoritable_id => self.id).order('created_at desc')
-    if is_artist? && art_pieces.present?
-      favs << Favorite.art_pieces.where(:favoritable_id => art_pieces.map{|ap| ap.id}).order('created_at desc')
-    end
-    User.find(favs.flatten.select{|f| f.try(:user_id)}.map {|f| f.user_id})
+    @who_favorites_me ||=
+      begin
+        favs = (favorites_of_me + favorites_of_my_work).flatten
+        User.find(favs.select{|f| f.try(:user_id)}.compact.uniq.map(&:user_id))
+      end
   end
 
   def remove_favorite(fav)
@@ -353,13 +352,30 @@ class User < ActiveRecord::Base
     f.map(&:destroy).first
   end
 
+  def favorites_to_obj
+    @favorites_to_obj ||= favorites.to_obj.reverse
+  end
+
   def fav_artists
-    favorites.to_obj.reverse.select { |f| [User, Artist].include? f.class }.uniq
+    @fav_artists ||= favorites_to_obj.select { |f| f.is_a? User }.uniq
   end
 
   def fav_art_pieces
-    favorites.to_obj.reverse.select { |f| f.class == ArtPiece }.uniq
+    @fav_art_pieces ||= favorites_to_obj.select { |f| f.is_a? ArtPiece }.uniq
   end
+
+  def favorites_of_me
+    @favorites_of_me ||= Favorite.users.where(:favoritable_id => self.id).order('created_at desc')
+  end
+
+  def favorites_of_my_work
+    @favorites_of_my_work ||= 
+      begin
+        art_piece_ids = art_pieces.map(&:id)
+        Favorite.art_pieces.where(:favoritable_id => art_piece_ids).order('created_at desc')
+      end
+  end
+
 
   # reformat data so that the artist contains the art pieces
   # and that any security related data is missing (salt, password etc)
