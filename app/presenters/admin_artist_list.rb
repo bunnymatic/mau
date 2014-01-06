@@ -1,15 +1,27 @@
 require 'csv'
 
 class AdminArtistList
+
+  include Enumerable
+
   ALLOWED_SORT_BY = ['studio_id','lastname','firstname','id','login','email', 'activated_at'].freeze
 
-  def initialize(sort_by, reverse)
+  def initialize(view_context, sort_by, reverse)
+    @view_context = view_context
     set_sort_by(sort_by)
     @reverse = reverse
   end
 
-  def set_sort_by(sort_by)
-    @sort_by = (ALLOWED_SORT_BY.include? sort_by.to_s) ? sort_by : ALLOWED_SORT_BY.first
+  def reverse_sort_links
+    allowed_sort_by.map do |key|
+      @view_context.link_to key, base_path(:rsort_by => key)
+    end
+  end
+
+  def sort_links
+    allowed_sort_by.map do |key|
+      @view_context.link_to key, base_path(:sort_by => key)
+    end
   end
 
   def artists
@@ -44,7 +56,15 @@ class AdminArtistList
     ALLOWED_SORT_BY
   end
 
+  def each(&block)
+    artists.each(&block)
+  end
+
   private
+  def set_sort_by(sort_by)
+    @sort_by = (ALLOWED_SORT_BY.include? sort_by.to_s) ? sort_by : ALLOWED_SORT_BY.first
+  end
+
   def sort_by_clause
     "#{@sort_by} #{@reverse ? 'DESC' : 'ASC'}" if @sort_by.present?
   end
@@ -61,5 +81,10 @@ class AdminArtistList
      artist.email 
     ]
   end
+
+  def base_path(opts)
+    @view_context.admin_artists_path(opts)
+  end
+
 
 end

@@ -42,8 +42,7 @@ class ArtistsController < ApplicationController
 
   def admin_index
     get_sort_options_from_params
-    @artist_list = AdminArtistList.new(@sort_by, @reverse)
-    @artists = @artist_list.artists
+    @artist_list = AdminArtistList.new(view_context, @sort_by, @reverse)
     respond_to do |format|
       format.html { render :layout => 'mau-admin' }
       format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }

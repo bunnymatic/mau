@@ -18,6 +18,7 @@ module PresenterSpecHelpers
   end
 
   def self.included(base)
+    base.send(:include, ActionView::Helpers::UrlHelper)
     base.send(:include, Rails.application.routes.url_helpers)
     base.send(:include, InstanceMethods)
   end
