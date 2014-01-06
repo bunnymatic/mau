@@ -36,8 +36,8 @@
         %tbody
           - @email_list.emails.each do |e|
             %tr{'class' => cycle('odd','even')}
-              %td.name #{e[:name]}
-              %td.email #{e[:email]}
+              %td.name #{e.name}
+              %td.email #{e.email}
     - else
       %h5 nothing emails match the query
     .clear

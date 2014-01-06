@@ -1,3 +1,4 @@
+require 'csv'
 class AdminEmailList
 
   include OsHelper
@@ -8,20 +9,26 @@ class AdminEmailList
     @list_names = [list_names].flatten.map(&:to_s)
   end
 
+  def csv_filename
+    @csv_filename ||= (['email'] + list_names).compact.uniq.join("_") + ".csv"
+  end
+
   def artists
     @artists ||= (is_multiple_os_query? ? os_participants : artists_by_list) || []
   end
 
   def emails
-    artists.select{|a| a.email.present?}.map{|a| { :id => a.id, :name => a.get_name, :email => a.email }}
+    @emails ||= artists.select{|a| a.email.present?}.map do |a|
+      OpenStruct.new({ :id => a.id, :name => a.get_name, :email => a.email })
+    end
   end
 
   def display_title
-    "#{title} [#{artists.length}]"
+    @display_title ||= "#{title} [#{artists.length}]"
   end
 
   def title
-    list_names.map{|n| titles[n.to_s]}.join ", "
+    @title ||= (list_names.map{|n| titles[n.to_s]}.join ", ")
   end
 
   def os_participants
@@ -30,6 +37,18 @@ class AdminEmailList
         queried_os_tags.map do |tag|
           Artist.active.open_studios_participants(tag)
         end.flatten.uniq
+      end
+  end
+
+  def csv
+    @csv ||=
+      begin
+        csv_data = CSV.generate(ApplicationController::DEFAULT_CSV_OPTS) do |_csv|
+          _csv << csv_headers
+          artists.each do |artist|
+            _csv << artist_as_csv_row(artist)
+          end
+        end
       end
   end
 
@@ -86,5 +105,22 @@ class AdminEmailList
   def is_multiple_os_query?
     @is_os_list ||= (list_names.length > 1) && (queried_os_tags.length > 1)
   end
+
+  def csv_headers
+    @csv_headers ||= ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + os_tags
+  end
+
+  def artist_as_csv_row(artist)
+    [
+     artist.csv_safe(:firstname),
+     artist.csv_safe(:lastname),
+     artist.get_name(true),
+     artist.email,
+     artist.studio ? artist.studio.name : ''
+    ] + os_tags.map do |os_tag|
+      ((artist.respond_to? :os_participation) && artist.os_participation[os_tag]).to_s
+    end
+  end
+
 
 end

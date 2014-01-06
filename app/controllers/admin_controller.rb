@@ -1,5 +1,3 @@
-require 'csv'
-
 class AdminController < ApplicationController
   before_filter :admin_required, :except => [:index, :featured_artist]
   before_filter :editor_or_manager_required, :only => [:index]
@@ -31,34 +29,13 @@ class AdminController < ApplicationController
   end
 
   def emaillist
-    list_names = [params[:listname], (params.keys & os_tags)].flatten.compact.uniq
-    if list_names.blank?
-      list_names = 'active'
-    end
+    list_names = build_list_names_from_params
     @email_list = AdminEmailList.new(list_names)
+
     respond_to do |format|
       format.html {}
       format.csv {
-        artists = @email_list.artists
-        fname = 'email'
-        if params[:listname].present?
-          fname += '_' + params[:listname]
-        end
-        csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |csv|
-          csv << ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + os_tags
-          artists.each do |artist|
-            data = [ artist.csv_safe(:firstname),
-                     artist.csv_safe(:lastname),
-                     artist.get_name(true),
-                     artist.email,
-                     artist.studio ? artist.studio.name : '' ]
-            os_tags.each do |ostag|
-              data << ((artist.respond_to? :os_participation) && artist.os_participation[ostag]).to_s
-            end
-            csv << data
-          end
-        end
-        render_csv_string(csv_data.to_s,fname)
+        render_csv_string(@email_list.csv, @email_list.csv_filename)
       }
     end
 
@@ -147,6 +124,12 @@ class AdminController < ApplicationController
 
   private
   GRAPH_LOOKBACK = '1 YEAR'
+
+  def build_list_names_from_params
+    list_names = [params[:listname], (params.keys & os_tags)].flatten.compact.uniq
+    list_names.blank? ? ['active'] : list_names
+  end
+
   def compute_artists_per_day
     sql = ActiveRecord::Base.connection()
     cur = sql.execute "select count(*) ct,date(activated_at) d from users"+
