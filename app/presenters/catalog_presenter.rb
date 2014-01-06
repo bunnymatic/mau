@@ -73,19 +73,19 @@ class CatalogPresenter
     @csv_headers ||= ["First Name","Last Name","Full Name","Email", "Group Site Name",
                       "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
   end
-  
+
   def artist_as_csv_row(artist)
     [
      artist.csv_safe(:firstname),
      artist.csv_safe(:lastname),
      artist.get_name(true),
      artist.email,
-     artist.studio ? artist.studio.name : '', 
+     artist.studio ? artist.studio.name : '',
      artist.address_hash[:parsed][:street],
-     artist.studionumber, 
-     '', 
-     '', 
-     artist.primary_medium ? artist.primary_medium.name : '' 
+     artist.studionumber,
+     '',
+     '',
+     artist.primary_medium ? artist.primary_medium.name : ''
     ]
   end
 

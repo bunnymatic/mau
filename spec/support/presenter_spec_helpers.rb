@@ -13,12 +13,12 @@ module PresenterSpecHelpers
     end
 
     def controller
+      # this helps the tag_cloud_presenter tag_path method (for some reason)
     end
 
   end
 
   def self.included(base)
-    base.send(:include, ActionView::Helpers::UrlHelper)
     base.send(:include, Rails.application.routes.url_helpers)
     base.send(:include, InstanceMethods)
   end

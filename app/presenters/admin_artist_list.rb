@@ -25,7 +25,7 @@ class AdminArtistList
   end
 
   def artists
-    @artists ||= 
+    @artists ||=
       begin
         artists = Artist.all(:order => sort_by_clause, :include => :artist_info)
       end
@@ -68,9 +68,9 @@ class AdminArtistList
   def sort_by_clause
     "#{@sort_by} #{@reverse ? 'DESC' : 'ASC'}" if @sort_by.present?
   end
-  
+
   def artist_as_csv_row(artist)
-    [ 
+    [
      artist.csv_safe(:login),
      artist.csv_safe(:firstname),
      artist.csv_safe(:lastname),
@@ -78,7 +78,7 @@ class AdminArtistList
      artist.studio ? artist.studio.name : '',
      artist.address_hash[:parsed][:street],
      artist.studionumber,
-     artist.email 
+     artist.email
     ]
   end
 

@@ -1,5 +1,5 @@
 class SocialCatalogPresenter
-  
+
   SOCIAL_KEYS = [:facebook, :flickr, :twitter, :blog, :myspace].freeze
 
   def artists
@@ -9,7 +9,7 @@ class SocialCatalogPresenter
   end
 
   def csv
-    @csv ||= 
+    @csv ||=
       begin
         csv_data = CSV.generate(ApplicationController::DEFAULT_CSV_OPTS) do |_csv|
           _csv << csv_headers
@@ -23,17 +23,17 @@ class SocialCatalogPresenter
   def csv_filename
     @csv_filename ||= (['mau_social_artists', Conf.oslive.to_s].compact.join("_") + ".csv")
   end
-  
+
   private
   def csv_keys
     @csv_keys ||= (base_keys + SOCIAL_KEYS)
   end
 
   def base_keys
-    @base_keys ||= [:full_name, :email] 
+    @base_keys ||= [:full_name, :email]
   end
 
-  def csv_headers 
+  def csv_headers
     @csv_headers ||= (csv_keys).map{|s| s.to_s.humanize.capitalize}
   end
 

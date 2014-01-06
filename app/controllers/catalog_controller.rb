@@ -15,7 +15,7 @@ class CatalogController < ApplicationController
   end
 
   def social
-    
+
     respond_to do |format|
       format.html { render_error :message => 'Dunno what you were looking for.' }
       format.mobile { redirect_to root_path }
