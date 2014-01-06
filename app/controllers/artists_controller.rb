@@ -41,46 +41,12 @@ class ArtistsController < ApplicationController
   end
 
   def admin_index
-    sortby = "studio_id"
-    reverse = false
-    @allowed_sortby = ['studio_id','lastname','firstname','id','login','email', 'activated_at']
-    if params[:sortby]
-      if @allowed_sortby.include? sortby
-        sortby = params[:sortby]
-        reverse = false
-      end
-    end
-    if params[:rsortby]
-      rsortby = params[:rsortby] || "studio_id"
-      if @allowed_sortby.include? rsortby
-        sortby = rsortby
-        reverse = true
-      end
-    end
-    @artists = Artist.all(:order => sortby, :include => :artist_info)
-    if reverse
-      @artists = @artists.reverse()
-    end
+    get_sort_options_from_params
+    @artist_list = AdminArtistList.new(@sort_by, @reverse)
+    @artists = @artist_list.artists
     respond_to do |format|
       format.html { render :layout => 'mau-admin' }
-      format.csv {
-        headers = ["Login", "First Name","Last Name","Full Name","Group Site Name",
-                   "Studio Address","Studio Number","Email Address"]
-        csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |csv|
-          csv << headers
-          @artists.each do |artist|
-            csv << [ artist.csv_safe(:login),
-                     artist.csv_safe(:firstname),
-                     artist.csv_safe(:lastname),
-                     artist.get_name,
-                     artist.studio ? artist.studio.name : '',
-                     artist.address_hash[:parsed][:street],
-                     artist.studionumber,
-                     artist.email ]
-          end
-        end
-        render_csv_string(csv_data.to_s, "mau_artists")
-      }
+      format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }
     end
   end
 
@@ -457,4 +423,8 @@ class ArtistsController < ApplicationController
     artist_names
   end
 
+  def get_sort_options_from_params
+    @sort_by = params[:sort_by] || params[:rsort_by]
+    @reverse = params.has_key? :rsort_by
+  end
 end

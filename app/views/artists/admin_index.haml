@@ -11,12 +11,12 @@
 
   .sortby
     Sort By:
-    - @allowed_sortby.each do |s|
-      %a{:href => "?sortby=#{s}"} #{s}
+    - @artist_list.allowed_sort_by.each do |s|
+      %a{:href => "?sort_by=#{s}"} #{s}
     %br
     Reverse Sort By:
-    - @allowed_sortby.each do |s|
-      %a{:href => "?rsortby=#{s}"} #{s}
+    - @artist_list.allowed_sort_by.each do |s|
+      %a{:href => "?rsort_by=#{s}"} #{s}
   .hide-rows
     Hide rows:
     .row-info

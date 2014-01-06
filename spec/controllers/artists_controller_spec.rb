@@ -766,19 +766,19 @@ describe ArtistsController do
         end
         context "with sort_by" do
           it 'sorts by lastname' do
-            get :admin_index, 'sortby' => 'lastname'
+            get :admin_index, 'sort_by' => 'lastname'
             assigns(:artists).map{|a| a.lastname.downcase}.should be_monotonically_increasing
           end
           it 'sorts by lastname' do
-            get :admin_index, 'rsortby' => 'lastname'
+            get :admin_index, 'rsort_by' => 'lastname'
             assigns(:artists).map{|a| a.lastname.downcase}.should be_monotonically_decreasing
           end
           it 'sorts by login' do
-            get :admin_index, 'sortby' => 'login'
+            get :admin_index, 'sort_by' => 'login'
             assigns(:artists).map{|a| a.login.downcase}.should be_monotonically_increasing
           end
           it 'sorts by login' do
-            get :admin_index, 'rsortby' => 'login'
+            get :admin_index, 'rsort_by' => 'login'
             assigns(:artists).map{|a| a.login.downcase}.should be_monotonically_decreasing
           end
         end
