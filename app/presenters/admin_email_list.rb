@@ -34,9 +34,14 @@ class AdminEmailList
   def os_participants
     @os_participants ||=
       begin
-        queried_os_tags.map do |tag|
+        artist_list = queried_os_tags.map do |tag|
           Artist.active.open_studios_participants(tag)
-        end.flatten.uniq
+        end
+        inlist = artist_list.shift
+        artist_list.each do |l|
+          inlist = inlist | l
+        end
+        inlist
       end
   end
 

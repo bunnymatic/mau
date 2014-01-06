@@ -24,6 +24,18 @@ class Favorite < ActiveRecord::Base
     "#{favoritable_type}: #{favoritable_id} (User #{user_id})"
   end
 
+  def is_user?
+    [Artist.name, User.name].include? favoritable_type
+  end
+
+  def is_art_piece?
+    favoritable_type == ArtPiece.name
+  end
+
+  def is_artist?
+    favoritable_type == Artist.name
+  end
+
   def to_obj
     if FAVORITABLE_TYPES.include? self.favoritable_type
       begin

@@ -54,7 +54,6 @@ class StudiosController < ApplicationController
   end
 
   def add_profile
-    @errors = []
     @selected_studio = @studio.id
     render :layout => 'mau-admin'
   end

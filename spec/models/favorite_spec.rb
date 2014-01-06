@@ -2,31 +2,44 @@ require 'spec_helper'
 
 describe Favorite, 'named scopes' do
   fixtures :users, :artist_infos, :art_pieces
-  before do
-    u1 = users(:maufan1)
-    u2 = users(:jesseponce)
-    u3 = users(:annafizyta)
 
-    ArtPiece.any_instance.stub(:artist => double(Artist, :id => 42, :emailsettings => {'favorites' => false}))
-    u1.add_favorite ArtPiece.first
-    u1.add_favorite users(:artist1)
-    u1.add_favorite u2
-    u2.add_favorite ArtPiece.first
-    u2.add_favorite users(:artist1)
-    u3.add_favorite ArtPiece.last
+  let(:fan) { users(:maufan1) }
+  let(:jesse) { users(:jesseponce) }
+  let(:anna) { users(:annafizyta) }
+  let(:artist1) { users(:artist1) }
+
+  let(:favorite_art_pieces) { Favorite.art_pieces }
+  let(:favorite_artists) { Favorite.artists }
+  let(:favorite_users) { Favorite.users }
+  before do
+    fan.add_favorite ArtPiece.first
+    fan.add_favorite artist1
+    fan.add_favorite jesse
+    jesse.add_favorite ArtPiece.first
+    jesse.add_favorite artist1
+    anna.add_favorite ArtPiece.last
   end
   it "users finds only users or artists" do
-    Favorite.users.count.should > 0
-    Favorite.users.all.each do |f|
-      ['Artist','User'].should include f.favoritable_type
-      ['ArtPiece'].should_not include f.favoritable_type
+    favorite_users.count.should > 0
+    favorite_users.all.each do |f|
+      expect(f.is_user?).to be_true
+      expect(f.is_art_piece?).to be_false
+    end
+  end
+  it "users finds only artists" do
+    favorite_artists.count.should > 0
+    favorite_artists.all.each do |f|
+      expect(f.is_user?).to be_true
+      expect(f.is_artist?).to be_true
+      expect(f.is_art_piece?).to be_false
     end
   end
   it "art_pieces finds only art_pieces" do
-    Favorite.art_pieces.count.should > 0
-    Favorite.art_pieces.all.each do |f|
-      ['Artist','User'].should_not include f.favoritable_type
-      ['ArtPiece'].should include f.favoritable_type
+    favorite_art_pieces.count.should > 0
+    favorite_art_pieces.all.each do |f|
+      expect(f.is_user?).to be_false
+      expect(f.is_artist?).to be_false
+      expect(f.is_art_piece?).to be_true
     end
   end
 

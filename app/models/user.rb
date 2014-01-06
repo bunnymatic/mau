@@ -311,23 +311,16 @@ class User < ActiveRecord::Base
 
   def add_favorite(fav)
     # can't favorite yourself
-    unless (!fav.nil? && ((([Artist,User].include? fav.class) && fav.id == self.id) ||
-            (fav.class == ArtPiece && fav.artist.id == self.id)))
+    unless trying_to_favorite_yourself?(fav)
       # don't add dups
       unless Favorite.find_by_favoritable_id_and_favoritable_type_and_user_id(fav.id, fav.class.name, self.id)
-        f = Favorite.new( :favoritable_type => fav.class.name, :favoritable_id => fav.id, :user_id => self.id)
-        f.save!
-
+        f = Favorite.create!( :favoritable_type => fav.class.name, :favoritable_id => fav.id, :user_id => self.id)
         fan = self
-        artist = (fav.class == Artist) ? fav : fav.artist
+        artist = (fav.is_a? User) ? fav : fav.artist
         if artist && artist.emailsettings['favorites']
           ArtistMailer.favorite_notification(artist, fan).deliver!
         end
-      else
-        false
       end
-    else
-      false
     end
   end
 
@@ -349,12 +342,10 @@ class User < ActiveRecord::Base
 
   def who_favorites_me
     favs = Favorite.users.where(:favoritable_id => self.id).order('created_at desc')
-    if self[:type] == 'Artist'
-      if self.art_pieces && self.art_pieces.count > 0
-        favs << Favorite.art_pieces.where(:favoritable_id => art_pieces.map{|ap| ap.id}).order('created_at desc')
-      end
+    if is_artist? && art_pieces.present?
+      favs << Favorite.art_pieces.where(:favoritable_id => art_pieces.map{|ap| ap.id}).order('created_at desc')
     end
-    User.find(favs.flatten.select{|f| !f.nil? && !f.user_id.nil?}.map {|f| f.user_id})
+    User.find(favs.flatten.select{|f| f.try(:user_id)}.map {|f| f.user_id})
   end
 
   def remove_favorite(fav)
@@ -425,4 +416,8 @@ class User < ActiveRecord::Base
     mailer_class.resend_activation(self).deliver! if resent_activation?
   end
 
+  def trying_to_favorite_yourself?(fav)
+    false if fav.nil?
+    ((fav.is_a?(User) || fav.is_a?(Artist)) && fav.id == id) || (fav.is_a?(ArtPiece) && fav.artist.id == id)
+  end
 end
