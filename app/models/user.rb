@@ -313,14 +313,22 @@ class User < ActiveRecord::Base
     # can't favorite yourself
     unless trying_to_favorite_yourself?(fav)
       # don't add dups
-      unless Favorite.find_by_favoritable_id_and_favoritable_type_and_user_id(fav.id, fav.class.name, self.id)
-        f = Favorite.create!( :favoritable_type => fav.class.name, :favoritable_id => fav.id, :user_id => self.id)
-        fan = self
-        artist = (fav.is_a? User) ? fav : fav.artist
-        if artist && artist.emailsettings['favorites']
-          ArtistMailer.favorite_notification(artist, fan).deliver!
-        end
+      favorite_params = {
+        :favoritable_type => fav.class.name, 
+        :favoritable_id => fav.id, 
+        :user_id => self.id
+      }
+      if Favorite.where(favorite_params).limit(1).blank?
+        Favorite.create!(favorite_params)
+        notify_favorited_user(fav)
       end
+    end
+  end
+
+  def notify_favorited_user(fav)
+    artist = (fav.is_a? User) ? fav : fav.artist
+    if artist && artist.emailsettings['favorites']
+      ArtistMailer.favorite_notification(artist, self).deliver!
     end
   end
 
