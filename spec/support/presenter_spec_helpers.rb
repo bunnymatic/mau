@@ -13,6 +13,7 @@ module PresenterSpecHelpers
     end
 
     def controller
+      # this helps the tag_cloud_presenter tag_path method (for some reason)
     end
 
   end

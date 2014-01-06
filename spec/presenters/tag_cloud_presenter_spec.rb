@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TagCloudPresenter do
+describe TagCloudPresenter, :type => :controller do
 
   include PresenterSpecHelpers
 

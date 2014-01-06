@@ -11,12 +11,10 @@
 
   .sortby
     Sort By:
-    - @allowed_sortby.each do |s|
-      %a{:href => "?sortby=#{s}"} #{s}
+    = @artist_list.sort_links.join.html_safe
     %br
     Reverse Sort By:
-    - @allowed_sortby.each do |s|
-      %a{:href => "?rsortby=#{s}"} #{s}
+    = @artist_list.reverse_sort_links.join.html_safe
   .hide-rows
     Hide rows:
     .row-info
@@ -42,7 +40,7 @@
     %th info
     %th{:colspan => 2}
       = pretty_print_os_tag(Conf.oslive, true)
-  - @artists.each_with_index do |a, idx|
+  - @artist_list.each_with_index do |a, idx|
     :ruby
       classes = []
       classes << cycle('even', 'odd')

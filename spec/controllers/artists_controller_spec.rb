@@ -760,26 +760,10 @@ describe ArtistsController do
             assert_select('.activation_link', :match => activation_url )
           end
           it 'renders forgot link if there is a reset code' do
-            assert_select('.forgot_password_link', :count => Artist.all.select{|s| s.reset_code.present?}.count)
-            assert_select('.forgot_password_link', :match => reset_url(:reset_code => users(:reset_password).reset_code))
-          end
-        end
-        context "with sort_by" do
-          it 'sorts by lastname' do
-            get :admin_index, 'sortby' => 'lastname'
-            assigns(:artists).map{|a| a.lastname.downcase}.should be_monotonically_increasing
-          end
-          it 'sorts by lastname' do
-            get :admin_index, 'rsortby' => 'lastname'
-            assigns(:artists).map{|a| a.lastname.downcase}.should be_monotonically_decreasing
-          end
-          it 'sorts by login' do
-            get :admin_index, 'sortby' => 'login'
-            assigns(:artists).map{|a| a.login.downcase}.should be_monotonically_increasing
-          end
-          it 'sorts by login' do
-            get :admin_index, 'rsortby' => 'login'
-            assigns(:artists).map{|a| a.login.downcase}.should be_monotonically_decreasing
+            assert_select('.forgot_password_link',
+                          :count => Artist.all.select{|s| s.reset_code.present?}.count)
+            assert_select('.forgot_password_link',
+                          :match => reset_url(:reset_code => users(:reset_password).reset_code))
           end
         end
       end

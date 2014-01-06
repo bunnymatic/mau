@@ -66,7 +66,7 @@ describe CatalogController do
     context 'format=csv' do
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
-      let(:social_keys) { CatalogController::SOCIAL_KEYS }
+      let(:social_keys) { SocialCatalogPresenter::SOCIAL_KEYS }
       before do
         get :social, :format => :csv
       end
