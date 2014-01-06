@@ -371,8 +371,12 @@ class User < ActiveRecord::Base
   def favorites_of_my_work
     @favorites_of_my_work ||= 
       begin
-        art_piece_ids = art_pieces.map(&:id)
-        Favorite.art_pieces.where(:favoritable_id => art_piece_ids).order('created_at desc')
+        if self.respond_to? :art_pieces
+          art_piece_ids = art_pieces.map(&:id)
+          Favorite.art_pieces.where(:favoritable_id => art_piece_ids).order('created_at desc')
+        else 
+          []
+        end
       end
   end
 
