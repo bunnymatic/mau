@@ -74,51 +74,44 @@ class ArtPiecesController < ApplicationController
     @media = Medium.all
 
     # if file to upload - upload it first
-    @errors = []
+    binding.pry
     upload = params[:upload]
     saved = false
     if !upload
-      flash.now[:error] = "You must provide an image.<br/>"+
+      @art_piece = ArtPiece.new params[:art_piece] 
+      @art_piece.valid?
+      @art_piece.errors.add(:base, "You must provide an image."+
         "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
-        " like quotes &quot;, apostrophes &apos; or brackets ([{}]).".html_safe
-      @art_piece = ArtPiece.new params[:art_piece]
-      render :action => 'new'
-      return
-    else
-      params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
-      @art_piece = current_user.art_pieces.build(params[:art_piece])
-      begin
-        ActiveRecord::Base.transaction do
-          saved = @art_piece.save
-          if saved
-            # upload image
-            if upload
-              post = ArtPieceImage.new(@art_piece, upload).save
-            end
-            flash[:notice] = 'Artwork was successfully added.'
-            Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
-          else
-            @errors = @art_piece.errors.full_messages
-            @art_piece = ArtPiece.new params[:art_piece]
-          end
-        end
-      rescue Exception => ex
-        puts ex
-        puts ex.backtrace
-        @errors << "%s" % ex.message
-        logger.error("Failed to upload %s" % $!)
-        @art_piece = ArtPiece.new params[:art_piece]
-        render :action => 'new'
-        return
-      end
+        " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
+      render :action => 'new' and return
     end
 
-    if saved
-      redirect_to(current_user)
-    else
-      @media = Medium.all
-      render :action => "new"
+    params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
+    @art_piece = current_user.art_pieces.build(params[:art_piece])
+    begin
+      ActiveRecord::Base.transaction do
+        saved = @art_piece.save
+        if saved
+          # upload image
+          if upload
+            post = ArtPieceImage.new(@art_piece, upload).save
+          end
+          flash[:notice] = 'Artwork was successfully added.'
+          Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
+        else
+          @art_piece = ArtPiece.new params[:art_piece]
+        end
+      end
+      binding.pry
+
+    rescue Exception => ex
+      logger.error("Failed to upload %s" % $!)
+      @art_piece = ArtPiece.new params[:art_piece]
+      @art_piece.errors.add(:base, ex.message)
+      render :action => 'new' and return
     end
+    
+    redirect_to(current_user)
   end
 
   # PUT /art_pieces/1
