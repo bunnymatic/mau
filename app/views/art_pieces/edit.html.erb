@@ -12,25 +12,8 @@
   </div>
   <%= form_for(@art_piece) do |f| %>
   <table cellspacing="0" cellpadding="0">
-    <% if @errors -%>
-    <tr class="error-row">
-      <td colspan="3" align="center">
-	      <div class="error-msg">
-	        Error:
-	        <%= @errors.map { |k, v| " <div>%s %s<div>" % [ k, v ] }.join.html_safe %>
-	      </div>
-      </td>
-    </tr>
-    <% elsif flash[:error] -%>
-    <tr class="error-row">
-      <td colspan="3">
-	      <div class="error-msg">
-	        Error:
-	        <%= flash[:error] %>
-	      </div>
-      </td>
-    </tr>
-    <% end -%>
+    <%= render '/common/form_errors', :form => f %>
+    <%= render '/flash_notice_error' %>
     <tr>
       <td class="page-spacer-column">&nbsp;</td>
       <td>
