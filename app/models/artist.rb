@@ -67,6 +67,7 @@ class Artist < User
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
 
   has_one :artist_info
+  accepts_nested_attributes_for :artist_info
 
   has_many :art_pieces, :order => "`order` ASC, `id` DESC"
 
@@ -89,6 +90,7 @@ class Artist < User
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
   delegate :update_os_participation, :to => :artist_info
+  delegate :update_os_participation!, :to => :artist_info
 
   def to_json opts = {}
     default_opts = {

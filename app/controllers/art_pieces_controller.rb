@@ -11,6 +11,7 @@ class ArtPiecesController < ApplicationController
   before_filter :artist_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update]
   before_filter :load_media, :only => [:new, :edit, :create, :update]
+  
   after_filter :flush_cache, :only => [:create, :update, :destroy]
   after_filter :store_location
 
@@ -64,10 +65,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def create
-    if commit_is_cancel
-      redirect_to(current_user)
-      return
-    end
+    redirect_to(current_user) and return if commit_is_cancel
 
     # if file to upload - upload it first
     upload = params[:upload]
@@ -81,8 +79,7 @@ class ArtPiecesController < ApplicationController
       render :action => 'new' and return
     end
 
-    params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
-    @art_piece = current_user.art_pieces.build(params[:art_piece])
+    @art_piece = current_user.art_pieces.build(art_piece_params)
     begin
       ActiveRecord::Base.transaction do
         if @art_piece.save
@@ -114,8 +111,7 @@ class ArtPiecesController < ApplicationController
     end
 
     begin
-      params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
-      success = @art_piece.update_attributes(params[:art_piece])
+        success = @art_piece.update_attributes(art_piece_params)
     rescue
       @art_piece.errors.add('art_piece_tags','%s' % $!)
       render :action => "edit" and return
@@ -156,6 +152,10 @@ class ArtPiecesController < ApplicationController
     (art_piece.artist == current_user)
   end
 
+  def load_media
+    @media = Medium.all
+  end
+
   def load_art_piece
     @art_piece = safe_find_art_piece(params[:id])
     if !@art_piece || !@art_piece.artist
@@ -180,5 +180,10 @@ class ArtPiecesController < ApplicationController
       end
     end
     return @page_description
+  end
+
+  def art_piece_params
+    params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
+    params[:art_piece]
   end
 end
