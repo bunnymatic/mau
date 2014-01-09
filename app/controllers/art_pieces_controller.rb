@@ -10,6 +10,7 @@ class ArtPiecesController < ApplicationController
   before_filter :login_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :artist_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update]
+  before_filter :load_media, :only => [:new, :edit, :create, :update]
 
   after_filter :flush_cache, :only => [:create, :update, :destroy]
   after_filter :store_location
@@ -53,7 +54,6 @@ class ArtPiecesController < ApplicationController
         "could go delete specific pieces to make room for the new ones." % artist.max_pieces
     end
     @art_piece = ArtPiece.new
-    @media = Medium.all
   end
 
   # GET /art_pieces/1/edit
@@ -62,63 +62,43 @@ class ArtPiecesController < ApplicationController
       flash[:error] = "You're not allowed to edit that work."
       redirect_to "/error"
     end
-    @media = Medium.all
-    @selected_medium = @art_piece.medium
   end
 
   def create
-    if commit_is_cancel
-      redirect_to(current_user)
-      return
-    end
-    @media = Medium.all
+    redirect_to(current_user) and return if commit_is_cancel
 
     # if file to upload - upload it first
-    @errors = []
     upload = params[:upload]
     saved = false
     if !upload
-      flash.now[:error] = "You must provide an image.<br/>"+
-        "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
-        " like quotes &quot;, apostrophes &apos; or brackets ([{}]).".html_safe
       @art_piece = ArtPiece.new params[:art_piece]
-      render :action => 'new'
-      return
-    else
-      params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
-      @art_piece = current_user.art_pieces.build(params[:art_piece])
-      begin
-        ActiveRecord::Base.transaction do
-          saved = @art_piece.save
-          if saved
-            # upload image
-            if upload
-              post = ArtPieceImage.new(@art_piece, upload).save
-            end
-            flash[:notice] = 'Artwork was successfully added.'
-            Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
-          else
-            @errors = @art_piece.errors.full_messages
-            @art_piece = ArtPiece.new params[:art_piece]
-          end
-        end
-      rescue Exception => ex
-        puts ex
-        puts ex.backtrace
-        @errors << "%s" % ex.message
-        logger.error("Failed to upload %s" % $!)
-        @art_piece = ArtPiece.new params[:art_piece]
-        render :action => 'new'
-        return
-      end
+      @art_piece.valid?
+      @art_piece.errors.add(:base, "You must provide an image."+
+        "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
+        " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
+      render :action => 'new' and return
     end
 
-    if saved
-      redirect_to(current_user)
-    else
-      @media = Medium.all
-      render :action => "new"
+    @art_piece = current_user.art_pieces.build(art_piece_params)
+    begin
+      ActiveRecord::Base.transaction do
+        if @art_piece.save
+          # upload image
+          ArtPieceImage.new(@art_piece, upload).save
+          flash[:notice] = 'Artwork was successfully added.'
+          Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
+        else
+          render :action => 'new' and return
+        end
+      end
+    rescue Exception => ex
+      logger.error("Failed to upload %s" % $!)
+      @art_piece = ArtPiece.new params[:art_piece]
+      @art_piece.errors.add(:base, ex.message)
+      render :action => 'new' and return
     end
+
+    redirect_to(current_user)
   end
 
   # PUT /art_pieces/1
@@ -126,31 +106,22 @@ class ArtPiecesController < ApplicationController
     if commit_is_cancel
       @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
       @art_piece = ArtPiecePresenter.new(view_context, @art_piece)
-      render :action => 'show', :layout => 'mau'
+      render :action => 'show', :layout => 'mau' and return
       return
+    end
+
+    begin
+        success = @art_piece.update_attributes(art_piece_params)
+    rescue
+      @art_piece.errors.add('art_piece_tags','%s' % $!)
+      render :action => "edit" and return
+    end
+    if success
+      flash[:notice] = 'Artwork was successfully updated.'
+      Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
+      redirect_to art_piece_path(@art_piece)
     else
-      @media = Medium.all
-      begin
-        params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
-        success = @art_piece.update_attributes(params[:art_piece])
-      rescue
-        logger.warn("Failed to update artpiece : %s" % $!)
-        @errors = @art_piece.errors
-        @errors.add('ArtPieceTags','%s' % $!)
-        render :action => "edit"
-        return
-      end
-      if success
-        flash[:notice] = 'Artwork was successfully updated.'
-        Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
-        redirect_to art_piece_path(@art_piece)
-      else
-        @errors = art_piece.errors
-        if @art_piece.medium
-          @selected_medium = @art_piece.medium
-        end
-        render :action => "edit"
-      end
+      render :action => "edit"
     end
   end
 
@@ -165,10 +136,11 @@ class ArtPiecesController < ApplicationController
     redirect_to(artist)
   end
 
-  def sidebar_info
-  end
-
   protected
+
+  def load_media
+    @media ||= Medium.all
+  end
 
   def set_page_info_from_art_piece
     @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
@@ -178,6 +150,10 @@ class ArtPiecesController < ApplicationController
 
   def owned_by_current_user?(art_piece)
     (art_piece.artist == current_user)
+  end
+
+  def load_media
+    @media = Medium.all
   end
 
   def load_art_piece
@@ -204,5 +180,10 @@ class ArtPiecesController < ApplicationController
       end
     end
     return @page_description
+  end
+
+  def art_piece_params
+    params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
+    params[:art_piece]
   end
 end

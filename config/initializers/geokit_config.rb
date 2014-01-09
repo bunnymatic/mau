@@ -56,7 +56,7 @@ Mau::Application.configure do
     puts "Using fake geocoder for tests"
     config.geokit.geocoders.provider_order = [:fake]
   else
-    config.geokit.geocoders.provider_order = [:google3,:yahoo]
+    config.geokit.geocoders.provider_order = [:google3,:yahoo,:us, :fake]
   end
 
 	# The IP provider order. Valid symbols are :ip,:geo_plugin.

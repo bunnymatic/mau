@@ -3,18 +3,11 @@
   <div class="logo-spacer">&nbsp;</div>
   <h4>Add a new piece of art for <%= current_artist.get_name %></h4>
   <%= form_for(@art_piece, :html => {:id => 'new_artpiece_form', :multipart => true}) do |f| -%>
+  
   <%= hidden_field_tag :user_id, current_artist.login %>
   <div id="new_artpiece">
-    <% if @errors or flash[:error] -%>
-      <% if flash[:error] -%>
-      <div class="error-msg"><%= flash[:error] %></div>
-      <% elsif @errors -%>
-      <div class="error-msg">
-	      There were problems with your request:
-	      <%= @errors.map{|e| content_tag('div',e)}.join.html_safe %>
-      </div>
-      <% end %>
-    <% end %>
+    <%= render '/common/form_errors', :form => f %>
+    <%= render '/flash_notice_error' %>
     <table align="center" cellspacing="0" cellpadding="8">
       <tr>
         <td class="input-name" width="224"><%= f.label :title %></td>

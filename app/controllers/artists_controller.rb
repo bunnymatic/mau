@@ -262,26 +262,7 @@ class ArtistsController < ApplicationController
 
   def update
     if request.xhr?
-      if params.has_key?(:artist_os_participation)
-        participating = (params[:artist_os_participation].to_i != 0)
-        if participating != current_artist.artist_info.os_participation[Conf.oslive]
-          begin
-            unless current_artist.address.blank?
-              ai = current_artist.artist_info
-              ai.update_os_participation(Conf.oslive, participating)
-              msg = "#{current_artist.fullname} set their os status to"+
-                " #{participating} for #{Conf.oslive} open studios"
-              data = {'user' => current_artist.login, 'user_id' => current_artist.id}
-              OpenStudiosSignupEvent.create(:message => msg,
-                                            :data => data)
-              ai.save!
-            end
-          rescue Exception => ex
-            puts ex.to_s
-          end
-        end
-      end
-      Messager.new.publish "/artists/#{current_artist.id}/update", "updated os info"
+      process_os_update
       render :json => {:success => true}
     else
       if commit_is_cancel
@@ -294,8 +275,8 @@ class ArtistsController < ApplicationController
           em = Hash[em.map{|k,v| [k, !!v.to_i]}]
           params[:artist][:email_attrs] = em.to_json
         end
-        artist_info = params[:artist].delete :artist_info
-        current_artist.artist_info.update_attributes!(artist_info)
+        params[:artist][:artist_info_attributes] = params[:artist].delete :artist_info
+        #current_artist.artist_info.update_attributes!(artist_info)
         current_artist.update_attributes!(params[:artist])
         flash[:notice] = "Update successful"
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
@@ -351,12 +332,7 @@ class ArtistsController < ApplicationController
   end
 
   def safe_find_artist(id)
-    begin
-      Artist.find(id)
-    rescue ActiveRecord::RecordNotFound
-      flash.now[:error] = "The artist you were looking for was not found."
-      return nil
-    end
+    Artist.where(:id => id).first || Artist.where(:login => id).first
   end
 
   def set_artist_meta
@@ -367,24 +343,10 @@ class ArtistsController < ApplicationController
   end
 
   def get_artist_from_params
-    artist = nil
-    begin
-      use_id = Integer(params[:id])
-    rescue ArgumentError
-      use_id = false
-    end
-    if !use_id
-      artist = Artist.find_by_login(params[:id])
-      if !artist or artist.suspended?
-        artist = nil
-        flash.now[:error] = "The artist '" + params[:id] + "' you were looking for was not found."
-      end
-    else
-      artist = safe_find_artist(params[:id])
-      if artist && artist.suspended?
-        flash.now[:error] = "The artist '" + artist.get_name(true) + "' is no longer with us."
-        artist = nil
-      end
+    artist = safe_find_artist(params[:id])
+    if artist && artist.suspended?
+      flash.now[:error] = "The artist '" + artist.get_name(true) + "' is no longer with us."
+      artist = nil
     end
     artist
   end
@@ -425,5 +387,31 @@ class ArtistsController < ApplicationController
   def get_sort_options_from_params
     @sort_by = params[:sort_by] || params[:rsort_by]
     @reverse = params.has_key? :rsort_by
+  end
+
+  # process xhr request to update artist os participation
+  def process_os_update
+    return unless params[:artist_os_participation].present?
+
+    participating = (params[:artist_os_participation].to_i != 0)
+    if participating != current_artist.os_participation[Conf.oslive]
+      begin
+        unless current_artist.address.blank?
+          current_artist.update_os_participation!(Conf.oslive, participating)
+          trigger_os_signup_event(participating)
+        end
+      rescue Exception => ex
+        puts ex.to_s
+      end
+    end
+    Messager.new.publish "/artists/#{current_artist.id}/update", "updated os info"
+  end
+
+  def trigger_os_signup_event(participating)
+    msg = "#{current_artist.fullname} set their os status to"+
+      " #{participating} for #{Conf.oslive} open studios"
+    data = {'user' => current_artist.login, 'user_id' => current_artist.id}
+    OpenStudiosSignupEvent.create(:message => msg,
+                                  :data => data)
   end
 end
