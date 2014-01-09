@@ -1,7 +1,7 @@
 <h4>All Media</h4>
 <div class="tagcloud">
-  <% if @freq %>
-  <% @freq.each do |t| %>
+  <% if frequency %>
+  <% frequency.each do |t| %>
   <%   mid = t["medium"]
        ct = t["ct"]
        (sz, mrg) = fontsize_from_frequency(ct)
