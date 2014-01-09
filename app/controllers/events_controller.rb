@@ -65,34 +65,11 @@ class EventsController < ApplicationController
 
   # POST /events
   def create
-    event_details = params[:event]
-    if event_details[:artist_list]
-      artist_list = event_details[:artist_list]
-      event_details.delete :artist_list
-      artist_names = artist_list.split(',')
-      artists = []
-      artist_names.each do |n|
-        n.strip!
-        a = Artist.find_by_fullname(n)
-        if !a || a.empty?
-          a = Artist.find_by_login(n)
-        end
-        artists << a if a
-      end
-      links = artists.flatten.map{|a| "[#{a.get_name}](#{a.get_share_link})"}.join(', ')
-      event_details[:description] << "\n\n" << links
-    end
-
-    event_details[:user_id] = current_user.id
-    @event = Event.new(event_details)
-
+    @event = Event.new(event_params)
     if @event.save
       EventMailer.event_added(@event).deliver!
-      redir = events_path
-      flash[:notice] = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
-      redirect_to(redir)
+      redirect_after_create
     else
-      puts @event.errors.full_messages.join
       render "new_or_edit"
     end
   end
@@ -146,4 +123,38 @@ class EventsController < ApplicationController
     redirect_to admin_events_path
   end
 
+  private
+  def append_artists_to_description
+    event_info = params[:event]
+    if event_info[:artist_list]
+      artist_list = event_info.delete(:artist_list)
+      artist_names = artist_list.split(',')
+      artists = fetch_artists_by_names(artist_names)
+      links = artists.map{|a| "[#{a.get_name}](#{a.get_share_link})"}.join(', ')
+      event_info[:description] << "\n\n" << links << "\n" if links.present?
+    end
+    event_info
+  end
+  
+  def fetch_artists_by_names(names)
+    names.map do |name|
+      name.strip!
+      a = Artist.find_by_fullname(name.strip)
+      if a.blank?
+        a = Artist.find_by_login(name)
+      end
+      a
+    end.flatten.compact
+  end
+
+  def event_params
+    info = append_artists_to_description
+    info[:user_id] = current_user.id
+    info
+  end
+
+  def redirect_after_create
+    msg = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
+    redirect_to events_path, :flash => {:notice => msg}
+  end
 end
