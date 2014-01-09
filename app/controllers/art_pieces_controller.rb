@@ -11,7 +11,7 @@ class ArtPiecesController < ApplicationController
   before_filter :artist_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update]
   before_filter :load_media, :only => [:new, :edit, :create, :update]
-  
+
   after_filter :flush_cache, :only => [:create, :update, :destroy]
   after_filter :store_location
 
@@ -71,7 +71,7 @@ class ArtPiecesController < ApplicationController
     upload = params[:upload]
     saved = false
     if !upload
-      @art_piece = ArtPiece.new params[:art_piece] 
+      @art_piece = ArtPiece.new params[:art_piece]
       @art_piece.valid?
       @art_piece.errors.add(:base, "You must provide an image."+
         "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
@@ -97,7 +97,7 @@ class ArtPiecesController < ApplicationController
       @art_piece.errors.add(:base, ex.message)
       render :action => 'new' and return
     end
-    
+
     redirect_to(current_user)
   end
 

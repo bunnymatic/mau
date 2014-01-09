@@ -392,7 +392,7 @@ class ArtistsController < ApplicationController
   # process xhr request to update artist os participation
   def process_os_update
     return unless params[:artist_os_participation].present?
-    
+
     participating = (params[:artist_os_participation].to_i != 0)
     if participating != current_artist.os_participation[Conf.oslive]
       begin
