@@ -89,30 +89,10 @@ class MediaController < ApplicationController
 
   private
   def _show_html
-    page = params[:p]
-    if not page
-      page = 0
-    end
-    page = page.to_i
-    @results_mode = params[:m] || 'p'
 
-    items = @medium.art_pieces.order('created_at')
-
-    # if show by artists, pick 1 from each artist
-    if @results_mode == 'p'
-      pieces = items.sort_by { |i| i.updated_at }
-    else
-      tmps = {}
-      items.each do |pc|
-        if !tmps.include?  pc.artist_id
-          tmps[pc.artist_id] = pc
-        end
-      end
-      pieces = tmps.values.sort_by { |p| p.updated_at }
-    end
-    pieces.reverse!
-    @paginator = MediumPagination.new(view_context, pieces, @medium, page, {:m => params[:m]},  4)
-    @pieces = @paginator.items
+    @media_presenter = MediaPresenter.new(view_context, @medium, params[:p])
+    @pieces = @media_presenter.art_pieces
+    @paginator = @media_presenter.paginator
 
     # still in use
     @by_artists_link = medium_path(@medium, { :m => 'a' })
