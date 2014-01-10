@@ -58,10 +58,10 @@ describe MediaController do
       assigns(:artists).should have_at_least(1).artist
     end
     it "assigns frequency" do
-      assigns(:freq).should have_at_least(1).item
+      assigns(:frequency).should have_at_least(1).item
     end
     it "assigns frequency correctly" do
-      freq = assigns(:freq)
+      freq = assigns(:frequency)
       m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
       m2freq['ct'].should eql 1.0
     end
