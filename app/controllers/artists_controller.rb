@@ -30,7 +30,6 @@ class ArtistsController < ApplicationController
   end
 
   def map_page
-
     @os_only = is_os_only(params["osonly"])
 
     set_artists_index_links
@@ -213,6 +212,7 @@ class ArtistsController < ApplicationController
           flash.now[:error] = 'We were unable to find the artist you were looking for.'
         end
         @artist = ArtistPresenter.new(view_context, @artist)
+
         store_location
         render :action => 'show', :layout => 'mau'
       }
