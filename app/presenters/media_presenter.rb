@@ -1,12 +1,13 @@
 class MediaPresenter
 
   attr_reader :medium
+
   def initialize(view_context, medium, page = nil, mode = nil, per_page = nil)
     @view_context = view_context
     @medium = medium
     @page = (page || 0).to_i
     @mode_string = mode || 'p'
-    @per_page ||= 20
+    @per_page = per_page || 20
   end
 
   def by_artist? 
@@ -33,15 +34,14 @@ class MediaPresenter
   end
 
   def art_pieces_by_artist
-    tmps = {}
-    raw_art_pieces.each do |pc|
-      tmps[pc.artist_id] = pc unless tmps.has_key? pc.artist_id
-    end
-    tmps.values.sort_by { |p| p.updated_at }.reverse
-  end
-
-  def mode_opts
-    {:m => @mode_string}
+    @art_pieces_by_artist ||= 
+      begin
+        {}.tap do |bucket|
+          raw_art_pieces.each do |piece|
+            bucket[piece.artist_id] = piece unless bucket.has_key? piece.artist_id
+          end
+        end.values.sort_by { |p| p.updated_at }.reverse
+      end
   end
 
   def paginator
@@ -53,6 +53,8 @@ class MediaPresenter
     @raw_art_pieces ||= @medium.art_pieces.order('updated_at')
   end
 
-
+  def mode_opts
+    {:m => @mode_string}
+  end
 
 end
