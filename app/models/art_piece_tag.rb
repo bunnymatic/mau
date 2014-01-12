@@ -26,31 +26,20 @@ class ArtPieceTag < ActiveRecord::Base
     SafeCache.delete(CACHE_KEY + false.to_s)
   end
 
-  def self.frequency(normalize=true)
-    freq = SafeCache.read(CACHE_KEY + normalize.to_s)
+  def self.frequency(_normalize=true)
+    freq = SafeCache.read(CACHE_KEY + _normalize.to_s)
     if freq
       logger.debug('read tag frequency from cache')
       return freq
     end
-    tags = []
-    dbr = connection.execute("/* hand generated sql */ select art_piece_tag_id tag,count(*) ct from "+
-                             "art_pieces_tags where art_piece_id in (select id from art_pieces) "+
-                             "group by art_piece_tag_id order by ct desc;")
-    tags = dbr.map{|row| Hash[ 'tag', row[0], 'ct', row[1] ]}
-    # compute max/min ct
-    maxct = tags.map{|t| t['ct'].to_i}.max
-    maxct = 1.0 if maxct.to_i <= 0
+    tags = get_tag_usage
 
-    if normalize
-      tags.each do |t|
-        t['ct'] = t['ct'].to_f / maxct.to_f
-      end
-    else
-      tags.map {|t| t['ct'] = t['ct'].to_i}
-    end
+    maxct = tags.map{|m| m['ct'].to_i}.max
+    maxct = 1.0 if maxct <= 0
+
+    normalize(tags, 'ct', maxct) if _normalize
     SafeCache.write(CACHE_KEY, tags[0..MAX_SHOW_TAGS], :expires_in => CACHE_EXPIRY)
     tags[0..MAX_SHOW_TAGS]
-
   end
 
   def self.keyed_frequency
@@ -71,6 +60,24 @@ class ArtPieceTag < ActiveRecord::Base
   def self.all
     logger.debug("ArtPieceTag: Fetching from db")
     super(:order => 'name')
+  end
+
+
+  private
+  class << self
+    private
+    def get_tag_usage
+      dbr = connection.execute("/* hand generated sql */ select art_piece_tag_id tag,count(*) ct from "+
+                             "art_pieces_tags where art_piece_id in (select id from art_pieces) "+
+                             "group by art_piece_tag_id order by ct desc;")
+      meds = dbr.map{|row| Hash[['tag','ct'].zip(row)] }
+    end
+
+    def normalize(arr, fld, maxct)
+      arr.each do |m|
+        m[fld] = m[fld].to_f / maxct.to_f
+      end
+    end
   end
 
 end

@@ -24,8 +24,8 @@ class Medium < ActiveRecord::Base
     SafeCache.delete(CACHE_KEY + false.to_s)
   end
 
-  def self.frequency(normalize=false)
-    cache_key = CACHE_KEY + normalize.to_s
+  def self.frequency(_normalize=false)
+    cache_key = CACHE_KEY + _normalize.to_s
     freq = SafeCache.read(cache_key)
     if freq
       logger.debug('read medium frequency from cache')
@@ -40,7 +40,7 @@ class Medium < ActiveRecord::Base
     maxct = 1.0 if maxct <= 0
 
     # normalize frequency to 1
-    normalize(meds, 'ct', maxct) if normalize
+    normalize(meds, 'ct', maxct) if _normalize
 
     SafeCache.write(cache_key, meds, :expires_in => CACHE_EXPIRY)
     meds
