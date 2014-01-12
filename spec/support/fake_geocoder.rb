@@ -1,4 +1,5 @@
 require 'faker'
+require 'geokit'
 
 module Geokit
   module Geocoders

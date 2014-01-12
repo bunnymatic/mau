@@ -2,6 +2,8 @@ class PaginationError < StandardError; end
 
 class Pagination
 
+  attr_reader :per_page
+
   def initialize(view_context, array, current, per_page)
     raise PaginationError.new("per_page must be present and greater than 0") unless per_page && (per_page.to_i > 0)
     @view_context = view_context
@@ -23,7 +25,7 @@ class Pagination
   end
 
   def last_page
-    @last_page ||= ((count.to_f-1.0) / @per_page.to_f).floor.to_i
+    @last_page ||= ((count.to_f-1.0) / per_page.to_f).floor.to_i
     @last_page = 0 if @last_page < 0
     @last_page
   end
@@ -48,11 +50,11 @@ class Pagination
   end
 
   def first_item
-    current_page * @per_page
+    current_page * per_page
   end
 
   def last_item
-    first_item + (@per_page - 1)
+    first_item + (per_page - 1)
   end
 
   def items

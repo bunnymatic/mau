@@ -11,7 +11,7 @@
       #search_results
         .search-view-ctrls
           = render "/common/pagination", :paginator => @paginator
-          = render "/art_pieces/mode_selector"
+          = render "/art_pieces/mode_selector", :paginator => @paginator, :by_artists_link => @by_artists_link, :by_pieces_link => @by_pieces_link
         = render '/flash_notice_error'
         .search-results
           - if @tag_presenter.art_pieces.present?

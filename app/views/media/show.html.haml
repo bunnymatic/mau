@@ -1,7 +1,7 @@
 %table.tbl-content
   %tr
     %td.lcol{ :colspan => '2' }
-      = render 'media_link_list', :match => @medium
+      = render 'media_link_list', :match => @medium, :frequency => @frequency
     %td.vstripe
     %td.rcol{ :colspan => '2'}
       %h4
@@ -11,7 +11,7 @@
       #search_results
         .search-view-ctrls
           = render "/common/pagination", :paginator => @paginator
-          = render "/art_pieces/mode_selector"
+          = render "/art_pieces/mode_selector", :paginator => @paginator, :by_artists_link => @by_artists_link, :by_pieces_link => @by_pieces_link
         = render '/flash_notice_error'
         .search-results
           - if @pieces and !@pieces.empty?

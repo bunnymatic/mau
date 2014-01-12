@@ -135,7 +135,7 @@ class EventsController < ApplicationController
     end
     event_info
   end
-  
+
   def fetch_artists_by_names(names)
     names.map do |name|
       name.strip!

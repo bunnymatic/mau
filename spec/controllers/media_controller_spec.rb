@@ -25,9 +25,7 @@ describe MediaController do
     aps.each_with_index do |ap, idx|
       mid = meds[idx % meds.size].id
       aid = artists[(idx + 2) % artists.size].id
-      ap.artist_id = aid
-      ap.medium_id = mid
-      ap.save
+      ap.update_attributes(:artist_id => aid, :medium_id => mid)
     end
   end
 
@@ -76,8 +74,8 @@ describe MediaController do
         end
         it_should_behave_like 'two column layout'
         it_should_behave_like "not logged in"
-        it "assigns results_mode a" do
-          assigns(:results_mode).should eql 'a'
+        it "page is in artists mode" do
+          assigns(:media_presenter).should be_by_artists
         end
       end
       context 'by art piece' do
@@ -86,8 +84,8 @@ describe MediaController do
         end
         it_should_behave_like 'two column layout'
         it_should_behave_like "not logged in"
-        it "assigns results_mode p" do
-          assigns(:results_mode).should eql 'p'
+        it "page is in pieces mode" do
+          assigns(:media_presenter).should be_by_pieces
         end
         it "assigns pieces" do
           assigns(:pieces).should have_at_least(1).medium
@@ -96,10 +94,10 @@ describe MediaController do
           assigns(:media).should have_at_least(1).medium
         end
         it "assigns frequency" do
-          assigns(:freq).should have_at_least(1).item
+          assigns(:frequency).should have_at_least(1).item
         end
         it "assigns frequency" do
-          freq = assigns(:freq)
+          freq = assigns(:frequency)
           m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
           m2freq['ct'].should eql 1.0
         end

@@ -209,6 +209,9 @@ class ArtistsController < ApplicationController
     set_artist_meta
     respond_to do |format|
       format.html {
+        if !@artist
+          flash.now[:error] = 'We were unable to find the artist you were looking for.'
+        end
         @artist = ArtistPresenter.new(view_context, @artist)
         store_location
         render :action => 'show', :layout => 'mau'
@@ -275,8 +278,8 @@ class ArtistsController < ApplicationController
           em = Hash[em.map{|k,v| [k, !!v.to_i]}]
           params[:artist][:email_attrs] = em.to_json
         end
-        params[:artist][:artist_info_attributes] = params[:artist].delete :artist_info
-        #current_artist.artist_info.update_attributes!(artist_info)
+        artist_info = params[:artist].delete :artist_info
+        current_artist.artist_info.update_attributes!(artist_info)
         current_artist.update_attributes!(params[:artist])
         flash[:notice] = "Update successful"
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"

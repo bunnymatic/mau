@@ -3,18 +3,18 @@ class MediaController < ApplicationController
   # GET /media.xml
   layout 'mau1col'
   before_filter :admin_required, :except => [ :index, :show ]
+  before_filter :load_media, :only => [:admin_index, :show]
+  before_filter :load_media_frequency, :only => [:index, :show]
   after_filter :store_location
 
   def admin_index
-    @media = Medium.all
     render :layout => 'mau-admin'
   end
 
   def index
     xtra_params = Hash[ params.select{ |k,v| [:m, "m"].include? k } ]
-    @freq = Medium.frequency(true)
-    if !@freq.empty?
-      freq = @freq.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
+    if !@frequency.empty?
+      freq = @frequency.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
       begin
         med = Medium.find(freq[0]['medium'])
         redirect_to medium_path(med, xtra_params)
@@ -29,8 +29,6 @@ class MediaController < ApplicationController
   # GET /media/1.xml
 
   def show
-    @freq = Medium.frequency(true)
-    @media = Medium.all
     @medium = Medium.find(params[:id])
 
     respond_to do |format|
@@ -91,31 +89,11 @@ class MediaController < ApplicationController
 
   private
   def _show_html
-    page = params[:p]
-    if not page
-      page = 0
-    end
-    page = page.to_i
-    @results_mode = params[:m] || 'p'
+    @media_presenter = MediaPresenter.new(view_context, @medium, params[:p], params[:m])
+    @pieces = @media_presenter.art_pieces
+    @paginator = @media_presenter.paginator
 
-    items = @medium.art_pieces.order('created_at')
-
-    # if show by artists, pick 1 from each artist
-    if @results_mode == 'p'
-      pieces = items.sort_by { |i| i.updated_at }
-    else
-      tmps = {}
-      items.each do |pc|
-        if !tmps.include?  pc.artist_id
-          tmps[pc.artist_id] = pc
-        end
-      end
-      pieces = tmps.values.sort_by { |p| p.updated_at }
-    end
-    pieces.reverse!
-    @paginator = MediumPagination.new(view_context, pieces, @medium, page, {:m => params[:m]},  4)
-    @pieces = @paginator.items
-
+    # still in use
     @by_artists_link = medium_path(@medium, { :m => 'a' })
     @by_pieces_link = medium_path(@medium, { :m => 'p' })
 
@@ -128,4 +106,13 @@ class MediaController < ApplicationController
     # if show by artists, pick 1 from each artist
     @artists = Artist.find(items.map(&:artist_id).uniq)
   end
+
+  def load_media_frequency
+    @frequency = Medium.frequency(true)
+  end
+
+  def load_media
+    @media ||= Medium.all
+  end
+
 end

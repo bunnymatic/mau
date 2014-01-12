@@ -3,6 +3,8 @@ require 'spec_helper'
 describe AdminEmailList do
   include OsHelper
 
+  fixtures :artist_infos, :users, :roles_users, :roles
+
   let(:listname) { 'active' }
   subject(:email_list) { AdminEmailList.new(listname) }
   let(:emails) { email_list.emails }
@@ -75,8 +77,8 @@ describe AdminEmailList do
     its(:csv_filename) { should eql 'email_' + listname.join("_") + ".csv" }
 
     it 'returns emails that have been in both open studios' do
-      expected = Artist.all.select{|a| a.os_participation[ostags.first]}.map(&:email) |
-        Artist.all.select{|a| a.os_participation[ostags.last]}.map(&:email)
+      expected = Artist.active.select{|a| a.os_participation[ostags.first]}.map(&:email) |
+        Artist.active.select{|a| a.os_participation[ostags.last]}.map(&:email)
       expect(emails.map(&:email).sort).to eql expected.sort
     end
   end
