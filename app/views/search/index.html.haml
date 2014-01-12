@@ -8,13 +8,13 @@
           .block.keywords
             %label Keywords:
             %ul.keywords
-              - @keywords.present? && @keywords.each_with_index do |k, idx|
+              - @query.keywords.present? && @query.keywords.each_with_index do |k, idx|
                 %li #{ "AND " if idx > 0} #{k}
           .block.mediums
             %label Mediums:
             %ul
-              - if @mediums && !@mediums.empty?
-                - @mediums.map(&:name).each do |n|
+              - if @query.mediums.present?
+                - @query.map(&:name).each do |n|
                   %li #{n}
               - else
                 %li Any
@@ -28,8 +28,8 @@
                 %li Any
           .block.os
             %label Open Studios Participants:
-            - unless @open_studios_flag.nil?
-              .os #{@open_studios_flag ? 'Yes' : 'No'}
+            - unless @query.os_flag.nil?
+              .os #{@query.os_flag ? 'Yes' : 'No'}
             - else
               .os Don't Care
 
@@ -39,7 +39,7 @@
             %input{ :type => :hidden, :name => :per_page, :value => @per_page}
             %h5.block_head Add Keyword(s):
             .block
-              = text_field_tag :keywords, @keywords.join(", ")
+              = text_field_tag :keywords, @query.query
               = submit_tag :go
             %h5.block_head.trigger
               %span Mediums:
@@ -48,7 +48,7 @@
                 %li.cb_entry.reset
                   %a.reset{:href => '#'}
                     [ clear all ]
-                - medium_ids = @mediums.map(&:id).map(&:to_i)
+                - medium_ids = @query.mediums.map(&:id).map(&:to_i)
                 - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
                   - ck = (medium_ids.length && medium_ids.include?(m[:id]))
                   %li.cb_entry
@@ -62,7 +62,7 @@
                   %a.reset{:href => '#'}
                     [ clear all ]
                 - Studio.all.map{ |s| {:id => s.id, :name => s.name.to_param, :display => s.name}}.each do |s|
-                  - ck = (@studios.length && @studios.map(&:id).map(&:to_i).include?(s[:id]))
+                  - ck = (@query.studios.length && @query.studios.map(&:id).map(&:to_i).include?(s[:id]))
                   %li.cb_entry
                     = check_box_tag "studio[#{s[:id]}]", s[:id], ck, "data-display" => s[:display]
                     = label_tag s[:name], s[:display]
