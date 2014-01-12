@@ -32,6 +32,9 @@ class ArtPiecesController < ApplicationController
 
     respond_to do |format|
       format.html {
+        if !@art_piece
+          flash.now[:error] = "We were unable to find the piece you were looking for."
+        end
         @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
         @art_piece = ArtPieceHtmlPresenter.new(view_context, @art_piece)
         render :action => 'show', :layout => 'mau'

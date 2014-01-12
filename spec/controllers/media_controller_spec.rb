@@ -74,8 +74,8 @@ describe MediaController do
         end
         it_should_behave_like 'two column layout'
         it_should_behave_like "not logged in"
-        it "assigns results_mode a" do
-          assigns(:results_mode).should eql 'a'
+        it "page is in artists mode" do
+          assigns(:media_presenter).should be_by_artists
         end
       end
       context 'by art piece' do
@@ -84,8 +84,8 @@ describe MediaController do
         end
         it_should_behave_like 'two column layout'
         it_should_behave_like "not logged in"
-        it "assigns results_mode p" do
-          assigns(:results_mode).should eql 'p'
+        it "page is in pieces mode" do
+          assigns(:media_presenter).should be_by_pieces
         end
         it "assigns pieces" do
           assigns(:pieces).should have_at_least(1).medium

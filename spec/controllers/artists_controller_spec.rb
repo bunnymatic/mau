@@ -415,7 +415,7 @@ describe ArtistsController do
     it "reports cannot find artist" do
       get :show, :id => users(:maufan1).id
       assert_select('.rcol .error-msg')
-      response.body.should match(/artist you were looking for was not found/)
+      response.body.should match(/unable to find the artist/)
     end
 
     context "while logged in" do

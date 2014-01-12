@@ -52,7 +52,7 @@ describe ArtistInfo do
     it "triggers geocode given new street" do
       s = artist_infos(:joeblogs)
       s.street = '1891 Bryant St'
-      s.should_receive(:compute_geocode).and_return([-37,122])
+      s.should_receive(:compute_geocode).at_least(1).and_return([-37,122])
       u = users(:joeblogs)
       u.artist_info = s
       u.save!

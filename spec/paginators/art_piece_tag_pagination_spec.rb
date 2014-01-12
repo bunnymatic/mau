@@ -9,12 +9,12 @@ describe ArtPieceTagPagination do
   let(:per_page) { 3 }
   let(:current_page) { 0 }
   let(:tag) { ArtPieceTag.last }
-  let(:page_args) { {} }
+  let(:mode) { nil }
 
   subject(:paginator) do
     ArtPieceTagPagination.new(mock_view_context,
                               num_items.times.map{|x| x + 1},
-                              tag, current_page, page_args, per_page)
+                              tag, current_page, mode, per_page)
   end
 
   context 'with minimal arguments' do
@@ -26,11 +26,19 @@ describe ArtPieceTagPagination do
     its(:previous_link) { should eq art_piece_tag_path(tag, :p => 0) }
   end
 
-  context 'with page arguments' do
-    let(:page_args) { {:arg => 's'} }
+  context 'with different mode' do
+    let(:mode) { 's' }
 
-    its(:next_link) { should eq art_piece_tag_path(tag, :p => 1, :arg => 's') }
-    its(:previous_link) { should eq art_piece_tag_path(tag, :p => 0, :arg => 's') }
+    its(:next_link) { should eq art_piece_tag_path(tag, :p => 1, :m => 's') }
+    its(:previous_link) { should eq art_piece_tag_path(tag, :p => 0, :m => 's') }
   end
+
+  context 'with different current page' do
+    let(:current_page) { 1 }
+
+    its(:next_link) { should eq art_piece_tag_path(tag, :p => 2) }
+    its(:previous_link) { should eq art_piece_tag_path(tag, :p => 0) }
+  end
+
 
 end

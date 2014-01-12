@@ -1,5 +1,7 @@
 class MediaPresenter
 
+  include ArtistOrPiece
+
   attr_reader :medium
 
   def initialize(view_context, medium, page = nil, mode = nil, per_page = nil)
@@ -10,14 +12,6 @@ class MediaPresenter
     @per_page = per_page || 20
   end
 
-  def by_artist? 
-    (@mode_string != 'p')
-  end
-
-  def by_art_piece?
-    (!by_artist?)
-  end
-
   def art_pieces
     @art_pieces ||= paginator.items
   end
@@ -25,16 +19,16 @@ class MediaPresenter
   def all_art_pieces
     @all_art_pieces ||=
       begin
-        if by_art_piece?
-          raw_art_pieces
-        else
+        if by_artists?
           art_pieces_by_artist
+        else
+          raw_art_pieces
         end
       end
   end
 
   def art_pieces_by_artist
-    @art_pieces_by_artist ||= 
+    @art_pieces_by_artist ||=
       begin
         {}.tap do |bucket|
           raw_art_pieces.each do |piece|
@@ -45,16 +39,12 @@ class MediaPresenter
   end
 
   def paginator
-    @paginator ||= MediumPagination.new(@view_context, all_art_pieces, @medium, @page, mode_opts, @per_page)
+    @paginator ||= MediumPagination.new(@view_context, all_art_pieces, @medium, @page, @mode_string, @per_page)
   end
 
   private
   def raw_art_pieces
-    @raw_art_pieces ||= @medium.art_pieces.order('updated_at')
-  end
-
-  def mode_opts
-    {:m => @mode_string}
+    @raw_art_pieces ||= @medium.art_pieces.order('updated_at').reverse
   end
 
 end

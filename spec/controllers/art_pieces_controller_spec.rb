@@ -119,7 +119,7 @@ describe ArtPiecesController do
       context "getting unknown art piece page" do
         it "should redirect to error page" do
           get :show, :id => 'bogusid'
-          flash[:error].should match(/couldn't find that art piece/)
+          flash[:error].should match(/couldn\'t find that art/)
           response.should redirect_to '/error'
         end
       end
@@ -255,7 +255,7 @@ describe ArtPiecesController do
       end
       it 'sets a flash message without image' do
         post :create, :art_piece => art_piece_attributes
-        flash.now[:error].should match /provide an image/
+        assigns(:art_piece).errors[:base].should be_present
       end
       it 'redirects to user page on cancel' do
         post :create, :art_piece => art_piece_attributes, :commit => 'Cancel'
