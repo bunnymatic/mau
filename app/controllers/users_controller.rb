@@ -204,34 +204,12 @@ class UsersController < ApplicationController
   end
 
   def notify
-    id = Integer(params[:id])
-    noteinfo = {}
-    ['comment','login','email','page','name'].each do |k|
-      if params.include? k
-        noteinfo[k] = params[k]
-      end
-    end
-    fixed_names = ['philipcolee@yahoo.com','evott@rocketmail.com', 'mrsute14@yahoo.com','garymartin@gmail.com]']
-    scammer_emails = Scammer.all.map(&:email) + fixed_names
-    if params.include? 'i_love_honey'
-      # spammer hit the honey pot.
-      noteinfo['artist_id'] = id
-      noteinfo['reason'] = 'hit the honey pot'
-      AdminMailer.spammer(noteinfo).deliver!
-    elsif scammer_emails.include? noteinfo['email']
-      noteinfo['artist_id'] = id
-      noteinfo['reason'] = 'matches suspect scammer email address'
-      AdminMailer.spammer(noteinfo).deliver!
-    elsif /Morning,I would love to purchase/i =~ noteinfo['comment']
-      noteinfo['artist_id'] = id
-      noteinfo['reason'] = 'matches suspect spam intro'
-      AdminMailer.spammer(noteinfo).deliver!
-    elsif /\s+details..i/i =~ noteinfo['comment']
-      noteinfo['artist_id'] = id
-      noteinfo['reason'] = 'matches suspect spam intro'
-      AdminMailer.spammer(noteinfo).deliver!
+    _id = params[:id]
+    note_info = build_note_info_from_params
+    if note_info.has_key? 'reason'
+      AdminMailer.spammer(note_info).deliver!
     else
-      ArtistMailer.notify( Artist.find(id), noteinfo).deliver!
+      ArtistMailer.notify( Artist.find(_id), note_info).deliver!
     end
     render :layout => false
   end
@@ -462,4 +440,44 @@ class UsersController < ApplicationController
       @user = MAUFan.new(user_params)
     end
   end
+
+  def basic_note_info_from_params
+    {}.tap do |info|
+      ['comment','login','email','page','name'].each do |k|
+        if params.include? k
+          info[k] = params[k]
+        end
+      end
+    end
+  end
+
+  def scammer_emails
+    @scammer_email ||=
+      begin
+        fixed_names = ['philipcolee@yahoo.com','evott@rocketmail.com', 'mrsute14@yahoo.com','garymartin@gmail.com]']
+        Scammer.all.map(&:email) + fixed_names
+      end
+  end
+
+  def build_note_info_from_params
+    _id = params[:id]
+    note_info = basic_note_info_from_params
+    if params.include? 'i_love_honey'
+      # spammer hit the honey pot.
+      note_info['artist_id'] = _id
+      note_info['reason'] = 'hit the honey pot'
+    elsif scammer_emails.include? note_info['email']
+      note_info['artist_id'] = _id
+      note_info['reason'] = 'matches suspect scammer email address'
+    elsif /Morning,I would love to purchase/i =~ note_info['comment']
+      note_info['artist_id'] = _id
+      note_info['reason'] = 'matches suspect spam intro'
+    elsif /\s+details..i/i =~ note_info['comment']
+      note_info['artist_id'] = _id
+      note_info['reason'] = 'matches suspect spam intro'
+    end
+    note_info
+  end
+
+
 end
