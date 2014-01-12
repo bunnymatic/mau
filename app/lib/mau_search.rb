@@ -17,30 +17,31 @@ class MauSearch
     @studio_ids ||= @studios.map(&:id)
   end
 
+  def has_keywords
+    keywords.present?
+  end
+
   def keyword_count
     @kw_count ||= keywords.length
   end
 
-  def search
-    results_by_kw = {}
+  def fetch_results_by_medium_or_studio
+    # if only medium search by art piece
+    return {'by_medium' => art_pieces_by_medium} if (mediums.present? && !studios.present?)
+    # else search by artists in studios then narrow by mediums
+    return {'by_studio' => art_pieces_by_studio} if studios.present?
+  end
 
-    if keyword_count > 0
-      results_by_kw = fetch_results_by_keyword
-    else
-      # if only medium search by art piece
-      if mediums.present? && !studios.present?
-        results_by_kw['by_medium'] = ArtPiece.where(:medium_id => medium_ids)
-      end
-      # else search by artists in studios then narrow by mediums
-      if studios.present?
-        results_by_kw['by_studio'] = Artist.where(:studio_id => studio_ids).map(&:art_pieces).flatten
-      end
-    end
+  def search
+    results_by_kw = if has_keywords
+                      fetch_results_by_keyword
+                    else
+                      fetch_results_by_medium_or_studio
+                    end || {}
 
     partial_results = filter_results(results_by_kw)
 
     results = {}
-
     partial_results.flatten.compact.flatten.each do |entry|
       results[entry.id] = entry if entry.id and entry.artist && entry.artist.active?
     end
@@ -81,6 +82,14 @@ class MauSearch
     tag_ids = ArtPieceTag.where(:name => kw)
     tags = ArtPiecesTag.where(:art_piece_tag_id => tag_ids)
     ArtPiece.where(:id => tags.map(&:art_piece_id) )
+  end
+
+  def art_pieces_by_studio
+    @art_pieces_by_studio ||= Artist.where(:studio_id => studio_ids).map(&:art_pieces).flatten
+  end
+
+  def art_pieces_by_medium
+    @art_pieces_by_medium ||= ArtPiece.where(:medium_id => medium_ids)
   end
 
   def fetch_results_by_keyword
