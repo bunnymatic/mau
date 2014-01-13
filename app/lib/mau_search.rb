@@ -1,20 +1,22 @@
 class MauSearch
 
-  attr_reader :keywords, :studios, :mediums, :os_flag
+  attr_reader :query
+  delegate :os_flag, :mediums, :studios, :to => :query
 
-  def initialize(opts)
-    @keywords = opts.keywords.map{|k| k.downcase.strip}.compact.uniq
-    @os_flag = opts.os_flag
-    @mediums = opts.mediums
-    @studios = opts.studios
+  def initialize(query)
+    @query = query
+  end
+
+  def keywords
+    @keywords = query.keywords.map{|k| k.downcase.strip}.compact.uniq
   end
 
   def medium_ids
-    @medium_ids ||= @mediums.map(&:id)
+    @medium_ids ||= mediums.map(&:id)
   end
 
   def studio_ids
-    @studio_ids ||= @studios.map(&:id)
+    @studio_ids ||= studios.map(&:id)
   end
 
   def has_keywords
