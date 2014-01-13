@@ -40,8 +40,8 @@ Mau::Application.routes.draw do
   match '/calendar/:year/:month' => 'calendar#index', :as => :calendar, :constraints => { :month => /\d{1,2}/, :year => /\d{4}/ }
   match '/calendar' => 'calendar#index', :as => :calendar
 
-  match 'feedbacks' => 'feedbacks#create', :as => :feedback
-  match 'feedbacks/new' => 'feedbacks#new', :as => :new_feedback
+  resources :feedbacks, :only => [:new, :create]
+
   resources :search, :only => [:index] do
     collection do
       post :fetch

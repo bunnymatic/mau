@@ -44,7 +44,7 @@ class MauSearch
     partial_results = filter_results(results_by_kw)
 
     results = {}
-    partial_results.flatten.compact.flatten.each do |entry|
+    partial_results.each do |entry|
       results[entry.id] = entry if entry.id and entry.artist && entry.artist.active?
     end
 
@@ -114,7 +114,7 @@ class MauSearch
 
     results = filter_by_medium(results)
     results = filter_by_studios(results)
-    filter_by_os_flag(results)
+    filter_by_os_flag(results).flatten.compact
   end
 
   def filter_by_medium(results)
