@@ -22,7 +22,7 @@ describe MauSearch do
     MauSearchQuery.new(keywords: keywords,
                        studios: search_studios.map(&:id),
                        mediums: search_mediums.map(&:id),
-                       os_flag: os_flag)
+                       os_artist: os_flag)
   }
 
   subject(:search) { MauSearch.new(query) }
@@ -146,14 +146,14 @@ describe MauSearch do
 
   context 'finding only os artists' do
     let(:keywords) { 'a' }
-    let(:os_flag) { true }
+    let(:os_flag) { "1" }
     its(:search) { should have_at_least(1).item }
     it { expect(results.map{|r| r.artist.doing_open_studios?}.uniq).to eql [true] }
   end
 
   context 'finding only non os artists' do
     let(:keywords) { 'a' }
-    let(:os_flag) { false }
+    let(:os_flag) { "2" }
     its(:search) { should have_at_least(1).item }
     it { expect(results.map{|r| r.artist.doing_open_studios?}.uniq).to eql [false] }
   end
