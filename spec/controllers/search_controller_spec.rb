@@ -70,9 +70,9 @@ describe SearchController do
     end
 
     context "finding by studio" do
+      let(:studio_search) { [ studios(:s1890), studios(:as) ] }
       before do
-        @searched_studios = [ studios(:s1890), studios(:as) ]
-        get :index, :studio => Hash[@searched_studios.map{|s| [s.id.to_s, s.id.to_s]}], :keywords => 'title'
+        get :index, :studios => studio_search.map(&:id), :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it 'shows the studios you searched for' do
@@ -82,15 +82,15 @@ describe SearchController do
         end
       end
       it 'checks the studios you searched for' do
-        assigns(:studios).should have(2).studios
-        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:studios).count
+        assigns(:query).studios.should have(2).studios
+        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:query).studios.count
       end
     end
 
     context "finding by medium" do
+      let(:media_search) { [ media(:medium1), media(:medium2) ] }
       before do
-        @searched_medium = [ media(:medium1), media(:medium2) ]
-        get :index, :medium => Hash[@searched_medium.map{|m| [m.id.to_s, m.id.to_s]}], :keywords => 'title'
+        get :index, :mediums => media_search.map(&:id), :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it 'shows the media you searched for' do
@@ -100,8 +100,8 @@ describe SearchController do
         end
       end
       it 'checks the media you searched for' do
-        assigns(:mediums).should have(2).media
-        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:mediums).count
+        assigns(:query).mediums.should have(2).media
+        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:query).mediums.count
       end
     end
   end
@@ -137,7 +137,7 @@ describe SearchController do
         post :fetch, :keywords => 'a', :per_page => 48
       end
       it 'resets the per_page to something reasonable' do
-        assigns(:per_page).should_not eql 48
+        assigns(:query).per_page.should_not eql 48
       end
     end
   end

@@ -28,21 +28,13 @@ class SearchController < ApplicationController
   end
 
   def execute_search
-
     @query = MauSearchQuery.new(params)
 
     results = MauSearch.new(@query).search
-
     @per_page_opts = per_page_options(results)
     @query.per_page = results.count < @query.per_page ? @per_page_opts.max : @query.per_page
 
     @paginator = Pagination.new(view_context, results, @query.page, @query.per_page)
-
-    #   @per_page = opts.per_page
-    # @user_query = opts.query || ''
-    # @keywords = opts.keywords || []
-    # @mediums = opts.mediums || []
-    # @studios = opts.studios || []
 
   end
 

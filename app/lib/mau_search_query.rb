@@ -15,7 +15,7 @@ class MauSearchQuery
     self.os_flag = { '1' => true, '2' => false }[attributes[:os_artist]]
     self.page = attributes[:p].to_i
     self.mode = attributes[:m]
-    self.per_page = (attributes[:per_page] || PER_PAGE).to_i
+    self.per_page = (attributes[:per_page].present? ? attributes[:per_page] : PER_PAGE).to_i
   end
 
   def query

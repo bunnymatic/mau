@@ -5,6 +5,9 @@
         .current_search
           %h4
             Current Search
+            #search_help.help-parent
+              = render '/whatsthis/popup', :section => 'search', :link_text => "what's this?", :parent => 'search_help', :use_icon => true, :title => "About Search"
+
           .block.keywords
             %label Keywords:
             %ul.keywords
@@ -14,15 +17,15 @@
             %label Mediums:
             %ul
               - if @query.mediums.present?
-                - @query.map(&:name).each do |n|
+                - @query.mediums.map(&:name).each do |n|
                   %li #{n}
               - else
                 %li Any
           .block.studios
             %label Studios:
             %ul
-              - if @studios && !@studios.empty?
-                - @studios.map(&:name).each do |n|
+              - if @query.studios && !@query.studios.empty?
+                - @query.studios.map(&:name).each do |n|
                   %li #{n}
               - else
                 %li Any
@@ -52,8 +55,8 @@
                 - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
                   - ck = (medium_ids.length && medium_ids.include?(m[:id]))
                   %li.cb_entry
-                    = check_box_tag "medium[#{m[:id]}]", m[:id], ck, "data-display" => m[:display]
-                    = label_tag "medium[#{m[:id]}]", m[:display]
+                    = check_box_tag "mediums[]", m[:id], ck, "data-display" => m[:display]
+                    = label_tag "mediums[]", m[:display]
             %h5.block_head.trigger
               %span Studios:
             .block.expandable#studio_chooser{:style => "display:none;"}
@@ -64,7 +67,7 @@
                 - Studio.all.map{ |s| {:id => s.id, :name => s.name.to_param, :display => s.name}}.each do |s|
                   - ck = (@query.studios.length && @query.studios.map(&:id).map(&:to_i).include?(s[:id]))
                   %li.cb_entry
-                    = check_box_tag "studio[#{s[:id]}]", s[:id], ck, "data-display" => s[:display]
+                    = check_box_tag "studios[]", s[:id], ck, "data-display" => s[:display]
                     = label_tag s[:name], s[:display]
             %h5.block_head Open Studios Participants:
             .block
