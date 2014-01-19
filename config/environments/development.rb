@@ -20,4 +20,12 @@ Mau::Application.configure do
   #config.action_mailer.delivery_method = :test
 
   config.active_support.deprecation = :log
+
+
+  # Do not compress assets
+  config.assets.compress = false
+  
+  # Expands the lines which load the assets
+  config.assets.debug = true
+
 end

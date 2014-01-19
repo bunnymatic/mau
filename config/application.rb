@@ -1,5 +1,12 @@
 require File.expand_path('../boot', __FILE__)
-require 'rails/all'
+
+# Pick the frameworks you want:
+require "active_record/railtie"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+#require "active_resource/railtie"
+require "sprockets/railtie"
+#require 'rails/all'
 
 require File.expand_path('../../lib/app_config', __FILE__)
 
@@ -10,7 +17,12 @@ c.use_section! Rails.env
 ::Conf = c
 
 
-POSTMARK_API_KEY = 'e3ff1e94-b1a9-4ae8-aba5-2e3a8ba3692e'
+if defined?(Bundler)
+  # If you precompile assets before deploying to production, use this line
+  Bundler.require(*Rails.groups(assets: %w(development test)))
+  # If you want your assets lazily compiled in production, use this line
+  # Bundler.require(:default, :assets, Rails.env)
+end
 
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
@@ -51,6 +63,13 @@ module Mau
 
     config.action_mailer.postmark_settings = { :api_key => POSTMARK_API_KEY }
     config.action_mailer.delivery_method = :postmark
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
+    config.assets.initialize_on_precompile = false
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
 
   end
 

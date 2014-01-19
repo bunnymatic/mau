@@ -78,7 +78,7 @@ var TagMediaHelper = {
 	      return item.name;
       }
     } catch(e) {
-      M.log(e);
+      MAU.log(e);
       return null;
     }
   },

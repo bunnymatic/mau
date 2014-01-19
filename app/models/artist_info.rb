@@ -38,10 +38,11 @@ class ArtistInfo < ActiveRecord::Base
   include AddressMixin
 
   def os_participation
-    if self.open_studios_participation.blank? || !Conf.oslive
+    puts "P #{self.id} [ #{self.open_studios_participation.inspect} ]"
+    if open_studios_participation.blank? || !Conf.oslive
       {}
     else
-      parse_open_studios_participation(self.open_studios_participation)
+      parse_open_studios_participation(self.open_studios_participation) || {}
     end
   end
 
@@ -63,6 +64,7 @@ class ArtistInfo < ActiveRecord::Base
 
   private
   def parse_open_studios_participation(os)
+    binding.pry if self.id.to_s == "84"
     if os.blank?
       {}
     else
