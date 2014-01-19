@@ -25,6 +25,7 @@
           .entry{:class => dt}
             = f.label dt, labels[dt]
             = "CALENDAR GOES HERE " #.calendar_date_select dt
+            .pickadate
       .reception_time
         %h6 Reception/Opening Date/Time
         - [:reception_starttime, :reception_endtime].each do |dt|

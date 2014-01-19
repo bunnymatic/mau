@@ -342,8 +342,8 @@ class UsersController < ApplicationController
   end
 
 
+  # POST
   def add_favorite
-    # POST
     type = params[:fav_type]
     _id = params[:fav_id]
     if Favorite::FAVORITABLE_TYPES.include? type
