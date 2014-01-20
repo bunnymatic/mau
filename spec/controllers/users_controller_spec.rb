@@ -24,9 +24,12 @@ describe UsersController do
   fixtures :favorites # even though fixture is empty - this forces a db clear between tests
   fixtures :scammers
 
+  let(:fan) { users(:maufan1) }
+  let(:quentin) { users(:quentin) }
   let(:admin) { users(:admin) }
   let(:jesse) { users(:jesseponce) }
-
+  let(:joe) { users(:joeblogs) } 
+  let(:artist1) { users(:artist1) }
   before do
     ####
     # stub mailchimp calls
@@ -311,8 +314,7 @@ describe UsersController do
   describe "#show" do
     render_views
     before do
-      @a = users(:artist1)
-      @u = users(:maufan1)
+      @u = fan
     end
     context "while not logged in" do
       before do
@@ -357,9 +359,9 @@ describe UsersController do
   end
   describe "#edit" do
     before do
-      @a = users(:artist1)
+      @a = artist1
       @a.save!
-      @u = users(:maufan1)
+      @u = fan
       @u.save!
     end
     context "while not logged in" do
@@ -406,7 +408,6 @@ describe UsersController do
   describe "login_required" do
     context " post redirects to root (referrer)" do
       before do
-        @u = users(:quentin)
         post :add_favorite
       end
       it "add_favorite requires login" do
@@ -418,7 +419,6 @@ describe UsersController do
     end
     context "get redirects to requested page via login" do
       before do
-        @u = users(:quentin)
         get :edit
       end
       it "add_favorite requires login" do
@@ -430,34 +430,31 @@ describe UsersController do
     end
   end
   describe "update" do
-    before do
-      @u = users(:quentin)
-    end
     context "while not logged in" do
       context "with invalid params" do
         before do
-          put :update, :id => @u.id, :user => {}
+          put :update, :id => quentin.id, :user => {}
         end
         it_should_behave_like "redirects to login"
       end
       context "with valid params" do
         before do
-          put :update, :id => @u.id, :user => { :firstname => 'blow' }
+          put :update, :id => quentin.id, :user => { :firstname => 'blow' }
         end
         it_should_behave_like "redirects to login"
       end
     end
     context "while logged in" do
       before do
-        login_as(@u)
-        @logged_in_user = @u
+        login_as(quentin)
+        @logged_in_user = quentin
       end
       context "with empty params" do
         before do
-          put :update, :id => @u.id, :user => {}
+          put :update, :id => quentin.id, :user => {}
         end
         it "redirects to user edit page" do
-          response.should redirect_to(edit_user_path(@u))
+          response.should redirect_to(edit_user_path(quentin))
         end
         it "contains flash notice of success" do
           flash[:notice].should eql "Update successful"
@@ -465,16 +462,16 @@ describe UsersController do
       end
       context "with valid params" do
         before do
-          put :update, :id => @u.id, :user => {:firstname => 'blow'}
+          put :update, :id => quentin.id, :user => {:firstname => 'blow'}
         end
         it "redirects to user edit page" do
-          response.should redirect_to(edit_user_path(@u))
+          response.should redirect_to(edit_user_path(quentin))
         end
         it "contains flash notice of success" do
           flash[:notice].should eql "Update successful"
         end
         it "updates user attributes" do
-          User.find(@u.id).firstname.should eql "blow"
+          User.find(quentin.id).firstname.should eql "blow"
         end
       end
     end
@@ -485,7 +482,7 @@ describe UsersController do
     context "show" do
       context "while not logged in" do
         before do
-          get :favorites, :id => users(:maufan1).id
+          get :favorites, :id => fan.id
         end
         it_should_behave_like 'one column layout'
         it "returns sucess" do
@@ -498,9 +495,8 @@ describe UsersController do
       context "while logged in as fan with no favorites" do
         before do
           ArtPiece.any_instance.stub(:artist =>Artist.new(:login => 'blow'))
-          @u = users(:maufan1)
-          login_as(@u)
-          get :favorites, :id => @u.id
+          login_as(fan)
+          get :favorites, :id => fan.id
         end
         it_should_behave_like 'one column layout'
         it { response.should be_success }
@@ -527,14 +523,13 @@ describe UsersController do
           css_select('.buttons form').should be_empty
         end
       end
-      context "while logged in as artist " do
+      context "while logged in as artist" do
         before do
-          ArtPiece.any_instance.stub(:artist => Artist.new(:login => 'blurp'))
-          @a = users(:artist1)
-          login_as(@a)
+          ArtPiece.any_instance.stub(:artist => quentin)
+          login_as(artist1)
         end
         it "returns success" do
-          get :favorites, :id => @a.id
+          get :favorites, :id => artist1.id
           response.should be_success
         end
         context "who has favorites" do
@@ -542,15 +537,13 @@ describe UsersController do
             User.any_instance.stub(:get_profile_path => "/this")
             ArtPiece.any_instance.stub(:get_path).with('small').and_return("/this")
             ap = art_pieces(:hot)
-            ap.artist_id = users(:joeblogs)
-            ap.save!
-            aa = users(:joeblogs)
-            @a.add_favorite ap
-            @a.add_favorite aa
-            assert @a.favorites.count >= 1
-            assert @a.fav_artists.count >= 1
-            assert @a.fav_art_pieces.count >= 1
-            get :favorites, :id => @a.id
+            ap.update_attribute(:artist_id,joe.id)
+            artist1.add_favorite ap
+            artist1.add_favorite joe
+            assert artist1.favorites.count >= 1
+            assert artist1.fav_artists.count >= 1
+            assert artist1.fav_art_pieces.count >= 1
+            get :favorites, :id => artist1.id
           end
           it_should_behave_like 'one column layout'
           it "returns success" do
@@ -563,8 +556,8 @@ describe UsersController do
             assert_select('h4', :match => 'My Favorites')
           end
           it "favorites sections show and include the count" do
-            assert_select('h5', :text => "Artists (#{@a.fav_artists.count})")
-            assert_select("h5", :text => "Art Pieces (#{@a.fav_art_pieces.count})")
+            assert_select('h5', :text => "Artists (#{artist1.fav_artists.count})")
+            assert_select("h5", :text => "Art Pieces (#{artist1.fav_art_pieces.count})")
           end
           it "shows the 1 art piece favorite" do
             assert_select('.favorites .art_pieces .thumb', :count => 1, :include => 'by blupr')
@@ -573,7 +566,7 @@ describe UsersController do
             assert_select('.favorites .artists .thumb', :count => 1)
           end
           it "shows a delete button for each favorite" do
-            assert_select('.favorites li .trash', :count => @a.favorites.count)
+            assert_select('.favorites li .trash', :count => artist1.favorites.count)
           end
           it "shows a button back to the artists page" do
             assert_select('.buttons form')
@@ -584,25 +577,23 @@ describe UsersController do
         before do
           User.any_instance.stub(:get_profile_path => "/this")
           ArtPiece.any_instance.stub(:get_path).with('small').and_return("/this")
-          a = users(:artist1)
-          aa = users(:joeblogs)
+          aa = joe
           ap = art_pieces(:hot)
           ap.artist_id = aa.id
           ap.save!
-          a.add_favorite ap
-          a.add_favorite aa
-          assert a.fav_artists.count >= 1
-          assert a.fav_art_pieces.count >= 1
-          login_as users(:maufan1)
-          get :favorites, :id => a.id
-          @a = a
+          artist1.add_favorite ap
+          artist1.add_favorite aa
+          assert artist1.fav_artists.count >= 1
+          assert artist1.fav_art_pieces.count >= 1
+          login_as fan
+          get :favorites, :id => artist1.id
         end
         it_should_behave_like 'one column layout'
         it "returns success" do
           response.should be_success
         end
         it "shows the title" do
-          assert_select('h4', :include => @a.get_name )
+          assert_select('h4', :include => artist1.get_name )
           assert_select('h4', :include => 'Favorites')
         end
         it "shows the favorites sections" do
@@ -647,36 +638,34 @@ describe UsersController do
       end
       context "while logged in" do
         before do
-          @u = users(:quentin)
-          login_as(@u)
-          @a = users(:artist1)
+          login_as(quentin)
           @ap = art_pieces(:namewithtag)
-          @ap.artist = @a
+          @ap.artist = artist1
           @ap.save.should be_true
         end
         context "add a favorite artist" do
           before do
-            post :add_favorite, :fav_type => 'Artist', :fav_id => @a.id
+            post :add_favorite, :fav_type => 'Artist', :fav_id => artist1.id
           end
           it "returns success" do
-            response.should redirect_to(artist_path(@a))
+            response.should redirect_to(artist_path(artist1))
           end
           it "adds favorite to user" do
-            u = User.find(@u.id)
+            u = User.find(quentin.id)
             favs = u.favorites
-            favs.map { |f| f.favoritable_id }.should include @a.id
+            favs.map { |f| f.favoritable_id }.should include artist1.id
           end
           context "then remove that artist from favorites" do
             before do
-              post :remove_favorite, :fav_type => "Artist", :fav_id => @a.id
+              post :remove_favorite, :fav_type => "Artist", :fav_id => artist1.id
             end
             it "redirects to the referer" do
               response.should redirect_to( SHARED_REFERER )
             end
             it "that artist is no longer a favorite" do
-              u = User.find(@u.id)
+              u = User.find(quentin.id)
               favs = u.favorites
-              favs.map { |f| f.favoritable_id }.should_not include @a.id
+              favs.map { |f| f.favoritable_id }.should_not include artist1.id
             end
           end
         end
@@ -689,7 +678,7 @@ describe UsersController do
               response.should be_success
             end
             it "adds favorite to user" do
-              u = User.find(@u.id)
+              u = User.find(quentin.id)
               favs = u.favorites
               favs.map { |f| f.favoritable_id }.should include @ap.id
             end
@@ -706,7 +695,7 @@ describe UsersController do
               flash[:notice].should include '&#x3c;script&#x3e;'
             end
             it "adds favorite to user" do
-              u = User.find(@u.id)
+              u = User.find(quentin.id)
               favs = u.favorites
               favs.map { |f| f.favoritable_id }.should include @ap.id
             end
@@ -715,19 +704,19 @@ describe UsersController do
                 @ap.destroy
               end
               it "art_piece is no longer in users favorite list" do
-                u = User.find(@u.id)
+                u = User.find(quentin.id)
                 u.favorites.should_not include @ap.id
               end
               it "art_piece owner should no longer have user in their favorite list" do
                 a = Artist.find(@ap.artist_id)
-                a.who_favorites_me.should_not include @u
+                a.who_favorites_me.should_not include quentin
               end
             end
           end
         end
         context "add a favorite bogus model" do
           before do
-            @nfavs = @u.favorites.count
+            @nfavs = quentin.favorites.count
             post :add_favorite, :fav_type => 'Bogus', :fav_id => 2
           end
           it "returns 404" do
@@ -745,8 +734,7 @@ describe UsersController do
       before do
         User.should_receive(:find_by_reset_code).and_return(users(:artfan))
         u = users(:artfan)
-        u.reset_code = 'abc'
-        u.save
+        u.update_attribute(:reset_code,'abc')
         get :reset, :reset_code => 'abc'
       end
       it "returns success" do
@@ -839,14 +827,14 @@ describe UsersController do
     end
     context "post with email that is for an artist" do
       before do
-        User.should_receive(:find_by_email).and_return(users(:quentin))
+        User.should_receive(:find_by_email).and_return(quentin)
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
         response.should redirect_to( root_url )
       end
       it "has notice message" do
-        flash[:notice].should include "sent your activation code to #{users(:quentin).email}"
+        flash[:notice].should include "sent your activation code to #{quentin.email}"
       end
     end
   end

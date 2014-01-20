@@ -4,6 +4,8 @@ Mau::Application.configure do
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
+  config.cache_store = :dalli_store, { :namespace => 'maudev'}
+
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local = false
@@ -32,4 +34,14 @@ Mau::Application.configure do
 
   config.action_mailer.postmark_settings = { :api_key => POSTMARK_API_KEY }
   config.action_mailer.delivery_method = :postmark
+
+  # Disable Rails's static asset server (Apache or nginx will already do this)
+  config.serve_static_assets = false
+  # Don't fallback to assets pipeline if a precompiled asset is missed
+  config.assets.compile = false
+  # Generate digests for assets URLs
+  config.assets.digest = true
+  # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+  # config.assets.precompile += %w( admin.css admin.js vendor.css vendor.js )
+
 end

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'racc'
-gem "rails", '~> 3.1.12'
+gem "rails", '~> 3.2.16'
 gem 'aasm'
 gem "nokogiri" #, '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
 gem "htmlentities"

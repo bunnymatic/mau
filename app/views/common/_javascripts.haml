@@ -3,12 +3,5 @@
 /[if lt IE 9]
   %script{ :src => "//html5shiv.googlecode.com/svn/trunk/html5.js" }
 = csrf_meta_tags
-= javascript_include_tag "jquery.min.js"
-= javascript_include_tag "jquery_ujs.js"
-= javascript_include_tag "thirdparty/underscore.min.js", "thirdparty/prototype/1.7/prototype.min", "thirdparty/scriptaculous.all.min", "thirdparty/event.simulate.js", "thirdparty/prototype.feedback", "mau/query_string_parser", "mau/mau_prototype", "mau/mau",  "mau/mau_image_lightbox", "mau/mau_cookies", "mau/mau_notes", "mau/mau_admin"
-
-= javascript_include_tag "mau/mau_search"
-=# calendar_date_select_includes :mau
-- if current_user && current_user.is_editor?
-  = javascript_include_tag 'mau/mau_editor.js'
+= javascript_include_tag "application"
 
