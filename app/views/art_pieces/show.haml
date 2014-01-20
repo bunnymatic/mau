@@ -45,4 +45,4 @@
 
         .edit-buttons
           - if logged_in? and current_user == artist
-            = render "edit_delete_buttons.erb", :art_piece => @art_piece
+            = render "edit_delete_buttons", :art_piece => @art_piece

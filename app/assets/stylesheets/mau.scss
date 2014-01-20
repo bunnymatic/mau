@@ -3913,8 +3913,6 @@ a.button b.m b {
       margin-bottom: 8px;
     }
     .info {
-      float: left;
-      width: 48%;
     }
     .address,
     .time {
@@ -3930,9 +3928,7 @@ a.button b.m b {
       font-size: 10px;
     }
     .venue {
-      width: 48%;
-      float: right;
-      text-align: right;
+      margin-top: 10px;
     }
     .desc {
       p {

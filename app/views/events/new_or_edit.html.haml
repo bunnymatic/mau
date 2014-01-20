@@ -22,9 +22,7 @@
       .event_time
         %h6 Event Date/Time
         - [:starttime, :endtime].each do |dt|
-          .entry{:class => dt}
-            = f.label dt, labels[dt]
-            = f.text_field dt, :class => 'pickadate'
+          = render 'date_time_picker', :event => @event, :field => dt, :label => labels[dt]
       .reception_time
         %h6 Reception/Opening Date/Time
         - [:reception_starttime, :reception_endtime].each do |dt|

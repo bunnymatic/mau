@@ -1,30 +1,15 @@
-
-- event_classes = [event.publish ? 'published':'unpublished']
-- if event.in_progress?
-  - event_classes << 'in_progress'
-- if event.future?
-  - event_classes << 'future'
-- if event.past?
-  - event_classes << 'past'
-
-.event{:class => event_classes.join(' ')}
+.event{:class => event.event_classes.join(" ")}
   .title
     #{event.title}
   .info
-    .time #{EventsHelper::event_time(event)}
+    .time #{event.display_event_time}
 
-    .reception_time Reception: #{EventsHelper::reception_time(event)}
-
+    .reception_time Reception: #{event.display_reception_time}
 
   .venue
     .name #{event.venue}
     .address
-      - address_hash = event.address_hash[:parsed]
-      - txt = [address_hash[:street], address_hash[:city]]
-      - txt << address_hash[:state] if address_hash[:state].downcase != 'ca'
-      - txt << address_hash[:zip] if address_hash[:zip] != '94110'
-      - txt.each do |item|
-        %span.nobr #{item}
+      %span.nobr #{event.address}
       .maplink
         %a{:target => '_blank', :href => event.map_link} (map)
   .clear
@@ -32,12 +17,12 @@
   .url
     - if event.url.present?
       Event Website:
-      = link_to_clean_url event.url
+      = event.link_to_event_website
     .ctrls
-      = link_to 'show', event_path(event)
-      - if event.publish
-        = link_to 'unpublish', unpublish_event_path(event)
+      = link_to 'show', event.show_path
+      - if event.published?
+        = link_to 'unpublish', event.unpublish_path
       - else
-        = link_to 'publish', publish_event_path(event)
-      = link_to 'edit', edit_event_path(event)
-      = link_to 'delete', event, :confirm => 'Are you sure?', :method => :delete
+        = link_to 'publish', event.publish_path
+      = link_to 'edit', event.edit_path
+      = link_to 'delete', event.delete_path, :confirm => 'Are you sure?', :method => :delete

@@ -37,14 +37,15 @@ describe EventsController do
     describe '#index' do
       context 'with params' do
         let(:first_event) { Event.published.first }
+        let(:month_year_key) { first_event.starttime.strftime('%Y%m') }
         before do
-          get :index, "m" => first_event.month_year_key
+          get :index, "m" => month_year_key
         end
         it 'sets current month if params m=current_month' do
-          expect(assigns(:current)).to eql first_event.month_year_key
+          expect(assigns(:events).current).to eql month_year_key
         end
         it 'orders events by start date inverse' do
-          expect(assigns(:events).map(&:stime)).to be_monotonically_decreasing
+          expect(assigns(:events).map{|ev| ev.event.stime}).to be_monotonically_decreasing
         end
 
       end

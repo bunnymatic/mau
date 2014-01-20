@@ -54,27 +54,8 @@ class Event < ActiveRecord::Base
 
   include AddressMixin
 
-  def self.keyed_by_month
-    by_month = {}
-
-    all.each do |ev|
-      key = ev.month_year_key
-      by_month[key] ||= {:display => ev.display_month, :events => [] }
-      by_month[key][:events] << ev
-    end
-    by_month
-  end
-
   def name
     title
-  end
-
-  def month_year_key
-    @month_year_key ||= stime.strftime('%Y%m')
-  end
-
-  def display_month
-    @display_month ||= stime.strftime('%B %Y')
   end
 
   def validate_endtime

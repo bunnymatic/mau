@@ -1,5 +1,4 @@
 class EventsController < ApplicationController
-  include EventsHelper
 
   before_filter :login_required, :except => [:index, :show]
   before_filter :editor_required, :only => [:admin_index, :publish, :unpublish, :destroy]
@@ -7,7 +6,7 @@ class EventsController < ApplicationController
   layout 'mau2col'
 
   def admin_index
-    @events = Event.all
+    @events = Event.all.map{|ev| EventPresenter.new(view_context, ev) }
 
     render :layout => 'mau-admin'
   end
@@ -16,24 +15,21 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
 
-    @events_by_month = Event.published.keyed_by_month
-    @events = @events_by_month.values.map{|v| v[:events]}.flatten.sort_by(&:stime).reverse
-    if params["m"] && (@events_by_month.keys.include? params["m"])
-      @current = params["m"]
-    end
+    events = EventsPresenter.new(view_context, Event.published, params['m'])
 
     respond_to do |format|
       format.html {
+        @events = events
         render :layout => 'mau'
       }
       format.mobile {
         # @events = Event.published.reverse
+        @events = events.map(&:event)
         @page_title = "MAU Events"
         render :layout => 'mobile'
       }
       format.json  {
-        @events = Event.published
-        render :json => @events
+        render :json => events.map(&:event)
       }
     end
   end
@@ -41,7 +37,8 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.xml
   def show
-    @event = Event.find(params[:id])
+    event = Event.find(params[:id])
+    @event = EventPresenter.new(view_context,event)
     @page_title = "MAU Event: %s" % @event.title
     respond_to do |format|
       format.html
