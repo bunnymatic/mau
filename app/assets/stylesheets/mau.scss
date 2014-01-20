@@ -2796,12 +2796,12 @@ img.help-icon {
 
 #note_modal_window,
 #feedback_modal_window {
-  @include small-rounded-corners;
+  @include large-rounded-corners;
 }
 
 #note_modal_content,
 #feedback_modal_content {
-  @include small-rounded-corners;
+  @include large-rounded-corners;
   border: 2px solid $bluegray;
   background-color: $black;
   h4 { margin: 10px; }

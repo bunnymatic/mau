@@ -9,13 +9,13 @@
       %th ID
       %th Name
       %th Count
-      - @tags.each_with_index do |tag, idx|
-        - clz = (idx%2)==0 ? 'even':'odd'
-        - clz << ' error-msg' if tag['count'] <= 0
+      - @tags.each_with_index do |(tag, ct), idx|
+        - clz = cycle('even','odd')
+        - clz << ' error-msg' if ct <= 0
         %tr{:class => clz}
           %td #{tag.id}
           %td #{tag.name}
-          %td.input-name.ct #{tag['count']}
+          %td.input-name.ct #{ct}
           %td.input-name
             = link_to 'Show', tag
           %td.input-name

@@ -43,5 +43,5 @@
           = label_tag :event_artist_list, "MAU Artists Showing"
           = text_field_tag "event[artist_list]", current_user.get_name
     .clear
-    = f.submit 'Submit'
+    = f.submit 'Submit', :class => 'formbutton'
     .clear

@@ -10,35 +10,13 @@ class ArtPieceTagsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
 
   def admin_index
-    tags = ArtPieceTag.all
-    freq = ArtPieceTag.keyed_frequency
-    tags.each do |t|
-      if freq.keys.include? t.id
-        t['count'] = freq[ t.id ].to_f
-      else
-        t['count'] = 0
-      end
-    end
-    @tags = tags.sort { |a,b| b['count'] <=> a['count'] }
+    @tags = tags_sorted_by_frequency
     render :layout => "mau-admin"
   end
 
   def cleanup
-    tags = ArtPieceTag.all
-    freq = ArtPieceTag.keyed_frequency
-    tags.each do |t|
-      if freq.keys.include? t.id
-        t['count'] = freq[ t.id ].to_f
-      else
-        t['count'] = 0
-      end
-    end
-    @tags = tags.sort { |a,b| a['count'] <=> b['count'] }
-    @tags.each do |t|
-      if t['count'] <= 0
-        t.destroy
-      end
-    end
+    @tags = tags_sorted_by_frequency
+    @tags.each {|(tag, ct)| tag.destroy if ct <= 0 }
     redirect_to '/admin/art_piece_tags'
   end
 
@@ -113,6 +91,15 @@ class ArtPieceTagsController < ApplicationController
   end
 
   private
+
+  def tags_sorted_by_frequency
+    all_tags = ArtPieceTag.all
+    freq = ArtPieceTag.keyed_frequency
+    all_tags.map do |tag|
+      [tag, freq[tag.id].to_f]
+    end.select(&:first).sort_by(&:last).reverse
+  end
+
   def fetch_tags_for_autosuggest
     tags = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless tags

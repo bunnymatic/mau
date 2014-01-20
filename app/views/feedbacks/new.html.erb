@@ -1,6 +1,6 @@
 <div class="popup-title"><%= @title %></div>
 <div class="popup-text">
-  <%= form_for @feedback, :url => feedback_path, :html => {:id => "feedback_form"} do |f| -%>
+  <%= form_for @feedback, :url => feedbacks_path, :html => {:id => "feedback_form"} do |f| -%>
   <div class="fdbk-form">
     <% unless @error_message.blank? -%>
     <div class="error-msg">
@@ -22,7 +22,7 @@
 	<%= f.text_area 'comment', :cols => 70, :rows => 10, :value => "<enter your comment here>" %>
       </div>
       <div id="send_input">
-	<%= f.submit 'Send' %>
+	<%= f.submit 'Send', :class => 'formbutton' %>
 	<button class='formbutton' id="feedback_close_btn" onclick="return false;">Cancel</button>
       </div>
       <%= f.hidden_field 'subject', :value => @section %>
@@ -40,4 +40,3 @@
 <% if !logged_in? -%>
 <div class="feedback-signup-msg">Are you an artist working in the Mission District of San Francisco? <%= link_to "Sign up!", "/artists/new" %></div>
 <% end -%>
-

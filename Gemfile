@@ -35,6 +35,7 @@ gem 'geokit'
 #gem 'geokit-rails'
 gem 'geokit-rails3'
 gem 'gmaps4rails'
+gem 'pickadate-rails'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'

@@ -60,8 +60,8 @@
                 %td.input-err
         .clear
         .buttons
-          = f.submit 'Save Changes'
-          = f.submit 'Cancel'
+          = f.submit 'Save Changes', :class => "formbutton"
+          = f.submit 'Cancel', :class => "formbutton"
       .open-close-div.acct
         %span.title#bio_toggle Bio/Artist's Statement
         %span.edit
@@ -73,8 +73,8 @@
           = text_area_tag "#{f.object_name}[artist_info[bio]]", @artist_info.bio, :class => "artist-bio"
           .input-help Please avoid html tags and any fancy formatting.  Newlines will be preserved.
         .buttons
-          = f.submit 'Save Changes'
-          = f.submit 'Cancel'
+          = f.submit 'Save Changes', :class => "formbutton"
+          = f.submit 'Cancel', :class => "formbutton"
 
     = render :partial => "/users/edit_password"
     = render :partial => "/users/edit_deactivate"

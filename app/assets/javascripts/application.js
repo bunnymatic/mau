@@ -1,6 +1,9 @@
 /*
  *= require jquery
  *= require jquery_ujs
+ *= require pickadate/picker
+ *= require pickadate/picker.date
+ *= require pickadate/picker.time
  *= require thirdparty/underscore.min.js
  *= require thirdparty/prototype/1.7/prototype.min
  *= require thirdparty/scriptaculous.all.min
@@ -15,4 +18,6 @@
  *= require mau/mau_admin
  *= require mau/mau_search
  *= require mau/mau_editor
+ *= require mau/mau_discount
+ *= require mau/mau_events
 */
