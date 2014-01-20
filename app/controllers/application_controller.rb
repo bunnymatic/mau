@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_browser
-    params[:format] = :mobile if is_mobile?
+    request.format = :mobile if is_mobile?
     @show_return_to_mobile = (!is_mobile? && is_mobile_device?)
 
     @browser_as_class = browser.name.downcase.gsub(' ', '_') #_class(self.request)
