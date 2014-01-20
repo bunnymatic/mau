@@ -63,7 +63,6 @@ class ArtistInfo < ActiveRecord::Base
 
   private
   def parse_open_studios_participation(os)
-    binding.pry if self.id.to_s == "84"
     if os.blank?
       {}
     else
