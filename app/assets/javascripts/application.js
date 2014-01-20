@@ -21,6 +21,3 @@
  *= require mau/mau_discount
  *= require mau/mau_events
 */
-//= require pickadate/picker # required
-//= require pickadate/picker.date # for the date picker
-//= require pickadate/picker.time # for the time picker
