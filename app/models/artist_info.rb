@@ -38,7 +38,6 @@ class ArtistInfo < ActiveRecord::Base
   include AddressMixin
 
   def os_participation
-    puts "P #{self.id} [ #{self.open_studios_participation.inspect} ]"
     if open_studios_participation.blank? || !Conf.oslive
       {}
     else
