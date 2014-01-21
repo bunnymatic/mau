@@ -28,7 +28,7 @@ describe UsersController do
   let(:quentin) { users(:quentin) }
   let(:admin) { users(:admin) }
   let(:jesse) { users(:jesseponce) }
-  let(:joe) { users(:joeblogs) } 
+  let(:joe) { users(:joeblogs) }
   let(:artist1) { users(:artist1) }
   before do
     ####

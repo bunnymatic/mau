@@ -18,7 +18,7 @@ class EventsPresenter
   def by_month
     @by_month ||= keyed_by_month
   end
-    
+
   def each(&block)
     @events.each(&block)
   end
@@ -34,5 +34,5 @@ class EventsPresenter
     end
   end
 
-         
+
 end

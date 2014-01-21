@@ -5,7 +5,7 @@ class MauSearchQuery
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
-  
+
   attr_accessor :mediums, :studios, :keywords, :studios, :os_flag, :page, :mode, :per_page
 
   def initialize(attributes={})

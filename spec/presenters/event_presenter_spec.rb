@@ -15,7 +15,7 @@ describe EventPresenter do
   its(:edit_path) { should eql edit_event_path(event) }
   its(:publish_path) { should eql publish_event_path(event) }
   its(:unpublish_path) { should eql unpublish_event_path(event) }
-  
+
   its(:event_website_url) { should eql event_website }
 
   it{ should_not be_published }

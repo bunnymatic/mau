@@ -12,13 +12,12 @@ describe ArtistsController do
 
   before do
     # do mobile
-    request.stub(:user_agent => IPHONE_USER_AGENT)
-    controller.stub(:is_mobile_device? => true)
+    pretend_to_be_mobile
   end
 
   describe "#index" do
     before do
-      get :index, :format => :mobile
+      get :index, :formats => [:mobile]
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe MediaPresenter do
-  
+
   fixtures :users, :artist_infos, :studios, :art_pieces, :media, :roles, :roles_users
 
   include PresenterSpecHelpers

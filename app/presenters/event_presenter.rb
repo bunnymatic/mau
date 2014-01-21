@@ -1,5 +1,5 @@
 class EventPresenter
-  
+
   include TzHelper
   include MauUrlHelpers
 
@@ -22,14 +22,14 @@ class EventPresenter
     @display_month ||= event.stime.strftime('%B %Y')
   end
 
-  def address 
+  def address
     @address ||= address_hash[:full]
   end
 
   def edit_path
     @view_context.edit_event_path(event)
   end
-  
+
   def show_path
     @view_context.event_path(event)
   end
@@ -39,29 +39,29 @@ class EventPresenter
   end
 
   def unpublish_path
-    @view_context.unpublish_event_path(event) 
+    @view_context.unpublish_event_path(event)
   end
 
   def delete_path
-    @view_context.event_path(event) 
+    @view_context.event_path(event)
   end
-  
+
   def event_website_url
     @event_website_url ||=
       begin
         return url if /^https?:\.\./ =~ url
         add_http(url)
       end
-  end 
+  end
 
   def event_website_display
     event_website_url.gsub(/^https?:\/\//,'')
   end
- 
+
   def link_to_event_website
     @view_context.link_to event_website_display, event_website_url
   end
-  
+
   def link_to_clean_url(_url)
     display = _url.gsub(/^https?:\/\//, '')
     url = add_http(_url)
@@ -83,14 +83,19 @@ class EventPresenter
   end
 
   def for_mobile_list
-    [@view_context.content_tag('span', starttime, :class => 'starttime'),
-     @view_context.content_tag('span', title, :class => 'event_title')].join.html_safe
+    [@view_context.content_tag('span', simple_start_time, :class => 'starttime'),
+     @view_context.content_tag('span', title, :class => 'title')].join
   end
 
   private
 
   DATE_TIME_FORMAT = "%a %b %e, %l:%M%p"
   TIME_FORMAT = "%l:%M%p"
+  SHORT_DATE_FORMAT = "%Y-%m-%d"
+
+  def simple_start_time
+    in_mau_time(event.stime).strftime(SHORT_DATE_FORMAT)
+  end
 
   def formatted_starttime
     @formatted_starttime = in_mau_time(starttime).strftime(DATE_TIME_FORMAT)

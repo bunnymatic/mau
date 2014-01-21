@@ -8,7 +8,7 @@ describe MediaController do
   fixtures :art_pieces
   fixtures :users, :roles, :roles_users
 
-  
+
   before do
     # do mobile
     Artist.any_instance.stub(:os_participation => {'201104' => true})
