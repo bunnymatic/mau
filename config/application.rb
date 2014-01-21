@@ -70,15 +70,16 @@ module Mau
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-
+    
+    config.i18n.enforce_available_locales = true
   end
 
 end
 
-require 'sass'
-require 'sass/plugin'
-Sass::Plugin.options[:style] = :compact
-Sass::Plugin.options[:template_location] = File.join(Rails.root, '/app/assets/stylesheets')
+# require 'sass'
+# require 'sass/plugin'
+# Sass::Plugin.options[:style] = :compact
+# Sass::Plugin.options[:template_location] = File.join(Rails.root, '/app/assets/stylesheets')
 require 'tag_extensions'
 
 # add custom mimetypes (for qrcode)

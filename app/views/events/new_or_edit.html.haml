@@ -26,9 +26,7 @@
       .reception_time
         %h6 Reception/Opening Date/Time
         - [:reception_starttime, :reception_endtime].each do |dt|
-          .entry{:class => dt}
-            = f.label dt, labels[dt]
-            = "CALENDAR GOES HERE " #.calendar_date_select dt
+          = render 'date_time_picker', :event => @event, :field => dt, :label => labels[dt]
         .note Note: without a reception time, your event will not show up on our calendar.  It will only show up on the main list of events.
         .clear
     .section

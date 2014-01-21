@@ -128,7 +128,7 @@ class EventsController < ApplicationController
     end
     event_info
   end
-
+  
   def fetch_artists_by_names(names)
     names.map do |name|
       name.strip!
@@ -139,12 +139,26 @@ class EventsController < ApplicationController
       a
     end.flatten.compact
   end
-
+  
   def event_params
     info = append_artists_to_description
     info[:user_id] = current_user.id
+    [:starttime, :endtime, :reception_starttime, :reception_endtime].each do |k| 
+      puts "k #{k}", time_param(k)
+      info.merge!(time_param(k))
+    end
+    puts "INFO", info
     info
   end
+
+  def time_param(k)
+    date_key = "#{k}_DATE"
+    time_key = "#{k}_TIME"
+    date = params[date_key]
+    time = params[time_key]
+    {k.to_sym => Time.zone.parse([date, time].join)} if date && time
+  end
+
 
   def redirect_after_create
     msg = 'Thanks for your submission.  As soon as we validate the data, we\'ll add it to this list.'
