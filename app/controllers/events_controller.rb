@@ -11,8 +11,6 @@ class EventsController < ApplicationController
     render :layout => 'mau-admin'
   end
 
-  # GET /events
-  # GET /events.xml
   def index
 
     events = EventsPresenter.new(view_context, Event.published, params['m'])
@@ -24,7 +22,7 @@ class EventsController < ApplicationController
       }
       format.mobile {
         # @events = Event.published.reverse
-        @events = events.map(&:event)
+        @events = events
         @page_title = "MAU Events"
         render :layout => 'mobile'
       }
@@ -34,8 +32,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/1
-  # GET /events/1.xml
   def show
     event = Event.find(params[:id])
     @event = EventPresenter.new(view_context,event)

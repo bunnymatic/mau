@@ -2,11 +2,12 @@ class EventsPresenter
 
   include Enumerable
 
+  delegate :empty?, :to => :events
   attr_accessor :events
 
   def initialize(view_context, events, year_month = nil)
     @view_context = view_context
-    @events = events.map{|ev| EventPresenter.new(view_context, ev) }.sort_by{|ev| -ev.event.stime.to_i}
+    @events = events.map{|ev| EventPresenter.new(view_context, ev) }.sort_by{|ev| -ev.event.starttime.to_i}
     @year_month = year_month
   end
 

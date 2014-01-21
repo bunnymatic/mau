@@ -4,7 +4,7 @@ describe EventsPresenter do
 
   include PresenterSpecHelpers
 
-  fixtures :events, :users, :roles_users, :roles
+  fixtures :users, :artist_infos, :studios, :art_pieces, :media, :roles, :roles_users
 
   let(:events) { Event.published }
   let(:month_year_key) { nil }

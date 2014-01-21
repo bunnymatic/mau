@@ -13,26 +13,29 @@ describe ArtistsController do
   before do
     # do mobile
     request.stub(:user_agent => IPHONE_USER_AGENT)
+    controller.stub(:is_mobile_device? => true)
   end
 
   describe "#index" do
     before do
-      get :index
+      get :index, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
 
     context 'invalid sortby param' do
       it 'responds with success page' do
-        get :index, :sortby => 'crapass'
+        get :index, :sortby => 'crapass', :format => :mobile
         response.should be_success
       end
     end
 
     context 'by last name' do
       before do
-        get :by_lastname
+        get :by_lastname, :format => :mobile
       end
+      it_should_behave_like "a regular mobile page"
+      it_should_behave_like "non-welcome mobile page"
       it 'shows all active artists' do
         assert_select('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)
       end
@@ -40,7 +43,7 @@ describe ArtistsController do
 
     context 'by first name' do
       before do
-        get :by_firstname
+        get :by_firstname, :format => :mobile
       end
       it 'shows all active artists' do
         assert_select('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)
@@ -53,7 +56,7 @@ describe ArtistsController do
 
   describe "#thumbs" do
     before do
-      get :thumbs
+      get :thumbs, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
@@ -65,7 +68,7 @@ describe ArtistsController do
   end
   describe '#osthumbs' do
     before do
-      get :osthumbs
+      get :osthumbs, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
@@ -80,7 +83,7 @@ describe ArtistsController do
   describe "#show" do
     before do
       @artist = users(:artist1)
-      get :show, :id => @artist.id
+      get :show, :id => @artist.id, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
@@ -129,7 +132,7 @@ describe ArtistsController do
 
     context 'invalid artist id' do
       before do
-        get :show, :id => 'whatever yo'
+        get :show, :id => 'whatever yo', :format => :mobile
       end
       it 'returns success' do
         response.should be_success
@@ -141,7 +144,7 @@ describe ArtistsController do
 
     context 'with user login as id' do
       it 'returns the user\'s page' do
-        get :show, :id => 10
+        get :show, :id => 10, :format => :mobile
         response.should be_success
       end
     end
@@ -151,7 +154,7 @@ describe ArtistsController do
   describe '#bio' do
     context 'for user with a bio' do
       before do
-        get :bio, :id => users(:artist1).id
+        get :bio, :id => users(:artist1).id, :format => :mobile
       end
       it "returns success" do
         response.should be_success
@@ -167,7 +170,7 @@ describe ArtistsController do
     end
     context 'for user without a bio' do
       before do
-        get :bio, :id => users(:wayout).id
+        get :bio, :id => users(:wayout).id, :format => :mobile
       end
       it 'redirects to user\'s page' do
         response.should redirect_to artist_path(users(:wayout))

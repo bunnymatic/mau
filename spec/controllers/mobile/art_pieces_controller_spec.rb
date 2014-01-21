@@ -6,11 +6,12 @@ describe ArtPiecesController do
   before do
     # do mobile
     request.stub(:user_agent => IPHONE_USER_AGENT)
+    controller.stub(:is_mobile_device? => true)
   end
 
   describe '#show' do
     it 'redirects to artist page' do
-      get :show, :id => ArtPiece.first.id
+      get :show, :id => ArtPiece.first.id, :format => :mobile
       response.should redirect_to ArtPiece.first.artist
     end
   end

@@ -83,8 +83,8 @@ class EventPresenter
   end
 
   def for_mobile_list
-    [content_tag('span', start_time, :class => 'starttime'),
-     content_tag('span', title, :class => 'event_title')].join.html_safe
+    [@view_context.content_tag('span', starttime, :class => 'starttime'),
+     @view_context.content_tag('span', title, :class => 'event_title')].join.html_safe
   end
 
   private

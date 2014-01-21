@@ -15,7 +15,7 @@ describe EventsController do
   end
   describe "index" do
     before do
-      get :index
+      get :index, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
@@ -31,7 +31,7 @@ describe EventsController do
   describe "#show" do
     before do
       @event = events(:url_with_http)
-      get :show, :id => @event
+      get :show, :id => @event, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
