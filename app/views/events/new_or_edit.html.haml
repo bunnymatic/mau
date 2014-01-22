@@ -23,22 +23,22 @@
         %h6 Event Date/Time
         = label_tag :start
         .starttime
-          = f.text_field :start_date, :class => 'pickadate'
-          = f.text_field :start_time, :class => 'pickatime'
+          = f.text_field :start_date, :class => 'pickadate', :placeholder => 'date'
+          = f.text_field :start_time, :class => 'pickatime', :placeholder => 'time'
         = label_tag :end
         .endtime
-          = f.text_field :end_date, :class => 'pickadate'
-          = f.text_field :end_time, :class => 'pickatime'
+          = f.text_field :end_date, :class => 'pickadate', :placeholder => 'date'
+          = f.text_field :end_time, :class => 'pickatime', :placeholder => 'time'
       .reception_time
         %h6 Reception/Opening Date/Time
         = label_tag :start
         .starttime
-          = f.text_field :reception_start_date, :class => 'pickadate'
-          = f.text_field :reception_start_time, :class => 'pickatime'
+          = f.text_field :reception_start_date, :class => 'pickadate', :placeholder => 'date'
+          = f.text_field :reception_start_time, :class => 'pickatime', :placeholder => 'time'
         = label_tag :end
         .endtime
-          = f.text_field :reception_end_date, :class => 'pickadate'
-          = f.text_field :reception_end_time, :class => 'pickatime'
+          = f.text_field :reception_end_date, :class => 'pickadate', :placeholder => 'date'
+          = f.text_field :reception_end_time, :class => 'pickatime', :placeholder => 'time'
         .note Note: without a reception time, your event will not show up on our calendar.  It will only show up on the main list of events.
         .clear
     .section

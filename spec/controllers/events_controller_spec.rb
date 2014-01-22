@@ -119,7 +119,7 @@ describe EventsController do
 
     context 'create' do
       let(:event_attrs) do
-        attrs = FactoryGirl.attributes_for(:event).merge({:artist_list => Artist.active.first.get_name}) 
+        attrs = FactoryGirl.attributes_for(:event).merge({:artist_list => Artist.active.first.get_name})
         attrs.delete(:starttime)
         attrs.delete(:reception_starttime)
         attrs.delete(:endtime)
@@ -130,7 +130,7 @@ describe EventsController do
         attrs[:reception_start_date] = "22 January, 2013"
         attrs[:end_time] = "12:00 PM"
         attrs[:end_date] = "21 February, 2013"
-        attrs[:reception_end_time] = "1:00 PM" 
+        attrs[:reception_end_time] = "1:00 PM"
         attrs[:reception_end_date] = "22 January, 2013"
         attrs
       end
@@ -170,7 +170,7 @@ describe EventsController do
         attrs[:reception_start_date] = "22 January, 2013"
         attrs[:end_time] = "12:00 PM"
         attrs[:end_date] = "21 February, 2013"
-        attrs[:reception_end_time] = "1:00 PM" 
+        attrs[:reception_end_time] = "1:00 PM"
         attrs[:reception_end_date] = "22 January, 2013"
         attrs
       end

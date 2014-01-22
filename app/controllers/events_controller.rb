@@ -129,7 +129,7 @@ class EventsController < ApplicationController
     end
     event_info
   end
-  
+
   def fetch_artists_by_names(names)
     names.map do |name|
       name.strip!
@@ -140,7 +140,7 @@ class EventsController < ApplicationController
       a
     end.flatten.compact
   end
-  
+
   def event_params(append_artist = false)
     info = params[:event]
     info = append_artists_to_description(info) if append_artist
@@ -151,7 +151,7 @@ class EventsController < ApplicationController
     info[:reception_endtime] = reconstruct_reception_endtime(info)
     info
   end
-  
+
   def reconstruct_starttime(info)
     reconstruct_time(info, :start_date, :start_time)
   end

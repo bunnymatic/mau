@@ -10,7 +10,7 @@ describe EventPresenter do
   let(:reception_starttime) { starttime + 1.day }
   let(:reception_endtime) { reception_starttime + 2.hours }
   let(:event_website) { 'http://my.event.com' }
-  let(:event) { FactoryGirl.create(:event, :url => event_website, :publish => publish, 
+  let(:event) { FactoryGirl.create(:event, :url => event_website, :publish => publish,
                                    :starttime => starttime, :endtime => endtime,
                                    :reception_starttime => reception_starttime, :reception_endtime => reception_endtime
                                    ) }
