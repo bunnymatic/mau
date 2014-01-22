@@ -9,5 +9,9 @@ Given(/^an account has been created/) do
 end
 
 Given /there are artists with art in the system/ do
-  FactoryGirl.create_list(:art_piece, 10)
+  @art_pieces = FactoryGirl.create_list(:art_piece, 10)
+end
+
+Given /there are events in the system/ do
+  @events = FactoryGirl.create_list(:event, 5) + FactoryGirl.create_list(:event, 5, :with_reception)
 end

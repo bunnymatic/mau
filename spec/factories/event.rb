@@ -9,9 +9,13 @@ FactoryGirl.define do
     city { Faker::Address.city }
     state { Faker::Address.state }
     zip { Faker::Address.zip_code }
-    starttime { Time.zone.now + 24.hours }
-    endtime { Time.zone.now + 25.hours }
-    reception_starttime { Time.zone.now + 24.hours }
+    sequence(:starttime) { |n| Time.zone.now + n.days }
+    sequence(:endtime) { |n| Time.zone.now + 1.day + n.days }
     url { Faker::Internet.url }
+
+    trait :with_reception do
+      sequence(:reception_starttime) { |n| Time.zone.now + n.days + 1.hour }
+      sequence(:reception_endtime) { |n| Time.zone.now + n.days + 3.hours }
+    end
   end
 end
