@@ -30,13 +30,7 @@ class ArtistFeedsController < ApplicationController
 
   def update
     @feed = ArtistFeed.find(params[:id])
-    artist_feed_details = params[:artist_feed]
-    if artist_feed_details[:artist_list]
-      artist_list = artist_feed_details[:artist_list]
-      artist_feed_details.delete :artist_list
-    end
-
-    if @feed.update_attributes(artist_feed_details)
+    if @feed.update_attributes(artist_feed_params)
       flash[:notice] = 'ArtistFeed was successfully updated.'
       redirect_to(artist_feeds_path)
     else
@@ -50,4 +44,10 @@ class ArtistFeedsController < ApplicationController
 
     redirect_to(artist_feeds_url)
   end
+
+  private
+  def artist_feed_params
+    params[:artist_feed]
+  end
+
 end

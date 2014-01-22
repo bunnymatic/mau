@@ -98,17 +98,30 @@ describe ArtistFeedsController do
       end
     end
     describe '#update' do
-      before do
-        post :update, :id => artist_feeds(:inactive).id, :artist_feed => feed_attrs
+      context 'with good data' do
+        before do
+          post :update, :id => artist_feeds(:inactive).id, :artist_feed => feed_attrs
+        end
+        it 'redirects to index' do
+          response.should redirect_to artist_feeds_path
+        end
+        it 'updates the item' do
+          feed = ArtistFeed.find(artist_feeds(:inactive).id)
+          feed.url.should eql url
+          feed.feed.should eql feed_url
+          feed.active.should be_true
+        end
       end
-      it 'redirects to index' do
-        response.should redirect_to artist_feeds_path
-      end
-      it 'updates the item' do
-        feed = ArtistFeed.find(artist_feeds(:inactive).id)
-        feed.url.should eql url
-        feed.feed.should eql feed_url
-        feed.active.should be_true
+      context 'with bad data' do
+        before do
+          post :update, :id => artist_feeds(:inactive).id, :artist_feed => {:url => nil}
+        end
+        it 'redirects to index' do
+          response.should render_template 'new_or_edit'
+        end
+        it 'sets errors on the feed' do
+          expect(assigns(:feed).errors).to have_at_least(1).error
+        end
       end
     end
 
