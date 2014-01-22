@@ -20,11 +20,12 @@ class ArtistsPresenter
   def artists
     @artists ||=
       begin
-        (if os_only
-          os_participants.select(&:in_the_mission?)
-        else
-          active_artists
-        end).sort_by(&:sortable_name)
+        artist_list = (if os_only
+                         os_participants.select(&:in_the_mission?)
+                       else
+                         active_artists
+                       end).sort_by(&:sortable_name)
+        artist_list.map{|artist| ArtistPresenter.new(@view_context, artist)}
       end
   end
 

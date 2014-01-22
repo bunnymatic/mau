@@ -53,7 +53,7 @@
                       - @artist.links.each do |key, name, lnk|
                         %div{:id => key}
                           %span #{name + ":"}
-                          = link_to lnk, add_http(lnk), { :target => "_blank" }
+                          = link_to lnk, lnk, { :target => "_blank" }
                   = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist.artist }
                   = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist.artist }
                 .clear
@@ -79,7 +79,7 @@
             .clear
             .div-left.bio-container
               %span Bio:
-              = bio_html(@artist.bio)
+              = @artist.bio_html
           .clear
 
           .artist-pieces

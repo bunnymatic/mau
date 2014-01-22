@@ -1,7 +1,7 @@
 module AddressMixin
   # for models with street, city, zip, lat, lng and either state or addr_state
   def has_address?
-    self.address && address_hash[:geocoded]
+    address.present? && address_hash[:geocoded]
   end
 
   def full_address
@@ -27,17 +27,17 @@ module AddressMixin
   end
 
   def address_hash
-    { :geocoded => !(self.lat.nil? || self.lng.nil?),
-      :full => self.full_address,
-      :simple => self.address,
-      :latlng => [ self.lat, self.lng ],
+    { :geocoded => (lat.present? && lng.present?),
+      :full => full_address,
+      :simple => address,
+      :latlng => [ lat, lng ],
       :parsed => {
-        :street => self.street,
-        :city => self.city,
+        :street => street,
+        :city => city,
         :state => get_state,
-        :zip => self.zip,
-        :lat => self.lat,
-        :lng => self.lng
+        :zip => zip,
+        :lat => lat,
+        :lng => lng
       }
 
     }

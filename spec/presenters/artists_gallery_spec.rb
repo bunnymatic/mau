@@ -26,7 +26,9 @@ describe ArtistsGallery do
     expect(presenter.items.select{|a| a.representative_piece}).to have_at_least(1).artist
   end
 
-  its('artists.to_a') { should eql showing_artists.sort_by(&:sortable_name).to_a }
+  it 'artists include only those with representative pieces sorted by name' do
+    expect(subject.artists.map(&:artist)).to eql showing_artists.sort_by(&:sortable_name)
+  end
 
   describe '.alpha_links' do
     let(:alpha_links) { subject.alpha_links }

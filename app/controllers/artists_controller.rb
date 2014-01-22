@@ -6,7 +6,6 @@ Mime::Type.register "image/png", :png
 
 class ArtistsController < ApplicationController
 
-  include ArtistsHelper
   include HtmlHelper
 
   # Be sure to include AuthenticationSystem in Application Controller instead

@@ -119,15 +119,15 @@ class Artist < User
   end
 
   def address
-    call_address_method :address
+    @memo_address ||= call_address_method :address
   end
 
   def full_address
-    call_address_method :full_address
+    @memo_full_address ||= call_address_method :full_address
   end
 
   def address_hash
-    call_address_method :address_hash
+    @memo_address_hash ||= call_address_method :address_hash
   end
 
   def primary_medium

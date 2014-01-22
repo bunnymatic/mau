@@ -26,6 +26,8 @@ as:
   state: CA
   zip: 94117
   url: http://activspace.com
+  lat: 37.7633243
+  lng: -122.4195114
 
 as2:
   name: Zgallery
@@ -34,3 +36,5 @@ as2:
   state: CA
   zip: 94117
   url: http://activspace2.com
+  lat: 37.7633243
+  lng: -122.4195114

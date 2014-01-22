@@ -17,7 +17,7 @@
       .chunk
         - @roster.artists[first..last].each do |a|
           .name
-            = link_to a.get_name, a
+            = link_to a.get_name, a.show_path
       :ruby
         first += per_col
         last += per_col

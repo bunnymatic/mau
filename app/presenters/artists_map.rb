@@ -1,7 +1,5 @@
 class ArtistsMap < ArtistsPresenter
 
-  include ArtistsHelper
-
   def with_addresses
     @addresses ||= grouped_by_address.values.flatten.compact
   end
@@ -22,24 +20,20 @@ class ArtistsMap < ArtistsPresenter
     end
   end
 
-  def artist_path(artist)
-    @view_context.artist_path(artist)
-  end
-
   def address_key(artist)
     if artist.has_address?
-      address = artist.address_hash
-      "%s" % address[:simple]
+      addr = artist.artist.address_hash
+      "%s" % addr[:simple]
     end
   end
 
   def map_data
     Gmaps4rails.build_markers(with_addresses) do |artist, marker|
-      address = artist.address_hash
-      marker.lat address[:latlng][0]
-      marker.lng address[:latlng][1]
-      marker.infowindow get_map_info(artist)
-    end
+      addr = artist.artist.address_hash
+      marker.lat addr[:latlng][0]
+      marker.lng addr[:latlng][1]
+      marker.infowindow artist.get_map_info.html_safe
+    end.to_json
   end
 
 end
