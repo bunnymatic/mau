@@ -16,4 +16,5 @@ jQuery(function() {
   });
 
   jQuery('.pickadate').pickadate();
+  jQuery('.pickatime').pickatime();
 });

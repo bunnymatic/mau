@@ -417,4 +417,5 @@ class ArtistsController < ApplicationController
     OpenStudiosSignupEvent.create(:message => msg,
                                   :data => data)
   end
+
 end

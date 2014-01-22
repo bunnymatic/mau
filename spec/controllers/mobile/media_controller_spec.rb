@@ -8,6 +8,7 @@ describe MediaController do
   fixtures :art_pieces
   fixtures :users, :roles, :roles_users
 
+
   before do
     # do mobile
     Artist.any_instance.stub(:os_participation => {'201104' => true})
@@ -17,37 +18,22 @@ describe MediaController do
     Rails.cache.stub(:read => nil)
 
     # media don't exist in a vaccuum
-    aps = []
-    aps << art_pieces(:hot)
-    aps << art_pieces(:not)
-    aps << art_pieces(:h1024w2048)
-    aps << art_pieces(:negative_size)
-    aps << art_pieces(:artpiece1)
-    aps << art_pieces(:artpiece2)
-    aps << art_pieces(:artpiece3)
+    aps = %w(hot not h1024w2048 negative_size artpiece1 artpiece2 artpiece3).map{|k| art_pieces(k)}
 
-    meds = []
-    meds << media(:medium1)
-    meds << media(:medium2)
-    meds << media(:medium3)
+    meds = %w(medium1 medium2 medium3).map{|k| media(k)}
 
-    artists = []
-    artists << users(:quentin)
-    artists << users(:artist1)
-    artists << users(:joeblogs)
+    artists = %w(quentin artist1 joeblogs).map{|k| users(k)}
 
     aps.each_with_index do |ap, idx|
-      mid = meds[idx % meds.size].id
-      aid = artists[(idx + 2) % artists.size].id
-      ap.artist_id = aid
-      ap.medium_id = mid
-      ap.save
+      medium = meds[idx % meds.size]
+      artist = artists[(idx + 2) % artists.size]
+      ap.update_attributes(:artist => artist, :medium => medium)
     end
   end
 
   context "show" do
     before do
-      get :show, :id => Medium.first.id
+      get :show, :id => Medium.first.id, :format => :mobile
     end
     it_should_behave_like 'a regular mobile page'
     it_should_behave_like "non-welcome mobile page"

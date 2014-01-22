@@ -4,14 +4,10 @@ describe MainController do
 
   render_views
   fixtures :cms_documents
-  before do
-    # do mobile
-    request.stub(:user_agent => IPHONE_USER_AGENT)
-  end
 
   describe "index" do
     before do
-      get :index
+      get :index, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it "uses the welcome mobile layout" do
@@ -33,7 +29,7 @@ describe MainController do
 
   describe 'openstudios' do
     before do
-      get :openstudios
+      get :openstudios, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
 
@@ -41,7 +37,7 @@ describe MainController do
       docs = [:os_blurb,:os_preview_reception].map{|k| cms_documents(k)}
       CmsDocument.should_receive(:where).at_least(2).and_return(docs)
 
-      get :openstudios
+      get :openstudios, :format => :mobile
     end
     it "renders the markdown version" do
       CmsDocument.any_instance.stub(:article => <<EOM
@@ -53,7 +49,7 @@ stuff
 EOM
                                      )
 
-      get :openstudios
+      get :openstudios, :format => :mobile
       assert_select('h1', :match => 'header')
       assert_select('h2', :match => 'header2')
       assert_select('p', :match => 'stuff')
@@ -63,7 +59,7 @@ EOM
   describe "#news" do
     context "while not logged in" do
       before do
-        get :resources
+        get :resources, :format => :mobile
       end
       it_should_behave_like 'returns success'
       it 'has the mobile content section' do

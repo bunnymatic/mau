@@ -40,8 +40,8 @@ $lightyellow: #FEF7CA;
   border: 1px solid $bordergray;
 }
 @mixin input_style {
-  border: 1px solid $xlightgray;
-  background-color: $lightgray;
+  border: 1px solid $lightbluegray;
+  background-color: $xlightgray;
   padding: 4px;
 }
 @mixin link_style {

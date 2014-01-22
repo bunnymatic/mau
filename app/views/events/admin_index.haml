@@ -2,7 +2,7 @@
   %h1 Events
   = render :partial => '/flash_notice_error'
   .links
-    = link_to '[Add Event]', new_event_path(@event)
+    = link_to '[Add Event]', new_event_path
   .filters
     Filter:
     - [:future, :past, :in_progress].each do |filter|
@@ -15,6 +15,6 @@
         %input{:id => "event_filter_#{filter.to_s}", :class => 'state', :type => :checkbox,:value => filter.to_s}
     %a.show_all [all]
   - @events.each do |ev|
-    = render :partial => 'event_admin', :locals => {:event => ev}
+    = render 'event_admin', :event => ev
   .links
-    = link_to '[Add Event]', new_event_path(@event)
+    = link_to '[Add Event]', new_event_path

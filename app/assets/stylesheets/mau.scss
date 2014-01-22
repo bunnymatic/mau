@@ -189,33 +189,6 @@ input[type=image], input[type=hidden] {
   border: 0;
 }
 
-
-/*
-input[type=checkbox] {
-  padding:5px;
-  border-radius:15px;
-
-  -webkit-appearance:button;
-
-  border: double 2px $lightgray;
-
-  background-color:$xmediumgray;
-  color:#FFF;
-  white-space: nowrap;
-  overflow:hidden;
-
-  width:15px;
-  height:15px;
-
-  vertical-align: bottom;
-}
-
-input[type=checkbox]:checked {
-  border-color: $bluegray;
-  background-color:$purple;
-}
-*/
-
 .input-name, .input, .input-err{
   font-size: 12px;
   padding: 5px;
@@ -3869,7 +3842,6 @@ a.button b.m b {
       }
     }
   }
-
   .filters {
     position: absolute;
     top: -3px;
@@ -3913,8 +3885,6 @@ a.button b.m b {
       margin-bottom: 8px;
     }
     .info {
-      float: left;
-      width: 48%;
     }
     .address,
     .time {
@@ -3930,9 +3900,7 @@ a.button b.m b {
       font-size: 10px;
     }
     .venue {
-      width: 48%;
-      float: right;
-      text-align: right;
+      margin-top: 10px;
     }
     .desc {
       p {
@@ -3996,10 +3964,6 @@ a.button b.m b {
   .section {
     margin-bottom: 20px;
     clear: both;
-    .reception_time, .event_time {
-      float:left;
-      width: 48%;
-    }
     .note {
       font-size: 10px;
     }
@@ -4013,12 +3977,10 @@ a.button b.m b {
     .starttime .fieldWithErrors {
       display: inline;
     }
-
-    input#event_reception_starttime,
-    input#event_reception_endtime,
-    input#event_starttime,
-    input#event_endtime {
-      width: 170px;
+    .reception_time, .event_time {
+      float:left;
+      width: 48%;
+      input { width :40%; margin-right: 5px; }
     }
   }
 }

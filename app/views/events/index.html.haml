@@ -3,7 +3,7 @@
     %td.lcol{:colspan => 2}
       %nav.event_nav
         %ul
-          - @events_by_month.sort.reverse.each do |key, events|
+          - @events.by_month.sort.reverse.each do |key, events|
             - clz = 'current' if (@current && @current == key) || (key == Time.zone.now.strftime('%Y%m'))
 
             %li.by_month{:class => clz, "data-viskey" => key}
@@ -14,8 +14,8 @@
       .events.logo-space
         = render :partial => '/flash_notice_error'
         .event_list
-          - @events_by_month.sort.each do |key, events|
-            - clz = 'current' if (@current && @current == key) || (key == Time.zone.now.strftime('%Y%m'))
+          - @events.by_month.sort.each do |key, events|
+            - clz = 'current' if (@events.current && @events.current == key) || (key == Time.zone.now.strftime('%Y%m'))
             .events_by_month{:class => [clz, key].join(' ')}
               %h3
                 Mission Artists' Events for
@@ -33,5 +33,5 @@
                   - else
                     %span You can use the navigation on the left to see events for other months.
               - else
-                = render :partial => 'events_by_month', :locals => {:month => events[:display], :events => events[:events], :xtra_class => clz}
+                = render 'events_by_month', {:month => events[:display], :events => events[:events], :xtra_class => clz}
 

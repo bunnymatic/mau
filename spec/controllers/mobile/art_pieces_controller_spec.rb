@@ -4,13 +4,12 @@ describe ArtPiecesController do
 
   fixtures :users, :artist_infos, :cms_documents, :studios, :art_pieces, :roles_users, :roles
   before do
-    # do mobile
-    request.stub(:user_agent => IPHONE_USER_AGENT)
+    pretend_to_be_mobile
   end
 
   describe '#show' do
     it 'redirects to artist page' do
-      get :show, :id => ArtPiece.first.id
+      get :show, :id => ArtPiece.first.id, :formats => [:mobile]
       response.should redirect_to ArtPiece.first.artist
     end
   end

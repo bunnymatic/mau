@@ -37,14 +37,15 @@ describe EventsController do
     describe '#index' do
       context 'with params' do
         let(:first_event) { Event.published.first }
+        let(:month_year_key) { first_event.starttime.strftime('%Y%m') }
         before do
-          get :index, "m" => first_event.month_year_key
+          get :index, "m" => month_year_key
         end
         it 'sets current month if params m=current_month' do
-          expect(assigns(:current)).to eql first_event.month_year_key
+          expect(assigns(:events).current).to eql month_year_key
         end
         it 'orders events by start date inverse' do
-          expect(assigns(:events).map(&:stime)).to be_monotonically_decreasing
+          expect(assigns(:events).map{|ev| ev.event.stime}).to be_monotonically_decreasing
         end
 
       end
@@ -117,7 +118,22 @@ describe EventsController do
     end
 
     context 'create' do
-      let(:event_attrs) { FactoryGirl.attributes_for(:event).merge({:artist_list => Artist.active.first.get_name}) }
+      let(:event_attrs) do
+        attrs = FactoryGirl.attributes_for(:event).merge({:artist_list => Artist.active.first.get_name})
+        attrs.delete(:starttime)
+        attrs.delete(:reception_starttime)
+        attrs.delete(:endtime)
+        attrs.delete(:reception_endtime)
+        attrs[:start_time] = "12:00 PM"
+        attrs[:start_date] = "21 January, 2013"
+        attrs[:reception_start_time] = "12:00 PM"
+        attrs[:reception_start_date] = "22 January, 2013"
+        attrs[:end_time] = "12:00 PM"
+        attrs[:end_date] = "21 February, 2013"
+        attrs[:reception_end_time] = "1:00 PM"
+        attrs[:reception_end_date] = "22 January, 2013"
+        attrs
+      end
 
       context 'with standard params' do
         before do
@@ -132,17 +148,44 @@ describe EventsController do
           event = Event.where(:url => event_attrs[:url]).first!
           expect(event.description).to include Artist.active.first.get_name
         end
+        it 'sets the starttime' do
+          event = Event.where(:url => event_attrs[:url]).first!
+          expect(event.starttime).to eql Time.zone.parse("21 January, 2013 12:00PM")
+        end
+        it 'sets the reception endtime' do
+          event = Event.where(:url => event_attrs[:url]).first!
+          expect(event.reception_endtime).to eql Time.zone.parse("22 January, 2013 1:00PM")
+        end
       end
     end
 
     context 'update' do
       let (:event) { Event.last }
+      let (:new_attrs) do
+        attrs = {}
+        attrs[:title] = 'new event title'
+        attrs[:start_time] = "12:00 PM"
+        attrs[:start_date] = "21 January, 2013"
+        attrs[:reception_start_time] = "12:00 PM"
+        attrs[:reception_start_date] = "22 January, 2013"
+        attrs[:end_time] = "12:00 PM"
+        attrs[:end_date] = "21 February, 2013"
+        attrs[:reception_end_time] = "1:00 PM"
+        attrs[:reception_end_date] = "22 January, 2013"
+        attrs
+      end
       before do
-        put :update, :id => event, :event => { :title => 'new event title' }
+        put :update, :id => event, :event => new_attrs
       end
       it { response.should redirect_to admin_events_path }
       it "updates the title" do
         event.reload.title.should eql 'new event title'
+      end
+      it 'sets the starttime' do
+        expect(event.reload.starttime).to eql Time.zone.parse("21 January, 2013 12:00PM")
+      end
+      it 'sets the reception endtime' do
+        expect(event.reload.reception_endtime).to eql Time.zone.parse("22 January, 2013 1:00PM")
       end
     end
 
@@ -159,7 +202,7 @@ describe EventsController do
       end
       it_should_behave_like 'returns success'
       it 'pulls the event' do
-        assigns(:event).should eql Event.last
+        assigns(:event).object.should eql Event.last
       end
       it 'renders new_or_edit' do
         response.should render_template 'new_or_edit'
