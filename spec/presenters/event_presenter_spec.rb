@@ -32,7 +32,7 @@ describe EventPresenter do
   its(:display_event_time) { should match endtime.strftime("- %a %b") }
 
   its(:display_reception_time) { should match reception_starttime.strftime("%a %b %e") }
-  its(:display_reception_time) { should match reception_endtime.strftime("- %H:%M %p") }
+  its(:display_reception_time) { should match reception_endtime.strftime(" %H:%M%p") }
 
   context 'when the website address does not start http' do
     let(:event_website) { 'www.twitter.com' }
