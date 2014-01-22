@@ -44,7 +44,7 @@ describe Event do
       ev.errors['endtime'].should be
     end
     it 'is an invalid event if reception endtime is present and before the reception start date' do
-      ev = FactoryGirl.create(:event)
+      ev = FactoryGirl.create(:event, :with_reception)
       ev.reception_endtime = ev.reception_starttime - 10.days
       ev.should_not be_valid
       ev.errors['reception_endtime'].should be

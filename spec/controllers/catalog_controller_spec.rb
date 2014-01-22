@@ -59,7 +59,8 @@ describe CatalogController do
     end
     context 'format=mobile' do
       before do
-        get :social, :formats => [:mobile]
+        pretend_to_be_mobile
+        get :social
       end
       it { response.should redirect_to root_path }
     end
