@@ -1,6 +1,4 @@
 / date time picker expects field, label and event
-- time_field = field.to_s + "_TIME"
-- date_field = field.to_s + "_DATE"
 .entry{:class => field}
   = label_tag label
   = text_field_tag date_field, event.starttime, :placeholder => 'pick a day', :class => 'pickadate'

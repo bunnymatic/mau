@@ -79,7 +79,7 @@ class EventPresenter
   end
 
   def display_reception_time
-    @display_event_time ||= formatted_reception_time
+    @display_reception_time ||= formatted_reception_time
   end
 
   def for_mobile_list
@@ -101,8 +101,8 @@ class EventPresenter
     @formatted_starttime = in_mau_time(starttime).strftime(DATE_TIME_FORMAT)
   end
 
-  def formatted_reception_time
-    @formatted_reception_starttime = in_mau_time(reception_starttime).strftime(DATE_TIME_FORMAT)
+  def formatted_reception_starttime
+    @formatted_reception_starttime = in_mau_time(reception_starttime).strftime(DATE_TIME_FORMAT) if reception_starttime
   end
 
   def in_one_day?(t0, t1)
@@ -112,7 +112,7 @@ class EventPresenter
   def formatted_reception_time
     @formatted_reception_time ||=
       begin
-        formatted = [formatted_reception_time]
+        formatted = [formatted_reception_starttime]
         if reception_endtime
           formatter = in_one_day?(reception_starttime, reception_endtime) ? TIME_FORMAT : DATE_TIME_FORMAT
           formatted << in_mau_time(reception_endtime).strftime(formatter)

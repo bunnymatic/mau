@@ -46,19 +46,19 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = Event.new(:state => 'CA', :city => 'San Francisco')
+    @event = Event.new(:state => 'CA', :city => 'San Francisco').decorate
     render 'new_or_edit'
   end
 
   # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id])
+    @event = Event.find(params[:id]).decorate
     render 'new_or_edit'
   end
 
   # POST /events
   def create
-    @event = Event.new(event_params)
+    @event = Event.new(event_params(true))
     if @event.save
       EventMailer.event_added(@event).deliver!
       redirect_after_create
@@ -70,7 +70,7 @@ class EventsController < ApplicationController
   # PUT /events/1
   def update
     @event = Event.find(params[:id])
-    event_details = params[:event]
+    event_details = event_params(false)
     if event_details[:artist_list]
       artist_list = event_details[:artist_list]
       event_details.delete :artist_list
@@ -117,8 +117,7 @@ class EventsController < ApplicationController
   end
 
   private
-  def append_artists_to_description
-    event_info = params[:event]
+  def append_artists_to_description(event_info)
     if event_info[:artist_list]
       artist_list = event_info.delete(:artist_list)
       artist_names = artist_list.split(',')
@@ -140,24 +139,38 @@ class EventsController < ApplicationController
     end.flatten.compact
   end
   
-  def event_params
-    info = append_artists_to_description
+  def event_params(append_artist = false)
+    info = params[:event]
+    info = append_artists_to_description(info) if append_artist
     info[:user_id] = current_user.id
-    [:starttime, :endtime, :reception_starttime, :reception_endtime].each do |k| 
-      puts "k #{k}", time_param(k)
-      info.merge!(time_param(k))
-    end
-    puts "INFO", info
+    info[:starttime] = reconstruct_starttime(info)
+    info[:reception_starttime] = reconstruct_reception_starttime(info)
+    info[:endtime] = reconstruct_endtime(info)
+    info[:reception_endtime] = reconstruct_reception_endtime(info)
+    puts info
     info
   end
-
-  def time_param(k)
-    date_key = "#{k}_DATE"
-    time_key = "#{k}_TIME"
-    date = params[date_key]
-    time = params[time_key]
-    {k.to_sym => Time.zone.parse([date, time].join)} if date && time
+  
+  def reconstruct_starttime(info)
+    reconstruct_time(info, :start_date, :start_time)
   end
+  def reconstruct_reception_starttime(info)
+    reconstruct_time(info, :reception_start_date, :reception_start_time)
+  end
+  def reconstruct_endtime(info)
+    reconstruct_time(info, :end_date, :end_time)
+  end
+  def reconstruct_reception_endtime(info)
+    reconstruct_time(info, :reception_end_date, :reception_end_time)
+  end
+
+  def reconstruct_time(info, date_key, time_key)
+    begin
+      datestr = [info.delete(date_key), info.delete(time_key)].join ' '
+      Time.zone.parse(datestr)
+    end
+  end
+
 
 
   def redirect_after_create
