@@ -46,7 +46,7 @@ class AdminController < ApplicationController
   end
 
   def os_status
-    @os = Artist.active.order('lastname asc')
+    @os = Artist.active.by_lastname
     @totals = {}
     Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
       key = os_pretty(ostag)

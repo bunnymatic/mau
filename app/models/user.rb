@@ -66,14 +66,15 @@ class User < ActiveRecord::Base
   scope :active, where(:state => 'active')
   scope :pending, where(:state => 'pending')
 
+  before_validation :add_http_to_links
+
   before_destroy :delete_favorites
   def delete_favorites
     fs = Favorite.artists.where(:favoritable_id => id)
     fs.each(&:delete)
   end
 
-  [:studionumber, :studionumber=
-   ].each do |delegat|
+  [:studionumber, :studionumber= ].each do |delegat|
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
 
@@ -447,5 +448,11 @@ class User < ActiveRecord::Base
   def trying_to_favorite_yourself?(fav)
     false if fav.nil?
     ((fav.is_a?(User) || fav.is_a?(Artist)) && fav.id == id) || (fav.is_a?(ArtPiece) && fav.artist.id == id)
+  end
+
+  def add_http_to_links
+    if url.present?
+      self.url = ('http://' + url) unless /^https?:\/\// =~ url
+    end
   end
 end

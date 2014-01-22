@@ -1,7 +1,6 @@
 class EventPresenter
 
   include TzHelper
-  include MauUrlHelpers
 
   delegate :id, :url, :description, :reception_starttime, :reception_endtime, :starttime, :color, :name,
            :venue, :map_link, :address_hash, :endtime, :title, :start_at, :end_at, :clip_range,
@@ -49,8 +48,9 @@ class EventPresenter
   def event_website_url
     @event_website_url ||=
       begin
-        return url if /^https?:\.\./ =~ url
-        add_http(url)
+        if url.present?
+          (/^https?:\/\// =~ url) ? url : "http://#{url}"
+        end
       end
   end
 

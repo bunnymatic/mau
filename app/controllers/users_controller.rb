@@ -10,8 +10,6 @@ class UsersController < ApplicationController
 
   layout 'mau1col'
 
-  include MauUrlHelpers
-
   DEFAULT_ACCOUNT_TYPE = 'MAUFan'
 
   def index
@@ -149,7 +147,6 @@ class UsersController < ApplicationController
       render_not_found Exception.new("We can't create a user based on your input parameters.")
       return
     end
-    @user.url = add_http(@user.url)
     unless verify_recaptcha
       @user.errors.add(:base, "Failed to prove that you're human."+
                        " Re-type your password and the blurry words at the bottom before re-submitting.")

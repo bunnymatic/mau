@@ -87,7 +87,7 @@ class ArtistsController < ApplicationController
     end
 
     @page_title = "Artists by first name"
-    @artists = Artist.active.includes(:artist_info).order('firstname').all
+    @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
     render 'artists/index.mobile', :layout => 'mobile'
   end
 
@@ -97,7 +97,7 @@ class ArtistsController < ApplicationController
     end
 
     @page_title = "Artists by last name"
-    @artists = Artist.active.includes(:artist_info).order('lastname').all
+    @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
     render 'artists/index.mobile', :layout => 'mobile'
   end
 
@@ -221,6 +221,7 @@ class ArtistsController < ApplicationController
       }
       format.mobile {
         @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
+        @artist = ArtistPresenter.new(view_context, @artist)
         render :layout => 'mobile'
       }
     end

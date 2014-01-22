@@ -3,11 +3,15 @@ class ArtistPresenter
   include HtmlHelper
 
   attr_accessor :artist
-  delegate :name, :state, :firstname, :lastname, :representative_piece, :city, :street, :id, :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name, :studio, :studio_id, :login, :active?, :to => :artist
+  delegate :name, :state, :firstname, :lastname, :representative_piece, :city, :street, :id, :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name, :os_participation, :studio, :studio_id, :login, :active?, :artist_info, :to => :artist, :allow_nil => true
 
   def initialize(view_context, artist)
     @artist = artist
     @view_context = view_context
+  end
+
+  def valid?
+    !artist.nil? && artist.valid?
   end
 
   def has_media?
@@ -29,7 +33,7 @@ class ArtistPresenter
   end
 
   def links
-    Artist::KEYED_LINKS.map do |kk, disp, _id|
+    @links ||= Artist::KEYED_LINKS.map do |kk, disp, _id|
       lnk = @artist.send(kk)
       [_id, disp, lnk] if lnk.present?
     end.compact
@@ -75,8 +79,8 @@ class ArtistPresenter
   end
 
   def studio_number
-    number = @artist.artist_info.studionumber
-    number.present? ? ('#' + @artist.artist_info.studionumber) : ''
+    number = artist.artist_info.studionumber
+    number.present? ? ('#' + artist.artist_info.studionumber) : ''
   end
 
   def has_address?
@@ -135,15 +139,23 @@ class ArtistPresenter
     html.html_safe
   end
 
+  def for_mobile_list
+    artist.get_name(true)
+  end
+
+  def os_star
+    @os_star ||= artist.os_participation[Conf.oslive.to_s]
+  end
+
   def bio_html
-    bio.split("\n").map do |line|
+    @bio_html ||= bio.split("\n").map do |line|
       (html_encode(line) + "<br/>")
     end.join.html_safe
   end
 
   private
   def valid_address?
-    address_hash[:parsed].slice(:street, :city).values.any?(&:present?)
+    @valid_address ||= address_hash[:parsed].slice(:street, :city).values.any?(&:present?)
   end
 
   def clean_link(link)

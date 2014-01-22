@@ -1,4 +1,4 @@
-- if !@artist
+- if !@artist.valid?
   .error Sorry, we were unable to find that artist.
 - else
   .artist
@@ -52,11 +52,9 @@
           %li
             .ap-thumb{:style => "background-image:url(#{artpiece.get_path('small')});"}
     .clear
-    - if has_links(@artist)
+    - if @artist.has_links?
       .links.section
-        - Artist::KEYED_LINKS.each do |key, name, _id|
-          - lnk = @artist.send(key)
-          - if lnk and !lnk.empty?
-            %div{:id => _id}
-              %span #{name}
-            = link_to lnk, add_http(lnk)
+        - @artist.links.each do |key, name, lnk|
+          %div{:id => key}
+            %span #{name}
+          = link_to lnk, lnk

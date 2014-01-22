@@ -4,13 +4,8 @@
 <%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
 <%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
 <% else -%>
-<%   @artists.each do |a|
-        os_star = false
-        if a.artist_info
-           os_star = a.os_participation[Conf.oslive.to_s]
-        end
--%>
-  <%= render_as_mobile_list_item for_mobile_list(a), :link => artist_path(a), :os_star => os_star, :xtra_class => 'artist' %>
+<%   @artists.each do |a| -%>
+  <%= render_as_mobile_list_item a.for_mobile_list, :link => a.show_path, :os_star => a.os_star, :xtra_class => 'artist' %>
 <%   end -%>
 <% end -%>
 </ul>

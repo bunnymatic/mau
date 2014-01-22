@@ -11,6 +11,13 @@ module UsersHelper
     end
   end
 
+  def add_http(lnk)
+    if lnk && !lnk.empty? && lnk.index('http') != 0
+      lnk = 'http://' + lnk
+    end
+    lnk
+  end
+
   def signup_form_row(form, field, field_helper, opts = {})
     display_text = opts[:display] || field.to_s.humanize.titleize
 
