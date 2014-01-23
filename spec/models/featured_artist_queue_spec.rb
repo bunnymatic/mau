@@ -93,7 +93,7 @@ describe FeaturedArtistQueue do
     end
     describe "default scope" do
       it "returns items ordered by position" do
-        FeaturedArtistQueue.all.map(&:position).should be_strictly_increasing
+        FeaturedArtistQueue.by_position.map(&:position).should be_strictly_increasing
       end
     end
   end

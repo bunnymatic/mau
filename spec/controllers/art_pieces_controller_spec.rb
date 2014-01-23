@@ -324,6 +324,17 @@ describe ArtPiecesController do
         Messager.any_instance.should_receive(:publish)
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
       end
+      it 'redirects to show page on cancel' do
+        post :update, :id => @ap.id, :commit => 'Cancel', :art_piece => {:title => 'new title'}
+        response.should redirect_to @ap
+      end
+      it 'redirects to show if you try to edit someone elses art' do
+        ap = ArtPiece.all.detect{|ap| ap.artist != @ap.artist}
+
+        post :update, :id => ap.id, :art_piece => {:title => 'new title'}
+        response.should render_template ap
+      end
+
     end
   end
 

@@ -291,6 +291,17 @@ describe MainController do
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
       end
+      context 'when you\'re logged in' do
+        before do
+          login_as :artist1
+          FeedbackMailer.stub(:feedback => double("FeedbackMailer", :deliver! => true))
+        end
+        it 'sends an email' do
+          FeedbackMailer.should_receive(:feedback).and_return(double("deliverable", :deliver! => true))
+          get :getinvolved, :commit => true, :feedback => feedback_attrs
+        end
+      end
+
     end
   end
 

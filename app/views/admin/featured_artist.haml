@@ -5,7 +5,7 @@
 
     .artist_info
       .img
-        %a{:href => artist_path(@featured.artist), :title => @featured.artist.get_name}
+        %a{:href => artist_path(@featured_artist), :title => @featured_artist.get_name}
           - if @featured_artist.has_profile_image
             %img.profile{:src => @featured_artist.get_profile_image('small')}
           - else
