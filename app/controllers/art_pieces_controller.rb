@@ -32,9 +32,6 @@ class ArtPiecesController < ApplicationController
 
     respond_to do |format|
       format.html {
-        if !@art_piece
-          flash.now[:error] = "We were unable to find the piece you were looking for."
-        end
         @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
         @art_piece = ArtPieceHtmlPresenter.new(view_context, @art_piece)
         render :action => 'show', :layout => 'mau'
@@ -107,19 +104,13 @@ class ArtPiecesController < ApplicationController
   # PUT /art_pieces/1
   def update
     if commit_is_cancel
-      @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
-      @art_piece = ArtPiecePresenter.new(view_context, @art_piece)
-      render :action => 'show', :layout => 'mau' and return
-      return
+      redirect_to @art_piece and return
+    end
+    if @art_piece.artist != current_user
+      redirect_to @art_piece and return
     end
 
-    begin
-        success = @art_piece.update_attributes(art_piece_params)
-    rescue
-      @art_piece.errors.add('art_piece_tags','%s' % $!)
-      render :action => "edit" and return
-    end
-    if success
+    if @art_piece.update_attributes(art_piece_params)
       flash[:notice] = 'Artwork was successfully updated.'
       Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
       redirect_to art_piece_path(@art_piece)
@@ -155,10 +146,6 @@ class ArtPiecesController < ApplicationController
     (art_piece.artist == current_user)
   end
 
-  def load_media
-    @media = Medium.all
-  end
-
   def load_art_piece
     @art_piece = safe_find_art_piece(params[:id])
     if !@art_piece || !@art_piece.artist
@@ -168,12 +155,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def safe_find_art_piece(id)
-    begin
-      ArtPiece.find(id)
-    rescue ActiveRecord::RecordNotFound
-      flash.now[:error] = "We couldn't find the art you were looking for."
-      return nil
-    end
+    ArtPiece.where(:id => id).limit(1).first
   end
 
   def build_page_description art_piece

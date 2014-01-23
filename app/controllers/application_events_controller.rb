@@ -4,7 +4,7 @@ class ApplicationEventsController < ApplicationController
   layout 'mau-admin'
 
   def index
-    @events_by_type = ApplicationEvent.all.inject({}) do |result, item|
+    @events_by_type = ApplicationEvent.by_recency.inject({}) do |result, item|
       tp = item.class.name
       result[tp] = [] unless result.has_key? tp
       result[tp] << item

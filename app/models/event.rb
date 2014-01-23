@@ -47,14 +47,14 @@ class Event < ActiveRecord::Base
   scope :past, where('(endtime is not null and endtime < NOW())')
   scope :not_past, where('not(endtime is not null and endtime < NOW())')
   scope :published, where('publish is not null')
-
-  default_scope order('starttime')
+  scope :by_starttime, order(:starttime)
 
   belongs_to :user
 
   include AddressMixin
 
   def name
+    raise 'Event:name is deprecated'
     title
   end
 

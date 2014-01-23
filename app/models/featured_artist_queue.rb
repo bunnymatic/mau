@@ -16,10 +16,11 @@ class FeaturedArtistQueue < ActiveRecord::Base
 
   TABLE_NAME = 'featured_artist_queue'
   self.table_name = TABLE_NAME
-
-  default_scope order('position')
-  scope :not_yet_featured, where('featured is NULL')
+  scope :by_position, order(:position)
+  scope :not_yet_featured, where('featured is NULL').by_position
   scope :featured, where('featured is not NULL').order('featured desc')
+
+  belongs_to :artist
 
   FEATURE_LIFETIME = 1.week
 
@@ -46,15 +47,11 @@ class FeaturedArtistQueue < ActiveRecord::Base
       end
     end
     # get a new artist
-    a = not_yet_featured.first
+    a = not_yet_featured.where('artist_id is not null').first
     if a
-      a.update_attributes(:featured => Time.zone.now)
+      a.update_attributes!(:featured => Time.zone.now)
       a
     end
-  end
-
-  def artist
-    Artist.find(artist_id)
   end
 
 end

@@ -38,7 +38,7 @@ class ArtPiece < ActiveRecord::Base
   after_destroy :clear_tags_and_favorites
   after_save :remove_old_art
   after_save :clear_caches
-  default_scope order('`order`')
+  #default_scope order('`order`')
 
   NEW_ART_CACHE_KEY = 'newart'
   NEW_ART_CACHE_EXPIRY = Conf.cache_expiry['new_art'].to_i

@@ -11,7 +11,7 @@
 class Medium < ActiveRecord::Base
   has_many :art_pieces
 
-  default_scope order('name')
+  #default_scope order('name')
   include TagMediaMixin
 
   validates :name, :presence => true, :length => {:within => (2..244)}
