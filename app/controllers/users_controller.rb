@@ -213,7 +213,8 @@ class UsersController < ApplicationController
 
     if @user.nil?
       flash[:error] = "We were unable to find a user with that activation code"
-      render_not_found (Exception.new('failed to find user with activation code')) and return
+      render_not_found Exception.new('failed to find user with activation code')
+      return
     end
     if request.post? && user_params
 
@@ -221,7 +222,8 @@ class UsersController < ApplicationController
         self.current_user = @user
         @user.delete_reset_code
         flash[:notice] = "Password reset successfully for #{@user.email}"
-        redirect_back_or_default('/') and return
+        redirect_back_or_default('/')
+        return
       else
         flash[:error] = "Failed to update your password."
         @user.password = '';

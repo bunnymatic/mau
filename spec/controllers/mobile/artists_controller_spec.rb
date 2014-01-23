@@ -31,7 +31,7 @@ describe ArtistsController do
 
     context 'by last name' do
       before do
-        get :by_lastname, :format => :mobile
+        get :by_lastname
       end
       it_should_behave_like "a regular mobile page"
       it_should_behave_like "non-welcome mobile page"
@@ -42,7 +42,7 @@ describe ArtistsController do
 
     context 'by first name' do
       before do
-        get :by_firstname, :format => :mobile
+        get :by_firstname
       end
       it 'shows all active artists' do
         assert_select('li.mobile-menu', :minimum => Artist.active.select{|a| a.representative_piece}.count)

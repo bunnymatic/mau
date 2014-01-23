@@ -88,7 +88,7 @@ class ArtistsController < ApplicationController
 
     @page_title = "Artists by first name"
     @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index.mobile', :layout => 'mobile'
+    render 'artists/index', :layout => 'mobile'
   end
 
   def by_lastname
@@ -98,7 +98,7 @@ class ArtistsController < ApplicationController
 
     @page_title = "Artists by last name"
     @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index.mobile', :layout => 'mobile'
+    render 'artists/index', :layout => 'mobile'
   end
 
   def roster
