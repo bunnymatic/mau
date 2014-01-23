@@ -76,7 +76,7 @@ class AdminArtistList
      artist.csv_safe(:lastname),
      artist.get_name,
      artist.studio ? artist.studio.name : '',
-     artist.address_hash[:parsed][:street],
+     artist.address_hash.parsed.street,
      artist.studionumber,
      artist.email
     ]

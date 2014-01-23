@@ -13,10 +13,47 @@ describe ArtistPresenter do
   its(:allows_email_from_artists?) { should be_true }
   its(:has_links?) { should be_false }
   its(:links) { should be_empty }
-  its(:fb_share_link) { should include "http://www.facebook.com\/sharer.php?u=#{artist.get_share_link(true)}" }
+  its(:fb_share_link) {
+    should include "http://www.facebook.com\/sharer.php?u=#{artist.get_share_link(true)}"
+  }
   its(:is_current_user?) { should be_false }
   its(:favorites_count) { should be_nil }
-  its(:studio_name) { should be_present }
+  its(:studio_name) { should eql artist.studio.name }
+  its(:has_art?) { should be_true }
+  its(:who_favorites_me) { should eql artist.who_favorites_me }
+  it{ should be_valid }
+
+  it 'has a good map div for google maps' do
+    map_info = subject.get_map_info
+    html = Nokogiri::HTML::DocumentFragment.parse(map_info)
+    expect(html.css('style').to_s).to include '_mau1'
+    expect(html.css('div._mau1 a.lkdark img')).to have(1).image
+    expect(html.css('div._mau1 a.lkdark')[1].to_s).to include artist.get_name
+    expect(html.css('div._mau1 .studio').to_s).to include artist.studio.name
+  end
+
+
+  context 'when we wrap a nil artist' do
+    let (:artist) { nil }
+    it{ should_not be_valid }
+  end
+
+  context 'when the artist is invalid' do
+    let(:artist) { FactoryGirl.build(:artist, :login => nil) }
+    it{ should_not be_valid }
+  end
+
+  context 'without studio' do
+    let(:artist) { FactoryGirl.create(:artist, :activated, :with_art) }
+    it 'has a good map div for google maps' do
+      map_info = subject.get_map_info
+      html = Nokogiri::HTML::DocumentFragment.parse(map_info)
+      expect(html.css('style').to_s).to include '_mau1'
+      expect(html.css('div._mau1 a.lkdark img')).to have(1).image
+      expect(html.css('div._mau1 a.lkdark')[1].to_s).to include artist.get_name(true)
+      expect(html.css('div._mau1 .studio').to_s).to be_empty
+    end
+  end
 
   context 'without media' do
     before do
@@ -31,6 +68,7 @@ describe ArtistPresenter do
       Artist.any_instance.stub(:bio => 'here we go')
     end
     its(:has_bio?) { should be_true }
+    its(:bio_html) { should eq 'here we go<br/>' }
   end
 
   context 'with links' do
@@ -49,5 +87,6 @@ describe ArtistPresenter do
   context 'without art' do
     let(:artist) { FactoryGirl.create(:artist, :activated) }
     its(:art_pieces) { should be_empty }
+    its(:has_art?) { should be_false }
   end
 end

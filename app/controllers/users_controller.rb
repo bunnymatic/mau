@@ -135,10 +135,7 @@ class UsersController < ApplicationController
 
   def create
     logout_keeping_session!
-    user_params = {}
-    type = params[:type] || DEFAULT_ACCOUNT_TYPE
-    params.delete :type
-    @type = type
+    @type = params.delete(:type) || DEFAULT_ACCOUNT_TYPE
 
     # validate email domain
     build_user_from_params
@@ -151,8 +148,8 @@ class UsersController < ApplicationController
       @user.errors.add(:base, "Failed to prove that you're human."+
                        " Re-type your password and the blurry words at the bottom before re-submitting.")
     end
-    success = @user.errors.empty? && @user.save
-    if success
+
+    if @user.errors.empty? && @user.save
       @user.register!
       redirect_after_create
     else
@@ -213,19 +210,18 @@ class UsersController < ApplicationController
 
   def reset
     @user = User.find_by_reset_code(params["reset_code"]) unless params["reset_code"].nil?
+
     if @user.nil?
       flash[:error] = "We were unable to find a user with that activation code"
-      render_not_found (Exception.new('failed to find user with activation code'))
-      return
+      render_not_found (Exception.new('failed to find user with activation code')) and return
     end
-    if request.post? && params[:user]
+    if request.post? && user_params
 
-      if @user.update_attributes(params[:user].slice(:password, :password_confirmation))
+      if @user.update_attributes(user_params.slice(:password, :password_confirmation))
         self.current_user = @user
         @user.delete_reset_code
         flash[:notice] = "Password reset successfully for #{@user.email}"
-        redirect_back_or_default('/')
-        return
+        redirect_back_or_default('/') and return
       else
         flash[:error] = "Failed to update your password."
         @user.password = '';
@@ -348,10 +344,11 @@ class UsersController < ApplicationController
       if obj
         r = current_user.add_favorite(obj)
       end
-      result = {:message => 'Added a favorite', :favorite => obj.to_json }
       if request.xhr?
-        render :json => result
-        return
+        render :json => {
+          :message => 'Added a favorite',
+          :favorite => obj.to_json
+        } and return
       else
         objname = (obj.class == Artist) ? obj.get_name(true) : obj.safe_title
         path = (obj.class == Artist) ? user_path(obj) : art_piece_path(obj)
@@ -370,7 +367,6 @@ class UsersController < ApplicationController
     referrer = request.referer
     type = params[:fav_type]
     _id = params[:fav_id]
-    result = {}
     if Favorite::FAVORITABLE_TYPES.include? type
       obj = type.constantize.find(_id)
       if obj
@@ -415,12 +411,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def user_params
+    @user_params ||= (params[:artist] || params[:mau_fan] || params[:user] || {})
+  end
+
   def build_user_from_params
-    @user = nil
-    user_params = params[:artist] || params[:mau_fan] || params[:user] || {}
-    if user_params.empty?
-      return
-    end
+    return if user_params.empty?
     if @type == 'Artist'
       # studio_id is in artist info
       studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0

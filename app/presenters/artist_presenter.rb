@@ -3,7 +3,10 @@ class ArtistPresenter
   include HtmlHelper
 
   attr_accessor :artist
-  delegate :name, :state, :firstname, :lastname, :representative_piece, :city, :street, :id, :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name, :os_participation, :studio, :studio_id, :login, :active?, :artist_info, :to => :artist, :allow_nil => true
+  delegate :name, :state, :firstname, :lastname, :city, :street, :id,
+    :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
+    :os_participation, :studio, :studio_id, :login, :active?, :artist_info,
+    :to => :artist, :allow_nil => true
 
   def initialize(view_context, artist)
     @artist = artist
@@ -27,9 +30,7 @@ class ArtistPresenter
   end
 
   def has_links?
-    @has_links ||= (Artist::KEYED_LINKS.detect do |kk, disp|
-                      artist.send(kk).present?
-                    end).present?
+    @has_links ||= links.present?
   end
 
   def links
@@ -40,17 +41,12 @@ class ArtistPresenter
   end
 
   def fb_share_link
-    url = @artist.get_share_link(true)
-    raw_title = "Check out %s at Mission Artists United" % @artist.get_name()
-    title = CGI::escape( raw_title )
-    "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ url, title ]
+    "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ share_url, CGI::escape( share_title ) ]
   end
 
   def tw_share_link
-    url = @artist.get_share_link(true)
-    raw_title = "Check out %s at Mission Artists United" % @artist.get_name()
-    status = "%s @sfmau #missionartistsunited " % raw_title
-    @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), url]
+    status = "%s @sfmau #missionartistsunited " % share_title
+    @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), share_url]
   end
 
   def has_art?
@@ -58,15 +54,19 @@ class ArtistPresenter
   end
 
   def art_pieces
-    unless @art_pieces
-      num = @artist.max_pieces - 1
-      @art_pieces = @artist.art_pieces[0..num]
-    end
-    @art_pieces
+    @art_pieces ||=
+      begin
+        num = artist.max_pieces - 1
+        pieces = artist.art_pieces[0..num]
+      end
+  end
+
+  def who_favorites_me
+    @who_favorites_me ||= artist.who_favorites_me
   end
 
   def favorites_count
-    @favorites_count ||= @artist.who_favorites_me.count
+    @favorites_count ||= who_favorites_me.count
     @favorites_count if @favorites_count > 0
   end
 
@@ -108,39 +108,41 @@ class ArtistPresenter
   def get_map_info
     [].tap do |bits|
       bits << marker_style
-      bits << @view_context.content_tag('div', map_info_contents, :class => '_mau1').html_safe
+      bits << content_tag('div', map_info_contents, :class => '_mau1').html_safe
     end.join.html_safe
   end
 
+  def representative_piece
+    @representative_piece ||=
+      begin
+        r = artist.representative_piece
+        r if r.is_a?(ArtPiece)
+      end
+  end
+
   def map_info_contents
-    ap = artist.representative_piece
-    img = ''
-    # tried to add title to these links, but it seems google maps
-    # is too smart for that.
-    html = ''
-    if (ap && ap.is_a?(ArtPiece))
-      img = "<a class='lkdark' href='%s'><img src='%s'/></a>" % [ show_path, ap.get_path('thumb') ]
-      html += '<div style="float:right;">%s</div>' % img
-    end
-    html += map_info_name_address
-    html += @view_context.content_tag("div", '', :style => 'clear:both;')
-    html.html_safe
+    [].tap do |html|
+      html << (content_tag 'div', linked_thumb, :style => "float:right;") if representative_piece
+      html << map_info_name_address
+      html << content_tag("div", '', :style => 'clear:both;')
+    end.join.html_safe
   end
 
   def map_info_name_address
-    html = ''
-    name = "<a class='lkdark' href='%s'>%s</a>" % [ show_path, artist.get_name(true) ]
-    street = address_hash[:parsed][:street]
+    name = content_tag 'a', get_name(true), :href => show_path, :class => :lkdark
+    html = [name]
+    street = address_hash.try(:parsed).try(:street)
     if artist.studio && artist.studio_id != 0
-      html += "%s<div>%s</div>" % [ name, street ]
+      html << content_tag('div', artist.try(:studio).try(:name), :class => 'studio')
+      html << content_tag('div', street)
     else
-      html += "%s<div>%s</div><div>%s</div>" % [name, artist.try(:studio).try(:name), street]
+      html << content_tag('div', street)
     end
-    html.html_safe
+    html.join.html_safe
   end
 
   def for_mobile_list
-    artist.get_name(true)
+    get_name(true)
   end
 
   def os_star
@@ -154,12 +156,36 @@ class ArtistPresenter
   end
 
   private
+  def content_tag(*args)
+    @view_context.content_tag(*args)
+  end
+
+  def share_url
+    @share_url ||= artist.get_share_link(true)
+  end
+
+  def share_title
+    @share_title ||= "Check out %s at Mission Artists United" % get_name
+  end
+
   def valid_address?
-    @valid_address ||= address_hash[:parsed].slice(:street, :city).values.any?(&:present?)
+    @valid_address ||= address_hash.parsed.slice(:street, :city).values.any?(&:present?)
   end
 
   def clean_link(link)
     (link =~ /^https?:\/\//) ? link : ('http://' + link)
+  end
+
+  def representative_thumb
+    @representative_thumb ||= representative_piece.get_path('thumb')
+  end
+
+  def representative_thumb_image
+    @representative_thumb_image ||= @view_context.tag('img', :src => representative_thumb)
+  end
+
+  def linked_thumb
+    @linked_thumb ||= content_tag('a', representative_thumb_image, :class => 'lkdark', :href => show_path)
   end
 
 end

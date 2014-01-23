@@ -27,7 +27,7 @@ module AddressMixin
   end
 
   def address_hash
-    { :geocoded => (lat.present? && lng.present?),
+    Hashie::Mash.new({ :geocoded => (lat.present? && lng.present?),
       :full => full_address,
       :simple => address,
       :latlng => [ lat, lng ],
@@ -39,8 +39,7 @@ module AddressMixin
         :lat => lat,
         :lng => lng
       }
-
-    }
+    })
   end
 
   protected

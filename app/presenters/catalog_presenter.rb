@@ -81,7 +81,7 @@ class CatalogPresenter
      artist.get_name(true),
      artist.email,
      artist.studio ? artist.studio.name : '',
-     artist.address_hash[:parsed][:street],
+     artist.address_hash.parsed.street,
      artist.studionumber,
      '',
      '',

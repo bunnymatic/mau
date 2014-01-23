@@ -19,7 +19,8 @@ describe ArtistsPresenter do
     let(:os_only) { true }
     let(:os_participants) { Artist.active.open_studios_participants }
     it 'shows only os artists' do
-      expect(subject.artists.map(&:artist).to_a).to eql(os_participants.reject{|a| !a.in_the_mission? }.sort_by(&:sortable_name).to_a)
+      expected = os_participants.reject{|a| !a.in_the_mission? }.sort_by(&:sortable_name).to_a
+      expect(subject.artists.map(&:artist).to_a).to eql(expected)
     end
   end
 
