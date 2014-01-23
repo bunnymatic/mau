@@ -12,6 +12,7 @@ describe ArtistsController do
   end
 
   let(:artist1) { users(:artist1) }
+  let(:fan) { users(:artfan) }
   let(:artist1_info) { artist1.artist_info }
   let(:ne_bounds) { Artist::BOUNDS['NE'] }
   let(:sw_bounds) { Artist::BOUNDS['SW'] }
@@ -223,6 +224,13 @@ describe ArtistsController do
       end
       it_should_behave_like "redirects to login"
     end
+    context 'while logged in as a fan' do
+      before do
+        login_as fan
+        get :edit
+      end
+      it { should redirect_to edit_user_path(fan) }
+    end
     context "while logged in as someone with no address" do
       render_views
       before do
@@ -413,7 +421,7 @@ describe ArtistsController do
     end
 
     it "reports cannot find artist" do
-      get :show, :id => users(:maufan1).id
+      get :show, :id => fan.id
       assert_select('.rcol .error-msg')
       response.body.should match(/unable to find the artist/)
     end
@@ -577,7 +585,7 @@ describe ArtistsController do
     end
   end
 
-  describe "arrange art for an artist " do
+  describe "#setarrangement" do
     before do
       # stash an artist and art pieces
       @artpieces = artist1.art_pieces.map(&:id)
@@ -603,8 +611,32 @@ describe ArtistsController do
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
         post :setarrangement, { :neworder => order1.join(",") }
       end
+
+      it "returns art_pieces in new order (1,3,2)" do
+        Messager.any_instance.should_receive(:publish)
+        order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
+        post :setarrangement, { :neworder => order1.join(",") }
+      end
+
+      it "sets a flash with invalid params" do
+        post :setarrangement
+        response.should redirect_to(user_path(artist1))
+        flash[:error].should be_present
+      end
+
     end
   end
+
+  describe '#deleteart' do
+    before do
+      login_as :artist1
+      get :deleteart
+    end
+    it 'sets artist' do
+      expect(assigns(:artist)).to eql artist1
+    end
+  end
+
   describe "- logged out" do
     context "post to set arrangement" do
       before do
@@ -687,6 +719,48 @@ describe ArtistsController do
       it_should_behave_like 'returns success'
       it_should_behave_like 'logged in as admin'
     end
+  end
+
+  describe '#destroyart' do
+    let(:art_pieces) { ArtPiece.all.reject{|art| art.artist == artist1} }
+    let(:art_pieces_for_deletion) {
+      Hash[art_pieces.map.with_index{|a,idx| [a.id, idx % 2]}]
+    }
+    let(:destroy_params) { {:art => art_pieces_for_deletion} }
+    let(:num_to_dump) { art_pieces_for_deletion.values.select{|v| v==1}.count }
+    before do
+      login_as :artist1
+      post :destroyart
+    end
+    it 'validate fixtures' do
+      expect(art_pieces).to have_at_least(2).pieces
+    end
+    it{ expect(response).to redirect_to artist_path(artist1) }
+
+    context 'when trying to destroy art that is not yours' do
+      it{ expect(response).to redirect_to artist_path(artist1) }
+      it "should not remove art" do
+        expect{
+          post :destroyart, destroy_params
+        }.to_not change(ArtPiece, :count)
+      end
+
+    end
+
+    context 'when trying to destroy art that is yours' do
+      let(:art_pieces) { artist1.art_pieces }
+      it 'validate fixtures' do
+        expect(art_pieces).to have_at_least(2).pieces
+      end
+      it{ expect(response).to redirect_to artist_path(artist1) }
+      it "should remove art" do
+        expect{
+          post :destroyart, destroy_params
+        }.to change(ArtPiece, :count).by(-1*num_to_dump)
+      end
+
+    end
+
   end
 
   describe "#admin_index" do

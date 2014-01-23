@@ -38,11 +38,6 @@ describe ArtistPresenter do
     it{ should_not be_valid }
   end
 
-  context 'when the artist is invalid' do
-    let(:artist) { FactoryGirl.build(:artist, :login => nil) }
-    it{ should_not be_valid }
-  end
-
   context 'without studio' do
     let(:artist) { FactoryGirl.create(:artist, :activated, :with_art) }
     it 'has a good map div for google maps' do

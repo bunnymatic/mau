@@ -25,9 +25,9 @@
         %span.edit>
           %a#events_toggle_lnk{:href=> "#events"}> change
       .clear
-      = render :partial => "edit_open_studios_status", :locals => {:f => f}
-      = render :partial => "/users/edit_notifications", :locals => {:f => f}
-      = render :partial => "/users/edit_links", :locals => {:f => f}
+      = render "edit_open_studios_status", :f => f
+      = render "/users/edit_notifications", :f => f
+      = render "/users/edit_links", :f => f
 
       .open-close-div.acct
         %span.title#studio_info_toggle Address/Studio Info

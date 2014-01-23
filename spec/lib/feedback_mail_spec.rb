@@ -40,5 +40,12 @@ describe FeedbackMail do
     it{ should validate_presence_of :inquiry }
   end
 
-
+  context 'when saving' do
+    before do
+      FeedbackMailer.should_receive(:feedback).and_return(double('MockDeliverable',:deliver! => true))
+    end
+    it 'sends an email' do
+      subject.save
+    end
+  end
 end

@@ -153,11 +153,12 @@ class ArtistsController < ApplicationController
 
   def destroyart
     # receives post from delete art form
-    if ! logged_in?
-      flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
+    unless params[:art]
+      redirect_to(artist_path(current_user)) and return
     end
+
     ids = params[:art].map { |kk,vv| kk if vv != "0" }.compact
-    arts = ArtPiece.find(ids)
+    arts = ArtPiece.where(:id => ids, :artist_id => current_user.id)
     arts.each do |art|
       art.destroy
     end
@@ -167,30 +168,18 @@ class ArtistsController < ApplicationController
 
 
   def arrangeart
-    @artist = current_user
-    if ! @artist
-      flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
-      redirect_back_or_default( artist_path(@artist) )
-      return
-    end
   end
 
   def setarrangement
     if params.has_key? :neworder
       # new endpoint for rearranging - more than just setting representative
       neworder = params[:neworder].split(',')
-      begin
-        neworder.each_with_index do |apid, idx|
-          a = ArtPiece.find(apid)
-          a.update_attribute(:order, idx)
-        end
-        flash[:notice] = "Your images have been reordered."
-        Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
-      rescue
-        flash[:error] = "There was a problem reordering your images."+
-          " You may try again but if the problem persists, please write"+
-          " to help@missionartistsunited.org."
+      neworder.each_with_index do |apid, idx|
+        a = ArtPiece.where(:id => apid, :artist_id => current_user.id).first
+        a.update_attribute(:order, idx) if a
       end
+      flash[:notice] = "Your images have been reordered."
+      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
     else
       flash[:error] ="There was a problem interpreting the input parameters.  Please try again."
     end
@@ -284,12 +273,10 @@ class ArtistsController < ApplicationController
         flash[:notice] = "Update successful"
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
 
-        redirect_to edit_artist_url(current_user)
       rescue Exception => ex
-        puts "EX", ex
         flash[:error] = ex.to_s
-        redirect_to edit_artist_url(current_user)
       end
+      redirect_to edit_artist_url(current_user)
     end
   end
 
@@ -300,6 +287,7 @@ class ArtistsController < ApplicationController
       format.html { redirect_to root_path }
       format.mobile {
         if params[:partial]
+          raise "HELL"
           render :thumbs, :layout => false
         else
           render :thumbs, :layout => 'mobile'

@@ -14,7 +14,7 @@ class ArtistPresenter
   end
 
   def valid?
-    !artist.nil? && artist.valid?
+    !artist.nil?
   end
 
   def has_media?
@@ -170,10 +170,6 @@ class ArtistPresenter
 
   def valid_address?
     @valid_address ||= address_hash.parsed.slice(:street, :city).values.any?(&:present?)
-  end
-
-  def clean_link(link)
-    (link =~ /^https?:\/\//) ? link : ('http://' + link)
   end
 
   def representative_thumb
