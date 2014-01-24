@@ -246,7 +246,7 @@ class User < ActiveRecord::Base
 
   def tags
     # rollup and return most popular 15 tags
-    @mytags ||= art_pieces.map(&:art_piece_tags).flatten.compact.uniq
+    @mytags ||= art_pieces.map(&:tags).flatten.compact.uniq
   end
 
   def media

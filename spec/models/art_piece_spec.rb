@@ -79,17 +79,6 @@ describe ArtPiece do
     end
   end
 
-  # describe '#add_tag' do
-  #   it 'adds a tag to the art piece' do
-  #     new_tag = Faker::Lorem.words(2).join(' ')
-  #     ap = ArtPiece.first
-  #     ap.add_tag(new_tag)
-  #     ap.reload
-  #     ap.art_piece_tags.map(&:name).should include new_tag
-  #   end
-  # end
-
-
   describe 'get_path' do
     it 'returns a path to the art piece' do
       ap = ArtPiece.first

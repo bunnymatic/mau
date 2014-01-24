@@ -23,3 +23,16 @@ end
 Then(/^I see the login page$/) do
   expect(current_path).to match login_path
 end
+
+When(/^I login$/) do
+  steps %{When I visit the login page}
+  fill_in :login, :with => @artist.login
+  fill_in :password, :with => 'bmatic'
+  steps %{And I click "Log in"}
+end
+
+When(/^I login as "(.*?)"$/) do |login|
+  fill_in :login, :with => login
+  fill_in :password, :with => 'bmatic'
+  steps %{And I click "Log in"}
+end

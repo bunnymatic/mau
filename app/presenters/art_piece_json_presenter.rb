@@ -58,7 +58,7 @@ class ArtPieceJsonPresenter
   def to_json
     {'art_piece' => {}.tap do |info|
         info.merge! attributes
-        info['art_piece_tags'] = tags
+        info['tags'] = tags
         info['medium'] = medium
         %w(title dimensions).each do |k|
           info[k] = html_encode(send(k))

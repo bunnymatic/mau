@@ -40,6 +40,14 @@ FactoryGirl.define do
       number_of_art_pieces 3
     end
 
+    trait :admin do
+      after_build do |artist, ctx|
+        admin_role = Role.find_by_role(:admin) || FactoryGirl.create(:role, :role => :admin)
+        artist.roles = [admin_role]
+        artist.save
+      end
+    end
+ 
     trait :pending do
       state :pending
       activation_code 'factory_activation_code'

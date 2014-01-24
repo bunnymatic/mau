@@ -63,24 +63,6 @@ class ArtPieceTagsController < ApplicationController
     render :action => "show", :layout => "mau"
   end
 
-  def new
-    @tag = ArtPieceTag.new
-    ArtPieceTag.flush_cache
-  end
-
-  def create
-    @tag = ArtPieceTag.new(params[:tag])
-
-    if @tag.save
-      ArtPieceTag.flush_cache
-      flash[:notice] = 'ArtPieceTag was successfully created.'
-      redirect_to(@tag)
-    else
-      render :action => "new"
-    end
-
-  end
-
   def destroy
     @tag = ArtPieceTag.find(params[:id])
     @tag.destroy
@@ -90,7 +72,7 @@ class ArtPieceTagsController < ApplicationController
 
   private
 
-  def tags_sorted_by_frequency
+   def tags_sorted_by_frequency
     all_tags = ArtPieceTag.all
     freq = ArtPieceTag.keyed_frequency
     all_tags.map do |tag|
