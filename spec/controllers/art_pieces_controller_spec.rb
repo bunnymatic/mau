@@ -24,8 +24,8 @@ describe ArtPiecesController do
       @artist = users(:artist1)
       @artpieces = @artist.art_pieces
       ap = @artpieces.first
-      ap.art_piece_tags << ArtPieceTag.last
-      ap.art_piece_tags << ArtPieceTag.last(2).first
+      ap.tags << ArtPieceTag.last
+      ap.tags << ArtPieceTag.last(2).first
       ap.save
     end
     context "not logged in" do
@@ -50,7 +50,7 @@ describe ArtPiecesController do
         it 'has keywords that match the art piece' do
           assert_select 'head meta[name=keywords]' do |keywords|
             keywords.length.should eql 1
-            expected = [@artpieces.first.art_piece_tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
+            expected = [@artpieces.first.tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
             actual = keywords[0].attributes['content'].split(',').map(&:strip)
             expected.each do |ex|
               actual.should include ex
@@ -179,7 +179,7 @@ describe ArtPiecesController do
       it 'includes the fields we care about' do
         %w( id filename title description dimensions artist_id
             medium_id year image_height image_width order
-            art_piece_tags medium favorites_count
+            tags medium favorites_count
             image_dimensions image_files artist_name ).each do |expected|
           expect(parsed).to have_key expected
         end
@@ -204,8 +204,8 @@ describe ArtPiecesController do
       end
 
       it 'includes the tags' do
-        parsed['art_piece_tags'].should be_a_kind_of Array
-        parsed['art_piece_tags'].first['name'].should eql 'my first tag'
+        parsed['tags'].should be_a_kind_of Array
+        parsed['tags'].first['name'].should eql 'my first tag'
       end
       it 'includes the artists name' do
         parsed['artist_name'].should eql piece.artist.get_name

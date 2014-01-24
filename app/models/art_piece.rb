@@ -26,7 +26,7 @@ class ArtPiece < ActiveRecord::Base
   belongs_to :artist
 
   has_many :art_pieces_tags
-  has_many :art_piece_tags, :through => :art_pieces_tags
+  has_many :tags, :through => :art_pieces_tags, :source => :art_piece_tag
 
   belongs_to :medium
   include ImageDimensions
@@ -66,14 +66,13 @@ class ArtPiece < ActiveRecord::Base
     ArtPieceImage.get_paths(self)
   end
 
-  alias :tags :art_piece_tags
   def get_share_link(urlsafe=false)
     link = 'http://%s/art_pieces/%s' % [Conf.site_url, self.id]
     urlsafe ? CGI::escape(link): link
   end
 
   def add_tag(tag_string)
-    art_piece_tags << tags_from_s(tag_string)
+    self.tags << tags_from_s(tag_string)
   end
 
   def clear_tags_and_favorites
@@ -86,7 +85,7 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def uniq_tags
-    art_piece_tags.uniq_by(&:name)
+    tags.uniq_by(&:name)
   end
 
   def get_name(escape = false)

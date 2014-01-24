@@ -27,3 +27,25 @@ end
 Then(/^I see the "(.*?)" page$/) do |titleized_path_name|
   expect(current_path).to eql path_from_title(titleized_path_name)
 end
+
+When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
+  within('#admin_nav') do
+    click_link_or_button(link_title)
+  end
+end
+
+When(/^I click on the first "([^"]*?)" button$/) do |button_text|
+  within('.tbl-content') do
+    all('a,button', :text => button_text).first.click
+  end
+end
+
+When(/^I click on the last "([^"]*?)" button$/) do |button_text|
+  within('.tbl-content') do
+    all('a,button', :text => button_text).last.click
+  end
+end
+
+Then(/^I see a message "(.*?)"$/) do |message|
+  expect(page).to have_selector '.flash', :text => message
+end

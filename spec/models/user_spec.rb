@@ -37,7 +37,7 @@ describe User do
 
   context 'with an artist that has tags and media' do
     subject { artist1 }
-    its(:tags) { should eql subject.art_pieces.map(&:art_piece_tags).flatten.compact.uniq }
+    its(:tags) { should eql subject.art_pieces.map(&:tags).flatten.compact.uniq }
     its(:media) { should eql subject.art_pieces.map(&:medium).flatten.compact.uniq }
   end
 

@@ -793,7 +793,7 @@ var TagMediaHelper = {
 	      this.safe_update('num_favorites',ap.favorites_count);
 	      var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
 	      this.safe_update('ap_medium', med);
-	      var ts = TagMediaHelper.format_tags.apply(ap.art_piece_tags,[true, {'class':'tag'}]);
+	      var ts = TagMediaHelper.format_tags.apply(ap.tags,[true, {'class':'tag'}]);
 	      var tgs = $('ap_tags');
         if (tgs) {
 	        var i = 0;

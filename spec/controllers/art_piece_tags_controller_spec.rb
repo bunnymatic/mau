@@ -8,7 +8,7 @@ describe ArtPieceTagsController do
 
   fixtures :users, :roles, :roles_users, :art_piece_tags, :art_pieces_tags, :art_pieces, :artist_infos, :media
 
-  [:admin_index, :new].each do |endpoint|
+  [:admin_index].each do |endpoint|
     describe 'not logged in' do
       describe endpoint do
         before do

@@ -23,7 +23,7 @@ Mau::Application.routes.draw do
   end
 
   resources :email_lists, :only => [:index]
-  resources :art_piece_tags, :only => [:index, :show, :new, :edit, :destroy, :create] do
+  resources :art_piece_tags, :only => [:index, :show, :edit, :destroy] do
     collection do
       get :autosuggest # autocomplete for prototype doesn't easily do ajax with authenticity token :(
       get :cleanup
@@ -123,7 +123,7 @@ Mau::Application.routes.draw do
   match '/admin/events' => 'events#admin_index', :as => :admin_events
   match '/admin/artists' => 'artists#admin_index', :as => :admin_artists
   match '/admin/studios' => 'studios#admin_index', :as => :admin_studios
-  match '/admin/art_piece_tags' => 'art_piece_tags#admin_index', :as => :admin_tags
+  match '/admin/tags' => 'art_piece_tags#admin_index', :as => :admin_tags
   match '/admin/media' => 'media#admin_index', :as => :admin_media
   match '/admin/favorites' => 'favorites#index', :as => :admin_favorites
   match '/admin/featured_artist' => 'admin#featured_artist', :as => :get_next_featured, :method => 'post'

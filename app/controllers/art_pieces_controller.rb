@@ -139,7 +139,7 @@ class ArtPiecesController < ApplicationController
   def set_page_info_from_art_piece
     @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
     @page_description = build_page_description @art_piece
-    @page_keywords += [@art_piece.art_piece_tags + [@art_piece.medium]].flatten.compact.map(&:name)
+    @page_keywords += [@art_piece.tags + [@art_piece.medium]].flatten.compact.map(&:name)
   end
 
   def owned_by_current_user?(art_piece)
@@ -168,7 +168,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def art_piece_params
-    params[:art_piece][:art_piece_tags] = tags_from_s(params[:tags])
+    params[:art_piece][:tags] = tags_from_s(params[:tags])
     params[:art_piece]
   end
 end
