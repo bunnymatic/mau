@@ -33,4 +33,12 @@ describe ArtPieceTag do
 
   end
 
+  describe 'flush_cache' do
+    it 'flushes the cache' do
+      expect(SafeCache).to receive(:delete).with(ArtPieceTag::CACHE_KEY + true.to_s)
+      expect(SafeCache).to receive(:delete).with(ArtPieceTag::CACHE_KEY + false.to_s)
+      ArtPieceTag.flush_cache
+    end
+  end
+
 end

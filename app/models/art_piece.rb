@@ -65,7 +65,7 @@ class ArtPiece < ActiveRecord::Base
   def image_urls
     Hash[ image_paths.map{|k,v| [k, full_image_path(v)]} ]
   end
-  
+
   def image
     @image = ArtPieceImage.new(self)
   end

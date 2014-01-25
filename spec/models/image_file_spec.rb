@@ -97,7 +97,7 @@ describe ImageFile do
         }.to raise_error MauImage::ImageError
       end
     end
- 
+
     it 'sets up the right path name and calls resize for all the desired sizes' do
       MojoMagick.stub(:raw_command)
       MojoMagick.should_receive(:raw_command).

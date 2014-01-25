@@ -7,12 +7,12 @@ describe ArtPieceImage do
 
   describe '.path' do
     let(:art_piece) { ArtPiece.new }
-    context 'with brand new art piece' do 
+    context 'with brand new art piece' do
       it 'returns missing image' do
         ArtPieceImage.new(art_piece).path.should match /missing_artpiece/
       end
     end
-    context 'with not an art piece' do 
+    context 'with not an art piece' do
       let(:art_piece) { 'blurp' }
       it 'returns missing image' do
         ArtPieceImage.new(art_piece).path.should match /missing_artpiece/

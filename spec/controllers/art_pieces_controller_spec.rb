@@ -120,7 +120,7 @@ describe ArtPiecesController do
         it "should redirect to error page" do
           get :show, :id => 'bogusid'
           flash[:error].should match(/couldn\'t find that art/)
-          response.should redirect_to '/error'
+          expect(response).to redirect_to '/error'
         end
       end
       context "when logged in as art piece owner" do
@@ -259,12 +259,12 @@ describe ArtPiecesController do
       end
       it 'redirects to user page on cancel' do
         post :create, :art_piece => art_piece_attributes, :commit => 'Cancel'
-        response.should redirect_to artist_path(users(:joeblogs))
+        expect(response).to redirect_to artist_path(users(:joeblogs))
       end
       it 'renders new on failed save' do
         ArtPiece.any_instance.should_receive(:save).and_return(false)
         post :create, :art_piece => art_piece_attributes, :upload => {}
-        response.should render_template 'new'
+        expect(response).to render_template 'new'
       end
       context 'when image upload raises an error' do
         before do
@@ -272,10 +272,10 @@ describe ArtPiecesController do
           post :create, :art_piece => art_piece_attributes, :upload => {}
         end
         it 'renders the form again' do
-          response.should render_template 'new'
+          expect(response).to render_template 'new'
         end
-        it 'shows the error' do
-          assert_select '.error', :match => 'eat it'
+        it 'sets the error' do
+          expect(assigns(:art_piece).errors[:base].to_s).to include 'eat it'
         end
       end
 
@@ -286,7 +286,7 @@ describe ArtPiecesController do
         end
         it 'redirects to show page on success' do
           post :create, :art_piece => art_piece_attributes, :upload => {}
-          response.should redirect_to artist_path(users(:joeblogs))
+          expect(response).to redirect_to artist_path(users(:joeblogs))
         end
         it 'sets a flash message on success' do
           post :create, :art_piece => art_piece_attributes, :upload => {}
@@ -322,7 +322,7 @@ describe ArtPiecesController do
       end
       it 'redirects to show page on success' do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
-        response.should redirect_to art_piece_path(@ap)
+        expect(response).to redirect_to art_piece_path(@ap)
       end
       it 'sets a flash message on success' do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
@@ -338,13 +338,13 @@ describe ArtPiecesController do
       end
       it 'redirects to show page on cancel' do
         post :update, :id => @ap.id, :commit => 'Cancel', :art_piece => {:title => 'new title'}
-        response.should redirect_to @ap
+        expect(response).to redirect_to @ap
       end
       it 'redirects to show if you try to edit someone elses art' do
         ap = ArtPiece.all.detect{|ap| ap.artist != @ap.artist}
 
         post :update, :id => ap.id, :art_piece => {:title => 'new title'}
-        response.should render_template ap
+        expect(response).to render_template ap
       end
 
     end
@@ -376,7 +376,7 @@ describe ArtPiecesController do
           get :edit, :id => art_pieces(:artpiece1).id
         end
         it "returns error if you don't own the artpiece" do
-          response.should redirect_to "/error"
+          expect(response).to redirect_to "/error"
         end
         it "sets a flash error" do
           flash[:error].should be_present
@@ -410,7 +410,7 @@ describe ArtPiecesController do
         login_as(users(:maufan1))
         post :destroy, :id => art_pieces(:artpiece1).id
       end
-      it { response.should be_redirect }
+      it { expect(response).to be_redirect }
       it "does not removes that art piece" do
         expect{ ArtPiece.find(art_pieces(:artpiece1).id) }.to_not raise_error
       end
@@ -429,7 +429,7 @@ describe ArtPiecesController do
       end
       it "returns error page" do
         post :destroy, :id => @ap
-        response.should be_redirect
+        expect(response).to be_redirect
       end
       it "removes that art piece" do
         post :destroy, :id => @ap

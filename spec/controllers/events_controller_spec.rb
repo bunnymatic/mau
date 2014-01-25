@@ -68,7 +68,7 @@ describe EventsController do
         @event = Event.all.first
         get 'show', :id => events(:html_description).id
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it 'renders the event text properly' do
         assert_select 'p b', 'paragraph'
       end
@@ -113,7 +113,7 @@ describe EventsController do
         assigns(:event).state.should eql 'CA'
       end
       it 'renders new_or_edit' do
-        response.should render_template 'new_or_edit'
+        expect(response).to render_template 'new_or_edit'
       end
     end
 
@@ -140,7 +140,7 @@ describe EventsController do
           EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
           post :create, :event => event_attrs
         end
-        it { response.should redirect_to events_path }
+        it { expect(response).to redirect_to events_path }
         it "saves a new event" do
           expect(Event.where(:url => event_attrs[:url])).to be_present
         end
@@ -157,6 +157,18 @@ describe EventsController do
           expect(event.reception_endtime).to eql Time.zone.parse("22 January, 2013 1:00PM")
         end
       end
+
+      context 'with bad params' do
+        before do
+          attrs = event_attrs
+          event_attrs.delete(:title)
+          EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
+          post :create, :event => event_attrs
+        end
+        it { expect(response).to render_template 'new' }
+        it { expect(assigns(:studio).errors.full_messages).should have_at_least(1).message }
+      end
+
     end
 
     context 'update' do
@@ -177,7 +189,7 @@ describe EventsController do
       before do
         put :update, :id => event, :event => new_attrs
       end
-      it { response.should redirect_to admin_events_path }
+      it { expect(response).to redirect_to admin_events_path }
       it "updates the title" do
         event.reload.title.should eql 'new event title'
       end
@@ -193,7 +205,7 @@ describe EventsController do
       before do
         delete :destroy, :id => Event.last
       end
-      it { response.should redirect_to events_path }
+      it { expect(response).to redirect_to events_path }
     end
 
     context 'edit' do
@@ -205,7 +217,7 @@ describe EventsController do
         assigns(:event).object.should eql Event.last
       end
       it 'renders new_or_edit' do
-        response.should render_template 'new_or_edit'
+        expect(response).to render_template 'new_or_edit'
       end
     end
 
@@ -222,7 +234,7 @@ describe EventsController do
       end
       it 'redirects to the event index' do
         post :publish, :id => @event.id
-        response.should redirect_to admin_events_path
+        expect(response).to redirect_to admin_events_path
       end
     end
     context 'unpublish' do
@@ -237,7 +249,7 @@ describe EventsController do
       end
       it 'redirects to the event index' do
         post :unpublish, :id => @event.id
-        response.should redirect_to admin_events_path
+        expect(response).to redirect_to admin_events_path
       end
 
     end
