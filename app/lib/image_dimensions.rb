@@ -1,10 +1,8 @@
 module ImageDimensions
 
   def compute_dimensions
-    dims = ImageFile::ImageSizes.all.keys.inject({}) do |r,k|
-
-      key= ImageFile::ImageSizes.keymap(k)
-      sz = ImageFile::ImageSizes.all[key]
+    dims = MauImage::ImageSize.allowed_sizes.inject({}) do |r,k|
+      sz = MauImage::ImageSize.find(k)
       if k == :original
         r[k] = [image_width.to_i, image_height.to_i]
       else

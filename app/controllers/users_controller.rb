@@ -98,14 +98,12 @@ class UsersController < ApplicationController
     end
 
     begin
-      post = ArtistProfileImage.new(upload, @user).save
+      post = ArtistProfileImage.new(@user).save upload
       redirect_to user_path(@user)
-      return
     rescue
       logger.error("Failed to upload %s" % $!)
       flash[:error] = "%s" % $!
       redirect_to add_profile_users_path
-      return
     end
   end
 

@@ -84,7 +84,7 @@ class ArtPiecesController < ApplicationController
       ActiveRecord::Base.transaction do
         if @art_piece.save
           # upload image
-          ArtPieceImage.new(@art_piece, upload).save
+          ArtPieceImage.new(@art_piece).save upload
           flash[:notice] = 'Artwork was successfully added.'
           Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
         else
@@ -92,9 +92,9 @@ class ArtPiecesController < ApplicationController
         end
       end
     rescue Exception => ex
-      logger.error("Failed to upload %s" % $!)
+      msg = "Failed to upload %s" % $!
       @art_piece = ArtPiece.new params[:art_piece]
-      @art_piece.errors.add(:base, ex.message)
+      @art_piece.errors.add(:base, msg)
       render :action => 'new' and return
     end
 

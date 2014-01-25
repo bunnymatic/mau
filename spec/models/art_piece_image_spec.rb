@@ -29,7 +29,7 @@ describe ArtPieceImage do
       Time.zone.stub(:now => now)
       MojoMagick.stub(:resize => nil, :raw_command => 'JPG 100 200 RGB')
 
-      ArtPieceImage.new(art_piece, upload).save
+      ArtPieceImage.new(art_piece).save(upload)
     end
 
     it 'updates the filename' do

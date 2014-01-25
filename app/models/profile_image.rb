@@ -2,8 +2,7 @@ class ProfileImage
 
   attr_reader :upload, :object
 
-  def initialize(upload, obj)
-    @upload = upload
+  def initialize(obj)
     @object = obj
   end
 
@@ -27,9 +26,10 @@ class ProfileImage
     @filename ||= "profile#{File.extname(uploaded_filename)}"
   end
 
-  def save
-    image = ImageFile.new(upload, dir, filename)
-    info = image.save
+  def save upload
+    @upload = upload
+    image = ImageFile.new
+    info = image.save(upload, dir, filename)
     object.update_attributes!({:profile_image => info.path,
                                :image_height => info.height,
                                :image_width => info.width})

@@ -8,17 +8,18 @@ describe StudioImage do
     let(:file) { Faker::Files.file }
     let(:upload) { {'datafile' => double('UploadedFile', :original_filename => file) } }
     let(:image_info) { OpenStruct.new({:path => 'studio_image.jpg', :height => 1234, :width => 2233} ) }
-    let(:mock_image_file) { double("MockImageFile", :save => image_info) }
+    let(:mock_image_file) { double(ImageFile) }
 
     let (:writable) { double('Writable',:write => nil) }
 
-    subject(:studio_image) { StudioImage.new(upload, studio) }
+    subject(:studio_image) { StudioImage.new(studio) }
 
     before do
-      ImageFile.should_receive(:new).with(upload,
-                                          "public/studiodata/#{studio.id}/profile",
-                                          "profile#{File.extname(file)}" ).and_return(mock_image_file)
-      studio_image.save
+      mock_image_file.should_receive(:save).with(upload,
+                                                "public/studiodata/#{studio.id}/profile",
+                                                "profile#{File.extname(file)}" ).and_return(image_info)
+      ImageFile.should_receive(:new).and_return(mock_image_file)
+      studio_image.save upload
       studio.reload
     end
 

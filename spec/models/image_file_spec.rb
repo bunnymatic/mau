@@ -34,74 +34,6 @@ describe ImageFile do
     end
   end
 
-  describe ImageFile::ImageSizes do
-    describe '#height' do
-      it 'returns height for small' do
-        ImageFile::ImageSizes.height(:small).should eql 200
-      end
-      it 'returns height for l' do
-        ImageFile::ImageSizes.height('l').should eql 800
-      end
-      it 'returns nil for orig' do
-        ImageFile::ImageSizes.height('orig').should be_nil
-      end
-      it 'returns 400 for unknown' do
-        ImageFile::ImageSizes.height('unk').should eql 400
-      end
-    end
-
-    describe '#width' do
-      it 'returns width for small' do
-        ImageFile::ImageSizes.width(:small).should eql 200
-      end
-      it 'returns width for l' do
-        ImageFile::ImageSizes.width('l').should eql 800
-      end
-      it 'returns nil for orig' do
-        ImageFile::ImageSizes.width('orig').should be_nil
-      end
-      it 'returns 400 for unknown' do
-        ImageFile::ImageSizes.width('unk').should eql 400
-      end
-    end
-
-    describe '#keymap' do
-      it 'returns medium given nothing' do
-        ImageFile::ImageSizes.keymap(nil).should eql :medium
-        ImageFile::ImageSizes.keymap('').should eql :medium
-      end
-      it 'returns original for "orig"' do
-        ImageFile::ImageSizes.keymap('orig').should eql :original
-        ImageFile::ImageSizes.keymap(:orig).should eql :original
-      end
-      it 'returns thumb for thumbnail & thumb' do
-        %w(thumb thumbnail).each do |sz|
-          ImageFile::ImageSizes.keymap(sz).should eql :thumb
-          ImageFile::ImageSizes.keymap(sz.to_sym).should eql :thumb
-        end
-      end
-      it 'returns small for s or sm' do
-        %w(s sm).each do |sz|
-          ImageFile::ImageSizes.keymap(sz).should eql :small
-          ImageFile::ImageSizes.keymap(sz.to_sym).should eql :small
-        end
-      end
-      it 'returns large for l' do
-        ImageFile::ImageSizes.keymap('l').should eql :large
-        ImageFile::ImageSizes.keymap(:l).should eql :large
-      end
-      it 'returns medium for m, med, standard, std or medium' do
-        %w(m med standard std medium).each do |sz|
-          ImageFile::ImageSizes.keymap(sz).should eql :medium
-        end
-      end
-      it 'returns the medium for something it doesn\'t recognize' do
-        ImageFile::ImageSizes.keymap('blow').should eql :medium
-        ImageFile::ImageSizes.keymap(:blow).should eql :medium
-      end
-    end
-  end
-
   describe '#get_path' do
     let(:directory) { Faker::Files.dir }
     let(:file) { Faker::Files.file }
@@ -131,7 +63,7 @@ describe ImageFile do
     let (:destdir) { 'destination/directory'}
     let (:destfile) { 'destfile.file' }
     let (:full_destpath) { File.join(destdir, destfile) }
-    subject(:image_file) { ImageFile.new(upload, destdir, destfile) }
+    subject(:image_file) { ImageFile.new }
 
     before do
       Pathname.stub(:new => double("Path", :realpath => 'blah_de_blah'))
@@ -142,7 +74,7 @@ describe ImageFile do
         with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
       File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
       expect {
-        image_file.save
+        image_file.save upload, destdir, destfile
       }.to raise_error ArgumentError
     end
 
@@ -152,7 +84,7 @@ describe ImageFile do
         with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 RGB")
       MojoMagick.should_receive(:resize).exactly(4).times
       File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
-      image_file.save
+      image_file.save upload, destdir, destfile
     end
 
     it 'sizes respond to height and width and prefix for all sizes' do

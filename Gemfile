@@ -44,9 +44,7 @@ gem 'postmark'
 
 gem 'jquery-rails'
 
-group :staging, :production do
-  gem 'newrelic_rpm'
-end
+gem 'newrelic_rpm'
 
 group :test do
   gem 'faker'
@@ -77,4 +75,5 @@ group :test, :development do
   gem 'guard-cucumber'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
+  gem 'quiet_assets'
 end
