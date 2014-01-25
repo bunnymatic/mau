@@ -320,6 +320,12 @@ describe ArtPiecesController do
         u = @ap.artist
         login_as u
       end
+      it 'with bad attributes' do
+        post :update, :id => @ap.id, :art_piece => {:title => ''}
+        expect(response).to render_template 'edit'
+        expect(assigns(:art_piece).errors).to have_at_least(1).error
+      end
+
       it 'redirects to show page on success' do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
         expect(response).to redirect_to art_piece_path(@ap)
