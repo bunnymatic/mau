@@ -78,6 +78,15 @@ describe ImageFile do
       end
     end
 
+    context 'with no file extension' do
+      let (:upload) { {'datafile' => double('Uploadable', :read => '', :original_filename => 'uploaded_file') } }
+      it 'does not allow upload' do
+        expect {
+          image_file.save upload, destdir, destfile
+        }.to raise_error MauImage::ImageError
+      end
+    end
+
     context 'with CMYK format image' do
       it 'disallows CMYK format' do
         MojoMagick.should_receive(:raw_command).
@@ -104,6 +113,16 @@ describe ImageFile do
           image_file.sizes[sz_key].should respond_to key
         end
       end
+    end
+
+    it 'raises an error if MojoMagick::resize failse' do
+      MojoMagick.should_receive(:raw_command).
+        with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 RGB")
+      MojoMagick.should_receive(:resize).and_raise
+      File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
+      expect {
+        image_file.save upload, destdir, destfile
+      }.to raise_error MauImage::ImageError
     end
 
   end

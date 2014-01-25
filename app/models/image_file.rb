@@ -73,8 +73,9 @@ class ImageFile
                              :shrink_only => true })
         Rails::logger.debug("ImageFile: wrote %s" % destpath)
       rescue Exception => ex
-        Rails::logger.error("ImageFile: ERROR : %s\n" % $!)
-        puts ex.backtrace unless Rails.env == 'production'
+        msg = "ImageFile: ERROR : %s\n" % $!
+        Rails.logger.error msg
+        raise MauImage::ImageError.new(msg)
       end
     end
     image_info
