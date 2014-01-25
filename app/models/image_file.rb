@@ -4,58 +4,6 @@ class ImageFile
 
   include ImageFileHelpers
 
-  class ImageSizes
-    class ImageSize < Struct.new(:width, :height, :prefix); end
-    @@sizes = {
-      :thumb => ImageSize.new(100, 100, 't_'),
-      :cropped_thumb => ImageSize.new( 127, 127, 'ct_'),
-      :small => ImageSize.new( 200, 200, 's_'),
-      :medium => ImageSize.new( 400, 400, 'm_'),
-      :large => ImageSize.new( 800, 800, 'l_'),
-      :original => ImageSize.new( nil, nil, '')
-    }.freeze
-
-    def self.all
-      @@sizes
-    end
-
-    def self.prefix(sz)
-      k = keymap(sz)
-      (@@sizes.include? k) ? @@sizes[keymap(sz)].prefix : 'm_'
-    end
-
-    def self.width(sz)
-      k = keymap(sz)
-      (@@sizes.include? k) ? @@sizes[keymap(sz)].width : 0
-    end
-
-    def self.height(sz)
-      k = keymap(sz)
-      (@@sizes.include? k) ? @@sizes[keymap(sz)].height : 0
-    end
-
-    def self.keymap(sz)
-      return :medium if sz.blank?
-      allowed_sizes = @@sizes.keys
-      return sz.to_sym if (allowed_sizes.include? sz.to_sym)
-      case sz.to_s
-      when "orig"
-        :original
-      when "sm", "s"
-        :small
-      when 'thumbnail'
-        :thumb
-      when 'med', 'm', 'standard', 'std'
-        :medium
-      when 'l'
-        :large
-      else
-        :medium
-      end
-    end
-
-  end
-
   @@IMG_SERVERS = ['']
   # Currenly not using image_servers
   #
@@ -70,12 +18,6 @@ class ImageFile
 
   attr_reader :upload, :destdir, :destfile
 
-  def initialize(upload, destdir, destfile=nil)
-    @upload = upload
-    @destdir = destdir
-    @destfile = (destfile || create_timestamped_filename(uploaded_filename))
-  end
-
   def datafile
     @datafile ||= upload['datafile']
   end
@@ -85,22 +27,26 @@ class ImageFile
   end
 
   def sizes
-    @sizes ||= ImageSizes.all
+    @sizes ||= MauImage::ImageSize.all
   end
 
   def self.get_path(dir, size, fname)
     return '' if fname.empty?
-    prefix = ImageSizes.prefix(size)
+    prefix = MauImage::ImageSize.find(size).prefix
     idx = fname.hash % @@IMG_SERVERS.length
     svr = @@IMG_SERVERS[idx]
     svr + File.join(dir, prefix+fname)
   end
 
-  def save
+  def save(upload, destdir, destfile=nil)
+    @upload = upload
+    @destdir = destdir
+    @destfile = (destfile || create_timestamped_filename(uploaded_filename))
+
     ext = get_file_extension(uploaded_filename)
     if ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
       Rails::logger.error("ImageFile: bad filetype\n")
-      raise ArgumentError, "File type doesn't appear to be JPEG, GIF or PNG."
+      raise MauImage::ImageError.new("File type doesn't appear to be JPEG, GIF or PNG.")
     end
 
     image_info = save_uploaded_file
@@ -112,7 +58,7 @@ class ImageFile
   def image_paths(image_info)
     file_match = Regexp.new(destfile + "$")
     Hash[ [:large, :medium, :small, :thumb].map do |sz|
-            [sz, image_info.path.gsub(file_match, ImageSizes.prefix(sz) + destfile)]
+            [sz, image_info.path.gsub(file_match, MauImage::ImageSize.find(sz).prefix + destfile)]
           end ]
   end
 
@@ -122,13 +68,14 @@ class ImageFile
     image_paths(image_info).each do |key, destpath|
       begin
         MojoMagick::resize(image_info.path, destpath,
-                           { :width => ImageSizes.width(key),
-                             :height => ImageSizes.height(key),
+                           { :width => MauImage::ImageSize.find(key).width,
+                             :height => MauImage::ImageSize.find(key).height,
                              :shrink_only => true })
         Rails::logger.debug("ImageFile: wrote %s" % destpath)
       rescue Exception => ex
-        Rails::logger.error("ImageFile: ERROR : %s\n" % $!)
-        puts ex.backtrace unless Rails.env == 'production'
+        msg = "ImageFile: ERROR : %s\n" % $!
+        Rails.logger.error msg
+        raise MauImage::ImageError.new(msg)
       end
     end
     image_info
@@ -156,11 +103,11 @@ class ImageFile
     fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + src_path)
     (type, height, width, colorspace) = fmt.split
     if ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
-      raise ArgumentError, "Image type %s is not supported." % type
+      raise MauImage::ImageError.new("Image type %s is not supported." % type)
     end
     if colorspace.downcase.match /cmyk/
-      raise ArgumentError, "[%s] is not a supported color space."+
-        "  Please save your image with an RGB colorspace." % colorspace.to_s
+      raise MauImage::ImageError.new("[%s] is not a supported color space."+
+                                     "  Please save your image with an RGB colorspace." % colorspace.to_s)
     end
     [type, height, width, colorspace]
   end

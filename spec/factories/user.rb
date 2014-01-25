@@ -47,7 +47,7 @@ FactoryGirl.define do
         artist.save
       end
     end
- 
+
     trait :pending do
       state :pending
       activation_code 'factory_activation_code'

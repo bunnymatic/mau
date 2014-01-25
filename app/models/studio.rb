@@ -83,10 +83,6 @@ class Studio < ActiveRecord::Base
     StudioImage.get_path(self, size)
   end
 
-  def get_name encode
-    self.name
-  end
-
   def formatted_phone
     phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
   end

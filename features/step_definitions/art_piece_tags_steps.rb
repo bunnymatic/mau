@@ -9,7 +9,7 @@ def tags_sorted_by_frequency
 end
 
 Then(/^I see the most popular tag page$/) do
-  first_tag = tags_sorted_by_frequency.first.first 
+  first_tag = tags_sorted_by_frequency.first.first
   expect(current_path).to eql art_piece_tag_path(first_tag)
 end
 

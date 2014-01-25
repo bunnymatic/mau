@@ -10,16 +10,17 @@ describe ArtistProfileImage do
     let(:file) { Faker::Files.file }
     let(:upload) { {'datafile' => double('UploadedFile', :original_filename => file) } }
     let(:image_info) { OpenStruct.new({:path => 'artist_image.jpg', :height => 1234, :width => 2233} ) }
-    let(:mock_image_file) { double("MockImageFile", :save => image_info) }
+    let(:mock_image_file) { double("MockImageFile") }
     let (:writable) { double('Writable',:write => nil) }
 
-    subject(:profile_image) { StudioImage.new(upload, artist) }
+    subject(:profile_image) { ArtistProfileImage.new(artist) }
 
     before do
-      ImageFile.should_receive(:new).with(upload,
-                                          "public/artistdata/#{artist.id}/profile",
-                                          "profile#{File.extname(file)}" ).and_return(mock_image_file)
-      ArtistProfileImage.new(upload, artist).save
+      mock_image_file.should_receive(:save).with(upload,
+                                                 "public/artistdata/#{artist.id}/profile",
+                                                 "profile#{File.extname(file)}" ).and_return(image_info)
+      ImageFile.should_receive(:new).and_return(mock_image_file)
+      profile_image.save upload
       artist.reload
     end
 

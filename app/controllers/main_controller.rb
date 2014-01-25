@@ -70,22 +70,13 @@ class MainController < ApplicationController
 
     @feedback = Feedback.new
     if params[:commit]
-      if params[:feedback][:email].blank?
-        flash.now[:error] = "There was a problem submitting your feedback.  Your email was blank."
-        return
-      end
-      if params[:feedback][:comment].blank?
-        flash.now[:error] = "There was a problem submitting your feedback.  Please fill something in for the comment."
-        return
-      end
-
       @feedback = Feedback.new(params[:feedback])
-      saved = @feedback.save
-      if saved
+      if @feedback.valid?
+        @feedback.save
         FeedbackMailer.feedback(@feedback).deliver!
         flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
       else
-        flash.now[:error] = "There was a problem submitting your feedback.  Was your comment empty?"
+        flash.now[:error] = "There was a problem submitting your feedback.<br/>" + @feedback.errors.full_messages.join("<br/>")
       end
     end
   end
