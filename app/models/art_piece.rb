@@ -58,21 +58,16 @@ class ArtPiece < ActiveRecord::Base
     super opts
   end
 
+  def get_paths
+    image_paths
+  end
+
   def image_urls
-    Hash[ ArtPieceImage.get_paths(self).map{|k,v| [k, full_image_path(v)]} ]
+    Hash[ image_paths.map{|k,v| [k, full_image_path(v)]} ]
   end
 
   def image_paths
-    ArtPieceImage.get_paths(self)
-  end
-
-  def get_share_link(urlsafe=false)
-    link = 'http://%s/art_pieces/%s' % [Conf.site_url, self.id]
-    urlsafe ? CGI::escape(link): link
-  end
-
-  def add_tag(tag_string)
-    self.tags << tags_from_s(tag_string)
+    @image_paths ||= ArtPieceImage.get_paths(self)
   end
 
   def clear_tags_and_favorites
@@ -80,9 +75,6 @@ class ArtPiece < ActiveRecord::Base
     Favorite.where(:favoritable_id => id, :favoritable_type => klassname).compact.map(&:destroy)
   end
 
-  def get_paths
-    ArtPieceImage.get_paths(self)
-  end
 
   def uniq_tags
     tags.uniq_by(&:name)
@@ -98,7 +90,7 @@ class ArtPiece < ActiveRecord::Base
 
   def get_path(size = nil, full_path = false)
     size ||= 'medium'
-    artpiece_path = ArtPieceImage.get_path(self, size)
+    artpiece_path = image_paths[size.to_sym]
     (full_path ? full_image_path(artpiece_path) : artpiece_path)
     #prefix + (artpiece_path || '')
   end
