@@ -15,7 +15,6 @@
 #  firstname                 :string(40)
 #  lastname                  :string(40)
 #  nomdeplume                :string(80)
-#  phone                     :string(16)
 #  url                       :string(200)
 #  profile_image             :string(200)
 #  studio_id                 :integer

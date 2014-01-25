@@ -15,7 +15,6 @@
 #  firstname                 :string(40)
 #  lastname                  :string(40)
 #  nomdeplume                :string(80)
-#  phone                     :string(16)
 #  url                       :string(200)
 #  profile_image             :string(200)
 #  studio_id                 :integer
@@ -218,30 +217,15 @@ class User < ActiveRecord::Base
   end
 
   def is_admin?
-    begin
-      roles.map(&:id).include? Role.admin.id
-    rescue Exception => e
-      logger.debug(e)
-      false
-    end
+    roles.include? Role.admin
   end
 
   def is_manager?
-    begin
-      is_admin? || (roles.include? Role.manager)
-    rescue Exception => e
-      logger.debug(e)
-      false
-    end
+    is_admin? || (roles.include? Role.manager)
   end
 
   def is_editor?
-    begin
-      is_admin? || (roles.include? Role.editor)
-    rescue Exception => e
-      logger.debug(e)
-      false
-    end
+    is_admin? || (roles.include? Role.editor)
   end
 
   def tags
@@ -251,11 +235,6 @@ class User < ActiveRecord::Base
 
   def media
     @mymedia ||= art_pieces.map(&:medium).flatten.compact.uniq
-  end
-
-  def validate_phone
-    errors.add(:phone, 'is an invalid phone number, must contain at least 5 digits,'+
-               ' only the following characters are allowed: 0-9/-()+') unless User.valid_phone?(phone)
   end
 
   def validate_email
@@ -272,14 +251,6 @@ class User < ActiveRecord::Base
     end
     return !RESTRICTED_LOGIN_NAMES.include?(user.downcase)
   end
-
-  def self.valid_phone?(number)
-    return true if number.nil?
-    n_digits = number.scan(/[0-9]/).size
-    valid_chars = (number =~ /^[+\/\-() 0-9]+$/)
-    return n_digits > 5 && valid_chars
-  end
-
 
   def resend_activation
     @resent_activation = true
@@ -419,7 +390,7 @@ class User < ActiveRecord::Base
   end
 
   def uniqify_roles
-    self.roles = roles.uniq{|r| r.id}
+    self.roles = roles.uniq.compact
   end
 
   protected
