@@ -8,7 +8,7 @@ shared_examples_for "successful notes mailer response" do
 end
 
 shared_examples_for 'has some invalid params' do
-  it{response.should be_4xx}
+  it{expect(response).to be_4xx}
   it{JSON.parse(response.body)['errors'].should be_present}
 end
 
@@ -251,17 +251,31 @@ describe MainController do
         assigns(:page).should eql 'paypal_success'
       end
     end
+    describe '/paypal_cancel' do
+      before do
+        post :getinvolved, :p => 'paypal_cancel'
+      end
+      it_should_behave_like 'returns success'
+      it 'sets some info about the page' do
+        (/Get Involved/ =~ assigns(:page_title)).should be
+      end
+      it 'assigns the proper paypal page' do
+        assigns(:page).should eql 'paypal_cancel'
+      end
+    end
     describe 'send feedback' do
       let(:email) { 'joe@wherever.com' }
       let(:comment) { 'here we are' }
-      let(:feedback_attrs) { FactoryGirl.attributes_for(:feedback, :email => email, :comment => comment) }
+      let(:login) { FactoryGirl.create(:user).login }
+      let(:feedback_attrs) { FactoryGirl.attributes_for(:feedback, :login => login, :email => email, :comment => comment) }
       context 'with no email' do
         let(:email) { nil }
+        let(:login) { nil }
         before do
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
         it 'renders a flash' do
-          flash[:error].should match /email was blank/
+          expect(assigns(:feedback).errors.full_messages).to include "Email can't be blank"
         end
       end
       context 'with no comment' do
@@ -270,7 +284,7 @@ describe MainController do
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
         it 'renders a flash' do
-          flash[:error].should match /fill something in/
+          expect(assigns(:feedback).errors.full_messages).to include "Comment can't be blank"
         end
       end
       context 'with data' do
@@ -483,21 +497,21 @@ describe MainController do
     it 'redirects to root (if no referrer)' do
       request.env["HTTP_REFERER"] = nil
       get :non_mobile
-      response.should redirect_to root_path
+      expect(response).to redirect_to root_path
     end
     it 'redirects to root if referrer is not in our domain' do
       request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
       get :non_mobile
-      response.should redirect_to root_path
+      expect(response).to redirect_to root_path
     end
     it 'redirects to referrer if there is one' do
       get :non_mobile
-      response.should redirect_to SHARED_REFERER
+      expect(response).to redirect_to SHARED_REFERER
     end
     it 'redirects to referrer if there is one with full domain' do
       request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
       get :mobile
-      response.should redirect_to SHARED_REFERER
+      expect(response).to redirect_to SHARED_REFERER
     end
   end
 
@@ -509,17 +523,17 @@ describe MainController do
     it 'redirects to root (if no referrer)' do
       request.env["HTTP_REFERER"] = nil
       get :mobile
-      response.should redirect_to root_path
+      expect(response).to redirect_to root_path
     end
     it 'redirects to root if referrer is not in our domain' do
       request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
       get :mobile
-      response.should redirect_to root_path
+      expect(response).to redirect_to root_path
     end
     it 'redirects to referrer if there is one' do
       request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
       get :mobile
-      response.should redirect_to SHARED_REFERER
+      expect(response).to redirect_to SHARED_REFERER
     end
   end
 
@@ -543,7 +557,7 @@ describe MainController do
         desc = "returns error if request type is %s" % rtype
         it desc do
           send(rtype, :notes_mailer)
-          response.should be_missing
+          expect(response).to be_missing
         end
       end
     end
@@ -552,7 +566,7 @@ describe MainController do
         xhr :post, :notes_mailer
         @j = JSON::parse(response.body)
       end
-      it{response.should be_4xx}
+      it{expect(response).to be_4xx}
       it "response reports 'invalid note type'" do
         @j['errors'].keys.should include 'email'
         @j['errors'].keys.should include 'email_confirm'
@@ -565,7 +579,7 @@ describe MainController do
         xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'bogus', :email => 'a@b.com'}
         @resp = JSON::parse(response.body)
       end
-      it{response.should be_4xx}
+      it{expect(response).to be_4xx}
       it "response reports 'invalid note type'" do
         @resp['errors'].should have_key 'note_type'
       end
@@ -694,7 +708,7 @@ describe MainController do
     end
     it 'returns success' do
       get :status_page
-      response.should be_success
+      expect(response).to be_success
     end
   end
   describe 'get_random_pieces' do
@@ -721,7 +735,7 @@ describe MainController do
     end
 
     it 'renders the thumbs partial' do
-      response.should render_template 'thumbs'
+      expect(response).to render_template 'thumbs'
     end
   end
 end
