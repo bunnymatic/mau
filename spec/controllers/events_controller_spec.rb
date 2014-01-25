@@ -161,12 +161,12 @@ describe EventsController do
       context 'with bad params' do
         before do
           attrs = event_attrs
-          event_attrs.delete(:title)
+          attrs.delete(:title)
           EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
-          post :create, :event => event_attrs
+          post :create, :event => attrs
         end
         it { expect(response).to render_template 'new' }
-        it { expect(assigns(:studio).errors.full_messages).should have_at_least(1).message }
+        it { expect(assigns(:event).errors.full_messages).to have_at_least(1).message }
       end
 
     end

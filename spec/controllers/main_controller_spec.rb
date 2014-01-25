@@ -266,7 +266,7 @@ describe MainController do
     describe 'send feedback' do
       let(:email) { 'joe@wherever.com' }
       let(:comment) { 'here we are' }
-      let(:login) { FactoryGirl.create(:user).login }
+      let(:login) { FactoryGirl.build(:user).login }
       let(:feedback_attrs) { FactoryGirl.attributes_for(:feedback, :login => login, :email => email, :comment => comment) }
       context 'with no email' do
         let(:email) { nil }

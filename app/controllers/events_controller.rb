@@ -63,7 +63,7 @@ class EventsController < ApplicationController
       EventMailer.event_added(@event).deliver!
       redirect_after_create
     else
-      @event.decorate
+      @event = @event.decorate
       render "new_or_edit"
     end
   end
@@ -81,8 +81,7 @@ class EventsController < ApplicationController
       flash[:notice] = 'Event was successfully updated.'
       redirect_to(admin_events_path)
     else
-      @event.decorate
-      puts @event.errors.full_messages.join
+      @event = @event.decorate
       render "new_or_edit", :layout => 'mau-admin'
     end
   end
