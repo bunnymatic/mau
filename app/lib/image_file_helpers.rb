@@ -8,7 +8,7 @@ module ImageFileHelpers
   def get_file_extension(fname)
     ext = File::extname(fname).gsub /^\./, ''
     if ext.empty?
-      raise(ArgumentError, "Cannot determine file type without an extension.")
+      raise MauImage::ImageError.new("Cannot determine file type without an extension.")
     end
     ext
   end

@@ -69,15 +69,26 @@ describe ImageFile do
       Pathname.stub(:new => double("Path", :realpath => 'blah_de_blah'))
     end
 
-    it 'disallows CMYK format' do
-      MojoMagick.should_receive(:raw_command).
-        with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
-      File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
-      expect {
-        image_file.save upload, destdir, destfile
-      }.to raise_error ArgumentError
+    context 'with bad file extension' do
+      let (:upload) { {'datafile' => double('Uploadable', :read => '', :original_filename => 'uploaded_file.csv') } }
+      it 'does not allow upload' do
+        expect {
+          image_file.save upload, destdir, destfile
+        }.to raise_error MauImage::ImageError
+      end
     end
 
+    context 'with CMYK format image' do
+      it 'disallows CMYK format' do
+        MojoMagick.should_receive(:raw_command).
+          with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
+        File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
+        expect {
+          image_file.save upload, destdir, destfile
+        }.to raise_error MauImage::ImageError
+      end
+    end
+ 
     it 'sets up the right path name and calls resize for all the desired sizes' do
       MojoMagick.stub(:raw_command)
       MojoMagick.should_receive(:raw_command).

@@ -46,7 +46,7 @@ class ImageFile
     ext = get_file_extension(uploaded_filename)
     if ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
       Rails::logger.error("ImageFile: bad filetype\n")
-      raise ArgumentError, "File type doesn't appear to be JPEG, GIF or PNG."
+      raise MauImage::ImageError.new("File type doesn't appear to be JPEG, GIF or PNG.")
     end
 
     image_info = save_uploaded_file
@@ -102,11 +102,11 @@ class ImageFile
     fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + src_path)
     (type, height, width, colorspace) = fmt.split
     if ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
-      raise ArgumentError, "Image type %s is not supported." % type
+      raise MauImage::ImageError.new("Image type %s is not supported." % type)
     end
     if colorspace.downcase.match /cmyk/
-      raise ArgumentError, "[%s] is not a supported color space."+
-        "  Please save your image with an RGB colorspace." % colorspace.to_s
+      raise MauImage::ImageError.new("[%s] is not a supported color space."+
+                                     "  Please save your image with an RGB colorspace." % colorspace.to_s)
     end
     [type, height, width, colorspace]
   end
