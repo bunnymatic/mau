@@ -51,56 +51,66 @@ describe UsersController do
   end
 
   describe "#new" do
-    render_views
-
-    context 'with no type' do
+    context 'already logged in' do
       before do
-        # disable sweep of flash.now messages
-        # so we can test them
-        @controller.instance_eval{flash.stub(:sweep)}
+        login_as fan
         get :new
       end
-      it_should_behave_like 'common signup form'
-      it "has a first name text boxes" do
-        assert_select("#artist_firstname")
-      end
-      it "has lastname text box" do
-        assert_select("#artist_lastname")
+      it 'redirects to your page' do
+        expect(response).to redirect_to user_path(fan)
       end
     end
+    context 'not logged in' do
+      render_views
 
-    context 'with type = artist' do
-      before do
-        # disable sweep of flash.now messages
-        # so we can test them
-        @controller.instance_eval{flash.stub(:sweep)}
-        get :new, :type => 'Artist'
+      context 'with no type' do
+        before do
+          # disable sweep of flash.now messages
+          # so we can test them
+          @controller.instance_eval{flash.stub(:sweep)}
+          get :new
+        end
+        it_should_behave_like 'common signup form'
+        it "has a first name text boxes" do
+          assert_select("#artist_firstname")
+        end
+        it "has lastname text box" do
+          assert_select("#artist_lastname")
+        end
       end
-      it_should_behave_like 'common signup form'
-      it "has a first name text boxes" do
-        assert_select("#artist_firstname")
+
+      context 'with type = artist' do
+        before do
+          # disable sweep of flash.now messages
+          # so we can test them
+          @controller.instance_eval{flash.stub(:sweep)}
+          get :new, :type => 'Artist'
+        end
+        it_should_behave_like 'common signup form'
+        it "has a first name text boxes" do
+          assert_select("#artist_firstname")
+        end
+        it "has lastname text box" do
+          assert_select("#artist_lastname")
+        end
       end
-      it "has lastname text box" do
-        assert_select("#artist_lastname")
+
+      context 'with no type' do
+        before do
+          # disable sweep of flash.now messages
+          # so we can test them
+          @controller.instance_eval{flash.stub(:sweep)}
+          get :new, :type => 'MAUFan'
+        end
+        it_should_behave_like 'common signup form'
+        it "has a first name text boxes" do
+          assert_select("#mau_fan_firstname")
+        end
+        it "has lastname text box" do
+          assert_select("#mau_fan_lastname")
+        end
       end
     end
-
-    context 'with no type' do
-      before do
-        # disable sweep of flash.now messages
-        # so we can test them
-        @controller.instance_eval{flash.stub(:sweep)}
-        get :new, :type => 'MAUFan'
-      end
-      it_should_behave_like 'common signup form'
-      it "has a first name text boxes" do
-        assert_select("#mau_fan_firstname")
-      end
-      it "has lastname text box" do
-        assert_select("#mau_fan_lastname")
-      end
-    end
-
   end
 
   describe "#create" do
@@ -321,6 +331,14 @@ describe UsersController do
         get :show
       end
       it_should_behave_like "not logged in"
+    end
+    context 'looking for an invalid user id' do
+      before do
+        get :show, :id => 'eat it'
+      end
+      it 'flashes an error' do
+        expect(flash.now[:error]).to include 'not found'
+      end
     end
     context "getting a users page while not logged in" do
       before do
