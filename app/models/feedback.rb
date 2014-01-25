@@ -17,7 +17,6 @@
 
 class Feedback < ActiveRecord::Base
 
-  validates_presence_of :email
   validates_presence_of :comment
   validates_presence_of :subject
 

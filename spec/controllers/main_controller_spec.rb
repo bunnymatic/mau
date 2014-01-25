@@ -268,16 +268,6 @@ describe MainController do
       let(:comment) { 'here we are' }
       let(:login) { FactoryGirl.build(:user).login }
       let(:feedback_attrs) { FactoryGirl.attributes_for(:feedback, :login => login, :email => email, :comment => comment) }
-      context 'with no email' do
-        let(:email) { nil }
-        let(:login) { nil }
-        before do
-          get :getinvolved, :commit => true, :feedback => feedback_attrs
-        end
-        it 'renders a flash' do
-          expect(assigns(:feedback).errors.full_messages).to include "Email can't be blank"
-        end
-      end
       context 'with no comment' do
         let(:comment) { nil }
         before do
@@ -301,7 +291,7 @@ describe MainController do
           flash.now[:notice].should be_present
         end
         it 'sends an email' do
-          FeedbackMailer.should_receive(:feedback).and_return(double("deliverable", :deliver! => true))
+          expect(FeedbackMailer).to receive(:feedback).and_return(double("deliverable", :deliver! => true))
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
       end
@@ -581,7 +571,7 @@ describe MainController do
       end
       it{expect(response).to be_4xx}
       it "response reports 'invalid note type'" do
-        @resp['errors'].should have_key 'note_type'
+        expect(@resp['errors']).to have_key 'note_type'
       end
     end
 
@@ -592,8 +582,8 @@ describe MainController do
       end
       it_should_behave_like "has some invalid params"
       it "response reports errors about email" do
-        @resp['errors'].should have_key 'base'
-        @resp['errors'].should have_key 'email_confirm'
+        expect(@resp['errors']).to have_key 'base'
+        expect(@resp['errors']).to have_key 'email_confirm'
       end
     end
 
@@ -603,7 +593,7 @@ describe MainController do
         @resp = JSON::parse(response.body)
       end
       it "response reports errors about missing link" do
-        @resp['errors'].should have_key 'feedlink'
+        expect(@resp['errors']).to have_key 'feedlink'
       end
     end
 
@@ -614,11 +604,11 @@ describe MainController do
       end
       it_should_behave_like "has some invalid params"
       it "response reports 'Email confirm cant be blank'" do
-        @resp['errors'].should have_key 'base'
-        @resp['errors'].should have_key 'email_confirm'
+        expect(@resp['errors']).to have_key 'base'
+        expect(@resp['errors']).to have_key 'email_confirm'
       end
       it "response reports 'note cannot be empty'" do
-        @resp['errors'].should have_key 'inquiry'
+        expect(@resp['errors']).to have_key 'inquiry'
       end
     end
 
@@ -630,7 +620,7 @@ describe MainController do
       end
       it_should_behave_like "has some invalid params"
       it 'has an error on inquiry' do
-        @resp['errors'].should have_key 'inquiry'
+        expect(@resp['errors']).to have_key 'inquiry'
       end
     end
 
