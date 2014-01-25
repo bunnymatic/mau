@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131229013309) do
+ActiveRecord::Schema.define(:version => 20140125025634) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -183,6 +183,34 @@ ActiveRecord::Schema.define(:version => 20131229013309) do
     t.datetime "updated_at"
   end
 
+  create_table "oauth_authorizations", :force => true do |t|
+    t.string   "user_id"
+    t.integer  "oauth_client_id"
+    t.string   "code"
+    t.integer  "expires_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "oauth_clients", :force => true do |t|
+    t.string   "name"
+    t.string   "client_id"
+    t.string   "client_secret"
+    t.string   "redirect_uri"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "oauth_tokens", :force => true do |t|
+    t.string   "user_id"
+    t.integer  "oauth_client_id"
+    t.string   "access_token"
+    t.string   "refresh_token"
+    t.integer  "expires_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "open_studios_tallies", :force => true do |t|
     t.integer  "count"
     t.string   "oskey"
@@ -248,7 +276,6 @@ ActiveRecord::Schema.define(:version => 20131229013309) do
     t.string   "firstname",                 :limit => 40
     t.string   "lastname",                  :limit => 40
     t.string   "nomdeplume",                :limit => 80
-    t.string   "phone",                     :limit => 16
     t.string   "url",                       :limit => 200
     t.string   "profile_image",             :limit => 200
     t.integer  "studio_id"
