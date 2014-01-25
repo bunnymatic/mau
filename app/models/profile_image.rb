@@ -28,8 +28,7 @@ class ProfileImage
 
   def save upload
     @upload = upload
-    image = ImageFile.new
-    info = image.save(upload, dir, filename)
+    info = ImageFile.new.save(upload, dir, filename)
     object.update_attributes!({:profile_image => info.path,
                                :image_height => info.height,
                                :image_width => info.width})

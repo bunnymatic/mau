@@ -3,16 +3,20 @@ require 'ostruct'
 
 describe ArtPieceImage do
   fixtures :users, :art_pieces, :artist_infos
-  describe '#get_path' do
-    it 'returns the missing image path given nothing' do
-      ArtPieceImage.get_path('bogus').should match /missing_artpiece/
+
+
+  describe '.path' do
+    let(:art_piece) { ArtPiece.new }
+    context 'with brand new art piece' do 
+      it 'returns missing image' do
+        ArtPieceImage.new(art_piece).path.should match /missing_artpiece/
+      end
     end
-    it 'returns nil if the artpiece has no artist' do
-      ArtPieceImage.get_path(ArtPiece.new).should match /missing_artpiece/
-    end
-    it 'returns nil if the artpiece has no artist' do
-      ArtPiece.any_instance.stub(:filename).and_return nil
-      ArtPieceImage.get_path(ArtPiece.last).should match /missing_artpiece/
+    context 'with not an art piece' do 
+      let(:art_piece) { 'blurp' }
+      it 'returns missing image' do
+        ArtPieceImage.new(art_piece).path.should match /missing_artpiece/
+      end
     end
   end
 

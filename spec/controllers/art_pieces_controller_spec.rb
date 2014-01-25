@@ -266,6 +266,18 @@ describe ArtPiecesController do
         post :create, :art_piece => art_piece_attributes, :upload => {}
         response.should render_template 'new'
       end
+      context 'when image upload raises an error' do
+        before do
+          ArtPieceImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
+          post :create, :art_piece => art_piece_attributes, :upload => {}
+        end
+        it 'renders the form again' do
+          response.should render_template 'new'
+        end
+        it 'shows the error' do
+          assert_select '.error', :match => 'eat it'
+        end
+      end
 
       context 'with successful save' do
         before do
