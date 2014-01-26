@@ -4,13 +4,13 @@ describe EventPresenter do
 
   include PresenterSpecHelpers
 
-  let(:publish) { nil }
+  let(:published_at) { nil }
   let(:starttime) { Time.zone.now - 10.days }
   let(:endtime) { starttime + 2.days }
   let(:reception_starttime) { starttime + 1.day }
   let(:reception_endtime) { reception_starttime + 2.hours }
   let(:event_website) { 'http://my.event.com' }
-  let(:event) { FactoryGirl.create(:event, :url => event_website, :publish => publish,
+  let(:event) { FactoryGirl.create(:event, :url => event_website, :published_at => published_at,
                                    :starttime => starttime, :endtime => endtime,
                                    :reception_starttime => reception_starttime, :reception_endtime => reception_endtime
                                    ) }
@@ -61,7 +61,7 @@ describe EventPresenter do
   end
 
   context 'when the event is published' do
-    let(:publish) { Time.zone.now }
+    let(:published_at) { Time.zone.now }
     it{ should be_published }
   end
 

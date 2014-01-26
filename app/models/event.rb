@@ -17,7 +17,7 @@
 #  lat                 :float
 #  lng                 :float
 #  user_id             :integer
-#  publish             :datetime
+#  published_at        :datetime
 #  reception_starttime :datetime
 #  reception_endtime   :datetime
 #
@@ -46,7 +46,7 @@ class Event < ActiveRecord::Base
   scope :future, where('((starttime > NOW()) or (reception_starttime > NOW()))')
   scope :past, where('(endtime is not null and endtime < NOW())')
   scope :not_past, where('not(endtime is not null and endtime < NOW())')
-  scope :published, where('publish is not null')
+  scope :published, where('published_at is not null')
   scope :by_starttime, order(:starttime)
 
   belongs_to :user
@@ -76,8 +76,16 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def publish!
+    update_attributes!(:published_at => Time.zone.now)
+  end
+
+  def unpublish!
+    update_attributes!(:published_at => nil)
+  end
+
   def published?
-    !!publish
+    !!published_at
   end
 
   def in_progress?

@@ -81,7 +81,7 @@ published_two_months_ago:
   starttime: <%= 51.days.ago %>
   endtime: <%= 50.days.ago %>
   url: url.com
-  publish: <%= 48.days.ago %>
+  published_at: <%= 48.days.ago %>
   user: admin
 
 published:
@@ -96,7 +96,7 @@ published:
   starttime: <%= 5.day.since %>
   endtime: <%= 6.days.since %>
   url: http://www.example.com
-  publish: <%= 9.days.since %>
+  published_at: <%= 9.days.since %>
   user: jesseponce
 
 
@@ -111,7 +111,7 @@ noendtime:
   zip: MyString
   starttime: <%= 34.days.since %>
   url: http://www.example.com
-  publish: <%= 3.days.since %>
+  published_at: <%= 3.days.since %>
   user: jesseponce
 
 reception_start:
@@ -126,7 +126,7 @@ reception_start:
   starttime: <%= 4.days.since %>
   reception_starttime: <%= 5.days.since %>
   url: http://www.example.com
-  publish: <%= 1.days.since %>
+  published_at: <%= 1.days.since %>
   user: jesseponce
 
 reception_full:
@@ -142,7 +142,7 @@ reception_full:
   reception_starttime: <%= 11.days.since %>
   reception_endtime: <%= 11.days.since + 1.hour %>
   url: url.com
-  publish: <%= 3.days.since %>
+  published_at: <%= 3.days.since %>
   user: jesseponce
 
 past_open_future_reception:
@@ -157,5 +157,5 @@ past_open_future_reception:
   starttime: <%= 4.days.ago %>
   reception_starttime: <%= 5.days.since %>
   url: http://www.futurepast.com
-  publish: <%= 1.days.ago %>
+  published_at: <%= 1.days.ago %>
   user: jesseponce
