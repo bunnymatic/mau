@@ -201,4 +201,9 @@ EOF
       true
     end
   end
+
+  def logged_out_required
+    redirect_to (current_artist || user_path(current_user)) if current_user
+  end
+
 end

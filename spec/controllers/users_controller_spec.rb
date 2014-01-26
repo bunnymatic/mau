@@ -51,74 +51,84 @@ describe UsersController do
   end
 
   describe "#new" do
-    render_views
-
-    context 'with no type' do
+    context 'already logged in' do
       before do
-        # disable sweep of flash.now messages
-        # so we can test them
-        @controller.instance_eval{flash.stub(:sweep)}
+        login_as fan
         get :new
       end
-      it_should_behave_like 'common signup form'
-      it "has a first name text boxes" do
-        assert_select("#artist_firstname")
-      end
-      it "has lastname text box" do
-        assert_select("#artist_lastname")
+      it 'redirects to your page' do
+        expect(response).to redirect_to user_path(fan)
       end
     end
+    context 'not logged in' do
+      render_views
 
-    context 'with type = artist' do
-      before do
-        # disable sweep of flash.now messages
-        # so we can test them
-        @controller.instance_eval{flash.stub(:sweep)}
-        get :new, :type => 'Artist'
+      context 'with no type' do
+        before do
+          # disable sweep of flash.now messages
+          # so we can test them
+          @controller.instance_eval{flash.stub(:sweep)}
+          get :new
+        end
+        it_should_behave_like 'common signup form'
+        it "has a first name text boxes" do
+          assert_select("#artist_firstname")
+        end
+        it "has lastname text box" do
+          assert_select("#artist_lastname")
+        end
       end
-      it_should_behave_like 'common signup form'
-      it "has a first name text boxes" do
-        assert_select("#artist_firstname")
+
+      context 'with type = artist' do
+        before do
+          # disable sweep of flash.now messages
+          # so we can test them
+          @controller.instance_eval{flash.stub(:sweep)}
+          get :new, :type => 'Artist'
+        end
+        it_should_behave_like 'common signup form'
+        it "has a first name text boxes" do
+          assert_select("#artist_firstname")
+        end
+        it "has lastname text box" do
+          assert_select("#artist_lastname")
+        end
       end
-      it "has lastname text box" do
-        assert_select("#artist_lastname")
+
+      context 'with no type' do
+        before do
+          # disable sweep of flash.now messages
+          # so we can test them
+          @controller.instance_eval{flash.stub(:sweep)}
+          get :new, :type => 'MAUFan'
+        end
+        it_should_behave_like 'common signup form'
+        it "has a first name text boxes" do
+          assert_select("#mau_fan_firstname")
+        end
+        it "has lastname text box" do
+          assert_select("#mau_fan_lastname")
+        end
       end
     end
-
-    context 'with no type' do
-      before do
-        # disable sweep of flash.now messages
-        # so we can test them
-        @controller.instance_eval{flash.stub(:sweep)}
-        get :new, :type => 'MAUFan'
-      end
-      it_should_behave_like 'common signup form'
-      it "has a first name text boxes" do
-        assert_select("#mau_fan_firstname")
-      end
-      it "has lastname text box" do
-        assert_select("#mau_fan_lastname")
-      end
-    end
-
   end
 
   describe "#create" do
     it "return 404 with :artist = {}" do
       post :create,  :artist => {}
-      response.should be_missing
+      expect(response).to be_missing
     end
     it "return 404 with :user = {}" do
       post :create, :user => {}
-      response.should be_missing
+      expect(response).to be_missing
     end
     it "return 404 with params :mau_fan {}" do
       post :create, :mau_fan => {}
-      response.should be_missing
+      expect(response).to be_missing
     end
     it "should be 404 with no input params" do
       post :create
-      response.should be_missing
+      expect(response).to be_missing
     end
 
     context 'with blacklisted domain' do
@@ -161,7 +171,7 @@ describe UsersController do
           :email => "bmatic2@b.com" }, :type => "MAUFan"
       end
       it "reports that you should be human" do
-        response.should be_success
+        expect(response).to be_success
       end
 
       it "sets a flash.now indicating failure" do
@@ -181,7 +191,7 @@ describe UsersController do
         end
 
         it "login=>newuser : should return success" do
-          response.should be_success
+          expect(response).to be_success
         end
 
         it "sets a flash.now indicating failure" do
@@ -202,7 +212,7 @@ describe UsersController do
           :email => "bmatic2@b.com" }, :type => "MAUFan"
       end
       it "redirects to index" do
-        response.should redirect_to( login_url )
+        expect(response).to redirect_to( login_url )
       end
       it "sets flash indicating that activation email has been sent" do
         flash[:notice].should include(" ready to roll")
@@ -240,7 +250,7 @@ describe UsersController do
           :email => "bmati2@b.com" }, :type => "MAUFan"
       end
       it "redirects to index" do
-        response.should redirect_to( login_url )
+        expect(response).to redirect_to( login_url )
       end
       it "sets flash indicating that activation email has been sent" do
         flash[:notice].should include(" ready to roll")
@@ -283,7 +293,7 @@ describe UsersController do
           :email => "bmatic2@b.com" }, :type => "Artist"
       end
       it "redirects to index" do
-        response.should redirect_to( root_url )
+        expect(response).to redirect_to( root_url )
       end
       it "sets flash indicating that activation email has been sent" do
         flash[:notice].should include(" email with your activation code")
@@ -322,13 +332,27 @@ describe UsersController do
       end
       it_should_behave_like "not logged in"
     end
+    context 'looking for an invalid user id' do
+      before do
+        get :show, :id => 'eat it'
+      end
+      it 'flashes an error' do
+        expect(flash.now[:error]).to include 'not found'
+      end
+    end
+    context 'looking for an artist' do
+      before do
+        get :show, :id => artist1.id
+      end
+      it { expect(response).to redirect_to artist_path(artist1) }
+    end
     context "getting a users page while not logged in" do
       before do
         get :show, :id => @u.id
       end
       it_should_behave_like 'two column layout'
       it "returns a valid page" do
-        response.should be_success
+        expect(response).to be_success
       end
       it "has the users name on it" do
         assert_select '#artist_profile_name h4', :text => "#{@u.firstname} #{@u.lastname}"
@@ -358,12 +382,6 @@ describe UsersController do
     end
   end
   describe "#edit" do
-    before do
-      @a = artist1
-      @a.save!
-      @u = fan
-      @u.save!
-    end
     context "while not logged in" do
       render_views
       before do
@@ -373,20 +391,20 @@ describe UsersController do
     end
     context "while logged in as an artist" do
       before do
-        login_as(@a)
+        login_as(artist1)
         get :edit
       end
       it "GET should redirect to artist edit" do
-        response.should be_redirect
+        expect(response).to be_redirect
       end
       it "renders the edit template" do
-        response.should redirect_to edit_artist_url(@a)
+        expect(response).to redirect_to edit_artist_url(artist1)
       end
     end
     context "while logged in as an user" do
       render_views
       before do
-        login_as(@u)
+        login_as(fan)
         get :edit
       end
 
@@ -394,10 +412,10 @@ describe UsersController do
       it_should_behave_like "logged in edit page"
 
       it "returns success" do
-        response.should be_success
+        expect(response).to be_success
       end
       it "renders the user edit template" do
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
       it "has no heart notification checkbox" do
         css_select( "#notification input#emailsettings_favorites").should be_empty
@@ -411,7 +429,7 @@ describe UsersController do
         post :add_favorite
       end
       it "add_favorite requires login" do
-        response.should redirect_to( new_session_path )
+        expect(response).to redirect_to( new_session_path )
       end
       it "auth system should try to record referrer" do
         request.session[:return_to].should eql SHARED_REFERER
@@ -422,14 +440,14 @@ describe UsersController do
         get :edit
       end
       it "add_favorite requires login" do
-        response.should redirect_to( new_session_path )
+        expect(response).to redirect_to( new_session_path )
       end
       it "auth system should try to record referrer" do
         request.session[:return_to].should eql "/users/edit"
       end
     end
   end
-  describe "update" do
+  describe "#update" do
     context "while not logged in" do
       context "with invalid params" do
         before do
@@ -454,18 +472,24 @@ describe UsersController do
           put :update, :id => quentin.id, :user => {}
         end
         it "redirects to user edit page" do
-          response.should redirect_to(edit_user_path(quentin))
+          expect(response).to redirect_to(edit_user_path(quentin))
         end
         it "contains flash notice of success" do
           flash[:notice].should eql "Update successful"
         end
+      end
+      context "with valid and a cancel" do
+        before do
+          put :update, :id => quentin.id, :user => { :firstname => 'blow' }, :commit => 'Cancel'
+        end
+        it { expect(response).to redirect_to(user_path(quentin)) }
       end
       context "with valid params" do
         before do
           put :update, :id => quentin.id, :user => {:firstname => 'blow'}
         end
         it "redirects to user edit page" do
-          response.should redirect_to(edit_user_path(quentin))
+          expect(response).to redirect_to(edit_user_path(quentin))
         end
         it "contains flash notice of success" do
           flash[:notice].should eql "Update successful"
@@ -486,7 +510,7 @@ describe UsersController do
         end
         it_should_behave_like 'one column layout'
         it "returns sucess" do
-          response.should be_success
+          expect(response).to be_success
         end
         it "doesn't have the no favorites msg" do
           css_select('.no-favorites-msg').should be_empty
@@ -499,7 +523,7 @@ describe UsersController do
           get :favorites, :id => fan.id
         end
         it_should_behave_like 'one column layout'
-        it { response.should be_success }
+        it { expect(response).to be_success }
         it "gets some random links assigned" do
           assigns(:random_picks).size.should > 2
         end
@@ -530,7 +554,7 @@ describe UsersController do
         end
         it "returns success" do
           get :favorites, :id => artist1.id
-          response.should be_success
+          expect(response).to be_success
         end
         context "who has favorites" do
           before do
@@ -547,7 +571,7 @@ describe UsersController do
           end
           it_should_behave_like 'one column layout'
           it "returns success" do
-            response.should be_success
+            expect(response).to be_success
           end
           it "does not assign random picks" do
             assigns(:random_picks).should be_nil
@@ -590,7 +614,7 @@ describe UsersController do
         end
         it_should_behave_like 'one column layout'
         it "returns success" do
-          response.should be_success
+          expect(response).to be_success
         end
         it "shows the title" do
           assert_select('h4', :include => artist1.get_name )
@@ -615,11 +639,11 @@ describe UsersController do
       context "requesting anything but a post" do
         it "redirects to login" do
           put :add_favorite
-          response.should redirect_to(new_session_path)
+          expect(response).to redirect_to(new_session_path)
           delete :add_favorite
-          response.should redirect_to(new_session_path)
+          expect(response).to redirect_to(new_session_path)
           get :add_favorite
-          response.should redirect_to(new_session_path)
+          expect(response).to redirect_to(new_session_path)
         end
       end
       context "while not logged in" do
@@ -648,7 +672,7 @@ describe UsersController do
             post :add_favorite, :fav_type => 'Artist', :fav_id => artist1.id
           end
           it "returns success" do
-            response.should redirect_to(artist_path(artist1))
+            expect(response).to redirect_to(artist_path(artist1))
           end
           it "adds favorite to user" do
             u = User.find(quentin.id)
@@ -660,7 +684,7 @@ describe UsersController do
               post :remove_favorite, :fav_type => "Artist", :fav_id => artist1.id
             end
             it "redirects to the referer" do
-              response.should redirect_to( SHARED_REFERER )
+              expect(response).to redirect_to( SHARED_REFERER )
             end
             it "that artist is no longer a favorite" do
               u = User.find(quentin.id)
@@ -675,21 +699,21 @@ describe UsersController do
               xhr :post, :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
             end
             it "returns success" do
-              response.should be_success
+              expect(response).to be_success
             end
             it "adds favorite to user" do
               u = User.find(quentin.id)
               favs = u.favorites
               favs.map { |f| f.favoritable_id }.should include @ap.id
             end
-            it { response.should be_json }
+            it { expect(response).to be_json }
           end
           context "as standard POST" do
             before do
               post :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
             end
             it "returns success" do
-              response.should redirect_to(art_piece_path(@ap))
+              expect(response).to redirect_to(art_piece_path(@ap))
             end
             it "sets flash with escaped name" do
               flash[:notice].should include '&#x3c;script&#x3e;'
@@ -720,7 +744,7 @@ describe UsersController do
             post :add_favorite, :fav_type => 'Bogus', :fav_id => 2
           end
           it "returns 404" do
-            response.should be_missing
+            expect(response).to be_missing
             response.code.should eql("404")
           end
         end
@@ -738,7 +762,7 @@ describe UsersController do
         get :reset, :reset_code => 'abc'
       end
       it "returns success" do
-        response.should be_success
+        expect(response).to be_success
       end
       it "asks for password" do
         assert_select('#user_password')
@@ -757,7 +781,7 @@ describe UsersController do
               :reset_code => 'abc' }
         end
         it "returns success" do
-          response.should be_success
+          expect(response).to be_success
         end
         it "asks for password" do
           assert_select('#user_password')
@@ -778,7 +802,7 @@ describe UsersController do
               :reset_code => 'abc' }
         end
         it "returns redirect" do
-          response.should redirect_to "/"
+          expect(response).to redirect_to "/"
         end
         it "sets notice" do
           flash[:notice].should include('reset successfully for ')
@@ -794,7 +818,7 @@ describe UsersController do
     end
 
     it "returns sucess" do
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "shows email form" do
@@ -807,7 +831,7 @@ describe UsersController do
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
-        response.should redirect_to( root_url )
+        expect(response).to redirect_to( root_url )
       end
       it "has error message" do
         flash[:error].length.should > 1
@@ -819,7 +843,7 @@ describe UsersController do
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
-        response.should redirect_to( root_url )
+        expect(response).to redirect_to( root_url )
       end
       it "has notice message" do
         flash[:notice].should include "MAU Fan accounts need no activation"
@@ -831,7 +855,7 @@ describe UsersController do
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
-        response.should redirect_to( root_url )
+        expect(response).to redirect_to( root_url )
       end
       it "has notice message" do
         flash[:notice].should include "sent your activation code to #{quentin.email}"
@@ -845,7 +869,7 @@ describe UsersController do
     end
 
     it "returns sucess" do
-      response.should be_success
+      expect(response).to be_success
     end
 
     context "post a fan email" do
@@ -859,7 +883,7 @@ describe UsersController do
       end
       it "redirects to login" do
         post :forgot, :user => { :email => users(:artfan).email }
-        response.should redirect_to(login_url)
+        expect(response).to redirect_to(login_url)
       end
     end
   end
@@ -868,7 +892,7 @@ describe UsersController do
     describe 'with no activation code' do
       it 'redirects to login' do
         get :activate
-        response.should redirect_to login_url
+        expect(response).to redirect_to login_url
       end
     end
     describe 'with valid activation code' do
@@ -879,7 +903,7 @@ describe UsersController do
       end
       it 'redirects to login' do
         get :activate, :activation_code => users(:pending).activation_code
-        response.should redirect_to login_url
+        expect(response).to redirect_to login_url
       end
       it 'flashes a notice' do
         get :activate, :activation_code => users(:pending).activation_code
@@ -892,7 +916,7 @@ describe UsersController do
     describe 'with invalid activation code' do
       it 'redirects to login' do
         get :activate, :activation_code => 'blah'
-        response.should redirect_to login_url
+        expect(response).to redirect_to login_url
       end
       it 'flashes an error' do
         get :activate, :activation_code => 'blah'
@@ -916,7 +940,7 @@ describe UsersController do
     end
 
     it "returns sucess" do
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -951,7 +975,7 @@ describe UsersController do
       it 'emails the desired user and returns success' do
         ArtistMailer.should_receive(:notify).and_return( double(:deliver! => true) )
         post :notify,  notify_data
-        response.should be_success
+        expect(response).to be_success
       end
     end
     context 'if the honey pot is set' do
@@ -959,7 +983,7 @@ describe UsersController do
         ArtistMailer.should_receive(:notify).never
         AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
         post :notify, notify_with_honey
-        response.should be_success
+        expect(response).to be_success
       end
     end
     context 'if the body looks like spam' do
@@ -968,7 +992,7 @@ describe UsersController do
         ArtistMailer.should_receive(:notify).never
         AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
         post :notify, notify_data
-        response.should be_success
+        expect(response).to be_success
       end
     end
     context 'if the email is in our hardcoded scammer list' do
@@ -977,7 +1001,7 @@ describe UsersController do
         ArtistMailer.should_receive(:notify).never
         AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
         post :notify, notify_data
-        response.should be_success
+        expect(response).to be_success
       end
     end
     context 'if the email is in our scammer table' do
@@ -986,7 +1010,7 @@ describe UsersController do
         ArtistMailer.should_receive(:notify).never
         AdminMailer.should_receive(:spammer).and_return(double(:deliver! => true))
         post :notify, notify_data
-        response.should be_success
+        expect(response).to be_success
       end
     end
   end
@@ -1004,7 +1028,7 @@ describe UsersController do
         delete :destroy, :id => admin.id
       end
       it 'redirects to users index' do
-        response.should redirect_to users_path
+        expect(response).to redirect_to users_path
       end
       it 'flashes a message saying you can\'t delete yourself' do
         flash[:error].should eql "You can't delete yourself."
@@ -1022,7 +1046,7 @@ describe UsersController do
         end
         it 'redirects to the users index page' do
           delete :destroy, :id => jesse.id
-          response.should redirect_to users_path
+          expect(response).to redirect_to users_path
         end
       end
     end

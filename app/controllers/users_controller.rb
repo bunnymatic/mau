@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
+  before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_update, :destroy ]
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile,
                                             :add_profile, :deactivate, :setarrangement, :arrangeart,
@@ -24,32 +25,26 @@ class UsersController < ApplicationController
   end
 
   def show
-    if params[:id]
-      @fan = safe_find_user(params[:id])
-      if !@fan or @fan.suspended?
-        @fan = nil
-        flash.now[:error] = "The account you were looking for was not found."
-      end
-
-      if @fan
-        if @fan.is_artist?
-          redirect_to artist_path(@fan)
-          return
-        end
-        @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
-      else
-        @page_title = "Mission Artists United"
-      end
-      render :action => 'show', :layout => 'mau'
+    @fan = safe_find_user(params[:id])
+    if !@fan or @fan.suspended?
+      @fan = nil
+      flash.now[:error] = "The account you were looking for was not found."
     end
+
+    if @fan
+      if @fan.is_artist?
+        redirect_to artist_path(@fan)
+        return
+      end
+      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
+    else
+      @page_title = "Mission Artists United"
+    end
+    render :action => 'show', :layout => 'mau'
   end
 
   # render new.rhtml
   def new
-    if logged_in?
-      flash[:notice] = "You're already logged in"
-      redirect_to current_artist || user_path(current_user)
-    end
     artist = Artist.new
     fan = MAUFan.new
     @studios = Studio.all
@@ -58,17 +53,9 @@ class UsersController < ApplicationController
   end
 
   def add_profile
-    if !current_user
-      flash.now[:error]  = "You can't edit an account that's not your own.  Try logging in first."
-      redirect_back_or_default( user_path(current_user) || "/")
-    end
   end
 
   def favorites
-    if !params[:id]
-      redirect_back_or_default("/")
-      return
-    end
     @user = safe_find_user(params[:id])
     if !@user or @user.suspended?
       @user = nil
@@ -471,6 +458,5 @@ class UsersController < ApplicationController
     end
     note_info
   end
-
-
+  
 end
