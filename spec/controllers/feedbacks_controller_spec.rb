@@ -31,7 +31,11 @@ describe FeedbacksController do
       before do
         FeedbackMailer.should_receive(:feedback).and_return(double(:deliver! => true))
         expect{
-          get :create, {:feedback => {:email => 'joe@wherever.com', :comment => 'this is the comment', :subject => 'this is the subject'}}
+          get :create, {:feedback => {
+              :email => 'joe@wherever.com',
+              :comment => 'this is the comment',
+              :subject => 'this is the subject'}
+          }
         }.to change(Feedback, :count).by(1)
       end
       it {response.should be_success}

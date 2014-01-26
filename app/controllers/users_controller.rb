@@ -458,5 +458,5 @@ class UsersController < ApplicationController
     end
     note_info
   end
-  
+
 end

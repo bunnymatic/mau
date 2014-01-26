@@ -10,11 +10,19 @@ class StudioArtist
   end
 
   def unaffiliate
-    @artist.update_attribute(:studio_id, 0)
-    artist_roles.select(&:is_manager_role?).each(&:destroy)
+    if artist_is_in_studio?
+      @artist.update_attribute(:studio_id, 0)
+      artist_roles.select(&:is_manager_role?).each(&:destroy)
+    else
+      false
+    end
   end
 
   private
+  def artist_is_in_studio?
+    @artist.studio == @studio
+  end
+
   def manager_role
     @manager_role ||= Role.manager
   end

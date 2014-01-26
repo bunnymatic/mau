@@ -267,7 +267,10 @@ describe MainController do
       let(:email) { 'joe@wherever.com' }
       let(:comment) { 'here we are' }
       let(:login) { FactoryGirl.build(:user).login }
-      let(:feedback_attrs) { FactoryGirl.attributes_for(:feedback, :login => login, :email => email, :comment => comment) }
+      let(:feedback_attrs) { FactoryGirl.attributes_for(:feedback,
+                                                        :login => login,
+                                                        :email => email,
+                                                        :comment => comment) }
       context 'with no comment' do
         let(:comment) { nil }
         before do

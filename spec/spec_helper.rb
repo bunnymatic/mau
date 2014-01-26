@@ -1,24 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 
-if ENV['COVERAGE']
-  require 'simplecov'
-  SimpleCov.start do
-    add_filter "/lib/restful_authentication/"
-    add_filter '/config/'
-    add_filter '/vendor/'
-    add_filter '/spec/'
-    add_filter '/features'
-    add_group  'Models', 'app/models'
-    add_group  'Controllers', 'app/controllers'
-    add_group  'Helpers', 'app/helpers'
-    add_group  'Mailers', 'app/mailers'
-    add_group  'Paginators', 'app/paginators'
-    add_group  'Exporters', 'app/exporters'
-    add_group  'Presenters', 'app/presenters'
-    add_group  'Validators', 'app/validators'
-  end
-end
+require File.expand_path("../../spec/support/simplecov", __FILE__)
 
 SHARED_REFERER = "/a_referrer_specified_in/spec_helper" unless defined? SHARED_REFERER
 
