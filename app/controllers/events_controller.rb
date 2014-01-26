@@ -96,12 +96,11 @@ class EventsController < ApplicationController
 
   def publish
     @event = Event.find(params[:id])
-    if @event.update_attributes(:publish => Time.zone.now)
-      flash[:notice] = "#{@event.title} has been successfully published."
-      if (@event.user && @event.user.email)
-        EventMailer.event_published(@event).deliver!
-        flash[:notice] << " And we sent a notification email to #{@event.user.fullname} at #{@event.user.email}."
-      end
+    @event.publish!
+    flash[:notice] = "#{@event.title} has been successfully published."
+    if (@event.user && @event.user.email)
+      EventMailer.event_published(@event).deliver!
+      flash[:notice] << " And we sent a notification email to #{@event.user.fullname} at #{@event.user.email}."
     end
 
     redirect_to admin_events_path
@@ -109,11 +108,8 @@ class EventsController < ApplicationController
 
   def unpublish
     @event = Event.find(params[:id])
-    if @event.update_attributes(:publish => nil)
-      flash[:notice] = "#{@event.title} has been successfully unpublished."
-    else
-      flash[:error] = "There was a problem publishing #{@event.title}. " + (@event.errors.map{|e| e.join ' '}.join ',')
-    end
+    @event.unpublish!
+    flash[:notice] = "#{@event.title} has been successfully unpublished."
     redirect_to admin_events_path
   end
 
@@ -131,12 +127,7 @@ class EventsController < ApplicationController
 
   def fetch_artists_by_names(names)
     names.map do |name|
-      name.strip!
-      a = Artist.find_by_fullname(name.strip)
-      if a.blank?
-        a = Artist.find_by_login(name)
-      end
-      a
+      Artist.find_by_fullname(name)
     end.flatten.compact
   end
 

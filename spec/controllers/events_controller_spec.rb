@@ -158,6 +158,26 @@ describe EventsController do
         end
       end
 
+      context 'without artist info' do
+        before do
+          event_attrs.delete(:artist_list)
+          EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
+          post :create, :event => event_attrs
+        end
+        it { expect(response).to redirect_to events_path }
+        it "saves a new event" do
+          expect(Event.where(:url => event_attrs[:url])).to be_present
+        end
+        it 'sets the starttime' do
+          event = Event.where(:url => event_attrs[:url]).first!
+          expect(event.starttime).to eql Time.zone.parse("21 January, 2013 12:00PM")
+        end
+        it 'sets the reception endtime' do
+          event = Event.where(:url => event_attrs[:url]).first!
+          expect(event.reception_endtime).to eql Time.zone.parse("22 January, 2013 1:00PM")
+        end
+      end
+
       context 'with bad params' do
         before do
           attrs = event_attrs
@@ -224,13 +244,13 @@ describe EventsController do
     context 'publish' do
       before do
         @event = events(:reception_full)
-        @event.update_attribute('publish', nil)
+        @event.update_attribute('published_at', nil)
       end
       it 'publishes the event' do
         expect{
           post :publish, :id => @event.id
           @event.reload
-        }.to change(@event, :publish)
+        }.to change(@event, :published_at)
       end
       it 'redirects to the event index' do
         post :publish, :id => @event.id
@@ -245,7 +265,7 @@ describe EventsController do
         expect{
           post :unpublish, :id => @event.id
           @event.reload
-        }.to change(@event, :publish)
+        }.to change(@event, :published_at)
       end
       it 'redirects to the event index' do
         post :unpublish, :id => @event.id
