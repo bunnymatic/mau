@@ -76,7 +76,8 @@ class MainController < ApplicationController
         FeedbackMailer.feedback(@feedback).deliver!
         flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
       else
-        flash.now[:error] = "There was a problem submitting your feedback.<br/>" + @feedback.errors.full_messages.join("<br/>")
+        flash.now[:error] = "There was a problem submitting your feedback.<br/>" +
+          @feedback.errors.full_messages.join("<br/>")
       end
     end
   end

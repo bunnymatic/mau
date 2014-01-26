@@ -7,6 +7,9 @@ describe StudiosController do
   fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users, :roles
 
   let(:studio_list) { controller.send(:get_studio_list) }
+  let(:fan) { users(:maufan1) }
+  let(:manager) { users(:manager) }
+  let(:manager_studio) { manager.studio }
 
   context 'as an admin' do
     before do
@@ -96,9 +99,8 @@ describe StudiosController do
     context "while logged in as an art fan" do
       render_views
       before do
-        u = users(:maufan1)
-        login_as(users(:maufan1))
-        @logged_in_user = u
+        login_as fan
+        @logged_in_user = fan
         get :index
       end
       it_should_behave_like "logged in user"
@@ -135,7 +137,7 @@ describe StudiosController do
       before do
         get :show, "id" => 'blurp'
       end
-      it {response.should redirect_to studios_path}
+      it {expect(response).to redirect_to studios_path}
       it 'sets the flash' do
         flash[:error].should be_present
       end
@@ -258,7 +260,7 @@ describe StudiosController do
             get endpoint, :id => studios(:as)
           end
           it 'redirects to the referrer' do
-            response.should redirect_to SHARED_REFERER
+            expect(response).to redirect_to SHARED_REFERER
           end
           it 'flashes an error' do
             flash[:error].should match /not a manager of that studio/
@@ -274,7 +276,7 @@ describe StudiosController do
       login_as manager
       get :add_profile, :id => manager.studio.id
     end
-    it { response.should be_success }
+    it { expect(response).to be_success }
     it { assigns(:studio).should eql manager.studio }
   end
 
@@ -339,10 +341,72 @@ describe StudiosController do
           post :upload_profile, :id => studios(:as)
         end
         it 'redirects to the referer' do
-          response.should redirect_to SHARED_REFERER
+          expect(response).to redirect_to SHARED_REFERER
         end
         it 'flashes an error' do
           flash[:error].should match /not a manager of that studio/
+        end
+      end
+    end
+
+    context "while authorized" do
+      context "post " do
+        let(:upload) { nil }
+        let(:commit) { nil }
+        let(:post_params) { { :id => manager_studio, :upload => upload, :commit => commit } }
+        before do
+          login_as manager
+        end
+        context 'with no upload' do
+          before do
+            post :upload_profile, post_params
+          end
+          it 'redirects to the add profile page' do
+            expect(response).to redirect_to add_profile_studio_path(manager_studio)
+          end
+          it 'sets a flash message without image' do
+            expect(flash[:error]).to be_present
+          end
+        end
+        context 'with a cancel' do
+          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+          let(:commit) { "Cancel" }
+          before do
+            post :upload_profile, post_params
+          end
+          it 'redirects to studio page' do
+            expect(response).to redirect_to studio_path(manager_studio)
+          end
+        end
+
+        context 'when image upload raises an error' do
+          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+          before do
+            StudioImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
+            post :upload_profile, post_params
+          end
+          it 'renders the form again' do
+            expect(response).to redirect_to add_profile_studio_path(manager_studio)
+          end
+          it 'sets the error' do
+            expect(flash[:error]).to be_present
+          end
+        end
+
+        context 'with successful save' do
+          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+          before do
+            mock_studio_image = double('MockStudioImage', :save => true)
+            StudioImage.should_receive(:new).and_return(mock_studio_image)
+          end
+          it 'redirects to show page on success' do
+            post :upload_profile, post_params
+            expect(response).to redirect_to studio_path(manager_studio)
+          end
+          it 'sets a flash message on success' do
+            post :upload_profile, post_params
+            flash[:notice].should eql 'Studio Image has been updated.'
+          end
         end
       end
     end
@@ -377,7 +441,7 @@ describe StudiosController do
       end
       it 'redirects to the studio edit page' do
         post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
-        response.should redirect_to edit_studio_path(studios(:as))
+        expect(response).to redirect_to edit_studio_path(studios(:as))
       end
     end
 
@@ -390,7 +454,7 @@ describe StudiosController do
 
       it 'does not let you unaffiliate yourself' do
         post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
-        response.should redirect_to edit_studio_path(studios(:as))
+        expect(response).to redirect_to edit_studio_path(studios(:as))
         expect(artist.studio).to eql studio
       end
     end

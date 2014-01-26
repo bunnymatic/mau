@@ -54,7 +54,6 @@ class StudiosController < ApplicationController
   end
 
   def add_profile
-    @selected_studio = @studio.id
     render :layout => 'mau-admin'
   end
 
@@ -67,13 +66,14 @@ class StudiosController < ApplicationController
     studio_id = @studio.id
     upload = params[:upload]
 
-    if not upload
+    unless upload.present?
       flash[:error] = "You must provide a file."
       redirect_to add_profile_studio_path(@studio) and return
     end
 
     begin
-      post = StudioImage.new(@studio).save upload
+      StudioImage.new(@studio).save upload
+      flash[:notice] = 'Studio Image has been updated.'
       redirect_to @studio and return
     rescue
       logger.error("Failed to upload %s" % $!)

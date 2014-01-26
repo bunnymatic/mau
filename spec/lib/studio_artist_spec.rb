@@ -43,7 +43,7 @@ describe StudioArtist do
     context 'artist is not in the studio' do
       let(:studio) { (Studio.all - [artist.studio]).first }
       it 'returns false' do
-        expect(unaffiliate).to be_true
+        expect(unaffiliate).to be_false
       end
       it 'does not change the artist affiliation' do
         expect(artist.studio).to_not eql studio

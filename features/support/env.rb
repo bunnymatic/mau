@@ -4,25 +4,6 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 require './spec/support/simplecov'
-if ENV['COVERAGE']
-  require 'simplecov'
-  SimpleCov.start do
-    add_filter "/lib/restful_authentication/"
-    add_filter '/config/'
-    add_filter '/vendor/'
-    add_filter '/spec/'
-    add_filter '/features'
-    add_group  'Models', 'app/models'
-    add_group  'Controllers', 'app/controllers'
-    add_group  'Helpers', 'app/helpers'
-    add_group  'Mailers', 'app/mailers'
-    add_group  'Paginators', 'app/paginators'
-    add_group  'Exporters', 'app/exporters'
-    add_group  'Presenters', 'app/presenters'
-    add_group  'Validators', 'app/validators'
-  end
-end
-
 require './spec/support/faker_files'
 require 'cucumber/rails'
 
