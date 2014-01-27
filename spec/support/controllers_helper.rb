@@ -16,7 +16,7 @@ def controller_actions_should_fail_if_not_logged_in(cont, opts={})
   actions_to_test += opts[:include] if opts[:include]
   actions_to_test.each do |a|
     get a
-    response.should redirect_to( new_session_path ), "Incorrect redirect on action [#{a}]"
+    expect(response).to redirect_to( new_session_path ), "Incorrect redirect on action [#{a}]"
   end
 end
 
@@ -121,7 +121,7 @@ end
 
 shared_examples_for 'login required' do
   it "redirects to login" do
-    response.should redirect_to(new_session_path)
+    expect(response).to redirect_to(new_session_path)
   end
 end
 
@@ -209,18 +209,28 @@ shared_examples_for 'one column layout' do
   end
 end
 
+shared_examples_for 'renders error page' do
+  it "renders an error page" do
+    expect(response).to render_template 'error/index'
+  end
+  it "show a 404" do
+    expect(response.code).to eql '404'
+  end
+
+end
+
 shared_examples_for "not authorized" do
   it "redirects to error page" do
-    response.should redirect_to error_path
+    expect(response).to redirect_to error_path
   end
 end
 
 shared_examples_for 'returns success' do
-  it { response.should be_success }
+  it { expect(response).to be_success }
 end
 
 shared_examples_for 'successful json' do
-  it { response.should be_success }
-  it { response.should be_json }
+  it { expect(response).to be_success }
+  it { expect(response).to be_json }
 end
 

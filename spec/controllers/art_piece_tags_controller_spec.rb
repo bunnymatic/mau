@@ -35,11 +35,21 @@ describe ArtPieceTagsController do
 
   describe '#index' do
     describe 'format=html' do
-      before do
-        get :index
+      context 'when there are no tags' do
+        before do
+          ArtPieceTag.stub(:frequency => nil)
+          get :index
+        end
+        it_should_behave_like 'renders error page'
       end
-      it 'redirects to show page with the most popular tag' do
-        response.should redirect_to art_piece_tag_path(art_piece_tags(:one))
+      context 'when there are tags' do
+
+        before do
+          get :index
+        end
+        it 'redirects to show page with the most popular tag' do
+          response.should redirect_to art_piece_tag_path(art_piece_tags(:one))
+        end
       end
     end
     describe 'format=json' do

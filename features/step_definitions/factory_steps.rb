@@ -26,8 +26,8 @@ end
 
 Given /there are tags on the art/ do
   @art_piece_tags = FactoryGirl.create_list(:art_piece_tag, 10)
-  @art_pieces.each do |art|
-    art.tags = @art_piece_tags.sample(2)
+  @art_pieces.each_with_index do |art, idx|
+    art.tags = @art_piece_tags.sample([idx,10].min) + [@art_piece_tags.first]
     art.save!
   end
 end

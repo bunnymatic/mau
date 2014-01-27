@@ -38,7 +38,7 @@ describe RolesController do
         end
       end
     end
-    [:show, :edit].each do |endpoint|
+    [:new, :show, :edit].each do |endpoint|
       describe "GET #{endpoint}" do
         before do
           get endpoint, :id => manager
@@ -57,6 +57,16 @@ describe RolesController do
             post :update, :id => admin, :user => jesse
           }.to change(jesse.roles, :count).by(1)
         end
+      end
+    end
+
+    describe 'GET new' do
+      before do
+        get :new
+      end
+      it 'sets up a new role' do
+        expect(assigns(:role)).to be_a_kind_of Role
+        expect(assigns(:role)).to be_new_record
       end
     end
 
