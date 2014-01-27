@@ -18,7 +18,7 @@ class EventPresenter
   end
 
   def display_month
-    @display_month ||= event.stime.strftime('%B %Y')
+    @display_month ||= event.starttime.strftime('%B %Y')
   end
 
   def address

@@ -10,19 +10,17 @@ class FeedParser
 
   attr_accessor :options, :url, :feed_link, :num_entries, :strip_tags, :include_date, :truncate, :css_class
 
-  def initialize(source_url, feed_link, opts)
+  def initialize(source_url, feed_link, opts = nil)
     @source_url = source_url
     @feed_link = feed_link
     options = {
       :num_entries => NUM_POSTS,
       :strip_tags => true,
-      :include_date => false,
       :truncate => true,
       :css_class => ''
-    }.merge(opts.symbolize_keys)
+    }.merge((opts || {}).symbolize_keys)
     @num_entries = options[:num_entries]
     @strip_tags = options[:strip_tags]
-    @include_date = options[:include_date]
     @truncate = options[:truncate]
     @css_class = options[:css_class]
   end
@@ -82,11 +80,7 @@ class FeedParser
   end
 
   def link_to(text, link, opts={})
-    if link.present?
-      content_tag(:a, text, opts.merge({:href => link}), false)
-    else
-      text
-    end.html_safe
+    content_tag(:a, text, opts.merge({:href => link}), false).html_safe
   end
 
   def span(text, opts = {})
@@ -121,12 +115,7 @@ class FeedParser
 
     entry = FeedEntry.new(source_entry, feed_link, @strip_tags, @truncate)
 
-    feed = ''
-    if @include_date
-      feed << span(entry.date, :class => 'feeddate')
-    end
-
-    feed << div(entry.title, :class => 'feedtitle') if entry.title.present?
+    feed = div(entry.title, :class => 'feedtitle') if entry.title.present?
     feed << div(entry.description, :class => 'feedtxt') if entry.description.present?
 
     div feed, :class => "feedentry #{css_class}"

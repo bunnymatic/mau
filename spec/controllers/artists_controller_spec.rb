@@ -86,7 +86,7 @@ describe ArtistsController do
       end
     end
   end
-  describe "#update" do
+  describe "#update", :eventmachine => true do
     render_views
     before do
       artist1_info.update_attribute(:open_studios_participation,'')
@@ -207,7 +207,7 @@ describe ArtistsController do
           artist1.reload.os_participation['201104'].should be_nil
         end
         it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
-          FakeWeb.register_uri(:get, Regexp.new( "http:\/\/example.com\/openstudios.*" ), {:status => 200})
+          stub_request(:get, Regexp.new( "http:\/\/example.com\/openstudios.*" ))
           expect {
             xhr :put, :update, { :commit => 'submit', :artist_os_participation => '1' }
           }.to change(OpenStudiosSignupEvent,:count).by(1)
@@ -585,7 +585,7 @@ describe ArtistsController do
     end
   end
 
-  describe "#setarrangement" do
+  describe "#setarrangement", :eventmachine => true do
     before do
       # stash an artist and art pieces
       @artpieces = artist1.art_pieces.map(&:id)
@@ -721,7 +721,7 @@ describe ArtistsController do
     end
   end
 
-  describe '#destroyart' do
+  describe '#destroyart', :eventmachine => true do
     let(:art_pieces) { ArtPiece.all.reject{|art| art.artist == artist1} }
     let(:art_pieces_for_deletion) {
       Hash[art_pieces.map.with_index{|a,idx| [a.id, idx % 2]}]

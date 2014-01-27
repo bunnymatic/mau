@@ -239,7 +239,7 @@ describe ArtPiecesController do
     end
   end
 
-  describe '#create' do
+  describe '#create', :eventmachine => true do
     context "while not logged in" do
       render_views
       context "post " do
@@ -304,7 +304,7 @@ describe ArtPiecesController do
     end
   end
 
-  describe '#update' do
+  describe '#update', :eventmachine => true do
     context "while not logged in" do
       render_views
       context "post " do

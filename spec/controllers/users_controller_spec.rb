@@ -113,7 +113,7 @@ describe UsersController do
     end
   end
 
-  describe "#create" do
+  describe "#create", :eventmachine => true do
     it "return 404 with :artist = {}" do
       post :create,  :artist => {}
       expect(response).to be_missing
