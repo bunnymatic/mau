@@ -404,7 +404,7 @@ describe ArtPiecesController do
 
   end
 
-  describe "#delete" do
+  describe "#delete", :eventmachine => true do
     context "while not logged in" do
       before do
         post :destroy

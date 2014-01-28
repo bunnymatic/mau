@@ -64,7 +64,6 @@ class UsersController < ApplicationController
       return
     end
     if @user == current_user && current_user.favorites.count <= 0
-      tmph = {}
       @random_picks = ArtPiece.find_random(24)
     end
   end
@@ -86,7 +85,7 @@ class UsersController < ApplicationController
 
     begin
       post = ArtistProfileImage.new(@user).save upload
-      redirect_to user_path(@user)
+      redirect_to user_path(@user), :notice => 'Your profile image has been updated.'
     rescue
       logger.error("Failed to upload %s" % $!)
       flash[:error] = "%s" % $!
