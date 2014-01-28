@@ -22,35 +22,49 @@ describe FeedsController do
   end
 
   context "without cache" do
-    before do
-      VCR.use_cassette('flaxart') do
-        controller.stub(:random_feeds => [artist_feeds(:flaxart)])
-        Rails.cache.stub(:read => nil, :write => false, :delete => nil)
-        if File.exists?(cache_filename)
-          File.delete(cache_filename)
+    context 'normal operation' do
+      before do
+        VCR.use_cassette('artist_feeds') do
+          Rails.cache.stub(:read => nil, :write => false, :delete => nil)
+          if File.exists?(cache_filename)
+            File.delete(cache_filename)
+          end
+          get :feed
         end
-        get :feed
+      end
+
+      it 'returns success' do
+        response.should be_success
+      end
+      it 'writes a file called _cached_feeds.html' do
+        File.exists?(cache_filename).should be
       end
     end
 
-    it 'returns success' do
-      response.should be_success
-    end
-    it 'writes a file called _cached_feeds.html' do
-      File.exists?(cache_filename).should be
-    end
-    it 'if we call it again (assuming cache is expired), we should get a different file' do
-      before_contents = File.open(cache_filename).read
-      tweet_response = [ { :user => {:screen_name => 'blurp'},
-                           :text => "I tweeted this #{Faker::Lorem.words(5).join(' ')}",
-                           :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
-      mock_readable = double(:read => tweet_response.to_json)
-      MauFeed::Parser.any_instance.stub(:open).and_yield(mock_readable)
-      get :feed
-      File.open(cache_filename).read.should_not eql before_contents
-    end
-    it 'it should include text from the feed' do
-      File.open(cache_filename).read.should include 'FLAX art'
+    context 'checking contents' do
+      before do
+        VCR.use_cassette('flaxart') do
+          controller.stub(:random_feeds => [artist_feeds(:flaxart)])
+          Rails.cache.stub(:read => nil, :write => false, :delete => nil)
+          if File.exists?(cache_filename)
+            File.delete(cache_filename)
+          end
+          get :feed
+        end
+      end
+      it 'if we call it again (assuming cache is expired), we should get a different file' do
+        before_contents = File.open(cache_filename).read
+        tweet_response = [ { :user => {:screen_name => 'blurp'},
+                             :text => "I tweeted this #{Faker::Lorem.words(5).join(' ')}",
+                             :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
+        mock_readable = double(:read => tweet_response.to_json)
+        MauFeed::Parser.any_instance.stub(:open).and_yield(mock_readable)
+        get :feed
+        File.open(cache_filename).read.should_not eql before_contents
+      end
+      it 'it should include text from the feed' do
+        File.open(cache_filename).read.should include 'FLAX art'
+      end
     end
   end
   context "with cache" do
