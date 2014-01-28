@@ -1,0 +1,18 @@
+%a{:href => artists_path}
+  .by-name.random-sxn.first
+    %h5 Artists by Name
+    %ul
+      - @random_picks.each do |item|
+        = draw_micro_favorite item, :linkless => true
+%a{:href => media_path(:m => 'a')}
+  .by-medium.random-sxn
+    %h5 Find Artists by Medium
+    %ul
+      - @random_picks.each do |item|
+        = draw_micro_favorite item, :linkless => true
+%a{:href => art_piece_tags_path(:m => 'a')}
+  .by-medium.random-sxn
+    %h5 Find Artists by Tags
+    %ul
+      - @random_picks.each do |item|
+        = draw_micro_favorite item, :linkless => true
