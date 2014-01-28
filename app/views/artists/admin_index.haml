@@ -45,7 +45,7 @@
       classes = []
       classes << cycle('even', 'odd')
       classes << a.state
-      classes << 'participating' if a.os_participation[ Conf.oslive.to_s ]
+      classes << 'participating' if a.os_participation && a.os_participation[ Conf.oslive.to_s ]
     %tr{:class => classes.join(' ')}
       %td.admin_artist_name
         %a{:href => artist_path(a)}
@@ -74,8 +74,8 @@
             %br
             #{'http://%s/reset/%s' % [Conf.site_url, a.reset_code]}
 
-      %td.participating_status{ :artistid => a.id } #{a.os_participation[Conf.oslive.to_s].to_s}
+      %td.participating_status{ :artistid => a.id } #{a.os_participation && a.os_participation[Conf.oslive.to_s].to_s}
       %td
-        %input.cboslive{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation[Conf.oslive.to_s].to_s, :checked => (a.os_participation[Conf.oslive.to_s] ? "checked" : nil) }
+        %input.cboslive{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation && a.os_participation[Conf.oslive.to_s].to_s, :checked => (a.os_participation && a.os_participation[Conf.oslive.to_s] ? "checked" : nil) }
 
 %button.update-artists update os status

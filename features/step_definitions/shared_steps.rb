@@ -36,6 +36,7 @@ end
 
 When(/^I click on the first "([^"]*?)" button$/) do |button_text|
   within('.tbl-content') do
+    puts all('a, button', :text => button_text).count
     all('a,button', :text => button_text).first.click
   end
 end

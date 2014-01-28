@@ -22,6 +22,11 @@ end
 
 Given /there are artists with art in the system/ do
   @art_pieces = FactoryGirl.create_list(:art_piece, 10)
+  @artists = (@artists || []) + @art_pieces.map(&:artist)
+end
+
+Given /there are users in the system/ do
+  @users = FactoryGirl.create_list(:user, 4)
 end
 
 Given /there are tags on the art/ do
