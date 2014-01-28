@@ -286,12 +286,7 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to root_path }
       format.mobile {
-        if params[:partial]
-          raise "HELL"
-          render :thumbs, :layout => false
-        else
-          render :thumbs, :layout => 'mobile'
-        end
+        render :thumbs, :layout => 'mobile'
       }
     end
   end
@@ -301,11 +296,7 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to root_path }
       format.mobile {
-        if params[:partial]
-          render :layout => false
-        else
-          render :layout => 'mobile'
-        end
+        render :layout => 'mobile'
       }
     end
   end
