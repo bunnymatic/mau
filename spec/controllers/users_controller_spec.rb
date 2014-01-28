@@ -516,6 +516,17 @@ describe UsersController do
           css_select('.no-favorites-msg').should be_empty
         end
       end
+      context "asking for a user that doesn't exist" do
+        before do
+          get :favorites, :id => 'bogus'
+        end
+        it "redirects to root" do
+          expect(response).to redirect_to root_path
+        end
+        it "flashes an error" do
+          flash[:error].should be_present
+        end
+      end
       context "while logged in as fan with no favorites" do
         before do
           ArtPiece.any_instance.stub(:artist =>Artist.new(:login => 'blow'))
@@ -817,7 +828,7 @@ describe UsersController do
       get :resend_activation
     end
 
-    it "returns sucess" do
+    it "returns success" do
       expect(response).to be_success
     end
 
@@ -868,7 +879,7 @@ describe UsersController do
       get :forgot
     end
 
-    it "returns sucess" do
+    it "returns success" do
       expect(response).to be_success
     end
 
@@ -939,7 +950,7 @@ describe UsersController do
       get :resend_activation
     end
 
-    it "returns sucess" do
+    it "returns success" do
       expect(response).to be_success
     end
   end

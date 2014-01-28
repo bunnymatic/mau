@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile,
                                             :add_profile, :deactivate, :setarrangement, :arrangeart,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
-
+  
   after_filter :store_location, :only => [ :edit, :show, :add_profile, :favorites ]
 
   layout 'mau1col'
@@ -303,22 +303,23 @@ class UsersController < ApplicationController
     flash[:notice] = "Your account has been deactivated."
   end
 
-  def unsuspend
-    @user.unsuspend!
-    flash[:notice] = "Your account has been unsuspended"
-    redirect_to "/"
-  end
-  def suspend
-    current_user.suspend!
-    flash[:notice] = "Your account has been suspended"
-    redirect_to "/"
-  end
+  # def unsuspend
+  #   @user.unsuspend!
+  #   flash[:notice] = "Your account has been unsuspended"
+  #   redirect_to "/"
+  # end
 
-  def purge
-    @user.destroy!
-    flash[:notice] = "Your account has been deactivated."
-    redirect_to "/"
-  end
+  # def suspend
+  #   current_user.suspend!
+  #   flash[:notice] = "Your account has been suspended"
+  #   redirect_to "/"
+  # end
+
+  # def purge
+  #   @user.destroy!
+  #   flash[:notice] = "Your account has been deactivated."
+  #   redirect_to "/"
+  # end
 
 
   # POST
