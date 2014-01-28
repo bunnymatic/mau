@@ -29,7 +29,7 @@ class FeedParser
     @feed_content ||=
       begin
         html = header_html
-        html << items.map.with_index do |entry, idx|
+        html << items.compact.map.with_index do |entry, idx|
           xtra_class = (0==(idx % 2)) ? "odd":"even"
           parse_entry(entry, xtra_class)
         end.join("").html_safe
@@ -54,7 +54,7 @@ class FeedParser
         begin
           open(url) do |http|
             if is_twitter?
-              TwitterFeed.new(http.read)
+              Twitter::Feed.new(http.read)
             else
               RSS::Parser.parse(http.read, false)
             end
@@ -62,9 +62,10 @@ class FeedParser
         rescue OpenURI::HTTPError => http
           puts "FeedParser: failed to open/parse feed #{url}:" + http.to_s
           puts "FeedParser: skipping to the next"
+          nil
         rescue Exception => e
           puts "FeedParser: failed to open/parse feed #{url}:" + e.to_s
-          ''
+          nil
         end
       end
   end
@@ -96,7 +97,7 @@ class FeedParser
   end
 
   def header_html
-    @header_html = div(link_to_feed)
+    @header_html = link_to_feed.present? ? div(link_to_feed, :class => 'feed-header') : ''
   end
 
   def num_available_entries
@@ -112,9 +113,8 @@ class FeedParser
   end
 
   def parse_entry(source_entry, css_class)
-
+ 
     entry = FeedEntry.new(source_entry, feed_link, @strip_tags, @truncate)
-
     feed = div(entry.title, :class => 'feedtitle') if entry.title.present?
     feed << div(entry.description, :class => 'feedtxt') if entry.description.present?
 
