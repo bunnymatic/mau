@@ -41,18 +41,11 @@ class FeedsController < ApplicationController
   end
 
   def force_fetch_feeds
-    feedurls = []
-    feeds_content = random_feeds.map do |feed|
-      next unless feed
+    feeds_content = random_feeds.compact.map do |feed|
       num_entries = (feed.is_twitter? ? 3 : 1)
-      begin
-        feed_parser = FeedParser.new(feed.feed, feed.url, {:num_entries => num_entries})
-        feed_parser.feed_content
-      rescue Exception => ex
-        logger.error("Failed to grab feed " + feed.inspect)
-        logger.error(ex)
-      end
-    end.join
+      feed_parser = MauFeed::Parser.new(feed.feed, feed.url, {:num_entries => num_entries})
+      feed_parser.feed_content
+    end.compact.join
     SafeCache.write(FEEDS_KEY, feeds_content, :expires_in => CACHE_EXPIRY)
     feeds_content
   end

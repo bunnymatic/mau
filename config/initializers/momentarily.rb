@@ -1,4 +1,6 @@
 require 'momentarily'
 
-Momentarily.debug = true #(Rails.env != 'production')
-Momentarily.start
+if Rails.env != 'test'
+  Momentarily.debug = true #(Rails.env != 'production')
+  Momentarily.start
+end

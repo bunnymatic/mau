@@ -6,29 +6,31 @@ describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do
   fixtures :artist_feeds, :users, :roles_users, :roles
   cache_filename = '_cached_feeds.html'
+
   context 'with bad feed data' do
     it 'handles failure in fetch and format' do
-      FeedParser.any_instance.stub(:feed_content).and_raise
-      if File.exists?(cache_filename)
-        File.delete(cache_filename)
+      VCR.use_cassette('twitter') do
+
+        controller.stub(:random_feeds => [artist_feeds(:twitter)])
+        if File.exists?(cache_filename)
+          File.delete(cache_filename)
+        end
+        get :feed
+        response.should be_success
       end
-      get :feed
-      response.should be_success
     end
   end
 
   context "without cache" do
     before do
-      tweet_response = [ { :user => {:screen_name => 'blurp'},
-                           :text => "I tweeted this #{Faker::Lorem::words(5).join(' ')}",
-                           :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
-      mock_readable = double(:read => tweet_response.to_json)
-      FeedParser.any_instance.stub(:open).and_yield(mock_readable)
-      Rails.cache.stub(:read => nil, :write => false, :delete => nil)
-      if File.exists?(cache_filename)
-        File.delete(cache_filename)
+      VCR.use_cassette('flaxart') do
+        controller.stub(:random_feeds => [artist_feeds(:flaxart)])
+        Rails.cache.stub(:read => nil, :write => false, :delete => nil)
+        if File.exists?(cache_filename)
+          File.delete(cache_filename)
+        end
+        get :feed
       end
-      get :feed
     end
 
     it 'returns success' do
@@ -43,12 +45,12 @@ describe FeedsController do
                            :text => "I tweeted this #{Faker::Lorem.words(5).join(' ')}",
                            :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
       mock_readable = double(:read => tweet_response.to_json)
-      FeedParser.any_instance.stub(:open).and_yield(mock_readable)
+      MauFeed::Parser.any_instance.stub(:open).and_yield(mock_readable)
       get :feed
       File.open(cache_filename).read.should_not eql before_contents
     end
-    it 'it should include this is it' do
-      File.open(cache_filename).read.should include 'I tweeted this'
+    it 'it should include text from the feed' do
+      File.open(cache_filename).read.should include 'FLAX art'
     end
   end
   context "with cache" do

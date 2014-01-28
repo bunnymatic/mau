@@ -1,5 +1,3 @@
-require 'pp'
-
 def tags_sorted_by_frequency
   all_tags = ArtPieceTag.all
   freq = ArtPieceTag.keyed_frequency
@@ -14,7 +12,7 @@ Then(/^I see the most popular tag page$/) do
 end
 
 Then(/^I don't see the first tag anymore$/) do
-  expect(page).to_not have_selector('.tagcloud .clouditem a', :text => @first_tag.name)
+  expect(page).to_not have_selector('.tagcloud .clouditem a', :text => /\A@first_tag.name\Z/)
 end
 
 When(/^I destroy the first tag$/) do

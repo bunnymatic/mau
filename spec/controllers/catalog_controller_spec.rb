@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CatalogController do
 
-  fixtures :users, :roles, :roles_users, :studios, :artist_infos
+  fixtures :users, :roles, :roles_users, :studios, :artist_infos, :media, :art_piece_tags, :art_pieces_tags, :art_pieces
 
   describe "#index" do
     let(:jesse) { users(:jesseponce) }

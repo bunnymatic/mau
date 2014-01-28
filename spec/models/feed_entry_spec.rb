@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FeedEntry do
+describe MauFeed::Entry do
 
   let(:source_url) { 'http://wordpress.com' }
   let(:the_time) { Time.zone.now }
@@ -9,7 +9,7 @@ describe FeedEntry do
   let(:raw_entry) { OpenStruct.new(:title => title, :description => description, :date => the_time) }
   let(:trunc) { false }
   let(:clean_desc) { true }
-  subject(:entry) { FeedEntry.new(raw_entry, source_url, clean_desc, trunc) }
+  subject(:entry) { MauFeed::Entry.new(raw_entry, source_url, clean_desc, trunc) }
 
   its(:title) { should eql title.strip }
   its(:description) { should eql 'the     description' }
@@ -26,14 +26,14 @@ describe FeedEntry do
     context 'and it has a long title' do
       let(:title) { Faker::Lorem.words(70).join(" ") }
       it 'truncates the title' do
-        expect(subject.title).to have(FeedEntry::TITLE_LENGTH).characters
+        expect(subject.title).to have(MauFeed::Entry::TITLE_LENGTH).characters
       end
     end
 
     context 'and the description is really long' do
       let(:description) { Faker::Lorem.words(300).join(" ") }
       it 'truncates the description' do
-        expect(subject.description).to have(FeedEntry::DESCRIPTION_LENGTH).characters
+        expect(subject.description).to have(MauFeed::Entry::DESCRIPTION_LENGTH).characters
       end
     end
 

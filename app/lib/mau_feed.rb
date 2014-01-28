@@ -1,0 +1,2 @@
+module MauFeed
+end

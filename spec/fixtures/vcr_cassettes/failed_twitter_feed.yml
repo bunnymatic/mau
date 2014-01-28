@@ -1,0 +1,211 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://twitter.com/statuses/user_timeline/62131363.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Content-Length:
+      - '0'
+      Date:
+      - Mon, 27 Jan 2014 20:16:53 UTC
+      Location:
+      - https://twitter.com/statuses/user_timeline/62131363.json
+      Server:
+      - tfe
+      Set-Cookie:
+      - guest_id=v1%3A139085381389523081; Domain=.twitter.com; Path=/; Expires=Wed,
+        27-Jan-2016 20:16:53 UTC
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 27 Jan 2014 20:16:53 GMT
+- request:
+    method: get
+    uri: http://twitter.com/statuses/user_timeline/62131363.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 301
+      message: Moved Permanently
+    headers:
+      Content-Length:
+      - '0'
+      Date:
+      - Mon, 27 Jan 2014 23:41:29 UTC
+      Location:
+      - https://twitter.com/statuses/user_timeline/62131363.json
+      Server:
+      - tfe
+      Set-Cookie:
+      - guest_id=v1%3A139086608924118202; Domain=.twitter.com; Path=/; Expires=Wed,
+        27-Jan-2016 23:41:29 UTC
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 27 Jan 2014 23:41:29 GMT
+- request:
+    method: get
+    uri: https://twitter.com/statuses/user_timeline/62131363.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      Content-Length:
+      - '92'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 27 Jan 2014 23:42:18 GMT
+      Expires:
+      - Tue, 31 Mar 1981 05:00:00 GMT
+      Last-Modified:
+      - Mon, 27 Jan 2014 23:42:18 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - tfe
+      Set-Cookie:
+      - _twitter_sess=BAh7CDoPY3JlYXRlZF9hdGwrCIcEFdZDAToHaWQiJTNiNjNlZDVmYjBiOTQy%250AMTE3OTg4YWVjYmM3OTA0OTEwIgpmbGFzaElDOidBY3Rpb25Db250cm9sbGVy%250AOjpGbGFzaDo6Rmxhc2hIYXNoewAGOgpAdXNlZHsA--74b78f6132b02af3282338e63e2f372c0d3849fe;
+        domain=.twitter.com; path=/; secure; HttpOnly
+      - guest_id=v1%3A139086613822754334; Domain=.twitter.com; Path=/; Expires=Wed,
+        27-Jan-2016 23:42:18 UTC
+      Status:
+      - 404 Not Found
+      Strict-Transport-Security:
+      - max-age=631138519
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Mid:
+      - fde9b63cde924716d01c601467607399836d8c1c
+      X-Ratelimit-Class:
+      - api
+      X-Ratelimit-Limit:
+      - '150'
+      X-Ratelimit-Remaining:
+      - '149'
+      X-Ratelimit-Reset:
+      - '1390869738'
+      X-Runtime:
+      - '0.03381'
+      X-Transaction:
+      - 46b19eff402a3741
+      X-Ua-Compatible:
+      - IE=10,chrome=1
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"message":"Sorry, that page does not exist","code":34}]}'
+    http_version: 
+  recorded_at: Mon, 27 Jan 2014 23:42:18 GMT
+- request:
+    method: get
+    uri: https://twitter.com/statuses/user_timeline/62131363.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+      Content-Length:
+      - '92'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 27 Jan 2014 23:42:18 GMT
+      Expires:
+      - Tue, 31 Mar 1981 05:00:00 GMT
+      Last-Modified:
+      - Mon, 27 Jan 2014 23:42:18 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - tfe
+      Set-Cookie:
+      - _twitter_sess=BAh7CDoPY3JlYXRlZF9hdGwrCH8FFdZDASIKZmxhc2hJQzonQWN0aW9uQ29u%250AdHJvbGxlcjo6Rmxhc2g6OkZsYXNoSGFzaHsABjoKQHVzZWR7ADoHaWQiJWFk%250AYWYyZDI3OGJhZjg2MTM0YzNhNzcwMzFhZTc0ODJl--d5ebf5c7403fde291ee70a405605e64d414e8e8c;
+        domain=.twitter.com; path=/; secure; HttpOnly
+      - guest_id=v1%3A139086613847568645; Domain=.twitter.com; Path=/; Expires=Wed,
+        27-Jan-2016 23:42:18 UTC
+      Status:
+      - 404 Not Found
+      Strict-Transport-Security:
+      - max-age=631138519
+      Vary:
+      - Accept-Encoding
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Mid:
+      - 86153000e0f5dfcb89b952d0e4865b9fe7128f51
+      X-Ratelimit-Class:
+      - api
+      X-Ratelimit-Limit:
+      - '150'
+      X-Ratelimit-Remaining:
+      - '148'
+      X-Ratelimit-Reset:
+      - '1390869738'
+      X-Runtime:
+      - '0.03054'
+      X-Transaction:
+      - e4fa7eae6dd8e24c
+      X-Ua-Compatible:
+      - IE=10,chrome=1
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"message":"Sorry, that page does not exist","code":34}]}'
+    http_version: 
+  recorded_at: Mon, 27 Jan 2014 23:42:18 GMT
+recorded_with: VCR 2.8.0

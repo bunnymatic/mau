@@ -138,7 +138,7 @@ class ArtPiecesController < ApplicationController
 
   def set_page_info_from_art_piece
     @page_title = "Mission Artists United - Artist: %s" % @art_piece.artist.get_name
-    @page_description = build_page_description @art_piece
+    @page_description = (build_page_description @art_piece) || @page_description
     @page_keywords += [@art_piece.tags + [@art_piece.medium]].flatten.compact.map(&:name)
   end
 
@@ -159,12 +159,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def build_page_description art_piece
-    if (art_piece)
-      if art_piece && !art_piece.title.empty?
-        return "Mission Artists United Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}"
-      end
-    end
-    return @page_description
+    return "Mission Artists United Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}" if art_piece
   end
 
   def art_piece_params

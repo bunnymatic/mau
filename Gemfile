@@ -48,7 +48,8 @@ gem 'newrelic_rpm'
 
 group :test do
   gem 'faker'
-  gem 'fakeweb'
+  gem 'webmock'
+  gem 'vcr'
   gem 'factory_girl', '~> 2.0.x'
   gem 'factory_girl_rails', :require => false
   gem 'cucumber'
@@ -76,4 +77,5 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'quiet_assets'
+  gem 'em-rspec', :git => 'https://github.com/rcode5/em-rspec.git'
 end
