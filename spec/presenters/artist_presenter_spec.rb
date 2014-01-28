@@ -45,7 +45,7 @@ describe ArtistPresenter do
       html = Nokogiri::HTML::DocumentFragment.parse(map_info)
       expect(html.css('style').to_s).to include '_mau1'
       expect(html.css('div._mau1 a.lkdark img')).to have(1).image
-      expect(html.css('div._mau1 a.lkdark')[1].to_s).to include artist.get_name(true)
+      expect(html.css('div._mau1 a.lkdark')[1].to_s).to include artist.get_name
       expect(html.css('div._mau1 .studio').to_s).to be_empty
     end
   end

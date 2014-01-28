@@ -112,7 +112,14 @@ describe EmailListsController do
         end
       end
 
-      context 'event list' do
+      context 'email list' do
+
+        it 'redirects to itself with flash message when asking for an invalid list' do
+          post :index, :listtype => :bogus, :method => 'add_email', :email => email_attrs
+          flash[:error].should be
+          flash[:error].should match /couldn't find that list/
+          response.should redirect_to email_lists_path
+        end
 
         it 'redirects to itself with flash message when there is an error' do
           post :index, :listtype => :event, :email => email_attrs

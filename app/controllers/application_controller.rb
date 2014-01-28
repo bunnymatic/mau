@@ -20,12 +20,6 @@ class ApplicationController < ActionController::Base
   before_filter :get_new_art, :unless => :format_json?
   before_filter :set_meta_info
 
-  def publish_page_hit
-    if request.get?
-      Messager.new.publish request.path, 'hit'
-    end
-  end
-
   def commit_is_cancel
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
   end
@@ -57,35 +51,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_feeds
-    if File.exists?('_cached_feeds.html')
-      @feed_html = File.open('_cached_feeds.html','r').read()
-    end
-    if @feed_html && @feed_html.length < 0
-      @feed_html = "<div>Reload the page to get a new set of feeds</div>"
-    end
-  end
-
-  # redirect somewhere that will eventually return back to here
-  # def redirect_away(*params)
-  #   session[:original_uri] = request.request_uri
-  #   redirect_to(*params)
-  # end
-
-  # # returns the person to either the original url from a redirect_away or to a default url
-  # def redirect_back(*params)
-  #   uri = session[:original_uri]
-  #   session[:original_uri] = nil
-  #   if uri
-  #     redirect_to uri
-  #   else
-  #     redirect_to(*params)
-  #   end
-  # end
-
-  protected
-  def rescue_optional_error_file(status_code)
-    status = interpret_status(status_code)
-    render :template => "/error/#{status[0,3]}", :status => status, :layout => 'mau'
+    @feed_html = File.open('_cached_feeds.html','r').read() if File.exists?('_cached_feeds.html')
   end
 
   protected

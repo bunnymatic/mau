@@ -20,10 +20,6 @@ class Favorite < ActiveRecord::Base
 
   FAVORITABLE_TYPES = ['Artist','ArtPiece']
 
-  def to_s
-    "#{favoritable_type}: #{favoritable_id} (User #{user_id})"
-  end
-
   def is_user?
     [Artist.name, User.name].include? favoritable_type
   end
