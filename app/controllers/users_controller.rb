@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile,
                                             :add_profile, :deactivate, :setarrangement, :arrangeart,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
-  
+
   after_filter :store_location, :only => [ :edit, :show, :add_profile, :favorites ]
 
   layout 'mau1col'
