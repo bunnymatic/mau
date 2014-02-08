@@ -53,10 +53,7 @@ class Event < ActiveRecord::Base
 
   include AddressMixin
 
-  def name
-    raise 'Event:name is deprecated'
-    title
-  end
+  alias_attribute :name, :title # for calendar
 
   def validate_endtime
     if !endtime
