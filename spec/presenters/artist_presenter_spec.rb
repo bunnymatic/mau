@@ -8,6 +8,7 @@ describe ArtistPresenter do
   let(:artist) { FactoryGirl.create(:artist, :activated, :with_art, :with_studio) }
   subject(:presenter) { ArtistPresenter.new(mock_view_context(user), artist) }
 
+  its(:in_the_mission?) { should eql artist.in_the_mission?}
   its(:has_media?) { should be_true }
   its(:has_bio?) { should be_false }
   its(:allows_email_from_artists?) { should be_true }

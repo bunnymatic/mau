@@ -17,6 +17,11 @@ FactoryGirl.define do
       activation_code 'factory_activation_code'
     end
 
+    trait :active do
+      state :active
+      activation_code 'factory_activation_code'
+    end
+
   end
 
   factory :artist do

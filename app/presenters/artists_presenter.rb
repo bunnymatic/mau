@@ -1,3 +1,5 @@
+# This presenter fetches a list of artists
+# and makes them easily accessible as ArtistPresenter objects
 class ArtistsPresenter
 
   PER_PAGE = 28
@@ -15,6 +17,10 @@ class ArtistsPresenter
 
   def os_participants
     @os_participants ||= active_artists.open_studios_participants
+  end
+
+  def artists_only_in_the_mission
+    artists.select(&:in_the_mission?)
   end
 
   def artists

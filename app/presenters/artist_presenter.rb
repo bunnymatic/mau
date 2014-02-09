@@ -1,3 +1,5 @@
+# This presenter adds helpful display/view related methods
+# to make it easy to draw artist data on a page
 class ArtistPresenter
 
   include HtmlHelper
@@ -85,6 +87,10 @@ class ArtistPresenter
 
   def has_address?
     valid_address?
+  end
+
+  def in_the_mission?
+    @artist.in_the_mission?
   end
 
   def map_url

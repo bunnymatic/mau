@@ -41,6 +41,49 @@ describe User do
     its(:media) { should eql subject.art_pieces.map(&:medium).flatten.compact.uniq }
   end
 
+  describe '#sortable_name' do
+    let(:user1) { FactoryGirl.create(:user, :active, :firstname => nil, :lastname => nil, :login => 'zzzzza')}
+    let(:user2) { FactoryGirl.create(:user, :active, :firstname => nil, :lastname => nil, :login => 'bbbbbb')}
+    let(:user3) { FactoryGirl.create(:user, :active, :firstname => nil, :lastname => nil, :login => 'aaaaaa')}
+    let(:artists) { [user1, user2, user3]}
+    let(:sorted_artists) { 
+      artists.sort_by(&:sortable_name)
+    }
+
+    context 'when artists only have a login' do
+      it 'should sort the artists by their login name' do
+        expect(sorted_artists.first.login).to eql user3.login
+        expect(sorted_artists[1].login).to eql user2.login
+        expect(sorted_artists.last.login).to eql user1.login
+      end
+    end
+
+    context 'when the artists last name is punctuation' do
+      let(:user1) { FactoryGirl.create(:user, :active, :firstname => 'RUBYSPAM', :lastname => '*', :login => 'aaabbb')}
+      it 'should sort the artists by their login name' do
+puts(sorted_artists.inspect)
+        expect(sorted_artists.first.login).to eql user3.login
+        expect(sorted_artists[1].login).to eql user2.login
+        expect(sorted_artists.last.login).to eql user1.login
+      end
+    end
+
+    context 'when the artists dont have a first name' do
+       let(:user1) { FactoryGirl.create(:user, :active, :firstname => 'RUBYSPAM', :lastname => '*', :login => 'zzzzza')}
+      pending 'should sort the artists by their login name' do
+        expect(sorted_artists.first.login).to eql user3.login
+        expect(sorted_artists[1].login).to eql user2.login
+        expect(sorted_artists.last.login).to eql user1.login
+      end
+    end
+
+    context 'when the artists dont have a last name' do
+    end
+
+    context 'when the artists have full first & last names' do
+    end
+
+  end
   describe '#fullname' do
     context 'an artist with a login but no names' do
       it 'returns login for full name' do
