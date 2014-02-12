@@ -13,11 +13,16 @@ describe ArtistsMap do
 
   subject(:map) { ArtistsMap.new(mock_view_context, os_only) }
 
-  its(:grouped_by_address) { should have(map.artists.select(&:has_address?).map(&:address).compact.uniq.count).keys }
-  its('with_addresses.count') { should eql map.artists.select(&:has_address?).count }
-  it 'sorts groups by the number of artists in each group' do
-    expect(map.grouped_by_address_and_sorted.map{|entry| entry[1].length}).to be_monotonically_decreasing
-  end
+  context 'when os_only is false' do
+    its(:grouped_by_address) { should have(map.artists.select(&:has_address?).map(&:address).compact.uniq.count).keys }
+    its('with_addresses.count') { should eql map.artists.select(&:has_address?).count }
+    its 'sorts groups by the number of artists in each group' do
+      expect(map.grouped_by_address_and_sorted.map{|entry| entry[1].length}).to be_monotonically_decreasing
+    end
+    it 'returns only artists who are in the mission' do
+      expect(map.grouped_by_address.values.flatten.all? &:in_the_mission?).to be_true
+    end
+  end  
 
   context 'when os_only is true' do
     let(:os_only) { true }

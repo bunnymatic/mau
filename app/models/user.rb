@@ -195,39 +195,10 @@ class User < ActiveRecord::Base
     htmlsafe ? html_encode(name) : name
   end
 
-  ##### Refactor sorting into a comparator
-  def get_sort_name
-    # sort by lastname first, then firstname then fallback to login if those aren't available
-    starts_with_letter_or_number_regex = /^[\w\d]/
-
-    [lastname||login,firstname].map(&:to_s).map{|name| name.gsub /[[:punct:]]/,""}
-   
-     if starts_with_letter_or_number_regex =~ lastname
-       primary_sort_name = lastname
-     elsif starts_with_letter_or_number_regex =~ firstname
-       primary_sort_name = firstname
-     else
-     end
-    
-    if starts_with_letter_or_number_regex =~ firstname
-      secondary_sort_name = firstname
-    else
-      secondary_sort_name = nil
-    end
-    [primary_sort_name, secondary_sort_name].map(&:to_s)
-
-    # get name for sorting:  try lastname, then firstname then login
-    # word_num_regex = %r|^[\w\d]|
-    # if word_num_regex =~ (lastname ||'')
-    #   lastname.downcase
-    # elsif word_num_regex =~ (firstname || '')
-    #   firstname.downcase
-    # else
-    #   login.downcase
-    # end
+  def sortable_name
+    key = [lastname, firstname, login].join.downcase
+    key.gsub(%r|\W|,' ').strip
   end
-
-  alias_method :sortable_name, :get_sort_name
 
   def is_active?
     state == 'active'

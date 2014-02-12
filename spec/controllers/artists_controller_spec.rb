@@ -679,7 +679,7 @@ describe ArtistsController do
       end
       it 'renders the artists' do
         assigns(:map_info).with_addresses.each do |a|
-          assert_select "a[href=#{artist_path(a)}]", a.get_name
+          assert_select "a[href=#{artist_path(a.artist)}]", a.get_name
         end
       end
     end

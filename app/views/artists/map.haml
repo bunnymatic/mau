@@ -23,5 +23,5 @@
         %ul.tenants
           - artists.each do |a|
             %li.map-name
-              %a.artist-map-lnk{ :id => "artist_#{a.id}", :href => artist_path(a)}
+              %a.artist-map-lnk{ :id => "artist_#{a.id}", :href => a.show_path}
                 =h a.get_name

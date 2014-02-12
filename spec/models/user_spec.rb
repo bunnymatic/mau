@@ -61,26 +61,21 @@ describe User do
     context 'when the artists last name is punctuation' do
       let(:user1) { FactoryGirl.create(:user, :active, :firstname => 'RUBYSPAM', :lastname => '*', :login => 'aaabbb')}
       it 'should sort the artists by their login name' do
-puts(sorted_artists.inspect)
         expect(sorted_artists.first.login).to eql user3.login
         expect(sorted_artists[1].login).to eql user2.login
         expect(sorted_artists.last.login).to eql user1.login
       end
     end
 
-    context 'when the artists dont have a first name' do
-       let(:user1) { FactoryGirl.create(:user, :active, :firstname => 'RUBYSPAM', :lastname => '*', :login => 'zzzzza')}
-      pending 'should sort the artists by their login name' do
-        expect(sorted_artists.first.login).to eql user3.login
-        expect(sorted_artists[1].login).to eql user2.login
+    context 'when some artists have empty last names' do
+       let(:user1) { FactoryGirl.create(:user, :active, :firstname => 'bob', :lastname => 'kabob', :login => 'zzzzza')}
+       let(:user2) { FactoryGirl.create(:user, :active, :firstname => 'Bob', :lastname => ' ', :login => 'bbbbbb')}
+       let(:user3) { FactoryGirl.create(:user, :active, :firstname => 'faern', :lastname => '', :login => 'cccccc')}
+       it 'should sort the artists properly' do
+        expect(sorted_artists.first.login).to eql user2.login
+        expect(sorted_artists[1].login).to eql user3.login
         expect(sorted_artists.last.login).to eql user1.login
       end
-    end
-
-    context 'when the artists dont have a last name' do
-    end
-
-    context 'when the artists have full first & last names' do
     end
 
   end

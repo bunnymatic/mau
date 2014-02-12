@@ -12,7 +12,7 @@ class ArtistsMap < ArtistsPresenter
     @grouped_by_address ||=
       begin
         {}.tap do |keyed|
-          artists.each do |a|
+          artists_only_in_the_mission.each do |a|
             ky = address_key(a)
             (keyed[ky] ||= []) << a if ky
           end

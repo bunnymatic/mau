@@ -37,6 +37,8 @@ describe ArtistsPresenter do
         expected_results = subject.artists_only_in_the_mission.map(&:artist)
         actual_results = Artist.active.select(&:in_the_mission?).sort_by(&:sortable_name)
         expect(actual_results).to eql(expected_results)
+        actual_results = Artist.active.sort_by(&:sortable_name).select(&:in_the_mission?)
+        expect(actual_results).to eql(expected_results)
       end
       it 'returns artist presenter objects' do
         expect(subject.artists_only_in_the_mission.first).to be_a_kind_of ArtistPresenter
