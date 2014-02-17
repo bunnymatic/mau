@@ -1,6 +1,7 @@
 /*
  *= require jquery
  *= require jquery_ujs
+ *= require jquery_noconflict
  *= require pickadate/picker
  *= require pickadate/picker.date
  *= require pickadate/picker.time
