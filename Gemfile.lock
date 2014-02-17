@@ -384,6 +384,7 @@ DEPENDENCIES
   capistrano (~> 3.1.0)
   capistrano-rails (~> 1.1)
   capistrano-rbenv (~> 2.0)
+  coffee-rails
   cucumber
   cucumber-rails
   dalli
