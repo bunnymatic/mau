@@ -15,8 +15,10 @@ gem 'hashie'
 gem 'tzinfo'
 gem 'rdiscount' # markdown processor
 gem 'mobile-fu'
-gem 'capistrano'
-gem 'rvm-capistrano'
+gem 'capistrano', '~> 3.1.0'
+gem 'capistrano-rbenv', '~> 2.0'
+gem 'capistrano-rails', '~> 1.1'
+
 gem 'gibbon', '~> 0.3.5' # mailchimp connect
 gem 'calendar_date_select'
 gem 'rosie'

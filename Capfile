@@ -1,20 +1,10 @@
-#$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-# Load RVM's capistrano plugin.
+# Load DSL and Setup Up Stages
+require 'capistrano/setup'
 
-case Rails.env
-  when 'production'
-  require "bundler/capistrano"
-  
-  load 'deploy' if respond_to?(:namespace) # cap2 differentiator
-  Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
-  
-  load 'config/deploy_site5' # remove this line to skip loading any of the default tasks
-  else
-  require "rvm/capistrano"
-  set :rvm_ruby_string, '1.8.7-p302@mau'
-  
-  load 'deploy' if respond_to?(:namespace) # cap2 differentiator
-  Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
-  
-  load 'config/deploy' # remove this line to skip loading any of the default tasks
-end
+# Includes default deployment tasks
+require 'capistrano/deploy'
+require 'capistrano/rbenv'
+require 'capistrano/rails'
+
+# Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
+Dir.glob('lib/capistrano/tasks/*.cap').each { |r| import r }

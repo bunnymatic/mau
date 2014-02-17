@@ -1,161 +1,77 @@
-require 'rvm/capistrano'
-require 'bundler/capistrano'
-set :rvm_ruby_string, '1.8.7-p334@mau'
-set :rvm_type, :user
+# config valid only for Capistrano 3.1
+lock '3.1.0'
 
-# capistrano task order of operations as of 4/22/2012
-#    deploy
-#    deploy:update
-#    deploy:update_code
-#    deploy:finalize_update
-#    bundle:install
-#    deploy:migrate
-#    deploy:create_symlink
-#    deploy:restart
-#    apache:reload
-#    build_sass
-#    deploy:cleanup
-#    ping
+set :rbenv_type, :user # or :system, depends on your rbenv setup
+set :rbenv_ruby, '2.0.0-p353'
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_roles, :all # default value
+
+set :application, 'MAU'
+set :repo_url, 'git@github.com:bunnymatic/mau.git'
+
+#set :rails_env, 'production'                  # If the environment differs from the stage name
+#set :migration_role, 'migrator'            # Defaults to 'db'
+set :assets_roles, [:web, :app]            # Defaults to [:web]
+#set :assets_prefix, 'prepackaged-assets'   # Defaults to 'assets' this should match config.assets.prefix in your rails config/application.rb
 
 
-####### VARIABLES #######
-set :application, "MAU"
-set :scm, :git
-set :use_sudo, false
-set :rake, 'bundle exec rake'
-set :repository,  "git@git.rcode5.com:/space/git/mau.git"
-set :branch, "master"
-set :scm_verbose, true
 
-####### Apache commands ####
-namespace :apache do
-  [:stop, :start, :restart, :reload].each do |action|
-    desc "#{action.to_s.capitalize} Apache"
-    task action, :roles => :web do
-      invoke_command "sudo /etc/init.d/apache2 #{action.to_s}", :via => run_method unless rails_env != 'production'
-    end
-  end
-end
+# Default branch is :master
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
-namespace :nginx do
-  [:stop, :start, :restart, :reload].each do |action|
-    desc "#{action.to_s.capitalize} Nginx"
-    task action, :roles => :web do
-      invoke_command "sudo /etc/init.d/nginx #{action.to_s}", :via => run_method
-    end
-  end
-end
+# Default deploy_to directory is /var/www/my_app
+# set :deploy_to, '/var/www/my_app'
 
+# Default value for :scm is :git
+# set :scm, :git
 
-####### CUSTOM TASKS #######
-desc "Set up Dev on bunnymatic.com parameters."
-task :dev do
-  # these roles represent the servers on which all these things run
-  # if db is run on different machine, you might change db
-  set :app_host, 'mau.rcode5.com'
-  role :app, app_host
-  role :web, app_host
-  role :db, app_host, :primary => true # This is where Rails migrations will run
+# Default value for :format is :pretty
+# set :format, :pretty
 
-  set :user, "deploy"
-  set :rails_env, 'development'
-  set :deploy_to, "/home/deploy/mau"
-  set :ssh_port, '22022'
-  set :server_name, 'mau.rcode5.com'
-end
+# Default value for :log_level is :debug
+# set :log_level, :debug
 
-desc "Set up Production bunnymatic.com parameters."
-task :prod do
-  set :app_host, '50.97.213.210' #site5 host
-  role :app, app_host
-  role :web, app_host
-  role :db, app_host, :primary => true # This is where Rails migrations will run
-  set :user, "missiona"
-  set :deploy_to, "/home/missiona/deployed/mau"
-  set :rails_env, 'production'
-  set :server_name, 'missionartistsunited.org'
-end
+# Default value for :pty is false
+# set :pty, true
 
-desc "Sanity Check"
-task :checkit do
-  puts("User: %s" % user)
-  puts("Env: %s" % rails_env)
-  puts("Repo: %s" % repository)
-  puts("DeployDir: %s" % deploy_to)
-  puts("SSH Port: %s" % ssh_port)
-end
+# Default value for :linked_files is []
+# set :linked_files, %w{config/database.yml}
 
-task :build_sass do
-  sass_cache_dir = "#{current_path}/tmp/sass-cache"
-  run "mkdir -p #{sass_cache_dir} && chmod g+ws #{sass_cache_dir}"
-  run "cd #{current_path} && rvm use #{rvm_ruby_string} && RAILS_ENV=#{rails_env} #{rake} sass:build"
-end
+# Default value for linked_dirs is []
+# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-after 'bundle:install', 'deploy:migrate'
-before "deploy:restart", :symlink_data
-before "apache:reload", :build_sass
-after "deploy", "apache:reload"
-after "deploy", 'deploy:cleanup'
-after "deploy", :ping
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
-desc "build db backup directory"
-task :setup_backup_dir do
-  run "rm -rf #{current_path}/backups"
-  run "ln -s #{shared_path}/backups #{current_path}/backups"
-end
+# Default value for keep_releases is 5
+# set :keep_releases, 5
 
-desc "Connect artist and studio data to website"
-task :symlink_data do
-  run "rm -rf #{current_path}/public/artistdata"
-  run "rm -rf #{current_path}/public/studiodata"
-  run "ln -s #{shared_path}/system/artistdata #{current_path}/public/artistdata"
-  run "ln -s #{shared_path}/system/studiodata #{current_path}/public/studiodata"
-  run "test -e #{current_path}/public/REVISION || ln -s #{current_path}/REVISION #{current_path}/public/REVISION"
-end
+# Default value for :linked_files is []
+# set :linked_files, %w{config/database.yml}
 
-desc "put htaccess in place (if available)"
-task :copy_htaccess do
-  run "[[ -f #{shared_path}/_htacess ]] && cp #{shared_path}/_htaccess #{current_path}/public/.htaccess"
-end
+# Default value for linked_dirs is []
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets public/backups vendor/bundle public/system}
 
-# for passenger
 namespace :deploy do
-  task :start, :roles => :app do
-    run "touch #{current_path}/tmp/restart.txt"
-  end
 
-  task :stop, :roles => :app do
-    # Do nothing.
-  end
-
-  desc "Restart Application"
-  task :restart, :roles => :app do
-    run "touch #{current_path}/tmp/restart.txt"
-  end
-
-  namespace :web do
-    desc "turn on maintenance mode"
-    task :disable do
-      run "touch #{current_path}/public/maintenance_mode.txt"
-    end
-
-    desc "turn off maintenance mode"
-    task :enable do
-      run "rm -rf #{current_path}/public/maintenance_mode.txt"
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      # Your restart mechanism here, for example:
+      # execute :touch, release_path.join('tmp/restart.txt')
     end
   end
-end
 
-desc "ping the server"
-task :ping do
-  run "curl -s http://#{server_name}/feeds/feed"
-  run "curl -s http://#{server_name}"
-end
+  after :publishing, :restart
 
-# namespace :deploy do
-#   task :start {}
-#   task :stop {}
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
-# end
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
+    end
+  end
+
+end
