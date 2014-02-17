@@ -10,7 +10,7 @@ set :rbenv_roles, :all # default value
 set :application, 'MAU'
 set :repo_url, 'git@github.com:bunnymatic/mau.git'
 
-set :rails_env, 'production'                  # If the environment differs from the stage name
+#set :rails_env, 'production'                  # If the environment differs from the stage name
 #set :migration_role, 'migrator'            # Defaults to 'db'
 set :assets_roles, [:web, :app]            # Defaults to [:web]
 #set :assets_prefix, 'prepackaged-assets'   # Defaults to 'assets' this should match config.assets.prefix in your rails config/application.rb
