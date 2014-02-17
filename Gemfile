@@ -9,7 +9,6 @@ gem "htmlentities"
 gem "json"
 gem 'mysql2'
 gem "haml"
-gem "sass"
 gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
@@ -56,6 +55,12 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'poltergeist'
   gem 'launchy'             # Required to dump the page when running cucumber features
+end
+
+group :assets,:development do
+  gem 'coffee-rails'
+  gem 'sass-rails'
+  gem 'libv8'
 end
 
 group :test, :development do
