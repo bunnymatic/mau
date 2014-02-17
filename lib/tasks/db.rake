@@ -1,11 +1,13 @@
-namespace :db do
-  desc 'Annotates model files'
-  task :annotate => [:environment] do
-    system("echo $PATH")
-    system("bundle exec annotate -i -e tests,fixtures --force")
+if Rails.env == 'development'
+  namespace :db do
+    desc 'Annotates model files'
+    task :annotate => [:environment] do
+      system("echo $PATH")
+      system("bundle exec annotate -i -e tests,fixtures --force")
+    end
   end
-end
 
-Rake::Task['db:migrate'].enhance do
-  Rake::Task['db:annotate'].invoke
+  Rake::Task['db:migrate'].enhance do
+    Rake::Task['db:annotate'].invoke
+  end
 end
