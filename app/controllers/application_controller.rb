@@ -28,11 +28,11 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
 
   unless Mau::Application.config.consider_all_requests_local
-    filter_parameter_logging :password
-    rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
-    rescue_from ActionController::RoutingError,       :with => :render_not_found
-    rescue_from ActionController::UnknownController,  :with => :render_not_found
-    rescue_from ActionController::UnknownAction,      :with => :render_not_found
+    #filter_parameter_logging :password
+    #rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
+    #rescue_from ActionController::RoutingError,       :with => :render_not_found
+    #rescue_from ActionController::UnknownController,  :with => :render_not_found
+    #rescue_from ActionController::UnknownAction,      :with => :render_not_found
     rescue_from Exception, :with => :render_error
   end
 

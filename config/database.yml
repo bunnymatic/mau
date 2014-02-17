@@ -1,5 +1,5 @@
 # MySQL
-development:
+development: &dev
   adapter: mysql2
   encoding: utf8
   database: mau_dev
@@ -15,6 +15,15 @@ test: &test
   password: 
   host: localhost
 
+acceptance:
+  <<: *dev
+  adapter: mysql2
+  encoding: utf8
+  database: mau_acceptance
+  username: root
+  password: ladieslovebunnymatic
+  host: localhost
+  
 production:
   adapter: mysql2
   encoding: utf8
