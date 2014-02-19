@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "$HOME/.rvm/scripts/rvm"
-
 set -ex
 
 export PATH="/usr/local/bin:$PATH"
