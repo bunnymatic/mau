@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rvm use "ruby-2.0.0-p353@mau"
+source "$HOME/.rvm/scripts/rvm"
 
 set -ex
 
