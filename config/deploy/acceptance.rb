@@ -46,3 +46,11 @@ set :deploy_to, '/home/deploy/deployed/mau'
 #     # password: 'please use keys'
 #   }
 # setting per server overrides global ssh_options
+#
+#
+after 'deploy:publishing', 'deploy:restart'
+namespace :deploy do
+  task :restart do
+    invoke 'unicorn:reload'
+  end
+end
