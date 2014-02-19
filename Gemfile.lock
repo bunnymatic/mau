@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/jwroblewski/em-rspec.git
+  revision: 51b9d71cb1ee0f01ecbf9ea3eaf0f510f5fe6a1c
+  specs:
+    em-rspec (0.1.1)
+      eventmachine (>= 0.12.10)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -111,8 +118,6 @@ GEM
       em-socksify (>= 0.3)
       eventmachine (>= 1.0.3)
       http_parser.rb (>= 0.6.0.beta.2)
-    em-rspec (0.1.1)
-      eventmachine (>= 0.12.10)
     em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
     erubis (2.7.0)
@@ -170,6 +175,12 @@ GEM
     guard-cucumber (1.4.0)
       cucumber (>= 1.2.0)
       guard (>= 1.1.0)
+    guard-jasmine (1.18.3)
+      childprocess
+      guard (>= 1.1.0)
+      multi_json
+      thor
+      tilt
     guard-rspec (1.2.1)
       guard (>= 1.1)
     haml (4.0.3)
@@ -394,7 +405,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   draper
-  em-rspec
+  em-rspec!
   event-calendar
   factory_girl (~> 2.0.x)
   factory_girl_rails
@@ -407,7 +418,8 @@ DEPENDENCIES
   grackle
   guard-coffeescript
   guard-cucumber
-  guard-rspec (~> 1.2.0)
+  guard-jasmine
+  guard-rspec
   haml
   hashie
   htmlentities

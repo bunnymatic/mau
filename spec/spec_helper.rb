@@ -14,6 +14,8 @@ require 'rspec/autorun'
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 Dir[Rails.root.join("spec/factories/**/*.rb")].each { |f| require f }
 
+require 'em-rspec'
+
 RSpec.configure do |config|
   # ## Mock Framework
   #

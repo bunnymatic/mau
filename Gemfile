@@ -59,7 +59,6 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'poltergeist'
   gem 'launchy'             # Required to dump the page when running cucumber features
-  gem 'em-rspec'
 end
 
 group :assets,:development do
@@ -75,9 +74,11 @@ group :development do
 end
 group :test, :development do
   gem 'guard-coffeescript'
-  gem 'guard-rspec', '~> 1.2.0'  # 1.2.x is order rspec compatible
+  gem 'guard-rspec' # , '~> 1.2.0'  # 1.2.x is order rspec compatible
+  gem 'guard-jasmine'
   gem 'rspec' #,'1.3.1'
   gem 'rspec-rails' #,'1.3.4'
+  gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'jasmine'
   gem 'pry'
