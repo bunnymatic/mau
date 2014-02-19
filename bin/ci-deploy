@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rvm use "ruby-2.0.0-p353@mau"
+
 set -ex
 
 export PATH="/usr/local/bin:$PATH"
