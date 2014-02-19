@@ -3,7 +3,7 @@
 namespace :db do
   desc "Create Database"
   task :create do
-    on roles(:db) do |host
+    on roles(:db) do |host|
       puts "\n\n=== Creating the Production Database! ===\n\n"
       run "cd #{current_path}; rake db:create RAILS_ENV=#{rails_env}"
       # system "cap deploy:set_permissions"
