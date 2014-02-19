@@ -57,6 +57,7 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'poltergeist'
   gem 'launchy'             # Required to dump the page when running cucumber features
+  gem 'em-rspec'
 end
 
 group :assets,:development do
@@ -65,8 +66,11 @@ group :assets,:development do
   gem 'libv8'
 end
 
-group :test, :development do
+group :development do
   gem 'annotate'
+  gem 'capistrano-nginx-unicorn', require: false, group: :development
+end
+group :test, :development do
   gem 'guard-coffeescript'
   gem 'guard-rspec', '~> 1.2.0'  # 1.2.x is order rspec compatible
   gem 'rspec' #,'1.3.1'
@@ -84,5 +88,4 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'quiet_assets'
-  gem 'em-rspec', :git => 'https://github.com/rcode5/em-rspec.git'
 end

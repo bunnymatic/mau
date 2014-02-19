@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/rcode5/em-rspec.git
-  revision: 459f6a26621023912a174f87ce6833046c3c74ed
-  specs:
-    em-rspec (0.1.1)
-      eventmachine (>= 0.12.10)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -54,6 +47,8 @@ GEM
     capistrano-bundler (1.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
+    capistrano-nginx-unicorn (0.0.6)
+      capistrano (>= 2.0)
     capistrano-rails (1.1.1)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -116,6 +111,8 @@ GEM
       em-socksify (>= 0.3)
       eventmachine (>= 1.0.3)
       http_parser.rb (>= 0.6.0.beta.2)
+    em-rspec (0.1.1)
+      eventmachine (>= 0.12.10)
     em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
     erubis (2.7.0)
@@ -382,6 +379,7 @@ DEPENDENCIES
   calendar_date_select
   cane
   capistrano (~> 3.1.0)
+  capistrano-nginx-unicorn
   capistrano-rails (~> 1.1)
   capistrano-rbenv (~> 2.0)
   coffee-rails
@@ -390,7 +388,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   draper
-  em-rspec!
+  em-rspec
   event-calendar
   factory_girl (~> 2.0.x)
   factory_girl_rails

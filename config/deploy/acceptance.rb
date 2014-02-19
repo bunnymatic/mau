@@ -14,7 +14,7 @@
 # definition into the server list. The second argument
 # something that quacks like a hash can be used to set
 # extended properties on the server.
-server '198.58.106.95', 
+server 'mau-acceptance.missionartistsunited.com', 
   user: 'deploy', 
   roles: %w{web app db}, my_property: :my_value,
   ssh_options: {
