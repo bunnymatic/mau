@@ -2,7 +2,7 @@
 
 set -ex
 
-export PATH="/usr/local/bin:$PATH"
+#export PATH="/usr/local/bin:$PATH"
 
 # Ensure SSH Agent is Started and Configured
 SSH_ENV="$HOME/.ssh/environment"
