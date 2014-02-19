@@ -1,12 +1,19 @@
 # adds db:create which seems to be missing from Cap3
 
-namespace :db do
-  desc "Create Database"
-  task :create do
-    on roles(:db) do |host|
-      puts "\n\n=== Creating the Production Database! ===\n\n"
-      run "cd #{current_path}; rake db:create RAILS_ENV=#{rails_env}"
-      # system "cap deploy:set_permissions"
+namespace :deploy do
+  namespace :db do
+
+    desc "Create Database"
+
+    task :create do
+      on roles(:db) do |host|
+        puts "Running db:create for #{rails_env}!"
+        run "cd #{current_path}; rake db:create RAILS_ENV=#{rails_env}"
+        # system "cap deploy:set_permissions"
+      end
     end
+
   end
 end
+
+before "deploy:migrate", "db:create"
