@@ -22,7 +22,7 @@ server 'mau-acceptance.missionartistsunited.com',
     forward_agent: true
   }
 
-set :branch, 'building-unicorns'
+set :branch, 'rails3'
 set :deploy_to, '/home/deploy/deployed/mau'
 
 # you can set custom ssh options
