@@ -47,6 +47,8 @@ gem 'jquery-rails'
 
 gem 'newrelic_rpm'
 
+gem 'unicorn'
+
 group :test do
   gem 'faker'
   gem 'webmock'
