@@ -135,6 +135,25 @@ Push your changes out
 
     git push
 
+# Deployment
+
+## Acceptance
+
+We've currently got a linode server (linode.com).  You should be able to deploy to acceptance (http://acceptance.missionartistsunited.com) by running
+
+    bundle exec cap acceptance deploy
+
+If the linode machine has just been built, you'll need to deploy the code once and it'll fail.  Get on the machine as the deploy user, create the db and then run the deployment again.  Like so:
+
+    ssh deploy@acceptance.missionartistsunited.com
+    cd deployed/mau/releases/<release directory>
+    RAILS_ENV=acceptance bundle exec rake db:create
+
+    # jump back onto your dev box
+    bundle exec cap acceptance deploy
+
+If that fails in the first couple steps, try restarting mysql on the linode and repeat.
+
 
 # Issues/Versions etc
 
