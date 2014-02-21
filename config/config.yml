@@ -3,7 +3,6 @@
 # note : no tabs and indent is ipmortant.
 test:
    site_url: test.missionartistsunited.org
-   cache_server: localhost:11211
    #image_servers: 
    mailchimp_api_key: bogus-key
    oslive: 201210
@@ -13,7 +12,6 @@ development:
    recaptcha_public_key: 6LfgJ9oSAAAAAHDQ_PRgG60sIXtOjH3aWcp__Dav
    recaptcha_private_key: 6LfgJ9oSAAAAAELX8fI1cHywuLFikg7komNUkM_V
    site_url: mau.rcode5.com
-   cache_server: localhost:11211
    #image_servers: 
    cache_expiry:
        feed: 300
@@ -25,9 +23,11 @@ development:
    mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
    oslive: 201404
 
+acceptance:
+   site_url: acceptance.missionartistsunited.com
+
 production:
    site_url: missionartistsunited.org
-   cache_server: localhost:11211
    ga_api_key: AIzaSyDEsN3CF30SVYHrCTleSPe_EaERFvIRXnU
    #image_servers: 
    cache_expiry:
@@ -43,6 +43,7 @@ production:
 common:
    recaptcha_public_key: 6Lc9BNkSAAAAAOmI_O3g_I9ky4IFIdHnY7YDU3Gc
    recaptcha_private_key: 6Lc9BNkSAAAAAAHJ-NxXih62VuSsqnUx3EJc91Bo
+   cache_server: localhost:11211
 
    show_lightbox_feature: true
    feedback_emails:
