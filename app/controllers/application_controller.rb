@@ -6,7 +6,6 @@ require 'faye'
 class ApplicationController < ActionController::Base
   VERSION = 'Charger 6.0'
   DEFAULT_CSV_OPTS = {:row_sep => "\n", :force_quotes => true}
-  @@revision = nil
 
   has_mobile_fu
   #helper :all # include all helpers, all the time
@@ -37,13 +36,14 @@ class ApplicationController < ActionController::Base
   end
 
   def set_version
-    unless @@revision
+    unless @revision
       revision = VERSION
       build_info_file = File.join(Rails.root, 'REVISION')
       build = (File.exists?(build_info_file) ? File.open(build_info_file, 'r').read : 'unk')
-      @@revision = "#{revision} [#{build}]"
+      @revision = revision
+      @build = build
     end
-    @@revision
+    [@revision, @build].join ' '
   end
 
   def get_new_art

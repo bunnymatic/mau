@@ -267,6 +267,7 @@ var TagMediaHelper = {
 	      var hd = new Element('div').addClassName('credits-hdr');
 	      hd.update('Credits');
 	      var bd = new Element('div').addClassName('credits-bdy');
+        var version = MAU.versionString || 'Charger 6';
 	      bd.update('<div style="text-align: center;">'+
                   '<p>Web Design/QA: Trish Tunney</p>' +
                   '<p>Web Construction: <a href="http://rcode5.com">Mr Rogers @ Rcode5 </a></p>' +
@@ -274,7 +275,7 @@ var TagMediaHelper = {
                   '</div>'+
                   '<div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>'+
                   '<div class="close_btn">click to close</div>'+
-                  '<div class="release_version">Release: Corvair 4.0</div><div class="clear"></div>');
+                  '<div class="release_version">Release: ' + version + '</div><div class="clear"></div>');
 	      if (d && hd && bd) {
 	        var dummy = new Insertion.Top(d, bd);
 	        dummy = new Insertion.Top(d, hd);
