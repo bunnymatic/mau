@@ -105,7 +105,7 @@ class ApplicationController < ActionController::Base
     if browser.ie7? || browser.ie8?
       @logo_img = "/images/tiny-colored.gif"
     else
-      @logo_img = (Rails.env? != 'acceptance') ? "/images/tiny-colored.png" : "/images/tiny-colored-acceptance.png"
+      @logo_img = (Rails.env != 'acceptance') ? "/images/tiny-colored.png" : "/images/tiny-colored-acceptance.png"
     end
   end
 
