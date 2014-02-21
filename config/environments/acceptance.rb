@@ -41,6 +41,6 @@ Mau::Application.configure do
   config.assets.digest = true
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( mau.css mau-ie.css mau-ie7.css mau-safari.css jquery.mobile-1.3.0.min.css thirdparty/excanvas.compiled.js gmaps_google.js mau/mau_gmap.js thirdparty/autocomplete.min.js thirdparty/flotr/0.2.0/flotr.js mau/mau_feeds.js thirdparty/underscore.min.js mau/query_string_parser.js mau/mau_mobile.js )
+  config.assets.precompile += %w( mau.css mau-ie.css mau-ie7.css mau-safari.css mau-admin.css jquery.mobile-1.3.0.min.css thirdparty/excanvas.compiled.js gmaps_google.js mau/mau_gmap.js thirdparty/autocomplete.min.js thirdparty/flotr/0.2.0/flotr.js mau/mau_feeds.js thirdparty/underscore.min.js mau/query_string_parser.js mau/mau_mobile.js )
 
 end
