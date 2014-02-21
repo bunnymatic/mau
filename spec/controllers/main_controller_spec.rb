@@ -65,7 +65,7 @@ end
 
 describe MainController do
 
-  fixtures :users, :roles, :roles_users, :studios, :artist_infos,
+  fixtures :users, :roles, :roles_users, :studios, :artist_infos, :art_piece_tags, :art_pieces_tags, :media,
   :cms_documents,  :emails, :email_lists, :email_list_memberships, :art_pieces
 
   describe "#index" do
@@ -714,7 +714,7 @@ describe MainController do
   describe 'version' do
     it 'returns the app version' do
       get :version
-      response.body.should eql 'Charger 6.0 [unk]'
+      response.body.should eql 'Charger 6.0 unk'
     end
   end
 
