@@ -25,8 +25,8 @@ class ArtPieceTagPresenter
       begin
         {}.tap do |artists_works|
           tagged_art_pieces.each do |art|
-            artist = art.artist
-            if artist.is_active? && !artists_works.has_key?(artist)
+            artist = art.try(:artist)
+            if artist && artist.is_active? && !artists_works.has_key?(artist)
               artists_works[artist] = art
             end
           end

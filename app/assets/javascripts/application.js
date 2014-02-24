@@ -17,7 +17,6 @@
  *= require mau/mau_prototype
  *= require mau/mau
  *= require mau/mau_image_lightbox
- *= require mau/mau_cookies
  *= require mau/mau_notes
  *= require mau/mau_admin
  *= require mau/mau_search
