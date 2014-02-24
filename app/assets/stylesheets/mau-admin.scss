@@ -273,6 +273,13 @@ body.admin {
   }
 }
 
+.flot_graph {
+  width: 360px;
+  height: 280px;
+  display: block;
+}
+
+
 #role_mgr {
   padding-left: 20px;
   .role_controls {
@@ -314,11 +321,6 @@ body.admin {
     }
   }
 
-}
-
-.flot_graph {
-  width: 360px;
-  height: 280px;
 }
 
 #get_next_featured {

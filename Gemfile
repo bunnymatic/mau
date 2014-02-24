@@ -49,6 +49,8 @@ gem 'newrelic_rpm'
 
 gem 'unicorn'
 
+gem 'flot-rails' # jquery plotting program
+
 group :test do
   gem 'faker'
   gem 'webmock'
