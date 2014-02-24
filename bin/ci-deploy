@@ -11,7 +11,7 @@ function start_agent {
      echo "Looking for zombie agents"
      if [[ ! -z ${SSH_AGENT_PID} ]]; then
        echo "Killing zombies"
-       kill -TERM ${SSH_AGENT_PID}
+       kill -TERM ${SSH_AGENT_PID} || true # don't crap out if you can't kill the zombie, just give up
      fi
      echo "Initialising new SSH agent..."
      /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
