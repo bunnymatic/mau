@@ -1,5 +1,11 @@
-When(/^I click "(.*?)"$/) do |link_text|
-  click_link_or_button link_text
+When(/^I click (on\s+)?"(.*?)"$/) do |dummy, link_text|
+  click_on link_text
+end
+
+When(/^I click (on\s+)?"(.*?)" in the menu$/) do |dummy, link_text|
+  within('.nav') do
+    click_on link_text
+  end
 end
 
 When(/^I fill in valid credentials$/) do
@@ -27,6 +33,14 @@ end
 When(/^I login$/) do
   steps %{When I visit the login page}
   fill_in :login, :with => @artist.login
+  fill_in :password, :with => 'bmatic'
+  steps %{And I click "Log in"}
+end
+
+When(/^I login as an editor$/) do
+  @editor = FactoryGirl.create(:user, :editor, :active)
+  steps %{When I visit the login page}
+  fill_in :login, :with => @editor.login
   fill_in :password, :with => 'bmatic'
   steps %{And I click "Log in"}
 end

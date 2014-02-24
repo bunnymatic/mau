@@ -30,13 +30,12 @@ end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
   within('#admin_nav') do
-    click_link_or_button(link_title)
+    click_on(link_title)
   end
 end
 
 When(/^I click on the first "([^"]*?)" button$/) do |button_text|
   within('.tbl-content') do
-    puts all('a, button', :text => button_text).count
     all('a,button', :text => button_text).first.click
   end
 end

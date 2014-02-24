@@ -10,6 +10,24 @@ describe Artist do
   let(:artist) { users(:artist1) }
   let(:artist_info) { artist.artist_info }
 
+  context 'make sure our factories work' do
+    it 'creates an artist info' do
+      a = FactoryGirl.create(:artist, :active)
+      expect(a.artist_info).to be_present
+    end
+    it 'creates an editor' do
+      expect(FactoryGirl.create(:artist, :editor, :active).is_editor?).to be_true
+    end
+    it 'creates an admin' do
+      expect(FactoryGirl.create(:artist, :admin, :active).is_admin?).to be_true
+    end
+  end
+
+  context 'with an artist that has tags and media' do
+    subject { artist }
+    its(:tags) { should eql subject.art_pieces.map(&:tags).flatten.compact.uniq }
+    its(:media) { should eql subject.art_pieces.map(&:medium).flatten.compact.uniq }
+  end
 
   describe "create" do
     describe 'auth helpers' do

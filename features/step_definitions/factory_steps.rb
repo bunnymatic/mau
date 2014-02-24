@@ -1,7 +1,7 @@
 Given(/^an account has been created/) do
   @artist = Artist.where(:login => 'bmatic').first
   if !@artist
-    @artist = FactoryGirl.create(:artist, :activated, :with_art, :login => 'bmatic')
+    @artist = FactoryGirl.create(:artist, :active, :with_art, :login => 'bmatic')
   end
   @artist.password = 'bmatic'
   @artist.password_confirmation = 'bmatic'
@@ -11,7 +11,7 @@ end
 Given(/^an "(.*?)" account has been created/) do |role|
   @artist = Artist.where(:login => 'bmatic').first
   if !@artist
-    @artist = FactoryGirl.create(:artist, :activated, :with_art, role.to_sym, :login => 'bmatic', )
+    @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym, :login => 'bmatic', )
   else
     @artist.roles = [role]
   end
@@ -23,6 +23,21 @@ end
 Given /there are artists with art in the system/ do
   @art_pieces = FactoryGirl.create_list(:art_piece, 10)
   @artists = (@artists || []) + @art_pieces.map(&:artist)
+end
+
+Given /there are open studios artists with art in the system/ do
+  steps %{Given there are artists with art in the system}
+  @artists.each{|a| a.update_os_participation!(Conf.os_live, true) }
+end
+
+Given /there is open studios cms content in the system/ do
+
+  args = {:page => :main_openstudios, :section => :preview_reception}
+  @os_reception_content ||= (CmsDocument.where(args).first || FactoryGirl.create(:cms_document, args))
+
+  args = {:page => :main_openstudios, :section => :summary}
+  @os_summary_content ||= (CmsDocument.where(args).first || FactoryGirl.create(:cms_document, args))
+
 end
 
 Given /there are users in the system/ do

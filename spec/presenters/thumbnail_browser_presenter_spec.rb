@@ -4,7 +4,7 @@ describe ThumbnailBrowserPresenter do
 
   include PresenterSpecHelpers
 
-  let(:artist) { FactoryGirl.create(:artist, :with_art, :activated) }
+  let(:artist) { FactoryGirl.create(:artist, :with_art, :active) }
   let(:art_piece) { artist.art_pieces[1] }
   subject(:presenter) { ThumbnailBrowserPresenter.new(mock_view_context, artist, art_piece) }
 

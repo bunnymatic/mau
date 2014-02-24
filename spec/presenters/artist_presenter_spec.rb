@@ -4,13 +4,14 @@ describe ArtistPresenter do
 
   include PresenterSpecHelpers
 
-  let(:user) { FactoryGirl.create(:artist, :activated) }
-  let(:artist) { FactoryGirl.create(:artist, :activated, :with_art, :with_studio) }
+  let(:user) { FactoryGirl.create(:artist, :active) }
+  let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
   subject(:presenter) { ArtistPresenter.new(mock_view_context(user), artist) }
 
   its(:in_the_mission?) { should eql artist.in_the_mission?}
   its(:has_media?) { should be_true }
-  its(:has_bio?) { should be_false }
+  its(:has_bio?) { should be_true }
+  its(:bio_html) { should eq RDiscount.new(artist.artist_info.bio).to_html.html_safe }
   its(:allows_email_from_artists?) { should be_true }
   its(:has_links?) { should be_false }
   its(:links) { should be_empty }
@@ -40,7 +41,7 @@ describe ArtistPresenter do
   end
 
   context 'without studio' do
-    let(:artist) { FactoryGirl.create(:artist, :activated, :with_art) }
+    let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
     it 'has a good map div for google maps' do
       map_info = subject.get_map_info
       html = Nokogiri::HTML::DocumentFragment.parse(map_info)
@@ -60,11 +61,9 @@ describe ArtistPresenter do
 
   context 'with bio' do
     before do
-      ArtistInfo.any_instance.stub(:bio => 'here we go')
-      Artist.any_instance.stub(:bio => 'here we go')
+      ArtistInfo.any_instance.stub(:bio => nil)
     end
-    its(:has_bio?) { should be_true }
-    its(:bio_html) { should eq 'here we go<br/>' }
+    its(:has_bio?) { should be_false }
   end
 
   context 'with links' do
@@ -81,7 +80,7 @@ describe ArtistPresenter do
   end
 
   context 'without art' do
-    let(:artist) { FactoryGirl.create(:artist, :activated) }
+    let(:artist) { FactoryGirl.create(:artist, :active) }
     its(:art_pieces) { should be_empty }
     its(:has_art?) { should be_false }
   end

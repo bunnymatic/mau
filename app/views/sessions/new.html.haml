@@ -29,10 +29,7 @@
       .input-help
         %a{:href => forgot_users_path} Can't access your account?
   .signup-right
-    :ruby
-      data = Hash[@cms_content.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
-    .section.markdown.editable{data}
-      = @cms_content[:content]
+    = render_cms_content(@cms_content) do
       %div
         %form{:method => 'get', :action => signup_path}
           %input{:type => 'submit', :value => 'Sign Up Now', :class => 'formbutton'}

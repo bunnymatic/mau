@@ -158,7 +158,7 @@ describe ArtistsController do
         end
       end
       context "update os status" do
-        it "updates artists os statuss to true for 201104" do
+        it "updates artists os status to true for 201104" do
           put :update, :commit => 'submit', :artist => {
             :artist_info => {
               :os_participation => { '201104' => true }

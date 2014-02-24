@@ -1,17 +1,9 @@
 #open_studios
   = render :partial => '/flash_notice_error'
-  .section.markdown.editable{@presenter.summary_data}
-    = @presenter.summary
-  -# .section.artist-links
-  -#   %h5
-  -#     %a{:href => artists_path(:osonly => true)} Open Studios Art
-  -#   %h5
-  -#     %a{:href => map_artists_path(:osonly => true)} Online Map
-  -#   %h5
-  -#     %a{:href => "http://spider-t.com/map/mau2013.pdf"} Pretty Map (PDF)
-  -#   .clear
-  .section.markdown.editable{@presenter.preview_reception_data}
-    = @presenter.preview_reception
+
+  = render_cms_content(@presenter.packaged_summary)
+  = render_cms_content(@presenter.packaged_preview_reception)
+
   .section
     %h4 Participating Group Studios
     %ul.participant_list

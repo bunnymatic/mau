@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   layout 'mau'
   include AuthenticatedSystem
+
   #include MobilizedStyles
   before_filter :check_browser, :unless => :format_json?
   before_filter :set_version

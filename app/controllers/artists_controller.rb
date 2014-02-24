@@ -56,8 +56,7 @@ class ArtistsController < ApplicationController
           artistid = m[1]
           a = Artist.find(artistid)
           if a
-            a.artist_info.os_participation = { Conf.oslive.to_s => v}
-            a.artist_info.save
+            a.artist_info.update_os_participation! Conf.oslive.to_s, v
             ct = ct + 1
           end
         end
@@ -268,6 +267,11 @@ class ArtistsController < ApplicationController
           params[:artist][:email_attrs] = em.to_json
         end
         artist_info = params[:artist].delete :artist_info
+        if (artist_info[:os_participation])
+          artist_info.delete(:os_participation).each do |year, participating|
+            current_artist.artist_info.update_os_participation year, participating
+          end
+        end
         current_artist.artist_info.update_attributes!(artist_info)
         current_artist.update_attributes!(params[:artist])
         flash[:notice] = "Update successful"

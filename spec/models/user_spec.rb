@@ -35,18 +35,22 @@ describe User do
   it_should_behave_like MailChimp
   it_should_behave_like ImageDimensions
 
-  context 'with an artist that has tags and media' do
-    subject { artist1 }
-    its(:tags) { should eql subject.art_pieces.map(&:tags).flatten.compact.uniq }
-    its(:media) { should eql subject.art_pieces.map(&:medium).flatten.compact.uniq }
+  context 'make sure our factories work' do
+    it 'creates an editor' do
+      expect(FactoryGirl.create(:user, :editor, :active).is_editor?).to be_true
+    end
+    it 'creates an admin' do
+      expect(FactoryGirl.create(:user, :admin, :active).is_admin?).to be_true
+    end
   end
+
 
   describe '#sortable_name' do
     let(:user1) { FactoryGirl.create(:user, :active, :firstname => nil, :lastname => nil, :login => 'zzzzza')}
     let(:user2) { FactoryGirl.create(:user, :active, :firstname => nil, :lastname => nil, :login => 'bbbbbb')}
     let(:user3) { FactoryGirl.create(:user, :active, :firstname => nil, :lastname => nil, :login => 'aaaaaa')}
     let(:artists) { [user1, user2, user3]}
-    let(:sorted_artists) { 
+    let(:sorted_artists) {
       artists.sort_by(&:sortable_name)
     }
 

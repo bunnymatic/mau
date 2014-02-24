@@ -1,8 +1,10 @@
 # This presenter adds helpful display/view related methods
 # to make it easy to draw artist data on a page
+
 class ArtistPresenter
 
   include HtmlHelper
+  include MarkdownUtils
 
   attr_accessor :artist
   delegate :name, :state, :firstname, :lastname, :city, :street, :id,
@@ -156,9 +158,7 @@ class ArtistPresenter
   end
 
   def bio_html
-    @bio_html ||= bio.split("\n").map do |line|
-      (html_encode(line) + "<br/>")
-    end.join.html_safe
+    @bio_html ||= markdown(bio)
   end
 
   private

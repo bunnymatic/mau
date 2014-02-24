@@ -22,7 +22,7 @@ describe ArtistsMap do
     it 'returns only artists who are in the mission' do
       expect(map.grouped_by_address.values.flatten.all? &:in_the_mission?).to be_true
     end
-  end  
+  end
 
   context 'when os_only is true' do
     let(:os_only) { true }

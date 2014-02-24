@@ -72,7 +72,7 @@ describe ArtistInfo do
 
       describe 'add entry' do
         it "adding with = given = { '201104' => true } sets os_participation['201104']" do
-          joeblogs.os_participation = { '201104' => true }
+          joeblogs.send(:os_participation=, { '201104' => true })
           joeblogs.reload
           joeblogs.os_participation.class.should == Hash
           joeblogs.os_participation['201104'].should == true
@@ -90,18 +90,13 @@ describe ArtistInfo do
           joeblogs.open_studios_participation = '201104'
         end
         it "sets false using = {'201104',false}" do
-          joeblogs.os_participation = {'201104' => false}
+          joeblogs.send(:os_participation=, {'201104' => false})
           joeblogs.reload
           joeblogs.os_participation['201104'].should be_nil
         end
         it "sets false given update('201104',false)" do
           joeblogs.update_os_participation('201104', false)
           joeblogs.save
-          joeblogs.reload
-          joeblogs.os_participation['201104'].should be_nil
-        end
-        it "sets false given update('201104','false')" do
-          joeblogs.os_participation= {'201104'=>'false'}
           joeblogs.reload
           joeblogs.os_participation['201104'].should be_nil
         end
@@ -114,7 +109,7 @@ describe ArtistInfo do
         end
         it 'adds another key properly using =' do
           joeblogs.update_attribute(:open_studios_participation,'201104')
-          joeblogs.os_participation = {'201204' => true }
+          joeblogs.send(:os_participation=, {'201204' => true })
           joeblogs.reload
           joeblogs.os_participation['201204'].should be_true
           joeblogs.os_participation['201104'].should be_true

@@ -160,6 +160,13 @@ describe MainController do
         assigns(:content).should have_key :content
         assigns(:content).should have_key :cmsid
       end
+      it 'includes the markdown content' do
+        assert_select('.markdown')
+      end
+      it 'includes the art is the mission footer' do
+        assert_select('.news-footer')
+      end
+
     end
 
     context "while logged in as an art fan" do
@@ -192,6 +199,13 @@ describe MainController do
         assigns(:content).should have_key :content
         assigns(:content).should have_key :cmsid
       end
+      it 'includes the markdown content' do
+        assert_select('.markdown')
+      end
+      it 'includes the art is the mission footer' do
+        assert_select('.news-footer')
+      end
+
     end
 
     context "while logged in as an art fan" do
@@ -455,7 +469,7 @@ describe MainController do
       it 'the markdown entries have cms document ids in them' do
         [ CmsDocument.where(:section => 'summary').all,
           CmsDocument.where(:section => 'preview_reception').all ].flatten.each do |cmsdoc|
-          assert_select '.markdown.editable[data-cmsid=%s]' % cmsdoc.id
+          assert_select '.markdown[data-cmsid=%s]' % cmsdoc.id
         end
       end
       it "uses cms for parties" do

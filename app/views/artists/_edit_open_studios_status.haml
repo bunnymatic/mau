@@ -7,10 +7,7 @@
         %em Address/Studio Info
         section below.
     - else
-      :ruby
-        data = Hash[@openstudios_question.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
-      %p.markdown.editable{data}
-        = @openstudios_question[:content]
+      = render_cms_content(@openstudios_question)
 
       %p.os-status
         Your current answer is :

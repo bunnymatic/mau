@@ -4,8 +4,8 @@ FactoryGirl.define do
   factory :user do
     login
     email { "#{login}@example.com" }
-    password { 'mypass' }
-    password_confirmation { 'mypass' }
+    password { 'bmatic' }
+    password_confirmation { 'bmatic' }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.first_name }
     nomdeplume{ Faker::Name.name }
@@ -22,14 +22,28 @@ FactoryGirl.define do
       activation_code 'factory_activation_code'
     end
 
+    trait :editor do
+      after(:create) do |u|
+        u.roles << (Role.find_by_role(:editor) || FactoryGirl.create(:role, :role => :editor))
+        u.save!
+      end
+    end
+
+    trait :admin do
+      after(:create) do |u|
+        u.roles << (Role.find_by_role(:admin) || FactoryGirl.create(:role, :role => :admin))
+        u.save!
+      end
+    end
+
   end
 
   factory :artist do
     type { 'Artist' }
     login
     email { "#{login}@example.com" }
-    password { 'mypass' }
-    password_confirmation { 'mypass' }
+    password { 'bmatic' }
+    password_confirmation { 'bmatic' }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.last_name }
     nomdeplume{ Faker::Name.name }
@@ -37,7 +51,7 @@ FactoryGirl.define do
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }
 
-    after_build do |artist|
+    after(:create) do |artist|
       artist.build_artist_info(FactoryGirl.attributes_for(:artist_info))
     end
 
@@ -45,11 +59,17 @@ FactoryGirl.define do
       number_of_art_pieces 3
     end
 
+    trait :editor do
+      after(:create) do |u|
+        u.roles << (Role.find_by_role(:editor) || FactoryGirl.create(:role, :role => :editor))
+        u.save!
+      end
+    end
+
     trait :admin do
-      after_build do |artist, ctx|
-        admin_role = Role.find_by_role(:admin) || FactoryGirl.create(:role, :role => :admin)
-        artist.roles = [admin_role]
-        artist.save
+      after(:create) do |u|
+        u.roles << (Role.find_by_role(:admin) || FactoryGirl.create(:role, :role => :admin))
+        u.save!
       end
     end
 
@@ -58,18 +78,19 @@ FactoryGirl.define do
       activation_code 'factory_activation_code'
     end
 
-    trait :activated do
+    trait :active do
       state :active
+      activation_code 'factory_activation_code'
     end
 
     trait :with_art do
-      after_build do |artist, ctx|
+      after(:build) do |artist, ctx|
         FactoryGirl.create_list(:art_piece, ctx.number_of_art_pieces, :artist => artist)
       end
     end
 
     trait :with_studio do
-      after_build do |artist|
+      after(:build) do |artist|
         artist.build_studio(FactoryGirl.attributes_for(:studio))
       end
     end

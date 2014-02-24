@@ -1,7 +1,6 @@
 #catalog
   .page
-    .section.markdown.editable{@catalog.preview_reception_data}
-      = @catalog.preview_reception_content
+    = render_cms_content(@catalog.preview_reception_data)
   .page
     .header
     .section.studios

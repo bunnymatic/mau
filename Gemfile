@@ -53,7 +53,7 @@ group :test do
   gem 'faker'
   gem 'webmock'
   gem 'vcr'
-  gem 'factory_girl', '~> 2.0.x'
+  gem 'factory_girl'
   gem 'factory_girl_rails', :require => false
   gem 'cucumber'
   gem 'cucumber-rails', :require => false

@@ -27,7 +27,7 @@ describe ArtistsPresenter do
         expect(subject.artists.map(&:artist).to_a).to eql(expected)
       end
     end
-  
+
   end
 
   describe '#artists_only_in_the_mission' do

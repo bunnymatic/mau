@@ -4,7 +4,7 @@ describe ArtPiecePresenter do
 
   include PresenterSpecHelpers
 
-  let(:artist) { FactoryGirl.create(:artist, :with_art, :activated) }
+  let(:artist) { FactoryGirl.create(:artist, :with_art, :active) }
   let(:art_piece) { artist.art_pieces.first }
   let(:tags) { FactoryGirl.create_list(:art_piece_tag, 2) }
   let(:tag) { FactoryGirl.build(:art_piece_tag) }

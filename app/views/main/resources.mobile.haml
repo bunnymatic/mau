@@ -1,5 +1,2 @@
 #open_studios{'data-role' => 'content'}
-  :ruby
-    data = Hash[@content.select{|k,v| k != :content}.map{|item| ["data-%s" % item[0].to_s, item[1]] }]
-  .section.markdown.editable{data}
-    = @content[:content]
+  = render_cms_content(@content)

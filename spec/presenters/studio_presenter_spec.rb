@@ -5,8 +5,8 @@ describe StudioPresenter do
   include PresenterSpecHelpers
 
   let(:studio) { FactoryGirl.create(:studio, :cross_street => 'hollywood') }
-  let!(:artist1) { FactoryGirl.create(:artist, :activated, :with_art, :studio => studio) }
-  let!(:artist2) { FactoryGirl.create(:artist, :activated, :studio => studio) }
+  let!(:artist1) { FactoryGirl.create(:artist, :active, :with_art, :studio => studio) }
+  let!(:artist2) { FactoryGirl.create(:artist, :active, :studio => studio) }
   let!(:artist3) { FactoryGirl.create(:artist, :pending, :studio => studio) }
   subject(:presenter) { StudioPresenter.new(mock_view_context, studio) }
 
