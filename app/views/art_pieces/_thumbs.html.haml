@@ -23,8 +23,11 @@
     if select || delete
       clz = "thumbs-select"
     end
+    if select
+      clz += " sortable"
+    end
   end
-.allthumbs{:class => clz}
+%ul.allthumbs{:class => clz}
   - pieces.each_with_index do |piece, idx|
     - _params[:piece] = piece
     = render :partial => '/art_pieces/thumb', :locals => _params
