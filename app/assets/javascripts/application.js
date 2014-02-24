@@ -11,6 +11,8 @@
  *= require thirdparty/scriptaculous.all.min
  *= require thirdparty/event.simulate.js
  *= require thirdparty/prototype.feedback
+ *= require jquery.flot
+ *= require jquery.flot.resize
  *= require mau/query_string_parser
  *= require mau/mau_prototype
  *= require mau/mau
@@ -22,4 +24,5 @@
  *= require mau/mau_editor
  *= require mau/mau_discount
  *= require mau/mau_events
+ *= require_tree ./mau/jquery
 */
