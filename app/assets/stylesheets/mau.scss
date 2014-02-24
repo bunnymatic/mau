@@ -2025,20 +2025,6 @@ span.rightarrow
   bottom: 10px;
   height: 16px;
   margin-left: 4px;
-  & .mv-left.first, & .mv-right.last {
-    display:none;
-  }
-  & .mv-right, & .mv-left {
-    position: absolute;
-    cursor: pointer;
-    top: 0px;
-  }
-  .mv-right {
-    right: 32px;
-  }
-  .mv-left {
-    left: 32px;
-  }
 }
 
 .artp-thumb {
@@ -3293,6 +3279,11 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 #ac_ul li {
 }
 
+#arrange_art {
+  .artp-thumb-container {
+    cursor: pointer;
+  }
+}
 #arrange_art, #delete_art {
   margin: auto;
   .allthumbs {

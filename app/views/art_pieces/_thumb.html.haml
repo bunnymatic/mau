@@ -14,11 +14,11 @@
       dim = wd
     end
   end
-  if show_footer or delete or select
+  if show_footer or delete
     topcls =" with-foot "
   end
 
-.artp-thumb-container{:class => "#{cls} #{topcls}", :pid => piece && piece.id}
+%li.artp-thumb-container{:class => "#{cls} #{topcls}", :pid => piece && piece.id}
   - if !piece
     .artp-thumb{:class => "#{cls} no-art"}
       nothing
@@ -48,7 +48,3 @@
         = check_box( 'art', piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0")
         %label{:for => "art_#{piece.id}"}
           Delete?
-    - elsif select
-      .artp-thumb-ctrl{:pid => piece.id}
-        %span.mv-left.leftarrow{:title =>"move this picture to the left"}
-        %span.mv-right.rightarrow{:title => "move this picture to the right"}

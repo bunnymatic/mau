@@ -610,29 +610,6 @@ var TagMediaHelper = {
         location.href = newurl;
       }
     }
-    var moveleft = $$('.mv-left');
-    if (moveleft && moveleft.length > 0) {
-      moveleft.first().addClassName("first");
-      moveleft.each(function(ml) {
-        ml.observe('click', function(ev) {
-
-          var parent = $(this).up();
-          var _id = parent.readAttribute('pid');
-          AP.move_art(_id,'left');
-        });
-      });
-    }
-    var moveright = $$('.mv-right');
-    if (moveright && moveright.length > 0) {
-      moveright.last().addClassName("last");
-      moveright.each(function(mr) {
-        mr.observe('click', function(ev) {
-          var parent = $(this).up();
-          var _id = parent.readAttribute('pid');
-          AP.move_art(_id,'right');
-        });
-      });
-    }
     var aps = $$('.thumbs-select .artp-thumb img');
     aps.each(function(ap) {
       ap.observe('click', function(ev) {
@@ -696,37 +673,6 @@ var TagMediaHelper = {
       }
       return true;
     }
-  };
-  AP.move_art = function(_id, direction) {
-    var removeLastFirstClasses = function(element) {
-      element.removeClassName('last').removeClassName('first');
-    };
-    var divs = $$('.artp-thumb-container');
-    var swap = [];
-    var ndivs = divs.length;
-    var ii = 0;
-    var idxs = null;
-    for (;ii<ndivs;++ii) {
-      var d = divs[ii];
-      if (d.readAttribute('pid') == _id) {
-        ii2 = (direction == 'left') ? ii-1:ii+1;
-        idxs = [ ii, ii2 ];
-      }
-      d.select('.mv-right').each(removeLastFirstClasses);
-      d.select('.mv-left').each(removeLastFirstClasses);
-    }
-    if (idxs) {
-      var d1 = divs[idxs[0]];
-      var d2 = divs[idxs[1]];
-      if (direction == 'left') {
-        d2.insert({'before':d1.remove()});
-      } else {
-        d2.insert({'after':d1.remove()});
-      }
-    }
-    $$('.mv-left').first().addClassName("first");
-    $$('.mv-right').last().addClassName("last");
-
   };
 
   T.APCache = {};
@@ -1605,3 +1551,10 @@ var TagMediaHelper = {
   });
 }
 )();
+
+
+/** jquery mods **/
+jQuery(function() {
+  jQuery('#arrange_art .sortable').sortable();
+});
+ 

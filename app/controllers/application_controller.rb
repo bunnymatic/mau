@@ -20,6 +20,12 @@ class ApplicationController < ActionController::Base
   before_filter :get_new_art, :unless => :format_json?
   before_filter :set_meta_info
 
+  before_filter :tablet_device_falback
+  def tablet_device_falback
+    # we currently don't have any special tablet views...
+    request.format = :html if is_tablet_device?
+  end
+
   def commit_is_cancel
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
   end

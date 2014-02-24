@@ -2,6 +2,7 @@
  *= require jquery
  *= require jquery_ujs
  *= require jquery_noconflict
+ *= require jquery-ui-1.10.4.custom
  *= require pickadate/picker
  *= require pickadate/picker.date
  *= require pickadate/picker.time
