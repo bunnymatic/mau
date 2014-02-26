@@ -38,6 +38,7 @@ gem 'geokit-rails3'
 gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'draper'
+gem 'spinjs-rails'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'
