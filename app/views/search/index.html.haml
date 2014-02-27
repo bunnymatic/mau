@@ -43,7 +43,7 @@
             %h5.block_head Add Keyword(s):
             .block
               = text_field_tag :keywords, @query.query
-              = submit_tag :go
+              = submit_tag :go, :class => 'formbutton'
             %h5.block_head.trigger
               %span Mediums:
             .block.expandable#medium_chooser{:style => "display:none;"}

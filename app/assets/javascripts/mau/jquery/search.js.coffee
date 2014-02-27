@@ -16,35 +16,6 @@ MAU.SpinnerOptions =
   zIndex: 2e9
   top: '250px'
 
-# MAU.SearchSpinner = class MAUSearchSpinner
-#   constructor: ->
-#     @spinnerBG = '#spinnerbg'
-#     @spinnerFG = '#spinnerfg'
-
-#   create: ->
-#     if jQuery(@spinnerBG)
-#       jQuery(@spinnerBG).remove()
-#     bg = new Element('div', {id:@spinnerBG, style:'display:none;'})
-#     fg = new Element('div', {id:@spinnerFG, 'class':'search_spinner'})
-#     bg.insert(fg)
-#     c = jQuery('#container')[0]
-#     c.insert(bg) if c
-#     bg
-
-#   show: ->
-#     spinner = jQuery(@spinnerBG)
-#     if (!spinner)
-#       spinner = this.create()
-
-#     #    spinner.clonePosition(jQuery('container'), {setLeft:false, setTop:false})
-#     spinner.show();
-
-#   hide: ->
-#     spinner = jQuery(@spinnerBG)
-#     if (spinner)
-#       spinner.hide();
-
-
 MAU.SearchPage = class MAUSearch
 
   sprite_minus_dom = '<div class="sprite minus" alt="hide" />'
@@ -75,7 +46,7 @@ MAU.SearchPage = class MAUSearch
       _that.setAnyLink(c)
       lnk = c.find('.reset a').first()
       jQuery(lnk).bind('click', (ev) ->
-        cbs = c.select _that.checkboxSelector
+        cbs = c.find _that.checkboxSelector
         _.each cbs, (el) ->
           el.checked = false
         _that.setAnyLink(c)
@@ -89,7 +60,7 @@ MAU.SearchPage = class MAUSearch
     _that = this
     c = jQuery(container)
     if c
-      cbs = c.select @checkboxSelector + ":checked"
+      cbs = c.find @checkboxSelector + ":checked"
       a = c.find('.reset a').first()
       if a
         if cbs.length
@@ -110,7 +81,7 @@ MAU.SearchPage = class MAUSearch
         s = ->
           _that._submitForm()
         debounced = s.debounce(500,false)
-        _.each $c.select(_that.checkboxSelector), (item) ->
+        _.each $c.find(_that.checkboxSelector), (item) ->
           jQuery(item).bind 'change', debounced
 
 
@@ -125,7 +96,7 @@ MAU.SearchPage = class MAUSearch
     _.each @choosers, (c) ->
       $c = jQuery(c)
       if $c
-        _.each $c.select(_that.checkboxSelector), (item,idx) ->
+        _.each $c.find(_that.checkboxSelector), (item,idx) ->
           jQuery(item).bind 'change', (ev) ->
             _that.setAnyLink(c)
         _that.setAnyLink(c)
@@ -163,75 +134,74 @@ MAU.SearchPage = class MAUSearch
     _that = this
     triggers = jQuery('.column .trigger')
     _.each triggers, (item) ->
-      item.insert({ top: sprite_minus_dom })
+      item.insert sprite_minus_dom
       item.next().hide()
       jQuery(item).bind('click', _that.toggleTarget)
     expandeds = jQuery('.column .expanded')
     _.each expandeds, (item) ->
-      item.insert({ top: sprite_plus_dom })
+      item.insert sprite_plus_dom
       item.addClassName('trigger')
       jQuery(item).bind('click', _that.toggleTarget)
 
     # if we have the search form, bind ajax to the submit
     #
     searchForm = jQuery(@searchFormSelector)
-    if searchForm.length
-      searchForm.bind 'submit', (ev) ->
-        _that._submitForm(ev)
-      false
+    searchForm.bind 'submit', (ev) ->
+      console.log(ev.target);
+      _that._submitForm(ev)
+    false
 
   updateQueryParamsInView: ->
     _that = this
     # grab form params
     frm = jQuery(_that.searchFormSelector)
     if (frm.length)
-      frm = Element.extend(frm[0])
       # get checked mediums
-      ms = _.map frm.select('#medium_chooser input:checked'), (item) ->
+      ms = _.map frm.find('#medium_chooser input:checked'), (item) ->
         item.data('display')
-      ss = _.map frm.select('#studio_chooser input:checked'), (item) ->
+      ss = _.map frm.find('#studio_chooser input:checked'), (item) ->
         item.data('display')
       os = null
       try
-        os = frm.select('#os_artist')[0].selected().value
+        os = frm.find('#os_artist').val()
       catch err
         os = null
-      kw = _.map frm.select('#keywords')[0].getValue().split(","), (s) ->
+        throw err
+      kw = _.map frm.find('#keywords').val().split(","), (s) ->
         s.trim()
 
       ctx = jQuery('.current_search')
       if ctx.length
-        ctx = ctx[0]
         # set keywords
-        kw_block = ctx.select('.block.keywords ul.keywords')[0]
-        if kw_block
+        kw_block = ctx.find('.block.keywords ul.keywords')
+        if kw_block.length
           kw_block.html('')
           _.each kw, (k,idx) ->
             s = k
             s = "AND " + s unless !idx
-            li = new Element('li').update(s)
-            kw_block.insert(li);
+            li = jQuery('<li>').html(s)
+            kw_block.append li
         # set mediums
-        med_block = ctx.select('.block.mediums ul')[0]
-        if med_block
+        med_block = ctx.find('.block.mediums ul')
+        if med_block.length
           med_block.html('')
           if ms.length
             _.each ms, (m) ->
-              med_block.insert new Element('li').update(m)
+              med_block.append jQuery('<li>').html(m)
           else
-            med_block.insert new Element('li').update('Any')
+            med_block.append jQuery('<li>').html('Any')
         # set studios
-        studio_block = ctx.select('.block.studios ul')[0]
-        if studio_block
+        studio_block = ctx.find('.block.studios ul')
+        if studio_block.length
           studio_block.html('')
           if ss.length
             _.each ss, (s) ->
-              studio_block.insert new Element('li').update(s)
+              studio_block.append jQuery('<li>').html(s)
           else
-            studio_block.insert new Element('li').update('Any')
+            studio_block.append jQuery('<li>').html('Any')
         # os
-        os_info = ctx.select('.block.os .os')[0]
-        if os_info
+        os_info = ctx.find('.block.os .os')
+        if os_info.length
           oss = "Don't Care"
           if os
             oss = {'1':'Yes', '2': 'No'}[os]
@@ -239,20 +209,21 @@ MAU.SearchPage = class MAUSearch
 
   initPaginator: () ->
     _that = this
-    frm = jQuery(this.searchFormSelector)[0]
+    frm = jQuery(this.searchFormSelector)
     pages = jQuery('.paginator a')
     if pages.length
       _.each pages, (page) ->
         jQuery(page).bind 'click', (ev) ->
           # add current_page input
-          frm.insert(new Element('input', {'class':'current_page',type:'hidden', name:'p', value: this.data('page')}))
+          newInput = jQuery('<input>', {'class':'current_page',type:'hidden', name:'p', value: this.data('page')})
+          frm.append newInput
           _that._submitForm()
           false
     # setup per page hook
     jQuery('results_per_page').bind 'change', (ev) ->
       pp = frm.find('input[name=per_page]').first()
       if pp
-        pp.value = per_page.selected().value
+        pp.value = per_page.val()
         _that._submitForm(ev)
 
   _submitForm: (ev) ->
@@ -274,12 +245,14 @@ MAU.SearchPage = class MAUSearch
             _that.updateQueryParamsInView()
           catch err
             MAU.log err
+            throw err
           _that.initPaginator()
           curpage = frm.find('input.current_page').first()
           curpage.remove() if curpage
           false
       ev.stopPropagation() if ev
       jQuery.ajax jQuery.extend(opts, data: frm.serialize())
+      false
 
 
   toggleTarget: (event) ->

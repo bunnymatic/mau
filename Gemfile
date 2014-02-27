@@ -95,4 +95,5 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'quiet_assets'
+  gem 'better_errors'
 end

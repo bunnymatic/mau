@@ -8,7 +8,7 @@ class ArtPieceTagPresenter
   end
 
   def art_pieces
-    @pieces ||= (by_artist? ? pieces_by_artist : tagged_art_pieces).sort_by(&:updated_at).reverse
+    @pieces ||= (by_artist? ? pieces_by_artist : tagged_art_pieces).compact.sort_by(&:updated_at).reverse
   end
 
   private
