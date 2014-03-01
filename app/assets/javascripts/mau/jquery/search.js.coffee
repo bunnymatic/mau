@@ -26,6 +26,7 @@ MAU.SearchPage = class MAUSearch
   constructor: (chooserIds, currentSearch) ->
     @currentSearch = currentSearch
     @choosers = if !_.isArray(chooserIds) then [chooserIds] else chooserIds
+    @dropdowns = '#os_artist'
     @checkboxSelector = '.cb_entry input[type=checkbox]'
     @searchFormSelector = 'form.power_search'
     @spinnerHook = '#spinner'
@@ -34,10 +35,17 @@ MAU.SearchPage = class MAUSearch
       _that.initExpandos()
       _that.initCBs()
       _that.initAnyLinks()
+      _that.initOSChooser()
       _that.initFormSubmitOnChange()
       _that.initPaginator()
 
 
+  # setup onchange for open studios dropdown
+  initOSChooser: ->
+    _that = this
+    jQuery(@dropdowns).bind 'change', (ev) ->
+      _that._submitForm();
+      
   # intialize the a.reset links
   initAnyLinks: ->
     _that = this
