@@ -39,6 +39,7 @@
 # Indexes
 #
 #  index_artists_on_login    (login) UNIQUE
+#  index_users_on_state      (state)
 #  index_users_on_studio_id  (studio_id)
 #
 

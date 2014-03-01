@@ -28,7 +28,6 @@
     end
   end
 %ul.allthumbs{:class => clz}
-  - pieces.each_with_index do |piece, idx|
-    - _params[:piece] = piece
-    = render :partial => '/art_pieces/thumb', :locals => _params
+  - for piece in pieces
+    = render '/art_pieces/thumb', _params.merge({:piece => piece})
   .clear

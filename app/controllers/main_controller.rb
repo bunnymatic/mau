@@ -16,11 +16,10 @@ class MainController < ApplicationController
       format.html {
         @is_homepage = true
         @rand_pieces = get_random_pieces
-        render
       }
       format.json {
         @rand_pieces = get_random_pieces
-        render :json => @rand_pieces.to_json(:include => [:artist])
+        render :json => @rand_pieces.to_json
       }
       format.mobile { render :layout => 'mobile_welcome' }
     end
@@ -34,7 +33,7 @@ class MainController < ApplicationController
 
   def sampler
     @rand_pieces = get_random_pieces
-    render :partial => '/art_pieces/thumbs', :locals => { :pieces => @rand_pieces, :params => { :cols => 5 }}
+    render :partial => '/art_pieces/thumbs', :locals => {:pieces => @rand_pieces, :params => { :cols => 5 }}
   end
 
   def version
@@ -45,14 +44,7 @@ class MainController < ApplicationController
   @@NUM_IMAGES = 15
   def get_random_pieces(num_images=@@NUM_IMAGES)
     # get random set of art pieces and draw them
-    @rand_pieces = []
-    art_pieces = Artist.active.all(:include => [:art_pieces,:artist_info]).map(&:art_pieces).flatten
-    numpieces = art_pieces.count
-    if numpieces > num_images
-      @rand_pieces = art_pieces.sample(num_images)
-    else
-      @rand_pieces = art_pieces
-    end
+    @rand_pieces = ArtPiece.includes(:artist).where("users.state" => :active).order('rand()').sample(num_images)
   end
 
   def getinvolved
