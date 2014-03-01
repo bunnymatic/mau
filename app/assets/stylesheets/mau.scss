@@ -1,5 +1,6 @@
 @import 'mau-mixins';
 
+
 body {
   background-color: $lightbluegray;
   position: relative;
@@ -4056,3 +4057,15 @@ a.button b.m b {
     }
   }
 }
+
+/** safari/chrome webkit **/
+.nav a {
+    vertical-align: middle;
+}
+.nav div {
+    vertical-align: middle;
+}
+.micro-icon {
+    font-size: 13px; 
+}
+
