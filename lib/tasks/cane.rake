@@ -24,9 +24,6 @@ begin
     cane.no_doc = true # Change to false to enable documentation checks
 
     cane.abc_max = 15 # Fail the build if complexity is too high.
-    # cane.abc_exclude = %w(
-    #   User#bad_code_rising
-    # )
 
     # Fail the build if the code includes debugging statements
     cane.use Morecane::MustNotMatchCheck,
