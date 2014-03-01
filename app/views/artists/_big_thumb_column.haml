@@ -1,0 +1,16 @@
+/ locals: artist
+- if artist 
+  #bigthumbcolumn
+    - if artist.art_pieces.present?
+      = render '/art_pieces/thumbs', :pieces => artist.art_pieces[0..3], :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true} 
+    - else
+      .allthumbs
+        - if logged_in? and current_user.id == artist.id
+          - title = "Click to Upload Some Art!"
+          .artp-thumb.small<
+            = link_to new_art_piece_path, :title => title
+              %img{ :src => "/images/default-art-img.png", :title => title }
+          = link_to title, new_art_piece_path, :title => title
+        - else
+          .artp-thumb-small
+            %img{ :src => "/images/default-art-img.png" }
