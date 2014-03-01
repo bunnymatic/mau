@@ -275,5 +275,5 @@ MAU.SearchPage = class MAUSearch
       jQuery(t).find('.sprite').html(sprite_minus_dom)
       jQuery(t).next('div').slideUp()
 
-
-new MAUSearch(['#medium_chooser','#studio_chooser'])
+jQuery -> 
+  new MAUSearch(['#medium_chooser','#studio_chooser'])
