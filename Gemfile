@@ -38,6 +38,7 @@ gem 'geokit-rails3'
 gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'draper'
+gem 'spinjs-rails'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'
@@ -94,4 +95,5 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'quiet_assets'
+  gem 'better_errors'
 end

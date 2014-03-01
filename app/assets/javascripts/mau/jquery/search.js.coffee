@@ -1,68 +1,64 @@
 MAU = window.MAU = window.MAU || {}
-MAU.SSearchSpinner = class MAUSSearchSpinner
-  constructor: ->
-    @spinnerBG = 'spinnerbg'
-    @spinnerFG = 'spinnerfg'
 
-  create: ->
-    if $(@spinnerBG)
-      $(@spinnerBG).remove()
-    bg = new Element('div', {id:@spinnerBG, style:'display:none;'})
-    fg = new Element('div', {id:@spinnerFG, 'class':'search_spinner'})
-    bg.insert(fg)
-    c = $$('#container')[0]
-    c.insert(bg) if c
-    bg
+MAU.SpinnerOptions =
+  lines: 13
+  length: 30
+  width: 14
+  radius: 40
+  corners: 1
+  rotate: 0
+  direction: 1
+  speed: 1
+  trail: 60
+  shadow: false
+  hwaccel: false
+  className: 'spinner'
+  zIndex: 2e9
+  top: '250px'
 
-  show: ->
-    spinner = $(@spinnerBG)
-    if (!spinner)
-      spinner = this.create()
-
-    #    spinner.clonePosition($('container'), {setLeft:false, setTop:false})
-    spinner.show();
-
-  hide: ->
-    spinner = $(@spinnerBG)
-    if (spinner)
-      spinner.hide();
-
-
-MAU.SSearchPage = class MAUSSearch
+MAU.SearchPage = class MAUSearch
 
   sprite_minus_dom = '<div class="sprite minus" alt="hide" />'
   sprite_plus_dom = '<div class="sprite plus" alt="show" />'
 
   # initialize with checkbox container ids,
   # and the id of the box showing the current search params
-  constructor: (chooserIds, currentSSearch) ->
-    @currentSSearch = currentSSearch
+  constructor: (chooserIds, currentSearch) ->
+    @currentSearch = currentSearch
     @choosers = if !_.isArray(chooserIds) then [chooserIds] else chooserIds
+    @dropdowns = '#os_artist'
     @checkboxSelector = '.cb_entry input[type=checkbox]'
     @searchFormSelector = 'form.power_search'
-    @spinner = new MAUSSearchSpinner()
+    @spinnerHook = '#spinner'
     _that = this
-    Event.observe window, 'load', ->
+    jQuery ->
       _that.initExpandos()
       _that.initCBs()
       _that.initAnyLinks()
+      _that.initOSChooser()
       _that.initFormSubmitOnChange()
       _that.initPaginator()
 
 
+  # setup onchange for open studios dropdown
+  initOSChooser: ->
+    _that = this
+    jQuery(@dropdowns).bind 'change', (ev) ->
+      _that._submitForm();
+      
   # intialize the a.reset links
   initAnyLinks: ->
     _that = this
     _.each @choosers, (container) ->
-      c = $(container)
-      lnk = c.selectOne('.reset a') if c
+      c = jQuery(container)
       _that.setAnyLink(c)
-      Event.observe(lnk, 'click', (ev) ->
-        cbs = c.select _that.checkboxSelector
+      lnk = c.find('.reset a').first()
+      jQuery(lnk).bind('click', (ev) ->
+        cbs = c.find _that.checkboxSelector
         _.each cbs, (el) ->
           el.checked = false
         _that.setAnyLink(c)
-        ev.stop();
+        ev.stopPropagation();
         _that._submitForm();
         return false
       ) if lnk
@@ -70,10 +66,10 @@ MAU.SSearchPage = class MAUSSearch
   # set a.reset links based on the checkbox content
   setAnyLink: (container) ->
     _that = this
-    c = $(container)
+    c = jQuery(container)
     if c
-      cbs = c.select @checkboxSelector + ":checked"
-      a = c.selectOne('.reset a')
+      cbs = c.find @checkboxSelector + ":checked"
+      a = c.find('.reset a').first()
       if a
         if cbs.length
           a.show()
@@ -82,19 +78,19 @@ MAU.SSearchPage = class MAUSSearch
 
   initFormSubmitOnChange: ->
     _that = this
-    os_chooser = $('os_artist')
+    os_chooser = jQuery('os_artist')
     if os_chooser
-      os_chooser.observe 'change', (ev) ->
+      os_chooser.bind 'change', (ev) ->
         _that._submitForm(ev)
 
     _.each @choosers, (c) ->
-      $c = $(c)
+      $c = jQuery(c)
       if $c
         s = ->
           _that._submitForm()
         debounced = s.debounce(500,false)
-        _.each $c.select(_that.checkboxSelector), (item) ->
-          Event.observe item, 'change', debounced
+        _.each $c.find(_that.checkboxSelector), (item) ->
+          jQuery(item).bind 'change', debounced
 
 
   initCBs: ->
@@ -106,10 +102,10 @@ MAU.SSearchPage = class MAUSSearch
     # click happens before the 'check' is registered on the checkbox
     # change happens after
     _.each @choosers, (c) ->
-      $c = $(c)
+      $c = jQuery(c)
       if $c
-        _.each $c.select(_that.checkboxSelector), (item,idx) ->
-          Event.observe item, 'change', (ev) ->
+        _.each $c.find(_that.checkboxSelector), (item,idx) ->
+          jQuery(item).bind 'change', (ev) ->
             _that.setAnyLink(c)
         _that.setAnyLink(c)
 
@@ -144,78 +140,76 @@ MAU.SSearchPage = class MAUSSearch
     # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     # OTHER DEALINGS IN THE SOFTWARE.
     _that = this
-    triggers = $$('.column .trigger')
+    triggers = jQuery('.column .trigger')
     _.each triggers, (item) ->
-      item.insert({ top: sprite_minus_dom })
+      item.insert sprite_minus_dom
       item.next().hide()
-      item.observe('click', _that.toggleTarget)
-    expandeds = $$('.column .expanded')
+      jQuery(item).bind('click', _that.toggleTarget)
+    expandeds = jQuery('.column .expanded')
     _.each expandeds, (item) ->
-      item.insert({ top: sprite_plus_dom })
+      item.insert sprite_plus_dom
       item.addClassName('trigger')
-      item.observe('click', _that.toggleTarget)
+      jQuery(item).bind('click', _that.toggleTarget)
 
     # if we have the search form, bind ajax to the submit
     #
-    searchForm = $$(@searchFormSelector)
-    if searchForm.length
-      frm = searchForm[0]
-      Event.observe frm,'submit', (ev) ->
-        _that._submitForm(ev)
-      false
+    searchForm = jQuery(@searchFormSelector)
+    searchForm.bind 'submit', (ev) ->
+      console.log(ev.target);
+      _that._submitForm(ev)
+    false
 
   updateQueryParamsInView: ->
     _that = this
     # grab form params
-    frm = $$(_that.searchFormSelector)
+    frm = jQuery(_that.searchFormSelector)
     if (frm.length)
-      frm = Element.extend(frm[0])
       # get checked mediums
-      ms = _.map frm.select('#medium_chooser input:checked'), (item) ->
+      ms = _.map frm.find('#medium_chooser input:checked'), (item) ->
         item.data('display')
-      ss = _.map frm.select('#studio_chooser input:checked'), (item) ->
+      ss = _.map frm.find('#studio_chooser input:checked'), (item) ->
         item.data('display')
       os = null
       try
-        os = frm.select('#os_artist')[0].selected().value
+        os = frm.find('#os_artist').val()
       catch err
         os = null
-      kw = _.map frm.select('#keywords')[0].getValue().split(","), (s) ->
+        throw err
+      kw = _.map frm.find('#keywords').val().split(","), (s) ->
         s.trim()
 
-      ctx = $$('.current_search')
+      ctx = jQuery('.current_search')
       if ctx.length
-        ctx = ctx[0]
         # set keywords
-        kw_block = ctx.select('.block.keywords ul.keywords')[0]
-        if kw_block
+        kw_block = ctx.find('.block.keywords ul.keywords')
+        if kw_block.length
           kw_block.html('')
           _.each kw, (k,idx) ->
             s = k
             s = "AND " + s unless !idx
-            li = new Element('li').update(s)
-            kw_block.insert(li);
+            li = jQuery('<li>').html(s)
+            kw_block.append li
         # set mediums
-        med_block = ctx.select('.block.mediums ul')[0]
-        if med_block
+        med_block = ctx.find('.block.mediums ul')
+        if med_block.length
           med_block.html('')
           if ms.length
             _.each ms, (m) ->
-              med_block.insert new Element('li').update(m)
+              med_block.append jQuery('<li>').html(m)
           else
-            med_block.insert new Element('li').update('Any')
+            med_block.append jQuery('<li>').html('Any')
         # set studios
-        studio_block = ctx.select('.block.studios ul')[0]
-        if studio_block
+        studio_block = ctx.find('.block.studios ul')
+        if studio_block.length
           studio_block.html('')
           if ss.length
             _.each ss, (s) ->
-              studio_block.insert new Element('li').update(s)
+              studio_block.append jQuery('<li>').html(s)
           else
-            studio_block.insert new Element('li').update('Any')
+            studio_block.append jQuery('<li>').html('Any')
         # os
-        os_info = ctx.select('.block.os .os')[0]
-        if os_info
+        os_info = ctx.find('.block.os .os')
+        if os_info.length
           oss = "Don't Care"
           if os
             oss = {'1':'Yes', '2': 'No'}[os]
@@ -223,49 +217,50 @@ MAU.SSearchPage = class MAUSSearch
 
   initPaginator: () ->
     _that = this
-    frm = $$(this.searchFormSelector)[0]
-    pages = $$('.paginator a')
+    frm = jQuery(this.searchFormSelector)
+    pages = jQuery('.paginator a')
     if pages.length
       _.each pages, (page) ->
-        page.observe 'click', (ev) ->
+        jQuery(page).bind 'click', (ev) ->
           # add current_page input
-          frm.insert(new Element('input', {'class':'current_page',type:'hidden', name:'p', value: this.data('page')}))
+          newInput = jQuery('<input>', {'class':'current_page',type:'hidden', name:'p', value: this.data('page')})
+          frm.append newInput
           _that._submitForm()
           false
     # setup per page hook
-    per_page = $('results_per_page')
-    if per_page
-      per_page.observe 'change', (ev) ->
-        pp = frm.selectOne('input[name=per_page]')
-        if pp
-          pp.value = per_page.selected().value
-          _that._submitForm(ev)
+    jQuery('results_per_page').bind 'change', (ev) ->
+      pp = frm.find('input[name=per_page]').first()
+      if pp
+        pp.value = per_page.val()
+        _that._submitForm(ev)
 
   _submitForm: (ev) ->
     _that = this
-    frm = $$(_that.searchFormSelector)
-    this.spinner.show()
+    frm = jQuery(_that.searchFormSelector)
+    
+    jQuery(@spinnerHook).spin(MAU.SpinnerOptions)
     if (frm.length)
-      frm = frm[0]
       opts =
-        onSuccess: (resp) ->
-          $('search_results').innerHTML = resp.responseText
+        url: '/search/fetch',
+        success: (resp) ->
+          jQuery('#search_results').html(resp)
           false
-        onFailure: (resp) ->
+        failure: (resp) ->
           false
-        onComplete: (resp) ->
-          $(_that.spinner).hide()
+        complete: () ->
+          jQuery(_that.spinnerHook).spin(false)
           try
             _that.updateQueryParamsInView()
           catch err
             MAU.log err
+            throw err
           _that.initPaginator()
-          curpage = frm.selectOne('input.current_page')
+          curpage = frm.find('input.current_page').first()
           curpage.remove() if curpage
           false
-      ev.stop() if ev
-      frm.request(opts)
-    false
+      ev.stopPropagation() if ev
+      jQuery.ajax jQuery.extend(opts, data: frm.serialize())
+      false
 
 
   toggleTarget: (event) ->
@@ -273,13 +268,12 @@ MAU.SSearchPage = class MAUSSearch
     t = this
     if !t.hasClassName('expanded')
       t.addClassName('expanded');
-      $(t).down('div').replace( sprite_plus_dom )
-      $(t).next().blindDown(MAU.BLIND_OPTS.down)
+      jQuery(t).find('.sprite').html(sprite_plus_dom)
+      jQuery(t).next('div').slideDown()
     else
       t.removeClassName('expanded')
-      $(t).down('div').replace( sprite_minus_dom )
-      $(t).next().slideUp(MAU.BLIND_OPTS.up)
-    return false;
+      jQuery(t).find('.sprite').html(sprite_minus_dom)
+      jQuery(t).next('div').slideUp()
 
 
-#new MAUSSearch(['medium_chooser','studio_chooser'])
+new MAUSearch(['#medium_chooser','#studio_chooser'])

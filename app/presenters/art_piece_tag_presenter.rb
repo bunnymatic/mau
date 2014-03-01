@@ -8,7 +8,7 @@ class ArtPieceTagPresenter
   end
 
   def art_pieces
-    @pieces ||= (by_artist? ? pieces_by_artist : tagged_art_pieces).sort_by(&:updated_at).reverse
+    @pieces ||= (by_artist? ? pieces_by_artist : tagged_art_pieces).compact.sort_by(&:updated_at).reverse
   end
 
   private
@@ -25,8 +25,8 @@ class ArtPieceTagPresenter
       begin
         {}.tap do |artists_works|
           tagged_art_pieces.each do |art|
-            artist = art.artist
-            if artist.is_active? && !artists_works.has_key?(artist)
+            artist = art.try(:artist)
+            if artist && artist.is_active? && !artists_works.has_key?(artist)
               artists_works[artist] = art
             end
           end

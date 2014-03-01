@@ -42,6 +42,9 @@ GEM
       rake (>= 0.8.7)
     arel (3.0.3)
     awesome_print (1.2.0)
+    better_errors (1.1.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
     browser (0.1.6)
     builder (3.0.4)
     calendar_date_select (1.16.4)
@@ -356,6 +359,8 @@ GEM
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
     slop (3.4.7)
+    spinjs-rails (1.3)
+      rails (>= 3.1)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -394,6 +399,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   annotate
+  better_errors
   browser (= 0.1.6)
   calendar_date_select
   cane
@@ -461,6 +467,7 @@ DEPENDENCIES
   sass-rails
   shoulda-matchers
   simplecov
+  spinjs-rails
   tzinfo
   unicorn
   vcr
