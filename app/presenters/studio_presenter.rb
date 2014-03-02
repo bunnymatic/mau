@@ -30,7 +30,7 @@ class StudioPresenter
       "/images/default-studio.png"
     end
   end
-  
+
   def street_with_cross
     r = @studio.street
     if @studio.cross_street.present?
@@ -43,12 +43,12 @@ class StudioPresenter
   end
 
   def artists_count_label
-    @artists_count_label ||= 
+    @artists_count_label ||=
       has_artists? ? "#{artists.count} artist".pluralize(artists.count) : ''
   end
 
   def open_studios_artists_count_label
-    @open_studios_count_label ||= 
+    @open_studios_count_label ||=
       begin
         if has_open_studios_artists?
           "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) + " in #{os_pretty} Open Studios"
@@ -103,7 +103,7 @@ class StudioPresenter
   def display_url
     @studio.url.gsub('http://','')
   end
-  
+
   def studio_path
     @view_context.studio_path(@studio)
   end
