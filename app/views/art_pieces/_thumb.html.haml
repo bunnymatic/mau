@@ -4,20 +4,15 @@
   if piece
     linkto = ''
     if artist_link && piece.artist
-      linkto = artist_path(piece.artist)
+      linkto = piece.artist_path
     else
-      linkto = art_piece_path(piece)
+      linkto = piece.path
     end
-    dim = ""
-    wd, ht = piece.compute_dimensions[size]
-    if wd > 0 and ht > 0
-      dim = wd
-    end
+    dim = piece.width(size)
   end
   if show_footer or delete
     topcls =" with-foot "
   end
-
 %li.artp-thumb-container{:class => "#{cls} #{topcls}", :pid => piece && piece.id}
   - if !piece
     .artp-thumb{:class => "#{cls} no-art"}
@@ -42,7 +37,7 @@
       .os-star{:title => "I'll be in Open Studios!"}
     - if show_footer
       .name
-        = link_to piece.artist.get_name, art_piece_path(piece), :class => 'lkthumb'
+        = link_to piece.artist.get_name, piece.path, :class => 'lkthumb'
     - if delete
       .artp-thumb-ctrl
         = check_box( 'art', piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0")

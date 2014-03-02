@@ -61,7 +61,7 @@ class ArtistPresenter
     @art_pieces ||=
       begin
         num = artist.max_pieces - 1
-        pieces = artist.art_pieces[0..num]
+        pieces = artist.art_pieces[0..num].map{|piece| ArtPiecePresenter.new(@view_context,piece)}
       end
   end
 
@@ -124,7 +124,7 @@ class ArtistPresenter
     @representative_piece ||=
       begin
         r = artist.representative_piece
-        r if r.is_a?(ArtPiece)
+        ArtPiecePresenter.new(@view_context,r) if r.is_a?(ArtPiece)
       end
   end
 

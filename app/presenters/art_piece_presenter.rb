@@ -37,8 +37,8 @@ class ArtPiecePresenter
     @dimensions ||= art_piece.compute_dimensions
   end
 
-  def width
-    image_dimensions[:medium].first
+  def width(sz = :medium)
+    image_dimensions[sz].first
   end
 
   def css_width
@@ -67,6 +67,10 @@ class ArtPiecePresenter
 
   def path
     @view_context.art_piece_path(art_piece)
+  end
+
+  def artist_path
+    @view_context.artist_path(art_piece.artist)
   end
 
 end

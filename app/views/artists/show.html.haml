@@ -3,7 +3,7 @@
     %td.lcol{:colspan => 2}
       - if current_user && @artist.is_current_user?
         = render "/users/sidebar_nav"
-      = render "big_thumb_column", :artist => @artist.artist
+      = render "big_thumb_column", :artist => @artist
     %td.vstripe
     %td.rcol{:colspan => 2}
       = render :partial => '/flash_notice_error'

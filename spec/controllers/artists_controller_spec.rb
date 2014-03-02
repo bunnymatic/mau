@@ -48,7 +48,7 @@ describe ArtistsController do
       it "thumbs have representative art pieces in them" do
         presenter = assigns(:gallery)
         presenter.items.each do |a|
-          rep = a.representative_piece
+          rep = a.representative_piece.art_piece
           assert_select(".allthumbs .thumb .name", /#{a.name}/);
           assert_select(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{rep.filename}]")
         end
