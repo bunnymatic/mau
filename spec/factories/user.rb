@@ -53,6 +53,7 @@ FactoryGirl.define do
 
     after(:create) do |artist|
       FactoryGirl.create(:artist_info, :artist => artist)
+      artist.reload
     end
 
     ignore do
@@ -87,6 +88,7 @@ FactoryGirl.define do
       active
       after(:create) do |artist, ctx|
         FactoryGirl.create_list(:art_piece, ctx.number_of_art_pieces, :artist => artist)
+        artist.reload
       end
     end
 

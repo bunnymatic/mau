@@ -633,7 +633,19 @@ describe ArtistsController do
       get :delete_art
     end
     it 'sets artist' do
-      expect(assigns(:artist)).to eql artist1
+      expect(assigns(:artist)).to be_a_kind_of ArtistPresenter
+      expect(assigns(:artist).artist).to eql artist1
+    end
+  end
+
+  describe '#delete_art' do
+    before do
+      login_as :artist1
+      get :arrange_art
+    end
+    it 'sets artist' do
+      expect(assigns(:artist)).to be_a_kind_of ArtistPresenter
+      expect(assigns(:artist).artist).to eql artist1
     end
   end
 

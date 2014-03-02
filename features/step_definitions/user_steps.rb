@@ -1,3 +1,12 @@
+def fill_in_login_form(login, pass)
+  # because of this issue, we need to be careful with fill_in when using javascript
+  # https://github.com/jonleighton/poltergeist/issues/402
+
+  fill_in("Login", :with => login)
+  fill_in("Password", :with => pass)
+
+end
+
 When(/^I click (on\s+)?"(.*?)"$/) do |dummy, link_text|
   click_on link_text
 end
@@ -9,8 +18,7 @@ When(/^I click (on\s+)?"(.*?)" in the menu$/) do |dummy, link_text|
 end
 
 When(/^I fill in valid credentials$/) do
-  fill_in :login, :with => @artist.login
-  fill_in :password, :with => 'bmatic'
+  fill_in_login_form @artist.login, "bmatic"
 end
 
 Then(/^I see that I'm logged in$/) do
@@ -18,8 +26,7 @@ Then(/^I see that I'm logged in$/) do
 end
 
 When(/^I fill in an invalid username and password$/) do
-  fill_in :login, :with => 'you'
-  fill_in :password, :with => 'are not allowed'
+  fill_in_login_form 'you', 'are not allowed'
 end
 
 When(/^I fill in my email/) do
@@ -32,9 +39,12 @@ end
 
 When(/^I login$/) do
   steps %{When I visit the login page}
-  fill_in :login, :with => @artist.login
-  fill_in :password, :with => 'bmatic'
-  steps %{And I click "Log in"}
+  # if we're already logged in we'll be somewhere else
+  if ( current_path == login_path )
+    save_and_open_page
+    fill_in_login_form @artist.login, 'bmatic'
+    steps %{And I click "Log in"}
+  end
 end
 
 When(/^I login as an artist$/) do
@@ -46,13 +56,11 @@ end
 When(/^I login as an editor$/) do
   @editor = FactoryGirl.create(:user, :editor, :active)
   steps %{When I visit the login page}
-  fill_in :login, :with => @editor.login
-  fill_in :password, :with => 'bmatic'
+  fill_in_login_form @editor.login, 'bmatic'
   steps %{And I click "Log in"}
 end
 
 When(/^I login as "(.*?)"$/) do |login|
-  fill_in :login, :with => login
-  fill_in :password, :with => 'bmatic'
+  fill_in_login_form login, 'bmatic'
   steps %{And I click "Log in"}
 end
