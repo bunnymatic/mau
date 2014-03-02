@@ -68,7 +68,8 @@ class StudioPresenter
 
   def artists_with_art
     @artists_with_art ||=
-      artists.map{|artist| ArtistPresenter.new(@view_context, artist)}.select(&:has_art?)
+      artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(@view_context, artist)}
+    @artists_with_art
   end
 
   def has_artists?

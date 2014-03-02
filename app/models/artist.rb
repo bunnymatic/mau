@@ -145,7 +145,7 @@ class Artist < User
   def representative_piece
     cache_key = "%s%s" % [CACHE_KEY, id]
     piece = SafeCache.read(cache_key)
-    if piece.nil?
+    if piece.blank?
       logger.debug('cache miss');
       piece = art_pieces.first
       SafeCache.write(cache_key, piece, :expires_in => 0) unless piece.nil?

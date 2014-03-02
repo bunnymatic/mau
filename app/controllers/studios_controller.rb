@@ -83,8 +83,7 @@ class StudiosController < ApplicationController
 
 
   def show
-    @studios = get_studio_list
-
+    @studios = get_studio_list.map{|s| StudioPresenter.new(view_context, s, is_mobile?)}
     unless @studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
       redirect_to studios_path
@@ -166,7 +165,7 @@ class StudiosController < ApplicationController
       else
         s.artists.active.count >= MIN_ARTISTS_PER_STUDIO
       end
-    end
+    end.sort(&Studio::SORT_BY_NAME)
   end
 
   def load_studio
