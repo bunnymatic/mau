@@ -21,7 +21,7 @@ class StudiosController < ApplicationController
     @view_mode = (params[:v] == 'c') ? 'count' : 'name'
 
     studios = get_studio_list
-    @studios = StudiosPresenter.new(studios, @view_mode)
+    @studios = StudiosPresenter.new(view_context, studios, @view_mode)
 
     respond_to do |format|
       format.html { render :layout => 'mau' }
@@ -30,7 +30,6 @@ class StudiosController < ApplicationController
       }
       format.mobile {
         @page_title = "Studios"
-        @studios = studios.reject{|s| s.active_artists.length < 1}
         render :layout => 'mobile'
       }
     end
@@ -125,7 +124,6 @@ class StudiosController < ApplicationController
 
   # PUT /studios/1
   def update
-    @selected_studio = @studio.id
     if @studio.update_attributes(params[:studio])
       flash[:notice] = 'Studio was successfully updated.'
       redirect_to(@studio)

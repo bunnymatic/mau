@@ -161,6 +161,14 @@ class ArtistPresenter
     @bio_html ||= markdown(bio)
   end
 
+  def profile_image(size = small)
+    if artist.profile_image?
+      artist.get_profile_image(size)
+    else
+      "/images/default-artist.png"
+    end
+  end
+
   private
   def content_tag(*args)
     @view_context.content_tag(*args)

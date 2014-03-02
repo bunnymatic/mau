@@ -1,37 +1,20 @@
 .studio-thumb
   .studio-img
-    :ruby
-      if studio.id > 0
-        p = studio_url(studio)
-      else
-        p = "/studios/0"
-      end
-    %a{:href => p, :title => studio.name}
-      %img{:class => "studio-img", :src => studio.get_profile_image('thumb') }
+    %a{:href => studio.studio_path, :title => studio.name}
+      %img{:class => "studio-img", :src => studio.image(:thumb)}
   .studio-nfo
     .name
-      %a{:href => p, :title => studio.name}
+      %a{:href => studio.studio_path, :title => studio.name}
         #{studio.name}
-    - if studio.id > 0
+    - if studio.indy?
       .address
         #{studio.street}
         %span{:class => "lkmap"}
           = link_to '(map)', studio.map_link, { :target => "_blank" }
-    .populations
-      :ruby
-        artist_count = studio.artists.active.count
-        if artist_count  > 0
-          tag = "artists"
-          if artist_count == 1
-            tag = "artist"
-          end
-        end
-      - if artist_count > 0
+    - if studio.has_artists?
+      .populations
         .population
-          = "%s %s" % [artist_count, tag]
-      :ruby
-        artist_count = studio.artists.active.open_studios_participants.count
-      - if artist_count > 0
+          = studio.artists_count_label
         .os_population
-          = "%s %s" % [artist_count, "in #{@os_pretty} Open Studios"]
+          = studio.open_studios_artists_count_label
 
