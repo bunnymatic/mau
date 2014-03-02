@@ -37,6 +37,12 @@ When(/^I login$/) do
   steps %{And I click "Log in"}
 end
 
+When(/^I login as an artist$/) do
+  steps %{Given there are artists with art in the system}
+  @artist = @artists.first
+  steps %{When I login}
+end
+
 When(/^I login as an editor$/) do
   @editor = FactoryGirl.create(:user, :editor, :active)
   steps %{When I visit the login page}

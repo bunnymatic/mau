@@ -34,6 +34,12 @@ When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
   end
 end
 
+When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
+  within('#sidebar_nav') do
+    click_on(link_title)
+  end
+end
+
 When(/^I click on the first "([^"]*?)" button$/) do |button_text|
   within('.tbl-content') do
     all('a,button', :text => button_text).first.click

@@ -627,10 +627,10 @@ describe ArtistsController do
     end
   end
 
-  describe '#deleteart' do
+  describe '#delete_art' do
     before do
       login_as :artist1
-      get :deleteart
+      get :delete_art
     end
     it 'sets artist' do
       expect(assigns(:artist)).to eql artist1
@@ -900,7 +900,7 @@ describe ArtistsController do
 
   describe "- named routes" do
     describe 'collection paths' do
-      [:destroyart, :arrangeart, :thumbs, :setarrangement, :deleteart].each do |path|
+      [:destroyart, :arrange_art, :thumbs, :setarrangement, :delete_art].each do |path|
         it "should have #{path} as artists collection path" do
           eval('%s_artists_path.should eql \'/artists/%s\'' % [path,path])
         end

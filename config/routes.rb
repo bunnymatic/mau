@@ -64,11 +64,11 @@ Mau::Application.routes.draw do
       get :osthumbs
       post :destroyart
       get :suggest
-      get :arrangeart
+      get :arrange_art
+      get :delete_art
       post :setarrangement
       get :map_page, :as => :map
       get :edit
-      get :deleteart
     end
     member do
       post :notify_featured

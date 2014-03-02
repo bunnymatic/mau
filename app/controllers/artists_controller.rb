@@ -13,7 +13,7 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
   before_filter :admin_required, :only => [ :purge, :admin_index, :admin_update ]
-  before_filter :login_required, :only => [ :edit, :update, :deleteart, :destroyart, :setarrangement, :arrangeart ]
+  before_filter :login_required, :only => [ :edit, :update, :delete_art, :destroyart, :setarrangement, :arrange_art ]
   before_filter :editor_required, :only => [ :notify_featured ]
 
   after_filter :store_location, :except => [:show]  # may handle these separately in case of error pages
@@ -166,7 +166,8 @@ class ArtistsController < ApplicationController
   end
 
 
-  def arrangeart
+  def arrange_art
+    @artist = ArtistPresenter.new(view_context, current_user)
   end
 
   def setarrangement
@@ -185,10 +186,9 @@ class ArtistsController < ApplicationController
     redirect_to user_path(current_user)
   end
 
-  def deleteart
-    @artist = self.current_user
+  def delete_art
+    @artist = ArtistPresenter.new(view_context, current_user)
   end
-
 
   def show
     @artist = get_artist_from_params
