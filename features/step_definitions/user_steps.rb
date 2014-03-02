@@ -40,11 +40,8 @@ end
 When(/^I login$/) do
   steps %{When I visit the login page}
   # if we're already logged in we'll be somewhere else
-  if ( current_path == login_path )
-    save_and_open_page
-    fill_in_login_form @artist.login, 'bmatic'
-    steps %{And I click "Log in"}
-  end
+  fill_in_login_form @artist.login, 'bmatic'
+  steps %{And I click "Log in"}
 end
 
 When(/^I login as an artist$/) do

@@ -33,6 +33,20 @@ Then(/^I can arrange my art$/) do
   expect(current_path).to eql arrange_art_artists_path
 end
 
-Then(/^I see the results are saved$/) do
-  assert false
+Then(/^I can delete my art$/) do
+  expect(current_path).to eql delete_art_artists_path
+  expect(page).to have_selector '#delete_art li.artp-thumb-container input[type=checkbox]'
+end
+
+When(/^I mark art for deletion$/) do
+  @before_delete_count = @artist.art_pieces.length
+  @deleted_art_piece = @artist.art_pieces.first
+  check "art_#{@deleted_art_piece.id}"
+  click_on 'Delete Selected Images'
+end
+
+Then(/^I see that my art was deleted$/) do
+  @artist.reload
+  expect(@artist.art_pieces.length).to eql @before_delete_count - 1
+  expect(@artist.art_pieces.map(&:id)).to_not include @deleted_art_piece.id
 end

@@ -9,12 +9,7 @@ Given(/^an account has been created/) do
 end
 
 Given(/^an "(.*?)" account has been created/) do |role|
-  @artist = Artist.where(:login => 'bmatic').first
-  if !@artist
-    @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym, :login => 'bmatic', )
-  else
-    @artist.roles = [role]
-  end
+  @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym )
   @artist.password = 'bmatic'
   @artist.password_confirmation = 'bmatic'
   @artist.save!
@@ -53,5 +48,5 @@ Given /there are tags on the art/ do
 end
 
 Given /there are events in the system/ do
-  @events = FactoryGirl.create_list(:event, 5) + FactoryGirl.create_list(:event, 5, :with_reception)
+  @events = FactoryGirl.create_list(:event, 5, :published) + FactoryGirl.create_list(:event, 5, :with_reception, :published)
 end
