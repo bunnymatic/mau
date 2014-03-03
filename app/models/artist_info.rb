@@ -49,11 +49,6 @@ class ArtistInfo < ActiveRecord::Base
     self.os_participation = Hash[key.to_s,value]
   end
 
-  def update_os_participation!(key,value)
-    self.os_participation = Hash[key.to_s,value]
-    self.save!
-  end
-
 private
   def os_participation=(os)
     current = parse_open_studios_participation(self.open_studios_participation)

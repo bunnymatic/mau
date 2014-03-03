@@ -27,7 +27,7 @@ class AdminArtistList
   def artists
     @artists ||=
       begin
-        artists = Artist.all(:order => sort_by_clause, :include => :artist_info)
+        artists = Artist.all(:order => sort_by_clause, :include => [:artist_info, :studio])
       end
   end
 

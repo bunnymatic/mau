@@ -45,6 +45,8 @@ GEM
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     browser (0.1.6)
     builder (3.0.4)
     calendar_date_select (1.16.4)
@@ -102,6 +104,7 @@ GEM
       rails (>= 3.0.0)
     dalli (2.6.4)
     database_cleaner (1.2.0)
+    debug_inspector (0.0.2)
     debugger (1.6.2)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -402,6 +405,7 @@ DEPENDENCIES
   aasm
   annotate
   better_errors
+  binding_of_caller
   browser (= 0.1.6)
   calendar_date_select
   cane

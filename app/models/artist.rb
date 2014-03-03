@@ -93,7 +93,6 @@ class Artist < User
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
   delegate :update_os_participation, :to => :artist_info
-  delegate :update_os_participation!, :to => :artist_info
 
   def to_json opts = {}
     default_opts = {

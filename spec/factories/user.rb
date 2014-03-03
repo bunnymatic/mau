@@ -59,8 +59,9 @@ FactoryGirl.define do
     end
 
     trait :with_studio do
-      after(:build) do |artist|
-        artist.build_studio(FactoryGirl.attributes_for(:studio))
+      after(:create) do |artist|
+        artist.create_studio(FactoryGirl.attributes_for(:studio))
+        artist.reload
       end
     end
 

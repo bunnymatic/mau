@@ -48,25 +48,21 @@ class ArtistsController < ApplicationController
   end
 
   def admin_update
-    begin
-      ct = 0
-      params.each do |k,v|
-        m = /^ARTIST(\d+)$/.match(k)
-        if m and m.length == 2
-          artistid = m[1]
-          a = Artist.find(artistid)
-          if a
-            a.artist_info.update_os_participation! Conf.oslive.to_s, v
-            ct = ct + 1
-          end
-        end
+    if params['os'].present?
+      @updated_count = 0
+      @skipped_count = 0
+      os_by_artist = params['os']
+      artists = Artist.active.where(:id => os_by_artist.keys)
+      for artist in artists
+        update_artist_os_standing(artist, os_by_artist[artist.id.to_s] == '1')
       end
-      flash[:notice] = "Updated %d artists" % ct
-      redirect_to(admin_artists_url())
-    rescue
-      flash[:error] = "%s" % $!
-      redirect_to(admin_artists_url())
+      msg = "Updated setting for %d artists" % @updated_count
+      if @skipped_count > 0
+        msg += " and skipped %d artists who are not in the mission or have an invalid address" % skipped_count
+      end
+      flash[:notice] = msg
     end
+    redirect_to(admin_artists_url)
   end
 
 
@@ -383,7 +379,7 @@ class ArtistsController < ApplicationController
     if participating != current_artist.os_participation[Conf.oslive]
       begin
         unless current_artist.address.blank?
-          current_artist.update_os_participation!(Conf.oslive, participating)
+          current_artist.update_os_participation(Conf.oslive, participating)
           trigger_os_signup_event(participating)
         end
       rescue Exception => ex
@@ -401,4 +397,15 @@ class ArtistsController < ApplicationController
                                   :data => data)
   end
 
+
+  def update_artist_os_standing(artist, doing_it)
+    if artist.doing_open_studios? != doing_it
+      if artist.has_address?
+        artist.update_os_participation Conf.oslive.to_s, doing_it
+        @updated_count += 1
+      else
+        @skipped_count += 1
+      end
+    end
+  end
 end

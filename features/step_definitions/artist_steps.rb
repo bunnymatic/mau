@@ -21,7 +21,7 @@ end
 
 Then(/^I see my art$/) do
   expect(@artist.art_pieces).to be_present
-  expect(page).to have_selector '.artist-pieces .allthumbs li .thumb', :count => @artist.art_pieces.count
+  expect(page).to have_selector '.artist-pieces .allthumbs li .thumb', :count => @artist.art_pieces.length
 end
 
 Then(/^I see the artist's menu/) do
@@ -43,10 +43,10 @@ When(/^I mark art for deletion$/) do
   @deleted_art_piece = @artist.art_pieces.first
   check "art_#{@deleted_art_piece.id}"
   click_on 'Delete Selected Images'
+  @artist.reload
 end
 
 Then(/^I see that my art was deleted$/) do
-  @artist.reload
   expect(@artist.art_pieces.length).to eql @before_delete_count - 1
   expect(@artist.art_pieces.map(&:id)).to_not include @deleted_art_piece.id
 end

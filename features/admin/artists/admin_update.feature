@@ -12,3 +12,11 @@ Background:
 Scenario: Showing the artists
   When I click on "artists" in the admin menu
   Then I see the admin artists list
+
+  When I set all artists to do open studios
+  Then I see that all artists are doing open studios
+  And I see the admin artists list
+
+  When I uncheck the box for the first participating artist
+  Then I see that the first participating artist is no longer doing open studios
+
