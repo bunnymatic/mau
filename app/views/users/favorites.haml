@@ -18,15 +18,13 @@
     - else
       %p Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.
       %h5
-        Art Pieces
-        = "(#{@user.fav_art_pieces.count})"
+        = "Art Pieces (#{@user.fav_art_pieces.count})"
       %ul.art_pieces
         - @user.fav_art_pieces.each do |f|
           = draw_small_favorite(f, {:is_owner => (current_user == @user)})
       .clear
       %h5
-        Artists
-        = "(#{@user.fav_artists.count})"
+        = "Artists (#{@user.fav_artists.count})"
       %ul.artists
         - @user.fav_artists.each do |f|
           = draw_small_favorite(f, {:is_owner => (current_user == @user)})

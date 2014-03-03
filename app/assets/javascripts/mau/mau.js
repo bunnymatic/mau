@@ -109,7 +109,6 @@ var TagMediaHelper = {
   var NV = M.Navigation = M.Navigation || {};
   var MA = M.Map = M.Map || {};
   var G = M.GetInvolved = M.GetInvolved || {};
-  var S = M.Submissions = M.Submissions || {};
   var TB = M.Toolbar = M.Toolbar || {};
   var FR = M.FrontPage = M.FrontPage || {};
   var AC = M.Account = M.Account || {};
@@ -642,7 +641,7 @@ var TagMediaHelper = {
   };
   Event.observe(window, 'load', AP.init);
 
-  /* validate upload date */
+  /* validate upload data */
   AP.validate_art_piece = function(frm) {
     var input_filename = $(frm).select('#upload_datafile');
     if (input_filename.length) {
