@@ -1,81 +1,89 @@
-%button.update-artists update os status
 %a.export-csv{:href => "?format=csv&%s" % request.query_string}
   %button export as csv
+=form_tag admin_update_artists_path do
+  %button.update-artists update os status
 
-.admin-table
-  %h1 Listing artists
-  - if flash[:error]
-    .error-msg Error: #{flash[:error]}
-  - if flash[:notice]
-    .notice #{flash[:notice]}
+  .admin-table
+    %h1 Listing artists
+    - if flash[:error]
+      .error-msg Error: #{flash[:error]}
+    - if flash[:notice]
+      .notice #{flash[:notice]}
 
-  .sortby
-    Sort By:
-    = @artist_list.sort_links.join.html_safe
-    %br
-    Reverse Sort By:
-    = @artist_list.reverse_sort_links.join.html_safe
-  .hide-rows
-    Hide rows:
-    .row-info
-      %input{:type => 'checkbox', :value => 'active', :id => 'hide_active'}
-      %label{:for => 'hide_active'} active
-    .row-info
-      %input{:type => 'checkbox', :value => 'pending', :id => 'hide_pending'}
-      %label{:for => 'hide_pending'} pending
-    .row-info
-      %input{:type => 'checkbox', :value => 'suspended', :id => 'hide_suspended'}
-      %label{:for => 'hide_suspended'} suspended
-    .row-info
-      %input{:type => 'checkbox', :value => 'deleted', :id => 'hide_deleted'}
-      %label{:for => 'hide_deleted'} deleted
-    .row-info
-      %input{:type => 'checkbox', :value => 'participating', :id => 'participating'}
-      %label{:for => 'participating'} signed up for OS
+    .sortby
+      Sort By:
+      = @artist_list.sort_links.join.html_safe
+      %br
+      Reverse Sort By:
+      = @artist_list.reverse_sort_links.join.html_safe
+    .hide-rows
+      Hide rows:
+      .row-info
+        %input{:type => 'checkbox', :value => 'active', :id => 'hide_active'}
+        %label{:for => 'hide_active'} active
+      .row-info
+        %input{:type => 'checkbox', :value => 'pending', :id => 'hide_pending'}
+        %label{:for => 'hide_pending'} pending
+      .row-info
+        %input{:type => 'checkbox', :value => 'suspended', :id => 'hide_suspended'}
+        %label{:for => 'hide_suspended'} suspended
+      .row-info
+        %input{:type => 'checkbox', :value => 'deleted', :id => 'hide_deleted'}
+        %label{:for => 'hide_deleted'} deleted
+      .row-info
+        %input{:type => 'checkbox', :value => 'participating', :id => 'participating'}
+        %label{:for => 'participating'} signed up for OS
 
-%table.admin-table
-  %tr
-    %th name
-    %th studio
-    %th info
-    %th{:colspan => 2}
-      = pretty_print_os_tag(Conf.oslive, true)
-  - @artist_list.each_with_index do |a, idx|
-    :ruby
-      classes = []
-      classes << cycle('even', 'odd')
-      classes << a.state
-      classes << 'participating' if a.os_participation && a.os_participation[ Conf.oslive.to_s ]
-    %tr{:class => classes.join(' ')}
-      %td.admin_artist_name
-        %a{:href => artist_path(a)}
-          = a.get_name
-        %br
-        (activated? #{a.activated_at ? a.activated_at.strftime("%m/%d/%y") : a.state})
-      %td.admin_artist_studio
-        = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
-      %td.admin_artist_info
-        .name
-          Username: #{a.login}
-        .email
-          EM: #{a.email}
-        .address
-          Address: #{a.address}
-        .active
-          Active? #{a.state=='active'}
-        - if a.state != 'active' && a.activation_code.present?
-          .activation_link
-            Activation Link (created : #{a.created_at.strftime("%m/%d/%y")}) :
-            %br
-            #{'http://%s/activate/%s' % [Conf.site_url, a.activation_code]}
-        - if a.reset_code.present?
-          .forgot_password_link
-            Reset Password Link:
-            %br
-            #{'http://%s/reset/%s' % [Conf.site_url, a.reset_code]}
+  %table.admin-table
+    %tr
+      %th name
+      %th studio
+      %th info
+      %th{:colspan => 2}
+        = pretty_print_os_tag(Conf.oslive, true)
+    - @artist_list.each_with_index do |a, idx|
+      :ruby
+        classes = []
+        classes << cycle('even', 'odd')
+        classes << a.state
+        classes << 'participating' if a.os_participation && a.os_participation[ Conf.oslive.to_s ]
+      %tr{:class => classes.join(' ')}
+        %td.admin_artist_name
+          %a{:href => artist_path(a)}
+            = a.get_name
+          %br
+          (activated? #{a.activated_at ? a.activated_at.strftime("%m/%d/%y") : a.state})
+        %td.admin_artist_studio
+          = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
+        %td.admin_artist_info
+          .name
+            Username: #{a.login}
+          .email
+            EM: #{a.email}
+          .address
+            Address: #{a.address}
+          .active
+            Active? #{a.state=='active'}
+          - if a.state != 'active' && a.activation_code.present?
+            .activation_link
+              Activation Link (created : #{a.created_at.strftime("%m/%d/%y")}) :
+              %br
+              #{'http://%s/activate/%s' % [Conf.site_url, a.activation_code]}
+          - if a.reset_code.present?
+            .forgot_password_link
+              Reset Password Link:
+              %br
+              #{'http://%s/reset/%s' % [Conf.site_url, a.reset_code]}
 
-      %td.participating_status{ :artistid => a.id } #{a.os_participation && a.os_participation[Conf.oslive.to_s].to_s}
-      %td
-        %input.cboslive{:artistid => a.id, :type => 'checkbox', :name => 'artist%s' % a.id, :value => a.os_participation && a.os_participation[Conf.oslive.to_s].to_s, :checked => (a.os_participation && a.os_participation[Conf.oslive.to_s] ? "checked" : nil) }
+        %td.participating_status{ :artistid => a.id } #{a.os_participation && a.os_participation[Conf.oslive.to_s].to_s}
+        %td
+          - if a.has_address?
+            / this make sure that all os settings are sent to the controller
+            - checked = a.doing_open_studios?
+            - name = "os[#{a.id}]"
+            = hidden_field_tag name, "0"
+            = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
+          - else
+            no address
 
-%button.update-artists update os status
+  %button.update-artists update os status

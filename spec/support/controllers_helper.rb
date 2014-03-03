@@ -84,10 +84,10 @@ shared_examples_for 'logged in artist' do
       assert_select("#mymaunav li.leaf a[href=#{edit_artist_path(@logged_in_artist)}]")
     end
     it 'has arrange art link' do
-      assert_select("#mymaunav li.leaf a[href=#{arrangeart_artists_path}]")
+      assert_select("#mymaunav li.leaf a[href=#{arrange_art_artists_path}]")
     end
     it 'has delete art link' do
-      assert_select("#mymaunav li.leaf a[href=#{deleteart_artists_path}]")
+      assert_select("#mymaunav li.leaf a[href=#{delete_art_artists_path}]")
     end
     it 'has my favorites link' do
       assert_select("#mymaunav li.leaf a[href=#{favorites_user_path(@logged_in_artist)}]")

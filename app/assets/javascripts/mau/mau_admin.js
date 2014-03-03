@@ -82,40 +82,7 @@ MAUAdmin =  window.MAUAdmin || {};
         });
       });
     });
-    $$('button.update-artists').each(function(el) {
-      el.observe('click', function() {
-	var oss = $$('.participating_status');
-	var cbs = $$('.cboslive');
-	var ii = 0;
-	var updates = {};
-        if (oss && cbs) {
-	  for ( ; ii < oss.length; ++ii ) {
-	    os = oss[ii];
-	    cb = cbs[ii];
-
-	    if ((os.innerHTML === 'true') !== (cbs[ii].checked)) {
-	      updates["ARTIST"+os.readAttribute('artistid')] = (cbs[ii].checked).toString();
-	    }
-	  }
-        }
-	var form = new Element('form', {
-          action: "/admin/artists/update",
-          method: "post"
-        });
-	form.appendChild(new Element('input', { type:"hidden",
-                                                name:"authenticity_token",
-                                                value:unescape(authenticityToken)}));
-        var k = null;
-	for (k in updates) {
-	  var val = updates[k];
-	  form.appendChild(new Element('input', { type:"hidden", name:k, value:val }));
-	}
-	document.body.appendChild(form);
-	form.submit();
-	return false;
-      });
-    });
-
+ 
     var oscombo = $('os_combo_link');
     if (oscombo) {
         oscombo.observe('click', function() {

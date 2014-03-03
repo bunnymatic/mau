@@ -3,8 +3,8 @@ class UsersController < ApplicationController
 
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_update, :destroy ]
-  before_filter :login_required, :only => [ :edit, :update, :suspend, :deleteart, :destroyart, :upload_profile,
-                                            :add_profile, :deactivate, :setarrangement, :arrangeart,
+  before_filter :login_required, :only => [ :edit, :update, :suspend, :delete_art, :destroyart, :upload_profile,
+                                            :add_profile, :deactivate, :setarrangement, :arrange_art,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
 
   after_filter :store_location, :only => [ :edit, :show, :add_profile, :favorites ]

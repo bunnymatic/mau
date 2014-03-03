@@ -51,9 +51,9 @@ class User < ActiveRecord::Base
 
   # here are names we should probably capture or disallow before we release
   # the site.  maybe we make a migration to create these accounts
-  RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','deleteart',
+  RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','delete_art',
                              'deactivate','add','new','view','create','update',
-                             'arrangeart', 'setarrangement',
+                             'arrange_art', 'setarrangement',
                              'admin','root','mau', 'mauadmin','maudev',
                              'jon','mrrogers','trish','trishtunney' ]
 

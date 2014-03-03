@@ -1,6 +1,6 @@
-/* 
+/*
   Event Calendar stylesheet
-  
+
   Colors:
   #666 - border (gray)
   #222 - day names bg (gray)
@@ -127,7 +127,7 @@ a.ec-day-link {
 }
 
 .ec-weekend-day-header {
-  
+
 }
 
 .ec-other-month-header {
@@ -136,7 +136,7 @@ a.ec-day-link {
 }
 
 .ec-other-month-bg {
-  
+
 }
 
 

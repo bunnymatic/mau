@@ -1,5 +1,7 @@
 class StudioPresenter
 
+  include OsHelper
+
   attr_reader :studio, :is_mobile
   delegate :name, :phone, :formatted_phone, :map_link, :city, :street, :url, :to => :studio
 
@@ -21,9 +23,9 @@ class StudioPresenter
     @page_title ||= (is_mobile) ? mobile_title : fullsite_title
   end
 
-  def image
+  def image(size = 'small')
     if @studio.profile_image?
-      @studio.get_profile_image('small')
+      @studio.get_profile_image(size)
     else
       "/images/default-studio.png"
     end
@@ -37,6 +39,25 @@ class StudioPresenter
     r
   end
 
+  def _count_label(artists)
+  end
+
+  def artists_count_label
+    @artists_count_label ||=
+      has_artists? ? "#{artists.count} artist".pluralize(artists.count) : ''
+  end
+
+  def open_studios_artists_count_label
+    @open_studios_count_label ||=
+      begin
+        if has_open_studios_artists?
+          "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) + " in #{os_pretty} Open Studios"
+        else
+          ''
+        end
+      end
+  end
+
   def open_studios_artists
     artists.open_studios_participants
   end
@@ -46,7 +67,17 @@ class StudioPresenter
   end
 
   def artists_with_art
-    @artists_with_art ||= artists.select{|a| a.art_pieces.present?}
+    @artists_with_art ||=
+      artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(@view_context, artist)}
+    @artists_with_art
+  end
+
+  def has_artists?
+    @has_artists ||= (artists.count > 0)
+  end
+
+  def has_open_studios_artists?
+    @has_open_studios_artists ||= (open_studios_artists.count > 0)
   end
 
   def has_artists_without_art?
@@ -55,6 +86,10 @@ class StudioPresenter
 
   def artists_without_art
     @artists_without_art ||= artists.select{|a| a.art_pieces.empty?}
+  end
+
+  def with_active_artists?
+    artists.present?
   end
 
   def artists
@@ -67,6 +102,10 @@ class StudioPresenter
 
   def display_url
     @studio.url.gsub('http://','')
+  end
+
+  def studio_path
+    @view_context.studio_path(@studio)
   end
 
 end

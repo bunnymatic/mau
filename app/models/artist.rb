@@ -93,7 +93,6 @@ class Artist < User
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
   delegate :update_os_participation, :to => :artist_info
-  delegate :update_os_participation!, :to => :artist_info
 
   def to_json opts = {}
     default_opts = {
@@ -145,7 +144,7 @@ class Artist < User
   def representative_piece
     cache_key = "%s%s" % [CACHE_KEY, id]
     piece = SafeCache.read(cache_key)
-    if piece.nil?
+    if piece.blank?
       logger.debug('cache miss');
       piece = art_pieces.first
       SafeCache.write(cache_key, piece, :expires_in => 0) unless piece.nil?

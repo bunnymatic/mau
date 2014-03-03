@@ -15,7 +15,7 @@ class MainController < ApplicationController
     respond_to do |format|
       format.html {
         @is_homepage = true
-        @rand_pieces = get_random_pieces
+        @rand_pieces = get_random_pieces.map{|piece| ArtPiecePresenter.new(view_context,piece)}
       }
       format.json {
         @rand_pieces = get_random_pieces
@@ -32,7 +32,7 @@ class MainController < ApplicationController
   end
 
   def sampler
-    @rand_pieces = get_random_pieces
+    @rand_pieces = get_random_pieces.map{|piece| ArtPiecePresenter.new(view_context,piece)}
     render :partial => '/art_pieces/thumbs', :locals => {:pieces => @rand_pieces, :params => { :cols => 5 }}
   end
 
@@ -44,7 +44,7 @@ class MainController < ApplicationController
   @@NUM_IMAGES = 15
   def get_random_pieces(num_images=@@NUM_IMAGES)
     # get random set of art pieces and draw them
-    @rand_pieces = ArtPiece.includes(:artist).where("users.state" => :active).order('rand()').sample(num_images)
+    ArtPiece.includes(:artist).where("users.state" => :active).order('rand()').sample(num_images)
   end
 
   def getinvolved

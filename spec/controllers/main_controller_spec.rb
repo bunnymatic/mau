@@ -718,12 +718,6 @@ describe MainController do
       expect(response).to be_success
     end
   end
-  describe 'get_random_pieces' do
-    it 'returns art pieces' do
-      pieces = @controller.get_random_pieces
-      pieces.map(&:class).uniq.should eql [ArtPiece]
-    end
-  end
 
   describe 'version' do
     it 'returns the app version' do
@@ -738,7 +732,7 @@ describe MainController do
     end
     it 'grabs some random pieces' do
       assigns(:rand_pieces).should have_at_least(1).piece
-      assigns(:rand_pieces).map(&:class).uniq.should eql [ArtPiece]
+      assigns(:rand_pieces).map(&:class).uniq.should eql [ArtPiecePresenter]
     end
 
     it 'renders the thumbs partial' do

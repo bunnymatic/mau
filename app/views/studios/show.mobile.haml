@@ -10,20 +10,11 @@
     = link_to '(learn more)', openstudios_path
   - if @studio.has_artists_with_art?
     %ul.artists-thumbs
-      - @studio.artists_with_art.select{|a| a.representative_piece}.each do |artist|
-        :ruby
-           next if artist.nil?
-           os_star = false
-           if artist.artist_info
-             os_star = artist.os_participation[Conf.oslive.to_s]
-           end
-           piece = artist.get_profile_image :small
-           if artist.representative_piece
-             piece = artist.representative_piece.get_path 'small'
-           end
+      - @studio.artists_with_art.each do |artist|
+        - piece = artist.representative_piece.get_path 'small'
         %li
-          %a{:href => artist_path(artist)}
+          %a{:href => artist.show_path}
             .thumb{:style => "background-image:url(#{piece});"}
-            .name #{artist.get_name}
-          - if os_star
+            .name #{artist.for_mobile_list}
+          - if artist.doing_open_studios?
             .os-star

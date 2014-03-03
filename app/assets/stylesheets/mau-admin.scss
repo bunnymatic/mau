@@ -2,9 +2,9 @@
 
 body.admin {
   .chunk {
-    float: left; 
-    width: 120px; 
-    margin-bottom:10px; 
+    float: left;
+    width: 120px;
+    margin-bottom:10px;
     margin-left:10px;
   }
   .odd, .even {
@@ -19,6 +19,365 @@ body.admin {
   }
   .singlecolumn {
     width: 842px;
+  }
+
+  .flot_graph {
+    width: 360px;
+    height: 280px;
+    display: block;
+  }
+
+
+  #role_mgr {
+    padding-left: 20px;
+    .role_controls {
+      float: right;
+    }
+    .controls {
+      text-align:right;
+      float: right;
+    }
+    ul {
+      padding: 0 10px;
+      &.members_edit {
+        li {
+          width: 170px;
+          float: left;
+          padding: 8px;
+        }
+        .remove {
+          margin-left: 10px;
+        }
+      }
+    }
+    .links {
+      float:right;
+    }
+    li {
+      &.role_container {
+        float: left;
+        width: 30%;
+        margin: 0;
+        padding: 20px;
+      }
+      .role {
+        font-size: 120%;
+        color: $xlightgray;
+        font-weight:bold;
+      }
+      .role_members li {
+      }
+    }
+
+  }
+
+  #get_next_featured {
+    float: right;
+  }
+  .featured {
+    margin-left: 20px;
+    .error-msg, .notice {
+      width: 320px;
+      left: 290px;
+      text-align: center;
+      margin: auto;
+    }
+
+    .warning {
+      padding: 0 20px 20px;
+      margin: auto;
+      font-size: 12px;
+      text-align:center;
+      color: $error_red;
+    }
+
+
+    h1 {
+      margin-left: 0;
+      margin-bottom: 20px;
+    }
+    .artist_info {
+      width: 200px;
+      float: left;
+      .img {
+        width: 200px;
+        clear: both;
+        min-height: 200px;
+        img {
+          width: 200px;
+        }
+      }
+      > a {
+        display:block;
+      }
+      > div {
+        margin-top: 20px;
+        width: inherit;
+      }
+    }
+
+    .info {
+      float: left;
+      width: 600px;
+      margin-left: 20px;
+      .name, .primary_medium, .studio, .featured_date {
+        width: 250px;
+      }
+    }
+    .post {
+      margin-top: 20px;
+    }
+    label {
+      color: $mediumgray;
+    }
+    .text {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid $xlightgray;
+      background-color: $mediumgray;
+      color: $darkgray;
+    }
+    .instructions {
+      color: $mediumgray;
+      border: 1px dotted $lightgray;
+      margin: 15px 0;
+      padding: 10px;
+    }
+    img.profile {
+      float: left;
+    }
+  }
+  .previously_featured {
+    clear: left;
+    ul {
+      margin-left: 10px;
+    }
+    li {
+      margin: 4px 0;
+    }
+    .featured_date {
+      padding-right: 10px;
+    }
+  }
+
+  .controls {
+    margin: auto;
+    width:800px;
+    a {
+      padding: 5px;
+    }
+  }
+
+  #event_edit {
+    width: 850px;
+    margin: auto;
+    .section {
+      .entry {
+        vertical-align: top;
+        margin: 5px;
+        padding: 5px;
+        label {
+          width: 150px;
+        }
+      }
+    }
+  }
+
+  .colors {
+    .color {
+      @include dotted_border;
+      @include large-rounded-corners;
+      border: 1px solid $lightgray;
+      float: left;
+      margin: 15px;
+      padding: 20px;
+      width: 100px;
+      height: 100px;
+      position: relative;
+      .block {
+        position: absolute;
+        bottom: 0px;
+        right: 16px;
+        width: 100px;
+        padding: 4px;
+        text-align:center;
+        background-color: black;
+        @include large-rounded-corners;
+      }
+    }
+  }
+
+  /* leave at the bottom */
+  td.singlecolumn {
+    padding: 20px;
+  }
+
+  .events {
+    .filters {
+      position:relative;
+      top: auto;
+      left: auto;
+      font-size: 11px;
+      margin: 5px 0;
+      .event_filter {
+        margin: 0 5px;
+        padding: 4px;
+      }
+      div, label, input {
+        display: inline;
+      }
+    }
+  }
+  .artist_feeds {
+    .links {
+      padding: 8px 0;
+    }
+    .feed_entry {
+      margin-bottom: 0;
+      &.header {
+        border-bottom: 1px dotted $mediumgray;
+        margin-bottom: 10px;
+      }
+      .url, .feed, .controls, .active {
+        display: inline-block;
+        overflow: hidden;
+      }
+      .url, .feed {
+        width: 35%;
+      }
+      .active {
+      }
+      .controls {
+        width: 20%;
+        text-align: right;
+      }
+    }
+  }
+  #new_artist_feed {
+    .section {
+      .entry {
+        padding: 5px;
+      }
+      label {
+      }
+      input[type=text] {
+        width: 400px;
+      }
+      .help {
+        display: inline-block;
+        font-weight: 100;
+        font-size: x-small;
+        padding: 5px;
+      }
+    }
+    .samples {
+      li {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .current_feed_content .feeds {
+    color: $lightgray;
+    .feedtitle  {
+      text-align: left;
+    }
+
+    .feedentry {
+      max-width: none;
+      &.even {
+        border-top: 1px dotted $bordergray;
+        border-bottom: 1px dotted $bordergray;
+      }
+      padding: 2px 5px 5px 5px;
+    }
+    .feedtxt {
+      color: $lightgray;
+      font-size: 10px;
+      text-align: left;
+      font-weight:normal;
+      iframe {
+        display: none;
+      }
+    }
+
+  }
+
+
+  /* artists admin index */
+  .export-csv button,
+  button.update-artists {
+    float: right;
+  }
+
+  .qrcode_test {
+    .inputs, .outputs {
+      margin: 20px 0;
+      padding: 20px 0;
+    }
+    .img {
+      width: 300px;
+      float: left;
+      img {
+        background: white;
+        padding:20px;
+        border: 1px solid $bordergray;
+      }
+    }
+    .params {
+      width: 150px;
+      float: left;
+      margin-right: 20px;
+    }
+
+  }
+
+  /** application events */
+  .application_events {
+    .events_list {
+      margin: 20px 0;
+      table {
+        width: 100%;
+        th {
+          font-weight: normal;
+          font-style: italic;
+          text-align:left;
+        }
+        td {
+          @include little-text;
+          &.odd {
+            background-color: $darkgray;
+          }
+        }
+      }
+    }
+  }
+
+  .blacklist_domains {
+    .container {
+      width: 85%;
+      margin: auto;
+    }
+    ul {
+      padding-top: 5px;
+      margin-top: 15px;
+      @extend .clearfix;
+      border-top: 1px dotted #999;
+    }
+    .domain {
+      width: 200px;
+      float: left;
+      margin: 6px;
+      span {
+        padding: 10px 0;
+      }
+    }
+  }
+
+  .field_with_errors {
+    input {
+      border: 1px solid red;
+    }
   }
 }
 
@@ -47,7 +406,7 @@ body.admin {
       float:left;
     }
   }
-  
+
   .listtypes {
     .list_entries {
       padding-bottom:20px;
@@ -58,7 +417,7 @@ body.admin {
       float: left;
       margin: 20px;
       padding: 20px;
-      .header { 
+      .header {
         border-bottom: 1px solid $bordergray;
         margin-bottom: 10px;
         .add_btn { float: right }
@@ -70,7 +429,7 @@ body.admin {
         .entry label {
           width: 40px
         }
-        input[type=submit] { 
+        input[type=submit] {
           float: right;
         }
         input[type=text] {
@@ -91,7 +450,61 @@ body.admin {
     margin-top: 20px;
     font-size: 10px;
   }
+  .tbl-content > .nextrow {
+    line-height: 40px;
+  }
+  .header_inputs .section{
+    width:auto;
+    float: left;
+    border: 0;
+
+  }
+  h1, h2 {
+    margin-left: 10px;
+  }
+  &.markdown-input, &.markdown-results {
+    width: 45%;
+  }
+  .singlecolumn {
+    tr:first-child {
+      border: 0;
+    }
+    tr {
+      border-top: 1px solid $darkgray;
+      .odd { background-color: #0a0a00; }
+    }
+    th, & td {
+      padding: 6px
+    }
+  }
 }
+
+#dashboard {
+  .section {
+    width: 160px;
+    float: left;
+    padding: 10px 10px 20px;
+    margin: 7px;
+    border: 1px dotted $bordergray;
+    &.first {
+      margin-left: 0;
+    }
+    &.last {
+      margin-right: 0;
+    }
+    h3 {
+      padding-bottom: 10px;
+    }
+    &.graph {
+      width: 360px;
+    }
+    .current {
+      margin-top: 10px;
+    }
+  }
+}
+
+
 .admin-table {
   margin: auto;
   width: 800px;
@@ -105,7 +518,7 @@ body.admin {
     .field_with_errors {
       display:inline;
     }
-      
+
     label {
       display: inline-block;
       width: 120px;
@@ -136,15 +549,15 @@ body.admin {
     margin: 10px;
     @include small-rounded-corners;
     border: 1px dotted #444;
-    h2,h3, { 
+    h2,h3, {
       margin: 10px;
     }
   }
   .os-status {
     width: 750px;
-    .tf { 
+    .tf {
       padding: 2px;
-      text-align: center; 
+      text-align: center;
       .true {
         font-weight: bold;
         color: $white;
@@ -188,8 +601,8 @@ body.admin {
     padding: 10px 0 0;
   }
   .sortby {
-    a { 
-      padding: 0 5px; 
+    a {
+      padding: 0 5px;
     }
   }
   .row-info {
@@ -207,7 +620,7 @@ body.admin {
   }
 }
 
-.admin_artist_studio, 
+.admin_artist_studio,
 .admin_artist_name {
   width: 100px;
 }
@@ -219,416 +632,3 @@ body.admin {
   float: none;
 }
 
-.admin {
-  .tbl-content > .nextrow {
-    line-height: 40px;
-  }
-  .header_inputs .section{
-    width:auto;
-    float: left;
-    border: 0;
-    
-  }
-  h1, h2 {
-    margin-left: 10px;
-  }
-  #dashboard {
-    .section { 
-      width: 160px;
-      float: left;
-      padding: 10px 10px 20px;
-      margin: 7px;
-      border: 1px dotted $bordergray;
-      &.first {
-        margin-left: 0;
-      }
-      &.last {
-        margin-right: 0;
-      }
-      h3 {
-        padding-bottom: 10px;
-      }
-      &.graph {
-        width: 360px;
-      }
-      .current {
-        margin-top: 10px;
-      }
-    }
-  }
-  &.markdown-input, &.markdown-results {
-    width: 45%;
-  }
-  .singlecolumn {
-    tr:first-child {
-      border: 0;
-    }
-    tr {
-      border-top: 1px solid $darkgray;
-      .odd { background-color: #0a0a00; }
-    }
-    th, & td {
-      padding: 6px
-    }
-  }
-}
-
-.flot_graph {
-  width: 360px;
-  height: 280px;
-  display: block;
-}
-
-
-#role_mgr {
-  padding-left: 20px;
-  .role_controls {
-    float: right;
-  }
-  .controls {
-    text-align:right;
-    float: right;
-  }
-  ul {
-    padding: 0 10px;
-    &.members_edit {
-      li { 
-        width: 170px;
-        float: left;
-        padding: 8px;
-      }
-      .remove {
-        margin-left: 10px;
-      }
-    }
-  }
-  .links {
-    float:right;
-  }
-  li {
-    &.role_container {
-      float: left;
-      width: 30%;
-      margin: 0;
-      padding: 20px;
-    }
-    .role {
-      font-size: 120%;
-      color: $xlightgray;
-      font-weight:bold;
-    }
-    .role_members li { 
-    }
-  }
-
-}
-
-#get_next_featured {
-  float: right;
-}
-.featured {
-  margin-left: 20px;
-  .error-msg, .notice {
-    width: 320px;
-    left: 290px;
-    text-align: center;
-    margin: auto;
-  }
-
-  .warning {
-    padding: 0 20px 20px;
-    margin: auto;
-    font-size: 12px;
-    text-align:center;
-    color: $error_red;
-  }
-
-
-  h1 {
-    margin-left: 0;
-    margin-bottom: 20px;
-  }
-  .artist_info {
-    width: 200px;
-    float: left;
-    .img {
-      width: 200px;
-      clear: both;
-      min-height: 200px;
-      img {
-        width: 200px;
-      }
-    }
-    > a {
-      display:block;
-    }
-    > div {
-      margin-top: 20px;
-      width: inherit;
-    }
-  }
-  
-  .info {
-    float: left;
-    width: 600px; 
-    margin-left: 20px;
-    .name, .primary_medium, .studio, .featured_date {
-      width: 250px;
-    }
-  }
-  .post {
-    margin-top: 20px; 
-  }
-  label {
-    color: $mediumgray;
-  }
-  .text {
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid $xlightgray;
-    background-color: $mediumgray;
-    color: $darkgray;
-  }
-  .instructions {
-    color: $mediumgray;
-    border: 1px dotted $lightgray;
-    margin: 15px 0;
-    padding: 10px;
-  }
-  img.profile {
-    float: left;
-  }
-}
-.previously_featured {
-  clear: left;
-  ul {
-    margin-left: 10px;
-  }
-  li {
-    margin: 4px 0;
-  }
-  .featured_date {
-    padding-right: 10px;
-  }
-}
-
-.controls {
-  margin: auto;
-  width:800px;
-  a {
-    padding: 5px;
-  }
-}
-
-#event_edit {
-  width: 850px;
-  margin: auto;
-  .section {
-    .entry {
-      vertical-align: top;
-      margin: 5px;
-      padding: 5px;
-      label {
-        width: 150px;
-      }
-    }
-  }
-}
-
-.colors {
-  .color {
-    @include dotted_border;
-    @include large-rounded-corners;
-    border: 1px solid $lightgray;
-    float: left;
-    margin: 15px;
-    padding: 20px;
-    width: 100px;
-    height: 100px;
-    position: relative;
-    .block {
-      position: absolute;
-      bottom: 0px;
-      right: 16px;
-      width: 100px;
-      padding: 4px;
-      text-align:center;
-      background-color: black;
-      @include large-rounded-corners;
-    }
-  }
-}
-
-/* leave at the bottom */
-td.singlecolumn {
-  padding: 20px;
-}
-
-.events {
-  .filters {
-    position:relative;
-    top: auto;
-    left: auto;
-    font-size: 11px;
-    margin: 5px 0;
-    .event_filter {
-      margin: 0 5px;
-      padding: 4px;
-    }
-    div, label, input { 
-      display: inline;
-    }
-  }
-}
-.artist_feeds {
-  .links {
-    padding: 8px 0;
-  }
-  .feed_entry {
-    margin-bottom: 0;
-    &.header {
-      border-bottom: 1px dotted $mediumgray;
-      margin-bottom: 10px;
-    }
-    .url, .feed, .controls, .active {
-      display: inline-block;
-      overflow: hidden;
-    }
-    .url, .feed { 
-      width: 35%;
-    }
-    .active {
-    }
-    .controls {
-      width: 20%;
-      text-align: right;
-    }
-  }
-}
-#new_artist_feed {
-  .section {
-    .entry {
-      padding: 5px;
-    }
-    label {
-    }
-    input[type=text] {
-      width: 400px;
-    }
-    .help {
-      display: inline-block;
-      font-weight: 100;
-      font-size: x-small;
-      padding: 5px;
-    }
-  }
-  .samples {
-    li { 
-      margin-bottom: 10px;
-    }
-  }
-}
-
-.admin {
-  .current_feed_content .feeds {
-    color: $lightgray;
-    .feedtitle  {
-      text-align: left;
-    }
-    
-    .feedentry {
-      max-width: none;
-      &.even { 
-        border-top: 1px dotted $bordergray;
-        border-bottom: 1px dotted $bordergray;
-      }
-      padding: 2px 5px 5px 5px;
-    }
-    .feedtxt {
-      color: $lightgray;
-      font-size: 10px;
-      text-align: left;
-      font-weight:normal;
-      iframe {
-        display: none;
-      }
-    }
-    
-  }
-}
-
-/* artists admin index */
-.export-csv button,
-button.update-artists {
-  float: right;
-}
-
-.qrcode_test {
-  .inputs, .outputs {
-    margin: 20px 0;
-    padding: 20px 0;
-  }
-  .img {
-    width: 300px;
-    float: left;
-    img {
-      background: white;
-      padding:20px;
-      border: 1px solid $bordergray;
-    }
-  }
-  .params {
-    width: 150px;
-    float: left;
-    margin-right: 20px;
-  }
-  
-}
-
-/** application events */
-.application_events {
-  .events_list {
-    margin: 20px 0;
-    table {
-      width: 100%;
-      th {
-        font-weight: normal;
-        font-style: italic;
-        text-align:left;
-      }
-      td {
-        @include little-text;
-        &.odd {  
-          background-color: $darkgray;
-        }
-      }
-    }
-  }
-}
-
-.blacklist_domains {
-  .container {
-    width: 85%;
-    margin: auto;
-  }
-  ul {
-    padding-top: 5px;
-    margin-top: 15px;
-    @extend .clearfix;
-    border-top: 1px dotted #999;
-  }
-  .domain {
-    width: 200px;
-    float: left;
-    margin: 6px;
-    span {
-      padding: 10px 0;
-    }
-  }
-}
-
-.field_with_errors {
-  input {
-    border: 1px solid red;
-  }
-}

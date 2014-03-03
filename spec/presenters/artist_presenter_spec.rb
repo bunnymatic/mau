@@ -4,9 +4,9 @@ describe ArtistPresenter do
 
   include PresenterSpecHelpers
 
-  let(:user) { FactoryGirl.create(:artist, :active) }
+  let(:viewer) { FactoryGirl.create(:artist, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
-  subject(:presenter) { ArtistPresenter.new(mock_view_context(user), artist) }
+  subject(:presenter) { ArtistPresenter.new(mock_view_context(viewer), artist) }
 
   its(:in_the_mission?) { should eql artist.in_the_mission?}
   its(:has_media?) { should be_true }
@@ -74,9 +74,14 @@ describe ArtistPresenter do
     its(:links) { should eql [[:u_facebook, 'Facebook', 'http://facebookit.com']] }
   end
 
-  context 'when logged in' do
+  context 'when logged in as the artist being presented' do
     subject(:presenter) { ArtistPresenter.new(mock_view_context(artist), artist) }
     its(:is_current_user?) { should be_true }
+  end
+
+  context 'when not logged in' do
+    subject(:presenter) { ArtistPresenter.new(mock_view_context, artist) }
+    its(:is_current_user?) { should be_false }
   end
 
   context 'without art' do

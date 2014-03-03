@@ -13,6 +13,9 @@ FactoryGirl.define do
     sequence(:endtime) { |n| Time.zone.now + 1.day + n.days }
     url { Faker::Internet.url }
 
+    trait :published do
+      published_at { Time.zone.now }
+    end
     trait :with_reception do
       sequence(:reception_starttime) { |n| Time.zone.now + n.days + 1.hour }
       sequence(:reception_endtime) { |n| Time.zone.now + n.days + 3.hours }

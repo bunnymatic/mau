@@ -17,15 +17,15 @@ class Role < ActiveRecord::Base
 
   class << self
     def admin
-      @@admin ||= Role.find_by_role("admin")
+      Role.find_by_role("admin")
     end
 
     def manager
-      @@manager ||= Role.find_by_role("manager")
+      Role.find_by_role("manager")
     end
 
     def editor
-      @@editor ||= Role.find_by_role("editor")
+      Role.find_by_role("editor")
     end
 
   end

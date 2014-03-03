@@ -48,7 +48,7 @@ describe ArtistsController do
       it "thumbs have representative art pieces in them" do
         presenter = assigns(:gallery)
         presenter.items.each do |a|
-          rep = a.representative_piece
+          rep = a.representative_piece.art_piece
           assert_select(".allthumbs .thumb .name", /#{a.name}/);
           assert_select(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{rep.filename}]")
         end
@@ -627,13 +627,25 @@ describe ArtistsController do
     end
   end
 
-  describe '#deleteart' do
+  describe '#delete_art' do
     before do
       login_as :artist1
-      get :deleteart
+      get :delete_art
     end
     it 'sets artist' do
-      expect(assigns(:artist)).to eql artist1
+      expect(assigns(:artist)).to be_a_kind_of ArtistPresenter
+      expect(assigns(:artist).artist).to eql artist1
+    end
+  end
+
+  describe '#delete_art' do
+    before do
+      login_as :artist1
+      get :arrange_art
+    end
+    it 'sets artist' do
+      expect(assigns(:artist)).to be_a_kind_of ArtistPresenter
+      expect(assigns(:artist).artist).to eql artist1
     end
   end
 
@@ -900,7 +912,7 @@ describe ArtistsController do
 
   describe "- named routes" do
     describe 'collection paths' do
-      [:destroyart, :arrangeart, :thumbs, :setarrangement, :deleteart].each do |path|
+      [:destroyart, :arrange_art, :thumbs, :setarrangement, :delete_art].each do |path|
         it "should have #{path} as artists collection path" do
           eval('%s_artists_path.should eql \'/artists/%s\'' % [path,path])
         end

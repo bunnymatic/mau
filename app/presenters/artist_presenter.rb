@@ -54,14 +54,14 @@ class ArtistPresenter
   end
 
   def has_art?
-    art_pieces.length > 0
+    art_pieces.present?
   end
 
   def art_pieces
     @art_pieces ||=
       begin
         num = artist.max_pieces - 1
-        pieces = artist.art_pieces[0..num]
+        pieces = artist.art_pieces[0..num].compact.map{|piece| ArtPiecePresenter.new(@view_context,piece)}
       end
   end
 
@@ -124,7 +124,7 @@ class ArtistPresenter
     @representative_piece ||=
       begin
         r = artist.representative_piece
-        r if r.is_a?(ArtPiece)
+        ArtPiecePresenter.new(@view_context,r) if r.is_a?(ArtPiece)
       end
   end
 
@@ -159,6 +159,14 @@ class ArtistPresenter
 
   def bio_html
     @bio_html ||= markdown(bio)
+  end
+
+  def profile_image(size = small)
+    if artist.profile_image?
+      artist.get_profile_image(size)
+    else
+      "/images/default-artist.png"
+    end
   end
 
   private

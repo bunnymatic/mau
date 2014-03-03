@@ -9,25 +9,20 @@ Given(/^an account has been created/) do
 end
 
 Given(/^an "(.*?)" account has been created/) do |role|
-  @artist = Artist.where(:login => 'bmatic').first
-  if !@artist
-    @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym, :login => 'bmatic', )
-  else
-    @artist.roles = [role]
-  end
+  @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym )
   @artist.password = 'bmatic'
   @artist.password_confirmation = 'bmatic'
   @artist.save!
 end
 
 Given /there are artists with art in the system/ do
-  @art_pieces = FactoryGirl.create_list(:art_piece, 10)
-  @artists = (@artists || []) + @art_pieces.map(&:artist)
+  @artists = FactoryGirl.create_list(:artist, 3, :with_art, :with_studio, :number_of_art_pieces => 5)
+  @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
 Given /there are open studios artists with art in the system/ do
   steps %{Given there are artists with art in the system}
-  @artists.each{|a| a.update_os_participation!(Conf.os_live, true) }
+  @artists.each{|a| a.update_os_participation(Conf.os_live, true) }
 end
 
 Given /there is open studios cms content in the system/ do
@@ -53,5 +48,5 @@ Given /there are tags on the art/ do
 end
 
 Given /there are events in the system/ do
-  @events = FactoryGirl.create_list(:event, 5) + FactoryGirl.create_list(:event, 5, :with_reception)
+  @events = FactoryGirl.create_list(:event, 5, :published) + FactoryGirl.create_list(:event, 5, :with_reception, :published)
 end

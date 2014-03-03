@@ -85,9 +85,9 @@
     - if current_user.art_pieces.length > 1
       = form_tag new_art_piece_path(), :method=> "get" do
         %input{:class=> "formbutton", :type =>  "submit",:value=> "Add Art" }
-      = form_tag arrangeart_artists_path(), :method => "get" do
+      = form_tag arrange_art_artists_path(), :method => "get" do
         %input{:class=> "formbutton", :type =>  "submit",:value=> "Arrange Art" }
-      = form_tag deleteart_artists_path(), :method => "get" do
+      = form_tag delete_art_artists_path(), :method => "get" do
         %input{:class=> "formbutton",:type =>  "submit",:value=> "Delete Art" }
       %a{:href=> artist_path(current_user)}
         %button.formbutton Back to Profile

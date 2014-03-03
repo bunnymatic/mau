@@ -45,7 +45,7 @@ describe EventsController do
           expect(assigns(:events).current).to eql month_year_key
         end
         it 'orders events by start date inverse' do
-          expect(assigns(:events).map{|ev| ev.event.stime}).to be_monotonically_decreasing
+          expect(assigns(:events).map{|ev| ev.event.stime.to_i}).to be_monotonically_decreasing
         end
 
       end
