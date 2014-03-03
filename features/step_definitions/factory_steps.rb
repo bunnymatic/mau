@@ -22,7 +22,7 @@ end
 
 Given /there are open studios artists with art in the system/ do
   steps %{Given there are artists with art in the system}
-  @artists.each{|a| a.update_os_participation!(Conf.os_live, true) }
+  @artists.each{|a| a.update_os_participation(Conf.os_live, true) }
 end
 
 Given /there is open studios cms content in the system/ do

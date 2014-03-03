@@ -27,7 +27,7 @@ class Messager
   def publish channel, message
     Momentarily.later Proc.new {
       client.publish channel, {:path => channel, :text => message, :env => Rails.env}
-    } unless Rails.env? == 'test'
+    }
   end
 
 end
