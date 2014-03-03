@@ -542,13 +542,13 @@ describe UsersController do
           assert_select('.no-favorites-msg', :count => 1)
         end
         it "has section for 'artist by name'" do
-          assert_select('h5', :text => 'Find Artists by Name')
+          assert_select('.by-name h5', :text => 'Find Artists by Name')
         end
         it "has section for 'artist by medium'" do
-          assert_select('h5', :text => 'Find Artists by Medium')
+          assert_select('.by-medium h5', :text => 'Find Artists by Medium')
         end
         it "has section for 'artist by tag'" do
-          assert_select('h5', :text => 'Find Artists by Tag')
+          assert_select('.by-tag h5', :text => 'Find Artists by Tag')
         end
         it "does not show the favorites sections" do
           css_select('.favorites > h5').should be_empty
