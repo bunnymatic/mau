@@ -123,27 +123,16 @@ class UsersController < ApplicationController
 
     # validate email domain
     build_user_from_params
-    if @user.nil?
-      logger.debug("Failed to create account - bad/empty params")
-      render_not_found Exception.new("We can't create a user based on your input parameters.")
-      return
-    end
     unless verify_recaptcha
       @user.errors.add(:base, "Failed to prove that you're human."+
                        " Re-type your password and the blurry words at the bottom before re-submitting.")
+      render_on_failed_create and return
     end
-
-    if @user.errors.empty? && @user.save
+    if @user.valid? && @user.save
       @user.register!
-      redirect_after_create
+      redirect_after_create and return
     else
-      msg = "There was a problem creating your account."+
-        " If you can't solve the issues listed below, please try again later or"+
-        " contact the webmaster (link below). if you continue to have problems.<br/>"
-      msg += @user.errors.full_messages.join("<br/>") if @user.errors.present?
-      flash.now[:error] = msg.html_safe
-      @studios = Studio.all
-      render :action => 'new'
+      render_on_failed_create and return
     end
   end
 
@@ -156,19 +145,19 @@ class UsersController < ApplicationController
 
         if current_user.save!
           flash[:notice] = "Password successfully updated"
-          redirect_to request.referer or current_user
+          redirect_to request.referer || current_user
         else
           flash[:error] = "Password not changed"
-          redirect_to request.referer or current_user
+          redirect_to request.referer || current_user
         end
 
       else
         flash[:error] = "New Password mismatch"
-        redirect_to request.referer or current_user
+        redirect_to request.referer || current_user
       end
     else
       flash[:error] = "Old password incorrect"
-      redirect_to request.referer or root_path
+      redirect_to request.referer || root_path
     end
   end
 
@@ -328,21 +317,17 @@ class UsersController < ApplicationController
     _id = params[:fav_id]
     if Favorite::FAVORITABLE_TYPES.include? type
       obj = type.constantize.find(_id)
-      if obj
-        r = current_user.add_favorite(obj)
-      end
+      r = current_user.add_favorite(obj) if obj
       if request.xhr?
         render :json => {
           :message => 'Added a favorite',
           :favorite => obj.to_json
         } and return
       else
-        objname = (obj.class == Artist) ? obj.get_name(true) : obj.safe_title
-        path = (obj.class == Artist) ? user_path(obj) : art_piece_path(obj)
+        objname = obj.get_name(true)
         msg = r ? "#{objname} has been added to your favorites.":
           "You've already added #{objname} to your list of favorites."
-        flash[:notice] = msg
-        redirect_to(obj)
+        redirect_to obj, :flash => { :notice => msg }
       end
     else
       render_not_found({:message => "You can't favorite that type of object" })
@@ -351,7 +336,6 @@ class UsersController < ApplicationController
 
   def remove_favorite
     # POST
-    referrer = request.referer
     type = params[:fav_type]
     _id = params[:fav_id]
     if Favorite::FAVORITABLE_TYPES.include? type
@@ -364,7 +348,7 @@ class UsersController < ApplicationController
         return
       else
         flash[:notice] = "#{obj.get_name true} has been removed from your favorites."
-        redirect_to referrer || obj
+        redirect_to(request.referrer || obj)
       end
     else
       render_not_found({:message => "You can't unfavorite that type of object" })
@@ -372,6 +356,16 @@ class UsersController < ApplicationController
   end
 
   protected
+  def render_on_failed_create
+    msg = "There was a problem creating your account."+
+          " If you can't solve the issues listed below, please try again later or"+
+          " contact the webmaster (link below). if you continue to have problems.<br/>"
+    msg += @user.errors.full_messages.join("<br/>") if (@user && @user.errors.present?)
+    flash.now[:error] = msg.html_safe
+    @studios = Studio.all
+    render :action => 'new'
+  end
+
   def redirect_after_create
     if @type == 'Artist'
       @user.reload

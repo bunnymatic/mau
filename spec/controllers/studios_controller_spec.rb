@@ -6,7 +6,6 @@ describe StudiosController do
 
   fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users, :roles
 
-  let(:studio_list) { controller.send(:get_studio_list) }
   let(:fan) { users(:maufan1) }
   let(:manager) { users(:manager) }
   let(:manager_studio) { manager.studio }
@@ -61,16 +60,6 @@ describe StudiosController do
     end
   end
 
-  describe 'get_studio_list' do
-    it 'includes all studios with at least MIN_STUDIOS_PER_ARTIST artists' do
-      counts = studio_list.map{|s| s.artists.active.count}
-      expect(counts.min).to be > StudiosController::MIN_ARTISTS_PER_STUDIO
-    end
-    it 'includes all studios with artists' do
-      expect(studio_list.select{|s| s.name == 'Independent Studios'}.length).to eql 1
-    end
-  end
-
   describe "#index" do
     context "while not logged in" do
       render_views
@@ -112,7 +101,7 @@ describe StudiosController do
       it_should_behave_like 'successful json'
       it 'returns all studios' do
         j = JSON.parse(response.body)
-        j.count.should eql studio_list.count
+        j.count.should eql assigns(:studio_list).count
       end
     end
   end

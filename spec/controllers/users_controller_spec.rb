@@ -114,23 +114,6 @@ describe UsersController do
   end
 
   describe "#create", :eventmachine => true do
-    it "return 404 with :artist = {}" do
-      post :create,  :artist => {}
-      expect(response).to be_missing
-    end
-    it "return 404 with :user = {}" do
-      post :create, :user => {}
-      expect(response).to be_missing
-    end
-    it "return 404 with params :mau_fan {}" do
-      post :create, :mau_fan => {}
-      expect(response).to be_missing
-    end
-    it "should be 404 with no input params" do
-      post :create
-      expect(response).to be_missing
-    end
-
     context 'with blacklisted domain' do
       before do
         # disable sweep of flash.now messages
@@ -351,9 +334,7 @@ describe UsersController do
         get :show, :id => @u.id
       end
       it_should_behave_like 'two column layout'
-      it "returns a valid page" do
-        expect(response).to be_success
-      end
+      it { expect(response).to be_success }
       it "has the users name on it" do
         assert_select '#artist_profile_name h4', :text => "#{@u.firstname} #{@u.lastname}"
       end
@@ -411,9 +392,7 @@ describe UsersController do
       it_should_behave_like 'one column layout'
       it_should_behave_like "logged in edit page"
 
-      it "returns success" do
-        expect(response).to be_success
-      end
+      it { expect(response).to be_success }
       it "renders the user edit template" do
         expect(response).to render_template("edit")
       end
@@ -509,9 +488,7 @@ describe UsersController do
           get :favorites, :id => fan.id
         end
         it_should_behave_like 'one column layout'
-        it "returns sucess" do
-          expect(response).to be_success
-        end
+        it { expect(response).to be_success }
         it "doesn't have the no favorites msg" do
           css_select('.no-favorites-msg').should be_empty
         end
@@ -563,7 +540,7 @@ describe UsersController do
           ArtPiece.any_instance.stub(:artist => quentin)
           login_as(artist1)
         end
-        it "returns success" do
+        it 'returns success' do
           get :favorites, :id => artist1.id
           expect(response).to be_success
         end
@@ -581,9 +558,7 @@ describe UsersController do
             get :favorites, :id => artist1.id
           end
           it_should_behave_like 'one column layout'
-          it "returns success" do
-            expect(response).to be_success
-          end
+          it { expect(response).to be_success }
           it "does not assign random picks" do
             assigns(:random_picks).should be_nil
           end
@@ -612,21 +587,16 @@ describe UsersController do
         before do
           User.any_instance.stub(:get_profile_path => "/this")
           ArtPiece.any_instance.stub(:get_path).with('small').and_return("/this")
-          aa = joe
-          ap = art_pieces(:hot)
-          ap.artist_id = aa.id
-          ap.save!
-          artist1.add_favorite ap
-          artist1.add_favorite aa
+          joe.art_pieces << art_pieces(:hot)
+          artist1.add_favorite joe
+          artist1.add_favorite joe.art_pieces.last
           assert artist1.fav_artists.count >= 1
           assert artist1.fav_art_pieces.count >= 1
           login_as fan
           get :favorites, :id => artist1.id
         end
         it_should_behave_like 'one column layout'
-        it "returns success" do
-          expect(response).to be_success
-        end
+        it { expect(response).to be_success }
         it "shows the title" do
           assert_select('h4', :include => artist1.get_name )
           assert_select('h4', :include => 'Favorites')
@@ -709,9 +679,7 @@ describe UsersController do
             before do
               xhr :post, :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
             end
-            it "returns success" do
-              expect(response).to be_success
-            end
+            it { expect(response).to be_success }
             it "adds favorite to user" do
               u = User.find(quentin.id)
               favs = u.favorites
@@ -772,9 +740,7 @@ describe UsersController do
         u.update_attribute(:reset_code,'abc')
         get :reset, :reset_code => 'abc'
       end
-      it "returns success" do
-        expect(response).to be_success
-      end
+      it { expect(response).to be_success }
       it "asks for password" do
         assert_select('#user_password')
       end
@@ -791,9 +757,7 @@ describe UsersController do
               :password_confirmation => 'whatev' } ,
               :reset_code => 'abc' }
         end
-        it "returns success" do
-          expect(response).to be_success
-        end
+        it { expect(response).to be_success }
         it "asks for password" do
           assert_select('#user_password')
         end
@@ -828,9 +792,7 @@ describe UsersController do
       get :resend_activation
     end
 
-    it "returns success" do
-      expect(response).to be_success
-    end
+    it { expect(response).to be_success }
 
     it "shows email form" do
       assert_select('#user_email')
@@ -879,9 +841,7 @@ describe UsersController do
       get :forgot
     end
 
-    it "returns success" do
-      expect(response).to be_success
-    end
+    it { expect(response).to be_success }
 
     context "post a fan email" do
       it "looks up user by email" do
@@ -950,9 +910,7 @@ describe UsersController do
       get :resend_activation
     end
 
-    it "returns success" do
-      expect(response).to be_success
-    end
+    it { expect(response).to be_success }
   end
 
   describe 'POST#notify' do

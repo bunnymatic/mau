@@ -3,7 +3,7 @@ class StudioPresenter
   include OsHelper
 
   attr_reader :studio, :is_mobile
-  delegate :name, :phone, :formatted_phone, :map_link, :city, :street, :url, :to => :studio
+  delegate :phone, :formatted_phone, :map_link, :city, :street, :url, :to => :studio
 
   def initialize(view_context, studio, is_mobile = false)
     @studio = studio
@@ -11,12 +11,16 @@ class StudioPresenter
     @is_mobile = is_mobile
   end
 
+  def name
+    studio.try(:name)
+  end
+
   def mobile_title
-    @mobile_title ||= "Studio: #{studio.name}"
+    @mobile_title ||= "Studio: #{name}" if name
   end
 
   def fullsite_title
-    @fullsite_title ||= "Mission Artists United - Studio: %s" % studio.name
+    @fullsite_title ||= "Mission Artists United - Studio: %s" if name
   end
 
   def page_title
@@ -37,9 +41,6 @@ class StudioPresenter
       r << " (@ #{studio.cross_street})"
     end
     r
-  end
-
-  def _count_label(artists)
   end
 
   def artists_count_label

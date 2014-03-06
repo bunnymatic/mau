@@ -6,6 +6,7 @@ class StudiosController < ApplicationController
   before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :add_profile, :unaffiliate_artist]
   after_filter :store_location
 
+  before_filter :load_studio_list, :only => [:index, :show]
   before_filter :load_studio, :only => [:edit, :update, :destroy, :show,
                                         :unaffiliate_artist, :upload_profile, :add_profile]
   MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio or 3)
@@ -20,13 +21,12 @@ class StudiosController < ApplicationController
   def index
     @view_mode = (params[:v] == 'c') ? 'count' : 'name'
 
-    studios = get_studio_list
-    @studios = StudiosPresenter.new(view_context, studios, @view_mode)
+    @studios = StudiosPresenter.new(view_context, @studio_list, @view_mode)
 
     respond_to do |format|
       format.html { render :layout => 'mau' }
       format.json {
-        render :json => studios
+        render :json => @studio_list
       }
       format.mobile {
         @page_title = "Studios"
@@ -83,14 +83,13 @@ class StudiosController < ApplicationController
 
 
   def show
-    @studios = get_studio_list.map{|s| StudioPresenter.new(view_context, s, is_mobile?)}
     unless @studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
-      redirect_to studios_path
-      return
+      redirect_to studios_path and return
     end
-
+    @studios = @studio_list.map{|s| StudioPresenter.new(view_context, s, is_mobile?)}
     @studio = StudioPresenter.new(view_context, @studio, is_mobile?)
+
     @page_title = @studio.page_title
 
     respond_to do |format|
@@ -158,16 +157,19 @@ class StudiosController < ApplicationController
     end
   end
 
-  def get_studio_list
-    Studio.all.select do |s|
-      if s.id != 0 && s.name == 'Independent Studios'
-        false
-      else
-        s.artists.active.count >= MIN_ARTISTS_PER_STUDIO
+  def load_studio_list
+    @studio_list = 
+      begin
+        Studio.all.select do |s|
+          if s.id != 0 && s.name == 'Independent Studios'
+            false
+          else
+            s.artists.active.count >= MIN_ARTISTS_PER_STUDIO
+          end
+        end.sort(&Studio::SORT_BY_NAME)
       end
-    end.sort(&Studio::SORT_BY_NAME)
   end
-
+    
   def load_studio
     @studio ||= get_studio_from_id(params[:id])
   end
