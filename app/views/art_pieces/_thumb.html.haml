@@ -1,10 +1,11 @@
 :ruby
+  artist ||= (artist.try(:artist) || piece.artist)
   cls = ""
   cls += size
   if piece
     linkto = ''
-    if artist_link && piece.artist
-      linkto = piece.artist_path
+    if artist_link && artist
+      linkto = artist_path(artist.artist)
     else
       linkto = piece.path
     end
@@ -33,11 +34,11 @@
       - else
         %span.no_image
           No Image
-    - if Conf.oslive && piece.artist.doing_open_studios? && !delete && !select
+    - if Conf.oslive && artist.doing_open_studios? && !delete && !select
       .os-star{:title => "I'll be in Open Studios!"}
     - if show_footer
       .name
-        = link_to piece.artist.get_name, piece.path, :class => 'lkthumb'
+        = link_to artist.get_name, piece.path, :class => 'lkthumb'
     - if delete
       .artp-thumb-ctrl
         = check_box( 'art', piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0")

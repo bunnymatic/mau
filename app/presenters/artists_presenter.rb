@@ -12,7 +12,7 @@ class ArtistsPresenter
   end
 
   def active_artists
-    @active_artists ||= Artist.active
+    @active_artists ||= Artist.active(:include => [:studio, :artist_info, :art_pieces, :representative_piece])
   end
 
   def os_participants
@@ -20,7 +20,7 @@ class ArtistsPresenter
   end
 
   def artists_only_in_the_mission
-    artists.select(&:in_the_mission?)
+    (os_only ? artists : artists.select(&:in_the_mission?) )
   end
 
   def artists

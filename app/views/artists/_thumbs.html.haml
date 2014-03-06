@@ -1,8 +1,6 @@
 - if artists.present?
   :ruby
-    nartists = artists.length
     size = params[:size] || 'thumb'
-    pieces = artists.map(&:representative_piece)
     _params = { :delete => false, :select => false,
                 :show_footer => true,
                 :size => size, :artist_link => true }

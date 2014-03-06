@@ -15,7 +15,7 @@ class ArtistsGallery < ArtistsPresenter
   end
 
   def artists
-    super.select(&:representative_piece)
+    @artists ||= super.select(&:representative_piece)
   end
 
   def alpha_links

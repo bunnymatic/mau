@@ -28,7 +28,7 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def map_data
-    Gmaps4rails.build_markers(with_addresses) do |artist, marker|
+    @map_data ||= Gmaps4rails.build_markers(with_addresses) do |artist, marker|
       addr = artist.artist.address_hash
       marker.lat addr[:latlng][0]
       marker.lng addr[:latlng][1]
