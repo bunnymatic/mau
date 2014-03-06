@@ -158,7 +158,7 @@ class StudiosController < ApplicationController
   end
 
   def load_studio_list
-    @studio_list = 
+    @studio_list =
       begin
         Studio.all.select do |s|
           if s.id != 0 && s.name == 'Independent Studios'
@@ -169,7 +169,7 @@ class StudiosController < ApplicationController
         end.sort(&Studio::SORT_BY_NAME)
       end
   end
-    
+
   def load_studio
     @studio ||= get_studio_from_id(params[:id])
   end

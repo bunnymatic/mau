@@ -9,7 +9,7 @@ module CapybaraHelpers
   def click_on_first(locator, options={})
     all(:link_or_button, locator, options).first.click
   end
-  
+
 end
 
 World CapybaraHelpers

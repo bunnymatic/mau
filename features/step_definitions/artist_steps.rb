@@ -6,7 +6,7 @@ When(/^I rearrange my art with drag and drop$/) do
   expect(@artist.art_pieces).to be_present
   expect(page).to have_selector('.sortable')
   @old_order = @artist.art_pieces.map(&:id)
-  
+
   images = page.all('.allthumbs.sortable li.thumb')
   images.first.drag_to(images.third)
   click_on 'save'
