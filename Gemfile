@@ -74,6 +74,7 @@ group :development do
   gem 'annotate'
   #gem 'capistrano-nginx-unicorn', require: false, group: :development
   gem 'capistrano3-unicorn'
+  gem 'thin'
 end
 group :test, :development do
   gem 'guard-coffeescript'
