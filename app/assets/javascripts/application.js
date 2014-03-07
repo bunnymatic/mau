@@ -24,5 +24,6 @@
  *= require mau/mau_editor
  *= require mau/mau_discount
  *= require mau/mau_events
+ *= require mau/mau_tinythumb_browser
  *= require_tree ./mau/jquery
 */

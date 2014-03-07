@@ -46,14 +46,16 @@ This will generate a `mau` directory for you.
 
 Assuming MySQL is running, and you know have a root-level user, update your `config/database.yml` development section and test section to use that user password (unless your mysql user is `root` with no password).
 
-Install the MAU bundle
+Install the MAU bundle (or, starting a dev session every time)
 
     cd /my_projects/mau
-    bundle
+    git checkout master (or git checkout rails3 for now)
+    git pull
+    bundle install
 
 Tell Rails to build you an empty database
 
-    rake db:create:all
+    rake db:create:all # only if you cloned the repo
 
 Tell Rails to setup that database and build a copy of that schema for testing
 
@@ -61,7 +63,8 @@ Tell Rails to setup that database and build a copy of that schema for testing
 
 At this point, you should have a semi-working system that has no users and no art.  To try it out, start up the server
 
-    script/server
+    script/server # if we're still on rails 2
+    rails server # if you're past that
 
 Point your browser to http://localhost:3000 and you should see the MAU front page.
 
@@ -111,6 +114,7 @@ Check that you succeeded at the end by running the tests
 
 Check in your code 
 
+    git status
     git add <files or .>
     git commit
 
@@ -134,25 +138,6 @@ Double check that you have the latest master branch code
 Push your changes out
 
     git push
-
-# Deployment
-
-## Acceptance
-
-We've currently got a linode server (linode.com).  You should be able to deploy to acceptance (http://acceptance.missionartistsunited.com) by running
-
-    bundle exec cap acceptance deploy
-
-If the linode machine has just been built, you'll need to deploy the code once and it'll fail.  Get on the machine as the deploy user, create the db and then run the deployment again.  Like so:
-
-    ssh deploy@acceptance.missionartistsunited.com
-    cd deployed/mau/releases/<release directory>
-    RAILS_ENV=acceptance bundle exec rake db:create
-
-    # jump back onto your dev box
-    bundle exec cap acceptance deploy
-
-If that fails in the first couple steps, try restarting mysql on the linode and repeat.
 
 
 # Issues/Versions etc
