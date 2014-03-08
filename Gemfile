@@ -84,7 +84,6 @@ group :test, :development do
   gem 'rspec-rails' #,'1.3.4'
   gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
-  gem 'jasmine'
   gem 'pry'
   gem 'pry-debugger'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
@@ -98,4 +97,5 @@ group :test, :development do
   gem 'quiet_assets'
   gem 'better_errors'
   gem "binding_of_caller"
+  gem 'jasminerice'
 end

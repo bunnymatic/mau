@@ -71,10 +71,7 @@ MAU.SearchPage = class MAUSearch
       cbs = c.find @checkboxSelector + ":checked"
       a = c.find('.reset a').first()
       if a
-        if cbs.length
-          a.show()
-        else
-          a.hide()
+        a.toggle(cbs.length > 0)
 
   initFormSubmitOnChange: ->
     _that = this
@@ -140,22 +137,20 @@ MAU.SearchPage = class MAUSearch
     # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     # OTHER DEALINGS IN THE SOFTWARE.
     _that = this
+    jQuery('.column').on('click', '.trigger', _that.toggleTarget)
     triggers = jQuery('.column .trigger')
     _.each triggers, (item) ->
       item.insert sprite_minus_dom
       item.next().hide()
-      jQuery(item).bind('click', _that.toggleTarget)
     expandeds = jQuery('.column .expanded')
     _.each expandeds, (item) ->
       item.insert sprite_plus_dom
       item.addClassName('trigger')
-      jQuery(item).bind('click', _that.toggleTarget)
 
     # if we have the search form, bind ajax to the submit
     #
     searchForm = jQuery(@searchFormSelector)
     searchForm.bind 'submit', (ev) ->
-      console.log(ev.target);
       _that._submitForm(ev)
     false
 
@@ -268,11 +263,11 @@ MAU.SearchPage = class MAUSearch
     t = this
     if !t.hasClassName('expanded')
       t.addClassName('expanded');
-      jQuery(t).find('.sprite').html(sprite_plus_dom)
+      jQuery(t).find('.sprite').replaceWith(sprite_plus_dom)
       jQuery(t).next('div').slideDown()
     else
       t.removeClassName('expanded')
-      jQuery(t).find('.sprite').html(sprite_minus_dom)
+      jQuery(t).find('.sprite').replaceWith(sprite_minus_dom)
       jQuery(t).next('div').slideUp()
 
 jQuery ->

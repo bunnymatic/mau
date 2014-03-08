@@ -135,7 +135,7 @@ Mau::Application.routes.draw do
   match '/sitemap.xml' => 'main#sitemap', :as => :sitemap
   match '/api/*path' => 'api#index'
   match '/:controller(/:action(/:id))'
-  match '*path' => 'error#index'
+  #match '*path' => 'error#index'
 
   root :to => "main#index"
 

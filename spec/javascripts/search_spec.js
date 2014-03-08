@@ -9,10 +9,7 @@ describe('Search', function() {
   var s;
   beforeEach(function() {
     loadFixtures('search_showhide.html');
-    s = new MAU.SearchPage(['medium_chooser','studio_chooser']);
-    s.initExpandos()
-    s.initCBs()
-    s.initAnyLinks()
+    s = new MAU.SearchPage(['#medium_chooser','#studio_chooser']);
   });
 
   describe('updateQueryParamsInView',function() {
@@ -90,10 +87,11 @@ describe('Search', function() {
       $$(full_selectors.medium_chooser).first().simulate('click');
       expect($$('a.reset').first()).toBeVisible();
     });
-    it('sets all checkboxes unchecked after clicking the any button', function() {
-      $$(full_selectors.medium_chooser).first().simulate('click');
-      $$('.reset a').first().simulate('click')
-      expect($$(full_selectors.medium_chooser).any(function(cb) { return cb.checked; })).toBeFalsy();
+    it('sets all checkboxes unchecked after clicking the any button', function() { 
+      jQuery(full_selectors.medium_chooser).first().attr('checked', 'checked');
+      expect(jQuery(full_selectors.medium_chooser).is(':checked')).toBeTruthy();
+      $$('li a.reset').first().simulate('click');
+      expect(jQuery(full_selectors.medium_chooser).is(":checked")).toBeFalsy();
     });
 
   });
@@ -113,13 +111,14 @@ describe('Search', function() {
       });
     })
     it('clicking a header marks it expanded', function() {
-      $('h1').simulate('click');
-      expect($('h1')).toHaveClass('expanded');
+      jQuery('#fixture #h1').click();
+      expect(jQuery('#h1')[0]).toHaveClass('expanded');
     });
     it('clicking a header changes the arrow div', function() {
-      $('h1').simulate('click');
-      expect($('h1').select('.sprite.plus').length).toBeTruthy();
-      expect($('h1').select('.sprite.minus').length).toBeFalsy();
+      jQuery('#fixture #h1').click();
+      expect(jQuery('#fixture #h1 .sprite.plus').length).toBeTruthy();
+      jQuery('#fixture #h1').click();
+      expect(jQuery('#fixture #h1 .sprite.plus').length).toBeFalsy();
     });
     it('clicking twice sets the arrow back and removes the expaneded class', function() {
       /*** fails in headless mode
