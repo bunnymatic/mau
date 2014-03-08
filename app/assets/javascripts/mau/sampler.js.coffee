@@ -23,7 +23,7 @@ MAU.Sampler = class Sampler
       request = jQuery.ajax( ajaxOpts )
       @requests.push(request);
 
-  abortRequests: () ->
+  abortRequests: () =>
     for req in @requests
       req.abort() if req.abort
     @requests = []
