@@ -1,0 +1,21 @@
+/ locals: title, parent, section, link_text, use_icon
+- title ||= 'Help'
+- parent_id = parent + "container"
+
+- if use_icon
+  %a{:"data-parent" => parent, :"data-section" => section, :title => link_text, :class => "js-help js-help-#{parent}", :href => '#'}
+    %img{:title => link_text, :src => "/images/icons/help-btn.gif", :class => "help-icon"}
+- else
+  %a{:title => link_text, :href => "#"}
+    = link_text
+
+%div{:id => parent_id, :style => 'display:none;', :class => "js-help-text js-help-text-#{parent}"}
+  .popup-help
+    .popup-header
+      .popup-title 
+        = title
+      .popup-close
+        %a{:href => "#"}
+          = "X"
+    .popup-text
+      = render "/whatsthis/" + section

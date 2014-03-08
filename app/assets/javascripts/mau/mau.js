@@ -46,8 +46,6 @@ post_to_url = function (path, params, method) {
   var NV = M.Navigation = M.Navigation || {};
   var MA = M.Map = M.Map || {};
   var G = M.GetInvolved = M.GetInvolved || {};
-  var TB = M.Toolbar = M.Toolbar || {};
-  var FR = M.FrontPage = M.FrontPage || {};
   var AC = M.Account = M.Account || {};
   var FV = M.Favorites = M.Favorites || {};
   var JSF = M.Flash = M.Flash || {};
@@ -57,7 +55,6 @@ post_to_url = function (path, params, method) {
                    down: {duration: 0.75} };
   M.FADE_OPTS = { 'in': {duration: 0.25, from:0, to:1},
                   'out': {duration: 0.25} };
-  M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
   M.validateEmail = function(str) {
     return (str.indexOf(".") > 2) && (str.indexOf("@") > 0);
@@ -113,32 +110,7 @@ post_to_url = function (path, params, method) {
     }
   };
 
-  /** safe javascript log - for debug */
-  M.log = function() {
-    if (window.console && M.__debug__) {
-      // TODO: Chrome doesn't let us call apply on console.log.
-      // Interpolate variable arguments manually and construct
-      // a single-argument call to console.log for Chrome.
-      try {
-	      console.log.apply(this, arguments);
-      } catch(e) {
-	      try {
-	        if (console) {
-	          var msg = '';
-	          var i = 0;
-	          var n = arguments.length;
-	          for (;i<n;++i) {
-	            msg += arguments[i];
-	          }
-	          console.log(msg);
-	        }
-	      } catch(ee) {
-	        H.log = function() {};
-	      }
-      }
-    }
-  };
-  // Changes the cursor to an hourglass
+  // clear any errors and spinit
   M.waitcursor = function() {
     var errmsg = $('error_row');
     if (errmsg) {
@@ -146,11 +118,6 @@ post_to_url = function (path, params, method) {
     }
     var spinner = new MAU.Spinner({top:'0px'})
     spinner.spin();
-  };
-
-  // Returns the cursor to the default pointer
-  M.clearcursor = function() {
-    document.body.style.cursor = 'default';
   };
 
   M.goToArtist = function( artistid ) {
@@ -243,42 +210,6 @@ post_to_url = function (path, params, method) {
 
   Event.observe(window, 'load', M.init);
 
-  /** front page thumbs **/
-  Object.extend(FR, {
-    requests: [],
-    init: function() {
-      setInterval( function() { FR.update_art(); }, 10000);
-      FR.init = function() {};
-    },
-    update_art: function() {
-      var d = $('sampler');
-      if (d) {
-	      var req = new Ajax.Request('/main/sampler', { method:'get',
-					                                            onSuccess: function(tr) {
-					                                              d.setOpacity(0);
-					                                              d.update('');
-					                                              var h = tr.responseText;
-					                                              var dummy = new Insertion.Top(d,h);
-					                                              d.appear();
-					                                            }
-					                                          });
-        FR.requests.push(req);
-      }
-    },
-    abort_requests: function() {
-      if (FR.requests.length > 0) {
-        FR.requests.each(function(req) {
-          if (req.abort) { req.abort(); }
-        });
-        FR.requests = [];
-      }
-    }
-  });
-
-  if (document.location.pathname == '/') {
-    Event.observe(window, 'load', FR.init);
-    Event.observe(window, 'unload', FR.abort_requests);
-  }
   /** nav bar related **/
   N.init = function() {
     var navleaves = $$('.nav li.leaf');
@@ -593,16 +524,6 @@ post_to_url = function (path, params, method) {
   };
 
 
-
-  /*** help popup ***/
-  W.popup = function(parent_id, section) {
-    var helpdiv = $(parent_id + "container");
-    if (helpdiv.visible()) {
-      helpdiv.fade({duration:0.2});
-    }
-    else { helpdiv.appear({duration:0.5}); }
-
-  };
 
   /*** feedback option selector code ***/
   F.init = function() {

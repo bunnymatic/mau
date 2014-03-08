@@ -22,11 +22,12 @@ MAU.Spinner = class MAUSpinner
     @opts = opts || {}
     @el = opts.element || '#spinner'
     opts.element = null
-    @spinOpts = _.extend {}, MAU.SpinnerOpts, opts
+    @spinOpts = _.extend {}, MAU.SpinnerOptions, opts
 
   spin: ->
     console.log(@spinOpts)
     jQuery(@el).spin @spinOpts
   stop: ->
     jQuery(@el).spin false
+  
   
