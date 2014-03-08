@@ -38,7 +38,6 @@ post_to_url = function (path, params, method) {
 
 (function() {
   var M = MAU;
-  var T = M.Thumbs = M.Thumbs || {};
   var A = M.Artist = M.Artist || {};
   var AP = M.ArtPiece = M.ArtPiece || {};
   var W = M.WhatsThis = M.WhatsThis || {};
@@ -94,19 +93,23 @@ post_to_url = function (path, params, method) {
     }
   };
 
+  /* when we add an art piece */
   M.addArtPieceSubmissionObserver = function() {
-    var art_piece_submit = $('art_piece_submit');
-    if (art_piece_submit) {
-      art_piece_submit.observe('click', function(ev) {
-        if (AP.validate_art_piece('new_artpiece')) {
-          MAU.waitcursor();
-          return true;
-        }
-        else {
-          ev.stop();
-          return false;
-        }
-      });
+    var art_piece_form = $('new_artpiece_form');
+    if (art_piece_form) {
+      var submit_button = art_piece_form.select('input[type=submit]')[0];
+      if (art_piece_form && submit_button) {
+        submit_button.observe('click', function(ev) {
+          if (AP.validate_art_piece(art_piece_form)) {
+            MAU.waitcursor();
+            return true;
+          }
+          else {
+            ev.stop();
+            return false;
+          }
+        });
+      }
     }
   };
 
@@ -141,16 +144,8 @@ post_to_url = function (path, params, method) {
     if (errmsg) {
       errmsg.update('');
     }
-    var dv = new Element('div');
-    dv.addClassName('wait-dialog');
-    dv.show();
-    var tx = new Element('span');
-    tx.update('Uploading...');
-    dv.appendChild(tx);
-    var im = M.SPINNER;
-    im.setAttribute('style','float:right; margin:auto;');
-    dv.appendChild(im);
-    document.body.appendChild(dv);
+    var spinner = new MAU.Spinner({top:'0px'})
+    spinner.spin();
   };
 
   // Returns the cursor to the default pointer
