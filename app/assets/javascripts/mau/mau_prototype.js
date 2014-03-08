@@ -187,7 +187,6 @@ if (!String.prototype.trim) {
     }
   });
 
-
   // add method to Prototype extended element
   Element.addMethods({
     'hover': function(element, mouseEnterFunc, mouseLeaveFunc, options) {
@@ -196,4 +195,31 @@ if (!String.prototype.trim) {
       Event.mouseLeave(element, mouseLeaveFunc, options);
     }
   });
+
+  var Utils = {
+    selected : function(elid) {
+      var opts = $(elid).select('option');
+      return opts.find(function(ele){return !!ele.selected;});
+    }
+  };
+
+  Element.addMethods(Utils);
+
+  var FormMethods = {
+    focus_first : function(f) {
+      if (!f) {return;}
+      var inps = f.select('input');
+      var ni = inps.length;
+      for (var ii =0; ii < ni; ++ii) {
+        var inp = inps[ii];
+        if ( $(inp).readAttribute('type') != 'hidden' ) {
+	        inp.activate();
+	        break;
+        }
+      }
+    }
+  };
+
+  Element.addMethods('form', FormMethods);
+
 })();

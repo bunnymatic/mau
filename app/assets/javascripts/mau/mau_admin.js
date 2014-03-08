@@ -82,7 +82,7 @@ MAUAdmin =  window.MAUAdmin || {};
         });
       });
     });
- 
+
     var oscombo = $('os_combo_link');
     if (oscombo) {
         oscombo.observe('click', function() {

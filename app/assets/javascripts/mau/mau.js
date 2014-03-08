@@ -1,14 +1,6 @@
 /*jshint -W031 */  /** don't warn for using "new" with side-effects : because of prototype new Insertion() */
 
 var MAU = window.MAU = window.MAU || {};
-var Utils = {
-  selected : function(elid) {
-    var opts = $(elid).select('option');
-    return opts.find(function(ele){return !!ele.selected;});
-  }
-};
-
-Element.addMethods(Utils);
 
 post_to_url = function (path, params, method) {
   method = method || "post"; // Set method to post by default, if not specified.
@@ -27,23 +19,6 @@ post_to_url = function (path, params, method) {
   form.submit();
 };
 
-var FormMethods = {
-  focus_first : function(f) {
-    if (!f) {return;}
-    var inps = f.select('input');
-    var ni = inps.length;
-    for (var ii =0; ii < ni; ++ii) {
-      var inp = inps[ii];
-      if ( $(inp).readAttribute('type') != 'hidden' ) {
-	      inp.activate();
-	      break;
-      }
-    }
-  }
-};
-
-Element.addMethods('form', FormMethods);
-
 /** setup hash change observer */
 (function(){
   var curHash = window.location.hash;
@@ -60,43 +35,6 @@ Element.addMethods('form', FormMethods);
   }
 })();
 
-/** ruby helper methods in js */
-var TagMediaHelper = {
-  _format_item: function(item, pfx, dolink, linkopts) {
-    try {
-      linkopts = linkopts || {};
-      if (!item.id) {
-	      return '';
-      }
-      if (dolink) {
-	      linkopts.href = pfx + item.id;
-	      var a = new Element('a', linkopts);
-	      a.update(item.name);
-	      return a;
-      }
-      else {
-	      return item.name;
-      }
-    } catch(e) {
-      MAU.log(e);
-      return null;
-    }
-  },
-  format_medium: function(dolink, linkopts) {
-    return TagMediaHelper._format_item(this,'/media/', dolink, linkopts);
-  },
-  format_tag: function(dolink, linkopts) {
-    return TagMediaHelper._format_item(this,'/art_piece_tags/', dolink, linkopts);
-  },
-  format_tags: function(dolink, opts) {
-    var tagstrs = [];
-    var n = this.length;
-    for (var ii=0;ii<n;ii++){
-      tagstrs.push( TagMediaHelper.format_tag.apply(this[ii],[dolink, opts]));
-    }
-    return tagstrs;
-  }
-};
 
 (function() {
   var M = MAU;
@@ -659,7 +597,7 @@ var TagMediaHelper = {
     }
   };
 
-  
+
 
   /*** help popup ***/
   W.popup = function(parent_id, section) {

@@ -21,7 +21,7 @@ class ArtPieceJsonPresenter
   end
 
   def dimensions
-    @dimensions ||= html_encode art.dimensions
+    @dimensions ||= art.dimensions
   end
 
   def medium

@@ -14,16 +14,5 @@
  *= require thirdparty/prototype.feedback
  *= require jquery.flot
  *= require jquery.flot.resize
- *= require mau/query_string_parser
- *= require mau/mau_prototype
- *= require mau/mau
- *= require mau/mau_image_lightbox
- *= require mau/mau_notes
- *= require mau/mau_admin
- *= require mau/mau_search
- *= require mau/mau_editor
- *= require mau/mau_discount
- *= require mau/mau_events
- *= require mau/mau_tinythumb_browser
- *= require_tree ./mau/jquery
+ *= require_tree ./mau
 */

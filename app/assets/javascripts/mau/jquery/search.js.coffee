@@ -45,7 +45,7 @@ MAU.SearchPage = class MAUSearch
     _that = this
     jQuery(@dropdowns).bind 'change', (ev) ->
       _that._submitForm();
-      
+
   # intialize the a.reset links
   initAnyLinks: ->
     _that = this
@@ -237,7 +237,7 @@ MAU.SearchPage = class MAUSearch
   _submitForm: (ev) ->
     _that = this
     frm = jQuery(_that.searchFormSelector)
-    
+
     jQuery(@spinnerHook).spin(MAU.SpinnerOptions)
     if (frm.length)
       opts =
@@ -275,5 +275,5 @@ MAU.SearchPage = class MAUSearch
       jQuery(t).find('.sprite').html(sprite_minus_dom)
       jQuery(t).next('div').slideUp()
 
-jQuery -> 
+jQuery ->
   new MAUSearch(['#medium_chooser','#studio_chooser'])
