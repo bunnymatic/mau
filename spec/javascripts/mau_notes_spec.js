@@ -1,7 +1,9 @@
 describe('MauNotes', function() {
   beforeEach(function() {
     loadFixtures('mau_notes.html');
-    $$('.send-mau-a-note').each(function(el) { el.remove(); } );
+    $$('.send-mau-a-note').each(function(el) { 
+      if (el) { el.remove(); }
+    });
   });
   describe('initialize', function() {
     it ('nows how to get the parent class', function() {
@@ -65,9 +67,9 @@ describe('MauNotes', function() {
     });
     it ("form contains note_type", function() {
       var sel = m._parent_class(true) + " form";
-      $$(sel).each(function(el) {
-        expect($(el).select('input[name=note_type]').length).toEqual( 1);
-      });
+      console.log(sel)
+      input_names = jQuery(sel).find('input').map(function() { return this.name });
+      expect( jQuery.inArray("feedback_mail[note_type]", input_names) ).toBeTruthy();
     });
 
   });
