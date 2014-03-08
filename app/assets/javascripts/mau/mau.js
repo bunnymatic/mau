@@ -38,17 +38,13 @@ post_to_url = function (path, params, method) {
 
 (function() {
   var M = MAU;
-  var T = M.Thumbs = M.Thumbs || {};
   var A = M.Artist = M.Artist || {};
   var AP = M.ArtPiece = M.ArtPiece || {};
   var W = M.WhatsThis = M.WhatsThis || {};
   var F = M.Feedback = M.Feedback || {};
   var N = M.Notifications = M.Notifications || {};
-  var NV = M.Navigation = M.Navigation || {};
   var MA = M.Map = M.Map || {};
   var G = M.GetInvolved = M.GetInvolved || {};
-  var TB = M.Toolbar = M.Toolbar || {};
-  var FR = M.FrontPage = M.FrontPage || {};
   var AC = M.Account = M.Account || {};
   var FV = M.Favorites = M.Favorites || {};
   var JSF = M.Flash = M.Flash || {};
@@ -58,7 +54,6 @@ post_to_url = function (path, params, method) {
                    down: {duration: 0.75} };
   M.FADE_OPTS = { 'in': {duration: 0.25, from:0, to:1},
                   'out': {duration: 0.25} };
-  M.SPINNER = new Element('img',{src:'/images/spinner32.gif'});
 
   M.validateEmail = function(str) {
     return (str.indexOf(".") > 2) && (str.indexOf("@") > 0);
@@ -94,68 +89,34 @@ post_to_url = function (path, params, method) {
     }
   };
 
+  /* when we add an art piece */
   M.addArtPieceSubmissionObserver = function() {
-    var art_piece_submit = $('art_piece_submit');
-    if (art_piece_submit) {
-      art_piece_submit.observe('click', function(ev) {
-        if (AP.validate_art_piece('new_artpiece')) {
-          MAU.waitcursor();
-          return true;
-        }
-        else {
-          ev.stop();
-          return false;
-        }
-      });
-    }
-  };
-
-  /** safe javascript log - for debug */
-  M.log = function() {
-    if (window.console && M.__debug__) {
-      // TODO: Chrome doesn't let us call apply on console.log.
-      // Interpolate variable arguments manually and construct
-      // a single-argument call to console.log for Chrome.
-      try {
-	      console.log.apply(this, arguments);
-      } catch(e) {
-	      try {
-	        if (console) {
-	          var msg = '';
-	          var i = 0;
-	          var n = arguments.length;
-	          for (;i<n;++i) {
-	            msg += arguments[i];
-	          }
-	          console.log(msg);
-	        }
-	      } catch(ee) {
-	        H.log = function() {};
-	      }
+    var art_piece_form = $('new_artpiece_form');
+    if (art_piece_form) {
+      var submit_button = art_piece_form.select('input[type=submit]')[0];
+      if (art_piece_form && submit_button) {
+        submit_button.observe('click', function(ev) {
+          if (AP.validate_art_piece(art_piece_form)) {
+            MAU.waitcursor();
+            return true;
+          }
+          else {
+            ev.stop();
+            return false;
+          }
+        });
       }
     }
   };
-  // Changes the cursor to an hourglass
+
+  // clear any errors and spinit
   M.waitcursor = function() {
     var errmsg = $('error_row');
     if (errmsg) {
       errmsg.update('');
     }
-    var dv = new Element('div');
-    dv.addClassName('wait-dialog');
-    dv.show();
-    var tx = new Element('span');
-    tx.update('Uploading...');
-    dv.appendChild(tx);
-    var im = M.SPINNER;
-    im.setAttribute('style','float:right; margin:auto;');
-    dv.appendChild(im);
-    document.body.appendChild(dv);
-  };
-
-  // Returns the cursor to the default pointer
-  M.clearcursor = function() {
-    document.body.style.cursor = 'default';
+    var spinner = new MAU.Spinner({top:'0px'})
+    spinner.spin();
   };
 
   M.goToArtist = function( artistid ) {
@@ -248,77 +209,7 @@ post_to_url = function (path, params, method) {
 
   Event.observe(window, 'load', M.init);
 
-  /** front page thumbs **/
-  Object.extend(FR, {
-    requests: [],
-    init: function() {
-      setInterval( function() { FR.update_art(); }, 10000);
-      FR.init = function() {};
-    },
-    update_art: function() {
-      var d = $('sampler');
-      if (d) {
-	      var req = new Ajax.Request('/main/sampler', { method:'get',
-					                                            onSuccess: function(tr) {
-					                                              d.setOpacity(0);
-					                                              d.update('');
-					                                              var h = tr.responseText;
-					                                              var dummy = new Insertion.Top(d,h);
-					                                              d.appear();
-					                                            }
-					                                          });
-        FR.requests.push(req);
-      }
-    },
-    abort_requests: function() {
-      if (FR.requests.length > 0) {
-        FR.requests.each(function(req) {
-          if (req.abort) { req.abort(); }
-        });
-        FR.requests = [];
-      }
-    }
-  });
-
-  if (document.location.pathname == '/') {
-    Event.observe(window, 'load', FR.init);
-    Event.observe(window, 'unload', FR.abort_requests);
-  }
-  /** nav bar related **/
   N.init = function() {
-    var navleaves = $$('.nav li.leaf');
-    navleaves.each( function(nl) {
-      nl.observe('click', function(ev) {
-	      try {
-	        var lk = this.select('a').first();
-	        if (lk) {
-	          ev.stop();
-	          location.href = lk.readAttribute('href');
-	        }
-	      }
-	      catch(e) {
-	        M.log("Failed to fire click");
-	        M.log(e);
-	      }
-      });
-    });
-    /* same for top level items */
-    var navtop = $$('.nav li.dir');
-    navtop.each( function(nl) {
-      nl.observe('click', function(ev) {
-	      try {
-	        var lk = this.select('a').first();
-	        if (lk) {
-	          location.href = lk.readAttribute('href');
-	        }
-	      }
-	      catch(e) {
-	        M.log("Failed to fire click");
-	        M.log(e);
-	      }
-      });
-    });
-
     var s = $('emailsettings_fromall');
     if (s) {
       s.observe('click', function() {
@@ -598,16 +489,6 @@ post_to_url = function (path, params, method) {
   };
 
 
-
-  /*** help popup ***/
-  W.popup = function(parent_id, section) {
-    var helpdiv = $(parent_id + "container");
-    if (helpdiv.visible()) {
-      helpdiv.fade({duration:0.2});
-    }
-    else { helpdiv.appear({duration:0.5}); }
-
-  };
 
   /*** feedback option selector code ***/
   F.init = function() {
@@ -1100,128 +981,6 @@ post_to_url = function (path, params, method) {
   Object.extend(FV,Favorites);
   Event.observe(window,'load', FV.init);
 
-  M.BrowserDetect = Class.create();
-  Object.extend(M.BrowserDetect.prototype, {
-    initialize: function () {
-      this._browser = Prototype.Browser;
-      this.browser = this.searchString(this.dataBrowser) || 'unknown';
-      this.version = this.searchVersion(navigator.userAgent) ||
-        this.searchVersion(navigator.appVersion) || "an unknown version";
-      this.OS = this.searchString(this.dataOS) || "an unknown OS";
-    },
-    searchString: function (data) {
-      for (var i=0;i<data.length;i++)	{
-	      var dataString = data[i].string;
-	      var dataProp = data[i].prop;
-	      this.versionSearchString = data[i].versionSearch || data[i].identity;
-	      if (dataString) {
-	        if (dataString.indexOf(data[i].subString) != -1) {
-	          return data[i].identity;
-          }
-	      }
-	      else if (dataProp) {
-	        return data[i].identity;
-        }
-      }
-      return null;
-    },
-    searchVersion: function (dataString) {
-      var index = dataString.indexOf(this.versionSearchString);
-      if (index == -1) { return null; }
-      return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
-    },
-    dataBrowser: [
-      {
-        string: navigator.userAgent,
-        subString: "Chrome",
-        identity: "Chrome"
-      },
-      {
-        string: navigator.userAgent,
-        subString: "OmniWeb",
-        versionSearch: "OmniWeb/",
-        identity: "OmniWeb"
-      },
-      {
-        string: navigator.vendor,
-        subString: "Apple",
-        identity: "Safari",
-        versionSearch: "Version"
-      },
-      {
-        prop: window.opera,
-        identity: "Opera"
-      },
-      {
-        string: navigator.vendor,
-        subString: "iCab",
-        identity: "iCab"
-      },
-      {
-        string: navigator.vendor,
-        subString: "KDE",
-        identity: "Konqueror"
-      },
-      {
-        string: navigator.userAgent,
-        subString: "Firefox",
-        identity: "Firefox"
-      },
-      {
-        string: navigator.vendor,
-        subString: "Camino",
-        identity: "Camino"
-      },
-      {	// for newer Netscapes (6+)
-        string: navigator.userAgent,
-        subString: "Netscape",
-        identity: "Netscape"
-      },
-      {
-        string: navigator.userAgent,
-        subString: "MSIE",
-        identity: "Explorer",
-        versionSearch: "MSIE"
-      },
-      {
-        string: navigator.userAgent,
-        subString: "Gecko",
-        identity: "Mozilla",
-        versionSearch: "rv"
-      },
-      { // for older Netscapes (4-)
-        string: navigator.userAgent,
-        subString: "Mozilla",
-        identity: "Netscape",
-        versionSearch: "Mozilla"
-      }
-    ],
-    dataOS : [
-      {
-        string: navigator.platform,
-        subString: "Win",
-        identity: "Windows"
-      },
-      {
-        string: navigator.platform,
-        subString: "Mac",
-        identity: "Mac"
-      },
-      {
-        string: navigator.userAgent,
-        subString: "iPhone",
-        identity: "iPhone/iPod"
-      },
-      {
-        string: navigator.platform,
-        subString: "Linux",
-        identity: "Linux"
-      }
-    ]
-  });
-  Event.observe(window, 'load', function() {
-    MAU.browser = new M.BrowserDetect();
-  });
 }
 )();
 

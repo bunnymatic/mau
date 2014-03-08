@@ -95,7 +95,7 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'quiet_assets'
-  gem 'better_errors'
-  gem "binding_of_caller"
+#  gem 'better_errors'
+#  gem "binding_of_caller"
   gem 'jasminerice'
 end

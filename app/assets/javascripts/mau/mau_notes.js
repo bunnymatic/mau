@@ -6,7 +6,6 @@ avoids 'mailto' links
 */
 
 MAU.NotesMailer = Class.create();
-MAU.browser = MAU.browser || {};
 var FormConstructors = function() {
 
   var input_button = function(opts) {
@@ -205,6 +204,7 @@ Object.extend(MAU.NotesMailer.prototype, {
     return false;
   },
   insert: function(ev) {
+    var browser = new MAU.BrowserDetect()
     var xpos = 0, ypos = 0;
     if (ev) {
       xpos = ev.pointerX();
@@ -230,10 +230,10 @@ Object.extend(MAU.NotesMailer.prototype, {
                                          value: _that.options.note_class }));
       $(f).insert(new Element('input', { name: 'feedback_mail[browser]',
                                          type: 'hidden',
-                                         value: MAU.browser.browser + ' ' + MAU.browser.version }));
+                                         value: browser.browser + ' ' + browser.version }));
       $(f).insert(new Element('input', { name: 'feedback_mail[operating_system]',
                                          type: 'hidden',
-                                         value: MAU.browser.OS }));
+                                         value: browser.OS }));
       $(f).insert(inner);
       $(f).observe('submit', function(ev) {
         if (formbuilder.submit) {

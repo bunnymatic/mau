@@ -2157,20 +2157,6 @@ span.rightarrow
 search pages
 
 ****************/
-#spinnerbg {
-  width: $fullwidth + 2 * $gutter;
-  z-index: 30;
-  height: 100%;
-  .search_spinner {
-    position: absolute;
-    left: 55%;
-    top: 200px;
-    height: 66px;
-    width: 66px;
-    background-image: url(/images/search_spinner.gif);
-    background-repeat: no-repeat;
-  }
-}
 
 /** search results is used on medium/tag pages so don't over scope it */
 #container.search #search_results {
@@ -2909,15 +2895,6 @@ a#note_close_link{
   background-color: $white;
   @include opacity(0.3);
 }
-#spinnerbg {
-  z-index:51;
-  position:absolute;
-  left: 0;
-  top: 0;
-  background-color: $white;
-  @include opacity(0.3);
-}
-
 
 #img_modal_overlay {
   z-index:30;
