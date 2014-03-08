@@ -1,113 +1,114 @@
 (function() {
 
-var MAU = window.MAU = window.MAU || {};
-var Thumb = MAU.Thumbs = MAU.Thumbs || {};
+  var MAU = window.MAU = window.MAU || {};
+  var Thumb = MAU.Thumbs = MAU.Thumbs || {};
 
-Thumb.APCache = {};
-Thumb.Helpers = {
-  find_thumb: function(apid) {
-    var i = 0;
-    if (Thumb.ThumbList) {
-      var n = Thumb.ThumbList.length;
-      for(;i<n;++i) {
-       var t = Thumb.ThumbList[i];
-       if (t.id == apid) {
-         return i;
-       }
-     }
-     return null;
-   }
- },
- safe_update: function(id, val) {
-  var el = $(id);
-  if (el) {
-    el.update(val ? val : '');
-    if(val) {
-      el.show();
-    }
-    else {
-      el.hide();
-    }
-  }
-},
-updatePinItButton: function(pinIt, artPiece) {
-  if (pinIt) {
-    var pic = location.protocol + "//" + location.host + artPiece.image_files.large;
-    var url = location.protocol + "//" + location.host + '/art_pieces/' + artPiece.id;
-    var desc = artPiece.title + " by " + artPiece.artist_name;
-    var parser = new MAU.QueryStringParser("//pinterest.com/pin/create/button/");
-    parser.query_params = { url: url,
-      description: desc,
-      media: pic };
-      var newHref =  parser.toString(true);
-      pinIt.writeAttribute('href', newHref);
-    }
-  },
-  update_highlight: function() {
-    var idx = Thumb.curIdx;
-    var ts = $$('div.tiny-thumb');
-    var i = 0;
-    var n = ts.length;
-    for (;i<n;++i) {
-     ts[i].removeClassName('tiny-thumb-sel');
-   }
-   ts[idx].addClassName('tiny-thumb-sel');
- },
- update_info: function(ap) {
-  var dummy = null;
-  var images = ap.image_files;
-  var f = images.medium;
-  var img = $('artpiece_img');
-  if (f) {
-   img.src = f;
-   this.safe_update('artpiece_title',ap.title);
-   this.safe_update('ap_title', ap.title);
-   this.safe_update('ap_dimensions', ap.dimensions);
-   this.safe_update('ap_year',ap.year);
-   this.safe_update('ap_favorites',ap.favorites_count);
-   this.safe_update('num_favorites',ap.favorites_count);
-   var med = TagMediaHelper.format_medium.apply(ap.medium,[true]);
-   this.safe_update('ap_medium', med);
-
-   // if there ap.tags then run format tags
-   if (ap.tags === null) {
-     ap.tags = []
-   }
-   var tags = TagMediaHelper.format_tags.apply(ap.tags,[true, {'class':'tag'}]);
-   var tgs = $('ap_tags');
-   // if we found the tags element on the page
-
-   if (tgs) {
+  Thumb.APCache = {};
+  Thumb.Helpers = {
+    find_thumb: function(apid) {
       var i = 0;
-      var ntags = tags.length;
-      if (ntags) {
-        tgs.update('');
-        for(;i<ntags;++i) {
-          new Insertion.Bottom(tgs, tags[i]);
+      if (Thumb.ThumbList) {
+        var n = Thumb.ThumbList.length;
+        for(;i<n;++i) {
+          var t = Thumb.ThumbList[i];
+          if (t.id == apid) {
+            return i;
+          }
         }
-        tgs.show();
-      } else {
-        tgs.hide();
+        return null;
       }
-    }
-    if (img) {
-      img.show();
-    }
-    var inf = $('artpiece_container').selectOne('.art-piece-info');
-    if (inf) {
-      inf.setStyle({width: ap.image_dimensions.medium[0] + 'px'});
-    }
+    },
+    safe_update: function(id, val) {
+      var el = $(id);
+      if (el) {
+        el.update(val ? val : '');
+        if(val) {
+          el.show();
+        }
+        else {
+          el.hide();
+        }
+      }
+    },
+    updatePinItButton: function(pinIt, artPiece) {
+      if (pinIt) {
+        var pic = location.protocol + "//" + location.host + artPiece.image_files.large;
+        var url = location.protocol + "//" + location.host + '/art_pieces/' + artPiece.id;
+        var desc = artPiece.title + " by " + artPiece.artist_name;
+        var parser = new MAU.QueryStringParser("//pinterest.com/pin/create/button/");
+        parser.query_params = { url: url,
+                                description: desc,
+                                media: pic };
+        var newHref =  parser.toString(true);
+        pinIt.writeAttribute('href', newHref);
+      }
+    },
+    update_highlight: function() {
+      var idx = Thumb.curIdx;
+      var ts = $$('div.tiny-thumb');
+      var i = 0;
+      var n = ts.length;
+      for (;i<n;++i) {
+        ts[i].removeClassName('tiny-thumb-sel');
+      }
+      ts[idx].addClassName('tiny-thumb-sel');
+    },
+    update_info: function(ap) {
+      var dummy = null;
+      var images = ap.image_files;
+      var f = images.medium;
+      var img = $('artpiece_img');
+      if (f) {
+        img.src = f;
+        this.safe_update('artpiece_title',ap.title);
+        this.safe_update('ap_title', ap.title);
+        this.safe_update('ap_dimensions', decodeURI(ap.dimensions));
+        this.safe_update('ap_year',ap.year);
+        this.safe_update('ap_favorites',ap.favorites_count);
+        this.safe_update('num_favorites',ap.favorites_count);
+        var med = (new MAU.TagMediaHelper(ap.medium, 'medium', true)).format()
+        this.safe_update('ap_medium', med.first());
+
+        // if there ap.tags then run format tags
+        if (ap.tags === null) {
+          ap.tags = []
+        }
+        //var tags = TagMediaHelper.format_tags.apply(ap.tags,[true, {'class':'tag'}]);
+        var tags = (new MAU.TagMediaHelper(ap.tags, 'tag', true, {'class' : 'tag'})).format()
+        var tgs = $('ap_tags');
+
+        // if we found the tags element on the page
+        if (tgs) {
+          var i = 0;
+          var ntags = tags.length;
+          if (ntags) {
+            tgs.update('');
+            for(;i<ntags;++i) {
+              new Insertion.Bottom(tgs, tags[i]);
+            }
+            tgs.show();
+          } else {
+            tgs.hide();
+          }
+        }
+        if (img) {
+          img.show();
+        }
+        var inf = $('artpiece_container').selectOne('.art-piece-info');
+        if (inf) {
+          inf.setStyle({width: ap.image_dimensions.medium[0] + 'px'});
+        }
         // hides errors/notices
         $$('.notice').each(function(el) {
           if (el.visible()) {
             el.fade({duration:0.3,
-             afterFinish: function() {el.remove();}});
+                     afterFinish: function() {el.remove();}});
           }
         });
         $$('.error-msg').each(function(el) {
           if (el.visible()) {
             el.fade({duration:0.3,
-             afterFinish: function() {el.remove();}});
+                     afterFinish: function() {el.remove();}});
           }
         });
 
@@ -164,16 +165,16 @@ updatePinItButton: function(pinIt, artPiece) {
       location.hash = "#" + ap.id;
       var img = $('artpiece_img');
       if (Thumb.APCache[ap.id]) {
-       var a = Thumb.APCache[ap.id];
-       Thumb.Helpers.update_info(a);
-     } else {
-       var resp = new Ajax.Request(url, {
-         onSuccess: function(resp) {
-           try {
-             var ap_raw = resp.responseJSON;
+        var a = Thumb.APCache[ap.id];
+        Thumb.Helpers.update_info(a);
+      } else {
+        var resp = new Ajax.Request(url, {
+          onSuccess: function(resp) {
+            try {
+              var ap_raw = resp.responseJSON;
 	            // handle different json encodings :(
-               var ap = null;
-               if ('attributes' in ap_raw) {
+              var ap = null;
+              if ('attributes' in ap_raw) {
                 ap = ap_raw.attributes;
               }
               else {
@@ -190,47 +191,52 @@ updatePinItButton: function(pinIt, artPiece) {
           },
           contentType: "application/json",
           method: 'get' });
-     }
-     return true;
-   }
- };
+      }
+      return true;
+    }
+  };
 
- Thumb.jumpToIdx = function (idx) {
-  if (Thumb.ThumbList) {
-    var n = Thumb.ThumbList.length;
-    if (idx < 0) { idx = n-1; }
-    idx = idx % n;
-    var ap = Thumb.ThumbList[idx];
-    Thumb.curIdx = idx;
-    Thumb.Helpers.update_page();
-  }
-  return false;
-};
+  Thumb.jumpToIdx = function (idx) {
+    if (Thumb.ThumbList) {
+      var n = Thumb.ThumbList.length;
+      if (idx < 0) { idx = n-1; }
+      idx = idx % n;
+      var ap = Thumb.ThumbList[idx];
+      Thumb.curIdx = idx;
+      Thumb.Helpers.update_page();
+    }
+    return false;
+  };
 
-Thumb.jumpTo = function(ap_id) {
-  var idx = Thumb.Helpers.find_thumb(ap_id);
-  Thumb.jumpToIdx(idx);
-};
-Thumb.jumpNext = function() {
-  Thumb.jumpToIdx(Thumb.curIdx+1);
-};
-Thumb.jumpPrevious = function() {
-  Thumb.jumpToIdx(Thumb.curIdx-1);
-};
-function keypressHandler (event)
-{
+  Thumb.jumpTo = function(ap_id) {
+    var idx = Thumb.Helpers.find_thumb(ap_id);
+    Thumb.jumpToIdx(idx);
+  };
+  Thumb.jumpNext = function(ev) {
+    ev.stopPropagation();
+    Thumb.jumpToIdx(Thumb.curIdx+1);
+  };
+  Thumb.jumpPrevious = function(ev) {
+    ev.stopPropagation();
+    Thumb.jumpToIdx(Thumb.curIdx-1);
+  };
+
+
+  function keypressHandler (event)
+  {
+    event.stopPropagation();
     // I think this next line of code is accurate,
     // but I don't have a good selection of browsers
     // with me today to test this effectivly.
     var key = event.which || event.keyCode;
     switch (key) {
-      case Event.KEY_RIGHT:
-      Thumb.jumpNext();
+    case Event.KEY_RIGHT:
+      Thumb.jumpNext(event);
       break;
-      case Event.KEY_LEFT:
-      Thumb.jumpPrevious();
+    case Event.KEY_LEFT:
+      Thumb.jumpPrevious(event);
       break;
-      default:
+    default:
       break;
     }
   }
@@ -242,18 +248,19 @@ function keypressHandler (event)
     var prvlnk = $('prev_img_lnk');
     var nxtlnk = $('next_img_lnk');
     if (nxtlnk && prvlnk) {
-      prvlnk.observe('click', function() { Thumb.jumpPrevious(); });
-      nxtlnk.observe('click', function() { Thumb.jumpNext(); });
+      prvlnk.observe('click', function(ev) { Thumb.jumpPrevious(ev); });
+      nxtlnk.observe('click', function(ev) { Thumb.jumpNext(ev); });
     }
-    $$('a.jump-to').each(function(t) {
-      t.observe('click', function() {
-       location.href = t.href;
-       var apid = location.hash.substr(1);
-       if (apid) {
-         Thumb.jumpTo(apid);
-         return false;
-       }
-     });
+    $$('a.jump-to').each(function(jumpLink) {
+      jumpLink.observe('click', function(ev) {
+        ev.stopPropagation();
+        location.href = jumpLink.href;
+        var apid = location.hash.substr(1);
+        if (apid) {
+          Thumb.jumpTo(apid);
+          return false;
+        }
+      });
     });
 
     Thumb.init = function(){};

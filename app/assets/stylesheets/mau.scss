@@ -1826,6 +1826,9 @@ td.td-left{
 
 
 #artpiece_title {
+  overflow: hidden;
+  max-width: 500px;
+  margin:auto;
   font-size: 16px;
   font-weight: bold;
   padding: 0px 10px 10px 10px;

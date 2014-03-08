@@ -2,15 +2,15 @@ MAUFEEDS = window.MAUFEEDS || {};
 
 jQuery ->
   # this get's called once with each page load
-  # the endpoint only updates the cached filesystem version if it needs update 
+  # the endpoint only updates the cached filesystem version if it needs update
   MAUFEEDS.requests = []
   MAUFEEDS.freshen_cache = () ->
     $feed_div = jQuery('#feed_div')
     if $feed_div.length
       url = document.location.href
-      ajax_attrs = 
+      ajax_attrs =
         url: '/feeds/feed'
-        data: 
+        data:
           authenticity_token:unescape(authenticityToken)
           numentries:1
           page:url
@@ -24,6 +24,6 @@ jQuery ->
       MAUFEEDS.requests = [];
 
   MAUFEEDS.freshen_cache()
-  
+
   jQuery(document).bind 'beforeunload', () ->
     MAUFEEDS.abort_requests
