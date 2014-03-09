@@ -12,7 +12,7 @@ class ArtistsPresenter
   end
 
   def active_artists
-    @active_artists ||= Artist.active(:include => [:studio, :artist_info, :art_pieces, :representative_piece])
+    @active_artists ||= Artist.active.includes(:studio, :artist_info, :art_pieces)
   end
 
   def os_participants
