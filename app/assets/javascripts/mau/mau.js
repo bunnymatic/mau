@@ -43,7 +43,6 @@ post_to_url = function (path, params, method) {
   var W = M.WhatsThis = M.WhatsThis || {};
   var F = M.Feedback = M.Feedback || {};
   var N = M.Notifications = M.Notifications || {};
-  var MA = M.Map = M.Map || {};
   var G = M.GetInvolved = M.GetInvolved || {};
   var AC = M.Account = M.Account || {};
   var FV = M.Favorites = M.Favorites || {};
@@ -426,69 +425,6 @@ post_to_url = function (path, params, method) {
 
   Event.observe(window, 'load', A.init);
 
-  /** art piece methods */
-  AP.init = function() {
-    if (location.hash && location.href.match(/art_pieces\/\d+/)) {
-      var newid = location.hash.substr(1);
-      if (newid) {
-        var urlbits = location.href.split('/');
-        var n = urlbits.length;
-        urlbits[n-1] = newid;
-        var newurl = urlbits.join('/');
-        location.href = newurl;
-      }
-    }
-    var aps = $$('.thumbs-select .artp-thumb img');
-    aps.each(function(ap) {
-      ap.observe('click', function(ev) {
-	      var apid = $(this).up().readAttribute('pid');
-	      var inp = $('art_'+apid);
-	      if (inp) {
-	        inp.click();
-	      }
-      });
-    });
-
-    var zoomBtn = $$('#artpiece_container a.zoom');
-    _.each(zoomBtn, function(zoom) {
-      zoom.observe('click', function(ev) {
-        var t = ev.currentTarget || ev.target;
-        /** current target/target work around for IE */
-        if (t.tagName == 'DIV' && /micro/.test(t.className)) { /* hit the zoom div */
-          t = t.up();
-        }
-        MAU.ImageLightbox.init({image:{url: t.data('image'),
-                                       width: t.data('imagewidth'),
-                                       height: t.data('imageheight')
-                                      }
-                               });
-        MAU.ImageLightbox.show({position:'center'});
-        ev.stopPropagation();
-      });
-    });
-
-  };
-  Event.observe(window, 'load', AP.init);
-
-  /* validate upload data */
-  AP.validate_art_piece = function(frm) {
-    var input_filename = $(frm).select('#upload_datafile');
-    if (input_filename.length) {
-      var fname = input_filename[0].value;
-      var re = /[\#|\*|\(|\)|\[|\]|\{|\}|<|\>|\$|\!\?|\;|\'\"]/;
-      if (fname.match(re)) {
-        alert("You need to change the filename of the file you're"+
-              "trying to upload.  We don't do well with quotation"+
-              " marks and other special characters "+
-              "( like | or [] or {} or * or # or ; ).  "+
-              "Please rename that file before trying to upload again.");
-        return false;
-      }
-      return true;
-    }
-  };
-
-
 
   /*** feedback option selector code ***/
   F.init = function() {
@@ -750,22 +686,6 @@ post_to_url = function (path, params, method) {
 
   Event.observe(window,'load',G.init);
 
-  MA.ID_OS_FORM = "map_osswitcher";
-  MA.ID_OS_CHECKBOX = "map_cb";
-  MA.init = function() {
-    var mcb = $(MA.ID_OS_FORM);
-    if (mcb) {
-      $(MA.ID_OS_CHECKBOX).observe('click', function() {
-	      var mcb = $(MA.ID_OS_FORM);
-	      if (mcb) {
-	        mcb.submit();
-	      }
-      });
-    }
-    MA.init = function(){};
-  };
-  Event.observe(window,'load',MA.init);
-
   /** javascript flash */
   Object.extend(JSF, {
     WRAPPER: 'jsFlash',
@@ -809,24 +729,6 @@ post_to_url = function (path, params, method) {
   });
 
   Event.observe(window,'load', JSF.init);
-
-  Object.extend(AC, {
-    CHOOSER: 'account_type_chooser',
-    onload: function() {
-      var $chooser = $(AC.CHOOSER);
-      if ($chooser) {
-        Event.observe($chooser,'change', AC.open_selected_form);
-      }
-    },
-    open_selected_form: function() {
-      var newform = $(AC.CHOOSER).selected();
-      var uri_parser = new MAU.QueryStringParser("/users/new");
-      uri_parser.query_params.type = newform.value;
-      window.location.href = uri_parser.toString();
-    }
-  });
-  Event.observe(window,'load', AC.onload);
-
 
   var Favorites = {
     favorites_per_row : 20,
