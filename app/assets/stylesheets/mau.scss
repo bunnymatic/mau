@@ -3316,10 +3316,6 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   label {
     line-height: 1.7em;
   }
-  .show-toggle {
-    float: right;
-    margin-right: 23px;
-  }
   .thumb {
     @include solid_border;
     position: relative;
@@ -3340,11 +3336,6 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   }
   .last {
     margin-right: 0;
-  }
-  .delete-fav {
-    position: absolute;
-    bottom: 0;
-    right: 0;
   }
 }
 

@@ -22,8 +22,8 @@
               %label Please do not check this checkbox.  It is to prevent spammers from sending email through this form.
               = check_box_tag 'i_love_honey', 'yummy'
             #send_input
-              = submit_tag 'Send'
-              %button.formbutton#note_close_btn{:onclick => "return false;"} Cancel
+              = submit_tag 'Send', :class => 'formbutton'
+              %button.formbutton#note_close_btn Cancel
         = hidden_field_tag 'page', request.referer
         - if current_user
           = hidden_field_tag 'login', current_user.login

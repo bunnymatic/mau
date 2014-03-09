@@ -83,8 +83,8 @@ class ArtistPresenter
   end
 
   def studio_number
-    number = artist.studionumber
-    number.present? ? ('#' + artist.studionumber) : ''
+    number = artist.artist_info.try(:studionumber)
+    number.present? ? ('#' + number) : ''
   end
 
   def has_address?

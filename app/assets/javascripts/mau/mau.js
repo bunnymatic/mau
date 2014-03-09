@@ -42,7 +42,6 @@ post_to_url = function (path, params, method) {
   var AP = M.ArtPiece = M.ArtPiece || {};
   var W = M.WhatsThis = M.WhatsThis || {};
   var F = M.Feedback = M.Feedback || {};
-  var N = M.Notifications = M.Notifications || {};
   var G = M.GetInvolved = M.GetInvolved || {};
   var AC = M.Account = M.Account || {};
   var FV = M.Favorites = M.Favorites || {};
@@ -198,7 +197,7 @@ post_to_url = function (path, params, method) {
 	      var lft = '' + ((pw/2) - (w/2)) + "px";
 	      cn.style.top = tp;
 	      cn.style.left = lft;
-	      event.stop();
+	      event.stopPropagation();
 	      return false;
       });
     }
@@ -208,27 +207,6 @@ post_to_url = function (path, params, method) {
 
   Event.observe(window, 'load', M.init);
 
-  N.init = function() {
-    var s = $('emailsettings_fromall');
-    if (s) {
-      s.observe('click', function() {
-        if (this.checked) {
-          $('emailsettings_fromartist').checked = true;
-        }
-      });
-    }
-    s = $('emailsettings_fromartist');
-    if (s) {
-      s.observe('click', function() {
-        var t = $('emailsettings_fromall');
-        if (t.checked && !this.checked) {
-          t.checked = false;
-        }
-      });
-    }
-    N.init = function() {};
-  };
-  Event.observe(window, 'load', N.init);
 
   /**
    * scripty stuff related to artist and artist pages
@@ -241,7 +219,6 @@ post_to_url = function (path, params, method) {
   var ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
   var ID_NOTIFICATION_TOGGLE = 'notification_toggle';
   var ID_EVENTS_TOGGLE = 'events_toggle';
-  var ID_FAVORITES_TOGGLE = 'favorites_toggle';
 
   var ID_EVENTS_SXN = 'events';
   var ID_STUDIO_SXN = 'address';
@@ -251,7 +228,6 @@ post_to_url = function (path, params, method) {
   var ID_PASSWD_SXN = 'passwd';
   var ID_DEACTIVATE_SXN = 'deactivate';
   var ID_NOTIFICATION_SXN = 'notification';
-  var ID_FAVORITES_SXN = 'favorites';
 
   A.SECTIONS = [ID_STUDIO_SXN,
 		            ID_LINKS_SXN,
@@ -260,8 +236,7 @@ post_to_url = function (path, params, method) {
 		            ID_PASSWD_SXN,
 		            ID_DEACTIVATE_SXN,
 		            ID_NOTIFICATION_SXN,
-		            ID_EVENTS_SXN,
-                ID_FAVORITES_SXN];
+		            ID_EVENTS_SXN];
 
   A.TOGGLES = [ID_STUDIO_INFO_TOGGLE,
 	             ID_LINKS_TOGGLE,
@@ -270,8 +245,7 @@ post_to_url = function (path, params, method) {
 	             ID_PASSWD_TOGGLE,
 	             ID_DEACTIVATE_TOGGLE,
 	             ID_NOTIFICATION_TOGGLE,
-	             ID_EVENTS_TOGGLE,
-               ID_FAVORITES_TOGGLE];
+	             ID_EVENTS_TOGGLE];
 
   A.toggleSxnVis = function(sxn) {
     var sxns = M.Artist.SECTIONS;
@@ -434,150 +408,6 @@ post_to_url = function (path, params, method) {
     }
   };
 
-  N.ID_FORM = 'note_form';
-  N.ID_OVERLAY = 'note_overlay';
-  N.ID_MAIN = 'note_container';
-  N.ID_CONTENT = 'note_modal_content';
-  N.ID_MODAL_WINDOW = 'note_modal_window';
-  N.ID_CLOSER = 'note_close_link';
-  N.ID_CLOSE_BTN = 'note_close_btn';
-  N.ID_COMMENT = 'comment';
-  N.NOTEFORM_HTML = '<div id="' + N.ID_MAIN + '" style="display: none;">' +
-    '<div id="' + N.ID_MODAL_WINDOW + '">' +
-    '<a href="#" id="' + N.ID_CLOSER + '">x</a>' +
-    '<div id="' + N.ID_CONTENT + '"></div>' +
-    '</div></div>';
-  N.OVERLAY_DIV = '<div id="'+N.ID_OVERLAY+'" class="note_hide"></div>';
-
-  N.initOverlay = function() {
-    if ($$('#' + N.ID_OVERLAY).length === 0) {
-      $$("body").first().insert(N.OVERLAY_DIV);
-    }
-    $(N.ID_OVERLAY).addClassName('note_overlayBG');
-  };
-
-  N.showOverlay = function() {
-    N.initOverlay();
-    $(N.ID_OVERLAY).show();
-  };
-
-  N.hideOverlay = function() {
-    if ($$('#' + N.ID_OVERLAY).length === 0) {
-      return;
-    }
-    $(N.ID_OVERLAY).remove();
-  };
-
-  N.showNoteForm = function(ev) {
-    var aid = this.readAttribute('aid');
-    N.initOverlay();
-    N.initNote(aid);
-    $(N.ID_MAIN).show();
-  };
-
-  N.hideNote = function() {
-    $(N.ID_MAIN).hide();
-    $(N.ID_MAIN).remove();
-    N.hideOverlay();
-  };
-
-  N.loading = function() {
-    $(N.ID_CONTENT).innerHTML = "Loading...";
-    $(N.ID_CONTENT).addClassName('note-loading');
-  };
-
-  N.submitNote = function(event){
-    var data = $(N.ID_FORM).serialize(true);
-    var url = $(N.ID_FORM).action;
-    N.loading('Sending...');
-    var xhr = new Ajax.Updater(N.ID_CONTENT, url, {
-      method: 'POST',
-      parameters: data,
-      onComplete: function(transport){
-	      if (transport.status >= 200 && transport.status < 300) {
-	        $(N.ID_MODAL_WINDOW).fade({
-	          duration: 3.0,
-	          afterFinish: function() { N.hideNote(); }
-	        });
-	      }
-	      else {
-	        var n = $(N.ID_FORM);
-	        f.observe('submit', N.submitNote);
-	        var closer = $(N.ID_CLOSE_BTN);
-	        closer.observe('click', function(){
-	          N.hideNote();
-	          return false;
-	        });
-	      }
-      }
-    });
-    Event.stop(event);
-  };
-
-  N.initNote = function(aid) {
-    if ($$('#' + N.ID_MAIN).length === 0) {
-      $$("body").first().insert(N.NOTEFORM_HTML);
-      var closer = $(N.ID_CLOSER);
-      closer.observe('click', function(){
-	      N.hideNote();
-	      return false;
-      });
-      N.setWindowPosition();
-      N.loading();
-      var xhr = new Ajax.Updater(N.ID_CONTENT, '/users/' + aid + '/noteform',
-		                             {
-			                             method: 'get',
-			                             onComplete: function(transport) {
-			                               $(N.ID_CONTENT).removeClassName('note-loading');
-                                     $(N.ID_FORM).focus_first();
-			                               $(N.ID_FORM).observe('submit', N.submitNote);
-			                               var b = $(N.ID_CLOSE_BTN);
-			                               b.observe('click', function(){
-			                                 N.hideNote();
-			                                 return false;
-			                               });
-			                               MAU.addCommentBoxObserver($(N.ID_COMMENT));
-			                             }
-		                             });
-    }
-    return false;
-  };
-
-  N.setWindowPosition = function() {
-    var scrollTop, clientHeight;
-    if (self.pageYOffset) {
-      scrollTop = self.pageYOffset;
-    } else if (document.documentElement && document.documentElement.scrollTop) { // Explorer 6 Strict
-      scrollTop = document.documentElement.scrollTop;
-    } else if (document.body) {// all other Explorers
-      scrollTop = document.body.scrollTop;
-    }
-    if (self.innerHeight) {	// all except Explorer
-      clientHeight = self.innerHeight;
-    } else if (document.documentElement && document.documentElement.clientHeight) { // Explorer 6 Strict Mode
-      clientHeight = document.documentElement.clientHeight;
-    } else if (document.body) { // other Explorers
-      clientHeight = document.body.clientHeight;
-    }
-    $(N.ID_MODAL_WINDOW).setStyle({
-      top: (clientHeight / 10) + 'px'
-    });
-  };
-
-
-  N.init = function() {
-    var notes = $$('.notify-artist');
-    var nnotes = notes.length;
-    for (var ii = 0; ii < nnotes; ++ii) {
-      var n = notes[ii];
-      if (n) { n.observe('click', N.showNoteForm); }
-    }
-    N.init = function() {};
-  };
-
-  Event.observe(window,'load', N.init);
-
-
   /** get involved **/
   G.TOGGLELNK_SUFFIX = '_toggle_lnk';
   G.NTRUNC = G.TOGGLELNK_SUFFIX.length;
@@ -730,158 +560,6 @@ post_to_url = function (path, params, method) {
 
   Event.observe(window,'load', JSF.init);
 
-  var Favorites = {
-    favorites_per_row : 20,
-    init: function() {
-      var favorites = $$('.favorite_this');
-      $$('.favorite_this').each(function(lnk) {
-        lnk.observe('click', function() {
-          var tp = lnk.readAttribute('fav_type');
-          var id = lnk.readAttribute('fav_id');
-          if (tp && id) {
-            post_to_url('/users/add_favorite', {fav_type: tp,fav_id: id} );
-          }
-        });
-      });
-      $$('.favorites-block div.thumb').each( function(el) {
-        el.observe('mouseover', Favorites.show_delete);
-        el.observe('mouseout', Favorites.hide_delete);
-      });
-      $$('.favorites ul li .name .del-btn').each( function(el) {
-        el.observe('click', Favorites.execute_delete);
-      });
-      $$('#my_favorite_artists .delete-fav').each( function(el) {
-        el.observe('click', Favorites.execute_ajax_delete);
-      });
-      $$('#my_favorite_artpieces .delete-fav').each( function(el) {
-        el.observe('click', Favorites.execute_ajax_delete);
-      });
-
-      $$('.favorites-block').each( function(blk) {
-        var _id = blk.readAttribute('id');
-        var show_links = blk.select('.show-toggle');
-        $(show_links).each(function(show_link) {
-          show_link.addClassName('fewer');
-          show_link.select('a').each( function(lnk) {
-            lnk.writeAttribute('title','show all');
-            lnk.observe('click', function(ev) {
-              Favorites.show("#" + _id);
-            });
-          });
-        });
-        blk.observe('favorite:removed', Favorites.update_favorites_block);
-      });
-      Favorites.show_fewer('#my_favorites');
-      Favorites.show_fewer('#favorites_me');
-      var sm = $$('#my_favorites .show-toggle').first();
-      if (sm) {
-        sm.observe('click', function(ev) {
-          Favorites.show('#my_favorites');
-          ev.stop();
-        });
-      }
-      sm = $$('#favorites_me .show-toggle').first();
-      if (sm) {
-        sm.observe('click', function(ev) {
-          Favorites.show('#favorites_me');
-          ev.stop();
-        });
-      }
-    },
-    update_favorites_block: function(ev) {
-      var blk = ev.target;
-      var numfavs = $(blk).select('.thumb').length;
-      var spanct = $(blk).select('.fav-count');
-      if (spanct.length) {
-        spanct[0].update(numfavs);
-      }
-    },
-    show: function(block_id) {
-      var thumbs = $$(block_id + ' .favorite-thumbs li');
-      var show_link = $$(block_id + ' .show-toggle');
-      var show_more = true;
-      $(show_link).each(function(lk) {
-        if (lk.hasClassName('fewer')) {
-          Favorites.show_more(block_id);
-          lk.removeClassName('fewer');
-          lk.writeAttribute('title','show fewer');
-          lk.innerHTML = 'hide';
-        }
-        else {
-          Favorites.show_fewer(block_id);
-          lk.addClassName('fewer');
-          lk.writeAttribute('title','show more');
-          lk.innerHTML = 'see all';
-        }
-      });
-    },
-    show_more: function(block_id) {
-      var thumbs = $$(block_id + ' .favorite-thumbs li');
-      if (thumbs.length) {
-        $(thumbs).each(function( item, itemidx ) {
-          item.show();
-        });
-      }
-    },
-    show_fewer: function(block_id) {
-      var thumbs = $$(block_id + ' .favorite-thumbs li');
-      if (thumbs.length) {
-        $(thumbs).each(function( item, itemidx ) {
-          if (itemidx < Favorites.favorites_per_row) {
-            item.show();
-          }
-          else {
-            item.hide();
-          }
-        });
-      }
-    },
-    execute_delete: function(ev) {
-      var lnk = ev.target;
-      var tp = lnk.readAttribute('fav_type');
-      var id = lnk.readAttribute('fav_id');
-      if (tp && id) {
-        ev.stop();
-        post_to_url('/users/remove_favorite', {fav_type: tp,fav_id: id} );
-      }
-    },
-    execute_ajax_delete: function(ev) {
-      var favid = this.readAttribute('fav_id');
-      var favtype = this.readAttribute('fav_type');
-      var parent = this.up();
-      if (favid && favtype && confirm("Are you sure you want to remove this favorite?")) {
-	      var xhr = new Ajax.Request('/users/remove_favorite',
-                                   { method:'post',
-                                     parameters: {fav_type: favtype,
-                                                  fav_id: favid,
-                                                  authenticityToken: authenticityToken,
-                                                  format: 'json'},
-			                               onSuccess: function(tr) {
-                                       var blk = parent.up('.favorites-block');
-                                       parent.remove();
-                                       blk.fire('favorite:removed');
-			                               }
-			                             });
-      }
-      ev.stop();
-      return false;
-    },
-    show_delete: function(ev) {
-      var delbtn = this.select('.delete-fav').first();
-      if (delbtn && !delbtn.visible()) {
-        delbtn.show();
-      }
-    },
-    hide_delete: function(ev) {
-      var delbtn = this.select('.delete-fav').first();
-      if (delbtn && delbtn.visible()) {
-        delbtn.hide();
-      }
-    }
-  };
-
-  Object.extend(FV,Favorites);
-  Event.observe(window,'load', FV.init);
 
 }
 )();
