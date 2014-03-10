@@ -12,6 +12,7 @@
  *= require thirdparty/scriptaculous.all.min
  *= require thirdparty/event.simulate.js
  *= require thirdparty/prototype.feedback
+ *= require thirdparty/autocomplete
  *= require jquery.flot
  *= require jquery.flot.resize
  *= require_tree ./mau

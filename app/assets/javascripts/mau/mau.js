@@ -40,7 +40,6 @@ post_to_url = function (path, params, method) {
   var M = MAU;
   var A = M.Artist = M.Artist || {};
   var AP = M.ArtPiece = M.ArtPiece || {};
-  var W = M.WhatsThis = M.WhatsThis || {};
   var F = M.Feedback = M.Feedback || {};
   var G = M.GetInvolved = M.GetInvolved || {};
   var AC = M.Account = M.Account || {};

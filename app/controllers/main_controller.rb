@@ -44,7 +44,7 @@ class MainController < ApplicationController
   @@NUM_IMAGES = 15
   def get_random_pieces(num_images=@@NUM_IMAGES)
     # get random set of art pieces and draw them
-    ArtPiece.includes(:artist).where("users.state" => :active).order('rand()').sample(num_images)
+    ArtPiece.includes(:artist).where("users.state" => :active).order('rand()').limit(num_images)
   end
 
   def getinvolved
