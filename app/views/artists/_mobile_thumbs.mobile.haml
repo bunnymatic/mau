@@ -4,7 +4,7 @@
     %a{:href => artist_path(artist)}
       .thumb{:style => "background-image:url(#{piece});"}
       .name #{artist.get_name}
-    - if artist.os_participation[Conf.oslive.to_s]
+    - if artist.doing_open_studios?
       .os-star
 - if @artists.respond_to? :total_pages
   - if @artists.total_pages == @artists.current_page
