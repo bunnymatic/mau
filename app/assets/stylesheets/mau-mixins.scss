@@ -28,6 +28,11 @@ $lightyellow: #FEF7CA;
   background-color: rgba(10,10,10, 0.8);
 }
 
+@mixin transparent_blue_background {
+  background-color: $darkbluegray;
+  background-color: rgba(60,40,100, 0.4);
+}
+
 @mixin transparent_white_background {
   background-color: $xlightgray;
   background-color: rgba(240,240,240,0.7);
