@@ -58,12 +58,12 @@
 
       %ul.dropdown#osnav
         %li.dir
-          %a.lknav{:href => openstudios_path} open studios
+          %a.lknav{:href => open_studios_path} open studios
           %ul
             :ruby
               osnav = []
               if Conf.oslive
-                osnav << "<a href='#{ openstudios_path }' title='open studios event'>event details</a>"
+                osnav << "<a href='#{ open_studios_path }' title='open studios event'>event details</a>"
                 osnav << "<a href='#{ artists_path(:osonly => 1) }' title='particpating artists'>participating artists</a>"
                 osnav << "<a href='#{ map_artists_path(:osonly => 1) }' title='map of open studios artists'>os map</a>"
                 if current_user

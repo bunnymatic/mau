@@ -145,7 +145,7 @@ shared_examples_for "not logged in" do
   end
   context 'open studios section' do
     it 'renders open studios link' do
-      assert_select "ul#osnav .dir a[href=#{openstudios_path}]"
+      assert_select "ul#osnav .dir a[href=#{open_studios_path}]"
     end
     it 'renders a link to open studios participants' do
       assert_select "ul#osnav ul li.leaf a[href=#{artists_path(:osonly => 1)}]"

@@ -71,7 +71,7 @@
                   .micro-icon.heart
             - if @artist.doing_open_studios?
               .os-violator
-                %a{:href => openstudios_path}
+                = link_to open_studios_path do
                   %img{:src => "/images/os_star_violator.png"}
 
         - if @artist.has_bio?

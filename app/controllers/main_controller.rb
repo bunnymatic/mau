@@ -74,7 +74,7 @@ class MainController < ApplicationController
     end
   end
 
-  def openstudios
+  def open_studios
     @page_title = "Mission Artists United: Spring Open Studios"
 
     @presenter = OpenStudiosPresenter.new
@@ -208,7 +208,7 @@ class MainController < ApplicationController
   <loc>http://www.missionartistsunited.org/media</loc>
 </url>
 <url>
-  <loc>http://www.missionartistsunited.org/main/openstudios</loc>
+  <loc>http://www.missionartistsunited.org/main/open_studios</loc>
 </url>
 <url>
   <loc>http://www.missionartistsunited.org/getinvolved/</loc>

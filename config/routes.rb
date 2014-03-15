@@ -105,7 +105,7 @@ Mau::Application.routes.draw do
 
   match '/status' => 'main#status_page', :as => :status
   match '/faq' => 'main#faq', :as => :faq
-  match '/openstudios' => 'main#openstudios', :as => :openstudios
+  match '/open_studios' => 'main#open_studios', :as => :open_studios
   match '/venues' => 'main#venues', :as => :venues
   match '/privacy' => 'main#privacy', :as => :privacy
   match '/about' => 'main#about', :as => :about
