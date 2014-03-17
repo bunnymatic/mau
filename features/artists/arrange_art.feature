@@ -12,3 +12,5 @@ Scenario:
   And I click on "arrange art" in the sidebar menu
   Then I can arrange my art
 
+  When I click on "cancel"
+  Then I see my art

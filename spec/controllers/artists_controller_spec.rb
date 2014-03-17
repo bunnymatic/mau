@@ -606,13 +606,7 @@ describe ArtistsController do
         end
       end
 
-      it "returns art_pieces in new order (1,3,2)" do
-        Messager.any_instance.should_receive(:publish)
-        order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
-        post :setarrangement, { :neworder => order1.join(",") }
-      end
-
-      it "returns art_pieces in new order (1,3,2)" do
+      it "publishes a message to the Messager that something happened" do
         Messager.any_instance.should_receive(:publish)
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
         post :setarrangement, { :neworder => order1.join(",") }
@@ -624,13 +618,20 @@ describe ArtistsController do
         flash[:error].should be_present
       end
 
+      it 'does not rearrange art if cancel is pressed' do
+        order1 = artist1.art_pieces.map(&:id)
+        post :setarrangement, {  :neworder => [order1.last] + order1[0..-2], :submit => 'cancel' }
+        expect(artist1.art_pieces.map(&:id)).to eql order1
+
+      end
+
     end
   end
 
-  describe '#delete_art' do
+  describe '#arrange_art' do
     before do
       login_as :artist1
-      get :delete_art
+      get :arrange_art
     end
     it 'sets artist' do
       expect(assigns(:artist)).to be_a_kind_of ArtistPresenter
@@ -641,7 +642,7 @@ describe ArtistsController do
   describe '#delete_art' do
     before do
       login_as :artist1
-      get :arrange_art
+      get :delete_art
     end
     it 'sets artist' do
       expect(assigns(:artist)).to be_a_kind_of ArtistPresenter

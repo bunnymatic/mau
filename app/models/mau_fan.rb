@@ -32,7 +32,6 @@
 #  image_width               :integer          default(0)
 #  max_pieces                :integer          default(20)
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
-#  studionumber              :string(255)
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
 #

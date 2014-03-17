@@ -16,5 +16,5 @@
       .edit-buttons
         %input.formbutton{:type => 'submit', :value => 'save'}
         %input{:type => 'hidden', :name => 'artist', :value => @artist.id}
-        %input.formbutton{:type => 'button', :value => 'cancel', :onclick => "MAU.goToArtist(#{@artist.id});"}
+        %input.formbutton{:type => 'submit', :value => 'cancel'}
 
