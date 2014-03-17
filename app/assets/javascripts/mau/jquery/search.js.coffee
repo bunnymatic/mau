@@ -272,3 +272,5 @@ MAU.SearchPage = class MAUSearch
 
 jQuery ->
   new MAUSearch(['#medium_chooser','#studio_chooser'])
+  
+  jQuery('#search_link').bind('click', MAU.doSearch)

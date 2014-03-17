@@ -4,10 +4,10 @@
   #artisthemission
     %img{ :title => "Art is the Mission", :alt => "Art is the Mission", :src => "/images/artisthimission4.gif" }
   #search_btn2
-    %a.lkdark#search_link{:title =>'search', :onclick => 'MAU.doSearch();', :href => '#'}
+    %a.lkdark#search_link{:title =>'search', :href => '#'}
       %img#search_icon{:title => 'search', :src => '/images/icons/searchicon24.png'}
   #search_nav2
-    = form_tag '/search', :method => 'post' do
+    = form_tag '/search', :method => 'post', :id => 'search_form' do
       %input#search_box.srch{:type => 'text', :name => 'keywords', :size => '14'}
   #nav_bar
     .nav
