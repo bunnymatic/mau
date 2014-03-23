@@ -17,6 +17,22 @@ When(/^I click (on\s+)?"(.*?)" in the menu$/) do |dummy, link_text|
   end
 end
 
+When(/^I change my password to "(.*?)"$/) do |new_pass|
+  visit edit_artist_path(@artist)
+  fill_in("Old Password", :with => 'bmatic')
+  fill_in("New Password", :with => new_pass)
+  fill_in("Confirm new Password", :with => new_pass)
+  click_on 'change password'
+end
+
+When(/^I log out$/) do
+  click_on 'log out'
+end
+
+When(/^I fill in "(.*?)" for my password$/) do |pass|
+  fill_in_login_form @artist.login, pass
+end
+
 When(/^I fill in valid credentials$/) do
   fill_in_login_form @artist.login, "bmatic"
 end

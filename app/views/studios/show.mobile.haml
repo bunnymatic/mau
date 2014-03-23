@@ -7,7 +7,7 @@
         = link_to 'map', @studio.map_link
   .participants
     Open Studios Participants: #{@studio.open_studios_artists.count}
-    = link_to '(learn more)', openstudios_path
+    = link_to '(learn more)', open_studios_path
   - if @studio.has_artists_with_art?
     %ul.artists-thumbs
       - @studio.artists_with_art.each do |artist|

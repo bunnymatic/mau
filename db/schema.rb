@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140301211350) do
+ActiveRecord::Schema.define(:version => 20140315220100) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -94,8 +94,8 @@ ActiveRecord::Schema.define(:version => 20140301211350) do
 
   create_table "blacklist_domains", :force => true do |t|
     t.string   "domain"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "cms_documents", :force => true do |t|
@@ -187,8 +187,8 @@ ActiveRecord::Schema.define(:version => 20140301211350) do
     t.integer  "count"
     t.string   "oskey"
     t.date     "recorded_on"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -258,7 +258,6 @@ ActiveRecord::Schema.define(:version => 20140301211350) do
     t.integer  "image_width",                              :default => 0
     t.integer  "max_pieces",                               :default => 20
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
-    t.string   "studionumber"
     t.string   "type",                                     :default => "Artist"
     t.date     "mailchimp_subscribed_at"
   end

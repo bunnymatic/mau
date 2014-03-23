@@ -26,7 +26,7 @@ Mau::Application.configure do
 	# This is your Google Maps geocoder key.
 	# See http://www.google.com/apis/maps/signup.html
 	# and http://www.google.com/apis/maps/documentation/#Geocoding_Examples
-	config.geokit.geocoders.google = Conf.ga_api_key
+	#config.geokit.geocoders.google = Conf.ga_api_key
 
 	# This is your username and password for geocoder.us.
 	# To use the free service, the value can be set to nil or false.  For
@@ -56,7 +56,7 @@ Mau::Application.configure do
     puts "Using fake geocoder for tests"
     config.geokit.geocoders.provider_order = [:fake]
   else
-    config.geokit.geocoders.provider_order = [:google3,:yahoo,:us]
+    config.geokit.geocoders.provider_order = [:google3,:yahoo]
   end
 
 	# The IP provider order. Valid symbols are :ip,:geo_plugin.

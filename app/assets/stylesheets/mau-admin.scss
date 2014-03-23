@@ -18,6 +18,7 @@ body.admin {
     background-color: transparent;
   }
   .singlecolumn {
+    @include large-rounded-corners;
     width: 842px;
   }
 
@@ -466,6 +467,7 @@ body.admin {
     width: 45%;
   }
   .singlecolumn {
+    @include small-rounded-corners;
     tr:first-child {
       border: 0;
     }
@@ -608,7 +610,6 @@ body.admin {
   .row-info {
     display: inline-block;
     padding: 4px;
-    @include small-rounded-corners;
     border: 1px dotted #444;
   }
   .osoct2010 {

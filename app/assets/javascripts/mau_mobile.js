@@ -1,19 +1,19 @@
 var MAU = window.MAU = window.MAU || {};
-$(document).bind('pageinit', function() {
+jQuery(document).bind('pageinit', function() {
 
-  $('.show_more a').bind('click', function(ev) {
+  jQuery('.show_more a').bind('click', function(ev) {
     ev.preventDefault();
-    if ($(this).data('querying')) {
+    if (jQuery(this).data('querying')) {
       return false;
     }
 
-    var entries = $('.artists-thumbs li');
+    var entries = jQuery('.artists-thumbs li');
     var uri_parser = new MAU.QueryStringParser($.mobile.activePage.data('url'));
-    var currentPage = parseInt($(this).data('page') || uri_parser.query_params.page || 1,10);
+    var currentPage = parseInt(jQuery(this).data('page') || uri_parser.query_params.page || 1,10);
     uri_parser.query_params.page = currentPage + 1;
     // fetch new entries starting with entries.length
-    $btn = $(this);
-    $row = $(this).closest('div')
+    $btn = jQuery(this);
+    $row = $btn.closest('div')
     $.mobile.loading('show');
     $btn.data('querying', true);
     $btn.data('page', currentPage);
@@ -27,7 +27,7 @@ $(document).bind('pageinit', function() {
       complete: function() {
         $.mobile.loading('hide');
         $btn.data('querying', false);
-        if ($('.hidden.on_last_page').length) {
+        if (jQuery('.hidden.on_last_page').length) {
           $row.remove();
         }
       }

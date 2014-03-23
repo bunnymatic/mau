@@ -26,7 +26,7 @@ class ArtistPresenter
   end
 
   def has_bio?
-    @artist.bio and !@artist.bio.empty?
+    @artist.try(:bio) and !@artist.bio.empty?
   end
 
   def allows_email_from_artists?
@@ -54,7 +54,7 @@ class ArtistPresenter
   end
 
   def has_art?
-    art_pieces.present?
+    artist && art_pieces.present?
   end
 
   def art_pieces
@@ -83,12 +83,12 @@ class ArtistPresenter
   end
 
   def studio_number
-    number = artist.artist_info.studionumber
-    number.present? ? ('#' + artist.artist_info.studionumber) : ''
+    number = artist.studionumber
+    number.present? ? ('#' + artist.studionumber) : ''
   end
 
   def has_address?
-    valid_address?
+    @artist.has_address?
   end
 
   def in_the_mission?
@@ -180,10 +180,6 @@ class ArtistPresenter
 
   def share_title
     @share_title ||= "Check out %s at Mission Artists United" % get_name
-  end
-
-  def valid_address?
-    @valid_address ||= address_hash.parsed.slice(:street, :city).values.any?(&:present?)
   end
 
   def representative_thumb

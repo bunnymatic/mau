@@ -124,7 +124,7 @@ post_to_url = function (path, params, method) {
     return true;
   };
 
-  M.doSearch = function( ) {
+  M.doSearch = function(ev) {
     var q = $('search_box');
     var f = $('search_form');
     if (f && q && q.value) {

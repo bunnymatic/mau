@@ -10,80 +10,79 @@
       .content-block
         - if @artist.artist
           .artist-profile
-            .info
-              #artist_profile_name
-                %h1 #{@artist.get_name}
-                .artist
-                  .div-left
-                    - if @artist.studio
-                      %div
-                        = link_to @artist.studio_name, @artist.studio
-                      %div
-                        #{@artist.studio.street} #{@artist.studio_number}
-                        - if @artist.has_address?
-                          %span.lkmap
-                            (
-                            = link_to 'map', @artist.map_url
-                            )
-                      %div #{@artist.studio.city}
-                    - else
-                      %div
-                        #{@artist.street}
-                        - if @artist.has_address?
-                          %span.lkmap
-                            (
-                            = link_to 'map', @artist.map_url
-                            )
-                      %div #{@artist.city}
-                  - if !@artist.is_current_user?
-                    - if @artist.allows_email_from_artists?
-                      .div-left
-                        %span
-                          Contact:
-                          %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
-                            send a note to this artist
-
-                  - if @artist.has_media?
+            #artist_profile_name
+              %h1 #{@artist.get_name}
+              .artist
+                .div-left
+                  - if @artist.studio
+                    %div
+                      = link_to @artist.studio_name, @artist.studio
+                    %div
+                      #{@artist.studio.street} #{@artist.studio_number}
+                      - if @artist.has_address?
+                        %span.lkmap
+                          (
+                          = link_to 'map', @artist.map_url
+                          )
+                    %div #{@artist.studio.city}
+                  - else
+                    %div
+                      #{@artist.street}
+                      - if @artist.has_address?
+                        %span.lkmap
+                          (
+                          = link_to 'map', @artist.map_url
+                          )
+                    %div #{@artist.city}
+                - if !@artist.is_current_user?
+                  - if @artist.allows_email_from_artists?
                     .div-left
-                      %span Media:
                       %span
-                        = @artist.media.map{|m| link_to(m.name, m, :class => "")}.join(", ").html_safe
-                  - if @artist.has_links?
-                    .div-left
-                      - @artist.links.each do |key, name, lnk|
-                        %div{:id => key}
-                          %span #{name + ":"}
-                          = link_to lnk, lnk, { :target => "_blank" }
-                  = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist.artist }
-                  = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist.artist }
-                .clear
+                        Contact:
+                        %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
+                          send a note to this artist
 
-            #artist_profile_img
-              = render '/common/artist_profile_image', :artist => @artist.artist
+                - if @artist.has_media?
+                  .div-left
+                    %span Media:
+                    %span
+                      = @artist.media.map{|m| link_to(m.name, m, :class => "")}.join(", ").html_safe
+                - if @artist.has_links?
+                  .div-left
+                    - @artist.links.each do |key, name, lnk|
+                      %div{:id => key}
+                        %span #{name + ":"}
+                        = link_to lnk, lnk, { :target => "_blank" }
+                = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist.artist }
+                = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist.artist }
+              .clear
 
-              .action-icons
-                %a{:target => '_new', :href => @artist.tw_share_link, :title => "Share this page on Twitter"}
-                  .micro-icon.twitter
-                %a{:target => '_new', :href => @artist.fb_share_link, :title => "Share this page on Facebook"}
-                  .micro-icon.facebook
-                - if !current_user || !@artist.is_current_user?
-                  %a.favorite_this{:href => '#', :fav_type => 'Artist', :fav_id => @artist.id, :title => "Add this artist to your favorites"}
-                    #num_favorites #{@artist.favorites_count}
-                    .micro-icon.heart
-              - if @artist.doing_open_studios?
-                .os-violator
-                  %a{:href => openstudios_path}
-                    %img{:src => "/images/os_star_violator.png"}
+          #artist_profile_img
+            = render '/common/artist_profile_image', :artist => @artist.artist
 
-          - if @artist.has_bio?
-            .clear
-            .div-left.bio-container
-              %span Bio:
-              = @artist.bio_html
+            .action-icons
+              %a{:target => '_new', :href => @artist.tw_share_link, :title => "Share this page on Twitter"}
+                .micro-icon.twitter
+              %a{:target => '_new', :href => @artist.fb_share_link, :title => "Share this page on Facebook"}
+                .micro-icon.facebook
+              - if !current_user || !@artist.is_current_user?
+                %a.favorite_this{:href => '#', :fav_type => 'Artist', :fav_id => @artist.id, :title => "Add this artist to your favorites"}
+                  #num_favorites #{@artist.favorites_count}
+                  .micro-icon.heart
+            - if @artist.doing_open_studios?
+              .os-violator
+                = link_to open_studios_path do
+                  %img{:src => "/images/os_star_violator.png"}
+
+        - if @artist.has_bio?
           .clear
+          .div-left.bio-container
+            %span Bio:
+            = @artist.bio_html
+        .clear
 
-          .artist-pieces
-            - if @artist.has_art?
-              = render '/art_pieces/thumbs', :pieces => @artist.art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }
-            - else
-              %img{:src => "/images/default-art-img.png", :width => "200"}
+        .artist-pieces
+          - if @artist.has_art?
+            = render '/art_pieces/thumbs', :pieces => @artist.art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }
+          - else
+            %img{:src => "/images/default-art-img.png", :width => "200"}

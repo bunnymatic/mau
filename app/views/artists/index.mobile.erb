@@ -1,11 +1,11 @@
 <ul data-role="listview">
 <% if @artists.empty? -%>
-<%= render_as_mobile_list_item "artists' thumbnails", :link => '/artists/thumbs' %>
-<%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
-<%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
+<%= render_as_mobile_list_item 'artists\' work', :link => thumbs_artists_path %>
+<%= render_as_mobile_list_item 'artists by first name', :link => by_firstname_artists_path %>
+<%= render_as_mobile_list_item 'artists by last name', :link => by_lastname_artists_path %>
 <% else -%>
 <%   @artists.each do |a| -%>
-  <%= render_as_mobile_list_item a.for_mobile_list, :link => a.show_path, :os_star => a.os_star, :xtra_class => 'artist' %>
+<%= render_as_mobile_list_item a.for_mobile_list, :link => a.show_path, :os_star => a.os_star, :xtra_class => 'artist' %>
 <%   end -%>
 <% end -%>
 </ul>

@@ -6,7 +6,8 @@
       %h2.os-star
         #{@artist.get_name}
         .os-star
-      See this artist in their studio during Open Studios April 20-21, 2013
+      See this artist in their studio during
+      = link_to "Open Studios", open_studios_path
     - else
       %h2
         #{@artist.get_name}
@@ -57,4 +58,4 @@
         - @artist.links.each do |key, name, lnk|
           %div{:id => key}
             %span #{name}
-          = link_to lnk, lnk
+          = link_to lnk, add_http(lnk)

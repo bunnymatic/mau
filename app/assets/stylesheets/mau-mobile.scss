@@ -41,17 +41,16 @@ h1,h2,h3,h4,h5,h6 {
     float: left;
     margin: 8px;
     overflow: hidden;
-    height: 200px;
-    width: 200px;
+    width: 100%;
     border: 1px solid white;
   }
 
   .ap-thumb {
-    background-color: #666;
     background-position: center center;
     background-repeat: no-repeat;
     height: 200px;
     width: 200px;
+    margin: auto;
   }
 
 }
