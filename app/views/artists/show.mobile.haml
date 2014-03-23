@@ -58,4 +58,4 @@
         - @artist.links.each do |key, name, lnk|
           %div{:id => key}
             %span #{name}
-          = link_to lnk, lnk
+          = link_to lnk, add_http(lnk)

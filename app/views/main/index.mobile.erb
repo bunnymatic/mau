@@ -3,13 +3,13 @@
   <div>
     <ul data-role="listview">
       <% if Conf.oslive %>
-      <%= render_as_mobile_list_item "open studios #{pretty_print_os_tag(Conf.oslive, true).downcase}", :link => '/openstudios' %>
+      <%= render_as_mobile_list_item "open studios #{pretty_print_os_tag(Conf.oslive, true).downcase}", :link => open_studios_path %>
       <% end %>
-      <%= render_as_mobile_list_item 'art', :link => '/artists/thumbs' %>
-      <%= render_as_mobile_list_item 'artists by first name', :link => '/artists_by_firstname' %>
-      <%= render_as_mobile_list_item 'artists by last name', :link => '/artists_by_lastname' %>
-      <%= render_as_mobile_list_item 'studios', :link => '/studios' %>
-      <%= render_as_mobile_list_item 'events', :link => '/events' %>
+      <%= render_as_mobile_list_item 'art', :link => thumbs_artists_path %>
+      <%= render_as_mobile_list_item 'artists by first name', :link => by_firstname_artists_path %>
+      <%= render_as_mobile_list_item 'artists by last name', :link => by_lastname_artists_path %>
+      <%= render_as_mobile_list_item 'studios', :link => studios_path %>
+      <%= render_as_mobile_list_item 'events', :link => events_path %>
     </ul>
   </div>
 </div>

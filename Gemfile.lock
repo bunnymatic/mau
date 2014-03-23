@@ -150,9 +150,9 @@ GEM
     formatador (0.2.4)
     geokit (1.6.7)
       multi_json (>= 1.3.2)
-    geokit-rails3 (0.1.5)
+    geokit-rails (2.0.1)
       geokit (~> 1.5)
-      rails (~> 3.0)
+      rails (>= 3.0)
     gherkin (2.12.2)
       multi_json (~> 1.3)
     gibbon (0.3.5)
@@ -414,7 +414,7 @@ DEPENDENCIES
   faye
   flot-rails
   geokit
-  geokit-rails3
+  geokit-rails
   gibbon (~> 0.3.5)
   gmaps4rails
   grackle

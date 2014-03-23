@@ -94,8 +94,8 @@ ActiveRecord::Schema.define(:version => 20140315220100) do
 
   create_table "blacklist_domains", :force => true do |t|
     t.string   "domain"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "cms_documents", :force => true do |t|
@@ -187,15 +187,8 @@ ActiveRecord::Schema.define(:version => 20140315220100) do
     t.integer  "count"
     t.string   "oskey"
     t.date     "recorded_on"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "promoted_events", :force => true do |t|
-    t.integer  "event_id"
-    t.datetime "publish_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "roles", :force => true do |t|

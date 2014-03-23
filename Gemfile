@@ -33,8 +33,7 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem 'will_paginate' #, '~> 2.3.16'
 gem 'browser', "= 0.1.6" # 0.2.x does not support ruby 1.8.7
 gem 'geokit'
-#gem 'geokit-rails'
-gem 'geokit-rails3'
+gem 'geokit-rails'
 gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'draper'

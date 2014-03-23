@@ -60,6 +60,7 @@ class MainController < ApplicationController
         " We'd love to know if the website or the PayPal connection is not working."
     end
 
+    # handle feedback from the get involved page
     @feedback = Feedback.new
     if params[:commit]
       @feedback = Feedback.new(params[:feedback])

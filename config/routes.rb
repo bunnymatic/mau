@@ -15,6 +15,9 @@ Mau::Application.routes.draw do
     end
   end
 
+  resources :feeds, :only => [] do
+    get :feed
+  end
   resources :application_events, :only => [:index]
   resources :catalog, :only => [:index] do
     collection do
@@ -57,8 +60,11 @@ Mau::Application.routes.draw do
   match '/activate/:activation_code' => 'users#activate', :as => :activate
   match 'reset/:reset_code' => 'users#reset', :as => :reset, :method => :get
   match 'reset' => 'users#reset', :as => :submit_reset, :method => :post
+
   resources :artists, :except => [:new, :create] do
     collection do
+      get :by_lastname
+      get :by_firstname
       get :roster
       get :thumbs
       get :osthumbs
@@ -78,8 +84,6 @@ Mau::Application.routes.draw do
     end
   end
 
-  match '/artists_by_lastname' => 'artists#by_lastname', :as => :by_lastname
-  match '/artists_by_firstname' => 'artists#by_firstname', :as => :by_lastname
   resources :users do
     collection do
       post :remove_favorite
@@ -103,6 +107,21 @@ Mau::Application.routes.draw do
     resources :roles, :only => [:destroy]
   end
 
+  resource :main, :controller => :main do
+    get :notes_mailer
+    post :notes_mailer
+    get :letter_from_howard_flax
+    get :sampler
+  end
+
+  resource :tests, :only => [] do
+    get :custom_map
+    get :flash_test
+    get :qr
+    get :calendar_picker
+  end
+
+    
   match '/status' => 'main#status_page', :as => :status
   match '/faq' => 'main#faq', :as => :faq
   match '/open_studios' => 'main#open_studios', :as => :open_studios
@@ -131,11 +150,12 @@ Mau::Application.routes.draw do
   match '/maufans/:id' => 'users#show', :as => :mau_fans
   match '/discount/markup' => 'discount#markup', :as => :discount_processor
   match '/mobile/main' => 'mobile/main#welcome', :as => :mobile_root
-  match '/' => 'main#index'
   match '/sitemap.xml' => 'main#sitemap', :as => :sitemap
   match '/api/*path' => 'api#index'
+  match '*path' => 'error#index'
+
+  # march 2014 - we should try to get rid of this route
   match '/:controller(/:action(/:id))'
-  #match '*path' => 'error#index'
 
   root :to => "main#index"
 

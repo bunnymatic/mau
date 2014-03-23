@@ -448,11 +448,11 @@ describe MainController do
     end
   end
 
-  describe "#main/openstudios" do
+  describe "#main/open_studios" do
     render_views
     context "while not logged in" do
       before do
-        get :openstudios
+        get :open_studios
       end
       it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
@@ -475,13 +475,13 @@ describe MainController do
       it "uses cms for parties" do
         docs = [:os_blurb,:os_preview_reception].map{|k| cms_documents(k)}
         CmsDocument.should_receive(:where).at_least(2).and_return(docs)
-        get :openstudios
+        get :open_studios
       end
       context "while logged in as an art fan" do
         let(:fan) { users(:maufan1) }
         before do
           @logged_in_user = login_as fan
-          get :openstudios
+          get :open_studios
         end
         it_should_behave_like "logged in user"
       end
@@ -489,7 +489,7 @@ describe MainController do
         let(:artist) { users(:artist1) }
         before do
           @logged_in_user = login_as artist
-          get :openstudios
+          get :open_studios
         end
         it_should_behave_like "logged in user"
       end

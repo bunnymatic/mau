@@ -23,13 +23,13 @@ describe MainController do
       assert_select('ul li a[href="/artists/thumbs/"]', :count => 1)
     end
     it "includes menu item for about" do
-      assert_select('ul li a[href="/openstudios/"]', :count => 1)
+      assert_select('ul li a[href="/open_studios/"]', :count => 1)
     end
   end
 
-  describe 'openstudios' do
+  describe 'open_studios' do
     before do
-      get :openstudios, :format => :mobile
+      get :open_studios, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
 
@@ -37,7 +37,7 @@ describe MainController do
       docs = [:os_blurb,:os_preview_reception].map{|k| cms_documents(k)}
       CmsDocument.should_receive(:where).at_least(2).and_return(docs)
 
-      get :openstudios, :format => :mobile
+      get :open_studios, :format => :mobile
     end
     it "renders the markdown version" do
       CmsDocument.any_instance.stub(:article => <<EOM
@@ -49,7 +49,7 @@ stuff
 EOM
                                      )
 
-      get :openstudios, :format => :mobile
+      get :open_studios, :format => :mobile
       assert_select('h1', :match => 'header')
       assert_select('h2', :match => 'header2')
       assert_select('p', :match => 'stuff')
