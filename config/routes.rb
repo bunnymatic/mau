@@ -91,6 +91,7 @@ Mau::Application.routes.draw do
       get :resend_activation
       post :resend_activation
       get :forgot
+      post :forgot
       get :deactivate
       get :edit
       post :add_favorite
