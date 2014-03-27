@@ -44,7 +44,6 @@ post_to_url = function (path, params, method) {
   var G = M.GetInvolved = M.GetInvolved || {};
   var AC = M.Account = M.Account || {};
   var FV = M.Favorites = M.Favorites || {};
-  var JSF = M.Flash = M.Flash || {};
 
   M.__debug__ = true;
   M.BLIND_OPTS = { up: {duration: 0.25},
@@ -65,24 +64,6 @@ post_to_url = function (path, params, method) {
 	      }
 	      return false;
       });
-    }
-  };
-
-  M.addFlashObserver = function() {
-    var notice = $$('.notice').first();
-    if (notice) {
-      var close = new Element('div',{'class':'close_btn'});
-      close.innerHTML ='x';
-      notice.insert(close);
-
-      notice.setStyle({display:'block'});
-      /*notice.blindDown(M.BLIND_OPTS.down);*/
-      notice.observe('click', function() {
-	      notice.fade(M.BLIND_OPTS.up);
-      });
-      setTimeout(function() {
-	      notice.fade(M.BLIND_OPTS.up);
-      }, 10000);
     }
   };
 
@@ -201,7 +182,6 @@ post_to_url = function (path, params, method) {
       });
     }
     M.addArtPieceSubmissionObserver();
-    M.addFlashObserver();
   };
 
   Event.observe(window, 'load', M.init);
@@ -515,51 +495,20 @@ post_to_url = function (path, params, method) {
 
   Event.observe(window,'load',G.init);
 
-  /** javascript flash */
-  Object.extend(JSF, {
-    WRAPPER: 'jsFlash',
-    show:function(msgs, container) {
-      jQuery('#' + this.WRAPPER).remove();
-      var $w = this.construct(msgs);
-      var c = jQuery(container).first();
-      if (!c.length) {
-        c = document.body;
-      }
-      jQuery(c).prepend($w);
-      $w.fadeIn();
-      M.addFlashObserver();
-    },
-    hide:function() {
-      var w = $(this.WRAPPER);
-      if (w) { w.hide(); }
-    },
-    construct: function(msgs) {
-      /** do this with jQuery */
-      var $flash = jQuery('<div>', {id:this.WRAPPER, style:'display:none;'});
-      //var flash = new Element('div', {id:this.WRAPPER, style:'display:none;'});
-      var err = msgs.error;
-      var notice = msgs.notice;
-      var contents = jQuery('<div>');
-      ['error','notice'].each(function(k) {
-        if (msgs[k]) {
-          var msg = msgs[k];
-          var clz = k;
-          if (k == 'error') { clz = 'error-msg'; }
-          contents.append(jQuery('<div>', {'class': clz}).html(msg));
-        }
-      });
-      if (contents.html().length) {
-        $flash.html(contents);
-      }
-      return $flash;
-    },
-    init:function() {
-    }
-  });
-
-  Event.observe(window,'load', JSF.init);
-
-
 }
 )();
 
+/*** jquery on load */
+jQuery(function() { 
+
+  var flashNotice = jQuery(".notice");
+  if (flashNotice.length) {
+    flashNotice.find('.close_btn').bind('click', function() {
+	    flashNotice.fadeOut();
+    });
+    setTimeout(function() {
+	    flashNotice.fadeOut();
+    }, 10000);
+  }
+
+});

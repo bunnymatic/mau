@@ -43,13 +43,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_version
-    unless @revision
-      revision = VERSION
-      build_info_file = File.join(Rails.root, 'REVISION')
-      build = (File.exists?(build_info_file) ? File.open(build_info_file, 'r').read : 'unk')
-      @revision = revision
-      @build = build
-    end
+    @revision ||= VERSION
+    @build ||=
+      begin
+        build = `git rev-parse HEAD`
+      rescue
+        'unk'
+      end
     [@revision, @build].join ' '
   end
 
