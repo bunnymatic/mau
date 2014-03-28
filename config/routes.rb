@@ -123,7 +123,7 @@ Mau::Application.routes.draw do
     get :calendar_picker
   end
 
-    
+
   match '/status' => 'main#status_page', :as => :status
   match '/faq' => 'main#faq', :as => :faq
   match '/open_studios' => 'main#open_studios', :as => :open_studios
