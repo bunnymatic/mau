@@ -9,7 +9,7 @@ describe CatalogPresenter do
   let(:reception_doc) { cms_documents(:os_preview_reception) }
 
   its(:csv_filename) { should eql "mau_catalog_#{Conf.oslive.to_s}.csv" }
-  its("all_artists.all.sort") { 
+  its("all_artists.all.sort") {
     should eql Artist.active.open_studios_participants.all.sort
   }
   its(:indy_artists) { should eql Artist.active.open_studios_participants.reject(&:in_a_group_studio?) }

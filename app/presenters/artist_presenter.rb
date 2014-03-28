@@ -83,8 +83,8 @@ class ArtistPresenter
   end
 
   def studio_number
-    number = artist.studionumber
-    number.present? ? ('#' + artist.studionumber) : ''
+    number = artist.artist_info.try(:studionumber)
+    number.present? ? ('#' + number) : ''
   end
 
   def has_address?
@@ -154,7 +154,7 @@ class ArtistPresenter
   end
 
   def os_star
-    @os_star ||= artist.os_participation[Conf.oslive.to_s]
+    @os_star ||= artist.doing_open_studios?
   end
 
   def bio_html

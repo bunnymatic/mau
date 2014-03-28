@@ -46,6 +46,7 @@ Mau::Application.routes.draw do
   resources :feedbacks, :only => [:new, :create]
 
   resources :search, :only => [:index] do
+    post '/', :action => 'index'
     collection do
       post :fetch
     end
@@ -122,7 +123,7 @@ Mau::Application.routes.draw do
     get :calendar_picker
   end
 
-    
+
   match '/status' => 'main#status_page', :as => :status
   match '/faq' => 'main#faq', :as => :faq
   match '/open_studios' => 'main#open_studios', :as => :open_studios

@@ -215,12 +215,12 @@ class ArtistsController < ApplicationController
 
     @artist = get_artist_from_params
     set_artist_meta
-
-    if @artist.bio.present?
+    if @artist.try(:bio).present?
       respond_to do |format|
         format.html { redirect_to artist_path(@artist) and return }
         format.mobile {
           @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
+          @artist = ArtistPresenter.new(view_context, @artist)
           render :layout => 'mobile'
         }
       end

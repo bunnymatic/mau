@@ -20,7 +20,7 @@ Please tell us as much as you can about your skills, your thoughts on Mission Ar
 	        <%= f.select 'skillsets', feedback_skillsets , :multiple => true %>
 	      </div>
 	      <div id="vcomment_input" class="getinv-input" >
-	        <%= f.text_area 'comment', :cols => 50, :rows => 10, :value => "<enter your comment here>" %>
+	        <%= f.text_area 'comment', :cols => 50, :rows => 10, :placeholder => "<enter your comment here>" %>
 	      </div>
 	      <div id="vsend_input" >
 	        <%= f.submit 'Send', :class => 'formbutton'%>

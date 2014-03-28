@@ -46,7 +46,7 @@
         classes = []
         classes << cycle('even', 'odd')
         classes << a.state
-        classes << 'participating' if a.os_participation && a.os_participation[ Conf.oslive.to_s ]
+        classes << 'participating' if a.doing_open_studios?
       %tr{:class => classes.join(' ')}
         %td.admin_artist_name
           %a{:href => artist_path(a)}
@@ -75,7 +75,7 @@
               %br
               #{'http://%s/reset/%s' % [Conf.site_url, a.reset_code]}
 
-        %td.participating_status{ :artistid => a.id } #{a.os_participation && a.os_participation[Conf.oslive.to_s].to_s}
+        %td.participating_status{ :artistid => a.id } #{a.doing_open_studios?}
         %td
           - if a.has_address?
             / this make sure that all os settings are sent to the controller

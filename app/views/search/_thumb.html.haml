@@ -1,7 +1,7 @@
 - if piece && piece.artist
   - linkto = (artist_link and piece.artist) ? artist_path(piece.artist) : art_piece_path(piece)
   .artpiece-thumb
-    - if piece.artist.doing_open_studios? && Conf.oslive
+    - if piece.artist.doing_open_studios?
       .os-star{:title => "I'll be in Open Studios!"}
     .search-thumb-art
       - if piece.get_path(size)

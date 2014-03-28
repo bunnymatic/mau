@@ -1,8 +1,8 @@
 /** jquery mods **/
 jQuery(function() {
-
   /** arrange art */
-  jQuery('#arrange_art .sortable').sortable();
+  var sortMe = jQuery('#arrange_art .sortable')
+  if (sortMe.sortable) { sortMe.sortable(); }
 
   jQuery('#arrange_art_form').bind('submit', function(ev) {
     // construct new order

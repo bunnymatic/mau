@@ -52,25 +52,23 @@ MAU.SearchPage = class MAUSearch
     _.each @choosers, (container) ->
       c = jQuery(container)
       _that.setAnyLink(c)
-      lnk = c.find('.reset a').first()
-      jQuery(lnk).bind('click', (ev) ->
+      c.find('.reset a').bind 'click', (ev) ->
         cbs = c.find _that.checkboxSelector
         _.each cbs, (el) ->
           el.checked = false
         _that.setAnyLink(c)
         ev.stopPropagation();
         _that._submitForm();
-        return false
-      ) if lnk
+        false
 
   # set a.reset links based on the checkbox content
   setAnyLink: (container) ->
     _that = this
     c = jQuery(container)
-    if c
+    if c.length
       cbs = c.find @checkboxSelector + ":checked"
-      a = c.find('.reset a').first()
-      if a
+      a = c.find('.reset a')
+      if a.length
         a.toggle(cbs.length > 0)
 
   initFormSubmitOnChange: ->
@@ -137,7 +135,8 @@ MAU.SearchPage = class MAUSearch
     # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     # OTHER DEALINGS IN THE SOFTWARE.
     _that = this
-    jQuery('.column').on('click', '.trigger', _that.toggleTarget)
+    col = jQuery('.column')
+    col.on('click', '.trigger', _that.toggleTarget) if col.on
     triggers = jQuery('.column .trigger')
     _.each triggers, (item) ->
       item.insert sprite_minus_dom
@@ -224,8 +223,9 @@ MAU.SearchPage = class MAUSearch
           false
     # setup per page hook
     jQuery('results_per_page').bind 'change', (ev) ->
-      pp = frm.find('input[name=per_page]').first()
-      if pp
+      pp = frm.find('input[name=per_page]')
+      if pp.length > 0
+        pp = pp[1]
         pp.value = per_page.val()
         _that._submitForm(ev)
 

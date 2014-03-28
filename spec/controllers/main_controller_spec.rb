@@ -722,7 +722,7 @@ describe MainController do
   describe 'version' do
     it 'returns the app version' do
       get :version
-      response.body.should eql 'Charger 6.0 unk'
+      response.body.should include ApplicationController::VERSION
     end
   end
 
