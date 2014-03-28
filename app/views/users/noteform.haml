@@ -17,7 +17,7 @@
                 Your Email
                 = text_field_tag 'email'
             #comment_input.fdbk-input
-              = text_area_tag 'comment', "<enter your note here>", :cols => 70, :rows => 10
+              = text_area_tag 'comment', '', :placeholder => "<enter your note here>", :cols => 70, :rows => 10
             #validate_me.fdbk-input
               %label Please do not check this checkbox.  It is to prevent spammers from sending email through this form.
               = check_box_tag 'i_love_honey', 'yummy'

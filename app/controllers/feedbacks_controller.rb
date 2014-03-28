@@ -13,9 +13,6 @@ class FeedbacksController < ApplicationController
 
   def create
     @feedback = Feedback.new(params[:feedback])
-    if @feedback.comment == '<enter your comment here>'
-      @feedback.comment = ''
-    end
     if @feedback.valid?
       @feedback.save
       FeedbackMailer.feedback(@feedback).deliver!

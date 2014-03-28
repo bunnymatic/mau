@@ -46,6 +46,7 @@ Mau::Application.routes.draw do
   resources :feedbacks, :only => [:new, :create]
 
   resources :search, :only => [:index] do
+    post '/', :action => 'index'
     collection do
       post :fetch
     end

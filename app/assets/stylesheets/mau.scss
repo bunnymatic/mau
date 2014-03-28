@@ -87,13 +87,16 @@ h5 {
   background-color: $darkgray;
   margin: 15px auto;
   border: 1px solid $lightyellow;
-  padding: 11px;
+  padding: 20px;
   width: 260px
 }
 .error-msg {
   border: 1px solid $error_red;
   color: $error_red;
   text-align: left;
+}
+.close_btn {
+  cursor: pointer;
 }
 .notice {
   z-index: 1;

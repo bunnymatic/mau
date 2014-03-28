@@ -55,18 +55,6 @@ post_to_url = function (path, params, method) {
     return (str.indexOf(".") > 2) && (str.indexOf("@") > 0);
   };
 
-  M.addCommentBoxObserver = function( cmtbx ) {
-    if (cmtbx) {
-      cmtbx.observe('focus', function() {
-        if ((this.value == '<enter your comment here>') ||
-	          (this.value == '<enter your note here>')) {
-	        this.value = '';
-	      }
-	      return false;
-      });
-    }
-  };
-
   /* when we add an art piece */
   M.addArtPieceSubmissionObserver = function() {
     var art_piece_form = $('new_artpiece_form');
@@ -379,121 +367,113 @@ post_to_url = function (path, params, method) {
   Event.observe(window, 'load', A.init);
 
 
-  /*** feedback option selector code ***/
-  F.init = function() {
-    var cbx = $$('div.fdbk-input #feedback_comment');
-    if (cbx.length > 0) {
-      M.addCommentBoxObserver();
-    }
-  };
-
   /** get involved **/
-  G.TOGGLELNK_SUFFIX = '_toggle_lnk';
-  G.NTRUNC = G.TOGGLELNK_SUFFIX.length;
-  G.ITEMS = ['volunteer','donate','emaillist',
-	           'suggest','shop','venue','business'];
-  var _giToggle = function(it) {
-    return "gi_"+it+"toggle";
-  };
-  var _giToggleLink = function(it) {
-    return "gi_"+it+"_toggle_lnk";
-  };
-  var _giDiv = function(it) {
-    return "gi_"+it;
-  };
-  var _giLnk2Div = function(lnk) {
-    return lnk.substr(0,lnk.length - G.NTRUNC);
-  };
+  // G.TOGGLELNK_SUFFIX = '_toggle_lnk';
+  // G.NTRUNC = G.TOGGLELNK_SUFFIX.length;
+  // G.ITEMS = ['volunteer','donate','emaillist',
+	//            'suggest','shop','venue','business'];
+  // var _giToggle = function(it) {
+  //   return "gi_"+it+"toggle";
+  // };
+  // var _giToggleLink = function(it) {
+  //   return "gi_"+it+"_toggle_lnk";
+  // };
+  // var _giDiv = function(it) {
+  //   return "gi_"+it;
+  // };
+  // var _giLnk2Div = function(lnk) {
+  //   return lnk.substr(0,lnk.length - G.NTRUNC);
+  // };
 
-  G.showSection = function(s) {
-    var items = $$('div.gi a');
-    var nitems = items.length;
-    for (var ii = 0; ii < nitems; ++ii) {
-      var tg = items[ii];
-      if (tg) {
-	      var s2 = _giLnk2Div(tg.id);
-	      var dv = $(s2);
-	      if (dv) {
-	        if (!dv.visible()) {
-	          if (s && s2 && (s == s2)) {
-	            dv.blindDown(M.BLIND_OPTS.down);
-            }
-          } else {
-	          dv.slideUp(M.BLIND_OPTS.up);
-	        }
-	      }
-      }
-    }
-  };
+  // G.showSection = function(s) {
+  //   var items = $$('div.gi a');
+  //   var nitems = items.length;
+  //   for (var ii = 0; ii < nitems; ++ii) {
+  //     var tg = items[ii];
+  //     if (tg) {
+	//       var s2 = _giLnk2Div(tg.id);
+	//       var dv = $(s2);
+	//       if (dv) {
+	//         if (!dv.visible()) {
+	//           if (s && s2 && (s == s2)) {
+	//             dv.blindDown(M.BLIND_OPTS.down);
+  //           }
+  //         } else {
+	//           dv.slideUp(M.BLIND_OPTS.up);
+	//         }
+	//       }
+  //     }
+  //   }
+  // };
 
-  G.init = function() {
-    var showSection = function(ev) {
-      ev.stopPropagation();
-      var s = _giLnk2Div(this.id);
-      G.showSection(s);
-      return false;
-    };
+  // G.init = function() {
+  //   var showSection = function(ev) {
+  //     ev.stopPropagation();
+  //     var s = _giLnk2Div(this.id);
+  //     G.showSection(s);
+  //     return false;
+  //   };
 
-    // pick out special items
-    // shop -> cafe press
-    // email -> mailto:
-    var specialCases = ['shop'];
+  //   // pick out special items
+  //   // shop -> cafe press
+  //   // email -> mailto:
+  //   var specialCases = ['shop'];
 
-    var items = $$('div.open-close-div a');
-    var nitems = items.length;
-    var ii = 0;
-    for (ii = 0; ii < nitems; ++ii) {
-      var tg = items[ii];
-      if (tg) {
-	      tg.observe('click', showSection);
-      }
-    }
+  //   var items = $$('div.open-close-div a');
+  //   var nitems = items.length;
+  //   var ii = 0;
+  //   for (ii = 0; ii < nitems; ++ii) {
+  //     var tg = items[ii];
+  //     if (tg) {
+	//       tg.observe('click', showSection);
+  //     }
+  //   }
 
-    var cbx = $$('.content-block #feedback_comment');
-    var ncbx = cbx.length;
-    for (ii = 0; ii < ncbx; ++ii) {
-      M.addCommentBoxObserver(cbx[ii]);
-    }
+  //   var cbx = $$('.content-block #feedback_comment');
+  //   var ncbx = cbx.length;
+  //   for (ii = 0; ii < ncbx; ++ii) {
+  //     M.addCommentBoxObserver(cbx[ii]);
+  //   }
 
-    var frms = $$('div.content-block form');
-    var nfrms = frms.length;
-    for (ii = 0; ii < nfrms; ++ii) {
-      var f = frms[ii];
-      f.observe('submit', G.validateEmailComment );
-    }
-    G.init = function() {};
-  };
+  //   var frms = $$('div.content-block form');
+  //   var nfrms = frms.length;
+  //   for (ii = 0; ii < nfrms; ++ii) {
+  //     var f = frms[ii];
+  //     f.observe('submit', G.validateEmailComment );
+  //   }
+  //   G.init = function() {};
+  // };
 
-  G.validateEmailComment = function(ev) {
-    var el = ev.element();
-    if (!el) {
-      return false;
-    }
-    var ems = el.getElements();
-    var nems = ems.length;
-    var ii;
-    for (ii = 0; ii < nems; ++ii) {
-      var em = ems[ii];
-      if (em.name == 'feedback[email]') {
-	      if (!M.validateEmail(em.getValue())) {
-	        alert("Please enter a valid email address.");
-	        ev.stop();
-	        return false;
-	      }
-      }
-      if (em.name == 'feedback[comment]') {
-	      var v = em.getValue();
-	      if ((v === '') || (v === '<enter your comment here>')) {
-	        alert("Please enter something in the comment box.");
-	        ev.stop();
-	        return false;
-	      }
-      }
-    }
-    return true;
-  };
+  // G.validateEmailComment = function(ev) {
+  //   var el = ev.element();
+  //   if (!el) {
+  //     return false;
+  //   }
+  //   var ems = el.getElements();
+  //   var nems = ems.length;
+  //   var ii;
+  //   for (ii = 0; ii < nems; ++ii) {
+  //     var em = ems[ii];
+  //     if (em.name == 'feedback[email]') {
+	//       if (!M.validateEmail(em.getValue())) {
+	//         alert("Please enter a valid email address.");
+	//         ev.stop();
+	//         return false;
+	//       }
+  //     }
+  //     if (em.name == 'feedback[comment]') {
+	//       var v = em.getValue();
+	//       if ((v === '') || (v === '<enter your comment here>')) {
+	//         alert("Please enter something in the comment box.");
+	//         ev.stop();
+	//         return false;
+	//       }
+  //     }
+  //   }
+  //   return true;
+  // };
 
-  Event.observe(window,'load',G.init);
+  // Event.observe(window,'load',G.init);
 
 }
 )();
