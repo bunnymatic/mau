@@ -60,6 +60,6 @@ MAU.ArtPieces = class ArtPieces
           
 
 jQuery ->
-  AP = new  MAU.ArtPieces()
+  AP = new MAU.ArtPieces()
   AP.redirectOnHash()
   AP.setupZoomOnArtPiece()

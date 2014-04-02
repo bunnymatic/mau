@@ -69,4 +69,4 @@ MAU.CreditsPopup = class CreditsPopup
         return false
       
 jQuery ->
-  new  MAU.CreditsPopup()
+  new MAU.CreditsPopup()

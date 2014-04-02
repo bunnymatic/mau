@@ -2,6 +2,9 @@
 MAU = window.MAU = window.MAU || {};
 MAU.Utils =
 
+  validateEmail: (str) ->
+    (str.indexOf(".") > 2) && (str.indexOf("@") > 0)
+
   getSize: (el) ->
     { width: el.offsetWidth, height: el.offsetHeight }
     
