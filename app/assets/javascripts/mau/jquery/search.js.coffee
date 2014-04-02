@@ -237,10 +237,10 @@ MAU.SearchPage = class MAUSearch
     if (frm.length)
       opts =
         url: '/search/fetch',
-        success: (resp) ->
-          jQuery('#search_results').html(resp)
+        success: (data, status, xhr) ->
+          jQuery('#search_results').html(data)
           false
-        failure: (resp) ->
+        error: (resp) ->
           false
         complete: () ->
           jQuery(_that.spinnerHook).spin(false)

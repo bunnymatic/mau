@@ -45,11 +45,9 @@ Mau::Application.routes.draw do
 
   resources :feedbacks, :only => [:new, :create]
 
-  resources :search, :only => [:index] do
-    post '/', :action => 'index'
-    collection do
-      post :fetch
-    end
+  namespace :search do
+    match '/', :action => 'index', :via => [:get,:post]
+    match '/fetch', :action => 'fetch', :via => [:get, :post]
   end
 
   match '/logout' => 'sessions#destroy', :as => :logout

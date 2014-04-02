@@ -9,7 +9,7 @@ var MAU = window.MAU = window.MAU || {};
           var tp = lnk.readAttribute('fav_type');
           var id = lnk.readAttribute('fav_id');
           if (tp && id) {
-            post_to_url('/users/add_favorite', {fav_type: tp,fav_id: id} );
+            MAU.Utils.post_to_url('/users/add_favorite', {fav_type: tp,fav_id: id} );
           }
         });
       });
@@ -50,7 +50,7 @@ var MAU = window.MAU = window.MAU || {};
       var id = lnk.readAttribute('fav_id');
       if (tp && id) {
         ev.stop();
-        post_to_url('/users/remove_favorite', {fav_type: tp,fav_id: id} );
+        MAU.Utils.post_to_url('/users/remove_favorite', {fav_type: tp,fav_id: id} );
       }
     },
     show: function(block_id) {
@@ -104,9 +104,9 @@ var MAU = window.MAU = window.MAU || {};
     $$('.favorites ul li .name .del-btn').each( function(el) {
       el.observe('click', Favorites.execute_delete);
     });
-    
+
     /** setup bindings */
     MAU.Favorites.bindings();
   });
-  
+
 })();

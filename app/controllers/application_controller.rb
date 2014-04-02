@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
-  unless Mau::Application.config.consider_all_requests_local
+  if !Mau::Application.config.consider_all_requests_local || Rails.env != 'development'
     #filter_parameter_logging :password
     #rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
     #rescue_from ActionController::RoutingError,       :with => :render_not_found

@@ -2,23 +2,6 @@
 
 var MAU = window.MAU = window.MAU || {};
 
-post_to_url = function (path, params, method) {
-  method = method || "post"; // Set method to post by default, if not specified.
-
-  // The rest of this code assumes you are not using a library.
-  // It can be made less wordy if you use one.
-  var form = new Element('form', { method: method, action: path });
-  var hiddenField = null;
-  for(var key in params) {
-    hiddenField = new Element('input', { type: 'hidden', name: key, value: params[key] });
-    form.appendChild(hiddenField);
-  }
-  hiddenField = new Element('input', { type: 'hidden', name: 'authenticity_token', value:unescape(authenticityToken)});
-  form.appendChild(hiddenField);
-  document.body.appendChild(form);    // Not entirely sure if this is necessary
-  form.submit();
-};
-
 /** setup hash change observer */
 (function(){
   var curHash = window.location.hash;
@@ -108,67 +91,11 @@ post_to_url = function (path, params, method) {
     window.location = lnk;
   };
 
-  M.CREDITS_BG = 'credits_bg';
-  M.CREDITS_BG_CONTAIN = 'credits_bg_contain';
-  M.CREDITS_DIV = 'credits_div';
-
   M.init = function() {
     var $lf = $('login_form');
 
     if ($lf) { $lf.focus_first(); }
 
-    // init credits popup
-    var fq = $('credits_lnk');
-    if (fq) {
-      Event.observe(fq,'click', function(event) {
-	      var bg = $(M.CREDITS_BG);
-	      var cn = $(M.CREDITS_BG_CONTAIN);
-	      if (bg) { bg.remove(); }
-	      if (cn) { cn.remove(); }
-	      bg = new Element('div', { id: M.CREDITS_BG });
-	      cn = new Element('div', { id:M.CREDITS_BG_CONTAIN });
-	      var d = new Element('div', { id: M.CREDITS_DIV });
-	      var hd = new Element('div').addClassName('credits-hdr');
-	      hd.update('Credits');
-	      var bd = new Element('div').addClassName('credits-bdy');
-        var version = MAU.versionString || 'Charger 6';
-	      bd.update('<div style="text-align: center;">'+
-                  '<p>Web Design/QA: Trish Tunney</p>' +
-                  '<p>Web Construction: <a href="http://rcode5.com">Mr Rogers @ Rcode5 </a></p>' +
-                  '<p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p>'+
-                  '</div>'+
-                  '<div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>'+
-                  '<div class="close_btn">click to close</div>'+
-                  '<div class="release_version">Release: ' + version + '</div><div class="clear"></div>');
-	      if (d && hd && bd) {
-	        var dummy = new Insertion.Top(d, bd);
-	        dummy = new Insertion.Top(d, hd);
-	      }
-	      Event.observe(d,'click', function(event) {
-	        bg.remove();
-	        cn.remove();
-	        return false;
-	      });
-	      var dump = new Insertion.Top(cn, d);
-	      dump = new Insertion.Top(document.body,cn);
-	      dump = new Insertion.Top(document.body,bg);
-
-	      /* center */
-	      var dm = Element.getDimensions(d);
-	      w = dm.width;
-	      h = dm.height;
-	      var ws = document.viewport.getDimensions();
-	      var soff = document.viewport.getScrollOffsets();
-	      pw = ws.width + soff.left;
-	      ph = ws.height + soff.top;
-	      var tp = '' + ((ph/2) - (h/2)) + "px";
-	      var lft = '' + ((pw/2) - (w/2)) + "px";
-	      cn.style.top = tp;
-	      cn.style.left = lft;
-	      event.stopPropagation();
-	      return false;
-      });
-    }
     M.addArtPieceSubmissionObserver();
   };
 
@@ -479,7 +406,7 @@ post_to_url = function (path, params, method) {
 )();
 
 /*** jquery on load */
-jQuery(function() { 
+jQuery(function() {
 
   var flashNotice = jQuery(".notice");
   if (flashNotice.length) {

@@ -327,7 +327,7 @@ class UsersController < ApplicationController
         objname = obj.get_name(true)
         msg = r ? "#{objname} has been added to your favorites.":
           "You've already added #{objname} to your list of favorites."
-        redirect_to obj, :flash => { :notice => msg }
+        redirect_to obj, :flash => { :notice => msg.html_safe }
       end
     else
       render_not_found({:message => "You can't favorite that type of object" })
