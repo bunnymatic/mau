@@ -30,13 +30,13 @@ var MauPrototypeExtensions = {
     if (!elem) {return;}
     elem.innerHTML = val;
   },
-  innerDimensions: function(elem) {
-    if (!elem) {return;}
-    var l = new Element.Layout(elem);
-    return ({ width: l.get('width') + l.get('padding-left') + l.get('padding-right'),
-              height: l.get('height') + l.get('padding-top') + l.get('padding-bottom')
-            });
-  },
+  // innerDimensions: function(elem) {
+  //   if (!elem) {return;}
+  //   var l = new Element.Layout(elem);
+  //   return ({ width: l.get('width') + l.get('padding-left') + l.get('padding-right'),
+  //             height: l.get('height') + l.get('padding-top') + l.get('padding-bottom')
+  //           });
+  // },
   outerDimensions: function(elem) {
     if (!elem) {return;}
     var l = new Element.Layout(elem);
@@ -103,10 +103,6 @@ if (!Function.prototype.debounce) {
     };
 
   };
-}
-
-if (!String.prototype.trim) {
-  String.prototype.trim = function() { return this.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
 }
 
 
@@ -204,22 +200,5 @@ if (!String.prototype.trim) {
   };
 
   Element.addMethods(Utils);
-
-  var FormMethods = {
-    focus_first : function(f) {
-      if (!f) {return;}
-      var inps = f.select('input');
-      var ni = inps.length;
-      for (var ii =0; ii < ni; ++ii) {
-        var inp = inps[ii];
-        if ( $(inp).readAttribute('type') != 'hidden' ) {
-	        inp.activate();
-	        break;
-        }
-      }
-    }
-  };
-
-  Element.addMethods('form', FormMethods);
 
 })();

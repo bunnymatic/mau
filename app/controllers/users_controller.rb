@@ -175,7 +175,7 @@ class UsersController < ApplicationController
     note_info = build_note_info_from_params
     if note_info.has_key? 'reason'
       AdminMailer.spammer(note_info).deliver!
-    else
+    elsif note_info['comment'].present?
       ArtistMailer.notify( Artist.find(_id), note_info).deliver!
     end
     render :layout => false

@@ -23,36 +23,12 @@ var MAU = window.MAU = window.MAU || {};
   var M = MAU;
   var A = M.Artist = M.Artist || {};
   var AP = M.ArtPiece = M.ArtPiece || {};
-  var F = M.Feedback = M.Feedback || {};
-  var G = M.GetInvolved = M.GetInvolved || {};
-  var AC = M.Account = M.Account || {};
-  var FV = M.Favorites = M.Favorites || {};
 
   M.__debug__ = true;
   M.BLIND_OPTS = { up: {duration: 0.25},
                    down: {duration: 0.75} };
   M.FADE_OPTS = { 'in': {duration: 0.25, from:0, to:1},
                   'out': {duration: 0.25} };
-
-  /* when we add an art piece */
-  M.addArtPieceSubmissionObserver = function() {
-    var art_piece_form = $('new_artpiece_form');
-    if (art_piece_form) {
-      var submit_button = art_piece_form.select('input[type=submit]')[0];
-      if (art_piece_form && submit_button) {
-        submit_button.observe('click', function(ev) {
-          if (AP.validate_art_piece(art_piece_form)) {
-            MAU.waitcursor();
-            return true;
-          }
-          else {
-            ev.stop();
-            return false;
-          }
-        });
-      }
-    }
-  };
 
   // clear any errors and spinit
   M.waitcursor = function() {
@@ -86,16 +62,6 @@ var MAU = window.MAU = window.MAU || {};
     }
     window.location = lnk;
   };
-
-  M.init = function() {
-    var $lf = $('login_form');
-
-    if ($lf) { $lf.focus_first(); }
-
-    M.addArtPieceSubmissionObserver();
-  };
-
-  Event.observe(window, 'load', M.init);
 
 
   /**

@@ -43,7 +43,7 @@ MAU.ArtPieces = class ArtPieces
         MAU.ImageLightbox.show({position:'center'});
 
   # validate upload data 
-  validate_art_piece: (frm) ->
+  validate: (frm) ->
     input_filename = jQuery(frm).find('#upload_datafile')
     if (input_filename.length)
       fname = input_filename.val()
