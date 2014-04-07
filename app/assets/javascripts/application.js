@@ -1,9 +1,5 @@
-/* older IE's don't have trim function */
-if (!String.prototype.trim) {
-  String.prototype.trim = function() { return this.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
-}
-
 /*
+ *= require monkey_patches
  *= require jquery
  *= require jquery_ujs
  *= require jquery_noconflict

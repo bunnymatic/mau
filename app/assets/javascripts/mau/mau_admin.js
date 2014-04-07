@@ -18,45 +18,12 @@ MAUAdmin =  window.MAUAdmin || {};
   };
 
   var M = MAUAdmin;
-  M.Roles = {
-    init: function() {
-      /** bind events */
-      var ctrls = $('role_mgr');
-      if (ctrls) {
-        var btn = ctrls.selectOne('.add_userrole');
-        if (btn) {
-          $(btn).observe('click', function() {
-            var frm = ctrls.selectOne('form.edit_role');
-            if (frm) {
-              if (frm.visible()) {
-                frm.hide();
-              } else {
-                frm.show();
-              }
-            }
-          });
-        }
-      }
-    }
-  };
+
+  jQuery(function() {
+    jQuery('.js-hideable-rows').hideableRows()
+  });
 
   M.init = function() {
-    _.each([M.AdminNav, M.Roles], function(modul) {
-      if (modul && modul.init) { modul.init(); }
-    });
-    $$('.hide-rows input').each(function(el) {
-      el.observe('click', function() {
-        var clz = this.value;
-        var show = this.checked;
-        $$('table.admin-table tr.' + clz).each(function(row) {
-          if (show) {
-            row.fade();
-          } else {
-            row.appear();
-          }
-        });
-      });
-    });
 
     var oscombo = $('os_combo_link');
     if (oscombo) {
@@ -179,4 +146,3 @@ MAUAdmin =  window.MAUAdmin || {};
   Event.observe(window, 'load', EL.init);
 
 })();
-

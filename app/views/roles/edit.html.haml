@@ -7,7 +7,7 @@
     %em #{@role.role}
   %h4 Members
   .controls
-    = form_for @role, :html => {:style => 'display:none;'} do |f|
+    = form_for @role, :html => {:class => 'js-hook hidden'} do |f|
       = select_tag 'user', options_from_collection_for_select(@users, :id, :fullname)
       = f.submit "add user", :class => 'formbutton'
     = link_to "[add user to role]", "#", :class => 'add_userrole'
