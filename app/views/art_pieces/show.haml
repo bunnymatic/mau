@@ -27,7 +27,7 @@
                   .micro-icon.heart
           - if Conf.show_lightbox_feature
             .zoom-corner
-              %a{:class => 'zoom', :href => '#', 'data-image' => "#{@art_piece.zoomed}", 'data-imagewidth' => @art_piece.zoomed_width, 'data-imageheight' => @art_piece.zoomed_height }
+              %a{:class => 'zoom', :href => @art_piece.zoomed, :title => @art_piece.title}
                 %img.zoom{:src => '/images/icons/zoom_corner.png'}
         .art-piece-info{:style => @art_piece.css_width}
           .basic

@@ -53,14 +53,6 @@ class ArtPiecePresenter
     @zoomed ||= art_piece.get_path('large')
   end
 
-  def zoomed_width
-    image_dimensions[:large][0]
-  end
-
-  def zoomed_height
-    image_dimensions[:large][1]
-  end
-
   def edit_path
     @view_context.edit_art_piece_path(art_piece)
   end

@@ -51,6 +51,8 @@ gem 'unicorn'
 
 gem 'flot-rails' # jquery plotting program
 
+gem 'colorbox-rails' # lightbox plugin
+
 group :test do
   gem 'faker'
   gem 'webmock'
