@@ -2,6 +2,24 @@ class EmailListsController < ApplicationController
   before_filter :admin_required
   layout 'mau-admin'
 
+  def destroy
+    @msgs = {}
+    remove_email(email_list)
+    response_data = {}
+    response_data[:messages] = @msgs.reject{|k,v| v.nil?}.map{|k,v| v}.join
+    status = (@msgs[:error].present? ? 400 : 200)
+    render :json => response_data, :status => status
+  end
+
+  def add
+    @msgs = {}
+    add_email(email_list)
+    @msgs.reject{|k,v| v.nil?}.each do |k,v|
+      flash[k] = v
+    end
+    redirect_to email_lists_path
+  end
+
   def index
     @all_lists = {
       :feedback => FeedbackMailerList.first.emails,
@@ -14,35 +32,13 @@ class EmailListsController < ApplicationController
       :event => 'This list is used to notify MAU staff when a new event is added.',
       :admin => 'This list is used to notify MAU Admins - typically for system issues.'
     }
-    # :admin => AdminMailerList.first.emails  - not used
-
-
-    @msgs = {}
-    if request.post?
-      handle_email_list_update
-      if request.xhr?
-        response_data = {}
-        status = 200
-        @msgs.reject{|k,v| v.nil?}.each do |k,v|
-          response_data[:messages] = '' if !response_data[:messages]
-          response_data[:messages] += v
-        end
-        status = 400 if @msgs[:error].present?
-        render :json => response_data, :status => status
-      else
-        @msgs.reject{|k,v| v.nil?}.each do |k,v|
-          flash[k] = v
-        end
-        redirect_to email_lists_path
-      end
-    end
 
   end
 
 
   private
   def insufficient_params?
-    !["method", "listtype"].all?{|required| params.has_key? required}
+    !["listtype"].all?{|required| params.has_key? required}
   end
 
   def email_list
@@ -78,16 +74,13 @@ class EmailListsController < ApplicationController
   end
 
   def remove_email(list)
-    if list && params["email"] && params["email"]["id"]
-      em_id = params["email"]["id"].to_i
-      begin
-        email = Email.find(em_id)
-        member = EmailListMembership.where(:email_list_id => list.id, :email_id => email.id).first
-        member.destroy if member.present?
-        @msgs[:notice] = "Successfully removed #{email.email} from #{params['listtype'].to_s.capitalize}s"
-      rescue Exception => ex
-        @msgs[:error] = ex.to_s
-      end
+    email = Email.where(:id => params[:id]).first
+    if list && email
+      member = EmailListMembership.where(:email_list_id => list.id, :email_id => email.id).first
+      member.destroy if member.present?
+        
+      @msgs[:notice] = "Successfully removed #{email.email} from #{params['listtype'].to_s.capitalize}s"
+        
     else
       @msgs[:error] = "Email ID is missing"
     end

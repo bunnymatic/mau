@@ -7,6 +7,9 @@ class TestsController < ApplicationController
   before_filter :admin_required
   layout 'mau-admin'
 
+  def show
+  end
+
   def flash_test
     flash.now[:notice] = 'The current time is %s' % Time.zone.now
     flash.now[:error] = 'This is an error at %s' % Time.zone.now

@@ -40,109 +40,53 @@ MAUAdmin =  window.MAUAdmin || {};
   };
   Event.observe(window,'load',M.init);
 
-  var E = M.Events = M.Events || {};
-  E.init = function() {
-    $$('.filters input[type=checkbox]').each(function(lnk) {
-      lnk.observe('change',function() {
-        var time_filters = [];
-        var state_filters = [];
-        $$('.filters input.time[type=checkbox]').each(function(checked) {
-          if (checked.checked) {
-            time_filters.push(checked.getValue());
-          }
-        });
-        $$('.filters input.state[type=checkbox]').each(function(checked) {
-          if (checked.checked) {
-            state_filters.push(checked.getValue());
-          }
-        });
-        $$('.event').each(function(el){el.hide();});
-        state_filters.each(function(state_class) {
-          time_filters.each(function(time_class) {
-            $$( ['.event',time_class, state_class].join('.') ).each(function(el){el.show();});
-          });
-        });
-
-      });
-    });
-    $$('.filters .show_all').each(function(el) {
-      el.observe('click', function() {
-        $$('.filters input[type=checkbox]').each(function(ck) {
-          ck.checked = true;
-          $$('.event').each(function(el){el.show();});
-        });
-      });
-    });
-    // start with only future, inprogress and unpublished
-    var k = null;
-    var init_state = { future: true,
-                       in_progress: true,
-                       past: false,
-                       published: false,
-                       unpublished: true};
-    for (k in init_state) {
-      var $ev_filter = $('event_filter_'+k);
-      if ($ev_filter) {
-        $ev_filter.checked = init_state[k];
-        $ev_filter.triggerEvent('change');
-      }
-    }
-  };
-  Event.observe(window,'load',E.init);
-
-
-  /** internal email lists */
-  var EL = M.InternalEmailLists = MAUAdmin.InternalEmailLists || {};
-  EL.init = function() {
-    $$('.del_btn').each(function(btn) {
-      $(btn).observe('click', function(ev) {
-        var li = $(btn).firstParentByTagName('li');
-        var ul = $(btn).firstParentByTagName('ul');
-        if (li && ul) {
-          var email = li.firstChild.nodeValue.strip();
-          var email_id = li.getAttribute('email_id');
-          var listname = ul.getAttribute('list_type');
-          if ( email && listname && email_id ) {
-            if (confirm('Whoa Nelly!  Are you sure you want to remove ' + email + ' from the ' + listname + ' list?')) {
-              var data_url = '/email_list/';
-              var ajax = new Ajax.Request(data_url, {
-                method: 'post',
-                parameters: {
-                  authenticity_token:unescape(authenticityToken),
-                  'email[id]': email_id,
-                  listtype: listname,
-                  method: 'remove_email'
-                },
-                onSuccess: function(transport) {
-                  li.remove();
-                }
-              });
-            }
-          }
-        }
-        ev.stop();
-        return false;
-      });
-    });
-    $$('.add_btn').each(function(btn) {
-      $(btn).observe('click', function(ev) {
-        var li = $(btn).firstParentByTagName('li');
-        if (li) {
-          var container = $(li).select('.add_email');
-          if (container) {
-            var c = $(container[0]);
-            if ($(c).visible()) {
-              $(c).slideUp();
-            } else {
-              $(c).slideDown();
-            }
-          }
-        }
-        ev.stop();
-        return false;
-      });
-    });
-  };
-  Event.observe(window, 'load', EL.init);
-
 })();
+
+
+jQuery(function() {
+  jQuery('.add_btn').each(function() {
+    jQuery(this).bind('click', function(ev) {
+      ev.preventDefault();
+      var $li = jQuery(this).closest('li');
+      if ($li.length) {
+        var $container = $li.find('.add_email');
+        $container.slideToggle();
+      }
+      return false;
+    });
+  });
+
+
+  jQuery('.del_btn').each(function() {
+    jQuery(this).bind('click', function(ev) {
+      var $this = jQuery(this);
+      ev.preventDefault();
+      var $li = $this.closest('li')
+      var $ul = $this.closest('ul')
+      // var li = $(btn).firstParentByTagName('li');
+      // var ul = $(btn).firstParentByTagName('ul');
+      if ($li && $ul) {
+        var email = $li[0].firstChild.data.strip();
+        var email_id = $li.attr('email_id');
+        var listname = $ul.attr('list_type');
+        if ( email && listname && email_id ) {
+          if (confirm('Whoa Nelly!  Are you sure you want to remove ' + email + ' from the ' + listname + ' list?')) {
+            var data_url = '/email_lists/' + email_id;
+            var ajax_data = {
+              url: data_url,
+              method: 'delete',
+              data: {
+                authenticity_token:unescape(authenticityToken),
+                listtype: listname
+              },
+              success: function(data,status,xhr) {
+                $li.remove();
+              }
+            }
+            jQuery.ajax(ajax_data)
+          }
+        }
+      }
+    });
+  });
+});
