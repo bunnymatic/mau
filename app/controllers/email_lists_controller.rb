@@ -78,9 +78,9 @@ class EmailListsController < ApplicationController
     if list && email
       member = EmailListMembership.where(:email_list_id => list.id, :email_id => email.id).first
       member.destroy if member.present?
-        
+
       @msgs[:notice] = "Successfully removed #{email.email} from #{params['listtype'].to_s.capitalize}s"
-        
+
     else
       @msgs[:error] = "Email ID is missing"
     end

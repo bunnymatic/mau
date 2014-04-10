@@ -79,21 +79,21 @@ describe EmailListsController do
         xhr :delete, :destroy, :listtype => :event, :id => first_email.id
       }.to change(Email, :count).by(0);
     end
-    
+
     it 'returns a message indicating who was removed' do
       xhr :delete, :destroy, :listtype => :event, :id => first_email.id
       response.content_type.should eql Mime::Type.lookup("application/json")
       expect(response).to be_success
       JSON.parse(response.body)['messages'].should match "Successfully removed #{first_email.email} from Events"
     end
-    
+
     it 'returns an error if the email id is missing when trying to delete' do
       xhr :delete, :destroy, :listtype => :event, :id => 10
       response.content_type.should eql Mime::Type.lookup("application/json")
       expect(response).to_not be_success
       JSON.parse(response.body)['messages'].should match "Email ID is missing"
     end
-    
+
   end
 
   describe '#index' do
@@ -132,6 +132,6 @@ describe EmailListsController do
         assert_select '.email_lists ul.listtypes form', :count => 3
       end
     end
-    
+
   end
 end
