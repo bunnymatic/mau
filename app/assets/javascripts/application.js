@@ -13,7 +13,7 @@
  *= require thirdparty/prototype/1.7/prototype.min
  *= require thirdparty/scriptaculous.all.min
  *= require thirdparty/event.simulate.js
- *= require thirdparty/prototype.feedback
+ *= require thirdparty/jquery.feedback
  *= require thirdparty/autocomplete
  *= require jquery.flot
  *= require jquery.flot.resize
