@@ -1,18 +1,16 @@
-def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
-
 class SearchController < ApplicationController
   layout 'mau'
 
   @@CACHE_EXPIRY = (Conf.cache_expiry['search'] or 20)
   @@QUERY_KEY_PREFIX = "q:"
 
+  def index
+    return unless execute_search
+  end
+
   def fetch
     execute_search
     render :layout => false
-  end
-
-  def index
-    return unless execute_search
   end
 
   private

@@ -1,0 +1,11 @@
+@import 'mau-mixins';
+
+.js-hideable-rows {
+  table tbody {
+    tr {
+      &.js-hidden-row {
+        display:none;
+      }
+    }
+  }
+}

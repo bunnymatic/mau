@@ -25,7 +25,12 @@ Mau::Application.routes.draw do
     end
   end
 
-  resources :email_lists, :only => [:index]
+  resources :email_lists, :only => [:index, :destroy] do
+    collection do
+      post :add
+    end
+  end
+
   resources :art_piece_tags, :only => [:index, :show, :edit, :destroy] do
     collection do
       get :autosuggest # autocomplete for prototype doesn't easily do ajax with authenticity token :(
@@ -45,11 +50,9 @@ Mau::Application.routes.draw do
 
   resources :feedbacks, :only => [:new, :create]
 
-  resources :search, :only => [:index] do
-    post '/', :action => 'index'
-    collection do
-      post :fetch
-    end
+  namespace :search do
+    match '/', :action => 'index', :via => [:get,:post]
+    match '/fetch', :action => 'fetch', :via => [:get, :post]
   end
 
   match '/logout' => 'sessions#destroy', :as => :logout
@@ -116,11 +119,11 @@ Mau::Application.routes.draw do
     get :sampler
   end
 
-  resource :tests, :only => [] do
+  resource :tests, :only => [:show] do
     get :custom_map
     get :flash_test
     get :qr
-    get :calendar_picker
+    get :markdown
   end
 
 

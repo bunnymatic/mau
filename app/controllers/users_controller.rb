@@ -175,7 +175,7 @@ class UsersController < ApplicationController
     note_info = build_note_info_from_params
     if note_info.has_key? 'reason'
       AdminMailer.spammer(note_info).deliver!
-    else
+    elsif note_info['comment'].present?
       ArtistMailer.notify( Artist.find(_id), note_info).deliver!
     end
     render :layout => false
@@ -327,7 +327,7 @@ class UsersController < ApplicationController
         objname = obj.get_name(true)
         msg = r ? "#{objname} has been added to your favorites.":
           "You've already added #{objname} to your list of favorites."
-        redirect_to obj, :flash => { :notice => msg }
+        redirect_to obj, :flash => { :notice => msg.html_safe }
       end
     else
       render_not_found({:message => "You can't favorite that type of object" })

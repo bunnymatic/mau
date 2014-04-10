@@ -115,9 +115,8 @@
         var $zoom = $$('a.zoom')[0];
         if ($zoom) {
           var _that = this;
-          $zoom.data('image', images.large);
-          $zoom.data('imageheight', ap.image_dimensions.large[1]);
-          $zoom.data('imagewidth', ap.image_dimensions.large[0]);
+          $zoom.href = images.large;
+          $zoom.title = ap.title
         }
         var $favs = $$('.favorite_this');
         if ($favs.length > 0) {

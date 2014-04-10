@@ -1,157 +1,217 @@
-<!-- Begin MailChimp Signup Form -->
-<!--[if IE]>
-<style type="text/css" media="screen">
-#mc_embed_signup fieldset {position: relative;}
-#mc_embed_signup legend {position: absolute; top: -1em; left: .2em;}
-</style>
-<![endif]-->
-<!--[if IE 7]>
-<style type="text/css" media="screen">
-.mc-field-group {overflow:visible;}
-</style>
-<![endif]-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
-<script type="text/javascript" src="http://downloads.mailchimp.com/js/jquery.validate.js"></script>
-<script type="text/javascript" src="http://downloads.mailchimp.com/js/jquery.form.js"></script>
 <div id="mc_embed_signup">
-<span class="desc">Sign up to hear about our Fall and Spring Open Studios Events.  You don't want to miss them!</span>
-<form action="http://missionartistsunited.us2.list-manage1.com/subscribe/post?u=a10070c7a519efbd75c4136a2&amp;id=02f17b3a2c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
- <fieldset>
-<div class="indicate-required">* indicates required</div>
+<form action="http://missionartistsunited.us2.list-manage1.com/subscribe/post?u=a10070c7a519efbd75c4136a2&amp;id=23d68b070e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+	<h2>Subscribe to our mailing list</h2>
+<div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
 <div class="mc-field-group">
-<label for="mce-EMAIL">Email Address <strong class="note-required">*</strong>
+	<label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
 </label>
-<input type="text" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+	<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
 </div>
 <div class="mc-field-group">
-<label for="mce-FNAME">First Name <strong class="note-required">*</strong>
-</label>
-<input type="text" value="" name="FNAME" class="required" id="mce-FNAME">
+	<label for="mce-FNAME">First Name </label>
+	<input type="text" value="" name="FNAME" class="" id="mce-FNAME">
 </div>
 <div class="mc-field-group">
-<label for="mce-LNAME">Last Name </label>
-<input type="text" value="" name="LNAME" class="" id="mce-LNAME">
+	<label for="mce-LNAME">Last Name </label>
+	<input type="text" value="" name="LNAME" class="" id="mce-LNAME">
 </div>
- <div id="mce-responses">
-  <div class="response" id="mce-error-response" style="display:none"></div>
-  <div class="response" id="mce-success-response" style="display:none"></div>
- </div>
- <div><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="formbutton btn"></div>
- </fieldset>
+	<div id="mce-responses" class="clear">
+		<div class="response" id="mce-error-response" style="display:none"></div>
+		<div class="response" id="mce-success-response" style="display:none"></div>
+	</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_a10070c7a519efbd75c4136a2_23d68b070e" value=""></div>
+	<div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="formbutton button"></div>
 </form>
 </div>
 <script type="text/javascript">
-var fnames = new Array();var ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';var err_style = '';
-try{ err_style = mc_custom_error_style;} catch(e){
- err_style = 'margin: 1em 0 0 0; padding: 1em 0.5em 0.5em 0.5em; background: ERROR_BGCOLOR none repeat scroll 0% 0%; font-weight: bold; float: left; z-index: 1; width: 80%; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; color: ERROR_COLOR;';
+var fnames = new Array();var ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='MMERGE3';ftypes[3]='radio';
+try {
+    var jqueryLoaded=jQuery;
+    jqueryLoaded=true;
+} catch(err) {
+    var jqueryLoaded=false;
 }
-var mce_jQuery = jQuery.noConflict();
-mce_jQuery(document).ready( function($) {
-  if ( MAU && MAU.Cookie && MAU.Cookie.init ) {
-    MAU.Cookie.init({name:'mau'});
-    var email_addr = MAU.Cookie.getData('email') || '';
-    var firstname = MAU.Cookie.getData('firstname') || '';
-    var lastname = MAU.Cookie.getData('lastname') || '';
-  }
-  $('#mce-EMAIL').val(email_addr);
-  $('#mce-FNAME').val(firstname);
-  $('#mce-LNAME').val(lastname);
- var options = { errorClass: 'mce_inline_error', errorElement: 'div', errorStyle: err_style, onkeyup: function(){}, onfocusout:function(){}, onblur:function(){} };
- var mce_validator = mce_jQuery("#mc-embedded-subscribe-form").validate(options);
- options = { url: 'http://missionartistsunited.us2.list-manage1.com/subscribe/post-json?u=a10070c7a519efbd75c4136a2&id=02f17b3a2c&c=?', type: 'GET', dataType: 'json', contentType: "application/json; charset=utf-8",
- beforeSubmit: function(){
-mce_jQuery('#mce_tmp_error_msg').remove();
-mce_jQuery('.datefield','#mc_embed_signup').each(
-            function(){
-              var txt = 'filled';
-              var fields = new Array();
-              var i = 0;
-              mce_jQuery(':text', this).each(
-                function(){
-                  fields[i] = this;
-                  i++;
-                });
-              mce_jQuery(':hidden', this).each(
-                function(){
-                 if ( fields[0].value=='MM' && fields[1].value=='DD' && fields[2].value=='YYYY' ){
-                 this.value = '';
-     } else if ( fields[0].value=='' && fields[1].value=='' && fields[2].value=='' ){
-                 this.value = '';
-     } else {
-                   this.value = fields[0].value+'/'+fields[1].value+'/'+fields[2].value;
-                 }
-                });
-            });
-          return mce_validator.form();
-        },
-        success: mce_success_cb
-      };
- mce_jQuery('#mc-embedded-subscribe-form').ajaxForm(options);
+var head= document.getElementsByTagName('head')[0];
+if (!jqueryLoaded) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js';
+    head.appendChild(script);
+    if (script.readyState && script.onload!==null){
+        script.onreadystatechange= function () {
+              if (this.readyState == 'complete') mce_preload_check();
+        }    
+    }
+}
 
-});
-function mce_success_cb(resp){
-  mce_jQuery('#mce-success-response').hide();
-  mce_jQuery('#mce-error-response').hide();
-  if (resp.result=="success"){
-    mce_jQuery('#mce-'+resp.result+'-response').show();
-    mce_jQuery('#mce-'+resp.result+'-response').html(resp.msg);
-    mce_jQuery('#mc-embedded-subscribe-form').each(function(){
-      this.reset();
-   });
-  } else {
-    var index = -1;
-    var msg;
+var err_style = '';
+try{
+    err_style = mc_custom_error_style;
+} catch(e){
+    err_style = '#mc_embed_signup input.mce_inline_error{border-color:#6B0505;} #mc_embed_signup div.mce_inline_error{margin: 0 0 1em 0; padding: 5px 10px; background-color:#6B0505; font-weight: bold; z-index: 1; color:#fff;}';
+}
+var head= document.getElementsByTagName('head')[0];
+var style= document.createElement('style');
+style.type= 'text/css';
+if (style.styleSheet) {
+  style.styleSheet.cssText = err_style;
+} else {
+  style.appendChild(document.createTextNode(err_style));
+}
+head.appendChild(style);
+setTimeout('mce_preload_check();', 250);
+
+var mce_preload_checks = 0;
+function mce_preload_check(){
+    if (mce_preload_checks>40) return;
+    mce_preload_checks++;
     try {
-      var parts = resp.msg.split(' - ',2);
-      if (parts[1]==undefined){
-        msg = resp.msg;
-      } else {
-        i = parseInt(parts[0]);
-        if (i.toString() == parts[0]){
-          index = parts[0];
-          msg = parts[1];
-        } else {
-          index = -1;
-          msg = resp.msg;
-        }
-      }
-    } catch(e){
-      index = -1;
-      msg = resp.msg;
+        var jqueryLoaded=jQuery;
+    } catch(err) {
+        setTimeout('mce_preload_check();', 250);
+        return;
     }
-    try{
-      if (index== -1){
-        mce_jQuery('#mce-'+resp.result+'-response').show();
-        mce_jQuery('#mce-'+resp.result+'-response').html(msg);
-      } else {
-        err_id = 'mce_tmp_error_msg';
-        html = '<div id="'+err_id+'" style="'+err_style+'"> '+msg+'</div>';
-
-        var input_id = '#mc_embed_signup';
-        var f = mce_jQuery(input_id);
-        if (ftypes[index]=='address'){
-          input_id = '#mce-'+fnames[index]+'-addr1';
-          f = mce_jQuery(input_id).parent().parent().get(0);
-        } else if (ftypes[index]=='date'){
-          input_id = '#mce-'+fnames[index]+'-month';
-          f = mce_jQuery(input_id).parent().parent().get(0);
-        } else {
-          input_id = '#mce-'+fnames[index];
-          f = mce_jQuery().parent(input_id).get(0);
-        }
-        if (F){
-          mce_jQuery(f).append(html);
-          mce_jQuery(input_id).focus();
-        } else {
-          mce_jQuery('#mce-'+resp.result+'-response').show();
-          mce_jQuery('#mce-'+resp.result+'-response').html(msg);
-        }
-      }
-    } catch(e){
-      mce_jQuery('#mce-'+resp.result+'-response').show();
-      mce_jQuery('#mce-'+resp.result+'-response').html(msg);
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'http://downloads.mailchimp.com/js/jquery.form-n-validate.js';
+    head.appendChild(script);
+    try {
+        var validatorLoaded=jQuery("#fake-form").validate({});
+    } catch(err) {
+        setTimeout('mce_preload_check();', 250);
+        return;
     }
-  }
+    mce_init_form();
 }
+function mce_init_form(){
+    jQuery(document).ready( function($) {
+      var options = { errorClass: 'mce_inline_error', errorElement: 'div', onkeyup: function(){}, onfocusout:function(){}, onblur:function(){}  };
+      var mce_validator = jQuery("#mc-embedded-subscribe-form").validate(options);
+      jQuery("#mc-embedded-subscribe-form").unbind('submit');//remove the validator so we can get into beforeSubmit on the ajaxform, which then calls the validator
+      options = { url: 'http://missionartistsunited.us2.list-manage.com/subscribe/post-json?u=a10070c7a519efbd75c4136a2&id=23d68b070e&c=?', type: 'GET', dataType: 'json', contentType: "application/json; charset=utf-8",
+                    beforeSubmit: function(){
+                        jQuery('#mce_tmp_error_msg').remove();
+                        jQuery('.datefield','#mc_embed_signup').each(
+                            function(){
+                                var txt = 'filled';
+                                var fields = new Array();
+                                var i = 0;
+                                jQuery(':text', this).each(
+                                    function(){
+                                        fields[i] = this;
+                                        i++;
+                                    });
+                                jQuery(':hidden', this).each(
+                                    function(){
+                                        var bday = false;
+                                        if (fields.length == 2){
+                                            bday = true;
+                                            fields[2] = {'value':1970};//trick birthdays into having years
+                                        }
+                                    	if ( fields[0].value=='MM' && fields[1].value=='DD' && (fields[2].value=='YYYY' || (bday && fields[2].value==1970) ) ){
+                                    		this.value = '';
+									    } else if ( fields[0].value=='' && fields[1].value=='' && (fields[2].value=='' || (bday && fields[2].value==1970) ) ){
+                                    		this.value = '';
+									    } else {
+									        if (/\[day\]/.test(fields[0].name)){
+    	                                        this.value = fields[1].value+'/'+fields[0].value+'/'+fields[2].value;									        
+									        } else {
+    	                                        this.value = fields[0].value+'/'+fields[1].value+'/'+fields[2].value;
+	                                        }
+	                                    }
+                                    });
+                            });
+                        jQuery('.phonefield-us','#mc_embed_signup').each(
+                            function(){
+                                var fields = new Array();
+                                var i = 0;
+                                jQuery(':text', this).each(
+                                    function(){
+                                        fields[i] = this;
+                                        i++;
+                                    });
+                                jQuery(':hidden', this).each(
+                                    function(){
+                                        if ( fields[0].value.length != 3 || fields[1].value.length!=3 || fields[2].value.length!=4 ){
+                                    		this.value = '';
+									    } else {
+									        this.value = 'filled';
+	                                    }
+                                    });
+                            });
+                        return mce_validator.form();
+                    }, 
+                    success: mce_success_cb
+                };
+      jQuery('#mc-embedded-subscribe-form').ajaxForm(options);
+      
+      
+    });
+}
+function mce_success_cb(resp){
+    jQuery('#mce-success-response').hide();
+    jQuery('#mce-error-response').hide();
+    if (resp.result=="success"){
+        jQuery('#mce-'+resp.result+'-response').show();
+        jQuery('#mce-'+resp.result+'-response').html(resp.msg);
+        jQuery('#mc-embedded-subscribe-form').each(function(){
+            this.reset();
+    	});
+    } else {
+        var index = -1;
+        var msg;
+        try {
+            var parts = resp.msg.split(' - ',2);
+            if (parts[1]==undefined){
+                msg = resp.msg;
+            } else {
+                i = parseInt(parts[0]);
+                if (i.toString() == parts[0]){
+                    index = parts[0];
+                    msg = parts[1];
+                } else {
+                    index = -1;
+                    msg = resp.msg;
+                }
+            }
+        } catch(e){
+            index = -1;
+            msg = resp.msg;
+        }
+        try{
+            if (index== -1){
+                jQuery('#mce-'+resp.result+'-response').show();
+                jQuery('#mce-'+resp.result+'-response').html(msg);            
+            } else {
+                err_id = 'mce_tmp_error_msg';
+                html = '<div id="'+err_id+'" style="'+err_style+'"> '+msg+'</div>';
+                
+                var input_id = '#mc_embed_signup';
+                var f = jQuery(input_id);
+                if (ftypes[index]=='address'){
+                    input_id = '#mce-'+fnames[index]+'-addr1';
+                    f = jQuery(input_id).parent().parent().get(0);
+                } else if (ftypes[index]=='date'){
+                    input_id = '#mce-'+fnames[index]+'-month';
+                    f = jQuery(input_id).parent().parent().get(0);
+                } else {
+                    input_id = '#mce-'+fnames[index];
+                    f = jQuery().parent(input_id).get(0);
+                }
+                if (f){
+                    jQuery(f).append(html);
+                    jQuery(input_id).focus();
+                } else {
+                    jQuery('#mce-'+resp.result+'-response').show();
+                    jQuery('#mce-'+resp.result+'-response').html(msg);
+                }
+            }
+        } catch(e){
+            jQuery('#mce-'+resp.result+'-response').show();
+            jQuery('#mce-'+resp.result+'-response').html(msg);
+        }
+    }
+}
+
 </script>
 <!--End mc_embed_signup-->

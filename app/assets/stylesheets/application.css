@@ -1,7 +1,9 @@
 /*
+ *= require colorbox-rails
  *= require pickadate/classic
  *= require pickadate/classic.date
  *= require pickadate/classic.time
  *= require mau
- *= require mau-admin
+ *= require colorbox
+ *= require_tree ./mau_admin
  */

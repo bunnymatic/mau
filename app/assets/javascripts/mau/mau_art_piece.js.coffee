@@ -21,29 +21,10 @@ MAU.ArtPieces = class ArtPieces
 
   setupZoomOnArtPiece: ->
     zoomBtn = jQuery('#artpiece_container a.zoom')
-    _.each zoomBtn, (zoom) ->
-      jQuery(zoom).bind 'click', (ev) ->
-        ev.stopPropagation();
-        t = ev.currentTarget || ev.target;
-        # current target/target work around for IE
-        if (t.tagName == 'DIV' && /micro/.test(t.className)) # hit the zoom div 
-          t = jQuery(t).parent()
-        t = jQuery(t)
-        # we're not using data below because it appears to be cached in some strange way
-        # - probably related to our redefinition of the data element for prototype
-        opts = {
-          image: {
-            url: t.attr('data-image'),
-            width: t.attr('data-imagewidth'),
-            height: t.attr('data-imageheight')
-          }
-        }
-                                     
-        MAU.ImageLightbox.init opts
-        MAU.ImageLightbox.show({position:'center'});
+    zoomBtn.colorbox()
 
   # validate upload data 
-  validate_art_piece: (frm) ->
+  validate: (frm) ->
     input_filename = jQuery(frm).find('#upload_datafile')
     if (input_filename.length)
       fname = input_filename.val()
@@ -60,6 +41,6 @@ MAU.ArtPieces = class ArtPieces
           
 
 jQuery ->
-  AP = new  MAU.ArtPieces()
+  AP = new MAU.ArtPieces()
   AP.redirectOnHash()
   AP.setupZoomOnArtPiece()

@@ -25,8 +25,75 @@ describe EmailListsController do
     it "responds success if logged in as admin" do
       login_as :admin
       get endpoint
-      response.should be_success
+      expect(response).to be_success
     end
+  end
+
+  describe 'POST#add' do
+    before do
+      login_as :admin
+    end
+    let(:test_email) { 'mr_new@example.com' }
+    let(:email_attrs) { {:name => 'new dude', :email => test_email } }
+    let(:lookup_email) { Email.where(:email => test_email).first }
+
+    it 'returns 200 on success' do
+      xhr :post, :add, :listtype => :event, :email => email_attrs
+      expect(response).to redirect_to email_lists_path
+    end
+
+    it 'redirects to itself on success' do
+      xhr :post, :add, :listtype => :event, :email => email_attrs
+      expect(response).to redirect_to email_lists_path
+    end
+    it 'adds a new email to the email list' do
+      expect {
+        xhr :post, :add,  :listtype => :event, :email => email_attrs
+      }.to change(Email,:count).by(1)
+    end
+    it 'adds a new email to the email list' do
+      xhr :post, :add, :listtype => :admin, :email => email_attrs
+      AdminMailerList.first.emails.map(&:formatted).should include lookup_email.formatted
+    end
+
+    it 'redirects to itself with flash message when asking for an invalid list' do
+      xhr :post, :add, :listtype => :bogus, :email => email_attrs
+      flash[:error].should match /couldn't find that list/
+      expect(response).to redirect_to email_lists_path
+    end
+
+  end
+
+  describe 'POST#destroy' do
+    let(:first_email) { EventMailerList.first.emails.first }
+    before do
+      login_as :admin
+    end
+    it 'deletes entries from an email list' do
+      expect {
+        xhr :delete, :destroy, :listtype => :event, :id => first_email.id
+      }.to change(EventMailerList.first.emails, :count).by(-1);
+    end
+    it 'does not delete the email from the email table' do
+      expect {
+        xhr :delete, :destroy, :listtype => :event, :id => first_email.id
+      }.to change(Email, :count).by(0);
+    end
+
+    it 'returns a message indicating who was removed' do
+      xhr :delete, :destroy, :listtype => :event, :id => first_email.id
+      response.content_type.should eql Mime::Type.lookup("application/json")
+      expect(response).to be_success
+      JSON.parse(response.body)['messages'].should match "Successfully removed #{first_email.email} from Events"
+    end
+
+    it 'returns an error if the email id is missing when trying to delete' do
+      xhr :delete, :destroy, :listtype => :event, :id => 10
+      response.content_type.should eql Mime::Type.lookup("application/json")
+      expect(response).to_not be_success
+      JSON.parse(response.body)['messages'].should match "Email ID is missing"
+    end
+
   end
 
   describe '#index' do
@@ -65,83 +132,6 @@ describe EmailListsController do
         assert_select '.email_lists ul.listtypes form', :count => 3
       end
     end
-    describe 'POST' do
-      let(:test_email) { 'mr_new@example.com' }
-      let(:email_attrs) { {:name => 'new dude', :email => test_email } }
-      let(:lookup_email) { Email.where(:email => test_email).first }
-      let(:first_email) { EventMailerList.first.emails.first }
-      let(:email) { email_attrs[:email] }
-      context 'xhr' do
-        it 'redirects to itself with flash message when there is an error' do
-          xhr :post, :index, :listtype => :event, :email => email_attrs
-          response.content_type.should eql Mime::Type.lookup("application/json")
-          response.code.should eql '400'
-          JSON.parse(response.body)['messages'].should match /not have all the required/
-        end
-        it 'returns 200 on success' do
-          xhr :post, :index, :method => 'add_email', :listtype => :event, :email => email_attrs
-          response.content_type.should eql Mime::Type.lookup("application/json")
-          response.should be_success
-          JSON.parse(response.body)['messages'].should match "Successfully added #{email} to Events"
-        end
-        it 'returns an error if the email id is missing when trying to delete' do
-          xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => {:name => 'jo'}
-          response.content_type.should eql Mime::Type.lookup("application/json")
-          response.should_not be_success
-          JSON.parse(response.body)['messages'].should match "Email ID is missing"
-        end
-        context 'when method is remove_email' do
-          let(:email_attrs) { { :id => first_email.id } }
-          it 'deletes entries from an email list' do
-            expect {
-              xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => email_attrs
-            }.to change(EventMailerList.first.emails, :count).by(-1);
-          end
-          it 'does not delete the email from the email table' do
-            expect {
-              xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => email_attrs
-            }.to change(Email, :count).by(0);
-          end
 
-          it 'returns a message indicating who was removed' do
-            xhr :post, :index, :method => 'remove_email', :listtype => :event, :email => email_attrs
-            response.content_type.should eql Mime::Type.lookup("application/json")
-            response.should be_success
-            JSON.parse(response.body)['messages'].should match "Successfully removed #{first_email.email} from Events"
-          end
-        end
-      end
-
-      context 'email list' do
-
-        it 'redirects to itself with flash message when asking for an invalid list' do
-          post :index, :listtype => :bogus, :method => 'add_email', :email => email_attrs
-          flash[:error].should be
-          flash[:error].should match /couldn't find that list/
-          response.should redirect_to email_lists_path
-        end
-
-        it 'redirects to itself with flash message when there is an error' do
-          post :index, :listtype => :event, :email => email_attrs
-          flash[:error].should be
-          flash[:error].should match /not have all the required/
-          response.should redirect_to email_lists_path
-        end
-
-        it 'redirects to itself on success' do
-          post :index, :method => 'add_email', :listtype => :event, :email => email_attrs
-          response.should redirect_to email_lists_path
-        end
-        it 'adds a new email to the email list' do
-          expect {
-            post :index, :method => 'add_email',  :listtype => :event, :email => email_attrs
-          }.to change(Email,:count).by(1)
-        end
-        it 'adds a new email to the email list' do
-          post :index, :method => 'add_email', :listtype => :admin, :email => email_attrs
-          AdminMailerList.first.emails.map(&:formatted).should include lookup_email.formatted
-        end
-      end
-    end
   end
 end

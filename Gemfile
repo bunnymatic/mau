@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.1.1'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
@@ -51,6 +51,8 @@ gem 'unicorn'
 
 gem 'flot-rails' # jquery plotting program
 
+gem 'colorbox-rails' # lightbox plugin
+
 group :test do
   gem 'faker'
   gem 'webmock'
@@ -84,7 +86,7 @@ group :test, :development do
   gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'pry'
-  gem 'pry-debugger'
+  #gem 'pry-debugger'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
   gem 'simplecov'
   gem 'cane'

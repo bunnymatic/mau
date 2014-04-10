@@ -2,23 +2,6 @@
 
 var MAU = window.MAU = window.MAU || {};
 
-post_to_url = function (path, params, method) {
-  method = method || "post"; // Set method to post by default, if not specified.
-
-  // The rest of this code assumes you are not using a library.
-  // It can be made less wordy if you use one.
-  var form = new Element('form', { method: method, action: path });
-  var hiddenField = null;
-  for(var key in params) {
-    hiddenField = new Element('input', { type: 'hidden', name: key, value: params[key] });
-    form.appendChild(hiddenField);
-  }
-  hiddenField = new Element('input', { type: 'hidden', name: 'authenticity_token', value:unescape(authenticityToken)});
-  form.appendChild(hiddenField);
-  document.body.appendChild(form);    // Not entirely sure if this is necessary
-  form.submit();
-};
-
 /** setup hash change observer */
 (function(){
   var curHash = window.location.hash;
@@ -40,40 +23,12 @@ post_to_url = function (path, params, method) {
   var M = MAU;
   var A = M.Artist = M.Artist || {};
   var AP = M.ArtPiece = M.ArtPiece || {};
-  var F = M.Feedback = M.Feedback || {};
-  var G = M.GetInvolved = M.GetInvolved || {};
-  var AC = M.Account = M.Account || {};
-  var FV = M.Favorites = M.Favorites || {};
 
   M.__debug__ = true;
   M.BLIND_OPTS = { up: {duration: 0.25},
                    down: {duration: 0.75} };
   M.FADE_OPTS = { 'in': {duration: 0.25, from:0, to:1},
                   'out': {duration: 0.25} };
-
-  M.validateEmail = function(str) {
-    return (str.indexOf(".") > 2) && (str.indexOf("@") > 0);
-  };
-
-  /* when we add an art piece */
-  M.addArtPieceSubmissionObserver = function() {
-    var art_piece_form = $('new_artpiece_form');
-    if (art_piece_form) {
-      var submit_button = art_piece_form.select('input[type=submit]')[0];
-      if (art_piece_form && submit_button) {
-        submit_button.observe('click', function(ev) {
-          if (AP.validate_art_piece(art_piece_form)) {
-            MAU.waitcursor();
-            return true;
-          }
-          else {
-            ev.stop();
-            return false;
-          }
-        });
-      }
-    }
-  };
 
   // clear any errors and spinit
   M.waitcursor = function() {
@@ -107,72 +62,6 @@ post_to_url = function (path, params, method) {
     }
     window.location = lnk;
   };
-
-  M.CREDITS_BG = 'credits_bg';
-  M.CREDITS_BG_CONTAIN = 'credits_bg_contain';
-  M.CREDITS_DIV = 'credits_div';
-
-  M.init = function() {
-    var $lf = $('login_form');
-
-    if ($lf) { $lf.focus_first(); }
-
-    // init credits popup
-    var fq = $('credits_lnk');
-    if (fq) {
-      Event.observe(fq,'click', function(event) {
-	      var bg = $(M.CREDITS_BG);
-	      var cn = $(M.CREDITS_BG_CONTAIN);
-	      if (bg) { bg.remove(); }
-	      if (cn) { cn.remove(); }
-	      bg = new Element('div', { id: M.CREDITS_BG });
-	      cn = new Element('div', { id:M.CREDITS_BG_CONTAIN });
-	      var d = new Element('div', { id: M.CREDITS_DIV });
-	      var hd = new Element('div').addClassName('credits-hdr');
-	      hd.update('Credits');
-	      var bd = new Element('div').addClassName('credits-bdy');
-        var version = MAU.versionString || 'Charger 6';
-	      bd.update('<div style="text-align: center;">'+
-                  '<p>Web Design/QA: Trish Tunney</p>' +
-                  '<p>Web Construction: <a href="http://rcode5.com">Mr Rogers @ Rcode5 </a></p>' +
-                  '<p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p>'+
-                  '</div>'+
-                  '<div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>'+
-                  '<div class="close_btn">click to close</div>'+
-                  '<div class="release_version">Release: ' + version + '</div><div class="clear"></div>');
-	      if (d && hd && bd) {
-	        var dummy = new Insertion.Top(d, bd);
-	        dummy = new Insertion.Top(d, hd);
-	      }
-	      Event.observe(d,'click', function(event) {
-	        bg.remove();
-	        cn.remove();
-	        return false;
-	      });
-	      var dump = new Insertion.Top(cn, d);
-	      dump = new Insertion.Top(document.body,cn);
-	      dump = new Insertion.Top(document.body,bg);
-
-	      /* center */
-	      var dm = Element.getDimensions(d);
-	      w = dm.width;
-	      h = dm.height;
-	      var ws = document.viewport.getDimensions();
-	      var soff = document.viewport.getScrollOffsets();
-	      pw = ws.width + soff.left;
-	      ph = ws.height + soff.top;
-	      var tp = '' + ((ph/2) - (h/2)) + "px";
-	      var lft = '' + ((pw/2) - (w/2)) + "px";
-	      cn.style.top = tp;
-	      cn.style.left = lft;
-	      event.stopPropagation();
-	      return false;
-      });
-    }
-    M.addArtPieceSubmissionObserver();
-  };
-
-  Event.observe(window, 'load', M.init);
 
 
   /**
@@ -367,119 +256,12 @@ post_to_url = function (path, params, method) {
   Event.observe(window, 'load', A.init);
 
 
-  /** get involved **/
-  // G.TOGGLELNK_SUFFIX = '_toggle_lnk';
-  // G.NTRUNC = G.TOGGLELNK_SUFFIX.length;
-  // G.ITEMS = ['volunteer','donate','emaillist',
-	//            'suggest','shop','venue','business'];
-  // var _giToggle = function(it) {
-  //   return "gi_"+it+"toggle";
-  // };
-  // var _giToggleLink = function(it) {
-  //   return "gi_"+it+"_toggle_lnk";
-  // };
-  // var _giDiv = function(it) {
-  //   return "gi_"+it;
-  // };
-  // var _giLnk2Div = function(lnk) {
-  //   return lnk.substr(0,lnk.length - G.NTRUNC);
-  // };
-
-  // G.showSection = function(s) {
-  //   var items = $$('div.gi a');
-  //   var nitems = items.length;
-  //   for (var ii = 0; ii < nitems; ++ii) {
-  //     var tg = items[ii];
-  //     if (tg) {
-	//       var s2 = _giLnk2Div(tg.id);
-	//       var dv = $(s2);
-	//       if (dv) {
-	//         if (!dv.visible()) {
-	//           if (s && s2 && (s == s2)) {
-	//             dv.blindDown(M.BLIND_OPTS.down);
-  //           }
-  //         } else {
-	//           dv.slideUp(M.BLIND_OPTS.up);
-	//         }
-	//       }
-  //     }
-  //   }
-  // };
-
-  // G.init = function() {
-  //   var showSection = function(ev) {
-  //     ev.stopPropagation();
-  //     var s = _giLnk2Div(this.id);
-  //     G.showSection(s);
-  //     return false;
-  //   };
-
-  //   // pick out special items
-  //   // shop -> cafe press
-  //   // email -> mailto:
-  //   var specialCases = ['shop'];
-
-  //   var items = $$('div.open-close-div a');
-  //   var nitems = items.length;
-  //   var ii = 0;
-  //   for (ii = 0; ii < nitems; ++ii) {
-  //     var tg = items[ii];
-  //     if (tg) {
-	//       tg.observe('click', showSection);
-  //     }
-  //   }
-
-  //   var cbx = $$('.content-block #feedback_comment');
-  //   var ncbx = cbx.length;
-  //   for (ii = 0; ii < ncbx; ++ii) {
-  //     M.addCommentBoxObserver(cbx[ii]);
-  //   }
-
-  //   var frms = $$('div.content-block form');
-  //   var nfrms = frms.length;
-  //   for (ii = 0; ii < nfrms; ++ii) {
-  //     var f = frms[ii];
-  //     f.observe('submit', G.validateEmailComment );
-  //   }
-  //   G.init = function() {};
-  // };
-
-  // G.validateEmailComment = function(ev) {
-  //   var el = ev.element();
-  //   if (!el) {
-  //     return false;
-  //   }
-  //   var ems = el.getElements();
-  //   var nems = ems.length;
-  //   var ii;
-  //   for (ii = 0; ii < nems; ++ii) {
-  //     var em = ems[ii];
-  //     if (em.name == 'feedback[email]') {
-	//       if (!M.validateEmail(em.getValue())) {
-	//         alert("Please enter a valid email address.");
-	//         ev.stop();
-	//         return false;
-	//       }
-  //     }
-  //     if (em.name == 'feedback[comment]') {
-	//       var v = em.getValue();
-	//       if ((v === '') || (v === '<enter your comment here>')) {
-	//         alert("Please enter something in the comment box.");
-	//         ev.stop();
-	//         return false;
-	//       }
-  //     }
-  //   }
-  //   return true;
-  // };
-
-  // Event.observe(window,'load',G.init);
 
 }
 )();
 
 /*** jquery on load */
-jQuery(function() { 
+jQuery(function() {
 
   var flashNotice = jQuery(".notice");
   if (flashNotice.length) {

@@ -50,7 +50,7 @@ MAU.GetInvolved = class GetInvolved
     form = ev.currentTarget
     jQuery(form).find('#feedback_email, #feedback_name').each () ->
       $this = jQuery(this)
-      if (this.id == 'feedback_email') && !MAU.validateEmail($this.val())
+      if (this.id == 'feedback_email') && !MAU.Utils.validateEmail($this.val())
         alert("Please enter a valid email address.")
         ev.preventDefault()
         false

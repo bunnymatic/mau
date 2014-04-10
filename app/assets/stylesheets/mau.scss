@@ -1,6 +1,5 @@
 @import 'mau-mixins';
 
-
 body {
   background-color: $lightbluegray;
   position: relative;
@@ -2879,6 +2878,7 @@ a#note_close_link{
   left: 0px;
   height: 100%;
   width: 100%;
+  background: none;
   background-color: $white;
   @include opacity(0.3);
 }
@@ -4029,4 +4029,5 @@ a.button b.m b {
 .micro-icon {
     font-size: 13px;
 }
+
 
