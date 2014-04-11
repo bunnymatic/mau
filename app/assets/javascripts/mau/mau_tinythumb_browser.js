@@ -19,13 +19,12 @@
       }
     },
     safe_update: function(id, val) {
-      var el = $(id);
+      var el = jQuery('#'+id);
       if (el) {
-        el.update(val ? val : '');
-        if(val) {
+        el.html(val ? val : '')
+        if(val) { 
           el.show();
-        }
-        else {
+        } else {
           el.hide();
         }
       }
@@ -40,18 +39,32 @@
                                 description: desc,
                                 media: pic };
         var newHref =  parser.toString(true);
-        pinIt.writeAttribute('href', newHref);
+        jQuery(pinIt).attr('href', newHref);
       }
     },
     update_highlight: function() {
       var idx = Thumb.curIdx;
-      var ts = $$('div.tiny-thumb');
-      var i = 0;
-      var n = ts.length;
-      for (;i<n;++i) {
-        ts[i].removeClassName('tiny-thumb-sel');
+      var ts = jQuery('div.tiny-thumb');
+      ts.removeClass('tiny-thumb-sel');
+      jQuery(ts[idx]).addClass('tiny-thumb-sel');
+    },
+    update_tags: function(tags) {
+      // if there ap.tags then run format tags
+      tags = tags || []
+      var formattedTags = (new MAU.TagMediaHelper(tags, 'tag', true, {'class' : 'tag'})).format()
+      var tgs = jQuery('#ap_tags');
+      
+      // if we found the tags element on the page
+      if (tgs) {
+        var i = 0;
+        var ntags = formattedTags.length;
+        if (ntags) {
+          tgs.html( formattedTags );
+          tgs.show();
+        } else {
+          tgs.hide();
+        }
       }
-      ts[idx].addClassName('tiny-thumb-sel');
     },
     update_info: function(ap) {
       var dummy = null;
@@ -69,28 +82,8 @@
         var med = (new MAU.TagMediaHelper(ap.medium, 'medium', true)).format()
         this.safe_update('ap_medium', med.first());
 
-        // if there ap.tags then run format tags
-        if (ap.tags === null) {
-          ap.tags = []
-        }
-        //var tags = TagMediaHelper.format_tags.apply(ap.tags,[true, {'class':'tag'}]);
-        var tags = (new MAU.TagMediaHelper(ap.tags, 'tag', true, {'class' : 'tag'})).format()
-        var tgs = $('ap_tags');
+        this.update_tags(ap.tags);
 
-        // if we found the tags element on the page
-        if (tgs) {
-          var i = 0;
-          var ntags = tags.length;
-          if (ntags) {
-            tgs.update('');
-            for(;i<ntags;++i) {
-              new Insertion.Bottom(tgs, tags[i]);
-            }
-            tgs.show();
-          } else {
-            tgs.hide();
-          }
-        }
         if (img) {
           img.show();
         }
@@ -167,29 +160,25 @@
         var a = Thumb.APCache[ap.id];
         Thumb.Helpers.update_info(a);
       } else {
-        var resp = new Ajax.Request(url, {
-          onSuccess: function(resp) {
-            try {
-              var ap_raw = resp.responseJSON;
-	            // handle different json encodings :(
-              var ap = null;
-              if ('attributes' in ap_raw) {
-                ap = ap_raw.attributes;
-              }
-              else {
-                ap = ap_raw.art_piece;
-              }
-              Thumb.APCache[ap.id] = ap;
-              Thumb.Helpers.update_info(ap);
-              ap.cache=true;
+        jQuery.ajax({
+          url: url,
+          dataType: 'json',
+          success: function(data,status,xhr) {
+            if ('attributes' in data) {
+              ap = data.attributes;
             }
-            catch(e) {
-              M.log('Failed to update page');
-              M.log(e);
+            else {
+              ap = data.art_piece;
             }
+            Thumb.APCache[ap.id] = ap;
+            Thumb.Helpers.update_info(ap);
+            ap.cache=true;
           },
-          contentType: "application/json",
-          method: 'get' });
+          error: function(e) {
+            MAU.log('Failed to update page');
+            MAU.log(e);
+          }
+        });
       }
       return true;
     }
@@ -243,16 +232,15 @@
   Thumb.curIdx = 0;
 
   Thumb.init = function() {
-    Event.observe(document, 'keydown', keypressHandler );
-    var prvlnk = $('prev_img_lnk');
-    var nxtlnk = $('next_img_lnk');
-    if (nxtlnk && prvlnk) {
-      prvlnk.observe('click', function(ev) { Thumb.jumpPrevious(ev); });
-      nxtlnk.observe('click', function(ev) { Thumb.jumpNext(ev); });
-    }
-    $$('a.jump-to').each(function(jumpLink) {
-      jumpLink.observe('click', function(ev) {
-        ev.stopPropagation();
+    // only run this if we are on the right page 
+    if (jQuery('#container.art_pieces').length) {
+      jQuery(document).bind('keydown', keypressHandler );
+      jQuery('#prev_img_lnk').bind('click', function(ev) { Thumb.jumpPrevious(ev); });
+      jQuery('#next_img_lnk').bind('click', function(ev) { Thumb.jumpNext(ev); });
+
+      jQuery('a.jump-to').bind('click', function(ev) {
+        jumpLink = this
+        ev.preventDefault();
         location.href = jumpLink.href;
         var apid = location.hash.substr(1);
         if (apid) {
@@ -260,11 +248,12 @@
           return false;
         }
       });
-    });
 
-    Thumb.init = function(){};
+      Thumb.init = function(){};
+    }
   };
 
-  Event.observe(window, 'load', Thumb.init);
-
+  jQuery(Thumb.init)
 })();
+
+

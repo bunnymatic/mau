@@ -53,6 +53,11 @@ gem 'flot-rails' # jquery plotting program
 
 gem 'colorbox-rails' # lightbox plugin
 
+gem 'select2-rails' # autocompleter
+
+gem 'underscore-rails'
+gem 'underscore-string-rails'
+
 group :test do
   gem 'faker'
   gem 'webmock'
