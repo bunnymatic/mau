@@ -7,6 +7,7 @@
  *= require jquery_noconflict
  *= require jquery-ui-1.10.4.custom
  *= require jquery.spin
+ *= require jquery.form
  *= require colorbox-rails
  *= require pickadate/picker
  *= require pickadate/picker.date

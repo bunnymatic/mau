@@ -268,12 +268,14 @@ input[type=image], input[type=hidden] {
   width: $rightcol;
   padding-bottom: 20px;
   span.edit {
-    display: none;
+    display:block;
+    @include opacity(0);
+    @include transition(opacity 0.2s ease)
   }
 
-  .hover {
+  .open-close-div.acct:hover {
     .edit {
-      display:block;
+      @include opacity(1);
     }
   }
 }
@@ -327,53 +329,6 @@ input[type=image], input[type=hidden] {
   font-size: x-small;
 }
 
-.edit-profile-sxn {
-  div {
-    text-align: left;
-    &.buttons {
-      margin-top: 10px;
-      text-align: center;
-    }
-  }
-  .center {
-    text-align: center;
-  }
-  &#events {
-    .inner-sxn {
-      width: 450px;
-    }
-    .donate {
-      padding-top: 10px;
-      .donate_btn {
-        background-image: url('/images/donate.png');
-        width: 114px;
-        height: 30px;
-        margin: 10px auto;
-      }
-    }
-    .buttons {
-      margin: auto;
-      width: 220px;
-      text-align: center;
-      .formbutton {
-        width: 82px;
-        float: left;
-        margin: 0 10px;
-        padding: 2px;
-        @include small-rounded-corners;
-        text-align: center;
-        &:hover {
-          font-weight: bold;
-          color: $black;
-        }
-      }
-    }
-    .os-status span {
-      color: $white;
-      font-weight: bold;
-    }
-  }
-}
 
 .chpasswd-instructions {
   font-size: 11px;

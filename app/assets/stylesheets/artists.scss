@@ -1,0 +1,54 @@
+/* styles for artist index/show/edit pages */
+
+@import 'mau-mixins';
+
+/** edit page */
+.edit-profile-sxn {
+  div {
+    text-align: left;
+    &.buttons {
+      margin-top: 10px;
+      text-align: center;
+    }
+  }
+  .center {
+    text-align: center;
+  }
+  &#events {
+    .inner-sxn {
+      width: 450px;
+    }
+    .donate {
+      padding-top: 10px;
+      .donate_btn {
+        background-image: url('/images/donate.png');
+        width: 114px;
+        height: 30px;
+        margin: 10px auto;
+      }
+    }
+    .buttons {
+      margin: auto;
+      width: 220px;
+      text-align: center;
+      .formbutton {
+        width: 82px;
+        float: left;
+        margin: 0 10px;
+        padding: 2px;
+        @include small-rounded-corners;
+        text-align: center;
+        &:hover {
+          font-weight: bold;
+        }
+        &.yep:hover:after {
+          content: "!"
+        }
+      }
+    }
+    .os-status span {
+      color: $white;
+      font-weight: bold;
+    }
+  }
+}
