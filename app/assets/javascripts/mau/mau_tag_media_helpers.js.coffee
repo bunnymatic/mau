@@ -30,5 +30,5 @@ MAU.TagMediaHelper = class TagMediaHelper
     strs = []
     path_prefix = @path_prefix()
     for item in @items
-      strs.push @._format_item(item, path_prefix)
+      strs.push @._format_item(item, path_prefix) if item
     strs
