@@ -138,10 +138,10 @@ class ArtistsController < ApplicationController
   def suggest
     # grab all names from the cache
     names = fetch_artists_for_autosuggest
-    if params[:input]
+    inp = params[:input].try(:downcase)
+    if inp
       # filter with input prefix
-      inp = params[:input].downcase
-      names = (inp.present? ? names.select{|name| name['value'].downcase.starts_with?(inp)} : [])
+      names = (inp.present? ? names.select{|name| name['value'] && name['value'].downcase.include?(inp)} : [])
     end
     render :json => names
   end
@@ -358,7 +358,7 @@ class ArtistsController < ApplicationController
   def fetch_artists_for_autosuggest
     artist_names = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless artist_names
-      artist_names = Artist.active.map{|a| { 'value' => a.fullname, 'info' => a.id } }
+      artist_names = Artist.active.map{|a| { 'value' => a.get_name(true), 'info' => a.id } }
       if artist_names.present?
         SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
       end

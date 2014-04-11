@@ -884,7 +884,7 @@ describe ArtistsController do
 
   describe '#suggest' do
     before do
-      get :suggest, :input => 'jes'
+      get :suggest, :q => 'jes'
     end
     it_should_behave_like 'successful json'
     it 'returns a hash with a list of artists' do

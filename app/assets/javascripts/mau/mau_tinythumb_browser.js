@@ -243,26 +243,29 @@
   Thumb.curIdx = 0;
 
   Thumb.init = function() {
-    Event.observe(document, 'keydown', keypressHandler );
-    var prvlnk = $('prev_img_lnk');
-    var nxtlnk = $('next_img_lnk');
-    if (nxtlnk && prvlnk) {
-      prvlnk.observe('click', function(ev) { Thumb.jumpPrevious(ev); });
-      nxtlnk.observe('click', function(ev) { Thumb.jumpNext(ev); });
-    }
-    $$('a.jump-to').each(function(jumpLink) {
-      jumpLink.observe('click', function(ev) {
-        ev.stopPropagation();
-        location.href = jumpLink.href;
-        var apid = location.hash.substr(1);
-        if (apid) {
-          Thumb.jumpTo(apid);
-          return false;
-        }
+    // only run this if we are on the right page 
+    if (jQuery('#container.art_pieces').length) {
+      Event.observe(document, 'keydown', keypressHandler );
+      var prvlnk = $('prev_img_lnk');
+      var nxtlnk = $('next_img_lnk');
+      if (nxtlnk && prvlnk) {
+        prvlnk.observe('click', function(ev) { Thumb.jumpPrevious(ev); });
+        nxtlnk.observe('click', function(ev) { Thumb.jumpNext(ev); });
+      }
+      $$('a.jump-to').each(function(jumpLink) {
+        jumpLink.observe('click', function(ev) {
+          ev.stopPropagation();
+          location.href = jumpLink.href;
+          var apid = location.hash.substr(1);
+          if (apid) {
+            Thumb.jumpTo(apid);
+            return false;
+          }
+        });
       });
-    });
 
-    Thumb.init = function(){};
+      Thumb.init = function(){};
+    }
   };
 
   Event.observe(window, 'load', Thumb.init);

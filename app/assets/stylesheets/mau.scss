@@ -3922,6 +3922,7 @@ a.button b.m b {
         display: block;
         font-size: 11px;
       }
+      .select2-container,
       input, textarea { width :100%; }
     }
     .starttime .fieldWithErrors {
@@ -4030,4 +4031,6 @@ a.button b.m b {
     font-size: 13px;
 }
 
-
+/** select2 overrides */
+.select2-drop { z-index: 1001; }
+.select2-drop-mask { z-index: 0; }
