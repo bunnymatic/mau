@@ -8,3 +8,21 @@
         %input#feedlink{ :type => 'text', :name => "feedback_mail[feedlink]" }
       %li
         %input.formbutton{ :type => "submit", :value => 'send'}
+
+%script#feedback-help{:type => 'text/template'}
+  .help-me
+    Ack.  So sorry you're having issues.  Our developers are only human.  
+    You may have found a bug in our system.  Please tell us what you were doing and what wasn't working.  
+    We'll do our best to fix the issue and get you rolling as soon as we can
+    %ul
+      %li
+        %label Email
+        %input#email{ :type => 'text', :name =>'feedback_mail[email]' }
+      %li
+        %label Confirm Email
+        %input#email_confirm{ :type => 'text', :name =>'feedback_mail[email_confirm]' }
+      %li 
+        %label What's going on (or wrong)?
+        %textarea#inquiry{ :name => "feedback_mail[inquiry]" }
+      %li
+        %input.formbutton{ :type => "submit", :value => 'send'}

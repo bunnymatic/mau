@@ -32,20 +32,6 @@ var FormConstructors = function() {
 
   this.types = ['inquiry', 'email_list', 'feed_submission', 'help'];
 
-  this.login_required = {
-    title: "Login Required",
-    render: function() {
-      var el = new Element('div');
-      var msg = new Element('div');
-      msg.innerHTML = "Sorry, but you need to login first.";
-      var msg2 = new Element('div');
-      msg2.innerHTML = "Click <a href='/login'>here to login.</a>";
-      el.insert(msg);
-      el.insert(msg2);
-      return $(el);
-    }
-  };
-
   this.inquiry = {
     title: 'General Inquiry',
     render: function() {
@@ -89,35 +75,7 @@ var FormConstructors = function() {
   this.help = {
     title: "Help!",
     render: function() {
-      var el = new Element('div');
-      el.innerHTML = "Ack.  So sorry you're having issues.  Our developers are only human."+
-        "  You may have found a bug in our system.  Please tell us what you were doing "+
-        "and what wasn't working.  We'll do our best to fix the issue and get you rolling "+
-        "as soon as we can.";
-
-      var inputs = new Element('ul');
-      var entries = [];
-
-      MAU.Cookie.init({name:'mau'});
-      var email = MAU.Cookie.getData('email') || '';
-      entries.push( email_fields() );
-      entries.push( [
-        new Element('label').update('Report your issue'),
-        new Element('div').insert(new Element('textarea', { columns: 80,
-                                                            rows: 7,
-                                                            id: 'inquiry',
-                                                            name: 'feedback_mail[inquiry]' })) ]);
-      entries.push( [ input_button() ] );
-
-      $(entries).each(function(entry) {
-        var li = new Element('li');
-        $(entry).each(function(chunk) {
-          li.insert(chunk);
-        });
-        inputs.insert(li);
-      });
-      el.insert(inputs);
-      return $(el);
+      return document.getElementById('feedback-help').innerHTML
     }
   };
 
@@ -190,9 +148,6 @@ Object.extend(MAU.NotesMailer.prototype, {
     if ($$(this._parent_class(true)).length === 0 ) {
       var note_class = _that.options.note_class;
       var formbuilder = _that.form_builders[note_class];
-      if (formbuilder.login_required && !_that.options.username) {
-        formbuilder = _that.form_builders.login_required;
-      }
       var inner = '';
       if (formbuilder.render) {
         inner = formbuilder.render();
