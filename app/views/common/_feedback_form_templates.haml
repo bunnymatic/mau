@@ -1,0 +1,10 @@
+%script#feedback-feed-submission{ :type => 'text/template' }
+  .send-us-a-feed
+    Tell us about your favorite art related feed.  
+    We'll check it out and if it stays current and is interesting, we'll add it to our list
+    %ul
+      %li
+        %label Feed Link
+        %input#feedlink{ :type => 'text', :name => "feedback_mail[feedlink]" }
+      %li
+        %input.formbutton{ :type => "submit", :value => 'send'}

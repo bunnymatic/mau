@@ -42,7 +42,7 @@ var FormConstructors = function() {
       msg2.innerHTML = "Click <a href='/login'>here to login.</a>";
       el.insert(msg);
       el.insert(msg2);
-      return el;
+      return $(el);
     }
   };
 
@@ -75,36 +75,14 @@ var FormConstructors = function() {
         inputs.insert(li);
       });
       el.insert(inputs);
-      return el;
+      return $(el);
     }
   };
 
   this.feed_submission = {
     title: "Art Feeds",
     render: function() {
-      var el = new Element('div');
-      el.innerHTML = "Tell us about your favorite art related feed.  We'll check"+
-        " it out and if it stays current and is interesting, we'll add it to our list.";
-
-      var inputs = new Element('ul');
-      var entries = [];
-
-      entries.push( [
-        new Element('label').update('Feed Link'),
-        new Element('div').insert(new Element('input', { type: 'text',
-                                                         id: 'feedlink',
-                                                         name: 'feedback_mail[feedlink]' })) ]);
-      entries.push( [ input_button() ] );
-
-      $(entries).each(function(entry) {
-        var li = new Element('li');
-        $(entry).each(function(chunk) {
-          li.insert(chunk);
-        });
-        inputs.insert(li);
-      });
-      el.insert(inputs);
-      return el;
+      return document.getElementById('feedback-feed-submission').innerHTML
     }
   };
 
@@ -139,7 +117,7 @@ var FormConstructors = function() {
         inputs.insert(li);
       });
       el.insert(inputs);
-      return el;
+      return $(el);
     }
   };
 
@@ -168,10 +146,8 @@ var FormConstructors = function() {
         inputs.insert(li);
       });
       el.insert(inputs);
-      return el;
+      return $(el);
     },
-    submit: function() {
-    }
   };
 };
 
@@ -219,7 +195,7 @@ Object.extend(MAU.NotesMailer.prototype, {
       }
       var inner = '';
       if (formbuilder.render) {
-        inner = $(formbuilder.render());
+        inner = formbuilder.render();
       }
       var f = new Element('form', { method: 'post', action: _that.options.url });
       $(f).insert(new Element('input', { name: 'authenticity_token',
