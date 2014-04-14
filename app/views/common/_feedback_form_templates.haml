@@ -26,3 +26,22 @@
         %textarea#inquiry{ :name => "feedback_mail[inquiry]" }
       %li
         %input.formbutton{ :type => "submit", :value => 'send'}
+
+%script#feedback-help{:type => 'text/template'}
+  .feedback-general
+    We love to hear from you.  Please let us know your thoughts, questions, rants.
+    We'll do our best to respond in a timely manner.
+    %ul
+      %li
+        %label Email
+        %input#email{ :type => 'text', :name =>'feedback_mail[email]' }
+      %li
+        %label Confirm Email
+        %input#email_confirm{ :type => 'text', :name =>'feedback_mail[email_confirm]' }
+      %li 
+        %label Your Question
+        %textarea#inquiry{ :name => "feedback_mail[inquiry]" }
+      %li
+        %input.formbutton{ :type => "submit", :value => 'send'}
+
+
