@@ -47,7 +47,7 @@ Object.extend(MAU.NotesMailer.prototype, {
   },
   close: function(ev) {
     ev.preventDefault();
-    jQuery(this._parent_class(true)).fade(300, function() {
+    jQuery(this._parent_class(true)).fadeOut(300, function() {
       jQuery(this).remove();
     });
   },
@@ -121,7 +121,7 @@ Object.extend(MAU.NotesMailer.prototype, {
   },
   initialize: function(selector, opts) {
     this.options = _.extend({},this.defaults, opts)
-    this.selector = selector;
+    this.selector = jQuery(selector);
     if (this.options.note_class in this.form_builders) {
       var _that = this;
       jQuery(this.selector).bind('click', function(ev) {
@@ -129,4 +129,15 @@ Object.extend(MAU.NotesMailer.prototype, {
       });
     }
   }
+});
+
+
+jQuery(function() {
+  jQuery('.mau-note-link').each(function(idx, note) {
+    console.log('attach to ', note)
+    var noteClass = jQuery(note).data('notetype');
+    new MAU.NotesMailer(note,
+                        { note_class: noteClass,
+                          url: "/main/notes_mailer" });
+  });
 });

@@ -22,7 +22,7 @@
       var el = jQuery('#'+id);
       if (el) {
         el.html(val ? val : '')
-        if(val) { 
+        if(val) {
           el.show();
         } else {
           el.hide();
@@ -53,7 +53,7 @@
       tags = tags || []
       var formattedTags = (new MAU.TagMediaHelper(tags, 'tag', true, {'class' : 'tag'})).format()
       var tgs = jQuery('#ap_tags');
-      
+
       // if we found the tags element on the page
       if (tgs) {
         var i = 0;
@@ -94,7 +94,7 @@
         // hides errors/notices
         $$('.notice').each(function(el) {
           if (el.visible()) {
-            el.fade({duration:0.3,
+            el.fadeOut({duration:0.3,
                      afterFinish: function() {el.remove();}});
           }
         });
@@ -232,7 +232,7 @@
   Thumb.curIdx = 0;
 
   Thumb.init = function() {
-    // only run this if we are on the right page 
+    // only run this if we are on the right page
     if (jQuery('#container.art_pieces').length) {
       jQuery(document).bind('keydown', keypressHandler );
       jQuery('#prev_img_lnk').bind('click', function(ev) { Thumb.jumpPrevious(ev); });
@@ -255,5 +255,3 @@
 
   jQuery(Thumb.init)
 })();
-
-
