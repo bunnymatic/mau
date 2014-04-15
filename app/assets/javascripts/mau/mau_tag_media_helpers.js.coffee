@@ -17,9 +17,7 @@ MAU.TagMediaHelper = class TagMediaHelper
       return '' if (!item.id)
       if @renderLink
         linkopts.href = pfx + item.id
-        a = new Element('a', linkopts)
-        a.update(item.name)
-        a
+        jQuery('<a>', linkopts).html(item.name)
       else
         item.name
     catch e

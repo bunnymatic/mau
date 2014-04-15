@@ -81,9 +81,6 @@ Object.extend(MAU.NotesMailer.prototype, {
                                          value: browser.OS }));
       $(f).insert(inner);
       $(f).observe('submit', function(ev) {
-        if (formbuilder.submit) {
-          formbuilder.submit();
-        }
         f.request({onComplete: function() { _that.close(ev); }});
         ev.stop();
         return false;
