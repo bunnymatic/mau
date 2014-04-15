@@ -13,7 +13,7 @@ var FormConstructors = function() {
   this.inquiry = {
     title: 'General Inquiry',
     render: function() {
-      document.getElementById('feedback-help').innerHTML
+      return document.getElementById('feedback-inquiry').innerHTML
     }
   };
 
@@ -122,10 +122,10 @@ Object.extend(MAU.NotesMailer.prototype, {
   initialize: function(selector, opts) {
     this.options = _.extend({},this.defaults, opts)
     this.selector = jQuery(selector);
-    if (this.options.note_class in this.form_builders) {
+     if (this.options.note_class in this.form_builders) {
       var _that = this;
       jQuery(this.selector).bind('click', function(ev) {
-        _that.insert();
+        _that.insert(ev);
       });
     }
   }
