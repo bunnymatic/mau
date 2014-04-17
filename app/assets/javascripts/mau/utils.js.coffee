@@ -31,7 +31,6 @@ MAU.Utils =
     # The rest of this code assumes you are not using a library.
     # It can be made less wordy if you use one.
 
-    #form = new Element 'form', { method: method, action: path }
     form = @createElement 'form', method: method, action: path 
     hiddenField = null;
     for key, val of params
