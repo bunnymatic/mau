@@ -126,7 +126,7 @@ class MainController < ApplicationController
       f.save
       status = 200
     end
-    render :json => f.to_json, :status => status
+    render :json => f.to_json(:except => [:current_user, :artist]) , :status => status
   end
 
   def news

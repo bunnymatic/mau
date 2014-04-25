@@ -46,7 +46,7 @@ Object.extend(MAU.NotesMailer.prototype, {
     }
   },
   close: function(ev) {
-    ev.preventDefault();
+    if(ev && ev.preventDefault) { ev.preventDefault(); }
     jQuery(this._parent_class(true)).fadeOut(300, function() {
       jQuery(this).remove();
     });
@@ -66,24 +66,35 @@ Object.extend(MAU.NotesMailer.prototype, {
       if (formbuilder.render) {
         inner = formbuilder.render();
       }
-      var $f = jQuery('<form>', { method: 'post', action: _that.options.url });
+      var $f = jQuery('<form>', { method: 'post', "data-remote": 'true', action: _that.options.url });
       $f.append(jQuery('<input>', { name: 'authenticity_token',
-                                         type: 'hidden',
-                                         value: unescape(authenticityToken) }));
+                                    type: 'hidden',
+                                    value: unescape(authenticityToken) }));
       $f.append(jQuery('<input>', { name: 'feedback_mail[note_type]',
-                                         type: 'hidden',
-                                         value: _that.options.note_class }));
+                                    type: 'hidden',
+                                    value: _that.options.note_class }));
       $f.append(jQuery('<input>', { name: 'feedback_mail[browser]',
-                                         type: 'hidden',
-                                         value: browser.browser + ' ' + browser.version }));
+                                    type: 'hidden',
+                                    value: browser.browser + ' ' + browser.version }));
       $f.append(jQuery('<input>', { name: 'feedback_mail[operating_system]',
-                                         type: 'hidden',
-                                         value: browser.OS }));
+                                    type: 'hidden',
+                                    value: browser.OS }));
       $f.append(inner);
-      $f.bind('submit', function(ev) {
-        f.request({onComplete: function() { _that.close(ev); }});
-        ev.stop();
-        return false;
+      $f.bind('ajax:error', function(ev,xhr,status) {
+        jQuery('li').removeClass('fieldWithErrors');
+        var errorFields = xhr.responseJSON.errors;
+        if (errorFields) {
+          var fieldNames = _.keys(errorFields);
+          var ii = 0;
+          var nn = fieldNames.length;
+          for (;ii < nn; ++ii) {
+            var finder = "#feedback_mail_" + fieldNames[ii];
+            jQuery(finder).closest('li').addClass('fieldWithErrors');
+          }
+        }
+      });
+      $f.bind('ajax:success', function(ev,xhr,status) {
+        _that.close()
       });
       var $h = jQuery('<div>', { "class": 'popup-header' }).html( formbuilder.title );
       var $x = jQuery('<div>', { "class": 'close-btn' }).html('x');

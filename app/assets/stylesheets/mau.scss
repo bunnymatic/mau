@@ -545,6 +545,9 @@ input.txtarea-sm, input.txtarea, select.dropdown {
 }
 
 .fieldWithErrors {
+  label {
+    color: $error-red;
+  }
   input, textarea {
     border: 1px solid $error_red;
   }
