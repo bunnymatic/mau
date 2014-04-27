@@ -40,7 +40,7 @@
 
     settings.feedbackHtml = '<div id="' + settings.main + '" style="display: none;">' +
                               '<div id="' + settings.modalWindow + '">' +
-                                '<a href="#" id="' + settings.closeLink + '"></a>' +
+                                '<a href="#" id="' + settings.closeLink + '">x</a>' +
                                 '<div id="' + settings.modalContent + '"></div>' +
                               '</div>' +
                             '</div>'
