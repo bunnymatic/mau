@@ -22,7 +22,7 @@ server 'mau-acceptance.missionartistsunited.com',
     forward_agent: true
   }
 
-set :branch, 'rails3'
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 set :deploy_to, '/home/deploy/deployed/mau'
 
 # you can set custom ssh options
