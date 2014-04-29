@@ -61,6 +61,8 @@ gem 'underscore-string-rails'
 
 gem 'oj'
 
+gem 'skylight'
+
 group :test do
   gem 'faker'
   gem 'webmock'
