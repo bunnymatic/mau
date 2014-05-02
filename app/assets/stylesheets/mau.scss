@@ -80,6 +80,11 @@ h5 {
   font-size: 14px;
 }
 
+.js-hidden, .js-data {
+  display: none;
+  text-indent: -1000px;
+  opacity: 0;
+}
 .notice, .error-msg {
   @include small-rounded-corners;
   @include floating-window-border;
@@ -1566,7 +1571,7 @@ $browser_thumb_row_height: 51px;
 
 
 
-div.tiny-thumb, div.tiny-thumb-sel {
+.tiny-thumb {
   float: left;
   border: 2px solid #111;
   background-repeat: no-repeat;
@@ -1577,7 +1582,7 @@ div.tiny-thumb, div.tiny-thumb-sel {
   position: relative;
 }
 
-div.tiny-thumb-sel {
+.selected {
   border: 2px solid $lightyellow;
 }
 

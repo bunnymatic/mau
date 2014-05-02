@@ -45,8 +45,8 @@
     update_highlight: function() {
       var idx = Thumb.curIdx;
       var ts = jQuery('div.tiny-thumb');
-      ts.removeClass('tiny-thumb-sel');
-      jQuery(ts[idx]).addClass('tiny-thumb-sel');
+      ts.removeClass('selected');
+      jQuery(ts[idx]).addClass('selected');
     },
     update_tags: function(tags) {
       // if there ap.tags then run format tags

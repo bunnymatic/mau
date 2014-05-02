@@ -361,7 +361,7 @@ class User < ActiveRecord::Base
     keys.each do |k|
       retval["artist"][k] = self.send(k)
     end
-    apkeys = ['title','filename']
+    apkeys = ['title','filename', 'id']
     retval['artpieces'] = (art_pieces||[]).map do |ap|
       Hash[apkeys.map{|k| [k,ap.send(k)]}]
     end

@@ -38,6 +38,7 @@ gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'draper'
 gem 'spinjs-rails'
+gem 'angularjs-rails'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'
@@ -57,6 +58,8 @@ gem 'select2-rails' # autocompleter
 
 gem 'underscore-rails'
 gem 'underscore-string-rails'
+
+gem 'oj'
 
 group :test do
   gem 'faker'

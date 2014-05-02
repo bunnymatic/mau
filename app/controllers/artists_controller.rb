@@ -200,7 +200,7 @@ class ArtistsController < ApplicationController
         render :action => 'show', :layout => 'mau'
       }
       format.json  {
-        cleaned = @artist.clean_for_export(@art_pieces)
+        cleaned = @artist.clean_for_export(@artist.art_pieces)
         render :json => cleaned
       }
       format.mobile {
