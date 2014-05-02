@@ -11,11 +11,8 @@
       %td.rcol{:colspan => 2}
         .logo-spacer
         = render :partial => '/flash_notice_error'
-        #artpiece_title
-          &= @art_piece.title
+        #artpiece_title {{currentArtPiece.title}}
         #artpiece_container
-          .yo "{{currentArtPiece.image_files.medium}}"
-          .yo "{{current}}"
           .artpiece_wrapper
             %img#artpiece_img{'ng-src' => '{{currentArtPiece.image_files.medium}}'}
             #social_panel
@@ -33,6 +30,23 @@
               .zoom-corner
                 %a{:class => 'zoom', :href => @art_piece.zoomed, :title => @art_piece.title}
                   %img.zoom{:src => '/images/icons/zoom_corner.png'}
+
+          .art-piece-info{:style => @art_piece.css_width}
+            .basic
+              .entry#ap_medium{'ng-show' => 'currentArtPiece.medium'}
+                %a{"ng-href"=>"/media/{{currentArtPiece.medium.id}}"}
+                  {{currentArtPiece.medium.name}}
+              .entry#ap_dimensions{'ng-show' => 'currentArtPiece.dimensions'}
+                {{currentArtPiece.dimensions}}
+              .entry#ap_year{'ng-show' => 'currentArtPiece.year'}
+                {{currentArtPiece.year}}
+            #ap_tags{"ng-show" => 'hasTags()'}
+              Tags:
+              %span{"ng-repeat" => "tag in currentArtPiece.tags"}
+                %a.tag{"ng-href"=>"/art_piece_tags/{{tag.id}}"} 
+                  {{tag.name}}
+
+
           .art-piece-info{:style => @art_piece.css_width}
             .basic
               .entry#ap_medium{:style => (@art_piece.has_medium? ? '' : 'display:none;')}
