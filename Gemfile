@@ -58,6 +58,8 @@ gem 'select2-rails' # autocompleter
 gem 'underscore-rails'
 gem 'underscore-string-rails'
 
+gem 'skylight'
+
 group :test do
   gem 'faker'
   gem 'webmock'
