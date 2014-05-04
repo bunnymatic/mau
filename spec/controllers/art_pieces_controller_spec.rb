@@ -78,13 +78,6 @@ describe ArtPiecesController do
           assert_select '#artp_thumb_browser'
         end
 
-        it 'includes proper JSON for the thumblist' do
-          assert_select 'script' do |script_tag|
-            script_tag.join.should include 'Thumbs.ThumbList ='
-            script_tag.join.should include '"path":"/artistdata/'
-          end
-        end
-
         it "displays art piece" do
           assert_select("#artpiece_title", @artpieces.first.title)
         end

@@ -33,7 +33,7 @@ shared_examples_for "logged in edit page" do
     assert_select('#info')
   end
   it "has the notification section" do
-    assert_select('.open-close-div #notification_toggle')
+    assert_select('.open-close-div #notifications_toggle')
     assert_select('#notification')
   end
   it "has the change password section" do
