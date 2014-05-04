@@ -24,7 +24,7 @@
               .mau_buttons
                 - if !current_user || (@art_piece.artist != current_user)
                   %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
-                    #num_favorites #{@art_piece.favorites_count}
+                    #num_favorites{ "ng-bind" => "currentArtPiece.favorites.count" }
                     .micro-icon.heart
             - if Conf.show_lightbox_feature
               .zoom-corner
@@ -34,11 +34,14 @@
           .art-piece-info{:style => @art_piece.css_width}
             .basic
               .entry#ap_medium{'ng-show' => 'currentArtPiece.medium'}
+                Medium:
                 %a{"ng-href"=>"/media/{{currentArtPiece.medium.id}}"}
                   {{currentArtPiece.medium.name}}
               .entry#ap_dimensions{'ng-show' => 'currentArtPiece.dimensions'}
+                Dimensions:
                 {{currentArtPiece.dimensions}}
               .entry#ap_year{'ng-show' => 'currentArtPiece.year'}
+                Created:
                 {{currentArtPiece.year}}
             #ap_tags{"ng-show" => 'hasTags()'}
               Tags:
@@ -47,18 +50,11 @@
                   {{tag.name}}
 
 
-          .art-piece-info{:style => @art_piece.css_width}
-            .basic
-              .entry#ap_medium{:style => (@art_piece.has_medium? ? '' : 'display:none;')}
-                = link_to(@art_piece.medium.name, @art_piece.medium) if @art_piece.has_medium?
-              .entry#ap_dimensions{:style => @art_piece.has_dimensions? ? '' : 'display:none;'}
-                = @art_piece.display_dimensions if @art_piece.has_dimensions?
-              .entry#ap_year{:style => (@art_piece.has_year? ? '' : 'display:none;')}
-                = @art_piece.year if @art_piece.has_year?
-            #ap_tags{:style => (@art_piece.has_tags? ? '' : 'display:none;')}
-              - @art_piece.tags.each do |t|
-                = link_to t.safe_name, t, :class => 'tag'
-
           .edit-buttons
+            .stuff {{currentArtPiece}}
             - if logged_in? and current_user == artist
-              = render "edit_delete_buttons", :art_piece => @art_piece
+              %span#artpiece_edit
+                %a{"ng-href" => @art_piece.edit_path} edit
+              %span#artpiece_del
+                %a{"ng-href" => @art_piece.path, "data-confirm" => 'You are about to remove this art piece from your collection.  Are you sure you want to do that?', "data-method" => "delete", "rel" => "nofollow"} delete
+

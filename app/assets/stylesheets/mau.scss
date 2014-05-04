@@ -1799,21 +1799,6 @@ td.td-left{
     margin-top: 20px;
     text-align:right;
   }
-  #ap_medium {
-    &:before {
-      content: 'Medium: ';
-    }
-  }
-  #ap_year {
-    &:before {
-      content: 'Created: ';
-    }
-  }
-  #ap_dimensions {
-    &:before {
-      content: 'Dimensions: ';
-    }
-  }
   #ap_tags {
     text-align:center;
     max-width: 500px;

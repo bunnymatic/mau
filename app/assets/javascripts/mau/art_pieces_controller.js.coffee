@@ -20,7 +20,9 @@ angular.module('ArtPiecesApp.controllers', []).
       ("/media/" + currentArtPiece.medium.id) if currentArtPiece.medium
 
     $scope.hasTags = () ->
-      $scope.currentArtPiece.tags && ($scope.currentArtPiece.tags.length > 0)
+      $scope.currentArtPiece &&
+        $scope.currentArtPiece.tags &&
+          ($scope.currentArtPiece.tags.length > 0)
       
     $scope.init = (opts) ->
       artPieceId = opts.artPieceId
