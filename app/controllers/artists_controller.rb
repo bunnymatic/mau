@@ -138,7 +138,7 @@ class ArtistsController < ApplicationController
   def suggest
     # grab all names from the cache
     names = fetch_artists_for_autosuggest
-    inp = params[:input].try(:downcase)
+    inp = (params[:input] || params[:q]).try(:downcase)
     if inp
       # filter with input prefix
       names = (inp.present? ? names.select{|name| name['value'] && name['value'].downcase.include?(inp)} : [])

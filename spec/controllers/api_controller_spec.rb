@@ -124,6 +124,20 @@ describe ApiController do
     end
   end
 
+  context 'given /studios/studio_id as the path' do
+    before do
+      get :index, :path => "studios/#{studios(:s1890).id}"
+      @resp = JSON.parse(response.body)
+    end
+    it_should_behave_like 'good responses'
+    it 'returns the studio we asked for' do
+      @resp.should be_a_kind_of Hash
+      @resp['studio'].should be_a_kind_of Hash
+      @resp['studio']['id'].should eql studios(:s1890).id
+      @resp['studio']['name'].should eql studios(:s1890).name
+    end
+  end
+
   context 'given [art_pieces] as input parameters' do
     before do
       get :index, :path => ['art_pieces']

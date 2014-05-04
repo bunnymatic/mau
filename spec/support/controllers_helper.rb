@@ -34,7 +34,7 @@ shared_examples_for "logged in edit page" do
   end
   it "has the notification section" do
     assert_select('.open-close-div #notifications_toggle')
-    assert_select('#notification')
+    assert_select('#notifications')
   end
   it "has the change password section" do
     assert_select('form[action=/change_password_update]')
