@@ -19,12 +19,12 @@ angular.module('ArtPiecesApp.controllers', []).
                   
     $scope.pinterestLikeLink = () ->
       ap = $scope.currentArtPiece
+      return nil unless ap
       params =
         url: $scope.artPiecePath
-        description: (ap.title + " " + ap.artist.name).join(" by ")
+        description: [ap.title, ap.artist_name].join(" by ")
         media: ap.image_files.large
       href = "http://pinterest.com/pin/create/button/?" + jQuery.param(params)
-
 
       
     $scope.isCurrent = (apId) ->

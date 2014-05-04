@@ -42,10 +42,10 @@
                 %a{"ng-href"=>"/media/{{currentArtPiece.medium.id}}", "ng-bind-html" => "currentArtPiece.medium.name"}
               .entry#ap_dimensions{'ng-show' => 'currentArtPiece.dimensions'}
                 Dimensions:
-                {{currentArtPiece.dimensions}}
+                %span{"ng-bind-html" => 'currentArtPiece.dimensions' }
               .entry#ap_year{'ng-show' => 'currentArtPiece.year'}
                 Created:
-                {{currentArtPiece.year}}
+                %span{"ng-bind-html" => 'currentArtPiece.year' }
             #ap_tags{"ng-show" => 'hasTags()'}
               Tags:
               %span{"ng-repeat" => "tag in currentArtPiece.tags"}
