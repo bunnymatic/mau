@@ -1,7 +1,8 @@
 - artist = @art_piece.artist
 .thumbnailApp{ "ng-app" => "ArtPiecesApp", "ng-controller" => "artPiecesController", 'ng-init' => "init(#{@art_piece.angular_config})" }
-  .js-hidden.js-data{"data-artist_id" => artist.id, "data-art_piece_id" => @art_piece.id}
 
+  %div.left-col
+  %div.right-col  
   %table.tbl-content
     %tr
       %td.lcol{:colspan => 2}
@@ -11,14 +12,17 @@
       %td.rcol{:colspan => 2}
         .logo-spacer
         = render :partial => '/flash_notice_error'
-        #artpiece_title {{currentArtPiece.title}}
+        #artpiece_title{"ng-bind-html" => "currentArtPiece.title"} 
+          = @art_piece.title
         #artpiece_container
           .artpiece_wrapper
-            %img#artpiece_img{'ng-src' => '{{currentArtPiece.image_files.medium}}'}
+            %img#artpiece_img{:src => @art_piece.get_path(), 'ng-src' => '{{currentArtPiece.image_files.medium}}'}
             #social_panel
               .social_buttons
                 %span.pinterest
-                  = render '/common/pinit_button'
+                  %a{:target => '_blank', :class => 'pinit_art_piece', "data-pin-config" => "beside", 'ng-href' => "{{pinterestLikeLink()}}", "data-pin-do" => "buttonPin"}
+                    %img{:src => "http://assets.pinterest.com/images/pidgets/pin_it_button.png"}
+
                 %span.facebook
                   = render '/common/facebook_like_button'
               .mau_buttons
@@ -28,15 +32,14 @@
                     .micro-icon.heart
             - if Conf.show_lightbox_feature
               .zoom-corner
-                %a{:class => 'zoom', :href => @art_piece.zoomed, :title => @art_piece.title}
+                %a{:class => 'zoom', "ng-href" => "{{currentArtPiece.image_files.large}}", "ng-attr-title" => "{{currentArtPiece.title}}" }
                   %img.zoom{:src => '/images/icons/zoom_corner.png'}
 
           .art-piece-info{:style => @art_piece.css_width}
             .basic
               .entry#ap_medium{'ng-show' => 'currentArtPiece.medium'}
                 Medium:
-                %a{"ng-href"=>"/media/{{currentArtPiece.medium.id}}"}
-                  {{currentArtPiece.medium.name}}
+                %a{"ng-href"=>"/media/{{currentArtPiece.medium.id}}", "ng-bind-html" => "currentArtPiece.medium.name"}
               .entry#ap_dimensions{'ng-show' => 'currentArtPiece.dimensions'}
                 Dimensions:
                 {{currentArtPiece.dimensions}}
@@ -46,15 +49,13 @@
             #ap_tags{"ng-show" => 'hasTags()'}
               Tags:
               %span{"ng-repeat" => "tag in currentArtPiece.tags"}
-                %a.tag{"ng-href"=>"/art_piece_tags/{{tag.id}}"} 
-                  {{tag.name}}
+                %a.tag{"ng-href"=>"/art_piece_tags/{{tag.id}}", "ng-bind-html" => "tag.name" } 
 
 
           .edit-buttons
-            .stuff {{currentArtPiece}}
             - if logged_in? and current_user == artist
               %span#artpiece_edit
-                %a{"ng-href" => @art_piece.edit_path} edit
+                %a{"ng-href" => "{{editArtPiecePath}}"} edit
               %span#artpiece_del
-                %a{"ng-href" => @art_piece.path, "data-confirm" => 'You are about to remove this art piece from your collection.  Are you sure you want to do that?', "data-method" => "delete", "rel" => "nofollow"} delete
+                %a{"ng-href" => "{{artPiecePath}}", "data-confirm" => 'You are about to remove this art piece from your collection.  Are you sure you want to do that?', "data-method" => "delete", "rel" => "nofollow"} delete
 

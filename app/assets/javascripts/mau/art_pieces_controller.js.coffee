@@ -12,12 +12,26 @@ angular.module('ArtPiecesApp.controllers', []).
     $scope.$watch 'current', () ->
       ArtPieces.get {artPieceId: $scope.current}, (piece) ->
         $scope.currentArtPiece = piece.art_piece
+        $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece.id
+        $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
+
+
+                  
+    $scope.pinterestLikeLink = () ->
+      ap = $scope.currentArtPiece
+      params =
+        url: $scope.artPiecePath
+        description: (ap.title + " " + ap.artist.name).join(" by ")
+        media: ap.image_files.large
+      href = "http://pinterest.com/pin/create/button/?" + jQuery.param(params)
+
+
       
     $scope.isCurrent = (apId) ->
       (''+$scope.current) == (''+apId)
 
-    $scope.pathToMedium = () ->
-      ("/media/" + currentArtPiece.medium.id) if currentArtPiece.medium
+    $scope.mediumPath = () ->
+      ("/media/" + $scope.currentArtPiece.medium.id) if $scope.currentArtPiece && $scope.currentArtPiece.medium
 
     $scope.hasTags = () ->
       $scope.currentArtPiece &&
@@ -27,9 +41,7 @@ angular.module('ArtPiecesApp.controllers', []).
     $scope.init = (opts) ->
       artPieceId = opts.artPieceId
       artistId = opts.artistId
-      ArtPieces.get {artPieceId: artPieceId}, (piece) ->
-        $scope.currentArtPiece = piece
-        $scope.current = artPieceId
+      $scope.current = artPieceId
       Artists.get {artistId: artistId}, (artist) ->
         $scope.artist = artist.artist
         $scope.artPieces = []

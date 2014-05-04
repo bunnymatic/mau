@@ -17,7 +17,7 @@ class ArtPieceJsonPresenter
   end
 
   def title
-    @title ||= html_encode art.title
+    @title ||= art.title
   end
 
   def dimensions

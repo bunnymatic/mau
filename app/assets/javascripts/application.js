@@ -4,6 +4,8 @@
  *= require underscore.string
  *= require angular
  *= require angular-resource
+ *= require angular-sanitize
+ *= require angular-easyfb
  *= require jquery
  *= require jquery_ujs
  *= require jquery_noconflict

@@ -47,6 +47,7 @@ class ArtPiece < ActiveRecord::Base
   validates_length_of       :title,    :within => 2..80
 
   def to_json(opts={})
+    raise "ACK! - using base art_piece to_json method"
     opts[:methods] ||= []
     opts[:except] ||= []
     if opts[:methods].is_a?(Array)

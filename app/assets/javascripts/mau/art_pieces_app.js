@@ -1,1 +1,1 @@
-angular.module('ArtPiecesApp', ['ArtPiecesApp.controllers', 'ngResource']);
+angular.module('ArtPiecesApp', ['ArtPiecesApp.controllers', 'ngResource', 'ngSanitize', 'ezfb']);

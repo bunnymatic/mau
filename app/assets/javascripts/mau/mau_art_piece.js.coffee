@@ -1,27 +1,17 @@
 MAU = window.MAU = window.MAU || {};
+
+# do this outside of page load so it happens as soon as possible
+if (location.hash && location.href.match(/art_pieces\/\d+/))
+  newid = location.hash.substr(1);
+  if (newid)
+    urlbits = location.href.split('/')
+    n = urlbits.length
+    urlbits[n-1] = newid
+    newurl = urlbits.join('/')
+    location.href = newurl
+
+
 MAU.ArtPieces = class ArtPieces
-
-  redirectOnHash: ->
-    if (location.hash && location.href.match(/art_pieces\/\d+/))
-      newid = location.hash.substr(1);
-      if (newid)
-        urlbits = location.href.split('/')
-        n = urlbits.length
-        urlbits[n-1] = newid
-        newurl = urlbits.join('/')
-        location.href = newurl
-
-    aps = jQuery('.thumbs-select .artp-thumb img')
-    for ap in aps
-      jQuery(ap).bind 'click', (ev) ->
-	      apid = jQuery(this).parent().readAttribute('pid');
-	      inp = jQuery('#art_'+apid);
-	      if (inp)
-	        inp.click()
-
-  setupZoomOnArtPiece: ->
-    zoomBtn = jQuery('#artpiece_container a.zoom')
-    zoomBtn.colorbox()
 
   # validate upload data 
   validate: (frm) ->
@@ -41,6 +31,11 @@ MAU.ArtPieces = class ArtPieces
           
 
 jQuery ->
-  AP = new MAU.ArtPieces()
-  AP.redirectOnHash()
-  AP.setupZoomOnArtPiece()
+  # setup zoom for art pieces
+  jQuery('#artpiece_container a.zoom').colorbox()
+
+  # bind click on image to 'check' the delete box for delete art page
+  aps = jQuery('.thumbs-select .artp-thumb img')
+  for ap in aps
+    jQuery(ap).bind 'click', (ev) ->
+     apid = jQuery(this).closest('li').find('input[type=checkbox]').click()
