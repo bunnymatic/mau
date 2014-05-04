@@ -166,4 +166,8 @@ class ArtPiecesController < ApplicationController
     params[:art_piece][:tags] = tags_from_s(params[:tags])
     params[:art_piece]
   end
+
+  def artist_params
+    params[:id]
+  end
 end

@@ -40,7 +40,7 @@ class ThumbnailBrowserPresenter
       }
       if item_id == @current_piece.id
         set_current_piece(idx)
-        thumb[:clz] << ' tiny-thumb-sel'
+        thumb[:clz] << ' selected'
       end
       OpenStruct.new(thumb)
     end

@@ -38,6 +38,7 @@ gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'draper'
 gem 'spinjs-rails'
+gem 'angularjs-rails'
 
 # mailing with postmarkapp.com
 gem 'postmark-rails'
@@ -57,6 +58,8 @@ gem 'select2-rails' # autocompleter
 
 gem 'underscore-rails'
 gem 'underscore-string-rails'
+
+gem 'oj'
 
 gem 'skylight'
 
@@ -93,7 +96,7 @@ group :test, :development do
   gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'pry'
-  #gem 'pry-debugger'
+  gem 'pry-debugger'
   gem 'rb-fsevent' #, '~> 0.9.1' # for guard
   gem 'simplecov'
   gem 'cane'

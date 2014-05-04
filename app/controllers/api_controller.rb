@@ -5,9 +5,12 @@ class ApiController < ActionController::Base
   ALLOWED_OBJECTS = [:media, :artists, :studios, :art_pieces].map(&:to_s)
 
   def index
-    path_elements = params[:path]
+
     begin
-      raise ApiError.new('Nothing to see here') if !path_elements || path_elements.empty?
+      raise ApiError.new('Nothing to see here') unless params[:path].present?
+
+      path_elements = (params[:path].is_a? Array) ? params[:path] : (params[:path].split '/')
+
       raise ApiError.new('Invalid request') if !(ALLOWED_OBJECTS.include? path_elements[0])
 
       @obj_type = path_elements[0].to_s

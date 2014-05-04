@@ -138,7 +138,7 @@ class ArtistsController < ApplicationController
   def suggest
     # grab all names from the cache
     names = fetch_artists_for_autosuggest
-    inp = params[:input].try(:downcase)
+    inp = (params[:input] || params[:q]).try(:downcase)
     if inp
       # filter with input prefix
       names = (inp.present? ? names.select{|name| name['value'] && name['value'].downcase.include?(inp)} : [])
@@ -200,7 +200,7 @@ class ArtistsController < ApplicationController
         render :action => 'show', :layout => 'mau'
       }
       format.json  {
-        cleaned = @artist.clean_for_export(@art_pieces)
+        cleaned = @artist.clean_for_export(@artist.art_pieces)
         render :json => cleaned
       }
       format.mobile {

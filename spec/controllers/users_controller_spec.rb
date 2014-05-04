@@ -397,7 +397,7 @@ describe UsersController do
         expect(response).to render_template("edit")
       end
       it "has no heart notification checkbox" do
-        css_select( "#notification input#emailsettings_favorites").should be_empty
+        css_select( "#notifications input#emailsettings_favorites").should be_empty
       end
     end
   end

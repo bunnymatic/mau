@@ -1,23 +1,18 @@
-%script{:type => "text/javascript"}
-  MAU = window['MAU'] || {};
-  MAU.Thumbs = MAU.Thumbs || {}
-  MAU.Thumbs.ThumbList = #{browser.thumbs_json}
-  MAU.Thumbs.curIdx = #{browser.current_index};
-
-
+-# expects angular app to be setup
+-# expects local :browser as ThmbnailBrowserPresenter
 - if browser.has_thumbs?
   .clear
   #artp_thumb_browser{:class => browser.row_class}
     .prev{:class => browser.row_class}
-      %a#prev_img_lnk{:href=>"#",:apid => browser.prev_img}
+      %a#prev_img_lnk{'ng-click' => "prev()"}
         #prev-browse
     .thumb-browser-thumbs
       - browser.thumbs.each do |t|
-        %a.jump-to{:href => "##{t.id}"}
-          %div{:class => t.clz,:style => t.background_style}
+        %a.jump-to{"href" => "##{t.id}", 'ng-click' => "current = #{t.id}"}
+          .tiny-thumb{"style" => t.background_style, 'ng-class' => "{selected: isCurrent('#{t.id}')}"  }
             &nbsp;
     .next{:class => browser.row_class}
-      %a#next_img_lnk{:href=>"#",:apid => browser.next_img}
+      %a#next_img_lnk{'ng-click' => "next()"}
         #next-browse
   .clear
 - else

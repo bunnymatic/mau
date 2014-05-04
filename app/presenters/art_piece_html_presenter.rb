@@ -4,4 +4,11 @@ class ArtPieceHtmlPresenter < ArtPiecePresenter
     super
   end
 
+  def angular_config
+    {
+      artPieceId: art_piece.id,
+      artistId: artist.id
+    }.to_json
+  end
+
 end

@@ -78,22 +78,12 @@ describe ArtPiecesController do
           assert_select '#artp_thumb_browser'
         end
 
-        it 'includes proper JSON for the thumblist' do
-          assert_select 'script' do |script_tag|
-            script_tag.join.should include 'Thumbs.ThumbList ='
-            script_tag.join.should include '"path":"/artistdata/'
-          end
-        end
-
         it "displays art piece" do
           assert_select("#artpiece_title", @artpieces.first.title)
         end
         if Conf.show_lightbox_feature
           it 'includes the zoom data for big art pieces' do
-            ap = @artpieces.first
-            assert_select('a.zoom').each do |tag|
-              tag.attributes['href'].should eql ap.get_path('large')
-            end
+            assert_select('a.zoom')
           end
         end
         it "has no edit buttons" do

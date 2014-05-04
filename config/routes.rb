@@ -5,7 +5,7 @@ Mau::Application.routes.draw do
   resources :cms_documents, :except => [:destroy]
   resources :media
   resources :artist_feeds, :except => [:show]
-  resources :art_pieces, :except => ['index']
+  resources :art_pieces, :except => [:index]
   resource :session, :only => [:new, :create, :destroy]
   resources :studios do
     member do
