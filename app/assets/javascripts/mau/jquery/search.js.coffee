@@ -83,7 +83,7 @@ MAU.SearchPage = class MAUSearch
       if $c
         s = ->
           _that._submitForm()
-        debounced = s.debounce(500,false)
+        debounced = MAU.Utils.debounce(s,500,false)
         _.each $c.find(_that.checkboxSelector), (item) ->
           jQuery(item).bind 'change', debounced
 

@@ -55,8 +55,9 @@
                 - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
                   - ck = (medium_ids.length && medium_ids.include?(m[:id]))
                   %li.cb_entry
-                    = check_box_tag "mediums[]", m[:id], ck, "data-display" => m[:display]
-                    = label_tag "mediums[]", m[:display]
+                    - connector = "medium_#{m[:id]}"
+                    = check_box_tag "mediums[]", m[:id], ck, "data-display" => m[:display], :id => connector
+                    = label_tag "mediums[]", m[:display], :for => connector
             %h5.block_head.trigger
               %span Studios:
             .block.expandable#studio_chooser{:style => "display:none;"}
