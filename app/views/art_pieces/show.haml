@@ -1,8 +1,12 @@
 - artist = @art_piece.artist
-.thumbnailApp{ "ng-app" => "ArtPiecesApp", "ng-controller" => "artPiecesController", 'ng-init' => "init(#{@art_piece.angular_config})" }
 
-  %div.left-col
-  %div.right-col  
+%script{ 'type' => 'text/javascript' }
+  jQuery(function() { 
+  jQuery('.thumbnailApp div').first().trigger('focus'); 
+  })
+
+.thumbnailApp{ "ng-app" => "ArtPiecesApp", "ng-controller" => "artPiecesController", 'ng-init' => "init(#{@art_piece.angular_config})", "ng-keydown" => "handleKeyDown($event)", "tabindex" => '0'}
+
   %table.tbl-content
     %tr
       %td.lcol{:colspan => 2}

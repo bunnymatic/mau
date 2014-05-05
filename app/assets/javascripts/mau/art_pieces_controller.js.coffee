@@ -16,7 +16,15 @@ angular.module('ArtPiecesApp.controllers', []).
     $scope.artPieces = []
     $scope.currentArtPiece = null
     $scope.current = null      
-  
+
+    $scope.handleKeyDown = (ev) ->
+      # 37 <-
+      # 39 ->
+      if ev.which == 37
+        $scope.prev()
+      if ev.which == 39
+        $scope.next()
+      
     $scope.$watch 'current', () ->
       ArtPieces.get {artPieceId: $scope.current}, (piece) ->
         $scope.currentArtPiece = piece.art_piece
@@ -70,8 +78,9 @@ angular.module('ArtPiecesApp.controllers', []).
       Artists.get {artistId: artistId}, (artist) ->
         $scope.artist = artist.artist
         $scope.artPieces = []
-        artist.artpieces.each (item) ->
+        numPieces = artist.artpieces.length
+        artist.artpieces.each (item,idx) ->
           ArtPieces.get {artPieceId: item.id}, (piece) ->
-            $scope.artPieces.push(piece.art_piece)
+            $scope.artPieces[idx] = piece.art_piece
   ]  
           
