@@ -4,7 +4,6 @@ include AuthenticatedTestHelper
 
 def art_piece_attributes(overrides = {})
   { :title => "hot title",
-    :description => "super hot description",
     :medium_id => Medium.last,
     :dimensions => "this x that"
   }.merge(overrides)
@@ -165,7 +164,7 @@ describe ArtPiecesController do
       it_should_behave_like 'successful json'
 
       it 'includes the fields we care about' do
-        %w( id filename title description dimensions artist_id
+        %w( id filename title dimensions artist_id
             medium_id year image_height image_width order
             tags medium favorites_count
             image_dimensions image_files artist_name ).each do |expected|
