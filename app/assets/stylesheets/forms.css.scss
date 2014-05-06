@@ -1,0 +1,19 @@
+@import 'mau-mixins';
+
+.form-group {
+  max-width: 500px;
+  margin:12px auto;
+  label {
+    width: 25%;
+    text-align:right;
+    display: inline-block;
+    margin-right: 12px;
+  }
+  input, select {
+    width: 68%;
+  }
+  .input-help {
+    text-align: center;
+    color: $mediumgray;
+  }
+}

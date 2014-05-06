@@ -197,6 +197,7 @@ input[type=image], input[type=hidden] {
   border: 0;
 }
 
+/* phase these out */
 .input-name, .input, .input-err{
   font-size: 12px;
   padding: 5px;
@@ -204,6 +205,7 @@ input[type=image], input[type=hidden] {
 .input-name {
   text-align:right;
 }
+
 .url-input {
   width: 190px;
 }
@@ -313,7 +315,6 @@ input[type=image], input[type=hidden] {
       padding: 4px 4px;
     }
   }
-
   .input-name, .input, .input-err {
     padding-top: 0;
   }

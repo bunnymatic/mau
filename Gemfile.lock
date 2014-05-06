@@ -52,7 +52,6 @@ GEM
     awesome_print (1.2.0)
     browser (0.1.6)
     builder (3.0.4)
-    calendar_date_select (1.16.4)
     cane (2.6.0)
       parallel
     capistrano (3.1.0)
@@ -409,7 +408,6 @@ DEPENDENCIES
   angularjs-rails
   annotate
   browser (= 0.1.6)
-  calendar_date_select
   cane
   capistrano (~> 3.1.0)
   capistrano-rails (~> 1.1)

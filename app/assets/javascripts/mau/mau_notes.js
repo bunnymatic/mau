@@ -6,7 +6,7 @@ avoids 'mailto' links
 */
 
 var MAU = window.MAU = window.MAU || {}; 
-MAU.NotesMailer = Class.create();
+
 var FormConstructors = function() {
 
   this.types = ['inquiry', 'feed_submission', 'help'];
@@ -33,7 +33,12 @@ var FormConstructors = function() {
   };
 }
 
-Object.extend(MAU.NotesMailer.prototype, {
+
+MAU.NotesMailer = function() {
+  return this.initialize(arguments);
+};
+
+_.extend(MAU.NotesMailer.prototype,{
   defaults: {
     url: '/email'
   },

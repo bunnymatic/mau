@@ -3,9 +3,11 @@
  *= require pickadate/classic
  *= require pickadate/classic.date
  *= require pickadate/classic.time
+ *= require forms
  *= require mau
  *= require mau_popups
  *= require artists
  *= require colorbox
+ *= require select2
  *= require_tree ./mau_admin
  */

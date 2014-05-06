@@ -3,55 +3,45 @@
   <div>The art piece you requested is could not be found.</div>
 </div>
 <% else %>
-<%= render :partial => 'tag_autosuggest' %>
-<div class="logo-spacer"></div>
-<div id="edit_artpiece">
+<div id="edit_artpiece" class="div-center">
+  <div class="logo-spacer"></div>
   <h4>Edit Information for This Piece : <%= @art_piece.title %></h4>
   <div class="artpiece">
     <img src="<%= @art_piece.get_path('small') %>" />
   </div>
   <%= form_for(@art_piece) do |f| %>
-  <table cellspacing="0" cellpadding="0">
     <%= render '/common/form_errors', :form => f %>
     <%= render '/flash_notice_error' %>
-    <tr>
-      <td class="page-spacer-column">&nbsp;</td>
-      <td>
-	      <table align="center" width="600" cellspacing="0" cellpadding="8">
-	        <tr>
-            <td class="input-name" width="252"><%= f.label :title %></td>
-            <td class="input" width="132"><%= f.text_field :title %></td>
-	        </tr>
-	        <tr>
-            <td class="input-name"><%= f.label :dimensions %></td>
-            <td class="input"><%= f.text_field :dimensions %></td>
-	        </tr>
-	        <tr>
-            <td class="input-name"><%= f.label :year %></td>
-            <td class="input"><%= f.text_field :year, { :size => 5 } %></td>
-	        </tr>
-	        <tr>
-            <td class="input-name"><%= f.label :medium %></td>
-            <td class="input"><%= select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } ) %></td>
-	        </tr>
-	        <tr>
-            <td class="input-name"><%= f.label :tags %></td>
-            <td class="input"><%= text_field_tag 'tags', tags_to_s(@art_piece.tags), :class => "tag-input" %></td>
-	        </tr>
-          <tr>
-	          <td/>
-            <td class="input-help">
-              (separate by commas)
-	          </td>
-          </tr>
-	        <tr>
-            <td class="input-name">&nbsp;</td>
-            <td class="input buttons "><%= f.submit 'Update' %>&nbsp;&nbsp;<%= f.submit 'Cancel' %></td>
-	        </tr>
-	      </table>
-  </td></tr></table>
+	  <div class='form-group'>
+	    <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>	
+	  <div class='form-group'>
+      <%= f.label :dimensions %>
+      <%= f.text_field :dimensions %>
+    </div>	
+	  <div class='form-group'>
+      <%= f.label :year %>
+      <%= f.text_field :year, { :size => 5 } %>
+    </div>	
+	  <div class='form-group'>
+      <%= f.label :medium %>
+      <%= select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } ) %>
+    </div>	
+	  <div class='form-group'>
+      <%= f.label :tags %>
+      <%= text_field_tag 'tags', tags_to_s(@art_piece.tags), :class => "tag-input" %>
+    </div>	
+	  <div class='form-group'>
+      <div class="input-help">
+        (separate by commas)
+      </div>	
+    </div>
+	  <div class='form-controls input buttons'>
+      <%= f.submit 'Update' %>&nbsp;&nbsp;<%= f.submit 'Cancel' %>
+    </div>
+  <% end %>
 </div>
-<% end %>
 <% end %>
 
 

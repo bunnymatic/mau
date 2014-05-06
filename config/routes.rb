@@ -15,7 +15,7 @@ Mau::Application.routes.draw do
     end
   end
 
-  resources :feeds, :only => [] do
+  resource :feeds, :only => [] do
     get :feed
   end
   resources :application_events, :only => [:index]
@@ -33,7 +33,7 @@ Mau::Application.routes.draw do
 
   resources :art_piece_tags, :only => [:index, :show, :edit, :destroy] do
     collection do
-      get :autosuggest # autocomplete for prototype doesn't easily do ajax with authenticity token :(
+      post :autosuggest # autocomplete for prototype doesn't easily do ajax with authenticity token :(
       get :cleanup
     end
   end
@@ -157,10 +157,10 @@ Mau::Application.routes.draw do
   match '/mobile/main' => 'mobile/main#welcome', :as => :mobile_root
   match '/sitemap.xml' => 'main#sitemap', :as => :sitemap
   match '/api/*path' => 'api#index'
-  match '*path' => 'error#index'
+  #  match '*path' => 'error#index'
 
   # march 2014 - we should try to get rid of this route
-  match '/:controller(/:action(/:id))'
+  #match '/:controller(/:action(/:id))'
 
   root :to => "main#index"
 

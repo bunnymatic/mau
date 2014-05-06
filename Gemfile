@@ -20,7 +20,6 @@ gem 'capistrano-rbenv', '~> 2.0'
 gem 'capistrano-rails', '~> 1.1'
 
 gem 'gibbon', '~> 0.3.5' # mailchimp connect
-gem 'calendar_date_select'
 gem 'rosie'
 gem 'grackle'
 gem 'mime-types'
