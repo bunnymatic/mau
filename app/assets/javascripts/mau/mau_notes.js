@@ -5,6 +5,7 @@ out the appropriate info and fire off a note to mau emails
 avoids 'mailto' links
 */
 
+var MAU = window.MAU = window.MAU || {}; 
 MAU.NotesMailer = Class.create();
 var FormConstructors = function() {
 
@@ -133,8 +134,7 @@ Object.extend(MAU.NotesMailer.prototype, {
   initialize: function(selector, opts) {
     this.options = _.extend({},this.defaults, opts)
     this.selector = jQuery(selector);
-    console.log('looking for ', this.options.note_class);
-     if (this.options.note_class in this.form_builders) {
+    if (this.options.note_class in this.form_builders) {
       var _that = this;
       jQuery(this.selector).bind('click', function(ev) {
         _that.insert(ev);
@@ -146,7 +146,6 @@ Object.extend(MAU.NotesMailer.prototype, {
 
 jQuery(function() {
   jQuery('.mau-note-link').each(function(idx, note) {
-    console.log('attach to ', note)
     var noteClass = jQuery(note).data('notetype');
     new MAU.NotesMailer(note,
                         { note_class: noteClass,

@@ -25,7 +25,6 @@ MAU.Spinner = class MAUSpinner
     @spinOpts = _.extend {}, MAU.SpinnerOptions, opts
 
   spin: ->
-    console.log(@spinOpts)
     jQuery(@el).spin @spinOpts
   stop: ->
     jQuery(@el).spin false

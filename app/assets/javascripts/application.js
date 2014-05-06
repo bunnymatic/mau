@@ -18,8 +18,6 @@
  *= require pickadate/picker
  *= require pickadate/picker.date
  *= require pickadate/picker.time
- *= require thirdparty/prototype/1.7/prototype.min
- *= require thirdparty/scriptaculous.all.min
  *= require thirdparty/jquery.feedback
  *= require thirdparty/autocomplete
  *= require_tree ./mau

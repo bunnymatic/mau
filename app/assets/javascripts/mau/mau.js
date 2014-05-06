@@ -29,7 +29,7 @@ var MAU = window.MAU = window.MAU || {};
   M.waitcursor = function() {
     var errmsg = jQuery('#error_row');
     if (errmsg) {
-      errmsg.html('');      
+      errmsg.html('');
     }
     var spinner = new MAU.Spinner({top:'0px'})
     spinner.spin();
@@ -202,7 +202,6 @@ jQuery(function() {
 
   /** hide/clear studio # when we choose indy */
   jQuery('.edit-sections #artist_studio_id').bind('change', function(ev) {
-    console.log('hide it?', jQuery(this).val());
     if (parseInt(jQuery(this).val(),10) === 0) {
       jQuery('#artist_artist_info_studionumber').val('');
       jQuery('.edit-sections #address .studio-number-row').hide();

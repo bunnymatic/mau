@@ -57,7 +57,6 @@ Favorites =
         lk.html('show all')
 
   show_more: (block_id) ->
-    console.log('show more');
     thumbs = jQuery(block_id).find('.favorite-thumbs li').show();
 
   show_fewer: (block_id) ->

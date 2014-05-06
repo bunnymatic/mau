@@ -106,7 +106,7 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'quiet_assets'
+  gem 'jasminerice', github: 'bradphelan/jasminerice' 
 #  gem 'better_errors'
 #  gem "binding_of_caller"
-  gem 'jasminerice'
 end

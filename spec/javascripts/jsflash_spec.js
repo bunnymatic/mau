@@ -5,6 +5,7 @@ describe('Flash', function() {
   describe('construct', function() {
     var div = null;
     beforeEach(function() {
+      console.log(MAU.Flash)
       div = MAU.Flash.construct({'error': 'this is the error', 'notice':'this is the notice'});
     });
     it ('draws an error div', function() {
