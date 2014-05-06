@@ -59,7 +59,7 @@ gem 'select2-rails' # autocompleter
 gem 'underscore-rails'
 gem 'underscore-string-rails'
 
-gem 'oj'
+gem 'multi_json'
 
 gem 'skylight'
 
