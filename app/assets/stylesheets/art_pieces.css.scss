@@ -1,17 +1,12 @@
 @import 'mau-mixins';
 
 #new_artpiece_form {
-  div, table {
-    margin: auto;
+  .notice, .error-msg {
+    width: 320px;
   }
-  table {
-    width:550px;
-  }
+
   .input-help {
     @include little-text;
-  }
-  td.input-help {
-    padding:5px;
   }
 }
 

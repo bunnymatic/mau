@@ -2271,18 +2271,6 @@ search pages
 }
 
 
-#new_artpiece {
-  .error-msg, & .notice {
-    margin-bottom: 20px;
-  }
-}
-
-#new_artpiece_form {
-  .notice, .error-msg {
-    width: 320px;
-  }
-}
-
 /* shrink err msg if we're in signup-txt box */
 div.signup-text div.error-msg {
   width: 240px;

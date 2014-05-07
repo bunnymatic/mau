@@ -41,8 +41,8 @@ jQuery ->
      apid = jQuery(this).closest('li').find('input[type=checkbox]').click()
 
   # on art pieces edit page
-  editArtPieceForm = jQuery('.edit_art_piece')
-  if (editArtPieceForm.length)
+  artPieceForm = jQuery('.edit_art_piece, .new_art_piece')
+  if (artPieceForm.length)
     $('#art_piece_medium_id').select2();
 
     jQuery.ajax
@@ -57,3 +57,16 @@ jQuery ->
           ]
           minimumInputLength: 3,
           multiple: true
+
+  art_piece_form = document.getElementById('new_artpiece_form')
+  if art_piece_form
+    submit_button = jQuery(art_piece_form).find('input[type=submit]')
+    if submit_button.length
+      submit_button.bind 'click', (ev) ->
+        ArtPieces = new MAU.ArtPieces()
+        if !ArtPieces.validate(art_piece_form)
+          MAU.waitcursor()
+          true
+        else
+          ev.preventDefault()
+          false
