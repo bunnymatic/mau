@@ -9,34 +9,47 @@ var MAU = window.MAU = window.MAU || {};
 
 var FormConstructors = function() {
 
+  var renderForm = function(formId) {
+    var helpForm = document.getElementById(formId);
+    if (helpForm) {
+      return helpForm.innerHTML;
+    }
+    else {
+      return '';
+    }
+  }
+  
   this.types = ['inquiry', 'feed_submission', 'help'];
 
   this.inquiry = {
     title: 'General Inquiry',
-    render: function() {
-      return document.getElementById('feedback-inquiry').innerHTML
-    }
+    render: function() { return renderForm('feedback-inquiry'); }
   };
 
   this.feed_submission = {
     title: "Art Feeds",
-    render: function() {
-      return document.getElementById('feedback-feed-submission').innerHTML
-    }
+    render: function() { return renderForm('feedback-feed-submission'); }
   };
 
   this.help = {
     title: "Help!",
-    render: function() {
-      return document.getElementById('feedback-help').innerHTML
-    }
+    render: function() { return renderForm('feedback-help'); }
   };
 }
 
-
-MAU.NotesMailer = function() {
-  return this.initialize(arguments);
-};
+MAU.NotesMailer = (function() {
+  function NotesMailer(selector, opts) {
+    this.options = _.extend({},this.defaults, opts)
+    this.selector = jQuery(selector);
+    if (this.options.note_class in this.form_builders) {
+      var _that = this;
+      jQuery(this.selector).bind('click', function(ev) {
+        _that.insert(ev);
+      });
+    }
+  }
+  return NotesMailer;
+})();
 
 _.extend(MAU.NotesMailer.prototype,{
   defaults: {
@@ -136,16 +149,6 @@ _.extend(MAU.NotesMailer.prototype,{
       $notes.css(style);
     }
   },
-  initialize: function(selector, opts) {
-    this.options = _.extend({},this.defaults, opts)
-    this.selector = jQuery(selector);
-    if (this.options.note_class in this.form_builders) {
-      var _that = this;
-      jQuery(this.selector).bind('click', function(ev) {
-        _that.insert(ev);
-      });
-    }
-  }
 });
 
 
