@@ -14,7 +14,7 @@ Mau::Application.routes.draw do
     end
   end
 
-  resource :artist_feeds, :except => [:show]
+  resources :artist_feeds, :except => [:show]
   resource :feeds, :only => [] do
     get :feed
     get :clear_cache

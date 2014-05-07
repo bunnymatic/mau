@@ -74,9 +74,7 @@ describe ArtPieceTagsController do
     it_should_behave_like 'successful json'
     it 'returns all tags as json' do
       j = JSON.parse(response.body)
-      j.first.should have_key 'info'
-      j.first.should have_key 'value'
-      j.map{|entry| entry['value'] =~ /tag/i}.all?.should be_true
+      j.all?(&:present?).should be_true
     end
 
     it 'writes to the cache if theres nothing there' do
@@ -88,8 +86,7 @@ describe ArtPieceTagsController do
     it 'returns tags using the input' do
       get :autosuggest, :format => :json, :input => 'this'
       j = JSON.parse(response.body)
-      tag_names = j.map{|entry| entry['value']}
-      tag_names.should eql ['this is the tag']
+      j.should include 'this is the tag'
     end
 
     it 'uses the cache there is data' do
@@ -98,7 +95,7 @@ describe ArtPieceTagsController do
       Rails.cache.should_not_receive(:write)
       get :autosuggest, :format => :json, :input => 'tag'
       j = JSON.parse(response.body)
-      j.first['value'].should eql ArtPieceTag.last.name
+      j.first.should eql ArtPieceTag.last.name
     end
   end
 
