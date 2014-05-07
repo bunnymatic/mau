@@ -4,7 +4,6 @@ Mau::Application.routes.draw do
   resources :roles
   resources :cms_documents, :except => [:destroy]
   resources :media
-  resources :artist_feeds, :except => [:show]
   resources :art_pieces, :except => [:index]
   resource :session, :only => [:new, :create, :destroy]
   resources :studios do
@@ -15,8 +14,10 @@ Mau::Application.routes.draw do
     end
   end
 
+  resource :artist_feeds, :except => [:show]
   resource :feeds, :only => [] do
     get :feed
+    get :clear_cache
   end
   resources :application_events, :only => [:index]
   resources :catalog, :only => [:index] do
@@ -64,7 +65,7 @@ Mau::Application.routes.draw do
   match '/change_password' => 'users#change_password', :as => :change_password
   match '/change_password_update' => 'users#change_password_update', :as => :change_password_update
   match '/activate/:activation_code' => 'users#activate', :as => :activate
-  match 'reset/:reset_code' => 'users#reset', :as => :reset, :method => :get
+  match 'reset/:reset_code' => 'users#reset', :as => :reset, :via => [:get, :post]
   match 'reset' => 'users#reset', :as => :submit_reset, :method => :post
 
   resources :artists, :except => [:new, :create] do
