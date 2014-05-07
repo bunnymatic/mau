@@ -3,17 +3,38 @@
 .form-group {
   max-width: 500px;
   margin:12px auto;
-  label {
+  min-height: 30px;
+  .label {
+    float:left;
     width: 25%;
     text-align:right;
     display: inline-block;
     margin-right: 12px;
   }
-  input, select {
+  .field {
+    float: left;
     width: 68%;
+    input {
+      width: calc(100% - 10px);
+    }
   }
-  .input-help {
-    text-align: center;
-    color: $mediumgray;
+  .select2-choices {
+    @include small-rounded-corners;
+  }
+}
+
+.form-controls {
+  clear:both;
+  text-align:center;
+  margin: auto;
+  padding: 20px;
+}
+
+form .field_with_errors {
+  label {
+    color: $error_red;
+  }
+  input {
+    border: 2px solid $dark_red;
   }
 }

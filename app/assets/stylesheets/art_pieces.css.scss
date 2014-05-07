@@ -1,0 +1,71 @@
+@import 'mau-mixins';
+
+#new_artpiece_form {
+  div, table {
+    margin: auto;
+  }
+  table {
+    width:550px;
+  }
+  .input-help {
+    @include little-text;
+  }
+  td.input-help {
+    padding:5px;
+  }
+}
+
+#edit_artpiece {
+  .artpiece{
+    width: 200px;
+    margin: auto;
+    text-align:center;
+  }
+}
+.new_art_piece, .edit_art_piece {
+  .select2-container {
+    width: 100%;
+  }
+}
+
+#arrange_art {
+  .artp-thumb-container {
+    cursor: pointer;
+  }
+}
+#arrange_art, #delete_art {
+  margin: auto;
+  .allthumbs {
+    clear: both;
+  }
+  .edit-buttons {
+    clear: both;
+  }
+  h4 {
+    text-align: center;
+  }
+  .title {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    position:relative;
+  }
+  .help-txt {
+    position:relative;
+    margin-top:16px;
+    width: 500px;
+    margin: 16px auto 10px auto;
+    @include little-text;
+  }
+  .allthumbs .artp-thumb-container.with-foot {
+    min-height: 144px;
+  }
+}
+#arrange_art_help {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  .help-txt {
+    @include little-text;
+  }
+}

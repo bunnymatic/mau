@@ -27,8 +27,6 @@ class ArtPieceTagsController < ApplicationController
       # filter with input prefix
       inp = q.downcase
       tags = tags.select{|tag| tag['value'].downcase.starts_with? inp}
-    else
-      tags = []
     end
     render :json => tags.map{|t| t['value']}
   end

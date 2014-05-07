@@ -558,7 +558,7 @@ input.txtarea-sm, input.txtarea, select.dropdown {
     border: 1px solid $error_red;
   }
 }
-.tag-input, input.txt, select.dropdown {
+input.txt, select.dropdown {
   width: 300px;
 }
 
@@ -1767,22 +1767,6 @@ td.td-left{
   @include little-text;
 }
 
-#new_artpiece_form {
-  div, table {
-    margin: auto;
-  }
-  table {
-    width:550px;
-  }
-  .input-help {
-    @include little-text;
-  }
-  td.input-help {
-    padding:5px;
-  }
-}
-
-
 #artpiece_title {
   overflow: hidden;
   max-width: 500px;
@@ -2431,33 +2415,10 @@ textarea.artist-bio {
   width: 520px;
   height: 300px;
 }
-#edit_artpiece {
-  .artpiece{
-    width: 200px;
-    margin: auto;
-    text-align:center;
-  }
-  table {
-    width: 480px;
-    margin: auto;
-    margin: 10px auto;
-  }
-  td {
-    padding: 5px 6px 6px;
-  }
-}
-#artpiece_edit_ctrls {
-  width: $rightcol;
-  text-align: left;
-  margin-top: 8px;
-  margin-bottom: 11px;
-  font-size: 11px;
-}
 
 .back-to-profile-btn span,
 .edit-buttons span,
-#profile_edit_ctrls span,
-#artpiece_edit_ctrls span {
+#profile_edit_ctrls span {
   @include solid_border;
   padding: 6px;
   margin: 4px;
@@ -2469,8 +2430,7 @@ textarea.artist-bio {
 
 .back-to-profile-btn span:hover,
 .edit-buttons span:hover,
-#profile_edit_ctrls span:hover,
-#artpiece_edit_ctrls span:hover {
+#profile_edit_ctrls span:hover {
   background-color: $darkgray;
 }
 
@@ -3196,47 +3156,6 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 #ac_ul li {
 }
 
-#arrange_art {
-  .artp-thumb-container {
-    cursor: pointer;
-  }
-}
-#arrange_art, #delete_art {
-  margin: auto;
-  .allthumbs {
-    clear: both;
-  }
-  .edit-buttons {
-    clear: both;
-  }
-  h4 {
-    text-align: center;
-  }
-  .title {
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-    position:relative;
-  }
-  .help-txt {
-    position:relative;
-    margin-top:16px;
-    width: 500px;
-    margin: 16px auto 10px auto;
-    @include little-text;
-  }
-  .allthumbs .artp-thumb-container.with-foot {
-    min-height: 144px;
-  }
-}
-#arrange_art_help {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  .help-txt {
-    @include little-text;
-  }
-}
 
 #signup_page {
   h2 {

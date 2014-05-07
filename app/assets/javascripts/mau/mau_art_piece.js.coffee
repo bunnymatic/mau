@@ -13,7 +13,7 @@ if (location.hash && location.href.match(/art_pieces\/\d+/))
 
 MAU.ArtPieces = class ArtPieces
 
-  # validate upload data 
+  # validate upload data
   validate: (frm) ->
     input_filename = jQuery(frm).find('#upload_datafile')
     if (input_filename.length)
@@ -28,7 +28,7 @@ MAU.ArtPieces = class ArtPieces
             Please rename that file before trying to upload again.
             """
         alert s
-          
+
 
 jQuery ->
   # setup zoom for art pieces
@@ -39,3 +39,21 @@ jQuery ->
   for ap in aps
     jQuery(ap).bind 'click', (ev) ->
      apid = jQuery(this).closest('li').find('input[type=checkbox]').click()
+
+  # on art pieces edit page
+  editArtPieceForm = jQuery('.edit_art_piece')
+  if (editArtPieceForm.length)
+    $('#art_piece_medium_id').select2();
+
+    jQuery.ajax
+      url: '/art_piece_tags/autosuggest'
+      type: 'post'
+      dataType: "json"
+      success: (data) ->
+        $("#tags").select2
+          tags: data,
+          tokenSeparators: [
+            ","
+          ]
+          minimumInputLength: 3,
+          multiple: true
