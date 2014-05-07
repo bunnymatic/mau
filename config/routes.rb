@@ -163,7 +163,7 @@ Mau::Application.routes.draw do
   match '*path' => 'error#index'
 
   # march 2014 - we should try to get rid of this route
-  #match '/:controller(/:action(/:id))'
+  match '/:controller(/:action(/:id))'
 
   root :to => "main#index"
 
