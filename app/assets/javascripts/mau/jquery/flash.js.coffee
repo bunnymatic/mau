@@ -26,7 +26,7 @@ MAU.Flash = class Flash
     notice = msgs.notice
     contents = jQuery('<div>')
     $close = jQuery('<div>', {'class':'close_btn'}).html('x')
-    ['error','notice'].each (k) ->
+    for k in ['error','notice']
       if (msgs[k]) 
         msg = msgs[k];
         clz = k;

@@ -22,12 +22,13 @@ class ArtPieceTagsController < ApplicationController
 
   def autosuggest
     tags = fetch_tags_for_autosuggest
-    if params[:input]
+    q = query_input_params
+    if q.present?
       # filter with input prefix
-      inp = params[:input].downcase
-      tags = (inp.present? ? tags.select{|tag| tag['value'].downcase.starts_with? inp} : [])
+      inp = q.downcase
+      tags = tags.select{|tag| tag['value'].downcase.starts_with? inp}
     end
-    render :json => tags
+    render :json => tags.map{|t| t['value']}
   end
 
   def index
@@ -99,5 +100,9 @@ class ArtPieceTagsController < ApplicationController
     else
       redirect_to art_piece_tag_path(freq.first['tag'], xtra_params)
     end
+  end
+
+  def query_input_params
+    params[:input] || params[:q]
   end
 end

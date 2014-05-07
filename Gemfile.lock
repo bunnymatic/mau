@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/bradphelan/jasminerice.git
+  revision: 091349c27343bfa728b8e5745675f9ddbb7d9699
+  specs:
+    jasminerice (0.1.0)
+      coffee-rails
+
+GIT
   remote: https://github.com/jwroblewski/em-rspec.git
   revision: 51b9d71cb1ee0f01ecbf9ea3eaf0f510f5fe6a1c
   specs:
@@ -45,7 +52,6 @@ GEM
     awesome_print (1.2.0)
     browser (0.1.6)
     builder (3.0.4)
-    calendar_date_select (1.16.4)
     cane (2.6.0)
       parallel
     capistrano (3.1.0)
@@ -200,9 +206,6 @@ GEM
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
     i18n (0.6.9)
-    jasminerice (0.0.10)
-      coffee-rails
-      haml
     journey (1.0.4)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
@@ -405,7 +408,6 @@ DEPENDENCIES
   angularjs-rails
   annotate
   browser (= 0.1.6)
-  calendar_date_select
   cane
   capistrano (~> 3.1.0)
   capistrano-rails (~> 1.1)
@@ -437,7 +439,7 @@ DEPENDENCIES
   haml
   hashie
   htmlentities
-  jasminerice
+  jasminerice!
   jquery-rails
   jslint_on_rails
   json

@@ -1,1 +1,1 @@
-if (jQuery && jQuery.noConflict) { jQuery.noConflict(); }
+// if (jQuery && jQuery.noConflict) { jQuery.noConflict(); }

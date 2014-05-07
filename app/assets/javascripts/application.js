@@ -14,13 +14,11 @@
  *= require jquery.form
  *= require jquery.flot
  *= require jquery.flot.resize
+ *= require select2
  *= require colorbox-rails
  *= require pickadate/picker
  *= require pickadate/picker.date
  *= require pickadate/picker.time
- *= require thirdparty/prototype/1.7/prototype.min
- *= require thirdparty/scriptaculous.all.min
  *= require thirdparty/jquery.feedback
- *= require thirdparty/autocomplete
  *= require_tree ./mau
 */

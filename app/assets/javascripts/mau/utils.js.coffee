@@ -2,6 +2,25 @@
 MAU = window.MAU = window.MAU || {};
 MAU.Utils =
 
+  debounce: (func, threshold, execAsap) ->
+
+    timeout = null
+
+    () ->
+      obj = this
+      args = arguments
+      delayed = () ->
+        if (!execAsap)
+          func.apply(obj, args)
+        timeout = null
+
+      if (timeout)
+        clearTimeout(timeout)
+      else if (execAsap)
+        func.apply(obj, args)
+
+      timeout = setTimeout(delayed, threshold || 100)
+
   validateEmail: (str) ->
     (str.indexOf(".") > 2) && (str.indexOf("@") > 0)
 

@@ -57,7 +57,7 @@ MAU.SearchPage = class MAUSearch
         _.each cbs, (el) ->
           el.checked = false
         _that.setAnyLink(c)
-        ev.stopPropagation();
+        ev.preventDefault();
         _that._submitForm();
         false
 
@@ -83,7 +83,7 @@ MAU.SearchPage = class MAUSearch
       if $c
         s = ->
           _that._submitForm()
-        debounced = s.debounce(500,false)
+        debounced = MAU.Utils.debounce(s,500,false)
         _.each $c.find(_that.checkboxSelector), (item) ->
           jQuery(item).bind 'change', debounced
 
@@ -137,22 +137,16 @@ MAU.SearchPage = class MAUSearch
     _that = this
     col = jQuery('.column')
     col.on('click', '.trigger', _that.toggleTarget) if col.on
-    triggers = jQuery('.column .trigger')
-    _.each triggers, (item) ->
-      item.insert sprite_minus_dom
-      item.next().hide()
-    expandeds = jQuery('.column .expanded')
-    _.each expandeds, (item) ->
-      item.insert sprite_plus_dom
-      item.addClassName('trigger')
-
+       
+    jQuery('.trigger').each () ->
+      $(this).prepend(sprite_plus_dom);
+      $(this).bind 'click', () -> $(this).next().slideToggle()
+      
     # if we have the search form, bind ajax to the submit
-    #
     searchForm = jQuery(@searchFormSelector)
     searchForm.bind 'submit', (ev) ->
       _that._submitForm(ev)
-    false
-
+    
   updateQueryParamsInView: ->
     _that = this
     # grab form params
@@ -160,9 +154,9 @@ MAU.SearchPage = class MAUSearch
     if (frm.length)
       # get checked mediums
       ms = _.map frm.find('#medium_chooser input:checked'), (item) ->
-        item.data('display')
+        jQuery(item).data('display')
       ss = _.map frm.find('#studio_chooser input:checked'), (item) ->
-        item.data('display')
+        jQuery(item).data('display')
       os = null
       try
         os = frm.find('#os_artist').val()
@@ -260,17 +254,14 @@ MAU.SearchPage = class MAUSearch
 
   toggleTarget: (event) ->
     # NOTE:  Within an event handler, 'this' always refers to the element they are registered on.
-    t = this
-    if !t.hasClassName('expanded')
-      t.addClassName('expanded');
-      jQuery(t).find('.sprite').replaceWith(sprite_plus_dom)
-      jQuery(t).next('div').slideDown()
+    t = jQuery(this)
+    t.find('.sprite').remove()
+    t.toggleClass('expanded')
+    if t.hasClass('expanded')
+      t.prepend(sprite_minus_dom)
     else
-      t.removeClassName('expanded')
-      jQuery(t).find('.sprite').replaceWith(sprite_minus_dom)
-      jQuery(t).next('div').slideUp()
-
+      t.prepend(sprite_plus_dom)
+ 
 jQuery ->
   new MAUSearch(['#medium_chooser','#studio_chooser'])
-  
   jQuery('#search_link').bind('click', MAU.doSearch)

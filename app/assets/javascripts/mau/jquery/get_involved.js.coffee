@@ -58,6 +58,6 @@ MAU.GetInvolved = class GetInvolved
 
 
 jQuery () ->
-  if (/involved/.match location.href )
+  if location.href.match /involved/
     new MAU.GetInvolved()
 

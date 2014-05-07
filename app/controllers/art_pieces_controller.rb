@@ -73,7 +73,7 @@ class ArtPiecesController < ApplicationController
     if !upload
       @art_piece = ArtPiece.new params[:art_piece]
       @art_piece.valid?
-      @art_piece.errors.add(:base, "You must provide an image."+
+      @art_piece.errors.add(:base, "You must provide an image.  "+
         "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
         " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
       render :action => 'new' and return

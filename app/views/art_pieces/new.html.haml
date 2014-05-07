@@ -1,0 +1,43 @@
+.div-center
+  .logo-spacer
+  %h4 Add a new piece of art for #{current_artist.get_name}
+  = form_for(@art_piece, :html => {:id => 'new_artpiece_form', :multipart => true}) do |f|
+    = hidden_field_tag :user_id, current_artist.login
+    #spinner
+    = render '/common/form_errors', :form => f 
+    = render '/flash_notice_error' 
+    .form-group
+      .label
+        = f.label :upload_file, "Select File"
+      .field
+        = file_field :upload, 'datafile'
+    .form-group.input-help
+      Please use images of type JPG, PNG or GIF whose size is less than 2MB.
+    .form-group.required
+      .label
+        = f.label :title
+      .field
+        = f.text_field :title
+    .form-group
+      .label
+        = f.label :dimensions
+      .field
+        = f.text_field :dimensions
+    .form-group
+      .label
+        = f.label :year
+      .field
+        = f.text_field :year
+    .form-group
+      .label
+        = f.label :medium
+      .field
+        = select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } )
+    .form-group
+      .label
+        = f.label :tags
+      .field
+        = text_field_tag 'tags', tags_to_s(@art_piece.tags)
+    .form-controls.buttons
+      = f.submit 'Add'
+      = f.submit 'Cancel'
