@@ -41,7 +41,9 @@ Mau::Application.routes.draw do
   resources :events do
     member do
       get :unpublish
+      post :unpublish
       get :publish
+      post :publish
     end
   end
 
