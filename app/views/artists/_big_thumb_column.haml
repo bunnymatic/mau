@@ -8,9 +8,9 @@
         - if logged_in? && (current_user.id == artist.id)
           - title = "Click to Upload Some Art!"
           .artp-thumb.small
-            = link_to new_art_piece_path, :title => title do
+            = link_to new_artist_art_piece_path(current_user), :title => title do
               %img{ :src => "/images/default-art-img.png", :title => title }
-          = link_to title, new_art_piece_path, :title => title
+          = link_to title, new_artist_art_piece_path(current_user), :title => title
         - else
           .artp-thumb-small
             %img{ :src => "/images/default-art-img.png" }

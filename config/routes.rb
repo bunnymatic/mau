@@ -4,7 +4,6 @@ Mau::Application.routes.draw do
   resources :roles
   resources :cms_documents, :except => [:destroy]
   resources :media
-  resources :art_pieces, :except => [:index]
   resource :session, :only => [:new, :create, :destroy]
   resources :studios do
     member do
@@ -69,6 +68,7 @@ Mau::Application.routes.draw do
   match 'reset' => 'users#reset', :as => :submit_reset, :method => :post
 
   resources :artists, :except => [:new, :create] do
+    resources :art_pieces, :except => [:index]
     collection do
       get :by_lastname
       get :by_firstname

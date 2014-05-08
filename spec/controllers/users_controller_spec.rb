@@ -505,8 +505,9 @@ describe UsersController do
         end
       end
       context "while logged in as fan with no favorites" do
+        let(:artist) { FactoryGirl.create(:artist) }
         before do
-          ArtPiece.any_instance.stub(:artist =>Artist.new(:login => 'blow'))
+          ArtPiece.any_instance.stub(:artist => artist)
           login_as(fan)
           get :favorites, :id => fan.id
         end
@@ -692,7 +693,7 @@ describe UsersController do
               post :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
             end
             it "returns success" do
-              expect(response).to redirect_to(art_piece_path(@ap))
+              expect(response).to redirect_to(artist_art_piece_path(@ap.artist, @ap))
             end
             it "sets flash with escaped name" do
               flash[:notice].should include '&#x3c;script&#x3e;'

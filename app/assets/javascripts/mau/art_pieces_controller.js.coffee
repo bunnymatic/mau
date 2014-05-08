@@ -1,7 +1,7 @@
 angular.module('ArtPiecesApp.controllers', []).
   controller 'artPiecesController', ['$scope','$resource', ($scope, $resource) ->
 
-    artPieceCache = {}
+    artistId = undefined
     
     serialize = (obj) ->
       str = []
@@ -9,7 +9,12 @@ angular.module('ArtPiecesApp.controllers', []).
         continue
       str.join "&"
     
-    ArtPieces = $resource('/art_pieces/:artPieceId.json', {artPieceId:'@id'}, {get: {method:'GET', cache:true}})
+    ArtPieces = $resource('/artists/:artistId/art_pieces/:artPieceId.json',
+      {artistId:'@artist.id', artPieceId:'@id'},
+      {
+        get: {method:'GET', cache:true},
+        index: {method:'GET', cache:true}
+      })
     Artists = $resource('/artists/:artistId.json', {artistId:'@id'}, {get: {method:'GET', cache:true}})
 
     $scope.artist = null
@@ -26,10 +31,11 @@ angular.module('ArtPiecesApp.controllers', []).
         $scope.next()
       
     $scope.$watch 'current', () ->
-      ArtPieces.get {artPieceId: $scope.current}, (piece) ->
-        $scope.currentArtPiece = piece.art_piece
-        $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece.id
-        $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
+      if $scope.artist && $scope.current
+        ArtPieces.get {artistId: $scope.artist.id, artPieceId: $scope.current}, (piece) ->
+          $scope.currentArtPiece = piece.art_piece
+          $scope.artPiecePath = '/artists/' + artistId + '/art_pieces/' + $scope.currentArtPiece.id
+          $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
 
     currentPosition = () ->
       $scope.artPieces.pluck('id').indexOf($scope.current)
@@ -79,8 +85,8 @@ angular.module('ArtPiecesApp.controllers', []).
         $scope.artist = artist.artist
         $scope.artPieces = []
         numPieces = artist.artpieces.length
-        artist.artpieces.each (item,idx) ->
-          ArtPieces.get {artPieceId: item.id}, (piece) ->
+        _.each artist.artpieces, (item,idx) ->
+          ArtPieces.get {artistId: artistId, artPieceId: item.id}, (piece) ->
             $scope.artPieces[idx] = piece.art_piece
   ]  
           

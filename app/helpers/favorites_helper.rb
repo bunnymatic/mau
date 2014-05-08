@@ -3,12 +3,13 @@ module FavoritesHelper
     img = ''
     path_finder = :user_path
     image_finder = :get_profile_image
-    if fav.class.name == ArtPiece.name
-      path_finder = :art_piece_path
-      image_finder = :get_path
+    if fav.is_a? ArtPiece
+      img = fav.get_path sz
+      path = artist_art_piece_path fav.artist.id, fav.id
+    else
+      img = fav.send image_finder, sz
+      path = send path_finder, fav
     end
-    img = fav.send image_finder, sz
-    path = send path_finder, fav
     [img,path]
   end
 

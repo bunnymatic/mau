@@ -113,7 +113,7 @@ class ArtPiecesController < ApplicationController
     if @art_piece.update_attributes(art_piece_params)
       flash[:notice] = 'Artwork was successfully updated.'
       Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
-      redirect_to art_piece_path(@art_piece)
+      redirect_to artist_art_piece_path(@art_picee.artist, @art_piece)
     else
       render :action => "edit"
     end
