@@ -81,9 +81,9 @@
 
   .edit-buttons
     - if !current_user.art_pieces.any?
-      = link_to "Upload some of your art to share with the world!", new_art_piece_path
+      = link_to "Upload some of your art to share with the world!", new_artist_art_piece_path(current_user)
     - if current_user.art_pieces.length > 1
-      = form_tag new_art_piece_path(), :method=> "get" do
+      = form_tag new_artist_art_piece_path(current_user), :method=> "get" do
         %input{:class=> "formbutton", :type =>  "submit",:value=> "Add Art" }
       = form_tag arrange_art_artists_path(), :method => "get" do
         %input{:class=> "formbutton", :type =>  "submit",:value=> "Arrange Art" }

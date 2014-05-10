@@ -41,28 +41,12 @@ class ArtPiecePresenter
     image_dimensions[sz].first
   end
 
-  def css_width
-    "width: #{width}px;"
-  end
-
-  def has_medium?
-    medium.present?
-  end
-
   def zoomed
     @zoomed ||= art_piece.get_path('large')
   end
 
-  def edit_path
-    @view_context.edit_art_piece_path(art_piece)
-  end
-
   def path
-    @view_context.art_piece_path(art_piece)
-  end
-
-  def artist_path
-    @view_context.artist_path(art_piece.artist)
+    @view_context.artist_art_piece_path(artist,art_piece)
   end
 
 end
