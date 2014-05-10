@@ -38,7 +38,7 @@ angular.module('ArtPiecesApp.controllers', []).
           $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
 
     currentPosition = () ->
-      $scope.artPieces.pluck('id').indexOf($scope.current)
+      _.pluck($scope.artPieces,'id').indexOf($scope.current)
 
     limitPosition = (pos) ->
       nPieces = $scope.artPieces.length

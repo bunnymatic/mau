@@ -357,7 +357,7 @@ class User < ActiveRecord::Base
   # and that any security related data is missing (salt, password etc)
   def clean_for_export(art_pieces)
     retval = { "artist" => {}, "artpieces" => [] }
-    keys = [ 'firstname','lastname','login', 'street' ]
+    keys = [ 'id', 'firstname','lastname','login', 'street' ]
     keys.each do |k|
       retval["artist"][k] = self.send(k)
     end
