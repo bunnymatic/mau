@@ -10,8 +10,8 @@ jQuery.fn.hideableRows = (method) ->
       o = _.extend({},jQuery.hideableRowsDefaults, options)
       jQuery(@).on 'click', o.whatToHideSelectors, (ev) ->
         clz = this.value
-        hide = !this.checked
-        jQuery(that).find(o.rowSelector + '.'+clz).toggleClass('js-hidden-row')
+        hide = this.checked
+        jQuery(that).find(o.rowSelector + '.'+clz).toggleClass('js-hidden-row', hide)
        
   this.each () ->
     # Method calling logic
