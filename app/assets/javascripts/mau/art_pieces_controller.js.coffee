@@ -29,13 +29,15 @@ angular.module('ArtPiecesApp.controllers', []).
         $scope.prev()
       if ev.which == 39
         $scope.next()
-      
-    $scope.$watch 'current', () ->
+
+    setCurrentArtPiece = () ->
       if $scope.artist && $scope.current
         ArtPieces.get {artistId: $scope.artist.id, artPieceId: $scope.current}, (piece) ->
           $scope.currentArtPiece = piece.art_piece
           $scope.artPiecePath = '/artists/' + artistId + '/art_pieces/' + $scope.currentArtPiece.id
           $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
+      
+    $scope.$watch 'current', setCurrentArtPiece
 
     currentPosition = () ->
       _.pluck($scope.artPieces,'id').indexOf($scope.current)
@@ -80,13 +82,15 @@ angular.module('ArtPiecesApp.controllers', []).
     $scope.init = (opts) ->
       artPieceId = opts.artPieceId
       artistId = opts.artistId
-      $scope.current = artPieceId
       Artists.get {artistId: artistId}, (artist) ->
         $scope.artist = artist.artist
         $scope.artPieces = []
         numPieces = artist.artpieces.length
+        setCurrentArtPiece()
         _.each artist.artpieces, (item,idx) ->
           ArtPieces.get {artistId: artistId, artPieceId: item.id}, (piece) ->
             $scope.artPieces[idx] = piece.art_piece
+      $scope.current = artPieceId
+            
   ]  
           
