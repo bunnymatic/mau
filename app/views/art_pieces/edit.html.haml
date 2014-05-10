@@ -7,7 +7,7 @@
     %h4 Edit Information for This Piece : #{@art_piece.title}
     .artpiece
       %img{ :src => @art_piece.get_path('small') }
-    = form_for(@art_piece) do |f|
+    = form_for([@art_piece.artist, @art_piece]) do |f|
       = render '/common/form_errors', :form => f
       = render '/flash_notice_error'
       .form-group

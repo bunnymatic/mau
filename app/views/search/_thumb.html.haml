@@ -17,7 +17,7 @@
       .artpiece_title
         %span Title:
         %span
-          = link_to piece.get_name, piece
+          = link_to piece.get_name, artist_art_piece_path(piece.artist, piece)
       - if piece.medium
         .artpiece_medium
           %span Medium:
