@@ -1,17 +1,58 @@
+# To use, setup some dom like this
+#
+#
+# <div id='hideable-row-widget'>
+#   <fieldset class='hide-rows'>
+#     Checkboxes to filter (hide) rows
+#     where value is the class used to find and hide/show the row
+#     <input type='checkbox' value='filter1'>
+#     <input type='checkbox' value='filter2'>
+#   </fieldset>
+#
+#   <table>
+#     <tbody>
+#       <tr class="filter1"> </tr>
+#       <tr class="filter2"> </tr>
+#       <tr class="filter1"> </tr>
+#       <tr class="filter2"> </tr>
+#     </tbody> 
+#   <table>
+# </div>
+#
+# then init with jQuery('#hideable-row-widget')
+#
+# when filter1 is checked, all the rows with class filter1 will be hidden
+#
+# options (with defaults)
+#   rowSelector: 'table tbody tr'            
+#   whatToHideSelectors: '.hide-rows input'  
+#
+# rowSelector is to define the item to show/hide
+# whatToHideSelectors defines the location of the inputs which should be
+#   checkboxes whose value is the CSS class used for filtering
+
 jQuery.hideableRowsDefaults =
-  rowSelector: 'table tbody tr'
-  whatToHideSelectors: '.hide-rows input'
+  rowContainer: 'table tbody'              # what contains the items to show/hide
+  whatToHideSelectors: '.hide-rows input'  # where do we find the class selectors to hide (checkboxes)
+  multiFilter: false                       # do we need to handle overlap (future + published) between filters
   
 jQuery.fn.hideableRows = (method) ->
   that = this
   inArgs = arguments
+
+  hasAllClasses = (item, classes) ->
+    
+  toggleItems = (container, opts) ->
+    possibleClasses = jQuery(container).find(opts.whatToHideSelectors).map(-> jQuery(@).val()).join(",")
+    hide = (possibleClasses.length > 0)
+    jQuery(that).find(opts.rowContainer).find(possibleClasses).toggleClass('js-hidden-row', hide)
+
+    
   methods =
     init: (options) ->
       o = _.extend({},jQuery.hideableRowsDefaults, options)
-      jQuery(@).on 'click', o.whatToHideSelectors, (ev) ->
-        clz = this.value
-        hide = this.checked
-        jQuery(that).find(o.rowSelector + '.'+clz).toggleClass('js-hidden-row', hide)
+      jQuery(@).on 'click', o.whatToHideSelectors, (ev) =>
+        toggleItems(@, o)
        
   this.each () ->
     # Method calling logic
