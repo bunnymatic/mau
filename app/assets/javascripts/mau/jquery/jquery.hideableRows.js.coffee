@@ -41,11 +41,15 @@ jQuery.fn.hideableRows = (method) ->
   inArgs = arguments
 
   hasAllClasses = (item, classes) ->
+
+  getCheckedClasses = (container, opts) ->
+    _.compact(_.map jQuery(container).find(opts.whatToHideSelectors), (item) ->  jQuery(item).is(':checked') && ('.'+jQuery(item).val()))
+    
     
   toggleItems = (container, opts) ->
-    possibleClasses = jQuery(container).find(opts.whatToHideSelectors).map(-> jQuery(@).val()).join(",")
-    hide = (possibleClasses.length > 0)
-    jQuery(that).find(opts.rowContainer).find(possibleClasses).toggleClass('js-hidden-row', hide)
+    checkedClasses = getCheckedClasses(container,opts)
+    hide = (checkedClasses.length > 0)
+    jQuery(that).find(opts.rowContainer).find(checkedClasses.join(',')).toggleClass('js-hidden-row', hide)
 
     
   methods =
