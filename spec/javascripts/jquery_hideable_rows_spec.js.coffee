@@ -22,7 +22,7 @@ describe 'jQuery.hideableRows', ->
   describe 'with custom row selector and input selectors and multi-filter', ->
     beforeEach ->
       loadFixtures('hideable_multi_rows_div.html')
-      jQuery('#hideable_multi_row_divs').hideableRows({rowSelector: '.item', whatToHideSelectors: '.hiders input', multiFilter: true})
+      jQuery('#hideable_multi_row_divs').hideableRows({rowSelector: '.item', whatToHideSelectors: '.hiders input'})
       
     it 'when you choose past it hides the past elements', ->
       expect(jQuery('.js-hidden-row').length).toEqual 0

@@ -32,25 +32,26 @@
 #   checkboxes whose value is the CSS class used for filtering
 
 jQuery.hideableRowsDefaults =
-  rowContainer: 'table tbody'              # what contains the items to show/hide
+  rowSelector: 'tbody tr'              # what contains the items to show/hide
   whatToHideSelectors: '.hide-rows input'  # where do we find the class selectors to hide (checkboxes)
-  multiFilter: false                       # do we need to handle overlap (future + published) between filters
   
 jQuery.fn.hideableRows = (method) ->
-  that = this
+
   inArgs = arguments
 
   hasAllClasses = (item, classes) ->
 
   getCheckedClasses = (container, opts) ->
-    _.compact(_.map jQuery(container).find(opts.whatToHideSelectors), (item) ->  jQuery(item).is(':checked') && ('.'+jQuery(item).val()))
+    _.compact(_.map jQuery(container).find(opts.whatToHideSelectors), (item) ->  jQuery(item).is(':checked') && jQuery(item).val())
     
     
   toggleItems = (container, opts) ->
     checkedClasses = getCheckedClasses(container,opts)
     hide = (checkedClasses.length > 0)
-    jQuery(that).find(opts.rowContainer).find(checkedClasses.join(',')).toggleClass('js-hidden-row', hide)
-
+    jQuery(container).find(opts.rowSelector).each (idx, row) ->
+      $row = jQuery(row)
+      toggle = _.any(_.map(checkedClasses, (clz) -> $row.hasClass clz))
+      $row.toggleClass('js-hidden-row', toggle)
     
   methods =
     init: (options) ->

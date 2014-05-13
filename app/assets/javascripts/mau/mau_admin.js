@@ -1,6 +1,13 @@
 jQuery(function() {
 
-  jQuery('.js-hideable-rows').hideableRows()
+  // admin artists page filtering
+  jQuery('.js-hideable-rows.artists').hideableRows()
+
+  // admin events filtering
+  jQuery('.js-hideable-rows.events').hideableRows({rowSelector: '.event', whatToHideSelectors:'.filters input'})
+  jQuery('.show_all').bind('click', function() {
+    $(this).closest('.filters').find('input').removeAttr("checked")
+  });
 
   jQuery('#os_combo_link').bind('click', function() {
     var $frm = jQuery('#multi_form');
