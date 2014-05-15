@@ -24,10 +24,10 @@
 # when filter1 is checked, all the rows with class filter1 will be hidden
 #
 # options (with defaults)
-#   rowSelector: 'table tbody tr'            
+#   row: 'table tbody tr'            
 #   whatToHideSelectors: '.hide-rows input'  
 #
-# rowSelector is to define the item to show/hide
+# row is to define the item to show/hide
 # whatToHideSelectors defines the location of the inputs which should be
 #   checkboxes whose value is the CSS class used for filtering
 
@@ -39,21 +39,21 @@ jQuery.fn.hideableRows = (method) ->
   that = this
   inArgs = arguments
 
-  hasAllClasses = (item, classes) ->
-
+  hasAnyClass = (item, classes) ->
+    for c in classes
+      return true if jQuery(item).hasClass(c)
+    false
+    
   getCheckedClasses = (container, opts) ->
     _.compact(_.map jQuery(container).find(opts.whatToHideSelectors), (item) ->  jQuery(item).is(':checked') && jQuery(item).val())
     
     
   toggleItems = (container, opts) ->
     checkedClasses = getCheckedClasses(container,opts)
-    hide = (checkedClasses.length > 0)
     jQuery(that).find(opts.row).each (idx, row) ->
       $row = jQuery(row)
-      clz = checkedClasses.join(" ")
-      console.log('has ' + clz + '?', $row.hasClass(clz))
-      console.log('hide ', hide)
-      $row.toggleClass('js-hidden-row', hide && $row.hasClass(clz))
+      hide = hasAnyClass(row, checkedClasses)
+      $row.toggleClass('js-hidden-row', hide)
 
 
     
