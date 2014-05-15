@@ -38,14 +38,7 @@ Mau::Application.routes.draw do
     end
   end
 
-  resources :events do
-    member do
-      get :unpublish
-      post :unpublish
-      get :publish
-      post :publish
-    end
-  end
+  resources :events
 
   match '/calendar/:year/:month' => 'calendar#index', :as => :calendar, :constraints => { :month => /\d{1,2}/, :year => /\d{4}/ }
   match '/calendar' => 'calendar#index', :as => :calendar
@@ -146,8 +139,19 @@ Mau::Application.routes.draw do
   match '/resources' => 'main#resources', :as => :artist_resources
   match '/news' => 'main#resources', :as => :news_alt
   match '/error' => 'error#index', :as => :error
+
+  namespace :admin do
+    resources :events, :only => [:index] do
+      member do
+        get :unpublish
+        post :unpublish
+        get :publish
+        post :publish
+      end
+    end
+  end
+
   match '/admin/artists/update' => 'artists#admin_update', :as => :admin_update_artists
-  match '/admin/events' => 'events#admin_index', :as => :admin_events
   match '/admin/artists' => 'artists#admin_index', :as => :admin_artists
   match '/admin/studios' => 'studios#admin_index', :as => :admin_studios
   match '/admin/tags' => 'art_piece_tags#admin_index', :as => :admin_tags

@@ -34,11 +34,11 @@ class EventPresenter
   end
 
   def publish_path
-    @view_context.publish_event_path(event)
+    @view_context.publish_admin_event_path(event)
   end
 
   def unpublish_path
-    @view_context.unpublish_event_path(event)
+    @view_context.unpublish_admin_event_path(event)
   end
 
   def delete_path

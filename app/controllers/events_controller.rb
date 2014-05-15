@@ -1,15 +1,9 @@
 class EventsController < ApplicationController
 
   before_filter :login_required, :except => [:index, :show]
-  before_filter :editor_required, :only => [:admin_index, :publish, :unpublish, :destroy]
+  before_filter :editor_required, :only => [:destroy]
 
   layout 'mau2col'
-
-  def admin_index
-    @events = Event.all.map{|ev| EventPresenter.new(view_context, ev) }
-
-    render :layout => 'mau-admin'
-  end
 
   def index
 
@@ -92,25 +86,6 @@ class EventsController < ApplicationController
     @event.destroy
 
     redirect_to(events_url)
-  end
-
-  def publish
-    @event = Event.find(params[:id])
-    @event.publish!
-    flash[:notice] = "#{@event.title} has been successfully published."
-    if (@event.user && @event.user.email)
-      EventMailer.event_published(@event).deliver!
-      flash[:notice] << " And we sent a notification email to #{@event.user.fullname} at #{@event.user.email}."
-    end
-
-    redirect_to admin_events_path
-  end
-
-  def unpublish
-    @event = Event.find(params[:id])
-    @event.unpublish!
-    flash[:notice] = "#{@event.title} has been successfully unpublished."
-    redirect_to admin_events_path
   end
 
   private

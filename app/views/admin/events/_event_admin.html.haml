@@ -1,0 +1,31 @@
+.event{:class => event.event_classes.join(" ")}
+  %header
+    .title
+      #{event.title}
+    .info
+      .time #{event.display_event_time}
+  .body
+    .reception_time Reception: #{event.display_reception_time}
+
+    .venue
+      .name #{event.venue}
+      .address
+        %span.nobr #{event.address}
+        .maplink
+          %a{:target => '_blank', :href => event.map_link} (map)
+    .clear
+    .desc.markdown #{MarkdownUtils.markdown(event.description).html_safe}
+    .url
+      - if event.url.present?
+        Event Website:
+        = event.link_to_event_website
+  %footer
+    .ctrls
+      = link_to 'show', event.show_path
+      - if event.published?
+        = link_to 'unpublish', event.unpublish_path
+      - else
+        = link_to 'publish', event.publish_path
+      = link_to 'edit', event.edit_path
+      = link_to 'delete', event.delete_path, :confirm => 'Are you sure?', :method => :delete
+        

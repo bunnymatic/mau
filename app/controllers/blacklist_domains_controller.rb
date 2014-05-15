@@ -1,4 +1,5 @@
-class BlacklistDomainsController < AdminController
+class BlacklistDomainsController < BaseAdminController
+  before_filter :admin_required
   def index
     @domains = BlacklistDomain.all
   end

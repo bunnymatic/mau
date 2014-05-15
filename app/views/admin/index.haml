@@ -22,18 +22,19 @@
       %br
       %a{:href => '/catalog'} #{ @os_pretty } Catalog Index
 
-  .clear
-  %h2 Graphs:
-  .graph.section
-    %h3 Artists Per Day
-    #artists_per_day.flot_graph
-  .graph.section
-    %h3 ArtPieces Per Day
-    #art_pieces_per_day.flot_graph
-  .graph.section
-    %h3 Favorites Per Day
-    #favorites_per_day.flot_graph
-  .graph.section
-    %h3 OS Signups
-    #os_signups.flot_graph
-
+  - if current_user.is_admin?
+    .clear
+    %h2 Graphs:
+    .graph.section
+      %h3 Artists Per Day
+      #artists_per_day.flot_graph
+    .graph.section
+      %h3 ArtPieces Per Day
+      #art_pieces_per_day.flot_graph
+    .graph.section
+      %h3 Favorites Per Day
+      #favorites_per_day.flot_graph
+    .graph.section
+      %h3 OS Signups
+      #os_signups.flot_graph
+        

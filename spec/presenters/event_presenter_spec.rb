@@ -18,8 +18,8 @@ describe EventPresenter do
 
   its(:show_path) { should eql event_path(event) }
   its(:edit_path) { should eql edit_event_path(event) }
-  its(:publish_path) { should eql publish_event_path(event) }
-  its(:unpublish_path) { should eql unpublish_event_path(event) }
+  its(:publish_path) { should eql publish_admin_event_path(event) }
+  its(:unpublish_path) { should eql unpublish_admin_event_path(event) }
 
   its(:event_website_url) { should eql event_website }
 
