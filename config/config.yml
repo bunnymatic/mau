@@ -24,6 +24,7 @@ development:
    oslive: 201404
 
 acceptance:
+   ga_api_key: AIzaSyCoZl_Ib2mrJQV0yLfz0wbyI5KUqnOqVeI
    site_url: acceptance.missionartistsunited.com
 
 production:
