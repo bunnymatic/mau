@@ -72,7 +72,7 @@ module Mau
     config.assets.version = '1.0'
 
     config.i18n.enforce_available_locales = true
-    
+
 
     config.skylight.environments << 'acceptance'
 
