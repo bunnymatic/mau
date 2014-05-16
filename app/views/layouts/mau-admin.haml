@@ -7,7 +7,7 @@
     = render :partial => '/common/ganalytics'
     = render :partial => '/common/javascripts'
 
-  %body.admin{:class => @browser_as_class}
+  %body.admin{:class => ([@browser_as_class, application_body_class].join " ")}
     - if browser.ie6? || browser.ie7?
       = render :partial => '/ie7_warning'
     = render :partial => '/noscript_msg'

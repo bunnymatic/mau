@@ -3,6 +3,7 @@
 
 #USERAGENT = 'HTTP_USER_AGENT'
 require 'faye'
+
 class ApplicationController < ActionController::Base
   VERSION = 'Charger 6.0'
   DEFAULT_CSV_OPTS = {:row_sep => "\n", :force_quotes => true}
@@ -14,13 +15,29 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
 
   #include MobilizedStyles
+  before_filter :init_body_classes, :set_controller_and_action_names
   before_filter :check_browser, :unless => :format_json?
   before_filter :set_version
   before_filter :get_feeds
   before_filter :get_new_art, :unless => :format_json?
   before_filter :set_meta_info
-
   before_filter :tablet_device_falback
+
+  def init_body_classes
+    @body_classes ||= []
+  end
+
+  def set_controller_and_action_names
+    @current_controller = controller_name
+    @current_action     = action_name
+  end
+
+  def add_body_class clz
+    @body_classes << clz
+    @body_classes << Rails.env
+    @body_classes = @body_classes.flatten.compact.uniq
+  end
+
   def tablet_device_falback
     # we currently don't have any special tablet views...
     request.format = :html if is_tablet_device?

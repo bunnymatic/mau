@@ -89,6 +89,7 @@ module AuthenticatedSystem
     #
     # We can return to this location by calling #redirect_back_or_default.
     def store_location
+      return unless request.format == 'text/html'
       if request.post? || request.xhr?
         session[:return_to] = request.referrer
       else

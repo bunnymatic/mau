@@ -31,6 +31,9 @@ body.admin {
 
   #role_mgr {
     padding-left: 20px;
+    .select2-container {
+      width:250px;
+    }
     .role_controls {
       float: right;
     }

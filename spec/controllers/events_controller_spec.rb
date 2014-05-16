@@ -18,21 +18,6 @@ describe EventsController do
       end
     end
 
-    [:admin_index, :publish, :unpublish].each do |endpt|
-      context "#{endpt} when not logged in" do
-        before do
-          get endpt
-        end
-        it_should_behave_like 'login required'
-      end
-      context "#{endpt} when logged in as nobody" do
-        before do
-          login_as :noaddress
-          get endpt
-        end
-        it_should_behave_like 'not authorized'
-      end
-    end
 
     describe '#index' do
       context 'with params' do
@@ -90,17 +75,9 @@ describe EventsController do
   end
 
   describe 'authorized as an editor' do
+
     before do
       login_as :editor
-    end
-    context "admin_index" do
-      before do
-        get :admin_index
-      end
-      it_should_behave_like 'returns success'
-      it "marks down the event content" do
-        response.body.should_not include 'lt;p&gt;'
-      end
     end
 
     context 'new' do
@@ -239,39 +216,6 @@ describe EventsController do
       it 'renders new_or_edit' do
         expect(response).to render_template 'new_or_edit'
       end
-    end
-
-    context 'publish' do
-      before do
-        @event = events(:reception_full)
-        @event.update_attribute('published_at', nil)
-      end
-      it 'publishes the event' do
-        expect{
-          post :publish, :id => @event.id
-          @event.reload
-        }.to change(@event, :published_at)
-      end
-      it 'redirects to the event index' do
-        post :publish, :id => @event.id
-        expect(response).to redirect_to admin_events_path
-      end
-    end
-    context 'unpublish' do
-      before do
-        @event = events(:reception_full)
-      end
-      it 'unpublishes the event' do
-        expect{
-          post :unpublish, :id => @event.id
-          @event.reload
-        }.to change(@event, :published_at)
-      end
-      it 'redirects to the event index' do
-        post :unpublish, :id => @event.id
-        expect(response).to redirect_to admin_events_path
-      end
-
     end
 
   end

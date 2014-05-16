@@ -185,9 +185,10 @@ jQuery(function() {
   var sxns = MAU.Artist.SECTIONS;
   var nsxn = sxns.length;
 
-  jQuery('.acct .edit a').bind('click', function() {
+  jQuery('.acct .edit a').bind('click', function(ev) {
+    ev.preventDefault();
     var href = this.href;
-    var sxn = href.split('#').last();
+    var sxn = _.last(href.split('#'));
     if (sxn) {
       MAU.Artist.toggleSxnVis(sxn);
     }

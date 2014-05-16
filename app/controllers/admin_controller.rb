@@ -1,9 +1,7 @@
-class AdminController < ApplicationController
-  before_filter :admin_required, :except => [:index, :featured_artist]
-  before_filter :editor_or_manager_required, :only => [:index]
+class AdminController < BaseAdminController
+
   before_filter :editor_required, :only => [:featured_artist]
-  layout 'mau-admin'
-  include OsHelper
+  before_filter :admin_required, :except => [:index, :featured_artist]
 
   def index
     @os_pretty = os_pretty

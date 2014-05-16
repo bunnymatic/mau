@@ -7,3 +7,4 @@ jQuery ->
     $btn = $ctrls.find('.add_userrole')
     $btn.bind 'click', ->
       $ctrls.find('form.js-hook').toggleClass 'hidden'
+      $ctrls.find('select').select2()
