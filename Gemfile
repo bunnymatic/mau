@@ -44,6 +44,7 @@ gem 'postmark-rails'
 gem 'postmark'
 
 gem 'jquery-rails'
+gem 'jquery_mobile_rails'
 
 gem 'newrelic_rpm'
 
