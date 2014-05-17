@@ -1,5 +1,7 @@
 artist1:
   facebook: http://facebook.com/mypage
+  myspace: "myspaceme"
+  twitter: "tweetme"
   blog: http://theartists.blogspot.com
   bio: this is the bio and thats all there is
   open_studios_participation: '201210|201204|201104|201110|201010'
@@ -25,6 +27,7 @@ indyartist:
 joeblogs:
   facebook: http://facebook.com/aaron
   twitter: http://www.twitter.com/aaron
+  blog: http://www.blogger.com/aaron
   open_studios_participation: '201010'
   bio: blurp
   street: 3789 18th st
@@ -44,6 +47,7 @@ wayout:
   artist: wayout
 
 annafizyta:
+  max_pieces: 20        
   facebook: http://facebook.com/anna
   blog: http://anna.blogspot.com
   bio: anna this is the bio

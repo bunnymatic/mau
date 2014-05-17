@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140504192013) do
+ActiveRecord::Schema.define(:version => 20140517023315) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20140504192013) do
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
     t.string   "title"
+    t.text     "description"
     t.string   "dimensions"
     t.integer  "artist_id"
     t.datetime "created_at"
@@ -84,7 +85,7 @@ ActiveRecord::Schema.define(:version => 20140504192013) do
     t.string   "open_studios_participation"
   end
 
-  add_index "artist_infos", ["artist_id"], :name => "index_artist_infos_on_artist_id"
+  add_index "artist_infos", ["artist_id"], :name => "index_artist_infos_on_artist_id", :unique => true
 
   create_table "artist_profile_images", :force => true do |t|
     t.datetime "created_at"
@@ -93,8 +94,8 @@ ActiveRecord::Schema.define(:version => 20140504192013) do
 
   create_table "blacklist_domains", :force => true do |t|
     t.string   "domain"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "cms_documents", :force => true do |t|
@@ -186,15 +187,8 @@ ActiveRecord::Schema.define(:version => 20140504192013) do
     t.integer  "count"
     t.string   "oskey"
     t.date     "recorded_on"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "promoted_events", :force => true do |t|
-    t.integer  "event_id"
-    t.datetime "publish_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -250,11 +244,6 @@ ActiveRecord::Schema.define(:version => 20140504192013) do
     t.string   "url",                       :limit => 200
     t.string   "profile_image",             :limit => 200
     t.integer  "studio_id"
-    t.string   "facebook",                  :limit => 200
-    t.string   "twitter",                   :limit => 200
-    t.string   "blog",                      :limit => 200
-    t.string   "myspace",                   :limit => 200
-    t.string   "flickr",                    :limit => 200
     t.string   "activation_code",           :limit => 40
     t.datetime "activated_at"
     t.string   "state",                                    :default => "passive"
@@ -262,7 +251,6 @@ ActiveRecord::Schema.define(:version => 20140504192013) do
     t.string   "reset_code",                :limit => 40
     t.integer  "image_height",                             :default => 0
     t.integer  "image_width",                              :default => 0
-    t.integer  "max_pieces",                               :default => 20
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
     t.string   "type",                                     :default => "Artist"
     t.date     "mailchimp_subscribed_at"
