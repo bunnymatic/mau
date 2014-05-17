@@ -15,8 +15,7 @@
           %td.input-err  
       - if current_user.is_a? Artist
         / handle user attrs
-        - [[:instagram, 'Instagram'], [:facebook, 'Facebook'], [:flickr, 'Flickr'], 
-           [:pinterest, 'Pinterest'], [:twitter, 'Twitter'], [:blog, 'Blog'], [:myspace, 'MySpace']].each do |kk, name|
+        - Artist::KEYED_LINKS.select{|link| link[0] != :url}.each do |kk, name|
           %tr
             %td.input-name
               = label_tag "#{f.object_name}[artist_info[#{kk}]]", name 
