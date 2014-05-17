@@ -25,7 +25,7 @@
 #
 # Indexes
 #
-#  index_artist_infos_on_artist_id  (artist_id)
+#  index_artist_infos_on_artist_id  (artist_id) UNIQUE
 #
 
 class ArtistInfo < ActiveRecord::Base

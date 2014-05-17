@@ -18,11 +18,6 @@
 #  url                       :string(200)
 #  profile_image             :string(200)
 #  studio_id                 :integer
-#  facebook                  :string(200)
-#  twitter                   :string(200)
-#  blog                      :string(200)
-#  myspace                   :string(200)
-#  flickr                    :string(200)
 #  activation_code           :string(40)
 #  activated_at              :datetime
 #  state                     :string(255)      default("passive")
@@ -30,7 +25,6 @@
 #  reset_code                :string(40)
 #  image_height              :integer          default(0)
 #  image_width               :integer          default(0)
-#  max_pieces                :integer          default(20)
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
@@ -87,7 +81,8 @@ class Artist < User
    :addr_state, :addr_state=,
    :zip, :zip=,
    :lat, :lat=,
-   :lng, :lng=
+   :lng, :lng=,
+   :max_pieces
    ].each do |delegat|
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
