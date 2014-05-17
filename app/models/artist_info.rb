@@ -22,6 +22,8 @@
 #  lat                        :float
 #  lng                        :float
 #  open_studios_participation :string(255)
+#  pinterest                  :string(255)
+#  instagram                  :string(255)
 #
 # Indexes
 #

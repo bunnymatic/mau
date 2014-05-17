@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140517023315) do
+ActiveRecord::Schema.define(:version => 20140517025027) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -83,6 +83,8 @@ ActiveRecord::Schema.define(:version => 20140517023315) do
     t.float    "lat"
     t.float    "lng"
     t.string   "open_studios_participation"
+    t.string   "pinterest"
+    t.string   "instagram"
   end
 
   add_index "artist_infos", ["artist_id"], :name => "index_artist_infos_on_artist_id", :unique => true
