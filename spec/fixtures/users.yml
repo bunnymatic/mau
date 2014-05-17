@@ -190,12 +190,9 @@ artfan2:
 annafizyta:
   email_attrs: "{\"fromall\":false,\"fromartist\":true}"
   image_height: "600"
-  flickr: ""
   salt: deae943a6c5969c298a05ffdbe1a227f2f13379d
   name: ""
   created_at: 2010-07-29 06:34:21
-  max_pieces: "20"
-  blog: ""
   remember_token_expires_at:
   crypted_password: 837c282481ebc9cb902befcf91cbb0d92af08672
   updated_at: 2010-08-30 22:26:27
@@ -203,25 +200,20 @@ annafizyta:
   lastname: Fizyta
   type: Artist
   image_width: "600"
-  myspace: ""
   studio_id: "0"
   profile_image: artistdata/284/profile/profile.jpg
   firstname: Anna
-  facebook: ""
   login: annafizyta
   state: active
   activated_at: 2010-07-29 06:39:33
-  twitter: ""
   email: polaroidart@gmail.com
 
 jesseponce:
   email_attrs: "{\"fromall\":false,\"fromartist\":true,\"favorites\":true}"
   image_height: "640"
-  flickr:
   salt: 4386661945180e8340c620bd6bc3e72307c7a7ab
   name: ""
   created_at: 2011-01-29 01:39:14
-  max_pieces: "20"
   crypted_password: 7eeac56224eb57e429385a2e444c71f49ed3677f
   updated_at: 2011-02-01 13:18:38
   url: ""
@@ -234,7 +226,6 @@ jesseponce:
   login: ponceart
   state: active
   activated_at: 2011-01-29 01:43:04
-  twitter:
   email: poncesanlan@sbcglobal.net
 
 badname:
