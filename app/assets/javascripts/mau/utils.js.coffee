@@ -41,7 +41,7 @@ MAU.Utils =
     if (document && document.createElement)
       el = document.createElement(tagName)
       for k,v of attrs
-        el.writeAttribute(k,v)
+        el[k] = v
     el
       
   post_to_url: (path, params, method) ->
