@@ -55,8 +55,8 @@ class ArtPieceTagsController < ApplicationController
 
     mode = params[:m]
     @tag_presenter = ArtPieceTagPresenter.new(@tag, mode)
-    @tag_cloud_presenter = TagCloudPresenter.new(view_context, ArtPieceTag, @tag, :mode)
-    @paginator = ArtPieceTagPagination.new(view_context, @tag_presenter.art_pieces, @tag, page, params[:m])
+    @tag_cloud_presenter = TagCloudPresenter.new(view_context, ArtPieceTag, @tag, mode)
+    @paginator = ArtPieceTagPagination.new(view_context, @tag_presenter.art_pieces, @tag, page, mode)
 
     @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })
     @by_pieces_link = art_piece_tag_url(@tag, { :m => 'p' })
