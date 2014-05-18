@@ -41,10 +41,10 @@ require 'qr4r'
 class Artist < User
 
   KEYED_LINKS = [ [:url, 'Website', :u_website],
-                  [:instagram, 'Instagram', :u_instagram],     
+                  [:instagram, 'Instagram', :u_instagram],
                   [:facebook, 'Facebook', :u_facebook],
                   [:twitter, 'Twitter', :u_twitter],
-                  [:pinterest, 'Pinterest', :u_pinterest], 
+                  [:pinterest, 'Pinterest', :u_pinterest],
                   [:flickr, 'Flickr', :u_flickr],
                   [:blog, 'Blog', :u_blog],
                   [:myspace, 'MySpace', :u_myspace]]
