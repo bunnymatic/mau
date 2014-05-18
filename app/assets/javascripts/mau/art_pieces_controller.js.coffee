@@ -1,5 +1,5 @@
 angular.module('ArtPiecesApp.controllers', []).
-  controller 'artPiecesController', ['$scope','$resource', ($scope, $resource) ->
+  controller 'artPiecesController', ['$scope','$resource','$document', ($scope, $resource, $document) ->
 
     artistId = undefined
     
@@ -23,8 +23,6 @@ angular.module('ArtPiecesApp.controllers', []).
     $scope.current = null      
 
     $scope.handleKeyDown = (ev) ->
-      # 37 <-
-      # 39 ->
       if ev.which == 37
         $scope.prev()
       if ev.which == 39

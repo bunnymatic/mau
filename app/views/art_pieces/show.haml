@@ -1,10 +1,5 @@
 - artist = @art_piece.artist
 
-%script{ 'type' => 'text/javascript' }
-  jQuery(function() { 
-  jQuery('.thumbnailApp div').first().trigger('focus'); 
-  })
-
 .thumbnailApp{ "ng-app" => "ArtPiecesApp", "ng-controller" => "artPiecesController", 'ng-init' => "init(#{@art_piece.angular_config})", "ng-keydown" => "handleKeyDown($event)", "tabindex" => '0'}
 
   %table.tbl-content
@@ -62,4 +57,9 @@
                 %a{"ng-href" => "{{editArtPiecePath}}"} edit
               %span#artpiece_del
                 %a{"ng-href" => "{{artPiecePath}}", "data-confirm" => 'You are about to remove this art piece from your collection.  Are you sure you want to do that?', "data-method" => "delete", "rel" => "nofollow"} delete
+
+%script{ 'type' => 'text/javascript' }
+  jQuery(function() { 
+  jQuery('.thumbnailApp').first().trigger('focus'); 
+  })
 
