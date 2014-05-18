@@ -34,7 +34,8 @@ jQuery(function() {
       var $li = $this.closest('li')
       var $ul = $this.closest('ul')
       if ($li && $ul) {
-        var email = $li[0].firstChild.data.strip();
+
+        var email = $li.text().replace(/^\s+|\(x\)|\s+$/igm,'');
         var email_id = $li.attr('email_id');
         var listname = $ul.attr('list_type');
         if ( email && listname && email_id ) {
