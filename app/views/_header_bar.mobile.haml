@@ -16,16 +16,16 @@
           :ruby
             navitems = []
             if current_artist
-              navitems << "<a href='#{edit_artist_path(current_artist)}'>edit my page</a>"
-              navitems << "<a href='/art_pieces/new'>add art</a>"
-              navitems << "<a href='#{ arrange_art_artists_path }'>arrange art</a>"
-              navitems << "<a href='#{ delete_art_artists_path }'>delete art</a>"
-              navitems << "<a href='#{ new_event_path }' class='list_your_show_dropdown'>plug your art show</a>"
+              navitems << link_to('edit my page', edit_artist_path(current_artist))
+              navitems << link_to('add art', new_artist_art_piece_path(current_artist))
+              navitems << link_to('arrange art', arrange_art_artists_path)
+              navitems << link_to('delete art', delete_art_artists_path)
+              navitems << link_to('plug your art show', new_event_path, :class => 'list_your_show_dropdown')
 
-              navitems << "<a href='#{ favorites_user_path current_user }'><span class='heart'>&hearts;</span> my favorites</a>"
-              navitems << "<a href='#{ artist_resources_path }' title='artists resources'>resources</a>"
+              navitems << link_to("<span class='heart'>&hearts;</span> my favorites</a>", favorites_user_path(current_user))
+              navitems << link_to('resources', artist_resources_path, :title => 'artists\' resources')
+              navitems << link_to('my qrcode', qrcode_artist_path(current_artist), :target => '_blank')
 
-              mypath = current_artist
             else
               navitems << "<a href='#{edit_user_path(current_user) }'>edit my page</a>"
               navitems << "<a href='#{favorites_user_path current_user}'><span class='heart'>&hearts;</span> my favorites</a>"
