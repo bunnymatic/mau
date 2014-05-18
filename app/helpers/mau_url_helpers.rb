@@ -1,3 +1,0 @@
-module MauUrlHelpers
-
-end

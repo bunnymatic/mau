@@ -39,7 +39,7 @@ class ArtistPresenter
 
   def links
     @links ||= Artist::KEYED_LINKS.map do |kk, disp, _id|
-      lnk = @artist.send(kk)
+      lnk = format_link(@artist.send(kk))
       [_id, disp, lnk] if lnk.present?
     end.compact
   end
@@ -192,6 +192,12 @@ class ArtistPresenter
 
   def linked_thumb
     @linked_thumb ||= content_tag('a', representative_thumb_image, :class => 'lkdark', :href => show_path)
+  end
+
+  def format_link(link)
+    if link.present?
+      (/^https?:\/\//.match(link) ? link : "http://#{link}")
+    end
   end
 
 end
