@@ -22,7 +22,7 @@
               navitems << link_to('delete art', delete_art_artists_path)
               navitems << link_to('plug your art show', new_event_path, :class => 'list_your_show_dropdown')
 
-              navitems << link_to("<span class='heart'>&hearts;</span> my favorites</a>", favorites_user_path(current_user))
+              navitems << link_to("<span class='heart'>&hearts;</span> my favorites</a>".html_safe, favorites_user_path(current_user))
               navitems << link_to('resources', artist_resources_path, :title => 'artists\' resources')
               navitems << link_to('my qrcode', qrcode_artist_path(current_artist), :target => '_blank')
               mypath = current_artist
