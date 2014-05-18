@@ -204,6 +204,7 @@ MAU.SearchPage = class MAUSearch
           os_info.html(oss)
 
   initPaginator: () ->
+    console.log 'init paginator'
     _that = this
     frm = jQuery(this.searchFormSelector)
     pages = jQuery('.paginator a')
@@ -211,17 +212,18 @@ MAU.SearchPage = class MAUSearch
       _.each pages, (page) ->
         jQuery(page).bind 'click', (ev) ->
           # add current_page input
-          newInput = jQuery('<input>', {'class':'current_page',type:'hidden', name:'p', value: this.data('page')})
+          newInput = jQuery '<input>',
+            'class':'current_page',
+            type:'hidden',
+            name:'p',
+            value: jQuery(this).data('page')
           frm.append newInput
           _that._submitForm()
           false
     # setup per page hook
-    jQuery('results_per_page').bind 'change', (ev) ->
-      pp = frm.find('input[name=per_page]')
-      if pp.length > 0
-        pp = pp[1]
-        pp.value = per_page.val()
-        _that._submitForm(ev)
+    jQuery('#results_per_page #per_page').bind 'change', (ev) ->
+      jQuery('input[name=per_page]').val( jQuery(this).val() );
+      _that._submitForm(ev)
 
   _submitForm: (ev) ->
     _that = this
