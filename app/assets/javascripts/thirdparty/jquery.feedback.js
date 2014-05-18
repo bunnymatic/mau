@@ -164,7 +164,7 @@
       text = settings.loadingText;
 
     jQuery(settings.modalContent).html(
-      '<h1>' + text + '<img src="' + settings.loadingImage + '" /></h1>');
+      '<h1 class="note-loading">' + text + '<img src="' + settings.loadingImage + '" /></h1>');
 
     showFeedback();
 
