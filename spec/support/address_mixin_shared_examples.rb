@@ -63,11 +63,6 @@ shared_examples_for AddressMixin do
                            :lng => with_address.lng.to_f)))
       with_address.send(:compute_geocode).should eql [with_address.lat.to_f, with_address.lng.to_f]
     end
-    it 'returns nothing on failure' do
-      Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).
-        and_return(double("Geokit::GeoLoc", :success =>false))
-      with_address.send(:compute_geocode).should eql ['Unable to Geocode your address.']
-    end
   end
 
 end
