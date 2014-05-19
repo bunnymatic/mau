@@ -6,8 +6,8 @@
 #  login                     :string(40)
 #  name                      :string(100)      default("")
 #  email                     :string(100)
-#  crypted_password          :string(40)
-#  salt                      :string(40)
+#  crypted_password          :string(128)      default(""), not null
+#  password_salt             :string(128)      default(""), not null
 #  created_at                :datetime
 #  updated_at                :datetime
 #  remember_token            :string(40)
@@ -28,17 +28,28 @@
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
+#  persistence_token         :string(255)
+#  login_count               :integer          default(0), not null
+#  last_request_at           :datetime
+#  last_login_at             :datetime
+#  current_login_at          :datetime
+#  last_login_ip             :string(255)
+#  current_login_ip          :string(255)
 #
 # Indexes
 #
-#  index_artists_on_login    (login) UNIQUE
-#  index_users_on_state      (state)
-#  index_users_on_studio_id  (studio_id)
+#  index_artists_on_login            (login) UNIQUE
+#  index_users_on_last_request_at    (last_request_at)
+#  index_users_on_persistence_token  (persistence_token)
+#  index_users_on_state              (state)
+#  index_users_on_studio_id          (studio_id)
 #
 
 require 'digest/sha1'
 require 'json'
 require File.join(Rails.root, 'app','lib', 'mailchimp')
+require_relative './concerns/authentication.rb'
+require_relative './concerns/authorization.rb'
 
 class User < ActiveRecord::Base
 
@@ -50,11 +61,14 @@ class User < ActiveRecord::Base
                              'admin','root','mau', 'mauadmin','maudev',
                              'jon','mrrogers','trish','trishtunney' ]
 
+
   include MailChimp
   include HtmlHelper
+  include Authentication
+  include Authorization
 
   after_create :tell_user_they_signed_up
-  after_save :notify_user_about_state_change
+  #after_save :notify_user_about_state_change
 
   scope :active, where(:state => 'active')
   scope :pending, where(:state => 'pending')
@@ -96,20 +110,21 @@ class User < ActiveRecord::Base
 
   include ImageDimensions
 
-  include Authentication
-  include Authentication::ByPassword
-  include Authentication::ByCookieToken
-  include Authorization::StatefulRoles
+  acts_as_authentic do |c|
+    c.act_like_restful_authentication = true
+    c.transition_from_restful_authentication = true
+  end
+
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 5..40
   validates_uniqueness_of   :login
-  validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
+  validates_format_of       :login,    :with => Mau::Regex::LOGIN, :message => Mau::Regex::BAD_LOGIN_MESSAGE
 
   validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100 #r@a.wk
   validates_uniqueness_of   :email
-  validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
+  validates_format_of       :email,    :with => Mau::Regex::EMAIL, :message => Mau::Regex::BAD_EMAIL_MESSAGE
   validates_length_of       :firstname,:maximum => 100, :allow_nil => true
   validates_length_of       :lastname, :maximum => 100, :allow_nil => true
 
@@ -196,22 +211,6 @@ class User < ActiveRecord::Base
 
   def is_active?
     state == 'active'
-  end
-
-  def is_special?
-    is_admin? || is_manager? || is_editor?
-  end
-
-  def is_admin?
-    roles.include? Role.admin
-  end
-
-  def is_manager?
-    is_admin? || (roles.include? Role.manager)
-  end
-
-  def is_editor?
-    is_admin? || (roles.include? Role.editor)
   end
 
   def tags
@@ -372,7 +371,7 @@ class User < ActiveRecord::Base
 
   def make_activation_code
     self.deleted_at = nil
-    self.activation_code = User.make_token
+    self.activation_code = TokenService.generate
   end
 
   def uniqify_roles
@@ -391,16 +390,16 @@ class User < ActiveRecord::Base
     end
   end
 
-  def notify_user_about_state_change
-    mailer_class = is_artist? ? ArtistMailer : UserMailer
-    reload
-    if recently_activated? && mailchimp_subscribed_at.nil?
-      mailer_class.activation(self).deliver!
-      FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
-    end
-    mailer_class.reset_notification(self).deliver! if recently_reset?
-    mailer_class.resend_activation(self).deliver! if resent_activation?
-  end
+  # def notify_user_about_state_change
+  #   mailer_class = is_artist? ? ArtistMailer : UserMailer
+  #   reload
+  #   if recently_activated? && mailchimp_subscribed_at.nil?
+  #     mailer_class.activation(self).deliver!
+  #     FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
+  #   end
+  #   mailer_class.reset_notification(self).deliver! if recently_reset?
+  #   mailer_class.resend_activation(self).deliver! if resent_activation?
+  # end
 
   def trying_to_favorite_yourself?(fav)
     false if fav.nil?

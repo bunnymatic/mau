@@ -1,0 +1,39 @@
+#signup
+  .logo-spacer
+  = form_for @user_session, :url => user_session_path, :id => 'login_form' do |f|
+    - if flash[:notice]
+      .notice #{flash[:notice]}
+    - if flash[:error]
+      .error-msg
+        We had trouble signing you in.  Please check your username and password.  If you continue to have problems, contact the webmaster with the link below.
+        .sub-error-msg
+          Error:
+          = flash[:error]
+
+    .signup-left
+      %h2 Already A MAU Member?
+      .signup-text
+        %table.login-table
+          %tr
+            %td.input-name
+              = f.label :login
+            %td.input
+              = f.text_field 'login'
+          %tr
+            %td.input-name
+              = f.label :password
+            %td.input
+              = f.password_field 'password'
+          %tr
+            %td{:colspan => 2, :align => 'center'}
+              = f.submit "Log in", :class => 'formbutton'
+        .input-help
+          %a{:href => forgot_users_path} Can't access your account?
+  .signup-right
+    = render_cms_content(@cms_content) do
+      = link_to signup_path do
+        %button.formbutton Sign Up Now
+      
+
+
+

@@ -23,6 +23,48 @@ class ApplicationController < ActionController::Base
   before_filter :set_meta_info
   before_filter :tablet_device_falback
 
+  helper_method :current_user_session, :current_user
+  
+  def current_user_session
+    return @current_user_session if defined? @current_user_session
+    @current_user_session = UserSession.find
+  end
+  
+  def current_user
+    return @current_user if defined? @current_user
+    @current_user = current_user_session.try(:user)
+  end
+  
+  def current_artist
+    current_user if current_user.try(:is_artist?)
+  end
+
+  def require_user
+    unless current_user
+      store_location
+      flash[:notice] = "You must be logged in to access this page"
+      redirect_to new_user_session_url
+      return false
+    end
+  end
+
+  def logged_in?
+    !!current_user
+  end
+
+  alias :user_required :require_user 
+
+  def require_no_user
+    if current_user
+      store_location
+      flash[:notice] = "You must be logged out to access this page"
+      redirect_to root_url
+      return false
+    end
+  end
+
+  alias :logged_out_required :require_no_user
+
   def init_body_classes
     @body_classes ||= []
   end
@@ -47,11 +89,7 @@ class ApplicationController < ActionController::Base
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
   end
 
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
-
   if !Mau::Application.config.consider_all_requests_local || Rails.env != 'development'
-    #filter_parameter_logging :password
     #rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
     #rescue_from ActionController::RoutingError,       :with => :render_not_found
     #rescue_from ActionController::UnknownController,  :with => :render_not_found
@@ -162,15 +200,6 @@ class ApplicationController < ActionController::Base
     send_data csv_data, :type => 'text/csv', :disposition => disposition.compact.join('; ')
   end
 
-  def no_cache
-    response.headers["Last-Modified"] = Time.zone.now.httpdate
-    response.headers["Expires"] = "0"
-    # HTTP 1.0
-    response.headers["Pragma"] = "no-cache"
-    # HTTP 1.1 'pre-check=0, post-check=0' (IE specific)
-    response.headers["Cache-Control"] = 'no-store, no-cache, must-revalidate, max-age=0, pre-check=0, post-check=0'
-  end
-
   def set_meta_info
     @page_description =<<EOF
 Mission Artists United is a website dedicated to the unification of artists
@@ -190,10 +219,6 @@ EOF
     else
       true
     end
-  end
-
-  def logged_out_required
-    redirect_to (current_artist || user_path(current_user)) if current_user
   end
 
 end

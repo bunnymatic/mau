@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_update, :destroy ]
-  before_filter :login_required, :only => [ :edit, :update, :suspend, :delete_art, :destroyart, :upload_profile,
+  before_filter :user_required, :only => [ :edit, :update, :suspend, :delete_art, :destroyart, :upload_profile,
                                             :add_profile, :deactivate, :setarrangement, :arrange_art,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
 
@@ -40,6 +40,9 @@ class UsersController < ApplicationController
     else
       @page_title = "Mission Artists United"
     end
+    puts 'current user', current_user.inspect
+    puts 'page', @fan.inspect
+    puts 'logged in?', logged_in?
     render :action => 'show', :layout => 'mau'
   end
 
@@ -129,7 +132,7 @@ class UsersController < ApplicationController
       render_on_failed_create and return
     end
     if @user.valid? && @user.save
-      @user.register!
+      # @user.register!
       redirect_after_create and return
     else
       render_on_failed_create and return

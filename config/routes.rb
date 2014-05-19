@@ -4,7 +4,14 @@ Mau::Application.routes.draw do
   resources :roles
   resources :cms_documents, :except => [:destroy]
   resources :media
-  resource :session, :only => [:new, :create, :destroy]
+  #resource :session, :only => [:new, :create, :destroy]
+  #match '/logout' => 'sessions#destroy', :as => :logout
+  #match '/login' => 'sessions#new', :as => :login
+  resource :user_session
+  match '/logout' => 'user_sessions#destroy', :as => :logout
+  match '/login' => 'user_sessions#new', :as => :login
+
+  
   resources :studios do
     member do
       post :upload_profile
@@ -50,8 +57,6 @@ Mau::Application.routes.draw do
     match '/fetch', :action => 'fetch', :via => [:get, :post]
   end
 
-  match '/logout' => 'sessions#destroy', :as => :logout
-  match '/login' => 'sessions#new', :as => :login
   match '/register' => 'users#create', :as => :register
   match '/signup' => 'users#new', :as => :signup
   match '/change_password' => 'users#change_password', :as => :change_password

@@ -76,6 +76,7 @@ module Mau
 
     config.skylight.environments << 'acceptance'
 
+    config.filter_parameters += [:password, :password_confirmation]
   end
 
 end

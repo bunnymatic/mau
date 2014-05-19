@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :user_required, :except => [:index, :show]
   before_filter :editor_required, :only => [:destroy]
 
   layout 'mau2col'

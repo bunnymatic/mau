@@ -7,13 +7,13 @@ module AuthenticatedSystem
 
   # Accesses the current user from the session.
   # Future calls avoid the database because nil is not equal to false.
-  def current_user
-    @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
-  end
+  # def current_user
+  #   @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
+  # end
 
-  def current_artist
-    @current_artist
-  end
+  # def current_artist
+  #   @current_artist
+  # end
 
   protected
 
@@ -57,9 +57,9 @@ module AuthenticatedSystem
     #
     #   skip_before_filter :login_required
     #
-    def login_required
-      authorized? || access_denied
-    end
+    # def login_required
+    #   authorized? || access_denied
+    # end
 
     # Redirect as appropriate when an access request fails.
     #
