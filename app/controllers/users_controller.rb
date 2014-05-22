@@ -269,8 +269,10 @@ class UsersController < ApplicationController
 
   def forgot
     if request.post?
+      binding.pry
       user = User.find_by_email(params[:user][:email])
       if user
+        binding.pry
         if user.state == 'active'
           user.create_reset_code
           flash[:notice] = "We've sent email to #{user.email} with instructions on how to reset your password."+

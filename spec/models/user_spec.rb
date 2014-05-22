@@ -18,8 +18,13 @@ describe User do
     Rails.cache.stub(:read => :nil)
   end
 
-  it{ should validate_presence_of(:password) }
-  it{ should validate_presence_of(:password_confirmation) }
+  it 'requires password and password confirmation' do
+    user.password = ''
+    user.password_confirmation = ''
+    user.valid?
+    expect(user).to have_at_least(1).error_on(:password)
+    expect(user).to have_at_least(1).error_on(:password_confirmation)
+  end
 
   it{ should validate_presence_of(:login) }
   it{ should validate_uniqueness_of(:login) }
@@ -223,33 +228,6 @@ describe User do
       expect {
         artist1.roles << Role.where(:role => :manager).first
       }.to raise_error(ActiveRecord::RecordInvalid)
-    end
-  end
-
-  describe '#authenticate' do
-    let(:user) { users(:quentin) }
-    it 'returns true for a valid authentication' do
-      expect(User.authenticate(user.login, 'monkey')).to be_true
-    end
-    it 'returns false for a valid authentication' do
-      expect(User.authenticate(user.login, 'fuck the party up')).to be_false
-    end
-  end
-
-  describe 'auth helpers' do
-    describe "make token " do
-      before do
-        @token = User.make_token
-      end
-      it "returns a string greater than 20 chars" do
-        @token.length.should > 20
-      end
-      it "returns a string with only numbers and letters" do
-        @token.should_not match /\W+/
-      end
-      it "when called again returns something different" do
-        @token.should_not eql User.make_token
-      end
     end
   end
 

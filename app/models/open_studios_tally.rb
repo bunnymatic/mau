@@ -6,8 +6,8 @@
 #  count       :integer
 #  oskey       :string(255)
 #  recorded_on :date
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class OpenStudiosTally < ActiveRecord::Base

@@ -1,4 +1,5 @@
 module AuthenticatedSystem
+      raise 'loaded module'
   # Returns true or false if the user is logged in.
   # Preloads @current_user with the user model if they're logged in.
   def logged_in?
@@ -19,6 +20,7 @@ module AuthenticatedSystem
 
     # Store the given user id in the session.
     def current_user=(new_user)
+      raise 'ack'
       session[:user_id] = new_user ? new_user.id : nil
       @current_user = new_user || false
       if @current_user && @current_user[:type] == 'Artist'

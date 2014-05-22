@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
 
   include MailChimp
   include HtmlHelper
-  include Authentication
+  include Concerns::Authentication
   include Authorization
 
   after_create :tell_user_they_signed_up
@@ -72,10 +72,11 @@ class User < ActiveRecord::Base
 
   scope :active, where(:state => 'active')
   scope :pending, where(:state => 'pending')
-
+  
+  before_validation :normalize_attributes
   before_validation :add_http_to_links
-
   before_destroy :delete_favorites
+
   def delete_favorites
     fs = Favorite.artists.where(:favoritable_id => id)
     fs.each(&:delete)
@@ -143,19 +144,11 @@ class User < ActiveRecord::Base
   # We really need a Dispatch Chain here or something.
   # This will also let us return a human error message.
   #
-  def self.authenticate(login, password)
-    return nil if login.blank? || password.blank?
-    u = find_by_login(login.downcase) # need to get the salt
-    u && u.authenticated?(password) ? u : nil
-  end
-
-  def login=(value)
-    write_attribute :login, (value ? value.downcase : nil)
-  end
-
-  def email=(value)
-    write_attribute :email, (value ? value.downcase : nil)
-  end
+  # def self.authenticate(login, password)
+  #   return nil if login.blank? || password.blank?
+  #   u = find_by_login(login.downcase) # need to get the salt
+  #   u && u.authenticated?(password) ? u : nil
+  # end
 
   def active?
     state == 'active'
@@ -379,6 +372,11 @@ class User < ActiveRecord::Base
   end
 
   protected
+  def normalize_attributes
+    login = login.try(:downcase)
+    email = email.try(:downcase)
+  end
+
   def get_favorite_ids(tps)
     (favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
   end

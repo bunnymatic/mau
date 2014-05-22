@@ -31,20 +31,6 @@ describe Artist do
 
   describe "create" do
     describe 'auth helpers' do
-      describe "make token " do
-        before do
-          @token = Artist.make_token
-        end
-        it "returns a string greater than 20 chars" do
-          @token.length.should > 20
-        end
-        it "returns a string with only numbers and letters" do
-          @token.should_not match /\W+/
-        end
-        it "when called again returns something different" do
-          @token.should_not eql(Artist.make_token)
-        end
-      end
       describe "make activation token " do
         let(:new_artist) { FactoryGirl.create(:artist) }
         let(:token) { new_artist.make_activation_code }
