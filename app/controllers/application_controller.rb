@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   #helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   layout 'mau'
-  include AuthenticatedSystem
+
 
   #include MobilizedStyles
   before_filter :init_body_classes, :set_controller_and_action_names
