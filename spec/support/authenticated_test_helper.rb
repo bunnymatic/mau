@@ -4,7 +4,6 @@ module AuthenticatedTestHelper
   def login_as(user)
     u = user ? (user.is_a?(User) ? user : users(user)) : nil
     allow(UserSession).to receive(:find).and_return(user_session(current_user(u)))
-    puts "Logged in as #{u.inspect}"
     u
   end
   

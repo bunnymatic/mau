@@ -9,7 +9,7 @@
         .sub-error-msg
           Error:
           = flash[:error]
-
+    = render '/common/form_errors', :form => f
     .signup-left
       %h2 Already A MAU Member?
       .signup-text

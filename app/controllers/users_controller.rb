@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
 
   before_filter :logged_out_required, :only => [:new]
-  before_filter :admin_required, :only => [ :unsuspend, :purge, :admin_index, :admin_update, :destroy ]
+  before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
   before_filter :user_required, :only => [ :edit, :update, :suspend, :delete_art, :destroyart, :upload_profile,
                                             :add_profile, :deactivate, :setarrangement, :arrange_art,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
@@ -40,9 +40,6 @@ class UsersController < ApplicationController
     else
       @page_title = "Mission Artists United"
     end
-    puts 'current user', current_user.inspect
-    puts 'page', @fan.inspect
-    puts 'logged in?', logged_in?
     render :action => 'show', :layout => 'mau'
   end
 
@@ -121,7 +118,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    logout_keeping_session!
+    logout
     @type = params.delete(:type) || DEFAULT_ACCOUNT_TYPE
 
     # validate email domain
@@ -141,27 +138,25 @@ class UsersController < ApplicationController
 
   # Change user passowrd
   def change_password_update
-    if User.authenticate(current_user.login, params[:old_password])
+    if current_user.valid_password? params[:old_password]
       if ((params[:password] == params[:password_confirmation]) && !params[:password_confirmation].blank?)
         current_user.password_confirmation = params[:password_confirmation]
         current_user.password = params[:password]
 
         if current_user.save!
           flash[:notice] = "Password successfully updated"
-          redirect_to request.referer || current_user
         else
           flash[:error] = "Password not changed"
-          redirect_to request.referer || current_user
         end
-
+        
       else
         flash[:error] = "New Password mismatch"
-        redirect_to request.referer || current_user
       end
     else
       flash[:error] = "Old password incorrect"
-      redirect_to request.referer || root_path
     end
+    redirect_to request.referer || current_user
+
   end
 
   def noteform
@@ -193,12 +188,11 @@ class UsersController < ApplicationController
       return
     end
     if request.post? && user_params
-
       if @user.update_attributes(user_params.slice(:password, :password_confirmation))
-        self.current_user = @user
         @user.delete_reset_code
-        flash[:notice] = "Password reset successfully for #{@user.email}"
-        redirect_back_or_default('/')
+        flash[:notice] = "Password reset successfully for #{@user.email}.  Please log in."
+        logout
+        redirect_to('/login')
         return
       else
         flash[:error] = "Failed to update your password."
@@ -231,7 +225,7 @@ class UsersController < ApplicationController
 
 
   def activate
-    logout_keeping_session!
+    logout
     user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
     case
     when (!params[:activation_code].blank?) && user && !user.active?
@@ -269,10 +263,8 @@ class UsersController < ApplicationController
 
   def forgot
     if request.post?
-      binding.pry
       user = User.find_by_email(params[:user][:email])
       if user
-        binding.pry
         if user.state == 'active'
           user.create_reset_code
           flash[:notice] = "We've sent email to #{user.email} with instructions on how to reset your password."+
@@ -292,29 +284,11 @@ class UsersController < ApplicationController
   end
 
   def deactivate
-    suspend
-    logout_killing_session!
+    logout
+    current_user.suspend!
     flash[:notice] = "Your account has been deactivated."
+    redirect_to root_path
   end
-
-  # def unsuspend
-  #   @user.unsuspend!
-  #   flash[:notice] = "Your account has been unsuspended"
-  #   redirect_to "/"
-  # end
-
-  # def suspend
-  #   current_user.suspend!
-  #   flash[:notice] = "Your account has been suspended"
-  #   redirect_to "/"
-  # end
-
-  # def purge
-  #   @user.destroy!
-  #   flash[:notice] = "Your account has been deactivated."
-  #   redirect_to "/"
-  # end
-
 
   # POST
   def add_favorite

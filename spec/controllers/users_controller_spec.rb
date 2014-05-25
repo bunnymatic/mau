@@ -40,8 +40,8 @@ describe UsersController do
 
   it "actions should fail if not logged in" do
     exceptions = [:index, :show, :artists, :resend_activation, :favorites,
-                  :forgot, :unsuspend, :destroy, :create, :new, :activate,
-                  :notify, :noteform, :purge, :reset, :favorites_notify]
+                  :forgot, :destroy, :create, :new, :activate,
+                  :notify, :noteform, :reset, :favorites_notify]
     controller_actions_should_fail_if_not_logged_in(:user,
                                                     :except => exceptions)
   end
@@ -408,7 +408,7 @@ describe UsersController do
         post :add_favorite
       end
       it "add_favorite requires login" do
-        expect(response).to redirect_to( new_session_path )
+        expect(response).to redirect_to( new_user_session_path )
       end
       it "auth system should try to record referrer" do
         request.session[:return_to].should eql SHARED_REFERER
@@ -419,7 +419,7 @@ describe UsersController do
         get :edit
       end
       it "add_favorite requires login" do
-        expect(response).to redirect_to( new_session_path )
+        expect(response).to redirect_to( new_user_session_path )
       end
       it "auth system should try to record referrer" do
         request.session[:return_to].should eql "/users/edit"
@@ -621,11 +621,11 @@ describe UsersController do
       context "requesting anything but a post" do
         it "redirects to login" do
           put :add_favorite
-          expect(response).to redirect_to(new_session_path)
+          expect(response).to redirect_to(new_user_session_path)
           delete :add_favorite
-          expect(response).to redirect_to(new_session_path)
+          expect(response).to redirect_to(new_user_session_path)
           get :add_favorite
-          expect(response).to redirect_to(new_session_path)
+          expect(response).to redirect_to(new_user_session_path)
         end
       end
       context "while not logged in" do
@@ -778,7 +778,7 @@ describe UsersController do
               :reset_code => 'abc' }
         end
         it "returns redirect" do
-          expect(response).to redirect_to "/"
+          expect(response).to redirect_to "/login"
         end
         it "sets notice" do
           flash[:notice].should include('reset successfully for ')

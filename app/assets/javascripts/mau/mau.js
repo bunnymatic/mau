@@ -214,7 +214,7 @@ jQuery(function() {
 
   var flashNotice = jQuery(".notice");
   if (flashNotice.length) {
-    flashNotice.find('.close_btn').bind('click', function() {
+    flashNotice.bind('click', function() {
 	    flashNotice.fadeOut();
     });
     setTimeout(function() {

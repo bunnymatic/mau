@@ -16,7 +16,7 @@ def controller_actions_should_fail_if_not_logged_in(cont, opts={})
   actions_to_test += opts[:include] if opts[:include]
   actions_to_test.each do |a|
     get a
-    expect(response).to redirect_to( new_session_path ), "Incorrect redirect on action [#{a}]"
+    expect(response).to redirect_to( new_user_session_path ), "Incorrect redirect on action [#{a}]"
   end
 end
 
@@ -121,7 +121,7 @@ end
 
 shared_examples_for 'login required' do
   it "redirects to login" do
-    expect(response).to redirect_to(new_session_path)
+    expect(response).to redirect_to(new_user_session_path)
   end
 end
 

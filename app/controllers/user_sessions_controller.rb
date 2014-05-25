@@ -28,7 +28,7 @@ class UserSessionsController < ApplicationController
           redirect_back_or_default root_url
         else
           flash[:warning] = "We were unable to log you in.  Check your username and password and try again."
-          render :action => :new
+          render :new
         end
       }
       fmt.mobile {

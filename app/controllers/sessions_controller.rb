@@ -19,7 +19,6 @@ class SessionsController < ApplicationController
   def create
     respond_to do |fmt|
       fmt.html {
-        logger.debug('html session create')
         logout_keeping_session!
 
         # try finding artist by email

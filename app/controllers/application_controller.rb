@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   layout 'mau'
 
-
   #include MobilizedStyles
   before_filter :init_body_classes, :set_controller_and_action_names
   before_filter :check_browser, :unless => :format_json?
@@ -23,8 +22,26 @@ class ApplicationController < ActionController::Base
   before_filter :set_meta_info
   before_filter :tablet_device_falback
 
-  helper_method :current_user_session, :current_user
-  
+  helper_method :current_user_session, :current_user, :logged_in?, :current_artist
+
+  before_filter :track_path
+  def track_path
+    puts '%s => %s' % [request.path, request.referrer]
+  end
+
+  def store_location
+    return unless request.format == 'text/html'
+    if request.post? || request.xhr?
+      session[:return_to] = request.referrer
+    else
+      session[:return_to] = request.fullpath
+    end
+  end
+
+  def logged_in?
+    !!current_user
+  end
+
   def current_user_session
     return @current_user_session if defined? @current_user_session
     @current_user_session = UserSession.find
@@ -34,9 +51,19 @@ class ApplicationController < ActionController::Base
     return @current_user if defined? @current_user
     @current_user = current_user_session.try(:user)
   end
-  
+
+  def logout
+    current_user_session.try(:destroy)
+  end
+
   def current_artist
     current_user if current_user.try(:is_artist?)
+  end
+
+  def redirect_back_or_default(default = nil)
+    path = session.delete(:return_to) || default || root_path
+    redirect_to path
+       session[:return_to] = nil
   end
 
   def require_user

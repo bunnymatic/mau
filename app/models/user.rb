@@ -48,8 +48,6 @@
 require 'digest/sha1'
 require 'json'
 require File.join(Rails.root, 'app','lib', 'mailchimp')
-require_relative './concerns/authentication.rb'
-require_relative './concerns/authorization.rb'
 
 class User < ActiveRecord::Base
 
@@ -64,8 +62,8 @@ class User < ActiveRecord::Base
 
   include MailChimp
   include HtmlHelper
-  include Concerns::Authentication
-  include Authorization
+  include User::Authentication
+  include User::Authorization
 
   after_create :tell_user_they_signed_up
   #after_save :notify_user_about_state_change
@@ -253,6 +251,10 @@ class User < ActiveRecord::Base
   def delete_reset_code
     self.attributes = {:reset_code => nil}
     save(:validate => false)
+  end
+
+  def suspend!
+    self.update_attribute :state, 'suspended'
   end
 
   def suspended?

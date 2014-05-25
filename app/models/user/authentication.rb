@@ -1,4 +1,4 @@
-module Concerns
+class User
   module Authentication
     def mailer_class
       mailer_class = is_artist? ? ArtistMailer : UserMailer
@@ -9,4 +9,5 @@ module Concerns
       FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
     end
   end
+
 end

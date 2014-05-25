@@ -104,10 +104,8 @@ Mau::Application.routes.draw do
     end
     member do
       put :suspend
-      put :unsuspend
       get :noteform
       put :notify
-      delete :purge
       get :favorites
     end
     resources :roles, :only => [:destroy]
