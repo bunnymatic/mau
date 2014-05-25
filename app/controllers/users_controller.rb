@@ -129,7 +129,8 @@ class UsersController < ApplicationController
       render_on_failed_create and return
     end
     if @user.valid? && @user.save
-      # @user.register!
+      new_state = (@user.is_a? Artist) ? 'pending' : 'active'
+      @user.update_attribute(:state, new_state)
       redirect_after_create and return
     else
       render_on_failed_create and return

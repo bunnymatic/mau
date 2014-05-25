@@ -204,6 +204,10 @@ class User < ActiveRecord::Base
     state == 'active'
   end
 
+  def delete!
+    update_attribute(:state, 'deleted')
+  end
+
   def tags
     # rollup and return most popular 15 tags
     @mytags ||= art_pieces.map(&:tags).flatten.compact.uniq

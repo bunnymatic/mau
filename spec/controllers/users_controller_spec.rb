@@ -57,7 +57,7 @@ describe UsersController do
         get :new
       end
       it 'redirects to your page' do
-        expect(response).to redirect_to user_path(fan)
+        expect(response).to redirect_to root_path
       end
     end
     context 'not logged in' do
@@ -184,7 +184,6 @@ describe UsersController do
     end
     context "valid user params and type = MAUFan" do
       before do
-        MAUFan.any_instance.should_receive(:make_activation_code).at_least(1).times
         MAUFan.any_instance.should_receive(:subscribe_and_welcome)
         UserMailer.should_receive(:activation).exactly(:once).and_return(double(:deliver! => true))
         post :create, :mau_fan => { :login => 'newuser',
@@ -443,7 +442,7 @@ describe UsersController do
     end
     context "while logged in" do
       before do
-        login_as(quentin)
+        login_as(quentin, :record => true)
         @logged_in_user = quentin
       end
       context "with empty params" do

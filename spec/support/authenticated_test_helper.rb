@@ -1,9 +1,10 @@
 module AuthenticatedTestHelper
 
   # Sets the current artist in the session from the artist fixtures.
-  def login_as(user)
+  def login_as(user, session_stubs = nil)
+    session_stubs ||= {}
     u = user ? (user.is_a?(User) ? user : users(user)) : nil
-    allow(UserSession).to receive(:find).and_return(user_session(current_user(u)))
+    allow(UserSession).to receive(:find).and_return(user_session(current_user(u), session_stubs))
     u
   end
   
@@ -20,3 +21,4 @@ module AuthenticatedTestHelper
   end
 
 end
+
