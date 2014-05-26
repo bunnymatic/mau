@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe ApplicationEventsController do
   fixtures :application_events, :users, :roles, :roles_users
   describe 'unauthorized #index' do

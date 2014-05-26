@@ -1,8 +1,6 @@
 require 'spec_helper'
 describe CmsDocumentsController do
 
-  include AuthenticatedTestHelper
-
   fixtures :cms_documents, :users, :roles, :roles_users
 
   context 'not authorized' do

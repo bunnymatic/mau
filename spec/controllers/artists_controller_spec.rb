@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'htmlentities'
-include AuthenticatedTestHelper
 
 describe ArtistsController do
 

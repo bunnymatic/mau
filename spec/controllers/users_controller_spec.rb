@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 shared_examples_for 'common signup form' do
   it_should_behave_like 'one column layout'
   it "has signup form" do

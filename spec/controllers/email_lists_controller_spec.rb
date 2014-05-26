@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe EmailListsController do
   fixtures :email_lists, :emails, :email_list_memberships, :users, :roles_users, :roles
   [:index].each do |endpoint|

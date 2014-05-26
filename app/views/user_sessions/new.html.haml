@@ -3,13 +3,12 @@
   = form_for @user_session, :url => user_session_path, :id => 'login_form' do |f|
     - if flash[:notice]
       .notice #{flash[:notice]}
-    - if flash[:error]
+    - if flash[:error] || !@user_session.valid?
       .error-msg
         We had trouble signing you in.  Please check your username and password.  If you continue to have problems, contact the webmaster with the link below.
         .sub-error-msg
           Error:
           = flash[:error]
-    = render '/common/form_errors', :form => f
     .signup-left
       %h2 Already A MAU Member?
       .signup-text

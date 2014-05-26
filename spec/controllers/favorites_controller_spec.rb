@@ -1,8 +1,6 @@
 
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe FavoritesController do
 
   fixtures :users, :roles_users, :roles

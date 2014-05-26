@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DiscountController do
   fixtures :users, :roles, :roles_users
-  include AuthenticatedTestHelper
+
   describe 'unauthorized' do
     before do
       get :markup

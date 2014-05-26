@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe StudiosController do
 
   fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users, :roles

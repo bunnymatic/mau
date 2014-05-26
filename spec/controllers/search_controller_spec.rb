@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe SearchController do
 
   fixtures :users, :roles, :roles_users

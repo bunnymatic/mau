@@ -18,7 +18,11 @@ module AuthenticatedTestHelper
 
   def logout
     @current_user_session = nil
+    @current_user = nil
   end
 
 end
 
+RSpec.configure do |config|
+  config.include AuthenticatedTestHelper, :type => :controller
+end

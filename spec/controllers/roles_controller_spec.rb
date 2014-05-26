@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe RolesController do
-  include AuthenticatedTestHelper
+
   fixtures :roles, :users, :roles_users
 
   let(:jesse) { users(:jesseponce) }

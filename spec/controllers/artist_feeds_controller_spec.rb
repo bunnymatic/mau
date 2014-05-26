@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe ArtistFeedsController do
   fixtures :users, :roles, :artist_feeds, :roles_users
 

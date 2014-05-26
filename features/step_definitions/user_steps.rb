@@ -38,7 +38,7 @@ When(/^I fill in valid credentials$/) do
 end
 
 Then(/^I see that I'm logged in$/) do
-  expect(page).to have_selector('.notice',:text => /successfully/)
+  expect(page).to have_selector('.notice',:text => /success/)
 end
 
 When(/^I fill in an invalid username and password$/) do

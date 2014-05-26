@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe Admin::EventsController do
 
-  include AuthenticatedTestHelper
-
   fixtures :users,:events, :roles_users
 
   [:index, :publish, :unpublish].each do |endpt|

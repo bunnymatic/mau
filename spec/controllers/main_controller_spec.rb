@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 shared_examples_for "successful notes mailer response" do
   it_should_behave_like "returns success"
   it{JSON.parse(response.body)['errors'].should be_empty}
