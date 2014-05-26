@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 shared_examples_for 'common signup form' do
   it_should_behave_like 'one column layout'
   it "has signup form" do
@@ -40,8 +38,8 @@ describe UsersController do
 
   it "actions should fail if not logged in" do
     exceptions = [:index, :show, :artists, :resend_activation, :favorites,
-                  :forgot, :unsuspend, :destroy, :create, :new, :activate,
-                  :notify, :noteform, :purge, :reset, :favorites_notify]
+                  :forgot, :destroy, :create, :new, :activate,
+                  :notify, :noteform, :reset, :favorites_notify]
     controller_actions_should_fail_if_not_logged_in(:user,
                                                     :except => exceptions)
   end
@@ -57,7 +55,7 @@ describe UsersController do
         get :new
       end
       it 'redirects to your page' do
-        expect(response).to redirect_to user_path(fan)
+        expect(response).to redirect_to root_path
       end
     end
     context 'not logged in' do
@@ -184,7 +182,6 @@ describe UsersController do
     end
     context "valid user params and type = MAUFan" do
       before do
-        MAUFan.any_instance.should_receive(:make_activation_code).at_least(1).times
         MAUFan.any_instance.should_receive(:subscribe_and_welcome)
         UserMailer.should_receive(:activation).exactly(:once).and_return(double(:deliver! => true))
         post :create, :mau_fan => { :login => 'newuser',
@@ -408,7 +405,7 @@ describe UsersController do
         post :add_favorite
       end
       it "add_favorite requires login" do
-        expect(response).to redirect_to( new_session_path )
+        expect(response).to redirect_to( new_user_session_path )
       end
       it "auth system should try to record referrer" do
         request.session[:return_to].should eql SHARED_REFERER
@@ -419,7 +416,7 @@ describe UsersController do
         get :edit
       end
       it "add_favorite requires login" do
-        expect(response).to redirect_to( new_session_path )
+        expect(response).to redirect_to( new_user_session_path )
       end
       it "auth system should try to record referrer" do
         request.session[:return_to].should eql "/users/edit"
@@ -443,7 +440,7 @@ describe UsersController do
     end
     context "while logged in" do
       before do
-        login_as(quentin)
+        login_as(quentin, :record => true)
         @logged_in_user = quentin
       end
       context "with empty params" do
@@ -621,11 +618,11 @@ describe UsersController do
       context "requesting anything but a post" do
         it "redirects to login" do
           put :add_favorite
-          expect(response).to redirect_to(new_session_path)
+          expect(response).to redirect_to(new_user_session_path)
           delete :add_favorite
-          expect(response).to redirect_to(new_session_path)
+          expect(response).to redirect_to(new_user_session_path)
           get :add_favorite
-          expect(response).to redirect_to(new_session_path)
+          expect(response).to redirect_to(new_user_session_path)
         end
       end
       context "while not logged in" do
@@ -778,7 +775,7 @@ describe UsersController do
               :reset_code => 'abc' }
         end
         it "returns redirect" do
-          expect(response).to redirect_to "/"
+          expect(response).to redirect_to "/login"
         end
         it "sets notice" do
           flash[:notice].should include('reset successfully for ')

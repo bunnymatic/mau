@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe BlacklistDomainsController do
   fixtures :users, :roles_users, :roles
   context 'authorization' do

@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do
   fixtures :artist_feeds, :users, :roles_users, :roles

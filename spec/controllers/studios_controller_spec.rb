@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe StudiosController do
 
   fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users, :roles
@@ -61,8 +59,9 @@ describe StudiosController do
   end
 
   describe "#index" do
+    render_views
+
     context "while not logged in" do
-      render_views
       context 'default mode' do
         before do
           get :index
@@ -86,7 +85,6 @@ describe StudiosController do
       end
     end
     context "while logged in as an art fan" do
-      render_views
       before do
         login_as fan
         @logged_in_user = fan

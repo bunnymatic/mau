@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 def art_piece_attributes(overrides = {})
   { :title => "hot title",
     :medium_id => Medium.last,

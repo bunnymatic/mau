@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 describe MediaController do
 
   fixtures :media, :art_pieces, :artist_infos, :users, :roles, :roles_users

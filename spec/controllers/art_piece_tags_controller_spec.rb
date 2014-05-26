@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
-
 def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
 
 describe ArtPieceTagsController do
@@ -108,18 +106,20 @@ describe ArtPieceTagsController do
       response.should redirect_to root_path
     end
 
-    [:one, :two, :three].each do |tag|
-      before do
-        @tag = art_piece_tags(tag)
-        get :show, :id => @tag.id
-        @disp = @tag.name.gsub(/\s+/, '&nbsp;')
-      end
-      it_should_behave_like 'returns success'
-      it "renders the requested tag #{tag} highlighted" do
-        assert_select '.tagcloud .clouditem.tagmatch', :count => 1, :text => @disp
-      end
-      it "renders art that has the requested tag #{tag}" do
-        assert_select '.search-thumbs .artpiece_tag a', @disp
+    context 'for different tags' do
+      [:one, :two, :three].each do |tag|
+        before do
+          @tag = art_piece_tags(tag)
+          get :show, :id => @tag.id
+          @disp = @tag.name.gsub(/\s+/, '&nbsp;')
+        end
+        it_should_behave_like 'returns success'
+        it "renders the requested tag #{tag} highlighted" do
+          assert_select '.tagcloud .clouditem.tagmatch', :count => 1, :text => @disp
+        end
+        it "renders art that has the requested tag #{tag}" do
+          assert_select '.search-thumbs .artpiece_tag a', @disp
+        end
       end
     end
 

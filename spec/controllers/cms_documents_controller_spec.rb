@@ -1,15 +1,15 @@
 require 'spec_helper'
 describe CmsDocumentsController do
 
-  include AuthenticatedTestHelper
-
   fixtures :cms_documents, :users, :roles, :roles_users
 
-  [:index, :show, :edit, :update].each do |meth|
-    before do
-      get meth
+  context 'not authorized' do
+    [:index, :show, :edit, :update].each do |meth|
+      before do
+        get meth
+      end
+      it_should_behave_like "not authorized"
     end
-    it_should_behave_like "not authorized"
   end
 
   context 'authorized' do

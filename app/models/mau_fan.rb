@@ -6,8 +6,8 @@
 #  login                     :string(40)
 #  name                      :string(100)      default("")
 #  email                     :string(100)
-#  crypted_password          :string(40)
-#  salt                      :string(40)
+#  crypted_password          :string(128)      default(""), not null
+#  password_salt             :string(128)      default(""), not null
 #  created_at                :datetime
 #  updated_at                :datetime
 #  remember_token            :string(40)
@@ -28,12 +28,21 @@
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
+#  persistence_token         :string(255)
+#  login_count               :integer          default(0), not null
+#  last_request_at           :datetime
+#  last_login_at             :datetime
+#  current_login_at          :datetime
+#  last_login_ip             :string(255)
+#  current_login_ip          :string(255)
 #
 # Indexes
 #
-#  index_artists_on_login    (login) UNIQUE
-#  index_users_on_state      (state)
-#  index_users_on_studio_id  (studio_id)
+#  index_artists_on_login            (login) UNIQUE
+#  index_users_on_last_request_at    (last_request_at)
+#  index_users_on_persistence_token  (persistence_token)
+#  index_users_on_state              (state)
+#  index_users_on_studio_id          (studio_id)
 #
 
 class MAUFan < User

@@ -18,8 +18,13 @@ describe User do
     Rails.cache.stub(:read => :nil)
   end
 
-  it{ should validate_presence_of(:password) }
-  it{ should validate_presence_of(:password_confirmation) }
+  it 'requires password and password confirmation' do
+    user.password = ''
+    user.password_confirmation = ''
+    user.valid?
+    expect(user).to have_at_least(1).error_on(:password)
+    expect(user).to have_at_least(1).error_on(:password_confirmation)
+  end
 
   it{ should validate_presence_of(:login) }
   it{ should validate_uniqueness_of(:login) }
@@ -226,33 +231,6 @@ describe User do
     end
   end
 
-  describe '#authenticate' do
-    let(:user) { users(:quentin) }
-    it 'returns true for a valid authentication' do
-      expect(User.authenticate(user.login, 'monkey')).to be_true
-    end
-    it 'returns false for a valid authentication' do
-      expect(User.authenticate(user.login, 'fuck the party up')).to be_false
-    end
-  end
-
-  describe 'auth helpers' do
-    describe "make token " do
-      before do
-        @token = User.make_token
-      end
-      it "returns a string greater than 20 chars" do
-        @token.length.should > 20
-      end
-      it "returns a string with only numbers and letters" do
-        @token.should_not match /\W+/
-      end
-      it "when called again returns something different" do
-        @token.should_not eql User.make_token
-      end
-    end
-  end
-
   describe 'address' do
     it "responds to address" do
       artist1.should respond_to :address
@@ -444,13 +422,6 @@ describe User do
 
   describe "forgot password methods" do
     context "artfan" do
-      it "create_reset_code should call mailer" do
-        UserMailer.should_receive(:reset_notification).with() do |f|
-          f.login.should eql users(:artfan).login
-          f.email.should include users(:artfan).email
-        end.and_return(double(:deliver! => true))
-        users(:artfan).create_reset_code
-      end
       it "create_reset_code creates a reset code" do
         users(:artfan).reset_code.should be_nil
         users(:artfan).create_reset_code
@@ -458,13 +429,6 @@ describe User do
       end
     end
     context "artist" do
-      it "create_reset_code should call mailer" do
-        ArtistMailer.should_receive(:reset_notification).with() do |f|
-          f.login.should eql artist1.login
-          f.email.should include artist1.email
-        end.and_return(double(:deliver! => true))
-        artist1.create_reset_code
-      end
       it "create_reset_code creates a reset code" do
         artist1.reset_code.should be_nil
         artist1.create_reset_code

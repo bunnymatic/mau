@@ -13,49 +13,42 @@ end
 describe MAUFan do
   include MAUFanSpecHelper
   describe '#new' do
+    let(:fan_attrs) { valid_user_attributes }
+    let(:new_fan) { u = MAUFan.new(fan_attrs); u.valid?; u }
 
-    it "should not be valid artist from blank new artist" do
-      a = MAUFan.new
-      a.should_not be_valid
-      a.should have(2).error_on(:password)
-      a.should have(1).error_on(:password_confirmation)
-      a.should have_at_least(2).error_on(:login)
-      a.should have(4).error_on(:email)
+    context 'with valid attributes' do
+
+      it "should be valid fan" do
+        expect(new_fan).to be_valid
+      end
+
     end
 
-    it "should be valid fan" do
-      a = MAUFan.new
-      a.attributes = valid_user_attributes
-      a.should be_valid
-    end
+    context 'with nothing' do
+      let(:fan_attrs) { {} }
 
-    it "should be require password confirmation" do
-      a = MAUFan.new
-      a.attributes = valid_user_attributes.except(:password_confirmation)
-      a.should have(1).error_on(:password_confirmation)
-    end
+      it "should not be valid" do
+        expect(new_fan).to_not be_valid
+        expect(new_fan).to have(1).error_on(:password)
+        expect(new_fan).to have(1).error_on(:password_confirmation)
+        expect(new_fan).to have_at_least(2).error_on(:login)
+        expect(new_fan).to have_at_least(4).error_on(:email)
+      end
 
-    it "should not allow 'bogus email' for email address" do
-      a = MAUFan.new
-      a.attributes = valid_user_attributes.except(:email)
-      a.email = 'bogus email'
-      a.should_not be_valid
-      a.should have_at_least(1).error_on(:email)
     end
 
     it "should not allow '   ' for email" do
-      a = MAUFan.new
-      a.attributes = valid_user_attributes.except(:email)
-      a.email = '   '
-      a.should_not be_valid
-      a.should have_at_least(1).error_on(:email)
+      fan = new_fan
+      fan.email = '  '
+      expect(fan).to_not be_valid
+      expect(fan).to have_at_least(1).error_on(:email)
     end
+
     it "should not allow blow@ for email" do
-      a = MAUFan.new
-      a.attributes = valid_user_attributes.except(:email)
-      a.email = 'blow@'
-      a.should_not be_valid
-      a.should have_at_least(1).error_on(:email)
+      fan = new_fan
+      fan.email = 'blow@'
+      expect(fan).to_not be_valid
+      expect(fan).to have_at_least(1).error_on(:email)
     end
   end
 

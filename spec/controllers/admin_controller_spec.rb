@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-include AuthenticatedTestHelper
 include OsHelper
 
 class TestOsHelperClass; include OsHelper; end

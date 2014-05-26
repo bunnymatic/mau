@@ -7,7 +7,7 @@ class ArtPiecesController < ApplicationController
   layout 'mau1col', :except => :show
 
   before_filter :admin_required, :only => [ :index, ]
-  before_filter :login_required, :only => [ :new, :edit, :update, :create, :destroy]
+  before_filter :user_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :artist_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update]
   before_filter :load_media, :only => [:new, :edit, :create, :update]

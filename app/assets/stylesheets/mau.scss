@@ -189,7 +189,7 @@ tr.error-row {
   }
 }
 
-input[type=text],input[type=password], textarea {
+input[type=submit], input[type=text],input[type=password], textarea {
   @include input_style;
   @include small-rounded-corners;
 }

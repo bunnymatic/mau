@@ -13,8 +13,8 @@
           %td{ :colspan => '2' }
             %label{:for => :email} Email:
             = f.text_field :email
-            = submit_tag 'Submit', :class => 'formbutton'
+            = f.submit 'Submit', :class => 'formbutton'
         %tr
           %td
           %td.input-help 
-            = link_to 'Do you need to activate your account?', resend_activation_users_path 
+            = link_to 'Do you need to activate your account?', resend_activation_users_path

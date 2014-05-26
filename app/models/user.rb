@@ -6,8 +6,8 @@
 #  login                     :string(40)
 #  name                      :string(100)      default("")
 #  email                     :string(100)
-#  crypted_password          :string(40)
-#  salt                      :string(40)
+#  crypted_password          :string(128)      default(""), not null
+#  password_salt             :string(128)      default(""), not null
 #  created_at                :datetime
 #  updated_at                :datetime
 #  remember_token            :string(40)
@@ -28,12 +28,21 @@
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
+#  persistence_token         :string(255)
+#  login_count               :integer          default(0), not null
+#  last_request_at           :datetime
+#  last_login_at             :datetime
+#  current_login_at          :datetime
+#  last_login_ip             :string(255)
+#  current_login_ip          :string(255)
 #
 # Indexes
 #
-#  index_artists_on_login    (login) UNIQUE
-#  index_users_on_state      (state)
-#  index_users_on_studio_id  (studio_id)
+#  index_artists_on_login            (login) UNIQUE
+#  index_users_on_last_request_at    (last_request_at)
+#  index_users_on_persistence_token  (persistence_token)
+#  index_users_on_state              (state)
+#  index_users_on_studio_id          (studio_id)
 #
 
 require 'digest/sha1'
@@ -50,18 +59,22 @@ class User < ActiveRecord::Base
                              'admin','root','mau', 'mauadmin','maudev',
                              'jon','mrrogers','trish','trishtunney' ]
 
+
   include MailChimp
   include HtmlHelper
+  include User::Authentication
+  include User::Authorization
 
   after_create :tell_user_they_signed_up
-  after_save :notify_user_about_state_change
+  #after_save :notify_user_about_state_change
 
   scope :active, where(:state => 'active')
   scope :pending, where(:state => 'pending')
 
+  before_validation :normalize_attributes
   before_validation :add_http_to_links
-
   before_destroy :delete_favorites
+
   def delete_favorites
     fs = Favorite.artists.where(:favoritable_id => id)
     fs.each(&:delete)
@@ -96,20 +109,21 @@ class User < ActiveRecord::Base
 
   include ImageDimensions
 
-  include Authentication
-  include Authentication::ByPassword
-  include Authentication::ByCookieToken
-  include Authorization::StatefulRoles
+  acts_as_authentic do |c|
+    c.act_like_restful_authentication = true
+    c.transition_from_restful_authentication = true
+  end
+
 
   validates_presence_of     :login
   validates_length_of       :login,    :within => 5..40
   validates_uniqueness_of   :login
-  validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
+  validates_format_of       :login,    :with => Mau::Regex::LOGIN, :message => Mau::Regex::BAD_LOGIN_MESSAGE
 
   validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100 #r@a.wk
   validates_uniqueness_of   :email
-  validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
+  validates_format_of       :email,    :with => Mau::Regex::EMAIL, :message => Mau::Regex::BAD_EMAIL_MESSAGE
   validates_length_of       :firstname,:maximum => 100, :allow_nil => true
   validates_length_of       :lastname, :maximum => 100, :allow_nil => true
 
@@ -128,19 +142,11 @@ class User < ActiveRecord::Base
   # We really need a Dispatch Chain here or something.
   # This will also let us return a human error message.
   #
-  def self.authenticate(login, password)
-    return nil if login.blank? || password.blank?
-    u = find_by_login(login.downcase) # need to get the salt
-    u && u.authenticated?(password) ? u : nil
-  end
-
-  def login=(value)
-    write_attribute :login, (value ? value.downcase : nil)
-  end
-
-  def email=(value)
-    write_attribute :email, (value ? value.downcase : nil)
-  end
+  # def self.authenticate(login, password)
+  #   return nil if login.blank? || password.blank?
+  #   u = find_by_login(login.downcase) # need to get the salt
+  #   u && u.authenticated?(password) ? u : nil
+  # end
 
   def active?
     state == 'active'
@@ -198,20 +204,8 @@ class User < ActiveRecord::Base
     state == 'active'
   end
 
-  def is_special?
-    is_admin? || is_manager? || is_editor?
-  end
-
-  def is_admin?
-    roles.include? Role.admin
-  end
-
-  def is_manager?
-    is_admin? || (roles.include? Role.manager)
-  end
-
-  def is_editor?
-    is_admin? || (roles.include? Role.editor)
+  def delete!
+    update_attribute(:state, 'deleted')
   end
 
   def tags
@@ -261,6 +255,10 @@ class User < ActiveRecord::Base
   def delete_reset_code
     self.attributes = {:reset_code => nil}
     save(:validate => false)
+  end
+
+  def suspend!
+    self.update_attribute :state, 'suspended'
   end
 
   def suspended?
@@ -372,7 +370,7 @@ class User < ActiveRecord::Base
 
   def make_activation_code
     self.deleted_at = nil
-    self.activation_code = User.make_token
+    self.activation_code = TokenService.generate
   end
 
   def uniqify_roles
@@ -380,6 +378,11 @@ class User < ActiveRecord::Base
   end
 
   protected
+  def normalize_attributes
+    login = login.try(:downcase)
+    email = email.try(:downcase)
+  end
+
   def get_favorite_ids(tps)
     (favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
   end
@@ -391,16 +394,16 @@ class User < ActiveRecord::Base
     end
   end
 
-  def notify_user_about_state_change
-    mailer_class = is_artist? ? ArtistMailer : UserMailer
-    reload
-    if recently_activated? && mailchimp_subscribed_at.nil?
-      mailer_class.activation(self).deliver!
-      FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
-    end
-    mailer_class.reset_notification(self).deliver! if recently_reset?
-    mailer_class.resend_activation(self).deliver! if resent_activation?
-  end
+  # def notify_user_about_state_change
+  #   mailer_class = is_artist? ? ArtistMailer : UserMailer
+  #   reload
+  #   if recently_activated? && mailchimp_subscribed_at.nil?
+  #     mailer_class.activation(self).deliver!
+  #     FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
+  #   end
+  #   mailer_class.reset_notification(self).deliver! if recently_reset?
+  #   mailer_class.resend_activation(self).deliver! if resent_activation?
+  # end
 
   def trying_to_favorite_yourself?(fav)
     false if fav.nil?

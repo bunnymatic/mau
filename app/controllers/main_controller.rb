@@ -9,7 +9,6 @@ class MainController < ApplicationController
   include MarkdownUtils
   include MainHelper
   skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
-  before_filter :no_cache, :only => :index
 
   def index
     respond_to do |format|

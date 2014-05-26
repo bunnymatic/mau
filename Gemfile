@@ -39,6 +39,9 @@ gem 'draper'
 gem 'spinjs-rails'
 gem 'angularjs-rails'
 
+# authentication
+gem 'authlogic'
+
 # mailing with postmarkapp.com
 gem 'postmark-rails'
 gem 'postmark'

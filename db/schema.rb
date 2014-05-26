@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140517025027) do
+ActiveRecord::Schema.define(:version => 20140518235647) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(:version => 20140517025027) do
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
     t.string   "title"
-    t.text     "description"
     t.string   "dimensions"
     t.integer  "artist_id"
     t.datetime "created_at"
@@ -96,8 +95,8 @@ ActiveRecord::Schema.define(:version => 20140517025027) do
 
   create_table "blacklist_domains", :force => true do |t|
     t.string   "domain"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "cms_documents", :force => true do |t|
@@ -189,8 +188,15 @@ ActiveRecord::Schema.define(:version => 20140517025027) do
     t.integer  "count"
     t.string   "oskey"
     t.date     "recorded_on"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "promoted_events", :force => true do |t|
+    t.integer  "event_id"
+    t.datetime "publish_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "roles", :force => true do |t|
@@ -234,8 +240,8 @@ ActiveRecord::Schema.define(:version => 20140517025027) do
     t.string   "login",                     :limit => 40
     t.string   "name",                      :limit => 100, :default => ""
     t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
+    t.string   "crypted_password",          :limit => 128, :default => "",                                                               :null => false
+    t.string   "password_salt",             :limit => 128, :default => "",                                                               :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token",            :limit => 40
@@ -256,9 +262,18 @@ ActiveRecord::Schema.define(:version => 20140517025027) do
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
     t.string   "type",                                     :default => "Artist"
     t.date     "mailchimp_subscribed_at"
+    t.string   "persistence_token"
+    t.integer  "login_count",                              :default => 0,                                                                :null => false
+    t.datetime "last_request_at"
+    t.datetime "last_login_at"
+    t.datetime "current_login_at"
+    t.string   "last_login_ip"
+    t.string   "current_login_ip"
   end
 
+  add_index "users", ["last_request_at"], :name => "index_users_on_last_request_at"
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
+  add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
   add_index "users", ["state"], :name => "index_users_on_state"
   add_index "users", ["studio_id"], :name => "index_users_on_studio_id"
 

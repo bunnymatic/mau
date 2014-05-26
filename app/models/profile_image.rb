@@ -15,7 +15,7 @@ class ProfileImage
   end
 
   def dir_prefix
-    @dir_prefix ||= object.class.name.downcase + 'data'
+    @dir_prefix ||= ((object.is_a? Studio) ? 'studiodata' : 'artistdata')
   end
 
   def dir
