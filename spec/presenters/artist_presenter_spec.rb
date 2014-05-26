@@ -68,7 +68,9 @@ describe ArtistPresenter do
 
   context 'with links' do
     before do
-      Artist.any_instance.stub(:url => 'https://safe.com', :facebook => 'http://facebookit.com', :instagram => 'instagram.com/me')
+      Artist.any_instance.stub(:url => 'https://safe.com', 
+                               :facebook => 'http://facebookit.com', 
+                               :instagram => 'instagram.com/me')
     end
     its(:has_links?) { should be_true }
     its(:links) { should eql [[:u_website, 'Website', 'https://safe.com'],

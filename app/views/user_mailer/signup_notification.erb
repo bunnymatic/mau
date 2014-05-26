@@ -1,8 +1,10 @@
-Your account has been created.
+<p>
+Your account on Mission Artists United has been created.
+</p>
+<p>
+Your username is <%= @user.login %>
+</p>
+<p>
+Before getting started, you must activate your account.  Click <a href="#@url">here:  <%= @url %></a>
+</p>
 
-  Username: <%= @user.login %>
-  Password: <%= @user.password %>
-
-Visit this url to activate your account:
-
-  <%= @url %>
