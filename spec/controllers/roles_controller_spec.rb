@@ -10,16 +10,19 @@ describe RolesController do
 
   describe 'non-admin' do
     [:index,:edit,:show].each do |endpoint|
-      before do
-        get endpoint
+      context "#{endpoint}" do
+        before do
+          get endpoint
+        end
+        it_should_behave_like 'not authorized'
       end
-      it_should_behave_like 'not authorized'
     end
   end
+
   describe 'authorized' do
     render_views
     before do
-      login_as :admin
+      login_as :admin, :record => true
     end
     describe 'GET index' do
       before do

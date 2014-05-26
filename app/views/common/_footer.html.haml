@@ -2,17 +2,16 @@
   #footer_copy &copy; mission artists united
   #footer_links
     %span
-      = link_to "faq", faq_url, :class => 'lkdark'
+      = link_to "faq", faq_path, :class => 'lkdark'
     %span
       = feedback_link "feedback", {:class => 'lkdark'}
     %span
-      = link_to "privacy", privacy_url, :class => 'lkdark'
+      = link_to "privacy", privacy_path, :class => 'lkdark'
     %span
-      = link_to "about", about_url, :class => 'lkdark'
+      = link_to "about", about_path, :class => 'lkdark'
     %span
-      = link_to "contact", contact_url, :class => 'lkdark'
+      = link_to "contact", contact_path, :class => 'lkdark'
     %span
       = link_to "credits", '#', :class => 'lkdark', :id => 'credits_lnk'
-
 
 = render "/common/feedback_form_templates"

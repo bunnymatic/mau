@@ -422,13 +422,6 @@ describe User do
 
   describe "forgot password methods" do
     context "artfan" do
-      it "create_reset_code should call mailer" do
-        UserMailer.should_receive(:reset_notification).with() do |f|
-          f.login.should eql users(:artfan).login
-          f.email.should include users(:artfan).email
-        end.and_return(double(:deliver! => true))
-        users(:artfan).create_reset_code
-      end
       it "create_reset_code creates a reset code" do
         users(:artfan).reset_code.should be_nil
         users(:artfan).create_reset_code
@@ -436,13 +429,6 @@ describe User do
       end
     end
     context "artist" do
-      it "create_reset_code should call mailer" do
-        ArtistMailer.should_receive(:reset_notification).with() do |f|
-          f.login.should eql artist1.login
-          f.email.should include artist1.email
-        end.and_return(double(:deliver! => true))
-        artist1.create_reset_code
-      end
       it "create_reset_code creates a reset code" do
         artist1.reset_code.should be_nil
         artist1.create_reset_code

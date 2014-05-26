@@ -474,25 +474,25 @@ describe MainController do
       end
       it "uses cms for parties" do
         docs = [:os_blurb,:os_preview_reception].map{|k| cms_documents(k)}
-        CmsDocument.should_receive(:where).at_least(2).and_return(docs)
+        expect(CmsDocument).to receive(:where).at_least(2).and_return(docs)
         get :open_studios
       end
-      context "while logged in as an art fan" do
-        let(:fan) { users(:maufan1) }
-        before do
-          @logged_in_user = login_as fan
-          get :open_studios
-        end
-        it_should_behave_like "logged in user"
+    end
+    context "while logged in as an art fan" do
+      let(:fan) { users(:maufan1) }
+      before do
+        @logged_in_user = login_as fan
+        get :open_studios
       end
-      context "while logged in as artist" do
-        let(:artist) { users(:artist1) }
-        before do
-          @logged_in_user = login_as artist
-          get :open_studios
-        end
-        it_should_behave_like "logged in user"
+      it_should_behave_like "logged in user"
+    end
+    context "while logged in as artist" do
+      let(:artist) { users(:artist1) }
+      before do
+        @logged_in_user = login_as artist
+        get :open_studios
       end
+      it_should_behave_like "logged in user"
     end
   end
 

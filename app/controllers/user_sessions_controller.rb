@@ -2,10 +2,10 @@
 class UserSessionsController < ApplicationController
 
   layout 'mau1col'
-  
+
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
-  
+
   before_filter :load_cms_content, :only => [:new, :create]
 
   def new
@@ -18,7 +18,7 @@ class UserSessionsController < ApplicationController
       }
     end
   end
-  
+
   def create
     respond_to do |fmt|
       fmt.html {
@@ -35,7 +35,7 @@ class UserSessionsController < ApplicationController
         redirect_to root_url
       }
     end
-  end  
+  end
 
   def destroy
     current_user_session.destroy

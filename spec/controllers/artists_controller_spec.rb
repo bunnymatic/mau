@@ -110,7 +110,7 @@ describe ArtistsController do
       let(:new_bio) { "this is the new bio" }
       let(:artist_info_attrs) { { :bio => new_bio } }
       before do
-        @logged_in_user = login_as(artist1)
+        @logged_in_user = login_as(artist1, :record => true)
       end
       context "submit" do
         context "post with new bio data" do
@@ -142,8 +142,7 @@ describe ArtistsController do
       context "update address" do
         let(:artist_info_attrs) { { :street => '100 main st' } }
         let(:street) { artist_info_attrs[:street] }
-        before(:each) do
-        end
+
         it "contains flash notice of success" do
           put :update, { :commit => 'submit', :artist => {:artist_info => artist_info_attrs}}
           flash[:notice].should eql "Update successful"
@@ -154,7 +153,7 @@ describe ArtistsController do
         end
         it 'publishes an update message' do
           Messager.any_instance.should_receive(:publish)
-          post :update, { :commit => 'submit', :artist => { :artist_info => {:street => 'wherever' }}}
+          put :update, { :commit => 'submit', :artist => { :artist_info => {:street => 'wherever' }}}
         end
       end
       context "update os status" do
@@ -289,7 +288,6 @@ describe ArtistsController do
         end
       end
       it "has the artists' bio textarea field" do
-        get :edit
         assert_select("textarea#artist_artist_info_bio", artist1_info.bio)
       end
       it "has heart notification checkbox checked" do
@@ -430,10 +428,13 @@ describe ArtistsController do
       before do
         login_as(artist1)
         @logged_in_user = artist1
-        get :show, :id => artist1.id
       end
-      it_should_behave_like "logged in user"
+
       context "looking at your own page" do
+        before do
+          get :show, :id => artist1.id
+        end
+        it_should_behave_like "logged in user"
         it "website is present" do
           assert_select("div#u_website a[href=#{artist1.url}]")
         end
@@ -451,7 +452,6 @@ describe ArtistsController do
         it "should not have extra messaging about email the artist" do
           expect(css_select(".notify-artist")).to be_empty
         end
-
       end
       context "looking at someone elses page" do
         before(:each) do
@@ -472,7 +472,6 @@ describe ArtistsController do
         before do
           @u = users(:quentin)
           @u.add_favorite(artist1)
-          login_as(artist1)
           get :show, :id => artist1.id
         end
         it { response.should be_success }

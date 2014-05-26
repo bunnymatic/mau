@@ -11,9 +11,9 @@ describe ArtistFeedsController do
   let(:feed_attrs) { {:url => url, :feed => feed_url, :active => active } }
 
   shared_examples_for 'artist feeds controller new or edit' do
-    it { response.should be_success }
+    it { expect(response).to be_success }
     it "renders new or edit template" do
-      response.should render_template 'new_or_edit'
+      expect(response).to render_template 'new_or_edit'
     end
     it 'has time fields for start/end and reception start/end' do
       assert_select('input#artist_feed_url')
@@ -22,11 +22,15 @@ describe ArtistFeedsController do
     end
   end
 
-  [:index, :edit, :update].each do |meth|
-    before do
-      get meth
+  context 'not authorized' do
+    [:index, :edit, :update].each do |meth|
+      context "#{meth}" do
+        before do
+          get meth
+        end
+        it_should_behave_like "not authorized"
+      end
     end
-    it_should_behave_like "not authorized"
   end
 
   describe 'as admin' do
@@ -38,7 +42,7 @@ describe ArtistFeedsController do
       before do
         get :index
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it 'has edit link for each feed' do
         ArtistFeed.all.each do |feed|
           assert_select ".feed_entry .controls a[href=/artist_feeds/#{feed.id}/edit]", 'edit'
@@ -60,13 +64,13 @@ describe ArtistFeedsController do
       before do
         get :edit, :id => artist_feeds(:twitter)
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
     end
     describe '#new' do
       before do
         get :new
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
     end
     describe '#create' do
       context 'good params' do
@@ -74,13 +78,12 @@ describe ArtistFeedsController do
           post :create, :artist_feed => feed_attrs
         end
         it 'redirects to index' do
-          response.should redirect_to artist_feeds_path
+          expect(response).to redirect_to artist_feeds_path
         end
         it 'creates the item' do
           feed = ArtistFeed.where(:url => url).first
-          feed.should be
-          feed.feed.should eql feed_url
-          feed.active.should be_true
+          expect(feed.feed).to eql feed_url
+          expect(feed.active).to eql true
         end
       end
       context 'bad inputs' do
@@ -90,7 +93,7 @@ describe ArtistFeedsController do
           post :create, :artist_feed => feed_attrs
         end
         it 'renders the form' do
-          response.should render_template 'new_or_edit'
+          expect(response).to render_template 'new_or_edit'
         end
         it 'renders the errors' do
           assert_select '.error-msg', /too short/
@@ -103,13 +106,13 @@ describe ArtistFeedsController do
           post :update, :id => artist_feeds(:inactive).id, :artist_feed => feed_attrs
         end
         it 'redirects to index' do
-          response.should redirect_to artist_feeds_path
+          expect(response).to redirect_to artist_feeds_path
         end
         it 'updates the item' do
           feed = ArtistFeed.find(artist_feeds(:inactive).id)
-          feed.url.should eql url
-          feed.feed.should eql feed_url
-          feed.active.should be_true
+          expect(feed.url).to eql url
+          expect(feed.feed).to eql feed_url
+          expect(feed.active).to eql true
         end
       end
       context 'with bad data' do
@@ -117,7 +120,7 @@ describe ArtistFeedsController do
           post :update, :id => artist_feeds(:inactive).id, :artist_feed => {:url => nil}
         end
         it 'redirects to index' do
-          response.should render_template 'new_or_edit'
+          expect(response).to render_template 'new_or_edit'
         end
         it 'sets errors on the feed' do
           expect(assigns(:feed).errors).to have_at_least(1).error
@@ -129,7 +132,7 @@ describe ArtistFeedsController do
       it "destroys and redirects" do
         expect{
           delete :destroy, :id => ArtistFeed.first.id
-          response.should redirect_to artist_feeds_url
+          expect(response).to redirect_to artist_feeds_url
         }.to change(ArtistFeed,:count).by(-1)
       end
     end

@@ -24,10 +24,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user_session, :current_user, :logged_in?, :current_artist
 
-  before_filter :track_path
-  def track_path
-    puts '%s => %s' % [request.path, request.referrer]
-  end
+  # before_filter :track_path
+  # def track_path
+  #   puts '%s => %s' % [request.path, request.referrer]
+  # end
 
   def store_location
     return unless request.format == 'text/html'
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
     return @current_user_session if defined? @current_user_session
     @current_user_session = UserSession.find
   end
-  
+
   def current_user
     return @current_user if defined? @current_user
     @current_user = current_user_session.try(:user)
@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
-  alias :user_required :require_user 
+  alias :user_required :require_user
 
   def require_no_user
     if current_user

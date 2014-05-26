@@ -11,7 +11,7 @@ Mau::Application.routes.draw do
   match '/logout' => 'user_sessions#destroy', :as => :logout
   match '/login' => 'user_sessions#new', :as => :login
 
-  
+
   resources :studios do
     member do
       post :upload_profile

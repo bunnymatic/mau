@@ -23,7 +23,7 @@ describe MAUFan do
       end
 
     end
-    
+
     context 'with nothing' do
       let(:fan_attrs) { {} }
 

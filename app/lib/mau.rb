@@ -1,2 +1,2 @@
-module Mau  
+module Mau
 end

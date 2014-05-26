@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
 
   scope :active, where(:state => 'active')
   scope :pending, where(:state => 'pending')
-  
+
   before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_destroy :delete_favorites

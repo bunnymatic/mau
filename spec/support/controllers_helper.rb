@@ -22,9 +22,6 @@ end
 
 # logged in - get edit page
 shared_examples_for "logged in edit page" do
-  before do
-    get :edit
-  end
   it "has at least 6 open-close divs" do
     assert_select('.open-close-div.acct')
   end

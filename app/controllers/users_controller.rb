@@ -149,7 +149,7 @@ class UsersController < ApplicationController
         else
           flash[:error] = "Password not changed"
         end
-        
+
       else
         flash[:error] = "New Password mismatch"
       end
