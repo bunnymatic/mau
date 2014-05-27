@@ -34,7 +34,7 @@
                           = link_to 'map', @artist.map_url
                           )
                     %div #{@artist.city}
-                - if !@artist.is_current_user?
+                - if !@artist.is_current_user? && current_user
                   - if @artist.allows_email_from_artists?
                     .div-left
                       %span
