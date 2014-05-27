@@ -32,16 +32,16 @@ module MailChimp
     email_parts   = email.split('@')
     email_address = CGI::escape(email_parts[0]) + '@' + email_parts[1]
 
-    gb       = Gibbon.new(API_KEY)
-    response = gb.listSubscribe(
-      :id                => list_id,
-      :email_address     => email_address,
-      :merge_vars        => mailchimp_additional_data,
-      :email_type        => 'text',
-      :double_optin      => false,
-      :update_existing   => true,
+    gb       = Gibbon::API.new(API_KEY)
+    response = gb.lists.subscribe(
+      :id => list_id,
+      :email => {:email => email_address},
+      :merge_vars => mailchimp_additional_data,
+      :email_type => 'text',
+      :double_optin => false,
+      :update_existing => true,
       :replace_interests => false,
-      :send_welcome      => true
+      :send_welcome => true
     )
 
     raise "Failed to subscribe: " + response.to_s if !response
