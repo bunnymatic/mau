@@ -13,10 +13,6 @@ MAU.CreditsPopup = class CreditsPopup
     @creditsDivId = 'credits_div'
     @creditsTriggerId = 'credits_lnk'
 
-    #M.CREDITS_BG = 'credits_bg';
-    #M.CREDITS_BG_CONTAIN = 'credits_bg_contain';
-    #M.CREDITS_DIV = 'credits_div';
-
     # init credits popup
     fq = document.getElementById(@creditsTriggerId)
     if (fq)
@@ -27,7 +23,7 @@ MAU.CreditsPopup = class CreditsPopup
         bg = MAU.Utils.createElement 'div',  id: @backgroundId 
         cn = MAU.Utils.createElement 'div',  id: @backgroundContainerId
         d = MAU.Utils.createElement 'div', id: @creditsDivId
-        hd = MAU.Utils.createElement 'div', 'class':'credits-hdr'
+        hd = MAU.Utils.createElement 'div', {'class':'credits-hdr'}
         hd.innerHTML = 'Credits'
         bd = MAU.Utils.createElement('div', {'class':'credits-bdy'})
         version = MAU.versionString || 'Charger 6';
@@ -58,8 +54,14 @@ MAU.CreditsPopup = class CreditsPopup
         w = dimensions.width;
         h = dimensions.height;
 
-        windowSize = document.viewport.getDimensions()
-        soff = document.viewport.getScrollOffsets();
+        windowSize = {
+          width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+          height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+        };
+        soff = {
+          left: body.scrollLeft,
+          top: body.scrollTop
+        };
         pw = windowSize.width + soff.left;
         ph = windowSize.height + soff.top;
         tp = '' + ((ph/2) - (h/2)) + "px";

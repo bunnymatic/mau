@@ -2934,14 +2934,13 @@ form#feedback_form .error {
 #credits_bg_contain {
   position: relative;
   width: 430px;
+  z-index: 41;
 }
 
 #credits_bg {
   z-index:40;
 }
-#credits_bg_contain {
-  z-index: 41;
-}
+
 #credits_div {
   @include small-rounded-corners;
   @include floating-window-border;
@@ -2962,7 +2961,6 @@ form#feedback_form .error {
   .credits-bdy {
     color: $xlightgray;
   }
-
   .credits-img {
     width:350px;
     text-align:center; border:0px;
