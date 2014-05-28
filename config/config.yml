@@ -21,14 +21,14 @@ development:
        tag_frequency: 3600
        new_art: 300
    # mailchimp key is on jon's company account
-   mailchimp_api_key: us2-a10070c7a519efbd75c4136a2-f8d679dde8   
+   mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
    mailchimp_artist_list_id: f8d679dde8
    mailchimp_fan_list_id: f8d679dde8
    oslive: 201404
 
 acceptance:
    site_url: acceptance.missionartistsunited.com
-   mailchimp_api_key: us2-a10070c7a519efbd75c4136a2-f8d679dde8   
+   mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2
    mailchimp_artist_list_id: f8d679dde8
    mailchimp_fan_list_id: f8d679dde8
 
