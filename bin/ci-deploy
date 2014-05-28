@@ -42,3 +42,4 @@ fi
 
 # Deploy to Acceptance
 bundle exec cap acceptance deploy
+bundle exec cap acceptance unicorn:restart
