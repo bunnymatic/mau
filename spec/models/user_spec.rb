@@ -37,7 +37,6 @@ describe User do
   it{ should ensure_length_of(:firstname).is_at_most(100) }
   it{ should ensure_length_of(:lastname).is_at_most(100) }
 
-  it_should_behave_like MailChimp
   it_should_behave_like ImageDimensions
 
   context 'make sure our factories work' do
@@ -457,14 +456,6 @@ describe User do
         @mail_data['CREATED'].should eql artist1.activated_at
         @mail_data['FNAME'].should eql artist1.firstname
         @mail_data['LNAME'].should eql artist1.lastname
-      end
-    end
-    describe 'mailchimp_list_name' do
-      it 'returns Mission Artists United List for artists' do
-        artist1.send(:mailchimp_list_name).should eql MailChimp::ARTISTS_LIST
-      end
-      it 'returns events only list for fans' do
-        users(:maufan1).send(:mailchimp_list_name).should eql MailChimp::FANS_LIST
       end
     end
     describe 'subscribe and welcome' do
