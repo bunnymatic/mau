@@ -12,8 +12,12 @@ When /I visit the login page/ do
   visit '/login'
 end
 
+Then(/^I do not see an error message$/) do
+  expect(page).to_not have_selector '.error-msg'
+end
+
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  expect(page).to have_content msg
+  expect(page).to have_selector '.error-msg', :text => msg
 end
 
 Then(/^I see an flash notice "(.*?)"$/) do |msg|
