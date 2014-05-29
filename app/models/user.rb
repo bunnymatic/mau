@@ -51,13 +51,13 @@ require File.join(Rails.root, 'app','lib', 'mailchimp')
 
 class User < ActiveRecord::Base
 
-  # here are names we should probably capture or disallow before we release
-  # the site.  maybe we make a migration to create these accounts
-  RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','delete_art',
-                             'deactivate','add','new','view','create','update',
-                             'arrange_art', 'setarrangement',
-                             'admin','root','mau', 'mauadmin','maudev',
-                             'jon','mrrogers','trish','trishtunney' ]
+  # I was initially worried about routes here - i think we should be fine moving forward 
+  #
+  # RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','delete_art',
+  #                            'deactivate','add','new','view','create','update',
+  #                            'arrange_art', 'setarrangement',
+  #                            'admin','root','mau', 'mauadmin','maudev',
+  #                            'jon','mrrogers','trish','trishtunney' ]
 
 
   include MailChimp
@@ -128,7 +128,6 @@ class User < ActiveRecord::Base
   validates_length_of       :lastname, :maximum => 100, :allow_nil => true
 
   # custom validations
-  validate :validate_username
   validate :validate_email
 
   attr_accessible :login, :email, :password, :password_confirmation,
@@ -221,16 +220,6 @@ class User < ActiveRecord::Base
     errors.add(:email, 'is an invalid email') unless BlacklistDomain::is_allowed?(email)
   end
 
-  def validate_username
-    errors.add(:login, 'you requested is a reserved name.  Try a different login') unless User.valid_username?(login)
-  end
-
-  def self.valid_username?(user)
-    if not user or user.empty?
-      return false
-    end
-    return !RESTRICTED_LOGIN_NAMES.include?(user.downcase)
-  end
 
   def resend_activation
     @resent_activation = true

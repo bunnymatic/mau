@@ -108,17 +108,6 @@ describe User do
       user.should be_valid
     end
 
-    context 'with a reserved login name' do
-      let(:reserved) { User::RESTRICTED_LOGIN_NAMES }
-      it "should be not allow 'reserved' names for users" do
-        reserved.each do |login|
-          user = FactoryGirl.build(:user, :login => login)
-          user.should_not be_valid
-          user.should have_at_least(1).error_on(:login)
-        end
-      end
-    end
-
     context 'with a bad email' do
       it "should not allow 'bogus email' for email address" do
         user = FactoryGirl.build(:user, :email => 'bogus email')
