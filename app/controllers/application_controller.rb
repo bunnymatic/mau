@@ -53,6 +53,7 @@ class ApplicationController < ActionController::Base
   end
 
   def logout
+    session[:return_to] = nil
     current_user_session.try(:destroy)
   end
 
@@ -63,7 +64,7 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default = nil)
     path = session.delete(:return_to) || default || root_path
     redirect_to path
-       session[:return_to] = nil
+    session[:return_to] = nil
   end
 
   def require_user

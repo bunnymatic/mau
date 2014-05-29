@@ -3,8 +3,8 @@ ruby '2.1.1'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
-gem 'aasm'
-gem "nokogiri" #, '~> 1.5.0' # 1.6.0 needs ruby 1.9.2
+# gem 'aasm'
+gem "nokogiri", '~> 1.6'
 gem "htmlentities"
 gem "json"
 gem 'mysql2'
@@ -29,8 +29,8 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
-gem 'will_paginate' #, '~> 2.3.16'
-gem 'browser', "= 0.1.6" # 0.2.x does not support ruby 1.8.7
+gem 'will_paginate'
+gem 'browser'
 gem 'geokit'
 gem 'geokit-rails'
 gem 'gmaps4rails'

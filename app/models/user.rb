@@ -51,7 +51,7 @@ require File.join(Rails.root, 'app','lib', 'mailchimp')
 
 class User < ActiveRecord::Base
 
-  # I was initially worried about routes here - i think we should be fine moving forward 
+  # I was initially worried about routes here - i think we should be fine moving forward
   #
   # RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','delete_art',
   #                            'deactivate','add','new','view','create','update',

@@ -26,7 +26,7 @@
                   = render '/common/facebook_like_button'
               .mau_buttons
                 - if !current_user || (@art_piece.artist != current_user)
-                  %a.favorite_this{:href => "#", :fav_type => "ArtPiece", :fav_id => @art_piece.id, :title => "Add this art piece to your favorites"}
+                  %a.favorite_this{:href => "#", "fav-type" => "ArtPiece", "ng-attr-fav-id" => "{{currentArtPiece.id}}", :title => "Add this art piece to your favorites"}
                     #num_favorites{ "ng-bind" => "currentArtPiece.favorites.count" }
                     .micro-icon.heart
             - if Conf.show_lightbox_feature
