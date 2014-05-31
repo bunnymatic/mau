@@ -30,6 +30,9 @@ describe EventsController do
         it 'orders events by start date inverse' do
           expect(assigns(:events).map{|ev| ev.event.stime.to_i}).to be_monotonically_decreasing
         end
+        it 'only includes published events' do
+          expect(assigns(:events).all?(&:published?)).to eql true
+        end
 
       end
       context '.json' do
@@ -51,6 +54,16 @@ describe EventsController do
         end
         it { expect(response).to redirect_to events_path(:format => :atom) }
       end
+
+      context '.rss' do
+        before do
+          get :index, :format => 'atom'
+        end
+        it 'only includes published events' do
+          expect(assigns(:events).all?(&:published?)).to eql true
+        end
+      end
+
     end
 
     describe '#show' do

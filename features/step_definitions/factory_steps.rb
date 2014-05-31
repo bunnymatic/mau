@@ -48,7 +48,10 @@ Given /there are tags on the art/ do
 end
 
 Given /there are events in the system/ do
-  @events = [ FactoryGirl.create_list(:event, 5, :published),
+  @events = [ Event.all, 
+              FactoryGirl.create_list(:event, 5, :published),
               FactoryGirl.create_list(:event, 5, :with_reception, :published),
-              FactoryGirl.create_list(:event, 5) ].flatten
+              FactoryGirl.create_list(:event, 5),
+            ].flatten
+  @published_events = @events.select{|ev| ev.published_at.present?}
 end

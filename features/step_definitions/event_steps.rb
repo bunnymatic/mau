@@ -29,7 +29,8 @@ When(/^I click on the first month link/) do
 end
 
 Then(/^I see a feed of events/) do
-  published_events = @events.select{|e| e.published_at}
+  published_events = @events.select{|e| e.published_at.present?}
+
   expect(page).to have_selector 'entry content', :count => published_events.count
   expect(page).to have_selector 'entry id', :count => published_events.count
   expect(page).to have_content published_events.first.title
