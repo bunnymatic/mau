@@ -1,4 +1,4 @@
 %ul{"data-role"=>"listview"}
-- @studios.each do |s|
-  - if s.with_active_artists?
-    = render_as_mobile_list_item "#{s.name} (#{s.artists.active.count})", :link => s.studio_path
+  - @studios.each do |s|
+    - if s.with_active_artists?
+      = render_as_mobile_list_item "#{s.name} (#{s.artists.active.count})", :link => s.studio_path
