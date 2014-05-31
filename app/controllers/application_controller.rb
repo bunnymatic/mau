@@ -191,12 +191,7 @@ class ApplicationController < ActionController::Base
 
     @browser_as_class = browser.name.downcase.gsub(' ', '_') #_class(self.request)
 
-    # set corners
-    if browser.ie7? || browser.ie8?
-      @logo_img = "/images/tiny-colored.gif"
-    else
-      @logo_img = (Rails.env != 'acceptance') ? "/images/tiny-colored.png" : "/images/tiny-colored-acceptance.png"
-    end
+    @logo_img = (Rails.env != 'acceptance') ? "/images/tiny-colored.png" : "/images/tiny-colored-acceptance.png"
   end
 
   private

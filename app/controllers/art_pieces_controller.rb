@@ -22,7 +22,7 @@ class ArtPiecesController < ApplicationController
 
   def show
     @facebook_required = true
-    @pinterest_required = true && !browser.ie6? && !browser.ie7? && !browser.ie8?
+    @pinterest_required = true && browser.modern?
 
     if is_mobile?
       redirect_to artist_path(@art_piece.artist) and return

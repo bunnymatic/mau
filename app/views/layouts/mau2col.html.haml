@@ -7,8 +7,8 @@
     = render :partial => '/common/ganalytics'
     = render :partial => '/common/javascripts'
   %body{ :class => "two_column %s" % @browser_as_class }
-    - if browser.ie6? || browser.ie7?
-      = render :partial => '/ie7_warning'
+    - unless browser.modern?
+      = render :partial => '/old_browser_warning'
     = render :partial => '/noscript_msg'
     #bg
     = render :partial => '/login_header_bar'

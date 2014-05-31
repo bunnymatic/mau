@@ -37,7 +37,9 @@ class Medium < ActiveRecord::Base
     # compute max/min ct
     maxct = meds.map{|m| m['ct'].to_i}.max
 
-    maxct = 1.0 if maxct <= 0
+    if !maxct || maxct <=0
+      maxct = 1.0
+    end
 
     # normalize frequency to 1
     normalize(meds, 'ct', maxct) if _normalize
