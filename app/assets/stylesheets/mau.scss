@@ -10,9 +10,9 @@ body {
   padding: 0;
   #noscript, #old_browser_warning {
     width: $fullwidth;
-    margin: 20px auto;
-    padding: 10px;
-    background: #bbb;
+    margin: 0 auto 20px;
+    padding: 7px 10px 10px;
+    background: #edb;
     color: $darkgray;
     border: 2px solid $error_red;
     a {
