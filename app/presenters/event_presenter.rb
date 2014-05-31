@@ -2,7 +2,7 @@ class EventPresenter
 
   include TzHelper
 
-  delegate :id, :url, :description, :reception_starttime, :reception_endtime, :starttime, :color, :name,
+  delegate :id, :url, :updated_at, :description, :reception_starttime, :reception_endtime, :starttime, :color, :name,
            :venue, :map_link, :address_hash, :endtime, :title, :start_at, :end_at, :clip_range,
            :published?, :in_progress?, :future?, :past?, :to => :event
 
@@ -11,6 +11,10 @@ class EventPresenter
   def initialize(view_context, event)
     @view_context = view_context
     @event = event
+  end
+
+  def feed_description
+    MarkdownUtils.markdown("#{event.venue} #{event.address}\n\n" + event.description.to_s)
   end
 
   def month_year_key
@@ -78,6 +82,10 @@ class EventPresenter
     @display_event_time ||= formatted_fulltime
   end
 
+  def display_published_time
+    @display_published_time ||= "Published: #{format_time_as_date(@event.published_at)}" if @event.published_at
+  end
+
   def display_reception_time
     @display_reception_time ||= formatted_reception_time
   end
@@ -94,15 +102,23 @@ class EventPresenter
   SHORT_DATE_FORMAT = "%Y-%m-%d"
 
   def simple_start_time
-    in_mau_time(event.stime).strftime(SHORT_DATE_FORMAT)
+    format_time_as_date(event.stime)
+  end
+
+  def format_time_as_date(time)
+    in_mau_time(time).strftime(SHORT_DATE_FORMAT) if time
+  end
+
+  def format_time_as_date_time(time)
+    in_mau_time(time).strftime(DATE_TIME_FORMAT) if time
   end
 
   def formatted_starttime
-    @formatted_starttime = in_mau_time(starttime).strftime(DATE_TIME_FORMAT)
+    @formatted_starttime = format_time_as_date_time(starttime)
   end
 
   def formatted_reception_starttime
-    @formatted_reception_starttime = in_mau_time(reception_starttime).strftime(DATE_TIME_FORMAT) if reception_starttime
+    @formatted_reception_starttime = format_time_as_date_time(reception_starttime)
   end
 
   def in_one_day?(t0, t1)

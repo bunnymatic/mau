@@ -18,6 +18,12 @@ body.events.admin {
         }
         .title {
           float: left;
+          .published_at {
+            letter-spacing: 0;
+            font-size: small;
+            font-weight: normal;
+            color: $mediumgray;
+          }
         }
         .info {
           float:right;

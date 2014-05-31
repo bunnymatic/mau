@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140518235647) do
+ActiveRecord::Schema.define(:version => 20140531190721) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -147,6 +147,8 @@ ActiveRecord::Schema.define(:version => 20140518235647) do
     t.datetime "published_at"
     t.datetime "reception_starttime"
     t.datetime "reception_endtime"
+    t.datetime "created_at",          :default => '2014-05-31 19:13:55'
+    t.datetime "updated_at",          :default => '2014-05-31 19:13:55'
   end
 
   create_table "favorites", :force => true do |t|
