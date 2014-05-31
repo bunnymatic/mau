@@ -66,7 +66,6 @@ class User < ActiveRecord::Base
   include User::Authorization
 
   after_create :tell_user_they_signed_up
-  #after_save :notify_user_about_state_change
 
   scope :active, where(:state => 'active')
   scope :pending, where(:state => 'pending')
@@ -90,15 +89,6 @@ class User < ActiveRecord::Base
 
   has_many :favorites, :class_name => 'Favorite' do
      def to_obj
-       # rails 3.1
-       # you'll need this
-       # http://stackoverflow.com/questions/7001810/alternative-method-for-proxy-owner-in-activerecord
-
-       # < Rails 3.0
-       # (proxy_owner.favorites.map { |f|
-       #    f.to_obj
-       #  }).reject(&:nil?)
-
        proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
      end
   end
@@ -133,19 +123,6 @@ class User < ActiveRecord::Base
   attr_accessible :login, :email, :password, :password_confirmation,
    :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume,
    :profile_image, :image_height, :image_width
-
-
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  #
-  # uff.  this is really an authorization, not authentication routine.
-  # We really need a Dispatch Chain here or something.
-  # This will also let us return a human error message.
-  #
-  # def self.authenticate(login, password)
-  #   return nil if login.blank? || password.blank?
-  #   u = find_by_login(login.downcase) # need to get the salt
-  #   u && u.authenticated?(password) ? u : nil
-  # end
 
   def active?
     state == 'active'

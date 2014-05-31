@@ -24,7 +24,7 @@ development:
    mailchimp_api_key: 20b864bd196695dda00c0ea3dcba8534-us2
    mailchimp_artist_list_id: f8d679dde8
    mailchimp_fan_list_id: f8d679dde8
-   oslive: 201404
+   oslive: 201210
 
 acceptance:
    site_url: acceptance.missionartistsunited.com
