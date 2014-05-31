@@ -6,8 +6,8 @@ class EventsController < ApplicationController
   layout 'mau2col'
 
   def index
-
-    events = EventsPresenter.new(view_context, Event.published, params['m'])
+    raw_events = Event.published.by_starttime.reverse
+    events = EventsPresenter.new(view_context, raw_events, params['m'])
 
     respond_to do |format|
       format.html {
@@ -21,8 +21,19 @@ class EventsController < ApplicationController
         render :layout => 'mobile'
       }
       format.json  {
-        render :json => events.map(&:event)
+        render :json => raw_events
       }
+      format.atom { 
+        @title = "MAU Events"
+        # the news items
+        @events = events
+
+        # this will be our Feed's update timestamp
+        @updated = @events.first.try(:updated_at)
+        render :layout => false 
+      }
+      # we want the RSS feed to redirect permanently to the ATOM feed
+      format.rss { redirect_to events_path(:format => :atom), :status => :moved_permanently }
     end
   end
 

@@ -44,6 +44,13 @@ describe EventsController do
         end
 
       end
+      
+      context '.rss' do
+        before do
+          get :index, :format => 'rss'
+        end
+        it { expect(response).to redirect_to events_path(:format => :atom) }
+      end
     end
 
     describe '#show' do

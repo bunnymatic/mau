@@ -2,6 +2,8 @@ FactoryGirl.define do
   sequence(:title) { |n| "Event title #{n}" }
   factory :event do
     title
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
     description { Faker::Lorem.paragraphs(1).join }
     tweet { Faker::Lorem.words(10).join(' ') }
     venue { Faker::Company.name }
