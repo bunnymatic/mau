@@ -14,7 +14,7 @@ class EventPresenter
   end
 
   def feed_description
-    MarkdownUtils.markdown("#{event.venue} #{event.address}\n\n" + event.description.to_s)
+    @view_context.render 'event', :event => self
   end
 
   def month_year_key

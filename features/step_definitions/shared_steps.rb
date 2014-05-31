@@ -28,6 +28,10 @@ When(/^I visit the "(.*?)" page$/) do |titleized_path_name|
   visit path_from_title(titleized_path_name)
 end
 
+When(/^I visit "(.*?)"$/) do |path|
+  visit path
+end
+
 Then(/^I see the "(.*?)" page$/) do |titleized_path_name|
   expect(current_path).to eql path_from_title(titleized_path_name)
 end
