@@ -6,8 +6,8 @@ Favorites =
     favorites = jQuery('.favorite_this')
     favorites.bind 'click', (ev) ->
       lnk = jQuery(this)
-      tp = lnk.attr('fav_type');
-      id = lnk.attr('fav_id');
+      tp = lnk.attr('fav-type');
+      id = lnk.attr('fav-id');
       if (tp && id) 
          MAU.Utils.post_to_url('/users/add_favorite', {fav_type: tp,fav_id: id} );
 
@@ -33,8 +33,8 @@ Favorites =
 
   execute_delete: (ev) ->
     lnk = jQuery(ev.target)
-    tp = lnk.attr('fav_type')
-    id = lnk.attr('fav_id')
+    tp = lnk.attr('fav-type')
+    id = lnk.attr('fav-id')
     if (tp && id) 
       ev.preventDefault()
       MAU.Utils.post_to_url('/users/remove_favorite', {fav_type: tp,fav_id: id} )

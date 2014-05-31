@@ -24,7 +24,7 @@ class UserSessionsController < ApplicationController
       fmt.html {
         @user_session = UserSession.new(params[:user_session])
         if @user_session.save
-          flash[:notice] = "Login successful!"
+          flash[:notice] = "You're in!"
           redirect_back_or_default root_url
         else
           flash[:warning] = "We were unable to log you in.  Check your username and password and try again."
