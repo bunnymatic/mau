@@ -297,7 +297,7 @@ h4, h5 {
     .apple_pagination a:hover, .apple_pagination a:focus {
       text-decoration: underline; }
 
-.show_more, .full_site {
+.show_less, .show_more, .full_site {
   text-align: center;
   padding: 12px 0;
   background-color: $xdarkgray;
@@ -315,9 +315,15 @@ h4, h5 {
   }
 }
 
-.show_more {
-  background-color: $darkgray;
-  a.ui-link {
-    background-color: $xdarkgray;
+.controls { 
+  .show_more, .show_less {
+    line-height:20px;
+    height: 20px;
+    width: 49%;
+    float:left;
+    background-color: $darkgray;
+    a.ui-link {
+      background-color: $xdarkgray;
+    }
   }
 }

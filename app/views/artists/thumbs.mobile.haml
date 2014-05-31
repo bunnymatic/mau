@@ -2,6 +2,11 @@
   %ul.artists-thumbs
     = render :partial => 'mobile_thumbs'
 
-- if !params[:partial] && (@artists.total_pages != @artists.current_page)
-  .show_more
-    = link_to('show more', '#')
+.controls
+  - if !params[:partial] && (@artists.current_page > 1)
+    .show_less
+      = link_to('<<', "/artists/thumbs?page=#{@artists.current_page - 1}")
+  - if !params[:partial] && (@artists.total_pages != @artists.current_page)
+    .show_more
+      = link_to('>>', "/artists/thumbs?page=#{@artists.current_page + 1}")
+

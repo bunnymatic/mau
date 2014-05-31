@@ -296,7 +296,11 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to root_path }
       format.mobile {
-        render :layout => 'mobile'
+        if params[:partial].present?
+          render :layout => false
+        else 
+          render :layout => 'mobile'
+        end
       }
     end
   end
