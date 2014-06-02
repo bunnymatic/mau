@@ -22,25 +22,15 @@ end
 
 # logged in - get edit page
 shared_examples_for "logged in edit page" do
-  it "has at least 6 open-close divs" do
+  it "has at least open-close divs with edit, notification, password, links and deactivation section" do
     assert_select('.open-close-div.acct')
-  end
-  it "has the info edit section" do
     assert_select('.open-close-div #info_toggle')
     assert_select('#info')
-  end
-  it "has the notification section" do
     assert_select('.open-close-div #notifications_toggle')
     assert_select('#notifications')
-  end
-  it "has the change password section" do
     assert_select('form[action=/change_password_update]')
     assert_select('#passwd')
-  end
-  it "has the deactivate section" do
     assert_select('#deactivate')
-  end
-  it "has the links edit section" do
     assert_select('.open-close-div #links_toggle')
     assert_select('#links')
   end
@@ -68,25 +58,13 @@ end
 
 shared_examples_for 'logged in artist' do
   describe "nav" do
-    it 'has a nav bar' do
+    it 'has a nav bar with artist links' do
       assert_select('#nav_bar')
-    end
-    it 'has a my mau link' do
       assert_select("#mymaunav li.dir a[href=#{artist_path(@logged_in_artist)}]", 'my&nbsp;mau')
-    end
-    it 'my mau link has at least 5 subnodes' do
       assert_select('#mymaunav li.dir ul li.leaf', :minimum => 5)
-    end
-    it 'has edit link' do
       assert_select("#mymaunav li.leaf a[href=#{edit_artist_path(@logged_in_artist)}]")
-    end
-    it 'has arrange art link' do
       assert_select("#mymaunav li.leaf a[href=#{arrange_art_artists_path}]")
-    end
-    it 'has delete art link' do
       assert_select("#mymaunav li.leaf a[href=#{delete_art_artists_path}]")
-    end
-    it 'has my favorites link' do
       assert_select("#mymaunav li.leaf a[href=#{favorites_user_path(@logged_in_artist)}]")
     end
   end
@@ -104,15 +82,13 @@ shared_examples_for "logged in as admin" do
   it "shows a link to the dashboard" do
     assert_select("#admin_nav a.lkdark[href=#{admin_path}]", 'dashboard')
   end
-  %w{ os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
-    it "shows a link to admin/#{admin_link}" do
+  it "shows a link to admin pages" do
+    %w{ os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
       assert_select "#admin_nav a.lkdark[href=/admin/#{admin_link}]", admin_link
     end
   end
-  %w{ roles }.each do |direct_link|
-    it "shows a link to /#{direct_link}" do
-      assert_select "#admin_nav a.lkdark[href=/#{direct_link}]", direct_link
-    end
+  it "shows link to role management" do
+    assert_select "#admin_nav a.lkdark[href=/roles]"
   end
 end
 
@@ -127,56 +103,32 @@ shared_examples_for "redirects to login" do
 end
 
 shared_examples_for "not logged in" do
-  it "header bar should have login link" do
-    assert_select("#login_toplink a[href=/login]")
-  end
-  it "header bar should have signup link" do
+  it 'header includes login, signup and artists nav with links to tag/media search' do
+    assert_select("#login_toplink a[href=/login]", :include_text => "join in")
     assert_select("#login_toplink a[href=/signup]")
-  end
-  it "header has artists section" do
     assert_select("ul#artistsnav")
-  end
-  it "artists section has by tag and by medium" do
     assert_select("ul#artistsnav .leaf a[href=#{media_path :m => 'a'}]")
     assert_select("ul#artistsnav .leaf a[href=#{art_piece_tags_path :m => 'a'}]")
   end
+
   context 'open studios section' do
-    it 'renders open studios link' do
+    it 'renders open studios links' do
       assert_select "ul#osnav .dir a[href=#{open_studios_path}]"
-    end
-    it 'renders a link to open studios participants' do
       assert_select "ul#osnav ul li.leaf a[href=#{artists_path(:osonly => 1)}]"
-    end
-    it 'renders a link to open studios map' do
       assert_select "ul#osnav ul li.leaf a[href=#{map_artists_path(:osonly => 1)}]"
-    end
-    it 'renders a link to plug your event' do
       assert_select "ul#osnav ul li.leaf a[href=#{login_path}]"
-    end
-    it 'renders a link to resources' do
       assert_select "ul#osnav ul li.leaf a[href=/resources]"
     end
   end
 
   context 'studios section' do
-    it 'renders studios link' do
+    it 'renders studio related links' do
       assert_select "ul#studionav .dir a[href=#{studios_path}]", 'spaces'
-    end
-    it 'renders a link to group studios' do
       assert_select "ul#studionav ul li.leaf a[href=#{studios_path}]"
-    end
-    it 'renders a link to indy studios' do
       assert_select "ul#studionav ul li.leaf a[href=#{studio_path(0)}]"
-    end
-    it 'renders a link to venues' do
       assert_select "ul#studionav ul li.leaf a[href=#{venues_path}]"
     end
   end
-
-  it "nav bar suggests join in" do
-    assert_select("div ul#mymaunav li.dir a[href=/login]", :include_text => "join in")
-  end
-
 end
 
 shared_examples_for 'standard sidebar layout' do

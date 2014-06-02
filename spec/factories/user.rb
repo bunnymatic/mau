@@ -22,6 +22,13 @@ FactoryGirl.define do
       activation_code 'factory_activation_code'
     end
 
+    trait :manager do
+      after(:create) do |u|
+        u.roles << (Role.find_by_role(:manager) || FactoryGirl.create(:role, :role => :manager))
+        u.save!
+      end
+    end
+
     trait :editor do
       after(:create) do |u|
         u.roles << (Role.find_by_role(:editor) || FactoryGirl.create(:role, :role => :editor))

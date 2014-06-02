@@ -144,7 +144,7 @@ class ArtPiece < ActiveRecord::Base
       max = artist.max_pieces
       cur = artist.art_pieces.length
       del = 0
-      while cur > max
+      while cur.to_i > max
         artist.art_pieces.first.destroy
         cur = cur - 1
         del = del + 1
