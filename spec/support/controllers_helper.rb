@@ -71,25 +71,22 @@ shared_examples_for 'logged in artist' do
 end
 
 shared_examples_for "logged in as editor" do
+  it "shows a link to the dashboard" do
+    assert_select("#admin_nav a.lkdark[href=#{admin_path}]", 'dashboard')
+  end
 end
 
 shared_examples_for "logged in as admin" do
   it_should_behave_like 'logged in as editor'
 
-  it "shows the admin bar" do
+  it "shows the admin bar with admin links" do
     assert_select("#admin_nav")
-  end
-  it "shows a link to the dashboard" do
-    assert_select("#admin_nav a.lkdark[href=#{admin_path}]", 'dashboard')
-  end
-  it "shows a link to admin pages" do
     %w{ os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
       assert_select "#admin_nav a.lkdark[href=/admin/#{admin_link}]", admin_link
     end
-  end
-  it "shows link to role management" do
     assert_select "#admin_nav a.lkdark[href=/roles]"
   end
+
 end
 
 shared_examples_for 'login required' do

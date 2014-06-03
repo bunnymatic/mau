@@ -32,10 +32,9 @@ Mau::Application.routes.draw do
     end
   end
 
-  resources :art_piece_tags, :only => [:index, :show, :edit, :destroy] do
+  resources :art_piece_tags, :only => [:index, :show] do
     collection do
       post :autosuggest # autocomplete for prototype doesn't easily do ajax with authenticity token :(
-      get :cleanup
     end
   end
 
@@ -138,6 +137,12 @@ Mau::Application.routes.draw do
   match '/error' => 'error#index', :as => :error
 
   namespace :admin do
+    resources :art_piece_tags, :only => [:index, :destroy] do
+      collection do
+        get :cleanup
+      end
+    end
+
     resources :studios, :only => [:index, :new, :edit, :create, :update, :destroy] do
       member do
         post :upload_profile
@@ -158,7 +163,6 @@ Mau::Application.routes.draw do
 
   match '/admin/artists/update' => 'artists#admin_update', :as => :admin_update_artists
   match '/admin/artists' => 'artists#admin_index', :as => :admin_artists
-  match '/admin/tags' => 'art_piece_tags#admin_index', :as => :admin_tags
   match '/admin/media' => 'media#admin_index', :as => :admin_media
   match '/admin/favorites' => 'favorites#index', :as => :admin_favorites
   match '/admin/featured_artist' => 'admin#featured_artist', :as => :get_next_featured, :method => 'post'

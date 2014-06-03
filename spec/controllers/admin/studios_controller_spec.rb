@@ -143,7 +143,7 @@ describe Admin::StudiosController do
           tag.first.attributes['value'].should eql studio.url
         end
         assert_select 'form input#studio_name' do |tag|
-          tag.first.attributes['value'].should eql studio.name
+          tag.first.attributes['value'].should eql CGI.escape(studio.name)
         end
         assert_select 'form input[type=submit]' do |tag|
           tag.first.attributes['value'].should eql 'Update Studio'

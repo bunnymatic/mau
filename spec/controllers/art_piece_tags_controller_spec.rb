@@ -6,31 +6,6 @@ describe ArtPieceTagsController do
 
   fixtures :users, :roles, :roles_users, :art_piece_tags, :art_pieces_tags, :art_pieces, :artist_infos, :media
 
-  [:admin_index].each do |endpoint|
-    describe 'not logged in' do
-      describe endpoint do
-        before do
-          get endpoint
-        end
-        it_should_behave_like 'not authorized'
-      end
-    end
-    describe 'logged in as plain user' do
-      describe endpoint do
-        before do
-          login_as(users(:maufan1))
-          get endpoint
-        end
-        it_should_behave_like 'not authorized'
-      end
-    end
-    it "responds success if logged in as admin" do
-      login_as(users(:admin))
-      get endpoint
-      response.should be_success
-    end
-  end
-
   describe '#index' do
     describe 'format=html' do
       context 'when there are no tags' do
@@ -130,35 +105,4 @@ describe ArtPieceTagsController do
     it_should_behave_like 'returns success'
   end
 
-  describe '#admin_index' do
-    render_views
-    before do
-      login_as(:admin)
-      get :admin_index
-    end
-    it_should_behave_like 'logged in as admin'
-    it_should_behave_like 'returns success'
-    it 'shows tag frequency' do
-      assert_select '.singlecolumn table td.input-name', :match => /^\d+\.{0,1}\d+$/
-    end
-    it 'shows one entry per existing tag' do
-      assert_select 'tr td.ct', :count => ArtPieceTag.count
-    end
-  end
-
-  describe '#cleanup' do
-    render_views
-    before do
-      login_as :admin
-    end
-    it 'redirects to art_piece_tags page' do
-      get :cleanup
-      response.should redirect_to '/admin/art_piece_tags'
-    end
-    it 'removes empty tags' do
-      expect {
-        get :cleanup
-      }.to change(ArtPieceTag,:count).by(-2)
-    end
-  end
 end

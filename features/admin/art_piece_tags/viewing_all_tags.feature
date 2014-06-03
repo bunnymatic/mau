@@ -8,7 +8,7 @@ Background:
 
 Scenario: login with good info
   When I click on "tags" in the admin menu
-  Then I see the "admin tags" page
+  Then I see the "admin art piece tags" page
   When I destroy the first tag
   Then I see the most popular tag page
   And I don't see the first tag anymore
