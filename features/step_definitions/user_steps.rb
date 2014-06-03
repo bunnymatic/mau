@@ -73,6 +73,13 @@ When(/^I login as an editor$/) do
   steps %{And I click "Log in"}
 end
 
+When(/^I login as a manager$/) do
+  @manager = FactoryGirl.create(:user, :manager, :active)
+  steps %{When I visit the login page}
+  fill_in_login_form @editor.login, 'bmatic'
+  steps %{And I click "Log in"}
+end
+
 When(/^I login as "(.*?)"$/) do |login|
   fill_in_login_form login, 'bmatic'
   steps %{And I click "Log in"}

@@ -28,9 +28,9 @@
         %td
           %a{:target => '_blank', :href => studio.url} #{studio.url}
         %td
-          %div
+          .show
             = link_to 'Show', studio
-          %div
+          .edit
             = link_to 'Edit', edit_admin_studio_path(studio) if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
-          %div
+          .remove
             = link_to('Destroy', studio, :confirm => 'Are you sure?', :method => :delete) if current_user.is_admin?
