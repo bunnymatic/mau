@@ -11,5 +11,15 @@ FactoryGirl.define do
     profile_image { Faker::Files.file }
     cross_street { Faker::Address.street_name }
     phone { Faker::PhoneNumber.phone_number }
+
+    ignore do
+      artist_count 2
+    end
+
+    trait :with_artists do
+      after(:create) do |studio, context|
+        FactoryGirl.create_list :artist, context.artist_count, :active, :studio_id => studio.id
+      end
+    end
   end
 end

@@ -92,19 +92,18 @@ group :development do
 end
 group :test, :development do
   gem 'guard-coffeescript'
-  gem 'guard-rspec' # , '~> 1.2.0'  # 1.2.x is order rspec compatible
+  gem 'guard-rspec'
   gem 'guard-jasmine'
-  gem 'rspec' #,'1.3.1'
-  gem 'rspec-rails' #,'1.3.4'
+  gem 'rspec'
+  gem 'rspec-rails'
   gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'pry'
   gem 'pry-debugger'
-  gem 'rb-fsevent' #, '~> 0.9.1' # for guard
+  gem 'rb-fsevent'
   gem 'simplecov'
   gem 'cane'
   gem 'morecane'
-  gem 'rails_best_practices'
   gem 'guard-cucumber'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
@@ -112,4 +111,6 @@ group :test, :development do
   gem 'jasminerice', github: 'bradphelan/jasminerice' 
 #  gem 'better_errors'
 #  gem "binding_of_caller"
+
+  gem 'rails_best_practices'
 end

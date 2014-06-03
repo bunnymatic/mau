@@ -12,13 +12,7 @@ Mau::Application.routes.draw do
   match '/login' => 'user_sessions#new', :as => :login
 
 
-  resources :studios do
-    member do
-      post :upload_profile
-      post :unaffiliate_artist
-      get :add_profile
-    end
-  end
+  resources :studios, :only => [:index, :show]
 
   resources :artist_feeds, :except => [:show]
   resource :feeds, :only => [] do
@@ -144,6 +138,14 @@ Mau::Application.routes.draw do
   match '/error' => 'error#index', :as => :error
 
   namespace :admin do
+    resources :studios, :only => [:index, :new, :edit, :create, :update, :destroy] do
+      member do
+        post :upload_profile
+        post :unaffiliate_artist
+        get :add_profile
+      end
+    end
+
     resources :events, :only => [:index] do
       member do
         get :unpublish
@@ -156,7 +158,6 @@ Mau::Application.routes.draw do
 
   match '/admin/artists/update' => 'artists#admin_update', :as => :admin_update_artists
   match '/admin/artists' => 'artists#admin_index', :as => :admin_artists
-  match '/admin/studios' => 'studios#admin_index', :as => :admin_studios
   match '/admin/tags' => 'art_piece_tags#admin_index', :as => :admin_tags
   match '/admin/media' => 'media#admin_index', :as => :admin_media
   match '/admin/favorites' => 'favorites#index', :as => :admin_favorites
