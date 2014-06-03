@@ -7,9 +7,9 @@ describe Admin::StudiosController do
   let(:studio2) { FactoryGirl.create(:studio, :with_artists) }
   let(:manager) { FactoryGirl.create(:artist, :manager, :active, :studio => studio) }
   let(:manager_studio) { manager.studio }
-  let(:editor) { FactoryGirl.create(:artist, :editor, :active, :studio => studio)} 
+  let(:editor) { FactoryGirl.create(:artist, :editor, :active, :studio => studio)}
   let(:admin) { FactoryGirl.create(:artist, :admin, :active, :studio => studio) }
-  
+
   context 'as an admin' do
     before do
       login_as(admin)

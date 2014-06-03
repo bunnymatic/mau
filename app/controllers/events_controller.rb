@@ -23,14 +23,14 @@ class EventsController < ApplicationController
       format.json  {
         render :json => raw_events
       }
-      format.atom { 
+      format.atom {
         @title = "MAU Events"
         # the news items
         @events = events
 
         # this will be our Feed's update timestamp
         @updated = @events.first.try(:updated_at)
-        render :layout => false 
+        render :layout => false
       }
       # we want the RSS feed to redirect permanently to the ATOM feed
       format.rss { redirect_to events_path(:format => :atom), :status => :moved_permanently }

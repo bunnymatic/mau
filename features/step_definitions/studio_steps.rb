@@ -11,6 +11,6 @@ Then(/^I see update studio links for things i can manage/) do
   expect(page).to have_link('Edit', :href => edit_admin_studio_path(s))
   expect(page).to have_link('Edit', :count => 1)
   expect(page).to have_link('Show', :count => Studio.all.count)
-  
+
 end
 

@@ -298,7 +298,7 @@ class ArtistsController < ApplicationController
       format.mobile {
         if params[:partial].present?
           render :layout => false
-        else 
+        else
           render :layout => 'mobile'
         end
       }

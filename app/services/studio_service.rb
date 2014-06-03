@@ -1,5 +1,5 @@
 # Serve as a studio finder service
-# 
+#
 # this should help normalize and compartmentalize all the places
 # where we try to identify or use the Independent Studio
 # (until it's refactored so we don't have to play these tricks)

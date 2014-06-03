@@ -47,7 +47,7 @@ describe EventsController do
         end
 
       end
-      
+
       context '.rss' do
         before do
           get :index, :format => 'rss'

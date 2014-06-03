@@ -1,6 +1,6 @@
 module Admin
   class StudiosController < BaseAdminController
-    
+
     layout 'mau-admin'
 
     before_filter :manager_required
