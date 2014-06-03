@@ -32,7 +32,7 @@ Mau::Application.routes.draw do
     end
   end
 
-  resources :art_piece_tags, :only => [:index, :show, :edit, :destroy] do
+  resources :art_piece_tags, :only => [:index, :show] do
     collection do
       post :autosuggest # autocomplete for prototype doesn't easily do ajax with authenticity token :(
     end
@@ -138,7 +138,7 @@ Mau::Application.routes.draw do
 
   namespace :admin do
     resources :art_piece_tags, :only => [:index, :destroy] do
-      member do
+      collection do
         get :cleanup
       end
     end
