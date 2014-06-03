@@ -74,9 +74,10 @@ When(/^I login as an editor$/) do
 end
 
 When(/^I login as a manager$/) do
-  @manager = FactoryGirl.create(:user, :manager, :active)
+  studios = FactoryGirl.create_list(:studio,2)
+  @manager = FactoryGirl.create(:user, :manager, :active, :studio => studios.first)
   steps %{When I visit the login page}
-  fill_in_login_form @editor.login, 'bmatic'
+  fill_in_login_form @manager.login, 'bmatic'
   steps %{And I click "Log in"}
 end
 
