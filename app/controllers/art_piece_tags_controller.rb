@@ -2,23 +2,14 @@ require 'json'
 require 'json/add/core'
 #require 'json/add/rails'
 class ArtPieceTagsController < ApplicationController
+
   layout 'mau1col'
+
   before_filter :admin_required, :except => [ :index, :show, :autosuggest ]
   after_filter :store_location
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
-
-  def admin_index
-    @tags = tags_sorted_by_frequency
-    render :layout => "mau-admin"
-  end
-
-  def cleanup
-    @tags = tags_sorted_by_frequency
-    @tags.each {|(tag, ct)| tag.destroy if ct <= 0 }
-    redirect_to '/admin/art_piece_tags'
-  end
 
   def autosuggest
     tags = fetch_tags_for_autosuggest
@@ -64,22 +55,8 @@ class ArtPieceTagsController < ApplicationController
     render :action => "show", :layout => "mau"
   end
 
-  def destroy
-    @tag = ArtPieceTag.find(params[:id])
-    @tag.destroy
-    ArtPieceTag.flush_cache
-    redirect_to(art_piece_tags_url)
-  end
 
   private
-
-   def tags_sorted_by_frequency
-    all_tags = ArtPieceTag.all
-    freq = ArtPieceTag.keyed_frequency
-    all_tags.map do |tag|
-      [tag, freq[tag.id].to_f]
-    end.select(&:first).sort_by(&:last).reverse
-  end
 
   def fetch_tags_for_autosuggest
     tags = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
