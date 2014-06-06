@@ -216,7 +216,7 @@ describe ArtPiecesController do
     end
     it 'assigns all media' do
       get :new
-      assigns(:media).should eql Medium.all
+      expect(assigns(:media).map(&:id)).to eql Medium.alpha.map(&:id)
     end
     it 'assigns a new art piece' do
       get :new
@@ -226,7 +226,6 @@ describe ArtPiecesController do
 
   describe '#create', :eventmachine => true do
     context "while not logged in" do
-      render_views
       context "post " do
         before do
           post :create
