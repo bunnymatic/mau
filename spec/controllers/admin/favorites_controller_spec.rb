@@ -1,7 +1,7 @@
 
 require 'spec_helper'
 
-describe FavoritesController do
+describe Admin::FavoritesController do
 
   fixtures :users, :roles_users, :roles
   fixtures :art_pieces
@@ -12,16 +12,16 @@ describe FavoritesController do
     describe endpoint do
       it "responds failure if not logged in" do
         get endpoint
-        response.should redirect_to '/error'
+        expect(response).to redirect_to '/error'
       end
       it "responds failure if not logged in as admin" do
         get endpoint
-        response.should redirect_to '/error'
+        expect(response).to redirect_to '/error'
       end
       it "responds success if logged in as admin" do
         login_as(:admin)
         get endpoint
-        response.should be_success
+        expect(response).to be_success
       end
     end
   end
@@ -45,7 +45,7 @@ describe FavoritesController do
       get :index
     end
     it "returns success" do
-      response.should be_success
+      expect(response).to be_success
     end
     it_should_behave_like 'logged in as admin'
     it "aaron should have 1 favorite art piece" do

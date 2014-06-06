@@ -38,7 +38,7 @@ describe MediaController do
     it_should_behave_like 'a regular mobile page'
     it_should_behave_like "non-welcome mobile page"
     it "returns success" do
-      response.should be_success
+      expect(response).to be_success
     end
     it "assigns artists" do
       assigns(:artists).should have_at_least(1).artist

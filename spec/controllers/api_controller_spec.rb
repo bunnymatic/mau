@@ -8,12 +8,12 @@ describe ApiController do
   end
 
   shared_examples_for 'all responses' do
-    it { response.should be_json }
+    it { expect(response).to be_json }
   end
   shared_examples_for 'good responses' do
     it_should_behave_like 'all responses'
     it 'returns success' do
-      response.should be_success
+      expect(response).to be_success
     end
   end
   shared_examples_for 'error responses' do

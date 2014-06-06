@@ -1,5 +1,7 @@
 class AdminFavoritesPresenter
 
+  include Enumerable
+
   def initialize(favorites)
     @plain_favorites = favorites
   end
@@ -11,8 +13,24 @@ class AdminFavoritesPresenter
         @plain_favorites.each do |f|
           tally_favorites(processed, f)
         end
-        processed.map{|key, entry| [key, OpenStruct.new(entry)] }
+        Hash[ processed.map{|key, entry| [key, OpenStruct.new(entry)] } ]
       end
+  end
+
+  def total_artists
+    sum_column(:artists)
+  end
+  
+  def total_art_pieces
+    sum_column(:art_pieces)
+  end
+
+  def total_favorited_users
+    sum_column(:favorited)
+  end
+
+  def each(&block)
+    favorites.each(&block)
   end
 
   private
@@ -37,4 +55,10 @@ class AdminFavoritesPresenter
       tally[key][:favorited] += 1
     end
   end
+
+  private
+  def sum_column(col_name)
+    favorites.values.map{|v| v[col_name].to_i}.sum
+  end
+
 end

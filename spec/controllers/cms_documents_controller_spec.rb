@@ -23,14 +23,14 @@ describe CmsDocumentsController do
       before do
         get :index
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
     end
 
     describe '#show' do
       before do
         get :show, :id => cms_document
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it 'renders the cms data properly' do
         assert_select 'h2', 'pr header2'
       end
@@ -40,7 +40,7 @@ describe CmsDocumentsController do
       before do
         get :edit, :id => cms_document
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it 'renders the cms preview' do
         assert_select '#processed_markdown.markdown h2', 'pr header2'
       end
@@ -53,7 +53,7 @@ describe CmsDocumentsController do
       before do
         get :new
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
     end
 
     describe '#create' do
@@ -68,7 +68,7 @@ describe CmsDocumentsController do
       it 'renders new on failure' do
         expect{
           post :create, :cms_document => { :page => '', :section => '', :article => ''}
-          response.should render_template 'new_or_edit'
+          expect(response).to render_template 'new_or_edit'
           assigns(:cms_document).errors.should have_at_least(2).errors
         }.to change(CmsDocument,:count).by(0)
       end
@@ -92,7 +92,7 @@ describe CmsDocumentsController do
       end
       it 'renders edit on failure' do
         put :update, :id => cms_document.id, :cms_document => { :page => '' }
-        response.should render_template :new_or_edit
+        expect(response).to render_template :new_or_edit
         assigns(:cms_document).errors.should be_present
       end
     end

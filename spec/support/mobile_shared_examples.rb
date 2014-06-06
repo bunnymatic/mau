@@ -20,7 +20,7 @@ end
 
 shared_examples_for 'non-welcome mobile page' do
   it "uses the mobile layout" do
-    response.should render_template 'layouts/mobile'
+    expect(response).to render_template 'layouts/mobile'
   end
 end
 

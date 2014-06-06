@@ -11,7 +11,7 @@ describe MainController do
     end
     it_should_behave_like "a regular mobile page"
     it "uses the welcome mobile layout" do
-      response.should render_template 'layouts/mobile_welcome'
+      expect(response).to render_template 'layouts/mobile_welcome'
     end
     it 'includes a menu with 6 items' do
       assert_select('ul li', :count => 6)
@@ -69,7 +69,7 @@ EOM
         assert_select '.section[data-cmsid]'
       end
       it "uses the welcome mobile layout" do
-        response.should render_template 'layouts/mobile_welcome'
+        expect(response).to render_template 'layouts/mobile_welcome'
       end
     end
   end

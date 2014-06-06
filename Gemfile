@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.1'
+ruby '2.1.2'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
@@ -99,7 +99,6 @@ group :test, :development do
   gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'pry'
-  gem 'pry-debugger'
   gem 'rb-fsevent'
   gem 'simplecov'
   gem 'cane'

@@ -10,7 +10,7 @@ describe ArtPiecesController do
   describe '#show' do
     it 'redirects to artist page' do
       get :show, :id => ArtPiece.first.id, :formats => [:mobile]
-      response.should redirect_to ArtPiece.first.artist
+      expect(response).to redirect_to ArtPiece.first.artist
     end
   end
 end

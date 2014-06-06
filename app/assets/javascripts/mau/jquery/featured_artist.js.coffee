@@ -5,7 +5,7 @@ jQuery ->
       artist = imFeatured.data('artist')
       imFeatured.bind 'click', ->
         xhr = jQuery.ajax
-          url: '/artists/' + artist + '/notify_featured'
+          url: '/admin/artists/' + artist + '/notify_featured'
           method: 'post'
           data: { authenticity_token:unescape(authenticityToken) }
           success: (data, status, xhr) ->

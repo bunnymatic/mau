@@ -8,8 +8,16 @@
         %th pieces
         %th favorited
     %tbody
-      - @favorites.favorites.each_with_index do |pair, idx|
-        - (user, favinfo) = pair
+      %tr
+        %td Totals
+        %td 
+          = @favorites.total_artists
+        %td 
+          = @favorites.total_art_pieces
+        %td 
+          = @favorites.total_favorited_users
+
+      - @favorites.each do |user,favinfo|
         %tr{:class => cycle('even','odd')}
           %td 
             = link_to user.login, user_path(user)
