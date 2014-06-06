@@ -137,6 +137,15 @@ Mau::Application.routes.draw do
   match '/error' => 'error#index', :as => :error
 
   namespace :admin do
+    resources :artists, :only => [:index] do
+      collection do
+        post :update, :as => :update
+        get :purge
+      end
+      member do
+        get :notify_featured
+      end
+    end
     resources :art_piece_tags, :only => [:index, :destroy] do
       collection do
         get :cleanup
@@ -161,8 +170,8 @@ Mau::Application.routes.draw do
     end
   end
 
-  match '/admin/artists/update' => 'artists#admin_update', :as => :admin_update_artists
-  match '/admin/artists' => 'artists#admin_index', :as => :admin_artists
+#  match '/admin/artists/update' => 'artists#admin_update', :as => :admin_update_artists
+#  match '/admin/artists' => 'artists#admin_index', :as => :admin_artists
   match '/admin/media' => 'media#admin_index', :as => :admin_media
   match '/admin/favorites' => 'favorites#index', :as => :admin_favorites
   match '/admin/featured_artist' => 'admin#featured_artist', :as => :get_next_featured, :method => 'post'

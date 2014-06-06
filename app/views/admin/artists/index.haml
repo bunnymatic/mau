@@ -1,7 +1,7 @@
 %a.export-csv{:href => "?format=csv&%s" % request.query_string}
   %button export as csv
 .js-hideable-rows.artists
-  =form_tag admin_update_artists_path do
+  =form_tag update_admin_artists_path do
     %button.update-artists update os status
 
     .admin-table
