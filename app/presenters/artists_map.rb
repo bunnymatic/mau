@@ -16,7 +16,7 @@ class ArtistsMap < ArtistsPresenter
             ky = address_key(a)
             (keyed[ky] ||= []) << a if ky
           end
-      end
+      end.select{|k,v| v.present?}
     end
   end
 
