@@ -10,10 +10,10 @@ Background:
 Scenario: Showing the media as an admin
   Then I see the admin media list
 
-
 Scenario: Editing a media
-  When I click on "Edit"
-  And I fill in "blah" for "name"
+  When I click on the first "Edit" button
+  And I fill in "blah de blah" for "medium_name"
+  And I click "Update"
   Then I see the admin media list
   And I see the "blah" as a medium
 

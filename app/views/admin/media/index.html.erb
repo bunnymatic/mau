@@ -12,7 +12,7 @@
 -%>
   <tr class='<%= clz %>'>
     <td><%= medium.id %></td>
-    <td><%= medium.name %></td>
+    <td class="name"><%= medium.name %></td>
     <td><%= link_to 'Show', medium %></td>
     <td><%= link_to 'Edit', edit_admin_medium_path(medium) %></td>
     <td><%= link_to 'Destroy', [:admin, medium], :confirm => 'Are you sure?', :method => :delete %></td>
