@@ -14,9 +14,9 @@
     <td><%= medium.id %></td>
     <td><%= medium.name %></td>
     <td><%= link_to 'Show', medium %></td>
-    <td><%= link_to 'Edit', edit_medium_path(medium) %></td>
-    <td><%= link_to 'Destroy', medium, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_admin_medium_path(medium) %></td>
+    <td><%= link_to 'Destroy', [:admin, medium], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
-<%= link_to 'New medium', new_medium_path %>
+<%= link_to 'Add New medium', new_admin_medium_path %>

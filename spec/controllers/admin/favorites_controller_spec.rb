@@ -1,7 +1,7 @@
 
 require 'spec_helper'
 
-describe FavoritesController do
+describe Admin::FavoritesController do
 
   fixtures :users, :roles_users, :roles
   fixtures :art_pieces

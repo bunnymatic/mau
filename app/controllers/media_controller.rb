@@ -3,13 +3,9 @@ class MediaController < ApplicationController
   # GET /media.xml
   layout 'mau1col'
   before_filter :admin_required, :except => [ :index, :show ]
-  before_filter :load_media, :only => [:admin_index, :show]
+  before_filter :load_media, :only => [:show]
   before_filter :load_media_frequency, :only => [:index, :show]
   after_filter :store_location
-
-  def admin_index
-    render :layout => 'mau-admin'
-  end
 
   def index
     xtra_params = Hash[ params.select{ |k,v| [:m, "m"].include? k } ]
@@ -25,9 +21,6 @@ class MediaController < ApplicationController
     redirect_to medium_path(Medium.first, xtra_params)
   end
 
-  # GET /media/1
-  # GET /media/1.xml
-
   def show
     @medium = Medium.find(params[:id])
 
@@ -42,49 +35,6 @@ class MediaController < ApplicationController
         render :layout => "mobile"
       }
     end
-  end
-
-  # GET /media/new
-  # GET /media/new.xml
-  def new
-    @medium = Medium.new
-  end
-
-  # GET /media/1/edit
-  def edit
-    @medium = Medium.find(params[:id])
-  end
-
-  def create
-    @medium = Medium.new(params[:medium])
-
-    if @medium.save
-      Medium.flush_cache
-      flash[:notice] = 'Medium was successfully created.'
-      redirect_to(@medium)
-    else
-      render "new"
-    end
-  end
-
-  def update
-    @medium = Medium.find(params[:id])
-
-    if @medium.update_attributes(params[:medium])
-      Medium.flush_cache
-      flash[:notice] = 'Medium was successfully updated.'
-      redirect_to(@medium)
-    else
-      render :action => "edit"
-    end
-  end
-
-  def destroy
-    @medium = Medium.find(params[:id])
-    @medium.destroy
-
-    Medium.flush_cache
-    redirect_to(media_url)
   end
 
   private
