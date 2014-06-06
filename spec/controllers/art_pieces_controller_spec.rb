@@ -290,7 +290,6 @@ describe ArtPiecesController do
 
   describe '#update', :eventmachine => true do
     context "while not logged in" do
-      render_views
       context "post " do
         before do
           post :update
