@@ -281,6 +281,10 @@ input[type=image], input[type=hidden] {
   }
 
   .open-close-div.acct:hover {
+    cursor: pointer;
+    .title {
+      color: $white;
+    }
     .edit {
       @include opacity(1);
     }

@@ -185,13 +185,24 @@ jQuery(function() {
   var sxns = MAU.Artist.SECTIONS;
   var nsxn = sxns.length;
 
-  jQuery('.acct .edit a').bind('click', function(ev) {
-    ev.preventDefault();
-    var href = this.href;
-    var sxn = _.last(href.split('#'));
-    if (sxn) {
-      MAU.Artist.toggleSxnVis(sxn);
-    }
+  jQuery('.acct .edit a').each(function() {
+    var $el = $(this);
+    
+    var openSectionFromLink = function(lnk) {
+      var href = lnk.href;
+      var sxn = _.last(href.split('#'));
+      if (sxn) {
+        MAU.Artist.toggleSxnVis(sxn);
+      }
+    };
+    $el.closest('.acct').bind('click', function(ev) {
+      ev.preventDefault();
+      openSectionFromLink($el[0]);
+    });
+    $el.bind('click', function(ev) {
+      ev.preventDefault();
+      openSectionFromLink(this);
+    });
   });
   if ( location.hash && (location.hash.length > 1)) {
     var sxn = location.hash.substr(1);
