@@ -23,7 +23,7 @@ describe ArtPiece do
     it 'encodes quotes to html numerically' do
       p = valid_attrs.merge({:title => 'what"ever'})
       ap = ArtPiece.new(p)
-      ap.safe_title.should == 'what&#x22;ever'
+      ap.safe_title.should == 'what&quot;ever'
     end
   end
   describe 'after save' do

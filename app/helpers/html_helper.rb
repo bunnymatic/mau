@@ -3,7 +3,7 @@ require 'htmlentities'
 module HtmlHelper
 
   def html_encode(s)
-    coder.encode(s, :hexadecimal)
+    coder.encode(s, :named, :hexadecimal)
   end
 
   def html_queryencode(d)

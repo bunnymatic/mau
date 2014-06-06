@@ -5,7 +5,7 @@ describe HtmlHelper do
   describe '.encode' do
     it 'encodes html entities in the string' do
       q = helper.html_encode('encode me <> & _ @$# yo!');
-      expect(q).to eql 'encode me &#x3c;&#x3e; &#x26; _ @$# yo!'
+      expect(q).to eql 'encode me &lt;&gt; &amp; _ @$# yo!'
     end
   end
 

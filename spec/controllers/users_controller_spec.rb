@@ -693,7 +693,7 @@ describe UsersController do
               expect(response).to redirect_to(artist_art_piece_path(@ap.artist, @ap))
             end
             it "sets flash with escaped name" do
-              flash[:notice].should include '&#x3c;script&#x3e;'
+              flash[:notice].should include '&#gt;script&lt;'
             end
             it "adds favorite to user" do
               u = User.find(quentin.id)

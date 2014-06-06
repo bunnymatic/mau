@@ -1,3 +1,4 @@
+
 module Admin
 
   class ArtPieceTagsController < BaseAdminController
