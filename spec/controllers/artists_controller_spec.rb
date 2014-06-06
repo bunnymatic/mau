@@ -34,7 +34,7 @@ describe ArtistsController do
         get :index
       end
       it_should_behave_like 'one column layout'
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it "builds a presenter with only active artists" do
         presenter = assigns(:gallery)
         expect( presenter ).to be_a_kind_of ArtistsGallery
@@ -72,7 +72,7 @@ describe ArtistsController do
       get :roster
     end
     it_should_behave_like 'one column layout'
-    it { response.should be_success }
+    it { expect(response).to be_success }
     it "assigns artists" do
       assigns(:roster).artists.length.should have_at_least(2).artists
     end
@@ -116,7 +116,7 @@ describe ArtistsController do
           it "redirects to to edit page" do
             put :update, { :commit => 'submit', :artist => { :artist_info => artist_info_attrs}}
             flash[:notice].should eql 'Update successful'
-            response.should redirect_to(edit_artist_path(artist1))
+            expect(response).to redirect_to(edit_artist_path(artist1))
           end
           it 'publishes an update message' do
             Messager.any_instance.should_receive(:publish)
@@ -129,7 +129,7 @@ describe ArtistsController do
           post :update, { :commit => 'cancel', :artist => { :artist_info => artist_info_attrs}}
         end
         it "redirects to user page" do
-          response.should redirect_to(user_path(artist1))
+          expect(response).to redirect_to(user_path(artist1))
         end
         it "should have no flash notice" do
           flash[:notice].should be_nil
@@ -162,7 +162,7 @@ describe ArtistsController do
               :os_participation => { '201104' => true }
             }
           }
-          response.should be_redirect
+          expect(response).to be_redirect
           artist1.reload.os_participation['201104'].should be_true
         end
         it "updates artists os status to true for 201104 given '201104' => 'on'" do
@@ -171,7 +171,7 @@ describe ArtistsController do
               :os_participation => { '201104' => 'on' }
             }
           }
-          response.should be_redirect
+          expect(response).to be_redirect
           artist1.reload.os_participation['201104'].should be_true
         end
         it "updates artists os status to false for 201104" do
@@ -242,7 +242,7 @@ describe ArtistsController do
       it_should_behave_like "logged in artist"
       it_should_behave_like "logged in edit page"
 
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it "has the edit form" do
         assert_select("div#artist_edit");
       end
@@ -267,7 +267,7 @@ describe ArtistsController do
       it_should_behave_like "logged in artist"
       it_should_behave_like "logged in edit page"
 
-      it { response.should be_success }
+      it { expect(response).to be_success }
 
       it "has the edit form" do
         assert_select("div#artist_edit");
@@ -327,7 +327,7 @@ describe ArtistsController do
       before(:each) do
         get :show, :id => artist1.id
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it 'shows the artists name' do
         assert_select '.artist-profile h1', artist1.get_name(true)
       end
@@ -473,7 +473,7 @@ describe ArtistsController do
           @u.add_favorite(artist1)
           get :show, :id => artist1.id
         end
-        it { response.should be_success }
+        it { expect(response).to be_success }
         it "has the user in the 'who favorites me' section" do
           assert_select '#favorites_me div.thumb'
         end
@@ -490,7 +490,7 @@ describe ArtistsController do
         login_as(artist1)
         get :show, :id => artist1.id
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it "shows favorites on show page with links" do
         assert_select("#my_favorites label a[href=#{favorites_user_path(artist1)}]");
       end
@@ -548,11 +548,11 @@ describe ArtistsController do
       File.stub(:open => file_double)
       @controller.stub(:render)
       get :qrcode, :id => Artist.first.id
-      response.should redirect_to '/artistdata/' + Artist.first.id.to_s + '/profile/qr.png'
+      expect(response).to redirect_to '/artistdata/' + Artist.first.id.to_s + '/profile/qr.png'
     end
     it 'returns show with flash for an invalid id' do
       get :qrcode, :id => 101
-      response.should render_template 'show'
+      expect(response).to render_template 'show'
     end
   end
 
@@ -570,7 +570,7 @@ describe ArtistsController do
           order1 = ord.map{|idx| @artpieces[idx-1]}
           artist1.art_pieces.map(&:id).should_not eql order1
           post :setarrangement, { :neworder => order1.join(",") }
-          response.should redirect_to user_url(artist1)
+          expect(response).to redirect_to user_url(artist1)
           aps = Artist.find(artist1.id).art_pieces
           aps.map(&:id).should eql order1
           aps[0].artist.representative_piece.id.should==aps[0].id
@@ -585,7 +585,7 @@ describe ArtistsController do
 
       it "sets a flash with invalid params" do
         post :setarrangement
-        response.should redirect_to(user_path(artist1))
+        expect(response).to redirect_to(user_path(artist1))
         flash[:error].should be_present
       end
 
@@ -638,7 +638,7 @@ describe ArtistsController do
       end
       it_should_behave_like 'one column layout'
       it "returns success" do
-        response.should be_success
+        expect(response).to be_success
       end
       it "sets up a presenter" do
         assigns(:map_info).should be_a_kind_of ArtistsMap
@@ -672,7 +672,7 @@ describe ArtistsController do
         get :map_page, "osonly" => true
       end
       it "returns success" do
-        response.should be_success
+        expect(response).to be_success
       end
       it "sets up a presenter" do
         assigns(:map_info).should be_a_kind_of ArtistsMap
@@ -768,12 +768,12 @@ describe ArtistsController do
 
   describe '#by_lastname' do
     before { get :by_lastname }
-    it { response.should redirect_to root_path }
+    it { expect(response).to redirect_to root_path }
   end
 
   describe '#by_firstname' do
     before { get :by_firstname }
-    it { response.should redirect_to root_path }
+    it { expect(response).to redirect_to root_path }
   end
 
   describe "- named routes" do

@@ -24,7 +24,7 @@ describe BlacklistDomainsController do
       it "#{endpoint} responds success if logged in as admin" do
         login_as :admin
         get endpoint
-        response.should be_success
+        expect(response).to be_success
       end
     end
   end
@@ -66,7 +66,7 @@ describe BlacklistDomainsController do
       it 'renders new on failure' do
         expect{
           post :create, :blacklist_domain => { :domain => '' }
-          response.should render_template :new
+          expect(response).to render_template :new
           assigns(:domain).errors.should be_present
         }.to change(BlacklistDomain,:count).by(0)
       end
@@ -90,7 +90,7 @@ describe BlacklistDomainsController do
       end
       it 'renders edit on failure' do
         put :update, :id => domain.id, :blacklist_domain => { :domain => '' }
-        response.should render_template :edit
+        expect(response).to render_template :edit
         assigns(:domain).errors.should be_present
       end
     end
@@ -113,7 +113,7 @@ describe BlacklistDomainsController do
 
       it 'redirects to the domains list' do
         delete :destroy, :id => domain.id
-        response.should redirect_to blacklist_domains_path
+        expect(response).to redirect_to blacklist_domains_path
       end
     end
 

@@ -130,7 +130,7 @@ class ArtPiecesController < ApplicationController
   protected
 
   def load_media
-    @media ||= Medium.all
+    @media ||= Medium.alpha
   end
 
   def set_page_info_from_art_piece

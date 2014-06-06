@@ -49,7 +49,7 @@ describe Admin::ArtPieceTagsController do
     end
     it 'redirects to art_piece_tags page' do
       get :cleanup
-      response.should redirect_to '/admin/art_piece_tags'
+      expect(response).to redirect_to '/admin/art_piece_tags'
     end
     it 'removes empty tags' do
       expect {

@@ -5,7 +5,7 @@ describe FeedbacksController do
     before do
       get :new
     end
-    it { response.should be_success }
+    it { expect(response).to be_success }
     it "sets a new feedback" do
       assigns(:feedback).should be_a_kind_of Feedback
       assigns(:feedback).should be_new_record
@@ -24,7 +24,7 @@ describe FeedbacksController do
         get :create, {:feedback => {}}
       end
       it { assigns(@error_message).should be_present }
-      it { response.should render_template :new }
+      it { expect(response).to render_template :new }
       it { response.status.should eql 422 }
     end
     context 'with good data' do
@@ -38,8 +38,8 @@ describe FeedbacksController do
           }
         }.to change(Feedback, :count).by(1)
       end
-      it {response.should be_success}
-      it {response.should render_template :thankyou}
+      it {expect(response).to be_success}
+      it {expect(response).to render_template :thankyou}
     end
 
   end

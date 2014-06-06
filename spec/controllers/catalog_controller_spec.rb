@@ -19,7 +19,7 @@ describe CatalogController do
       before do
         get :index
       end
-      it{response.should be_success}
+      it{expect(response).to be_success}
     end
 
     context 'format=csv' do
@@ -30,8 +30,8 @@ describe CatalogController do
       before do
         get :index, :format => :csv
       end
-      it { response.should be_success }
-      it { response.should be_csv_type }
+      it { expect(response).to be_success }
+      it { expect(response).to be_csv_type }
       it 'includes the right headers' do
         expected_headers =  ["First Name","Last Name","Full Name","Email", "Group Site Name",
                              "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
@@ -55,14 +55,14 @@ describe CatalogController do
       before do
         get :social
       end
-      it { response.should_not be_success }
+      it { expect(response).to_not be_success }
     end
     context 'format=mobile' do
       before do
         pretend_to_be_mobile
         get :social
       end
-      it { response.should redirect_to root_path }
+      it { expect(response).to redirect_to root_path }
     end
     context 'format=csv' do
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
@@ -71,8 +71,8 @@ describe CatalogController do
       before do
         get :social, :format => :csv
       end
-      it { response.should be_success }
-      it { response.should be_csv_type }
+      it { expect(response).to be_success }
+      it { expect(response).to be_csv_type }
 
       it 'includes the right headers' do
         expected_headers = ([:full_name, :email] + social_keys).map{|s| s.to_s.humanize.capitalize}

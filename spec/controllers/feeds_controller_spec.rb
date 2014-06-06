@@ -14,7 +14,7 @@ describe FeedsController do
           File.delete(cache_filename)
         end
         get :feed
-        response.should be_success
+        expect(response).to be_success
       end
     end
   end
@@ -32,7 +32,7 @@ describe FeedsController do
       end
 
       it 'returns success' do
-        response.should be_success
+        expect(response).to be_success
       end
       it 'writes a file called _cached_feeds.html' do
         File.exists?(cache_filename).should be
@@ -75,7 +75,7 @@ describe FeedsController do
     end
 
     it 'returns success' do
-      response.should be_success
+      expect(response).to be_success
     end
     it 'writes a file called _cached_feeds.html' do
       File.exists?(cache_filename).should be

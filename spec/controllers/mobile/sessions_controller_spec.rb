@@ -7,7 +7,7 @@
 #   [:new, :create].each do |endpoint|
 #     it "#{endpoint} redirects to home" do
 #       get endpoint
-#       response.should redirect_to '/'
+#       expect(response).to redirect_to '/'
 #     end
 #   end
 # end

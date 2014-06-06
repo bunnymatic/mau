@@ -62,7 +62,7 @@ class MediaController < ApplicationController
   end
 
   def load_media
-    @media ||= Medium.all
+    @media ||= Medium.alpha
   end
 
 end

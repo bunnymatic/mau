@@ -10,7 +10,7 @@ describe CalendarController do
     before do
       get :index
     end
-    it { response.should be_success }
+    it { expect(response).to be_success }
     it 'includes the calendar html' do
       assert_select '.ec-calendar'
     end

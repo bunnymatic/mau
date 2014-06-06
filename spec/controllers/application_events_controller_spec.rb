@@ -15,7 +15,7 @@ describe ApplicationEventsController do
       get :index
     end
     it 'returns success' do
-      response.should be_success
+      expect(response).to be_success
     end
     it 'fetches all events by type' do
       events = assigns(:events_by_type)

@@ -12,7 +12,7 @@ describe Admin::ArtistsController do
         get :index
       end
       it "redirects to error" do
-        response.should redirect_to '/error'
+        expect(response).to redirect_to '/error'
       end
     end
     context "while logged in as user" do
@@ -21,7 +21,7 @@ describe Admin::ArtistsController do
         get :index
       end
       it "should report error" do
-        response.should redirect_to '/error'
+        expect(response).to redirect_to '/error'
       end
     end
     context "logged in as admin" do
@@ -39,7 +39,7 @@ describe Admin::ArtistsController do
           end
           it_should_behave_like 'logged in as admin'
           it "returns success" do
-            response.should be_success
+            expect(response).to be_success
           end
           it "renders sort by links" do
             assert_select('.sortby a', :count => 14)
@@ -93,8 +93,8 @@ describe Admin::ArtistsController do
           get :index, 'format' => 'csv'
         end
 
-        it { response.should be_success }
-        it { response.should be_csv_type }
+        it { expect(response).to be_success }
+        it { expect(response).to be_csv_type }
 
         it 'includes the right headers' do
           expected_headers = ["Login", "First Name","Last Name","Full Name","Group Site Name",
@@ -116,12 +116,12 @@ describe Admin::ArtistsController do
     describe 'unauthorized' do
       it 'not logged in redirects to error' do
         post :notify_featured, :id => artist1.id
-        response.should redirect_to '/error'
+        expect(response).to redirect_to '/error'
       end
       it 'logged in as normal redirects to error' do
         login_as :manager
         post :notify_featured, :id => artist1.id
-        response.should redirect_to '/error'
+        expect(response).to redirect_to '/error'
       end
     end
     describe 'authorized' do
@@ -130,7 +130,7 @@ describe Admin::ArtistsController do
       end
       it 'returns success' do
         post :notify_featured, :id => artist1.id
-        response.should be_success
+        expect(response).to be_success
       end
       it 'calls the notify_featured mailer' do
         ArtistMailer.should_receive(:notify_featured).exactly(:once).and_return(double(:deliver! => true))

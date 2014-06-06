@@ -25,7 +25,7 @@ describe ArtistsController do
     context 'invalid sortby param' do
       it 'responds with success page' do
         get :index, :sortby => 'crapass', :format => :mobile
-        response.should be_success
+        expect(response).to be_success
       end
     end
 
@@ -134,7 +134,7 @@ describe ArtistsController do
         get :show, :id => 'whatever yo', :format => :mobile
       end
       it 'returns success' do
-        response.should be_success
+        expect(response).to be_success
       end
       it 'reports that the user cannot be found' do
         assert_select '.error', /unable to find that artist/
@@ -144,7 +144,7 @@ describe ArtistsController do
     context 'with user login as id' do
       it 'returns the user\'s page' do
         get :show, :id => 10, :format => :mobile
-        response.should be_success
+        expect(response).to be_success
       end
     end
 
@@ -156,7 +156,7 @@ describe ArtistsController do
         get :bio, :id => users(:artist1).id, :format => :mobile
       end
       it "returns success" do
-        response.should be_success
+        expect(response).to be_success
       end
       it 'renders the bio' do
         assert_select '.bio', /#{users(:artist1).bio}/
@@ -172,7 +172,7 @@ describe ArtistsController do
         get :bio, :id => users(:wayout).id, :format => :mobile
       end
       it 'redirects to user\'s page' do
-        response.should redirect_to artist_path(users(:wayout))
+        expect(response).to redirect_to artist_path(users(:wayout))
       end
     end
   end

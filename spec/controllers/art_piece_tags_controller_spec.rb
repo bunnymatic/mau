@@ -21,7 +21,7 @@ describe ArtPieceTagsController do
           get :index
         end
         it 'redirects to show page with the most popular tag' do
-          response.should redirect_to art_piece_tag_path(art_piece_tags(:one))
+          expect(response).to redirect_to art_piece_tag_path(art_piece_tags(:one))
         end
       end
     end
@@ -78,7 +78,7 @@ describe ArtPieceTagsController do
     it 'redirects to root on mobile' do
       @controller.stub(:is_mobile? => true)
       get :show, :id => 4
-      response.should redirect_to root_path
+      expect(response).to redirect_to root_path
     end
 
     context 'for different tags' do

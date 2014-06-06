@@ -35,7 +35,7 @@ describe AdminController do
       it "#{endpoint} responds success if logged in as admin" do
         login_as :admin
         get endpoint
-        response.should be_success
+        expect(response).to be_success
       end
     end
   end
@@ -69,7 +69,7 @@ describe AdminController do
           get :emaillist
         end
         it 'returns success' do
-          response.should be_success
+          expect(response).to be_success
         end
         it 'assigns the title' do
           assigns(:email_list).title.should eql "Activated"
@@ -119,8 +119,8 @@ describe AdminController do
       before do
         get :emaillist, :format => :csv, :listname => 'pending'
       end
-      it { response.should be_success }
-      it { response.should be_csv_type }
+      it { expect(response).to be_success }
+      it { expect(response).to be_csv_type }
       it 'includes the right headers' do
         expected_headers = ["First Name","Last Name","Full Name","Email Address","Group Site Name"]
         expected_headers += Conf.open_studios_event_keys.map(&:to_s)
@@ -165,8 +165,8 @@ describe AdminController do
       login_as(:admin)
       get :fans
     end
-    it { response.should be_success }
-    it {  response.should render_template 'fans' }
+    it { expect(response).to be_success }
+    it {  expect(response).to render_template 'fans' }
     it "assigns fans" do
       assigns(:fans).length.should eql User.active.all(:conditions => 'type <> "Artist"').length
     end
@@ -178,7 +178,7 @@ describe AdminController do
       ScssFileReader.any_instance.stub(:parse_colors => [['black', '000'], ['white', 'ffffff']])
       get :palette
     end
-    it{ response.should be_success }
+    it{ expect(response).to be_success }
   end
 
   describe "json endpoints" do
@@ -215,9 +215,9 @@ describe AdminController do
       end
       get :featured_artist
     end
-    it { response.should be_success }
+    it { expect(response).to be_success }
     it "renders the featured_artist template" do
-      response.should render_template 'featured_artist'
+      expect(response).to render_template 'featured_artist'
     end
     it "assigns the featured artist and the featured queue entry" do
       assigns(:featured).should be_present
@@ -237,7 +237,7 @@ describe AdminController do
     context "#post" do
       it "redirects to the featured_artist page" do
         post :featured_artist
-        response.should redirect_to '/admin/featured_artist'
+        expect(response).to redirect_to '/admin/featured_artist'
       end
       it "tries to get the next artist from the queue" do
         FeaturedArtistQueue.should_receive(:next_entry).once
@@ -249,7 +249,7 @@ describe AdminController do
           get :featured_artist
         end
         it "renders the featured_artist template" do
-          response.should render_template :featured_artist
+          expect(response).to render_template :featured_artist
         end
         it 'includes an override checkbox to get the next featured artist' do
           assert_select('input#override_date')
@@ -272,7 +272,7 @@ describe AdminController do
       get :os_status
     end
     it 'returns success' do
-      response.should be_success
+      expect(response).to be_success
     end
     it 'sets a list of artists in alpha order by last name' do
       assigns(:os).length == Artist.active.count
@@ -310,13 +310,13 @@ describe AdminController do
           before do
             get :fetch_backup
           end
-          it { response.should redirect_to(admin_path(:action => :db_backups)) }
+          it { expect(response).to redirect_to(admin_path(:action => :db_backups)) }
         end
         context 'with bad filename args' do
           before do
             get :fetch_backup, :name => 'blow'
           end
-          it { response.should redirect_to(admin_path(:action => :db_backups)) }
+          it { expect(response).to redirect_to(admin_path(:action => :db_backups)) }
         end
       end
       describe '#db_backups' do
@@ -331,7 +331,7 @@ describe AdminController do
             get :db_backups
           end
           it "returns success" do
-            response.should be_success
+            expect(response).to be_success
           end
           it 'finds a list of database files' do
             assigns(:dbfiles).should be_a_kind_of(Array)

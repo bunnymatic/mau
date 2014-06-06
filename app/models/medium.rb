@@ -19,6 +19,10 @@ class Medium < ActiveRecord::Base
   CACHE_KEY = 'medfreq'
   CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
 
+  def self.alpha
+    order(:name)
+  end
+
   def self.flush_cache
     SafeCache.delete(CACHE_KEY + true.to_s)
     SafeCache.delete(CACHE_KEY + false.to_s)

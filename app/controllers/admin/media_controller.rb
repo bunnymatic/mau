@@ -2,7 +2,7 @@ module Admin
   class MediaController < BaseAdminController
 
     def index
-      @media = Medium.all
+      @media = Medium.alpha
     end
 
     # GET /media/new

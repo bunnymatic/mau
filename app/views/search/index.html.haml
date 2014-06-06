@@ -52,7 +52,7 @@
                   %a.reset{:href => '#'}
                     [ clear all ]
                 - medium_ids = @query.mediums.map(&:id).map(&:to_i)
-                - Medium.all.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
+                - Medium.alpha.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
                   - ck = (medium_ids.length && medium_ids.include?(m[:id]))
                   %li.cb_entry
                     - connector = "medium_#{m[:id]}"

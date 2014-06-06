@@ -6,5 +6,5 @@ describe ErrorController do
   end
 
   it { response.status.should eql 400 }
-  it { response.should render_template :mau1col }
+  it { expect(response).to render_template :mau1col }
 end

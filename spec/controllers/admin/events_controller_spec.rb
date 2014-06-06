@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Admin::EventsController do
 
-  fixtures :users,:events, :roles_users
+  fixtures :users, :events, :roles_users, :roles
 
   [:index, :publish, :unpublish].each do |endpt|
     context "#{endpt} when not logged in" do

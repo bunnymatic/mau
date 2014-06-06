@@ -30,7 +30,7 @@ describe MediaController do
   describe "#index" do
     it "redirect to show" do
       get :index
-      response.should be_redirect
+      expect(response).to be_redirect
     end
     context 'with no frequency' do
       before do
@@ -38,7 +38,7 @@ describe MediaController do
       end
       it "redirect to show first" do
         get :index
-        response.should redirect_to Medium.first
+        expect(response).to redirect_to Medium.first
       end
     end
   end

@@ -19,7 +19,7 @@ describe DummyController do
       response.code.should eql '404'
     end
     it 'uses error template' do
-      response.should render_template 'error/index'
+      expect(response).to render_template 'error/index'
     end
     it 'includes a f404 block' do
       assert_select('.f404 p')
@@ -34,7 +34,7 @@ describe DummyController do
       response.code.should eql '404'
     end
     it 'uses error template' do
-      response.should render_template 'error/index'
+      expect(response).to render_template 'error/index'
     end
     it 'includes an f404 block' do
       assert_select('.f404 p')
@@ -48,7 +48,7 @@ describe DummyController do
       response.code.should eql '500'
     end
     it 'uses error template' do
-      response.should render_template 'error/index'
+      expect(response).to render_template 'error/index'
     end
     it 'includes an f404 block' do
       assert_select('.f404 p')
@@ -66,7 +66,7 @@ describe DummyController do
       assert_select('.f404 p')
     end
     it 'uses error template' do
-      response.should render_template 'error/index'
+      expect(response).to render_template 'error/index'
     end
   end
 

@@ -1,5 +1,5 @@
 = form_for([:admin, medium]) do |f|
-  = medium.errors.full_messages unless medium.errors.full_messages.present?
+  = render '/common/form_errors', :form => f if medium.errors.full_messages.present?
   .form-field
     = f.label :name
     %br

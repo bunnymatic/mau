@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe Admin::MediaController do
 
+  fixtures :media
+
   let(:admin) { FactoryGirl.create(:artist, :admin, :active) }
+
   describe '#index' do
     context 'as unauthorized' do
       before do
@@ -16,7 +19,7 @@ describe Admin::MediaController do
         get :index
       end
       it 'returns media' do
-        assigns(:media).should eql Medium.all
+        expect(assigns(:media).map(&:id)).to eq Medium.alpha.map(&:id)
       end
     end
   end
@@ -33,7 +36,7 @@ describe Admin::MediaController do
         login_as admin
         get :edit, :id => Medium.first
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it { assigns(:medium).should eql Medium.first }
     end
   end
@@ -50,7 +53,7 @@ describe Admin::MediaController do
         login_as admin
         get :new
       end
-      it { response.should be_success }
+      it { expect(response).to be_success }
       it { assigns(:medium).should be_a_kind_of Medium }
     end
   end
@@ -69,11 +72,11 @@ describe Admin::MediaController do
       it { expect{ post :create, :medium => {:name => 'blah'} }.to change(Medium, :count).by(1) }
       it 'redirects back to the new medium show page' do
         post :create, :medium => {:name => 'blah'}
-        response.should redirect_to admin_media_path
+        expect(response).to redirect_to admin_media_path
       end
       it 'renders new on error' do
         post :create, :medium => {:name => nil}
-        response.should render_template 'new'
+        expect(response).to render_template 'new'
       end
     end
   end
@@ -92,7 +95,7 @@ describe Admin::MediaController do
       end
       it 'redirects back to the new medium show page' do
         post :update, :id => medium.id, :medium => {:name => 'brand spankin new'}
-        response.should redirect_to admin_media_path
+        expect(response).to redirect_to admin_media_path
       end
       it 'updates the medium' do
         post :update, :id => medium.id, :medium => {:name => 'brand spankin'}
@@ -100,7 +103,7 @@ describe Admin::MediaController do
       end
       it 'renders new on error' do
         post :update, :id => medium.id, :medium => {:name => nil}
-        response.should render_template 'edit'
+        expect(response).to render_template 'edit'
       end
     end
   end
@@ -119,7 +122,7 @@ describe Admin::MediaController do
       it "destroys and redirects" do
         expect{
           delete :destroy, :id => Medium.first.id
-          response.should redirect_to admin_media_path
+          expect(response).to redirect_to admin_media_path
         }.to change(Medium,:count).by(-1)
       end
     end
