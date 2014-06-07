@@ -5,10 +5,7 @@
       .notice #{flash[:notice]}
     - if flash[:error] || (@user_session.errors.count > 0)
       .error-msg
-        We had trouble signing you in.  Please check your username and password.  If you continue to have problems, contact the webmaster with the link below.
-        .sub-error-msg
-          Error:
-          = flash[:error]
+        That username/password combination is wrong.
     .signup-left
       %h2 Already A MAU Member?
       .signup-text
@@ -25,7 +22,7 @@
               = f.password_field 'password'
           %tr
             %td{:colspan => 2, :align => 'center'}
-              = f.submit "Log in", :class => 'formbutton'
+              = f.submit "Sign In", :class => 'formbutton'
         .input-help
           %a{:href => forgot_users_path} Can't access your account?
   .signup-right
