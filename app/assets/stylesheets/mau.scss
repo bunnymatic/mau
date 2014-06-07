@@ -103,7 +103,7 @@ h5 {
   cursor: pointer;
 }
 .notice {
-  z-index: 1;
+  z-index: 10;
   position: absolute;
   text-align: center;
   margin: 0;
@@ -189,7 +189,7 @@ tr.error-row {
   }
 }
 
-input[type=submit], input[type=text],input[type=password], textarea {
+input[type=submit], input[type=email], input[type=text],input[type=password], textarea {
   @include input_style;
   @include small-rounded-corners;
 }

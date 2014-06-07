@@ -57,7 +57,7 @@ When(/^I login$/) do
   steps %{When I visit the login page}
   # if we're already logged in we'll be somewhere else
   fill_in_login_form @artist.login, 'bmatic'
-  steps %{And I click "Log in"}
+  steps %{And I click "Sign In"}
 end
 
 When(/^I login as an artist$/) do
@@ -70,7 +70,7 @@ When(/^I login as an editor$/) do
   @editor = FactoryGirl.create(:user, :editor, :active)
   steps %{When I visit the login page}
   fill_in_login_form @editor.login, 'bmatic'
-  steps %{And I click "Log in"}
+  steps %{And I click "Sign In"}
 end
 
 When(/^I login as a manager$/) do
@@ -78,10 +78,10 @@ When(/^I login as a manager$/) do
   @manager = FactoryGirl.create(:user, :manager, :active, :studio => studios.first)
   steps %{When I visit the login page}
   fill_in_login_form @manager.login, 'bmatic'
-  steps %{And I click "Log in"}
+  steps %{And I click "Sign In"}
 end
 
 When(/^I login as "(.*?)"$/) do |login|
   fill_in_login_form login, 'bmatic'
-  steps %{And I click "Log in"}
+  steps %{And I click "Sign In"}
 end

@@ -9,10 +9,10 @@ Scenario: arriving on the page
 
 Scenario: login with bad info
   When I fill in an invalid username and password
-  And I click "Log in"
-  Then I see an error message "We had trouble signing you in"
+  And I click "Sign In"
+  Then I see an error message "That username/password combination is wrong."
 
 Scenario: login with good info
   When I fill in valid credentials
-  And I click "Log in"
+  And I click "Sign In"
   Then I see that I'm logged in

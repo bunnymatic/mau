@@ -193,7 +193,7 @@ class UsersController < ApplicationController
         @user.delete_reset_code
         flash[:notice] = "Password reset successfully for #{@user.email}.  Please log in."
         logout
-        redirect_to('/login')
+        redirect_to login_path
         return
       else
         flash[:error] = "Failed to update your password."
@@ -239,48 +239,46 @@ class UsersController < ApplicationController
       flash[:error]  = "We couldn't find an artist with that activation code -- check your email?"+
         " Or maybe you've already activated -- try signing in."
     end
-    redirect_to '/login'
+    redirect_to login_path
   end
 
   def resend_activation
     if request.post?
-      if params[:user]
-        user = User.find_by_email(params[:user][:email])
+      if params[:user] && params[:user][:email].present?
+        email = params[:user][:email]
+        flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
+        user = User.find_by_email email
         if user
-          if user.class == Artist
-            user.resend_activation
-            flash[:notice] = "We sent your activation code to #{user.email}. Please check your email for instructions."
-          else
-            flash[:notice] = "MAU Fan accounts need no activation.  If you've forgotten your password,"+
-              " click the 'login' link and follow the 'forgot your password?' link"
-          end
-        else
-          flash[:error] = "We can't find any users with email #{params[:user][:email]} in our system."
+          user.resend_activation
         end
+        redirect_back_or_default('/')
+      else
+        flash[:error] = "You need to enter an email"
       end
-      redirect_back_or_default('/')
     end
   end
 
   def forgot
     if request.post?
-      user = User.find_by_email(params[:user][:email])
-      if user
-        if user.state == 'active'
-          user.create_reset_code
-          flash[:notice] = "We've sent email to #{user.email} with instructions on how to reset your password."+
-            "  Please check your email."
+      if params[:user] && params[:user][:email].present?
+        email = params[:user][:email]
+        user = User.find_by_email(params[:user][:email])
+        if user
+          if !user.active?
+            flash[:error] = "That account is not yet active.  Have you responded to the activation email we"+
+              " already sent?  Enter your email below if you need us to send you a new activation email."
+          else
+            flash[:notice] = "We've sent email with instructions on how to reset your password."+
+              "  Please check your email."
+            user.create_reset_code
+            redirect_to login_path and return
+          end
         else
-          flash[:error] = "That account is not yet active.  Have you responded to the activation email we"+
-            " already sent?  Enter your email below if you need us to send you a new activation email."
-          redirect_back_or_default('/resend_activation')
-          return
+          flash[:notice] = "We've sent email with instructions on how to reset your password."+
+            "  Please check your email."
         end
-      else
-        flash[:error] = "No account with email #{params[:user][:email]} exists.  Are you sure you got the"+
-          " correct email address?"
       end
-      redirect_back_or_default('/login')
+      redirect_to login_path
     end
   end
 

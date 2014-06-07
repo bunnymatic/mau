@@ -2,13 +2,9 @@ require 'spec_helper'
 
 shared_examples_for 'common signup form' do
   it_should_behave_like 'one column layout'
-  it "has signup form" do
+  it "has signup form with captcha and options for fan and artist" do
     assert_select("#signup_form")
-  end
-  it 'shows a captcha' do
     assert_select('textarea[name=recaptcha_challenge_field]')
-  end
-  it 'shows options for fan or artist' do
     assert_select 'select option[value=Artist]'
     assert_select 'select option[value=MAUFan]'
   end
@@ -69,10 +65,8 @@ describe UsersController do
           get :new
         end
         it_should_behave_like 'common signup form'
-        it "has a first name text boxes" do
+        it "has first & last name text boxes" do
           assert_select("#artist_firstname")
-        end
-        it "has lastname text box" do
           assert_select("#artist_lastname")
         end
       end
@@ -85,10 +79,8 @@ describe UsersController do
           get :new, :type => 'Artist'
         end
         it_should_behave_like 'common signup form'
-        it "has a first name text boxes" do
+        it "has first and last name text boxes" do
           assert_select("#artist_firstname")
-        end
-        it "has lastname text box" do
           assert_select("#artist_lastname")
         end
       end
@@ -101,10 +93,8 @@ describe UsersController do
           get :new, :type => 'MAUFan'
         end
         it_should_behave_like 'common signup form'
-        it "has a first name text boxes" do
+        it "has a first and last name text boxes" do
           assert_select("#mau_fan_firstname")
-        end
-        it "has lastname text box" do
           assert_select("#mau_fan_lastname")
         end
       end
@@ -151,7 +141,7 @@ describe UsersController do
           :password => "blurpit",
           :email => "bmatic2@b.com" }, :type => "MAUFan"
       end
-      it "reports that you should be human" do
+      it "returns success" do
         expect(response).to be_success
       end
 
@@ -804,32 +794,30 @@ describe UsersController do
       it "redirect to root" do
         expect(response).to redirect_to( root_url )
       end
-      it "has error message" do
-        flash[:error].length.should > 1
+      it "has notice message" do
+        flash[:notice].should include "sent your activation code to a@b.c"
       end
     end
     context "post with email that is for a fan" do
       before do
-        User.should_receive(:find_by_email).and_return(users(:artfan))
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
         expect(response).to redirect_to( root_url )
       end
       it "has notice message" do
-        flash[:notice].should include "MAU Fan accounts need no activation"
+        flash[:notice].should include "We sent your activation"
       end
     end
     context "post with email that is for an artist" do
       before do
-        User.should_receive(:find_by_email).and_return(quentin)
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
         expect(response).to redirect_to( root_url )
       end
       it "has notice message" do
-        flash[:notice].should include "sent your activation code to #{quentin.email}"
+        flash[:notice].should include "sent your activation code to a@b.c"
       end
     end
   end

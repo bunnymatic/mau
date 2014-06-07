@@ -3,9 +3,12 @@
   = form_for @user_session, :url => user_session_path, :id => 'login_form' do |f|
     - if flash[:notice]
       .notice #{flash[:notice]}
-    - if flash[:error] || (@user_session.errors.count > 0)
+    - err = flash[:error]
+    - if (@user_session.errors.count > 0)
+      - err = "That username/password combination is wrong."
+    - if err.present?
       .error-msg
-        That username/password combination is wrong.
+        = err
     .signup-left
       %h2 Already A MAU Member?
       .signup-text
@@ -14,12 +17,12 @@
             %td.input-name
               = f.label :login
             %td.input
-              = f.text_field 'login'
+              = f.text_field 'login', :placeholder => "username or email", :required => true
           %tr
             %td.input-name
               = f.label :password
             %td.input
-              = f.password_field 'password'
+              = f.password_field 'password', :placeholder => 'password', :required => true
           %tr
             %td{:colspan => 2, :align => 'center'}
               = f.submit "Sign In", :class => 'formbutton'

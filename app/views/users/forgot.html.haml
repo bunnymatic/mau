@@ -12,7 +12,7 @@
         %tr
           %td{ :colspan => '2' }
             %label{:for => :email} Email:
-            = f.text_field :email
+            = f.email_field :email, :required => true, :placeholder => 'enter your email'
             = f.submit 'Submit', :class => 'formbutton'
         %tr
           %td
