@@ -15,7 +15,7 @@
     </tr>
     <tr>
       <td align="right"><label>Email:</label></td>
-      <td><%= f.text_field :email %></td>
+      <td><%= f.text_field :email, :required => true, :placeholder => 'enter your email', :type => 'email' %></td>
     </tr>
     <tr>
       <td></td>

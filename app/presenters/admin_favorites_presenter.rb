@@ -20,7 +20,7 @@ class AdminFavoritesPresenter
   def total_artists
     sum_column(:artists)
   end
-  
+
   def total_art_pieces
     sum_column(:art_pieces)
   end

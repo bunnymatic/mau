@@ -19,10 +19,10 @@ module UsersHelper
   end
 
   def signup_form_row(form, field, field_helper, opts = {})
-    display_text = opts[:display] || field.to_s.humanize.titleize
+    display_text = opts.delete(:display) || field.to_s.humanize.titleize
 
     lbl = _label { form.label field, display_text }
-    inp = _input { form.send(field_helper, field) }
+    inp = _input { form.send(field_helper, field, opts) }
 
     content_tag 'div', :class => 'row' do
       concat(lbl)
