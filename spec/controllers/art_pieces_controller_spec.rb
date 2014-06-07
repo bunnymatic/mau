@@ -27,80 +27,91 @@ describe ArtPiecesController do
     end
     context "not logged in" do
       context "format=html" do
-        render_views
-        before do
-          get :show, :id => @artpieces.first.id
-        end
-        it_should_behave_like 'returns success'
-        it 'has a description with the art piece name' do
-          assert_select 'head' do |tag|
-            assert_select 'meta[name=description]' do |desc|
-              desc.length.should eql 1
-              desc[0].attributes['content'].should match /#{@artpieces.first.title}/
-            end
-            assert_select 'meta[property=og:description]' do |desc|
-              desc.length.should eql 1
-              desc[0].attributes['content'].should match /#{@artpieces.first.title}/
-            end
-          end
-        end
-        it 'has keywords that match the art piece' do
-          assert_select 'head meta[name=keywords]' do |keywords|
-            keywords.length.should eql 1
-            expected = [@artpieces.first.tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
-            actual = keywords[0].attributes['content'].split(',').map(&:strip)
-            expected.each do |ex|
-              actual.should include ex
-            end
-          end
-        end
-        it 'include the default keywords' do
-          assert_select 'head meta[name=keywords]' do |keywords|
-            keywords.length.should eql 1
-            expected = ["art is the mission", "art", "artists", "san francisco"]
-            actual = keywords[0].attributes['content'].split(',').map(&:strip)
-            expected.each do |ex|
-              actual.should include ex
-            end
-          end
-        end
-
-        it 'shows the artist name in the sidebar' do
-          artist_link = artist_path(@artpieces.first.artist)
-          assert_select ".lcol h3 a[href=#{artist_link}]"
-          assert_select ".lcol a[href=#{artist_link}] img"
-        end
-
-        it 'shows the thumbnail browser' do
-          assert_select '#artp_thumb_browser'
-        end
-
-        it "displays art piece" do
-          assert_select("#artpiece_title", @artpieces.first.title)
-        end
-        if Conf.show_lightbox_feature
-          it 'includes the zoom data for big art pieces' do
-            assert_select('a.zoom')
-          end
-        end
-        it "has no edit buttons" do
-          assert_select("div.edit-buttons", "")
-          expect(css_select("div.edit-buttons *")).to be_empty
-        end
-        it "has a favorite me icon" do
-          assert_select('.micro-icon.heart')
-        end
-        context "piece has been favorited" do
+        context 'when the artist is active' do
+          render_views
           before do
-            ap = @artpieces.first
-            users(:maufan1).add_favorite ap
-            get :show, :id => ap.id
+            get :show, :id => @artpieces.first.id
           end
-          it "shows the number of favorites" do
-            assert_select '#num_favorites', 1
+          it_should_behave_like 'returns success'
+          it 'has a description with the art piece name' do
+            assert_select 'head' do |tag|
+              assert_select 'meta[name=description]' do |desc|
+                desc.length.should eql 1
+                desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+              end
+              assert_select 'meta[property=og:description]' do |desc|
+                desc.length.should eql 1
+                desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+              end
+            end
+          end
+          it 'has keywords that match the art piece' do
+            assert_select 'head meta[name=keywords]' do |keywords|
+              keywords.length.should eql 1
+              expected = [@artpieces.first.tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
+              actual = keywords[0].attributes['content'].split(',').map(&:strip)
+              expected.each do |ex|
+                actual.should include ex
+              end
+            end
+          end
+          it 'include the default keywords' do
+            assert_select 'head meta[name=keywords]' do |keywords|
+              keywords.length.should eql 1
+              expected = ["art is the mission", "art", "artists", "san francisco"]
+              actual = keywords[0].attributes['content'].split(',').map(&:strip)
+              expected.each do |ex|
+                actual.should include ex
+              end
+            end
+          end
+
+          it 'shows the artist name in the sidebar' do
+            artist_link = artist_path(@artpieces.first.artist)
+            assert_select ".lcol h3 a[href=#{artist_link}]"
+            assert_select ".lcol a[href=#{artist_link}] img"
+          end
+
+          it 'shows the thumbnail browser' do
+            assert_select '#artp_thumb_browser'
+          end
+
+          it "displays art piece" do
+            assert_select("#artpiece_title", @artpieces.first.title)
+          end
+          if Conf.show_lightbox_feature
+            it 'includes the zoom data for big art pieces' do
+              assert_select('a.zoom')
+            end
+          end
+          it "has no edit buttons" do
+            assert_select("div.edit-buttons", "")
+            expect(css_select("div.edit-buttons *")).to be_empty
+          end
+          it "has a favorite me icon" do
+            assert_select('.micro-icon.heart')
+          end
+          context "piece has been favorited" do
+            before do
+              ap = @artpieces.first
+              users(:maufan1).add_favorite ap
+              get :show, :id => ap.id
+            end
+            it "shows the number of favorites" do
+              assert_select '#num_favorites', 1
+            end
           end
         end
       end
+
+      context 'when the artist is not active' do
+        it 'reports a missing art piece' do
+          @artpieces.first.artist.update_attribute(:state, 'pending')
+          get :show, :id => @artpieces.first.id
+          expect(response).to redirect_to '/error'
+        end
+      end
+
       context "getting unknown art piece page" do
         it "should redirect to error page" do
           get :show, :id => 'bogusid'
