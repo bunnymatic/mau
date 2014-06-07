@@ -1,4 +1,7 @@
-Feature: As a user I can login
+Feature: As a admin
+  I can check out all the tags and see who's using what
+  I can clean out unused tags
+  So I can keep the system clean and well oiled
 
 Background:
   Given an "admin" account has been created
@@ -6,7 +9,7 @@ Background:
   And there are tags on the art
   And I login
 
-Scenario: login with good info
+Scenario: Viewing and cleaning out tags
   When I click on "tags" in the admin menu
   Then I see the "admin art piece tags" page
   When I destroy the first tag
