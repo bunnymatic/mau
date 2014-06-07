@@ -5,7 +5,9 @@ module Admin
 
     before_filter :manager_required
     before_filter :admin_required, :only => [:new, :create, :destroy]
-    before_filter :studio_manager_required, :only => [:edit, :update, :upload_profile, :add_profile, :unaffiliate_artist]
+    before_filter :studio_manager_required, :only => [:edit, :update,
+                                                      :upload_profile, :add_profile,
+                                                      :unaffiliate_artist]
     before_filter :load_studio, :except => [:new, :index, :create]
 
     def index
