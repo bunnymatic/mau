@@ -36,9 +36,6 @@ module Admin
 
 
     private
-    def insufficient_params?
-      !["listtype"].all?{|required| params.has_key? required}
-    end
 
     def email_list
       @email_list ||=
@@ -55,21 +52,6 @@ module Admin
             clz.first
           end
         end
-    end
-
-    def handle_email_list_update
-      if insufficient_params?
-        @msgs[:error] = "You did not have all the required parameters"
-      end
-
-      case params['method']
-      when 'remove_email'
-        remove_email(email_list)
-      when 'add_email'
-        add_email(email_list)
-      else
-        # didn't match method
-      end
     end
 
     def remove_email(list)

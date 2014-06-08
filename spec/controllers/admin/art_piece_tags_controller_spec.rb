@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Admin::ArtPieceTagsController do
 
+  fixtures :users, :roles, :roles_users, :art_piece_tags, :art_pieces_tags, :art_pieces, :artist_infos, :media
+
   let(:user) { FactoryGirl.create(:user, :active) }
   let(:admin) { FactoryGirl.create(:user, :admin, :active) }
 

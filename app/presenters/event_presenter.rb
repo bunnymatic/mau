@@ -2,7 +2,7 @@ class EventPresenter
 
   include TzHelper
 
-  delegate :id, :url, :updated_at, :description, :reception_starttime, :reception_endtime, :starttime, :color, :name,
+  delegate :id, :url, :updated_at, :reception_starttime, :reception_endtime, :starttime, :color, :name,
            :venue, :map_link, :address_hash, :endtime, :title, :start_at, :end_at, :clip_range,
            :published?, :in_progress?, :future?, :past?, :to => :event
 
@@ -11,6 +11,10 @@ class EventPresenter
   def initialize(view_context, event)
     @view_context = view_context
     @event = event
+  end
+
+  def description
+    MarkdownService.markdown(event.description).html_safe
   end
 
   def feed_description

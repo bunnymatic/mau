@@ -327,7 +327,7 @@ describe Admin::StudiosController do
       it_should_behave_like 'returns success'
       it 'shows a table of all studios' do
         Studio.all.each do |s|
-          assert_select ".admin-table tr td a[href=#{studio_path(s)}]", HTMLEntities.new.decode(s.name)
+          assert_select ".admin-table tr td a[href=#{studio_path(s)}]", s.name
           assert_select ".admin-table tr td a[href=#{s.url}]" if s.url && s.url.present?
         end
       end

@@ -41,6 +41,10 @@ Then(/^I see that I'm logged in$/) do
   expect(page).to have_selector('.notice',:text => /you\'re in/i)
 end
 
+Then(/^I see that I'm logged out$/) do
+  expect(page).to have_link "log in", new_user_session_path
+end
+
 When(/^I fill in an invalid username and password$/) do
   fill_in_login_form 'you', 'are not allowed'
 end
