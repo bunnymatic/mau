@@ -50,7 +50,6 @@ common:
    recaptcha_private_key: 6Lc9BNkSAAAAAAHJ-NxXih62VuSsqnUx3EJc91Bo
    cache_server: localhost:11211
 
-   show_lightbox_feature: true
    feedback_emails:
       - feedback@missionartistsunited.org
       - maufeedback@bunnymatic.com

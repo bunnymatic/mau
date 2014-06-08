@@ -27,8 +27,8 @@ describe ArtPiecesController do
     end
     context "not logged in" do
       context "format=html" do
+        render_views
         context 'when the artist is active' do
-          render_views
           before do
             get :show, :id => @artpieces.first.id
           end
@@ -76,30 +76,24 @@ describe ArtPiecesController do
             assert_select '#artp_thumb_browser'
           end
 
-          it "displays art piece" do
+          it "displays art piece with no edit buttons and a zoom button" do
             assert_select("#artpiece_title", @artpieces.first.title)
-          end
-          if Conf.show_lightbox_feature
-            it 'includes the zoom data for big art pieces' do
-              assert_select('a.zoom')
-            end
-          end
-          it "has no edit buttons" do
             assert_select("div.edit-buttons", "")
             expect(css_select("div.edit-buttons *")).to be_empty
+            assert_select('a.zoom')
           end
           it "has a favorite me icon" do
             assert_select('.micro-icon.heart')
           end
-          context "piece has been favorited" do
-            before do
-              ap = @artpieces.first
-              users(:maufan1).add_favorite ap
-              get :show, :id => ap.id
-            end
-            it "shows the number of favorites" do
-              assert_select '#num_favorites', 1
-            end
+        end          
+        context "piece has been favorited" do
+          before do
+            ap = @artpieces.first
+            users(:maufan1).add_favorite ap
+            get :show, :id => ap.id
+          end
+          it "shows the number of favorites" do
+            assert_select '#num_favorites', 1
           end
         end
       end
