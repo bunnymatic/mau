@@ -32,7 +32,7 @@ angular.module('ArtPiecesApp.controllers', []).
       if $scope.artist && $scope.current
         ArtPieces.get {artistId: $scope.artist.id, artPieceId: $scope.current}, (piece) ->
           $scope.currentArtPiece = piece.art_piece
-          $scope.artPiecePath = '/artists/' + artistId + '/art_pieces/' + $scope.currentArtPiece.id
+          $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece.id
           $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
       
     $scope.$watch 'current', setCurrentArtPiece

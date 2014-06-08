@@ -13,7 +13,6 @@ class ArtPiecesController < ApplicationController
   before_filter :load_media, :only => [:new, :edit, :create, :update]
 
   after_filter :flush_cache, :only => [:create, :update, :destroy]
-  after_filter :store_location
 
   def flush_cache
     Medium.flush_cache
@@ -110,7 +109,7 @@ class ArtPiecesController < ApplicationController
     if @art_piece.update_attributes(art_piece_params)
       flash[:notice] = 'Artwork was successfully updated.'
       Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
-      redirect_to artist_art_piece_path(@art_piece.artist, @art_piece)
+      redirect_to art_piece_path(@art_piece)
     else
       render :action => "edit"
     end

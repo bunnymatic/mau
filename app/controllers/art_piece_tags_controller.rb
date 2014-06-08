@@ -6,7 +6,6 @@ class ArtPieceTagsController < ApplicationController
   layout 'mau1col'
 
   before_filter :admin_required, :except => [ :index, :show, :autosuggest ]
-  after_filter :store_location
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']

@@ -463,8 +463,7 @@ a {
 #artisthemission { float: left; margin-left: 8px; }
 #nav_bar {}
 #sidebar_nav {
-  width:204px;
-  margin: 16px auto;
+  margin: 16px 32px;
   border: 1px solid $bordergray;
   @include small-rounded-corners;
   a {

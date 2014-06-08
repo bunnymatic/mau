@@ -35,7 +35,7 @@ class ThumbnailBrowserPresenter
         :path => item_path,
         :clz => 'tiny-thumb',
         :id => item_id,
-        :link => @view_context.artist_art_piece_path(item.artist, item),
+        :link => @view_context.art_piece_path(item),
         :background_style => style
       }
       if item_id == @current_piece.id

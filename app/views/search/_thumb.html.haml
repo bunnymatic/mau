@@ -1,5 +1,5 @@
 - if piece && piece.artist
-  - linkto = (artist_link and piece.artist) ? artist_path(piece.artist) : artist_art_piece_path(piece.artist, piece)
+  - linkto = (artist_link and piece.artist) ? artist_path(piece.artist) : art_piece_path(piece)
   .artpiece-thumb
     - if piece.artist.doing_open_studios?
       .os-star{:title => "I'll be in Open Studios!"}
@@ -17,7 +17,7 @@
       .artpiece_title
         %span Title:
         %span
-          = link_to piece.get_name, artist_art_piece_path(piece.artist, piece)
+          = link_to piece.get_name, art_piece_path(piece)
       - if piece.medium
         .artpiece_medium
           %span Medium:

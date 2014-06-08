@@ -7,8 +7,6 @@ class UsersController < ApplicationController
                                             :add_profile, :deactivate, :setarrangement, :arrange_art,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
 
-  after_filter :store_location, :only => [ :edit, :show, :add_profile, :favorites ]
-
   layout 'mau1col'
 
   DEFAULT_ACCOUNT_TYPE = 'MAUFan'
@@ -306,7 +304,7 @@ class UsersController < ApplicationController
         msg = r ? "#{objname} has been added to your favorites.":
           "You've already added #{objname} to your list of favorites."
         if obj.is_a? ArtPiece
-          redirect_to artist_art_piece_path(obj.artist, obj), :flash => { :notice => msg.html_safe }
+          redirect_to art_piece_path(obj), :flash => { :notice => msg.html_safe }
         else
           redirect_to obj, :flash => { :notice => msg.html_safe }
         end

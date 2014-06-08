@@ -312,7 +312,7 @@ describe ArtPiecesController do
 
       it 'redirects to show page on success' do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
-        expect(response).to redirect_to artist_art_piece_path(@ap.artist, @ap)
+        expect(response).to redirect_to art_piece_path(@ap)
       end
       it 'sets a flash message on success' do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
@@ -328,7 +328,7 @@ describe ArtPiecesController do
       end
       it 'redirects to show page on cancel' do
         post :update, :id => @ap.id, :commit => 'Cancel', :art_piece => {:title => 'new title'}
-        expect(response).to redirect_to [@ap.artist, @ap]
+        expect(response).to redirect_to @ap
       end
       it 'redirects to show if you try to edit someone elses art' do
         ap = ArtPiece.all.detect{|ap| ap.artist != @ap.artist}

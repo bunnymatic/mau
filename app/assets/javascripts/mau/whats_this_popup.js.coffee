@@ -8,7 +8,7 @@ MAU.WhatsThis = class WhatsThis
     @helpTextDiv = '#' + @parentId + "container"
 
     jQuery(@trigger).bind('click', @popup)
-    jQuery(@helpTextDiv).find('.popup-close').bind('click', @popup)
+    jQuery(@helpTextDiv).bind('click', @popup)
     
   popup: =>
     jQuery(@helpTextDiv).fadeToggle()

@@ -14,8 +14,6 @@ class ArtistsController < ApplicationController
 
   before_filter :user_required, :only => [ :edit, :update, :delete_art, :destroyart, :setarrangement, :arrange_art ]
 
-  after_filter :store_location, :except => [:show]  # may handle these separately in case of error pages
-
   layout 'mau1col', :except => 'faq'
 
   # num artists before we paginate
@@ -160,7 +158,6 @@ class ArtistsController < ApplicationController
         end
         @artist = ArtistPresenter.new(view_context, @artist)
 
-        store_location
         render :action => 'show', :layout => 'mau'
       }
       format.json  {

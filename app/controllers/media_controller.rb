@@ -5,7 +5,6 @@ class MediaController < ApplicationController
   before_filter :admin_required, :except => [ :index, :show ]
   before_filter :load_media, :only => [:show]
   before_filter :load_media_frequency, :only => [:index, :show]
-  after_filter :store_location
 
   def index
     xtra_params = Hash[ params.select{ |k,v| [:m, "m"].include? k } ]
