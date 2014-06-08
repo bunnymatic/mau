@@ -85,7 +85,7 @@ describe ArtPiecesController do
           it "has a favorite me icon" do
             assert_select('.micro-icon.heart')
           end
-        end          
+        end
         context "piece has been favorited" do
           before do
             ap = @artpieces.first
@@ -211,20 +211,18 @@ describe ArtPiecesController do
   end
 
   describe '#new' do
-    before do
-      login_as :artist1
-    end
+    let!(:artist) { login_as :artist1 }
     it 'sets a flash for artists with a full portfolio' do
       Artist.any_instance.stub(:max_pieces => 0)
-      get :new
+      get :new, :artist_id => artist
       flash.now[:error].should be_present
     end
     it 'assigns all media' do
-      get :new
+      get :new, :artist_id => artist
       expect(assigns(:media).map(&:id)).to eql Medium.alpha.map(&:id)
     end
     it 'assigns a new art piece' do
-      get :new
+      get :new, :artist_id => artist
       assigns(:art_piece).should be_a_kind_of ArtPiece
     end
   end
@@ -233,32 +231,30 @@ describe ArtPiecesController do
     context "while not logged in" do
       context "post " do
         before do
-          post :create
+          post :create, :artist_id => 6
         end
         it_should_behave_like "redirects to login"
       end
     end
     context "while logged in" do
-      before do
-        login_as :joeblogs
-      end
+      let!(:artist) { login_as :joeblogs }
       it 'sets a flash message without image' do
-        post :create, :art_piece => art_piece_attributes
+        post :create, :art_piece => art_piece_attributes, :artist_id => artist
         assigns(:art_piece).errors[:base].should be_present
       end
       it 'redirects to user page on cancel' do
-        post :create, :art_piece => art_piece_attributes, :commit => 'Cancel'
+        post :create, :art_piece => art_piece_attributes, :commit => 'Cancel', :artist_id => artist
         expect(response).to redirect_to artist_path(users(:joeblogs))
       end
       it 'renders new on failed save' do
         ArtPiece.any_instance.should_receive(:save).and_return(false)
-        post :create, :art_piece => art_piece_attributes, :upload => {}
+        post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
         expect(response).to render_template 'new'
       end
       context 'when image upload raises an error' do
         before do
           ArtPieceImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
-          post :create, :art_piece => art_piece_attributes, :upload => {}
+          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
         end
         it 'renders the form again' do
           expect(response).to render_template 'new'
@@ -274,20 +270,20 @@ describe ArtPiecesController do
           ArtPieceImage.should_receive(:new).and_return(mock_art_piece_image)
         end
         it 'redirects to show page on success' do
-          post :create, :art_piece => art_piece_attributes, :upload => {}
+          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
           expect(response).to redirect_to artist_path(users(:joeblogs))
         end
         it 'sets a flash message on success' do
-          post :create, :art_piece => art_piece_attributes, :upload => {}
+          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
           flash[:notice].should eql 'Artwork was successfully added.'
         end
         it "flushes the cache" do
           ArtPiecesController.any_instance.should_receive(:flush_cache)
-          post :create, :art_piece => art_piece_attributes, :upload => {}
+          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
         end
         it 'publishes a message' do
           Messager.any_instance.should_receive(:publish)
-          post :create, :art_piece => art_piece_attributes, :upload => {}
+          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
         end
       end
     end
@@ -297,7 +293,7 @@ describe ArtPiecesController do
     context "while not logged in" do
       context "post " do
         before do
-          post :update
+          post :update, :id => 'whatever'
         end
         it_should_behave_like "redirects to login"
       end
@@ -395,7 +391,7 @@ describe ArtPiecesController do
   describe "#delete", :eventmachine => true do
     context "while not logged in" do
       before do
-        post :destroy
+        post :destroy, :id => 'whatever'
       end
       it_should_behave_like 'redirects to login'
     end

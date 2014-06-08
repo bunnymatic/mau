@@ -7,7 +7,7 @@ describe Admin::EventsController do
   [:index, :publish, :unpublish].each do |endpt|
     context "#{endpt} when not logged in" do
       before do
-        get endpt
+        get endpt, :id => 'whatever'
       end
       it_should_behave_like 'not authorized'
     end

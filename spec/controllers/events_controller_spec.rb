@@ -7,15 +7,6 @@ describe EventsController do
   render_views
 
   describe 'unauthorized' do
-    [:edit, :new].each do |endpt|
-      context "when not logged in, #{endpt}" do
-        before do
-          get endpt
-        end
-        it_should_behave_like 'login required'
-      end
-    end
-
 
     describe '#index' do
       context 'with params' do

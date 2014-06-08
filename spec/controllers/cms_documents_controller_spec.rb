@@ -6,7 +6,7 @@ describe CmsDocumentsController do
   context 'not authorized' do
     [:index, :show, :edit, :update].each do |meth|
       before do
-        get meth
+        get meth, :id => 'whatever'
       end
       it_should_behave_like "not authorized"
     end

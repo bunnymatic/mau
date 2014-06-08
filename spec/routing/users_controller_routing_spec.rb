@@ -21,9 +21,6 @@ describe 'UsersController Routes' do
   it "should recognize GET /users/10 as show" do
     (get "/users/10").should route_to( {:controller => 'users', :action => 'show', :id => '10' })
   end
-  it "should recognize POST /users/10 as nonsense (action 10)" do
-    (post "/users/10").should route_to( {:controller => 'error', :action => 'index', "path"=>"users/10"})
-  end
   it "should recognize DELETE /users/10 as destroy user" do
     (delete "/users/10").should route_to( {:controller => 'users', :action => 'destroy', :id => '10' } )
   end

@@ -35,7 +35,4 @@ class TestsController < ApplicationController
     end
   end
 
-  def calendar_picker
-  end
-
 end

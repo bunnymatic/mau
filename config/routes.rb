@@ -4,9 +4,7 @@ Mau::Application.routes.draw do
   resources :roles
   resources :cms_documents, :except => [:destroy]
   resources :media, :only => [:index, :show]
-  #resource :session, :only => [:new, :create, :destroy]
-  #match '/logout' => 'sessions#destroy', :as => :logout
-  #match '/login' => 'sessions#new', :as => :login
+
   resource :user_session
   match '/logout' => 'user_sessions#destroy', :as => :logout
   match '/login' => 'user_sessions#new', :as => :login
@@ -19,16 +17,9 @@ Mau::Application.routes.draw do
     get :feed
     get :clear_cache
   end
-  resources :application_events, :only => [:index]
   resources :catalog, :only => [:index] do
     collection do
       get :social
-    end
-  end
-
-  resources :email_lists, :only => [:index, :destroy] do
-    collection do
-      post :add
     end
   end
 
@@ -58,8 +49,10 @@ Mau::Application.routes.draw do
   match 'reset/:reset_code' => 'users#reset', :as => :reset, :via => [:get, :post]
   match 'reset' => 'users#reset', :as => :submit_reset, :method => :post
 
+
+  resources :art_pieces, :only => [:show, :edit, :update, :destroy]
   resources :artists, :except => [:new, :create] do
-    resources :art_pieces, :except => [:index]
+    resources :art_pieces, :except => [:index, :destroy, :edit, :update]
     collection do
       get :by_lastname
       get :by_firstname
@@ -137,6 +130,13 @@ Mau::Application.routes.draw do
   match '/error' => 'error#index', :as => :error
 
   namespace :admin do
+    resources :email_lists, :only => [:index, :destroy] do
+      collection do
+        post :add
+      end
+    end
+
+    resources :application_events, :only => [:index]
     resources :favorites, :only => [:index]
     resources :media, :only => [:index, :create, :new, :edit, :update, :destroy]
     resources :artists, :only => [:index] do
@@ -179,10 +179,10 @@ Mau::Application.routes.draw do
   match '/mobile/main' => 'mobile/main#welcome', :as => :mobile_root
   match '/sitemap.xml' => 'main#sitemap', :as => :sitemap
   match '/api/*path' => 'api#index'
-  #match '*path' => 'error#index'
+  match '*path' => 'error#index'
 
   # march 2014 - we should try to get rid of this route
-  match '/:controller(/:action(/:id))'
+  #match '/:controller(/:action(/:id))'
 
   root :to => "main#index"
 

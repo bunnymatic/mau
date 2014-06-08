@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ApplicationEventsController do
+describe Admin::ApplicationEventsController do
   fixtures :application_events, :users, :roles, :roles_users
   describe 'unauthorized #index' do
     before do

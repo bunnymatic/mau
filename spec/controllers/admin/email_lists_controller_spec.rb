@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe EmailListsController do
+describe Admin::EmailListsController do
   fixtures :email_lists, :emails, :email_list_memberships, :users, :roles_users, :roles
   [:index].each do |endpoint|
     describe 'not logged in' do
@@ -37,12 +37,12 @@ describe EmailListsController do
 
     it 'returns 200 on success' do
       xhr :post, :add, :listtype => :event, :email => email_attrs
-      expect(response).to redirect_to email_lists_path
+      expect(response).to redirect_to admin_email_lists_path
     end
 
     it 'redirects to itself on success' do
       xhr :post, :add, :listtype => :event, :email => email_attrs
-      expect(response).to redirect_to email_lists_path
+      expect(response).to redirect_to admin_email_lists_path
     end
     it 'adds a new email to the email list' do
       expect {
@@ -57,7 +57,7 @@ describe EmailListsController do
     it 'redirects to itself with flash message when asking for an invalid list' do
       xhr :post, :add, :listtype => :bogus, :email => email_attrs
       flash[:error].should match /couldn't find that list/
-      expect(response).to redirect_to email_lists_path
+      expect(response).to redirect_to admin_email_lists_path
     end
 
   end

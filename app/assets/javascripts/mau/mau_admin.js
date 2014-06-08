@@ -40,7 +40,7 @@ jQuery(function() {
         var listname = $ul.attr('list_type');
         if ( email && listname && email_id ) {
           if (confirm('Whoa Nelly!  Are you sure you want to remove ' + email + ' from the ' + listname + ' list?')) {
-            var data_url = '/email_lists/' + email_id;
+            var data_url = '/admin/email_lists/' + email_id;
             var ajax_data = {
               url: data_url,
               method: 'delete',
