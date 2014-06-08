@@ -28,7 +28,6 @@ describe ArtistPresenter do
   it 'has a good map div for google maps' do
     map_info = subject.get_map_info
     html = Nokogiri::HTML::DocumentFragment.parse(map_info)
-    binding.pry
     expect(html.css('style').to_s).to include '_mau1'
     expect(html.css('div._mau1 a.lkdark img')).to have(1).image
     expect(html.css('div._mau1 a.lkdark')[1].text).to include artist.get_name
