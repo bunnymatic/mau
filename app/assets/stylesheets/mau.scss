@@ -358,6 +358,7 @@ a.lknav {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight:bold;
+  @include transition(all 0.2s ease);
   &:link, &:visited {
     color: $darkgray;
   }
@@ -371,6 +372,7 @@ a.lknav {
 
 /* link for light background like login and footer (dark text) */
 a.lkdark {
+  @include transition(all 0.2s ease);
   &:link, &:visited, &:active {
     color: $xmediumgray;
   }
@@ -380,6 +382,7 @@ a.lkdark {
 }
 
 a.lksubtle, a.lksubtle:link, a.lksubtle:visited ,a.lksubtle:active {
+  @include transition(all 0.2s ease);
   color: $xmediumgray;
   &:hover {
     color: #dcd5a8;
@@ -387,6 +390,7 @@ a.lksubtle, a.lksubtle:link, a.lksubtle:visited ,a.lksubtle:active {
 }
 
 a.lkthumb, a.lkthumb:link, a.lkthumb:visited, a.lkthumb:active {
+  @include transition(all 0.2s ease);
   color: $white;
   &:hover {
     color: $lightbluegray;
@@ -394,6 +398,7 @@ a.lkthumb, a.lkthumb:link, a.lkthumb:visited, a.lkthumb:active {
 }
 
 a.formbutton {
+  @include transition(all 0.2s ease);
   &:link, &:visited, &:active {
     color: #422;
   }
@@ -601,6 +606,7 @@ input[type=submit], .formbutton {
   cursor:pointer;
   text-transform: lowercase;
   padding: 5px;
+  @include transition(all 0.2s ease);
   &:hover {
     @include opacity(0.85);
   }
@@ -3424,28 +3430,23 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   }
 }
 
-.action_button.sprite {
-  background-image: url(/images/action_buttons_sprite_blue.png);
-  background-repeat: no-repeat;
-  width: 215px;
-  height: 50px;
-  margin: auto;
-  &.get_involved {
-    margin-top: 8px;
-  }
-  &.mailing_list {
-    background-position: 0 -50px;
-  }
-  &.list_your_show {
-    background-position: 0 -100px;
-  }
-  &.call_for_entries {
-    background-position: 0 -150px;
-  }
-  &.spring_os_signup {
-    background-position: 0 -200px;
+.action_button.text {
+  background-color: $medbluegray;
+  display: block;
+  @include large-rounded-corners;
+  padding: 8px 20px 12px;
+  color: white;
+  text-shadow: 1px 1px $darkgray;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 15px;
+  box-shadow: 1px 1px 3px $darkgray;
+  @include transition(all 0.2s ease);
+  &:hover {
+    background-color: $darkbluegray;
   }
 }
+
 .lcol .buttons {
   margin-top: 15px;
   margin-bottom: 15px;

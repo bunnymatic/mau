@@ -29,10 +29,9 @@
                   %a.favorite_this{:href => "#", "fav-type" => "ArtPiece", "ng-attr-fav-id" => "{{currentArtPiece.id}}", :title => "Add this art piece to your favorites"}
                     #num_favorites{ "ng-bind" => "currentArtPiece.favorites.count" }
                     .micro-icon.heart
-            - if Conf.show_lightbox_feature
-              .zoom-corner
-                %a{:class => 'zoom', "ng-href" => "{{currentArtPiece.image_files.large}}", "ng-attr-title" => "{{currentArtPiece.title}}" }
-                  %img.zoom{:src => '/images/icons/zoom_corner.png'}
+            .zoom-corner
+              %a{:class => 'zoom', "ng-href" => "{{currentArtPiece.image_files.large}}", "ng-attr-title" => "{{currentArtPiece.title}}" }
+                %img.zoom{:src => '/images/icons/zoom_corner.png'}
 
           .art-piece-info{ 'ng-style' => "currentDisplayWidthStyle()" }
             .basic
