@@ -44,7 +44,7 @@
       - [:url].each do |txtfld|
         .entry
           = f.label txtfld, "Event Website"
-          = f.text_field txtfld
+          = f.text_field txtfld, :placeholder => 'e.g. http://www.example.com'
       - unless request.path.include? 'edit'
         .entry
           = label_tag :event_artist_list, "MAU Artists Showing"
