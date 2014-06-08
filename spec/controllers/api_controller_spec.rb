@@ -37,7 +37,7 @@ describe ApiController do
   end
 
   context 'bad requests' do
-    [nil, ['bogus'], ['bogus',1],
+    [['bogus'], ['bogus',1],
      ['artists','b','c','d'],  ['artists','2','edit'],
      ['studios', ActiveRecord::Fixtures.identify(:blue),'destroy'],
      ['hash']].each do |params_path|

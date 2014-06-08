@@ -84,7 +84,7 @@ describe Admin::MediaController do
   describe "#update" do
     context 'as unauthorized' do
       before do
-        post :update
+        post :update, :id => 'whatever'
       end
       it_should_behave_like 'not authorized'
     end

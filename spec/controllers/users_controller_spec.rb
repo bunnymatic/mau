@@ -33,7 +33,7 @@ describe UsersController do
   end
 
   it "actions should fail if not logged in" do
-    exceptions = [:index, :show, :artists, :resend_activation, :favorites,
+    exceptions = [:index, :show, :update, :artists, :resend_activation, :favorites,
                   :forgot, :destroy, :create, :new, :activate,
                   :notify, :noteform, :reset, :favorites_notify]
     controller_actions_should_fail_if_not_logged_in(:user,
@@ -298,7 +298,7 @@ describe UsersController do
     end
     context "while not logged in" do
       before do
-        get :show
+        get :show, :id => 123
       end
       it_should_behave_like "not logged in"
     end
@@ -373,7 +373,7 @@ describe UsersController do
       render_views
       before do
         login_as(fan)
-        get :edit
+        get :edit, :id => fan.id
       end
 
       it_should_behave_like 'one column layout'
@@ -846,12 +846,6 @@ describe UsersController do
   end
 
   describe 'activate' do
-    describe 'with no activation code' do
-      it 'redirects to login' do
-        get :activate
-        expect(response).to redirect_to login_url
-      end
-    end
     describe 'with valid activation code' do
       before do
         MAUFan.any_instance.stub(:recently_activated? => true)

@@ -12,7 +12,7 @@ describe RolesController do
     [:index,:edit,:show].each do |endpoint|
       context "#{endpoint}" do
         before do
-          get endpoint
+          get endpoint, :id => 'whatever'
         end
         it_should_behave_like 'not authorized'
       end

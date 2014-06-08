@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe TestsController do
-  [:qr, :flash_test, :calendar_picker, :custom_map].map(&:to_s).each do |endpoint|
+  [:qr, :flash_test, :custom_map].map(&:to_s).each do |endpoint|
     it "#{endpoint} returns error if you're not logged in" do
       get endpoint
       expect(response).to redirect_to '/error'

@@ -24,7 +24,7 @@ describe ArtistFeedsController do
     [:index, :edit, :update].each do |meth|
       context "#{meth}" do
         before do
-          get meth
+          get meth, :id => 'whatever'
         end
         it_should_behave_like "not authorized"
       end

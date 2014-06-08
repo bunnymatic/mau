@@ -10,4 +10,4 @@ Description: <%= @event.description  %>
 
 Submitter's page: <%= (@event.user && @event.user.get_share_link) %>
 
-Admin Events Page: <%= url_for(:host => Conf.site_url, :controller => 'events', :action => 'admin_index') %>
+Admin Events Page: <%= url_for(:host => Conf.site_url, :controller => 'admin/events', :action => 'index') %>

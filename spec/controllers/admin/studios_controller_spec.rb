@@ -168,14 +168,14 @@ describe Admin::StudiosController do
   describe 'upload_profile' do
     describe 'unauthorized' do
       before do
-        post :upload_profile
+        post :upload_profile, :id => 'whatever'
       end
       it_should_behave_like 'not authorized'
     end
     describe 'as editor' do
       before do
         login_as editor
-        post :upload_profile
+        post :upload_profile, :id => 'whatever'
       end
       it_should_behave_like 'not authorized'
     end

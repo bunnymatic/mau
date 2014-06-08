@@ -114,19 +114,19 @@ describe ArtistsController do
       context "submit" do
         context "post with new bio data" do
           it "redirects to to edit page" do
-            put :update, { :commit => 'submit', :artist => { :artist_info => artist_info_attrs}}
+            put :update, :id => artist1, :commit => 'submit', :artist => { :artist_info => artist_info_attrs}
             flash[:notice].should eql 'Update successful'
             expect(response).to redirect_to(edit_artist_path(artist1))
           end
           it 'publishes an update message' do
             Messager.any_instance.should_receive(:publish)
-            put :update, { :commit => 'submit', :artist => { :artist_info => artist_info_attrs}}
+            put :update, :id => artist1, :commit => 'submit', :artist => { :artist_info => artist_info_attrs}
           end
         end
       end
       context "cancel post with new bio data" do
         before do
-          post :update, { :commit => 'cancel', :artist => { :artist_info => artist_info_attrs}}
+          post :update, :id => artist1, :commit => 'cancel', :artist => { :artist_info => artist_info_attrs}
         end
         it "redirects to user page" do
           expect(response).to redirect_to(user_path(artist1))
@@ -143,21 +143,21 @@ describe ArtistsController do
         let(:street) { artist_info_attrs[:street] }
 
         it "contains flash notice of success" do
-          put :update, { :commit => 'submit', :artist => {:artist_info => artist_info_attrs}}
+          put :update, :id => artist1, :commit => 'submit', :artist => {:artist_info => artist_info_attrs}
           flash[:notice].should eql "Update successful"
         end
         it "updates user address" do
-          put :update, { :commit => 'submit', :artist => {:artist_info => artist_info_attrs}}
+          put :update, :id => artist1, :commit => 'submit', :artist => {:artist_info => artist_info_attrs}
           artist1_info.reload.address.should include street
         end
         it 'publishes an update message' do
           Messager.any_instance.should_receive(:publish)
-          put :update, { :commit => 'submit', :artist => { :artist_info => {:street => 'wherever' }}}
+          put :update, :id => artist1, :commit => 'submit', :artist => { :artist_info => {:street => 'wherever' }}
         end
       end
       context "update os status" do
         it "updates artists os status to true for 201104" do
-          put :update, :commit => 'submit', :artist => {
+          put :update, :id => artist1, :commit => 'submit', :artist => {
             :artist_info => {
               :os_participation => { '201104' => true }
             }
@@ -166,7 +166,7 @@ describe ArtistsController do
           artist1.reload.os_participation['201104'].should be_true
         end
         it "updates artists os status to true for 201104 given '201104' => 'on'" do
-          put :update, :commit => 'submit', :artist => {
+          put :update, :id => artist1, :commit => 'submit', :artist => {
             :artist_info => {
               :os_participation => { '201104' => 'on' }
             }
@@ -177,7 +177,7 @@ describe ArtistsController do
         it "updates artists os status to false for 201104" do
           @logged_in_user.os_participation = {'201104' => 'true'}
           @logged_in_user.save
-          put :update, :commit => 'submit', :artist => {
+          put :update, :id => artist1, :commit => 'submit', :artist => {
             :artist_info => {
               :os_participation => { '201104' => 'false' }
             }
@@ -185,7 +185,7 @@ describe ArtistsController do
           artist1.reload.os_participation['201104'].should be_nil
         end
         it "updates artists os status to true" do
-          xhr :put, :update, :artist_os_participation => '1'
+          xhr :put, :update, :id => artist1, :artist_os_participation => '1'
           artist1.reload.os_participation[Conf.oslive.to_s].should be_true
         end
 
@@ -201,13 +201,13 @@ describe ArtistsController do
 
           @logged_in_user.update_attribute(:studio_id,0)
           @logged_in_user.reload
-          xhr :put, :update, { :commit => 'submit', :artist_os_participation => '0' }
+          xhr :put, :update, :id => artist1, :commit => 'submit', :artist_os_participation => '0'
           artist1.reload.os_participation['201104'].should be_nil
         end
         it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
           stub_request(:get, Regexp.new( "http:\/\/example.com\/openstudios.*" ))
           expect {
-            xhr :put, :update, { :commit => 'submit', :artist_os_participation => '1' }
+            xhr :put, :update, :id => artist1, :commit => 'submit', :artist_os_participation => '1'
           }.to change(OpenStudiosSignupEvent,:count).by(1)
         end
 
