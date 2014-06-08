@@ -115,8 +115,8 @@ class ArtistPresenter
   def get_map_info
     [].tap do |bits|
       bits << marker_style
-      bits << content_tag('div', map_info_contents, :class => '_mau1').html_safe
-    end.join.html_safe
+      bits << content_tag('div', map_info_contents, :class => '_mau1')
+    end.map(&:html_safe).join.html_safe
   end
 
   def representative_piece
@@ -132,11 +132,11 @@ class ArtistPresenter
       html << (content_tag 'div', linked_thumb, :style => "float:right;") if representative_piece
       html << map_info_name_address
       html << content_tag("div", '', :style => 'clear:both;')
-    end.join.html_safe
+    end.map(&:html_safe).join.html_safe
   end
 
   def map_info_name_address
-    name = content_tag 'a', get_name(true), :href => show_path, :class => :lkdark
+    name = content_tag 'a', get_name, :href => show_path, :class => :lkdark
     html = [name]
     street = address_hash.try(:parsed).try(:street)
     if artist.studio && artist.studio_id != 0
@@ -145,7 +145,7 @@ class ArtistPresenter
     else
       html << content_tag('div', street)
     end
-    html.join.html_safe
+    html.map(&:html_safe).join.html_safe
   end
 
   def for_mobile_list
