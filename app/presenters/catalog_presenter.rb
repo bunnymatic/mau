@@ -2,8 +2,6 @@ require 'csv'
 
 class CatalogPresenter
 
-  include MarkdownUtils
-
   def csv_filename
     @csv_filename ||= (['mau_catalog', Conf.oslive.to_s].compact.join("_") + '.csv')
   end

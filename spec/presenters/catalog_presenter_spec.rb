@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe CatalogPresenter do
 
-  include MarkdownUtils
-
   fixtures :cms_documents, :users, :artist_infos, :roles, :studios, :art_pieces,:media, :art_pieces_tags
 
   let(:reception_doc) { cms_documents(:os_preview_reception) }
@@ -22,7 +20,7 @@ describe CatalogPresenter do
       "data-cmsid" => reception_doc.id
     })
   end
-  its(:preview_reception_content) { should eql markdown(reception_doc.article) }
+  its(:preview_reception_content) { should eql MarkdownService.markdown(reception_doc.article) }
   it 'sorts artists by name within their studio' do
     subject.artists_by_studio.each do |studio, artists|
       expect(artists.map{|a| a.lastname.downcase}).to be_monotonically_increasing

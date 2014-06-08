@@ -4,7 +4,6 @@
 class ArtistPresenter
 
   include HtmlHelper
-  include MarkdownUtils
 
   attr_accessor :artist
   delegate :name, :state, :firstname, :lastname, :city, :street, :id,
@@ -158,7 +157,7 @@ class ArtistPresenter
   end
 
   def bio_html
-    @bio_html ||= markdown(bio)
+    @bio_html ||= MarkdownService.markdown(bio, :filter_html)
   end
 
   def profile_image(size = small)

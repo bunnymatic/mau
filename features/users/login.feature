@@ -16,3 +16,5 @@ Scenario: login with good info
   When I fill in valid credentials
   And I click "Sign In"
   Then I see that I'm logged in
+  And I click "log out"
+  Then I see that I'm logged out

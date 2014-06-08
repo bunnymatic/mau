@@ -13,7 +13,6 @@
 class CmsDocument < ActiveRecord::Base
 
   before_save :clean_newlines
-  extend MarkdownUtils
 
   validates :page, :presence => true, :length => {:within => (2..255)}
   validates :article, :presence => true, :length => {:minimum => 2}
@@ -26,7 +25,7 @@ class CmsDocument < ActiveRecord::Base
     markdown_content = where(:page => page.to_s, :section => section.to_s).first
 
     if !markdown_content.nil?
-      pkg[:content] = markdown(markdown_content.article)
+      pkg[:content] = MarkdownService.markdown(markdown_content.article)
       pkg[:cmsid] = markdown_content.id
     end
     pkg

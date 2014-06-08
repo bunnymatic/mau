@@ -1,5 +1,5 @@
 class CatalogController < ApplicationController
-  include MarkdownUtils
+
   layout 'catalog'
 
   def index

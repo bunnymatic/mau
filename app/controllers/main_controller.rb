@@ -6,7 +6,7 @@ FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
   layout 'mau2col'
-  include MarkdownUtils
+
   include MainHelper
   skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
 
@@ -143,7 +143,7 @@ class MainController < ApplicationController
       :section => section
     }
     if !doc.nil?
-      @content[:content] = markdown(doc.article)
+      @content[:content] = MarkdownService.markdown(doc.article)
       @content[:cmsid] = doc.id
     end
     respond_to do |fmt|
@@ -162,7 +162,7 @@ class MainController < ApplicationController
       :section => section
     }
     if doc
-      @content[:content] = markdown(doc.article)
+      @content[:content] = MarkdownService.markdown(doc.article)
       @content[:cmsid] = doc.id
     end
 
