@@ -20,10 +20,4 @@ jQuery(function() {
                                      });
   }
 
-  /** handle os switch on map page */
-  jQuery('#map_cb').bind('click', function(ev) {
-    ev.stopPropagation();
-    jQuery('#map_osswitcher').submit();
-  });
-
 });

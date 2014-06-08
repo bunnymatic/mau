@@ -187,7 +187,7 @@ jQuery(function() {
 
   jQuery('.acct .edit a').each(function() {
     var $el = $(this);
-    
+
     var openSectionFromLink = function(lnk) {
       var href = lnk.href;
       var sxn = _.last(href.split('#'));
@@ -221,6 +221,14 @@ jQuery(function() {
       jQuery('.edit-sections #address .studio-number-row').show();
     }
   });
+
+  /** handle os switch on map/roster page */
+  jQuery('#map_cb').bind('click', function(ev) {
+    ev.stopPropagation();
+    jQuery('#map_osswitcher').submit();
+  });
+
+
 
 
   var flashNotice = jQuery(".notice");
