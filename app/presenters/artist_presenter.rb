@@ -158,7 +158,7 @@ class ArtistPresenter
   end
 
   def bio_html
-    @bio_html ||= markdown(bio)
+    @bio_html ||= markdown(bio, :filter_html)
   end
 
   def profile_image(size = small)
