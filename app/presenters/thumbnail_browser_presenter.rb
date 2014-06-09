@@ -30,7 +30,7 @@ class ThumbnailBrowserPresenter
     @thumbs ||= pieces.map.with_index do |item, idx|
       item_id = item.send(:id)
       item_path = item.get_path('thumb')
-      style = "background-image:url(#{item_path}); background-position: center center;"
+      style = "background-image:url(#{item_path});"
       thumb = {
         :path => item_path,
         :clz => 'tiny-thumb',

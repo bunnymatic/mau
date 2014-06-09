@@ -1579,12 +1579,11 @@ $browser_thumb_row_height: 51px;
 
 }
 
-
-
 .tiny-thumb {
   float: left;
   border: 2px solid #111;
   background-repeat: no-repeat;
+  background-position: center center;
   margin: 4px ;
   width: 41px;
   height:  37px;
@@ -1595,19 +1594,6 @@ $browser_thumb_row_height: 51px;
 .selected {
   border: 2px solid $lightyellow;
 }
-
-/* for thumb_browser 2
-   #tbar_contain {
-   margin: 40px;
-   padding: 0 0 20px 0;
-   position: absolute;
-   overflow: hidden;
-   width: 527px;
-   }
-   #tbar_content {
-   position: relative;
-   }
-   */
 
 td.vstripe{
   background-color:$bluegray;
