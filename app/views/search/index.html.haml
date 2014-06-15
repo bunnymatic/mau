@@ -3,10 +3,10 @@
     %td.lcol{:colspan => 2}
       .column
         .current_search
+          #search_help.help-parent
+            = render '/whatsthis/popup', :section => 'search', :link_text => "what's this?", :parent => 'search_help', :use_icon => true, :title => "About Search"
           %h4
             Current Search
-            #search_help.help-parent
-              = render '/whatsthis/popup', :section => 'search', :link_text => "what's this?", :parent => 'search_help', :use_icon => true, :title => "About Search"
 
           .block.keywords
             %label Keywords:
