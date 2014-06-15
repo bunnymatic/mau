@@ -11,7 +11,7 @@ body.events.admin {
         padding: 5px 10px;
         margin: 0;
         cursor: pointer;
-        min-height: 30px;
+        min-height: 40px;
         clear: both;
         &:hover {
           background-color: rgba(255,255,255,0.2);
@@ -32,6 +32,7 @@ body.events.admin {
       footer {
       }
       .body { 
+        clear:both;
         height:0;
         overflow:hidden;
       }

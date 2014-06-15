@@ -55,3 +55,11 @@ Given /there are events in the system/ do
             ].flatten
   @published_events = @events.select{|ev| ev.published_at.present?}
 end
+
+Given /there are past open studios events/ do
+  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, :start_date => 3.months.ago)
+end
+
+Given /there are future open studios events/ do
+  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, :start_date => 3.months.since)
+end
