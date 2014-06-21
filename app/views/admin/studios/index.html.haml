@@ -2,15 +2,23 @@
   %h1 Listing studios
 
   = render :partial => '/flash_notice_error'
-  .controls
-    = link_to 'Add Studio', new_admin_studio_path if current_user.is_admin?
+  .admin-controls
+    - if current_user.is_admin?
+      = link_to new_admin_studio_path, :title => 'add studio' do
+        = fa_icon "plus"
+    
   %table
-    %tr
-      %th Name
-      %th Address
-      %th Population
-      %th Logo
-      %th Website
+    %thead
+      %tr
+        %th Name
+        %th Address
+        %th Population
+        %th Logo
+        %th Website
+        %th
+        %th 
+        %th 
+    %tbody
     - @studios.each do |studio|
       %tr{:class => cycle('even','odd')}
         %td
@@ -27,10 +35,17 @@
             %img{:src => studio.get_profile_image('thumb')}
         %td
           %a{:target => '_blank', :href => studio.url} #{studio.url}
-        %td
+        %td.admin-controls
           .show
-            = link_to 'Show', studio
+            = link_to studio, :title => 'show' do
+              = fa_icon 'eye-open'
+        %td.admin-controls
           .edit
-            = link_to 'Edit', edit_admin_studio_path(studio) if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
+            - if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
+              = link_to edit_admin_studio_path(studio), :title => 'edit' do
+                = fa_icon 'edit'
+        %td.admin-controls
           .remove
-            = link_to('Destroy', studio, :confirm => 'Are you sure?', :method => :delete) if current_user.is_admin?
+            - if current_user.is_admin?
+              = link_to studio, :confirm => 'Are you sure?', :method => :delete, :title => 'remove' do
+                = fa_icon 'remove'

@@ -3,6 +3,7 @@ ruby '2.1.2'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
+gem 'font-awesome-rails'
 # gem 'aasm'
 gem "nokogiri", '~> 1.6'
 gem "htmlentities"

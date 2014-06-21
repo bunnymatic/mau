@@ -131,7 +131,7 @@ Mau::Application.routes.draw do
 
   namespace :admin do
     resources :open_studios_events
-    resources :email_lists, :only => [:index, :destroy] do
+    resources :email_lists, :only => [:index, :new, :destroy] do
       collection do
         post :add
       end

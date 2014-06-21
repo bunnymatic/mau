@@ -1,6 +1,9 @@
 .admin-table.singlecolumn
   %h1 Open Studios'
 
+  .admin-controls
+    = link_to new_admin_open_studios_event_path, :title => 'add new open studios date' do
+      = fa_icon "plus"
   %table
     %thead
       %tr

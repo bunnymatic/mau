@@ -28,6 +28,15 @@ body.admin {
     display: block;
   }
 
+  /* for add/edit controls on an index page */
+  .admin-controls {
+    float:right;
+    font-size:18px;
+  }
+  td.admin-controls {
+    font-size: 14px;
+  }
+    
 
   #role_mgr {
     padding-left: 20px;
