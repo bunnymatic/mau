@@ -12,12 +12,12 @@ Then(/^I see the most popular tag page$/) do
 end
 
 Then(/^I don't see the first tag anymore$/) do
-  expect(page).to_not have_selector('.tagcloud .clouditem a', :text => /\A@first_tag.name\Z/)
+  expect(page).to_not have_selector('.tagcloud .clouditem a', text: /\A@first_tag.name\Z/)
 end
 
 When(/^I destroy the first tag$/) do
   @first_tag = tags_sorted_by_frequency.first.first
-  steps %{When I click on the first "Destroy" button}
+  steps %{When I click on the first "Remove" button}
 end
 
 Then(/^I see a list of artists who have art in the most popular tag$/) do

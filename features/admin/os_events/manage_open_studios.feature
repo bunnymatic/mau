@@ -12,3 +12,8 @@ Scenario: Viewing and cleaning out tags
   When I click on "os dates" in the admin menu
   Then I see the "admin open studios events" page
   And I see the open studios events
+  When I click on "add new open studios date"
+  Then I see a new open studios form
+
+  When I fill in the open studios event form for next weekend
+  Then I see a new open studios event

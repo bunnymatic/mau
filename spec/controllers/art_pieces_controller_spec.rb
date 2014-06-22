@@ -312,7 +312,7 @@ describe ArtPiecesController do
 
       it 'redirects to show page on success' do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
-        expect(response).to redirect_to art_piece_path(@ap)
+        expect(response).to redirect_to @ap
       end
       it 'sets a flash message on success' do
         post :update, :id => @ap.id, :art_piece => {:title => 'new title'}

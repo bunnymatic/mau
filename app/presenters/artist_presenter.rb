@@ -9,6 +9,7 @@ class ArtistPresenter
   delegate :name, :state, :firstname, :lastname, :city, :street, :id,
     :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
     :os_participation, :studio, :studio_id, :login, :active?, :artist_info,
+    :activated_at, :email, :last_login, :full_name,
     :to => :artist, :allow_nil => true
 
   def initialize(view_context, artist)
@@ -18,6 +19,30 @@ class ArtistPresenter
 
   def valid?
     !artist.nil?
+  end
+
+  def created_at
+    artist.created_at.strftime("%m/%d/%y")
+  end
+
+  def activation_state
+    artist.activated_at ? artist.activated_at.strftime("%m/%d/%y") : artist.state
+  end
+
+  def has_activation_code?
+    artist.state != 'active' && artist.activation_code.present?
+  end
+
+  def has_reset_code?
+    artist.reset_code.present?
+  end
+
+  def activation_link
+    @view_context.activate_url(artist.activation_code)
+  end
+
+  def reset_password_link
+    @view_context.reset_url(artist.reset_code )
   end
 
   def has_media?

@@ -340,13 +340,14 @@ describe Admin::StudiosController do
         get :index
       end
       it 'has no destroy links' do
-        css_select(".admin-table tr td a").map(&:name).should_not include 'Destroy'
+        expect(css_select(".admin-table tr td a i.icon-remove")).to be_empty
       end
       it 'shows an edit link for my studio only' do
         assert_select ".admin-table tr td a[href=#{edit_admin_studio_path(@my_studio)}]"
+        assert_select(".admin-table tr td a .icon-edit", :count => 1)
       end
       it 'has no link to add a studio' do
-        css_select(".admin-table a[href=#{new_admin_studio_path}]").should be_empty
+        expect(css_select(".admin-table a[href=#{new_admin_studio_path}]")).to be_empty
       end
     end
     context 'as admin' do
@@ -354,16 +355,11 @@ describe Admin::StudiosController do
         login_as(admin)
         get :index
       end
-      it 'shows an edit link for all studios' do
-        assert_select(".admin-table tr td a") do |tag|
-          txt = tag.map(&:to_s)
-          txt.select{|t| /studios\/\d+\/edit/.match(t)}.count.should > 1
-        end
-      end
-      it 'shows destroy links for all studios' do
-        assert_select(".admin-table tr td a[data-method=delete]") do |tags|
-          (tags.map(&:to_s)).all?{|t| /Destroy/ =~ t}.should be_true
-        end
+      it 'shows an edit and destroy links for all studios' do
+        # add 1 for indy
+        expected_count = Studio.count + 1
+        assert_select(".admin-table tr td a .icon-edit", :count => expected_count)
+        assert_select(".admin-table tr td a[data-method=delete] .icon-remove", :count => expected_count)
       end
       it 'includes a link to add a studio' do
         assert_select ".admin-table a[href=#{new_admin_studio_path}]"

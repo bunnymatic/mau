@@ -4,7 +4,7 @@
   .links
     = link_to '[Add Event]', new_event_path
   .filters
-    Filter:
+    Hide:
     - [:future, :past, :in_progress].each do |filter|
       %div{:class => 'event_filter ' + filter.to_s}
         %label{:for => "event_filter_#{filter.to_s}"} #{filter.to_s.titleize}

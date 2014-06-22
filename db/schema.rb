@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(:version => 20140615191253) do
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
     t.string   "title"
-    t.text     "description"
     t.string   "dimensions"
     t.integer  "artist_id"
     t.datetime "created_at"
@@ -96,8 +95,8 @@ ActiveRecord::Schema.define(:version => 20140615191253) do
 
   create_table "blacklist_domains", :force => true do |t|
     t.string   "domain"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "cms_documents", :force => true do |t|
@@ -148,8 +147,8 @@ ActiveRecord::Schema.define(:version => 20140615191253) do
     t.datetime "published_at"
     t.datetime "reception_starttime"
     t.datetime "reception_endtime"
-    t.datetime "created_at",          :default => '2014-05-31 19:44:53'
-    t.datetime "updated_at",          :default => '2014-05-31 19:44:54'
+    t.datetime "created_at",          :default => '2014-05-31 19:13:55'
+    t.datetime "updated_at",          :default => '2014-05-31 19:13:55'
   end
 
   create_table "favorites", :force => true do |t|
@@ -198,8 +197,15 @@ ActiveRecord::Schema.define(:version => 20140615191253) do
     t.integer  "count"
     t.string   "oskey"
     t.date     "recorded_on"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "promoted_events", :force => true do |t|
+    t.integer  "event_id"
+    t.datetime "publish_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "roles", :force => true do |t|

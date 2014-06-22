@@ -1,10 +1,10 @@
 .admin-table
   %h1 Listing studios
 
-  = render :partial => '/flash_notice_error'
+  = render partial: '/flash_notice_error'
   .admin-controls
     - if current_user.is_admin?
-      = link_to new_admin_studio_path, :title => 'add studio' do
+      = link_to new_admin_studio_path, title: 'add studio' do
         = fa_icon "plus"
     
   %table
@@ -20,7 +20,7 @@
         %th 
     %tbody
     - @studios.each do |studio|
-      %tr{:class => cycle('even','odd')}
+      %tr{class: cycle('even','odd')}
         %td
           = link_to studio.name, studio_path(studio)
         %td
@@ -32,20 +32,20 @@
           = studio.artists.active.count.to_s()
         %td
           - if studio.profile_image?
-            %img{:src => studio.get_profile_image('thumb')}
+            %img{src: studio.get_profile_image('thumb')}
         %td
-          %a{:target => '_blank', :href => studio.url} #{studio.url}
+          %a{target: '_blank', href: studio.url} #{studio.url}
         %td.admin-controls
           .show
-            = link_to studio, :title => 'show' do
+            = link_to studio, title: 'Show' do
               = fa_icon 'eye-open'
         %td.admin-controls
           .edit
             - if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
-              = link_to edit_admin_studio_path(studio), :title => 'edit' do
+              = link_to edit_admin_studio_path(studio), title: 'Edit' do
                 = fa_icon 'edit'
         %td.admin-controls
           .remove
             - if current_user.is_admin?
-              = link_to studio, :confirm => 'Are you sure?', :method => :delete, :title => 'remove' do
+              = link_to studio, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                 = fa_icon 'remove'

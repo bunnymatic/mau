@@ -1,9 +1,13 @@
+//= require dataTables/jquery.dataTables
+
 jQuery(function() {
 
-  // admin artists page filtering
-  jQuery('.js-hideable-rows.artists').hideableRows()
+  jQuery('#mediums_index.js-data-tables, #fans_index.js-data-tables, #artists_index.js-data-tables').dataTable({
+    "paging":   false,
+    "info":     false
+  });
 
-  // admin events filtering
+  // // admin events filtering
   jQuery('.js-hideable-rows.events').hideableRows({row: '.event', whatToHideSelectors:'.filters input'})
   jQuery('.show_all').bind('click', function() {
     $(this).closest('.filters').find('input').removeAttr("checked")

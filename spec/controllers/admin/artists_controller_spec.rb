@@ -41,17 +41,11 @@ describe Admin::ArtistsController do
           it "returns success" do
             expect(response).to be_success
           end
-          it "renders sort by links" do
-            assert_select('.sortby a', :count => 14)
-          end
           it 'renders a csv export link' do
             assert_select('a.export-csv button', /export/)
           end
           it 'renders an update os status button' do
             assert_select('button.update-artists', /update os status/)
-          end
-          it 'renders controls for hiding rows' do
-            assert_select('.hide-rows .row-info');
           end
           it 'renders .pending rows for all pending artists' do
             assert_select('tr.pending', :count => Artist.pending.count)

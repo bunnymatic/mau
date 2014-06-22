@@ -1,8 +1,8 @@
-.admin-table.singlecolumn
+.admin-table
   %h1 Open Studios'
 
   .admin-controls
-    = link_to new_admin_open_studios_event_path, :title => 'add new open studios date' do
+    = link_to new_admin_open_studios_event_path, title: 'add new open studios date' do
       = fa_icon "plus"
   %table
     %thead
@@ -13,12 +13,12 @@
     %tbody
       - @os_events.each_with_index do |os_event|
         - clz = cycle('even','odd')
-        %tr{:class => clz}
+        %tr{class: clz}
           %td.key #{os_event.key}
           %td.start #{os_event.start_date.day}
           %td.end #{os_event.end_date.day}
           %td.input-name
             = link_to 'Show', [:admin, os_event]
           %td.input-name
-            = link_to('Destroy', [:admin, os_event], :confirm => 'Are you sure?', :method => :delete)
+            = link_to('Destroy', [:admin, os_event], confirm: 'Are you sure?', method: :delete)
 

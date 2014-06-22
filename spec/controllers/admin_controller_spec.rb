@@ -220,8 +220,6 @@ describe AdminController do
       expect(response).to render_template 'featured_artist'
     end
     it "assigns the featured artist and the featured queue entry" do
-      assigns(:featured).should be_present
-      assigns(:featured_artist).should be_present
       assigns(:featured).should be_a_kind_of(FeaturedArtistQueue)
       assigns(:featured_artist).should be_a_kind_of(Artist)
     end
@@ -241,7 +239,6 @@ describe AdminController do
       end
       it "tries to get the next artist from the queue" do
         FeaturedArtistQueue.should_receive(:next_entry).once
-        FeaturedArtistQueue.should_receive(:current_entry).once
         post :featured_artist
       end
       context 'immediately after setting a featured artist' do
@@ -348,7 +345,7 @@ describe AdminController do
           end
           it "includes named links to the database dump files" do
             assigns(:dbfiles).each do |f|
-              link = admin_path(:action => 'fetch_backup', :name => File.basename(f.path))
+              link = admin_fetch_backup_path(:name => File.basename(f.path))
               assert_select("li a[href=#{link}]", /#{f.ctime.strftime("%b %d, %Y %H:%M")}/)
               assert_select("li a[href=#{link}]", /\d+\s+MB/)
             end

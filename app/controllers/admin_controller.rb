@@ -9,21 +9,18 @@ class AdminController < BaseAdminController
   end
 
   def featured_artist
-    featured = FeaturedArtistQueue.current_entry
     if request.post?
-      next_featured = FeaturedArtistQueue.next_entry(params['override'])
-      @featured = next_featured
+      @featured = FeaturedArtistQueue.next_entry(params['override'])
       if FeaturedArtistQueue.count == 1
         flash[:notice] = "Featuring : #{@featured.artist.get_name(true)}"+
           " until #{(Time.zone.now + 1.week).strftime('%a %D')}"
       end
       redirect_to request.url
-      return
     else
-      @featured = featured
+      @featured = FeaturedArtistQueue.current_entry
+      @featured_artist = @featured.try(:artist)
+      @already_featured = FeaturedArtistQueue.featured.offset(1).first(10)
     end
-    @featured_artist = @featured.artist if @featured
-    @already_featured = (FeaturedArtistQueue.featured[1..-1] || []).first(10)
   end
 
   def emaillist

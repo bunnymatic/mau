@@ -39,6 +39,7 @@ gem 'pickadate-rails'
 gem 'draper'
 gem 'spinjs-rails'
 gem 'angularjs-rails'
+gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
 
 # authentication
 gem 'authlogic'

@@ -82,7 +82,7 @@ shared_examples_for "logged in as admin" do
   it "shows the admin bar with admin links" do
     assert_select("#admin_nav")
     %w{ os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
-      assert_select "#admin_nav a.lkdark[href=/admin/#{admin_link}]", admin_link
+      assert_select "#admin_nav a.lkdark[href=/admin/#{admin_link}]", admin_link.humanize.downcase
     end
     assert_select "#admin_nav a.lkdark[href=/roles]"
   end

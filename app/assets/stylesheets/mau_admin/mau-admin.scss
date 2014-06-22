@@ -1,4 +1,7 @@
+/*= require dataTables/jquery.dataTables */
+
 @import 'mau-mixins';
+@import 'datatables_overrides';
 
 body.admin {
   .chunk {
@@ -34,6 +37,8 @@ body.admin {
     font-size:18px;
   }
   td.admin-controls {
+    float:none;
+    text-align:right;
     font-size: 14px;
   }
     
@@ -610,15 +615,6 @@ body.admin {
   h1 {
     text-align:center;
   }
-  .hide-rows, .sortby {
-    text-align:center;
-    padding: 10px 0 0;
-  }
-  .sortby {
-    a {
-      padding: 0 5px;
-    }
-  }
   .row-info {
     display: inline-block;
     padding: 4px;
@@ -630,6 +626,12 @@ body.admin {
   table {
     margin-left: auto;
     margin-right: auto;
+    th,td {
+      padding: 2px 4px;
+    }
+    thead {
+      border-bottom: 1px solid $bordergray;
+    }
   }
 }
 

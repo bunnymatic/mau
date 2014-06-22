@@ -130,6 +130,19 @@ Mau::Application.routes.draw do
   match '/error' => 'error#index', :as => :error
 
   namespace :admin do
+    get :fans
+    get :os_status
+    get :os_signups
+    get :db_backups
+    get :fetch_backup
+    get :palette
+    get :featured_artist
+    get :artists_per_day
+    get :art_pieces_per_day
+    get :favorites_per_day
+    get :emaillist
+    post :featured_artist, :as => :get_next_featured
+
     resources :open_studios_events
     resources :email_lists, :only => [:index, :new, :destroy] do
       collection do
@@ -173,9 +186,8 @@ Mau::Application.routes.draw do
     end
   end
 
-  match '/admin/featured_artist' => 'admin#featured_artist', :as => :get_next_featured, :method => 'post'
-  match '/admin/:action' => 'admin#index', :as => :admin
-  match '/maufans/:id' => 'users#show', :as => :mau_fans
+  match '/admin' => 'admin#index', :as => :admin
+
   match '/discount/markup' => 'discount#markup', :as => :discount_processor
   match '/mobile/main' => 'mobile/main#welcome', :as => :mobile_root
   match '/sitemap.xml' => 'main#sitemap', :as => :sitemap

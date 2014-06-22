@@ -10,7 +10,7 @@ jQuery(function() {
     jQuery('.event_list .events_by_month.'+ el.data('viskey')).addClass('current');
   });
 
-  pickadateEl = jQuery('.pickadate');
+  pickadateEl = jQuery('.pickadate, .js-datepicker');
   if (pickadateEl.pickadate) { pickadateEl.pickadate(); }
   pickatimeEl = jQuery('.pickatime');
   if (pickatimeEl.pickatime) { pickatimeEl.pickatime(); }

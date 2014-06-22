@@ -4,6 +4,26 @@ def path_from_title(titleized_path_name)
   send(path_helper_name)
 end
 
+def find_first_link_or_button(locator)
+  find_links_or_buttons(locator).first
+end
+
+def find_last_link_or_button(locator)
+  find_links_or_buttons(locator).last
+end
+
+def all_links_or_buttons_with_title(title)
+  all('a,button').select{|a| a.native.attributes["title"] && a.native.attributes["title"].value == title }
+end
+
+def find_links_or_buttons(locator)
+  result = all("##{locator}") if /^-_[A-z][0-9]*$/ =~ locator
+  return result unless result.blank?
+  result = all('a,button', text: locator)
+  return result unless result.blank?
+  all_links_or_buttons_with_title(locator)
+end
+
 Then /^show me the page$/ do
   save_and_open_page
 end
@@ -60,13 +80,13 @@ end
 
 When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
   within('.tbl-content') do
-    all('a,button', text: button_text).first.click
+    find_first_link_or_button(button_text).click
   end
 end
 
 When(/^I click on the last "([^"]*?)" button$/) do |button_text|
   within('.tbl-content') do
-    all('a,button', text: button_text).last.click
+    find_last_link_or_button(button_text).click
   end
 end
 

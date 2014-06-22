@@ -2,7 +2,7 @@
   %h1 listing tags
 
   .controls
-    %a{:href => cleanup_admin_art_piece_tags_path} delete unused tags
+    %a{href: cleanup_admin_art_piece_tags_path} delete unused tags
   %table
     %thead
       %tr
@@ -15,15 +15,15 @@
       - @tags.each_with_index do |(tag, ct), idx|
         - clz = cycle('even','odd')
         - clz << ' error-msg' if ct <= 0
-        %tr{:class => clz}
+        %tr{class: clz}
           %td #{tag.id}
           %td #{tag.name}
           %td.input-name.ct #{ct}
           %td.admin-controls
             .show
-              = link_to tag, :title => 'show' do
+              = link_to tag, title: 'show' do
                 = fa_icon 'eye-open'
           %td.admin-controls
             .remove
-              = link_to tag, :confirm => 'Are you sure?', :method => :delete, :title => 'remove' do
+              = link_to tag, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                 = fa_icon 'remove'
