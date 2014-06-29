@@ -199,10 +199,6 @@ jQuery(function() {
       ev.preventDefault();
       openSectionFromLink($el[0]);
     });
-    $el.bind('click', function(ev) {
-      ev.preventDefault();
-      openSectionFromLink(this);
-    });
   });
   if ( location.hash && (location.hash.length > 1)) {
     var sxn = location.hash.substr(1);
