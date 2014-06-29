@@ -22,7 +22,11 @@ describe MediaController do
 
     meds = %w(medium1 medium2 medium3).map{|k| media(k)}
 
-    artists = %w(quentin artist1 joeblogs).map{|k| users(k)}
+    artists = %w(quentin artist1 joeblogs).map do |user_key|
+      u = users(user_key)
+      u.update_attribute(:state, 'active')
+      u
+    end
 
     aps.each_with_index do |ap, idx|
       medium = meds[idx % meds.size]
