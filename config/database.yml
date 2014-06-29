@@ -15,21 +15,6 @@ test: &test
   password: 
   host: localhost
 
-acceptance:
-  <<: *dev
-  adapter: mysql2
-  encoding: utf8
-  database: mau_acceptance
-  username: root
-  password: ladieslovebunnymatic
-  host: localhost
-  
-production:
-  adapter: mysql2
-  encoding: utf8
-  database: missiona_prod
-  username: missiona_mau
-  password: Zo0Tdha0sXTWD9Qji
 
 cucumber:
   <<: *test
