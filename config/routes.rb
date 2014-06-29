@@ -179,6 +179,11 @@ Mau::Application.routes.draw do
   match '/mobile/main' => 'mobile/main#welcome', :as => :mobile_root
   match '/sitemap.xml' => 'main#sitemap', :as => :sitemap
   match '/api/*path' => 'api#index'
+
+  # legacy urls
+  get '/main/openstudios', to: redirect('/open_studios')
+  get '/openstudios', to: redirect("/open_studios")
+
   match '*path' => 'error#index'
 
   # march 2014 - we should try to get rid of this route

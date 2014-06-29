@@ -1,5 +1,5 @@
 .logo
-  %a{:href => '/main/openstudios'}
+  %a{:href => '/open_studios'}
     %img{:title => 'Art is the Mission', :src => image_path("mau-nextos.png") }
 
   - path = current_user ? (edit_artist_path(current_user) + "#events") : login_path
