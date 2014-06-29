@@ -53,7 +53,7 @@ class MediaController < ApplicationController
     items = ArtPiece.where(:medium_id => @medium.id).order('created_at')
 
     # if show by artists, pick 1 from each artist
-    @artists = Artist.find(items.map(&:artist_id).uniq)
+    @artists = Artist.active.includes(:artist_info).where(:id => items.map(&:artist_id).uniq)
   end
 
   def load_media_frequency
