@@ -73,7 +73,7 @@ common:
        # expire daily
        cache_expiry: 86400
        cache_key: artistnamesuggest
-   oslive: 201404
+   oslive: 201410
    accepting_flaxshow_submissions: false
    mailchimp_api_key: 459d90c2e137cfb3c28a545e4439a285-us2
    ga_key: UA-11097408-3
