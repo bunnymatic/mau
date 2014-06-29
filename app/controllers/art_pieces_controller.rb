@@ -103,7 +103,7 @@ class ArtPiecesController < ApplicationController
   # PUT /art_pieces/1
   def update
     if commit_is_cancel || (@art_piece.artist != current_user)
-      redirect_to [@art_piece.artist, @art_piece] and return
+      redirect_to @art_piece and return
     end
 
     if @art_piece.update_attributes(art_piece_params)

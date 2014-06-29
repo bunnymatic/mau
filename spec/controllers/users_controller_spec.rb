@@ -680,7 +680,7 @@ describe UsersController do
               post :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
             end
             it "returns success" do
-              expect(response).to redirect_to(artist_art_piece_path(@ap.artist, @ap))
+              expect(response).to redirect_to(art_piece_path @ap)
             end
             it "sets flash with escaped name" do
               flash[:notice].should include '&lt;/script&gt;'
