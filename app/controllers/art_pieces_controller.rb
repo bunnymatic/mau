@@ -47,10 +47,10 @@ class ArtPiecesController < ApplicationController
     artist = Artist.find(current_user.id)
     cur_pieces = artist.art_pieces.length
     if cur_pieces >= artist.max_pieces
-      flash.now[:error] = "You cannot have more than %s art pieces.  "+
+      flash.now[:error] = "You cannot have more than #{artist.max_pieces} art pieces.  "+
         "If you decide to continue adding art, the oldest pieces will "+
         "be removed to make space for the new ones.  Alternatively, you "+
-        "could go delete specific pieces to make room for the new ones." % artist.max_pieces
+        "could go delete specific pieces to make room for the new ones."
     end
     @art_piece = ArtPiece.new
   end
