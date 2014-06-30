@@ -24,7 +24,7 @@ Then(/^I see the events for that month$/) do
 end
 
 When(/^I click on the first month link/) do
-  link_text = @events.first.stime.strftime('%B %Y')
+  link_text = @published_events.first.stime.strftime('%B %Y')
   click_link(link_text)
 end
 
