@@ -12,5 +12,5 @@ Background:
 
 Scenario: Visit artists by tag
   Then I see a list of artists who have art in the most popular tag
-  When I click on the first "next>" button
+  And I click on the first "next>" button
   Then I see more artists who have art in the most popular tag
