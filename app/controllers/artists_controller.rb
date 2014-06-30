@@ -149,7 +149,7 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    @artist = get_artist_from_params
+    @artist = get_active_artist_from_params
     set_artist_meta
     respond_to do |format|
       format.html {
@@ -174,7 +174,7 @@ class ArtistsController < ApplicationController
 
   def bio
 
-    @artist = get_artist_from_params
+    @artist = get_active_artist_from_params
     set_artist_meta
     if @artist.try(:bio).present?
       respond_to do |format|
@@ -191,7 +191,7 @@ class ArtistsController < ApplicationController
   end
 
   def qrcode
-    @artist = get_artist_from_params
+    @artist = get_active_artist_from_params
     if @artist
       qrcode_system_path = @artist.qrcode
       respond_to do |fmt|
@@ -289,9 +289,9 @@ class ArtistsController < ApplicationController
     @page_keywords += [@artist.media.map(&:name), @artist.tags.map(&:name)].flatten.compact.uniq
   end
 
-  def get_artist_from_params
+  def get_active_artist_from_params
     artist = safe_find_artist(params[:id])
-    if artist && artist.suspended?
+    if artist && !artist.active?
       flash.now[:error] = "The artist '" + artist.get_name(true) + "' is no longer with us."
       artist = nil
     end

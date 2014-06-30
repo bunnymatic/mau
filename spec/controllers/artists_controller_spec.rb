@@ -323,6 +323,13 @@ describe ArtistsController do
 
   describe "#show" do
     render_views
+    it 'when looking for a suspended artist' do
+      artist1.update_attribute('state', 'suspended')
+      get :show, :id => artist1.id
+      expect(response).to render_template 'show'
+      expect(flash[:error]).to be_present
+    end
+
     context "while not logged in" do
       before(:each) do
         get :show, :id => artist1.id
@@ -529,6 +536,8 @@ describe ArtistsController do
   end
 
   describe 'qrcode' do
+    let(:artist) { Artist.first }
+
     let(:file_double) {
       double(:read => 'the data from the file', :write => nil, :close => nil, :binmode => true)
     }
@@ -536,21 +545,32 @@ describe ArtistsController do
       MojoMagick.stub(:raw_command).and_return(true)
       FileUtils.mkdir_p File.join(Rails.root,'public','artistdata', Artist.first.id.to_s , 'profile')
       FileUtils.mkdir_p File.join(Rails.root,'artistdata', Artist.first.id.to_s , 'profile')
+      artist.update_attribute(:state, 'active')
     end
     it 'generates a png if you ask for one' do
       File.stub(:open => file_double)
       @controller.stub(:render)
       @controller.should_receive(:send_data)
-      get :qrcode, :id => Artist.first.id, :format => 'png'
+      get :qrcode, :id => artist.id, :format => 'png'
       response.content_type.should eql 'image/png'
     end
     it 'redirects to the png if you ask without format' do
       File.stub(:open => file_double)
       @controller.stub(:render)
-      get :qrcode, :id => Artist.first.id
+      get :qrcode, :id => artist.id
       expect(response).to redirect_to '/artistdata/' + Artist.first.id.to_s + '/profile/qr.png'
     end
     it 'returns show with flash for an invalid id' do
+      get :qrcode, :id => 101
+      expect(response).to render_template 'show'
+    end
+    it 'returns show with flash if the artist has been deleted' do
+      Artist.first.update_attribute(:state, 'deleted')
+      get :qrcode, :id => 101
+      expect(response).to render_template 'show'
+    end
+    it 'returns show with flash if the artist has been suspended' do
+      Artist.first.update_attribute(:state, 'suspended')
       get :qrcode, :id => 101
       expect(response).to render_template 'show'
     end
