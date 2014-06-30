@@ -204,7 +204,6 @@ MAU.SearchPage = class MAUSearch
           os_info.html(oss)
 
   initPaginator: () ->
-    console.log 'init paginator'
     _that = this
     frm = jQuery(this.searchFormSelector)
     pages = jQuery('.paginator a')

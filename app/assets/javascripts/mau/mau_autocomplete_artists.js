@@ -7,7 +7,6 @@ jQuery(function() {
       dataType: 'json',
       success: function(data) {
         tags = _.map(data, function(item) { return item.value }),
-        console.log(tags);
         event_artist_list.select2({
           tags: tags,
           minimumInputLength: 3,

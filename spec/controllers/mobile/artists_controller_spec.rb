@@ -167,8 +167,9 @@ describe ArtistsController do
         end
       end
     end
-    context 'for user without a bio' do
+    context 'for active users without a bio' do
       before do
+        users(:wayout).update_attribute(:state, 'active')
         get :bio, :id => users(:wayout).id, :format => :mobile
       end
       it 'redirects to user\'s page' do
