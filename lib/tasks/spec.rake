@@ -4,8 +4,14 @@ begin
     desc "Run all javascript specs"
     task :javascripts do
       begin
+        require 'webmock'
+        WebMock.disable!
         ::Guard::Jasmine::CLI.start([])
 
+      rescue WebMock::NetConnectNotAllowedError => e
+        # add this so we shut down the server properly
+        puts e
+        fail "WebMock got in the way"
       rescue SystemExit => e
         case e.status
           when 1
