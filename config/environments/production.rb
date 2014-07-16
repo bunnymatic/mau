@@ -48,6 +48,6 @@ Mau::Application.configure do
     :host => 'www.missionartistsunited.org'
   }
 
-  config.action_controller.asset_host = "http://doxwo8xvlaojc.cloudfront.net"
+  config.action_controller.asset_host = "http://d2wr4fo4molwfy.cloudfront.net"
 
 end
