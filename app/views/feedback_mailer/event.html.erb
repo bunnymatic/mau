@@ -1,15 +1,21 @@
+<p>
 Dear MAU Events Watcher,
-
+</p>
+<p>
 We just got a new event from one of our members.
-
-Subject: <%= @event_info.subject %>
-User's email: <%= @event_info.email %>
-Logged in as: <%= @event_info.login %>
-URL: <%= @event_info.url %>
-Sent at: <%= Time.zone.now %>
-
+</p>
+<p>
+Subject: <%= @event_info.subject %>    <br/>
+User's email: <%= @event_info.email %> <br/>
+Logged in as: <%= @event_info.login %> <br/>
+URL: <%= @event_info.url %> <br/>
+Sent at: <%= Time.zone.now %> <br/>
+</p>
+<p>
 Comment: 
 <%= @event_info.comment %>
-
+</p>
+<p>
 Environment: <%= Rails.env %>
+</p>
 
