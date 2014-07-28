@@ -48,8 +48,8 @@ Given /there are tags on the art/ do
 end
 
 Given /there are events in the system/ do
-  @events = [ Event.all,
-              FactoryGirl.create_list(:event, 5, :published),
+  Event.destroy_all
+  @events = [ FactoryGirl.create_list(:event, 5, :published),
               FactoryGirl.create_list(:event, 5, :with_reception, :published),
               FactoryGirl.create_list(:event, 5),
             ].flatten
