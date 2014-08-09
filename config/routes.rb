@@ -143,7 +143,7 @@ Mau::Application.routes.draw do
     get :emaillist
     post :featured_artist, :as => :get_next_featured
 
-    resources :open_studios_events
+    resources :open_studios_events, :only => [:index, :edit, :new, :create, :update, :destroy]
     resources :email_lists, :only => [:index, :new, :destroy] do
       collection do
         post :add

@@ -10,15 +10,17 @@
         %th key
         %th start date
         %th end date
+        %th
     %tbody
       - @os_events.each_with_index do |os_event|
         - clz = cycle('even','odd')
         %tr{class: clz}
           %td.key #{os_event.key}
-          %td.start #{os_event.start_date.day}
-          %td.end #{os_event.end_date.day}
+          %td.start #{os_event.start_date}
+          %td.end #{os_event.end_date}
           %td.input-name
-            = link_to 'Show', [:admin, os_event]
-          %td.input-name
-            = link_to('Destroy', [:admin, os_event], confirm: 'Are you sure?', method: :delete)
+            = link_to os_event.edit_path, title: 'edit' do
+              = fa_icon 'edit'
+            = link_to os_event.destroy_path, confirm: 'Are you sure?', method: :delete, title: "Delete" do
+              = fa_icon 'remove'
 

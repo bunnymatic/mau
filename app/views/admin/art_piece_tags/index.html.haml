@@ -3,15 +3,14 @@
 
   .controls
     %a{href: cleanup_admin_art_piece_tags_path} delete unused tags
-  %table
+  %table.js-data-tables#tags_index
     %thead
       %tr
         %th ID
         %th Name
         %th Count
         %th
-        %th
-        %th
+    %tbody
       - @tags.each_with_index do |(tag, ct), idx|
         - clz = cycle('even','odd')
         - clz << ' error-msg' if ct <= 0
@@ -20,10 +19,9 @@
           %td #{tag.name}
           %td.input-name.ct #{ct}
           %td.admin-controls
-            .show
+            .show.btn
               = link_to tag, title: 'show' do
                 = fa_icon 'eye-open'
-          %td.admin-controls
-            .remove
+            .remove.btn
               = link_to tag, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                 = fa_icon 'remove'

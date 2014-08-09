@@ -17,3 +17,6 @@ Scenario: Viewing and cleaning out tags
 
   When I fill in the open studios event form for next weekend
   Then I see a new open studios event
+
+  When I click on the first "Delete" button
+  Then I see that the new open studios event is no longer there

@@ -16,8 +16,6 @@
         %th Logo
         %th Website
         %th
-        %th 
-        %th 
     %tbody
     - @studios.each do |studio|
       %tr{class: cycle('even','odd')}
@@ -36,16 +34,14 @@
         %td
           %a{target: '_blank', href: studio.url} #{studio.url}
         %td.admin-controls
-          .show
+          .show.btn
             = link_to studio, title: 'Show' do
               = fa_icon 'eye-open'
-        %td.admin-controls
-          .edit
+          .edit.btn
             - if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
               = link_to edit_admin_studio_path(studio), title: 'Edit' do
                 = fa_icon 'edit'
-        %td.admin-controls
-          .remove
+          .remove.btn
             - if current_user.is_admin?
               = link_to studio, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                 = fa_icon 'remove'

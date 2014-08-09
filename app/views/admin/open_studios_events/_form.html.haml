@@ -3,10 +3,10 @@
   = render partial: 'common/form_errors', locals: { form: f }
   .form-group
     = f.label :start_date
-    = f.text_field :start_date, class: "js-datepicker", placeholder: 'choose a date'
+    = f.text_field :start_date, class: "js-datepicker", placeholder: 'choose a date', value: os_event.start_date.try(:to_s,:pickadate)
   .form-group
     = f.label :end_date
-    = f.text_field :end_date, class: "js-datepicker", placeholder: 'choose a date'
+    = f.text_field :end_date, class: "js-datepicker", placeholder: 'choose a date', value: os_event.end_date.try(:to_s,:pickadate)
  
   .form-controls
     = f.submit 'Create'

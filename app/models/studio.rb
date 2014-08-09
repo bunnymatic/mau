@@ -24,6 +24,7 @@ require 'uri'
 class Studio < ActiveRecord::Base
 
   include AddressMixin
+  include Geokit::ActsAsMappable
 
   has_many :artists
 

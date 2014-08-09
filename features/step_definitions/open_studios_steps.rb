@@ -25,13 +25,17 @@ end
 Then /^I fill in the open studios event form for next weekend$/ do
   @start_date = Time.zone.now.beginning_of_week + 11.days
   @end_date = Time.zone.now.beginning_of_week + 11.days
-  fill_in "Start date", with: start_date
-  fill_in "End date", with: end_date
+  fill_in "Start date", with: @start_date
+  fill_in "End date", with: @end_date
   click_on "Create"
 end
 
 Then /^I see a new open studios event$/ do
-  os_event = OpenStudiosEvent.where(start_date: @start_date).first
-  expect(os_event).to be_present
-  expect(os_event.end_date).to eql @end_date
+  @os_event = OpenStudiosEvent.where(start_date: @start_date).first
+  expect(@os_event).to be_present
+  expect(@os_event.end_date).to eql @end_date
+end
+
+Then /^I see that the new open studios event is no longer there$/ do
+  expect(page).to have_selector('td', text: @os_event.key)
 end

@@ -14,4 +14,5 @@ jQuery(function() {
   if (pickadateEl.pickadate) { pickadateEl.pickadate(); }
   pickatimeEl = jQuery('.pickatime');
   if (pickatimeEl.pickatime) { pickatimeEl.pickatime(); }
+
 });

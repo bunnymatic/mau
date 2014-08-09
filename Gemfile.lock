@@ -6,10 +6,18 @@ GIT
       coffee-rails
 
 GIT
-  remote: git://github.com/rweng/jquery-datatables-rails.git
-  revision: d637e0967dc66e9824345009ad74fbfdb1e4349f
+  remote: git://github.com/rcode5/mobile-fu.git
+  revision: 8b14b9b2a9bd1d1a54984e354d07d69dac448586
   specs:
-    jquery-datatables-rails (1.12.2)
+    mobile-fu (1.3.1)
+      rack-mobile-detect
+      rails
+
+GIT
+  remote: git://github.com/rweng/jquery-datatables-rails.git
+  revision: 37349993fb40fae4fa079729a25dc99d5ef3c416
+  specs:
+    jquery-datatables-rails (2.2.3)
       jquery-rails
       sass-rails
 
@@ -161,7 +169,7 @@ GEM
     ffi (1.9.3)
     flot-rails (0.0.4)
       jquery-rails
-    font-awesome-rails (3.2.1.3)
+    font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
     formatador (0.2.4)
     geokit (1.9.0)
@@ -362,6 +370,7 @@ GEM
     slop (3.4.7)
     spinjs-rails (1.3)
       rails (>= 3.1)
+    spring (1.1.3)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -479,6 +488,7 @@ DEPENDENCIES
   simplecov
   skylight
   spinjs-rails
+  spring
   thin
   tzinfo
   underscore-rails
