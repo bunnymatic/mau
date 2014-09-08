@@ -720,7 +720,7 @@ describe MainController do
   describe 'version' do
     it 'returns the app version' do
       get :version
-      response.body.should include ApplicationController::VERSION
+      response.body.should eql ApplicationController::VERSION
     end
   end
 

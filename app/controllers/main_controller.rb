@@ -36,7 +36,7 @@ class MainController < ApplicationController
   end
 
   def version
-    render :text => [@revision, @build].join(' ')
+    render :text => @revision
   end
 
   # how many images do we need for the front page?
