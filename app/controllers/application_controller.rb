@@ -126,14 +126,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_version
-    @revision ||= VERSION
-    @build ||=
-      begin
-        build = `git rev-parse HEAD`
-      rescue
-        'unk'
-      end
-    [@revision, @build].join ' '
+    @revision = VERSION
+    @build = 'unk'
   end
 
   def get_new_art
