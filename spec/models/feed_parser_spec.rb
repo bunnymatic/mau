@@ -25,8 +25,7 @@ describe MauFeed::Parser do
 
   it 'returns empty for a twitter feed that is invalid' do
     VCR.use_cassette('failed_twitter_feed') do
-      expect(feed_content.css('.feed-entries').inner_html).to be_empty
-      expect(feed_content.css('.feed-entries')).to be_present
+      expect(feed_content.css('.feed-entries')).to be_empty
     end
   end
 

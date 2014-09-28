@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
+  layout 'mau1col'
+  skip_before_filter :get_new_art, :get_feeds
 
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
@@ -7,7 +8,6 @@ class UsersController < ApplicationController
                                             :add_profile, :deactivate, :setarrangement, :arrange_art,
                                             :add_favorite, :remove_favorite, :change_password_update, :notify]
 
-  layout 'mau1col'
 
   DEFAULT_ACCOUNT_TYPE = 'MAUFan'
 

@@ -1,10 +1,12 @@
 require 'studio'
 class StudiosController < ApplicationController
 
+  layout 'mau1col'
+  skip_before_filter :get_feeds, :get_new_art
+
   before_filter :load_studio_list, :only => [:index, :show]
   before_filter :load_studio, :only => [:edit, :update, :destroy, :show,
                                         :unaffiliate_artist, :upload_profile, :add_profile]
-  layout 'mau1col'
 
   include OsHelper
 

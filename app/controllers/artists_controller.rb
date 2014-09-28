@@ -14,7 +14,8 @@ class ArtistsController < ApplicationController
 
   before_filter :user_required, :only => [ :edit, :update, :delete_art, :destroyart, :setarrangement, :arrange_art ]
 
-  layout 'mau1col', :except => 'faq'
+  layout 'mau1col'
+  skip_before_filter :get_new_art, :get_feeds
 
   # num artists before we paginate
 
@@ -67,7 +68,7 @@ class ArtistsController < ApplicationController
     @page_title = "Mission Artists United - MAU Artists"
     set_artists_index_links
 
-    render :action => 'roster', :layout => 'mau1col'
+    render :action => 'roster'
   end
 
   def index
@@ -84,7 +85,7 @@ class ArtistsController < ApplicationController
         @page_title = "Mission Artists United - MAU Artists"
         set_artists_index_links
 
-        render :action => 'index', :layout => 'mau1col'
+        render :action => 'index'
       }
       format.json {
         render :json => Artist.active

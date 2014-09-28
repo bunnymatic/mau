@@ -4,7 +4,8 @@ class ArtPiecesController < ApplicationController
   include TagsHelper
   include HtmlHelper
 
-  layout 'mau1col', :except => :show
+  layout 'mau1col'
+  skip_before_filter :get_new_art, :get_feeds
 
   before_filter :admin_required, :only => [ :index, ]
   before_filter :user_required, :only => [ :new, :edit, :update, :create, :destroy]

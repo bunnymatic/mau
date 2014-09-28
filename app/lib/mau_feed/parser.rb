@@ -29,12 +29,16 @@ module MauFeed
     def feed_content
       @feed_content ||=
         begin
-          html = header_html
-          html << items.compact.map.with_index do |entry, idx|
-          xtra_class = (0==(idx % 2)) ? "odd":"even"
-          parse_entry(entry, xtra_class)
-        end.join("").html_safe
-          div(html, :class => 'feed-entries')
+          if items.compact.any?
+            html = header_html
+            html << items.compact.map.with_index do |entry, idx|
+              xtra_class = (0==(idx % 2)) ? "odd":"even"
+              parse_entry(entry, xtra_class)
+            end.join("").html_safe
+            div(html, :class => 'feed-entries')
+          else
+            ''
+          end
         end
     end
 

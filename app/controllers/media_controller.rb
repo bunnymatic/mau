@@ -2,6 +2,8 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.xml
   layout 'mau1col'
+  skip_before_filter :get_new_art, :get_feeds
+
   before_filter :admin_required, :except => [ :index, :show ]
   before_filter :load_media, :only => [:show]
   before_filter :load_media_frequency, :only => [:index, :show]
