@@ -33,9 +33,7 @@ class ArtPieceTag < ActiveRecord::Base
       return freq
     end
     tags = get_tag_usage
-
-    maxct = tags.map{|m| m['ct'].to_i}.max
-    maxct = 1.0 if maxct <= 0
+    maxct = ((tags.map{|m| m['ct'].to_i}.max) || 1).to_i
 
     normalize(tags, 'ct', maxct) if _normalize
     SafeCache.write(CACHE_KEY, tags[0..MAX_SHOW_TAGS], :expires_in => CACHE_EXPIRY)
@@ -59,11 +57,12 @@ class ArtPieceTag < ActiveRecord::Base
   class << self
     private
     def get_tag_usage
-      dbr = connection.execute("/* hand generated sql */ select art_piece_tag_id tag,count(*) ct from "+
-                               "art_pieces_tags where art_piece_tag_id in (select id from art_piece_tags) and "+
-                               "art_piece_id in (select id from art_pieces) "+
-                               "group by art_piece_tag_id order by ct desc, tag desc;")
-      dbr.map{|row| Hash[['tag','ct'].zip(row)]}
+      dbr = ArtPieceTag.joins(:art_pieces_tags).
+        where("art_pieces_tags.art_piece_id" => ArtPiece.select('art_pieces.id').
+              joins(:artist).
+              where("users.state" => "active")).
+        group('art_piece_tags.id').count
+      dbr.map{|_id, ct| { "tag" => _id, "ct" => ct }}.sort_by{|entry| -entry['ct']}
     end
 
     def normalize(arr, fld, maxct)
