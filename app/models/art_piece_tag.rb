@@ -16,6 +16,8 @@ class ArtPieceTag < ActiveRecord::Base
 
   validates :name, :presence => true, :length => { :within => 3..25 }
 
+  scope :alpha, -> { order('name') }
+
   # class level constants
   MAX_SHOW_TAGS = 80
   CACHE_KEY = 'tagfreq'
@@ -45,13 +47,6 @@ class ArtPieceTag < ActiveRecord::Base
     tags = get_tag_usage
     Hash[tags.map{|row| [row['tag'], row['ct']]}]
   end
-
-
-  def self.all
-    logger.debug("ArtPieceTag: Fetching from db")
-    super(:order => 'name')
-  end
-
 
   private
   class << self

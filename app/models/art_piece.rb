@@ -58,6 +58,10 @@ class ArtPiece < ActiveRecord::Base
     super opts
   end
 
+  def tags
+    super.alpha
+  end
+
   def get_paths
     image_paths
   end

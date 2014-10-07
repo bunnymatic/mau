@@ -129,28 +129,26 @@ class AdminController < BaseAdminController
   end
 
   def compute_artists_per_day
-    sql = ActiveRecord::Base.connection()
-    cur = sql.execute "select count(*) ct,date(activated_at) d from users"+
-      " where activated_at is not null and"+
-      " adddate(activated_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW() group by d order by d desc;"
-    cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
+    cur = Artist.active.
+      where("adddate(activated_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()").
+      group("date(activated_at)").
+      order("activated_at desc").count
+    cur.select{|k,v| k.present?}.map{|k,v| [k.to_time, v].map(&:to_i)}
   end
 
   def compute_favorites_per_day
-    compute_created_per_day :favorites
+    compute_created_per_day Favorite
   end
 
   def compute_art_pieces_per_day
-    compute_created_per_day :art_pieces
+    compute_created_per_day ArtPiece
   end
 
-  def compute_created_per_day(tablename)
-    sql = ActiveRecord::Base.connection()
-    query =  "select count(*) ct,date(created_at) d from #{tablename}"+
-      " where created_at is not null and"+
-      " adddate(created_at,INTERVAL #{GRAPH_LOOKBACK}) > NOW() group by d order by d desc;"
-    cur = sql.execute query
-    cur.map{|h| [h[1].to_time.to_i, h[0].to_i]}
+  def compute_created_per_day(clz)
+    cur = clz.where("adddate(created_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()").
+      group("date(created_at)").
+      order("created_at desc").count
+    cur.select{|k,v| k.present?}.map{|k,v| [k.to_time, v].map(&:to_i)}
   end
 
   def os_tags
