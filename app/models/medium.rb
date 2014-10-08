@@ -7,6 +7,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
+require_relative 'concerns/tag_media_mixin'
 
 class Medium < ActiveRecord::Base
   has_many :art_pieces
@@ -16,38 +17,26 @@ class Medium < ActiveRecord::Base
 
   validates :name, :presence => true, :length => {:within => (2..244)}
 
-  CACHE_KEY = 'medfreq'
   CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20
 
   scope :alpha, -> { order(:name) }
 
-  def self.flush_cache
-    SafeCache.delete(CACHE_KEY + true.to_s)
-    SafeCache.delete(CACHE_KEY + false.to_s)
+  def self.cache_key(norm=false)
+    [:medfreq, norm]
   end
 
   def self.frequency(_normalize=false)
-    cache_key = CACHE_KEY + _normalize.to_s
-    freq = SafeCache.read(cache_key)
+    ckey = cache_key(_normalize)
+    freq = SafeCache.read(ckey)
     if freq
       logger.debug('read medium frequency from cache')
       return freq
     end
     # if normalize = true, scale counts from 1.0
     meds = get_media_usage
+    meds = normalize(meds, 'ct') if _normalize
 
-    # compute max/min ct
-    puts meds
-    maxct = meds.map{|m| m['ct'].to_i}.max
-
-    if !maxct || maxct <=0
-      maxct = 1.0
-    end
-
-    # normalize frequency to 1
-    normalize(meds, 'ct', maxct) if _normalize
-
-    SafeCache.write(cache_key, meds, :expires_in => CACHE_EXPIRY)
+    SafeCache.write(ckey, meds, :expires_in => CACHE_EXPIRY)
     meds
   end
 
@@ -66,11 +55,6 @@ class Medium < ActiveRecord::Base
       meds += other.map { |m| Hash[["medium", 'ct'].zip([m.id,0])]}
     end
 
-    def normalize(arr, fld, maxct)
-      arr.each do |m|
-        m[fld] = m[fld].to_f / maxct.to_f
-      end
-    end
   end
 
 end

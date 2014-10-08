@@ -7,6 +7,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
+require_relative 'concerns/tag_media_mixin'
 
 class ArtPieceTag < ActiveRecord::Base
   include TagMediaMixin
@@ -20,25 +21,23 @@ class ArtPieceTag < ActiveRecord::Base
 
   # class level constants
   MAX_SHOW_TAGS = 80
-  CACHE_KEY = 'tagfreq'
   CACHE_EXPIRY = Conf.cache_expiry['tag_frequency'] || 300
 
-  def self.flush_cache
-    SafeCache.delete(CACHE_KEY + true.to_s)
-    SafeCache.delete(CACHE_KEY + false.to_s)
+  def self.cache_key(norm=false)
+    [:tagfreq, norm]
   end
 
   def self.frequency(_normalize=true)
-    freq = SafeCache.read(CACHE_KEY + _normalize.to_s)
+    ckey = cache_key(_normalize)
+    freq = SafeCache.read(ckey)
     if freq
       logger.debug('read tag frequency from cache')
       return freq
     end
     tags = get_tag_usage
-    maxct = ((tags.map{|m| m['ct'].to_i}.max) || 1).to_i
+    tags = normalize(tags, 'ct') if _normalize
 
-    normalize(tags, 'ct', maxct) if _normalize
-    SafeCache.write(CACHE_KEY, tags[0..MAX_SHOW_TAGS], :expires_in => CACHE_EXPIRY)
+    SafeCache.write(ckey, tags[0..MAX_SHOW_TAGS], :expires_in => CACHE_EXPIRY)
     tags[0..MAX_SHOW_TAGS]
   end
 
@@ -60,11 +59,6 @@ class ArtPieceTag < ActiveRecord::Base
       dbr.map{|_id, ct| { "tag" => _id, "ct" => ct }}.sort_by{|entry| -entry['ct']}
     end
 
-    def normalize(arr, fld, maxct)
-      arr.each do |m|
-        m[fld] = m[fld].to_f / maxct.to_f
-      end
-    end
   end
 
 end

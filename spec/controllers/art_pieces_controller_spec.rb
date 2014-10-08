@@ -158,9 +158,9 @@ describe ArtPiecesController do
 
       before do
         piece.medium = medium
-        piece.tags << tag
+        piece.tags= [tag]
         piece.save!
-
+        
         get :show, :id => piece.id, :format => :json
       end
 
