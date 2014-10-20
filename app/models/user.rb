@@ -202,6 +202,7 @@ class User < ActiveRecord::Base
     @resent_activation = true
     make_activation_code
     save(:validate => false)
+    notify_user_about_state_change
   end
 
   def resent_activation?
@@ -212,6 +213,11 @@ class User < ActiveRecord::Base
     @reset = true
     self.attributes = {:reset_code => Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )}
     save(:validate => false)
+    notify_user_about_state_change
+  end
+
+  def recently_activated?
+    (Time.zone.now - activated_at) < 1.minute
   end
 
   def recently_reset?
@@ -360,16 +366,16 @@ class User < ActiveRecord::Base
     end
   end
 
-  # def notify_user_about_state_change
-  #   mailer_class = is_artist? ? ArtistMailer : UserMailer
-  #   reload
-  #   if recently_activated? && mailchimp_subscribed_at.nil?
-  #     mailer_class.activation(self).deliver!
-  #     FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
-  #   end
-  #   mailer_class.reset_notification(self).deliver! if recently_reset?
-  #   mailer_class.resend_activation(self).deliver! if resent_activation?
-  # end
+  def notify_user_about_state_change
+    mailer_class = is_artist? ? ArtistMailer : UserMailer
+    reload
+    if recently_activated? && mailchimp_subscribed_at.nil?
+      mailer_class.activation(self).deliver!
+      FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
+    end
+    mailer_class.reset_notification(self).deliver! if recently_reset?
+    mailer_class.resend_activation(self).deliver! if resent_activation?
+  end
 
   def trying_to_favorite_yourself?(fav)
     false if fav.nil?

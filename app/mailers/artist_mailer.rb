@@ -57,9 +57,7 @@ class ArtistMailer < MauMailer
     @url  = Conf.site_url
     @artistsurl  = artist_url(artist)
     mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
-
   end
-
 
   def reset_notification(artist)
     setup_email(artist)

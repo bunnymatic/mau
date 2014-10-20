@@ -412,8 +412,10 @@ describe User do
     context "artfan" do
       it "create_reset_code creates a reset code" do
         users(:artfan).reset_code.should be_nil
-        users(:artfan).create_reset_code
-        users(:artfan).reset_code.should_not be_nil
+        expect {
+          users(:artfan).create_reset_code
+          users(:artfan).reset_code.should_not be_nil
+        }.to change(UserMailer.deliveries, :count).by(1)
       end
     end
     context "artist" do
