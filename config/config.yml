@@ -44,6 +44,8 @@ production:
        new_art: 86400
    messaging_server: 'http://mau-messages.herokuapp.com:80/maumessages'
    messaging_token: 'traemosekamog'
+   mailchimp_artist_list_id: 02f17b3a2c
+   mailchimp_fan_list_id: 23d68b070e
 
 common:
    recaptcha_public_key: 6Lc9BNkSAAAAAOmI_O3g_I9ky4IFIdHnY7YDU3Gc
