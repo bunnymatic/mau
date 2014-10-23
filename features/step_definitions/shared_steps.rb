@@ -8,6 +8,12 @@ Then /^show me the page$/ do
   save_and_open_page
 end
 
+Then /^I save a screenshot$/ do
+  f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
+  save_screenshot(f)
+  puts "Saved Screenshot #{f}"
+end
+
 When /I visit the login page/ do
   visit '/login'
 end
@@ -17,11 +23,11 @@ Then(/^I do not see an error message$/) do
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.error-msg', :text => msg
+  expect(page).to have_selector '.error-msg', text: msg
 end
 
-Then(/^I see an flash notice "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.notice', :text => msg
+Then(/^I see a flash notice "(.*?)"$/) do |msg|
+  expect(page).to have_selector '.notice', text: msg
 end
 
 Then(/^I close the notice$/) do
@@ -54,16 +60,16 @@ end
 
 When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
   within('.tbl-content') do
-    all('a,button', :text => button_text).first.click
+    all('a,button', text: button_text).first.click
   end
 end
 
 When(/^I click on the last "([^"]*?)" button$/) do |button_text|
   within('.tbl-content') do
-    all('a,button', :text => button_text).last.click
+    all('a,button', text: button_text).last.click
   end
 end
 
 Then(/^I see a message "(.*?)"$/) do |message|
-  expect(page).to have_selector '.flash', :text => message
+  expect(page).to have_selector '.flash', text: message
 end

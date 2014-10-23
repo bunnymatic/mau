@@ -11,4 +11,4 @@ Scenario: try to reset with a known account
   When I fill in my email
   And I click "Submit"
   Then I see the login page
-  And I see an flash notice "We've sent email"
+  And I see a flash notice "We've sent email"

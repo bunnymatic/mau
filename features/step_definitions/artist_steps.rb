@@ -69,8 +69,16 @@ When(/^I update my personal information with:$/) do |table|
 end
 
 When(/^I see my updated personal information as:$/) do |table|
-  table.hashes.first.values.each do |val|
-    expect(page).to contain val
+  info = table.hashes.first
+  info.each do |field, val|
+    expect(find_field(field).value).to eql val
   end
 end
 
+Then(/^I see that I've successfully signed up for Open Studios$/) do
+  expect(@artist.reload.doing_open_studios?).to eq true
+end
+
+Then(/^I see that I've successfully unsigned up for Open Studios$/) do
+  expect(@artist.reload.doing_open_studios?).to eq false
+end

@@ -7,6 +7,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
+
 require_relative 'concerns/tag_media_mixin'
 
 class ArtPieceTag < ActiveRecord::Base

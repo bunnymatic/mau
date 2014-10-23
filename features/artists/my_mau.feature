@@ -16,14 +16,36 @@ Scenario:
   When I visit my profile edit page
   Then I see my profile edit form
 
-  When I click on the first "Personal Info" link
+  When I click on "Personal Info"
   And I update my personal information with:
   | artist_firstname | artist_lastname |
   | joe              | blow            |
   Then I see my profile edit form
   And I close the notice
-  When I click on the first "Personal Info" link
+  When I click on "Personal Info"
   Then I see my updated personal information as:
   | artist_firstname | artist_lastname |
   | joe              | blow            |
 
+  When I click on the first "Open Studios" link
+  And I click on "yep"
+  Then I save a screenshot
+  Then I see a flash notice "more the merrier"
+  And I see that I've successfully signed up for Open Studios
+
+  And I click on "nope"
+  Then I see a flash notice "So sorry"
+  And I see that I've successfully unsigned up for Open Studios
+
+  And I click on "yep"
+  Then I save a screenshot
+  Then I see a flash notice "more the merrier"
+
+  Then I click on "Links"
+  And I update my personal information with:
+  | Flickr            |
+  | www.flickr.com/me |
+  Then I see that I've successfully signed up for Open Studios
+  And I see my updated personal information as:
+  | artist_flickr     |   |
+  | www.flickr.com/me |   |

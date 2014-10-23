@@ -15,8 +15,8 @@
       = render "common/form_errors", form: f
       = hidden_field_tag :artist_os_participation, @artist_info.os_participation[Conf.oslive.to_s]
       .buttons
-        .formbutton.yep Yep
-        .formbutton.nope Nope
+        %a.formbutton.yep#yep{href: '#'} Yep
+        %a.formbutton.nope#nope{href: '#'} Nope
       .clear.donate
         And if you'd like to donate to help with our Open Studios promotion and keep this system running, here's a paypal donate button.  Thanks!
         %a#donate_for_openstudios{href: "#"}

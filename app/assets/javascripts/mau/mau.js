@@ -153,11 +153,13 @@ var MAU = window.MAU = window.MAU || {};
     ev.preventDefault();
     jQuery('#artist_os_participation').val(1)
     A.clickYepNope('yep');
+    return false;
   };
   A.clickNope = function(ev) {
     ev.preventDefault();
     jQuery('#artist_os_participation').val(0)
     A.clickYepNope('nope');
+    return false;
   };
 
   A.bindYepNopeButtons = function() {

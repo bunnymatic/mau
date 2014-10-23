@@ -2369,10 +2369,31 @@ div.alt-login {
 .disabled .signup-table input[disabled] {
   background-color: #bbb;
 }
-.disabled .signup-table label {
-}
+
 .login-table {
-  width: 70%;
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  li {
+    list-style: none;
+    margin: 4px;
+    label {
+      text-align: right;
+      display: inline-block;
+      width: 25%;
+      margin-right: 5px;
+    }
+    .input-err {
+      margin:auto;
+      margin-top: 4px;
+      text-align: right;
+    }
+    input[type=text],
+    input[type=password], {
+      width: 60%;
+    }
+  }
 }
 #reset_pass {
   width: 50%;
