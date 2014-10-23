@@ -1,10 +1,6 @@
 def fill_in_login_form(login, pass)
-  # because of this issue, we need to be careful with fill_in when using javascript
-  # https://github.com/jonleighton/poltergeist/issues/402
-
   fill_in("Login", :with => login)
   fill_in("Password", :with => pass)
-
 end
 
 When(/^I click (on\s+)?"(.*?)"$/) do |dummy, link_text|

@@ -1,36 +1,28 @@
 .open-close-div.acct
-  %span#info_toggle.title
+  %a#info_toggle.title{href: '#'}
     Personal Info
   %span.edit
-    %a#info_toggle_lnk{:href => "#info"} change
-.edit-profile-sxn#info{:style=>"display:none;"}
+    %a#info_toggle_lnk{href: "#info"} change
+.edit-profile-sxn#info
   .inner-sxn
-    %table.entry-table
-      %tr
-        %td.input-name
-          First Name
-        %td
-          = f.text_field :firstname
-        %td.input-err
-      %tr
-        %td.input-name
-          Last Name
-        %td
-          = f.text_field :lastname
-        %td.input-err
-      %tr
-        %td.input-name
-          Display Name
-        %td
-          = f.text_field :nomdeplume
-        %td.input-err
+    %ul.entry-table
+      %li.entry
+        %label.input-name{for: :firstname} First Name
+        = f.text_field :firstname
+        .input-err
+      %li.entry
+        %label.input-name{for: :lastname} Last Name
+        = f.text_field :lastname
+        .input-err
+      %li.entry
+        %label.input-name{for: :nomdeplume} Display Name
+        = f.text_field :nomdeplume
+        .input-err
           (only if you want something different from your first name + last name)
-      %tr
-        %td.input-name
-          Email
-        %td
-          = f.text_field :email
-        %td.input-err
+      %li.entry
+        %label.input-name{for: :email} Email
+        = f.text_field :email
+        .input-err
     .buttons
-      = f.submit 'Save Changes', :class => "formbutton"
-      = f.submit 'Cancel', :class => "formbutton"
+      = f.submit 'Save Changes', class: "formbutton"
+      = f.submit 'Cancel', class: "formbutton"

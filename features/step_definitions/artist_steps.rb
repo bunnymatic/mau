@@ -2,6 +2,10 @@ When(/^I visit my home page$/) do
   visit artist_path(@artist)
 end
 
+When(/^I visit my profile edit page$/) do
+  visit edit_artist_path(@artist)
+end
+
 When(/^I rearrange my art with drag and drop$/) do
   expect(@artist.art_pieces).to be_present
   expect(page).to have_selector('.sortable')
@@ -50,3 +54,23 @@ Then(/^I see that my art was deleted$/) do
   expect(@artist.art_pieces.length).to eql @before_delete_count - 1
   expect(@artist.art_pieces.map(&:id)).to_not include @deleted_art_piece.id
 end
+
+Then(/^I see my profile edit form$/) do
+  expect(page).to have_css '.open-close-div', count: 8
+  expect(page).to have_css '.edit-profile-sxn', count: 8, visible: false
+end
+
+When(/^I update my personal information with:$/) do |table|
+  info = table.hashes.first
+  info.each do |field, val|
+    fill_in field, with: val
+  end
+  click_on_first "Save Changes"
+end
+
+When(/^I see my updated personal information as:$/) do |table|
+  table.hashes.first.values.each do |val|
+    expect(page).to contain val
+  end
+end
+

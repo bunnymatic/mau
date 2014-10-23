@@ -1,6 +1,3 @@
-require 'json'
-require 'json/add/core'
-#require 'json/add/rails'
 class ArtPieceTagsController < ApplicationController
 
   layout 'mau1col'

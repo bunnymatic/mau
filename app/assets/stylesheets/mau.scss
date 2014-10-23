@@ -99,7 +99,7 @@ h5 {
   color: $error_red;
   text-align: left;
 }
-.close_btn {
+.close-btn {
   cursor: pointer;
 }
 .notice {
@@ -107,7 +107,7 @@ h5 {
   position: absolute;
   text-align: center;
   margin: 0;
-  .close_btn {
+  .close-btn {
     font-size: small;
     font-weight: bold;
     position: absolute;
@@ -253,18 +253,20 @@ input[type=image], input[type=hidden] {
   padding-top: 20px;
   height: 20px;
   width:auto;
-}
+  
+  .title {
+    float: left;
+    text-align:left;
+  }
 
-.acct span.title,
-.gi span.title {
-  float: left;
-  text-align:left;
-}
+  a.title {
+    color: inherit;
+  }
 
-.acct span.edit,
-.gi span.edit {
-  float: right;
-  font-size: 11px;
+  span.edit {
+    float: right;
+    font-size: 11px;
+  }
 }
 
 .back-to-profile-btn {
@@ -312,11 +314,31 @@ input[type=image], input[type=hidden] {
     width: 16px;
     margin-right: 2px;
   }
-  .entry-table {
-    input {
-    }
+  table.entry-table {
     td {
-      padding: 4px 4px;
+      padding: 4px;
+    }
+  }
+  ul.entry-table {
+    list-style: none;
+    width: 90%;
+    margin: 0;
+    padding: 0;
+    li {
+      list-style: none;
+      margin: 2px;
+      label {
+        text-align: right;
+        display: inline-block;
+      }
+      .input-err {
+        margin:auto;
+        margin-top: 4px;
+        text-align: right;
+      }
+      label, input {
+        width: 45%;
+      }
     }
   }
   .input-name, .input, .input-err {
@@ -2894,7 +2916,7 @@ form#feedback_form .error {
       border: 1px solid #222;
     }
   }
-  .close_btn {
+  .close-btn {
     float:right;
     font-size: x-small;
     text-align:right;

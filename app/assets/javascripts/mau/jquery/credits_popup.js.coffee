@@ -33,7 +33,7 @@ MAU.CreditsPopup = class CreditsPopup
           <p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p>
           </div>
           <div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>
-          <div class="close_btn">click to close</div>
+          <div class="close-btn">click to close</div>
           <div class="release_version">Release: ' + version + '</div><div class="clear"></div>'
 
         if (d && hd && bd)

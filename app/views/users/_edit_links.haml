@@ -1,9 +1,9 @@
 .open-close-div.acct
-  %span#links_toggle.title Links
+  %a#links_toggle.title Links
   %span.edit
-    %a#links_toggle_lnk{:href => "#links"} change
+    %a#links_toggle_lnk{href: "#links"} change
 
-.edit-profile-sxn#links{:style => 'display:none;'}
+.edit-profile-sxn#links
   .inner-sxn
     %table.entry-table
       - [[:url, 'Website']].each do |kk, name|
@@ -11,7 +11,7 @@
           %td.input-name 
             = f.label kk, name
           %td
-            = f.text_field kk, :class => 'url-input', :placeholder => 'e.g. http://www.mywebsite.com'
+            = f.text_field kk, class: 'url-input', placeholder: 'e.g. http://www.mywebsite.com'
           %td.input-err  
       - if current_user.is_a? Artist
         / handle user attrs
@@ -20,8 +20,8 @@
             %td.input-name
               = label_tag "#{f.object_name}[artist_info[#{kk}]]", name 
             %td
-              = text_field_tag "#{f.object_name}[artist_info[#{kk}]]", @artist_info[kk], :class => 'url-input'
+              = text_field_tag "#{f.object_name}[artist_info[#{kk}]]", @artist_info[kk], class: 'url-input'
             %td.input-err
     .buttons
-      = f.submit 'Save', :class => "formbutton"
-      = f.submit 'Cancel', :class => "formbutton"
+      = f.submit 'Save', class: "formbutton"
+      = f.submit 'Cancel', class: "formbutton"

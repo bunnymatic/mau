@@ -24,6 +24,10 @@ Then(/^I see an flash notice "(.*?)"$/) do |msg|
   expect(page).to have_selector '.notice', :text => msg
 end
 
+Then(/^I close the notice$/) do
+  find('.notice .close-btn').click()
+end
+
 When(/^I visit the "(.*?)" page$/) do |titleized_path_name|
   visit path_from_title(titleized_path_name)
 end

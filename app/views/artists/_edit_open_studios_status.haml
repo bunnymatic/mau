@@ -1,4 +1,4 @@
-.edit-profile-sxn#events{:style=> "display:none;"}
+.edit-profile-sxn#events
   .inner-sxn
     - if !current_user.address.present?
       %p You need to specify an address or studio affiliation to sign up for Open Studios!
@@ -12,14 +12,14 @@
       %p.os-status
         Your current answer is :
         %span #{@artist_info.os_participation[Conf.oslive.to_s] ? 'Yep' : 'Nope'}
-      = render "common/form_errors", :form => f
+      = render "common/form_errors", form: f
       = hidden_field_tag :artist_os_participation, @artist_info.os_participation[Conf.oslive.to_s]
       .buttons
         .formbutton.yep Yep
         .formbutton.nope Nope
       .clear.donate
         And if you'd like to donate to help with our Open Studios promotion and keep this system running, here's a paypal donate button.  Thanks!
-        %a#donate_for_openstudios{:href=> "#"}
+        %a#donate_for_openstudios{href: "#"}
           .donate_btn
       .clear
 

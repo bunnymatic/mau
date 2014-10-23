@@ -13,7 +13,7 @@ MAU.Flash = class Flash
     if (!c.length)
       c = document.body;
     jQuery(c).prepend($w);
-    $w.find('.close_btn').bind 'click', () ->
+    $w.find('.close-btn').bind 'click', () ->
  	    $w.hide()
     setTimeout () ->
       $w.hide()
@@ -25,7 +25,7 @@ MAU.Flash = class Flash
     err = msgs.error
     notice = msgs.notice
     contents = jQuery('<div>')
-    $close = jQuery('<div>', {'class':'close_btn'}).html('x')
+    $close = jQuery('<div>', {'class':'close-btn'}).html('x')
     for k in ['error','notice']
       if (msgs[k]) 
         msg = msgs[k];
