@@ -225,11 +225,6 @@ class ArtistsController < ApplicationController
           params[:artist][:email_attrs] = em.to_json
         end
         artist_info = params[:artist].delete :artist_info
-        if (artist_info[:os_participation])
-          artist_info.delete(:os_participation).each do |year, participating|
-            current_artist.artist_info.update_os_participation year, participating
-          end
-        end
         current_artist.artist_info.update_attributes!(artist_info)
         current_artist.update_attributes!(params[:artist])
         flash[:notice] = "Update successful"
@@ -334,9 +329,7 @@ class ArtistsController < ApplicationController
 
   # process xhr request to update artist os participation
   def process_os_update
-    return unless params[:artist_os_participation].present?
-
-    participating = (params[:artist_os_participation].to_i != 0)
+    participating = (((params[:artist] && params[:artist][:os_participation])).to_i != 0)
     if participating != current_artist.os_participation[Conf.oslive]
       begin
         unless current_artist.address.blank?

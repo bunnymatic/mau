@@ -31,15 +31,17 @@ Scenario:
   And I click on "yep"
   Then I save a screenshot
   Then I see a flash notice "more the merrier"
+  And I close the notice
   And I see that I've successfully signed up for Open Studios
 
   And I click on "nope"
   Then I see a flash notice "So sorry"
-  And I see that I've successfully unsigned up for Open Studios
+  And I close the notice
+  Then I see that I've successfully unsigned up for Open Studios
 
   And I click on "yep"
-  Then I save a screenshot
   Then I see a flash notice "more the merrier"
+  And I close the notice
 
   Then I click on "Links"
   And I update my personal information with:

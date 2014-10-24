@@ -122,9 +122,8 @@ var MAU = window.MAU = window.MAU || {};
     return false;
   };
 
-  A.clickYepNope = function(type) {
-    var sel = '#artist_os_participation';
-    var new_setting = parseInt(jQuery(sel).val(),10);
+  A.clickYepNope = function(type, val) {
+    var new_setting = val;
     var msg = null;
     if (!new_setting) {
       msg = 'So sorry you\'re not going to participate this year.'+
@@ -134,7 +133,15 @@ var MAU = window.MAU = window.MAU || {};
       msg = 'Super!  The more the merrier!';
     }
 
-    jQuery('form.edit_artist').ajaxSubmit({
+    form = jQuery('form.edit_artist')
+    ajax_params = {
+      url: form.attr('action'),
+      method: form.attr('method'),
+      data: {
+        artist: {
+          os_participation: val
+        }
+      },
       success: function() {
         if(new_setting) {
           jQuery('#artist_edit .os-violator').show();
@@ -146,19 +153,18 @@ var MAU = window.MAU = window.MAU || {};
         }
         (new MAU.Flash()).show({notice:msg}, '.singlecolumn .edit-sections')
       }
-    });
+    };
+    jQuery.ajax(ajax_params);
     return false;
   };
   A.clickYep = function(ev) {
     ev.preventDefault();
-    jQuery('#artist_os_participation').val(1)
-    A.clickYepNope('yep');
+    A.clickYepNope('yep',1);
     return false;
   };
   A.clickNope = function(ev) {
     ev.preventDefault();
-    jQuery('#artist_os_participation').val(0)
-    A.clickYepNope('nope');
+    A.clickYepNope('nope', 0);
     return false;
   };
 
