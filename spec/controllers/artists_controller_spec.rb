@@ -156,36 +156,8 @@ describe ArtistsController do
         end
       end
       context "update os status" do
-        it "updates artists os status to true for 201104" do
-          put :update, :id => artist1, :commit => 'submit', :artist => {
-            :artist_info => {
-              :os_participation => { '201104' => true }
-            }
-          }
-          expect(response).to be_redirect
-          artist1.reload.os_participation['201104'].should be_true
-        end
-        it "updates artists os status to true for 201104 given '201104' => 'on'" do
-          put :update, :id => artist1, :commit => 'submit', :artist => {
-            :artist_info => {
-              :os_participation => { '201104' => 'on' }
-            }
-          }
-          expect(response).to be_redirect
-          artist1.reload.os_participation['201104'].should be_true
-        end
-        it "updates artists os status to false for 201104" do
-          @logged_in_user.os_participation = {'201104' => 'true'}
-          @logged_in_user.save
-          put :update, :id => artist1, :commit => 'submit', :artist => {
-            :artist_info => {
-              :os_participation => { '201104' => 'false' }
-            }
-          }
-          artist1.reload.os_participation['201104'].should be_nil
-        end
         it "updates artists os status to true" do
-          xhr :put, :update, :id => artist1, :artist_os_participation => '1'
+          xhr :put, :update, :id => artist1, artist: { "os_participation" => '1' }
           artist1.reload.os_participation[Conf.oslive.to_s].should be_true
         end
 
@@ -201,7 +173,7 @@ describe ArtistsController do
 
           @logged_in_user.update_attribute(:studio_id,0)
           @logged_in_user.reload
-          xhr :put, :update, :id => artist1, :commit => 'submit', :artist_os_participation => '0'
+          xhr :put, :update, :id => artist1, :commit => 'submit', artist: { "os_participation" => '1' }
           artist1.reload.os_participation['201104'].should be_nil
         end
         it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
