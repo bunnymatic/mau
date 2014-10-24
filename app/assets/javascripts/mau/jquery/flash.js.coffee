@@ -2,11 +2,13 @@ MAU = window.MAU = window.MAU || {}
 
 MAU.Flash = class Flash
 
-  constructor: ->
-    @wrapper = 'jsFlash'
+  wrapper: 'jsFlash'
 
-  show: (msgs, container) ->
+  clear: ->
     jQuery('#' + @wrapper).remove();
+    
+  show: (msgs, container) ->
+    @clear()
     $w = @construct(msgs);
     return unless $w
     c = jQuery(container).first();

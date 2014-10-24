@@ -1,6 +1,6 @@
 %form#paypal_donate_openstudios{:action=>"https://www.paypal.com/cgi-bin/webscr", method:"post"}
-  %input{type: "hidden", :name=> "cmd", value: "_s-xclick"}
-  %input{type:  "hidden", :name=> "hosted_button_id", value: "HYBAVYCTCEMUQ"}
+  %input{type: "hidden", name: "cmd", value: "_s-xclick"}
+  %input{type:  "hidden", name: "hosted_button_id", value: "HYBAVYCTCEMUQ"}
   %img{ alt: "", border: "0", src: "https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/scr/pixel.gif", width: "1", height: "1"}
 
 #artist_edit
@@ -12,7 +12,7 @@
         %img{:src=> "/images/default-profile-img.png", :width=> "100" }
       .tag
         update profile picture
-        .os-violator{:style=> (current_artist.doing_open_studios? ? '':'display:none;')}
+        .os-violator{style: (current_artist.doing_open_studios? ? '':'display:none;')}
           %img{:src=> "/images/os_star_violator.png"}
   %h4 My Account
   = render '/flash_notice_error'
@@ -21,19 +21,19 @@
       = render '/common/form_errors', form: f
       = render "/users/edit_basic_info", f: f
       .open-close-div.acct>
-        %a#events_toggle.title Open Studios
+        %a#events_toggle.title{href: '#'} Open Studios
         %span.edit>
-          %a#events_toggle_lnk{:href=> "#events"}> change
+          %a#events_toggle_lnk{href: "#events"}> change
       .clear
       = render "edit_open_studios_status", f: f
       = render "/users/edit_notifications", f: f
       = render "/users/edit_links", f: f
 
       .open-close-div.acct
-        %a.title#studio_info_toggle Address/Studio Info
+        %a.title#studio_info_toggle{href: '#'} Address/Studio Info
         %span.edit
-          %a#studio_info_toggle_lnk{:href=> "#address"} change
-      .edit-profile-sxn#address{:style=> "display:none;"}
+          %a#studio_info_toggle_lnk{href: "#address"} change
+      .edit-profile-sxn#address
         .inner-sxn.left
           .edit-table-header Studio
           %table.entry-table
@@ -63,10 +63,10 @@
           = f.submit 'Save Changes', class: "formbutton"
           = f.submit 'Cancel', class: "formbutton"
       .open-close-div.acct
-        %a.title#bio_toggle Bio/Artist's Statement
+        %a.title#bio_toggle{href: '#'} Bio/Artist's Statement
         %span.edit
-          %a#bio_toggle_lnk#bio_toggle_lnk{:href=> "#bio"} change
-      .edit-profile-sxn#bio{:style=> "display:none;"}
+          %a#bio_toggle_lnk#bio_toggle_lnk{href: "#bio"} change
+      .edit-profile-sxn#bio
         .inner-sxn
           .title Artist's Bio:
         %div
@@ -76,8 +76,8 @@
           = f.submit 'Save Changes', class: "formbutton"
           = f.submit 'Cancel', class: "formbutton"
 
-    = render partial: "/users/edit_password"
-    = render partial: "/users/edit_deactivate"
+    = render "/users/edit_password"
+    = render "/users/edit_deactivate"
 
   .edit-buttons
     - if !current_user.art_pieces.any?
@@ -89,5 +89,5 @@
         %input{class: "formbutton", type:  "submit",value: "Arrange Art" }
       = form_tag delete_art_artists_path(), method: "get" do
         %input{class: "formbutton",type:  "submit",value: "Delete Art" }
-      %a{:href=> artist_path(current_user)}
+      %a{href: artist_path(current_user)}
         %button.formbutton Back to Profile

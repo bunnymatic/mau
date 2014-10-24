@@ -29,7 +29,6 @@ Scenario:
 
   When I click on the first "Open Studios" link
   And I click on "yep"
-  Then I save a screenshot
   Then I see a flash notice "more the merrier"
   And I close the notice
   And I see that I've successfully signed up for Open Studios
@@ -48,6 +47,7 @@ Scenario:
   | Flickr            |
   | www.flickr.com/me |
   Then I see that I've successfully signed up for Open Studios
+  Then I click on "Links"
   And I see my updated personal information as:
-  | artist_flickr     |   |
-  | www.flickr.com/me |   |
+  | artist_artist_info_flickr  |
+  | www.flickr.com/me         |

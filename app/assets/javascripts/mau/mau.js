@@ -123,9 +123,9 @@ var MAU = window.MAU = window.MAU || {};
   };
 
   A.clickYepNope = function(type, val) {
-    var new_setting = val;
+    (new MAU.Flash()).clear()
     var msg = null;
-    if (!new_setting) {
+    if (!val) {
       msg = 'So sorry you\'re not going to participate this year.'+
         ' We\'d love to know why.  Tell us via the feedback link'+
         ' at the bottom of the page.';
@@ -143,7 +143,7 @@ var MAU = window.MAU = window.MAU || {};
         }
       },
       success: function() {
-        if(new_setting) {
+        if(val) {
           jQuery('#artist_edit .os-violator').show();
           jQuery('#events .os-status span').html('Yep');
         }
@@ -169,8 +169,8 @@ var MAU = window.MAU = window.MAU || {};
   };
 
   A.bindYepNopeButtons = function() {
-    jQuery('#events .yep.formbutton').bind('click', A.clickYep);
-    jQuery('#events .nope.formbutton').bind('click', A.clickNope);
+    jQuery('#events .yep.formbutton').on('click', A.clickYep);
+    jQuery('#events .nope.formbutton').on('click', A.clickNope);
   };
 
   A.bindDonateButton = function() {
