@@ -12,7 +12,6 @@ Mau::Application.routes.draw do
 
   resources :studios, :only => [:index, :show]
 
-  resources :artist_feeds, :except => [:show]
   resource :feeds, :only => [] do
     get :feed
     get :clear_cache
@@ -143,6 +142,7 @@ Mau::Application.routes.draw do
     get :emaillist
     post :featured_artist, :as => :get_next_featured
 
+    resources :artist_feeds, :except => [:show]
     resources :open_studios_events, :only => [:index, :edit, :new, :create, :update, :destroy]
     resources :email_lists, :only => [:index, :new, :destroy] do
       collection do

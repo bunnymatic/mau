@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ArtistFeedsController do
+describe Admin::ArtistFeedsController do
   fixtures :users, :roles, :artist_feeds, :roles_users
 
   let(:url) { 'http://this.url' }

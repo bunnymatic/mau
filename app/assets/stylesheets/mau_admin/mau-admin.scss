@@ -252,25 +252,28 @@ body.admin {
   .artist_feeds {
     .links {
       padding: 8px 0;
+      text-align: right;
+      font-size: 20px;
     }
     .feed_entry {
+      width: 100%;
       margin-bottom: 0;
+      tbody td {
+        vertical-align: inherit;
+        padding: 5px;
+      }
       &.header {
         border-bottom: 1px dotted $mediumgray;
         margin-bottom: 10px;
       }
-      .url, .feed, .controls, .active {
-        display: inline-block;
-        overflow: hidden;
-      }
-      .url, .feed {
-        width: 35%;
-      }
       .active {
+        text-align:center;
       }
       .controls {
-        width: 20%;
-        text-align: right;
+        width: auto; /* overrride from body.admin .controls */
+        .fa {
+          font-size: 14px;
+        }
       }
     }
   }

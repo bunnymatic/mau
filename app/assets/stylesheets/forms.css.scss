@@ -21,6 +21,10 @@
   .select2-choices {
     @include small-rounded-corners;
   }
+  .help {
+    text-align: center;
+    font-style: italic;
+  }
 }
 
 .form-controls {
