@@ -5,10 +5,10 @@ describe Admin::StudiosController do
 
   let!(:studio) { FactoryGirl.create(:studio, :with_artists) }
   let(:studio2) { FactoryGirl.create(:studio, :with_artists) }
-  let(:manager) { FactoryGirl.create(:artist, :manager, :active, :studio => studio) }
+  let(:manager) { FactoryGirl.create(:artist, :manager, :active, studio: studio) }
   let(:manager_studio) { manager.studio }
-  let(:editor) { FactoryGirl.create(:artist, :editor, :active, :studio => studio)}
-  let(:admin) { FactoryGirl.create(:artist, :admin, :active, :studio => studio) }
+  let(:editor) { FactoryGirl.create(:artist, :editor, :active, studio: studio)}
+  let(:admin) { FactoryGirl.create(:artist, :admin, :active, studio: studio) }
 
   context 'as an admin' do
     before do
@@ -27,12 +27,12 @@ describe Admin::StudiosController do
       let(:studio_attrs) { FactoryGirl.attributes_for(:studio) }
       it 'setups up a new studio' do
         expect{
-          put :create, :studio => studio_attrs
+          put :create, studio: studio_attrs
         }.to change(Studio, :count).by(1)
       end
       it 'renders new on failure' do
         expect{
-          put :create, :studio => {:name =>''}
+          put :create, studio: {name:''}
           expect(response).to render_template 'new'
         }.to change(Studio, :count).by(0)
 
@@ -41,11 +41,11 @@ describe Admin::StudiosController do
 
     describe '#update' do
       it 'updates a studio' do
-        post :update, :id => studio.id, :studio => {:name =>'new name'}
+        post :update, id: studio.id, studio: {name:'new name'}
         expect(studio.reload.name).to eql 'new name'
       end
       it 'renders edit on failure' do
-        post :update, :id => studio.id, :studio => {:name =>''}
+        post :update, id: studio.id, studio: {name:''}
         expect(response).to render_template 'edit'
       end
     end
@@ -55,7 +55,7 @@ describe Admin::StudiosController do
   describe 'destroy' do
     describe 'unauthorized' do
       before do
-        delete :destroy, :id => studio.id
+        delete :destroy, id: studio.id
       end
       it_should_behave_like 'not authorized'
     end
@@ -63,7 +63,7 @@ describe Admin::StudiosController do
       describe "as #{u}" do
         before do
           #login_as self.send(u)
-          delete :destroy, :id => studio.id
+          delete :destroy, id: studio.id
         end
         it_should_behave_like 'not authorized'
       end
@@ -73,12 +73,12 @@ describe Admin::StudiosController do
         login_as(admin)
       end
       it 'deletes the studio' do
-        expect { delete :destroy, :id => studio.id }.to change(Studio, :count).by(-1)
+        expect { delete :destroy, id: studio.id }.to change(Studio, :count).by(-1)
       end
       it 'sets artists\' to indy for all artists in the deleted studio' do
         artist_ids = studio.artists.map(&:id)
         assert(artist_ids.length > 0, 'You need to have a couple artists on that studio in your fixtures')
-        delete :destroy, :id => studio.id
+        delete :destroy, id: studio.id
         users = User.find(artist_ids)
         users.all?{|a| a.studio_id == 0}.should be_true, 'Not all the artists were moved into the "Indy" studio'
       end
@@ -91,14 +91,14 @@ describe Admin::StudiosController do
     describe "#{endpoint}" do
       describe 'unauthorized' do
         before do
-          get endpoint, :id => studio
+          get endpoint, id: studio
         end
         it_should_behave_like 'not authorized'
       end
       describe 'as editor' do
         before do
           login_as editor
-          get endpoint, :id => studio.id
+          get endpoint, id: studio.id
         end
         it_should_behave_like 'not authorized'
       end
@@ -108,7 +108,7 @@ describe Admin::StudiosController do
         end
         context 'not my studio' do
           before do
-            get endpoint, :id => studio2.id
+            get endpoint, id: studio2.id
           end
           it 'redirects to the referrer' do
             expect(response).to redirect_to SHARED_REFERER
@@ -124,7 +124,7 @@ describe Admin::StudiosController do
   describe '#add_profile' do
     before do
       login_as manager
-      get :add_profile, :id => manager.studio.id
+      get :add_profile, id: manager.studio.id
     end
     it { expect(response).to be_success }
     it { assigns(:studio).should eql manager.studio }
@@ -135,7 +135,7 @@ describe Admin::StudiosController do
     context "as a manager" do
       before do
         login_as manager
-        get :edit, :id => manager.studio.id
+        get :edit, id: manager.studio.id
       end
       it_should_behave_like 'returns success'
       it 'shows the studio info in a form' do
@@ -156,11 +156,11 @@ describe Admin::StudiosController do
         assert_select ".block.image a[href=#{add_profile_admin_studio_path(studio)}]"
       end
       it 'lists the active artists' do
-        assert_select "li.artist", :count => studio.artists.active.count
+        assert_select "li.artist", count: studio.artists.active.count
       end
       it 'includes unaffiliate links for each artist thats not the current user' do
         ct = studio.artists.active.reject{|a| a == manager}.length
-        assert_select "li.artist a", :text => 'X', :count => ct
+        assert_select "li.artist a", text: 'X', count: ct
       end
     end
   end
@@ -168,14 +168,14 @@ describe Admin::StudiosController do
   describe 'upload_profile' do
     describe 'unauthorized' do
       before do
-        post :upload_profile, :id => 'whatever'
+        post :upload_profile, id: 'whatever'
       end
       it_should_behave_like 'not authorized'
     end
     describe 'as editor' do
       before do
         login_as editor
-        post :upload_profile, :id => 'whatever'
+        post :upload_profile, id: 'whatever'
       end
       it_should_behave_like 'not authorized'
     end
@@ -183,7 +183,7 @@ describe Admin::StudiosController do
       context 'not my studio' do
         before do
           login_as manager
-          post :upload_profile, :id => studio2
+          post :upload_profile, id: studio2
         end
         it 'redirects to the referer' do
           expect(response).to redirect_to SHARED_REFERER
@@ -198,7 +198,7 @@ describe Admin::StudiosController do
       context "post " do
         let(:upload) { nil }
         let(:commit) { nil }
-        let(:post_params) { { :id => manager_studio, :upload => upload, :commit => commit } }
+        let(:post_params) { { id: manager_studio, upload: upload, commit: commit } }
         before do
           login_as manager
         end
@@ -214,7 +214,7 @@ describe Admin::StudiosController do
           end
         end
         context 'with a cancel' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+          let(:upload) { {'datafile' => double('UploadedFile', original_filename: 'studio.png') } }
           let(:commit) { "Cancel" }
           before do
             post :upload_profile, post_params
@@ -225,7 +225,7 @@ describe Admin::StudiosController do
         end
 
         context 'when image upload raises an error' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+          let(:upload) { {'datafile' => double('UploadedFile', original_filename: 'studio.png') } }
           before do
             StudioImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
             post :upload_profile, post_params
@@ -239,9 +239,9 @@ describe Admin::StudiosController do
         end
 
         context 'with successful save' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+          let(:upload) { {'datafile' => double('UploadedFile', original_filename: 'studio.png') } }
           before do
-            mock_studio_image = double('MockStudioImage', :save => true)
+            mock_studio_image = double('MockStudioImage', save: true)
             StudioImage.should_receive(:new).and_return(mock_studio_image)
           end
           it 'redirects to show page on success' do
@@ -269,21 +269,21 @@ describe Admin::StudiosController do
     context 'artist to unaffiliate is not the logged in artist' do
       it 'removes the artist from the studio' do
         expect {
-          post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
+          post :unaffiliate_artist, id: studio.id, artist_id: artist.id
         }.to change(studio.active_artists, :count).by(-1)
       end
       it 'does not add any studios' do
         expect {
-          post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
+          post :unaffiliate_artist, id: studio.id, artist_id: artist.id
         }.to change(Studio, :count).by(0)
       end
       it 'does nothing if the artist is not in the studio' do
         expect {
-          post :unaffiliate_artist, :id => studio.id, :artist_id => non_studio_artist.id
+          post :unaffiliate_artist, id: studio.id, artist_id: non_studio_artist.id
         }.to change(studio.active_artists, :count).by(0)
       end
       it 'redirects to the studio edit page' do
-        post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
+        post :unaffiliate_artist, id: studio.id, artist_id: artist.id
         expect(response).to redirect_to edit_admin_studio_path(studio)
       end
     end
@@ -296,7 +296,7 @@ describe Admin::StudiosController do
       end
 
       it 'does not let you unaffiliate yourself' do
-        post :unaffiliate_artist, :id => studio.id, :artist_id => artist.id
+        post :unaffiliate_artist, id: studio.id, artist_id: artist.id
         expect(response).to redirect_to edit_admin_studio_path(studio)
         expect(artist.studio).to eql studio
       end
@@ -327,7 +327,7 @@ describe Admin::StudiosController do
       it_should_behave_like 'returns success'
       it 'shows a table of all studios' do
         Studio.all.each do |s|
-          assert_select ".admin-table tr td a[href=#{studio_path(s)}]", s.name
+          assert_select ".admin-table tr td a[href=#{studio_path(s)}]", HTMLEntities.new.encode(s.name)
           assert_select ".admin-table tr td a[href=#{s.url}]" if s.url && s.url.present?
         end
       end
@@ -344,7 +344,7 @@ describe Admin::StudiosController do
       end
       it 'shows an edit link for my studio only' do
         assert_select ".admin-table tr td a[href=#{edit_admin_studio_path(@my_studio)}]"
-        assert_select(".admin-table tr td a .icon-edit", :count => 1)
+        assert_select(".admin-table tr td a .fa-edit", count: 1)
       end
       it 'has no link to add a studio' do
         expect(css_select(".admin-table a[href=#{new_admin_studio_path}]")).to be_empty
@@ -358,8 +358,8 @@ describe Admin::StudiosController do
       it 'shows an edit and destroy links for all studios' do
         # add 1 for indy
         expected_count = Studio.count + 1
-        assert_select(".admin-table tr td a .icon-edit", :count => expected_count)
-        assert_select(".admin-table tr td a[data-method=delete] .icon-remove", :count => expected_count)
+        assert_select(".admin-table tr td a .fa-edit", count: expected_count)
+        assert_select(".admin-table tr td a[data-method=delete] .fa-remove", count: expected_count)
       end
       it 'includes a link to add a studio' do
         assert_select ".admin-table a[href=#{new_admin_studio_path}]"

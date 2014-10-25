@@ -1,5 +1,5 @@
 <div class="open-close-div acct" >
-  <a id="notifications_toggle" class="title">Notifications</a>
+  <a href="#" id="notifications_toggle" class="title">Notifications</a>
   <span class="edit"><a href="#notifications" id="notifications_toggle_lnk">change</a></span>
 </div>
 <div  class="edit-profile-sxn"  id="notifications">
@@ -11,7 +11,7 @@
 	        Favorites:
 	      </td>
 	      <td valign="top" colspan="2">
-	        <div><%= check_box "emailsettings", "favorites", { :checked => current_user.emailsettings["favorites"] } %>Notify me when someone favorites me or my art</div>
+	        <div><%= check_box "emailsettings", "favorites", checked: current_user.emailsettings["favorites"] %>Notify me when someone favorites me or my art</div>
 	      </td>
       </tr>
       <% end -%>
@@ -20,19 +20,22 @@
 	        Allow notes from:
 	      </td>
 	      <td valign="top">
-	        <div><%= check_box "emailsettings", "fromall", { :checked => current_user.emailsettings["fromall"] } %>Everyone</div>
 	        <div>
-	          <%= check_box "emailsettings", "fromartist", { :checked => current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] } %>Registered MAU Artists
+            <%= check_box "emailsettings", "fromall", checked: current_user.emailsettings["fromall"] %>Everyone
+          </div>
+	        <div>
+	          <%= check_box "emailsettings", "fromartist", checked: current_user.emailsettings["fromartist"] || current_user.emailsettings["fromall"] %>Registered MAU Artists
 	        </div>
 	      </td>
 	      <td class="input-err" width="200">
-	        Check these boxes if would like other registered MAU artists or any website visitors the ability to send you a note.
+	        Check these boxes if would like other registered MAU artists or any website 
+          visitors the ability to send you a note.
 	      </td>
       </tr>
     </table>
     <div class="buttons">
-      <%= f.submit 'Save Changes', :class => "formbutton" %>
-      <%= f.submit 'Cancel', :class => "formbutton" %>
+      <%= f.submit 'Save Changes', class: "formbutton" %>
+      <%= f.submit 'Cancel', class: "formbutton" %>
     </div>
   </div>
 </div>

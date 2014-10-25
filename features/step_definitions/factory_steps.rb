@@ -21,8 +21,11 @@ Given /there are artists with art in the system/ do
 end
 
 Given /there are application events in the system/ do
-  FactoryGirl.create(:open_studios_signup_event)
-  FactoryGirl.create(:generic_event)
+  ApplicationEvent.destroy_all
+  @application_events = [
+                         FactoryGirl.create(:open_studios_signup_event),
+                         FactoryGirl.create(:generic_event)
+                        ]
 end
 
 Given /there are open studios artists with art in the system/ do
