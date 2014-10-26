@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140615191253) do
+ActiveRecord::Schema.define(:version => 20141025193201) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(:version => 20140615191253) do
     t.datetime "end_date"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "key"
   end
 
   create_table "open_studios_tallies", :force => true do |t|

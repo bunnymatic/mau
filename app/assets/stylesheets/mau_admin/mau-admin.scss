@@ -55,8 +55,12 @@ body.admin {
       float: right;
     }
     .controls {
-      text-align:right;
-      float: right;
+      text-align: right;
+      margin-bottom: 20px;
+      .formbutton {
+        height: 38px;
+        margin-left: 10px;
+      }
     }
     ul {
       padding: 0 10px;

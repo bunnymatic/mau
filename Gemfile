@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 ruby '2.1.2'
 
 gem 'racc'
@@ -38,8 +39,17 @@ gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'draper'
 gem 'spinjs-rails'
-gem 'angularjs-rails'
 gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
+
+# use bower assets
+gem 'rails-assets-angular'
+gem 'rails-assets-angular-resource'
+gem 'rails-assets-angular-sanitize'
+gem 'rails-assets-moment'
+gem 'rails-assets-lodash'
+gem 'rails-assets-colorbox' # lightbox plugin
+gem 'rails-assets-jquery'
+gem 'rails-assets-jquery-ujs'
 
 # authentication
 gem 'authlogic'
@@ -48,7 +58,6 @@ gem 'authlogic'
 gem 'postmark-rails'
 gem 'postmark'
 
-gem 'jquery-rails'
 gem 'jquery_mobile_rails'
 
 gem 'newrelic_rpm'
@@ -57,11 +66,8 @@ gem 'unicorn'
 
 gem 'flot-rails' # jquery plotting program
 
-gem 'colorbox-rails' # lightbox plugin
-
 gem 'select2-rails' # autocompleter
 
-gem 'underscore-rails'
 gem 'underscore-string-rails'
 
 gem 'multi_json'

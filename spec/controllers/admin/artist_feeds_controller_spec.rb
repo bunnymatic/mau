@@ -43,12 +43,16 @@ describe Admin::ArtistFeedsController do
       it { expect(response).to be_success }
       it 'has edit link for each feed' do
         ArtistFeed.all.each do |feed|
-          assert_select ".feed_entry .controls a[href=/artist_feeds/#{feed.id}/edit]", 'edit'
+          assert_select ".feed_entry .controls a[href=#{edit_admin_artist_feed_path(feed)}]" do |tag|
+            assert_select '.fa-edit'
+          end
         end
       end
       it 'has remove link for each feed' do
         ArtistFeed.all.each do |feed|
-          assert_select ".feed_entry .controls a[href=/artist_feeds/#{feed.id}]", 'remove'
+          assert_select ".feed_entry .controls a[href=#{admin_artist_feed_path(feed)}]" do |tag|
+            assert_select '.fa-remove'
+          end
         end
       end
       it 'has the url and feed shown for each feed' do
@@ -76,7 +80,7 @@ describe Admin::ArtistFeedsController do
           post :create, :artist_feed => feed_attrs
         end
         it 'redirects to index' do
-          expect(response).to redirect_to artist_feeds_path
+          expect(response).to redirect_to admin_artist_feeds_path
         end
         it 'creates the item' do
           feed = ArtistFeed.where(:url => url).first
@@ -104,7 +108,7 @@ describe Admin::ArtistFeedsController do
           post :update, :id => artist_feeds(:inactive).id, :artist_feed => feed_attrs
         end
         it 'redirects to index' do
-          expect(response).to redirect_to artist_feeds_path
+          expect(response).to redirect_to admin_artist_feeds_path
         end
         it 'updates the item' do
           feed = ArtistFeed.find(artist_feeds(:inactive).id)
@@ -130,7 +134,7 @@ describe Admin::ArtistFeedsController do
       it "destroys and redirects" do
         expect{
           delete :destroy, :id => ArtistFeed.first.id
-          expect(response).to redirect_to artist_feeds_url
+          expect(response).to redirect_to admin_artist_feeds_url
         }.to change(ArtistFeed,:count).by(-1)
       end
     end

@@ -7,11 +7,13 @@
 #  end_date   :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  key        :string(255)
 #
 
 class OpenStudiosEvent < ActiveRecord::Base
-  attr_accessible :end_date, :start_date
+  attr_accessible :end_date, :start_date, :key
 
+  validates :key, presence: true, uniqueness: true
   validates :start_date, presence: true
   validates :end_date, presence: true
   validate :end_date_is_after_start_date
@@ -25,10 +27,6 @@ class OpenStudiosEvent < ActiveRecord::Base
 
   def self.current_key
     current.try(:key)
-  end
-
-  def key
-    "%04d%02d" % [start_date.year, start_date.month]
   end
 
   def end_date_is_after_start_date

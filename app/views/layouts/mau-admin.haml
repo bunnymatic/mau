@@ -1,19 +1,17 @@
 !!! 5
 %html
   %head
-    = render :partial => '/extra_html_head'
-    = render :partial => '/title'
-    = render :partial => '/common/stylesheets'
-    = render :partial => '/common/ganalytics'
-    = render :partial => '/common/javascripts'
+    = render '/extra_html_head'
+    = render '/title'
+    = render '/common/stylesheets'
+    = javascript_include_tag 'admin.js'
 
   %body.admin{:class => ([@browser_as_class, application_body_class].join " ")}
     - unless browser.modern?
-      = render :partial => '/old_browser_warning'
-    = render :partial => '/noscript_msg'
+      = render '/old_browser_warning'
+    = render '/noscript_msg'
     .wrapper
-      = render :partial => '/login_header_bar'
+      = render '/login_header_bar'
       #container
-        = render :partial => '/header_bar'
-        = render :partial => '/content', :locals => { :cols => 1 }
-  = render :partial => '/common/footer_javascripts'
+        = render '/header_bar'
+        = render '/content', :cols => 1
