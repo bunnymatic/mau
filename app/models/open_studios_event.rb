@@ -26,11 +26,18 @@ class OpenStudiosEvent < ActiveRecord::Base
   validates_attachment_presence :logo
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\Z/
 
-  scope :past, where("start_date < NOW()")
-  scope :future, where("start_date > NOW()")
+  # define future/past not as scopes because we want Time.zone.now() to be evaluated at query time
+  # Also, this allows us to test with Timecop as opposed to using database NOW() method
+  def self.past
+    where("start_date < ?", Time.zone.now()).order(:start_date)
+  end
+
+  def self.future
+    where("end_date > ?", Time.zone.now()).order(:start_date)
+  end
 
   def self.current
-    future.order(:start_date).first
+    future.first
   end
 
   def self.current_key

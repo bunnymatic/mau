@@ -9,8 +9,8 @@
         %li
           - if sxn
             .title #{sxn}
-            %ul.link_section
-              - entries.each do |key, opts|
-                %li 
-                  %span.admin-lk
-                    = link_to opts[:display], opts[:link], {:class => 'lkdark'}
+          %ul.link_section
+            - entries.each do |key, opts|
+              %li 
+                %span.admin-lk
+                  = link_to opts[:display], opts[:link], {:class => 'lkdark'}

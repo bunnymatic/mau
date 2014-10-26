@@ -43,12 +43,12 @@ class AdminNavigationPresenter
                         [:app_events, {:display => 'app events', :link => @view_context.admin_application_events_path}],
                         [:tests , {:link => '/tests'}]
                        ]
-      links =[
-              [:models, model_links],
-              [:pr, pr_links],
-              [:admin, admin_links],
-              [:internal, internal_links]
-             ]
+      links = [
+               [:models, model_links],
+               [:pr, pr_links],
+               [:admin, admin_links],
+               [:internal, internal_links]
+              ]
     else
       links = []
       links << [nil, editor_links] if current_user.is_editor?
