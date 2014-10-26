@@ -20,6 +20,8 @@ Scenario:
   And I update my personal information with:
   | artist_firstname | artist_lastname |
   | joe              | blow            |
+  And I click on "Save Changes"
+
   Then I see my profile edit form
   And I close the notice
   When I click on "Personal Info"
@@ -46,6 +48,7 @@ Scenario:
   And I update my personal information with:
   | Flickr            |
   | www.flickr.com/me |
+  And I click on "Save"
   Then I see that I've successfully signed up for Open Studios
   Then I click on "Links"
   And I see my updated personal information as:

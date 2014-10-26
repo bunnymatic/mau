@@ -152,6 +152,7 @@ var MAU = window.MAU = window.MAU || {};
           jQuery('#events .os-status span').html('Nope');
         }
         (new MAU.Flash()).show({notice:msg}, '.singlecolumn .edit-sections')
+        return false;
       }
     };
     jQuery.ajax(ajax_params);

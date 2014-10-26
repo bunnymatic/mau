@@ -65,7 +65,6 @@ When(/^I update my personal information with:$/) do |table|
   info.each do |field, val|
     fill_in field, with: val
   end
-  click_on_first "Save Changes"
 end
 
 When(/^I see my updated personal information as:$/) do |table|

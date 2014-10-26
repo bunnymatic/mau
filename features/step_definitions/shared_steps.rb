@@ -12,8 +12,12 @@ def find_last_link_or_button(locator)
   find_links_or_buttons(locator).last
 end
 
+# careful here with JS.  these don't "wait for" things to show up
+# so invisible buttons that may become visible because of animation
+# will cause issues - use click_on instead
 def all_links_or_buttons_with_title(title)
-  all('a,button').select{|a| a.native.attributes["title"] && a.native.attributes["title"].value == title }
+  all('a').select{|a| a["title"] == title } ||
+    all('button').select{|b| b.value == title }
 end
 
 def find_links_or_buttons(locator)
