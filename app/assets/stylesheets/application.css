@@ -11,5 +11,5 @@
  *= require art_pieces
  *= require colorbox
  *= require select2
- *= require_tree ./mau_admin
+ *= require mau_admin
  */

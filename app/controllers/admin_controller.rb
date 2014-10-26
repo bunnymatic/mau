@@ -92,7 +92,7 @@ class AdminController < BaseAdminController
   end
 
   def palette
-    f = File.expand_path('app/assets/stylesheets/mau-mixins.scss')
+    f = File.expand_path('app/assets/stylesheets/_colors.scss')
     @colors = ScssFileReader.new(f).parse_colors
   end
 

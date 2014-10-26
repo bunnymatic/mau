@@ -1,67 +1,16 @@
+- nav_presenter = AdminNavigationPresenter.new(self, current_user)
 #admin_nav
   .container#admin_nav_body
-    :ruby
-      manager_links = [[:studios , {}]]
-      editor_links = [[:events, {}],
-                      [:featured_artist , {}],
-                      [:cms_documents , {:display => 'cms', :link => '/cms_documents'}]
-                      ]
-      if current_user.is_admin?
-        pr_links = [
-                    [:events, {}],
-                    [:featured_artist, {}],
-                    [:favorites, {}],
-                    [:catalog, {:link => '/catalog'}],
-                    [:cms_documents , {:display => 'cms', :link => '/cms_documents'}]
-                    ]
-        model_links = [
-                     [:artists , {}],
-                     [:fans , {}],
-                     [:studios , {}],
-                     [:media , {}],
-                     [:art_piece_tags , {:display => 'tags'}],
-                     [:artist_feeds , {:display => 'feeds'}],
-                     [:emaillist , {:display => 'emails'}]
-                    ]
-        admin_links = [
-                     [:open_studios_events , {:display => 'os dates'}],
-                     [:roles , {:link => '/roles'}],
-                     [:internal_email , {:display => 'internal messaging', :link => admin_email_lists_path }],
-                     [:db_backups , {:display => 'backups'}],
-                     [:blacklist, {:display => 'blacklist', :link => '/blacklist_domains'}],
-                     [:os_status , {}]
-                     ]
-        internal_links = [
-                     [:palette , {:display => 'colors'}],
-                     [:app_events, {:display => 'app events', :link => admin_application_events_path}],
-                     [:tests , {:link => '/tests'}]
-                    ]
-        links =[
-          [:models, model_links],
-          [:pr, pr_links],
-          [:admin, admin_links],
-          [:internal, internal_links]
-         ]
-      else
-        links = []
-        links << [nil, editor_links] if current_user.is_editor?
-        links << [nil, manager_links] if current_user.is_manager?
-      end
-      links.each do |sxn, entries|
-        entries.each do |key, entry|
-          entry[:display] = (entry[:display] || key.to_s).tr("_", ' ')
-          entry[:link] = entry[:link] || ("/admin/%s" % key)
-        end
-      end
-
-    %div{:class => 'link_section main'}
-      %span.admin-lk
-        = link_to 'dashboard', admin_path, {:class => 'lkdark'}
-    %div{:class => 'link_groups'}
-      - links.each do |sxn, entries|
-        %div{:class => 'link_section'}
+    .handle
+    .link_section.main
+      = link_to 'dashboard', admin_path, {:class => 'lkdark'}
+    %ul{:class => 'link_groups'}
+      - nav_presenter.links.each do |sxn, entries|
+        %li
           - if sxn
-            %span.title #{sxn}
-          - entries.each do |key, opts|
-            %span.admin-lk
-              = link_to opts[:display], opts[:link], {:class => 'lkdark'}
+            .title #{sxn}
+            %ul.link_section
+              - entries.each do |key, opts|
+                %li 
+                  %span.admin-lk
+                    = link_to opts[:display], opts[:link], {:class => 'lkdark'}
