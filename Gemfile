@@ -8,13 +8,11 @@ gem 'font-awesome-rails'
 # gem 'aasm'
 gem "nokogiri", '~> 1.6'
 gem "htmlentities"
-gem "json"
 gem 'mysql2'
 gem "haml"
 gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
-gem 'tzinfo'
 gem 'rdiscount' # markdown processor
 gem 'mobile-fu', github: 'rcode5/mobile-fu'
 gem 'capistrano', '~> 3.1.0'
@@ -40,6 +38,8 @@ gem 'pickadate-rails'
 gem 'draper'
 gem 'spinjs-rails'
 gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
+gem 'paperclip'
+gem 'aws-sdk'
 
 # use bower assets
 gem 'rails-assets-angular'
@@ -96,7 +96,6 @@ group :development do
   gem 'annotate'
   #gem 'capistrano-nginx-unicorn', require: false, group: :development
   gem 'capistrano3-unicorn'
-  gem 'thin'
   gem 'spring'
 end
 

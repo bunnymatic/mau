@@ -78,6 +78,13 @@ module Mau
     config.skylight.environments << 'acceptance'
 
     config.filter_parameters += [:password, :password_confirmation]
+
+    config.s3_info = {
+      bucket: ENV['S3_BUCKET'] || "mission-artists-#{Rails.env}",
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'] || 'bogus',
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'] || 'bogus'
+    }
+
   end
 
 end

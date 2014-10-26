@@ -18,6 +18,9 @@
           %td.key #{os_event.key}
           %td.start #{os_event.start_date}
           %td.end #{os_event.end_date}
+          %td.logo 
+            - if os_event.logo?
+              = link_to os_event.logo.original_filename, os_event.logo.url(:square), target: '_blank'
           %td.input-name
             = link_to os_event.edit_path, title: 'edit' do
               = fa_icon 'edit'

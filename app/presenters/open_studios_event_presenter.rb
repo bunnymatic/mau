@@ -2,7 +2,7 @@ class OpenStudiosEventPresenter
 
   attr_reader :model
 
-  delegate :key, :to => :model
+  delegate :key, :logo, :logo?, :to => :model
 
   def initialize(view_context, os_event)
     @model = os_event

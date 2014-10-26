@@ -21,3 +21,4 @@ public/artistdata
 log
 coverage/*
 flog.report*
+secret/*
