@@ -52,7 +52,11 @@ shared_examples_for "logged in user" do
     assert_select("span.last a[href=/logout]");
   end
   it 'has link to signup for os' do
-    assert_select "#osnav .dir .leaf a[href=#{edit_artist_path(@logged_in_user)}#events]"
+    if @logged_in_user.is_a? Artist
+      assert_select "#osnav .dir .leaf a[href=#{edit_artist_path(@logged_in_user)}#events]"
+    else
+      assert_select "#osnav .dir .leaf a[href=#{login_path}]"
+    end
   end
 end
 

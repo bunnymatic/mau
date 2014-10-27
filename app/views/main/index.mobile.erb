@@ -2,8 +2,8 @@
   <div class="banner-img"><img src="/images/art_is_the_mission_badge.png" /></div>
   <div>
     <ul data-role="listview">
-      <% if Conf.oslive %>
-      <%= render_as_mobile_list_item "open studios #{pretty_print_os_tag(Conf.oslive, true).downcase}", :link => open_studios_path %>
+      <% if current_open_studios_key %>
+      <%= render_as_mobile_list_item "open studios #{current_open_studios.pretty_print(true).downcase}", :link => open_studios_path %>
       <% end %>
       <%= render_as_mobile_list_item 'art', :link => thumbs_artists_path %>
       <%= render_as_mobile_list_item 'artists by first name', :link => by_firstname_artists_path %>

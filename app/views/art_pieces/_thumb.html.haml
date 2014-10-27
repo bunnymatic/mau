@@ -21,7 +21,7 @@
       nothing
       .name
         = link_to the_artist.get_name, the_artist, :class => 'lkthumb'
-      - if Conf.oslive && the_artist.doing_open_studios?
+      - if the_artist.doing_open_studios?
         .os-star{:title => "I'll be in Open Studios!"}
 
   - else
@@ -35,7 +35,7 @@
       - else
         %span.no_image
           No Image
-    - if Conf.oslive && the_artist.doing_open_studios? && !delete && !select
+    - if the_artist.doing_open_studios? && !delete && !select
       .os-star{:title => "I'll be in Open Studios!"}
     - if show_footer
       .name

@@ -8,14 +8,17 @@
     %thead
       %tr
         %th key
+        %th title
         %th start date
         %th end date
+        %th logo?
         %th
     %tbody
       - @os_events.each_with_index do |os_event|
         - clz = cycle('even','odd')
         %tr{class: clz}
           %td.key #{os_event.key}
+          %td.title #{os_event.title}
           %td.start #{os_event.start_date}
           %td.end #{os_event.end_date}
           %td.logo 

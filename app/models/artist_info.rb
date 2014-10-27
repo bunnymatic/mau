@@ -39,13 +39,17 @@ class ArtistInfo < ActiveRecord::Base
   before_validation(:on => :update){ compute_geocode }
 
   include AddressMixin
+  include OpenStudiosEventShim
 
   def os_participation
-    if open_studios_participation.blank? || !Conf.oslive
-      {}
-    else
-      parse_open_studios_participation(self.open_studios_participation) || {}
-    end
+    @os_participation ||=
+      begin
+        if open_studios_participation.blank? || !current_open_studios_key
+          {}
+        else
+          parse_open_studios_participation(self.open_studios_participation) || {}
+        end
+      end
   end
 
   def update_os_participation(key,value)

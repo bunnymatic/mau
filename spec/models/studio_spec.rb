@@ -22,6 +22,8 @@ describe Studio do
 
   fixtures :studios, :users, :artist_infos
 
+  let(:studio) { FactoryGirl.build(:studio) }
+
 
   it_should_behave_like AddressMixin
 
@@ -29,17 +31,18 @@ describe Studio do
 
   describe 'address' do
     it "responds to address" do
-      (studios(:s1890).respond_to? :address).should be
+      expect(studio).to respond_to :address
     end
     it "responds to full address" do
-      studios(:s1890).should respond_to :full_address
+      expect(studio).to respond_to :full_address
     end
     it "responds to address_hash" do
-      studios(:s1890).should respond_to :address_hash
+      expect(studio).to respond_to :address_hash
     end
   end
 
   describe 'create' do
+    let(:studio) { FactoryGirl.build(:studio) }
     before do
       @s = Studio.new(valid_studio_attributes)
     end

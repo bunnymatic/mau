@@ -1,12 +1,12 @@
 .logo
   %a{:href => '/open_studios'}
-    %img{:title => 'Art is the Mission', :src => image_path("mau-nextos.png") }
+    - url = current_open_studios.display_logo
+    %img{:title => current_open_studios.title, :src => url}
 
-  - path = current_user ? (edit_artist_path(current_user) + "#events") : login_path
-
-
-=#%a{:title => "Signup for Spring Open Studios Now!", :href => path}
-=#  .action_button.sprite.spring_os_signup
+-# - if current_open_studios.available?
+-#   - path = current_artist ? edit_artist_path(current_user, anchor: 'events') : login_path
+-#   %a.action_button.text{:title => "Signup for #{current_open_studios.title} Now!", :href => path}
+-#     signup for #{current_open_studios.title}
 
 %a.action_button.text{:title => "Tell us about your upcoming art show!", :href => new_event_path}
   plug your art show

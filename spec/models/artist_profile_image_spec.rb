@@ -2,9 +2,7 @@ require 'spec_helper'
 
 describe ArtistProfileImage do
 
-  fixtures :users, :artist_infos, :studios
-
-  let(:artist) { users(:artist1) }
+  let(:artist) { FactoryGirl.create(:artist, :active, :with_studio) }
 
   describe '#save' do
     let(:file) { Faker::Files.file }

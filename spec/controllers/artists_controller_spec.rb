@@ -156,6 +156,9 @@ describe ArtistsController do
         end
       end
       context "update os status" do
+        before do
+          FactoryGirl.create(:open_studios_event)
+        end
         it "updates artists os status to true" do
           xhr :put, :update, :id => artist1, artist: { "os_participation" => '1' }
           artist1.reload.os_participation[Conf.oslive.to_s].should be_true

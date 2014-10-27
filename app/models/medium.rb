@@ -8,8 +8,6 @@
 #  updated_at :datetime
 #
 
-require_relative 'concerns/tag_media_mixin'
-
 class Medium < ActiveRecord::Base
   has_many :art_pieces
 

@@ -9,6 +9,22 @@ class OpenStudiosEventPresenter
     @view_context = view_context
   end
 
+  def title
+    (available? && @model.title.present?) ? @model.title : "Open Studios"
+  end
+
+  def display_logo
+    if(available? && logo?)
+      logo.url(:square)
+    else
+      @view_context.image_path('mau-nextos.png')
+    end
+  end
+
+  def available?
+    !@model.nil?
+  end
+
   def edit_path
     @view_context.edit_admin_open_studios_event_path(@model)
   end

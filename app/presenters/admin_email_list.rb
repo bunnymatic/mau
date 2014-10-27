@@ -1,7 +1,7 @@
 require 'csv'
 class AdminEmailList
 
-  include OsHelper
+  include OpenStudiosEventShim
 
   attr_accessor :list_names
 
@@ -63,7 +63,7 @@ class AdminEmailList
         case list_names.first
         when 'fans'
           MAUFan.all
-        when *os_tags
+        when *available_open_studios_keys
           Artist.active.open_studios_participants(list_names.first)
         when 'all'
           Artist.all
@@ -80,7 +80,7 @@ class AdminEmailList
   def lists
     @lists ||=
       begin
-        os_lists = os_tags.reverse.map do |ostag|
+        os_lists = available_open_studios_keys.reverse.map do |ostag|
           [ ostag, os_pretty(ostag) ]
         end
 
@@ -99,12 +99,9 @@ class AdminEmailList
     @titles ||= Hash[lists]
   end
 
-  def os_tags
-    @os_tags ||= Conf.open_studios_event_keys.map(&:to_s)
-  end
 
   def queried_os_tags
-    @queried_os_tags ||= (list_names & os_tags)
+    @queried_os_tags ||= (list_names & available_open_studios_keys)
   end
 
   def is_multiple_os_query?
@@ -112,7 +109,7 @@ class AdminEmailList
   end
 
   def csv_headers
-    @csv_headers ||= ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + os_tags
+    @csv_headers ||= ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + available_open_studios_keys
   end
 
   def artist_as_csv_row(artist)
@@ -122,7 +119,7 @@ class AdminEmailList
      artist.get_name(true),
      artist.email,
      artist.studio ? artist.studio.name : ''
-    ] + os_tags.map do |os_tag|
+    ] + available_open_studios_keys.map do |os_tag|
       ((artist.respond_to? :os_participation) && artist.os_participation[os_tag]).to_s
     end
   end

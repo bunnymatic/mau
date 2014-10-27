@@ -66,6 +66,10 @@ describe MainController do
   fixtures :users, :roles, :roles_users, :studios, :artist_infos, :art_piece_tags, :art_pieces_tags, :media,
   :cms_documents,  :emails, :email_lists, :email_list_memberships, :art_pieces
 
+  before do
+    FactoryGirl.create(:open_studios_event, :future)
+  end
+
   describe "#index" do
     render_views
     context 'not logged in' do

@@ -45,6 +45,11 @@ FactoryGirl.define do
 
   end
 
+  factory :fan, :parent => :user, :class => 'MAUFan' do
+    type { 'MAUFan' }
+  end
+
+
   factory :artist, :parent => :user, :class => 'Artist' do
     type { 'Artist' }
 

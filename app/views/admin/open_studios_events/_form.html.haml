@@ -3,6 +3,9 @@
   = form_for [:admin, os_event], multipart: true do |f|
     = render partial: 'common/form_errors', locals: { form: f }
     .form-group
+      = f.label :title
+      = f.text_field :title, placeholder: 'e.g. Spring Open Studios'
+    .form-group
       = f.label :start_date
       = f.text_field :start_date, class: "js-datepicker", placeholder: 'choose a date', value: os_event.start_date.try(:to_s,:pickadate)
     .form-group

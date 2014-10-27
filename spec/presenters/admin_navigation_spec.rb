@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe AdminNavigationPresenter do
+describe AdminNavigation do
 
   include PresenterSpecHelpers
 
   let(:user) { FactoryGirl.create(:user, :admin, :active) }
   let(:studio) { FactoryGirl.create(:studio) }
-  subject(:nav) { AdminNavigationPresenter.new(mock_view_context, user) }
+  subject(:nav) { AdminNavigation.new(mock_view_context, user) }
 
   it { expect(subject.links.map(&:first)).to eq [:models, :pr, :admin, :internal] }
 

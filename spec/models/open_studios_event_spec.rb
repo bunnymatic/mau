@@ -25,6 +25,21 @@ describe OpenStudiosEvent do
     Timecop.return
   end
 
+  describe '.pretty_print' do
+    it "returns the pretty version for the current os" do
+      expect(OpenStudiosEvent.pretty_print).to eql current_os.start_date.strftime("%Y %B")
+    end
+    it "returns the pretty version for a given tag" do
+      expect(OpenStudiosEvent.pretty_print("201104")).to eql current_os.start_date.strftime("2011 Apr")
+    end
+  end
+
+  describe '#pretty_print' do
+    it "returns the pretty version for the current os" do
+      expect(current_os.pretty_print).to eql current_os.start_date.strftime("%Y %B")
+    end
+  end
+
   describe '#future' do
     it 'includes 2 open studios' do
       expect(OpenStudiosEvent.future).to have(3).events
@@ -54,6 +69,5 @@ describe OpenStudiosEvent do
       expect(current_os.key).to eql current_os.start_date.year.to_s + ("%02d" % current_os.start_date.month)
     end
   end
-
 
 end

@@ -27,16 +27,20 @@ Then /^I fill in the open studios event form for next weekend without a key$/ do
   @end_date = Time.zone.now.beginning_of_week + 11.days
   fill_in "Start date", with: @start_date
   fill_in "End date", with: @end_date
+  attach_file "Logo", File.join(Rails.root,'spec/fixtures/open_studios_event.png')
   click_on "Create"
 end
 
 Then /^I fill in the open studios event form for next weekend$/ do
   dt = Time.zone.now.beginning_of_week + 11.days
+  @os_title = "Fall OS"
   @start_date = dt
   @end_date = dt + 2.days
+  fill_in "Title", with: @os_title
   fill_in "Start date", with: @start_date
   fill_in "End date", with: @end_date
   fill_in "Key", with: dt.strftime("%Y%m")
+  attach_file "Logo", File.join(Rails.root,'spec/fixtures/open_studios_event.png')
   click_on "Create"
 end
 
@@ -45,6 +49,7 @@ Then /^I see a new open studios event$/ do
   expect(@os_event).to be_present
   expect(@os_event.end_date).to eql @end_date
   expect(@os_event.key).to eql @start_date.strftime("%Y%m")
+  expect(@os_event.title).to eql @os_title
 end
 
 Then /^I see that the new open studios event is no longer there$/ do

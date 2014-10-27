@@ -1,4 +1,4 @@
-class AdminNavigationPresenter
+class AdminNavigation
 
   attr_reader :current_user
 

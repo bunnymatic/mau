@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141026054728) do
+ActiveRecord::Schema.define(:version => 20141026211859) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -189,13 +189,14 @@ ActiveRecord::Schema.define(:version => 20141026054728) do
   create_table "open_studios_events", :force => true do |t|
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
     t.string   "key"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.string   "title",             :default => "Open Studios", :null => false
   end
 
   create_table "open_studios_tallies", :force => true do |t|

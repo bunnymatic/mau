@@ -11,7 +11,7 @@
 
       %p.os-status
         Your current answer is :
-        %span #{@artist_info.os_participation[Conf.oslive.to_s] ? 'Yep' : 'Nope'}
+        %span #{current_user.doing_open_studios? ? 'Yep' : 'Nope'}
       .buttons
         %a.formbutton.yep#yep{href: '#'} Yep
         %a.formbutton.nope#nope{href: '#'} Nope
