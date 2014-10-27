@@ -13,7 +13,7 @@ module OpenStudiosEventShim
   module ClassMethods
 
     def available_open_studios_keys 
-      (Conf.open_studios_event_keys + OpenStudiosEvent.pluck(:key)).compact.uniq.sort
+      (Conf.open_studios_event_keys + OpenStudiosEvent.pluck(:key)).compact.uniq.map(&:to_s).sort
     end
 
     def current_open_studios_key
@@ -27,11 +27,8 @@ module OpenStudiosEventShim
 
     # delegate to OpenStudiosEvent.current if there is one
     def _open_studios_shim_delegate(method, fallback)
-      if _open_studios_shim_from_db?
-        _open_studios_shim_event.send(method)
-      else
-        fallback
-      end
+      v = _open_studios_shim_event.send(method) if _open_studios_shim_from_db?
+      v.present? ? v : fallback
     end
 
     def _open_studios_shim_from_db?

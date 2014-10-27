@@ -52,7 +52,7 @@ class StudioPresenter
     @open_studios_count_label ||=
       begin
         if has_open_studios_artists?
-          "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) + " in #{os_pretty} Open Studios"
+          "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) + " in #{current_open_studios.title}"
         else
           ''
         end
