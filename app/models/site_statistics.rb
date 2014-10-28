@@ -2,7 +2,7 @@ class SiteStatistics
 
   attr_accessor :last_30_days, :last_week, :yesterday, :totals, :open_studios
 
-  include OsHelper
+  include OpenStudiosEventShim
 
   def initialize
     compute
@@ -20,6 +20,7 @@ class SiteStatistics
 
 
   CREATED_CLAUSE = "created_at >= ?"
+  ACTIVATED_CLAUSE = "activated_at >= ?"
   def queries
     @queries ||= {
       :last_30_days => [CREATED_CLAUSE, 30.days.ago],
@@ -83,8 +84,8 @@ class SiteStatistics
   end
 
   def compute_os_stats
-    @as_stats ||= Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-      key = os_pretty(ostag)
+    @as_stats ||= available_open_studios_keys.map(&:to_s).each do |ostag|
+      key = OpenStudiosEvent.pretty_print(ostag)
       add_statistic :open_studios, key, Artist.active.open_studios_participants(ostag).count
     end
   end

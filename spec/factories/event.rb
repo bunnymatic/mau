@@ -12,7 +12,7 @@ FactoryGirl.define do
     state { Faker::Address.state }
     zip { Faker::Address.zip_code }
     sequence(:starttime) { |n| Time.zone.now + n.days }
-    sequence(:endtime) { |n| Time.zone.now + 1.day + n.days }
+    endtime { starttime + 2.days }
     url { Faker::Internet.url }
 
     trait :published do
