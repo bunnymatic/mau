@@ -28,7 +28,6 @@ class UsersController < ApplicationController
       @fan = nil
       flash.now[:error] = "The account you were looking for was not found."
     end
-
     if @fan
       if @fan.is_artist?
         redirect_to artist_path(@fan)
@@ -38,7 +37,7 @@ class UsersController < ApplicationController
     else
       @page_title = "Mission Artists United"
     end
-    render :action => 'show', :layout => 'mau'
+    render 'show', :layout => 'mau'
   end
 
   # render new.rhtml
@@ -96,22 +95,13 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user)
       return
     end
-    begin
-      if params[:emailsettings]
-        em = params[:emailsettings]
-        em2 = {}
-        em.each_pair do |k,v|
-          em2[k] = ( v.to_i != 0 ? true : false)
-        end
-        params[:user][:email_attrs] = em2.to_json
-      end
-      # clean os from radio buttons
-      self.current_user.update_attributes!(params[:user])
+    # clean os from radio buttons
+    if current_user.update_attributes(user_params)
       flash[:notice] = "Update successful"
       redirect_to(edit_user_url(current_user))
-    rescue
+    else
       flash[:error] = "%s" % $!
-      redirect_to(edit_user_url(current_user))
+      render 'edit'
     end
   end
 
@@ -209,7 +199,7 @@ class UsersController < ApplicationController
     id = params[:id]
     u = safe_find_user(id)
     if u
-      if u != current_user
+      if u.id != current_user.id
         name = u.login
         u.delete!
         flash[:notice] = "The account for login %s has been deactivated." % name
@@ -237,6 +227,7 @@ class UsersController < ApplicationController
       flash[:error]  = "We couldn't find an artist with that activation code -- check your email?"+
         " Or maybe you've already activated -- try signing in."
     end
+
     redirect_to login_path
   end
 
@@ -373,9 +364,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def user_params
-    @user_params ||= (params[:artist] || params[:mau_fan] || params[:user] || {})
-  end
+  private
 
   def build_user_from_params
     return if user_params.empty?
@@ -434,4 +423,17 @@ class UsersController < ApplicationController
     note_info
   end
 
+  def user_params
+    attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
+
+    if params[:emailsettings]
+      em = params[:emailsettings]
+      em2 = {}
+      em.each_pair do |k,v|
+        em2[k] = ( v.to_i != 0 ? true : false)
+      end
+      attrs[:email_attrs] = em2.to_json
+    end
+    attrs
+  end
 end

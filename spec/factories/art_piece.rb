@@ -12,5 +12,11 @@ FactoryGirl.define do
     after(:build) do |art_piece|
       art_piece.medium = FactoryGirl.create(:medium)
     end
+
+    trait :with_tag do
+      after(:create) do |art_piece|
+        art_piece.tags << FactoryGirl.create(:art_piece_tag)
+      end
+    end
   end
 end

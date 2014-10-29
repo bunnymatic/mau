@@ -8,10 +8,10 @@ FactoryGirl.define do
     password_confirmation { 'bmatic' }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.first_name }
-    nomdeplume{ Faker::Name.name }
     profile_image { Faker::Files.file_with_path }
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }
+    url { Faker::Internet.url }
     trait :pending do
       state :pending
       activation_code 'factory_activation_code'
@@ -47,6 +47,7 @@ FactoryGirl.define do
 
   factory :fan, :parent => :user, :class => 'MAUFan' do
     type { 'MAUFan' }
+    active
   end
 
 
@@ -55,7 +56,6 @@ FactoryGirl.define do
 
     after(:create) do |artist|
       FactoryGirl.create(:artist_info, :artist => artist)
-      artist.reload
     end
 
     ignore do

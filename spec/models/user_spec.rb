@@ -39,7 +39,7 @@ describe User do
 
   context 'unique field constraints' do
     before do
-      allow(ArtistMailer).to receive(:signup_notification).and_return(double('OutgoingEmail', "deliver!" => true))
+      stub_signup_notification
     end
     it{ should validate_uniqueness_of(:login) }
     it{ should validate_uniqueness_of(:email) }

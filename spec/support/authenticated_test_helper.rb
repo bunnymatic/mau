@@ -4,7 +4,7 @@ module AuthenticatedTestHelper
   def login_as(user, session_stubs = nil)
     logout
     session_stubs ||= { :record => true }
-    u = user ? (user.is_a?(User) ? user : users(user)) : nil
+    u = user.is_a?(User) ? user : FactoryGirl.create(:user, :active, user)
     allow(UserSession).to receive(:find).and_return(user_session(current_user(u), session_stubs))
     u
   end
