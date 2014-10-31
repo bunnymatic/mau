@@ -44,7 +44,7 @@ class AdminController < BaseAdminController
     @os = Artist.active.by_lastname
     @totals = {}
     available_open_studios_keys.each do |ostag|
-      key = OpenStudiosEvent.pretty_print(ostag)
+      key = OpenStudiosEvent.for_display(ostag)
       @totals[key] = @os.select{|a| a.os_participation[ostag].nil? ? false : a.os_participation[ostag] }.length
     end
   end

@@ -9,10 +9,8 @@ module MobileHelper
       star_code = "<div class='os-star'></div>"
     end
     link += "/" unless (/\/$/.match(link) || /\?\w+/.match(link))
-    s = <<EOM
-       <li class="mobile-menu #{clz}"><a data-transition="slide" href="#{link}">#{star_code}#{content}</a></li>
-EOM
-    s.html_safe
+    a = content_tag('a', [star_code, content].join, {'data-transition' => :slide, href: link})
+    content_tag('li', a, class: "mobile-menu #{clz}")
   end
 
 end

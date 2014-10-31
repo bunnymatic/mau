@@ -81,7 +81,7 @@ class AdminEmailList
     @lists ||=
       begin
         os_lists = available_open_studios_keys.reverse.map do |ostag|
-          [ ostag, OpenStudiosEvent.pretty_print(ostag) ]
+          [ ostag, OpenStudiosEvent.for_display(ostag) ]
         end
 
         [[ "all", 'Artists'],

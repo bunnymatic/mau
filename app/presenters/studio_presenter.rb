@@ -1,6 +1,6 @@
 class StudioPresenter
 
-  include OsHelper
+  include OpenStudiosEventShim
 
   attr_reader :studio, :is_mobile
   delegate :phone, :formatted_phone, :map_link, :city, :street, :url, :to => :studio
@@ -51,7 +51,8 @@ class StudioPresenter
   def open_studios_artists_count_label
     @open_studios_count_label ||=
       begin
-        if has_open_studios_artists?
+        current_open_studios = OpenStudiosEvent.current
+        if has_open_studios_artists? && current_open_studios
           "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) + " in #{current_open_studios.title}"
         else
           ''

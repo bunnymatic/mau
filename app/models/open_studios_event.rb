@@ -27,7 +27,7 @@ class OpenStudiosEvent < ActiveRecord::Base
   validates_attachment_presence :logo
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\Z/
 
-  def pretty_print(reverse = false)
+  def for_display(reverse = false)
     start_date.strftime( reverse ? "%B %Y" : "%Y %B" )
   end
 
@@ -49,9 +49,9 @@ class OpenStudiosEvent < ActiveRecord::Base
     current.try(:key)
   end
 
-  def self.pretty_print(os_key = nil, reverse = false )
+  def self.for_display(os_key = nil, reverse = false )
     if !os_key && current
-      current.pretty_print
+      current.for_display
     elsif os_key
       os_key = os_key.to_s
       yr = os_key[0..3]

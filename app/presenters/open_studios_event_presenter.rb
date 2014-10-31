@@ -4,6 +4,8 @@ class OpenStudiosEventPresenter
 
   delegate :key, :logo, :logo?, :to => :model
 
+  include OpenStudiosEventShim
+
   def initialize(view_context, os_event)
     @model = os_event
     @view_context = view_context
@@ -12,6 +14,15 @@ class OpenStudiosEventPresenter
   def title
     (available? && @model.title.present?) ? @model.title : "Open Studios"
   end
+
+  def for_display
+    if available?
+      model.for_display
+    else
+      OpenStudiosEvent.for_display(current_open_studios_key)
+    end
+  end
+
 
   def display_logo
     if(available? && logo?)

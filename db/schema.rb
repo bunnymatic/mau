@@ -147,8 +147,8 @@ ActiveRecord::Schema.define(:version => 20141026211859) do
     t.datetime "published_at"
     t.datetime "reception_starttime"
     t.datetime "reception_endtime"
-    t.datetime "created_at",          :default => '2014-05-31 19:13:55'
-    t.datetime "updated_at",          :default => '2014-05-31 19:13:55'
+    t.datetime "created_at",          :default => '2014-06-30 18:01:30'
+    t.datetime "updated_at",          :default => '2014-06-30 18:01:30'
   end
 
   create_table "favorites", :force => true do |t|
@@ -277,6 +277,8 @@ ActiveRecord::Schema.define(:version => 20141026211859) do
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
     t.string   "type",                                     :default => "Artist"
     t.date     "mailchimp_subscribed_at"
+    t.string   "pinterest"
+    t.string   "instagram"
     t.string   "persistence_token"
     t.integer  "login_count",                              :default => 0,                                                                :null => false
     t.datetime "last_request_at"

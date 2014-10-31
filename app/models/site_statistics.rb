@@ -85,7 +85,7 @@ class SiteStatistics
 
   def compute_os_stats
     @as_stats ||= available_open_studios_keys.map(&:to_s).each do |ostag|
-      key = OpenStudiosEvent.pretty_print(ostag)
+      key = OpenStudiosEvent.for_display(ostag)
       add_statistic :open_studios, key, Artist.active.open_studios_participants(ostag).count
     end
   end
