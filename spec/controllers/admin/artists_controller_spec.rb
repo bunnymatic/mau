@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Admin::ArtistsController do
 
-  let(:admin) { FactoryGirl.create(:artist, :admin, email: 'admin@example.com') }
-  let(:pending) { FactoryGirl.create(:artist, :pending, email: 'pending@example.com', activation_code: 'ACTIVATEME') }
-  let(:password_reset) { FactoryGirl.create(:artist, :active, email: 'reset@example.com',reset_code: "RESET") }
-  let!(:artist) { FactoryGirl.create(:artist, :with_studio, email: 'artist1@example.com') }
-  let(:artist2) { FactoryGirl.create(:artist, :active, email: 'artist2@example.com') }
-  let(:manager) { FactoryGirl.create(:artist, :active, :with_studio, :manager, email: 'manager@example.com') }
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:pending) { FactoryGirl.create(:artist, :pending, activation_code: 'ACTIVATEME') }
+  let(:password_reset) { FactoryGirl.create(:artist, :active, reset_code: "RESET") }
+  let!(:artist) { FactoryGirl.create(:artist, :with_studio) }
+  let(:artist2) { FactoryGirl.create(:artist, :active) }
+  let(:manager) { FactoryGirl.create(:artist, :active, :with_studio, :manager) }
 
   describe "#index" do
     context "while not logged in" do
@@ -71,7 +71,8 @@ describe Admin::ArtistsController do
           end
           it 'renders activation link for inactive artists' do
             activation_url = activate_url(activation_code: pending.activation_code)
-            assert_select('.activation_link', count: Artist.not_active.count)
+            assert_select(".admin_artist_name a[href=#{artist_path(pending)}]")
+            assert_select('.activation_link', count: Artist.all.count{|a| !a.active? && a.activation_code.present?})
             assert_select('.activation_link', match: activation_url )
           end
           it 'renders forgot link if there is a reset code' do

@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe Admin::ArtPieceTagsController do
 
-  fixtures :users, :roles, :roles_users, :art_piece_tags, :art_pieces_tags, :art_pieces, :artist_infos, :media
-
   let(:user) { FactoryGirl.create(:user, :active) }
   let(:admin) { FactoryGirl.create(:user, :admin, :active) }
-
+  let!(:tags) do
+    FactoryGirl.create(:artist, :with_tagged_art)
+    FactoryGirl.create_list(:art_piece_tag, 2)
+  end
   describe 'not logged in' do
     describe :index do
       before do
@@ -37,7 +38,7 @@ describe Admin::ArtPieceTagsController do
     it_should_behave_like 'logged in as admin'
     it_should_behave_like 'returns success'
     it 'shows tag frequency' do
-      assert_select '.singlecolumn table td.input-name', :match => /^\d+\.{0,1}\d+$/
+      assert_select '.singlecolumn table td.input-name', :match => /1\.0|0\.0/
     end
     it 'shows one entry per existing tag' do
       assert_select 'tr td.ct', :count => ArtPieceTag.count
@@ -45,7 +46,6 @@ describe Admin::ArtPieceTagsController do
   end
 
   describe '#cleanup' do
-    render_views
     before do
       login_as admin
     end

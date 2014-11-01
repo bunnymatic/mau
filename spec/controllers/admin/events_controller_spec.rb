@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe Admin::EventsController do
 
-  fixtures :users, :events, :roles_users, :roles
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:editor) { FactoryGirl.create(:artist, :editor) }
+
+  let(:published_at) { Time.zone.now }
+  let(:event) { FactoryGirl.create(:event, published_at: published_at) }
 
   [:index, :publish, :unpublish].each do |endpt|
     context "#{endpt} when not logged in" do
@@ -15,7 +19,7 @@ describe Admin::EventsController do
 
   describe 'authorized as an admin' do
     before do
-      login_as :admin
+      login_as admin
     end
     context "index" do
       before do
@@ -30,37 +34,33 @@ describe Admin::EventsController do
 
   describe 'authorized as an editor' do
     before do
-      login_as :editor
+      login_as editor
     end
 
     context 'publish' do
-      before do
-        @event = events(:reception_full)
-        @event.update_attribute('published_at', nil)
-      end
+      let(:published_at) { nil }
       it 'publishes the event' do
+        ev = event
         expect{
-          post :publish, :id => @event.id
-          @event.reload
-        }.to change(@event, :published_at)
+          post :publish, :id => ev.id
+          ev.reload
+        }.to change(ev, :published_at)
       end
       it 'redirects to the event index' do
-        post :publish, :id => @event.id
+        post :publish, :id => event.id
         expect(response).to redirect_to admin_events_path
       end
     end
     context 'unpublish' do
-      before do
-        @event = events(:reception_full)
-      end
       it 'unpublishes the event' do
+        ev = event
         expect{
-          post :unpublish, :id => @event.id
-          @event.reload
-        }.to change(@event, :published_at)
+          post :unpublish, :id => ev.id
+          ev.reload
+        }.to change(ev, :published_at)
       end
       it 'redirects to the event index' do
-        post :unpublish, :id => @event.id
+        post :unpublish, :id => event.id
         expect(response).to redirect_to admin_events_path
       end
 

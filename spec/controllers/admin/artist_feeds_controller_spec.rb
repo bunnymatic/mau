@@ -1,12 +1,15 @@
 require 'spec_helper'
 
 describe Admin::ArtistFeedsController do
-  fixtures :users, :roles, :artist_feeds, :roles_users
 
-  let(:url) { 'http://this.url' }
-  let(:feed_url) { 'http://this.url/feed?rss=true' }
-  let(:active) { true }
-  let(:feed_attrs) { {:url => url, :feed => feed_url, :active => active } }
+  let(:twitter_feed) { 
+    FactoryGirl.create(:artist_feed, :active, feed: "https://twitter.com/statuses/user_timeline/62131363.json")
+  }
+  let(:inactive_feed) { FactoryGirl.create(:artist_feed) }
+
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:url) { 'http://example.com/whatever' }
+  let(:feed_attrs) { FactoryGirl.attributes_for(:artist_feed, url: url) }
 
   shared_examples_for 'artist feeds controller new or edit' do
     it { expect(response).to be_success }
@@ -34,7 +37,7 @@ describe Admin::ArtistFeedsController do
   describe 'as admin' do
     render_views
     before do
-      login_as(:admin)
+      login_as admin
     end
     describe '#index' do
       before do
@@ -64,7 +67,7 @@ describe Admin::ArtistFeedsController do
     end
     describe '#edit' do
       before do
-        get :edit, :id => artist_feeds(:twitter)
+        get :edit, :id => twitter_feed
       end
       it { expect(response).to be_success }
     end
@@ -84,13 +87,13 @@ describe Admin::ArtistFeedsController do
         end
         it 'creates the item' do
           feed = ArtistFeed.where(:url => url).first
-          expect(feed.feed).to eql feed_url
-          expect(feed.active).to eql true
+          expect(feed.feed).to eql feed_attrs[:feed]
+          expect(feed.active).to eql feed_attrs[:active]
         end
       end
       context 'bad inputs' do
-        let(:url) { 'h' }
         render_views
+        let(:url) { 'h' }
         before do
           post :create, :artist_feed => feed_attrs
         end
@@ -105,21 +108,21 @@ describe Admin::ArtistFeedsController do
     describe '#update' do
       context 'with good data' do
         before do
-          post :update, :id => artist_feeds(:inactive).id, :artist_feed => feed_attrs
+          post :update, :id => inactive_feed.id, :artist_feed => feed_attrs
         end
         it 'redirects to index' do
           expect(response).to redirect_to admin_artist_feeds_path
         end
         it 'updates the item' do
-          feed = ArtistFeed.find(artist_feeds(:inactive).id)
-          expect(feed.url).to eql url
-          expect(feed.feed).to eql feed_url
-          expect(feed.active).to eql true
+          feed = inactive_feed.reload
+          expect(feed.url).to eql feed_attrs[:url]
+          expect(feed.feed).to eql feed_attrs[:feed]
+          expect(feed.active).to eql feed_attrs[:active]
         end
       end
       context 'with bad data' do
         before do
-          post :update, :id => artist_feeds(:inactive).id, :artist_feed => {:url => nil}
+          post :update, :id => inactive_feed.id, :artist_feed => {:url => nil}
         end
         it 'redirects to index' do
           expect(response).to render_template 'new_or_edit'
@@ -132,8 +135,9 @@ describe Admin::ArtistFeedsController do
 
     describe "#destroy" do
       it "destroys and redirects" do
+        twitter_feed
         expect{
-          delete :destroy, :id => ArtistFeed.first.id
+          delete :destroy, :id => twitter_feed.id
           expect(response).to redirect_to admin_artist_feeds_url
         }.to change(ArtistFeed,:count).by(-1)
       end

@@ -3,10 +3,11 @@ require 'spec_helper'
 
 describe Admin::FavoritesController do
 
-  fixtures :users, :roles_users, :roles
-  fixtures :art_pieces
-  fixtures :artist_infos
-  fixtures :favorites # even though fixture is empty - this forces a db clear between tests
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:jesse) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:art_pieces) { artist.art_pieces }
 
   [:index].each do |endpoint|
     describe endpoint do
@@ -27,11 +28,6 @@ describe Admin::FavoritesController do
   end
 
   describe "#index" do
-    let(:fan) { users(:maufan1) }
-    let(:jesse) { users(:jesseponce) }
-    let(:anna) { users(:annafizyta) }
-    let(:artist) { users(:artist1) }
-    let(:art_pieces) { [ArtPiece.first, ArtPiece.last] }
 
     render_views
 
@@ -40,7 +36,7 @@ describe Admin::FavoritesController do
       fan.add_favorite art_pieces.first
       fan.add_favorite artist
       fan.add_favorite jesse
-      jesse.add_favorite anna
+      jesse.add_favorite artist
 
       get :index
     end

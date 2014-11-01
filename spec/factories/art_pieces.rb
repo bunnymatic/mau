@@ -15,7 +15,7 @@ FactoryGirl.define do
 
     trait :with_tag do
       after(:create) do |art_piece|
-        art_piece.tags << FactoryGirl.create(:art_piece_tag)
+        art_piece.update_attribute :tags, [FactoryGirl.create(:art_piece_tag)]
       end
     end
   end

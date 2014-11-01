@@ -67,10 +67,10 @@ FactoryGirl.define do
         artist.artist_info.update_attributes(street: nil, city: nil, addr_state: nil, zip: nil)
       end
     end
-    trait :with_tags do
+    trait :with_tagged_art do
       active
       after(:create) do |artist, ctx|
-        artist.update_attributes(tags: FactoryGirl.create_list(:art_piece_tag, 2))
+        FactoryGirl.create_list(:art_piece, ctx.number_of_art_pieces, :with_tag, artist: artist)
       end
     end
     trait :with_art do
