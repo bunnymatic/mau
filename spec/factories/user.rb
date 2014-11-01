@@ -87,7 +87,8 @@ FactoryGirl.define do
     trait :with_studio do
       active
       after(:create) do |artist|
-        artist.create_studio(FactoryGirl.attributes_for(:studio))
+        studio = Studio.first || FactoryGirl.create(:studio)
+        artist.update_attribute :studio, studio
       end
     end
 

@@ -67,35 +67,36 @@ class User < ActiveRecord::Base
 
   after_create :tell_user_they_signed_up
 
-  scope :active, where(:state => 'active')
-  scope :pending, where(:state => 'pending')
+  scope :active, where(state: 'active')
+  scope :not_active, where("state <> 'active'")
+  scope :pending, where(state: 'pending')
 
   before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_destroy :delete_favorites
 
   def delete_favorites
-    fs = Favorite.artists.where(:favoritable_id => id)
+    fs = Favorite.artists.where(favoritable_id: id)
     fs.each(&:delete)
   end
 
   [:studionumber, :studionumber= ].each do |delegat|
-    delegate delegat, :to => :artist_info, :allow_nil => true
+    delegate delegat, to: :artist_info, allow_nil: true
   end
 
   SORT_BY_LASTNAME = lambda{|a,b|
     a.lastname.downcase <=> b.lastname.downcase
   }
 
-  has_many :favorites, :class_name => 'Favorite' do
+  has_many :favorites, class_name: 'Favorite' do
      def to_obj
        proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
      end
   end
 
   belongs_to :studio
-  has_many :roles_users, :dependent => :destroy
-  has_many :roles, :through => :roles_users
+  has_many :roles_users, dependent: :destroy
+  has_many :roles, through: :roles_users
 
   include ImageDimensions
 
@@ -106,16 +107,16 @@ class User < ActiveRecord::Base
 
 
   validates_presence_of     :login
-  validates_length_of       :login,    :within => 5..40
+  validates_length_of       :login,    within: 5..40
   validates_uniqueness_of   :login
-  validates_format_of       :login,    :with => Mau::Regex::LOGIN, :message => Mau::Regex::BAD_LOGIN_MESSAGE
+  validates_format_of       :login,    with: Mau::Regex::LOGIN, message: Mau::Regex::BAD_LOGIN_MESSAGE
 
   validates_presence_of     :email
-  validates_length_of       :email,    :within => 6..100 #r@a.wk
+  validates_length_of       :email,    within: 6..100 #r@a.wk
   validates_uniqueness_of   :email
-  validates_format_of       :email,    :with => Mau::Regex::EMAIL, :message => Mau::Regex::BAD_EMAIL_MESSAGE
-  validates_length_of       :firstname,:maximum => 100, :allow_nil => true
-  validates_length_of       :lastname, :maximum => 100, :allow_nil => true
+  validates_format_of       :email,    with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE
+  validates_length_of       :firstname,maximum: 100, allow_nil: true
+  validates_length_of       :lastname, maximum: 100, allow_nil: true
 
   # custom validations
   validate :validate_email
@@ -201,7 +202,7 @@ class User < ActiveRecord::Base
   def resend_activation
     @resent_activation = true
     make_activation_code
-    save(:validate => false)
+    save(validate: false)
     notify_user_about_state_change
   end
 
@@ -211,8 +212,8 @@ class User < ActiveRecord::Base
 
   def create_reset_code
     @reset = true
-    self.attributes = {:reset_code => Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )}
-    save(:validate => false)
+    self.attributes = {reset_code: Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )}
+    save(validate: false)
     notify_user_about_state_change
   end
 
@@ -225,8 +226,8 @@ class User < ActiveRecord::Base
   end
 
   def delete_reset_code
-    self.attributes = {:reset_code => nil}
-    save(:validate => false)
+    self.attributes = {reset_code: nil}
+    save(validate: false)
   end
 
   def suspend!
@@ -242,9 +243,9 @@ class User < ActiveRecord::Base
     unless trying_to_favorite_yourself?(fav)
       # don't add dups
       favorite_params = {
-        :favoritable_type => fav.class.name,
-        :favoritable_id => fav.id,
-        :user_id => self.id
+        favoritable_type: fav.class.name,
+        favoritable_id: fav.id,
+        user_id: self.id
       }
       if Favorite.where(favorite_params).limit(1).blank?
         Favorite.create!(favorite_params)
@@ -301,7 +302,7 @@ class User < ActiveRecord::Base
   end
 
   def favorites_of_me
-    @favorites_of_me ||= Favorite.users.where(:favoritable_id => self.id).order('created_at desc')
+    @favorites_of_me ||= Favorite.users.where(favoritable_id: self.id).order('created_at desc')
   end
 
   def favorites_of_my_work
@@ -309,7 +310,7 @@ class User < ActiveRecord::Base
       begin
         if self.respond_to? :art_pieces
           art_piece_ids = art_pieces.map(&:id)
-          Favorite.art_pieces.where(:favoritable_id => art_piece_ids).order('created_at desc')
+          Favorite.art_pieces.where(favoritable_id: art_piece_ids).order('created_at desc')
         else
           []
         end
@@ -371,7 +372,7 @@ class User < ActiveRecord::Base
     reload
     if recently_activated? && mailchimp_subscribed_at.nil?
       mailer_class.activation(self).deliver!
-      FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
+      FeaturedArtistQueue.create(artist_id: id, position: rand) if is_artist?
     end
     mailer_class.reset_notification(self).deliver! if recently_reset?
     mailer_class.resend_activation(self).deliver! if resent_activation?

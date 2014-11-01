@@ -2,9 +2,12 @@ require 'spec_helper'
 
 describe Admin::ArtistsController do
 
-  fixtures :users, :roles_users,  :roles, :studios
-  let(:artist1) { users(:artist1) }
-  let(:artist2) { users(:joeblogs) }
+  let(:admin) { FactoryGirl.create(:artist, :admin, email: 'admin@example.com') }
+  let(:pending) { FactoryGirl.create(:artist, :pending, email: 'pending@example.com', activation_code: 'ACTIVATEME') }
+  let(:password_reset) { FactoryGirl.create(:artist, :active, email: 'reset@example.com',reset_code: "RESET") }
+  let!(:artist) { FactoryGirl.create(:artist, :with_studio, email: 'artist1@example.com') }
+  let(:artist2) { FactoryGirl.create(:artist, :active, email: 'artist2@example.com') }
+  let(:manager) { FactoryGirl.create(:artist, :active, :with_studio, :manager, email: 'manager@example.com') }
 
   describe "#index" do
     context "while not logged in" do
@@ -26,15 +29,16 @@ describe Admin::ArtistsController do
     end
     context "logged in as admin" do
       before do
-        login_as :admin
+        login_as admin
       end
       context 'format=html' do
         context 'with no params' do
           render_views
           before do
-            ArtistInfo.any_instance.stub(:os_participation => {'201204' => true})
-            Artist.any_instance.stub(:os_participation => {'201204' => true})
-
+            ArtistInfo.any_instance.stub(os_participation: {'201204' => true})
+            Artist.any_instance.stub(os_participation: {'201204' => true})
+            pending
+            password_reset
             get :index
           end
           it_should_behave_like 'logged in as admin'
@@ -48,13 +52,13 @@ describe Admin::ArtistsController do
             assert_select('button.update-artists', /update os status/)
           end
           it 'renders .pending rows for all pending artists' do
-            assert_select('tr.pending', :count => Artist.pending.count)
+            assert_select('tr.pending', count: Artist.pending.count)
           end
           it 'renders .suspended rows for all suspended artists' do
-            assert_select('tr.suspended', :count => Artist.all.select{|s| s.state == 'suspended'}.count)
+            assert_select('tr.suspended', count: Artist.all.select{|s| s.state == 'suspended'}.count)
           end
           it 'renders .deleted rows for all deleted artists' do
-            assert_select('tr.deleted', :count => Artist.all.select{|s| s.state == 'deleted'}.count)
+            assert_select('tr.deleted', count: Artist.all.select{|s| s.state == 'deleted'}.count)
           end
           it 'renders created_at date for all pending artists' do
             Artist.all.select{|s| s.state == 'pending'}.each do |a|
@@ -63,25 +67,24 @@ describe Admin::ArtistsController do
             end
           end
           it 'renders .participating rows for all pending artists' do
-            assert_select('tr.participating', :count => Artist.all.select{|a| a.os_participation['201210']}.count)
+            assert_select('tr.participating', count: Artist.all.select{|a| a.os_participation['201210']}.count)
           end
           it 'renders activation link for inactive artists' do
-            activation_url = activate_url(:activation_code => users(:pending_artist).activation_code)
-            assert_select('.activation_link', :count => Artist.all.select{|s| s.state == 'pending'}.count)
-            assert_select('.activation_link', :match => activation_url )
+            activation_url = activate_url(activation_code: pending.activation_code)
+            assert_select('.activation_link', count: Artist.not_active.count)
+            assert_select('.activation_link', match: activation_url )
           end
           it 'renders forgot link if there is a reset code' do
             assert_select('.forgot_password_link',
-                          :count => Artist.all.select{|s| s.reset_code.present?}.count)
+                          count: Artist.all.select{|s| s.reset_code.present?}.count)
             assert_select('.forgot_password_link',
-                          :match => reset_url(:reset_code => users(:reset_password).reset_code))
+                          match: reset_url(reset_code: password_reset.reset_code))
           end
         end
       end
       context 'format=csv' do
-        let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
+        let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({headers:true}) }
         let(:parsed) { CSV.parse(response.body, parse_args) }
-        let(:artist) { users(:artist1) }
 
         before do
           get :index, 'format' => 'csv'
@@ -109,26 +112,26 @@ describe Admin::ArtistsController do
   describe '#notify_featured' do
     describe 'unauthorized' do
       it 'not logged in redirects to error' do
-        post :notify_featured, :id => artist1.id
+        post :notify_featured, id: artist.id
         expect(response).to redirect_to '/error'
       end
       it 'logged in as normal redirects to error' do
-        login_as :manager
-        post :notify_featured, :id => artist1.id
+        login_as manager
+        post :notify_featured, id: artist.id
         expect(response).to redirect_to '/error'
       end
     end
     describe 'authorized' do
       before do
-        login_as :admin
+        login_as admin
       end
       it 'returns success' do
-        post :notify_featured, :id => artist1.id
+        post :notify_featured, id: artist.id
         expect(response).to be_success
       end
       it 'calls the notify_featured mailer' do
         ArtistMailer.should_receive(:notify_featured).exactly(:once).and_return(double(:deliver! => true))
-        post :notify_featured, :id => artist1.id
+        post :notify_featured, id: artist.id
       end
     end
   end
