@@ -42,9 +42,9 @@ class AdminController < BaseAdminController
   def os_status
     @os = Artist.active.by_lastname
     @totals = {}
-    available_open_studios_keys.each do |ostag|
+    available_open_studios_keys.map(&:to_s).each do |ostag|
       key = OpenStudiosEvent.for_display(ostag)
-      @totals[key] = @os.select{|a| a.os_participation[ostag].nil? ? false : a.os_participation[ostag] }.length
+      @totals[key] = @os.count{|a| (a.os_participation || {})[ostag] }
     end
   end
 

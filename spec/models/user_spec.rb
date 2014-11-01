@@ -156,10 +156,10 @@ describe User do
 
   describe 'get_name' do
     it 'returns nom de plume if defined' do
-      user.get_name.should eql user.nomdeplume
+      user = FactoryGirl.build(:user, nomdeplume: 'blurp')
+      user.get_name.should eql 'blurp'
     end
     it 'returns first + last if defined' do
-      user = FactoryGirl.build(:user, nomdeplume: '')
       user.get_name.should eql([user.firstname, user.lastname].join ' ')
     end
     it 'returns login if nom, and firstname are not defined' do

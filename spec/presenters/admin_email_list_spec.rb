@@ -61,12 +61,12 @@ describe AdminEmailList do
     describe "list name is #{ostag}" do
       let(:listname) { ostag }
       it "assigns a list of os artists for #{ostag} when we ask for the #{ostag} list" do
-        emails.length.should eql Artist.active.all.select{|a| a.os_participation[ostag]}.count
+        emails.length.should eql Artist.active.all.count{|a| a.os_participation[ostag]}
       end
 
       it "shows the title and list size and correct emails when we ask for #{ostag}" do
-        expected_participants = Artist.active.all.select{|a| a.os_participation[ostag]}.count
-        expected_tag = OpenStudiosEvent.pretty_print(ostag)
+        expected_participants = Artist.active.all.count{|a| a.os_participation[ostag]}
+        expected_tag = OpenStudiosEvent.for_display(ostag)
         email_list.display_title.should eql "#{expected_tag} [#{expected_participants}]"
       end
 
