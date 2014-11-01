@@ -16,11 +16,12 @@
       - stats.sort{|a,b| b.to_s <=> a.to_s }.each do |k,v|
         %li #{"%s : %s" % [k.to_s.titleize,v]}
     .current
-      Downloads:
-      %br
-      %a{:href => '/catalog?format=csv'} #{ @os_pretty } CSV File
-      %br
-      %a{:href => '/catalog'} #{ @os_pretty } Catalog Index
+      - if current_open_studios
+        Downloads:
+          %br
+          %a{:href => '/catalog?format=csv'} #{ current_open_studios.for_display } CSV File
+          %br
+          %a{:href => '/catalog'} #{ current_open_studios.for_display } Catalog Index
 
   - if current_user.is_admin?
     .clear
