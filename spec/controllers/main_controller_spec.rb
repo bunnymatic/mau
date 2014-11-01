@@ -63,8 +63,14 @@ end
 
 describe MainController do
 
-  fixtures :users, :roles, :roles_users, :studios, :artist_infos, :art_piece_tags, :art_pieces_tags, :media,
-  :cms_documents,  :emails, :email_lists, :email_list_memberships, :art_pieces
+  # fixtures :users, :roles, :roles_users, :studios, :artist_infos, :art_piece_tags, :art_pieces_tags, :media,
+  # :cms_documents,  :emails, :email_lists, :email_list_memberships, :art_pieces
+
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:editor) { FactoryGirl.create(:artist, :active, :editor) }
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let!(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:prolific_artist) { FactoryGirl.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
 
   before do
     FactoryGirl.create(:open_studios_event, :future)
@@ -80,7 +86,7 @@ describe MainController do
     end
     describe 'logged in' do
       before do
-        login_as(:admin)
+        login_as(admin)
         get :index
       end
       it_should_behave_like 'main#index page'
@@ -89,7 +95,7 @@ describe MainController do
 
     describe 'format=json' do
       before do
-        FactoryGirl.create_list(:art_piece, 15, :artist => users(:joeblogs))
+        prolific_artist
         get :index, :format => "json"
       end
       it_should_behave_like 'successful json'
@@ -115,19 +121,14 @@ describe MainController do
     end
     context "while logged in as an art fan" do
       before do
-        u = users(:maufan1)
-        login_as(users(:maufan1))
-        @logged_in_user = u
+        login_as(fan)
         get :resources
       end
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
       before do
-        a = users(:artist1)
-        login_as(users(:artist1))
-        @logged_in_user = a
-        @logged_in_artist = a
+        login_as(artist)
         get :resources
       end
       it_should_behave_like "logged in user"
@@ -135,16 +136,14 @@ describe MainController do
     end
     context "while logged in as user with 'editor' role" do
       before do
-        u = users(:editor)
-        login_as(:editor)
-        @logged_in_user = u
+        login_as(editor)
         get :resources
       end
       it_should_behave_like "logged in as editor"
     end
     context 'logged in as admin' do
       before do
-        login_as(:admin)
+        login_as(admin)
         get :resources
       end
       it_should_behave_like 'returns success'
@@ -155,6 +154,7 @@ describe MainController do
     render_views
     context "while not logged in" do
       before do
+        FactoryGirl.create(:cms_document, page: :main, section: :about)
         get :about
       end
       it_should_behave_like "not logged in"
@@ -173,18 +173,14 @@ describe MainController do
 
     context "while logged in as an art fan" do
       before do
-        u = users(:maufan1)
-        login_as(users(:maufan1))
-        @logged_in_user = u
+        login_as(fan)
         get :about
       end
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
       before do
-        a = users(:artist1)
-        login_as(users(:artist1))
-        @logged_in_user = a
+        login_as(artist)
         get :about
       end
       it_should_behave_like "logged in user"
@@ -194,6 +190,7 @@ describe MainController do
     render_views
     context "while not logged in" do
       before do
+        FactoryGirl.create(:cms_document, page: :main, section: :history)
         get :history
       end
       it_should_behave_like "not logged in"
@@ -212,18 +209,14 @@ describe MainController do
 
     context "while logged in as an art fan" do
       before do
-        u = users(:maufan1)
-        login_as(users(:maufan1))
-        @logged_in_user = u
+        login_as(fan)
         get :history
       end
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
       before do
-        a = users(:artist1)
-        login_as(users(:artist1))
-        @logged_in_user = a
+        login_as(artist)
         get :history
       end
       it_should_behave_like "logged in user"
@@ -239,18 +232,14 @@ describe MainController do
     end
     context "while logged in as an art fan" do
       before do
-        u = users(:maufan1)
-        login_as(users(:maufan1))
-        @logged_in_user = u
+        login_as(fan)
         get :getinvolved
       end
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
       before do
-        a = users(:artist1)
-        login_as(users(:artist1))
-        @logged_in_user = a
+        login_as(artist)
         get :getinvolved
       end
       it_should_behave_like "logged in user"
@@ -316,7 +305,7 @@ describe MainController do
       end
       context 'when you\'re logged in' do
         before do
-          login_as :artist1
+          login_as artist
           FeedbackMailer.stub(:feedback => double("FeedbackMailer", :deliver! => true))
         end
         it 'sends an email' do
@@ -338,18 +327,14 @@ describe MainController do
     end
     context "while logged in as an art fan" do
       before do
-        u = users(:maufan1)
-        login_as(users(:maufan1))
-        @logged_in_user = u
+        login_as(fan)
         get :privacy
       end
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
       before do
-        a = users(:artist1)
-        login_as(users(:artist1))
-        @logged_in_user = a
+        login_as(artist)
         get :privacy
       end
       it_should_behave_like "logged in user"
@@ -365,18 +350,14 @@ describe MainController do
     end
     context "while logged in as an art fan" do
       before do
-        u = users(:maufan1)
-        login_as(users(:maufan1))
-        @logged_in_user = u
+        login_as(fan)
         get :about
       end
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
       before do
-        a = users(:artist1)
-        login_as(users(:artist1))
-        @logged_in_user = a
+        login_as(artist)
         get :about
       end
       it_should_behave_like "logged in user"
@@ -392,9 +373,7 @@ describe MainController do
     end
     context "while logged in as an art fan" do
       before do
-        u = users(:maufan1)
-        login_as(users(:maufan1))
-        @logged_in_user = u
+        login_as(fan)
         get :faq
       end
       it_should_behave_like 'standard sidebar layout'
@@ -405,9 +384,7 @@ describe MainController do
     end
     context "while logged in as artist" do
       before do
-        a = users(:artist1)
-        login_as(users(:artist1))
-        @logged_in_user = a
+        login_as(artist)
         get :faq
       end
       it_should_behave_like 'standard sidebar layout'
@@ -432,8 +409,14 @@ describe MainController do
 
     end
     context 'logged in as admin' do
+      let(:venue_doc) {FactoryGirl.create(:cms_document, 
+                                          page: :venues, 
+                                          section: :all, 
+                                          article: "# these \n\n## are \n\n### venues \n\n* one\n* two\n* three"
+                                          )}
       before do
-        login_as(:admin)
+        venue_doc
+        login_as(admin)
         get :venues
       end
       it_should_behave_like 'logged in as admin'
@@ -444,16 +427,33 @@ describe MainController do
         assert_select '.markdown ul li', :count => 3
       end
       it 'the markdown entry have cms document ids in them' do
-        cmsdoc = cms_documents(:venues)
-        assert_select '.markdown.editable[data-cmsid=%s]' % cmsdoc.id
+        assert_select '.markdown.editable[data-cmsid=%s]' % venue_doc.id
+
       end
     end
   end
 
   describe "#main/open_studios" do
     render_views
+    let(:open_studios_blurb) {
+      FactoryGirl.create(:cms_document, 
+                         page: :main_openstudios,
+                         section: :summary,
+                         article: "# spring 2004\n\n## spring 2004 header2 \n\nwhy spring 2004?  that's _dumb_.")
+    }
+    let(:open_studios_preview) {
+      FactoryGirl.create(:cms_document,
+                         page: :main_openstudios,
+                         section: :preview_reception,
+                         article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
+    }
     context "while not logged in" do
+      let(:open_studios_docs) { [
+                                 open_studios_blurb,
+                                 open_studios_preview
+                                ] }
       before do
+        open_studios_docs
         get :open_studios
       end
       it_should_behave_like 'standard sidebar layout'
@@ -475,23 +475,20 @@ describe MainController do
         end
       end
       it "uses cms for parties" do
-        docs = [:os_blurb,:os_preview_reception].map{|k| cms_documents(k)}
-        expect(CmsDocument).to receive(:where).at_least(2).and_return(docs)
+        expect(CmsDocument).to receive(:where).at_least(2).and_return(open_studios_docs)
         get :open_studios
       end
     end
     context "while logged in as an art fan" do
-      let(:fan) { users(:maufan1) }
       before do
-        @logged_in_user = login_as fan
+        login_as fan
         get :open_studios
       end
       it_should_behave_like "logged in user"
     end
     context "while logged in as artist" do
-      let(:artist) { users(:artist1) }
       before do
-        @logged_in_user = login_as artist
+        login_as artist
         get :open_studios
       end
       it_should_behave_like "logged in user"
