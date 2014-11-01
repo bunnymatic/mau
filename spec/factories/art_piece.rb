@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :art_piece do
     title { Faker::Company.name }
-    filename { Faker::Files.file_with_path }
+    filename { Faker::Files.file }
     dimensions { '10 x 10' }
     image_height { 1000 }
     image_width { 400 }

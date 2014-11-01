@@ -62,6 +62,17 @@ FactoryGirl.define do
       number_of_art_pieces 3
     end
 
+    trait :with_no_address do
+      after(:create) do |artist|
+        artist.artist_info.update_attributes(street: nil, city: nil, addr_state: nil, zip: nil)
+      end
+    end
+    trait :with_tags do
+      active
+      after(:create) do |artist, ctx|
+        artist.update_attributes(tags: FactoryGirl.create_list(:art_piece_tag, 2))
+      end
+    end
     trait :with_art do
       active
       after(:create) do |artist, ctx|
