@@ -63,6 +63,12 @@ FactoryGirl.define do
       number_of_art_pieces 3
     end
 
+    trait :with_links do
+      after(:create) do |artist|
+        artist.artist_info.update_attributes( facebook: Faker::Internet.url, twitter: Faker::Internet.url )
+      end
+    end
+      
     trait :with_no_address do
       after(:create) do |artist|
         artist.artist_info.update_attributes(street: nil, city: nil, addr_state: nil, zip: nil)

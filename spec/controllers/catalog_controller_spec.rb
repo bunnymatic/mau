@@ -2,18 +2,21 @@ require 'spec_helper'
 
 describe CatalogController do
 
-  fixtures :users, :roles, :roles_users, :studios, :artist_infos, :media, :art_piece_tags, :art_pieces_tags, :art_pieces
+  let(:jesse) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
+  let(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
+
+  let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
+  
+  before do
+    artist
+    jesse
+
+    ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '#{open_studios_event.key}'")
+    Artist.any_instance.stub(:in_the_mission? => true)
+  end
 
   describe "#index" do
-    let(:jesse) { users(:jesseponce) }
-    let(:artist) { users(:artist1) }
     let(:catalog) { assigns(:catalog) }
-    before do
-      ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '201210'")
-      Artist.any_instance.stub(:in_the_mission? => true)
-      jesse.update_attribute(:studio, studios(:s1890))
-      artist.update_attribute(:studio, studios(:blue))
-    end
     context 'format=html' do
       render_views
       before do
@@ -25,7 +28,6 @@ describe CatalogController do
     context 'format=csv' do
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
-      let(:artist) { users(:artist1) }
 
       before do
         get :index, :format => :csv

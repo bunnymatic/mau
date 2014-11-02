@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe CalendarController do
 
-  fixtures :users, :studios, :artist_infos, :roles, :roles_users, :events
-
   render_views
 
   describe 'index' do
