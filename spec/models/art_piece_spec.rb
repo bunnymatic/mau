@@ -1,12 +1,10 @@
 require 'spec_helper'
 
-def valid_attrs()
-  { :title => 'art piece',
-  }
-end
-
 describe ArtPiece do
-  fixtures :art_pieces, :users, :artist_infos
+  
+  let(:valid_attrs) { FactoryGirl.attributes_for(:art_piece) }
+  let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:art_piece) { artist.art_pieces.first }
 
   it_should_behave_like ImageDimensions
 
@@ -28,46 +26,61 @@ describe ArtPiece do
   end
   describe 'after save' do
     it 'clears representative image cache and new art cache on save' do
-      ap = ArtPiece.first
-      Rails.cache.should_receive(:delete).with("%s%s" % [Artist::CACHE_KEY, ap.artist.id])
+      Rails.cache.clear
+      Rails.cache.should_receive(:delete).with("%s%s" % [Artist::CACHE_KEY, artist.id]).at_least(1).times
       Rails.cache.should_receive(:delete).with(ArtPiece::NEW_ART_CACHE_KEY)
-      ap.title = Faker::Lorem.words(2).join(' ')
-      ap.save
+      art_piece.title = Faker::Lorem.words(2).join(' ')
+      art_piece.save
     end
   end
 
   describe '#dimensions' do
-    it 'computes proper dimension' do
-      a = art_pieces(:hot)
-      a.compute_dimensions[:small].should == [0,0]
+    let(:width) { nil }
+    let(:height) { nil }
+    let(:art_piece) { FactoryGirl.build(:art_piece, image_height: height, image_width: width) }
 
-      a = art_pieces(:negative_size)
-      a.compute_dimensions[:medium].should == [0,0]
-      a.compute_dimensions[:large].should == [0,0]
+    context 'with no dimensions' do
+      it 'computes proper dimension' do
+        art_piece.compute_dimensions[:small].should == [0,0]
+      end
+    end
 
-      a = art_pieces(:h1024w2048)
-      a.compute_dimensions[:medium].should == [400,200]
-      a.compute_dimensions[:large].should == [800,400]
+    context 'with negative dimensions' do
+      let(:width) { -100 }
+      it 'computes proper dimension' do
+        art_piece.compute_dimensions[:small].should == [0,0]
+      end
+    end
+
+    context 'with real dimensions' do
+      let(:width) { 1000 }
+      let(:height) { 1500 }
+      it 'computes proper dimension' do
+        art_piece.compute_dimensions[:small].should == [133,200]
+      end
     end
   end
 
   describe "get_new_art" do
     before do
       Rails.cache.stub(:read => nil)
-      t = Time.zone.now
-      Time.stub(:now => t)
-      Time.zone.stub(:now => t)
+      Timecop.freeze
+
+      (13 - ArtPiece.count).times do |n|
+        Timecop.travel (n+1).days.ago
+        FactoryGirl.create :artist, :with_art
+      end
+    end
+    after do
+      Timecop.return
     end
     it 'returns an array' do
       ArtPiece.get_new_art.should be_a_kind_of Array
     end
     it 'returns art pieces updated between today and 2 days ago' do
-      all = ArtPiece.find_by_sql("select * from art_pieces").select{|a| a.artist_id}
-      all.length.should >= 1
       aps = ArtPiece.get_new_art
-      aps.length.should >=1
-      aps.length.should <=12
-      aps.sort_by(&:created_at).should == all[0..12].sort_by(&:created_at)
+      aps.length.should eq 12
+      aps.map(&:created_at).should be_monotonically_decreasing
     end
     context 'from cache' do
       before do
@@ -81,26 +94,21 @@ describe ArtPiece do
 
   describe 'get_path' do
     it 'returns a path to the art piece' do
-      ap = ArtPiece.first
-      artist = ap.artist
-      ArtPiece.first.get_path.should match %r{/artistdata/#{artist.id}/imgs}
+      art_piece.get_path.should match %r{/artistdata/#{artist.id}/imgs}
     end
   end
 
   describe 'destroy' do
     it 'tries to delete the files associated with this art piece' do
       File.stub('exist?' => true)
-      ap = ArtPiece.first
-      File.should_receive(:delete).exactly(ap.get_paths.length).times
-      ap.destroy
+      File.should_receive(:delete).exactly(art_piece.get_paths.length).times
+      art_piece.destroy
     end
   end
 
   describe 'to_json' do
     before do
-      @piece = ArtPiece.first
-      @artist = @piece.artist
-      @ap = JSON.parse(@piece.to_json)['art_piece']
+      @ap = JSON.parse(art_piece.to_json)['art_piece']
     end
     it 'includes the filename' do
       @ap.keys.should include 'filename'
@@ -111,7 +119,7 @@ describe ArtPiece do
         @ap['image_urls'].keys.should include sz
         @ap['image_urls'][sz].should include Conf.site_url
       end
-      @ap['image_urls']['small'].should == "http://#{Conf.site_url}/artistdata/#{@artist.id}/imgs/s_#{@piece.filename}"
+      @ap['image_urls']['small'].should == "http://#{Conf.site_url}/artistdata/#{artist.id}/imgs/s_#{art_piece.filename}"
     end
   end
 end

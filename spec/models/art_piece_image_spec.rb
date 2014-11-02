@@ -2,11 +2,9 @@ require 'spec_helper'
 require 'ostruct'
 
 describe ArtPieceImage do
-  fixtures :users, :art_pieces, :artist_infos
-
+  let(:art_piece) { ArtPiece.new }
 
   describe '.path' do
-    let(:art_piece) { ArtPiece.new }
     context 'with brand new art piece' do
       it 'returns missing image' do
         ArtPieceImage.new(art_piece).path.should match /missing_artpiece/
@@ -25,8 +23,8 @@ describe ArtPieceImage do
     let(:file) { 'filename.jpg' }
     let(:path) { 'whatever/' + file }
     let(:upload) { {'datafile' => double('UploadedFile', :read => '', :original_filename => path, :close => '') } }
-    let(:art_piece) { ArtPiece.first }
-    let(:artist) { art_piece.artist }
+    let(:artist) { FactoryGirl.create :artist, :with_art }
+    let(:art_piece) { artist.art_pieces.first }
 
     before do
       now = Time.zone.now

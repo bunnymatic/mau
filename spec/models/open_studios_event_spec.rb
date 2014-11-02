@@ -27,16 +27,16 @@ describe OpenStudiosEvent do
 
   describe '.pretty_print' do
     it "returns the pretty version for the current os" do
-      expect(OpenStudiosEvent.pretty_print).to eql current_os.start_date.strftime("%Y %B")
+      expect(OpenStudiosEvent.for_display).to eql current_os.start_date.strftime("%Y %B")
     end
     it "returns the pretty version for a given tag" do
-      expect(OpenStudiosEvent.pretty_print("201104")).to eql current_os.start_date.strftime("2011 Apr")
+      expect(OpenStudiosEvent.for_display("201104")).to eql current_os.start_date.strftime("2011 Apr")
     end
   end
 
-  describe '#pretty_print' do
+  describe '#for_display' do
     it "returns the pretty version for the current os" do
-      expect(current_os.pretty_print).to eql current_os.start_date.strftime("%Y %B")
+      expect(current_os.for_display).to eql current_os.start_date.strftime("%Y %B")
     end
   end
 

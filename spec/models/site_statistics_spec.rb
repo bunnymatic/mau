@@ -2,15 +2,10 @@ require 'spec_helper'
 
 describe SiteStatistics do
 
-  # fixtures :art_pieces
-  # fixtures :artist_infos
-  # fixtures :studios
-  # fixtures :media
-  # fixtures :users, :roles_users, :roles, :events
-
   subject(:stats) { SiteStatistics.new }
   
   before do
+    
     Timecop.freeze
 
     FactoryGirl.create_list(:studio, 2)
