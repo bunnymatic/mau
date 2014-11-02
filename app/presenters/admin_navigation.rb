@@ -35,7 +35,7 @@ class AdminNavigation
                      [:roles , {:link => '/roles'}],
                      [:internal_email , {:display => 'internal messaging', :link => @view_context.admin_email_lists_path }],
                      [:db_backups , {:display => 'backups'}],
-                     [:blacklist, {:display => 'blacklist', :link => '/blacklist_domains'}],
+                     [:blacklist, {:display => 'blacklist', :link => @view_context.admin_blacklist_domain_path}],
                      [:os_status , {}]
                     ]
       internal_links = [

@@ -1,7 +1,10 @@
 require 'spec_helper'
 
-describe BlacklistDomainsController do
-  fixtures :users, :roles_users, :roles
+describe Admin::BlacklistDomainsController do
+
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+
   context 'authorization' do
     [:index].each do |endpoint|
       describe 'not logged in' do
@@ -15,14 +18,14 @@ describe BlacklistDomainsController do
       describe 'logged in as plain user' do
         describe endpoint do
           before do
-            login_as(users(:maufan1))
+            login_as fan
             get endpoint
           end
           it_should_behave_like 'not authorized'
         end
       end
       it "#{endpoint} responds success if logged in as admin" do
-        login_as :admin
+        login_as admin
         get endpoint
         expect(response).to be_success
       end
@@ -35,7 +38,7 @@ describe BlacklistDomainsController do
 
     describe '#new' do
       before do
-        login_as :admin
+        login_as admin
         get :new
       end
       it 'assigns a new blacklist domain' do
@@ -46,7 +49,7 @@ describe BlacklistDomainsController do
 
     describe '#edit' do
       before do
-        login_as :admin
+        login_as admin
         get :edit, :id => domain.id
       end
       it 'loads the domain' do
@@ -56,7 +59,7 @@ describe BlacklistDomainsController do
 
     describe '#create' do
       before do
-        login_as :admin
+        login_as admin
       end
       it 'creates a new blacklist domain' do
         expect{
@@ -78,7 +81,7 @@ describe BlacklistDomainsController do
 
     describe '#update' do
       before do
-        login_as :admin
+        login_as admin
       end
       it 'creates a new blacklist domain' do
         put :update, :id => domain.id, :blacklist_domain => { :domain => 'blah.de.blah.com' }
@@ -97,7 +100,7 @@ describe BlacklistDomainsController do
 
     describe '#destroy' do
       before do
-        login_as :admin
+        login_as admin
       end
       it 'removes the domain' do
         domain
@@ -113,7 +116,7 @@ describe BlacklistDomainsController do
 
       it 'redirects to the domains list' do
         delete :destroy, :id => domain.id
-        expect(response).to redirect_to blacklist_domains_path
+        expect(response).to redirect_to admin_blacklist_domains_path
       end
     end
 

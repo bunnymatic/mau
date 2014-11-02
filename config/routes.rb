@@ -1,6 +1,5 @@
 Mau::Application.routes.draw do
 
-  resources :blacklist_domains, :except => [:show]
   resources :roles
   resources :cms_documents, :except => [:destroy]
   resources :media, :only => [:index, :show]
@@ -142,6 +141,7 @@ Mau::Application.routes.draw do
     get :emaillist
     post :featured_artist, :as => :get_next_featured
 
+    resources :blacklist_domains, :except => [:show]
     resources :artist_feeds, :except => [:show]
     resources :open_studios_events, :only => [:index, :edit, :new, :create, :update, :destroy]
     resources :email_lists, :only => [:index, :new, :destroy] do
