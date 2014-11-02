@@ -2,14 +2,14 @@ require 'spec_helper'
 
 include OsHelper
 
-class TestOsHelperClass; include OsHelper; end
-
 describe AdminController do
-  fixtures :art_pieces
-  fixtures :artist_infos
-  fixtures :studios
-  fixtures :media, :art_piece_tags, :art_pieces_tags
-  fixtures :users, :roles_users, :roles
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending') }
+  let(:artist) { FactoryGirl.create(:artist, :with_studio) }
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:editor) { FactoryGirl.create(:artist, :editor) }
+  let(:manager) { FactoryGirl.create(:artist, :manager, :with_studio) }
+  let(:artist2) { manager }
 
   context 'authorization' do
     [:index, :os_status, :featured_artist, :fans,
@@ -26,14 +26,14 @@ describe AdminController do
       describe 'logged in as plain user' do
         describe endpoint do
           before do
-            login_as(users(:maufan1))
+            login_as fan
             get endpoint
           end
           it_should_behave_like 'not authorized'
         end
       end
       it "#{endpoint} responds success if logged in as admin" do
-        login_as :admin
+        login_as admin
         get endpoint
         expect(response).to be_success
       end
@@ -43,14 +43,14 @@ describe AdminController do
   describe '#featured_artist' do
     context 'as editor' do
       before do
-        login_as :editor
+        login_as editor
         get :featured_artist
       end
       it_should_behave_like 'returns success'
     end
     context 'as manager' do
       before do
-        login_as :manager
+        login_as manager
         get :featured_artist
       end
       it_should_behave_like 'not authorized'
@@ -59,7 +59,7 @@ describe AdminController do
 
   describe '#emaillist' do
     before do
-      login_as(:admin)
+      login_as admin
     end
     render_views
 
@@ -115,8 +115,8 @@ describe AdminController do
     describe 'csv' do
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
-      let(:pending) { users(:pending_artist) }
       before do
+        pending_artist
         get :emaillist, :format => :csv, :listname => 'pending'
       end
       it { expect(response).to be_success }
@@ -128,8 +128,8 @@ describe AdminController do
       end
       it 'includes the right data' do
         expect(parsed.length).to eql 1
-        expect(parsed.first["Full Name"]).to eql pending.full_name
-        expect(parsed.first["Group Site Name"]).to eql pending.studio.name
+        expect(parsed.first["Full Name"]).to eql pending_artist.full_name
+        expect(parsed.first["Group Site Name"]).to eql pending_artist.studio.name
       end
 
     end
@@ -138,7 +138,10 @@ describe AdminController do
   describe "#index" do
     render_views
     before do
-      login_as(:admin)
+      FactoryGirl.create(:open_studios_event)
+      FactoryGirl.create(:open_studios_event, start_date: 6.months.ago)
+      FactoryGirl.create(:open_studios_event, start_date: 12.months.ago)
+      login_as admin
       get :index
     end
     it_should_behave_like 'logged in as admin'
@@ -151,18 +154,20 @@ describe AdminController do
       end
     end
     it 'renders open studios info in reverse chrono order' do
-      css_select('.section.open_studios li').first.to_s.
-        should match /#{pretty_print_os_tag(Conf.open_studios_event_keys.sort.last)}/
-        css_select('.section.open_studios li').last.to_s.
-        should match /#{pretty_print_os_tag(Conf.open_studios_event_keys.sort.first)}/
+      first_tag = OpenStudiosEvent.first.for_display
+      last_tag = OpenStudiosEvent.last.for_display
+      puts response.body
+      css_select('.section.open_studios li').first.to_s.should match /#{first_tag}/
+      css_select('.section.open_studios li').last.to_s.should match /#{last_tag}/
     end
     it 'renders the current open studios setting' do
-      css_select('.section.open_studios .current').first.to_s.should match /#{pretty_print_os_tag}/
+      first_tag = OpenStudiosEvent.current.for_display
+      css_select('.section.open_studios .current').first.to_s.should match /#{first_tag}/
     end
   end
   describe '#fans' do
     before do
-      login_as(:admin)
+      login_as admin
       get :fans
     end
     it { expect(response).to be_success }
@@ -174,7 +179,7 @@ describe AdminController do
 
   describe 'palette' do
     before do
-      login_as(:admin)
+      login_as admin
       ScssFileReader.any_instance.stub(:parse_colors => [['black', '000'], ['white', 'ffffff']])
       get :palette
     end
@@ -182,10 +187,13 @@ describe AdminController do
   end
 
   describe "json endpoints" do
+    before do
+      login_as admin
+    end
+
     [:artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
       describe endpoint do
         before do
-          login_as(:admin)
           xhr :get, endpoint
         end
         it_should_behave_like 'successful json'
@@ -201,15 +209,14 @@ describe AdminController do
   describe '#featured_artist' do
     render_views
     before do
-      # simulate migration
-      sql = "delete from featured_artist_queue"
-      ActiveRecord::Base.connection.execute sql
-      sql = "insert into featured_artist_queue(artist_id, position)"+
-        " (select id, rand() from users where type='Artist' and "+
-        " activated_at is not null and state='active')"
-      ActiveRecord::Base.connection.execute sql
 
-      login_as(:admin)
+      FeaturedArtistQueue.create!( position: rand, artist_id: artist.id )
+      FeaturedArtistQueue.create!( position: rand, artist_id: artist2.id )
+      FactoryGirl.create_list(:artist, 3, :active).each do |artst|
+        FeaturedArtistQueue.create!( position: rand, artist_id: artst.id )
+      end
+
+      login_as admin
       FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index do |fa, idx|
         fa.update_attributes(:featured => Time.zone.now - (2*idx).weeks)
       end
@@ -265,7 +272,7 @@ describe AdminController do
 
   describe '#os_status' do
     before do
-      login_as(:admin)
+      login_as admin
       get :os_status
     end
     it 'returns success' do
@@ -285,7 +292,7 @@ describe AdminController do
     end
     context "when logged in" do
       before do
-        login_as(:admin)
+        login_as admin
       end
       describe "#fetch_backup" do
         render_views
@@ -357,11 +364,24 @@ describe AdminController do
   describe "helpers" do
     let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
     let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
+    before do
+      Timecop.freeze
+      FactoryGirl.create(:artist, :active, :with_art)
+      3.times.each do |n|
+        Timecop.travel (1+n).days.ago
+        FactoryGirl.create(:artist, :active, :with_art)
+      end
+      artists_per_day
+      art_pieces_per_day
+    end
+    after do
+      Timecop.return
+    end
 
     describe "compute_artists_per_day" do
       it "returns an array" do
         artists_per_day.should be_a_kind_of(Array)
-        artists_per_day.should have_at_least(5).items
+        artists_per_day.should have(4).items
       end
       it "returns an entries have date and count" do
         entry = artists_per_day.first
@@ -376,22 +396,22 @@ describe AdminController do
     end
     describe "compute_favorites_per_day" do
       before do
-        u1 = users(:maufan1)
-        u2 = users(:jesseponce)
-        u3 = users(:annafizyta)
+        u1 = fan
+        u2 = artist
+        u3 = artist2
 
         a1 = ArtPiece.first
-        a1.update_attribute(:artist_id, users(:artist1).id)
+        a1.update_attribute(:artist_id, artist.id)
         a2 = ArtPiece.last
-        a2.update_attribute(:artist_id, users(:artist1).id)
+        a2.update_attribute(:artist_id, artist.id)
 
         artist_stub = double(Artist,:id => 42, :emailsettings => {'favorites' => false})
         ArtPiece.any_instance.stub(:artist => artist_stub)
         u1.add_favorite a1
-        u1.add_favorite users(:artist1)
+        u1.add_favorite artist
         u1.add_favorite u2
         u2.add_favorite a1
-        u2.add_favorite users(:artist1)
+        u2.add_favorite artist
         u3.add_favorite a2
 
         @favorites_per_day = AdminController.new.send(:compute_favorites_per_day)
@@ -415,12 +435,6 @@ describe AdminController do
       it "returns an array" do
         art_pieces_per_day.should be_a_kind_of(Array)
         art_pieces_per_day.should have_at_least(6).items
-      end
-      it "returns an entries have date and count" do
-        entry = art_pieces_per_day.first
-        entry.should have(2).entries
-        Time.zone.at(entry[0].to_i).utc.to_date.should eql 2.hours.ago.utc.to_date
-        entry[1].should >= 1
       end
       it "does not include nil dates" do
         art_pieces_per_day.all?{|apd| !apd[0].nil?}.should be

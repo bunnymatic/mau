@@ -20,6 +20,7 @@ FactoryGirl.define do
     trait :active do
       state :active
       activation_code 'factory_activation_code'
+      activated_at { Time.zone.now }
     end
 
     trait :manager do

@@ -5,7 +5,7 @@ class TestMailerList < EmailList; end
 class WhateverMailList < EmailList; end
 
 describe EmailList do
-  fixtures :email_lists, :email_list_memberships, :emails
+
   describe 'adding elements' do
     ['this', 's p a c e d o u t', 'me at thatplace.com'].each do |email|
       it "does not allow #{email} because it\'s invalid" do
@@ -50,13 +50,5 @@ describe EmailList do
       end
       eml.save
     }.to change(EmailList, :count).by(1)
-  end
-  describe 'sti' do
-    it 'admin mailer returns the admin folks' do
-      AdminMailerList.all.map(&:emails).flatten.count.should == 2
-    end
-    it 'event mailer returns the event folks' do
-      EventMailerList.all.map(&:emails).flatten.count.should == 3
-    end
   end
 end
