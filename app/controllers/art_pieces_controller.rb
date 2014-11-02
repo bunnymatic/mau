@@ -1,4 +1,3 @@
-require 'json'
 class ArtPiecesController < ApplicationController
 
   include TagsHelper
@@ -80,9 +79,10 @@ class ArtPiecesController < ApplicationController
     end
 
     @art_piece = current_user.art_pieces.build(art_piece_params)
+    valid = @art_piece.valid?
     begin
       ActiveRecord::Base.transaction do
-        if @art_piece.save
+        if valid
           # upload image
           ArtPieceImage.new(@art_piece).save upload
           flash[:notice] = 'Artwork was successfully added.'
@@ -93,7 +93,6 @@ class ArtPiecesController < ApplicationController
       end
     rescue Exception => ex
       msg = "Failed to upload %s" % $!
-      @art_piece = ArtPiece.new params[:art_piece]
       @art_piece.errors.add(:base, msg)
       render :action => 'new' and return
     end

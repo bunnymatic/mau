@@ -1,54 +1,41 @@
 require 'spec_helper'
 
-def art_piece_attributes(overrides = {})
-  { :title => "hot title",
-    :medium_id => Medium.last,
-    :dimensions => "this x that"
-  }.merge(overrides)
-end
-
 describe ArtPiecesController do
 
-  fixtures :users, :roles_users, :roles
-  fixtures :artist_infos
-  fixtures :art_pieces
-  fixtures :media
-  fixtures :art_piece_tags
-  fixtures :art_pieces_tags
+  let(:medium) { FactoryGirl.create(:medium) }
+  let(:art_piece_attributes) { FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id) }
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
+  let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
+  let(:art_pieces) { artist.art_pieces }
+  let(:art_piece) { art_pieces.first }
 
   describe "#show" do
-    before do
-      @artist = users(:artist1)
-      @artpieces = @artist.art_pieces
-      ap = @artpieces.first
-      ap.tags << ArtPieceTag.last
-      ap.tags << ArtPieceTag.last(2).first
-      ap.save
-    end
     context "not logged in" do
       context "format=html" do
         render_views
         context 'when the artist is active' do
           before do
-            get :show, :id => @artpieces.first.id
+            get :show, id: art_piece.id
           end
           it_should_behave_like 'returns success'
           it 'has a description with the art piece name' do
             assert_select 'head' do |tag|
               assert_select 'meta[name=description]' do |desc|
                 desc.length.should eql 1
-                desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+                desc[0].attributes['content'].should match /#{art_piece.title}/
               end
               assert_select 'meta[property=og:description]' do |desc|
                 desc.length.should eql 1
-                desc[0].attributes['content'].should match /#{@artpieces.first.title}/
+                desc[0].attributes['content'].should match /#{art_piece.title}/
               end
             end
           end
           it 'has keywords that match the art piece' do
             assert_select 'head meta[name=keywords]' do |keywords|
               keywords.length.should eql 1
-              expected = [@artpieces.first.tags + [@artpieces.first.medium]].flatten.compact.map(&:name)
+              expected = [art_piece.tags + [art_piece.medium]].flatten.compact.map(&:name)
               actual = keywords[0].attributes['content'].split(',').map(&:strip)
               expected.each do |ex|
                 actual.should include ex
@@ -67,7 +54,7 @@ describe ArtPiecesController do
           end
 
           it 'shows the artist name in the sidebar' do
-            artist_link = artist_path(@artpieces.first.artist)
+            artist_link = artist_path(artist)
             assert_select ".lcol h3 a[href=#{artist_link}]"
             assert_select ".lcol a[href=#{artist_link}] img"
           end
@@ -77,7 +64,7 @@ describe ArtPiecesController do
           end
 
           it "displays art piece with no edit buttons and a zoom button" do
-            assert_select("#artpiece_title", @artpieces.first.title)
+            assert_select("#artpiece_title", art_piece.title)
             assert_select("div.edit-buttons", "")
             expect(css_select("div.edit-buttons *")).to be_empty
             assert_select('a.zoom')
@@ -88,9 +75,8 @@ describe ArtPiecesController do
         end
         context "piece has been favorited" do
           before do
-            ap = @artpieces.first
-            users(:maufan1).add_favorite ap
-            get :show, :id => ap.id
+            fan.add_favorite art_piece
+            get :show, id: art_piece.id
           end
           it "shows the number of favorites" do
             assert_select '#num_favorites', 1
@@ -100,15 +86,15 @@ describe ArtPiecesController do
 
       context 'when the artist is not active' do
         it 'reports a missing art piece' do
-          @artpieces.first.artist.update_attribute(:state, 'pending')
-          get :show, :id => @artpieces.first.id
+          artist.update_attribute(:state, 'pending')
+          get :show, id: art_piece.id
           expect(response).to redirect_to '/error'
         end
       end
 
       context "getting unknown art piece page" do
         it "should redirect to error page" do
-          get :show, :id => 'bogusid'
+          get :show, id: 'bogusid'
           flash[:error].should match(/couldn\'t find that art/)
           expect(response).to redirect_to '/error'
         end
@@ -116,9 +102,8 @@ describe ArtPiecesController do
       context "when logged in as art piece owner" do
         render_views
         before do
-          login_as(@artist)
-          @logged_in_artist = @artist
-          get :show, :id => @artpieces.first.id
+          login_as artist
+          get :show, id: art_piece.id
         end
         it_should_behave_like 'two column layout'
         it_should_behave_like 'logged in artist'
@@ -135,8 +120,8 @@ describe ArtPiecesController do
       context "when logged in as not artpiece owner" do
         render_views
         before do
-          login_as(users(:maufan1))
-          get :show, :id => @artpieces.first.id
+          login_as fan
+          get :show, id: art_piece.id
         end
         it_should_behave_like 'two column layout'
         it "shows heart icon" do
@@ -152,16 +137,8 @@ describe ArtPiecesController do
     end
     context 'format=json' do
       let(:parsed) { JSON.parse(response.body)['art_piece'] }
-      let(:tag) { FactoryGirl.create :art_piece_tag, :name => 'my first tag' }
-      let(:piece) { ArtPiece.first }
-      let(:medium) { Medium.first }
-
       before do
-        piece.medium = medium
-        piece.tags= [tag]
-        piece.save!
-        
-        get :show, :id => piece.id, :format => :json
+        get :show, id: art_piece.id, format: :json
       end
 
       it_should_behave_like 'successful json'
@@ -180,7 +157,7 @@ describe ArtPiecesController do
         files = parsed['image_files']
         expect(files.keys.sort).to eql sizes
         sizes.each do |sz|
-          expect(files[sz]).to eql piece.get_path(sz)
+          expect(files[sz]).to eql art_piece.get_path(sz)
         end
       end
 
@@ -189,72 +166,76 @@ describe ArtPiecesController do
         dimensions = parsed['image_dimensions']
         expect(dimensions.keys.sort).to eql sizes
         sizes.each do |sz|
-          expect(dimensions[sz]).to eql piece.compute_dimensions[sz]
+          expect(dimensions[sz]).to eql art_piece.compute_dimensions[sz]
         end
       end
 
       it 'includes the tags' do
         parsed['tags'].should be_a_kind_of Array
-        parsed['tags'].first['name'].should eql 'my first tag'
+        parsed['tags'].first['name'].should eql art_piece.tags.first.name
       end
       it 'includes the artists name' do
-        parsed['artist_name'].should eql piece.artist.get_name
+        parsed['artist_name'].should eql artist.get_name
       end
       it 'includes the art piece title' do
-        parsed['title'].should eql piece.title
+        parsed['title'].should eql art_piece.title
       end
       it 'includes the medium' do
-        parsed['medium']['name'].should eql medium.name
+        parsed['medium']['name'].should eql art_piece.medium.name
       end
     end
 
   end
 
   describe '#new' do
-    let!(:artist) { login_as :artist1 }
+    before do
+      login_as artist
+    end
     it 'sets a flash for artists with a full portfolio' do
-      Artist.any_instance.stub(:max_pieces => 0)
-      get :new, :artist_id => artist
+      Artist.any_instance.stub(max_pieces: 0)
+      get :new, artist_id: artist.id
       flash.now[:error].should be_present
     end
     it 'assigns all media' do
-      get :new, :artist_id => artist
+      get :new, artist_id: artist.id
       expect(assigns(:media).map(&:id)).to eql Medium.alpha.map(&:id)
     end
     it 'assigns a new art piece' do
-      get :new, :artist_id => artist
+      get :new, artist_id: artist.id
       assigns(:art_piece).should be_a_kind_of ArtPiece
     end
   end
 
-  describe '#create', :eventmachine => true do
+  describe '#create', eventmachine: true do
     context "while not logged in" do
       context "post " do
         before do
-          post :create, :artist_id => 6
+          post :create, artist_id: 6
         end
         it_should_behave_like "redirects to login"
       end
     end
     context "while logged in" do
-      let!(:artist) { login_as :joeblogs }
+      before do
+        login_as artist
+      end
       it 'sets a flash message without image' do
-        post :create, :art_piece => art_piece_attributes, :artist_id => artist
+        post :create, art_piece: art_piece_attributes
         assigns(:art_piece).errors[:base].should be_present
       end
       it 'redirects to user page on cancel' do
-        post :create, :art_piece => art_piece_attributes, :commit => 'Cancel', :artist_id => artist
-        expect(response).to redirect_to artist_path(users(:joeblogs))
+        post :create, art_piece: art_piece_attributes, commit: 'Cancel'
+        expect(response).to redirect_to artist_path(artist)
       end
       it 'renders new on failed save' do
-        ArtPiece.any_instance.should_receive(:save).and_return(false)
-        post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
+        ArtPiece.any_instance.should_receive(:valid?).and_return(false)
+        post :create, art_piece: art_piece_attributes, upload: {}
         expect(response).to render_template 'new'
       end
       context 'when image upload raises an error' do
         before do
           ArtPieceImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
-          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
+          post :create, art_piece: art_piece_attributes, upload: {}
         end
         it 'renders the form again' do
           expect(response).to render_template 'new'
@@ -266,74 +247,71 @@ describe ArtPiecesController do
 
       context 'with successful save' do
         before do
-          mock_art_piece_image = double('MockArtPieceImage', :save => true)
+          mock_art_piece_image = double('MockArtPieceImage', save: true)
           ArtPieceImage.should_receive(:new).and_return(mock_art_piece_image)
         end
         it 'redirects to show page on success' do
-          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
-          expect(response).to redirect_to artist_path(users(:joeblogs))
+          post :create, art_piece: art_piece_attributes, upload: {}
+          expect(response).to redirect_to artist_path(artist)
         end
         it 'sets a flash message on success' do
-          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
+          post :create, art_piece: art_piece_attributes, upload: {}
           flash[:notice].should eql 'Artwork was successfully added.'
         end
         it "flushes the cache" do
           ArtPiecesController.any_instance.should_receive(:flush_cache)
-          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
+          post :create, art_piece: art_piece_attributes, upload: {}
         end
         it 'publishes a message' do
           Messager.any_instance.should_receive(:publish)
-          post :create, :art_piece => art_piece_attributes, :upload => {}, :artist_id => artist
+          post :create, art_piece: art_piece_attributes, upload: {}
         end
       end
     end
   end
 
-  describe '#update', :eventmachine => true do
+  describe '#update', eventmachine: true do
     context "while not logged in" do
       context "post " do
         before do
-          post :update, :id => 'whatever'
+          post :update, id: 'whatever'
         end
         it_should_behave_like "redirects to login"
       end
     end
     context "while logged in" do
       before do
-        @ap = ArtPiece.first
-        u = @ap.artist
-        login_as u
+        login_as artist
       end
       it 'with bad attributes' do
-        post :update, :id => @ap.id, :art_piece => {:title => ''}
+        post :update, id: art_piece.id, art_piece: {title: ''}
         expect(response).to render_template 'edit'
         expect(assigns(:art_piece).errors).to have_at_least(1).error
       end
 
       it 'redirects to show page on success' do
-        post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
-        expect(response).to redirect_to @ap
+        post :update, id: art_piece.id, art_piece: {title: 'new title'}
+        expect(response).to redirect_to art_piece
       end
       it 'sets a flash message on success' do
-        post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
+        post :update, id: art_piece.id, art_piece: {title: 'new title'}
         flash[:notice].should eql 'Artwork was successfully updated.'
       end
       it "flushes the cache" do
         ArtPiecesController.any_instance.should_receive(:flush_cache)
-        post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
+        post :update, id: art_piece.id, art_piece: {title: 'new title'}
       end
       it 'publishes a message' do
         Messager.any_instance.should_receive(:publish)
-        post :update, :id => @ap.id, :art_piece => {:title => 'new title'}
+        post :update, id: art_piece.id, art_piece: {title: 'new title'}
       end
       it 'redirects to show page on cancel' do
-        post :update, :id => @ap.id, :commit => 'Cancel', :art_piece => {:title => 'new title'}
-        expect(response).to redirect_to @ap
+        post :update, id: art_piece.id, commit: 'Cancel', art_piece: {title: 'new title'}
+        expect(response).to redirect_to art_piece
       end
       it 'redirects to show if you try to edit someone elses art' do
-        ap = ArtPiece.all.detect{|ap| ap.artist != @ap.artist}
-
-        post :update, :id => ap.id, :art_piece => {:title => 'new title'}
+        ap = artist2.art_pieces.first
+        post :update, id: ap.id, art_piece: {title: 'new title'}
         expect(response).to render_template ap
       end
 
@@ -345,25 +323,25 @@ describe ArtPiecesController do
       render_views
       context "post " do
         before do
-          post :edit, :id => art_pieces(:artpiece1).id
+          post :edit, id: art_piece.id
         end
         it_should_behave_like "redirects to login"
       end
       context "get " do
         before do
-          get :edit, :id => art_pieces(:artpiece1).id
+          get :edit, id: art_piece.id
         end
         it_should_behave_like "redirects to login"
       end
     end
     context "while logged in" do
       before do
-        login_as(users(:joeblogs))
+        login_as artist
       end
       render_views
       context "get " do
         before do
-          get :edit, :id => art_pieces(:artpiece1).id
+          get :edit, id: artist2.art_pieces.first.id
         end
         it "returns error if you don't own the artpiece" do
           expect(response).to redirect_to "/error"
@@ -375,12 +353,12 @@ describe ArtPiecesController do
     end
     context "while logged in as artist owner" do
       before do
-        login_as(users(:artist1))
+        login_as artist
       end
       render_views
       context "get " do
         before do
-          get :edit, :id => art_pieces(:artpiece1).id
+          get :edit, id: artist.art_pieces.last
         end
         it_should_behave_like 'returns success'
       end
@@ -388,46 +366,50 @@ describe ArtPiecesController do
 
   end
 
-  describe "#delete", :eventmachine => true do
+  describe "#delete", eventmachine: true do
     context "while not logged in" do
       before do
-        post :destroy, :id => 'whatever'
+        post :destroy, id: 'whatever'
       end
       it_should_behave_like 'redirects to login'
     end
     context "while logged in as not art piece owner" do
       before do
-        login_as(users(:maufan1))
-        post :destroy, :id => art_pieces(:artpiece1).id
+        art_piece
+        login_as fan
       end
-      it { expect(response).to be_redirect }
+      it 'redirects' do
+        post :destroy, id: art_piece.id
+        expect(response).to be_redirect 
+      end
       it "does not removes that art piece" do
-        expect{ ArtPiece.find(art_pieces(:artpiece1).id) }.to_not raise_error
+        expect { 
+          post :destroy, id: art_piece.id
+        }.to change(ArtPiece, :count).by 0
       end
-      it 'does not publish a message' do
+      it "does not publish a message " do
         Messager.any_instance.should_receive(:publish).never
-        post :destroy, :id => art_pieces(:artpiece1).id
+        post :destroy, id: art_piece.id
       end
 
     end
 
     context "while logged in as art piece owner" do
       before do
-        artist = users(:artist1)
-        login_as :artist1
-        @ap = artist.art_pieces.first.id
+        login_as artist
+        @ap = art_piece.id
       end
       it "returns error page" do
-        post :destroy, :id => @ap
+        post :destroy, id: @ap
         expect(response).to be_redirect
       end
       it "removes that art piece" do
-        post :destroy, :id => @ap
+        post :destroy, id: @ap
         expect{ ArtPiece.find(@ap) }.to raise_error ActiveRecord::RecordNotFound
       end
       it "calls messager.publish" do
         Messager.any_instance.should_receive(:publish).exactly(:once)
-        post :destroy, :id => @ap
+        post :destroy, id: @ap
       end
     end
   end
