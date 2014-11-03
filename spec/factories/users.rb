@@ -68,10 +68,16 @@ FactoryGirl.define do
         artist.artist_info.update_attributes( facebook: Faker::Internet.url, twitter: Faker::Internet.url )
       end
     end
-      
+
+    trait :out_of_the_mission do
+      after(:create) do |artist|
+        artist.artist_info.update_attributes(street: '100 main', city: 'nyc', addr_state: 'ny', zip: '10011', lat: 20, lng: 20)
+      end
+    end
+
     trait :with_no_address do
       after(:create) do |artist|
-        artist.artist_info.update_attributes(street: nil, city: nil, addr_state: nil, zip: nil)
+        artist.artist_info.update_attributes(street: nil, city: nil, addr_state: nil, zip: nil, lat: nil, lng: nil)
       end
     end
     trait :with_tagged_art do

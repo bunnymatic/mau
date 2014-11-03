@@ -2,13 +2,16 @@ require 'spec_helper'
 
 describe Artist do
 
-  fixtures :users, :artist_infos, :studios, :art_pieces, :media, :roles, :roles_users
   before do
     Rails.cache.stub(:read => nil)
   end
 
-  let(:artist) { users(:artist1) }
+  subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :firstname => 'Joe', :lastname => 'Blow') }
+  let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
+  let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }
+  let(:artist_without_studio) { FactoryGirl.create(:artist, :active,:with_art) }
   let(:artist_info) { artist.artist_info }
+  let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
   context 'make sure our factories work' do
     it 'creates an artist info' do
@@ -24,7 +27,6 @@ describe Artist do
   end
 
   context 'with an artist that has tags and media' do
-    subject { artist }
     its(:tags) { should eql subject.art_pieces.map(&:tags).flatten.compact.uniq }
     its(:media) { should eql subject.art_pieces.map(&:medium).flatten.compact.uniq }
   end
@@ -49,25 +51,24 @@ describe Artist do
   end
 
   describe "update" do
-    let(:this_artist) { artist }
     it "should update bio" do
-      ArtistInfo.any_instance.should_receive(:compute_geocode).and_return([-40,122])
+      allow(ArtistInfo.any_instance).to receive(:compute_geocode).and_return([-40,122])
 
-      this_artist.bio = 'stuff'
-      this_artist.artist_info.save!
-      a = Artist.find(this_artist.id)
+      artist.bio = 'stuff'
+      artist.artist_info.save!
+      a = Artist.find(artist.id)
       a.bio.should eql 'stuff'
     end
 
     it "should update email settings" do
-      attr_hash = JSON::parse(this_artist.email_attrs)
+      attr_hash = JSON::parse(artist.email_attrs)
       attr_hash['fromartist'].should eql(true)
       attr_hash['fromall'].should eql(true)
       attr_hash['favorites'] = false
-      this_artist.emailsettings = attr_hash
-      this_artist.save
-      this_artist.reload
-      attr_hash = this_artist.emailsettings
+      artist.emailsettings = attr_hash
+      artist.save
+      artist.reload
+      attr_hash = artist.emailsettings
       attr_hash['fromartist'].should eql(true)
       attr_hash['fromall'].should eql(true)
       attr_hash['favorites'].should eql(false)
@@ -80,78 +81,76 @@ describe Artist do
     end
     describe 'artist info only' do
       it "returns artist address" do
-        u = users(:joeblogs)
         @address_methods.each do |method|
-          u.send(method).should_not be_nil
-          u.send(method).should eql u.artist_info.send(method)
+          artist_without_studio.send(method).should_not be_nil
+          artist_without_studio.send(method).should eql artist_without_studio.artist_info.send(method)
         end
       end
     end
     describe 'studio + artist info' do
       it "returns studio address" do
-        a = users(:jesseponce)
         @address_methods.each do |method|
-          a.send(method).should_not be_nil
-          a.send(method).should eql a.studio.send(method)
+          artist.send(method).should_not be_nil
+          artist.send(method).should eql artist.studio.send(method)
         end
       end
     end
     describe 'neither address in artist info nor studio' do
-      subject(:noaddress) { users(:noaddress) }
       it "returns empty for address" do
-        noaddress.send(:address).should be_empty
-        hsh = noaddress.send(:address_hash)
+        nobody.send(:address).should be_empty
+        hsh = nobody.send(:address_hash)
         hsh[:geocoded].should be_false
         hsh[:parsed][:street].should be_nil
         hsh[:latlng].should eql [nil,nil]
       end
-      its(:has_address?) { should be_false }
+      it { expect(nobody).to_not be_has_address }
     end
   end
   describe 'in_the_mission?' do
     it "returns true for artist in the mission with no studio" do
-      a = users(:joeblogs)
+      a = artist_without_studio
       a.should be_in_the_mission
       a.should have_address
     end
     it "returns true for artist in the mission with a studio in the mission" do
-      a = users(:jesseponce)
+      a = artist
       a.should be_in_the_mission
       a.should have_address
     end
     it "returns false for artist with wayout address" do
-      a = users(:wayout)
+      a = wayout_artist
       a.should_not be_in_the_mission
       a.should have_address
     end
     it "returns true for artist with wayout address but studio in the mission" do
-      a = users(:wayout)
-      a.studio = studios(:blue)
-      a.save
+      a = wayout_artist
+      a.update_attribute :studio, FactoryGirl.create(:studio)
       a.should have_address
       a.should be_in_the_mission
     end
   end
   describe 'find by fullname' do
-    let(:artist) { users(:joeblogs) }
-    let(:fullname) { 'joe blogs' }
+    let!(:fullname) { artist.firstname + ' ' + artist.lastname }
     let(:artists) { Artist.find_by_fullname( fullname ) }
+    before do
+      artist
+    end
     context 'with lowercase name' do
       it { artists.should have(1).artist }
       it { artists.first.should eql artist }
     end
     context 'with capitalized name search' do
-      let(:fullname) { "Joe Blogs" }
+      let(:fullname) { "Joe Blow" }
       it { artists.should have(1).artist }
       it { artists.first.should eql artist }
     end
     context 'with mixed case search' do
-      let(:fullname) { "Joe blogs" }
+      let(:fullname) { "Joe blow" }
       it { artists.should have(1).artist }
       it { artists.first.should eql artist }
     end
     context 'with substring' do
-      let(:fullname) { "Jo blogs" }
+      let(:fullname) { "Jo blow" }
       it { artists.should be_empty }
     end
   end
@@ -162,12 +161,13 @@ describe Artist do
   end
   describe "fetch address" do
     context "without studio association" do
-      let(:artist) { users(:wayout) }
+      let(:artist_info) { artist_without_studio.artist_info }
+
       it "returns correct street" do
         artist_info.street.should eql artist.street
       end
       it "returns correct address" do
-        artist.address.should include artist.street
+        artist_without_studio.address.should include artist.street
       end
       it "returns correct lat/lng" do
         artist_info.lat.should be
@@ -175,7 +175,6 @@ describe Artist do
       end
     end
     context 'with studio association' do
-      let(:artist) { users(:jesseponce) }
       it "returns correct street" do
         artist_info.street.should eql artist.street
       end
@@ -214,7 +213,7 @@ describe Artist do
   end
   describe 'representative pieces' do
     context 'when the artist has none' do
-      let(:artist) { users(:badname) }
+      let(:artist) { wayout_artist }
       it { artist.representative_pieces(20).should be_empty }
     end
     context 'when the artist has art' do
@@ -228,39 +227,29 @@ describe Artist do
     end
   end
   describe 'primary_medium' do
+    let(:media) { FactoryGirl.create_list(:medium, 4) }
     before do
-      media_ids = Medium.find(:all, :order => :name).map(&:id)
-      8.times.each do |ct|
+      media_ids = media.sort_by{|m| m.name.downcase}.map(&:id)
+      5.times.each do |ct|
         idx = ((media_ids.count-1)/(ct+1)).to_i
         artist.art_pieces << ArtPiece.new(:title => 'abc', :medium_id => media_ids[idx])
       end
       artist.save
     end
     it 'finds medium 1 as the most common' do
-      artist.primary_medium.should eql media(:medium1)
+      artist.primary_medium.should eql media.first
     end
     it 'works with no media on artist' do
-      lambda {users(:quentin).primary_medium}.should_not raise_error
+      nobody.primary_medium.should be_nil
     end
   end
 
   describe 'representative piece' do
-    before do
-      Artist.all.map(&:art_pieces).flatten.count.should > 2
-    end
     it 'is included in the users art pieces' do
-      Artist.all.each do |a|
-        unless a.art_pieces.empty?
-          a.art_pieces.should include a.representative_piece
-        end
-      end
+      artist.art_pieces.should include artist.representative_piece
     end
     it 'is nil for users with no art pieces' do
-      Artist.all.each do |a|
-        if a.art_pieces.empty?
-          a.representative_piece.should be_nil
-        end
-      end
+      wayout_artist.representative_piece.should be_nil
     end
     it 'is the same as the first piece from art_pieces' do
       artist.representative_piece.should eql artist.art_pieces[0]
@@ -272,35 +261,40 @@ describe Artist do
      :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at,
      :max_pieces, :updated_at, :activation_code, :reset_code].each do |field|
       it "does not include #{field} by default" do
-        JSON.parse(users(:annafizyta).to_json)['artist'].should_not have_key field.to_s
+        JSON.parse(artist.to_json)['artist'].should_not have_key field.to_s
       end
     end
     it "includes firstname" do
-      JSON.parse(users(:annafizyta).to_json)['artist']['firstname'].should eql users(:annafizyta).firstname
+      JSON.parse(artist.to_json)['artist']['firstname'].should eql artist.firstname
     end
     it 'includes created_at if we except other fields' do
-      a = JSON.parse(users(:annafizyta).to_json(:except => :firstname))
+      a = JSON.parse(artist.to_json(:except => :firstname))
       a['artist'].should have_key 'created_at'
       a['artist'].should_not have_key 'firstname'
     end
     it 'includes the artist info if we ask for it' do
-      a = JSON.parse(users(:annafizyta).to_json(:include => :artist_info))
+      a = JSON.parse(artist.to_json(:include => :artist_info))
       a['artist']['artist_info'].should be_a_kind_of Hash
     end
   end
 
   describe 'qrcode' do
+    before do
+      artist
+    end
     it 'generates a qr code the first time' do
       File.stub(:exists? => false)
-      a = Artist.first
-      outpath = File.join(Rails.root, "public/artistdata/#{a.id}/profile/qr.png")
-      str = "http://#{Conf.site_url}/artists/#{a.id}?qrgen=auto"
+      outpath = File.join(Rails.root, "public/artistdata/#{artist.id}/profile/qr.png")
+      str = "http://#{Conf.site_url}/artists/#{artist.id}?qrgen=auto"
       Qr4r.should_receive(:encode).with(str, outpath, :border => 15, :pixel_size => 5)
-      a.qrcode
+      artist.qrcode
     end
   end
 
   describe '#tally_os' do
+    before do
+      artist
+    end
     it 'tallies today\'s os participants' do
       expect{ Artist.tally_os }.to change(OpenStudiosTally, :count).by(1)
     end
@@ -323,24 +317,36 @@ describe Artist do
   end
 
   describe 'doing_open_studios?' do
+    before do
+      artist_without_studio
+      artist.update_os_participation open_studios_event.key, true
+    end
+
     it 'returns true for an artist doing this open studios (with no args)' do
       doing, notdoing = Artist.all.partition(&:doing_open_studios?)
-      doing.should have(6).artists
-      notdoing.should have(Artist.count - 6).artists
+      doing.should have_at_least(1).artists
+      notdoing.should have(Artist.count - 1).artists
     end
   end
 
-  describe 'default scope' do
+  describe 'art piece helpers' do
+    before do
+      artist
+    end
     it "most recent art piece should be the representative" do
-      artist.representative_piece.title.should eql "third"
+      artist.representative_piece.title.should be_present
     end
 
-    it "returns art_pieces in created time order" do
-      artist.art_pieces.should eql artist.art_pieces.sort_by(&:created_at).reverse
+    it "returns art_pieces in id order" do
+      artist.art_pieces.should eql artist.art_pieces.sort_by(&:id).reverse
     end
   end
 
   describe 'named scopes' do
+    before do
+      artist
+      wayout_artist
+    end
     describe 'with_representative_image' do
       it 'returns only artists with a representative image' do
         active = Artist.active
@@ -351,12 +357,16 @@ describe Artist do
       end
     end
     describe 'open_studios_participants' do
-      [['201104',3],['201110',4]].each do |arg|
-        it "returns #{arg[1]} artist(s) with '#{arg[0]}'" do
-          artists = Artist.open_studios_participants(arg[0])
-          artists.should have(arg[1]).artists
-          artists[0].os_participation[arg[0]].should be_true
-        end
+      before do
+        artist.update_os_participation open_studios_event.key, true
+      end
+
+      it 'returns 0 artists for an unknown os' do
+        expect(Artist.open_studios_participants('200810').count).to eql 0
+      end
+      it "returns 1 artist(s) for the current open studios" do
+        artists = Artist.open_studios_participants
+        artists.should have(1).artists
       end
     end
   end

@@ -4,14 +4,15 @@ describe ArtistsController do
 
   render_views
 
-  fixtures :users, :roles_users
-  fixtures :media, :art_pieces_tags, :art_piece_tags
-  fixtures :artist_infos
-  fixtures :art_pieces
-  fixtures :studios
-
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art) }
+  let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
+  let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
+  
   before do
     # do mobile
+    artist
+    artist2
     pretend_to_be_mobile
   end
 
@@ -81,21 +82,20 @@ describe ArtistsController do
 
   describe "#show" do
     before do
-      @artist = users(:artist1)
-      get :show, :id => @artist.id, :format => :mobile
+      get :show, :id => artist.id, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
 
     it 'shows the user name' do
-      assert_select 'div[data-role=content] div h2', :text => @artist.get_name
+      assert_select 'div[data-role=content] div h2', :text => artist.get_name
     end
 
     it 'shows the user\'s studio name' do
-      assert_select('div[data-role=content] div.studio', :match => @artist.studio.name)
+      assert_select('div[data-role=content] div.studio', :match => artist.studio.name)
     end
     it 'shows the users address' do
-      address = @artist.address_hash
+      address = artist.address_hash
       assert_select 'div', :text => address[:street]
       assert_select 'div', :text => address[:city]
     end
@@ -110,10 +110,8 @@ describe ArtistsController do
       css_select( '.bio_link a' ).should be_empty
     end
     it 'renders a truncated bio if the bio is big' do
-      a = Artist.where(:login =>'ponceart').first
-      a.artist_info.update_attribute(:bio, Faker::Lorem.paragraphs(20).join)
-
-      get :show, :id => a.id
+      artist.artist_info.update_attribute(:bio, Faker::Lorem.paragraphs(20).join)
+      get :show, :id => artist.id
       assert_select('.bio_link.section', /\.\.\./)
       assert_select('.bio_link a', /Read More/)
     end
@@ -121,10 +119,10 @@ describe ArtistsController do
     it 'shows the bio content in the metatag' do
       assert_select('head').each do |tag|
         assert_select('meta[name=description]').each do |tag|
-          tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
+          tag.attributes['content'].should match /#{artist.bio[0..20]}/
         end
         assert_select('meta[property=og:description]').each do |tag|
-          tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
+          tag.attributes['content'].should match /#{artist.bio[0..20]}/
         end
       end
     end
@@ -153,27 +151,27 @@ describe ArtistsController do
   describe '#bio' do
     context 'for user with a bio' do
       before do
-        get :bio, :id => users(:artist1).id, :format => :mobile
+        get :bio, :id => artist.id, :format => :mobile
       end
       it "returns success" do
         expect(response).to be_success
       end
       it 'renders the bio' do
-        assert_select '.bio', /#{users(:artist1).bio}/
+        assert_select '.bio', /#{artist.bio}/
       end
       it 'shows the bio content in the metatag' do
         assert_select('head meta[name=description]').each do |tag|
-          tag.attributes['content'].should match /#{users(:artist1).bio[0..20]}/
+          tag.attributes['content'].should match /#{artist.bio[0..20]}/
         end
       end
     end
     context 'for active users without a bio' do
       before do
-        users(:wayout).update_attribute(:state, 'active')
-        get :bio, :id => users(:wayout).id, :format => :mobile
+        wayout_artist.artist_info.update_attribute(:bio, nil)
+        get :bio, :id => wayout_artist.id, :format => :mobile
       end
       it 'redirects to user\'s page' do
-        expect(response).to redirect_to artist_path(users(:wayout))
+        expect(response).to redirect_to artist_path(wayout_artist)
       end
     end
   end

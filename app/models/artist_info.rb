@@ -56,7 +56,7 @@ class ArtistInfo < ActiveRecord::Base
     self.os_participation = Hash[key.to_s,value]
   end
 
-private
+  private
   def os_participation=(os)
     current = parse_open_studios_participation(self.open_studios_participation)
     current.merge!(os)

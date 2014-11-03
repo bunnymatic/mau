@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-include OsHelper
-
 describe AdminController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending') }

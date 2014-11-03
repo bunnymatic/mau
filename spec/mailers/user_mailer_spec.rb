@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe UserMailer do
-  fixtures(:users)
-  let(:fan) { users(:maufan1) }
-  let(:pending) { users(:pending) }
+  let(:fan) { FactoryGirl.create(:fan) }
+  let(:pending) { FactoryGirl.create(:artist, :pending) }
+
   describe "email for a new member" do
     before do
       @mail = UserMailer.activation(fan)
     end
     it "works" do
       @mail.body.should include "Your account has been activated."
-      @mail.body.should include fan.firstname
+      @mail.body.should include fan.login
     end
   end
   describe "notification mail for a new signup" do
