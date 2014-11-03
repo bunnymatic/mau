@@ -1,7 +1,7 @@
 require 'spec_helper'
-describe CmsDocumentsController do
+describe Admin::CmsDocumentsController do
 
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:editor) { FactoryGirl.create(:artist, :editor) }
   let(:cms_document) { FactoryGirl.create(:cms_document, article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption") }
 
   context 'not authorized' do
@@ -16,7 +16,7 @@ describe CmsDocumentsController do
   context 'authorized' do
     render_views
     before do
-      login_as admin
+      login_as editor
     end
 
     describe '#index' do
@@ -58,7 +58,7 @@ describe CmsDocumentsController do
 
     describe '#create' do
       before do
-        login_as admin
+        login_as editor
       end
       it 'creates a new cms document' do
         expect{
@@ -80,7 +80,7 @@ describe CmsDocumentsController do
 
     describe '#update' do
       before do
-        login_as admin
+        login_as editor
       end
       it 'creates a new cms document' do
         put :update, :id => cms_document.id, :cms_document => { :section => 'new_section' }

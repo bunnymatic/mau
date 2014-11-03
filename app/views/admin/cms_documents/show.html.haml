@@ -7,9 +7,9 @@
   = @cms_document.section
 
 .controls
-  = link_to 'Edit', edit_cms_document_path(@cms_document)
+  = link_to 'Edit', edit_admin_cms_document_path(@cms_document)
   = "|"
-  = link_to 'Back', cms_documents_path
+  = link_to 'Back', admin_cms_documents_path
 %hr
 
 #processed_markdown.markdown
@@ -17,6 +17,6 @@
 
 %hr
 .controls
-  = link_to 'Edit', edit_cms_document_path(@cms_document)
+  = link_to 'Edit', edit_admin_cms_document_path(@cms_document)
   = "|"
-  = link_to 'Back', cms_documents_path
+  = link_to 'Back', admin_cms_documents_path

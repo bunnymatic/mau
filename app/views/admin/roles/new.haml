@@ -1,7 +1,7 @@
 .admin-table
   %h1 New role
 
-  = form_for(@role) do |f|
+  = form_for [:admin,@role] do |f|
     = render '/common/form_errors', :form => f
 
     = f.label :role
@@ -9,4 +9,4 @@
     = f.submit 'Create', :class => "formbutton"
 
 .links
-  = link_to '[all roles]', roles_path
+  = link_to '[all roles]', admin_roles_path

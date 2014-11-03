@@ -7,11 +7,11 @@
 
   .container
     .edit-controls
-      = link_to 'add new', new_blacklist_domain_path
+      = link_to 'add new', new_admin_blacklist_domain_path
     %ul
       - @domains.each_with_index do |domain, idx|
         %li.domain
           %span
             = domain.domain
           %span
-            = link_to('X', domain, :confirm => 'Are you sure you want to remove this blacklisted domain?', :method => :delete)
+            = link_to('X', [:admin, domain], :confirm => 'Are you sure you want to remove this blacklisted domain?', :method => :delete)

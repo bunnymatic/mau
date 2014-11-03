@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe DiscountController do
-  fixtures :users, :roles, :roles_users
+describe Admin::DiscountController do
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
 
   describe 'unauthorized' do
     before do
@@ -11,7 +11,7 @@ describe DiscountController do
   end
   describe 'authorized' do
     before do
-      login_as(:admin)
+      login_as admin
     end
     context 'with good args' do
       before do

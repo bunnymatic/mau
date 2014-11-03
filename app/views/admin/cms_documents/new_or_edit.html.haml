@@ -1,11 +1,11 @@
 .cms-content
   %h1 CMS Content
   .links
-    = link_to 'Show This Document', @cms_document
+    = link_to 'Show This Document', [:admin, @cms_document]
     = "|"
-    = link_to 'Document Index', cms_documents_path
+    = link_to 'Document Index', admin_cms_documents_path
   = render '/flash_notice_error'
-  = form_for(@cms_document) do |f|
+  = form_for [:admin,@cms_document] do |f|
     = render '/common/form_errors', :form => f
     .header_inputs.clear
       .section
@@ -30,7 +30,3 @@
       %a{:href => "/tests/markdown"} markdown test page.
     %p
       = f.submit 'Save', :class => "formbutton"
-  .links
-    = link_to 'Show', @cms_document
-    = "|"
-    = link_to 'All', cms_documents_path

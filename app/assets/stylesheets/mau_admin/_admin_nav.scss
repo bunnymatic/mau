@@ -4,6 +4,7 @@
 #admin_nav
 {
   position: fixed;
+  z-index: 30;
   width: 200px;
   left: calc(100% - 20px);
   left: -webkit-calc(100% - 20px);
@@ -17,7 +18,7 @@
   }
   .container {
     position: relative;
-    z-index:19;
+    z-index:1;
     border: 1px solid $error_red;
     background-color: #ffcccc;
     margin: 4px auto 0;

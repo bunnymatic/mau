@@ -1,12 +1,15 @@
 require 'spec_helper'
-describe RolesController do
+describe Admin::RolesController do
 
-  fixtures :roles, :users, :roles_users
+  let(:editor) { FactoryGirl.create(:artist, :editor, :active) }
+  let(:manager) { FactoryGirl.create(:artist, :manager, :active) }
+  let(:admin) { FactoryGirl.create(:artist, :admin, :active) }
+  let(:artist) { FactoryGirl.create(:artist, :active) }
 
-  let(:jesse) { users(:jesseponce) }
-  let(:editor) { roles(:editor) }
-  let(:manager) { roles(:manager) }
-  let(:admin) { roles(:admin) }
+  let!(:users) { [editor, manager, admin] }
+  let(:manager_role) { manager.roles.first }
+  let(:editor_role) { editor.roles.first }
+  let(:admin_role) { admin.roles.first }
 
   describe 'non-admin' do
     [:index,:edit,:show].each do |endpoint|
@@ -22,7 +25,7 @@ describe RolesController do
   describe 'authorized' do
     render_views
     before do
-      login_as :admin, :record => true
+      login_as admin, :record => true
     end
     describe 'GET index' do
       before do
@@ -33,18 +36,22 @@ describe RolesController do
         assigns(:roles).count.should eql Role.count
       end
       it { expect(response).to render_template 'layouts/mau-admin' }
-      [:manager, :admin, :editor].each do |role|
-        it "shows a list of users with role #{role}" do
-          rol = roles(role)
-          expected = RolesUser.find_all_by_role_id(rol.id).select{|ru| ru.user.active?}
-          assert_select ".#{role}.role_container .role_members li", :count => expected.count
-        end
+
+      it "shows a list of editors" do
+        assert_select ".editor.role_container .role_members li", :count => 1
+      end
+      it "shows a list of managers" do
+        assert_select ".manager.role_container .role_members li", :count => 1
+      end
+      it "shows a list of admins" do
+        assert_select ".admin.role_container .role_members li", :count => 1
       end
     end
+
     [:new, :show, :edit].each do |endpoint|
       describe "GET #{endpoint}" do
         before do
-          get endpoint, :id => manager
+          get endpoint, :id => manager_role.id
         end
         it_should_behave_like 'logged in as admin'
       end
@@ -52,13 +59,13 @@ describe RolesController do
     describe 'POST update' do
       context 'with good params' do
         it 'adds a role to a user' do
-          expect{ post :update, :id => admin, :user => jesse}.to change(jesse.roles, :count).by(1)
+          expect{ post :update, :id => admin_role.id, :user => artist}.to change(artist.roles, :count).by(1)
         end
         it 'is idempotnent' do
           expect{
-            post :update, :id => admin, :user => jesse
-            post :update, :id => admin, :user => jesse
-          }.to change(jesse.roles, :count).by(1)
+            post :update, :id => admin_role.id, :user => artist
+            post :update, :id => admin_role.id, :user => artist
+          }.to change(artist.roles, :count).by(1)
         end
       end
     end
@@ -80,7 +87,7 @@ describe RolesController do
         end
         it 'redirects to the roles index page' do
           post :create, :role => {:role => 'new role'}
-          expect(response).to redirect_to roles_path
+          expect(response).to redirect_to admin_roles_path
         end
       end
       context 'with bad params' do
@@ -101,36 +108,36 @@ describe RolesController do
     describe '#destroy' do
       context 'with role' do
         it 'removes the role' do
-          expect { delete :destroy, :id => manager.id }.to change(Role, :count).by(-1)
+          expect { delete :destroy, :id => manager_role.id }.to change(Role, :count).by(-1)
         end
         it 'removes the role from all users' do
-          ru = RolesUser.find_all_by_role_id(manager.id)
+          ru = RolesUser.find_all_by_role_id(manager_role.id)
           expected_change = ru.count
-          expect { delete :destroy, :id => manager.id }.to change(RolesUser, :count).by(-expected_change)
-          jesse.reload
-          jesse.roles.should_not include manager
+          expect { delete :destroy, :id => manager_role.id }.to change(RolesUser, :count).by(-expected_change)
+          artist.reload
+          artist.roles.should_not include manager
         end
         it 'redirects to the roles index page' do
-          delete :destroy, :id => manager.id
-          expect(response).to redirect_to roles_path
+          delete :destroy, :id => manager_role.id
+          expect(response).to redirect_to admin_roles_path
         end
       end
       context 'with role and user' do
         it 'removes the role association from the user' do
-          expect{ delete :destroy, :user_id => jesse.id, :id => editor.id }.to change(jesse.roles, :count).by(-1)
+          expect{ delete :destroy, :user_id => editor.id, :id => editor_role.id }.to change(editor.roles, :count).by(-1)
         end
         it 'redirects to the role page' do
-          delete :destroy, :user_id => jesse.id, :id => editor.id
-          expect(response).to redirect_to role_path(editor)
+          delete :destroy, :user_id => editor.id, :id => editor_role.id
+          expect(response).to redirect_to admin_role_path(editor_role)
         end
       end
       context 'with invalid role and user' do
         it 'removes the role association from the user' do
-          expect{ delete :destroy, :user_id => 'bogus', :id => editor.id }.to change(jesse.roles, :count).by(0)
+          expect{ delete :destroy, :user_id => 'bogus', :id => editor_role.id }.to change(editor.roles, :count).by(0)
         end
         it 'redirects to the role page' do
-          delete :destroy, :user_id => 'bogus', :id => editor.id
-          expect(response).to redirect_to role_path(editor)
+          delete :destroy, :user_id => 'bogus', :id => editor_role.id
+          expect(response).to redirect_to admin_role_path(editor_role)
           expect(flash[:error]).to be_present
         end
       end

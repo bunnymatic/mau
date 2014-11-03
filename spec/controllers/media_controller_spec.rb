@@ -1,30 +1,16 @@
 require 'spec_helper'
 
 describe MediaController do
+  
+  let(:media) { FactoryGirl.create_list(:medium, 4) }
+  let(:artists) { FactoryGirl.create_list(:artist, 2, :active) }
+  let(:art_pieces) { 
+    10.times.map { FactoryGirl.create(:art_piece, medium_id: media.sample.id, artist: artists.sample) }
+  }
 
-  fixtures :media, :art_pieces, :artist_infos, :users, :roles, :roles_users
   before do
-
-    Rails.cache.stub(:read => nil)
-
-    # media don't exist in a vaccuum
-    aps = [:hot,
-           :not,
-           :h1024w2048,
-           :negative_size,
-           :artpiece1,
-           :artpiece2,
-           :artpiece3].map{|a| art_pieces(a)}
-
-    meds = [:medium1, :medium2, :medium3].map{|m| media(m)}
-
-    artists = [:quentin, :artist1, :joeblogs].map{|u| users(u)}
-
-    aps.each_with_index do |ap, idx|
-      mid = meds[idx % meds.size].id
-      aid = artists[(idx + 2) % artists.size].id
-      ap.update_attributes(:artist_id => aid, :medium_id => mid)
-    end
+    Rails.cache.clear
+    art_pieces
   end
 
   describe "#index" do
@@ -45,21 +31,25 @@ describe MediaController do
 
 
   describe "#show" do
+    let(:medium) { Artist.active.map(&:art_pieces).flatten.map(&:medium).first }
     context 'for valid medium' do
       render_views
       context 'by artist' do
         before do
-          get :show, :id => Medium.first.id, :m => 'a'
+          get :show, :id => medium.id, :m => 'a'
         end
         it_should_behave_like 'two column layout'
         it_should_behave_like "not logged in"
         it "page is in artists mode" do
           assigns(:media_presenter).should be_by_artists
         end
+        it "assigns pieces" do
+          assigns(:pieces).should have_at_least(1).piece
+        end
       end
       context 'by art piece' do
         before do
-          get :show, :id => Medium.first.id
+          get :show, :id => medium
         end
         it_should_behave_like 'two column layout'
         it_should_behave_like "not logged in"
@@ -67,7 +57,7 @@ describe MediaController do
           assigns(:media_presenter).should be_by_pieces
         end
         it "assigns pieces" do
-          assigns(:pieces).should have_at_least(1).medium
+          assigns(:pieces).should have_at_least(1).piece
         end
         it "assigns all media" do
           assigns(:media).should have_at_least(1).medium
@@ -77,8 +67,7 @@ describe MediaController do
         end
         it "assigns frequency" do
           freq = assigns(:frequency)
-          m2freq = freq.select{|f| f['medium'].to_i == media(:medium1).id}.first
-          m2freq['ct'].should eql 1.0
+          freq.should be_present
         end
         it "draws tag cloud" do
           assert_select('.tagcloud')

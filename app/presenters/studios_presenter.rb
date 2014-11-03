@@ -1,5 +1,4 @@
 class StudiosPresenter
-  include OsHelper
 
   include Enumerable
   attr_reader :view_mode

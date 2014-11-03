@@ -8,8 +8,6 @@ class StudiosController < ApplicationController
   before_filter :load_studio, :only => [:edit, :update, :destroy, :show,
                                         :unaffiliate_artist, :upload_profile, :add_profile]
 
-  include OsHelper
-
   def index
     @view_mode = (params[:v] == 'c') ? 'count' : 'name'
 

@@ -1,4 +1,4 @@
-= form_for(@domain) do |f|
+= form_for [:admin,@domain] do |f|
   = render '/common/form_errors', :form => f
 
   %p
@@ -6,4 +6,4 @@
     = f.text_field :domain
     = f.submit 'Update', :class => "formbutton"
 
-= link_to 'Back', blacklist_domains_path
+= link_to 'Back', admin_blacklist_domains_path

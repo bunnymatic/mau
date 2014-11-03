@@ -43,11 +43,9 @@ class MediaController < ApplicationController
     @media_presenter = MediaPresenter.new(view_context, @medium, params[:p], params[:m])
     @pieces = @media_presenter.art_pieces
     @paginator = @media_presenter.paginator
-
     # still in use
     @by_artists_link = medium_path(@medium, { :m => 'a' })
     @by_pieces_link = medium_path(@medium, { :m => 'p' })
-
   end
 
   def _show_mobile

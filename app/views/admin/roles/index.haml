@@ -1,14 +1,14 @@
 #role_mgr
   = render :partial => '/flash_notice_error'
   .links
-    = link_to "[add new role]", new_role_path
+    = link_to "[add new role]", new_admin_role_path
   %h3 Roles & Members
   %ul
     - @roles.each do |role|
       %li.role_container{:class => [cycle('even', 'odd'), role.role].join(' ')}
         .role_controls
-          = link_to "[manage]", edit_role_path(role)
-          = link_to "[destroy]", role, :confirm => 'Are you sure?', :method => :delete
+          = link_to "[manage]", edit_admin_role_path(role)
+          = link_to "[destroy]", [:admin, role], :confirm => 'Are you sure?', :method => :delete
 
         .role #{role.role}
         %ul.role_members

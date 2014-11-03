@@ -1,7 +1,5 @@
 Mau::Application.routes.draw do
 
-  resources :roles
-  resources :cms_documents, :except => [:destroy]
   resources :media, :only => [:index, :show]
 
   resource :user_session
@@ -92,7 +90,7 @@ Mau::Application.routes.draw do
       put :notify
       get :favorites
     end
-    resources :roles, :only => [:destroy]
+    resources :roles, :only => [:destroy], :controller => 'Admin::Roles'
   end
 
   resource :main, :controller => :main do
@@ -139,8 +137,13 @@ Mau::Application.routes.draw do
     get :art_pieces_per_day
     get :favorites_per_day
     get :emaillist
+    
+    match '/discount/markup' => 'discount#markup', :as => :discount_processor
+
     post :featured_artist, :as => :get_next_featured
 
+    resources :roles
+    resources :cms_documents
     resources :blacklist_domains, :except => [:show]
     resources :artist_feeds, :except => [:show]
     resources :open_studios_events, :only => [:index, :edit, :new, :create, :update, :destroy]
@@ -188,7 +191,6 @@ Mau::Application.routes.draw do
 
   match '/admin' => 'admin#index', :as => :admin
 
-  match '/discount/markup' => 'discount#markup', :as => :discount_processor
   match '/mobile/main' => 'mobile/main#welcome', :as => :mobile_root
   match '/sitemap.xml' => 'main#sitemap', :as => :sitemap
   match '/api/*path' => 'api#index'

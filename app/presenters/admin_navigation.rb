@@ -11,7 +11,7 @@ class AdminNavigation
     manager_links = [[:studios , {}]]
     editor_links = [[:events, {}],
                     [:featured_artist , {}],
-                    [:cms_documents , {:display => 'cms', :link => '/cms_documents'}]
+                    [:cms_documents , {:display => 'cms', :link => @view_context.admin_cms_documents_path}]
                    ]
     if current_user.is_admin?
       pr_links = [
@@ -19,7 +19,7 @@ class AdminNavigation
                   [:featured_artist, {}],
                   [:favorites, {}],
                   [:catalog, {:link => '/catalog'}],
-                  [:cms_documents , {:display => 'cms', :link => '/cms_documents'}]
+                  [:cms_documents , {:display => 'cms', :link => @view_context.admin_cms_documents_path}]
                  ]
       model_links = [
                      [:artists , {}],
@@ -32,10 +32,10 @@ class AdminNavigation
                     ]
       admin_links = [
                      [:open_studios_events , {:display => 'os dates'}],
-                     [:roles , {:link => '/roles'}],
+                     [:roles, {}],
                      [:internal_email , {:display => 'internal messaging', :link => @view_context.admin_email_lists_path }],
                      [:db_backups , {:display => 'backups'}],
-                     [:blacklist, {:display => 'blacklist', :link => @view_context.admin_blacklist_domain_path}],
+                     [:blacklist, {:display => 'blacklist', :link => @view_context.admin_blacklist_domains_path}],
                      [:os_status , {}]
                     ]
       internal_links = [

@@ -63,9 +63,6 @@ end
 
 describe MainController do
 
-  # fixtures :users, :roles, :roles_users, :studios, :artist_infos, :art_piece_tags, :art_pieces_tags, :media,
-  # :cms_documents,  :emails, :email_lists, :email_list_memberships, :art_pieces
-
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:editor) { FactoryGirl.create(:artist, :active, :editor) }
   let(:admin) { FactoryGirl.create(:artist, :admin) }
