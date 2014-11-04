@@ -106,8 +106,7 @@ describe ArtistsController do
       assert_select '.media a[href*=/media/]'
     end
     it 'renders a bio' do
-      assert_select '.bio_link.section'
-      css_select( '.bio_link a' ).should be_empty
+      (css_select '.bio_link.section').should be_present
     end
     it 'renders a truncated bio if the bio is big' do
       artist.artist_info.update_attribute(:bio, Faker::Lorem.paragraphs(20).join)

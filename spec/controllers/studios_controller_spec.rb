@@ -2,11 +2,14 @@ require 'spec_helper'
 
 describe StudiosController do
 
-  fixtures :users, :studios, :artist_infos, :art_pieces, :roles_users, :roles
-
-  let(:fan) { users(:maufan1) }
-  let(:manager) { users(:manager) }
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:manager) { FactoryGirl.create(:artist, :with_studio, :manager) }
+  let(:indy_artist) { FactoryGirl.create(:artist, :active) }
+  let(:artist) { FactoryGirl.create(:artist, :with_studio, :active) }
   let(:manager_studio) { manager.studio }
+  let(:studio) { manager.studio }
+
+  let!(:studios) { [manager, indy_artist, artist].map{|a| a.studio} }
 
   describe "#index" do
     render_views
@@ -37,7 +40,6 @@ describe StudiosController do
     context "while logged in as an art fan" do
       before do
         login_as fan
-        @logged_in_user = fan
         get :index
       end
       it_should_behave_like "logged in user"
@@ -85,7 +87,7 @@ describe StudiosController do
         get :show, "id" => 0
       end
       it "sets the studio to the indy studio" do
-        assigns(:studio).studio.should eql Studio.indy
+        assigns(:studio).studio.name.should eql "Independent Studios"
       end
     end
 
@@ -94,7 +96,7 @@ describe StudiosController do
         before do
           Studio.any_instance.stub(:phone => '1234569999')
           Studio.any_instance.stub(:cross_street => 'fillmore')
-          get :show, "id" => studios(:as).id
+          get :show, "id" => studio
         end
         it "last studio should be independent studios" do
           assigns(:studios).last.name.should eql 'Independent Studios'
@@ -109,7 +111,7 @@ describe StudiosController do
           s.sort_by{|a| prep_name(a)}.map(&:name).should eql s.map(&:name)
         end
         it "studio url is a link" do
-          assert_select("div.url a[href=#{studios(:as).url}]")
+          assert_select("div.url a[href=#{studio.url}]")
         end
         it "studio includes cross street if there is one" do
           assert_select('.address', /\s+fillmore/)
@@ -121,13 +123,13 @@ describe StudiosController do
 
       describe 'json' do
         before do
-          get :show, :id => studios(:as).id, :format => 'json'
+          get :show, :id => studio.id, :format => 'json'
         end
         it_should_behave_like 'successful json'
         it 'returns the studio data' do
           j = JSON.parse(response.body)
-          j['studio']['name'].should eql studios(:as).name
-          j['studio']['street'].should eql studios(:as).street
+          j['studio']['name'].should eql studio.name
+          j['studio']['street'].should eql studio.street
         end
         it 'includes a list of artist ids' do
           j = JSON.parse(response.body)
