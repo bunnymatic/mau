@@ -13,11 +13,6 @@ end
 
 describe UsersController do
 
-  # fixtures :users, :roles_users, :roles, :blacklist_domains
-  # fixtures :art_pieces
-  # fixtures :favorites # even though fixture is empty - this forces a db clear between tests
-  # fixtures :scammers
-
   let(:fan) { FactoryGirl.create(:fan) }
   let(:quentin) { FactoryGirl.create :artist }
   let(:admin) { FactoryGirl.create :user, :admin, :active }

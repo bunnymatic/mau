@@ -2,13 +2,6 @@ require 'spec_helper'
 
 describe SearchController do
 
-  fixtures :users, :roles, :roles_users
-  fixtures :artist_infos
-  fixtures :art_pieces
-  fixtures :media
-  fixtures :art_piece_tags
-  fixtures :art_pieces_tags
-  fixtures :studios
   before do
     Rails.cache.stub(:read => nil)
   end
@@ -21,6 +14,8 @@ describe SearchController do
 
   render_views
 
+  let(:artists) { FactoryGirl.create_list(:artist, 3, :with_studio, :with_art) }
+  let(:studios) { artists.map(&:studio) }
   describe "#index" do
     describe "(with views)" do
       before do
@@ -106,7 +101,7 @@ describe SearchController do
 
   describe '#fetch' do
     before do
-      @artist = users(:nomdeplume)
+      @artist = FactoryGirl.create(:artist, :active, :with_art, nomdeplume: 'Fancy Pants')
       post :fetch, :keywords => 'Interesting'
     end
     it_should_behave_like 'search page with results'

@@ -1,18 +1,21 @@
 require 'spec_helper'
 
 describe TestsController do
-  [:qr, :flash_test, :custom_map].map(&:to_s).each do |endpoint|
-    it "#{endpoint} returns error if you're not logged in" do
-      get endpoint
-      expect(response).to redirect_to '/error'
+
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+
+  context 'unauthorized' do
+    [:qr, :flash_test, :custom_map].map(&:to_s).each do |endpoint|
+      it "#{endpoint} returns error if you're not logged in" do
+        get endpoint
+        expect(response).to redirect_to '/error'
+      end
     end
   end
 
   describe 'as admin' do
-    fixtures :users, :roles, :roles_users
-
     before do
-      login_as :admin
+      login_as admin
     end
 
     describe '#flash_test' do
