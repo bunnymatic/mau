@@ -1,8 +1,23 @@
 require 'spec_helper'
 
 describe OpenStudiosPresenter do
-  let(:artists) { FactoryGirl.create_list(:artist, 4, :with_art, :with_studio) }
-  let!(:studio) { FactoryGirl.create :studio, artists: artists }
+  let(:open_studios_event) { FactoryGirl.create :open_studios_event }
+  let(:indy_artist) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:studio_artists) { FactoryGirl.create_list :artist, 4, :with_art }
+  let(:artists) { [indy_artist] + studio_artists }
+  let!(:studio) { FactoryGirl.create :studio, artists: studio_artists }
+
+  before do
+    FactoryGirl.create(:cms_document,
+                       page: :main_openstudios,
+                       section: :summary,
+                       article: "# spring 2004\n\n## spring 2004 header2 \n\nwhy spring 2004?  that's _dumb_.")
+    FactoryGirl.create(:cms_document,
+                       page: :main_openstudios,
+                       section: :preview_reception,
+                       article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
+    artists.first(2).each { |a| a.update_os_participation open_studios_event.key, true }
+  end
 
   its(:participating_studios) { should have_at_least(1).studio }
   its(:participating_indies) { should have_at_least(1).artist }
