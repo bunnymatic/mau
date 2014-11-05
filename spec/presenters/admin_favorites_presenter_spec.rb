@@ -2,28 +2,25 @@ require 'spec_helper'
 
 describe AdminFavoritesPresenter do
 
+  let!(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:prolific_artist) { FactoryGirl.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
+
   let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
   let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
 
-  let(:fan) { users(:maufan1) }
-  let(:jesse) { users(:jesseponce) }
-  let(:anna) { users(:annafizyta) }
-  let(:artist) { users(:artist1) }
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let(:artist2) { FactoryGirl.create(:artist, :active, :with_art) }
+
   let(:art_pieces) { [ArtPiece.first, ArtPiece.last] }
 
   before do
-
-    #ArtPiece.any_instance.stub(:artist => double(Artist, :id => 42, :emailsettings => {'favorites' => false}))
-    fan.add_favorite art_pieces.first
+    fan.add_favorite artist.art_pieces.first
     fan.add_favorite artist
-    fan.add_favorite jesse
-    jesse.add_favorite anna
-    jesse.add_favorite art_pieces.first
-    anna.add_favorite artist
-    anna.add_favorite art_pieces.last
+    fan.add_favorite artist2
+    artist2.add_favorite artist
+    artist2.add_favorite artist
 
     @presenter = AdminFavoritesPresenter.new Favorite.all
-
   end
 
   it "assigns :favorites to a hash keyed by user login" do
@@ -41,13 +38,6 @@ describe AdminFavoritesPresenter do
 
   it "artist should have 2 favorited" do
     @presenter.favorites.detect{|f| f[0] == artist}[1].favorited.should eql 2
-  end
-
-  it "anna has 1 favorite artist and 1 favorite piece and 1 favorited" do
-    annas = @presenter.favorites.detect{|f| f[0] == anna}[1]
-    annas.favorited.should eql 1
-    annas.artists.should eql 1
-    annas.art_pieces.should eql 1
   end
 
 end

@@ -5,6 +5,7 @@ describe ArtistsPresenter do
   include PresenterSpecHelpers
 
   let(:os_only) { false }
+  let!(:artists) { FactoryGirl.create_list :artist, 4, :with_art }
 
   subject(:presenter) { ArtistsPresenter.new(mock_view_context, os_only) }
 

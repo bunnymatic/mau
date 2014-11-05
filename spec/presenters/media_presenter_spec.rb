@@ -8,13 +8,13 @@ describe MediaPresenter do
   let(:artists) { FactoryGirl.create_list(:artist, 5, :with_art) }
   let!(:art_pieces) do
     pieces = artists.map(&:art_pieces).flatten 
-    pieces.each { |ap| ap.update_attribute :medium_id, media.sample.id }
+    pieces.each { |ap| ap.update_attribute :medium_id, select_medium.id }
   end
 
   let(:page) { 1 }
   let(:mode) { nil }
   let(:per_page) { 2 }
-  let(:select_medium) { media.sample }
+  let(:select_medium) { media.last }
 
   subject(:presenter) { MediaPresenter.new(mock_view_context, select_medium, page, mode, per_page) }
 

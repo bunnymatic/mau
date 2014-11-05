@@ -1,9 +1,12 @@
 require 'spec_helper'
 
 describe CatalogPresenter do
-
-  let(:reception_doc) { cms_documents(:os_preview_reception) }
-
+  let(:reception_doc) {
+      FactoryGirl.create(:cms_document,
+                         page: "main_openstudios",
+                         section: "preview_reception",
+                         article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
+  }
   its(:csv_filename) { should eql "mau_catalog_#{Conf.oslive.to_s}.csv" }
   its("all_artists.all.sort") {
     should eql Artist.active.open_studios_participants.all.sort
