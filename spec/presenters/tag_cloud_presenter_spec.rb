@@ -4,13 +4,25 @@ describe TagCloudPresenter, :type => :controller do
 
   include PresenterSpecHelpers
 
-  let(:expected_order) {
-    [:one, :two, :three, :with_spaces].map{|k| art_piece_tags(k).id}
-  }
-  let(:current_tag) { expected_order[1] }
   let(:mode) { 'a' }
   let(:clz) { ArtPieceTag }
-  let(:expected_frequency) { ArtPieceTag.frequency(true) }
+  let(:artist) { FactoryGirl.create :artist, :with_art, number_of_art_pieces: 7 }
+  let!(:tags) { 
+    tags = FactoryGirl.create_list(:art_piece_tag, 3)
+    artist.art_pieces.reverse.each_with_index do |ap, idx|
+      ap.tags = ap.tags + [tags.first]
+      ap.tags = ap.tags + [tags.last] if (idx % 3) == 0
+      ap.save
+    end
+    tags
+  }
+  let(:expected_frequency) do
+    ArtPieceTag.frequency(true)
+  end
+
+  let(:expected_order) { tags }
+  let(:current_tag) { tags[1] }
+
   subject(:cloud) { TagCloudPresenter.new(mock_view_context, clz, current_tag, mode) }
 
   its(:current_tag) { should eql current_tag }
@@ -29,7 +41,7 @@ describe TagCloudPresenter, :type => :controller do
 
   it 'computes the style for the least popular tag' do
     expect(subject.compute_style(expected_frequency.last)).
-      to eql "font-size:16px; margin: 4px;"
+      to eql "font-size:17px; margin: 4px;"
   end
 
   context 'when the mode is art_pieces' do
