@@ -16,10 +16,7 @@ describe TagCloudPresenter, :type => :controller do
     end
     tags
   }
-  let(:expected_frequency) do
-    ArtPieceTag.frequency(true)
-  end
-
+  let(:expected_frequency) { ArtPieceTag.frequency(true) }
   let(:expected_order) { tags }
   let(:current_tag) { tags[1] }
 

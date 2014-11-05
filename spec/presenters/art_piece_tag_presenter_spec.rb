@@ -2,9 +2,17 @@ require 'spec_helper'
 
 describe ArtPieceTagPresenter do
 
-  let(:joiner) { ArtPiecesTag.first }
-  let(:tag) { joiner.art_piece_tag }
-  let(:art) { joiner.art_piece }
+  let(:artist) { FactoryGirl.create :artist, :active, :with_tagged_art, number_of_art_pieces: 4 }
+  let(:artist2) do
+    a = FactoryGirl.create :artist, :active, :with_art, number_of_art_pieces: 4 
+    a.art_pieces.each do |ap|
+      ap.tags = ap.tags + artist.art_pieces.map(&:tags).compact.uniq.first
+      ap.save
+    end
+  end
+  let!(:artists) { [artist, artist2] }
+  let(:tag) { artist.art_pieces.map(&:tags).flatten.compact.first }
+  let(:art) { tag.art_piece }
   let(:mode) { 'p' }
 
   subject(:presenter) { ArtPieceTagPresenter.new(tag,mode) }
