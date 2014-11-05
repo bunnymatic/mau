@@ -4,8 +4,6 @@ describe TagCloudPresenter, :type => :controller do
 
   include PresenterSpecHelpers
 
-  fixtures :art_piece_tags, :art_pieces_tags, :art_pieces
-
   let(:expected_order) {
     [:one, :two, :three, :with_spaces].map{|k| art_piece_tags(k).id}
   }

@@ -6,8 +6,6 @@ describe AdminEmailList do
     FactoryGirl.create(:open_studios_event, :future)
   end
 
-  fixtures :artist_infos, :users, :roles_users, :roles
-
   let(:listname) { 'active' }
   subject(:email_list) { AdminEmailList.new(listname) }
   let(:emails) { email_list.emails }

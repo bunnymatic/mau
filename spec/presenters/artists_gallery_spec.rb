@@ -4,9 +4,6 @@ describe ArtistsGallery do
 
   include PresenterSpecHelpers
 
-  fixtures :users, :roles_users,  :roles, :artist_infos, :art_pieces,
-    :studios, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
-
   let(:current_page) { 1 }
   let(:per_page) { 2 }
   let(:artists) { Artist.active.all }

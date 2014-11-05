@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe SocialCatalogPresenter do
 
-  fixtures :users, :artist_infos, :roles, :studios, :art_pieces,:media, :art_pieces_tags
-
   let(:social_keys) { SocialCatalogPresenter::SOCIAL_KEYS }
   let(:parsed) { CSV.parse(subject.csv, :headers => true) }
   its("artists.to_a") do

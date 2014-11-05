@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe CatalogPresenter do
 
-  fixtures :cms_documents, :users, :artist_infos, :roles, :studios, :art_pieces,:media, :art_pieces_tags
-
   let(:reception_doc) { cms_documents(:os_preview_reception) }
 
   its(:csv_filename) { should eql "mau_catalog_#{Conf.oslive.to_s}.csv" }

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe StudiosPresenter do
 
-  fixtures :studios, :users
-
   let(:studios) { Studio.all }
   let(:view_mode) { 'name' }
   subject(:presenter) { StudiosPresenter.new(studios, view_mode) }

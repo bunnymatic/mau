@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe AdminFavoritesPresenter do
 
-  fixtures :users, :roles_users, :roles
-  fixtures :art_pieces
-  fixtures :artist_infos
-  fixtures :favorites # even though fixture is empty - this forces a db clear between tests
-
   let(:art_pieces_per_day) { AdminController.new.send(:compute_art_pieces_per_day) }
   let(:artists_per_day) { AdminController.new.send(:compute_artists_per_day) }
 

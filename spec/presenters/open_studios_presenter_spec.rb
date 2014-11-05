@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe OpenStudiosPresenter do
-
-  fixtures :cms_documents, :users, :artist_infos, :roles, :studios, :art_pieces,:media, :art_pieces_tags
+  let(:artists) { FactoryGirl.create_list(:artist, 4, :with_art, :with_studio) }
+  let!(:studio) { FactoryGirl.create :studio, artists: artists }
 
   its(:participating_studios) { should have_at_least(1).studio }
   its(:participating_indies) { should have_at_least(1).artist }

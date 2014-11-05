@@ -2,9 +2,6 @@ require 'spec_helper'
 
 describe ArtPieceTagPresenter do
 
-  fixtures :users, :roles_users,  :roles, :artist_infos, :art_pieces,
-    :studios, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
-
   let(:joiner) { ArtPiecesTag.first }
   let(:tag) { joiner.art_piece_tag }
   let(:art) { joiner.art_piece }
