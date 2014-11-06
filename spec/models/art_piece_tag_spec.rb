@@ -2,16 +2,11 @@ require 'spec_helper'
 
 describe ArtPieceTag do
 
-  let(:art_pieces) { FactoryGirl.create_list :art_piece, 5 }
+  let(:artists) { FactoryGirl.create_list :artist, 2, :with_tagged_art }
+  let(:art_pieces) { artists.map(&:art_pieces).flatten }
 
   it{ should validate_presence_of(:name) }
   it{ should ensure_length_of(:name).is_at_least(3).is_at_most(25) }
-
-  before do
-    # until we get rid of fixtures for good
-    ArtPieceTag.destroy_all
-    ArtPiecesTag.destroy_all
-  end
 
   describe 'frequency'  do
     before do

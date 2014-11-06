@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Favorite, 'named scopes' do
-  fixtures :users, :artist_infos, :art_pieces
 
   let(:fan) { users(:maufan1) }
   let(:jesse) { users(:jesseponce) }

@@ -4,6 +4,8 @@ describe AdminEmailList do
 
   before do
     FactoryGirl.create(:open_studios_event, :future)
+    FactoryGirl.create_list(:artist, 2, :active)
+    FactoryGirl.create_list(:artist, 2)
   end
 
   let(:listname) { 'active' }

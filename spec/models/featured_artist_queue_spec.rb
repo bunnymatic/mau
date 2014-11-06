@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe FeaturedArtistQueue do
-  fixtures :users
   before do
     # simulate migration
     ActiveRecord::Base.transaction do

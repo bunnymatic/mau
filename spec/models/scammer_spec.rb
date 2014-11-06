@@ -2,7 +2,6 @@
 require 'spec_helper'
 
 describe Scammer do
-  fixtures :scammers
   before do
     test_data =<<EOM
 "id"|"email"|"name_used"

@@ -2,18 +2,20 @@ require "spec_helper"
 
 describe MauSearch do
 
-  fixtures :users, :roles, :roles_users
-  fixtures :artist_infos
-  fixtures :art_pieces
-  fixtures :media
-  fixtures :art_piece_tags
-  fixtures :art_pieces_tags
-  fixtures :studios
+  # fixtures :users, :roles, :roles_users
+  # fixtures :artist_infos
+  # fixtures :art_pieces
+  # fixtures :media
+  # fixtures :art_piece_tags
+  # fixtures :art_pieces_tags
+  # fixtures :studios
 
   before do
     Rails.cache.stub(:read => nil)
   end
-
+  
+  let(:artists) { FactoryGirl.create_list :artist, 3, :with_studio, :with_tagged_art }
+  let(:studios) { artists.map(&:studio) }
   let(:search_mediums) { [] }
   let(:search_studios) { [] }
   let(:keywords) { '' }
@@ -24,7 +26,7 @@ describe MauSearch do
                        mediums: search_mediums.map(&:id),
                        os_artist: os_flag)
   }
-
+  
   subject(:search) { MauSearch.new(query) }
   let(:results) { subject.search }
 
@@ -77,6 +79,8 @@ describe MauSearch do
     it { expect(results.first.artist).to eql users(:nomdeplume) }
   end
 
+  let(:annafizyta) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:artist1) { FactoryGirl.create(:artist, :active, :with_art) }
   [:annafizyta, :artist1].each do |user|
     %w[ firstname lastname fullname].each do |term|
       context "for #{user} by #{term}" do
@@ -160,7 +164,7 @@ describe MauSearch do
 
   context 'finding by studio' do
     let(:keywords) { 'a' }
-    let(:search_studios) { [studios(:s1890), studios(:as)] }
+    let(:search_studios) { studios }
 
     it { expect(results).to have(2).items }
     it { expect(results.first).to be_a_kind_of ArtPiece }
