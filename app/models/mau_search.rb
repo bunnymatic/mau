@@ -40,14 +40,12 @@ class MauSearch
                     else
                       fetch_results_by_medium_or_studio
                     end || {}
-
     partial_results = filter_results(results_by_kw)
 
     results = {}
     partial_results.each do |entry|
       results[entry.id] = entry if entry.id and entry.artist && entry.artist.active?
     end
-
     results.values.sort_by { |p| p.updated_at }
 
   end
@@ -61,8 +59,8 @@ class MauSearch
     kw_query = sql_like_query_param(kw)
     query_params = [kw_query]*3
     clause = '(firstname like ? or lastname like ? or lower(nomdeplume) like ?)'
-    artists = Artist.active.where([clause, query_params].flatten)
-    artists.map(&:art_pieces).flatten
+    artist_list = artists.where([clause, query_params].flatten)
+    artist_list.map(&:art_pieces).flatten
   end
 
   def matches_by_artist_full_name(kw)
@@ -86,8 +84,19 @@ class MauSearch
     ArtPiece.where(:id => tags.map(&:art_piece_id) )
   end
 
+  def artists
+    @artists ||= Artist.active
+  end
+
   def art_pieces_by_studio
-    @art_pieces_by_studio ||= Artist.where(:studio_id => studio_ids).map(&:art_pieces).flatten
+    @art_pieces_by_studio ||= 
+      begin
+        r = artists.where(:studio_id => studio_ids).map(&:art_pieces).flatten
+        if studio_ids.include '0'
+          r += artists.where('studio_id is null')
+        end
+        r
+      end
   end
 
   def art_pieces_by_medium

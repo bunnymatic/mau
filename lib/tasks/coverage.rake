@@ -14,7 +14,7 @@ begin
     RSpec::Core::RakeTask.new(:all)
   end
 
-  task(:spec).clear.enhance(['db:test:prepare', 'spec:enable_coverage', 'spec:all', 'cucumber:ok'])
+  #task(:spec).clear.enhance(['db:test:prepare', 'spec:enable_coverage', 'spec:all', 'cucumber:ok'])
 rescue LoadError
   task :spec do
     puts "Failed to load rspec"
