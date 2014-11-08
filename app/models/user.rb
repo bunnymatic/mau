@@ -218,7 +218,7 @@ class User < ActiveRecord::Base
   end
 
   def recently_activated?
-    activated_at && ((Time.zone.now - activated_at) < 1.minute)
+    activated_at && ((Time.zone.now - activated_at) < 10.seconds)
   end
 
   def recently_reset?

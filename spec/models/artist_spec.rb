@@ -11,18 +11,13 @@ describe Artist do
   let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }
   let(:artist_without_studio) { FactoryGirl.create(:artist, :active,:with_art) }
   let(:artist_info) { artist.artist_info }
-  let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
+  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
   context 'make sure our factories work' do
-    it 'creates an artist info' do
-      a = FactoryGirl.create(:artist, :active)
-      expect(a.artist_info).to be_present
-    end
-    it 'creates an editor' do
-      expect(FactoryGirl.create(:artist, :editor, :active).is_editor?).to be_true
-    end
-    it 'creates an admin' do
-      expect(FactoryGirl.create(:artist, :admin, :active).is_admin?).to be_true
+    it 'creates an artist info with each artist' do
+      expect {
+        a = FactoryGirl.create(:artist, :active)
+      }.to change(ArtistInfo, :count).by 1
     end
   end
 
@@ -308,7 +303,7 @@ describe Artist do
       Artist.tally_os
       a = Artist.all.reject{|a| a.doing_open_studios?}.first
       t = OpenStudiosTally.last
-      a.artist_info.update_os_participation(Conf.oslive.to_s, true)
+      a.artist_info.update_os_participation(open_studios_event.key, true)
       a.artist_info.save
       Artist.tally_os
       OpenStudiosTally.last.count.should eql(t.count + 1)

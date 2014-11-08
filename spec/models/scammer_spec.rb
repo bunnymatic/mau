@@ -13,6 +13,7 @@ EOM
 
     stub_request(:get, Regexp.new( "https:\/\/api.faso.com\/1\/scammers*")).
                  to_return({:status => 200, :body => test_data})
+    FactoryGirl.create_list(:scammer, 2)
   end
   describe '#importFromFASO' do
     it 'adds new data to the scammers list' do

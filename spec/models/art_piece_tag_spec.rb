@@ -25,15 +25,15 @@ describe ArtPieceTag do
       f = ArtPieceTag.frequency
       tags = f.collect {|t| t["tag"]}
       cts = f.collect {|t| t["ct"]}
-      expect(cts).to eql [1.0, 0.8, 0.6, 0.4, 0.2]
+      expect(cts).to eql [1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 0.5]
       expect(tags.first).to eql art_pieces.first.id
     end
     it "frequency returns un-normalized frequency correctly" do
       f = ArtPieceTag.frequency(normalize=false)
       tags = f.collect {|t| t["tag"]}
       cts = f.collect {|t| t["ct"]}
-      expect(cts).to eql [5,4,3,2,1]
-      expect(tags.last).to eql art_pieces.last.id
+      expect(cts).to eql [2, 2, 2, 2, 1, 1, 1, 1, 1]
+      expect(tags.last).to eql art_pieces.first.id
     end
 
     it 'tries the cache on the first hit' do

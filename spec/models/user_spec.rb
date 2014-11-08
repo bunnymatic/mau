@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   let(:simple_artist) { FactoryGirl.build(:artist) }
-  let(:maufan) { FactoryGirl.create(:fan) }
+  let(:maufan) { FactoryGirl.create(:fan, :active) }
   let(:artist) { FactoryGirl.create(:artist, :with_art, profile_image: 'profile.jpg') }
   let(:admin) { FactoryGirl.create(:artist, :admin, :with_art) }
   let(:manager) { FactoryGirl.create(:artist, :manager, :with_studio) }
@@ -17,7 +17,11 @@ describe User do
   subject(:user) { FactoryGirl.build(:user, :active) }
 
   before do
-    Rails.cache.stub(read: :nil)
+    Timecop.freeze
+    Rails.cache.clear
+  end
+  after do
+    Timecop.return
   end
 
   it 'requires password and password confirmation' do
@@ -415,6 +419,9 @@ describe User do
 
   describe "forgot password methods" do
     context "artfan" do
+      before do
+        Timecop.travel(1.hour.since)
+      end
       it "create_reset_code creates a reset code" do
         maufan.reset_code.should be_nil
         expect {
