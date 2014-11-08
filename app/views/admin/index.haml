@@ -9,12 +9,11 @@
         - stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v|
           %li #{"%s : %s" % [k.to_s.titleize,v]}
   - category = 'open_studios'
-  - stats = @activity_stats.open_studios
   .section{:class => category}
     %h3 #{category.to_s.titleize}
     %ul
-      - stats.sort{|a,b| b.to_s <=> a.to_s }.each do |k,v|
-        %li #{"%s : %s" % [k.to_s.titleize,v]}
+      - @activity_stats.open_studios.sort_by(&:first).reverse.each do |k,v|
+        %li #{"%s : %s" % [k,v]}
     .current
       - if current_open_studios
         Downloads:

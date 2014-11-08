@@ -1,12 +1,22 @@
 class SiteStatistics
 
-  attr_accessor :last_30_days, :last_week, :yesterday, :totals, :open_studios
+  attr_accessor :last_30_days, :last_week, :yesterday, :totals
 
   include OpenStudiosEventShim
 
   def initialize
     compute
   end
+
+  def open_studios
+    {}.tap do |os_stats|
+      available_open_studios_keys.each do |ostag|
+        key = OpenStudiosEvent.for_display(ostag)
+        os_stats[key] = Artist.active.open_studios_participants(ostag).count
+      end
+    end
+  end
+
 
   private
 
@@ -15,7 +25,6 @@ class SiteStatistics
       compute_for_section(k)
     end
     compute_totals
-    compute_os_stats
   end
 
 
@@ -81,13 +90,6 @@ class SiteStatistics
       :events_past => Event.past.count,
       :events_future => Event.future.count
     }
-  end
-
-  def compute_os_stats
-    @as_stats ||= available_open_studios_keys.map(&:to_s).each do |ostag|
-      key = OpenStudiosEvent.for_display(ostag)
-      add_statistic :open_studios, key, Artist.active.open_studios_participants(ostag).count
-    end
   end
 
   def add_statistic(section, stat, value)

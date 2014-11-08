@@ -9,6 +9,8 @@ describe AdminController do
   let(:manager) { FactoryGirl.create(:artist, :manager, :with_studio) }
   let(:artist2) { manager }
 
+  include OpenStudiosEventShim
+
   context 'authorization' do
     [:index, :os_status, :featured_artist, :fans,
      :emaillist, :artists_per_day, :art_pieces_per_day,
@@ -153,8 +155,7 @@ describe AdminController do
     end
     it 'renders open studios info in reverse chrono order' do
       first_tag = OpenStudiosEvent.first.for_display
-      last_tag = OpenStudiosEvent.last.for_display
-      puts response.body
+      last_tag = OpenStudiosEvent.for_display available_open_studios_keys.first
       css_select('.section.open_studios li').first.to_s.should match /#{first_tag}/
       css_select('.section.open_studios li').last.to_s.should match /#{last_tag}/
     end

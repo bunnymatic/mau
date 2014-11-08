@@ -111,6 +111,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
+        FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
         @controller.instance_eval{flash.stub(:sweep)}
         @controller.should_receive(:verify_recaptcha).and_return(true)
       end
@@ -346,7 +347,7 @@ describe UsersController do
         assert_select('#sidebar_nav')
       end
       it "has no sidebar nav when i look at someone elses page" do
-        get :show, :id => fan
+        get :show, :id => artist
         css_select('#sidebar_nav').should be_empty
       end
     end
@@ -503,7 +504,6 @@ describe UsersController do
         it_should_behave_like 'one column layout'
         it { expect(response).to be_success }
         it "gets some random links assigned" do
-          puts response.body
           assigns(:random_picks).size.should > 2
         end
         it "has the no favorites msg" do

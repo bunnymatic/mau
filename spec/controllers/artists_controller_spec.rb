@@ -343,15 +343,15 @@ describe ArtistsController do
       it 'has the artist\'s (truncated) bio as the description' do
         long_bio = Faker::Lorem.paragraphs(15).join
         artist_info.update_attribute(:bio, long_bio)
-        get :show, id: artist_with_tags.id
+        get :show, id: artist.id
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
           c = desc.first.attributes['content']
-          c.should_not eql artist_with_tags.bio
-          c.should include artist_with_tags.bio.to_s[0..420]
+          c.should_not eql artist.bio
+          c.should include artist.bio.to_s[0..420]
           c.should match /\.\.\.$/
           c.should match /^Mission Artists United Artist/
-          c.should include artist_with_tags.get_name(true)
+          c.should include artist.get_name(true)
         end
       end
 

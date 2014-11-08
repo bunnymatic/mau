@@ -28,7 +28,7 @@ class OpenStudiosEvent < ActiveRecord::Base
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\Z/
 
   def for_display(reverse = false)
-    start_date.strftime( reverse ? "%B %Y" : "%Y %B" )
+    start_date.strftime( reverse ? "%b %Y" : "%Y %b" )
   end
 
   # define future/past not as scopes because we want Time.zone.now() to be evaluated at query time
@@ -50,8 +50,8 @@ class OpenStudiosEvent < ActiveRecord::Base
   end
 
   def self.for_display(os_key = nil, reverse = false )
-    if !os_key && current
-      current.for_display
+    if os = OpenStudiosEvent.find_by_key(os_key)
+      os.for_display
     elsif os_key
       os_key = os_key.to_s
       yr = os_key[0..3]
