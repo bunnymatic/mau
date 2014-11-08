@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ArtPieceTag do
 
-  let(:artists) { FactoryGirl.create_list :artist, 2, :with_tagged_art }
+  let(:artists) { FactoryGirl.create_list :artist, 2, :with_art }
   let(:art_pieces) { artists.map(&:art_pieces).flatten }
 
   it{ should validate_presence_of(:name) }
@@ -12,7 +12,7 @@ describe ArtPieceTag do
     before do
       tags = FactoryGirl.create_list :art_piece_tag, 5
       art_pieces.each_with_index do |ap, idx|
-        ap.tags = tags[0..(4-idx)]
+        ap.tags = tags[0..(5-idx)]
         ap.save!
       end
     end
@@ -25,15 +25,13 @@ describe ArtPieceTag do
       f = ArtPieceTag.frequency
       tags = f.collect {|t| t["tag"]}
       cts = f.collect {|t| t["ct"]}
-      expect(cts).to eql [1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 0.5]
-      expect(tags.first).to eql art_pieces.first.id
+      expect(cts).to eql [1.0, 0.8333333333333334, 0.6666666666666666, 0.5, 0.3333333333333333]
     end
     it "frequency returns un-normalized frequency correctly" do
       f = ArtPieceTag.frequency(normalize=false)
       tags = f.collect {|t| t["tag"]}
       cts = f.collect {|t| t["ct"]}
-      expect(cts).to eql [2, 2, 2, 2, 1, 1, 1, 1, 1]
-      expect(tags.last).to eql art_pieces.first.id
+      expect(cts).to eql [6, 5, 4, 3, 2]
     end
 
     it 'tries the cache on the first hit' do
