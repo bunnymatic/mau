@@ -1,8 +1,12 @@
 require 'spec_helper'
 
 describe FeaturedArtistQueue do
+
+  let(:artists) { FactoryGirl.create_list :artist, 5, :with_studio, :with_art }
+  let(:pending_artist) { FactoryGirl.create :artist, :pending }
   before do
     # simulate migration
+    artists
     ActiveRecord::Base.transaction do
       sql = "delete from featured_artist_queue"
       ActiveRecord::Base.connection.execute sql
@@ -64,9 +68,8 @@ describe FeaturedArtistQueue do
   end
   describe "activating an artist" do
     it "adds that artist to the featured artist queue" do
-      pend = users(:pending_artist)
-      expect{ pend.activate! }.to change(FeaturedArtistQueue, :count).by(1)
-      FeaturedArtistQueue.find_by_artist_id(pend.id).should_not be_nil
+      expect{ pending_artist.activate! }.to change(FeaturedArtistQueue, :count).by(1)
+      FeaturedArtistQueue.find_by_artist_id(pending_artist.id).should_not be_nil
     end
   end
 

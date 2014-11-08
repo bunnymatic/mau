@@ -9,6 +9,6 @@ describe SearchQuery do
   its(:page) { should eql 0}
   its(:mode) { should be_nil }
   its(:query) { should be_blank }
-  its(:per_page) { should eql MauSearchQuery::PER_PAGE }
+  its(:per_page) { should eql SearchQuery::PER_PAGE }
 
 end
