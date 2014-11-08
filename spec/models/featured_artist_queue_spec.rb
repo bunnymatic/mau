@@ -77,8 +77,7 @@ describe FeaturedArtistQueue do
     before do
       FeaturedArtistQueue.all.each_with_index do |fa, idx|
         if (idx % 2) == 0
-          fa.featured = Time.zone.now - idx.weeks - 1.day
-          fa.save!
+          fa.update_attribute :featured, Time.zone.now - idx.weeks - 1.day
         end
       end
       FeaturedArtistQueue.count.should > 1
