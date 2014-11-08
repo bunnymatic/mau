@@ -259,8 +259,8 @@ describe Admin::StudiosController do
 
   describe 'unaffiliate_artist' do
     let(:manager_role) { Role.find_by_role('manager') }
-    let(:artist) { (studio.active_artists.to_a - [admin]).first }
-    let(:non_studio_artist) { studio2.active_artists.first }
+    let(:artist) { (studio.artists.active.to_a - [admin]).first }
+    let(:non_studio_artist) { studio2.artists.active.first }
 
     before do
       login_as admin
@@ -270,7 +270,7 @@ describe Admin::StudiosController do
       it 'removes the artist from the studio' do
         expect {
           post :unaffiliate_artist, id: studio.id, artist_id: artist.id
-        }.to change(studio.active_artists, :count).by(-1)
+        }.to change(studio.artists.active, :count).by(-1)
       end
       it 'does not add any studios' do
         expect {
@@ -280,7 +280,7 @@ describe Admin::StudiosController do
       it 'does nothing if the artist is not in the studio' do
         expect {
           post :unaffiliate_artist, id: studio.id, artist_id: non_studio_artist.id
-        }.to change(studio.active_artists, :count).by(0)
+        }.to change(studio.artists.active, :count).by(0)
       end
       it 'redirects to the studio edit page' do
         post :unaffiliate_artist, id: studio.id, artist_id: artist.id
@@ -355,10 +355,9 @@ describe Admin::StudiosController do
         login_as(admin)
         get :index
       end
-      it 'shows an edit and destroy links for all studios' do
-        # add 1 for indy
-        expected_count = Studio.count + 1
-        assert_select(".admin-table tr td a .fa-edit", count: expected_count)
+      it 'shows an edit and destroy links for all studios except indy' do
+        expected_count = Studio.count
+        assert_select(".admin-table tr td a .fa-edit", count: expected_count + 1)
         assert_select(".admin-table tr td a[data-method=delete] .fa-remove", count: expected_count)
       end
       it 'includes a link to add a studio' do

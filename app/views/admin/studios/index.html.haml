@@ -35,13 +35,13 @@
           %a{target: '_blank', href: studio.url} #{studio.url}
         %td.admin-controls
           .show.btn
-            = link_to studio, title: 'Show' do
+            = link_to studio_path(studio), title: 'Show' do
               = fa_icon 'eye-open'
           .edit.btn
             - if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
               = link_to edit_admin_studio_path(studio), title: 'Edit' do
                 = fa_icon 'edit'
           .remove.btn
-            - if current_user.is_admin?
+            - if current_user.is_admin? && !(studio.is_a? IndependentStudio)
               = link_to studio, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                 = fa_icon 'remove'

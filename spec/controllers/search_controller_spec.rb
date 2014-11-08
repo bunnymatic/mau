@@ -2,8 +2,25 @@ require 'spec_helper'
 
 describe SearchController do
 
+
+  let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
+  let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
+  let(:studios) { FactoryGirl.create_list :studio, 4 }
+  let!(:artists) { 
+    FactoryGirl.create_list(:artist, 2, :active, :with_art, studio: studios.first) +
+    FactoryGirl.create_list(:artist, 2, :active, :with_art, studio: studios.last)
+  }
+  let(:artist) { artists.first }
+  let(:art_piece) { artist.art_pieces.first }
+  let(:medium) { art_piece.medium }
+  let(:tag) { art_piece.tags.last }
+  let(:media_search) { artists.map{|a| a.art_pieces.map(&:medium) }.flatten.compact[0..1] }
+  let(:studios_search) { studios[0..1] }
+  let(:open_studio_event) { FactoryGirl.create(:open_studios_event) }
+
   before do
-    Rails.cache.stub(:read => nil)
+    Rails.cache.clear
+    artists.sample(2).map{|a| a.update_os_participation open_studios_event.key, true}
   end
 
   shared_examples_for 'search page with results' do
@@ -14,8 +31,6 @@ describe SearchController do
 
   render_views
 
-  let(:artists) { FactoryGirl.create_list(:artist, 3, :with_studio, :with_art) }
-  let(:studios) { artists.map(&:studio) }
   describe "#index" do
     describe "(with views)" do
       before do
@@ -63,15 +78,14 @@ describe SearchController do
     end
 
     context "finding by studio" do
-      let(:studio_search) { [ studios(:s1890), studios(:as) ] }
       before do
-        get :index, :studios => studio_search.map(&:id), :keywords => 'title'
+        get :index, :studios => studios_search.map(&:id), :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it 'shows the studios you searched for' do
         assert_select '.current_search .block.studios li', :count => 2 do |tag|
-          tag.to_s.should match /#{studios(:s1890).name}/
-            tag.to_s.should match /#{studios(:as).name}/
+          tag.to_s.should match /#{studios.first.name}/
+            tag.to_s.should match /#{studios.last.name}/
         end
       end
       it 'checks the studios you searched for' do
@@ -81,15 +95,14 @@ describe SearchController do
     end
 
     context "finding by medium" do
-      let(:media_search) { [ media(:medium1), media(:medium2) ] }
       before do
         get :index, :mediums => media_search.map(&:id), :keywords => 'title'
       end
       it_should_behave_like 'search page with results'
       it 'shows the media you searched for' do
         assert_select '.current_search .block.mediums li', :count => 2 do |tag|
-          tag.to_s.should match /#{media(:medium1).name}/
-          tag.to_s.should match /#{media(:medium2).name}/
+          tag.to_s.should match /#{media_search.first.name}/
+          tag.to_s.should match /#{media_search.last.name}/
         end
       end
       it 'checks the media you searched for' do
@@ -102,7 +115,7 @@ describe SearchController do
   describe '#fetch' do
     before do
       @artist = FactoryGirl.create(:artist, :active, :with_art, nomdeplume: 'Fancy Pants')
-      post :fetch, :keywords => 'Interesting'
+      post :fetch, :keywords => 'fancy pants'
     end
     it_should_behave_like 'search page with results'
     it "returns some results" do
@@ -121,7 +134,7 @@ describe SearchController do
         post :fetch, :os_artist => nil, :keywords => 'a'
       end
       it 'shows open studios stars as appropriate' do
-        assert_select '.os-star', :count => 8
+        assert_select '.os-star', :count => 6
       end
     end
 

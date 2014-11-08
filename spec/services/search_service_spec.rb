@@ -2,14 +2,6 @@ require "spec_helper"
 
 describe SearchService do
 
-  # fixtures :users, :roles, :roles_users
-  # fixtures :artist_infos
-  # fixtures :art_pieces
-  # fixtures :media
-  # fixtures :art_piece_tags
-  # fixtures :art_pieces_tags
-  # fixtures :studios
-
   before do
     Rails.cache.clear
   end

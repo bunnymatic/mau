@@ -4,7 +4,7 @@ class IndependentStudio
   include ActiveModel::Validations
   include ActiveModel::Conversion
   
-  attr_reader :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone
+  attr_reader :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip
 
   class ImageContainer
     def initialize(img)
@@ -21,6 +21,7 @@ class IndependentStudio
     @street = "The Mission District"
     @city = "San Francisco"
     @state = "CA"
+    @zip = '94110'
     @profile_image = ImageContainer.new("independent-studios.jpg")
     @image_height = 1
     @image_width = 1
