@@ -50,16 +50,20 @@ class OpenStudiosEvent < ActiveRecord::Base
   end
 
   def self.for_display(os_key = nil, reverse = false )
-    if os = OpenStudiosEvent.find_by_key(os_key)
-      os.for_display
-    elsif os_key
-      os_key = os_key.to_s
-      yr = os_key[0..3]
-      mo = os_key[4..-1]
-      seas = (mo == '10') ? 'Oct':'Apr'
-      "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
+    if !os_key
+      OpenStudiosEvent.current.try(:for_display,reverse)
     else
-      'n/a'
+      if os = OpenStudiosEvent.find_by_key(os_key)
+        os.for_display
+      elsif os_key
+        os_key = os_key.to_s
+        yr = os_key[0..3]
+        mo = os_key[4..-1]
+        seas = (mo == '10') ? 'Oct':'Apr'
+        "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
+      elsif 
+        'n/a'
+      end
     end
   end
 

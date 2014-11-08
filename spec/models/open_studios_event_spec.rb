@@ -17,6 +17,7 @@ describe OpenStudiosEvent do
   }
 
   before do
+    OpenStudiosEvent.any_instance.stub(:save_attached_files).and_return(true)
     Timecop.freeze
     [ past_oses, current_os, future_oses ].flatten
   end
@@ -27,7 +28,7 @@ describe OpenStudiosEvent do
 
   describe '.pretty_print' do
     it "returns the pretty version for the current os" do
-      expect(OpenStudiosEvent.for_display).to eql current_os.start_date.strftime("%Y %B")
+      expect(OpenStudiosEvent.for_display).to eql current_os.start_date.strftime("%Y %b")
     end
     it "returns the pretty version for a given tag" do
       expect(OpenStudiosEvent.for_display("201104")).to eql current_os.start_date.strftime("2011 Apr")
@@ -36,7 +37,7 @@ describe OpenStudiosEvent do
 
   describe '#for_display' do
     it "returns the pretty version for the current os" do
-      expect(current_os.for_display).to eql current_os.start_date.strftime("%Y %B")
+      expect(current_os.for_display).to eql current_os.start_date.strftime("%Y %b")
     end
   end
 
