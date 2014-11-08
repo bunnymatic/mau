@@ -1,4 +1,4 @@
-class MauSearch
+class SearchService
 
   attr_reader :query
   delegate :os_flag, :mediums, :studios, :to => :query
@@ -47,7 +47,6 @@ class MauSearch
       results[entry.id] = entry if entry.id and entry.artist && entry.artist.active?
     end
     results.values.sort_by { |p| p.updated_at }
-
   end
 
   private
@@ -92,8 +91,8 @@ class MauSearch
     @art_pieces_by_studio ||= 
       begin
         r = artists.where(:studio_id => studio_ids).map(&:art_pieces).flatten
-        if studio_ids.include '0'
-          r += artists.where('studio_id is null')
+        if (studio_ids.include? 0)
+          r += artists.where('studio_id is null').map(&:art_pieces).flatten
         end
         r
       end
@@ -132,7 +131,13 @@ class MauSearch
   end
 
   def filter_by_studios(results)
-    studios.present? ? results.reject{|ap| !ap.artist || !studio_ids.include?(ap.artist.studio_id)} : results
+    if studios.present? 
+      results.select do |ap| 
+        ap.artist && (studio_ids.include?(ap.artist.studio_id) || ((studio_ids.include? 0) && ap.artist.studio.nil?))
+      end
+    else
+      results
+    end
   end
 
   def filter_by_os_flag(results)

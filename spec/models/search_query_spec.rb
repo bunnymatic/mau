@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MauSearchQuery do
+describe SearchQuery do
 
   its(:keywords) { should be_empty }
   its(:mediums) { should be_empty }

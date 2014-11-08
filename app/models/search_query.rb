@@ -1,4 +1,4 @@
-class MauSearchQuery
+class SearchQuery
 
   PER_PAGE = 12
 

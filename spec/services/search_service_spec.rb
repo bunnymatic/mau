@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe MauSearch do
+describe SearchService do
 
   # fixtures :users, :roles, :roles_users
   # fixtures :artist_infos
@@ -27,19 +27,19 @@ describe MauSearch do
   let(:keywords) { '' }
   let(:os_flag) { nil }
   let(:query) {
-    MauSearchQuery.new(keywords: keywords,
-                       studios: search_studios.map{ s.try(:id)},
+    SearchQuery.new(keywords: keywords,
+                       studios: search_studios.map{|s| s.try(:id).to_i },
                        mediums: search_mediums.map(&:id),
                        os_artist: os_flag)
   }
   
   before(:all) do
     FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, firstname: 'Firstname')
-    FactoryGirl.create(:artist, nomdeplume: "Interesting", firstname: 'Firstname')
+    FactoryGirl.create(:artist, nomdeplume: "Interesting", firstname: 'Firstname' )
     FactoryGirl.create(:artist, :active, :with_art, nomdeplume: "Interesting", firstname: 'Firstname')
   end
 
-  subject(:search) { MauSearch.new(query) }
+  subject(:search) { SearchService.new(query) }
   let(:results) { subject.search }
 
 
@@ -144,6 +144,7 @@ describe MauSearch do
   context 'finding indy studio work' do
     let(:search_studios) { [Studio.indy] }
     its(:search) { should have_at_least(1).item }
+    
     it { expect(results.map{|r| r.artist.studio_id.to_i}.uniq).to eql [0] }
   end
 
@@ -166,9 +167,9 @@ describe MauSearch do
 
   context 'finding by studio' do
     let(:keywords) { 'firstname' }
-    let(:search_studios) { [studios.first] }
+    let(:search_studios) { [studios[1]] }
 
-    it { expect(results).to have(12).items }
+    it { expect(results).to have(9).items }
     it { expect(results.first).to be_a_kind_of ArtPiece }
     it 'results should come from one of the included studios' do
       found = results.map{|r| r.artist.studio.try(:id) }
