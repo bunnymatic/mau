@@ -55,7 +55,7 @@ Then(/^I see a flash notice "(.*?)"$/) do |msg|
 end
 
 Then(/^I close the notice$/) do
-  find('.notice .close-btn').click()
+  find('.notice .close-btn').trigger('click')
 end
 
 When(/^I visit the "(.*?)" page$/) do |titleized_path_name|

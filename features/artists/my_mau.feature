@@ -4,6 +4,7 @@ Feature:
 
 Background:
   Given I login as an artist
+  And there are future open studios events
 
 Scenario:
   When I visit my home page
@@ -33,6 +34,7 @@ Scenario:
   And I click on "yep"
   Then I see a flash notice "more the merrier"
   And I close the notice
+  And I save a screenshot
   And I see that I've successfully signed up for Open Studios
 
   And I click on "nope"
