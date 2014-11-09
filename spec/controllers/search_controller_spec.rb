@@ -7,8 +7,8 @@ describe SearchController do
   let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
   let(:studios) { FactoryGirl.create_list :studio, 4 }
   let!(:artists) { 
-    FactoryGirl.create_list(:artist, 2, :active, :with_art, studio: studios.first) +
-    FactoryGirl.create_list(:artist, 2, :active, :with_art, studio: studios.last)
+    FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios.first) +
+    FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios.last)
   }
   let(:artist) { artists.first }
   let(:art_piece) { artist.art_pieces.first }
@@ -37,20 +37,19 @@ describe SearchController do
         get :index
       end
       it_should_behave_like "not logged in"
-      it 'includes display data on the medium inputs' do
+      it 'includes display data on the studio and medium inputs' do
         assert_select '#medium_chooser input[data-display]'
-      end
-      it 'includes display data on the studio inputs' do
         assert_select '#studio_chooser input[data-display]'
       end
       it "puts the keywords back in no results report" do
-        assert_select '.no-results', :match => 'match your query'
+        assert_select '.no-results', match: 'match your query'
       end
     end
 
     context "for something we don't have" do
+      let(:keywords) { 'move along.  this string should not match anything' }
       before do
-        get :index, :keywords => "go fuck yourself.  this string ought to never match anything"
+        get :index, keywords: keywords
       end
       it_should_behave_like 'search page with results'
       it "returns nothing" do
@@ -58,16 +57,15 @@ describe SearchController do
       end
       it "puts the keywords back in the search box" do
         assert_select '#keywords' do |tag|
-          tag[0].attributes['value'].should eql 'go fuck yourself.  this string ought to never match anything'
+          tag[0].attributes['value'].should eql keywords
         end
       end
       it "show message indicating that nothing matched" do
-        get :index, :keywords => "go fuck yourself.  this string ought to never match anything"
-        response.body.should include("go fuck yourself")
+        response.body.should include("move along")
         response.body.should include("couldn't find anything that matched")
       end
-      ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Participants"].each do |sxn|
-        it "has blocks in refine your search for #{sxn}" do
+      it "has blocks in refine your search for sub sections" do
+        ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Participants"].each do |sxn|
           assert_select ".refine_controls h5.block_head", sxn + ":"
         end
       end
@@ -79,35 +77,35 @@ describe SearchController do
 
     context "finding by studio" do
       before do
-        get :index, :studios => studios_search.map(&:id), :keywords => 'title'
+        get :index, studios: studios_search.map(&:id), keywords: 'title'
       end
       it_should_behave_like 'search page with results'
       it 'shows the studios you searched for' do
-        assert_select '.current_search .block.studios li', :count => 2 do |tag|
+        assert_select '.current_search .block.studios li', count: 2 do |tag|
           tag.to_s.should match /#{studios.first.name}/
             tag.to_s.should match /#{studios.last.name}/
         end
       end
       it 'checks the studios you searched for' do
         assigns(:query).studios.should have(2).studios
-        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:query).studios.count
+        assert_select '.refine_controls .cb_entry input[checked=checked]', count: assigns(:query).studios.count
       end
     end
 
     context "finding by medium" do
       before do
-        get :index, :mediums => media_search.map(&:id), :keywords => 'title'
+        get :index, mediums: media_search.map(&:id), keywords: 'title'
       end
       it_should_behave_like 'search page with results'
       it 'shows the media you searched for' do
-        assert_select '.current_search .block.mediums li', :count => 2 do |tag|
+        assert_select '.current_search .block.mediums li', count: 2 do |tag|
           tag.to_s.should match /#{media_search.first.name}/
           tag.to_s.should match /#{media_search.last.name}/
         end
       end
       it 'checks the media you searched for' do
         assigns(:query).mediums.should have(2).media
-        assert_select '.refine_controls .cb_entry input[checked=checked]', :count => assigns(:query).mediums.count
+        assert_select '.refine_controls .cb_entry input[checked=checked]', count: assigns(:query).mediums.count
       end
     end
   end
@@ -115,7 +113,7 @@ describe SearchController do
   describe '#fetch' do
     before do
       @artist = FactoryGirl.create(:artist, :active, :with_art, nomdeplume: 'Fancy Pants')
-      post :fetch, :keywords => 'fancy pants'
+      post :fetch, keywords: 'fancy pants'
     end
     it_should_behave_like 'search page with results'
     it "returns some results" do
@@ -129,18 +127,17 @@ describe SearchController do
     end
 
     context 'finding by openstudios status' do
-      render_views
       before do
-        post :fetch, :os_artist => nil, :keywords => 'a'
+        post :fetch, os_artist: nil, keywords: 'name1'
       end
       it 'shows open studios stars as appropriate' do
-        assert_select '.os-star', :count => 6
+        assert_select '.os-star', count: 6
       end
     end
 
     context 'with per_page set' do
       before do
-        post :fetch, :keywords => 'a', :per_page => 48
+        post :fetch, keywords: 'name1', per_page: 48
       end
       it 'resets the per_page to something reasonable' do
         assigns(:query).per_page.should_not eql 48
