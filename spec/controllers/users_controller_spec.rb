@@ -970,7 +970,7 @@ describe UsersController do
       before do
         post :upload_profile
       end
-      it_should_behave_like 'login required'
+      it_should_behave_like 'redirects to login'
     end
 
     context "while authorized" do

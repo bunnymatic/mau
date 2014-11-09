@@ -12,11 +12,11 @@ describe CatalogPresenter do
 
   before do
     artists[0..1].each do |artist|
-      artist.update_os_participation open_studios_event.current.key, true
+      artist.update_os_participation open_studios_event.key, true
     end
   end
 
-  its(:csv_filename) { should eql "mau_catalog_#{OpenStudiosEvent.current.key}.csv" }
+  its(:csv_filename) { should eql "mau_catalog_#{open_studios_event.key}.csv" }
   its("all_artists.all.sort") {
     should eql Artist.active.open_studios_participants.all.sort
   }

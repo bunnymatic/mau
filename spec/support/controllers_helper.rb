@@ -38,25 +38,16 @@ end
 
 # for all
 shared_examples_for "logged in user" do
-  it "header bar should say hello" do
+  it "header bar should say hello with login and logout and signup links as appopriate" do
     assert_select("span.logout-nav", :text => /hello/)
-  end
-  it "header bar should have my login name as a link" do
-    if @logged_in_user.type == "Artist"
-      assert_select("span.logout-nav a", :text => @logged_in_user.login)
-    else
-      assert_select("span.logout-nav ", :text => /#{@logged_in_user.login}/)
-    end
-  end
-  it "header bar should have logout tag" do
-    assert_select("span.last a[href=/logout]");
-  end
-  it 'has link to signup for os' do
     if @logged_in_user.is_a? Artist
+      assert_select("span.logout-nav a", :text => @logged_in_user.login)
       assert_select "#osnav .dir .leaf a[href=#{edit_artist_path(@logged_in_user)}#events]"
     else
+      assert_select("span.logout-nav ", :text => /#{@logged_in_user.login}/)
       assert_select "#osnav .dir .leaf a[href=#{login_path}]"
     end
+    assert_select("span.last a[href=/logout]");
   end
 end
 
@@ -92,14 +83,10 @@ shared_examples_for "logged in as admin" do
 
 end
 
-shared_examples_for 'login required' do
+shared_examples_for "redirects to login" do
   it "redirects to login" do
     expect(response).to redirect_to(new_user_session_path)
   end
-end
-
-shared_examples_for "redirects to login" do
-  it_should_behave_like 'login required'
 end
 
 shared_examples_for "not logged in" do
@@ -133,10 +120,8 @@ end
 
 shared_examples_for 'standard sidebar layout' do
   it_should_behave_like 'two column layout'
-  it 'has a new art sidebar element' do
+  it 'has a new art sidebar element which is sorted' do
     assert_select '.lcol .new_art'
-  end
-  it 'assigns new art sorted by created at' do
     new_art = assigns(:new_art)
     new_art.should be_present
     new_art.sort_by(&:created_at).reverse.map(&:id).should == new_art.map(&:id)
