@@ -1,7 +1,7 @@
 Feature:
 
   Visitors to the open studios landing page 
-  should see a information about open studios
+  see a information about open studios
   so they can plan their visit
 
 Background:
@@ -11,12 +11,12 @@ Background:
 Scenario:  Visiting the home page
   When I visit the home page
   And I click on "open studios" in the menu
-  Then I should see the open studios cms content
-  And I should see the open studios content is not editable
+  Then I see the open studios cms content
+  And I see the open studios content is not editable
 
 Scenario:  Visiting the home page as an editor
   Given I login as an editor
   When I visit the home page
   And I click on "open studios" in the menu
-  Then I should see the open studios cms content
-  And I should see the open studios content is editable
+  Then I see the open studios cms content
+  And I see the open studios content is editable

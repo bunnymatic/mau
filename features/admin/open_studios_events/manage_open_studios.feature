@@ -21,3 +21,10 @@ Scenario: Adding a new open studios event
   When I click on the first "Delete" button
   Then I see that the new open studios event is no longer there
 
+Scenario: Editing an existing open studios event
+  When I click on "os dates" in the admin menu
+  And I click on the last "Edit" link
+  And I change the date to next month
+  Then I see the open studios events
+  And I see the updated open studios event
+  

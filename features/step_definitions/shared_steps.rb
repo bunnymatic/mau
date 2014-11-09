@@ -32,7 +32,7 @@ Then /^show me the page$/ do
   save_and_open_page
 end
 
-Then /^I save a screenshot$/ do
+Then /^I (save|take) a screenshot$/ do |dummy|
   f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
   save_screenshot(f)
   puts "Saved Screenshot #{f}"
@@ -88,7 +88,7 @@ When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
   end
 end
 
-When(/^I click on the last "([^"]*?)" button$/) do |button_text|
+When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, dummy|
   within('.tbl-content') do
     find_last_link_or_button(button_text).click
   end

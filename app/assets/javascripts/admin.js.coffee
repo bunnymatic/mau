@@ -14,7 +14,6 @@
 #= require jquery.flot
 #= require jquery.flot.resize
 #= require select2
-#= require colorbox
 #= require pickadate/picker
 #= require pickadate/picker.date
 #= require pickadate/picker.time

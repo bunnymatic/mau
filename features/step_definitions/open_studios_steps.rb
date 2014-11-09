@@ -1,25 +1,49 @@
-Then(/^I should see the open studios cms content/) do
+Then /I see information for the current open studios/ do
+  os = OpenStudiosEvent.current
+  expect(page).to have_selector '.logo a img' do |tag|
+    tag.src.should == os.logo.url(:square)
+  end
+end
+
+Then(/^I see the open studios cms content/) do
   expect(page).to have_selector '.section.markdown[data-section=summary]'
   expect(page).to have_selector '.section.markdown[data-section=preview_reception]'
 end
 
-Then(/^I should see the open studios content is not editable/) do
+Then(/^I see the open studios content is not editable/) do
   expect(page).to_not have_selector '#open_studios .section.markdown.editable'
 end
 
-Then(/^I should see the open studios content is editable/) do
+Then(/^I see the open studios content is editable/) do
   expect(page).to have_selector '#open_studios .section.markdown.editable'
 end
 
 Then(/^I see the open studios events$/) do
-  expect(page).to have_selector 'table tbody tr', :count => @open_studios_events.length
-  expect(page).to have_selector 'table tbody tr td.key', :text => @open_studios_events.first.key
+  expect(page).to have_selector 'table.os-events tbody tr', count: OpenStudiosEvent.count
+  expect(page).to have_selector 'table.os-events tbody tr td.key', text: OpenStudiosEvent.all.first.key
 end
 
 Then /^I see a new open studios form$/ do
   expect(page).to have_selector 'form'
   expect(page).to have_selector '#open_studios_event_start_date.js-datepicker'
   expect(page).to have_selector '#open_studios_event_end_date.js-datepicker'
+end
+
+Then /I change the date to next month/ do
+  @start_date = Time.zone.now + 1.month
+  @end_date = @start_date + 1.day
+
+  fill_in "Start date", with: @start_date
+  fill_in "End date", with: @end_date
+  fill_in "Key", with: @start_date.strftime("%Y%m")
+  click_on "Update"
+end
+
+Then /I see the updated open studios event/ do
+  @os_event = OpenStudiosEvent.where(key: @start_date.strftime("%Y%m")).first
+  expect(@os_event).to be_present
+  expect(@os_event.end_date.to_i).to eql @end_date.to_i
+  expect(@os_event.key).to eql @start_date.strftime("%Y%m")
 end
 
 Then /^I fill in the open studios event form for next weekend without a key$/ do
@@ -45,9 +69,9 @@ Then /^I fill in the open studios event form for next weekend$/ do
 end
 
 Then /^I see a new open studios event$/ do
-  @os_event = OpenStudiosEvent.where(start_date: @start_date).first
+  @os_event = OpenStudiosEvent.where(key: @start_date.strftime("%Y%m")).first
   expect(@os_event).to be_present
-  expect(@os_event.end_date).to eql @end_date
+  expect(@os_event.end_date.to_i).to eql @end_date.to_i
   expect(@os_event.key).to eql @start_date.strftime("%Y%m")
   expect(@os_event.title).to eql @os_title
 end

@@ -4,7 +4,7 @@
   .admin-controls
     = link_to new_admin_open_studios_event_path, title: 'add new open studios date' do
       = fa_icon "plus"
-  %table
+  %table.os-events
     %thead
       %tr
         %th key
@@ -25,7 +25,7 @@
             - if os_event.logo?
               = link_to os_event.logo.original_filename, os_event.logo.url(:square), target: '_blank'
           %td.input-name
-            = link_to os_event.edit_path, title: 'edit' do
+            = link_to os_event.edit_path, title: 'Edit' do
               = fa_icon 'edit'
             = link_to os_event.destroy_path, confirm: 'Are you sure?', method: :delete, title: "Delete" do
               = fa_icon 'remove'
