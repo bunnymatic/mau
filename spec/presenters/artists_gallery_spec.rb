@@ -6,12 +6,17 @@ describe ArtistsGallery do
 
   let(:current_page) { 1 }
   let(:per_page) { 2 }
-  let!(:artists) { FactoryGirl.create_list :artist, 4, :with_art }
+  let(:artists) { FactoryGirl.create_list :artist, 4, :with_art }
   let(:alpha_artists) { artists.sort_by{|a| a.lastname.downcase} }
   let(:showing_artists) { artists.select{|a| a.representative_piece} }
   let(:os_only) { false }
 
   subject(:presenter) { ArtistsGallery.new(mock_view_context, os_only, current_page, per_page) }
+
+  before do
+    fix_leaky_fixtures
+    artists
+  end
 
   its(:current_page) { should eql current_page }
   its(:per_page) { should eql per_page }

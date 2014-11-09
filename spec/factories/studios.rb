@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :studio do
-    name { Faker::Company.name }
+    name { "O'R" + Faker::Company.name }
     street { Faker::Address.street_name }
     city { Faker::Address.city }
     state { Faker::Address.state }

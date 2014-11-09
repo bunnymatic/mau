@@ -6,6 +6,7 @@ describe Event do
   let(:past_event) { FactoryGirl.create(:event, starttime: Time.zone.now - 2.days, endtime: Time.zone.now - 1.day) }
 
   before do
+    fix_leaky_fixtures
     future_event
     past_event
   end

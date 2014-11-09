@@ -6,7 +6,7 @@ describe SearchController do
   let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
   let(:studios) { FactoryGirl.create_list :studio, 4 }
-  let!(:artists) { 
+  let(:artists) { 
     FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios.first) +
     FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios.last)
   }
@@ -19,7 +19,9 @@ describe SearchController do
   let(:open_studio_event) { FactoryGirl.create(:open_studios_event) }
 
   before do
+    fix_leaky_fixtures
     artists.sample(2).map{|a| a.update_os_participation open_studios_event.key, true}
+    studios
   end
 
   shared_examples_for 'search page with results' do
@@ -80,9 +82,11 @@ describe SearchController do
       end
       it_should_behave_like 'search page with results'
       it 'shows the studios you searched for' do
-        assert_select '.current_search .block.studios li', count: 2 do |tag|
-          tag.to_s.should match /#{studios.first.name}/
-            tag.to_s.should match /#{studios.last.name}/
+        assert_select '.current_search .block.studios li', count: 2 do |tag| 
+          items = tag.map(&:to_s).join
+          studios_search.each do |s|
+            items.should match s.name
+          end
         end
       end
       it 'checks the studios you searched for' do
@@ -98,8 +102,9 @@ describe SearchController do
       it_should_behave_like 'search page with results'
       it 'shows the media you searched for' do
         assert_select '.current_search .block.mediums li', count: 2 do |tag|
-          tag.to_s.should match /#{media_search.first.name}/
-          tag.to_s.should match /#{media_search.last.name}/
+          items = tag.map(&:to_s).join
+          items.should match /#{media_search.first.name}/
+          items.should match /#{media_search.last.name}/
         end
       end
       it 'checks the media you searched for' do

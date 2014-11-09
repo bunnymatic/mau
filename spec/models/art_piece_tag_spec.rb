@@ -5,6 +5,10 @@ describe ArtPieceTag do
   let(:artists) { FactoryGirl.create_list :artist, 2, :with_art }
   let(:art_pieces) { artists.map(&:art_pieces).flatten }
 
+  before do
+    fix_leaky_fixtures
+  end
+
   it{ should validate_presence_of(:name) }
   it{ should ensure_length_of(:name).is_at_least(3).is_at_most(25) }
 

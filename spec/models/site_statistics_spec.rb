@@ -5,7 +5,8 @@ describe SiteStatistics do
   subject(:stats) { SiteStatistics.new }
   
   before do
-    
+    fix_leaky_fixtures
+
     Timecop.freeze
 
     FactoryGirl.create_list(:studio, 2)

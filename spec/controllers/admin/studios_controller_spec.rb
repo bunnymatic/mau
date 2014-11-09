@@ -143,7 +143,7 @@ describe Admin::StudiosController do
           tag.first.attributes['value'].should eql studio.url
         end
         assert_select 'form input#studio_name' do |tag|
-          tag.first.attributes['value'].should eql HTMLEntities.new.encode(manager.studio.name, :named, :hexadecimal)
+          tag.first.attributes['value'].should eql HTMLEntities.new.encode(manager.studio.name, :hexadecimal)
         end
         assert_select 'form input[type=submit]' do |tag|
           tag.first.attributes['value'].should eql 'Update Studio'
@@ -327,7 +327,7 @@ describe Admin::StudiosController do
       it_should_behave_like 'returns success'
       it 'shows a table of all studios' do
         Studio.all.each do |s|
-          assert_select ".admin-table tr td a[href=#{studio_path(s)}]", HTMLEntities.new.encode(s.name, :named, :hexadecimal)
+          assert_select ".admin-table tr td a[href=#{studio_path(s)}]", HTMLEntities.new.encode(s.name, :hexadecimal)
           assert_select ".admin-table tr td a[href=#{s.url}]" if s.url && s.url.present?
         end
       end

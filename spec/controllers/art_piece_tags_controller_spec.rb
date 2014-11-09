@@ -4,10 +4,15 @@ def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
 
 describe ArtPieceTagsController do
 
-  let!(:artists) { FactoryGirl.create_list(:artist, 3, :with_tagged_art) }
+  let(:artists) { FactoryGirl.create_list(:artist, 3, :with_tagged_art) }
   let(:artist) { artists.first }
   let(:tags) { artist.art_pieces.map(&:tags).flatten }
   let(:tag) { tags.first }
+
+  before do
+    fix_leaky_fixtures
+    artists
+  end
 
   describe '#index' do
     describe 'format=html' do

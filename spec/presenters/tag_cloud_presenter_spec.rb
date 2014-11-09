@@ -7,7 +7,7 @@ describe TagCloudPresenter, :type => :controller do
   let(:mode) { 'a' }
   let(:clz) { ArtPieceTag }
   let(:artist) { FactoryGirl.create :artist, :with_art, number_of_art_pieces: 7 }
-  let!(:tags) { 
+  let(:tags) { 
     tags = FactoryGirl.create_list(:art_piece_tag, 3)
     artist.art_pieces.reverse.each_with_index do |ap, idx|
       ap.tags = ap.tags + [tags.first]
@@ -22,10 +22,16 @@ describe TagCloudPresenter, :type => :controller do
 
   subject(:cloud) { TagCloudPresenter.new(mock_view_context, clz, current_tag, mode) }
 
+  before do
+    fix_leaky_fixtures
+    tags
+  end
+
   its(:current_tag) { should eql current_tag }
   its(:mode) { should eql mode }
   its(:frequency) { should eql expected_frequency }
   its('tags.all') { should eql ArtPieceTag.where(:id => expected_frequency.map{|f| f['tag']}).all }
+
 
   it 'returns the tag path' do
     expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, :m => mode)

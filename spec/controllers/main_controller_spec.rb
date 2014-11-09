@@ -66,10 +66,14 @@ describe MainController do
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:editor) { FactoryGirl.create(:artist, :active, :editor) }
   let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let!(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
-  let!(:prolific_artist) { FactoryGirl.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
+  let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
+  let(:prolific_artist) { FactoryGirl.create(:artist, :active, :with_art, number_of_art_pieces: 15) }
 
   before do
+    # seems like we have leaky database records
+    fix_leaky_fixtures
+    artist
+    prolific_artist
     FactoryGirl.create(:open_studios_event, :future)
   end
 
