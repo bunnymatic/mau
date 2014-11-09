@@ -14,7 +14,7 @@
 # definition into the server list. The second argument
 # something that quacks like a hash can be used to set
 # extended properties on the server.
-server 'mau-acceptance.missionartistsunited.com',
+server 'mau.rcode5.com',
   user: 'deploy',
   roles: %w{web app db}, my_property: :my_value,
   ssh_options: {
@@ -23,8 +23,8 @@ server 'mau-acceptance.missionartistsunited.com',
   }
 
 #ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
-set :branch, 'rails3'
-set :deploy_to, '/home/deploy/deployed/mau'
+set :branch, 'development'
+set :deploy_to, '/home/deploy/mau'
 
 # you can set custom ssh options
 # it's possible to pass any option but you need to keep in mind that net/ssh understand limited list of options
