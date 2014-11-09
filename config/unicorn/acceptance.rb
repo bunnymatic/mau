@@ -4,7 +4,8 @@ pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
 stdout_path "#{root}/log/unicorn.log"
 
-listen "/tmp/unicorn.mau.sock"
+# apache needs a port - not sockets
+listen 5100
 worker_processes 2
 timeout 30
 
