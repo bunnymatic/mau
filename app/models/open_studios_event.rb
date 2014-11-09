@@ -61,7 +61,7 @@ class OpenStudiosEvent < ActiveRecord::Base
         mo = os_key[4..-1]
         seas = (mo == '10') ? 'Oct':'Apr'
         "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
-      elsif 
+      else
         'n/a'
       end
     end

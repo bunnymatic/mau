@@ -4,7 +4,15 @@ class IndependentStudio
   include ActiveModel::Validations
   include ActiveModel::Conversion
   
-  attr_reader :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip
+  attr_reader :studio
+
+  delegate :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, to: :studio
+
+  class InnerStudio < Struct.new(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image)
+    def initialize(h)
+      super(*h.values_at(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image))
+    end
+  end
 
   class ImageContainer
     def initialize(img)
@@ -13,20 +21,25 @@ class IndependentStudio
     def url(*args)
       @img
     end
+    def to_json
+      url
+    end
   end
 
   def initialize(*args)
-    @id = 0
-    @name = 'Independent Studios'
-    @street = "The Mission District"
-    @city = "San Francisco"
-    @state = "CA"
-    @zip = '94110'
-    @profile_image = ImageContainer.new("independent-studios.jpg")
-    @image_height = 1
-    @image_width = 1
-    @cross_street = nil
-    @phone = nil
+    @studio = InnerStudio.new({
+                                id: 0,
+                                name: 'Independent Studios',
+                                street: "The Mission District",
+                                city: "San Francisco",
+                                state: "CA",
+                                zip: '94110',
+                                profile_image: ImageContainer.new("independent-studios.jpg"),
+                                image_height: 1,
+                                image_width: 1,
+                                cross_street: nil,
+                                phone: nil
+                              })
   end
 
   def artists
@@ -34,11 +47,11 @@ class IndependentStudio
   end
 
   def url
-    @profile_image.url
+    @studio.profile_image.url
   end
 
   def get_profile_image(*args)
-    @profile_image
+    @studio.profile_image
   end
 
   def persisted?

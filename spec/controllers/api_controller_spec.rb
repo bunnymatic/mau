@@ -113,6 +113,7 @@ describe ApiController do
 
   context 'given [studios] as input parameters' do
     before do
+      artists
       get :index, :path => ['studios']
       @resp = JSON.parse(response.body)
     end
@@ -120,6 +121,7 @@ describe ApiController do
     it 'returns a list of studios' do
       @resp.should be_a_kind_of Array
       @resp.count.should eql Studio.count + 1 # add 1 for indy
+      puts @resp.inspect
       @resp.all? {|s| s.has_key? 'studio'}.should be_true, 'All items do not have the "studio" key'
     end
   end
@@ -203,7 +205,6 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns only the studio name' do
-      puts @resp
       @resp.keys.should include 'name'
       @resp.should eql({'name' => studio.name})
     end

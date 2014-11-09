@@ -25,8 +25,10 @@ class ApiController < ActionController::Base
     rescue NameError, ApiError => ex
       msg = "(%s) %s" % [ex.class, ex.message]
       Rails.logger.error 'API Error: ' + msg
+      puts ex.backtrace.join("\n") if %w(development test).include? Rails.env
       render :json => {:status => 400, :message => "Error Accessing API: #{msg}"}, :status => 400
     rescue ActiveRecord::RecordNotFound => ex
+      puts ex.backtrace.join("\n") if %w(development test).include? Rails.env
       render :json => {:status => 400, :message => "Unable to find the record given #{params[:path]}"}
     end
   end
