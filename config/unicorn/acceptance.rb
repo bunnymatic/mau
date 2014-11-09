@@ -1,4 +1,4 @@
-root = "/home/deploy/deployed/mau/current"
+root = "/home/deploy/mau/current"
 working_directory root
 pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
