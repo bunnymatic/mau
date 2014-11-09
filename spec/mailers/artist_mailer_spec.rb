@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe ArtistMailer do
-  fixtures(:users)
 
-  let(:artist1) { users(:artist1) }
-  let(:pending_artist) { users(:pending) }
+  let(:artist) { FactoryGirl.create(:artist, :active) }
+  let(:pending_artist) { FactoryGirl.create(:artist, :pending) }
 
   describe "notification mail for a new signup" do
     before do
