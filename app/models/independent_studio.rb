@@ -27,6 +27,7 @@ class IndependentStudio
   end
 
   def initialize(*args)
+    # stick this in @studio so that to_json structures things just like Studio#to_json
     @studio = InnerStudio.new({
                                 id: 0,
                                 name: 'Independent Studios',

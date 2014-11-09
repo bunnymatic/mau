@@ -497,6 +497,7 @@ describe UsersController do
       context "while logged in as fan with no favorites" do
         let(:artist) { FactoryGirl.create(:artist) }
         before do
+          art_pieces
           ArtPiece.any_instance.stub(:artist => artist)
           login_as(fan)
           get :favorites, :id => fan.id

@@ -121,7 +121,6 @@ describe ApiController do
     it 'returns a list of studios' do
       @resp.should be_a_kind_of Array
       @resp.count.should eql Studio.count + 1 # add 1 for indy
-      puts @resp.inspect
       @resp.all? {|s| s.has_key? 'studio'}.should be_true, 'All items do not have the "studio" key'
     end
   end
