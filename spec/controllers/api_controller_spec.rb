@@ -12,10 +12,6 @@ describe ApiController do
   let(:art_piece) { art_pieces.first }
   let(:artist) { artists.first }
 
-  before do
-    Rails.cache.stub(:read => nil)
-  end
-
   shared_examples_for 'all responses' do
     it { expect(response).to be_json }
   end

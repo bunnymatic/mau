@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe Artist do
 
-  before do
-    Rails.cache.stub(:read => nil)
-  end
-
   subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :firstname => 'Joe', :lastname => 'Blow') }
   let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
   let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }

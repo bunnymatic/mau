@@ -13,11 +13,7 @@ describe MediaController do
   before do
     # do mobile
     Artist.any_instance.stub(:os_participation => {'201104' => true})
-
     request.stub(:user_agent => IPHONE_USER_AGENT)
-
-    Rails.cache.stub(:read => nil)
-
   end
 
   context "show" do

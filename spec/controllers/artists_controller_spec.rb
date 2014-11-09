@@ -3,10 +3,6 @@ require 'htmlentities'
 
 describe ArtistsController do
 
-  before do
-    Rails.cache.stub(read: nil)
-  end
-
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art) }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
