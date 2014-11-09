@@ -9,10 +9,6 @@ describe ArtPieceTagsController do
   let(:tags) { artist.art_pieces.map(&:tags).flatten }
   let(:tag) { tags.first }
 
-  before do
-    Rails.cache.clear
-  end
-
   describe '#index' do
     describe 'format=html' do
       context 'when there are no tags' do

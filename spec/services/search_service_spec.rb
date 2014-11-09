@@ -2,10 +2,6 @@ require "spec_helper"
 
 describe SearchService do
 
-  before do
-    Rails.cache.clear
-  end
-
   let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
   let(:artists) { Artist.all}

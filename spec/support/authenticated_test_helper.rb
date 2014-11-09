@@ -1,6 +1,6 @@
 module AuthenticatedTestHelper
 
-  # Sets the current artist in the session from the artist fixtures.
+  # Sets the current artist in the session from the artist factories
   def login_as(user, session_stubs = nil)
     logout
     session_stubs ||= { :record => true }

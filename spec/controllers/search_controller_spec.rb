@@ -19,7 +19,6 @@ describe SearchController do
   let(:open_studio_event) { FactoryGirl.create(:open_studios_event) }
 
   before do
-    Rails.cache.clear
     artists.sample(2).map{|a| a.update_os_participation open_studios_event.key, true}
   end
 

@@ -18,7 +18,6 @@ describe User do
 
   before do
     Timecop.freeze
-    Rails.cache.clear
   end
   after do
     Timecop.return

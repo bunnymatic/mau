@@ -9,7 +9,6 @@ describe MediaController do
   }
 
   before do
-    Rails.cache.clear
     art_pieces
   end
 
