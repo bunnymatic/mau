@@ -2,7 +2,7 @@
 - if artist.artist.present?
   #bigthumbcolumn
     - if artist.has_art?
-      = render '/art_pieces/thumbs', :pieces => artist.art_pieces[0..3], :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true} 
+      = render '/art_pieces/thumbs', :pieces => artist.art_pieces[0..3], :params => { :size => 'small', :show_footer => false, :cols => 1, :art_link => true}
     - else
       .allthumbs
         - if logged_in? && (current_user.id == artist.id)

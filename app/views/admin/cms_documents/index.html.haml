@@ -3,7 +3,7 @@
 
   = render '/flash_notice_error'
 
-  = link_to 'New cms_document', new_admin_cms_document_path 
+  = link_to 'New cms_document', new_admin_cms_document_path
 
   %table
     %thead
@@ -14,9 +14,9 @@
     %tbody
       - @cms_documents.each do |cms_document|
         %tr
-          %td 
+          %td
             = cms_document.page
-          %td 
+          %td
             = cms_document.section
           %td
             = link_to [:admin,cms_document], title: 'Show' do

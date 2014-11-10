@@ -1,6 +1,6 @@
 = form_tag "/artists/destroyart" do
   #delete_art
-    %h4 
+    %h4
       = "Remove #{@artist.get_name}'s Artwork"
     = render '/art_pieces/thumbs',:pieces => @artist.art_pieces, :params => { :select => false, :delete => true, :show_footer => false, :cols => 5 }
     .edit-buttons
