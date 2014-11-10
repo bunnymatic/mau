@@ -47,6 +47,14 @@ class IndependentStudio
     @artists ||= Artist.active.where(["studio_id = 0 or studio_id is NULL"])
   end
 
+  def cross_street?
+    nil
+  end
+
+  def phone?
+    nil
+  end
+
   def url?
     @studio.profile_image.try(:url).present?
   end
