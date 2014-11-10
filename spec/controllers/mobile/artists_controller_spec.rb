@@ -8,7 +8,7 @@ describe ArtistsController do
   let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art) }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
   let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
-  
+
   before do
     # do mobile
     artist

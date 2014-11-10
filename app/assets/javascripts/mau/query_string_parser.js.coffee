@@ -1,5 +1,5 @@
 MAU = window.MAU = window.MAU || {}
-    
+
 MAU.QueryStringParser = class QueryStringParser
   constructor: (url) ->
     @query_params = {}

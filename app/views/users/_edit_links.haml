@@ -8,17 +8,17 @@
     %table.entry-table
       - [[:url, 'Website']].each do |kk, name|
         %tr
-          %td.input-name 
+          %td.input-name
             = f.label kk, name
           %td
             = f.text_field kk, class: 'url-input', placeholder: 'e.g. http://www.mywebsite.com'
-          %td.input-err  
+          %td.input-err
       - if current_user.is_a? Artist
         / handle user attrs
         - Artist::KEYED_LINKS.select{|link| link[0] != :url}.each do |kk, name|
           %tr
             %td.input-name
-              = label_tag "#{f.object_name}[artist_info[#{kk}]]", name 
+              = label_tag "#{f.object_name}[artist_info[#{kk}]]", name
             %td
               = text_field_tag "#{f.object_name}[artist_info[#{kk}]]", @artist_info[kk], class: 'url-input'
             %td.input-err

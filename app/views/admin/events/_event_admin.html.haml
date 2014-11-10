@@ -18,7 +18,7 @@
     .clear
     .desc.markdown #{event.description}
     .url
-      - if event.url.present?
+      - if event.url?
         Event Website:
         = event.link_to_event_website
   %footer
@@ -30,4 +30,4 @@
         = link_to 'publish', event.publish_path
       = link_to 'edit', event.edit_path
       = link_to 'delete', event.delete_path, :confirm => 'Are you sure?', :method => :delete
-        
+

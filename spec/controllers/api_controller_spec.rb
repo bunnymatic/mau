@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ApiController do
 
   let(:studio) { FactoryGirl.create(:studio) }
-  let(:artists) { 
+  let(:artists) {
     FactoryGirl.create_list(:artist, 2, :with_art, studio: studio, number_of_art_pieces: 3) +
       FactoryGirl.create_list(:artist, 2, :with_art, number_of_art_pieces: 3) +
         FactoryGirl.create_list(:artist, 2, :with_art, state: 'suspended')

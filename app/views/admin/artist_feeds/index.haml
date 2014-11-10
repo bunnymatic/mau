@@ -17,7 +17,7 @@
             %a{href: feed.feed} #{feed.feed}
           %td.url
             %a{href: feed.url} #{feed.url}
-          %td.active 
+          %td.active
             = fa_icon('check') if feed.active
           %td.controls
             = link_to edit_admin_artist_feed_path(feed), title: 'edit' do

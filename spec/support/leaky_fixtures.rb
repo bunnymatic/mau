@@ -1,5 +1,5 @@
 module LeakyFixtures
-  
+
   def fix_leaky_fixtures
     # hopefully we can get around this but until we see what's up
     [ ArtPiece, User, Event, Studio, ArtistInfo ].each do |clz|

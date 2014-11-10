@@ -10,7 +10,7 @@ describe AdminArtistList, :type => :controller do
     FactoryGirl.create(:artist, :with_art)
     FactoryGirl.create(:artist, :pending)
   end
-    
+
   let(:sort_by) { nil }
   let(:reverse) { nil }
   let(:parsed) { CSV.parse(list.csv,:headers => true) }

@@ -20,9 +20,9 @@
                   \)
             .city #{@studio.city}
             .url
-              - if @studio.url.present?
+              - if @studio.url?
                 = link_to @studio.display_url, @studio.url
-            - if @studio.phone.present?
+            - if @studio.phone?
               .phone #{@studio.formatted_phone}
           .clear
           / pushes thumbnails below the floating img

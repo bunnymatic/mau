@@ -88,7 +88,7 @@ class SearchService
   end
 
   def art_pieces_by_studio
-    @art_pieces_by_studio ||= 
+    @art_pieces_by_studio ||=
       begin
         r = artists.where(:studio_id => studio_ids).map(&:art_pieces).flatten
         if (studio_ids.include? 0)
@@ -131,8 +131,8 @@ class SearchService
   end
 
   def filter_by_studios(results)
-    if studios.present? 
-      results.select do |ap| 
+    if studios.present?
+      results.select do |ap|
         ap.artist && (studio_ids.include?(ap.artist.studio_id) || ((studio_ids.include? 0) && ap.artist.studio.nil?))
       end
     else

@@ -2,9 +2,13 @@ class EventPresenter
 
   include TzHelper
 
-  delegate :id, :url, :updated_at, :reception_starttime, :reception_endtime, :starttime, :color, :name,
-           :venue, :map_link, :address_hash, :endtime, :title, :start_at, :end_at, :clip_range,
-           :published?, :in_progress?, :future?, :past?, :to => :event
+  delegate :id, :updated_at, :reception_starttime, :reception_endtime,
+  :reception_starttime?, :reception_endtime?,
+  :url?, :url,
+  :starttime, :color, :name,
+  :venue, :map_link, :address_hash, :endtime, :title,
+  :start_at, :end_at, :clip_range,
+  :published?, :in_progress?, :future?, :past?, :to => :event
 
   attr_accessor :event
 
@@ -56,7 +60,7 @@ class EventPresenter
   def event_website_url
     @event_website_url ||=
       begin
-        if url.present?
+        if url?
           (/^https?:\/\// =~ url) ? url : "http://#{url}"
         end
       end

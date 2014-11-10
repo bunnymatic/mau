@@ -2,13 +2,13 @@ angular.module('ArtPiecesApp.controllers', []).
   controller 'artPiecesController', ['$scope','$resource','$document', ($scope, $resource, $document) ->
 
     artistId = undefined
-    
+
     serialize = (obj) ->
       str = []
       for p of obj
         continue
       str.join "&"
-    
+
     ArtPieces = $resource('/artists/:artistId/art_pieces/:artPieceId.json',
       {artistId:'@artist.id', artPieceId:'@id'},
       {
@@ -20,7 +20,7 @@ angular.module('ArtPiecesApp.controllers', []).
     $scope.artist = null
     $scope.artPieces = []
     $scope.currentArtPiece = null
-    $scope.current = null      
+    $scope.current = null
 
     $scope.handleKeyDown = (ev) ->
       if ev.which == 37
@@ -34,7 +34,7 @@ angular.module('ArtPiecesApp.controllers', []).
           $scope.currentArtPiece = piece.art_piece
           $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece.id
           $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
-      
+
     $scope.$watch 'current', setCurrentArtPiece
 
     currentPosition = () ->
@@ -45,14 +45,14 @@ angular.module('ArtPiecesApp.controllers', []).
       if (pos < 0)
         pos = nPieces + pos
       Math.min( Math.max(0, pos), nPieces )
-      
+
     $scope.prev = () ->
       newPos = limitPosition( (currentPosition() - 1) % $scope.artPieces.length )
       $scope.current = $scope.artPieces[newPos].id
     $scope.next = () ->
       newPos = limitPosition( (currentPosition() + 1) % $scope.artPieces.length )
       $scope.current = $scope.artPieces[newPos].id
-      
+
     $scope.pinterestLikeLink = () ->
       ap = $scope.currentArtPiece
       return '' unless ap
@@ -61,7 +61,7 @@ angular.module('ArtPiecesApp.controllers', []).
         description: [ap.title, ap.artist_name].join(" by ")
         media: ap.image_files.large
       "http://pinterest.com/pin/create/button/?" + serialize(params)
-      
+
     $scope.isCurrent = (apId) ->
       (''+$scope.current) == (''+apId)
 
@@ -71,12 +71,12 @@ angular.module('ArtPiecesApp.controllers', []).
     $scope.currentDisplayWidthStyle = () ->
       return {} unless $scope.currentArtPiece
       {width: $scope.currentArtPiece.image_dimensions.medium[0] + "px"}
-      
+
     $scope.hasTags = () ->
       $scope.currentArtPiece &&
         $scope.currentArtPiece.tags &&
           ($scope.currentArtPiece.tags.length > 0)
-      
+
     $scope.init = (opts) ->
       artPieceId = opts.artPieceId
       artistId = opts.artistId
@@ -89,6 +89,6 @@ angular.module('ArtPiecesApp.controllers', []).
           ArtPieces.get {artistId: artistId, artPieceId: item.id}, (piece) ->
             $scope.artPieces[idx] = piece.art_piece
       $scope.current = artPieceId
-            
-  ]  
-          
+
+  ]
+

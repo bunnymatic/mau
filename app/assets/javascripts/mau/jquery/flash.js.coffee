@@ -6,7 +6,7 @@ MAU.Flash = class Flash
 
   clear: ->
     jQuery('#' + @wrapper).remove();
-    
+
   show: (msgs, container) ->
     @clear()
     $w = @construct(msgs);
@@ -30,13 +30,13 @@ MAU.Flash = class Flash
     contents = jQuery('<div>')
     $close = jQuery('<div>', {'class':'close-btn'}).html('x')
     for k in ['error','notice']
-      if (msgs[k]) 
+      if (msgs[k])
         msg = msgs[k];
         clz = k;
         clz = 'error-msg' if k == 'error'
         contents.append(jQuery('<div>', {'class': clz}).html(msg).prepend($close));
 
-        
+
     if (contents.html().length)
       $flash = jQuery('<div>', {id:@wrapper})
       $flash.html(contents)

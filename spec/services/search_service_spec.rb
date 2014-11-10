@@ -20,7 +20,7 @@ describe SearchService do
                        mediums: search_mediums.map(&:id),
                        os_artist: os_flag)
   }
-  
+
   before(:all) do
     FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, firstname: 'Firstname')
     FactoryGirl.create(:artist, nomdeplume: "Interesting", firstname: 'Firstname' )
@@ -132,7 +132,7 @@ describe SearchService do
   context 'finding indy studio work' do
     let(:search_studios) { [Studio.indy] }
     its(:search) { should have_at_least(1).item }
-    
+
     it { expect(results.map{|r| r.artist.studio_id.to_i}.uniq).to eql [0] }
   end
 

@@ -6,7 +6,7 @@ describe SearchController do
   let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
   let(:studios) { FactoryGirl.create_list :studio, 4 }
-  let(:artists) { 
+  let(:artists) {
     FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios.first) +
     FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios.last)
   }
@@ -82,7 +82,7 @@ describe SearchController do
       end
       it_should_behave_like 'search page with results'
       it 'shows the studios you searched for' do
-        assert_select '.current_search .block.studios li', count: 2 do |tag| 
+        assert_select '.current_search .block.studios li', count: 2 do |tag|
           items = tag.map(&:to_s).join
           studios_search.each do |s|
             items.should match s.name

@@ -6,7 +6,7 @@ class AdminNavigation
     @view_context = view_context
     @current_user = user
   end
-                 
+
   def links
     manager_links = [[:studios , {}]]
     editor_links = [[:events, {}],

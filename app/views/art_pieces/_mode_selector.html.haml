@@ -2,7 +2,7 @@
   #mode_selector_help.help-parent
     = render '/whatsthis/popup', :section => 'mode_selector', :link_text => "what's this?", :parent => 'mode_selector_help', :use_icon => true, :title => "About View"
   .controls
-    View: 
+    View:
     - if paginator.by_pieces?
       = (link_to "artists", by_artists_link) + (raw "&nbsp;/&nbsp;artworks")
     - else

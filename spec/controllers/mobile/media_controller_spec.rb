@@ -6,7 +6,7 @@ describe MediaController do
 
   let(:media) { FactoryGirl.create_list(:medium, 3) }
   let(:artists) { FactoryGirl.create_list(:artist, 2, :active) }
-  let!(:art_pieces) { 
+  let!(:art_pieces) {
     10.times.map { FactoryGirl.create(:art_piece, medium_id: media.sample.id, artist: artists.sample) }
   }
 

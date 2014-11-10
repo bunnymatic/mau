@@ -5,7 +5,7 @@ out the appropriate info and fire off a note to mau emails
 avoids 'mailto' links
 */
 
-var MAU = window.MAU = window.MAU || {}; 
+var MAU = window.MAU = window.MAU || {};
 
 var FormConstructors = function() {
 
@@ -18,7 +18,7 @@ var FormConstructors = function() {
       return '';
     }
   }
-  
+
   this.types = ['inquiry', 'feed_submission', 'help'];
 
   this.inquiry = {

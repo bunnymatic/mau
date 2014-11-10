@@ -8,7 +8,7 @@ describe FeedsController do
   let(:artist) { FactoryGirl.create(:artist, :active) }
   let(:admin) { FactoryGirl.create(:artist, :admin) }
 
-  let(:flax_feed) { FactoryGirl.create(:artist_feed, 
+  let(:flax_feed) { FactoryGirl.create(:artist_feed,
                                        feed: "http://flaxart.com/feed",
                                        url: "http://flaxart.com",
                                        active: true) }

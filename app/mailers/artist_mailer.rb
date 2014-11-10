@@ -5,7 +5,9 @@ class ArtistMailer < MauMailer
   def activation(artist)
     subject = "Your account has been activated!"
     setup_email(artist)
-    mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
+    mail(:to => artist.email,
+         :from => ACCOUNTS_FROM_ADDRESS,
+         :subject => build_subject(subject))
   end
 
   def favorite_notification(artist, fan)
@@ -13,10 +15,17 @@ class ArtistMailer < MauMailer
     subject = 'Someone hearts you on Mission Artists United'
 
     @sender = fan
-    @notification_url = url_for(:host => Conf.site_url, :controller => 'artists', :action => 'edit') + '#notifications'
-    @artist_url = url_for(:host => Conf.site_url, :controller => 'artists', :action => 'show', :id => @artist.id)
+    @notification_url = url_for(:host => Conf.site_url,
+                                :controller => 'artists',
+                                :action => 'edit') + '#notifications'
+    @artist_url = url_for(:host => Conf.site_url,
+                          :controller => 'artists',
+                          :action => 'show',
+                          :id => @artist.id)
 
-    mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
+    mail(:to => artist.email,
+         :from => ACCOUNTS_FROM_ADDRESS,
+         :subject => build_subject(subject))
 
   end
 
@@ -24,7 +33,9 @@ class ArtistMailer < MauMailer
     subject = 'Please activate your new account'
     setup_email(artist)
     @url  = activate_url(:activation_code => artist.activation_code)
-    mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
+    mail(:to => artist.email,
+         :from => ACCOUNTS_FROM_ADDRESS,
+         :subject => build_subject(subject))
   end
 
 
@@ -34,21 +45,27 @@ class ArtistMailer < MauMailer
     @sender_name = notehash['name']
     @sender_email = notehash['email']
     @sender_note = notehash['comment']
-    mail(:to => artist.email, :from => NOTE_FROM_ADDRESS, :subject => build_subject(subject))
+    mail(:to => artist.email,
+         :from => NOTE_FROM_ADDRESS,
+         :subject => build_subject(subject))
 
   end
 
   def notify_featured(artist)
     setup_email(artist)
     subject = "You've been featured by Mission Artists United."
-    mail(:to => artist.email, :from => NOTE_FROM_ADDRESS, :subject => build_subject(subject))
+    mail(:to => artist.email,
+         :from => NOTE_FROM_ADDRESS,
+         :subject => build_subject(subject))
   end
 
   def resend_activation(artist)
     setup_email(artist)
     subject    = 'Reactivate your MAU account'
     @url  = activate_url(:activation_code => artist.activation_code)
-    mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
+    mail(:to => artist.email,
+         :from => ACCOUNTS_FROM_ADDRESS,
+         :subject => build_subject(subject))
   end
 
   def activation(artist)
@@ -56,14 +73,18 @@ class ArtistMailer < MauMailer
     subject    = 'Your account has been activated!'
     @url  = Conf.site_url
     @artistsurl  = artist_url(artist)
-    mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
+    mail(:to => artist.email,
+         :from => ACCOUNTS_FROM_ADDRESS,
+         :subject => build_subject(subject))
   end
 
   def reset_notification(artist)
     setup_email(artist)
     subject    = 'Link to reset your password'
     @url  = "http://%s/reset/#{artist.reset_code}" % Conf.site_url
-    mail(:to => artist.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
+    mail(:to => artist.email,
+         :from => ACCOUNTS_FROM_ADDRESS,
+         :subject => build_subject(subject))
   end
 
   protected

@@ -8,8 +8,8 @@ describe Admin::EmailListsController do
   let(:email_attrs) { FactoryGirl.attributes_for(:email) }
 
   let!(:lists) do
-    [:feedback_email_list, :admin_email_list, :event_email_list].each do |list| 
-      FactoryGirl.create(list) 
+    [:feedback_email_list, :admin_email_list, :event_email_list].each do |list|
+      FactoryGirl.create(list)
     end
     AdminMailerList.first.update_attributes(:emails => [ FactoryGirl.create(:email, :email => test_email) ])
   end
@@ -73,7 +73,7 @@ describe Admin::EmailListsController do
 
   describe 'POST#destroy' do
     let(:first_email) do
-      email = FactoryGirl.create(:email) 
+      email = FactoryGirl.create(:email)
       EventMailerList.first.update_attributes(:emails => [ email ])
       email
     end
@@ -120,7 +120,7 @@ describe Admin::EmailListsController do
         EventMailerList.first.update_attributes(:emails => emails.sample(2))
         AdminMailerList.first.update_attributes(:emails => emails.sample(2))
         FeedbackMailerList.first.update_attributes(:emails => emails.sample(2))
-       
+
         get :index
       end
       it_should_behave_like 'logged in as admin'

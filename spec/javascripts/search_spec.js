@@ -86,10 +86,10 @@ describe('Search', function() {
     it('shows any link if any checkboxes are checked', function() {
       jQuery('.expandable').show()
       jQuery(full_selectors.medium_chooser).first().trigger('click');
-      
+
       expect(jQuery('a.reset').first()).toBeVisible();
     });
-    it('sets all checkboxes unchecked after clicking the any button', function() { 
+    it('sets all checkboxes unchecked after clicking the any button', function() {
       jQuery('#medium_chooser .sprite').click();
       jQuery(full_selectors.medium_chooser).first().attr('checked', 'checked');
       expect(jQuery(full_selectors.medium_chooser).is(':checked')).toBeTruthy();

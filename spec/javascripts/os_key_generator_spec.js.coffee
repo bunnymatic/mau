@@ -26,5 +26,5 @@ describe 'OsKeyGenerator', ->
         end_date_field: '#end_date'
         key_field: '#os_key'
       expect(jQuery('#fixture #os_key').val()).toEqual('')
-      
-      
+
+

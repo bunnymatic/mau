@@ -70,7 +70,7 @@ describe Studio do
       s['studio'].should_not have_key 'name'
     end
     it 'includes the artist list if we ask for it' do
-      a = FactoryGirl.create(:artist, :active, :with_studio) 
+      a = FactoryGirl.create(:artist, :active, :with_studio)
       studio = a.studio
       s = JSON.parse(studio.to_json methods: 'artists')
       s['studio']['artists'].should be_a_kind_of Array

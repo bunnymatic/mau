@@ -4,7 +4,7 @@ class StudioNavigation
   end
 
   def items
-    @items ||= 
+    @items ||=
       begin
         [].tap do |nav|
           nav << "<a title='group studios' href='#{@view_context.studios_path}'>group studios</a>"

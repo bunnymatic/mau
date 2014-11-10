@@ -28,5 +28,5 @@ MAU.Spinner = class MAUSpinner
     jQuery(@el).spin @spinOpts
   stop: ->
     jQuery(@el).spin false
-  
-  
+
+

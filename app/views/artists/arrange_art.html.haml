@@ -3,7 +3,7 @@
     %h4 Arrange your art pieces
     #arrange_art_help
       = render :partial => '/whatsthis/popup', :locals => { :section => 'arrange_art', :link_text => "what\'s this?", :parent => 'arrange_art', :use_icon => true, :title => "About Arranging Art" }
-  .help-txt 
+  .help-txt
     %p
       Drag and Drop your art into the arrangement you'd like, then press SAVE when you're done.
     %p
@@ -11,7 +11,7 @@
   = form_tag setarrangement_artists_path, :id => 'arrange_art_form' do
     %div
       = render :partial => '/art_pieces/thumbs', :locals => { :pieces => @artist.art_pieces, :params => { :select => true, :show_footer => false, :cols => 5 }}
-        
+
 
       .edit-buttons
         %input.formbutton{:type => 'submit', :value => 'save'}

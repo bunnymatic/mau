@@ -1,20 +1,20 @@
-- pagination_opts = {:paginator => @paginator}
+- pagination_opts = {paginator: @paginator}
 #search_results
   %h4 Search Results - #{@query.query}
   - if @paginator.items.blank?
-    = render :partial => 'empty_search_results'
+    = render 'empty_search_results'
   - else
     - if @per_page_opts
       .result-count
-        %form{:id => 'results_per_page'}
+        %form{id: 'results_per_page'}
           %label Results Per Page
           = select_tag :per_page, options_for_select(@per_page_opts.map{|v| [v,v]}, @paginator.per_page)
 
     .results-txt
       We found #{@paginator.count} #{"piece" + (@paginator.count > 1 ? "s" : '')} that matched your query
     .search-view-ctrls
-      = render :partial => "search_pagination", :locals => pagination_opts
+      = render "search_pagination", pagination_opts
     #thumbs_by_artist.search-results
-      = render :partial => "thumbs", :locals => { :pieces => @paginator.items, :params => { :cols => 2, :art_link => true }}
+      = render "thumbs", pieces: @paginator.items, params: { cols: 2, art_link: true }
     .search-view-ctrls
-      = render :partial => "search_pagination", :locals => pagination_opts
+      = render "search_pagination", pagination_opts

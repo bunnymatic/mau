@@ -10,20 +10,20 @@
     %tbody
       %tr
         %td Totals
-        %td 
+        %td
           = @favorites.total_artists
-        %td 
+        %td
           = @favorites.total_art_pieces
-        %td 
+        %td
           = @favorites.total_favorited_users
 
       - @favorites.each do |user,favinfo|
         %tr{:class => cycle('even','odd')}
-          %td 
+          %td
             = link_to user.login, user_path(user)
-          %td 
+          %td
             = favinfo.artists
-          %td 
+          %td
             = favinfo.art_pieces
-          %td 
+          %td
             = favinfo.favorited

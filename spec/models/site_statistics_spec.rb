@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SiteStatistics do
 
   subject(:stats) { SiteStatistics.new }
-  
+
   before do
     fix_leaky_fixtures
 
@@ -16,11 +16,11 @@ describe SiteStatistics do
 
     Timecop.travel(23.hours.ago)
     FactoryGirl.create(:artist, :active)
-    
+
     Timecop.travel(4.days.ago)
     FactoryGirl.create_list(:artist, 2, :active)
     FactoryGirl.create_list(:artist, 3)
- 
+
     Timecop.travel(10.days.ago)
     FactoryGirl.create_list(:artist, 2, :active)
     FactoryGirl.create_list(:artist, 3)

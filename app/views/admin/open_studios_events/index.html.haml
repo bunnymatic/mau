@@ -21,7 +21,7 @@
           %td.title #{os_event.title}
           %td.start #{os_event.start_date}
           %td.end #{os_event.end_date}
-          %td.logo 
+          %td.logo
             - if os_event.logo?
               = link_to os_event.logo.original_filename, os_event.logo.url(:square), target: '_blank'
           %td.input-name

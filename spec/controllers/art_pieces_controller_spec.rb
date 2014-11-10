@@ -380,10 +380,10 @@ describe ArtPiecesController do
       end
       it 'redirects' do
         post :destroy, id: art_piece.id
-        expect(response).to be_redirect 
+        expect(response).to be_redirect
       end
       it "does not removes that art piece" do
-        expect { 
+        expect {
           post :destroy, id: art_piece.id
         }.to change(ArtPiece, :count).by 0
       end

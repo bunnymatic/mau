@@ -1,0 +1,4 @@
+--no-doc
+--abc-glob {app,lib,config}/**/*.rb
+--style-glob {app,lib,config}/**/*.rb
+--style-measure 100

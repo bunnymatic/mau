@@ -3,7 +3,7 @@ class IndependentStudio
   extend  ActiveModel::Translation
   include ActiveModel::Validations
   include ActiveModel::Conversion
-  
+
   attr_reader :studio
 
   delegate :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, to: :studio
@@ -45,6 +45,18 @@ class IndependentStudio
 
   def artists
     @artists ||= Artist.active.where(["studio_id = 0 or studio_id is NULL"])
+  end
+
+  def cross_street?
+    nil
+  end
+
+  def phone?
+    nil
+  end
+
+  def url?
+    @studio.profile_image.try(:url).present?
   end
 
   def url

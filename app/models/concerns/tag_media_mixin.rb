@@ -25,5 +25,5 @@ module TagMediaMixin
       SafeCache.delete cache_key(false)
     end
   end
-  
+
 end
