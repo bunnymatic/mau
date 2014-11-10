@@ -80,7 +80,6 @@ module Mau
       access_key_id: Conf.AWS_ACCESS_KEY_ID || 'bogus',
       secret_access_key: Conf.AWS_SECRET_ACCESS_KEY || 'bogus'
     }
-    puts config.s3_info
   end
 
 end
