@@ -18,7 +18,7 @@
     .clear
     .desc.markdown #{event.description}
     .url
-      - if event.url.present?
+      - if event.url?
         Event Website:
         = event.link_to_event_website
   %footer

@@ -37,7 +37,7 @@ class StudioPresenter
 
   def street_with_cross
     r = @studio.street
-    if @studio.cross_street.present?
+    if @studio.cross_street?
       r << " (@ #{studio.cross_street})"
     end
     r

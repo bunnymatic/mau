@@ -4,7 +4,7 @@
     #{event.title}
   .info
     .time #{event.display_event_time}
-    - if event.reception_starttime.present?
+    - if event.reception_starttime?
       .reception_time Reception: #{event.display_reception_time}
 
   .venue
@@ -16,6 +16,6 @@
   .clear
   .desc.markdown #{event.description}
   .url
-    - if event.url.present?
+    - if event.url?
       Event Website:
       = event.link_to_event_website

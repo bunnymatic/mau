@@ -29,4 +29,27 @@ module UsersHelper
       concat(inp)
     end
   end
+
+  def user_signup_select_options(user)
+    user.password = user.password_confirmation = nil 
+    sel_opts = [{:key => :none,
+                 :display => '&lt;select your account type&gt;',
+                 :selected => '',
+                 :id => 'select_account_default_option'
+                 },
+                 {:key => :Artist,
+                 :display => "Mission Artist",
+                 :selected => (@type == 'Artist') ? "selected=selected" : "" 
+                 },
+                 {:key => :MAUFan,
+                 :display => "Mission Art Fan",
+                 :selected => (@type == 'MAUFan') ? "selected=selected" : "" 
+                 }]
+    opts = sel_opts.map do |opt| 
+      "<option value='#{opt[:key]}' " +
+        "id='#{opt[:id]}' #{opt[:selected]}>" +
+        "#{opt[:display]}</option>" 
+    end.join('').html_safe
+  end
+
 end

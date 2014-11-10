@@ -20,5 +20,4 @@ Scenario: sign up as a artist
   | Username | E-mail             | Password | Password Confirmation | Firstname | Lastname |
   | billybob | billybob@email.com | password | password              | billy     | bob      |
   And I click "Sign up"
-  Then show me the page
   Then I see that "billybob" is a new pending artist
