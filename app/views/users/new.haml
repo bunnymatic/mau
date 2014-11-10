@@ -1,12 +1,12 @@
 .logo-spacer
 #signup_page
   %h2 Create Your MAU Account
-  = render :partial => '/flash_notice_error'
+  = render '/flash_notice_error'
   %table.signup-table
     %tr.acct-selector
       %td.label
-        %label{:for => 'acct-selector'} I am a
-      %td.input{:colspan => 2}
-        = select_tag 'account_type_chooser', user_signup_select_options(@user)
+        %label{for: 'acct-selector'} I am a
+      %td.input{colspan: 2}
+        = select_tag 'account_type_chooser', user_signup_select_options(@user, @type)
   #signup_form
-    = render :partial => 'signup_form', :locals => { :type => @type, :user => @user }
+    = render 'signup_form', type: @type, user: @user

@@ -2,7 +2,7 @@ Mau::Application.routes.draw do
 
   resources :media, only: [:index, :show]
 
-  resource :user_session
+  resource :user_session, only: [:new, :create, :destroy]
   match '/logout' => 'user_sessions#destroy', as: :logout
   match '/login' => 'user_sessions#new', as: :login
 
@@ -51,7 +51,7 @@ Mau::Application.routes.draw do
 
 
   resources :art_pieces, only: [:show, :edit, :update, :destroy]
-  resources :artists, except: [:new, :create] do
+  resources :artists, except: [:new, :create, :destroy] do
     resources :art_pieces, except: [:index, :destroy, :edit, :update]
     collection do
       get :by_lastname
@@ -97,7 +97,7 @@ Mau::Application.routes.draw do
     resources :roles, only: [:destroy], controller: 'Admin::Roles'
   end
 
-  resource :main, controller: :main do
+  resource :main, controller: :main, only: [] do
     get :notes_mailer
     post :notes_mailer
     get :letter_from_howard_flax

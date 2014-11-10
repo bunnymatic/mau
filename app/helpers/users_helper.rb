@@ -30,26 +30,16 @@ module UsersHelper
     end
   end
 
-  def user_signup_select_options(user)
+  def user_signup_select_options(user, type)
     user.password = user.password_confirmation = nil 
-    sel_opts = [{:key => :none,
-                 :display => '&lt;select your account type&gt;',
-                 :selected => '',
-                 :id => 'select_account_default_option'
-                 },
-                 {:key => :Artist,
-                 :display => "Mission Artist",
-                 :selected => (@type == 'Artist') ? "selected=selected" : "" 
-                 },
-                 {:key => :MAUFan,
-                 :display => "Mission Art Fan",
-                 :selected => (@type == 'MAUFan') ? "selected=selected" : "" 
-                 }]
-    opts = sel_opts.map do |opt| 
-      "<option value='#{opt[:key]}' " +
-        "id='#{opt[:id]}' #{opt[:selected]}>" +
-        "#{opt[:display]}</option>" 
-    end.join('').html_safe
+    entries = [['<select your account type>', ''],
+               ['Mission Art Fan', :MAUFan],
+               ['Mission Artist', :Artist]]
+    options = {
+      disabled: [entries.first.first],
+      selected: [type.present? ? type : entries.first.first]
+    }
+    options_for_select( entries, options )
   end
 
 end
