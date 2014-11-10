@@ -21,4 +21,4 @@ log
 coverage/*
 flog.report*
 secret/*
-
+config/config.keys.yml

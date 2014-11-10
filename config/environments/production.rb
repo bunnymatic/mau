@@ -30,9 +30,7 @@ Mau::Application.configure do
   # Enable threaded mode
   # config.threadsafe!
 
-  POSTMARK_API_KEY = 'e3ff1e94-b1a9-4ae8-aba5-2e3a8ba3692e'
-
-  config.action_mailer.postmark_settings = { :api_key => POSTMARK_API_KEY }
+  config.action_mailer.postmark_settings = { :api_key => Conf.POSTMARK_API_KEY }
   config.action_mailer.delivery_method = :postmark
 
   # Disable Rails's static asset server (Apache or nginx will already do this)

@@ -44,6 +44,7 @@ describe ApiController do
   before do
     fix_leaky_fixtures
   end
+
   context 'bad requests' do
     [['bogus'], ['bogus',1],
      ['artists','b','c','d'],  ['artists','2','edit'],

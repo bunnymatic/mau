@@ -5,7 +5,7 @@
 require 'faye'
 
 class ApplicationController < ActionController::Base
-  VERSION = 'Charger 6.0 ' + ENV["BUILD_INFO"].to_s
+  VERSION = 'Charger 6.0 '
   DEFAULT_CSV_OPTS = {:row_sep => "\n", :force_quotes => true}
 
   include OpenStudiosEventShim

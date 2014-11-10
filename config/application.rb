@@ -1,21 +1,18 @@
 require File.expand_path('../boot', __FILE__)
 
-# Pick the frameworks you want:
 require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
-#require "active_resource/railtie"
 require "sprockets/railtie"
-#require 'rails/all'
 
 require File.expand_path('../../lib/app_config', __FILE__)
 
 c = AppConfig.new
 c.use_file! File.expand_path('../../config/config.yml', __FILE__)
 c.use_file! File.expand_path('../../config/config.local.yml', __FILE__)
+c.use_file! File.expand_path('../../config/config.keys.yml', __FILE__)
 c.use_section! Rails.env
 ::Conf = c
-
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -79,11 +76,11 @@ module Mau
     config.filter_parameters += [:password, :password_confirmation]
 
     config.s3_info = {
-      bucket: ENV['S3_BUCKET'] || "mission-artists-#{Rails.env}",
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'] || 'bogus',
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'] || 'bogus'
+      bucket: Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
+      access_key_id: Conf.AWS_ACCESS_KEY_ID || 'bogus',
+      secret_access_key: Conf.AWS_SECRET_ACCESS_KEY || 'bogus'
     }
-
+    puts config.s3_info
   end
 
 end
