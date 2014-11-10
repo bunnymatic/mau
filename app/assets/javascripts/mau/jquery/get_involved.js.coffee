@@ -44,7 +44,7 @@ MAU.GetInvolved = class GetInvolved
     jQuery('div.content-block form').bind('submit', @validateEmailComment )
 
     cbx = jQuery('.content-block #feedback_comment')
- 
+
 
   validateEmailComment: (ev) ->
     form = ev.currentTarget

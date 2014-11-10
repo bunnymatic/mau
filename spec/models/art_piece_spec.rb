@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ArtPiece do
-  
+
   let(:valid_attrs) { FactoryGirl.attributes_for(:art_piece) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
   let(:art_piece) { artist.art_pieces.first }

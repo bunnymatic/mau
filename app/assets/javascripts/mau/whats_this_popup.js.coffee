@@ -9,7 +9,7 @@ MAU.WhatsThis = class WhatsThis
 
     jQuery(@trigger).bind('click', @popup)
     jQuery(@helpTextDiv).bind('click', @popup)
-    
+
   popup: =>
     jQuery(@helpTextDiv).fadeToggle()
 

@@ -26,10 +26,10 @@ MAU.Utils =
 
   getSize: (el) ->
     { width: el.offsetWidth, height: el.offsetHeight }
-    
+
   getPosition: (el) ->
     xx = yy = 0
-  
+
     while(el)
       xx += (element.offsetLeft - element.scrollLeft + element.clientLeft)
       xx += (element.offsetTop - element.scrollTop + element.clientTop)
@@ -43,17 +43,17 @@ MAU.Utils =
       for k,v of attrs
         el.setAttribute k, v
     el
-      
+
   post_to_url: (path, params, method) ->
     method = method || "post"; # Set method to post by default, if not specified.
 
     # The rest of this code assumes you are not using a library.
     # It can be made less wordy if you use one.
 
-    form = @createElement 'form', method: method, action: path 
+    form = @createElement 'form', method: method, action: path
     hiddenField = null;
     for key, val of params
-      hiddenField = @createElement 'input', type: 'hidden', name: key, value: val 
+      hiddenField = @createElement 'input', type: 'hidden', name: key, value: val
       form.appendChild(hiddenField);
     hiddenField = @createElement 'input', type: 'hidden', name: 'authenticity_token', value:unescape(authenticityToken)
     form.appendChild(hiddenField);

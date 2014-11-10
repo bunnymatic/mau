@@ -137,16 +137,16 @@ MAU.SearchPage = class MAUSearch
     _that = this
     col = jQuery('.column')
     col.on('click', '.trigger', _that.toggleTarget) if col.on
-       
+
     jQuery('.trigger').each () ->
       $(this).prepend(sprite_plus_dom);
       $(this).bind 'click', () -> $(this).next().slideToggle()
-      
+
     # if we have the search form, bind ajax to the submit
     searchForm = jQuery(@searchFormSelector)
     searchForm.bind 'submit', (ev) ->
       _that._submitForm(ev)
-    
+
   updateQueryParamsInView: ->
     _that = this
     # grab form params
@@ -262,7 +262,7 @@ MAU.SearchPage = class MAUSearch
       t.prepend(sprite_minus_dom)
     else
       t.prepend(sprite_plus_dom)
- 
+
 jQuery ->
   new MAUSearch(['#medium_chooser','#studio_chooser'])
   jQuery('#search_link').bind('click', MAU.doSearch)

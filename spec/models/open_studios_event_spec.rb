@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OpenStudiosEvent do
-  
+
   let(:past_oses) {
     [
      FactoryGirl.create(:open_studios_event, :start_date => 6.months.ago),
@@ -9,7 +9,7 @@ describe OpenStudiosEvent do
     ]
    }
   let(:current_os) { FactoryGirl.create(:open_studios_event, :start_date => 1.months.since) }
-  let(:future_oses) { 
+  let(:future_oses) {
     [
      FactoryGirl.create(:open_studios_event, :start_date => 6.months.since),
      FactoryGirl.create(:open_studios_event, :start_date => 12.months.since)
@@ -60,7 +60,7 @@ describe OpenStudiosEvent do
 
     it 'shows the first future event if today is monday after the last event' do
       Timecop.travel(current_os.end_date + 1.day)
-      
+
       expect(OpenStudiosEvent.current).to eql future_oses.first
     end
   end

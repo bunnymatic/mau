@@ -8,7 +8,7 @@ Favorites =
       lnk = jQuery(this)
       tp = lnk.attr('fav-type');
       id = lnk.attr('fav-id');
-      if (tp && id) 
+      if (tp && id)
          MAU.Utils.post_to_url('/users/add_favorite', {fav_type: tp,fav_id: id} );
 
     # for favorite blocks (on artist show page)
@@ -35,7 +35,7 @@ Favorites =
     lnk = jQuery(ev.target)
     tp = lnk.attr('fav-type')
     id = lnk.attr('fav-id')
-    if (tp && id) 
+    if (tp && id)
       ev.preventDefault()
       MAU.Utils.post_to_url('/users/remove_favorite', {fav_type: tp,fav_id: id} )
 
@@ -45,7 +45,7 @@ Favorites =
     show_more = true
     show_link.each () ->
       lk = jQuery(@)
-      if (lk.hasClass('fewer')) 
+      if (lk.hasClass('fewer'))
         Favorites.show_more(block_id)
         lk.removeClass('fewer')
         lk.attr('title','show fewer')

@@ -33,7 +33,7 @@ class ApiController < ActionController::Base
 
   private
   def path_elements
-    @path_elements ||= 
+    @path_elements ||=
       begin
         raise ApiError.new('Nothing to see here') unless params[:path].present?
         path_elements = (params[:path].is_a? Array) ? params[:path] : (params[:path].split '/')

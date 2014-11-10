@@ -46,7 +46,7 @@ describe MainController do
   describe "#news" do
     context "while not logged in" do
       before do
-        FactoryGirl.create :cms_document, { 
+        FactoryGirl.create :cms_document, {
           page: :main,
           section: :artist_resources,
           article: 'rock the house'

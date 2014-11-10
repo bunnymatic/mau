@@ -6,7 +6,7 @@ describe CatalogController do
   let(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
 
   let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
-  
+
   before do
     artist
     jesse

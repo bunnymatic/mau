@@ -3,7 +3,7 @@ class IndependentStudio
   extend  ActiveModel::Translation
   include ActiveModel::Validations
   include ActiveModel::Conversion
-  
+
   attr_reader :studio
 
   delegate :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, to: :studio

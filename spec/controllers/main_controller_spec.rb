@@ -410,9 +410,9 @@ describe MainController do
 
     end
     context 'logged in as admin' do
-      let(:venue_doc) {FactoryGirl.create(:cms_document, 
-                                          page: :venues, 
-                                          section: :all, 
+      let(:venue_doc) {FactoryGirl.create(:cms_document,
+                                          page: :venues,
+                                          section: :all,
                                           article: "# these \n\n## are \n\n### venues \n\n* one\n* two\n* three"
                                           )}
       before do
@@ -437,7 +437,7 @@ describe MainController do
   describe "#main/open_studios" do
     render_views
     let(:open_studios_blurb) {
-      FactoryGirl.create(:cms_document, 
+      FactoryGirl.create(:cms_document,
                          page: :main_openstudios,
                          section: :summary,
                          article: "# spring 2004\n\n## spring 2004 header2 \n\nwhy spring 2004?  that's _dumb_.")

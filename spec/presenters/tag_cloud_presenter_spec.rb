@@ -7,7 +7,7 @@ describe TagCloudPresenter, :type => :controller do
   let(:mode) { 'a' }
   let(:clz) { ArtPieceTag }
   let(:artist) { FactoryGirl.create :artist, :with_art, number_of_art_pieces: 7 }
-  let(:tags) { 
+  let(:tags) {
     tags = FactoryGirl.create_list(:art_piece_tag, 3)
     artist.art_pieces.reverse.each_with_index do |ap, idx|
       ap.tags = ap.tags + [tags.first]

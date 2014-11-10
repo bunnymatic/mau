@@ -11,7 +11,7 @@ class FeedbackMailer < MauMailer
     @feedback = feedback
 
     mail(:to => emails, :from => from, :reply_to => reply_to, :subject => subject)
-    
+
   end
 
 

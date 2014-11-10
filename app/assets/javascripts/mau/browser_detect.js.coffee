@@ -1,7 +1,7 @@
 MAU = window.MAU = window.MAU || {}
 
 MAU.BrowserDetect = class BrowserDetect
-  constructor: ->  
+  constructor: ->
     @browser = @searchString(@dataBrowser) || 'unknown';
     @version = @searchVersion(navigator.userAgent) ||
     @searchVersion(navigator.appVersion) || "an unknown version";

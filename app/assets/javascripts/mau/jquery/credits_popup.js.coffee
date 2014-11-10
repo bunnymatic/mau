@@ -6,7 +6,7 @@ MAU.CreditsPopup = class CreditsPopup
     cn = document.getElementById(@backgroundContainerId)
     bg.parentNode.removeChild(bg) if bg
     cn.parentNode.removeChild(cn) if cn
-    
+
   constructor: () ->
     @backgroundId = 'credits_bg'
     @backgroundContainerId = 'credits_bg_contain'
@@ -19,8 +19,8 @@ MAU.CreditsPopup = class CreditsPopup
       jQuery(fq).on 'click',(ev) =>
         @clearExisting()
         ev.preventDefault()
-        
-        bg = MAU.Utils.createElement 'div',  id: @backgroundId 
+
+        bg = MAU.Utils.createElement 'div',  id: @backgroundId
         cn = MAU.Utils.createElement 'div',  id: @backgroundContainerId
         d = MAU.Utils.createElement 'div', id: @creditsDivId
         hd = MAU.Utils.createElement 'div', {'class':'credits-hdr'}
@@ -48,9 +48,9 @@ MAU.CreditsPopup = class CreditsPopup
         body.insertBefore bg, body.firstChild
         body.insertBefore cn, bg
 
-        # center 
+        # center
         dimensions = MAU.Utils.getSize(d)
-        
+
         w = dimensions.width;
         h = dimensions.height;
 
@@ -69,6 +69,6 @@ MAU.CreditsPopup = class CreditsPopup
         cn.style.top = tp;
         cn.style.left = lft;
         return false
-      
+
 jQuery ->
   new MAU.CreditsPopup()

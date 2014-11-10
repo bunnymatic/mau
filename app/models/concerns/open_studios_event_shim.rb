@@ -5,14 +5,14 @@ module OpenStudiosEventShim
   def current_open_studios_key
     self.class.current_open_studios_key
   end
-  
-  def available_open_studios_keys 
+
+  def available_open_studios_keys
     self.class.available_open_studios_keys
   end
-  
+
   module ClassMethods
 
-    def available_open_studios_keys 
+    def available_open_studios_keys
       (Conf.open_studios_event_keys + OpenStudiosEvent.pluck(:key)).compact.map(&:to_s).uniq.sort
     end
 

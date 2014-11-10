@@ -54,11 +54,11 @@
       cookie     : true, // set sessions cookies to allow your server to access the session?
       xfbml      : true  // parse XFBML tags on this page?
     };
-    
+
     /**
      * Default load SDK function
      *
-     * Injectable local: 
+     * Injectable local:
      *   ezfbAsyncInit - module's private trigger of FB.init, should always be called to complete the ezfb init process
      *   ezfbLocale    - configured SDK locale
      */
@@ -82,11 +82,11 @@
     /**
      * Default init function
      *
-     * Injectable locals: 
+     * Injectable locals:
      *   ezfbInitParams - parameters provided by ezfbProvider.setInitParams() or ezfb.init()
      */
     var _defaultInitFunction = [
-                   '$window', 'ezfbInitParams', 
+                   '$window', 'ezfbInitParams',
           function ($window,   ezfbInitParams) {
             // Initialize the FB JS SDK
             $window.FB.init(ezfbInitParams);
@@ -140,7 +140,7 @@
       getLocale: function() {
         return _locale;
       },
-      
+
       setLoadSDKFunction: function (func) {
         if (angular.isArray(func) || angular.isFunction(func)) {
           _loadSDKFunction = func;
@@ -182,7 +182,7 @@
         }
 
         _initReady = $q.defer();
-        
+
         /**
          * #fb-root check & create
          */
@@ -229,7 +229,7 @@
 
               /**
                * Add or replce original callback function with deferred resolve
-               * 
+               *
                * @param  {number} index expected api callback index
                */
               replaceCallbackAt = function (index) {
@@ -342,7 +342,7 @@
             }
             else if (cbArgIndex === NO_CALLBACK) {
               // Do not return promise for no-callback apis
-              _initReady.promise.then(apiCall); 
+              _initReady.promise.then(apiCall);
             }
             else {
               return _initReady.promise.then(apiCall);
@@ -386,7 +386,7 @@
                   if (onrenderExp) {
                     scope.$eval(onrenderExp);
                   }
-                  
+
                   _rendering = false;
                 }
               };
@@ -472,7 +472,7 @@
   function creatSocialPluginDirective(availableAttrs, dirName) {
     var CLASS_WRAP_SPAN = 'ezfb-social-plugin-wrap',
         STYLE_WRAP_SPAN = 'display: inline-block; width: auto; height: auto; overflow: hidden;';
-    
+
     /**
      * Wrap-related functions
      */
@@ -488,7 +488,7 @@
           $parent.after($elm).remove();
           return $elm;
         };
-    
+
     module.directive(dirName, [
              'ezfb',
     function (ezfb) {

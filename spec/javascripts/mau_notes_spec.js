@@ -63,7 +63,7 @@ describe('MauNotes', function() {
     });
 
     describe('help', function() {
-      beforeEach(function() {  
+      beforeEach(function() {
         sxn = 'help';
         m = new MAU.NotesMailer("#fixture", { note_class: sxn, url: 'help'} );
         m.insert();

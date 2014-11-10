@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ApplicationEvent, eventmachine: true do
 
-  let(:os_event) { FactoryGirl.create(:open_studios_signup_event, data: {user: 'artist'})} 
+  let(:os_event) { FactoryGirl.create(:open_studios_signup_event, data: {user: 'artist'})}
 
   it 'serializes the data field' do
     os_event.data.should be_a_kind_of Hash

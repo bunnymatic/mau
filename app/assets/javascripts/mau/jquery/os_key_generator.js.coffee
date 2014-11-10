@@ -8,7 +8,7 @@ MAU.OsKeyGenerator = class OsKeyGenerator
     if startDate.isValid()
       key = startDate.format('YYYYMM')
       @key.val(key)
-    
+
   constructor: (element, opts) ->
     @element = $(element)
     @opts = _.extend({},{
@@ -26,4 +26,4 @@ MAU.OsKeyGenerator = class OsKeyGenerator
 
     @updateKey()
 
-  
+

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Admin::ApplicationEventsController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:os_event) { FactoryGirl.create(:open_studios_signup_event, data: {user: 'artist'})}
-  let(:generic_event) { FactoryGirl.create(:generic_event) } 
+  let(:generic_event) { FactoryGirl.create(:generic_event) }
 
   describe 'unauthorized #index' do
     before do

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Admin::ArtistFeedsController do
 
-  let(:twitter_feed) { 
+  let(:twitter_feed) {
     FactoryGirl.create(:artist_feed, :active, feed: "https://twitter.com/statuses/user_timeline/62131363.json")
   }
   let(:inactive_feed) { FactoryGirl.create(:artist_feed) }

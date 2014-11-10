@@ -1,0 +1,3 @@
+--no-doc
+--abc-glob app/**/*.rb config/**/*.rb
+--style-measure 100
