@@ -1,1 +1,0 @@
-class EventMailerList < EmailList; end

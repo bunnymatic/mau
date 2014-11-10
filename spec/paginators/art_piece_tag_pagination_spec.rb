@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe ArtPieceTagPagination do
   include PresenterSpecHelpers
-
-  fixtures :art_piece_tags
-
+  let(:artist) { FactoryGirl.create :artist, :with_tagged_art }
+  let(:art_pieces) { artist.art_pieces }
+  let!(:tags) { artist.art_pieces.map(&:tags).flatten }
   let(:num_items) { 8 }
   let(:per_page) { 3 }
   let(:current_page) { 0 }
-  let(:tag) { ArtPieceTag.last }
+  let(:tag) { tags.last }
   let(:mode) { nil }
 
   subject(:paginator) do

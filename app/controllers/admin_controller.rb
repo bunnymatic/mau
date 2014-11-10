@@ -4,26 +4,22 @@ class AdminController < BaseAdminController
   before_filter :admin_required, :except => [:index, :featured_artist]
 
   def index
-    @os_pretty = os_pretty
     @activity_stats = SiteStatistics.new
   end
 
   def featured_artist
-    featured = FeaturedArtistQueue.current_entry
     if request.post?
-      next_featured = FeaturedArtistQueue.next_entry(params['override'])
-      @featured = next_featured
+      @featured = FeaturedArtistQueue.next_entry(params['override'])
       if FeaturedArtistQueue.count == 1
         flash[:notice] = "Featuring : #{@featured.artist.get_name(true)}"+
           " until #{(Time.zone.now + 1.week).strftime('%a %D')}"
       end
       redirect_to request.url
-      return
     else
-      @featured = featured
+      @featured = FeaturedArtistQueue.current_entry
+      @featured_artist = @featured.try(:artist)
+      @already_featured = FeaturedArtistQueue.featured.offset(1).first(10)
     end
-    @featured_artist = @featured.artist if @featured
-    @already_featured = (FeaturedArtistQueue.featured[1..-1] || []).first(10)
   end
 
   def emaillist
@@ -46,9 +42,9 @@ class AdminController < BaseAdminController
   def os_status
     @os = Artist.active.by_lastname
     @totals = {}
-    Conf.open_studios_event_keys.map(&:to_s).each do |ostag|
-      key = os_pretty(ostag)
-      @totals[key] = @os.select{|a| a.os_participation[ostag].nil? ? false : a.os_participation[ostag] }.length
+    available_open_studios_keys.map(&:to_s).each do |ostag|
+      key = OpenStudiosEvent.for_display(ostag)
+      @totals[key] = @os.count{|a| (a.os_participation || {})[ostag] }
     end
   end
 
@@ -83,7 +79,7 @@ class AdminController < BaseAdminController
   end
 
   def os_signups
-    tally = OpenStudiosTally.where(:oskey => Conf.oslive)
+    tally = OpenStudiosTally.where(:oskey => current_open_studios_key)
     tally = tally.map{|t| [ t.recorded_on.to_time.to_i, t.count ]}
 
     result = { :series => [{ :data => tally }],
@@ -95,7 +91,7 @@ class AdminController < BaseAdminController
   end
 
   def palette
-    f = File.expand_path('app/assets/stylesheets/mau-mixins.scss')
+    f = File.expand_path('app/assets/stylesheets/_colors.scss')
     @colors = ScssFileReader.new(f).parse_colors
   end
 
@@ -124,7 +120,7 @@ class AdminController < BaseAdminController
   GRAPH_LOOKBACK = '1 YEAR'
 
   def build_list_names_from_params
-    list_names = [params[:listname], (params.keys & os_tags)].flatten.compact.uniq
+    list_names = [params[:listname], (params.keys & available_open_studios_keys)].flatten.compact.uniq
     list_names.blank? ? ['active'] : list_names
   end
 
@@ -149,10 +145,6 @@ class AdminController < BaseAdminController
       group("date(created_at)").
       order("created_at desc").count
     cur.select{|k,v| k.present?}.map{|k,v| [k.to_time, v].map(&:to_i)}
-  end
-
-  def os_tags
-    @os_tags ||= Conf.open_studios_event_keys.map(&:to_s)
   end
 
 end

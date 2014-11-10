@@ -1,29 +1,5 @@
-$fullwidth: 900px;
-$leftcol: 270px;
-$rightcol: 560px;
-$gutter: 5px;
-
-$lightbluegray: #c6c7d6;
-$bluegray: #738294;
-$medbluegray: #606e92;
-$darkbluegray: #223;
-
-$xdarkgray: #111;
-$darkgray: #222;
-$bordergray: #444;
-$xmediumgray: #666;
-$mediumgray: #999;
-$lightgray: #aaa;
-$xlightgray: #ddd;
-$xxlightgray: #f0f0f0;
-$white: #fff;
-$black: #000;
-$purple: #404;
-$pink: #cc77cc;
-$error_red: #f33;
-$dark_red: #800;
-
-$lightyellow: #FEF7CA;
+@import 'colors';
+@import 'dimensions';
 
 @mixin transparent_black_background {
   background-color: $black;

@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe AdminMailer do
-  fixtures :emails, :email_lists, :email_list_memberships, :events
+
+  before do
+    list = FactoryGirl.create(:admin_email_list, :with_member)
+  end
 
   context '#spammer' do
     it 'delivers to the right folks' do

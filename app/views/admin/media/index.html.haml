@@ -1,0 +1,24 @@
+.admin-table.singlecolumn
+  %h1 Mediums
+ 
+  .admin-controls
+    = link_to new_admin_medium_path, title: 'Add New medium' do
+      = fa_icon "plus"
+  %table.js-data-tables#mediums_index
+    %thead
+      %tr
+        %th name
+        %th
+    %tbody
+      - @media.each do |medium|
+        %tr{ :class => cycle('even','odd') }
+          %td.name
+            = medium.name
+          %td.admin-controls
+            = link_to medium, title: 'Show' do
+              = fa_icon 'eye-open'
+            = link_to edit_admin_medium_path(medium), title: 'Edit' do
+              = fa_icon 'edit'
+            = link_to  [:admin, medium], title: 'Delete', alt: 'Delete', confirm: 'Are you sure?', method: :delete do
+              = fa_icon 'remove'
+

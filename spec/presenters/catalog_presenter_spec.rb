@@ -1,12 +1,22 @@
 require 'spec_helper'
 
 describe CatalogPresenter do
+  let!(:open_studios_event) { FactoryGirl.create :open_studios_event }
+  let!(:artists) { FactoryGirl.create_list :artist, 4, :with_studio }
+  let(:reception_doc) {
+      FactoryGirl.create(:cms_document,
+                         page: "main_openstudios",
+                         section: "preview_reception",
+                         article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
+  }
 
-  fixtures :cms_documents, :users, :artist_infos, :roles, :studios, :art_pieces,:media, :art_pieces_tags
+  before do
+    artists[0..1].each do |artist|
+      artist.update_os_participation open_studios_event.key, true
+    end
+  end
 
-  let(:reception_doc) { cms_documents(:os_preview_reception) }
-
-  its(:csv_filename) { should eql "mau_catalog_#{Conf.oslive.to_s}.csv" }
+  its(:csv_filename) { should eql "mau_catalog_#{open_studios_event.key}.csv" }
   its("all_artists.all.sort") {
     should eql Artist.active.open_studios_participants.all.sort
   }

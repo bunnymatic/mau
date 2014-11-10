@@ -2,7 +2,6 @@
 
 body {
   background-color: $lightbluegray;
-  position: relative;
   color: $xlightgray;
   font-size: 13px;
   font-family: Verdana, Helvetica, Arial, sans-serif;
@@ -134,7 +133,7 @@ h5 {
   }
   .notice,
   .error-msg {
-    width: 600px;
+    max-width: 600px;
   }
   .notice {
     top: 100px;
@@ -908,7 +907,7 @@ span.micro-icon {
     margin-bottom: 20px;
   }
   .logo {
-    margin: 0px auto 5px;
+    margin: 10px auto;
     text-align:center;
   }
 
@@ -1115,7 +1114,7 @@ margin: 0 0 20px 0;
   span.navitem.last { border-right: 0; padding-right: 0;}
 }
 
-#admin_nav, #login_toplink, #logout, footer.credits, #return_to_mobile_bar {
+#login_toplink, #logout, footer.credits, #return_to_mobile_bar {
   color:$darkgray;
   font-size:x-small;
   margin: 0 auto;
@@ -1379,10 +1378,8 @@ img {
 
 img#logo
 {
-  float:left;
   position:absolute;
-  text-align:left;
-  top:-30px;
+  top:-33px;
   left:260px;
   width:120px;
   height:122px;
@@ -3646,38 +3643,6 @@ body .events {
   text-align: justify;
   margin: 25px auto 20px;
 
-}
-#admin_nav
-{
-  text-align: left;
-  position:relative;
-  .container {
-    z-index:19;
-    border: 1px solid $error_red;
-    background-color: #ffcccc;
-    margin: 4px auto 0;
-    padding: 5px 3px;
-    .admin-lk {
-      padding: 0 3px;
-    }
-    .link_groups {
-      display: inline-block;
-      width: 90%;
-    }
-    .link_section {
-      width: 250px;
-      display: inline-block;
-      &.main {
-        width: auto;
-        vertical-align:top;
-        margin-right: 13px;
-      }
-    }
-    .title {
-      text-transform: uppercase;
-      letter-spacing: -1px;
-    }
-  }
 }
 
 .two_column .calendar {

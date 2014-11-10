@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140615191253) do
+ActiveRecord::Schema.define(:version => 20141026211859) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -147,8 +147,8 @@ ActiveRecord::Schema.define(:version => 20140615191253) do
     t.datetime "published_at"
     t.datetime "reception_starttime"
     t.datetime "reception_endtime"
-    t.datetime "created_at",          :default => '2014-05-31 19:13:55'
-    t.datetime "updated_at",          :default => '2014-05-31 19:13:55'
+    t.datetime "created_at",          :default => '2014-06-30 18:01:30'
+    t.datetime "updated_at",          :default => '2014-06-30 18:01:30'
   end
 
   create_table "favorites", :force => true do |t|
@@ -189,8 +189,14 @@ ActiveRecord::Schema.define(:version => 20140615191253) do
   create_table "open_studios_events", :force => true do |t|
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
+    t.string   "key"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.string   "title",             :default => "Open Studios", :null => false
   end
 
   create_table "open_studios_tallies", :force => true do |t|
@@ -271,6 +277,8 @@ ActiveRecord::Schema.define(:version => 20140615191253) do
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
     t.string   "type",                                     :default => "Artist"
     t.date     "mailchimp_subscribed_at"
+    t.string   "pinterest"
+    t.string   "instagram"
     t.string   "persistence_token"
     t.integer  "login_count",                              :default => 0,                                                                :null => false
     t.datetime "last_request_at"

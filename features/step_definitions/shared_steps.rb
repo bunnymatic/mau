@@ -4,11 +4,35 @@ def path_from_title(titleized_path_name)
   send(path_helper_name)
 end
 
+def find_first_link_or_button(locator)
+  find_links_or_buttons(locator).first
+end
+
+def find_last_link_or_button(locator)
+  find_links_or_buttons(locator).last
+end
+
+# careful here with JS.  these don't "wait for" things to show up
+# so invisible buttons that may become visible because of animation
+# will cause issues - use click_on instead
+def all_links_or_buttons_with_title(title)
+  all('a').select{|a| a["title"] == title } ||
+    all('button').select{|b| b.value == title }
+end
+
+def find_links_or_buttons(locator)
+  result = all("##{locator}") if /^-_[A-z][0-9]*$/ =~ locator
+  return result unless result.blank?
+  result = all('a,button', text: locator)
+  return result unless result.blank?
+  all_links_or_buttons_with_title(locator)
+end
+
 Then /^show me the page$/ do
   save_and_open_page
 end
 
-Then /^I save a screenshot$/ do
+Then /^I (save|take) a screenshot$/ do |dummy|
   f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
   save_screenshot(f)
   puts "Saved Screenshot #{f}"
@@ -31,7 +55,7 @@ Then(/^I see a flash notice "(.*?)"$/) do |msg|
 end
 
 Then(/^I close the notice$/) do
-  find('.notice .close-btn').click()
+  find('.notice .close-btn').trigger('click')
 end
 
 When(/^I visit the "(.*?)" page$/) do |titleized_path_name|
@@ -60,13 +84,13 @@ end
 
 When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
   within('.tbl-content') do
-    all('a,button', text: button_text).first.click
+    find_first_link_or_button(button_text).click
   end
 end
 
-When(/^I click on the last "([^"]*?)" button$/) do |button_text|
+When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, dummy|
   within('.tbl-content') do
-    all('a,button', text: button_text).last.click
+    find_last_link_or_button(button_text).click
   end
 end
 

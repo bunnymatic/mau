@@ -7,8 +7,7 @@ _cached_feeds.html
 tmp
 studiodata
 artistdata
-public/system/studiodata
-public/system/artistdata
+public/system/*
 log
 db/backup
 backups
@@ -22,3 +21,4 @@ log
 coverage/*
 flog.report*
 secret/*
+

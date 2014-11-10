@@ -15,7 +15,8 @@ MAU.Flash = class Flash
     if (!c.length)
       c = document.body;
     jQuery(c).prepend($w);
-    $w.find('.close-btn').bind 'click', () ->
+    $w.find('.close-btn').bind 'click', (ev) ->
+      ev.preventDefault()
  	    $w.hide()
     setTimeout () ->
       $w.hide()

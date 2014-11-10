@@ -1,9 +1,13 @@
 require 'spec_helper'
 
 describe FeedbackMailer do
-  fixtures :emails, :email_lists, :email_list_memberships, :feedbacks
+
+  let(:fb) { FactoryGirl.create(:feedback) }
+  before do
+    list = FactoryGirl.create(:feedback_email_list, :with_member)
+  end
+
   it 'sets up the right "to" addresses' do
-    fb = feedbacks(:feedback1)
     m = FeedbackMailer.feedback(fb)
     FeedbackMailerList.first.emails.each do |expected|
       m.to.should include expected.email
@@ -12,7 +16,6 @@ describe FeedbackMailer do
   end
 
   it 'does not actually deliver the email' do
-    fb = feedbacks(:feedback1)
     m = FeedbackMailer.feedback(fb)
     expect(m).to_not receive(:old_deliver!)
     m.deliver!

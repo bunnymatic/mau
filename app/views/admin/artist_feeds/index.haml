@@ -1,0 +1,33 @@
+.artist_feeds
+  %h1 Artist Feeds
+  .links
+    = link_to new_admin_artist_feed_path, title: 'add feed' do
+      = fa_icon('plus')
+  %table.feed_entry
+    %thead
+      %tr
+        %th.feed Feed URL
+        %th.url Website (for link)
+        %th.active Active?
+        %th
+    %tbody
+      - @feeds.each_with_index do |feed, idx|
+        %tr.feed_entry{class: cycle('even','odd')}
+          %td.feed
+            %a{href: feed.feed} #{feed.feed}
+          %td.url
+            %a{href: feed.url} #{feed.url}
+          %td.active 
+            = fa_icon('check') if feed.active
+          %td.controls
+            = link_to edit_admin_artist_feed_path(feed), title: 'edit' do
+              = fa_icon('edit')
+            = link_to [:admin, feed], title: 'remove', confirm: 'Are you sure?', method: :delete do
+              = fa_icon('remove')
+
+.current_feed_content
+  %h4 Current Feeds
+  .controls
+    %a{href: '/feeds/clear_cache'} Fetch New Feeds
+  .feeds
+    != @feed_html

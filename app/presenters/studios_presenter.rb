@@ -1,5 +1,4 @@
 class StudiosPresenter
-  include OsHelper
 
   include Enumerable
   attr_reader :view_mode
@@ -11,7 +10,7 @@ class StudiosPresenter
   end
 
   def studios_by_count
-    @studios_by_count ||= @studios.sort_by{|s| -s.active_artists.count}
+    @studios_by_count ||= @studios.sort_by{|s| -s.artists.active.count}
   end
 
   def order_by_count?

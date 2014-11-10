@@ -2,21 +2,26 @@
   %h1 listing tags
 
   .controls
-    %a{:href => cleanup_admin_art_piece_tags_path} delete unused tags
-  %table
-    %tr
-      %th ID
-      %th Name
-      %th Count
+    %a{href: cleanup_admin_art_piece_tags_path} delete unused tags
+  %table.js-data-tables#tags_index
+    %thead
+      %tr
+        %th ID
+        %th Name
+        %th Count
+        %th
+    %tbody
       - @tags.each_with_index do |(tag, ct), idx|
         - clz = cycle('even','odd')
         - clz << ' error-msg' if ct <= 0
-        %tr{:class => clz}
+        %tr{class: clz}
           %td #{tag.id}
           %td #{tag.name}
           %td.input-name.ct #{ct}
-          %td.input-name
-            = link_to 'Show', tag
-          %td.input-name
-            = link_to('Destroy', tag, :confirm => 'Are you sure?', :method => :delete)
-
+          %td.admin-controls
+            .show.btn
+              = link_to tag, title: 'show' do
+                = fa_icon 'eye-open'
+            .remove.btn
+              = link_to tag, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
+                = fa_icon 'remove'

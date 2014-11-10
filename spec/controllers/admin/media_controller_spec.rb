@@ -2,9 +2,8 @@ require 'spec_helper'
 
 describe Admin::MediaController do
 
-  fixtures :media
-
   let(:admin) { FactoryGirl.create(:artist, :admin, :active) }
+  let!(:media) { FactoryGirl.create_list(:medium, 3) }
 
   describe '#index' do
     context 'as unauthorized' do

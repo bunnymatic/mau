@@ -1,23 +1,22 @@
 require 'spec_helper'
 
 describe Favorite, 'named scopes' do
-  fixtures :users, :artist_infos, :art_pieces
 
-  let(:fan) { users(:maufan1) }
-  let(:jesse) { users(:jesseponce) }
-  let(:anna) { users(:annafizyta) }
-  let(:artist1) { users(:artist1) }
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+  let!(:jesse) { FactoryGirl.create(:artist, :with_studio, :with_art) }
+  let(:anna) { FactoryGirl.create(:artist, :with_studio, :with_art) }
+  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art) }
 
   let(:favorite_art_pieces) { Favorite.art_pieces }
   let(:favorite_artists) { Favorite.artists }
   let(:favorite_users) { Favorite.users }
   before do
-    fan.add_favorite ArtPiece.first
-    fan.add_favorite artist1
+    fan.add_favorite artist.art_pieces.first
+    fan.add_favorite artist
     fan.add_favorite jesse
-    jesse.add_favorite ArtPiece.first
-    jesse.add_favorite artist1
-    anna.add_favorite ArtPiece.last
+    jesse.add_favorite artist.art_pieces.first
+    jesse.add_favorite artist
+    anna.add_favorite jesse.art_pieces.last
   end
   it "users finds only users or artists" do
     favorite_users.count.should > 0

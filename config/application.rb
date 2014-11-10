@@ -56,8 +56,7 @@ module Mau
     # Use the memcached store with an options hash
     config.cache_store = :dalli_store, { :namespace => 'maudev'}
 
-    app_paths = %w(lib mailers presenters paginators)
-    app_paths << File.join('models', "concerns", '**')
+    app_paths = %w(services lib mailers presenters paginators models/concerns)
     config.autoload_paths += app_paths.map{|path| File.join(Rails.root,'app', path)}
 
     POSTMARK_API_KEY = 'POSTMARK_API_TEST'
@@ -78,6 +77,13 @@ module Mau
     config.skylight.environments << 'acceptance'
 
     config.filter_parameters += [:password, :password_confirmation]
+
+    config.s3_info = {
+      bucket: ENV['S3_BUCKET'] || "mission-artists-#{Rails.env}",
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'] || 'bogus',
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'] || 'bogus'
+    }
+
   end
 
 end

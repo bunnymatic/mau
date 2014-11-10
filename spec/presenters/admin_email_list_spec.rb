@@ -1,9 +1,12 @@
 require 'spec_helper'
 
 describe AdminEmailList do
-  include OsHelper
 
-  fixtures :artist_infos, :users, :roles_users, :roles
+  before do
+    FactoryGirl.create(:open_studios_event, :future)
+    FactoryGirl.create_list(:artist, 2, :active)
+    FactoryGirl.create_list(:artist, 2)
+  end
 
   let(:listname) { 'active' }
   subject(:email_list) { AdminEmailList.new(listname) }
@@ -58,12 +61,12 @@ describe AdminEmailList do
     describe "list name is #{ostag}" do
       let(:listname) { ostag }
       it "assigns a list of os artists for #{ostag} when we ask for the #{ostag} list" do
-        emails.length.should eql Artist.active.all.select{|a| a.os_participation[ostag]}.count
+        emails.length.should eql Artist.active.all.count{|a| a.os_participation[ostag]}
       end
 
       it "shows the title and list size and correct emails when we ask for #{ostag}" do
-        expected_participants = Artist.active.all.select{|a| a.os_participation[ostag]}.count
-        expected_tag = os_pretty(ostag)
+        expected_participants = Artist.active.all.count{|a| a.os_participation[ostag]}
+        expected_tag = OpenStudiosEvent.for_display(ostag)
         email_list.display_title.should eql "#{expected_tag} [#{expected_participants}]"
       end
 

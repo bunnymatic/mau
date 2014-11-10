@@ -1,0 +1,2 @@
+class ArtistNavigation
+end

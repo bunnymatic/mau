@@ -1,12 +1,6 @@
 require 'spec_helper'
 
 describe BlacklistDomain do
-  fixtures :blacklist_domains
-  before(:each) do
-    @valid_attributes = {
-      :domain => "domain.com"
-    }
-  end
 
   it "downcases the domain" do
     BlacklistDomain.create!(:domain => 'MYUppercaseDomain.com')
@@ -14,7 +8,7 @@ describe BlacklistDomain do
   end
 
   it "should create a new instance given valid attributes" do
-    BlacklistDomain.create!(@valid_attributes)
+    BlacklistDomain.create! FactoryGirl.attributes_for(:blacklist_domain)
   end
 
   %w( valid.com a.valid.domain.biz ).each do |domain|
@@ -30,6 +24,9 @@ describe BlacklistDomain do
   end
 
   describe '#is_allowed?' do
+    before do
+      FactoryGirl.create(:blacklist_domain, domain: "blacklist.com")
+    end
     it 'finds blacklist domains in email' do
       BlacklistDomain::is_allowed?("jon@blacklist.com").should be_false
     end

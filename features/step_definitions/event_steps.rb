@@ -11,7 +11,7 @@ Then(/^I see a list of months and years for existing events/) do
 end
 
 Then(/^I click on the calendar link$/) do
-  all('a', :text => "View Events Calendar").first.click
+  all('a', text: "View Events Calendar").first.click
 end
 
 Then(/^I see the events for that month$/) do
@@ -19,7 +19,7 @@ Then(/^I see the events for that month$/) do
   expected_events = Event.published.select{|ev| ev.stime.strftime('%Y%m') == key }
   expect(expected_events).to have_at_least(1).event
   expected_events.each do |ev|
-    expect(page).to have_selector('.title', :text => ev.title)
+    expect(page).to have_selector('.title', text: ev.title)
   end
 end
 
@@ -31,7 +31,7 @@ end
 Then(/^I see a feed of events/) do
   published_events = @events.select{|e| e.published_at.present?}
 
-  expect(page).to have_selector 'entry content', :count => published_events.count
-  expect(page).to have_selector 'entry id', :count => published_events.count
+  expect(page).to have_selector 'entry content', count: published_events.count
+  expect(page).to have_selector 'entry id', count: published_events.count
   expect(page).to have_content published_events.first.title
 end

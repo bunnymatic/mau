@@ -4,10 +4,8 @@ describe ArtistsPresenter do
 
   include PresenterSpecHelpers
 
-  fixtures :users, :roles_users,  :roles, :artist_infos, :art_pieces,
-    :studios, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
-
   let(:os_only) { false }
+  let!(:artists) { FactoryGirl.create_list :artist, 4, :with_art }
 
   subject(:presenter) { ArtistsPresenter.new(mock_view_context, os_only) }
 

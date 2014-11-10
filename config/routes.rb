@@ -1,8 +1,5 @@
 Mau::Application.routes.draw do
 
-  resources :blacklist_domains, :except => [:show]
-  resources :roles
-  resources :cms_documents, :except => [:destroy]
   resources :media, :only => [:index, :show]
 
   resource :user_session
@@ -12,7 +9,6 @@ Mau::Application.routes.draw do
 
   resources :studios, :only => [:index, :show]
 
-  resources :artist_feeds, :except => [:show]
   resource :feeds, :only => [] do
     get :feed
     get :clear_cache
@@ -94,7 +90,7 @@ Mau::Application.routes.draw do
       put :notify
       get :favorites
     end
-    resources :roles, :only => [:destroy]
+    resources :roles, :only => [:destroy], :controller => 'Admin::Roles'
   end
 
   resource :main, :controller => :main do
@@ -130,7 +126,28 @@ Mau::Application.routes.draw do
   match '/error' => 'error#index', :as => :error
 
   namespace :admin do
-    resources :email_lists, :only => [:index, :destroy] do
+    get :fans
+    get :os_status
+    get :os_signups
+    get :db_backups
+    get :fetch_backup
+    get :palette
+    get :featured_artist
+    get :artists_per_day
+    get :art_pieces_per_day
+    get :favorites_per_day
+    get :emaillist
+    
+    match '/discount/markup' => 'discount#markup', :as => :discount_processor
+
+    post :featured_artist, :as => :get_next_featured
+
+    resources :roles
+    resources :cms_documents
+    resources :blacklist_domains, :except => [:show]
+    resources :artist_feeds, :except => [:show]
+    resources :open_studios_events, :only => [:index, :edit, :new, :create, :update, :destroy]
+    resources :email_lists, :only => [:index, :new, :destroy] do
       collection do
         post :add
       end
@@ -172,10 +189,8 @@ Mau::Application.routes.draw do
     end
   end
 
-  match '/admin/featured_artist' => 'admin#featured_artist', :as => :get_next_featured, :method => 'post'
-  match '/admin/:action' => 'admin#index', :as => :admin
-  match '/maufans/:id' => 'users#show', :as => :mau_fans
-  match '/discount/markup' => 'discount#markup', :as => :discount_processor
+  match '/admin' => 'admin#index', :as => :admin
+
   match '/mobile/main' => 'mobile/main#welcome', :as => :mobile_root
   match '/sitemap.xml' => 'main#sitemap', :as => :sitemap
   match '/api/*path' => 'api#index'

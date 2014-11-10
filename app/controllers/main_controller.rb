@@ -50,21 +50,13 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United - Get Involved!"
     @page = params[:p]
 
-    if @page == 'paypal_success'
-      flash.now[:notice] = "Thanks for your donation!  We'll spend it wisely."
-    end
-    if @page == 'paypal_cancel'
-      flash.now[:error] = "Did you have problems submitting your donation?"+
-        " If so, please tell us with the feedback link at the bottom of the page."+
-        " We'd love to know if the website or the PayPal connection is not working."
-    end
+    setup_paypal_flash_messages(@page)
 
     # handle feedback from the get involved page
     @feedback = Feedback.new
     if params[:commit]
       @feedback = Feedback.new(params[:feedback])
-      if @feedback.valid?
-        @feedback.save
+      if @feedback.save
         FeedbackMailer.feedback(@feedback).deliver!
         flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
       else
@@ -220,5 +212,18 @@ class MainController < ApplicationController
 EOM
     render :xml => sitemap
   end
+
+  private
+  def setup_paypal_flash_messages(page)
+    if page == 'paypal_success'
+      flash.now[:notice] = "Thanks for your donation!  We'll spend it wisely."
+    end
+    if page == 'paypal_cancel'
+      flash.now[:error] = "Did you have problems submitting your donation?"+
+        " If so, please tell us with the feedback link at the bottom of the page."+
+        " We'd love to know if the website or the PayPal connection is not working."
+    end
+  end
+
 
 end

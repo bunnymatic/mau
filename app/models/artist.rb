@@ -28,6 +28,8 @@
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
+#  pinterest                 :string(255)
+#  instagram                 :string(255)
 #  persistence_token         :string(255)
 #  login_count               :integer          default(0), not null
 #  last_request_at           :datetime
@@ -67,6 +69,8 @@ class Artist < User
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
 
   include AddressMixin
+  include OpenStudiosEventShim
+
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
   scope :with_artist_info, includes(:artist_info)
@@ -106,7 +110,6 @@ class Artist < User
 
   def in_the_mission?
     return false unless address_hash && address_hash.has_key?(:latlng)
-
     lat,lng = address_hash[:latlng]
     sw = BOUNDS['SW']
     ne = BOUNDS['NE']
@@ -118,7 +121,7 @@ class Artist < User
   end
 
   def doing_open_studios?
-    !!(Conf.oslive && os_participation && os_participation[Conf.oslive.to_s])
+    !!(current_open_studios_key && os_participation && os_participation[current_open_studios_key.to_s])
   end
 
   def address
@@ -185,21 +188,20 @@ class Artist < User
     def tally_os
       today = Time.zone.now.to_date
       count = Artist.open_studios_participants.count
-      conf = Conf.oslive.to_s
       recorded_on = today
 
       o = OpenStudiosTally.find_by_recorded_on(today)
       if o
-        o.update_attributes(:oskey => conf, :count => count)
+        o.update_attributes(:oskey => current_open_studios_key, :count => count)
       else
-        OpenStudiosTally.create!(:oskey => conf, :count => count, :recorded_on => today)
+        OpenStudiosTally.create!(:oskey => current_open_studios_key, :count => count, :recorded_on => today)
       end
 
     end
   end
 
   def self.open_studios_participants(oskey = nil)
-    q = (oskey || Conf.oslive).to_s
+    q = (oskey || self.current_open_studios_key).to_s
     joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
   end
 

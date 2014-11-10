@@ -2,8 +2,10 @@ require 'csv'
 
 class CatalogPresenter
 
+  include OpenStudiosEventShim
+
   def csv_filename
-    @csv_filename ||= (['mau_catalog', Conf.oslive.to_s].compact.join("_") + '.csv')
+    @csv_filename ||= (['mau_catalog', current_open_studios_key].compact.join("_") + '.csv')
   end
 
   def csv

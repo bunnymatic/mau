@@ -1,5 +1,5 @@
-/*
- *= require colorbox-rails
+/*= require font-awesome
+ *= require colorbox
  *= require pickadate/classic
  *= require pickadate/classic.date
  *= require pickadate/classic.time
@@ -11,5 +11,5 @@
  *= require art_pieces
  *= require colorbox
  *= require select2
- *= require_tree ./mau_admin
+ *= require mau_admin
  */

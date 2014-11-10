@@ -1,0 +1,20 @@
+#role_mgr
+  = render :partial => '/flash_notice_error'
+  .links
+    = link_to "[back to all roles]", admin_roles_path
+  %h3
+    Manage
+    %em #{@role.role}
+  %h4 Members
+  .controls
+    = form_for [:admin, @role], :html => {:class => 'js-hook hidden'} do |f|
+      = select_tag 'user', options_from_collection_for_select(@users, :id, :fullname)
+      = f.submit "add user", :class => 'formbutton'
+    = link_to "[add user to role]", "#", :class => 'add_userrole'
+
+  %ul.members_edit{"data-role" => @role.id}
+    - @role_users.each do |u|
+      %li{:class => cycle("even", "odd"), "data-user" => u.id}
+        .user
+          = u.fullname
+          = link_to "X", "/users/#{u.id}/roles/#{@role.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.fullname} from the #{@role.role} group?" unless (u == current_user && @role == Role.admin)

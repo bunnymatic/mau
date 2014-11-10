@@ -1,26 +1,17 @@
 require 'spec_helper'
 
-describe ApplicationEvent do
-  fixtures :application_events
+describe ApplicationEvent, eventmachine: true do
 
-  let(:events) { ApplicationEvent.all }
-
-  before do
-    events.any?{|ae| ae.data}.should be_true, 'you need some application events with data in your fixtures'
-  end
+  let(:os_event) { FactoryGirl.create(:open_studios_signup_event, data: {user: 'artist'})} 
 
   it 'serializes the data field' do
-    events.select{|ae| ae.data}.each do |ae|
-      ae.data.should be_a_kind_of Hash
-    end
-  end
-
-  it 'functions as an STI table' do
-    OpenStudiosSignupEvent.all.should eql ApplicationEvent.where(:type => 'OpenStudiosSignupEvent').to_a
+    os_event.data.should be_a_kind_of Hash
   end
 
   it 'sends events to subscribers after save' do
-    Messager.any_instance.should_receive(:publish)
+    mock_messager = double(Messager)
+    mock_messager.should receive :publish
+    Messager.should_receive(:new).and_return mock_messager
     OpenStudiosSignupEvent.create(:message => 'this is a new open studios event')
   end
 end

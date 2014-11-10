@@ -1,5 +1,7 @@
 class SocialCatalogPresenter
 
+  include OpenStudiosEventShim
+
   SOCIAL_KEYS = [:facebook, :flickr, :twitter, :blog, :myspace].freeze
 
   def artists
@@ -21,7 +23,7 @@ class SocialCatalogPresenter
   end
 
   def csv_filename
-    @csv_filename ||= (['mau_social_artists', Conf.oslive.to_s].compact.join("_") + ".csv")
+    @csv_filename ||= (['mau_social_artists', current_open_studios_key].compact.join("_") + ".csv")
   end
 
   private

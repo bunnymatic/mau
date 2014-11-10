@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 ruby '2.1.2'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
+gem 'font-awesome-rails'
 # gem 'aasm'
 gem "nokogiri", '~> 1.6'
 gem "htmlentities"
-gem "json"
 gem 'mysql2'
 gem "haml"
 gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
-gem 'tzinfo'
 gem 'rdiscount' # markdown processor
 gem 'mobile-fu', github: 'rcode5/mobile-fu'
 gem 'capistrano', '~> 3.1.0'
@@ -37,7 +37,19 @@ gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'draper'
 gem 'spinjs-rails'
-gem 'angularjs-rails'
+gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
+gem 'paperclip'
+gem 'aws-sdk'
+
+# use bower assets
+gem 'rails-assets-angular'
+gem 'rails-assets-angular-resource'
+gem 'rails-assets-angular-sanitize'
+gem 'rails-assets-moment'
+gem 'rails-assets-lodash'
+gem 'rails-assets-colorbox' # lightbox plugin
+gem 'rails-assets-jquery'
+gem 'rails-assets-jquery-ujs'
 
 # authentication
 gem 'authlogic'
@@ -46,7 +58,6 @@ gem 'authlogic'
 gem 'postmark-rails'
 gem 'postmark'
 
-gem 'jquery-rails'
 gem 'jquery_mobile_rails'
 
 gem 'newrelic_rpm'
@@ -55,11 +66,8 @@ gem 'unicorn'
 
 gem 'flot-rails' # jquery plotting program
 
-gem 'colorbox-rails' # lightbox plugin
-
 gem 'select2-rails' # autocompleter
 
-gem 'underscore-rails'
 gem 'underscore-string-rails'
 
 gem 'multi_json'
@@ -88,8 +96,9 @@ group :development do
   gem 'annotate'
   #gem 'capistrano-nginx-unicorn', require: false, group: :development
   gem 'capistrano3-unicorn'
-  gem 'thin'
+  gem 'spring'
 end
+
 group :test, :development do
   gem 'guard-coffeescript'
   gem 'guard-rspec'
@@ -108,6 +117,8 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'quiet_assets'
   gem 'jasminerice', github: 'bradphelan/jasminerice' 
+  gem 'timecop'
+
 #  gem 'better_errors'
 #  gem "binding_of_caller"
 

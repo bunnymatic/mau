@@ -2,12 +2,10 @@ require 'spec_helper'
 
 describe ArtistProfileImage do
 
-  fixtures :users, :artist_infos, :studios
-
-  let(:artist) { users(:artist1) }
+  let(:artist) { FactoryGirl.create(:artist, :active, :with_studio) }
 
   describe '#save' do
-    let(:file) { Faker::Files.file }
+    let(:file) { 'blurp.jpg' }
     let(:upload) { {'datafile' => double('UploadedFile', :original_filename => file) } }
     let(:image_info) { OpenStruct.new({:path => 'artist_image.jpg', :height => 1234, :width => 2233} ) }
     let(:mock_image_file) { double("MockImageFile") }

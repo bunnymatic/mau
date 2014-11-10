@@ -1,0 +1,50 @@
+@import 'colors';
+@import 'mau-mixins';
+
+#admin_nav
+{
+  position: fixed;
+  z-index: 30;
+  width: 200px;
+  left: calc(100% - 20px);
+  left: -webkit-calc(100% - 20px);
+  color:$darkgray;
+  font-size:small;
+  margin: 0 auto;
+  @include transition(left 0.4s ease-out);
+  &:hover {
+    left: calc(100% - 200px);
+    left: -webkit-calc(100% - 200px);
+  }
+  .container {
+    position: relative;
+    z-index:1;
+    border: 1px solid $error_red;
+    background-color: #ffcccc;
+    margin: 4px auto 0;
+    padding: 9px 20px 20px 30px;
+    .handle {
+      height: 90px;
+      width: 16px;
+      position: absolute;
+      left: 5px;
+      top: 10px;
+      background-image: image_url("draggable-handle.png");
+    }
+    ul ul {
+      border-top: 1px solid #c99;
+      > li {
+        margin-left: 5px;
+      }
+      &.main {
+        width: auto;
+        vertical-align:top;
+        margin-right: 13px;
+      }
+    }
+    .title {
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+  }
+}

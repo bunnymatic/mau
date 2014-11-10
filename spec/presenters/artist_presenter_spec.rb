@@ -4,7 +4,7 @@ describe ArtistPresenter do
 
   include PresenterSpecHelpers
 
-  let(:viewer) { FactoryGirl.create(:artist, :active) }
+  let(:viewer) { FactoryGirl.build(:artist, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
   subject(:presenter) { ArtistPresenter.new(mock_view_context(viewer), artist) }
 
@@ -13,8 +13,8 @@ describe ArtistPresenter do
   its(:has_bio?) { should be_true }
   its(:bio_html) { should eq RDiscount.new(artist.artist_info.bio).to_html.html_safe }
   its(:allows_email_from_artists?) { should be_true }
-  its(:has_links?) { should be_false }
-  its(:links) { should be_empty }
+  its(:has_links?) { should be_true }
+  its(:links) { should be_present }
   its(:fb_share_link) {
     should include "http://www.facebook.com\/sharer.php?u=#{artist.get_share_link(true)}"
   }
@@ -68,15 +68,11 @@ describe ArtistPresenter do
 
   context 'with links' do
     before do
-      Artist.any_instance.stub(:url => 'https://safe.com',
-                               :facebook => 'http://facebookit.com',
-                               :instagram => 'instagram.com/me')
+      Artist.any_instance.stub(:url => nil,
+                               :facebook => nil,
+                               :instagram => nil)
     end
-    its(:has_links?) { should be_true }
-    its(:links) { should eql [[:u_website, 'Website', 'https://safe.com'],
-                              [:u_instagram, 'Instagram', 'http://instagram.com/me'],
-                              [:u_facebook, 'Facebook', 'http://facebookit.com']]}
-
+    its(:has_links?) { should be_false }
   end
 
   context 'when logged in as the artist being presented' do

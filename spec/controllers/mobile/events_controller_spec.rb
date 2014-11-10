@@ -3,12 +3,11 @@ require 'spec_helper'
 describe EventsController do
 
   render_views
+  let!(:events) { FactoryGirl.create_list(:event, 2, :published) + FactoryGirl.create_list(:event, 2) }
+  let(:event) { events.first }
+  let(:editor) { FactoryGirl.create(:artist, :editor) }
+  let(:artist) { FactoryGirl.create(:artist, :active) }
 
-  fixtures :users
-  fixtures :artist_infos
-  fixtures :art_pieces
-  fixtures :studios
-  fixtures :events
   before do
     # do mobile
     request.stub(:user_agent => IPHONE_USER_AGENT)
@@ -30,8 +29,7 @@ describe EventsController do
 
   describe "#show" do
     before do
-      @event = events(:url_with_http)
-      get :show, :id => @event, :format => :mobile
+      get :show, :id => event, :format => :mobile
     end
     it_should_behave_like "a regular mobile page"
     it_should_behave_like "non-welcome mobile page"
@@ -39,8 +37,8 @@ describe EventsController do
       css_select('.event .reception_time').should be_empty
     end
     it 'the reception time is shown for an event with a reception' do
-      ev = events(:reception_start)
-      get :show, :id => ev.id
+      event.update_attribute :reception_starttime, event.starttime
+      get :show, :id => event.id
       assert_select('.event .reception_time', /Reception\:/);
     end
   end

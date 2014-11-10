@@ -4,7 +4,7 @@
   max-width: 500px;
   margin:12px auto;
   min-height: 30px;
-  .label {
+  .label, label {
     float:left;
     width: 25%;
     text-align:right;
@@ -20,6 +20,10 @@
   }
   .select2-choices {
     @include small-rounded-corners;
+  }
+  .help {
+    text-align: center;
+    font-style: italic;
   }
 }
 

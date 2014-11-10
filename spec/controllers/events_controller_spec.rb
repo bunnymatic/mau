@@ -2,9 +2,11 @@ require 'spec_helper'
 
 describe EventsController do
 
-  fixtures :users, :studios, :artist_infos, :roles, :roles_users, :events, :art_pieces
-
   render_views
+  let!(:events) { FactoryGirl.create_list(:event, 2, :published) + FactoryGirl.create_list(:event, 2) }
+  let(:event) { events.first }
+  let(:editor) { FactoryGirl.create(:artist, :editor) }
+  let(:artist) { FactoryGirl.create(:artist, :active) }
 
   describe 'unauthorized' do
 
@@ -59,8 +61,8 @@ describe EventsController do
 
     describe '#show' do
       before do
-        @event = Event.all.first
-        get 'show', :id => events(:html_description).id
+        event.update_attribute(:description, "<p><b>paragraph</b></p>")
+        get 'show', :id => event.id
       end
       it { expect(response).to be_success }
       it 'renders the event text properly' do
@@ -71,11 +73,11 @@ describe EventsController do
         assert_select ".calendar_link a", /View.*\&raquo;/
       end
       it 'renders the event_url properly' do
-        expected_url = events(:html_description).url
+        expected_url = event.url
         assert_select ".url a[href=#{expected_url}]", expected_url.gsub(/https?:\/\//, '')
       end
       it 'renders the event_url properly' do
-        expected_url = events(:html_description).url
+        expected_url = event.url
         assert_select ".url a[href=#{expected_url}]", expected_url.gsub(/https?:\/\//, '')
       end
 
@@ -86,7 +88,7 @@ describe EventsController do
   describe 'authorized as an editor' do
 
     before do
-      login_as :editor
+      login_as editor
     end
 
     context 'new' do
@@ -105,7 +107,7 @@ describe EventsController do
 
     context 'create' do
       let(:event_attrs) do
-        attrs = FactoryGirl.attributes_for(:event).merge({:artist_list => Artist.active.first.get_name})
+        attrs = FactoryGirl.attributes_for(:event).merge({:artist_list => artist.get_name})
         attrs.delete(:starttime)
         attrs.delete(:reception_starttime)
         attrs.delete(:endtime)
@@ -132,7 +134,7 @@ describe EventsController do
         end
         it 'adds the artist name to the event' do
           event = Event.where(:url => event_attrs[:url]).first!
-          expect(event.description).to include Artist.active.first.get_name
+          expect(event.description).to include artist.get_name
         end
         it 'sets the starttime' do
           event = Event.where(:url => event_attrs[:url]).first!
@@ -178,19 +180,18 @@ describe EventsController do
     end
 
     context 'update' do
-      let (:event) { Event.last }
       let (:new_attrs) do
-        attrs = {}
-        attrs[:title] = 'new event title'
-        attrs[:start_time] = "12:00 PM"
-        attrs[:start_date] = "21 January, 2013"
-        attrs[:reception_start_time] = "12:00 PM"
-        attrs[:reception_start_date] = "22 January, 2013"
-        attrs[:end_time] = "12:00 PM"
-        attrs[:end_date] = "21 February, 2013"
-        attrs[:reception_end_time] = "1:00 PM"
-        attrs[:reception_end_date] = "22 January, 2013"
-        attrs
+        {}.tap do |attrs|
+          attrs[:title] = 'new event title'
+          attrs[:start_time] = "12:00 PM"
+          attrs[:start_date] = "21 January, 2013"
+          attrs[:reception_start_time] = "12:00 PM"
+          attrs[:reception_start_date] = "22 January, 2013"
+          attrs[:end_time] = "12:00 PM"
+          attrs[:end_date] = "21 February, 2013"
+          attrs[:reception_end_time] = "1:00 PM"
+          attrs[:reception_end_date] = "22 January, 2013"
+        end
       end
       before do
         put :update, :id => event, :event => new_attrs

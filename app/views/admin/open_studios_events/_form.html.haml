@@ -1,0 +1,25 @@
+/ locals os_event
+.js-open-studios-event-editor
+  = form_for [:admin, os_event], multipart: true do |f|
+    = render partial: 'common/form_errors', locals: { form: f }
+    .form-group
+      = f.label :title
+      = f.text_field :title, placeholder: 'e.g. Spring Open Studios'
+    .form-group
+      = f.label :start_date
+      = f.text_field :start_date, class: "js-datepicker", placeholder: 'choose a date', value: os_event.start_date.try(:to_s,:pickadate)
+    .form-group
+      = f.label :end_date
+      = f.text_field :end_date, class: "js-datepicker", placeholder: 'choose a date', value: os_event.end_date.try(:to_s,:pickadate)
+    .form-group
+      = f.label :key
+      = f.text_field :key, placeholder: 'e.g. YYYYMM'
+    .form-group
+      = f.label :logo
+      = f.file_field :logo
+      .help Current: #{os_event.logo? ? os_event.logo.original_filename : 'none'}
+      .help This should be square and will be scaled to 200x200 for the front page.
+    .form-controls
+      = f.submit
+      = link_to 'Cancel', admin_open_studios_events_path, class: 'formbutton'
+  

@@ -2,20 +2,21 @@ require 'spec_helper'
 
 describe MediaPresenter do
 
-  fixtures :users, :artist_infos, :studios, :art_pieces, :media, :roles, :roles_users
-
   include PresenterSpecHelpers
+
+  let(:media) { FactoryGirl.create_list(:medium, 4) }
+  let(:artists) { FactoryGirl.create_list(:artist, 5, :with_art) }
+  let!(:art_pieces) do
+    pieces = artists.map(&:art_pieces).flatten 
+    pieces.each { |ap| ap.update_attribute :medium_id, select_medium.id }
+  end
 
   let(:page) { 1 }
   let(:mode) { nil }
   let(:per_page) { 2 }
-  let(:select_medium) { media(:medium2) }
+  let(:select_medium) { media.last }
 
   subject(:presenter) { MediaPresenter.new(mock_view_context, select_medium, page, mode, per_page) }
-
-  it 'fixture validation' do
-    expect(select_medium.art_pieces.count).to be > 2
-  end
 
   its(:by_artists?) { should be_false }
   its(:by_pieces?) { should be_true }

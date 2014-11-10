@@ -4,9 +4,6 @@ describe ArtistsMap do
 
   include PresenterSpecHelpers
 
-  fixtures :users, :roles_users,  :roles, :artist_infos, :art_pieces,
-    :studios, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
-
   let(:os_only) { false }
   let(:ne_bounds) { Artist::BOUNDS['NE'] }
   let(:sw_bounds) { Artist::BOUNDS['SW'] }

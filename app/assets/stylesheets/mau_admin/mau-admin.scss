@@ -1,4 +1,7 @@
+/*= require dataTables/jquery.dataTables */
+
 @import 'mau-mixins';
+@import 'datatables_overrides';
 
 body.admin {
   .chunk {
@@ -28,6 +31,20 @@ body.admin {
     display: block;
   }
 
+  /* for add/edit controls on an index page */
+  .admin-controls {
+    float:right;
+    font-size:18px;
+  }
+  td.admin-controls {
+    float:none;
+    text-align:right;
+    font-size: 14px;
+    .btn {
+      display: inline-block;
+    }
+  }
+    
 
   #role_mgr {
     padding-left: 20px;
@@ -38,8 +55,12 @@ body.admin {
       float: right;
     }
     .controls {
-      text-align:right;
-      float: right;
+      text-align: right;
+      margin-bottom: 20px;
+      .formbutton {
+        height: 38px;
+        margin-left: 10px;
+      }
     }
     ul {
       padding: 0 10px;
@@ -235,25 +256,28 @@ body.admin {
   .artist_feeds {
     .links {
       padding: 8px 0;
+      text-align: right;
+      font-size: 20px;
     }
     .feed_entry {
+      width: 100%;
       margin-bottom: 0;
+      tbody td {
+        vertical-align: inherit;
+        padding: 5px;
+      }
       &.header {
         border-bottom: 1px dotted $mediumgray;
         margin-bottom: 10px;
       }
-      .url, .feed, .controls, .active {
-        display: inline-block;
-        overflow: hidden;
-      }
-      .url, .feed {
-        width: 35%;
-      }
       .active {
+        text-align:center;
       }
       .controls {
-        width: 20%;
-        text-align: right;
+        width: auto; /* overrride from body.admin .controls */
+        .fa {
+          font-size: 14px;
+        }
       }
     }
   }
@@ -601,15 +625,6 @@ body.admin {
   h1 {
     text-align:center;
   }
-  .hide-rows, .sortby {
-    text-align:center;
-    padding: 10px 0 0;
-  }
-  .sortby {
-    a {
-      padding: 0 5px;
-    }
-  }
   .row-info {
     display: inline-block;
     padding: 4px;
@@ -621,6 +636,12 @@ body.admin {
   table {
     margin-left: auto;
     margin-right: auto;
+    th,td {
+      padding: 2px 4px;
+    }
+    thead {
+      border-bottom: 1px solid $bordergray;
+    }
   }
 }
 

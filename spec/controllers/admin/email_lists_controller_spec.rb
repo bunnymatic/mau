@@ -1,7 +1,19 @@
 require 'spec_helper'
 
 describe Admin::EmailListsController do
-  fixtures :email_lists, :emails, :email_list_memberships, :users, :roles_users, :roles
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:fan) { FactoryGirl.create(:fan, :active) }
+
+  let(:test_email) { 'mr_new@example.com' }
+  let(:email_attrs) { FactoryGirl.attributes_for(:email) }
+
+  let!(:lists) do
+    [:feedback_email_list, :admin_email_list, :event_email_list].each do |list| 
+      FactoryGirl.create(list) 
+    end
+    AdminMailerList.first.update_attributes(:emails => [ FactoryGirl.create(:email, :email => test_email) ])
+  end
+
   [:index].each do |endpoint|
     describe 'not logged in' do
       describe endpoint do
@@ -14,14 +26,14 @@ describe Admin::EmailListsController do
     describe 'logged in as plain user' do
       describe endpoint do
         before do
-          login_as :maufan1
+          login_as fan
           get endpoint
         end
         it_should_behave_like 'not authorized'
       end
     end
     it "responds success if logged in as admin" do
-      login_as :admin
+      login_as admin
       get endpoint
       expect(response).to be_success
     end
@@ -29,11 +41,8 @@ describe Admin::EmailListsController do
 
   describe 'POST#add' do
     before do
-      login_as :admin
+      login_as admin
     end
-    let(:test_email) { 'mr_new@example.com' }
-    let(:email_attrs) { {:name => 'new dude', :email => test_email } }
-    let(:lookup_email) { Email.where(:email => test_email).first }
 
     it 'returns 200 on success' do
       xhr :post, :add, :listtype => :event, :email => email_attrs
@@ -51,7 +60,7 @@ describe Admin::EmailListsController do
     end
     it 'adds a new email to the email list' do
       xhr :post, :add, :listtype => :admin, :email => email_attrs
-      AdminMailerList.first.emails.map(&:formatted).should include lookup_email.formatted
+      AdminMailerList.first.emails.map(&:formatted).should include FactoryGirl.build(:email, email_attrs).formatted
     end
 
     it 'redirects to itself with flash message when asking for an invalid list' do
@@ -63,16 +72,22 @@ describe Admin::EmailListsController do
   end
 
   describe 'POST#destroy' do
-    let(:first_email) { EventMailerList.first.emails.first }
+    let(:first_email) do
+      email = FactoryGirl.create(:email) 
+      EventMailerList.first.update_attributes(:emails => [ email ])
+      email
+    end
     before do
-      login_as :admin
+      login_as admin
     end
     it 'deletes entries from an email list' do
+      first_email
       expect {
         xhr :delete, :destroy, :listtype => :event, :id => first_email.id
       }.to change(EventMailerList.first.emails, :count).by(-1);
     end
     it 'does not delete the email from the email table' do
+      first_email
       expect {
         xhr :delete, :destroy, :listtype => :event, :id => first_email.id
       }.to change(Email, :count).by(0);
@@ -97,16 +112,21 @@ describe Admin::EmailListsController do
   describe '#index' do
     render_views
     before do
-      login_as :admin
+      login_as admin
     end
     describe 'GET' do
       before do
+        emails = FactoryGirl.build_list(:email, 5)
+        EventMailerList.first.update_attributes(:emails => emails.sample(2))
+        AdminMailerList.first.update_attributes(:emails => emails.sample(2))
+        FeedbackMailerList.first.update_attributes(:emails => emails.sample(2))
+       
         get :index
       end
       it_should_behave_like 'logged in as admin'
       it_should_behave_like 'returns success'
       [ [:feedback, 2, 'FeedbackMailerList'],
-        [:event, 3, 'EventMailerList']].each do |listtype, ct, mailer|
+        [:event, 2, 'EventMailerList']].each do |listtype, ct, mailer|
         it "assigns #{ct} emails to the #{listtype} list" do
           assigns(:all_lists)[listtype].count.should eql ct
         end

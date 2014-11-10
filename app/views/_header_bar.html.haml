@@ -11,30 +11,13 @@
       %input#search_box.srch{:type => 'text', :name => 'keywords', :size => '14'}
   #nav_bar
     .nav
+      - user_nav = UserNavigation.new(self, current_user)
       %ul#mymaunav.dropdown
         - if logged_in?
-          :ruby
-            navitems = []
-            if current_artist
-              navitems << link_to('edit my page', edit_artist_path(current_artist))
-              navitems << link_to('add art', new_artist_art_piece_path(current_artist))
-              navitems << link_to('arrange art', arrange_art_artists_path)
-              navitems << link_to('delete art', delete_art_artists_path)
-              navitems << link_to('plug your art show', new_event_path, :class => 'list_your_show_dropdown')
-
-              navitems << link_to("<span class='heart'>&hearts;</span> my favorites".html_safe, favorites_user_path(current_user))
-              navitems << link_to('resources', artist_resources_path, :title => 'artists\' resources')
-              navitems << link_to('my qrcode', qrcode_artist_path(current_artist), :target => '_blank')
-              mypath = current_artist
-            else
-              navitems << "<a href='#{edit_user_path(current_user) }'>edit my page</a>"
-              navitems << "<a href='#{favorites_user_path current_user}'><span class='heart'>&hearts;</span> my favorites</a>"
-              mypath = user_path(current_user)
-            end
           %li.dir
-            = link_to 'my&nbsp;mau'.html_safe, mypath, {:class => 'lknav'}
+            = link_to 'my&nbsp;mau'.html_safe, user_nav.mypath, {:class => 'lknav'}
             %ul
-              = print_html_list('leaf', navitems)
+              = print_html_list('leaf', user_nav.navitems)
         - else
           %li.dir
             = link_to 'join in!', login_path, {:class => 'lknav'}
@@ -48,32 +31,14 @@
         %li.dir
           %a.lknav{:href => studios_path} spaces
           %ul
-            :ruby
-              studionav = []
-              studionav << "<a title='group studios' href='#{studios_path}'>group studios</a>"
-              studionav << "<a title='independent studios' href='#{studio_path(0)}'>independent studios</a>"
-              studionav << "<a title='venues' href='#{venues_path}'>venues</a>"
-            = print_html_list('leaf', studionav)
+            = print_html_list('leaf', StudioNavigation.new(self).items)
 
       %ul.dropdown#osnav
         %li.dir
           %a.lknav{:href => open_studios_path} open studios
           %ul
-            :ruby
-              osnav = []
-              if Conf.oslive
-                osnav << "<a href='#{ open_studios_path }' title='open studios event'>event details</a>"
-                osnav << "<a href='#{ artists_path(:osonly => 1) }' title='particpating artists'>participating artists</a>"
-                osnav << "<a href='#{ map_artists_path(:osonly => 1) }' title='map of open studios artists'>os map</a>"
-                if current_user
-                  signup_path = edit_artist_path(current_user) + "#events"
-                else
-                  signup_path = login_path
-                end
-                osnav << "<a href='#{signup_path}'>artist sign up</a>"
-                osnav << "<a href='#{ artist_resources_path }' title='artists resources'>artist resources</a>"
-              end
-            = print_html_list('leaf', osnav)
+            - osnav = OpenStudiosNavigation.new(self, current_user)
+            = print_html_list('leaf', osnav.items)
       %ul#artistsnav.dropdown.first
         %li.dir
           %a.lknav{:href => artists_path, :title => 'artists'} artists

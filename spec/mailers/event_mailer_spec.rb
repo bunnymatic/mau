@@ -1,7 +1,13 @@
 require 'spec_helper'
 
 describe EventMailer do
-  fixtures :emails, :email_lists, :email_list_memberships, :events, :users
+  let(:user) { FactoryGirl.create(:artist, :active)}
+  let!(:event) { FactoryGirl.create(:event, :user => user) }
+
+  before do
+    list = FactoryGirl.create(:event_email_list, :with_member)
+  end
+
   it 'delivers to the right folks' do
     m = EventMailer.event_added(Event.first)
     EventMailerList.first.emails.each do |expected|

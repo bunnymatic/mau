@@ -1,18 +1,24 @@
 .admin-table
   %h1 Listing studios
 
-  = render :partial => '/flash_notice_error'
-  .controls
-    = link_to 'Add Studio', new_admin_studio_path if current_user.is_admin?
+  = render partial: '/flash_notice_error'
+  .admin-controls
+    - if current_user.is_admin?
+      = link_to new_admin_studio_path, title: 'add studio' do
+        = fa_icon "plus"
+    
   %table
-    %tr
-      %th Name
-      %th Address
-      %th Population
-      %th Logo
-      %th Website
+    %thead
+      %tr
+        %th Name
+        %th Address
+        %th Population
+        %th Logo
+        %th Website
+        %th
+    %tbody
     - @studios.each do |studio|
-      %tr{:class => cycle('even','odd')}
+      %tr{class: cycle('even','odd')}
         %td
           = link_to studio.name, studio_path(studio)
         %td
@@ -24,13 +30,18 @@
           = studio.artists.active.count.to_s()
         %td
           - if studio.profile_image?
-            %img{:src => studio.get_profile_image('thumb')}
+            %img{src: studio.get_profile_image('thumb')}
         %td
-          %a{:target => '_blank', :href => studio.url} #{studio.url}
-        %td
-          .show
-            = link_to 'Show', studio
-          .edit
-            = link_to 'Edit', edit_admin_studio_path(studio) if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
-          .remove
-            = link_to('Destroy', studio, :confirm => 'Are you sure?', :method => :delete) if current_user.is_admin?
+          %a{target: '_blank', href: studio.url} #{studio.url}
+        %td.admin-controls
+          .show.btn
+            = link_to studio_path(studio), title: 'Show' do
+              = fa_icon 'eye-open'
+          .edit.btn
+            - if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
+              = link_to edit_admin_studio_path(studio), title: 'Edit' do
+                = fa_icon 'edit'
+          .remove.btn
+            - if current_user.is_admin? && !(studio.is_a? IndependentStudio)
+              = link_to studio, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
+                = fa_icon 'remove'

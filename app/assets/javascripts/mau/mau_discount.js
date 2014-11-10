@@ -9,7 +9,7 @@ jQuery(function() {
       markdown: txt,
       authenticity_token:unescape(authenticityToken)
     };
-    jQuery('#processed_markdown').load('/discount/markup', params)
+    jQuery('#processed_markdown').load('/admin/discount/markup', params)
   });
 
 });

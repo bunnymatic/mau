@@ -7,12 +7,6 @@ class ApiController < ActionController::Base
   def index
 
     begin
-      raise ApiError.new('Nothing to see here') unless params[:path].present?
-
-      path_elements = (params[:path].is_a? Array) ? params[:path] : (params[:path].split '/')
-
-      raise ApiError.new('Invalid request') if !(ALLOWED_OBJECTS.include? path_elements[0])
-
       @obj_type = path_elements[0].to_s
       @clz = @obj_type.classify.constantize
 
@@ -38,10 +32,20 @@ class ApiController < ActionController::Base
   end
 
   private
+  def path_elements
+    @path_elements ||= 
+      begin
+        raise ApiError.new('Nothing to see here') unless params[:path].present?
+        path_elements = (params[:path].is_a? Array) ? params[:path] : (params[:path].split '/')
+        raise ApiError.new('Invalid request') if !(ALLOWED_OBJECTS.include? path_elements[0])
+        path_elements
+      end
+  end
+
   def fetch_parameter(obj_id, prop)
     # get parameter named element 2 from id in element 1
     raise ApiError.new('Invalid request') unless allowed_property(prop)
-    data = @clz.find(obj_id.to_i)
+    data = @clz.find(obj_id)
     {prop => data.send(prop)}
   end
 

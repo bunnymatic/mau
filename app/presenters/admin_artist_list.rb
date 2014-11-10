@@ -24,10 +24,14 @@ class AdminArtistList
     end
   end
 
+  def raw_artists
+    @raw_artists ||= Artist.all(:order => sort_by_clause, :include => [:artist_info, :studio])
+  end
+
   def artists
     @artists ||=
       begin
-        artists = Artist.all(:order => sort_by_clause, :include => [:artist_info, :studio])
+        raw_artists.map{|a| ArtistPresenter.new(@view_context, a) }
       end
   end
 
@@ -41,7 +45,7 @@ class AdminArtistList
       begin
         csv_data = CSV.generate(ApplicationController::DEFAULT_CSV_OPTS) do |_csv|
           _csv << csv_headers
-          artists.each do |artist|
+          raw_artists.each do |artist|
             _csv << artist_as_csv_row(artist)
           end
         end

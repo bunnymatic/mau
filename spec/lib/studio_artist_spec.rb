@@ -2,12 +2,11 @@ require 'spec_helper'
 
 describe StudioArtist do
 
-  fixtures :users, :studios, :roles, :roles_users
+  let(:studios) { FactoryGirl.create_list :studio, 2 }
+  let(:studio) { studios.first }
+  let(:artist) { FactoryGirl.create(:artist, :active, studio: studio) }
 
-  let(:artist) { users(:artist1) }
-  let(:studio) { artist.studio }
   subject(:studio_artist) { StudioArtist.new(studio, artist) }
-
 
   context 'when the studio is not a studio' do
     it 'raises an error on construction' do
@@ -41,13 +40,17 @@ describe StudioArtist do
     end
 
     context 'artist is not in the studio' do
-      let(:studio) { (Studio.all - [artist.studio]).first }
+
+      let(:artist) { FactoryGirl.create(:artist, :active, studio: studios.first) }
+      subject(:studio_artist) { StudioArtist.new(studios.last, artist) }
+
       it 'returns false' do
         expect(unaffiliate).to be_false
       end
       it 'does not change the artist affiliation' do
-        expect(artist.studio).to_not eql studio
+        unaffiliate
         expect(artist.studio).to_not eql Studio.indy
+        expect(artist.studio).to eql studios.first
       end
     end
 

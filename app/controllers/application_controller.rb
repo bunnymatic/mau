@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   VERSION = 'Charger 6.0'
   DEFAULT_CSV_OPTS = {:row_sep => "\n", :force_quotes => true}
 
+  include OpenStudiosEventShim
+
   has_mobile_fu
   #helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -23,6 +25,8 @@ class ApplicationController < ActionController::Base
   before_filter :tablet_device_falback
 
   helper_method :current_user_session, :current_user, :logged_in?, :current_artist
+  helper_method :current_open_studios
+  helper_method :current_open_studios_key, :available_open_studios_keys # from OpenStudiosEventShim
 
   # before_filter :track_path
   # def track_path
@@ -236,6 +240,10 @@ EOF
     else
       true
     end
+  end
+
+  def current_open_studios
+    @current_open_studios ||= OpenStudiosEventPresenter.new(view_context, OpenStudiosEvent.current)
   end
 
 end

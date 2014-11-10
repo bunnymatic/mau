@@ -33,25 +33,30 @@
 class ArtistInfo < ActiveRecord::Base
   belongs_to :artist
 
+  include Geokit::ActsAsMappable
   acts_as_mappable
   before_validation(:on => :create){ compute_geocode }
   before_validation(:on => :update){ compute_geocode }
 
   include AddressMixin
+  include OpenStudiosEventShim
 
   def os_participation
-    if open_studios_participation.blank? || !Conf.oslive
-      {}
-    else
-      parse_open_studios_participation(self.open_studios_participation) || {}
-    end
+    @os_participation ||=
+      begin
+        if open_studios_participation.blank? || !current_open_studios_key
+          {}
+        else
+          parse_open_studios_participation(self.open_studios_participation) || {}
+        end
+      end
   end
 
   def update_os_participation(key,value)
     self.os_participation = Hash[key.to_s,value]
   end
 
-private
+  private
   def os_participation=(os)
     current = parse_open_studios_participation(self.open_studios_participation)
     current.merge!(os)

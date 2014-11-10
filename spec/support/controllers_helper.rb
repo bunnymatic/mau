@@ -38,21 +38,16 @@ end
 
 # for all
 shared_examples_for "logged in user" do
-  it "header bar should say hello" do
+  it "header bar should say hello with login and logout and signup links as appopriate" do
     assert_select("span.logout-nav", :text => /hello/)
-  end
-  it "header bar should have my login name as a link" do
-    if @logged_in_user.type == "Artist"
+    if @logged_in_user.is_a? Artist
       assert_select("span.logout-nav a", :text => @logged_in_user.login)
+      assert_select "#osnav .dir .leaf a[href=#{edit_artist_path(@logged_in_user)}#events]"
     else
       assert_select("span.logout-nav ", :text => /#{@logged_in_user.login}/)
+      assert_select "#osnav .dir .leaf a[href=#{login_path}]"
     end
-  end
-  it "header bar should have logout tag" do
     assert_select("span.last a[href=/logout]");
-  end
-  it 'has link to signup for os' do
-    assert_select "#osnav .dir .leaf a[href=#{edit_artist_path(@logged_in_user)}#events]"
   end
 end
 
@@ -81,22 +76,17 @@ shared_examples_for "logged in as admin" do
 
   it "shows the admin bar with admin links" do
     assert_select("#admin_nav")
-    %w{ os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
-      assert_select "#admin_nav a.lkdark[href=/admin/#{admin_link}]", admin_link
+    %w{ roles os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
+      assert_select "#admin_nav a.lkdark[href=/admin/#{admin_link}]", admin_link.humanize.downcase
     end
-    assert_select "#admin_nav a.lkdark[href=/roles]"
   end
 
-end
-
-shared_examples_for 'login required' do
-  it "redirects to login" do
-    expect(response).to redirect_to(new_user_session_path)
-  end
 end
 
 shared_examples_for "redirects to login" do
-  it_should_behave_like 'login required'
+  it "redirects to login" do
+    expect(response).to redirect_to(new_user_session_path)
+  end
 end
 
 shared_examples_for "not logged in" do
@@ -130,10 +120,8 @@ end
 
 shared_examples_for 'standard sidebar layout' do
   it_should_behave_like 'two column layout'
-  it 'has a new art sidebar element' do
+  it 'has a new art sidebar element which is sorted' do
     assert_select '.lcol .new_art'
-  end
-  it 'assigns new art sorted by created at' do
     new_art = assigns(:new_art)
     new_art.should be_present
     new_art.sort_by(&:created_at).reverse.map(&:id).should == new_art.map(&:id)

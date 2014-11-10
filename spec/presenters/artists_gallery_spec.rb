@@ -4,17 +4,19 @@ describe ArtistsGallery do
 
   include PresenterSpecHelpers
 
-  fixtures :users, :roles_users,  :roles, :artist_infos, :art_pieces,
-    :studios, :media, :art_piece_tags, :art_pieces_tags, :cms_documents
-
   let(:current_page) { 1 }
   let(:per_page) { 2 }
-  let(:artists) { Artist.active.all }
+  let(:artists) { FactoryGirl.create_list :artist, 4, :with_art }
   let(:alpha_artists) { artists.sort_by{|a| a.lastname.downcase} }
   let(:showing_artists) { artists.select{|a| a.representative_piece} }
   let(:os_only) { false }
 
   subject(:presenter) { ArtistsGallery.new(mock_view_context, os_only, current_page, per_page) }
+
+  before do
+    fix_leaky_fixtures
+    artists
+  end
 
   its(:current_page) { should eql current_page }
   its(:per_page) { should eql per_page }
@@ -37,7 +39,7 @@ describe ArtistsGallery do
     let(:alpha_links_current_page) { alpha_links.map(&:last) }
     its(:alpha_links) { should be_a_kind_of Array }
     it 'includes the page attrs' do
-      expect(alpha_links_pages.map{|page| page[:p]}).to eql [0,1,2]
+      expect(alpha_links_pages.map{|page| page[:p]}).to eql [0,1]
     end
     it 'includes the right text' do
       expect(alpha_links_text.first[0..1]).to eql alpha_artists.first.lastname[0..1].capitalize

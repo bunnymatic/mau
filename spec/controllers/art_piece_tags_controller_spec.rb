@@ -4,7 +4,15 @@ def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
 
 describe ArtPieceTagsController do
 
-  fixtures :users, :roles, :roles_users, :art_piece_tags, :art_pieces_tags, :art_pieces, :artist_infos, :media
+  let(:artists) { FactoryGirl.create_list(:artist, 3, :with_tagged_art) }
+  let(:artist) { artists.first }
+  let(:tags) { artist.art_pieces.map(&:tags).flatten }
+  let(:tag) { tags.first }
+
+  before do
+    fix_leaky_fixtures
+    artists
+  end
 
   describe '#index' do
     describe 'format=html' do
@@ -21,7 +29,7 @@ describe ArtPieceTagsController do
           get :index
         end
         it 'redirects to show page with the most popular tag' do
-          expect(response).to redirect_to art_piece_tag_path(art_piece_tags(:one))
+          expect(response).to redirect_to art_piece_tag_path(tag)
         end
       end
     end
@@ -41,8 +49,7 @@ describe ArtPieceTagsController do
 
   describe '#autosuggest' do
     before do
-      Rails.cache.delete(Conf.autosuggest['tags']['cache_key'])
-      get :autosuggest, :format => "json", :input => 'tag'
+      get :autosuggest, :format => "json", :input => tags.first.name.downcase
     end
     it_should_behave_like 'successful json'
     it 'returns all tags as json' do
@@ -53,13 +60,13 @@ describe ArtPieceTagsController do
     it 'writes to the cache if theres nothing there' do
       Rails.cache.should_receive(:read).and_return(nil)
       Rails.cache.should_receive(:write)
-      get :autosuggest, :format => :json, :input => 'tag'
+      get :autosuggest, :format => :json, :input => 'whateverdude'
     end
 
     it 'returns tags using the input' do
-      get :autosuggest, :format => :json, :input => 'this'
+      get :autosuggest, :format => :json, :input => tags.first.name.downcase
       j = JSON.parse(response.body)
-      j.should include 'this is the tag'
+      j.should be_present
     end
 
     it 'uses the cache there is data' do
@@ -73,34 +80,31 @@ describe ArtPieceTagsController do
   end
 
   describe '#show' do
-    render_views
 
-    it 'redirects to root on mobile' do
-      @controller.stub(:is_mobile? => true)
-      get :show, :id => 4
-      expect(response).to redirect_to root_path
+    context 'mobile' do
+
+      it 'redirects to root on mobile' do
+        @controller.stub(:is_mobile? => true)
+        get :show, :id => 4
+        expect(response).to redirect_to root_path
+      end
     end
-
     context 'for different tags' do
-      [:one, :two, :three].each do |tag|
-        before do
-          @tag = art_piece_tags(tag)
-          get :show, :id => @tag.id
-          @disp = @tag.name.gsub(/\s+/, '&nbsp;')
-        end
-        it_should_behave_like 'returns success'
-        it "renders the requested tag #{tag} highlighted" do
-          assert_select '.tagcloud .clouditem.tagmatch', :count => 1, :text => @disp
-        end
-        it "renders art that has the requested tag #{tag}" do
-          assert_select '.search-thumbs .artpiece_tag a', @disp
-        end
+      render_views
+      before do
+        get :show, :id => tag.id
+      end
+      it_should_behave_like 'returns success'
+      it "renders the requested tag highlighted" do
+        assert_select '.tagcloud .clouditem.tagmatch'
+      end
+      it "renders art that has the requested tag" do
+        assert_select '.search-thumbs .artpiece_tag a', @disp
       end
     end
 
     it 'grabs the next page' do
-      @tag = art_piece_tags(:one)
-      get :show, :id => @tag.id, :p => 1
+      get :show, :id => tag.id, :p => 1
     end
     it_should_behave_like 'returns success'
   end

@@ -45,7 +45,7 @@ module Admin
     def update_artist_os_standing(artist, doing_it)
       if artist.doing_open_studios? != doing_it
         if artist.has_address?
-          artist.update_os_participation Conf.oslive.to_s, doing_it
+          artist.update_os_participation current_open_studios_key, doing_it
           @updated_count += 1
         else
           @skipped_count += 1

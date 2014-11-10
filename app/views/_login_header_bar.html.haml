@@ -7,7 +7,7 @@
 
 - if logged_in?
   - if current_user.is_special?
-    = render :partial => '/admin_header'
+    = render '/admin_header'
   #logout
     =# spans go in reverse order because they all float right
     %span.navitem.last

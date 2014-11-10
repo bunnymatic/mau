@@ -4,6 +4,7 @@ Feature:
 
 Background:
   Given I login as an artist
+  And there are future open studios events
 
 Scenario:
   When I visit my home page
@@ -20,6 +21,8 @@ Scenario:
   And I update my personal information with:
   | artist_firstname | artist_lastname |
   | joe              | blow            |
+  And I click on "Save Changes"
+
   Then I see my profile edit form
   And I close the notice
   When I click on "Personal Info"
@@ -31,6 +34,7 @@ Scenario:
   And I click on "yep"
   Then I see a flash notice "more the merrier"
   And I close the notice
+  And I save a screenshot
   And I see that I've successfully signed up for Open Studios
 
   And I click on "nope"
@@ -46,6 +50,7 @@ Scenario:
   And I update my personal information with:
   | Flickr            |
   | www.flickr.com/me |
+  And I click on "Save"
   Then I see that I've successfully signed up for Open Studios
   Then I click on "Links"
   And I see my updated personal information as:

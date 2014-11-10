@@ -1,17 +1,21 @@
 require 'spec_helper'
 
 describe Admin::ApplicationEventsController do
-  fixtures :application_events, :users, :roles, :roles_users
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+  let(:os_event) { FactoryGirl.create(:open_studios_signup_event, data: {user: 'artist'})}
+  let(:generic_event) { FactoryGirl.create(:generic_event) } 
+
   describe 'unauthorized #index' do
     before do
       get :index
     end
     it_should_behave_like 'not authorized'
   end
-  describe 'index (as admin)' do
-    render_views
+  describe 'index (as admin)', eventmachine: true do
     before do
-      login_as(:admin)
+      os_event
+      generic_event
+      login_as(admin)
       get :index
     end
     it 'returns success' do
@@ -24,15 +28,10 @@ describe Admin::ApplicationEventsController do
       events.keys.should include 'OpenStudiosSignupEvent'
       generics = events['GenericEvent']
       generics.should have(1).event
-      generics.first.message.should eql 'something happened'
+      generics.first.message.should eql generic_event.message
       oss = events['OpenStudiosSignupEvent']
       oss.should have(1).event
-      oss.first.data.should eql({'user' => 'jesseponce'})
-    end
-    it 'renders all the events in sections' do
-      assert_select '.singlecolumn .generic_events tr', :count => 1
-      assert_select '.singlecolumn .open_studios_signup_events tr td a[href=/artists/jesseponce]', :count =>1
-      assert_select '.singlecolumn .open_studios_signup_events tr', :count =>1
+      oss.first.data.should eql(os_event.data)
     end
   end
 

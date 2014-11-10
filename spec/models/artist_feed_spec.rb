@@ -2,7 +2,6 @@ require 'spec_helper'
 
 
 describe ArtistFeed do
-  fixtures :artist_feeds
 
   it{ should validate_presence_of(:url) }
   it{ should validate_presence_of(:feed) }
@@ -13,6 +12,10 @@ describe ArtistFeed do
 
   describe 'named scopes' do
     describe 'active' do
+      before do
+        FactoryGirl.create(:artist_feed)
+        FactoryGirl.create(:artist_feed, :active)
+      end
       it 'returns only active items' do
         ArtistFeed.all.all?{|a| a.active?}.should == false
         ArtistFeed.active.all.all?{|a| a.active?}.should == true

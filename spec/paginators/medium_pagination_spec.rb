@@ -3,13 +3,14 @@ require 'spec_helper'
 describe MediumPagination, :type => :controller do
 
   include PresenterSpecHelpers
-
-  fixtures :media
-
+   
+  let(:artist) { FactoryGirl.create :artist, :with_tagged_art }
+  let(:art_pieces) { artist.art_pieces }
+  let!(:media) { artist.art_pieces.map(&:medium) }
   let(:num_items) { 8 }
   let(:per_page) { 3 }
   let(:current_page) { 0 }
-  let(:medium) { Medium.last }
+  let(:medium) { media.last }
   let(:page_mode) { }
 
   subject(:paginator) do

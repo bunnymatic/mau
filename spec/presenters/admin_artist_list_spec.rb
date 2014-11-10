@@ -4,8 +4,13 @@ describe AdminArtistList, :type => :controller do
 
   include PresenterSpecHelpers
 
-  fixtures :users, :roles, :roles_users
-
+  let!(:artists) do
+    FactoryGirl.create(:artist, :active)
+    FactoryGirl.create(:artist, :with_studio)
+    FactoryGirl.create(:artist, :with_art)
+    FactoryGirl.create(:artist, :pending)
+  end
+    
   let(:sort_by) { nil }
   let(:reverse) { nil }
   let(:parsed) { CSV.parse(list.csv,:headers => true) }

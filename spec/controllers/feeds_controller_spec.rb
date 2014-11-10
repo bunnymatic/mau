@@ -2,14 +2,25 @@ require 'spec_helper'
 
 describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do
-  fixtures :artist_feeds, :users, :roles_users, :roles
+
   cache_filename = '_cached_feeds.html'
 
+  let(:artist) { FactoryGirl.create(:artist, :active) }
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
+
+  let(:flax_feed) { FactoryGirl.create(:artist_feed, 
+                                       feed: "http://flaxart.com/feed",
+                                       url: "http://flaxart.com",
+                                       active: true) }
+  let(:twitter_feed) { FactoryGirl.create(:artist_feed,
+                                          feed: "https://twitter.com/statuses/user_timeline/62131363.json",
+                                          url: "http://twitter.com/sfmau",
+                                          active: true ) }
   context 'with bad feed data' do
     it 'handles failure in fetch and format' do
       VCR.use_cassette('twitter') do
 
-        controller.stub(:random_feeds => [artist_feeds(:twitter)])
+        controller.stub(:random_feeds => [twitter_feed])
         if File.exists?(cache_filename)
           File.delete(cache_filename)
         end
@@ -42,7 +53,7 @@ describe FeedsController do
     context 'checking contents' do
       before do
         VCR.use_cassette('flaxart') do
-          controller.stub(:random_feeds => [artist_feeds(:flaxart)])
+          controller.stub(:random_feeds => [flax_feed])
           Rails.cache.stub(:read => nil, :write => false, :delete => nil)
           if File.exists?(cache_filename)
             File.delete(cache_filename)
@@ -103,14 +114,14 @@ describe FeedsController do
     end
     describe 'logged in as user' do
       before do
-        login_as(:artist1)
+        login_as artist
         get :clear_cache
       end
       it_should_behave_like 'not authorized'
     end
     describe 'as admin' do
       before do
-        login_as(:admin)
+        login_as admin
       end
       it 'dumps the cache file' do
         File.exists?(cache_filename).should be

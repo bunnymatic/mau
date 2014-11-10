@@ -1,21 +1,14 @@
 require 'spec_helper'
 
 describe Event do
-  fixtures :events, :users
+  let(:future_event) { FactoryGirl.create(:event, starttime: Time.zone.now + 1.day, endtime: Time.zone.now + 2.days) }
+  let(:in_progress_event) { FactoryGirl.create(:event, starttime: Time.zone.now - 1.hour, endtime: Time.zone.now + 1.hour) }
+  let(:past_event) { FactoryGirl.create(:event, starttime: Time.zone.now - 2.days, endtime: Time.zone.now - 1.day) }
 
   before do
-    # validate fixture data
-    before_now = 0
-    after_now = 0
-    Event.all.each do |ev|
-      if ev.starttime < Time.zone.now
-        before_now += 1
-      else
-        after_now += 1
-      end
-    end
-    before_now.should >= 1
-    after_now.should >= 1
+    fix_leaky_fixtures
+    future_event
+    past_event
   end
 
   describe 'named scopes' do
@@ -38,13 +31,13 @@ describe Event do
 
   describe 'validation' do
     it 'is an invalid event if end date is present and before start date' do
-      ev = FactoryGirl.create(:event)
+      ev = FactoryGirl.build(:event)
       ev.endtime = ev.starttime - 10.days
       ev.should_not be_valid
       ev.errors['endtime'].should be
     end
     it 'is an invalid event if reception endtime is present and before the reception start date' do
-      ev = FactoryGirl.create(:event, :with_reception)
+      ev = FactoryGirl.build(:event, :with_reception)
       ev.reception_endtime = ev.reception_starttime - 10.days
       ev.should_not be_valid
       ev.errors['reception_endtime'].should be
@@ -52,8 +45,9 @@ describe Event do
   end
 
   describe 'creation' do
+    let(:user) { FactoryGirl.create(:artist, :active)}
     it 'stores the user association' do
-      FactoryGirl.create(:event, :user => User.active.first)
+      FactoryGirl.create(:event, :user => user)
       Event.where(:user_id => User.active.first.id).should be_present
     end
   end
@@ -63,35 +57,35 @@ describe Event do
 
   describe '#future?' do
     it 'returns true for events in the future' do
-      events(:future).future?.should be_true
+      future_event.future?.should be_true
     end
     it 'returns false for events in the past' do
-      events(:past).future?.should be_false
+      past_event.future?.should be_false
     end
     it 'returns false for events in progress' do
-      events(:in_progress).future?.should be_false
+      in_progress_event.future?.should be_false
     end
   end
   describe '#in_progress?' do
     it 'returns true for events that are in progress' do
-      events(:in_progress).in_progress?.should be_true
+      in_progress_event.in_progress?.should be_true
     end
     it 'returns false for events in the past' do
-      events(:past).in_progress?.should be_false
+     past_event.in_progress?.should be_false
     end
     it 'returns false for events in the future' do
-      events(:future).in_progress?.should be_false
+      future_event.in_progress?.should be_false
     end
   end
   describe '#past?' do
     it 'returns true for events in the past' do
-      events(:past).past?.should be_true
+      past_event.past?.should be_true
     end
     it 'returns false for events that are in progress' do
-      events(:in_progress).past?.should be_false
+      in_progress_event.past?.should be_false
     end
     it 'returns true for events in the future' do
-      events(:future).past?.should be_false
+      future_event.past?.should be_false
     end
   end
 end

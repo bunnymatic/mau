@@ -20,6 +20,14 @@ Given /there are artists with art in the system/ do
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
+Given /there are application events in the system/ do
+  ApplicationEvent.destroy_all
+  @application_events = [
+                         FactoryGirl.create(:open_studios_signup_event),
+                         FactoryGirl.create(:generic_event)
+                        ]
+end
+
 Given /there are open studios artists with art in the system/ do
   steps %{Given there are artists with art in the system}
   @artists.each{|a| a.update_os_participation(Conf.os_live, true) }
@@ -54,4 +62,12 @@ Given /there are events in the system/ do
               FactoryGirl.create_list(:event, 5),
             ].flatten
   @published_events = @events.select{|ev| ev.published_at.present?}
+end
+
+Given /there are past open studios events/ do
+  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, :start_date => 3.months.ago)
+end
+
+Given /there are future open studios events/ do
+  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, :start_date => 3.months.since)
 end
