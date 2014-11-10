@@ -85,3 +85,9 @@ When(/^I login as "(.*?)"$/) do |login|
   fill_in_login_form login, 'bmatic'
   steps %{And I click "Sign In"}
 end
+
+Then /^I see that "(.*?)" is a new pending artist$/ do |username|
+  steps %{Then I see a flash notice "Thanks for signing up! We're sending you an email"}
+  expect(current_path).to eql root_path
+  expect(Artist.find_by_login(username)).to be_pending
+end

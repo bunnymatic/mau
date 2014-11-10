@@ -131,6 +131,10 @@ class User < ActiveRecord::Base
     state == 'active'
   end
 
+  def pending?
+    state == 'pending'
+  end
+
   def has_profile_image
     self.profile_image
   end

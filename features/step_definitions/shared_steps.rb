@@ -39,7 +39,11 @@ Then /^I (save|take) a screenshot$/ do |dummy|
 end
 
 When /I visit the login page/ do
-  visit '/login'
+  visit login_path
+end
+
+When /I visit the signup page/ do
+  visit signup_path
 end
 
 Then(/^I do not see an error message$/) do
@@ -96,4 +100,11 @@ end
 
 Then(/^I see a message "(.*?)"$/) do |message|
   expect(page).to have_selector '.flash', text: message
+end
+
+When(/^I fill in the form with:$/) do |table|
+  info = table.hashes.first
+  info.each do |field, val|
+    fill_in field, with: val
+  end
 end
