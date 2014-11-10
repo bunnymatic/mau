@@ -71,17 +71,10 @@ common:
       - 201304
       - 201310
       - 201404
-   # default keys for secret stuff
 
-   BUILD_INFO: whatever
-   recaptcha_public_key: 6Lc9BNkSAAAAAOmI_O3g_I9ky4IFIdHnY7YDU3Gc
-   recaptcha_private_key: 6Lc9BNkSAAAAAAHJ-NxXih62VuSsqnUx3EJc91Bo
-   ga_key: UA-11097408-3
-   ga_api_key: AIzaSyAkiexFOs9X-1b2atlHZcQgJqGGrh4p1i4
-   ga_server_api_key: AIzaSyCDwQMopPffiaj86wWZOTmzsriFZtUXdPc
-
-
-   # mailchimp key is on jon's company account
+   ga_key: blah
+   ga_api_key: key
+   ga_server_api_key: server_key
    AWS_ACCESS_KEY_ID: bogus
    AWS_SECRET_ACCESS_KEY: bogus
    POSTMARK_API_KEY: bogus

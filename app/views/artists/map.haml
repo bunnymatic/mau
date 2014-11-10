@@ -2,7 +2,7 @@
   %script{ :type => 'text/javascript' }
     = raw "MAU.map_markers = #{@map_info.map_data};"
 
-  %script{ :src => "//maps.google.com/maps/api/js?key=#{Conf.ga_api_key}&v=3.13&sensor=false&libraries=geometry", :type => "text/javascript"}
+  %script{ :src => "//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry", :type => "text/javascript"}
   %script{ :src => '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.16/src/markerclusterer_packed.js', :type => "text/javascript" }
   = javascript_include_tag 'gmaps/google'
   = javascript_include_tag 'artists_map'
