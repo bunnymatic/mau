@@ -41,7 +41,7 @@ Mau::Application.configure do
   config.assets.digest = true
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( admin.js mau.css mau-ie.css mau-ie7.css mau-safari.css mau-admin.css excanvas.compiled.js gmaps_google.js mau/mau_gmap.js mau_mobile.js catalog.css event_calendar.js event_calendar.css mau-mobile.css)
+  config.assets.precompile += %w( admin.js mau.css mau-ie.css mau-ie7.css mau-safari.css mau-admin.css excanvas.compiled.js gmaps/google.js mau/mau_gmap.js mau_mobile.js catalog.css event_calendar.js event_calendar.css mau-mobile.css)
 
   config.action_mailer.default_url_options = {
     :host => 'acceptance.missionartistsunited.com'
