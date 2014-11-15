@@ -1,39 +1,40 @@
-- if !@art_piece
-  .error-msg
-    Error: The art piece you requested is could not be found.
-- else
-  #edit_artpiece
-    %h4 Edit Information for This Piece : #{@art_piece.title}
-    .artpiece
-      %img{ :src => @art_piece.get_path('small') }
-    = form_for(@art_piece) do |f|
-      = render '/common/form_errors', :form => f
-      = render '/flash_notice_error'
-      .form-group
-        .label
-          = f.label :title
-        .field
-          = f.text_field :title
-      .form-group
-        .label
-          = f.label :dimensions
-        .field
-          = f.text_field :dimensions
-      .form-group
-        .label
-          = f.label :year
-        .field
-          = f.text_field :year
-      .form-group
-        .label
-          = f.label :medium
-        .field
-          = select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } )
-      .form-group
-        .label
-          = f.label :tags
-        .field
-          = text_field_tag 'tags', tags_to_s(@art_piece.tags)
-      .form-controls.buttons
-        = f.submit 'Update'
-        = f.submit 'Cancel'
+.singlecolumn
+  - if !@art_piece
+    .error-msg
+      Error: The art piece you requested is could not be found.
+  - else
+    #edit_artpiece
+      %h4 Edit Information for This Piece : #{@art_piece.title}
+      .artpiece
+        %img{ :src => @art_piece.get_path('small') }
+      = form_for(@art_piece) do |f|
+        = render '/common/form_errors', :form => f
+        = render '/flash_notice_error'
+        .form-group
+          .label
+            = f.label :title
+          .field
+            = f.text_field :title
+        .form-group
+          .label
+            = f.label :dimensions
+          .field
+            = f.text_field :dimensions
+        .form-group
+          .label
+            = f.label :year
+          .field
+            = f.text_field :year
+        .form-group
+          .label
+            = f.label :medium
+          .field
+            = select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } )
+        .form-group
+          .label
+            = f.label :tags
+          .field
+            = text_field_tag 'tags', tags_to_s(@art_piece.tags)
+        .form-controls.buttons
+          = f.submit 'Update'
+          = f.submit 'Cancel'

@@ -1,35 +1,37 @@
-<div id="artist_edit">
-  <div id="profile_img" style="float:right;">
-    <a title="update profile picture" href="<%= add_profile_users_path %>">
-      <% if current_user.has_profile_image -%>
-      <img src="<%= current_user.get_profile_image('thumb') %>" />
-      <% else -%>
-      <img src="/images/default-profile-img.png" width="100" />
-      <% end -%>
-      <div>update profile picture</div>
-    </a>
-  </div>
-  <h4>My Account</h4>
-  <%= render :partial => '/flash_notice_error' -%>
-  <div class="edit-sections">
-    <%= form_for current_user,
-       :url => { :action => "update" },
-       :html => { :method => :put } do |f| -%>
-    <%= render '/common/form_errors', :form => f %>
+<div class="singlecolumn">
+  <div id="artist_edit">
+    <div id="profile_img" style="float:right;">
+      <a title="update profile picture" href="<%= add_profile_users_path %>">
+        <% if current_user.has_profile_image -%>
+        <img src="<%= current_user.get_profile_image('thumb') %>" />
+        <% else -%>
+        <img src="/images/default-profile-img.png" width="100" />
+        <% end -%>
+        <div>update profile picture</div>
+      </a>
+    </div>
+    <h4>My Account</h4>
+    <%= render :partial => '/flash_notice_error' -%>
+    <div class="edit-sections">
+      <%= form_for current_user,
+          :url => { :action => "update" },
+      :html => { :method => :put } do |f| -%>
+      <%= render '/common/form_errors', :form => f %>
 
-    <%= render :partial => "/users/edit_basic_info", :locals => {:f => f} %>
+      <%= render :partial => "/users/edit_basic_info", :locals => {:f => f} %>
 
-    <%= render :partial => "/users/edit_notifications", :locals => {:f => f}%>
+      <%= render :partial => "/users/edit_notifications", :locals => {:f => f}%>
 
-    <%= render :partial => "/users/edit_links", :locals => {:f => f} %>
+      <%= render :partial => "/users/edit_links", :locals => {:f => f} %>
 
-    <% end -%><%# end form %>
+      <% end -%><%# end form %>
 
-    <%= render :partial => "/users/edit_password" %>
+      <%= render :partial => "/users/edit_password" %>
 
-    <%= render :partial => "/users/edit_deactivate" %>
-  </div>
-  <div class="back-to-profile-btn">
-    <span><a href="<%= user_url(current_user) %>">Back to Profile</a></span>
+      <%= render :partial => "/users/edit_deactivate" %>
+    </div>
+    <div class="back-to-profile-btn">
+      <span><a href="<%= user_url(current_user) %>">Back to Profile</a></span>
+    </div>
   </div>
 </div>
