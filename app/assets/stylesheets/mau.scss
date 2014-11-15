@@ -973,8 +973,10 @@ div.feedtitle  {
   margin-top: 30px;
 }
 
-.markdown, #open_studios, #venues {
+#open_studios, #venues {
   margin-top: 40px;
+}
+.markdown, #open_studios, #venues {
   h1 {
     text-align: center;
     color: $xlightgray;
@@ -1683,14 +1685,15 @@ td.td-left{
 }
 
 #signup {
-  width: 650px;
-  margin: 0px auto;
+  margin: 40px auto;
+  width: 680px;
+  @extend .clearfix;
 }
 
 .signup-right,
 .signup-left {
   float: left;
-  width: 320px;
+  width: 340px;
   h2 {
     margin-top: 0px;
   }
