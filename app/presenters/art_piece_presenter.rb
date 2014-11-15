@@ -41,6 +41,10 @@ class ArtPiecePresenter
     image_dimensions[sz].first
   end
 
+  def height(sz = :medium)
+    image_dimensions[sz].last
+  end
+
   def zoomed
     @zoomed ||= art_piece.get_path('large')
   end

@@ -35,7 +35,7 @@
           :ruby
             links = []
             @artist.media.each do |m|
-              links << link_to(m.name, m, :class => "")
+              links << link_to(m.name, m, class: "")
             end
           #{links.join(", ").html_safe}
     - if @artist.bio.present?
@@ -45,17 +45,17 @@
         %span.snippet
           = @artist.bio.truncate(170).html_safe
         - if @artist.bio.length > 170
-          %a.more{:href => bio_artist_path(@artist.artist)} [Read More]
+          %a.more{href: bio_artist_path(@artist.artist)} [Read More]
     .clear
     - if @artist.art_pieces.count
       %ul#art_pieces.section
         - @artist.art_pieces.each do |artpiece|
           %li
-            .ap-thumb{:style => "background-image:url(#{artpiece.get_path('small')});"}
+            .ap-thumb{style: "background-image:url(#{artpiece.get_path('small')}); height: #{artpiece.height}px;"}
     .clear
     - if @artist.has_links?
       .links.section
         - @artist.links.each do |key, name, lnk|
-          %div{:id => key}
+          %div{id: key}
             %span #{name}
           = link_to lnk, add_http(lnk)

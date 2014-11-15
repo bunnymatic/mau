@@ -1,6 +1,5 @@
 class ArtPieceTagsController < ApplicationController
 
-  layout 'mau1col'
   skip_before_filter :get_new_art, :get_feeds
 
   before_filter :admin_required, :except => [ :index, :show, :autosuggest ]

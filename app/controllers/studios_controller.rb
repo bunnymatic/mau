@@ -1,7 +1,6 @@
 require 'studio'
 class StudiosController < ApplicationController
 
-  layout 'mau1col'
   skip_before_filter :get_feeds, :get_new_art
 
   before_filter :load_studio_list, :only => [:index, :show]

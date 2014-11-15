@@ -1,7 +1,6 @@
 # AuthLogic user sessions controller
 class UserSessionsController < ApplicationController
 
-  layout 'mau1col'
   skip_before_filter :get_new_art, :get_feeds
 
   before_filter :require_no_user, :only => [:new, :create]

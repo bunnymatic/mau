@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  layout 'mau1col'
+
   skip_before_filter :get_new_art, :get_feeds
 
   before_filter :logged_out_required, :only => [:new]

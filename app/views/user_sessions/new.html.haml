@@ -1,6 +1,6 @@
 #signup
   .logo-spacer
-  = form_for @user_session, url: user_session_path, id: 'login_form' do |f|
+  = form_for @user_session, url: user_session_path, id: 'login_form' do |f
     - if flash[:notice]
       .notice #{flash[:notice]}
     - err = flash[:error]

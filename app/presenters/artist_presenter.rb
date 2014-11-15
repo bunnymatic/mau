@@ -17,6 +17,10 @@ class ArtistPresenter
     @view_context = view_context
   end
 
+  def sidebar_art
+    art_pieces[0..3]
+  end
+
   def valid?
     !artist.nil?
   end
