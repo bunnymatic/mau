@@ -1,0 +1,72 @@
+@import 'mau-mixins';
+
+#mc_embed_signup {
+  font-size: 11px;
+  font-family: Arial;
+
+  fieldset {
+    @include small-rounded-corners;
+    border: 1px solid $mediumgray;
+    padding-top: 1.5em;
+    margin: .5em 0;
+    background-color: $darkgray;
+    color: $lightgray;
+    text-align: left;
+  }
+  legend {
+    white-space: normal;
+    text-transform: capitalize;
+    font-weight: bold;
+    color: $xlightgray;
+    background: $black;
+    padding: .5em 1em;
+    border: 1px solid $mediumgray;
+    @include small-rounded-corners;
+    font-size: 1.2em;
+  }
+  .desc {
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  .indicate-required {
+    float: right;
+    text-align: right;
+    font-style: italic;
+    overflow: hidden;
+    color: $lightgray;
+    margin: 0 9% 0 0;
+  }
+  .mc-field-group {
+    margin: 1.3em 5%;
+    clear: both;
+    overflow: hidden;
+    label {
+      display: block;
+      margin: .3em 0;
+      line-height: 1em;
+      font-weight: bold;
+    }
+    input {
+      margin-right: 1.5em;
+      padding: .2em .3em;
+      width: 90%;
+      float: left;
+      z-index: 50;
+    }
+  }
+  #mce-responses {
+    float: left;
+    top: -1.4em;
+    padding: 0em .5em 0em .5em;
+    overflow: hidden;
+    width: 90%;
+    margin: 0 5%;
+    clear: both;
+  }
+  .btn {
+    clear: both;
+    width: auto;
+    display: block;
+    margin: 1em 0 2em 5%;
+  }
+}

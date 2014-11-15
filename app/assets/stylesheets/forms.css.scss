@@ -1,5 +1,135 @@
 @import 'mau-mixins';
 
+/* prevent forms from causing line breaks */
+form {
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+}
+
+input[type=submit], input[type=email], input[type=text],input[type=password], textarea {
+  @include input_style;
+  @include small-rounded-corners;
+}
+input[type=image], input[type=hidden] {
+  border: 0;
+}
+
+.url-input {
+  width: 190px;
+}
+
+/* these three are important on the "edit" pages
+   colors should be set the same for textarea, select and srch
+   */
+button {
+  @include small-rounded-corners;
+}
+/* input.chkbox { */
+/*   margin-right: 20px; */
+/* } */
+
+/* input.txt, input.txtlogin, input.txtarea, input.txtarea-sm, select.dropdown { */
+/*   margin-right: 5px; */
+/* } */
+
+/* input.txt, input.txtlogin { */
+/*   margin-left: 20px; */
+/* } */
+
+/* input.txtarea-sm, input.txtarea{ */
+/*   width: 500px; */
+/* } */
+/* input.txtarea-sm, input.txtarea, select.dropdown { */
+/*   margin-left: 50px; */
+/* } */
+
+.fieldWithErrors {
+  label {
+    color: $error-red;
+  }
+  input, textarea {
+    border: 1px solid $error_red;
+  }
+}
+/* input.txt, select.dropdown { */
+/*   width: 300px; */
+/* } */
+
+/* input.txt, select.dropdown */
+/* { */
+/*   height: auto; */
+/* } */
+/* input.txtlogin { */
+/*   height: auto; */
+/* } */
+/* input.txtarea { */
+/*   overflow: scroll; */
+/*   height: 300px; */
+/* } */
+/* input.txtarea-sm { */
+/*   overflow: scroll; */
+/*   height: 40px; */
+/* } */
+
+input[type=image] {
+  background-color: transparent;
+}
+
+input[type=submit][disabled=disabled] {
+  font-weight:normal;
+  color:$lightgray;
+}
+
+input[type=submit], .formbutton {
+  background:$mediumgray;
+  background:url(/images/gradients.png) repeat-x left top;
+  background-position: 0 -90px;
+  border:outset 1px $xlightgray;
+  color:$darkbluegray;
+  font-weight:bold;
+  cursor:pointer;
+  text-transform: lowercase;
+  padding: 5px;
+  @include transition(all 0.2s ease);
+  &:hover {
+    @include opacity(0.85);
+  }
+}
+
+#signup_form {
+  .row {
+    @extend .clearfix;
+    &.short {
+      margin-left:140px;
+    }
+    > div {
+      vertical-align: bottom;
+      float: left;
+      padding: 5px;
+    }
+    .label {
+      padding-top:9px;
+      padding-bottom: 0px;
+      width: 126px;
+    }
+    .input {
+      width: 200px;
+      input {
+        width: 100%;
+      }
+    }
+    .errors {
+      width: 145px;
+      margin-left: 15px;
+      padding-top:11px;
+      padding-bottom: 0;
+      .errors-help {
+      }
+    }
+  }
+}
+
 .form-group {
   max-width: 500px;
   margin:12px auto;

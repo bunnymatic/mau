@@ -148,13 +148,6 @@ h5 {
   }
 }
 
-/* prevent forms from causing line breaks */
-form {
-  display: inline;
-  margin: 0px;
-  padding: 0px;
-}
-
 /* general div align stuff */
 div.div-left {
   color: $lightgray;
@@ -172,32 +165,21 @@ div.div-left {
   }
 }
 
-.div-inline {
-  display: inline;
-}
 div.div-right {
   text-align:right;
   margin-bottom: 10px;
 }
 
-/* entry form styles */
-tr.error-row {
-  text-align:center;
-  padding: .4em;
-  div.error-msg {
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
-  }
-}
-
-input[type=submit], input[type=email], input[type=text],input[type=password], textarea {
-  @include input_style;
-  @include small-rounded-corners;
-}
-input[type=image], input[type=hidden] {
-  border: 0;
-}
+/* /\* entry form styles *\/ */
+/* tr.error-row { */
+/*   text-align:center; */
+/*   padding: .4em; */
+/*   div.error-msg { */
+/*     margin-left: auto; */
+/*     margin-right: auto; */
+/*     width: auto; */
+/*   } */
+/* } */
 
 /* phase these out */
 .input-name, .input, .input-err{
@@ -206,10 +188,6 @@ input[type=image], input[type=hidden] {
 }
 .input-name {
   text-align:right;
-}
-
-.url-input {
-  width: 190px;
 }
 
 .bio-container {
@@ -555,83 +533,6 @@ input.srch {
 }
 #search_icon { vertical-align:middle; }
 
-/* these three are important on the "edit" pages
-   colors should be set the same for textarea, select and srch
-   */
-button {
-  @include small-rounded-corners;
-}
-input.chkbox {
-  margin-right: 20px;
-}
-
-input.txt, input.txtlogin, input.txtarea, input.txtarea-sm, select.dropdown {
-  margin-right: 5px;
-}
-
-input.txt, input.txtlogin {
-  margin-left: 20px;
-}
-
-input.txtarea-sm, input.txtarea{
-  width: 500px;
-}
-input.txtarea-sm, input.txtarea, select.dropdown {
-  margin-left: 50px;
-}
-
-.fieldWithErrors {
-  label {
-    color: $error-red;
-  }
-  input, textarea {
-    border: 1px solid $error_red;
-  }
-}
-input.txt, select.dropdown {
-  width: 300px;
-}
-
-input.txt, select.dropdown
-{
-  height: auto;
-}
-input.txtlogin {
-  height: auto;
-}
-input.txtarea {
-  overflow: scroll;
-  height: 300px;
-}
-input.txtarea-sm {
-  overflow: scroll;
-  height: 40px;
-}
-
-input[type=image] {
-  background-color: transparent;
-}
-
-input[type=submit][disabled=disabled] {
-  font-weight:normal;
-  color:$lightgray;
-}
-
-input[type=submit], .formbutton {
-  background:$mediumgray;
-  background:url(/images/gradients.png) repeat-x left top;
-  background-position: 0 -90px;
-  border:outset 1px $xlightgray;
-  color:$darkbluegray;
-  font-weight:bold;
-  cursor:pointer;
-  text-transform: lowercase;
-  padding: 5px;
-  @include transition(all 0.2s ease);
-  &:hover {
-    @include opacity(0.85);
-  }
-}
 .buttons input[type=submit] {
   @include small-rounded-corners;
 }
@@ -641,14 +542,6 @@ input[type=submit], .formbutton {
 }
 
 div.formbutton {
-  line-height: 20px;
-}
-
-.news-text div.formbutton {
-  @include small-rounded-corners;
-  padding: 0 10px;
-  margin: 8px 20px 0;
-  text-align: center;
   line-height: 20px;
 }
 
@@ -662,37 +555,6 @@ div.formbutton {
   vertical-align:middle;
 }
 
-.new_art {
-  padding: 0 15px;
-  margin: 10px 0;
-}
-.new_art_thumbs {
-  @include small-rounded-corners;
-  @include dotted_border;
-  margin: 5px auto 8px auto;
-  padding-bottom: 5px;
-  text-align:left;
-  .title {
-    font-weight:bold;
-    text-align: left;
-    margin-top: 2px;
-    padding: 2px 5px 1px 5px;
-    color: $lightyellow;
-  }
-  .square {
-    border: 1px solid $xmediumgray;
-    margin: 4px;
-    float: left;
-    width: 50px;
-    height: 50px;
-    &.first {
-      margin-left: 6px;
-    }
-    &.last {
-      margin-right: 0px;
-    }
-  }
-}
 /** feeds **/
 div.feed-icon {
   position: absolute;
@@ -2302,38 +2164,6 @@ div.alt-login {
   width: 60%;
   margin: auto;
 }
-#signup_form {
-  .row {
-    @extend .clearfix;
-    &.short {
-      margin-left:140px;
-    }
-    > div {
-      vertical-align: bottom;
-      float: left;
-      padding: 5px;
-    }
-    .label {
-      padding-top:9px;
-      padding-bottom: 0px;
-      width: 126px;
-    }
-    .input {
-      width: 200px;
-      input {
-        width: 100%;
-      }
-    }
-    .errors {
-      width: 145px;
-      margin-left: 15px;
-      padding-top:11px;
-      padding-bottom: 0;
-      .errors-help {
-      }
-    }
-  }
-}
 
 .signup-table tr.last {
   margin-top: 10px;
@@ -3266,77 +3096,6 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
   color: $lightyellow;
 }
 
-#mc_embed_signup {
-  font-size: 11px;
-  font-family: Arial;
-
-  fieldset {
-    @include small-rounded-corners;
-    border: 1px solid $mediumgray;
-    padding-top: 1.5em;
-    margin: .5em 0;
-    background-color: $darkgray;
-    color: $lightgray;
-    text-align: left;
-  }
-  legend {
-    white-space: normal;
-    text-transform: capitalize;
-    font-weight: bold;
-    color: $xlightgray;
-    background: $black;
-    padding: .5em 1em;
-    border: 1px solid $mediumgray;
-    @include small-rounded-corners;
-    font-size: 1.2em;
-  }
-  .desc {
-    font-size: 14px;
-    margin-left: 10px;
-  }
-  .indicate-required {
-    float: right;
-    text-align: right;
-    font-style: italic;
-    overflow: hidden;
-    color: $lightgray;
-    margin: 0 9% 0 0;
-  }
-  .mc-field-group {
-    margin: 1.3em 5%;
-    clear: both;
-    overflow: hidden;
-    label {
-      display: block;
-      margin: .3em 0;
-      line-height: 1em;
-      font-weight: bold;
-    }
-    input {
-      margin-right: 1.5em;
-      padding: .2em .3em;
-      width: 90%;
-      float: left;
-      z-index: 50;
-    }
-  }
-  #mce-responses {
-    float: left;
-    top: -1.4em;
-    padding: 0em .5em 0em .5em;
-    overflow: hidden;
-    width: 90%;
-    margin: 0 5%;
-    clear: both;
-  }
-  .btn {
-    clear: both;
-    width: auto;
-    display: block;
-    margin: 1em 0 2em 5%;
-  }
-}
-
 .maushow_042012 {
   margin: 40px;
 }
@@ -3640,36 +3399,6 @@ body .events {
   visibility: hidden;
 }
 
-#social_panel {
-  position:absolute;
-  @include transparent_white_background;
-  border-bottom: none;
-  left: 0;
-  bottom: 4px;
-  width: 100%;
-  display:none;
-  height: 36px;
-  opacity:0.0;
-  @include transition(all 0.75s ease);
-  .mau_buttons {
-    float: left;
-  }
-  .micro-icon.heart, .pinterest, .facebook {
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  .social_buttons {
-    text-align: right;
-    float:right;
-    .facebook {
-      margin-top: 4px;
-    }
-    .pinterest {
-      margin-top: 6px;
-    }
-  }
-}
 
 /** safari/chrome webkit **/
 .nav a {

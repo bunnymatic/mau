@@ -64,3 +64,34 @@
     @include little-text;
   }
 }
+
+#social_panel {
+  position:absolute;
+  @include transparent_white_background;
+  border-bottom: none;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  display:none;
+  height: 36px;
+  opacity:0.0;
+  @include transition(all 0.75s ease);
+  .mau_buttons {
+    float: left;
+  }
+  .micro-icon.heart, .pinterest, .facebook {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .social_buttons {
+    text-align: right;
+    float:right;
+    .facebook {
+      margin-top: 4px;
+    }
+    .pinterest {
+      margin-top: 6px;
+    }
+  }
+}

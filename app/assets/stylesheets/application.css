@@ -5,6 +5,8 @@
  *= require pickadate/classic.time
  *= require forms
  *= require mau
+ *= require new_art
+ *= require mailchimp_form
  *= require header_bar
  *= require mau_popups
  *= require artists
