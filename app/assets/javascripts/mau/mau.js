@@ -1,3 +1,4 @@
+/*global         */
 /*jshint -W031 */  /** don't warn for using "new" with side-effects : because of prototype new Insertion() */
 
 var MAU = window.MAU = window.MAU || {};

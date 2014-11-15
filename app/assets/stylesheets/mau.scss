@@ -3093,11 +3093,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 #ac_ul .last {
   @include small-rounded-bottom-corners;
 }
-#ac_ul li {
-}
 
 
 #signup_page {
+  margin-top: 45px;
   h2 {
     text-align: center;
     margin-top: 0px;
