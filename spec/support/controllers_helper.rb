@@ -139,7 +139,7 @@ shared_examples_for 'two column layout' do
 end
 shared_examples_for 'one column layout' do
   it 'has a one column body class' do
-    assert_select('body.one_column')
+    assert_select('.singlecolumn')
   end
 end
 

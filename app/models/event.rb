@@ -20,8 +20,8 @@
 #  published_at        :datetime
 #  reception_starttime :datetime
 #  reception_endtime   :datetime
-#  created_at          :datetime         default(2014-06-30 18:01:30 UTC)
-#  updated_at          :datetime         default(2014-06-30 18:01:30 UTC)
+#  created_at          :datetime         default(2014-05-31 19:13:55 UTC)
+#  updated_at          :datetime         default(2014-05-31 19:13:55 UTC)
 #
 
 require 'event_calendar'

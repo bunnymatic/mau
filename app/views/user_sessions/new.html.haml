@@ -1,32 +1,33 @@
-#signup
-  .logo-spacer
-  = form_for @user_session, url: user_session_path, id: 'login_form' do |f
-    - if flash[:notice]
-      .notice #{flash[:notice]}
-    - err = flash[:error]
-    - if (@user_session.errors.count > 0)
-      - err = "That username/password combination is wrong."
-    - if err.present?
-      .error-msg
-        = err
-    .signup-left
-      %h2 Already A MAU Member?
-      .signup-text
-        %ul.login-table
-          %li.entry
-            = f.label :login
-            = f.text_field 'login', placeholder: "username", required: true
-          %li.entry
-            = f.label :password
-            = f.password_field 'password', placeholder: 'password', required: true
-          %li.entry.form-controls
-            = f.submit "Sign In", class: 'formbutton'
-        .input-help
-          %a{href: forgot_users_path} Can't access your account?
-  .signup-right
-    = render_cms_content(@cms_content) do
-      = link_to signup_path do
-        %button.formbutton Sign Up Now
+.singlecolumn
+  #signup
+    .logo-spacer
+    = form_for @user_session, url: user_session_path, id: 'login_form' do |f|
+      - if flash[:notice]
+        .notice #{flash[:notice]}
+      - err = flash[:error]
+      - if (@user_session.errors.count > 0)
+        - err = "That username/password combination is wrong."
+      - if err.present?
+        .error-msg
+          = err
+      .signup-left
+        %h2 Already A MAU Member?
+        .signup-text
+          %ul.login-table
+            %li.entry
+              = f.label :login
+              = f.text_field 'login', placeholder: "username", required: true
+            %li.entry
+              = f.label :password
+              = f.password_field 'password', placeholder: 'password', required: true
+            %li.entry.form-controls
+              = f.submit "Sign In", class: 'formbutton'
+          .input-help
+            %a{href: forgot_users_path} Can't access your account?
+    .signup-right
+      = render_cms_content(@cms_content) do
+        = link_to signup_path do
+          %button.formbutton Sign Up Now
 
 
 

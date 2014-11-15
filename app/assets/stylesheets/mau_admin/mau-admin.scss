@@ -20,11 +20,6 @@ body.admin {
   .even {
     background-color: transparent;
   }
-  .singlecolumn {
-    @include large-rounded-corners;
-    width: 842px;
-  }
-
   .flot_graph {
     width: 360px;
     height: 280px;
