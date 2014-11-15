@@ -4,6 +4,26 @@
 @import 'datatables_overrides';
 
 body.admin {
+
+  .admin-table {
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+    }
+    /* Zebra striping */
+    tr:nth-of-type(odd) { 
+      background: #eee; 
+    }
+    th { 
+      background: #333; 
+      font-weight: bold; 
+    }
+    td, th { 
+      padding: 6px; 
+      text-align: left; 
+    }
+  }
+  
   .chunk {
     float: left;
     width: 120px;
@@ -40,6 +60,9 @@ body.admin {
     }
   }
 
+  #database_backups {
+    padding: 20px;
+  }
 
   #role_mgr {
     padding-left: 20px;
@@ -248,6 +271,9 @@ body.admin {
       }
     }
   }
+  .artist_feeds, .current_feed_content {
+    padding: 20px; 
+  }
   .artist_feeds {
     .links {
       padding: 8px 0;
@@ -300,30 +326,31 @@ body.admin {
     }
   }
 
-  .current_feed_content .feeds {
-    color: $lightgray;
-    .feedtitle  {
-      text-align: left;
-    }
-
-    .feedentry {
-      max-width: none;
-      &.even {
-        border-top: 1px dotted $bordergray;
-        border-bottom: 1px dotted $bordergray;
-      }
-      padding: 2px 5px 5px 5px;
-    }
-    .feedtxt {
+  .current_feed_content {
+    .feeds {
       color: $lightgray;
-      font-size: 10px;
-      text-align: left;
-      font-weight:normal;
-      iframe {
-        display: none;
+      .feedtitle  {
+        text-align: left;
+      }
+
+      .feedentry {
+        max-width: none;
+        &.even {
+          border-top: 1px dotted $bordergray;
+          border-bottom: 1px dotted $bordergray;
+        }
+        padding: 2px 5px 5px 5px;
+      }
+      .feedtxt {
+        color: $lightgray;
+        font-size: 10px;
+        text-align: left;
+        font-weight:normal;
+        iframe {
+          display: none;
+        }
       }
     }
-
   }
 
 
@@ -331,6 +358,7 @@ body.admin {
   .export-csv button,
   button.update-artists {
     float: right;
+    margin-right: 20px;
   }
 
   .qrcode_test {
@@ -357,6 +385,7 @@ body.admin {
 
   /** application events */
   .application_events {
+    padding: 20px;
     .events_list {
       margin: 20px 0;
       table {
@@ -404,7 +433,8 @@ body.admin {
   }
 }
 
-.singlecolumn.email_lists {
+.email_lists {
+  padding: 20px;
   .error-msg {
     width: 400px;
   }
@@ -419,14 +449,11 @@ body.admin {
     }
   }
   .email_results {
-    width: 550px;
+    width: 60%;
     float: left;
     h5 {
       float: left;
       width: 430px;
-    }
-    .export-csv {
-      float:left;
     }
   }
 
@@ -435,7 +462,7 @@ body.admin {
       padding-bottom:20px;
     }
     > li {
-      width: 330px;
+      width: 35%;
       border: 1px dotted $bordergray;
       float: left;
       margin: 20px;
@@ -531,14 +558,11 @@ body.admin {
 
 .admin-table {
   margin: auto;
-  width: 800px;
+  padding: 20px;
   margin-top: 40px;
   font-size: 85%;
   /** admin forms */
   &.edit {
-    h1 {
-      margin-bottom: 10px;
-    }
     .field_with_errors {
       display:inline;
     }
@@ -619,6 +643,7 @@ body.admin {
   }
   h1 {
     text-align:center;
+    margin: 15px auto;
   }
   .row-info {
     display: inline-block;

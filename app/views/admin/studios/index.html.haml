@@ -1,12 +1,10 @@
 .admin-table
-  %h1 Listing studios
-
-  = render partial: '/flash_notice_error'
   .admin-controls
     - if current_user.is_admin?
       = link_to new_admin_studio_path, title: 'add studio' do
         = fa_icon "plus"
-
+  %h1 Listing studios
+  = render partial: '/flash_notice_error'
   %table
     %thead
       %tr

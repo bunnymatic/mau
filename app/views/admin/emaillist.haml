@@ -1,5 +1,4 @@
-
-.singlecolumn.email_lists
+.email_lists
   %h4 #{@email_list.display_title}
   .list_chooser
     %h5 Available Lists
@@ -26,9 +25,9 @@
             %input.formbutton{:type => 'submit'}
   .email_results
     - if @email_list.emails.present?
-      %h5 Emails
       %a.export-csv{:href => "?format=csv&%s" % request.query_string}
         %button export as csv
+      %h5 Emails
       %table
         %thead
           %tr

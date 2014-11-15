@@ -31,7 +31,9 @@ MAU.ArtPieces = class ArtPieces
 
 
 jQuery ->
-  jQuery("#artpiece_container a.zoom").colorbox()
+  $zoom = jQuery("#artpiece_container a.zoom")
+  if $zoom.length && $zoom.colorbox
+    $zoom.colorbox()
 
   # bind click on image to 'check' the delete box for delete art page
   aps = jQuery('.thumbs-select .artp-thumb img')
