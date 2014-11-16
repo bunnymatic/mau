@@ -333,6 +333,7 @@ class UsersController < ApplicationController
     msg = "There was a problem creating your account."+
           " If you can't solve the issues listed below, please try again later or"+
           " contact the webmaster (link below). if you continue to have problems.<br/>"
+    msg += @user.errors[:base].join(". ")
     flash.now[:error] = msg.html_safe
     @studios = Studio.all
     render :action => 'new'

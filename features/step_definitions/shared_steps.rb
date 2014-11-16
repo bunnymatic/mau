@@ -51,7 +51,7 @@ Then(/^I do not see an error message$/) do
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.error-msg', text: msg
+  expect(page).to have_selector '.error', text: msg
 end
 
 Then(/^I see a flash notice "(.*?)"$/) do |msg|
