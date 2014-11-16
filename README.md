@@ -158,6 +158,9 @@ you may need to use an older rubygems version.  I've had success with 1.8.25.
 
 Hopefully, once we get away from Rails 2.3.x we won't have to worry about this so much.
 
+# Keys for external connections
+
+You'll need to create a `config/config.keys.yml` file - use config.keys.yml.example as a starting point.
 
 # Cloud Resources Used
 
