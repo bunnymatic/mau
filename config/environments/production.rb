@@ -46,6 +46,7 @@ Mau::Application.configure do
     :host => 'www.missionartistsunited.org'
   }
 
+  config.font_assets.origin = "http://www.missionartistsunited.org"
   config.action_controller.asset_host = "http://d2wr4fo4molwfy.cloudfront.net"
 
 end
