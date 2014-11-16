@@ -172,8 +172,8 @@ GEM
     ffi (1.9.3)
     flot-rails (0.0.4)
       jquery-rails
-    font-awesome-sass (4.2.2)
-      sass (~> 3.2)
+    font-awesome-rails (4.2.0.0)
+      railties (>= 3.2, < 5.0)
     formatador (0.2.4)
     formtastic (3.0.0)
       actionpack (>= 3.2.13)
@@ -455,7 +455,7 @@ DEPENDENCIES
   faker
   faye
   flot-rails
-  font-awesome-sass
+  font-awesome-rails
   formtastic (~> 3.0)
   geokit
   geokit-rails
