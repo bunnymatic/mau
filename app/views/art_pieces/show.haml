@@ -9,7 +9,6 @@
         = render "/art_pieces/thumb_browser", :browser => @thumb_browser
       %td.vstripe
       %td.rcol{:colspan => 2}
-        .logo-spacer
         = render :partial => '/flash_notice_error'
         #artpiece_title{"ng-bind-html" => "currentArtPiece.title"} 
           = @art_piece.title

@@ -1,5 +1,11 @@
 @import 'mau-mixins';
 
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+               box-sizing: inherit;
+             }
 body {
   background-color: $lightbluegray;
   color: $xlightgray;
@@ -122,11 +128,14 @@ h5 {
 
 .singlecolumn {
   padding-bottom: 20px;
-  width:882px;
-  margin: auto;
+  margin: 5px auto;
   background-color: $black;
   padding-top:20px;
   vertical-align: top;
+
+  @include large-rounded-corners;
+  @extend .clearfix;
+  
   &.top, &.bottom {
     padding: 0;
     margin: 0;
@@ -143,13 +152,6 @@ h5 {
   h4 {
     text-align: center;
   }
-}
-
-/* prevent forms from causing line breaks */
-form {
-  display: inline;
-  margin: 0px;
-  padding: 0px;
 }
 
 /* general div align stuff */
@@ -169,44 +171,17 @@ div.div-left {
   }
 }
 
-.div-inline {
-  display: inline;
-}
 div.div-right {
   text-align:right;
   margin-bottom: 10px;
 }
 
-/* entry form styles */
-tr.error-row {
-  text-align:center;
-  padding: .4em;
-  div.error-msg {
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
-  }
-}
-
-input[type=submit], input[type=email], input[type=text],input[type=password], textarea {
-  @include input_style;
-  @include small-rounded-corners;
-}
-input[type=image], input[type=hidden] {
-  border: 0;
-}
-
 /* phase these out */
-.input-name, .input, .input-err{
-  font-size: 12px;
+.input-name, .input-err{
   padding: 5px;
 }
 .input-name {
   text-align:right;
-}
-
-.url-input {
-  width: 190px;
 }
 
 .bio-container {
@@ -249,8 +224,8 @@ input[type=image], input[type=hidden] {
 .acct,
 .gi {
   border-bottom: 1px dotted;
-  padding-top: 20px;
-  height: 20px;
+  padding-top: 10px;
+  height: 30px;
   width:auto;
 
   .title {
@@ -340,7 +315,7 @@ input[type=image], input[type=hidden] {
       }
     }
   }
-  .input-name, .input, .input-err {
+  .input-name, .input-err {
     padding-top: 0;
   }
   li {
@@ -458,7 +433,6 @@ a {
   line-height: 33px;
   vertical-align:middle;
   height: 33px;
-  width: $fullwidth;
   padding:0;
   margin:0;
   @include large-rounded-corners;
@@ -552,83 +526,6 @@ input.srch {
 }
 #search_icon { vertical-align:middle; }
 
-/* these three are important on the "edit" pages
-   colors should be set the same for textarea, select and srch
-   */
-button {
-  @include small-rounded-corners;
-}
-input.chkbox {
-  margin-right: 20px;
-}
-
-input.txt, input.txtlogin, input.txtarea, input.txtarea-sm, select.dropdown {
-  margin-right: 5px;
-}
-
-input.txt, input.txtlogin {
-  margin-left: 20px;
-}
-
-input.txtarea-sm, input.txtarea{
-  width: 500px;
-}
-input.txtarea-sm, input.txtarea, select.dropdown {
-  margin-left: 50px;
-}
-
-.fieldWithErrors {
-  label {
-    color: $error-red;
-  }
-  input, textarea {
-    border: 1px solid $error_red;
-  }
-}
-input.txt, select.dropdown {
-  width: 300px;
-}
-
-input.txt, select.dropdown
-{
-  height: auto;
-}
-input.txtlogin {
-  height: auto;
-}
-input.txtarea {
-  overflow: scroll;
-  height: 300px;
-}
-input.txtarea-sm {
-  overflow: scroll;
-  height: 40px;
-}
-
-input[type=image] {
-  background-color: transparent;
-}
-
-input[type=submit][disabled=disabled] {
-  font-weight:normal;
-  color:$lightgray;
-}
-
-input[type=submit], .formbutton {
-  background:$mediumgray;
-  background:url(/images/gradients.png) repeat-x left top;
-  background-position: 0 -90px;
-  border:outset 1px $xlightgray;
-  color:$darkbluegray;
-  font-weight:bold;
-  cursor:pointer;
-  text-transform: lowercase;
-  padding: 5px;
-  @include transition(all 0.2s ease);
-  &:hover {
-    @include opacity(0.85);
-  }
-}
 .buttons input[type=submit] {
   @include small-rounded-corners;
 }
@@ -638,14 +535,6 @@ input[type=submit], .formbutton {
 }
 
 div.formbutton {
-  line-height: 20px;
-}
-
-.news-text div.formbutton {
-  @include small-rounded-corners;
-  padding: 0 10px;
-  margin: 8px 20px 0;
-  text-align: center;
   line-height: 20px;
 }
 
@@ -659,37 +548,6 @@ div.formbutton {
   vertical-align:middle;
 }
 
-.new_art {
-  padding: 0 15px;
-  margin: 10px 0;
-}
-.new_art_thumbs {
-  @include small-rounded-corners;
-  @include dotted_border;
-  margin: 5px auto 8px auto;
-  padding-bottom: 5px;
-  text-align:left;
-  .title {
-    font-weight:bold;
-    text-align: left;
-    margin-top: 2px;
-    padding: 2px 5px 1px 5px;
-    color: $lightyellow;
-  }
-  .square {
-    border: 1px solid $xmediumgray;
-    margin: 4px;
-    float: left;
-    width: 50px;
-    height: 50px;
-    &.first {
-      margin-left: 6px;
-    }
-    &.last {
-      margin-right: 0px;
-    }
-  }
-}
 /** feeds **/
 div.feed-icon {
   position: absolute;
@@ -970,37 +828,38 @@ div.feedtitle  {
   margin-top: 30px;
 }
 
+#open_studios, #venues {
+  margin-top: 40px;
+}
 .markdown, #open_studios, #venues {
-  & h1 {
+  h1 {
     text-align: center;
     color: $xlightgray;
   }
-  & h3, h4, h5 {
+  h3, h4, h5 {
     text-align: left;
     color: #8392a4;
   }
-  & h4 {
+  h4 {
     margin-bottom: .5em;
     font-size: 16px;
   }
-  & .section {
+  .section {
     li {
       line-height: 1.7em;
     }
     width: $rightcol;
     margin: 25px auto 20px;
   }
-  & p {
+  p {
     margin-left: 0;
     padding-left: 0;
   }
-  & blockquote p {
+  blockquote p {
     line-height: 1.1em;
   }
-  & li li {
+  li li {
     margin-left: 13px;
-  }
-  & ul ul {
   }
 }
 #open_studios {
@@ -1317,6 +1176,7 @@ table{
   margin:5px 0;
   background-color: $mediumgray;
 }
+
 #bigthumbcolumn{
   background-color: $black;
   margin: 20px;
@@ -1336,11 +1196,14 @@ table{
   padding:0;
   margin:0;
   vertical-align: top;
-  width: $fullwidth;
   .rcol {
     background-color: $black;
   }
 }
+table.tbl-content {
+  margin-top: 5px;
+}
+
 #searchtools{
   float:left;
   background: $darkgray;
@@ -1462,18 +1325,6 @@ a.fdbk-subj #next_pg {
   display:none;
 }
 
-div.get-involved {
-  margin: 10px auto;
-}
-
-table.getinv-form{
-  margin:5px;
-}
-
-.getinv-table {
-  width: 90%;
-}
-
 .getinv-content {
   margin-top: 10px;
   text-align: left;
@@ -1514,111 +1365,9 @@ div.thumbs img
    .art-piece { width: 110px; float:left; margin:8px 2px;}
    */
 
-/****
- * for thumb browser
- *
- *****/
-
-/* position here get's img and div lined up so clicks work properly */
-img.tiny-thumb {
-  border: 0px;
-  width: 32px;
-  height: 34px; /* match border width */
-}
-
-/* padding should be 1/2 the width because
-   it is functioning as a "height" specifier */
-/* margin here controls horiz spacing between thumbs
-   use padding on td art-browser-container to control
-   vert spacing */
-$browser_thumb_row_height: 51px;
-#artp_thumb_browser {
-  margin: auto auto 40px auto;
-  position: relative;
-  min-height: $browser_thumb_row_height;
-  &.rows2 {
-    min-height: 2 * $browser_thumb_row_height;
-  }
-  &.rows3 {
-    min-height: 3 * $browser_thumb_row_height;
-  }
-  &.rows4 {
-    min-height: 4 * $browser_thumb_row_height;
-  }
-  &.rows5 {
-    min-height: 5 * $browser_thumb_row_height;
-  }
-  .thumb-browser-thumbs {
-    margin: auto;
-    width: 212px;
-  }
-  #prev-browse, #next-browse {
-    width: 16px;
-    height: 22px;
-    background-image: url(/images/icons/browse-sprite2.png);
-    background-repeat: no-repeat;
-  }
-  #next-browse {
-    background-position: 0px -44px;
-  }
-  #prev-browse {
-    background-position: 0px -66px;
-  }
-  #prev-browse:hover {
-    background-position: 0px -22px;
-  }
-  #next-browse:hover {
-    background-position: 0px 0px;
-  }
-  .prev, .next {
-    position: absolute;
-    top: 13px;
-    &.rows3, &.rows4 {
-      top: 62px;
-    }
-    &.rows5 {
-      top: 111px;
-    }
-  }
-  .prev {
-    left: 11px;
-  }
-  .next {
-    right: 11px;
-  }
-
-  #prev-browse, #next-browse
-  {
-    overflow: hidden;
-    z-index:10;
-  }
-
-
-}
-
-.tiny-thumb {
-  float: left;
-  border: 2px solid #111;
-  background-repeat: no-repeat;
-  background-position: center center;
-  margin: 4px ;
-  width: 41px;
-  height:  37px;
-  overflow: hidden;
-  position: relative;
-}
-
-.selected {
-  border: 2px solid $lightyellow;
-}
-
 td.vstripe{
   background-color:$bluegray;
   width: 5px;
-}
-
-.one_column .singlecolumn {
-  @include large-rounded-corners;
 }
 
 .two_column {
@@ -1652,21 +1401,6 @@ td.vstripe{
   background-color: $black;
 }
 
-/* keep header bar from jumping into two lines */
-.hdr-nav-left {
-  text-align:left;
-  width:30%;
-}
-.hdr-nav-right {
-  position: relative;
-  text-align: right;
-  vertical-align: middle;
-}
-
-.hdr-nav-right .nav{
-  vertical-align: middle;
-}
-
 .td-right{
   text-align: right;
   vertical-align: middle;
@@ -1685,14 +1419,16 @@ td.td-left{
 }
 
 #signup {
-  width: 650px;
-  margin: 0px auto;
+  margin: 40px auto;
+  width: 680px;
+  @extend .clearfix;
 }
 
 .signup-right,
 .signup-left {
+  padding: 0 20px;
   float: left;
-  width: 320px;
+  width: 340px;
   h2 {
     margin-top: 0px;
   }
@@ -1708,18 +1444,6 @@ td.td-left{
 .logo-space {
   margin-top: 35px;
   h3 {
-    text-align: center;
-  }
-}
-.logo-spacer {
-  line-height: 35px;
-  height: 35px;
-}
-.div-center {
-  margin-left:auto;
-  margin-right: auto;
-  h4 {
-    margin-top: 0;
     text-align: center;
   }
 }
@@ -1746,18 +1470,6 @@ td.td-left{
   }
 }
 
-#refresher_btn {
-  left: 557px;
-  height: 100px;
-  position: absolute;
-  top: 10px;
-  width: 16px;
-}
-#refresher_btn #next_pg {
-  position: absolute;
-  top: 40px;
-}
-
 .words, .main-text {
   width: $rightcol;
   margin: auto;
@@ -1776,110 +1488,10 @@ td.td-left{
 }
 
 .input-help {
+  margin-top: 0.25em;
   @include little-text;
 }
 
-#artpiece_title {
-  overflow: hidden;
-  max-width: 500px;
-  margin:auto;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 0px 10px 10px 10px;
-  text-align: center;
-}
-#artpiece_container {
-  text-align:center;
-  padding-bottom: 20px;
-  .art-piece-info {
-    margin: auto;
-    margin-top: 20px;
-    text-align:right;
-  }
-  #ap_tags {
-    text-align:center;
-    max-width: 500px;
-    margin: 20px auto 10px;
-    font-size: x-small;
-    line-height: 30px;
-    a.tag {
-      padding: 0px 6px;
-      margin: 4px;
-      line-height: 22px;
-      display: inline-block;
-      background-color: $darkgray;
-      @include small-rounded-corners;
-    }
-  }
-  .basic {
-    font-size: x-small;
-    .entry {
-      line-height: 1.7em;
-    }
-  }
-  .artpiece_wrapper {
-    display: inline-block;
-    position: relative;
-    margin: auto;
-    .mau_buttons {
-      margin-top: 4px;
-      margin-left: 8px;
-    }
-    .social_buttons {
-      margin-top: 8px;
-      margin-right: 8px;
-      .pinterest img {
-        vertical-align: top;
-      }
-      .pinterest, facebook {
-        margin-right: 14px;
-      }
-    }
-    .micro-icon {
-      float: right;
-      margin: 6px 4px;
-      cursor: pointer;
-    }
-    #num_favorites {
-      color: $dark_red;
-      float:right;
-      font-size:small;
-      vertical-align:top;
-      height: 16px;
-      margin: 5px 4px 6px 0;
-    }
-    #social_panel {
-      min-width: 200px;
-    }
-
-    &:hover #social_panel {
-      display:block;
-      opacity:1.0;
-    }
-    &:hover .zoom-corner {
-      opacity: 1.0;
-    }
-    .zoom-corner:hover {
-      cursor:pointer;
-    }
-    .zoom-corner {
-      display: block;
-      height: 20px;
-      width: 20px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      @include transition(all 0.75s ease);
-      opacity: 0.0;
-    }
-  }
-  #artpiece_img{
-    @include solid_border;
-  }
-  .edit-buttons {
-    margin-top: 16px;
-  }
-}
 .allthumbs {
   position:relative;
 }
@@ -1889,23 +1501,6 @@ td.td-left{
 .with-foot .artp-thumb {
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-
-/* for playback buttons */
-span.leftarrow, span.rightarrow {
-  background-image:url(/images/icons/playback-sprite.png);
-  height:16px;
-  width:16px;
-  overflow:hidden;
-}
-span.leftarrow
-{
-  background-position: 0px 0px;
-}
-span.rightarrow
-{
-  background-position: -48px 0;
 }
 
 .os-star {
@@ -1931,6 +1526,9 @@ span.rightarrow
   .artp-thumb {
     font-size: 0;
     line-height:0;
+    img {
+      border-radius: 2px;
+    }
     &.no-art {
       height: 100px;
       width: 100px;
@@ -2309,57 +1907,9 @@ div.alt-login {
   margin: 1em;
   text-align: left;
 }
-.signup-table {
-  width: 60%;
+.signup-table { 
+  width: 60%; 
   margin: auto;
-}
-#signup_form {
-  .row {
-    @extend .clearfix;
-    &.short {
-      margin-left:140px;
-    }
-    > div {
-      vertical-align: bottom;
-      float: left;
-      padding: 5px;
-    }
-    .label {
-      padding-top:9px;
-      padding-bottom: 0px;
-      width: 126px;
-    }
-    .input {
-      width: 200px;
-      input {
-        width: 100%;
-      }
-    }
-    .errors {
-      width: 145px;
-      margin-left: 15px;
-      padding-top:11px;
-      padding-bottom: 0;
-      .errors-help {
-      }
-    }
-  }
-}
-
-.signup-table tr.last {
-  margin-top: 10px;
-}
-.signup-table .label {
-  width: 128px;
-}
-
-.signup-table .input {
-  width: 230px;
-}
-.signup-table .input select {
-  width: 220px; /* 10 less than .input - accounts for margins? pulldown button? */
-}
-.signup-table .acct-selector td {
 }
 
 .disabled .signup-table select[disabled],
@@ -3104,11 +2654,10 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 #ac_ul .last {
   @include small-rounded-bottom-corners;
 }
-#ac_ul li {
-}
 
 
 #signup_page {
+  margin-top: 45px;
   h2 {
     text-align: center;
     margin-top: 0px;
@@ -3276,77 +2825,6 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
 .mau-note-link {
   cursor: pointer;
   color: $lightyellow;
-}
-
-#mc_embed_signup {
-  font-size: 11px;
-  font-family: Arial;
-
-  fieldset {
-    @include small-rounded-corners;
-    border: 1px solid $mediumgray;
-    padding-top: 1.5em;
-    margin: .5em 0;
-    background-color: $darkgray;
-    color: $lightgray;
-    text-align: left;
-  }
-  legend {
-    white-space: normal;
-    text-transform: capitalize;
-    font-weight: bold;
-    color: $xlightgray;
-    background: $black;
-    padding: .5em 1em;
-    border: 1px solid $mediumgray;
-    @include small-rounded-corners;
-    font-size: 1.2em;
-  }
-  .desc {
-    font-size: 14px;
-    margin-left: 10px;
-  }
-  .indicate-required {
-    float: right;
-    text-align: right;
-    font-style: italic;
-    overflow: hidden;
-    color: $lightgray;
-    margin: 0 9% 0 0;
-  }
-  .mc-field-group {
-    margin: 1.3em 5%;
-    clear: both;
-    overflow: hidden;
-    label {
-      display: block;
-      margin: .3em 0;
-      line-height: 1em;
-      font-weight: bold;
-    }
-    input {
-      margin-right: 1.5em;
-      padding: .2em .3em;
-      width: 90%;
-      float: left;
-      z-index: 50;
-    }
-  }
-  #mce-responses {
-    float: left;
-    top: -1.4em;
-    padding: 0em .5em 0em .5em;
-    overflow: hidden;
-    width: 90%;
-    margin: 0 5%;
-    clear: both;
-  }
-  .btn {
-    clear: both;
-    width: auto;
-    display: block;
-    margin: 1em 0 2em 5%;
-  }
 }
 
 .maushow_042012 {
@@ -3583,13 +3061,6 @@ body .events {
       padding: 4px 8px;
     }
   }
-
-
-}
-
-.singlecolumn .events {
-  .event {
-  }
 }
 
 #event_edit {
@@ -3659,36 +3130,6 @@ body .events {
   visibility: hidden;
 }
 
-#social_panel {
-  position:absolute;
-  @include transparent_white_background;
-  border-bottom: none;
-  left: 0;
-  bottom: 4px;
-  width: 100%;
-  display:none;
-  height: 36px;
-  opacity:0.0;
-  @include transition(all 0.75s ease);
-  .mau_buttons {
-    float: left;
-  }
-  .micro-icon.heart, .pinterest, .facebook {
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  .social_buttons {
-    text-align: right;
-    float:right;
-    .facebook {
-      margin-top: 4px;
-    }
-    .pinterest {
-      margin-top: 6px;
-    }
-  }
-}
 
 /** safari/chrome webkit **/
 .nav a {

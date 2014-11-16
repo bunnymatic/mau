@@ -14,7 +14,6 @@ class ArtistsController < ApplicationController
 
   before_filter :user_required, :only => [ :edit, :update, :delete_art, :destroyart, :setarrangement, :arrange_art ]
 
-  layout 'mau1col'
   skip_before_filter :get_new_art, :get_feeds
 
   # num artists before we paginate

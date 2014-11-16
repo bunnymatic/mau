@@ -1,12 +1,10 @@
 #database_backups
-  .block
-    .content
-      %h2 Content Backups
-      %ul.databases
-        - cnt = 0
-        - @dbfiles.each do |f|
-          - cnt+=1
-          %li{:class => cycle('even','odd')}
-            %a{:href => admin_fetch_backup_path(:name => File.basename(f.path))}
-              #{f.ctime.strftime("%b %d, %Y %H:%M")}
-              (#{"%02.2f" % (File.size(f).to_f/1000000.to_f)} MB)
+  %h2 Content Backups
+  %ul.databases
+    - cnt = 0
+    - @dbfiles.each do |f|
+      - cnt+=1
+      %li{:class => cycle('even','odd')}
+        %a{:href => admin_fetch_backup_path(:name => File.basename(f.path))}
+          #{f.ctime.strftime("%b %d, %Y %H:%M")}
+          (#{"%02.2f" % (File.size(f).to_f/1000000.to_f)} MB)

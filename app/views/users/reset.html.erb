@@ -1,12 +1,11 @@
 <% if @user.errors && !@user.errors.empty? %>
-<div class="logo-spacer"></div>
 <div class="error-msg">
-<div><%= flash[:error] %></div>
+  <div><%= flash[:error] %></div>
   <ul>
-<% @user.errors.each do |k,v| %>
-<li><%= k.to_s.humanize %> <%= v %></li>
-<% end %>
-</ul>
+    <% @user.errors.each do |k,v| %>
+    <li><%= k.to_s.humanize %> <%= v %></li>
+    <% end %>
+  </ul>
 </div>
 <% end -%>
 
@@ -16,7 +15,7 @@
   <tr>
     <td colspan="2" >
       <div>Pick a new password for <%= @user.login %></div>
-	</td>
+	  </td>
   </tr>
   <tr>
     <td align="right"><label>New password:</label></td>

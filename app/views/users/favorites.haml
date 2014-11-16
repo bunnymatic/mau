@@ -1,36 +1,36 @@
-.logo-spacer
-#favorites_page
-  = render :partial => '/flash_notice_error'
-  - if current_user && current_user == @user
-    %h4 My Favorites
-  - else
-    %h4 #{@user.get_name}'s Favorites
-  .favorites
-    - if @random_picks
-      %p.no-favorites-msg
-        It looks like you don't have any favorites yet.  Go find an artist or some artwork that you like.
-        You'll see this
-        %span.micro-icon.heart
-        = "."
-        Start your search below or use the "artist" link above.
-      .random-picks
-        = render 'random_picks', :random_picks => @random_picks
+.singlecolumn
+  #favorites_page
+    = render :partial => '/flash_notice_error'
+    - if current_user && current_user == @user
+      %h4 My Favorites
     - else
-      %p Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.
-      %h5
-        = "Art Pieces (#{@user.fav_art_pieces.count})"
-      %ul.art_pieces
-        - @user.fav_art_pieces.each do |f|
-          = draw_small_favorite(f, {:is_owner => (current_user == @user)})
+      %h4 #{@user.get_name}'s Favorites
+    .favorites
+      - if @random_picks
+        %p.no-favorites-msg
+          It looks like you don't have any favorites yet.  Go find an artist or some artwork that you like.
+          You'll see this
+          %span.micro-icon.heart
+          = "."
+          Start your search below or use the "artist" link above.
+        .random-picks
+          = render 'random_picks', :random_picks => @random_picks
+      - else
+        %p Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.
+        %h5
+          = "Art Pieces (#{@user.fav_art_pieces.count})"
+        %ul.art_pieces
+          - @user.fav_art_pieces.each do |f|
+            = draw_small_favorite(f, {:is_owner => (current_user == @user)})
+        .clear
+        %h5
+          = "Artists (#{@user.fav_artists.count})"
+        %ul.artists
+          - @user.fav_artists.each do |f|
+            = draw_small_favorite(f, {:is_owner => (current_user == @user)})
       .clear
-      %h5
-        = "Artists (#{@user.fav_artists.count})"
-      %ul.artists
-        - @user.fav_artists.each do |f|
-          = draw_small_favorite(f, {:is_owner => (current_user == @user)})
-    .clear
 
-  - if !@random_picks
-    .buttons
-      %form{:method => "get", :action => user_path(@user)}
-        %input.formbutton{:type => "submit", :value => "Back to #{@user.get_name}'s Page", :name => "submit"}
+    - if !@random_picks
+      .buttons
+        %form{:method => "get", :action => user_path(@user)}
+          %input.formbutton{:type => "submit", :value => "Back to #{@user.get_name}'s Page", :name => "submit"}

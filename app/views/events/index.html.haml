@@ -11,7 +11,7 @@
 
     %td.vstripe
     %td.rcol{:colspan => 2}
-      .events.logo-space
+      .events
         = render :partial => '/flash_notice_error'
         .event_list
           - @events.by_month.sort.each do |key, events|

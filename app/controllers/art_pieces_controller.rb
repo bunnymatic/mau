@@ -3,7 +3,6 @@ class ArtPiecesController < ApplicationController
   include TagsHelper
   include HtmlHelper
 
-  layout 'mau1col'
   skip_before_filter :get_new_art, :get_feeds
 
   before_filter :admin_required, :only => [ :index, ]

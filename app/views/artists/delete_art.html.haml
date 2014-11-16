@@ -1,9 +1,10 @@
-= form_tag "/artists/destroyart" do
-  #delete_art
-    %h4
-      = "Remove #{@artist.get_name}'s Artwork"
-    = render '/art_pieces/thumbs',:pieces => @artist.art_pieces, :params => { :select => false, :delete => true, :show_footer => false, :cols => 5 }
-    .edit-buttons
-      %input{ :type => "submit", :class => "formbutton",  :value => "Delete Selected Images" }
-      %input{ :type => "hidden", :name => "artist", :value => @artist.id }
-      %input{ :type => "button", :class => "formbutton", :value => "Cancel", :onclick => "MAU.goToArtist( #{@artist.id} );"}
+.singlecolumn
+  = form_tag "/artists/destroyart" do
+    #delete_art
+      %h4
+        = "Remove #{@artist.get_name}'s Artwork"
+      = render '/art_pieces/thumbs',:pieces => @artist.art_pieces, :params => { :select => false, :delete => true, :show_footer => false, :cols => 5 }
+      .edit-buttons
+        %input{ :type => "submit", :class => "formbutton",  :value => "Delete Selected Images" }
+        %input{ :type => "hidden", :name => "artist", :value => @artist.id }
+        %input{ :type => "button", :class => "formbutton", :value => "Cancel", :onclick => "MAU.goToArtist( #{@artist.id} );"}

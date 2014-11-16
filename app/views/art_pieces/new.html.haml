@@ -1,5 +1,4 @@
-.div-center
-  .logo-spacer
+.singlecolumn
   %h4 Add a new piece of art for #{current_artist.get_name}
   = form_for([current_artist,@art_piece], :html => {:id => 'new_artpiece_form', :multipart => true}) do |f|
     = hidden_field_tag :user_id, current_artist.login
@@ -17,7 +16,7 @@
       .label
         = f.label :title
       .field
-        = f.text_field :title
+        = f.text_field :title, required: :required
     .form-group
       .label
         = f.label :dimensions

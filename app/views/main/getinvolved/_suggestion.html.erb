@@ -1,9 +1,6 @@
 <p/>Tell us what you think of the organization, the site, whatever.  What would you like to see from Mission Artists United?
 <div class="getinv-form-container ">
   <%= form_for  @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
-  <table class="getinv-form">
-    <tr>
-      <td class="getinv-form-container">
 	<div id="bemail_input" class="getinv-input" >
 	  <%= f.label 'email' %>
 	  <% if !logged_in? -%>
@@ -18,9 +15,6 @@
 	<div id="bsend_input" >
 	  <%= f.submit 'Send', :class => 'formbutton'%>
 	</div>
-      </td>
-    </tr>
-  </table>
   <%= f.hidden_field 'subject', :value => "Suggestion" %>
   <%= f.hidden_field 'page', :value => request.referer %>
   <% if current_user -%>

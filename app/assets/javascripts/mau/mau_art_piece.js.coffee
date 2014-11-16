@@ -31,7 +31,9 @@ MAU.ArtPieces = class ArtPieces
 
 
 jQuery ->
-  jQuery("#artpiece_container a.zoom").colorbox()
+  $zoom = jQuery("#artpiece_container a.zoom")
+  if $zoom.length && $zoom.colorbox
+    $zoom.colorbox()
 
   # bind click on image to 'check' the delete box for delete art page
   aps = jQuery('.thumbs-select .artp-thumb img')
@@ -61,7 +63,7 @@ jQuery ->
   if art_piece_form
     submit_button = jQuery(art_piece_form).find('input[type=submit]')
     if submit_button.length
-      submit_button.bind 'click', (ev) ->
+      submit_button.bind 'submit', (ev) ->
         ArtPieces = new MAU.ArtPieces()
         if !ArtPieces.validate(art_piece_form)
           MAU.waitcursor()

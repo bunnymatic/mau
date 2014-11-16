@@ -3,7 +3,7 @@ class IndependentStudio
   extend  ActiveModel::Translation
   include ActiveModel::Validations
   include ActiveModel::Conversion
-
+  
   attr_reader :studio
 
   delegate :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, to: :studio
@@ -35,7 +35,7 @@ class IndependentStudio
                                 city: "San Francisco",
                                 state: "CA",
                                 zip: '94110',
-                                profile_image: ImageContainer.new("independent-studios.jpg"),
+                                profile_image: ImageContainer.new("/studiodata/0/profile/independent-studios.jpg"),
                                 image_height: 1,
                                 image_width: 1,
                                 cross_street: nil,
@@ -56,15 +56,15 @@ class IndependentStudio
   end
 
   def url?
-    @studio.profile_image.try(:url).present?
+    false
   end
 
   def url
-    @studio.profile_image.url
+    nil
   end
 
   def get_profile_image(*args)
-    @studio.profile_image
+    @studio.profile_image.url
   end
 
   def persisted?

@@ -13,9 +13,9 @@ Background:
 
 Scenario: sign up as a artist
   And I click "Sign up"
-  Then I see an error message "Email should look like an email"
-  Then I see an error message "username can't be blank"
-  Then I see an error message "Password is too short"
+  Then I see an error message "should look like an email"
+  Then I see an error message "can't be blank"
+  Then I see an error message "is too short"
   When I fill in the form with:
   | Username | E-mail             | Password | Password Confirmation | Firstname | Lastname |
   | billybob | billybob@email.com | password | password              | billy     | bob      |

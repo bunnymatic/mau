@@ -1,9 +1,9 @@
-.admin-table.singlecolumn
-  %h1 Mediums
-
+.admin-table
   .admin-controls
     = link_to new_admin_medium_path, title: 'Add New medium' do
       = fa_icon "plus"
+  %h1 Mediums
+
   %table.js-data-tables#mediums_index
     %thead
       %tr

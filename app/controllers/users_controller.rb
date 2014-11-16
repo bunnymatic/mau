@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  layout 'mau1col'
+
   skip_before_filter :get_new_art, :get_feeds
 
   before_filter :logged_out_required, :only => [:new]
@@ -112,6 +112,7 @@ class UsersController < ApplicationController
     # validate email domain
     build_user_from_params
     unless verify_recaptcha
+      @user.valid?
       @user.errors.add(:base, "Failed to prove that you're human."+
                        " Re-type your password and the blurry words at the bottom before re-submitting.")
       render_on_failed_create and return
@@ -332,7 +333,7 @@ class UsersController < ApplicationController
     msg = "There was a problem creating your account."+
           " If you can't solve the issues listed below, please try again later or"+
           " contact the webmaster (link below). if you continue to have problems.<br/>"
-    msg += @user.errors.full_messages.join("<br/>") if (@user && @user.errors.present?)
+    msg += @user.errors[:base].join(". ")
     flash.now[:error] = msg.html_safe
     @studios = Studio.all
     render :action => 'new'
