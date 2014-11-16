@@ -92,6 +92,7 @@ group :assets,:development do
   gem 'coffee-rails'
   gem 'sass-rails'
   gem 'libv8'
+  gem 'uglifier'
 end
 
 group :development do
