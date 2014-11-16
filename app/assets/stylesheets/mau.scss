@@ -1,5 +1,11 @@
 @import 'mau-mixins';
 
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+               box-sizing: inherit;
+             }
 body {
   background-color: $lightbluegray;
   color: $xlightgray;
@@ -170,20 +176,8 @@ div.div-right {
   margin-bottom: 10px;
 }
 
-/* /\* entry form styles *\/ */
-/* tr.error-row { */
-/*   text-align:center; */
-/*   padding: .4em; */
-/*   div.error-msg { */
-/*     margin-left: auto; */
-/*     margin-right: auto; */
-/*     width: auto; */
-/*   } */
-/* } */
-
 /* phase these out */
-.input-name, .input, .input-err{
-  font-size: 12px;
+.input-name, .input-err{
   padding: 5px;
 }
 .input-name {
@@ -230,8 +224,8 @@ div.div-right {
 .acct,
 .gi {
   border-bottom: 1px dotted;
-  padding-top: 20px;
-  height: 20px;
+  padding-top: 10px;
+  height: 30px;
   width:auto;
 
   .title {
@@ -321,7 +315,7 @@ div.div-right {
       }
     }
   }
-  .input-name, .input, .input-err {
+  .input-name, .input-err {
     padding-top: 0;
   }
   li {
@@ -439,7 +433,6 @@ a {
   line-height: 33px;
   vertical-align:middle;
   height: 33px;
-  width: $fullwidth;
   padding:0;
   margin:0;
   @include large-rounded-corners;
@@ -1183,6 +1176,7 @@ table{
   margin:5px 0;
   background-color: $mediumgray;
 }
+
 #bigthumbcolumn{
   background-color: $black;
   margin: 20px;
@@ -1202,11 +1196,14 @@ table{
   padding:0;
   margin:0;
   vertical-align: top;
-  width: $fullwidth;
   .rcol {
     background-color: $black;
   }
 }
+table.tbl-content {
+  margin-top: 5px;
+}
+
 #searchtools{
   float:left;
   background: $darkgray;
@@ -1328,18 +1325,6 @@ a.fdbk-subj #next_pg {
   display:none;
 }
 
-div.get-involved {
-  margin: 10px auto;
-}
-
-table.getinv-form{
-  margin:5px;
-}
-
-.getinv-table {
-  width: 90%;
-}
-
 .getinv-content {
   margin-top: 10px;
   text-align: left;
@@ -1380,104 +1365,6 @@ div.thumbs img
    .art-piece { width: 110px; float:left; margin:8px 2px;}
    */
 
-/****
- * for thumb browser
- *
- *****/
-
-/* position here get's img and div lined up so clicks work properly */
-img.tiny-thumb {
-  border: 0px;
-  width: 32px;
-  height: 34px; /* match border width */
-}
-
-/* padding should be 1/2 the width because
-   it is functioning as a "height" specifier */
-/* margin here controls horiz spacing between thumbs
-   use padding on td art-browser-container to control
-   vert spacing */
-$browser_thumb_row_height: 51px;
-#artp_thumb_browser {
-  margin: auto auto 40px auto;
-  position: relative;
-  min-height: $browser_thumb_row_height;
-  &.rows2 {
-    min-height: 2 * $browser_thumb_row_height;
-  }
-  &.rows3 {
-    min-height: 3 * $browser_thumb_row_height;
-  }
-  &.rows4 {
-    min-height: 4 * $browser_thumb_row_height;
-  }
-  &.rows5 {
-    min-height: 5 * $browser_thumb_row_height;
-  }
-  .thumb-browser-thumbs {
-    margin: auto;
-    width: 212px;
-  }
-  #prev-browse, #next-browse {
-    width: 16px;
-    height: 22px;
-    background-image: url(/images/icons/browse-sprite2.png);
-    background-repeat: no-repeat;
-  }
-  #next-browse {
-    background-position: 0px -44px;
-  }
-  #prev-browse {
-    background-position: 0px -66px;
-  }
-  #prev-browse:hover {
-    background-position: 0px -22px;
-  }
-  #next-browse:hover {
-    background-position: 0px 0px;
-  }
-  .prev, .next {
-    position: absolute;
-    top: 13px;
-    &.rows3, &.rows4 {
-      top: 62px;
-    }
-    &.rows5 {
-      top: 111px;
-    }
-  }
-  .prev {
-    left: 11px;
-  }
-  .next {
-    right: 11px;
-  }
-
-  #prev-browse, #next-browse
-  {
-    overflow: hidden;
-    z-index:10;
-  }
-
-
-}
-
-.tiny-thumb {
-  float: left;
-  border: 2px solid #111;
-  background-repeat: no-repeat;
-  background-position: center center;
-  margin: 4px ;
-  width: 41px;
-  height:  37px;
-  overflow: hidden;
-  position: relative;
-}
-
-.selected {
-  border: 2px solid $lightyellow;
-}
-
 td.vstripe{
   background-color:$bluegray;
   width: 5px;
@@ -1514,21 +1401,6 @@ td.vstripe{
   background-color: $black;
 }
 
-/* keep header bar from jumping into two lines */
-.hdr-nav-left {
-  text-align:left;
-  width:30%;
-}
-.hdr-nav-right {
-  position: relative;
-  text-align: right;
-  vertical-align: middle;
-}
-
-.hdr-nav-right .nav{
-  vertical-align: middle;
-}
-
 .td-right{
   text-align: right;
   vertical-align: middle;
@@ -1554,6 +1426,7 @@ td.td-left{
 
 .signup-right,
 .signup-left {
+  padding: 0 20px;
   float: left;
   width: 340px;
   h2 {
@@ -1597,18 +1470,6 @@ td.td-left{
   }
 }
 
-#refresher_btn {
-  left: 557px;
-  height: 100px;
-  position: absolute;
-  top: 10px;
-  width: 16px;
-}
-#refresher_btn #next_pg {
-  position: absolute;
-  top: 40px;
-}
-
 .words, .main-text {
   width: $rightcol;
   margin: auto;
@@ -1627,110 +1488,10 @@ td.td-left{
 }
 
 .input-help {
+  margin-top: 0.25em;
   @include little-text;
 }
 
-#artpiece_title {
-  overflow: hidden;
-  max-width: 500px;
-  margin:auto;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 0px 10px 10px 10px;
-  text-align: center;
-}
-#artpiece_container {
-  text-align:center;
-  padding-bottom: 20px;
-  .art-piece-info {
-    margin: auto;
-    margin-top: 20px;
-    text-align:right;
-  }
-  #ap_tags {
-    text-align:center;
-    max-width: 500px;
-    margin: 20px auto 10px;
-    font-size: x-small;
-    line-height: 30px;
-    a.tag {
-      padding: 0px 6px;
-      margin: 4px;
-      line-height: 22px;
-      display: inline-block;
-      background-color: $darkgray;
-      @include small-rounded-corners;
-    }
-  }
-  .basic {
-    font-size: x-small;
-    .entry {
-      line-height: 1.7em;
-    }
-  }
-  .artpiece_wrapper {
-    display: inline-block;
-    position: relative;
-    margin: auto;
-    .mau_buttons {
-      margin-top: 4px;
-      margin-left: 8px;
-    }
-    .social_buttons {
-      margin-top: 8px;
-      margin-right: 8px;
-      .pinterest img {
-        vertical-align: top;
-      }
-      .pinterest, facebook {
-        margin-right: 14px;
-      }
-    }
-    .micro-icon {
-      float: right;
-      margin: 6px 4px;
-      cursor: pointer;
-    }
-    #num_favorites {
-      color: $dark_red;
-      float:right;
-      font-size:small;
-      vertical-align:top;
-      height: 16px;
-      margin: 5px 4px 6px 0;
-    }
-    #social_panel {
-      min-width: 200px;
-    }
-
-    &:hover #social_panel {
-      display:block;
-      opacity:1.0;
-    }
-    &:hover .zoom-corner {
-      opacity: 1.0;
-    }
-    .zoom-corner:hover {
-      cursor:pointer;
-    }
-    .zoom-corner {
-      display: block;
-      height: 20px;
-      width: 20px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      @include transition(all 0.75s ease);
-      opacity: 0.0;
-    }
-  }
-  #artpiece_img{
-    @include solid_border;
-  }
-  .edit-buttons {
-    margin-top: 16px;
-  }
-}
 .allthumbs {
   position:relative;
 }
@@ -1740,23 +1501,6 @@ td.td-left{
 .with-foot .artp-thumb {
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-
-/* for playback buttons */
-span.leftarrow, span.rightarrow {
-  background-image:url(/images/icons/playback-sprite.png);
-  height:16px;
-  width:16px;
-  overflow:hidden;
-}
-span.leftarrow
-{
-  background-position: 0px 0px;
-}
-span.rightarrow
-{
-  background-position: -48px 0;
 }
 
 .os-star {
@@ -1782,6 +1526,9 @@ span.rightarrow
   .artp-thumb {
     font-size: 0;
     line-height:0;
+    img {
+      border-radius: 2px;
+    }
     &.no-art {
       height: 100px;
       width: 100px;
@@ -2160,25 +1907,9 @@ div.alt-login {
   margin: 1em;
   text-align: left;
 }
-.signup-table {
-  width: 60%;
+.signup-table { 
+  width: 60%; 
   margin: auto;
-}
-
-.signup-table tr.last {
-  margin-top: 10px;
-}
-.signup-table .label {
-  width: 128px;
-}
-
-.signup-table .input {
-  width: 230px;
-}
-.signup-table .input select {
-  width: 220px; /* 10 less than .input - accounts for margins? pulldown button? */
-}
-.signup-table .acct-selector td {
 }
 
 .disabled .signup-table select[disabled],

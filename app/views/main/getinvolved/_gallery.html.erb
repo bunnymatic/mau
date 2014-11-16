@@ -4,9 +4,6 @@ If you are a gallery owner or curator in the Mission district, please contact us
 
 <div class="getinv-form-container ">
   <%= form_for @feedback, :url => getinvolved_path, :html => {:id => "getinv_form"} do |f| -%>
-  <table class="getinv-form">
-    <tr>
-      <td class="getinv-form-container">
 	<div id="bemail_input" class="getinv-input" >
 	  <%= f.label 'email' %>
 	  <% if !logged_in? -%>
@@ -21,9 +18,6 @@ If you are a gallery owner or curator in the Mission district, please contact us
 	<div id="bsend_input" >
 	  <%= f.submit 'Send', :class => 'formbutton' %>
 	</div>
-      </td>
-    </tr>
-  </table>
   <%= f.hidden_field 'subject', :value => "Business/Gallery Inquiry" %>
   <%= f.hidden_field 'page', :value => request.referer %>
   <% if current_user -%>

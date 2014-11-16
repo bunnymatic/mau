@@ -25,52 +25,6 @@ input[type=image], input[type=hidden] {
 button {
   @include small-rounded-corners;
 }
-/* input.chkbox { */
-/*   margin-right: 20px; */
-/* } */
-
-/* input.txt, input.txtlogin, input.txtarea, input.txtarea-sm, select.dropdown { */
-/*   margin-right: 5px; */
-/* } */
-
-/* input.txt, input.txtlogin { */
-/*   margin-left: 20px; */
-/* } */
-
-/* input.txtarea-sm, input.txtarea{ */
-/*   width: 500px; */
-/* } */
-/* input.txtarea-sm, input.txtarea, select.dropdown { */
-/*   margin-left: 50px; */
-/* } */
-
-.fieldWithErrors {
-  label {
-    color: $error-red;
-  }
-  input, textarea {
-    border: 1px solid $error_red;
-  }
-}
-/* input.txt, select.dropdown { */
-/*   width: 300px; */
-/* } */
-
-/* input.txt, select.dropdown */
-/* { */
-/*   height: auto; */
-/* } */
-/* input.txtlogin { */
-/*   height: auto; */
-/* } */
-/* input.txtarea { */
-/*   overflow: scroll; */
-/*   height: 300px; */
-/* } */
-/* input.txtarea-sm { */
-/*   overflow: scroll; */
-/*   height: 40px; */
-/* } */
 
 input[type=image] {
   background-color: transparent;
@@ -97,39 +51,56 @@ input[type=submit], .formbutton {
   }
 }
 
-#signup_form {
+.signup-table, #signup_form {
   .row {
     @extend .clearfix;
-    &.short {
-      margin-left:140px;
-    }
-    > div {
-      vertical-align: bottom;
-      float: left;
+    .label, .input, .error {
       padding: 5px;
     }
     .label {
-      padding-top:9px;
-      padding-bottom: 0px;
-      width: 126px;
+      float: left;
+      width: 30%;
     }
     .input {
-      width: 200px;
-      input {
+      float: left;
+      width: 66%;
+      input, select {
         width: 100%;
       }
-    }
-    .errors {
-      width: 145px;
-      margin-left: 15px;
-      padding-top:11px;
-      padding-bottom: 0;
-      .errors-help {
+      select {
+        height: 2em;
       }
+    }
+    .error {
+      margin-left:31%;
+      clear:both;
+      color: $error_red;
+    }
+    .input-help {
+      margin-left:31%;
+    }
+    &.short {
+       margin-left:31%;
     }
   }
 }
 
+/* formtastic styling */
+.formtastic {
+  .inputs {
+    .input {
+      margin-bottom: 1em;
+      label {
+        display: block;
+        margin-bottom: 0.45em;
+      }
+      input {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}
 .form-group {
   max-width: 500px;
   margin:12px auto;
@@ -164,11 +135,11 @@ input[type=submit], .formbutton {
   padding: 20px;
 }
 
-form .field_with_errors {
+.fieldWithErrors, .formtastic li.error {
   label {
     color: $error_red;
   }
-  input {
-    border: 2px solid $dark_red;
+  input, textarea, select {
+    border: 1px solid $error_red;
   }
 }
