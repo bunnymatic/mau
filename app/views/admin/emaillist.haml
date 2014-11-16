@@ -13,13 +13,8 @@
         #multi_form{:style => 'display:none;'}
           = form_tag do
             - Conf.open_studios_event_keys.map(&:to_s).reverse.each do |ostag|
-              :ruby
-                yr = ostag[0..3]
-                mo = ostag[4..-1]
-                seas = (mo == '10') ? 'Oct':'Apr'
-                title = "%s %s" % [ seas, yr ]
               .cb
-                %label #{title}
+                %label #{OpenStudiosEvent.for_display(ostag)}
                 %input{:type => 'checkbox', :name => ostag}
 
             %input.formbutton{:type => 'submit'}
@@ -27,17 +22,18 @@
     - if @email_list.emails.present?
       %a.export-csv{:href => "?format=csv&%s" % request.query_string}
         %button export as csv
-      %h5 Emails
-      %table
-        %thead
-          %tr
-            %th name
-            %th email
-        %tbody
-          - @email_list.emails.each do |e|
-            %tr{'class' => cycle('odd','even')}
-              %td.name #{e.name}
-              %td.email #{e.email}
+      .admin-table        
+        %h5 Emails
+        %table
+          %thead
+            %tr
+              %th name
+              %th email
+          %tbody
+            - @email_list.emails.each do |e|
+              %tr
+                %td.name #{e.name}
+                %td.email #{e.email}
     - else
       %h5 nothing emails match the query
     .clear

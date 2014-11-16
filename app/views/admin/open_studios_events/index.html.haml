@@ -14,8 +14,7 @@
         %th
     %tbody
       - @os_events.each_with_index do |os_event|
-        - clz = cycle('even','odd')
-        %tr{class: clz}
+        %tr
           %td.key #{os_event.key}
           %td.title #{os_event.title}
           %td.start #{os_event.start_date}

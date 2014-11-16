@@ -4,7 +4,7 @@
 @import 'font-awesome';
 @import 'mau-mixins';
 @import 'datatables_overrides';
-
+@import 'colors_index';
 body.admin {
 
   .admin-table {
@@ -13,8 +13,8 @@ body.admin {
       border-collapse: collapse; 
     }
     /* Zebra striping */
-    tr:nth-of-type(odd) { 
-      background: #eee; 
+    tr:nth-of-type(even) { 
+      background: #333; 
     }
     th { 
       background: #333; 
@@ -31,16 +31,6 @@ body.admin {
     width: 120px;
     margin-bottom:10px;
     margin-left:10px;
-  }
-  .odd, .even {
-    font-size: 85%;
-    padding: 3px;
-  }
-  .odd {
-    background-color: $darkgray;
-  }
-  .even {
-    background-color: transparent;
   }
   .flot_graph {
     width: 360px;
@@ -61,6 +51,11 @@ body.admin {
       display: inline-block;
     }
   }
+  td.profile-image {
+    img {
+      max-width: 100px;
+    }
+  }
 
   #database_backups {
     padding: 20px;
@@ -78,7 +73,6 @@ body.admin {
       text-align: right;
       margin-bottom: 20px;
       .formbutton {
-        height: 38px;
         margin-left: 10px;
       }
     }
@@ -211,6 +205,9 @@ body.admin {
     a {
       padding: 5px;
     }
+    .select2-container a {
+      padding: inherit;
+    }
   }
 
   #event_edit {
@@ -224,30 +221,6 @@ body.admin {
         label {
           width: 150px;
         }
-      }
-    }
-  }
-
-  .colors {
-    .color {
-      @include dotted_border;
-      @include large-rounded-corners;
-      border: 1px solid $lightgray;
-      float: left;
-      margin: 15px;
-      padding: 20px;
-      width: 100px;
-      height: 100px;
-      position: relative;
-      .block {
-        position: absolute;
-        bottom: 0px;
-        right: 16px;
-        width: 100px;
-        padding: 4px;
-        text-align:center;
-        background-color: black;
-        @include large-rounded-corners;
       }
     }
   }
@@ -282,8 +255,7 @@ body.admin {
       text-align: right;
       font-size: 20px;
     }
-    .feed_entry {
-      width: 100%;
+    #artist_feed_index {
       margin-bottom: 0;
       tbody td {
         vertical-align: inherit;
@@ -617,12 +589,12 @@ body.admin {
       }
     }
   }
-  tr.odd td {
-    background-color: $darkgray;
-  }
-  tr.even td {
-    background-color: transparent;
-  }
+  /* tr.odd td { */
+  /*   background-color: $darkgray; */
+  /* } */
+  /* tr.even td { */
+  /*   background-color: transparent; */
+  /* } */
   tr.pending {
     color: pink;
     td {

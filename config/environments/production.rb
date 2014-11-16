@@ -39,6 +39,9 @@ Mau::Application.configure do
   config.assets.compile = false
   # Generate digests for assets URLs
   config.assets.digest = true
+
+  config.assets.compress = true
+
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( admin.js mau.css mau-ie.css mau-ie7.css mau-safari.css mau-admin.css excanvas.compiled.js gmaps/google.js mau/mau_gmap.js mau_mobile.js catalog.css event_calendar.js event_calendar.css mau-mobile.css artists_map.js)
 

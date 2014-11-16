@@ -16,7 +16,7 @@
         %th
     %tbody
     - @studios.each do |studio|
-      %tr{class: cycle('even','odd')}
+      %tr
         %td
           = link_to studio.name, studio_path(studio)
         %td
@@ -26,7 +26,7 @@
           %div #{studio.zip}
         %td
           = studio.artists.active.count.to_s()
-        %td
+        %td.profile-image
           - if studio.profile_image?
             %img{src: studio.get_profile_image('thumb')}
         %td

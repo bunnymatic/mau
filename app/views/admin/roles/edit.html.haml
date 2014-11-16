@@ -14,7 +14,7 @@
 
   %ul.members_edit{"data-role" => @role.id}
     - @role_users.each do |u|
-      %li{:class => cycle("even", "odd"), "data-user" => u.id}
+      %li{"data-user" => u.id}
         .user
           = u.fullname
           = link_to "X", "/users/#{u.id}/roles/#{@role.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.fullname} from the #{@role.role} group?" unless (u == current_user && @role == Role.admin)

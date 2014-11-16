@@ -5,10 +5,9 @@
   %h3 Roles & Members
   %ul
     - @roles.each do |role|
-      %li.role_container{:class => [cycle('even', 'odd'), role.role].join(' ')}
-        .role_controls
-          = link_to "[manage]", edit_admin_role_path(role)
-          = link_to "[destroy]", [:admin, role], :confirm => 'Are you sure?', :method => :delete
+      %li.role_container{ class: role.role }
+        = link_to "[manage]", edit_admin_role_path(role)
+        = link_to "[destroy]", [:admin, role], :confirm => 'Are you sure?', :method => :delete
 
         .role #{role.role}
         %ul.role_members

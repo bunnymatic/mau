@@ -6,12 +6,13 @@
     - if events.length
       .events_list{:class => key.to_s.tableize}
         %h5 #{key}
-        %table
-          %tbody
-            - events.each do |ev|
-              %tr{:class => cycle('odd','even')}
-                %td.message #{ev.message}
-                %td.user
-                  = link_to_user ev
-                %td.last.date #{ev.created_at.strftime("%b %d, %Y %H:%M")}
+        .admin-table
+          %table
+            %tbody
+              - events.each do |ev|
+                %tr
+                  %td.message #{ev.message}
+                  %td.user
+                    = link_to_user ev
+                  %td.last.date #{ev.created_at.strftime("%b %d, %Y %H:%M")}
 

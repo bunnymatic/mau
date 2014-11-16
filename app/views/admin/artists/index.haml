@@ -25,7 +25,6 @@
         - @artist_list.each_with_index do |a, idx|
           :ruby
             classes = []
-            classes << cycle('even', 'odd')
             classes << a.state
             classes << 'participating' if a.doing_open_studios?
           %tr{:class => classes.join(' ')}

@@ -4,7 +4,7 @@
     - cnt = 0
     - @dbfiles.each do |f|
       - cnt+=1
-      %li{:class => cycle('even','odd')}
+      %li
         %a{:href => admin_fetch_backup_path(:name => File.basename(f.path))}
           #{f.ctime.strftime("%b %d, %Y %H:%M")}
           (#{"%02.2f" % (File.size(f).to_f/1000000.to_f)} MB)

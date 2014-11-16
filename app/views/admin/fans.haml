@@ -10,7 +10,7 @@
         %th favorites
     %tbody
       - @fans.each do |fan|
-        %tr{ :class => cycle('even','odd') }
+        %tr
           %td
             = link_to fan.get_name, user_path(fan)
           %td #{fan.login}
