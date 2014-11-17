@@ -28,7 +28,7 @@ shared_examples_for 'main#index page' do
   it 'shows a link to the artist with the most recently uploaded art' do
     assert_select '.lcol .new_art a[href=%s]' % artist_path(ArtPiece.last.artist)
   end
-  it "has a header & footer bar" do
+  it "has a header and footer bars" do
     assert_select '#header_bar'
     assert_select '#artisthemission'
     assert_select '#footer_bar'

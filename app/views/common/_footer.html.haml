@@ -1,17 +1,21 @@
 #footer_bar
-  #footer_copy &copy; mission artists united
-  #footer_links
-    %span
+  .pure-g
+    .pure-u-1-6 
       = link_to "faq", faq_path, :class => 'lkdark'
-    %span
+    .pure-u-1-6 
       = feedback_link "feedback", {:class => 'lkdark'}
-    %span
+    .pure-u-1-6 
       = link_to "privacy", privacy_path, :class => 'lkdark'
-    %span
+    .pure-u-1-6 
       = link_to "about", about_path, :class => 'lkdark'
-    %span
+    .pure-u-1-6 
       = link_to "contact", contact_path, :class => 'lkdark'
-    %span
+    .pure-u-1-6 
       = link_to "credits", '#', :class => 'lkdark', :id => 'credits_lnk'
+  .pure-g
+    .pure-u-1-2.left 
+      site by
+      %a{:target => '_blank', :class => 'lkdark', :href => 'http://rcode5.com'} rcode5
+    .pure-u-1-2.right#footer_copy &copy; mission artists united
 
 = render "/common/feedback_form_templates"

@@ -1,10 +1,2 @@
-%table.tbl-content
-  %tr
-    %td.lcol{:colspan => 2}
-      = render 'studio_list', :studios => @studios
-    %td.vstripe
-    %td.rcol{:colspan => 2}
-      #studio_page
-        = render 'view_switcher', :mode => @studios.view_mode
-        = render '/flash_notice_error'
-        = render 'thumbs', :studios => @studios
+.studios.pure-g
+  = render partial: 'studio_thumb', collection: @studios.studios, locals: { classes: %w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4) }

@@ -1,53 +1,61 @@
-%a{:href => '/'}
-  %img#logo{:title => 'Mission Artists United', :alt => 'Mission Artists United', :src => @logo_img}
-#header_bar
-  #artisthemission
-    %img{ :title => "Art is the Mission", :alt => "Art is the Mission", :src => "/images/artisthimission4.gif" }
-  .search-widget
-    = form_tag '/search', :method => 'post', :id => 'search_form' do
-      %input#search_box.srch{:type => 'text', :name => 'keywords', :size => '14'}
-    %a.lkdark#search_link{:title =>'search', :href => '#'}
-      -# %img#search_icon{:title => 'search', :src => '/images/icons/searchicon24.png'}
-      %i.fa.fa-search
-        
-  #nav_bar
-    .nav
-      - user_nav = UserNavigation.new(self, current_user)
-      %ul#mymaunav.dropdown
-        - if logged_in?
-          %li.dir
-            = link_to 'my&nbsp;mau'.html_safe, user_nav.mypath, {:class => 'lknav'}
-            %ul
-              = print_html_list('leaf', user_nav.navitems)
-        - else
-          %li.dir
-            = link_to 'join in!', login_path, {:class => 'lknav'}
+.pure-g
+  .pure-u-md-1-5.pure-u-sm-hidden
+    %a{:href => '/'}
+      %img#logo{:title => 'Mission Artists United', :alt => 'Mission Artists United', :src => @logo_img}
+  .pure-u-md-3-5
+    %h1 MISSION ARTISTS UNITED
+  .pure-u-md-1-5.pure-u-sm-hidden
+    %img#logo{:title => 'Mission Artists United', :alt => 'Mission Artists United', :src => @logo_img}
 
-      -# in reverse order
-      - [ ['events','/events/'] ].each do |nm,lk,clz|
-        %ul.dropdown{:class => clz}
-          %li.dir
-            %a.lknav{:href => lk, :title => nm} #{nm}
-      %ul.dropdown#studionav
-        %li.dir
-          %a.lknav{:href => studios_path} spaces
-          %ul
-            = print_html_list('leaf', StudioNavigation.new(self).items)
+.pure-g
 
-      %ul.dropdown#osnav
-        %li.dir
-          %a.lknav{:href => open_studios_path} open studios
-          %ul
-            - osnav = OpenStudiosNavigation.new(self, current_user)
-            = print_html_list('leaf', osnav.items)
-      %ul#artistsnav.dropdown.first
-        %li.dir
-          %a.lknav{:href => artists_path, :title => 'artists'} artists
-          %ul
-            :ruby
-              artistsnav = []
-              artistsnav << "<a href='#{artists_path}' title='artists by name'>artists by name</a>"
-              artistsnav << "<a href='#{ map_artists_path }' title='artists by map'>artists by map</a>"
-              artistsnav << "<a href='#{ media_path :m => 'a' }' title='artists by medium'>artists by medium</a>"
-              artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
-            = print_html_list('leaf', artistsnav)
+  -# #header_bar
+  -#   #artisthemission
+  -#     %img{ :title => "Art is the Mission", :alt => "Art is the Mission", :src => "/images/artisthimission4.gif" }
+  -#   .search-widget
+  -#     = form_tag '/search', :method => 'post', :id => 'search_form' do
+  -#       %input#search_box.srch{:type => 'text', :name => 'keywords', :size => '14'}
+  -#     %a.lkdark#search_link{:title =>'search', :href => '#'}
+  -#       -# %img#search_icon{:title => 'search', :src => '/images/icons/searchicon24.png'}
+  -#       %i.fa.fa-search
+  -#   #nav_bar
+  -#     .nav
+  -#       - user_nav = UserNavigation.new(self, current_user)
+  -#       %ul#mymaunav.dropdown
+  -#         - if logged_in?
+  -#           %li.dir
+  -#             = link_to 'my&nbsp;mau'.html_safe, user_nav.mypath, {:class => 'lknav'}
+  -#             %ul
+  -#               = print_html_list('leaf', user_nav.navitems)
+  -#         - else
+  -#           %li.dir
+  -#             = link_to 'join in!', login_path, {:class => 'lknav'}
+
+  -#       -# in reverse order
+  -#       - [ ['events','/events/'] ].each do |nm,lk,clz|
+  -#         %ul.dropdown{:class => clz}
+  -#           %li.dir
+  -#             %a.lknav{:href => lk, :title => nm} #{nm}
+  -#       %ul.dropdown#studionav
+  -#         %li.dir
+  -#           %a.lknav{:href => studios_path} spaces
+  -#           %ul
+  -#             = print_html_list('leaf', StudioNavigation.new(self).items)
+
+  -#       %ul.dropdown#osnav
+  -#         %li.dir
+  -#           %a.lknav{:href => open_studios_path} open studios
+  -#           %ul
+  -#             - osnav = OpenStudiosNavigation.new(self, current_user)
+  -#             = print_html_list('leaf', osnav.items)
+  -#       %ul#artistsnav.dropdown.first
+  -#         %li.dir
+  -#           %a.lknav{:href => artists_path, :title => 'artists'} artists
+  -#           %ul
+  -#             :ruby
+  -#               artistsnav = []
+  -#               artistsnav << "<a href='#{artists_path}' title='artists by name'>artists by name</a>"
+  -#               artistsnav << "<a href='#{ map_artists_path }' title='artists by map'>artists by map</a>"
+  -#               artistsnav << "<a href='#{ media_path :m => 'a' }' title='artists by medium'>artists by medium</a>"
+  -#               artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
+  -#             = print_html_list('leaf', artistsnav)

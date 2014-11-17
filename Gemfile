@@ -52,6 +52,9 @@ gem 'rails-assets-lodash'
 gem 'rails-assets-colorbox' # lightbox plugin
 gem 'rails-assets-jquery'
 gem 'rails-assets-jquery-ujs'
+#gem 'rails-assets-purecss'
+gem 'rails-assets-pure'
+
 
 # authentication
 gem 'authlogic'
@@ -73,6 +76,7 @@ gem 'select2-rails' # autocompleter
 gem 'underscore-string-rails'
 
 gem 'multi_json'
+gem 'jbuilder'
 
 gem 'skylight'
 

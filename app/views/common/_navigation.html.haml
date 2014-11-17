@@ -1,0 +1,41 @@
+.nav
+  - user_nav = UserNavigation.new(self, current_user)
+  = link_to root_path do
+    .home.nav-icon
+      = fa_icon 'home'
+  .search.nav-icon
+    = fa_icon 'search'
+  .nav-mobile.nav-icon
+    = fa_icon 'bars'
+  %ul#artistsnav.dropdown
+    %li.dir
+      %a.lknav{:href => artists_path, :title => 'artists'} artists
+      %ul
+        :ruby
+          artistsnav = []
+          artistsnav << "<a href='#{artists_path}' title='artists by name'>artists by name</a>"
+          artistsnav << "<a href='#{ map_artists_path }' title='artists by map'>artists by map</a>"
+          artistsnav << "<a href='#{ media_path :m => 'a' }' title='artists by medium'>artists by medium</a>"
+          artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
+        = print_html_list('leaf', artistsnav)
+
+  %ul.dropdown#osnav
+    %li.dir
+      %a.lknav{:href => open_studios_path} open studios
+      %ul
+        - osnav = OpenStudiosNavigation.new(self, current_user)
+        = print_html_list('leaf', osnav.items)
+  %ul.dropdown#studionav
+    %li.dir
+      %a.lknav{:href => studios_path} art spaces
+      %ul
+        = print_html_list('leaf', StudioNavigation.new(self).items)
+  %ul.dropdown#mymaunav
+    - if logged_in?
+      %li.dir
+        = link_to 'my&nbsp;mau'.html_safe, user_nav.mypath, {:class => 'lknav'}
+        %ul
+          = print_html_list('leaf', user_nav.navitems)
+    - else
+      %li.dir
+        = link_to 'join in!', login_path, {:class => 'lknav'}

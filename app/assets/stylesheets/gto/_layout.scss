@@ -1,0 +1,29 @@
+body {
+  height: 100%;
+}
+.container {
+  position: relative;
+  padding-left: 0;
+}
+
+.sidenav {
+  transition: width 0.25s ease-in-out;
+  width: 175px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.main-container {
+  transition: margin 0.25s ease-in-out;
+  float: left;
+  margin-left: 175px;
+}
+
+@media screen and (max-width: 48em) { 
+  .main-container {
+    margin-left: 44px;
+  }
+}

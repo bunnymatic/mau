@@ -1,0 +1,42 @@
+/*
+ *= require pure-customizations
+ *= require reset
+ *= require socicon
+ *= require micro_icons
+ *= require fonts
+ *= require colorbox
+ *= require collagePlus-transitions
+ *= require pickadate/classic
+ *= require pickadate/classic.date
+ *= require pickadate/classic.time
+ *= require_tree ./gto
+ *= require feeds
+ *= require_self
+ */
+
+@import 'font-awesome';
+@import 'pure';
+@import 'pure/grids-responsive';
+
+.container {
+  margin: auto;
+  margin-top: 2px;
+} 
+
+.highlight {
+  height: 2px;
+  width: 100%;
+  background-color: #888;
+  position:fixed;
+  top:0;
+  left:0;
+  right: 100%;
+  bottom: 2px;
+}
+
+.dropdown {
+  @extend .pure-g-1-5;
+}
+.main-container {
+  padding: 20px;
+}

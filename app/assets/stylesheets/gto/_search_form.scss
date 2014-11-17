@@ -1,0 +1,71 @@
+@import 'colors';
+#search_form_container {
+  display: none;
+  &.open {
+    display: block;
+    position: fixed;
+    z-index: 6;
+    top: 2px;
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.9);
+    .search-label { 
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    input { 
+      font-size: 5rem; 
+      max-width: 80%;
+      border: 0;
+      background-color: transparent;
+      border-bottom: 1px solid rgba(0,0,0,0.3);
+    }
+  }
+  .search-autocomplete-results { 
+    margin-bottom: 10px;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+  }
+  .search-autocomplete-result {
+    padding: 10px;
+    width: 80%;
+    &:hover {
+      background-color: rgba(128,128,128,0.1);
+    }
+    .thumb {
+      height: 50px;
+      width: 50px;
+      background-size: cover;
+      background-position: center;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    a {
+      text-decoration: none;
+      color: $darkgray;
+    }
+    .desc {
+      display: inline-block;
+      line-height: 50px;
+      height: 50px;
+      font-size: 1.1rem;
+      vertical-align: middle;
+      .title {
+        font-weight: 700;
+      }
+      .artist {
+        font-style: italic;
+      }
+      .medium {
+        padding-left: 20px;
+        font-weight: 200;
+        font-size: 0.95rem;
+      }
+    }
+  }
+}

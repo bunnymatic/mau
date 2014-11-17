@@ -46,7 +46,8 @@ class SearchService
     partial_results.each do |entry|
       results[entry.id] = entry if entry.id and entry.artist && entry.artist.active?
     end
-    results.values.sort_by { |p| p.updated_at }
+
+    (results.values.sort_by { |p| p.updated_at })[0..(@query.limit || -1)]
   end
 
   private

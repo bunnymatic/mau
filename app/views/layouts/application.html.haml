@@ -1,0 +1,24 @@
+!!! 5
+%html
+  %head
+    = render '/extra_html_head' 
+    = render '/title' 
+    = render '/common/stylesheets' 
+    = render '/common/ganalytics' 
+    = render '/common/javascripts' 
+  %body{class: [@browser_as_class, controller_name, action_name].join(" ") }
+    - unless browser.modern?
+      = render '/old_browser_warning'
+    = render '/noscript_msg'
+    .highlight
+    .container
+      .sidenav
+        = render '/navigation'
+        = render '/common/social_links'
+      .main-container.js-main-container
+        = render :partial => '/flash_notice_error'
+        = yield
+      .clearfix
+      = render '/art_pieces/new_art'
+  = render '/common/search_form_template'
+  = render '/common/footer_javascripts'

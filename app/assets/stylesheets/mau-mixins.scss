@@ -132,15 +132,12 @@ $default_rounded_amount: 4px;
   transition: $trans;
 }
 
-.clearfix {
-    zoom:1;
-    &:before, &:after {
-        content: "\0020";
-        display: block;
-        height: 0;
-        overflow: hidden;
-    }
-    &:after {
-        clear: both;
-    }
+@mixin bottom-label-overlay {
+  z-index: 5;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255,255,255,0.9);
+  color: #222;
 }

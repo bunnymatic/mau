@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
   has_mobile_fu
   #helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  layout 'mau'
 
   #include MobilizedStyles
+  before_filter :append_view_paths
   before_filter :init_body_classes, :set_controller_and_action_names
   before_filter :check_browser, :unless => :format_json?
   before_filter :set_version
@@ -33,6 +33,10 @@ class ApplicationController < ActionController::Base
   #   puts '%s => %s' % [request.path, request.referrer]
   # end
 
+  def append_view_paths
+    append_view_path "app/views/common"
+  end
+  
   def store_location
     return unless request.format == 'text/html'
     if request.post? || request.xhr?
@@ -135,7 +139,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_new_art
-    @new_art = ArtPiece.get_new_art
+    @new_art = ArtPiece.get_new_art.map{|ap| ArtPiecePresenter.new(view_context, ap)}
   end
 
   def get_feeds

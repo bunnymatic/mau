@@ -70,8 +70,9 @@ class StudioPresenter
 
   def artists_with_art
     @artists_with_art ||=
-      artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(@view_context, artist)}
-    @artists_with_art
+      begin
+        artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(@view_context, artist)}
+      end
   end
 
   def has_artists?
@@ -102,8 +103,8 @@ class StudioPresenter
     @studio.id == 0
   end
 
-  def display_url
-    @studio.url.gsub('http://','')
+  def website
+    url.gsub('http://','')
   end
 
   def studio_path

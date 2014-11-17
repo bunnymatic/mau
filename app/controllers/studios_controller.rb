@@ -13,7 +13,7 @@ class StudiosController < ApplicationController
     @studios = StudiosPresenter.new(view_context, @studio_list, @view_mode)
 
     respond_to do |format|
-      format.html { render :layout => 'mau' }
+      format.html {}
       format.json {
         render :json => @studio_list
       }
@@ -37,7 +37,7 @@ class StudiosController < ApplicationController
     @page_title = @studio.page_title
 
     respond_to do |format|
-      format.html { render :layout => 'mau' }
+      format.html { }
       format.json { render :json => @studio.studio.to_json(:methods => 'artists') }
       format.mobile { render :layout => 'mobile' }
     end

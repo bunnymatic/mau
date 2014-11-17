@@ -5,8 +5,8 @@ require 'rss/2.0'
 FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
-  layout 'mau2col'
-
+  layout 'application'
+  
   include MainHelper
   skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
 
@@ -14,12 +14,11 @@ class MainController < ApplicationController
     respond_to do |format|
       format.html {
         @is_homepage = true
-        @rand_pieces = get_random_pieces.map{|piece| ArtPiecePresenter.new(view_context,piece)}
       }
-      format.json {
-        @rand_pieces = get_random_pieces
-        render :json => @rand_pieces.to_json
-      }
+      # format.json {
+      #   @rand_pieces = get_random_pieces
+      #   render :json => @rand_pieces.to_json
+      # }
       format.mobile { render :layout => 'mobile_welcome' }
     end
   end
@@ -31,19 +30,11 @@ class MainController < ApplicationController
   end
 
   def sampler
-    @rand_pieces = get_random_pieces.map{|piece| ArtPiecePresenter.new(view_context,piece)}
-    render :partial => '/art_pieces/thumbs', :locals => {:pieces => @rand_pieces, :params => { :cols => 5 }}
+    render partial: 'sampler_thumb', collection: ArtSampler.new(view_context).pieces
   end
 
   def version
     render :text => @revision
-  end
-
-  # how many images do we need for the front page?
-  @@NUM_IMAGES = 15
-  def get_random_pieces(num_images=@@NUM_IMAGES)
-    # get random set of art pieces and draw them
-    ArtPiece.includes(:artist).where("users.state" => :active).order('rand()').limit(num_images)
   end
 
   def getinvolved

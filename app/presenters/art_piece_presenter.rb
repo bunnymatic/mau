@@ -1,7 +1,7 @@
 class ArtPiecePresenter
 
   attr_reader :art_piece
-  delegate :id, :year, :medium, :get_path, :artist, :title, :to => :art_piece
+  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :to => :art_piece
 
   def initialize(view_context, art_piece)
     @view_context = view_context
@@ -11,6 +11,14 @@ class ArtPiecePresenter
   def favorites_count
     @favorites_count ||= Favorite.art_pieces.where(:favoritable_id => @art_piece.id).count
     @favorites_count if @favorites_count > 0
+  end
+
+  def orientation
+    portrait? ? :portrait : :landscape
+  end
+
+  def artist_name
+    artist.get_name
   end
 
   def has_tags?

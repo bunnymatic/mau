@@ -1,21 +1,24 @@
 !!! 5
 %html
   %head
-    = render :partial => '/extra_html_head' 
-    = render :partial => '/title' 
-    = render :partial => '/common/stylesheets' 
-    = render :partial => '/common/ganalytics' 
-    = render :partial => '/common/javascripts' 
-  %body{:class => "two_column %s" % @browser_as_class}
+    = render '/extra_html_head' 
+    = render '/title' 
+    = render '/common/stylesheets' 
+    = render '/common/ganalytics' 
+    = render '/common/javascripts' 
+  %body{class: @browser_as_class}
     - unless browser.modern?
-      = render :partial => '/old_browser_warning'
-    = render :partial => '/noscript_msg'
-    #bg
-    .wrapper
-      = render :partial => '/login_header_bar'
-      #container{:class => controller_name}
-        = render :partial => '/header_bar'
-        = yield
-        = render :partial => '/common/footer'
-      = render :partial => '/credits_footer'     
-  = render :partial => '/common/footer_javascripts'
+      = render '/old_browser_warning'
+    = render '/noscript_msg'
+    .row
+      .highlight
+    .row        
+      = render '/login_header_bar'
+    .row{class: controller_name}
+      = render '/header_bar'
+    .row.main
+      = yield
+    .row
+      = render '/common/footer'
+      = render '/credits_footer'     
+  = render '/common/footer_javascripts'

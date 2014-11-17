@@ -32,7 +32,7 @@ class ArtPiecesController < ApplicationController
       format.html {
         @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
         @art_piece = ArtPieceHtmlPresenter.new(view_context, @art_piece)
-        render :action => 'show', :layout => 'mau'
+        render :action => 'show'
       }
       format.json {
         art_piece = ArtPieceJsonPresenter.new(@art_piece)

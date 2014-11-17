@@ -1,0 +1,10 @@
+/ expects sampler_thumb as the art piece from the render collection call
+=link_to sampler_thumb.path do
+  .sampler_thumb{src: "", style: "background-image: url(#{sampler_thumb.get_path(:medium)});" }
+    .desc
+      .art_piece
+        = sampler_thumb.title
+      .artist 
+        by #{sampler_thumb.artist_name }
+      .medium 
+        = sampler_thumb.medium.try(:name)

@@ -1,10 +1,8 @@
-.new_art
-  - if @new_art.present?
-    .new_art_thumbs
-      .title art recently added:
+- if @new_art.present?
+  #new-art
+    .overlay recently added art
+    .pure-g
       - @new_art.select{|ap| ap.artist.present?}.each do |ap|
-        %a{:href => artist_path(ap.artist), :title => ap.artist.get_name}
-          .square{:style => "background-image:url(%s);" % ap.get_path('thumb'), :class => cycle("first", "", "", "last", :name => "row_class")}
-
-      .clear
-  .clear
+        .pure-u-1-6.pure-u-sm-1-12
+          %a{:href => ap.path, :title => ap.artist_name}
+            .square{:style => "background-image:url(%s);" % ap.get_path('thumb')}

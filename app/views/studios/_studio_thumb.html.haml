@@ -1,0 +1,22 @@
+/ expects studio_thumb
+- classes ||= []
+.studio{class: classes.join(" ")}
+  %a{:href => studio_thumb.studio_path, :title => studio_thumb.name}
+    .image
+      %img{:src => studio_thumb.image(:small)}
+  .desc
+    .name
+      %a{:href => studio_thumb.studio_path, :title => studio_thumb.name}
+        #{studio_thumb.name}
+    - unless studio_thumb.indy?
+      .address
+        #{studio_thumb.street}
+        = link_to studio_thumb.map_link, title: :map, target: "_blank" do
+          %i.fa.fa-map-marker
+    - if studio_thumb.has_artists?
+      .populations
+        .population
+          = studio_thumb.artists_count_label
+        .os_population
+          = studio_thumb.open_studios_artists_count_label
+              

@@ -3,32 +3,26 @@ MAU = window.MAU = window.MAU || {}
 
 MAU.Sampler = class Sampler
 
-  constructor: (refreshTime) ->
-    @refreshTime = refreshTime || 10000
+  constructor: (container, refreshTime) ->
+    @container = container
+    @refreshTime = refreshTime || 100000
     @requests = []
 
   start: =>
-    setInterval( @updateArt, @refreshTime);
+    @updateArt()
 
   updateArt: =>
-    samplerDom = jQuery('#sampler')
-    if (samplerDom.length)
+    container = $(@container);
+    if (container.length)
       ajaxOpts =
         url: '/main/sampler'
         method:'get'
-        success: (data, status, xhr) ->
-          samplerDom.fadeOut ->
-            samplerDom.html(data)
-            samplerDom.fadeIn()
-      request = jQuery.ajax( ajaxOpts )
-      @requests.push(request);
-
-  abortRequests: () =>
-    for req in @requests
-      req.abort() if req.abort
-    @requests = []
+        success: (data, status, xhr) =>
+          container.fadeOut =>
+            container.html(data).fadeIn()
+          setTimeout(@updateArt, @refreshTime);
+      jQuery.ajax( ajaxOpts )
 
 if (document.location.pathname == '/')
-  sampler = new MAU.Sampler()
+  sampler = new MAU.Sampler('#sampler')
   jQuery(window).bind('load', sampler.start);
-  jQuery(window).bind('unload', sampler.abortRequests);

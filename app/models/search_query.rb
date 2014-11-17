@@ -6,7 +6,7 @@ class SearchQuery
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  attr_accessor :mediums, :studios, :keywords, :studios, :os_flag, :page, :mode, :per_page
+  attr_accessor :mediums, :studios, :keywords, :studios, :os_flag, :page, :mode, :per_page, :limit
 
   def initialize(attributes={})
     self.studios = set_studios(attributes[:studios]) || []
@@ -16,6 +16,7 @@ class SearchQuery
     self.page = attributes[:p].to_i
     self.mode = attributes[:m]
     self.per_page = (attributes[:per_page].present? ? attributes[:per_page] : PER_PAGE).to_i
+    self.limit = (attributes[:limit] || -1).to_i
   end
 
   def query
