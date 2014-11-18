@@ -9,8 +9,6 @@ html {
 body {
   background-color: $lightbluegray;
   color: $xlightgray;
-  font-size: 13px;
-  font-family: Verdana, Helvetica, Arial, sans-serif;
   position: relative;
   padding: 0;
   #noscript, #old_browser_warning {
@@ -351,7 +349,6 @@ div.div-right {
 
 /* nav bar link */
 a.lknav {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight:bold;
   @include transition(all 0.2s ease);
@@ -813,7 +810,6 @@ div.feedtitle  {
 .news-footer {
   text-align: right;
   font-weight: 900;
-  font-family: helvetica;
   font-size: 150%;
   span {
     vertical-align: 1px;
