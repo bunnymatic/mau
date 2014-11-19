@@ -1,0 +1,127 @@
+/* icon fonts */
+/* @font-face { */
+/*     font-family: 'socicon'; */
+/*     src: font-url('socicon-webfont.eot'); */
+/*     src: font-url('socicon-webfont.eot?#iefix') format('embedded-opentype'), */
+/*          font-url('socicon-webfont.woff') format('woff'), */
+/*          font-url('socicon-webfont.ttf') format('truetype'), */
+/*          font-url('socicon-webfont.svg#sociconregular') format('svg'); */
+/*     font-weight: normal; */
+/*     font-style: normal; */
+/* } */
+
+/* .socicon { */
+/*   font-family: 'socicon' !important; */
+/*   &.socion-twitter:before { */
+/*     content: 'a'; */
+/*   } */
+/* } */
+
+/* .socicon:before { */
+/*   content: 'a'; */
+/* } */
+
+@font-face {
+    font-family: 'Mono Social Icons Font';
+    src: font-url('MonoSocialIconsFont-1.10.eot');
+    src: font-url('MonoSocialIconsFont-1.10.eot?#iefix') format('embedded-opentype'),
+         font-url('MonoSocialIconsFont-1.10.woff') format('woff'),
+         font-url('MonoSocialIconsFont-1.10.ttf') format('truetype'),
+         font-url('MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont') format('svg');
+    src: font-url('MonoSocialIconsFont-1.10.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+i.ico, i.ico-invert { font-style: normal; }
+
+.ico-invert, .ico, a.ico-invert, a.ico:before {
+    font-family: 'Mono Social Icons Font';
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    -ms-text-rendering: optimizeLegibility;
+    -o-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -ms-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+.ico-invert:before, .ico:before {
+  content: attr(title);
+}
+
+.ico-invert {
+  &:before {
+    font-size: 1.1em;
+    margin-left: -0.05em;
+  }
+  display: inline-block;
+  height: .8em;
+  width: .8em;
+  line-height: .8em;
+  margin:0;
+  padding: 0;
+  vertical-aligm: middle;
+  background-color: #dddddd;
+  color: black;
+}
+
+.ico-blogger {
+  &:before {
+    content: "\e012";
+  }
+}
+.ico-email {
+  &:before {
+    content: "\e024";
+  }
+}
+.ico-facebook {
+  &:before {
+    content: "\e027";
+  }
+}
+.ico-heart {
+  &:before {
+    content: "\e044";
+  }
+}
+.ico-instagram {
+  &:before {
+    content: "\e100";
+  }
+}
+.ico-pinterest {
+  &:before {
+    content: "\e064";
+  }
+}
+.ico-rss {
+  &:before {
+    content: "\e071";
+  }
+}
+.ico-twitterbird {
+  &:before {
+    content: "\e086";
+  }
+}
+.ico-twitter {
+  &:before {
+    content: "\e087";
+  }
+}
+.ico-tumblr {
+  &:before {
+    content: "\e085";
+  }
+}
+.ico-wordpress {
+  &:before {
+    content: "\e094";
+  }
+}
+
