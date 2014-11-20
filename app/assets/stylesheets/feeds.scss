@@ -1,0 +1,58 @@
+@import 'mau-mixins';
+@import 'colors';
+
+.feed-header {
+  height: 1.7em;
+  line-height:2.0em;
+}
+
+.feed-sxn-hdr {
+  color: $black;
+  font-weight:bold;
+  text-align: left;
+  margin-left: 5px;
+  .micro-icon {
+    font-weight: normal;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+}
+
+div.feedtitle  {
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.feedentry {
+  max-width:250px;
+  &.even {
+    border-top: 1px dotted $bordergray;
+    border-bottom: 1px dotted $bordergray;
+  }
+  padding: 2px 5px 5px 5px;
+}
+.feedtxt {
+  color: $black;
+  font-size: 10px;
+  text-align: left;
+  overflow:hidden;
+  font-weight:normal;
+  iframe {
+    display: none;
+  }
+}
+
+#feed_div {
+  color: $darkgray;
+  vertical-align: top;
+  padding: 0 10px;
+  blockquote {
+    margin: 1em 0 0 8px;
+  }
+}
+
+.feed-entries {
+  position: relative;
+}

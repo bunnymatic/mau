@@ -79,7 +79,7 @@
   .mau_buttons {
     float: left;
   }
-  .micro-icon.heart, .pinterest, .facebook {
+  .micro-icon.ico-heart, .pinterest, .facebook {
     &:hover {
       cursor: pointer;
     }
@@ -154,7 +154,6 @@
     }
     .micro-icon {
       float: right;
-      margin: 6px 4px;
       cursor: pointer;
     }
     #num_favorites {
@@ -178,12 +177,22 @@
     }
     .zoom-corner:hover {
       cursor:pointer;
+      background-color: rgba(255,255,255,0.9);
+      a {
+        color: black;
+      }
     }
     .zoom-corner {
       display: block;
-      height: 20px;
-      width: 20px;
+      height: 24px;
+      width: 24px;
+      line-height: 24px;
+      font-size: 20px;
       position: absolute;
+      background-color: rgba(255,255,255,0.6);
+      a {
+        color: $darkgray;
+      }
       top: 0;
       right: 0;
       @include transition(all 0.75s ease);

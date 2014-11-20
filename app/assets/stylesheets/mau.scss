@@ -556,32 +556,19 @@ div.formbutton {
   margin: 6px 4px;
   cursor: pointer;
 }
-.action-icons #num_favorites {
-  color: #faa;
-  display: inline-block;
-  font-size:xx-small;
-  vertical-align:top;
-  height: 16px;
-  margin: 6px 4px 6px 0;
-}
+/* .action-icons #num_favorites { */
+/*   color: #faa; */
+/*   display: inline-block; */
+/*   font-size:xx-small; */
+/*   vertical-align:top; */
+/*   height: 16px; */
+/*   margin: 6px 4px 6px 0; */
+/* } */
 
-
-#feed_div {
-  color: $darkgray;
-  vertical-align: top;
-  padding: 0 10px;
-  blockquote {
-    margin: 1em 0 0 8px;
-  }
-}
 
 .feed-studios {
   margin-bottom: 10px;
   text-align: left;
-}
-
-.feed-entries {
-  position: relative;
 }
 
 .feed-entries, .feed-studio-list {
@@ -616,17 +603,6 @@ div.formbutton {
   font-size: x-small;
 }
 
-.feed-sxn-hdr {
-  color: $black;
-  font-weight:bold;
-  text-align: left;
-  padding: 2px 5px 1px 5px;
-  .micro-icon {
-    position: absolute;
-    top: -2px;
-    right: 4px;
-  }
-}
 
 .full {
   width: $fullwidth;
@@ -681,10 +657,6 @@ div.formbutton {
     text-align:center;
   }
 
-  .feed-sxn-hdr {
-    margin-top: 2px;
-  }
-
   .links {
     margin: 20px 8px 20px 0;
     @include small-rounded-corners;
@@ -693,31 +665,6 @@ div.formbutton {
     border: 1px solid $xlightgray;
     background-color:$bluegray;
     text-align: center;
-  }
-}
-
-div.feedtitle  {
-  font-size: 11px;
-  font-weight: 700;
-  text-align: left;
-}
-
-.feedentry {
-  max-width:250px;
-  &.even {
-    border-top: 1px dotted $bordergray;
-    border-bottom: 1px dotted $bordergray;
-  }
-  padding: 2px 5px 5px 5px;
-}
-.feedtxt {
-  color: $black;
-  font-size: 10px;
-  text-align: left;
-  overflow:hidden;
-  font-weight:normal;
-  iframe {
-    display: none;
   }
 }
 
@@ -865,13 +812,13 @@ border: 0px;
 margin: 0 0 20px 0;
 }
 */
-.feeddate {
-  float: right;
-  font-style: italic;
-  font-weight: normal;
-  font-size: x-small;
-  padding-right: 10px;
-}
+/* .feeddate { */
+/*   float: right; */
+/*   font-style: italic; */
+/*   font-weight: normal; */
+/*   font-size: x-small; */
+/*   padding-right: 10px; */
+/* } */
 
 .refresh-msg{
   font-size: x-small;
