@@ -19,7 +19,7 @@ module FavoritesHelper
     img, path = get_image_and_path fav, 'small'
     del_btn = ''
     if options[:is_owner] == true
-      del_btn = ("<div title='remove favorite' class='del-btn micro-icon trash' "+
+      del_btn = ("<div title='remove favorite' class='del-btn fa fa-trash-o micro-icon' "+
         "fav-type='#{fav.class.name}' fav-id='#{fav.id}'></div>").html_safe
     end
     if img && path

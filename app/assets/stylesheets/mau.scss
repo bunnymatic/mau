@@ -2720,16 +2720,15 @@ ul.dropdown, ul.dropdown li, ul.dropdown ul {
       position: absolute;
       top: 100%;
       .del-btn {
-        background-color : $darkgray;
-        position: absolute;
-        right: 2px;
-        top: 1px;
-        width:16px;
-        height:16px;
-        border: 2px solid $darkgray;
+        float: right;
+        margin-right: 3px;
+        width:18px;
+        height:22px;
+        line-height: 22px;
+        font-size: 16px;
         z-index: 10;
         &:hover {
-          border: 2px solid red;
+          background-color: $error-red;
           cursor: pointer;
         }
       }
