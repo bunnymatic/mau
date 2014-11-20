@@ -95,7 +95,7 @@ module MauFeed
     end
 
     def icon(icon_class)
-      (div '', :class => "#{icon_class} feed-icon").html_safe
+      (div '', :class => "ico ico-invert ico-#{icon_class} micro-icon").html_safe
     end
 
     def header_html
