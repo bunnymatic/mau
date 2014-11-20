@@ -61,14 +61,13 @@
             = render '/common/artist_profile_image', :artist => @artist.artist
 
             .action-icons
-              %a{:target => '_new', :href => @artist.tw_share_link, :title => "Share this page on Twitter"}
-                .micro-icon.twitter
-              %a{:target => '_new', :href => @artist.fb_share_link, :title => "Share this page on Facebook"}
-                .micro-icon.facebook
               - if !current_user || !@artist.is_current_user?
                 %a.favorite_this{:href => '#', "fav-type" => 'Artist', "fav-id" => @artist.id, :title => "Add this artist to your favorites"}
-                  #num_favorites #{@artist.favorites_count}
-                  .micro-icon.heart
+                  %i.micro-icon.ico-heart.ico-invert.ico
+              %a{:target => '_new', :href => @artist.tw_share_link, :title => "Share this page on Twitter"}
+                %i.micro-icon.ico-twitter.ico-invert.ico
+              %a{:target => '_new', :href => @artist.fb_share_link, :title => "Share this page on Facebook"}
+                %i.micro-icon.ico-facebook.ico-invert.ico
             - if @artist.doing_open_studios?
               .os-violator
                 = link_to open_studios_path do

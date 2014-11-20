@@ -10,6 +10,9 @@ class TestsController < ApplicationController
   def show
   end
 
+  def social_icons
+  end
+  
   def flash_test
     flash.now[:notice] = 'The current time is %s' % Time.zone.now
     flash.now[:error] = 'This is an error at %s' % Time.zone.now

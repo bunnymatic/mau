@@ -1,10 +1,14 @@
 /*
+ *= require socicon
+ *= require micro_icons
+ *= require fonts
  *= require colorbox
  *= require pickadate/classic
  *= require pickadate/classic.date
  *= require pickadate/classic.time
  *= require forms
  *= require mau
+ *= require feeds
  *= require thumbnail_browser
  *= require new_art
  *= require mailchimp_form
