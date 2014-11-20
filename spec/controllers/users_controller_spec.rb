@@ -567,7 +567,7 @@ describe UsersController do
             assert_select('.favorites .artists .thumb', :count => 1)
           end
           it "shows a delete button for each favorite" do
-            assert_select('.favorites li .trash', :count => artist.favorites.count)
+            assert_select('.favorites li .fa-trash-o', :count => artist.favorites.count)
           end
           it "shows a button back to the artists page" do
             assert_select('.buttons form')
@@ -603,7 +603,7 @@ describe UsersController do
           assert_select('.favorites .artists .thumb', :count => 1)
         end
         it "does not show a delete button for each favorite" do
-          css_select('.favorites li .trash').should be_empty
+          css_select('.favorites li .fa-trash-o').should be_empty
         end
       end
     end

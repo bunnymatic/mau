@@ -70,7 +70,7 @@ describe ArtPiecesController do
             assert_select('a.zoom')
           end
           it "has a favorite me icon" do
-            assert_select('.micro-icon.heart')
+            assert_select('.ico-heart')
           end
         end
         context "piece has been favorited" do
@@ -114,7 +114,7 @@ describe ArtPiecesController do
           assert_select(".edit-buttons #artpiece_del a", "delete")
         end
         it "doesn't show heart icon" do
-          expect(css_select('.micro-icon.heart')).to be_empty
+          expect(css_select('.ico-heart')).to be_empty
         end
       end
       context "when logged in as not artpiece owner" do
@@ -125,7 +125,7 @@ describe ArtPiecesController do
         end
         it_should_behave_like 'two column layout'
         it "shows heart icon" do
-          assert_select('.micro-icon.heart')
+          assert_select('.ico-heart')
         end
         it "doesn't have edit button" do
           expect(css_select("div.edit-buttons span#artpiece_edit a")).to be_empty

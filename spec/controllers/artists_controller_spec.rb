@@ -306,13 +306,13 @@ describe ArtistsController do
         assert_select '.artist-profile h1', artist_with_tags.get_name(true)
       end
       it "has a twitter share icon it" do
-        assert_select '.micro-icon.twitter'
+        assert_select '.ico-twitter'
       end
       it "has a facebook share icon on it" do
-        assert_select('.micro-icon.facebook')
+        assert_select('.ico-facebook')
       end
       it "has a 'favorite' icon on it" do
-        assert_select('.micro-icon.heart')
+        assert_select('.ico-heart')
       end
       it 'has thumbnails' do
         assert_select("#bigthumbcolumn")
@@ -418,8 +418,8 @@ describe ArtistsController do
           assert_select('#sidebar_nav')
         end
         it "should not have heart icon" do
-          expect(css_select(".action-icons .micro-icon.heart")).to be_empty
-          assert_select("#sidebar_nav .micro-icon.heart")
+          expect(css_select(".action-icons .ico-heart")).to be_empty
+          assert_select("#sidebar_nav .ico-heart")
         end
         it "should not have extra messaging about email the artist" do
           expect(css_select(".notify-artist")).to be_empty
@@ -431,10 +431,7 @@ describe ArtistsController do
         end
         it_should_behave_like "logged in user"
         it "has a heart icon" do
-          assert_select(".micro-icon.heart")
-        end
-        it 'shows the number of people who have favorited for this artist' do
-          assert_select '#num_favorites', 1
+          assert_select(".ico-heart")
         end
         it "has a send message link" do
           assert_select(".notify-artist", count: 1)
