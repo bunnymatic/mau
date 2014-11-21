@@ -2,9 +2,9 @@
 #
 # Table name: email_list_memberships
 #
-#  id            :integer          not null, primary key
 #  email_id      :integer
 #  email_list_id :integer
+#  id            :integer          not null, primary key
 #
 
 class EmailListMembership < ActiveRecord::Base

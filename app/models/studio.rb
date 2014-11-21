@@ -18,6 +18,11 @@
 #  lng           :float
 #  cross_street  :string(255)
 #  phone         :string(255)
+#  slug          :string(255)
+#
+# Indexes
+#
+#  index_studios_on_slug  (slug) UNIQUE
 #
 
 require 'uri'
@@ -26,13 +31,16 @@ class Studio < ActiveRecord::Base
   include AddressMixin
   include Geokit::ActsAsMappable
 
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+  
   has_many :artists
 
   acts_as_mappable
-  before_validation(:on => :create) { compute_geocode }
-  before_validation(:on => :update) { compute_geocode }
+  before_validation(on: :create) { compute_geocode }
+  before_validation(on: :update) { compute_geocode }
   before_save :normalize_phone_number
-  validates :name, :presence => true
+  validates :name, presence: true, uniqueness: true
 
   SORT_BY_NAME = lambda{|a,b|
       if !a || a.id == 0
@@ -51,7 +59,7 @@ class Studio < ActiveRecord::Base
   end
 
   def to_json opts = {}
-    super({:except => [:created_at, :updated_at]}.merge(opts))
+    super({except: [:created_at, :updated_at]}.merge(opts))
   end
 
   # return faux indy studio

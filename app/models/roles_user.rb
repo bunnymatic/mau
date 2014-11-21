@@ -2,9 +2,9 @@
 #
 # Table name: roles_users
 #
-#  id      :integer          not null, primary key
 #  user_id :integer
 #  role_id :integer
+#  id      :integer          not null, primary key
 #
 
 class RolesUser < ActiveRecord::Base
