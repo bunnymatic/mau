@@ -70,7 +70,7 @@ describe ArtPiecesController do
             assert_select('a.zoom')
           end
           it "has a favorite me icon" do
-            assert_select('.ico-heart')
+            assert_select('#artpiece_container .ico-heart')
           end
         end
         context "piece has been favorited" do
@@ -114,7 +114,7 @@ describe ArtPiecesController do
           assert_select(".edit-buttons #artpiece_del a", "delete")
         end
         it "doesn't show heart icon" do
-          expect(css_select('.ico-heart')).to be_empty
+          expect(css_select('#artpiece_container .ico-heart')).to be_empty
         end
       end
       context "when logged in as not artpiece owner" do

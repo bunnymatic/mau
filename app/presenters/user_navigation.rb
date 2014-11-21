@@ -30,7 +30,7 @@ class UserNavigation
             navitems << link_to('delete art', @view_context.delete_art_artists_path)
             navitems << link_to('plug your art show', @view_context.new_event_path, :class => 'list_your_show_dropdown')
 
-            navitems << link_to("<span class='heart'>&hearts;</span> my favorites".html_safe, @view_context.favorites_user_path(current_user))
+            navitems << link_to("<i class='ico micro-icon ico-heart'></i> my favorites".html_safe, @view_context.favorites_user_path(current_user))
             navitems << link_to('resources', @view_context.artist_resources_path, :title => 'artists\' resources')
             navitems << link_to('my qrcode', @view_context.qrcode_artist_path(current_artist), :target => '_blank')
           else
