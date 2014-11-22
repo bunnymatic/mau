@@ -6,11 +6,11 @@
     .name
       %a{:href => studio.studio_path, :title => studio.name}
         #{studio.name}
-    - if studio.indy?
+    - unless studio.indy?
       .address
         #{studio.street}
-        %span{:class => "lkmap"}
-          = link_to '(map)', studio.map_link, { :target => "_blank" }
+        = link_to studio.map_link, title: :map, target: "_blank" do
+          %i.fa.fa-map-marker
     - if studio.has_artists?
       .populations
         .population

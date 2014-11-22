@@ -52,6 +52,10 @@ class Studio < ActiveRecord::Base
       end
     }
 
+  def to_param
+    slug || id
+  end
+  
   def normalize_phone_number
     if phone
       phone.gsub!(/\D+/,'')

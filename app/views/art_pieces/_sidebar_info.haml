@@ -16,18 +16,14 @@
         - if artist.artist_info.studionumber.present?
           %span #{"#" + artist.artist_info.studionumber}
         - if !artist.address_hash.empty?
-          %span.lkmap
-            (
-            = link_to 'map', artist.studio.map_link
-            )
+          = link_to artist.studio.map_link, title: :map do
+            %i.fa.fa-map-marker
         .city #{artist.studio.city}
     - else
       .name Independent Studio
       .address
         #{artist.artist_info.street}
         - if !artist.address_hash.empty? && !artist.artist_info.street.blank?
-          %span.lkmap
-            (
-            = link_to 'map', artist.map_link
-            )
+          = link_to artist.map_link, title: :map do
+            %i.fa.fa-map-marker
       .city #{artist.artist_info.city}

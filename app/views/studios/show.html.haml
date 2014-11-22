@@ -14,10 +14,8 @@
             .address
               = @studio.street_with_cross
               - if !@studio.indy?
-                %span.lkmap
-                  \(
-                  = link_to 'map', @studio.map_link, :target => '_blank'
-                  \)
+                = link_to @studio.map_link, title: :map, target: "_blank" do
+                  %i.fa.fa-map-marker
             .city #{@studio.city}
             .url
               - if @studio.url?

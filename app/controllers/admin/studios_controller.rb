@@ -85,7 +85,6 @@ module Admin
 
       studio_id = @studio.id
       upload = params[:upload]
-
       unless upload.present?
         flash[:error] = "You must provide a file."
         redirect_to add_profile_admin_studio_path(@studio) and return
@@ -104,7 +103,7 @@ module Admin
 
 
     def studio_manager_required
-      unless (is_manager? && current_user.studio.id.to_s == params[:id].to_s) || is_admin?
+      unless (is_manager? && (current_user.studio.to_param == params[:id].to_s)) || is_admin?
         redirect_to request.referrer, :flash => {:error => "You are not a manager of that studio."}
       end
     end
