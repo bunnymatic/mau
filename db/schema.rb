@@ -219,13 +219,6 @@ ActiveRecord::Schema.define(:version => 20141121163154) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "promoted_events", :force => true do |t|
-    t.integer  "event_id"
-    t.datetime "publish_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "roles", :force => true do |t|
     t.string   "role"
     t.datetime "created_at"

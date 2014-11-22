@@ -71,6 +71,10 @@ class IndependentStudio
     true
   end
 
+  def touch 
+    true
+  end
+
   def save
     true
   end
