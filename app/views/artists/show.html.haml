@@ -24,6 +24,7 @@
                           %i.fa.fa-map-marker
                     %div #{@artist.studio.city}
                   - else
+                    %div #{IndependentStudio.new.name.singularize}
                     %div
                       #{@artist.street}
                       - if @artist.has_address?

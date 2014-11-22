@@ -20,7 +20,7 @@
             %i.fa.fa-map-marker
         .city #{artist.studio.city}
     - else
-      .name Independent Studio
+      .name #{IndependentStudio.new.name.singularize}
       .address
         #{artist.artist_info.street}
         - if !artist.address_hash.empty? && !artist.artist_info.street.blank?
