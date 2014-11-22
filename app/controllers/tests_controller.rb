@@ -10,6 +10,9 @@ class TestsController < ApplicationController
   def show
   end
 
+  def markdown
+  end
+  
   def social_icons
   end
   

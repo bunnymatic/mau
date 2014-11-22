@@ -20,19 +20,15 @@
                     %div
                       #{@artist.studio.street} #{@artist.studio_number}
                       - if @artist.has_address?
-                        %span.lkmap
-                          (
-                          = link_to 'map', @artist.map_url
-                          )
+                        = link_to @artist.map_url, title: :map do
+                          %i.fa.fa-map-marker
                     %div #{@artist.studio.city}
                   - else
                     %div
                       #{@artist.street}
                       - if @artist.has_address?
-                        %span.lkmap
-                          (
-                          = link_to 'map', @artist.map_url
-                          )
+                        = link_to @artist.map_url, title: :map do
+                          %i.fa.fa-map-marker
                     %div #{@artist.city}
                 - if !@artist.is_current_user? && current_user
                   - if @artist.allows_email_from_artists?

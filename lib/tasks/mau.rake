@@ -6,6 +6,14 @@ alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
 
+  desc 'initiate studio slugs'
+  task :slug_studios => [:environment] do
+    Studio.all.each do |s|
+      s.touch
+      s.save!
+    end
+  end
+
   desc 'record todays OS count'
   task :daily_os_signup => [:environment] do
     Artist.tally_os

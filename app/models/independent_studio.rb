@@ -12,6 +12,9 @@ class IndependentStudio
     def initialize(h)
       super(*h.values_at(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image))
     end
+    def to_param
+      name.parameterize
+    end
   end
 
   class ImageContainer
@@ -71,6 +74,10 @@ class IndependentStudio
     true
   end
 
+  def touch 
+    true
+  end
+
   def save
     true
   end
@@ -80,7 +87,7 @@ class IndependentStudio
   end
 
   def map_link
-    nil
+    "http://maps.google.com/?q=SF+CA,+94110"
   end
 
   def profile_image?

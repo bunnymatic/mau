@@ -373,7 +373,7 @@ class UsersController < ApplicationController
       # studio_id is in artist info
       studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
       if studio_id > 0
-        studio = Studio.find(studio_id)
+        studio = Studio.friendly.find(studio_id)
         if studio
           @user = studio.artists.build(user_params)
         end

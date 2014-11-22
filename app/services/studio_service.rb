@@ -17,15 +17,15 @@ class StudioService
     end
   end
 
-  def self.studio_keys
-    Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s]}]
-  end
-
   def self.get_studio_from_id(_id)
-    if (_id == 'independent_studios') || (_id.to_s == '0')
+    if (_id == 'independent-studios') || (_id.to_s == '0')
       studio = Studio.indy()
     else
-      studio = studio_keys[_id] || Studio.where(:id => _id).first
+      begin
+        Studio.find(_id)
+      rescue
+        nil
+      end
     end
   end
 

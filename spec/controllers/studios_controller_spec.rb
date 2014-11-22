@@ -56,16 +56,10 @@ describe StudiosController do
     end
   end
 
-
-  describe "#show keyed studios" do
-
-    render_views
-
-    Hash[Studio.all.map{|s| [s.name.parameterize('_').to_s, s.name]}].each do |k,v|
-      it "should return studio #{v} for key #{k}" do
-        get :show, :id => k
-        assert_select('h4', :text => v)
-      end
+  describe "#show" do
+    it 'gets independent studio with the slug' do
+      get :show, id: 'independent-studios'
+      expect(assigns(:studio).name).to eql "Independent Studios"
     end
   end
 

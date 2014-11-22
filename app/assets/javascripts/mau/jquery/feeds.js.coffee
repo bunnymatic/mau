@@ -11,7 +11,6 @@ jQuery ->
       ajax_attrs =
         url: '/feeds/feed'
         data:
-          authenticity_token:unescape(authenticityToken)
           numentries:1
           page:url
         success: (data,status,xhr) -> {}
