@@ -447,7 +447,6 @@ a {
   line-height:33px;
 }
 #artisthemission { float: left; margin-left: 8px; }
-#nav_bar {}
 #sidebar_nav {
   margin: 16px 32px;
   border: 1px solid $bordergray;
@@ -479,20 +478,28 @@ a {
 
 #footer_links,
 #nav_bar,
-#search_nav2,
-#search_btn2 {
-  display: inline;
+.search-widget {
+  display: inline-block;
   float:right;
 }
-#search_nav2 {
-  height:33px;
-  position: relative;
-  line-height: 22px;
-  form {
-    position: relative;
-    top: 5px;
+
+.search-widget {
+  line-height: 33px;
+  height: 33px;
+  margin-left: 15px;
+  #search_box {
+    padding:2px;
+    background-color:#D6f3ff;
+    border: 1px solid $mediumgray;
+  }
+  i.fa-search {
+    font-size: 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-left: 4px;
   }
 }
+
 #footer_copy {
   display:inline;
   float: left;
@@ -504,20 +511,6 @@ a {
     padding: 0 6px;
   }
 }
-
-input.srch {
-  padding:2px;
-  background-color:#D6f3ff;
-  margin-left: 8px;
-  margin-right: 8px;
-  border: 1px solid $mediumgray;
-}
-#search_btn2 {
-  vertical-align: middle;
-  line-height: 28px;
-  margin-right: 10px;
-}
-#search_icon { vertical-align:middle; }
 
 .buttons input[type=submit] {
   @include small-rounded-corners;
@@ -843,7 +836,7 @@ margin: 0 0 20px 0;
   font-size:x-small;
   margin: 0 auto;
   text-align:right;
-  width:908px;
+  width: $fullwidth;
   background-color: $lightbluegray;
 }
 
@@ -1703,19 +1696,23 @@ search pages
     font-size: 10px;
   }
 }
-.studio-img {
-  margin-bottom: 3px;
-  float: left;
-}
-.studio-thumb img {
-  @include dotted_border;
-}
 
-#studio_page .studio-img
+#studio_page
 {
-  float: right;
-}
-.studio-thumb {
+  .studio-img {
+    float: right;
+  }
+  .studio-thumb {
+    .studio-img {
+      float: none;
+      margin: auto auto 4px auto;
+      max-width: 100px;
+    }
+    img {
+      @include dotted_border;
+    }
+  }
+  
 }
 
 .artist-list h3, .studio-list h3 {
