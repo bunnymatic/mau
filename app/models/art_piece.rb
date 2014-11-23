@@ -67,6 +67,14 @@ class ArtPiece < ActiveRecord::Base
     image_paths
   end
 
+  def portrait?
+    image_width > image_height
+  end
+
+  def aspect_ratio
+    (image_width.to_f/image_height.to_f) if image_height.to_i != 0
+  end
+
   def image_urls
     Hash[ image_paths.map{|k,v| [k, full_image_path(v)]} ]
   end

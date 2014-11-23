@@ -36,9 +36,10 @@ describe ArtPiece do
   describe '#dimensions' do
     let(:width) { nil }
     let(:height) { nil }
-    let(:art_piece) { FactoryGirl.build(:art_piece, image_height: height, image_width: width) }
+    subject(:art_piece) { FactoryGirl.build(:art_piece, image_height: height, image_width: width) }
 
     context 'with no dimensions' do
+      its(:aspect_ratio) { should be_nil }
       it 'computes proper dimension' do
         art_piece.compute_dimensions[:small].should == [0,0]
       end
@@ -57,6 +58,8 @@ describe ArtPiece do
       it 'computes proper dimension' do
         art_piece.compute_dimensions[:small].should == [133,200]
       end
+      its(:aspect_ratio) { should eql 2.0/3.0 }
+      it{ should_not be_portrait }
     end
   end
 
@@ -72,9 +75,6 @@ describe ArtPiece do
     end
     after do
       Timecop.return
-    end
-    it 'returns an array' do
-      ArtPiece.get_new_art.should be_a_kind_of Array
     end
     it 'returns art pieces updated between today and 2 days ago' do
       aps = ArtPiece.get_new_art
