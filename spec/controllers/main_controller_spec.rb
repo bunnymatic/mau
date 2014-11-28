@@ -12,10 +12,8 @@ end
 
 shared_examples_for 'main#index page' do
   it_should_behave_like 'standard sidebar layout'
-  it 'has social icons in the main text section' do
+  it 'has social icons in the main text section but not in the sidebar' do
     assert_select '.main-text .social'
-  end
-  it 'does not have social icons in the sidebar' do
     (css_select '.lcol .social').should be_empty
   end
   it "shows search box" do
@@ -30,16 +28,14 @@ shared_examples_for 'main#index page' do
   it 'shows a link to the artist with the most recently uploaded art' do
     assert_select '.lcol .new_art a[href=%s]' % artist_path(ArtPiece.last.artist)
   end
-  it "has a header menu" do
+  it "has a header & footer bar" do
     assert_select '#header_bar'
     assert_select '#artisthemission'
-  end
-  it "has a footer menu" do
     assert_select '#footer_bar'
     assert_select '#footer_copy'
     assert_select '#footer_links'
   end
-  it 'has the default description' do
+  it 'has the default description & keywords' do
     assert_select 'head meta[name=description]' do |desc|
       desc.length.should eql 1
       desc[0].attributes['content'].should match /^Mission Artists United is a website/
@@ -48,8 +44,6 @@ shared_examples_for 'main#index page' do
       desc.length.should eql 1
       desc[0].attributes['content'].should match /^Mission Artists United is a website/
     end
-  end
-  it 'has the default keywords' do
     assert_select 'head meta[name=keywords]' do |keywords|
       keywords.length.should eql 1
       expected = ["art is the mission", "art", "artists", "san francisco"]
