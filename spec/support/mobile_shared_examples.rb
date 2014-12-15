@@ -1,7 +1,3 @@
-IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; U; XXXXX like Mac OS X; en)'+
-  ' AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A477c'+
-  ' Safari/419.3' unless defined? IPHONE_USER_AGENT
-
 shared_examples_for 'a regular mobile page' do
   it "includes the default header reading art is the mission" do
     assert_select('[data-role=header]', :match => /art is the mission/i)

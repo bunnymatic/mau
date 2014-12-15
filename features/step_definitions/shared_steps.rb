@@ -1,3 +1,5 @@
+require_relative '../../spec/support/mobile_setup'
+
 def path_from_title(titleized_path_name)
   clean_path_name = titleized_path_name.downcase.gsub(/ /, '_')
   path_helper_name = "#{clean_path_name}_path".to_sym
@@ -26,6 +28,11 @@ def find_links_or_buttons(locator)
   result = all('a,button', text: locator)
   return result unless result.blank?
   all_links_or_buttons_with_title(locator)
+end
+
+
+When /I'm on my smart phone/ do
+  page.driver.headers = {"User-Agent" => IPHONE_USER_AGENT}
 end
 
 Then /^show me the page$/ do
