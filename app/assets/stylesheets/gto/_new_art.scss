@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'mau-mixins';
 #new-art {
   border-top: 2px solid $lightgray;
   position: fixed;
@@ -24,7 +25,6 @@
   .square {
     margin: 5px;
     height: 70px;
-    background-size: cover;
-    background-position: center;
+    @include background-cover;
   }
 }

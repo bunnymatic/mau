@@ -1,6 +1,12 @@
 @import 'colors';
 @import 'dimensions';
 
+@mixin background-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 @mixin transparent_black_background {
   background-color: $black;
   background-color: rgba(10,10,10, 0.8);

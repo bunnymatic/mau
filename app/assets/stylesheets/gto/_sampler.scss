@@ -10,8 +10,7 @@ $sampler-thumbnail-size : 250px;
     display: inline-block;
     width: $sampler-thumbnail-size;
     height: $sampler-thumbnail-size;
-    background-size: cover;
-    background-position: center;
+    @include background-cover;
     vertical-align: bottom;
     position:relative;
     .desc {

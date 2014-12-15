@@ -1,9 +1,8 @@
 .pure-g
-  = render 'studio_card', studio: @studio, classes: ['pure-u-1-1']
-
+  = render 'studio_card', studio: @studio, classes: ['pure-u-1-1', 'pure-u-lg-1-4', 'pure-u-md-1-3', 'pure-u-sm-1-2']
 
   - if @studio.has_artists_with_art?
-    = render partial: '/artists/artist', collection: @studio.artists_with_art
+    = render partial: 'artist', collection: @studio.artists_with_art
   - if @studio.has_artists_without_art?
     .studio-memberlist
       - if @studio.has_artists_with_art?

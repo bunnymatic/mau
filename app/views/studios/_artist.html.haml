@@ -1,0 +1,9 @@
+/ expects artist
+.artist-thumb{ class: %w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4).join(" ")}
+  .image{ style: "background-image: url(#{artist.representative_piece.get_path(:medium)})" }
+  .desc
+    .name 
+      = artist.full_name
+    .media 
+      = [ artist.media.map { |m| link_to m.name, m } ].join(", ").html_safe
+
