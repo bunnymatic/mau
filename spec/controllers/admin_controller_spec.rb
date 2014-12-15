@@ -154,8 +154,8 @@ describe AdminController do
       end
     end
     it 'renders open studios info in reverse chrono order' do
-      first_tag = OpenStudiosEvent.first.for_display
-      last_tag = OpenStudiosEvent.for_display available_open_studios_keys.first
+      first_tag = OpenStudiosEvent.for_display available_open_studios_keys.first
+      last_tag = OpenStudiosEvent.for_display available_open_studios_keys.last
       css_select('.section.open_studios li').first.to_s.should match /#{first_tag}/
       css_select('.section.open_studios li').last.to_s.should match /#{last_tag}/
     end

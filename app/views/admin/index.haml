@@ -12,7 +12,7 @@
   .section{:class => category}
     %h3 #{category.to_s.titleize}
     %ul
-      - @activity_stats.open_studios.sort_by(&:first).reverse.each do |k,v|
+      - @activity_stats.open_studios.each do |k,v|
         %li #{"%s : %s" % [k,v]}
     .current
       - if current_open_studios

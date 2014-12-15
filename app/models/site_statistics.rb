@@ -10,7 +10,7 @@ class SiteStatistics
 
   def open_studios
     {}.tap do |os_stats|
-      available_open_studios_keys.each do |ostag|
+      available_open_studios_keys.sort.each do |ostag|
         key = OpenStudiosEvent.for_display(ostag)
         os_stats[key] = Artist.active.open_studios_participants(ostag).count
       end

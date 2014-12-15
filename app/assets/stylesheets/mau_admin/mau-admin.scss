@@ -20,12 +20,21 @@ body.admin {
       background: #333; 
       font-weight: bold; 
     }
+     
     td, th { 
       padding: 6px; 
       text-align: left; 
     }
+    .picker {
+      th {
+        background: transparent;
+      }
+      tr:nth-of-type(even) { 
+        background: #eee; 
+      }
+    }
   }
-  
+
   .chunk {
     float: left;
     width: 120px;

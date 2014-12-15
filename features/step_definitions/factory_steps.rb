@@ -28,6 +28,10 @@ Given /there are application events in the system/ do
                         ]
 end
 
+Given /there is a scheduled Open Studios event/ do
+  FactoryGirl.create(:open_studios_event)
+end
+
 Given /there are open studios artists with art in the system/ do
   steps %{Given there are artists with art in the system}
   @artists.each{|a| a.update_os_participation(Conf.os_live, true) }
