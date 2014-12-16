@@ -34,7 +34,12 @@ class ArtPieceTagsController < ApplicationController
       redirect_to root_path and return
     end
     # get art pieces by tag
-    @tag = ArtPieceTag.find(params[:id])
+    begin
+      @tag = ArtPieceTag.find(params[:id])
+    rescue
+      redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for"} ) and return
+    end
+    
     page = 0
     if params[:p]
       page = params[:p].to_i
@@ -65,13 +70,13 @@ class ArtPieceTagsController < ApplicationController
     tags
   end
 
-  def redirect_to_most_popular_tag
+  def redirect_to_most_popular_tag(redirect_opts={})
     xtra_params = params.slice(:m, 'm')
     freq = ArtPieceTag.frequency
     if !freq || freq.empty?
       render_not_found Exception.new("No tags in the system")
     else
-      redirect_to art_piece_tag_path(freq.first['tag'], xtra_params)
+      redirect_to art_piece_tag_path(freq.first['tag'], xtra_params), redirect_opts
     end
   end
 

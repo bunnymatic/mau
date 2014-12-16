@@ -103,6 +103,16 @@ describe ArtPieceTagsController do
       end
     end
 
+    context 'for an unknown tag' do
+      render_views
+      before do
+        get :show, :id => '5abc'
+      end
+      it 'redirects to the most popular tag' do
+        expect(response).to redirect_to art_piece_tag_path(tag)
+      end
+    end
+
     it 'grabs the next page' do
       get :show, :id => tag.id, :p => 1
     end
