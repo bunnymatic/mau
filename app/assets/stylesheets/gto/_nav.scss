@@ -55,10 +55,14 @@
           border:0;
           line-height: 33px;
           font-weight: 600;
-          
+          position: relative;
         }
         ul {
           /* position: absolute; /* for full width menu dropdown*/
+          position: absolute;
+          top: 0;
+          left: 100%;
+          width: 500px;
           transition: all 0.4s ease-in-out;
           li {
             height: 0em;
@@ -79,14 +83,13 @@
         }
 
         &:hover {
+          z-index:10;
           cursor:pointer;
           background-color: $lightyellow;
           ul {
             li {
               visibility: visible;
               height: 3rem;
-              left: 0;
-              right: 0;
               white-space: nowrap;
               border-bottom: 1px solid $xxlightgray;
               a {

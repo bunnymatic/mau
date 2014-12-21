@@ -1,4 +1,7 @@
 /** settings that affect layout/geometry */
+$sidebar-nav-width: 175px;
+$sidebar-collapse-nav-width: 45px;
+
 body {
   height: 100%;
 }
@@ -9,7 +12,7 @@ body {
 
 .sidenav {
   transition: width 0.25s ease-in-out;
-  width: 175px;
+  width: $sidebar-nav-width;
   position: absolute;
   top: 0;
   left: 0;
@@ -18,12 +21,13 @@ body {
 }
 
 .main-container {
-  transition: margin 0.25s ease-in-out;
-  margin-left: 175px;
+  margin: 0;
+  transition: padding 0.25s ease-in-out;
+  margin-left: $sidebar-nav-width + 20px;
 }
 
 @media screen and (max-width: 48em) { 
   .main-container {
-    margin-left: 44px;
+    margin-left: $sidebar-collapse-nav-width;
   }
 }
