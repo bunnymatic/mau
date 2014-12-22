@@ -11,6 +11,7 @@ body {
 }
 
 .sidenav {
+  position: fixed;
   transition: width 0.25s ease-in-out;
   width: $sidebar-nav-width;
   position: absolute;
@@ -21,13 +22,12 @@ body {
 }
 
 .main-container {
-  margin: 0;
-  transition: padding 0.25s ease-in-out;
-  margin-left: $sidebar-nav-width + 20px;
+  transition: margin 0.25s ease-in-out;
+  margin-left: $sidebar-nav-width + 10px;
 }
 
 @media screen and (max-width: 48em) { 
   .main-container {
-    margin-left: $sidebar-collapse-nav-width;
+    margin-left: $sidebar-collapse-nav-width + 10px;
   }
 }

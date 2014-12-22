@@ -58,6 +58,7 @@ class Pagination
   end
 
   def items
+    puts "first/last", first_item, last_item
     @array[first_item..last_item]
   end
 

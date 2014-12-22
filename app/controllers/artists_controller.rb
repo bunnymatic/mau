@@ -79,12 +79,21 @@ class ArtistsController < ApplicationController
         cur_page = (params[:p] || 0).to_i
 
         # build alphabetical list keyed by first letter
+        puts "current_page", cur_page
         @gallery = ArtistsGallery.new(view_context, @os_only, cur_page)
 
         @page_title = "Mission Artists United - MAU Artists"
         set_artists_index_links
 
-        render :action => 'index'
+        if request.xhr?
+          if cur_page > @gallery.last_page
+            render text: ''
+          else
+            render partial: 'artist', collection: @gallery.pagination.items
+          end
+        else
+          render :action => 'index'
+        end
       }
       format.json {
         render :json => Artist.active
