@@ -79,7 +79,6 @@ class ArtistsController < ApplicationController
         cur_page = (params[:p] || 0).to_i
 
         # build alphabetical list keyed by first letter
-        puts "current_page", cur_page
         @gallery = ArtistsGallery.new(view_context, @os_only, cur_page)
 
         @page_title = "Mission Artists United - MAU Artists"
