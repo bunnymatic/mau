@@ -1,16 +1,16 @@
 = render '/flash_notice_error'
-.pure-g
+.pure-g.omega.alpha
   .pure-u-1-1
     %h2 Artists
-.pure-g
+.pure-g.omega.alpha
   .pure-u-1-1
     = render '/artists/alpha_pagination', :alpha_links => @gallery.alpha_links
     = render '/osswitch', :os_only => @os_only
     = render '/artists/view_switcher', :roster_link => @roster_link, :gallery_link => @gallery_link, :map_link => @map_link
     = render '/common/pagination', :paginator => @gallery.pagination
-.pure-g.js-artists-scroll-wrapper
+.pure-g.js-artists-scroll-wrapper.omega.alpha
   = render partial: 'artist', collection: @gallery.pagination.items
   #js-scroll-load-more{ "data-page" => @gallery.current_page, style: "display:none;" } loading
-.pure-g
+.pure-g.omega.alpha
   .pure-u-1-1
     = render '/common/pagination', :paginator => @gallery.pagination

@@ -8,9 +8,10 @@ $sampler-thumbnail-size : 250px;
   .sampler_thumb {
     font-size: 1rem;
     display: inline-block;
-    width: $sampler-thumbnail-size;
+    width: 100%;
     height: $sampler-thumbnail-size;
     @include background-cover;
+    border:1px solid rgba(200,200,200,0.5);
     vertical-align: bottom;
     position:relative;
     .desc {
@@ -45,11 +46,16 @@ $sampler-thumbnail-size : 250px;
         opacity: 1.0;
       }
     }
-      
   }
 
   @media screen and (max-width: 35.5em) { 
     max-height: ( $sampler-thumbnail-size * 4 );
+    .sampler_thumb {
+      height: $sampler-thumbnail-size * 1.2; 
+      .desc {
+        opacity: 1.0 !important;
+      }
+    }
   }
   @media screen and (min-width: 35.5em) { 
   }	

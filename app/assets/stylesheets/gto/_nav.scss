@@ -5,9 +5,11 @@
   background-color: rgba(220,220,220, 0.1);
 }
 
+.nav, .social-links {
+  margin: auto;
+}
 .nav {
   width: 100%;
-  
   ul.dropdown li:hover a,
   a.lknav {
     color: $darkgray;
@@ -117,7 +119,7 @@
     }
     margin-top: 5px;
     margin-bottom: 5px;
-    font-size:28px;
+    font-size:24px;
     text-align:center;
     position: relative;
   }
@@ -139,7 +141,6 @@
 
 @media screen and (max-width: 48em) { 
   .sidenav {
-    width: 44px !important;
     .nav-mobile {
       display: block;
     }

@@ -1,6 +1,6 @@
 /** settings that affect layout/geometry */
 $sidebar-nav-width: 175px;
-$sidebar-collapse-nav-width: 45px;
+$sidebar-collapse-nav-width: 40px;
 
 body {
   height: 100%;
@@ -21,13 +21,23 @@ body {
   bottom: 0;
 }
 
+.omega {
+  padding-right: 1em;
+}
+.alpha {
+  padding-left: 1em;
+}
+
 .main-container {
   transition: margin 0.25s ease-in-out;
-  margin-left: $sidebar-nav-width + 10px;
+  margin-left: $sidebar-nav-width;
 }
 
 @media screen and (max-width: 48em) { 
+  .sidenav {
+    width: $sidebar-collapse-nav-width !important;
+  }
   .main-container {
-    margin-left: $sidebar-collapse-nav-width + 10px;
+    margin-left: $sidebar-collapse-nav-width;
   }
 }
