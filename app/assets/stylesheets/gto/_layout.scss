@@ -28,12 +28,16 @@ body {
   padding-left: 1em;
 }
 
-.main-container {
+.main-container, #footer_bar {
   transition: margin 0.25s ease-in-out;
   margin-left: $sidebar-nav-width;
 }
 
-@media screen and (max-width: 48em) { 
+#footer_bar > div {
+  border-top: 1px solid #eee;
+}
+
+@media screen and (max-width: 48em) {
   .sidenav {
     width: $sidebar-collapse-nav-width !important;
   }
