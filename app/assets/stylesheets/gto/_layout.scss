@@ -1,7 +1,5 @@
 /** settings that affect layout/geometry */
-$sidebar-nav-width: 175px;
-$sidebar-collapse-nav-width: 40px;
-
+@import 'variables';
 body {
   height: 100%;
 }
@@ -37,7 +35,15 @@ body {
   border-top: 1px solid #eee;
 }
 
+.sidebar-logo {
+  width: 155px;
+  margin: 20px 10px;
+}
+
 @media screen and (max-width: 48em) {
+  .sidebar-logo {
+    display: none;
+  }
   .sidenav {
     width: $sidebar-collapse-nav-width !important;
   }

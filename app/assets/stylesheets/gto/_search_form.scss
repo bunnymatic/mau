@@ -1,5 +1,6 @@
 @import 'colors';
 @import 'mau-mixins';
+
 #search_form_container {
   display: none;
   &.open {
@@ -34,7 +35,7 @@
   .search-autocomplete-result {
     padding: 10px;
     width: 80%;
-    transition: background-color 0.25s easeInOut;
+    @include transition(background-color 0.25s ease-in-out);
     &:hover {
       background-color: rgba(128,128,128,0.1);
     }

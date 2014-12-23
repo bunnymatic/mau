@@ -1,8 +1,9 @@
 @import 'mau-mixins';
 @import 'colors';
-
+@import 'variables';
 .sidenav {
-  background-color: rgba(220,220,220, 0.1);
+  background-color: $light-gray-background;
+  z-index: 10;
 }
 
 .nav, .social-links {
@@ -47,10 +48,6 @@
         background-color: $xxlightgray;
         font-weight:normal;
         vertical-align:middle;
-
-        /* -moz-box-shadow: 2px 1px 5px $bluegray; */
-        /* -webkit-box-shadow: 2px 1px 5px $bluegray; */
-        /* box-shadow: 1px 1px 5px $bluegray; */
 
         a { display: inline-block; }
         &.dir {
@@ -130,6 +127,15 @@
     position:fixed;
     height: 100%;
     z-index: 4;
+    background-color: $xxlightgray;
+    .dir {
+      text-align: left; 
+    }
+    &.nav .nav-icon {
+      text-align: left; 
+      margin-left: 9px;
+    }
+
     .dropdown { 
       display: block; 
       width: 100%; 

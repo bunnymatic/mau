@@ -131,6 +131,11 @@ $default_rounded_amount: 4px;
   -webkit-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
 }
 
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
 @mixin transition($trans) {
   -webkit-transition: $trans;
   -moz-transition: $trans;
