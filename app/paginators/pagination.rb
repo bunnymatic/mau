@@ -31,10 +31,7 @@ class Pagination
   end
 
   def current_page
-    unless @current_page
-      @current_page = [[@current.to_i, 0].max, last_page].min
-    end
-    @current_page
+    @current_page ||= (@current.to_i)
   end
 
   def next_page
@@ -58,16 +55,15 @@ class Pagination
   end
 
   def items
-    puts "first/last", first_item, last_item
-    @array[first_item..last_item]
+    @array[first_item..last_item] || []
   end
 
   def previous_link?
-    current_page != first_page
+    current_page > first_page
   end
 
   def next_link?
-    current_page != last_page
+    current_page < last_page
   end
 
   def previous_title

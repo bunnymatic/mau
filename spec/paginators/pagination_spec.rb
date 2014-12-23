@@ -60,10 +60,10 @@ describe Pagination do
   context 'when current page is bigger than the number of pages' do
     let(:current_page) { 8 }
 
-    its(:current_page) { should eq 2 }
-    its(:items) { should eq [7,8] }
+    its(:current_page) { should eq 8 }
+    its(:items) { should eq [] }
     its(:next_page) { should eq 2 }
-    its(:previous_page) { should eq 1 }
+    its(:previous_page) { should eq 7 }
     its(:next_link?) { should be_false }
     its(:previous_link?) { should be_true }
   end
@@ -71,9 +71,9 @@ describe Pagination do
   context 'when current page is less than 0' do
     let(:current_page) { -8 }
 
-    its(:current_page) { should eq 0 }
-    its(:items) { should eq [1,2,3] }
-    its(:next_page) { should eq 1 }
+    its(:current_page) { should eq -8 }
+    its(:items) { should eq [] }
+    its(:next_page) { should eq -7 }
     its(:previous_page) { should eq 0 }
   end
 
