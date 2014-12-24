@@ -30,25 +30,43 @@ $ ->
         
   throttledSearch = MAU.Utils.debounce(search,150,false)
 
+  getSelected = ->
+    selected = $(RESULTS_CONTAINER).find(".selected")
+    if selected.length then selected else null
+
+  getResultItems = ->
+    $(RESULTS_CONTAINER).find(RESULT_ITEM)
+    
   selectNext = ->
-    $results = $(RESULTS_CONTAINER)
-    selected = $results.find(".selected")
-    if selected.length
-      console.log 'next selected'
+    selected = getSelected()
+    if selected
       next = selected.next(RESULT_ITEM)
-      $results.find(RESULT_ITEM).removeClass('selected')
+      getResultItems().removeClass('selected')
       next.addClass('selected')
     else
       console.log 'add selected'
-      $results.find(RESULT_ITEM).first().addClass('selected')  
+      getResultItems().first().addClass('selected')
 
   selectPrevious = ->
-    selected = $(RESULTS_CONTAINER).find(".selected")
-    console.log(selected)
+    selected = getSelected()
+    if selected
+      console.log 'next selected'
+      previous = selected.prev(RESULT_ITEM)
+      getResultItems().removeClass('selected')
+      previous.addClass('selected')
+    else
+      console.log 'add selected'
+      getResultItems().first().addClass('selected')
 
+  gotoSelected = (ev)->
+    selected = getSelected()
+    if selected
+      ev.preventDefault()
+      location.href = $(selected).find('a').attr('href')
+      false    
     
   $('.js-main-container').on 'keyup change', INPUT_SELECTOR, (ev) ->
-    console.log 'keypress'
+    console.log 'keyup or change'
     console.log ev.which
     # 40 = arrow down
     # 38 = arrow up
@@ -57,7 +75,10 @@ $ ->
         selectNext()
       when 38
         selectPrevious()
-    throttledSearch()
+      when 13
+        gotoSelected(ev)
+      else
+        throttledSearch()
     
 
   $('.js-main-container').on 'submit', "##{SEARCH_FORM_ID} form", (ev) ->
