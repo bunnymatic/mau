@@ -1,0 +1,21 @@
+%ul.signin-nav
+  - if logged_in?
+    %li
+      hello,
+      %a.lkdark{:href => user_path(current_user)} #{current_user.login}
+    %li
+      = link_to logout_path, { :title => "sign out", :class => "lkdark" } do
+        .text
+          sign out
+        .nav-icon.fa.fa-sign-out
+  - else
+    %li
+      = link_to login_path,  { :title => "sign in", :class => "lkdark" } do
+        .text
+          sign in
+        .nav-icon.fa.fa-sign-in
+    %li
+      = link_to signup_path, { :title => "create an account", :class => "lkdark" } do
+        .text
+          sign up
+        .nav-icon.fa.fa-user

@@ -4,6 +4,10 @@ class ArtPieceHtmlPresenter < ArtPiecePresenter
     super
   end
 
+  def artist
+    ArtistPresenter.new(@view_context, art_piece.artist)
+  end
+  
   def angular_config
     {
       artPieceId: art_piece.id,

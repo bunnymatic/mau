@@ -1,7 +1,7 @@
 <% unless page_owner.who_favorites_me.empty? -%>
 <% favorites_per_row = 20 # coordinate this with javascript favorites_per_row -%>
-<div id="favorites_me" class="favorites-block">
-  <div><label>who &hearts;'s
+<div id="favorites_me" class="favorites-block clearfix">
+  <label>who &hearts;'s
       <% if current_user && current_user.id == page_owner.id -%>
       me
       <% else  -%>
@@ -12,7 +12,6 @@
       <a class="show-toggle fewer" href="#">show all</a>
       <% end -%>
   </label>
-  </div>
   <ul class="favorite-thumbs">
   <% favs = page_owner.who_favorites_me
      favs.each_with_index do |f,idx|

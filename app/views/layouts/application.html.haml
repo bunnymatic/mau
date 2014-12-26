@@ -10,10 +10,13 @@
     - unless browser.modern?
       = render '/old_browser_warning'
     = render '/noscript_msg'
+    - if current_user.try(:is_special?)
+      = render '/admin_header'
     .highlight
     .container
       .sidenav
         = render '/navigation'
+        = render '/common/login_controls'
         %img{ class: 'sidebar-logo', src: image_path('yellow_sidebar_logo.png') }
         = render '/common/social_links'
       .main-container.js-main-container

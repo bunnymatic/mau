@@ -1,0 +1,21 @@
+/* error pages */
+@import 'mau-mixins';
+.f404 {
+  padding: 40px;
+  font-size: 14px;
+  text-align: left;
+  p {
+    width: 70%;
+    margin:20px auto;
+  }
+  .oops {
+    text-align: center;
+    color: $error_red;
+    font-size: 6rem;
+    line-height: 7rem;
+    height: 7rem;
+  }
+  .error-msg {
+    border: 0;
+  }
+}

@@ -164,9 +164,11 @@ class ArtistsController < ApplicationController
         if !@artist
           flash.now[:error] = 'We were unable to find the artist you were looking for.'
         end
-        @artist = ArtistPresenter.new(view_context, @artist)
-
-        render :action => 'show', :layout => 'mau'
+        if @artist.art_pieces.present?
+          redirect_to @artist.art_pieces.first and return
+        else
+          @artist = ArtistPresenter.new(view_context, @artist)
+        end
       }
       format.json  {
         cleaned = @artist.clean_for_export(@artist.art_pieces)
@@ -181,7 +183,6 @@ class ArtistsController < ApplicationController
   end
 
   def bio
-
     @artist = get_active_artist_from_params
     set_artist_meta
     if @artist.try(:bio).present?

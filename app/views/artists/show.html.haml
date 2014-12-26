@@ -1,84 +1,10 @@
-%table.tbl-content
-  %tr
-    %td.lcol{:colspan => 2}
-      - if current_user && @artist.is_current_user?
-        = render "/users/sidebar_nav"
-      = render "big_thumb_column", :artist => @artist
-    %td.vstripe
-    %td.rcol{:colspan => 2}
-      = render :partial => '/flash_notice_error'
-      .content-block
-        - if @artist.artist
-          .artist-profile
-            #artist_profile_name
-              %h1 #{@artist.get_name}
-              .artist
-                .div-left
-                  - if @artist.studio
-                    %div
-                      = link_to @artist.studio_name, @artist.studio
-                    %div
-                      #{@artist.studio.street} #{@artist.studio_number}
-                      - if @artist.has_address?
-                        = link_to @artist.map_url, title: :map do
-                          %i.fa.fa-map-marker
-                    %div #{@artist.studio.city}
-                  - else
-                    %div #{IndependentStudio.new.name.singularize}
-                    %div
-                      #{@artist.street}
-                      - if @artist.has_address?
-                        = link_to @artist.map_url, title: :map do
-                          %i.fa.fa-map-marker
-                    %div #{@artist.city}
-                - if !@artist.is_current_user? && current_user
-                  - if @artist.allows_email_from_artists?
-                    .div-left
-                      %span
-                        Contact:
-                        %a.notify-artist{:href => '#', :aid => @artist.id, :title => "Send a note to this artist"}
-                          send a note to this artist
-
-                - if @artist.has_media?
-                  .div-left
-                    %span Media:
-                    %span
-                      = @artist.media.map{|m| link_to(m.name, m, :class => "")}.join(", ").html_safe
-                - if @artist.has_links?
-                  .div-left
-                    - @artist.links.each do |key, name, lnk|
-                      %div{:id => key}
-                        %span #{name + ":"}
-                        = link_to lnk, lnk, { :target => "_blank" }
-                = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => @artist.artist }
-                = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => @artist.artist }
-              .clear
-
-          #artist_profile_img
-            = render '/common/artist_profile_image', :artist => @artist.artist
-
-            .action-icons
-              - if !current_user || !@artist.is_current_user?
-                %a.favorite_this{:href => '#', "fav-type" => 'Artist', "fav-id" => @artist.id, :title => "Add this artist to your favorites"}
-                  %i.micro-icon.ico-heart.ico-invert.ico
-              %a{:target => '_new', :href => @artist.tw_share_link, :title => "Share this page on Twitter"}
-                %i.micro-icon.ico-twitter.ico-invert.ico
-              %a{:target => '_new', :href => @artist.fb_share_link, :title => "Share this page on Facebook"}
-                %i.micro-icon.ico-facebook.ico-invert.ico
-            - if @artist.doing_open_studios?
-              .os-violator
-                = link_to open_studios_path do
-                  %img{:src => "/images/os_star_violator.png"}
-
-        - if @artist.has_bio?
-          .clear
-          .div-left.bio-container
-            %span Bio:
-            = @artist.bio_html
-        .clear
-
-        .artist-pieces
-          - if @artist.has_art?
-            = render '/art_pieces/thumbs', :pieces => @artist.art_pieces, :params => { :cols => 5, :show_footer => false, :art_link => true }
-          - else
-            %img{:src => "/images/default-art-img.png", :width => "200"}
+.pure-g.tabs
+  .pure-u-1-2
+    %a{href: '#art'} art
+  .pure-u-1-2
+    %a{href: '#about'} about
+.pure-g.tab-contents
+  .pure-u-1-1#art
+    Art goes here
+  .pure-u-1-1#about
+    About goes here      

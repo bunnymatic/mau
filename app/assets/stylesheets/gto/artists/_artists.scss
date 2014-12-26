@@ -1,4 +1,5 @@
 @import 'mau-mixins';
+
 .artist-thumb-mixin {
   position: relative;
   min-height: 300px;
@@ -47,3 +48,54 @@
   }
 }
 
+.artist-profile {
+  padding: 0 1rem 1rem;
+  .artists-links > div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .artist-media, .artist-links, .studio-address, .favorites-block {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    &:not(:last-child) {
+      border-bottom: 1px solid #eee;
+    }
+  }
+  .favorites-block {
+    label {
+      display: block;
+      padding-bottom: 3px;
+    }
+  }
+  .action-icons {
+    margin-top: 20px;
+  }
+}
+.bio-container {
+  p:first-child {
+    margin-top: 0;
+  }
+  max-height: 30rem;
+  overflow: auto;
+}
+.artist-profile {
+  overflow:hidden;
+}
+ul.favorite-thumbs, ul.favorite-thumbs li {
+  margin:0;
+  padding:0;
+}
+#artist_profile_img {
+  margin: auto;
+  text-align: center;
+}
+.favorite-thumbs li {
+  float: left;
+  .thumb {
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    @include background-cover;
+  }
+}
