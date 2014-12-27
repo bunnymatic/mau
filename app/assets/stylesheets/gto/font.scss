@@ -5,3 +5,14 @@ html body * {
   font-family: 'Raleway', Helvetica, Arial, sans-serif;
   color: $gto_gray;
 }
+
+p {
+  line-height: 1.1rem;
+  font-size: 100%;
+}
+.markdown {
+  li {
+    line-height: 1.1rem;
+    min-height: 1.1rem;
+  }
+}
