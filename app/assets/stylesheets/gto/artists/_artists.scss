@@ -49,6 +49,12 @@
 }
 
 .artist-profile {
+  #artist_profile_img {
+    i.fa.fa-user {
+      font-size: 15rem;
+      width: 100%;
+    }
+  }
   padding: 0 1rem 1rem;
   .artists-links > div {
     white-space: nowrap;

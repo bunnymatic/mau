@@ -1,0 +1,63 @@
+@import 'colors';
+.actions, .inputs {
+  border: none;
+  padding: 0;
+  ol {
+    margin: 0;
+    padding: 0;
+  }
+  margin-bottom: 10px;
+}
+
+.inputs {
+  li {
+    margin-bottom: 10px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  select {
+    height: 35px;
+  }
+  select,
+  input {
+    width: 90%;
+    padding: 10px;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+  }
+}
+.input-help {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.pure-button {
+  border-radius: 2px;
+
+  &.button-success,
+  &.button-error,
+  &.button-warning,
+  &.pure-button-primary,
+  &.button-secondary {
+    color: white;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  }
+  &.pure-button-primary {
+    background: $gto_teal;
+  }
+
+  &.button-error {
+    background: $gto_red;
+  }
+
+  &.button-warning {
+    background: $gto_orange;
+    background: rgb(223, 117, 20); /* this is an orange */
+  }
+
+  &.button-secondary {
+    background: $gto_yellow;
+  }
+}

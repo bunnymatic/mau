@@ -1,0 +1,19 @@
+= semantic_form_for user, url: users_path do |f|
+  = f.input :type, as: :hidden, value: type
+  = f.inputs do
+    = f.input :login, required: true, label: 'Username'
+    = f.input :email, required: true
+    = f.input :password, required: true
+    = f.input :password_confirmation, required: true
+    = f.input :firstname, label: 'First Name'
+    = f.input :lastname, label: 'Last Name'
+    - if type == 'Artist'
+      = f.input :studio, as: :select, collection: [['None', 0]] + @studios.map{|u| [u.name,u.id]}, hint: 'Choose "Independent studio" if you are not in a group studio. if you don\'t see your group studio, select "none" and <a href="javascript:MAU.mailer(\'www\',\'missionartistsunited.org\',\'Please Add New Group Studio\');">tell us</a> to add your studio.'.html_safe      
+
+    = recaptcha_tags display: {theme: 'blackglass'}
+  = f.actions do      
+    = f.submit 'Sign up', class: 'pure-button-primary pure-button button-large' 
+.input-help
+  Already a member?
+  = link_to "Sign in",  login_path,  title: "Sign in"
+  here.

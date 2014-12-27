@@ -1,8 +1,8 @@
 = render :partial => '/flash_notice_error'
 .pure-g
   .pure-u-1-1.password-reset
-    %h3 Request for Password Reset
-    .instructions Type in your MAU account email below. We'll email instructions on how to reset your password.
+    %h3 Request for Activation Email
+    .instructions Type in your MAU account email below. We'll send you a new activation link.
     = semantic_form_for :user do |f|
       = render "common/form_errors", :form => f
       = f.inputs do
@@ -10,4 +10,4 @@
       = f.actions do
         = f.submit 'Submit', :class => 'pure-button pure-button-primary button-large'
     .input-help
-      = link_to 'Do you need to activate your account?', resend_activation_users_path
+      = link_to 'Did you forget your password?', forgot_users_path

@@ -3,10 +3,10 @@
     - if artist.has_profile_image
       %img{:class => "pure-img profile", :src => "%s?%s" % [artist.get_profile_image('medium'), Time.zone.now.to_i]}
     - else
-      %img{:class => "pure-img profile", :src => "/images/default-profile-img.png"}
+      %i.fa.fa-user  
 - else
   - if artist.has_profile_image
     %img{:class => "pure-img profile", :src => "%s?%s" % [artist.get_profile_image('medium'), Time.zone.now.to_i]}
   - else
-    %img{:class => "pure-img profile", :src => "/images/default-profile-img-not-me.png"}
+    %i.fa.fa-user  
 
