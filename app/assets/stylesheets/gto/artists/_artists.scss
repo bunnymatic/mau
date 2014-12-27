@@ -47,23 +47,30 @@
     }
   }
 }
-
 .artist-profile {
+  margin-top: 10px;
+  padding: 0 10px 10px;
   #artist_profile_img {
     i.fa.fa-user {
       font-size: 15rem;
       width: 100%;
     }
   }
-  padding: 0 1rem 1rem;
-  .artists-links > div {
+  .artist-links > div {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    min-height: 1.1rem;
+    > span {
+      display: inline-block;
+      width: 20%;
+      min-width: 80px;
+    }
   }
   .artist-media, .artist-links, .studio-address, .favorites-block {
     padding-bottom: 1rem;
     margin-bottom: 1rem;
+    line-height: 1.1rem;
     &:not(:last-child) {
       border-bottom: 1px solid #eee;
     }
@@ -93,8 +100,10 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
   padding:0;
 }
 #artist_profile_img {
-  margin: auto;
-  text-align: center;
+  img {
+    margin: auto;
+    text-align: center;
+  }
 }
 .favorite-thumbs li {
   float: left;
