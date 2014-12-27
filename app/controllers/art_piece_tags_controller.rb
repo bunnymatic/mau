@@ -53,7 +53,7 @@ class ArtPieceTagsController < ApplicationController
     @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })
     @by_pieces_link = art_piece_tag_url(@tag, { :m => 'p' })
 
-    render :action => "show", :layout => "mau"
+    render :action => "show"
   end
 
 

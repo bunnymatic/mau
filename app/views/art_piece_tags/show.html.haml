@@ -1,20 +1,18 @@
-%table.tbl-content
-  %tr
-    %td.lcol{ :colspan => '2' }
-      = render 'tag_list', :cloud => @tag_cloud_presenter
-    %td.vstripe
-    %td.rcol{ :colspan => '2'}
-      %h4
-        Search for tag:
-        %span.query
-          = @tag.name
-      #search_results
-        .search-view-ctrls
-          = render "/common/pagination", :paginator => @paginator
-          = render "/art_pieces/mode_selector", :paginator => @paginator, :by_artists_link => @by_artists_link, :by_pieces_link => @by_pieces_link
-        = render '/flash_notice_error'
-        .search-results
-          - if @paginator.items.present?
-            = render '/search/thumbs', :pieces => @paginator.items, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }
-        .search-view-ctrls
-          = render "/common/pagination", :paginator => @paginator
+.pure-g
+  .pure-u-1-5
+    = render 'tag_list', :cloud => @tag_cloud_presenter
+  .pure-u-4-5
+    %h4
+      Search for tag:
+      %span.query
+        = @tag.name
+    #search_results
+      .search-view-ctrls
+        = render "/common/pagination", :paginator => @paginator
+        = render "/art_pieces/mode_selector", :paginator => @paginator, :by_artists_link => @by_artists_link, :by_pieces_link => @by_pieces_link
+      = render '/flash_notice_error'
+      .search-results
+        - if @paginator.items.present?
+          = render '/search/thumbs', :pieces => @paginator.items, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }
+      .search-view-ctrls
+        = render "/common/pagination", :paginator => @paginator

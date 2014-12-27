@@ -1,2 +1,14 @@
-/ expects artist as artist_presenter
-Art
+/ expects art_piece as art_piece_presenter
+.art-card{ class: %w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4).join(" ")}
+  = link_to art_piece.path do
+    .image{ style: "background-image: url(#{art_piece.get_path(:medium)})" }
+  .desc
+    .name
+      = art_piece.title
+    - if art_piece.has_medium?
+      .media
+        = link_to art_piece.medium.name.html_safe, art_piece.medium
+    - if art_piece.has_tags?
+      .tags
+        = art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
+

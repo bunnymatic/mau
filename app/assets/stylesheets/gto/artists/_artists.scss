@@ -29,8 +29,8 @@
 
 }
 
-.artists, .artists.show {
-  .artist-card {
+.artists, .artists.show, .art_pieces.show {
+  .art-card, .artist-card {
     @extend .artist-thumb-mixin;
     .desc {
       height: 5rem;

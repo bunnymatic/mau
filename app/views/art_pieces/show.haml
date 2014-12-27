@@ -5,6 +5,7 @@
     %a{href: '#about', "data-toggle" => 'tab'} about
 .pure-g.tab-content
   .pure-u-1-1#art.tab-pane.active
-    = render '/artists/art', artist: @art_piece.artist
+    .pure-g
+      = render partial: '/artists/art', collection: @art_piece.artist.art_pieces, as: :art_piece
   .pure-u-1-1#about.tab-pane
     = render '/artists/about', artist: @art_piece.artist
