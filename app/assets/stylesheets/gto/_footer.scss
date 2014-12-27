@@ -14,3 +14,20 @@
     }
   }
 }
+
+.news-footer {
+  text-align: right;
+  font-weight: 900;
+  font-size: 150%;
+  span {
+    vertical-align: 1px;
+    text-transform: uppercase;
+  }
+  .mission {
+    vertical-align: 0px;
+    color: $gto_orange;
+  }
+
+  line-height: 32px;
+  margin-top: 30px;
+}
