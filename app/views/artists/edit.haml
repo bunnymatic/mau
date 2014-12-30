@@ -5,16 +5,10 @@
     %img{ alt: "", border: "0", src: "https://www.paypalobjects.com/WEBSCR-640-20110306-1/en_US/i/scr/pixel.gif", width: "1", height: "1"}
 
   #artist_edit
-    #profile_img
-      %a{title: "update profile picture", href: add_profile_users_path}
-        - if current_user.has_profile_image
-          %img{:src=> current_user.get_profile_image('thumb') }
-        - else
-          %img{:src=> "/images/default-profile-img.png", :width=> "100" }
-        .tag
-          update profile picture
-          .os-violator{style: (current_artist.doing_open_studios? ? '':'display:none;')}
-            %img{:src=> "/images/os_star_violator.png"}
+    = render '/artist_profile_image', :artist => current_artist
+    .tag update profile picture
+    .os-violator{style: (current_artist.doing_open_studios? ? '':'display:none;')}
+      %img{:src=> "/images/os_star_violator.png"}
     %h4 My Account
     = render '/flash_notice_error'
     .edit-sections

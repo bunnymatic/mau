@@ -34,6 +34,7 @@
     @extend .artist-thumb-mixin;
     .desc {
       height: 5rem;
+      padding: 0 5px;
       .name, .address, .populations {
         line-height: 1.7rem;
         height: 1.7rem;
@@ -65,20 +66,26 @@
     color: $gto_yellow;
   }
 }
-.artist-profile .artist-profile__edit {
-  top: 0;
-}
 
+.artist-profile__image {
+  img, i.fa {
+    margin: auto;
+    text-align: center;
+  }
+  i.fa.fa-user {
+    font-size: 15rem;
+  }
+}
 
 .artist-profile {
   position: relative;
   margin-top: 10px;
   padding: 0 10px 10px;
-  #artist_profile_img {
-    i.fa.fa-user {
-      font-size: 15rem;
-      width: 100%;
-    }
+  .artist-profile__edit {
+    top: 0;
+  }
+  .artist-profile__image {
+    width: 100%;
   }
   .artist-links > div {
     @include ellipsis;
@@ -132,12 +139,6 @@
 ul.favorite-thumbs, ul.favorite-thumbs li {
   margin:0;
   padding:0;
-}
-#artist_profile_img {
-  img {
-    margin: auto;
-    text-align: center;
-  }
 }
 .favorite-thumbs li {
   float: left;

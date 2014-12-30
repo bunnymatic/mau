@@ -3,8 +3,7 @@
   .pure-u-1-1.pure-u-md-1-2.artist-profile
     .pure-g
       .pure-u-1-1.pure-u-sm-1-2
-        #artist_profile_img
-          = render '/common/artist_profile_image', :artist => artist.artist
+        = render '/artist_profile_image', :artist => artist.artist
         - if artist.doing_open_studios?
           .os-violator
             = link_to open_studios_path do

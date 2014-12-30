@@ -34,23 +34,7 @@
               <div class="clear"></div>
             </div>
             <% end -%>
-	          <div id="artist_profile_img">
-	            <% if logged_in? && @fan && @fan.login == self.current_user.login -%>
-                <%= link_to add_profile_users_path, :title => "update my picture" do %>
-                  <% if @fan.has_profile_image -%>
-  		            <img class="profile" src="<%= @fan.get_profile_image('small') %>?t=<%= Time.zone.now.to_i() %>" />
-		              <% else -%>
-                  <img class="profile" src="/images/default-profile-img.png" width="200" />
-                  <% end -%>
-	              <% end %>
-	            <% else -%>
-	            <%  if @fan.has_profile_image -%>
-  	          <img class="profile" src="<%= @fan.get_profile_image('small') %>" />
-	            <%  else %>
-  	          <img class="profile" src="/images/default-profile-img-not-me.png" width="200" />
-  	          <%  end -%>
-	            <% end -%>
-	          </div>
+            = render '/artist_profile_image', :artist => @fan
 	        </div>
 	      </div>
 	      <% end -%>

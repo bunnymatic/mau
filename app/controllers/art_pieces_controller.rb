@@ -69,7 +69,7 @@ class ArtPiecesController < ApplicationController
     upload = params[:upload]
     saved = false
     if !upload
-      @art_piece = ArtPiece.new params[:art_piece]
+      @art_piece = ArtPiece.new art_piece_params
       @art_piece.valid?
       @art_piece.errors.add(:base, "You must provide an image.  "+
         "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
@@ -101,6 +101,7 @@ class ArtPiecesController < ApplicationController
 
   # PUT /art_pieces/1
   def update
+    binding.pry
     if commit_is_cancel || (@art_piece.artist != current_user)
       redirect_to @art_piece and return
     end
@@ -158,7 +159,9 @@ class ArtPiecesController < ApplicationController
   end
 
   def art_piece_params
-    params[:art_piece][:tags] = tags_from_s(params[:tags])
+    if params[:art_piece][:tags] && params[:art_piece][:tags].is_a?(String)
+      params[:art_piece][:tags] = tags_from_s(params[:art_piece][:tags])
+    end
     params[:art_piece]
   end
 

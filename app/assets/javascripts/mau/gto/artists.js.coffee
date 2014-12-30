@@ -19,4 +19,4 @@ $ ->
               else
                 $content.append($("<div class='pure-g-1-1'><h2>done</h2></div>"))
                 $more.remove()
-
+  

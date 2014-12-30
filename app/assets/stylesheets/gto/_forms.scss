@@ -20,9 +20,12 @@
   select {
     height: 35px;
   }
+  .select2-container {
+    width: 90%;
+    border-radius: 2px;
+  }
   select,
   input {
-    width: 90%;
     padding: 10px;
     border-radius: 2px;
     border: 1px solid #ddd;

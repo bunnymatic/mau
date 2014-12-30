@@ -1,8 +1,8 @@
 %ul.pure-g.js-tabs.tabs.tabs__horizontal
   %li.pure-u-1-2.active
-    %a{href: '#art', "data-toggle" => 'tab'} #{@art_piece.artist.get_name(true)}'s art
+    %a{href: '#art', "data-toggle" => 'tab'} #{@art_piece.artist.get_name}'s art
   %li.pure-u-1-2
-    %a{href: '#about', "data-toggle" => 'tab'} about #{@art_piece.artist.get_name(true)}
+    %a{href: '#about', "data-toggle" => 'tab'} about #{@art_piece.artist.get_name}
 .pure-g.tab-content
   .pure-u-1-1#art.tab-pane.active
     .pure-g

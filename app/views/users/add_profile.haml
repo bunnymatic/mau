@@ -5,10 +5,11 @@
   #profile_update
     = render :partial => '/flash_notice_error'
     .content-block
-      - if current_user.has_profile_image
-        %img{:src => current_user.get_profile_image('small')}
-      - else
-        %img{:src => '/images/default-profile-img.png', :width=>'200' }
+      .artist-profile__image
+        - if current_user.has_profile_image
+          %img{:src => current_user.get_profile_image('small')}
+        - else
+          %i.fa.fa-user  
       %div Your profile image should be a JPEG, GIF or PNG file and must not be more than 1MB.
     %div
       = form_tag({:action => 'upload_profile'}, :multipart => true) do

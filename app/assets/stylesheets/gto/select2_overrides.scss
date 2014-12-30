@@ -1,0 +1,31 @@
+@import 'colors';
+
+.select2-results .select2-highlighted {
+  background: $gto_yellow;
+  .select2-result-label {
+    color: #fff !important;
+  }
+}
+
+.select2-container-multi .select2-choices .select2-search-choice {
+  padding: 6px 5px 6px 18px;
+}
+.select2-container .select-choices,
+.select2-container .select2-choice,
+.select2-container-multi .select2-choice,
+.select2-container-multi .select2-choices {
+  height: 35px;
+  line-height: 35px;
+  border-color: #ddd;
+  border-radius: 2px;
+  background-image: none !important;
+}
+.select2-container-multi.select2-container-active .select2-choices,
+.select2-container-active .select2-choice,
+.select2-container-active .select2-choices,
+.select2-dropdown-open.select2-drop-above .select2-choice, 
+.select2-dropdown-open.select2-drop-above .select2-choices,
+.select2-drop.select2-drop-above.select2-drop-active,
+.select2-drop-active {
+  border-color: $gto_yellow; /** rgba(200,200,200,0.8);*/
+}
