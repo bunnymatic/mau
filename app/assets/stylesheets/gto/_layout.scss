@@ -42,6 +42,22 @@ body {
   transition: all 0.25s ease-in-out;
 }
 
+.pure-g {
+  .header {
+    h2.title {
+      border-bottom: 1px solid #ddd;
+      padding-left: 10px;
+    }
+    .italic {
+      font-style: italic;
+      font-weight: 400;
+    }
+  }
+  .padded-content {
+    padding: 10px;
+  }
+}
+
 @media screen and (max-width: 48em) {
   .sidebar-logo {
     width: 0;
@@ -55,3 +71,4 @@ body {
     margin-left: $sidebar-collapse-nav-width;
   }
 }
+

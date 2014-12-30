@@ -1,4 +1,5 @@
 @import 'colors';
+
 .actions, .inputs {
   border: none;
   padding: 0;
@@ -29,6 +30,19 @@
     padding: 10px;
     border-radius: 2px;
     border: 1px solid #ddd;
+  }
+  .input {
+    &.error {
+      input, select {
+        border: 1px solid $gto_red;
+      }
+      label.label {
+        color: $gto_red;
+      }
+    }
+    .inline-errors {
+      color: $gto_red;
+    }
   }
 }
 .input-help {

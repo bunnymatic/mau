@@ -101,7 +101,6 @@ class ArtPiecesController < ApplicationController
 
   # PUT /art_pieces/1
   def update
-    binding.pry
     if commit_is_cancel || (@art_piece.artist != current_user)
       redirect_to @art_piece and return
     end
