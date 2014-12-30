@@ -1,21 +1,23 @@
-%ul.signin-nav
-  - if logged_in?
-    %li
-      hello,
-      %a.lkdark{href: user_path(current_user)} #{current_user.login}
-    %li
-      = link_to logout_path, { title: "sign out" } do
-        .text.pure-button
-          sign out
-        .nav-icon.fa.fa-sign-out
-  - else
-    %li
-      = link_to login_path,  { title: "sign in" } do
+.signin-nav
+  %ul.signin__links.tabs
+    - if logged_in?
+      %li.tab
         .text
-          sign in
-        .nav-icon.fa.fa-sign-in
-    %li
-      = link_to signup_path, { title: "create an account" } do
-        .text
-          sign up
-        .nav-icon.fa.fa-user
+          hello,
+          %a{href: user_path(current_user)} #{current_user.login}
+      %li.tab
+        = link_to logout_path, { title: "sign out" } do
+          .text
+            sign out
+          .nav-icon.fa.fa-sign-out
+    - else
+      %li.tab
+        = link_to login_path,  { title: "sign in" } do
+          .text
+            sign in
+          .nav-icon.fa.fa-sign-in
+      %li.tab
+        = link_to signup_path, { title: "create an account" } do
+          .text
+            sign up
+          .nav-icon.fa.fa-user

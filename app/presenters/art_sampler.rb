@@ -1,6 +1,6 @@
 class ArtSampler
 
-  NUM_IMAGES = 18
+  NUM_IMAGES = 15
   def initialize(view_context)
     @vc = view_context
   end

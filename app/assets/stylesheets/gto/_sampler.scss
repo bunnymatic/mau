@@ -11,35 +11,21 @@ $sampler-thumbnail-size : 250px;
     width: 100%;
     height: $sampler-thumbnail-size;
     @include background-cover;
-    border:1px solid rgba(200,200,200,0.5);
+    border: 6px solid rgba(245,245,245,1);
     vertical-align: bottom;
     position:relative;
     .desc {
       @include bottom-label-overlay;
       transition: opacity 0.25s ease-in-out;
       opacity: 0;
-      height: 5.5rem;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       text-align: center;
-      div {
-        line-height: 2rem;
-        height: 2rem;
-        whitespace: no-wrap;
-        overflow: hidden;
-      }
-      .art_piece {
-        font-weight: 700;
-      }
       .artist {
         font-style: italic;
+        line-height: 1.7rem;
+        height: 1.7rem;
+        @include ellipsis;
       }
-      .medium {
-        font-size: 0.75em;
-        font-weight: 200;
-        line-height: 1.5rem;
-        height: 1.5rem;
-      }
-      
     }
     &:hover {
       .desc {
@@ -49,9 +35,7 @@ $sampler-thumbnail-size : 250px;
   }
 
   @media screen and (max-width: 35.5em) { 
-    max-height: ( $sampler-thumbnail-size * 4 );
     .sampler_thumb {
-      height: $sampler-thumbnail-size * 1.2; 
       .desc {
         opacity: 1.0 !important;
       }
@@ -60,18 +44,5 @@ $sampler-thumbnail-size : 250px;
   @media screen and (min-width: 35.5em) { 
   }	
   
-  /* .pure-u-md-* */
-  @media screen and (min-width: 48em) {
-    max-height: ( $sampler-thumbnail-size * 3 );
-  }
-  
-  /*	.pure-u-lg-* */
-  @media screen and (min-width: 64em) {
-    max-height: ( $sampler-thumbnail-size * 3 );
-  }
-  
-  /*	.pure-u-xl-* */
-  @media screen and (min-width: 80em) {
-  }
 
 }

@@ -1,61 +1,50 @@
 / expects artist as artist_presenter
 .pure-g
   .pure-u-1-1.pure-u-md-1-2.artist-profile
-    #artist_profile_img
-      = render '/common/artist_profile_image', :artist => artist.artist
-    %h1 #{artist.get_name}
-    .artist
-      - if artist.doing_open_studios?
-        .os-violator
-          = link_to open_studios_path do
-            %img{:src => "/images/os_star_violator.png"}
-      
-      - if artist.studio
-        .studio-name
-          = link_to artist.studio_name, artist.studio
-        .studio-address
-          #{artist.studio.street} #{artist.studio_number}
-          - if artist.has_address?
-            = link_to artist.map_url, title: :map do
-              %i.fa.fa-map-marker
-          .studio-city #{artist.studio.city}
-      - else
-        .studio-name #{IndependentStudio.new.name.singularize}
-        .studio-address
-          #{artist.street}
-          - if artist.has_address?
-            = link_to artist.map_url, title: :map do
-              %i.fa.fa-map-marker
-          .studio-city #{artist.city}
+    .pure-g
+      .pure-u-1-1.pure-u-sm-1-2
+        #artist_profile_img
+          = render '/common/artist_profile_image', :artist => artist.artist
+        - if artist.doing_open_studios?
+          .os-violator
+            = link_to open_studios_path do
+              %img{:src => "/images/os_star_violator.png"}
+      .pure-u-1-1.pure-u-sm-1-2.artist
+        - if artist.studio
+          .studio-name
+            = link_to artist.studio_name, artist.studio
+          .studio-address
+            #{artist.studio.street} #{artist.studio_number}
+            - if artist.has_address?
+              = link_to artist.map_url, title: :map do
+                %i.fa.fa-map-marker
+            .studio-city #{artist.studio.city}
+        - else
+          .studio-name #{IndependentStudio.new.name.singularize}
+          .studio-address
+            #{artist.street}
+            - if artist.has_address?
+              = link_to artist.map_url, title: :map do
+                %i.fa.fa-map-marker
+            .studio-city #{artist.city}
+        - if artist.has_media?
+          .artist-media
+            Media:
+            = artist.media.map{|m| link_to(m.name, m, :class => "")}.join(", ").html_safe
+        - if artist.has_links?
+          .artist-links
+            - artist.links.each do |key, name, lnk|
+              %div{:id => key}
+                %span #{name + ":"}
+                = link_to lnk, lnk, { :target => "_blank" }
 
-      - if artist.has_media?
-        .artist-media
-          Media:
-          = artist.media.map{|m| link_to(m.name, m, :class => "")}.join(", ").html_safe
-      - if artist.has_links?
-        .artist-links
-          - artist.links.each do |key, name, lnk|
-            %div{:id => key}
-              %span #{name + ":"}
-              = link_to lnk, lnk, { :target => "_blank" }
-
-      = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => artist.artist }
-      = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => artist.artist }
+      .pure-g
+        .pure-u-1-1.pure-u-sm-1-2
+          = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => artist.artist }
+        .pure-u-1-1.pure-u-sm-1-2
+          = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => artist.artist }
 
 
-    .action-icons
-      - if !current_user || !artist.is_current_user?
-        %a.favorite_this{:href => '#', "fav-type" => 'Artist', "fav-id" => artist.id, :title => "Add this artist to your favorites"}
-          %i.micro-icon.ico-heart.ico-invert.ico
-      %a{:target => '_new', :href => artist.tw_share_link, :title => "Share this page on Twitter"}
-        %i.micro-icon.ico-twitter.ico-invert.ico
-      %a{:target => '_new', :href => artist.fb_share_link, :title => "Share this page on Facebook"}
-        %i.micro-icon.ico-facebook.ico-invert.ico
-      - if !artist.is_current_user? && current_user
-        - if artist.allows_email_from_artists?
-          %a.notify-artist{:href => '#', :aid => artist.id, :title => "Send a note to this artist"}
-            %i.micro-icon.ico-email.ico-invert.ico
-          
   .pure-u-1-1.pure-u-md-1-2.artist-profile
     .bio-container
       = artist.bio_html

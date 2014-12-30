@@ -160,3 +160,9 @@ $default_rounded_amount: 4px;
   -ms-filter: blur($radius);
   filter: blur($radius);
 }
+
+@mixin ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

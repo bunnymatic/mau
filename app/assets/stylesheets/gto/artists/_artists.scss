@@ -57,9 +57,7 @@
     }
   }
   .artist-links > div {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    @include ellipsis;
     min-height: 1.1rem;
     > span {
       display: inline-block;
@@ -75,7 +73,13 @@
       border-bottom: 1px solid #eee;
     }
   }
+  .artist {
+    margin-top: 40px;
+    padding-left: 10px;
+  }
   .favorites-block {
+    margin-top: 20px;
+    padding-left: 10px;
     label {
       display: block;
       padding-bottom: 3px;
@@ -86,11 +90,17 @@
   }
 }
 .bio-container {
+  overflow: auto;
+  padding-top: 40px;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  p {
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+  }
   p:first-child {
     margin-top: 0;
   }
-  max-height: 30rem;
-  overflow: auto;
 }
 .artist-profile {
   overflow:hidden;
