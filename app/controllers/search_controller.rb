@@ -1,5 +1,4 @@
 class SearchController < ApplicationController
-  layout 'mau'
 
   def index
     return unless execute_search

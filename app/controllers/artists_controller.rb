@@ -12,7 +12,7 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_filter :user_required, :only => [ :edit, :update, :delete_art, :destroyart, :setarrangement, :arrange_art ]
+  before_filter :user_required, only: [ :edit, :update, :delete_art, :destroyart, :setarrangement, :arrange_art ]
 
   skip_before_filter :get_new_art, :get_feeds
 
@@ -34,7 +34,7 @@ class ArtistsController < ApplicationController
       return
     end
     @studios = Studio.all
-    @artist_info = current_user.artist_info || ArtistInfo.new({ :id => current_user.id })
+    @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
   end
 
@@ -45,7 +45,7 @@ class ArtistsController < ApplicationController
 
     @page_title = "Artists by first name"
     @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index', :layout => 'mobile'
+    render 'artists/index', layout: 'mobile'
   end
 
   def by_lastname
@@ -55,7 +55,7 @@ class ArtistsController < ApplicationController
 
     @page_title = "Artists by last name"
     @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index', :layout => 'mobile'
+    render 'artists/index', layout: 'mobile'
   end
 
   def roster
@@ -67,7 +67,7 @@ class ArtistsController < ApplicationController
     @page_title = "Mission Artists United - MAU Artists"
     set_artists_index_links
 
-    render :action => 'roster'
+    render action: 'roster'
   end
 
   def index
@@ -91,16 +91,16 @@ class ArtistsController < ApplicationController
             render partial: 'artist', collection: @gallery.pagination.items
           end
         else
-          render :action => 'index'
+          render action: 'index'
         end
       }
       format.json {
-        render :json => Artist.active
+        render json: Artist.active
       }
       format.mobile {
         @artists = []
         @page_title = "Artists"
-        render :layout => 'mobile'
+        render layout: 'mobile'
       }
     end
   end
@@ -113,7 +113,7 @@ class ArtistsController < ApplicationController
       # filter with input prefix
       names = (inp.present? ? names.select{|name| name['value'] && name['value'].downcase.include?(inp)} : [])
     end
-    render :json => names
+    render json: names
   end
 
   def destroyart
@@ -123,7 +123,7 @@ class ArtistsController < ApplicationController
     end
 
     ids = params[:art].map { |kk,vv| kk if vv != "0" }.compact
-    arts = ArtPiece.where(:id => ids, :artist_id => current_user.id)
+    arts = ArtPiece.where(id: ids, artist_id: current_user.id)
     arts.each do |art|
       art.destroy
     end
@@ -141,7 +141,7 @@ class ArtistsController < ApplicationController
       # new endpoint for rearranging - more than just setting representative
       neworder = params[:neworder].split(',')
       neworder.each_with_index do |apid, idx|
-        a = ArtPiece.where(:id => apid, :artist_id => current_user.id).first
+        a = ArtPiece.where(id: apid, artist_id: current_user.id).first
         a.update_attribute(:order, idx) if a
       end
       flash[:notice] = "Your images have been reordered."
@@ -172,12 +172,12 @@ class ArtistsController < ApplicationController
       }
       format.json  {
         cleaned = @artist.clean_for_export(@artist.art_pieces)
-        render :json => cleaned
+        render json: cleaned
       }
       format.mobile {
         @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
         @artist = ArtistPresenter.new(view_context, @artist)
-        render :layout => 'mobile'
+        render layout: 'mobile'
       }
     end
   end
@@ -191,7 +191,7 @@ class ArtistsController < ApplicationController
         format.mobile {
           @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
           @artist = ArtistPresenter.new(view_context, @artist)
-          render :layout => 'mobile'
+          render layout: 'mobile'
         }
       end
     else
@@ -209,18 +209,18 @@ class ArtistsController < ApplicationController
         }
         fmt.png {
           data = File.open(qrcode_system_path,'rb').read
-          send_data(data, :filename => 'qr.png', :type=>'image/png', :disposition => "inline")
+          send_data(data, filename: 'qr.png', :type=>'image/png', disposition: "inline")
         }
       end
     else
-      render :action => 'show', :layout => 'mau'
+      render action: 'show'
     end
   end
 
   def update
     if request.xhr?
       process_os_update
-      render :json => {:success => true}
+      render json: {success: true}
     else
       if commit_is_cancel
         redirect_to user_path(current_user)
@@ -251,7 +251,7 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to root_path }
       format.mobile {
-        render :thumbs, :layout => 'mobile'
+        render :thumbs, layout: 'mobile'
       }
     end
   end
@@ -262,9 +262,9 @@ class ArtistsController < ApplicationController
       format.html { redirect_to root_path }
       format.mobile {
         if params[:partial].present?
-          render :layout => false
+          render layout: false
         else
-          render :layout => 'mobile'
+          render layout: 'mobile'
         end
       }
     end
@@ -273,7 +273,7 @@ class ArtistsController < ApplicationController
   protected
   def fetch_thumbs(osonly = false)
     page = params[:page] || 1
-    paginate_options = {:page => page, :per_page => 20 }
+    paginate_options = {page: page, per_page: 20 }
     if osonly
       @artists = Artist.active.open_studios_participants.with_representative_image.paginate paginate_options
     else
@@ -283,7 +283,7 @@ class ArtistsController < ApplicationController
   end
 
   def safe_find_artist(id)
-    Artist.where(:id => id).first || Artist.where(:login => id).first
+    Artist.where(id: id).first || Artist.where(login: id).first
   end
 
   def set_artist_meta
@@ -318,7 +318,7 @@ class ArtistsController < ApplicationController
   end
 
   def set_artists_index_links
-    os_args = (@os_only ? {:osonly => 'on'} : {})
+    os_args = (@os_only ? {osonly: 'on'} : {})
     @roster_link = roster_artists_url(os_args)
     @gallery_link = artists_url(os_args)
     @map_link = map_artists_path(os_args)
@@ -329,7 +329,7 @@ class ArtistsController < ApplicationController
     unless artist_names
       artist_names = Artist.active.map{|a| { 'value' => a.get_name(true), 'info' => a.id } }
       if artist_names.present?
-        SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
+        SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, expires_in: AUTOSUGGEST_CACHE_EXPIRY)
       end
     end
     artist_names
@@ -355,8 +355,8 @@ class ArtistsController < ApplicationController
     msg = "#{current_artist.fullname} set their os status to"+
       " #{participating} for #{current_open_studios_key} open studios"
     data = {'user' => current_artist.login, 'user_id' => current_artist.id}
-    OpenStudiosSignupEvent.create(:message => msg,
-                                  :data => data)
+    OpenStudiosSignupEvent.create(message: msg,
+                                  data: data)
   end
 
 end

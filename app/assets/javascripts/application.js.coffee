@@ -14,6 +14,8 @@
 #= require jquery.flot
 #= require jquery.flot.resize
 #= require jquery.collagePlus
+#= require bootstrap_tab
+#= require bootstrap_collapse 
 #= require select2
 #= require colorbox
 #= require pickadate/picker

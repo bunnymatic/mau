@@ -10,6 +10,11 @@
             = link_to open_studios_path do
               %img{:src => "/images/os_star_violator.png"}
       .pure-u-1-1.pure-u-sm-1-2.artist
+        - if logged_in? && (artist.artist == current_user)
+          .artist-profile__edit 
+            = link_to artist.edit_path, title: 'edit this art' do
+              .fa.fa-icon.fa-edit
+
         - if artist.studio
           .studio-name
             = link_to artist.studio_name, artist.studio
@@ -46,6 +51,10 @@
 
 
   .pure-u-1-1.pure-u-md-1-2.artist-profile
+    - if logged_in? && (artist.artist == current_user)
+      .artist-profile__edit 
+        = link_to artist.edit_path, title: 'edit this art' do
+          .fa.fa-icon.fa-edit
     .bio-container
       = artist.bio_html
 

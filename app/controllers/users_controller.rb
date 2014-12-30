@@ -37,7 +37,7 @@ class UsersController < ApplicationController
     else
       @page_title = "Mission Artists United"
     end
-    render 'show', :layout => 'mau'
+    render 'show'
   end
 
   # render new.rhtml

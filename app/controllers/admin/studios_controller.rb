@@ -4,11 +4,11 @@ module Admin
     layout 'mau-admin'
 
     before_filter :manager_required
-    before_filter :admin_required, :only => [:new, :create, :destroy]
-    before_filter :studio_manager_required, :only => [:edit, :update,
+    before_filter :admin_required, only: [:new, :create, :destroy]
+    before_filter :studio_manager_required, only: [:edit, :update,
                                                       :upload_profile, :add_profile,
                                                       :unaffiliate_artist]
-    before_filter :load_studio, :except => [:new, :index, :create]
+    before_filter :load_studio, except: [:new, :index, :create]
 
     def index
       @studios = Studio.all
@@ -16,11 +16,9 @@ module Admin
 
     def new
       @studio = Studio.new
-      render :layout => 'mau-admin'
     end
 
     def edit
-      render :layout => 'mau-admin'
     end
 
     def create
@@ -29,8 +27,8 @@ module Admin
       if @studio.save
         flash[:notice] = 'Studio was successfully created.'
         redirect_to(@studio)
-      else
-        render 'new', :layout => 'mau-admin'
+      else 
+        render 'new'
       end
 
     end
@@ -39,9 +37,9 @@ module Admin
     def update
       if @studio.update_attributes(params[:studio])
         flash[:notice] = 'Studio was successfully updated.'
-        redirect_to(@studio)
+        redirect_to(@studio) and return
       else
-        render "edit", :layout => 'mau-admin'
+        render "edit"
       end
     end
 
@@ -59,22 +57,21 @@ module Admin
     def unaffiliate_artist
       artist = Artist.find(params[:artist_id])
       if artist == current_artist
-        redirect_to_edit :error => 'You cannot unaffiliate yourself' and return
+        redirect_to_edit error: 'You cannot unaffiliate yourself' and return
       end
       if StudioArtist.new(@studio,artist).unaffiliate
-        msg = {:notice => "#{artist.fullname} is no longer associated with #{@studio.name}."}
+        msg = {notice: "#{artist.fullname} is no longer associated with #{@studio.name}."}
       else
-        msg = {:error => "There was a problem finding that artist associated with this studio."}
+        msg = {error: "There was a problem finding that artist associated with this studio."}
       end
       redirect_to_edit msg
     end
 
     def redirect_to_edit(flash_opts)
-      redirect_to edit_admin_studio_path(@studio), :flash => flash_opts
+      redirect_to edit_admin_studio_path(@studio), flash: flash_opts
     end
 
     def add_profile
-      render :layout => 'mau-admin'
     end
 
     def upload_profile
@@ -104,7 +101,7 @@ module Admin
 
     def studio_manager_required
       unless (is_manager? && (current_user.studio.to_param == params[:id].to_s)) || is_admin?
-        redirect_to request.referrer, :flash => {:error => "You are not a manager of that studio."}
+        redirect_to request.referrer, flash: {error: "You are not a manager of that studio."}
       end
     end
 

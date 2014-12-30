@@ -47,7 +47,31 @@
     }
   }
 }
+
+.artist-profile .artist-profile__edit,
+.art-card .art-card__edit {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  font-size: 32px;
+  background-color: rgba(255, 255, 255, .75);
+  padding: 4px 8px;
+  border-radius: 4px;
+  &:hover {
+    background-color: rgba(255, 255, 255, .95);
+  }
+  
+  a, a .fa{
+    color: $gto_yellow;
+  }
+}
+.artist-profile .artist-profile__edit {
+  top: 0;
+}
+
+
 .artist-profile {
+  position: relative;
   margin-top: 10px;
   padding: 0 10px 10px;
   #artist_profile_img {
@@ -124,3 +148,4 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
     @include background-cover;
   }
 }
+

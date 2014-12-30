@@ -27,7 +27,6 @@ class MediaController < ApplicationController
     respond_to do |format|
       format.html {
         _show_html
-        render :layout => "mau"
       }
       format.mobile {
         @page_title = "Media: " + @medium.name

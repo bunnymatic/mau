@@ -135,6 +135,10 @@ class ArtistPresenter
     @view_context.artist_path(artist)
   end
 
+  def edit_path
+    @view_context.edit_artist_path(artist)
+  end
+
   # get info for google map info window as html
   # if you have lat lon, include it for directions link
   def marker_style
