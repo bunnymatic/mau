@@ -118,6 +118,8 @@
         &.title {
           font-style: italic;
           font-weight: bold;
+          border-top: none;
+          border-bottom: 1px solid lighten($gto_gray, 40%);
         }
         &:not(.title):hover {
           background-color: #fafafa;
@@ -131,6 +133,12 @@
 }
 
 
+@media screen and (min-width: 48.001em) { 
+  .sidenav .tab-content ul.tab-pane.active li.title {
+    height: 62px;
+    line-height: 62px;
+  }
+}
 
 @media screen and (max-width: 48em) { 
   .sidenav {
