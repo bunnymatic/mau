@@ -1,11 +1,11 @@
 .nav.nav-tabs
   - user_nav = UserNavigation.new(self, current_user)
-  = link_to root_path do
+  = link_to root_path, title: 'home' do
     .home.nav-icon
       = fa_icon 'home'
-  .search.nav-icon
+  .search.nav-icon{ title: 'search' }
     = fa_icon 'search'
-  .nav-mobile.nav-icon
+  .nav-mobile.nav-icon{ title: 'menu' }
     = fa_icon 'bars'
 
   %ul.js-tabs.tabs.tabs__nav
@@ -26,15 +26,19 @@
         artistsnav << "<a href='#{ map_artists_path }' title='artists by map'>artists by map</a>"
         artistsnav << "<a href='#{ media_path :m => 'a' }' title='artists by medium'>artists by medium</a>"
         artistsnav << "<a href='#{ art_piece_tags_path :m => 'a' }' title='artists by tag'>artists by tag</a>"
+      %li.title artists
       = print_html_list('leaf', artistsnav)
 
     %ul.tab-pane#open-studios
       - osnav = OpenStudiosNavigation.new(self, current_user)
+      %li.title open studios
       = print_html_list('leaf', osnav.items)
 
     %ul.tab-pane#art-spaces
+      %li.title art spaces
       = print_html_list('leaf', StudioNavigation.new(self).items)
 
     - if logged_in?
       %ul.tab-pane#my-mau
+        %li.title my mau
         = print_html_list('leaf', user_nav.navitems)

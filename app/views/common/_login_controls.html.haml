@@ -1,7 +1,7 @@
 .signin-nav
   %ul.signin__links.tabs
     - if logged_in?
-      %li.tab
+      %li.tab.pure-u-sm-hidden
         .text
           hello,
           %a{href: user_path(current_user)} #{current_user.login}
