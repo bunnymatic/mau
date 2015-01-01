@@ -152,3 +152,22 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
   }
 }
 
+.roster {
+  .roster__list {
+    margin-top: 20px;
+  }
+  .chunk {
+    margin-bottom: 20px;
+  }
+  .name {
+    @include ellipsis;
+    line-height: 1.3em;
+    height: 1.3em;
+  }
+  @media screen and (max-width: 48em) {
+    .chunk {
+      margin-bottom: 0px;
+    }
+  }
+
+}
