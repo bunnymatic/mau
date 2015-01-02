@@ -1,0 +1,52 @@
+@import 'mau-mixins';
+@import 'colors';
+
+.favorites.index {
+  ul, li { 
+    list-style:none;
+    margin: 0;
+    padding: 0;
+  }
+  .favorites__random-block {
+    &:hover {
+      background-color: rgba(200,200,200,0.2);
+    }
+    h4 {
+      @include ellipsis;
+    }
+    padding-bottom: 30px;
+    &:first-child {
+      padding-left: 0px;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
+    .thumb {
+      width: 33.333%;
+      padding: 0;
+      height: 50px;
+      @include background-cover;
+      overflow: hidden;
+      float: left;
+    }
+    @media screen and (min-width: 35.5em) { /* 568px */
+      .thumb {
+      }
+    }
+    @media screen and (min-width: 48em) { /* 768px */
+      padding-right: 25px;
+      padding-left: 25px;
+      .thumb {
+        width: 25%;
+      }
+    }
+    @media screen and (min-width: 64em) { /* 1024px */
+    }
+    @media screen and (min-width: 80em) { /* xl */
+      .thumb {
+        width: 12.5%;
+      }
+    }
+  }
+
+}

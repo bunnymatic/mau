@@ -52,19 +52,6 @@ class UsersController < ApplicationController
   def add_profile
   end
 
-  def favorites
-    @user = safe_find_user(params[:id])
-    if !@user or @user.suspended?
-      @user = nil
-      flash.now[:error] = "The account you were looking for was not found."
-      redirect_back_or_default("/")
-      return
-    end
-    if @user == current_user && current_user.favorites.count <= 0
-      @random_picks = ArtPiece.find_random(24)
-    end
-  end
-
   def upload_profile
     if commit_is_cancel
       redirect_to user_path(current_user)

@@ -2,7 +2,7 @@
 <% favorites_per_row = 20 # coordinate this with javascript favorites_per_row -%>
 <div id="my_favorites" class="favorites-block clearfix" >
   <label>
-    <a href="<%= favorites_user_path(page_owner) %>" title="see all">
+    <a href="<%= user_favorites_path(page_owner) %>" title="see all">
       <% if current_user && current_user.id == page_owner.id -%>
       my
       <% else -%>

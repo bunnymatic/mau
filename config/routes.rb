@@ -92,8 +92,8 @@ Mau::Application.routes.draw do
       put :suspend
       get :noteform
       put :notify
-      get :favorites
     end
+    resources :favorites, only: [:index]
     resources :roles, only: [:destroy], controller: 'Admin::Roles'
   end
 
