@@ -52,8 +52,8 @@ gem 'rails-assets-lodash'
 gem 'rails-assets-colorbox' # lightbox plugin
 gem 'rails-assets-jquery'
 gem 'rails-assets-jquery-ujs'
-#gem 'rails-assets-purecss'
 gem 'rails-assets-pure'
+gem 'bootstrap-sass' # for javascript collapse, transitions, tabs only - not for css
 
 
 # authentication

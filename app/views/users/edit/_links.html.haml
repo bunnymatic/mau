@@ -1,0 +1,21 @@
+- link_info = Artist::KEYED_LINKS.reject{|link| link[0] == :url}
+- half_slice = (link_info.length - 1) / 2
+.panel-heading
+  %h4.panel-title
+    = link_to 'Links', '#links', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
+    .fa.fa-icon.panel-opener
+.panel-collapse.collapse#links{ role: "tabpanel" }
+  .panel-body
+    = form.inputs do
+      .pure-g
+        .pure-u-1-2
+          = form.input :url, label: 'Website', placeholder: "e.g. http://www.myartsite.com"
+          - link_info[0..(half_slice-1)].each do |kk,name|
+            = form.input "artist_info[#{kk}]", label: name, placeholder: "e.g. http://#{kk}.com/mypage", input_html: { value: form.object.try(:artist_info).try(kk) }
+        .pure-u-1-2
+          - link_info[half_slice..-1].each do |kk,name|
+            = form.input "artist_info[#{kk}]", label: name, placeholder: "e.g. http://#{kk}.com/mypage", input_html: { value: form.object.try(:artist_info).try(kk) }
+
+    = form.actions do
+      = form.submit 'Save', class: "pure-button pure-button-primary"
+      = form.submit 'Cancel', class: "pure-button"

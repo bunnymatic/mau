@@ -1,0 +1,26 @@
+.panel-heading
+  %h4.panel-title
+    = link_to 'Open Studios', '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
+    .fa.fa-icon.panel-opener
+.panel-collapse.collapse#events{ role: "tabpanel" }
+  .panel-body
+    - if !current_user.address.present?
+      %p You need to specify an address or studio affiliation to sign up for Open Studios!
+      %p
+        Check the
+        %em Address/Studio Info
+        section below.
+    - else
+      = render_cms_content(@openstudios_question)
+
+      %p.os-status
+        Your current answer is :
+        %span #{current_user.doing_open_studios? ? 'Yep' : 'Nope'}
+      .buttons
+        %a.pure-button.pure-button-primary.yep#yep{href: '#'} Yep
+        %a.pure-button.nope#nope{href: '#'} Nope
+      .clear.donate
+        And if you'd like to donate to help with our Open Studios promotion and keep this system running, here's a paypal donate button.  Thanks!
+        %a#donate_for_openstudios{href: "#"}
+          .donate_btn
+

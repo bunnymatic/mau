@@ -1,0 +1,35 @@
+.panel-heading
+  %h4.panel-title
+    = link_to 'Address/Studio Info', '#address', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion'
+    .fa.fa-icon.panel-opener
+.panel-collapse.collapse#address{ role: "tabpanel" }
+  .panel-body
+    .pure-g
+      .pure-u-1-1
+        Fill out
+        %strong either
+        the
+        %em Studio
+        section or the
+        %em Address
+        section.  If you are in a group studio that is in the list, we know the address.  If you are in an independent studio, you'll need to provide an address so we can put you on the map.
+
+    .pure-g
+      .pure-u-1-2
+        %h5 Studio
+        = form.inputs do
+          = form.input :studio_id, as: :select, collection: [['None', 0]] + @studios.map{|u| [u.name,u.id]}, selected: current_user.studio_id
+          = form.input "artist_info[studionumber]", label: 'Studio #', placeholder: 'e.g. Room 220', input_html: {value: @artist_info.studionumber}
+      .pure-u-1-2
+        %h5 Address
+        = form.inputs do
+          - ai = form.object.artist_info
+          = form.input "artist_info[street]", label: "Street", input_html: { value: ai.street }
+          = form.input "artist_info[city]", label: "City", input_html: { value: (ai.city.present? ? ai.city : 'San Francisco') }
+          = form.input "artist_info[addr_state]", label: "State", input_html: { value: (ai.addr_state.present? ? ai.addr_state : "CA") }
+          = form.input "artist_info[zip]", label: "ZIP", input_html: { value: (ai.zip.present? ? ai.zip : '94110') }
+    .pure-g
+      .pure-u-1-1
+        = form.actions do
+          = form.submit 'Save Changes', class: "pure-button pure-button-primary"
+          = form.submit 'Cancel', class: "pure-button"

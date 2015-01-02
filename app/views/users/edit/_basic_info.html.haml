@@ -1,13 +1,14 @@
 .panel-heading
   %h4.panel-title
-    = link_to  'Personal Info', '#info', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion'
-  #info.panel-collapse.collapse
-    .panel-body
-      = form.inputs do
-        = form.input :firstname, label: 'First Name', placeholder: 'e.g. Leonardo'
-        = form.input :lastname, label: 'Last Name', placeholder: 'e.g. DaVinci'
-        = form.input :nomdeplume, label: 'Display Name', hint: "(only if you want something different from your first & last name)"
-        = form.input :email, placeholder: 'e.g. leoDaVinci@example.com'
-      = form.actions do
-        = form.submit 'Update', class: "pure-button pure-button-primary"
-        = form.submit 'Cancel', class: "pure-button"
+    = link_to 'Personal Info', '#info', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
+    .fa.fa-icon.panel-opener
+.panel-collapse.collapse#info{ role: "tabpanel" }
+  .panel-body
+    = form.inputs do
+      = form.input :firstname, label: 'First Name', placeholder: 'e.g. Leonardo'
+      = form.input :lastname, label: 'Last Name', placeholder: 'e.g. DaVinci'
+      = form.input :nomdeplume, label: 'Display Name', hint: "(only if you want something different from your first & last name)"
+      = form.input :email, placeholder: 'e.g. leoDaVinci@example.com'
+    = form.actions do
+      = form.submit 'Update', class: "pure-button pure-button-primary"
+      = form.submit 'Cancel', class: "pure-button"

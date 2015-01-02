@@ -53,6 +53,7 @@
 .pure-button {
   border-radius: 2px;
 
+  &.button-danger,
   &.button-success,
   &.button-error,
   &.button-warning,
@@ -65,6 +66,7 @@
     background: $gto_teal;
   }
 
+  &.button-danger,
   &.button-error {
     background: $gto_red;
   }

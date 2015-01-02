@@ -6,16 +6,37 @@
   .pure-u-1-1.padded-content
     = render '/paypal_donation_form'
 
+    = render '/artist_profile_image', :artist => current_artist
+
     = semantic_form_for current_user do |form|
       #user-accordion.panel-group
         .panel.panel-default
           = render '/users/edit/basic_info', form: form
+        .panel.panel-default
+          = render '/artists/edit/open_studios_status', form: form
+        .panel.panel-default
+          = render '/users/edit/links', form: form
+        .panel.panel-default
+          = render '/users/edit/notifications', form: form
+        .panel.panel-default
+          = render '/artists/edit/studio_info', form: form
+        .panel.panel-default
+          = render '/artists/edit/bio', form: form
+        .panel.panel-default
+          = render '/users/edit/password', form: form
+        .panel.panel-default
+          = render '/users/edit/deactivate', form: form
+
+        .panel.panel-default
+        .panel.panel-default
+        .panel.panel-default
+
+    .tag update profile picture
+    .os-violator{style: (current_artist.doing_open_studios? ? '':'display:none;')}
+      %img{:src=> "/images/os_star_violator.png"}
+
 
     #artist_edit
-      = render '/artist_profile_image', :artist => current_artist
-      .tag update profile picture
-      .os-violator{style: (current_artist.doing_open_studios? ? '':'display:none;')}
-        %img{:src=> "/images/os_star_violator.png"}
       %h4 My Account
       = render '/flash_notice_error'
       .edit-sections
