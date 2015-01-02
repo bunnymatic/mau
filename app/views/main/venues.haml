@@ -1,3 +1,7 @@
-#venues
-  = render_cms_content(@content) do
-    = render :partial => '/main/info_footer'
+.pure-g
+  .pure-u-1-1.header
+    %h2.title Art Venues in the Mission
+.pure-g
+  .pure-u-1-1.padded-content
+    = render_cms_content(@content) do
+      = render :partial => '/main/info_footer'

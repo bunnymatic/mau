@@ -35,12 +35,17 @@
     }
   }
   &.tabs__horizontal {
+    margin-top: 10px;
     li {
+      float: left;
       padding: 0 10px;
+      &.active {
+        background-color: none;
+      }
     }
     a[data-toggle=tab] {
       @include ellipsis;
-      padding: 21px;
+      padding: 16px 24px;
       display: inline-block;
       width: 100%;
       border-bottom: 4px solid;
@@ -48,9 +53,15 @@
       text-align: center;
       font-size: 1.2rem;
       outline: none;
+      @include round-top-corners($amount: 24px);
+      background-color: transparent;
+      &:hover {
+        background-color: rgba(200,200,200,0.2);
+      }
     }
     .active {
       a[data-toggle=tab] {
+        background-color: rgba(200,200,200,0.1);
         border-color: $gto_yellow;
       }
     }
