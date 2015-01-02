@@ -116,7 +116,6 @@ class MainController < ApplicationController
   end
 
   def resources
-
     @page_title = "Mission Artists United - Open Studios"
     page = 'main'
     section = 'artist_resources'
@@ -130,7 +129,7 @@ class MainController < ApplicationController
       @content[:cmsid] = doc.id
     end
     respond_to do |fmt|
-      fmt.html{ render :action => 'resources', :layout => 'mau2col' }
+      fmt.html{}
       fmt.mobile { render :layout => 'mobile_welcome' }
     end
   end
