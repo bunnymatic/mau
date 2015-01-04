@@ -13,13 +13,12 @@
         .panel.panel-default
           = render '/users/edit/basic_info', form: form
         .panel.panel-default
-          = render '/artists/edit/open_studios_status', form: form
+          = render '/artists/edit/studio_info', form: form
+        - if OpenStudiosEvent.current  
+          .panel.panel-default
+            = render '/artists/edit/open_studios_status', form: form
         .panel.panel-default
           = render '/users/edit/links', form: form
-        .panel.panel-default
-          = render '/users/edit/notifications', form: form
-        .panel.panel-default
-          = render '/artists/edit/studio_info', form: form
         .panel.panel-default
           = render '/artists/edit/bio', form: form
         .panel.panel-default

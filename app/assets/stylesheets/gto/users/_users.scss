@@ -76,4 +76,11 @@
   .panel-body {
     padding: 20px;
   }
+  .toggle-button {
+    margin: auto;
+    text-align: center;
+    label[for=doing_open_studios] {
+      margin: auto;
+    }
+  }
 }

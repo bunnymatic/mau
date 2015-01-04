@@ -1,6 +1,6 @@
 .panel-heading
   %h4.panel-title
-    = link_to 'Open Studios', '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
+    = link_to "Open Studios #{OpenStudiosEvent.for_display}", '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
     .fa.fa-icon.panel-opener
 .panel-collapse.collapse#events{ role: "tabpanel" }
   .panel-body
@@ -11,16 +11,16 @@
         %em Address/Studio Info
         section below.
     - else
-      = render_cms_content(@openstudios_question)
+      %p Will you be opening your doors for Open Studios on 
+        = OpenStudiosEvent.start_date
 
-      %p.os-status
-        Your current answer is :
-        %span #{current_user.doing_open_studios? ? 'Yep' : 'Nope'}
-      .buttons
-        %a.pure-button.pure-button-primary.yep#yep{href: '#'} Yep
-        %a.pure-button.nope#nope{href: '#'} Nope
-      .clear.donate
-        And if you'd like to donate to help with our Open Studios promotion and keep this system running, here's a paypal donate button.  Thanks!
-        %a#donate_for_openstudios{href: "#"}
-          .donate_btn
+      .toggle-button
+        = check_box_tag :doing_open_studios, 1, current_user.doing_open_studios?, class: 'toggle-button__checkbox toggle-button__round-flat'
+        %label{for: :doing_open_studios}
+          .toggle-button__label.toggle-button__label_off Nope :(
+          .toggle-button__label.toggle-button__label_on Yep!
+
+      .donate
+        And if you'd like to donate to help with our Open Studios promotion and keep this system running, you can donate via Paypal.  Just click below.  Thanks!
+        %a.pure-button.button-secondary#donate_for_openstudios{href: "#"} Donate
 
