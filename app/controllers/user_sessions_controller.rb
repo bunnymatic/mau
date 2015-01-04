@@ -27,7 +27,7 @@ class UserSessionsController < ApplicationController
           flash[:notice] = "You're in!"
           redirect_back_or_default root_url
         else
-          flash[:warning] = "We were unable to log you in.  Check your username and password and try again."
+          @user_session.errors.add(:base, "We were unable to log you in.  Check your username and password and try again.")
           render :new
         end
       }

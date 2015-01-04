@@ -19,15 +19,16 @@
         %h5 Studio
         = form.inputs do
           = form.input :studio_id, as: :select, collection: [['None', 0]] + @studios.map{|u| [u.name,u.id]}, selected: current_user.studio_id
-          = form.input "artist_info[studionumber]", label: 'Studio #', placeholder: 'e.g. Room 220', input_html: {value: @artist_info.studionumber}
+          = form.inputs for: :artist_info do |ai_form|            
+            = ai_form.input :studionumber, label: 'Studio #', placeholder: 'e.g. Room 220'
       .pure-u-1-2
         %h5 Address
         = form.inputs do
-          - ai = form.object.artist_info
-          = form.input "artist_info[street]", label: "Street", input_html: { value: ai.street }
-          = form.input "artist_info[city]", label: "City", input_html: { value: (ai.city.present? ? ai.city : 'San Francisco') }
-          = form.input "artist_info[addr_state]", label: "State", input_html: { value: (ai.addr_state.present? ? ai.addr_state : "CA") }
-          = form.input "artist_info[zip]", label: "ZIP", input_html: { value: (ai.zip.present? ? ai.zip : '94110') }
+          = form.inputs for: :artist_info do |ai_form|            
+            = ai_form.input :street
+            = ai_form.input :city, placeholder: 'San Francisco'
+            = ai_form.input :addr_state, label: 'State', placeholder: 'CA'
+            = ai_form.input :zip, placeholder: '94110'
     .pure-g
       .pure-u-1-1
         = form.actions do

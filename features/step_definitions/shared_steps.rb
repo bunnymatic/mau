@@ -53,6 +53,48 @@ When /I visit the signup page/ do
   visit signup_path
 end
 
+When /I sign in with password "(.*?)"/ do |pass|
+  step "I visit the login page"
+  fill_in_login_form @artist.login, pass
+  click_on "Sign In"
+end
+  
+When /I am signed in as an artist/ do
+  steps %Q{
+    Given an account has been created
+    Given I visit the login page
+    When I fill in valid credentials
+    And I click "Sign In"
+  }
+end
+
+When /^I (logout|sign out)$/ do |dummy|
+  within '.signin-nav' do
+    click_on 'sign out'
+  end                        
+end
+
+Then /^I see that I'm signed in$/ do
+  within '.signin-nav' do
+    expect(page).to have_link @artist.login, href: user_path(@artist)
+  end
+end
+
+When(/^I change "(.*?)" to "(.*?)"/) do |form_field_label, value|
+  within 'form.formtastic' do
+    fill_in form_field_label, with: value, fill_options: { exact: true }
+  end
+end
+
+Then(/my "(.*?)" is "(.*?)" in the "(.*?)" section of the form/) do |form_field_label, value, section|
+  step "I click on \"#{section}\""
+  expect(page).to have_selector 'form.formtastic'
+  within 'form.formtastic' do
+    expect(find_field(form_field_label).value).to eql value
+  end
+end
+
+
 Then(/^I do not see an error message$/) do
   expect(page).to_not have_selector '.error-msg'
 end

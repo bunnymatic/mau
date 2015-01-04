@@ -75,6 +75,12 @@
   }
   .panel-body {
     padding: 20px;
+    ul.help {
+      padding-left: 10px;
+      li {
+        list-style: circle;
+      }
+    }
   }
   .toggle-button {
     margin: auto;

@@ -10,6 +10,13 @@
   margin-bottom: 10px;
 }
 
+.required {
+  [title=required] {
+    border: none;
+    color: $gto_red;
+    margin-left: 3px;
+  }
+}
 .inputs {
   li {
     margin-bottom: 10px;
@@ -30,6 +37,9 @@
     padding: 10px;
     border-radius: 2px;
     border: 1px solid #ddd;
+  }
+  input {
+    width: 90%;
   }
   .input {
     &.error {

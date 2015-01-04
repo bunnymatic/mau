@@ -1,0 +1,53 @@
+Feature: As a active artist I can edit my information
+
+Background:
+  Given I am signed in as an artist
+  And I click "my mau"
+  And I click "edit my page"
+
+@javascript
+Scenario: I can edit my personal information
+  When I click on "Personal Info"
+  And I change "First Name" to "Soup"
+  And I click on "Save Changes"
+  Then my "First Name" is "Soup" in the "Personal Info" section of the form
+
+  And I change "Display Name" to "Soup"
+  And I click on "Save Changes"
+  Then my "Display Name" is "Soup" in the "Personal Info" section of the form
+
+@javascript
+Scenario: I can edit my address and studio affiliation
+  When I click on "Address/Studio Info"
+  And I change "Studio #" to "6600"
+  And I click on "Save Changes"
+  Then my "Studio #" is "6600" in the "Address/Studio Info" section of the form
+
+@javascript
+Scenario: I can edit my links
+  When I click on "Links"
+  And I change "Website" to "http://my.website.com"
+  And I change "Instagram" to "http://instagram.com/my_instagram"
+  And I click on "Save Changes"
+  Then my "Website" is "http://my.website.com" in the "Links" section of the form
+  And my "Instagram" is "http://instagram.com/my_instagram" in the "Links" section of the form
+
+@javascript
+Scenario: I can edit my bio
+  When I click on "Bio"
+  And I change "artist_artist_info_attributes_bio" to "this Is my new bio"
+  And I click on "Save Changes"
+  Then my "artist_artist_info_attributes_bio" is "this Is my new bio" in the "Bio" section of the form
+
+@javascript
+Scenario: I can edit my password
+  When I click on "Password"
+  And I change "Current Password" to "bmatic"
+  And I change "artist_password" to "blahdeblah"
+  And I change "Confirm New Password" to "blahdeblah"
+  And I click on "Save Changes"
+  And I sign out
+  And I sign in with password "blahdeblah"
+  Then I see that I'm signed in
+
+  

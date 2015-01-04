@@ -5,7 +5,6 @@ $ ->
     
   $('.nav a[data-toggle=tab]').on 'click', (ev) ->
     # toggle tab if the click is on the active one
-    console.log('clicked tab', ev)
     activeTab = $('.tab-content ul.active').attr('id')
     if activeTab == $(this).attr('href').substr(1)
       ev.preventDefault();

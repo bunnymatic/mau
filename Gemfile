@@ -115,6 +115,8 @@ group :test, :development do
   gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'pry'
+  gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'rb-fsevent'
   gem 'simplecov'
   gem 'cane'

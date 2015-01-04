@@ -227,12 +227,8 @@ class ArtistsController < ApplicationController
         return
       end
       begin
-        if params[:emailsettings]
-          em = params[:emailsettings]
-          em = Hash[em.map{|k,v| [k, !!v.to_i]}]
-          params[:artist][:email_attrs] = em.to_json
-        end
-        artist_info = params[:artist].delete :artist_info
+        current_artist.update_attributes!(artist_params)
+        artist_info = artist_info_params
         current_artist.artist_info.update_attributes!(artist_info)
         current_artist.update_attributes!(params[:artist])
         flash[:notice] = "Update successful"
@@ -313,6 +309,16 @@ class ArtistsController < ApplicationController
   end
 
   private
+  def artist_params
+    if params[:emailsettings]
+      em = params[:emailsettings]
+      em = Hash[em.map{|k,v| [k, !!v.to_i]}]
+      params[:artist][:email_attrs] = em.to_json
+    end
+
+    params[:artist]
+  end
+  
   def is_os_only(osonly)
     [true, "1",1,"on","true"].include? osonly
   end

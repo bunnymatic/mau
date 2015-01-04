@@ -35,80 +35,11 @@
       %img{:src=> "/images/os_star_violator.png"}
 
 
-    #artist_edit
-      %h4 My Account
-      = render '/flash_notice_error'
-      .edit-sections
-        = form_for current_user do |f|
-          = render '/common/form_errors', form: f
-          = render "/users/edit_basic_info", f: f
-          .open-close-div.acct>
-            %a#events_toggle.title{href: '#'} Open Studios
-            %span.edit>
-              %a#events_toggle_lnk{href: "#events"}> change
-          = render "edit_open_studios_status", f: f
-          = render "/users/edit_notifications", f: f
-          = render "/users/edit_links", f: f
 
-          .open-close-div.acct
-            %a.title#studio_info_toggle{href: '#'} Address/Studio Info
-            %span.edit
-              %a#studio_info_toggle_lnk{href: "#address"} change
-          .edit-profile-sxn#address
-            .inner-sxn.left
-              .edit-table-header Studio
-              %table.entry-table
-                %tr
-                  %td.input-name &nbsp;
-                  %td
-                    = select :artist,"studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}, selected: current_user.studio_id
-                  %td.input-err
-                %tr.studio-number-row
-                  %td.input-name Studio #
-                  %td
-                    = text_field_tag "#{f.object_name}[artist_info[studionumber]]", @artist_info.studionumber
-                %td.input-err
-            .edit-table-header.splitter  (or)
-            .inner-sxn.right
-              .edit-table-header Address
-              %table.entry-table
-                - [[:street, "Street", ""], [:city, "City", "San Francisco"], [:addr_state, "State", "CA"], [:zip, "ZIP", ""]].each do |addr|
-                  %tr
-                    %td.input-name #{addr[1]}
-                    = @artist_info.send(addr[0]) || ''
-                    %td
-                      = text_field_tag "#{f.object_name}[artist_info[#{addr[0]}]", @artist_info.send(addr[0]) ||''
-                    %td.input-err
-            .clear
-            .buttons
-              = f.submit 'Save Changes', class: "formbutton"
-              = f.submit 'Cancel', class: "formbutton"
-          .open-close-div.acct
-            %a.title#bio_toggle{href: '#'} Bio/Artist's Statement
-            %span.edit
-              %a#bio_toggle_lnk#bio_toggle_lnk{href: "#bio"} change
-          .edit-profile-sxn#bio
-            .inner-sxn
-              .title Artist's Bio:
-            %div
-              = text_area_tag "#{f.object_name}[artist_info[bio]]", @artist_info.bio, class: "artist-bio"
-              .input-help Please avoid html tags and any fancy formatting.  Newlines will be preserved.
-            .buttons
-              = f.submit 'Save Changes', class: "formbutton"
-              = f.submit 'Cancel', class: "formbutton"
-
-        = render "/users/edit_password"
-        = render "/users/edit_deactivate"
-
-      .edit-buttons
-        - if !current_user.art_pieces.any?
-          = link_to "Upload some of your art to share with the world!", new_artist_art_piece_path(current_user)
-        - if current_user.art_pieces.length > 1
-          = form_tag new_artist_art_piece_path(current_user), method: "get" do
-            %input{class: "formbutton", type:  "submit",value: "Add Art" }
-          = form_tag arrange_art_artists_path(), method: "get" do
-            %input{class: "formbutton", type:  "submit",value: "Arrange Art" }
-          = form_tag delete_art_artists_path(), method: "get" do
-            %input{class: "formbutton",type:  "submit",value: "Delete Art" }
-          %a{href: artist_path(current_user)}
-            %button.formbutton Back to Profile
+  .edit-buttons
+    - if !current_user.art_pieces.any?
+      = link_to "Upload some of your art to share with the world!", new_artist_art_piece_path(current_user)
+    - if current_user.art_pieces.length > 1
+      = link_to "Add Art", new_artist_art_piece_path(current_user), class: 'pure-button'
+      = link_to "Arrange Art", arrange_art_artists_path, class: 'pure-button'
+      = link_to "Delete Art", delete_art_artists_path(), class: 'pure-button'

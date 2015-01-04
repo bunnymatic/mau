@@ -11,9 +11,11 @@
         %em Address/Studio Info
         section below.
     - else
-      %p Will you be opening your doors for Open Studios on 
-        = OpenStudiosEvent.start_date
-
+      %p
+        Will you be opening your doors for Open Studios on 
+        = OpenStudiosEvent.current.start_date
+        = "-"
+        = OpenStudiosEvent.current.end_date
       .toggle-button
         = check_box_tag :doing_open_studios, 1, current_user.doing_open_studios?, class: 'toggle-button__checkbox toggle-button__round-flat'
         %label{for: :doing_open_studios}

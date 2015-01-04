@@ -7,15 +7,16 @@
 .panel-collapse.collapse#links{ role: "tabpanel" }
   .panel-body
     = form.inputs do
-      .pure-g
-        .pure-u-1-2
-          = form.input :url, label: 'Website', placeholder: "e.g. http://www.myartsite.com"
-          - link_info[0..(half_slice-1)].each do |kk,name|
-            = form.input "artist_info[#{kk}]", label: name, placeholder: "e.g. http://#{kk}.com/mypage", input_html: { value: form.object.try(:artist_info).try(kk) }
-        .pure-u-1-2
-          - link_info[half_slice..-1].each do |kk,name|
-            = form.input "artist_info[#{kk}]", label: name, placeholder: "e.g. http://#{kk}.com/mypage", input_html: { value: form.object.try(:artist_info).try(kk) }
+      = form.inputs for: :artist_info do |ai_form|
+        .pure-g
+          .pure-u-1-2
+            = form.input :url, label: 'Website', placeholder: "e.g. http://www.myartsite.com"
+            - link_info[0..(half_slice-1)].each do |kk,name|
+              = ai_form.input kk, label: name, placeholder: "e.g. http://#{kk}.com/mypage"
+          .pure-u-1-2
+            - link_info[half_slice..-1].each do |kk,name|
+              = ai_form.input kk, label: name, placeholder: "e.g. http://#{kk}.com/mypage"
 
     = form.actions do
-      = form.submit 'Save', class: "pure-button pure-button-primary"
+      = form.submit 'Save Changes', class: "pure-button pure-button-primary"
       = form.submit 'Cancel', class: "pure-button"
