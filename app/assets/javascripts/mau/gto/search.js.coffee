@@ -3,19 +3,31 @@ $ ->
   INPUT_SELECTOR = 'input#search_keywords'
   RESULTS_CONTAINER = '.search-autocomplete-results'  
   RESULT_ITEM = '.search-autocomplete-result'  
+
+  searchHelpers =
+    closeSearch: ->
+      $(".sidenav .search.active").removeClass('active')
+      $("##{SEARCH_FORM_ID}").removeClass('open')
+
   $('.nav-icon.search').on 'click', (ev) ->
     unless $("##{SEARCH_FORM_ID}").length
       template = new MAU.Template('search_form_template')
       $("##{SEARCH_FORM_ID}").remove()
       $('.js-main-container').append($(template.html()).attr("id", SEARCH_FORM_ID))
-    $("##{SEARCH_FORM_ID}").toggleClass('open').find(INPUT_SELECTOR).focus()
+    $searchForm = $("##{SEARCH_FORM_ID}")
+    opening = !$(@).hasClass('active')
+    console.log 'opening', opening
+    if opening
+      MAU.Navigation.hideTabs()
+    $(@).toggleClass('active', opening)
+    $searchForm.toggleClass('open', opening).find(INPUT_SELECTOR).focus()
+
 
   buildArtPieceHtml = (art_piece) ->
     template = new MAU.Template('search_autocomplete_result_template')
     template.html(art_piece)
 
   search = ->
-    console.log 'search'
     $.ajax
       url: '/search/fetch.json'
       data:
@@ -83,8 +95,10 @@ $ ->
 
   $('.js-main-container').on 'submit', "##{SEARCH_FORM_ID} form", (ev) ->
     unless $(INPUT_SELECTOR).val()
-      $("##{SEARCH_FORM_ID}").removeClass('open')
+      searchHelpers.closeSearch()
       ev.preventDefault()
       false
       
-
+  window.MAU ||= {}
+  MAU.Search ||= {}
+  MAU.Search = _.extend({}, MAU.Search, searchHelpers);

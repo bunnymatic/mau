@@ -4,6 +4,7 @@
 .sidenav {
   background-color: $light-gray-background;
   z-index: 10;
+  @include box-shadow(0px 0px 0 2px rgba(200,200,200,0.25));
 }
 
 .sidenav {
@@ -11,10 +12,17 @@
     margin:0 auto;
     padding:0;
   }
+  .search {
+    @include sidebar-nav-entry;
+    &:hover {
+      background-color: rgba(200,200,200,0.1);
+    }
+    .text {
+      font-weight: bold;
+      display: inline-block;
+    }
+  }
   .nav-icon {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    font-size:24px;
     text-align:center;
     position: relative;
     &:hover {
@@ -45,26 +53,30 @@
 
 .signin-nav, .nav {
   width: 100%;
-  a {
+  a, .fa, .text {
     color: $darkgray;
-  }
-  a:hover {
-    color: $gto_dark_teal;
+    &:hover {
+      color: $gto_dark_teal;
+    }
   }
   .tabs, .tabs li {
     list-style:none outside none;
     margin:0;
     padding:0;
   }
-  .tabs .tab {
+  .search, .tabs .tab {
     text-align:center;
     padding: 0;
     margin: 0;
-    border-top: 1px solid lighten($gto_gray, 50%);
+    border-top: 1px solid lighten($gto_gray, 52%);
+    border-bottom: white;
     &:last-child {
       border-bottom: 1px solid lighten($gto_gray, 50%);
     }
     &:hover {
+      a, .fa, .text {
+        color: $gto_dark_teal;
+      }
       border-top: 1px solid lighten($gto_gray, 50%);
     }
     > a {
@@ -75,7 +87,7 @@
     }
     &.active {
       background-color: $gto_yellow;
-      a {
+      a, .fa, .text {
         color: $xxlightgray;
       }
     }
@@ -142,6 +154,14 @@
 
 @media screen and (max-width: 48em) { 
   .sidenav {
+    .nav-icon {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      font-size:24px;
+    }
+    .search .text {
+      display: none;
+    }
     .nav-mobile {
       display: block;
     }

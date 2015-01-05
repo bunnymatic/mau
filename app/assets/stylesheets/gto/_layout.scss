@@ -36,8 +36,8 @@ body {
 }
 
 .sidebar-logo {
-  width: 155px;
-  margin: 20px 10px;
+  width: 114px;
+  margin: 20px (($sidebar-nav-width - 114px) / 2);
   @include opacity(1);
   transition: all 0.25s ease-in-out;
 }
@@ -52,8 +52,10 @@ p {
 .pure-g {
   .header {
     h2.title {
+      font-size: 1.7rem;
+      font-weight: 200;
       border-bottom: 1px solid #ddd;
-      padding-left: 10px;
+      padding-bottom: 4px;
     }
     .italic {
       font-style: italic;
@@ -61,7 +63,14 @@ p {
     }
   }
   .padded-content {
-    padding: 10px;
+    padding: 10px 10px 10px 12.5%;
+  }
+  .section.markdown, section.markdown {
+    h1, h2, h3, h4, h5 {
+      &:first-of-type {
+        margin-top: 0;
+      }
+    }
   }
 }
 

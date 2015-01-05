@@ -15,10 +15,13 @@
     .highlight
     .container
       .sidenav
-        = render '/navigation'
-        = render '/login_controls'
         %a{href: root_path}
           %img{ class: 'sidebar-logo', src: image_path('yellow_sidebar_logo.png') }
+          .home.nav-icon.nav-mobile
+            = fa_icon 'home'
+
+        = render '/navigation'
+        = render '/login_controls'
         = render '/common/social_links'
       .main-container.js-main-container
         = render '/flash_notice_error'
