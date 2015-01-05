@@ -51,7 +51,6 @@ p {
 
 .pure-g {
   .header {
-    @extend pure-offset-1-5;
     h2.title {
       font-size: 1.7rem;
       font-weight: 200;
@@ -71,7 +70,7 @@ p {
     }
   }
   .padded-content {
-    padding: 10px;
+    padding: 20px;
   }
   .section.markdown, section.markdown {
     h1, h2, h3, h4, h5 {
@@ -82,7 +81,7 @@ p {
   }
 }
 
-@media screen and (max-width: 48em) {
+@media screen and (max-width: $screen-sm-max) {
   .sidebar-logo {
     width: 0;
     height: 0;
@@ -93,6 +92,17 @@ p {
   }
   .main-container {
     margin-left: $sidebar-collapse-nav-width;
+  }
+
+  .pure-g {
+    .offset-content {
+      padding-left:10px;
+      margin-left: 10px;
+      h2.title {
+        margin-left: 0px;
+        padding-left: 0px;
+      }
+    }
   }
 }
 
