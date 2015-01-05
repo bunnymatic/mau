@@ -1,6 +1,6 @@
 /** settings that affect layout/geometry */
-@import 'mau-mixins';
 @import 'variables';
+@import 'mau-mixins';
 body {
   height: 100%;
 }
@@ -51,19 +51,27 @@ p {
 
 .pure-g {
   .header {
+    @extend pure-offset-1-5;
     h2.title {
       font-size: 1.7rem;
       font-weight: 200;
       border-bottom: 1px solid #ddd;
-      padding-bottom: 4px;
+      padding-bottom: 8px;
     }
     .italic {
       font-style: italic;
       font-weight: 400;
     }
   }
+  .offset-content {
+    @include make-sm-offset(1,6);
+    h2.title {
+      margin-left: -20px;
+      padding-left: 20px;
+    }
+  }
   .padded-content {
-    padding: 10px 10px 10px 12.5%;
+    padding: 10px;
   }
   .section.markdown, section.markdown {
     h1, h2, h3, h4, h5 {

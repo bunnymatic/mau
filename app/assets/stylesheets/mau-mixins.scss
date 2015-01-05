@@ -1,3 +1,4 @@
+@import 'gto/variables';
 @import 'colors';
 @import 'dimensions';
 
@@ -208,4 +209,62 @@ $default_rounded_amount: 4px;
   height: 33px;
   overflow: hidden;
   @include ellipsis;
+}
+
+@mixin make-xs-offset($columns, $grid-columns) {
+  margin-left: percentage(($columns / $grid-columns));
+}
+@mixin make-xs-push($columns, $grid-columns) {
+  left: percentage(($columns / $grid-columns));
+}
+@mixin make-xs-pull($columns, $grid-columns) {
+  right: percentage(($columns / $grid-columns));
+}
+
+@mixin make-sm-offset($columns, $grid-columns) {
+  @media (min-width: $screen-sm-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-sm-push($columns, $grid-columns) {
+  @media (min-width: $screen-sm-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-sm-pull($columns, $grid-columns) {
+  @media (min-width: $screen-sm-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+@mixin make-md-offset($columns, $grid-columns) {
+  @media (min-width: $screen-md-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-md-push($columns, $grid-columns) {
+  @media (min-width: $screen-md-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-md-pull($columns, $grid-columns) {
+  @media (min-width: $screen-md-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+@mixin make-lg-offset($columns, $grid-columns) {
+  @media (min-width: $screen-lg-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-lg-push($columns, $grid-columns) {
+  @media (min-width: $screen-lg-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-lg-pull($columns, $grid-columns) {
+  @media (min-width: $screen-lg-min) {
+    right: percentage(($columns / $grid-columns));
+  }
 }

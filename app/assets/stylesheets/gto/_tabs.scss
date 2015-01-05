@@ -48,6 +48,7 @@
       border-color: rgba(200,200,200,0.5);
       text-align: center;
       font-size: 1.2rem;
+      font-weight: 200;
       outline: none;
       @include round-top-corners($amount: 24px);
       background-color: transparent;
@@ -59,6 +60,7 @@
       a[data-toggle=tab] {
         background-color: rgba(200,200,200,0.1);
         border-color: $gto_yellow;
+        font-weight: 400;
       }
     }
     li:hover {
