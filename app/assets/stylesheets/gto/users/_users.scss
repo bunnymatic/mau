@@ -41,7 +41,7 @@
     }
     .fa.fa-icon.panel-opener {
       position: absolute;
-      right: 10px;
+      left: 10px;
       font-size: 20px;
       height: 20px;
       width:20px;
@@ -52,6 +52,13 @@
       @include transition(all 0.4s ease);
     }
 
+    .panel-title {
+      a {
+        padding-left: 40px;
+        font-weight: normal;
+        font-size: 18px;
+      }
+    }
     h4 .fa.fa-icon.panel-opener {
       top: 10px;
       &:before {
@@ -66,8 +73,9 @@
     }
     h4 a.collapsed + .fa.fa-icon {
       color: rgba(200,200,200,0.8);
-      top: 9px;
-      @include transform(rotate(-180deg));
+      top: 12px;
+      left: 10px;
+      @include transform(rotate(180deg));
       @include transform-origin(50% 50%);
     }
 

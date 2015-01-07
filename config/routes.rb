@@ -78,7 +78,6 @@ Mau::Application.routes.draw do
   resources :users do
     collection do
       post :remove_favorite
-      post :upload_profile
       get :resend_activation
       post :resend_activation
       get :forgot
@@ -86,9 +85,10 @@ Mau::Application.routes.draw do
       get :deactivate
       get :edit
       post :add_favorite
-      get :add_profile
     end
     member do
+      get :add_profile
+      post :upload_profile
       put :suspend
       get :noteform
       put :notify

@@ -2,8 +2,9 @@
 @import 'mau-mixins';
 @import 'colors';
 
-$height: 60px;
-$width: 120px;
+$height: 36px;
+$overall-width: 72px;
+$inner-width: $overall-width - $height;
 $border-width: 2px;
 $border-radius: $height;
 $button-height: $height - 8px;
@@ -54,7 +55,7 @@ $on-color: $gto-teal;
      ============================================================ */
   input.toggle-button__round-flat + label {
     padding: $border-width;
-    width: 120px;
+    width: $overall-width;
     height: $height;
     background-color: $off-color;
     -webkit-border-radius: $height;
@@ -122,7 +123,7 @@ $on-color: $gto-teal;
     }
   }
   input.toggle-button__round-flat:checked + label:after {
-    margin-left: $height;
+    margin-left: $inner-width;
     background-color: $on-color;
   }
 }

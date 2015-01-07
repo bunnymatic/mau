@@ -61,10 +61,9 @@ class UsersController < ApplicationController
     @user = self.current_user
     upload = params[:upload]
 
-    if not upload
+    unless upload
       flash[:error] = "You must provide a file."
-      redirect_to add_profile_users_path
-      return
+      render 'add_profile' and return
     end
 
     begin
@@ -73,7 +72,7 @@ class UsersController < ApplicationController
     rescue
       logger.error("Failed to upload %s" % $!)
       flash[:error] = "%s" % $!
-      redirect_to add_profile_users_path
+      render 'add_profile' and return
     end
   end
 
