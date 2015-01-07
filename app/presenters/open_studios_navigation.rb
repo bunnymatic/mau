@@ -18,11 +18,11 @@ class OpenStudiosNavigation < Navigation
       begin
         [].tap do |osnav|
           if current_open_studios_key
-            osnav << "<a href='#{ @view_context.open_studios_path }' title='open studios event'>event details</a>"
-            osnav << "<a href='#{ @view_context.artists_path(:osonly => 1) }' title='particpating artists'>participating artists</a>"
-            osnav << "<a href='#{ @view_context.map_artists_path(:osonly => 1) }' title='map of open studios artists'>os map</a>"
+            osnav << "<a href='#{ @view_context.open_studios_path }' title='open studios event'>about</a>"
+            osnav << "<a href='#{ @view_context.artists_path(:osonly => 1) }' title='particpating artists'>participants</a>"
+            osnav << "<a href='#{ @view_context.map_artists_path(:osonly => 1) }' title='map of open studios artists'>map</a>"
             osnav << "<a href='#{signup_path}'>artist sign up</a>"
-            osnav << "<a href='#{ @view_context.artist_resources_path }' title='artists resources'>artist resources</a>"
+            osnav << "<a href='#{ @view_context.artist_resources_path }' title='artists resources'>resources</a>"
           end
         end
       end

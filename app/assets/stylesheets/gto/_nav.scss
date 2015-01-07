@@ -114,31 +114,31 @@
         }
       }
     }
-    ul.tab-pane {
-      border-top: 1px solid lighten($gto_gray, 40%);
-      @include opacity(0);
+    ul.tab-panel {
+      /* border-top: 1px solid lighten($gto_gray, 40%); */
       transition: all 0.25s ease-in-out;
+      padding: 10px 0;
       li { 
-        height: 0;
-        line-height: 33px;
-        text-align: center;
-        border-top: 1px solid lighten($gto_gray, 50%);
+        height: 24px;
+        line-height: 24px;
         transition: all 0.25s ease-in-out;
-        a { 
+        text-transform: uppercase;
+        a {
+          padding-left: 12%;
           display: block;
         }
-        &.title {
-          font-style: italic;
-          font-weight: bold;
-          border-top: none;
-          border-bottom: 1px solid lighten($gto_gray, 40%);
+        &.title { 
+          height: 33px;
+          line-height: 33px;
+          padding-left: 8%;
+          font-size: 18px;
+          font-weight: 700;
         }
         &:not(.title):hover {
-          background-color: #fafafa;
+          background-color: #f5f5f8;
         }
       }
       &.active li {
-        height: 33px;
       }
     }
   }
