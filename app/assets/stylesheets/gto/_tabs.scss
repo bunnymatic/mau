@@ -30,14 +30,13 @@
         background-color: #f1f1f1;
         li.dropdown-nav {
           height: 0;
-          line-height:26px;
+          line-height:22px;
           overflow:hidden;
           transition: all 0.30s ease-in-out;
           border: none;
           @include ellipsis;
           a { 
             transition: all 0.30s ease-in;
-            padding-right: 8px;
             display: block;
             font-size: 12px;
             @include ellipsis;
@@ -48,12 +47,9 @@
       }
       &.active {
         .dropdown {
-          padding-bottom: 5px;
-          li.dropdown-nav {
-            min-height: 26px;
-            &:last-child {
-              padding-bottom: 15px;
-            }
+          padding: 12px 0;
+          li {
+            height: 22px;
           }
         }
       }
