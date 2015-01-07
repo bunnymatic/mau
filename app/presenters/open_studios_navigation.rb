@@ -1,4 +1,4 @@
-class OpenStudiosNavigation
+class OpenStudiosNavigation < Navigation
 
   attr_reader :current_user
 

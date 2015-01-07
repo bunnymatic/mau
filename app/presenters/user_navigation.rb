@@ -1,4 +1,4 @@
-class UserNavigation
+class UserNavigation < Navigation
 
   attr_reader :current_user
 
@@ -19,8 +19,8 @@ class UserNavigation
     end
   end
 
-  def navitems
-    @navitems ||=
+  def items
+    @items ||=
       begin
         [].tap do |navitems|
           if current_artist

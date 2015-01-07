@@ -206,7 +206,6 @@ $default_rounded_amount: 4px;
 @mixin sidebar-nav-entry {
   min-height: 33px;
   line-height: 33px;
-  height: 33px;
   overflow: hidden;
   @include ellipsis;
 }

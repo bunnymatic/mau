@@ -1,4 +1,5 @@
-class StudioNavigation
+class StudioNavigation < Navigation
+
   def initialize(view_context)
     @view_context = view_context
   end

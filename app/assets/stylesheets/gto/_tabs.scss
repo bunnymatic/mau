@@ -16,15 +16,47 @@
       font-weight: bold;
     }
   }
-  li {
+  li:hover {
     a:hover {
-      background-color: rgba(200,200,200,0.1);
+      background-color: rgba(200,200,200,0.2);
     }
   }
 
   &.signin__links, &.tabs__nav {
-    li {
+    > li {
       @include sidebar-nav-entry;
+      .dropdown {
+        transition: all 0.25s ease-in-out;
+        background-color: #f1f1f1;
+        li.dropdown-nav {
+          height: 0;
+          line-height:26px;
+          overflow:hidden;
+          transition: all 0.30s ease-in-out;
+          border: none;
+          @include ellipsis;
+          a { 
+            transition: all 0.30s ease-in;
+            padding-right: 8px;
+            display: block;
+            font-size: 12px;
+            @include ellipsis;
+            font-weight: 400;
+            color: $gto_gray;
+          }
+        }
+      }
+      &.active {
+        .dropdown {
+          padding-bottom: 5px;
+          li.dropdown-nav {
+            min-height: 26px;
+            &:last-child {
+              padding-bottom: 15px;
+            }
+          }
+        }
+      }
     }
     a {
       font-weight: bold;
