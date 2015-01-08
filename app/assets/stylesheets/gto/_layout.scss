@@ -37,7 +37,7 @@ body {
 
 .sidebar-logo {
   width: 114px;
-  margin: 20px (($sidebar-nav-width - 114px) / 2);
+  margin: 20px (($sidebar-nav-width - 114px) / 2) 30px;
   @include opacity(1);
   transition: all 0.25s ease-in-out;
 }

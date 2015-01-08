@@ -33,7 +33,7 @@
     display: none;
   }
   .signin-nav {
-    margin-top: 33px;
+    margin-top: 30px;
     .text {
       @include ellipsis;
       a {
@@ -70,7 +70,6 @@
     }
   }
   .search, .tabs .tab {
-    text-align: right;
     margin: 0;
     &:hover {
       a, .fa, .text {
@@ -85,7 +84,6 @@
     }
     a {
       text-transform: uppercase;
-      padding: 0 20px 0 0;
     }
     > a {
       display: block;
@@ -158,16 +156,16 @@
     }
   }
 }
-
-
-@media screen and (min-width: 48.001em) { 
-  .sidenav .tab-content ul.tab-pane.active li.title {
-    height: 61px;
-    line-height: 61px;
+@media screen and (min-width: $screen-sm-max) {
+  .signin__links, .search.nav-icon, .nav .tabs {
+    text-align: right;
+    a {
+      padding: 0 20px 0 0;
+    }
   }
 }
 
-@media screen and (max-width: 48em) { 
+@media screen and (max-width: $screen-sm-max) { 
   .sidenav {
     .nav-icon {
       margin-top: 5px;
@@ -192,6 +190,12 @@
       }
       .nav-icon {
         display: inherit;
+      }
+      .search, .nav .tabs {
+        text-align: right;
+        a {
+          padding: 0 20px 0 0;
+        }
       }
     }
     .tab-content {
