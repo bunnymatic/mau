@@ -9,7 +9,7 @@ jQuery ->
           method: 'post'
           data: { authenticity_token:unescape(authenticityToken) }
           success: (data, status, xhr) ->
-            (new MAU.Flash()).show({notice:'Awesome.  We\'ve sent this artist a note telling them they\'ve been featured.'}, '.singlecolumn .featured')
+            (new MAU.Flash()).show({notice:'Awesome.  We\'ve sent this artist a note telling them they\'ve been featured.'})
           failure: () ->
-            (new MAU.Flash()).show({error:'failed to notify the artist.  please contact your system administrator'}, '.singlecolumn .featured')
+            (new MAU.Flash()).show({error:'failed to notify the artist.  please contact your system administrator'})
   initFeaturedArtist()

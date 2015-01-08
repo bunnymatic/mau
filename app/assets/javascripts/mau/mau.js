@@ -237,14 +237,14 @@ jQuery(function() {
 
 
 
-  var flashNotice = jQuery(".notice");
+  var flashNotice = jQuery(".notice, .flash, .flash__notice, .flash__error");
   if (flashNotice.length) {
     flashNotice.bind('click', function() {
 	    flashNotice.fadeOut();
     });
     setTimeout(function() {
 	    flashNotice.fadeOut();
-    }, 10000);
+    }, 100000);
   }
 
 });

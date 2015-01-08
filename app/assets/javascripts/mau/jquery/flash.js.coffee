@@ -11,6 +11,7 @@ MAU.Flash = class Flash
     @clear()
     $w = @construct(msgs);
     return unless $w
+    container ||= '.js-main-container'
     c = jQuery(container).first();
     if (!c.length)
       c = document.body;
@@ -28,13 +29,14 @@ MAU.Flash = class Flash
     err = msgs.error
     notice = msgs.notice
     contents = jQuery('<div>')
-    $close = jQuery('<div>', {'class':'close-btn'}).html('x')
+    $close = jQuery('<i>', {'class':'flash__close fa fa-icon fa-times-circle-o'})
     for k in ['error','notice']
       if (msgs[k])
         msg = msgs[k];
-        clz = k;
-        clz = 'error-msg' if k == 'error'
-        contents.append(jQuery('<div>', {'class': clz}).html(msg).prepend($close));
+        clzs = ["flash"];
+        clzs.push "flash__error" if k == 'error'
+        clzs.push "flash__notice" if k == 'notice'
+        contents.append(jQuery('<div>', {'class': clzs.join(" ")}).html(msg).prepend($close));
 
 
     if (contents.html().length)
