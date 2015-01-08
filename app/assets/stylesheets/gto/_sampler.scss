@@ -4,6 +4,19 @@ $sampler-thumbnail-size : 250px;
 #sampler {
   overflow:hidden;
   font-size: 0; /* avoid spaces between blocks */
+  background: transparent;
+  .sampler__empty {
+    position:relative;
+    min-height: 500px;
+    margin: auto;
+    text-align: center;
+    .fa {
+      position:relative;
+      top: 100px;
+      font-size: 200px;
+      color: rgba(200,200,200,0.5);
+    }      
+  }
   .sampler__thumb {
     font-size: 1rem;
     display: inline-block;

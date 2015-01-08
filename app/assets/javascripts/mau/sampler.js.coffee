@@ -24,5 +24,5 @@ MAU.Sampler = class Sampler
       jQuery.ajax( ajaxOpts )
 
 if (document.location.pathname == '/')
-  sampler = new MAU.Sampler('#sampler')
-  jQuery(window).bind('load', sampler.start);
+  sampler = new MAU.Sampler '#sampler.js-sampler'
+  jQuery(window).bind 'load', sampler.start
