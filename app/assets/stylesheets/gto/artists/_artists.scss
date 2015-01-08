@@ -1,49 +1,47 @@
 @import 'mau-mixins';
-
-.artist-thumb-mixin {
-  position: relative;
-  min-height: 300px;
-  text-align:center;
-  padding: 10px;
-  margin-bottom: 10px;
-  .image {
-    overflow:hidden;
-    width: 100%;
-    height: 280px;
-    @include background-cover;
-  }
-  &:hover {
-    background-color: rgba(200,200,200,0.2);
-    @include box-shadow(0 0 1px 1px rgba(200,200,200,0.5));
-  }
-
-  .desc {
-    @include bottom-label-overlay;
-    @include transition(opacity 0.25s ease-in-out);
-    width: calc(100% - 18px);
-    margin: 0 9px 9px;
-    padding-top: 12px;
-    font-size: 0.8rem;
-    text-align: center;
-  }
-
-}
-
+@import 'gto/gto-mixins';
 .artists, .artists.show, .art_pieces.show {
+
+  .scroll-load-more {
+    margin:auto
+    .fa-spinner {
+      font-size: 80px;
+      color: rgba(200,200,200,0.5);
+    }
+  }
   .art-card, .artist-card {
     @extend .artist-thumb-mixin;
-    .desc {
-      height: 5rem;
-      padding: 0 5px;
-      .name, .address, .populations {
-        line-height: 1.7rem;
-        height: 1.7rem;
-        whitespace: no-wrap;
-        overflow: hidden;
+  }
+  .art-card, .artist-card {
+    .desc { 
+      height: 2.5rem;
+      padding: 0.1rem;
+    }
+    .name, .media, .tags {
+      height: 1.2rem;
+      line-height:1.2rem;
+      @include ellipsis;
+    }
+    .name {
+      font-size: 0.9rem;
+    }
+    .media, .tags {
+      font-style: italic;
+      font-size: 0.75rem;
+    }
+    &:hover {
+      .desc {
+        @include opacity(1);
       }
-      .name {
-        overflow: hidden;
-        font-size: 1.1rem;
+    }
+    .art-card {
+      .desc {
+        height: 3rem;
+      }
+    }
+    @media (min-width: $screen-sm-min) {
+      .desc { 
+        @include opacity(0);
       }
     }
   }

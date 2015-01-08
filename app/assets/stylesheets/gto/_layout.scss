@@ -68,9 +68,13 @@ p {
       margin-left: -20px;
       padding-left: 20px;
     }
+    h3, h4, h5 {
+      text-transform:uppercase;
+    }
+      
   }
   .padded-content {
-    padding: 20px;
+    padding: 10px 20px 0;
   }
   .section.markdown, section.markdown {
     h1, h2, h3, h4, h5 {

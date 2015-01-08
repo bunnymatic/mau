@@ -1,6 +1,8 @@
 - pagination_opts = {paginator: @paginator}
 #search_results
-  %h4 Search Results - #{@query.query}
+  %h4.title 
+    Matches for 
+    %span.query #{@query.query}
   - if @paginator.items.blank?
     = render 'empty_search_results'
   - else
@@ -15,6 +17,7 @@
     .search-view-ctrls
       = render "search_pagination", pagination_opts
     #thumbs_by_artist.search-results
-      = render "thumbs", pieces: @paginator.items, params: { cols: 2, art_link: true }
+      = render partial: '/artists/art', collection: @paginator.items, as: :art_piece
+
     .search-view-ctrls
       = render "search_pagination", pagination_opts

@@ -1,5 +1,7 @@
+-# expects artist and linkless as parameters
+- linkless ||= false
 .artist-profile__image
-  - if logged_in? && artist && artist.login == self.current_user.login
+  - if logged_in? && artist && artist.login == self.current_user.login && !linkless
     %a{:title => "update my picture", :href => add_profile_user_path(current_user)}
       - if artist.has_profile_image
         %img{:class => "pure-img profile", :src => "%s?%s" % [artist.get_profile_image('medium'), Time.zone.now.to_i]}

@@ -6,39 +6,45 @@
     title = "#{@user.get_name}'s Favorites"
   end
 .pure-g
-  .pure-u-1-1.header
+  .pure-u-1-1.header.padded-content
     %h2.title #{title}
 .pure-g
   .pure-u-1-1.padded-content
     - if @random_picks
-      - if my_favorites
-        .no-favorites-msg
-          %p
-            It looks like you don't have any favorites yet.  
-            Go find an artist or some artwork that you like. 
-            You'll see this
-            %span.micro-icon.heart
-            around the site.  Click on it to favorite art or artists.
-          %p 
-            Start your search below.
-      .random-picks
-        = render 'random_picks', :random_picks => @random_picks
+      .pure-g
+        .pure-u-3-5
+          - if my_favorites
+            .no-favorites-msg
+              %p
+                It looks like you don't have any favorites yet.  
+                Go find an artist or some artwork that you like. 
+                You'll see this
+                %span.micro-icon.heart
+                around the site.  Click on it to favorite art or artists.
+              %p 
+                Start your search below.
+      .pure-g
+        .pure-u-1-1.random-picks
+          = render 'random_picks', :random_picks => @random_picks
     - else
       - if logged_in?
-        %p Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.
-        %h5
-          = "Art Pieces (#{@user.fav_art_pieces.count})"
-        %ul.art_pieces
-          - @user.fav_art_pieces.each do |f|
-            = draw_small_favorite(f, {:is_owner => (current_user == @user)})
-        .clear
-        %h5
-          = "Artists (#{@user.fav_artists.count})"
-        %ul.artists
-          - @user.fav_artists.each do |f|
-            = draw_small_favorite(f, {:is_owner => (current_user == @user)})
-
-    - if !@random_picks
-      .buttons
-        %form{:method => "get", :action => user_path(@user)}
-          %input.formbutton{:type => "submit", :value => "Back to #{@user.get_name}'s Page", :name => "submit"}
+        .pure-g
+          .pure-u-3-5
+            %p Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.
+            %h5
+              = "Art Pieces (#{@user.fav_art_pieces.count})"
+            %ul.art_pieces
+              - @user.fav_art_pieces.each do |f|
+                = draw_small_favorite(f, {:is_owner => (current_user == @user)})
+            .clear
+            %h5
+              = "Artists (#{@user.fav_artists.count})"
+            %ul.artists
+              - @user.fav_artists.each do |f|
+                = draw_small_favorite(f, {:is_owner => (current_user == @user)})
+      .pure-g
+        .pure-u-1-1
+          - if !@random_picks
+            .buttons
+              %form{:method => "get", :action => user_path(@user)}
+                %input.formbutton{:type => "submit", :value => "Back to #{@user.get_name}'s Page", :name => "submit"}

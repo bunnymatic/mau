@@ -18,7 +18,7 @@
       background-color: rgba(200,200,200,0.2);
     }
     .text {
-      font-weight: bold;
+      font-weight: 700;
       display: inline-block;
     }
   }
@@ -64,6 +64,11 @@
     margin:0;
     padding:0;
   }
+  .signin__links.tabs {
+    .tab a {
+      font-weight: 400;
+    }
+  }
   .search, .tabs .tab {
     text-align: right;
     margin: 0;
@@ -72,6 +77,11 @@
         font-weight: 700;
         color: $gto_dark_teal;
       }
+    }
+    .dropdown .ico {
+      max-height: 22px;
+      height: 22px;
+      line-height: 22px;
     }
     a {
       text-transform: uppercase;
@@ -89,6 +99,11 @@
       }
       a, .fa, .text {
         color: $xxlightgray;
+      }
+      .dropdown {
+        a, .fa, .text {
+          color: inherit;
+        }
       }
     }
   }

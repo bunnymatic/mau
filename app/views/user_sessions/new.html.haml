@@ -1,6 +1,7 @@
 .pure-g
   .pure-u-1-1.pure-u-sm-1-2.signin-block
-    %h2 Sign In
+    .header 
+      %h2.title Sign In
     = semantic_form_for @user_session, name: "Sign In", url: user_session_path do |f|
       = render '/form_errors', form: f
       = f.inputs do 
@@ -11,6 +12,8 @@
       .input-help
         %a{href: forgot_users_path} Can't access your account?
   .pure-u-1-1.pure-u-sm-1-2.signin-block
+    .header 
+      %h2.title Not Yet A Mau Member?
     = render_cms_content(@cms_content) do
       = link_to signup_path do
         %button.button-secondary.pure-button.button-large Sign Up Now

@@ -1,5 +1,5 @@
 .pure-g
-  .pure-u-1-1.header
+  .pure-u-1-1.header.padded-content
     %h2.title Arrange your art pieces
 .pure-g
   .pure-u-1-1.help-txt.padded-content
@@ -8,7 +8,7 @@
     %p
       The top left image will be used to represent your art in search results.
 .pure-g
-  .pure-u-1-1.js-sortable.padded-content
+  .pure-u-1-1.js-sortable.arrange
     = form_tag setarrangement_artists_path, id: 'arrange_art_form' do
       %input{type: 'hidden', name: 'artist', value: @artist.id}
       %ul.js-sortable

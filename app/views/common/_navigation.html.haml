@@ -1,5 +1,6 @@
 .nav.nav-tabs
   - user_nav = UserNavigation.new(self, current_user)
+  - art_nav = ArtNavigation.new(self, current_user)
   - studio_nav = StudioNavigation.new(self)
   - os_nav = OpenStudiosNavigation.new(self, current_user)
   .search.nav-icon{ title: 'search'}
@@ -25,6 +26,11 @@
         %a{'data-toggle' => 'tab', href: '#my-mau'} my mau
         %ul.dropdown
           = print_html_list('dropdown-nav', user_nav)    
+      -if current_user.is_artist?
+        %li.tab
+          %a{'data-toggle' => 'tab', href: '#my-art'} my art
+          %ul.dropdown
+            = print_html_list('dropdown-nav', art_nav)    
 
   .tab-content.nav-mobile
     %ul.tab-panel#open-studios
@@ -39,3 +45,7 @@
       %ul.tab-panel#my-mau
         %li.title my mau
         = print_html_list('leaf', user_nav)
+      - if current_user.is_artist?
+        %ul.tab-panel#my-art
+          %li.title my art
+          = print_html_list('leaf', art_nav)

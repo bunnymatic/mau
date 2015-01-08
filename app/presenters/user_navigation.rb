@@ -22,20 +22,16 @@ class UserNavigation < Navigation
   def items
     @items ||=
       begin
-        [].tap do |navitems|
+        [].tap do |items|
           if current_artist
-            navitems << link_to('edit my page', @view_context.edit_artist_path(current_artist))
-            navitems << link_to('add art', @view_context.new_artist_art_piece_path(current_artist))
-            navitems << link_to('arrange art', @view_context.arrange_art_artists_path)
-            navitems << link_to('delete art', @view_context.delete_art_artists_path)
-            navitems << link_to('plug your art show', @view_context.new_event_path, :class => 'list_your_show_dropdown')
-
-            navitems << link_to("<i class='ico micro-icon ico-heart'></i> my favorites".html_safe, @view_context.user_favorites_path(current_user))
-            navitems << link_to('resources', @view_context.artist_resources_path, :title => 'artists\' resources')
-            navitems << link_to('my qrcode', @view_context.qrcode_artist_path(current_artist), :target => '_blank')
+            items << link_to('profile', @view_context.edit_artist_path(current_artist))
+            items << link_to("<i class='fa fa-icon fa-heart'></i> favorites".html_safe, @view_context.user_favorites_path(current_user))
+            items << link_to('resources', @view_context.artist_resources_path, :title => 'artists\' resources')
+            items << link_to('qrcode', @view_context.qrcode_artist_path(current_artist), :target => '_blank')
+            items << link_to('having a show?', @view_context.new_event_path, :class => 'list_your_show_dropdown')
           else
-            navitems << "<a href='#{@view_context.edit_user_path(current_user) }'>edit my page</a>"
-            navitems << "<a href='#{@view_context.user_favorites_path current_user}'><span class='heart'>&hearts;</span> my favorites</a>"
+            items << link_to('profile', @view_context.edit_user_path(current_user))
+            items << link_to("<i class='fa fa-icon fa-heart'></i> favorites".html_safe, @view_context.user_favorites_path(current_user))
           end
         end
       end
