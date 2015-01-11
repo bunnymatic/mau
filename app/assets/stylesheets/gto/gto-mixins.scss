@@ -12,17 +12,18 @@
     @include background-cover;
   }
   &:hover {
-    background-color: rgba(200,200,200,0.2);
-    @include box-shadow(0 0 1px 1px rgba(200,200,200,0.5));
+    /** @include box-shadow(0 0 1px 1px rgba(200,200,200,0.5)); */
   }
-
   .desc {
+    border-radius: 3px;
     @include bottom-label-overlay;
     @include transition(opacity 0.25s ease-in-out);
-    width: calc(100% - 18px);
-    margin: 0 9px 9px;
+    width: calc(100% - 30px);
+    margin: 0 15px 15px;
     padding-top: 12px;
     font-size: 0.8rem;
     text-align: center;
+    @include box-shadow(0 0 4px 1px rgba($gto_teal, 0.3));
   }
+
 }
