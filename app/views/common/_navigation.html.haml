@@ -27,7 +27,9 @@
     %section.nav-section.users
       %ul.js-tabs.tabs.tabs__nav
         %li.tab
-          %a{'data-toggle' => 'tab', href: '#my-mau'} my mau
+          %a{'data-toggle' => 'tab', href: '#my-mau'} 
+            = fa_icon 'gear'
+            my mau
           %ul.dropdown
             = print_html_list('dropdown-nav', user_nav)    
 

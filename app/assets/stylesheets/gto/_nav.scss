@@ -10,9 +10,13 @@
 
 .sidenav {
   section.nav-section {
-    margin-bottom: 25px;
+    margin-top: 6px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(200,200,200,0.3);
     h3 {
-      margin: 0 0 7px;
+      height: 33px;
+      line-height: 33px;
+      margin: 0 0 0px;
       padding-right: 20px;
       font-size: 0.8rem;
       text-transform: uppercase;

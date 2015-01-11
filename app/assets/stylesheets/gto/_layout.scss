@@ -44,9 +44,16 @@ html, body {
   border-top: 1px solid #eee;
 }
 
+.brand {
+  display: block;
+  width: 100%;
+  margin: 20px auto 30px;
+  text-align:center;
+}
 .sidebar-logo {
+  margin: auto;
   width: 114px;
-  margin: 20px (($sidebar-nav-width - 114px) / 2) 30px;
+  height: 165px;
   @include opacity(1);
   transition: all 0.25s ease-in-out;
 }
