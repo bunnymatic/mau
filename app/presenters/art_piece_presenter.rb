@@ -65,6 +65,10 @@ class ArtPiecePresenter
     @view_context.art_piece_path(art_piece)
   end
 
+  def destroy_path
+    path
+  end
+
   def edit_path
     @view_context.edit_art_piece_path(art_piece)
   end

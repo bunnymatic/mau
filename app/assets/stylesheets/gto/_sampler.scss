@@ -1,4 +1,5 @@
 @import 'mau-mixins';
+@import 'gto/gto-mixins';
 $sampler-thumbnail-size : 250px;
 
 #sampler {
@@ -18,27 +19,17 @@ $sampler-thumbnail-size : 250px;
     }      
   }
   .sampler__thumb {
-    font-size: 1rem;
-    display: inline-block;
-    width: 100%;
+    @extend .artist-thumb-mixin;
     height: $sampler-thumbnail-size;
-    @include background-cover;
-    border: 6px solid rgba(245,245,245,1);
-    vertical-align: bottom;
-    position:relative;
+    min-height: inherit;
+    padding: 6px;
+    overflow: hidden;
     .desc {
-      @include bottom-label-overlay;
-      transition: opacity 0.25s ease-in-out;
-      opacity: 0;
-      font-size: 0.9rem;
-      text-align: center;
-      padding: 0 5px;
-      .artist {
-        font-style: italic;
-        line-height: 1.7rem;
-        height: 1.7rem;
-        @include ellipsis;
-      }
+      @include transition(all 0.25s ease-in-out);
+      @include opacity(0);
+      padding-top: 0;
+      height: 33px;
+      line-height: 33px;
     }
     &:hover {
       .desc {
@@ -46,7 +37,8 @@ $sampler-thumbnail-size : 250px;
       }
     }
   }
- 
+
+
   @media screen and (max-width: 35.5em) { 
     .sampler__thumb {
       .desc {

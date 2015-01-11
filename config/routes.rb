@@ -68,6 +68,7 @@ Mau::Application.routes.draw do
       get :edit
     end
     member do
+      get :manage_art
       post :notify_featured
       post :update
       get :bio

@@ -69,16 +69,14 @@
     }
     a[data-toggle=tab] {
       @include ellipsis;
-      padding: 16px 24px;
+      padding: 10px;
       display: inline-block;
       width: 100%;
-      border-bottom: 4px solid;
+      border-bottom: 2px solid;
       border-color: rgba(200,200,200,0.5);
       text-align: center;
-      font-size: 1.2rem;
       font-weight: 200;
       outline: none;
-      @include round-top-corners($amount: 24px);
       background-color: transparent;
       &:hover {
         background-color: rgba(200,200,200,0.2);
@@ -86,14 +84,13 @@
     }
     .active {
       a[data-toggle=tab] {
-        background-color: rgba(200,200,200,0.1);
         border-color: $gto_yellow;
         font-weight: 400;
       }
     }
     li:hover {
       a[data-toggle=tab] {
-        border-color: $gto_orange;
+        border-color: $gto_yellow;
       }
     }
   }

@@ -135,8 +135,9 @@ class ArtistPresenter
     @view_context.artist_path(artist)
   end
 
-  def edit_path
-    @view_context.edit_artist_path(artist)
+  def edit_path(opts = nil)
+    opts ||= {}
+    @view_context.edit_artist_path(artist, opts)
   end
 
   # get info for google map info window as html

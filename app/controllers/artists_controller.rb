@@ -12,7 +12,7 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_filter :user_required, only: [ :edit, :update, :delete_art, :destroyart, :setarrangement, :arrange_art ]
+  before_filter :user_required, only: [ :edit, :update, :manage_art, :delete_art, :destroyart, :setarrangement, :arrange_art ]
 
   skip_before_filter :get_new_art, :get_feeds
 
@@ -36,6 +36,11 @@ class ArtistsController < ApplicationController
     @studios = Studio.all
     @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
+  end
+
+  def manage_art
+    # give user a tabbed page to edit their art
+    @artist = ArtistPresenter.new(view_context, current_artist)
   end
 
   def by_firstname

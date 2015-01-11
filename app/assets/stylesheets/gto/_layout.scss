@@ -1,12 +1,15 @@
 /** settings that affect layout/geometry */
 @import 'variables';
 @import 'mau-mixins';
-body {
+html, body {
   height: 100%;
 }
 .container {
   position: relative;
   padding-left: 0;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
 }
 
 .sidenav {
@@ -16,7 +19,13 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 1px;
+  .sidenav__main {
+  }
+  .sidenav__footer {
+    position: absolute;
+    bottom: 0;
+  }
 }
 
 .omega {
@@ -51,11 +60,16 @@ p {
 
 .pure-g {
   .header {
-    h2.title {
-      font-size: 1.7rem;
+    .title {
       font-weight: 200;
       border-bottom: 1px solid #ddd;
       padding-bottom: 8px;
+    }      
+    h2.title {
+      font-size: 1.7rem;
+    }
+    h4.title {
+      font-size: 1.2rem;
     }
     .italic {
       font-style: italic;
@@ -75,6 +89,9 @@ p {
   }
   .padded-content {
     padding: 10px 20px 0;
+    > ul {
+      padding: 0;
+    }
   }
   .section.markdown, section.markdown {
     h1, h2, h3, h4, h5 {
@@ -85,10 +102,30 @@ p {
   }
 }
 
+.push-bottom {
+  position: absolute;
+  bottom: 0;
+}
+.sidenav {
+  .fine-print-links {
+    padding: 10px;
+    text-align: center;
+    font-size: 0.7rem;
+    li {
+      display: inline-block;
+      a {
+        padding: 2px;
+      }
+    }
+  }
+}
+
+
 @media screen and (max-width: $screen-sm-max) {
   .sidebar-logo {
     width: 0;
     height: 0;
+    margin: 0;
     @include opacity(0);
   }
   .sidenav {
@@ -97,7 +134,9 @@ p {
   .main-container {
     margin-left: $sidebar-collapse-nav-width;
   }
-
+  .sidenav .fine-print-links {
+    display: none;
+  }
   .pure-g {
     .offset-content {
       padding-left:10px;

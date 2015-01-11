@@ -4,7 +4,8 @@
   .desc
     .name
       = art_piece.title
-    %label{:for => "art_#{art_piece.id}"}
-      = check_box( 'art', art_piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0")
-      Delete?
+    .pure-controls
+      %label{:for => "art_#{art_piece.id}"}
+        = check_box( 'art', art_piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0")
+        %span Delete?
 

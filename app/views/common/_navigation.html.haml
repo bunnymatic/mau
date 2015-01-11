@@ -3,49 +3,46 @@
   - art_nav = ArtNavigation.new(self, current_user)
   - studio_nav = StudioNavigation.new(self)
   - os_nav = OpenStudiosNavigation.new(self, current_user)
-  .search.nav-icon{ title: 'search'}
-    %a{ href: '#' }
-      = fa_icon 'search' 
-      .text.hidden-sm search
   .nav-mobile.nav-icon{ title: 'menu' }
     = fa_icon 'bars'
+  %section.nav-section
+    .search.nav-icon{ title: 'search'}
+      %a{ href: '#' }
+        = fa_icon 'search' 
+        .text.hidden-sm search
 
-  %ul.js-tabs.tabs.tabs__nav
-    %li.tab
-      %a{href: artists_path, title: 'artists'} artists
-    %li.tab
-      %a{'data-toggle' => 'tab', href: '#open-studios'} open studios
-      %ul.dropdown
-        = print_html_list('dropdown-nav', os_nav)
-    %li.tab
-      %a{'data-toggle' => 'tab', href: '#art-spaces'} art spaces
-      %ul.dropdown
-        = print_html_list('dropdown-nav', studio_nav)    
-    - if logged_in?
+  %section.nav-section
+    %ul.tabs.tabs__nav
       %li.tab
-        %a{'data-toggle' => 'tab', href: '#my-mau'} my mau
-        %ul.dropdown
-          = print_html_list('dropdown-nav', user_nav)    
-      -if current_user.is_artist?
+        %a{href: artists_path, title: 'artists'} artists
+      %li.tab
+        %a{href: studios_path, title: 'group studios'} studios
+
+  %section.nav-section.open-studios
+    %h3 Open studios
+    %ul.js-tabs.tabs.tabs__nav
+      = print_html_list('tab', os_nav)
+
+  - if logged_in?
+    %section.nav-section.users
+      %ul.js-tabs.tabs.tabs__nav
         %li.tab
-          %a{'data-toggle' => 'tab', href: '#my-art'} my art
+          %a{'data-toggle' => 'tab', href: '#my-mau'} my mau
           %ul.dropdown
-            = print_html_list('dropdown-nav', art_nav)    
+            = print_html_list('dropdown-nav', user_nav)    
 
   .tab-content.nav-mobile
+    %ul.tab-panel
+      %li.title
+        %a{href: artists_path, title: 'artists'} artists
+    %ul.tab-panel
+      %li.title
+        %a{href: studios_path, title: 'group studios'} studios
     %ul.tab-panel#open-studios
       %li.title open studios
       = print_html_list('leaf', os_nav)
-
-    %ul.tab-panel#art-spaces
-      %li.title art spaces
-      = print_html_list('leaf', StudioNavigation.new(self))
 
     - if logged_in?
       %ul.tab-panel#my-mau
         %li.title my mau
         = print_html_list('leaf', user_nav)
-      - if current_user.is_artist?
-        %ul.tab-panel#my-art
-          %li.title my art
-          = print_html_list('leaf', art_nav)

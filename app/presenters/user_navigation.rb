@@ -24,14 +24,19 @@ class UserNavigation < Navigation
       begin
         [].tap do |items|
           if current_artist
-            items << link_to('profile', @view_context.edit_artist_path(current_artist))
-            items << link_to("<i class='fa fa-icon fa-heart'></i> favorites".html_safe, @view_context.user_favorites_path(current_user))
-            items << link_to('resources', @view_context.artist_resources_path, :title => 'artists\' resources')
-            items << link_to('qrcode', @view_context.qrcode_artist_path(current_artist), :target => '_blank')
-            items << link_to('having a show?', @view_context.new_event_path, :class => 'list_your_show_dropdown')
+            items << link_to('view profile', @view_context.artist_path(current_artist))
+            items << link_to('edit profile', @view_context.edit_artist_path(current_artist))
+            items << link_to('add art', @view_context.new_artist_art_piece_path(current_artist))
+            items << link_to('manage art', @view_context.manage_art_artist_path(current_artist))
+
+
+            # items << link_to("<i class='fa fa-icon fa-heart'></i> favorites".html_safe, @view_context.user_favorites_path(current_user))
+            # items << link_to('resources', @view_context.artist_resources_path, :title => 'artists\' resources')
+            # items << link_to('qrcode', @view_context.qrcode_artist_path(current_artist), :target => '_blank')
+            # items << link_to('having a show?', @view_context.new_event_path, :class => 'list_your_show_dropdown')
           else
-            items << link_to('profile', @view_context.edit_user_path(current_user))
-            items << link_to("<i class='fa fa-icon fa-heart'></i> favorites".html_safe, @view_context.user_favorites_path(current_user))
+            items << link_to('view profile', @view_context.user_path(current_user))
+            items << link_to('edit profile', @view_context.edit_user_path(current_user))
           end
         end
       end

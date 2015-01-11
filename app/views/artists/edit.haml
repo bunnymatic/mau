@@ -35,11 +35,6 @@
       %img{:src=> "/images/os_star_violator.png"}
 
 
-
-  .edit-buttons
+  .pure-u-1-1
     - if !current_user.art_pieces.any?
       = link_to "Upload some of your art to share with the world!", new_artist_art_piece_path(current_user)
-    - if current_user.art_pieces.length > 1
-      = link_to "Add Art", new_artist_art_piece_path(current_user), class: 'pure-button'
-      = link_to "Arrange Art", arrange_art_artists_path, class: 'pure-button'
-      = link_to "Delete Art", delete_art_artists_path(), class: 'pure-button'

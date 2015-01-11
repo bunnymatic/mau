@@ -47,21 +47,48 @@
   }
 }
 
-.artist-profile .artist-profile__edit,
-.art-card .art-card__edit {
-  position: absolute;
-  top: 9px;
-  right: 9px;
-  font-size: 32px;
-  background-color: rgba(255, 255, 255, .75);
-  padding: 4px 8px;
-  border-radius: 4px;
-  &:hover {
-    background-color: rgba(255, 255, 255, .95);
+.art-card, .artist-profile {
+  .card__controls {
+    position: absolute;
+    top: 12px;
+    right: 12px;
   }
-  
-  a, a .fa{
-    color: $gto_yellow;
+  .artist-profile__edit, .art-card__delete, .art-card__edit {
+    display: inline-block;
+    font-size: 32px;
+    background-color: rgba(255, 255, 255, .75);
+    padding: 4px 8px;
+    border-radius: 4px;
+    &:hover {
+      background-color: rgba(255, 255, 255, .95);
+    }
+    a, a .fa{
+      color: $gto_yellow;
+    }
+  }
+}
+.art-card {
+  #delete-art & {
+    .desc {
+      .name {
+        display: none;
+      }
+      .pure-controls {
+        padding: 0.6rem;
+        font-size: 1.1rem;
+      }
+      opacity: 1;
+    }
+  }
+
+  .art-card__delete {
+    display: none;
+    #edit-art & {
+      display: inline-block;
+    }
+    a, a .fa{
+      color: $gto_red;
+    }
   }
 }
 

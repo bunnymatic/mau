@@ -15,18 +15,22 @@
     .highlight
     .container
       .sidenav
-        %a{href: root_path}
-          %img{ class: 'sidebar-logo', src: image_path('yellow_sidebar_logo.png') }
-          .home.nav-icon.nav-mobile
-            = fa_icon 'home'
+        .sidenav__main
+          %a{href: root_path}
+            %img{ class: 'sidebar-logo', src: image_path('yellow_sidebar_logo.png') }
+            .home.nav-icon.nav-mobile
+              = fa_icon 'home'
 
-        = render '/navigation'
-        = render '/login_controls'
-        = render '/common/social_links'
+          = render '/navigation'
+          = render '/login_controls'
+          .push
+        .sidenav__footer
+          = render '/common/social_links'
+          = render '/common/fine_print_links'
+
       .main-container.js-main-container
         = render '/flash_notice_error'
         = yield
-    = render '/footer'
 
     = render '/search_form_template'
     = render '/footer_javascripts'
