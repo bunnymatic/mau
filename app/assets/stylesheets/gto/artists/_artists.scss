@@ -1,6 +1,6 @@
 @import 'mau-mixins';
 @import 'gto/gto-mixins';
-.artists, .artists.show, .art_pieces.show {
+.artists, .artists.index, .artists.show, .art_pieces.show {
 
   h2.title {
     .artist__name {
@@ -8,9 +8,17 @@
     }
   }
   .scroll-load-more {
-    margin:auto
-    .fa-spinner {
-      font-size: 80px;
+    text-align:center;
+    margin:auto;
+    position: relative;
+    .hint {
+      letter-spacing:0;
+      font-size: 0.9rem;
+      font-style: italic;
+      color: rgba(200,200,200,0.5);
+    }
+    .fa-spin {
+      font-size: 100px;
       color: rgba(200,200,200,0.5);
     }
   }

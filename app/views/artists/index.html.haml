@@ -2,12 +2,16 @@
 .pure-g
   .pure-u-1-1.header.padded-content
     %h2.title Artists
+    .filter
+      = form_tag '.', id: 'js-artist-index-filter' do
+        = fa_icon 'search' 
+        %input.js-filter-by-name{type: :text, name: :filter, placeholder: 'search by name'}
+
 .pure-g
   .pure-u-1-1.padded-content
-    = render '/osswitch', :os_only => @os_only
-    = render '/artists/view_switcher', :roster_link => @roster_link, :gallery_link => @gallery_link, :map_link => @map_link
-.pure-g.js-artists-scroll-wrapper.artists-scroll.padded-content
-  = render partial: 'artist', collection: @gallery.pagination.items
-  #js-scroll-load-more.scroll-load-more{ "data-page" => @gallery.current_page, style: "display:none;" } 
-    %i.fa.fa-spinner.fa-spin
+    .pure-g.js-artists-scroll-wrapper.artists-scroll
+      = render partial: 'artist', collection: @gallery.pagination.items
+      #js-scroll-load-more.scroll-load-more{ "data-page" => @gallery.current_page}
+        .hint scroll down for more  
+        %i.fa.fa-spinner.fa-spin
 
