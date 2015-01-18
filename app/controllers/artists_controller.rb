@@ -350,7 +350,6 @@ class ArtistsController < ApplicationController
   def process_os_update
     participating = (((params[:artist] && params[:artist][:os_participation])).to_i != 0)
     if participating != current_artist.doing_open_studios?
-      puts "setting to #{participating}"
       begin
         unless current_artist.address.blank?
           current_artist.update_os_participation(current_open_studios_key, participating)

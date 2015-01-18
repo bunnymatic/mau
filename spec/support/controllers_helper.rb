@@ -38,29 +38,20 @@ end
 
 # for all
 shared_examples_for "logged in user" do
-  it "header bar should say hello with login and logout and signup links as appopriate" do
-    assert_select("span.logout-nav", :text => /hello/)
-    if @logged_in_user.is_a? Artist
-      assert_select("span.logout-nav a", :text => @logged_in_user.login)
-      assert_select "#osnav .dir .leaf a[href=#{edit_artist_path(@logged_in_user)}#events]"
+  it "header bar should say hello with login and logout and signup links as appopriate" do 
+    assert_select("a[href=#{logout_path}")
+   if @logged_in_user.is_a? Artist
+      assert_select("a[href=#{artist_path(@logged_in_user)}")
     else
-      assert_select("span.logout-nav ", :text => /#{@logged_in_user.login}/)
-      assert_select "#osnav .dir .leaf a[href=#{login_path}]"
+      assert_select("a[href=#{user_path(@logged_in_user)}")
     end
-    assert_select("span.last a[href=/logout]");
   end
 end
 
 shared_examples_for 'logged in artist' do
   describe "nav" do
     it 'has a nav bar with artist links' do
-      assert_select('#nav_bar')
-      assert_select("#mymaunav li.dir a[href=#{artist_path(@logged_in_artist)}]", 'my&nbsp;mau')
-      assert_select('#mymaunav li.dir ul li.leaf', :minimum => 5)
-      assert_select("#mymaunav li.leaf a[href=#{edit_artist_path(@logged_in_artist)}]")
-      assert_select("#mymaunav li.leaf a[href=#{arrange_art_artists_path}]")
-      assert_select("#mymaunav li.leaf a[href=#{delete_art_artists_path}]")
-      assert_select("#mymaunav li.leaf a[href=#{favorites_user_path(@logged_in_artist)}]")
+      assert_select('.sidebar-nav')
     end
   end
 end
@@ -90,67 +81,39 @@ shared_examples_for "redirects to login" do
 end
 
 shared_examples_for "not logged in" do
-  it 'header includes login, signup and artists nav with links to tag/media search' do
-    assert_select("#login_toplink a[href=/login]", :include_text => "join in")
-    assert_select("#login_toplink a[href=/signup]")
-    assert_select("ul#artistsnav")
-    assert_select("ul#artistsnav .leaf a[href=#{media_path :m => 'a'}]")
-    assert_select("ul#artistsnav .leaf a[href=#{art_piece_tags_path :m => 'a'}]")
-  end
-
-  context 'open studios section' do
-    it 'renders open studios links' do
-      assert_select "ul#osnav .dir a[href=#{open_studios_path}]"
-      assert_select "ul#osnav ul li.leaf a[href=#{artists_path(:osonly => 1)}]"
-      assert_select "ul#osnav ul li.leaf a[href=#{map_artists_path(:osonly => 1)}]"
-      assert_select "ul#osnav ul li.leaf a[href=#{login_path}]"
-      assert_select "ul#osnav ul li.leaf a[href=/resources]"
-    end
-  end
-
-  context 'studios section' do
-    it 'renders studio related links' do
-      assert_select "ul#studionav .dir a[href=#{studios_path}]", 'spaces'
-      assert_select "ul#studionav ul li.leaf a[href=#{studios_path}]"
-      assert_select "ul#studionav ul li.leaf a[href=#{studio_path(0)}]"
-      assert_select "ul#studionav ul li.leaf a[href=#{venues_path}]"
-    end
-  end
+  it { expect(controller.current_user).to eql nil }
 end
 
-shared_examples_for 'standard sidebar layout' do
-  it_should_behave_like 'two column layout'
-  it 'has a new art sidebar element which is sorted' do
-    assert_select '.lcol .new_art'
-    new_art = assigns(:new_art)
-    new_art.should be_present
-    new_art.sort_by(&:created_at).reverse.map(&:id).should == new_art.map(&:id)
-  end
-  it 'has all the action buttons' do
-    ct = (Time.zone.now > Time.utc(2012,3,12)) ? 3 : 4
-    assert_select '.action_button', :count => ct
-  end
-end
+# shared_examples_for 'standard sidebar layout' do
+#   it_should_behave_like 'two column layout'
+#   it 'has a new art sidebar element which is sorted' do
+#     assert_select '.lcol .new_art'
+#     new_art = assigns(:new_art)
+#     new_art.should be_present
+#     new_art.sort_by(&:created_at).reverse.map(&:id).should == new_art.map(&:id)
+#   end
+#   it 'has all the action buttons' do
+#     ct = (Time.zone.now > Time.utc(2012,3,12)) ? 3 : 4
+#     assert_select '.action_button', :count => ct
+#   end
+# end
 
-shared_examples_for 'two column layout' do
-  it 'has a two column body class' do
-    assert_select('body.two_column')
-  end
-end
-shared_examples_for 'one column layout' do
-  it 'has a one column body class' do
-    assert_select('.singlecolumn')
-  end
-end
+# shared_examples_for 'two column layout' do
+#   it 'has a two column body class' do
+#     assert_select('body.two_column')
+#   end
+# end
+# shared_examples_for 'one column layout' do
+#   it 'has a one column body class' do
+#     assert_select('.singlecolumn')
+#   end
+# end
 
 shared_examples_for 'renders error page' do
-  it "renders an error page" do
+  it "renders an error page with status 404" do
     expect(response).to render_template 'error/index'
-  end
-  it "show a 404" do
     expect(response.code).to eql '404'
   end
-
 end
 
 shared_examples_for "not authorized" do
@@ -159,12 +122,10 @@ shared_examples_for "not authorized" do
   end
 end
 
-shared_examples_for 'returns success' do
-  it { expect(response).to be_success }
-end
-
 shared_examples_for 'successful json' do
-  it { expect(response).to be_success }
-  it { expect(response).to be_json }
+  it { 
+    expect(response).to be_success 
+    expect(response).to be_json
+  }
 end
 
