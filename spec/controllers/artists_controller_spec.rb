@@ -18,7 +18,10 @@ describe ArtistsController do
   let(:sw_bounds) { Artist::BOUNDS['SW'] }
 
   describe "#index" do
-   describe 'logged in as admin' do
+    before do
+      artists
+    end
+    describe 'logged in as admin' do
       render_views
       before do
         login_as admin
@@ -32,7 +35,6 @@ describe ArtistsController do
     describe 'html' do
       render_views
       before do
-        artists
         get :index
       end
       it { expect(response).to be_success }
@@ -60,14 +62,14 @@ describe ArtistsController do
 
     describe 'xhr' do
       before do
-        get :index, p: '1', filter: filter
+        get :index, p: '0', filter: filter
       end
       context 'without filter' do
         let(:filter) { '' }
         it { expect(response).to be_success }
         it { expect(assigns(:gallery).pagination.items).to have_at_least(1).artist }
       end
-      context 'without filter' do
+      context 'with filter' do
         let(:filter) { 'thisfilterbetternotmatchanything' }
         it { expect(response).to be_success }
         it { expect(assigns(:gallery).pagination.items).to be_empty }

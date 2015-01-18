@@ -8,14 +8,25 @@ class ArtistsGallery < ArtistsPresenter
     :next_link, :last_link, :last_page, :first_page,
     :previous_page, :current_page, :next_page, :to => :pagination
 
-  def initialize(view_context, os_only, current_page,  per_page = PER_PAGE)
+  def initialize(view_context, os_only, current_page, filter, per_page = PER_PAGE)
     super view_context, os_only
     @per_page = per_page
+    @filter = filter
     @pagination = ArtistsPagination.new(@view_context, artists, current_page, @per_page)
   end
 
   def artists
-    @artists ||= super.select(&:representative_piece)
+    @artists ||= super.select do |artist|
+      keep = artist.representative_piece
+      if @filter.present?
+        keep && begin
+                  s = [artist.firstname, artist.lastname, artist.nomdeplume, artist.login].join
+                  s =~ @filter
+                end
+      else
+        keep
+      end
+    end
   end
 
   def alpha_links
