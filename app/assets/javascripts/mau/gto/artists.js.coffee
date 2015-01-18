@@ -1,55 +1,67 @@
 $ ->
   if $('.artists.index').length
+    # define helpers
+    currentFilter = $('.js-filter-by-name').val();
 
+    resetSearch = () ->
+      $wrapper = $('js-artists-scroll-wrapper')
+      currentMode = $wrapper.data('filtering')
+      currentFilter = $('.js-filter-by-name').val()
+      newMode = !!currentFilter
+      $wrapper.data('filtering', newMode )
+      if newMode != currentMode
+        $('.js-pagination-state').slice(1,-1).remove()
+        pagination = $('.js-pagination-state').last()
+        $('.artist-card').fadeOut duration: 50, complete: -> $(@).remove()
+        pagination.data('current_page',0)
+        pagination.data('next_page',0)
+        pagination.data('has_more',true)
+      
     fetchArtists = (ev) ->
-      $more = $('#js-scroll-load-more')
-      $spinner = $more.find('.fa-spinner')
-      filter = $('.js-filter-by-name').val()
-      if $more.length
-        $content = $('.js-artists-scroll-wrapper')
-        page = parseInt($more.data('page') || 0,10);
-        nextPage = page + 1
-        $spinner.fadeIn()
+      $content = $('.js-artists-scroll-wrapper')
+      pagination = $('.js-pagination-state').last().data()
+      if pagination.has_more?
+        filter = $('.js-filter-by-name').val()
+        nextPage = pagination.next_page
         $.ajax(
           url: "/artists"
           data:
             p: nextPage
             filter: filter
         ).done (data) ->
-          $more = $('#js-scroll-load-more')
-          $more.data('page', nextPage)
+          # remove the current more button
+          $('#js-scroll-load-more').remove();
           if data
             $content = $('.js-artists-scroll-wrapper')
             $content.append(data);
-            $more.fadeOut();
-          else
-            $more.remove()
 
+    fetchFilteredArtists = (ev) ->
+      resetSearch(ev)
+      fetchArtists(ev)
+
+    throttledFilter = MAU.Utils.debounce(fetchFilteredArtists,250,false)
+
+    # set event bindings
     $win = $(window)
     $win.scroll ->
       if $win.scrollTop() == ($(document).height() - $win.height())
         fetchArtists()
 
-   
-  fetchFilteredArtist = () ->
-    $more = $('#js-scroll-load-more')
-    filter = $('.js-filter-by-name').val()
-    $.ajax(
-      url: "/artists"
-      data:
-        p: 1
-        filter: filter
-    ).done (data) ->
-      $content = $('.js-artists-scroll-wrapper')
-      $('.artist-card').remove();
-      $more.data('page', 2)
-      if data
-        $content.prepend(data);
-      else
-        $more.remove()
+    $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
+      console.log currentFilter, $('.js-filter-by-name').val()
 
-  throttledFilter = MAU.Utils.debounce(fetchFilteredArtist,150,false)
-  
-  $("#js-artist-index-filter .js-filter-by-name").on 'keydown change', (ev) ->
-    throttledFilter()
+      if currentFilter != $('.js-filter-by-name').val()
+        throttledFilter()
+      else
+        console.log("filter is unchanged")
+
+    $('.js-filter-visibility').on 'click', '.fa-search', () ->
+      # suppress submit
+      $(@).closest('form').on 'submit', -> false
+      input = $(@).closest('div').find('input')
+      input.toggleClass('active')
+      if !input.is(':visible')
+        input.val('')
+        input.trigger('change')
+    
 

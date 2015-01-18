@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'csv'
 require 'xmlrpc/client'
 
@@ -31,11 +30,7 @@ class ArtistsController < ApplicationController
         set_artists_index_links
 
         if request.xhr?
-          if cur_page > @gallery.last_page
-            render text: ''
-          else
-            render partial: 'artist', collection: @gallery.pagination.items
-          end
+          render partial: 'artist_list', locals: { gallery: @gallery }
         else
           render action: 'index'
         end

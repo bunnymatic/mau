@@ -1,32 +1,16 @@
 class ArtistsGallery < ArtistsPresenter
 
-  PER_PAGE = 28
+  PER_PAGE = 20
 
-  attr_reader :pagination, :per_page
+  attr_reader :pagination, :per_page, :filters
 
-  delegate :first_link, :previous_link, :items,
-    :next_link, :last_link, :last_page, :first_page,
-    :previous_page, :current_page, :next_page, :to => :pagination
+  delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
 
   def initialize(view_context, os_only, current_page, filter, per_page = PER_PAGE)
     super view_context, os_only
     @per_page = per_page
-    @filter = filter
+    @filters = (filter || '').strip.split(/\s+/).compact
     @pagination = ArtistsPagination.new(@view_context, artists, current_page, @per_page)
-  end
-
-  def artists
-    @artists ||= super.select do |artist|
-      keep = artist.representative_piece
-      if @filter.present?
-        keep && begin
-                  s = [artist.firstname, artist.lastname, artist.nomdeplume, artist.login].join
-                  s =~ @filter
-                end
-      else
-        keep
-      end
-    end
   end
 
   def alpha_links
@@ -44,6 +28,23 @@ class ArtistsGallery < ArtistsPresenter
     end
     @alpha_links
   end
+
+  private
+  def artists
+    @artists ||= super.select do |artist|
+      keep = artist.representative_piece
+      if filters.any?
+        keep && begin
+                  s = [artist.firstname, artist.lastname, artist.nomdeplume, artist.login].join
+                  filters.any?{|f| s=~ /#{f}/}
+                end
+      else
+        keep
+      end
+    end
+    @artists
+  end
+
 
 end
 

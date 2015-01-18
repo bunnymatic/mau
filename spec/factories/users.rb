@@ -8,6 +8,7 @@ FactoryGirl.define do
     password_confirmation { 'bmatic' }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.first_name }
+    nomdeplume { Faker::Company.name }
     profile_image { Faker::Files.file }
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }

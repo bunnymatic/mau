@@ -1,17 +1,16 @@
 = render '/flash_notice_error'
 .pure-g
   .pure-u-1-1.header.padded-content
-    %h2.title Artists
-    .filter
-      = form_tag '.', id: 'js-artist-index-filter' do
-        = fa_icon 'search' 
-        %input.js-filter-by-name{type: :text, name: :filter, placeholder: 'search by name'}
+    %h2.title
+      Artists
+      .filter.js-filter-visibility
+        = form_tag '.', id: 'js-artist-index-filter' do
+          = fa_icon 'search' 
+          %input.js-filter-by-name{type: :text, autofocus: true, name: :filter, placeholder: 'search by name'}
+
 
 .pure-g
   .pure-u-1-1.padded-content
     .pure-g.js-artists-scroll-wrapper.artists-scroll
-      = render partial: 'artist', collection: @gallery.pagination.items
-      #js-scroll-load-more.scroll-load-more{ "data-page" => @gallery.current_page}
-        .hint scroll down for more  
-        %i.fa.fa-spinner.fa-spin
-
+      = render 'artist_list', gallery: @gallery
+      

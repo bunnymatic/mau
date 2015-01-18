@@ -12,6 +12,18 @@ class Pagination
     @per_page = [per_page,1].max
   end
 
+
+  def to_s
+    attrs = {
+      current: current_page,
+      next: next_page,
+      last: last_page,
+      has_more: has_more?,
+      num_items: items.length
+    }
+    "#{self.class}: #{attrs}"
+  end
+  
   def should_paginate?
     last_page > first_page
   end
@@ -55,7 +67,7 @@ class Pagination
   end
 
   def items
-    @array[first_item..last_item] || []
+    (@array || [])[first_item..last_item]
   end
 
   def previous_link?
@@ -65,6 +77,8 @@ class Pagination
   def next_link?
     current_page < last_page
   end
+
+  alias_method :has_more?, :next_link?
 
   def previous_title
     @previous_title || 'previous'
