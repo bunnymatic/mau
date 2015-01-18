@@ -13,8 +13,8 @@ html, body {
 }
 
 .sidenav {
-  position: fixed;
-  transition: width 0.25s ease-in-out;
+  position: absolute;
+  transition: width 0.3s ease-in-out;
   width: $sidebar-nav-width;
   top: 0;
   left: 0;
@@ -36,7 +36,7 @@ html, body {
 }
 
 .main-container, #footer_bar {
-  transition: margin 0.25s ease-in-out;
+  transition: margin 0.3s ease-in-out;
   margin-left: $sidebar-nav-width;
 }
 
@@ -51,11 +51,13 @@ html, body {
   text-align:center;
 }
 .sidebar-logo {
+  background-image: image_url('yellow_sidebar_logo_full.svg');
+  @include background-cover;
   margin: auto;
   width: 114px;
   height: 165px;
   @include opacity(1);
-  transition: all 0.25s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 ul li {
@@ -130,13 +132,18 @@ p {
 
 @media screen and (max-width: $screen-sm-max) {
   .sidebar-logo {
-    width: 0;
-    height: 0;
-    margin: 0;
-    @include opacity(0);
+    background-image: image_url('yellow_sidebar_logo_gear_only.svg');
+    width: 35px;
+    height: 35px;
+    margin: 0 auto;
   }
   .sidenav {
+    left: 2px;
     width: $sidebar-collapse-nav-width !important;
+    .brand {
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
   }
   .main-container {
     margin-left: $sidebar-collapse-nav-width;

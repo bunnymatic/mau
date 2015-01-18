@@ -180,7 +180,7 @@ $default_rounded_amount: 4px;
 }
 
 @mixin bottom-label-overlay {
-  z-index: 5;
+  z-index: 0;
   position: absolute;
   bottom: 0;
   left: 0;

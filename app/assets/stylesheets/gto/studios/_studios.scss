@@ -36,6 +36,11 @@
 }
 
 .studios, .studios.show {
+  h2.title {
+    .studio__name {
+      font-weight: normal;
+    }
+  }
   .studio {
     @extend .studio-thumb-mixin;
     .desc {

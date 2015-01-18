@@ -3,7 +3,7 @@
   - art_nav = ArtNavigation.new(self, current_user)
   - studio_nav = StudioNavigation.new(self)
   - os_nav = OpenStudiosNavigation.new(self, current_user)
-  .nav-mobile.nav-icon{ title: 'menu' }
+  .js-nav-mobile.nav-mobile.nav-icon{ title: 'menu' }
     = fa_icon 'bars'
   %section.nav-section
     .search.nav-icon{ title: 'search'}
@@ -32,8 +32,23 @@
             my mau
           %ul.dropdown
             = print_html_list('dropdown-nav', user_nav)    
+  - else
+    %section.nav-section.signin-nav
+      %ul.signin__links.tabs
+        %li.tab
+          = link_to login_path,  { title: "sign in" } do
+            .text
+              sign in
+            .nav-icon.fa.fa-sign-in
+        %li.tab
+          = link_to signup_path, { title: "create an account" } do
+            .text
+              sign up
+            .nav-icon.fa.fa-user
 
   .tab-content.nav-mobile
+    .js-close.nav-mobile__close
+      = fa_icon 'close'
     %ul.tab-panel
       %li.title
         %a{href: artists_path, title: 'artists'} artists
@@ -45,6 +60,13 @@
       = print_html_list('leaf', os_nav)
 
     - if logged_in?
-      %ul.tab-panel#my-mau
+      %ul.tab-panel.signin__links
         %li.title my mau
         = print_html_list('leaf', user_nav)
+    - else logged_in?
+      %ul.tab-panel.signin__links
+        %li.title
+          %a{href: login_path, title: 'sign in'} sign in
+        %li.title
+          %a{href: signup_path, title: 'sign up'} sign up
+

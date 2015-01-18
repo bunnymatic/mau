@@ -2,6 +2,11 @@
 @import 'gto/gto-mixins';
 .artists, .artists.show, .art_pieces.show {
 
+  h2.title {
+    .artist__name {
+      font-weight: 400;
+    }
+  }
   .scroll-load-more {
     margin:auto
     .fa-spinner {

@@ -25,10 +25,13 @@ $ ->
       ev.stopPropagation()
       navHelpers.hideTabs()
     
-  $('.nav .nav-mobile').on 'click', (ev) ->
+  $('.nav .js-nav-mobile, .tab-content .js-close').on 'click', (ev) ->
     ev.preventDefault()
     ev.stopPropagation()
     $(@).closest('.nav').find('.tab-content, .tab-pane').toggleClass('active')
+
+  $('.js-close').on 'click', (ev) ->
+    $(@).closest('.tab-content').removeClass('active', false)
 
 
   window.MAU ||= {}

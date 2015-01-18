@@ -17,12 +17,8 @@
       .sidenav
         .sidenav__main
           %a{href: root_path, class: "brand"}
-            %img{ class: 'sidebar-logo', src: image_path('yellow_sidebar_logo.png') }
-            .home.nav-icon.nav-mobile
-              = fa_icon 'home'
-
+            %div{ class: 'sidebar-logo' }
           = render '/navigation'
-          = render '/login_controls'
           .push
         .sidenav__footer
           = render '/common/social_links'

@@ -3,13 +3,20 @@
 @import 'variables';
 .sidenav {
   background-color: $light-gray-background;
-  z-index: 10;
   @include box-shadow(0px 0px 0 2px rgba(200,200,200,0.25));
   overflow: auto;
 }
 
 .sidenav {
-  section.nav-section {
+  .sidenav__main {
+    position: relative;
+    z-index: 2;
+    background-color: $light-gray-background;
+  }
+  .sidenav__footer {
+    z-index: 0;
+  }
+  .nav-section {
     margin-top: 6px;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(200,200,200,0.3);
@@ -49,7 +56,7 @@
     display: none;
   }
   .signin-nav {
-    margin-top: 30px;
+    margin-top: 20px;
     .text {
       @include ellipsis;
       a {
@@ -66,13 +73,12 @@
   margin: auto;
 }
 
-
 .signin-nav, .nav {
   width: 100%;
   a, .fa, .text {
-    color: $gto_gray;
+    color: $gto_dark_teal;
     &:hover {
-      color: $gto_dark_teal;
+      color: $gto_gray;
     }
   }
   .tabs, .tabs li {
@@ -121,21 +127,36 @@
       }
     }
   }
+
+  .tabs.signin__links .tab {
+    &:hover {
+      a, .fa, .text {
+        font-weight: 400;
+      }
+    }
+  }
+
   .tab-content {
-    @include opacity(0);
     pointer-events: none;
-    transition: all 0.25s ease-in-out;
+    transition: all 0.45s ease-in-out;
     position: fixed;
     top: 2px;
-    left: $sidebar-nav-width;
-    right: 0;
+    left: 0;
+    right: 100%;
     bottom: 0;
     overflow: auto;
     z-index: 1;
     background-color: #fdfdfd;
+    .nav-mobile__close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 24px;
+    }
     &.active { 
       pointer-events: auto;
-      @include opacity(1);
+      left: $sidebar-collapse-nav-width;
+      right: 0;
       ul.tab-pane {
         @include opacity(1);
         li:last-child {
@@ -157,6 +178,8 @@
           display: block;
         }
         &.title { 
+          white-space: nowrap;
+          overflow: hidden;
           height: 33px;
           line-height: 33px;
           padding-left: 8%;
@@ -171,6 +194,11 @@
         }
       }
       &.active li {
+      }
+      &.signin__links {
+        .title {
+          font-weight: 400;
+        }
       }
     }
   }
@@ -220,10 +248,17 @@
     .tab-content {
       left: $sidebar-collapse-nav-width;
     }
-    section.nav-section {
+    .nav-section {
       h3 {
         display: none;
       }
+    }
+    .signin-nav, .nav-section {
+      width: 0;
+      height: 0;
+      margin: 0;
+      border: 0;
+      padding: 0;
     }
   }
 }

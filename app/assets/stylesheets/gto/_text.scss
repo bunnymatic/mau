@@ -3,9 +3,9 @@
 a {
   @include transition(all 0.2s ease);
   &:link, &:visited, &:active {
-    color: #555;
+    color: $gto_dark_teal;
   }
   &:hover {
-    color: #511;
+    color: $gto_gray;
   }
 }

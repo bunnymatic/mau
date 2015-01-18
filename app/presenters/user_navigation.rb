@@ -38,6 +38,7 @@ class UserNavigation < Navigation
             items << link_to('view profile', @view_context.user_path(current_user))
             items << link_to('edit profile', @view_context.edit_user_path(current_user))
           end
+          items << link_to('sign out', @view_context.logout_path)
         end
       end
   end
