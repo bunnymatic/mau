@@ -5,9 +5,11 @@ $ ->
     $(@).closest('form').on 'submit', -> false
     input = $(@).closest('div').find('input')
     input.toggleClass('active')
-    if !input.is(':visible')
+    if !input.hasClass('active')
       input.val('')
       input.trigger('change')
+    else
+      input.focus()
     
   if $('.artists.index').length
     # define helpers

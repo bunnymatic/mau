@@ -47,4 +47,4 @@
           - if !@random_picks
             .buttons
               %form{:method => "get", :action => user_path(@user)}
-                %input.formbutton{:type => "submit", :value => "Back to #{@user.get_name}'s Page", :name => "submit"}
+                %input.pure-button.pure-button-primary{:type => "submit", :value => "Back to #{@user.get_name}'s Page", :name => "submit"}

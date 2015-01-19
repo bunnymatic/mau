@@ -13,6 +13,14 @@ class ArtistsGallery < ArtistsPresenter
     @pagination = ArtistsPagination.new(@view_context, artists, current_page, @per_page)
   end
 
+  def empty_message
+    if os_only
+      "Sorry, no one has signed up for the next Open Studios, yet.  Check back later."
+    else
+      "Sorry, we couldn't find any artists in the system."
+    end
+  end
+  
   def alpha_links
     return @alpha_links if @alpha_links
     if num_artists > 0

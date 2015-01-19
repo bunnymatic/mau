@@ -1,6 +1,18 @@
-%ul.pure-g.js-tabs.tabs.tabs__horizontal
-  %li.pure-u-1-2.active
-    %a{href: '#about', "data-toggle" => 'tab'} about #{@artist.get_name}
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title
+      Artist:
+      %span.artist__name #{@artist.get_name}
+  .pure-u-1-1.padded-content
+    %ul.js-tabs.tabs.tabs__horizontal
+      %li
+        %a{href: '#art', "data-toggle" => 'tab'} art
+      %li.active
+        %a{href: '#about', "data-toggle" => 'tab'} profile
 .pure-g.tab-content
-  .pure-u-1-1#about.tab-pane.active
+  .pure-u-1-1#art.tab-pane.padded-content
+    .pure-g
+      .pure-u-1-1
+        %h4 Sorry, this artist hasn't given us any of their art to show you.
+  .pure-u-1-1#about.tab-pane.active.padded-content
     = render '/artists/about', artist: @artist
