@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'variables';
 #footer_bar {
   > [class^=pure-g] { margin-top: 20px; }
   [class^=pure-u-] {
@@ -16,7 +17,7 @@
 }
 
 .news-footer {
-  font-weight: 900;
+  font-weight: $font-weight-extra-bold;
   font-size: 150%;
   span {
     vertical-align: 1px;

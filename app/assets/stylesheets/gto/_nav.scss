@@ -27,7 +27,7 @@
       padding-right: 20px;
       font-size: 0.8rem;
       text-transform: uppercase;
-      font-weight: 200;
+      font-weight: $font-weight-light;
       text-align: right;
     }
   }
@@ -41,7 +41,7 @@
       background-color: rgba(200,200,200,0.2);
     }
     .text {
-      font-weight: 700;
+      font-weight: $font-weight-bold;
       display: inline-block;
     }
   }
@@ -88,14 +88,14 @@
   }
   .signin__links.tabs {
     .tab a {
-      font-weight: 400;
+      font-weight: $font-weight-normal;
     }
   }
   .search, .tabs .tab {
     margin: 0;
     &:hover {
       a, .text {
-        font-weight: 700;
+        font-weight: $font-weight-bold;
         color: $gto_dark_teal;
       }
     }
@@ -131,7 +131,7 @@
   .tabs.signin__links .tab {
     &:hover {
       a, .fa, .text {
-        font-weight: 400;
+        font-weight: $font-weight-normal;
       }
     }
   }
@@ -184,7 +184,7 @@
           line-height: 33px;
           padding-left: 8%;
           font-size: 18px;
-          font-weight: 700;
+          font-weight: $font-weight-bold;
           > a {
             padding-left: 0;
           }
@@ -197,7 +197,7 @@
       }
       &.signin__links {
         .title {
-          font-weight: 400;
+          font-weight: $font-weight-normal;
         }
       }
     }
@@ -246,7 +246,7 @@
       }
     }
     .tab-content {
-      left: $sidebar-collapse-nav-width;
+      left: $sidebar-collapse-nav-width + 5; /* past the dropshadow */
     }
     .nav-section {
       h3 {

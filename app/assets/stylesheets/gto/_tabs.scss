@@ -13,7 +13,7 @@
   margin: 0 0 0px 0;
   .active {
     a[data-toggle=tab] {
-      font-weight: bold;
+      font-weight: $font-weight-bold;
     }
   }
   li:hover {
@@ -40,7 +40,7 @@
             display: block;
             font-size: 12px;
             @include ellipsis;
-            font-weight: 400;
+            font-weight: $font-weight-normal;
             color: $gto_gray;
           }
         }
@@ -55,7 +55,7 @@
       }
     }
     a {
-      font-weight: bold;
+      font-weight: $font-weight-bold;
     }
   }
   &.tabs__horizontal {
@@ -75,7 +75,7 @@
       border-bottom: 2px solid;
       border-color: rgba(200,200,200,0.5);
       text-align: center;
-      font-weight: 200;
+      font-weight: $font-weight-light;
       outline: none;
       background-color: transparent;
       &:hover {
@@ -85,7 +85,7 @@
     .active {
       a[data-toggle=tab] {
         border-color: $gto_yellow;
-        font-weight: 400;
+        font-weight: $font-weight-normal;
       }
     }
     li:hover {

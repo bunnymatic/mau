@@ -1,6 +1,7 @@
 /* from http://callmenick.com/tutorial-demos/css-toggle-switch/ */
 @import 'mau-mixins';
 @import 'colors';
+@import 'gto/variables';
 
 $height: 36px;
 $overall-width: 72px;
@@ -107,7 +108,7 @@ $on-color: $gto-teal;
   }
   input.toggle-button__round-flat + label {
     .toggle-button__label_off {
-      font-weight: 700;
+      font-weight: $font-weight-bold;
     }
     .toggle-button__label_on {
       font-weight: inherit;
@@ -116,7 +117,7 @@ $on-color: $gto-teal;
   input.toggle-button__round-flat:checked + label {
     background-color: $on-color;
     .toggle-button__label_on {
-      font-weight: 700;
+      font-weight: $font-weight-bold;
     }
     .toggle-button__label_off {
       font-weight: inherit;

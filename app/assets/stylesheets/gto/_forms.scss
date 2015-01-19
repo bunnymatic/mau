@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'variables';
 
 .actions, .inputs {
   border: none;
@@ -78,7 +79,7 @@
     display: inline-block;
     font-family: 'FontAwesome';
     font-style: normal;
-    font-weight: 400;
+    font-weight: $font-weight-normal;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

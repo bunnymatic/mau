@@ -41,7 +41,7 @@
 
   h2.title {
     .studio__name {
-      font-weight: normal;
+      font-weight: $font-weight-normal;
     }
   }
   .studio {
@@ -88,7 +88,7 @@
       height: 1.1rem;
     }
     .name {
-      font-weight: normal;
+      font-weight: $font-weight-normal;
     }
     @media (min-width: $screen-sm-min) {
       .desc { 

@@ -70,7 +70,7 @@ p {
 .pure-g {
   .header {
     .title {
-      font-weight: 200;
+      font-weight: $font-weight-light;
       border-bottom: 1px solid #ddd;
       padding-bottom: 8px;
     }      
@@ -82,7 +82,7 @@ p {
     }
     .italic {
       font-style: italic;
-      font-weight: 400;
+      font-weight: $font-weight-normal;
     }
   }
   .offset-content {

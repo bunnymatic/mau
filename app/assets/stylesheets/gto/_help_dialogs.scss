@@ -1,0 +1,55 @@
+@import 'variables';
+@import 'mau-mixins';
+
+.help__opener {
+  float: right;
+  .fa {
+    font-size: 1.2rem;
+  }
+}
+.help__contents {
+  display: none;
+  @include opacity(0);
+  width: 200px;
+  height: auto;
+  transition: all 0.25s ease-in-out;
+  left: 4px;
+  top: 4px;
+  position: absolute;
+  display: block;
+  background: white;
+  &.active {
+    display: block;
+    @include opacity(1);
+    box-shadow: 0 0 8px 0px rgba(128,128,128,0.7);
+    z-index: 20;
+  }    
+}
+
+.help-parent {
+  float: right;
+  margin-right: 10px;
+  vertical-align: top;
+  position: relative;
+  z-index: 20;
+}
+
+
+.popup-text {
+  padding: 0 15px 15px;
+}
+.popup-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 15px;
+  text-align: center;
+}
+
+.popup-header {
+  line-height: 1.5em;
+  font-weight: $font-weight-bold;
+  padding: 15px;
+  position: relative;
+}
+
