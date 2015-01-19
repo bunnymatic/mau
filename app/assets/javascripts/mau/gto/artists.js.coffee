@@ -1,4 +1,14 @@
 $ ->
+  # hits both studio and artist pages
+  $('.js-filter-visibility').on 'click', '.fa-search', () ->
+    # suppress submit
+    $(@).closest('form').on 'submit', -> false
+    input = $(@).closest('div').find('input')
+    input.toggleClass('active')
+    if !input.is(':visible')
+      input.val('')
+      input.trigger('change')
+    
   if $('.artists.index').length
     # define helpers
     currentFilter = $('.js-filter-by-name').val();
@@ -48,20 +58,7 @@ $ ->
         fetchArtists()
 
     $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
-      console.log currentFilter, $('.js-filter-by-name').val()
-
       if currentFilter != $('.js-filter-by-name').val()
         throttledFilter()
-      else
-        console.log("filter is unchanged")
 
-    $('.js-filter-visibility').on 'click', '.fa-search', () ->
-      # suppress submit
-      $(@).closest('form').on 'submit', -> false
-      input = $(@).closest('div').find('input')
-      input.toggleClass('active')
-      if !input.is(':visible')
-        input.val('')
-        input.trigger('change')
-    
 

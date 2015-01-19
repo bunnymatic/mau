@@ -1,6 +1,6 @@
 / expects studio_thumb
 - classes ||= []
-.studio.studio-card{class: classes.join(" ")}
+.studio.studio-card{class: classes.join(" "), 'data-name' => studio.search_name}
   %a{:href => studio.studio_path, :title => studio.name}
     .image
       %img{:src => studio.image(:small)}

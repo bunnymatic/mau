@@ -46,9 +46,9 @@
       border: none;
       font-size: 1.2rem;
       width: 0;
-      transition: width 0.25sec ease-in-out;
+      transition: width 0.25s ease-in-out;
       &.active {
-        width: auto;
+        width: 250px;
       }
     }
     

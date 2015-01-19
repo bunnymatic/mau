@@ -15,6 +15,10 @@ class StudioPresenter
     studio.try(:name)
   end
 
+  def search_name
+    (name || '').downcase
+  end
+
   def mobile_title
     @mobile_title ||= "Studio: #{name}" if name
   end
