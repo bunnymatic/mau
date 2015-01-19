@@ -22,9 +22,8 @@ class OpenStudiosNavigation < Navigation
             nav_title = OpenStudiosEvent.for_display(current_open_studios_key, true)
           end
           osnav << "<a href='#{ @view_context.open_studios_path }' title='open studios event'>#{nav_title}</a>"
-
-          osnav << "<a href='#{ @view_context.map_artists_path(:osonly => 1) }' title='map of open studios artists'>map</a>"
           osnav << "<a href='#{ @view_context.artists_path(:osonly => 1) }' title='particpating artists'>artists</a>"
+          osnav << "<a href='#{ @view_context.map_artists_path(:osonly => 1) }' title='map of open studios artists'>map</a>"
         end
       end
   end
