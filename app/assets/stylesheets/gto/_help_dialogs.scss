@@ -12,7 +12,7 @@
   @include opacity(0);
   width: 200px;
   height: auto;
-  transition: all 0.25s ease-in-out;
+  @include transition( all 0.25s ease-in-out );
   left: 4px;
   top: 4px;
   position: absolute;
@@ -21,7 +21,7 @@
   &.active {
     display: block;
     @include opacity(1);
-    box-shadow: 0 0 8px 0px rgba(128,128,128,0.7);
+    @include box-shadow(0 0 8px 0px rgba(128,128,128,0.7));
     z-index: 20;
   }    
 }

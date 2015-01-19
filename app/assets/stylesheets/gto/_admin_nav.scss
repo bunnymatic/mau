@@ -12,13 +12,13 @@
     padding: 5px 2px;
   }
   position: fixed;
-  z-index: 30;
   width: 200px;
   left: calc(100% - 20px);
   left: -webkit-calc(100% - 20px);
   color:$darkgray;
   font-size:small;
   margin: 0 auto;
+  z-index: 30;
   @include transition(left 0.4s ease-out);
   &:hover {
     left: calc(100% - 200px);

@@ -13,9 +13,6 @@
     z-index: 2;
     background-color: $light-gray-background;
   }
-  .sidenav__footer {
-    z-index: 0;
-  }
   .nav-section {
     margin-top: 6px;
     padding-bottom: 10px;
@@ -138,7 +135,7 @@
 
   .tab-content {
     pointer-events: none;
-    transition: all 0.45s ease-in-out;
+    @include transition(all 0.45s ease-in-out);
     position: fixed;
     top: 2px;
     left: 0;
@@ -153,9 +150,10 @@
       top: 10px;
       font-size: 24px;
     }
-    &.active { 
+    &.active {
+      @include transform(translate3d(0,0,1px));
       pointer-events: auto;
-      left: $sidebar-collapse-nav-width;
+      left: $sidebar-collapse-nav-width + 5;
       right: 0;
       ul.tab-pane {
         @include opacity(1);
@@ -166,12 +164,12 @@
     }
     ul.tab-panel {
       /* border-top: 1px solid lighten($gto_gray, 40%); */
-      transition: all 0.25s ease-in-out;
+      @include transition(all 0.25s ease-in-out);
       padding: 10px 0;
       li { 
         height: 24px;
         line-height: 24px;
-        transition: all 0.25s ease-in-out;
+        @include transition(all 0.25s ease-in-out);
         text-transform: uppercase;
         a {
           padding-left: 12%;

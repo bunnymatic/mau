@@ -26,17 +26,17 @@
     > li {
       @include sidebar-nav-entry;
       .dropdown {
-        transition: all 0.25s ease-in-out;
+        @include transition(all 0.25s ease-in-out);
         background-color: #f1f1f1;
         li.dropdown-nav {
           height: 0;
           line-height:22px;
           overflow:hidden;
-          transition: all 0.30s ease-in-out;
+          @include transition( all 0.30s ease-in-out );
           border: none;
           @include ellipsis;
           a { 
-            transition: all 0.30s ease-in;
+            @include transition(all 0.30s ease-in);
             display: block;
             font-size: 12px;
             @include ellipsis;

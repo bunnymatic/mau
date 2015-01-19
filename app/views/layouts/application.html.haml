@@ -14,6 +14,7 @@
       = render '/admin_header'
     .highlight
     .container
+
       .sidenav
         .sidenav__main
           %a{href: root_path, class: "brand"}
@@ -27,6 +28,7 @@
       .main-container.js-main-container
         = render '/flash_notice_error'
         = yield
+
 
     = render '/search_form_template'
     = render '/footer_javascripts'

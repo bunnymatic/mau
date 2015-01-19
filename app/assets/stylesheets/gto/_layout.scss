@@ -14,7 +14,7 @@ html, body {
 
 .sidenav {
   position: absolute;
-  transition: width 0.3s ease-in-out;
+  @include transition(width 0.3s ease-in-out);
   width: $sidebar-nav-width;
   top: 0;
   left: 0;
@@ -23,6 +23,7 @@ html, body {
   .sidenav__main {
   }
   .sidenav__footer {
+    z-index: 0;
     position: absolute;
     bottom: 0;
   }
@@ -36,7 +37,7 @@ html, body {
 }
 
 .main-container, #footer_bar {
-  transition: margin 0.3s ease-in-out;
+  @include transition( margin 0.3s ease-in-out );
   margin-left: $sidebar-nav-width;
 }
 
@@ -57,7 +58,7 @@ html, body {
   width: 114px;
   height: 165px;
   @include opacity(1);
-  transition: all 0.3s ease-in-out;
+  @include transition( all 0.3s ease-in-out );
 }
 
 ul li {
@@ -139,7 +140,6 @@ p {
     margin: 0 auto;
   }
   .sidenav {
-    left: 2px;
     width: $sidebar-collapse-nav-width !important;
     .brand {
       margin-top: 15px;
