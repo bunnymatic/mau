@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'csv'
 require 'xmlrpc/client'
 
@@ -16,7 +15,36 @@ class ArtistsController < ApplicationController
 
   skip_before_filter :get_new_art, :get_feeds
 
-  # num artists before we paginate
+  def index
+    respond_to do |format|
+      format.html {
+        # collect query args to build links
+        @os_only = is_os_only(params[:osonly])
+
+        cur_page = (params[:p] || 0).to_i
+        filter = params[:filter]
+        # build alphabetical list keyed by first letter
+        @gallery = ArtistsGallery.new(view_context, @os_only, cur_page, filter)
+
+        @page_title = "Mission Artists United - MAU Artists"
+        set_artists_index_links
+
+        if request.xhr?
+          render partial: 'artist_list', locals: { gallery: @gallery }
+        else
+          render action: 'index'
+        end
+      }
+      format.json {
+        render json: Artist.active
+      }
+      format.mobile {
+        @artists = []
+        @page_title = "Artists"
+        render layout: 'mobile'
+      }
+    end
+  end
 
   def map_page
     @os_only = is_os_only(params["osonly"])
@@ -73,41 +101,6 @@ class ArtistsController < ApplicationController
     set_artists_index_links
 
     render action: 'roster'
-  end
-
-  def index
-    respond_to do |format|
-      format.html {
-        # collect query args to build links
-        @os_only = is_os_only(params[:osonly])
-
-        cur_page = (params[:p] || 0).to_i
-
-        # build alphabetical list keyed by first letter
-        @gallery = ArtistsGallery.new(view_context, @os_only, cur_page)
-
-        @page_title = "Mission Artists United - MAU Artists"
-        set_artists_index_links
-
-        if request.xhr?
-          if cur_page > @gallery.last_page
-            render text: ''
-          else
-            render partial: 'artist', collection: @gallery.pagination.items
-          end
-        else
-          render action: 'index'
-        end
-      }
-      format.json {
-        render json: Artist.active
-      }
-      format.mobile {
-        @artists = []
-        @page_title = "Artists"
-        render layout: 'mobile'
-      }
-    end
   end
 
   def suggest
@@ -350,7 +343,6 @@ class ArtistsController < ApplicationController
   def process_os_update
     participating = (((params[:artist] && params[:artist][:os_participation])).to_i != 0)
     if participating != current_artist.doing_open_studios?
-      puts "setting to #{participating}"
       begin
         unless current_artist.address.blank?
           current_artist.update_os_participation(current_open_studios_key, participating)

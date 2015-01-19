@@ -127,8 +127,8 @@ group :test, :development do
   gem 'jasminerice', github: 'bradphelan/jasminerice' 
   gem 'timecop'
 
-#  gem 'better_errors'
-#  gem "binding_of_caller"
+  gem 'better_errors'
+  gem "binding_of_caller"
 
   gem 'rails_best_practices'
 end

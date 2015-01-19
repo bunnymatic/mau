@@ -18,13 +18,16 @@ describe ArtistsController do
   let(:sw_bounds) { Artist::BOUNDS['SW'] }
 
   describe "#index" do
-   describe 'logged in as admin' do
+    before do
+      artists
+    end
+    describe 'logged in as admin' do
       render_views
       before do
         login_as admin
         get :index
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it_should_behave_like 'logged in as admin'
     end
 
@@ -32,10 +35,8 @@ describe ArtistsController do
     describe 'html' do
       render_views
       before do
-        artists
         get :index
       end
-      it_should_behave_like 'one column layout'
       it { expect(response).to be_success }
       it "builds a presenter with only active artists" do
         presenter = assigns(:gallery)
@@ -45,14 +46,6 @@ describe ArtistsController do
       end
       it "set the title" do
         assigns(:page_title).should eql 'Mission Artists United - MAU Artists'
-      end
-      it "thumbs have representative art pieces in them" do
-        presenter = assigns(:gallery)
-        presenter.items.each do |a|
-          rep = a.representative_piece.art_piece
-          assert_select(".allthumbs .thumb .name", /#{a.name}/);
-          assert_select(".allthumbs .thumb[pid=#{rep.id}] img[src*=#{rep.filename}]")
-        end
       end
     end
 
@@ -66,6 +59,22 @@ describe ArtistsController do
         j.count.should eql Artist.active.count
       end
     end
+
+    describe 'xhr' do
+      before do
+        get :index, p: '0', filter: filter
+      end
+      context 'without filter' do
+        let(:filter) { '' }
+        it { expect(response).to be_success }
+        it { expect(assigns(:gallery).pagination.items).to have_at_least(1).artist }
+      end
+      context 'with filter' do
+        let(:filter) { 'thisfilterbetternotmatchanything' }
+        it { expect(response).to be_success }
+        it { expect(assigns(:gallery).pagination.items).to be_empty }
+      end
+    end
   end
 
   describe '#index roster view' do
@@ -73,7 +82,6 @@ describe ArtistsController do
     before do
       get :roster
     end
-    it_should_behave_like 'one column layout'
     it { expect(response).to be_success }
     it "assigns artists" do
       assigns(:roster).artists.length.should have_at_least(2).artists
@@ -485,7 +493,7 @@ describe ArtistsController do
         login_as admin
         get :show, id: artist.id
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it_should_behave_like 'logged in as admin'
     end
 
@@ -615,10 +623,7 @@ describe ArtistsController do
       before do
         get :map_page
       end
-      it_should_behave_like 'one column layout'
-      it "returns success" do
-        expect(response).to be_success
-      end
+      it { expect(response).to be_success }
       it "sets up a presenter" do
         assigns(:map_info).should be_a_kind_of ArtistsMap
       end
@@ -650,9 +655,7 @@ describe ArtistsController do
       before do
         get :map_page, "osonly" => true
       end
-      it "returns success" do
-        expect(response).to be_success
-      end
+      it { expect(response).to be_success }
       it "sets up a presenter" do
         assigns(:map_info).should be_a_kind_of ArtistsMap
       end
@@ -679,7 +682,7 @@ describe ArtistsController do
         login_as admin
         get :map_page
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it_should_behave_like 'logged in as admin'
     end
   end

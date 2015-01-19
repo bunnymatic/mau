@@ -6,7 +6,7 @@ class ArtistPresenter
   include HtmlHelper
 
   attr_accessor :artist
-  delegate :name, :state, :firstname, :lastname, :city, :street, :id,
+  delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
     :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
     :os_participation, :studio, :studio_id, :login, :active?, :artist_info,
     :activated_at, :email, :last_login, :full_name,

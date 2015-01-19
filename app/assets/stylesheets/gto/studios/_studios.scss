@@ -1,4 +1,5 @@
 @import 'mau-mixins';
+@import 'gto/gto-mixins';
 .studio-thumb-mixin {
   position: relative;
   min-height: 300px;
@@ -36,6 +37,8 @@
 }
 
 .studios, .studios.show {
+  @include search-filter;
+
   h2.title {
     .studio__name {
       font-weight: normal;

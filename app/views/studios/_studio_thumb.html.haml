@@ -1,6 +1,6 @@
 / expects studio_thumb
 - classes ||= []
-.studio{class: classes.join(" ")}
+.studio.studio-card{class: classes.join(" "), 'data-name' => studio_thumb.search_name}
   %a{:href => studio_thumb.studio_path, :title => studio_thumb.name}
     .image
       %img{:src => studio_thumb.image(:small)}
@@ -13,6 +13,7 @@
         #{studio_thumb.street}
         = link_to studio_thumb.map_link, title: :map, target: "_blank" do
           %i.fa.fa-map-marker
+
     - if studio_thumb.has_artists?
       .populations
         .population
