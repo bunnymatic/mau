@@ -3,6 +3,16 @@
 
 #admin_nav
 {
+  position: fixed;
+  width: 200px;
+  left: calc(100% - 2px);
+  left: -webkit-calc(100% - 2px);
+  color:$darkgray;
+  font-size:small;
+  margin: 0 auto;
+  z-index: 30;
+  @include transition(left 0.4s ease-out);
+
   ul,li { margin: 0; padding: 0px;}
 
   .link_groups > li {
@@ -11,15 +21,6 @@
   .link_section li {
     padding: 5px 2px;
   }
-  position: fixed;
-  width: 200px;
-  left: calc(100% - 20px);
-  left: -webkit-calc(100% - 20px);
-  color:$darkgray;
-  font-size:small;
-  margin: 0 auto;
-  z-index: 30;
-  @include transition(left 0.4s ease-out);
   &:hover {
     left: calc(100% - 200px);
     left: -webkit-calc(100% - 200px);
@@ -27,17 +28,25 @@
   .container {
     position: relative;
     z-index:1;
-    border: 1px solid $error_red;
-    background-color: #ffcccc;
+    border: 1px solid $gto_red;
+    background-color: lighten($gto_red, 45%);
     margin: 4px auto 0;
-    padding: 9px 20px 20px 30px;
+    padding: 9px 20px 20px 20px;
+    @include round-left-corners(4px);
     .handle {
-      height: 90px;
-      width: 16px;
+      border: 1px solid $gto_red;
+      border-top: none;
+      background-color: lighten($gto_red, 45%);
       position: absolute;
-      left: 5px;
-      top: 10px;
-      background-image: image_url("draggable-handle.png");
+      left: -60px;
+      top: 72px;
+      padding: 5px 8px;
+      @include transform( rotate(90deg) );
+      @include transform-origin(top);
+      @include round-bottom-corners(4px);
+      .title {
+        letter-spacing: 0;
+      }
     }
     ul ul {
       border-top: 1px solid #c99;

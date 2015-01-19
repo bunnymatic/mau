@@ -1,7 +1,9 @@
 - nav_presenter = AdminNavigation.new(self, current_user)
 #admin_nav
-  .container#admin_nav_body
+  .container.admin_nav__body
     .handle
+      = fa_icon 'gear'
+      %span.title admin tools
     .link_section.main
       = link_to 'dashboard', admin_path, {:class => 'lkdark'}
     %ul{:class => 'link_groups'}

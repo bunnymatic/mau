@@ -17,6 +17,7 @@ body.admin {
         padding: 4px;
         text-align:center;
         background-color: rgba(200,200,200,0.5);
+        font-size: 0.8rem;
         @include large-rounded-corners;
       }
     }

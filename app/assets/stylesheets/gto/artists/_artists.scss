@@ -13,13 +13,14 @@
     text-align:center;
     margin:auto;
     position: relative;
+    z-index: -1;  /* fix issue with fa-spin screwing up zindex */
     .hint {
       letter-spacing:0;
       font-size: 0.9rem;
       font-style: italic;
       color: rgba(200,200,200,0.5);
     }
-    .fa-spin {
+    .fa-spinner {
       font-size: 100px;
       color: rgba(200,200,200,0.5);
     }

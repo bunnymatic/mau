@@ -1,3 +1,4 @@
 $ ->
-  $('.js-tabs').tab();
+  $tabs = $(".js-tabs")
+  $tabs.tab() unless ($tabs.length == 0)
   
