@@ -1,6 +1,6 @@
 class ArtSampler
 
-  NUM_IMAGES = 15
+  NUM_IMAGES = 15 - 2 # -2 for promo banner 
   def initialize(view_context)
     @vc = view_context
   end

@@ -2,6 +2,9 @@
 @import 'gto/variables';
 @import 'mau-mixins';
 
+.pure-g [class*="pure-u"] {
+  font-family: $font;
+}
 .pure-u-xs-hidden, .pure-u-sm-hidden, .pure-u-md-hidden, .pure-u-lg-hidden {
   display: none;
 }

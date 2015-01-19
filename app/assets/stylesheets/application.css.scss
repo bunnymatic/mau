@@ -1,5 +1,4 @@
 /*
- *= require pure-customizations
  *= require reset
  *= require socicon
  *= require micro_icons
@@ -20,6 +19,7 @@
 @import 'font-awesome';
 @import 'pure';
 @import 'pure/grids-responsive';
+@import 'pure-customizations';
 
 .container {
   margin: auto;

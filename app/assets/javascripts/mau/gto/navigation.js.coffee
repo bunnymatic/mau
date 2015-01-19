@@ -3,6 +3,9 @@ $ ->
     hideTabs: ->
       $(".sidenav .active").removeClass('active')
       $(".tab-content").removeClass('active')
+    setActiveSection: ->
+      path = location.pathname.replace(/\#.*$/, '')
+      $('.nav a[href="' + path + location.search + '"]').closest('.tab').addClass('active')
       
   $('.nav a[data-toggle=tab]').on 'click', (ev) ->
     # toggle tab if the click is on the active one
@@ -32,6 +35,8 @@ $ ->
 
   $('.js-close').on 'click', (ev) ->
     $(@).closest('.tab-content').removeClass('active', false)
+
+  navHelpers.setActiveSection();
 
 
   window.MAU ||= {}

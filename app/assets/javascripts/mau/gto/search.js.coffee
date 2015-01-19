@@ -10,6 +10,7 @@ $ ->
       $("##{SEARCH_FORM_ID}").removeClass('open')
 
   $('.nav-icon.search').on 'click', (ev) ->
+    ev.preventDefault()
     unless $("##{SEARCH_FORM_ID}").length
       template = new MAU.Template('search_form_template')
       $("##{SEARCH_FORM_ID}").remove()

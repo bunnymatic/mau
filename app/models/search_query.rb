@@ -32,20 +32,7 @@ class SearchQuery
   end
 
   def set_studios(vals)
-    if vals.present?
-      studio_ids = vals.compact.map(&:to_i)
-      if studio_ids.present?
-        studios = []
-        if studio_ids.include? 0
-          studios << Studio.indy
-          studio_ids.reject!{|s| s == 0}
-        end
-        if !studio_ids.empty?
-          studios += Studio.where(:id => studio_ids)
-        end
-      end
-      studios
-    end
+    vals.present? ? Studio.find(vals) : []
   end
 
 

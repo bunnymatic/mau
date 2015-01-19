@@ -5,7 +5,8 @@ MAU.Sampler = class Sampler
 
   constructor: (container, refreshTime) ->
     @container = container
-    @refreshTime = refreshTime || 100000
+    @refreshTime = refreshTime || 60000
+    @fadeTime = 400
     @requests = []
 
   start: =>
@@ -18,8 +19,15 @@ MAU.Sampler = class Sampler
         url: '/main/sampler'
         method:'get'
         success: (data, status, xhr) =>
-          container.fadeOut =>
-            container.html(data).fadeIn()
+          existing = container.find('a[class^=pure-u]')
+          $('.sampler__empty').remove();
+          if existing.length
+            existing.fadeOut duration: @fadeTime
+            setTimeout ->
+              container.find('.sampler__promo').after(data);
+            , @fadeTime
+          else
+            container.find('.sampler__promo').after(data);
           setTimeout(@updateArt, @refreshTime);
       jQuery.ajax( ajaxOpts )
 

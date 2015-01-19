@@ -6,14 +6,14 @@ class SearchController < ApplicationController
 
   def fetch
     respond_to do |format|
+      format.html {
+        execute_search
+        render :layout => false
+      }
       format.json {
         @query = SearchQuery.new(params)
         results = SearchService.new(@query).search
         @results = results
-      }
-      format.html {
-        execute_search
-        render :layout => false
       }
     end
   end

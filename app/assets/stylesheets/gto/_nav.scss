@@ -94,7 +94,7 @@
   .search, .tabs .tab {
     margin: 0;
     &:hover {
-      a, .fa, .text {
+      a, .text {
         font-weight: 700;
         color: $gto_dark_teal;
       }

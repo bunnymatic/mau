@@ -6,6 +6,14 @@ $sampler-thumbnail-size : 250px;
   overflow:hidden;
   font-size: 0; /* avoid spaces between blocks */
   background: transparent;
+  .sampler__promo {
+    font-size: 14px;
+    .sampler__promo-contents {
+      .image {
+        background-image: image_url('sampler-promo-banner.jpg');
+      }
+    }
+  }
   .sampler__empty {
     position:relative;
     min-height: 500px;
@@ -18,12 +26,16 @@ $sampler-thumbnail-size : 250px;
       color: rgba(200,200,200,0.5);
     }      
   }
+  .sampler__promo-contents,
   .sampler__thumb {
     @extend .artist-thumb-mixin;
     height: $sampler-thumbnail-size;
     min-height: inherit;
     padding: 6px;
     overflow: hidden;
+    .image {
+      height: $sampler-thumbnail-size;
+    }
     .desc {
       @include transition(all 0.25s ease-in-out);
       @include opacity(0);
