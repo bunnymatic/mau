@@ -1,17 +1,9 @@
 .pure-g
   .pure-u-1-1.header.padded-content
     %h2.title
-      Artist:
-      %span.artist__name #{@art_piece.artist_name}
-  .pure-u-1-1.padded-content
-    %ul.js-tabs.tabs.tabs__horizontal
-      %li.active
-        %a{href: '#art', "data-toggle" => 'tab'} art
-      %li
-        %a{href: '#about', "data-toggle" => 'tab'} profile
+      Art:
+      %span.art_piece__title #{@art_piece.title}
 .pure-g.tab-content
   .pure-u-1-1#art.tab-pane.active.padded-content
     .pure-g
-      = render partial: '/artists/art', collection: @art_piece.artist.art_pieces, as: :art_piece
-  .pure-u-1-1#about.tab-pane.padded-content
-    = render '/artists/about', artist: @art_piece.artist
+      = render '/artists/art', art_piece: @art_piece

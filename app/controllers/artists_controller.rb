@@ -162,11 +162,7 @@ class ArtistsController < ApplicationController
         if !@artist
           flash.now[:error] = 'We were unable to find the artist you were looking for.'
         end
-        if @artist.art_pieces.present?
-          redirect_to @artist.art_pieces.first and return
-        else
-          @artist = ArtistPresenter.new(view_context, @artist)
-        end
+        @artist = ArtistPresenter.new(view_context, @artist)
       }
       format.json  {
         cleaned = @artist.clean_for_export(@artist.art_pieces)

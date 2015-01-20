@@ -191,7 +191,13 @@ class ArtistPresenter
   end
 
   def bio_html
-    @bio_html ||= MarkdownService.markdown(bio, :filter_html)
+    @bio_html ||= begin
+                    if bio.present?
+                      MarkdownService.markdown(bio, :filter_html)
+                    else
+                      @view_context.content_tag('h4', "No artist's statement")
+                    end
+                  end
   end
 
   def profile_image(size = small)

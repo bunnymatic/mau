@@ -122,8 +122,11 @@
 
 .artist-profile {
   position: relative;
-  margin-top: 10px;
+  margin-top: 15px;
   padding: 0 10px 10px;
+  .header .title {
+    margin-top: 0px;
+  }
   .artist-profile__edit {
     top: 0;
   }
@@ -148,7 +151,7 @@
     }
   }
   .artist {
-    margin-top: 40px;
+    margin-top: 0px;
     padding-left: 10px;
   }
   .favorites-block {
@@ -165,17 +168,15 @@
 }
 .bio-container {
   overflow: auto;
-  padding-top: 40px;
-  font-size: 1.2rem;
-  line-height: 1.8rem;
-  p {
-    font-size: 1.2rem;
-    line-height: 1.8rem;
-  }
+  padding-right: 20px;
   p:first-child {
     margin-top: 0;
   }
 }
+.bio-container, .bio-container p {
+  font-size: 1.1rem;
+  line-height: 1.7rem;
+} 
 .artist-profile {
   overflow:hidden;
 }

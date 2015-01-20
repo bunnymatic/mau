@@ -60,20 +60,26 @@
   }
   &.tabs__horizontal {
     margin-top: 10px;
+    height: 33px;
     li {
-      float: left;
-      padding: 0 10px;
+      display: inline-block;
+      &:first-child {
+        padding-left: 0;
+      }
+      &:last-child {
+        padding-right: 0;
+      }
       &.active {
         background-color: none;
       }
     }
     a[data-toggle=tab] {
       @include ellipsis;
-      padding: 10px;
+      padding: 5px 20px;
       display: inline-block;
       width: 100%;
       border-bottom: 2px solid;
-      border-color: rgba(200,200,200,0.5);
+      border-color: $xlightgray;
       text-align: center;
       font-weight: $font-weight-light;
       outline: none;
@@ -84,13 +90,13 @@
     }
     .active {
       a[data-toggle=tab] {
-        border-color: $gto_yellow;
+        border-color: $gto_orange;
         font-weight: $font-weight-normal;
       }
     }
     li:hover {
       a[data-toggle=tab] {
-        border-color: $gto_yellow;
+        border-color: $gto_orange;
       }
     }
   }
