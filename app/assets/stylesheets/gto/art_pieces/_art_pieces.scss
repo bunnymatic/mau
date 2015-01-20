@@ -1,5 +1,20 @@
+@import 'gto/variables';
 #arrange_art_form {
   .desc {
     height: 33px;
+  }
+}
+
+.header {
+  .art-piece__byline {
+    font-style: italic;
+  }
+}
+.art_pieces.show {
+  .art-piece {
+    text-align: center;
+    img {
+      margin: auto;
+    }
   }
 }

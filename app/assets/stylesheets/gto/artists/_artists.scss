@@ -2,11 +2,6 @@
 @import 'gto/gto-mixins';
 .artists, .artists.index, .artists.show, .art_pieces.show {
 
-  h2.title {
-    .artist__name {
-      font-weight: $font-weight-normal;
-    }
-  }
   @include search-filter;
   
   .scroll-load-more {

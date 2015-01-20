@@ -75,8 +75,6 @@
           %h5.block_head Open Studios Participants:
           .block
             = select_tag :os_artist, options_for_select([["Don't Care", nil], ['Yes', 1], ['No', 2]])
-  .pure-u-4-5.padded-content
+  .pure-u-4-5
     = render :partial => '/flash_notice_error'
-    #spinner
-    .content-block
-      = render :partial => 'search_results'
+    = render :partial => 'search_results'

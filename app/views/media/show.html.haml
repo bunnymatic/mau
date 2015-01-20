@@ -1,21 +1,13 @@
-%table.tbl-content
-  %tr
-    %td.lcol{ :colspan => '2' }
-      = render 'media_link_list', :match => @medium, :frequency => @frequency
-    %td.vstripe
-    %td.rcol{ :colspan => '2'}
-      %h4
-        Search for medium:
-        %span.query
-          = @medium.name
-      #search_results
-        .search-view-ctrls
-          = render "/common/pagination", :paginator => @paginator
-          = render "/art_pieces/mode_selector", :paginator => @paginator, :by_artists_link => @by_artists_link, :by_pieces_link => @by_pieces_link
-        = render '/flash_notice_error'
-        .search-results
-          - if @pieces and !@pieces.empty?
-            = render '/search/thumbs', :pieces => @pieces, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }
-        .search-view-ctrls
-          = render "/common/pagination", :paginator => @paginator
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title
+      Medium:
+      %span.medium__name #{@medium.name}
+.pure-g
+  .pure-u-1-5.padded-content
+    = render 'media_link_list', :match => @medium, :frequency => @frequency
+  .pure-u-4-5
+    = render "/common/pagination", :paginator => @paginator
+    .pure-g.search-results
+      = render partial: '/artists/art', collection: @pieces, as: :art_piece
 

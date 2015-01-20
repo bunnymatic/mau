@@ -18,3 +18,11 @@ p {
     min-height: 1.1rem;
   }
 }
+
+.header {
+  .title {
+    .artist__name, .art-piece__name, .studio__name, .tag__name, .medium__name {
+      font-weight: $font-weight-normal;
+    }
+  }
+}

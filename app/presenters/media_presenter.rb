@@ -13,7 +13,7 @@ class MediaPresenter
   end
 
   def art_pieces
-    @art_pieces ||= paginator.items
+    @art_pieces ||= paginator.items.map{|a| ArtPiecePresenter.new(@view_context,a)}
   end
 
   def all_art_pieces

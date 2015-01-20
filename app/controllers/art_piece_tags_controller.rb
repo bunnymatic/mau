@@ -46,7 +46,7 @@ class ArtPieceTagsController < ApplicationController
     end
 
     mode = params[:m]
-    @tag_presenter = ArtPieceTagPresenter.new(@tag, mode)
+    @tag_presenter = ArtPieceTagPresenter.new(view_context, @tag, mode)
     @tag_cloud_presenter = TagCloudPresenter.new(view_context, ArtPieceTag, @tag, mode)
     @paginator = ArtPieceTagPagination.new(view_context, @tag_presenter.art_pieces, @tag, page, mode)
 

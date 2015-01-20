@@ -1,0 +1,22 @@
+-# expects art_piece as art_piece_presenter
+.pure-u-1-1.art-piece
+  - if logged_in? && (art_piece.artist == current_user)
+    .card__controls
+      .art-card__edit 
+        = link_to art_piece.edit_path, title: 'edit this art' do
+          .fa.fa-icon.fa-edit
+      .art-card__delete 
+        = link_to art_piece.destroy_path, confirm: 'Are you sure you want to remove this piece of art from your portfolio?', method: :delete, title: "Delete" do
+          .fa.fa-icon.fa-close
+
+  %img{ src: art_piece.get_path(:large) }
+  .desc
+    .name
+      = art_piece.title
+    - if art_piece.has_medium?
+      .media
+        = link_to art_piece.medium.name.html_safe, art_piece.medium
+    - if art_piece.has_tags?
+      .tags
+        = art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
+

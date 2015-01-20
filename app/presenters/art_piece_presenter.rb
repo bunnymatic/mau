@@ -73,4 +73,8 @@ class ArtPiecePresenter
     @view_context.edit_art_piece_path(art_piece)
   end
 
+  def artist_path
+    @view_context.artist_path(artist.artist)
+  end
+
 end

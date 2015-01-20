@@ -1,10 +1,12 @@
 @import 'gto/gto-mixins';
 .search.index {
-  .art-card, .artist-card {
-    @extend .artist-thumb-mixin;
-  }
   h4 .query {
     font-style: italic;
     font-weight: $font-weight-normal;
+  }
+}
+.search-results {
+  .art-card, .artist-card {
+    @extend .artist-thumb-mixin;
   }
 }

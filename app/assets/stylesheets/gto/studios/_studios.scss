@@ -39,11 +39,6 @@
 .studios, .studios.show {
   @include search-filter;
 
-  h2.title {
-    .studio__name {
-      font-weight: $font-weight-normal;
-    }
-  }
   .studio {
     @extend .artist-thumb-mixin;
     .desc {

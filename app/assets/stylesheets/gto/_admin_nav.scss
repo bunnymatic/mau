@@ -32,7 +32,7 @@
     background-color: lighten($gto_red, 45%);
     margin: 4px auto 0;
     padding: 9px 20px 20px 20px;
-    @include round-left-corners(4px);
+    @include round-left-corners(2px);
     .handle {
       border: 1px solid $gto_red;
       border-top: none;
@@ -41,9 +41,9 @@
       left: -60px;
       top: 72px;
       padding: 5px 8px;
+      @include round-bottom-corners(4px);
       @include transform( rotate(90deg) );
       @include transform-origin(top);
-      @include round-bottom-corners(4px);
       .title {
         letter-spacing: 0;
       }

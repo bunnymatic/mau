@@ -1,18 +1,13 @@
 .pure-g
-  .pure-u-1-6
+  .pure-u-1-1.header.padded-content
+    %h2.title
+      Tag:
+      %span.tag__name #{@tag.name}
+.pure-g
+  .pure-u-1-5.padded-content
     = render 'tag_list', :cloud => @tag_cloud_presenter
-  .pure-u-5-6
-    %h4
-      Search for tag:
-      %span.query
-        = @tag.name
-    #search_results
-      .search-view-ctrls
-        = render "/common/pagination", :paginator => @paginator
-        = render "/art_pieces/mode_selector", :paginator => @paginator, :by_artists_link => @by_artists_link, :by_pieces_link => @by_pieces_link
-      = render '/flash_notice_error'
-      .search-results
-        - if @paginator.items.present?
-          = render '/search/thumbs', :pieces => @paginator.items, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }
-      .search-view-ctrls
-        = render "/common/pagination", :paginator => @paginator
+  .pure-u-4-5
+    = render "/common/pagination", :paginator => @paginator
+    .pure-g.search-results
+      = render partial: '/artists/art', collection: @paginator.items, as: :art_piece
+

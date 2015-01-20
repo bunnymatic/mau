@@ -1,8 +1,5 @@
 $ ->
 
-  $('.tab-content').on 'mouseover', '.active', (ev) ->
-    console.log('z', $(this).css('z-index'));
-    
   # hits both studio and artist pages
   $('.js-filter-visibility').on 'click', '.fa-search', () ->
     # suppress submit
