@@ -1,66 +1,86 @@
 -# expects artist as artist_presenter
 .pure-g
-  .pure-u-1-1.pure-u-md-1-2.artist-profile
+  .pure-u-1-1.pure-u-sm-1-2.artist-profile
     .pure-g
-      .pure-u-1-1.pure-u-sm-1-2
+      .pure-u-1-1
         = render '/artist_profile_image', :artist => artist.artist
         - if artist.doing_open_studios?
           .os-violator
             = link_to open_studios_path do
               %img{:src => "/images/os_star_violator.png"}
-      .pure-u-1-1.pure-u-sm-1-2.artist
+    .pure-g
+      .pure-u-1-1
         - if logged_in? && (artist.artist == current_user)
           .card__controls
             .artist-profile__edit 
               = link_to artist.edit_path, title: 'edit your profile' do
                 .fa.fa-icon.fa-edit
-
-        - if artist.studio
-          .studio-name
-            = link_to artist.studio_name, artist.studio
-          .studio-address
-            #{artist.studio.street} #{artist.studio_number}
-            - if artist.has_address?
-              = link_to artist.map_url, title: :map do
-                %i.fa.fa-map-marker
-            .studio-city #{artist.studio.city}
-        - else
-          .studio-name #{IndependentStudio.new.name.singularize}
-          .studio-address
-            #{artist.street}
-            - if artist.has_address?
-              = link_to artist.map_url, title: :map do
-                %i.fa.fa-map-marker
-            .studio-city #{artist.city}
-        - if artist.has_media?
-          .artist-media
-            Media:
-            = artist.media.map{|m| link_to(m.name, m, :class => "")}.join(", ").html_safe
-        - if artist.has_links?
-          .artist-links
-            - artist.links.each do |key, name, lnk|
-              %div{:id => key}
-                %span #{name + ":"}
-                = link_to lnk, lnk, { :target => "_blank" }
-
-      .pure-u-1-1
-        = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => artist.artist }
-      .pure-u-1-1
-        = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => artist.artist }
-
-
-  .pure-u-1-1.pure-u-md-1-2.artist-profile
+        %section.artist__studio
+          .header Studio
+          .body  
+            - if artist.studio
+              .studio-name
+                = link_to artist.studio_name, artist.studio
+              .studio-address
+                #{artist.studio.street} #{artist.studio_number}
+                - if artist.has_address?
+                  = link_to artist.map_url, title: :map do
+                    %i.fa.fa-map-marker
+                .studio-city #{artist.studio.city}
+            - else
+              .studio-name #{IndependentStudio.new.name.singularize}
+              .studio-address
+                #{artist.street}
+                - if artist.has_address?
+                  = link_to artist.map_url, title: :map do
+                    %i.fa.fa-map-marker
+                .studio-city #{artist.city}
+        .pure-button#js-hide-artist-details Hide Artist Details
+  .pure-u-1-1.pure-u-sm-1-2.artist-profile
     .pure-g
-      .pure-u-1-1.header
-        %h4.title Artist's Statement
+      .pure-u-1-1
+        %section.artist__bio
+          .header Artist's Statement
+          - if logged_in? && (artist.artist == current_user)
+            .card__controls
+              .artist-profile__edit 
+                = link_to artist.edit_path(anchor: 'bio'), title: 'edit this profile' do
+                  .fa.fa-icon.fa-edit
+          .bio-container
+            = artist.bio_html
+        .read-more read more if necessary
+    - if artist.has_media?
+      .pure-g
+        .pure-u-1-1
+          %section.media
+            .header Media
+            %ul.artist__media
+              - artist.media.each do |m|
+                %li
+                  = link_to(m.name, m, :class => "")
+    - if artist.has_links?
+      .pure-g
+        .pure-u-1-1
+          %section.links
+            .header Links
+            .artist__links
+              - artist.links.each do |k,name, link|
+                .link 
+                  = name + ":"
+                  = link_to link, link, { :target => "_blank" }
     .pure-g
-      .pure-u-1-1.header
-        - if logged_in? && (artist.artist == current_user)
-          .card__controls
-            .artist-profile__edit 
-              = link_to artist.edit_path(anchor: 'bio'), title: 'edit this profile' do
-                .fa.fa-icon.fa-edit
-        .bio-container
-          = artist.bio_html
+      .pure-u-1-1
+        %section.favorites
+          .header 
+            Who I
+            = fa_icon 'heart'
+          = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => artist.artist }
+      .pure-u-1-1
+        %section.favorites
+          .header 
+            Who 
+            = fa_icon 'heart'
+            's me
+          = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => artist.artist }
 
-  
+
