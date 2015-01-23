@@ -1,12 +1,13 @@
 $ ->
 
-  # hits both studio and artist pages
-  $('.js-filter-visibility').on 'click', '.fa-search', () ->
-    # suppress submit
-    $(@).closest('form').on 'submit', -> false
-    input = $(@).closest('div').find('input')
-    input.focus()
-    
+  if $('.artists.show').length
+    # add read more button if necessary
+    $bio = $('.artist__bio')
+    $bioText = $bio.find(".bio-container")
+    $bio.toggleClass('overflowing', $bioText.isOverflowing()) if $bio.length
+    $bio.on 'click', '.read-more', (ev) ->
+      ev.preventDefault();
+      $bio.toggleClass('open')
   if $('.artists.index').length
     # define helpers
     currentFilter = $('.js-filter-by-name').val();

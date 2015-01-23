@@ -9,7 +9,7 @@
         = link_to art_piece.destroy_path, confirm: 'Are you sure you want to remove this piece of art from your portfolio?', method: :delete, title: "Delete" do
           .fa.fa-icon.fa-close
 
-  %img{ src: art_piece.get_path(:large) }
+  %img.pure-img{ src: art_piece.get_path(:large) }
   .desc
     .name
       = art_piece.title

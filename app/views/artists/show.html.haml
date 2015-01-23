@@ -8,4 +8,9 @@
     = render '/artists/about', artist: @artist
   .pure-u-1-1.pure-u-sm-1-2.pure-u-md-3-5#art
     .pure-g
+      .pure-u-1-1
+        %section.artist__art
+          .header Art
+          
+          
       = render partial: '/artists/art', collection: @artist.art_pieces, as: :art_piece, locals: { class_overrides: 'pure-u-1-1 pure-u-lg-1-2 pure-u-xl-1-3'}

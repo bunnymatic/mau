@@ -44,6 +44,21 @@ button, input, select, textarea, .pure-g [class*="pure-u"] {
   }
 }
 
+.pure-button {
+  &.pure-button-xs {
+    font-size: 70%;
+  }
+  &.pure-button-sm {
+    font-size: 85%;
+  }
+  &.pure-button-lg {
+    font-size: 110%;
+  }
+  &.pure-button-xl {
+    font-size: 125%;
+  }
+}
+
 [class^=pure-u-].right {
   text-align: right !important;
 }

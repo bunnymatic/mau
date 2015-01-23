@@ -1,6 +1,6 @@
 -# expects artist as artist_presenter
 .pure-g
-  .pure-u-1-1.pure-u-md-1-2.artist-profile
+  .pure-u-1-1.pure-u-lg-1-2.artist-profile
     .pure-g
       .pure-u-1-1
         %section.artist__image
@@ -34,9 +34,9 @@
                 - if artist.has_address?
                   = link_to artist.map_url, title: :map do
                     %i.fa.fa-map-marker
-                .studio-city #{artist.city}
-        .pure-button#js-hide-artist-details Hide Artist Details
-  .pure-u-1-1.pure-u-md-1-2.artist-profile
+                      .studio-city #{artist.city}
+        .pure-button.pure-button-sm#js-hide-artist-details Hide Artist Details
+  .pure-u-1-1.pure-u-lg-1-2.artist-profile
     .pure-g
       .pure-u-1-1
         %section.artist__bio
@@ -48,7 +48,10 @@
                   .fa.fa-icon.fa-edit
           .bio-container
             = artist.bio_html
-        .read-more read more if necessary
+          .read-more
+            = link_to '#' do
+              More
+              = fa_icon 'chevron-circle-down'
     - if artist.has_media?
       .pure-g
         .pure-u-1-1

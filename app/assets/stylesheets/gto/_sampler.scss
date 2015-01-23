@@ -11,6 +11,7 @@ $sampler-thumbnail-size : 250px;
     .sampler__promo-contents {
       .image {
         background-image: image_url('sampler-promo-banner.jpg');
+        background-size: fill;
       }
     }
   }
