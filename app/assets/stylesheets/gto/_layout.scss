@@ -132,8 +132,19 @@ p {
   }
 }
 
+.collapsed[class^=pure-u-] {
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
 
 @media screen and (max-width: $screen-sm-max) {
+
+  .collapsed[class^=pure-u-] {
+    width: auto;
+    height: 0;
+    overflow:hidden;
+  }
   .sidebar-logo {
     background-image: image_url('yellow_sidebar_logo_gear_only.svg');
     width: 35px;

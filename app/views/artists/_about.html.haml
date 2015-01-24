@@ -10,7 +10,7 @@
               = link_to open_studios_path do
                 %img{src: "/images/os_star_violator.png"}
       .pure-u-1-1
-        %section.artist_studio
+        %section.artist__studio
           - if logged_in? && (artist.artist == current_user)
             .card__controls
               .artist-profile__edit 
@@ -36,40 +36,32 @@
                     %i.fa.fa-map-marker
                       .studio-city #{artist.city}
         .pure-button.pure-button-sm#js-hide-artist-details Hide Artist Details
-  .pure-u-1-1.pure-u-lg-1-2.artist-profile
-    .pure-g
-      .pure-u-1-1
-        %section.artist__bio
-          .header Artist's Statement
-          - if logged_in? && (artist.artist == current_user)
-            .card__controls
-              .artist-profile__edit 
-                = link_to artist.edit_path(anchor: 'bio'), title: 'edit this profile' do
-                  .fa.fa-icon.fa-edit
-          .bio-container
-            = artist.bio_html
-          .read-more
-            = link_to '#' do
-              More
-              = fa_icon 'chevron-circle-down'
-    - if artist.has_media?
-      .pure-g
-        .pure-u-1-1
-          %section.media
-            .header Media
-            %ul.artist__media
-              - artist.media.each do |m|
-                %li
-                  = link_to(m.name, m, class: "")
-    - if artist.has_links?
-      .pure-g
-        .pure-u-1-1
-          %section.links
-            .header Links
-            .artist__links
-              - artist.links_html.each do |anchor|
-                .link 
-                  = anchor
+  .pure-u-1-1.pure-u-lg-1-2.artist-profile.artist-details
+    %section.artist__bio
+      - if logged_in? && (artist.artist == current_user)
+        .card__controls
+          .artist-profile__edit 
+            = link_to artist.edit_path(anchor: 'bio'), title: 'edit this profile' do
+              .fa.fa-icon.fa-edit
+      .header Artist's Statement
+      .bio-container{ class: artist.has_bio? ? '' : 'empty' }
+        = artist.bio_html
+      .read-more
+        = link_to '#' do
+          More
+          = fa_icon 'chevron-circle-down'
+    %section.media
+      .header Media
+      %ul.artist__media
+        - artist.media.each do |m|
+          %li
+            = link_to(m.name, m, class: "")
+    %section.links
+      .header Links
+      .artist__links
+        - artist.links_html.each do |anchor|
+          .link 
+            = anchor
     .pure-u-1-1
       %section.favorites
         .header 

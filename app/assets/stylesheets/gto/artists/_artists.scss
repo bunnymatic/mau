@@ -3,7 +3,13 @@
 .artists, .artists.index, .artists.show, .art_pieces.show {
 
   @include search-filter;
-  
+
+  #about, #art, .artist-profile {
+    @include transition-property( width, height, margin, padding);
+    @include transition-duration(0.3s);
+    @include transition-timing-function(ease-in-out);
+  }
+
   .scroll-load-more {
     text-align:center;
     margin:auto;
@@ -166,6 +172,12 @@
       list-style: circle;
     }
   }
+  .artist__studio .body {
+    > div {
+      min-height: 1.4rem;
+      line-height: 1.4rem;
+    }
+  }
   .artist__links .link {
     margin-bottom: 5px;
     @include ellipsis;
@@ -203,6 +215,11 @@
 .bio-container {
   overflow: auto;
   padding-right: 20px;
+  &.empty {
+    h4, p {
+      color: lighten($gto_gray, 20%);
+    }
+  }
   p:first-child {
     margin-top: 0;
   }

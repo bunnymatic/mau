@@ -8,6 +8,24 @@ $ ->
     $bio.on 'click', '.read-more', (ev) ->
       ev.preventDefault();
       $bio.toggleClass('open')
+
+    # hide artists details column
+    $('#js-hide-artist-details').on 'click', (ev) ->
+      $left = $('#about')
+      $right = $('#art')
+      $columns = $left.find('.artist-profile[class^=pure-u-]')
+      $columns.first().toggleClass('pure-u-lg-1-2')
+      $columns.last().toggleClass('collapsed pure-u-lg-1-2')
+      $left.toggleClass('pure-u-md-1-2 pure-u-md-1-3 pure-u-lg-1-5 pure-u-lg-2-5')
+      $right.toggleClass('pure-u-md-1-2 pure-u-md-2-3 pure-u-lg-4-5 pure-u-lg-3-5')
+      btnText = $(@).html()
+      if (/hide/i).test btnText
+        btnText = btnText.replace('Hide', 'Show')
+      else
+        btnText = btnText.replace('Show', 'Hide')
+      $(@).html(btnText)
+
+
   if $('.artists.index').length
     # define helpers
     currentFilter = $('.js-filter-by-name').val();
@@ -25,7 +43,7 @@ $ ->
         pagination.data('current_page',0)
         pagination.data('next_page',0)
         pagination.data('has_more',true)
-      
+
     fetchArtists = (ev) ->
       $content = $('.js-artists-scroll-wrapper')
       pagination = $('.js-pagination-state').last().data()
@@ -59,5 +77,3 @@ $ ->
     $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
       if currentFilter != $('.js-filter-by-name').val()
         throttledFilter()
-
-
