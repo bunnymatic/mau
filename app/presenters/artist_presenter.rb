@@ -25,6 +25,43 @@ class ArtistPresenter
     @artist = artist
     @view_context = view_context
   end
+  
+  def what_i_favorite
+    # collect artist and art piece stuff
+    @what_i_favorite ||=
+      begin
+        user_favorites, art_piece_favorites = artist.favorites.partition do |fav|
+          ['Artist', 'User', 'MAUFan'].include? fav.favoritable_type
+        end
+        
+        [User.find(user_favorites.map(&:favoritable_id)),
+         ArtPiece.find(art_piece_favorites.map(&:favoritable_id))].flatten.compact.uniq
+      end
+  end
+
+  def who_favorites_me
+    @who_favorites_me ||=
+      begin
+        favs = (favorites_of_me + favorites_of_my_work).flatten
+        User.find(favs.select{|f| f.try(:user_id)}.compact.uniq.map(&:user_id))
+      end
+  end
+
+  def favorites_of_me
+    @favorites_of_me ||= Favorite.users.where(favoritable_id: self.id).order('created_at desc')
+  end
+
+  def favorites_of_my_work
+    @favorites_of_my_work ||=
+      begin
+        if self.respond_to? :art_pieces
+          art_piece_ids = art_pieces.map(&:id)
+          Favorite.art_pieces.where(favoritable_id: art_piece_ids).order('created_at desc')
+        else
+          []
+        end
+      end
+  end
 
   def sidebar_art
     art_pieces[0..3]
@@ -115,10 +152,6 @@ class ArtistPresenter
         num = artist.max_pieces - 1
         pieces = artist.art_pieces[0..num].compact.map{|piece| ArtPiecePresenter.new(@view_context,piece)}
       end
-  end
-
-  def who_favorites_me
-    @who_favorites_me ||= artist.who_favorites_me
   end
 
   def favorites_count

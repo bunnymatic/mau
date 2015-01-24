@@ -4,11 +4,11 @@
     .pure-g
       .pure-u-1-1
         %section.artist__image
-          = render '/artist_profile_image', :artist => artist.artist
+          = render '/artist_profile_image', artist: artist.artist
           - if artist.doing_open_studios?
             .os-violator
               = link_to open_studios_path do
-                %img{:src => "/images/os_star_violator.png"}
+                %img{src: "/images/os_star_violator.png"}
       .pure-u-1-1
         %section.artist_studio
           - if logged_in? && (artist.artist == current_user)
@@ -60,7 +60,7 @@
             %ul.artist__media
               - artist.media.each do |m|
                 %li
-                  = link_to(m.name, m, :class => "")
+                  = link_to(m.name, m, class: "")
     - if artist.has_links?
       .pure-g
         .pure-u-1-1
@@ -75,13 +75,13 @@
         .header 
           Who I
           = fa_icon 'heart'
-        = render :partial => "/users/show_who_i_favorite", :locals => { :page_owner => artist.artist }
+        = render partial: "/users/favorite_thumbs", locals: { collection: artist.what_i_favorite }
     .pure-u-1-1
       %section.favorites
         .header 
           Who 
           = fa_icon 'heart'
           's me
-        = render :partial => "/users/show_who_favorites_me", :locals => { :page_owner => artist.artist }
+        = render partial: "/users/favorite_thumbs", locals: { collection: artist.who_favorites_me }
 
 

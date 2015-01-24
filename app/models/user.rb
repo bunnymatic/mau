@@ -265,29 +265,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def what_i_favorite
-    # collect artist and art piece stuff
-    @what_i_favorite ||=
-      begin
-        favorites.reverse.map do |f|
-          case f.favoritable_type
-          when 'Artist','User','MAUFan' then
-            User.find(f.favoritable_id)
-          when 'ArtPiece' then
-            ArtPiece.find(f.favoritable_id)
-          end
-        end.compact.uniq
-    end
-  end
-
-  def who_favorites_me
-    @who_favorites_me ||=
-      begin
-        favs = (favorites_of_me + favorites_of_my_work).flatten
-        User.find(favs.select{|f| f.try(:user_id)}.compact.uniq.map(&:user_id))
-      end
-  end
-
   def remove_favorite(fav)
     f = self.favorites.select { |f| (f.favoritable_type == fav.class.name) && (f.favoritable_id == fav.id) }
     f.map(&:destroy).first
@@ -305,21 +282,6 @@ class User < ActiveRecord::Base
     @fav_art_pieces ||= favorites_to_obj.select { |f| f.is_a? ArtPiece }.uniq
   end
 
-  def favorites_of_me
-    @favorites_of_me ||= Favorite.users.where(favoritable_id: self.id).order('created_at desc')
-  end
-
-  def favorites_of_my_work
-    @favorites_of_my_work ||=
-      begin
-        if self.respond_to? :art_pieces
-          art_piece_ids = art_pieces.map(&:id)
-          Favorite.art_pieces.where(favoritable_id: art_piece_ids).order('created_at desc')
-        else
-          []
-        end
-      end
-  end
 
 
   # reformat data so that the artist contains the art pieces

@@ -196,26 +196,6 @@
       min-width: 80px;
     }
   }
-  /* .artist-media, .artist-links, .studio-address, .favorites-block { */
-  /*   padding-bottom: 1rem; */
-  /*   margin-bottom: 1rem; */
-  /*   line-height: 1.1rem; */
-  /*   &:not(:last-child) { */
-  /*     border-bottom: 1px solid #eee; */
-  /*   } */
-  /* } */
-  /* .artist { */
-  /*   margin-top: 0px; */
-  /*   padding-left: 10px; */
-  /* } */
-  .favorites-block {
-    margin-top: 20px;
-    padding-left: 10px;
-    label {
-      display: block;
-      padding-bottom: 3px;
-    }
-  }
   .action-icons {
     margin-top: 20px;
   }
@@ -240,10 +220,10 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
 }
 .favorite-thumbs li {
   float: left;
-  .thumb {
-    width: 24px;
-    height: 24px;
-    overflow: hidden;
+  .artist__favorite-thumb {
+    margin: 0.2rem;
+    height: 50px;
+    width: 50px;
     @include background-cover;
   }
 }
