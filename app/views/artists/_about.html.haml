@@ -62,14 +62,14 @@
                 %li
                   = link_to(m.name, m, :class => "")
     - if artist.has_links?
-      .pure-u-1-1
-        %section.links
-          .header Links
-          .artist__links
-            - artist.links.each do |k,name, link|
-              .link 
-                = name + ":"
-                = link_to link, link, { :target => "_blank" }
+      .pure-g
+        .pure-u-1-1
+          %section.links
+            .header Links
+            .artist__links
+              - artist.links_html.each do |anchor|
+                .link 
+                  = anchor
     .pure-u-1-1
       %section.favorites
         .header 

@@ -222,9 +222,6 @@ class ArtistsController < ApplicationController
       end
       begin
         current_artist.update_attributes!(artist_params)
-        artist_info = artist_info_params
-        current_artist.artist_info.update_attributes!(artist_info)
-        current_artist.update_attributes!(params[:artist])
         flash[:notice] = "Update successful"
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
 

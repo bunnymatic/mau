@@ -168,6 +168,15 @@
   }
   .artist__links .link {
     margin-bottom: 5px;
+    @include ellipsis;
+    span {
+      font-size: 0.8rem;
+    }
+    .ico {
+      font-size: 1.1rem;
+      display: inline-block;
+      margin-right: 10px;
+    }
   }
   .header .title {
     margin-top: 0px;

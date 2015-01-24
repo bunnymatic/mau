@@ -5,6 +5,15 @@ class ArtistPresenter
 
   include HtmlHelper
 
+  KEYED_LINKS = [ [:url, 'Website', :u_website],
+                  [:instagram, 'Instagram', :u_instagram],
+                  [:facebook, 'Facebook', :u_facebook],
+                  [:twitter, 'Twitter', :u_twitter],
+                  [:pinterest, 'Pinterest', :u_pinterest],
+                  [:flickr, 'Flickr', :u_flickr],
+                  [:blog, 'Blog', :u_blog],
+                  [:myspace, 'MySpace', :u_myspace]]
+
   attr_accessor :artist
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
     :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
@@ -66,9 +75,24 @@ class ArtistPresenter
   end
 
   def links
-    @links ||= Artist::KEYED_LINKS.map do |kk, disp, _id|
+    @links ||= KEYED_LINKS.map do |kk, disp, _id|
       lnk = format_link(@artist.send(kk))
       [_id, disp, lnk] if lnk.present?
+    end.compact
+  end
+
+  def links_html
+    KEYED_LINKS.map do |key, display, _id|
+      site = @artist.send(key)
+      if site.present?
+        formatted_site = format_link(site)
+        site_display = format_link_for_display(site)
+        link_icon_class = icon_link_class(key, site)
+        @view_context.content_tag 'a', href: formatted_site, title: display, target: '_blank' do
+          @view_context.content_tag(:i,'', class: link_icon_class) + 
+            @view_context.content_tag(:span,site_display)
+        end
+      end
     end.compact
   end
 
@@ -237,6 +261,19 @@ class ArtistPresenter
     if link.present?
       (/^https?:\/\//.match(link) ? link : "http://#{link}")
     end
+  end
+
+  def icon_link_class(key, site)
+    clz = [:ico, "ico-invert", "ico-#{key}"]
+    if key.to_sym == :blog
+      site_bits = site.split(".")
+      clz << "ico-" + ((site_bits.length > 2) ? site_bits[1] : site_bits[0])
+    end
+    clz.join(' ')
+  end
+
+  def format_link_for_display(link)
+    link.gsub /^https?:\/\//, ''
   end
 
 end
