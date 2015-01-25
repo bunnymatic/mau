@@ -1,0 +1,14 @@
+.admin {
+  .graph .flot_graph {
+    width: 360px;
+    height: 280px;
+    display: block;
+  }
+  .dashboard__stats-list {
+    ul, li {
+      margin:0;
+      padding:0;
+      font-size: 0.9rem;
+    }
+  }
+}

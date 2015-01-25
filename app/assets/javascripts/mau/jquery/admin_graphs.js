@@ -12,15 +12,10 @@ jQuery(function() {
 
     var xticks = 5;
     var yticks = 4;
-    var labelColor = "#c6c7d6";
-    var lineColor = "#738294";
-    var tickColor = '#222';
     var apd_options = {
       xaxis: { tickFormatter: date_formatter,
-               noTicks: xticks, color: lineColor, max: new Date().valueOf()/1000 },
-      yaxis: { noTicks: yticks, color: lineColor, min: 0},
-      grid: { tickColor: tickColor },
-      series: { color: labelColor }
+               noTicks: xticks, max: new Date().valueOf()/1000 },
+      yaxis: { noTicks: yticks, min: 0}
     };
 
     var GraphPerDay = {

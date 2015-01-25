@@ -1,40 +1,52 @@
-.admin-table#dashboard
-  %h1 Dashboard
-  %h2 Counts:
-  - [:totals, :yesterday, :last_week, :last_30_days].each_with_index do |category, idx|
-    - stats = @activity_stats.send category
-    .section{:class => category}
-      %h3 #{category.to_s.titleize}
-      %ul
-        - stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v|
-          %li #{"%s : %s" % [k.to_s.titleize,v]}
-  - category = 'open_studios'
-  .section{:class => category}
-    %h3 #{category.to_s.titleize}
-    %ul
-      - @activity_stats.open_studios.each do |k,v|
-        %li #{"%s : %s" % [k,v]}
-    .current
-      - if current_open_studios
-        Downloads:
-        %br
-        %a{:href => '/catalog?format=csv'} #{ current_open_studios.for_display } CSV File
-        %br
-        %a{:href => '/catalog'} #{ current_open_studios.for_display } Catalog Index
+.pure-g#dashboard
+  .pure-u-1-1.header
+    %h2.title Dashboard
+  .pure-u-1-1
+    .pure-g
+      .pure-1-1.pure-u-md-1-2
+        .pure-g
+          .pure-u-1-1.header
+            %h3.title Counts
 
-  - if current_user.is_admin?
-    .clear
-    %h2 Graphs:
-    .graph.section
-      %h3 Artists Per Day
-      #artists_per_day.flot_graph
-    .graph.section
-      %h3 ArtPieces Per Day
-      #art_pieces_per_day.flot_graph
-    .graph.section
-      %h3 Favorites Per Day
-      #favorites_per_day.flot_graph
-    .graph.section
-      %h3 OS Signups
-      #os_signups.flot_graph
+          - [:totals, :yesterday, :last_week, :last_30_days].each_with_index do |category, idx|
+            - stats = @activity_stats.send category
+            .pure-u-1-1.pure-u-md-1-2.dashboard__stats-list{:class => category}
+              %h4 #{category.to_s.titleize}
+              %ul
+                - stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v|
+                  %li #{"%s : %s" % [k.to_s.titleize,v]}
+          - category = 'open_studios'
+          .pure-u-1-1.pure-u-md-1-2.dashboard__stats-list{:class => category}
+            %h4 #{category.to_s.titleize}
+            %ul
+              - @activity_stats.open_studios.each do |k,v|
+                %li #{"%s : %s" % [k,v]}
+            .current
+              - if current_open_studios
+                Downloads:
+                %br
+                %a{:href => '/catalog?format=csv'} #{ current_open_studios.for_display } CSV File
+                %br
+                %a{:href => '/catalog'} #{ current_open_studios.for_display } Catalog Index
+      - if current_user.is_admin?
+        .pure-1-1.pure-u-md-1-2
+          .pure-g
+            .pure-u-1-1.header
+              %h3.title Graphs
+            .pure-u-1-1.pure-u-md-1-2
+              .graph
+                %h4 Artists Per Day
+                #artists_per_day.flot_graph
+            .pure-u-1-1.pure-u-md-1-2
+              .graph
+                %h4 ArtPieces Per Day
+                #art_pieces_per_day.flot_graph
+            .pure-u-1-1.pure-u-md-1-2
+              .graph
+                %h4 Favorites Per Day
+                #favorites_per_day.flot_graph
+            .pure-u-1-1.pure-u-md-1-2
+              .graph
+                %h4 OS Signups
+                #os_signups.flot_graph
 
