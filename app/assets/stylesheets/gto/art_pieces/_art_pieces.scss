@@ -1,4 +1,5 @@
 @import 'gto/variables';
+@import 'mau-mixins';
 #arrange_art_form {
   .desc {
     height: 33px;
@@ -15,6 +16,21 @@
     text-align: center;
     img {
       margin: auto;
+    }
+  }
+  .art-piece__info {
+    border-right: 1px solid $xlightgray;
+  }
+  .browser {
+    .piece {
+      .image {
+        width: 100%;
+        height: 100px;
+        @include background-cover;
+        &.current {
+          border: 1px solid red;
+        }
+      }
     }
   }
 }

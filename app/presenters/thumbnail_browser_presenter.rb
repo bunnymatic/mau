@@ -10,7 +10,7 @@ class ThumbnailBrowserPresenter
   end
 
   def pieces
-    @art_pieces ||= @artist.art_pieces
+    @art_pieces ||= @artist.art_pieces.map{|ap| ArtPiecePresenter.new(@view_context, ap) }
   end
 
   def num_pieces
@@ -19,6 +19,10 @@ class ThumbnailBrowserPresenter
 
   def has_thumbs?
     thumbs.count > 0
+  end
+  
+  def is_current_piece(piece)
+    piece == @current_piece
   end
 
   def row_class

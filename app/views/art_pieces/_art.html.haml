@@ -1,5 +1,5 @@
 -# expects art_piece as art_piece_presenter
-.pure-u-1-1.art-piece
+.pure-u-1-5.art-piece__info
   - if logged_in? && (art_piece.artist == current_user)
     .card__controls
       .art-card__edit 
@@ -8,15 +8,29 @@
       .art-card__delete 
         = link_to art_piece.destroy_path, confirm: 'Are you sure you want to remove this piece of art from your portfolio?', method: :delete, title: "Delete" do
           .fa.fa-icon.fa-close
-
-  %img.pure-img{ src: art_piece.get_path(:large) }
   .desc
-    .name
-      = art_piece.title
+    - if art_piece.has_dimensions?
+      %h4.title Dimensions
+      .dimensions 
+        = art_piece.display_dimensions
+    - if art_piece.has_year?
+      %h4.title Date
+      .date 
+        = art_piece.year
     - if art_piece.has_medium?
+      %h4.title Medium
       .media
         = link_to art_piece.medium.name.html_safe, art_piece.medium
     - if art_piece.has_tags?
+      %h4.title Tags
       .tags
         = art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
+.pure-u-4-5.art-piece
+  %img.pure-img{ src: art_piece.get_path(:large) }
+.pure-u-1-1
+  .pure-g.browser
+    - @thumb_browser.pieces.each do |piece|
+      .piece.pure-u-1-12.padded-content
+        = link_to piece.show_path do
+          .image{class: (@thumb_browser.is_current_piece(piece.art_piece) ? "current" : ''), style: "background-image: url(#{piece.get_path(:small)});"}
 
