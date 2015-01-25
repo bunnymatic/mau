@@ -1,6 +1,8 @@
 -# expects artist
 .artist-card{ class: %w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-5).join(" ")}
   = link_to artist.show_path do
+    - if artist.doing_open_studios?
+      .os-violator{ title: 'Open Studios Participant!' }
     .image{style: "background-image: url(#{artist.representative_piece.get_path(:medium)});"}
   .desc
     .name 

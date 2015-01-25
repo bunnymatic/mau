@@ -17,9 +17,9 @@
             (#{ct} #{wd}) &mdash; #{s.street}
     .section
       %h4 Participating Independent Artists
-      %ul
+      %ul.participant_list
         - @presenter.participating_indies.each do |a|
-          - street = " &mdash; #{a.address_hash[:parsed][:street]}".html_safe
+          - street = (a.has_address? ? " &mdash; #{a.address_hash[:parsed][:street]}".html_safe : '')
           %li
             = link_to(a.get_name, a)
             #{street}

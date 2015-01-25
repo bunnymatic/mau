@@ -1,0 +1,9 @@
+@import 'gto/gto-mixins';
+.main.open_studios {
+  ul.participant_list {
+    padding-left: 20px;
+    li {
+      list-style: circle;
+    }
+  }
+}

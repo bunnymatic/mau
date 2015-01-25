@@ -66,7 +66,7 @@
     @include transition-duration(0.3s);
     @include transition-timing-function(ease-in-out);
   }
-
+    
   .scroll-load-more {
     text-align:center;
     margin:auto;
@@ -85,6 +85,17 @@
   }
   .art-card, .artist-card {
     @extend .artist-thumb-mixin;
+    .os-violator {
+      background-image: url(image_path('os_violator_tiny.svg'));
+      background-size: 40px 40px;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 11px;
+      right: 13px;
+    }
   }
   .art-card, .artist-card {
     .desc { 
@@ -263,6 +274,18 @@
   }
   .artist-profile__edit {
     top: 0;
+  }
+  .artist__image {
+    position: relative;
+    .os-violator {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      display: inline-block;
+      img {
+        width: 75px;
+      }
+    }
   }
   .artist-profile__image {
     width: 100%;
