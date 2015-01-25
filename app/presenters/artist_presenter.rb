@@ -189,7 +189,7 @@ class ArtistPresenter
   end
 
   def show_path
-    @view_context.artist_path(:id => artist.login)
+    @view_context.artist_path(artist)
   end
 
   def edit_path(opts = nil)

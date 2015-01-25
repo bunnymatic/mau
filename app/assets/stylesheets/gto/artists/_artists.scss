@@ -5,6 +5,9 @@
     height: 400px;
     margin-bottom: 20px;
   }
+  .map__artist {
+    @include ellipsis;
+  }
   .gm-style-iw {
     min-width: 260px !important;
     overflow: visible !important;

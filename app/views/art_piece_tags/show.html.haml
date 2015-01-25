@@ -3,9 +3,16 @@
     %h2.title
       Tag:
       %span.tag__name #{@tag.name}
-.pure-g
   .pure-u-1-5.padded-content
-    = render 'tag_list', :cloud => @tag_cloud_presenter
+    .pure-g
+      .pure-u-1-1.header
+        #tag_help.help-parent
+          = render '/whatsthis/popup', :section => 'tags', :link_text => "what's this?", :parent => 'tag_help', :use_icon => true, :title => "About Popular Tags"
+        %h4.title Tags
+    .pure-g
+      .pure-u-1-1.tagcloud
+        - @tag_cloud_presenter.tags_for_display.each do |tag|
+          = tag
   .pure-u-4-5
     = render "/common/pagination", :paginator => @paginator
     .pure-g.search-results

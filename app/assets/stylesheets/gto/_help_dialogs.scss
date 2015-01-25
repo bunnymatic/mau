@@ -10,9 +10,10 @@
 .help__contents {
   display: none;
   @include opacity(0);
-  width: 200px;
+  width: 250px;
   height: auto;
   @include transition( all 0.25s ease-in-out );
+  @include round-corners(2px);
   left: 4px;
   top: 4px;
   position: absolute;
@@ -32,24 +33,33 @@
   vertical-align: top;
   position: relative;
   z-index: 20;
+  font-size: 0.9rem;
 }
 
+.popup-help {
+  font-size: 0.9rem;
+  .popup-text {
+    padding: 0 15px 15px;
+  }
+  .popup-close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    width: 15px;
+    text-align: center;
+  }
 
-.popup-text {
-  padding: 0 15px 15px;
+  .popup-header {
+    text-transform: uppercase;
+    line-height: 1.5em;
+    font-weight: $font-weight-normal;
+    padding: 10px 15px 4px;
+    margin-bottom: 12px;
+    position: relative;
+    border-bottom: 1px solid $xlightgray;
+  }
+  .popup-text {
+    line-height: 1.1rem;
+    font-size:0.8rem;
+  }
 }
-.popup-close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  width: 15px;
-  text-align: center;
-}
-
-.popup-header {
-  line-height: 1.5em;
-  font-weight: $font-weight-bold;
-  padding: 15px;
-  position: relative;
-}
-
