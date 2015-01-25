@@ -33,6 +33,7 @@ class ArtistsMap < ArtistsPresenter
       marker.lat addr[:latlng][0]
       marker.lng addr[:latlng][1]
       marker.infowindow artist.get_map_info.html_safe
+      marker.hash[:artist_id] = artist.id
     end.to_json
   end
 

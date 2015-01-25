@@ -105,6 +105,11 @@ p {
       padding: 0;
     }
   }
+  &.alpha {
+    .padded-content {
+      padding-left: 0;
+    }
+  }
   .section.markdown, section.markdown {
     h1, h2, h3, h4, h5 {
       &:first-of-type {

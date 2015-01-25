@@ -8,6 +8,13 @@ $ ->
       ev.preventDefault();
       $bio.toggleClass('open')
       $bio.scrollTop(0);
+      btnText = $(@).html()
+      if (/more/i).test btnText
+        btnText = btnText.replace('More', 'Less')
+      else
+        btnText = btnText.replace('Less', 'More')
+      $(@).html(btnText)
+
 
 
     # hide artists details column

@@ -19,7 +19,7 @@ class ArtistPresenter
     :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
     :os_participation, :studio, :studio_id, :login, :active?, :artist_info,
     :activated_at, :email, :last_login, :full_name,
-    :to => :artist, :allow_nil => true
+    to: :artist, allow_nil: true
 
   def initialize(view_context, artist)
     @artist = artist
@@ -189,7 +189,7 @@ class ArtistPresenter
   end
 
   def show_path
-    @view_context.artist_path(artist)
+    @view_context.artist_path(:id => artist.login)
   end
 
   def edit_path(opts = nil)
@@ -197,17 +197,8 @@ class ArtistPresenter
     @view_context.edit_artist_path(artist, opts)
   end
 
-  # get info for google map info window as html
-  # if you have lat lon, include it for directions link
-  def marker_style
-    '<style type="text/css">._mau1 { color: #222222; font-size: x-small; } ._mau1 a{ color: #ff2222; }</style>'
-  end
-
   def get_map_info
-    [].tap do |bits|
-      bits << marker_style
-      bits << content_tag('div', map_info_contents, :class => '_mau1')
-    end.map(&:html_safe).join.html_safe
+    @view_context.content_tag('div', map_info_contents, class: 'map__info-window')
   end
 
   def representative_piece
@@ -219,24 +210,23 @@ class ArtistPresenter
   end
 
   def map_info_contents
-    [].tap do |html|
-      html << (content_tag 'div', linked_thumb, :style => "float:right;") if representative_piece
-      html << map_info_name_address
-      html << content_tag("div", '', :style => 'clear:both;')
-    end.map(&:html_safe).join.html_safe
+    thumb = content_tag('div', linked_thumb, class: 'map__info-window-art')
+    [thumb, map_info_name_address].compact.join.html_safe
   end
 
   def map_info_name_address
-    name = content_tag 'a', get_name, :href => show_path, :class => :lkdark
-    html = [name]
-    street = address_hash.try(:parsed).try(:street)
-    if artist.studio && artist.studio_id != 0
-      html << content_tag('div', artist.try(:studio).try(:name), :class => 'studio')
-      html << content_tag('div', street)
-    else
-      html << content_tag('div', street)
+    @view_context.content_tag 'div', class: 'map__info-window-text' do
+      name = content_tag 'a', get_name, href: show_path
+      html = [name]
+      street = address_hash.try(:parsed).try(:street)
+      if artist.studio
+        html << content_tag('div', artist.try(:studio).try(:name), class: 'studio')
+        html << content_tag('div', street)
+      else
+        html << content_tag('div', street)
+      end
+      html.map(&:html_safe).join.html_safe
     end
-    html.map(&:html_safe).join.html_safe
   end
 
   def for_mobile_list
@@ -278,16 +268,18 @@ class ArtistPresenter
     @share_title ||= "Check out %s at Mission Artists United" % get_name
   end
 
-  def representative_thumb
+  def map_thumb
     @representative_thumb ||= representative_piece.get_path('thumb')
   end
 
-  def representative_thumb_image
-    @representative_thumb_image ||= @view_context.tag('img', :src => representative_thumb)
+  def map_thumb_image
+    @representative_thumb_image ||= @view_context.content_tag('div', '', class: 'thumb', style: "background-image: url(#{map_thumb});")
   end
 
   def linked_thumb
-    @linked_thumb ||= content_tag('a', representative_thumb_image, :class => 'lkdark', :href => show_path)
+    if representative_piece
+      @linked_thumb ||= content_tag('a', map_thumb_image, href: show_path)
+    end
   end
 
   def format_link(link)
