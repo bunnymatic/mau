@@ -3,11 +3,12 @@ $ ->
   if $('.artists.show').length
     # add read more button if necessary
     $bio = $('.artist__bio')
-    $bioText = $bio.find(".bio-container")
-    $bio.toggleClass('overflowing', $bioText.isOverflowing()) if $bio.length
-    $bio.on 'click', '.read-more', (ev) ->
+    $bio.toggleClass('overflowing', $bio.isOverflowing()) if $bio.length
+    $bio.next('.js-read-more').on 'click', (ev) ->
       ev.preventDefault();
       $bio.toggleClass('open')
+      $bio.scrollTop(0);
+
 
     # hide artists details column
     $('#js-hide-artist-details').on 'click', (ev) ->

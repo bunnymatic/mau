@@ -160,9 +160,10 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html {
         if !@artist
-          flash.now[:error] = 'We were unable to find the artist you were looking for.'
+          redirect_to artists_path, flash: { error: 'We were unable to find the artist you were looking for.' }
+        else
+          @artist = ArtistPresenter.new(view_context, @artist)
         end
-        @artist = ArtistPresenter.new(view_context, @artist)
       }
       format.json  {
         cleaned = @artist.clean_for_export(@artist.art_pieces)

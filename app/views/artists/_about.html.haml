@@ -46,10 +46,10 @@
       .header Artist's Statement
       .bio-container{ class: artist.has_bio? ? '' : 'empty' }
         = artist.bio_html
-      .read-more
-        = link_to '#' do
-          More
-          = fa_icon 'chevron-circle-down'
+    .artist__bio-read-more.js-read-more
+      = link_to '#' do
+        More
+        = fa_icon 'chevron-circle-down'
     %section.media
       .header Media
       %ul.artist__media
