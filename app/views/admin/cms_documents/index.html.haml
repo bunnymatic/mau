@@ -5,11 +5,13 @@
 
   = link_to 'New cms_document', new_admin_cms_document_path
 
-  %table
+  %table.pure-table.pure-table-striped
     %thead
       %tr
         %th Page
         %th Section
+        %th Last Updated
+        %th By
         %th
     %tbody
       - @cms_documents.each do |cms_document|
@@ -18,6 +20,10 @@
             = cms_document.page
           %td
             = cms_document.section
+          %td
+            = cms_document.updated_at.to_formatted_s(:admin)
+          %td
+            = cms_document.user.try(:login)
           %td
             = link_to [:admin,cms_document], title: 'Show' do
               = fa_icon 'eye-open'

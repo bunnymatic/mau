@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141121163154) do
+ActiveRecord::Schema.define(:version => 20150125215610) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -106,7 +106,10 @@ ActiveRecord::Schema.define(:version => 20141121163154) do
     t.text     "article"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
+
+  add_index "cms_documents", ["user_id"], :name => "index_cms_documents_on_user_id"
 
   create_table "email_list_memberships", :force => true do |t|
     t.integer "email_id"
@@ -217,13 +220,6 @@ ActiveRecord::Schema.define(:version => 20141121163154) do
     t.date     "recorded_on"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-  end
-
-  create_table "promoted_events", :force => true do |t|
-    t.integer  "event_id"
-    t.datetime "publish_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "roles", :force => true do |t|

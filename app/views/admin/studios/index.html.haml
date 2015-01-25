@@ -3,9 +3,9 @@
     - if current_user.is_admin?
       = link_to new_admin_studio_path, title: 'add studio' do
         = fa_icon "plus"
-  %h1 Listing studios
+  %h1 Listing studios (#{@studios.count})
   = render partial: '/flash_notice_error'
-  %table
+  %table.pure-table.pure-table-striped
     %thead
       %tr
         %th Name

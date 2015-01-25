@@ -5,6 +5,8 @@
 .section
   Section:
   = @cms_document.section
+.last_update
+  Last Updated by: #{@cms_document.user.try(:login) || 'unknown'} on #{@cms_document.updated_at.to_formatted_s(:admin)}
 
 .controls
   = link_to 'Edit', edit_admin_cms_document_path(@cms_document)

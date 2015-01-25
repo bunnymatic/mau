@@ -32,7 +32,7 @@ module Admin
     def update
       @cms_document = CmsDocument.find(params[:id])
 
-      if @cms_document.update_attributes(params[:cms_document])
+      if @cms_document.update_attributes(cms_document_params)
         redirect_to [:admin, @cms_document], :notice => 'CmsDocument was successfully updated.'
       else
         render "new_or_edit"
@@ -44,7 +44,7 @@ module Admin
     end
 
     def create
-      @cms_document = CmsDocument.new(params[:cms_document])
+      @cms_document = CmsDocument.new(cms_document_params)
 
       if @cms_document.save
         redirect_to [:admin, @cms_document], :notice => 'CmsDocument was successfully created.'
@@ -53,5 +53,8 @@ module Admin
       end
     end
 
+    def cms_document_params
+      params[:cms_document].merge({user_id: current_user.id})
+    end
   end
 end
