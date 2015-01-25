@@ -19,7 +19,7 @@ class ArtPieceTag < ActiveRecord::Base
   scope :alpha, -> { order('name') }
 
   # class level constants
-  MAX_SHOW_TAGS = 80
+  MAX_SHOW_TAGS = 40
   CACHE_EXPIRY = Conf.cache_expiry['tag_frequency'] || 300
 
   def self.cache_key(norm=false)

@@ -35,12 +35,6 @@ class TagCloudPresenter
     current_tag == tag
   end
 
-  def compute_style(frequency_entry)
-    ct = frequency_entry['ct'].to_f
-    (fontsize, margin) = fontsize_from_frequency(ct)
-    "font-size:#{fontsize}; margin: #{margin};"
-  end
-
   def tag_path(tag)
     @view_context.art_piece_tag_path(tag, :m => mode)
   end
@@ -49,11 +43,10 @@ class TagCloudPresenter
     @tags_for_display ||=
       begin
         frequency.map do |entry|
-          style = compute_style(entry)
           tag = find_tag(entry['tag'])
           next unless tag
           clz = "tagmatch" if is_current_tag?(tag)
-          @view_context.content_tag 'span', :class => ['clouditem', clz].compact.join(' '), :style => style do
+          @view_context.content_tag 'span', :class => ['clouditem', clz].compact.join(' ') do
             @view_context.link_to tag.safe_name, tag_path(tag)
           end
         end

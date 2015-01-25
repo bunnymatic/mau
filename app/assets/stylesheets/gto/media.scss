@@ -1,4 +1,10 @@
+@import 'mau-mixins';
+@import 'gto/gto-mixins';
+
 .art_piece_tags, .media {
+  .tagcloud {
+    @extend .gto-list;
+  }
   .header h4.title {
     font-weight: bold;
     text-transform: uppercase;

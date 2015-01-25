@@ -39,6 +39,7 @@ class MediaController < ApplicationController
   private
   def _show_html
     @media_presenter = MediaPresenter.new(view_context, @medium, params[:p], params[:m])
+    @media_cloud = MediaCloudPresenter.new(view_context, Medium.all, @medium, params[:m])
     @pieces = @media_presenter.art_pieces
     @paginator = @media_presenter.paginator
     # still in use

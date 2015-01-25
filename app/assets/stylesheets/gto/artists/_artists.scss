@@ -196,6 +196,9 @@
         overflow-y: auto;
       }
       &.open + .artist__bio-read-more {
+        .read-more-fade-out {
+          display: none;
+        }
         .fa {
           @include transform(rotate(180deg));
         }
@@ -219,6 +222,13 @@
     font-size: 0.75rem;
     @include transition(all 0.2s ease-in);
     @include opacity(0);
+    .read-more-fade-out {
+      @include linear-gradient(rgba(255,255,255,0), #fcfcfc);
+      min-height: 80px;
+      width: 100%;
+      position: absolute;
+      bottom: 20px;
+    }
     .fa {
       font-size: 0.9rem;
     }
@@ -228,12 +238,7 @@
   position: relative;
   padding: 0 10px 10px;
   .media {
-    ul {
-      padding-left: 20px;
-    }
-    li {
-      list-style: circle;
-    }
+    @extend .gto-list;
   }
   .artist__studio .body {
     > div {

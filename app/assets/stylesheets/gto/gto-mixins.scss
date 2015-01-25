@@ -1,5 +1,13 @@
 @import 'mau-mixins';
 
+.gto-list {
+  ul {
+    padding-left: 20px;
+  }
+  li {
+    list-style: circle;
+  }
+}
 .artist-thumb-mixin {
   position: relative;
   min-height: 300px;

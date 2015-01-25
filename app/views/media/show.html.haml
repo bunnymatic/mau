@@ -9,8 +9,13 @@
       .pure-u-1-1.header
         %h4.title Mediums
     .pure-g
-      .pure-u-1-1
-        = render 'media_link_list', :match => @medium, :frequency => @frequency
+      .pure-u-1-1.tagcloud
+        %ul
+          - @media_cloud.media_for_display.each do |m|
+            %li
+              = m
+
+        -# render 'media_link_list', :match => @medium, :frequency => @frequency
   .pure-u-4-5
     = render "/common/pagination", :paginator => @paginator
     .pure-g.search-results
