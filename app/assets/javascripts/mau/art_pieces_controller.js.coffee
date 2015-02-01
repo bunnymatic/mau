@@ -1,21 +1,37 @@
-angular.module('ArtPiecesApp.controllers', []).
-  controller 'artPiecesController', ['$scope','$resource','$document', ($scope, $resource, $document) ->
+class Controller
 
-    artistId = undefined
+  serialize = (obj) ->
+    str = []
+    for p of obj
+      continue
+    str.join "&"
 
-    serialize = (obj) ->
-      str = []
-      for p of obj
-        continue
-      str.join "&"
+        
+  constructor: ($scope, $attrs, $resource, $document) ->
 
     ArtPieces = $resource('/artists/:artistId/art_pieces/:artPieceId.json',
       {artistId:'@artist.id', artPieceId:'@id'},
       {
         get: {method:'GET', cache:true},
-        index: {method:'GET', cache:true}
+        index: {method:'GET', cache:true, isArray: true}
       })
     Artists = $resource('/artists/:artistId.json', {artistId:'@id'}, {get: {method:'GET', cache:true}})
+    
+    artPieceId = $attrs.artPieceId
+    artistId = $attrs.artistId
+    ArtPieces.index {artistId: artistId}, (artPieces) ->
+
+      
+    Artists.get {artistId: artistId}, (artist) ->
+      $scope.artist = artist.artist
+      $scope.artPieces = []
+      numPieces = artist.artpieces.length
+      setCurrentArtPiece()
+      _.each artist.artpieces, (item,idx) ->
+        ArtPieces.get {artistId: artistId, artPieceId: item.id}, (piece) ->
+          $scope.artPieces[idx] = piece.art_piece
+    $scope.current = artPieceId
+
 
     $scope.artist = null
     $scope.artPieces = []
@@ -90,5 +106,7 @@ angular.module('ArtPiecesApp.controllers', []).
             $scope.artPieces[idx] = piece.art_piece
       $scope.current = artPieceId
 
-  ]
+  
+angular.module('ArtPiecesApp.controllers', []).
+  controller 'artPiecesController', ['$scope','$attrs', '$resource','$document', controller]
 

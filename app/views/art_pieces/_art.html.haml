@@ -1,4 +1,5 @@
 -# expects art_piece as art_piece_presenter
+.art-piece-app{'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id}
 .pure-u-1-5.art-piece__info
   - if logged_in? && (art_piece.artist == current_user)
     .card__controls
