@@ -1,5 +1,4 @@
 -# expects art_piece as art_piece_presenter
-.art-piece-app{'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id}
 .pure-u-1-5.art-piece__info
   - if logged_in? && (art_piece.artist == current_user)
     .card__controls
@@ -28,10 +27,4 @@
         = art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
 .pure-u-4-5.art-piece
   %img.pure-img{ src: art_piece.get_path(:large) }
-.pure-u-1-1
-  .pure-g.browser
-    - @thumb_browser.pieces.each do |piece|
-      .piece.pure-u-1-12.padded-content
-        = link_to piece.show_path do
-          .image{class: (@thumb_browser.is_current_piece(piece.art_piece) ? "current" : ''), style: "background-image: url(#{piece.get_path(:small)});"}
 

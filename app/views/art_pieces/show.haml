@@ -1,14 +1,20 @@
-.pure-g
-  .pure-u-1-1.header.padded-content
-    %h2.title
-      %span.art-piece__title #{@art_piece.title}
-      %span.art-piece__byline-conjunction by
-      %span.art-piece__byline #{@art_piece.artist_name}
-.pure-g.alpha.omega
-  = render '/art_pieces/art', art_piece: @art_piece
+.art-piece-app{'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id}
+  .pure-g
+    .pure-u-1-1.header.padded-content
+      %h2.title
+        %span.art-piece__title #{@art_piece.title}
+        %span.art-piece__byline-conjunction by
+        %span.art-piece__byline #{@art_piece.artist_name}
+  .pure-g.alpha.omega
+    = render '/art_pieces/art', art_piece: @art_piece 
+    .pure-u-1-1
+      .pure-g.browser
+        .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces'}
+          %a{href: "/art_pieces/{{ piece.id }}"}
+            .image{style: "background-image: url({{piece.filename}});"}
   .pure-u-1-1
     = link_to @art_piece.artist_path, class: 'pure-button pure-button-primary' do
       See more by #{@art_piece.artist_name}
 
-%ul.art_pieces
-  %li{ 'ng-repeat' => 'piece in artPieces'} {{piece.id}} {{piece.name}}
+  %ul.art_pieces
+    %li {{piece}}

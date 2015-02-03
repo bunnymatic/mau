@@ -19,20 +19,21 @@ class Controller
     
     artPieceId = $attrs.artPieceId
     artistId = $attrs.artistId
+
+    $scope.artist = null
+    $scope.currentArtPiece = null
+    $scope.current = null
+    $scope.artPieces = []
       
     Artists.get {artistId: artistId}, (artist) ->
       $scope.artist = artist.artist
-      $scope.artPieces = []
       numPieces = artist.artpieces.length
       setCurrentArtPiece()
+      artPiecesService.list(artistId).then (data) ->
+        $scope.artPieces = data
+        
 
     $scope.current = artPieceId
-
-
-    $scope.artist = null
-    $scope.artPieces = []
-    $scope.currentArtPiece = null
-    $scope.current = null
 
     $scope.handleKeyDown = (ev) ->
       if ev.which == 37
@@ -89,15 +90,6 @@ class Controller
         $scope.currentArtPiece.tags &&
           ($scope.currentArtPiece.tags.length > 0)
 
-    artPieceId = opts.artPieceId
-    artistId = opts.artistId
-    Artists.get {artistId: artistId}, (artist) ->
-      $scope.artist = artist.artist
-      $scope.artPieces = []
-      numPieces = artist.artpieces.length
-      setCurrentArtPiece()
-      $scope.artPieces = artPieceService.list(artistId)
-    $scope.current = artPieceId
 
   
 angular.module('ArtPiecesApp.controllers', []).
