@@ -10,6 +10,12 @@
   .art-piece__byline {
     font-style: italic;
   }
+  .art-piece__byline-conjunction {
+    font-size: .9rem;
+    text-transform: uppercase;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
 }
 .art_pieces.show {
   .art-piece {

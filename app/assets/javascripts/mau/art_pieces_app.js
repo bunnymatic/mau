@@ -1,1 +1,9 @@
-angular.module('ArtPiecesApp', ['ArtPiecesApp.controllers', 'ngResource', 'ngSanitize', 'ezfb']);
+var deps = [
+  'ArtPiecesApp.controllers', 
+  'ArtPiecesApp.services', 
+  'ngResource', 
+  'ngSanitize', 
+  'ezfb'];
+
+angular.module('ArtPiecesApp', deps);
+

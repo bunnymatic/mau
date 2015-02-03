@@ -7,29 +7,25 @@ class Controller
     str.join "&"
 
         
-  constructor: ($scope, $attrs, $resource, $document) ->
+  constructor: ($scope, $attrs, $resource, $document, artPiecesService) ->
 
-    ArtPieces = $resource('/artists/:artistId/art_pieces/:artPieceId.json',
-      {artistId:'@artist.id', artPieceId:'@id'},
-      {
-        get: {method:'GET', cache:true},
-        index: {method:'GET', cache:true, isArray: true}
-      })
+    # ArtPieces = $resource('/artists/:artistId/art_pieces/:artPieceId.json',
+    #   {artistId:'@artist.id', artPieceId:'@id'},
+    #   {
+    #     get: {method:'GET', cache:true},
+    #     index: {method:'GET', cache:true, isArray: true}
+    #   })
     Artists = $resource('/artists/:artistId.json', {artistId:'@id'}, {get: {method:'GET', cache:true}})
     
     artPieceId = $attrs.artPieceId
     artistId = $attrs.artistId
-    ArtPieces.index {artistId: artistId}, (artPieces) ->
-
       
     Artists.get {artistId: artistId}, (artist) ->
       $scope.artist = artist.artist
       $scope.artPieces = []
       numPieces = artist.artpieces.length
       setCurrentArtPiece()
-      _.each artist.artpieces, (item,idx) ->
-        ArtPieces.get {artistId: artistId, artPieceId: item.id}, (piece) ->
-          $scope.artPieces[idx] = piece.art_piece
+
     $scope.current = artPieceId
 
 
@@ -46,7 +42,7 @@ class Controller
 
     setCurrentArtPiece = () ->
       if $scope.artist && $scope.current
-        ArtPieces.get {artistId: $scope.artist.id, artPieceId: $scope.current}, (piece) ->
+        artPiecesService.get $scope.current, (piece) ->
           $scope.currentArtPiece = piece.art_piece
           $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece.id
           $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
@@ -93,20 +89,17 @@ class Controller
         $scope.currentArtPiece.tags &&
           ($scope.currentArtPiece.tags.length > 0)
 
-    $scope.init = (opts) ->
-      artPieceId = opts.artPieceId
-      artistId = opts.artistId
-      Artists.get {artistId: artistId}, (artist) ->
-        $scope.artist = artist.artist
-        $scope.artPieces = []
-        numPieces = artist.artpieces.length
-        setCurrentArtPiece()
-        _.each artist.artpieces, (item,idx) ->
-          ArtPieces.get {artistId: artistId, artPieceId: item.id}, (piece) ->
-            $scope.artPieces[idx] = piece.art_piece
-      $scope.current = artPieceId
+    artPieceId = opts.artPieceId
+    artistId = opts.artistId
+    Artists.get {artistId: artistId}, (artist) ->
+      $scope.artist = artist.artist
+      $scope.artPieces = []
+      numPieces = artist.artpieces.length
+      setCurrentArtPiece()
+      $scope.artPieces = artPieceService.list(artistId)
+    $scope.current = artPieceId
 
   
 angular.module('ArtPiecesApp.controllers', []).
-  controller 'artPiecesController', ['$scope','$attrs', '$resource','$document', controller]
+  controller 'ArtPiecesController', ['$scope','$attrs', '$resource','$document','ArtPiecesService', Controller]
 

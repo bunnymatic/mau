@@ -11,10 +11,7 @@ MAU.WhatsThis = class WhatsThis
     jQuery(@helpTextDiv).bind('click', @popup)
 
   popup: =>
-    # gto
-    jQuery(@helpTextDiv).toggleClass('active');
-    # the old way
-    #jQuery(@helpTextDiv).fadeToggle()
+    jQuery(@helpTextDiv).fadeToggle()
 
 jQuery ->
   jQuery('.js-help').each ->

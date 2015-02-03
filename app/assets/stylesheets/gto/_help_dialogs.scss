@@ -9,22 +9,15 @@
 }
 .help__contents {
   display: none;
-  @include opacity(0);
+  @include round-corners(2px);
+  position: absolute;
   width: 250px;
   height: auto;
-  @include transition( all 0.25s ease-in-out );
-  @include round-corners(2px);
   left: 4px;
   top: 4px;
-  position: absolute;
-  display: block;
   background: white;
-  &.active {
-    display: block;
-    @include opacity(1);
-    @include box-shadow(0 0 8px 0px rgba(128,128,128,0.7));
-    z-index: 20;
-  }    
+  @include box-shadow(0 0 8px 0px rgba(128,128,128,0.7));
+  z-index: 20;
 }
 
 .help-parent {
