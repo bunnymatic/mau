@@ -21,9 +21,9 @@ class ArtPiecesController < ApplicationController
     artist_id = params[:artist_id]
     begin
       artist = Artist.active.find(artist_id)
-      render json: (artist.art_pieces.map{|ap| (ArtPieceJsonPresenter.new ap).to_json('art')})
+      render json: (artist.art_pieces.map{|ap| (ArtPieceJsonPresenter.new ap).to_json()})
     rescue
-      redirect_to artists_path flash: { notice: "We couldn't find the artist works you were looking for." }
+      render json: [], status: 404
     end
   end
 

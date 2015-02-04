@@ -24,15 +24,17 @@ class Controller
     $scope.currentArtPiece = null
     $scope.current = null
     $scope.artPieces = []
-      
+
+    console.log("init: artPieces", $scope.artPieces)      
     Artists.get {artistId: artistId}, (artist) ->
       $scope.artist = artist.artist
       numPieces = artist.artpieces.length
       setCurrentArtPiece()
       artPiecesService.list(artistId).then (data) ->
         $scope.artPieces = data
+        console.log("fetched: artPieces", $scope.artPieces)      
         
-
+        
     $scope.current = artPieceId
 
     $scope.handleKeyDown = (ev) ->

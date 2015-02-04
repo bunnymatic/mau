@@ -10,8 +10,9 @@ class Service
 
   list:(artistId) ->
     url = @index_url.replace('{{artistId}}', artistId)
+    console.log(url)
     @$http.get(url).then (result) ->
-      console.log(result)
+      console.log("service fetched: artPieces", result)
       _.map result.data, (item) -> item.art_piece
     
 angular.module('ArtPiecesApp.services', []).service('ArtPiecesService', ['$http', '$q', Service])
