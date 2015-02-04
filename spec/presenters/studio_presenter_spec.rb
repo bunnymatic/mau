@@ -18,7 +18,6 @@ describe StudioPresenter do
   its(:street_with_cross) { should eql "#{studio.street} (@ hollywood)" }
   its(:image) { should start_with "/studiodata/#{studio.id}" }
   its(:indy?) { should be_false }
-  its(:display_url) { should match studio.url[7..-1] }
 
   it '.artists returns the active artists' do
     presenter.artists.should eq studio.artists.active
