@@ -45,10 +45,12 @@ class Controller
         $scope.next()
 
     setCurrentArtPiece = () ->
-      debugger
+      console.log 'set'
       if $scope.artist && $scope.current
+        console.log "set: get #{$scope.current}"
+        
         artPiecesService.get($scope.current).then (piece) ->
-          $scope.currentArtPiece = piece.art_piece
+          $scope.currentArtPiece = piece
           $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece.id
           $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
 

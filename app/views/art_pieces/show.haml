@@ -12,12 +12,13 @@
         .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces'}
           %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setArtPieceAsCurrent($event, piece.id)"}
             .image{style: "background-image: url({{piece.image_files.small}});"}
-  .pure-u-1-1
+  .pure-u-1-4
+    Current {{current}}
+  .pure-u-1-4
+    Current {{currentArtPiece}}
+  .pure-u-1-4
     = link_to @art_piece.artist_path, class: 'pure-button pure-button-primary' do
       See more by #{@art_piece.artist_name}
-  .pure-u-1-1
-    Current {{current}}
-    Current {{currentArtPiece}}
 
   %ul.art_pieces
     %li {{piece}}

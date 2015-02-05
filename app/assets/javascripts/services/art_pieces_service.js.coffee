@@ -11,6 +11,7 @@ class Service
     url = @get_url.replace('{{id}}', id)
     @$http.get(url).then (result) ->
       ap = result.data?.art_piece
+      console.log 'artPiecesService.cache', cache
       if ap?
         cache[id] = ap
       ap
