@@ -27,6 +27,7 @@ class Controller
 
     console.log("init: artPieces", $scope.artPieces)      
     Artists.get {artistId: artistId}, (artist) ->
+      console.log 'fetched artist', artist
       $scope.artist = artist.artist
       numPieces = artist.artpieces.length
       setCurrentArtPiece()
@@ -44,8 +45,9 @@ class Controller
         $scope.next()
 
     setCurrentArtPiece = () ->
+      debugger
       if $scope.artist && $scope.current
-        artPiecesService.get $scope.current, (piece) ->
+        artPiecesService.get($scope.current).then (piece) ->
           $scope.currentArtPiece = piece.art_piece
           $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece.id
           $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
@@ -87,6 +89,10 @@ class Controller
       return {} unless $scope.currentArtPiece
       {width: $scope.currentArtPiece.image_dimensions.medium[0] + "px"}
 
+    $scope.setArtPieceAsCurrent = ($event, id) ->
+      $event.preventDefault()
+      $scope.current = id
+      
     $scope.hasTags = () ->
       $scope.currentArtPiece &&
         $scope.currentArtPiece.tags &&

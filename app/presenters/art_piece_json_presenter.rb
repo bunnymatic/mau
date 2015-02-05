@@ -52,12 +52,7 @@ class ArtPieceJsonPresenter
   end
 
   def image_files
-    @files ||= Hash[art.get_paths.map do |k,v|
-                      value = (v !~ /^\//) ? "/#{v}" : v
-                      [k, value]
-                  end]
-    puts @files
-    @files
+    @files ||= art.get_paths
   end
 
   def to_json
