@@ -2,21 +2,17 @@
   .pure-g
     .pure-u-1-1.header.padded-content
       %h2.title
-        %span.art-piece__title #{@art_piece.title}
+        %span.art-piece__title {{currentArtPiece.art_piece.title}}
         %span.art-piece__byline-conjunction by
-        %span.art-piece__byline #{@art_piece.artist_name}
-  .pure-g.alpha.omega
+        %span.art-piece__byline {{currentArtPiece.art_piece.artist_name}}
+  .pure-g.alpha.omega{'ng-cloak' => ''}
     = render '/art_pieces/art', art_piece: @art_piece 
     .pure-u-1-1
       .pure-g.browser
-        .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces'}
-          %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setArtPieceAsCurrent($event, piece.id)"}
-            .image{style: "background-image: url({{piece.image_files.small}});"}
-  .pure-u-1-4
-    Current {{current}}
-  .pure-u-1-4
-    Current {{currentArtPiece}}
-  .pure-u-1-4
+        .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.art_piece.id)}" }
+          %a{href: "/art_pieces/{{ piece.art_piece.id }}", "ng-click" => "setArtPieceAsCurrent($event, piece.art_piece.id)"}
+            .image{ "ng-style" => "{backgroundImage: 'url({{piece.art_piece.image_files.small}})'}"}
+  .pure-u-1-1
     = link_to @art_piece.artist_path, class: 'pure-button pure-button-primary' do
       See more by #{@art_piece.artist_name}
 

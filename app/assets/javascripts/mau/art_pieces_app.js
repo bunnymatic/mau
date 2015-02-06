@@ -1,6 +1,6 @@
 var deps = [
-  'ArtPiecesApp.controllers', 
-  'ArtPiecesApp.services', 
+  'mau.controllers', 
+  'mau.services', 
   'ngResource', 
   'ngSanitize', 
   'ezfb'];

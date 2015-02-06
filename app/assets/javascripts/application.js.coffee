@@ -1,3 +1,4 @@
+#= require ng-inject
 #= require monkey_patches
 #= require lodash
 #= require underscore.string
@@ -22,6 +23,7 @@
 #= require pickadate/picker.date
 #= require pickadate/picker.time
 #= require thirdparty/jquery.feedback
+#= require angular_modules
 #= require_tree ./services
 #= require_tree ./mau
 

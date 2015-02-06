@@ -33,7 +33,9 @@
         width: 100%;
         height: 100px;
         @include background-cover;
-        &.current {
+      }
+      &.current {
+        .image { 
           border: 1px solid red;
         }
       }
