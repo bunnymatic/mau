@@ -1,22 +1,45 @@
-.art-piece-app{'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id}
+.art-piece-app{'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id, 'current-user' => (@art_piece.artist.id == current_user.try(:id))}
   .pure-g
     .pure-u-1-1.header.padded-content
       %h2.title
-        %span.art-piece__title #{@art_piece.title}
+        %span.art-piece__title{ "ng-bind-html" => "currentArtPiece.art_piece.title" }
         %span.art-piece__byline-conjunction by
-        %span.art-piece__byline #{@art_piece.artist_name}
-  .pure-g.alpha.omega
-    = render '/art_pieces/art', art_piece: @art_piece 
+        %span.art-piece__byline{ "ng-bind-html" => "artist.artist.full_name" }
+  .pure-g.alpha.omega{'ng-cloak' => ''}
+    .pure-u-1-5.art-piece__info
+      .card__controls{'ng-if' => 'currentUser'}
+        .art-card__edit 
+          %a{ "ng-href" => '{{currentArtPiece.editPath}}', title: 'edit'}
+            .fa.fa-icon.fa-edit
+        .art-card__delete 
+          = link_to '#', confirm: 'Are you sure you want to remove this piece of art from your portfolio?', method: :delete, title: "Delete", "ng-href" => "{{currentArtPiece.showPath}}" do
+            .fa.fa-icon.fa-close
+          %a{ "ng-href" => 'currentArtPiece.deletePath', title: 'remove'}
+      .desc
+        .ngwrapper{ "ng-if" => "hasDimensions()" }
+          %h4.title Dimensions
+          .dimensions{ "ng-bind-html" => "currentArtPiece.art_piece.dimensions" }
+        .ngwrapper{ "ng-if" => "hasYear()" }
+          %h4.title Date
+          .date{ "ng-bind-html" => "currentArtPiece.art_piece.year" }
+        .ngwrapper{ "ng-if" => "hasMedia()" }
+          %h4.title Medium
+          .media
+            {{currentArtPiece.art_piece.medium.name}}
+        .ngwrapper{ "ng-if" => "hasTags()" }
+          %h4.title Tags
+          .tags{ "ng-repeat" => 'tag in currentArtPiece.art_piece.tags'}
+            %span.tag{ "ng-bind-html" => "tag.name" }
+            -#= @art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
+    .pure-u-4-5.art-piece
+      %img.pure-img{ "src" => "{{currentArtPiece.art_piece.image_files.large}}" }
+
     .pure-u-1-1
       .pure-g.browser
-        .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces'}
-          %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setArtPieceAsCurrent($event, piece.id)"}
-            .image{style: "background-image: url({{piece.image_files.small}});"}
-  .pure-u-1-4
-    Current {{current}}
-  .pure-u-1-4
-    Current {{currentArtPiece}}
-  .pure-u-1-4
+        .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.art_piece.id)}" }
+          %a{href: "/art_pieces/{{ piece.art_piece.id }}", "ng-click" => "setArtPieceAsCurrent($event, piece.art_piece.id)"}
+            .image{ "ng-style" => "{backgroundImage: 'url({{piece.art_piece.image_files.small}})'}"}
+  .pure-u-1-1
     = link_to @art_piece.artist_path, class: 'pure-button pure-button-primary' do
       See more by #{@art_piece.artist_name}
 

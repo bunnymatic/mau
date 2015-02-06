@@ -54,6 +54,7 @@ gem 'rails-assets-jquery'
 gem 'rails-assets-jquery-ujs'
 gem 'rails-assets-pure'
 
+gem 'ngannotate-rails'
 
 # authentication
 gem 'authlogic'

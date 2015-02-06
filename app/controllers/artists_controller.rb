@@ -166,8 +166,7 @@ class ArtistsController < ApplicationController
         end
       }
       format.json  {
-        cleaned = @artist.clean_for_export(@artist.art_pieces)
-        render json: cleaned
+        render json: @artist
       }
       format.mobile {
         @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')

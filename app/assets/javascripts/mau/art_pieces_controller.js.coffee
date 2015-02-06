@@ -7,35 +7,14 @@ class Controller
     str.join "&"
 
         
-  constructor: ($scope, $attrs, $resource, $document, artPiecesService) ->
+  constructor: ($scope, $attrs, $resource, $document, artPiecesService, artistsService) ->
 
-    # ArtPieces = $resource('/artists/:artistId/art_pieces/:artPieceId.json',
-    #   {artistId:'@artist.id', artPieceId:'@id'},
-    #   {
-    #     get: {method:'GET', cache:true},
-    #     index: {method:'GET', cache:true, isArray: true}
-    #   })
-    Artists = $resource('/artists/:artistId.json', {artistId:'@id'}, {get: {method:'GET', cache:true}})
-    
     artPieceId = $attrs.artPieceId
     artistId = $attrs.artistId
+    $scope.currentUser = $attrs.currentUser
 
-    $scope.artist = null
-    $scope.currentArtPiece = null
-    $scope.current = null
-    $scope.artPieces = []
-
-    console.log("init: artPieces", $scope.artPieces)      
-    Artists.get {artistId: artistId}, (artist) ->
-      console.log 'fetched artist', artist
-      $scope.artist = artist.artist
-      numPieces = artist.artpieces.length
-      setCurrentArtPiece()
-      artPiecesService.list(artistId).then (data) ->
-        $scope.artPieces = data
-        console.log("fetched: artPieces", $scope.artPieces)      
-        
-        
+    $scope.artist = artistsService.get(artistId)
+    $scope.artPieces = artPiecesService.list(artistId)
     $scope.current = artPieceId
 
     $scope.handleKeyDown = (ev) ->
@@ -45,14 +24,11 @@ class Controller
         $scope.next()
 
     setCurrentArtPiece = () ->
-      console.log 'set'
       if $scope.artist && $scope.current
-        console.log "set: get #{$scope.current}"
-        
-        artPiecesService.get($scope.current).then (piece) ->
-          $scope.currentArtPiece = piece
-          $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece.id
-          $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
+        console.log('set current')
+        $scope.currentArtPiece = artPiecesService.get($scope.current)
+        $scope.artPiecePath = '/art_pieces/' + $scope.currentrtPiece?.id
+        $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
 
     $scope.$watch 'current', setCurrentArtPiece
 
@@ -94,14 +70,19 @@ class Controller
     $scope.setArtPieceAsCurrent = ($event, id) ->
       $event.preventDefault()
       $scope.current = id
-      
+
+    $scope.hasYear = () ->
+      !!$scope.currentArtPiece?.art_piece?.year
+    $scope.hasDimensions = () ->
+      !!$scope.currentArtPiece?.art_piece?.dimensions
+    $scope.hasMedia = () ->
+      !!$scope.currentArtPiece?.art_piece?.medium
     $scope.hasTags = () ->
-      $scope.currentArtPiece &&
-        $scope.currentArtPiece.tags &&
-          ($scope.currentArtPiece.tags.length > 0)
+      $scope.currentArtPiece?.art_piece?.tags &&
+        ($scope.currentArtPiece.art_piece.tags.length > 0)
 
 
   
-angular.module('ArtPiecesApp.controllers', []).
-  controller 'ArtPiecesController', ['$scope','$attrs', '$resource','$document','ArtPiecesService', Controller]
+angular.module('mau.controllers').
+  controller 'ArtPiecesController', ['$scope','$attrs', '$resource','$document','artPiecesService', 'artistsService', Controller]
 
