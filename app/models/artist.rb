@@ -93,7 +93,8 @@ class Artist < User
     default_opts = {
       :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at,
                   :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at,
-                  :max_pieces, :updated_at, :activation_code, :reset_code]
+                  :max_pieces, :updated_at, :activation_code, :reset_code],
+      :methods => [:full_name]
     }
     super(default_opts.merge(opts))
   end

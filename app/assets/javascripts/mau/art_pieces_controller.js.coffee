@@ -7,27 +7,13 @@ class Controller
     str.join "&"
 
         
-  constructor: ($scope, $attrs, $resource, $document, artPiecesService) ->
+  constructor: ($scope, $attrs, $resource, $document, artPiecesService, artistsService) ->
 
-    # ArtPieces = $resource('/artists/:artistId/art_pieces/:artPieceId.json',
-    #   {artistId:'@artist.id', artPieceId:'@id'},
-    #   {
-    #     get: {method:'GET', cache:true},
-    #     index: {method:'GET', cache:true, isArray: true}
-    #   })
-    Artists = $resource('/artists/:artistId.json', {artistId:'@id'}, {get: {method:'GET', cache:true}})
-    
     artPieceId = $attrs.artPieceId
     artistId = $attrs.artistId
     $scope.currentUser = $attrs.currentUser
 
-    $scope.artist = null
-    $scope.currentArtPiece = null
-    $scope.current = null
-    $scope.artPieces = []
-
-    console.log("init: artPieces", $scope.artPieces)
-    $scope.artist = Artists.get(artistId: artistId)
+    $scope.artist = artistsService.get(artistId)
     $scope.artPieces = artPiecesService.list(artistId)
     $scope.current = artPieceId
 
@@ -98,5 +84,5 @@ class Controller
 
   
 angular.module('mau.controllers').
-  controller 'ArtPiecesController', ['$scope','$attrs', '$resource','$document','artPiecesService', Controller]
+  controller 'ArtPiecesController', ['$scope','$attrs', '$resource','$document','artPiecesService', 'artistsService', Controller]
 

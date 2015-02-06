@@ -1,10 +1,10 @@
-.art-piece-app{'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id, 'current-user' => (@art_piece.artist.id == current_user.id)}
+.art-piece-app{'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id, 'current-user' => (@art_piece.artist.id == current_user.try(:id))}
   .pure-g
     .pure-u-1-1.header.padded-content
       %h2.title
-        %span.art-piece__title {{currentArtPiece.art_piece.title}}
+        %span.art-piece__title{ "ng-bind-html" => "currentArtPiece.art_piece.title" }
         %span.art-piece__byline-conjunction by
-        %span.art-piece__byline {{currentArtPiece.art_piece.artist_name}}
+        %span.art-piece__byline{ "ng-bind-html" => "artist.artist.full_name" }
   .pure-g.alpha.omega{'ng-cloak' => ''}
     .pure-u-1-5.art-piece__info
       .card__controls{'ng-if' => 'currentUser'}
@@ -18,12 +18,10 @@
       .desc
         .ngwrapper{ "ng-if" => "hasDimensions()" }
           %h4.title Dimensions
-          .dimensions 
-            {{currentArtPiece.art_piece.dimensions}}
+          .dimensions{ "ng-bind-html" => "currentArtPiece.art_piece.dimensions" }
         .ngwrapper{ "ng-if" => "hasYear()" }
           %h4.title Date
-          .date 
-            {{currentArtPiece.art_piece.year}}
+          .date{ "ng-bind-html" => "currentArtPiece.art_piece.year" }
         .ngwrapper{ "ng-if" => "hasMedia()" }
           %h4.title Medium
           .media
@@ -31,7 +29,7 @@
         .ngwrapper{ "ng-if" => "hasTags()" }
           %h4.title Tags
           .tags{ "ng-repeat" => 'tag in currentArtPiece.art_piece.tags'}
-            %span.tag {{tag.name}}
+            %span.tag{ "ng-bind-html" => "tag.name" }
             -#= @art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
     .pure-u-4-5.art-piece
       %img.pure-img{ "src" => "{{currentArtPiece.art_piece.image_files.large}}" }
