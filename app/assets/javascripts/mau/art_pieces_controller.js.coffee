@@ -19,6 +19,7 @@ class Controller
     
     artPieceId = $attrs.artPieceId
     artistId = $attrs.artistId
+    $scope.currentUser = $attrs.currentUser
 
     $scope.artist = null
     $scope.currentArtPiece = null
@@ -89,7 +90,7 @@ class Controller
     $scope.hasDimensions = () ->
       !!$scope.currentArtPiece?.art_piece?.dimensions
     $scope.hasMedia = () ->
-      !!$scope.currentArtPiece?.art_piece?.media
+      !!$scope.currentArtPiece?.art_piece?.medium
     $scope.hasTags = () ->
       $scope.currentArtPiece?.art_piece?.tags &&
         ($scope.currentArtPiece.art_piece.tags.length > 0)
