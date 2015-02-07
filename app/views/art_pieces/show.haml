@@ -1,10 +1,10 @@
-.art-piece-app{'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id, 'current-user' => (@art_piece.artist.id == current_user.try(:id))}
+.art-piece-app{ "tabindex" => '0', 'ng-app' => 'ArtPiecesApp', 'ng-controller' => 'ArtPiecesController', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id, 'ng-keydown' => 'onKeyDown($event)', 'current-user' => (@art_piece.artist.id == current_user.try(:id))}
   .pure-g
     .pure-u-1-1.header.padded-content
       %h2.title
-        %span.art-piece__title{ "ng-bind-html" => "currentArtPiece.art_piece.title" }
+        %span.art-piece__title{ "ng-bind-html" => "currentArtPiece.title" }
         %span.art-piece__byline-conjunction by
-        %span.art-piece__byline{ "ng-bind-html" => "artist.artist.full_name" }
+        %span.art-piece__byline{ "ng-bind-html" => "artist.full_name" }
   .pure-g.alpha.omega{'ng-cloak' => ''}
     .pure-u-1-5.art-piece__info
       .card__controls{'ng-if' => 'currentUser'}
@@ -18,27 +18,29 @@
       .desc
         .ngwrapper{ "ng-if" => "hasDimensions()" }
           %h4.title Dimensions
-          .dimensions{ "ng-bind-html" => "currentArtPiece.art_piece.dimensions" }
+          .dimensions{ "ng-bind-html" => "currentArtPiece.dimensions" }
         .ngwrapper{ "ng-if" => "hasYear()" }
           %h4.title Date
-          .date{ "ng-bind-html" => "currentArtPiece.art_piece.year" }
+          .date{ "ng-bind-html" => "currentArtPiece.year" }
         .ngwrapper{ "ng-if" => "hasMedia()" }
           %h4.title Medium
           .media
-            {{currentArtPiece.art_piece.medium.name}}
+            %medium{ "medium" => "currentArtPiece.medium" }
         .ngwrapper{ "ng-if" => "hasTags()" }
           %h4.title Tags
-          .tags{ "ng-repeat" => 'tag in currentArtPiece.art_piece.tags'}
-            %span.tag{ "ng-bind-html" => "tag.name" }
-            -#= @art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
+          .tags
+            %span{"ng-repeat" => 'tag in currentArtPiece.tags', 'repeater-delimiter' => ','}
+              %art-piece-tag{"tag" => "tag" }
+        .info 
+          {{ current }}
     .pure-u-4-5.art-piece
-      %img.pure-img{ "src" => "{{currentArtPiece.art_piece.image_files.large}}" }
+      %img.pure-img{ "image-fader" => '', "src" => "{{currentArtPiece.image_files.large}}" }
 
     .pure-u-1-1
       .pure-g.browser
-        .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.art_piece.id)}" }
-          %a{href: "/art_pieces/{{ piece.art_piece.id }}", "ng-click" => "setArtPieceAsCurrent($event, piece.art_piece.id)"}
-            .image{ "ng-style" => "{backgroundImage: 'url({{piece.art_piece.image_files.small}})'}"}
+        .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.id)}" }
+          %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setArtPieceAsCurrent($event, piece.id)"}
+            .image{ "ng-style" => "{backgroundImage: 'url({{piece.image_files.small}})'}"}
   .pure-u-1-1
     = link_to @art_piece.artist_path, class: 'pure-button pure-button-primary' do
       See more by #{@art_piece.artist_name}

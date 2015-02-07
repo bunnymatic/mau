@@ -46,6 +46,8 @@ Mau::Application.configure do
   config.assets.precompile += %w( admin.js mau.css mau-ie.css mau-ie7.css mau-safari.css mau-admin.css excanvas.compiled.js gmaps/google.js mau/mau_gmap.js mau_mobile.js catalog.css event_calendar.js event_calendar.css mau-mobile.css artists_map.js)
   config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
 
+  config.assets.paths << Rails.root.join('app/assets/components')
+
   config.action_mailer.default_url_options = {
     :host => 'www.missionartistsunited.org'
   }

@@ -1,9 +1,9 @@
-var deps = [
-  'mau.controllers', 
-  'mau.services', 
+angular.module('ArtPiecesApp', [
+  'templates',
   'ngResource', 
   'ngSanitize', 
-  'ezfb'];
-
-angular.module('ArtPiecesApp', deps);
+  'mau.controllers', 
+  'mau.services', 
+  'mau.directives', 
+  'ezfb']);
 

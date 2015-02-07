@@ -3,9 +3,12 @@
 #= require lodash
 #= require underscore.string
 #= require angular
+#= require angular-rails-templates
+#= require angular_modules
 #= require angular-resource
 #= require angular-sanitize
 #= require angular-easyfb
+#= require_tree ../components
 #= require jquery
 #= require jquery_ujs
 #= require jquery_noconflict
@@ -23,7 +26,5 @@
 #= require pickadate/picker.date
 #= require pickadate/picker.time
 #= require thirdparty/jquery.feedback
-#= require angular_modules
-#= require_tree ./services
 #= require_tree ./mau
 

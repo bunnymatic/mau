@@ -11,6 +11,7 @@
  *= require collapse
  *= require panel
  *= require toggle_button
+ *= require_tree ../components
  *= require_tree ./gto
  *= require feeds
  *= require_self

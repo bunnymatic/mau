@@ -9,6 +9,15 @@ class Controller
         
   constructor: ($scope, $attrs, $resource, $document, artPiecesService, artistsService) ->
 
+    $('.art-piece-app').focus()    
+    $scope.onKeyDown = (ev) ->
+      console.log 'keydown', ev.which
+      if ev.which == 37
+        $scope.prev()
+      if ev.which == 39
+        $scope.next()
+
+
     artPieceId = $attrs.artPieceId
     artistId = $attrs.artistId
     $scope.currentUser = $attrs.currentUser
@@ -17,17 +26,11 @@ class Controller
     $scope.artPieces = artPiecesService.list(artistId)
     $scope.current = artPieceId
 
-    $scope.handleKeyDown = (ev) ->
-      if ev.which == 37
-        $scope.prev()
-      if ev.which == 39
-        $scope.next()
-
     setCurrentArtPiece = () ->
       if $scope.artist && $scope.current
         console.log('set current')
         $scope.currentArtPiece = artPiecesService.get($scope.current)
-        $scope.artPiecePath = '/art_pieces/' + $scope.currentrtPiece?.id
+        $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece?.id
         $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
 
     $scope.$watch 'current', setCurrentArtPiece
@@ -44,9 +47,13 @@ class Controller
     $scope.prev = () ->
       newPos = limitPosition( (currentPosition() - 1) % $scope.artPieces.length )
       $scope.current = $scope.artPieces[newPos].id
-    $scope.next = () ->
+      console.log('prev', $scope.current)
+      
+
+     $scope.next = () ->
       newPos = limitPosition( (currentPosition() + 1) % $scope.artPieces.length )
       $scope.current = $scope.artPieces[newPos].id
+      console.log('next', $scope.current)
 
     $scope.pinterestLikeLink = () ->
       ap = $scope.currentArtPiece
@@ -72,14 +79,14 @@ class Controller
       $scope.current = id
 
     $scope.hasYear = () ->
-      !!$scope.currentArtPiece?.art_piece?.year
+      !!$scope.currentArtPiece?.year
     $scope.hasDimensions = () ->
-      !!$scope.currentArtPiece?.art_piece?.dimensions
+      !!$scope.currentArtPiece?.dimensions
     $scope.hasMedia = () ->
-      !!$scope.currentArtPiece?.art_piece?.medium
+      !!$scope.currentArtPiece?.medium
     $scope.hasTags = () ->
-      $scope.currentArtPiece?.art_piece?.tags &&
-        ($scope.currentArtPiece.art_piece.tags.length > 0)
+      $scope.currentArtPiece?.tags &&
+        ($scope.currentArtPiece.tags.length > 0)
 
 
   

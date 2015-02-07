@@ -55,6 +55,7 @@ gem 'rails-assets-jquery-ujs'
 gem 'rails-assets-pure'
 
 gem 'ngannotate-rails'
+gem 'angular-rails-templates'
 
 # authentication
 gem 'authlogic'
