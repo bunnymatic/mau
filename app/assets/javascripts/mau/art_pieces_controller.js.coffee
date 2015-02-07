@@ -7,7 +7,7 @@ class Controller
     str.join "&"
 
         
-  constructor: ($scope, $attrs, $resource, $document, artPiecesService, artistsService) ->
+  constructor: ($scope, $attrs, $resource, $document, $location, artPiecesService, artistsService) ->
 
     $('.art-piece-app').focus()    
     $scope.onKeyDown = (ev) ->
@@ -32,6 +32,7 @@ class Controller
         $scope.currentArtPiece = artPiecesService.get($scope.current)
         $scope.artPiecePath = '/art_pieces/' + $scope.currentArtPiece?.id
         $scope.editArtPiecePath = $scope.artPiecePath + "/edit"
+
 
     $scope.$watch 'current', setCurrentArtPiece
 
@@ -91,5 +92,14 @@ class Controller
 
   
 angular.module('mau.controllers').
-  controller 'ArtPiecesController', ['$scope','$attrs', '$resource','$document','artPiecesService', 'artistsService', Controller]
+  controller 'ArtPiecesController', [
+    '$scope'
+    '$attrs'
+    '$resource'
+    '$document'
+    '$location'
+    'artPiecesService'
+    'artistsService'
+    Controller
+  ]
 

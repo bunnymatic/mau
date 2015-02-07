@@ -1,4 +1,4 @@
-angular.module('ArtPiecesApp', [
+angular.module('MauApp', [
   'templates',
   'ngResource', 
   'ngSanitize', 
