@@ -8,6 +8,7 @@
 #= require angular-resource
 #= require angular-sanitize
 #= require angular-easyfb
+#= require angular-animate
 #= require_tree ../components
 #= require mau_app
 #= require jquery
