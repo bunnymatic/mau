@@ -1,7 +1,8 @@
 angular.module('MauApp', [
   'templates',
   'ngResource', 
-  'ngSanitize', 
+  'ngSanitize',
+  'ui.keypress',
   'mau.controllers', 
   'mau.services', 
   'mau.directives', 

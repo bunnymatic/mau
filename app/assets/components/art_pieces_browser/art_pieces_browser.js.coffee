@@ -7,7 +7,7 @@ class Controller
     str.join "&"
 
         
-  constructor: ($scope, $attrs, $resource, $document, $location, artPiecesService, artistsService) ->
+  constructor: ($scope, $attrs, artPiecesService, artistsService) ->
 
     $('.art-piece-app').focus()    
     $scope.onKeyDown = (ev) ->
@@ -27,6 +27,7 @@ class Controller
     $scope.current = artPieceId
 
     setCurrentArtPiece = () ->
+      console.log('set current', $scope.current)
       if $scope.artist && $scope.current
         console.log('set current')
         $scope.currentArtPiece = artPiecesService.get($scope.current)
@@ -90,26 +91,28 @@ class Controller
         ($scope.currentArtPiece.tags.length > 0)
 
  
-angular.module('mau.directives').
-  controller 'ArtPiecesController', [
-    '$scope'
-    '$attrs'
-    '$resource'
-    '$document'
-    '$location'
-    'artPiecesService'
-    'artistsService'
-    Controller
-  ]
+# angular.module('mau.directives').
+#   controller 'ArtPiecesController', [
+#     '$scope'
+#     '$attrs'
+#     '$resource'
+#     '$document'
+#     '$location'
+#     'artPiecesService'
+#     'artistsService'
+#     Controller
+#   ]
 
 
-artPiecesBrowser = ->
+artPiecesBrowser = ($document) ->
   restrict: 'E'
   scope:
     artistId: '@'
     artPieceId: '@'
-    currentUser: '='
+    currentUser: '@'
   templateUrl: 'art_pieces_browser/index.html'
   controller: Controller
+  link: ($scope) ->
+    $document.on 'keydown', $scope.onKeyDown
 
 angular.module('mau.directives').directive('artPiecesBrowser', artPiecesBrowser)
