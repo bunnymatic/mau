@@ -1,0 +1,9 @@
+art-pieces-browser {
+  .art-piece__info {
+    display: flex;
+    flex-direction: column;
+  }
+  .card__controls, .desc {
+    flex: 1;
+  }
+}

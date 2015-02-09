@@ -30,13 +30,17 @@
         .tags
           %span{"ng-repeat" => 'tag in currentArtPiece.tags', 'repeater-delimiter' => ','}
             %art-piece-tag{"tag" => "tag" }
+    .push.social-buttons
+      %ezfb F
+      %twitter T
+      %favorite-art-piece{ "art-piece" => 'currentArtPiece' } &heart;
   .pure-u-4-5.art-piece
     %img.pure-img{ "image-fader" => '', "ng-src" => "{{currentArtPiece.image_files.large}}" }
 
   .pure-u-1-1
     .pure-g.browser
       .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.id)}" }
-        %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setArtPieceAsCurrent($event, piece.id)"}
+        %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setCurrent($event, $index)"}
           .image{ "ng-style" => "{backgroundImage: 'url({{piece.image_files.small}})'}"}
 .pure-u-1-1
   %a{href: "{{artistPath}}", class: 'pure-button pure-button-primary'}
