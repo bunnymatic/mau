@@ -6,7 +6,6 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
       
   setCurrentArtPiece = () ->
     return unless $scope.artPieces
-    console.log "Current ", $scope.current
     if !$scope.current || $scope.current < 0
       $scope.current = 0
     $scope.currentArtPiece = $scope.artPieces[$scope.current]

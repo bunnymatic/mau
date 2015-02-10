@@ -33,7 +33,7 @@
     .push.social-buttons
       %ezfb F
       %twitter T
-      %favorite-art-piece{ "art-piece" => 'currentArtPiece' } &heart;
+      %favorite-art-piece{ "ng-model" => 'currentArtPiece' } &heart;
   .pure-u-4-5.art-piece
     %img.pure-img{ "image-fader" => '', "ng-src" => "{{currentArtPiece.image_files.large}}" }
 
