@@ -1,3 +1,5 @@
+@import 'mau-mixins';
+
 art-pieces-browser {
   .art-piece__info {
     display: flex;
@@ -6,4 +8,23 @@ art-pieces-browser {
   .card__controls, .desc {
     flex: 1;
   }
+  .facebookShare .facebookCount {
+    display: none;
+  }
+  .facebookShare .pluginButtonLabel {
+    color: white;
+  }
+  .pinterest {
+    display: inline-block;
+    a { 
+      @include transition(none);
+    }
+  }
+  .social-buttons {
+    > a, div {
+      vertical-align: top;
+      display: inline-block;
+    }
+  }
+
 }

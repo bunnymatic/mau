@@ -6,5 +6,12 @@ angular.module('MauApp', [
   'mau.controllers', 
   'mau.services', 
   'mau.directives', 
-  'ezfb']);
+  'djds4rce.angular-socialshare']
+)
+.config( ($locationProvider) ->
+  $locationProvider.html5Mode(true).hashPrefix('!')
+)
+.run( ($FB) ->
+  $FB.init('1568875043351573')
+)
 

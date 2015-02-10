@@ -4,6 +4,8 @@
     jQuery.fx.off = true;
 
 = render :partial => '/common/facebook_sdk' if @facebook_required
+- if @twitter_required
+  = javascript_include_tag "//platform.twitter.com/widgets.js"
 - if @pinterest_required
   %script{ "data-pin-do-not-log" => "true",  "type" => 'text/javascript', "src" => "//assets.pinterest.com/js/pinit.js" }
 = yield :extra_javascript
