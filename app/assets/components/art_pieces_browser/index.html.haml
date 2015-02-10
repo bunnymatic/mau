@@ -31,10 +31,10 @@
           %span{"ng-repeat" => 'tag in currentArtPiece.tags', 'repeater-delimiter' => ','}
             %art-piece-tag{"tag" => "tag" }
     .push.social-buttons
-      %a.facebookShare{ facebook: '', "data-send" => "false", "data-layout" => "button_count", "data-width" => "450", "data-show-faces" => "false", "data-font" => "arial", "data-colorscheme" => "dark", "data-href" => "{{currentArtPiece.showPath}}", "data-shares" => 'shares' } {{shares}}
-      %a.twitter-tweet{ twitter: '', "data-lang" => "en", "data-count" => "none", "data-url" => "{{currentArtPiece.showPath}}", "data-via" => 'sfmau', "data-size" => "small", "data-text" => "{{currentArtPiece.title}} by {{artist.full_name}}"}
-      .pinterest{ pintrest: '', "data-href" => "{{currentArtPiece.showPath}}", "data-description" => "{{currentArtPiece.title}} by {{artist.full_name}}", "data-img" => "{{currentArtPiece.image_files.large}}", "data-pin-config" => "beside", "data-pin-do" => "buttonPin"}
-      %favorite-art-piece{ "ng-model" => 'currentArtPiece' } &heart;
+      %a.facebookShare{ "ng-if" => "currentArtPiece.id", facebook: '', "data-send" => "false", "data-layout" => "button_count", "data-width" => "450", "data-show-faces" => "false", "data-font" => "arial", "data-colorscheme" => "dark", "data-href" => "{{currentArtPiece.showPath()}}", "data-shares" => 'shares' } {{shares}}
+      %a.twitter-tweet{ "ng-if" => "currentArtPiece.id", twitter: '', "data-lang" => "en", "data-count" => "none", "data-url" => "{{currentArtPiece.showPath()}}", "data-via" => 'sfmau', "data-size" => "small", "data-text" => "{{currentArtPiece.title}} by {{artist.full_name}}"}
+      .pinterest{ "ng-if" => "currentArtPiece.id", pintrest: '', "data-href" => "{{currentArtPiece.showPath()}}", "data-description" => "{{currentArtPiece.title}} by {{artist.full_name}}", "data-img" => "{{currentArtPiece.image_files.large}}", "data-pin-config" => "beside", "data-pin-do" => "buttonPin"}
+      %favorite-art-piece{ "ng-if" => "currentArtPiece.id", "ng-model" => 'currentArtPiece' } &heart;
   .pure-u-4-5.art-piece
     %img.pure-img{ "image-fader" => '', "ng-src" => "{{currentArtPiece.image_files.large}}" }
 

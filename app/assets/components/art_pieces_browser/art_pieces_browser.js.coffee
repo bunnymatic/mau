@@ -23,6 +23,11 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
   $scope.next = () ->
     $scope.current = limitPosition($scope.current + 1)
 
+  $scope.currentArtPath = () ->
+    "/art_pieces/" + currentArtPiece.id
+  $scope.currentArtistPath = () ->
+    "/artists/" + artist.id
+    
   $scope.onKeyDown = (ev) ->
     if ev.which == 37
       $scope.prev()
@@ -57,6 +62,7 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     artPiecesService.get(artPieceId).$promise.then (data) ->
       $scope.currentArtPiece = data
       $scope.initialArtPiece = data
+      
 
     $scope.$watch( 'current', setCurrentArtPiece )
     $scope.$watch( 'artPieces', initializeCurrent )
