@@ -7,7 +7,6 @@
 #= require angular_modules
 #= require angular-resource
 #= require angular-sanitize
-#= require angular-socialshare
 #= require angular-animate
 #= require angular-ui-utils/ui-utils
 #= require_tree ../components

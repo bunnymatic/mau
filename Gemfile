@@ -49,7 +49,6 @@ gem 'rails-assets-angular-resource'
 gem 'rails-assets-angular-sanitize'
 gem 'rails-assets-angular-animate'
 gem 'rails-assets-angular-ui-utils'
-gem 'rails-assets-angular-socialshare'
 gem 'rails-assets-moment'
 gem 'rails-assets-lodash'
 gem 'rails-assets-colorbox' # lightbox plugin

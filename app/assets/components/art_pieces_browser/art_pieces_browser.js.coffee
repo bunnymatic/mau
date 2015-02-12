@@ -8,8 +8,8 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     return unless $scope.artPieces
     if !$scope.current || $scope.current < 0
       $scope.current = 0
-    $scope.currentArtPiece = $scope.artPieces[$scope.current]
-    console.log $scope.currentArtPiece
+    $scope.artPiece = $scope.artPieces[$scope.current]
+    console.log $scope.artPiece
 
   limitPosition = (pos) ->
     nPieces = $scope.artPieces.length
@@ -24,7 +24,7 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     $scope.current = limitPosition($scope.current + 1)
 
   $scope.currentArtPath = () ->
-    "/art_pieces/" + currentArtPiece.id
+    "/art_pieces/" + artPiece.id
   $scope.currentArtistPath = () ->
     "/artists/" + artist.id
     
@@ -36,21 +36,21 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     $scope.$apply()
 
   $scope.isCurrent = (artPieceId) ->
-    $scope.currentArtPiece?.id == artPieceId
+    $scope.artPiece?.id == artPieceId
     
   $scope.setCurrent = ($event, $index) ->
     $event.preventDefault()
     $scope.current = $index
 
   $scope.hasYear = () ->
-    !!$scope.currentArtPiece?.year
+    !!$scope.artPiece?.year
   $scope.hasDimensions = () ->
-    !!$scope.currentArtPiece?.dimensions
+    !!$scope.artPiece?.dimensions
   $scope.hasMedia = () ->
-    !!$scope.currentArtPiece?.medium
+    !!$scope.artPiece?.medium
   $scope.hasTags = () ->
-    $scope.currentArtPiece?.tags &&
-      ($scope.currentArtPiece.tags.length > 0)
+    $scope.artPiece?.tags &&
+      ($scope.artPiece.tags.length > 0)
     
     
   init = () ->
@@ -60,7 +60,7 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     artistsService.get(artistId).$promise.then (data) -> $scope.artist = data
     artPiecesService.list(artistId).$promise.then (data) -> $scope.artPieces = data
     artPiecesService.get(artPieceId).$promise.then (data) ->
-      $scope.currentArtPiece = data
+      $scope.artPiece = data
       $scope.initialArtPiece = data
       
 

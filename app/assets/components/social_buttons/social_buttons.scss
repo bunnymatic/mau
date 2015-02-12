@@ -1,0 +1,26 @@
+@import 'gto/variables';
+@import 'colors';
+.social-buttons {
+  margin-bottom: 25px;
+  border-bottom: 1px solid $xlightgray;
+  margin-right: 15px;
+  padding-bottom: 8px;
+  text-align: center;
+  .share {
+    text-align: left;
+    border-bottom: 1px solid $xlightgray;
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: $font-weight-light;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    
+  }
+  a { 
+    vertical-align: bottom;
+  }
+  .ico.ico-invert {
+    font-size: 2rem;
+  }
+}

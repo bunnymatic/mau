@@ -4,8 +4,9 @@
   %script{ :src => "//html5shiv.googlecode.com/svn/trunk/html5.js" }
 = csrf_meta_tags
 = javascript_include_tag "application"
-%script
-  = "var MAU = window.MAU = window.MAU || {};"
+%script{:type => 'text/javascript'}
+  var authenticityToken  = encodeURIComponent('#{form_authenticity_token}')
+  var MAU = window.MAU = window.MAU || {};
   = "MAU.versionString = '#{@revision}';"
 
 
