@@ -5,7 +5,6 @@ class ArtPiecesController < ApplicationController
 
   skip_before_filter :get_new_art, :get_feeds
 
-  before_filter :admin_required, :only => [ :index, ]
   before_filter :user_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :artist_required, :only => [ :new, :edit, :update, :create, :destroy]
   before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update]
@@ -18,9 +17,20 @@ class ArtPiecesController < ApplicationController
     ArtPieceTag.flush_cache
   end
 
+  def index
+    artist_id = params[:artist_id]
+    begin
+      artist = Artist.active.find(artist_id)
+      render json: (artist.art_pieces.map{|ap| (ArtPieceJsonPresenter.new ap).to_json()})
+    rescue
+      render json: [], status: 404
+    end
+  end
+
   def show
     @facebook_required = true
     @pinterest_required = true && browser.modern?
+    @twitter_required = true
 
     if is_mobile?
       redirect_to artist_path(@art_piece.artist) and return

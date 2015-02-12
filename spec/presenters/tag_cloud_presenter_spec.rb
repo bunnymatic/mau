@@ -37,16 +37,6 @@ describe TagCloudPresenter, :type => :controller do
     expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, :m => mode)
   end
 
-  it 'computes the style for the most popular tag' do
-    expect(subject.compute_style(expected_frequency.first)).
-      to eql "font-size:24px; margin: 4px;"
-  end
-
-  it 'computes the style for the least popular tag' do
-    expect(subject.compute_style(expected_frequency.last)).
-      to eql "font-size:17px; margin: 4px;"
-  end
-
   context 'when the mode is art_pieces' do
     let(:mode) { 'p' }
     it 'returns the tag path' do

@@ -1,10 +1,16 @@
+#= require ng-inject
 #= require monkey_patches
 #= require lodash
 #= require underscore.string
 #= require angular
+#= require angular-rails-templates
+#= require angular_modules
 #= require angular-resource
 #= require angular-sanitize
-#= require angular-easyfb
+#= require angular-animate
+#= require angular-ui-utils/ui-utils
+#= require_tree ../components
+#= require mau_app
 #= require jquery
 #= require jquery_ujs
 #= require jquery_noconflict

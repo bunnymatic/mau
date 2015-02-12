@@ -9,28 +9,24 @@
         = link_to art_piece.destroy_path, confirm: 'Are you sure you want to remove this piece of art from your portfolio?', method: :delete, title: "Delete" do
           .fa.fa-icon.fa-close
   .desc
-    - if art_piece.has_dimensions?
+    .ngwrapper{ "ng-if" => "hasDimensions()" }
       %h4.title Dimensions
       .dimensions 
-        = art_piece.display_dimensions
-    - if art_piece.has_year?
+        {{currentArtPiece.art_piece.dimensions}}
+      = art_piece.display_dimensions
+    .ngwrapper{ "ng-if" => "hasYear()" }
       %h4.title Date
       .date 
-        = art_piece.year
-    - if art_piece.has_medium?
+        {{currentArtPiece.art_piece.year}}
+      = art_piece.year
+    .ngwrapper{ "ng-if" => "hasMedia()" }
       %h4.title Medium
       .media
         = link_to art_piece.medium.name.html_safe, art_piece.medium
-    - if art_piece.has_tags?
+    .ngwrapper{ "ng-if" => "hasTags()" }
       %h4.title Tags
       .tags
         = art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
 .pure-u-4-5.art-piece
-  %img.pure-img{ src: art_piece.get_path(:large) }
-.pure-u-1-1
-  .pure-g.browser
-    - @thumb_browser.pieces.each do |piece|
-      .piece.pure-u-1-12.padded-content
-        = link_to piece.show_path do
-          .image{class: (@thumb_browser.is_current_piece(piece.art_piece) ? "current" : ''), style: "background-image: url(#{piece.get_path(:small)});"}
+  %img.pure-img{ "src" => "{{currentArtPiece.art_piece.image_files.large}}" }
 

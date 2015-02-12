@@ -1,11 +1,1 @@
-.pure-g
-  .pure-u-1-1.header.padded-content
-    %h2.title
-      %span.art-piece__title #{@art_piece.title}
-      %span.art-piece__byline by #{@art_piece.artist_name}
-.pure-g.alpha.omega
-  = render '/art_pieces/art', art_piece: @art_piece
-  .pure-u-1-1
-    = link_to @art_piece.artist_path, class: 'pure-button pure-button-primary' do
-      See more by #{@art_piece.artist_name}
-
+%art-pieces-browser{ "tabindex" => '0', 'artist-id' => @art_piece.artist.id, 'art-piece-id' => @art_piece.id, 'current-user' => (@art_piece.artist.id == current_user.try(:id))}

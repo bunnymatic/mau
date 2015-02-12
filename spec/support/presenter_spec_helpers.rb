@@ -6,6 +6,7 @@ module PresenterSpecHelpers
 
     def initialize(logged_in_as = nil)
       @user = logged_in_as
+      @buffer = ''
     end
 
     def current_user
@@ -14,6 +15,16 @@ module PresenterSpecHelpers
 
     def controller
       # this helps the tag_cloud_presenter tag_path method (for some reason)
+    end
+
+    def output_buffer=(s)
+      if s.present?
+        @buffer += s
+      end
+    end
+
+    def output_buffer
+      @buffer ||= ''
     end
 
   end

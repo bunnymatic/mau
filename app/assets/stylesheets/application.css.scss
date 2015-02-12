@@ -2,7 +2,6 @@
  *= require reset
  *= require socicon
  *= require micro_icons
- *= require fonts
  *= require colorbox
  *= require pickadate/classic
  *= require pickadate/classic.date
@@ -11,6 +10,7 @@
  *= require collapse
  *= require panel
  *= require toggle_button
+ *= require_tree ../components
  *= require_tree ./gto
  *= require feeds
  *= require_self

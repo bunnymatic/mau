@@ -52,7 +52,7 @@ Mau::Application.routes.draw do
 
   resources :art_pieces, only: [:show, :edit, :update, :destroy]
   resources :artists, except: [:new, :create] do
-    resources :art_pieces, except: [:index, :destroy, :edit, :update]
+    resources :art_pieces, except: [:destroy, :edit, :update]
     collection do
       get :by_lastname
       get :by_firstname

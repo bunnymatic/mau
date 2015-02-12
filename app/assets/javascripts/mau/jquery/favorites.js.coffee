@@ -3,8 +3,7 @@ MAU = window.MAU = window.MAU || {}
 Favorites =
   favorites_per_row : 20,
   bindings: ->
-    favorites = jQuery('.favorite_this')
-    favorites.bind 'click', (ev) ->
+    jQuery('.pure-g').on 'click', '.favorite-this, .favorite_this', (ev) ->
       lnk = jQuery(this)
       tp = lnk.attr('fav-type');
       id = lnk.attr('fav-id');

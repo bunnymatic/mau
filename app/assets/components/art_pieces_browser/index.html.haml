@@ -1,0 +1,50 @@
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title
+      %span.art-piece__title{ "ng-bind-html" => "artPiece.title" }
+      %span.art-piece__byline-conjunction by
+      %span.art-piece__byline{ "ng-bind-html" => "artist.full_name" }
+.pure-g.alpha.omega{'ng-cloak' => ''}
+  .pure-u-1-5.art-piece__info
+    .card__controls{'ng-if' => 'currentUser'}
+      .art-card__edit 
+        %a{ "ng-href" => '{{artPiece.editPath}}', title: 'edit'}
+          .fa.fa-icon.fa-edit
+      .art-card__delete 
+        %a{href: '#', "data-confirm" => 'Are you sure you want to remove this piece of art from your portfolio?', "data-method" => :delete, rel: "nofollow", title: "Delete", "ng-href" => "{{artPiece.showPath}}" }
+          .fa.fa-icon.fa-close
+        %a{ "ng-href" => 'artPiece.deletePath', title: 'remove'}
+    .desc
+      .ngwrapper{ "ng-if" => "hasDimensions()" }
+        %h4.title Dimensions
+        .dimensions{ "ng-bind-html" => "artPiece.dimensions" }
+      .ngwrapper{ "ng-if" => "hasYear()" }
+        %h4.title Date
+        .date{ "ng-bind-html" => "artPiece.year" }
+      .ngwrapper{ "ng-if" => "hasMedia()" }
+        %h4.title Medium
+        .media
+          %medium{ "medium" => "artPiece.medium" }
+      .ngwrapper{ "ng-if" => "hasTags()" }
+        %h4.title Tags
+        .tags
+          %span{"ng-repeat" => 'tag in artPiece.tags', 'repeater-delimiter' => ','}
+            %art-piece-tag{"tag" => "tag" }
+    .push.social-buttons
+      .share Share
+      %share-button{ type: 'twitter', "ng-if" => "artPiece.id" }
+      %share-button{ type: "facebook",  "ng-if" => "artPiece.id" }
+      %share-button{ type: "pinterest", "ng-if" => "artPiece.id" }
+      %favorite-this{ "ng-if" => "artPiece.id" }
+  .pure-u-4-5.art-piece
+    %img.pure-img{ "image-fader" => '', "ng-src" => "{{artPiece.image_files.large}}" }
+
+  .pure-u-1-1
+    .pure-g.browser
+      .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.id)}" }
+        %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setCurrent($event, $index)"}
+          .image{ "ng-style" => "{backgroundImage: 'url({{piece.image_files.small}})'}"}
+.pure-u-1-1
+  %a{href: "{{artistPath}}", class: 'pure-button pure-button-primary'}
+    See more by {{artist.full_name}}
+
