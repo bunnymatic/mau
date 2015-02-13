@@ -1,4 +1,4 @@
-favoriteThis = ->
+favoriteThis = ngInject () ->
   restrict: 'E'
   templateUrl: 'social_buttons/favorite.html'
 

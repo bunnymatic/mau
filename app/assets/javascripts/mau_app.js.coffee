@@ -7,8 +7,7 @@ angular.module('MauApp', [
   'mau.services', 
   'mau.directives']
 )
-.config(['$locationProvider', ($locationProvider) ->
+.config ngInject ($locationProvider) ->
   $locationProvider.html5Mode(false);
   $locationProvider.hashPrefix('!');
-])
 

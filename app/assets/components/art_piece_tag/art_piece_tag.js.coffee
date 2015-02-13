@@ -1,4 +1,4 @@
-artPieceTag = ->
+artPieceTag = ngInject () ->
   restrict: 'E'
   scope:
     tag: "="

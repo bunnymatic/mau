@@ -1,4 +1,4 @@
-angular.module('mau.directives').directive 'imageFader', ($timeout) ->
+angular.module('mau.directives').directive 'imageFader', ngInject ($timeout) ->
   restrict: 'A',
   link: ($scope, $element, attrs) ->
     $element.addClass("ng-hide-remove")

@@ -71,7 +71,7 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
 
   init()
   
-artPiecesBrowser = ($document) ->
+artPiecesBrowser = ngInject ($document) ->
   restrict: 'E'
   scope:
     artistId: '@'

@@ -1,4 +1,4 @@
-medium = ->
+medium = ngInject () ->
   restrict: 'E'
   scope:
     medium: "="
