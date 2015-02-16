@@ -1,9 +1,8 @@
 $ ->
   if $('.studios.index').length
-    currentFilter = $('.js-filter-by-name').val();
 
     fetchFilteredStudios = (ev) ->
-      filter = $('.js-filter-by-name').val().trim()
+      filter = document.querySelectorAll('.js-filter-by-name')[0].value;
       if filter
         filters = filter.split /\s+/
         regexs = _.map(filters, (filter) -> new RegExp(filter, 'i'))

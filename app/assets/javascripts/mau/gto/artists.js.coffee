@@ -36,12 +36,14 @@ $ ->
 
   if $('.artists.index').length
     # define helpers
-    currentFilter = $('.js-filter-by-name').val();
+    getCurrentFilter = () ->
+      document.querySelectorAll('.js-filter-by-name')[0].value;
 
+    currentFilter = getCurrentFilter()
     resetSearch = () ->
       $wrapper = $('js-artists-scroll-wrapper')
       currentMode = $wrapper.data('filtering')
-      currentFilter = $('.js-filter-by-name').val()
+      currentFilter = getCurrentFilter()
       newMode = !!currentFilter
       $wrapper.data('filtering', newMode )
       if newMode != currentMode
@@ -83,5 +85,5 @@ $ ->
         fetchArtists()
 
     $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
-      if currentFilter != $('.js-filter-by-name').val()
+      if currentFilter != getCurrentFilter()
         throttledFilter()
