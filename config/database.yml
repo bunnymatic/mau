@@ -26,7 +26,7 @@ test: &test
   password: 
   host: localhost
 
-production: 
+acceptance: 
   <<: *dev
 
 cucumber:

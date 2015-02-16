@@ -9,7 +9,6 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     if !$scope.current || $scope.current < 0
       $scope.current = 0
     $scope.artPiece = $scope.artPieces[$scope.current]
-    console.log $scope.artPiece
 
   limitPosition = (pos) ->
     nPieces = $scope.artPieces.length

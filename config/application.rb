@@ -27,6 +27,8 @@ module Mau
   class Application < Rails::Application
     # moved to bundler - check Gemfile
 
+    config.active_support.deprecation = :stderr
+
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -78,6 +80,7 @@ module Mau
       access_key_id: Conf.AWS_ACCESS_KEY_ID || 'bogus',
       secret_access_key: Conf.AWS_SECRET_ACCESS_KEY || 'bogus'
     }
+
   end
 
 end
