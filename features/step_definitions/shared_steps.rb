@@ -104,11 +104,15 @@ Then(/^I see an error message "(.*?)"$/) do |msg|
 end
 
 Then(/^I see a flash notice "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.notice', text: msg
+  expect(page).to have_selector '.flash.flash__notice', text: msg
 end
 
 Then(/^I close the notice$/) do
-  find('.notice .close-btn').trigger('click')
+  find('.flash.flash__notice .close-btn').trigger('click')
+end
+
+Then(/^I close the flash$/) do
+  all('.flash .js-flash__close').each {|f| f.trigger('click') }
 end
 
 When(/^I visit the "(.*?)" page$/) do |titleized_path_name|
@@ -151,9 +155,43 @@ Then(/^I see a message "(.*?)"$/) do |message|
   expect(page).to have_selector '.flash', text: message
 end
 
+def fill_in_field_with_value(field, value)
+  # First try with a label
+  xpath = "//label[normalize-space(translate(.,'*',''))='#{field}' or @for='#{field}']/.."
+  if page.all(:xpath, xpath).empty?
+    # Then try with a input field
+    xpath = "//input[@type='text' and (@id='#{field}' or @name='#{field}')]/.."
+  end
+  
+  within(:xpath, xpath) do
+    fill_in(field, with: value)
+  end
+end
+
 When(/^I fill in the form with:$/) do |table|
   info = table.hashes.first
   info.each do |field, val|
-    fill_in field, with: val
+    if /Studio/ =~ field
+      select val, from: field
+    else
+      fill_in_field_with_value field, val
+    end
   end
+end
+
+When(/^I fill in the "([^"]*?)" form with:$/) do |form_locator, table|
+  within form_locator do
+    info = table.hashes.first
+    info.each do |field, val|
+      if /Studio/ =~ field
+        select val, from: field
+      else
+        fill_in_field_with_value field, val
+      end
+    end
+  end
+end
+
+When(/^I choose "(.*?)" from "(.*?)"$/) do |option, select|
+  select option, from: select
 end

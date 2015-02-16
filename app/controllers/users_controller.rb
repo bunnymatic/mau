@@ -45,7 +45,8 @@ class UsersController < ApplicationController
     artist = Artist.new
     fan = MAUFan.new
     @studios = Studio.all
-    @type = (['Artist','MAUFan'].include? params[:type]) ? params[:type] : 'Artist'
+    type = params[:type] || user_params[:type]
+    @type = ['Artist','MAUFan'].include?(type) ? type : 'Artist'
     @user = (@type == 'MAUFan') ? fan : artist
   end
 
@@ -93,7 +94,9 @@ class UsersController < ApplicationController
 
   def create
     logout
-    @type = params.delete(:type) || DEFAULT_ACCOUNT_TYPE
+    @type = params.delete(:type)
+    @type ||= user_params[:type]
+
 
     # validate email domain
     build_user_from_params
@@ -318,7 +321,7 @@ class UsersController < ApplicationController
   def render_on_failed_create
     msg = "There was a problem creating your account."+
           " If you can't solve the issues listed below, please try again later or"+
-          " contact the webmaster (link below). if you continue to have problems.<br/>"
+          " contact the webmaster (link below). if you continue to have problems."
     msg += @user.errors[:base].join(". ")
     flash.now[:error] = msg.html_safe
     @studios = Studio.all
@@ -359,7 +362,7 @@ class UsersController < ApplicationController
       # studio_id is in artist info
       studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
       if studio_id > 0
-        studio = Studio.friendly.find(studio_id)
+        studio = Studio.find(studio_id)
         if studio
           @user = studio.artists.build(user_params)
         end
@@ -421,6 +424,8 @@ class UsersController < ApplicationController
       end
       attrs[:email_attrs] = em2.to_json
     end
+
     attrs
+
   end
 end

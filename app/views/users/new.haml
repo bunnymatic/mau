@@ -1,12 +1,13 @@
 .pure-g
   .pure-u-1-1.signin-block
+    #spinner
     #signup_page
       %h2 Create Your MAU Account
       = render '/flash_notice_error'
       .signup-table.inputs
         .row.acct-selector
           .label
-            %label{for: 'acct-selector'} I am a
+            %label{for: 'account_type_chooser'} I am a
           .input
             = select_tag 'account_type_chooser', user_signup_select_options(@user, @type)
       #signup_form

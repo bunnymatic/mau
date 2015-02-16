@@ -1,4 +1,4 @@
-= form_for(studio) do |f|
+= form_for([:admin,studio]) do |f|
   = render '/common/form_errors', :form => f
 
   - [:name, :street, :cross_street, :city, :state, :zip, :phone, :url].each do |textfield|
