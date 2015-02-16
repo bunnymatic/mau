@@ -14,3 +14,21 @@ Then(/^I see update studio links for things i can manage/) do
 
 end
 
+When(/^I edit the first studio$/) do
+  within '.admin-table' do
+    click_on_first 'Edit'
+  end
+end
+
+When(/^I change the street address to "(.*?)"$/) do |street_address|
+  fill_in "Street", with: street_address
+  click_on 'Update Studio'
+end
+
+Then(/^I see the first studio has the street address "(.*?)"$/) do |street_address|
+  expect(page).to have_content street_address
+end
+
+Then(/^I see the first studio page/) do
+  expect(current_path).to eql studio_path(Studio.first.to_param)
+end

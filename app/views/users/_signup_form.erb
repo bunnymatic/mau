@@ -10,7 +10,7 @@
   <% if type == 'Artist' %>
   <div class="row">
     <div class="label">
-      <%= label_tag 'studio', 'Group Studio' %>
+      <%= label_tag 'artist_studio_id', 'Group Studio' %>
     </div>
     <div class="input">
       <%= select("artist","studio_id", [['None', 0]] + @studios.map{|u| [u.name,u.id]}) %>
