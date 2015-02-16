@@ -112,6 +112,10 @@ end
 When(/^I fill in the form with:$/) do |table|
   info = table.hashes.first
   info.each do |field, val|
-    fill_in field, with: val
+    if field == 'Group Studio'
+      select val, from: field
+    else
+      fill_in field, with: val
+    end
   end
 end

@@ -8,6 +8,13 @@ describe Studio do
 
   it { should validate_presence_of(:name) }
 
+  it 'has a friendly id' do
+    studio.save
+    studio.reload
+    expect(Studio.find(studio.id)).to be_present
+    expect(Studio.find(studio.slug)).to be_present
+  end
+
   describe 'address' do
     it "responds to address" do
       expect(studio).to respond_to :address

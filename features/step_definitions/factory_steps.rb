@@ -15,6 +15,10 @@ Given(/^an "(.*?)" account has been created/) do |role|
   @artist.save!
 end
 
+Given /there is a studio named "(.*)"/ do |studio|
+  @studio = FactoryGirl.create(:studio, name: studio)
+end
+
 Given /there are artists with art in the system/ do
   @artists = FactoryGirl.create_list(:artist, 3, :with_art, :with_studio, :number_of_art_pieces => 5)
   @art_pieces = @artists.map(&:art_pieces).flatten
