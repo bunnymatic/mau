@@ -37,6 +37,7 @@ class UsersController < ApplicationController
     else
       @page_title = "Mission Artists United"
     end
+    @fan = UserPresenter.new(@fan)
     render 'show'
   end
 

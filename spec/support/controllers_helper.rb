@@ -23,27 +23,24 @@ end
 # logged in - get edit page
 shared_examples_for "logged in edit page" do
   it "has at least open-close divs with edit, notification, password, links and deactivation section" do
-    assert_select('.open-close-div.acct')
-    assert_select('.open-close-div #info_toggle')
+    assert_select('.panel-group')
     assert_select('#info')
-    assert_select('.open-close-div #notifications_toggle')
-    assert_select('#notifications')
-    assert_select('form[action=/change_password_update]')
-    assert_select('#passwd')
-    assert_select('#deactivate')
-    assert_select('.open-close-div #links_toggle')
+    assert_select('#bio')
+    assert_select('#profile_picture')
+    assert_select('#password')
     assert_select('#links')
+    assert_select('#address')
   end
 end
 
 # for all
 shared_examples_for "logged in user" do
   it "header bar should say hello with login and logout and signup links as appopriate" do 
-    assert_select("a[href=#{logout_path}")
-   if @logged_in_user.is_a? Artist
-      assert_select("a[href=#{artist_path(@logged_in_user)}")
+    assert_select("a[href=#{logout_path}]")
+    if @logged_in_user.is_a? Artist
+      assert_select("a[href=#{artist_path(@logged_in_user)}]")
     else
-      assert_select("a[href=#{user_path(@logged_in_user)}")
+      assert_select("a[href=#{user_path(@logged_in_user)}]")
     end
   end
 end
@@ -58,7 +55,7 @@ end
 
 shared_examples_for "logged in as editor" do
   it "shows a link to the dashboard" do
-    assert_select("#admin_nav a.lkdark[href=#{admin_path}]", 'dashboard')
+    assert_select("#admin_nav [href=#{admin_path}]", 'dashboard')
   end
 end
 

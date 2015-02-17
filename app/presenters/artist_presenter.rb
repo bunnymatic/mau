@@ -1,9 +1,7 @@
 # This presenter adds helpful display/view related methods
 # to make it easy to draw artist data on a page
 
-class ArtistPresenter
-
-  include HtmlHelper
+class ArtistPresenter < ViewPresenter
 
   KEYED_LINKS = [ [:url, 'Website', :u_website],
                   [:instagram, 'Instagram', :u_instagram],
@@ -15,6 +13,7 @@ class ArtistPresenter
                   [:myspace, 'MySpace', :u_myspace]]
 
   attr_accessor :artist
+  
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
     :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
     :os_participation, :studio, :studio_id, :login, :active?, :artist_info,
@@ -23,7 +22,7 @@ class ArtistPresenter
 
   def initialize(view_context, artist)
     @artist = artist
-    @view_context = view_context
+    @view_context = view_context # to be extracted and removed over time
   end
   
   def what_i_favorite
@@ -88,11 +87,11 @@ class ArtistPresenter
   end
 
   def activation_link
-    @view_context.activate_url(artist.activation_code)
+    activate_url(artist.activation_code)
   end
 
   def reset_password_link
-    @view_context.reset_url(artist.reset_code )
+    reset_url(artist.reset_code )
   end
 
   def has_media?
@@ -125,9 +124,9 @@ class ArtistPresenter
         formatted_site = format_link(site)
         site_display = format_link_for_display(site)
         link_icon_class = icon_link_class(key, site)
-        @view_context.content_tag 'a', href: formatted_site, title: display, target: '_blank' do
-          @view_context.content_tag(:i,'', class: link_icon_class) + 
-            @view_context.content_tag(:span,site_display)
+        content_tag 'a', href: formatted_site, title: display, target: '_blank' do
+          content_tag(:i,'', class: link_icon_class) + 
+            content_tag(:span,site_display)
         end
       end
     end.compact
@@ -159,10 +158,6 @@ class ArtistPresenter
     @favorites_count if @favorites_count > 0
   end
 
-  def is_current_user?
-    @view_context.current_user == @artist
-  end
-
   def studio_name
     @studio_name ||= studio.name
   end
@@ -189,16 +184,20 @@ class ArtistPresenter
   end
 
   def show_path
-    @view_context.artist_path(artist)
+    Rails.application.routes.url_helpers.artist_path(artist)
   end
 
   def edit_path(opts = nil)
     opts ||= {}
-    @view_context.edit_artist_path(artist, opts)
+    Rails.application.routes.url_helpers.edit_artist_path(artist, opts)
   end
 
+  def favorites_path(opts = nil)
+    Rails.application.routes.url_helpers.user_favorites_path(artist)
+  end
+  
   def get_map_info
-    @view_context.content_tag('div', map_info_contents, class: 'map__info-window')
+    content_tag('div', map_info_contents, class: 'map__info-window')
   end
 
   def representative_piece
@@ -215,7 +214,7 @@ class ArtistPresenter
   end
 
   def map_info_name_address
-    @view_context.content_tag 'div', class: 'map__info-window-text' do
+    content_tag 'div', class: 'map__info-window-text' do
       name = content_tag 'a', get_name, href: show_path
       html = [name]
       street = address_hash.try(:parsed).try(:street)
@@ -242,7 +241,7 @@ class ArtistPresenter
                     if bio.present?
                       MarkdownService.markdown(bio, :filter_html)
                     else
-                      @view_context.content_tag('h4', "No artist's statement")
+                      content_tag('h4', "No artist's statement")
                     end
                   end
   end
@@ -256,10 +255,6 @@ class ArtistPresenter
   end
 
   private
-  def content_tag(*args)
-    @view_context.content_tag(*args)
-  end
-
   def share_url
     @share_url ||= artist.get_share_link(true)
   end
@@ -273,7 +268,7 @@ class ArtistPresenter
   end
 
   def map_thumb_image
-    @representative_thumb_image ||= @view_context.content_tag('div', '', class: 'thumb', style: "background-image: url(#{map_thumb});")
+    @representative_thumb_image ||= content_tag('div', '', class: 'thumb', style: "background-image: url(#{map_thumb});")
   end
 
   def linked_thumb

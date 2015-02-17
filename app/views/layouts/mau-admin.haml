@@ -3,15 +3,12 @@
   %head
     = render '/extra_html_head'
     = render '/title'
-    = render '/common/stylesheets'
-    = javascript_include_tag 'admin.js'
+    = stylesheet_link_tag 'application'
 
   %body.admin{:class => ([@browser_as_class, application_body_class].join " ")}
-    - unless browser.modern?
-      = render '/old_browser_warning'
-    = render '/noscript_msg'
-    .wrapper
-      = render '/login_header_bar'
-      #container
-        = render '/header_bar'
-        = render '/content', :cols => 1
+    = render '/login_header_bar'
+    = render '/header_bar'
+    #container
+      = yield
+  = javascript_include_tag 'application.js'
+  = javascript_include_tag 'admin.js'

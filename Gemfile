@@ -10,6 +10,7 @@ gem "nokogiri", '~> 1.6'
 gem "htmlentities"
 gem 'mysql2'
 gem "haml"
+gem "slim-rails"
 gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
@@ -43,7 +44,6 @@ gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
 gem 'paperclip'
 gem 'aws-sdk'
 
-# use bower assets
 gem 'rails-assets-angular'
 gem 'rails-assets-angular-resource'
 gem 'rails-assets-angular-sanitize'

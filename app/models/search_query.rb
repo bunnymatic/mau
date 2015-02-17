@@ -32,7 +32,7 @@ class SearchQuery
   end
 
   def set_studios(vals)
-    vals.present? ? Studio.find(vals) : []
+    Studio.where(id: vals.uniq.compact)
   end
 
 

@@ -357,7 +357,7 @@ describe Admin::StudiosController do
       end
       it 'shows an edit and destroy links for all studios except indy' do
         expected_count = Studio.count
-        assert_select(".admin-table tr td a .fa-edit", count: expected_count + 1)
+        assert_select(".admin-table tr td a .fa-edit", count: expected_count)
         assert_select(".admin-table tr td a[data-method=delete] .fa-remove", count: expected_count)
       end
       it 'includes a link to add a studio' do

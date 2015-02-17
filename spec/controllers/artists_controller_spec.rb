@@ -4,7 +4,7 @@ require 'htmlentities'
 describe ArtistsController do
 
   let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art) }
+  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil) }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
   let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art) }
   let(:without_address) { FactoryGirl.create(:artist, :active, :with_no_address) }
@@ -153,16 +153,16 @@ describe ArtistsController do
         let(:street) { artist_info_attrs[:street] }
 
         it "contains flash notice of success" do
-          put :update, id: artist, commit: 'submit', artist: {artist_info: artist_info_attrs}
+          put :update, id: artist, commit: 'submit', artist: {artist_info_attributes: artist_info_attrs}
           flash[:notice].should eql "Update successful"
         end
         it "updates user address" do
-          put :update, id: artist, commit: 'submit', artist: {artist_info: artist_info_attrs}
+          put :update, id: artist, commit: 'submit', artist: {artist_info_attributes: artist_info_attrs}
           artist_info.reload.address.should include street
         end
         it 'publishes an update message' do
           Messager.any_instance.should_receive(:publish)
-          put :update, id: artist, commit: 'submit', artist: { artist_info: {street: 'wherever' }}
+          put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: {street: 'wherever' }}
         end
       end
       context "update os status" do
@@ -218,13 +218,10 @@ describe ArtistsController do
 
       it { expect(response).to be_success }
       it "has the edit form" do
-        assert_select("div#artist_edit");
+        assert_select("form.formtastic.artist");
       end
-      it 'shows open and close sections for each edit section' do
-        assert_select '.open-close-div.acct'
-        assert_select '.edit-profile-sxn', count: (css_select '.open-close-div.acct').count
-      end
-      it 'shows the open studios section' do
+      it 'includes the open studios edit section' do
+        assert_select("form.formtastic.artist #user-accordion panel-collapse#events");
         assert_select '#events', /You need to specify an address or studio/
       end
     end
@@ -256,26 +253,19 @@ describe ArtistsController do
       it "has the artists correct links in their respective fields" do
         [:facebook, :blog].each do |k|
           linkval = artist.send(k)
-          linkid = "artist_artist_info_#{k}"
+          linkid = "artist_artist_info_attributes_#{k}"
           tag = "input##{linkid}[value=#{linkval}]"
           assert_select(tag)
         end
       end
       it "has the artists' bio textarea field" do
-        assert_select("textarea#artist_artist_info_bio", artist_info.bio)
+        assert_select("textarea#artist_artist_info_attributes_bio", artist_info.bio)
       end
       it "has heart notification checkbox checked" do
         assert_select 'input#emailsettings_favorites[checked=checked]'
       end
       it 'has a hidden form for donation under the open studios section' do
         assert_select '#paypal_donate_openstudios'
-      end
-      it 'shows open and close sections for each edit section' do
-        assert_select '.open-close-div.acct'
-        assert_select '.edit-profile-sxn', count: (css_select '.open-close-div.acct').count
-      end
-      it 'shows the open studios section' do
-        assert_select '#events'
       end
     end
     context " if email_attrs['favorites'] is false " do
@@ -297,15 +287,15 @@ describe ArtistsController do
   end
 
   describe "#show" do
-    render_views
     it 'when looking for a suspended artist' do
       artist.update_attribute('state', 'suspended')
       get :show, id: artist.id
-      expect(response).to render_template 'show'
       expect(flash[:error]).to be_present
+      expect(response).to redirect_to artists_path
     end
 
     context "while not logged in" do
+      render_views
       before(:each) do
         get :show, id: artist_with_tags.id
       end
@@ -321,12 +311,6 @@ describe ArtistsController do
       end
       it "has a 'favorite' icon on it" do
         assert_select('.ico-heart')
-      end
-      it 'has thumbnails' do
-        assert_select("#bigthumbcolumn")
-      end
-      it 'has other thumbnails' do
-        assert_select('.artist-pieces')
       end
       it 'has the artist\'s bio as the description' do
         assert_select 'head meta[name=description]' do |desc|
@@ -416,35 +400,17 @@ describe ArtistsController do
         end
         it_should_behave_like "logged in user"
         it "website is present" do
-          assert_select("div#u_website a[href=#{artist.url}]")
+          assert_select(".link a[href=#{artist.url}]")
         end
         it "facebook is present and correct" do
-          assert_select("div#u_facebook a[href=#{artist_info.facebook}]")
-        end
-        it "has sidebar nav when i look at my page" do
-          get :show, id: artist.id
-          assert_select('#sidebar_nav')
-        end
-        it "should not have heart icon" do
-          expect(css_select(".action-icons .ico-heart")).to be_empty
-          assert_select("#sidebar_nav .ico-heart")
-        end
-        it "should not have extra messaging about email the artist" do
-          expect(css_select(".notify-artist")).to be_empty
+          assert_select(".link a[href=#{artist_info.facebook}]")
         end
       end
-      context "looking at someone elses page" do
-        before(:each) do
-          get :show, id: artist2.id
-        end
-        it_should_behave_like "logged in user"
-        it "has a heart icon" do
-          assert_select(".ico-heart")
-        end
-        it "has a send message link" do
-          assert_select(".notify-artist", count: 1)
-        end
-      end
+      # context "looking at someone elses page" do
+      #   before(:each) do
+      #     get :show, id: artist2.id
+      #   end
+      # end
       context "after a user favorites the logged in artist and show the artists page" do
         before do
           artist2.add_favorite(artist)
@@ -468,7 +434,7 @@ describe ArtistsController do
       end
       it { expect(response).to be_success }
       it "shows favorites on show page with links" do
-        assert_select("#my_favorites label a[href=#{favorites_user_path(artist)}]");
+        assert_select(".favorites a[href=#{user_favorites_path(artist)}]");
       end
     end
 
@@ -479,13 +445,13 @@ describe ArtistsController do
       end
       it_should_behave_like "not logged in"
       it "website is present" do
-        assert_select("div#u_website a[href=#{artist.url}]")
+        assert_select(".link a[href=#{artist.url}]")
       end
       it "has no sidebar nav " do
         expect(css_select('#sidebar_nav')).to be_empty
       end
       it "facebook is present and correct" do
-        assert_select("div#u_facebook a[href=#{artist_info.facebook}]")
+        assert_select(".link a[href=#{artist_info.facebook}]")
       end
     end
     describe 'logged in as admin' do
@@ -732,6 +698,7 @@ describe ArtistsController do
 
   describe '#suggest' do
     before do
+      Rails.cache.clear
       get :suggest, q: artist.firstname[0..2]
     end
     it_should_behave_like 'successful json'
@@ -747,16 +714,6 @@ describe ArtistsController do
       j.should have(1).artist_name
       j.first['value'].should eql artist.get_name
     end
-  end
-
-  describe '#by_lastname' do
-    before { get :by_lastname }
-    it { expect(response).to redirect_to root_path }
-  end
-
-  describe '#by_firstname' do
-    before { get :by_firstname }
-    it { expect(response).to redirect_to root_path }
   end
 
   describe "- named routes" do
