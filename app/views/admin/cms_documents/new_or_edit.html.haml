@@ -15,7 +15,7 @@
         = f.label :section
         = f.text_field :section
       .section
-        Last Updated by: #{@cms_document.user.try(:login) || 'unknown'} on #{@cms_document.updated_at.to_formatted_s(:admin)}
+        Last Updated by: #{@cms_document.user.try(:login) || 'unknown'} on #{@cms_document.updated_at.try(:to_formatted_s,:admin)}
       .markdown-ctrls
         %span#process_markdown_btn.formbutton preview &raquo;
         = f.submit 'Save', :class => 'formbutton'
