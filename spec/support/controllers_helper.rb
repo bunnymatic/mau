@@ -35,40 +35,15 @@ end
 
 # for all
 shared_examples_for "logged in user" do
-  it "header bar should say hello with login and logout and signup links as appopriate" do 
-    assert_select("a[href=#{logout_path}]")
-    if @logged_in_user.is_a? Artist
-      assert_select("a[href=#{artist_path(@logged_in_user)}]")
-    else
-      assert_select("a[href=#{user_path(@logged_in_user)}]")
-    end
-  end
 end
 
 shared_examples_for 'logged in artist' do
-  describe "nav" do
-    it 'has a nav bar with artist links' do
-      assert_select('.sidebar-nav')
-    end
-  end
 end
 
 shared_examples_for "logged in as editor" do
-  it "shows a link to the dashboard" do
-    assert_select("#admin_nav [href=#{admin_path}]", 'dashboard')
-  end
 end
 
 shared_examples_for "logged in as admin" do
-  it_should_behave_like 'logged in as editor'
-
-  it "shows the admin bar with admin links" do
-    assert_select("#admin_nav")
-    %w{ roles os_status featured_artist favorites artists studios fans media events }.each do |admin_link|
-      assert_select "#admin_nav a.lkdark[href=/admin/#{admin_link}]", admin_link.humanize.downcase
-    end
-  end
-
 end
 
 shared_examples_for "redirects to login" do

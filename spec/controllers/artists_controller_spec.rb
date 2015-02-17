@@ -221,7 +221,8 @@ describe ArtistsController do
         assert_select("form.formtastic.artist");
       end
       it 'includes the open studios edit section' do
-        assert_select("form.formtastic.artist #user-accordion panel-collapse#events");
+        puts response.body
+        assert_select("form.formtastic.artist #user-accordion .panel-collapse#events");
         assert_select '#events', /You need to specify an address or studio/
       end
     end
@@ -242,13 +243,7 @@ describe ArtistsController do
       it { expect(response).to be_success }
 
       it "has the edit form" do
-        assert_select("div#artist_edit");
-      end
-      it "has the artists email in the email form input field" do
-        assert_select("#info .inner-sxn input#artist_email[value=#{artist.email}]")
-      end
-      it "has the website input box with the artists website in it" do
-        assert_select("input#artist_url[value=#{artist.url}]")
+        assert_select("form.formtastic.artist");
       end
       it "has the artists correct links in their respective fields" do
         [:facebook, :blog].each do |k|
