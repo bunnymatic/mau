@@ -84,30 +84,6 @@ shared_examples_for "not logged in" do
   it { expect(controller.current_user).to eql nil }
 end
 
-# shared_examples_for 'standard sidebar layout' do
-#   it_should_behave_like 'two column layout'
-#   it 'has a new art sidebar element which is sorted' do
-#     assert_select '.lcol .new_art'
-#     new_art = assigns(:new_art)
-#     new_art.should be_present
-#     new_art.sort_by(&:created_at).reverse.map(&:id).should == new_art.map(&:id)
-#   end
-#   it 'has all the action buttons' do
-#     ct = (Time.zone.now > Time.utc(2012,3,12)) ? 3 : 4
-#     assert_select '.action_button', :count => ct
-#   end
-# end
-
-# shared_examples_for 'two column layout' do
-#   it 'has a two column body class' do
-#     assert_select('body.two_column')
-#   end
-# end
-# shared_examples_for 'one column layout' do
-#   it 'has a one column body class' do
-#     assert_select('.singlecolumn')
-#   end
-# end
 
 shared_examples_for 'renders error page' do
   it "renders an error page with status 404" do

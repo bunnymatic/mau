@@ -19,7 +19,7 @@ describe ArtPiecesController do
           before do
             get :show, id: art_piece.id
           end
-          it_should_behave_like 'returns success'
+          it { expect(response).to be_success }
           it 'has a description with the art piece name' do
             assert_select 'head' do |tag|
               assert_select 'meta[name=description]' do |desc|
@@ -105,7 +105,6 @@ describe ArtPiecesController do
           login_as artist
           get :show, id: art_piece.id
         end
-        it_should_behave_like 'two column layout'
         it_should_behave_like 'logged in artist'
         it "shows edit button" do
           assert_select("div.edit-buttons span#artpiece_edit a", "edit")
@@ -123,7 +122,6 @@ describe ArtPiecesController do
           login_as fan
           get :show, id: art_piece.id
         end
-        it_should_behave_like 'two column layout'
         it "shows heart icon" do
           assert_select('.ico-heart')
         end
@@ -360,7 +358,7 @@ describe ArtPiecesController do
         before do
           get :edit, id: artist.art_pieces.last
         end
-        it_should_behave_like 'returns success'
+        it { expect(response).to be_success }
       end
     end
 

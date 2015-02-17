@@ -37,7 +37,6 @@ describe MediaController do
         before do
           get :show, :id => medium.id, :m => 'a'
         end
-        it_should_behave_like 'two column layout'
         it_should_behave_like "not logged in"
         it "page is in artists mode" do
           assigns(:media_presenter).should be_by_artists
@@ -50,7 +49,6 @@ describe MediaController do
         before do
           get :show, :id => medium
         end
-        it_should_behave_like 'two column layout'
         it_should_behave_like "not logged in"
         it "page is in pieces mode" do
           assigns(:media_presenter).should be_by_pieces

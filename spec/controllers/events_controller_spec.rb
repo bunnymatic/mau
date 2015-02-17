@@ -95,7 +95,7 @@ describe EventsController do
       before do
         get :new
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'constructs a new event' do
         assigns(:event).should be_new_record
         assigns(:event).state.should eql 'CA'
@@ -219,7 +219,7 @@ describe EventsController do
       before do
         get :edit, :id => Event.last
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'pulls the event' do
         assigns(:event).object.should eql Event.last
       end

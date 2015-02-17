@@ -36,7 +36,7 @@ describe Admin::ArtPieceTagsController do
     end
 
     it_should_behave_like 'logged in as admin'
-    it_should_behave_like 'returns success'
+    it { expect(response).to be_success }
     it 'shows tag frequency' do
       assert_select '.singlecolumn table td.input-name', :match => /1\.0|0\.0/
     end

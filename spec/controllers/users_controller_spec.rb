@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 shared_examples_for 'common signup form' do
-  it_should_behave_like 'one column layout'
   it "has signup form with captcha and options for fan and artist" do
     assert_select("#signup_form")
     assert_select('textarea[name=recaptcha_challenge_field]')
@@ -323,7 +322,6 @@ describe UsersController do
       before do
         get :show, :id => fan.id
       end
-      it_should_behave_like 'two column layout'
       it { expect(response).to be_success }
       it "has the users name on it" do
         assert_select '#artist_profile_name h4', :text => "#{fan.firstname} #{fan.lastname}"
@@ -341,7 +339,6 @@ describe UsersController do
         @logged_in_user = fan
         get :show, :id => fan.id
       end
-      it_should_behave_like 'two column layout'
       it_should_behave_like "logged in user"
       it "has sidebar nav when i look at my page" do
         assert_select('#sidebar_nav')
@@ -379,7 +376,6 @@ describe UsersController do
         get :edit, :id => fan.id
       end
 
-      it_should_behave_like 'one column layout'
       it_should_behave_like "logged in edit page"
 
       it { expect(response).to be_success }
@@ -477,7 +473,6 @@ describe UsersController do
         before do
           get :favorites, :id => fan.id
         end
-        it_should_behave_like 'one column layout'
         it { expect(response).to be_success }
         it "doesn't have the no favorites msg" do
           css_select('.no-favorites-msg').should be_empty
@@ -502,7 +497,6 @@ describe UsersController do
           login_as(fan)
           get :favorites, :id => fan.id
         end
-        it_should_behave_like 'one column layout'
         it { expect(response).to be_success }
         it "gets some random links assigned" do
           assigns(:random_picks).size.should > 2
@@ -548,7 +542,6 @@ describe UsersController do
             assert artist.fav_art_pieces.count >= 1
             get :favorites, :id => artist.id
           end
-          it_should_behave_like 'one column layout'
           it { expect(response).to be_success }
           it "does not assign random picks" do
             assigns(:random_picks).should be_nil
@@ -586,7 +579,6 @@ describe UsersController do
           login_as fan
           get :favorites, :id => artist.id
         end
-        it_should_behave_like 'one column layout'
         it { expect(response).to be_success }
         it "shows the title" do
           assert_select('h4', :include => artist.get_name )

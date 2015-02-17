@@ -94,7 +94,7 @@ describe ArtPieceTagsController do
       before do
         get :show, :id => tag.id
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it "renders the requested tag highlighted" do
         assert_select '.tagcloud .clouditem.tagmatch'
       end
@@ -116,7 +116,7 @@ describe ArtPieceTagsController do
     it 'grabs the next page' do
       get :show, :id => tag.id, :p => 1
     end
-    it_should_behave_like 'returns success'
+    it { expect(response).to be_success }
   end
 
 end

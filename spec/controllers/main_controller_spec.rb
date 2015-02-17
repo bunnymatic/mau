@@ -1,17 +1,16 @@
 require 'spec_helper'
 
 shared_examples_for "successful notes mailer response" do
-  it_should_behave_like "returns success"
-  it{JSON.parse(response.body)['errors'].should be_empty}
+  it { expect(response).to be_success }
+  it { expect(JSON.parse(response.body)['errors']).to be_empty }
 end
 
 shared_examples_for 'has some invalid params' do
   it{expect(response).to be_4xx}
-  it{JSON.parse(response.body)['errors'].should be_present}
+  it { expect(JSON.parse(response.body)['errors']).to be_present }
 end
 
 shared_examples_for 'main#index page' do
-  it_should_behave_like 'standard sidebar layout'
   it 'has social icons in the main text section but not in the sidebar' do
     assert_select '.main-text .social'
     (css_select '.lcol .social').should be_empty
@@ -108,7 +107,6 @@ describe MainController do
         get :resources
       end
       it_should_behave_like "not logged in"
-      it_should_behave_like 'standard sidebar layout'
       it 'has social icons in the sidebar' do
         assert_select '.lcol .social'
       end
@@ -141,7 +139,6 @@ describe MainController do
         login_as(admin)
         get :resources
       end
-      it_should_behave_like 'returns success'
       it_should_behave_like 'logged in as admin'
     end
   end
@@ -243,7 +240,7 @@ describe MainController do
       before do
         post :getinvolved, :p => 'paypal_success'
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'sets some info about the page' do
         (/Get Involved/ =~ assigns(:page_title)).should be
       end
@@ -255,7 +252,7 @@ describe MainController do
       before do
         post :getinvolved, :p => 'paypal_cancel'
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'sets some info about the page' do
         (/Get Involved/ =~ assigns(:page_title)).should be
       end
@@ -371,7 +368,6 @@ describe MainController do
         login_as(fan)
         get :faq
       end
-      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "logged in user"
       it 'has social icons in the sidebar' do
         assert_select '.lcol .social'
@@ -382,7 +378,6 @@ describe MainController do
         login_as(artist)
         get :faq
       end
-      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "logged in user"
       it 'has social icons in the sidebar' do
         assert_select '.lcol .social'
@@ -396,7 +391,6 @@ describe MainController do
       before do
         get :venues
       end
-      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
       it 'has social icons in the sidebar' do
         assert_select '.lcol .social'
@@ -451,7 +445,6 @@ describe MainController do
         open_studios_docs
         get :open_studios
       end
-      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
       it 'has social icons in the sidebar' do
         assert_select '.lcol .social'
@@ -543,7 +536,7 @@ describe MainController do
     before do
       get :letter_from_howard_flax
     end
-    it_should_behave_like 'returns success'
+    it { expect(response).to be_success }
     it 'has the title' do
       assert_select('h4', 'Letter from Howard Flax');
     end

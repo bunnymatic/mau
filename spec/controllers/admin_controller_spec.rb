@@ -46,7 +46,7 @@ describe AdminController do
         login_as editor
         get :featured_artist
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
     end
     context 'as manager' do
       before do
