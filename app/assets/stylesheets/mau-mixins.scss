@@ -7,6 +7,11 @@
   background-size: cover;
   background-position: center;
 }
+@mixin background-contain {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
 
 @mixin transparent_black_background {
   background-color: $black;

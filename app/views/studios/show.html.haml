@@ -1,19 +1,25 @@
+
 .pure-g
   .pure-u-1-1.header.padded-content
     %h2.title
       Studio:
       %span.studio__name #{@studio.name}
 .pure-g.alpha.omega
-  = render 'studio_card', studio: @studio, classes: ['pure-u-1-1', 'pure-u-lg-1-4', 'pure-u-md-1-3', 'pure-u-sm-1-2']
-
-  - if @studio.has_artists_with_art?
-    = render partial: 'artist', collection: @studio.artists_with_art
-  - if @studio.has_artists_without_art?
-    .pure-u-1-1.pure-u-lg-1-4.pure-u-md-1-3.pure-u-sm-1-2
-      .studio-memberlist
-        - if @studio.has_artists_with_art?
-          %h4 More Artists:
-          %ul
-            - @studio.artists_without_art.map{|a| link_to(a.get_name, a )}.each do |link|
-              %li
-                = link.html_safe
+  .pure-u-1-1.pure-u-sm-1-3.pure-u-md-1-4.pure-u-lg-1-5#about
+    = render "studios/about", studio: @studio
+  .pure-u-1-1.pure-u-sm-2-3.pure-u-md-3-4.pure-u-lg-4-5#art.padded-content
+    .pure-g.alpha
+      .pure-u-1-1
+        %section.studio_artists
+          .header Artists
+      - if @studio.has_artists_with_art?
+        = render partial: 'artist', collection: @studio.artists_with_art, locals: { class_overrides: %w(pure-u-1-1 pure-u-sm-1-2 pure-u-lg-1-3).join(" ") }
+      - if @studio.has_artists_without_art?
+        .pure-u-1-1.pure-u-lg-1-4.pure-u-md-1-3.pure-u-sm-1-2
+          .studio-memberlist
+            - if @studio.has_artists_with_art?
+              %h4 More Artists:
+              %ul
+                - @studio.artists_without_art.map{|a| link_to(a.get_name, a )}.each do |link|
+                  %li
+                    = link.html_safe

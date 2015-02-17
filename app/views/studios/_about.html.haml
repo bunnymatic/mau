@@ -1,0 +1,24 @@
+-# expects studio as studio_presenter
+.pure-g
+  .pure-u-1-1.studio-profile
+    %section.studio__image
+      .image{style: "background-image: url(#{studio.image(:medium)})"}
+    %section.studio__studio
+      .body  
+        .studio-name
+          = link_to studio.name, studio.studio_path
+          .studio-address
+            #{studio.street}
+            = link_to studio.map_link, title: :map do
+              %i.fa.fa-map-marker
+            .studio-city #{studio.city}
+        .info
+          .population
+            = studio.artists_count_label
+          .os_population
+            = studio.open_studios_artists_count_label
+    - if studio.has_open_studios_artists?
+      %section.studio__open-studios-banner
+        .os-violator
+          = link_to open_studios_path do
+            %img.pure-img{src: image_path('os_violator_studios.svg') }
