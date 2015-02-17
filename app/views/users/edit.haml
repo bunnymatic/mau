@@ -13,18 +13,15 @@
         .panel.panel-default
           = render '/users/edit/profile_picture', form: form
         .panel.panel-default
-          = render '/artists/edit/studio_info', form: form
-        - if OpenStudiosEvent.current  
-          .panel.panel-default
-            = render '/artists/edit/open_studios_status', form: form
-        .panel.panel-default
           = render '/users/edit/links', form: form
-        .panel.panel-default
-          = render '/artists/edit/bio', form: form
         .panel.panel-default
           = render '/users/edit/password', form: form
         .panel.panel-default
           = render '/users/edit/deactivate', form: form
+
+    .tag update profile picture
+    .os-violator{style: (current_artist.doing_open_studios? ? '':'display:none;')}
+      %img{:src=> "/images/os_star_violator.png"}
 
 
   .pure-u-1-1

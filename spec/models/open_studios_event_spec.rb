@@ -34,7 +34,7 @@ describe OpenStudiosEvent do
       expect(OpenStudiosEvent.for_display("201104")).to eql current_os.start_date.strftime("2011 Apr")
     end
     it "reverses the date given reverse = true" do
-      expect(OpenStudiosEvent.for_display("201104", reverse)).to eql current_os.start_date.strftime("Apr 2011")
+      expect(OpenStudiosEvent.for_display("201104", true)).to eql current_os.start_date.strftime("Apr 2011")
     end
   end
 

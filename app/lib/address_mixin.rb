@@ -56,7 +56,7 @@ module AddressMixin
         #errors.add(:street, "Unable to Geocode your address.")
       end
     else
-      puts "No Adddress - skip geocoding"
+      # puts "No Adddress - skip geocoding"
     end
   end
 

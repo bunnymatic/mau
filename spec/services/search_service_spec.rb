@@ -129,13 +129,6 @@ describe SearchService do
     end
   end
 
-  context 'finding indy studio work' do
-    let(:search_studios) { [Studio.indy] }
-    its(:search) { should have_at_least(1).item }
-
-    it { expect(results.map{|r| r.artist.studio_id.to_i}.uniq).to eql [0] }
-  end
-
   context 'finding only os artists' do
     let(:keywords) { 'firstname' }
     let(:os_flag) { "1" }

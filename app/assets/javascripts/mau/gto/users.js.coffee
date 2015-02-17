@@ -8,7 +8,7 @@ $ ->
     console.log "State? ", $(this).is(":checked")
     val = $(this).is(':checked')
     (new MAU.Flash()).clear()
-    form = jQuery('form.edit_artist')
+    form = jQuery('.js-edit-artist-form')
     ajax_params =
       url: form.attr('action')
       method: form.attr('method')
@@ -16,8 +16,9 @@ $ ->
         artist:
           os_participation: (if val then 1 else 0)
       success: (data) ->
+        console.log data
         status = data.success && data.os_status
-        if status
+        if !status
           msg = 'So sorry you\'re not going to participate this year.'+
             ' We\'d love to know why.  Tell us via the feedback link'+
             ' at the bottom of the page.'
@@ -25,6 +26,7 @@ $ ->
           msg = 'Super!  The more the merrier!'
         (new MAU.Flash()).show({notice:msg}, '#events')
         false
+    console.log ajax_params
     jQuery.ajax(ajax_params)
     false
     

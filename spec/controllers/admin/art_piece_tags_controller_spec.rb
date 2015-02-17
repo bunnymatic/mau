@@ -38,7 +38,7 @@ describe Admin::ArtPieceTagsController do
     it_should_behave_like 'logged in as admin'
     it { expect(response).to be_success }
     it 'shows tag frequency' do
-      assert_select '.singlecolumn table td.input-name', :match => /1\.0|0\.0/
+      assert_select 'table td.input-name', :match => /1\.0|0\.0/
     end
     it 'shows one entry per existing tag' do
       assert_select 'tr td.ct', :count => ArtPieceTag.count

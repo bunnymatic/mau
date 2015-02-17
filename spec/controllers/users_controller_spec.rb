@@ -978,7 +978,7 @@ describe UsersController do
             post :upload_profile, post_params
           end
           it 'redirects to the add profile page' do
-            expect(response).to redirect_to add_profile_users_path
+            expect(response).to redirect_to add_profile_user_path(fan)
           end
           it 'sets a flash message without image' do
             expect(flash[:error]).to be_present
@@ -1002,7 +1002,7 @@ describe UsersController do
             post :upload_profile, post_params
           end
           it 'renders the form again' do
-            expect(response).to redirect_to add_profile_users_path
+            expect(response).to redirect_to add_profile_user_path(fan)
           end
           it 'sets the error' do
             expect(flash[:error]).to be_present

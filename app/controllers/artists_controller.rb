@@ -71,25 +71,25 @@ class ArtistsController < ApplicationController
     @artist = ArtistPresenter.new(view_context, current_artist)
   end
 
-  def by_firstname
-    if !is_mobile?
-      redirect_to root_path and return
-    end
+  # def by_firstname
+  #   if !is_mobile?
+  #     redirect_to root_path and return
+  #   end
 
-    @page_title = "Artists by first name"
-    @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index', layout: 'mobile'
-  end
+  #   @page_title = "Artists by first name"
+  #   @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
+  #   render 'artists/index', layout: 'mobile'
+  # end
 
-  def by_lastname
-    if !is_mobile?
-      redirect_to root_path and return
-    end
+  # def by_lastname
+  #   if !is_mobile?
+  #     redirect_to root_path and return
+  #   end
 
-    @page_title = "Artists by last name"
-    @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index', layout: 'mobile'
-  end
+  #   @page_title = "Artists by last name"
+  #   @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
+  #   render 'artists/index', layout: 'mobile'
+  # end
 
   def roster
     # collect query args to build links
