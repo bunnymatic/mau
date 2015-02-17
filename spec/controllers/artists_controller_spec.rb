@@ -11,7 +11,7 @@ describe ArtistsController do
   let(:artists) do
     [artist] + FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art)
   end
-
+  let!(:open_studios_event) { create(:open_studios_event) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:artist_info) { artist.artist_info }
   let(:ne_bounds) { Artist::BOUNDS['NE'] }
@@ -124,19 +124,19 @@ describe ArtistsController do
       context "submit" do
         context "post with new bio data" do
           it "redirects to to edit page" do
-            put :update, id: artist, commit: 'submit', artist: { artist_info: artist_info_attrs}
+            put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs}
             flash[:notice].should eql 'Update successful'
             expect(response).to redirect_to(edit_artist_path(artist))
           end
           it 'publishes an update message' do
             Messager.any_instance.should_receive(:publish)
-            put :update, id: artist, commit: 'submit', artist: { artist_info: artist_info_attrs}
+            put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs}
           end
         end
       end
       context "cancel post with new bio data" do
         before do
-          post :update, id: artist, commit: 'cancel', artist: { artist_info: artist_info_attrs}
+          post :update, id: artist, commit: 'cancel', artist: { artist_info_attributes: artist_info_attrs}
         end
         it "redirects to user page" do
           expect(response).to redirect_to(user_path(artist))
@@ -157,7 +157,7 @@ describe ArtistsController do
           flash[:notice].should eql "Update successful"
         end
         it "updates user address" do
-          put :update, id: artist, commit: 'submit', artist: {artist_info_attributes: artist_info_attrs}
+          put :update, id: artist, commit: 'submit', artist: {studio: nil, artist_info_attributes: artist_info_attrs}
           artist_info.reload.address.should include street
         end
         it 'publishes an update message' do
@@ -166,9 +166,6 @@ describe ArtistsController do
         end
       end
       context "update os status" do
-        before do
-          FactoryGirl.create(:open_studios_event)
-        end
         it "updates artists os status to true" do
           xhr :put, :update, id: artist, artist: { "os_participation" => '1' }
           artist.reload.os_participation[OpenStudiosEvent.current.key].should be_true
@@ -221,7 +218,6 @@ describe ArtistsController do
         assert_select("form.formtastic.artist");
       end
       it 'includes the open studios edit section' do
-        puts response.body
         assert_select("form.formtastic.artist #user-accordion .panel-collapse#events");
         assert_select '#events', /You need to specify an address or studio/
       end
@@ -256,27 +252,8 @@ describe ArtistsController do
       it "has the artists' bio textarea field" do
         assert_select("textarea#artist_artist_info_attributes_bio", artist_info.bio)
       end
-      it "has heart notification checkbox checked" do
-        assert_select 'input#emailsettings_favorites[checked=checked]'
-      end
       it 'has a hidden form for donation under the open studios section' do
         assert_select '#paypal_donate_openstudios'
-      end
-    end
-    context " if email_attrs['favorites'] is false " do
-      render_views
-      before do
-        esettings = artist.emailsettings
-        esettings['favorites'] = false
-        artist.emailsettings = esettings
-        artist.save!
-        artist.reload
-        login_as(artist)
-        get :edit
-      end
-      it "has heart notification checkbox unchecked" do
-        assert_select "input#emailsettings_favorites"
-        expect(css_select "input#emailsettings_favorites[checked=checked]").to be_empty
       end
     end
   end
@@ -296,16 +273,7 @@ describe ArtistsController do
       end
       it { expect(response).to be_success }
       it 'shows the artists name' do
-        assert_select '.artist-profile h1', artist_with_tags.get_name(true)
-      end
-      it "has a twitter share icon it" do
-        assert_select '.ico-twitter'
-      end
-      it "has a facebook share icon on it" do
-        assert_select('.ico-facebook')
-      end
-      it "has a 'favorite' icon on it" do
-        assert_select('.ico-heart')
+        assert_select '.header', match: artist_with_tags.get_name(true)
       end
       it 'has the artist\'s bio as the description' do
         assert_select 'head meta[name=description]' do |desc|
@@ -378,8 +346,7 @@ describe ArtistsController do
 
     it "reports cannot find artist" do
       get :show, id: fan.id
-      assert_select('.rcol .error-msg')
-      response.body.should match(/unable to find the artist/)
+      expect(response).to redirect_to artists_path
     end
 
     context "while logged in" do
@@ -389,6 +356,7 @@ describe ArtistsController do
       end
 
       context "looking at your own page" do
+        render_views
         before do
           artist.artist_info.update_attribute(:facebook, "http://www.facebook.com/#{artist.login}")
           get :show, id: artist.id
@@ -401,27 +369,21 @@ describe ArtistsController do
           assert_select(".link a[href=#{artist_info.facebook}]")
         end
       end
-      # context "looking at someone elses page" do
-      #   before(:each) do
-      #     get :show, id: artist2.id
-      #   end
-      # end
       context "after a user favorites the logged in artist and show the artists page" do
+        render_views
         before do
           artist2.add_favorite(artist)
           get :show, id: artist.id
         end
         it { expect(response).to be_success }
-        it "has the user in the 'who favorites me' section" do
-          assert_select '#favorites_me div.thumb'
-        end
-        it "has a link to that users page" do
-          assert_select("#favorites_me a[href^=/users/#{artist2.id}]")
+        it "has the user linked in the 'who favorites me' section" do
+          assert_select ".favorite-thumbs a[href^=/users/#{artist2.id}] .artist__favorite-thumb"
         end
       end
     end
 
     context "after an artist favorites another artist and show the artists page" do
+      render_views
       before do
         artist.add_favorite(artist2)
         login_as(artist)
@@ -429,11 +391,12 @@ describe ArtistsController do
       end
       it { expect(response).to be_success }
       it "shows favorites on show page with links" do
-        assert_select(".favorites a[href=#{user_favorites_path(artist)}]");
+        assert_select("a[href=#{user_favorites_path(artist)}]");
       end
     end
 
     context "while not logged in" do
+      render_views
       before(:each) do
         artist.artist_info.update_attribute(:facebook, "http://www.facebook.com/#{artist.login}")
         get :show, id: artist.id

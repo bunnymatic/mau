@@ -129,7 +129,6 @@ class ArtistsController < ApplicationController
     redirect_to(artist_path(current_user))
   end
 
-
   def arrange_art
     @artist = ArtistPresenter.new(view_context, current_user)
   end
@@ -227,6 +226,7 @@ class ArtistsController < ApplicationController
 
       rescue Exception => ex
         flash[:error] = ex.to_s
+        raise
       end
       redirect_to edit_artist_url(current_user)
     end
@@ -307,6 +307,11 @@ class ArtistsController < ApplicationController
       params[:artist][:email_attrs] = em.to_json
     end
 
+    if params[:artist].has_key?("studio") && params[:artist]["studio"].blank?
+      params[:artist]["studio_id"] = nil
+      params[:artist].delete("studio")
+    end      
+      
     params[:artist]
   end
   
