@@ -99,7 +99,7 @@ describe ArtPieceTagsController do
         assert_select '.tagcloud .clouditem.tagmatch'
       end
       it "renders art that has the requested tag" do
-        assert_select '.search-thumbs .artpiece_tag a', @disp
+        assert_select '.art-card a', @disp
       end
     end
 

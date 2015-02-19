@@ -53,33 +53,12 @@ describe ArtPiecesController do
             end
           end
 
-          it 'shows the artist name in the sidebar' do
-            artist_link = artist_path(artist)
-            assert_select ".lcol h3 a[href=#{artist_link}]"
-            assert_select ".lcol a[href=#{artist_link}] img"
-          end
-
           it 'shows the thumbnail browser' do
-            assert_select '#artp_thumb_browser'
+            assert_select "art-pieces-browser[art-piece-id=#{art_piece.id}]"
           end
 
           it "displays art piece with no edit buttons and a zoom button" do
-            assert_select("#artpiece_title", art_piece.title)
-            assert_select("div.edit-buttons", "")
-            expect(css_select("div.edit-buttons *")).to be_empty
-            assert_select('a.zoom')
-          end
-          it "has a favorite me icon" do
-            assert_select('#artpiece_container .ico-heart')
-          end
-        end
-        context "piece has been favorited" do
-          before do
-            fan.add_favorite art_piece
-            get :show, id: art_piece.id
-          end
-          it "shows the number of favorites" do
-            assert_select '#num_favorites', 1
+            assert_select(".art-piece__title", art_piece.title)
           end
         end
       end
@@ -99,34 +78,14 @@ describe ArtPiecesController do
           expect(response).to redirect_to '/error'
         end
       end
-      context "when logged in as art piece owner" do
-        render_views
-        before do
-          login_as artist
-          get :show, id: art_piece.id
-        end
-        it_should_behave_like 'logged in artist'
-        it "shows edit button" do
-          assert_select("div.edit-buttons span#artpiece_edit a", "edit")
-        end
-        it "shows delete button" do
-          assert_select(".edit-buttons #artpiece_del a", "delete")
-        end
-        it "doesn't show heart icon" do
-          expect(css_select('#artpiece_container .ico-heart')).to be_empty
-        end
-      end
       context "when logged in as not artpiece owner" do
         render_views
         before do
           login_as fan
           get :show, id: art_piece.id
         end
-        it "shows heart icon" do
-          assert_select('.ico-heart')
-        end
         it "doesn't have edit button" do
-          expect(css_select("div.edit-buttons span#artpiece_edit a")).to be_empty
+          expect(css_select(".edit-buttons #artpiece_edit a")).to be_empty
         end
         it "doesn't have delete button" do
           expect(css_select(".edit-buttons #artpiece_del a")).to be_empty

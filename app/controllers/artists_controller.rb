@@ -223,8 +223,8 @@ class ArtistsController < ApplicationController
         current_artist.update_attributes!(artist_params)
         flash[:notice] = "Update successful"
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
-
       rescue Exception => ex
+        puts "EX", ex
         flash[:error] = ex.to_s
         raise
       end

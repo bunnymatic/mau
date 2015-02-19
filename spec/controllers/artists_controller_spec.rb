@@ -125,7 +125,7 @@ describe ArtistsController do
         context "post with new bio data" do
           it "redirects to to edit page" do
             put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs}
-            flash[:notice].should eql 'Update successful'
+            expect(flash[:notice]).to eql 'Update successful'
             expect(response).to redirect_to(edit_artist_path(artist))
           end
           it 'publishes an update message' do
@@ -142,7 +142,7 @@ describe ArtistsController do
           expect(response).to redirect_to(user_path(artist))
         end
         it "should have no flash notice" do
-          flash[:notice].should be_nil
+          expect(flash[:notice]).to be_nil
         end
         it "shouldn't change anything" do
           artist.bio.should eql old_bio
@@ -154,11 +154,11 @@ describe ArtistsController do
 
         it "contains flash notice of success" do
           put :update, id: artist, commit: 'submit', artist: {artist_info_attributes: artist_info_attrs}
-          flash[:notice].should eql "Update successful"
+          expect(flash[:notice]).to eql "Update successful"
         end
         it "updates user address" do
-          put :update, id: artist, commit: 'submit', artist: {studio: nil, artist_info_attributes: artist_info_attrs}
-          artist_info.reload.address.should include street
+          put :update, id: artist, commit: 'submit', artist: {studio_id: nil, artist_info_attributes: artist_info_attrs}
+          expect(artist.address).to include street
         end
         it 'publishes an update message' do
           Messager.any_instance.should_receive(:publish)
@@ -279,16 +279,16 @@ describe ArtistsController do
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
           c = desc.first.attributes['content']
-          c.should match artist_with_tags.bio[0..50]
-          c.should match /^Mission Artists United Artist/
-          c.should match artist_with_tags.get_name(true)
+          expect(c).to match artist_with_tags.bio[0..50]
+          expect(c).to match /^Mission Artists United Artist/
+          expect(c).to include artist_with_tags.get_name(true)
         end
         assert_select 'head meta[property=og:description]' do |desc|
           desc.length.should eql 1
           c = desc.first.attributes['content']
-          c.should include artist_with_tags.bio[0..50]
-          c.should match /^Mission Artists United Artist/
-          c.should include artist_with_tags.get_name(true)
+          expect(c).to include artist_with_tags.bio[0..50]
+          expect(c).to match /^Mission Artists United Artist/
+          expect(c).to include artist_with_tags.get_name(true)
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
@@ -298,11 +298,11 @@ describe ArtistsController do
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
           c = desc.first.attributes['content']
-          c.should_not eql artist.bio
-          c.should include artist.bio.to_s[0..420]
-          c.should match /\.\.\.$/
-          c.should match /^Mission Artists United Artist/
-          c.should include artist.get_name(true)
+          expect(c).to_not eql artist.bio
+          expect(c).to include artist.bio.to_s[0..420]
+          expect(c).to match /\.\.\.$/
+          expect(c).to match /^Mission Artists United Artist/
+          expect(c).to include artist.get_name(true)
         end
       end
 

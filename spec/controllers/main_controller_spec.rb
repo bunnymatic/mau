@@ -13,7 +13,7 @@ end
 shared_examples_for 'main#index page' do
   it 'has social icons in the main text section but not in the sidebar' do
     assert_select '.main-text .social'
-    (css_select '.lcol .social').should be_empty
+    (css_select ' .social').should be_empty
   end
   it "shows search box" do
     assert_select '#search_box'
@@ -25,7 +25,7 @@ shared_examples_for 'main#index page' do
     assert_select "#feed_div"
   end
   it 'shows a link to the artist with the most recently uploaded art' do
-    assert_select '.lcol .new_art a[href=%s]' % artist_path(ArtPiece.last.artist)
+    assert_select ' .new_art a[href=%s]' % artist_path(ArtPiece.last.artist)
   end
   it "has a header and footer bars" do
     assert_select '#header_bar'
@@ -108,7 +108,7 @@ describe MainController do
       end
       it_should_behave_like "not logged in"
       it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
+        assert_select ' .social'
       end
 
     end
@@ -370,7 +370,7 @@ describe MainController do
       end
       it_should_behave_like "logged in user"
       it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
+        assert_select ' .social'
       end
     end
     context "while logged in as artist" do
@@ -380,7 +380,7 @@ describe MainController do
       end
       it_should_behave_like "logged in user"
       it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
+        assert_select ' .social'
       end
 
     end
@@ -393,7 +393,7 @@ describe MainController do
       end
       it_should_behave_like "not logged in"
       it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
+        assert_select ' .social'
       end
 
     end
@@ -447,7 +447,7 @@ describe MainController do
       end
       it_should_behave_like "not logged in"
       it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
+        assert_select ' .social'
       end
 
       it "renders the markdown version" do
