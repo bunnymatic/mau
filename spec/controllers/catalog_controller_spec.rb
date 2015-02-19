@@ -43,6 +43,7 @@ describe CatalogController do
 
       it 'includes the right data' do
         expect(parsed).to have(Artist.active.count).rows
+        puts parsed
         row = parsed.detect{|row| row['Full Name'] == artist.full_name}
         expect(row).to be_present
         expect(row['Email']).to eql artist.email

@@ -210,10 +210,7 @@ class ApplicationController < ActionController::Base
   def render_error(exception)
     logger.error(exception)
     @exception = exception
-    respond_to do |fmt|
-      fmt.html { render :layout => 'mau2col', :template => "/error/index", :status => 500}
-      fmt.mobile { render :layout => 'mobile', :template => '/error/index', :status => 500}
-    end
+    render :template => "/error/index", :status => 500
   end
 
   def render_csv_string csv_data, filename
