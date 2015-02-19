@@ -78,7 +78,6 @@ describe FeedsController do
   end
   context "with cache" do
     before do
-      Rails.cache.stub(:read => 'this and that', :write => nil, :delete => nil)
       if File.exists?(cache_filename)
         File.delete(cache_filename)
       end
