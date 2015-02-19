@@ -95,3 +95,4 @@ require 'tag_extensions'
 Mime::Type.register "image/png", :png
 
 puts "Environment: #{Rails.env}"
+Rails.application.routes.default_url_options[:host] = 'http://localhost:3000'

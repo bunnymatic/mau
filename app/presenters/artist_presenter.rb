@@ -87,11 +87,11 @@ class ArtistPresenter < ViewPresenter
   end
 
   def activation_link
-    activate_url(artist.activation_code)
+    url_helpers.activate_url(artist.activation_code)
   end
 
   def reset_password_link
-    reset_url(artist.reset_code )
+    url_helpers.reset_url(artist.reset_code )
   end
 
   def has_media?
@@ -184,16 +184,16 @@ class ArtistPresenter < ViewPresenter
   end
 
   def show_path
-    Rails.application.routes.url_helpers.artist_path(artist)
+    url_helpers.artist_path(artist)
   end
 
   def edit_path(opts = nil)
     opts ||= {}
-    Rails.application.routes.url_helpers.edit_artist_path(artist, opts)
+    url_helpers.edit_artist_path(artist, opts)
   end
 
   def favorites_path(opts = nil)
-    Rails.application.routes.url_helpers.user_favorites_path(artist)
+    url_helpers.user_favorites_path(artist)
   end
   
   def get_map_info
@@ -255,6 +255,10 @@ class ArtistPresenter < ViewPresenter
   end
 
   private
+  def url_helpers
+    Rails.application.routes.url_helpers
+  end
+
   def share_url
     @share_url ||= artist.get_share_link(true)
   end
