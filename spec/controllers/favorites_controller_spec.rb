@@ -37,8 +37,8 @@ describe FavoritesController do
         before do
           get :index, :user_id => 'bogus'
         end
-        it "redirects to root" do
-          expect(response).to redirect_to root_path
+        it "redirects to all artists" do
+          expect(response).to redirect_to artists_path
         end
         it "flashes an error" do
           flash[:error].should be_present
