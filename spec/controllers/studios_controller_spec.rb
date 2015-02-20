@@ -20,9 +20,6 @@ describe StudiosController do
           get :index
         end
         it_should_behave_like "not logged in"
-        it "last studio should be independent studios" do
-          assigns(:studios).studios.last.name.should eql 'Independent Studios'
-        end
 
         it "sets view_mode to name" do
           assigns(:view_mode).should eql 'name'
@@ -92,9 +89,6 @@ describe StudiosController do
           Studio.any_instance.stub(:cross_street => 'fillmore')
           get :show, "id" => studio
         end
-        it "last studio should be independent studios" do
-          assigns(:studios).last.name.should eql 'Independent Studios'
-        end
         it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
           s = assigns(:studios)
           s.pop
@@ -105,13 +99,13 @@ describe StudiosController do
           s.sort_by{|a| prep_name(a)}.map(&:name).should eql s.map(&:name)
         end
         it "studio url is a link" do
-          assert_select("div.url a[href=#{studio.url}]")
+          assert_select(".studio__website a[href=#{studio.url}]")
         end
         it "studio includes cross street if there is one" do
-          assert_select('.address', /\s+fillmore/)
+          assert_select('.studio-address', /\s+fillmore/)
         end
         it "studio info includes a phone if there is one" do
-          assert_select('.phone', :text => '(123) 456-9999')
+          assert_select('.studio-phone', :text => '(123) 456-9999')
         end
       end
 

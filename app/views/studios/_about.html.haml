@@ -11,8 +11,15 @@
             #{studio.street}
             = link_to studio.map_link, title: :map do
               %i.fa.fa-map-marker
+            - if studio.cross_street
+              .studio--cross-street @ #{studio.cross_street}
+
             .studio-city #{studio.city}
+            - if studio.has_phone?     
+              .studio-phone #{studio.formatted_phone}
         .info
+          .studio__website
+            = link_to studio.url, studio.url
           .population
             = studio.artists_count_label
           .os_population
