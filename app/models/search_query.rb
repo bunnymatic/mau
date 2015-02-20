@@ -25,14 +25,14 @@ class SearchQuery
 
   private
   def set_mediums(vals)
-    if vals.present?
-      medium_ids = vals.map(&:to_i).reject{|v| v <= 0}
-      Medium.by_name.where(:id => medium_ids)
-    end
+    return [] unless vals
+    medium_ids = vals.map(&:to_i).reject{|v| v <= 0}
+    Medium.by_name.where(:id => medium_ids)
   end
 
   def set_studios(vals)
-    Studio.where(id: vals.uniq.compact)
+    return [] unless vals
+    Studio.where(id: vals.compact.uniq)
   end
 
 

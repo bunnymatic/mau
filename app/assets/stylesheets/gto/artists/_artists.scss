@@ -1,5 +1,6 @@
 @import 'mau-mixins';
 @import 'gto/gto-mixins';
+
 .artists.map_page {
   #map-canvas {
     height: 400px;
@@ -57,7 +58,7 @@
     }
   }
 }
-.artists, .artists.index, .artists.show, .art_pieces.show {
+.search-results, .artists, .artists.index, .artists.show, .art_pieces.show {
 
   @include search-filter;
 
@@ -92,6 +93,8 @@
       background-repeat: no-repeat;
       width: 40px;
       height: 40px;
+    }
+    .os-violator {
       position: absolute;
       top: 11px;
       right: 13px;

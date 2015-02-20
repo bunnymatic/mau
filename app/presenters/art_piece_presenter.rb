@@ -1,7 +1,7 @@
 class ArtPiecePresenter
 
   attr_reader :art_piece
-  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :to => :art_piece
+  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :updated_at, :to => :art_piece
 
   def initialize(view_context, art_piece)
     @view_context = view_context

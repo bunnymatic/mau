@@ -71,8 +71,8 @@ describe SearchController do
         end
       end
       it 'has search controls' do
-        assert_select '.lcol .refine_controls'
-        assert_select '.lcol .current_search'
+        assert_select '.refine_controls'
+        assert_select '.current_search'
       end
     end
 
@@ -117,25 +117,28 @@ describe SearchController do
   describe '#fetch' do
     before do
       @artist = FactoryGirl.create(:artist, :active, :with_art, nomdeplume: 'Fancy Pants')
-      post :fetch, keywords: 'fancy pants'
     end
-    it_should_behave_like 'search page with results'
-    it "returns some results" do
-      assigns(:paginator).items.should have_at_least(1).art_piece
+    context 'simple keyword query' do
+      before do
+        post :fetch, keywords: 'fancy pants'
+      end
+      it_should_behave_like 'search page with results'
+      it "returns some results" do
+        assigns(:paginator).items.should have_at_least(1).art_piece
+      end
+      it "sets the correct page" do
+        assigns(:paginator).current_page.should eql 0
+      end
+      it "sets the correct result count" do
+        assigns(:paginator).count.should eql ArtPiece.find_all_by_artist_id(@artist.id).count
+      end
     end
-    it "sets the correct page" do
-      assigns(:paginator).current_page.should eql 0
-    end
-    it "sets the correct result count" do
-      assigns(:paginator).count.should eql ArtPiece.find_all_by_artist_id(@artist.id).count
-    end
-
     context 'finding by openstudios status' do
       before do
         post :fetch, os_artist: nil, keywords: 'name1'
       end
       it 'shows open studios stars as appropriate' do
-        assert_select '.os-star', count: 6
+        assert_select '.os-violator', count: 6
       end
     end
 
