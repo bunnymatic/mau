@@ -57,10 +57,6 @@ describe ArtPiecesController do
             assert_select "art-pieces-browser[art-piece-id=#{art_piece.id}]"
           end
 
-          it "displays art piece" do
-            puts response.body
-            assert_select(".art-piece__title", art_piece.title)
-          end
         end
       end
 

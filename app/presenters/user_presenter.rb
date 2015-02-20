@@ -127,4 +127,11 @@ class UserPresenter < ViewPresenter
     link.gsub /^https?:\/\//, ''
   end
 
+  def format_link(link)
+    if link.present?
+      (/^https?:\/\//.match(link) ? link : "http://#{link}")
+    end
+  end
+
+
 end
