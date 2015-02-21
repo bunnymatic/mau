@@ -61,15 +61,6 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United: Spring Open Studios"
 
     @presenter = OpenStudiosPresenter.new
-
-    respond_to do |fmt|
-      fmt.html { render }
-      fmt.mobile {
-        @page_title = "Spring Open Studios"
-        render :layout => 'mobile'
-      }
-    end
-
   end
 
   def history
