@@ -87,17 +87,18 @@
   .art-card, .artist-card {
     @extend .artist-thumb-mixin;
     .os-violator {
+      background-color: $base-background-color;
       background-image: url(image_path('os_violator_tiny.svg'));
       background-size: 40px 40px;
-      background-position: center;
+      background-position: top right;
       background-repeat: no-repeat;
       width: 40px;
-      height: 40px;
+      height: 45px;
     }
     .os-violator {
       position: absolute;
-      top: 11px;
-      right: 13px;
+      top: 9px;
+      right: 9px;
     }
   }
   .art-card, .artist-card {
@@ -285,6 +286,7 @@
       bottom: 0;
       right: 0;
       display: inline-block;
+      background-color: white;
       img {
         width: 75px;
       }
