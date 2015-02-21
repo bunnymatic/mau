@@ -88,9 +88,9 @@ class UserPresenter < ViewPresenter
         formatted_site = format_link(site)
         site_display = format_link_for_display(site)
         link_icon_class = icon_link_class(key, site)
-        context.content_tag 'a', href: formatted_site, title: display, target: '_blank' do
-          context.content_tag(:i,'', class: link_icon_class) + 
-            context.content_tag(:span,site_display)
+        content_tag 'a', href: formatted_site, title: display, target: '_blank' do
+          content_tag(:i,'', class: link_icon_class) + 
+            content_tag(:span,site_display)
         end
       end
     end.compact
@@ -131,6 +131,15 @@ class UserPresenter < ViewPresenter
     if link.present?
       (/^https?:\/\//.match(link) ? link : "http://#{link}")
     end
+  end
+
+  def icon_link_class(key, site)
+    clz = [:ico, "ico-invert", "ico-#{key}"]
+    if key.to_sym == :blog
+      site_bits = site.split(".")
+      clz << "ico-" + ((site_bits.length > 2) ? site_bits[1] : site_bits[0])
+    end
+    clz.join(' ')
   end
 
 

@@ -20,25 +20,21 @@ class UsersController < ApplicationController
       redirect_to edit_artist_path(current_user)
       return
     end
+    @user = UserPresenter.new(current_user.becomes(User))
   end
 
   def show
     @fan = safe_find_user(params[:id])
-    if !@fan or @fan.suspended?
-      @fan = nil
+    unless @fan && @fan.active?
       flash.now[:error] = "The account you were looking for was not found."
+      redirect_to artists_path and return
     end
-    if @fan
-      if @fan.is_artist?
-        redirect_to artist_path(@fan)
-        return
-      end
-      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
+    if @fan.is_artist?
+      redirect_to artist_path(@fan) and return
     else
-      @page_title = "Mission Artists United"
+      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
     end
-    @fan = UserPresenter.new(@fan)
-    render 'show'
+    @fan = UserPresenter.new(@fan.becomes(User))
   end
 
   # render new.rhtml
