@@ -269,6 +269,25 @@ describe Artist do
     end
   end
 
+  describe 'destroying artists' do
+    before do 
+      raise "SETUP ARTIST WITH A FAVORITE"
+    end
+    context "then artist removes that artpiece" do
+      before do
+        @ap.destroy
+      end
+      it "art_piece is no longer in users favorite list" do
+        u = User.find(quentin.id)
+        u.favorites.should_not include @ap.id
+      end
+      it "art_piece owner should no longer have user in their favorite list" do
+        a = Artist.find(@ap.artist_id)
+        a.who_favorites_me.should_not include quentin
+      end
+    end
+  end
+
   describe 'qrcode' do
     before do
       artist

@@ -60,13 +60,13 @@ describe FavoritesController do
           assert_select('.no-favorites-msg', :count => 1)
         end
         it "has section for 'artist by name'" do
-          assert_select('.by-name h5', :text => 'Find Artists by Name')
+          assert_select('.favorites__random-by-name', :match => 'Find Artists by Name')
         end
         it "has section for 'artist by medium'" do
-          assert_select('.by-medium h5', :text => 'Find Artists by Medium')
+          assert_select('.favorites__random-by-medium', :match => 'Find Artists by Medium')
         end
         it "has section for 'artist by tag'" do
-          assert_select('.by-tag h5', :text => 'Find Artists by Tag')
+          assert_select('.favorites__random-by-tag', :match => 'Find Artists by Tag')
         end
         it "does not show the favorites sections" do
           css_select('.favorites > h5').should be_empty
@@ -102,7 +102,7 @@ describe FavoritesController do
             assigns(:random_picks).should be_nil
           end
           it "shows the title" do
-            assert_select('h4', :match => 'My Favorites')
+            assert_select('.title', :match => 'My Favorites')
           end
           it "favorites sections show and include the count" do
             assert_select('h5', :text => "Artists (#{artist.fav_artists.count})")
@@ -136,8 +136,8 @@ describe FavoritesController do
         end
         it { expect(response).to be_success }
         it "shows the title" do
-          assert_select('h4', :include => artist.get_name )
-          assert_select('h4', :include => 'Favorites')
+          assert_select('.title', :include => artist.get_name )
+          assert_select('.title', :include => 'Favorites')
         end
         it "shows the favorites sections" do
           assert_select('h5', :include => 'Artists')
