@@ -57,8 +57,6 @@ Mau::Application.routes.draw do
       get :by_lastname
       get :by_firstname
       get :roster
-      get :thumbs
-      get :osthumbs
       post :destroyart
       get :suggest
       get :arrange_art

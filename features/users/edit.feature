@@ -2,8 +2,7 @@ Feature: As a active artist I can edit my information
 
 Background:
   Given I am signed in as an artist
-  And I click "my mau"
-  And I click "edit my page"
+  And I click "edit profile"
 
 @javascript
 Scenario: I can edit my personal information

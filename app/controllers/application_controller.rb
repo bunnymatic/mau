@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
 
   include OpenStudiosEventShim
 
-  has_mobile_fu
   #helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
@@ -201,10 +200,7 @@ class ApplicationController < ActionController::Base
   def render_not_found(exception)
     logger.warn(exception)
     @exception = exception
-    respond_to do |fmt|
-      fmt.html { render :template => "/error/index", :status => 404 }
-      fmt.mobile { render :layout => 'mobile', :template => '/error/index', :status => 404 }
-    end
+    render :template => "/error/index", :status => 404
   end
 
   def render_error(exception)

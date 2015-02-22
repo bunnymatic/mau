@@ -38,11 +38,6 @@ class ArtistsController < ApplicationController
       format.json {
         render json: Artist.active
       }
-      format.mobile {
-        @artists = []
-        @page_title = "Artists"
-        render layout: 'mobile'
-      }
     end
   end
 
@@ -167,11 +162,6 @@ class ArtistsController < ApplicationController
       format.json  {
         render json: @artist
       }
-      format.mobile {
-        @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
-        @artist = ArtistPresenter.new(view_context, @artist)
-        render layout: 'mobile'
-      }
     end
   end
 
@@ -179,14 +169,7 @@ class ArtistsController < ApplicationController
     @artist = get_active_artist_from_params
     set_artist_meta
     if @artist.try(:bio).present?
-      respond_to do |format|
-        format.html { redirect_to artist_path(@artist) and return }
-        format.mobile {
-          @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
-          @artist = ArtistPresenter.new(view_context, @artist)
-          render layout: 'mobile'
-        }
-      end
+      redirect_to artist_path(@artist) and return
     else
       redirect_to artist_path(@artist)
     end
@@ -229,31 +212,6 @@ class ArtistsController < ApplicationController
         raise
       end
       redirect_to edit_artist_url(current_user)
-    end
-  end
-
-  # for mobile only
-  def osthumbs
-    fetch_thumbs true
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.mobile {
-        render :thumbs, layout: 'mobile'
-      }
-    end
-  end
-
-  def thumbs
-    fetch_thumbs
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.mobile {
-        if params[:partial].present?
-          render layout: false
-        else
-          render layout: 'mobile'
-        end
-      }
     end
   end
 

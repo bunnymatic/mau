@@ -24,10 +24,10 @@ class UserNavigation < Navigation
       begin
         [].tap do |items|
           if current_artist
-            items << link_to('view profile', @view_context.artist_path(current_artist))
-            items << link_to('edit profile', @view_context.edit_artist_path(current_artist))
-            items << link_to('add art', @view_context.new_artist_art_piece_path(current_artist))
-            items << link_to('manage art', @view_context.manage_art_artist_path(current_artist))
+            items << link_to('view profile', @view_context.artist_path(current_artist), title: 'View My Profile')
+            items << link_to('edit profile', @view_context.edit_artist_path(current_artist), title: 'Edit My Profile')
+            items << link_to('add art', @view_context.new_artist_art_piece_path(current_artist), title: "Add Art")
+            items << link_to('manage art', @view_context.manage_art_artist_path(current_artist), title: "Manage My Art")
 
 
             # items << link_to("<i class='fa fa-icon fa-heart'></i> favorites".html_safe, @view_context.user_favorites_path(current_user))

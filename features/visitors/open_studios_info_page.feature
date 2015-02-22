@@ -11,14 +11,14 @@ Background:
 
 Scenario:  Visiting the open studios page
   When I visit the home page
-  And I click on "open studios" in the menu
+  And I click on the current open studios link
   Then I see the open studios cms content
   And I see the open studios content is not editable
 
 Scenario:  Visiting the open studios page as an editor
   Given I login as an editor
   When I visit the home page
-  And I click on "open studios" in the menu
+  And I click on the current open studios link
   Then I see the open studios cms content
   And I see the open studios content is editable
 
@@ -26,6 +26,7 @@ Scenario:  Visiting the open studios page as an editor
 Scenario:  Visiting the open studios page on a phone
   When I'm on my smart phone
   And I visit the about page
+  And I take a screenshot
   And I click on the current open studios link
   Then I see the open studios cms mobile content
 

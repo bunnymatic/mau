@@ -1,13 +1,6 @@
 When /I click on the current open studios link/ do
-  #mobile
-  click_on OpenStudiosEvent.current.for_display
-end
-
-Then /I see information for the current open studios/ do
-  os = OpenStudiosEvent.current
-  expect(page).to have_selector '.logo a img' do |tag|
-    tag.src.should == os.logo.url(:square)
-  end
+  os_link_text = OpenStudiosEvent.current.for_display(true)
+  click_on_first os_link_text
 end
 
 Then(/^I see the open studios cms content/) do
