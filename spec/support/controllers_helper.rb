@@ -25,11 +25,9 @@ shared_examples_for "logged in edit page" do
   it "has at least open-close divs with edit, notification, password, links and deactivation section" do
     assert_select('.panel-group')
     assert_select('#info')
-    assert_select('#bio')
     assert_select('#profile_picture')
     assert_select('#password')
     assert_select('#links')
-    assert_select('#address')
   end
 end
 

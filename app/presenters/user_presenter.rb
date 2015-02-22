@@ -8,13 +8,17 @@ class UserPresenter < ViewPresenter
   attr_accessor :model
   
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
-    :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
-    :os_participation, :studio, :studio_id, :login, :active?,
+    :bio, :address, :address_hash, :get_name,
+    :login, :active?,
     :activated_at, :email, :last_login, :full_name,
     to: :model, allow_nil: true
 
   def initialize(user)
     @model = user
+  end
+
+  def doing_open_studios?
+    false
   end
   
   def what_i_favorite

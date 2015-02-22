@@ -19,11 +19,3 @@
         .panel.panel-default
           = render '/users/edit/deactivate', form: form
 
-    .tag update profile picture
-    .os-violator{style: (current_artist.doing_open_studios? ? '':'display:none;')}
-      %img{:src=> "/images/os_star_violator.png"}
-
-
-  .pure-u-1-1
-    - if !current_user.art_pieces.any?
-      = link_to "Upload some of your art to share with the world!", new_artist_art_piece_path(current_user)

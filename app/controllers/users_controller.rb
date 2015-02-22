@@ -4,9 +4,8 @@ class UsersController < ApplicationController
 
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
-  before_filter :user_required, :only => [ :edit, :update, :suspend, :delete_art, :destroyart, :upload_profile,
-                                            :add_profile, :deactivate, :setarrangement, :arrange_art,
-                                            :add_favorite, :remove_favorite, :change_password_update, :notify]
+  before_filter :user_required, :only => [ :edit, :update, :suspend, :deactivate, 
+                                           :add_favorite, :remove_favorite, :change_password_update, :notify]
 
 
   DEFAULT_ACCOUNT_TYPE = 'MAUFan'
@@ -47,32 +46,32 @@ class UsersController < ApplicationController
     @user = (@type == 'MAUFan') ? fan : artist
   end
 
-  def add_profile
-  end
+  # def add_profile
+  # end
 
-  def upload_profile
-    if commit_is_cancel
-      redirect_to user_path(current_user)
-      return
-    end
+  # def upload_profile
+  #   if commit_is_cancel
+  #     redirect_to user_path(current_user)
+  #     return
+  #   end
 
-    @user = self.current_user
-    upload = params[:upload]
+  #   @user = self.current_user
+  #   upload = params[:upload]
 
-    unless upload
-      flash[:error] = "You must provide a file."
-      render 'add_profile' and return
-    end
+  #   unless upload
+  #     flash[:error] = "You must provide a file."
+  #     render 'add_profile' and return
+  #   end
 
-    begin
-      post = ArtistProfileImage.new(@user).save upload
-      redirect_to user_path(@user), :notice => 'Your profile image has been updated.'
-    rescue
-      logger.error("Failed to upload %s" % $!)
-      flash[:error] = "%s" % $!
-      render 'add_profile' and return
-    end
-  end
+  #   begin
+  #     post = ArtistProfileImage.new(@user).save upload
+  #     redirect_to user_path(@user), :notice => 'Your profile image has been updated.'
+  #   rescue
+  #     logger.error("Failed to upload %s" % $!)
+  #     flash[:error] = "%s" % $!
+  #     render 'add_profile' and return
+  #   end
+  # end
 
   def update
     if commit_is_cancel

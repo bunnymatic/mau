@@ -324,13 +324,13 @@ describe UsersController do
       end
       it { expect(response).to be_success }
       it "has the users name on it" do
-        assert_select '#artist_profile_name h4', :text => "#{fan.firstname} #{fan.lastname}"
+        assert_select '.artist__name', :text => fan.get_name
       end
       it "has a profile image" do
-        assert_select "img.profile"
+        assert_select ".artist__image"
       end
       it "shows the users website" do
-        assert_select "#u_website a[href=#{fan.url}]"
+        assert_select ".link a[href=#{fan.url}]"
       end
     end
     context "while logged in as an user" do
@@ -340,13 +340,6 @@ describe UsersController do
         get :show, :id => fan.id
       end
       it_should_behave_like "logged in user"
-      it "has sidebar nav when i look at my page" do
-        assert_select('#sidebar_nav')
-      end
-      it "has no sidebar nav when i look at someone elses page" do
-        get :show, :id => artist
-        css_select('#sidebar_nav').should be_empty
-      end
     end
   end
   describe "#edit" do
@@ -810,76 +803,76 @@ describe UsersController do
     end
   end
 
-  describe 'upload_profile' do
-    describe 'unauthorized' do
-      before do
-        post :upload_profile
-      end
-      it_should_behave_like 'redirects to login'
-    end
+  # describe 'upload_profile' do
+  #   describe 'unauthorized' do
+  #     before do
+  #       post :upload_profile
+  #     end
+  #     it_should_behave_like 'redirects to login'
+  #   end
 
-    context "while authorized" do
-      before do
-        login_as fan
-      end
-      context "post " do
-        let(:upload) { nil }
-        let(:commit) { nil }
-        let(:post_params) { { :upload => upload, :commit => commit } }
-        context 'with no upload' do
-          before do
-            post :upload_profile, post_params
-          end
-          it 'redirects to the add profile page' do
-            expect(response).to redirect_to add_profile_user_path(fan)
-          end
-          it 'sets a flash message without image' do
-            expect(flash[:error]).to be_present
-          end
-        end
-        context 'with a cancel' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
-          let(:commit) { "Cancel" }
-          before do
-            post :upload_profile, post_params
-          end
-          it 'redirects to studio page' do
-            expect(response).to redirect_to user_path(fan)
-          end
-        end
+  #   context "while authorized" do
+  #     before do
+  #       login_as fan
+  #     end
+  #     context "post " do
+  #       let(:upload) { nil }
+  #       let(:commit) { nil }
+  #       let(:post_params) { { :upload => upload, :commit => commit } }
+  #       context 'with no upload' do
+  #         before do
+  #           post :upload_profile, post_params
+  #         end
+  #         it 'redirects to the add profile page' do
+  #           expect(response).to redirect_to add_profile_user_path(fan)
+  #         end
+  #         it 'sets a flash message without image' do
+  #           expect(flash[:error]).to be_present
+  #         end
+  #       end
+  #       context 'with a cancel' do
+  #         let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+  #         let(:commit) { "Cancel" }
+  #         before do
+  #           post :upload_profile, post_params
+  #         end
+  #         it 'redirects to studio page' do
+  #           expect(response).to redirect_to user_path(fan)
+  #         end
+  #       end
 
-        context 'when image upload raises an error' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
-          before do
-            ArtistProfileImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
-            post :upload_profile, post_params
-          end
-          it 'renders the form again' do
-            expect(response).to redirect_to add_profile_user_path(fan)
-          end
-          it 'sets the error' do
-            expect(flash[:error]).to be_present
-          end
-        end
+  #       context 'when image upload raises an error' do
+  #         let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+  #         before do
+  #           ArtistProfileImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
+  #           post :upload_profile, post_params
+  #         end
+  #         it 'renders the form again' do
+  #           expect(response).to redirect_to add_profile_user_path(fan)
+  #         end
+  #         it 'sets the error' do
+  #           expect(flash[:error]).to be_present
+  #         end
+  #       end
 
-        context 'with successful save' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'user.png') } }
-          before do
-            mock_user_image = double('MockUserImage', :save => true)
-            ArtistProfileImage.should_receive(:new).and_return(mock_user_image)
-          end
-          it 'redirects to show page on success' do
-            post :upload_profile, post_params
-            expect(response).to redirect_to user_path(fan)
-          end
-          it 'sets a flash message on success' do
-            post :upload_profile, post_params
-            flash[:notice].should eql 'Your profile image has been updated.'
-          end
-        end
-      end
-    end
-  end
+  #       context 'with successful save' do
+  #         let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'user.png') } }
+  #         before do
+  #           mock_user_image = double('MockUserImage', :save => true)
+  #           ArtistProfileImage.should_receive(:new).and_return(mock_user_image)
+  #         end
+  #         it 'redirects to show page on success' do
+  #           post :upload_profile, post_params
+  #           expect(response).to redirect_to user_path(fan)
+  #         end
+  #         it 'sets a flash message on success' do
+  #           post :upload_profile, post_params
+  #           flash[:notice].should eql 'Your profile image has been updated.'
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 
   describe '#delete' do
     context 'non-admin' do

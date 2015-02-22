@@ -78,6 +78,9 @@ describe FeedsController do
   end
   context "with cache" do
     before do
+      create(:artist_feed, active: true)
+      mock_parser = double(MauFeed::Parser, feed_content: 'this and that')
+      allow(MauFeed::Parser).to receive(:new).and_return(mock_parser)
       if File.exists?(cache_filename)
         File.delete(cache_filename)
       end
