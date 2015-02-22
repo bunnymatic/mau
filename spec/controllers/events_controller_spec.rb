@@ -6,7 +6,7 @@ describe EventsController do
   let!(:events) { FactoryGirl.create_list(:event, 2, :published) + FactoryGirl.create_list(:event, 2) }
   let(:event) { events.first }
   let(:editor) { FactoryGirl.create(:artist, :editor) }
-  let(:artist) { FactoryGirl.create(:artist, :active) }
+  let(:artist) { FactoryGirl.create(:artist, :active, nomdeplume: nil) }
 
   describe 'unauthorized' do
 

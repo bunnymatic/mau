@@ -224,7 +224,7 @@ describe Artist do
       artist.save
     end
     it 'finds medium 1 as the most common' do
-      artist.primary_medium.should eql media.first
+      artist.reload.primary_medium.should eql media.first
     end
     it 'works with no media on artist' do
       nobody.primary_medium.should be_nil
@@ -279,7 +279,7 @@ describe Artist do
         art_piece.destroy
       end
       it "art_piece is no longer in users favorite list" do
-        expect(artist.favorites.map(&:favoritable_id)).to_not include art_piece.id
+        expect(artist.reload.favorites.map(&:favoritable_id)).to_not include art_piece.id
       end
     end
   end
