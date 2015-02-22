@@ -36,7 +36,7 @@ describe MainController do
         assert_select "#main_thumbs .js-sampler"
       end
       it 'shows a link to the artist with the most recently uploaded art' do
-        assert_select '#new-art a[href=%s]' % art_piece_path(ArtPiece.last)
+        assert_select '#new-art a[href=%s]' % art_piece_path(ArtPiece.order(:created_at).last)
       end
       it 'has the default description & keywords' do
         assert_select 'head meta[name=description]' do |desc|
@@ -67,7 +67,7 @@ describe MainController do
         assert_select "#main_thumbs .js-sampler"
       end
       it 'shows a link to the artist with the most recently uploaded art' do
-        assert_select '#new-art a[href=%s]' % art_piece_path(ArtPiece.last)
+        assert_select '#new-art a[href=%s]' % art_piece_path(ArtPiece.order(:created_at).last)
       end
     end
 

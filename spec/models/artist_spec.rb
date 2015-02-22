@@ -98,26 +98,22 @@ describe Artist do
     end
   end
   describe 'in_the_mission?' do
-    it "returns true for artist in the mission with no studio" do
-      a = artist_without_studio
-      a.should be_in_the_mission
-      a.should have_address
+    it "returns true for artist in the mission with no studio" do 
+      expect(artist_without_studio).to have_address
+      expect(artist_without_studio).to be_in_the_mission
     end
     it "returns true for artist in the mission with a studio in the mission" do
-      a = artist
-      a.should be_in_the_mission
-      a.should have_address
+      expect(artist).to have_address
+      expect(artist).to be_in_the_mission
     end
     it "returns false for artist with wayout address" do
-      a = wayout_artist
-      a.should_not be_in_the_mission
-      a.should have_address
+      expect(wayout_artist).to have_address
+      expect(wayout_artist).to_not be_in_the_mission
     end
     it "returns true for artist with wayout address but studio in the mission" do
-      a = wayout_artist
-      a.update_attribute :studio, FactoryGirl.create(:studio)
-      a.should have_address
-      a.should be_in_the_mission
+      wayout_artist.update_attribute :studio, FactoryGirl.create(:studio)
+      expect(wayout_artist).to have_address
+      expect(wayout_artist).to be_in_the_mission
     end
   end
   describe 'find by fullname' do
@@ -270,20 +266,20 @@ describe Artist do
   end
 
   describe 'destroying artists' do
-    before do 
-      raise "SETUP ARTIST WITH A FAVORITE"
-    end
+    let(:quentin) { create(:artist, :with_art) }
+    let(:art_piece) { quentin.art_pieces.first }
     context "then artist removes that artpiece" do
-      before do
-        @ap.destroy
+      before do 
+        artist.add_favorite(art_piece)
+        artist.add_favorite(quentin)
+
+        # validate fixtures setup
+        expect(artist.favorites.map(&:favoritable_id)).to include art_piece.id
+        
+        art_piece.destroy
       end
       it "art_piece is no longer in users favorite list" do
-        u = User.find(quentin.id)
-        u.favorites.should_not include @ap.id
-      end
-      it "art_piece owner should no longer have user in their favorite list" do
-        a = Artist.find(@ap.artist_id)
-        a.who_favorites_me.should_not include quentin
+        expect(artist.favorites.map(&:favoritable_id)).to_not include art_piece.id
       end
     end
   end
