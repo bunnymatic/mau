@@ -1,7 +1,5 @@
 .nav.nav-tabs
   - user_nav = UserNavigation.new(self, current_user)
-  - art_nav = ArtNavigation.new(self, current_user)
-  - studio_nav = StudioNavigation.new(self)
   - os_nav = OpenStudiosNavigation.new(self, current_user)
   .js-nav-mobile.nav-mobile.nav-icon{ title: 'menu' }
     = fa_icon 'bars'

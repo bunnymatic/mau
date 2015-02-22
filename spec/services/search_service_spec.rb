@@ -4,7 +4,7 @@ describe SearchService do
 
   let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
-  let(:artists) { Artist.all}
+  let(:artists) { Artist.all }
   let(:artist) { artists.first }
   let(:art_piece) { artist.art_pieces.first }
   let(:medium) { art_piece.medium }
@@ -22,7 +22,7 @@ describe SearchService do
   }
 
   before(:all) do
-    FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, firstname: 'Firstname')
+    FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, firstname: 'Firstname', nomdeplume: nil)
     FactoryGirl.create(:artist, nomdeplume: "Interesting", firstname: 'Firstname' )
     FactoryGirl.create(:artist, :active, :with_art, nomdeplume: "Interesting", firstname: 'Firstname')
   end
