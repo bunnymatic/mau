@@ -7,7 +7,8 @@ Background:
 
 Scenario: 
   When I visit my home page
-  And I click on "delete art" in the sidebar menu
+  And I click on "manage art" in the sidebar menu
+  And I click on "bulk delete"
   Then I can delete my art
 
   When I mark art for deletion

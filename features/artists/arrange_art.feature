@@ -9,7 +9,8 @@ Background:
 # https://github.com/jonleighton/poltergeist/issues/402
 Scenario: 
   When I visit my home page
-  And I click on "arrange art" in the sidebar menu
+  And I click on "manage art" in the sidebar menu
+  And I click on "arrange"
   Then I can arrange my art
 
   When I click on "cancel"

@@ -134,21 +134,17 @@ When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
 end
 
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
-  within('#sidebar_nav') do
-    click_on(link_title)
+  within('.nav.nav-tabs') do
+    click_on_first(link_title)
   end
 end
 
 When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
-  within('.singlecolumn, .tbl-content') do
-    find_first_link_or_button(button_text).click
-  end
+  find_first_link_or_button(button_text).click
 end
 
 When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, dummy|
-  within('.singlecolumn, .tbl-content') do
-    find_last_link_or_button(button_text).click
-  end
+  find_last_link_or_button(button_text).click
 end
 
 Then(/^I see a message "(.*?)"$/) do |message|
