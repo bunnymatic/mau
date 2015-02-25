@@ -2,7 +2,8 @@ Feature: As a active artist I can edit my information
 
 Background:
   Given I am signed in as an artist
-  And I click on the first "edit profile" link
+  And I click on "my mau"
+  And I click on the first "Edit My Profile" link
 
 @javascript
 Scenario: I can edit my personal information
@@ -47,6 +48,19 @@ Scenario: I can edit my password
   And I click on "Save Changes"
   And I sign out
   And I sign in with password "blahdeblah"
+  Then I see that I'm signed in
+
+@javascript
+Scenario: I cannot edit my password if i can't remember my current password
+  When I click on "Password"
+  And I change "Current Password" to "something"
+  And I change "artist_password" to "blahdeblah"
+  And I change "Confirm New Password" to "blahdeblah"
+  And I click on "Save Changes"
+  Then I see an error message "password is wrong"
+  And I sign out
+  # same old password works
+  And I sign in with password "bmatic"
   Then I see that I'm signed in
 
   

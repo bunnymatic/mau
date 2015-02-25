@@ -28,5 +28,5 @@ Scenario:  Visiting the open studios page on a phone
   And I visit the about page
   And I take a screenshot
   And I click on the current open studios link
-  Then I see the open studios cms mobile content
+  Then I see the open studios cms content
 

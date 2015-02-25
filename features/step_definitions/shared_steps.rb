@@ -69,14 +69,14 @@ When /I am signed in as an artist/ do
 end
 
 When /^I (logout|sign out)$/ do |dummy|
-  within '.signin-nav' do
+  within '.nav' do
     click_on 'sign out'
   end                        
 end
 
 Then /^I see that I'm signed in$/ do
-  within '.signin-nav' do
-    expect(page).to have_link @artist.login, href: user_path(@artist)
+  within '.nav' do
+    expect(page).to have_link "my mau"
   end
 end
 
@@ -96,11 +96,11 @@ end
 
 
 Then(/^I do not see an error message$/) do
-  expect(page).to_not have_selector '.error-msg'
+  expect(page).to_not have_selector '.flash__error'
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.error-msg, .error', text: msg
+  expect(page).to have_selector '.flash__error', text: msg
 end
 
 Then(/^I see a flash notice "(.*?)"$/) do |msg|

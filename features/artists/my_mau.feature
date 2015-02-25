@@ -9,7 +9,6 @@ Background:
 Scenario:
   When I visit my home page
   Then I see my art
-  And I see my big thumbs on the left
   And I see the artist's menu
 
 @javascript

@@ -28,6 +28,6 @@ end
 
 Then /^I see that all artists are doing open studios$/ do
   expect(@artists).to have_at_least(1).artist
-  expect(page).to have_selector '.notice', :text => 'Updated setting for'
+  expect(page).to have_selector '.flash__notice', :text => 'Updated setting for'
   expect(@artists.map(&:doing_open_studios?).all?).to be_true
 end

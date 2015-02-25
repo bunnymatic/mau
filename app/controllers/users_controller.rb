@@ -421,6 +421,12 @@ class UsersController < ApplicationController
       attrs[:email_attrs] = em2.to_json
     end
 
+    ap params.inspect
+    if current_user.valid_password? params[:old_password]
+      params.delete(:old_password)
+    else
+      raise 'invalid old password'
+    end
     attrs
 
   end

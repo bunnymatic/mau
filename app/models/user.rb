@@ -73,6 +73,10 @@ class User < ActiveRecord::Base
   scope :not_active, where("state <> 'active'")
   scope :pending, where(state: 'pending')
 
+  def self.find_by_username_or_email(login_string)
+    User.find_by_login(login_string) || User.find_by_email(login_string)
+  end
+
   before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_destroy :delete_favorites

@@ -8,17 +8,12 @@ Then(/^I see the open studios cms content/) do
   expect(page).to have_selector '.section.markdown[data-section=preview_reception]'
 end
 
-Then(/^I see the open studios cms mobile content/) do
-  expect(page).to have_selector '.section .markdown'
-end
-
-
 Then(/^I see the open studios content is not editable/) do
-  expect(page).to_not have_selector '#open_studios .section.markdown.editable'
+  expect(page).to_not have_selector '.open_studios .section.markdown.editable'
 end
 
 Then(/^I see the open studios content is editable/) do
-  expect(page).to have_selector '#open_studios .section.markdown.editable'
+  expect(page).to have_selector '.open_studios .section.markdown.editable'
 end
 
 Then(/^I see the open studios events$/) do
