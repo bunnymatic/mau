@@ -5,7 +5,6 @@ IPHONE_USER_AGENT = 'Mozilla/5.0 (iPhone; U; XXXXX like Mac OS X; en)'+
 module MockMobile
   def pretend_to_be_mobile
     request.stub(:user_agent => IPHONE_USER_AGENT, :mobile_device => 'iphone')
-    controller.stub(:is_mobile_device? => true, :mobile_device => 'iphone')
   end
 end
 

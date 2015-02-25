@@ -32,10 +32,6 @@ class ArtPiecesController < ApplicationController
     @pinterest_required = true && browser.modern?
     @twitter_required = true
 
-    if is_mobile?
-      redirect_to artist_path(@art_piece.artist) and return
-    end
-
     set_page_info_from_art_piece
 
     respond_to do |format|

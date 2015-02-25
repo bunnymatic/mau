@@ -59,13 +59,6 @@ describe CatalogController do
       end
       it { expect(response).to_not be_success }
     end
-    context 'format=mobile' do
-      before do
-        pretend_to_be_mobile
-        get :social
-      end
-      it { expect(response).to redirect_to root_path }
-    end
     context 'format=csv' do
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }

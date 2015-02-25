@@ -31,8 +31,8 @@ class StudiosController < ApplicationController
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
       redirect_to studios_path and return
     end
-    @studios = @studio_list.map{|s| StudioPresenter.new(view_context, s, is_mobile?)}
-    @studio = StudioPresenter.new(view_context, @studio, is_mobile?)
+    @studios = @studio_list.map{|s| StudioPresenter.new(view_context, s)}
+    @studio = StudioPresenter.new(view_context, @studio)
 
     @page_title = @studio.page_title
 

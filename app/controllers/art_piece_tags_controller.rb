@@ -30,9 +30,6 @@ class ArtPieceTagsController < ApplicationController
 
   # GET /tags/1
   def show
-    if is_mobile?
-      redirect_to root_path and return
-    end
     # get art pieces by tag
     begin
       @tag = ArtPieceTag.find(params[:id])

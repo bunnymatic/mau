@@ -81,14 +81,6 @@ describe ArtPieceTagsController do
 
   describe '#show' do
 
-    context 'mobile' do
-
-      it 'redirects to root on mobile' do
-        @controller.stub(:is_mobile? => true)
-        get :show, :id => 4
-        expect(response).to redirect_to root_path
-      end
-    end
     context 'for different tags' do
       render_views
       before do

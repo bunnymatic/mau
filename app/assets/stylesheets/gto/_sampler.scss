@@ -91,7 +91,7 @@ $sampler-thumbnail-size : 250px;
   @media screen and (max-width: $screen-xs-max) {
     .sampler__thumb {
       &.first {
-        margin-top: 20px;
+        margin-top: 10px;
       }
       width: 100%;
     }

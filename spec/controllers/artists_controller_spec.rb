@@ -676,7 +676,7 @@ describe ArtistsController do
 
   describe "- named routes" do
     describe 'collection paths' do
-      [:destroyart, :arrange_art, :thumbs, :setarrangement, :delete_art].each do |path|
+      [:destroyart, :arrange_art, :setarrangement, :delete_art].each do |path|
         it "should have #{path} as artists collection path" do
           eval('%s_artists_path.should eql \'/artists/%s\'' % [path,path])
         end

@@ -21,7 +21,6 @@ class ApplicationController < ActionController::Base
   before_filter :get_feeds
   before_filter :get_new_art, :unless => :format_json?
   before_filter :set_meta_info
-  before_filter :tablet_device_falback
 
   helper_method :current_user_session, :current_user, :logged_in?, :current_artist
   helper_method :current_open_studios
@@ -115,11 +114,6 @@ class ApplicationController < ActionController::Base
     @body_classes = @body_classes.flatten.compact.uniq
   end
 
-  def tablet_device_falback
-    # we currently don't have any special tablet views...
-    request.format = :html if is_tablet_device?
-  end
-
   def commit_is_cancel
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
   end
@@ -182,14 +176,7 @@ class ApplicationController < ActionController::Base
     redirect_to "/error" unless is_manager? || is_editor?
   end
 
-  def is_mobile?
-    !!(is_mobile_device? && session[:mobile_view])
-  end
-
   def check_browser
-    request.format = :mobile if is_mobile?
-    @show_return_to_mobile = (!is_mobile? && is_mobile_device?)
-
     @browser_as_class = browser.name.downcase.gsub(' ', '_') #_class(self.request)
 
     @logo_img = (Rails.env != 'acceptance') ? "/images/tiny-colored.png" : "/images/tiny-colored-acceptance.png"
