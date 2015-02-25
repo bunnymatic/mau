@@ -9,9 +9,8 @@ $sampler-thumbnail-size : 250px;
   background: transparent;
   .sampler__promo {
     font-size: 14px;
-    height: $sampler-thumbnail-size - 6px; /* minus bottom margin */
+    height: 2 * $sampler-thumbnail-size; /* minus bottom margin */
     .sampler__promo-contents {
-      max-height: 100%;
       height: 100%;
       margin: 6px;
       padding-top: 1.6rem;
@@ -72,7 +71,34 @@ $sampler-thumbnail-size : 250px;
       }
     }
   }
+  .sampler__thumb {
+    width: 20%;
+    float: left;
+  }
+  .sampler__promo {
+    width: 40%;
+    float: left;
+  }
 
+  @media screen and (max-width: $screen-lg-max) {
+    .sampler__thumb {
+      width: 33.33%;
+    }
+    .sampler__promo {
+      width: 66.67%;
+    }
+  }
+  @media screen and (max-width: $screen-xs-max) {
+    .sampler__thumb {
+      &.first {
+        margin-top: 20px;
+      }
+      width: 100%;
+    }
+    .sampler__promo {
+      width: 100%;
+    }
+  }
 
   @media screen and (max-width: 35.5em) { 
     .sampler__thumb {
