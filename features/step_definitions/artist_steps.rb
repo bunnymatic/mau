@@ -20,7 +20,7 @@ end
 
 Then(/^I see my art$/) do
   expect(@artist.art_pieces).to be_present
-  expect(page).to have_selector '.artist-pieces .allthumbs li .thumb', :count => @artist.art_pieces.length
+  expect(page).to have_selector '.art-card .image'
 end
 
 Then(/^I see the artist's menu/) do
@@ -32,8 +32,8 @@ Then(/^I can arrange my art$/) do
 end
 
 Then(/^I can delete my art$/) do
-  expect(current_path).to eql manage_artist_path(@artist)
-  expect(page).to have_selector '#delete_art li.artp-thumb-container input[type=checkbox]'
+  expect(current_path).to eql manage_art_artist_path(@artist)
+  expect(page).to have_selector '#delete_art li.art-card .image'
 end
 
 When(/^I mark art for deletion$/) do
