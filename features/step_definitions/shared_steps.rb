@@ -30,6 +30,9 @@ def find_links_or_buttons(locator)
   all_links_or_buttons_with_title(locator)
 end
 
+Given  /I know how to fill out a recaptcha/ do
+  UsersController.any_instance.stub(:verify_recaptcha).and_return(true)
+end
 
 When /I'm on my smart phone/ do
   page.driver.headers = {"User-Agent" => IPHONE_USER_AGENT}
@@ -68,7 +71,7 @@ When /I am signed in as an artist/ do
   }
 end
 
-When /^I (logout|sign out)$/ do |dummy|
+When /^I (log|sign)\s?out$/ do |dummy|
   within '.nav' do
     click_on 'sign out'
   end                        
@@ -96,11 +99,11 @@ end
 
 
 Then(/^I do not see an error message$/) do
-  expect(page).to_not have_selector '.flash__error'
+  expect(page).to_not have_selector '.error-msg, .flash__error, .err'
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.flash__error', text: msg
+  expect(page).to have_selector '.error-msg, .flash__error', text: msg
 end
 
 Then(/^I see a flash notice "(.*?)"$/) do |msg|

@@ -79,7 +79,7 @@ class UsersController < ApplicationController
       return
     end
     # clean os from radio buttons
-    if current_user.update_attributes(user_params)
+    if current_user.update_attributes(edit_user_params)
       flash[:notice] = "Update successful"
       redirect_to(edit_user_url(current_user))
     else
@@ -409,6 +409,16 @@ class UsersController < ApplicationController
     note_info
   end
 
+  def edit_user_params
+    attrs = user_params
+    
+    if current_user.valid_password? params[:old_password]
+      params.delete(:old_password)
+    else
+      raise 'invalid old password'
+    end
+  end
+  
   def user_params
     attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
 
@@ -419,13 +429,6 @@ class UsersController < ApplicationController
         em2[k] = ( v.to_i != 0 ? true : false)
       end
       attrs[:email_attrs] = em2.to_json
-    end
-
-    ap params.inspect
-    if current_user.valid_password? params[:old_password]
-      params.delete(:old_password)
-    else
-      raise 'invalid old password'
     end
     attrs
 

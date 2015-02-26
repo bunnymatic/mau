@@ -21,10 +21,6 @@ When(/^I change my password to "(.*?)"$/) do |new_pass|
   click_on 'change password'
 end
 
-When(/^I log out$/) do
-  click_on 'log out'
-end
-
 When(/^I fill in "(.*?)" for my password$/) do |pass|
   fill_in_login_form @artist.login, pass
 end
@@ -41,7 +37,9 @@ Then(/^I see that I'm logged in$/) do
 end
 
 Then(/^I see that I'm logged out$/) do
-  expect(page).to have_link "log in", new_user_session_path
+  within '.nav' do
+    expect(page).to have_link "sign in", new_user_session_path
+  end
 end
 
 When(/^I fill in an invalid username and password$/) do

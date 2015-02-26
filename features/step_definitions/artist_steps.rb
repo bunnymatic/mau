@@ -50,8 +50,7 @@ Then(/^I see that my art was deleted$/) do
 end
 
 Then(/^I see my profile edit form$/) do
-  expect(page).to have_css '.open-close-div', count: 8
-  expect(page).to have_css '.edit-profile-sxn', count: 8, visible: false
+  expect(page).to have_css 'form .accordion', count: 8
 end
 
 When(/^I update my personal information with:$/) do |table|
