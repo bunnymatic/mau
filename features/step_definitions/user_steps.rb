@@ -3,16 +3,6 @@ def fill_in_login_form(login, pass)
   fill_in("Password", :with => pass)
 end
 
-When(/^I click (on\s+)?"(.*?)"$/) do |dummy, link_text|
-  click_on link_text
-end
-
-When(/^I click (on\s+)?"(.*?)" in the menu$/) do |dummy, link_text|
-  within('.nav') do
-    click_on link_text
-  end
-end
-
 When(/^I change my password to "(.*?)"$/) do |new_pass|
   visit edit_artist_path(@artist)
   fill_in("Old Password", :with => 'bmatic')
@@ -91,4 +81,10 @@ Then /^I see that "(.*?)" is a new pending artist$/ do |username|
   steps %{Then I see a flash notice "Thanks for signing up! We're sending you an email"}
   expect(current_path).to eql root_path
   expect(Artist.find_by_login(username)).to be_pending
+end
+
+Then /^I see that "(.*?)" is a new fan$/ do |username|
+  steps %{Then I see a flash notice "Thanks for signing up! We're sending you an email"}
+  expect(current_path).to eql root_path
+  expect(MAUFan.find_by_login(username)).to be_active
 end

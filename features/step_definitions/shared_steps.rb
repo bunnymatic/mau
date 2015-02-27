@@ -31,7 +31,7 @@ def find_links_or_buttons(locator)
 end
 
 Given  /I know how to fill out a recaptcha/ do
-  UsersController.any_instance.stub(:verify_recaptcha).and_return(true)
+  #UsersController.any_instance.stub(:verify_recaptcha).and_return(true)
 end
 
 When /I'm on my smart phone/ do
@@ -97,6 +97,15 @@ Then(/my "(.*?)" is "(.*?)" in the "(.*?)" section of the form/) do |form_field_
   end
 end
 
+Then(/^I see that the studio "(.*?)" has an artist called "(.*?)"$/) do |studio_name, user_login|
+  expect(Studio.where(name: studio_name).first.artists).to include User.where(login: user_login).first
+end
+
+Then(/^I see an error in the form "(.*?)"$/) do |msg|
+  within 'form' do
+    expect(page).to have_selector '.error', text: msg
+  end
+end
 
 Then(/^I do not see an error message$/) do
   expect(page).to_not have_selector '.error-msg, .flash__error, .err'
@@ -130,16 +139,22 @@ Then(/^I see the "(.*?)" page$/) do |titleized_path_name|
   expect(current_path).to eql path_from_title(titleized_path_name)
 end
 
-When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
-  within('#admin_nav') do
-    click_on(link_title)
+When(/^I click (on\s+)?"([^"]*)"$/) do |dummy, link_text|
+  click_on link_text
+end
+
+When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
+  within container do
+    click_on_first link
   end
 end
 
+When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
+  step %Q|I click on "#{link_title}" in the "#admin_nav"|
+end
+
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
-  within('.nav.nav-tabs') do
-    click_on_first(link_title)
-  end
+  step %Q|I click on "#{link_title}" in the ".nav.nav-tabs"|
 end
 
 When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
