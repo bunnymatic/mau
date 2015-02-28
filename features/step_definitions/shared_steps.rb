@@ -30,6 +30,10 @@ def find_links_or_buttons(locator)
   all_links_or_buttons_with_title(locator)
 end
 
+Given /^Mailchimp is hooked up$/ do
+  stub_mailchimp
+end
+
 Given  /I know how to fill out a recaptcha/ do
   #UsersController.any_instance.stub(:verify_recaptcha).and_return(true)
 end
@@ -54,6 +58,10 @@ end
 
 When /I visit the signup page/ do
   visit signup_path
+end
+
+When /I visit the fan signup page/ do
+  visit signup_path(type: 'MAUFan')
 end
 
 When /I sign in with password "(.*?)"/ do |pass|

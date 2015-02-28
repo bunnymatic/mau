@@ -84,7 +84,18 @@ Then /^I see that "(.*?)" is a new pending artist$/ do |username|
 end
 
 Then /^I see that "(.*?)" is a new fan$/ do |username|
-  steps %{Then I see a flash notice "Thanks for signing up! We're sending you an email"}
-  expect(current_path).to eql root_path
+  steps %{Then I see a flash notice "Thanks for signing up!"}
+  expect(current_path).to eql login_path
   expect(MAUFan.find_by_login(username)).to be_active
 end
+
+Then /^I click the fan signup button$/ do
+  resp = JSON.generate({
+                        email: "example email",
+                        euid: "example euid",
+                        leid: "example leid"
+                       })
+  stub_request(:any, /.*\.mailchimp.com/).to_return(:body => resp)
+  step %q{I click "Sign up"}
+end
+
