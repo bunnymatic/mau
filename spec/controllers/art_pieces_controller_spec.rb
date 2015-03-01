@@ -92,6 +92,7 @@ describe ArtPiecesController do
     context 'format=json' do
       let(:parsed) { JSON.parse(response.body)['art_piece'] }
       before do
+        art_piece.artist.update_attribute :nomdeplume, "Watch out for 'postrophes & other &#*$%! characters"
         get :show, id: art_piece.id, format: :json
       end
 
@@ -129,7 +130,8 @@ describe ArtPiecesController do
         parsed['tags'].first['name'].should eql art_piece.tags.first.name
       end
       it 'includes the artists name' do
-        parsed['artist_name'].should eql artist.get_name
+        raise parsed
+        parsed['artist_name'].should eql artist.get_name(false)
       end
       it 'includes the art piece title' do
         parsed['title'].should eql HTMLEntities.new.encode art_piece.title, :named, :hexadecimal
