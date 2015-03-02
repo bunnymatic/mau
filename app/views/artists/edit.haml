@@ -5,9 +5,8 @@
 .pure-g
   .pure-u-1-1.pure-u-lg-4-5.padded-content
     = render '/paypal_donation_form'
-
-    = semantic_form_for current_user, html: { class: 'js-edit-artist-form', multipart: true } do |form|
-      #user-accordion.panel-group
+    #user-accordion.panel-group
+      = semantic_form_for @user.model, html: { class: 'js-edit-artist-form primary-form', multipart: true } do |form|
         .panel.panel-default
           = render '/users/edit/basic_info', form: form
         .panel.panel-default
@@ -21,10 +20,11 @@
           = render '/users/edit/links', form: form
         .panel.panel-default
           = render '/artists/edit/bio', form: form
+      = semantic_form_for @user.model, url: change_password_update_user_path(@user.model), html: { method: 'post', class: 'password-form' } do |form|
         .panel.panel-default
           = render '/users/edit/password', form: form
-        .panel.panel-default
-          = render '/users/edit/deactivate', form: form
+      .panel.panel-default
+        = render '/users/edit/deactivate'
 
 
   .pure-u-1-1

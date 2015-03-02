@@ -14,7 +14,6 @@ When(/^I rearrange my art with drag and drop$/) do
   images = page.all('.allthumbs.sortable li.thumb')
   images.first.drag_to(images.third)
   click_on 'save'
-  puts @old_order
   @new_order = @artist.art_pieces.map(&:id)
 end
 
@@ -50,7 +49,7 @@ Then(/^I see that my art was deleted$/) do
 end
 
 Then(/^I see my profile edit form$/) do
-  expect(page).to have_css 'form .accordion', count: 8
+  expect(page).to have_css '.panel-heading', count: 8
 end
 
 When(/^I update my personal information with:$/) do |table|
@@ -65,6 +64,10 @@ When(/^I see my updated personal information as:$/) do |table|
   info.each do |field, val|
     expect(find_field(field).value).to eql val
   end
+end
+
+When /^I click on the current open studios edit section$/ do
+  click_on "Open Studios #{OpenStudiosEvent.current.for_display(true)}"
 end
 
 Then(/^I see that I've successfully signed up for Open Studios$/) do

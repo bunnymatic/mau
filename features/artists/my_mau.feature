@@ -29,18 +29,18 @@ Scenario:
   | artist_firstname | artist_lastname |
   | joe              | blow            |
 
-  When I click on the first "Open Studios" link
-  And I click on "yep"
+  When I click on the current open studios edit section
+  And I choose "Yep!"
   Then I see a flash notice "more the merrier"
   And I close the notice
   And I see that I've successfully signed up for Open Studios
 
-  And I click on "nope"
+  When I choose "Nope :("
   Then I see a flash notice "So sorry"
   And I close the notice
   Then I see that I've successfully unsigned up for Open Studios
 
-  And I click on "yep"
+  And I choose "Yep!"
   Then I see a flash notice "more the merrier"
   And I close the notice
 

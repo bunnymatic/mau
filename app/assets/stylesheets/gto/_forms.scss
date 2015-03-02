@@ -1,6 +1,19 @@
 @import 'colors';
 @import 'variables';
+@import 'mau-mixins';
 
+.error-msg {
+  padding: 12px;
+  background-color: lighten($gto-red, 45%);
+  color: $gto-red;
+  margin-bottom: 20px;
+  line-height: 1.4rem;
+  @include round-corners(2px);
+}
+.inline-hints {
+  font-size: 85%;
+  font-style: italic;
+}
 .actions, .inputs {
   border: none;
   padding: 0;

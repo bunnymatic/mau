@@ -30,12 +30,12 @@ def find_links_or_buttons(locator)
   all_links_or_buttons_with_title(locator)
 end
 
-Given /^Mailchimp is hooked up$/ do
-  stub_mailchimp
+Given /^the cache is clear$/ do
+  Rails.cache.clear
 end
 
-Given  /I know how to fill out a recaptcha/ do
-  #UsersController.any_instance.stub(:verify_recaptcha).and_return(true)
+Given /^Mailchimp is hooked up$/ do
+  stub_mailchimp
 end
 
 When /I'm on my smart phone/ do
@@ -91,18 +91,20 @@ Then /^I see that I'm signed in$/ do
   end
 end
 
-When(/^I change "(.*?)" to "(.*?)"/) do |form_field_label, value|
-  within 'form.formtastic' do
+When(/^I change "(.*?)" to "(.*?)" in the "(.*?)" form$/) do |form_field_label, value, form_selector|
+  within form_selector do
     fill_in form_field_label, with: value, fill_options: { exact: true }
   end
+end
+
+When(/^I change "(.*?)" to "(.*?)"$/) do |form_field_label, value|
+  fill_in form_field_label, with: value, fill_options: { exact: true }
 end
 
 Then(/my "(.*?)" is "(.*?)" in the "(.*?)" section of the form/) do |form_field_label, value, section|
   step "I click on \"#{section}\""
   expect(page).to have_selector 'form.formtastic'
-  within 'form.formtastic' do
-    expect(find_field(form_field_label).value).to eql value
-  end
+  expect(find_field(form_field_label).value).to eql value
 end
 
 Then(/^I see that the studio "(.*?)" has an artist called "(.*?)"$/) do |studio_name, user_login|
@@ -120,7 +122,11 @@ Then(/^I do not see an error message$/) do
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.error-msg, .flash__error', text: msg
+  expect(page).to have_selector '.error-msg', text: msg
+end
+
+Then(/^I see a flash error "(.*?)"$/) do |msg|
+  expect(page).to have_selector '.flash.flash__error', text: msg
 end
 
 Then(/^I see a flash notice "(.*?)"$/) do |msg|
@@ -128,11 +134,11 @@ Then(/^I see a flash notice "(.*?)"$/) do |msg|
 end
 
 Then(/^I close the notice$/) do
-  find('.flash.flash__notice .close-btn').trigger('click')
+  find('.flash.flash__notice .flash__close').click
 end
 
 Then(/^I close the flash$/) do
-  all('.flash .js-flash__close').each {|f| f.trigger('click') }
+  all('.flash .js-flash__close').each {|f| f.click}
 end
 
 When(/^I visit the "(.*?)" page$/) do |titleized_path_name|
@@ -214,6 +220,10 @@ When(/^I fill in the "([^"]*?)" form with:$/) do |form_locator, table|
   end
 end
 
-When(/^I choose "(.*?)" from "(.*?)"$/) do |option, select|
+When(/^I choose "([^"]*?)" from "(.*?)"$/) do |option, select|
   select option, from: select
+end
+
+When /^I choose "([^"]*?)"$/ do |radio|
+  choose radio
 end

@@ -53,9 +53,10 @@ class ArtistsController < ApplicationController
 
   def edit
     if current_user[:type] != 'Artist'
-      redirect_to edit_user_path(current_user)
+      redirect_to edit_user_path(current_user), flash: flash
       return
     end
+    @user = ArtistPresenter.new(view_context,current_artist)
     @studios = Studio.all
     @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
@@ -204,14 +205,14 @@ class ArtistsController < ApplicationController
       end
       begin
         current_artist.update_attributes!(artist_params)
-        flash[:notice] = "Update successful"
+        flash[:notice] = "Your profile has been updated"
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
       rescue Exception => ex
         puts "EX", ex
         flash[:error] = ex.to_s
         raise
       end
-      redirect_to edit_artist_url(current_user)
+      redirect_to edit_artist_url(current_user), flash: flash
     end
   end
 

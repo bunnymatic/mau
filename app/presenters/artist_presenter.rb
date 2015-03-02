@@ -12,7 +12,7 @@ class ArtistPresenter < ViewPresenter
                   [:blog, 'Blog', :u_blog],
                   [:myspace, 'MySpace', :u_myspace]]
 
-  attr_accessor :artist
+  attr_accessor :model
   
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
     :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
@@ -21,10 +21,14 @@ class ArtistPresenter < ViewPresenter
     to: :artist, allow_nil: true
 
   def initialize(view_context, artist)
-    @artist = artist
+    @model = artist
     @view_context = view_context # to be extracted and removed over time
   end
-  
+
+  def artist
+    model
+  end
+
   def what_i_favorite
     # collect artist and art piece stuff
     @what_i_favorite ||=
@@ -95,15 +99,15 @@ class ArtistPresenter < ViewPresenter
   end
 
   def has_media?
-    @artist.media.present?
+    model.media.present?
   end
 
   def has_bio?
-    @artist.try(:bio) and !@artist.bio.empty?
+    model.try(:bio) and !model.bio.empty?
   end
 
   def allows_email_from_artists?
-    @artist.emailsettings['fromartist']
+    model.emailsettings['fromartist']
   end
 
   def has_links?
@@ -112,14 +116,14 @@ class ArtistPresenter < ViewPresenter
 
   def links
     @links ||= KEYED_LINKS.map do |kk, disp, _id|
-      lnk = format_link(@artist.send(kk))
+      lnk = format_link(model.send(kk))
       [_id, disp, lnk] if lnk.present?
     end.compact
   end
 
   def links_html
     KEYED_LINKS.map do |key, display, _id|
-      site = @artist.send(key)
+      site = model.send(key)
       if site.present?
         formatted_site = format_link(site)
         site_display = format_link_for_display(site)
@@ -168,18 +172,18 @@ class ArtistPresenter < ViewPresenter
   end
 
   def has_address?
-    @artist.has_address?
+    model.has_address?
   end
 
   def in_the_mission?
-    @artist.in_the_mission?
+    model.in_the_mission?
   end
 
   def map_url
-    if @artist.studio
-      @artist.studio.map_link
+    if model.studio
+      model.studio.map_link
     else
-      @artist.map_link
+      model.map_link
     end
   end
 

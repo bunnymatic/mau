@@ -33,7 +33,7 @@ class ArtPieceTagsController < ApplicationController
     # get art pieces by tag
     begin
       @tag = ArtPieceTag.find(params[:id])
-    rescue
+    rescue 
       redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for"} ) and return
     end
     

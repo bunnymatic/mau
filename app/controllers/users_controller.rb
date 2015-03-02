@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
   def edit
     if current_user.is_artist?
-      redirect_to edit_artist_path(current_user)
+      redirect_to edit_artist_path(current_user), flash: flash
       return
     end
     @user = UserPresenter.new(current_user.becomes(User))
@@ -79,11 +79,10 @@ class UsersController < ApplicationController
       return
     end
     # clean os from radio buttons
-    if current_user.update_attributes(edit_user_params)
-      flash[:notice] = "Update successful"
-      redirect_to(edit_user_url(current_user))
+    if current_user.update_attributes(user_params)
+      redirect_to edit_user_url(current_user), flash: { notice: "Your profile has been updated" }
     else
-      flash[:error] = "%s" % $!
+      @user = UserPresenter.new(current_user.becomes(User))
       render 'edit'
     end
   end
@@ -113,25 +112,18 @@ class UsersController < ApplicationController
 
   # Change user passowrd
   def change_password_update
-    if current_user.valid_password? params[:old_password]
-      if ((params[:password] == params[:password_confirmation]) && !params[:password_confirmation].blank?)
-        current_user.password_confirmation = params[:password_confirmation]
-        current_user.password = params[:password]
-
-        if current_user.save!
-          flash[:notice] = "Password successfully updated"
-        else
-          flash[:error] = "Password not changed"
-        end
-
+    msg = {}
+    if current_user.valid_password? password_params["old_password"]
+      password_params.delete "old_password"
+      if current_user.update_attributes(password_params)
+        msg[:notice] = "Your password has been updated"
       else
-        flash[:error] = "New Password mismatch"
+        msg[:error] = current_user.errors.full_messages.join
       end
     else
-      flash[:error] = "Old password incorrect"
+      msg[:error] = "Your old password was incorrect"
     end
-    redirect_to request.referer || current_user
-
+    redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
   def noteform
@@ -409,16 +401,11 @@ class UsersController < ApplicationController
     note_info
   end
 
-  def edit_user_params
-    attrs = user_params
-    
-    if current_user.valid_password? params[:old_password]
-      params.delete(:old_password)
-    else
-      raise 'invalid old password'
-    end
+  def password_params
+    attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
+    attrs.slice *(%w|password password_confirmation old_password|)
   end
-  
+
   def user_params
     attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
 

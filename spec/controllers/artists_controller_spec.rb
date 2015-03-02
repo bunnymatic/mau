@@ -33,7 +33,6 @@ describe ArtistsController do
 
 
     describe 'html' do
-      render_views
       before do
         get :index
       end
@@ -119,13 +118,13 @@ describe ArtistsController do
       let(:new_bio) { "this is the new bio" }
       let(:artist_info_attrs) { { bio: new_bio } }
       before do
-        @logged_in_user = login_as(artist, record: true)
+        login_as(artist, record: true)
       end
       context "submit" do
         context "post with new bio data" do
           it "redirects to to edit page" do
             put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs}
-            expect(flash[:notice]).to eql 'Update successful'
+            expect(flash[:notice]).to eql "Your profile has been updated"
             expect(response).to redirect_to(edit_artist_path(artist))
           end
           it 'publishes an update message' do
@@ -154,7 +153,7 @@ describe ArtistsController do
 
         it "contains flash notice of success" do
           put :update, id: artist, commit: 'submit', artist: {artist_info_attributes: artist_info_attrs}
-          expect(flash[:notice]).to eql "Update successful"
+          expect(flash[:notice]).to eql "Your profile has been updated"
         end
         it "updates user address" do
           put :update, id: artist, commit: 'submit', artist: {studio_id: nil, artist_info_attributes: artist_info_attrs}
@@ -204,8 +203,6 @@ describe ArtistsController do
       render_views
       before do
         login_as without_address
-        @logged_in_user = without_address
-        @logged_in_artist = without_address
         get :edit
       end
 
@@ -218,7 +215,7 @@ describe ArtistsController do
         assert_select("form.formtastic.artist");
       end
       it 'includes the open studios edit section' do
-        assert_select("form.formtastic.artist #user-accordion .panel-collapse#events");
+        assert_select("form.formtastic.artist .panel-collapse#events");
         assert_select '#events', /You need to specify an address or studio/
       end
     end
@@ -228,8 +225,6 @@ describe ArtistsController do
       before do
         artist.artist_info.update_attributes({facebook: 'example.com/facebooklink', blog: 'example.com/bloglink'})
         login_as artist
-        @logged_in_user = artist
-        @logged_in_artist = artist
         get :edit
       end
       it_should_behave_like "logged in user"

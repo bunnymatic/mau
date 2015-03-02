@@ -4,8 +4,6 @@ $ ->
     # accordion automatically opens this one, but we need to remove the collapsed class
     $(location.hash).collapse('show');
   $('.toggle-button input[type=checkbox]').on 'change', (ev) ->
-    console.log "toggled", ev, this
-    console.log "State? ", $(this).is(":checked")
     val = $(this).is(':checked')
     (new MAU.Flash()).clear()
     form = jQuery('.js-edit-artist-form')
@@ -16,7 +14,6 @@ $ ->
         artist:
           os_participation: (if val then 1 else 0)
       success: (data) ->
-        console.log data
         status = data.success && data.os_status
         if !status
           msg = 'So sorry you\'re not going to participate this year.'+
@@ -26,7 +23,6 @@ $ ->
           msg = 'Super!  The more the merrier!'
         (new MAU.Flash()).show({notice:msg}, '#events')
         false
-    console.log ajax_params
     jQuery.ajax(ajax_params)
     false
     

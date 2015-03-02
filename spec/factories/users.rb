@@ -70,6 +70,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :in_the_mission do
+      after(:create) do |artist|
+        artist.artist_info.update_attributes(street: '1890 bryant st', city: 'sf', addr_state: 'ca', zip: '94110', lat: 37.763232, lng: -122.410636)
+      end
+    end
+
     trait :out_of_the_mission do
       after(:create) do |artist|
         artist.artist_info.update_attributes(street: '100 main', city: 'nyc', addr_state: 'ny', zip: '10011', lat: 20, lng: 20)

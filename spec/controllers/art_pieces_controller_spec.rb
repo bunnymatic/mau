@@ -23,11 +23,11 @@ describe ArtPiecesController do
           it 'has a description with the art piece name' do
             assert_select 'head' do |tag|
               assert_select 'meta[name=description]' do |desc|
-                desc.length.should eql 1
+                expect(desc.length).to eql 1
                 desc[0].attributes['content'].should match /#{art_piece.title}/
               end
               assert_select 'meta[property=og:description]' do |desc|
-                desc.length.should eql 1
+                expect(desc.length).to eql 1
                 desc[0].attributes['content'].should match /#{art_piece.title}/
               end
             end
@@ -38,7 +38,7 @@ describe ArtPiecesController do
               expected = [art_piece.tags + [art_piece.medium]].flatten.compact.map(&:name)
               actual = keywords[0].attributes['content'].split(',').map(&:strip)
               expected.each do |ex|
-                actual.should include ex
+                expect(actual).to include ex
               end
             end
           end
@@ -48,7 +48,7 @@ describe ArtPiecesController do
               expected = ["art is the mission", "art", "artists", "san francisco"]
               actual = keywords[0].attributes['content'].split(',').map(&:strip)
               expected.each do |ex|
-                actual.should include ex
+                expect(actual).to include ex
               end
             end
           end
@@ -92,7 +92,6 @@ describe ArtPiecesController do
     context 'format=json' do
       let(:parsed) { JSON.parse(response.body)['art_piece'] }
       before do
-        art_piece.artist.update_attribute :nomdeplume, "Watch out for 'postrophes & other &#*$%! characters"
         get :show, id: art_piece.id, format: :json
       end
 
@@ -130,8 +129,7 @@ describe ArtPiecesController do
         parsed['tags'].first['name'].should eql art_piece.tags.first.name
       end
       it 'includes the artists name' do
-        raise parsed
-        parsed['artist_name'].should eql artist.get_name(false)
+        parsed['artist_name'].should eql HTMLEntities.new.encode art_piece.artist.fullname, :named, :hexadecimal
       end
       it 'includes the art piece title' do
         parsed['title'].should eql HTMLEntities.new.encode art_piece.title, :named, :hexadecimal

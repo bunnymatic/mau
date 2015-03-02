@@ -80,7 +80,9 @@ describe ArtPieceTagsController do
   end
 
   describe '#show' do
-
+    before do
+      tags
+    end
     context 'for different tags' do
       render_views
       before do
@@ -96,7 +98,6 @@ describe ArtPieceTagsController do
     end
 
     context 'for an unknown tag' do
-      render_views
       before do
         get :show, :id => '5abc'
       end

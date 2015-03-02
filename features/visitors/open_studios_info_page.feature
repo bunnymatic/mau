@@ -26,7 +26,6 @@ Scenario:  Visiting the open studios page as an editor
 Scenario:  Visiting the open studios page on a phone
   When I'm on my smart phone
   And I visit the about page
-  And I take a screenshot
   And I click on the current open studios link
   Then I see the open studios cms content
 

@@ -1,7 +1,6 @@
 Feature: As a user I can sign up
 
 Background:
-  Given I know how to fill out a recaptcha
   Given there is a studio named "1990"
   Given I visit the signup page
 

@@ -433,7 +433,7 @@ describe UsersController do
           expect(response).to redirect_to(edit_user_path(quentin))
         end
         it "contains flash notice of success" do
-          flash[:notice].should eql "Update successful"
+          expect(flash[:notice]).to eql "Your profile has been updated"
         end
       end
       context "with valid and a cancel" do
@@ -450,10 +450,10 @@ describe UsersController do
           expect(response).to redirect_to(edit_user_path(quentin))
         end
         it "contains flash notice of success" do
-          flash[:notice].should eql "Update successful"
+          expect(flash[:notice]).to eql "Your profile has been updated"
         end
         it "updates user attributes" do
-          User.find(quentin.id).firstname.should eql "blow"
+          expect(User.find(quentin.id).firstname).to eql "blow"
         end
       end
     end

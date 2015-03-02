@@ -6,10 +6,7 @@
 
     %header.admin-table
       %h1 Listing Artists (#{@artist_list.count})
-      - if flash[:error]
-        .error-msg Error: #{flash[:error]}
-      - if flash[:notice]
-        .notice #{flash[:notice]}
+      = render '/flash_notice_error'
 
     %table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
       %thead

@@ -57,10 +57,19 @@ Scenario: I cannot edit my password if i can't remember my current password
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahdeblah"
   And I click on "Save Changes"
-  Then I see an error message "password is wrong"
+  Then I see a flash error "Your old password was incorrect"
   And I sign out
   # same old password works
   And I sign in with password "bmatic"
   Then I see that I'm signed in
+
+@javascript
+Scenario: I cannot edit my password if the confirmation doesn't match
+  When I click on "Password"
+  And I change "Current Password" to "bmatic"
+  And I change "artist_password" to "blahdeblah"
+  And I change "Confirm New Password" to "blahblah"
+  And I click on "Save Changes"
+  Then I see a flash error "Password doesn't match confirmation"
 
   
