@@ -3,6 +3,14 @@ When /I click on the current open studios link/ do
   click_on_first os_link_text
 end
 
+When /^I check yep for doing open studios$/ do
+  find('#events .toggle-button .toggle-button__label_on').click()
+end
+
+When /^I check nope for doing open studios$/ do
+  find('#events .toggle-button .toggle-button__label_off').click()
+end
+
 Then(/^I see the open studios cms content/) do
   expect(page).to have_selector '.section.markdown[data-section=summary]'
   expect(page).to have_selector '.section.markdown[data-section=preview_reception]'

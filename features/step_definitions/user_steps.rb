@@ -1,6 +1,8 @@
 def fill_in_login_form(login, pass)
-  fill_in("Login", :with => login)
-  fill_in("Password", :with => pass)
+  within 'form.user_session' do
+    fill_in("Login", :with => login)
+    fill_in("Password", :with => pass)
+  end
 end
 
 When(/^I change my password to "(.*?)"$/) do |new_pass|

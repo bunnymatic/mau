@@ -227,3 +227,11 @@ end
 When /^I choose "([^"]*?)"$/ do |radio|
   choose radio
 end
+
+When /^I check "([^"]*?)"$/ do |cb|
+  check cb, visible: false
+end
+
+When /^I uncheck "([^"]*?)"$/ do |cb|
+  uncheck cb, visible: false
+end
