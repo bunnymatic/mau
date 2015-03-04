@@ -83,7 +83,7 @@ class StudioPresenter
   def artists_with_art
     @artists_with_art ||=
       begin
-        artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(@view_context, artist)}
+        artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(artist)}
       end
   end
 

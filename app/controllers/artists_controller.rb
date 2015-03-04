@@ -56,7 +56,7 @@ class ArtistsController < ApplicationController
       redirect_to edit_user_path(current_user), flash: flash
       return
     end
-    @user = ArtistPresenter.new(view_context,current_artist)
+    @user = ArtistPresenter.new(current_artist)
     @studios = Studio.all
     @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
@@ -64,7 +64,7 @@ class ArtistsController < ApplicationController
 
   def manage_art
     # give user a tabbed page to edit their art
-    @artist = ArtistPresenter.new(view_context, current_artist)
+    @artist = ArtistPresenter.new(current_artist)
   end
 
   # def by_firstname
@@ -126,7 +126,7 @@ class ArtistsController < ApplicationController
   end
 
   def arrange_art
-    @artist = ArtistPresenter.new(view_context, current_user)
+    @artist = ArtistPresenter.new(current_user)
   end
 
   def setarrangement
@@ -146,7 +146,7 @@ class ArtistsController < ApplicationController
   end
 
   def delete_art
-    @artist = ArtistPresenter.new(view_context, current_user)
+    @artist = ArtistPresenter.new(current_user)
   end
 
   def show
@@ -157,7 +157,7 @@ class ArtistsController < ApplicationController
         if !@artist
           redirect_to artists_path, flash: { error: 'We were unable to find the artist you were looking for.' }
         else
-          @artist = ArtistPresenter.new(view_context, @artist)
+          @artist = ArtistPresenter.new( @artist)
         end
       }
       format.json  {

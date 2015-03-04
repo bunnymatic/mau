@@ -8,5 +8,8 @@ class ViewPresenter
   # content_tag with a block
   attr_accessor :output_buffer
 
+  def url_helpers
+    Rails.application.routes.url_helpers
+  end
 
 end

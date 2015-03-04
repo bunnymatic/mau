@@ -20,9 +20,8 @@ class ArtistPresenter < ViewPresenter
     :activated_at, :email, :last_login, :full_name,
     to: :artist, allow_nil: true
 
-  def initialize(view_context, artist)
+  def initialize(artist)
     @model = artist
-    @view_context = view_context # to be extracted and removed over time
   end
 
   def artist
@@ -153,7 +152,7 @@ class ArtistPresenter < ViewPresenter
     @art_pieces ||=
       begin
         num = artist.max_pieces - 1
-        pieces = artist.art_pieces[0..num].compact.map{|piece| ArtPiecePresenter.new(@view_context,piece)}
+        pieces = artist.art_pieces[0..num].compact.map{|piece| ArtPiecePresenter.new(piece)}
       end
   end
 
@@ -208,7 +207,7 @@ class ArtistPresenter < ViewPresenter
     @representative_piece ||=
       begin
         r = artist.representative_piece
-        ArtPiecePresenter.new(@view_context,r) if r.is_a?(ArtPiece)
+        ArtPiecePresenter.new(r) if r.is_a?(ArtPiece)
       end
   end
 
@@ -259,9 +258,6 @@ class ArtistPresenter < ViewPresenter
   end
 
   private
-  def url_helpers
-    Rails.application.routes.url_helpers
-  end
 
   def share_url
     @share_url ||= artist.get_share_link(true)

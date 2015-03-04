@@ -6,7 +6,7 @@ class ArtSampler
   end
   
   def pieces 
-    get_random_pieces.map{|piece| ArtPiecePresenter.new(@vc,piece)}
+    get_random_pieces.map{|piece| ArtPiecePresenter.new(piece)}
   end
 
   private

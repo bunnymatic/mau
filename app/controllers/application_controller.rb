@@ -132,7 +132,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_new_art
-    @new_art = ArtPiece.get_new_art.map{|ap| ArtPiecePresenter.new(view_context, ap)}
+    @new_art = ArtPiece.get_new_art.map{|ap| ArtPiecePresenter.new(ap)}
   end
 
   def get_feeds

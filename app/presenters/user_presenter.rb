@@ -101,7 +101,7 @@ class UserPresenter < ViewPresenter
   end
 
   def show_path
-    Rails.application.routes.url_helpers.user_path(model)
+    url_helpers.user_path(model)
   end
 
   def edit_path(opts = nil)
@@ -110,7 +110,7 @@ class UserPresenter < ViewPresenter
   end
 
   def favorites_path(opts = nil)
-    Rails.application.routes.url_helpers.user_favorites_path(model)
+    url_helpers.user_favorites_path(model)
   end
 
   def has_profile_image

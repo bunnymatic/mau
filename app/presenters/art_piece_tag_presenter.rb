@@ -2,8 +2,7 @@ class ArtPieceTagPresenter
 
   attr_reader :tag
 
-  def initialize(view_context, tag, mode)
-    @view_context = view_context
+  def initialize(tag, mode)
     @tag = tag
     @mode = mode || 'p'
   end
@@ -11,7 +10,7 @@ class ArtPieceTagPresenter
   def art_pieces
     @pieces ||= begin
                   pieces = (by_artist? ? pieces_by_artist : tagged_art_pieces).compact.sort_by(&:updated_at).reverse
-                  pieces.map{ |p| ArtPiecePresenter.new(@view_context, p) }
+                  pieces.map{ |p| ArtPiecePresenter.new(p) }
                 end
   end
 

@@ -1,11 +1,10 @@
-class TagCloudPresenter
+class TagCloudPresenter < ViewPresenter
 
   include TagsHelper
 
   attr_reader :frequency, :current_tag, :mode
 
-  def initialize(view_context, model, tag, mode)
-    @view_context = view_context
+  def initialize(model, tag, mode)
     @model = model
     @frequency = model.frequency(true)
     @current_tag = tag
@@ -36,7 +35,7 @@ class TagCloudPresenter
   end
 
   def tag_path(tag)
-    @view_context.art_piece_tag_path(tag, :m => mode)
+    url_helpers.art_piece_tag_path(tag, :m => mode)
   end
 
   def tags_for_display
@@ -46,8 +45,8 @@ class TagCloudPresenter
           tag = find_tag(entry['tag'])
           next unless tag
           clz = "tagmatch" if is_current_tag?(tag)
-          @view_context.content_tag 'span', :class => ['clouditem', clz].compact.join(' ') do
-            @view_context.link_to tag.safe_name, tag_path(tag)
+          content_tag 'span', :class => ['clouditem', clz].compact.join(' ') do
+            link_to tag.safe_name, tag_path(tag)
           end
         end
       end

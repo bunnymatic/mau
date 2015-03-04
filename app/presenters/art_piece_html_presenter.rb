@@ -1,11 +1,11 @@
 class ArtPieceHtmlPresenter < ArtPiecePresenter
 
-  def initialize(view_context,art_piece)
+  def initialize(art_piece)
     super
   end
 
   def artist
-    ArtistPresenter.new(@view_context, art_piece.artist)
+    ArtistPresenter.new(art_piece.artist)
   end
   
   def angular_config
