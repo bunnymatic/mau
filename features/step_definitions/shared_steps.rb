@@ -48,7 +48,7 @@ Given /^Mailchimp is hooked up$/ do
 end
 
 When /I'm on my smart phone/ do
-  page.driver.browser.header("User-Agent", IPHONE_USER_AGENT)
+  current_session.header("User-Agent", IPHONE_USER_AGENT)
 end
 
 Then /^show me the page$/ do
@@ -88,10 +88,7 @@ When /I am signed in as an artist/ do
   }
 end
 
-When /^I (grab|get) a cup of coffee$/ do |dummy|
-  sleep 2
-end
-  
+ 
 When /^I (log|sign)\s?out$/ do |dummy|
   within '.nav' do
     click_on 'sign out'

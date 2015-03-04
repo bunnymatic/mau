@@ -43,15 +43,13 @@ Scenario:
   And I check yep for doing open studios
   Then I see a flash notice "more the merrier"
   And I close the notice
-  And I click on "Personal Info"
 
-  Then I click on "Links"
   And I update my personal information with:
-  | Flickr            |
-  | www.flickr.com/me |
+  | artist_firstname |
+  | mr joe           |
   And I click on "Save Changes"
-  Then I see that I've successfully signed up for Open Studios
-  Then I click on "Links"
+  Then I click on "Personal Info"
   And I see my updated personal information as:
-  | Flickr            |
-  | www.flickr.com/me |
+  | artist_firstname  |
+  | mr joe            |
+  And I see that I've successfully signed up for Open Studios
