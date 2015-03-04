@@ -98,10 +98,7 @@ When /^I (log|sign)\s?out$/ do |dummy|
 end
 
 Then /^I see that I'm signed in$/ do
-  within '.nav' do
-    expect(page).to have_content /my mau/i
-    #expect(page).to have_link /my mau/i
-  end
+  expect(page).to have_css '.signin__links'
 end
 
 When(/^I change "(.*?)" to "(.*?)" in the "(.*?)" form$/) do |form_field_label, value, form_selector|

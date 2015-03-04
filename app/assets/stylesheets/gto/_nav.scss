@@ -83,7 +83,7 @@
     margin:0;
     padding:0;
   }
-  .signin__links.tabs {
+  .signout__links.tabs, .signin__links.tabs {
     .tab a {
       font-weight: $font-weight-normal;
     }
@@ -125,7 +125,7 @@
     }
   }
 
-  .tabs.signin__links .tab {
+  .signout__links.tabs, .tabs.signin__links .tab {
     &:hover {
       a, .fa, .text {
         font-weight: $font-weight-normal;
@@ -193,6 +193,7 @@
       }
       &.active li {
       }
+      &.signout__links,
       &.signin__links {
         .title {
           font-weight: $font-weight-normal;
@@ -202,7 +203,7 @@
   }
 }
 @media screen and (min-width: $screen-sm-max) {
-  .signin__links, .search.nav-icon, .nav .tabs {
+  .signout__links, .signin__links, .search.nav-icon, .nav .tabs {
     text-align: right;
     a {
       padding: 0 20px 0 0;

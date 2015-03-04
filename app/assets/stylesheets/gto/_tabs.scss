@@ -22,7 +22,7 @@
     }
   }
 
-  &.signin__links, &.tabs__nav {
+  &.signout__links, &.signin__links, &.tabs__nav {
     > li {
       @include sidebar-nav-entry;
       .dropdown {
