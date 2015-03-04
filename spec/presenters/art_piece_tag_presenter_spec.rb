@@ -17,7 +17,7 @@ describe ArtPieceTagPresenter do
   let(:art) { tag.art_piece }
   let(:mode) { 'p' }
 
-  subject(:presenter) { ArtPieceTagPresenter.new(mock_view_context,tag,mode) }
+  subject(:presenter) { ArtPieceTagPresenter.new(tag,mode) }
 
   its(:art_pieces) { should have(5).art_pieces }
   it 'only shows art from active artists' do

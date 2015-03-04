@@ -35,7 +35,6 @@ Then(/^I see the first studio page/) do
 end
 
 Then /^I see that some studios are participating in open studios$/ do
-  binding.pry
   expect(page).to have_selector '.studio-card .os-violator'
 end
 

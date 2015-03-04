@@ -6,7 +6,7 @@ describe ArtistPresenter do
 
   let(:viewer) { FactoryGirl.build(:artist, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
-  subject(:presenter) { ArtistPresenter.new(mock_view_context(viewer), artist) }
+  subject(:presenter) { ArtistPresenter.new(artist) }
 
   its(:in_the_mission?) { should eql artist.in_the_mission?}
   its(:has_media?) { should be_true }
