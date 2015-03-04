@@ -1,10 +1,3 @@
-def fill_in_login_form(login, pass)
-  within 'form.user_session' do
-    fill_in("Login", :with => login)
-    fill_in("Password", :with => pass)
-  end
-end
-
 When(/^I change my password to "(.*?)"$/) do |new_pass|
   visit edit_artist_path(@artist)
   fill_in("Old Password", :with => 'bmatic')

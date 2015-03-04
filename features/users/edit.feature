@@ -46,7 +46,9 @@ Scenario: I can edit my password
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahdeblah"
   And I click on "Save Changes"
+  And I close the flash
   And I sign out
+  And I get a cup of coffee
   And I sign in with password "blahdeblah"
   Then I see that I'm signed in
 
@@ -58,8 +60,10 @@ Scenario: I cannot edit my password if i can't remember my current password
   And I change "Confirm New Password" to "blahdeblah"
   And I click on "Save Changes"
   Then I see a flash error "Your old password was incorrect"
+  And I close the flash
   And I sign out
   # same old password works
+  And I get a cup of coffee
   And I sign in with password "bmatic"
   Then I see that I'm signed in
 

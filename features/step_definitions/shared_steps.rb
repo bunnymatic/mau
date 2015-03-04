@@ -1,5 +1,14 @@
 require_relative '../../spec/support/mobile_setup'
 
+def fill_in_login_form(login, pass)
+  flash = all('.flash__close')
+  if flash.any?
+    flash.map(&:click)
+  end
+  fill_in("Login", :with => login)
+  fill_in("Password", :with => pass)
+end
+
 def path_from_title(titleized_path_name)
   clean_path_name = titleized_path_name.downcase.gsub(/ /, '_')
   path_helper_name = "#{clean_path_name}_path".to_sym
@@ -39,7 +48,7 @@ Given /^Mailchimp is hooked up$/ do
 end
 
 When /I'm on my smart phone/ do
-  page.driver.headers = {"User-Agent" => IPHONE_USER_AGENT}
+  page.driver.browser.header("User-Agent", IPHONE_USER_AGENT)
 end
 
 Then /^show me the page$/ do
@@ -65,7 +74,7 @@ When /I visit the fan signup page/ do
 end
 
 When /I sign in with password "(.*?)"/ do |pass|
-  step "I visit the login page"
+  visit login_path
   fill_in_login_form @artist.login, pass
   click_on "Sign In"
 end
@@ -79,6 +88,10 @@ When /I am signed in as an artist/ do
   }
 end
 
+When /^I (grab|get) a cup of coffee$/ do |dummy|
+  sleep 2
+end
+  
 When /^I (log|sign)\s?out$/ do |dummy|
   within '.nav' do
     click_on 'sign out'

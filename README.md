@@ -28,7 +28,7 @@ Follow the post-install instructions to get your MySQL server running.  For easy
 
 Use `homebrew` to install the following packages:
 
-    brew install qt phantomjs markdown imagemagick	memcached
+    brew install qt phantomjs markdown imagemagick	memcached chromedriver
 
 At this point, you should have all the binary resources you'll need (hopefully).
 
