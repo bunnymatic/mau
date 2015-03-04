@@ -78,7 +78,7 @@ When /I sign in with password "(.*?)"/ do |pass|
   fill_in_login_form @artist.login, pass
   click_on "Sign In"
 end
-  
+
 When /I am signed in as an artist/ do
   steps %Q{
     Given an account has been created
@@ -88,16 +88,19 @@ When /I am signed in as an artist/ do
   }
 end
 
- 
+
 When /^I (log|sign)\s?out$/ do |dummy|
   within '.nav' do
     click_on 'sign out'
-  end                        
+    visit logout_path
+  end
+  expect(page).to have_css '.flash__notice', /make some art/
 end
 
 Then /^I see that I'm signed in$/ do
   within '.nav' do
-    expect(page).to have_link "my mau"
+    expect(page).to have_content /my mau/i
+    #expect(page).to have_link /my mau/i
   end
 end
 
@@ -200,7 +203,7 @@ def fill_in_field_with_value(field, value)
     # Then try with a input field
     xpath = "//input[@type='text' and (@id='#{field}' or @name='#{field}')]/.."
   end
-  
+
   within(:xpath, xpath) do
     fill_in(field, with: value)
   end

@@ -48,7 +48,9 @@ Scenario: I can edit my password
   And I click on "Save Changes"
   And I close the flash
   And I sign out
+  And I click on "sign in"
   And I sign in with password "blahdeblah"
+  # And I take a screenshot
   Then I see that I'm signed in
 
 @javascript
@@ -61,8 +63,10 @@ Scenario: I cannot edit my password if i can't remember my current password
   Then I see a flash error "Your old password was incorrect"
   And I close the flash
   And I sign out
+  And I click on "sign in"
   # same old password works
   And I sign in with password "bmatic"
+  # And I take a screenshot
   Then I see that I'm signed in
 
 @javascript
