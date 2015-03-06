@@ -37,8 +37,15 @@ Given /there is a scheduled Open Studios event/ do
 end
 
 Given /there are open studios artists with art in the system/ do
-  steps %{Given there are artists with art in the system}
-  @artists.each{|a| a.update_os_participation(Conf.os_live, true) }
+  steps %{
+    Given there are artists with art in the system
+    Given there are future open studios events
+  }
+  @artists.each{|a| a.update_os_participation(OpenStudiosEvent.current, true) }
+
+  puts '*********************'
+  puts 'Studios with os artists:'
+  puts Studio.all.map{|s| [s.name, s.artists.open_studios_participants.count]}
 end
 
 Given /there is open studios cms content in the system/ do

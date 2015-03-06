@@ -5,7 +5,7 @@ MAU.Flash = class Flash
   wrapper: 'jsFlash'
 
   clear: ->
-    jQuery('#' + @wrapper).remove();
+    jQuery(".flash, .flash__notice , ##{@wrapper}").remove();
 
   show: (msgs, container) ->
     @clear()

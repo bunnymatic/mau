@@ -144,7 +144,7 @@ Then(/^I see a flash notice "(.*?)"$/) do |msg|
 end
 
 Then(/^I close the notice$/) do
-  find('.flash.flash__notice .flash__close').click
+  find('.flash.flash__notice .flash__close').trigger 'click'
 end
 
 Then(/^I close the flash$/) do

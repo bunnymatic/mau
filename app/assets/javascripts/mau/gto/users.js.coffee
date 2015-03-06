@@ -15,13 +15,16 @@ $ ->
           os_participation: (if val then 1 else 0)
       success: (data) ->
         status = data.success && data.os_status
+        flash = new MAU.Flash()
+        flash.clear()
+
         if !status
           msg = 'So sorry you\'re not going to participate this year.'+
             ' We\'d love to know why.  Tell us via the feedback link'+
             ' at the bottom of the page.'
         else
           msg = 'Super!  The more the merrier!'
-        (new MAU.Flash()).show({notice:msg}, '#events')
+        flash.show({notice:msg}, '#events')
         false
     jQuery.ajax(ajax_params)
     false
