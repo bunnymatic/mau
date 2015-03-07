@@ -2,6 +2,6 @@ FactoryGirl.define do
   factory :cms_document do
     page { Faker::Files.dir }
     section { Faker::Files.dir }
-    article { Faker::Lorem.paragraphs(2).join }
+    article { "# this is an h1 header\n\n## this is an h2 header\n\n" + Faker::Lorem.paragraphs(2).join("\n") }
   end
 end

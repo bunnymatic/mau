@@ -12,8 +12,16 @@ When /^I check nope for doing open studios$/ do
 end
 
 Then(/^I see the open studios cms content/) do
-  expect(page).to have_selector '.section.markdown[data-section=summary]'
-  expect(page).to have_selector '.section.markdown[data-section=preview_reception]'
+  within '.section.markdown[data-section=summary]' do
+    expect(page).to have_selector 'h1', text: 'this is an h1'
+    expect(page).to have_selector 'h2', text: 'this is an h2'
+    expect(page).to have_selector 'p'
+  end
+  within '.section.markdown[data-section=preview_reception]' do
+    expect(page).to have_selector 'h1', text: 'this is an h1'
+    expect(page).to have_selector 'h2', text: 'this is an h2'
+    expect(page).to have_selector 'p'
+  end
 end
 
 Then(/^I see the open studios content is not editable/) do

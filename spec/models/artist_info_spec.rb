@@ -5,6 +5,7 @@ describe ArtistInfo do
 
   it_should_behave_like AddressMixin
 
+  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:joeblogs) { FactoryGirl.build(:artist_info, street: '1891 Bryant St') }
   let(:artist_info) { FactoryGirl.build(:artist_info) }
 
@@ -61,14 +62,12 @@ describe ArtistInfo do
       it "adding with = given = { '201104' => true } sets os_participation['201104']" do
         joeblogs.send(:os_participation=, { '201104' => true })
         joeblogs.reload
-        joeblogs.os_participation.class.should eql Hash
         joeblogs.os_participation['201104'].should eql true
       end
       it "adding with update_os_participation[ '201104', true] sets os_participation['201104']" do
         joeblogs.update_os_participation('201104', true)
         joeblogs.save
         joeblogs.reload
-        joeblogs.os_participation.class.should eql Hash
         joeblogs.os_participation['201104'].should eql true
       end
     end

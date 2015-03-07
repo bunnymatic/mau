@@ -144,7 +144,11 @@ Then(/^I see a flash notice "(.*?)"$/) do |msg|
 end
 
 Then(/^I close the notice$/) do
-  find('.flash.flash__notice .flash__close').trigger 'click'
+  begin
+    find('.flash.flash__notice .flash__close').trigger 'click'
+  rescue Capybara::NotSupportedByDriverError
+    find('.flash.flash__notice .flash__close').click
+  end
 end
 
 Then(/^I close the flash$/) do

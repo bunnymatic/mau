@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe SearchService do
 
-  let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
+  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
   let(:artists) { Artist.all }
   let(:artist) { artists.first }

@@ -4,12 +4,9 @@ Feature:
 
 Background:
   Given I login as an artist
+  And that artist is not doing open studios
   And there are future open studios events
 
-Scenario:
-  When I visit my home page
-  Then I see my art
-  And I see the artist's menu
 
 @javascript
 Scenario:
@@ -28,6 +25,8 @@ Scenario:
   Then I see my updated personal information as:
   | artist_firstname | artist_lastname |
   | joe              | blow            |
+
+  And I click on "Personal Info"
 
   When I click on the current open studios edit section
   And I check yep for doing open studios

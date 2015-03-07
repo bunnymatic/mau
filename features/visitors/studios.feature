@@ -3,7 +3,8 @@ Feature:
   Visitors can see studios
 
 Background:
-  Given there are open studios artists with art in the system
+  Given there are future open studios events
+  And there are open studios artists with art in the system
 
 @javascript
 Scenario:  I can drill into a studio detail

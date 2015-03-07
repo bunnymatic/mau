@@ -66,6 +66,10 @@ When(/^I see my updated personal information as:$/) do |table|
   end
 end
 
+When /^that artist is not doing open studios$/ do
+  @artist.update_os_participation OpenStudiosEvent.current, false
+end
+
 When /^I click on the current open studios edit section$/ do
   click_on "Open Studios #{OpenStudiosEvent.current.for_display(true)}"
 end

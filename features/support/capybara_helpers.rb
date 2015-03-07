@@ -13,7 +13,6 @@ module CapybaraHelpers
   def javascript_driver?
     Capybara.current_driver == Capybara.javascript_driver
   end
-
   
 end
 

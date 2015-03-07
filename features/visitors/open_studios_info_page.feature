@@ -5,9 +5,9 @@ Feature:
   so they can plan their visit
 
 Background:
-  Given there are open studios artists with art in the system
+  Given there is a scheduled Open Studios event
+  And there are open studios artists with art in the system
   And there is open studios cms content in the system
-  And there is a scheduled Open Studios event
 
 Scenario:  Visiting the open studios page
   When I visit the home page

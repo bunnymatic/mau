@@ -32,12 +32,6 @@ describe MainController do
       before do
         get :index
       end
-      it "shows thumbnails" do
-        assert_select "#main_thumbs .js-sampler"
-      end
-      it 'shows a link to the artist with the most recently uploaded art' do
-        assert_select '#new-art a[href=%s]' % art_piece_path(ArtPiece.order(:created_at).last)
-      end
       it 'has the default description & keywords' do
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
@@ -57,20 +51,6 @@ describe MainController do
         end
       end
     end
-    describe 'logged in' do
-      before do
-        login_as(admin)
-        get :index
-      end
-      it_should_behave_like 'logged in as admin'
-      it "shows thumbnails" do
-        assert_select "#main_thumbs .js-sampler"
-      end
-      it 'shows a link to the artist with the most recently uploaded art' do
-        assert_select '#new-art a[href=%s]' % art_piece_path(ArtPiece.order(:created_at).last)
-      end
-    end
-
   end
 
   describe "#news" do
@@ -381,7 +361,6 @@ describe MainController do
   end
 
   describe "#main/open_studios" do
-    render_views
     let(:open_studios_blurb) {
       FactoryGirl.create(:cms_document,
                          page: :main_openstudios,
@@ -400,27 +379,9 @@ describe MainController do
                                  open_studios_preview
                                 ] }
       before do
-        open_studios_docs
         get :open_studios
       end
       it_should_behave_like "not logged in"
-
-      it "renders the markdown version" do
-        assert_select '.markdown h1', :match => 'pr header'
-        assert_select '.markdown h2', :match => 'pr header2'
-        assert_select '.markdown p em', :match => 'preview'
-      end
-
-      it 'the markdown entries have cms document ids in them' do
-        [ CmsDocument.where(:section => 'summary').all,
-          CmsDocument.where(:section => 'preview_reception').all ].flatten.each do |cmsdoc|
-          assert_select '.markdown[data-cmsid=%s]' % cmsdoc.id
-        end
-      end
-      it "uses cms for parties" do
-        expect(CmsDocument).to receive(:where).at_least(2).and_return(open_studios_docs)
-        get :open_studios
-      end
     end
     context "while logged in as an art fan" do
       before do
@@ -650,7 +611,6 @@ describe MainController do
   end
 
   describe 'status' do
-    render_views
     it 'hits the database' do
       Medium.should_receive :first
       get :status_page

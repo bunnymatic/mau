@@ -302,7 +302,7 @@ class ArtistsController < ApplicationController
     if participating != current_artist.doing_open_studios?
       begin
         unless current_artist.address.blank?
-          current_artist.update_os_participation(current_open_studios_key, participating)
+          current_artist.update_os_participation(OpenStudiosEvent.current, participating)
           trigger_os_signup_event(participating)
         end
       rescue Exception => ex

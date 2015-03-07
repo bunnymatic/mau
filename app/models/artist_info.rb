@@ -55,7 +55,10 @@ class ArtistInfo < ActiveRecord::Base
   def update_os_participation(os,value)
     if os.is_a? OpenStudiosEvent
       key = os.key
+    else
+      key = os
     end
+    
     self.os_participation = Hash[key.to_s,value]
   end
 

@@ -247,6 +247,14 @@ describe ArtPiecesController do
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
         expect(response).to redirect_to art_piece
       end
+      it 'updates tags given a string of comma separated items' do
+        post :update, id: art_piece.id, art_piece: {tags: 'this, that, the other, this, that'}
+        tag_names = art_piece.reload.tags.map(&:name)
+        expect(tag_names).to have(3).tags
+        expect(tag_names).to include 'this'
+        expect(tag_names).to include 'this'
+        expect(tag_names).to include 'the other'
+      end
       it 'sets a flash message on success' do
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
         flash[:notice].should eql 'Artwork was successfully updated.'

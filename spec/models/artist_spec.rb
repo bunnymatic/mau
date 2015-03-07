@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Artist do
 
   subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :firstname => 'Joe', :lastname => 'Blow') }
+  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
   let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }
   let(:artist_without_studio) { FactoryGirl.create(:artist, :active,:with_art) }

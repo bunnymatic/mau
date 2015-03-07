@@ -1,6 +1,10 @@
 -# expects studio_thumb
 - classes ||= []
 .studio.studio-card{class: classes.join(" "), 'data-name' => studio_thumb.search_name}
+  .has_os
+    %h1 
+      = studio_thumb.has_open_studios_artists?
+      = studio_thumb.studio.artists.open_studios_participants.map(&:id)
   - if studio_thumb.has_open_studios_artists?
     .os-violator
   %a{href: studio_thumb.studio_path, title: studio_thumb.name}

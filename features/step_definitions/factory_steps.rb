@@ -42,10 +42,6 @@ Given /there are open studios artists with art in the system/ do
     Given there are future open studios events
   }
   @artists.each{|a| a.update_os_participation(OpenStudiosEvent.current, true) }
-
-  puts '*********************'
-  puts 'Studios with os artists:'
-  puts Studio.all.map{|s| [s.name, s.artists.open_studios_participants.count]}
 end
 
 Given /there is open studios cms content in the system/ do
@@ -84,5 +80,5 @@ Given /there are past open studios events/ do
 end
 
 Given /there are future open studios events/ do
-  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, :start_date => 3.months.since)
+  (@open_studios_events ||= []) << (OpenStudiosEvent.current || FactoryGirl.create(:open_studios_event, :start_date => 3.months.since))
 end
