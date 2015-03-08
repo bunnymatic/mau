@@ -9,7 +9,6 @@ describe ArtPiecePresenter do
   subject(:presenter) { ArtPieceJsonPresenter.new(art_piece) }
 
   it 'prepends image filenames with a /' do
-    allow(art_piece).to receive(:get_paths).and_return([{thumb:'blah'}])
     expect(presenter.image_files[:thumb]).to start_with '/'
   end
 

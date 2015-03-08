@@ -30,14 +30,14 @@ class FeedsController < ApplicationController
   private
   def fetch_feeds
     feed_html = SafeCache.read(FEEDS_KEY)
-    if !feed_html
+    if feed_html.blank?
       feed_html = force_fetch_feeds
     end
     write_local_cache_file(feed_html)
   end
 
   def random_feeds
-    ArtistFeed.active.all.sample(NUM_FEEDS)
+    ArtistFeed.active.sample(NUM_FEEDS)
   end
 
   def force_fetch_feeds

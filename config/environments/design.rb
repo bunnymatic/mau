@@ -52,3 +52,4 @@ Mau::Application.configure do
   }
 
 end
+Rails.application.routes.default_url_options[:host] = 'http://mau-gto.rcode5.com'

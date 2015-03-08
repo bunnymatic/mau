@@ -1,3 +1,4 @@
+@import "colors";
 @import 'mau-mixins';
 @import 'gto/gto-mixins';
 $sampler-thumbnail-size : 250px;
@@ -8,11 +9,34 @@ $sampler-thumbnail-size : 250px;
   background: transparent;
   .sampler__promo {
     font-size: 14px;
+    height: 2 * $sampler-thumbnail-size; /* minus bottom margin */
+    .sampler__promo-bg {
+      position: relative;
+      height: 100%;
+      background-color: darken($gto_orange, 8%);
+      margin: 6px;
+    }
     .sampler__promo-contents {
-      .image {
-        background-image: image_url('sampler-promo-banner.jpg');
-        background-size: fill;
-      }
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      @include transform( translate(-50%, -50%) );
+    }
+    .header {
+      background-color: darken($gto_orange, 20%);
+      letter-spacing: 0.1rem;
+      font-size: 2.7rem;
+      font-weight: $font-weight-bold;
+      white-space: nowrap;
+      padding: 1.5rem;
+    }
+    .body {
+      font-size: 1.4rem;
+      line-height: 1.8rem;
+      padding: 1.2rem;
+    }
+    .body, .header { 
+      color: white;
     }
   }
   .sampler__empty {
@@ -50,17 +74,65 @@ $sampler-thumbnail-size : 250px;
       }
     }
   }
+  .sampler__thumb {
+    width: 20%;
+    float: left;
+  }
+  .sampler__promo {
+    width: 40%;
+    float: left;
+  }
 
-
-  @media screen and (max-width: 35.5em) { 
+  @media screen and (max-width: $screen-lg-max) {
+    .sampler__thumb {
+      width: 33.33%;
+    }
+    .sampler__promo {
+      width: 66.67%;
+      .sampler__promo-contents {
+      }
+      .header {
+        font-size: 3.2rem;
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+  @media screen and (max-width: $screen-md-max) {
+    .sampler__promo {
+      .header {
+        font-size: 1.9rem;
+      }
+      .body {
+        font-size: 1.4rem;
+      }
+    }
+  }
+  @media screen and (max-width: $screen-xs-max) {
+    .sampler__promo {
+      height: $sampler-thumbnail-size;
+    }
+    .sampler__thumb {
+      &.first {
+        margin-top: 10px;
+      }
+      width: 100%;
+    }
+    .sampler__promo {
+      width: 100%;
+      position: static;
+      .header {
+        margin: 8px;
+        font-size: 1.7rem;
+      }
+      .body {
+        font-size: 1.2rem;
+      }
+    }
     .sampler__thumb {
       .desc {
         opacity: 1.0 !important;
       }
     }
   }
-  @media screen and (min-width: 35.5em) { 
-  }	
-  
 
 }

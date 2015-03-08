@@ -17,8 +17,6 @@
 #= require jquery-ui-1.10.4.custom
 #= require jquery.spin
 #= require jquery.form
-#= require jquery.flot
-#= require jquery.flot.resize
 #= require bootstrap/transition
 #= require bootstrap/tab
 #= require bootstrap/collapse

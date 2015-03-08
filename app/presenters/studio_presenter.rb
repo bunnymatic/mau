@@ -3,7 +3,7 @@ class StudioPresenter
   include OpenStudiosEventShim
 
   attr_reader :studio, :is_mobile
-  delegate :phone, :phone?, :formatted_phone, :map_link, :city, :street, :url, :url?, :to => :studio
+  delegate :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :to => :studio
 
   def initialize(view_context, studio, is_mobile = false)
     @studio = studio
@@ -17,6 +17,14 @@ class StudioPresenter
 
   def search_name
     (name || '').downcase
+  end
+
+  def has_phone?
+    phone.present?
+  end
+  
+  def formatted_phone
+    phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
   end
 
   def mobile_title
@@ -75,7 +83,7 @@ class StudioPresenter
   def artists_with_art
     @artists_with_art ||=
       begin
-        artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(@view_context, artist)}
+        artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(artist)}
       end
   end
 

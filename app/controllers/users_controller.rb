@@ -4,9 +4,8 @@ class UsersController < ApplicationController
 
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
-  before_filter :user_required, :only => [ :edit, :update, :suspend, :delete_art, :destroyart, :upload_profile,
-                                            :add_profile, :deactivate, :setarrangement, :arrange_art,
-                                            :add_favorite, :remove_favorite, :change_password_update, :notify]
+  before_filter :user_required, :only => [ :edit, :update, :suspend, :deactivate, 
+                                           :add_favorite, :remove_favorite, :change_password_update, :notify]
 
 
   DEFAULT_ACCOUNT_TYPE = 'MAUFan'
@@ -17,27 +16,24 @@ class UsersController < ApplicationController
 
   def edit
     if current_user.is_artist?
-      redirect_to edit_artist_path(current_user)
+      redirect_to edit_artist_path(current_user), flash: flash
       return
     end
+    @user = UserPresenter.new(current_user.becomes(User))
   end
 
   def show
     @fan = safe_find_user(params[:id])
-    if !@fan or @fan.suspended?
-      @fan = nil
+    unless @fan && @fan.active?
       flash.now[:error] = "The account you were looking for was not found."
+      redirect_to artists_path and return
     end
-    if @fan
-      if @fan.is_artist?
-        redirect_to artist_path(@fan)
-        return
-      end
-      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
+    if @fan.is_artist?
+      redirect_to artist_path(@fan) and return
     else
-      @page_title = "Mission Artists United"
+      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
     end
-    render 'show'
+    @fan = UserPresenter.new(@fan.becomes(User))
   end
 
   # render new.rhtml
@@ -50,32 +46,32 @@ class UsersController < ApplicationController
     @user = (@type == 'MAUFan') ? fan : artist
   end
 
-  def add_profile
-  end
+  # def add_profile
+  # end
 
-  def upload_profile
-    if commit_is_cancel
-      redirect_to user_path(current_user)
-      return
-    end
+  # def upload_profile
+  #   if commit_is_cancel
+  #     redirect_to user_path(current_user)
+  #     return
+  #   end
 
-    @user = self.current_user
-    upload = params[:upload]
+  #   @user = self.current_user
+  #   upload = params[:upload]
 
-    unless upload
-      flash[:error] = "You must provide a file."
-      render 'add_profile' and return
-    end
+  #   unless upload
+  #     flash[:error] = "You must provide a file."
+  #     render 'add_profile' and return
+  #   end
 
-    begin
-      post = ArtistProfileImage.new(@user).save upload
-      redirect_to user_path(@user), :notice => 'Your profile image has been updated.'
-    rescue
-      logger.error("Failed to upload %s" % $!)
-      flash[:error] = "%s" % $!
-      render 'add_profile' and return
-    end
-  end
+  #   begin
+  #     post = ArtistProfileImage.new(@user).save upload
+  #     redirect_to user_path(@user), :notice => 'Your profile image has been updated.'
+  #   rescue
+  #     logger.error("Failed to upload %s" % $!)
+  #     flash[:error] = "%s" % $!
+  #     render 'add_profile' and return
+  #   end
+  # end
 
   def update
     if commit_is_cancel
@@ -84,10 +80,9 @@ class UsersController < ApplicationController
     end
     # clean os from radio buttons
     if current_user.update_attributes(user_params)
-      flash[:notice] = "Update successful"
-      redirect_to(edit_user_url(current_user))
+      redirect_to edit_user_url(current_user), flash: { notice: "Your profile has been updated" }
     else
-      flash[:error] = "%s" % $!
+      @user = UserPresenter.new(current_user.becomes(User))
       render 'edit'
     end
   end
@@ -117,25 +112,18 @@ class UsersController < ApplicationController
 
   # Change user passowrd
   def change_password_update
-    if current_user.valid_password? params[:old_password]
-      if ((params[:password] == params[:password_confirmation]) && !params[:password_confirmation].blank?)
-        current_user.password_confirmation = params[:password_confirmation]
-        current_user.password = params[:password]
-
-        if current_user.save!
-          flash[:notice] = "Password successfully updated"
-        else
-          flash[:error] = "Password not changed"
-        end
-
+    msg = {}
+    if current_user.valid_password? password_params["old_password"]
+      password_params.delete "old_password"
+      if current_user.update_attributes(password_params)
+        msg[:notice] = "Your password has been updated"
       else
-        flash[:error] = "New Password mismatch"
+        msg[:error] = current_user.errors.full_messages.join
       end
     else
-      flash[:error] = "Old password incorrect"
+      msg[:error] = "Your old password was incorrect"
     end
-    redirect_to request.referer || current_user
-
+    redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
   def noteform
@@ -413,6 +401,11 @@ class UsersController < ApplicationController
     note_info
   end
 
+  def password_params
+    attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
+    attrs.slice *(%w|password password_confirmation old_password|)
+  end
+
   def user_params
     attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
 
@@ -424,7 +417,6 @@ class UsersController < ApplicationController
       end
       attrs[:email_attrs] = em2.to_json
     end
-
     attrs
 
   end

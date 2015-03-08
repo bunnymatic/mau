@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 shared_examples_for 'common signup form' do
-  it_should_behave_like 'one column layout'
   it "has signup form with captcha and options for fan and artist" do
     assert_select("#signup_form")
     assert_select('textarea[name=recaptcha_challenge_field]')
@@ -323,16 +322,15 @@ describe UsersController do
       before do
         get :show, :id => fan.id
       end
-      it_should_behave_like 'two column layout'
       it { expect(response).to be_success }
       it "has the users name on it" do
-        assert_select '#artist_profile_name h4', :text => "#{fan.firstname} #{fan.lastname}"
+        assert_select '.artist__name', :text => fan.get_name
       end
       it "has a profile image" do
-        assert_select "img.profile"
+        assert_select ".artist__image"
       end
       it "shows the users website" do
-        assert_select "#u_website a[href=#{fan.url}]"
+        assert_select ".link a[href=#{fan.url}]"
       end
     end
     context "while logged in as an user" do
@@ -341,15 +339,7 @@ describe UsersController do
         @logged_in_user = fan
         get :show, :id => fan.id
       end
-      it_should_behave_like 'two column layout'
       it_should_behave_like "logged in user"
-      it "has sidebar nav when i look at my page" do
-        assert_select('#sidebar_nav')
-      end
-      it "has no sidebar nav when i look at someone elses page" do
-        get :show, :id => artist
-        css_select('#sidebar_nav').should be_empty
-      end
     end
   end
   describe "#edit" do
@@ -379,7 +369,6 @@ describe UsersController do
         get :edit, :id => fan.id
       end
 
-      it_should_behave_like 'one column layout'
       it_should_behave_like "logged in edit page"
 
       it { expect(response).to be_success }
@@ -444,7 +433,7 @@ describe UsersController do
           expect(response).to redirect_to(edit_user_path(quentin))
         end
         it "contains flash notice of success" do
-          flash[:notice].should eql "Update successful"
+          expect(flash[:notice]).to eql "Your profile has been updated"
         end
       end
       context "with valid and a cancel" do
@@ -461,262 +450,111 @@ describe UsersController do
           expect(response).to redirect_to(edit_user_path(quentin))
         end
         it "contains flash notice of success" do
-          flash[:notice].should eql "Update successful"
+          expect(flash[:notice]).to eql "Your profile has been updated"
         end
         it "updates user attributes" do
-          User.find(quentin.id).firstname.should eql "blow"
+          expect(User.find(quentin.id).firstname).to eql "blow"
         end
       end
     end
   end
-
-  describe "favorites" do
-    render_views
-    context "show" do
-      context "while not logged in" do
-        before do
-          get :favorites, :id => fan.id
-        end
-        it_should_behave_like 'one column layout'
-        it { expect(response).to be_success }
-        it "doesn't have the no favorites msg" do
-          css_select('.no-favorites-msg').should be_empty
-        end
-      end
-      context "asking for a user that doesn't exist" do
-        before do
-          get :favorites, :id => 'bogus'
-        end
-        it "redirects to root" do
-          expect(response).to redirect_to root_path
-        end
-        it "flashes an error" do
-          flash[:error].should be_present
-        end
-      end
-      context "while logged in as fan with no favorites" do
-        let(:artist) { FactoryGirl.create(:artist) }
-        before do
-          art_pieces
-          ArtPiece.any_instance.stub(:artist => artist)
-          login_as(fan)
-          get :favorites, :id => fan.id
-        end
-        it_should_behave_like 'one column layout'
-        it { expect(response).to be_success }
-        it "gets some random links assigned" do
-          assigns(:random_picks).size.should > 2
-        end
-        it "has the no favorites msg" do
-          assert_select('.no-favorites-msg', :count => 1)
-        end
-        it "has section for 'artist by name'" do
-          assert_select('.by-name h5', :text => 'Find Artists by Name')
-        end
-        it "has section for 'artist by medium'" do
-          assert_select('.by-medium h5', :text => 'Find Artists by Medium')
-        end
-        it "has section for 'artist by tag'" do
-          assert_select('.by-tag h5', :text => 'Find Artists by Tag')
-        end
-        it "does not show the favorites sections" do
-          css_select('.favorites > h5').should be_empty
-          css_select('.favorites > h5').should be_empty
-        end
-        it "doesn't show a button back to the artists page" do
-          css_select('.buttons form').should be_empty
-        end
-      end
-      context "while logged in as artist" do
-        before do
-          ArtPiece.any_instance.stub(:artist => quentin)
-          login_as(artist)
-        end
-        it 'returns success' do
-          get :favorites, :id => artist.id
-          expect(response).to be_success
-        end
-        context "who has favorites" do
-          before do
-            User.any_instance.stub(:get_profile_path => "/this")
-            ArtPiece.any_instance.stub(:get_path).with('small').and_return("/this")
-            ap = FactoryGirl.create(:art_piece, artist: joe)
-            artist.add_favorite ap
-            artist.add_favorite joe
-            assert artist.favorites.count >= 1
-            assert artist.fav_artists.count >= 1
-            assert artist.fav_art_pieces.count >= 1
-            get :favorites, :id => artist.id
-          end
-          it_should_behave_like 'one column layout'
-          it { expect(response).to be_success }
-          it "does not assign random picks" do
-            assigns(:random_picks).should be_nil
-          end
-          it "shows the title" do
-            assert_select('h4', :match => 'My Favorites')
-          end
-          it "favorites sections show and include the count" do
-            assert_select('h5', :text => "Artists (#{artist.fav_artists.count})")
-            assert_select("h5", :text => "Art Pieces (#{artist.fav_art_pieces.count})")
-          end
-          it "shows the 1 art piece favorite" do
-            assert_select('.favorites .art_pieces .thumb', :count => 1, :include => 'by blupr')
-          end
-          it "shows the 1 artist favorite" do
-            assert_select('.favorites .artists .thumb', :count => 1)
-          end
-          it "shows a delete button for each favorite" do
-            assert_select('.favorites li .fa-trash-o', :count => artist.favorites.count)
-          end
-          it "shows a button back to the artists page" do
-            assert_select('.buttons form')
-          end
-        end
-      end
-      context "logged in as user looking at artist who has favorites " do
-        before do
-          User.any_instance.stub(:get_profile_path => "/this")
-          ArtPiece.any_instance.stub(:get_path).with('small').and_return("/this")
-          FactoryGirl.create(:art_piece, artist: joe)
-          artist.add_favorite joe
-          artist.add_favorite joe.art_pieces.last
-          assert artist.fav_artists.count >= 1
-          assert artist.fav_art_pieces.count >= 1
-          login_as fan
-          get :favorites, :id => artist.id
-        end
-        it_should_behave_like 'one column layout'
-        it { expect(response).to be_success }
-        it "shows the title" do
-          assert_select('h4', :include => artist.get_name )
-          assert_select('h4', :include => 'Favorites')
-        end
-        it "shows the favorites sections" do
-          assert_select('h5', :include => 'Artists')
-          assert_select('h5', :include => 'Art Pieces')
-        end
-        it "shows the 1 art piece favorite" do
-          assert_select('.favorites .art_pieces .thumb', :count => 1)
-        end
-        it "shows the 1 artist favorite" do
-          assert_select('.favorites .artists .thumb', :count => 1)
-        end
-        it "does not show a delete button for each favorite" do
-          css_select('.favorites li .fa-trash-o').should be_empty
-        end
+  
+  describe "POST favorites" do
+    context "requesting anything but a post" do
+      it "redirects to login" do
+        put :add_favorite
+        expect(response).to redirect_to(new_user_session_path)
+        delete :add_favorite
+        expect(response).to redirect_to(new_user_session_path)
+        get :add_favorite
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
-    context "POST favorites" do
-      context "requesting anything but a post" do
-        it "redirects to login" do
-          put :add_favorite
-          expect(response).to redirect_to(new_user_session_path)
-          delete :add_favorite
-          expect(response).to redirect_to(new_user_session_path)
-          get :add_favorite
-          expect(response).to redirect_to(new_user_session_path)
-        end
-      end
-      context "while not logged in" do
-        describe "post to add favorites" do
-          before do
-            post :add_favorite
-          end
-          it_should_behave_like "redirects to login"
-        end
-        describe "post remove_favorites" do
-          before do
-            post :remove_favorite
-          end
-          it_should_behave_like "redirects to login"
-        end
-      end
-      context "while logged in" do
+    context "while not logged in" do
+      describe "post to add favorites" do
         before do
-          login_as(quentin)
-          @ap = art_piece
-          @ap.artist = artist
-          @ap.save.should be_true
+          post :add_favorite
         end
-        context "add a favorite artist" do
+        it_should_behave_like "redirects to login"
+      end
+      describe "post remove_favorites" do
+        before do
+          post :remove_favorite
+        end
+        it_should_behave_like "redirects to login"
+      end
+    end
+    context "while logged in" do
+      before do
+        login_as(quentin)
+        @ap = art_piece
+        @ap.artist = artist
+        @ap.save.should be_true
+      end
+      context "add a favorite artist" do
+        before do
+          post :add_favorite, :fav_type => 'Artist', :fav_id => artist.id
+        end
+        it "returns success" do
+          expect(response).to redirect_to(artist_path(artist))
+        end
+        it "adds favorite to user" do
+          u = User.find(quentin.id)
+          favs = u.favorites
+          favs.map { |f| f.favoritable_id }.should include artist.id
+        end
+        context "then remove that artist from favorites" do
           before do
-            post :add_favorite, :fav_type => 'Artist', :fav_id => artist.id
+            post :remove_favorite, :fav_type => "Artist", :fav_id => artist.id
+          end
+          it "redirects to the referer" do
+            expect(response).to redirect_to( SHARED_REFERER )
+          end
+          it "that artist is no longer a favorite" do
+            u = User.find(quentin.id)
+            favs = u.favorites
+            favs.map { |f| f.favoritable_id }.should_not include artist.id
+          end
+        end
+      end
+      context "add a favorite art_piece" do
+        context "as ajax post(xhr)" do
+          before do
+            xhr :post, :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
+          end
+          it { expect(response).to be_success }
+          it "adds favorite to user" do
+            u = User.find(quentin.id)
+            favs = u.favorites
+            favs.map { |f| f.favoritable_id }.should include @ap.id
+          end
+          it { expect(response).to be_json }
+        end
+        context "as standard POST" do
+          before do
+            post :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
           end
           it "returns success" do
-            expect(response).to redirect_to(artist_path(artist))
+            expect(response).to redirect_to @ap
+          end
+          it "sets flash with escaped name" do
+            flash[:notice].should include HTMLEntities.new.encode(@ap.title, :named, :hexadecimal)
           end
           it "adds favorite to user" do
             u = User.find(quentin.id)
             favs = u.favorites
-            favs.map { |f| f.favoritable_id }.should include artist.id
-          end
-          context "then remove that artist from favorites" do
-            before do
-              post :remove_favorite, :fav_type => "Artist", :fav_id => artist.id
-            end
-            it "redirects to the referer" do
-              expect(response).to redirect_to( SHARED_REFERER )
-            end
-            it "that artist is no longer a favorite" do
-              u = User.find(quentin.id)
-              favs = u.favorites
-              favs.map { |f| f.favoritable_id }.should_not include artist.id
-            end
+            favs.map { |f| f.favoritable_id }.should include @ap.id
           end
         end
-        context "add a favorite art_piece" do
-          context "as ajax post(xhr)" do
-            before do
-              xhr :post, :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
-            end
-            it { expect(response).to be_success }
-            it "adds favorite to user" do
-              u = User.find(quentin.id)
-              favs = u.favorites
-              favs.map { |f| f.favoritable_id }.should include @ap.id
-            end
-            it { expect(response).to be_json }
-          end
-          context "as standard POST" do
-            before do
-              post :add_favorite, :fav_type => 'ArtPiece', :fav_id => @ap.id
-            end
-            it "returns success" do
-              expect(response).to redirect_to @ap
-            end
-            it "sets flash with escaped name" do
-              flash[:notice].should include HTMLEntities.new.encode(@ap.title, :named, :hexadecimal)
-            end
-            it "adds favorite to user" do
-              u = User.find(quentin.id)
-              favs = u.favorites
-              favs.map { |f| f.favoritable_id }.should include @ap.id
-            end
-            context "then artist removes that artpiece" do
-              before do
-                @ap.destroy
-              end
-              it "art_piece is no longer in users favorite list" do
-                u = User.find(quentin.id)
-                u.favorites.should_not include @ap.id
-              end
-              it "art_piece owner should no longer have user in their favorite list" do
-                a = Artist.find(@ap.artist_id)
-                a.who_favorites_me.should_not include quentin
-              end
-            end
-          end
+      end
+      context "add a favorite bogus model" do
+        before do
+          @nfavs = quentin.favorites.count
+          post :add_favorite, :fav_type => 'Bogus', :fav_id => 2
         end
-        context "add a favorite bogus model" do
-          before do
-            @nfavs = quentin.favorites.count
-            post :add_favorite, :fav_type => 'Bogus', :fav_id => 2
-          end
-          it "returns 404" do
-            expect(response).to be_missing
-            response.code.should eql("404")
-          end
+        it "returns 404" do
+          expect(response).to be_missing
+          response.code.should eql("404")
         end
       end
     end
@@ -965,76 +803,76 @@ describe UsersController do
     end
   end
 
-  describe 'upload_profile' do
-    describe 'unauthorized' do
-      before do
-        post :upload_profile
-      end
-      it_should_behave_like 'redirects to login'
-    end
+  # describe 'upload_profile' do
+  #   describe 'unauthorized' do
+  #     before do
+  #       post :upload_profile
+  #     end
+  #     it_should_behave_like 'redirects to login'
+  #   end
 
-    context "while authorized" do
-      before do
-        login_as fan
-      end
-      context "post " do
-        let(:upload) { nil }
-        let(:commit) { nil }
-        let(:post_params) { { :upload => upload, :commit => commit } }
-        context 'with no upload' do
-          before do
-            post :upload_profile, post_params
-          end
-          it 'redirects to the add profile page' do
-            expect(response).to redirect_to add_profile_users_path
-          end
-          it 'sets a flash message without image' do
-            expect(flash[:error]).to be_present
-          end
-        end
-        context 'with a cancel' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
-          let(:commit) { "Cancel" }
-          before do
-            post :upload_profile, post_params
-          end
-          it 'redirects to studio page' do
-            expect(response).to redirect_to user_path(fan)
-          end
-        end
+  #   context "while authorized" do
+  #     before do
+  #       login_as fan
+  #     end
+  #     context "post " do
+  #       let(:upload) { nil }
+  #       let(:commit) { nil }
+  #       let(:post_params) { { :upload => upload, :commit => commit } }
+  #       context 'with no upload' do
+  #         before do
+  #           post :upload_profile, post_params
+  #         end
+  #         it 'redirects to the add profile page' do
+  #           expect(response).to redirect_to add_profile_user_path(fan)
+  #         end
+  #         it 'sets a flash message without image' do
+  #           expect(flash[:error]).to be_present
+  #         end
+  #       end
+  #       context 'with a cancel' do
+  #         let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+  #         let(:commit) { "Cancel" }
+  #         before do
+  #           post :upload_profile, post_params
+  #         end
+  #         it 'redirects to studio page' do
+  #           expect(response).to redirect_to user_path(fan)
+  #         end
+  #       end
 
-        context 'when image upload raises an error' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
-          before do
-            ArtistProfileImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
-            post :upload_profile, post_params
-          end
-          it 'renders the form again' do
-            expect(response).to redirect_to add_profile_users_path
-          end
-          it 'sets the error' do
-            expect(flash[:error]).to be_present
-          end
-        end
+  #       context 'when image upload raises an error' do
+  #         let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'studio.png') } }
+  #         before do
+  #           ArtistProfileImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
+  #           post :upload_profile, post_params
+  #         end
+  #         it 'renders the form again' do
+  #           expect(response).to redirect_to add_profile_user_path(fan)
+  #         end
+  #         it 'sets the error' do
+  #           expect(flash[:error]).to be_present
+  #         end
+  #       end
 
-        context 'with successful save' do
-          let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'user.png') } }
-          before do
-            mock_user_image = double('MockUserImage', :save => true)
-            ArtistProfileImage.should_receive(:new).and_return(mock_user_image)
-          end
-          it 'redirects to show page on success' do
-            post :upload_profile, post_params
-            expect(response).to redirect_to user_path(fan)
-          end
-          it 'sets a flash message on success' do
-            post :upload_profile, post_params
-            flash[:notice].should eql 'Your profile image has been updated.'
-          end
-        end
-      end
-    end
-  end
+  #       context 'with successful save' do
+  #         let(:upload) { {'datafile' => double('UploadedFile', :original_filename => 'user.png') } }
+  #         before do
+  #           mock_user_image = double('MockUserImage', :save => true)
+  #           ArtistProfileImage.should_receive(:new).and_return(mock_user_image)
+  #         end
+  #         it 'redirects to show page on success' do
+  #           post :upload_profile, post_params
+  #           expect(response).to redirect_to user_path(fan)
+  #         end
+  #         it 'sets a flash message on success' do
+  #           post :upload_profile, post_params
+  #           flash[:notice].should eql 'Your profile image has been updated.'
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 
   describe '#delete' do
     context 'non-admin' do

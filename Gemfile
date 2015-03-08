@@ -10,11 +10,12 @@ gem "nokogiri", '~> 1.6'
 gem "htmlentities"
 gem 'mysql2'
 gem "haml"
+gem "slim-rails"
 gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
 gem 'rdiscount' # markdown processor
-gem 'mobile-fu', github: 'rcode5/mobile-fu'
+#gem 'mobile-fu', github: 'rcode5/mobile-fu'
 gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-rbenv', '~> 2.0'
 gem 'capistrano-rails', '~> 1.1'
@@ -43,7 +44,6 @@ gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
 gem 'paperclip'
 gem 'aws-sdk'
 
-# use bower assets
 gem 'rails-assets-angular'
 gem 'rails-assets-angular-resource'
 gem 'rails-assets-angular-sanitize'
@@ -91,6 +91,7 @@ group :test do
   gem 'factory_girl_rails', :require => false
   gem 'cucumber'
   gem 'cucumber-rails', :require => false
+  gem 'selenium-webdriver'
   gem 'poltergeist'
   gem 'launchy'             # Required to dump the page when running cucumber features
 end

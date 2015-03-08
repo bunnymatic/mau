@@ -1,7 +1,7 @@
 Given(/^an account has been created/) do
   @artist = Artist.where(:login => 'bmatic').first
   if !@artist
-    @artist = FactoryGirl.create(:artist, :active, :with_art, :login => 'bmatic')
+    @artist = FactoryGirl.create(:artist, :active, :with_art, :in_the_mission, :login => 'bmatic')
   end
   @artist.password = 'bmatic'
   @artist.password_confirmation = 'bmatic'
@@ -37,8 +37,11 @@ Given /there is a scheduled Open Studios event/ do
 end
 
 Given /there are open studios artists with art in the system/ do
-  steps %{Given there are artists with art in the system}
-  @artists.each{|a| a.update_os_participation(Conf.os_live, true) }
+  steps %{
+    Given there are artists with art in the system
+    Given there are future open studios events
+  }
+  @artists.each{|a| a.update_os_participation(OpenStudiosEvent.current, true) }
 end
 
 Given /there is open studios cms content in the system/ do
@@ -58,7 +61,7 @@ end
 Given /there are tags on the art/ do
   @art_piece_tags = FactoryGirl.create_list(:art_piece_tag, 10)
   @art_pieces.each_with_index do |art, idx|
-    art.tags = @art_piece_tags.sample([idx,10].min) + [@art_piece_tags.first]
+    art.tags = @art_piece_tags[0..(idx % 10)]
     art.save!
   end
 end
@@ -77,5 +80,5 @@ Given /there are past open studios events/ do
 end
 
 Given /there are future open studios events/ do
-  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, :start_date => 3.months.since)
+  (@open_studios_events ||= []) << (OpenStudiosEvent.current || FactoryGirl.create(:open_studios_event, :start_date => 3.months.since))
 end

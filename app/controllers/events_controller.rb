@@ -3,8 +3,6 @@ class EventsController < ApplicationController
   before_filter :user_required, :except => [:index, :show]
   before_filter :editor_required, :only => [:destroy]
 
-  layout 'mau2col'
-
   def index
     raw_events = Event.published.by_starttime.reverse
     events = EventsPresenter.new(view_context, raw_events, params['m'])
@@ -12,7 +10,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html {
         @events = events
-        render :layout => 'mau'
       }
       format.mobile {
         # @events = Event.published.reverse

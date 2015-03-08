@@ -1,8 +1,6 @@
 .nav.nav-tabs
-  - user_nav = UserNavigation.new(self, current_user)
-  - art_nav = ArtNavigation.new(self, current_user)
-  - studio_nav = StudioNavigation.new(self)
-  - os_nav = OpenStudiosNavigation.new(self, current_user)
+  - user_nav = UserNavigation.new(current_user)
+  - os_nav = OpenStudiosNavigation.new()
   .js-nav-mobile.nav-mobile.nav-icon{ title: 'menu' }
     = fa_icon 'bars'
   %section.nav-section
@@ -64,7 +62,7 @@
         %li.title my mau
         = print_html_list('leaf', user_nav)
     - else logged_in?
-      %ul.tab-panel.signin__links
+      %ul.tab-panel.signout__links
         %li.title
           %a{href: login_path, title: 'sign in'} sign in
         %li.title

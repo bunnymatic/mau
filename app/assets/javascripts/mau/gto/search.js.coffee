@@ -17,7 +17,6 @@ $ ->
       $('.js-main-container').append($(template.html()).attr("id", SEARCH_FORM_ID))
     $searchForm = $("##{SEARCH_FORM_ID}")
     opening = !$(@).hasClass('active')
-    console.log 'opening', opening
     if opening
       MAU.Navigation.hideTabs()
     $(@).toggleClass('active', opening)

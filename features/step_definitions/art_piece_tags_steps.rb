@@ -22,7 +22,7 @@ end
 
 Then(/^I see a list of artists who have art in the most popular tag$/) do
   @first_tag = tags_sorted_by_frequency.first.first
-  expect(page).to have_content @first_tag.art_pieces.last.artist.fullname
+  expect(page).to have_content @first_tag.art_pieces.last.title
   expect(page).to have_content @first_tag.name
   expect(page).to have_content 'page 1 of'
   expect(page).to have_content 'next>'
@@ -33,6 +33,6 @@ Then(/^I see more artists who have art in the most popular tag$/) do
   expect(page).to have_content @first_tag.name
   expect(page).to have_content 'page 2 of'
   expect(page).to have_content '<prev'
-  expect(page).to have_content @first_tag.art_pieces.first.artist.fullname
-  expect(page).to_not have_content @first_tag.art_pieces.last.artist.fullname
+  expect(page).to have_content @first_tag.art_pieces.first.title
+  expect(page).to_not have_content @first_tag.art_pieces.last.title
 end

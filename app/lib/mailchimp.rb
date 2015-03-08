@@ -43,7 +43,6 @@ module MailChimp
       :replace_interests => false,
       :send_welcome => true
     )
-
     raise "Failed to subscribe: " + response.to_s if !response
   end
 end

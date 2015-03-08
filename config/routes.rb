@@ -41,10 +41,6 @@ Mau::Application.routes.draw do
 
   match '/register' => 'users#create', as: :register
   match '/signup' => 'users#new', as: :signup
-  match '/change_password' => 'users#change_password',
-    as: :change_password
-  match '/change_password_update' => 'users#change_password_update',
-    as: :change_password_update
   match '/activate/:activation_code' => 'users#activate', as: :activate
   match 'reset/:reset_code' => 'users#reset', as: :reset, via: [:get, :post]
   match 'reset' => 'users#reset', as: :submit_reset, method: :post
@@ -57,8 +53,6 @@ Mau::Application.routes.draw do
       get :by_lastname
       get :by_firstname
       get :roster
-      get :thumbs
-      get :osthumbs
       post :destroyart
       get :suggest
       get :arrange_art
@@ -93,6 +87,7 @@ Mau::Application.routes.draw do
       put :suspend
       get :noteform
       put :notify
+      post :change_password_update
     end
     resources :favorites, only: [:index]
     resources :roles, only: [:destroy], controller: 'Admin::Roles'

@@ -55,13 +55,6 @@ describe Studio do
     end
   end
 
-  describe 'formatted_phone' do
-    it "returns nicely formatted phone #" do
-      studio.should_receive(:phone).and_return('4156171234')
-      studio.formatted_phone.should eql '(415) 617-1234'
-    end
-  end
-
   describe 'to_json' do
     [:created_at, :updated_at].each do |field|
       it "does not include #{field} by default" do

@@ -1,6 +1,6 @@
 .panel-heading
   %h4.panel-title
-    = link_to "Open Studios #{OpenStudiosEvent.for_display}", '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
+    = link_to "Open Studios #{OpenStudiosEvent.current.for_display(true)}", '#events', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
     .fa.fa-icon.panel-opener
 .panel-collapse.collapse#events{ role: "tabpanel" }
   .panel-body
@@ -12,17 +12,18 @@
         section below.
     - else
       %p
-        Will you be opening your doors for Open Studios on 
-        = OpenStudiosEvent.current.start_date
+        Will you be opening your doors for Open Studios  
+        = OpenStudiosEvent.current.start_date.to_formatted_s(:os_day)
         = "-"
-        = OpenStudiosEvent.current.end_date
+        = OpenStudiosEvent.current.end_date.to_formatted_s(:os_day)
       .toggle-button
         = check_box_tag :doing_open_studios, 1, current_user.doing_open_studios?, class: 'toggle-button__checkbox toggle-button__round-flat'
         %label{for: :doing_open_studios}
-          .toggle-button__label.toggle-button__label_off Nope :(
-          .toggle-button__label.toggle-button__label_on Yep!
+          .toggle-button__label.toggle-button__label_off{title: 'nope'} Nope :(
+          .toggle-button__label.toggle-button__label_on{title: 'yep'} Yep!
 
       .donate
         And if you'd like to donate to help with our Open Studios promotion and keep this system running, you can donate via Paypal.  Just click below.  Thanks!
-        %a.pure-button.button-secondary#donate_for_openstudios{href: "#"} Donate
-
+        .form-group
+          %a.pure-button.button-secondary#donate_for_openstudios{href: "#"} Donate
+ 

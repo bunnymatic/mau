@@ -23,9 +23,9 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     $scope.current = limitPosition($scope.current + 1)
 
   $scope.currentArtPath = () ->
-    "/art_pieces/" + artPiece.id
+    "/art_pieces/" + $scope.artPiece?.id
   $scope.currentArtistPath = () ->
-    "/artists/" + artist.id
+    "/artists/" + $scope.artist?.id
     
   $scope.onKeyDown = (ev) ->
     if ev.which == 37

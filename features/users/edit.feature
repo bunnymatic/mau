@@ -2,8 +2,8 @@ Feature: As a active artist I can edit my information
 
 Background:
   Given I am signed in as an artist
-  And I click "my mau"
-  And I click "edit my page"
+  And I click on "my mau"
+  And I click on the first "Edit My Profile" link
 
 @javascript
 Scenario: I can edit my personal information
@@ -46,8 +46,36 @@ Scenario: I can edit my password
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahdeblah"
   And I click on "Save Changes"
+  And I close the flash
   And I sign out
+  And I click on "sign in"
   And I sign in with password "blahdeblah"
+  # And I take a screenshot
   Then I see that I'm signed in
+
+@javascript
+Scenario: I cannot edit my password if i can't remember my current password
+  When I click on "Password"
+  And I change "Current Password" to "something"
+  And I change "artist_password" to "blahdeblah"
+  And I change "Confirm New Password" to "blahdeblah"
+  And I click on "Save Changes"
+  Then I see a flash error "Your old password was incorrect"
+  And I close the flash
+  And I sign out
+  And I click on "sign in"
+  # same old password works
+  And I sign in with password "bmatic"
+  # And I take a screenshot
+  Then I see that I'm signed in
+
+@javascript
+Scenario: I cannot edit my password if the confirmation doesn't match
+  When I click on "Password"
+  And I change "Current Password" to "bmatic"
+  And I change "artist_password" to "blahdeblah"
+  And I change "Confirm New Password" to "blahblah"
+  And I click on "Save Changes"
+  Then I see a flash error "Password doesn't match confirmation"
 
   

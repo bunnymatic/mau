@@ -40,6 +40,21 @@ describe User do
   it{ should ensure_length_of(:firstname).is_at_most(100) }
   it{ should ensure_length_of(:lastname).is_at_most(100) }
 
+  context 'find by username or email' do
+    let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
+    
+    it 'finds users by their login' do
+      expect(User.find_by_username_or_email('whatever_yo')).to eql artist
+    end      
+    it 'finds users by their email' do
+      expect(User.find_by_username_or_email('yo_whatever@example.com')).to eql artist
+    end
+    it 'returns nil when there is no match' do
+      expect(User.find_by_username_or_email('ack')).to be_nil
+    end
+
+  end
+      
   context 'unique field constraints' do
     before do
       stub_signup_notification
@@ -163,6 +178,7 @@ describe User do
       user.get_name.should eql 'blurp'
     end
     it 'returns first + last if defined' do
+      user = FactoryGirl.build(:user, nomdeplume: nil )
       user.get_name.should eql([user.firstname, user.lastname].join ' ')
     end
     it 'returns login if nom, and firstname are not defined' do
@@ -275,18 +291,12 @@ describe User do
       it "first in user.fav_artists list is an Artist" do
         @u.fav_artists.first.is_a?(User).should be
       end
-      it ", that user is in the artists' who favorites me list" do
-        @a.who_favorites_me.should include @u
-      end
       context "and removing that artist" do
         before do
           @u.remove_favorite(@a)
         end
         it ", artist is no longer a favorite" do
           @u.fav_art_pieces.should have(0).artists
-        end
-        it ", that user no longer in the artists' who favorites me list" do
-          @a.who_favorites_me.should_not include @u
         end
       end
       context "and trying to add a duplicate artist" do
@@ -408,10 +418,6 @@ describe User do
           f = @u.remove_favorite(@ap)
           Favorite.where(user_id: maufan.id).should_not include f
         end
-        it "user is not in the who favorites me list of the artist who owns that art piece" do
-          @u.remove_favorite(@ap)
-          @ap.artist.who_favorites_me.should_not include @u
-        end
       end
     end
   end
@@ -475,6 +481,4 @@ describe User do
       end
     end
   end
-
-
 end

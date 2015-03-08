@@ -46,7 +46,7 @@ describe AdminController do
         login_as editor
         get :featured_artist
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
     end
     context 'as manager' do
       before do
@@ -146,22 +146,24 @@ describe AdminController do
     end
     it_should_behave_like 'logged in as admin'
     it 'has place holders for the graphs' do
-      assert_select('.section.graph', :count => 4)
+      assert_select('.graph', :count => 4)
     end
-    [:totals, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
-      it "renders an #{sxn} stats section" do
-        assert_select('.section.%s' % sxn)
-      end
+    it 'renders the different stats sections' do
+      assert_select('.dashboard__stats-list.totals')
+      assert_select('.dashboard__stats-list.yesterday')
+      assert_select('.dashboard__stats-list.last_week')
+      assert_select('.dashboard__stats-list.last_30_days')
+      assert_select('.dashboard__stats-list.open_studios')
     end
     it 'renders open studios info in reverse chrono order' do
       first_tag = OpenStudiosEvent.for_display available_open_studios_keys.first
       last_tag = OpenStudiosEvent.for_display available_open_studios_keys.last
-      css_select('.section.open_studios li').first.to_s.should match /#{first_tag}/
-      css_select('.section.open_studios li').last.to_s.should match /#{last_tag}/
+      css_select('.open_studios li').first.to_s.should match /#{first_tag}/
+      css_select('.open_studios li').last.to_s.should match /#{last_tag}/
     end
     it 'renders the current open studios setting' do
       first_tag = OpenStudiosEvent.current.for_display
-      css_select('.section.open_studios .current').first.to_s.should match /#{first_tag}/
+      css_select('.open_studios .current').first.to_s.should match /#{first_tag}/
     end
   end
   describe '#fans' do

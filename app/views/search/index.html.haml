@@ -39,15 +39,15 @@
 
       .refine_controls
         %h4 Narrow Your Results
-        = form_tag({:action => "fetch" }, :class=>"power_search") do
+        = form_tag({:action => "fetch" }, :class=>"power_search pure-form") do
           %input{ :type => :hidden, :name => :per_page, :value => @per_page}
           %h5.block_head Add Keyword(s):
           .block
             = text_field_tag :keywords, @query.query
-            = submit_tag :go, :class => 'formbutton'
+            = submit_tag :go, :class => 'pure-button pure-button-secondary'
           %h5.block_head.trigger
             %span Mediums:
-          .block.expandable#medium_chooser
+          .block.expandable#medium_chooser.chooser
             %ul
               %li.cb_entry.reset
                 %a.reset{:href => '#'}
@@ -61,7 +61,7 @@
                   = label_tag "mediums[]", m[:display], :for => connector
           %h5.block_head.trigger
             %span Studios:
-          .block.expandable#studio_chooser
+          .block.expandable#studio_chooser.chooser
             %ul
               %li.cb_entry.reset
                 %a.reset{:href => '#'}

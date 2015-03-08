@@ -15,10 +15,6 @@ class MainController < ApplicationController
       format.html {
         @is_homepage = true
       }
-      # format.json {
-      #   @rand_pieces = get_random_pieces
-      #   render :json => @rand_pieces.to_json
-      # }
       format.mobile { render :layout => 'mobile_welcome' }
     end
   end

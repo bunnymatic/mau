@@ -20,7 +20,6 @@ $ ->
     $('.gm-style-iw > [style]').css('overflow: visible');
     # set class on markers that are visible in the map
     markVisibleMarkers = () ->
-      console.log 'update rosters'
       map = handler.getMap()
       _.each MAU.map_markers, (pin) ->
         if map.getBounds().contains(pin.getPosition())

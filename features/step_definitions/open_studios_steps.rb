@@ -1,31 +1,35 @@
 When /I click on the current open studios link/ do
-  #mobile
-  click_on OpenStudiosEvent.current.for_display
+  os_link_text = OpenStudiosEvent.current.for_display(true)
+  click_on_first os_link_text
 end
 
-Then /I see information for the current open studios/ do
-  os = OpenStudiosEvent.current
-  expect(page).to have_selector '.logo a img' do |tag|
-    tag.src.should == os.logo.url(:square)
-  end
+When /^I check yep for doing open studios$/ do
+  find('#events .toggle-button .toggle-button__label_on').click()
+end
+
+When /^I check nope for doing open studios$/ do
+  find('#events .toggle-button .toggle-button__label_off').click()
 end
 
 Then(/^I see the open studios cms content/) do
-  expect(page).to have_selector '.section.markdown[data-section=summary]'
-  expect(page).to have_selector '.section.markdown[data-section=preview_reception]'
+  within '.section.markdown[data-section=summary]' do
+    expect(page).to have_selector 'h1', text: 'this is an h1'
+    expect(page).to have_selector 'h2', text: 'this is an h2'
+    expect(page).to have_selector 'p'
+  end
+  within '.section.markdown[data-section=preview_reception]' do
+    expect(page).to have_selector 'h1', text: 'this is an h1'
+    expect(page).to have_selector 'h2', text: 'this is an h2'
+    expect(page).to have_selector 'p'
+  end
 end
-
-Then(/^I see the open studios cms mobile content/) do
-  expect(page).to have_selector '.section .markdown'
-end
-
 
 Then(/^I see the open studios content is not editable/) do
-  expect(page).to_not have_selector '#open_studios .section.markdown.editable'
+  expect(page).to_not have_selector '.open_studios .section.markdown.editable'
 end
 
 Then(/^I see the open studios content is editable/) do
-  expect(page).to have_selector '#open_studios .section.markdown.editable'
+  expect(page).to have_selector '.open_studios .section.markdown.editable'
 end
 
 Then(/^I see the open studios events$/) do

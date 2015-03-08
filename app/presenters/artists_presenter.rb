@@ -31,7 +31,7 @@ class ArtistsPresenter
                        else
                          active_artists
                        end).sort_by(&:sortable_name)
-        artist_list.map{|artist| ArtistPresenter.new(@view_context, artist)}
+        artist_list.map{|artist| ArtistPresenter.new(artist)}
       end
   end
 

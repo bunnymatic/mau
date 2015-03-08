@@ -8,4 +8,6 @@ en:
     attributes:
       user:
         login: username
-  
+  authlogic:
+    error_messages:
+      generalize_credentials_error_messages: "That username/password combination is wrong.  Try again."

@@ -3,9 +3,17 @@
   %head
     = render '/extra_html_head'
     = render '/title'
-    = render '/stylesheets'
-    = render '/ganalytics'
-    = render '/javascripts'
+    = stylesheet_link_tag 'application'
+    /[if lte IE 9]
+      = stylesheet_link_tag 'mau-ie'
+    /[if lte IE 7]
+      = stylesheet_link_tag 'mau-ie7'
+
+    %script{:type => 'text/javascript'}
+      var authenticityToken  = encodeURIComponent('#{form_authenticity_token}')
+      var MAU = window.MAU = window.MAU || {};
+      = "MAU.versionString = '#{@revision}';"
+
   %body{class: [@browser_as_class, controller_name, action_name].join(" "), 'ng-app' => 'MauApp'}
     - unless browser.modern?
       = render '/old_browser_warning'
@@ -31,4 +39,6 @@
 
 
     = render '/search_form_template'
-    = render '/footer_javascripts'
+  = render '/ganalytics'
+  = render '/javascripts'
+  = render '/footer_javascripts'

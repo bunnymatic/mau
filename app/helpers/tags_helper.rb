@@ -8,13 +8,13 @@ module TagsHelper
   end
 
   # input frequency is assumed to be already scaled between [0.0, 1.0]
-  def fontsize_from_frequency(freq)
-    maximum = 24.0
-    minimum = 8.0
-    freq = freq.to_f
-    f = [(maximum * (Math.cos(1.0-freq) ** 2)).round,minimum].max
-    m = 4
-    # return fontsize and margin
-    [ "%dpx" % f, "%dpx" % m ]
-  end
+  # def fontsize_from_frequency(freq)
+  #   maximum = 24.0
+  #   minimum = 8.0
+  #   freq = freq.to_f
+  #   f = [(maximum * (Math.cos(1.0-freq) ** 2)).round,minimum].max
+  #   m = 4
+  #   # return fontsize and margin
+  #   [ "%dpx" % f, "%dpx" % m ]
+  # end
 end

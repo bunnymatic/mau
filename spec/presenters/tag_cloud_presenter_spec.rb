@@ -20,7 +20,7 @@ describe TagCloudPresenter, :type => :controller do
   let(:expected_order) { tags }
   let(:current_tag) { tags[1] }
 
-  subject(:cloud) { TagCloudPresenter.new(mock_view_context, clz, current_tag, mode) }
+  subject(:cloud) { TagCloudPresenter.new(clz, current_tag, mode) }
 
   before do
     fix_leaky_fixtures

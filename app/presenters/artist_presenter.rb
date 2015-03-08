@@ -1,9 +1,7 @@
 # This presenter adds helpful display/view related methods
 # to make it easy to draw artist data on a page
 
-class ArtistPresenter
-
-  include HtmlHelper
+class ArtistPresenter < ViewPresenter
 
   KEYED_LINKS = [ [:url, 'Website', :u_website],
                   [:instagram, 'Instagram', :u_instagram],
@@ -14,18 +12,22 @@ class ArtistPresenter
                   [:blog, 'Blog', :u_blog],
                   [:myspace, 'MySpace', :u_myspace]]
 
-  attr_accessor :artist
+  attr_accessor :model
+  
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
     :bio, :doing_open_studios?, :media, :address, :address_hash, :get_name,
     :os_participation, :studio, :studio_id, :login, :active?, :artist_info,
     :activated_at, :email, :last_login, :full_name,
     to: :artist, allow_nil: true
 
-  def initialize(view_context, artist)
-    @artist = artist
-    @view_context = view_context
+  def initialize(artist)
+    @model = artist
   end
-  
+
+  def artist
+    model
+  end
+
   def what_i_favorite
     # collect artist and art piece stuff
     @what_i_favorite ||=
@@ -88,23 +90,23 @@ class ArtistPresenter
   end
 
   def activation_link
-    @view_context.activate_url(artist.activation_code)
+    url_helpers.activate_url(artist.activation_code)
   end
 
   def reset_password_link
-    @view_context.reset_url(artist.reset_code )
+    url_helpers.reset_url(artist.reset_code )
   end
 
   def has_media?
-    @artist.media.present?
+    model.media.present?
   end
 
   def has_bio?
-    @artist.try(:bio) and !@artist.bio.empty?
+    model.try(:bio) and !model.bio.empty?
   end
 
   def allows_email_from_artists?
-    @artist.emailsettings['fromartist']
+    model.emailsettings['fromartist']
   end
 
   def has_links?
@@ -113,21 +115,21 @@ class ArtistPresenter
 
   def links
     @links ||= KEYED_LINKS.map do |kk, disp, _id|
-      lnk = format_link(@artist.send(kk))
+      lnk = format_link(model.send(kk))
       [_id, disp, lnk] if lnk.present?
     end.compact
   end
 
   def links_html
     KEYED_LINKS.map do |key, display, _id|
-      site = @artist.send(key)
+      site = model.send(key)
       if site.present?
         formatted_site = format_link(site)
         site_display = format_link_for_display(site)
         link_icon_class = icon_link_class(key, site)
-        @view_context.content_tag 'a', href: formatted_site, title: display, target: '_blank' do
-          @view_context.content_tag(:i,'', class: link_icon_class) + 
-            @view_context.content_tag(:span,site_display)
+        content_tag 'a', href: formatted_site, title: display, target: '_blank' do
+          content_tag(:i,'', class: link_icon_class) + 
+            content_tag(:span,site_display)
         end
       end
     end.compact
@@ -150,17 +152,13 @@ class ArtistPresenter
     @art_pieces ||=
       begin
         num = artist.max_pieces - 1
-        pieces = artist.art_pieces[0..num].compact.map{|piece| ArtPiecePresenter.new(@view_context,piece)}
+        pieces = artist.art_pieces[0..num].compact.map{|piece| ArtPiecePresenter.new(piece)}
       end
   end
 
   def favorites_count
     @favorites_count ||= who_favorites_me.count
     @favorites_count if @favorites_count > 0
-  end
-
-  def is_current_user?
-    @view_context.current_user == @artist
   end
 
   def studio_name
@@ -173,39 +171,43 @@ class ArtistPresenter
   end
 
   def has_address?
-    @artist.has_address?
+    model.has_address?
   end
 
   def in_the_mission?
-    @artist.in_the_mission?
+    model.in_the_mission?
   end
 
   def map_url
-    if @artist.studio
-      @artist.studio.map_link
+    if model.studio
+      model.studio.map_link
     else
-      @artist.map_link
+      model.map_link
     end
   end
 
   def show_path
-    @view_context.artist_path(artist)
+    url_helpers.artist_path(artist)
   end
 
   def edit_path(opts = nil)
     opts ||= {}
-    @view_context.edit_artist_path(artist, opts)
+    url_helpers.edit_artist_path(artist, opts)
   end
 
+  def favorites_path(opts = nil)
+    url_helpers.user_favorites_path(artist)
+  end
+  
   def get_map_info
-    @view_context.content_tag('div', map_info_contents, class: 'map__info-window')
+    content_tag('div', map_info_contents, class: 'map__info-window')
   end
 
   def representative_piece
     @representative_piece ||=
       begin
         r = artist.representative_piece
-        ArtPiecePresenter.new(@view_context,r) if r.is_a?(ArtPiece)
+        ArtPiecePresenter.new(r) if r.is_a?(ArtPiece)
       end
   end
 
@@ -215,7 +217,7 @@ class ArtistPresenter
   end
 
   def map_info_name_address
-    @view_context.content_tag 'div', class: 'map__info-window-text' do
+    content_tag 'div', class: 'map__info-window-text' do
       name = content_tag 'a', get_name, href: show_path
       html = [name]
       street = address_hash.try(:parsed).try(:street)
@@ -242,7 +244,7 @@ class ArtistPresenter
                     if bio.present?
                       MarkdownService.markdown(bio, :filter_html)
                     else
-                      @view_context.content_tag('h4', "No artist's statement")
+                      content_tag('h4', "No artist's statement")
                     end
                   end
   end
@@ -256,9 +258,6 @@ class ArtistPresenter
   end
 
   private
-  def content_tag(*args)
-    @view_context.content_tag(*args)
-  end
 
   def share_url
     @share_url ||= artist.get_share_link(true)
@@ -273,7 +272,7 @@ class ArtistPresenter
   end
 
   def map_thumb_image
-    @representative_thumb_image ||= @view_context.content_tag('div', '', class: 'thumb', style: "background-image: url(#{map_thumb});")
+    @representative_thumb_image ||= content_tag('div', '', class: 'thumb', style: "background-image: url(#{map_thumb});")
   end
 
   def linked_thumb

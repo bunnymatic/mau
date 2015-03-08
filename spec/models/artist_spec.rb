@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Artist do
 
   subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :firstname => 'Joe', :lastname => 'Blow') }
+  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
   let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }
   let(:artist_without_studio) { FactoryGirl.create(:artist, :active,:with_art) }
@@ -98,26 +99,22 @@ describe Artist do
     end
   end
   describe 'in_the_mission?' do
-    it "returns true for artist in the mission with no studio" do
-      a = artist_without_studio
-      a.should be_in_the_mission
-      a.should have_address
+    it "returns true for artist in the mission with no studio" do 
+      expect(artist_without_studio).to have_address
+      expect(artist_without_studio).to be_in_the_mission
     end
     it "returns true for artist in the mission with a studio in the mission" do
-      a = artist
-      a.should be_in_the_mission
-      a.should have_address
+      expect(artist).to have_address
+      expect(artist).to be_in_the_mission
     end
     it "returns false for artist with wayout address" do
-      a = wayout_artist
-      a.should_not be_in_the_mission
-      a.should have_address
+      expect(wayout_artist).to have_address
+      expect(wayout_artist).to_not be_in_the_mission
     end
     it "returns true for artist with wayout address but studio in the mission" do
-      a = wayout_artist
-      a.update_attribute :studio, FactoryGirl.create(:studio)
-      a.should have_address
-      a.should be_in_the_mission
+      wayout_artist.update_attribute :studio, FactoryGirl.create(:studio)
+      expect(wayout_artist).to have_address
+      expect(wayout_artist).to be_in_the_mission
     end
   end
   describe 'find by fullname' do
@@ -228,7 +225,7 @@ describe Artist do
       artist.save
     end
     it 'finds medium 1 as the most common' do
-      artist.primary_medium.should eql media.first
+      artist.reload.primary_medium.should eql media.first
     end
     it 'works with no media on artist' do
       nobody.primary_medium.should be_nil
@@ -266,6 +263,25 @@ describe Artist do
     it 'includes the artist info if we ask for it' do
       a = JSON.parse(artist.to_json(:include => :artist_info))
       a['artist']['artist_info'].should be_a_kind_of Hash
+    end
+  end
+
+  describe 'destroying artists' do
+    let(:quentin) { create(:artist, :with_art) }
+    let(:art_piece) { quentin.art_pieces.first }
+    context "then artist removes that artpiece" do
+      before do 
+        artist.add_favorite(art_piece)
+        artist.add_favorite(quentin)
+
+        # validate fixtures setup
+        expect(artist.favorites.map(&:favoritable_id)).to include art_piece.id
+        
+        art_piece.destroy
+      end
+      it "art_piece is no longer in users favorite list" do
+        expect(artist.reload.favorites.map(&:favoritable_id)).to_not include art_piece.id
+      end
     end
   end
 

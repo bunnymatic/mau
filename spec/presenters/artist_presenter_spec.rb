@@ -6,7 +6,7 @@ describe ArtistPresenter do
 
   let(:viewer) { FactoryGirl.build(:artist, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
-  subject(:presenter) { ArtistPresenter.new(mock_view_context(viewer), artist) }
+  subject(:presenter) { ArtistPresenter.new(artist) }
 
   its(:in_the_mission?) { should eql artist.in_the_mission?}
   its(:has_media?) { should be_true }
@@ -18,7 +18,6 @@ describe ArtistPresenter do
   its(:fb_share_link) {
     should include "http://www.facebook.com\/sharer.php?u=#{artist.get_share_link(true)}"
   }
-  its(:is_current_user?) { should be_false }
   its(:favorites_count) { should be_nil }
   its(:studio_name) { should eql artist.studio.name }
   its(:has_art?) { should be_true }
@@ -66,16 +65,6 @@ describe ArtistPresenter do
                                :instagram => nil)
     end
     its(:has_links?) { should be_false }
-  end
-
-  context 'when logged in as the artist being presented' do
-    subject(:presenter) { ArtistPresenter.new(mock_view_context(artist), artist) }
-    its(:is_current_user?) { should be_true }
-  end
-
-  context 'when not logged in' do
-    subject(:presenter) { ArtistPresenter.new(mock_view_context, artist) }
-    its(:is_current_user?) { should be_false }
   end
 
   context 'without art' do

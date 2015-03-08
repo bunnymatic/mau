@@ -22,21 +22,21 @@
     }
   }
 
-  &.signin__links, &.tabs__nav {
+  &.signout__links, &.signin__links, &.tabs__nav {
     > li {
       @include sidebar-nav-entry;
       .dropdown {
-        @include transition(all 0.75s ease-in-out);
+        @include transition(all 0.45s ease-in-out);
         background-color: #f1f1f1;
         li.dropdown-nav {
           height: 0;
           line-height:22px;
           overflow:hidden;
-          @include transition( all 0.80s ease-in-out );
+          @include transition( all 0.50s ease-in-out );
           border: none;
           @include ellipsis;
           a { 
-            @include transition(all 0.70s ease-in);
+            @include transition(all 0.40s ease-in);
             display: block;
             font-size: 12px;
             @include ellipsis;
@@ -86,7 +86,7 @@
       background-color: transparent;
       &:hover {
         background-color: rgba(200,200,200,0.2);
-        @include transition(background-color 0s linear);
+        @include transition(background-color 0.1s linear);
       }
     }
     .active {

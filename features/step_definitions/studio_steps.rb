@@ -31,4 +31,13 @@ end
 
 Then(/^I see the first studio page/) do
   expect(current_path).to eql studio_path(Studio.first.to_param)
+  expect(page).to have_content Studio.name
+end
+
+Then /^I see that some studios are participating in open studios$/ do
+  expect(page).to have_selector '.studio-card .os-violator'
+end
+
+When /^I click on the first studio card$/ do
+  all('.studio-card').first.click()
 end

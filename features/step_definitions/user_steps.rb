@@ -1,28 +1,9 @@
-def fill_in_login_form(login, pass)
-  fill_in("Login", :with => login)
-  fill_in("Password", :with => pass)
-end
-
-When(/^I click (on\s+)?"(.*?)"$/) do |dummy, link_text|
-  click_on link_text
-end
-
-When(/^I click (on\s+)?"(.*?)" in the menu$/) do |dummy, link_text|
-  within('.nav') do
-    click_on link_text
-  end
-end
-
 When(/^I change my password to "(.*?)"$/) do |new_pass|
   visit edit_artist_path(@artist)
   fill_in("Old Password", :with => 'bmatic')
   fill_in("New Password", :with => new_pass)
   fill_in("Confirm new Password", :with => new_pass)
   click_on 'change password'
-end
-
-When(/^I log out$/) do
-  click_on 'log out'
 end
 
 When(/^I fill in "(.*?)" for my password$/) do |pass|
@@ -34,11 +15,16 @@ When(/^I fill in valid credentials$/) do
 end
 
 Then(/^I see that I'm logged in$/) do
-  expect(page).to have_selector('.notice',:text => /you\'re in/i)
+  expect(page).to have_selector('.flash__notice',:text => /you\'re in/i)
+  within(".nav") do
+    expect(page).to have_content 'my mau'
+  end
 end
 
 Then(/^I see that I'm logged out$/) do
-  expect(page).to have_link "log in", new_user_session_path
+  within '.nav' do
+    expect(page).to have_link "sign in", new_user_session_path
+  end
 end
 
 When(/^I fill in an invalid username and password$/) do
@@ -91,3 +77,20 @@ Then /^I see that "(.*?)" is a new pending artist$/ do |username|
   expect(current_path).to eql root_path
   expect(Artist.find_by_login(username)).to be_pending
 end
+
+Then /^I see that "(.*?)" is a new fan$/ do |username|
+  steps %{Then I see a flash notice "Thanks for signing up!"}
+  expect(current_path).to eql login_path
+  expect(MAUFan.find_by_login(username)).to be_active
+end
+
+Then /^I click the fan signup button$/ do
+  resp = JSON.generate({
+                        email: "example email",
+                        euid: "example euid",
+                        leid: "example leid"
+                       })
+  stub_request(:any, /.*\.mailchimp.com/).to_return(:body => resp)
+  step %q{I click "Sign up"}
+end
+

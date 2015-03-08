@@ -19,15 +19,15 @@ describe ArtPiecesController do
           before do
             get :show, id: art_piece.id
           end
-          it_should_behave_like 'returns success'
+          it { expect(response).to be_success }
           it 'has a description with the art piece name' do
             assert_select 'head' do |tag|
               assert_select 'meta[name=description]' do |desc|
-                desc.length.should eql 1
+                expect(desc.length).to eql 1
                 desc[0].attributes['content'].should match /#{art_piece.title}/
               end
               assert_select 'meta[property=og:description]' do |desc|
-                desc.length.should eql 1
+                expect(desc.length).to eql 1
                 desc[0].attributes['content'].should match /#{art_piece.title}/
               end
             end
@@ -38,7 +38,7 @@ describe ArtPiecesController do
               expected = [art_piece.tags + [art_piece.medium]].flatten.compact.map(&:name)
               actual = keywords[0].attributes['content'].split(',').map(&:strip)
               expected.each do |ex|
-                actual.should include ex
+                expect(actual).to include ex
               end
             end
           end
@@ -48,39 +48,15 @@ describe ArtPiecesController do
               expected = ["art is the mission", "art", "artists", "san francisco"]
               actual = keywords[0].attributes['content'].split(',').map(&:strip)
               expected.each do |ex|
-                actual.should include ex
+                expect(actual).to include ex
               end
             end
           end
 
-          it 'shows the artist name in the sidebar' do
-            artist_link = artist_path(artist)
-            assert_select ".lcol h3 a[href=#{artist_link}]"
-            assert_select ".lcol a[href=#{artist_link}] img"
-          end
-
           it 'shows the thumbnail browser' do
-            assert_select '#artp_thumb_browser'
+            assert_select "art-pieces-browser[art-piece-id=#{art_piece.id}]"
           end
 
-          it "displays art piece with no edit buttons and a zoom button" do
-            assert_select("#artpiece_title", art_piece.title)
-            assert_select("div.edit-buttons", "")
-            expect(css_select("div.edit-buttons *")).to be_empty
-            assert_select('a.zoom')
-          end
-          it "has a favorite me icon" do
-            assert_select('#artpiece_container .ico-heart')
-          end
-        end
-        context "piece has been favorited" do
-          before do
-            fan.add_favorite art_piece
-            get :show, id: art_piece.id
-          end
-          it "shows the number of favorites" do
-            assert_select '#num_favorites', 1
-          end
         end
       end
 
@@ -99,36 +75,14 @@ describe ArtPiecesController do
           expect(response).to redirect_to '/error'
         end
       end
-      context "when logged in as art piece owner" do
-        render_views
-        before do
-          login_as artist
-          get :show, id: art_piece.id
-        end
-        it_should_behave_like 'two column layout'
-        it_should_behave_like 'logged in artist'
-        it "shows edit button" do
-          assert_select("div.edit-buttons span#artpiece_edit a", "edit")
-        end
-        it "shows delete button" do
-          assert_select(".edit-buttons #artpiece_del a", "delete")
-        end
-        it "doesn't show heart icon" do
-          expect(css_select('#artpiece_container .ico-heart')).to be_empty
-        end
-      end
       context "when logged in as not artpiece owner" do
         render_views
         before do
           login_as fan
           get :show, id: art_piece.id
         end
-        it_should_behave_like 'two column layout'
-        it "shows heart icon" do
-          assert_select('.ico-heart')
-        end
         it "doesn't have edit button" do
-          expect(css_select("div.edit-buttons span#artpiece_edit a")).to be_empty
+          expect(css_select(".edit-buttons #artpiece_edit a")).to be_empty
         end
         it "doesn't have delete button" do
           expect(css_select(".edit-buttons #artpiece_del a")).to be_empty
@@ -175,7 +129,7 @@ describe ArtPiecesController do
         parsed['tags'].first['name'].should eql art_piece.tags.first.name
       end
       it 'includes the artists name' do
-        parsed['artist_name'].should eql artist.get_name
+        parsed['artist_name'].should eql HTMLEntities.new.encode art_piece.artist.fullname, :named, :hexadecimal
       end
       it 'includes the art piece title' do
         parsed['title'].should eql HTMLEntities.new.encode art_piece.title, :named, :hexadecimal
@@ -293,6 +247,14 @@ describe ArtPiecesController do
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
         expect(response).to redirect_to art_piece
       end
+      it 'updates tags given a string of comma separated items' do
+        post :update, id: art_piece.id, art_piece: {tags: 'this, that, the other, this, that'}
+        tag_names = art_piece.reload.tags.map(&:name)
+        expect(tag_names).to have(3).tags
+        expect(tag_names).to include 'this'
+        expect(tag_names).to include 'this'
+        expect(tag_names).to include 'the other'
+      end
       it 'sets a flash message on success' do
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
         flash[:notice].should eql 'Artwork was successfully updated.'
@@ -360,7 +322,7 @@ describe ArtPiecesController do
         before do
           get :edit, id: artist.art_pieces.last
         end
-        it_should_behave_like 'returns success'
+        it { expect(response).to be_success }
       end
     end
 

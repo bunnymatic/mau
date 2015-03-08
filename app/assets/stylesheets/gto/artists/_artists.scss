@@ -1,5 +1,6 @@
 @import 'mau-mixins';
 @import 'gto/gto-mixins';
+
 .artists.map_page {
   #map-canvas {
     height: 400px;
@@ -57,7 +58,19 @@
     }
   }
 }
-.artists, .artists.index, .artists.show, .art_pieces.show {
+
+.artists.edit {
+  .donate {
+    font-size: 90%;
+    line-height: 1.3rem;
+    padding-top: 15px;
+    .form-group {
+      padding-top: 10px;
+    }
+  }
+}
+
+.search-results, .artists, .artists.index, .artists.show, .art_pieces.show {
 
   @include search-filter;
 
@@ -86,15 +99,18 @@
   .art-card, .artist-card {
     @extend .artist-thumb-mixin;
     .os-violator {
+      background-color: $base-background-color;
       background-image: url(image_path('os_violator_tiny.svg'));
       background-size: 40px 40px;
-      background-position: center;
+      background-position: top right;
       background-repeat: no-repeat;
       width: 40px;
-      height: 40px;
+      height: 45px;
+    }
+    .os-violator {
       position: absolute;
-      top: 11px;
-      right: 13px;
+      top: 9px;
+      right: 9px;
     }
   }
   .art-card, .artist-card {
@@ -282,6 +298,7 @@
       bottom: 0;
       right: 0;
       display: inline-block;
+      background-color: white;
       img {
         width: 75px;
       }

@@ -23,6 +23,14 @@ describe StudioPresenter do
     presenter.artists.should eq studio.artists.active
   end
 
+  describe 'formatted_phone' do
+    it "returns nicely formatted phone #" do
+      allow(studio).to receive(:phone).and_return('4156171234')
+      presenter.formatted_phone.should eql '(415) 617-1234'
+    end
+  end
+
+
   context 'without image file' do
     let(:studio) { FactoryGirl.create(:studio, :profile_image => nil) }
     its(:image) { should eql '/images/default-studio.png' }

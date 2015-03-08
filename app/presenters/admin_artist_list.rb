@@ -31,7 +31,7 @@ class AdminArtistList
   def artists
     @artists ||=
       begin
-        raw_artists.map{|a| ArtistPresenter.new(@view_context, a) }
+        raw_artists.map{|a| ArtistPresenter.new(a) }
       end
   end
 

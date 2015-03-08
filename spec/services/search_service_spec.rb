@@ -2,9 +2,9 @@ require "spec_helper"
 
 describe SearchService do
 
-  let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
+  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
-  let(:artists) { Artist.all}
+  let(:artists) { Artist.all }
   let(:artist) { artists.first }
   let(:art_piece) { artist.art_pieces.first }
   let(:medium) { art_piece.medium }
@@ -22,7 +22,7 @@ describe SearchService do
   }
 
   before(:all) do
-    FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, firstname: 'Firstname')
+    FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, firstname: 'Firstname', nomdeplume: nil)
     FactoryGirl.create(:artist, nomdeplume: "Interesting", firstname: 'Firstname' )
     FactoryGirl.create(:artist, :active, :with_art, nomdeplume: "Interesting", firstname: 'Firstname')
   end
@@ -127,13 +127,6 @@ describe SearchService do
         expect(r.medium).to eql medium
       end
     end
-  end
-
-  context 'finding indy studio work' do
-    let(:search_studios) { [Studio.indy] }
-    its(:search) { should have_at_least(1).item }
-
-    it { expect(results.map{|r| r.artist.studio_id.to_i}.uniq).to eql [0] }
   end
 
   context 'finding only os artists' do

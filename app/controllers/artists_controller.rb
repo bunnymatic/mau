@@ -38,11 +38,6 @@ class ArtistsController < ApplicationController
       format.json {
         render json: Artist.active
       }
-      format.mobile {
-        @artists = []
-        @page_title = "Artists"
-        render layout: 'mobile'
-      }
     end
   end
 
@@ -58,9 +53,10 @@ class ArtistsController < ApplicationController
 
   def edit
     if current_user[:type] != 'Artist'
-      redirect_to edit_user_path(current_user)
+      redirect_to edit_user_path(current_user), flash: flash
       return
     end
+    @user = ArtistPresenter.new(current_artist)
     @studios = Studio.all
     @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
@@ -68,28 +64,28 @@ class ArtistsController < ApplicationController
 
   def manage_art
     # give user a tabbed page to edit their art
-    @artist = ArtistPresenter.new(view_context, current_artist)
+    @artist = ArtistPresenter.new(current_artist)
   end
 
-  def by_firstname
-    if !is_mobile?
-      redirect_to root_path and return
-    end
+  # def by_firstname
+  #   if !is_mobile?
+  #     redirect_to root_path and return
+  #   end
 
-    @page_title = "Artists by first name"
-    @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index', layout: 'mobile'
-  end
+  #   @page_title = "Artists by first name"
+  #   @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
+  #   render 'artists/index', layout: 'mobile'
+  # end
 
-  def by_lastname
-    if !is_mobile?
-      redirect_to root_path and return
-    end
+  # def by_lastname
+  #   if !is_mobile?
+  #     redirect_to root_path and return
+  #   end
 
-    @page_title = "Artists by last name"
-    @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index', layout: 'mobile'
-  end
+  #   @page_title = "Artists by last name"
+  #   @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
+  #   render 'artists/index', layout: 'mobile'
+  # end
 
   def roster
     # collect query args to build links
@@ -129,9 +125,8 @@ class ArtistsController < ApplicationController
     redirect_to(artist_path(current_user))
   end
 
-
   def arrange_art
-    @artist = ArtistPresenter.new(view_context, current_user)
+    @artist = ArtistPresenter.new(current_user)
   end
 
   def setarrangement
@@ -151,7 +146,7 @@ class ArtistsController < ApplicationController
   end
 
   def delete_art
-    @artist = ArtistPresenter.new(view_context, current_user)
+    @artist = ArtistPresenter.new(current_user)
   end
 
   def show
@@ -162,16 +157,11 @@ class ArtistsController < ApplicationController
         if !@artist
           redirect_to artists_path, flash: { error: 'We were unable to find the artist you were looking for.' }
         else
-          @artist = ArtistPresenter.new(view_context, @artist)
+          @artist = ArtistPresenter.new( @artist)
         end
       }
       format.json  {
         render json: @artist
-      }
-      format.mobile {
-        @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
-        @artist = ArtistPresenter.new(view_context, @artist)
-        render layout: 'mobile'
       }
     end
   end
@@ -180,14 +170,7 @@ class ArtistsController < ApplicationController
     @artist = get_active_artist_from_params
     set_artist_meta
     if @artist.try(:bio).present?
-      respond_to do |format|
-        format.html { redirect_to artist_path(@artist) and return }
-        format.mobile {
-          @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
-          @artist = ArtistPresenter.new(view_context, @artist)
-          render layout: 'mobile'
-        }
-      end
+      redirect_to artist_path(@artist) and return
     else
       redirect_to artist_path(@artist)
     end
@@ -222,38 +205,14 @@ class ArtistsController < ApplicationController
       end
       begin
         current_artist.update_attributes!(artist_params)
-        flash[:notice] = "Update successful"
+        flash[:notice] = "Your profile has been updated"
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
-
       rescue Exception => ex
+        puts "EX", ex
         flash[:error] = ex.to_s
+        raise
       end
-      redirect_to edit_artist_url(current_user)
-    end
-  end
-
-  # for mobile only
-  def osthumbs
-    fetch_thumbs true
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.mobile {
-        render :thumbs, layout: 'mobile'
-      }
-    end
-  end
-
-  def thumbs
-    fetch_thumbs
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.mobile {
-        if params[:partial].present?
-          render layout: false
-        else
-          render layout: 'mobile'
-        end
-      }
+      redirect_to edit_artist_url(current_user), flash: flash
     end
   end
 
@@ -307,6 +266,11 @@ class ArtistsController < ApplicationController
       params[:artist][:email_attrs] = em.to_json
     end
 
+    if params[:artist].has_key?("studio") && params[:artist]["studio"].blank?
+      params[:artist]["studio_id"] = nil
+      params[:artist].delete("studio")
+    end      
+      
     params[:artist]
   end
   
@@ -338,7 +302,7 @@ class ArtistsController < ApplicationController
     if participating != current_artist.doing_open_studios?
       begin
         unless current_artist.address.blank?
-          current_artist.update_os_participation(current_open_studios_key, participating)
+          current_artist.update_os_participation(OpenStudiosEvent.current, participating)
           trigger_os_signup_event(participating)
         end
       rescue Exception => ex

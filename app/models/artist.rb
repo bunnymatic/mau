@@ -28,6 +28,8 @@
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
+#  pinterest                 :string(255)
+#  instagram                 :string(255)
 #  persistence_token         :string(255)
 #  login_count               :integer          default(0), not null
 #  last_request_at           :datetime
@@ -192,7 +194,7 @@ class Artist < User
   end
 
   def self.open_studios_participants(oskey = nil)
-    q = (oskey || self.current_open_studios_key).to_s
+    q = (oskey || OpenStudiosEvent.current.try(:key)).to_s
     joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
   end
 

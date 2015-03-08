@@ -55,3 +55,4 @@ Mau::Application.configure do
   config.action_controller.asset_host = "http://d2wr4fo4molwfy.cloudfront.net"
 
 end
+Rails.application.routes.default_url_options[:host] = 'http://www.missionartistsunited.org'

@@ -28,6 +28,8 @@
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
+#  pinterest                 :string(255)
+#  instagram                 :string(255)
 #  persistence_token         :string(255)
 #  login_count               :integer          default(0), not null
 #  last_request_at           :datetime
@@ -70,6 +72,10 @@ class User < ActiveRecord::Base
   scope :active, where(state: 'active')
   scope :not_active, where("state <> 'active'")
   scope :pending, where(state: 'pending')
+
+  def self.find_by_username_or_email(login_string)
+    User.find_by_login(login_string) || User.find_by_email(login_string)
+  end
 
   before_validation :normalize_attributes
   before_validation :add_http_to_links

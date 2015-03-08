@@ -45,6 +45,6 @@
         %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setCurrent($event, $index)"}
           .image{ "ng-style" => "{backgroundImage: 'url({{piece.image_files.small}})'}"}
 .pure-u-1-1
-  %a{href: "{{artistPath}}", class: 'pure-button pure-button-primary'}
+  %a{href: "{{currentArtistPath()}}", class: 'pure-button pure-button-primary'}
     See more by {{artist.full_name}}
 

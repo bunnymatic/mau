@@ -1,58 +1,13 @@
 require 'spec_helper'
 
 shared_examples_for "successful notes mailer response" do
-  it_should_behave_like "returns success"
-  it{JSON.parse(response.body)['errors'].should be_empty}
+  it { expect(response).to be_success }
+  it { expect(JSON.parse(response.body)['errors']).to be_empty }
 end
 
 shared_examples_for 'has some invalid params' do
   it{expect(response).to be_4xx}
-  it{JSON.parse(response.body)['errors'].should be_present}
-end
-
-shared_examples_for 'main#index page' do
-  it_should_behave_like 'standard sidebar layout'
-  it 'has social icons in the main text section but not in the sidebar' do
-    assert_select '.main-text .social'
-    (css_select '.lcol .social').should be_empty
-  end
-  it "shows search box" do
-    assert_select '#search_box'
-  end
-  it "shows thumbnails" do
-    assert_select "#main_thumbs #sampler"
-  end
-  it "has a feed container" do
-    assert_select "#feed_div"
-  end
-  it 'shows a link to the artist with the most recently uploaded art' do
-    assert_select '.lcol .new_art a[href=%s]' % artist_path(ArtPiece.last.artist)
-  end
-  it "has a header and footer bars" do
-    assert_select '#header_bar'
-    assert_select '#artisthemission'
-    assert_select '#footer_bar'
-    assert_select '#footer_copy'
-    assert_select '#footer_links'
-  end
-  it 'has the default description & keywords' do
-    assert_select 'head meta[name=description]' do |desc|
-      desc.length.should eql 1
-      desc[0].attributes['content'].should match /^Mission Artists United is a website/
-    end
-    assert_select 'head meta[property=og:description]' do |desc|
-      desc.length.should eql 1
-      desc[0].attributes['content'].should match /^Mission Artists United is a website/
-    end
-    assert_select 'head meta[name=keywords]' do |keywords|
-      keywords.length.should eql 1
-      expected = ["art is the mission", "art", "artists", "san francisco"]
-      actual = keywords[0].attributes['content'].split(',').map(&:strip)
-      expected.each do |ex|
-        actual.should include ex
-      end
-    end
-  end
+  it { expect(JSON.parse(response.body)['errors']).to be_present }
 end
 
 describe MainController do
@@ -77,26 +32,23 @@ describe MainController do
       before do
         get :index
       end
-      it_should_behave_like 'main#index page'
-    end
-    describe 'logged in' do
-      before do
-        login_as(admin)
-        get :index
-      end
-      it_should_behave_like 'main#index page'
-      it_should_behave_like 'logged in as admin'
-    end
-
-    describe 'format=json' do
-      before do
-        prolific_artist
-        get :index, :format => "json"
-      end
-      it_should_behave_like 'successful json'
-      it 'returns up to 15 random images' do
-        j = JSON.parse(response.body)
-        j.should have(15).images
+      it 'has the default description & keywords' do
+        assert_select 'head meta[name=description]' do |desc|
+          desc.length.should eql 1
+          desc[0].attributes['content'].should match /^Mission Artists United is a website/
+        end
+        assert_select 'head meta[property=og:description]' do |desc|
+          desc.length.should eql 1
+          desc[0].attributes['content'].should match /^Mission Artists United is a website/
+        end
+        assert_select 'head meta[name=keywords]' do |keywords|
+          keywords.length.should eql 1
+          expected = ["art is the mission", "art", "artists", "san francisco"]
+          actual = keywords[0].attributes['content'].split(',').map(&:strip)
+          expected.each do |ex|
+            actual.should include ex
+          end
+        end
       end
     end
   end
@@ -108,11 +60,6 @@ describe MainController do
         get :resources
       end
       it_should_behave_like "not logged in"
-      it_should_behave_like 'standard sidebar layout'
-      it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
-      end
-
     end
     context "while logged in as an art fan" do
       before do
@@ -141,7 +88,6 @@ describe MainController do
         login_as(admin)
         get :resources
       end
-      it_should_behave_like 'returns success'
       it_should_behave_like 'logged in as admin'
     end
   end
@@ -243,7 +189,7 @@ describe MainController do
       before do
         post :getinvolved, :p => 'paypal_success'
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'sets some info about the page' do
         (/Get Involved/ =~ assigns(:page_title)).should be
       end
@@ -255,7 +201,7 @@ describe MainController do
       before do
         post :getinvolved, :p => 'paypal_cancel'
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'sets some info about the page' do
         (/Get Involved/ =~ assigns(:page_title)).should be
       end
@@ -371,23 +317,14 @@ describe MainController do
         login_as(fan)
         get :faq
       end
-      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "logged in user"
-      it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
-      end
     end
     context "while logged in as artist" do
       before do
         login_as(artist)
         get :faq
       end
-      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "logged in user"
-      it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
-      end
-
     end
   end
   describe '#main/venues' do
@@ -396,12 +333,7 @@ describe MainController do
       before do
         get :venues
       end
-      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
-      it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
-      end
-
     end
     context 'logged in as admin' do
       let(:venue_doc) {FactoryGirl.create(:cms_document,
@@ -429,7 +361,6 @@ describe MainController do
   end
 
   describe "#main/open_studios" do
-    render_views
     let(:open_studios_blurb) {
       FactoryGirl.create(:cms_document,
                          page: :main_openstudios,
@@ -448,31 +379,9 @@ describe MainController do
                                  open_studios_preview
                                 ] }
       before do
-        open_studios_docs
         get :open_studios
       end
-      it_should_behave_like 'standard sidebar layout'
       it_should_behave_like "not logged in"
-      it 'has social icons in the sidebar' do
-        assert_select '.lcol .social'
-      end
-
-      it "renders the markdown version" do
-        assert_select '.markdown h1', :match => 'pr header'
-        assert_select '.markdown h2', :match => 'pr header2'
-        assert_select '.markdown p em', :match => 'preview'
-      end
-
-      it 'the markdown entries have cms document ids in them' do
-        [ CmsDocument.where(:section => 'summary').all,
-          CmsDocument.where(:section => 'preview_reception').all ].flatten.each do |cmsdoc|
-          assert_select '.markdown[data-cmsid=%s]' % cmsdoc.id
-        end
-      end
-      it "uses cms for parties" do
-        expect(CmsDocument).to receive(:where).at_least(2).and_return(open_studios_docs)
-        get :open_studios
-      end
     end
     context "while logged in as an art fan" do
       before do
@@ -543,7 +452,7 @@ describe MainController do
     before do
       get :letter_from_howard_flax
     end
-    it_should_behave_like 'returns success'
+    it { expect(response).to be_success }
     it 'has the title' do
       assert_select('h4', 'Letter from Howard Flax');
     end
@@ -702,7 +611,6 @@ describe MainController do
   end
 
   describe 'status' do
-    render_views
     it 'hits the database' do
       Medium.should_receive :first
       get :status_page
@@ -724,13 +632,9 @@ describe MainController do
     before do
       get :sampler
     end
-    it 'grabs some random pieces' do
-      assigns(:rand_pieces).should have_at_least(1).piece
-      assigns(:rand_pieces).map(&:class).uniq.should eql [ArtPiecePresenter]
-    end
 
     it 'renders the thumbs partial' do
-      expect(response).to render_template 'thumbs'
+      expect(response).to render_template 'main/_sampler_thumb'
     end
   end
 end

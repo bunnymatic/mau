@@ -1,10 +1,9 @@
-class ArtPiecePresenter
+class ArtPiecePresenter < ViewPresenter
 
   attr_reader :art_piece
-  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :to => :art_piece
+  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :updated_at, :to => :art_piece
 
-  def initialize(view_context, art_piece)
-    @view_context = view_context
+  def initialize(art_piece)
     @art_piece = art_piece
   end
 
@@ -62,18 +61,18 @@ class ArtPiecePresenter
   end
 
   def path
-    @view_context.art_piece_path(art_piece)
+    url_helpers.art_piece_path(art_piece)
   end
 
   alias_method :show_path, :path
   alias_method :destroy_path, :path
 
   def edit_path
-    @view_context.edit_art_piece_path(art_piece)
+    url_helpers.edit_art_piece_path(art_piece)
   end
 
   def artist_path
-    @view_context.artist_path(artist.artist)
+    url_helpers.artist_path(artist.artist)
   end
 
 end

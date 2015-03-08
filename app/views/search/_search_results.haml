@@ -17,7 +17,7 @@
     .search-view-ctrls
       = render "search_pagination", pagination_opts
     #thumbs_by_artist.search-results
-      = render partial: '/artists/art', collection: @paginator.items, as: :art_piece
+      = render partial: '/artists/art', collection: @paginator.items, as: :art_piece, locals: { show_os_violator: true }
 
     .search-view-ctrls
       = render "search_pagination", pagination_opts

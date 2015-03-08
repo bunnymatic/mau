@@ -19,16 +19,24 @@ MAU.Sampler = class Sampler
         url: '/main/sampler'
         method:'get'
         success: (data, status, xhr) =>
-          existing = container.find('a[class^=pure-u]')
-          $('.sampler__empty').remove();
+          existing = container.find('.js-sampler__thumb')
+          $('.js-sampler__empty').remove();
           if existing.length
-            existing.fadeOut duration: @fadeTime
-            setTimeout ->
-              container.find('.sampler__promo').after(data);
-            , @fadeTime
+            # existing.fadeOut is called on *each* existing.
+            # instead of using complete we use the timeout to remove the old stuff
+            existing.fadeOut
+              duration: @fadeTime
+            setTimeout( ->
+              existing.remove()
+              container.find('.js-sampler__promo').after(data);
+            ,
+            @fadeTime
+            )
+            setTimeout(@updateArt, @refreshTime);
           else
-            container.find('.sampler__promo').after(data);
-          setTimeout(@updateArt, @refreshTime);
+            container.find('.js-sampler__promo').after(data);
+            setTimeout(@updateArt, @refreshTime);
+            
       jQuery.ajax( ajaxOpts )
 
 if (document.location.pathname == '/')

@@ -137,7 +137,7 @@ describe Admin::StudiosController do
         login_as manager
         get :edit, id: manager.studio.to_param
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'shows the studio info in a form' do
         assert_select 'form input#studio_url' do |tag|
           tag.first.attributes['value'].should eql studio.url
@@ -324,7 +324,7 @@ describe Admin::StudiosController do
         login_as manager
         get :index
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'shows a table of all studios' do
         Studio.all.each do |s|
           assert_select ".admin-table tr td a[href=#{studio_path(s)}]", HTMLEntities.new.encode(s.name, :hexadecimal)
@@ -357,7 +357,7 @@ describe Admin::StudiosController do
       end
       it 'shows an edit and destroy links for all studios except indy' do
         expected_count = Studio.count
-        assert_select(".admin-table tr td a .fa-edit", count: expected_count + 1)
+        assert_select(".admin-table tr td a .fa-edit", count: expected_count)
         assert_select(".admin-table tr td a[data-method=delete] .fa-remove", count: expected_count)
       end
       it 'includes a link to add a studio' do

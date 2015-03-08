@@ -4,8 +4,11 @@ describe OpenStudiosPresenter do
   let(:open_studios_event) { FactoryGirl.create :open_studios_event }
   let(:indy_artist) { FactoryGirl.create(:artist, :active, :with_art) }
   let(:studio_artists) { FactoryGirl.create_list :artist, 4, :with_art }
+  let(:studio2_artists) { FactoryGirl.create_list :artist, 4, :with_art }
   let(:artists) { [indy_artist] + studio_artists }
   let!(:studio) { FactoryGirl.create :studio, artists: studio_artists }
+  let!(:studio2) { FactoryGirl.create :studio, artists: studio2_artists }
+
 
   before do
     FactoryGirl.create(:cms_document,
@@ -17,12 +20,13 @@ describe OpenStudiosPresenter do
                        section: :preview_reception,
                        article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
     artists.first(2).each { |a| a.update_os_participation open_studios_event.key, true }
+    studio2_artists.last(3).each { |a| a.update_os_participation open_studios_event.key, true }
   end
 
-  its(:participating_studios) { should have_at_least(1).studio }
-  its(:participating_indies) { should have_at_least(1).artist }
-  its(:preview_reception) { should be_a_kind_of String }
-  its(:summary) { should be_a_kind_of String}
+  its(:participating_studios) { should have(2).studios }
+  its(:participating_indies) { should have(1).artist }
+  its(:preview_reception) { should include 'pr header' }
+  its(:summary) { should include 'spring 2004' }
   its(:preview_reception_data) { should have_key 'data-cmsid'}
   its(:preview_reception_data) { should have_key 'data-page'}
   its(:preview_reception_data) { should have_key 'data-section'}

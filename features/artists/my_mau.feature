@@ -4,13 +4,9 @@ Feature:
 
 Background:
   Given I login as an artist
+  And that artist is not doing open studios
   And there are future open studios events
 
-Scenario:
-  When I visit my home page
-  Then I see my art
-  And I see my big thumbs on the left
-  And I see the artist's menu
 
 @javascript
 Scenario:
@@ -30,28 +26,29 @@ Scenario:
   | artist_firstname | artist_lastname |
   | joe              | blow            |
 
-  When I click on the first "Open Studios" link
-  And I click on "yep"
+  And I click on "Personal Info"
+
+  When I click on the current open studios edit section
+  And I check yep for doing open studios
   Then I see a flash notice "more the merrier"
   And I close the notice
   And I see that I've successfully signed up for Open Studios
 
-  And I click on "nope"
+  And I check nope for doing open studios
   Then I see a flash notice "So sorry"
   And I close the notice
   Then I see that I've successfully unsigned up for Open Studios
 
-  And I click on "yep"
+  And I check yep for doing open studios
   Then I see a flash notice "more the merrier"
   And I close the notice
 
-  Then I click on "Links"
   And I update my personal information with:
-  | Flickr            |
-  | www.flickr.com/me |
-  And I click on "Save"
-  Then I see that I've successfully signed up for Open Studios
-  Then I click on "Links"
+  | artist_firstname |
+  | mr joe           |
+  And I click on "Save Changes"
+  Then I click on "Personal Info"
   And I see my updated personal information as:
-  | artist_artist_info_flickr  |
-  | www.flickr.com/me         |
+  | artist_firstname  |
+  | mr joe            |
+  And I see that I've successfully signed up for Open Studios

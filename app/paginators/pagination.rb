@@ -67,7 +67,7 @@ class Pagination
   end
 
   def items
-    (@array || [])[first_item..last_item]
+    (@array || [])[first_item..last_item] || []
   end
 
   def previous_link?
