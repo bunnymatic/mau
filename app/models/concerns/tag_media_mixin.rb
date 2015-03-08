@@ -17,7 +17,7 @@ module TagMediaMixin
     end
 
     def get_max_value(arr,fld)
-      arr.map{|m| m[fld].to_i}.max.to_f
+      arr.map{|m| m[fld].to_f}.max
     end
 
     def flush_cache
