@@ -34,7 +34,7 @@ class SearchController < ApplicationController
     @query = SearchQuery.new(params)
 
     results = SearchService.new(@query).search.map{|ap| ArtPiecePresenter.new(ap)}
-    
+
     @per_page_opts = per_page_options(results)
     @query.per_page = results.count < @query.per_page ? @per_page_opts.max : @query.per_page
 

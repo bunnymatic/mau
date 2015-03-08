@@ -20,11 +20,11 @@ class MediaCloudPresenter
   def find_medium(id)
     media_lut[id]
   end
-  
+
   def media_lut
     @media_lut = Hash[Medium.all.map{|m| [m.id, m]}]
   end
-  
+
   def media_for_display
     @media_for_display ||=
       begin

@@ -20,7 +20,7 @@ class ThumbnailBrowserPresenter
   def has_thumbs?
     thumbs.count > 0
   end
-  
+
   def is_current_piece(piece)
     piece == @current_piece
   end

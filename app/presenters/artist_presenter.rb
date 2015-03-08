@@ -4,7 +4,7 @@
 class ArtistPresenter < UserPresenter
 
   attr_accessor :model
-  
+
   delegate :doing_open_studios?, :media, :os_participation, :studio, :studio_id,
            :artist_info,
            to: :artist, allow_nil: true
@@ -52,7 +52,7 @@ class ArtistPresenter < UserPresenter
   #       site_display = format_link_for_display(site)
   #       link_icon_class = icon_link_class(key, site)
   #       content_tag 'a', href: formatted_site, title: display, target: '_blank' do
-  #         content_tag(:i,'', class: link_icon_class) + 
+  #         content_tag(:i,'', class: link_icon_class) +
   #           content_tag(:span,site_display)
   #       end
   #     end
@@ -113,7 +113,7 @@ class ArtistPresenter < UserPresenter
   # def favorites_path(opts = nil)
   #   url_helpers.user_favorites_path(artist)
   # end
-  
+
   def get_map_info
     content_tag('div', map_info_contents, class: 'map__info-window')
   end

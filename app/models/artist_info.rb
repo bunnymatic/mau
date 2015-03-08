@@ -58,7 +58,7 @@ class ArtistInfo < ActiveRecord::Base
     else
       key = os
     end
-    
+
     self.os_participation = Hash[key.to_s,value]
   end
 

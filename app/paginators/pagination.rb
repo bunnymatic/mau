@@ -23,7 +23,7 @@ class Pagination
     }
     "#{self.class}: #{attrs}"
   end
-  
+
   def should_paginate?
     last_page > first_page
   end

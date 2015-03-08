@@ -458,7 +458,7 @@ describe UsersController do
       end
     end
   end
-  
+
   describe "POST favorites" do
     context "requesting anything but a post" do
       it "redirects to login" do

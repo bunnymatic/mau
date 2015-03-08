@@ -6,7 +6,7 @@ FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
   layout 'application'
-  
+
   include MainHelper
   skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
 

@@ -4,8 +4,8 @@ class ArtSampler
   def initialize(view_context)
     @vc = view_context
   end
-  
-  def pieces 
+
+  def pieces
     get_random_pieces.map{|piece| ArtPiecePresenter.new(piece)}
   end
 

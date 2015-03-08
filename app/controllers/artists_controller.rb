@@ -250,11 +250,11 @@ class ArtistsController < ApplicationController
     if params[:artist].has_key?("studio") && params[:artist]["studio"].blank?
       params[:artist]["studio_id"] = nil
       params[:artist].delete("studio")
-    end      
-      
+    end
+
     params[:artist]
   end
-  
+
   def is_os_only(osonly)
     [true, "1",1,"on","true"].include? osonly
   end

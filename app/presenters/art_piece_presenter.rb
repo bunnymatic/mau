@@ -23,7 +23,7 @@ class ArtPiecePresenter < ViewPresenter
   def has_medium?
     medium.present?
   end
-  
+
   def has_tags?
     tags.present?
   end

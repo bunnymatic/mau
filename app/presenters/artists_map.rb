@@ -4,7 +4,7 @@ class ArtistsMap < ArtistsPresenter
     @view_context = vc
     super os
   end
-  
+
   def with_addresses
     @addresses ||= grouped_by_address.values.flatten.compact
   end

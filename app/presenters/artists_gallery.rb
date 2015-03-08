@@ -21,7 +21,7 @@ class ArtistsGallery < ArtistsPresenter
       "Sorry, we couldn't find any artists in the system."
     end
   end
-  
+
   def artists
     @artists ||= super.select do |artist|
       keep = artist.representative_piece

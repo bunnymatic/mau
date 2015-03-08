@@ -4,7 +4,7 @@
 class UserPresenter < ViewPresenter
 
   attr_accessor :model
-  
+
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
     :bio, :address, :address_hash, :get_name,
     :login, :active?,
@@ -19,7 +19,7 @@ class UserPresenter < ViewPresenter
   def doing_open_studios?
     false
   end
-  
+
   def what_i_favorite
     # collect artist and art piece stuff
     @what_i_favorite ||=
@@ -27,7 +27,7 @@ class UserPresenter < ViewPresenter
         user_favorites, art_piece_favorites = model.favorites.partition do |fav|
           ['Artist', 'User', 'MAUFan'].include? fav.favoritable_type
         end
-        
+
         [User.find(user_favorites.map(&:favoritable_id)),
          ArtPiece.find(art_piece_favorites.map(&:favoritable_id))].flatten.compact.uniq
       end
@@ -92,7 +92,7 @@ class UserPresenter < ViewPresenter
         site_display = format_link_for_display(site)
         link_icon_class = icon_link_class(key, site)
         content_tag 'a', href: formatted_site, title: display, target: '_blank' do
-          content_tag(:i,'', class: link_icon_class) + 
+          content_tag(:i,'', class: link_icon_class) +
             content_tag(:span,site_display)
         end
       end
@@ -123,7 +123,7 @@ class UserPresenter < ViewPresenter
       "/images/default-model.png"
     end
   end
-  alias_method :get_profile_image, :profile_image 
+  alias_method :get_profile_image, :profile_image
 
   private
   def format_link_for_display(link)

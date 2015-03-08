@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   def append_view_paths
     append_view_path "app/views/common"
   end
-  
+
   def store_location
     return unless request.format == 'text/html'
     if request.post? || request.xhr?

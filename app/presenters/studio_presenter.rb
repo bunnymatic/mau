@@ -21,7 +21,7 @@ class StudioPresenter
   def has_phone?
     phone.present?
   end
-  
+
   def formatted_phone
     phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
   end

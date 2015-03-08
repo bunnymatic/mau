@@ -42,10 +42,10 @@ describe User do
 
   context 'find by username or email' do
     let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
-    
+
     it 'finds users by their login' do
       expect(User.find_by_username_or_email('whatever_yo')).to eql artist
-    end      
+    end
     it 'finds users by their email' do
       expect(User.find_by_username_or_email('yo_whatever@example.com')).to eql artist
     end
@@ -54,7 +54,7 @@ describe User do
     end
 
   end
-      
+
   context 'unique field constraints' do
     before do
       stub_signup_notification

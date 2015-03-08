@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
-  before_filter :user_required, :only => [ :edit, :update, :suspend, :deactivate, 
+  before_filter :user_required, :only => [ :edit, :update, :suspend, :deactivate,
                                            :add_favorite, :remove_favorite, :change_password_update, :notify]
 
 

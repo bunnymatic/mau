@@ -33,7 +33,7 @@ class Studio < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: :slugged
-  
+
   has_many :artists
 
   acts_as_mappable
@@ -51,11 +51,11 @@ class Studio < ActiveRecord::Base
         a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
       end
     }
- 
+
   def to_param
     slug || id
   end
-  
+
   def normalize_phone_number
     if phone
       phone.gsub!(/\D+/,'')

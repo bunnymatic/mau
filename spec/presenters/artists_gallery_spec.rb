@@ -82,5 +82,5 @@ describe ArtistsGallery do
       end
     end
   end
-                           
+
 end

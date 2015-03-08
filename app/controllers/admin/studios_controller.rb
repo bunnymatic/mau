@@ -27,7 +27,7 @@ module Admin
       if @studio.save
         flash[:notice] = 'Studio was successfully created.'
         redirect_to(@studio)
-      else 
+      else
         render 'new'
       end
 
