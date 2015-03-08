@@ -1,4 +1,4 @@
-class OpenStudiosEventPresenter
+class OpenStudiosEventPresenter < ViewPresenter
 
   attr_reader :model
 
@@ -6,9 +6,8 @@ class OpenStudiosEventPresenter
 
   include OpenStudiosEventShim
 
-  def initialize(view_context, os_event)
+  def initialize(os_event)
     @model = os_event
-    @view_context = view_context
   end
 
   def title
@@ -28,7 +27,7 @@ class OpenStudiosEventPresenter
     if(available? && logo?)
       logo.url(:square)
     else
-      @view_context.image_path('mau-nextos.png')
+      image_path('mau-nextos.png')
     end
   end
 

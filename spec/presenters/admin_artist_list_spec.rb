@@ -15,7 +15,7 @@ describe AdminArtistList, :type => :controller do
   let(:reverse) { nil }
   let(:parsed) { CSV.parse(list.csv,:headers => true) }
 
-  subject(:list) { AdminArtistList.new(mock_view_context, sort_by, reverse) }
+  subject(:list) { AdminArtistList.new(sort_by, reverse) }
 
   its(:csv_filename) { should eql 'mau_artists.csv' }
   its(:csv_headers) { should eql parsed.headers }

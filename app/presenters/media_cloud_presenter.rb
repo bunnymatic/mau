@@ -1,12 +1,11 @@
-class MediaCloudPresenter
+class MediaCloudPresenter < ViewPresenter
 
   include TagsHelper
 
   attr_reader :frequency, :mode
 
   # medium is the selected one
-  def initialize(view_context, media, selected, mode)
-    @view_context = view_context
+  def initialize(media, selected, mode)
     @media = media
     @selected = selected
     @frequency = Medium.frequency(true)
@@ -14,7 +13,7 @@ class MediaCloudPresenter
   end
 
   def medium_path(medium)
-    @view_context.medium_path(medium, :m => mode)
+    url_helpers.medium_path(medium, :m => mode)
   end
 
   def find_medium(id)
@@ -31,8 +30,8 @@ class MediaCloudPresenter
         frequency.map do |entry|
           medium = find_medium(entry['medium'])
           next unless medium
-          @view_context.content_tag 'span', :class => 'clouditem' do
-            @view_context.link_to medium.safe_name, medium_path(medium)
+          content_tag 'span', :class => 'clouditem' do
+            link_to medium.safe_name, medium_path(medium)
           end
         end.select{|m| m.present?}
       end

@@ -7,7 +7,7 @@ describe ThumbnailBrowserPresenter do
   let(:artist) { FactoryGirl.create(:artist, :with_art) }
   let(:art_pieces) { artist.art_pieces }
   let(:art_piece) { artist.art_pieces[1] }
-  subject(:presenter) { ThumbnailBrowserPresenter.new(mock_view_context, artist, art_piece) }
+  subject(:presenter) { ThumbnailBrowserPresenter.new(artist, art_piece) }
 
   its(:pieces) { should have(artist.art_pieces.count).pieces }
   its(:thumbs) { should have(artist.art_pieces.count).pieces }

@@ -4,7 +4,7 @@ module Admin
     before_filter :admin_required
 
     def index
-      @os_events = OpenStudiosEvent.all.map{|osev| OpenStudiosEventPresenter.new(view_context, osev)}
+      @os_events = OpenStudiosEvent.all.map{|osev| OpenStudiosEventPresenter.new(osev)}
     end
 
     def new

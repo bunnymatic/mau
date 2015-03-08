@@ -24,7 +24,7 @@ class ArtistsController < ApplicationController
         cur_page = (params[:p] || 0).to_i
         filter = params[:filter]
         # build alphabetical list keyed by first letter
-        @gallery = ArtistsGallery.new(view_context, @os_only, cur_page, filter)
+        @gallery = ArtistsGallery.new(@os_only, cur_page, filter)
 
         @page_title = "Mission Artists United - MAU Artists"
         set_artists_index_links
@@ -46,7 +46,7 @@ class ArtistsController < ApplicationController
 
     set_artists_index_links
 
-    @map_info = ArtistsMap.new(view_context, @os_only)
+    @map_info = ArtistsMap.new(@os_only)
 
     render :map
   end
@@ -72,7 +72,7 @@ class ArtistsController < ApplicationController
     # collect query args to build links
     @os_only = is_os_only(params[:osonly])
 
-    @roster = ArtistsRoster.new(view_context, @os_only)
+    @roster = ArtistsRoster.new(@os_only)
 
     @page_title = "Mission Artists United - MAU Artists"
     set_artists_index_links
