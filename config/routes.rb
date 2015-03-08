@@ -50,8 +50,6 @@ Mau::Application.routes.draw do
   resources :artists, except: [:new, :create] do
     resources :art_pieces, except: [:destroy, :edit, :update]
     collection do
-      get :by_lastname
-      get :by_firstname
       get :roster
       post :destroyart
       get :suggest
@@ -65,7 +63,6 @@ Mau::Application.routes.draw do
       get :manage_art
       post :notify_featured
       post :update
-      get :bio
       get :qrcode
     end
   end

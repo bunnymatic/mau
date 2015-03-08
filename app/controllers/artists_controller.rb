@@ -147,16 +147,6 @@ class ArtistsController < ApplicationController
     end
   end
 
-  def bio
-    @artist = get_active_artist_from_params
-    set_artist_meta
-    if @artist.try(:bio).present?
-      redirect_to artist_path(@artist) and return
-    else
-      redirect_to artist_path(@artist)
-    end
-  end
-
   def qrcode
     @artist = get_active_artist_from_params
     if @artist
@@ -198,17 +188,6 @@ class ArtistsController < ApplicationController
   end
 
   protected
-  def fetch_thumbs(osonly = false)
-    page = params[:page] || 1
-    paginate_options = {page: page, per_page: 20 }
-    if osonly
-      @artists = Artist.active.open_studios_participants.with_representative_image.paginate paginate_options
-    else
-      @artists = Artist.active.with_representative_image.paginate paginate_options
-    end
-    @artists
-  end
-
   def safe_find_artist(id)
     Artist.where(id: id).first || Artist.where(login: id).first
   end
