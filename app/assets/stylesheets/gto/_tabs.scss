@@ -35,7 +35,7 @@
           @include transition( all 0.50s ease-in-out );
           border: none;
           @include ellipsis;
-          a { 
+          a {
             @include transition(all 0.40s ease-in);
             display: block;
             font-size: 12px;

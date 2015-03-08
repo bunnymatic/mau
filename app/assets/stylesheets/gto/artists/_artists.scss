@@ -39,7 +39,7 @@
     }
   }
   .map__list-of-artists {
-    ul, li { 
+    ul, li {
       margin: 0;
       padding: 0;
     }
@@ -79,7 +79,7 @@
     @include transition-duration(0.3s);
     @include transition-timing-function(ease-in-out);
   }
-    
+
   .scroll-load-more {
     text-align:center;
     margin:auto;
@@ -114,7 +114,7 @@
     }
   }
   .art-card, .artist-card {
-    .desc { 
+    .desc {
       height: 2.5rem;
       padding: 0.1rem;
     }
@@ -141,7 +141,7 @@
       }
     }
     @media (min-width: $screen-sm-min) {
-      .desc { 
+      .desc {
         @include opacity(0);
       }
     }
@@ -335,7 +335,7 @@
 .bio-container, .bio-container p {
   font-size: 0.9rem;
   line-height: 1.2rem;
-} 
+}
 .artist-profile {
   overflow:hidden;
 }

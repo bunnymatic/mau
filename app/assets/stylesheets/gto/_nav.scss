@@ -166,7 +166,7 @@
       /* border-top: 1px solid lighten($gto_gray, 40%); */
       @include transition(all 0.25s ease-in-out);
       padding: 10px 0;
-      li { 
+      li {
         height: 24px;
         line-height: 24px;
         @include transition(all 0.25s ease-in-out);
@@ -175,7 +175,7 @@
           padding-left: 12%;
           display: block;
         }
-        &.title { 
+        &.title {
           white-space: nowrap;
           overflow: hidden;
           height: 33px;
@@ -211,7 +211,7 @@
   }
 }
 
-@media screen and (max-width: $screen-sm-max) { 
+@media screen and (max-width: $screen-sm-max) {
   .sidenav {
     .nav-icon {
       margin-top: 5px;

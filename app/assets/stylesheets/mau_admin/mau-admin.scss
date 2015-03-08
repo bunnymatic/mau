@@ -8,29 +8,29 @@
 body.admin {
 
   .admin-table {
-    table { 
-      width: 100%; 
-      border-collapse: collapse; 
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
     /* Zebra striping */
-    tr:nth-of-type(even) { 
-      background: #333; 
+    tr:nth-of-type(even) {
+      background: #333;
     }
-    th { 
-      background: #333; 
-      font-weight: bold; 
+    th {
+      background: #333;
+      font-weight: bold;
     }
-     
-    td, th { 
-      padding: 6px; 
-      text-align: left; 
+
+    td, th {
+      padding: 6px;
+      text-align: left;
     }
     .picker {
       th {
         background: transparent;
       }
-      tr:nth-of-type(even) { 
-        background: #eee; 
+      tr:nth-of-type(even) {
+        background: #eee;
       }
     }
   }
@@ -256,7 +256,7 @@ body.admin {
     }
   }
   .artist_feeds, .current_feed_content {
-    padding: 20px; 
+    padding: 20px;
   }
   .artist_feeds {
     .links {
