@@ -23,13 +23,8 @@ class StudioArtist
     @artist.studio == @studio
   end
 
-  def manager_role
-    @manager_role ||= Role.manager
-  end
-
   def artist_roles
     @artist_roles ||= @artist.roles_users
   end
-
 
 end

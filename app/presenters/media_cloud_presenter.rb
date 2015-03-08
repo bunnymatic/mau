@@ -13,11 +13,6 @@ class MediaCloudPresenter
     @mode = mode
   end
 
-  def media_for_display
-    @media_for_display ||= begin
-                           end                             
-  end
-  
   def medium_path(medium)
     @view_context.medium_path(medium, :m => mode)
   end

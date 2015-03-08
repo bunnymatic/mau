@@ -7,7 +7,8 @@ class ArtistsGallery < ArtistsPresenter
   delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
 
   def initialize(view_context, os_only, current_page, filter, per_page = PER_PAGE)
-    super view_context, os_only
+    super os_only
+    @view_context = view_context
     @per_page = per_page
     @filters = (filter || '').strip.split(/\s+/).compact
     @pagination = ArtistsPagination.new(@view_context, artists, current_page, @per_page)

@@ -1,10 +1,9 @@
-= form_for([:admin,studio]) do |f|
+= semantic_form_for([:admin,studio]) do |f|
   = render '/common/form_errors', :form => f
+  = render '/flash_notice_error'
+  = f.inputs do
+    - [:name, :street, :cross_street, :city, :state, :zip, :phone, :url].each do |textfield|
+      = f.input textfield
 
-  - [:name, :street, :cross_street, :city, :state, :zip, :phone, :url].each do |textfield|
-    .field-row
-      = f.label textfield
-      = f.text_field textfield
-
-  %p.controls
-    = f.submit :class => 'formbutton'
+  = f.actions do
+    = f.submit :class => 'pure-button pure-button-primary'
