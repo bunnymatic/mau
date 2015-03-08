@@ -1,16 +1,16 @@
 .admin-table.edit
   %h1 Editing studio #{@studio.name}
-  = render :partial => '/flash_notice_error'
+  = render partial: '/flash_notice_error'
   .info.block
     %h3 Address/Info
-    = render 'form', :studio => @studio
+    = render 'form', studio: @studio
     = link_to 'Show', @studio
     = "|"
     = link_to 'All Studios', studios_path
   .image.block
     %h3 Logo
     %p
-      %img{:src => @studio.get_profile_image('small') || '/images/default-profile-img.png'}
+      %img{src: @studio.get_profile_image('small') || '/images/default-profile-img.png'}
     %p
       = link_to 'update profile img', add_profile_admin_studio_path(@studio)
   .clear
@@ -25,7 +25,7 @@
       %p NOTE: please use that with care.  You can not undo that action.  Only the artist can re-affiliate themselves with a studio.
 
     %ul.artists
-    - @studio.artists.active.sort_by{|a| a.lastname.downcase}.each do |a|
-      %li.artist{"data-artist" => a.id}
-        %span #{a.fullname}
-        = link_to "X", unaffiliate_artist_admin_studio_path(@studio, :artist_id => a.id), :title => "Remove artist's affiliation with #{@studio.name}", :method => :post,  :confirm => "Are you sure you want to remove #{a.fullname} from #{@studio.name}'s list of artists?" unless a.id == current_user.id
+      - @studio.artists.active.sort_by{|a| a.lastname.downcase}.each do |a|
+        %li.artist{"data-artist" => a.id}
+          %span #{a.fullname}
+          = link_to "X", unaffiliate_artist_admin_studio_path(@studio, artist_id: a.id), class: 'unaffiliate', title: "Remove artist's affiliation with #{@studio.name}", method: :post,  confirm: "Are you sure you want to remove #{a.fullname} from #{@studio.name}'s list of artists?" unless a.id == current_user.id

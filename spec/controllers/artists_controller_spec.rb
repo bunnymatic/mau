@@ -6,7 +6,7 @@ describe ArtistsController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil, firstname: 'joe', lastname: 'blow') }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
-  let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art) }
+  let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art, firstname: 'Bill', lastname: 'Tagman') }
   let(:without_address) { FactoryGirl.create(:artist, :active, :with_no_address) }
   let(:artists) do
     [artist] + FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art)
