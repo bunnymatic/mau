@@ -47,4 +47,7 @@ class UserSessionsController < ApplicationController
     @cms_content = CmsDocument.packaged('signup','signup')
   end
 
+  def user_session_params
+    params[:user_session]
+  end
 end

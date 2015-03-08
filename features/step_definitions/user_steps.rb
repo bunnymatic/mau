@@ -10,6 +10,10 @@ When(/^I fill in "(.*?)" for my password$/) do |pass|
   fill_in_login_form @artist.login, pass
 end
 
+When(/^I fill in valid credentials using my email$/) do
+  fill_in_login_form @artist.email, "bmatic"
+end
+
 When(/^I fill in valid credentials$/) do
   fill_in_login_form @artist.login, "bmatic"
 end

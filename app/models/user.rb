@@ -53,6 +53,21 @@ require File.join(Rails.root, 'app','lib', 'mailchimp')
 
 class User < ActiveRecord::Base
 
+  validates_presence_of     :login
+  validates_length_of       :login,    within: 5..40
+  validates_uniqueness_of   :login
+  validates_format_of       :login,    with: Mau::Regex::LOGIN, message: Mau::Regex::BAD_LOGIN_MESSAGE
+
+  validates_presence_of     :email
+  validates_length_of       :email,    within: 6..100 #r@a.wk
+  validates_uniqueness_of   :email
+  validates_format_of       :email,    with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE
+  validates_length_of       :firstname,maximum: 100, allow_nil: true
+  validates_length_of       :lastname, maximum: 100, allow_nil: true
+
+  # custom validations
+  validate :validate_email
+
   # I was initially worried about routes here - i think we should be fine moving forward
   #
   # RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','delete_art',
@@ -60,7 +75,6 @@ class User < ActiveRecord::Base
   #                            'arrange_art', 'setarrangement',
   #                            'admin','root','mau', 'mauadmin','maudev',
   #                            'jon','mrrogers','trish','trishtunney' ]
-
 
   include MailChimp
   include HtmlHelper
@@ -80,6 +94,10 @@ class User < ActiveRecord::Base
   before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_destroy :delete_favorites
+
+  def self.find_by_login_or_email(login)
+    find_by_email(login) || find_by_login(login)
+  end
 
   def delete_favorites
     fs = Favorite.artists.where(favoritable_id: id)
@@ -110,22 +128,6 @@ class User < ActiveRecord::Base
     c.act_like_restful_authentication = true
     c.transition_from_restful_authentication = true
   end
-
-
-  validates_presence_of     :login
-  validates_length_of       :login,    within: 5..40
-  validates_uniqueness_of   :login
-  validates_format_of       :login,    with: Mau::Regex::LOGIN, message: Mau::Regex::BAD_LOGIN_MESSAGE
-
-  validates_presence_of     :email
-  validates_length_of       :email,    within: 6..100 #r@a.wk
-  validates_uniqueness_of   :email
-  validates_format_of       :email,    with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE
-  validates_length_of       :firstname,maximum: 100, allow_nil: true
-  validates_length_of       :lastname, maximum: 100, allow_nil: true
-
-  # custom validations
-  validate :validate_email
 
   attr_accessible :login, :email, :password, :password_confirmation,
    :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume,
