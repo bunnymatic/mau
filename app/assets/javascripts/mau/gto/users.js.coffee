@@ -28,4 +28,4 @@ $ ->
         false
     jQuery.ajax(ajax_params)
     false
-    
+

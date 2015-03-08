@@ -24,7 +24,7 @@ $ ->
       _.each MAU.map_markers, (pin) ->
         if map.getBounds().contains(pin.getPosition())
           console.log(pin)
-    $('#map-canvas').on 'scroll', () ->      
+    $('#map-canvas').on 'scroll', () ->
       MAU.Utils.debounce(markVisibleMarkers, 250, false)
 
     markVisibleMarkers()

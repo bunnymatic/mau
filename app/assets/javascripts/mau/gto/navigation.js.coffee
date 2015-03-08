@@ -6,7 +6,7 @@ $ ->
     setActiveSection: ->
       path = location.pathname.replace(/\#.*$/, '')
       $('.nav a[href="' + path + location.search + '"]').closest('.tab').addClass('active')
-      
+
   $('.nav a[data-toggle=tab]').on 'click', (ev) ->
     # toggle tab if the click is on the active one
     activeTab = $('.tab-content ul.active').attr('id')
@@ -27,7 +27,7 @@ $ ->
       ev.preventDefault()
       ev.stopPropagation()
       navHelpers.hideTabs()
-    
+
   $('.nav .js-nav-mobile, .tab-content .js-close').on 'click', (ev) ->
     ev.preventDefault()
     ev.stopPropagation()
@@ -42,4 +42,4 @@ $ ->
   window.MAU ||= {}
   MAU.Navigation ||= {}
   MAU.Navigation = _.extend({}, MAU.Navigation, navHelpers);
-  
+

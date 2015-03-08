@@ -36,7 +36,7 @@ MAU.Sampler = class Sampler
           else
             container.find('.js-sampler__promo').after(data);
             setTimeout(@updateArt, @refreshTime);
-            
+
       jQuery.ajax( ajaxOpts )
 
 if (document.location.pathname == '/')
