@@ -652,13 +652,6 @@ describe ArtistsController do
         end
       end
     end
-    describe 'member paths' do
-      [:bio].each do |path|
-        it "should have #{path} as an artist member path" do
-          send("#{path}_artist_path", artist).should eql "/artists/#{artist.id}/#{path}"
-        end
-      end
-    end
   end
 
 end
