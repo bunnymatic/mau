@@ -36,7 +36,7 @@ class ArtPiecesController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @thumb_browser = ThumbnailBrowserPresenter.new(view_context, @art_piece.artist, @art_piece)
+        @thumb_browser = ThumbnailBrowserPresenter.new(@art_piece.artist, @art_piece)
         @art_piece = ArtPieceHtmlPresenter.new(@art_piece)
         render :action => 'show'
       }

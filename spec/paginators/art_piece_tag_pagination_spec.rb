@@ -12,8 +12,7 @@ describe ArtPieceTagPagination do
   let(:mode) { nil }
 
   subject(:paginator) do
-    ArtPieceTagPagination.new(mock_view_context,
-                              num_items.times.map{|x| x + 1},
+    ArtPieceTagPagination.new(num_items.times.map{|x| x + 1},
                               tag, current_page, mode, per_page)
   end
 

@@ -8,7 +8,7 @@ describe ArtistsMap do
   let(:ne_bounds) { Artist::BOUNDS['NE'] }
   let(:sw_bounds) { Artist::BOUNDS['SW'] }
 
-  subject(:map) { ArtistsMap.new(mock_view_context, os_only) }
+  subject(:map) { ArtistsMap.new(os_only) }
 
   context 'when os_only is false' do
     its(:grouped_by_address) { should have(map.artists.select(&:has_address?).map(&:address).compact.uniq.count).keys }

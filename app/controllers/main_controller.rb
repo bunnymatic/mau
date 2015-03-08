@@ -21,7 +21,7 @@ class MainController < ApplicationController
   end
 
   def sampler
-    render partial: 'sampler_thumb', collection: ArtSampler.new(view_context).pieces
+    render partial: 'sampler_thumb', collection: ArtSampler.new.pieces
   end
 
   def version
