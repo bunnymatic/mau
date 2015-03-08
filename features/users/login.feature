@@ -23,5 +23,5 @@ Scenario: login with my email
   When I fill in valid credentials using my email
   And I click "Sign In"
   Then I see that I'm logged in
-  And I click "log out"
+  And I click on the first "sign out" link
   Then I see that I'm logged out
