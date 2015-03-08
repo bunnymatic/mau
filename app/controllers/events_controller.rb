@@ -11,12 +11,6 @@ class EventsController < ApplicationController
       format.html {
         @events = events
       }
-      format.mobile {
-        # @events = Event.published.reverse
-        @events = events
-        @page_title = "MAU Events"
-        render :layout => 'mobile'
-      }
       format.json  {
         render :json => raw_events
       }
@@ -38,12 +32,6 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
     @event = EventPresenter.new(view_context,event)
     @page_title = "MAU Event: %s" % @event.title
-    respond_to do |format|
-      format.html
-      format.mobile {
-        render :layout => 'mobile'
-      }
-    end
   end
 
   # GET /events/new

@@ -2,13 +2,12 @@ class StudioPresenter
 
   include OpenStudiosEventShim
 
-  attr_reader :studio, :is_mobile
+  attr_reader :studio
   delegate :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :to => :studio
 
-  def initialize(view_context, studio, is_mobile = false)
+  def initialize(view_context, studio)
     @studio = studio
     @view_context = view_context
-    @is_mobile = is_mobile
   end
 
   def name
@@ -27,16 +26,8 @@ class StudioPresenter
     phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
   end
 
-  def mobile_title
-    @mobile_title ||= "Studio: #{name}" if name
-  end
-
-  def fullsite_title
-    @fullsite_title ||= "Mission Artists United - Studio: %s" if name
-  end
-
   def page_title
-    @page_title ||= (is_mobile) ? mobile_title : fullsite_title
+    @page_title ||= "Mission Artists United - Studio: %s" if name
   end
 
   def image(size = 'small')

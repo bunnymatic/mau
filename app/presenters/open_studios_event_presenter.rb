@@ -2,7 +2,7 @@ class OpenStudiosEventPresenter
 
   attr_reader :model
 
-  delegate :key, :logo, :logo?, :to => :model
+  delegate :key, :logo, :logo?, :to_param, :to => :model
 
   include OpenStudiosEventShim
 
@@ -34,14 +34,6 @@ class OpenStudiosEventPresenter
 
   def available?
     !@model.nil?
-  end
-
-  def edit_path
-    @view_context.edit_admin_open_studios_event_path(@model)
-  end
-
-  def destroy_path
-    @view_context.admin_open_studios_event_path(@model)
   end
 
   def start_date

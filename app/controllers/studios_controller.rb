@@ -17,10 +17,6 @@ class StudiosController < ApplicationController
       format.json {
         render :json => @studio_list
       }
-      format.mobile {
-        @page_title = "Studios"
-        render :layout => 'mobile'
-      }
     end
   end
 
@@ -39,7 +35,6 @@ class StudiosController < ApplicationController
     respond_to do |format|
       format.html { }
       format.json { render :json => @studio.studio.to_json(:methods => 'artists') }
-      format.mobile { render :layout => 'mobile' }
     end
   end
 

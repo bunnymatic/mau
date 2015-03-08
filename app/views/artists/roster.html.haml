@@ -11,4 +11,4 @@
         .chunk.pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-5
           - artist_chunk.each do |artist|
             .name
-              = link_to artist.get_name, artist.show_path
+              = link_to artist.get_name, artist_path(artist)

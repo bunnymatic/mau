@@ -26,7 +26,7 @@
             classes << 'participating' if a.doing_open_studios?
           %tr{:class => classes.join(' ')}
             %td.admin_artist_name
-              %a{:href => a.show_path}
+              %a{:href => artist_path(a)}
                 = a.get_name
               %br
               (activated? #{a.activation_state})

@@ -15,9 +15,6 @@ describe ArtistPresenter do
   its(:allows_email_from_artists?) { should be_true }
   its(:has_links?) { should be_true }
   its(:links) { should be_present }
-  its(:fb_share_link) {
-    should include "http://www.facebook.com\/sharer.php?u=#{artist.get_share_link(true)}"
-  }
   its(:favorites_count) { should be_nil }
   its(:studio_name) { should eql artist.studio.name }
   its(:has_art?) { should be_true }

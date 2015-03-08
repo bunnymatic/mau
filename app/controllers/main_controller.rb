@@ -11,12 +11,7 @@ class MainController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
 
   def index
-    respond_to do |format|
-      format.html {
-        @is_homepage = true
-      }
-      format.mobile { render :layout => 'mobile_welcome' }
-    end
+    @is_homepage = true
   end
 
   def contact
