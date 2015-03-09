@@ -382,7 +382,7 @@ describe AdminController do
     describe "compute_artists_per_day" do
       it "returns an array" do
         artists_per_day.should be_a_kind_of(Array)
-        artists_per_day.should have(3).items
+        artists_per_day.should have(4).items
       end
       it "returns an entries have date and count" do
         entry = artists_per_day.first

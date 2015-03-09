@@ -61,16 +61,7 @@ class MainController < ApplicationController
 
   def about
     @page_title = "Mission Artists United - About Us"
-    respond_to do |fmt|
-      fmt.html {
-        @content = CmsDocument.packaged('main','about')
-        render
-      }
-      fmt.mobile {
-        @page_title = "About Us"
-        render :layout => 'mobile'
-      }
-    end
+    @content = CmsDocument.packaged('main','about')
   end
 
   def status_page
@@ -134,17 +125,17 @@ class MainController < ApplicationController
     # controller/model behind it
   end
 
-  def non_mobile
-    session[:mobile_view] = false
-    ref = request.referer if is_local_referer?
-    redirect_to ref || root_path
-  end
+  # def non_mobile
+  #   session[:mobile_view] = false
+  #   ref = request.referer if is_local_referer?
+  #   redirect_to ref || root_path
+  # end
 
-  def mobile
-    session[:mobile_view] = true
-    ref = request.referer if is_local_referer?
-    redirect_to ref || root_path
-  end
+  # def mobile
+  #   session[:mobile_view] = true
+  #   ref = request.referer if is_local_referer?
+  #   redirect_to ref || root_path
+  # end
 
 
   def sitemap
