@@ -206,7 +206,7 @@ MAU.SearchPage = class MAUSearch
   initPaginator: () ->
     _that = this
     frm = jQuery(this.searchFormSelector)
-    pages = jQuery('.paginator a')
+    pages = jQuery('.js-search-paginator a')
     if pages.length
       _.each pages, (page) ->
         jQuery(page).bind 'click', (ev) ->

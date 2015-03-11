@@ -32,7 +32,8 @@ describe MediaController do
   describe "#show" do
     let(:medium) { Artist.active.map(&:art_pieces).flatten.map(&:medium).first }
     context 'for valid medium' do
-      render_views
+      let(:paginator) { assigns(:paginator) }
+
       context 'by artist' do
         before do
           get :show, :id => medium.id, :m => 'a'
@@ -42,7 +43,7 @@ describe MediaController do
           assigns(:media_presenter).should be_by_artists
         end
         it "assigns pieces" do
-          assigns(:pieces).should have_at_least(1).piece
+          paginator.items.should have_at_least(1).piece
         end
       end
       context 'by art piece' do
@@ -54,7 +55,7 @@ describe MediaController do
           assigns(:media_presenter).should be_by_pieces
         end
         it "assigns pieces" do
-          assigns(:pieces).should have_at_least(1).piece
+          paginator.items.should have_at_least(1).piece
         end
         it "assigns all media" do
           assigns(:media).should have_at_least(1).medium
@@ -66,14 +67,8 @@ describe MediaController do
           freq = assigns(:frequency)
           freq.should be_present
         end
-        it "draws tag cloud" do
-          assert_select('.tagcloud')
-        end
-        it "tag cloud has items" do
-          assert_select('.clouditem')
-        end
         it "pieces are in order of art_piece updated_date" do
-          assigns(:pieces).map(&:updated_at).should be_monotonically_decreasing
+          paginator.items.map(&:updated_at).should be_monotonically_decreasing
         end
       end
     end

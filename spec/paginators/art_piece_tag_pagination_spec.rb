@@ -18,9 +18,9 @@ describe ArtPieceTagPagination do
 
   context 'with minimal arguments' do
     its(:previous_title) { should eq 'previous' }
-    its(:previous_label) { should eq '&lt;prev' }
+    its(:previous_label) { should eq '<' }
     its(:next_title) { should eq 'next' }
-    its(:next_label) { should eq 'next&gt;' }
+    its(:next_label) { should eq '>' }
     its(:next_link) { should eq art_piece_tag_path(tag, :p => 1) }
     its(:previous_link) { should eq art_piece_tag_path(tag, :p => 0) }
   end

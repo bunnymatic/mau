@@ -82,22 +82,21 @@ Then(/^I see that I've successfully unsigned up for Open Studios$/) do
   expect(@artist.reload.doing_open_studios?).to eq false
 end
 
-When(/^I click on an artists' page$/) do
+When(/^I click on the first artist's card$/) do
   @artist = Artist.active.all.detect{|a| a.art_pieces.present?}
+  click_on_first @artist.full_name
 end
 
-Then(/^I see that artists profile page$/) do
+Then(/^I see that artist's profile page$/) do
   expect(page).to have_css '.header', text: @artist.full_name
   expect(page).to have_css '.artist-profile'
   expect(page).to have_content @artist.facebook
-  expect(page).to have_content @artist.medium
-  binding.pry
+  expect(page).to have_content @artist.primary_medium.name
   expect(current_path).to eql artist_path(@artist)
 end
 
-Then(/^I click on an art card$/) do
-  first_art_card = all('.artist-card a').first
-  binding.pry
+When(/^I click on an art card$/) do
+  first_art_card = all('.art-card a').first
   first_art_card.click
 end
 

@@ -8,7 +8,10 @@ class MediumPagination < Pagination
     super art_pieces, current_page, per_page
   end
 
-
+  def page_link(page)
+    url_helpers.medium_path(@current_medium, page_args.merge(:p => page))
+  end
+  
   def previous_link
     url_helpers.medium_path(@current_medium, page_args.merge(:p => previous_page))
   end

@@ -57,8 +57,14 @@ end
 
 Then /^I (save|take) a screenshot$/ do |dummy|
   f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
-  save_screenshot(f)
-  puts "Saved Screenshot #{f}"
+  begin
+    save_screenshot(f)
+    puts "Saved Screenshot #{f}"
+  rescue Capybara::NotSupportedByDriverError
+    f = f.gsub /png$/, 'html'
+    puts "Screenshot not supported - saving html to #{f}"
+    save_page(f)
+  end
 end
 
 When /I visit the login page/ do
@@ -183,6 +189,10 @@ end
 
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
   step %Q|I click on "#{link_title}" in the ".nav.nav-tabs"|
+end
+
+When(/^I click on the first "([^"]*?)"$/) do |button_text|
+  find_first_link_or_button(button_text).click
 end
 
 When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
