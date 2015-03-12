@@ -92,7 +92,7 @@ describe ArtPieceTagsController do
 
     context 'for an unknown tag' do
       before do
-        get :show, :id => '5abc'
+        get :show, :id => 'abc5'
       end
       it 'redirects to the most popular tag' do
         expect(response).to redirect_to art_piece_tag_path(tag)
