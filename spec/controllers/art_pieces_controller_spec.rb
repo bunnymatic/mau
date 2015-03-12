@@ -50,11 +50,6 @@ describe ArtPiecesController do
               expect(keywords).to include ex
             end
           end
-
-          it 'shows the thumbnail browser' do
-            assert_select "art-pieces-browser[art-piece-id=#{art_piece.id}]"
-          end
-
         end
       end
 
