@@ -18,10 +18,16 @@
   .desc
     .name
       = art_piece.title
-    - if art_piece.has_medium?
-      .media
+    .media
+      - if art_piece.has_medium?
         = link_to art_piece.medium.name.html_safe, art_piece.medium
-    - if art_piece.has_tags?
-      .tags
+      - else
+        &nbsp;
+    .tags
+      - if art_piece.has_tags?
         = art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
+      - else
+        &nbsp;
+        
+        
 

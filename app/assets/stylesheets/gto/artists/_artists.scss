@@ -115,7 +115,6 @@
   }
   .art-card, .artist-card {
     .desc {
-      height: 2.5rem;
       padding: 0.1rem;
     }
     .name, .media, .tags {
@@ -255,6 +254,9 @@
       width: 100%;
       position: absolute;
       bottom: 20px;
+    }
+    .text {
+      padding-right: 3px;
     }
     .fa {
       font-size: 0.9rem;
