@@ -97,7 +97,7 @@ end
 
 When(/^I click on an art card$/) do
   first_art_card = all('.art-card a').first
-  first_art_card.click
+  first_art_card.trigger('click')
 end
 
 Then(/^I see that art piece detail page$/) do

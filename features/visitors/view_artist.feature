@@ -12,11 +12,11 @@ Scenario:  Drilling down to an art piece page from the sampler
   And I click on the first artist's card
   And I see that art piece detail page
 
+@javascript
 Scenario:  Drilling down to an art piece page through the artists' index
   When I visit the home page
   And I click on the first "artists" link
   And I click on the first artist's card
   Then I see that artist's profile page
   When I click on an art card
-  And I take a screenshot
   And I see that art piece detail page
