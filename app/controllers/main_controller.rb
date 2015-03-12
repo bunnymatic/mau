@@ -6,17 +6,12 @@ FEEDS_KEY = 'news-feeds'
 
 class MainController < ApplicationController
   layout 'application'
-  
+
   include MainHelper
   skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
 
   def index
-    respond_to do |format|
-      format.html {
-        @is_homepage = true
-      }
-      format.mobile { render :layout => 'mobile_welcome' }
-    end
+    @is_homepage = true
   end
 
   def contact
@@ -26,7 +21,7 @@ class MainController < ApplicationController
   end
 
   def sampler
-    render partial: 'sampler_thumb', collection: ArtSampler.new(view_context).pieces
+    render partial: 'sampler_thumb', collection: ArtSampler.new.pieces
   end
 
   def version
@@ -66,16 +61,7 @@ class MainController < ApplicationController
 
   def about
     @page_title = "Mission Artists United - About Us"
-    respond_to do |fmt|
-      fmt.html {
-        @content = CmsDocument.packaged('main','about')
-        render
-      }
-      fmt.mobile {
-        @page_title = "About Us"
-        render :layout => 'mobile'
-      }
-    end
+    @content = CmsDocument.packaged('main','about')
   end
 
   def status_page
@@ -139,17 +125,17 @@ class MainController < ApplicationController
     # controller/model behind it
   end
 
-  def non_mobile
-    session[:mobile_view] = false
-    ref = request.referer if is_local_referer?
-    redirect_to ref || root_path
-  end
+  # def non_mobile
+  #   session[:mobile_view] = false
+  #   ref = request.referer if is_local_referer?
+  #   redirect_to ref || root_path
+  # end
 
-  def mobile
-    session[:mobile_view] = true
-    ref = request.referer if is_local_referer?
-    redirect_to ref || root_path
-  end
+  # def mobile
+  #   session[:mobile_view] = true
+  #   ref = request.referer if is_local_referer?
+  #   redirect_to ref || root_path
+  # end
 
 
   def sitemap

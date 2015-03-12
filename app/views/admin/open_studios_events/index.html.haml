@@ -23,8 +23,8 @@
             - if os_event.logo?
               = link_to os_event.logo.original_filename, os_event.logo.url(:square), target: '_blank'
           %td.input-name
-            = link_to os_event.edit_path, title: 'Edit' do
+            = link_to edit_admin_open_studios_event_path(os_event), title: 'Edit' do
               = fa_icon 'edit'
-            = link_to os_event.destroy_path, confirm: 'Are you sure?', method: :delete, title: "Delete" do
+            = link_to admin_open_studios_event_path(os_event), confirm: 'Are you sure?', method: :delete, title: "Delete" do
               = fa_icon 'remove'
 

@@ -84,32 +84,21 @@ describe ArtPieceTagsController do
       tags
     end
     context 'for different tags' do
-      render_views
       before do
         get :show, :id => tag.id
       end
       it { expect(response).to be_success }
-      it "renders the requested tag highlighted" do
-        assert_select '.tagcloud .clouditem.tagmatch'
-      end
-      it "renders art that has the requested tag" do
-        assert_select '.art-card a', @disp
-      end
     end
 
     context 'for an unknown tag' do
       before do
-        get :show, :id => '5abc'
+        get :show, :id => 'abc5'
       end
       it 'redirects to the most popular tag' do
         expect(response).to redirect_to art_piece_tag_path(tag)
       end
     end
 
-    it 'grabs the next page' do
-      get :show, :id => tag.id, :p => 1
-    end
-    it { expect(response).to be_success }
   end
 
 end

@@ -36,3 +36,22 @@ Then(/^I see more artists who have art in the most popular tag$/) do
   expect(page).to have_content @first_tag.art_pieces.first.title
   expect(page).to_not have_content @first_tag.art_pieces.last.title
 end
+
+
+When(/^I click on the first tag$/) do
+  tag_link = all('.art-piece__info tag a').first
+  tag_path = tag_link['href']
+  @tag = ArtPiceTag.find( tag_path.gsub(/^\/media\//, '') )
+  tag_link.click
+end
+
+Then(/^I see that tag detail page$/) do
+  expect(current_path).to eql art_piece_tag_path(@tag)
+  expect(page).to have_content @tag.name
+  expect(page).to have_css '.tagcloud li'
+  expect(page).to have_css ".art-card .media a" do |tags|
+    tags.each do |tag|
+      expect(tag['href']).to eql art_piece_tag_path(@tag)
+    end
+  end
+end

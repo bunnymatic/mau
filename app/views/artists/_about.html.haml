@@ -14,7 +14,7 @@
           - if logged_in? && (artist.artist == current_user)
             .card__controls
               .artist-profile__edit 
-                = link_to artist.edit_path, title: 'edit your profile' do
+                = link_to edit_artist_path(artist), title: 'edit your profile' do
                   .fa.fa-icon.fa-edit
           .header Studio
           .body  
@@ -41,7 +41,7 @@
       - if logged_in? && (artist.artist == current_user)
         .card__controls
           .artist-profile__edit 
-            = link_to artist.edit_path(anchor: 'bio'), title: 'edit this profile' do
+            = link_to edit_artist_path(artist, anchor: 'bio'), title: 'edit this profile' do
               .fa.fa-icon.fa-edit
       .header Artist's Statement
       .bio-container{ class: artist.has_bio? ? '' : 'empty' }
@@ -66,14 +66,14 @@
     .pure-u-1-1
       %section.favorites
         .header 
-          = link_to artist.favorites_path do
+          = link_to user_favorites_path(artist) do
             Who I
             = fa_icon 'heart'
         = render partial: "/users/favorite_thumbs", locals: { collection: artist.what_i_favorite }
     .pure-u-1-1
       %section.favorites
         .header 
-          = link_to artist.favorites_path do
+          = link_to user_favorites_path(artist) do
             Who 
             = fa_icon 'heart'
             's me

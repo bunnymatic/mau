@@ -12,7 +12,7 @@ describe ArtistsGallery do
   let(:showing_artists) { artists.select{|a| a.representative_piece} }
   let(:os_only) { false }
 
-  subject(:presenter) { ArtistsGallery.new(mock_view_context, os_only, current_page, filter, per_page) }
+  subject(:presenter) { ArtistsGallery.new(os_only, current_page, filter, per_page) }
 
   before do
     fix_leaky_fixtures
@@ -82,5 +82,5 @@ describe ArtistsGallery do
       end
     end
   end
-                           
+
 end

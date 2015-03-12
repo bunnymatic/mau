@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'ArtistsController Routes' do
   describe 'member routes' do
     describe 'gets' do
-      [:bio, :qrcode].each do |endpoint|
+      [:qrcode].each do |endpoint|
         it "routes #{endpoint} to the ArtistsController##{endpoint}" do
           { :get => "/artists/123/#{endpoint}" }.
             should route_to({:controller => 'artists', :id => '123', :action => endpoint.to_s})

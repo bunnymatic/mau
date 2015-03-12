@@ -30,21 +30,23 @@
         .tags
           %span{"ng-repeat" => 'tag in artPiece.tags', 'repeater-delimiter' => ','}
             %art-piece-tag{"tag" => "tag" }
-    .push.social-buttons
-      .share Share
-      %share-button{ type: 'twitter', "ng-if" => "artPiece.id" }
-      %share-button{ type: "facebook",  "ng-if" => "artPiece.id" }
-      %share-button{ type: "pinterest", "ng-if" => "artPiece.id" }
-      %favorite-this{ "ng-if" => "artPiece.id" }
+    .push
+      .social-buttons
+        .share Share
+        %share-button{ type: 'twitter', "ng-if" => "artPiece.id" }
+        %share-button{ type: "facebook",  "ng-if" => "artPiece.id" }
+        %share-button{ type: "pinterest", "ng-if" => "artPiece.id" }
+        %favorite-this{ "ng-if" => "artPiece.id" }
+      .profile-info
+        %a{"ng-href" => "{{currentArtistPath()}}", class: 'pure-button pure-button-sm'}
+          back to artist's profile
+
   .pure-u-4-5.art-piece
     %img.pure-img{ "image-fader" => '', "ng-src" => "{{artPiece.image_files.large}}" }
 
   .pure-u-1-1
     .pure-g.browser
-      .piece.pure-u-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.id)}" }
+      .piece.pure-u-1-4.pure-u-sm-1-6.pure-u-md-1-8.pure-u-lg-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.id)}" }
         %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setCurrent($event, $index)"}
           .image{ "ng-style" => "{backgroundImage: 'url({{piece.image_files.small}})'}"}
-.pure-u-1-1
-  %a{href: "{{currentArtistPath()}}", class: 'pure-button pure-button-primary'}
-    See more by {{artist.full_name}}
 

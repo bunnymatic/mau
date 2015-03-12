@@ -1,8 +1,8 @@
 $ ->
   SEARCH_FORM_ID = 'search_form_container'
   INPUT_SELECTOR = 'input#search_keywords'
-  RESULTS_CONTAINER = '.search-autocomplete-results'  
-  RESULT_ITEM = '.search-autocomplete-result'  
+  RESULTS_CONTAINER = '.search-autocomplete-results'
+  RESULT_ITEM = '.search-autocomplete-result'
 
   searchHelpers =
     closeSearch: ->
@@ -39,7 +39,7 @@ $ ->
           entry = buildArtPieceHtml(art_piece)
           $(RESULTS_CONTAINER).find('.js-results').append(entry)
       error: (data) ->
-        
+
   throttledSearch = MAU.Utils.debounce(search,150,false)
 
   getSelected = ->
@@ -48,7 +48,7 @@ $ ->
 
   getResultItems = ->
     $(RESULTS_CONTAINER).find(RESULT_ITEM)
-    
+
   selectNext = ->
     selected = getSelected()
     if selected
@@ -75,8 +75,8 @@ $ ->
     if selected
       ev.preventDefault()
       location.href = $(selected).find('a').attr('href')
-      false    
-    
+      false
+
   $('.js-main-container').on 'keyup change', INPUT_SELECTOR, (ev) ->
     console.log 'keyup or change'
     console.log ev.which
@@ -91,14 +91,14 @@ $ ->
         gotoSelected(ev)
       else
         throttledSearch()
-    
+
 
   $('.js-main-container').on 'submit', "##{SEARCH_FORM_ID} form", (ev) ->
     unless $(INPUT_SELECTOR).val()
       searchHelpers.closeSearch()
       ev.preventDefault()
       false
-      
+
   window.MAU ||= {}
   MAU.Search ||= {}
   MAU.Search = _.extend({}, MAU.Search, searchHelpers);

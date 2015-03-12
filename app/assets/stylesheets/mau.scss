@@ -134,7 +134,7 @@ h5 {
 
   @include large-rounded-corners;
   @extend .clearfix;
-  
+
   &.top, &.bottom {
     padding: 0;
     margin: 0;
@@ -1713,7 +1713,7 @@ search pages
       @include dotted_border;
     }
   }
-  
+
 }
 
 .artist-list h3, .studio-list h3 {
@@ -1771,8 +1771,8 @@ div.alt-login {
   margin: 1em;
   text-align: left;
 }
-.signup-table { 
-  width: 60%; 
+.signup-table {
+  width: 60%;
   margin: auto;
 }
 

@@ -28,5 +28,5 @@ artPiecesService = ngInject ($resource) ->
 
   list:(artistId) ->
     artPieces.index({id: artistId})
-    
+
 angular.module('mau.services').factory('artPiecesService', artPiecesService)

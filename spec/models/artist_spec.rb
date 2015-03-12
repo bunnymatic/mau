@@ -99,7 +99,7 @@ describe Artist do
     end
   end
   describe 'in_the_mission?' do
-    it "returns true for artist in the mission with no studio" do 
+    it "returns true for artist in the mission with no studio" do
       expect(artist_without_studio).to have_address
       expect(artist_without_studio).to be_in_the_mission
     end
@@ -270,13 +270,13 @@ describe Artist do
     let(:quentin) { create(:artist, :with_art) }
     let(:art_piece) { quentin.art_pieces.first }
     context "then artist removes that artpiece" do
-      before do 
+      before do
         artist.add_favorite(art_piece)
         artist.add_favorite(quentin)
 
         # validate fixtures setup
         expect(artist.favorites.map(&:favoritable_id)).to include art_piece.id
-        
+
         art_piece.destroy
       end
       it "art_piece is no longer in users favorite list" do

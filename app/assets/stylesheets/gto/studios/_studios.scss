@@ -1,7 +1,7 @@
 @import 'mau-mixins';
 @import 'gto/gto-mixins';
 
-.studios, .studios.show {
+.studios:not(.admin), .studios.show {
   @include search-filter;
 
   .studio {
@@ -102,7 +102,7 @@
       font-weight: $font-weight-normal;
     }
     @media (min-width: $screen-sm-min) {
-      .desc { 
+      .desc {
         @include opacity(0);
       }
     }
@@ -128,5 +128,5 @@
       /* } */
     }
   }
-    
+
 }

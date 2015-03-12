@@ -15,10 +15,10 @@
 
   ul,li { margin: 0; padding: 0px;}
 
-  .link_groups > li {
+  .link-groups > li {
     margin-top: 10px;
   }
-  .link_section li {
+  .link-section li {
     padding: 5px 2px;
   }
   &:hover {
@@ -35,15 +35,13 @@
     @include round-left-corners(2px);
     .handle {
       border: 1px solid $gto_red;
-      border-top: none;
+      border-right: none;
       background-color: lighten($gto_red, 45%);
       position: absolute;
-      left: -60px;
-      top: 72px;
-      padding: 5px 8px;
-      @include round-bottom-corners(4px);
-      @include transform( rotate(90deg) );
-      @include transform-origin(top);
+      left: -24px;
+      top: 55px;
+      padding: 8px 6px 8px;
+      @include round-left-corners(4px);
       .title {
         letter-spacing: 0;
       }

@@ -28,7 +28,7 @@ module UsersHelper
   #   display_text = opts.delete(:display) || field.to_s.humanize.titleize
   #   errors = form.object.errors[field]
   #   has_errors = errors.any?
-    
+
   #   lbl = _label { form.label field, display_text }
   #   inp = _input { form.send(field_helper, field, opts) }
   #   err = _error { errors.join ", " } if has_errors
@@ -42,7 +42,7 @@ module UsersHelper
   # end
 
   def user_signup_select_options(user, type)
-    user.password = user.password_confirmation = nil 
+    user.password = user.password_confirmation = nil
     entries = [['<select your account type>', ''],
                ['Mission Art Fan', :MAUFan],
                ['Mission Artist', :Artist]]

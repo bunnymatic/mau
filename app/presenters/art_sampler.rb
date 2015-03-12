@@ -1,11 +1,7 @@
 class ArtSampler
 
   NUM_IMAGES = 15 - 4 # -4 for promo banner 2x2
-  def initialize(view_context)
-    @vc = view_context
-  end
-  
-  def pieces 
+  def pieces
     get_random_pieces.map{|piece| ArtPiecePresenter.new(piece)}
   end
 

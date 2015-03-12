@@ -5,4 +5,4 @@ $ ->
     $(@).closest('form').on 'submit', -> false
     input = $(@).closest('div').find('input')
     input.focus()
-    
+

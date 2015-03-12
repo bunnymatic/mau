@@ -1,10 +1,10 @@
 angular.module('MauApp', [
   'templates',
-  'ngResource', 
+  'ngResource',
   'ngSanitize',
   'ui.keypress',
-  'mau.controllers', 
-  'mau.services', 
+  'mau.controllers',
+  'mau.services',
   'mau.directives']
 )
 .config ngInject ($locationProvider) ->

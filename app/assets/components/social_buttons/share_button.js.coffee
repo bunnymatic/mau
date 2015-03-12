@@ -6,7 +6,7 @@ controller = ngInject ($scope, $attrs) ->
 
   $scope.description = () ->
     "Check out #{$scope.artPiece.title} by #{$scope.artPiece.artist_name} on Mission Artists United #{$scope.artPieceLink()} @sfmau"
-    
+
   $scope.facebookLink = () ->
     safeStatus = encodeURIComponent($scope.artPieceLink())
     "https://www.facebook.com/sharer/sharer.php?u=#{safeStatus}"
@@ -35,10 +35,10 @@ controller = ngInject ($scope, $attrs) ->
       when 'twitter' then 'Tweet this'
       when 'facebook' then 'Share this on Facebook'
       when 'pinterest' then'Pin it'
-        
+
   $scope.iconClass = () ->
     "ico-#{$attrs.type}"
-        
+
 shareButton = ->
   restrict: 'E'
   templateUrl: 'social_buttons/index.html'

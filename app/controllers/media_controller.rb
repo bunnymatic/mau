@@ -24,37 +24,18 @@ class MediaController < ApplicationController
   def show
     @medium = Medium.find(params[:id])
 
-    respond_to do |format|
-      format.html {
-        _show_html
-      }
-      format.mobile {
-        @page_title = "Media: " + @medium.name
-        _show_mobile
-        render :layout => "mobile"
-      }
-    end
-  end
+    page = params[:p].to_i
+    mode = params[:m]
 
-  private
-  def _show_html
-    @media_presenter = MediaPresenter.new(view_context, @medium, params[:p], params[:m])
-    @media_cloud = MediaCloudPresenter.new(view_context, Medium.all, @medium, params[:m])
-    @pieces = @media_presenter.art_pieces
-    @paginator = @media_presenter.paginator
+    @media_presenter = MediaPresenter.new(@medium, params[:p], params[:m])
+    @media_cloud = MediaCloudPresenter.new(Medium, @medium, params[:m])
+    @paginator = MediumPagination.new(@media_presenter.art_pieces, @medium, page, mode)
     # still in use
     @by_artists_link = medium_path(@medium, { :m => 'a' })
     @by_pieces_link = medium_path(@medium, { :m => 'p' })
   end
 
-  def _show_mobile
-    # find artists using this medium
-    items = ArtPiece.where(:medium_id => @medium.id).order('created_at')
-
-    # if show by artists, pick 1 from each artist
-    @artists = Artist.active.includes(:artist_info).where(:id => items.map(&:artist_id).uniq)
-  end
-
+  private
   def load_media_frequency
     @frequency = Medium.frequency(true)
   end

@@ -33,24 +33,19 @@ class ArtPieceTagsController < ApplicationController
     # get art pieces by tag
     begin
       @tag = ArtPieceTag.find(params[:id])
-    rescue 
+    rescue
       redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for"} ) and return
     end
-    
-    page = 0
-    if params[:p]
-      page = params[:p].to_i
-    end
 
+    page = params[:p].to_i
     mode = params[:m]
+    
     @tag_presenter = ArtPieceTagPresenter.new(@tag, mode)
     @tag_cloud_presenter = TagCloudPresenter.new(ArtPieceTag, @tag, mode)
-    @paginator = ArtPieceTagPagination.new(view_context, @tag_presenter.art_pieces, @tag, page, mode)
+    @paginator = ArtPieceTagPagination.new(@tag_presenter.art_pieces, @tag, page, mode)
 
     @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })
     @by_pieces_link = art_piece_tag_url(@tag, { :m => 'p' })
-
-    render :action => "show"
   end
 
 

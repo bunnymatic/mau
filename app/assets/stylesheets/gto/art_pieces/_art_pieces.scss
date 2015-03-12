@@ -46,7 +46,7 @@
         @include background-cover;
       }
       &.current {
-        .image { 
+        .image {
           border: 1px solid red;
         }
       }

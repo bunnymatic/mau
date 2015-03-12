@@ -16,7 +16,7 @@ describe MediaPresenter do
   let(:per_page) { 2 }
   let(:select_medium) { media.last }
 
-  subject(:presenter) { MediaPresenter.new(mock_view_context, select_medium, page, mode, per_page) }
+  subject(:presenter) { MediaPresenter.new(select_medium, page, mode, per_page) }
 
   its(:by_artists?) { should be_false }
   its(:by_pieces?) { should be_true }

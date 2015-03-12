@@ -7,7 +7,7 @@ class EventPresenter
   :url?, :url,
   :starttime, :color, :name,
   :venue, :map_link, :address_hash, :endtime, :title,
-  :start_at, :end_at, :clip_range,
+  :start_at, :end_at, :clip_range, :to_param,
   :published?, :in_progress?, :future?, :past?, :to => :event
 
   attr_accessor :event
@@ -39,10 +39,6 @@ class EventPresenter
 
   def edit_path
     @view_context.edit_event_path(event)
-  end
-
-  def show_path
-    @view_context.event_path(event)
   end
 
   def publish_path

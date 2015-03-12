@@ -6,7 +6,7 @@ describe AdminNavigation do
 
   let(:user) { FactoryGirl.create(:user, :admin, :active) }
   let(:studio) { FactoryGirl.create(:studio) }
-  subject(:nav) { AdminNavigation.new(mock_view_context, user) }
+  subject(:nav) { AdminNavigation.new(user) }
 
   it { expect(subject.links.map(&:first)).to eq [:models, :pr, :admin, :internal] }
 

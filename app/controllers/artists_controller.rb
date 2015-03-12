@@ -24,7 +24,7 @@ class ArtistsController < ApplicationController
         cur_page = (params[:p] || 0).to_i
         filter = params[:filter]
         # build alphabetical list keyed by first letter
-        @gallery = ArtistsGallery.new(view_context, @os_only, cur_page, filter)
+        @gallery = ArtistsGallery.new(@os_only, cur_page, filter)
 
         @page_title = "Mission Artists United - MAU Artists"
         set_artists_index_links
@@ -46,7 +46,7 @@ class ArtistsController < ApplicationController
 
     set_artists_index_links
 
-    @map_info = ArtistsMap.new(view_context, @os_only)
+    @map_info = ArtistsMap.new(@os_only)
 
     render :map
   end
@@ -67,31 +67,12 @@ class ArtistsController < ApplicationController
     @artist = ArtistPresenter.new(current_artist)
   end
 
-  # def by_firstname
-  #   if !is_mobile?
-  #     redirect_to root_path and return
-  #   end
-
-  #   @page_title = "Artists by first name"
-  #   @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
-  #   render 'artists/index', layout: 'mobile'
-  # end
-
-  # def by_lastname
-  #   if !is_mobile?
-  #     redirect_to root_path and return
-  #   end
-
-  #   @page_title = "Artists by last name"
-  #   @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
-  #   render 'artists/index', layout: 'mobile'
-  # end
 
   def roster
     # collect query args to build links
     @os_only = is_os_only(params[:osonly])
 
-    @roster = ArtistsRoster.new(view_context, @os_only)
+    @roster = ArtistsRoster.new(@os_only)
 
     @page_title = "Mission Artists United - MAU Artists"
     set_artists_index_links
@@ -166,16 +147,6 @@ class ArtistsController < ApplicationController
     end
   end
 
-  def bio
-    @artist = get_active_artist_from_params
-    set_artist_meta
-    if @artist.try(:bio).present?
-      redirect_to artist_path(@artist) and return
-    else
-      redirect_to artist_path(@artist)
-    end
-  end
-
   def qrcode
     @artist = get_active_artist_from_params
     if @artist
@@ -217,17 +188,6 @@ class ArtistsController < ApplicationController
   end
 
   protected
-  def fetch_thumbs(osonly = false)
-    page = params[:page] || 1
-    paginate_options = {page: page, per_page: 20 }
-    if osonly
-      @artists = Artist.active.open_studios_participants.with_representative_image.paginate paginate_options
-    else
-      @artists = Artist.active.with_representative_image.paginate paginate_options
-    end
-    @artists
-  end
-
   def safe_find_artist(id)
     Artist.where(id: id).first || Artist.where(login: id).first
   end
@@ -269,11 +229,11 @@ class ArtistsController < ApplicationController
     if params[:artist].has_key?("studio") && params[:artist]["studio"].blank?
       params[:artist]["studio_id"] = nil
       params[:artist].delete("studio")
-    end      
-      
+    end
+
     params[:artist]
   end
-  
+
   def is_os_only(osonly)
     [true, "1",1,"on","true"].include? osonly
   end

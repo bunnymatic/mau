@@ -6,11 +6,11 @@ class ArtistsGallery < ArtistsPresenter
 
   delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
 
-  def initialize(view_context, os_only, current_page, filter, per_page = PER_PAGE)
-    super view_context, os_only
+  def initialize(os_only, current_page, filter, per_page = PER_PAGE)
+    super os_only
     @per_page = per_page
     @filters = (filter || '').strip.split(/\s+/).compact
-    @pagination = ArtistsPagination.new(@view_context, artists, current_page, @per_page)
+    @pagination = ArtistsPagination.new(artists, current_page, @per_page)
   end
 
   def empty_message
@@ -20,7 +20,7 @@ class ArtistsGallery < ArtistsPresenter
       "Sorry, we couldn't find any artists in the system."
     end
   end
-  
+
   def artists
     @artists ||= super.select do |artist|
       keep = artist.representative_piece

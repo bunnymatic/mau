@@ -23,7 +23,6 @@ describe Admin::RolesController do
   end
 
   describe 'authorized' do
-    render_views
     before do
       login_as admin, :record => true
     end
@@ -37,15 +36,6 @@ describe Admin::RolesController do
       end
       it { expect(response).to render_template 'layouts/mau-admin' }
 
-      it "shows a list of editors" do
-        assert_select ".editor.role_container .role_members li", :count => 1
-      end
-      it "shows a list of managers" do
-        assert_select ".manager.role_container .role_members li", :count => 1
-      end
-      it "shows a list of admins" do
-        assert_select ".admin.role_container .role_members li", :count => 1
-      end
     end
 
     [:new, :show, :edit].each do |endpoint|

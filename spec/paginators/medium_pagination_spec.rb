@@ -14,8 +14,7 @@ describe MediumPagination, :type => :controller do
   let(:page_mode) { }
 
   subject(:paginator) do
-    MediumPagination.new(mock_view_context,
-                         num_items.times.map{|x| x + 1},
+    MediumPagination.new(num_items.times.map{|x| x + 1},
                          medium, current_page, page_mode, per_page )
   end
 

@@ -18,14 +18,14 @@ describe CatalogController do
   describe "#index" do
     let(:catalog) { assigns(:catalog) }
     context 'format=html' do
-      render_views
       before do
         get :index
       end
-      it{expect(response).to be_success}
+      it{ expect(response).to be_success }
     end
 
     context 'format=csv' do
+      render_views
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
 

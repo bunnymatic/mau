@@ -1,7 +1,7 @@
 class ArtPiecePresenter < ViewPresenter
 
   attr_reader :art_piece
-  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :updated_at, :to => :art_piece
+  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :updated_at, :to_param, :to => :art_piece
 
   def initialize(art_piece)
     @art_piece = art_piece
@@ -23,7 +23,7 @@ class ArtPiecePresenter < ViewPresenter
   def has_medium?
     medium.present?
   end
-  
+
   def has_tags?
     tags.present?
   end

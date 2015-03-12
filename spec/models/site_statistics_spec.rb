@@ -14,7 +14,7 @@ describe SiteStatistics do
     FactoryGirl.create(:event, starttime: 10.days.ago)
     FactoryGirl.create(:event, starttime: 10.days.since)
 
-    Timecop.travel(23.hours.ago)
+    Timecop.travel(16.hours.ago)
     FactoryGirl.create(:artist, :active)
 
     Timecop.travel(4.days.ago)

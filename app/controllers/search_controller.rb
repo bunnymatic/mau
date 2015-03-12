@@ -34,11 +34,11 @@ class SearchController < ApplicationController
     @query = SearchQuery.new(params)
 
     results = SearchService.new(@query).search.map{|ap| ArtPiecePresenter.new(ap)}
-    
+
     @per_page_opts = per_page_options(results)
     @query.per_page = results.count < @query.per_page ? @per_page_opts.max : @query.per_page
 
-    @paginator = Pagination.new(view_context, results, @query.page, @query.per_page)
+    @paginator = Pagination.new(results, @query.page, @query.per_page)
 
   end
 

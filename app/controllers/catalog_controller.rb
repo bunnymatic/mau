@@ -18,7 +18,6 @@ class CatalogController < ApplicationController
 
     respond_to do |format|
       format.html { render_error :message => 'Dunno what you were looking for.' }
-      format.mobile { redirect_to root_path }
       format.csv {
         @social_artists = SocialCatalogPresenter.new
         render_csv_string(@social_artists.csv, @social_artists.csv_filename)

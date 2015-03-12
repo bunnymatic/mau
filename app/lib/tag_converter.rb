@@ -11,7 +11,7 @@ class TagConverter
   def convert
     # split up @tag_string into array of tags
     return [] unless @tag_string.present?
-    
+
     found_tags = ArtPieceTag.where(:name => tag_names)
     new_tags =
       begin

@@ -11,5 +11,5 @@ tagService = ngInject ($resource) ->
   get:(id) ->
     tags.get({id: id})
 
-    
+
 angular.module('mau.services').factory('tagService', tagService)

@@ -1,4 +1,4 @@
-- link_info = ArtistPresenter::KEYED_LINKS.reject{|link| link[0] == :url}
+- link_info = ArtistPresenter::keyed_links.reject{|link| link[0] == :url}
 - half_slice = (link_info.length - 1) / 2
 .panel-heading
   %h4.panel-title

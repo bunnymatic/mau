@@ -4,8 +4,7 @@ class MediaPresenter
 
   attr_reader :medium
 
-  def initialize(view_context, medium, page = nil, mode = nil, per_page = nil)
-    @view_context = view_context
+  def initialize(medium, page = nil, mode = nil, per_page = nil)
     @medium = medium
     @page = (page || 0).to_i
     @mode_string = mode || 'p'
@@ -39,7 +38,7 @@ class MediaPresenter
   end
 
   def paginator
-    @paginator ||= MediumPagination.new(@view_context, all_art_pieces, @medium, @page, @mode_string, @per_page)
+    @paginator ||= MediumPagination.new(all_art_pieces, @medium, @page, @mode_string, @per_page)
   end
 
   private

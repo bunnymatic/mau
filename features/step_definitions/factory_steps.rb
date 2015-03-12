@@ -8,7 +8,7 @@ Given(/^an account has been created/) do
   @artist.save!
 end
 
-Given(/^an "(.*?)" account has been created/) do |role|
+Given(/^an? "(.*?)" account has been created/) do |role|
   @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym )
   @artist.password = 'bmatic'
   @artist.password_confirmation = 'bmatic'

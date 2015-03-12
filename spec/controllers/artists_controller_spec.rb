@@ -6,7 +6,7 @@ describe ArtistsController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil, firstname: 'joe', lastname: 'blow') }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
-  let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art) }
+  let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art, firstname: 'Bill', lastname: 'Tagman') }
   let(:without_address) { FactoryGirl.create(:artist, :active, :with_no_address) }
   let(:artists) do
     [artist] + FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art)
@@ -21,16 +21,6 @@ describe ArtistsController do
     before do
       artists
     end
-    describe 'logged in as admin' do
-      render_views
-      before do
-        login_as admin
-        get :index
-      end
-      it { expect(response).to be_success }
-      it_should_behave_like 'logged in as admin'
-    end
-
 
     describe 'html' do
       before do
@@ -77,7 +67,6 @@ describe ArtistsController do
   end
 
   describe '#index roster view' do
-    render_views
     before do
       get :roster
     end
@@ -95,7 +84,6 @@ describe ArtistsController do
     end
   end
   describe "#update", eventmachine: true do
-    render_views
     before do
       artist_info.update_attribute(:open_studios_participation,'')
     end
@@ -233,20 +221,6 @@ describe ArtistsController do
 
       it { expect(response).to be_success }
 
-      it "has the edit form" do
-        assert_select("form.formtastic.artist");
-      end
-      it "has the artists correct links in their respective fields" do
-        [:facebook, :blog].each do |k|
-          linkval = artist.send(k)
-          linkid = "artist_artist_info_attributes_#{k}"
-          tag = "input##{linkid}[value=#{linkval}]"
-          assert_select(tag)
-        end
-      end
-      it "has the artists' bio textarea field" do
-        assert_select("textarea#artist_artist_info_attributes_bio", artist_info.bio)
-      end
       it 'has a hidden form for donation under the open studios section' do
         assert_select '#paypal_donate_openstudios'
       end
@@ -347,13 +321,14 @@ describe ArtistsController do
     context "while logged in" do
       before do
         login_as(artist)
-        @logged_in_user = artist
       end
 
       context "looking at your own page" do
         render_views
         before do
           artist.artist_info.update_attribute(:facebook, "http://www.facebook.com/#{artist.login}")
+          artist.reload
+          artist.artist_info.reload
           get :show, id: artist.id
         end
         it_should_behave_like "logged in user"
@@ -674,13 +649,6 @@ describe ArtistsController do
       [:destroyart, :arrange_art, :setarrangement, :delete_art].each do |path|
         it "should have #{path} as artists collection path" do
           eval('%s_artists_path.should eql \'/artists/%s\'' % [path,path])
-        end
-      end
-    end
-    describe 'member paths' do
-      [:bio].each do |path|
-        it "should have #{path} as an artist member path" do
-          send("#{path}_artist_path", artist).should eql "/artists/#{artist.id}/#{path}"
         end
       end
     end

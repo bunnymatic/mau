@@ -69,8 +69,8 @@ shared_examples_for "not authorized" do
 end
 
 shared_examples_for 'successful json' do
-  it { 
-    expect(response).to be_success 
+  it {
+    expect(response).to be_success
     expect(response).to be_json
   }
 end

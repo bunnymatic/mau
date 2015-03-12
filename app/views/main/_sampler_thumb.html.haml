@@ -3,4 +3,5 @@
 = link_to sampler_thumb.path, class: "sampler__thumb js-sampler__thumb #{clz}" do
   .image{ style: "background-image: url(#{sampler_thumb.get_path(:medium)});" }
   .desc
-    .name sampler_thumb.artist_name
+    .name 
+      = sampler_thumb.artist_name

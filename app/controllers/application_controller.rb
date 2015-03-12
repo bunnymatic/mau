@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   def append_view_paths
     append_view_path "app/views/common"
   end
-  
+
   def store_location
     return unless request.format == 'text/html'
     if request.post? || request.xhr?
@@ -227,7 +227,7 @@ EOF
   end
 
   def current_open_studios
-    @current_open_studios ||= OpenStudiosEventPresenter.new(view_context, OpenStudiosEvent.current)
+    @current_open_studios ||= OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
   end
 
 end

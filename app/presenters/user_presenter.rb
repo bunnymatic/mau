@@ -3,14 +3,13 @@
 
 class UserPresenter < ViewPresenter
 
-  KEYED_LINKS = [[:url, 'Website', :u_website]]
-
   attr_accessor :model
-  
+
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
     :bio, :address, :address_hash, :get_name,
     :login, :active?,
     :activated_at, :email, :last_login, :full_name,
+    :to_param,
     to: :model, allow_nil: true
 
   def initialize(user)
@@ -20,7 +19,7 @@ class UserPresenter < ViewPresenter
   def doing_open_studios?
     false
   end
-  
+
   def what_i_favorite
     # collect artist and art piece stuff
     @what_i_favorite ||=
@@ -28,7 +27,7 @@ class UserPresenter < ViewPresenter
         user_favorites, art_piece_favorites = model.favorites.partition do |fav|
           ['Artist', 'User', 'MAUFan'].include? fav.favoritable_type
         end
-        
+
         [User.find(user_favorites.map(&:favoritable_id)),
          ArtPiece.find(art_piece_favorites.map(&:favoritable_id))].flatten.compact.uniq
       end
@@ -67,11 +66,11 @@ class UserPresenter < ViewPresenter
   end
 
   def activation_link
-    activate_url(model.activation_code)
+    url_helpers.activate_url(model.activation_code)
   end
 
   def reset_password_link
-    reset_url(model.reset_code )
+    url_helpers.reset_url(model.reset_code )
   end
 
   def has_links?
@@ -79,39 +78,39 @@ class UserPresenter < ViewPresenter
   end
 
   def links
-    @links ||= KEYED_LINKS.map do |kk, disp, _id|
+    @links ||= self.class.keyed_links.map do |kk, disp, _id|
       lnk = format_link(@model.send(kk))
       [_id, disp, lnk] if lnk.present?
     end.compact
   end
 
   def links_html
-    KEYED_LINKS.map do |key, display, _id|
+    self.class.keyed_links.map do |key, display, _id|
       site = @model.send(key)
       if site.present?
         formatted_site = format_link(site)
         site_display = format_link_for_display(site)
         link_icon_class = icon_link_class(key, site)
         content_tag 'a', href: formatted_site, title: display, target: '_blank' do
-          content_tag(:i,'', class: link_icon_class) + 
+          content_tag(:i,'', class: link_icon_class) +
             content_tag(:span,site_display)
         end
       end
     end.compact
   end
 
-  def show_path
-    url_helpers.user_path(model)
-  end
+  # def show_path
+  #   url_helpers.user_path(model)
+  # end
 
-  def edit_path(opts = nil)
-    opts ||= {}
-    edit_user_path(model, opts)
-  end
+  # def edit_path(opts = nil)
+  #   opts ||= {}
+  #   edit_user_path(model, opts)
+  # end
 
-  def favorites_path(opts = nil)
-    url_helpers.user_favorites_path(model)
-  end
+  # def favorites_path(opts = nil)
+  #   url_helpers.user_favorites_path(model)
+  # end
 
   def has_profile_image
     model.profile_image?
@@ -124,7 +123,7 @@ class UserPresenter < ViewPresenter
       "/images/default-model.png"
     end
   end
-  alias_method :get_profile_image, :profile_image 
+  alias_method :get_profile_image, :profile_image
 
   private
   def format_link_for_display(link)
@@ -144,6 +143,10 @@ class UserPresenter < ViewPresenter
       clz << "ico-" + ((site_bits.length > 2) ? site_bits[1] : site_bits[0])
     end
     clz.join(' ')
+  end
+
+  def self.keyed_links
+    [[:url, 'Website', :u_website]].freeze
   end
 
 

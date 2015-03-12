@@ -399,53 +399,53 @@ describe MainController do
     end
   end
 
-  describe 'non_mobile' do
-    it 'sets the session cookie to force non mobile' do
-      get :non_mobile
-      session[:mobile_view].should be_false
-    end
-    it 'redirects to root (if no referrer)' do
-      request.env["HTTP_REFERER"] = nil
-      get :non_mobile
-      expect(response).to redirect_to root_path
-    end
-    it 'redirects to root if referrer is not in our domain' do
-      request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
-      get :non_mobile
-      expect(response).to redirect_to root_path
-    end
-    it 'redirects to referrer if there is one' do
-      get :non_mobile
-      expect(response).to redirect_to SHARED_REFERER
-    end
-    it 'redirects to referrer if there is one with full domain' do
-      request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
-      get :mobile
-      expect(response).to redirect_to SHARED_REFERER
-    end
-  end
+  # describe 'non_mobile' do
+  #   it 'sets the session cookie to force non mobile' do
+  #     get :non_mobile
+  #     session[:mobile_view].should be_false
+  #   end
+  #   it 'redirects to root (if no referrer)' do
+  #     request.env["HTTP_REFERER"] = nil
+  #     get :non_mobile
+  #     expect(response).to redirect_to root_path
+  #   end
+  #   it 'redirects to root if referrer is not in our domain' do
+  #     request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
+  #     get :non_mobile
+  #     expect(response).to redirect_to root_path
+  #   end
+  #   it 'redirects to referrer if there is one' do
+  #     get :non_mobile
+  #     expect(response).to redirect_to SHARED_REFERER
+  #   end
+  #   it 'redirects to referrer if there is one with full domain' do
+  #     request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
+  #     get :mobile
+  #     expect(response).to redirect_to SHARED_REFERER
+  #   end
+  # end
 
-  describe 'mobile' do
-    it 'sets the session cookie to force non mobile' do
-      get :mobile
-      session[:mobile_view].should be_true
-    end
-    it 'redirects to root (if no referrer)' do
-      request.env["HTTP_REFERER"] = nil
-      get :mobile
-      expect(response).to redirect_to root_path
-    end
-    it 'redirects to root if referrer is not in our domain' do
-      request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
-      get :mobile
-      expect(response).to redirect_to root_path
-    end
-    it 'redirects to referrer if there is one' do
-      request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
-      get :mobile
-      expect(response).to redirect_to SHARED_REFERER
-    end
-  end
+  # describe 'mobile' do
+  #   it 'sets the session cookie to force non mobile' do
+  #     get :mobile
+  #     session[:mobile_view].should be_true
+  #   end
+  #   it 'redirects to root (if no referrer)' do
+  #     request.env["HTTP_REFERER"] = nil
+  #     get :mobile
+  #     expect(response).to redirect_to root_path
+  #   end
+  #   it 'redirects to root if referrer is not in our domain' do
+  #     request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
+  #     get :mobile
+  #     expect(response).to redirect_to root_path
+  #   end
+  #   it 'redirects to referrer if there is one' do
+  #     request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
+  #     get :mobile
+  #     expect(response).to redirect_to SHARED_REFERER
+  #   end
+  # end
 
   describe 'letter_from_howard_flax' do
     render_views

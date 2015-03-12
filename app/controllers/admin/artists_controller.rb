@@ -5,7 +5,7 @@ module Admin
 
     def index
       get_sort_options_from_params
-      @artist_list = AdminArtistList.new(view_context, @sort_by, @reverse)
+      @artist_list = AdminArtistList.new(@sort_by, @reverse)
       respond_to do |format|
         format.html
         format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }
