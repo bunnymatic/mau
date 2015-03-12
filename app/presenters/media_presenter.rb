@@ -8,11 +8,7 @@ class MediaPresenter
     @medium = medium
     @page = (page || 0).to_i
     @mode_string = mode || 'p'
-    @per_page = per_page || 20
-  end
-
-  def art_pieces
-    @art_pieces ||= paginator.items.map{|a| ArtPiecePresenter.new(a)}
+    @per_page = per_page || 12
   end
 
   def all_art_pieces
@@ -23,7 +19,7 @@ class MediaPresenter
         else
           raw_art_pieces
         end
-      end
+      end.map{|a| ArtPiecePresenter.new(a)}
   end
 
   def art_pieces_by_artist

@@ -24,34 +24,32 @@ Then(/^I see a list of artists who have art in the most popular tag$/) do
   @first_tag = tags_sorted_by_frequency.first.first
   expect(page).to have_content @first_tag.art_pieces.last.title
   expect(page).to have_content @first_tag.name
-  expect(page).to have_content 'page 1 of'
-  expect(page).to have_content 'next>'
+  expect(page).to have_css '.paginator'
+  expect(page).to have_content '>'
 end
 
 Then(/^I see more artists who have art in the most popular tag$/) do
   @first_tag = tags_sorted_by_frequency.first.first
   expect(page).to have_content @first_tag.name
-  expect(page).to have_content 'page 2 of'
-  expect(page).to have_content '<prev'
+  expect(page).to have_css '.paginator'
+  expect(page).to have_content '<'
   expect(page).to have_content @first_tag.art_pieces.first.title
   expect(page).to_not have_content @first_tag.art_pieces.last.title
 end
 
 
 When(/^I click on the first tag$/) do
-  tag_link = all('.art-piece__info tag a').first
+  tag_link = all('.art-piece__info art-piece-tag a').first
   tag_path = tag_link['href']
-  @tag = ArtPiceTag.find( tag_path.gsub(/^\/media\//, '') )
+  @tag = ArtPieceTag.find( tag_path.gsub(/^\/art_piece_tags\//, '') )
   tag_link.click
 end
 
 Then(/^I see that tag detail page$/) do
   expect(current_path).to eql art_piece_tag_path(@tag)
-  expect(page).to have_content @tag.name
+  expect(page).to have_css '.header', text: @tag.name
   expect(page).to have_css '.tagcloud li'
-  expect(page).to have_css ".art-card .media a" do |tags|
-    tags.each do |tag|
-      expect(tag['href']).to eql art_piece_tag_path(@tag)
-    end
+  expect(page).to have_css ".art-card .tags a" do |tags|
+    expect(tags.map{|t|t['href']}).to include art_piece_tag_path(@tag)
   end
 end

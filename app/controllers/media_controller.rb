@@ -25,11 +25,11 @@ class MediaController < ApplicationController
     @medium = Medium.find(params[:id])
 
     page = params[:p].to_i
-    mode = params[:m]
+    mode = params[:m] 
 
-    @media_presenter = MediaPresenter.new(@medium, params[:p], params[:m])
-    @media_cloud = MediaCloudPresenter.new(Medium, @medium, params[:m])
-    @paginator = MediumPagination.new(@media_presenter.art_pieces, @medium, page, mode)
+    @media_presenter = MediaPresenter.new(@medium, page, mode)
+    @media_cloud = MediaCloudPresenter.new(Medium, @medium, mode)
+    @paginator = @media_presenter.paginator
     # still in use
     @by_artists_link = medium_path(@medium, { :m => 'a' })
     @by_pieces_link = medium_path(@medium, { :m => 'p' })
