@@ -1,26 +1,33 @@
 @import 'gto/variables';
 @import 'colors';
-.social-buttons {
-  margin-bottom: 25px;
-  border-bottom: 1px solid $xlightgray;
-  margin-right: 15px;
-  padding-bottom: 8px;
-  text-align: center;
-  .share {
-    text-align: left;
-    border-bottom: 1px solid $xlightgray;
-    display: block;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    font-weight: $font-weight-light;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-
+@import 'mau-mixins';
+art-pieces-browser {
+  .profile-info {
+    .pure-button {
+      width: 100%;
+      @include ellipsis;
+    }
   }
-  a {
-    vertical-align: bottom;
-  }
-  .ico.ico-invert {
-    font-size: 2rem;
+  .social-buttons, .profile-info {
+    margin-right: 15px;
+    margin-bottom: 20px;
+    .share {
+      text-align: left;
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: $font-weight-light;
+      padding-bottom: 6px;
+      vertical-align: middle;
+      margin-right: 12px;
+      height: 1.5rem;
+    }
+    share-button {
+      display: inline-block;
+      margin-bottom: 3px;
+    }
+    .ico.ico-invert {
+      font-size: 1.9rem;
+    }
   }
 }

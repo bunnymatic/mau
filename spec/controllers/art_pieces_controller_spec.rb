@@ -28,42 +28,26 @@ describe ArtPiecesController do
   describe "#show" do
     context "not logged in" do
       context "format=html" do
-        render_views
         context 'when the artist is active' do
           before do
             get :show, id: art_piece.id
           end
           it { expect(response).to be_success }
           it 'has a description with the art piece name' do
-            assert_select 'head' do |tag|
-              assert_select 'meta[name=description]' do |desc|
-                expect(desc.length).to eql 1
-                desc[0].attributes['content'].should match /#{art_piece.title}/
-              end
-              assert_select 'meta[property=og:description]' do |desc|
-                expect(desc.length).to eql 1
-                desc[0].attributes['content'].should match /#{art_piece.title}/
-              end
-            end
+            expect(assigns(:page_description)).to match /#{art_piece.title}/
           end
           it 'has keywords that match the art piece' do
-            assert_select 'head meta[name=keywords]' do |keywords|
-              keywords.length.should eql 1
-              expected = [art_piece.tags + [art_piece.medium]].flatten.compact.map(&:name)
-              actual = keywords[0].attributes['content'].split(',').map(&:strip)
-              expected.each do |ex|
-                expect(actual).to include ex
-              end
+            keywords = assigns(:page_keywords)
+            expected = [art_piece.tags + [art_piece.medium]].flatten.compact.map(&:name)
+            expected.each do |ex|
+              expect(keywords).to include ex
             end
           end
           it 'include the default keywords' do
-            assert_select 'head meta[name=keywords]' do |keywords|
-              keywords.length.should eql 1
-              expected = ["art is the mission", "art", "artists", "san francisco"]
-              actual = keywords[0].attributes['content'].split(',').map(&:strip)
-              expected.each do |ex|
-                expect(actual).to include ex
-              end
+            keywords = assigns(:page_keywords)
+            expected = ["art is the mission", "art", "artists", "san francisco"]
+            expected.each do |ex|
+              expect(keywords).to include ex
             end
           end
 
@@ -296,7 +280,6 @@ describe ArtPiecesController do
 
   describe "#edit" do
     context "while not logged in" do
-      render_views
       context "post " do
         before do
           post :edit, id: art_piece.id
@@ -314,7 +297,6 @@ describe ArtPiecesController do
       before do
         login_as artist
       end
-      render_views
       context "get " do
         before do
           get :edit, id: artist2.art_pieces.first.id
@@ -331,7 +313,6 @@ describe ArtPiecesController do
       before do
         login_as artist
       end
-      render_views
       context "get " do
         before do
           get :edit, id: artist.art_pieces.last
