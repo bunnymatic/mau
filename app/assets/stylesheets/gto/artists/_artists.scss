@@ -74,15 +74,16 @@
 
   @include search-filter;
 
-  .os-violator {
-    background-color: rgba(245,245,245,0.85);
-    background-image: url(image_path('os_violator_tiny.svg'));
-    background-size: 40px 40px;
-    background-position: top center;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 43px;
-    @include round-corners(4px);
+  .header .title {
+    .os-violator {
+      background-size: 25px 25px;
+      margin-left: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      height: 28px;
+      width: 28px;
+      background-color: transparent;
+    }
   }
   
   #about, #art, .artist-profile {
@@ -197,6 +198,7 @@
 .artist-profile__image {
   text-align: center;
   margin: auto;
+  min-height: 100px;
   img, i.fa {
     margin: auto;
     text-align: center;

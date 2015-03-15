@@ -3,6 +3,9 @@
     %h2.title
       Artist:
       %span.artist__name #{@artist.get_name}
+      - if @artist.doing_open_studios?
+        %a{ href: '/open_studios', title: "I'm doing Open Studios"}
+          .os-violator
 .pure-g.alpha.omega
   .pure-u-1-1.pure-u-sm-1-3.pure-u-md-1-2.pure-u-lg-2-5#about
     = render '/artists/about', artist: @artist

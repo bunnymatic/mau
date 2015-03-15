@@ -95,6 +95,11 @@ $sampler-thumbnail-size : 250px;
     min-height: inherit;
     padding: 6px;
     overflow: hidden;
+    .os-violator {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+    }
     .image {
       height: $sampler-thumbnail-size;
     }

@@ -2,6 +2,8 @@
   .pure-u-1-1.header.padded-content
     %h2.title
       Artists
+      - if @os_only
+        = "in #{OpenStudiosEvent.current.for_display(true)} Open Studios"
       .filter.js-filter-visibility
         = form_tag '.', id: 'js-artist-index-filter' do
           = fa_icon 'search' 

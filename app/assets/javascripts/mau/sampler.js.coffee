@@ -5,7 +5,7 @@ MAU.Sampler = class Sampler
 
   constructor: (container, refreshTime) ->
     @container = container
-    @refreshTime = refreshTime || 5000
+    @refreshTime = refreshTime || 30000
     @fadeTime = 400
     @requests = []
 
