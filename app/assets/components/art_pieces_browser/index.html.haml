@@ -5,12 +5,12 @@
       %span.art-piece__byline-conjunction by
       %span.art-piece__byline{ "ng-bind-html" => "artist.full_name" }
 .pure-g.alpha.omega{'ng-cloak' => ''}
-  .pure-u-1-5.art-piece__info
+  .pure-u-1-1.pure-u-sm-1-3.pure-u-md-1-5.art-piece__info
     .card__controls{'ng-if' => 'currentUser'}
-      .art-card__edit 
+      .art-card__edit
         %a{ "ng-href" => '{{artPiece.editPath}}', title: 'edit'}
           .fa.fa-icon.fa-edit
-      .art-card__delete 
+      .art-card__delete
         %a{href: '#', "data-confirm" => 'Are you sure you want to remove this piece of art from your portfolio?', "data-method" => :delete, rel: "nofollow", title: "Delete", "ng-href" => "{{artPiece.showPath}}" }
           .fa.fa-icon.fa-close
         %a{ "ng-href" => 'artPiece.deletePath', title: 'remove'}
@@ -41,12 +41,12 @@
         %a{"ng-href" => "{{currentArtistPath()}}", class: 'pure-button pure-button-sm'}
           back to artist's profile
 
-  .pure-u-4-5.art-piece
-    %img.pure-img{ "image-fader" => '', "ng-src" => "{{artPiece.image_files.large}}" }
+  .pure-u-1-1.pure-u-sm-2-3.pure-u-md-4-5.art-piece
+    .art-piece__wrapper
+      .art-piece__image{ "style" => "background-image: url({{artPiece.image_files.large}});" }
 
-  .pure-u-1-1
+  .pure-u-1-1.art-piece__thumbs
     .pure-g.browser
       .piece.pure-u-1-4.pure-u-sm-1-6.pure-u-md-1-8.pure-u-lg-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.id)}" }
         %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setCurrent($event, $index)"}
           .image{ "ng-style" => "{backgroundImage: 'url({{piece.image_files.small}})'}"}
-

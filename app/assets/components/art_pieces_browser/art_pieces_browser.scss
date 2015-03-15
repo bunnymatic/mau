@@ -1,14 +1,66 @@
 @import 'mau-mixins';
 
 art-pieces-browser {
+  .art-piece, .art-piece__info, .art-piece__thumbs {
+    display: flex;
+  }
+  .art-piece {
+    order: 1;
+    height: 300px;
+  }
   .art-piece__info {
     display: flex;
+    order: 2;
     flex-direction: column;
+    .push {
+      margin-top: 20px;
+    }
+  }
+  .art-piece__thumbs {
+    order: 3;
+  }
+  .art-piece__wrapper {
+    height: 100%;
+    width: 95%;
+    position: relative;
+    margin: auto;
+    text-align: center;
+    .art-piece__image {
+      height: 100%;
+      width: 100%;
+      @include background-contain;
+      @include in-the-middle;
+    }
   }
   .card__controls, .desc {
     flex: 1;
   }
   .browser {
     margin-top: 25px;
+  }
+  @media screen and (min-width: $screen-xs-max) {
+    .art-piece {
+      order: 2;
+      height: 400px;
+    }
+    .art-piece__info {
+      order: 1;
+      .push {
+        margin-top: 0px;
+      }
+    }
+    .art-piece__thumbs {
+      order: 3;
+    }
+  }
+  @media screen and (min-width: $screen-sm-max) {
+    .art-piece {
+      height: 500px;
+    }
+  }
+  @media screen and (min-width: $screen-md-max) {
+    .art-piece {
+      height: 600px;
+    }
   }
 }

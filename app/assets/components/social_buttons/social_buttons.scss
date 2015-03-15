@@ -8,9 +8,11 @@ art-pieces-browser {
       @include ellipsis;
     }
   }
+  .social-buttons {
+    margin-bottom: 20px;
+  }
   .social-buttons, .profile-info {
     margin-right: 15px;
-    margin-bottom: 20px;
     .share {
       text-align: left;
       display: inline-block;
