@@ -15,17 +15,17 @@
           .fa.fa-icon.fa-close
         %a{ "ng-href" => 'artPiece.deletePath', title: 'remove'}
     .desc
-      .ngwrapper{ "ng-if" => "hasDimensions()" }
+      .desc__item.ngwrapper{ "ng-if" => "hasDimensions()" }
         %h4.title Dimensions
         .dimensions{ "ng-bind-html" => "artPiece.dimensions" }
-      .ngwrapper{ "ng-if" => "hasYear()" }
+      .desc__item.ngwrapper{ "ng-if" => "hasYear()" }
         %h4.title Date
         .date{ "ng-bind-html" => "artPiece.year" }
-      .ngwrapper{ "ng-if" => "hasMedia()" }
+      .desc__item.ngwrapper{ "ng-if" => "hasMedia()" }
         %h4.title Medium
         .media
           %medium{ "medium" => "artPiece.medium" }
-      .ngwrapper{ "ng-if" => "hasTags()" }
+      .desc__item.ngwrapper{ "ng-if" => "hasTags()" }
         %h4.title Tags
         .tags
           %span{"ng-repeat" => 'tag in artPiece.tags', 'repeater-delimiter' => ','}
@@ -45,7 +45,7 @@
     .art-piece__wrapper
       .art-piece__image{ "style" => "background-image: url({{artPiece.image_files.large}});" }
 
-  .pure-u-1-1.art-piece__thumbs
+  .pure-u-1-1.art-piece__thumbs{ 'ng-show' => 'artPieces.length > 1' }
     .pure-g.browser
       .piece.pure-u-1-4.pure-u-sm-1-6.pure-u-md-1-8.pure-u-lg-1-12.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.id)}" }
         %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setCurrent($event, $index)"}

@@ -6,9 +6,8 @@
         %section.artist__image
           = render '/artist_profile_image', artist: artist.artist
           - if artist.doing_open_studios?
-            .os-violator
-              = link_to open_studios_path do
-                %img{src: image_path('os_violator.svg') }
+            = link_to open_studios_path do
+              .os-violator
       .pure-u-1-1
         %section.artist__studio
           - if logged_in? && (artist.artist == current_user)
