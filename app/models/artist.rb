@@ -96,7 +96,7 @@ class Artist < User
       :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at,
                   :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at,
                   :max_pieces, :updated_at, :activation_code, :reset_code],
-      :methods => [:full_name]
+      :methods => [:full_name, :doing_open_studios]
     }
     super(default_opts.merge(opts))
   end
@@ -116,6 +116,7 @@ class Artist < User
   def doing_open_studios?
     !!(current_open_studios_key && os_participation && os_participation[current_open_studios_key.to_s])
   end
+  alias_method :doing_open_studios, :doing_open_studios?
 
   def address
     @memo_address ||= call_address_method :address

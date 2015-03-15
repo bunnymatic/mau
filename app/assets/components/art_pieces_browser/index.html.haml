@@ -4,6 +4,7 @@
       %span.art-piece__title{ "ng-bind-html" => "artPiece.title" }
       %span.art-piece__byline-conjunction by
       %span.art-piece__byline{ "ng-bind-html" => "artist.full_name" }
+      .os-violator{'ng-show' => 'artist.doing_open_studios'}
 .pure-g.alpha.omega{'ng-cloak' => ''}
   .pure-u-1-1.pure-u-sm-1-3.pure-u-md-1-5.art-piece__info
     .card__controls{'ng-if' => 'currentUser'}
