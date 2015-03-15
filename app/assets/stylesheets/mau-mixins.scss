@@ -295,3 +295,10 @@ $default_rounded_amount: 4px;
   background: -webkit-linear-gradient($direction, $color-stops);
   background: linear-gradient($direction, $color-stops);
 };
+
+@mixin in-the-middle {
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  @include transform( translate(-50%, -50%) );
+}

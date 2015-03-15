@@ -3,42 +3,79 @@
 @import 'gto/gto-mixins';
 $sampler-thumbnail-size : 250px;
 
+#main_thumbs {
+  .promo {
+    .body, .header {
+      padding: 1.5rem;
+      margin: 6px;
+      height: auto;
+      margin-bottom: 0;
+      .inner-copy {
+        color: white;
+      }
+    }
+    .header {
+      background-color: darken($gto_orange, 8%);
+      font-size: 1.8rem; 
+      font-size: 6vw;
+      font-weight: $font-weight-bold;
+      letter-spacing: 0.1rem;
+      padding: 1.9rem;
+      text-align:center;
+      white-space: nowrap;
+    }
+    .body {
+      font-size: 1.2rem;
+      line-height: 1.85rem;
+      padding: 1.5rem;
+      background-color: $gto_orange;
+    }
+  }
+
+  @media screen and (min-width: $screen-sm-max) {
+    .promo {
+      height: 140px;
+      .header, .body {
+        height: -webkit-calc(100% - 14px);
+        height: calc(100% - 14px);
+        position: relative;
+        .inner-copy {
+          @include in-the-middle;
+        }
+      }
+      .header {
+        padding: 1.9rem;
+        font-size: 1.8rem;
+        font-size: 3.5vw;
+      }
+      .body {
+        font-size: 1.1rem;
+        line-height: 1.4rem;
+        padding: 1.3rem;
+        .inner-copy {
+          width: 80%;
+        }
+      }
+    }
+  }
+  @media screen and (min-width: $screen-md-max) {
+    .promo {
+      .header {
+        font-size: 1.8rem;
+        font-size: 2.8vw;
+      }
+      .body {
+        font-size: 1.4rem;
+        line-height: 1.8rem;
+      }
+    }
+  }
+}
+
 #sampler {
   overflow:hidden;
   font-size: 0; /* avoid spaces between blocks */
   background: transparent;
-  .sampler__promo {
-    font-size: 14px;
-    height: 2 * $sampler-thumbnail-size; /* minus bottom margin */
-    .sampler__promo-bg {
-      position: relative;
-      height: 100%;
-      background-color: darken($gto_orange, 8%);
-      margin: 6px;
-    }
-    .sampler__promo-contents {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      @include transform( translate(-50%, -50%) );
-    }
-    .header {
-      background-color: darken($gto_orange, 20%);
-      letter-spacing: 0.1rem;
-      font-size: 2.7rem;
-      font-weight: $font-weight-bold;
-      white-space: nowrap;
-      padding: 1.5rem;
-    }
-    .body {
-      font-size: 1.4rem;
-      line-height: 1.8rem;
-      padding: 1.2rem;
-    }
-    .body, .header {
-      color: white;
-    }
-  }
   .sampler__empty {
     position:relative;
     min-height: 500px;
@@ -78,57 +115,20 @@ $sampler-thumbnail-size : 250px;
     width: 20%;
     float: left;
   }
-  .sampler__promo {
-    width: 40%;
-    float: left;
-  }
 
   @media screen and (max-width: $screen-lg-max) {
     .sampler__thumb {
       width: 33.33%;
     }
-    .sampler__promo {
-      width: 66.67%;
-      .sampler__promo-contents {
-      }
-      .header {
-        font-size: 3.2rem;
-        font-weight: $font-weight-bold;
-      }
-    }
   }
   @media screen and (max-width: $screen-md-max) {
-    .sampler__promo {
-      .header {
-        font-size: 1.9rem;
-      }
-      .body {
-        font-size: 1.4rem;
-      }
-    }
   }
   @media screen and (max-width: $screen-xs-max) {
-    .sampler__promo {
-      height: $sampler-thumbnail-size;
-    }
     .sampler__thumb {
       &.first {
         margin-top: 10px;
       }
       width: 100%;
-    }
-    .sampler__promo {
-      width: 100%;
-      position: static;
-      .header {
-        margin: 8px;
-        font-size: 1.7rem;
-      }
-      .body {
-        font-size: 1.2rem;
-      }
-    }
-    .sampler__thumb {
       .desc {
         opacity: 1.0 !important;
       }

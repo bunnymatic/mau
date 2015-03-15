@@ -1,6 +1,6 @@
 class ArtSampler
 
-  NUM_IMAGES = 15 - 4 # -4 for promo banner 2x2
+  NUM_IMAGES = 15
   def pieces
     get_random_pieces.map{|piece| ArtPiecePresenter.new(piece)}
   end
