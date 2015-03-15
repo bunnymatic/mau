@@ -63,6 +63,7 @@ class ArtistsController < ApplicationController
   end
 
   def manage_art
+    @art_piece = current_artist.art_pieces.build
     # give user a tabbed page to edit their art
     @artist = ArtistPresenter.new(current_artist)
   end

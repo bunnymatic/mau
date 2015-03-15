@@ -48,7 +48,7 @@ class TagCloudPresenter < ViewPresenter
           content_tag 'span', :class => ['clouditem', clz].compact.join(' ') do
             link_to tag.safe_name, tag_path(tag)
           end
-        end.compact[0..30]
+        end.compact
       end
   end
 end

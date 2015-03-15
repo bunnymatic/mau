@@ -101,6 +101,10 @@ class Artist < User
     super(default_opts.merge(opts))
   end
 
+  def at_art_piece_limit?
+    art_pieces.select(&:persisted?).count > max_pieces
+  end
+
   def in_the_mission?
     return false unless address_hash && address_hash.has_key?(:latlng)
     lat,lng = address_hash[:latlng]
