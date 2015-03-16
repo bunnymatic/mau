@@ -94,10 +94,6 @@ class StudioPresenter
     @artists_without_art ||= artists.select{|a| a.art_pieces.empty?}
   end
 
-  def with_active_artists?
-    artists.present?
-  end
-
   def artists
     @artists ||= @studio.artists.active
   end
