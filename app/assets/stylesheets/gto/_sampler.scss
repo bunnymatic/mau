@@ -26,28 +26,26 @@ $sampler-thumbnail-size : 250px;
 
   @media screen and (min-width: $screen-xs-max) {
     .header .title {
-      background-color: transparent;
-      margin: 0;
-      .long-text {
-        display: block;
-        color: $gto_teal;
-        padding-top: 6px;
-        padding-left: 6px;
-        font-size: 1.3rem;
-        line-height: 1.5rem;
-        font-size: 2.5vw;
-        line-height: 3vw;
-        text-transform: uppercase;
-        font-weight: $font-weight-normal;
-      }
       .short-text {
-        display: none;
+        font-size: 2rem;
+        font-size: 5vw;
       }
     }
   }
   @media screen and (min-width: $screen-sm-max) {
     .header .title {
+      background-color: transparent;
+      margin: 0;
+      .short-text {
+        display: none;
+      }
       .long-text {
+        display: block;
+        color: $gto_teal;
+        padding-top: 6px;
+        padding-left: 6px;
+        text-transform: uppercase;
+        font-weight: $font-weight-normal;
         font-size: 1.2rem;
         line-height: 1.4rem;
         font-size: 2vw;

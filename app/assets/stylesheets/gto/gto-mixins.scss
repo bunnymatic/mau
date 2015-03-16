@@ -42,8 +42,8 @@
 
 @mixin search-filter {
   .filter {
-    margin-left: 20px;
-    float: right;
+    margin-top: -14px;
+    border-bottom: none;
     .fa {
       font-size: 1.2rem;
       &:hover {
@@ -59,8 +59,16 @@
       font-size: 1.2rem;
       @include transition( width 0.25s ease-in-out );
       font-weight: $font-weight-light;
-      width: 250px;
     }
-
   }
+  @media screen and (min-width: $screen-md-max) {
+    .filter {
+      border-bottom: 1px solid $xlightgray;
+      margin-top: 22px;
+      margin-left: -20px;
+      padding-left: 20px;
+      padding-bottom: 4px;
+    }
+  }
+    
 }

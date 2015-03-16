@@ -15,7 +15,12 @@
     width: 90%;
   }
 }
+#paypal_donate_openstudios {
+  height:0;
+  display: none;
+}
 .panel-group {
+  margin-bottom: 20px;
   .panel-heading {
     position: relative;
     h4 {
