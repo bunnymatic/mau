@@ -10,14 +10,6 @@ class UserNavigation < Navigation
     current_user if current_user && current_user.is_a?(Artist)
   end
 
-  def mypath
-    if current_artist
-      current_artist
-    else
-      url_helpers.user_path(current_user)
-    end
-  end
-
   def items
     @items ||=
       begin

@@ -1,13 +1,11 @@
 require 'spec_helper'
-
 describe Admin::ArtPieceTagsController do
 
   let(:user) { FactoryGirl.create(:user, :active) }
   let(:admin) { FactoryGirl.create(:user, :admin, :active) }
-  let!(:tags) do
-    FactoryGirl.create(:artist, :with_tagged_art)
-    FactoryGirl.create_list(:art_piece_tag, 2)
-  end
+  let!(:artist) { FactoryGirl.create(:artist, :with_tagged_art) }
+  let!(:tags) { FactoryGirl.create_list(:art_piece_tag, 2) }
+
   describe 'not logged in' do
     describe :index do
       before do
@@ -27,9 +25,6 @@ describe Admin::ArtPieceTagsController do
   end
 
   describe '#index' do
-
-    render_views
-
     before do
       login_as admin
       get :index
@@ -37,14 +32,20 @@ describe Admin::ArtPieceTagsController do
 
     it_should_behave_like 'logged in as admin'
     it { expect(response).to be_success }
-    it 'shows tag frequency' do
-      assert_select 'table td.input-name', :match => /1\.0|0\.0/
-    end
-    it 'shows one entry per existing tag' do
-      assert_select 'tr td.ct', :count => ArtPieceTag.count
-    end
   end
 
+  describe "#destroy" do
+    let!(:tag) { artist.art_pieces.first.tags.first }
+    before do
+      login_as admin
+    end
+    it "removes the tag" do
+      expect {
+        delete :destroy, art_piece_tag_id: tag.id
+      }.to change(ArtPieceTags.count).by(1)
+      expect(ArtPieceTag.where(id: tag.id)).to be_empty
+    end
+  end
   describe '#cleanup' do
     before do
       login_as admin

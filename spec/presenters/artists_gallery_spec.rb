@@ -22,6 +22,7 @@ describe ArtistsGallery do
   its(:filters) { should be_empty }
   its(:current_page) { should eql current_page }
   its(:per_page) { should eql per_page }
+  its(:empty_message) { should include "couldn't find any artists" }
 
   it 'shows no artists without a representative piece' do
     expect(presenter.items.select{|a| !a.representative_piece}).to be_empty
@@ -30,6 +31,11 @@ describe ArtistsGallery do
 
   it 'artists include only those with representative pieces sorted by name' do
     expect(subject.artists.map(&:artist)).to eql showing_artists.sort_by(&:sortable_name)
+  end
+
+  context 'with open studios set true' do
+    let(:os_only) { true }
+    its(:empty_message) { should include "no one has signed up" }
   end
 
   context 'with a filter set' do

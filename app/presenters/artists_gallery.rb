@@ -22,7 +22,7 @@ class ArtistsGallery < ArtistsPresenter
   end
 
   def artists
-    @artists ||= super.select do |artist|
+    super.select do |artist|
       keep = artist.representative_piece
       if filters.any?
         keep && begin
@@ -33,7 +33,6 @@ class ArtistsGallery < ArtistsPresenter
         keep
       end
     end
-    @artists
   end
 
 

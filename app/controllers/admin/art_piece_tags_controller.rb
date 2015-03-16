@@ -1,10 +1,5 @@
-
 module Admin
-
   class ArtPieceTagsController < BaseAdminController
-
-    layout "mau-admin"
-
     def index
       @tags = tags_sorted_by_frequency
     end

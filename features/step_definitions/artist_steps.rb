@@ -6,6 +6,11 @@ When(/^I visit my profile edit page$/) do
   visit edit_artist_path(@artist)
 end
 
+Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
+  expect(page).to_not have_content "Mona Lisa"
+  expect(page).to have_content new_title
+end
+
 When(/^I fill out the add art form$/) do
   @medium = Medium.first
   attach_file "Select File", File.join(Rails.root,"/spec/fixtures/art.png")

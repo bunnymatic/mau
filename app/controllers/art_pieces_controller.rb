@@ -18,13 +18,8 @@ class ArtPiecesController < ApplicationController
   end
 
   def index
-    artist_id = params[:artist_id]
-    begin
-      artist = Artist.active.find(artist_id)
-      render json: (artist.art_pieces.map{|ap| (ArtPieceJsonPresenter.new ap).to_json()})
-    rescue
-      render json: [], status: 404
-    end
+    artist = Artist.active.find(params[:artist_id])
+    render json: (artist.art_pieces.map{|ap| (ArtPieceJsonPresenter.new ap).to_json()})
   end
 
   def show
@@ -46,11 +41,6 @@ class ArtPiecesController < ApplicationController
       }
     end
 
-  end
-
-  def new
-    @artist = ArtistPresenter.new(current_artist)
-    @art_piece = current_artist.art_pieces.build
   end
 
   # GET /art_pieces/1/edit
