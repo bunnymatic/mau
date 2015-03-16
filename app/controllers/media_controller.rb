@@ -25,7 +25,7 @@ class MediaController < ApplicationController
     @medium = Medium.find(params[:id])
 
     page = params[:p].to_i
-    mode = params[:m] 
+    mode = params[:m]
 
     @media_presenter = MediaPresenter.new(@medium, page, mode)
     @media_cloud = MediaCloudPresenter.new(Medium, @medium, mode)

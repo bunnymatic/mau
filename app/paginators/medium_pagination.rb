@@ -11,7 +11,7 @@ class MediumPagination < Pagination
   def page_link(page)
     url_helpers.medium_path(@current_medium, page_args.merge(:p => page))
   end
-  
+
   def previous_link
     url_helpers.medium_path(@current_medium, page_args.merge(:p => previous_page))
   end

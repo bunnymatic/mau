@@ -194,10 +194,6 @@ describe ArtistsController do
         get :edit
       end
 
-      it_should_behave_like "logged in user"
-      it_should_behave_like "logged in artist"
-      it_should_behave_like "logged in edit page"
-
       it { expect(response).to be_success }
       it "has the edit form" do
         assert_select("form.formtastic.artist");
@@ -215,12 +211,7 @@ describe ArtistsController do
         login_as artist
         get :edit
       end
-      it_should_behave_like "logged in user"
-      it_should_behave_like "logged in artist"
-      it_should_behave_like "logged in edit page"
-
       it { expect(response).to be_success }
-
       it 'has a hidden form for donation under the open studios section' do
         assert_select '#paypal_donate_openstudios'
       end
@@ -323,22 +314,6 @@ describe ArtistsController do
         login_as(artist)
       end
 
-      context "looking at your own page" do
-        render_views
-        before do
-          artist.artist_info.update_attribute(:facebook, "http://www.facebook.com/#{artist.login}")
-          artist.reload
-          artist.artist_info.reload
-          get :show, id: artist.id
-        end
-        it_should_behave_like "logged in user"
-        it "website is present" do
-          assert_select(".link a[href=#{artist.url}]")
-        end
-        it "facebook is present and correct" do
-          assert_select(".link a[href=#{artist_info.facebook}]")
-        end
-      end
       context "after a user favorites the logged in artist and show the artists page" do
         render_views
         before do
@@ -388,7 +363,6 @@ describe ArtistsController do
         get :show, id: artist.id
       end
       it { expect(response).to be_success }
-      it_should_behave_like 'logged in as admin'
     end
 
     describe 'json' do
@@ -577,7 +551,6 @@ describe ArtistsController do
         get :map_page
       end
       it { expect(response).to be_success }
-      it_should_behave_like 'logged in as admin'
     end
   end
 

@@ -14,7 +14,7 @@ module Admin
       @tag = ArtPieceTag.find(params[:id])
       @tag.destroy
       ArtPieceTag.flush_cache
-      redirect_to(art_piece_tags_url)
+      redirect_to(admin_art_piece_tags_url)
     end
 
     private

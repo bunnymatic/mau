@@ -79,8 +79,6 @@ Mau::Application.routes.draw do
       post :add_favorite
     end
     member do
-      get :add_profile
-      post :upload_profile
       put :suspend
       get :noteform
       put :notify
@@ -93,7 +91,6 @@ Mau::Application.routes.draw do
   resource :main, controller: :main, only: [] do
     get :notes_mailer
     post :notes_mailer
-    get :letter_from_howard_flax
     get :sampler
   end
 

@@ -8,7 +8,7 @@
         %th pieces
         %th favorited
     %tbody
-      %tr
+      %tr.totals
         %td Totals
         %td
           = @favorites.total_artists
@@ -18,7 +18,7 @@
           = @favorites.total_favorited_users
 
       - @favorites.each do |user,favinfo|
-        %tr
+        %tr.user-entry
           %td
             = link_to user.login, user_path(user)
           %td

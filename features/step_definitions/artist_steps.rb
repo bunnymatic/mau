@@ -122,5 +122,5 @@ end
 Then(/^I see that art piece detail page$/) do
   expect(page).to have_css('art-pieces-browser')
   expect(page).to have_css '.header', text: @artist.full_name
-  
+
 end

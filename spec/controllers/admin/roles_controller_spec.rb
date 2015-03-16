@@ -30,7 +30,6 @@ describe Admin::RolesController do
       before do
         get :index
       end
-      it_should_behave_like 'logged in as admin'
       it 'shows all roles' do
         assigns(:roles).count.should eql Role.count
       end
@@ -43,7 +42,7 @@ describe Admin::RolesController do
         before do
           get endpoint, :id => manager_role.id
         end
-        it_should_behave_like 'logged in as admin'
+        it { expect(response).to be_success }
       end
     end
     describe 'POST update' do

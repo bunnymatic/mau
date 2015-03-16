@@ -11,7 +11,7 @@ class ArtPieceTagPagination < Pagination
   def page_link(page)
     url_helpers.art_piece_tag_path(@current_tag, page_args.merge(:p => page))
   end
-  
+
   def previous_link
     url_helpers.art_piece_tag_path(@current_tag, page_args.merge(:p => previous_page))
   end

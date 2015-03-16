@@ -55,7 +55,7 @@ Given /there is open studios cms content in the system/ do
 end
 
 Given /there are users in the system/ do
-  @users = FactoryGirl.create_list(:user, 4)
+  @users = FactoryGirl.create_list(:fan, 4)
 end
 
 Given /there are tags on the art/ do
@@ -82,3 +82,24 @@ end
 Given /there are future open studios events/ do
   (@open_studios_events ||= []) << (OpenStudiosEvent.current || FactoryGirl.create(:open_studios_event, :start_date => 3.months.since))
 end
+
+Given(/^there are artists and art pieces with favorites$/) do
+  step %{there are artists with art in the system}
+  step %{there are users in the system}
+
+  @artists = Artist.all
+  @users = User.all
+  @art_pieces = ArtPiece.all
+
+  @users.each_with_index do |u, idx|
+    u.add_favorite(@artists[idx % @artists.count])
+  end
+  @art_pieces.each_with_index do |ap, idx|
+    u = @users[idx % @users.count]
+    a = @artists[idx % @artists.count]
+    u.add_favorite ap
+    a.add_favorite ap unless ap.artist == a
+  end
+end
+
+

@@ -34,13 +34,6 @@ describe StudiosController do
         end
       end
     end
-    context "while logged in as an art fan" do
-      before do
-        login_as fan
-        get :index
-      end
-      it_should_behave_like "logged in user"
-    end
     describe 'json' do
       before do
         get :index, :format => 'json'

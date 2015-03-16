@@ -55,7 +55,7 @@ class ArtPiecesController < ApplicationController
     @art_piece = current_artist.art_pieces.build(art_piece_params)
     @art_piece.valid?
 
-    
+
     # if file to upload - upload it first
     upload = params[:upload]
     if !params[:upload]

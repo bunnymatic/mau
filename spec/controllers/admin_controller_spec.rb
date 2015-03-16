@@ -144,7 +144,6 @@ describe AdminController do
       login_as admin
       get :index
     end
-    it_should_behave_like 'logged in as admin'
     it 'has place holders for the graphs' do
       assert_select('.graph', :count => 4)
     end

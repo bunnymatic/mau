@@ -54,50 +54,20 @@ describe MainController do
   end
 
   describe "#news" do
-    render_views
-    context "while not logged in" do
-      before do
-        get :resources
-      end
-      it_should_behave_like "not logged in"
+    before do
+      get :resources
     end
-    context "while logged in as an art fan" do
-      before do
-        login_as(fan)
-        get :resources
-      end
-      it_should_behave_like "logged in user"
-    end
-    context "while logged in as artist" do
-      before do
-        login_as(artist)
-        get :resources
-      end
-      it_should_behave_like "logged in user"
-      it_should_behave_like "logged in artist"
-    end
-    context "while logged in as user with 'editor' role" do
-      before do
-        login_as(editor)
-        get :resources
-      end
-      it_should_behave_like "logged in as editor"
-    end
-    context 'logged in as admin' do
-      before do
-        login_as(admin)
-        get :resources
-      end
-      it_should_behave_like 'logged in as admin'
-    end
+    it { expect(response).to be_success }
   end
+
   describe "#about" do
-    render_views
     context "while not logged in" do
+      render_views
       before do
         FactoryGirl.create(:cms_document, page: :main, section: :about)
         get :about
       end
+      it { expect(response).to be_success }
       it_should_behave_like "not logged in"
       it 'fetches markdown content' do
         assigns(:content).should have_key :content
@@ -109,83 +79,28 @@ describe MainController do
       it 'includes the art is the mission footer' do
         assert_select('.news-footer')
       end
-
-    end
-
-    context "while logged in as an art fan" do
-      before do
-        login_as(fan)
-        get :about
-      end
-      it_should_behave_like "logged in user"
-    end
-    context "while logged in as artist" do
-      before do
-        login_as(artist)
-        get :about
-      end
-      it_should_behave_like "logged in user"
     end
   end
+
   describe "#history" do
-    render_views
-    context "while not logged in" do
-      before do
-        FactoryGirl.create(:cms_document, page: :main, section: :history)
-        get :history
-      end
-      it_should_behave_like "not logged in"
-      it 'fetches markdown content' do
-        assigns(:content).should have_key :content
-        assigns(:content).should have_key :cmsid
-      end
-      it 'includes the markdown content' do
-        assert_select('.markdown')
-      end
-      it 'includes the art is the mission footer' do
-        assert_select('.news-footer')
-      end
-
+    before do
+      FactoryGirl.create(:cms_document, page: :main, section: :history)
+      get :history
     end
-
-    context "while logged in as an art fan" do
-      before do
-        login_as(fan)
-        get :history
-      end
-      it_should_behave_like "logged in user"
-    end
-    context "while logged in as artist" do
-      before do
-        login_as(artist)
-        get :history
-      end
-      it_should_behave_like "logged in user"
+    it { expect(response).to be_success }
+    it_should_behave_like "not logged in"
+    it 'fetches markdown content' do
+      assigns(:content).should have_key :content
+      assigns(:content).should have_key :cmsid
     end
   end
   describe "#getinvolved" do
-    render_views
-    context "while not logged in" do
-      before do
-        get :getinvolved
-      end
-      it_should_behave_like "not logged in"
-    end
-    context "while logged in as an art fan" do
-      before do
-        login_as(fan)
-        get :getinvolved
-      end
-      it_should_behave_like "logged in user"
-    end
-    context "while logged in as artist" do
-      before do
-        login_as(artist)
-        get :getinvolved
-      end
-      it_should_behave_like "logged in user"
+    it "returns success" do
+      get :getinvolved
+      expect(response).to be_success
     end
     describe '/paypal_success' do
+      render_views
       before do
         post :getinvolved, :p => 'paypal_success'
       end
@@ -198,6 +113,7 @@ describe MainController do
       end
     end
     describe '/paypal_cancel' do
+      render_views
       before do
         post :getinvolved, :p => 'paypal_cancel'
       end
@@ -259,80 +175,28 @@ describe MainController do
   end
 
   describe "#privacy" do
-    render_views
-    context "while not logged in" do
-      before do
-        get :privacy
-      end
-      it_should_behave_like "not logged in"
+    before do
+      get :privacy
     end
-    context "while logged in as an art fan" do
-      before do
-        login_as(fan)
-        get :privacy
-      end
-      it_should_behave_like "logged in user"
-    end
-    context "while logged in as artist" do
-      before do
-        login_as(artist)
-        get :privacy
-      end
-      it_should_behave_like "logged in user"
-    end
+    it { expect(response).to be_success }
+    it_should_behave_like "not logged in"
   end
-  describe "#about" do
-    render_views
-    context "while not logged in" do
-      before do
-        get :about
-      end
-      it_should_behave_like "not logged in"
-    end
-    context "while logged in as an art fan" do
-      before do
-        login_as(fan)
-        get :about
-      end
-      it_should_behave_like "logged in user"
-    end
-    context "while logged in as artist" do
-      before do
-        login_as(artist)
-        get :about
-      end
-      it_should_behave_like "logged in user"
-    end
-  end
+
   describe "#faq" do
-    render_views
-    context "while not logged in" do
-      before do
-        get :faq
-      end
-      it_should_behave_like "not logged in"
+    before do
+      get :faq
     end
-    context "while logged in as an art fan" do
-      before do
-        login_as(fan)
-        get :faq
-      end
-      it_should_behave_like "logged in user"
-    end
-    context "while logged in as artist" do
-      before do
-        login_as(artist)
-        get :faq
-      end
-      it_should_behave_like "logged in user"
-    end
+    it { expect(response).to be_success }
+    it_should_behave_like "not logged in"
   end
+
   describe '#main/venues' do
     render_views
     context "while not logged in" do
       before do
         get :venues
       end
+      it { expect(response).to be_success }
       it_should_behave_like "not logged in"
     end
     context 'logged in as admin' do
@@ -346,7 +210,6 @@ describe MainController do
         login_as(admin)
         get :venues
       end
-      it_should_behave_like 'logged in as admin'
       it "renders the markdown version" do
         assert_select '.markdown h1', :match => 'these'
         assert_select '.markdown h2', :match => 'are'
@@ -357,104 +220,6 @@ describe MainController do
         assert_select '.markdown.editable[data-cmsid=%s]' % venue_doc.id
 
       end
-    end
-  end
-
-  describe "#main/open_studios" do
-    let(:open_studios_blurb) {
-      FactoryGirl.create(:cms_document,
-                         page: :main_openstudios,
-                         section: :summary,
-                         article: "# spring 2004\n\n## spring 2004 header2 \n\nwhy spring 2004?  that's _dumb_.")
-    }
-    let(:open_studios_preview) {
-      FactoryGirl.create(:cms_document,
-                         page: :main_openstudios,
-                         section: :preview_reception,
-                         article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
-    }
-    context "while not logged in" do
-      let(:open_studios_docs) { [
-                                 open_studios_blurb,
-                                 open_studios_preview
-                                ] }
-      before do
-        get :open_studios
-      end
-      it_should_behave_like "not logged in"
-    end
-    context "while logged in as an art fan" do
-      before do
-        login_as fan
-        get :open_studios
-      end
-      it_should_behave_like "logged in user"
-    end
-    context "while logged in as artist" do
-      before do
-        login_as artist
-        get :open_studios
-      end
-      it_should_behave_like "logged in user"
-    end
-  end
-
-  # describe 'non_mobile' do
-  #   it 'sets the session cookie to force non mobile' do
-  #     get :non_mobile
-  #     session[:mobile_view].should be_false
-  #   end
-  #   it 'redirects to root (if no referrer)' do
-  #     request.env["HTTP_REFERER"] = nil
-  #     get :non_mobile
-  #     expect(response).to redirect_to root_path
-  #   end
-  #   it 'redirects to root if referrer is not in our domain' do
-  #     request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
-  #     get :non_mobile
-  #     expect(response).to redirect_to root_path
-  #   end
-  #   it 'redirects to referrer if there is one' do
-  #     get :non_mobile
-  #     expect(response).to redirect_to SHARED_REFERER
-  #   end
-  #   it 'redirects to referrer if there is one with full domain' do
-  #     request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
-  #     get :mobile
-  #     expect(response).to redirect_to SHARED_REFERER
-  #   end
-  # end
-
-  # describe 'mobile' do
-  #   it 'sets the session cookie to force non mobile' do
-  #     get :mobile
-  #     session[:mobile_view].should be_true
-  #   end
-  #   it 'redirects to root (if no referrer)' do
-  #     request.env["HTTP_REFERER"] = nil
-  #     get :mobile
-  #     expect(response).to redirect_to root_path
-  #   end
-  #   it 'redirects to root if referrer is not in our domain' do
-  #     request.env["HTTP_REFERER"] = 'http://gmail.com/mail'
-  #     get :mobile
-  #     expect(response).to redirect_to root_path
-  #   end
-  #   it 'redirects to referrer if there is one' do
-  #     request.env["HTTP_REFERER"] = 'http://test.host' + SHARED_REFERER
-  #     get :mobile
-  #     expect(response).to redirect_to SHARED_REFERER
-  #   end
-  # end
-
-  describe 'letter_from_howard_flax' do
-    render_views
-    before do
-      get :letter_from_howard_flax
-    end
-    it { expect(response).to be_success }
-    it 'has the title' do
-      assert_select('h4', 'Letter from Howard Flax');
     end
   end
 

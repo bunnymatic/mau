@@ -132,7 +132,7 @@ describe ArtPiecesController do
       end
     end
   end
-  
+
   describe '#create', eventmachine: true do
     context "while not logged in" do
       context "post " do

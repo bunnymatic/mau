@@ -29,21 +29,27 @@ describe Admin::ArtPieceTagsController do
       login_as admin
       get :index
     end
-
-    it_should_behave_like 'logged in as admin'
     it { expect(response).to be_success }
   end
 
   describe "#destroy" do
-    let!(:tag) { artist.art_pieces.first.tags.first }
+    let!(:tag) { ArtPiece.all.map(&:tags).flatten.compact.first }
     before do
       login_as admin
     end
     it "removes the tag" do
       expect {
-        delete :destroy, art_piece_tag_id: tag.id
-      }.to change(ArtPieceTags.count).by(1)
+        delete :destroy, id: tag.id
+      }.to change(ArtPieceTag, :count).by(-1)
       expect(ArtPieceTag.where(id: tag.id)).to be_empty
+    end
+    it "clears the cache" do
+      expect(ArtPieceTag).to receive :flush_cache
+      delete :destroy, id: tag.id
+    end
+    it "redirects to list of all tags" do
+      delete :destroy, id: tag.id
+      expect(response).to redirect_to admin_art_piece_tags_path
     end
   end
   describe '#cleanup' do

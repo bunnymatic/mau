@@ -13,7 +13,7 @@
           - if logged_in? && (artist.artist == current_user)
             .card__controls
               .artist-profile__edit 
-                = link_to edit_artist_path(artist), title: 'edit your profile' do
+                = link_to edit_artist_path(artist, anchor: 'profile_picture'), title: 'edit your profile' do
                   .fa.fa-icon.fa-edit
           .header Studio
           .body  

@@ -22,26 +22,24 @@ end
 
 # logged in - get edit page
 shared_examples_for "logged in edit page" do
-  it "has at least open-close divs with edit, notification, password, links and deactivation section" do
-    assert_select('.panel-group')
-    assert_select('#info')
-    assert_select('#profile_picture')
-    assert_select('#password')
-    assert_select('#links')
-  end
+  pending "nothing here - logged in edit"
 end
 
 # for all
 shared_examples_for "logged in user" do
+  pending 'nothing in logged in user'
 end
 
 shared_examples_for 'logged in artist' do
+  pending 'nothing in logged in artist'
 end
 
 shared_examples_for "logged in as editor" do
+  pending 'nothing in logged in as editor'
 end
 
 shared_examples_for "logged in as admin" do
+  pending 'nothing in logged in as admin'
 end
 
 shared_examples_for "redirects to login" do

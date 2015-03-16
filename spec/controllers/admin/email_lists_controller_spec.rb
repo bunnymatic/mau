@@ -123,8 +123,6 @@ describe Admin::EmailListsController do
 
         get :index
       end
-      it_should_behave_like 'logged in as admin'
-      it { expect(response).to be_success }
       [ [:feedback, 2, 'FeedbackMailerList'],
         [:event, 2, 'EventMailerList']].each do |listtype, ct, mailer|
         it "assigns #{ct} emails to the #{listtype} list" do

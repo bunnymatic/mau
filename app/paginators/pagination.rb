@@ -39,7 +39,7 @@ class Pagination < ViewPresenter
   def is_current_page?(page)
     page.to_i == @current.to_i
   end
-  
+
   def display_current_position
     "page #{current_page + 1} of #{last_page + 1}"
   end
@@ -77,7 +77,7 @@ class Pagination < ViewPresenter
   def pages
     first_page..last_page
   end
-  
+
   def items
     (@array || [])[first_item..last_item] || []
   end
@@ -102,7 +102,7 @@ class Pagination < ViewPresenter
     end
     link_to page+1, page_link(page), title: page+1
   end
-  
+
   def link_to_previous
     unless respond_to? :previous_link
       raise PaginationError.new "link_to_previous requires previous_link to be defined!"

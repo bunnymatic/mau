@@ -46,32 +46,6 @@ class UsersController < ApplicationController
     @user = (@type == 'MAUFan') ? fan : artist
   end
 
-  # def add_profile
-  # end
-
-  # def upload_profile
-  #   if commit_is_cancel
-  #     redirect_to user_path(current_user)
-  #     return
-  #   end
-
-  #   @user = self.current_user
-  #   upload = params[:upload]
-
-  #   unless upload
-  #     flash[:error] = "You must provide a file."
-  #     render 'add_profile' and return
-  #   end
-
-  #   begin
-  #     post = ArtistProfileImage.new(@user).save upload
-  #     redirect_to user_path(@user), :notice => 'Your profile image has been updated.'
-  #   rescue
-  #     logger.error("Failed to upload %s" % $!)
-  #     flash[:error] = "%s" % $!
-  #     render 'add_profile' and return
-  #   end
-  # end
 
   def update
     if commit_is_cancel

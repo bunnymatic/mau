@@ -39,7 +39,7 @@ describe Pagination do
         next_label: '>'
       }
     }
-      
+
     its(:previous_title) { should eq 'behind' }
     its(:previous_label) { should eq '<' }
     its(:next_title) { should eq 'forward' }
@@ -69,7 +69,7 @@ describe Pagination do
     it "reports that this is the current page for page 1" do
       expect(subject.is_current_page?(1)).to be_true
     end
-    
+
   end
 
   context 'on the last page' do
