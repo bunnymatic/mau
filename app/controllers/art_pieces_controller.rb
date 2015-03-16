@@ -5,12 +5,12 @@ class ArtPiecesController < ApplicationController
 
   skip_before_filter :get_new_art, :get_feeds
 
-  before_filter :user_required, :only => [ :new, :edit, :update, :create, :destroy]
-  before_filter :artist_required, :only => [ :new, :edit, :update, :create, :destroy]
-  before_filter :load_art_piece, :only => [:show, :destroy, :edit, :update]
-  before_filter :load_media, :only => [:new, :edit, :create, :update]
+  before_filter :user_required, only: [ :new, :edit, :update, :create, :destroy]
+  before_filter :artist_required, only: [ :new, :edit, :update, :create, :destroy]
+  before_filter :load_art_piece, only: [:show, :destroy, :edit, :update]
+  before_filter :load_media, only: [:new, :edit, :create, :update]
 
-  after_filter :flush_cache, :only => [:create, :update, :destroy]
+  after_filter :flush_cache, only: [:create, :update, :destroy]
 
   def flush_cache
     Medium.flush_cache
@@ -38,49 +38,41 @@ class ArtPiecesController < ApplicationController
       format.html {
         @thumb_browser = ThumbnailBrowserPresenter.new(@art_piece.artist, @art_piece)
         @art_piece = ArtPieceHtmlPresenter.new(@art_piece)
-        render :action => 'show'
+        render action: 'show'
       }
       format.json {
         art_piece = ArtPieceJsonPresenter.new(@art_piece)
-        render :json => art_piece.to_json
+        render json: art_piece.to_json
       }
     end
 
   end
 
   def new
-    artist = Artist.find(current_user.id)
-    cur_pieces = artist.art_pieces.length
-    if cur_pieces >= artist.max_pieces
-      flash.now[:error] = "You cannot have more than #{artist.max_pieces} art pieces.  "+
-        "If you decide to continue adding art, the oldest pieces will "+
-        "be removed to make space for the new ones.  Alternatively, you "+
-        "could go delete specific pieces to make room for the new ones."
-    end
-    @art_piece = ArtPiece.new
+    @artist = ArtistPresenter.new(current_artist)
+    @art_piece = current_artist.art_pieces.build
   end
 
   # GET /art_pieces/1/edit
   def edit
-    if !owned_by_current_user?(@art_piece)
-      flash[:error] = "You're not allowed to edit that work."
-      redirect_to "/error"
-    end
+    redirect_to '/error' unless owned_by_current_user?(@art_piece)
   end
 
   def create
-    redirect_to(current_user) and return if commit_is_cancel
+    redirect_to(current_artist) and return if commit_is_cancel
 
+    @artist = ArtistPresenter.new(current_artist)
+    @art_piece = current_artist.art_pieces.build(art_piece_params)
+    @art_piece.valid?
+
+    
     # if file to upload - upload it first
     upload = params[:upload]
-    saved = false
-    if !upload
-      @art_piece = ArtPiece.new art_piece_params
-      @art_piece.valid?
+    if !params[:upload]
       @art_piece.errors.add(:base, "You must provide an image.  "+
         "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
         " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
-      render :action => 'new' and return
+      render template: 'artists/manage_art' and return
     end
 
     @art_piece = current_user.art_pieces.build(art_piece_params)
@@ -90,16 +82,16 @@ class ArtPiecesController < ApplicationController
         if valid
           # upload image
           ArtPieceImage.new(@art_piece).save upload
-          flash[:notice] = 'Artwork was successfully added.'
+          flash[:notice] = "You've got new art!"
           Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
         else
-          render :action => 'new' and return
+          render template: 'artists/manage_art' and return
         end
       end
     rescue Exception => ex
       msg = "Failed to upload %s" % $!
       @art_piece.errors.add(:base, msg)
-      render :action => 'new' and return
+      render template: 'artists/manage_art' and return
     end
 
     redirect_to(current_user)
@@ -112,11 +104,11 @@ class ArtPiecesController < ApplicationController
     end
 
     if @art_piece.update_attributes(art_piece_params)
-      flash[:notice] = 'Artwork was successfully updated.'
+      flash[:notice] = 'The art has been updated.'
       Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
       redirect_to art_piece_path(@art_piece)
     else
-      render :action => "edit"
+      render action: "edit"
     end
   end
 
@@ -156,7 +148,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def safe_find_art_piece(id)
-    ArtPiece.where(:id => id).limit(1).first
+    ArtPiece.where(id: id).first
   end
 
   def build_page_description art_piece

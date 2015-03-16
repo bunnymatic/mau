@@ -2,7 +2,7 @@
   .pure-u-1-1.header.padded-content
     %h2.title Add Art
     .warning
-      - if current_artist.at_art_piece_limit?
+      - if @artist.at_art_piece_limit?
         You cannot have more than #{artist.max_pieces} art pieces.
         If you decide to continue adding art, the oldest pieces will
         be removed to make space for the new ones.  Alternatively, you

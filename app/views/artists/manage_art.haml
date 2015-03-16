@@ -29,9 +29,9 @@
       .pure-u-1-1.help-txt.padded-content
         %p
           Click on the edit or delete button to edit or delete that piece.
-      .pure-u-1-1.padded-content
-        %ul
-          = render partial: 'art', collection: @artist.art_pieces, as: :art_piece
+      .pure-u-1-1
+        .pure-g.edit-art
+          = render partial: '/artists/art', collection: @artist.art_pieces, as: :art_piece
   .pure-u-1-1#arrange-art.tab-pane
     .pure-g
       .pure-u-1-1.help-txt.padded-content

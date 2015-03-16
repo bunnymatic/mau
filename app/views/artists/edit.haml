@@ -29,4 +29,4 @@
 
   .pure-u-1-1
     - if !current_user.art_pieces.any?
-      = link_to "Upload some of your art to share with the world!", new_artist_art_piece_path(current_user)
+      = link_to "Upload some of your art to share with the world!", manage_art_artist_path(current_user)

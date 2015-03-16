@@ -13,6 +13,9 @@
 .inline-hints {
   font-size: 85%;
   font-style: italic;
+  margin: 5px auto;
+  line-height: 1rem;
+  color: $lightgray;
 }
 .actions, .inputs {
   border: none;
