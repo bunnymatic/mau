@@ -1,22 +1,13 @@
 .pure-g
   .pure-u-1-1.header.padded-content
     %h2.title Add Art
+    .warning
+      - if @artist.at_art_piece_limit?
+        You cannot have more than #{artist.max_pieces} art pieces.
+        If you decide to continue adding art, the oldest pieces will
+        be removed to make space for the new ones.  Alternatively, you
+        could go delete specific pieces to make room for the new ones.
+    
 .pure-g
   .pure-u-1-1.pure-u-sm-1-2.art-piece-new-form.padded-content
-    = semantic_form_for [current_artist, @art_piece], html: { multipart: true } do |f|
-      = hidden_field_tag :user_id, current_artist.login
-      #spinner
-      = render '/form_errors', form: f
-      = render '/flash_notice_error'
-      = f.inputs do
-        %li.file.input.required#art_piece_file_input
-          %label.label{ for: 'upload_datafile' } Select File<abbr title="required">*</abbr>
-          %input{ id: 'upload_datafile', name: 'upload[datafile]', type: :file }
-        = f.input :title, required: true
-        = f.input :dimensions, placeholder: 'e.g. 8" x 12"'
-        = f.input :year, placeholder: 'e.g. 2013'
-        = f.input :medium, as: :select, collection: [['None', 0]] + @media.map{|u| [u.name,u.id]}
-        = f.input :tags, as: :text, input_html: { value: tags_to_s(@art_piece.tags) }
-      = f.actions do
-        = f.submit 'Add', class: 'pure-button button-large pure-button-primary'
-        = f.submit 'Cancel', class: 'pure-button button-large'
+    = render 'form', art_piece: @art_piece, artist: current_artist

@@ -133,7 +133,7 @@ group :test, :development do
   gem 'timecop'
 
   gem 'better_errors'
-  #gem "binding_of_caller"
+  gem "binding_of_caller"
 
   gem 'rails_best_practices'
 end

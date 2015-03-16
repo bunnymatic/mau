@@ -6,7 +6,7 @@ class ArtistPresenter < UserPresenter
   attr_accessor :model
 
   delegate :doing_open_studios?, :media, :os_participation, :studio, :studio_id,
-           :artist_info,
+           :artist_info, :at_art_piece_limit?,
            to: :artist, allow_nil: true
 
   def artist
@@ -76,7 +76,7 @@ class ArtistPresenter < UserPresenter
     @art_pieces ||=
       begin
         num = artist.max_pieces - 1
-        pieces = artist.art_pieces[0..num].compact.map{|piece| ArtPiecePresenter.new(piece)}
+        pieces = artist.art_pieces.select(&:persisted?)[0..num].compact.map{|piece| ArtPiecePresenter.new(piece)}
       end
   end
 

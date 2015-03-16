@@ -131,28 +131,8 @@ describe ArtPiecesController do
         parsed['medium']['name'].should eql art_piece.medium.name
       end
     end
-
   end
-
-  describe '#new' do
-    before do
-      login_as artist
-    end
-    it 'sets a flash for artists with a full portfolio' do
-      Artist.any_instance.stub(max_pieces: 0)
-      get :new, artist_id: artist.id
-      flash.now[:error].should be_present
-    end
-    it 'assigns all media' do
-      get :new, artist_id: artist.id
-      expect(assigns(:media).map(&:id)).to eql Medium.alpha.map(&:id)
-    end
-    it 'assigns a new art piece' do
-      get :new, artist_id: artist.id
-      assigns(:art_piece).should be_a_kind_of ArtPiece
-    end
-  end
-
+  
   describe '#create', eventmachine: true do
     context "while not logged in" do
       context "post " do
@@ -175,9 +155,9 @@ describe ArtPiecesController do
         expect(response).to redirect_to artist_path(artist)
       end
       it 'renders new on failed save' do
-        ArtPiece.any_instance.should_receive(:valid?).and_return(false)
+        allow_any_instance_of(ArtPiece).to receive(:valid?).and_return(false)
         post :create, art_piece: art_piece_attributes, upload: {}
-        expect(response).to render_template 'new'
+        expect(response).to render_template 'artists/manage_art'
       end
       context 'when image upload raises an error' do
         before do
@@ -185,7 +165,7 @@ describe ArtPiecesController do
           post :create, art_piece: art_piece_attributes, upload: {}
         end
         it 'renders the form again' do
-          expect(response).to render_template 'new'
+          expect(response).to render_template 'artists/manage_art'
         end
         it 'sets the error' do
           expect(assigns(:art_piece).errors[:base].to_s).to include 'eat it'
@@ -203,7 +183,7 @@ describe ArtPiecesController do
         end
         it 'sets a flash message on success' do
           post :create, art_piece: art_piece_attributes, upload: {}
-          flash[:notice].should eql 'Artwork was successfully added.'
+          flash[:notice].should eql "You've got new art!"
         end
         it "flushes the cache" do
           ArtPiecesController.any_instance.should_receive(:flush_cache)
@@ -250,7 +230,7 @@ describe ArtPiecesController do
       end
       it 'sets a flash message on success' do
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
-        flash[:notice].should eql 'Artwork was successfully updated.'
+        flash[:notice].should eql 'The art has been updated.'
       end
       it "flushes the cache" do
         ArtPiecesController.any_instance.should_receive(:flush_cache)
@@ -292,15 +272,12 @@ describe ArtPiecesController do
       before do
         login_as artist
       end
-      context "get " do
+      context "get" do
         before do
           get :edit, id: artist2.art_pieces.first.id
         end
         it "returns error if you don't own the artpiece" do
           expect(response).to redirect_to "/error"
-        end
-        it "sets a flash error" do
-          flash[:error].should be_present
         end
       end
     end

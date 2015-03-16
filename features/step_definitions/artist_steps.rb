@@ -6,6 +6,20 @@ When(/^I visit my profile edit page$/) do
   visit edit_artist_path(@artist)
 end
 
+When(/^I fill out the add art form$/) do
+  @medium = Medium.first
+  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/art.png")
+  fill_in "Title", with: 'Mona Lisa'
+  fill_in "Dimensions", with: '4 x 3'
+  fill_in "Year", with: '1515'
+  select @medium.name, from: "Medium"
+  fill_in "Tags", with: "this, and that"
+end
+
+Then /^I see that my art was added$/ do
+  expect(page).to have_content "Mona Lisa"
+end
+
 When(/^I rearrange my art with drag and drop$/) do
   expect(@artist.art_pieces).to be_present
   expect(page).to have_selector('.sortable')

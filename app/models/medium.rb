@@ -20,6 +20,10 @@ class Medium < ActiveRecord::Base
 
   scope :alpha, -> { order(:name) }
 
+  def self.options_for_select
+    [['None', 0]] + Medium.all.map{|u| [u.name,u.id]}
+  end
+  
   def self.cache_key(norm=false)
     [:medfreq, norm]
   end

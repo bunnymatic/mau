@@ -621,8 +621,18 @@ describe ArtistsController do
       end
 
     end
-
   end
+
+  describe '#manage_art' do
+    before do
+      login_as artist
+    end
+    it 'assigns a new art piece' do
+      get :manage_art, artist_id: artist.id
+      assigns(:art_piece).should be_a_kind_of ArtPiece
+    end
+  end
+
 
   describe '#suggest' do
     before do
