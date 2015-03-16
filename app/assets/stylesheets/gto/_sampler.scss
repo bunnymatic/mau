@@ -4,72 +4,68 @@
 $sampler-thumbnail-size : 250px;
 
 #main_thumbs {
-  .promo {
-    .body, .header {
-      padding: 1.5rem;
-      margin: 6px;
-      height: auto;
-      margin-bottom: 0;
-      .inner-copy {
-        color: white;
-      }
+  .header .title {
+    margin: 0 6px 0;
+    padding-top: 10px;
+    color: white;
+    background-color: $gto_teal;
+    .long-text {
+      display: none;
     }
-    .header {
-      background-color: darken($gto_orange, 8%);
-      font-size: 1.8rem; 
-      font-size: 6vw;
+    .short-text {
+      color: white;
+      display: block;
+      padding-left: 20px;
+      font-size: 2rem;
+      font-size: 7vw;
+      text-transform: uppercase;
       font-weight: $font-weight-bold;
-      letter-spacing: 0.1rem;
-      padding: 1.9rem;
-      text-align:center;
-      white-space: nowrap;
-    }
-    .body {
-      font-size: 1.2rem;
-      line-height: 1.85rem;
-      padding: 1.5rem;
-      background-color: $gto_orange;
+      text-align: center;
     }
   }
 
+  @media screen and (min-width: $screen-xs-max) {
+    .header .title {
+      background-color: transparent;
+      margin: 0;
+      .long-text {
+        display: block;
+        color: $gto_teal;
+        padding-top: 6px;
+        padding-left: 6px;
+        font-size: 1.3rem;
+        line-height: 1.5rem;
+        font-size: 2.5vw;
+        line-height: 3vw;
+        text-transform: uppercase;
+        font-weight: $font-weight-normal;
+      }
+      .short-text {
+        display: none;
+      }
+    }
+  }
   @media screen and (min-width: $screen-sm-max) {
-    .promo {
-      height: 140px;
-      .header, .body {
-        height: -webkit-calc(100% - 14px);
-        height: calc(100% - 14px);
-        position: relative;
-        .inner-copy {
-          @include in-the-middle;
-        }
-      }
-      .header {
-        padding: 1.9rem;
-        font-size: 1.8rem;
-        font-size: 3.5vw;
-      }
-      .body {
-        font-size: 1.1rem;
+    .header .title {
+      .long-text {
+        font-size: 1.2rem;
         line-height: 1.4rem;
-        padding: 1.3rem;
-        .inner-copy {
-          width: 80%;
-        }
+        font-size: 2vw;
+        line-height: 2.5vw;
       }
     }
   }
   @media screen and (min-width: $screen-md-max) {
-    .promo {
-      .header {
-        font-size: 1.8rem;
-        font-size: 2.8vw;
-      }
-      .body {
-        font-size: 1.4rem;
-        line-height: 1.8rem;
+    .header .title {
+      .long-text {
+        font-size: 1.1rem;
+        line-height: 1.3rem;
+        font-size: 1.5vw;
+        line-height: 2vw;
       }
     }
   }
+  
 }
 
 #sampler {
