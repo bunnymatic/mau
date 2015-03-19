@@ -11,13 +11,13 @@
   #logout
     =# spans go in reverse order because they all float right
     %span.navitem.last
-      = link_to "log out", logout_path, { :title => "Log out", :class => "lkdark" }
+      = link_to "log out", logout_path, { :title => "Log out"}
     %span.navitem.logout-nav
       hello,
-      %a.lkdark{:href => user_path(current_user)} #{current_user.login}
+      %a{:href => user_path(current_user)} #{current_user.login}
     .clear
 - else
   #login_toplink
-    = link_to "log in",  login_path,  { :title => "log in", :class => "lkdark" }
+    = link_to "log in",  login_path,  { :title => "log in" }
     = "|"
-    = link_to "sign up", signup_path, { :title => "create an account", :class => "lkdark" }
+    = link_to "sign up", signup_path, { :title => "create an account" }

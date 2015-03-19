@@ -1,0 +1,16 @@
+- nav_presenter = AdminNavigation.new(current_user)
+%a#menu-link.menu-link{href: '#menu'}
+  &nbsp;
+  = fa_icon('bars')
+#menu
+  .pure-menu
+    %ul.pure-menu-list
+      %li.pure-menu-item.dashboard
+        = link_to 'dashboard', admin_path
+    - nav_presenter.links.each do |sxn, entries|
+      - if sxn
+        .title #{sxn}
+      %ul.pure-menu-list
+        - entries.each do |key, opts|
+          %li.pure-menu-item
+            = link_to opts[:display], opts[:link]

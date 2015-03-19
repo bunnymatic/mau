@@ -4,7 +4,7 @@
     .handle
       = fa_icon 'gear'
     .link-section.main
-      = link_to 'dashboard', admin_path, {:class => 'lkdark'}
+      = link_to 'dashboard', admin_path
     %ul{:class => 'link-groups'}
       - nav_presenter.links.each do |sxn, entries|
         %li
@@ -13,5 +13,4 @@
           %ul.link-section
             - entries.each do |key, opts|
               %li
-                %span.admin-lk
-                  = link_to opts[:display], opts[:link], {:class => 'lkdark'}
+                = link_to opts[:display], opts[:link]
