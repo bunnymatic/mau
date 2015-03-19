@@ -1,0 +1,145 @@
+@import 'mau-mixins';
+
+/* prevent forms from causing line breaks */
+form {
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+}
+
+input[type=submit], input[type=email], input[type=text],input[type=password], textarea {
+  @include input_style;
+  @include small-rounded-corners;
+}
+input[type=image], input[type=hidden] {
+  border: 0;
+}
+
+.url-input {
+  width: 190px;
+}
+
+/* these three are important on the "edit" pages
+   colors should be set the same for textarea, select and srch
+   */
+button {
+  @include small-rounded-corners;
+}
+
+input[type=image] {
+  background-color: transparent;
+}
+
+input[type=submit][disabled=disabled] {
+  font-weight:normal;
+  color:$lightgray;
+}
+
+input[type=submit], .formbutton {
+  background:$mediumgray;
+  background:url(/images/gradients.png) repeat-x left top;
+  background-position: 0 -90px;
+  border:outset 1px $xlightgray;
+  color:$darkbluegray;
+  font-weight:bold;
+  cursor:pointer;
+  text-transform: lowercase;
+  padding: 5px;
+  @include transition(all 0.2s ease);
+  &:hover {
+    @include opacity(0.85);
+  }
+}
+
+.signup-table, #signup_form {
+  .row {
+    @extend .clearfix;
+    .label, .input, .error {
+      padding: 5px;
+    }
+    .label {
+      float: left;
+      width: 30%;
+    }
+    .input {
+      float: left;
+      width: 66%;
+      input, select {
+        width: 100%;
+      }
+      select {
+        height: 2em;
+      }
+    }
+    .error {
+      margin-left:31%;
+      clear:both;
+      color: $error_red;
+    }
+    .input-help {
+      margin-left:31%;
+    }
+    &.short {
+       margin-left:31%;
+    }
+  }
+}
+
+/* formtastic styling */
+.formtastic {
+  .inputs {
+    .input {
+      margin-bottom: 1em;
+      label {
+        display: block;
+        margin-bottom: 0.45em;
+      }
+      input {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}
+.form-group {
+  max-width: 500px;
+  margin:12px auto;
+  min-height: 30px;
+  .label {
+    float:left;
+    width: 25%;
+    text-align:right;
+    display: inline-block;
+    margin-right: 12px;
+  }
+  .field {
+    float: left;
+    width: 68%;
+    input {
+      width: calc(100% - 10px);
+    }
+  }
+  .select2-choices {
+    @include small-rounded-corners;
+  }
+  .help {
+    text-align: center;
+    font-style: italic;
+  }
+}
+
+.form-controls {
+  clear:both;
+  text-align:center;
+  margin: auto;
+  padding: 20px;
+}
+
+.fieldWithErrors, .formtastic li.error {
+  label {
+    color: $error_red;
+  }
+  input, textarea, select {
+    border: 1px solid $error_red;
+  }
+}

@@ -1,0 +1,14 @@
+@import 'mau-mixins';
+.dataTables_wrapper {
+  .dataTables_filter {
+    float: right;
+    input {
+      padding: 10px;
+      border-radius: 2px;
+      bodrder: 1px solid #ddd;
+    }
+  }
+  label {
+    color: $lightgray;
+  }
+}

@@ -1,0 +1,332 @@
+/*
+ *= require jquery.mobile
+ */
+@import 'mau-mixins';
+/* mobile styles */
+/* reset */
+html, body {
+}
+
+h1,h2,h3,h4,h5,h6 {
+}
+
+.ui-page img {
+  max-width: 250px;
+}
+.ui-page {
+  .ui-content .f404 {
+    a {
+      color: #fcf;
+    }
+  }
+  .ui-footer {
+    min-height: 42px;
+    padding-top: 5px;
+    .ui-btn-left {
+      margin-left: 10px;
+    }
+    .news-footer .ui-link {
+      color: #fff;
+      &:visited {
+        color: #999;
+      }
+    }
+  }
+}
+
+#art_pieces {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    margin: 0;
+    padding: 0;
+    float: left;
+    margin: 8px;
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid white;
+  }
+
+  .ap-thumb {
+    @include background-cover;
+  }
+
+}
+
+.clear {
+  clear:both;
+}
+.ui-listview {
+  .ui-btn-up-a, .ui-btn-hover-a, .ui-btn-down-a, .ui-btn-a {
+    background: -moz-linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
+    background: -webkit-linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
+    background: linear-gradient(#ddd, #aaa) repeat scroll 0 0 #ddd;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ddd), color-stop(100%, #aaa));
+    border: 1px solid #222;
+    font-weight: bold;
+    text-shadow: 0 -1px 1px #fff;
+    .ui-btn-text a {
+      color: #333;
+    }
+  }
+}
+.ui-content {
+  div { line-height: 1.4em; }
+  .section {
+    &.small {
+      float: left;
+      width: 130px;
+      margin-right: 10px;
+    }
+    margin: 8px 0;
+    padding: 8px 0 0;
+    border-top: 1px dotted white;
+  }
+
+  h2 {
+    margin-top:0;
+    &.os-star {
+      position:relative;
+      padding-left: 30px;
+    }
+    div.os-star {
+      bottom: 0px;
+      left: 0px;
+    }
+  }
+  .banner-img {
+    text-align:center;
+    margin-bottom: 30px;
+  }
+  .representative-img {
+    position: relative;
+    text-align: center;
+  }
+  ul.artists-thumbs {
+    list-style: none;
+    margin: auto;
+    padding: 0;
+    li {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      float: left;
+      margin: 6px;
+      overflow: visible;
+      height: 120px;
+      width: 120px;
+      border: 1px solid white;
+      .name {
+        background: rgba(255,255,255,0.6);
+        position:absolute;
+        bottom: 0;
+        left: 0;
+        overflow:hidden;
+        text-align:center;
+        width: 100%;
+        font-weight: 100;
+        color: $xdarkgray;
+        height: 22px;
+        white-space:nowrap;
+      }
+      .os-star {
+        position: absolute;
+        bottom: -12px;
+        right: -12px;
+      }
+    }
+  }
+
+  .thumb {
+    height: 120px;
+    width: 120px;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  #thumbs {
+    @extend .clearfix;
+    .artists-thumbs {
+      margin-top: 25px;
+    }
+  }
+}
+
+.mobile-menu {
+  &.os_star {
+    /* background: -moz-linear-gradient(center top , #FEfeFE, #ffa) repeat scroll 0 0 #EEEEEE; */
+  }
+  .event_title {
+    overflow:hidden;
+  }
+  .starttime {
+    font-size: 85%;
+    font-weight: normal;
+    display:inline-block;
+    width: 130px;
+  }
+  &.artist {
+    .ui-li {
+      .ui-btn-text a {
+        padding-left: 40px;
+      }
+    }
+  }
+}
+
+.news-footer {
+  float: right;
+  margin-right: 8px;
+  vertical-align: center;
+  height: 36px;
+  .mission {
+    color: orange;
+  }
+  a.ui-link {
+    color: white;
+    text-decoration: none;
+  }
+  span {
+    font-weight:900;
+    margin-right:4px;
+  }
+  a img {
+    vertical-align: bottom;
+    padding-top: 2px;
+  }
+}
+div.os-star {
+  position:absolute;
+  background-image: url(/images/art_thumb_os_star.png);
+  background-repeat: no-repeat;
+  height: 28px;
+  width: 27px;
+  z-index: 10;
+}
+#about_text {
+  .os-star {
+    position:relative;
+    display: inline-block;
+    vertical-align: sub;
+  }
+}
+li.os-star {
+  position: relative;
+  div.os-star {
+    bottom: 11px;
+    left: 10px;
+  }
+  a {
+    padding-left: 27px;
+  }
+}
+
+.ui-body-a .ui-link {
+  color: #ff4;
+}
+.artists-thumbs { margin-top: 20px; }
+
+h1 {
+  line-height: 30px;
+  font-size: 26px;
+  text-align: center;
+}
+h4, h5 {
+  font-size: 18px;
+  line-height: 18px;
+  margin: 4px 0 8px;
+}
+.markdown, #open_studios {
+  & h1 {
+    margin-top: 0px;
+  }
+  & h3, & h4, & h5 {
+    text-align: left;
+    color: #a3b2c4;
+  }
+  & p, & li {
+    font-size: 14px;
+    line-height: 19px;
+  }
+  & ul {
+    margin: 0;
+    padding: 0;
+  }
+  & li {
+    list-style: none;
+  }
+}
+
+.f404 {
+  .oops {
+    text-align: center;
+    font-size: 30px;
+    color: $error_red;
+  }
+  .error-msg {
+    color: $error_red;
+  }
+
+}
+
+.apple_pagination {
+  border: 1px solid $darkgray;
+  text-align: center;
+  padding: 1em;
+  cursor: default; }
+  .apple_pagination a, .apple_pagination span {
+    padding: 0.2em 0.3em; }
+  .apple_pagination .disabled {
+    color: #aaaaaa; }
+  .apple_pagination .current {
+    font-style: normal;
+    font-weight: bold;
+    background-color: $xdarkgray;
+    display: inline-block;
+    width: 1.4em;
+    height: 1.4em;
+    line-height: 1.5;
+    -moz-border-radius: 0.25em;
+    -webkit-border-radius: 0.25em;
+    border-radius: 0.25em;
+    text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 1px; }
+  .apple_pagination a {
+    text-decoration: none;
+    color: black; }
+    .apple_pagination a:hover, .apple_pagination a:focus {
+      text-decoration: underline; }
+
+.full_site .ui-btn-left {
+  position: static;
+}
+
+.show_less, .show_more, .full_site {
+  text-align: center;
+  padding: 12px 0;
+  background-color: $xdarkgray;
+  a.ui-link {
+    text-decoration: none;
+    color: white;
+    text-decoration: 0;
+    font-weight: 300;
+    background-color: $darkgray;
+    padding: 7px 22px;
+    @include small-rounded-corners;
+    &:visited {
+      color: white;
+    }
+  }
+}
+
+.controls {
+  .show_more, .show_less {
+    line-height:20px;
+    height: 20px;
+    width: 49%;
+    float:left;
+    background-color: $darkgray;
+    a.ui-link {
+      background-color: $xdarkgray;
+    }
+  }
+}

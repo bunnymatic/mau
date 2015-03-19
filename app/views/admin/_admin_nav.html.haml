@@ -1,12 +1,15 @@
 - nav_presenter = AdminNavigation.new(current_user)
 %a#menu-link.menu-link{href: '#menu'}
-  &nbsp;
-  = fa_icon('bars')
+  .sidebar-logo
 #menu
   .pure-menu
     %ul.pure-menu-list
-      %li.pure-menu-item.dashboard
-        = link_to 'dashboard', admin_path
+      %li.pure-menu-item.home{ title: 'home' }
+        = link_to root_path, title: 'home' do
+          .sidebar-logo
+      
+      %li.pure-menu-item.dashboard{ title: 'admin dashboard' }
+        = link_to fa_icon('dashboard'), admin_path, title: 'admin dashboard'
     - nav_presenter.links.each do |sxn, entries|
       - if sxn
         .title #{sxn}

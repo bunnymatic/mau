@@ -21,7 +21,7 @@ $sampler-thumbnail-size : 250px;
   }
   .sampler__promo,
   .sampler__thumb {
-    @extend .artist-thumb-mixin;
+    @include artist-thumb-mixin;
     height: $sampler-thumbnail-size;
     min-height: inherit;
     padding: 6px;

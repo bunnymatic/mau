@@ -1,0 +1,208 @@
+@import 'mau-mixins';
+
+#new_artpiece_form {
+  .notice, .error-msg {
+    width: 320px;
+  }
+
+  .input-help {
+    @include little-text;
+  }
+}
+
+#edit_artpiece {
+  .artpiece{
+    width: 200px;
+    margin: auto;
+    text-align:center;
+  }
+}
+.new_art_piece, .edit_art_piece {
+  .select2-container {
+    width: 100%;
+  }
+}
+
+#arrange_art {
+  .artp-thumb-container {
+    cursor: pointer;
+  }
+}
+#arrange_art, #delete_art {
+  margin: auto;
+  .allthumbs {
+    clear: both;
+  }
+  .edit-buttons {
+    clear: both;
+  }
+  h4 {
+    text-align: center;
+  }
+  .title {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    position:relative;
+  }
+  .help-txt {
+    position:relative;
+    margin-top:16px;
+    width: 500px;
+    margin: 16px auto 10px auto;
+    @include little-text;
+  }
+  .allthumbs .artp-thumb-container.with-foot {
+    min-height: 144px;
+  }
+}
+#arrange_art_help {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  .help-txt {
+    @include little-text;
+  }
+}
+
+#social_panel {
+  position:absolute;
+  @include transparent_white_background;
+  border-bottom: none;
+  left: 0;
+  bottom: 4px;
+  width: 100%;
+  display:none;
+  height: 36px;
+  opacity:0.0;
+  @include transition(all 0.75s ease);
+  .mau_buttons {
+    float: left;
+  }
+  .micro-icon.ico-heart, .pinterest, .facebook {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .social_buttons {
+    text-align: right;
+    float:right;
+    .facebook {
+      margin-top: 4px;
+    }
+    .pinterest {
+      margin-top: 6px;
+    }
+  }
+}
+
+#artpiece_title {
+  overflow: hidden;
+  max-width: 500px;
+  margin:auto;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0px 10px 10px 10px;
+  text-align: center;
+}
+#artpiece_container {
+  text-align:center;
+  padding-bottom: 20px;
+  .art-piece-info {
+    margin: auto;
+    margin-top: 20px;
+    text-align:right;
+  }
+  #ap_tags {
+    text-align:center;
+    max-width: 500px;
+    margin: 20px auto 10px;
+    font-size: x-small;
+    line-height: 30px;
+    a.tag {
+      padding: 0px 6px;
+      margin: 4px;
+      line-height: 22px;
+      display: inline-block;
+      background-color: $darkgray;
+      @include small-rounded-corners;
+    }
+  }
+  .basic {
+    font-size: x-small;
+    .entry {
+      line-height: 1.7em;
+    }
+  }
+  .artpiece_wrapper {
+    display: inline-block;
+    position: relative;
+    margin: auto;
+    .mau_buttons {
+      margin-top: 4px;
+      margin-left: 8px;
+    }
+    .social_buttons {
+      margin-top: 8px;
+      margin-right: 8px;
+      .pinterest img {
+        vertical-align: top;
+      }
+      .pinterest, facebook {
+        margin-right: 14px;
+      }
+    }
+    .micro-icon {
+      float: right;
+      cursor: pointer;
+    }
+    #num_favorites {
+      color: $dark_red;
+      float:right;
+      font-size:small;
+      vertical-align:top;
+      height: 16px;
+      margin: 5px 4px 6px 0;
+    }
+    #social_panel {
+      min-width: 200px;
+    }
+
+    &:hover #social_panel {
+      display:block;
+      opacity:1.0;
+    }
+    &:hover .zoom-corner {
+      opacity: 1.0;
+    }
+    .zoom-corner:hover {
+      cursor:pointer;
+      background-color: rgba(255,255,255,0.9);
+      a {
+        color: black;
+      }
+    }
+    .zoom-corner {
+      display: block;
+      height: 24px;
+      width: 24px;
+      line-height: 24px;
+      font-size: 20px;
+      position: absolute;
+      background-color: rgba(255,255,255,0.6);
+      a {
+        color: $darkgray;
+      }
+      top: 0;
+      right: 0;
+      @include transition(all 0.75s ease);
+      opacity: 0.0;
+    }
+  }
+  #artpiece_img{
+    @include solid_border;
+  }
+  .edit-buttons {
+    margin-top: 16px;
+  }
+}

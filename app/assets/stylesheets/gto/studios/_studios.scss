@@ -5,7 +5,7 @@
   @include search-filter;
 
   .studio {
-    @extend .artist-thumb-mixin;
+    @include artist-thumb-mixin;
     .image {
       @include background-contain;
     }
@@ -78,7 +78,7 @@
   }
 
   .artist-thumb {
-    @extend .artist-thumb-mixin;
+    @include artist-thumb-mixin;
     /* .image { */
     /*   height:280px; */
     /*   img { */

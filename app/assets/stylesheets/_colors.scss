@@ -1,25 +1,3 @@
-$lightbluegray: #c6c7d6;
-$bluegray: #738294;
-$medbluegray: #606e92;
-$darkbluegray: #223;
-
-$xdarkgray: #111;
-$darkgray: #222;
-$bordergray: #444;
-$xmediumgray: #666;
-$mediumgray: #999;
-$lightgray: #aaa;
-$xlightgray: #ddd;
-$xxlightgray: #f7f9f9;
-$white: #fff;
-$black: #000;
-$purple: #404;
-$pink: #cc77cc;
-$error_red: #f33;
-$dark_red: #800;
-
-$lightyellow: #FEF7CA;
-
 /** new gto colors */
 $gto_orange: #d7682b;
 $gto_red: #b33e43;
@@ -29,5 +7,32 @@ $gto_gray: #5a636a;
 $gto_dark_teal: #175b5b;
 $gto_dark_blue: #315077;
 
+
+$lightbluegray: #c6c7d6;
+$bluegray: #738294;
+$medbluegray: #606e92;
+$darkbluegray: #223;
+
+$xdarkgray: darken($gto_gray, 30%);
+$darkgray: darken($gto_gray, 23%);
+
+$bordergray: darken($gto_gray, 9%);
+$xmediumgray: $gto_gray;
+$mediumgray: lighten($gto_gray, 24%);
+$lightgray: lighten($gto_gray, 31%);
+$xlightgray: lighten($gto_gray, 47%);
+
+$xxlightgray: lighten($gto_gray, 58%);
+$white: #fff;
+$black: #000;
+$purple: #404;
+$pink: #cc77cc;
+$error_red: #f33;
+$dark_red: #800;
+
+$lightyellow: #FEF7CA;
+
+
 $light-gray-background: $xxlightgray;
-$base-background-color: #fcfcfc;
+$base-background-color: lighten($gto_gray, 60);
+

@@ -22,7 +22,7 @@
   }
 }
 
-.artist-thumb-mixin {
+@mixin artist-thumb-mixin {
   position: relative;
   min-height: 300px;
   text-align:center;

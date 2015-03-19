@@ -1,5 +1,8 @@
 @import 'gto/variables';
 @import 'colors';
+@import 'mau-mixins';
+@import 'gto/gto-mixins';
+
 .admin {/*
 Add transition to containers so they can push in and out.
        */
@@ -28,6 +31,7 @@ This is the parent `<div>` that contains the menu and the content area.
   #layout.active .menu-link {
     left: 150px;
   }
+  
   /*
 The content `<div>` is where all your content goes.
  */
@@ -78,20 +82,46 @@ appears on the left side of the page.
     left: 0;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    background: #191818;
+    background: $gto_gray;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
   /*
     All anchors inside the menu should be styled like this.
  */
-  #menu a {
-    color: lighten($gto_gray,45%);
+  #menu a,
+  #menu .title {
+    color: lighten($gto_gray,40%);
     border: none;
-    padding: 0.4em 0 0.4em 0.8em;
+    padding: 0.4em 0 0.4em 1em;
   }
-  #menu .dashboard a {
-    padding-left: 8px;
+  #menu .title {
+    color: lighten($gto_gray,25%);
+    padding: 0.4em 0 0.4em 0.2em;
+  }
+  #menu .dashboard,
+  #menu .home {
+    text-align: center;
+    a {
+      padding: 0.3rem 0;
+    }
+    a .fa {
+      font-size: 2rem;
+      color: $gto_yellow;
+    }
+  }
+
+  #menu .sidebar-logo {
+    background-image: image_url('yellow_sidebar_logo_gear_only.svg');
+    height: 43px;
+    width: 43px;
+  }
+  #menu.active .sidebar-logo {
+    height: 0;
+    width:0;
+  }
+  #menu .pure-menu-item a{
+    @include ellipsis;
   }
   
 
@@ -108,8 +138,9 @@ appears on the left side of the page.
     text-transform: uppercase;
     font-size: 0.8rem;
     margin-left: 8px;
+    margin-top: 10px;
   }
-
+  
   /*
     Add that light border to separate items into groups.
  */
@@ -258,3 +289,4 @@ Hides the menu at `48em`, but modify this based on your app's needs.
     }
   }
 }
+
