@@ -3,69 +3,6 @@
 @import 'gto/gto-mixins';
 $sampler-thumbnail-size : 250px;
 
-#main_thumbs {
-  .header .title {
-    margin: 0 6px 0;
-    padding-top: 10px;
-    color: white;
-    background-color: $gto_teal;
-    .long-text {
-      display: none;
-    }
-    .short-text {
-      color: white;
-      display: block;
-      padding-left: 20px;
-      font-size: 2rem;
-      font-size: 7vw;
-      text-transform: uppercase;
-      font-weight: $font-weight-bold;
-      text-align: center;
-    }
-  }
-
-  @media screen and (min-width: $screen-xs-max) {
-    .header .title {
-      .short-text {
-        font-size: 2rem;
-        font-size: 5vw;
-      }
-    }
-  }
-  @media screen and (min-width: $screen-sm-max) {
-    .header .title {
-      background-color: transparent;
-      margin: 0;
-      .short-text {
-        display: none;
-      }
-      .long-text {
-        display: block;
-        color: $gto_teal;
-        padding-top: 6px;
-        padding-left: 6px;
-        text-transform: uppercase;
-        font-weight: $font-weight-normal;
-        font-size: 1.2rem;
-        line-height: 1.4rem;
-        font-size: 2vw;
-        line-height: 2.5vw;
-      }
-    }
-  }
-  @media screen and (min-width: $screen-md-max) {
-    .header .title {
-      .long-text {
-        font-size: 1.1rem;
-        line-height: 1.3rem;
-        font-size: 1.5vw;
-        line-height: 2vw;
-      }
-    }
-  }
-  
-}
-
 #sampler {
   overflow:hidden;
   font-size: 0; /* avoid spaces between blocks */
@@ -82,7 +19,36 @@ $sampler-thumbnail-size : 250px;
       color: rgba(200,200,200,0.5);
     }
   }
-  .sampler__promo-contents,
+  .sampler__promo {
+    background-image: image-url('duotones/blue-duo1.jpg');
+    @include background-cover;
+    .sampler__promo-contents {
+      width: 90%;
+      @include in-the-middle;
+    }
+    .header, .body {
+      margin: auto;
+      color: $gto_teal;
+      text-transform: uppercase;
+      background-color: rgba(255,255,255,0.7);
+      padding: 0.5rem;
+      margin-bottom: 1.2rem;
+      margin-bottom: 4vh;
+    }
+    .header {
+      font-size: 2.7rem;
+      font-size: 3.3vw;
+      font-weight: $font-weight-bold;
+    }
+    .body {
+      font-size: 1rem;
+      font-size: 1.5vw;
+      line-height: 1.8rem;
+      font-weight: $font-weight-light;
+    }
+    
+  }
+  .sampler__promo,
   .sampler__thumb {
     @extend .artist-thumb-mixin;
     height: $sampler-thumbnail-size;
@@ -115,14 +81,52 @@ $sampler-thumbnail-size : 250px;
     float: left;
   }
 
+  .sampler__promo {
+    width: 40%;
+    float: left;
+  }
+
   @media screen and (max-width: $screen-lg-max) {
     .sampler__thumb {
-      width: 33.33%;
+      width: 25%;
+    }
+    .sampler__promo {
+      width: 50%;
+      .header {
+        font-size: 2rem;
+        font-size: 4.2vw;
+      }
+      .body {
+        font-size: 1rem;
+        font-size: 1.7vw;
+        line-height: 1.8rem;
+      }
     }
   }
   @media screen and (max-width: $screen-md-max) {
+    .sampler__thumb {
+      width: 33.33%;
+    }
+    .sampler__promo {
+      width: 66.33%;
+      .header {
+        font-size: 2.2rem;
+      }
+      .body {
+        font-size: 1.1rem;
+      }
+    }
   }
   @media screen and (max-width: $screen-xs-max) {
+    .sampler__promo {
+      .header {
+        font-size: 2rem;
+      }
+      .body {
+        font-size: 1rem;
+      }
+    }
+    .sampler__promo,
     .sampler__thumb {
       &.first {
         margin-top: 10px;

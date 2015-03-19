@@ -28,13 +28,13 @@ MAU.Sampler = class Sampler
               duration: @fadeTime
             setTimeout( ->
               existing.remove()
-              container.html(data);
+              container.find(".js-sampler__promo").after(data);
             ,
             @fadeTime
             )
             setTimeout(@updateArt, @refreshTime);
           else
-            container.html(data);
+            container.find(".js-sampler__promo").after(data);
             setTimeout(@updateArt, @refreshTime);
 
       jQuery.ajax( ajaxOpts )
