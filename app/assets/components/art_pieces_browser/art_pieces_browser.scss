@@ -7,6 +7,7 @@ art-pieces-browser {
   .art-piece {
     order: 1;
     height: 300px;
+    margin-bottom: 20px;
   }
   .art-piece__info {
     display: flex;
@@ -64,6 +65,7 @@ art-pieces-browser {
     .art-piece {
       order: 2;
       height: 400px;
+      margin-bottom: 0px;
     }
     .art-piece__info {
       order: 1;
