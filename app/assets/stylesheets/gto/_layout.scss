@@ -55,8 +55,9 @@ html, body {
   background-image: image_url('yellow_sidebar_logo_full.svg');
   @include background-cover;
   margin: auto;
-  width: 114px;
-  height: 165px;
+  width: 133px;
+  height: 117px;
+  background-position: top center;
   @include opacity(1);
   @include transition( all 0.3s ease-in-out );
 }
