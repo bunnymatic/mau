@@ -5,16 +5,36 @@
 
   border-top: 1px solid $light-gray-background;
   @include transition(left 0.25 ease-in-out);
-  background: #f8f8f8;
   h2.title {
+    background: lighten($gto_teal, 58%);
     text-align:center;
+    padding: 0.5rem;
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: $font-weight-light;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
   }
   .square {
     margin: 10px;
     min-height: 180px;
     @include background-cover;
+  }
+  @media screen and (min-width: $screen-md-min) {
+    h2.title {
+      font-size: 1.2rem;
+    }
+  }
+  @media screen and (min-width: $screen-lg-min) {
+    h2.title {
+      font-size: 1.4rem;
+    }
+  }
+  @media screen and (min-width: $screen-xl-min) {
+    h2.title {
+      font-size: 1.6rem;
+    }
   }
 }
