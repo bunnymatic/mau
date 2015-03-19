@@ -1,6 +1,6 @@
 class ArtSampler
 
-  NUM_IMAGES = 15
+  NUM_IMAGES = 15 - 2
   def pieces
     get_random_pieces.map{|piece| ArtPiecePresenter.new(piece)}
   end
