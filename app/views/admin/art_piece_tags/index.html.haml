@@ -1,12 +1,11 @@
 .admin-table
-  %h1 listing tags
-
-  .controls
-    %a{href: cleanup_admin_art_piece_tags_path} delete unused tags
+  %h1
+    Art Piece Tags (#{@tags.count})
+  .admin-table__controls
+    %a{href: cleanup_admin_art_piece_tags_path, class: 'pure-button pure-xs-button button-warning'} delete unused tags
   %table.js-data-tables#tags_index.pure-table.pure-table-striped
     %thead
       %tr
-        %th ID
         %th Name
         %th Count
         %th
@@ -14,13 +13,10 @@
       - @tags.each_with_index do |(tag, ct), idx|
         - clz = ' error-msg' if ct <= 0
         %tr{class: clz.to_s}
-          %td #{tag.id}
-          %td #{tag.name}
+          %td
+            = link_to tag.name, tag
           %td.input-name.ct #{ct}
           %td.admin-controls
-            .show.btn
-              = link_to tag, title: 'show' do
-                = fa_icon 'eye'
             .remove.btn
               = link_to tag, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                 = fa_icon 'remove'

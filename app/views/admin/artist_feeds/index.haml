@@ -1,8 +1,9 @@
 .artist_feeds
-  %h1 Artist Feeds
-  .links
-    = link_to new_admin_artist_feed_path, title: 'add feed' do
-      = fa_icon('plus')
+  %h1
+    Artist Feeds
+    .admin-table__controls
+      = link_to new_admin_artist_feed_path, title: 'add feed' do
+        = fa_icon('plus-circle')
   .admin-table
     %table#artist_feeds_index.js-data-tables.pure-table.pure-table-striped
       %thead

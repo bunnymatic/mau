@@ -17,7 +17,7 @@
                 %label #{OpenStudiosEvent.for_display(ostag)}
                 %input{:type => 'checkbox', :name => ostag}
 
-            %input.formbutton{:type => 'submit'}
+            %input.pure-button{:type => 'submit'}
   .email_results
     - if @email_list.emails.present?
       %a.export-csv{:href => "?format=csv&%s" % request.query_string}

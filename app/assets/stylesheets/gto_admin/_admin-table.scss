@@ -1,5 +1,18 @@
 .admin {
+  .pure-table td {
+    vertical-align: top;
+  }
   .admin-table__controls {
-    float: right;
+    margin-bottom: 10px;
+  }
+  h1 .admin-table__controls {
+    display: inline-block;
+    margin-left: 20px;
+  }
+  table td.admin-controls, table td.controls {
+    white-space: nowrap;
+    > div {
+      display: inline-block;
+    }
   }
 }

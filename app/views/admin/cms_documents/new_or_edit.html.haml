@@ -17,8 +17,8 @@
       .section
         Last Updated by: #{@cms_document.user.try(:login) || 'unknown'} on #{@cms_document.updated_at.try(:to_formatted_s,:admin)}
       .markdown-ctrls
-        %span#process_markdown_btn.formbutton preview &raquo;
-        = f.submit 'Save', :class => 'formbutton'
+        %span#process_markdown_btn.pure-button preview &raquo;
+        = f.submit 'Save', :class => 'pure-button'
 
     .section.markdown-input
       = f.text_area :article, :rows => 50, :cols => 50, :class => 'input-markdown'
@@ -31,4 +31,4 @@
       or on our
       %a{:href => "/tests/markdown"} markdown test page.
     %p
-      = f.submit 'Save', :class => "formbutton"
+      = f.submit 'Save', :class => "pure-button"

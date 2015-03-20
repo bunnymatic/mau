@@ -1,8 +1,9 @@
 .admin-table
-  .admin-controls
-    = link_to new_admin_medium_path, title: 'Add New medium' do
-      = fa_icon "plus"
-  %h1 Mediums
+  %h1
+    Mediums
+    .admin-table__controls
+      = link_to new_admin_medium_path, title: 'Add New medium' do
+        = fa_icon "plus-circle"
 
   %table.js-data-tables#mediums_index.pure-table.pure-table-striped
     %thead

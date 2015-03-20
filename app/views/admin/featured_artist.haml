@@ -11,7 +11,7 @@
           - else
             %img.profile{:src => "/images/default-profile-img-not-me.png", :width => '200'}
       .controls
-        %a{:href => '#', :class => 'formbutton', :"data-artist" => @featured_artist.id} Tell me I'm Featured
+        %a{:href => '#', :class => 'pure-button', :"data-artist" => @featured_artist.id} Tell me I'm Featured
     .info
       - clz = (@featured.featured > 1.week.ago) ? 'warning' :''
       %div{:class => clz}
@@ -27,7 +27,7 @@
           %label{:for => 'override_date'} Override Date Restriction?
           %input{:id => 'override_date', :type => 'checkbox', :name => 'override'}
         .submit
-          %input{:class => 'formbutton',:type => 'submit', :value => 'get the next featured artist'}
+          %input{:class => 'pure-button',:type => 'submit', :value => 'get the next featured artist'}
       .name
         %label Name:
         %span

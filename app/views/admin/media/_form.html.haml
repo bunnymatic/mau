@@ -1,10 +1,8 @@
-= form_for([:admin, medium]) do |f|
+= semantic_form_for([:admin, medium]) do |f|
   = render '/common/form_errors', :form => f if medium.errors.full_messages.present?
-  .form-field
-    = f.label :name
-    %br
-    = f.text_field :name
-  .form-controls
-    = f.submit :class => "formbutton"
+  = f.inputs do
+    = f.input :name
+  = f.actions do
+    = f.submit :class => "pure-button"
 
-= link_to 'Back', media_path
+= link_to 'Back to all media', admin_media_path

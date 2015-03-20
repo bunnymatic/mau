@@ -1,11 +1,13 @@
 @import 'mau-mixins';
 .dataTables_wrapper {
   .dataTables_filter {
-    float: right;
+    margin-bottom: 10px;
+    border: none;
     input {
       padding: 10px;
+      margin-left: 10px;
+      border: 1px solid #ddd;
       border-radius: 2px;
-      bodrder: 1px solid #ddd;
     }
   }
   label {
