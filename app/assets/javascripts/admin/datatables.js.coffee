@@ -1,6 +1,8 @@
 #= require dataTables/jquery.dataTables
 jQuery ->
   tables = [ "#tags_index.js-data-tables",
+             "#cms_contents_index.js-data-tables",
+             "#os_status_table.js-data-tables",
              '#favorites_index.js-data-tables',
              "#mediums_index.js-data-tables",
              "#fans_index.js-data-tables",

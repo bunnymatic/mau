@@ -24,7 +24,6 @@ class AdminController < BaseAdminController
 
   def emaillist
     list_names = build_list_names_from_params
-    binding.pry
     @email_list = AdminEmailList.new(list_names)
 
     respond_to do |format|
@@ -43,9 +42,9 @@ class AdminController < BaseAdminController
   def os_status
     @os = Artist.active.by_lastname
     @totals = {}
-    available_open_studios_keys.map(&:to_s).each do |ostag|
-      key = OpenStudiosEvent.for_display(ostag)
-      @totals[key] = @os.count{|a| (a.os_participation || {})[ostag] }
+    @keys = available_open_studios_keys.map(&:to_s)
+    @keys.each do |ostag|
+      @totals[ostag] = @os.select{|a| (a.os_participation || {})[ostag] }.length
     end
   end
 
