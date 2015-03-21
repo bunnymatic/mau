@@ -1,8 +1,6 @@
 module Admin
   class StudiosController < BaseAdminController
 
-    layout 'mau-admin'
-
     before_filter :manager_required
     before_filter :admin_required, only: [:new, :create, :destroy]
     before_filter :studio_manager_required, only: [:edit, :update,

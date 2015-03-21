@@ -1,11 +1,10 @@
 require 'qr4r'
 require 'tempfile'
 
-class TestsController < ApplicationController
+class TestsController < BaseAdminController
   # GET /studios
   # GET /studios.xml
   before_filter :admin_required
-  layout 'mau-admin'
 
   def show
   end

@@ -10,6 +10,14 @@
   line-height: 1.4rem;
   @include round-corners(2px);
 }
+tr.error-msg {
+  &:nth-child(2n) td {
+    background-color: lighten($gto-red, 45%);
+  }
+  &:nth-child(2n-1) td {
+    background-color: lighten($gto-red, 40%) !important;
+  }
+}
 .inline-hints {
   font-size: 85%;
   font-style: italic;

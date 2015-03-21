@@ -1,14 +1,17 @@
-.js-hideable-rows.artists
-  =form_tag update_admin_artists_path do
-    .admin-table__controls      
-      %button.pure-button.update-artists update os status
-      %a.pure-button.export-csv{:href => "?format=csv&%s" % request.query_string}
-        export as csv
+.pure-g
+  .pure-u-1-1.padded-content
+    .artists
+      =form_tag update_admin_artists_path do
+        %header.admin-table
+          %h1 Listing Artists (#{@artist_list.count})
+          = render '/flash_notice_error'
+          .admin-table__controls      
+            %button.pure-button.update-artists update os status
+            %a.pure-button.export-csv{:href => "?format=csv&%s" % request.query_string}
+              export as csv
 
-    %header.admin-table
-      %h1 Listing Artists (#{@artist_list.count})
-      = render '/flash_notice_error'
-
+.pure-g
+  .pure-u-1-1.padded-content
     %table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
       %thead
         %tr
@@ -64,4 +67,3 @@
               - else
                 no address
 
-    %button.update-artists update os status

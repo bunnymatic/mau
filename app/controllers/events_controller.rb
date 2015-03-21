@@ -72,7 +72,7 @@ class EventsController < ApplicationController
       redirect_to(admin_events_path)
     else
       @event = @event.decorate
-      render "new_or_edit", :layout => 'mau-admin'
+      render "new_or_edit", :layout => 'admin'
     end
   end
 

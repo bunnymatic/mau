@@ -1,29 +1,31 @@
-.admin-table.singlecolumn
-  %h1 Favorites!
-  %table.favorites.pure-table.pure-table-striped
-    %thead
-      %tr
-        %th login
-        %th artists
-        %th pieces
-        %th favorited
-    %tbody
-      %tr.totals
-        %td Totals
-        %td
-          = @favorites.total_artists
-        %td
-          = @favorites.total_art_pieces
-        %td
-          = @favorites.total_favorited_users
-
-      - @favorites.each do |user,favinfo|
-        %tr.user-entry
+.pure-g
+  .pure-u-1-1.padded-content
+    %h1 Favorites!
+  .pure-u-1-1.padded-content
+    %table.favorites.pure-table.pure-table-striped.js-data-tables#favorites_index
+      %thead
+        %tr
+          %th login
+          %th artists
+          %th pieces
+          %th favorited
+      %tbody            
+        - @favorites.each do |user,favinfo|
+          %tr.user-entry
+            %td
+              = link_to user.login, user_path(user)
+            %td
+              = favinfo.artists
+            %td
+              = favinfo.art_pieces
+            %td
+              = favinfo.favorited
+      %tfoot
+        %tr.totals
+          %td Totals
           %td
-            = link_to user.login, user_path(user)
+            = @favorites.total_artists
           %td
-            = favinfo.artists
+            = @favorites.total_art_pieces
           %td
-            = favinfo.art_pieces
-          %td
-            = favinfo.favorited
+            = @favorites.total_favorited_users

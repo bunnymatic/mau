@@ -200,6 +200,7 @@ class Artist < User
 
   def self.open_studios_participants(oskey = nil)
     q = (oskey || OpenStudiosEvent.current.try(:key)).to_s
+    binding.pry
     joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
   end
 

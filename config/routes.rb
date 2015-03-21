@@ -132,6 +132,7 @@ Mau::Application.routes.draw do
     get :art_pieces_per_day
     get :favorites_per_day
     get :emaillist
+    post :emaillist
 
     match '/discount/markup' => 'discount#markup', as: :discount_processor
 

@@ -24,6 +24,7 @@ class AdminController < BaseAdminController
 
   def emaillist
     list_names = build_list_names_from_params
+    binding.pry
     @email_list = AdminEmailList.new(list_names)
 
     respond_to do |format|
