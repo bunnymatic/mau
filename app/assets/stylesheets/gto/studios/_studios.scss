@@ -38,6 +38,8 @@
 .studios.show {
   #about {
     .studio__open-studios-banner .os-violator {
+      width: 50%;
+      margin: auto;
       img {
         margin: auto;
       }
@@ -79,12 +81,11 @@
 
   .artist-thumb {
     @include artist-thumb-mixin;
-    /* .image { */
-    /*   height:280px; */
-    /*   img { */
-    /*     max-width: 100%; */
-    /*   } */
-    /* } */
+    .os-violator {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+    }
     .desc {
       @include opacity(1);
     }
@@ -120,12 +121,6 @@
   .studio {
     border: 1px solid #eee;
     .desc {
-      /* .address, .website { */
-      /*   line-height: 1.1rem; */
-      /*   height: 1.1rem; */
-      /*   whitespace: no-wrap; */
-      /*   overflow: hidden; */
-      /* } */
     }
   }
 
