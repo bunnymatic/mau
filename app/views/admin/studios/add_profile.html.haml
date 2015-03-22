@@ -10,5 +10,5 @@
       = file_field 'upload', 'datafile'
       = hidden_field_tag :id, @studio.id
     %p.controls    
-      = submit_tag "Upload"
-      = submit_tag "Cancel"
+      = submit_tag "Upload", class: 'pure-button'
+      = submit_tag "Cancel", class: 'pure-button'

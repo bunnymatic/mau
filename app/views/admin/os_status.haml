@@ -1,18 +1,26 @@
-.admin-table.singlecolumn
-  %table.os-status.pure-table.pure-table-striped
-    %tr
-      %th name
-      - @totals.keys.sort.each do |key|
-        %th #{key}
-    %tr.totals
-      %td Totals:
-      - @totals.keys.sort.each do |key|
-        %td.tf #{@totals[key]}
-    - @os.each_with_index do |a,idx|
-      %tr
-        %td#admin_artist_name
-          %a{:href => user_path(a)} #{a.get_name}
-        - Conf.open_studios_event_keys.sort.map(&:to_s).each do |ostag|
-          %td.tf
-            - val = a.os_participation[ostag] || 'false'
-            %span{:class => val} #{val}
+.pure-g
+  .pure-u-1-1.padded-content
+    %h1 Open Studios Status
+  .pure-u-1-1.padded-content
+    %table.os-status.pure-table.pure-table-striped#os_status_table.js-data-tables
+      %thead
+        %tr
+          %th name
+          - @keys.each do |key|
+            %th #{OpenStudiosEvent.for_display(key)}
+      %tbody          
+        - @os.each_with_index do |a,idx|
+          %tr
+            %td.os-status__artist-name
+              %a{:href => user_path(a)} #{a.get_name}
+            - @keys.each do |ostag|
+              %td.tf
+                - if a.os_participation[ostag]
+                  .fa.fa-star 
+      %tfoot
+        %tr.totals
+          %td Totals:
+          - @keys.each do |key|
+            %td.tf #{@totals[key]}
+
+    %pre #{@totals.to_json}

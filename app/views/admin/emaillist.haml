@@ -1,39 +1,40 @@
-.email_lists
-  %h4 #{@email_list.display_title}
-  .list_chooser
-    %h5 Available Lists
-    %ul
-      - @email_list.lists.each do |listinfo|
-        - key = listinfo[0]
-        - name = listinfo[1]
-        %li
-          %a{:href => 'emaillist?listname=%s' % key} #{name}
-      %li.os_combos
-        %a#os_combo_link{:href => '#'} More OS Combos?
-        #multi_form{:style => 'display:none;'}
-          = form_tag do
-            - Conf.open_studios_event_keys.map(&:to_s).reverse.each do |ostag|
-              .cb
-                %label #{OpenStudiosEvent.for_display(ostag)}
-                %input{:type => 'checkbox', :name => ostag}
+.pure-g
+  .pure-u-1-1.pure-u-md-1-2.email_lists.padded-content
+    %h2 Email List for : #{@email_list.display_title}
+    .list_chooser
+      %h3 Available Lists
+      %ul
+        - @email_list.lists.each do |listinfo|
+          - key = listinfo[0]
+          - name = listinfo[1]
+          %li
+            %a{:href => 'emaillist?listname=%s' % key} #{name}
+        %li.os_combos
+          %a#os_combo_link{:href => '#'} More OS Combos?
+          #multi_form{:style => 'display:none;'}
+            = form_tag do
+              - Conf.open_studios_event_keys.map(&:to_s).reverse.each do |ostag|
+                .cb
+                  %label #{OpenStudiosEvent.for_display(ostag)}
+                  %input{:type => 'checkbox', :name => ostag}
 
-            %input.formbutton{:type => 'submit'}
-  .email_results
-    - if @email_list.emails.present?
-      %a.export-csv{:href => "?format=csv&%s" % request.query_string}
-        %button export as csv
-      .admin-table        
-        %h5 Emails
-        %table.pure-table.pure-table-striped
-          %thead
-            %tr
-              %th name
-              %th email
-          %tbody
-            - @email_list.emails.each do |e|
+              %input.pure-button{:type => 'submit'}
+  .pure-u-1-1.pure-u-md-1-2.email_lists.padded-content
+    .email_results
+      - if @email_list.emails.present?
+        %a.export-csv.pure-button{:href => "?format=csv&%s" % request.query_string}
+          export as csv
+        .admin-table        
+          %h3 Emails
+          %table.pure-table.pure-table-striped
+            %thead
               %tr
-                %td.name #{e.name}
-                %td.email #{e.email}
-    - else
-      %h5 nothing emails match the query
-    .clear
+                %th name
+                %th email
+            %tbody
+              - @email_list.emails.each do |e|
+                %tr
+                  %td.name #{e.name}
+                  %td.email #{e.email}
+      - else
+        %h5 nothing emails match the query

@@ -9,7 +9,7 @@
   .controls
     = form_for [:admin, @role], :html => {:class => 'js-hook hidden'} do |f|
       = select_tag 'user', options_from_collection_for_select(@users, :id, :fullname)
-      = f.submit "add user", :class => 'formbutton'
+      = f.submit "add user", :class => 'pure-button'
     = link_to "[add user to role]", "#", :class => 'add_userrole'
 
   %ul.members_edit{"data-role" => @role.id}

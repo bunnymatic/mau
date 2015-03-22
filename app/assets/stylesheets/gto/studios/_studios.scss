@@ -5,7 +5,7 @@
   @include search-filter;
 
   .studio {
-    @extend .artist-thumb-mixin;
+    @include artist-thumb-mixin;
     .image {
       @include background-contain;
     }
@@ -80,7 +80,7 @@
   }
 
   .artist-thumb {
-    @extend .artist-thumb-mixin;
+    @include artist-thumb-mixin;
     .os-violator {
       position: absolute;
       top: 12px;
@@ -121,12 +121,6 @@
   .studio {
     border: 1px solid #eee;
     .desc {
-      /* .address, .website { */
-      /*   line-height: 1.1rem; */
-      /*   height: 1.1rem; */
-      /*   whitespace: no-wrap; */
-      /*   overflow: hidden; */
-      /* } */
     }
   }
 

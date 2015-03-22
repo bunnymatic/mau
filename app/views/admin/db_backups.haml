@@ -1,10 +1,12 @@
-#database_backups
-  %h2 Content Backups
-  %ul.databases
-    - cnt = 0
-    - @dbfiles.each do |f|
-      - cnt+=1
-      %li
-        %a{:href => admin_fetch_backup_path(:name => File.basename(f.path))}
-          #{f.ctime.strftime("%b %d, %Y %H:%M")}
-          (#{"%02.2f" % (File.size(f).to_f/1000000.to_f)} MB)
+.pure-g
+  .pure-u-1-1.padded-content
+    %h1 Content Backups
+  .pure-u-1-1.padded-content
+    %ul.databases
+      - cnt = 0
+      - @dbfiles.each do |f|
+        - cnt+=1
+        %li
+          %a{:href => admin_fetch_backup_path(:name => File.basename(f.path))}
+            #{f.ctime.strftime("%b %d, %Y %H:%M")}
+            (#{"%02.2f" % (File.size(f).to_f/1000000.to_f)} MB)

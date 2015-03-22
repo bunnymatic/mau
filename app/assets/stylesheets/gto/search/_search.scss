@@ -7,6 +7,6 @@
 }
 .search-results {
   .art-card, .artist-card {
-    @extend .artist-thumb-mixin;
+    @include artist-thumb-mixin;
   }
 }

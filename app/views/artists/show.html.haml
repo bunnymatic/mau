@@ -14,6 +14,8 @@
       .pure-u-1-1
         %section.artist__art
           .header Art
-          
-          
-      = render partial: '/artists/art', collection: @artist.art_pieces, as: :art_piece, locals: { class_overrides: 'pure-u-1-1 pure-u-lg-1-2 pure-u-xl-1-3'}
+      - if @artist.art_pieces.present?
+        = render partial: '/artists/art', collection: @artist.art_pieces, as: :art_piece, locals: { class_overrides: 'pure-u-1-1 pure-u-lg-1-2 pure-u-xl-1-3'}
+      - else
+        .pure-u-1-1.empty
+          %h4 This artist has no art to show.

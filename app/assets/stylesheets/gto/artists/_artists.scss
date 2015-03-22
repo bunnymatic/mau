@@ -109,7 +109,7 @@
     }
   }
   .art-card, .artist-card {
-    @extend .artist-thumb-mixin;
+    @include artist-thumb-mixin;
     .os-violator {
       position: absolute;
       top: 12px;
@@ -210,6 +210,12 @@
 
 
 .artist-profile, #art {
+  .empty {
+    h4, p {
+      color: lighten($gto_gray, 20%);
+    }
+  }
+  
   section {
     font-size: 0.9rem;
     margin-bottom: 20px;

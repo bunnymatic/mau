@@ -32,7 +32,7 @@ class AdminNavigation < ViewPresenter
       admin_links = [
                      [:open_studios_events , {:display => 'os dates'}],
                      [:roles, {}],
-                     [:internal_email , {:display => 'internal messaging', :link => url_helpers.admin_email_lists_path }],
+                     [:internal_email , {:display => 'admin email lists', :link => url_helpers.admin_email_lists_path }],
                      [:db_backups , {:display => 'backups'}],
                      [:blacklist, {:display => 'blacklist', :link => url_helpers.admin_blacklist_domains_path}],
                      [:os_status , {}]
@@ -40,7 +40,7 @@ class AdminNavigation < ViewPresenter
       internal_links = [
                         [:palette , {:display => 'colors'}],
                         [:app_events, {:display => 'app events', :link => url_helpers.admin_application_events_path}],
-                        [:tests , {:link => '/tests'}]
+                        [:tests , {:link => url_helpers.admin_tests_path}]
                        ]
       links = [
                [:models, model_links],

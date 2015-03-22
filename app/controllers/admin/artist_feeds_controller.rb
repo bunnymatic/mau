@@ -1,8 +1,5 @@
 module Admin
-  class ArtistFeedsController < ApplicationController
-
-    before_filter :admin_required
-    layout 'mau-admin'
+  class ArtistFeedsController < BaseAdminController
 
     def index
       @feeds = ArtistFeed.all
@@ -35,7 +32,7 @@ module Admin
         flash[:notice] = 'ArtistFeed was successfully updated.'
         redirect_to(admin_artist_feeds_path)
       else
-        render "new_or_edit", :layout => 'mau-admin'
+        render "new_or_edit"
       end
     end
 

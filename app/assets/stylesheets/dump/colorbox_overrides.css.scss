@@ -1,0 +1,11 @@
+/** color box overrides */
+@import 'mau-mixins';
+
+#cboxOverlay{
+  background: none;
+  background-color: rgba(30,30,30, 0.9);
+}
+
+#cboxClose {
+  border: 0;
+}
