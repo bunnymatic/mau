@@ -1,0 +1,14 @@
+@import 'mau-mixins';
+.admin .os-status {
+  tbody td {
+    text-align: center;
+  }
+  tfoot td {
+    text-align: center;
+  }
+  thead, tbody, tfoot {
+    th:first-child, td:first-child {
+      text-align: right;
+    }
+  }   
+}

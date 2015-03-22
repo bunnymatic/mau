@@ -4,7 +4,9 @@
     .handle
       = fa_icon 'gear'
     .link-section.main
-      = link_to 'dashboard', admin_path
+      = link_to admin_path, title: 'Admin Dashboard' do
+        = fa_icon('dashboard')
+        %span.icon-with-text dashboard
     %ul{:class => 'link-groups'}
       - nav_presenter.links.each do |sxn, entries|
         %li
