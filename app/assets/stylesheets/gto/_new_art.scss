@@ -6,16 +6,16 @@
   border-top: 1px solid $light-gray-background;
   @include transition(left 0.25 ease-in-out);
   h2.title {
-    background: lighten($gto_teal, 58%);
+    background: lighten($gto_orange, 43%);
     text-align:center;
     padding: 0.5rem;
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 0;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: $font-weight-light;
     text-transform: uppercase;
-    letter-spacing: 0.2rem;
+    color: $gto_orange;
   }
   .square {
     margin: 10px;
