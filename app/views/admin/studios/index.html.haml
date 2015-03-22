@@ -1,6 +1,6 @@
 .pure-g
-  .pure-u-1-1.padded-content
-    %h1
+  .pure-u-1-1.padded-content.header
+    %h2.title
       Studios (#{@studios.count})
       .admin-table__controls
         - if current_user.is_admin?

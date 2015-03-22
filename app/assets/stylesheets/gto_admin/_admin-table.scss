@@ -5,9 +5,11 @@
   .admin-table__controls {
     margin-bottom: 10px;
   }
-  h1 .admin-table__controls {
-    display: inline-block;
-    margin-left: 20px;
+  h1, h2, h3, h4 {
+    .admin-table__controls {
+      display: inline-block;
+      margin-left: 20px;
+    }
   }
   table td.admin-controls, table td.controls {
     white-space: nowrap;

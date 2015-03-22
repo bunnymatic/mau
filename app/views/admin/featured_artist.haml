@@ -1,8 +1,10 @@
-.admin-table.singlecolumn
-  .featured
-    %h1 Featured Artist: #{@featured_artist.get_name}
+.pure-g
+  .pure-u-1-1.padded-content.header
+    %h2 Featured Artist: #{@featured_artist.get_name}
+.pure-g
+  .pure-u-1-1.padded-content
     = render :partial => '/flash_notice_error'
-
+  .pure-u-1-1.pure-u-sm-1-2.padded-content
     .artist_info
       .img
         %a{:href => artist_path(@featured_artist), :title => @featured_artist.get_name}
@@ -21,53 +23,57 @@
         = "been featured for about #{distance_of_time_in_words(@featured.featured, Time.zone.now)}"
 
 
-      = form_tag admin_get_next_featured_path, :id => 'get_next_featured', :method => :post do
-        .override
-        - if clz.present?
-          %label{:for => 'override_date'} Override Date Restriction?
-          %input{:id => 'override_date', :type => 'checkbox', :name => 'override'}
-        .submit
-          %input{:class => 'pure-button',:type => 'submit', :value => 'get the next featured artist'}
-      .name
-        %label Name:
-        %span
-          %a{:href => artist_path(@featured.artist)} #{@featured.artist.get_name}
-      .artworks
-        %label Uploaded Art:
-        %span #{@featured.artist.art_pieces ? @featured.artist.art_pieces.count : 0}
-      .primary_medium
-        %label Primary Medium:
-        %span
-          - if @featured_artist.primary_medium
-            #{@featured_artist.primary_medium.name}
-          - else
-            N/A
-      .studio
-        %label Studio:
-        %span
-          - if @featured_artist.studio
-            #{@featured_artist.studio.name}
-          - else
-            Independent Studio
-      .featured_date
-        %label Featured:
-        %span #{@featured.featured.strftime('%a %D')}
-      .post
-        %label For Facebook:
-        .text This Week's Featured Mission Artist: #{@featured_artist.get_name} #{@featured_artist.get_share_link(false, {:fb => true})} #sfmau
-      .post
-        %label For Twitter:
-        .text  Featured Mission Artist: #{@featured_artist.get_name} #{@featured_artist.get_share_link(false, {:tw => true})} #sfmau
-      .instructions Cut/Paste the above into the Facebook or Twitter status.
-  - if @already_featured.present?
-    .previously_featured
-      %h2 Previously Featured
-      %ul
-        - @already_featured.each do |featured|
-          %li
-            %span.featured_date #{featured.featured.strftime('%a %D')}
-            %a{:href => artist_path(featured.artist)} #{featured.artist.get_name}
-            - if featured.artist.studio
-              from #{featured.artist.studio.name}
-            - else
-              from an Independent Studio
+  .pure-u-1-1.pure-u-sm-1-2.padded-content
+    %p.name
+      %label Name:
+      %span
+        %a{:href => artist_path(@featured.artist)} #{@featured.artist.get_name}
+    %p.artworks
+      %label Uploaded Art:
+      %span #{@featured.artist.art_pieces ? @featured.artist.art_pieces.count : 0}
+    %p.primary_medium
+      %label Primary Medium:
+      %span
+        - if @featured_artist.primary_medium
+          #{@featured_artist.primary_medium.name}
+        - else
+          N/A
+    %p.studio
+      %label Studio:
+      %span
+        - if @featured_artist.studio
+          #{@featured_artist.studio.name}
+        - else
+          Independent Studio
+    %p.featured_date
+      %label Featured:
+      %span #{@featured.featured.strftime('%a %D')}
+    %p.post
+      %label For Facebook:
+      .text This Week's Featured Mission Artist: #{@featured_artist.get_name} #{@featured_artist.get_share_link(false, {:fb => true})} #sfmau
+    %p.post
+      %label For Twitter:
+      .text  Featured Mission Artist: #{@featured_artist.get_name} #{@featured_artist.get_share_link(false, {:tw => true})} #sfmau
+    %p.instructions Cut/Paste the above into the Facebook or Twitter status.
+
+  .pure-u-1-1.padded-content
+    = form_tag admin_get_next_featured_path, :id => 'get_next_featured', :method => :post do
+      .override
+      - if clz.present?
+        %label{:for => 'override_date'} Override Date Restriction?
+        %input{:id => 'override_date', :type => 'checkbox', :name => 'override'}
+      .submit
+        %input{:class => 'pure-button',:type => 'submit', :value => 'get the next featured artist'}
+  .pure-u-1-1.padded-content
+    - if @already_featured.present?
+      .previously_featured
+        %h2 Previously Featured
+        %ul
+          - @already_featured.each do |featured|
+            %li
+              %span.featured_date #{featured.featured.strftime('%a %D')}
+              %a{:href => artist_path(featured.artist)} #{featured.artist.get_name}
+              - if featured.artist.studio
+                from #{featured.artist.studio.name}
+              - else
+                from an Independent Studio
