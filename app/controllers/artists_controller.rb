@@ -13,8 +13,6 @@ class ArtistsController < ApplicationController
 
   before_filter :user_required, only: [ :edit, :update, :manage_art, :delete_art, :destroyart, :setarrangement, :arrange_art ]
 
-  skip_before_filter :get_new_art, :get_feeds
-
   def index
     respond_to do |format|
       format.html {

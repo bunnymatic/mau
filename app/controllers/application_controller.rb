@@ -18,8 +18,6 @@ class ApplicationController < ActionController::Base
   before_filter :init_body_classes, :set_controller_and_action_names
   before_filter :check_browser, :unless => :format_json?
   before_filter :set_version
-  before_filter :get_feeds
-  before_filter :get_new_art, :unless => :format_json?
   before_filter :set_meta_info
 
   helper_method :current_user_session, :current_user, :logged_in?, :current_artist
@@ -129,14 +127,6 @@ class ApplicationController < ActionController::Base
   def set_version
     @revision = VERSION
     @build = 'unk'
-  end
-
-  def get_new_art
-    @new_art = ArtPiece.get_new_art.map{|ap| ArtPiecePresenter.new(ap)}
-  end
-
-  def get_feeds
-    @feed_html = File.open('_cached_feeds.html','r').read() if File.exists?('_cached_feeds.html')
   end
 
   protected

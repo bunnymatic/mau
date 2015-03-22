@@ -3,36 +3,28 @@
     %h1 CMS Content
     = render '/flash_notice_error'
   .pure-u-1-1.padded-content
-    .links
-      = link_to 'Show This Document', [:admin, @cms_document]
-      = "|"
-      = link_to 'Document Index', admin_cms_documents_path
-  .pure-u-1-1.padded-content
-    = form_for [:admin,@cms_document] do |f|
+    = link_to 'Show This Document', [:admin, @cms_document], class: 'pure-button'
+    = link_to 'Document Index', admin_cms_documents_path, class: 'pure-button'
+  = semantic_form_for [:admin,@cms_document] do |f|
+    .pure-u-1-1.padded-content
       = render '/common/form_errors', :form => f
-      .header_inputs.clear
-        .section
-          = f.label :page
-          = f.text_field :page
-        .section
-          = f.label :section
-          = f.text_field :section
-        .section
+      = f.inputs do
+        = f.input :page
+        = f.input :section
+        %p
           Last Updated by: #{@cms_document.user.try(:login) || 'unknown'} on #{@cms_document.updated_at.try(:to_formatted_s,:admin)}
-        .markdown-ctrls
-          %span#process_markdown_btn.pure-button preview &raquo;
-          = f.submit 'Save', :class => 'pure-button'
-
-      .section.markdown-input
-        = f.text_area :article, :rows => 50, :cols => 50, :class => 'input-markdown'
-      .section.markdown-results
-        .markdown#processed_markdown
-          != MarkdownService.markdown @cms_document.article
-    .pure-u-1-1   
-      %p
-        Find more about Markdown here
-        %a{:href =>"http://daringfireball.net/projects/markdown/basics",:target => "_blank"} markdown basics
-        or on our
-        %a{:href => markdown_admin_tests_path} markdown test page.
-      %p
+    .pure-u-1-2.padded-content
+      = f.inputs do
+        = f.input :article, :rows => 30
+      = f.actions do
+        %span#process_markdown_btn.pure-button preview
         = f.submit 'Save', :class => "pure-button"
+    .pure-u-1-2.padded-content
+      .markdown#processed_markdown
+        != MarkdownService.markdown @cms_document.article
+.pure-g
+  .pure-u-1-1.padded-content
+    Find more about Markdown here
+    %a{:href =>"http://daringfireball.net/projects/markdown/basics",:target => "_blank"} markdown basics
+    or on our
+    %a{:href => markdown_admin_tests_path} markdown test page.

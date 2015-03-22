@@ -1,7 +1,5 @@
 class ArtPieceTagsController < ApplicationController
 
-  skip_before_filter :get_new_art, :get_feeds
-
   before_filter :admin_required, :except => [ :index, :show, :autosuggest ]
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']

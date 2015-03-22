@@ -21,7 +21,7 @@ module Admin
     end
 
     def new_or_edit
-      begin
+      begin 
         @cms_document = CmsDocument.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         @cms_document = CmsDocument.new(params[:doc])
@@ -31,7 +31,6 @@ module Admin
 
     def update
       @cms_document = CmsDocument.find(params[:id])
-
       if @cms_document.update_attributes(cms_document_params)
         redirect_to [:admin, @cms_document], :notice => 'CmsDocument was successfully updated.'
       else

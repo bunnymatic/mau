@@ -1,7 +1,5 @@
 class UsersController < ApplicationController
 
-  skip_before_filter :get_new_art, :get_feeds
-
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
   before_filter :user_required, :only => [ :edit, :update, :suspend, :deactivate,

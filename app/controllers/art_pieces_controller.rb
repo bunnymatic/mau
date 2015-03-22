@@ -3,8 +3,6 @@ class ArtPiecesController < ApplicationController
   include TagsHelper
   include HtmlHelper
 
-  skip_before_filter :get_new_art, :get_feeds
-
   before_filter :user_required, only: [ :new, :edit, :update, :create, :destroy]
   before_filter :artist_required, only: [ :new, :edit, :update, :create, :destroy]
   before_filter :load_art_piece, only: [:show, :destroy, :edit, :update]

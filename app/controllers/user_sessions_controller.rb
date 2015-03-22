@@ -1,8 +1,6 @@
 # AuthLogic user sessions controller
 class UserSessionsController < ApplicationController
 
-  skip_before_filter :get_new_art, :get_feeds
-
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
 

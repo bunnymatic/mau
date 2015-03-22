@@ -1,9 +1,3 @@
-require 'open-uri'
-require 'rss/1.0'
-require 'rss/2.0'
-
-FEEDS_KEY = 'news-feeds'
-
 class MainController < ApplicationController
   layout 'application'
 
@@ -12,6 +6,7 @@ class MainController < ApplicationController
 
   def index
     @is_homepage = true
+    @new_art = ArtPiece.get_new_art.map{|ap| ArtPiecePresenter.new(ap)}
   end
 
   def contact
@@ -100,10 +95,6 @@ class MainController < ApplicationController
     if !doc.nil?
       @content[:content] = MarkdownService.markdown(doc.article)
       @content[:cmsid] = doc.id
-    end
-    respond_to do |fmt|
-      fmt.html{}
-      fmt.mobile { render :layout => 'mobile_welcome' }
     end
   end
 

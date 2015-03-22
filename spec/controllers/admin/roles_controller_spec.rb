@@ -33,8 +33,6 @@ describe Admin::RolesController do
       it 'shows all roles' do
         assigns(:roles).count.should eql Role.count
       end
-      it { expect(response).to render_template 'layouts/mau-admin' }
-
     end
 
     [:new, :show, :edit].each do |endpoint|
