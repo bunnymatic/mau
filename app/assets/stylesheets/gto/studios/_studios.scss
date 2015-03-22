@@ -38,6 +38,8 @@
 .studios.show {
   #about {
     .studio__open-studios-banner .os-violator {
+      width: 50%;
+      margin: auto;
       img {
         margin: auto;
       }
@@ -79,12 +81,11 @@
 
   .artist-thumb {
     @extend .artist-thumb-mixin;
-    /* .image { */
-    /*   height:280px; */
-    /*   img { */
-    /*     max-width: 100%; */
-    /*   } */
-    /* } */
+    .os-violator {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+    }
     .desc {
       @include opacity(1);
     }

@@ -54,7 +54,7 @@ $sampler-thumbnail-size : 250px;
       width: calc( 100% - 12px );      
       height: 100%;
       
-      background-image: image-url('duotones/blue-duo1.jpg');
+      background-image: image-url('duotones/orange-duo1.jpg');
       @include background-cover;
     }
     .sampler__promo-contents {
@@ -63,7 +63,7 @@ $sampler-thumbnail-size : 250px;
     }
     .header, .body {
       margin: auto;
-      color: $gto_teal;
+      color: $gto_orange;
       text-transform: uppercase;
       background-color: rgba(255,255,255,0.7);
       padding: 0.5rem;
