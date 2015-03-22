@@ -1,69 +1,66 @@
 .pure-g
-  .pure-u-1-1.padded-content
-    .artists
-      =form_tag update_admin_artists_path do
-        %header.admin-table
-          %h1 Listing Artists (#{@artist_list.count})
-          = render '/flash_notice_error'
-          .admin-table__controls      
-            %button.pure-button.update-artists update os status
-            %a.pure-button.export-csv{:href => "?format=csv&%s" % request.query_string}
-              export as csv
+  .pure-u-1-1.padded-content.header
+    %h2 Artists (#{@artist_list.count})
+  = form_tag update_admin_artists_path do
+    .pure-u-1-1.padded-content
+      = render '/flash_notice_error'
+      .admin-table__controls      
+        %button.pure-button.update-artists update os status
+        %a.pure-button.export-csv{:href => "?format=csv&%s" % request.query_string}
+          export as csv
+    .pure-u-1-1.padded-content
+      %table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
+        %thead
+          %tr
+            %th name
+            %th studio
+            %th info
+            %th
+              = OpenStudiosEvent.for_display(current_open_studios_key, true)
+            %th
 
-.pure-g
-  .pure-u-1-1.padded-content
-    %table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
-      %thead
-        %tr
-          %th name
-          %th studio
-          %th info
-          %th
-            = OpenStudiosEvent.for_display(current_open_studios_key, true)
-          %th
+        %tbody
+          - @artist_list.each_with_index do |a, idx|
+            :ruby
+              classes = []
+              classes << a.state
+              classes << 'participating' if a.doing_open_studios?
+            %tr{:class => classes.join(' ')}
+              %td.admin_artist_name
+                %a{:href => artist_path(a)}
+                  = a.get_name
+                %br
+                (activated? #{a.activation_state})
+              %td.admin_artist_studio
+                = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
+              %td.admin_artist_info
+                .name
+                  Username: #{a.login}
+                .email
+                  EM: #{a.email}
+                .address
+                  Address: #{a.address}
+                .active
+                  Active? #{a.active?}
+                - if a.has_activation_code?
+                  .activation_link
+                    Activation Link (created_at #{a.created_at}):
+                    %br
+                    = a.activation_link
+                - if a.has_reset_code?
+                  .forgot_password_link
+                    Reset Password Link:
+                    %br
+                    = a.reset_password_link
 
-      %tbody
-        - @artist_list.each_with_index do |a, idx|
-          :ruby
-            classes = []
-            classes << a.state
-            classes << 'participating' if a.doing_open_studios?
-          %tr{:class => classes.join(' ')}
-            %td.admin_artist_name
-              %a{:href => artist_path(a)}
-                = a.get_name
-              %br
-              (activated? #{a.activation_state})
-            %td.admin_artist_studio
-              = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
-            %td.admin_artist_info
-              .name
-                Username: #{a.login}
-              .email
-                EM: #{a.email}
-              .address
-                Address: #{a.address}
-              .active
-                Active? #{a.active?}
-              - if a.has_activation_code?
-                .activation_link
-                  Activation Link (created_at #{a.created_at}):
-                  %br
-                  = a.activation_link
-              - if a.has_reset_code?
-                .forgot_password_link
-                  Reset Password Link:
-                  %br
-                  = a.reset_password_link
-
-            %td.participating_status{ :artistid => a.id } #{a.doing_open_studios?}
-            %td
-              - if a.has_address?
-                / this make sure that all os settings are sent to the controller
-                - checked = a.doing_open_studios?
-                - name = "os[#{a.id}]"
-                = hidden_field_tag name, "0"
-                = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
-              - else
-                no address
+              %td.participating_status{ :artistid => a.id } #{a.doing_open_studios?}
+              %td
+                - if a.has_address?
+                  / this make sure that all os settings are sent to the controller
+                  - checked = a.doing_open_studios?
+                  - name = "os[#{a.id}]"
+                  = hidden_field_tag name, "0"
+                  = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
+                - else
+                  no address
 

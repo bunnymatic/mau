@@ -4,6 +4,10 @@
     = render '/extra_html_head'
     = render '/title'
     = stylesheet_link_tag 'admin'
+    %script{:type => 'text/javascript'}
+      var authenticityToken  = encodeURIComponent('#{form_authenticity_token}')
+      var MAU = window.MAU = window.MAU || {};
+      = "MAU.versionString = '#{@revision}';"
 
   %body.admin{:class => ([@browser_as_class, application_body_class].join " ")}
     #layout

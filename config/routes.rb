@@ -94,15 +94,6 @@ Mau::Application.routes.draw do
     get :sampler
   end
 
-  resource :tests, only: [:show] do
-    get :custom_map
-    get :flash_test
-    get :qr
-    get :markdown
-    get :social_icons
-  end
-
-
   match '/status' => 'main#status_page', as: :status
   match '/faq' => 'main#faq', as: :faq
   match '/open_studios' => 'main#open_studios', as: :open_studios
@@ -121,6 +112,14 @@ Mau::Application.routes.draw do
   match '/error' => 'error#index', as: :error
 
   namespace :admin do
+    resource :tests, only: [:show] do
+      get :custom_map
+      get :flash_test
+      get :qr
+      post :qr
+      get :markdown
+      get :social_icons
+    end
     get :fans
     get :os_status
     get :os_signups
