@@ -13,6 +13,7 @@
         %thead
           %tr
             %th name
+            %th last login
             %th studio
             %th info
             %th
@@ -31,6 +32,10 @@
                   = a.get_name
                 %br
                 (activated? #{a.activation_state})
+              %td
+                - if a.last_login.present?
+                  #{a.last_login}
+                
               %td.admin_artist_studio
                 = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
               %td.admin_artist_info

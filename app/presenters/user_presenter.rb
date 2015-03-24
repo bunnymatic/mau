@@ -16,6 +16,10 @@ class UserPresenter < ViewPresenter
     @model = user
   end
 
+  def last_login
+    model.last_login_at.try(:to_formatted_s,:admin)
+  end
+
   def doing_open_studios?
     false
   end

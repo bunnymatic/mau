@@ -13,18 +13,6 @@ class ArtistPresenter < UserPresenter
     model
   end
 
-  # def favorites_of_my_work
-  #   @favorites_of_my_work ||=
-  #     begin
-  #       if self.respond_to? :art_pieces
-  #         art_piece_ids = art_pieces.map(&:id)
-  #         Favorite.art_pieces.where(favoritable_id: art_piece_ids).order('created_at desc')
-  #       else
-  #         []
-  #       end
-  #     end
-  # end
-
   def has_media?
     model.media.present?
   end
@@ -36,37 +24,6 @@ class ArtistPresenter < UserPresenter
   def allows_email_from_artists?
     model.emailsettings['fromartist']
   end
-
-  # def links
-  #   @links ||= KEYED_LINKS.map do |kk, disp, _id|
-  #     lnk = format_link(model.send(kk))
-  #     [_id, disp, lnk] if lnk.present?
-  #   end.compact
-  # end
-
-  # def links_html
-  #   KEYED_LINKS.map do |key, display, _id|
-  #     site = model.send(key)
-  #     if site.present?
-  #       formatted_site = format_link(site)
-  #       site_display = format_link_for_display(site)
-  #       link_icon_class = icon_link_class(key, site)
-  #       content_tag 'a', href: formatted_site, title: display, target: '_blank' do
-  #         content_tag(:i,'', class: link_icon_class) +
-  #           content_tag(:span,site_display)
-  #       end
-  #     end
-  #   end.compact
-  # end
-
-  # def fb_share_link
-  #   "http://www.facebook.com/sharer.php?u=%s&t=%s" % [ share_url, CGI::escape( share_title ) ]
-  # end
-
-  # def tw_share_link
-  #   status = "%s @sfmau #missionartistsunited " % share_title
-  #   @tw_share = "http://twitter.com/home?status=%s%s" % [CGI::escape(status), share_url]
-  # end
 
   def has_art?
     artist && art_pieces.present?
@@ -109,10 +66,6 @@ class ArtistPresenter < UserPresenter
       model.map_link
     end
   end
-
-  # def favorites_path(opts = nil)
-  #   url_helpers.user_favorites_path(artist)
-  # end
 
   def get_map_info
     content_tag('div', map_info_contents, class: 'map__info-window')
