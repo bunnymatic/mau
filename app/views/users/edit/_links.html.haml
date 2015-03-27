@@ -11,7 +11,13 @@
         .pure-g
           .pure-u-1-2
             = form.input :url, label: 'Website', placeholder: "e.g. http://www.myartsite.com"
-
+            - if form.object.is_a? Artist
+              - link_info[0..(half_slice-1)].each do |kk,name|
+                = ai_form.input kk, label: name, placeholder: "e.g. http://#{kk}.com/mypage"
+          - if form.object.is_a? Artist
+            .pure-u-1-2
+              - link_info[half_slice..-1].each do |kk,name|
+                = ai_form.input kk, label: name, placeholder: "e.g. http://#{kk}.com/mypage"
     = form.actions do
       = form.submit 'Save Changes', class: "pure-button pure-button-primary"
       = form.submit 'Cancel', class: "pure-button"

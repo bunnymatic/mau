@@ -1,5 +1,5 @@
 When /^I set all artists to do open studios$/ do
-  within('table.admin-table') do
+  within('table') do
     for artist in @artists
       cb = "os_#{artist.id}"
       check cb

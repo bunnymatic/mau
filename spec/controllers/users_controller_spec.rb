@@ -399,7 +399,7 @@ describe UsersController do
       end
     end
   end
-  describe "#update" do
+  describe "#update", eventmachine: true do
     context "while not logged in" do
       context "with invalid params" do
         before do
