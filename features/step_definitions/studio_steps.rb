@@ -15,7 +15,7 @@ Then(/^I see update studio links for things i can manage/) do
 end
 
 When(/^I edit the first studio$/) do
-  within '.admin-table' do
+  within '.admin.studios #studios_index' do
     click_on_first 'Edit'
   end
 end

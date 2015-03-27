@@ -51,12 +51,21 @@ class UsersController < ApplicationController
       return
     end
     # clean os from radio buttons
-    if current_user.update_attributes(user_params)
-      redirect_to edit_user_url(current_user), flash: { notice: "Your profile has been updated" }
-    else
-      @user = UserPresenter.new(current_user.becomes(User))
-      render 'edit'
+    begin
+      if params.has_key? 'upload'
+        begin
+          # update the picture only
+          ArtistProfileImage.new(current_user).save params[:upload]
+        end
+      else
+        current_user.update_attributes!(user_params)
+        Messager.new.publish "/artists/#{current_user.id}/update", "updated artist info"
+      end
+      flash[:notice] = "Your profile has been updated"
+    rescue Exception => ex
+      flash[:error] = ex.to_s
     end
+    redirect_to edit_user_url(current_user), flash: flash
   end
 
   def create
@@ -385,6 +394,7 @@ class UsersController < ApplicationController
       end
       attrs[:email_attrs] = em2.to_json
     end
+    attrs.delete :artist_info
     attrs
 
   end

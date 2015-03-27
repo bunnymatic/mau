@@ -184,7 +184,8 @@ When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
 end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
-  step %Q|I click on "#{link_title}" in the "#admin_nav"|
+  
+  step %Q|I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav"|
 end
 
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|

@@ -174,13 +174,18 @@ class ArtistsController < ApplicationController
         return
       end
       begin
-        current_artist.update_attributes!(artist_params)
+        if params.has_key? 'upload'
+          begin
+            # update the picture only
+            ArtistProfileImage.new(current_artist).save params[:upload]
+          end
+        else
+          current_artist.update_attributes!(artist_params)
+          Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
+        end
         flash[:notice] = "Your profile has been updated"
-        Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
       rescue Exception => ex
-        puts "EX", ex
         flash[:error] = ex.to_s
-        raise
       end
       redirect_to edit_artist_url(current_user), flash: flash
     end
@@ -230,6 +235,7 @@ class ArtistsController < ApplicationController
       params[:artist].delete("studio")
     end
 
+    params[:artist].delete :os_participation
     params[:artist]
   end
 
