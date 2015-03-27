@@ -1,0 +1,22 @@
+@import "colors";
+.admin.roles {
+  .role-container {
+    h4 {
+      border-bottom: 1px solid $x-light-gray;
+    }
+    
+    ul.role_members {
+      margin:0;
+      padding: 0;
+      li {
+        padding: 5px
+      }
+      li:nth-child(2n) {
+        background-color: $xxlightgray;
+      }
+    }
+  }
+  .add-user-role form {
+    display: none;
+  }
+}
