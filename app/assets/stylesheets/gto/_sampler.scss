@@ -54,7 +54,7 @@ $sampler-thumbnail-size : 250px;
       width: calc( 100% - 12px );      
       height: 100%;
       
-      background-image: image-url('duotones/orange-duo1.jpg');
+      background-image: image-url('duotones/bluegreen-duotone.jpg');
       @include background-cover;
 
       -webkit-filter: grayscale(1);
