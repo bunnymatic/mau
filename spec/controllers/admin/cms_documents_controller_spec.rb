@@ -45,7 +45,7 @@ describe Admin::CmsDocumentsController do
         assert_select '#processed_markdown.markdown h2', 'pr header2'
       end
       it 'renders the cms edit box' do
-        assert_select '.markdown-input textarea', :include => '## pr eader2'
+        assert_select 'textarea', :include => '## pr eader2'
       end
     end
 

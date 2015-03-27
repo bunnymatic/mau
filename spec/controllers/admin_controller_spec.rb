@@ -231,7 +231,7 @@ describe AdminController do
       assigns(:featured_artist).should be_a_kind_of(Artist)
     end
     it 'includes a button to send the featured artist a note' do
-      assert_select '.featured .artist_info .controls .formbutton', 'Tell me I\'m Featured'
+      assert_select '.artist_info .controls a', 'Tell me I\'m Featured'
     end
     it "includes previously featured artists" do
       assert_select('.previously_featured li', :count => 2)
@@ -259,7 +259,7 @@ describe AdminController do
           assert_select('input#override_date')
         end
         it 'shows a warning message' do
-          assert_select('.featured .warning')
+          assert_select('.warning')
         end
         it "post with override gets the next artist" do
           expect {

@@ -1,5 +1,5 @@
 module Admin
-  class ArtistsController < AdminController
+  class ArtistsController < BaseAdminController
     before_filter :admin_required, :only => [ :index, :update ]
     before_filter :editor_required, :only => [ :notify_featured ]
 

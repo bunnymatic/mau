@@ -20,6 +20,7 @@ public/studiodata
 public/artistdata
 log
 coverage/*
+jscoverage/*
 flog.report*
 secret/*
 config/config.keys.yml
