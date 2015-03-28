@@ -22,4 +22,13 @@ Scenario: Managing users in their roles
   When I remove a user from the editor list
   Then I expect to see that user is not an editor
 
+Scenario: Adding a new role
+  When I add a new role called "juror"
+  Then I see there is a role called "juror"
+
+  When I add a user to the "juror" role
+  And I click on "roles" in the admin menu
+  Then I see there is a role called "juror" with 1 user
   
+  When I remove the role "juror"
+  Then I see there is not a role called "juror"
