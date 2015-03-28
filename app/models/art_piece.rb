@@ -5,6 +5,7 @@
 #  id           :integer          not null, primary key
 #  filename     :string(255)
 #  title        :string(255)
+#  description  :text
 #  dimensions   :string(255)
 #  artist_id    :integer
 #  created_at   :datetime
