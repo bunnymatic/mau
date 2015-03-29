@@ -52,3 +52,10 @@ Scenario:
   | artist_firstname  |
   | mr joe            |
   And I see that I've successfully signed up for Open Studios
+
+  When I click on "Profile Picture"
+  And I submit a new profile picture
+  And I click "Save Changes"
+  And I click on "Profile Picture"
+  Then I see that I have a new profile picture
+  

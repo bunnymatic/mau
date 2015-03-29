@@ -122,5 +122,15 @@ end
 Then(/^I see that art piece detail page$/) do
   expect(page).to have_css('art-pieces-browser')
   expect(page).to have_css '.header', text: @artist.full_name
-
 end
+
+When(/^I submit a new profile picture$/) do
+  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/art.png")
+end
+
+Then(/^I see that I have a new profile picture$/) do
+  img = find(".artist-profile__image img")
+  expect(img).to be_present
+end
+       
+
