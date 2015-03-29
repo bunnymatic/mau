@@ -3,7 +3,7 @@ When(/^I visit my home page$/) do
 end
 
 When(/^I visit my profile edit page$/) do
-  visit edit_artist_path(@artist)
+  visit edit_artist_path(@artist || @user)
 end
 
 Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|

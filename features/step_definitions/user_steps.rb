@@ -46,13 +46,19 @@ end
 When(/^I login$/) do
   steps %{When I visit the login page}
   # if we're already logged in we'll be somewhere else
-  fill_in_login_form @artist.login, 'bmatic'
+  fill_in_login_form (@artist || @user).login, 'bmatic'
   steps %{And I click "Sign In"}
 end
 
 When(/^I login as an artist$/) do
   steps %{Given there are artists with art in the system}
   @artist = @artists.first
+  steps %{When I login}
+end
+
+When(/^I login as a fan$/) do
+  steps %{Given there are users in the system}
+  @user = MAUFan.first
   steps %{When I login}
 end
 
@@ -74,6 +80,10 @@ end
 When(/^I login as "(.*?)"$/) do |login|
   fill_in_login_form login, 'bmatic'
   steps %{And I click "Sign In"}
+end
+
+Then(/^I see my fan profile edit form$/) do
+  expect(page).to have_css '.panel-heading', count: 5
 end
 
 Then /^I see that "(.*?)" is a new pending artist$/ do |username|
