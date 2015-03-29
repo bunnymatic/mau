@@ -7,6 +7,7 @@ module Admin
                                                       :upload_profile, :add_profile,
                                                       :unaffiliate_artist]
     before_filter :load_studio, except: [:new, :index, :create]
+    skip_before_filter :verify_authenticity_token, :only => [:unaffiliate_artist]
 
     def index
       @studios = Studio.all
