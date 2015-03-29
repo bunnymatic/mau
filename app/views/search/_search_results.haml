@@ -16,7 +16,7 @@
       We found #{@paginator.count} #{"piece" + (@paginator.count > 1 ? "s" : '')} that matched your query
     .search-view-ctrls
       = render "search_pagination", pagination_opts
-    #thumbs_by_artist.search-results
+    #thumbs_by_artist.search-results.pure-g
       = render partial: '/artists/art', collection: @paginator.items, as: :art_piece, locals: { show_os_violator: true }
 
     .search-view-ctrls

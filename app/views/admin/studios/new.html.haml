@@ -1,5 +1,7 @@
-.admin-table.edit
-  %h1 New studio
-  = render 'form', :studio => @studio
+.pure-g
+  .pure-u-1-1.padded-content.header
+    %h2 Add studio
+  .pure-u-1-1.padded-content
+    = render 'form', :studio => @studio
 
-  = link_to 'All Studios', studios_path
+    = link_to 'All Studios', studios_path
