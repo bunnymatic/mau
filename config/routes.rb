@@ -60,6 +60,7 @@ Mau::Application.routes.draw do
       get :edit
     end
     member do
+      resources :favorites, only: [:index]
       get :manage_art
       post :notify_featured
       post :update
@@ -79,12 +80,12 @@ Mau::Application.routes.draw do
       post :add_favorite
     end
     member do
+      resources :favorites, only: [:index]
       put :suspend
       get :noteform
       put :notify
       post :change_password_update
     end
-    resources :favorites, only: [:index]
     resources :roles, only: [:destroy], controller: 'Admin::Roles'
   end
 

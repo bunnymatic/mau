@@ -16,7 +16,6 @@ class Pagination < ViewPresenter
     @next_title = opts[:next_title]
   end
 
-
   def to_s
     attrs = {
       current: current_page,
