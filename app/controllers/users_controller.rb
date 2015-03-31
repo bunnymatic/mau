@@ -248,11 +248,11 @@ class UsersController < ApplicationController
       else
         objname = obj.get_name(true)
         msg = r ? "#{objname} has been added to your favorites.":
-          "You've already added #{objname} to your list of favorites."
+                "You've already added #{objname} to your list of favorites."
         if obj.is_a? ArtPiece
-          redirect_to art_piece_path(obj), :flash => { :notice => msg.html_safe }
+          redirect_to art_piece_path(obj), :flash => { :notice => msg }
         else
-          redirect_to obj, :flash => { :notice => msg.html_safe }
+          redirect_to obj, :flash => { :notice => msg }
         end
 
       end
