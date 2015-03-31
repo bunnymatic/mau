@@ -1,8 +1,7 @@
 .pure-g
   .pure-u-1-1.header.padded-content
     %h2.title
-      %span.art-piece__title
-        = "{{ artPiece.title }}"
+      %span.art-piece__title{"ng-bind-html" => "artPiece.title"}
       %span.art-piece__byline-conjunction by
       %span.art-piece__byline
         %a{"ng-href" => "{{currentArtistPath()}}"}
