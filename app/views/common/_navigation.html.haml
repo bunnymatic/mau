@@ -19,7 +19,7 @@
   %section.nav-section.open-studios
     %h3 Open studios
     %ul.js-tabs.tabs.tabs__nav
-      = print_html_list('tab', os_nav)
+      != print_html_list('tab', os_nav)
 
   - if logged_in?
     %section.nav-section.users
@@ -29,7 +29,7 @@
             = fa_icon 'gear'
             my mau
           %ul.dropdown
-            = print_html_list('dropdown-nav', user_nav)    
+            != print_html_list('dropdown-nav', user_nav)    
   - else
     %section.nav-section.signin-nav
       %ul.signin__links.tabs
@@ -55,12 +55,12 @@
         %a{href: studios_path, title: 'group studios'} studios
     %ul.tab-panel#open-studios
       %li.title open studios
-      = print_html_list('leaf', os_nav)
+      != print_html_list('leaf', os_nav)
 
     - if logged_in?
       %ul.tab-panel.signin__links
         %li.title my mau
-        = print_html_list('leaf', user_nav)
+        != print_html_list('leaf', user_nav)
     - else logged_in?
       %ul.tab-panel.signout__links
         %li.title

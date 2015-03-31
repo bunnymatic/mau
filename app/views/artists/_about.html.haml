@@ -65,14 +65,14 @@
     .pure-u-1-1
       %section.favorites
         .header 
-          = link_to user_favorites_path(artist) do
+          = link_to favorites_path(artist) do
             Who I
             = fa_icon 'heart'
         = render partial: "/users/favorite_thumbs", locals: { collection: artist.what_i_favorite }
     .pure-u-1-1
       %section.favorites
         .header 
-          = link_to user_favorites_path(artist) do
+          = link_to favorites_path(artist) do
             Who 
             = fa_icon 'heart'
             's me
