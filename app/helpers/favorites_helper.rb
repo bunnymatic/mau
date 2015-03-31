@@ -30,22 +30,21 @@ module FavoritesHelper
   end
 
   def draw_micro_favorite fav, options=nil
-    # options ||= {}
-    # img, path = get_image_and_path fav, 'thumb'
-    # xclass = options[:class] || ""
-    # xstyle = options[:style].blank? ? "" : "style='#{options[:style]}'"
-    # title = fav.get_name true
-    # wd, ht = fav.get_min_scaled_dimensions 24
-    # result = ""
-    # if img && path
-    #   result << "<li #{xstyle}>"
-    #   result << "<a href='#{path}' title='#{title}'>" unless options[:linkless]
-    #   result << "<div class='thumb #{xclass}' title='#{title}' style='background-image: url(#{img})'></div>"
-    #   result << "</a>" unless options[:linkless]
-    #   result << "</li>"
-    # end
-    # result.html_safe
-    'blow'
+    options ||= {}
+    img, path = get_image_and_path fav, 'thumb'
+    xclass = options[:class] || ""
+    xstyle = options[:style].blank? ? "" : "style='#{options[:style]}'"
+    title = fav.get_name true
+    wd, ht = fav.get_min_scaled_dimensions 24
+    result = ""
+    if img && path
+      result << "<li #{xstyle}>"
+      result << "<a href='#{path}' title='#{title}'>" unless options[:linkless]
+      result << "<div class='thumb #{xclass}' title='#{title}' style='background-image: url(#{img})'></div>"
+      result << "</a>" unless options[:linkless]
+      result << "</li>"
+    end
+    result.html_safe
   end
 end
 

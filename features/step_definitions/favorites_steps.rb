@@ -17,3 +17,47 @@ Then(/^I see all the favorites in a table$/) do
   end
 end
 
+
+When(/^I login as an artist with favorites$/) do
+  @artist = Artist.first
+  Artist.all[1..-1][0..3].each do |a|
+    @artist.add_favorite a
+    if a.art_pieces.present? 
+      @artist.add_favorite a.art_pieces.first
+    end
+  end
+  step "I login"
+end
+
+When(/^I login as an artist without favorites$/) do
+  @artist = Artist.first
+  step "I login"
+end
+
+When(/^I visit the favorites page for someone else$/) do
+  @someone_else = Artist.last
+  visit favorites_path(@someone_else)
+end
+
+When(/^I visit my favorites page$/) do
+  visit favorites_path(@artist)
+end
+
+Then(/^I see someone else's favorites$/) do
+  expect(page).to have_content "#{@someone_else.get_name}'s Favorites"
+  expect(page).to have_content 'has not favorited'
+end
+
+Then(/^I see my favorites$/) do
+  expect(page).to have_content 'My Favorites'
+  expect(page).to have_css('.art-card')
+  expect(page).to have_css('.favorite-artists .section.header', text: "Artists (#{@artist.fav_artists.count})")
+  expect(page).to have_css('.favorite-art-pieces .section.header', text: "Art Pieces (#{@artist.fav_art_pieces.count})")
+end
+
+Then(/^I see my empty favorites page$/) do
+  expect(page).to have_content /Go find/
+  expect(page).to have_content 'Find Artists by Name'
+  expect(page).to have_content 'Find Artists by Medium'
+  expect(page).to have_content 'Find Artists by Tag'
+end
