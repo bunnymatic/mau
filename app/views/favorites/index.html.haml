@@ -15,13 +15,17 @@
             %p Find more favorites by clicking the &quot;artists&quot; link and search by name, medium or tag.
       .pure-g
         .pure-u-1-1
-          %h4
-            = "Art Pieces (#{@user.fav_art_pieces.count})"
-          = render partial: 'favorite_art', collection: @user.fav_art_pieces
+          .section.header
+            %h3
+              = "Art Pieces (#{@user.fav_art_pieces.count})"
+          .pure-g
+            = render partial: '/artists/art', collection: @favorites.art_pieces, as: :art_piece
         .pure-u-1-1
-          %h4
-            = "Artists (#{@user.fav_artists.count})"
-          = render partial: 'favorite_artist', collection: @user.fav_artists
+          .section.header
+            %h3
+              = "Artists (#{@user.fav_artists.count})"
+          .pure-g
+            = render partial: '/artists/artist', collection: @favorites.artists
           
     .pure-g
       .pure-u-1-1

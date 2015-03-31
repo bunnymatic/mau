@@ -103,19 +103,6 @@ class UserPresenter < ViewPresenter
     end.compact
   end
 
-  # def show_path
-  #   url_helpers.user_path(model)
-  # end
-
-  # def edit_path(opts = nil)
-  #   opts ||= {}
-  #   edit_user_path(model, opts)
-  # end
-
-  # def favorites_path(opts = nil)
-  #   url_helpers.user_favorites_path(model)
-  # end
-
   def has_profile_image
     model.profile_image?
   end

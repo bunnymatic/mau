@@ -48,13 +48,7 @@
     }
     margin-bottom: 15px;
     .header {
-      padding-bottom: 4px;
-      padding-left: 1px;
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      margin-bottom: 8px;
-      border-bottom: 1px solid $xlightgray;
-      @include ellipsis;
+      @include section-header;
     }
   }
 }
@@ -70,6 +64,7 @@
   }
 }
 
+.favorites.index,
 .users.show, .search-results, .artists, .artists.index, .artists.show, .art_pieces.show, .art_pieces.create {
 
   @include search-filter;

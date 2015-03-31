@@ -46,6 +46,28 @@ Mau::Application.routes.draw do
   match 'reset' => 'users#reset', as: :submit_reset, method: :post
 
 
+  resources :users do
+    collection do
+      get :resend_activation
+      post :resend_activation
+      get :forgot
+      post :forgot
+      get :deactivate
+      get :edit
+      post :remove_favorite
+      post :add_favorite
+    end
+    member do
+      resources :favorites, only: [:index]
+      put :suspend
+      get :noteform
+      put :notify
+      post :change_password_update
+    end
+    resources :roles, only: [:destroy], controller: 'Admin::Roles'
+  end
+
+
   resources :art_pieces, only: [:show, :edit, :update, :destroy]
   resources :artists, except: [:new, :create] do
     resources :art_pieces, except: [:new, :destroy, :edit, :update]
@@ -66,27 +88,6 @@ Mau::Application.routes.draw do
       post :update
       get :qrcode
     end
-  end
-
-  resources :users do
-    collection do
-      post :remove_favorite
-      get :resend_activation
-      post :resend_activation
-      get :forgot
-      post :forgot
-      get :deactivate
-      get :edit
-      post :add_favorite
-    end
-    member do
-      resources :favorites, only: [:index]
-      put :suspend
-      get :noteform
-      put :notify
-      post :change_password_update
-    end
-    resources :roles, only: [:destroy], controller: 'Admin::Roles'
   end
 
   resource :main, controller: :main, only: [] do
