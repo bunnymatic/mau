@@ -28,9 +28,6 @@ describe FavoritesController do
           get :index, id: fan.id
         end
         it { expect(response).to be_success }
-        # it "doesn't have the no favorites msg" do
-        #   css_select('.no-favorites-msg').should be_empty
-        # end
       end
       context "asking for a user that doesn't exist" do
         before do
@@ -74,6 +71,7 @@ describe FavoritesController do
           get :index, id: artist.id
         end
         it { expect(response).to be_success }
+      end
     end
   end
 end

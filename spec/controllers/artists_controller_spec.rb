@@ -336,7 +336,7 @@ describe ArtistsController do
       end
       it { expect(response).to be_success }
       it "shows favorites on show page with links" do
-        assert_select("a[href=#{user_favorites_path(artist)}]");
+        assert_select("a[href=#{favorites_path(artist)}]");
       end
     end
 

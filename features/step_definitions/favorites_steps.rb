@@ -51,6 +51,7 @@ end
 Then(/^I see my favorites$/) do
   expect(page).to have_content 'My Favorites'
   expect(page).to have_css('.art-card')
+  expect(page).to have_css('.artist-card') 
   expect(page).to have_css('.favorite-artists .section.header', text: "Artists (#{@artist.fav_artists.count})")
   expect(page).to have_css('.favorite-art-pieces .section.header', text: "Art Pieces (#{@artist.fav_art_pieces.count})")
 end
