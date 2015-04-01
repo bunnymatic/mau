@@ -4,6 +4,12 @@ $ ->
   if ($artPieceForm.length)
     $('#art_piece_medium_id').select2();
 
+    $('input[type=submit]').on 'click', ->
+      if (/add/i).test($(@).val())
+        spinner = new MAU.Spinner({top:'0px'})
+        spinner.spin();
+
+
     jQuery.ajax
       url: '/art_piece_tags/autosuggest'
       type: 'post'
