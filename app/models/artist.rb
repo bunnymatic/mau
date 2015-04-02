@@ -59,7 +59,7 @@ class Artist < User
   include AddressMixin
   include OpenStudiosEventShim
 
-  attr_accessible :artist_info_attributes
+  #attr_accessible :artist_info_attributes
 
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')

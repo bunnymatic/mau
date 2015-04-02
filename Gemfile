@@ -4,6 +4,7 @@ ruby '2.1.2'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
+gem 'strong_parameters'
 gem "font-awesome-rails"
 # gem 'aasm'
 gem "nokogiri", '~> 1.6'
@@ -15,7 +16,6 @@ gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
 gem 'rdiscount' # markdown processor
-#gem 'mobile-fu', github: 'rcode5/mobile-fu'
 gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-rbenv', '~> 2.0'
 gem 'capistrano-rails', '~> 1.1'
