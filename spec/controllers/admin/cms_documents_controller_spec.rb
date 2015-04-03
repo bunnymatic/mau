@@ -68,7 +68,6 @@ describe Admin::CmsDocumentsController do
       it 'renders new on failure' do
         expect{
           post :create, :cms_document => { :page => '', :section => '', :article => ''}
-          expect(response).to render_template 'new_or_edit'
           assigns(:cms_document).errors.should have_at_least(2).errors
         }.to change(CmsDocument,:count).by(0)
       end
@@ -92,7 +91,6 @@ describe Admin::CmsDocumentsController do
       end
       it 'renders edit on failure' do
         put :update, :id => cms_document.id, :cms_document => { :page => '' }
-        expect(response).to render_template :new_or_edit
         assigns(:cms_document).errors.should be_present
       end
     end

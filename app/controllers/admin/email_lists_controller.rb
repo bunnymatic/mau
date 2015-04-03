@@ -36,7 +36,9 @@ module Admin
 
 
     private
-
+    def email_lists_params
+    end
+    
     def email_list
       @email_list ||=
         begin
