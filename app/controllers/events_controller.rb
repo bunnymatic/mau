@@ -36,7 +36,7 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = Event.new(:state => 'CA', :city => 'San Francisco').decorate
+    @event = Event.new(new_event_params).decorate
     render 'new_or_edit'
   end
 
@@ -102,8 +102,21 @@ class EventsController < ApplicationController
     end.flatten.compact
   end
 
+  def new_event_params
+    event_params.merge({:state => 'CA', :city => 'San Francisco'})
+  end
+
   def event_params(append_artist = false)
-    info = params[:event]
+    info = params.require(:event).permit :title, :description, :tweet, :gstreet,
+                                         :venue, :state, :city, :zip,
+                                         :start_date, :start_time,
+                                         :end_date, :end_time,
+                                         :reception_start_date, :reception_start_time,
+                                         :reception_end_date, :reception_end_time,
+                                         :url, :lat, :lng, :user_id,
+                                         :reception_starttime, :reception_endtime
+
+    info = info
     info = append_artists_to_description(info) if append_artist
     info[:user_id] = current_user.id
     info[:starttime] = reconstruct_starttime(info)
