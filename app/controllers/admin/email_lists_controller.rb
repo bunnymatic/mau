@@ -37,6 +37,7 @@ module Admin
 
     private
     def email_lists_params
+      
     end
     
     def email_list
@@ -71,7 +72,7 @@ module Admin
 
     def add_email(list)
       if list && params["email"].present?
-        new_email = Email.find_or_create(params["email"])
+        new_email = Email.find_or_create(email_params)
         if new_email.valid?
           unless list.emails.include? new_email
             list.emails << new_email
@@ -83,5 +84,10 @@ module Admin
         end
       end
     end
+
+    def email_params
+      params.require(:email).permit :name, :email
+    end
+    
   end
 end
