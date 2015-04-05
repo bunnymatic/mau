@@ -1,6 +1,6 @@
 <div class="popup-title"><%= @title %></div>
 <div class="popup-text">
-  <%= form_for @feedback, :url => feedbacks_path, :html => {:id => "feedback_form"} do |f| -%>
+  <%= semantic_form_for @feedback, :html => {:id => "feedback_form"} do |f| -%>
   <div class="fdbk-form">
     <% unless @error_message.blank? -%>
     <div class="error-msg">
@@ -21,9 +21,9 @@
       <div id="comment_input" class="fdbk-input">
 	      <%= f.text_area 'comment', :cols => 70, :rows => 10, :placeholder => "<enter your comment here>" %>
       </div>
-      <div id="send_input">
-	      <%= f.submit 'Send', :class => 'formbutton' %>
-	      <button class='formbutton' id="feedback_close_btn" onclick="return false;">Cancel</button>
+      <div class='actions' id="send_input">
+	      <%= f.submit 'Send', :class => 'pure-button button-secondary' %>
+	      <button class='pure-button' id="feedback_close_btn" onclick="return false;">Cancel</button>
       </div>
       <%= f.hidden_field 'subject', :value => @section %>
       <%= f.hidden_field 'page', :value => request.referer %>

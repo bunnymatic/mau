@@ -1,0 +1,25 @@
+@import 'mau-mixins';
+@import 'colors';
+
+#feedback_overlay {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  height: 100%;
+  width:100%;
+  background-color: rgba(200,200,200,0.5);
+}
+#feedback {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  @include transform(translate3d(-50%, -50%, 0));
+  padding: 20px;
+  @include round-corners();
+  background-color: $light-gray-background;
+
+}
+
+
