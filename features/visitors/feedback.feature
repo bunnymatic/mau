@@ -3,7 +3,7 @@ Feature:
 
 
 @javascript
-Scenario:  Drilling down to an art piece page from the sampler
+Scenario:  Visitors can submit feedback
   When I visit the home page
   And I click on "feedback"
   And I fill in the feedback form

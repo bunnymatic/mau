@@ -85,9 +85,11 @@
       data: data,
       success: function(msg, status) {
         jQuery(settings.modalContent).html(msg);
-        jQuery(settings.modalWindow).fadeOut(2000, function() {
-          hideFeedback();
-        });
+        setTimeout( function() {
+          jQuery(settings.modalWindow).fadeOut(1000, function() {
+            hideFeedback();
+          });
+        }, 3000)
       },
       error: function(xhr, status, a) {
         jQuery(settings.modalContent).html(xhr.responseText);

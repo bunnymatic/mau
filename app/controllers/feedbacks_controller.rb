@@ -32,6 +32,6 @@ class FeedbacksController < ApplicationController
 
   private
   def feedback_params
-    params.require(:feedback).permit :subject, :email, :login, :page, :pcomment, :url, :skillsets, :bugtype
+    params.require(:feedback).permit :subject, :email, :login, :page, :comment, :url, :skillsets, :bugtype
   end
 end
