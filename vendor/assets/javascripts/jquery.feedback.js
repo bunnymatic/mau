@@ -32,10 +32,7 @@
       modalContent: 'feedback_modal_content',
       form: 'feedback_form',
       formUrl: '/feedbacks/new',
-      overlay: 'feedback_overlay',
-      loadingImage: '/images/spinner16black.gif',
-      loadingText: 'Loading...',
-      sendingText: 'Sending...'
+      overlay: 'feedback_overlay'
     }, callerSettings || {});
 
     settings.feedbackHtml = '<div id="' + settings.main + '" style="display: none;">' +
@@ -78,7 +75,6 @@
 		jQuery('input[name=feedback\\[page\\]]').val(location.href);
     var data = jQuery(settings.form).serialize();
     var url = $.trim(jQuery(settings.form).attr('action'));
-    loading(settings.sendingText);
     $.ajax({
       type: "POST",
       url: url,
@@ -86,7 +82,7 @@
       success: function(msg, status) {
         jQuery(settings.modalContent).html(msg);
         setTimeout( function() {
-          jQuery(settings.modalWindow).fadeOut(1000, function() {
+          jQuery(settings.modalWindow).fadeOut(500, function() {
             hideFeedback();
           });
         }, 3000)
@@ -158,17 +154,10 @@
     });
   }
 
-  var loading = function(text) {
+  var loading = function() {
     showOverlay();
     initFeedback();
-
-    if(text == null)
-      text = settings.loadingText;
-
-    jQuery(settings.modalContent).html(
-      '<h1 class="note-loading">' + text + '<img src="' + settings.loadingImage + '" /></h1>');
-
     showFeedback();
+  };
 
-  }
 }) (jQuery);
