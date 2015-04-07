@@ -147,10 +147,7 @@ class ArtPiecesController < ApplicationController
     if params[:art_piece][:tags] && params[:art_piece][:tags].is_a?(String)
       params[:art_piece][:tags] = tags_from_s(params[:art_piece][:tags])
     end
-    params[:art_piece]
+    params.require(:art_piece).permit(:tags, :title, :dimensions, :year, :medium, :medium_id, :description)
   end
 
-  def artist_params
-    params[:id]
-  end
 end

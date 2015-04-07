@@ -223,6 +223,11 @@ class ArtistsController < ApplicationController
   end
 
   private
+  def artist_info_permitted_attributes
+    %i|bio street city addr_state facebook twitter blog myspace flickr zip studionumber pinterest instagram|
+  end    
+
+  
   def artist_params
     if params[:emailsettings]
       em = params[:emailsettings]
@@ -236,7 +241,11 @@ class ArtistsController < ApplicationController
     end
 
     params[:artist].delete :os_participation
-    params[:artist]
+    params.require(:artist).permit(:studio, :login, :email, :email_attrs,
+                                   :password, :password_confirmation,
+                                   :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume,
+                                   :artist_info_attributes => artist_info_permitted_attributes)
+
   end
 
   def is_os_only(osonly)
