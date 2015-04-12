@@ -98,7 +98,6 @@ describe EventsController do
       it { expect(response).to be_success }
       it 'constructs a new event' do
         assigns(:event).should be_new_record
-        assigns(:event).state.should eql 'CA'
       end
       it 'renders new_or_edit' do
         expect(response).to render_template 'new_or_edit'

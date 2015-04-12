@@ -13,8 +13,7 @@ class FeedbacksController < ApplicationController
 
   def create
     @feedback = Feedback.new(feedback_params)
-    if @feedback.valid?
-      @feedback.save
+    if @feedback.save
       FeedbackMailer.feedback(@feedback).deliver!
       render 'thankyou', :status => :created
     else
