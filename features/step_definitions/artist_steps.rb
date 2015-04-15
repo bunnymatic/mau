@@ -13,7 +13,7 @@ end
 
 When(/^I fill out the add art form$/) do
   @medium = Medium.first
-  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/art.png")
+  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/files/art.png")
   fill_in "Title", with: 'Mona Lisa'
   fill_in "Dimensions", with: '4 x 3'
   fill_in "Year", with: '1515'
@@ -125,7 +125,7 @@ Then(/^I see that art piece detail page$/) do
 end
 
 When(/^I submit a new profile picture$/) do
-  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/art.png")
+  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/files/art.png")
 end
 
 Then(/^I see that I have a new profile picture$/) do

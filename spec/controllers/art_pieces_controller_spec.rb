@@ -3,10 +3,12 @@ require 'spec_helper'
 describe ArtPiecesController do
 
   let(:medium) { FactoryGirl.create(:medium) }
-  let(:art_piece_attributes) { FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id) }
+  let(:existing_tag) { FactoryGirl.create(:art_piece_tag) }
+  let(:tags) { nil }
+  let(:art_piece_attributes) { FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id, tags: tags) }
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
+  let!(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
   let(:art_pieces) { artist.art_pieces }
   let(:art_piece) { art_pieces.first }
@@ -173,25 +175,38 @@ describe ArtPiecesController do
       end
 
       context 'with successful save' do
-        before do
-          mock_art_piece_image = double('MockArtPieceImage', save: true)
-          ArtPieceImage.should_receive(:new).and_return(mock_art_piece_image)
-        end
+        let(:upload_data) { { 'datafile' => fixture_file_upload( '/files/art.png' ) } }
+        let(:tags) { "this, that, #{existing_tag.name}" }
+        
         it 'redirects to show page on success' do
-          post :create, art_piece: art_piece_attributes, upload: {}
+          post :create, art_piece: art_piece_attributes, upload: upload_data
           expect(response).to redirect_to artist_path(artist)
         end
+        it 'creates a piece of art' do
+          expect{
+            post :create, art_piece: art_piece_attributes, upload: upload_data
+          }.to change(ArtPiece, :count).by 1
+        end
         it 'sets a flash message on success' do
-          post :create, art_piece: art_piece_attributes, upload: {}
+          post :create, art_piece: art_piece_attributes, upload: upload_data
           flash[:notice].should eql "You've got new art!"
         end
         it "flushes the cache" do
           ArtPiecesController.any_instance.should_receive(:flush_cache)
-          post :create, art_piece: art_piece_attributes, upload: {}
+          post :create, art_piece: art_piece_attributes, upload: upload_data
         end
         it 'publishes a message' do
           Messager.any_instance.should_receive(:publish)
-          post :create, art_piece: art_piece_attributes, upload: {}
+          post :create, art_piece: art_piece_attributes, upload: upload_data
+        end
+        it 'correctly adds tags to the art piece' do
+          post :create, art_piece: art_piece_attributes, upload: upload_data
+          expect(ArtPiece.last.tags.count).to eql 3
+        end
+        it 'only adds the new tags' do
+          expect{
+            post :create, art_piece: art_piece_attributes, upload: upload_data
+          }.to change(ArtPieceTag, :count).by 2
         end
       end
     end

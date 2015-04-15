@@ -63,6 +63,7 @@ class ArtPiecesController < ApplicationController
       render template: 'artists/manage_art' and return
     end
 
+    tags = params[:art_piece].delete(:tags)
     @art_piece = current_user.art_pieces.build(art_piece_params)
     valid = @art_piece.valid?
     begin
@@ -70,6 +71,17 @@ class ArtPiecesController < ApplicationController
         if valid
           # upload image
           ArtPieceImage.new(@art_piece).save upload
+          # replace tags with tags
+          if tags.present?
+            tags = tags.split(",").map{|t| t.strip.downcase}
+            aptags = ArtPieceTag.where(name: tags)
+            new_tags = aptags.map(&:name) - tags
+            @art_piece.tags = aptags
+            new_tags.each do |tag|
+              @art_piece.tags.build tag
+            end
+          end
+          @art_piece.save
           flash[:notice] = "You've got new art!"
           Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
         else
@@ -78,6 +90,7 @@ class ArtPiecesController < ApplicationController
       end
     rescue Exception => ex
       msg = "Failed to upload %s" % $!
+      puts msg
       @art_piece.errors.add(:base, msg)
       render template: 'artists/manage_art' and return
     end
@@ -144,10 +157,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def art_piece_params
-    if params[:art_piece][:tags] && params[:art_piece][:tags].is_a?(String)
-      params[:art_piece][:tags] = tags_from_s(params[:art_piece][:tags])
-    end
-    params.require(:art_piece).permit(:tags, :title, :dimensions, :year, :medium, :medium_id, :description)
+    params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description)
   end
 
 end
