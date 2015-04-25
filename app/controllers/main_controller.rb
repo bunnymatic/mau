@@ -32,7 +32,7 @@ class MainController < ApplicationController
     # handle feedback from the get involved page
     @feedback = Feedback.new
     if params[:commit]
-      @feedback = Feedback.new(params[:feedback])
+      @feedback = Feedback.new(feedback_params)
       if @feedback.save
         FeedbackMailer.feedback(@feedback).deliver!
         flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
@@ -179,5 +179,8 @@ EOM
     end
   end
 
+  def feedback_params
+    params.require(:feedback).permit :subject, :email, :login, :page, :comment, :url, :skillsets, :bugtype
+  end
 
 end

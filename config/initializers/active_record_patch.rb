@@ -1,5 +1,15 @@
 class ActiveRecord::Base
-
+  if Rails::VERSION::MAJOR <= 3
+    def write_attributes(attrs = nil)
+      if attrs.present?
+        attrs.each do |attr, value|
+          attr_setter = "#{attr}="
+          self.send(attr_setter, value)
+        end
+      end
+    end
+  end
+  
   def self.find_random(num = 1, opts = {})
     # skip out if we don't have any
     return nil if (max = self.count(opts)) == 0

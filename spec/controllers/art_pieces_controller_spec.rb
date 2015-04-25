@@ -5,7 +5,7 @@ describe ArtPiecesController do
   let(:medium) { FactoryGirl.create(:medium) }
   let(:existing_tag) { FactoryGirl.create(:art_piece_tag) }
   let(:tags) { nil }
-  let(:art_piece_attributes) { FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id, tags: tags) }
+  let(:art_piece_attributes) { FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id) }
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let!(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
@@ -179,7 +179,7 @@ describe ArtPiecesController do
         let(:tags) { "this, that, #{existing_tag.name}" }
         
         it 'redirects to show page on success' do
-          post :create, art_piece: art_piece_attributes, upload: upload_data
+          post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
           expect(response).to redirect_to artist_path(artist)
         end
         it 'creates a piece of art' do
@@ -236,8 +236,9 @@ describe ArtPiecesController do
         expect(response).to redirect_to art_piece
       end
       it 'updates tags given a string of comma separated items' do
-        post :update, id: art_piece.id, art_piece: {tags: 'this, that, the other, this, that'}
+        post :update, id: art_piece.id, art_piece: {title: art_piece.title, tags: 'this, that, the other, this, that'}
         tag_names = art_piece.reload.tags.map(&:name)
+        puts tag_names
         expect(tag_names).to have(3).tags
         expect(tag_names).to include 'this'
         expect(tag_names).to include 'this'

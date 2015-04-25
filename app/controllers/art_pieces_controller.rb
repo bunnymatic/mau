@@ -78,7 +78,7 @@ class ArtPiecesController < ApplicationController
             new_tags = aptags.map(&:name) - tags
             @art_piece.tags = aptags
             new_tags.each do |tag|
-              @art_piece.tags.build tag
+              @art_piece.tags.build(name: tag)
             end
           end
           @art_piece.save
@@ -104,7 +104,29 @@ class ArtPiecesController < ApplicationController
       redirect_to @art_piece and return
     end
 
-    if @art_piece.update_attributes(art_piece_params)
+    tags = params[:art_piece].delete(:tags)
+    new_tags = []
+    if tags.present?
+      tags = tags.split(",").map{|t| t.strip.downcase}.compact.uniq
+      aptags = ArtPieceTag.where(name: tags)
+      new_tags = tags - aptags.map(&:name)
+    end
+    success = false
+    begin
+      ArtPiece.transaction do
+        success ||= @art_piece.update_attributes(art_piece_params)
+        new_tags.each do |name|
+          puts "creating #{name}"
+          t = @art_piece.tags << ArtPieceTag.new(name: name)
+        end
+        @art_piece.save
+      end
+    rescue Exception => ex
+      puts ex
+      success = false
+    end
+    
+    if success
       flash[:notice] = 'The art has been updated.'
       Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
       redirect_to art_piece_path(@art_piece)

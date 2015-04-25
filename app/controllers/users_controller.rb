@@ -73,9 +73,8 @@ class UsersController < ApplicationController
     @type = params.delete(:type)
     @type ||= user_params[:type]
 
-
     # validate email domain
-    build_user_from_params
+    @user = build_user_from_params
     unless verify_recaptcha
       @user.valid?
       @user.errors.add(:base, "Failed to prove that you're human."+
@@ -324,19 +323,11 @@ class UsersController < ApplicationController
   def build_user_from_params
     return if user_params.empty?
     if @type == 'Artist'
-      # studio_id is in artist info
-      studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
-      if studio_id > 0
-        studio = Studio.find(studio_id)
-        if studio
-          @user = studio.artists.build(user_params)
-        end
-      else
-        @user = Artist.new(user_params)
-      end
+      Artist.new(user_params)
     elsif @type == 'MAUFan' || @type == 'User'
-      user_params[:login] = user_params[:login] || user_params[:email]
-      @user = MAUFan.new(user_params)
+      attrs = user_params
+      attrs[:login] = attrs[:login] || attrs[:email]
+      MAUFan.new(attrs)
     end
   end
 
@@ -379,11 +370,14 @@ class UsersController < ApplicationController
   end
 
   def password_params
+    params.permit(:user, :mau_fan, :artist).permit(:password, :password_confirmation, :old_password)
+    
     attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
     attrs.slice *(%w|password password_confirmation old_password|)
   end
 
   def user_params
+    k = [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
     attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
 
     if params[:emailsettings]
@@ -394,8 +388,10 @@ class UsersController < ApplicationController
       end
       attrs[:email_attrs] = em2.to_json
     end
-    attrs.delete :artist_info
-    attrs
-
+    params.require(k).permit(:login, :email, :firstname, :lastname,
+                             :password, :password_confirmation,
+                             :url, :studio, :studio_id, :nomdeplume, :profile_image,
+                             :email_attrs )
   end
+
 end

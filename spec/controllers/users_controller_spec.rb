@@ -61,20 +61,6 @@ describe UsersController do
     context 'not logged in' do
       render_views
 
-      context 'with no type' do
-        before do
-          # disable sweep of flash.now messages
-          # so we can test them
-          @controller.instance_eval{flash.stub(:sweep)}
-          get :new
-        end
-        it_should_behave_like 'common signup form'
-        it "has first & last name text boxes" do
-          assert_select("#artist_firstname")
-          assert_select("#artist_lastname")
-        end
-      end
-
       context 'with type = artist' do
         before do
           # disable sweep of flash.now messages
@@ -418,17 +404,6 @@ describe UsersController do
       before do
         login_as(quentin, :record => true)
         @logged_in_user = quentin
-      end
-      context "with empty params" do
-        before do
-          put :update, :id => quentin.id, :user => {}
-        end
-        it "redirects to user edit page" do
-          expect(response).to redirect_to(edit_user_path(quentin))
-        end
-        it "contains flash notice of success" do
-          expect(flash[:notice]).to eql "Your profile has been updated"
-        end
       end
       context "with valid and a cancel" do
         before do
