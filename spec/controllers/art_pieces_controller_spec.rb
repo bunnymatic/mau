@@ -200,12 +200,13 @@ describe ArtPiecesController do
           post :create, art_piece: art_piece_attributes, upload: upload_data
         end
         it 'correctly adds tags to the art piece' do
-          post :create, art_piece: art_piece_attributes, upload: upload_data
+          post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
           expect(ArtPiece.last.tags.count).to eql 3
         end
         it 'only adds the new tags' do
+          tags
           expect{
-            post :create, art_piece: art_piece_attributes, upload: upload_data
+            post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
           }.to change(ArtPieceTag, :count).by 2
         end
       end
@@ -238,7 +239,6 @@ describe ArtPiecesController do
       it 'updates tags given a string of comma separated items' do
         post :update, id: art_piece.id, art_piece: {title: art_piece.title, tags: 'this, that, the other, this, that'}
         tag_names = art_piece.reload.tags.map(&:name)
-        puts tag_names
         expect(tag_names).to have(3).tags
         expect(tag_names).to include 'this'
         expect(tag_names).to include 'this'

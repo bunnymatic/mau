@@ -20,7 +20,7 @@
           = render '/users/edit/links', form: form
         .panel.panel-default
           = render '/artists/edit/bio', form: form
-      = semantic_form_for @user.model, url: change_password_update_user_path(@user.model), html: { method: 'post', class: 'password-form' } do |form|
+      = semantic_form_for @user.model, url: change_password_update_user_path(@user.model), html: { class: 'password-form' } do |form|
         .panel.panel-default
           = render '/users/edit/password', form: form
       .panel.panel-default

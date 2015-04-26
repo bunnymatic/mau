@@ -1,31 +1,24 @@
 module Admin
   class ArtPieceTagsController < BaseAdminController
     def index
-      @tags = tags_sorted_by_frequency
+      @tags = ArtPieceTagService.tags_sorted_by_frequency
     end
 
     def cleanup
-      @tags = tags_sorted_by_frequency
-      @tags.each {|(tag, ct)| tag.destroy if ct <= 0 }
+      ArtPieceTagService.delete_unused_tags
       redirect_to admin_art_piece_tags_url
     end
 
     def destroy
-      @tag = ArtPieceTag.find(params[:id])
-      @tag.destroy
-      ArtPieceTag.flush_cache
+      load_tag
+      ArtPieceTagService.destroy(@tag)
       redirect_to(admin_art_piece_tags_url)
     end
 
     private
-    def tags_sorted_by_frequency
-      all_tags = ArtPieceTag.all
-      freq = ArtPieceTag.keyed_frequency
-      all_tags.map do |tag|
-        [tag, freq[tag.id].to_f]
-      end.select(&:first).sort_by(&:last).reverse
+    def load_tag
+      @tag = ArtPieceTag.find(params[:id])
     end
-
   end
 
 end

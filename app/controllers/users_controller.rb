@@ -34,12 +34,11 @@ class UsersController < ApplicationController
     @fan = UserPresenter.new(@fan.becomes(User))
   end
 
-  # render new.rhtml
   def new
     artist = Artist.new
     fan = MAUFan.new
     @studios = Studio.all
-    type = params[:type] || user_params[:type]
+    type = params[:type] || user_attrs[:type]
     @type = ['Artist','MAUFan'].include?(type) ? type : 'Artist'
     @user = (@type == 'MAUFan') ? fan : artist
   end
@@ -71,7 +70,7 @@ class UsersController < ApplicationController
   def create
     logout
     @type = params.delete(:type)
-    @type ||= user_params[:type]
+    @type ||= user_attrs[:type]
 
     # validate email domain
     @user = build_user_from_params
@@ -93,8 +92,7 @@ class UsersController < ApplicationController
   # Change user passowrd
   def change_password_update
     msg = {}
-    if current_user.valid_password? password_params["old_password"]
-      password_params.delete "old_password"
+    if current_user.valid_password? user_attrs["old_password"]
       if current_user.update_attributes(password_params)
         msg[:notice] = "Your password has been updated"
       else
@@ -370,15 +368,21 @@ class UsersController < ApplicationController
   end
 
   def password_params
-    params.permit(:user, :mau_fan, :artist).permit(:password, :password_confirmation, :old_password)
-    
-    attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
-    attrs.slice *(%w|password password_confirmation old_password|)
+    k = user_params_key
+    params.require(k).permit(:password, :password_confirmation)
   end
 
+  def user_attrs
+    (params[:artist] || params[:mau_fan] || params[:user] || {})
+  end
+
+  def user_params_key
+    [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
+  end
+    
   def user_params
-    k = [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
-    attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
+    k = user_params_key
+    attrs = user_attrs
 
     if params[:emailsettings]
       em = params[:emailsettings]

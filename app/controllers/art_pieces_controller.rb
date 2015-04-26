@@ -49,10 +49,10 @@ class ArtPiecesController < ApplicationController
   def create
     redirect_to(current_artist) and return if commit_is_cancel
 
+    prepare_tags_params
     @artist = ArtistPresenter.new(current_artist)
     @art_piece = current_artist.art_pieces.build(art_piece_params)
-    @art_piece.valid?
-
+    valid = @art_piece.valid?
 
     # if file to upload - upload it first
     upload = params[:upload]
@@ -62,26 +62,16 @@ class ArtPiecesController < ApplicationController
         " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
       render template: 'artists/manage_art' and return
     end
-
-    tags = params[:art_piece].delete(:tags)
-    @art_piece = current_user.art_pieces.build(art_piece_params)
-    valid = @art_piece.valid?
+    
     begin
       ActiveRecord::Base.transaction do
         if valid
           # upload image
           ArtPieceImage.new(@art_piece).save upload
-          # replace tags with tags
-          if tags.present?
-            tags = tags.split(",").map{|t| t.strip.downcase}
-            aptags = ArtPieceTag.where(name: tags)
-            new_tags = aptags.map(&:name) - tags
-            @art_piece.tags = aptags
-            new_tags.each do |tag|
-              @art_piece.tags.build(name: tag)
-            end
-          end
-          @art_piece.save
+          # if tags_string.present?
+          #   @art_piece = ArtPieceTagService.build_tags(@art_piece, tags_string.split(",").map(&:strip))
+          # end
+          @art_piece.save!
           flash[:notice] = "You've got new art!"
           Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
         else
@@ -90,7 +80,6 @@ class ArtPiecesController < ApplicationController
       end
     rescue Exception => ex
       msg = "Failed to upload %s" % $!
-      puts msg
       @art_piece.errors.add(:base, msg)
       render template: 'artists/manage_art' and return
     end
@@ -104,21 +93,12 @@ class ArtPiecesController < ApplicationController
       redirect_to @art_piece and return
     end
 
-    tags = params[:art_piece].delete(:tags)
-    new_tags = []
-    if tags.present?
-      tags = tags.split(",").map{|t| t.strip.downcase}.compact.uniq
-      aptags = ArtPieceTag.where(name: tags)
-      new_tags = tags - aptags.map(&:name)
-    end
+    prepare_tags_params
     success = false
+    
     begin
       ArtPiece.transaction do
         success ||= @art_piece.update_attributes(art_piece_params)
-        new_tags.each do |name|
-          puts "creating #{name}"
-          t = @art_piece.tags << ArtPieceTag.new(name: name)
-        end
         @art_piece.save
       end
     rescue Exception => ex
@@ -178,8 +158,21 @@ class ArtPiecesController < ApplicationController
     return "Mission Artists United Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}" if art_piece
   end
 
-  def art_piece_params
-    params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description)
+  def prepare_tags_params
+    tags_string = params[:art_piece][:tags]
+    if tags_string.present?
+      tag_names = tags_string.split(",").map{|name| name.strip.downcase}.compact.uniq
+      params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by_name name}
+    end
   end
-
+  
+  def art_piece_params
+    parameters = params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description)
+    if params[:art_piece][:tags]
+      parameters.merge({tags: params[:art_piece][:tags]})
+    else
+      parameters
+    end
+  end
+  
 end
