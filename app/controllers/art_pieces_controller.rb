@@ -102,7 +102,7 @@ class ArtPiecesController < ApplicationController
         @art_piece.save
       end
     rescue Exception => ex
-      puts ex
+      puts "Update Exception:", ex
       success = false
     end
     
@@ -160,10 +160,8 @@ class ArtPiecesController < ApplicationController
 
   def prepare_tags_params
     tags_string = params[:art_piece][:tags]
-    if tags_string.present?
-      tag_names = tags_string.split(",").map{|name| name.strip.downcase}.compact.uniq
-      params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by_name name}
-    end
+    tag_names = (tags_string || '').split(",").map{|name| name.strip.downcase}.compact.uniq
+    params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by_name name}
   end
   
   def art_piece_params

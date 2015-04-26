@@ -7,8 +7,10 @@ When(/^I visit my profile edit page$/) do
 end
 
 Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
-  expect(page).to_not have_content "Mona Lisa"
-  expect(page).to have_content new_title
+  within '.title' do
+    expect(page).to_not have_content "Mona Lisa"
+    expect(page).to have_content new_title
+  end
 end
 
 When(/^I fill out the add art form$/) do

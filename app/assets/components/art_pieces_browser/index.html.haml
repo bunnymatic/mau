@@ -20,17 +20,17 @@
         %a{ "ng-href" => 'artPiece.deletePath', title: 'remove'}
     .desc
       .desc__item.ngwrapper{ "ng-if" => "hasDimensions()" }
-        %h4.title Dimensions
+        %h4.art-piece__info-title Dimensions
         .dimensions{ "ng-bind-html" => "artPiece.dimensions" }
       .desc__item.ngwrapper{ "ng-if" => "hasYear()" }
-        %h4.title Date
+        %h4.art-piece__info-title Date
         .date{ "ng-bind-html" => "artPiece.year" }
       .desc__item.ngwrapper{ "ng-if" => "hasMedia()" }
-        %h4.title Medium
+        %h4.art-piece__info-title Medium
         .media
           %medium{ "medium" => "artPiece.medium" }
       .desc__item.ngwrapper{ "ng-if" => "hasTags()" }
-        %h4.title Tags
+        %h4.art-piece__info-title Tags
         .tags
           %span{"ng-repeat" => 'tag in artPiece.tags', 'repeater-delimiter' => ','}
             %art-piece-tag{"tag" => "tag" }

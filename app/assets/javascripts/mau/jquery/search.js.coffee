@@ -52,10 +52,11 @@ MAU.SearchPage = class MAUSearch
     _.each @choosers, (container) ->
       c = jQuery(container)
       _that.setAnyLink(c)
-      c.find('.reset a').bind 'click', (ev) ->
+      debugger
+      c.on 'click', 'a.reset', (ev) ->
+        debugger
         cbs = c.find _that.checkboxSelector
-        _.each cbs, (el) ->
-          el.checked = false
+        _.each cbs, (el) -> $(el).attr('checked', false)
         _that.setAnyLink(c)
         ev.preventDefault();
         _that._submitForm();

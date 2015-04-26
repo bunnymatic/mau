@@ -168,7 +168,17 @@ describe ArtistsController do
             xhr :put, :update, id: artist, commit: 'submit', artist: { "os_participation" => '1' }
           }.to change(OpenStudiosSignupEvent,:count).by(1)
         end
-
+      end
+      context 'update name and bio' do
+        before do
+          artist.update_os_participation OpenStudiosEvent.current, true
+        end
+        it 'does not reset the open studios participation setting' do
+          expect{
+            attrs = {"firstname"=>"mr joe", "artist_info_attributes"=>{"bio"=>"Dolor error praesentium et"}}
+            put :update, id: artist, commit: 'submit', artist: attrs
+          }.to_not change(artist, :doing_open_studios?)
+        end
       end
     end
   end

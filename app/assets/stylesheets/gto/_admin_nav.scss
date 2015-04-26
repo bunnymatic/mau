@@ -42,7 +42,7 @@
       top: 55px;
       padding: 8px 6px 8px;
       @include round-left-corners(4px);
-      .title {
+      .admin-nav__title {
         letter-spacing: 0;
       }
     }
@@ -57,7 +57,7 @@
         margin-right: 13px;
       }
     }
-    .title {
+    .admin-nav__title {
       text-transform: uppercase;
       letter-spacing: -1px;
     }

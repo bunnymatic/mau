@@ -48,23 +48,23 @@
     .js-close.nav-mobile__close
       = fa_icon 'close'
     %ul.tab-panel
-      %li.title
+      %li.nav-mobile__title
         %a{href: artists_path, title: 'artists'} artists
     %ul.tab-panel
-      %li.title
+      %li.nav-mobile__title
         %a{href: studios_path, title: 'group studios'} studios
     %ul.tab-panel#open-studios
-      %li.title open studios
+      %li.nav-mobile__title open studios
       != print_html_list('leaf', os_nav)
 
     - if logged_in?
       %ul.tab-panel.signin__links
-        %li.title my mau
+        %li.nav-mobile__title my mau
         != print_html_list('leaf', user_nav)
     - else logged_in?
       %ul.tab-panel.signout__links
-        %li.title
+        %li.nav-mobile__title
           %a{href: login_path, title: 'sign in'} sign in
-        %li.title
+        %li.nav-mobile__title
           %a{href: signup_path, title: 'sign up'} sign up
 
