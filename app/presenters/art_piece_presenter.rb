@@ -12,10 +12,6 @@ class ArtPiecePresenter < ViewPresenter
     @favorites_count if @favorites_count > 0
   end
 
-  def orientation
-    portrait? ? :portrait : :landscape
-  end
-
   def artist_name
     artist.get_name
   end
