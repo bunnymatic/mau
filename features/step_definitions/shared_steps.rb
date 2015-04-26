@@ -98,6 +98,9 @@ When /I am signed in as an artist/ do
   }
 end
 
+Then /^I see "(.*?)" on the page$/ do |content|
+  expect(page).to have_content content
+end
 
 When /^I (log|sign)\s?out$/ do |dummy|
   within '.nav' do

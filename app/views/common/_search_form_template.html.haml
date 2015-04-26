@@ -1,9 +1,8 @@
 %script{type: "template/html", id: "search_form_template"}
   .search-form
     = form_tag '/search', method: 'post', id: 'search_form' do
-      .search-label
+      .search-input-controls
         %label{for: 'search_keywords'} Search for
-      .search-input
         %input#search_keywords{autocomplete: 'off', type: 'text', name: 'keywords', autofocus: :autofocus}
     .search-autocomplete-results
       %ul.js-results

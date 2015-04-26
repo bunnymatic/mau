@@ -2,105 +2,52 @@ require 'spec_helper'
 
 describe SearchController do
 
-
-  let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
-  let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
+  def letter_frequency(words)
+    Hash.new(0).tap do |letters|
+      [words].flatten.compact.join.downcase.gsub(/\s+/,'').each_char {|c| letters[c] += 1 }
+    end.sort_by{|letter, ct| ct}
+  end
+  
   let(:studios) { FactoryGirl.create_list :studio, 4 }
   let(:artists) {
-    FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios.first) +
-    FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios.last)
+    FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.first) +
+    FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.last)
   }
-  let(:artist) { artists.first }
-  let(:art_piece) { artist.art_pieces.first }
-  let(:medium) { art_piece.medium }
-  let(:tag) { art_piece.tags.last }
   let(:media_search) { artists.map{|a| a.art_pieces.map(&:medium) }.flatten.compact[0..1] }
   let(:studios_search) { studios[0..1] }
-  let(:open_studio_event) { FactoryGirl.create(:open_studios_event) }
 
+  let(:studio_artist_name_match) do
+    f = letter_frequency(studios_search.map(&:artists).flatten.map(&:full_name))
+    f.last.first
+  end
+  
   before do
     fix_leaky_fixtures
-    artists.sample(2).map{|a| a.update_os_participation open_studios_event.key, true}
-    studios
+    artists
   end
 
-  render_views
-
   describe "#index" do
-    describe "(with views)" do
-      before do
-        get :index
-      end
-      it_should_behave_like "not logged in"
-      it 'includes display data on the studio and medium inputs' do
-        assert_select '#medium_chooser input[data-display]'
-        assert_select '#studio_chooser input[data-display]'
-      end
-      it "puts the keywords back in no results report" do
-        expect(response.body).to include "search for something"
-      end
-    end
-
-    context "for something we don't have" do
-      let(:keywords) { 'move along.  this string should not match anything' }
-      before do
-        get :index, keywords: keywords
-      end
-      it "returns nothing" do
-        css_select('.search-thumb-info').should be_empty
-      end
-      it "puts the keywords back in the search box" do
-        assert_select '#keywords' do |tag|
-          tag[0].attributes['value'].should eql keywords
-        end
-      end
-      it "show message indicating that nothing matched" do
-        response.body.should include("move along")
-        response.body.should include("couldn't find anything that matched")
-      end
-      it "has blocks in refine your search for sub sections" do
-        ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Participants"].each do |sxn|
-          assert_select ".refine-controls h5.block_head", sxn + ":"
-        end
-      end
-      it 'has search controls' do
-        assert_select '.refine-controls'
-        assert_select '.current_search'
-      end
-    end
-
     context "finding by studio" do
       before do
-        get :index, studios: studios_search.map(&:id), keywords: 'title'
+        get :index, studios: studios_search.map(&:id), keywords: studio_artist_name_match
       end
-      it 'shows the studios you searched for' do
-        assert_select '.current_search .block.studios li', count: 2 do |tag|
-          items = tag.map(&:to_s).join
-          studios_search.each do |s|
-            items.should match s.name
-          end
-        end
+      it 'returns results' do
+        expect(assigns(:paginator).items).to be_present
       end
       it 'checks the studios you searched for' do
         assigns(:query).studios.should have(2).studios
-        assert_select '.refine-controls .cb_entry input[checked=checked]', count: assigns(:query).studios.count
       end
     end
 
     context "finding by medium" do
       before do
-        get :index, mediums: media_search.map(&:id), keywords: 'title'
+        get :index, mediums: media_search.map(&:id), keywords: studio_artist_name_match
       end
-      it 'shows the media you searched for' do
-        assert_select '.current_search .block.mediums li', count: 2 do |tag|
-          items = tag.map(&:to_s).join
-          items.should match /#{media_search.first.name}/
-          items.should match /#{media_search.last.name}/
-        end
+      it 'returns results' do
+        expect(assigns(:paginator).items).to be_present
       end
       it 'checks the media you searched for' do
         assigns(:query).mediums.should have(2).media
-        assert_select '.refine-controls .cb_entry input[checked=checked]', count: assigns(:query).mediums.count
       end
     end
   end
@@ -121,14 +68,6 @@ describe SearchController do
       end
       it "sets the correct result count" do
         assigns(:paginator).count.should eql ArtPiece.find_all_by_artist_id(@artist.id).count
-      end
-    end
-    context 'finding by openstudios status' do
-      before do
-        post :fetch, os_artist: nil, keywords: 'name1'
-      end
-      it 'shows open studios stars as appropriate' do
-        assert_select '.os-violator', count: 6
       end
     end
 

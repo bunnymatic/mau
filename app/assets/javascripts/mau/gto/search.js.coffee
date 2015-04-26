@@ -78,8 +78,8 @@ $ ->
       false
 
   $('.js-main-container').on 'keyup change', INPUT_SELECTOR, (ev) ->
-    console.log 'keyup or change'
-    console.log ev.which
+    # console.log 'keyup or change'
+    # console.log ev.which
     # 40 = arrow down
     # 38 = arrow up
     switch ev.which
