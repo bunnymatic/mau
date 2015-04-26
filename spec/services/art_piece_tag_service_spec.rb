@@ -17,7 +17,7 @@ describe ArtPieceTagService do
     it 'removes only tags that are unused' do
       expect {
         ArtPieceTagService.delete_unused_tags
-        expect(ArtPieceTagService.tags_sorted_by_frequency).to have(6).items
+        expect(ArtPieceTagService.tags_sorted_by_frequency).to have_at_least(6).items
       }.to change(ArtPieceTag, :count).by(-2)
     end
   end
@@ -26,7 +26,7 @@ describe ArtPieceTagService do
     it 'removes the tag' do
       expect {
         ArtPieceTagService.delete_unused_tags
-        expect(ArtPieceTagService.tags_sorted_by_frequency).to have(6).items
+        expect(ArtPieceTagService.tags_sorted_by_frequency).to have_at_least(6).items
       }.to change(ArtPieceTag, :count).by(-2)
     end
     it 'removes the tag references on any art pieces' do

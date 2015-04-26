@@ -109,23 +109,7 @@ class ArtistPresenter < UserPresenter
                   end
   end
 
-  def profile_image(size = small)
-    if has_profile_image
-      artist.get_profile_image(size)
-    else
-      "/images/default-artist.png"
-    end
-  end
-
   private
-
-  def share_url
-    @share_url ||= artist.get_share_link(true)
-  end
-
-  def share_title
-    @share_title ||= "Check out %s at Mission Artists United" % get_name
-  end
 
   def map_thumb
     @representative_thumb ||= representative_piece.get_path('thumb')
