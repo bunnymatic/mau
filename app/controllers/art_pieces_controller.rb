@@ -92,21 +92,8 @@ class ArtPiecesController < ApplicationController
     if commit_is_cancel || (@art_piece.artist != current_user)
       redirect_to @art_piece and return
     end
-
     prepare_tags_params
-    success = false
-    
-    begin
-      ArtPiece.transaction do
-        success ||= @art_piece.update_attributes(art_piece_params)
-        @art_piece.save
-      end
-    rescue Exception => ex
-      puts "Update Exception:", ex
-      success = false
-    end
-    
-    if success
+    if @art_piece.update_attributes(art_piece_params)
       flash[:notice] = 'The art has been updated.'
       Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
       redirect_to art_piece_path(@art_piece)

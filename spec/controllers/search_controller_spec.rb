@@ -24,12 +24,6 @@ describe SearchController do
     studios
   end
 
-  shared_examples_for 'search page with results' do
-    it 'has search results' do
-      assert_select '#search_results'
-    end
-  end
-
   render_views
 
   describe "#index" do
@@ -43,7 +37,7 @@ describe SearchController do
         assert_select '#studio_chooser input[data-display]'
       end
       it "puts the keywords back in no results report" do
-        assert_select '.no-results', match: 'match your query'
+        expect(response.body).to include "search for something"
       end
     end
 
@@ -52,7 +46,6 @@ describe SearchController do
       before do
         get :index, keywords: keywords
       end
-      it_should_behave_like 'search page with results'
       it "returns nothing" do
         css_select('.search-thumb-info').should be_empty
       end
@@ -67,11 +60,11 @@ describe SearchController do
       end
       it "has blocks in refine your search for sub sections" do
         ["Mediums", "Add Keyword(s)", "Studios", "Open Studios Participants"].each do |sxn|
-          assert_select ".refine_controls h5.block_head", sxn + ":"
+          assert_select ".refine-controls h5.block_head", sxn + ":"
         end
       end
       it 'has search controls' do
-        assert_select '.refine_controls'
+        assert_select '.refine-controls'
         assert_select '.current_search'
       end
     end
@@ -80,7 +73,6 @@ describe SearchController do
       before do
         get :index, studios: studios_search.map(&:id), keywords: 'title'
       end
-      it_should_behave_like 'search page with results'
       it 'shows the studios you searched for' do
         assert_select '.current_search .block.studios li', count: 2 do |tag|
           items = tag.map(&:to_s).join
@@ -91,7 +83,7 @@ describe SearchController do
       end
       it 'checks the studios you searched for' do
         assigns(:query).studios.should have(2).studios
-        assert_select '.refine_controls .cb_entry input[checked=checked]', count: assigns(:query).studios.count
+        assert_select '.refine-controls .cb_entry input[checked=checked]', count: assigns(:query).studios.count
       end
     end
 
@@ -99,7 +91,6 @@ describe SearchController do
       before do
         get :index, mediums: media_search.map(&:id), keywords: 'title'
       end
-      it_should_behave_like 'search page with results'
       it 'shows the media you searched for' do
         assert_select '.current_search .block.mediums li', count: 2 do |tag|
           items = tag.map(&:to_s).join
@@ -109,7 +100,7 @@ describe SearchController do
       end
       it 'checks the media you searched for' do
         assigns(:query).mediums.should have(2).media
-        assert_select '.refine_controls .cb_entry input[checked=checked]', count: assigns(:query).mediums.count
+        assert_select '.refine-controls .cb_entry input[checked=checked]', count: assigns(:query).mediums.count
       end
     end
   end
@@ -122,7 +113,6 @@ describe SearchController do
       before do
         post :fetch, keywords: 'fancy pants'
       end
-      it_should_behave_like 'search page with results'
       it "returns some results" do
         assigns(:paginator).items.should have_at_least(1).art_piece
       end

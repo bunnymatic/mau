@@ -16,17 +16,6 @@ class Pagination < ViewPresenter
     @next_title = opts[:next_title]
   end
 
-  def to_s
-    attrs = {
-      current: current_page,
-      next: next_page,
-      last: last_page,
-      has_more: has_more?,
-      num_items: items.length
-    }
-    "#{self.class}: #{attrs}"
-  end
-
   def should_paginate?
     last_page > first_page
   end
