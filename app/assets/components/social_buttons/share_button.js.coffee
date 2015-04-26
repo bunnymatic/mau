@@ -1,8 +1,14 @@
-controller = ngInject ($scope, $attrs) ->
+controller = ngInject ($scope, $attrs, $location) ->
   c = this
 
+  location_origin =  "#{$location.protocol()}://#{$location.host()}"
+  if $location.port()?
+    location_origin += ":#{$location.port()}"
+
+  $scope.domain = $attrs.domain || location_origin
+  
   $scope.artPieceLink = () ->
-    "http://missionartistsunited.org/art_pieces/#{$scope.artPiece.id}"
+    "#{@domain}/art_pieces/#{@artPiece.id}"
 
   $scope.description = () ->
     "Check out #{$scope.artPiece.title} by #{$scope.artPiece.artist_name} on Mission Artists United #{$scope.artPieceLink()} @sfmau"
@@ -17,7 +23,7 @@ controller = ngInject ($scope, $attrs) ->
 
   $scope.pinterestLink = () ->
     artPiece = $scope.artPiece
-    artPieceImage = encodeURIComponent("http://missionartistsuinted.org/#{artPiece.image_files.large}")
+    artPieceImage = encodeURIComponent("#{@domain}/#{artPiece.image_files.large}")
     title = encodeURIComponent(artPiece.title)
     desc = encodeURIComponent($scope.description())
     "https://pinterest.com/pin/create/button/?url=#{artPieceImage}&media=#{title}&description=#{desc}"

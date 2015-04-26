@@ -59,7 +59,9 @@ Scenario: I cannot edit my password if i can't remember my current password
   And I change "Current Password" to "something"
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahdeblah"
+  And I take a screenshot
   And I click on "Save Changes"
+  And I take a screenshot
   Then I see a flash error "Your old password was incorrect"
   And I close the flash
   And I sign out

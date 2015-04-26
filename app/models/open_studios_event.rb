@@ -16,7 +16,7 @@
 #
 
 class OpenStudiosEvent < ActiveRecord::Base
-  attr_accessible :end_date, :start_date, :key, :logo, :title
+  #attr_accessible :end_date, :start_date, :key, :logo, :title
 
   validates :key, presence: true, uniqueness: true
   validates :start_date, presence: true

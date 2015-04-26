@@ -67,6 +67,10 @@ Then /^I (save|take) a screenshot$/ do |dummy|
   end
 end
 
+Then /^I save and open a screenshot$/ do
+  save_and_open_screenshot
+end
+
 When /I visit the login page/ do
   visit login_path
 end

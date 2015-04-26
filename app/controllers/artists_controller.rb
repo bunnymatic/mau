@@ -167,7 +167,7 @@ class ArtistsController < ApplicationController
   def update
     if request.xhr?
       process_os_update
-      render json: {success: true, os_status: current_artist.reload.doing_open_studios?}
+      render json: {success: true, os_status: current_artist.reload.doing_open_studios?, current_os: OpenStudiosEvent.current}
     else
       if commit_is_cancel
         redirect_to user_path(current_user)
@@ -180,7 +180,13 @@ class ArtistsController < ApplicationController
             ArtistProfileImage.new(current_artist).save params[:upload]
           end
         else
-          current_artist.update_attributes!(artist_params)
+          attrs = artist_params
+          # preserve os settings
+          if attrs[:artist_info_attributes]
+            attrs[:artist_info_attributes][:open_studios_participation] = current_artist.artist_info.open_studios_participation
+          end
+          
+          current_artist.update_attributes!(attrs)
           Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
         end
         flash[:notice] = "Your profile has been updated"
@@ -223,6 +229,11 @@ class ArtistsController < ApplicationController
   end
 
   private
+  def artist_info_permitted_attributes
+    %i|bio street city addr_state facebook twitter blog myspace flickr zip studionumber pinterest instagram|
+  end    
+
+  
   def artist_params
     if params[:emailsettings]
       em = params[:emailsettings]
@@ -235,8 +246,11 @@ class ArtistsController < ApplicationController
       params[:artist].delete("studio")
     end
 
-    params[:artist].delete :os_participation
-    params[:artist]
+    params.require(:artist).permit(:studio, :login, :email, :email_attrs,
+                                   :password, :password_confirmation,
+                                   :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume,
+                                   :artist_info_attributes => artist_info_permitted_attributes)
+
   end
 
   def is_os_only(osonly)

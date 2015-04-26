@@ -34,12 +34,11 @@ class UsersController < ApplicationController
     @fan = UserPresenter.new(@fan.becomes(User))
   end
 
-  # render new.rhtml
   def new
     artist = Artist.new
     fan = MAUFan.new
     @studios = Studio.all
-    type = params[:type] || user_params[:type]
+    type = params[:type] || user_attrs[:type]
     @type = ['Artist','MAUFan'].include?(type) ? type : 'Artist'
     @user = (@type == 'MAUFan') ? fan : artist
   end
@@ -71,11 +70,10 @@ class UsersController < ApplicationController
   def create
     logout
     @type = params.delete(:type)
-    @type ||= user_params[:type]
-
+    @type ||= user_attrs[:type]
 
     # validate email domain
-    build_user_from_params
+    @user = build_user_from_params
     unless verify_recaptcha
       @user.valid?
       @user.errors.add(:base, "Failed to prove that you're human."+
@@ -94,8 +92,7 @@ class UsersController < ApplicationController
   # Change user passowrd
   def change_password_update
     msg = {}
-    if current_user.valid_password? password_params["old_password"]
-      password_params.delete "old_password"
+    if current_user.valid_password? user_attrs["old_password"]
       if current_user.update_attributes(password_params)
         msg[:notice] = "Your password has been updated"
       else
@@ -324,19 +321,11 @@ class UsersController < ApplicationController
   def build_user_from_params
     return if user_params.empty?
     if @type == 'Artist'
-      # studio_id is in artist info
-      studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
-      if studio_id > 0
-        studio = Studio.find(studio_id)
-        if studio
-          @user = studio.artists.build(user_params)
-        end
-      else
-        @user = Artist.new(user_params)
-      end
+      Artist.new(user_params)
     elsif @type == 'MAUFan' || @type == 'User'
-      user_params[:login] = user_params[:login] || user_params[:email]
-      @user = MAUFan.new(user_params)
+      attrs = user_params
+      attrs[:login] = attrs[:login] || attrs[:email]
+      MAUFan.new(attrs)
     end
   end
 
@@ -379,12 +368,21 @@ class UsersController < ApplicationController
   end
 
   def password_params
-    attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
-    attrs.slice *(%w|password password_confirmation old_password|)
+    k = user_params_key
+    params.require(k).permit(:password, :password_confirmation)
   end
 
+  def user_attrs
+    (params[:artist] || params[:mau_fan] || params[:user] || {})
+  end
+
+  def user_params_key
+    [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
+  end
+    
   def user_params
-    attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
+    k = user_params_key
+    attrs = user_attrs
 
     if params[:emailsettings]
       em = params[:emailsettings]
@@ -394,8 +392,10 @@ class UsersController < ApplicationController
       end
       attrs[:email_attrs] = em2.to_json
     end
-    attrs.delete :artist_info
-    attrs
-
+    params.require(k).permit(:login, :email, :firstname, :lastname,
+                             :password, :password_confirmation,
+                             :url, :studio, :studio_id, :nomdeplume, :profile_image,
+                             :email_attrs )
   end
+
 end

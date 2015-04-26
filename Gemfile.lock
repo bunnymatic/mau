@@ -460,6 +460,11 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh
       term-ansicolor
+    strong_parameters (0.2.3)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
+      activesupport (~> 3.0)
+      railties (~> 3.0)
     temple (0.7.5)
     term-ansicolor (1.3.0)
       tins (~> 1.0)
@@ -593,6 +598,7 @@ DEPENDENCIES
   slim-rails
   spinjs-rails
   spring
+  strong_parameters
   timecop
   uglifier
   underscore-string-rails

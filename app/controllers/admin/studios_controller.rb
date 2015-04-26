@@ -21,7 +21,7 @@ module Admin
     end
 
     def create
-      @studio = Studio.new(params[:studio])
+      @studio = Studio.new(studio_params)
 
       if @studio.save
         flash[:notice] = 'Studio was successfully created.'
@@ -34,7 +34,7 @@ module Admin
 
     # PUT /studios/1
     def update
-      if @studio.update_attributes(params[:studio])
+      if @studio.update_attributes(studio_params)
         flash[:notice] = 'Studio was successfully updated.'
         redirect_to(@studio) and return
       else
@@ -105,6 +105,10 @@ module Admin
     end
 
     private
+    def studio_params
+      params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :profile_image, :image_height, :image_width, :lat, :lng, :cross_street, :phone )
+    end
+        
     def load_studio
       @studio ||= StudioService.get_studio_from_id(params[:id])
     end

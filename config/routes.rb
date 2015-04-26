@@ -62,7 +62,7 @@ Mau::Application.routes.draw do
       put :suspend
       get :noteform
       put :notify
-      post :change_password_update
+      put :change_password_update
     end
     resources :roles, only: [:destroy], controller: 'Admin::Roles'
   end

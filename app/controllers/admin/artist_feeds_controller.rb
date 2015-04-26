@@ -17,7 +17,7 @@ module Admin
     end
 
     def create
-      @feed = ArtistFeed.new(params[:artist_feed])
+      @feed = ArtistFeed.new(artist_feed_params)
       if @feed.save
         redir = admin_artist_feeds_path
         redirect_to(redir)
@@ -45,7 +45,7 @@ module Admin
 
     private
     def artist_feed_params
-      params[:artist_feed]
+      params.require(:artist_feed).permit(:url, :feed, :active)
     end
 
   end

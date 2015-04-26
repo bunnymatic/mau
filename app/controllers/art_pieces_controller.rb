@@ -49,10 +49,10 @@ class ArtPiecesController < ApplicationController
   def create
     redirect_to(current_artist) and return if commit_is_cancel
 
+    prepare_tags_params
     @artist = ArtistPresenter.new(current_artist)
     @art_piece = current_artist.art_pieces.build(art_piece_params)
-    @art_piece.valid?
-
+    valid = @art_piece.valid?
 
     # if file to upload - upload it first
     upload = params[:upload]
@@ -62,14 +62,16 @@ class ArtPiecesController < ApplicationController
         " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
       render template: 'artists/manage_art' and return
     end
-
-    @art_piece = current_user.art_pieces.build(art_piece_params)
-    valid = @art_piece.valid?
+    
     begin
       ActiveRecord::Base.transaction do
         if valid
           # upload image
           ArtPieceImage.new(@art_piece).save upload
+          # if tags_string.present?
+          #   @art_piece = ArtPieceTagService.build_tags(@art_piece, tags_string.split(",").map(&:strip))
+          # end
+          @art_piece.save!
           flash[:notice] = "You've got new art!"
           Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
         else
@@ -90,7 +92,7 @@ class ArtPiecesController < ApplicationController
     if commit_is_cancel || (@art_piece.artist != current_user)
       redirect_to @art_piece and return
     end
-
+    prepare_tags_params
     if @art_piece.update_attributes(art_piece_params)
       flash[:notice] = 'The art has been updated.'
       Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
@@ -143,14 +145,19 @@ class ArtPiecesController < ApplicationController
     return "Mission Artists United Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}" if art_piece
   end
 
+  def prepare_tags_params
+    tags_string = params[:art_piece][:tags]
+    tag_names = (tags_string || '').split(",").map{|name| name.strip.downcase}.compact.uniq
+    params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by_name name}
+  end
+  
   def art_piece_params
-    if params[:art_piece][:tags] && params[:art_piece][:tags].is_a?(String)
-      params[:art_piece][:tags] = tags_from_s(params[:art_piece][:tags])
+    parameters = params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description)
+    if params[:art_piece][:tags]
+      parameters.merge({tags: params[:art_piece][:tags]})
+    else
+      parameters
     end
-    params[:art_piece]
   end
-
-  def artist_params
-    params[:id]
-  end
+  
 end

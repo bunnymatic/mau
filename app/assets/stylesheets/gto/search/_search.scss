@@ -1,5 +1,9 @@
 @import 'gto/gto-mixins';
 .search.index {
+  .result-count {
+    float: right;
+    padding-right: 10px;
+  }
   .chooser ul {
     margin: 0;
     padding: 0;
@@ -15,11 +19,19 @@
     }
     ul {
       padding-left: 10px;
+    } 
+    ul, .os {
+      margin-top: 0.8em;
     }
   }
+  .refine-controls {
+    border-top: 1px solid $xlightgray;
+  }
   form {
-    .block ul {
-      padding-left: 0;
+    .block {
+      ul {
+        padding-left: 0;
+      }
     }
   }
   

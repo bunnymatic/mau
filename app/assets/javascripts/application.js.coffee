@@ -25,6 +25,6 @@
 #= require pickadate/picker
 #= require pickadate/picker.date
 #= require pickadate/picker.time
-#= require thirdparty/jquery.feedback
+#= require jquery.feedback
 #= require_tree ./mau
 

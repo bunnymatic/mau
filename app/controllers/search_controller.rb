@@ -1,17 +1,18 @@
 class SearchController < ApplicationController
 
   def index
+    @query = SearchQuery.new(params)
     return unless execute_search
   end
 
   def fetch
+    @query = SearchQuery.new(params)
     respond_to do |format|
       format.html {
         execute_search
         render :layout => false
       }
       format.json {
-        @query = SearchQuery.new(params)
         results = SearchService.new(@query).search
         @results = results
       }
@@ -31,8 +32,6 @@ class SearchController < ApplicationController
   end
 
   def execute_search
-    @query = SearchQuery.new(params)
-
     results = SearchService.new(@query).search.map{|ap| ArtPiecePresenter.new(ap)}
 
     @per_page_opts = per_page_options(results)

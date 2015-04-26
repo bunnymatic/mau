@@ -8,4 +8,3 @@ Capybara.register_driver :chrome do |app|
 end
 
 Capybara.javascript_driver = :poltergeist
-#Capybara.javascript_driver = :chrome
