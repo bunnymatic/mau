@@ -94,7 +94,7 @@ class Artist < User
       :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at,
                   :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at,
                   :max_pieces, :updated_at, :activation_code, :reset_code],
-      :methods => [:full_name, :doing_open_studios]
+      :methods => [:full_name, :doing_open_studios, :profile_images]
     }
     super(default_opts.merge(opts))
   end
@@ -103,6 +103,12 @@ class Artist < User
     art_pieces.select(&:persisted?).count > max_pieces
   end
 
+  def profile_images
+    Hash[MauImage::ImageSize.allowed_sizes.map do |key|
+      [key, ArtistProfileImage.get_path(self, key)]
+    end]
+  end
+    
   def in_the_mission?
     return false unless address_hash && address_hash.has_key?(:latlng)
     lat,lng = address_hash[:latlng]

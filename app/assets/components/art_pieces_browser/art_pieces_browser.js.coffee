@@ -26,7 +26,10 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     "/art_pieces/" + $scope.artPiece?.id
   $scope.currentArtistPath = () ->
     "/artists/" + $scope.artist?.id
-
+  $scope.hasArtistProfile = () ->
+    $scope.artist?.profile_image
+  $scope.profilePath = (size = 'medium') ->
+    $scope.artist?.profile_images[size]
   $scope.onKeyDown = (ev) ->
     if ev.which == 37
       $scope.prev()

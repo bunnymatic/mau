@@ -1,5 +1,4 @@
 class ArtistProfileImage < ProfileImage
-
   def self.get_path(artist, size="medium")
     # get path for image of size
     # size should be either "thumb","medium"
@@ -9,5 +8,4 @@ class ArtistProfileImage < ProfileImage
       ImageFile.get_path(dir, size.to_s, fname)
     end
   end
-
 end
