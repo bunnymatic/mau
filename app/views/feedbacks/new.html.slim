@@ -4,7 +4,7 @@
     a#feedback_close_link href="#"
       i.fa.fa-close
 .popup-text
-  = semantic_form_for @feedback, :html => {:id => "feedback_form"} do |f|
+  = semantic_form_for @feedback, html: {id: "feedback_form"} do |f|
     .fdbk-form
       - unless @error_message.blank?
         .error-msg = @error_message
@@ -16,24 +16,23 @@
         | please leave your email and we'll get in touch as soon as we can.
       = f.inputs do
         #email_input.fdbk-input
-          = f.label 'email'
-	        - if !logged_in? 
- 	          = f.text_field 'email'
-	        - else
-	          = f.hidden_field 'email', :readonly => 'readonly', :value => current_user.email
+          - if !logged_in? 
+            = f.input 'email', input_html: {placeholder: 'email address'}
+          - else
+            = f.hidden_field 'email', value: current_user.email
         #comment_input.fdbk-input
-	        = f.text_area 'comment', :cols => 70, :rows => 10, :placeholder => "Enter your comments here"
+          = f.input 'comment', input_html: {cols: 70, rows: 10, placeholder: "Enter your comments here"}
       .actions#send_input
-	      = f.submit 'Send', :class => 'pure-button button-secondary'
+	      = f.submit 'Send', class: 'pure-button button-secondary'
 	      button class='pure-button' id="feedback_close_btn" onclick="return false;" Cancel
-      = f.hidden_field 'subject', :value => @section
-      = f.hidden_field 'page', :value => request.referer
-      = f.hidden_field 'url', :value => request.path
+      = f.hidden_field 'subject', value: @section
+      = f.hidden_field 'page', value: request.referer
+      = f.hidden_field 'url', value: request.path
       - if current_user 
-        = f.hidden_field 'login', :value => current_user.login
-        = f.hidden_field 'email', :value => current_user.email
+        = f.hidden_field 'login', value: current_user.login
+        = f.hidden_field 'email', value: current_user.email
 
-- if !logged_in?
-  .feedback-signup-msg 
-    Are you an artist working in the Mission District of San Francisco? 
-    = link_to "Sign up!", new_user_path
+  - if !logged_in?
+    .feedback-signup-msg
+      | Are you an artist working in the Mission District of San Francisco? 
+      = link_to "Sign up!", new_user_path
