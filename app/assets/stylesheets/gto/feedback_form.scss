@@ -1,4 +1,5 @@
 @import 'mau-mixins';
+@import 'gto/gto-mixins';
 @import 'colors';
 
 #feedback_overlay {
@@ -21,7 +22,15 @@
   padding: 20px;
   @include round-corners();
   background-color: $light-gray-background;
-
 }
 
-
+#feedback_modal_window {
+  @include popup-elements;
+  font-size: 1rem; 
+  .popup-text {
+    font-size: 0.9rem;
+  }
+  .inputs {
+    margin-top: 20px;
+  }
+}

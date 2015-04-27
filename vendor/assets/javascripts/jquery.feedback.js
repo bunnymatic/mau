@@ -37,7 +37,6 @@
 
     settings.feedbackHtml = '<div id="' + settings.main + '" style="display: none;">' +
                               '<div id="' + settings.modalWindow + '">' +
-                                '<a href="#" id="' + settings.closeLink + '">x</a>' +
                                 '<div id="' + settings.modalContent + '"></div>' +
                               '</div>' +
                             '</div>'
@@ -62,7 +61,7 @@
       jQuery(settings.modalContent).load(settings.formUrl, null, function() {
         jQuery(settings.form).submit(submitFeedback);
 
-	      jQuery(settings.closeBtn).bind('click', function(){
+	      jQuery(settings.closeBtn).on('click', function(){
 	        hideFeedback();
 	        return false;
 	      });
@@ -114,7 +113,7 @@
   var initFeedback = function() {
     if (jQuery(settings.main).length == 0) {
       jQuery("body").append(settings.feedbackHtml);
-      jQuery(settings.closeLink).click(function() {
+      jQuery(settings.main).on('click', settings.closeLink, function() {
         hideFeedback();
         return false;
       });

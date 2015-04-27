@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'mau-mixins';
+@import 'gto/gto-mixins';
 
 .help__opener {
   float: right;
@@ -30,29 +31,5 @@
 }
 
 .popup-help {
-  font-size: 0.9rem;
-  .popup-text {
-    padding: 0 15px 15px;
-  }
-  .popup-close {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    width: 15px;
-    text-align: center;
-  }
-
-  .popup-header {
-    text-transform: uppercase;
-    line-height: 1.5em;
-    font-weight: $font-weight-normal;
-    padding: 10px 15px 4px;
-    margin-bottom: 12px;
-    position: relative;
-    border-bottom: 1px solid $xlightgray;
-  }
-  .popup-text {
-    line-height: 1.1rem;
-    font-size:0.8rem;
-  }
+  @include popup-elements;
 }
