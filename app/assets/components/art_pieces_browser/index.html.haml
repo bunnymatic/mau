@@ -18,6 +18,13 @@
         %a{href: '#', "data-confirm" => 'Are you sure you want to remove this piece of art from your portfolio?', "data-method" => :delete, rel: "nofollow", title: "Delete", "ng-href" => "{{artPiece.showPath}}" }
           .fa.fa-icon.fa-close
         %a{ "ng-href" => 'artPiece.deletePath', title: 'remove'}
+    %section.artist__image
+      .artist-profile__image
+        %a{ "ng-href" => "{{currentArtistPath()}}"}
+          %img{"ng-if" => 'hasArtistProfile()', class: "pure-img profile", "ng-src" => "{{profilePath()}}"}
+          %i.fa.fa-user{"ng-if" => '!hasArtistProfile()'}
+        %a{ "ng-if" => 'artist.doing_open_studios', href: "/open_studios"}
+          .os-violator
     .desc
       .desc__item.ngwrapper{ "ng-if" => "hasDimensions()" }
         %h4.art-piece__info-title Dimensions
@@ -41,9 +48,6 @@
         %share-button{ type: "facebook",  "ng-if" => "artPiece.id" }
         %share-button{ type: "pinterest", "ng-if" => "artPiece.id" }
         %favorite-this{ "ng-if" => "artPiece.id" }
-      .profile-info
-        %a{"ng-href" => "{{currentArtistPath()}}", class: 'pure-button pure-button-sm'}
-          back to artist's profile
 
   .pure-u-1-1.pure-u-sm-2-3.pure-u-md-4-5.art-piece
     .art-piece__wrapper
