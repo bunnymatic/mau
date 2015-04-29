@@ -69,3 +69,6 @@ button, input, select, textarea, .pure-g [class*="pure-u"] {
 .pure-g {
   width: 100%;
 }
+.pure-img {
+  @include round-corners(3px);
+}

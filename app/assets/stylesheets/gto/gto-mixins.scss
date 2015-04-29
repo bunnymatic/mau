@@ -33,6 +33,7 @@
     width: 100%;
     height: 280px;
     @include background-cover;
+    @include round-corners(3px);
   }
   &:hover {
     /** @include box-shadow(0 0 1px 1px rgba(200,200,200,0.5)); */

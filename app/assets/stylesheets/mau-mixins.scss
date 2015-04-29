@@ -62,7 +62,7 @@
 }
 
 
-$default_rounded_amount: 4px;
+$default_rounded_amount: 3px;
 
 @mixin opacity($opacity) {
   filter: unquote("progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})");
