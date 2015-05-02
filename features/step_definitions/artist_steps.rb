@@ -137,3 +137,14 @@ Then(/^I see that I have a new profile picture$/) do
 end
        
 
+Then(/^the artists index page shows no artists for open studios$/) do
+  expect(page).to have_css '.artist-card'
+  expect(page).to have_css 'h2', text: "Artists"
+  expect(page).not_to have_css 'h2', text: "Artists in #{OpenStudiosEvent.current.for_display}"
+  expect(page).to have_flash(:notice, 'The next Open Studios Event hasn\'t been scheduled.  Please check back later.')
+end
+
+Then(/^I see open studios artists on the artists list$/) do
+  expect(page).to have_css '.artist-card'
+  expect(page).to have_css 'h2', text: "Artists in #{OpenStudiosEvent.current.for_display(true)} Open Studios"
+end
