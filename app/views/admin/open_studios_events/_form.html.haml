@@ -1,25 +1,21 @@
 / locals os_event
-.js-open-studios-event-editor
-  = form_for [:admin, os_event], multipart: true do |f|
-    = render partial: 'common/form_errors', locals: { form: f }
-    .form-group
-      = f.label :title
-      = f.text_field :title, placeholder: 'e.g. Spring Open Studios'
-    .form-group
-      = f.label :start_date
-      = f.text_field :start_date, class: "js-datepicker", placeholder: 'choose a date', value: os_event.start_date.try(:to_s,:pickadate)
-    .form-group
-      = f.label :end_date
-      = f.text_field :end_date, class: "js-datepicker", placeholder: 'choose a date', value: os_event.end_date.try(:to_s,:pickadate)
-    .form-group
-      = f.label :key
-      = f.text_field :key, placeholder: 'e.g. YYYYMM'
-    .form-group
-      = f.label :logo
-      = f.file_field :logo
-      .help Current: #{os_event.logo? ? os_event.logo.original_filename : 'none'}
-      .help This should be square and will be scaled to 200x200 for the front page.
-    .form-controls
-      = f.submit
-      = link_to 'Cancel', admin_open_studios_events_path, class: 'pure-button'
+.pure-g
+  .pure-u-1-1.padded-content.js-open-studios-event-editor
+    = semantic_form_for [:admin, os_event], multipart: true do |f|
+      = render partial: 'common/form_errors', locals: { form: f }
+      = f.inputs do
+        = f.input :title, placeholder: 'e.g. Spring Open Studios'
+        .pure-g
+          .pure-u-1-2
+            = f.input :start_date, as: :string, placeholder: 'choose a date', input_html: { class: "js-datepicker", value: os_event.start_date.try(:to_s,:pickadate) }
+          .pure-u-1-2
+            = f.input :end_date, as: :string, placeholder: 'choose a date', input_html: { class: "js-datepicker", value: os_event.end_date.try(:to_s,:pickadate) }
+        = f.input :key, placeholder: 'e.g. YYYYMM'
+        = f.input :logo
+        .help Current: #{os_event.logo? ? os_event.logo.original_filename : 'none'}
+        .help This should be square and will be scaled to 200x200 for the front page.
+      = f.actions do
+        .form-controls
+          = f.submit class: 'pure-button pure-button-primary'
+          = link_to 'Cancel', admin_open_studios_events_path, class: 'pure-button'
 

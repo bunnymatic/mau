@@ -138,10 +138,9 @@ end
        
 
 Then(/^the artists index page shows no artists for open studios$/) do
-  expect(page).to have_css '.artist-card'
-  expect(page).to have_css 'h2', text: "Artists"
-  expect(page).not_to have_css 'h2', text: "Artists in #{OpenStudiosEvent.current.for_display}"
-  expect(page).to have_flash(:notice, 'The next Open Studios Event hasn\'t been scheduled.  Please check back later.')
+  expect(page).to_not have_css '.artist-card'
+  expect(page).to have_css 'h2', text: "Artists in Open Studios"
+  expect(page).to have_content 'Sorry, no one has signed up for the next Open Studios'
 end
 
 Then(/^I see open studios artists on the artists list$/) do
