@@ -507,7 +507,7 @@ describe UsersController do
             expect(response).to redirect_to @ap
           end
           it "sets flash with escaped name" do
-            flash[:notice].should include HTMLEntities.new.encode(@ap.title, :named, :hexadecimal)
+            flash[:notice].should include html_encode(@ap.title)
           end
           it "adds favorite to user" do
             u = User.find(quentin.id)

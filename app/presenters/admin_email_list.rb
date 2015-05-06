@@ -116,7 +116,7 @@ class AdminEmailList
     [
      artist.csv_safe(:firstname),
      artist.csv_safe(:lastname),
-     artist.get_name(true),
+     artist.get_name(false),
      artist.email,
      artist.studio ? artist.studio.name : ''
     ] + available_open_studios_keys.map do |os_tag|

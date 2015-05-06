@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AdminController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending') }
+  let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
   let(:artist) { FactoryGirl.create(:artist, :with_studio) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:editor) { FactoryGirl.create(:artist, :editor) }

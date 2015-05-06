@@ -124,10 +124,10 @@ describe ArtPiecesController do
         parsed['tags'].first['name'].should eql art_piece.tags.first.name
       end
       it 'includes the artists name' do
-        parsed['artist_name'].should eql HTMLEntities.new.encode art_piece.artist.fullname, :named, :hexadecimal
+        parsed['artist_name'].should eql html_encode(art_piece.artist.fullname)
       end
       it 'includes the art piece title' do
-        parsed['title'].should eql HTMLEntities.new.encode art_piece.title, :named, :hexadecimal
+        parsed['title'].should eql html_encode(art_piece.title)
       end
       it 'includes the medium' do
         parsed['medium']['name'].should eql art_piece.medium.name
