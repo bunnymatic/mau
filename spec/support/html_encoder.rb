@@ -1,6 +1,8 @@
 module HTMLEncoder
-  def html_encode(s)
-    HTMLEntities.new.encode(s, :named, :hexadecimal)
+  def html_encode(s, type = nil)
+    method = type.present? ? [type] : [:named, :hexadecimal]
+    args = [s, method].flatten.compact
+    HTMLEntities.new.encode *args
   end
 end
 
