@@ -62,7 +62,6 @@ describe MainController do
 
   describe "#about" do
     context "while not logged in" do
-      render_views
       before do
         FactoryGirl.create(:cms_document, page: :main, section: :about)
         get :about
@@ -72,12 +71,6 @@ describe MainController do
       it 'fetches markdown content' do
         assigns(:content).should have_key :content
         assigns(:content).should have_key :cmsid
-      end
-      it 'includes the markdown content' do
-        assert_select('.markdown')
-      end
-      it 'includes the art is the mission footer' do
-        assert_select('.news-footer')
       end
     end
   end
@@ -113,7 +106,6 @@ describe MainController do
       end
     end
     describe '/paypal_cancel' do
-      render_views
       before do
         post :getinvolved, :p => 'paypal_cancel'
       end

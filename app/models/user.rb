@@ -288,25 +288,8 @@ class User < ActiveRecord::Base
     @fav_art_pieces ||= favorites_to_obj.select { |f| f.is_a? ArtPiece }.uniq
   end
 
-
-
-  # reformat data so that the artist contains the art pieces
-  # and that any security related data is missing (salt, password etc)
-  # def clean_for_export(art_pieces)
-  #   retval = { "artist" => {}, "artpieces" => [] }
-  #   keys = [ 'id', 'firstname','lastname','login', 'street' ]
-  #   keys.each do |k|
-  #     retval["artist"][k] = self.send(k)
-  #   end
-  #   apkeys = ['title','filename', 'id']
-  #   retval['artpieces'] = (art_pieces||[]).map do |ap|
-  #     Hash[apkeys.map{|k| [k,ap.send(k)]}]
-  #   end
-  #   retval
-  # end
-
   def csv_safe(field)
-    (self.send(field) || '').gsub(/\W/, '')
+    (self.send(field) || '').gsub(/\"\',/, '')
   end
 
   def is_artist?

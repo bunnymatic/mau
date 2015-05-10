@@ -446,8 +446,8 @@ describe User do
 
   describe 'csv_safe' do
     it 'should clean the fields' do
-      simple_artist.firstname = "eat@#$!! 123"
-      simple_artist.csv_safe('firstname').should eql 'eat123'
+      simple_artist.firstname = "eat@\#\$!!\"\', 123"
+      simple_artist.csv_safe('firstname').should eql 'eat@#$!! 123'
     end
   end
 

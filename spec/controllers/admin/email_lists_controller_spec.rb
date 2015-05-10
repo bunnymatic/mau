@@ -39,7 +39,6 @@ describe Admin::EmailListsController do
   end
 
   describe '#index' do
-    render_views
     before do
       login_as admin
     end
@@ -62,16 +61,6 @@ describe Admin::EmailListsController do
           assigns(:all_lists)[listtype].emails.first.should be_a_kind_of Email
         end
       end
-      it 'renders the 2 lists, Feedback and Events' do
-        assert_select '.email_lists ul.listtypes > li', :count => 3
-        assert_select '.email_lists ul.listtypes > li', /Feedback/
-        assert_select '.email_lists ul.listtypes > li', /Event/
-        assert_select '.email_lists ul.listtypes > li', /Admins/
-      end
-      it 'renders add email forms for each list' do
-        assert_select '.email_lists ul.listtypes form', :count => 3
-      end
     end
-
   end
 end

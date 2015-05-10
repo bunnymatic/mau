@@ -60,8 +60,6 @@ Mau::Application.routes.draw do
     member do
       resources :favorites, only: [:index]
       put :suspend
-      get :noteform
-      put :notify
       put :change_password_update
     end
     resources :roles, only: [:destroy], controller: 'Admin::Roles'

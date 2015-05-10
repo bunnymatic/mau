@@ -251,14 +251,14 @@ describe ArtistsController do
           c = desc.first.attributes['content']
           expect(c).to match artist_with_tags.bio[0..50]
           expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include artist_with_tags.get_name(true)
+          expect(c).to include artist_with_tags.get_name
         end
         assert_select 'head meta[property=og:description]' do |desc|
           desc.length.should eql 1
           c = desc.first.attributes['content']
           expect(c).to include artist_with_tags.bio[0..50]
           expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include artist_with_tags.get_name(true)
+          expect(c).to include artist_with_tags.get_name
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do

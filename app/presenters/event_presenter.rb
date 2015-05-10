@@ -94,11 +94,6 @@ class EventPresenter
     @display_reception_time ||= formatted_reception_time
   end
 
-  def for_mobile_list
-    [@view_context.content_tag('span', simple_start_time, :class => 'starttime'),
-     @view_context.content_tag('span', title, :class => 'title')].join
-  end
-
   private
 
   DATE_TIME_FORMAT = "%a %b %e, %l:%M%p"

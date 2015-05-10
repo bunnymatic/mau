@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
   before_filter :user_required, :only => [ :edit, :update, :suspend, :deactivate,
-                                           :add_favorite, :remove_favorite, :change_password_update, :notify]
+                                           :add_favorite, :remove_favorite, :change_password_update]
 
 
   DEFAULT_ACCOUNT_TYPE = 'MAUFan'
@@ -102,15 +102,6 @@ class UsersController < ApplicationController
       msg[:error] = "Your old password was incorrect"
     end
     redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
-  end
-
-  def noteform
-    # get new note form
-    @artist = safe_find_user(params[:id])
-    if !@artist
-      @errmsg = "We were unable to find the artist in question."
-    end
-    render :layout => false
   end
 
   def notify

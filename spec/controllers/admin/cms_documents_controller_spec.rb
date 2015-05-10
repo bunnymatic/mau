@@ -14,7 +14,6 @@ describe Admin::CmsDocumentsController do
   end
 
   context 'authorized' do
-    render_views
     before do
       login_as editor
     end
@@ -27,6 +26,7 @@ describe Admin::CmsDocumentsController do
     end
 
     describe '#show' do
+      render_views
       before do
         get :show, :id => cms_document
       end
@@ -37,6 +37,7 @@ describe Admin::CmsDocumentsController do
     end
 
     describe '#edit' do
+      render_views      
       before do
         get :edit, :id => cms_document
       end

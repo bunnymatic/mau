@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  sequence(:login) {|n| "whatever%08d" % n }
+  sequence(:login) {|n| "#{Faker::Internet.user_name}%04d" % n }
   factory :user do
     login
     email { "#{login}@example.com" }
