@@ -217,10 +217,10 @@ end
 
 def fill_in_field_with_value(field, value)
   # First try with a label
-  xpath = "//label[normalize-space(translate(.,'*',''))='#{field}' or @for='#{field}']/.."
+  xpath = ".//label[normalize-space(translate(.,'*',''))='#{field}' or @for='#{field}']/.."
   if page.all(:xpath, xpath).empty?
     # Then try with a input field
-    xpath = "//input[@type='text' and (@id='#{field}' or @name='#{field}')]/.."
+    xpath = ".//input[@type='text' and (@id='#{field}' or @name='#{field}')]/.."
   end
 
   within(:xpath, xpath) do

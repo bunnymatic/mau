@@ -36,7 +36,6 @@ controller = ngInject ($scope, $attrs, emailsService, Email) ->
          $scope.toggleAddEmailForm()
        ,
        (response) ->
-         console.log 'invalid add email', response.data
          $scope.errors = response.data.errors
       )
 

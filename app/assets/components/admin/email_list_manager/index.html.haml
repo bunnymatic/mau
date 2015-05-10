@@ -19,12 +19,12 @@
     %fieldset{ class: "inputs"}
       %ol
         %li.input.string.stringish
-          %label.label Name
-          %input{ type: :text, "ng-model" => "newEmail.name" }
+          %label.label{ for: :name} Name
+          %input{ name: 'Name', type: :text, "ng-model" => "newEmail.name" }
         %li.input.string.stringish.required
-          %label.label
+          %label.label{ for: :email }
             Email
             %abbr{title: 'required'} *
-          %input{ type: :email, "ng-model" => "newEmail.email" }
+          %input{ name: 'Email', type: :email, "ng-model" => "newEmail.email" }
     %fieldset{ class: 'actions' }
       %input{ type: :submit, value: 'add', class: 'pure-button pure-button-primary'}
