@@ -545,6 +545,12 @@ describe UsersController do
         assert_select('#user_password_confirmation')
       end
     end
+    context "get with invalid reset code" do
+      before do
+        get :reset, :reset_code => 'abc'
+      end
+      it { expect(response.code).to eql "404" }
+    end
     context "post" do
       render_views
       context "with passwords that don't match" do

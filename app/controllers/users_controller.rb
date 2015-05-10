@@ -104,17 +104,6 @@ class UsersController < ApplicationController
     redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
-  def notify
-    _id = params[:id]
-    note_info = build_note_info_from_params
-    if note_info.has_key? 'reason'
-      AdminMailer.spammer(note_info).deliver!
-    elsif note_info['comment'].present?
-      ArtistMailer.notify( Artist.find(_id), note_info).deliver!
-    end
-    render :layout => false
-  end
-
   def reset
     @user = User.find_by_reset_code(params["reset_code"]) unless params["reset_code"].nil?
 
