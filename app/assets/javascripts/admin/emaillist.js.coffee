@@ -9,15 +9,15 @@ jQuery ->
       $li = jQuery(this).closest("li")
       if $li.length
         $container = $li.find(".add_email")
-        $container.slideToggle()
+        $container.slideToggle().toggleClass('open')
       false
 
   jQuery(".del_btn").each ->
     jQuery(this).bind "click", (ev) ->
       $this = jQuery(this)
+      $href = $this.attr('href')
       ev.preventDefault()
-      $li = $this.closest("li")
-      $ul = $this.closest("ul")
+      
       if $li and $ul
         email = $li.text().replace(/^\s+|\(x\)|\s+$/g, "")
         email_id = $li.attr("email_id")

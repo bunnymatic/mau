@@ -1,0 +1,30 @@
+%h4.header
+  = "{{title}}"
+  %a.add_btn{href: '#', title: 'add an email to this list', "ng-click" => "toggleAddEmailForm()"}
+    %i.fa.fa-plus
+.help {{info}}
+
+%ul.emails
+  %li{ "ng-repeat" => "email in emails" }
+    .email {{email.formatted()}}
+    .del-btn
+      %a{ href: "#", :title => 'remove this person from the list'}
+        %i.fa.fa-close
+.add_email{ "ng-show" => "addEmailFormVisible" }
+  %h4 Email to Add
+  .errors
+    .error{"ng-repeat" => "err in errors"} {{err}}
+    
+  %form{ "ng-submit" => "addEmail()" }
+    %fieldset{ class: "inputs"}
+      %ol
+        %li.input.string.stringish
+          %label.label Name
+          %input{ type: :text, "ng-model" => "newEmail.name" }
+        %li.input.string.stringish.required
+          %label.label
+            Email
+            %abbr{title: 'required'} *
+          %input{ type: :email, "ng-model" => "newEmail.email" }
+    %fieldset{ class: 'actions' }
+      %input{ type: :submit, value: 'add', class: 'pure-button pure-button-primary'}

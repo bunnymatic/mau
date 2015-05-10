@@ -3,7 +3,7 @@ angular.module('MauApp', [
   'ngResource',
   'ngSanitize',
   'ui.keypress',
-  'mau.controllers',
+  'mau.models',
   'mau.services',
   'mau.directives']
 )
