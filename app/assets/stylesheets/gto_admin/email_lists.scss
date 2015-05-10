@@ -1,0 +1,38 @@
+@import 'colors';
+.email_lists {
+  .help {
+    padding: 10px 20px;
+    font-style: italic;
+    font-size: 0.9em;
+    color: $darkgray;
+  }
+  .add_btn {
+    margin-left: 10px;
+  }
+  .list_entries {
+    margin: 0px 20px;
+    padding: 0;
+    li {
+      position: relative;
+      padding: 0 20px;
+      margin: 10px 0;
+      &:nth-child(odd) {
+        background-color: $xxlightgray;
+      }
+    }
+    .del_btn {
+      position: absolute;
+      right: 20px;
+      top: 0px;
+      
+    }
+  }  
+}
+
+form .add_email {
+  display: none;
+  padding: 20px;
+  &.open {
+    display: block;
+  }
+}

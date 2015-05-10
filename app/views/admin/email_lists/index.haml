@@ -3,30 +3,7 @@
     %h2.title Internal Email Lists
     = render '/flash_notice_error'
 
-  .email_lists.padded-content
-    %ul.listtypes
-      - @all_lists.each do |key, lst|
-        %li.pure-u-1-3          
-          %h4.header
-            = key.to_s.capitalize + "s"
-            %a.add_btn{:href => '#', :title => 'add an email to this list'} (+)
-          = form_tag add_admin_email_lists_path do
-            %input{:type => 'hidden', :name => 'listtype', :value => key}
-            %input{:type => 'hidden', :name => 'method', :value => 'add_email'}
-            %ul.list_entries{:list_type => key}
-              - lst.each_with_index do |em,idx|
-                %li{:email_id => em.id, :class => (idx % 2 == 0)? 'even':'odd'}
-                  &= em.formatted
-                  .del_btn
-                    %a{:href => '#', :title => 'remove this person from the list'} (X)
-            .add_email{:style => 'display:none;'}
-              .new_email_inputs
-                %input{:type => 'submit', :value => 'add'}
-                .entry
-                  %label{:for => 'email_name'} name
-                  %input#email_name.name{:type => 'text', :name => 'email[name]'}
-                .entry
-                  %label{:for => 'email_email'} email
-                  %input#email_email.email{:type => 'text', :name => 'email[email]'}
-          .footer
-            = @purpose[key]
+.pure-g
+  - @all_lists.each do |key, lst|
+    .pure-u-1-1.pure-u-md-1-2.pure-u-lg-1-3
+      %email-list-manager{key: key, "list-title" => key.to_s.pluralize.humanize, "list-info" => @purpose[key], "list-id" => lst.id}

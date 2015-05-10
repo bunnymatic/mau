@@ -102,4 +102,17 @@ Given(/^there are artists and art pieces with favorites$/) do
   end
 end
 
-
+Given /^the email lists have been created with emails$/ do
+  ["FeedbackMailerList", "EventMailerList", "AdminMailerList"].each do |mailing_list|
+    clz = mailing_list.constantize
+    begin
+      if !clz.first
+        puts "Creating #{mailing_list} list"
+        clz.create
+      end
+    rescue Exception => ex
+      ::Rails.logger.debug("Failed to create #{mailing_list} : #{ex}")
+    end
+    clz.first.emails.create( name: Faker::Name.name, email: Faker::Internet.email )
+  end
+end

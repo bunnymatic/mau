@@ -48,7 +48,6 @@ class ArtPieceTagsController < ApplicationController
 
 
   private
-
   def fetch_tags_for_autosuggest
     tags = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless tags
