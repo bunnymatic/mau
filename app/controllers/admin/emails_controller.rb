@@ -7,21 +7,37 @@ module Admin
     end
     
     def destroy
+      load_email_list
+      load_email
       member = EmailListMembership.where(:email_list_id => @email_list.id, :email_id => @email.id).first
       member.destroy if member.present?
-      @msgs[:notice] = "Successfully removed #{email.email} from #{@email_list.type}"
-      response_data = {}
-      response_data[:messages] = @msgs.reject{|k,v| v.nil?}.map{|k,v| v}.join
-      status = (@msgs[:error].present? ? 400 : 200)
-      render :json => response_data, :status => status
+      render :json => {success: true}
     end
 
     def create
       load_email_list
+      errors = []
       if @email_list
-        @email_list.emails.create(email_params)
+        begin
+          email = Email.where(email: email_params[:email]).first
+          if email
+            @email_list.emails << email
+            @email_list.save
+          else
+            new_email = @email_list.emails.create(email_params)
+            unless new_email.valid?
+              errors = new_email.errors.full_messages
+            end
+          end
+        rescue ActiveRecord::RecordInvalid => ex
+          errors << ex.to_s
+        end
       end
-      render json: {success: true, emails: @email_list.reload.emails}
+      if errors.present?
+        render json: { success: false, errors: errors }, status: 400
+      else
+        render json: { success: true, emails: @email_list.reload.emails }
+      end
     end
 
     private

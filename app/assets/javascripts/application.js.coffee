@@ -10,6 +10,7 @@
 #= require angular-animate
 #= require angular-ui-utils/ui-utils
 #= require_tree ../components
+#= require angularSlideables
 #= require mau_app
 #= require jquery
 #= require jquery_ujs

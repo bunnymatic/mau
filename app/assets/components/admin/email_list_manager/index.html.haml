@@ -1,6 +1,6 @@
 %h4.header
   = "{{title}}"
-  %a.add_btn{href: '#', title: 'add an email to this list', "ng-click" => "toggleAddEmailForm()"}
+  %a.add-btn{"slide-toggle" => "#add_email_{{emailListId}}", href: '#', title: 'add an email to this list'}
     %i.fa.fa-plus
 .help {{info}}
 
@@ -8,12 +8,12 @@
   %li{ "ng-repeat" => "email in emails" }
     .email {{email.formatted()}}
     .del-btn
-      %a{ href: "#", :title => 'remove this person from the list'}
+      %a{ "ng-click" => "removeEmail(email.id)", href: "#", :title => 'remove this person from the list'}
         %i.fa.fa-close
-.add_email{ "ng-show" => "addEmailFormVisible" }
+.add_email.slideable{ "id" => "add_email_{{emailListId}}", duration: "0.15s" }
   %h4 Email to Add
   .errors
-    .error{"ng-repeat" => "err in errors"} {{err}}
+    .error.error-msg{"ng-repeat" => "err in errors"} {{err}}
     
   %form{ "ng-submit" => "addEmail()" }
     %fieldset{ class: "inputs"}
