@@ -301,18 +301,10 @@ class User < ActiveRecord::Base
     self.activation_code = TokenService.generate
   end
 
-  def uniqify_roles
-    self.roles = roles.uniq.compact
-  end
-
   protected
   def normalize_attributes
     login = login.try(:downcase)
     email = email.try(:downcase)
-  end
-
-  def get_favorite_ids(tps)
-    (favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
   end
 
   def tell_user_they_signed_up

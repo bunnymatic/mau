@@ -38,19 +38,6 @@ class ArtistMailer < MauMailer
          :subject => build_subject(subject))
   end
 
-
-  def notify(artist, notehash)
-    setup_email(artist)
-    subject = "An inquiry about your art."
-    @sender_name = notehash['name']
-    @sender_email = notehash['email']
-    @sender_note = notehash['comment']
-    mail(:to => artist.email,
-         :from => NOTE_FROM_ADDRESS,
-         :subject => build_subject(subject))
-
-  end
-
   def notify_featured(artist)
     setup_email(artist)
     subject = "You've been featured by Mission Artists United."

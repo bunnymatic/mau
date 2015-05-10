@@ -29,7 +29,6 @@ class ArtPiecesController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @thumb_browser = ThumbnailBrowserPresenter.new(@art_piece.artist, @art_piece)
         @art_piece = ArtPieceHtmlPresenter.new(@art_piece)
         render action: 'show'
       }
@@ -68,9 +67,6 @@ class ArtPiecesController < ApplicationController
         if valid
           # upload image
           ArtPieceImage.new(@art_piece).save upload
-          # if tags_string.present?
-          #   @art_piece = ArtPieceTagService.build_tags(@art_piece, tags_string.split(",").map(&:strip))
-          # end
           @art_piece.save!
           flash[:notice] = "You've got new art!"
           Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"

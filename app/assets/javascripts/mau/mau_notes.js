@@ -115,12 +115,12 @@ _.extend(MAU.NotesMailer.prototype,{
       $f.bind('ajax:success', function(ev,xhr,status) {
         _that.close()
       });
-      var $h = jQuery('<div>', { "class": 'popup-header' }).html( formbuilder.title );
-      var $x = jQuery('<div>', { "class": 'close-btn' }).html('x');
+      var $h = jQuery('<div>', { "class": 'popup-hdr' }).html( formbuilder.title );
+      var $x = jQuery('<div>', { "class": 'popup-close' }).html('x');
       $h.append($x);
       $x.bind('click', function(ev) { _that.close(ev); });
 
-      var $c = jQuery('<div>', { "class": 'popup-content' });
+      var $c = jQuery('<div>', { "class": 'popup-text' });
       var $m = jQuery('<div>', { "class": 'popup-mailer' });
       $m.append($h);
       $m.append($c);

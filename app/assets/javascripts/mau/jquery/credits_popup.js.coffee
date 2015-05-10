@@ -23,18 +23,18 @@ MAU.CreditsPopup = class CreditsPopup
         bg = MAU.Utils.createElement 'div',  id: @backgroundId
         cn = MAU.Utils.createElement 'div',  id: @backgroundContainerId
         d = MAU.Utils.createElement 'div', id: @creditsDivId
-        hd = MAU.Utils.createElement 'div', {'class':'credits-hdr'}
+        hd = MAU.Utils.createElement 'div', {'class':'credits-hdr popup-header'}
         hd.innerHTML = 'Credits'
-        bd = MAU.Utils.createElement('div', {'class':'credits-bdy'})
+        bd = MAU.Utils.createElement('div', {'class':'credits-bdy popup-text'})
         version = MAU.versionString || 'Charger 6';
-        bd.innerHTML = '<div style="text-align: center;">
+        bd.innerHTML = '
+          <div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>
           <p>Web Design/QA: Trish Tunney</p>
           <p>Web Construction: <a href="http://rcode5.com">Mr Rogers @ Rcode5 </a></p>
-          <p><span style="padding-bottom:14px; ">Built at MAU Headquarters</p>
+          <p>Built at MAU Headquarters</p>
           </div>
-          <div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>
-          <div class="close-btn">click to close</div>
-          <div class="release_version">Release: ' + version + '</div><div class="clear"></div>'
+          <div class="close-btn popup-close"><i class="fa fa-close"></i></div>
+          <div class="release_version">Release: ' + version + '</div>'
 
         if (d && hd && bd)
           d.appendChild(hd)
@@ -48,26 +48,6 @@ MAU.CreditsPopup = class CreditsPopup
         body.insertBefore bg, body.firstChild
         body.insertBefore cn, bg
 
-        # center
-        dimensions = MAU.Utils.getSize(d)
-
-        w = dimensions.width;
-        h = dimensions.height;
-
-        windowSize = {
-          width: Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-          height: Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-        };
-        soff = {
-          left: body.scrollLeft,
-          top: body.scrollTop
-        };
-        pw = windowSize.width + soff.left;
-        ph = windowSize.height + soff.top;
-        tp = '' + ((ph/2) - (h/2)) + "px";
-        lft = '' + ((pw/2) - (w/2)) + "px";
-        cn.style.top = tp;
-        cn.style.left = lft;
         return false
 
 jQuery ->

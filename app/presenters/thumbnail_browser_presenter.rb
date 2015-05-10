@@ -20,10 +20,6 @@ class ThumbnailBrowserPresenter < ViewPresenter
     thumbs.count > 0
   end
 
-  def is_current_piece(piece)
-    piece == @current_piece
-  end
-
   def row_class
     num_rows = (thumbs.length.to_f / 4.0).ceil.to_i
     "rows#{num_rows}"

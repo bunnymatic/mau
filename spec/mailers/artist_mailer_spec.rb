@@ -55,6 +55,7 @@ describe ArtistMailer do
       expect(mail.to_s).to include fan.get_name
     end
   end
+
   describe "notify a featured artist" do
     let(:mail) { ArtistMailer.notify_featured(artist)}
     it 'includes a link to facebook' do
