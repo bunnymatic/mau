@@ -28,11 +28,8 @@ MAU.CreditsPopup = class CreditsPopup
         bd = MAU.Utils.createElement('div', {'class':'credits-bdy popup-text'})
         version = MAU.versionString || 'Charger 6';
         bd.innerHTML = '
-          <div class="credits-img"><img width="350" src="/images/mau-headquarters-small.jpg"/></div>
-          <p>Web Design/QA: Trish Tunney</p>
-          <p>Web Construction: <a href="http://rcode5.com">Mr Rogers @ Rcode5 </a></p>
-          <p>Built at MAU Headquarters</p>
-          </div>
+          <div class="credits-img"><img class="pure-img" src="/images/mau-headquarters-small.jpg"/></div>
+          <p>Built at MAU Headquarters by <a href="http://trishtunney.com">Trish Tunney</a> and <a href="http://rcode5.com">Mr Rogers.</a></p>
           <div class="close-btn popup-close"><i class="fa fa-close"></i></div>
           <div class="release_version">Release: ' + version + '</div>'
 
