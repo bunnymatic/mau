@@ -3,7 +3,7 @@ class StudioPresenter
   include OpenStudiosEventShim
 
   attr_reader :studio
-  delegate :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :to => :studio
+  delegate :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :to_param, :to => :studio
 
   def initialize(view_context, studio)
     @studio = studio

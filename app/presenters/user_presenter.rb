@@ -110,8 +110,6 @@ class UserPresenter < ViewPresenter
   def profile_image(size = small)
     if has_profile_image
       model.get_profile_image(size)
-    else
-      "/images/default-model.png"
     end
   end
   alias_method :get_profile_image, :profile_image
