@@ -1,7 +1,9 @@
 angular.module('MauApp', [
   'templates',
   'ngResource',
-  'ngSanitize', 
+  'ngSanitize',
+  'ngDialog',
+  'mailchimp',
   'angularSlideables',
   'ui.keypress',
   'mau.models',

@@ -9,6 +9,8 @@
 #= require angular-sanitize
 #= require angular-animate
 #= require angular-ui-utils/ui-utils
+#= require angular-mailchimp
+#= require ngDialog
 #= require_tree ../components
 #= require angularSlideables
 #= require mau_app

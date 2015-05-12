@@ -13,7 +13,7 @@ Mau::Application.routes.draw do
     get :feed
     get :clear_cache
   end
-  resources :catalog, only: [:index] do
+  resource :catalog, only: [:show] do
     collection do
       get :social
     end

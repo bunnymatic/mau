@@ -42,18 +42,11 @@
 @mixin link_style {
   text-decoration: none;
   color: $lightyellow;
-  &:link {
-    color: $lightyellow;
-  }
-
-  &:visited {
-    color: $lightyellow;
+  &:link, &:visited, &:active {
+    color: $gto_teal;
   }
   &:hover {
-    color: #554444;
-  }
-  &:active {
-    color: $lightyellow;
+    color: $gto_dark_teal;
   }
 }
 

@@ -31,17 +31,19 @@
   .feedback-general
     We love to hear from you.  Please let us know your thoughts, questions, rants.
     We'll do our best to respond in a timely manner.
-    %ul
-      %li
-        %label Email
-        %input#feedback_mail_email{ :type => 'text', :name =>'feedback_mail[email]' }
-      %li
-        %label Confirm Email
-        %input#feedback_mail_email_confirm{ :type => 'text', :name =>'feedback_mail[email_confirm]' }
-      %li
-        %label Your Question
-        %textarea#feedback_mail_inquiry{ :name => "feedback_mail[inquiry]" }
-      %li
-        %input.formbutton{ :type => "submit", :value => 'send'}
-
+    %fieldset
+      %ol.inputs
+        %li
+          %label Email
+          %input#feedback_mail_email{ :type => 'text', :name =>'feedback_mail[email]' }
+        %li
+          %label Confirm Email
+          %input#feedback_mail_email_confirm{ :type => 'text', :name =>'feedback_mail[email_confirm]' }
+        %li
+          %label Your Question
+          %textarea#feedback_mail_inquiry{ :name => "feedback_mail[inquiry]" }
+   %fieldset
+     %ol.actions
+       %input.formbutton{ :type => "submit", :value => 'send'}
+  
 

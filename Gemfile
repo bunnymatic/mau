@@ -55,6 +55,8 @@ gem 'rails-assets-colorbox' # lightbox plugin
 gem 'rails-assets-jquery'
 gem 'rails-assets-jquery-ujs'
 gem 'rails-assets-pure'
+gem 'rails-assets-ngDialog'
+gem 'rails-assets-angular-mailchimp'
 
 gem 'ngannotate-rails'
 gem 'angular-rails-templates'
