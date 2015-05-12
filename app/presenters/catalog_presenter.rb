@@ -21,7 +21,7 @@ class CatalogPresenter
   end
 
   def all_artists
-    @all_artists ||= Artist.active.includes(:studio, :artist_info)
+    @all_artists ||= Artist.active.open_studios_participants.includes(:studio, :artist_info)
   end
 
   def indy_artists
