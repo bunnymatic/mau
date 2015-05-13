@@ -14,7 +14,7 @@ Mau::Application.routes.draw do
     get :clear_cache
   end
   resource :catalog, only: [:show] do
-    collection do
+    member do
       get :social
     end
   end

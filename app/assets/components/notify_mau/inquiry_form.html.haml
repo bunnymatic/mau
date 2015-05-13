@@ -1,0 +1,16 @@
+%form#inquiry-form.slideable{ duration: "0.25s", "ng-submit" => 'submitInquiry()' }
+  %p
+    {{message}}
+  %fieldset.inputs
+    %ol
+      %li.string.input.optional.stringish
+        %label{for: 'feedback_mail_email'} Email
+        %input#feedback_mail_email{ type: 'email', "ng-model" => 'feedback_mail.email', name:'feedback_mail[email]' }
+      %li.string.input.optional.stringish
+        %label{for: 'feedback_mail_email_confirm'} Confirm Email
+        %input#feedback_mail_email_confirm{ type: 'email', "ng-model" => 'feedback_mail.email_confirm',  name:'feedback_mail[email_confirm]' }
+      %li.text.input.optional
+        %label{for: 'feedback_mail_inquiry'} {{questionLabel}}
+        %textarea#feedback_mail_inquiry{ name: "feedback_mail[inquiry]",  "ng-model" => 'feedback_mail.inquiry'}
+  %fieldset.actions
+    %input.pure-button.button-secondary{ type: "submit", value: 'send'}
