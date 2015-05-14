@@ -49,11 +49,6 @@ class MainController < ApplicationController
     @presenter = OpenStudiosPresenter.new
   end
 
-  def history
-    @page_title = "Mission Artists United - History"
-    @content = CmsDocument.packaged('main','history')
-  end
-
   def about
     @page_title = "Mission Artists United - About Us"
     @content = CmsDocument.packaged('main','about')
@@ -66,17 +61,20 @@ class MainController < ApplicationController
   end
 
   def notes_mailer
-    if !request.xhr?
-      render_not_found("Method Unavaliable")
-      return
-    end
-    f = FeedbackMail.new( (params[:feedback_mail] ||{}).merge({:current_user => current_user}))
-    status = 400
+    f = FeedbackMail.new(feedback_mail_params.merge({:current_user => current_user}))
+    data = {}
     if f.valid?
       f.save
+      data = {success: true}
       status = 200
+    else
+      data = {
+        success: false,
+        error_messages: f.errors.full_messages
+      }
+      status = 400
     end
-    render :json => f.to_json(:except => [:current_user, :artist]) , :status => status
+    render json: data, :status => status
   end
 
   def news
@@ -183,4 +181,7 @@ EOM
     params.require(:feedback).permit :subject, :email, :login, :page, :comment, :url, :skillsets, :bugtype
   end
 
+  def feedback_mail_params
+    params.require(:feedback_mail).permit :email, :email_confirm, :inquiry, :note_type, :os, :browser, :device, :version
+  end
 end

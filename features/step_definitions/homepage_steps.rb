@@ -5,3 +5,4 @@ end
 Then(/^I see art newly added to the system$/) do
   expect(page).to have_selector('#new-art .square')
 end
+

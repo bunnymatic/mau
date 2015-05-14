@@ -1,9 +1,8 @@
-class CatalogController < ApplicationController
+class CatalogsController < ApplicationController
 
   layout 'catalog'
 
-  def index
-
+  def show
     @catalog = CatalogPresenter.new
 
     respond_to do |format|
@@ -15,7 +14,6 @@ class CatalogController < ApplicationController
   end
 
   def social
-
     respond_to do |format|
       format.html { render_error :message => 'Dunno what you were looking for.' }
       format.csv {

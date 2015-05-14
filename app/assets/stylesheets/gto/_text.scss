@@ -2,10 +2,5 @@
 @import 'mau-mixins';
 a {
   @include transition(all 0.2s ease);
-  &:link, &:visited, &:active {
-    color: $gto_dark_teal;
-  }
-  &:hover {
-    color: $gto_gray;
-  }
+  @include link_style;
 }

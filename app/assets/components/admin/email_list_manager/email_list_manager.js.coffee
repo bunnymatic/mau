@@ -37,6 +37,8 @@ controller = ngInject ($scope, $attrs, emailsService, Email) ->
        ,
        (response) ->
          $scope.errors = response.data.errors
+         $scope.toggleAddEmailForm()
+         $scope.toggleAddEmailForm()
       )
 
 emailListManager = ngInject ($timeout) ->

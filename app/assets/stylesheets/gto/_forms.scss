@@ -2,6 +2,14 @@
 @import 'variables';
 @import 'mau-mixins';
 
+.success-msg, .error-msg {
+  padding: 12px;
+  background-color: white;
+  border-color: $xxlightgray;
+  margin-bottom: 20px;
+  line-height: 1.4rem;
+  @include round-corners(2px);
+}
 .error-msg {
   padding: 12px;
   background-color: lighten($gto-red, 45%);
@@ -34,7 +42,9 @@ tr.error-msg {
   }
   margin-bottom: 10px;
 }
-
+.inputs textarea {
+  width: 90%;
+}
 .required {
   [title=required] {
     border: none;
@@ -152,6 +162,6 @@ tr.error-msg {
   }
 }
 
-.mau-note-link {
-  cursor: pointer;
-}
+/* .mau-note-link { */
+/*   cursor: pointer; */
+/* } */
