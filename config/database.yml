@@ -29,5 +29,8 @@ test: &test
 acceptance: 
   <<: *dev
 
+design: 
+  <<: *dev
+
 cucumber:
   <<: *test
