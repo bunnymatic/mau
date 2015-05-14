@@ -267,3 +267,7 @@ end
 When /^I uncheck "([^"]*?)"$/ do |cb|
   uncheck cb, visible: false
 end
+
+Then(/^I click on the "([^"]*)" icon$/) do |icon_class|
+  all(".fa.fa-#{icon_class}").first.click
+end
