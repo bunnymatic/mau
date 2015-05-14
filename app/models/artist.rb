@@ -55,7 +55,7 @@ class Artist < User
     'SE' => [ 37.74707496171992, -122.40539789199829 ]
   }.freeze
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
-
+  MAX_PIECES = 20
   include AddressMixin
   include OpenStudiosEventShim
 
@@ -100,7 +100,7 @@ class Artist < User
   end
 
   def at_art_piece_limit?
-    art_pieces.select(&:persisted?).count > max_pieces
+    art_pieces.select(&:persisted?).count > (max_pieces || MAX_PIECES)
   end
 
   def profile_images

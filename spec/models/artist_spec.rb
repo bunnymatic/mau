@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Artist do
 
-  subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :firstname => 'Joe', :lastname => 'Blow') }
+  let(:max_pieces) { 10 }
+  subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, max_pieces: max_pieces, firstname: 'Joe', lastname: 'Blow') }
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
   let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }
@@ -10,6 +11,11 @@ describe Artist do
   let(:artist_info) { artist.artist_info }
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
+  its(:at_art_piece_limit?) { should eql false }
+  context 'if max_pieces is nil' do
+    let(:max_pieces) { nil } 
+    its(:at_art_piece_limit?) { should eql false }
+  end    
   context 'make sure our factories work' do
     it 'creates an artist info with each artist' do
       expect {
@@ -182,20 +188,20 @@ describe Artist do
     end
     it 'calls Cache.write if Cache.read returns nil' do
       ap = ArtPiece.find_by_artist_id(artist.id)
-      Rails.cache.stub(:read => nil)
+      Rails.cache.stub(read: nil)
       Rails.cache.should_receive(:write).once
-      artist.stub(:art_pieces => [ap])
+      artist.stub(art_pieces: [ap])
       artist.representative_piece.should eql ap
     end
     it 'doesn\'t call Cache.write if Cache.read returns something' do
-      Rails.cache.stub(:read => artist.art_pieces[0])
+      Rails.cache.stub(read: artist.art_pieces[0])
       Rails.cache.should_receive(:write).never
       artist.representative_piece
     end
     it 'doesn\'t call Cache.write if there are no art pieces' do
-      Rails.cache.stub(:read => nil)
+      Rails.cache.stub(read: nil)
       Rails.cache.should_receive(:write).never
-      artist.stub(:art_pieces => [])
+      artist.stub(art_pieces: [])
       artist.representative_piece.should eql nil
     end
   end
@@ -220,7 +226,7 @@ describe Artist do
       media_ids = media.sort_by{|m| m.name.downcase}.map(&:id)
       5.times.each do |ct|
         idx = ((media_ids.count-1)/(ct+1)).to_i
-        artist.art_pieces << ArtPiece.new(:title => 'abc', :medium_id => media_ids[idx])
+        artist.art_pieces << ArtPiece.new(title: 'abc', medium_id: media_ids[idx])
       end
       artist.save
     end
@@ -256,12 +262,12 @@ describe Artist do
       JSON.parse(artist.to_json)['artist']['firstname'].should eql artist.firstname
     end
     it 'includes created_at if we except other fields' do
-      a = JSON.parse(artist.to_json(:except => :firstname))
+      a = JSON.parse(artist.to_json(except: :firstname))
       a['artist'].should have_key 'created_at'
       a['artist'].should_not have_key 'firstname'
     end
     it 'includes the artist info if we ask for it' do
-      a = JSON.parse(artist.to_json(:include => :artist_info))
+      a = JSON.parse(artist.to_json(include: :artist_info))
       a['artist']['artist_info'].should be_a_kind_of Hash
     end
   end
@@ -293,7 +299,7 @@ describe Artist do
       File.stub(:exists? => false)
       outpath = File.join(Rails.root, "public/artistdata/#{artist.id}/profile/qr.png")
       str = "http://#{Conf.site_url}/artists/#{artist.id}?qrgen=auto"
-      Qr4r.should_receive(:encode).with(str, outpath, :border => 15, :pixel_size => 5)
+      Qr4r.should_receive(:encode).with(str, outpath, border: 15, pixel_size: 5)
       artist.qrcode
     end
   end
