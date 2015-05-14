@@ -17,9 +17,9 @@ FactoryGirl.define do
     note_type { 'help' }
     email { 'jon@wherever.com' }
     email_confirm { 'jon@wherever.com' }
-    feedlink { nil }
     inquiry { Faker::Lorem.paragraphs(1).join }
     operating_system { "MacOSX - Mavericks" }
     browser { "IE7" }
+    device { 'unk' }
   end
 end

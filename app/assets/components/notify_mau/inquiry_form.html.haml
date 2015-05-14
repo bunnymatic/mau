@@ -1,16 +1,22 @@
-%form#inquiry-form.slideable{ duration: "0.25s", "ng-submit" => 'submitInquiry()' }
+%form#inquiry-form{ "ng-submit" => 'submitInquiry()' }
   %p
     {{message}}
   %fieldset.inputs
     %ol
       %li.string.input.optional.stringish
-        %label{for: 'feedback_mail_email'} Email
-        %input#feedback_mail_email{ type: 'email', "ng-model" => 'feedback_mail.email', name:'feedback_mail[email]' }
+        %label{for: 'inquiry_email'}
+          = "Email"
+          %abbr{title: 'required'} *
+        %input#inquiry_email{ type: 'email', "ng-model" => 'inquiry.email', name:'inquiry[email]', required: "required" }
       %li.string.input.optional.stringish
-        %label{for: 'feedback_mail_email_confirm'} Confirm Email
-        %input#feedback_mail_email_confirm{ type: 'email', "ng-model" => 'feedback_mail.email_confirm',  name:'feedback_mail[email_confirm]' }
+        %label{for: 'inquiry_email_confirm'}
+          = "Confirm Email"
+          %abbr{title: 'required'} *
+        %input#inquiry_email_confirm{ type: 'email', "ng-model" => 'inquiry.email_confirm',  name:'inquiry[email_confirm]', required: "required"}
       %li.text.input.optional
-        %label{for: 'feedback_mail_inquiry'} {{questionLabel}}
-        %textarea#feedback_mail_inquiry{ name: "feedback_mail[inquiry]",  "ng-model" => 'feedback_mail.inquiry'}
+        %label{for: 'inquiry_inquiry'}
+          = "{{questionLabel}}"
+          %abbr{title: 'required'} *
+        %textarea#inquiry_inquiry{ name: "inquiry[inquiry]",  "ng-model" => 'inquiry.inquiry', required: "required"}
   %fieldset.actions
     %input.pure-button.button-secondary{ type: "submit", value: 'send'}

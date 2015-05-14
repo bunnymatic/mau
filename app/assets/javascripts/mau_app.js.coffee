@@ -3,6 +3,7 @@ angular.module('MauApp', [
   'ngResource',
   'ngSanitize',
   'ngDialog',
+  'ng.deviceDetector',
   'mailchimp',
   'angularSlideables',
   'ui.keypress',
@@ -16,6 +17,7 @@ angular.module('MauApp', [
 
   csrfToken = $('meta[name=csrf-token]').attr('content')
   $httpProvider.defaults.headers.post['X-CSRF-Token'] = csrfToken
+  $httpProvider.defaults.headers.post['Content-Type'] = 'application/json'
   $httpProvider.defaults.headers.put['X-CSRF-Token'] = csrfToken
   $httpProvider.defaults.headers.patch['X-CSRF-Token'] = csrfToken
   $httpProvider.defaults.headers.delete ||= {}

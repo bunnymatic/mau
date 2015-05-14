@@ -57,6 +57,8 @@ gem 'rails-assets-jquery-ujs'
 gem 'rails-assets-pure'
 gem 'rails-assets-ngDialog'
 gem 'rails-assets-angular-mailchimp'
+gem 'rails-assets-re-tree'
+gem 'rails-assets-ng-device-detector'
 
 gem 'ngannotate-rails'
 gem 'angular-rails-templates'

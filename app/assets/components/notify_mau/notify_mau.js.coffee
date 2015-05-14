@@ -1,11 +1,32 @@
+modalController = ngInject ($scope, $element, notificationService) ->
+  $scope.submitInquiry = ->
+    success = (data, status, headers, config) ->
+      $scope.closeThisDialog();
+    error = (data, status, headers, config) ->
+      inputs = angular.element($element).find('fieldset')[0]
+      angular.element(inputs.getElementsByClassName('error-msg')).remove()
+      errs = _.map data.error_messages, (msg) ->
+        "<div>#{msg}.</div>"
+      angular.element(inputs).prepend "<div class='error-msg'>#{errs.join("")}</div>"
+    notificationService.sendInquiry $scope.inquiry, success, error
+    
+  
 controller = ngInject ($scope, $attrs, $element, ngDialog) ->
   $scope.linkText = $attrs.linkText
+  $scope.withIcon = $attrs.withIcon?
   $scope.noteType = $attrs.noteType
-  $scope.submitInquiry = ->
-    console.log $scope.feedback_mail
-    
+  $scope.inquiry = {}  
+  if $attrs.email
+    $scope.inquiry.email = '' + $attrs.email
+    $scope.inquiry.email_confirm = '' + $attrs.email  
   $scope.showInquiryForm = () ->
-    ngDialog.open({template: 'notify_mau/inquiry_form.html'})
+    $scope.inquiry.inquiry = ''
+    $scope.inquiry.note_type = $scope.noteType || 'inquiry'
+    ngDialog.open
+      templateUrl: 'notify_mau/inquiry_form.html'
+      scope: $scope
+      controller: modalController
+
   switch $scope.noteType
     when 'inquiry' 
       $scope.message = "We love to hear from you.  Please let us know your thoughts, questions, rants." +

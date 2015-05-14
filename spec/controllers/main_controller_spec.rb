@@ -2,12 +2,13 @@ require 'spec_helper'
 
 shared_examples_for "successful notes mailer response" do
   it { expect(response).to be_success }
-  it { expect(JSON.parse(response.body)['errors']).to be_empty }
+  it { expect(JSON.parse(response.body)['success']).to eql true }
 end
 
 shared_examples_for 'has some invalid params' do
   it{expect(response).to be_4xx}
-  it { expect(JSON.parse(response.body)['errors']).to be_present }
+  it { expect(JSON.parse(response.body)['success']).to eql false }
+  it { expect(JSON.parse(response.body)['error_messages']).to be_present }
 end
 
 describe MainController do
@@ -75,18 +76,6 @@ describe MainController do
     end
   end
 
-  describe "#history" do
-    before do
-      FactoryGirl.create(:cms_document, page: :main, section: :history)
-      get :history
-    end
-    it { expect(response).to be_success }
-    it_should_behave_like "not logged in"
-    it 'fetches markdown content' do
-      assigns(:content).should have_key :content
-      assigns(:content).should have_key :cmsid
-    end
-  end
   describe "#getinvolved" do
     it "returns success" do
       get :getinvolved
@@ -219,25 +208,16 @@ describe MainController do
     before do
       FeedbackMailer.any_instance.stub(:deliver! => true)
     end
-    context "invalid calls" do
-      ['get', 'post', 'put', 'delete'].each do |rtype|
-        desc = "returns error if request type is %s" % rtype
-        it desc do
-          send(rtype, :notes_mailer)
-          expect(response).to be_missing
-        end
-      end
-    end
     describe "xhr post" do
       before do
-        xhr :post, :notes_mailer
-        @j = JSON::parse(response.body)
+        xhr :post, :notes_mailer, feedback_mail: { stuff: 'whatever'}
+        @resp = JSON::parse(response.body)
       end
       it{expect(response).to be_4xx}
       it "response reports 'invalid note type'" do
-        @j['errors'].keys.should include 'email'
-        @j['errors'].keys.should include 'email_confirm'
-        @j['errors'].keys.should include 'note_type'
+        expect(@resp['error_messages']).to include "Email can't be blank"
+        expect(@resp['error_messages']).to include "Email confirm can't be blank"
+        expect(@resp['error_messages']).to include "Note type  is not a valid note type"
       end
     end
 
@@ -247,9 +227,6 @@ describe MainController do
         @resp = JSON::parse(response.body)
       end
       it{expect(response).to be_4xx}
-      it "response reports 'invalid note type'" do
-        expect(@resp['errors']).to have_key 'note_type'
-      end
     end
 
     describe "submission given note_type email_list and email only" do
@@ -258,35 +235,6 @@ describe MainController do
         @resp = JSON::parse(response.body)
       end
       it_should_behave_like "has some invalid params"
-      it "response reports errors about email" do
-        expect(@resp['errors']).to have_key 'base'
-        expect(@resp['errors']).to have_key 'email_confirm'
-      end
-    end
-
-    describe "submission given note_type feedlink with email only" do
-      before do
-        xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'feed_submission', :email => 'a@b.com'}
-        @resp = JSON::parse(response.body)
-      end
-      it "response reports errors about missing link" do
-        expect(@resp['errors']).to have_key 'feedlink'
-      end
-    end
-
-    describe "submission given note_type inquiry and email only" do
-      before do
-        xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'inquiry', :email => 'a@b.com'}
-        @resp = JSON::parse(response.body)
-      end
-      it_should_behave_like "has some invalid params"
-      it "response reports 'Email confirm cant be blank'" do
-        expect(@resp['errors']).to have_key 'base'
-        expect(@resp['errors']).to have_key 'email_confirm'
-      end
-      it "response reports 'note cannot be empty'" do
-        expect(@resp['errors']).to have_key 'inquiry'
-      end
     end
 
     describe "submission given note_type inquiry, both emails but no inquiry" do
@@ -296,36 +244,9 @@ describe MainController do
         @resp = JSON::parse(response.body)
       end
       it_should_behave_like "has some invalid params"
-      it 'has an error on inquiry' do
-        expect(@resp['errors']).to have_key 'inquiry'
-      end
     end
 
     describe "submission with valid params" do
-      context "email_list" do
-        before do
-          xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'email_list',
-            :email => 'a@b.com', :email_confirm => 'a@b.com'}
-          @resp = JSON::parse(response.body)
-        end
-        it_should_behave_like "successful notes mailer response"
-        it 'triggers FeedbackMailer.feedback' do
-          FeedbackMailer.should_receive(:feedback).with() do |f|
-            f.login.should eql 'anon'
-            f.comment.should include 'a@b.com'
-            f.subject.should eql 'MAU Submit Form : email_list'
-            f.email.should eql 'a@b.com'
-          end.and_return(double(:deliver! => true))
-          xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'email_list',
-            :email => 'a@b.com', :email_confirm => 'a@b.com'}
-        end
-        it 'adds a feedback item to the db' do
-          expect {
-            xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'email_list',
-              :email => 'a@b.com', :email_confirm => 'a@b.com'}
-          }.to change(Feedback, :count).by(1)
-        end
-      end
       context "inquiry" do
         before do
           xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'inquiry',
@@ -344,25 +265,6 @@ describe MainController do
           @resp = JSON::parse(response.body)
         end
         it_should_behave_like 'successful notes mailer response'
-      end
-      context "feeds link" do
-        before do
-          xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'feed_submission',
-            :feedlink => 'http://feed/feed.rss'}
-          @resp = JSON::parse(response.body)
-        end
-        it_should_behave_like 'successful notes mailer response'
-
-        it 'triggers FeedbackMailer.deliver_feedback' do
-          FeedbackMailer.should_receive(:feedback).with() do |f|
-            f.login.should eql 'anon'
-            f.comment.should include 'feed.rss'
-            f.subject.should eql 'MAU Submit Form : feed_submission'
-          end.and_return(double(:deliver! => true))
-
-          xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'feed_submission',
-            :feedlink => 'http://feed/feed.rss'}
-        end
       end
     end
   end

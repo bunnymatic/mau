@@ -5,13 +5,13 @@
  *= require pickadate/classic
  *= require pickadate/classic.date
  *= require pickadate/classic.time
+ *= require ngDialog
  *= require select2
  *= require collapse
  *= require panel
  *= require toggle_button
  *= require_tree ../components
  *= require_tree ./gto
- *= require ngDialog
  *= require_self
  */
 @import 'font-awesome';

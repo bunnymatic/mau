@@ -23,18 +23,6 @@ describe FeedbackMail do
     end
   end
 
-  context 'if it\'s a feed submission' do
-    let(:comment) { subject.comment }
-    subject(:feedback_mail) { FactoryGirl.build(:feedback_mail, :note_type => 'feed_submission') }
-    it{ should_not validate_presence_of :email }
-    it{ should_not validate_presence_of :email_confirm }
-    it{ should validate_presence_of :feedlink }
-
-    it 'includes the feed link in the comment' do
-      expect(comment).to match "Feed Link: #{subject.feedlink}"
-    end
-  end
-
   context 'if it\'s an inquiry' do
     subject(:feedback_mail) { FactoryGirl.build(:feedback_mail, :note_type => 'inquiry') }
     it{ should validate_presence_of :inquiry }

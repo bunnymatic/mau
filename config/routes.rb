@@ -100,7 +100,6 @@ Mau::Application.routes.draw do
   match '/venues' => 'main#venues', as: :venues
   match '/privacy' => 'main#privacy', as: :privacy
   match '/about' => 'main#about', as: :about
-  match '/history' => 'main#history', as: :history
   match '/contact' => 'main#contact', as: :contact
   match '/version' => 'main#version', as: :version
   match '/non_mobile' => 'main#non_mobile', as: :non_mobile
