@@ -1,5 +1,6 @@
 class TagCloudPresenter < ViewPresenter
 
+  include Enumerable
   include TagsHelper
 
   attr_reader :frequency, :current_tag, :mode
@@ -15,7 +16,7 @@ class TagCloudPresenter < ViewPresenter
     @tags ||=
       begin
         tags = frequency.map{|t| t['tag']}
-        ArtPieceTag.where(:id => tags)
+        ArtPieceTag.where(id: tags)
       end
   end
 
@@ -35,7 +36,7 @@ class TagCloudPresenter < ViewPresenter
   end
 
   def tag_path(tag)
-    url_helpers.art_piece_tag_path(tag, :m => mode)
+    url_helpers.art_piece_tag_path(tag, m: mode)
   end
 
   def tags_for_display
@@ -44,11 +45,12 @@ class TagCloudPresenter < ViewPresenter
         frequency.map do |entry|
           tag = find_tag(entry['tag'])
           next unless tag
-          clz = "tagmatch" if is_current_tag?(tag)
-          content_tag 'span', :class => ['clouditem', clz].compact.join(' ') do
-            link_to tag.safe_name, tag_path(tag)
-          end
+          tag
         end.compact
       end
+  end
+
+  def each(&block)
+    tags_for_display.each(&block)
   end
 end

@@ -26,7 +26,3 @@
       .panel.panel-default
         = render '/users/edit/deactivate'
 
-
-  .pure-u-1-1
-    - if !current_user.art_pieces.any?
-      = link_to "Upload some of your art to share with the world!", manage_art_artist_path(current_user)

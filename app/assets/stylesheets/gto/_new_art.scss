@@ -9,8 +9,8 @@
     background: $light-gray-background;
     text-align:center;
     padding: 0.5rem;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
     margin-bottom: 0;
     font-size: 0.95rem;
     font-weight: $font-weight-light;
@@ -18,7 +18,7 @@
     color: $gto_yellow;
   }
   .square {
-    margin: 10px;
+    margin: 6px;
     min-height: 180px;
     @include background-cover;
   }

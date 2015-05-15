@@ -5,6 +5,13 @@
   .tagcloud {
     @extend .gto-list;
   }
+  .tagmatch {
+    font-weight: $font-weight-bold;
+  }
+  .clouditem {
+    margin: 0;
+    padding: 2px 10px;
+  }
   .header h4.title {
     font-weight: bold;
     text-transform: uppercase;
