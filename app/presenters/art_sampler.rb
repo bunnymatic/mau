@@ -1,6 +1,6 @@
 class ArtSampler
 
-  NUM_IMAGES = 15 - 2
+  NUM_IMAGES = 16 - 2
   def initialize(*args)
     super
   end

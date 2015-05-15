@@ -103,10 +103,15 @@ $sampler-thumbnail-size : 250px;
     width: 40%;
     float: left;
   }
-
+  .sampler__thumb:nth-child(13) {
+    display:none;
+  }
   @media screen and (max-width: $screen-lg-max) {
     .sampler__thumb {
       width: 25%;
+      &:nth-child(13) {
+        display:block;
+      }
     }
     .sampler__promo {
       width: 50%;
@@ -124,15 +129,29 @@ $sampler-thumbnail-size : 250px;
   @media screen and (max-width: $screen-md-max) {
     .sampler__thumb {
       width: 33.33%;
+      &:nth-child(13) {
+        display:none;
+      }
     }
     .sampler__promo {
-      width: 66.33%;
+      width: 66.66%;
       .header {
         font-size: 2.2rem;
       }
       .body {
         font-size: 1.1rem;
       }
+    }
+  }
+  @media screen and (max-width: $screen-sm-max) {
+    .sampler__thumb {
+      width: 50%;
+      &:nth-child(13) {
+        display:block;
+      }
+    }
+    .sampler__promo {
+      width: 100%;
     }
   }
   @media screen and (max-width: $screen-xs-max) {
