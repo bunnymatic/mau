@@ -7,10 +7,10 @@ jQuery(function() {
   jQuery('#arrange_art_form').bind('submit', function(ev) {
     // construct new order
     var divs = jQuery('.art-card');
-    var newOrderArray = divs.map(function() {
+    var newOrderArray = _.compact(divs.map(function() {
       return parseInt( jQuery(this).data('id'),10 );
-    });
-    var newOrder = newOrderArray.get().join(',');
+    }));
+    var newOrder = newOrderArray.join(',');
     jQuery(this).append( jQuery('<input>', {type:"hidden", name:'neworder', value:newOrder }) );
   });
 
