@@ -1,5 +1,5 @@
 require 'csv'
-class AdminEmailList
+class AdminEmailList < ViewPresenter
 
   include OpenStudiosEventShim
 
@@ -19,7 +19,7 @@ class AdminEmailList
 
   def emails
     @emails ||= artists.select{|a| a.email.present?}.map do |a|
-      OpenStruct.new({ :id => a.id, :name => a.get_name, :email => a.email })
+      OpenStruct.new({ id: a.id, name: a.get_name, email: a.email, link: url_helpers.artist_path(a.id) })
     end
   end
 
