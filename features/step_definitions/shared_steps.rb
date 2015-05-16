@@ -271,3 +271,10 @@ end
 Then(/^I click on the "([^"]*)" icon$/) do |icon_class|
   all(".fa.fa-#{icon_class}").first.click
 end
+
+Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|
+  within container do
+    expect(page).to have_content text
+  end
+end
+
