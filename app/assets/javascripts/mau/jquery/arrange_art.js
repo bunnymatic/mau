@@ -13,6 +13,4 @@ jQuery(function() {
     var newOrder = newOrderArray.join(',');
     jQuery(this).append( jQuery('<input>', {type:"hidden", name:'neworder', value:newOrder }) );
   });
-
-
 });
