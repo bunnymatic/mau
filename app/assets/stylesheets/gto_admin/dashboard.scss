@@ -1,14 +1,29 @@
+@import 'mau-mixins';
 .admin {
-  .graph .flot_graph {
-    width: 360px;
-    height: 280px;
-    display: block;
+  .graph {
+    padding-bottom: 20px;
+    h4 {
+      margin-bottom: 0.5rem;
+    }
+    .flot_graph {
+      width: 360px;
+      height: 280px;
+      display: block;
+      .flot-x-axis .flot-tick-label {
+        @include transform( translateY(60%) translateX(0%) rotate(-45deg) );
+      }
+    }
   }
   .dashboard__stats-list {
-    ul, li {
-      margin:0;
-      padding:0;
+    h4 {
+      margin-bottom: 0.5rem;
+    }
+    td {
+      padding-right: 8px;
       font-size: 0.9rem;
+    }
+    td.count {
+      text-align: right;
     }
   }
 }
