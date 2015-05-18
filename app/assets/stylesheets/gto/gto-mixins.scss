@@ -19,6 +19,9 @@
     font-size: 0.8rem;
     text-align: center;
     @include box-shadow(0 0 4px 1px rgba($gto_teal, 0.3));
+    .media {
+      @include ellipsis;
+    }
   }
 }
 
