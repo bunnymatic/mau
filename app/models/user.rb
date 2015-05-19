@@ -172,15 +172,15 @@ class User < ActiveRecord::Base
     s
   end
 
-  def fullname
-    fullname = nomdeplume if nomdeplume.present?
-    if !fullname && firstname.present? && lastname.present?
-      fullname = [firstname, lastname].join(" ")
+  def full_name
+    full_name = nomdeplume if nomdeplume.present?
+    if !full_name && firstname.present? && lastname.present?
+      full_name = [firstname, lastname].join(" ")
     end
-    fullname || self.login
+    full_name || self.login
   end
 
-  alias_method :full_name, :fullname
+  alias_method :fullname, :full_name
 
   def get_name(htmlsafe=false)
     name = full_name || login
@@ -189,7 +189,7 @@ class User < ActiveRecord::Base
 
   def sortable_name
     key = [lastname, firstname, login].join.downcase
-    key.gsub(%r|\W|,' ').strip
+    key.gsub(/\W/,' ').strip
   end
 
   def is_active?
