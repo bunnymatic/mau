@@ -67,8 +67,12 @@ namespace :deploy do
 
   after :publishing, :restart
 
-  before :restart do
-    execute :rake, 'mau:slug_users'
+  before :restart, :slug_users do
+    on roles(:web), in: :groups, limit: 3 do
+      within release_path do
+        execute :rake, 'mau:slug_users'
+      end
+    end
   end
   
   after :restart, :clear_cache do
