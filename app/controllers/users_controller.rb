@@ -13,7 +13,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    if current_user.is_artist?
+    @fan = safe_find_user(params[:id])
+    
+    if (@fan != current_user) || current_user.is_artist?
       redirect_to edit_artist_path(current_user), flash: flash
       return
     end

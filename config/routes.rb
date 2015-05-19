@@ -53,7 +53,6 @@ Mau::Application.routes.draw do
       get :forgot
       post :forgot
       get :deactivate
-      get :edit
       post :remove_favorite
       post :add_favorite
     end
@@ -77,7 +76,6 @@ Mau::Application.routes.draw do
       get :delete_art
       post :setarrangement
       get :map_page, as: :map
-      get :edit
     end
     member do
       resources :favorites, only: [:index]

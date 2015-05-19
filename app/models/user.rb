@@ -35,12 +35,14 @@
 #  current_login_at          :datetime
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
+#  slug                      :string(255)
 #
 # Indexes
 #
 #  index_artists_on_login            (login) UNIQUE
 #  index_users_on_last_request_at    (last_request_at)
 #  index_users_on_persistence_token  (persistence_token)
+#  index_users_on_slug               (slug) UNIQUE
 #  index_users_on_state              (state)
 #  index_users_on_studio_id          (studio_id)
 #
@@ -63,6 +65,9 @@ class User < ActiveRecord::Base
   validates_length_of       :firstname,maximum: 100, allow_nil: true
   validates_length_of       :lastname, maximum: 100, allow_nil: true
 
+  extend FriendlyId
+  friendly_id :login, use: :slugged
+  
   # custom validations
   validate :validate_email
 

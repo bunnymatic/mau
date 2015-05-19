@@ -375,13 +375,13 @@ describe UsersController do
     end
     context "get redirects to requested page via login" do
       before do
-        get :edit
+        get :edit, id: 'nobody'
       end
       it "add_favorite requires login" do
         expect(response).to redirect_to( new_user_session_path )
       end
       it "auth system should try to record referrer" do
-        request.session[:return_to].should eql "/users/edit"
+        request.session[:return_to].should eql edit_user_path(id: 'nobody')
       end
     end
   end

@@ -154,11 +154,11 @@ describe AdminController do
       assert_select('.dashboard__stats-list.last_30_days')
       assert_select('.dashboard__stats-list.open_studios')
     end
-    it 'renders open studios info in reverse chrono order' do
-      first_tag = OpenStudiosEvent.for_display available_open_studios_keys.first
-      last_tag = OpenStudiosEvent.for_display available_open_studios_keys.last
-      css_select('.open_studios li').first.to_s.should match /#{first_tag}/
-      css_select('.open_studios li').last.to_s.should match /#{last_tag}/
+    it 'renders open studios info in chrono order' do
+      last_tag = OpenStudiosEvent.for_display available_open_studios_keys.first
+      first_tag = OpenStudiosEvent.for_display available_open_studios_keys.last
+      css_select('.open_studios tbody tr td:first-child').first.to_s.should match /#{first_tag}/
+      css_select('.open_studios tbody tr td:first-child').last.to_s.should match /#{last_tag}/
     end
     it 'renders the current open studios setting' do
       first_tag = OpenStudiosEvent.current.for_display

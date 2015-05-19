@@ -13,7 +13,7 @@ module OpenStudiosEventShim
   module ClassMethods
 
     def available_open_studios_keys
-      (Conf.open_studios_event_keys + OpenStudiosEvent.pluck(:key)).compact.map(&:to_s).uniq.sort
+      ((Conf.open_studios_event_keys + OpenStudiosEvent.pluck(:key)).compact.map(&:to_s).uniq.sort).select{|k| k.present?}
     end
 
     def current_open_studios_key

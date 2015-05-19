@@ -186,14 +186,14 @@ describe ArtistsController do
   describe "#edit" do
     context "while not logged in" do
       before do
-        get :edit
+        get :edit, id: 'blahdeblah'
       end
       it_should_behave_like "redirects to login"
     end
     context 'while logged in as a fan' do
       before do
         login_as fan
-        get :edit
+        get :edit, id: fan.to_param
       end
       it { should redirect_to edit_user_path(fan) }
     end
@@ -201,7 +201,7 @@ describe ArtistsController do
       render_views
       before do
         login_as without_address
-        get :edit
+        get :edit, id: without_address.to_param
       end
 
       it { expect(response).to be_success }
@@ -219,7 +219,7 @@ describe ArtistsController do
       before do
         artist.artist_info.update_attributes({facebook: 'example.com/facebooklink', blog: 'example.com/bloglink'})
         login_as artist
-        get :edit
+        get :edit, id: artist.to_param
       end
       it { expect(response).to be_success }
       it 'has a hidden form for donation under the open studios section' do
@@ -332,7 +332,7 @@ describe ArtistsController do
         end
         it { expect(response).to be_success }
         it "has the user linked in the 'who favorites me' section" do
-          assert_select ".favorite-thumbs a[href^=/users/#{artist2.id}] .artist__favorite-thumb"
+          assert_select ".favorite-thumbs a[href^=/users/#{artist2.slug}] .artist__favorite-thumb"
         end
       end
     end

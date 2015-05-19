@@ -9,7 +9,7 @@ describe ApplicationEventsHelper do
     it { helper.link_to_user(no_user_event).should eql '' }
     it 'links to the artist' do
       link_text = helper.link_to_user(event)
-      link_text.should eql(link_to artist.id, artist_path(artist))
+      link_text.should eql(link_to artist.id, artist_path(artist.id))
     end
   end
 end

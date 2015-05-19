@@ -14,6 +14,14 @@ namespace :mau do
     end
   end
 
+  desc 'initiate user slugs'
+  task :slug_users => [:environment] do
+    User.all.each do |u|
+      u.touch
+      u.save!
+    end
+  end
+
   desc 'record todays OS count'
   task :daily_os_signup => [:environment] do
     Artist.tally_os
