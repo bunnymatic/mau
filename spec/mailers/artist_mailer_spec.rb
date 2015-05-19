@@ -43,10 +43,10 @@ describe ArtistMailer do
   describe "favorite notification" do
     let(:mail) { ArtistMailer.favorite_notification(artist, fan) }
     it "includes an edit link" do
-      expect(mail.to_s).to include (edit_artists_url + "#notification")
+      expect(mail.to_s).to include edit_artist_url(artist, anchor: "notification")
     end
     it "includes a link to the artists page" do
-      expect(mail.to_s).to include (artist_url(artist))
+      expect(mail.to_s).to include artist_url(artist)
     end
     it "includes the artist's name" do
       expect(mail.to_s).to include artist.get_name

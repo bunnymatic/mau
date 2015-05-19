@@ -50,7 +50,8 @@ class ArtistsController < ApplicationController
   end
 
   def edit
-    if current_user[:type] != 'Artist'
+    @user = safe_find_artist params[:id]
+    if !@user || (@user != current_user) || current_user[:type] != 'Artist'
       redirect_to edit_user_path(current_user), flash: flash
       return
     end
@@ -199,7 +200,11 @@ class ArtistsController < ApplicationController
 
   protected
   def safe_find_artist(id)
-    Artist.where(id: id).first || Artist.where(login: id).first
+    begin
+      Artist.find id
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
   end
 
   def set_artist_meta
