@@ -186,7 +186,7 @@ class ArtistsController < ApplicationController
           if attrs[:artist_info_attributes]
             attrs[:artist_info_attributes][:open_studios_participation] = current_artist.artist_info.open_studios_participation
           end
-          
+
           current_artist.update_attributes!(attrs)
           Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
         end
@@ -236,9 +236,9 @@ class ArtistsController < ApplicationController
   private
   def artist_info_permitted_attributes
     %i|bio street city addr_state facebook twitter blog myspace flickr zip studionumber pinterest instagram|
-  end    
+  end
 
-  
+
   def artist_params
     if params[:emailsettings]
       em = params[:emailsettings]
@@ -297,7 +297,7 @@ class ArtistsController < ApplicationController
   end
 
   def trigger_os_signup_event(participating)
-    msg = "#{current_artist.fullname} set their os status to"+
+    msg = "#{current_artist.full_name} set their os status to"+
       " #{participating} for #{current_open_studios_key} open studios"
     data = {'user' => current_artist.login, 'user_id' => current_artist.id}
     OpenStudiosSignupEvent.create(message: msg,

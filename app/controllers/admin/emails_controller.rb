@@ -5,7 +5,7 @@ module Admin
       load_email_list
       render json: @email_list.emails
     end
-    
+
     def destroy
       load_email_list
       load_email

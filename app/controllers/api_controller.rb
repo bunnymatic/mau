@@ -56,7 +56,7 @@ class ApiController < ActionController::Base
       dat = @clz.find(_id.to_i)
       if @obj_type == 'art_pieces'
         # validate that art is owned by active artist
-        raise ApiError.new('Nothing to see here') unless (dat.artist.present? && dat.artist.is_active?)
+        raise ApiError.new('Nothing to see here') unless (dat.artist.present? && dat.artist.active?)
       end
     end
     dat

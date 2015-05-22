@@ -37,7 +37,7 @@ module Admin
     def show_or_edit
       @role = Role.find(params[:id])
       @role_users = RolesUser.where(:role_id => @role.id).map(&:user)
-      @users = User.active.all.reject{|u| @role_users.map(&:id).include? u.id}.sort_by{|u| u.fullname.downcase}
+      @users = User.active.all.reject{|u| @role_users.map(&:id).include? u.id}.sort_by{|u| u.full_name.downcase}
       render :edit
     end
 
@@ -48,9 +48,9 @@ module Admin
         begin
           u.roles << r
           u.save
-          flash[:notice] = "Added #{u.fullname} to role #{r.role}"
+          flash[:notice] = "Added #{u.full_name} to role #{r.role}"
         rescue ActiveRecord::RecordInvalid
-          flash[:notice] = "Looks like #{u.fullname} is already in that role."
+          flash[:notice] = "Looks like #{u.full_name} is already in that role."
         end
       end
       redirect_to admin_role_path(params[:id])
@@ -79,7 +79,7 @@ module Admin
         u = User.find(user_id)
         if u && r
           u.roles_users.select{|ru| ru.role_id == r.id}.map(&:destroy)
-          flash[:notice] = "Removed #{r.role} role from #{u.fullname}"
+          flash[:notice] = "Removed #{r.role} role from #{u.full_name}"
         end
       rescue ActiveRecord::RecordNotFound => ex
         flash[:error] = "Unable to find the role or user.  Nothing done."

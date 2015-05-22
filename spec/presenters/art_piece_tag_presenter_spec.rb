@@ -21,7 +21,7 @@ describe ArtPieceTagPresenter do
 
   its(:art_pieces) { should have(5).art_pieces }
   it 'only shows art from active artists' do
-    subject.art_pieces.map{|ap| ap.artist.is_active? }.uniq.should eql [true]
+    subject.art_pieces.map{|ap| ap.artist.active? }.uniq.should eql [true]
   end
   it 'sorts by updated at' do
     subject.art_pieces.map{|p| p.art_piece.updated_at.to_i}.should be_monotonically_decreasing

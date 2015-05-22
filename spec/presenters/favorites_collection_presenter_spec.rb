@@ -25,7 +25,7 @@ describe FavoritesCollectionPresenter do
     its(:artists) { should be_empty }
     its(:empty_message) { should match /not favorited anything/ }
   end
-  
+
   context 'when the viewer is the artist' do
     let(:current_user) { artist }
     context 'and the artist has no favorites' do

@@ -37,7 +37,7 @@ describe Admin::CmsDocumentsController do
     end
 
     describe '#edit' do
-      render_views      
+      render_views
       before do
         get :edit, :id => cms_document
       end

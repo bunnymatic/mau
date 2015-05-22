@@ -2,7 +2,7 @@ def get_email_directive_selector(type)
   list = EmailList.where(type: type + "MailerList").first
   email_directive_selector = "email-list-manager[list-id=\"#{list.id}\"]"
 end
-  
+
 def get_email_directive(type)
   page.find(get_email_directive_selector(type))
 end

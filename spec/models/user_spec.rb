@@ -112,7 +112,7 @@ describe User do
     end
 
   end
-  describe '#fullname' do
+  describe '#full_name' do
     context 'an artist with a login but no names' do
       it 'returns login for full name' do
         u = FactoryGirl.build(:user, firstname: nil, lastname: nil, nomdeplume: nil)
@@ -347,7 +347,7 @@ describe User do
         expect(UserMailer).to receive('reset_notification').with(maufan).once.and_return(double(:deliver! => true))
         maufan.create_reset_code
       end
-        
+
       it "add art_piece favorite sends favorite notification to owner" do
         ArtistMailer.should_receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
         maufan.add_favorite(art_piece)

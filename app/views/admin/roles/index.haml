@@ -19,5 +19,5 @@
 
           %ul.role_members
             - (@users_by_role[role.role] || []).each do |u|
-              %li #{u.fullname}
+              %li #{u.full_name}
 

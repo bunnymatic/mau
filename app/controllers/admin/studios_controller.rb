@@ -59,7 +59,7 @@ module Admin
         redirect_to_edit error: 'You cannot unaffiliate yourself' and return
       end
       if StudioArtist.new(@studio,artist).unaffiliate
-        msg = {notice: "#{artist.fullname} is no longer associated with #{@studio.name}."}
+        msg = {notice: "#{artist.full_name} is no longer associated with #{@studio.name}."}
       else
         msg = {error: "There was a problem finding that artist associated with this studio."}
       end
@@ -108,7 +108,7 @@ module Admin
     def studio_params
       params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :profile_image, :image_height, :image_width, :lat, :lng, :cross_street, :phone )
     end
-        
+
     def load_studio
       @studio ||= StudioService.get_studio_from_id(params[:id])
     end

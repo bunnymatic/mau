@@ -17,7 +17,7 @@ describe Admin::EmailsController do
     end
     def make_request
       xhr :post, :create, :email_list_id => event_email_list.id, :email => email_attrs
-    end      
+    end
     it 'returns 200 on success' do
       make_request
       expect(response).to be_success
@@ -37,7 +37,7 @@ describe Admin::EmailsController do
     def make_delete_request
       xhr :delete, :destroy, :email_list_id => event_email_list.id, :id => first_email.id
     end
-    
+
     let(:first_email) do
       email = FactoryGirl.create(:email)
       EventMailerList.first.update_attributes(:emails => [ email ])
@@ -54,7 +54,7 @@ describe Admin::EmailsController do
     end
     it 'does not delete the email from the email table' do
       first_email
-      expect { 
+      expect {
         make_delete_request
       }.to change(Email, :count).by(0);
     end
@@ -66,5 +66,5 @@ describe Admin::EmailsController do
     end
 
   end
-  
+
 end

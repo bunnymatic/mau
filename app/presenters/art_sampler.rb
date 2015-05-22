@@ -5,7 +5,7 @@ class ArtSampler
     super
   end
 
-  def pieces 
+  def pieces
     get_random_pieces.map{|piece| ArtPiecePresenter.new(piece)}
   end
 

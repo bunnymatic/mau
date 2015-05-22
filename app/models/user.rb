@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :login, use: :slugged
-  
+
   # custom validations
   validate :validate_email
 
@@ -180,24 +180,14 @@ class User < ActiveRecord::Base
     full_name || self.login
   end
 
-  alias_method :fullname, :full_name
-
   def get_name(htmlsafe=false)
-    name = full_name || login
-    htmlsafe ? html_encode(name) : name
+    return full_name unless htmlsafe
+    html_encode(full_name)
   end
 
   def sortable_name
     key = [lastname, firstname, login].join.downcase
     key.gsub(/\W/,' ').strip
-  end
-
-  def is_active?
-    state == 'active'
-  end
-
-  def delete!
-    update_attribute(:state, 'deleted')
   end
 
   def tags
@@ -212,7 +202,6 @@ class User < ActiveRecord::Base
   def validate_email
     errors.add(:email, 'is an invalid email') unless BlacklistDomain::is_allowed?(email)
   end
-
 
   def resend_activation
     @resent_activation = true
@@ -243,6 +232,10 @@ class User < ActiveRecord::Base
   def delete_reset_code
     self.attributes = {reset_code: nil}
     save(validate: false)
+  end
+
+  def delete!
+    update_attribute(:state, 'deleted')
   end
 
   def suspend!

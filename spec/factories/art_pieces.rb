@@ -24,6 +24,6 @@ FactoryGirl.define do
         art_piece.update_attributes :tags => FactoryGirl.create_list(:art_piece_tag, 2)
       end
     end
-    
+
   end
 end

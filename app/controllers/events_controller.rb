@@ -98,7 +98,7 @@ class EventsController < ApplicationController
 
   def fetch_artists_by_names(names)
     names.map do |name|
-      Artist.find_by_fullname(name)
+      Artist.find_by_full_name(name)
     end.flatten.compact
   end
 

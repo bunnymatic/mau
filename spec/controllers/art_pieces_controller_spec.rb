@@ -124,7 +124,7 @@ describe ArtPiecesController do
         parsed['tags'].first['name'].should eql art_piece.tags.first.name
       end
       it 'includes the artists name' do
-        parsed['artist_name'].should eql html_encode(art_piece.artist.fullname)
+        parsed['artist_name'].should eql html_encode(art_piece.artist.full_name)
       end
       it 'includes the art piece title' do
         parsed['title'].should eql html_encode(art_piece.title)
@@ -177,7 +177,7 @@ describe ArtPiecesController do
       context 'with successful save' do
         let(:upload_data) { { 'datafile' => fixture_file_upload( '/files/art.png' ) } }
         let(:tags) { "this, that, #{existing_tag.name}" }
-        
+
         it 'redirects to show page on success' do
           post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
           expect(response).to redirect_to artist_path(artist)
