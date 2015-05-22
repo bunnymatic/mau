@@ -3,7 +3,7 @@ RSpec::Matchers.define :have_flash do |kind, msg|
   def flash_class(kind)
     ".flash.flash__#{kind}"
   end
-  
+
   match do
     expect(page).to have_css("#{flash_class(kind)}", text: msg)
   end
@@ -15,5 +15,5 @@ RSpec::Matchers.define :have_flash do |kind, msg|
   failure_message_for_should_not do |actual|
     "expected #{actual.body} not to have a #{kind} flash message with text #{msg}"
   end
-  
+
 end

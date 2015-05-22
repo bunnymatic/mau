@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
   def edit
     @fan = safe_find_user(params[:id])
-    
+
     if (@fan != current_user) || current_user.is_artist?
       redirect_to edit_artist_path(current_user), flash: flash
       return
@@ -361,7 +361,7 @@ class UsersController < ApplicationController
   def user_params_key
     [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
   end
-    
+
   def user_params
     k = user_params_key
     attrs = user_attrs

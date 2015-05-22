@@ -31,7 +31,7 @@ class FeedbackMail
   def os=(v)
     self.operating_system=v
   end
-      
+
   def emails_must_match
     errors.add(:base, "Please reconfirm your email. The emails don't match.") unless email == email_confirm
   end

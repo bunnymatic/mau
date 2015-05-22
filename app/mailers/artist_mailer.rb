@@ -21,7 +21,7 @@ class ArtistMailer < MauMailer
     #                             :controller => 'artists',
     #                             :action => 'edit') + '#notifications'
     # puts "n2 ", @notification_url
-    @artist_url = artist_url(@artist) 
+    @artist_url = artist_url(@artist)
     # puts "a1 ", @artist_url
     # @artist_url = url_for(:host => Conf.site_url,
     #                       :controller => 'artists',

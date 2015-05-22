@@ -110,7 +110,7 @@ class Artist < User
       [key, ArtistProfileImage.get_path(self, key)]
     end]
   end
-    
+
   def in_the_mission?
     return false unless address_hash && address_hash.has_key?(:latlng)
     lat,lng = address_hash[:latlng]

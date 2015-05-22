@@ -77,7 +77,7 @@ module Mau
 
     # move to strong params
     config.active_record.whitelist_attributes = false
-    
+
     config.s3_info = {
       bucket: Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
       access_key_id: Conf.AWS_ACCESS_KEY_ID || 'bogus',

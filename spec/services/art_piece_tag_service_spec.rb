@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ArtPieceTagService do
-  
+
   let!(:art_pieces) { create_list :art_piece, 3, :with_tags }
   let!(:tags) { create_list :art_piece_tag, 2 }
 
@@ -32,14 +32,14 @@ describe ArtPieceTagService do
     it 'removes the tag references on any art pieces' do
       tags = ArtPieceTagService.tags_sorted_by_frequency.select{|(tag,ct)| ct > 0}.map(&:first).first(3)
       art_piece = tags.first.art_pieces.first
-      expect { 
-        expect { 
+      expect {
+        expect {
           ArtPieceTagService.destroy(tags)
         }.to change(ArtPieceTag, :count).by(-3)
       }.to change(ArtPiecesTag, :count).by(-3)
       expect(art_piece.tags).to have(0).tags
     end
-  end 
- 
+  end
+
 
 end

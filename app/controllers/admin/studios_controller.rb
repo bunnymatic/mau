@@ -108,7 +108,7 @@ module Admin
     def studio_params
       params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :profile_image, :image_height, :image_width, :lat, :lng, :cross_street, :phone )
     end
-        
+
     def load_studio
       @studio ||= StudioService.get_studio_from_id(params[:id])
     end

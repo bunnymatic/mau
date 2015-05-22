@@ -3,7 +3,7 @@ class FavoritesCollectionPresenter < ViewPresenter
   attr_reader :user, :collection, :current_user
 
   include Enumerable
-  
+
   def initialize(favorites, user, current_user = nil)
     @collection = favorites
     @user = user
@@ -22,7 +22,7 @@ class FavoritesCollectionPresenter < ViewPresenter
     if is_current_user?
       msg =<<-EOS
         It looks like you don't have any favorites yet.
-        Go find an artist or some artwork that you like. 
+        Go find an artist or some artwork that you like.
         You'll see this
         <span class='micro-icon heart'></span>
         around the site.  Click on it to favorite art or artists.
@@ -44,7 +44,7 @@ class FavoritesCollectionPresenter < ViewPresenter
   def artists
     collection.select(&:is_artist?).map{|f| ArtistPresenter.new(f.to_obj)}
   end
-  
+
   def empty?
     !any?
   end

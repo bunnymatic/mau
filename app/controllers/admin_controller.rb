@@ -4,7 +4,7 @@ class AdminController < BaseAdminController
   before_filter :admin_required, :except => [:index, :featured_artist]
 
   layout 'admin'
-  
+
   def index
     @activity_stats = SiteStatistics.new
   end

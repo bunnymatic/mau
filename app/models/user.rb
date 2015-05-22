@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :login, use: :slugged
-  
+
   # custom validations
   validate :validate_email
 
@@ -143,7 +143,7 @@ class User < ActiveRecord::Base
   def pending?
     state == 'pending'
   end
-  
+
   def has_profile_image
     self.profile_image
   end

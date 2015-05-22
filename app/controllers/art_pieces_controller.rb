@@ -61,7 +61,7 @@ class ArtPiecesController < ApplicationController
         " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
       render template: 'artists/manage_art' and return
     end
-    
+
     begin
       ActiveRecord::Base.transaction do
         if valid
@@ -146,7 +146,7 @@ class ArtPiecesController < ApplicationController
     tag_names = (tags_string || '').split(",").map{|name| name.strip.downcase}.compact.uniq
     params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by_name name}
   end
-  
+
   def art_piece_params
     parameters = params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description)
     if params[:art_piece][:tags]
@@ -155,5 +155,5 @@ class ArtPiecesController < ApplicationController
       parameters
     end
   end
-  
+
 end

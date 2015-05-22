@@ -9,7 +9,7 @@ class ActiveRecord::Base
       end
     end
   end
-  
+
   def self.find_random(num = 1, opts = {})
     # skip out if we don't have any
     return nil if (max = self.count(opts)) == 0

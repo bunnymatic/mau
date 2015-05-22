@@ -26,7 +26,7 @@ class SearchQuery
   def empty?
     !([studios, mediums, keywords, os_flag].any?(&:present?))
   end
-  
+
   private
   def set_mediums(vals)
     return [] unless vals

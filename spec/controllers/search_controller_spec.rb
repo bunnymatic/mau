@@ -7,7 +7,7 @@ describe SearchController do
       [words].flatten.compact.join.downcase.gsub(/\s+/,'').each_char {|c| letters[c] += 1 }
     end.sort_by{|letter, ct| ct}
   end
-  
+
   let(:studios) { FactoryGirl.create_list :studio, 4 }
   let(:artists) {
     FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.first) +
@@ -20,7 +20,7 @@ describe SearchController do
     f = letter_frequency(studios_search.map(&:artists).flatten.map(&:full_name))
     f.last.first
   end
-  
+
   before do
     fix_leaky_fixtures
     artists

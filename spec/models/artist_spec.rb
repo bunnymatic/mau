@@ -13,9 +13,9 @@ describe Artist do
 
   its(:at_art_piece_limit?) { should eql false }
   context 'if max_pieces is nil' do
-    let(:max_pieces) { nil } 
+    let(:max_pieces) { nil }
     its(:at_art_piece_limit?) { should eql false }
-  end    
+  end
   context 'make sure our factories work' do
     it 'creates an artist info with each artist' do
       expect {
