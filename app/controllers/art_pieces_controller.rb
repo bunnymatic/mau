@@ -21,10 +21,6 @@ class ArtPiecesController < ApplicationController
   end
 
   def show
-    @facebook_required = true
-    @pinterest_required = true && browser.modern?
-    @twitter_required = true
-
     set_page_info_from_art_piece
 
     respond_to do |format|
@@ -45,32 +41,12 @@ class ArtPiecesController < ApplicationController
     redirect_to '/error' unless owned_by_current_user?(@art_piece)
   end
 
-  def create_art_piece_failed_empty_image(art_piece)
-    @art_piece = art_piece
-    art_piece.errors.add(:base, "You must provide an image.  "+
-                                 "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
-                                 " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
-    render template: 'artists/manage_art'
-  end
-
-  def create_art_piece_failed_upload(art_piece)
-    @art_piece = art_piece
-    msg = "Failed to upload %s" % $!
-    art_piece.errors.add(:base, msg)
-    render template: 'artists/manage_art'
-  end
-
-  def create_art_piece_failed(art_piece)
-    @art_piece = art_piece
-    render template: 'artists/manage_art'
-  end
-
   def create
-    redirect_to(current_artist) and return if commit_is_cancel
+    artist = current_artist
+    redirect_to(artist) and return if commit_is_cancel
 
     prepare_tags_params
-    @artist = ArtistPresenter.new(current_artist)
-    art_piece = current_artist.art_pieces.build(art_piece_params)
+    art_piece = artist.art_pieces.build(art_piece_params)
     valid = art_piece.valid?
 
     # if file to upload - upload it first
@@ -86,7 +62,7 @@ class ArtPiecesController < ApplicationController
           ArtPieceImage.new(art_piece).save upload
           art_piece.save!
           flash[:notice] = "You've got new art!"
-          Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
+          Messager.new.publish "/artists/#{artist.id}/art_pieces/create", "added art piece"
         else
           create_art_piece_failed(art_piece) and return
         end
@@ -95,7 +71,7 @@ class ArtPiecesController < ApplicationController
       create_art_piece_failed_upload(art_piece) and return
     end
 
-    redirect_to(current_user)
+    redirect_to(artist)
   end
 
   # PUT /art_pieces/1
@@ -171,4 +147,26 @@ class ArtPiecesController < ApplicationController
     end
   end
 
+
+  def create_art_piece_failed_empty_image(art_piece)
+    @art_piece = art_piece
+    art_piece.errors.add(:base, "You must provide an image.  "+
+                                 "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
+                                 " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
+    render template: 'artists/manage_art'
+  end
+
+  def create_art_piece_failed_upload(art_piece)
+    @art_piece = art_piece
+    msg = "Failed to upload %s" % $!
+    art_piece.errors.add(:base, msg)
+    render template: 'artists/manage_art'
+  end
+
+  def create_art_piece_failed(art_piece)
+    @art_piece = art_piece
+    render template: 'artists/manage_art'
+  end
+
+  
 end
