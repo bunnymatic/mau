@@ -297,7 +297,7 @@ class ArtistsController < ApplicationController
   end
 
   def trigger_os_signup_event(participating)
-    msg = "#{current_artist.fullname} set their os status to"+
+    msg = "#{current_artist.full_name} set their os status to"+
       " #{participating} for #{current_open_studios_key} open studios"
     data = {'user' => current_artist.login, 'user_id' => current_artist.id}
     OpenStudiosSignupEvent.create(message: msg,

@@ -123,9 +123,9 @@ describe Artist do
       expect(wayout_artist).to be_in_the_mission
     end
   end
-  describe 'find by fullname' do
-    let!(:fullname) { artist.firstname + ' ' + artist.lastname }
-    let(:artists) { Artist.find_by_fullname( fullname ) }
+  describe 'find by full_name' do
+    let!(:full_name) { artist.firstname + ' ' + artist.lastname }
+    let(:artists) { Artist.find_by_full_name( full_name ) }
     before do
       artist
     end
@@ -134,17 +134,17 @@ describe Artist do
       it { artists.first.should eql artist }
     end
     context 'with capitalized name search' do
-      let(:fullname) { "Joe Blow" }
+      let(:full_name) { "Joe Blow" }
       it { artists.should have(1).artist }
       it { artists.first.should eql artist }
     end
     context 'with mixed case search' do
-      let(:fullname) { "Joe blow" }
+      let(:full_name) { "Joe blow" }
       it { artists.should have(1).artist }
       it { artists.first.should eql artist }
     end
     context 'with substring' do
-      let(:fullname) { "Jo blow" }
+      let(:full_name) { "Jo blow" }
       it { artists.should be_empty }
     end
   end

@@ -112,7 +112,7 @@ describe User do
     end
 
   end
-  describe '#fullname' do
+  describe '#full_name' do
     context 'an artist with a login but no names' do
       it 'returns login for full name' do
         u = FactoryGirl.build(:user, firstname: nil, lastname: nil, nomdeplume: nil)

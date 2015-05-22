@@ -14,11 +14,11 @@
       - @role_users.each do |u|
         %li{"data-user" => u.id}
           .user
-            = u.fullname
-            = link_to "X", "/users/#{u.id}/roles/#{@role.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.fullname} from the #{@role.role} group?" unless (u == current_user && @role == Role.admin)
+            = u.full_name
+            = link_to "X", "/users/#{u.id}/roles/#{@role.id}", :method => :delete, :confirm => "Are you sure you want to remove #{u.full_name} from the #{@role.role} group?" unless (u == current_user && @role == Role.admin)
   .pure-u-1-2.padded-content
     .add-user-role
       = form_for [:admin, @role], :html => {:class => 'js-hook hidden pure-form'} do |f|
-        = select_tag 'user', options_from_collection_for_select(@users, :id, :fullname)
+        = select_tag 'user', options_from_collection_for_select(@users, :id, :full_name)
         = f.submit "add user", :class => 'pure-button'
 

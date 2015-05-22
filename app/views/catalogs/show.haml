@@ -20,7 +20,7 @@
           %ul.artists
             - artist_list.each do |artist|
               %li
-                = artist.fullname
+                = artist.full_name
         .entry
           .title.indy
             %span.studioname Independent Studios
@@ -30,6 +30,6 @@
             - @catalog.indy_artists.each do |artist|
               %li{:class => cycle('even','odd')}
                 %span.name
-                  = artist.fullname
+                  = artist.full_name
                 %span.address
                   = artist.street

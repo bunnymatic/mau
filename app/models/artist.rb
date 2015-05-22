@@ -177,15 +177,15 @@ class Artist < User
 
   class << self
 
-    def find_all_by_fullname( names )
+    def find_all_by_full_name( names )
       inclause = ""
       lower_names = [names].flatten.map { |n| n.downcase.strip }
       sql = "select * from users where (lower(concat_ws(' ', firstname, lastname)) in (?)) and type='Artist'"
       find_by_sql [sql, lower_names]
     end
 
-    def find_by_fullname( name )
-      find_all_by_fullname([name])
+    def find_by_full_name( name )
+      find_all_by_full_name([name])
     end
 
     # tally up today's open studios count

@@ -124,7 +124,7 @@ describe ArtPiecesController do
         parsed['tags'].first['name'].should eql art_piece.tags.first.name
       end
       it 'includes the artists name' do
-        parsed['artist_name'].should eql html_encode(art_piece.artist.fullname)
+        parsed['artist_name'].should eql html_encode(art_piece.artist.full_name)
       end
       it 'includes the art piece title' do
         parsed['title'].should eql html_encode(art_piece.title)
