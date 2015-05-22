@@ -45,39 +45,54 @@ class ArtPiecesController < ApplicationController
     redirect_to '/error' unless owned_by_current_user?(@art_piece)
   end
 
+  def create_art_piece_failed_empty_image(art_piece)
+    @art_piece = art_piece
+    art_piece.errors.add(:base, "You must provide an image.  "+
+                                 "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
+                                 " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
+    render template: 'artists/manage_art'
+  end
+
+  def create_art_piece_failed_upload(art_piece)
+    @art_piece = art_piece
+    msg = "Failed to upload %s" % $!
+    art_piece.errors.add(:base, msg)
+    render template: 'artists/manage_art'
+  end
+
+  def create_art_piece_failed(art_piece)
+    @art_piece = art_piece
+    render template: 'artists/manage_art'
+  end
+
   def create
     redirect_to(current_artist) and return if commit_is_cancel
 
     prepare_tags_params
     @artist = ArtistPresenter.new(current_artist)
-    @art_piece = current_artist.art_pieces.build(art_piece_params)
-    valid = @art_piece.valid?
+    art_piece = current_artist.art_pieces.build(art_piece_params)
+    valid = art_piece.valid?
 
     # if file to upload - upload it first
     upload = params[:upload]
     if !params[:upload]
-      @art_piece.errors.add(:base, "You must provide an image.  "+
-        "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
-        " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
-      render template: 'artists/manage_art' and return
+      create_art_piece_failed_empty_image(art_piece) and return
     end
 
     begin
       ActiveRecord::Base.transaction do
         if valid
           # upload image
-          ArtPieceImage.new(@art_piece).save upload
-          @art_piece.save!
+          ArtPieceImage.new(art_piece).save upload
+          art_piece.save!
           flash[:notice] = "You've got new art!"
           Messager.new.publish "/artists/#{current_user.id}/art_pieces/create", "added art piece"
         else
-          render template: 'artists/manage_art' and return
+          create_art_piece_failed(art_piece) and return
         end
       end
     rescue Exception => ex
-      msg = "Failed to upload %s" % $!
-      @art_piece.errors.add(:base, msg)
-      render template: 'artists/manage_art' and return
+      create_art_piece_failed_upload(art_piece) and return
     end
 
     redirect_to(current_user)

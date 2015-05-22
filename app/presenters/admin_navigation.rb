@@ -6,14 +6,8 @@ class AdminNavigation < ViewPresenter
     @current_user = user
   end
 
-  def links
-    manager_links = [[:studios , {}]]
-    editor_links = [[:events, {}],
-                    [:featured_artist , {}],
-                    [:cms_documents , {:display => 'cms', :link => url_helpers.admin_cms_documents_path}]
-                   ]
-    if current_user.is_admin?
-      pr_links = [
+  def admin_links
+          pr_links = [
                   [:events, {}],
                   [:featured_artist, {}],
                   [:favorites, {}],
@@ -48,11 +42,27 @@ class AdminNavigation < ViewPresenter
                [:admin, admin_links],
                [:internal, internal_links]
               ]
-    else
-      links = []
-      links << [nil, editor_links] if current_user.is_editor?
-      links << [nil, manager_links] if current_user.is_manager?
-    end
+  end
+
+  def editor_links
+    [[:events, {}],
+                    [:featured_artist , {}],
+                    [:cms_documents , {:display => 'cms', :link => url_helpers.admin_cms_documents_path}]
+    ]
+  end
+
+  def manager_links
+    [[:studios , {}]]
+  end
+
+  def links
+    links = if current_user.is_admin?
+              admin_links
+            elsif current_user.is_editor?
+              [[nil, editor_links]]
+            elsif current_user.is_manager?
+              [[nil, manager_links]]
+            end
     links.each do |sxn, entries|
       entries.each do |key, entry|
         entry[:display] = (entry[:display] || key.to_s).tr("_", ' ')
