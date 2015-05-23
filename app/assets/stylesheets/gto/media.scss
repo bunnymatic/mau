@@ -5,7 +5,8 @@
   .tagcloud {
     @extend .gto-list;
   }
-  .tagmatch {
+  li.tagmatch {
+    list-style: disc;
     font-weight: $font-weight-bold;
   }
   .clouditem {
