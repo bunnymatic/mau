@@ -61,7 +61,6 @@ describe AdminController do
     before do
       login_as admin
     end
-    render_views
 
     describe 'html' do
       context 'with no params' do
@@ -76,18 +75,6 @@ describe AdminController do
         end
         it 'assigns list of artists emails' do
           assigns(:email_list).emails.length.should eql Artist.active.count
-        end
-        it 'shows the list selector' do
-          assert_select '.list_chooser'
-        end
-        it 'shows the title and error block' do
-          assert_select '.email_lists', match: ("Activated [%s]" % Artist.active.count)
-        end
-        it 'has the correct emails in the text box' do
-          Artist.active.each do |a|
-            assert_select '.email_results table tbody tr td', /#{a.get_name}/
-            assert_select '.email_results table tbody tr td', /#{a.email}/
-          end
         end
       end
 
@@ -135,43 +122,13 @@ describe AdminController do
     end
   end
 
-  describe "#index" do
-    render_views
-    before do
-      FactoryGirl.create(:open_studios_event)
-      FactoryGirl.create(:open_studios_event, start_date: 6.months.ago)
-      FactoryGirl.create(:open_studios_event, start_date: 12.months.ago)
-      login_as admin
-      get :index
-    end
-    it 'has place holders for the graphs' do
-      assert_select('.graph', :count => 4)
-    end
-    it 'renders the different stats sections' do
-      assert_select('.dashboard__stats-list.totals')
-      assert_select('.dashboard__stats-list.yesterday')
-      assert_select('.dashboard__stats-list.last_week')
-      assert_select('.dashboard__stats-list.last_30_days')
-      assert_select('.dashboard__stats-list.open_studios')
-    end
-    it 'renders open studios info in chrono order' do
-      last_tag = OpenStudiosEvent.for_display available_open_studios_keys.first
-      first_tag = OpenStudiosEvent.for_display available_open_studios_keys.last
-      css_select('.open_studios tbody tr td:first-child').first.to_s.should match /#{first_tag}/
-      css_select('.open_studios tbody tr td:first-child').last.to_s.should match /#{last_tag}/
-    end
-    it 'renders the current open studios setting' do
-      first_tag = OpenStudiosEvent.current.for_display
-      css_select('.open_studios .current').first.to_s.should match /#{first_tag}/
-    end
-  end
   describe '#fans' do
     before do
       login_as admin
       get :fans
     end
     it { expect(response).to be_success }
-    it {  expect(response).to render_template 'fans' }
+    it { expect(response).to render_template 'fans' }
     it "assigns fans" do
       assigns(:fans).length.should eql User.active.all(:conditions => 'type <> "Artist"').length
     end

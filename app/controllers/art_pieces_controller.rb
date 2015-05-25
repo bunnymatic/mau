@@ -45,6 +45,7 @@ class ArtPiecesController < ApplicationController
     artist = current_artist
     redirect_to(artist) and return if commit_is_cancel
 
+
     prepare_tags_params
     art_piece = artist.art_pieces.build(art_piece_params)
     valid = art_piece.valid?
