@@ -20,6 +20,7 @@ public/studiodata
 public/artistdata
 log
 coverage/*
+cucumber_reports/*
 jscoverage/*
 flog.report*
 secret/*

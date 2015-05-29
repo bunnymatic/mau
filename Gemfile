@@ -96,6 +96,7 @@ group :test do
   gem 'cucumber'
   gem 'cucumber-rails', :require => false
   gem 'selenium-webdriver'
+  gem 'capybara-webkit'
   gem 'poltergeist'
   gem 'launchy'             # Required to dump the page when running cucumber features
 end
