@@ -185,7 +185,6 @@ describe AdminController do
     end
     it "assigns the featured artist and the featured queue entry" do
       assigns(:featured).should be_a_kind_of(FeaturedArtistQueue)
-      assigns(:featured_artist).should be_a_kind_of(Artist)
     end
     it 'includes a button to send the featured artist a note' do
       assert_select '.artist_info .controls a', 'Tell me I\'m Featured'
@@ -283,7 +282,6 @@ describe AdminController do
       describe '#db_backups' do
         before do
           File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
-          sleep(2)
           File.open("#{tmpdir}/file2.tgz",'w'){ |f| f.write('.tgz dump file contents2') }
           Dir.stub(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
         end
@@ -297,9 +295,8 @@ describe AdminController do
           it 'finds a list of database files' do
             assigns(:dbfiles).should be_a_kind_of(Array)
           end
-          it "files are in descending cronological order" do
-            files = assigns(:dbfiles)
-            files[1].path.should include 'file1.tgz'
+          it "includes all files" do
+            expect(assigns(:dbfiles)).to have(2).items
           end
         end
         context 'with views' do

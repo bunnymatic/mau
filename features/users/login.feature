@@ -30,5 +30,6 @@ Scenario: login with my email
   When I fill in valid credentials using my email
   And I click "Sign In"
   Then I see that I'm logged in
-  And I click "log out"
+  Then show me the page
+  And I click "sign out"
   Then I see that I'm logged out

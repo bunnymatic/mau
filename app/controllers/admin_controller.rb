@@ -19,7 +19,7 @@ class AdminController < BaseAdminController
       redirect_to request.url
     else
       @featured = FeaturedArtistQueue.current_entry
-      @featured_artist = @featured.try(:artist)
+      @featured_artist = ArtistPresenter.new(@featured.try(:artist))
       @already_featured = FeaturedArtistQueue.featured.offset(1).first(10)
     end
   end

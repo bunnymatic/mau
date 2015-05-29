@@ -1,21 +1,19 @@
 module FavoritesHelper
-  def get_image_and_path fav, sz
+  def get_favorite_image_and_path fav, sz = :small
     img = ''
-    path_finder = :user_path
-    image_finder = :get_profile_image
     if fav.is_a? ArtPiece
       img = fav.get_path sz
       path = art_piece_path fav.id
     else
-      img = fav.send image_finder, sz
-      path = send path_finder, fav
+      img = fav.get_profile_image(sz) || asset_path('default_user.svg')
+      path = user_path(fav)
     end
     [img,path]
   end
 
   def draw_micro_favorite fav, options=nil
     options ||= {}
-    img, path = get_image_and_path fav, 'thumb'
+    img, path = get_favorite_image_and_path fav, 'thumb'
     xclass = options[:class] || ""
     xstyle = options[:style].blank? ? "" : "style='#{options[:style]}'"
     title = fav.get_name true
