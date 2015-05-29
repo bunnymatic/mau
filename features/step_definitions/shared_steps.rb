@@ -1,5 +1,14 @@
 require_relative '../../spec/support/mobile_setup'
 
+def fill_in_login_form(login, pass)
+  flash = all('.flash__close')
+  if flash.any?
+    flash.map(&:click)
+  end
+  fill_in("Login", :with => login)
+  fill_in("Password", :with => pass)
+end
+
 def path_from_title(titleized_path_name)
   clean_path_name = titleized_path_name.downcase.gsub(/ /, '_')
   path_helper_name = "#{clean_path_name}_path".to_sym
@@ -30,9 +39,16 @@ def find_links_or_buttons(locator)
   all_links_or_buttons_with_title(locator)
 end
 
+Given /^the cache is clear$/ do
+  Rails.cache.clear
+end
+
+Given /^Mailchimp is hooked up$/ do
+  stub_mailchimp
+end
 
 When /I'm on my smart phone/ do
-  page.driver.headers = {"User-Agent" => IPHONE_USER_AGENT}
+  current_session.header("User-Agent", IPHONE_USER_AGENT)
 end
 
 Then /^show me the page$/ do
@@ -41,8 +57,18 @@ end
 
 Then /^I (save|take) a screenshot$/ do |dummy|
   f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
-  save_screenshot(f)
-  puts "Saved Screenshot #{f}"
+  begin
+    save_screenshot(f)
+    puts "Saved Screenshot #{f}"
+  rescue Capybara::NotSupportedByDriverError
+    f = f.gsub /png$/, 'html'
+    puts "Screenshot not supported - saving html to #{f}"
+    save_page(f)
+  end
+end
+
+Then /^I save and open a screenshot$/ do
+  save_and_open_screenshot
 end
 
 When /I visit the login page/ do
@@ -53,20 +79,93 @@ When /I visit the signup page/ do
   visit signup_path
 end
 
+When /I visit the fan signup page/ do
+  visit signup_path(type: 'MAUFan')
+end
+
+When /I sign in with password "(.*?)"/ do |pass|
+  visit login_path
+  fill_in_login_form @artist.login, pass
+  click_on "Sign In"
+end
+
+When /I am signed in as an artist/ do
+  steps %Q{
+    Given an account has been created
+    Given I visit the login page
+    When I fill in valid credentials
+    And I click "Sign In"
+  }
+end
+
+Then /^I see "(.*?)" on the page$/ do |content|
+  expect(page).to have_content content
+end
+
+When /^I (log|sign)\s?out$/ do |dummy|
+  within '.nav' do
+    click_on 'sign out'
+    visit logout_path
+  end
+  expect(page).to have_css '.flash__notice', /make some art/
+end
+
+Then /^I see that I'm signed in$/ do
+  expect(page).to have_css '.signin__links'
+end
+
+When(/^I change "(.*?)" to "(.*?)" in the "(.*?)" form$/) do |form_field_label, value, form_selector|
+  within form_selector do
+    fill_in form_field_label, with: value, fill_options: { exact: true }
+  end
+end
+
+When(/^I change "(.*?)" to "(.*?)"$/) do |form_field_label, value|
+  fill_in form_field_label, with: value, fill_options: { exact: true }
+end
+
+Then(/my "(.*?)" is "(.*?)" in the "(.*?)" section of the form/) do |form_field_label, value, section|
+  step "I click on \"#{section}\""
+  expect(page).to have_selector 'form.formtastic'
+  expect(find_field(form_field_label).value).to eql value
+end
+
+Then(/^I see that the studio "(.*?)" has an artist called "(.*?)"$/) do |studio_name, user_login|
+  expect(Studio.where(name: studio_name).first.artists).to include User.where(login: user_login).first
+end
+
+Then(/^I see an error in the form "(.*?)"$/) do |msg|
+  within 'form' do
+    expect(page).to have_selector '.error', text: msg
+  end
+end
+
 Then(/^I do not see an error message$/) do
-  expect(page).to_not have_selector '.error-msg'
+  expect(page).to_not have_selector '.error-msg, .flash__error, .err'
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.error-msg, .error', text: msg
+  expect(page).to have_selector '.error-msg', text: msg
+end
+
+Then(/^I see a flash error "(.*?)"$/) do |msg|
+  expect(page).to have_selector '.flash.flash__error', text: msg
 end
 
 Then(/^I see a flash notice "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.notice', text: msg
+  expect(page).to have_selector '.flash.flash__notice', text: msg
 end
 
 Then(/^I close the notice$/) do
-  find('.notice .close-btn').trigger('click')
+  begin
+    find('.flash.flash__notice .flash__close').trigger 'click'
+  rescue Capybara::NotSupportedByDriverError
+    find('.flash.flash__notice .flash__close').click
+  end
+end
+
+Then(/^I close the flash$/) do
+  all('.flash .js-flash__close').each {|f| f.click}
 end
 
 When(/^I visit the "(.*?)" page$/) do |titleized_path_name|
@@ -81,41 +180,101 @@ Then(/^I see the "(.*?)" page$/) do |titleized_path_name|
   expect(current_path).to eql path_from_title(titleized_path_name)
 end
 
-When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
-  within('#admin_nav') do
-    click_on(link_title)
+When(/^I click (on\s+)?"([^"]*)"$/) do |dummy, link_text|
+  click_on link_text
+end
+
+When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
+  within container do
+    click_on_first link
   end
+end
+
+When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
+
+  step %Q|I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav"|
 end
 
 When(/^I click on "(.*?)" in the sidebar menu$/) do |link_title|
-  within('#sidebar_nav') do
-    click_on(link_title)
-  end
+  step %Q|I click on "#{link_title}" in the ".nav.nav-tabs"|
+end
+
+When(/^I click on the first "([^"]*?)"$/) do |button_text|
+  find_first_link_or_button(button_text).click
 end
 
 When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
-  within('.singlecolumn, .tbl-content') do
-    find_first_link_or_button(button_text).click
-  end
+  find_first_link_or_button(button_text).click
 end
 
 When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, dummy|
-  within('.singlecolumn, .tbl-content') do
-    find_last_link_or_button(button_text).click
-  end
+  find_last_link_or_button(button_text).click
 end
 
 Then(/^I see a message "(.*?)"$/) do |message|
   expect(page).to have_selector '.flash', text: message
 end
 
+def fill_in_field_with_value(field, value)
+  # First try with a label
+  xpath = ".//label[normalize-space(translate(.,'*',''))='#{field}' or @for='#{field}']/.."
+  if page.all(:xpath, xpath).empty?
+    # Then try with a input field
+    xpath = ".//input[@type='text' and (@id='#{field}' or @name='#{field}')]/.."
+  end
+
+  within(:xpath, xpath) do
+    fill_in(field, with: value)
+  end
+end
+
 When(/^I fill in the form with:$/) do |table|
   info = table.hashes.first
   info.each do |field, val|
-    if field == 'Group Studio'
+    if /Studio/ =~ field
       select val, from: field
     else
-      fill_in field, with: val
+      fill_in_field_with_value field, val
     end
   end
 end
+
+When(/^I fill in the "([^"]*?)" form with:$/) do |form_locator, table|
+  within form_locator do
+    info = table.hashes.first
+    info.each do |field, val|
+      if /Studio/ =~ field
+        select val, from: field
+      else
+        fill_in_field_with_value field, val
+      end
+    end
+  end
+end
+
+When(/^I choose "([^"]*?)" from "(.*?)"$/) do |option, select|
+  select option, from: select
+end
+
+When /^I choose "([^"]*?)"$/ do |radio|
+  choose radio
+end
+
+When /^I check "([^"]*?)"$/ do |cb|
+  check cb, visible: false
+end
+
+When /^I uncheck "([^"]*?)"$/ do |cb|
+  uncheck cb, visible: false
+end
+
+Then(/^I click on the "([^"]*)" icon$/) do |icon_class|
+  all(".fa.fa-#{icon_class}").first.click
+end
+
+Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|
+  within container do
+    expect(page).to have_content text
+  end
+end
+

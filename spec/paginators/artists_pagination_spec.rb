@@ -8,7 +8,7 @@ describe ArtistsPagination, :type => :controller do
   let(:per_page) { 2 }
   let(:artists) { FactoryGirl.build_list(:user, 9) }
 
-  subject(:paginator) { ArtistsPagination.new(mock_view_context, artists, current_page, per_page) }
+  subject(:paginator) { ArtistsPagination.new(artists, current_page, per_page) }
 
   its(:previous_link) { should eql mock_view_context.artists_path(:p => 0) }
   its(:next_link) { should eql mock_view_context.artists_path(:p => 2) }

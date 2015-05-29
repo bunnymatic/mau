@@ -3,6 +3,8 @@ class AdminController < BaseAdminController
   before_filter :editor_required, :only => [:featured_artist]
   before_filter :admin_required, :except => [:index, :featured_artist]
 
+  layout 'admin'
+
   def index
     @activity_stats = SiteStatistics.new
   end
@@ -42,9 +44,9 @@ class AdminController < BaseAdminController
   def os_status
     @os = Artist.active.by_lastname
     @totals = {}
-    available_open_studios_keys.map(&:to_s).each do |ostag|
-      key = OpenStudiosEvent.for_display(ostag)
-      @totals[key] = @os.count{|a| (a.os_participation || {})[ostag] }
+    @keys = available_open_studios_keys.map(&:to_s)
+    @keys.each do |ostag|
+      @totals[ostag] = @os.select{|a| (a.os_participation || {})[ostag] }.length
     end
   end
 

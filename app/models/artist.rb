@@ -35,12 +35,14 @@
 #  current_login_at          :datetime
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
+#  slug                      :string(255)
 #
 # Indexes
 #
 #  index_artists_on_login            (login) UNIQUE
 #  index_users_on_last_request_at    (last_request_at)
 #  index_users_on_persistence_token  (persistence_token)
+#  index_users_on_slug               (slug) UNIQUE
 #  index_users_on_state              (state)
 #  index_users_on_studio_id          (studio_id)
 #
@@ -49,25 +51,17 @@ require 'qr4r'
 
 class Artist < User
 
-  KEYED_LINKS = [ [:url, 'Website', :u_website],
-                  [:instagram, 'Instagram', :u_instagram],
-                  [:facebook, 'Facebook', :u_facebook],
-                  [:twitter, 'Twitter', :u_twitter],
-                  [:pinterest, 'Pinterest', :u_pinterest],
-                  [:flickr, 'Flickr', :u_flickr],
-                  [:blog, 'Blog', :u_blog],
-                  [:myspace, 'MySpace', :u_myspace]]
-
-
   BOUNDS = { 'NW' => [ 37.76978184422388, -122.42683410644531 ],
     'NE' => [ 37.76978184422388, -122.40539789199829 ],
     'SW' => [ 37.747787573475506, -122.42919445037842 ],
     'SE' => [ 37.74707496171992, -122.40539789199829 ]
   }.freeze
   CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
-
+  MAX_PIECES = 20
   include AddressMixin
   include OpenStudiosEventShim
+
+  #attr_accessible :artist_info_attributes
 
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
@@ -101,9 +95,20 @@ class Artist < User
     default_opts = {
       :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at,
                   :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at,
-                  :max_pieces, :updated_at, :activation_code, :reset_code]
+                  :max_pieces, :updated_at, :activation_code, :reset_code],
+      :methods => [:full_name, :doing_open_studios, :profile_images]
     }
     super(default_opts.merge(opts))
+  end
+
+  def at_art_piece_limit?
+    art_pieces.select(&:persisted?).count > (max_pieces || MAX_PIECES)
+  end
+
+  def profile_images
+    Hash[MauImage::ImageSize.allowed_sizes.map do |key|
+      [key, ArtistProfileImage.get_path(self, key)]
+    end]
   end
 
   def in_the_mission?
@@ -121,6 +126,7 @@ class Artist < User
   def doing_open_studios?
     !!(current_open_studios_key && os_participation && os_participation[current_open_studios_key.to_s])
   end
+  alias_method :doing_open_studios, :doing_open_studios?
 
   def address
     @memo_address ||= call_address_method :address
@@ -171,15 +177,15 @@ class Artist < User
 
   class << self
 
-    def find_all_by_fullname( names )
+    def find_all_by_full_name( names )
       inclause = ""
       lower_names = [names].flatten.map { |n| n.downcase.strip }
       sql = "select * from users where (lower(concat_ws(' ', firstname, lastname)) in (?)) and type='Artist'"
       find_by_sql [sql, lower_names]
     end
 
-    def find_by_fullname( name )
-      find_all_by_fullname([name])
+    def find_by_full_name( name )
+      find_all_by_full_name([name])
     end
 
     # tally up today's open studios count
@@ -199,8 +205,12 @@ class Artist < User
   end
 
   def self.open_studios_participants(oskey = nil)
-    q = (oskey || self.current_open_studios_key).to_s
-    joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
+    q = (oskey || OpenStudiosEvent.current.try(:key)).to_s
+    if q.present?
+      joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
+    else
+      where("1 = 0")
+    end
   end
 
   protected

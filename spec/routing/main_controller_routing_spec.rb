@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'MainController Routes' do
-  [:faq, :open_studios, :venues, :privacy, :about, :history, :contact, :version].each do |endpoint|
+  [:faq, :open_studios, :venues, :privacy, :about, :contact, :version].each do |endpoint|
     it "routes #{endpoint} to the main##{endpoint}" do
       { :get => "/#{endpoint}" }.should route_to({:controller => 'main', :action => endpoint.to_s})
     end

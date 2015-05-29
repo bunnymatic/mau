@@ -20,7 +20,7 @@ describe TagCloudPresenter, :type => :controller do
   let(:expected_order) { tags }
   let(:current_tag) { tags[1] }
 
-  subject(:cloud) { TagCloudPresenter.new(mock_view_context, clz, current_tag, mode) }
+  subject(:cloud) { TagCloudPresenter.new(clz, current_tag, mode) }
 
   before do
     fix_leaky_fixtures
@@ -35,16 +35,6 @@ describe TagCloudPresenter, :type => :controller do
 
   it 'returns the tag path' do
     expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, :m => mode)
-  end
-
-  it 'computes the style for the most popular tag' do
-    expect(subject.compute_style(expected_frequency.first)).
-      to eql "font-size:24px; margin: 4px;"
-  end
-
-  it 'computes the style for the least popular tag' do
-    expect(subject.compute_style(expected_frequency.last)).
-      to eql "font-size:17px; margin: 4px;"
   end
 
   context 'when the mode is art_pieces' do

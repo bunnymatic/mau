@@ -1,10 +1,10 @@
 module Admin
-  class OpenStudiosEventsController < AdminController
+  class OpenStudiosEventsController < BaseAdminController
 
     before_filter :admin_required
 
     def index
-      @os_events = OpenStudiosEvent.all.map{|osev| OpenStudiosEventPresenter.new(view_context, osev)}
+      @os_events = OpenStudiosEvent.all.map{|osev| OpenStudiosEventPresenter.new(osev)}
     end
 
     def new
@@ -41,7 +41,7 @@ module Admin
 
     private
     def open_studios_event_params
-      params[:open_studios_event]
+      params.require(:open_studios_event).permit(:title, :start_date, :end_date, :key, :logo)
     end
   end
 end

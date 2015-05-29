@@ -15,13 +15,19 @@ class ArtistMailer < MauMailer
     subject = 'Someone hearts you on Mission Artists United'
 
     @sender = fan
-    @notification_url = url_for(:host => Conf.site_url,
-                                :controller => 'artists',
-                                :action => 'edit') + '#notifications'
-    @artist_url = url_for(:host => Conf.site_url,
-                          :controller => 'artists',
-                          :action => 'show',
-                          :id => @artist.id)
+    @notification_url = edit_artist_url(@artist, anchor: "notifications")
+    # puts "n1 ", @notification_url
+    # @notification_url = url_for(:host => Conf.site_url,
+    #                             :controller => 'artists',
+    #                             :action => 'edit') + '#notifications'
+    # puts "n2 ", @notification_url
+    @artist_url = artist_url(@artist)
+    # puts "a1 ", @artist_url
+    # @artist_url = url_for(:host => Conf.site_url,
+    #                       :controller => 'artists',
+    #                       :action => 'show',
+    #                       :id => @artist.to_param)
+    # puts "a2", @artist_url
 
     mail(:to => artist.email,
          :from => ACCOUNTS_FROM_ADDRESS,
@@ -36,19 +42,6 @@ class ArtistMailer < MauMailer
     mail(:to => artist.email,
          :from => ACCOUNTS_FROM_ADDRESS,
          :subject => build_subject(subject))
-  end
-
-
-  def notify(artist, notehash)
-    setup_email(artist)
-    subject = "An inquiry about your art."
-    @sender_name = notehash['name']
-    @sender_email = notehash['email']
-    @sender_note = notehash['comment']
-    mail(:to => artist.email,
-         :from => NOTE_FROM_ADDRESS,
-         :subject => build_subject(subject))
-
   end
 
   def notify_featured(artist)

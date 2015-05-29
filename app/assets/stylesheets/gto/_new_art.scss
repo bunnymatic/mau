@@ -1,0 +1,40 @@
+@import 'colors';
+@import 'mau-mixins';
+@import 'variables';
+#new-art {
+
+  border-top: 1px solid $light-gray-background;
+  @include transition(left 0.25 ease-in-out);
+  h2.title {
+    background: $light-gray-background;
+    text-align:center;
+    padding: 0.5rem;
+    margin-left: 6px;
+    margin-right: 6px;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    font-weight: $font-weight-light;
+    text-transform: uppercase;
+    color: $gto_yellow;
+  }
+  .square {
+    margin: 6px;
+    min-height: 180px;
+    @include background-cover;
+  }
+  @media screen and (min-width: $screen-md-min) {
+    h2.title {
+      font-size: 1.2rem;
+    }
+  }
+  @media screen and (min-width: $screen-lg-min) {
+    h2.title {
+      font-size: 1.4rem;
+    }
+  }
+  @media screen and (min-width: $screen-xl-min) {
+    h2.title {
+      font-size: 1.6rem;
+    }
+  }
+}

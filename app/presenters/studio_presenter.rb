@@ -2,29 +2,32 @@ class StudioPresenter
 
   include OpenStudiosEventShim
 
-  attr_reader :studio, :is_mobile
-  delegate :phone, :phone?, :formatted_phone, :map_link, :city, :street, :url, :url?, :to => :studio
+  attr_reader :studio
+  delegate :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :to_param, :to => :studio
 
-  def initialize(view_context, studio, is_mobile = false)
+  def initialize(view_context, studio)
     @studio = studio
     @view_context = view_context
-    @is_mobile = is_mobile
   end
 
   def name
     studio.try(:name)
   end
 
-  def mobile_title
-    @mobile_title ||= "Studio: #{name}" if name
+  def search_name
+    (name || '').downcase
   end
 
-  def fullsite_title
-    @fullsite_title ||= "Mission Artists United - Studio: %s" if name
+  def has_phone?
+    phone.present?
+  end
+
+  def formatted_phone
+    phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
   end
 
   def page_title
-    @page_title ||= (is_mobile) ? mobile_title : fullsite_title
+    @page_title ||= "Mission Artists United - Studio: %s" if name
   end
 
   def image(size = 'small')
@@ -70,8 +73,9 @@ class StudioPresenter
 
   def artists_with_art
     @artists_with_art ||=
-      artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(@view_context, artist)}
-    @artists_with_art
+      begin
+        artists.select{|a| a.art_pieces.present?}.map{|artist| ArtistPresenter.new(artist)}
+      end
   end
 
   def has_artists?
@@ -90,10 +94,6 @@ class StudioPresenter
     @artists_without_art ||= artists.select{|a| a.art_pieces.empty?}
   end
 
-  def with_active_artists?
-    artists.present?
-  end
-
   def artists
     @artists ||= @studio.artists.active
   end
@@ -102,8 +102,8 @@ class StudioPresenter
     @studio.id == 0
   end
 
-  def display_url
-    @studio.url.gsub('http://','')
+  def website
+    url.gsub('http://','')
   end
 
   def studio_path

@@ -8,7 +8,7 @@ describe ArtPiecePresenter do
   let(:art_piece) { artist.art_pieces.first }
   let(:tags) { FactoryGirl.create_list(:art_piece_tag, 2) }
   let(:tag) { FactoryGirl.build(:art_piece_tag) }
-  subject(:presenter) { ArtPiecePresenter.new(mock_view_context, art_piece) }
+  subject(:presenter) { ArtPiecePresenter.new(art_piece) }
 
   its(:favorites_count) { should be_nil }
   its(:has_tags?) { should be_false }

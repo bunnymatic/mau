@@ -2,13 +2,20 @@ require 'spec_helper'
 
 describe Artist do
 
-  subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :firstname => 'Joe', :lastname => 'Blow') }
+  let(:max_pieces) { 10 }
+  subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, max_pieces: max_pieces, firstname: 'Joe', lastname: 'Blow') }
+  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
   let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }
   let(:artist_without_studio) { FactoryGirl.create(:artist, :active,:with_art) }
   let(:artist_info) { artist.artist_info }
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
+  its(:at_art_piece_limit?) { should eql false }
+  context 'if max_pieces is nil' do
+    let(:max_pieces) { nil }
+    its(:at_art_piece_limit?) { should eql false }
+  end
   context 'make sure our factories work' do
     it 'creates an artist info with each artist' do
       expect {
@@ -99,30 +106,26 @@ describe Artist do
   end
   describe 'in_the_mission?' do
     it "returns true for artist in the mission with no studio" do
-      a = artist_without_studio
-      a.should be_in_the_mission
-      a.should have_address
+      expect(artist_without_studio).to have_address
+      expect(artist_without_studio).to be_in_the_mission
     end
     it "returns true for artist in the mission with a studio in the mission" do
-      a = artist
-      a.should be_in_the_mission
-      a.should have_address
+      expect(artist).to have_address
+      expect(artist).to be_in_the_mission
     end
     it "returns false for artist with wayout address" do
-      a = wayout_artist
-      a.should_not be_in_the_mission
-      a.should have_address
+      expect(wayout_artist).to have_address
+      expect(wayout_artist).to_not be_in_the_mission
     end
     it "returns true for artist with wayout address but studio in the mission" do
-      a = wayout_artist
-      a.update_attribute :studio, FactoryGirl.create(:studio)
-      a.should have_address
-      a.should be_in_the_mission
+      wayout_artist.update_attribute :studio, FactoryGirl.create(:studio)
+      expect(wayout_artist).to have_address
+      expect(wayout_artist).to be_in_the_mission
     end
   end
-  describe 'find by fullname' do
-    let!(:fullname) { artist.firstname + ' ' + artist.lastname }
-    let(:artists) { Artist.find_by_fullname( fullname ) }
+  describe 'find by full_name' do
+    let!(:full_name) { artist.firstname + ' ' + artist.lastname }
+    let(:artists) { Artist.find_by_full_name( full_name ) }
     before do
       artist
     end
@@ -131,17 +134,17 @@ describe Artist do
       it { artists.first.should eql artist }
     end
     context 'with capitalized name search' do
-      let(:fullname) { "Joe Blow" }
+      let(:full_name) { "Joe Blow" }
       it { artists.should have(1).artist }
       it { artists.first.should eql artist }
     end
     context 'with mixed case search' do
-      let(:fullname) { "Joe blow" }
+      let(:full_name) { "Joe blow" }
       it { artists.should have(1).artist }
       it { artists.first.should eql artist }
     end
     context 'with substring' do
-      let(:fullname) { "Jo blow" }
+      let(:full_name) { "Jo blow" }
       it { artists.should be_empty }
     end
   end
@@ -185,20 +188,20 @@ describe Artist do
     end
     it 'calls Cache.write if Cache.read returns nil' do
       ap = ArtPiece.find_by_artist_id(artist.id)
-      Rails.cache.stub(:read => nil)
+      Rails.cache.stub(read: nil)
       Rails.cache.should_receive(:write).once
-      artist.stub(:art_pieces => [ap])
+      artist.stub(art_pieces: [ap])
       artist.representative_piece.should eql ap
     end
     it 'doesn\'t call Cache.write if Cache.read returns something' do
-      Rails.cache.stub(:read => artist.art_pieces[0])
+      Rails.cache.stub(read: artist.art_pieces[0])
       Rails.cache.should_receive(:write).never
       artist.representative_piece
     end
     it 'doesn\'t call Cache.write if there are no art pieces' do
-      Rails.cache.stub(:read => nil)
+      Rails.cache.stub(read: nil)
       Rails.cache.should_receive(:write).never
-      artist.stub(:art_pieces => [])
+      artist.stub(art_pieces: [])
       artist.representative_piece.should eql nil
     end
   end
@@ -223,12 +226,12 @@ describe Artist do
       media_ids = media.sort_by{|m| m.name.downcase}.map(&:id)
       5.times.each do |ct|
         idx = ((media_ids.count-1)/(ct+1)).to_i
-        artist.art_pieces << ArtPiece.new(:title => 'abc', :medium_id => media_ids[idx])
+        artist.art_pieces << ArtPiece.new(title: 'abc', medium_id: media_ids[idx])
       end
       artist.save
     end
     it 'finds medium 1 as the most common' do
-      artist.primary_medium.should eql media.first
+      artist.reload.primary_medium.should eql media.first
     end
     it 'works with no media on artist' do
       nobody.primary_medium.should be_nil
@@ -259,13 +262,32 @@ describe Artist do
       JSON.parse(artist.to_json)['artist']['firstname'].should eql artist.firstname
     end
     it 'includes created_at if we except other fields' do
-      a = JSON.parse(artist.to_json(:except => :firstname))
+      a = JSON.parse(artist.to_json(except: :firstname))
       a['artist'].should have_key 'created_at'
       a['artist'].should_not have_key 'firstname'
     end
     it 'includes the artist info if we ask for it' do
-      a = JSON.parse(artist.to_json(:include => :artist_info))
+      a = JSON.parse(artist.to_json(include: :artist_info))
       a['artist']['artist_info'].should be_a_kind_of Hash
+    end
+  end
+
+  describe 'destroying artists' do
+    let(:quentin) { create(:artist, :with_art) }
+    let(:art_piece) { quentin.art_pieces.first }
+    context "then artist removes that artpiece" do
+      before do
+        artist.add_favorite(art_piece)
+        artist.add_favorite(quentin)
+
+        # validate fixtures setup
+        expect(artist.favorites.map(&:favoritable_id)).to include art_piece.id
+
+        art_piece.destroy
+      end
+      it "art_piece is no longer in users favorite list" do
+        expect(artist.reload.favorites.map(&:favoritable_id)).to_not include art_piece.id
+      end
     end
   end
 
@@ -277,7 +299,7 @@ describe Artist do
       File.stub(:exists? => false)
       outpath = File.join(Rails.root, "public/artistdata/#{artist.id}/profile/qr.png")
       str = "http://#{Conf.site_url}/artists/#{artist.id}?qrgen=auto"
-      Qr4r.should_receive(:encode).with(str, outpath, :border => 15, :pixel_size => 5)
+      Qr4r.should_receive(:encode).with(str, outpath, border: 15, pixel_size: 5)
       artist.qrcode
     end
   end

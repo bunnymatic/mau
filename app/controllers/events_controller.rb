@@ -3,8 +3,6 @@ class EventsController < ApplicationController
   before_filter :user_required, :except => [:index, :show]
   before_filter :editor_required, :only => [:destroy]
 
-  layout 'mau2col'
-
   def index
     raw_events = Event.published.by_starttime.reverse
     events = EventsPresenter.new(view_context, raw_events, params['m'])
@@ -12,13 +10,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html {
         @events = events
-        render :layout => 'mau'
-      }
-      format.mobile {
-        # @events = Event.published.reverse
-        @events = events
-        @page_title = "MAU Events"
-        render :layout => 'mobile'
       }
       format.json  {
         render :json => raw_events
@@ -41,17 +32,11 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
     @event = EventPresenter.new(view_context,event)
     @page_title = "MAU Event: %s" % @event.title
-    respond_to do |format|
-      format.html
-      format.mobile {
-        render :layout => 'mobile'
-      }
-    end
   end
 
   # GET /events/new
   def new
-    @event = Event.new(:state => 'CA', :city => 'San Francisco').decorate
+    @event = Event.new.decorate
     render 'new_or_edit'
   end
 
@@ -87,7 +72,7 @@ class EventsController < ApplicationController
       redirect_to(admin_events_path)
     else
       @event = @event.decorate
-      render "new_or_edit", :layout => 'mau-admin'
+      render "new_or_edit", :layout => 'admin'
     end
   end
 
@@ -113,12 +98,21 @@ class EventsController < ApplicationController
 
   def fetch_artists_by_names(names)
     names.map do |name|
-      Artist.find_by_fullname(name)
+      Artist.find_by_full_name(name)
     end.flatten.compact
   end
 
   def event_params(append_artist = false)
-    info = params[:event]
+    info = params.require(:event).permit :title, :description, :tweet, :street,
+                                         :venue, :state, :city, :zip,
+                                         :start_date, :start_time,
+                                         :end_date, :end_time,
+                                         :reception_start_date, :reception_start_time,
+                                         :reception_end_date, :reception_end_time,
+                                         :url, :lat, :lng, :user_id, :artist_list,
+                                         :reception_starttime, :reception_endtime
+
+    # info = info
     info = append_artists_to_description(info) if append_artist
     info[:user_id] = current_user.id
     info[:starttime] = reconstruct_starttime(info)

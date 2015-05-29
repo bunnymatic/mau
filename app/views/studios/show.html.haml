@@ -1,36 +1,25 @@
-%table.tbl-content
-  %tr
-    %td.lcol{ :colspan => 2 }
-      = render 'studio_list', :studios => @studios, :selected_studio => @studio
-    %td.vstripe
-    %td.rcol{ :colspan => 2 }
-      #studio_page
-        .studio-info
-          .studio-img
-            %img.profile{ :src => @studio.image }
-          %h4 #{@studio.name}
-          = render '/flash_notice_error'
-          %div
-            .address
-              = @studio.street_with_cross
-              - if !@studio.indy?
-                = link_to @studio.map_link, title: :map, target: "_blank" do
-                  %i.fa.fa-map-marker
-            .city #{@studio.city}
-            .url
-              - if @studio.url?
-                = link_to @studio.display_url, @studio.url
-            - if @studio.phone?
-              .phone #{@studio.formatted_phone}
-          .clear
-          / pushes thumbnails below the floating img
-        .clear
-        .artists
-          .div-left Artists:
-          - if @studio.has_artists_with_art?
-            = render '/artists/thumbs',:artists => @studio.artists_with_art, :params => { :cols => 5 }
-          - if @studio.has_artists_without_art?
-            .studio-memberlist
-              - if @studio.has_artists_with_art?
-                More:
-              = @studio.artists_without_art.map{|a| link_to(a.get_name, a )}.join(", ").html_safe
+
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title
+      Studio:
+      %span.studio__name #{@studio.name}
+.pure-g.alpha.omega
+  .pure-u-1-1.pure-u-sm-1-3.pure-u-md-1-4.pure-u-lg-1-5#about
+    = render "studios/about", studio: @studio
+  .pure-u-1-1.pure-u-sm-2-3.pure-u-md-3-4.pure-u-lg-4-5#art.padded-content
+    .pure-g.alpha
+      .pure-u-1-1
+        %section.studio_artists
+          .header Artists
+      - if @studio.has_artists_with_art?
+        = render partial: 'artist', collection: @studio.artists_with_art, locals: { class_overrides: %w(pure-u-1-1 pure-u-md-1-2 pure-u-lg-1-3 pure-u-xl-1-4).join(" ") }
+      - if @studio.has_artists_without_art?
+        .pure-u-1-1.pure-u-md-1-2.pure-u-lg-1-3.pure-u-xl-1-4
+          .studio-memberlist
+            - if @studio.has_artists_with_art?
+              %h4 More Artists:
+              %ul
+                - @studio.artists_without_art.map{|a| link_to(a.get_name, a )}.each do |link|
+                  %li
+                    = link.html_safe

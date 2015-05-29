@@ -23,7 +23,6 @@ describe Admin::RolesController do
   end
 
   describe 'authorized' do
-    render_views
     before do
       login_as admin, :record => true
     end
@@ -31,20 +30,8 @@ describe Admin::RolesController do
       before do
         get :index
       end
-      it_should_behave_like 'logged in as admin'
       it 'shows all roles' do
         assigns(:roles).count.should eql Role.count
-      end
-      it { expect(response).to render_template 'layouts/mau-admin' }
-
-      it "shows a list of editors" do
-        assert_select ".editor.role_container .role_members li", :count => 1
-      end
-      it "shows a list of managers" do
-        assert_select ".manager.role_container .role_members li", :count => 1
-      end
-      it "shows a list of admins" do
-        assert_select ".admin.role_container .role_members li", :count => 1
       end
     end
 
@@ -53,7 +40,7 @@ describe Admin::RolesController do
         before do
           get endpoint, :id => manager_role.id
         end
-        it_should_behave_like 'logged in as admin'
+        it { expect(response).to be_success }
       end
     end
     describe 'POST update' do

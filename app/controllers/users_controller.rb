@@ -1,12 +1,9 @@
 class UsersController < ApplicationController
 
-  skip_before_filter :get_new_art, :get_feeds
-
   before_filter :logged_out_required, :only => [:new]
   before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
-  before_filter :user_required, :only => [ :edit, :update, :suspend, :delete_art, :destroyart, :upload_profile,
-                                            :add_profile, :deactivate, :setarrangement, :arrange_art,
-                                            :add_favorite, :remove_favorite, :change_password_update, :notify]
+  before_filter :user_required, :only => [ :edit, :update, :suspend, :deactivate,
+                                           :add_favorite, :remove_favorite, :change_password_update]
 
 
   DEFAULT_ACCOUNT_TYPE = 'MAUFan'
@@ -16,79 +13,38 @@ class UsersController < ApplicationController
   end
 
   def edit
-    if current_user.is_artist?
-      redirect_to edit_artist_path(current_user)
+    @fan = safe_find_user(params[:id])
+
+    if (@fan != current_user) || current_user.is_artist?
+      redirect_to edit_artist_path(current_user), flash: flash
       return
     end
+    @user = UserPresenter.new(current_user.becomes(User))
   end
 
   def show
     @fan = safe_find_user(params[:id])
-    if !@fan or @fan.suspended?
-      @fan = nil
+    unless @fan && @fan.active?
       flash.now[:error] = "The account you were looking for was not found."
+      redirect_to artists_path and return
     end
-    if @fan
-      if @fan.is_artist?
-        redirect_to artist_path(@fan)
-        return
-      end
-      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
+    if @fan.is_artist?
+      redirect_to artist_path(@fan) and return
     else
-      @page_title = "Mission Artists United"
+      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
     end
-    render 'show', :layout => 'mau'
+    @fan = UserPresenter.new(@fan.becomes(User))
   end
 
-  # render new.rhtml
   def new
     artist = Artist.new
     fan = MAUFan.new
     @studios = Studio.all
-    @type = (['Artist','MAUFan'].include? params[:type]) ? params[:type] : 'Artist'
+    type = params[:type] || user_attrs[:type]
+    @type = ['Artist','MAUFan'].include?(type) ? type : 'Artist'
     @user = (@type == 'MAUFan') ? fan : artist
   end
 
-  def add_profile
-  end
-
-  def favorites
-    @user = safe_find_user(params[:id])
-    if !@user or @user.suspended?
-      @user = nil
-      flash.now[:error] = "The account you were looking for was not found."
-      redirect_back_or_default("/")
-      return
-    end
-    if @user == current_user && current_user.favorites.count <= 0
-      @random_picks = ArtPiece.find_random(24)
-    end
-  end
-
-  def upload_profile
-    if commit_is_cancel
-      redirect_to user_path(current_user)
-      return
-    end
-
-    @user = self.current_user
-    upload = params[:upload]
-
-    if not upload
-      flash[:error] = "You must provide a file."
-      redirect_to add_profile_users_path
-      return
-    end
-
-    begin
-      post = ArtistProfileImage.new(@user).save upload
-      redirect_to user_path(@user), :notice => 'Your profile image has been updated.'
-    rescue
-      logger.error("Failed to upload %s" % $!)
-      flash[:error] = "%s" % $!
-      redirect_to add_profile_users_path
-    end
-  end
 
   def update
     if commit_is_cancel
@@ -96,21 +52,30 @@ class UsersController < ApplicationController
       return
     end
     # clean os from radio buttons
-    if current_user.update_attributes(user_params)
-      flash[:notice] = "Update successful"
-      redirect_to(edit_user_url(current_user))
-    else
-      flash[:error] = "%s" % $!
-      render 'edit'
+    begin
+      if params.has_key? 'upload'
+        begin
+          # update the picture only
+          ArtistProfileImage.new(current_user).save params[:upload]
+        end
+      else
+        current_user.update_attributes!(user_params)
+        Messager.new.publish "/artists/#{current_user.id}/update", "updated artist info"
+      end
+      flash[:notice] = "Your profile has been updated"
+    rescue Exception => ex
+      flash[:error] = ex.to_s
     end
+    redirect_to edit_user_url(current_user), flash: flash
   end
 
   def create
     logout
-    @type = params.delete(:type) || DEFAULT_ACCOUNT_TYPE
+    @type = params.delete(:type)
+    @type ||= user_attrs[:type]
 
     # validate email domain
-    build_user_from_params
+    @user = build_user_from_params
     unless verify_recaptcha
       @user.valid?
       @user.errors.add(:base, "Failed to prove that you're human."+
@@ -128,45 +93,17 @@ class UsersController < ApplicationController
 
   # Change user passowrd
   def change_password_update
-    if current_user.valid_password? params[:old_password]
-      if ((params[:password] == params[:password_confirmation]) && !params[:password_confirmation].blank?)
-        current_user.password_confirmation = params[:password_confirmation]
-        current_user.password = params[:password]
-
-        if current_user.save!
-          flash[:notice] = "Password successfully updated"
-        else
-          flash[:error] = "Password not changed"
-        end
-
+    msg = {}
+    if current_user.valid_password? user_attrs["old_password"]
+      if current_user.update_attributes(password_params)
+        msg[:notice] = "Your password has been updated"
       else
-        flash[:error] = "New Password mismatch"
+        msg[:error] = current_user.errors.full_messages.join
       end
     else
-      flash[:error] = "Old password incorrect"
+      msg[:error] = "Your old password was incorrect"
     end
-    redirect_to request.referer || current_user
-
-  end
-
-  def noteform
-    # get new note form
-    @artist = safe_find_user(params[:id])
-    if !@artist
-      @errmsg = "We were unable to find the artist in question."
-    end
-    render :layout => false
-  end
-
-  def notify
-    _id = params[:id]
-    note_info = build_note_info_from_params
-    if note_info.has_key? 'reason'
-      AdminMailer.spammer(note_info).deliver!
-    elsif note_info['comment'].present?
-      ArtistMailer.notify( Artist.find(_id), note_info).deliver!
-    end
-    render :layout => false
+    redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
   def reset
@@ -189,10 +126,6 @@ class UsersController < ApplicationController
         @user.password = '';
         @user.password_confirmation ='';
       end
-    end
-    respond_to do |fmt|
-      fmt.html { render :action => :reset }
-      fmt.mobile { render :action => :reset, :layout => 'mobile' }
     end
   end
 
@@ -294,11 +227,11 @@ class UsersController < ApplicationController
       else
         objname = obj.get_name(true)
         msg = r ? "#{objname} has been added to your favorites.":
-          "You've already added #{objname} to your list of favorites."
+                "You've already added #{objname} to your list of favorites."
         if obj.is_a? ArtPiece
-          redirect_to art_piece_path(obj), :flash => { :notice => msg.html_safe }
+          redirect_to art_piece_path(obj), :flash => { :notice => msg }
         else
-          redirect_to obj, :flash => { :notice => msg.html_safe }
+          redirect_to obj, :flash => { :notice => msg }
         end
 
       end
@@ -332,7 +265,7 @@ class UsersController < ApplicationController
   def render_on_failed_create
     msg = "There was a problem creating your account."+
           " If you can't solve the issues listed below, please try again later or"+
-          " contact the webmaster (link below). if you continue to have problems.<br/>"
+          " contact the webmaster (link below). if you continue to have problems."
     msg += @user.errors[:base].join(". ")
     flash.now[:error] = msg.html_safe
     @studios = Studio.all
@@ -370,19 +303,11 @@ class UsersController < ApplicationController
   def build_user_from_params
     return if user_params.empty?
     if @type == 'Artist'
-      # studio_id is in artist info
-      studio_id = user_params[:studio_id] ? user_params[:studio_id].to_i() : 0
-      if studio_id > 0
-        studio = Studio.find(studio_id)
-        if studio
-          @user = studio.artists.build(user_params)
-        end
-      else
-        @user = Artist.new(user_params)
-      end
+      Artist.new(user_params)
     elsif @type == 'MAUFan' || @type == 'User'
-      user_params[:login] = user_params[:login] || user_params[:email]
-      @user = MAUFan.new(user_params)
+      attrs = user_params
+      attrs[:login] = attrs[:login] || attrs[:email]
+      MAUFan.new(attrs)
     end
   end
 
@@ -424,8 +349,22 @@ class UsersController < ApplicationController
     note_info
   end
 
+  def password_params
+    k = user_params_key
+    params.require(k).permit(:password, :password_confirmation)
+  end
+
+  def user_attrs
+    (params[:artist] || params[:mau_fan] || params[:user] || {})
+  end
+
+  def user_params_key
+    [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
+  end
+
   def user_params
-    attrs = (params[:artist] || params[:mau_fan] || params[:user] || {})
+    k = user_params_key
+    attrs = user_attrs
 
     if params[:emailsettings]
       em = params[:emailsettings]
@@ -435,6 +374,10 @@ class UsersController < ApplicationController
       end
       attrs[:email_attrs] = em2.to_json
     end
-    attrs
+    params.require(k).permit(:login, :email, :firstname, :lastname,
+                             :password, :password_confirmation,
+                             :url, :studio, :studio_id, :nomdeplume, :profile_image,
+                             :email_attrs )
   end
+
 end

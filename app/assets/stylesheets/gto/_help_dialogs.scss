@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'mau-mixins';
+@import 'gto/gto-mixins';
+
+.help__opener {
+  float: right;
+  .fa {
+    font-size: 1.2rem;
+  }
+}
+.help__contents {
+  display: none;
+  @include round-corners(2px);
+  position: absolute;
+  width: 250px;
+  height: auto;
+  left: 4px;
+  top: 4px;
+  background: white;
+  @include box-shadow(0 0 8px 0px rgba(128,128,128,0.7));
+  z-index: 20;
+}
+
+.help-parent {
+  float: right;
+  margin-right: 10px;
+  vertical-align: top;
+  position: relative;
+  z-index: 20;
+  font-size: 0.9rem;
+}
+
+.popup-help {
+  @include popup-elements;
+}

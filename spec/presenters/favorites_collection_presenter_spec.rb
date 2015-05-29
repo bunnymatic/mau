@@ -1,0 +1,36 @@
+require 'spec_helper'
+
+describe FavoritesCollectionPresenter do
+  let(:artists) { create_list :artist, 4, :with_art }
+  let(:artist) { artists.first }
+  let(:current_user) { nil }
+  subject(:presenter) { FavoritesCollectionPresenter.new(artist.favorites, artist, current_user) }
+
+  context 'with favorites' do
+    before do
+      artist.add_favorite(artists[1])
+      artist.add_favorite(artists[2])
+
+      artist.add_favorite(artists[2].art_pieces.first)
+      artist.add_favorite(artists[3].art_pieces.first)
+    end
+
+    its(:art_pieces) { should have(2).art_pieces }
+    its(:artists) { should have(2).artists }
+
+  end
+
+  context 'when the artist has no favorites' do
+    its(:art_pieces) { should be_empty }
+    its(:artists) { should be_empty }
+    its(:empty_message) { should match /not favorited anything/ }
+  end
+
+  context 'when the viewer is the artist' do
+    let(:current_user) { artist }
+    context 'and the artist has no favorites' do
+      its(:empty_message) { should match /Go find an artist/ }
+    end
+  end
+
+end

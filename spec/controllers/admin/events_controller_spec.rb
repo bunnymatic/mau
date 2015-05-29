@@ -25,7 +25,7 @@ describe Admin::EventsController do
       before do
         get :index
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it "marks down the event content" do
         response.body.should_not include 'lt;p&gt;'
       end

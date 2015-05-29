@@ -25,8 +25,4 @@ class StudiosPresenter
      end).map{|s| StudioPresenter.new(@view_context, s)}
   end
 
-  def each(&block)
-    studios.each(&block)
-  end
-
 end

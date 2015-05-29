@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  sequence(:login) {|n| "whatever%08d" % n }
+  sequence(:login) {|n| "#{Faker::Internet.user_name}%04d" % n }
   factory :user do
     login
     email { "#{login}@example.com" }
@@ -8,6 +8,7 @@ FactoryGirl.define do
     password_confirmation { 'bmatic' }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.first_name }
+    nomdeplume { Faker::Company.name }
     profile_image { Faker::Files.file }
     image_height { 2000 + rand(1000) }
     image_width { 2000 + rand(1000) }
@@ -25,47 +26,54 @@ FactoryGirl.define do
 
     trait :manager do
       after(:create) do |u|
-        u.roles << (Role.find_by_role(:manager) || FactoryGirl.create(:role, :role => :manager))
+        u.roles << (Role.find_by_role(:manager) || FactoryGirl.create(:role, role: :manager))
         u.save!
       end
     end
 
     trait :editor do
       after(:create) do |u|
-        u.roles << (Role.find_by_role(:editor) || FactoryGirl.create(:role, :role => :editor))
+        u.roles << (Role.find_by_role(:editor) || FactoryGirl.create(:role, role: :editor))
         u.save!
       end
     end
 
     trait :admin do
       after(:create) do |u|
-        u.roles << (Role.find_by_role(:admin) || FactoryGirl.create(:role, :role => :admin))
+        u.roles << (Role.find_by_role(:admin) || FactoryGirl.create(:role, role: :admin))
         u.save!
       end
     end
 
   end
 
-  factory :fan, :parent => :user, :class => 'MAUFan' do
+  factory :fan, parent: :user, class: 'MAUFan' do
     type { 'MAUFan' }
     active
   end
 
 
-  factory :artist, :parent => :user, :class => 'Artist' do
+  factory :artist, parent: :user, class: 'Artist' do
     type { 'Artist' }
 
-    after(:create) do |artist|
-      FactoryGirl.create(:artist_info, :artist => artist)
+    after(:create) do |artist, context|
+      FactoryGirl.create(:artist_info, artist: artist, max_pieces: context.max_pieces)
     end
 
     ignore do
+      max_pieces 10
       number_of_art_pieces 3
     end
 
     trait :with_links do
       after(:create) do |artist|
         artist.artist_info.update_attributes( facebook: Faker::Internet.url, twitter: Faker::Internet.url )
+      end
+    end
+
+    trait :in_the_mission do
+      after(:create) do |artist|
+        artist.artist_info.update_attributes(street: '1890 bryant st', city: 'sf', addr_state: 'ca', zip: '94110', lat: 37.763232, lng: -122.410636)
       end
     end
 

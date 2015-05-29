@@ -1,0 +1,42 @@
+@import 'gto/variables';
+@import 'colors';
+@import 'mau-mixins';
+art-pieces-browser {
+  .profile-info {
+    .pure-button {
+      width: 100%;
+      @include ellipsis;
+    }
+  }
+  .social-buttons, .profile-info {
+    margin-right: 15px;
+    .share {
+      text-align: left;
+      display: none;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: $font-weight-light;
+      padding-bottom: 6px;
+      vertical-align: middle;
+      margin-right: 8px;
+      height: 1.5rem;
+    }
+    share-button {
+      display: inline-block;
+      margin-bottom: 3px;
+    }
+    .ico.ico-invert {
+      font-size: 1.9rem;
+    }
+  }
+  @media screen and (min-width: $screen-xs-max) {
+  }
+  @media screen and (min-width: $screen-sm-max) {
+  }
+  @media screen and (min-width: $screen-md-max) {
+    .social-buttons .share {
+      display: inline-block;
+    }
+  }
+  
+}

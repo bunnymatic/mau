@@ -1,28 +1,24 @@
 - content_for :extra_javascript do
   %script{ :type => 'text/javascript' }
+    = "<!--//--><![CDATA[//><!--".html_safe
     = raw "MAU.map_markers = #{@map_info.map_data};"
+    = "//--><!]]>".html_safe
 
   %script{ :src => "//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry", :type => "text/javascript"}
   %script{ :src => '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.16/src/markerclusterer_packed.js', :type => "text/javascript" }
   = javascript_include_tag 'gmaps/google'
-  = javascript_include_tag 'artists_map'
 
-.singlecolumn  
-  #map_page
-    - if params[:format] != 'mobile'
-      %div{:style => "margin: auto;" }
-        = render '/osswitch', :os_only => @os_only
-        = render '/artists/view_switcher', :roster_link => @roster_link, :gallery_link => @gallery_link, :map_link => @map_link
-    .clear
-    .map-roster
-      .map-container
-        #map-canvas{:width => 600, :height => 500}
-      - @map_info.grouped_by_address_and_sorted.each do |addr,artists|
-        .address-wrapper
-          .map-addr
-            = addr
-          %ul.tenants
-            - artists.each do |a|
-              %li.map-name
-                %a.artist-map-lnk{ :id => "artist_#{a.id}", :href => a.show_path}
-                  =h a.get_name
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title Map
+  .pure-u-1-1.pure-u-sm-1-2.pure-u-md-2-3.pure-u-lg-4-5.padded-content
+    #map-canvas
+  - @map_info.grouped_by_address_and_sorted.each do |addr,artists|
+    .pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-3.pure-u-lg-1-5.map__list-of-artists.padded-content
+      .header
+        = addr
+      %ul.tenants
+        - artists.each do |a|
+          %li.map__artist
+            %a.artist-map-lnk{ 'data-artist_id' => "artist_#{a.id}", href: artist_path(a) }
+              = a.full_name

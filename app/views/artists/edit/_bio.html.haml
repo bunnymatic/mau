@@ -1,0 +1,13 @@
+.panel-heading
+  %h4.panel-title
+    = link_to "Bio/Artist's Statement", '#bio', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
+    .fa.fa-icon.panel-opener
+.panel-collapse.collapse#bio{ role: "tabpanel" }
+  .panel-body
+    = form.inputs do
+      = form.inputs for: :artist_info do |ai_form|
+        = ai_form.input "bio", as: :text, label: false, hint: "Please avoid html tags and any fancy formatting.  Newlines will be preserved.", input_html: { autogrow: true }
+    = form.actions do
+      = form.submit 'Save Changes', class: "pure-button pure-button-primary"
+      = form.submit 'Cancel', class: "pure-button"
+      

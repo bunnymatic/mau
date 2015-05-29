@@ -1,0 +1,28 @@
+@import 'mau-mixins';
+@import 'gto/gto-mixins';
+
+.art_piece_tags, .media {
+  .tagcloud {
+    @extend .gto-list;
+  }
+  li.tagmatch {
+    list-style: disc;
+    font-weight: $font-weight-bold;
+  }
+  .clouditem {
+    margin: 0;
+    padding: 2px 10px;
+  }
+  .header h4.title {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.80rem;
+    margin-bottom: 8px;
+    margin-top: 0
+  }
+  .paginator {
+    display: block;
+    float: right;
+    margin-right: 6px;
+  }
+}

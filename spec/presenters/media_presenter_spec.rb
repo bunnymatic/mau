@@ -16,12 +16,12 @@ describe MediaPresenter do
   let(:per_page) { 2 }
   let(:select_medium) { media.last }
 
-  subject(:presenter) { MediaPresenter.new(mock_view_context, select_medium, page, mode, per_page) }
+  subject(:presenter) { MediaPresenter.new(select_medium, page, mode, per_page) }
 
   its(:by_artists?) { should be_false }
   its(:by_pieces?) { should be_true }
   its(:all_art_pieces) { should have(select_medium.art_pieces.count).art_pieces }
-  its(:art_pieces) { should have(2).items }
+  its("paginator.items") { should have(2).items }
   its(:paginator) { should be_a_kind_of MediumPagination }
 
   its('paginator.per_page') { should eql per_page }

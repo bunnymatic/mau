@@ -26,12 +26,15 @@ describe OpenStudiosEvent do
     Timecop.return
   end
 
-  describe '.pretty_print' do
+  describe '.for_display' do
     it "returns the pretty version for the current os" do
       expect(OpenStudiosEvent.for_display).to eql current_os.start_date.strftime("%Y %b")
     end
     it "returns the pretty version for a given tag" do
       expect(OpenStudiosEvent.for_display("201104")).to eql current_os.start_date.strftime("2011 Apr")
+    end
+    it "reverses the date given reverse = true" do
+      expect(OpenStudiosEvent.for_display("201104", true)).to eql current_os.start_date.strftime("Apr 2011")
     end
   end
 

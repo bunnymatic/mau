@@ -24,9 +24,9 @@ describe OpenStudiosPresenter do
   end
 
   its(:participating_studios) { should have(2).studios }
-  its(:participating_indies) { should have_at_least(1).artist }
-  its(:preview_reception) { should be_a_kind_of String }
-  its(:summary) { should be_a_kind_of String}
+  its(:participating_indies) { should have(1).artist }
+  its(:preview_reception) { should include 'pr header' }
+  its(:summary) { should include 'spring 2004' }
   its(:preview_reception_data) { should have_key 'data-cmsid'}
   its(:preview_reception_data) { should have_key 'data-page'}
   its(:preview_reception_data) { should have_key 'data-section'}

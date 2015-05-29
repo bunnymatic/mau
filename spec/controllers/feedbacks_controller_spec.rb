@@ -21,7 +21,7 @@ describe FeedbacksController do
   describe '#create' do
     context 'with no info' do
       before do
-        get :create, {:feedback => {}}
+        get :create, :feedback => { :whatever => 'blah' }
       end
       it { assigns(@error_message).should be_present }
       it { expect(response).to render_template :new }

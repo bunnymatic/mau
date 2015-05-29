@@ -1,13 +1,14 @@
-.application_events
-  %h4 Application Events
+.pure-g.application_events
+  .pure-u-1-1.padded-content.header
+    %h2.title Application Events
 
-  = render :partial => '/flash_notice_error'
-  - @events_by_type.each do |key, events|
-    - if events.length
-      .events_list{:class => key.to_s.tableize}
-        %h5 #{key}
-        .admin-table
-          %table
+  .pure-u-1-1.padded-content
+    = render :partial => '/flash_notice_error'
+    - @events_by_type.each do |key, events|
+      - if events.length
+        .events_list{:class => key.to_s.tableize}
+          %h3 #{key}
+          %table.pure-table.pure-table-striped
             %tbody
               - events.each do |ev|
                 %tr

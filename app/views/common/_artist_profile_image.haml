@@ -1,12 +1,7 @@
-- if logged_in? && artist && artist.login == self.current_user.login
-  %a{:title => "update my picture", :href => add_profile_users_path}
-    - if artist.has_profile_image
-      %img{:class => "profile", :src => "%s?%s" % [artist.get_profile_image('small'), Time.zone.now.to_i]}
-    - else
-      %img{:class => "profile", :src => "/images/default-profile-img.png"}
-- else
+-# expects artist as parameters
+.artist-profile__image
   - if artist.has_profile_image
-    %img{:class => "profile", :src => "%s?%s" % [artist.get_profile_image('small'), Time.zone.now.to_i]}
+    %img{class: "pure-img profile", src: "%s?%s" % [artist.get_profile_image('medium'), Time.zone.now.to_i]}
   - else
-    %img{:class => "profile", :src => "/images/default-profile-img-not-me.png"}
+    %i.fa.fa-user  
 

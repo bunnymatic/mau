@@ -1,30 +1,33 @@
-.admin-table
-  .admin-controls
-    = link_to new_admin_open_studios_event_path, title: 'add new open studios date' do
-      = fa_icon "plus"
-  %h1 Open Studios'
-  %table.os-events
-    %thead
-      %tr
-        %th key
-        %th title
-        %th start date
-        %th end date
-        %th logo?
-        %th
-    %tbody
-      - @os_events.each_with_index do |os_event|
+.pure-g
+  .pure-u-1-1.padded-content
+    %h1
+      Open Studios Events
+      .admin-table__controls
+      = link_to new_admin_open_studios_event_path, title: 'add new open studios date' do
+        = fa_icon "plus-circle"
+  .pure-u-1-1.padded-content
+    %table.os-events.pure-table.pure-table-striped
+      %thead
         %tr
-          %td.key #{os_event.key}
-          %td.title #{os_event.title}
-          %td.start #{os_event.start_date}
-          %td.end #{os_event.end_date}
-          %td.logo
-            - if os_event.logo?
-              = link_to os_event.logo.original_filename, os_event.logo.url(:square), target: '_blank'
-          %td.input-name
-            = link_to os_event.edit_path, title: 'Edit' do
-              = fa_icon 'edit'
-            = link_to os_event.destroy_path, confirm: 'Are you sure?', method: :delete, title: "Delete" do
-              = fa_icon 'remove'
+          %th key
+          %th title
+          %th start date
+          %th end date
+          %th logo?
+          %th
+      %tbody
+        - @os_events.each_with_index do |os_event|
+          %tr
+            %td.key #{os_event.key}
+            %td.title #{os_event.title}
+            %td.start #{os_event.start_date}
+            %td.end #{os_event.end_date}
+            %td.logo
+              - if os_event.logo?
+                = link_to os_event.logo.original_filename, os_event.logo.url(:square), target: '_blank'
+            %td.input-name
+              = link_to edit_admin_open_studios_event_path(os_event), title: 'Edit' do
+                = fa_icon 'edit'
+              = link_to admin_open_studios_event_path(os_event), confirm: 'Are you sure?', method: :delete, title: "Delete" do
+                = fa_icon 'remove'
 

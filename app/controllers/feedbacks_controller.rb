@@ -12,9 +12,8 @@ class FeedbacksController < ApplicationController
   end
 
   def create
-    @feedback = Feedback.new(params[:feedback])
-    if @feedback.valid?
-      @feedback.save
+    @feedback = Feedback.new(feedback_params)
+    if @feedback.save
       FeedbackMailer.feedback(@feedback).deliver!
       render 'thankyou', :status => :created
     else
@@ -28,5 +27,10 @@ class FeedbacksController < ApplicationController
       @section = @feedback.subject.to_s
       render :action => 'new', :status => :unprocessable_entity
     end
+  end
+
+  private
+  def feedback_params
+    params.require(:feedback).permit :subject, :email, :login, :page, :comment, :url, :skillsets, :bugtype
   end
 end

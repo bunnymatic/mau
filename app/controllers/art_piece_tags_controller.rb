@@ -1,7 +1,5 @@
 class ArtPieceTagsController < ApplicationController
 
-  skip_before_filter :get_new_art, :get_feeds
-
   before_filter :admin_required, :except => [ :index, :show, :autosuggest ]
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
@@ -30,35 +28,26 @@ class ArtPieceTagsController < ApplicationController
 
   # GET /tags/1
   def show
-    if is_mobile?
-      redirect_to root_path and return
-    end
     # get art pieces by tag
     begin
       @tag = ArtPieceTag.find(params[:id])
     rescue
       redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for"} ) and return
     end
-    
-    page = 0
-    if params[:p]
-      page = params[:p].to_i
-    end
 
+    page = params[:p].to_i
     mode = params[:m]
+
     @tag_presenter = ArtPieceTagPresenter.new(@tag, mode)
-    @tag_cloud_presenter = TagCloudPresenter.new(view_context, ArtPieceTag, @tag, mode)
-    @paginator = ArtPieceTagPagination.new(view_context, @tag_presenter.art_pieces, @tag, page, mode)
+    @tag_cloud_presenter = TagCloudPresenter.new(ArtPieceTag, @tag, mode)
+    @paginator = ArtPieceTagPagination.new(@tag_presenter.art_pieces, @tag, page, mode)
 
     @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })
     @by_pieces_link = art_piece_tag_url(@tag, { :m => 'p' })
-
-    render :action => "show", :layout => "mau"
   end
 
 
   private
-
   def fetch_tags_for_autosuggest
     tags = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless tags

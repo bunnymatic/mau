@@ -5,7 +5,7 @@ Feature: As a user
 Background:
   Given an account has been created
   Given I visit the login page
-  And I click "Can't access your account?"
+  And I click "Can't log in? Forgot your password?"
 
 Scenario: try to reset with a known account
   When I fill in my email

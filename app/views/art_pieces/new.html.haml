@@ -1,42 +1,13 @@
-.singlecolumn
-  %h4 Add a new piece of art for #{current_artist.get_name}
-  = form_for([current_artist,@art_piece], :html => {:id => 'new_artpiece_form', :multipart => true}) do |f|
-    = hidden_field_tag :user_id, current_artist.login
-    #spinner
-    = render '/common/form_errors', :form => f
-    = render '/flash_notice_error'
-    .form-group
-      .label
-        = f.label :upload_file, "Select File"
-      .field
-        = file_field :upload, 'datafile'
-    .form-group.input-help
-      Please use images of type JPG, PNG or GIF whose size is less than 2MB.
-    .form-group.required
-      .label
-        = f.label :title
-      .field
-        = f.text_field :title, required: :required
-    .form-group
-      .label
-        = f.label :dimensions
-      .field
-        = f.text_field :dimensions
-    .form-group
-      .label
-        = f.label :year
-      .field
-        = f.text_field :year
-    .form-group
-      .label
-        = f.label :medium
-      .field
-        = select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } )
-    .form-group
-      .label
-        = f.label :tags
-      .field
-        = text_field_tag 'tags', tags_to_s(@art_piece.tags)
-    .form-controls.buttons
-      = f.submit 'Add'
-      = f.submit 'Cancel'
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title Add Art
+    .warning
+      - if @artist.at_art_piece_limit?
+        You cannot have more than #{artist.max_pieces} art pieces.
+        If you decide to continue adding art, the oldest pieces will
+        be removed to make space for the new ones.  Alternatively, you
+        could go delete specific pieces to make room for the new ones.
+    
+.pure-g
+  .pure-u-1-1.pure-u-sm-1-2.art-piece-new-form.padded-content
+    = render 'form', art_piece: @art_piece, artist: current_artist

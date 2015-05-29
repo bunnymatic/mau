@@ -1,0 +1,65 @@
+@import 'colors';
+@import 'mau-mixins';
+
+#admin_nav
+{
+  position: fixed;
+  width: 200px;
+  left: calc(100% - 2px);
+  left: -webkit-calc(100% - 2px);
+  color:$darkgray;
+  font-size:small;
+  margin: 0 auto;
+  z-index: 30;
+  @include transition(left 0.4s ease-out);
+
+  ul,li { margin: 0; padding: 0px;}
+
+  .link-groups > li {
+    margin-top: 10px;
+  }
+  .link-section li {
+    padding: 5px 2px;
+  }
+  &:hover {
+    left: calc(100% - 200px);
+    left: -webkit-calc(100% - 200px);
+  }
+  .container {
+    position: relative;
+    z-index:1;
+    border: 1px solid $gto_red;
+    background-color: lighten($gto_red, 45%);
+    margin: 4px auto 0;
+    padding: 9px 20px 20px 20px;
+    @include round-left-corners(2px);
+    .handle {
+      border: 1px solid $gto_red;
+      border-right: none;
+      background-color: lighten($gto_red, 45%);
+      position: absolute;
+      left: -24px;
+      top: 55px;
+      padding: 8px 6px 8px;
+      @include round-left-corners(4px);
+      .admin-nav__title {
+        letter-spacing: 0;
+      }
+    }
+    ul ul {
+      border-top: 1px solid #c99;
+      > li {
+        margin-left: 5px;
+      }
+      &.main {
+        width: auto;
+        vertical-align:top;
+        margin-right: 13px;
+      }
+    }
+    .admin-nav__title {
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+  }
+}

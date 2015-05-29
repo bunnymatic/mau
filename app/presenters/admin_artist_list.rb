@@ -1,26 +1,25 @@
 require 'csv'
 
-class AdminArtistList
+class AdminArtistList < ViewPresenter
 
   include Enumerable
 
   ALLOWED_SORT_BY = ['studio_id','lastname','firstname','id','login','email', 'activated_at'].freeze
 
-  def initialize(view_context, sort_by, reverse)
-    @view_context = view_context
+  def initialize(sort_by, reverse)
     set_sort_by(sort_by)
     @reverse = reverse
   end
 
   def reverse_sort_links
     allowed_sort_by.map do |key|
-      @view_context.link_to key, base_path(:rsort_by => key)
+      link_to key, url_helpers.admin_artists_path(:rsort_by => key)
     end
   end
 
   def sort_links
     allowed_sort_by.map do |key|
-      @view_context.link_to key, base_path(:sort_by => key)
+      link_to key, url_helpers.admin_artists_path(:sort_by => key)
     end
   end
 
@@ -31,7 +30,7 @@ class AdminArtistList
   def artists
     @artists ||=
       begin
-        raw_artists.map{|a| ArtistPresenter.new(@view_context, a) }
+        raw_artists.map{|a| ArtistPresenter.new(a) }
       end
   end
 
@@ -85,10 +84,5 @@ class AdminArtistList
      artist.email
     ]
   end
-
-  def base_path(opts)
-    @view_context.admin_artists_path(opts)
-  end
-
 
 end

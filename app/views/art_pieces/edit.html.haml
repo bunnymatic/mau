@@ -1,40 +1,21 @@
-.singlecolumn
-  - if !@art_piece
-    .error-msg
-      Error: The art piece you requested is could not be found.
-  - else
-    #edit_artpiece
-      %h4 Edit Information for This Piece : #{@art_piece.title}
-      .artpiece
-        %img{ :src => @art_piece.get_path('small') }
-      = form_for(@art_piece) do |f|
-        = render '/common/form_errors', :form => f
-        = render '/flash_notice_error'
-        .form-group
-          .label
-            = f.label :title
-          .field
-            = f.text_field :title, required: :required
-        .form-group
-          .label
-            = f.label :dimensions
-          .field
-            = f.text_field :dimensions
-        .form-group
-          .label
-            = f.label :year
-          .field
-            = f.text_field :year
-        .form-group
-          .label
-            = f.label :medium
-          .field
-            = select( "art_piece","medium_id", [['None', 0]] + @media.map{|u| [u.name,u.id]}, { :selected => @art_piece.medium_id } )
-        .form-group
-          .label
-            = f.label :tags
-          .field
-            = text_field_tag 'tags', tags_to_s(@art_piece.tags)
-        .form-controls.buttons
-          = f.submit 'Update'
-          = f.submit 'Cancel'
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title
+      Update Info for
+      %span.italic #{@art_piece.title}
+.pure-g
+  .pure-u-1-1.pure-u-sm-1-2.art-piece-edit-form.padded-content
+    = semantic_form_for @art_piece do |f|
+      = render '/common/form_errors', form: f
+      = render '/flash_notice_error'
+      = f.inputs do
+        = f.input :title, required: true
+        = f.input :dimensions, placeholder: 'e.g. 8" x 12"'
+        = f.input :year, placeholder: 'e.g. 2013'
+        = f.input :medium, as: :select, collection: [['None', 0]] + @media.map{|u| [u.name,u.id]}
+        = f.input :tags, as: :text, input_html: { value: tags_to_s(@art_piece.tags) }
+      = f.actions do
+        = f.submit 'Update', class: 'pure-button button-large pure-button-primary'
+        = f.submit 'Cancel', class: 'pure-button button-large'
+  .pure-u-1-1.pure-u-sm-1-2.padded-content
+    %img.pure-image{ src: @art_piece.get_path('medium') }

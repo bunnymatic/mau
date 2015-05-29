@@ -3,32 +3,42 @@ MAU = window.MAU = window.MAU || {}
 
 MAU.Sampler = class Sampler
 
-  constructor: (refreshTime) ->
-    @refreshTime = refreshTime || 10000
+  constructor: (container, refreshTime) ->
+    @container = container
+    @refreshTime = refreshTime || 30000
+    @fadeTime = 400
     @requests = []
 
   start: =>
-    setInterval( @updateArt, @refreshTime);
+    @updateArt()
 
   updateArt: =>
-    samplerDom = jQuery('#sampler')
-    if (samplerDom.length)
+    container = $(@container);
+    if (container.length)
       ajaxOpts =
         url: '/main/sampler'
         method:'get'
-        success: (data, status, xhr) ->
-          samplerDom.fadeOut ->
-            samplerDom.html(data)
-            samplerDom.fadeIn()
-      request = jQuery.ajax( ajaxOpts )
-      @requests.push(request);
+        success: (data, status, xhr) =>
+          existing = container.find('.js-sampler__thumb')
+          $('.js-sampler__empty').remove();
+          if existing.length
+            # existing.fadeOut is called on *each* existing.
+            # instead of using complete we use the timeout to remove the old stuff
+            existing.fadeOut
+              duration: @fadeTime
+            setTimeout( ->
+              existing.remove()
+              container.find(".js-sampler__promo").after(data);
+            ,
+            @fadeTime
+            )
+            setTimeout(@updateArt, @refreshTime);
+          else
+            container.find(".js-sampler__promo").after(data);
+            setTimeout(@updateArt, @refreshTime);
 
-  abortRequests: () =>
-    for req in @requests
-      req.abort() if req.abort
-    @requests = []
+      jQuery.ajax( ajaxOpts )
 
 if (document.location.pathname == '/')
-  sampler = new MAU.Sampler()
-  jQuery(window).bind('load', sampler.start);
-  jQuery(window).bind('unload', sampler.abortRequests);
+  sampler = new MAU.Sampler '#sampler.js-sampler'
+  jQuery(window).bind 'load', sampler.start

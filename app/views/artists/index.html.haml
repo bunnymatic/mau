@@ -1,13 +1,23 @@
-.singlecolumn
-  #all_artists_page
-    = render '/flash_notice_error'
-    %h4 MAU Artists
-    .artists_block
-      = render '/flash_notice_error'
-      = render '/artists/alpha_pagination', :alpha_links => @gallery.alpha_links
-      = render '/osswitch', :os_only => @os_only
-      = render '/artists/view_switcher', :roster_link => @roster_link, :gallery_link => @gallery_link, :map_link => @map_link
-      = render '/common/pagination', :paginator => @gallery.pagination
-      .clear
-      = render '/artists/thumbs', :artists => @gallery.pagination.items, :params => { :cols => 7 }
-      = render '/common/pagination', :paginator => @gallery.pagination
+.pure-g
+  .pure-u-1-1.pure-u-lg-2-3.header.padded-content>
+    %h2.title
+      Artists
+      - if @os_only
+        = "in #{OpenStudiosEvent.current.try(:for_display,true)} Open Studios"
+  .pure-u-1-1.pure-u-lg-1-3.header.padded-content>
+    .filter.js-filter-visibility>
+      = form_tag '.', id: 'js-artist-index-filter' do
+        = fa_icon 'search' 
+        %input.js-filter-by-name{type: :text, autofocus: true, name: :filter, placeholder: 'search by name'}
+
+
+.pure-g
+  .pure-u-1-1.padded-content
+    .pure-g.js-artists-scroll-wrapper.artists-scroll
+      - if @gallery.items.count == 0
+        .pure-u-1-1
+          %h4
+            = @gallery.empty_message
+      - else
+        = render 'artist_list', gallery: @gallery
+      

@@ -20,6 +20,10 @@ class Medium < ActiveRecord::Base
 
   scope :alpha, -> { order(:name) }
 
+  def self.options_for_select
+    [['None', 0]] + Medium.all.map{|u| [u.name,u.id]}
+  end
+
   def self.cache_key(norm=false)
     [:medfreq, norm]
   end
@@ -48,12 +52,11 @@ class Medium < ActiveRecord::Base
   class << self
     def get_media_usage
       dbr = ArtPiece.joins(:artist).where("users.state" => "active").select('medium_id').
-        group('medium_id').count
-      meds = dbr.select{|k,v| k}.map{|_id, ct| { "medium" => _id, "ct" => ct }}
-      other = self.where(["id not in (?)", meds.map { |m| m['medium'] } ])
-      meds += other.map { |m| Hash[["medium", 'ct'].zip([m.id,0])]}
+            group('medium_id').count
+      Medium.all.map do |medium|
+        { "medium" => medium.id, "ct" => dbr[medium.id].to_i }
+      end
     end
-
   end
 
 end

@@ -21,7 +21,7 @@ module HtmlHelper
         cls += ' last'
       end
       "<li class='#{cls}'>" + el + "</li>"
-    end.join('').html_safe
+    end.join('')
   end
 
   def coder

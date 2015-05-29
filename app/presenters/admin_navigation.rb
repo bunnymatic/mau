@@ -1,25 +1,18 @@
-class AdminNavigation
+class AdminNavigation < ViewPresenter
 
   attr_reader :current_user
 
-  def initialize(view_context, user)
-    @view_context = view_context
+  def initialize(user)
     @current_user = user
   end
 
-  def links
-    manager_links = [[:studios , {}]]
-    editor_links = [[:events, {}],
-                    [:featured_artist , {}],
-                    [:cms_documents , {:display => 'cms', :link => @view_context.admin_cms_documents_path}]
-                   ]
-    if current_user.is_admin?
-      pr_links = [
+  def admin_links
+          pr_links = [
                   [:events, {}],
                   [:featured_artist, {}],
                   [:favorites, {}],
                   [:catalog, {:link => '/catalog'}],
-                  [:cms_documents , {:display => 'cms', :link => @view_context.admin_cms_documents_path}]
+                  [:cms_documents , {:display => 'cms', :link => url_helpers.admin_cms_documents_path}]
                  ]
       model_links = [
                      [:artists , {}],
@@ -33,15 +26,15 @@ class AdminNavigation
       admin_links = [
                      [:open_studios_events , {:display => 'os dates'}],
                      [:roles, {}],
-                     [:internal_email , {:display => 'internal messaging', :link => @view_context.admin_email_lists_path }],
+                     [:internal_email , {:display => 'admin email lists', :link => url_helpers.admin_email_lists_path }],
                      [:db_backups , {:display => 'backups'}],
-                     [:blacklist, {:display => 'blacklist', :link => @view_context.admin_blacklist_domains_path}],
+                     [:blacklist, {:display => 'blacklist', :link => url_helpers.admin_blacklist_domains_path}],
                      [:os_status , {}]
                     ]
       internal_links = [
                         [:palette , {:display => 'colors'}],
-                        [:app_events, {:display => 'app events', :link => @view_context.admin_application_events_path}],
-                        [:tests , {:link => '/tests'}]
+                        [:app_events, {:display => 'app events', :link => url_helpers.admin_application_events_path}],
+                        [:tests , {:link => url_helpers.admin_tests_path}]
                        ]
       links = [
                [:models, model_links],
@@ -49,11 +42,27 @@ class AdminNavigation
                [:admin, admin_links],
                [:internal, internal_links]
               ]
-    else
-      links = []
-      links << [nil, editor_links] if current_user.is_editor?
-      links << [nil, manager_links] if current_user.is_manager?
-    end
+  end
+
+  def editor_links
+    [[:events, {}],
+                    [:featured_artist , {}],
+                    [:cms_documents , {:display => 'cms', :link => url_helpers.admin_cms_documents_path}]
+    ]
+  end
+
+  def manager_links
+    [[:studios , {}]]
+  end
+
+  def links
+    links = if current_user.is_admin?
+              admin_links
+            elsif current_user.is_editor?
+              [[nil, editor_links]]
+            elsif current_user.is_manager?
+              [[nil, manager_links]]
+            end
     links.each do |sxn, entries|
       entries.each do |key, entry|
         entry[:display] = (entry[:display] || key.to_s).tr("_", ' ')

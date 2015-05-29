@@ -1,11 +1,11 @@
 module Admin
-  class ArtistsController < AdminController
+  class ArtistsController < BaseAdminController
     before_filter :admin_required, :only => [ :index, :update ]
     before_filter :editor_required, :only => [ :notify_featured ]
 
     def index
       get_sort_options_from_params
-      @artist_list = AdminArtistList.new(view_context, @sort_by, @reverse)
+      @artist_list = AdminArtistList.new(@sort_by, @reverse)
       respond_to do |format|
         format.html
         format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }
@@ -17,7 +17,7 @@ module Admin
         @updated_count = 0
         @skipped_count = 0
         os_by_artist = params['os']
-        artists = Artist.active.where(:id => os_by_artist.keys)
+        artists = Artist.active.where(id: os_by_artist.keys)
         for artist in artists
           update_artist_os_standing(artist, os_by_artist[artist.id.to_s] == '1')
         end
@@ -45,7 +45,7 @@ module Admin
     def update_artist_os_standing(artist, doing_it)
       if artist.doing_open_studios? != doing_it
         if artist.has_address?
-          artist.update_os_participation current_open_studios_key, doing_it
+          artist.update_os_participation OpenStudiosEvent.current, doing_it
           @updated_count += 1
         else
           @skipped_count += 1

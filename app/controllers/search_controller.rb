@@ -1,16 +1,22 @@
 class SearchController < ApplicationController
-  layout 'mau'
-
-  @@CACHE_EXPIRY = (Conf.cache_expiry['search'] or 20)
-  @@QUERY_KEY_PREFIX = "q:"
 
   def index
+    @query = SearchQuery.new(params)
     return unless execute_search
   end
 
   def fetch
-    execute_search
-    render :layout => false
+    @query = SearchQuery.new(params)
+    respond_to do |format|
+      format.html {
+        execute_search
+        render :layout => false
+      }
+      format.json {
+        results = SearchService.new(@query).search
+        @results = results
+      }
+    end
   end
 
   private
@@ -26,13 +32,12 @@ class SearchController < ApplicationController
   end
 
   def execute_search
-    @query = SearchQuery.new(params)
+    results = SearchService.new(@query).search.map{|ap| ArtPiecePresenter.new(ap)}
 
-    results = SearchService.new(@query).search
     @per_page_opts = per_page_options(results)
     @query.per_page = results.count < @query.per_page ? @per_page_opts.max : @query.per_page
 
-    @paginator = Pagination.new(view_context, results, @query.page, @query.per_page)
+    @paginator = Pagination.new(results, @query.page, @query.per_page)
 
   end
 

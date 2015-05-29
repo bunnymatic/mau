@@ -1,46 +1,29 @@
 # AuthLogic user sessions controller
 class UserSessionsController < ApplicationController
 
-  skip_before_filter :get_new_art, :get_feeds
-
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
 
   before_filter :load_cms_content, :only => [:new, :create]
 
   def new
-    respond_to do |fmt|
-      fmt.html {
-        @user_session = UserSession.new
-      }
-      fmt.mobile {
-        redirect_to root_path
-      }
-    end
+    @user_session = UserSession.new
   end
 
   def create
-    respond_to do |fmt|
-      fmt.html {
-        @user_session = UserSession.new(params[:user_session])
-        if @user_session.save
-          flash[:notice] = "You're in!"
-          redirect_back_or_default root_url
-        else
-          flash[:warning] = "We were unable to log you in.  Check your username and password and try again."
-          render :new
-        end
-      }
-      fmt.mobile {
-        redirect_to root_url
-      }
+    @user_session = UserSession.new(user_session_params)
+    if @user_session.save
+      flash[:notice] = "You're in!"
+      redirect_back_or_default root_url
+    else
+      render :new
     end
   end
 
   def destroy
     current_user_session.destroy
-    flash[:notice] = "Logout successful!"
-    redirect_back_or_default new_user_session_url
+    flash[:notice] = "See you next time.  Now go make some art!"
+    redirect_back_or_default root_path
   end
 
   private

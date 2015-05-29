@@ -1,8 +1,37 @@
 require 'pp'
 namespace :debug do
 
+  desc 'create open studios event'
+  task create_os_event: [:environment] do
+    os = OpenStudiosEvent.current
+    unless os && (os.start_date > Time.now)
+      start_date = Time.now + 2.months
+      end_date = start_date + 2.days
+      key = start_date.strftime("%Y%m")
+      placeholder_logo = File.join(Rails.root, '/app/assets/images/debug_os_placeholder.png')
+      OpenStudiosEvent.create!(start_date: start_date, end_date: end_date, key: key, logo: File.open(placeholder_logo))
+      puts "Created new OpenStudiosEvent: #{key}"
+    else 
+      puts "Current OpenStudiosEvent exists: #{os.key}"
+    end
+  end
+
+  desc 'randomly add 25% of active artists to current open studios'
+  task add_os_participants: [:environment, :create_os_event] do
+    # make sure there is a current open studios
+    puts "Before : #{Artist.open_studios_participants.count} participants"
+    os = OpenStudiosEvent.current
+    user_ids = Artist.active.select(:id)
+    num_users = user_ids.count
+    Artist.includes(:artist_info).where(id: user_ids.sample(num_users/4)).each do |a|
+      a.update_os_participation os.key, true
+    end
+    puts "After : #{Artist.open_studios_participants.count} participants"
+
+  end
+
   desc 'compute average aspect ratio'
-  task :average_aspect_ratio => [:environment] do
+  task average_aspect_ratio: [:environment] do
     landscape = []
     portrait = []
     ArtPiece.find_each do |art_piece|

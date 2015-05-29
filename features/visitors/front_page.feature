@@ -10,8 +10,8 @@ Background:
   Given there are artists with art in the system
   And there are future open studios events
 
+@javascript
 Scenario:  Visiting the home page
   When I visit the home page
   Then I see some of the art that's in the system
   And I see art newly added to the system
-  And I see information for the current open studios

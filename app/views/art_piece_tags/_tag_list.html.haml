@@ -1,7 +1,0 @@
-%h4 Popular Tags
-#tag_help.help-parent
-  = render '/whatsthis/popup', :section => 'tags', :link_text => "what's this?", :parent => 'tag_help', :use_icon => true, :title => "About Popular Tags"
-
-.tagcloud
-  - cloud.tags_for_display.each do |tag|
-    = tag

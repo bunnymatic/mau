@@ -1,5 +1,17 @@
+@import 'gto/variables';
 @import 'colors';
 @import 'dimensions';
+
+@mixin background-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+@mixin background-contain {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
 
 @mixin transparent_black_background {
   background-color: $black;
@@ -30,18 +42,11 @@
 @mixin link_style {
   text-decoration: none;
   color: $lightyellow;
-  &:link {
-    color: $lightyellow;
-  }
-
-  &:visited {
-    color: $lightyellow;
+  &:link, &:visited, &:active {
+    color: $gto_teal;
   }
   &:hover {
-    color: #554444;
-  }
-  &:active {
-    color: $lightyellow;
+    color: $gto_dark_teal;
   }
 }
 
@@ -50,7 +55,7 @@
 }
 
 
-$default_rounded_amount: 4px;
+$default_rounded_amount: 3px;
 
 @mixin opacity($opacity) {
   filter: unquote("progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})");
@@ -125,6 +130,11 @@ $default_rounded_amount: 4px;
   -webkit-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
 }
 
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
 @mixin transition($trans) {
   -webkit-transition: $trans;
   -moz-transition: $trans;
@@ -132,15 +142,156 @@ $default_rounded_amount: 4px;
   transition: $trans;
 }
 
-.clearfix {
-    zoom:1;
-    &:before, &:after {
-        content: "\0020";
-        display: block;
-        height: 0;
-        overflow: hidden;
-    }
-    &:after {
-        clear: both;
-    }
+@mixin transition-property($transition-property...) {
+  -webkit-transition-property: $transition-property;
+          transition-property: $transition-property;
+}
+@mixin transition-delay($transition-delay) {
+  -webkit-transition-delay: $transition-delay;
+          transition-delay: $transition-delay;
+}
+@mixin transition-duration($transition-duration...) {
+  -webkit-transition-duration: $transition-duration;
+          transition-duration: $transition-duration;
+}
+@mixin transition-timing-function($timing-function) {
+  -webkit-transition-timing-function: $timing-function;
+          transition-timing-function: $timing-function;
+}
+@mixin transition-transform($transition...) {
+  -webkit-transition: -webkit-transform $transition;
+     -moz-transition: -moz-transform $transition;
+       -o-transition: -o-transform $transition;
+          transition: transform $transition;
+}
+@mixin transform($transform...) {
+  -moz-transform: $transform;
+  -webkit-transform: $transform;
+  -o-transform: $transform;
+  transform: $transform;
+}
+@mixin transform-origin($origin...) {
+  -webkit-transform-origin: $origin;
+  -moz-transform-origin: $origin;
+  -o-transform-origin: $origin;
+  transform-origin: $origin;
+}
+
+@mixin bottom-label-overlay {
+  z-index: 0;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255,255,255,0.9);
+  color: #222;
+}
+
+@mixin blur($radius: 5px) {
+ -webkit-filter: blur($radius);
+  -moz-filter: blur($radius);
+  -o-filter: blur($radius);
+  -ms-filter: blur($radius);
+  filter: blur($radius);
+}
+
+@mixin ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@mixin sidebar-nav-entry {
+  min-height: 28px;
+  line-height: 28px;
+  overflow: hidden;
+  @include ellipsis;
+}
+
+@mixin make-xs-offset($columns, $grid-columns) {
+  margin-left: percentage(($columns / $grid-columns));
+}
+@mixin make-xs-push($columns, $grid-columns) {
+  left: percentage(($columns / $grid-columns));
+}
+@mixin make-xs-pull($columns, $grid-columns) {
+  right: percentage(($columns / $grid-columns));
+}
+
+@mixin make-sm-offset($columns, $grid-columns) {
+  @media (min-width: $screen-sm-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-sm-push($columns, $grid-columns) {
+  @media (min-width: $screen-sm-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-sm-pull($columns, $grid-columns) {
+  @media (min-width: $screen-sm-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+@mixin make-md-offset($columns, $grid-columns) {
+  @media (min-width: $screen-md-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-md-push($columns, $grid-columns) {
+  @media (min-width: $screen-md-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-md-pull($columns, $grid-columns) {
+  @media (min-width: $screen-md-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+@mixin make-lg-offset($columns, $grid-columns) {
+  @media (min-width: $screen-lg-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-lg-push($columns, $grid-columns) {
+  @media (min-width: $screen-lg-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-lg-pull($columns, $grid-columns) {
+  @media (min-width: $screen-lg-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+/* Test if `$value` is a valid direction
+ * @param {*} $value - Value to test
+ * @return {Bool}
+ */
+@function is-direction($value) {
+  $is-keyword: index((to top, to top right, to right top, to right, to bottom right, to right bottom, to bottom, to bottom left, to left bottom, to left, to left top, to top left), $value);
+  $is-angle: type-of($value) == 'number' and index('deg' 'grad' 'turn' 'rad', unit($value));
+
+  @return $is-keyword or $is-angle;
+};
+
+@mixin linear-gradient($direction, $color-stops...) {
+  /* Direction has been omitted and happens to be a color-stop */
+  @if is-direction($direction) == false {
+    $color-stops: $direction, $color-stops;
+    $direction: 180deg;
+  }
+
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient($direction, $color-stops);
+  background: linear-gradient($direction, $color-stops);
+};
+
+@mixin in-the-middle {
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  @include transform( translate(-50%, -50%) );
 }

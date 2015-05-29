@@ -18,5 +18,12 @@ FactoryGirl.define do
         art_piece.update_attribute :tags, [FactoryGirl.create(:art_piece_tag)]
       end
     end
+
+    trait :with_tags do
+      after(:create) do |art_piece|
+        art_piece.update_attributes :tags => FactoryGirl.create_list(:art_piece_tag, 2)
+      end
+    end
+
   end
 end

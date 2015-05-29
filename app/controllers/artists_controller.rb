@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'csv'
 require 'xmlrpc/client'
 
@@ -12,63 +11,7 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_filter :user_required, :only => [ :edit, :update, :delete_art, :destroyart, :setarrangement, :arrange_art ]
-
-  skip_before_filter :get_new_art, :get_feeds
-
-  # num artists before we paginate
-
-  def map_page
-    @os_only = is_os_only(params["osonly"])
-
-    set_artists_index_links
-
-    @map_info = ArtistsMap.new(view_context, @os_only)
-
-    render :map
-  end
-
-  def edit
-    if current_user[:type] != 'Artist'
-      redirect_to edit_user_path(current_user)
-      return
-    end
-    @studios = Studio.all
-    @artist_info = current_user.artist_info || ArtistInfo.new({ :id => current_user.id })
-    @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
-  end
-
-  def by_firstname
-    if !is_mobile?
-      redirect_to root_path and return
-    end
-
-    @page_title = "Artists by first name"
-    @artists = Artist.active.with_artist_info.by_firstname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index', :layout => 'mobile'
-  end
-
-  def by_lastname
-    if !is_mobile?
-      redirect_to root_path and return
-    end
-
-    @page_title = "Artists by last name"
-    @artists = Artist.active.with_artist_info.by_lastname.map{|a| ArtistPresenter.new(view_context,a)}
-    render 'artists/index', :layout => 'mobile'
-  end
-
-  def roster
-    # collect query args to build links
-    @os_only = is_os_only(params[:osonly])
-
-    @roster = ArtistsRoster.new(view_context, @os_only)
-
-    @page_title = "Mission Artists United - MAU Artists"
-    set_artists_index_links
-
-    render :action => 'roster'
-  end
+  before_filter :user_required, only: [ :edit, :update, :manage_art, :delete_art, :destroyart, :setarrangement, :arrange_art ]
 
   def index
     respond_to do |format|
@@ -77,24 +20,64 @@ class ArtistsController < ApplicationController
         @os_only = is_os_only(params[:osonly])
 
         cur_page = (params[:p] || 0).to_i
-
+        filter = params[:filter]
         # build alphabetical list keyed by first letter
-        @gallery = ArtistsGallery.new(view_context, @os_only, cur_page)
+        @gallery = ArtistsGallery.new(@os_only, cur_page, filter)
 
         @page_title = "Mission Artists United - MAU Artists"
         set_artists_index_links
 
-        render :action => 'index'
+        if request.xhr?
+          render partial: 'artist_list', locals: { gallery: @gallery }
+        else
+          render action: 'index'
+        end
       }
       format.json {
-        render :json => Artist.active
-      }
-      format.mobile {
-        @artists = []
-        @page_title = "Artists"
-        render :layout => 'mobile'
+        render json: Artist.active
       }
     end
+  end
+
+  def map_page
+    @os_only = is_os_only(params["osonly"])
+
+    set_artists_index_links
+
+    @map_info = ArtistsMap.new(@os_only)
+
+    render :map
+  end
+
+  def edit
+    @user = safe_find_artist params[:id]
+    if !@user || (@user != current_user) || current_user[:type] != 'Artist'
+      redirect_to edit_user_path(current_user), flash: flash
+      return
+    end
+    @user = ArtistPresenter.new(current_artist)
+    @studios = Studio.all
+    @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
+    @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
+  end
+
+  def manage_art
+    @art_piece = current_artist.art_pieces.build
+    # give user a tabbed page to edit their art
+    @artist = ArtistPresenter.new(current_artist)
+  end
+
+
+  def roster
+    # collect query args to build links
+    @os_only = is_os_only(params[:osonly])
+
+    @roster = ArtistsRoster.new(@os_only)
+
+    @page_title = "Mission Artists United - MAU Artists"
+    set_artists_index_links
+
+    render action: 'roster'
   end
 
   def suggest
@@ -105,7 +88,7 @@ class ArtistsController < ApplicationController
       # filter with input prefix
       names = (inp.present? ? names.select{|name| name['value'] && name['value'].downcase.include?(inp)} : [])
     end
-    render :json => names
+    render json: names
   end
 
   def destroyart
@@ -115,7 +98,7 @@ class ArtistsController < ApplicationController
     end
 
     ids = params[:art].map { |kk,vv| kk if vv != "0" }.compact
-    arts = ArtPiece.where(:id => ids, :artist_id => current_user.id)
+    arts = ArtPiece.where(id: ids, artist_id: current_user.id)
     arts.each do |art|
       art.destroy
     end
@@ -123,9 +106,8 @@ class ArtistsController < ApplicationController
     redirect_to(artist_path(current_user))
   end
 
-
   def arrange_art
-    @artist = ArtistPresenter.new(view_context, current_user)
+    @artist = ArtistPresenter.new(current_user)
   end
 
   def setarrangement
@@ -133,7 +115,7 @@ class ArtistsController < ApplicationController
       # new endpoint for rearranging - more than just setting representative
       neworder = params[:neworder].split(',')
       neworder.each_with_index do |apid, idx|
-        a = ArtPiece.where(:id => apid, :artist_id => current_user.id).first
+        a = ArtPiece.where(id: apid, artist_id: current_user.id).first
         a.update_attribute(:order, idx) if a
       end
       flash[:notice] = "Your images have been reordered."
@@ -145,7 +127,7 @@ class ArtistsController < ApplicationController
   end
 
   def delete_art
-    @artist = ArtistPresenter.new(view_context, current_user)
+    @artist = ArtistPresenter.new(current_user)
   end
 
   def show
@@ -154,39 +136,14 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html {
         if !@artist
-          flash.now[:error] = 'We were unable to find the artist you were looking for.'
+          redirect_to artists_path, flash: { error: 'We were unable to find the artist you were looking for.' }
+        else
+          @artist = ArtistPresenter.new( @artist)
         end
-        @artist = ArtistPresenter.new(view_context, @artist)
-
-        render :action => 'show', :layout => 'mau'
       }
       format.json  {
-        cleaned = @artist.clean_for_export(@artist.art_pieces)
-        render :json => cleaned
+        render json: @artist
       }
-      format.mobile {
-        @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
-        @artist = ArtistPresenter.new(view_context, @artist)
-        render :layout => 'mobile'
-      }
-    end
-  end
-
-  def bio
-
-    @artist = get_active_artist_from_params
-    set_artist_meta
-    if @artist.try(:bio).present?
-      respond_to do |format|
-        format.html { redirect_to artist_path(@artist) and return }
-        format.mobile {
-          @page_title = "Artist: " + (@artist ? @artist.get_name(true) : '')
-          @artist = ArtistPresenter.new(view_context, @artist)
-          render :layout => 'mobile'
-        }
-      end
-    else
-      redirect_to artist_path(@artist)
     end
   end
 
@@ -200,81 +157,54 @@ class ArtistsController < ApplicationController
         }
         fmt.png {
           data = File.open(qrcode_system_path,'rb').read
-          send_data(data, :filename => 'qr.png', :type=>'image/png', :disposition => "inline")
+          send_data(data, filename: 'qr.png', :type=>'image/png', disposition: "inline")
         }
       end
     else
-      render :action => 'show', :layout => 'mau'
+      render action: 'show'
     end
   end
 
   def update
     if request.xhr?
       process_os_update
-      render :json => {:success => true}
+      render json: {success: true, os_status: current_artist.reload.doing_open_studios?, current_os: OpenStudiosEvent.current}
     else
       if commit_is_cancel
         redirect_to user_path(current_user)
         return
       end
       begin
-        if params[:emailsettings]
-          em = params[:emailsettings]
-          em = Hash[em.map{|k,v| [k, !!v.to_i]}]
-          params[:artist][:email_attrs] = em.to_json
-        end
-        artist_info = params[:artist].delete :artist_info
-        current_artist.artist_info.update_attributes!(artist_info)
-        current_artist.update_attributes!(params[:artist])
-        flash[:notice] = "Update successful"
-        Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
+        if params.has_key? 'upload'
+          begin
+            # update the picture only
+            ArtistProfileImage.new(current_artist).save params[:upload]
+          end
+        else
+          attrs = artist_params
+          # preserve os settings
+          if attrs[:artist_info_attributes]
+            attrs[:artist_info_attributes][:open_studios_participation] = current_artist.artist_info.open_studios_participation
+          end
 
+          current_artist.update_attributes!(attrs)
+          Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
+        end
+        flash[:notice] = "Your profile has been updated"
       rescue Exception => ex
         flash[:error] = ex.to_s
       end
-      redirect_to edit_artist_url(current_user)
-    end
-  end
-
-  # for mobile only
-  def osthumbs
-    fetch_thumbs true
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.mobile {
-        render :thumbs, :layout => 'mobile'
-      }
-    end
-  end
-
-  def thumbs
-    fetch_thumbs
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.mobile {
-        if params[:partial].present?
-          render :layout => false
-        else
-          render :layout => 'mobile'
-        end
-      }
+      redirect_to edit_artist_url(current_user), flash: flash
     end
   end
 
   protected
-  def fetch_thumbs(osonly = false)
-    page = params[:page] || 1
-    paginate_options = {:page => page, :per_page => 20 }
-    if osonly
-      @artists = Artist.active.open_studios_participants.with_representative_image.paginate paginate_options
-    else
-      @artists = Artist.active.with_representative_image.paginate paginate_options
-    end
-    @artists
-  end
-
   def safe_find_artist(id)
-    Artist.where(:id => id).first || Artist.where(:login => id).first
+    begin
+      Artist.find id
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
   end
 
   def set_artist_meta
@@ -304,12 +234,36 @@ class ArtistsController < ApplicationController
   end
 
   private
+  def artist_info_permitted_attributes
+    %i|bio street city addr_state facebook twitter blog myspace flickr zip studionumber pinterest instagram|
+  end
+
+
+  def artist_params
+    if params[:emailsettings]
+      em = params[:emailsettings]
+      em = Hash[em.map{|k,v| [k, !!v.to_i]}]
+      params[:artist][:email_attrs] = em.to_json
+    end
+
+    if params[:artist].has_key?("studio") && params[:artist]["studio"].blank?
+      params[:artist]["studio_id"] = nil
+      params[:artist].delete("studio")
+    end
+
+    params.require(:artist).permit(:studio, :login, :email, :email_attrs,
+                                   :password, :password_confirmation,
+                                   :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume,
+                                   :artist_info_attributes => artist_info_permitted_attributes)
+
+  end
+
   def is_os_only(osonly)
     [true, "1",1,"on","true"].include? osonly
   end
 
   def set_artists_index_links
-    os_args = (@os_only ? {:osonly => 'on'} : {})
+    os_args = (@os_only ? {osonly: 'on'} : {})
     @roster_link = roster_artists_url(os_args)
     @gallery_link = artists_url(os_args)
     @map_link = map_artists_path(os_args)
@@ -320,7 +274,7 @@ class ArtistsController < ApplicationController
     unless artist_names
       artist_names = Artist.active.map{|a| { 'value' => a.get_name(true), 'info' => a.id } }
       if artist_names.present?
-        SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
+        SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, expires_in: AUTOSUGGEST_CACHE_EXPIRY)
       end
     end
     artist_names
@@ -332,7 +286,7 @@ class ArtistsController < ApplicationController
     if participating != current_artist.doing_open_studios?
       begin
         unless current_artist.address.blank?
-          current_artist.update_os_participation(current_open_studios_key, participating)
+          current_artist.update_os_participation(OpenStudiosEvent.current, participating)
           trigger_os_signup_event(participating)
         end
       rescue Exception => ex
@@ -343,11 +297,11 @@ class ArtistsController < ApplicationController
   end
 
   def trigger_os_signup_event(participating)
-    msg = "#{current_artist.fullname} set their os status to"+
+    msg = "#{current_artist.full_name} set their os status to"+
       " #{participating} for #{current_open_studios_key} open studios"
     data = {'user' => current_artist.login, 'user_id' => current_artist.id}
-    OpenStudiosSignupEvent.create(:message => msg,
-                                  :data => data)
+    OpenStudiosSignupEvent.create(message: msg,
+                                  data: data)
   end
 
 end

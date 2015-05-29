@@ -13,7 +13,7 @@ module Admin
       flash[:notice] = "#{@event.title} has been successfully published."
       if (@event.user && @event.user.email)
         EventMailer.event_published(@event).deliver!
-        flash[:notice] << " And we sent a notification email to #{@event.user.fullname} at #{@event.user.email}."
+        flash[:notice] << " And we sent a notification email to #{@event.user.full_name} at #{@event.user.email}."
       end
 
       redirect_to admin_events_path

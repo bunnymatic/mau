@@ -1,5 +1,5 @@
 When /^I set all artists to do open studios$/ do
-  within('table.admin-table') do
+  within('table') do
     for artist in @artists
       cb = "os_#{artist.id}"
       check cb
@@ -28,6 +28,18 @@ end
 
 Then /^I see that all artists are doing open studios$/ do
   expect(@artists).to have_at_least(1).artist
-  expect(page).to have_selector '.notice', :text => 'Updated setting for'
+  expect(page).to have_selector '.flash__notice', :text => 'Updated setting for'
   expect(@artists.map(&:doing_open_studios?).all?).to be_true
+end
+
+When(/^I remove the first artist from the studio$/) do
+  li = all('.artists.block li').first
+  artist_id = li["data-artist"]
+  @unaffiliated_artist = Artist.find(artist_id)
+  expect(page).to have_content @unaffiliated_artist.full_name
+  all('a.unaffiliate').first.click
+end
+
+Then(/^I see that artist is no longer part of the studio list$/) do
+  expect(page).to_not have_content @unaffiliated_artist.full_name
 end

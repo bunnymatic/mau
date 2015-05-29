@@ -13,8 +13,8 @@ Mau::Application.routes.draw do
     get :feed
     get :clear_cache
   end
-  resources :catalog, only: [:index] do
-    collection do
+  resource :catalog, only: [:show] do
+    member do
       get :social
     end
   end
@@ -41,77 +41,56 @@ Mau::Application.routes.draw do
 
   match '/register' => 'users#create', as: :register
   match '/signup' => 'users#new', as: :signup
-  match '/change_password' => 'users#change_password',
-    as: :change_password
-  match '/change_password_update' => 'users#change_password_update',
-    as: :change_password_update
   match '/activate/:activation_code' => 'users#activate', as: :activate
   match 'reset/:reset_code' => 'users#reset', as: :reset, via: [:get, :post]
   match 'reset' => 'users#reset', as: :submit_reset, method: :post
 
 
+  resources :users do
+    collection do
+      get :resend_activation
+      post :resend_activation
+      get :forgot
+      post :forgot
+      get :deactivate
+      post :remove_favorite
+      post :add_favorite
+    end
+    member do
+      resources :favorites, only: [:index]
+      put :suspend
+      put :change_password_update
+    end
+    resources :roles, only: [:destroy], controller: 'Admin::Roles'
+  end
+
+
   resources :art_pieces, only: [:show, :edit, :update, :destroy]
   resources :artists, except: [:new, :create] do
-    resources :art_pieces, except: [:index, :destroy, :edit, :update]
+    resources :art_pieces, except: [:new, :destroy, :edit, :update]
     collection do
-      get :by_lastname
-      get :by_firstname
       get :roster
-      get :thumbs
-      get :osthumbs
       post :destroyart
       get :suggest
       get :arrange_art
       get :delete_art
       post :setarrangement
       get :map_page, as: :map
-      get :edit
     end
     member do
+      resources :favorites, only: [:index]
+      get :manage_art
       post :notify_featured
       post :update
-      get :bio
       get :qrcode
     end
-  end
-
-  resources :users do
-    collection do
-      post :remove_favorite
-      post :upload_profile
-      get :resend_activation
-      post :resend_activation
-      get :forgot
-      post :forgot
-      get :deactivate
-      get :edit
-      post :add_favorite
-      get :add_profile
-    end
-    member do
-      put :suspend
-      get :noteform
-      put :notify
-      get :favorites
-    end
-    resources :roles, only: [:destroy], controller: 'Admin::Roles'
   end
 
   resource :main, controller: :main, only: [] do
     get :notes_mailer
     post :notes_mailer
-    get :letter_from_howard_flax
     get :sampler
   end
-
-  resource :tests, only: [:show] do
-    get :custom_map
-    get :flash_test
-    get :qr
-    get :markdown
-    get :social_icons
-  end
-
 
   match '/status' => 'main#status_page', as: :status
   match '/faq' => 'main#faq', as: :faq
@@ -119,7 +98,6 @@ Mau::Application.routes.draw do
   match '/venues' => 'main#venues', as: :venues
   match '/privacy' => 'main#privacy', as: :privacy
   match '/about' => 'main#about', as: :about
-  match '/history' => 'main#history', as: :history
   match '/contact' => 'main#contact', as: :contact
   match '/version' => 'main#version', as: :version
   match '/non_mobile' => 'main#non_mobile', as: :non_mobile
@@ -131,6 +109,14 @@ Mau::Application.routes.draw do
   match '/error' => 'error#index', as: :error
 
   namespace :admin do
+    resource :tests, only: [:show] do
+      get :custom_map
+      get :flash_test
+      get :qr
+      post :qr
+      get :markdown
+      get :social_icons
+    end
     get :fans
     get :os_status
     get :os_signups
@@ -142,6 +128,7 @@ Mau::Application.routes.draw do
     get :art_pieces_per_day
     get :favorites_per_day
     get :emaillist
+    post :emaillist
 
     match '/discount/markup' => 'discount#markup', as: :discount_processor
 
@@ -152,12 +139,9 @@ Mau::Application.routes.draw do
     resources :blacklist_domains, except: [:show]
     resources :artist_feeds, except: [:show]
     resources :open_studios_events, only: [:index, :edit, :new, :create, :update, :destroy]
-    resources :email_lists, only: [:index, :new, :destroy] do
-      collection do
-        post :add
-      end
+    resources :email_lists, only: [:index] do
+      resources :emails, only: [:index, :create, :new, :destroy]
     end
-
     resources :application_events, only: [:index]
     resources :favorites, only: [:index]
     resources :media, only: [:index, :create, :new, :edit, :update, :destroy]

@@ -6,7 +6,7 @@ describe ArtistPresenter do
 
   let(:viewer) { FactoryGirl.build(:artist, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
-  subject(:presenter) { ArtistPresenter.new(mock_view_context(viewer), artist) }
+  subject(:presenter) { ArtistPresenter.new(artist) }
 
   its(:in_the_mission?) { should eql artist.in_the_mission?}
   its(:has_media?) { should be_true }
@@ -15,23 +15,15 @@ describe ArtistPresenter do
   its(:allows_email_from_artists?) { should be_true }
   its(:has_links?) { should be_true }
   its(:links) { should be_present }
-  its(:fb_share_link) {
-    should include "http://www.facebook.com\/sharer.php?u=#{artist.get_share_link(true)}"
-  }
-  its(:is_current_user?) { should be_false }
   its(:favorites_count) { should be_nil }
   its(:studio_name) { should eql artist.studio.name }
   its(:has_art?) { should be_true }
-  its(:who_favorites_me) { should eql artist.who_favorites_me }
   it{ should be_valid }
 
   it 'has a good map div for google maps' do
     map_info = subject.get_map_info
     html = Nokogiri::HTML::DocumentFragment.parse(map_info)
-    expect(html.css('style').to_s).to include '_mau1'
-    expect(html.css('div._mau1 a.lkdark img')).to have(1).image
-    expect(html.css('div._mau1 a.lkdark')[1].text).to include artist.get_name
-    expect(html.css('div._mau1 .studio').to_s).to include artist.studio.name
+    expect(html.css('.map__info-window-art')).to be_present
   end
 
 
@@ -45,10 +37,7 @@ describe ArtistPresenter do
     it 'has a good map div for google maps' do
       map_info = subject.get_map_info
       html = Nokogiri::HTML::DocumentFragment.parse(map_info)
-      expect(html.css('style').to_s).to include '_mau1'
-      expect(html.css('div._mau1 a.lkdark img')).to have(1).image
-      expect(html.css('div._mau1 a.lkdark')[1].to_s).to include artist.get_name
-      expect(html.css('div._mau1 .studio').to_s).to be_empty
+      expect(html.css('.map__info-window-art')).to be_present
     end
   end
 
@@ -73,16 +62,6 @@ describe ArtistPresenter do
                                :instagram => nil)
     end
     its(:has_links?) { should be_false }
-  end
-
-  context 'when logged in as the artist being presented' do
-    subject(:presenter) { ArtistPresenter.new(mock_view_context(artist), artist) }
-    its(:is_current_user?) { should be_true }
-  end
-
-  context 'when not logged in' do
-    subject(:presenter) { ArtistPresenter.new(mock_view_context, artist) }
-    its(:is_current_user?) { should be_false }
   end
 
   context 'without art' do

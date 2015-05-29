@@ -1,39 +1,20 @@
-class OpenStudiosNavigation
-
-  attr_reader :current_user
+class OpenStudiosNavigation < Navigation
 
   include OpenStudiosEventShim
-
-  def initialize(view_context, user)
-    @view_context = view_context
-    @current_user = user
-  end
-
-  def current_artist
-    current_user if current_user && current_user.is_a?(Artist)
-  end
 
   def items
     @items ||=
       begin
         [].tap do |osnav|
-          if current_open_studios_key
-            osnav << "<a href='#{ @view_context.open_studios_path }' title='open studios event'>event details</a>"
-            osnav << "<a href='#{ @view_context.artists_path(:osonly => 1) }' title='particpating artists'>participating artists</a>"
-            osnav << "<a href='#{ @view_context.map_artists_path(:osonly => 1) }' title='map of open studios artists'>os map</a>"
-            osnav << "<a href='#{signup_path}'>artist sign up</a>"
-            osnav << "<a href='#{ @view_context.artist_resources_path }' title='artists resources'>artist resources</a>"
+          nav_title = 'about'
+          if current_open_studios_key.present?
+            nav_title = OpenStudiosEvent.current.try(:for_display, true) || "Open Studios"
           end
+          osnav << "<a href='#{ url_helpers.open_studios_path }' title='open studios event'>#{nav_title}</a>"
+          osnav << "<a href='#{ url_helpers.artists_path(:osonly => 1) }' title='particpating artists'>participants</a>"
+          osnav << "<a href='#{ url_helpers.map_artists_path(:osonly => 1) }' title='map of open studios artists'>map</a>"
         end
       end
-  end
-
-  def signup_path
-    if current_artist
-      @view_context.edit_artist_path(current_artist, anchor: 'events')
-    else
-      @view_context.login_path
-    end
   end
 
 end

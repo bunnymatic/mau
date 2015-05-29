@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Medium do
 
+  let!(:art_pieces) { create_list :art_piece, 2 }
+  let!(:media) { create_list :medium, 3 }
   describe 'flush_cache' do
     it 'flushes the cache' do
       expect(SafeCache).to receive(:delete).with([:medfreq, true])

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AdminController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending') }
+  let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
   let(:artist) { FactoryGirl.create(:artist, :with_studio) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:editor) { FactoryGirl.create(:artist, :editor) }
@@ -46,7 +46,7 @@ describe AdminController do
         login_as editor
         get :featured_artist
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
     end
     context 'as manager' do
       before do
@@ -61,7 +61,6 @@ describe AdminController do
     before do
       login_as admin
     end
-    render_views
 
     describe 'html' do
       context 'with no params' do
@@ -76,18 +75,6 @@ describe AdminController do
         end
         it 'assigns list of artists emails' do
           assigns(:email_list).emails.length.should eql Artist.active.count
-        end
-        it 'shows the list selector' do
-          assert_select '.list_chooser'
-        end
-        it 'shows the title and error block' do
-          assert_select '.email_lists h4', "Activated [%s]" % Artist.active.count
-        end
-        it 'has the correct emails in the text box' do
-          Artist.active.each do |a|
-            assert_select '.email_results table tbody tr td', /#{a.get_name}/
-            assert_select '.email_results table tbody tr td', /#{a.email}/
-          end
         end
       end
 
@@ -135,42 +122,13 @@ describe AdminController do
     end
   end
 
-  describe "#index" do
-    render_views
-    before do
-      FactoryGirl.create(:open_studios_event)
-      FactoryGirl.create(:open_studios_event, start_date: 6.months.ago)
-      FactoryGirl.create(:open_studios_event, start_date: 12.months.ago)
-      login_as admin
-      get :index
-    end
-    it_should_behave_like 'logged in as admin'
-    it 'has place holders for the graphs' do
-      assert_select('.section.graph', :count => 4)
-    end
-    [:totals, :yesterday, :last_week, :last_30_days, :open_studios].each do |sxn|
-      it "renders an #{sxn} stats section" do
-        assert_select('.section.%s' % sxn)
-      end
-    end
-    it 'renders open studios info in reverse chrono order' do
-      first_tag = OpenStudiosEvent.for_display available_open_studios_keys.first
-      last_tag = OpenStudiosEvent.for_display available_open_studios_keys.last
-      css_select('.section.open_studios li').first.to_s.should match /#{first_tag}/
-      css_select('.section.open_studios li').last.to_s.should match /#{last_tag}/
-    end
-    it 'renders the current open studios setting' do
-      first_tag = OpenStudiosEvent.current.for_display
-      css_select('.section.open_studios .current').first.to_s.should match /#{first_tag}/
-    end
-  end
   describe '#fans' do
     before do
       login_as admin
       get :fans
     end
     it { expect(response).to be_success }
-    it {  expect(response).to render_template 'fans' }
+    it { expect(response).to render_template 'fans' }
     it "assigns fans" do
       assigns(:fans).length.should eql User.active.all(:conditions => 'type <> "Artist"').length
     end
@@ -230,7 +188,7 @@ describe AdminController do
       assigns(:featured_artist).should be_a_kind_of(Artist)
     end
     it 'includes a button to send the featured artist a note' do
-      assert_select '.featured .artist_info .controls .formbutton', 'Tell me I\'m Featured'
+      assert_select '.artist_info .controls a', 'Tell me I\'m Featured'
     end
     it "includes previously featured artists" do
       assert_select('.previously_featured li', :count => 2)
@@ -258,7 +216,7 @@ describe AdminController do
           assert_select('input#override_date')
         end
         it 'shows a warning message' do
-          assert_select('.featured .warning')
+          assert_select('.warning')
         end
         it "post with override gets the next artist" do
           expect {

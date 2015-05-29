@@ -1,0 +1,26 @@
+-# expects studio_thumb
+- classes ||= []
+.studio.studio-card{class: classes.join(" "), 'data-name' => studio.search_name}
+  %a{:href => studio.studio_path, :title => studio.name}
+    .image
+      %img{:src => studio.image(:medium)}
+  .desc
+    .name
+      %a{:href => studio.studio_path, :title => studio.name}
+        #{studio.name}
+    - unless studio.indy?
+      .address
+        #{studio.street}
+        = link_to studio.map_link, title: :map, target: "_blank" do
+          %i.fa.fa-map-marker
+      - if studio.url? 
+        .website
+          = link_to studio.website, studio.url
+
+    - if studio.has_artists?
+      .populations
+        .population
+          = studio.artists_count_label
+        .os_population
+          = studio.open_studios_artists_count_label
+              

@@ -13,22 +13,6 @@ module FavoritesHelper
     [img,path]
   end
 
-  def draw_small_favorite fav, options=nil
-    options ||= {}
-    xstyle = options[:style]
-    img, path = get_image_and_path fav, 'small'
-    del_btn = ''
-    if options[:is_owner] == true
-      del_btn = ("<div title='remove favorite' class='del-btn fa fa-trash-o micro-icon' "+
-        "fav-type='#{fav.class.name}' fav-id='#{fav.id}'></div>").html_safe
-    end
-    if img && path
-      ("<li><div class='thumb'><a href='#{path}'><img src='#{img}'></a></div>"+
-        "<div class='name'><a href='#{path}'>#{fav.get_name(true)}</a>#{del_btn}</div>"+
-        "<div class='clear'></div></li>").html_safe
-    end
-  end
-
   def draw_micro_favorite fav, options=nil
     options ||= {}
     img, path = get_image_and_path fav, 'thumb'
@@ -40,7 +24,7 @@ module FavoritesHelper
     if img && path
       result << "<li #{xstyle}>"
       result << "<a href='#{path}' title='#{title}'>" unless options[:linkless]
-      result << "<div class='thumb #{xclass}' ><img src='#{img}' title='#{title}' height='#{ht}' width='#{wd}'/></div>"
+      result << "<div class='thumb #{xclass}' title='#{title}' style='background-image: url(#{img})'></div>"
       result << "</a>" unless options[:linkless]
       result << "</li>"
     end

@@ -1,81 +1,81 @@
-%table.tbl-content.search-page
-  %tr
-    %td.lcol{:colspan => 2}
-      .column
-        .current_search
-          #search_help.help-parent
-            = render '/whatsthis/popup', :section => 'search', :link_text => "what's this?", :parent => 'search_help', :use_icon => true, :title => "About Search"
-          %h4
-            Current Search
-          .block.keywords
-            %label Keywords:
-            %ul.keywords
-              - @query.keywords.present? && @query.keywords.each_with_index do |k, idx|
-                %li #{ "AND " if idx > 0} #{k}
-          .block.mediums
-            %label Mediums:
-            %ul
-              - if @query.mediums.present?
-                - @query.mediums.map(&:name).each do |n|
-                  %li #{n}
-              - else
-                %li Any
-          .block.studios
-            %label Studios:
-            %ul
-              - if @query.studios && !@query.studios.empty?
-                - @query.studios.map(&:name).each do |n|
-                  %li #{n}
-              - else
-                %li Any
-          .block.os
-            %label Open Studios Participants:
-            - unless @query.os_flag.nil?
-              .os #{@query.os_flag ? 'Yes' : 'No'}
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title Search
+.pure-g
+  .pure-u-1-5.search-page.padded-content
+    .column
+      .current_search
+        #search_help.help-parent
+          = render '/whatsthis/popup', :section => 'search', :link_text => "what's this?", :parent => 'search_help', :use_icon => true, :title => "About Search"
+        %h4.title
+          Current Query
+        .block.keywords
+          %label Keywords:
+          %ul.keywords
+            - @query.keywords.present? && @query.keywords.each_with_index do |k, idx|
+              %li #{ "AND " if idx > 0} #{k}
+        .block.mediums
+          %label Mediums:
+          %ul
+            - if @query.mediums.present?
+              - @query.mediums.map(&:name).each do |n|
+                %li #{n}
             - else
-              .os Don't Care
+              %li Any
+        .block.studios
+          %label Studios:
+          %ul
+            - if @query.studios && !@query.studios.empty?
+              - @query.studios.map(&:name).each do |n|
+                %li #{n}
+            - else
+              %li Any
+        .block.os
+          %label Open Studios Participants:
+          - unless @query.os_flag.nil?
+            .os #{@query.os_flag ? 'Yes' : 'No'}
+          - else
+            .os Don't Care
 
-        .refine_controls
-          %h4 Narrow Your Results
-          = form_tag({:action => "fetch" }, :class=>"power_search") do
-            %input{ :type => :hidden, :name => :per_page, :value => @per_page}
-            %h5.block_head Add Keyword(s):
-            .block
-              = text_field_tag :keywords, @query.query
-              = submit_tag :go, :class => 'formbutton'
-            %h5.block_head.trigger
-              %span Mediums:
-            .block.expandable#medium_chooser
-              %ul
-                %li.cb_entry.reset
-                  %a.reset{:href => '#'}
-                    [ clear all ]
-                - medium_ids = @query.mediums.map(&:id).map(&:to_i)
-                - Medium.alpha.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
-                  - ck = (medium_ids.length && medium_ids.include?(m[:id]))
-                  %li.cb_entry
-                    - connector = "medium_#{m[:id]}"
-                    = check_box_tag "mediums[]", m[:id], ck, "data-display" => m[:display], :id => connector
-                    = label_tag "mediums[]", m[:display], :for => connector
-            %h5.block_head.trigger
-              %span Studios:
-            .block.expandable#studio_chooser
-              %ul
-                %li.cb_entry.reset
-                  %a.reset{:href => '#'}
-                    [ clear all ]
-                - Studio.all.map{ |s| {:id => s.id, :name => s.name.to_param, :display => s.name}}.each do |s|
-                  - ck = (@query.studios.length && @query.studios.map(&:id).map(&:to_i).include?(s[:id]))
-                  %li.cb_entry
-                    - connector = "studio_#{s[:id]}"
-                    = check_box_tag "studios[]", s[:id], ck, "data-display" => s[:display], :id => connector
-                    = label_tag s[:name], s[:display], :for => connector
-            %h5.block_head Open Studios Participants:
-            .block
-              = select_tag :os_artist, options_for_select([["Don't Care", nil], ['Yes', 1], ['No', 2]])
-    %td.vstripe
-    %td.rcol{:colspan => 2}
-      = render :partial => '/flash_notice_error'
-      #spinner
-      .content-block
-        = render :partial => 'search_results'
+      .refine-controls
+        %h4 Narrow Your Results
+        = form_tag({:action => "fetch" }, :class=>"power_search pure-form") do
+          %input{ :type => :hidden, :name => :per_page, :value => @per_page}
+          %h5.block_head Add Keyword(s):
+          .block
+            = text_field_tag :keywords, @query.query
+            = submit_tag :go, :class => 'pure-button pure-button-secondary'
+          %h5.block_head.trigger
+            %span Mediums:
+          .block.expandable#medium_chooser.chooser
+            %ul
+              %li.cb_entry.reset
+                %a.reset{:href => '#'}
+                  [ clear all ]
+              - medium_ids = @query.mediums.map(&:id).map(&:to_i)
+              - Medium.alpha.map{ |med| {:id => med.id, :name => med.name.to_param, :display => med.name}}.each do |m|
+                - ck = (medium_ids.length && medium_ids.include?(m[:id]))
+                %li.cb_entry
+                  - connector = "medium_#{m[:id]}"
+                  = check_box_tag "mediums[]", m[:id], ck, "data-display" => m[:display], :id => connector
+                  = label_tag "mediums[]", m[:display], :for => connector
+          %h5.block_head.trigger
+            %span Studios:
+          .block.expandable#studio_chooser.chooser
+            %ul
+              %li.cb_entry.reset
+                %a.reset{:href => '#'}
+                  [ clear all ]
+              - Studio.all.map{ |s| {:id => s.id, :name => s.name.to_param, :display => s.name}}.each do |s|
+                - ck = (@query.studios.length && @query.studios.map(&:id).map(&:to_i).include?(s[:id]))
+                %li.cb_entry
+                  - connector = "studio_#{s[:id]}"
+                  = check_box_tag "studios[]", s[:id], ck, "data-display" => s[:display], :id => connector
+                  = label_tag s[:name], s[:display], :for => connector
+          %h5.block_head Open Studios Participants:
+          .block
+            = select_tag :os_artist, options_for_select([["Don't Care", nil], ['Yes', 1], ['No', 2]])
+  .pure-u-4-5
+    = render :partial => '/flash_notice_error'
+    #search_results
+      = render :partial => 'search_results'

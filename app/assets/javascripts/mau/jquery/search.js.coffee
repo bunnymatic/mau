@@ -52,10 +52,9 @@ MAU.SearchPage = class MAUSearch
     _.each @choosers, (container) ->
       c = jQuery(container)
       _that.setAnyLink(c)
-      c.find('.reset a').bind 'click', (ev) ->
+      c.on 'click', 'a.reset', (ev) ->
         cbs = c.find _that.checkboxSelector
-        _.each cbs, (el) ->
-          el.checked = false
+        _.each cbs, (el) -> $(el).attr('checked', false)
         _that.setAnyLink(c)
         ev.preventDefault();
         _that._submitForm();
@@ -206,7 +205,7 @@ MAU.SearchPage = class MAUSearch
   initPaginator: () ->
     _that = this
     frm = jQuery(this.searchFormSelector)
-    pages = jQuery('.paginator a')
+    pages = jQuery('.js-search-paginator a')
     if pages.length
       _.each pages, (page) ->
         jQuery(page).bind 'click', (ev) ->

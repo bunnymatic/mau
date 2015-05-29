@@ -41,12 +41,9 @@ describe Admin::ArtistsController do
             password_reset
             get :index
           end
-          it_should_behave_like 'logged in as admin'
-          it "returns success" do
-            expect(response).to be_success
-          end
+          it { expect(response).to be_success }
           it 'renders a csv export link' do
-            assert_select('a.export-csv button', /export/)
+            assert_select('a.export-csv', /export/)
           end
           it 'renders an update os status button' do
             assert_select('button.update-artists', /update os status/)

@@ -4,6 +4,7 @@ describe User do
   let(:simple_artist) { FactoryGirl.build(:artist) }
   let(:maufan) { FactoryGirl.create(:fan, :active) }
   let(:artist) { FactoryGirl.create(:artist, :with_art, profile_image: 'profile.jpg') }
+  let(:art_piece) { artist.art_pieces.first }
   let(:admin) { FactoryGirl.create(:artist, :admin, :with_art) }
   let(:manager) { FactoryGirl.create(:artist, :manager, :with_studio) }
   let(:editor) { FactoryGirl.create(:artist, :editor) }
@@ -39,6 +40,19 @@ describe User do
 
   it{ should ensure_length_of(:firstname).is_at_most(100) }
   it{ should ensure_length_of(:lastname).is_at_most(100) }
+
+  context 'find by username or email' do
+    let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
+    it 'finds users by their login' do
+      expect(User.find_by_username_or_email('whatever_yo')).to eql artist
+    end
+    it 'finds users by their email' do
+      expect(User.find_by_username_or_email('yo_whatever@example.com')).to eql artist
+    end
+    it 'returns nil when there is no match' do
+      expect(User.find_by_username_or_email('ack')).to be_nil
+    end
+  end
 
   context 'unique field constraints' do
     before do
@@ -98,7 +112,7 @@ describe User do
     end
 
   end
-  describe '#fullname' do
+  describe '#full_name' do
     context 'an artist with a login but no names' do
       it 'returns login for full name' do
         u = FactoryGirl.build(:user, firstname: nil, lastname: nil, nomdeplume: nil)
@@ -163,6 +177,7 @@ describe User do
       user.get_name.should eql 'blurp'
     end
     it 'returns first + last if defined' do
+      user = FactoryGirl.build(:user, nomdeplume: nil )
       user.get_name.should eql([user.firstname, user.lastname].join ' ')
     end
     it 'returns login if nom, and firstname are not defined' do
@@ -275,18 +290,12 @@ describe User do
       it "first in user.fav_artists list is an Artist" do
         @u.fav_artists.first.is_a?(User).should be
       end
-      it ", that user is in the artists' who favorites me list" do
-        @a.who_favorites_me.should include @u
-      end
       context "and removing that artist" do
         before do
           @u.remove_favorite(@a)
         end
         it ", artist is no longer a favorite" do
           @u.fav_art_pieces.should have(0).artists
-        end
-        it ", that user no longer in the artists' who favorites me list" do
-          @a.who_favorites_me.should_not include @u
         end
       end
       context "and trying to add a duplicate artist" do
@@ -314,103 +323,94 @@ describe User do
       end
     end
     describe "narcissism" do
-      before do
-        @a = artist
-        @ap = @a.art_pieces.first
-      end
       it "favoriting yourself is not allowed" do
-        @a.add_favorite(@a).should be_false
+        artist.add_favorite(artist).should be_false
       end
       it "favoriting your own art work is not allowed" do
-        @a.add_favorite(@ap).should be_false
+        artist.add_favorite(art_piece).should be_false
       end
       it "it doesn't send favorite notification" do
         ArtistMailer.should_receive('favorite_notification').never
-        @a.add_favorite(@ap).should be_false
+       artist.add_favorite(art_piece).should be_false
       end
     end
 
     describe "mailer notifications" do
       before do
-        @u = maufan # he's a fan
-        @owner = artist
-        @ap = @owner.art_pieces.first
+        artist
       end
+      it '#resend_activation sends a new activation email' do
+        expect(UserMailer).to receive('resend_activation').with(maufan).once.and_return(double(:deliver! => true))
+        maufan.resend_activation
+      end
+      it '#create_reset_code sends a recent reset email' do
+        expect(UserMailer).to receive('reset_notification').with(maufan).once.and_return(double(:deliver! => true))
+        maufan.create_reset_code
+      end
+
       it "add art_piece favorite sends favorite notification to owner" do
-        ArtistMailer.should_receive('favorite_notification').with(@owner, @u).once.and_return(double(:deliver! => true))
-        @u.add_favorite(@ap)
+        ArtistMailer.should_receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
+        maufan.add_favorite(art_piece)
       end
       it "add artist favorite sends favorite notification to user" do
-        ArtistMailer.should_receive('favorite_notification').with(@owner, @u).once.and_return(double(:deliver! => true))
-        @u.add_favorite(@owner)
+        ArtistMailer.should_receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
+        maufan.add_favorite(artist)
       end
       it "add artist favorite doesn't send notification to user if user's email settings say no" do
-        h = @owner.emailsettings
+        h = artist.emailsettings
         h['favorites'] = false
-        @owner.emailsettings = h
-        @owner.save!
-        @owner.reload
-        ArtistMailer.should_receive('favorite_notification').with(@owner, @u).never
-        @u.add_favorite(@owner)
+        artist.emailsettings = h
+        artist.save!
+        artist.reload
+        ArtistMailer.should_receive('favorite_notification').with(artist, maufan).never
+        maufan.add_favorite(artist)
       end
     end
 
     describe "adding art_piece as favorite" do
       before do
-        @u = maufan # he's a fan
-        @owner = artist
-        @ap = @owner.art_pieces.first
-        @u.add_favorite(@ap)
+        maufan.add_favorite(art_piece)
       end
       it "all users favorites should be either of type Artist or ArtPiece" do
-        @u.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.should have_at_least(1).favorite
+        maufan.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.should have_at_least(1).favorite
       end
       it "art_piece is in favorites list" do
-        fs = @u.favorites.select { |f| f.favoritable_id == @ap.id }
+        fs = maufan.favorites.select { |f| f.favoritable_id == art_piece.id }
         fs.should have(1).art_piece
-        fs[0].favoritable_id.should eql @ap.id
+        fs[0].favoritable_id.should eql art_piece.id
         fs[0].favoritable_type.should eql 'ArtPiece'
       end
       it "art_piece is in favorites_to_obj list as an ArtPiece" do
-        fs = @u.favorites.to_obj.select { |f| f.id == @ap.id }
+        fs = maufan.favorites.to_obj.select { |f| f.id == art_piece.id }
         fs.should have(1).art_piece
-        fs[0].id.should eql @ap.id
+        fs[0].id.should eql art_piece.id
         fs[0].class.should eql ArtPiece
       end
 
       it "art_piece is in the artists 'fav_art_pieces' list" do
-        (@u.fav_art_pieces.map { |ap| ap.id }).should include(@ap.id)
+        (maufan.fav_art_pieces.map { |ap| ap.id }).should include(art_piece.id)
       end
       it "art piece is of type ArtPiece" do
-        @u.fav_art_pieces.first.is_a?(ArtPiece).should be
+        maufan.fav_art_pieces.first.is_a?(ArtPiece).should be
       end
       it "user does not have 'art_pieces' because he's a user" do
-        @u.methods.should_not include('art_pieces')
+        maufan.methods.should_not include('art_pieces')
       end
 
-      context "and trying to add it again" do
-        before do
-          @num_favs = @u.favorites.count
-          @result = @u.add_favorite(@ap)
-        end
-        it "doesn't add" do
-          @result.should be_false
-          @num_favs.should eql @u.favorites.count
-        end
+      it "doesn't add items twice" do
+        expect{
+          maufan.add_favorite(art_piece)
+        }.to change(maufan.favorites, :count).by(0)
       end
 
       context "and removing it" do
         it "Favorite delete get's called" do
           Favorite.any_instance.should_receive(:destroy).exactly(:once)
-          @u.remove_favorite(@ap)
+          maufan.remove_favorite(art_piece)
         end
         it "art_piece is no longer a favorite" do
-          f = @u.remove_favorite(@ap)
+          f = maufan.remove_favorite(art_piece)
           Favorite.where(user_id: maufan.id).should_not include f
-        end
-        it "user is not in the who favorites me list of the artist who owns that art piece" do
-          @u.remove_favorite(@ap)
-          @ap.artist.who_favorites_me.should_not include @u
         end
       end
     end
@@ -440,8 +440,8 @@ describe User do
 
   describe 'csv_safe' do
     it 'should clean the fields' do
-      simple_artist.firstname = "eat@#$!! 123"
-      simple_artist.csv_safe('firstname').should eql 'eat123'
+      simple_artist.firstname = "eat@\#\$!!\"\', 123"
+      simple_artist.csv_safe('firstname').should eql 'eat@#$!! 123'
     end
   end
 
@@ -475,6 +475,4 @@ describe User do
       end
     end
   end
-
-
 end

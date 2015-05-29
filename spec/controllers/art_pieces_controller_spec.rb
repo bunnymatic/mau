@@ -3,83 +3,54 @@ require 'spec_helper'
 describe ArtPiecesController do
 
   let(:medium) { FactoryGirl.create(:medium) }
+  let(:existing_tag) { FactoryGirl.create(:art_piece_tag) }
+  let(:tags) { nil }
   let(:art_piece_attributes) { FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id) }
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
+  let!(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
   let(:art_pieces) { artist.art_pieces }
   let(:art_piece) { art_pieces.first }
 
+
+  describe "#index" do
+    describe 'json' do
+      before do
+        get :index, format: 'json', artist_id: artist.id
+      end
+      it_should_behave_like 'successful json'
+      it 'returns all active artists' do
+        j = JSON.parse(response.body)
+        j.count.should eql artist.art_pieces.count
+      end
+    end
+  end
+
   describe "#show" do
     context "not logged in" do
       context "format=html" do
-        render_views
         context 'when the artist is active' do
           before do
             get :show, id: art_piece.id
           end
-          it_should_behave_like 'returns success'
+          it { expect(response).to be_success }
           it 'has a description with the art piece name' do
-            assert_select 'head' do |tag|
-              assert_select 'meta[name=description]' do |desc|
-                desc.length.should eql 1
-                desc[0].attributes['content'].should match /#{art_piece.title}/
-              end
-              assert_select 'meta[property=og:description]' do |desc|
-                desc.length.should eql 1
-                desc[0].attributes['content'].should match /#{art_piece.title}/
-              end
-            end
+            expect(assigns(:page_description)).to match /#{art_piece.title}/
           end
           it 'has keywords that match the art piece' do
-            assert_select 'head meta[name=keywords]' do |keywords|
-              keywords.length.should eql 1
-              expected = [art_piece.tags + [art_piece.medium]].flatten.compact.map(&:name)
-              actual = keywords[0].attributes['content'].split(',').map(&:strip)
-              expected.each do |ex|
-                actual.should include ex
-              end
+            keywords = assigns(:page_keywords)
+            expected = [art_piece.tags + [art_piece.medium]].flatten.compact.map(&:name)
+            expected.each do |ex|
+              expect(keywords).to include ex
             end
           end
           it 'include the default keywords' do
-            assert_select 'head meta[name=keywords]' do |keywords|
-              keywords.length.should eql 1
-              expected = ["art is the mission", "art", "artists", "san francisco"]
-              actual = keywords[0].attributes['content'].split(',').map(&:strip)
-              expected.each do |ex|
-                actual.should include ex
-              end
+            keywords = assigns(:page_keywords)
+            expected = ["art is the mission", "art", "artists", "san francisco"]
+            expected.each do |ex|
+              expect(keywords).to include ex
             end
-          end
-
-          it 'shows the artist name in the sidebar' do
-            artist_link = artist_path(artist)
-            assert_select ".lcol h3 a[href=#{artist_link}]"
-            assert_select ".lcol a[href=#{artist_link}] img"
-          end
-
-          it 'shows the thumbnail browser' do
-            assert_select '#artp_thumb_browser'
-          end
-
-          it "displays art piece with no edit buttons and a zoom button" do
-            assert_select("#artpiece_title", art_piece.title)
-            assert_select("div.edit-buttons", "")
-            expect(css_select("div.edit-buttons *")).to be_empty
-            assert_select('a.zoom')
-          end
-          it "has a favorite me icon" do
-            assert_select('#artpiece_container .ico-heart')
-          end
-        end
-        context "piece has been favorited" do
-          before do
-            fan.add_favorite art_piece
-            get :show, id: art_piece.id
-          end
-          it "shows the number of favorites" do
-            assert_select '#num_favorites', 1
           end
         end
       end
@@ -99,36 +70,14 @@ describe ArtPiecesController do
           expect(response).to redirect_to '/error'
         end
       end
-      context "when logged in as art piece owner" do
-        render_views
-        before do
-          login_as artist
-          get :show, id: art_piece.id
-        end
-        it_should_behave_like 'two column layout'
-        it_should_behave_like 'logged in artist'
-        it "shows edit button" do
-          assert_select("div.edit-buttons span#artpiece_edit a", "edit")
-        end
-        it "shows delete button" do
-          assert_select(".edit-buttons #artpiece_del a", "delete")
-        end
-        it "doesn't show heart icon" do
-          expect(css_select('#artpiece_container .ico-heart')).to be_empty
-        end
-      end
       context "when logged in as not artpiece owner" do
         render_views
         before do
           login_as fan
           get :show, id: art_piece.id
         end
-        it_should_behave_like 'two column layout'
-        it "shows heart icon" do
-          assert_select('.ico-heart')
-        end
         it "doesn't have edit button" do
-          expect(css_select("div.edit-buttons span#artpiece_edit a")).to be_empty
+          expect(css_select(".edit-buttons #artpiece_edit a")).to be_empty
         end
         it "doesn't have delete button" do
           expect(css_select(".edit-buttons #artpiece_del a")).to be_empty
@@ -175,34 +124,14 @@ describe ArtPiecesController do
         parsed['tags'].first['name'].should eql art_piece.tags.first.name
       end
       it 'includes the artists name' do
-        parsed['artist_name'].should eql artist.get_name
+        parsed['artist_name'].should eql html_encode(art_piece.artist.full_name)
       end
       it 'includes the art piece title' do
-        parsed['title'].should eql HTMLEntities.new.encode art_piece.title, :named, :hexadecimal
+        parsed['title'].should eql html_encode(art_piece.title)
       end
       it 'includes the medium' do
         parsed['medium']['name'].should eql art_piece.medium.name
       end
-    end
-
-  end
-
-  describe '#new' do
-    before do
-      login_as artist
-    end
-    it 'sets a flash for artists with a full portfolio' do
-      Artist.any_instance.stub(max_pieces: 0)
-      get :new, artist_id: artist.id
-      flash.now[:error].should be_present
-    end
-    it 'assigns all media' do
-      get :new, artist_id: artist.id
-      expect(assigns(:media).map(&:id)).to eql Medium.alpha.map(&:id)
-    end
-    it 'assigns a new art piece' do
-      get :new, artist_id: artist.id
-      assigns(:art_piece).should be_a_kind_of ArtPiece
     end
   end
 
@@ -228,9 +157,9 @@ describe ArtPiecesController do
         expect(response).to redirect_to artist_path(artist)
       end
       it 'renders new on failed save' do
-        ArtPiece.any_instance.should_receive(:valid?).and_return(false)
+        allow_any_instance_of(ArtPiece).to receive(:valid?).and_return(false)
         post :create, art_piece: art_piece_attributes, upload: {}
-        expect(response).to render_template 'new'
+        expect(response).to render_template 'artists/manage_art'
       end
       context 'when image upload raises an error' do
         before do
@@ -238,7 +167,7 @@ describe ArtPiecesController do
           post :create, art_piece: art_piece_attributes, upload: {}
         end
         it 'renders the form again' do
-          expect(response).to render_template 'new'
+          expect(response).to render_template 'artists/manage_art'
         end
         it 'sets the error' do
           expect(assigns(:art_piece).errors[:base].to_s).to include 'eat it'
@@ -246,25 +175,39 @@ describe ArtPiecesController do
       end
 
       context 'with successful save' do
-        before do
-          mock_art_piece_image = double('MockArtPieceImage', save: true)
-          ArtPieceImage.should_receive(:new).and_return(mock_art_piece_image)
-        end
+        let(:upload_data) { { 'datafile' => fixture_file_upload( '/files/art.png' ) } }
+        let(:tags) { "this, that, #{existing_tag.name}" }
+
         it 'redirects to show page on success' do
-          post :create, art_piece: art_piece_attributes, upload: {}
+          post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
           expect(response).to redirect_to artist_path(artist)
         end
+        it 'creates a piece of art' do
+          expect{
+            post :create, art_piece: art_piece_attributes, upload: upload_data
+          }.to change(ArtPiece, :count).by 1
+        end
         it 'sets a flash message on success' do
-          post :create, art_piece: art_piece_attributes, upload: {}
-          flash[:notice].should eql 'Artwork was successfully added.'
+          post :create, art_piece: art_piece_attributes, upload: upload_data
+          flash[:notice].should eql "You've got new art!"
         end
         it "flushes the cache" do
           ArtPiecesController.any_instance.should_receive(:flush_cache)
-          post :create, art_piece: art_piece_attributes, upload: {}
+          post :create, art_piece: art_piece_attributes, upload: upload_data
         end
         it 'publishes a message' do
           Messager.any_instance.should_receive(:publish)
-          post :create, art_piece: art_piece_attributes, upload: {}
+          post :create, art_piece: art_piece_attributes, upload: upload_data
+        end
+        it 'correctly adds tags to the art piece' do
+          post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
+          expect(ArtPiece.last.tags.count).to eql 3
+        end
+        it 'only adds the new tags' do
+          tags
+          expect{
+            post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
+          }.to change(ArtPieceTag, :count).by 2
         end
       end
     end
@@ -293,9 +236,17 @@ describe ArtPiecesController do
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
         expect(response).to redirect_to art_piece
       end
+      it 'updates tags given a string of comma separated items' do
+        post :update, id: art_piece.id, art_piece: {title: art_piece.title, tags: 'this, that, the other, this, that'}
+        tag_names = art_piece.reload.tags.map(&:name)
+        expect(tag_names).to have(3).tags
+        expect(tag_names).to include 'this'
+        expect(tag_names).to include 'this'
+        expect(tag_names).to include 'the other'
+      end
       it 'sets a flash message on success' do
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
-        flash[:notice].should eql 'Artwork was successfully updated.'
+        flash[:notice].should eql 'The art has been updated.'
       end
       it "flushes the cache" do
         ArtPiecesController.any_instance.should_receive(:flush_cache)
@@ -320,7 +271,6 @@ describe ArtPiecesController do
 
   describe "#edit" do
     context "while not logged in" do
-      render_views
       context "post " do
         before do
           post :edit, id: art_piece.id
@@ -338,16 +288,12 @@ describe ArtPiecesController do
       before do
         login_as artist
       end
-      render_views
-      context "get " do
+      context "get" do
         before do
           get :edit, id: artist2.art_pieces.first.id
         end
         it "returns error if you don't own the artpiece" do
           expect(response).to redirect_to "/error"
-        end
-        it "sets a flash error" do
-          flash[:error].should be_present
         end
       end
     end
@@ -355,12 +301,11 @@ describe ArtPiecesController do
       before do
         login_as artist
       end
-      render_views
       context "get " do
         before do
           get :edit, id: artist.art_pieces.last
         end
-        it_should_behave_like 'returns success'
+        it { expect(response).to be_success }
       end
     end
 

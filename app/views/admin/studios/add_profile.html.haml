@@ -1,14 +1,16 @@
-.admin-table.edit
-  %h2 Add/Update Studio Picture for #{@studio.name}
-  = render :partial => '/flash_notice_error'
-  %img{:src => @studio.get_profile_image('small') || '/images/default-profile-img.png'}
-  .instructions Your profile image should be a JPEG, GIF or PNG file and must not be more than 200KB.
-  .upload-form
-  = form_tag({:action => 'upload_profile'}, :multipart => true) do
-    %p
-      %label{:for => "upload_file"} Select File:
-      = file_field 'upload', 'datafile'
-      = hidden_field_tag :id, @studio.id
-    %p.controls    
-      = submit_tag "Upload"
-      = submit_tag "Cancel"
+.pure-g
+  .pure-u-1-1.padded-content.header
+    %h2 Add/Update Studio Picture for #{@studio.name}
+    = render :partial => '/flash_notice_error'
+  .pure-u-1-1.padded-content
+    %img{:src => @studio.get_profile_image('small') || '/images/default-profile-img.png'}
+    .instructions Your profile image should be a JPEG, GIF or PNG file and must not be more than 200KB.
+    .upload-form
+    = form_tag({:action => 'upload_profile'}, :multipart => true) do
+      %p
+        %label{:for => "upload_file"} Select File:
+        = file_field 'upload', 'datafile'
+        = hidden_field_tag :id, @studio.id
+      %p.controls    
+        = submit_tag "Upload", class: 'pure-button'
+        = submit_tag "Cancel", class: 'pure-button'

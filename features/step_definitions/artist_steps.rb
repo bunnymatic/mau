@@ -3,7 +3,28 @@ When(/^I visit my home page$/) do
 end
 
 When(/^I visit my profile edit page$/) do
-  visit edit_artist_path(@artist)
+  visit edit_artist_path(@artist || @user)
+end
+
+Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
+  within '.title' do
+    expect(page).to_not have_content "Mona Lisa"
+    expect(page).to have_content new_title
+  end
+end
+
+When(/^I fill out the add art form$/) do
+  @medium = Medium.first
+  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/files/art.png")
+  fill_in "Title", with: 'Mona Lisa'
+  fill_in "Dimensions", with: '4 x 3'
+  fill_in "Year", with: '1515'
+  select @medium.name, from: "Medium"
+  fill_in "Tags", with: "this, and that"
+end
+
+Then /^I see that my art was added$/ do
+  expect(page).to have_content "Mona Lisa"
 end
 
 When(/^I rearrange my art with drag and drop$/) do
@@ -14,32 +35,25 @@ When(/^I rearrange my art with drag and drop$/) do
   images = page.all('.allthumbs.sortable li.thumb')
   images.first.drag_to(images.third)
   click_on 'save'
-  puts @old_order
   @new_order = @artist.art_pieces.map(&:id)
-end
-
-Then(/^I see my big thumbs on the left/) do
-  expect(@artist.art_pieces).to be_present
-  expect(page).to have_selector '#bigthumbcolumn ul.allthumbs li', :count => 4
 end
 
 Then(/^I see my art$/) do
   expect(@artist.art_pieces).to be_present
-  expect(page).to have_selector '.artist-pieces .allthumbs li .thumb', :count => @artist.art_pieces.length
+  expect(page).to have_selector '.art-card .image'
 end
 
 Then(/^I see the artist's menu/) do
-  expect(@artist.art_pieces).to be_present
-  expect(page).to have_selector '#sidebar_nav .leaf'
+  expect(page).to have_selector '.nav-section.users'
 end
 
 Then(/^I can arrange my art$/) do
-  expect(current_path).to eql arrange_art_artists_path
+  expect(current_path).to eql manage_art_artist_path(@artist)
 end
 
 Then(/^I can delete my art$/) do
-  expect(current_path).to eql delete_art_artists_path
-  expect(page).to have_selector '#delete_art li.artp-thumb-container input[type=checkbox]'
+  expect(current_path).to eql manage_art_artist_path(@artist)
+  expect(page).to have_selector '#delete_art li.art-card .image'
 end
 
 When(/^I mark art for deletion$/) do
@@ -56,8 +70,7 @@ Then(/^I see that my art was deleted$/) do
 end
 
 Then(/^I see my profile edit form$/) do
-  expect(page).to have_css '.open-close-div', count: 8
-  expect(page).to have_css '.edit-profile-sxn', count: 8, visible: false
+  expect(page).to have_css '.panel-heading', count: 8
 end
 
 When(/^I update my personal information with:$/) do |table|
@@ -74,10 +87,63 @@ When(/^I see my updated personal information as:$/) do |table|
   end
 end
 
+When /^that artist is not doing open studios$/ do
+  @artist.update_os_participation OpenStudiosEvent.current, false
+end
+
+When /^I click on the current open studios edit section$/ do
+  click_on "Open Studios #{OpenStudiosEvent.current.for_display(true)}"
+end
+
 Then(/^I see that I've successfully signed up for Open Studios$/) do
   expect(@artist.reload.doing_open_studios?).to eq true
 end
 
 Then(/^I see that I've successfully unsigned up for Open Studios$/) do
   expect(@artist.reload.doing_open_studios?).to eq false
+end
+
+When(/^I click on the first artist's card$/) do
+  @artist = Artist.active.all.detect{|a| a.art_pieces.present?}
+  click_on_first @artist.full_name
+end
+
+Then(/^I see that artist's profile page$/) do
+  expect(page).to have_css '.header', text: @artist.full_name
+  expect(page).to have_css '.artist-profile'
+  expect(page).to have_content @artist.facebook
+  expect(page).to have_content @artist.primary_medium.name
+  expect(current_path).to eql artist_path(@artist)
+end
+
+When(/^I click on an art card$/) do
+  first_art_card = all('.art-card a').first
+  first_art_card.trigger('click')
+end
+
+Then(/^I see that art piece detail page$/) do
+  expect(page).to have_css('art-pieces-browser')
+  expect(page).to have_css '.header', text: @artist.full_name
+end
+
+When(/^I submit a new profile picture$/) do
+  find('.file.input')
+  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/files/art.png")
+end
+
+Then(/^I see that I have a new profile picture$/) do
+  img = find(".artist-profile__image img")
+  expect(img).to be_present
+end
+
+
+Then(/^the artists index page shows no artists for open studios$/) do
+  expect(page).to_not have_css '.artist-card'
+  expect(page).to have_css 'h2', text: "Artists in Open Studios"
+  expect(page).to have_content 'Sorry, no one has signed up for the next Open Studios'
+end
+
+Then(/^I see open studios artists on the artists list$/) do
+  expect(page).to have_css '.artist-card'
+  expect(page).to have_css 'h2', text: "Artists in #{OpenStudiosEvent.current.for_display(true)} Open Studios"
 end

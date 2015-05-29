@@ -33,7 +33,7 @@ class Studio < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: :slugged
-  
+
   has_many :artists
 
   acts_as_mappable
@@ -55,7 +55,7 @@ class Studio < ActiveRecord::Base
   def to_param
     slug || id
   end
-  
+
   def normalize_phone_number
     if phone
       phone.gsub!(/\D+/,'')
@@ -71,16 +71,8 @@ class Studio < ActiveRecord::Base
     IndependentStudio.new
   end
 
-  def self.all
-    order('name').all << Studio.indy
-  end
-
   def get_profile_image(size)
     StudioImage.get_path(self, size)
-  end
-
-  def formatted_phone
-    phone.gsub(/(\d{3})(\d{3})(\d{4})/,"(\\1) \\2-\\3")
   end
 
 end

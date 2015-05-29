@@ -1,0 +1,30 @@
+@import 'colors';
+@import 'variables';
+@import url(http://fonts.googleapis.com/css?family=Raleway:200,300,500,700,900);
+
+
+html body {
+  color: $gto_gray;
+  * {
+    font-family: $font;
+  }
+}
+
+p {
+  line-height: 1.4rem;
+  font-size: 100%;
+}
+.markdown {
+  li {
+    line-height: 1.4rem;
+    min-height: 1.4rem;
+  }
+}
+
+.header {
+  .title {
+    .artist__name, .art-piece__name, .studio__name, .tag__name, .medium__name {
+      font-weight: $font-weight-normal;
+    }
+  }
+}

@@ -1,10 +1,13 @@
-.artist_feeds
-  %h1 Artist Feeds
-  .links
-    = link_to new_admin_artist_feed_path, title: 'add feed' do
-      = fa_icon('plus')
-  .admin-table
-    %table#artist_feeds_index.js-data-tables
+.pure-g
+  .pure-u-1-1.padded-content
+    .artist_feeds
+      %h1
+        Artist Feeds
+        .admin-table__controls
+          = link_to new_admin_artist_feed_path, title: 'add feed' do
+            = fa_icon('plus-circle')
+  .pure-u-1-1.padded-content
+    %table#artist_feeds_index.js-data-tables.pure-table.pure-table-striped
       %thead
         %tr
           %th.feed Feed URL
@@ -26,9 +29,10 @@
               = link_to [:admin, feed], title: 'remove', confirm: 'Are you sure?', method: :delete do
                 = fa_icon('remove')
 
-.current_feed_content
-  %h4 Current Feeds
-  .controls
-    %a{href: '/feeds/clear_cache'} Fetch New Feeds
-  .feeds
-    != @feed_html
+  .pure-u-1-1.padded-content
+    .current_feed_content
+      %h2 Current Feeds
+    .feeds
+      != @feed_html
+    .controls
+      %a{href: '/feeds/clear_cache', class: 'pure-button button-secondary'} Fetch New Feeds

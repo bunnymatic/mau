@@ -6,8 +6,7 @@ class ArtistsPresenter
 
   attr_reader :os_only
 
-  def initialize(view_context, os_only)
-    @view_context = view_context
+  def initialize(os_only)
     @os_only = os_only
   end
 
@@ -31,12 +30,8 @@ class ArtistsPresenter
                        else
                          active_artists
                        end).sort_by(&:sortable_name)
-        artist_list.map{|artist| ArtistPresenter.new(@view_context, artist)}
+        artist_list.map{|artist| ArtistPresenter.new(artist)}
       end
-  end
-
-  def num_artists
-    @num_artists ||= artists.length
   end
 
 end

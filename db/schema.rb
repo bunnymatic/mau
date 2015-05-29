@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141121163154) do
+ActiveRecord::Schema.define(:version => 20150519060608) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -106,7 +106,10 @@ ActiveRecord::Schema.define(:version => 20141121163154) do
     t.text     "article"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
+
+  add_index "cms_documents", ["user_id"], :name => "index_cms_documents_on_user_id"
 
   create_table "email_list_memberships", :force => true do |t|
     t.integer "email_id"
@@ -299,11 +302,13 @@ ActiveRecord::Schema.define(:version => 20141121163154) do
     t.datetime "current_login_at"
     t.string   "last_login_ip"
     t.string   "current_login_ip"
+    t.string   "slug"
   end
 
   add_index "users", ["last_request_at"], :name => "index_users_on_last_request_at"
   add_index "users", ["login"], :name => "index_artists_on_login", :unique => true
   add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
+  add_index "users", ["slug"], :name => "index_users_on_slug", :unique => true
   add_index "users", ["state"], :name => "index_users_on_state"
   add_index "users", ["studio_id"], :name => "index_users_on_studio_id"
 

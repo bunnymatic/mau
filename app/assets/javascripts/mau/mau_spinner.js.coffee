@@ -20,9 +20,9 @@ MAU.SpinnerOptions =
 MAU.Spinner = class MAUSpinner
   constructor: (opts) ->
     @opts = opts || {}
-    @el = opts.element || '#spinner'
-    opts.element = null
-    @spinOpts = _.extend {}, MAU.SpinnerOptions, opts
+    @el = @opts.element || '#spinner'
+    @opts.element = null
+    @spinOpts = _.extend {}, MAU.SpinnerOptions, @opts
 
   spin: ->
     jQuery(@el).spin @spinOpts

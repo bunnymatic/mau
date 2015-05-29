@@ -8,6 +8,11 @@
 #  article    :text
 #  created_at :datetime
 #  updated_at :datetime
+#  user_id    :integer
+#
+# Indexes
+#
+#  index_cms_documents_on_user_id  (user_id)
 #
 
 class CmsDocument < ActiveRecord::Base
@@ -16,6 +21,8 @@ class CmsDocument < ActiveRecord::Base
 
   validates :page, :presence => true, :length => {:within => (2..255)}
   validates :article, :presence => true, :length => {:minimum => 2}
+
+  belongs_to :user
 
   def self.packaged(page, section)
     pkg = {
@@ -35,4 +42,5 @@ class CmsDocument < ActiveRecord::Base
   def clean_newlines
     self.article = self.article.gsub(/\r\n/, "\n");
   end
+
 end

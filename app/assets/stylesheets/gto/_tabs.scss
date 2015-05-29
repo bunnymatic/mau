@@ -1,0 +1,105 @@
+@import 'colors';
+@import 'mau-mixins';
+.tab-content .tab-pane {
+  display: none;
+  &.active {
+    display: inherit;
+  }
+}
+
+.tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0px 0;
+  .active {
+    a[data-toggle=tab] {
+      font-weight: $font-weight-bold;
+    }
+  }
+  li:hover {
+    a:hover {
+      background-color: rgba(200,200,200,0.2);
+    }
+  }
+
+  &.signout__links, &.signin__links, &.tabs__nav {
+    > li {
+      @include sidebar-nav-entry;
+      .dropdown {
+        @include transition(all 0.45s ease-in-out);
+        background-color: #f1f1f1;
+        li.dropdown-nav {
+          height: 0;
+          line-height:22px;
+          overflow:hidden;
+          @include transition( all 0.50s ease-in-out );
+          border: none;
+          @include ellipsis;
+          a {
+            @include transition(all 0.40s ease-in);
+            display: block;
+            font-size: 12px;
+            @include ellipsis;
+            font-weight: $font-weight-normal;
+            color: $gto_gray;
+          }
+        }
+      }
+      &.active {
+        .dropdown {
+          padding: 12px 0;
+          li {
+            height: 22px;
+          }
+        }
+      }
+    }
+    a {
+      font-weight: $font-weight-bold;
+    }
+  }
+  &.tabs__horizontal {
+    margin-top: 10px;
+    height: 33px;
+    li {
+      display: inline-block;
+      &:first-child {
+        padding-left: 0;
+      }
+      &:last-child {
+        padding-right: 0;
+      }
+      &.active {
+        background-color: none;
+      }
+    }
+    a[data-toggle=tab] {
+      @include ellipsis;
+      padding: 5px 20px;
+      display: inline-block;
+      width: 100%;
+      border-bottom: 2px solid;
+      border-color: $xlightgray;
+      text-align: center;
+      font-weight: $font-weight-light;
+      outline: none;
+      background-color: transparent;
+      &:hover {
+        background-color: rgba(200,200,200,0.2);
+        @include transition(background-color 0.1s linear);
+      }
+    }
+    .active {
+      a[data-toggle=tab] {
+        border-color: $gto_orange;
+        font-weight: $font-weight-normal;
+      }
+    }
+    li:hover {
+      a[data-toggle=tab] {
+        border-color: $gto_orange;
+      }
+    }
+  }
+}
+

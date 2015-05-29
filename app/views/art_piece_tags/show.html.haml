@@ -1,20 +1,25 @@
-%table.tbl-content
-  %tr
-    %td.lcol{ :colspan => '2' }
-      = render 'tag_list', :cloud => @tag_cloud_presenter
-    %td.vstripe
-    %td.rcol{ :colspan => '2'}
-      %h4
-        Search for tag:
-        %span.query
-          = @tag.name
-      #search_results
-        .search-view-ctrls
-          = render "/common/pagination", :paginator => @paginator
-          = render "/art_pieces/mode_selector", :paginator => @paginator, :by_artists_link => @by_artists_link, :by_pieces_link => @by_pieces_link
-        = render '/flash_notice_error'
-        .search-results
-          - if @paginator.items.present?
-            = render '/search/thumbs', :pieces => @paginator.items, :params => { :cols => 2, :show_footer => false, :size => 'thumb', :art_link => true }
-        .search-view-ctrls
-          = render "/common/pagination", :paginator => @paginator
+.pure-g
+  .pure-u-1-1.header.padded-content
+    %h2.title
+      Tag:
+      %span.tag__name #{@tag.name}
+  .pure-u-1-2.pure-u-sm-1-3.pure-u-lg-1-5.padded-content
+    .pure-g
+      .pure-u-1-1.header
+        #tag_help.help-parent
+          = render '/whatsthis/popup', :section => 'tags', :link_text => "what's this?", :parent => 'tag_help', :use_icon => true, :title => "About Popular Tags"
+        %h4.title Tags
+    .pure-g
+      .pure-u-1-1.tagcloud
+        %ul
+          - @tag_cloud_presenter.each do |tag|
+            %li{ class: (@tag_cloud_presenter.is_current_tag?(tag) ? 'tagmatch' : '') }
+              %span.clouditem
+                = link_to tag.safe_name, art_piece_tag_path(tag)
+  .pure-u-1-2.pure-u-sm-2-3.pure-u-lg-4-5
+    .pure-g
+      .pure-u-1-1
+        = render "/common/pagination", :paginator => @paginator
+    .pure-g.search-results
+      = render partial: '/artists/art', collection: @paginator.items, as: :art_piece, locals: {show_os_violator: true}
+

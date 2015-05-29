@@ -1,15 +1,19 @@
 class PaginationError < StandardError; end
 
-class Pagination
+class Pagination < ViewPresenter
 
   attr_reader :per_page
 
-  def initialize(view_context, array, current, per_page)
+  def initialize(array, current, per_page, opts=nil)
     raise PaginationError.new("per_page must be present and greater than 0") unless per_page && (per_page.to_i > 0)
-    @view_context = view_context
     @array = array
     @current = current
     @per_page = [per_page,1].max
+    opts ||= {}
+    @previous_label = opts[:previous_label]
+    @previous_title = opts[:previous_title]
+    @next_label = opts[:next_label]
+    @next_title = opts[:next_title]
   end
 
   def should_paginate?
@@ -18,6 +22,10 @@ class Pagination
 
   def count
     @count ||= (@array||[]).length
+  end
+
+  def is_current_page?(page)
+    page.to_i == @current.to_i
   end
 
   def display_current_position
@@ -31,10 +39,7 @@ class Pagination
   end
 
   def current_page
-    unless @current_page
-      @current_page = [[@current.to_i, 0].max, last_page].min
-    end
-    @current_page
+    @current_page ||= (@current.to_i)
   end
 
   def next_page
@@ -57,32 +62,45 @@ class Pagination
     first_item + (per_page - 1)
   end
 
+  def pages
+    first_page..last_page
+  end
+
   def items
-    @array[first_item..last_item]
+    (@array || [])[first_item..last_item] || []
   end
 
   def previous_link?
-    current_page != first_page
+    current_page > first_page
   end
 
   def next_link?
-    current_page != last_page
+    current_page < last_page
   end
+
+  alias_method :has_more?, :next_link?
 
   def previous_title
     @previous_title || 'previous'
+  end
+
+  def link_to_page page
+    unless respond_to? :page_link
+      raise PaginationError.new "link_to_page requires page_link to be defined!"
+    end
+    link_to page+1, page_link(page), title: page+1
   end
 
   def link_to_previous
     unless respond_to? :previous_link
       raise PaginationError.new "link_to_previous requires previous_link to be defined!"
     end
-    @view_context.link_to previous_label, previous_link, :title => previous_title
+    link_to previous_label, previous_link, title: previous_title
   end
 
   def link_to_next
     raise PaginationError.new("link_to_next requires next_link to be defined!") unless respond_to? :next_link
-    @view_context.link_to next_label, next_link, :title => next_title
+    link_to next_label, next_link, title: next_title
   end
 
   def previous_label

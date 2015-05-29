@@ -1,23 +1,26 @@
-#= require monkey_patches
-#= require lodash
-#= require underscore.string
-#= require angular
-#= require angular-resource
-#= require angular-sanitize
-#= require angular-easyfb
-#= require jquery
-#= require jquery_ujs
-#= require jquery_noconflict
-#= require jquery-ui-1.10.4.custom
-#= require jquery.spin
-#= require jquery.form
+# Template includes both application.js and admin.js
+# 
 #= require jquery.flot
 #= require jquery.flot.resize
-#= require select2
-#= require pickadate/picker
-#= require pickadate/picker.date
-#= require pickadate/picker.time
-#= require thirdparty/jquery.feedback
 #= require moment
-#= require_tree ./mau
 #= require_tree ./admin
+
+angular.module('MauAdminApp', [
+  'templates',
+  'ngResource',
+  'ngSanitize',
+  'ngDialog',
+  'angularSlideables',
+  'mau.models',
+  'mau.services',
+  'mau.directives'
+])
+.config ngInject ($httpProvider) ->
+  csrfToken = $('meta[name=csrf-token]').attr('content')
+  $httpProvider.defaults.headers.post['X-CSRF-Token'] = csrfToken
+  $httpProvider.defaults.headers.post['Content-Type'] = 'application/json'
+  $httpProvider.defaults.headers.put['X-CSRF-Token'] = csrfToken
+  $httpProvider.defaults.headers.patch['X-CSRF-Token'] = csrfToken
+  $httpProvider.defaults.headers.delete ||= {}
+  $httpProvider.defaults.headers.delete['X-CSRF-Token'] = csrfToken
+  null

@@ -1,0 +1,194 @@
+/** settings that affect layout/geometry */
+@import 'variables';
+@import 'mau-mixins';
+html, body {
+  height: 100%;
+}
+.hidden {
+  display: none;
+}
+.container {
+  position: relative;
+  padding-left: 0;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+}
+
+.sidenav {
+  position: absolute;
+  @include transition(width 0.3s ease-in-out);
+  width: $sidebar-nav-width;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 1px;
+  .sidenav__main {
+  }
+  .sidenav__footer {
+    z-index: 0;
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+.omega {
+  padding-right: 1em;
+}
+.alpha {
+  padding-left: 1em;
+}
+
+.main-container, #footer_bar {
+  @include transition( margin 0.3s ease-in-out );
+  margin-left: $sidebar-nav-width;
+}
+
+#footer_bar > div {
+  border-top: 1px solid #eee;
+}
+
+.brand {
+  display: block;
+  width: 100%;
+  margin: 20px auto 30px;
+  text-align:center;
+}
+.sidebar-logo {
+  background-image: image_url('yellow_sidebar_logo_full.svg');
+  @include background-cover;
+  margin: auto;
+  width: 133px;
+  height: 117px;
+  background-position: top center;
+  @include opacity(1);
+  @include transition( all 0.3s ease-in-out );
+}
+
+ul li {
+  line-height: 1.4em;
+}
+p {
+  line-height: 1.4em;
+}
+
+.pure-g {
+  .header {
+    .title {
+      font-weight: $font-weight-light;
+      border-bottom: 1px solid $xlightgray;
+      padding-bottom: 8px;
+      padding-left: 2px;
+    }
+  
+    h2.title {
+      font-size: 1.7rem;
+    }
+    h4.title {
+      font-size: 1.2rem;
+    }
+    .italic {
+      font-style: italic;
+      font-weight: $font-weight-normal;
+    }
+  }
+  .offset-content {
+    @include make-sm-offset(1,6);
+    h2.title {
+      margin-left: -20px;
+      margin-right: 40px;
+      padding-left: 20px;
+    }
+    h3, h4, h5 {
+      text-transform:uppercase;
+    }
+
+  }
+  .padded-content {
+    padding: 10px 20px 0;
+    h2.title {
+      margin-left: -20px;
+      margin-right: -20px;
+      padding-left: 20px;
+    }
+
+    > ul {
+      padding: 0;
+    }
+  }
+  &.alpha {
+    .padded-content {
+      padding-left: 0;
+    }
+  }
+  .section.markdown, section.markdown {
+    h1, h2, h3, h4, h5 {
+      &:first-of-type {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.push-bottom {
+  position: absolute;
+  bottom: 0;
+}
+.sidenav {
+  .fine-print-links {
+    padding: 10px;
+    text-align: center;
+    font-size: 0.7rem;
+    li {
+      display: inline-block;
+      a {
+        padding: 2px;
+      }
+    }
+  }
+}
+
+.collapsed[class^=pure-u-] {
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: $screen-sm-max) {
+
+  .collapsed[class^=pure-u-] {
+    width: auto;
+    height: 0;
+    overflow:hidden;
+  }
+  .sidebar-logo {
+    background-image: image_url('yellow_sidebar_logo_gear_only.svg');
+    width: 35px;
+    height: 35px;
+    margin: 0 auto;
+  }
+  .sidenav {
+    width: $sidebar-collapse-nav-width !important;
+    .brand {
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+  }
+  .main-container {
+    margin-left: $sidebar-collapse-nav-width;
+  }
+  .sidenav .fine-print-links {
+    display: none;
+  }
+  .pure-g {
+    .offset-content {
+      padding-left:10px;
+      margin-left: 10px;
+      h2.title {
+        margin-left: 0px;
+        padding-left: 0px;
+      }
+    }
+  }
+}
+

@@ -30,7 +30,7 @@ describe StudioArtist do
     end
 
     it 'sets the artist\'s studio to indy' do
-      expect(artist.studio_id).to eql 0
+      expect(artist.studio).to be_nil
     end
 
     context 'artist is a manager' do

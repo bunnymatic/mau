@@ -1,27 +1,14 @@
-.singlecolumn
-  #all_artists_page.roster-container
-    %h4
-      MAU Artists
+.pure-g
+  .pure-u-1-1.header
+    %h2.title
+      Artists
+  .pure-u-1-1.padded-content
     = render '/osswitch', :os_only => @os_only
     = render '/artists/view_switcher', :roster_link => @roster_link, :gallery_link => @gallery_link, :map_link => @map_link
     .clear
-    .roster
-      :ruby
-         num_cols = 5
-         per_col = 20
-         cols = 0
-         first = 0
-         last = per_col - 1
-      - begin
-        - if (cols > 0) && ((cols % num_cols) == 0)
-          .clear
-        .chunk
-          - @roster.artists[first..last].each do |a|
+    .pure-g.roster__list
+      - @roster.artists.each_slice(20) do |artist_chunk|
+        .chunk.pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-5
+          - artist_chunk.each do |artist|
             .name
-              = link_to a.get_name, a.show_path
-        :ruby
-          first += per_col
-          last += per_col
-          cols += 1
-      - end while first < @roster.num_artists
-    .clear
+              = link_to artist.get_name, artist_path(artist)

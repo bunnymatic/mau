@@ -33,11 +33,11 @@ class OpenStudiosPresenter
   end
 
   def participating_studios
-    @participating_studios ||= sort_studios_by_name((os_participants.select{|a| a.studio_id.to_i > 0}).map(&:studio))
+    @participating_studios ||= sort_studios_by_name(os_participants.map(&:studio).compact.uniq)
   end
 
   def participating_indies
-    @participating_indies ||= sort_artists_by_name(os_participants.reject{|a| a.studio_id.to_i > 0})
+    @participating_indies ||= sort_artists_by_name(os_participants.reject(&:studio))
   end
 
   def sort_studios_by_name(studios)

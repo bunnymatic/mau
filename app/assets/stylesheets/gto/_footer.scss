@@ -1,0 +1,33 @@
+@import 'colors';
+@import 'variables';
+#footer_bar {
+  > [class^=pure-g] { margin-top: 20px; }
+  [class^=pure-u-] {
+    text-align: center;
+  }
+  a {
+    color: $lightgray;
+    &:active, &:hover {
+      color: $mediumgray;
+    }
+    &:visited {
+      color: $lightgray;
+    }
+  }
+}
+
+.news-footer {
+  font-weight: $font-weight-extra-bold;
+  font-size: 150%;
+  span {
+    vertical-align: 1px;
+    text-transform: uppercase;
+  }
+  .mission {
+    vertical-align: 0px;
+    color: $gto_orange;
+  }
+
+  line-height: 32px;
+  margin-top: 30px;
+}

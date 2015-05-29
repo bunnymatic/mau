@@ -1,4 +1,4 @@
-/*global         */
+/*global                        l        merr    */
 /*jshint -W031 */  /** don't warn for using "new" with side-effects : because of prototype new Insertion() */
 
 var MAU = window.MAU = window.MAU || {};
@@ -60,130 +60,130 @@ var MAU = window.MAU = window.MAU || {};
   };
 
 
-  /**
-   * scripty stuff related to artist and artist pages
-   */
-  var ID_STUDIO_INFO_TOGGLE = 'studio_info_toggle';
-  var ID_LINKS_TOGGLE = 'links_toggle';
-  var ID_ARTIST_INFO_TOGGLE = 'info_toggle';
-  var ID_BIO_TOGGLE = 'bio_toggle';
-  var ID_PASSWD_TOGGLE = 'passwd_toggle';
-  var ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
-  var ID_NOTIFICATION_TOGGLE = 'notifications_toggle';
-  var ID_EVENTS_TOGGLE = 'events_toggle';
+  // /**
+  //  * scripty stuff related to artist and artist pages
+  //  */
+  // var ID_STUDIO_INFO_TOGGLE = 'studio_info_toggle';
+  // var ID_LINKS_TOGGLE = 'links_toggle';
+  // var ID_ARTIST_INFO_TOGGLE = 'info_toggle';
+  // var ID_BIO_TOGGLE = 'bio_toggle';
+  // var ID_PASSWD_TOGGLE = 'passwd_toggle';
+  // var ID_DEACTIVATE_TOGGLE = 'deactivate_toggle';
+  // var ID_NOTIFICATION_TOGGLE = 'notifications_toggle';
+  // var ID_EVENTS_TOGGLE = 'events_toggle';
 
-  var ID_EVENTS_SXN = 'events';
-  var ID_STUDIO_SXN = 'address';
-  var ID_LINKS_SXN = 'links';
-  var ID_ARTIST_SXN = 'info';
-  var ID_BIO_SXN = 'bio';
-  var ID_PASSWD_SXN = 'passwd';
-  var ID_DEACTIVATE_SXN = 'deactivate';
-  var ID_NOTIFICATION_SXN = 'notifications';
+  // var ID_EVENTS_SXN = 'events';
+  // var ID_STUDIO_SXN = 'address';
+  // var ID_LINKS_SXN = 'links';
+  // var ID_ARTIST_SXN = 'info';
+  // var ID_BIO_SXN = 'bio';
+  // var ID_PASSWD_SXN = 'passwd';
+  // var ID_DEACTIVATE_SXN = 'deactivate';
+  // var ID_NOTIFICATION_SXN = 'notifications';
 
-  A.SECTIONS = [ID_STUDIO_SXN,
-		            ID_LINKS_SXN,
-		            ID_ARTIST_SXN,
-		            ID_BIO_SXN,
-		            ID_PASSWD_SXN,
-		            ID_DEACTIVATE_SXN,
-		            ID_NOTIFICATION_SXN,
-		            ID_EVENTS_SXN];
+  // A.SECTIONS = [ID_STUDIO_SXN,
+	// 	            ID_LINKS_SXN,
+	// 	            ID_ARTIST_SXN,
+	// 	            ID_BIO_SXN,
+	// 	            ID_PASSWD_SXN,
+	// 	            ID_DEACTIVATE_SXN,
+	// 	            ID_NOTIFICATION_SXN,
+	// 	            ID_EVENTS_SXN];
 
-  A.TOGGLES = [ID_STUDIO_INFO_TOGGLE,
-	             ID_LINKS_TOGGLE,
-	             ID_ARTIST_INFO_TOGGLE,
-	             ID_BIO_TOGGLE,
-	             ID_PASSWD_TOGGLE,
-	             ID_DEACTIVATE_TOGGLE,
-	             ID_NOTIFICATION_TOGGLE,
-	             ID_EVENTS_TOGGLE];
+  // A.TOGGLES = [ID_STUDIO_INFO_TOGGLE,
+	//              ID_LINKS_TOGGLE,
+	//              ID_ARTIST_INFO_TOGGLE,
+	//              ID_BIO_TOGGLE,
+	//              ID_PASSWD_TOGGLE,
+	//              ID_DEACTIVATE_TOGGLE,
+	//              ID_NOTIFICATION_TOGGLE,
+	//              ID_EVENTS_TOGGLE];
 
-  A.toggleSxnVis = function(sxn) {
+  // A.toggleSxnVis = function(sxn) {
 
-    var sxns = M.Artist.SECTIONS;
-    var nsxn = sxns.length;
-    for( var ii = 0; ii < nsxn; ++ii) {
-      var sxnnm = sxns[ii];
-      var frm = jQuery('#'+sxnnm);
-      var lnk = jQuery('#'+M.Artist.TOGGLES[ii] + "_lnk");
-      if (frm.length) {
-	      if (!frm.is(':visible') ) {
-	        if (sxnnm == sxn) {
-	          frm.slideDown()
-	          lnk[0].innerHTML = "hide"
-	        }
-	      }
-	      else {
-          frm.slideUp();
-	        lnk[0].innerHTML = "change";
-	      }
-      }
-    }
-    return false;
-  };
+  //   var sxns = M.Artist.SECTIONS;
+  //   var nsxn = sxns.length;
+  //   for( var ii = 0; ii < nsxn; ++ii) {
+  //     var sxnnm = sxns[ii];
+  //     var frm = jQuery('#'+sxnnm);
+  //     var lnk = jQuery('#'+M.Artist.TOGGLES[ii] + "_lnk");
+  //     if (frm.length) {
+	//       if (!frm.is(':visible') ) {
+	//         if (sxnnm == sxn) {
+	//           frm.slideDown()
+	//           lnk[0].innerHTML = "hide"
+	//         }
+	//       }
+	//       else {
+  //         frm.slideUp();
+	//         lnk[0].innerHTML = "change";
+	//       }
+  //     }
+  //   }
+  //   return false;
+  // };
 
-  A.clickYepNope = function(type, val) {
-    (new MAU.Flash()).clear()
-    var msg = null;
-    if (!val) {
-      msg = 'So sorry you\'re not going to participate this year.'+
-        ' We\'d love to know why.  Tell us via the feedback link'+
-        ' at the bottom of the page.';
-    } else {
-      msg = 'Super!  The more the merrier!';
-    }
+  // A.clickYepNope = function(type, val) {
+  //   (new MAU.Flash()).clear()
+  //   var msg = null;
+  //   if (!val) {
+  //     msg = 'So sorry you\'re not going to participate this year.'+
+  //       ' We\'d love to know why.  Tell us via the feedback link'+
+  //       ' at the bottom of the page.';
+  //   } else {
+  //     msg = 'Super!  The more the merrier!';
+  //   }
 
-    form = jQuery('form.edit_artist')
-    ajax_params = {
-      url: form.attr('action'),
-      method: form.attr('method'),
-      data: {
-        artist: {
-          os_participation: val
-        }
-      },
-      success: function() {
-        if(val) {
-          jQuery('#artist_edit .os-violator').show();
-          jQuery('#events .os-status span').html('Yep');
-        }
-        else {
-          jQuery('#artist_edit .os-violator').hide();
-          jQuery('#events .os-status span').html('Nope');
-        }
-        (new MAU.Flash()).show({notice:msg}, '.singlecolumn .edit-sections')
-        return false;
-      }
-    };
-    jQuery.ajax(ajax_params);
-    return false;
-  };
-  A.clickYep = function(ev) {
-    ev.preventDefault();
-    A.clickYepNope('yep',1);
-    return false;
-  };
-  A.clickNope = function(ev) {
-    ev.preventDefault();
-    A.clickYepNope('nope', 0);
-    return false;
-  };
+  //   form = jQuery('form.edit_artist')
+  //   ajax_params = {
+  //     url: form.attr('action'),
+  //     method: form.attr('method'),
+  //     data: {
+  //       artist: {
+  //         os_participation: val
+  //       }
+  //     },
+  //     success: function() {
+  //       if(val) {
+  //         jQuery('#artist_edit .os-violator').show();
+  //         jQuery('#events .os-status span').html('Yep');
+  //       }
+  //       else {
+  //         jQuery('#artist_edit .os-violator').hide();
+  //         jQuery('#events .os-status span').html('Nope');
+  //       }
+  //       (new MAU.Flash()).show({notice:msg}, '.singlecolumn .edit-sections')
+  //       return false;
+  //     }
+  //   };
+  //   jQuery.ajax(ajax_params);
+  //   return false;
+  // };
+  // A.clickYep = function(ev) {
+  //   ev.preventDefault();
+  //   A.clickYepNope('yep',1);
+  //   return false;
+  // };
+  // A.clickNope = function(ev) {
+  //   ev.preventDefault();
+  //   A.clickYepNope('nope', 0);
+  //   return false;
+  // };
 
-  A.bindYepNopeButtons = function() {
-    jQuery('#events .yep.formbutton').on('click', A.clickYep);
-    jQuery('#events .nope.formbutton').on('click', A.clickNope);
-  };
+  // A.bindYepNopeButtons = function() {
+  //   jQuery('#events .yep.formbutton').on('click', A.clickYep);
+  //   jQuery('#events .nope.formbutton').on('click', A.clickNope);
+  // };
 
-  A.bindDonateButton = function() {
-    jQuery('#donate_for_openstudios').bind('click', function() {
-      // find paypal form and submit its
-      var paypal_form = jQuery('#paypal_donate_openstudios');
-      if (paypal_form.length) {
-        return paypal_form.submit();
-      }
-    });
-  };
+  // A.bindDonateButton = function() {
+  //   jQuery('#donate_for_openstudios').bind('click', function() {
+  //     // find paypal form and submit its
+  //     var paypal_form = jQuery('#paypal_donate_openstudios');
+  //     if (paypal_form.length) {
+  //       return paypal_form.submit();
+  //     }
+  //   });
+  // };
 }
 
 )();
@@ -191,60 +191,57 @@ var MAU = window.MAU = window.MAU || {};
 /*** jquery on load */
 jQuery(function() {
 
-  var toggles = MAU.Artist.TOGGLES;
-  var sxns = MAU.Artist.SECTIONS;
-  var nsxn = sxns.length;
+  // var toggles = MAU.Artist.TOGGLES;
+  // var sxns = MAU.Artist.SECTIONS;
+  // var nsxn = sxns.length;
 
-  jQuery('.acct .edit a').each(function() {
-    var $el = $(this);
+  // jQuery('.acct .edit a').each(function() {
+  //   var $el = $(this);
 
-    var openSectionFromLink = function(lnk) {
-      var href = lnk.href;
-      var sxn = _.last(href.split('#'));
-      if (sxn) {
-        MAU.Artist.toggleSxnVis(sxn);
-      }
-    };
-    $el.closest('.acct').bind('click', function(ev) {
-      ev.preventDefault();
-      openSectionFromLink($el[0]);
-    });
-  });
-  if ( location.hash && (location.hash.length > 1)) {
-    var sxn = location.hash.substr(1);
-    MAU.Artist.toggleSxnVis(sxn);
-  }
+  //   var openSectionFromLink = function(lnk) {
+  //     var href = lnk.href;
+  //     var sxn = _.last(href.split('#'));
+  //     if (sxn) {
+  //       MAU.Artist.toggleSxnVis(sxn);
+  //     }
+  //   };
+  //   $el.closest('.acct').bind('click', function(ev) {
+  //     ev.preventDefault();
+  //     openSectionFromLink($el[0]);
+  //   });
+  // });
+  // if ( location.hash && (location.hash.length > 1)) {
+  //   var sxn = location.hash.substr(1);
+  //   MAU.Artist.toggleSxnVis(sxn);
+  // }
 
-  MAU.Artist.bindYepNopeButtons();
-  MAU.Artist.bindDonateButton();
+  // MAU.Artist.bindYepNopeButtons();
+  // MAU.Artist.bindDonateButton();
 
   /** hide/clear studio # when we choose indy */
-  jQuery('.edit-sections #artist_studio_id').bind('change', function(ev) {
-    if (parseInt(jQuery(this).val(),10) === 0) {
-      jQuery('#artist_artist_info_studionumber').val('');
-      jQuery('.edit-sections #address .studio-number-row').hide();
-    } else {
-      jQuery('.edit-sections #address .studio-number-row').show();
-    }
+  // jQuery('.edit-sections #artist_studio_id').bind('change', function(ev) {
+  //   if (parseInt(jQuery(this).val(),10) === 0) {
+  //     jQuery('#artist_artist_info_studionumber').val('');
+  //     jQuery('.edit-sections #address .studio-number-row').hide();
+  //   } else {
+  //     jQuery('.edit-sections #address .studio-number-row').show();
+  //   }
+  // });
+
+  // /** handle os switch on map/roster page */
+  // jQuery('#map_cb').bind('click', function(ev) {
+  //   ev.stopPropagation();
+  //   jQuery('#map_osswitcher').submit();
+  // });
+
+
+  var flashNotice = ".notice, .flash, .flash__notice, .flash__error";
+  $('body').on('click', flashNotice, function(ev) {
+    $(this).fadeOut();
   });
-
-  /** handle os switch on map/roster page */
-  jQuery('#map_cb').bind('click', function(ev) {
-    ev.stopPropagation();
-    jQuery('#map_osswitcher').submit();
-  });
-
-
-
-
-  var flashNotice = jQuery(".notice");
-  if (flashNotice.length) {
-    flashNotice.bind('click', function() {
-	    flashNotice.fadeOut();
-    });
-    setTimeout(function() {
-	    flashNotice.fadeOut();
-    }, 10000);
-  }
-
+  jQuery(".notice, .flash, .flash__notice, .flash__error").each( function() {
+                                                                   setTimeout(function() {
+	                                                                   $(this).fadeOut();
+                                                                   }, 100000);
+                                                                 });
 });

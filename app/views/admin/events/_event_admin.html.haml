@@ -1,4 +1,4 @@
-.event{:class => event.event_classes.join(" ")}
+.pure-u-1-1.padded-content.event{:class => event.event_classes.join(" ")}
   %header
     .title
       #{event.title}
@@ -23,11 +23,11 @@
         = event.link_to_event_website
   %footer
     .ctrls
-      = link_to 'show', event.show_path
+      = link_to 'show', event_path(event)
       - if event.published?
-        = link_to 'unpublish', event.unpublish_path
+        = link_to 'unpublish', unpublish_admin_event_path(event)
       - else
-        = link_to 'publish', event.publish_path
-      = link_to 'edit', event.edit_path
-      = link_to 'delete', event.delete_path, :confirm => 'Are you sure?', :method => :delete
+        = link_to 'publish', publish_admin_event_path(event)
+      = link_to 'edit', edit_event_path(event)
+      = link_to 'delete', event_path(event), :confirm => 'Are you sure?', :method => :delete
 

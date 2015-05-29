@@ -1,16 +1,23 @@
-class ArtPiecePresenter
+class ArtPiecePresenter < ViewPresenter
 
   attr_reader :art_piece
-  delegate :id, :year, :medium, :get_path, :artist, :title, :to => :art_piece
+  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :updated_at, :to_param, :to => :art_piece
 
-  def initialize(view_context, art_piece)
-    @view_context = view_context
+  def initialize(art_piece)
     @art_piece = art_piece
   end
 
   def favorites_count
     @favorites_count ||= Favorite.art_pieces.where(:favoritable_id => @art_piece.id).count
     @favorites_count if @favorites_count > 0
+  end
+
+  def artist_name
+    artist.get_name
+  end
+
+  def has_medium?
+    medium.present?
   end
 
   def has_tags?
@@ -50,7 +57,18 @@ class ArtPiecePresenter
   end
 
   def path
-    @view_context.art_piece_path(art_piece)
+    url_helpers.art_piece_path(art_piece)
+  end
+
+  alias_method :show_path, :path
+  alias_method :destroy_path, :path
+
+  def edit_path
+    url_helpers.edit_art_piece_path(art_piece)
+  end
+
+  def artist_path
+    url_helpers.artist_path(artist.artist)
   end
 
 end

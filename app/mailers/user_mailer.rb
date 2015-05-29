@@ -19,17 +19,6 @@ class UserMailer < MauMailer
     mail(:to => user.email, :from => ACCOUNTS_FROM_ADDRESS, :subject => build_subject(subject))
   end
 
-
-  def notify(user, notehash)
-    setup_email(user)
-    subject = "You just got a note!"
-    @sender_name = notehash['name']
-    @sender_email = notehash['email']
-    @sender_note = notehash['comment']
-    mail(:to => user.email, :from => NOTE_FROM_ADDRESS, :subject => build_subject(subject))
-  end
-
-
   def resend_activation(user)
     setup_email(user)
     subject   = 'Reactivate your MAU account'

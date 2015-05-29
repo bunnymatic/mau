@@ -48,11 +48,15 @@ module AddressMixin
   end
 
   def compute_geocode
-    result = Geokit::Geocoders::MultiGeocoder.geocode(full_address)
-    if result.try(:success)
-      self.lat, self.lng = result.lat, result.lng
+    if has_address?
+      result = Geokit::Geocoders::MultiGeocoder.geocode(full_address)
+      if result.try(:success)
+        self.lat, self.lng = result.lat, result.lng
+      else
+        #errors.add(:street, "Unable to Geocode your address.")
+      end
     else
-      #errors.add(:street, "Unable to Geocode your address.")
+      # puts "No Adddress - skip geocoding"
     end
   end
 

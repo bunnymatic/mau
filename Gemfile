@@ -4,17 +4,18 @@ ruby '2.1.2'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
+gem 'strong_parameters'
 gem "font-awesome-rails"
 # gem 'aasm'
 gem "nokogiri", '~> 1.6'
 gem "htmlentities"
 gem 'mysql2'
 gem "haml"
+gem "slim-rails"
 gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
 gem 'rdiscount' # markdown processor
-gem 'mobile-fu', github: 'rcode5/mobile-fu'
 gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-rbenv', '~> 2.0'
 gem 'capistrano-rails', '~> 1.1'
@@ -43,15 +44,24 @@ gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
 gem 'paperclip'
 gem 'aws-sdk'
 
-# use bower assets
 gem 'rails-assets-angular'
 gem 'rails-assets-angular-resource'
 gem 'rails-assets-angular-sanitize'
+gem 'rails-assets-angular-animate'
+gem 'rails-assets-angular-ui-utils'
 gem 'rails-assets-moment'
 gem 'rails-assets-lodash'
 gem 'rails-assets-colorbox' # lightbox plugin
 gem 'rails-assets-jquery'
 gem 'rails-assets-jquery-ujs'
+gem 'rails-assets-pure'
+gem 'rails-assets-ngDialog'
+gem 'rails-assets-angular-mailchimp'
+gem 'rails-assets-re-tree'
+gem 'rails-assets-ng-device-detector'
+
+gem 'ngannotate-rails'
+gem 'angular-rails-templates'
 
 # authentication
 gem 'authlogic'
@@ -73,6 +83,7 @@ gem 'select2-rails' # autocompleter
 gem 'underscore-string-rails'
 
 gem 'multi_json'
+gem 'jbuilder'
 
 gem 'skylight'
 
@@ -84,6 +95,8 @@ group :test do
   gem 'factory_girl_rails', :require => false
   gem 'cucumber'
   gem 'cucumber-rails', :require => false
+  gem 'selenium-webdriver'
+  gem 'capybara-webkit'
   gem 'poltergeist'
   gem 'launchy'             # Required to dump the page when running cucumber features
 end
@@ -111,6 +124,8 @@ group :test, :development do
   gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'pry'
+  gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'rb-fsevent'
   gem 'simplecov'
   gem 'cane'
@@ -122,8 +137,8 @@ group :test, :development do
   gem 'jasminerice', github: 'bradphelan/jasminerice' 
   gem 'timecop'
 
-#  gem 'better_errors'
-#  gem "binding_of_caller"
+  gem 'better_errors'
+  gem "binding_of_caller"
 
   gem 'rails_best_practices'
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CatalogController do
+describe CatalogsController do
 
   let(:jesse) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
@@ -15,22 +15,22 @@ describe CatalogController do
     Artist.any_instance.stub(:in_the_mission? => true)
   end
 
-  describe "#index" do
+  describe "#show" do
     let(:catalog) { assigns(:catalog) }
     context 'format=html' do
-      render_views
       before do
-        get :index
+        get :show
       end
-      it{expect(response).to be_success}
+      it{ expect(response).to be_success }
     end
 
     context 'format=csv' do
+      render_views
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
 
       before do
-        get :index, :format => :csv
+        get :show, :format => :csv
       end
       it { expect(response).to be_success }
       it { expect(response).to be_csv_type }
@@ -58,13 +58,6 @@ describe CatalogController do
         get :social
       end
       it { expect(response).to_not be_success }
-    end
-    context 'format=mobile' do
-      before do
-        pretend_to_be_mobile
-        get :social
-      end
-      it { expect(response).to redirect_to root_path }
     end
     context 'format=csv' do
       let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }

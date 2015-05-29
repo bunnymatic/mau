@@ -1,13 +1,11 @@
 require 'spec_helper'
-
 describe Admin::ArtPieceTagsController do
 
   let(:user) { FactoryGirl.create(:user, :active) }
   let(:admin) { FactoryGirl.create(:user, :admin, :active) }
-  let!(:tags) do
-    FactoryGirl.create(:artist, :with_tagged_art)
-    FactoryGirl.create_list(:art_piece_tag, 2)
-  end
+  let!(:artist) { FactoryGirl.create(:artist, :with_tagged_art) }
+  let!(:tags) { FactoryGirl.create_list(:art_piece_tag, 2) }
+
   describe 'not logged in' do
     describe :index do
       before do
@@ -27,24 +25,33 @@ describe Admin::ArtPieceTagsController do
   end
 
   describe '#index' do
-
-    render_views
-
     before do
       login_as admin
       get :index
     end
-
-    it_should_behave_like 'logged in as admin'
-    it_should_behave_like 'returns success'
-    it 'shows tag frequency' do
-      assert_select '.singlecolumn table td.input-name', :match => /1\.0|0\.0/
-    end
-    it 'shows one entry per existing tag' do
-      assert_select 'tr td.ct', :count => ArtPieceTag.count
-    end
+    it { expect(response).to be_success }
   end
 
+  describe "#destroy" do
+    let!(:tag) { ArtPiece.all.map(&:tags).flatten.compact.first }
+    before do
+      login_as admin
+    end
+    it "removes the tag" do
+      expect {
+        delete :destroy, id: tag.id
+      }.to change(ArtPieceTag, :count).by(-1)
+      expect(ArtPieceTag.where(id: tag.id)).to be_empty
+    end
+    it "clears the cache" do
+      expect(ArtPieceTag).to receive :flush_cache
+      delete :destroy, id: tag.id
+    end
+    it "redirects to list of all tags" do
+      delete :destroy, id: tag.id
+      expect(response).to redirect_to admin_art_piece_tags_path
+    end
+  end
   describe '#cleanup' do
     before do
       login_as admin

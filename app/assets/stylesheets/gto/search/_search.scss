@@ -1,0 +1,47 @@
+@import 'gto/gto-mixins';
+.search.index {
+  .result-count {
+    float: right;
+    padding-right: 10px;
+  }
+  .chooser ul {
+    margin: 0;
+    padding: 0;
+  }
+  .block_head {
+    margin-bottom: 5px;
+  }
+  .block {
+    margin-bottom: 20px;
+    > label {
+      font-size: 80%;
+      text-transform: uppercase;
+    }
+    ul {
+      padding-left: 10px;
+    } 
+    ul, .os {
+      margin-top: 0.8em;
+    }
+  }
+  .refine-controls {
+    border-top: 1px solid $xlightgray;
+  }
+  form {
+    .block {
+      ul {
+        padding-left: 0;
+      }
+    }
+  }
+  
+  h4 .query {
+    font-style: italic;
+    font-weight: $font-weight-normal;
+  }
+}
+.search-results {
+  .art-card, .artist-card {
+    @include artist-thumb-mixin;
+  }
+}

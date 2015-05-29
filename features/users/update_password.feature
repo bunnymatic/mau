@@ -7,7 +7,7 @@ Background:
 Scenario: login with good info
   When I fill in valid credentials
   And I click "Sign In"
-  And I click "edit my page"
+  And I click on the first "edit profile" link
 
   # And I change my password to "blahdeblah"
   # And I log out

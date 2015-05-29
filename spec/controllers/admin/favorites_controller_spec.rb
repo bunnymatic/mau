@@ -28,24 +28,10 @@ describe Admin::FavoritesController do
   end
 
   describe "#index" do
-
-    render_views
-
     before do
       login_as(:admin)
-      fan.add_favorite art_pieces.first
-      fan.add_favorite artist
-      fan.add_favorite jesse
-      jesse.add_favorite artist
-
       get :index
     end
-    it "returns success" do
-      expect(response).to be_success
-    end
-    it_should_behave_like 'logged in as admin'
-    it "aaron should have 1 favorite art piece" do
-      assert_select('table.favorites td', :match => fan)
-    end
+    it { expect(response).to be_success }
   end
 end

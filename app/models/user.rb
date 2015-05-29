@@ -35,12 +35,14 @@
 #  current_login_at          :datetime
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
+#  slug                      :string(255)
 #
 # Indexes
 #
 #  index_artists_on_login            (login) UNIQUE
 #  index_users_on_last_request_at    (last_request_at)
 #  index_users_on_persistence_token  (persistence_token)
+#  index_users_on_slug               (slug) UNIQUE
 #  index_users_on_state              (state)
 #  index_users_on_studio_id          (studio_id)
 #
@@ -63,6 +65,9 @@ class User < ActiveRecord::Base
   validates_length_of       :firstname,maximum: 100, allow_nil: true
   validates_length_of       :lastname, maximum: 100, allow_nil: true
 
+  extend FriendlyId
+  friendly_id :login, use: :slugged
+
   # custom validations
   validate :validate_email
 
@@ -84,6 +89,10 @@ class User < ActiveRecord::Base
   scope :active, where(state: 'active')
   scope :not_active, where("state <> 'active'")
   scope :pending, where(state: 'pending')
+
+  def self.find_by_username_or_email(login_string)
+    User.find_by_login(login_string) || User.find_by_email(login_string)
+  end
 
   before_validation :normalize_attributes
   before_validation :add_http_to_links
@@ -123,9 +132,9 @@ class User < ActiveRecord::Base
     c.transition_from_restful_authentication = true
   end
 
-  attr_accessible :login, :email, :password, :password_confirmation,
-   :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume,
-   :profile_image, :image_height, :image_width
+  # attr_accessible :login, :email, :password, :password_confirmation,
+  #  :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume,
+  #  :profile_image, :image_height, :image_width
 
   def active?
     state == 'active'
@@ -163,32 +172,22 @@ class User < ActiveRecord::Base
     s
   end
 
-  def fullname
-    fullname = nomdeplume if nomdeplume.present?
-    if !fullname && firstname.present? && lastname.present?
-      fullname = [firstname, lastname].join(" ")
+  def full_name
+    full_name = nomdeplume if nomdeplume.present?
+    if !full_name && firstname.present? && lastname.present?
+      full_name = [firstname, lastname].join(" ")
     end
-    fullname || self.login
+    full_name || self.login
   end
 
-  alias_method :full_name, :fullname
-
   def get_name(htmlsafe=false)
-    name = full_name || login
-    htmlsafe ? html_encode(name) : name
+    return full_name unless htmlsafe
+    html_encode(full_name)
   end
 
   def sortable_name
     key = [lastname, firstname, login].join.downcase
-    key.gsub(%r|\W|,' ').strip
-  end
-
-  def is_active?
-    state == 'active'
-  end
-
-  def delete!
-    update_attribute(:state, 'deleted')
+    key.gsub(/\W/,' ').strip
   end
 
   def tags
@@ -203,7 +202,6 @@ class User < ActiveRecord::Base
   def validate_email
     errors.add(:email, 'is an invalid email') unless BlacklistDomain::is_allowed?(email)
   end
-
 
   def resend_activation
     @resent_activation = true
@@ -234,6 +232,10 @@ class User < ActiveRecord::Base
   def delete_reset_code
     self.attributes = {reset_code: nil}
     save(validate: false)
+  end
+
+  def delete!
+    update_attribute(:state, 'deleted')
   end
 
   def suspend!
@@ -267,29 +269,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def what_i_favorite
-    # collect artist and art piece stuff
-    @what_i_favorite ||=
-      begin
-        favorites.reverse.map do |f|
-          case f.favoritable_type
-          when 'Artist','User','MAUFan' then
-            User.find(f.favoritable_id)
-          when 'ArtPiece' then
-            ArtPiece.find(f.favoritable_id)
-          end
-        end.compact.uniq
-    end
-  end
-
-  def who_favorites_me
-    @who_favorites_me ||=
-      begin
-        favs = (favorites_of_me + favorites_of_my_work).flatten
-        User.find(favs.select{|f| f.try(:user_id)}.compact.uniq.map(&:user_id))
-      end
-  end
-
   def remove_favorite(fav)
     f = self.favorites.select { |f| (f.favoritable_type == fav.class.name) && (f.favoritable_id == fav.id) }
     f.map(&:destroy).first
@@ -307,40 +286,8 @@ class User < ActiveRecord::Base
     @fav_art_pieces ||= favorites_to_obj.select { |f| f.is_a? ArtPiece }.uniq
   end
 
-  def favorites_of_me
-    @favorites_of_me ||= Favorite.users.where(favoritable_id: self.id).order('created_at desc')
-  end
-
-  def favorites_of_my_work
-    @favorites_of_my_work ||=
-      begin
-        if self.respond_to? :art_pieces
-          art_piece_ids = art_pieces.map(&:id)
-          Favorite.art_pieces.where(favoritable_id: art_piece_ids).order('created_at desc')
-        else
-          []
-        end
-      end
-  end
-
-
-  # reformat data so that the artist contains the art pieces
-  # and that any security related data is missing (salt, password etc)
-  def clean_for_export(art_pieces)
-    retval = { "artist" => {}, "artpieces" => [] }
-    keys = [ 'id', 'firstname','lastname','login', 'street' ]
-    keys.each do |k|
-      retval["artist"][k] = self.send(k)
-    end
-    apkeys = ['title','filename', 'id']
-    retval['artpieces'] = (art_pieces||[]).map do |ap|
-      Hash[apkeys.map{|k| [k,ap.send(k)]}]
-    end
-    retval
-  end
-
   def csv_safe(field)
-    (self.send(field) || '').gsub(/\W/, '')
+    (self.send(field) || '').gsub(/\"\',/, '')
   end
 
   def is_artist?
@@ -352,18 +299,10 @@ class User < ActiveRecord::Base
     self.activation_code = TokenService.generate
   end
 
-  def uniqify_roles
-    self.roles = roles.uniq.compact
-  end
-
   protected
   def normalize_attributes
     login = login.try(:downcase)
     email = email.try(:downcase)
-  end
-
-  def get_favorite_ids(tps)
-    (favorites.select{ |f| tps.include? f.favoritable_type.to_s }).map{ |f| f.favoritable_id }
   end
 
   def tell_user_they_signed_up

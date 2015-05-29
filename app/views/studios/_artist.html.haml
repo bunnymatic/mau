@@ -1,0 +1,12 @@
+-# expects artist
+.artist-thumb{ class: class_overrides }
+  - if artist.doing_open_studios?
+    .os-violator{ title: 'Open Studios Participant!' }
+  = link_to artist_path(artist) do
+    .image{ style: "background-image: url(#{artist.representative_piece.get_path(:medium)})" }
+  .desc
+    = link_to artist_path(artist) do
+      .name
+        = artist.full_name
+    .media
+      = [ artist.media.map { |m| link_to m.name, m } ].join(", ").html_safe

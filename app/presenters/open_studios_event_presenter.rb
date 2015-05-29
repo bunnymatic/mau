@@ -1,14 +1,13 @@
-class OpenStudiosEventPresenter
+class OpenStudiosEventPresenter < ViewPresenter
 
   attr_reader :model
 
-  delegate :key, :logo, :logo?, :to => :model
+  delegate :key, :logo, :logo?, :to_param, :to => :model
 
   include OpenStudiosEventShim
 
-  def initialize(view_context, os_event)
+  def initialize(os_event)
     @model = os_event
-    @view_context = view_context
   end
 
   def title
@@ -28,20 +27,12 @@ class OpenStudiosEventPresenter
     if(available? && logo?)
       logo.url(:square)
     else
-      @view_context.image_path('mau-nextos.png')
+      image_path('mau-nextos.png')
     end
   end
 
   def available?
     !@model.nil?
-  end
-
-  def edit_path
-    @view_context.edit_admin_open_studios_event_path(@model)
-  end
-
-  def destroy_path
-    @view_context.admin_open_studios_event_path(@model)
   end
 
   def start_date

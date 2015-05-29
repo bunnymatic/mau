@@ -16,7 +16,7 @@
 #
 
 class OpenStudiosEvent < ActiveRecord::Base
-  attr_accessible :end_date, :start_date, :key, :logo, :title
+  #attr_accessible :end_date, :start_date, :key, :logo, :title
 
   validates :key, presence: true, uniqueness: true
   validates :start_date, presence: true
@@ -54,7 +54,7 @@ class OpenStudiosEvent < ActiveRecord::Base
       OpenStudiosEvent.current.try(:for_display,reverse)
     else
       if os = OpenStudiosEvent.find_by_key(os_key)
-        os.for_display
+        os.for_display(reverse)
       elsif os_key
         os_key = os_key.to_s
         yr = os_key[0..3]

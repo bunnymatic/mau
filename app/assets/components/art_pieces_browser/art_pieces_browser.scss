@@ -1,0 +1,121 @@
+@import 'mau-mixins';
+
+art-pieces-browser {
+  .art-piece, .art-piece__info, .art-piece__thumbs {
+    display: flex;
+  }
+  .art-piece {
+    order: 1;
+    height: 300px;
+    margin-bottom: 20px;
+  }
+  .art-piece__info {
+    display: flex;
+    order: 2;
+    flex-direction: column;
+    .artist__image {
+      margin-bottom: 20px;
+    }
+    .artist__image {
+      position: relative;
+      .os-violator {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        display: inline-block;
+        background-image: image-url("os_violator.svg");
+        background-color: rgba(245,245,245,0.95);
+        width: 75px;
+        height: 80px;
+        background-size: contain;
+      }
+    }
+    .push {
+      margin-top: 20px;
+    }
+    .desc h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: $font-weight-light;
+      margin-right: 8px;
+      margin-bottom: 0.3rem;
+      margin-top: 1.5rem;
+    }
+    .desc .desc__item:first-child {
+      h4 { margin-top: 0; }
+    }
+  }
+  .art-piece__thumbs {
+    order: 3;
+  }
+  .header .title {
+    .os-violator {
+      background-size: 25px 25px;
+      margin-left: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      height: 28px;
+      width: 28px;
+      background-color: transparent;
+    }
+  }
+  .art-piece__wrapper {
+    height: 100%;
+    width: 95%;
+    position: relative;
+    margin: auto;
+    text-align: center;
+    .art-piece__image {
+      height: 100%;
+      width: 100%;
+      @include background-contain;
+      @include in-the-middle;
+    }
+  }
+  .card__controls, .desc {
+    flex: 1;
+  }
+  .browser {
+    margin-top: 25px;
+    margin-bottom: 17px;
+  }
+  @media screen and (min-width: $screen-xs-max) {
+    .art-piece {
+      order: 2;
+      height: 400px;
+      margin-bottom: 0px;
+    }
+    .art-piece__info {
+      order: 1;
+      i.fa.fa-user {
+        font-size: 10rem;
+      }
+      .push {
+        margin-top: 0px;
+      }
+    }
+    .art-piece__thumbs {
+      order: 3;
+    }
+  }
+  @media screen and (min-width: $screen-sm-max) {
+    .art-piece {
+      height: 500px;
+    }
+    .art-piece__info {
+      i.fa.fa-user {
+        font-size: 9rem;
+      }
+    }
+  }
+  @media screen and (min-width: $screen-md-max) {
+    .art-piece {
+      height: 600px;
+    }
+    .art-piece__info {
+      i.fa.fa-user {
+        font-size: 12rem;
+      }
+    }
+  }
+}

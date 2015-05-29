@@ -1,8 +1,5 @@
 module Admin
-  class ArtistFeedsController < ApplicationController
-
-    before_filter :admin_required
-    layout 'mau-admin'
+  class ArtistFeedsController < BaseAdminController
 
     def index
       @feeds = ArtistFeed.all
@@ -20,7 +17,7 @@ module Admin
     end
 
     def create
-      @feed = ArtistFeed.new(params[:artist_feed])
+      @feed = ArtistFeed.new(artist_feed_params)
       if @feed.save
         redir = admin_artist_feeds_path
         redirect_to(redir)
@@ -35,7 +32,7 @@ module Admin
         flash[:notice] = 'ArtistFeed was successfully updated.'
         redirect_to(admin_artist_feeds_path)
       else
-        render "new_or_edit", :layout => 'mau-admin'
+        render "new_or_edit"
       end
     end
 
@@ -48,7 +45,7 @@ module Admin
 
     private
     def artist_feed_params
-      params[:artist_feed]
+      params.require(:artist_feed).permit(:url, :feed, :active)
     end
 
   end

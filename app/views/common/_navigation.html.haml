@@ -1,0 +1,70 @@
+.nav.nav-tabs
+  - user_nav = UserNavigation.new(current_user)
+  - os_nav = OpenStudiosNavigation.new()
+  .js-nav-mobile.nav-mobile.nav-icon{ title: 'menu' }
+    = fa_icon 'bars'
+  %section.nav-section
+    .tab.search.nav-icon{ title: 'search'}
+      %a{ href: '/search' }
+        = fa_icon 'search' 
+        .text.hidden-sm search
+
+  %section.nav-section
+    %ul.tabs.tabs__nav
+      %li.tab
+        %a{href: artists_path, title: 'artists'} artists
+      %li.tab
+        %a{href: studios_path, title: 'group studios'} studios
+
+  %section.nav-section.open-studios
+    %h3 Open studios
+    %ul.js-tabs.tabs.tabs__nav
+      != print_html_list('tab', os_nav)
+
+  - if logged_in?
+    %section.nav-section.users
+      %ul.js-tabs.tabs.tabs__nav
+        %li.tab
+          %a{'data-toggle' => 'tab', href: '#my-mau'} 
+            = fa_icon 'gear'
+            my mau
+          %ul.dropdown
+            != print_html_list('dropdown-nav', user_nav)    
+  - else
+    %section.nav-section.signin-nav
+      %ul.signin__links.tabs
+        %li.tab
+          = link_to login_path,  { title: "sign in" } do
+            .text
+              sign in
+            .nav-icon.fa.fa-sign-in
+        %li.tab
+          = link_to signup_path, { title: "create an account" } do
+            .text
+              sign up
+            .nav-icon.fa.fa-user
+
+  .tab-content.nav-mobile
+    .js-close.nav-mobile__close
+      = fa_icon 'close'
+    %ul.tab-panel
+      %li.nav-mobile__title
+        %a{href: artists_path, title: 'artists'} artists
+    %ul.tab-panel
+      %li.nav-mobile__title
+        %a{href: studios_path, title: 'group studios'} studios
+    %ul.tab-panel#open-studios
+      %li.nav-mobile__title open studios
+      != print_html_list('leaf', os_nav)
+
+    - if logged_in?
+      %ul.tab-panel.signin__links
+        %li.nav-mobile__title my mau
+        != print_html_list('leaf', user_nav)
+    - else logged_in?
+      %ul.tab-panel.signout__links
+        %li.nav-mobile__title
+          %a{href: login_path, title: 'sign in'} sign in
+        %li.nav-mobile__title
+          %a{href: signup_path, title: 'sign up'} sign up
+

@@ -27,6 +27,7 @@ module Mau
   class Application < Rails::Application
     # moved to bundler - check Gemfile
 
+    config.active_support.deprecation = :stderr
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named
@@ -63,7 +64,7 @@ module Mau
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.initialize_on_precompile = false
+    config.assets.initialize_on_precompile = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.3'
@@ -74,22 +75,21 @@ module Mau
 
     config.filter_parameters += [:password, :password_confirmation]
 
+    # move to strong params
+    config.active_record.whitelist_attributes = false
+
     config.s3_info = {
       bucket: Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
       access_key_id: Conf.AWS_ACCESS_KEY_ID || 'bogus',
       secret_access_key: Conf.AWS_SECRET_ACCESS_KEY || 'bogus'
     }
+
   end
 
 end
-
-# require 'sass'
-# require 'sass/plugin'
-# Sass::Plugin.options[:style] = :compact
-# Sass::Plugin.options[:template_location] = File.join(Rails.root, '/app/assets/stylesheets')
-require 'tag_extensions'
 
 # add custom mimetypes (for qrcode)
 Mime::Type.register "image/png", :png
 
 puts "Environment: #{Rails.env}"
+Rails.application.routes.default_url_options[:host] = 'http://localhost:3000'

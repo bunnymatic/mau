@@ -6,9 +6,6 @@ class SafeCache
     rescue Dalli::RingError => mce
       Rails.logger.warn("Memcache (read) appears to be dead or unavailable")
       nil
-    rescue TypeError
-      self.delete(k)
-      nil
     end
   end
 

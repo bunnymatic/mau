@@ -14,7 +14,6 @@ describe Admin::CmsDocumentsController do
   end
 
   context 'authorized' do
-    render_views
     before do
       login_as editor
     end
@@ -27,6 +26,7 @@ describe Admin::CmsDocumentsController do
     end
 
     describe '#show' do
+      render_views
       before do
         get :show, :id => cms_document
       end
@@ -37,6 +37,7 @@ describe Admin::CmsDocumentsController do
     end
 
     describe '#edit' do
+      render_views
       before do
         get :edit, :id => cms_document
       end
@@ -45,7 +46,7 @@ describe Admin::CmsDocumentsController do
         assert_select '#processed_markdown.markdown h2', 'pr header2'
       end
       it 'renders the cms edit box' do
-        assert_select '.markdown-input textarea', :include => '## pr eader2'
+        assert_select 'textarea', :include => '## pr eader2'
       end
     end
 
@@ -68,7 +69,6 @@ describe Admin::CmsDocumentsController do
       it 'renders new on failure' do
         expect{
           post :create, :cms_document => { :page => '', :section => '', :article => ''}
-          expect(response).to render_template 'new_or_edit'
           assigns(:cms_document).errors.should have_at_least(2).errors
         }.to change(CmsDocument,:count).by(0)
       end
@@ -92,7 +92,6 @@ describe Admin::CmsDocumentsController do
       end
       it 'renders edit on failure' do
         put :update, :id => cms_document.id, :cms_document => { :page => '' }
-        expect(response).to render_template :new_or_edit
         assigns(:cms_document).errors.should be_present
       end
     end

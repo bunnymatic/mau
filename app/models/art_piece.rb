@@ -92,7 +92,6 @@ class ArtPiece < ActiveRecord::Base
     Favorite.where(:favoritable_id => id, :favoritable_type => klassname).compact.map(&:destroy)
   end
 
-
   def uniq_tags
     tags.uniq_by(&:name)
   end

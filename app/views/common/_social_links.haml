@@ -1,9 +1,11 @@
-.social
-  :ruby
-    icons = [[ 'facebook', 'http://www.facebook.com/MissionArtists' ],
-             [ 'twitter', 'http://www.twitter.com/sfmau' ],
-             [ 'pinterest', 'http://pinterest.com/mausf/' ]]
-  - icons.each do |info|
-    - key, src = info
-    %a{href: src, rel: 'external', target: '_blank', title: key.humanize}
-      = social_icon(key)
+#social-links 
+  .pure-g
+    .pure-u-1
+      :ruby
+        icons = [[ 'facebook', 'http://www.facebook.com/MissionArtists' ],
+                 [ 'twitter', 'http://www.twitter.com/sfmau' ],
+                 [ 'pinterest', 'http://pinterest.com/mausf/' ]]
+      - icons.each do |info|
+        - key, src = info
+        %a{href: src, rel: 'external', target: '_blank', title: key.humanize}
+          = social_icon(key)

@@ -137,13 +137,13 @@ describe Admin::StudiosController do
         login_as manager
         get :edit, id: manager.studio.to_param
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'shows the studio info in a form' do
         assert_select 'form input#studio_url' do |tag|
           tag.first.attributes['value'].should eql studio.url
         end
         assert_select 'form input#studio_name' do |tag|
-          tag.first.attributes['value'].should eql HTMLEntities.new.encode(manager.studio.name, :hexadecimal)
+          tag.first.attributes['value'].should eql html_encode(manager.studio.name, :hexadecimal)
         end
         assert_select 'form input[type=submit]' do |tag|
           tag.first.attributes['value'].should eql 'Update Studio'
@@ -324,11 +324,11 @@ describe Admin::StudiosController do
         login_as manager
         get :index
       end
-      it_should_behave_like 'returns success'
+      it { expect(response).to be_success }
       it 'shows a table of all studios' do
         Studio.all.each do |s|
-          assert_select ".admin-table tr td a[href=#{studio_path(s)}]", HTMLEntities.new.encode(s.name, :hexadecimal)
-          assert_select ".admin-table tr td a[href=#{s.url}]" if s.url && s.url.present?
+          assert_select "table tr td a[href=#{studio_path(s)}]", html_encode(s.name, :hexadecimal)
+          assert_select "table tr td a[href=#{s.url}]" if s.url && s.url.present?
         end
       end
     end
@@ -340,14 +340,14 @@ describe Admin::StudiosController do
         get :index
       end
       it 'has no destroy links' do
-        expect(css_select(".admin-table tr td a i.icon-remove")).to be_empty
+        expect(css_select("table tr td a i.icon-remove")).to be_empty
       end
       it 'shows an edit link for my studio only' do
-        assert_select ".admin-table tr td a[href=#{edit_admin_studio_path(@my_studio)}]"
-        assert_select(".admin-table tr td a .fa-edit", count: 1)
+        assert_select "table tr td a[href=#{edit_admin_studio_path(@my_studio)}]"
+        assert_select("table tr td a .fa-edit", count: 1)
       end
       it 'has no link to add a studio' do
-        expect(css_select(".admin-table a[href=#{new_admin_studio_path}]")).to be_empty
+        expect(css_select("table a[href=#{new_admin_studio_path}]")).to be_empty
       end
     end
     context 'as admin' do
@@ -357,11 +357,11 @@ describe Admin::StudiosController do
       end
       it 'shows an edit and destroy links for all studios except indy' do
         expected_count = Studio.count
-        assert_select(".admin-table tr td a .fa-edit", count: expected_count + 1)
-        assert_select(".admin-table tr td a[data-method=delete] .fa-remove", count: expected_count)
+        assert_select("table tr td a .fa-edit", count: expected_count)
+        assert_select("table tr td a[data-method=delete] .fa-remove", count: expected_count)
       end
       it 'includes a link to add a studio' do
-        assert_select ".admin-table a[href=#{new_admin_studio_path}]"
+        assert_select "a[href=#{new_admin_studio_path}]"
       end
     end
   end

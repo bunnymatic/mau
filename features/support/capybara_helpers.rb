@@ -10,6 +10,10 @@ module CapybaraHelpers
     all(:link_or_button, locator, options).first.click
   end
 
+  def javascript_driver?
+    Capybara.current_driver == Capybara.javascript_driver
+  end
+
 end
 
 World CapybaraHelpers
