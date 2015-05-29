@@ -12,7 +12,6 @@ describe ArtistPresenter do
   its(:has_media?) { should be_true }
   its(:has_bio?) { should be_true }
   its(:bio_html) { should eq RDiscount.new(artist.artist_info.bio).to_html.html_safe }
-  its(:allows_email_from_artists?) { should be_true }
   its(:has_links?) { should be_true }
   its(:links) { should be_present }
   its(:favorites_count) { should be_nil }

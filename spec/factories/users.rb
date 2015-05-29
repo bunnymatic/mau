@@ -45,6 +45,11 @@ FactoryGirl.define do
       end
     end
 
+    trait :without_profile do
+      profile_image { nil }
+      image_height { nil }
+      image_width { nil }
+    end
   end
 
   factory :fan, parent: :user, class: 'MAUFan' do

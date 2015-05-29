@@ -6,7 +6,7 @@ class ArtistPresenter < UserPresenter
   attr_accessor :model
 
   delegate :doing_open_studios?, :media, :os_participation, :studio, :studio_id,
-           :artist_info, :at_art_piece_limit?,
+           :artist_info, :at_art_piece_limit?, :primary_medium, :get_share_link,
            to: :artist, allow_nil: true
 
   def artist
@@ -19,10 +19,6 @@ class ArtistPresenter < UserPresenter
 
   def has_bio?
     model.try(:bio) and !model.bio.empty?
-  end
-
-  def allows_email_from_artists?
-    model.emailsettings['fromartist']
   end
 
   def has_art?
