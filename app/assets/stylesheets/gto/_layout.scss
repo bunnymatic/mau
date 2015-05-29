@@ -55,11 +55,11 @@ html, body {
   text-align:center;
 }
 .sidebar-logo {
-  background-image: image_url('yellow_sidebar_logo_full.svg');
+  background-image: image_url('yellow_sidebar_logo_gear_only.svg');
   @include background-cover;
   margin: auto;
-  width: 133px;
-  height: 117px;
+  width: 144px;
+  height: 144px;
   background-position: top center;
   @include opacity(1);
   @include transition( all 0.3s ease-in-out );
