@@ -1,6 +1,4 @@
-Feature:
-
-  Visitors can see studios
+Feature: Visitors can see studios
 
 Background:
   Given there are future open studios events
@@ -21,4 +19,5 @@ Scenario:  I can drill into a studio detail
 Scenario:  I can filter studios by name
   Then I see the "Studios" page
   When I fill in the filter search box with "ROCK"
+  Then I save and open a screenshot
   Then I only see the "Rock And Roll Studio" studio card
