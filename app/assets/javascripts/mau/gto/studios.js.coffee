@@ -4,8 +4,9 @@ $ ->
     fetchFilteredStudios = (ev) ->
       filter = document.querySelectorAll('.js-filter-by-name')[0].value;
       if filter
-        filters = filter.split /\s+/
+        filters = _.uniq(_.compact(filter.split /\s+/))
         regexs = _.map(filters, (filter) -> new RegExp(filter, 'i'))
+        console.log regexs
         $('.studio-card').each () ->
           studio = $(this)
           show = _.any regexs, (regex) -> regex.test studio.data('name')
@@ -20,3 +21,4 @@ $ ->
 
     $("#js-studio-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
       throttledFilter()
+    $("#js-studio-index-filter").on 'submit', (ev) -> ev.stopPropagation(); false

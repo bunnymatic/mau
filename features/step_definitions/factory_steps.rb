@@ -15,8 +15,12 @@ Given(/^an? "(.*?)" account has been created/) do |role|
   @artist.save!
 end
 
-Given /there is a studio named "(.*)"/ do |studio|
+Given /^there is a studio named "(.*)"$/ do |studio|
   @studio = FactoryGirl.create(:studio, name: studio)
+end
+
+Given /^there is a studio named "(.*)" with artists$/ do |studio|
+  @studio = FactoryGirl.create(:studio, :with_artists, name: studio, artist_count: 3)
 end
 
 Given /there are artists with art in the system/ do

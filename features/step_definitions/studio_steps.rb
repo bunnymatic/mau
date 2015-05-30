@@ -41,3 +41,21 @@ end
 When /^I click on the first studio card$/ do
   all('.studio-card').first.click()
 end
+
+Then(/^I fill in the filter search box with "(.*?)"$/) do |studio|
+  within '#js-studio-index-filter' do
+    fill_in_field_with_value('filter', studio)
+  end
+end
+
+Then(/^I only see the studio I was searching for$/) do
+  expect(all('.studio-card').count).to eql 1
+  expect(page).to have_content Studio.first.name
+end
+
+Then(/^I only see the "([^"]*)" studio card$/) do |title|
+  expect(all('.studio-card').count).to eql 1
+  within '.studio-card' do
+    expect(page).to have_content title
+  end
+end

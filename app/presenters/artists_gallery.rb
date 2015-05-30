@@ -9,7 +9,7 @@ class ArtistsGallery < ArtistsPresenter
   def initialize(os_only, current_page, filter, per_page = PER_PAGE)
     super os_only
     @per_page = per_page
-    @filters = (filter || '').strip.split(/\s+/).compact
+    @filters = (filter || '').downcase.strip.split(/\s+/).compact
     @pagination = ArtistsPagination.new(artists, current_page, @per_page)
   end
 
@@ -27,7 +27,7 @@ class ArtistsGallery < ArtistsPresenter
       if filters.any?
         keep && begin
                   s = [artist.firstname, artist.lastname, artist.nomdeplume, artist.login].join
-                  filters.any?{|f| s=~ /#{f}/}
+                  filters.any?{|f| s =~ /#{f}/i}
                 end
       else
         keep
