@@ -18,8 +18,6 @@ class StudiosController < ApplicationController
     end
   end
 
-
-
   def show
     unless @studio
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
@@ -35,7 +33,6 @@ class StudiosController < ApplicationController
       format.json { render :json => @studio.studio.to_json(:methods => 'artists') }
     end
   end
-
 
   protected
 

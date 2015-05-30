@@ -83,3 +83,4 @@ $ ->
     $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
       if currentFilter != getCurrentFilter()
         throttledFilter()
+    $("#js-artist-index-filter").on 'submit', (ev) -> ev.stopPropagation(); false
