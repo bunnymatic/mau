@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
-source 'https://rails-assets.org'
-ruby '2.1.5'
+ruby '2.2.2'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
@@ -42,24 +41,25 @@ gem 'draper'
 gem 'spinjs-rails'
 gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk-v1'
 
-gem 'rails-assets-angular'
-gem 'rails-assets-angular-resource'
-gem 'rails-assets-angular-sanitize'
-gem 'rails-assets-angular-animate'
-gem 'rails-assets-angular-ui-utils'
-gem 'rails-assets-moment'
-gem 'rails-assets-lodash'
-gem 'rails-assets-colorbox' # lightbox plugin
-gem 'rails-assets-jquery'
-gem 'rails-assets-jquery-ujs'
-gem 'rails-assets-pure'
-gem 'rails-assets-ngDialog'
-gem 'rails-assets-angular-mailchimp'
-gem 'rails-assets-re-tree'
-gem 'rails-assets-ng-device-detector'
-
+source 'https://rails-assets.org' do
+  gem 'rails-assets-angular'
+  gem 'rails-assets-angular-resource'
+  gem 'rails-assets-angular-sanitize'
+  gem 'rails-assets-angular-animate'
+  gem 'rails-assets-angular-ui-utils'
+  gem 'rails-assets-moment'
+  gem 'rails-assets-lodash'
+  gem 'rails-assets-colorbox' # lightbox plugin
+  gem 'rails-assets-jquery'
+  gem 'rails-assets-jquery-ujs'
+  gem 'rails-assets-pure'
+  gem 'rails-assets-ngDialog'
+  gem 'rails-assets-angular-mailchimp'
+  gem 'rails-assets-re-tree'
+  gem 'rails-assets-ng-device-detector'
+end
 gem 'ngannotate-rails'
 gem 'angular-rails-templates'
 
@@ -69,8 +69,6 @@ gem 'authlogic'
 # mailing with postmarkapp.com
 gem 'postmark-rails'
 gem 'postmark'
-
-gem 'jquery_mobile_rails'
 
 gem 'newrelic_rpm'
 
