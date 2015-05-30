@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 source 'https://rails-assets.org'
-ruby '2.1.2'
+ruby '2.1.5'
 
 gem 'racc'
 gem "rails", '~> 3.2.16'
