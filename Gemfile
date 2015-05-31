@@ -100,7 +100,7 @@ group :test do
   gem 'launchy'             # Required to dump the page when running cucumber features
 end
 
-group :assets,:development do
+group :assets, :development do
   gem 'coffee-rails'
   gem 'sass-rails'
   gem 'libv8'
@@ -112,6 +112,10 @@ group :development do
   #gem 'capistrano-nginx-unicorn', require: false, group: :development
   gem 'capistrano3-unicorn'
   gem 'spring'
+  gem 'better_errors'
+  gem "binding_of_caller"
+
+  gem 'rails_best_practices'
 end
 
 group :test, :development do
@@ -133,11 +137,6 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'quiet_assets'
-  gem 'jasminerice', github: 'bradphelan/jasminerice' 
+  gem 'jasminerice', github: 'bradphelan/jasminerice'
   gem 'timecop'
-
-  gem 'better_errors'
-  gem "binding_of_caller"
-
-  gem 'rails_best_practices'
 end

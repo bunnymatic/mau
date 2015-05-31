@@ -12,16 +12,16 @@ modalController = ngInject ($scope, $element, notificationService) ->
         "<div>#{msg}.</div>"
       angular.element(inputs).prepend "<div class='error-msg'>#{errs.join("")}</div>"
     notificationService.sendInquiry $scope.inquiry, success, error
-    
-  
+
+
 controller = ngInject ($scope, $attrs, $element, ngDialog) ->
   $scope.linkText = $attrs.linkText
   $scope.withIcon = $attrs.withIcon?
   $scope.noteType = $attrs.noteType
-  $scope.inquiry = {}  
+  $scope.inquiry = {}
   if $attrs.email
     $scope.inquiry.email = '' + $attrs.email
-    $scope.inquiry.email_confirm = '' + $attrs.email  
+    $scope.inquiry.email_confirm = '' + $attrs.email
   $scope.showInquiryForm = () ->
     $scope.inquiry.inquiry = ''
     $scope.inquiry.note_type = $scope.noteType || 'inquiry'
@@ -31,7 +31,7 @@ controller = ngInject ($scope, $attrs, $element, ngDialog) ->
       controller: modalController
 
   switch $scope.noteType
-    when 'inquiry' 
+    when 'inquiry'
       $scope.message = "We love to hear from you.  Please let us know your thoughts, questions, rants." +
         " We'll do our best to respond in a timely manner."
       $scope.questionLabel = "Your Question"
@@ -40,7 +40,7 @@ controller = ngInject ($scope, $attrs, $element, ngDialog) ->
         " You may have found a bug in our system.  Please tell us what you were doing and what wasn't working." +
         " We'll do our best to fix the issue and get you rolling as soon as we can."
       $scope.questionLabel = "What went wrong?  What doesn't work?"
-  
+
 notifyMau = ngInject () ->
   restrict: 'E'
   controller: controller

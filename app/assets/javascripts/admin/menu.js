@@ -6,7 +6,7 @@ $(function() {
 
   menuLink.on('click', function (e) {
     var active = 'active';
-    
+
     e.preventDefault();
     layout.toggleClass(active);
     menu.toggleClass(active);

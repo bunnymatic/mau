@@ -9,7 +9,7 @@ atom_feed :language => 'en-US' do |feed|
       guid = [:tag, request.host, request.fullpath.split('.'), event.event.id].flatten.join(':')
       entry.link href: event_url(event.event)
       entry.title event.title
-      entry.content event.feed_description, type: 'html' 
+      entry.content event.feed_description, type: 'html'
       entry.guid guid
 
       # the strftime is needed to work with Google Reader.

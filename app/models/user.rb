@@ -294,6 +294,10 @@ class User < ActiveRecord::Base
     self[:type] == 'Artist'
   end
 
+  def manages?(studio)
+    is_manager? && (current_user.studio == studio)
+  end
+
   def make_activation_code
     self.deleted_at = nil
     self.activation_code = TokenService.generate

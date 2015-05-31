@@ -14,11 +14,11 @@ begin
     }
     cane.abc_exclude = %w{
       AuthenticatedGenerator#manifest
-      Authorization::StatefulRoles.included 
-      Authorization::AasmRoles.included     
-      AuthenticatedGenerator#add_options!   
-      AuthenticatedGenerator#initialize     
-      #dump_response                        
+      Authorization::StatefulRoles.included
+      Authorization::AasmRoles.included
+      AuthenticatedGenerator#add_options!
+      AuthenticatedGenerator#initialize
+      #dump_response
     }
 
     cane.no_doc = true # Change to false to enable documentation checks

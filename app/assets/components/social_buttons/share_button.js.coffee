@@ -6,7 +6,7 @@ controller = ngInject ($scope, $attrs, $location) ->
     location_origin += ":#{$location.port()}"
 
   $scope.domain = $attrs.domain || location_origin
-  
+
   $scope.artPieceLink = () ->
     "#{@domain}/art_pieces/#{@artPiece.id}"
 

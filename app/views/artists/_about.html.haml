@@ -12,11 +12,11 @@
         %section.artist__studio
           - if logged_in? && (artist.artist == current_user)
             .card__controls
-              .artist-profile__edit 
+              .artist-profile__edit
                 = link_to edit_artist_path(artist, anchor: 'profile_picture'), title: 'edit your profile' do
                   .fa.fa-icon.fa-edit
           .header Studio
-          .body  
+          .body
             - if artist.studio
               .studio-name
                 = link_to artist.studio_name, artist.studio
@@ -39,7 +39,7 @@
     %section.artist__bio
       - if logged_in? && (artist.artist == current_user)
         .card__controls
-          .artist-profile__edit 
+          .artist-profile__edit
             = link_to edit_artist_path(artist, anchor: 'bio'), title: 'edit this profile' do
               .fa.fa-icon.fa-edit
       .header Artist's Statement
@@ -60,20 +60,20 @@
       .header Links
       .artist__links
         - artist.links_html.each do |anchor|
-          .link 
+          .link
             = anchor
     .pure-u-1-1
       %section.favorites
-        .header 
+        .header
           = link_to favorites_path(artist) do
             Who I
             = fa_icon 'heart'
         = render partial: "/users/favorite_thumbs", locals: { collection: artist.what_i_favorite }
     .pure-u-1-1
       %section.favorites
-        .header 
+        .header
           = link_to favorites_path(artist) do
-            Who 
+            Who
             = fa_icon 'heart'
             's me
         = render partial: "/users/favorite_thumbs", locals: { collection: artist.who_favorites_me }

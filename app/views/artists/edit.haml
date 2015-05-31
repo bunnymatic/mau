@@ -13,7 +13,7 @@
           = render '/users/edit/profile_picture', form: form
         .panel.panel-default
           = render '/artists/edit/studio_info', form: form
-        - if OpenStudiosEvent.current  
+        - if OpenStudiosEvent.current
           .panel.panel-default
             = render '/artists/edit/open_studios_status', form: form
         .panel.panel-default

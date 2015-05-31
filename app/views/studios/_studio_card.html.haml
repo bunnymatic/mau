@@ -13,7 +13,7 @@
         #{studio.street}
         = link_to studio.map_link, title: :map, target: "_blank" do
           %i.fa.fa-map-marker
-      - if studio.url? 
+      - if studio.url?
         .website
           = link_to studio.website, studio.url
 
@@ -23,4 +23,4 @@
           = studio.artists_count_label
         .os_population
           = studio.open_studios_artists_count_label
-              
+

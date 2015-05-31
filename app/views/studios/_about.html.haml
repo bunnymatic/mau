@@ -4,7 +4,7 @@
     %section.studio__image
       .image{style: "background-image: url(#{studio.image(:medium)})"}
     %section.studio__studio
-      .body  
+      .body
         .studio-name
           = link_to studio.name, studio.studio_path
           .studio-address
@@ -15,7 +15,7 @@
               .studio--cross-street @ #{studio.cross_street}
 
             .studio-city #{studio.city}
-            - if studio.has_phone?     
+            - if studio.has_phone?
               .studio-phone #{studio.formatted_phone}
         .info
           .studio__website

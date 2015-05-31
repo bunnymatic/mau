@@ -169,5 +169,5 @@ class ArtPiecesController < ApplicationController
     render template: 'artists/manage_art'
   end
 
-  
+
 end

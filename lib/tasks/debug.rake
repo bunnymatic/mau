@@ -11,7 +11,7 @@ namespace :debug do
       placeholder_logo = File.join(Rails.root, '/app/assets/images/debug_os_placeholder.png')
       OpenStudiosEvent.create!(start_date: start_date, end_date: end_date, key: key, logo: File.open(placeholder_logo))
       puts "Created new OpenStudiosEvent: #{key}"
-    else 
+    else
       puts "Current OpenStudiosEvent exists: #{os.key}"
     end
   end

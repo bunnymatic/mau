@@ -4,7 +4,7 @@
   = form_tag update_admin_artists_path do
     .pure-u-1-1.padded-content
       = render '/flash_notice_error'
-      .admin-table__controls      
+      .admin-table__controls
         %button.pure-button.update-artists update os status
         %a.pure-button.export-csv{:href => "?format=csv&%s" % request.query_string}
           export as csv
@@ -35,7 +35,7 @@
               %td
                 - if a.last_login.present?
                   #{a.last_login}
-                
+
               %td.admin_artist_studio
                 = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
               %td.admin_artist_info
