@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.2.2'
 
+gem 'safe_yaml'
 gem 'racc'
 gem "rails", '~> 3.2.16'
 gem 'strong_parameters'

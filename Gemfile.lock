@@ -606,6 +606,7 @@ DEPENDENCIES
   rosie
   rspec
   rspec-rails
+  safe_yaml
   sass-rails
   select2-rails
   selenium-webdriver
