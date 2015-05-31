@@ -295,7 +295,7 @@ class User < ActiveRecord::Base
   end
 
   def manages?(studio)
-    is_manager? && (current_user.studio == studio)
+    is_manager? && (self.studio == studio)
   end
 
   def make_activation_code
