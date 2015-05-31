@@ -1,11 +1,11 @@
 #spinner
 - pagination_opts = {paginator: @paginator}
 - if @query.empty?
-  %h4.title 
+  %h4.title
     You have to search for something.
 -else
   .pure-g
-    .pure-u-1-1          
+    .pure-u-1-1
       - if @paginator.items.blank?
         = render 'empty_search_results'
       - else

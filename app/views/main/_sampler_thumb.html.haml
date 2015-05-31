@@ -3,8 +3,8 @@
 = link_to sampler_thumb.path, class: "sampler__thumb js-sampler__thumb #{clz}" do
   - if sampler_thumb.artist.doing_open_studios
     .os-violator{ title: 'Open Studios Participant!' }
-  
+
   .image{ style: "background-image: url(#{sampler_thumb.get_path(:medium)});" }
   .desc
-    .name 
+    .name
       = sampler_thumb.artist_name

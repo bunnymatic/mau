@@ -8,7 +8,7 @@
           %th name
           - @keys.each do |key|
             %th #{OpenStudiosEvent.for_display(key)}
-      %tbody          
+      %tbody
         - @os.each_with_index do |a,idx|
           %tr
             %td.os-status__artist-name
@@ -16,7 +16,7 @@
             - @keys.each do |ostag|
               %td.tf
                 - if a.os_participation[ostag]
-                  .fa.fa-star 
+                  .fa.fa-star
       %tfoot
         %tr.totals
           %td Totals:

@@ -12,7 +12,7 @@
         section below.
     - else
       %p
-        Will you be opening your doors for Open Studios  
+        Will you be opening your doors for Open Studios
         = OpenStudiosEvent.current.start_date.to_formatted_s(:os_day)
         = "-"
         = OpenStudiosEvent.current.end_date.to_formatted_s(:os_day)
@@ -26,4 +26,4 @@
         And if you'd like to donate to help with our Open Studios promotion and keep this system running, you can donate via Paypal.  Just click below.  Thanks!
         .form-group
           %a.pure-button.button-secondary#donate_for_openstudios{href: "#"} Donate
- 
+

@@ -6,7 +6,7 @@
   %section.nav-section
     .tab.search.nav-icon{ title: 'search'}
       %a{ href: '/search' }
-        = fa_icon 'search' 
+        = fa_icon 'search'
         .text.hidden-sm search
 
   %section.nav-section
@@ -25,11 +25,11 @@
     %section.nav-section.users
       %ul.js-tabs.tabs.tabs__nav
         %li.tab
-          %a{'data-toggle' => 'tab', href: '#my-mau'} 
+          %a{'data-toggle' => 'tab', href: '#my-mau'}
             = fa_icon 'gear'
             my mau
           %ul.dropdown
-            != print_html_list('dropdown-nav', user_nav)    
+            != print_html_list('dropdown-nav', user_nav)
   - else
     %section.nav-section.signin-nav
       %ul.signin__links.tabs

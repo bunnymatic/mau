@@ -5,8 +5,8 @@
       .os-violator{ title: 'Open Studios Participant!' }
     .image{style: "background-image: url(#{artist.representative_piece.get_path(:medium)});"}
   .desc
-    .name 
+    .name
       = link_to artist.full_name, artist_path(artist)
-    .media 
+    .media
       = [ artist.media.map { |m| link_to m.name, m } ].join(", ").html_safe
 

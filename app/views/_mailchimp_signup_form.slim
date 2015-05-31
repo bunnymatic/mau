@@ -18,7 +18,7 @@ form.mailchimp-form name="MailchimpSubscriptionForm" ng-controller="MailchimpSub
         input type="email" name="email" ng-model="mailchimp.EMAIL" placeholder="e.g. leo.da.vinci@example.com" required=''
   fieldset.actions
     ol
-      li   
+      li
         button.pure-button.button-secondary ng-disabled="MailchimpSubscriptionForm.$invalid" ng-click="addSubscription(mailchimp)" Join
 
   .error-msg ng-show="mailchimp.result === 'error'" ng-cloak=''

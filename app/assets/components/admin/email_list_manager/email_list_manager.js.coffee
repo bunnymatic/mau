@@ -16,7 +16,7 @@ controller = ngInject ($scope, $attrs, emailsService, Email) ->
   fetchEmails($scope.emailListId)
 
   $scope.removeEmail = (id) ->
-    emailsService.remove(   
+    emailsService.remove(
       {email_list_id: $scope.emailListId, id: id},
       () ->
         fetchEmails($scope.emailListId)

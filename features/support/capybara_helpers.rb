@@ -22,7 +22,7 @@ module CapybaraHelpers
       end
     end
   end
-  
+
 end
 
 World CapybaraHelpers

@@ -14,16 +14,16 @@
             Favorites
       .pure-u-1-1
         %section.favorites
-          .header 
+          .header
             = link_to favorites_path(@fan) do
               Who I
               = fa_icon 'heart'
           = render partial: "/users/favorite_thumbs", locals: { collection: @fan.what_i_favorite }
       .pure-u-1-1
         %section.favorites
-          .header 
+          .header
             = link_to favorites_path(@fan) do
-              Who 
+              Who
               = fa_icon 'heart'
               's me
           = render partial: "/users/favorite_thumbs", locals: { collection: @fan.who_favorites_me }

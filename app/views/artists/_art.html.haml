@@ -4,10 +4,10 @@
 .art-card{ class: class_overrides }
   - if logged_in? && (art_piece.artist == current_user) && !show_os_violator
     .card__controls
-      .art-card__edit 
+      .art-card__edit
         = link_to art_piece.edit_path, title: 'edit this art' do
           .fa.fa-icon.fa-edit
-      .art-card__delete 
+      .art-card__delete
         = link_to art_piece.destroy_path, confirm: 'Are you sure you want to remove this piece of art from your portfolio?', method: :delete, title: "Delete" do
           .fa.fa-icon.fa-close
   = link_to art_piece_path(art_piece) do
@@ -27,6 +27,6 @@
           = art_piece.tags.map{|t| link_to t.name.html_safe, t}.join(", ").html_safe
         - else
           &nbsp;
-        
-        
+
+
 
