@@ -69,10 +69,10 @@ namespace :deploy do
 
   before :restart, :slug_users do
     on roles(:web), in: :groups, limit: 3 do
-      within release_path do
-        set :rails_env, (fetch(:rails_env) || fetch(:stage))        
-        execute :rake, 'mau:slug_users'
-      end
+      # within release_path do
+      #   set :rails_env, (fetch(:rails_env) || fetch(:stage))        
+      #   execute :rake, 'mau:slug_users'
+      # end
     end
   end
 
