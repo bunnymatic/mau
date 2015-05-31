@@ -137,6 +137,6 @@ group :test, :development do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'quiet_assets'
-  gem 'jasminerice', github: 'bradphelan/jasminerice' 
+  gem 'jasminerice', github: 'bradphelan/jasminerice'
   gem 'timecop'
 end

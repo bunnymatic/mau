@@ -41,7 +41,7 @@ unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:
         t.fork = true # You may get faster startup if you set this to false
         t.profile = 'default'
       end
-      
+
       desc 'Run all features'
       task :all => [:ok, :wip]
 
@@ -50,7 +50,7 @@ unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:
       task :reportsetup do
         Dir.mkdir CUCUMBER_REPORTS_DIR unless Dir.exist? CUCUMBER_REPORTS_DIR
       end
-      
+
       task :statsetup do
         require 'rails/code_statistics'
         ::STATS_DIRECTORIES << %w(Cucumber\ features features) if File.exist?('features')

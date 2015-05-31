@@ -39,7 +39,7 @@
                 = link_to studio_path(studio), title: 'Show' do
                   = fa_icon 'eye-open'
               .edit.btn
-                - if current_user.is_admin? || (current_user.is_manager? && current_user.studio == studio)
+                - if current_user.is_admin? || current_user.manages?(studio)
                   = link_to edit_admin_studio_path(studio), title: 'Edit' do
                     = fa_icon 'edit'
               .remove.btn
