@@ -11,6 +11,6 @@ end
 Capybara.javascript_driver = :webkit
 
 # webkit only
-#Before('@javascript') do |scenario, block|
-#  page.driver.block_unknown_urls
-#end
+Before('@javascript') do |scenario, block|
+  page.driver.block_unknown_urls
+end
