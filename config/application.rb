@@ -1,3 +1,6 @@
+require 'safe_yaml'
+SafeYAML::OPTIONS[:default_mode] = :safe
+
 require File.expand_path('../boot', __FILE__)
 
 require "active_record/railtie"
@@ -13,6 +16,7 @@ c.use_file! File.expand_path('../../config/config.local.yml', __FILE__)
 c.use_file! File.expand_path('../../config/config.keys.yml', __FILE__)
 c.use_section! Rails.env
 ::Conf = c
+
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
