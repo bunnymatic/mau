@@ -10,6 +10,8 @@ Background:
 Scenario:  Drilling down to an art piece page from the sampler
   When I visit the home page
   And I click on the first artist's card
+  Then I see that artist's profile page
+  When I click on an art card
   And I see that art piece detail page
 
 @javascript

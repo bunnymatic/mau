@@ -6,7 +6,7 @@ Background:
   Given an "admin" account has been created
   And the email lists have been created with emails
   And I login
-  And I click on "admin email lists" in the admin menu
+  And I visit the "admin email_lists" page
 
 Scenario: 
   Then I can see the "Feedback" email list

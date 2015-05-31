@@ -6,7 +6,7 @@ describe ArtistsController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil, firstname: 'joe', lastname: 'blow') }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
-  let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art, firstname: 'Bill', lastname: 'Tagman') }
+  let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art, firstname: 'Bill', lastname: "O'Tagman") }
   let(:without_address) { FactoryGirl.create(:artist, :active, :with_no_address) }
   let(:artists) do
     [artist] + FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art)
@@ -251,7 +251,7 @@ describe ArtistsController do
           c = desc.first.attributes['content']
           expect(c).to match artist_with_tags.bio[0..50]
           expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include artist_with_tags.get_name
+          expect(c).to include html_encode(artist_with_tags.get_name, :named)
         end
         assert_select 'head meta[property=og:description]' do |desc|
           desc.length.should eql 1
