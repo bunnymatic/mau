@@ -68,7 +68,7 @@ class ArtPiecePresenter < ViewPresenter
   end
 
   def artist_path
-    url_helpers.artist_path(artist.artist)
+    url_helpers.artist_path(artist)
   end
 
 end

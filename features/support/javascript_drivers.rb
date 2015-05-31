@@ -7,10 +7,10 @@ Capybara.register_driver :chrome do |app|
     Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-#Capybara.javascript_driver = :poltergeits
+#Capybara.javascript_driver = :poltergeist
 Capybara.javascript_driver = :webkit
 
 # webkit only
-Before('@javascript') do |scenario, block|
-  page.driver.block_unknown_urls
-end
+#Before('@javascript') do |scenario, block|
+#  page.driver.block_unknown_urls
+#end
