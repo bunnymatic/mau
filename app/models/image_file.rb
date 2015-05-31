@@ -100,14 +100,15 @@ class ImageFile
 
   def check_file_format(src_path)
      # check format
-    fmt = MojoMagick::raw_command('identify','-format "%m %h %w %r" ' + src_path)
+    status = MojoMagick::execute('identify','-format "%m %h %w %r" ' + src_path)
+    fmt = status.return_value
     (type, height, width, colorspace) = fmt.split
     if ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
       raise MauImage::ImageError.new("Image type %s is not supported." % type)
     end
     if colorspace.downcase.match /cmyk/
-      raise MauImage::ImageError.new("[%s] is not a supported color space."+
-                                     "  Please save your image with an RGB colorspace." % colorspace.to_s)
+      raise MauImage::ImageError.new("[#{colorspace}] is not a supported color space."+
+                                     "  Please save your image with an RGB colorspace.")
     end
     [type, height, width, colorspace]
   end

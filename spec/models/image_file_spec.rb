@@ -89,8 +89,8 @@ describe ImageFile do
 
     context 'with CMYK format image' do
       it 'disallows CMYK format' do
-        MojoMagick.should_receive(:raw_command).
-          with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 CMYK")
+        MojoMagick.should_receive(:execute).
+          with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return(double('MojoMagick::CommandStatus', return_value:"JPG 12 14 CMYK"))
         File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
         expect {
           image_file.save upload, destdir, destfile
@@ -100,8 +100,8 @@ describe ImageFile do
 
     it 'sets up the right path name and calls resize for all the desired sizes' do
       MojoMagick.stub(:raw_command)
-      MojoMagick.should_receive(:raw_command).
-        with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 RGB")
+        MojoMagick.should_receive(:execute).
+          with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return(double('MojoMagick::CommandStatus', return_value:"JPG 12 14 RGB"))
       MojoMagick.should_receive(:resize).exactly(4).times
       File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
       image_file.save upload, destdir, destfile
@@ -116,8 +116,8 @@ describe ImageFile do
     end
 
     it 'raises an error if MojoMagick::resize failse' do
-      MojoMagick.should_receive(:raw_command).
-        with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return("JPG 12 14 RGB")
+      MojoMagick.should_receive(:execute).
+        with('identify', '-format "%m %h %w %r" ' + 'blah_de_blah').and_return(double('MojoMagick::CommandStatus', return_value:"JPG 12 14 RGB"))
       MojoMagick.should_receive(:resize).and_raise
       File.should_receive(:open).with(full_destpath, 'wb').and_yield(writable)
       expect {
