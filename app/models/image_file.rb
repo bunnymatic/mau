@@ -100,8 +100,7 @@ class ImageFile
 
   def check_file_format(src_path)
      # check format
-    status = MojoMagick::execute('identify','-format "%m %h %w %r" ' + src_path)
-    fmt = status.return_value
+    fmt = MojoMagick::get_format(src_path, %q[%m %h %w %r])
     (type, height, width, colorspace) = fmt.split
     if ALLOWED_IMAGE_EXTS.index(type.downcase) == nil
       raise MauImage::ImageError.new("Image type %s is not supported." % type)
