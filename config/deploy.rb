@@ -1,4 +1,3 @@
-require 'capistrano/rails'
 # config valid only for Capistrano 3.1
 lock '3.1.0'
 
@@ -64,8 +63,7 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      # execute :touch, release_path.join('tmp/restart.txt')
+      invoke 'unicorn:reload'
     end
   end
 
@@ -74,7 +72,7 @@ namespace :deploy do
   after :restart, :slug_users do
     on roles(:web), in: :groups, limit: 3 do
       within release_path do
-        execute :rake, 'mau:slug_users'
+        execute :rake, "mau:slug_users RAILS_ENV=#{fetch(:stage)}"
       end
     end
   end

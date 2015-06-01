@@ -1,4 +1,3 @@
-require 'capistrano/rails'
 # Simple Role Syntax
 # ==================
 # Supports bulk-adding hosts to roles, the primary
@@ -52,8 +51,3 @@ set :deploy_to, '/home/deploy/mau'
 #
 #
 after 'deploy:publishing', 'deploy:restart'
-namespace :deploy do
-  task :restart do
-    invoke 'unicorn:reload'
-  end
-end
