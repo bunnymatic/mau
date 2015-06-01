@@ -1,5 +1,4 @@
 /*
- *= require reset
  *= require socicon
  *= require micro_icons
  *= require pickadate/classic
@@ -14,6 +13,7 @@
  *= require_tree ./gto
  *= require_self
  */
+@import 'reset';
 @import 'font-awesome';
 @import 'pure';
 @import 'pure/grids-responsive';
