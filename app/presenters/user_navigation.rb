@@ -15,12 +15,12 @@ class UserNavigation < Navigation
       begin
         [].tap do |items|
           if current_artist
-            items << link_to('view profile', url_helpers.artist_path(current_artist), title: 'View My Profile')
-            items << link_to('edit profile', url_helpers.edit_artist_path(current_artist), title: 'Edit My Profile')
-            items << link_to('manage art', url_helpers.manage_art_artist_path(current_artist), title: "Manage My Art")
+            items << link_to('My Profile', url_helpers.artist_path(current_artist), title: 'View My Info')
+            items << link_to('My Art', url_helpers.manage_art_artist_path(current_artist), title: "Manage My Art")
+            items << link_to('My Account', url_helpers.edit_artist_path(current_artist), title: 'Edit My Info')
           else
-            items << link_to('view profile', url_helpers.user_path(current_user))
-            items << link_to('edit profile', url_helpers.edit_user_path(current_user))
+            items << link_to('Ny Profile', url_helpers.user_path(current_user))
+            items << link_to('My Account', url_helpers.edit_user_path(current_user))
           end
           items << link_to('sign out', url_helpers.logout_path)
         end
