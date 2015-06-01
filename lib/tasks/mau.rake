@@ -18,7 +18,7 @@ namespace :mau do
   task :slug_users => [:environment] do
     User.all.each do |u|
       u.touch
-      u.save!
+      u.save
     end
   end
 
