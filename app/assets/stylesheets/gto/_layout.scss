@@ -72,11 +72,13 @@ p {
   line-height: 1.4em;
 }
 
-h2.title {
-  margin: 0.83em;
-}
-p {
-  margin: 1em;
+body {
+  h2.title {
+    margin: 0.83em;
+  }
+  p {
+    margin: 1em;
+  }
 }
 .pure-g {
   .header {
