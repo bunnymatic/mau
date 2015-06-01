@@ -3,10 +3,12 @@
 
 .studios:not(.admin), .studios.show {
   @include search-filter;
-
   .studio {
+    min-height: 200px;
+    height: 200px;
     @include artist-thumb-mixin;
     .image {
+      height: 200px;
       @include background-contain;
     }
     .desc {
