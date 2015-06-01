@@ -1,6 +1,5 @@
 .nav.nav-tabs
   - user_nav = UserNavigation.new(current_user)
-  - os_nav = OpenStudiosNavigation.new()
   .js-nav-mobile.nav-mobile.nav-icon{ title: 'menu' }
     = fa_icon 'bars'
   %section.nav-section
@@ -17,9 +16,9 @@
         %a{href: studios_path, title: 'group studios'} studios
 
   %section.nav-section.open-studios
-    %h3 Open studios
-    %ul.js-tabs.tabs.tabs__nav
-      != print_html_list('tab', os_nav)
+    %ul.tabs.tabs__nav
+      %li.tab
+        %a{href: open_studios_path, title: "open studios #{open_studios_nav_title}"} #{open_studios_nav_title}
 
   - if logged_in?
     %section.nav-section.users
@@ -57,8 +56,8 @@
       %li.nav-mobile__title
         %a{href: search_path, title: 'search'} search
     %ul.tab-panel#open-studios
-      %li.nav-mobile__title open studios
-      != print_html_list('leaf', os_nav)
+      %li.nav-mobile__title
+        %a{href: open_studios_path, title: "open studios #{open_studios_nav_title}"} #{open_studios_nav_title}
 
     - if logged_in?
       %ul.tab-panel.signin__links
