@@ -69,14 +69,6 @@ namespace :deploy do
 
   after :publishing, :restart
 
-  after :restart, :slug_users do
-    on roles(:web), in: :groups, limit: 3 do
-      within release_path do
-        execute :rake, "mau:slug_users RAILS_ENV=#{fetch(:stage)}"
-      end
-    end
-  end
-
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:

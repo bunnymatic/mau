@@ -117,6 +117,9 @@ Then(/^I see that artist's profile page$/) do
 end
 
 When(/^I click on an art card$/) do
+  wait_until do
+    all('.art-card a').present?
+  end
   first_art_card = all('.art-card a').first
   first_art_card.trigger('click')
 end
