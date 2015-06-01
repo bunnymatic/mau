@@ -1,4 +1,4 @@
-/*global    */
+/*global     */
 /** jquery mods **/
 jQuery(function() {
   /** arrange art */

@@ -72,8 +72,6 @@ Mau::Application.routes.draw do
       get :roster
       post :destroyart
       get :suggest
-      get :arrange_art
-      get :delete_art
       post :setarrangement
       get :map_page, as: :map
     end
