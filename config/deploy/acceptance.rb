@@ -1,3 +1,4 @@
+require 'capistrano/rails'
 # Simple Role Syntax
 # ==================
 # Supports bulk-adding hosts to roles, the primary
@@ -25,7 +26,7 @@ server 'mau.rcode5.com',
 #ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 set :branch, 'development'
 set :deploy_to, '/home/deploy/mau'
-set :rails_env, 'acceptance'                  # If the environment differs from the stage name
+#set :rails_env, 'acceptance'                  # If the environment differs from the stage name
 
 # you can set custom ssh options
 # it's possible to pass any option but you need to keep in mind that net/ssh understand limited list of options

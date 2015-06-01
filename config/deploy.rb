@@ -1,5 +1,4 @@
 require 'capistrano/rails'
-
 # config valid only for Capistrano 3.1
 lock '3.1.0'
 
@@ -57,6 +56,9 @@ set :linked_files, %w{config/database.yml config/config.keys.yml}
 # Default value for linked_dirs is []
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets backups public/backups vendor/bundle public/system public/studiodata public/artistdata}
 
+
+set :rails_env, (fetch(:rails_env) || fetch(:stage))        
+
 namespace :deploy do
 
   desc 'Restart application'
@@ -72,7 +74,6 @@ namespace :deploy do
   after :restart, :slug_users do
     on roles(:web), in: :groups, limit: 3 do
       within release_path do
-        set :rails_env, (fetch(:rails_env) || fetch(:stage))        
         execute :rake, 'mau:slug_users'
       end
     end
