@@ -191,57 +191,15 @@ var MAU = window.MAU = window.MAU || {};
 /*** jquery on load */
 jQuery(function() {
 
-  // var toggles = MAU.Artist.TOGGLES;
-  // var sxns = MAU.Artist.SECTIONS;
-  // var nsxn = sxns.length;
-
-  // jQuery('.acct .edit a').each(function() {
-  //   var $el = $(this);
-
-  //   var openSectionFromLink = function(lnk) {
-  //     var href = lnk.href;
-  //     var sxn = _.last(href.split('#'));
-  //     if (sxn) {
-  //       MAU.Artist.toggleSxnVis(sxn);
-  //     }
-  //   };
-  //   $el.closest('.acct').bind('click', function(ev) {
-  //     ev.preventDefault();
-  //     openSectionFromLink($el[0]);
-  //   });
-  // });
-  // if ( location.hash && (location.hash.length > 1)) {
-  //   var sxn = location.hash.substr(1);
-  //   MAU.Artist.toggleSxnVis(sxn);
-  // }
-
-  // MAU.Artist.bindYepNopeButtons();
-  // MAU.Artist.bindDonateButton();
-
-  /** hide/clear studio # when we choose indy */
-  // jQuery('.edit-sections #artist_studio_id').bind('change', function(ev) {
-  //   if (parseInt(jQuery(this).val(),10) === 0) {
-  //     jQuery('#artist_artist_info_studionumber').val('');
-  //     jQuery('.edit-sections #address .studio-number-row').hide();
-  //   } else {
-  //     jQuery('.edit-sections #address .studio-number-row').show();
-  //   }
-  // });
-
-  // /** handle os switch on map/roster page */
-  // jQuery('#map_cb').bind('click', function(ev) {
-  //   ev.stopPropagation();
-  //   jQuery('#map_osswitcher').submit();
-  // });
-
 
   var flashNotice = ".notice, .flash, .flash__notice, .flash__error";
   $('body').on('click', flashNotice, function(ev) {
     $(this).fadeOut();
   });
-  jQuery(".notice, .flash, .flash__notice, .flash__error").each( function() {
-                                                                   setTimeout(function() {
-	                                                                   $(this).fadeOut();
-                                                                   }, 100000);
-                                                                 });
+  jQuery(flashNotice).each( function() {
+    var _that = this;
+    setTimeout(function() {
+	    $(_that).fadeOut();
+    }, 5000);
+  });
 });
