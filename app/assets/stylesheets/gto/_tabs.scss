@@ -21,7 +21,9 @@
       background-color: rgba(200,200,200,0.2);
     }
   }
-
+  .users & .dropdown {
+    background-color: transparent !important;
+  }
   &.signout__links, &.signin__links, &.tabs__nav {
     > li {
       @include sidebar-nav-entry;
