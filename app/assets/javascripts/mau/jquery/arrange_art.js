@@ -1,13 +1,14 @@
+/*global    */
 /** jquery mods **/
 jQuery(function() {
   /** arrange art */
   var sortMe = jQuery('#arrange-art .js-sortable, .artists.arrange_art .js-sortable')
   if (sortMe.sortable) {
     sortMe.sortable({
-      drop: function() {
-        $(this).find('form').submit();
+      update: function() {
+        $(this).closest('form').submit();
       }
-    );
+    });
   }
 
   jQuery('#arrange_art_form').bind('submit', function(ev) {
