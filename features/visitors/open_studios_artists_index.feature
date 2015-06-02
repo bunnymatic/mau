@@ -7,7 +7,8 @@ Background:
 
 Scenario:  Visiting the participants index page for open studios
   When I visit the home page
-  And I click on the first "participants" link
+  And show me the page
+  And I click on the first "Open Studios" link
   Then the artists index page shows no artists for open studios
 
 Scenario:  Visiting the open studios page as an editor
@@ -15,6 +16,6 @@ Scenario:  Visiting the open studios page as an editor
   And there are open studios artists with art in the system
   And there is open studios cms content in the system
   When I visit the home page
-  And I click on the first "participants" link
+  And I click on the first "Open Studios" link
   Then I see open studios artists on the artists list
 
