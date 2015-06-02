@@ -123,7 +123,11 @@ class ArtistsController < ApplicationController
     else
       flash[:error] ="There was a problem interpreting the input parameters.  Please try again."
     end
-    redirect_to user_path(current_user)
+    if request.xhr?
+      render json: true
+    else
+      redirect_to artist_path(current_user)
+    end
   end
 
   def delete_art

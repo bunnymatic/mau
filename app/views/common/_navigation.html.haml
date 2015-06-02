@@ -58,7 +58,6 @@
 
     - if logged_in?
       %ul.tab-panel.signin__links
-        %li.nav-mobile__title my mau
         != print_html_list('leaf', user_nav)
     - else logged_in?
       %ul.tab-panel.signout__links

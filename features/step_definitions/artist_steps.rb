@@ -47,6 +47,18 @@ Then(/^I see the artist's menu/) do
   expect(page).to have_selector '.nav-section.users'
 end
 
+When /^I move the last image to the first position$/ do
+  @last_piece = @artist.art_pieces.last
+  card = page.all('.js-sortable li').last
+  target = page.all('.js-sortable li').first
+  card.drag_to(target)
+end
+
+
+Then /^I see that my representative image has been updated$/ do
+  expect(all('.art-card').first['data-id']).to eql @last_piece.id.to_s
+end
+
 Then(/^I can arrange my art$/) do
   expect(current_path).to eql manage_art_artist_path(@artist)
 end

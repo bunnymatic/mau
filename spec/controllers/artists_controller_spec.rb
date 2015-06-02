@@ -435,7 +435,7 @@ describe ArtistsController do
           order1 = ord.map{|idx| @artpieces[idx-1]}
           artist.art_pieces.map(&:id).should_not eql order1
           post :setarrangement, { neworder: order1.join(",") }
-          expect(response).to redirect_to user_url(artist)
+          expect(response).to redirect_to artist_url(artist)
           aps = Artist.find(artist.id).art_pieces
           aps.map(&:id).should eql order1
           aps[0].artist.representative_piece.id.should==aps[0].id
@@ -448,9 +448,9 @@ describe ArtistsController do
         post :setarrangement, { neworder: order1.join(",") }
       end
 
-      it "sets a flash with invalid params" do
+      it "sets a flash and redirects to the artist page with invalid params" do
         post :setarrangement
-        expect(response).to redirect_to(user_path(artist))
+        expect(response).to redirect_to(artist_path(artist))
         flash[:error].should be_present
       end
 
@@ -458,31 +458,17 @@ describe ArtistsController do
         order1 = artist.art_pieces.map(&:id)
         post :setarrangement, {  neworder: [order1.last] + order1[0..-2], submit: 'cancel' }
         expect(artist.art_pieces.map(&:id)).to eql order1
-
       end
-
-    end
-  end
-
-  describe '#arrange_art' do
-    before do
-      login_as artist
-      get :arrange_art
-    end
-    it 'sets artist' do
-      expect(assigns(:artist)).to be_a_kind_of ArtistPresenter
-      expect(assigns(:artist).artist).to eql artist
-    end
-  end
-
-  describe '#delete_art' do
-    before do
-      login_as artist
-      get :delete_art
-    end
-    it 'sets artist' do
-      expect(assigns(:artist)).to be_a_kind_of ArtistPresenter
-      expect(assigns(:artist).artist).to eql artist
+      it 'redirects to the artists page' do
+        order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
+        post :setarrangement, { neworder: order1.join(",") }
+        expect(response).to redirect_to artist_path(artist)
+      end
+      it 'does not redirect if request is xhr' do
+        order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
+        xhr :post, :setarrangement, { neworder: order1.join(",") }
+        expect(response).to be_success
+      end
     end
   end
 
