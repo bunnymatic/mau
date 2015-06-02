@@ -32,6 +32,11 @@ Then(/^I see the open studios content is editable/) do
   expect(page).to have_selector '.open_studios .section.markdown.editable'
 end
 
+Then /I see the open studios page$/ do
+  expect(current_path).to eq open_studios_path
+  expect(page).to have_selector 'h2', text: /Open Studios/
+end
+
 Then(/^I see the open studios events$/) do
   expect(page).to have_selector 'table.os-events tbody tr', count: OpenStudiosEvent.count
   expect(page).to have_selector 'table.os-events tbody tr td.key', text: OpenStudiosEvent.all.first.key

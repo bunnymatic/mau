@@ -7,7 +7,7 @@ Background:
 
 Scenario: 
   When I visit my home page
-  And I click on "manage art" in the sidebar menu
+  And I click on "My Art" in the sidebar menu
   And I click on "remove"
   Then I can delete my art
 

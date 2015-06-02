@@ -191,7 +191,7 @@ When(/^I click on "(.*?)" in the "(.*?)"$/) do |link, container|
 end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
-  page.driver.browser.mouse.move_to(page.driver.browser.find_element(:id=>"admin_nav"))  
+  #page.driver.browser.mouse.move_to(page.driver.browser.find_element(:id=>"admin_nav")) if running_js?
   step %Q|I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav"|
 end
 

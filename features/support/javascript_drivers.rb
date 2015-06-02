@@ -14,3 +14,11 @@ Capybara.javascript_driver = :webkit
 Before('@javascript') do |scenario, block|
   page.driver.block_unknown_urls
 end
+
+module JavascriptDriverChecker
+  def running_js?
+    [:selenium, :webkit, :chrome, :poltergeist].include?(Capybara.current_driver)
+  end
+end
+
+World JavascriptDriverChecker
