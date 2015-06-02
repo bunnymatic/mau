@@ -54,8 +54,9 @@ When /^I move the last image to the first position$/ do
   card.drag_to(target)
 end
 
+
 Then /^I see that my representative image has been updated$/ do
-  expect(@artist.art_pieces.first).to eq @last_piece
+  expect(all('.art-card').first['data-id']).to eql @last_piece.id.to_s
 end
 
 Then(/^I can arrange my art$/) do
