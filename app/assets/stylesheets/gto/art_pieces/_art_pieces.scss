@@ -21,6 +21,10 @@
   }
 }
 .art_pieces.show {
+  .main-container {
+    max-width: 1440px;
+  }
+
   .ng-hide-add[image-fader], .ng-hide-remove[image-fader] {
     @include transition(all 1sec ease-in-out);
     display: block !important;
