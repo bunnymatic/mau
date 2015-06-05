@@ -3,7 +3,7 @@ MAU = window.MAU = window.MAU || {}
 Favorites =
   execute_delete: (ev) ->
     ev.preventDefault()
-    if confirm('Are you sure you want to remove this as a favorite?') 
+    if confirm('Are you sure you want to remove this as a favorite?')
       lnk = jQuery(this)
       tp = lnk.attr('fav-type')
       id = lnk.attr('fav-id')

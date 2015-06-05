@@ -12,6 +12,12 @@ module Admin
       end
     end
 
+    def suspend
+      artist = Artist.find(params[:id])
+      artist.suspend!
+      redirect_to admin_artists_path, notice: "#{artist.get_name} has been suspended"
+    end
+
     def update
       if params['os'].present?
         @updated_count = 0

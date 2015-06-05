@@ -149,6 +149,7 @@ Mau::Application.routes.draw do
         get :purge
       end
       member do
+        post :suspend
         get :notify_featured
       end
     end
