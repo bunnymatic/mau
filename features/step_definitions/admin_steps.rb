@@ -45,7 +45,6 @@ Then(/^I see that artist is no longer part of the studio list$/) do
 end
 
 When(/^I suspend the first artist$/) do
-  save_and_open_page
   name = page.all('table tbody tr td:first-child a').first.text
   @first_artist = Artist.find_by_nomdeplume(name)
   click_on_first 'Suspend artist'
