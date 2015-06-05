@@ -12,7 +12,6 @@ art-pieces-browser {
     margin-right: 15px;
     .share {
       text-align: left;
-      display: none;
       font-size: 0.75rem;
       text-transform: uppercase;
       font-weight: $font-weight-light;
@@ -26,7 +25,7 @@ art-pieces-browser {
       margin-bottom: 3px;
     }
     .ico.ico-invert {
-      font-size: 1.9rem;
+      font-size: 2rem;
     }
   }
   @media screen and (min-width: $screen-xs-max) {
@@ -35,7 +34,6 @@ art-pieces-browser {
   }
   @media screen and (min-width: $screen-md-max) {
     .social-buttons .share {
-      display: inline-block;
     }
   }
   
