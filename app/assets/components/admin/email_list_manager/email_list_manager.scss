@@ -5,7 +5,8 @@ email-list-manager {
     line-height: 1.2rem;
   }
   .add_email {
-    padding: 10px 20px;
+    padding: 0px 20px;
+    margin-top: 10px;
   }
   ul.emails {
     padding: 0px 20px;
@@ -25,6 +26,9 @@ email-list-manager {
       position: absolute;
       right: 10px;
       top: 3px;
+      .fa {
+        display: block;
+      }
     }
   }
 }
