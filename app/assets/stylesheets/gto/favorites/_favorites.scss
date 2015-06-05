@@ -15,6 +15,15 @@
     margin: 0;
     padding: 0;
   }
+  .art-card__edit,
+  .art-card__delete {
+    display: none;
+  }
+  .artist-card__remove-favorite,
+  .art-card__remove-favorite {
+    display: block !important;
+  }
+  
   .favorites__random-block {
     &:hover {
       background-color: rgba(200,200,200,0.2);

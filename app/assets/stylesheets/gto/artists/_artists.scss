@@ -112,6 +112,10 @@
     }
   }
   .art-card, .artist-card {
+    .artist-card__remove-favorite,
+    .art-card__remove-favorite {
+      display: none;
+    }
     .desc {
       padding: 0.1rem;
     }
@@ -145,12 +149,14 @@
   }
 }
 
-.art-card, .artist-profile {
+
+.artist-card, .art-card, .artist-profile {
   .card__controls {
     position: absolute;
     top: 12px;
     right: 12px;
   }
+  .artist-card__remove-favorite, .art-card__remove-favorite,
   .artist-profile__edit, .art-card__delete, .art-card__edit {
     display: inline-block;
     font-size: 32px;
