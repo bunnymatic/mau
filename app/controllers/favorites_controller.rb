@@ -35,6 +35,6 @@ class FavoritesController < ApplicationController
       render_not_found({:message => "You can't unfavorite that type of object" })
     end
   end
-  
+
 
 end

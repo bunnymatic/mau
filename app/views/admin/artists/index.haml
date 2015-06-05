@@ -19,6 +19,7 @@
             %th
               = OpenStudiosEvent.for_display(current_open_studios_key, true)
             %th
+            %th
 
         %tbody
           - @artist_list.each_with_index do |a, idx|
@@ -68,4 +69,7 @@
                   = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
                 - else
                   no address
+              %td
+                = link_to suspend_admin_artist_path(a), method: :post, confirm: 'Are you sure you want to suspend this artist?', title: "Suspend artist" do
+                  %i.fa.fa-icon.fa-bomb
 

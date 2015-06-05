@@ -56,7 +56,7 @@ set :linked_files, %w{config/database.yml config/config.keys.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets backups public/backups vendor/bundle public/system public/studiodata public/artistdata}
 
 
-set :rails_env, (fetch(:rails_env) || fetch(:stage))        
+set :rails_env, (fetch(:rails_env) || fetch(:stage))
 
 namespace :deploy do
 

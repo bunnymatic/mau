@@ -5,6 +5,6 @@ module OpenStudiosHelper
   def open_studios_page_title
     ["Open Studios", OpenStudiosEvent.current.try(:for_display, true)].compact.join(" - ")
   end
-  
+
 end
 
