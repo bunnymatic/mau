@@ -19,14 +19,10 @@
             %h3
               = "Art Pieces (#{@user.fav_art_pieces.count})"
           .pure-g
-            = render partial: '/artists/art', collection: @favorites.art_pieces, as: :art_piece
+            = render partial: 'art', collection: @favorites.art_pieces, as: :art_piece
         .pure-u-1-1.favorite-artists
           .section.header
             %h3
               = "Artists (#{@user.fav_artists.count})"
           .pure-g
-            = render partial: '/artists/artist', collection: @favorites.artists
-
-    .pure-g
-      .pure-u-1-1
-        = link_to "#{@user.get_name}'s Profile", user_path(@user), class: 'pure-button pure-button-primary'
+            = render partial: 'artist', collection: @favorites.artists

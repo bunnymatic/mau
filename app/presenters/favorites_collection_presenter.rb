@@ -15,7 +15,11 @@ class FavoritesCollectionPresenter < ViewPresenter
   end
 
   def title
-    is_current_user? ? "My Favorites" : "#{user.get_name}'s Favorites"
+    if is_current_user?
+      ((link_to "My", url_helpers.user_path(current_user)) + " Favorites").html_safe
+    else
+      ((link_to "#{user.get_name}'s", url_helpers.user_path(user)) + " Favorites").html_safe
+    end
   end
 
   def empty_message
