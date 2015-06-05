@@ -21,3 +21,10 @@ Scenario: Showing the artists
   When I uncheck the box for the first participating artist
   Then I see that the first participating artist is no longer doing open studios
 
+Scenario: Suspending artists
+  When I click on "artists" in the admin menu
+  Then I see the admin artists list
+
+  When I suspend the first artist
+  Then I see that the first artist is suspended
+
