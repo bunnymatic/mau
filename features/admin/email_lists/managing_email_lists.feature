@@ -29,7 +29,7 @@ Scenario: Adding an email
   And I click "add" in the "Feedback" email form
   Then I see that "joe blow <email@example.com>" is on the "Feedback" email list
 
-@javascript
+@javascript @ignore
 Scenario: Removing an email
   When I click to add an email to the "Event" list
   And I fill in the "Event" email form with:
