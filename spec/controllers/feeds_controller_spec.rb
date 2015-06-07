@@ -126,7 +126,9 @@ describe FeedsController do
         login_as admin
       end
       it 'dumps the cache file' do
-        File.exists?(cache_filename).should be
+        wait_until do
+          File.exists?(cache_filename)
+        end
         Rails.cache.should_receive(:delete)
         File.should_receive(:delete).with('_cached_feeds.html')
         FeedsController.any_instance.stub(:fetch_feeds)
