@@ -11,9 +11,6 @@ describe SiteStatistics do
 
     FactoryGirl.create_list(:studio, 2)
 
-    FactoryGirl.create(:event, starttime: 10.days.ago)
-    FactoryGirl.create(:event, starttime: 10.days.since)
-
     Timecop.travel(16.hours.ago)
     FactoryGirl.create(:artist, :active)
 
@@ -49,10 +46,10 @@ describe SiteStatistics do
   it 'has studio count' do
     stats.totals[:studios].should eql 2
   end
-  it 'has event info' do
-    stats.totals[:events_past].should eql Event.past.count
-    stats.totals[:events_future].should eql Event.future.count
-  end
+  # it 'has event info' do
+  #   stats.totals[:events_past].should eql Event.past.count
+  #   stats.totals[:events_future].should eql Event.future.count
+  # end
   it 'has open studios info' do
     stats.open_studios.length.should >= 5
   end

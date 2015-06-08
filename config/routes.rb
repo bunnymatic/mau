@@ -115,18 +115,23 @@ Mau::Application.routes.draw do
       get :markdown
       get :social_icons
     end
+    
     get :fans
     get :os_status
-    get :os_signups
     get :db_backups
     get :fetch_backup
     get :palette
     get :featured_artist
-    get :artists_per_day
-    get :art_pieces_per_day
-    get :favorites_per_day
     get :emaillist
     post :emaillist
+
+    namespace :stats do
+      get :artists_per_day
+      get :art_pieces_per_day
+      get :favorites_per_day
+      get :logins_per_day
+      get :os_signups
+    end
 
     match '/discount/markup' => 'discount#markup', as: :discount_processor
 

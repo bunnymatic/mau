@@ -1,13 +1,16 @@
 @import 'mau-mixins';
 .admin {
+  .graphs {
+    margin-bottom: 20px;
+  }
   .graph {
-    padding-bottom: 20px;
+    margin-bottom: 40px;
     h4 {
       margin-bottom: 0.5rem;
     }
-    .flot_graph {
-      width: 360px;
-      height: 280px;
+    .flot-graph {
+      width: 440px;
+      height: 380px;
       display: block;
       .flot-x-axis .flot-tick-label {
         @include transform( translateY(60%) translateX(0%) rotate(-45deg) );
