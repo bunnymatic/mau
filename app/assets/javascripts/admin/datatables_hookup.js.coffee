@@ -1,4 +1,3 @@
-#= require datatables
 jQuery ->
   tables = [ "#tags_index.js-data-tables",
              "#cms_contents_index.js-data-tables",
