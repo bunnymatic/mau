@@ -40,7 +40,6 @@ gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'draper'
 gem 'spinjs-rails'
-gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
 gem 'paperclip'
 gem 'aws-sdk-v1'
 
@@ -60,6 +59,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-angular-mailchimp'
   gem 'rails-assets-re-tree'
   gem 'rails-assets-ng-device-detector'
+  gem 'rails-assets-datatables'
 end
 gem 'ngannotate-rails'
 gem 'angular-rails-templates'
