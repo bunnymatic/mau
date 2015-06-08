@@ -35,7 +35,7 @@
       .desc__item.ngwrapper{ "ng-if" => "hasMedia()" }
         %h4.art-piece__info-title Medium
         .media
-          %medium{ "medium" => "artPiece.medium" }
+          %medium{ "medium-id" => "{{artPiece.medium.id}}", "medium-name" => "{{artPiece.medium.name}}" }
       .desc__item.ngwrapper{ "ng-if" => "hasTags()" }
         %h4.art-piece__info-title Tags
         .tags
