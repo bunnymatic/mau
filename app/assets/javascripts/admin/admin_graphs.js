@@ -1,3 +1,4 @@
+/*global  */
 /* mau admin js */
 
 jQuery(function() {
@@ -34,10 +35,11 @@ jQuery(function() {
       }
     };
 
-    GraphPerDay.load('#artists_per_day', '/admin/artists_per_day');
-    GraphPerDay.load('#favorites_per_day', '/admin/favorites_per_day');
-    GraphPerDay.load('#art_pieces_per_day', '/admin/art_pieces_per_day');
-    GraphPerDay.load('#os_signups', '/admin/os_signups');
+    GraphPerDay.load('#artists_per_day', '/admin/stats/artists_per_day'); 
+    GraphPerDay.load('#logins_per_day', '/admin/stats/logins_per_day');
+    GraphPerDay.load('#favorites_per_day', '/admin/stats/favorites_per_day');
+    GraphPerDay.load('#art_pieces_per_day', '/admin/stats/art_pieces_per_day');
+    GraphPerDay.load('#os_signups', '/admin/stats/os_signups');
 
   } // end if we're on the admin page with graphs
 });

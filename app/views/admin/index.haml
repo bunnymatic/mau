@@ -32,22 +32,26 @@
           %br
           %a{:href => '/catalog'} #{ current_open_studios.for_display } Catalog Index
     - if current_user.is_admin?
-      .pure-u-1-1.header
+      .pure-u-1-1.header.graphs
         %h3.title Graphs
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           %h4 Artists Per Day
-          #artists_per_day.flot_graph
+          #artists_per_day.flot-graph
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           %h4 ArtPieces Per Day
-          #art_pieces_per_day.flot_graph
+          #art_pieces_per_day.flot-graph
       .pure-u-1-1.pure-u-lg-1-2
         .graph
-          %h4 Favorites Per Day
-          #favorites_per_day.flot_graph
+          %h4 Logins Per Day
+          #logins_per_day.flot-graph
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           %h4 OS Signups
-          #os_signups.flot_graph
+          #os_signups.flot-graph
+      .pure-u-1-1.pure-u-lg-1-2
+        .graph
+          %h4 Favorites Per Day
+          #favorites_per_day.flot-graph
 
