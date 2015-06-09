@@ -66,8 +66,8 @@ class SiteStatistics
     add_statistic section, :artists_activated, Artist.active.where(queries_about_activation[section]).count
     add_statistic section, :fans_added, MAUFan.where(queries[section]).count
     add_statistic section, :favorites_added, Favorite.where(queries[section]).count
-    add_statistic section, :last_seen, User.where(queries_about_last_seen[section]).count
-    add_statistic section, :last_login, User.where(queries_about_login[section]).count
+    add_statistic section, :user_visits, User.where(queries_about_last_seen[section]).count
+    add_statistic section, :user_logins, User.where(queries_about_login[section]).count
   end
 
   def compute_totals

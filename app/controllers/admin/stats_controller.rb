@@ -31,8 +31,8 @@ module Admin
       render :json => result
     end
 
-    def logins_per_day
-      lpd = compute_logins_per_day
+    def user_visits_per_day
+      lpd = compute_user_visits_per_day
       result = { :series => [ { :data => lpd }],
                  :options => {
                    :mouse => { :track => true }
@@ -63,10 +63,10 @@ module Admin
       cur.select{|k,v| k.present?}.map{|k,v| [k.to_time, v].map(&:to_i)}
     end
 
-    def compute_logins_per_day
-      cur = User.where("adddate(current_login_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()").
-            group("date(current_login_at)").
-            order("current_login_at desc").count
+    def compute_user_visits_per_day
+      cur = User.where("adddate(last_request_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()").
+            group("date(last_request_at)").
+            order("last_request_at desc").count
       cur.select{|k,v| k.present?}.map{|k,v| [k.to_time, v].map(&:to_i)}
     end
 

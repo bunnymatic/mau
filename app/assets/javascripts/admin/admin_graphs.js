@@ -36,7 +36,7 @@ jQuery(function() {
     };
 
     GraphPerDay.load('#artists_per_day', '/admin/stats/artists_per_day'); 
-    GraphPerDay.load('#logins_per_day', '/admin/stats/logins_per_day');
+    GraphPerDay.load('#user_visits_per_day', '/admin/stats/user_visits_per_day');
     GraphPerDay.load('#favorites_per_day', '/admin/stats/favorites_per_day');
     GraphPerDay.load('#art_pieces_per_day', '/admin/stats/art_pieces_per_day');
     GraphPerDay.load('#os_signups', '/admin/stats/os_signups');

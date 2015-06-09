@@ -129,7 +129,7 @@ Mau::Application.routes.draw do
       get :artists_per_day
       get :art_pieces_per_day
       get :favorites_per_day
-      get :logins_per_day
+      get :user_visits_per_day
       get :os_signups
     end
 
