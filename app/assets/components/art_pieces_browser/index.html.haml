@@ -25,7 +25,17 @@
           %i.fa.fa-user{"ng-if" => '!hasArtistProfile()'}
         %a{ "ng-if" => 'artist.doing_open_studios', href: "/open_studios"}
           .os-violator
-    .desc
+    %section.artist__studio
+      %h4.studio-title Studio
+      .studio
+        = "{{::studio.name}}"
+      .studio-address.ngwrapper{ "ng-if" => "hasAddress()" }
+        .studio-street
+          = "{{::studio.streetAddress}}"
+          %a{ "ng-href" => "studio.mapUrl", "title" => "map" }
+            %i.fa.fa-map-marker
+        .studio-city = "{{::studio.city}}"
+    %section.desc
       .desc__item.ngwrapper{ "ng-if" => "hasDimensions()" }
         %h4.art-piece__info-title Dimensions
         .dimensions{ "ng-bind-html" => "artPiece.dimensions" }

@@ -1,4 +1,4 @@
-controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
+controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studiosService) ->
 
   initializeCurrent = ->
     if $scope.artPieces && $scope.initialArtPiece
@@ -59,7 +59,10 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService) ->
     artistId = $attrs.artistId
     artPieceId = $attrs.artPieceId
 
-    artistsService.get(artistId).$promise.then (data) -> $scope.artist = data
+    artistsService.get(artistId).$promise.then (data) ->
+      $scope.artist = data
+      studiosService.get(data.studio_id).$promise.then (data) -> $scope.studio = data
+      
     artPiecesService.list(artistId).$promise.then (data) -> $scope.artPieces = data
     artPiecesService.get(artPieceId).$promise.then (data) ->
       $scope.artPiece = data
