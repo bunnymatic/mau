@@ -34,8 +34,8 @@
           = "{{::artist.street_address}}"
           %a{ "ng-href" => "{{artist.map_url}}", "title" => "map", 'target' => '_blank' }
             %i.fa.fa-map-marker
-          .studio-city
-            = "{{::studio.city}}"
+        .studio-city
+          = "{{::studio.city}}"
     %section.desc
       .desc__item.ngwrapper{ "ng-if" => "hasDimensions()" }
         %h4.art-piece__info-title Dimensions
