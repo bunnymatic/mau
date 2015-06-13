@@ -33,16 +33,13 @@ art-pieces-browser {
     .push {
       margin-top: 20px;
     }
-    .desc h4 {
+    section h4 {
       font-size: 0.75rem;
       text-transform: uppercase;
       font-weight: $font-weight-light;
       margin-right: 8px;
       margin-bottom: 0.3rem;
       margin-top: 1.5rem;
-    }
-    .desc .desc__item:first-child {
-      h4 { margin-top: 0; }
     }
   }
   .art-piece__thumbs {
@@ -74,6 +71,9 @@ art-pieces-browser {
   }
   .card__controls, .desc {
     flex: 1;
+  }
+  .studio, .studio-address, .studio-street {
+    line-height: 1.4rem;
   }
   .browser {
     margin-top: 40px;

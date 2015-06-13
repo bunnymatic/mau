@@ -1,6 +1,6 @@
 class ArtPieceTagsController < ApplicationController
 
-  before_filter :admin_required, :except => [ :index, :show, :autosuggest ]
+  before_filter :admin_required, except: [ :index, :show, :autosuggest ]
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']
@@ -13,7 +13,7 @@ class ArtPieceTagsController < ApplicationController
       inp = q.downcase
       tags = tags.select{|tag| tag['value'].downcase.starts_with? inp}
     end
-    render :json => tags.map{|t| t['value']}
+    render json: tags.map{|t| t['value']}, root: false
   end
 
   def index
@@ -21,7 +21,7 @@ class ArtPieceTagsController < ApplicationController
       format.html { redirect_to_most_popular_tag }
       format.json {
         tags = ArtPieceTag.all
-        render :json => tags
+        render json: tags
       }
     end
   end
@@ -42,8 +42,8 @@ class ArtPieceTagsController < ApplicationController
     @tag_cloud_presenter = TagCloudPresenter.new(ArtPieceTag, @tag, mode)
     @paginator = ArtPieceTagPagination.new(@tag_presenter.art_pieces, @tag, page, mode)
 
-    @by_artists_link = art_piece_tag_url(@tag, { :m => 'a' })
-    @by_pieces_link = art_piece_tag_url(@tag, { :m => 'p' })
+    @by_artists_link = art_piece_tag_url(@tag, { m: 'a' })
+    @by_pieces_link = art_piece_tag_url(@tag, { m: 'p' })
   end
 
 
@@ -53,7 +53,7 @@ class ArtPieceTagsController < ApplicationController
     unless tags
       tags = ArtPieceTag.all.map{|t| { "value" => t.name, "info" => t.id }}
       if tags.present?
-        SafeCache.write(AUTOSUGGEST_CACHE_KEY, tags, :expires_in => AUTOSUGGEST_CACHE_EXPIRY)
+        SafeCache.write(AUTOSUGGEST_CACHE_KEY, tags, expires_in: AUTOSUGGEST_CACHE_EXPIRY)
       end
     end
     tags

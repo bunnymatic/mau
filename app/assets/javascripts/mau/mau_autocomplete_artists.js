@@ -6,7 +6,7 @@ jQuery(function() {
       url: "/artists/suggest",
       dataType: 'json',
       success: function(data) {
-        tags = _.map(data, function(item) { return item.value }),
+        tags = _.map(data.artists || [], function(item) { return item.value }),
         event_artist_list.select2({
           tags: tags,
           minimumInputLength: 3,

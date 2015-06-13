@@ -48,7 +48,7 @@ Mau::Application.configure do
 
 
   config.action_mailer.default_url_options = {
-    :host => 'acceptance.missionartistsunited.com'
+    :host => 'mau.rcode5.com'
   }
 
 end

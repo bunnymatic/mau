@@ -1,8 +1,8 @@
 require 'studio'
 class StudiosController < ApplicationController
 
-  before_filter :load_studio_list, :only => [:index, :show]
-  before_filter :load_studio, :only => [:edit, :update, :destroy, :show,
+  before_filter :load_studio_list, only: [:index, :show]
+  before_filter :load_studio, only: [:edit, :update, :destroy, :show,
                                         :unaffiliate_artist, :upload_profile, :add_profile]
 
   def index
@@ -13,7 +13,7 @@ class StudiosController < ApplicationController
     respond_to do |format|
       format.html {}
       format.json {
-        render :json => @studio_list
+        render json: @studio_list
       }
     end
   end
@@ -23,14 +23,14 @@ class StudiosController < ApplicationController
       flash[:error] = "The studio you are looking for doesn't seem to exist. Please use the links below."
       redirect_to studios_path and return
     end
-    @studios = @studio_list.map{|s| StudioPresenter.new(view_context, s)}
-    @studio = StudioPresenter.new(view_context, @studio)
-
-    @page_title = @studio.page_title
-
+    
     respond_to do |format|
-      format.html { }
-      format.json { render :json => @studio.studio.to_json(:methods => 'artists') }
+      format.html {
+        @studios = @studio_list.map{|s| StudioPresenter.new(view_context, s)}
+        @studio = StudioPresenter.new(view_context, @studio)
+        @page_title = @studio.page_title
+      }
+      format.json { render json: @studio.as_json(methods: 'artists') }
     end
   end
 

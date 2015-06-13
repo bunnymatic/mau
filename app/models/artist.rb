@@ -93,16 +93,6 @@ class Artist < User
   end
   delegate :update_os_participation, :to => :artist_info
 
-  def to_json opts = {}
-    default_opts = {
-      :except => [:password, :crypted_password, :remember_token, :remember_token_expires_at,
-                  :salt, :mailchimp_subscribed_at, :deleted_at, :activated_at, :created_at,
-                  :max_pieces, :updated_at, :activation_code, :reset_code],
-      :methods => [:full_name, :doing_open_studios, :profile_images]
-    }
-    super(default_opts.merge(opts))
-  end
-
   def at_art_piece_limit?
     art_pieces.select(&:persisted?).count > (max_pieces || MAX_PIECES)
   end

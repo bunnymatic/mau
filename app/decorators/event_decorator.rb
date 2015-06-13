@@ -1,6 +1,13 @@
-class EventDecorator < Draper::Decorator
-  delegate_all
+class EventDecorator < SimpleDelegator
 
+  def self.model_name
+    Event.model_name
+  end
+
+  def object
+    __getobj__
+  end
+  
   def start_date
     parse_date(starttime)
   end

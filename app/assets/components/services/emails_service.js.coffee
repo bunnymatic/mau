@@ -10,14 +10,14 @@ emailsService = ngInject ($resource) ->
         cache: false
         responseType: 'json'
         transformResponse: (data, header) ->
-          d = angular.fromJson(data)
-          d? && _.pluck d, 'email'
+          angular.fromJson(data).emails || []
       get:
         isArray: false
         method: 'GET'
         cache: true
         responseType: 'json'
         transformResponse: (data, header) ->
+          console.log('get', data)
           angular.fromJson(data)?.email
       save:
         method: 'POST'

@@ -20,7 +20,7 @@ describe ArtPiecesController do
         get :index, format: 'json', artist_id: artist.id
       end
       it_should_behave_like 'successful json'
-      it 'returns all active artists' do
+      it 'returns art from active artists' do
         j = JSON.parse(response.body)
         j.count.should eql artist.art_pieces.count
       end
@@ -85,53 +85,11 @@ describe ArtPiecesController do
       end
     end
     context 'format=json' do
-      let(:parsed) { JSON.parse(response.body)['art_piece'] }
       before do
         get :show, id: art_piece.id, format: :json
       end
 
       it_should_behave_like 'successful json'
-
-      it 'includes the fields we care about' do
-        %w( id filename title dimensions artist_id
-            medium_id year image_height image_width order
-            tags medium favorites_count
-            image_dimensions image_files artist_name ).each do |expected|
-          expect(parsed).to have_key expected
-        end
-      end
-
-      it 'includes paths to the images' do
-        sizes = ['cropped_thumb','large','medium','original', 'small','thumb']
-        files = parsed['image_files']
-        expect(files.keys.sort).to eql sizes
-        sizes.each do |sz|
-          expect(files[sz]).to eql art_piece.get_path(sz)
-        end
-      end
-
-      it 'includes image dimensions' do
-        sizes = ['cropped_thumb','large','medium','original', 'small','thumb']
-        dimensions = parsed['image_dimensions']
-        expect(dimensions.keys.sort).to eql sizes
-        sizes.each do |sz|
-          expect(dimensions[sz]).to eql art_piece.compute_dimensions[sz]
-        end
-      end
-
-      it 'includes the tags' do
-        parsed['tags'].should be_a_kind_of Array
-        parsed['tags'].first['name'].should eql art_piece.tags.first.name
-      end
-      it 'includes the artists name' do
-        parsed['artist_name'].should eql html_encode(art_piece.artist.full_name)
-      end
-      it 'includes the art piece title' do
-        parsed['title'].should eql html_encode(art_piece.title)
-      end
-      it 'includes the medium' do
-        parsed['medium']['name'].should eql art_piece.medium.name
-      end
     end
   end
 

@@ -40,7 +40,7 @@ describe ArtPieceTagsController do
         end
         it_should_behave_like 'successful json'
         it 'returns all tags as json' do
-          j = JSON.parse(response.body)
+          j = JSON.parse(response.body)['art_piece_tags']
           j.should have(ArtPieceTag.count).tags
         end
       end

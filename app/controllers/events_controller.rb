@@ -11,9 +11,6 @@ class EventsController < ApplicationController
       format.html {
         @events = events
       }
-      format.json  {
-        render :json => raw_events
-      }
       format.atom {
         @title = "MAU Events"
         # the news items
@@ -24,7 +21,9 @@ class EventsController < ApplicationController
         render :layout => false
       }
       # we want the RSS feed to redirect permanently to the ATOM feed
-      format.rss { redirect_to events_path(:format => :atom), :status => :moved_permanently }
+      format.rss {
+        redirect_to events_path(:format => :atom), :status => :moved_permanently
+      }
     end
   end
 
@@ -36,51 +35,49 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = Event.new.decorate
+    @event = EventDecorator.new Event.new
     render 'new_or_edit'
   end
 
   # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id]).decorate
+    @event = EventDecorator.new Event.find(params[:id])
     render 'new_or_edit'
   end
 
   # POST /events
   def create
-    @event = Event.new(event_params(true))
-    if @event.save
-      EventMailer.event_added(@event).deliver!
+    event = Event.new event_params(true)
+    if event.save
+      EventMailer.event_added(event).deliver!
       redirect_after_create
     else
-      @event = @event.decorate
+      @event = EventDecorator.new event
       render "new_or_edit"
     end
   end
 
   # PUT /events/1
   def update
-    @event = Event.find(params[:id])
+    event = Event.find(params[:id])
     event_details = event_params(false)
     if event_details[:artist_list]
       artist_list = event_details[:artist_list]
       event_details.delete :artist_list
     end
 
-    if @event.update_attributes(event_details)
+    if event.update_attributes(event_details)
       flash[:notice] = 'Event was successfully updated.'
       redirect_to(admin_events_path)
     else
-      @event = @event.decorate
+      @event = EventDecorator.new event
       render "new_or_edit", :layout => 'admin'
     end
   end
 
   # DELETE /events/1
   def destroy
-    @event = Event.find(params[:id])
-    @event.destroy
-
+    Event.find(params[:id]).destroy
     redirect_to(events_url)
   end
 

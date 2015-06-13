@@ -17,7 +17,7 @@ class ArtPiecesController < ApplicationController
 
   def index
     artist = Artist.active.find(params[:artist_id])
-    render json: (artist.art_pieces.map{|ap| (ArtPieceJsonPresenter.new ap).to_json()})
+    render json: artist.art_pieces, root: false
   end
 
   def show
@@ -29,8 +29,7 @@ class ArtPiecesController < ApplicationController
         render action: 'show'
       }
       format.json {
-        art_piece = ArtPieceJsonPresenter.new(@art_piece)
-        render json: art_piece.to_json
+        render json: @art_piece
       }
     end
 

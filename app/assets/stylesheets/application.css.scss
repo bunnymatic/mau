@@ -36,3 +36,13 @@
   bottom: 2px;
 }
 
+noscript #noscript {
+  width: 60%;
+  margin: 20px auto;
+  background-color: $error_red;
+  color: white;
+  padding: 30px;
+  a {
+    color: $xlightgray;
+  }
+}
