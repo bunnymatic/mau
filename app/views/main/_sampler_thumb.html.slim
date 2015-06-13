@@ -1,10 +1,10 @@
--# expects sampler_thumb as the art piece from the render collection call
+/ expects sampler_thumb as the art piece from the render collection call
 - clz = (sampler_thumb_counter == 0) ? 'first' : ''
 = link_to sampler_thumb.artist_path, class: "sampler__thumb js-sampler__thumb #{clz}" do
   - if sampler_thumb.artist.doing_open_studios
-    .os-violator{ title: 'Open Studios Participant!' }
+    .os-violator title='Open Studios Participant!'
 
-  .image{ style: "background-image: url(#{sampler_thumb.get_path(:medium)});" }
+  .image( style = "background-image: url(#{sampler_thumb.get_path(:medium)});" )
   .desc
     .name
       = sampler_thumb.artist_name

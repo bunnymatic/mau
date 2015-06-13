@@ -6,13 +6,13 @@
     .link-section.main
       = link_to admin_path, title: 'Admin Dashboard' do
         = fa_icon('dashboard')
-        %span.icon-with-text dashboard
-    %ul{:class => 'link-groups'}
+        span.icon-with-text dashboard
+    ul.link-groups
       - nav_presenter.links.each do |sxn, entries|
-        %li
+        li
           - if sxn
             .admin_nav__title #{sxn}
-          %ul.link-section
+          ul.link-section
             - entries.each do |key, opts|
-              %li
+              li
                 = link_to opts[:display], opts[:link]
