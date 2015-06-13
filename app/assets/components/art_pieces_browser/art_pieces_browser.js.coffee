@@ -44,6 +44,8 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studios
     $event.preventDefault()
     $scope.current = $index
 
+  $scope.hasAddress = () ->
+    !!$scope.artist?.street_address
   $scope.hasYear = () ->
     !!$scope.artPiece?.year
   $scope.hasDimensions = () ->
