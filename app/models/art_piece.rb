@@ -46,17 +46,17 @@ class ArtPiece < ActiveRecord::Base
   validates_length_of       :title,    :within => 2..80
 
   # used by Api Controller, but not ArtPieceJsonPresenter
-  def to_json(opts={})
-    opts[:methods] ||= []
-    opts[:except] ||= []
-    if opts[:methods].is_a?(Array)
-      opts[:methods] << :image_urls
-    end
-    if opts[:except].is_a?(Array)
-      #opts[:except] << :filename
-    end
-    super opts
-  end
+  # def to_json(opts={})
+  #   opts[:methods] ||= []
+  #   opts[:except] ||= []
+  #   if opts[:methods].is_a?(Array)
+  #     opts[:methods] << :image_urls
+  #   end
+  #   if opts[:except].is_a?(Array)
+  #     #opts[:except] << :filename
+  #   end
+  #   super opts
+  # end
 
   def tags
     super.alpha

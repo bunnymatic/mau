@@ -20,8 +20,8 @@ describe ArtPiecesController do
         get :index, format: 'json', artist_id: artist.id
       end
       it_should_behave_like 'successful json'
-      it 'returns all active artists' do
-        j = JSON.parse(response.body)
+      it 'returns art from active artists' do
+        j = JSON.parse(response.body)['art_pieces']
         j.count.should eql artist.art_pieces.count
       end
     end

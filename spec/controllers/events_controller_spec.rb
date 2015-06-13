@@ -220,7 +220,7 @@ describe EventsController do
       end
       it { expect(response).to be_success }
       it 'pulls the event' do
-        assigns(:event).object.should eql Event.last
+        assigns(:event).should eql Event.last
       end
       it 'renders new_or_edit' do
         expect(response).to render_template 'new_or_edit'

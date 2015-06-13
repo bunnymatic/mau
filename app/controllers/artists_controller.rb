@@ -34,7 +34,7 @@ class ArtistsController < ApplicationController
         end
       }
       format.json {
-        render json: Artist.active
+        render json: Artist.active, root: false
       }
     end
   end
@@ -86,9 +86,9 @@ class ArtistsController < ApplicationController
     inp = (params[:input] || params[:q]).try(:downcase)
     if inp
       # filter with input prefix
-      names = (inp.present? ? names.select{|name| name['value'] && name['value'].downcase.include?(inp)} : [])
+      names = (inp.present? ? names.select{|name| %r|#{inp}|i =~ name['value']} : [])
     end
-    render json: names
+    render json: names, root: false
   end
 
   def destroyart
@@ -276,7 +276,10 @@ class ArtistsController < ApplicationController
   def fetch_artists_for_autosuggest
     artist_names = SafeCache.read(AUTOSUGGEST_CACHE_KEY)
     unless artist_names
-      artist_names = Artist.active.map{|a| { 'value' => a.get_name(true), 'info' => a.id } }
+      artist_names = Artist.active.map do |a|
+        name = a.get_name(true)
+        { 'value' => a.get_name(true), 'info' => a.id } if name.present?
+      end.compact
       if artist_names.present?
         SafeCache.write(AUTOSUGGEST_CACHE_KEY, artist_names, expires_in: AUTOSUGGEST_CACHE_EXPIRY)
       end

@@ -1,6 +1,31 @@
 require 'pp'
+require 'open-uri'
 namespace :debug do
 
+  desc 'test json endpoints'
+  task test_json_endpoints: [:environment] do
+    host = Rails.application.config.action_mailer.default_url_options[:host] || 'localhost:3000'
+    dir = File.join(Rails.root, 'tmp/recorded_json_endpoints')
+    FileUtils.mkdir_p dir unless Dir.exists?(dir)
+    endpoints = %w|/art_piece_tags.json /art_piece_tags/autosuggest /art_pieces.json /art_pieces/1.json  /artists.json /artists/1.json /artists/suggest /events.json /search.json?keywords=a /studios.json /studio/1.json  /api/media /api/media/1 /api/artists /api/artists/1|
+    endpoints.each do |endpoint|
+      begin
+        fname = endpoint.gsub(/[[:punct:]]/, '_').gsub /^_/, ''
+        url = File.join("http://#{host}", "#{endpoint}?format=json")
+        full_name = File.join( dir, "#{fname}.json")
+        url = URI( url )
+        puts "Pulling #{url} to #{full_name}"
+        fp = File.open(full_name, 'w')
+        fp.write(JSON.pretty_unparse(JSON.parse(open(url).read)))
+        fp.close
+      rescue JSON::ParserError => jpe
+        puts "Failed to parse #{url}"
+      rescue OpenURI::HTTPError => oe
+        puts "Failed to fetch #{url}: #{oe}"
+      end
+    end
+  end
+  
   desc 'create open studios event'
   task create_os_event: [:environment] do
     os = OpenStudiosEvent.current

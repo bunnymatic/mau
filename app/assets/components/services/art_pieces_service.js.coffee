@@ -8,8 +8,6 @@ artPiecesService = ngInject ($resource) ->
         method: 'GET'
         cache: true
         isArray: true
-        transformResponse: (data, header) ->
-          _.pluck(angular.fromJson(data), 'art_piece')
     }
   )
   artPiece = $resource(

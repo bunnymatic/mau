@@ -62,9 +62,9 @@ class Studio < ActiveRecord::Base
     end
   end
 
-  def to_json opts = {}
-    super({except: [:created_at, :updated_at]}.merge(opts))
-  end
+  # def to_json opts = {}
+  #   super({except: [:created_at, :updated_at]}.merge(opts))
+  # end
 
   # return faux indy studio
   def self.indy
