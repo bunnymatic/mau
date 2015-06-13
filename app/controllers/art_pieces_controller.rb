@@ -29,8 +29,7 @@ class ArtPiecesController < ApplicationController
         render action: 'show'
       }
       format.json {
-        art_piece = ArtPieceJsonPresenter.new(@art_piece)
-        render json: art_piece.to_json
+        render json: @art_piece
       }
     end
 

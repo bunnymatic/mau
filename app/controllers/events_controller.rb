@@ -11,9 +11,6 @@ class EventsController < ApplicationController
       format.html {
         @events = events
       }
-      format.json  {
-        render :json => raw_events
-      }
       format.atom {
         @title = "MAU Events"
         # the news items

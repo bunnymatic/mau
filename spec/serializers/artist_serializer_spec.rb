@@ -18,5 +18,14 @@ describe ArtistSerializer do
     it "includes full name" do
       JSON.parse(serializer.to_json)['artist']['full_name'].should eql artist.full_name
     end
+    it 'includes the street address' do
+      JSON.parse(serializer.to_json)['artist']['street_address'].should eql artist.address_hash.parsed.street
+    end
+    it 'includes the city' do
+      JSON.parse(serializer.to_json)['artist']['city'].should eql artist.address_hash.parsed.city
+    end
+    it 'includes a url for the map' do
+      JSON.parse(serializer.to_json)['artist']['map_url'].should eql artist.map_link
+    end
   end
 end

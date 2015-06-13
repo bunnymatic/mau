@@ -28,19 +28,6 @@ describe EventsController do
         end
 
       end
-      context '.json' do
-        before do
-          get :index, :format => 'json'
-        end
-        it_should_behave_like 'successful json'
-        it 'returns json list of events' do
-          j = JSON.parse(response.body)
-          expect(j).to have_at_least(1).event
-          expect(j.count).to eql Event.published.count
-        end
-
-      end
-
       context '.rss' do
         before do
           get :index, :format => 'rss'
@@ -48,7 +35,7 @@ describe EventsController do
         it { expect(response).to redirect_to events_path(:format => :atom) }
       end
 
-      context '.rss' do
+      context '.atom' do
         before do
           get :index, :format => 'atom'
         end

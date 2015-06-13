@@ -55,26 +55,4 @@ describe Studio do
     end
   end
 
-  describe 'to_json' do
-    [:created_at, :updated_at].each do |field|
-      it "does not include #{field} by default" do
-        JSON.parse(studio.to_json)['studio'].should_not have_key field.to_s
-      end
-    end
-    it "includes name" do
-      JSON.parse(studio.to_json)['studio']['name'].should eql studio.name
-    end
-    it 'includes created_at if we except other fields' do
-      s = JSON.parse(studio.to_json(:except => :name))
-      s['studio'].should have_key 'created_at'
-      s['studio'].should_not have_key 'name'
-    end
-    it 'includes the artist list if we ask for it' do
-      a = FactoryGirl.create(:artist, :active, :with_studio)
-      studio = a.studio
-      s = JSON.parse(studio.to_json methods: 'artists')
-      s['studio']['artists'].should be_a_kind_of Array
-      s['studio']['artists'][0]['artist']['firstname'].should eql studio.artists.first.firstname
-    end
-  end
 end

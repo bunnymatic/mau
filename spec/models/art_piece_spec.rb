@@ -105,20 +105,4 @@ describe ArtPiece do
     end
   end
 
-  describe 'to_json' do
-    before do
-      @ap = JSON.parse(art_piece.to_json)['art_piece']
-    end
-    it 'includes the filename' do
-      @ap.keys.should include 'filename'
-    end
-    it 'includes paths to all art pieces' do
-      @ap.keys.should include 'image_urls'
-      ['small','medium','large'].each do |sz|
-        @ap['image_urls'].keys.should include sz
-        @ap['image_urls'][sz].should include Conf.site_url
-      end
-      @ap['image_urls']['small'].should == "http://#{Conf.site_url}/artistdata/#{artist.id}/imgs/s_#{art_piece.filename}"
-    end
-  end
 end
