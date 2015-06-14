@@ -1,7 +1,7 @@
-javascript:
-  jQuery(function() { jQuery('.feedback_link').feedback(); });
+script
+  | jQuery(function() { jQuery('.feedback_link').feedback(); });
   - if Rails.env.test?
-    jQuery.fx.off = true;
+    | jQuery.fx.off = true;
 
 = yield :extra_javascript
 
