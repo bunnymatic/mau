@@ -1,0 +1,24 @@
+.pure-g
+  .pure-u-1-1.header.offset-content
+    h2.title #{open_studios_page_title}
+.pure-g
+  .pure-u-1-1.pure-u-md-2-3.pure-u-lg-3-5.offset-content
+    = render_cms_content @presenter.packaged_summary
+    = render_cms_content @presenter.packaged_preview_reception
+    .section
+      h4 Participating Group Studios
+      ul.participant_list
+        - @presenter.participating_studios.each do |s|
+          li
+            = link_to(s.name,s)
+            '
+            | (#{pluralize(s.artists.open_studios_participants.count,"artist")}) &mdash; #{s.street}
+    .section
+      h4 Participating Independent Artists
+      ul.participant_list
+        - @presenter.participating_indies.each do |a|
+          - street = (a.has_address? ? " &mdash; #{a.address_hash[:parsed][:street]}".html_safe : '')
+          li
+            = link_to(a.get_name, a)
+            = street
+      = render :partial => '/main/info_footer'
