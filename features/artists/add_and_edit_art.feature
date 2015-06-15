@@ -14,6 +14,12 @@ Scenario:
   Then I see that my art was added
   And I see my art
 
+Scenario: 
+  When I visit my home page
+  And I click on "My Art" in the sidebar menu
+  And I click "Add"
+  Then I see that my art was not added
+
 @javascript
 Scenario: 
   When I visit my home page

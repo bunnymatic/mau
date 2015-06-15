@@ -27,6 +27,13 @@ Then /^I see that my art was added$/ do
   expect(page).to have_content "Mona Lisa"
 end
 
+Then /^I see that my art was not added$/ do
+  within '.error-msg' do
+    expect(page).to have_content "Title can't be blank"
+  end
+  expect(page).to have_css "#art_piece_title_input.error"
+end
+
 When(/^I rearrange my art with drag and drop$/) do
   expect(@artist.art_pieces).to be_present
   expect(page).to have_selector('.sortable')

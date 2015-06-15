@@ -52,6 +52,7 @@ class ArtPiecesController < ApplicationController
     # if file to upload - upload it first
     upload = params[:upload]
     if !params[:upload]
+      @artist = ArtistPresenter.new(artist)
       create_art_piece_failed_empty_image(art_piece) and return
     end
 
@@ -64,10 +65,12 @@ class ArtPiecesController < ApplicationController
           flash[:notice] = "You've got new art!"
           Messager.new.publish "/artists/#{artist.id}/art_pieces/create", "added art piece"
         else
+          @artist = ArtistPresenter.new(artist)
           create_art_piece_failed(art_piece) and return
         end
       end
     rescue Exception => ex
+      @artist = ArtistPresenter.new(artist)
       create_art_piece_failed_upload(art_piece) and return
     end
 
