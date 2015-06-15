@@ -44,7 +44,6 @@ class ArtPiecesController < ApplicationController
     artist = current_artist
     redirect_to(artist) and return if commit_is_cancel
 
-
     prepare_tags_params
     art_piece = artist.art_pieces.build(art_piece_params)
     valid = art_piece.valid?
@@ -142,7 +141,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def art_piece_params
-    parameters = params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description)
+    parameters = params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description, :position)
     if params[:art_piece][:tags]
       parameters.merge({tags: params[:art_piece][:tags]})
     else

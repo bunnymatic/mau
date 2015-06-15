@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150519060608) do
+ActiveRecord::Schema.define(:version => 20150615063552) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20150519060608) do
   create_table "art_pieces", :force => true do |t|
     t.string   "filename"
     t.string   "title"
+    t.text     "description"
     t.string   "dimensions"
     t.integer  "artist_id"
     t.datetime "created_at"
@@ -38,7 +39,7 @@ ActiveRecord::Schema.define(:version => 20150519060608) do
     t.integer  "year"
     t.integer  "image_height", :default => 0
     t.integer  "image_width",  :default => 0
-    t.integer  "order"
+    t.integer  "position",     :default => 0
   end
 
   add_index "art_pieces", ["artist_id"], :name => "index_art_pieces_on_artist_id"
@@ -95,8 +96,8 @@ ActiveRecord::Schema.define(:version => 20150519060608) do
 
   create_table "blacklist_domains", :force => true do |t|
     t.string   "domain"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "cms_documents", :force => true do |t|
@@ -150,8 +151,8 @@ ActiveRecord::Schema.define(:version => 20150519060608) do
     t.datetime "published_at"
     t.datetime "reception_starttime"
     t.datetime "reception_endtime"
-    t.datetime "created_at",          :default => '2014-06-30 18:01:30'
-    t.datetime "updated_at",          :default => '2014-06-30 18:01:30'
+    t.datetime "created_at",          :default => '2014-05-31 19:44:53'
+    t.datetime "updated_at",          :default => '2014-05-31 19:44:54'
   end
 
   create_table "favorites", :force => true do |t|
@@ -217,8 +218,8 @@ ActiveRecord::Schema.define(:version => 20150519060608) do
     t.integer  "count"
     t.string   "oskey"
     t.date     "recorded_on"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "promoted_events", :force => true do |t|
@@ -294,8 +295,6 @@ ActiveRecord::Schema.define(:version => 20150519060608) do
     t.string   "email_attrs",                              :default => "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
     t.string   "type",                                     :default => "Artist"
     t.date     "mailchimp_subscribed_at"
-    t.string   "pinterest"
-    t.string   "instagram"
     t.string   "persistence_token"
     t.integer  "login_count",                              :default => 0,                                                                :null => false
     t.datetime "last_request_at"

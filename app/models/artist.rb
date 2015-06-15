@@ -28,8 +28,6 @@
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
-#  pinterest                 :string(255)
-#  instagram                 :string(255)
 #  persistence_token         :string(255)
 #  login_count               :integer          default(0), not null
 #  last_request_at           :datetime
@@ -74,7 +72,7 @@ class Artist < User
   has_one :artist_info
   accepts_nested_attributes_for :artist_info
 
-  has_many :art_pieces, :order => "`order` ASC, `id` DESC"
+  has_many :art_pieces, :order => "`position` ASC, `created_at` desc"
 
   before_create :make_activation_code
 

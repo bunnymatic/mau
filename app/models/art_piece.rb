@@ -5,6 +5,7 @@
 #  id           :integer          not null, primary key
 #  filename     :string(255)
 #  title        :string(255)
+#  description  :text
 #  dimensions   :string(255)
 #  artist_id    :integer
 #  created_at   :datetime
@@ -13,7 +14,7 @@
 #  year         :integer
 #  image_height :integer          default(0)
 #  image_width  :integer          default(0)
-#  order        :integer
+#  position     :integer          default(0)
 #
 # Indexes
 #
@@ -37,7 +38,6 @@ class ArtPiece < ActiveRecord::Base
   after_destroy :clear_tags_and_favorites
   after_save :remove_old_art
   after_save :clear_caches
-  #default_scope order('`order`')
 
   NEW_ART_CACHE_KEY = 'newart'
   NEW_ART_CACHE_EXPIRY = Conf.cache_expiry['new_art'].to_i
@@ -143,7 +143,7 @@ class ArtPiece < ActiveRecord::Base
       cur = artist.art_pieces.length
       del = 0
       while cur && max && (cur > max)
-        artist.art_pieces.first.destroy
+        artist.art_pieces.last.destroy
         cur = cur - 1
         del = del + 1
       end

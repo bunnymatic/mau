@@ -116,9 +116,8 @@ class ArtistsController < ApplicationController
       neworder = params[:neworder].split(',')
       neworder.each_with_index do |apid, idx|
         a = ArtPiece.where(id: apid, artist_id: current_user.id).first
-        a.update_attribute(:order, idx) if a
+        a.update_attribute(:position, idx) if a
       end
-      flash[:notice] = "Your images have been reordered."
       Messager.new.publish "/artists/#{current_artist.id}/art_pieces/arrange", "reordered art pieces"
     else
       flash[:error] ="There was a problem interpreting the input parameters.  Please try again."
@@ -126,6 +125,7 @@ class ArtistsController < ApplicationController
     if request.xhr?
       render json: true
     else
+      flash[:notice] = "Your images have been reordered."
       redirect_to artist_path(current_user)
     end
   end

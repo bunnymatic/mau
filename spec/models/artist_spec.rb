@@ -328,8 +328,15 @@ describe Artist do
       artist.representative_piece.title.should be_present
     end
 
-    it "returns art_pieces in id order" do
-      artist.art_pieces.should eql artist.art_pieces.sort_by(&:id).reverse
+    it "returns art_pieces in by created at if there is no order" do
+      artist.art_pieces.should eql artist.art_pieces.sort_by(&:created_at).reverse
+    end
+
+    it "returns art_pieces in by created at, then order if there is order" do
+      artist.art_pieces.reverse.each_with_index do |ap, idx|
+        ap.update_attribute :position, idx
+      end
+      expect(artist.art_pieces.map(&:position)).to be_strictly_decreasing
     end
   end
 
