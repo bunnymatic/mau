@@ -1,0 +1,11 @@
+/ expects art_piece as art_piece_presenter
+li.art-card.pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-3.pure-u-lg-1-4.pure-u-xl-1-5
+  .image style="background-image: url(#{art_piece.get_path(:medium)})"
+  .desc
+    .name
+      = art_piece.title
+    .pure-controls
+      label for="art_#{art_piece.id}"
+        = check_box( 'art', art_piece.id, options = { :class => "checker" }, checked_value = "1", unchecked_value = "0")
+        span Delete?
+

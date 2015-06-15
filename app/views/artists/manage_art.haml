@@ -39,7 +39,7 @@
           Drag and Drop your art into the arrangement you'd like.
         %p
           The top left image will be used to represent your art in search results, the home page and across the site.
-      .pure-u-1-1.arrange.padded-content
+      .pure-u-1-1.arrange
         = form_tag setarrangement_artists_path, id: 'arrange_art_form', 'data-remote' => true do
           %input{type: 'hidden', name: 'artist', value: @artist.id}
           %ul.js-sortable
@@ -49,7 +49,7 @@
     .pure-g
       .pure-u-1-1.help-txt.padded-content
         %p Check the "delete" checkbox for all the pieces you want to remove (permanently), and click the "Delete" button below.
-      .pure-u-1-1.padded-content
+      .pure-u-1-1
         = form_tag "/artists/destroyart" do
           %input{ type: "hidden", name: "artist", value: @artist.id }
           #delete_art

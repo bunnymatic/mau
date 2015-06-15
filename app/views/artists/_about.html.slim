@@ -1,19 +1,19 @@
--# expects artist as artist_presenter
+/ expects artist as artist_presenter
 .pure-g
   .pure-u-1-1.pure-u-lg-1-2.artist-profile
     .pure-g
       .pure-u-1-1
-        %section.artist__image
+        section.artist__image
           = render '/artist_profile_image', artist: artist
           - if artist.doing_open_studios?
             = link_to open_studios_path do
               .os-violator
       .pure-u-1-1
-        %section.artist__studio
+        section.artist__studio
           - if logged_in? && (artist.artist == current_user)
             .card__controls
               .artist-profile__edit
-                = link_to edit_artist_path(artist, anchor: 'profile_picture'), title: 'edit your profile' do
+                = link_to edit_artist_path(artist, anchor: 'profile_picture'), title: 'edit your profile'
                   .fa.fa-icon.fa-edit
           .header Studio
           .body
@@ -21,61 +21,61 @@
               .studio-name
                 = link_to artist.studio_name, artist.studio
               .studio-address
-                #{artist.studio.street} #{artist.studio_number}
+                | #{artist.studio.street} #{artist.studio_number}
                 - if artist.has_address?
                   = link_to artist.map_url, title: :map do
-                    %i.fa.fa-map-marker
+                    i.fa.fa-map-marker
                 .studio-city #{artist.studio.city}
             - else
               .studio-name #{IndependentStudio.new.name.singularize}
               .studio-address
-                #{artist.street}
+                | #{artist.street}
                 - if artist.has_address?
                   = link_to artist.map_url, title: :map do
-                    %i.fa.fa-map-marker
+                    i.fa.fa-map-marker
                   .studio-city #{artist.city}
         .pure-button.pure-button-sm#js-hide-artist-details Hide Artist Details
   .pure-u-1-1.pure-u-lg-1-2.artist-profile.artist-details
-    %section.artist__bio
+    section.artist__bio
       - if logged_in? && (artist.artist == current_user)
         .card__controls
           .artist-profile__edit
             = link_to edit_artist_path(artist, anchor: 'bio'), title: 'edit this profile' do
               .fa.fa-icon.fa-edit
       .header Artist's Statement
-      .bio-container{ class: artist.has_bio? ? '' : 'empty' }
+      .bio-container(class=(artist.has_bio? ? '' : 'empty'))
         = artist.bio_html
-    .artist__bio-read-more.js-read-more{title: 'read more'}
+    .artist__bio-read-more.js-read-more(title='read more')
       .read-more-fade-out
       = link_to '#' do
-        %span.text Read More
+        span.text Read More
         = fa_icon 'chevron-circle-down'
-    %section.media
+    section.media
       .header Media
-      %ul.artist__media
+      ul.artist__media
         - artist.media.each do |m|
-          %li
+          li
             = link_to(m.name, m, class: "")
-    %section.links
+    section.links
       .header Links
       .artist__links
         - artist.links_html.each do |anchor|
           .link
             = anchor
     .pure-u-1-1
-      %section.favorites
+      section.favorites
         .header
           = link_to favorites_path(artist) do
-            Who I
+            | Who I
             = fa_icon 'heart'
         = render partial: "/users/favorite_thumbs", locals: { collection: artist.what_i_favorite }
     .pure-u-1-1
-      %section.favorites
+      section.favorites
         .header
           = link_to favorites_path(artist) do
-            Who
+            | Who
             = fa_icon 'heart'
-            's me
+            | 's me
         = render partial: "/users/favorite_thumbs", locals: { collection: artist.who_favorites_me }
 
 
