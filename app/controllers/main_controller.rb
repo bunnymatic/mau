@@ -77,10 +77,6 @@ class MainController < ApplicationController
     render json: data, :status => status
   end
 
-  def news
-    redirect_to 'resources'
-  end
-
   def resources
     @page_title = "Mission Artists United - Open Studios"
     page = 'main'

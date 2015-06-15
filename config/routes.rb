@@ -103,7 +103,6 @@ Mau::Application.routes.draw do
   match '/getinvolved/:p' => 'main#getinvolved', as: :getinvolved
   match '/getinvolved' => 'main#getinvolved', as: :getinvolved
   match '/resources' => 'main#resources', as: :artist_resources
-  match '/news' => 'main#resources', as: :news_alt
   match '/error' => 'error#index', as: :error
 
   namespace :admin do

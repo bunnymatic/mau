@@ -14,16 +14,15 @@
         %a{href: '#delete-art', "data-toggle" => 'tab'} remove
 .pure-g.tab-content
   .pure-u-1-1#add-art.tab-pane.active
-    .pure-g
-      .pure-u-1-1.header.padded-content
-        .warning
-          - if @artist.at_art_piece_limit?
-            You cannot have more than #{artist.max_pieces} art pieces.
-            If you decide to continue adding art, the oldest pieces will
-            be removed to make space for the new ones.  Alternatively, you
-            could go delete specific pieces to make room for the new ones.
-      .pure-u-1-1.pure-u-sm-1-2.art-piece-new-form.padded-content
-        = render '/art_pieces/form', art_piece: @art_piece, artist: @artist.model
+    .pure-u-1-1.pure-u-sm-1-2.art-piece-new-form.padded-content
+      - if @artist.at_art_piece_limit?
+        .error-msg
+          You cannot have more than #{@artist.max_pieces} art pieces.
+          If you decide to continue adding art, the oldest pieces will
+          be removed to make space for the new ones.  Alternatively, you
+          could go delete specific pieces to make room for the new ones.
+      
+      = render '/art_pieces/form', art_piece: @art_piece, artist: @artist.model
   .pure-u-1-1#edit-art.tab-pane
     .pure-g
       .pure-u-1-1.help-txt.padded-content
@@ -39,7 +38,7 @@
           Drag and Drop your art into the arrangement you'd like.
         %p
           The top left image will be used to represent your art in search results, the home page and across the site.
-      .pure-u-1-1.arrange.padded-content
+      .pure-u-1-1.arrange
         = form_tag setarrangement_artists_path, id: 'arrange_art_form', 'data-remote' => true do
           %input{type: 'hidden', name: 'artist', value: @artist.id}
           %ul.js-sortable
@@ -49,7 +48,7 @@
     .pure-g
       .pure-u-1-1.help-txt.padded-content
         %p Check the "delete" checkbox for all the pieces you want to remove (permanently), and click the "Delete" button below.
-      .pure-u-1-1.padded-content
+      .pure-u-1-1
         = form_tag "/artists/destroyart" do
           %input{ type: "hidden", name: "artist", value: @artist.id }
           #delete_art

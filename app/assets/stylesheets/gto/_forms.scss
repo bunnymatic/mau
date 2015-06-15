@@ -41,6 +41,9 @@ tr.error-msg {
     padding: 0;
   }
   margin-bottom: 10px;
+  a + a, .pure-button + .pure-button {
+    margin-left: 5px;
+  }
 }
 .inputs textarea {
   width: 90%;

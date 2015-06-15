@@ -1,0 +1,6 @@
+/ expects artist as parameters
+.artist-profile__image
+  - if artist.has_profile_image
+    img class="pure-img profile" src=[artist.get_profile_image('medium'), Time.zone.now.to_i].join("?")
+  - else
+    i.fa.fa-user

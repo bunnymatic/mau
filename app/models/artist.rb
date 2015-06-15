@@ -94,7 +94,7 @@ class Artist < User
   delegate :update_os_participation, :to => :artist_info
 
   def at_art_piece_limit?
-    art_pieces.select(&:persisted?).count > (max_pieces || MAX_PIECES)
+    art_pieces.select(&:persisted?).count >= (max_pieces || MAX_PIECES)
   end
 
   def profile_images

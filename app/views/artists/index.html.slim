@@ -1,0 +1,22 @@
+.pure-g
+  .pure-u-1-1.pure-u-lg-2-3.header.padded-content>
+    h2.title
+      | Artists
+      - if @os_only
+        = "in #{OpenStudiosEvent.current.try(:for_display,true)} Open Studios"
+  .pure-u-1-1.pure-u-lg-1-3.header.padded-content>
+    .filter.js-filter-visibility>
+      = form_tag '.', id: 'js-artist-index-filter'
+        = fa_icon 'search'
+        input.js-filter-by-name(type="text" autofocus="autofocus" name="filter" placeholder="search by name")
+
+
+.pure-g
+  .pure-u-1-1.padded-content
+    .pure-g.js-artists-scroll-wrapper.artists-scroll
+      - if @gallery.items.count == 0
+        .pure-u-1-1
+          h4 = @gallery.empty_message
+      - else
+        = render 'artist_list', gallery: @gallery
+

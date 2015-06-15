@@ -1,0 +1,28 @@
+.pure-g
+  .pure-u-1-1.header.padded-content
+    h2.title My Profile
+
+.pure-g
+  .pure-u-1-1.pure-u-lg-4-5.padded-content
+    = render '/paypal_donation_form'
+    #user-accordion.panel-group
+      = semantic_form_for @user.model, html: { class: 'js-edit-artist-form primary-form', multipart: true } do |form|
+        .panel.panel-default
+          = render '/users/edit/basic_info', form: form
+        .panel.panel-default
+          = render '/users/edit/profile_picture', form: form
+        .panel.panel-default
+          = render '/artists/edit/studio_info', form: form
+        - if OpenStudiosEvent.current
+          .panel.panel-default
+            = render '/artists/edit/open_studios_status', form: form
+        .panel.panel-default
+          = render '/users/edit/links', form: form
+        .panel.panel-default
+          = render '/artists/edit/bio', form: form
+      = semantic_form_for @user.model, url: change_password_update_user_path(@user.model), html: { class: 'password-form' } do |form|
+        .panel.panel-default
+          = render '/users/edit/password', form: form
+      .panel.panel-default
+        = render '/users/edit/deactivate'
+

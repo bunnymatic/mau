@@ -1,0 +1,11 @@
+/ expects a paginator
+- if paginator.should_paginate?
+  .navlinks.paginator
+    ul
+      li
+        = paginator.link_to_previous
+      - paginator.pages.each do |page|
+        li.page class=(paginator.is_current_page?(page) ? 'current' : '')
+          = paginator.link_to_page(page)
+      li.page
+        = paginator.link_to_next

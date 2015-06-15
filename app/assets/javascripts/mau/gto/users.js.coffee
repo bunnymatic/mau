@@ -1,5 +1,6 @@
 $ ->
   # user edit accordion stuff
+  return unless ($(".users.edit, .artists.edit").length > 0)
   if location.hash && (location.hash.length > 1) # don't switch on just #
     # accordion automatically opens this one, but we need to remove the collapsed class
     $(location.hash).collapse('show');

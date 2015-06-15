@@ -1,0 +1,4 @@
+- if form.try(:object).try(:errors).present?
+  .error-msg
+    - form.object.errors.full_messages.each do |msg|
+      .err = msg
