@@ -73,11 +73,10 @@
     .pure-u-1-1
       section.favorites
         .header
-          = link_to favorites_path(artist) do
-            | Who
-            '
-            = fa_icon 'heart'
-            | 's me
+          | Who
+          '
+          = fa_icon 'heart'
+          | 's me
         = render partial: "/users/favorite_thumbs", locals: { collection: artist.who_favorites_me }
 
 
