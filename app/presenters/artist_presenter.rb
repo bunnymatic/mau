@@ -7,6 +7,7 @@ class ArtistPresenter < UserPresenter
 
   delegate :doing_open_studios?, :media, :os_participation, :studio, :studio_id,
            :artist_info, :at_art_piece_limit?, :primary_medium, :get_share_link,
+           :max_pieces,
            to: :artist, allow_nil: true
 
   def artist
