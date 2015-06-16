@@ -94,8 +94,9 @@ class User < ActiveRecord::Base
     User.find_by_login(login_string) || User.find_by_email(login_string)
   end
 
-  before_validation :normalize_attributes
+  before_validation :normalize_attributes 
   before_validation :add_http_to_links
+  before_validation :cleanup_fields
   before_destroy :delete_favorites
 
   def self.find_by_login_or_email(login)
@@ -304,6 +305,12 @@ class User < ActiveRecord::Base
   end
 
   protected
+  def cleanup_fields
+    self.firstname.strip!
+    self.lastname.strip!
+    self.nomdeplume.strip!
+  end
+  
   def normalize_attributes
     login = login.try(:downcase)
     email = email.try(:downcase)
