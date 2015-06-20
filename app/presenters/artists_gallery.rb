@@ -6,11 +6,19 @@ class ArtistsGallery < ArtistsPresenter
 
   delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
 
-  def initialize(os_only, current_page, filter, per_page = PER_PAGE)
+  attr_reader :filters, :letter
+
+  def initialize(os_only, letter, current_page, filter, per_page = PER_PAGE)
     super os_only
+    @letter = letter.downcase
     @per_page = per_page
     @filters = (filter || '').downcase.strip.split(/\s+/).compact
-    @pagination = ArtistsPagination.new(artists, current_page, @per_page)
+    @current_page = current_page
+    @pagination = ArtistsPagination.new(artists, @current_page, @per_page)
+  end
+
+  def self.lastname_letters
+    ArtPiece.joins(:artist).where(users:{state: 'active'}).group('lcase(left(users.lastname,1))').count.keys
   end
 
   def empty_message
@@ -23,7 +31,7 @@ class ArtistsGallery < ArtistsPresenter
 
   def artists
     super.select do |artist|
-      keep = artist.representative_piece
+      keep = artist.representative_piece && (letter == artist.lastname[0].downcase)
       if filters.any?
         keep && begin
                   s = [artist.firstname, artist.lastname, artist.nomdeplume, artist.login].join
@@ -37,5 +45,3 @@ class ArtistsGallery < ArtistsPresenter
 
 
 end
-
-

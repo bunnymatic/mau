@@ -1,14 +1,16 @@
 .pure-g
-  .pure-u-1-1.pure-u-lg-2-3.header.padded-content>
+  .pure-u-1-1.header.padded-content>
     h2.title
-      | Artists
+      | Artists: #{@gallery.letter.upcase}
+      '
       - if @os_only
         = "in #{OpenStudiosEvent.current.try(:for_display,true)} Open Studios"
-  .pure-u-1-1.pure-u-lg-1-3.header.padded-content>
-    .filter.js-filter-visibility>
-      = form_tag '.', id: 'js-artist-index-filter'
-        = fa_icon 'search'
-        input.js-filter-by-name(type="text" autofocus="autofocus" name="filter" placeholder="search by name")
+.pure-g
+  .pure-u-1-1.header.padded-content>
+    ul.paginator.gallery-paginator
+      - @artist_lastname_letters.each do |letter|
+        li.page(class=(letter==@gallery.letter)?'current':'')
+          = link_to letter.upcase, artists_path({l: letter})
 
 
 .pure-g
@@ -19,4 +21,3 @@
           h4 = @gallery.empty_message
       - else
         = render 'artist_list', gallery: @gallery
-

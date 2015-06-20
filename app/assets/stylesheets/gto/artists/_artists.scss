@@ -69,6 +69,10 @@
 
   @include search-filter;
 
+  .gallery-paginator {
+    text-align:center;
+    margin-top: -15px;
+  }
   .header .title {
     .os-violator {
       background-size: 25px 25px;
