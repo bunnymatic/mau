@@ -20,9 +20,8 @@ class ArtistsController < ApplicationController
         @os_only = is_os_only(params[:osonly])
         cur_letter = params[:l] || 'a'
         cur_page = (params[:p] || 0).to_i
-        filter = params[:filter]
         # build alphabetical list keyed by first letter
-        @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_page, filter)
+        @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_page)
         @artist_lastname_letters = ArtistsGallery.lastname_letters
         @page_title = "Mission Artists United - MAU Artists"
         set_artists_index_links
