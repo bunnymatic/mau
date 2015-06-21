@@ -45,18 +45,10 @@ describe ArtistsController do
 
     describe 'xhr' do
       before do
-        get :index, p: '0', filter: filter
+        get :index, p: '0', l: 'a'
       end
-      context 'without filter' do
-        let(:filter) { '' }
-        it { expect(response).to be_success }
-        it { expect(assigns(:gallery).pagination.items).to have_at_least(1).artist }
-      end
-      context 'with filter' do
-        let(:filter) { 'thisfilterbetternotmatchanything' }
-        it { expect(response).to be_success }
-        it { expect(assigns(:gallery).pagination.items).to be_empty }
-      end
+      it { expect(response).to be_success }
+      it { expect(assigns(:gallery).pagination.items).to have_at_least(1).artist }
     end
   end
 

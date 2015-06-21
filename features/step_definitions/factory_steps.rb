@@ -23,8 +23,17 @@ Given /^there is a studio named "(.*)" with artists$/ do |studio|
   @studio = FactoryGirl.create(:studio, :with_artists, name: studio, artist_count: 3)
 end
 
-Given /there are artists with art in the system/ do
+Given /there are artists with art in the system$/ do
   @artists = FactoryGirl.create_list(:artist, 3, :with_art, :with_studio, :number_of_art_pieces => 5)
+  @art_pieces = @artists.map(&:art_pieces).flatten
+end
+
+Given /the following artists with art are in the system:/ do |table|
+  @artists = []
+  table.hashes.each do |artist_params|
+    args = {:number_of_art_pieces => 5}.merge artist_params
+    @artists << FactoryGirl.create(:artist, :with_art, :with_studio, args)    
+  end
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
