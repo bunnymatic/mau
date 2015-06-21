@@ -445,6 +445,14 @@ describe User do
     end
   end
 
+  describe 'field cleaner' do
+    let(:simple_artist) { build :artist, firstname: '  first  ', lastname: ' _ _ _ ',  nomdeplume: ' mi nom ' }
+    it 'cleans firstname, lastname and nomdeplume fields of whitespace before save' do
+      simple_artist.valid?
+      expect(simple_artist.firstname).to eql 'first'
+    end
+  end
+  
   describe 'MailChimp includes' do
     describe "mailchimp_additional_data" do
       before do

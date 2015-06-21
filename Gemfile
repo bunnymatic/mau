@@ -25,7 +25,7 @@ gem 'formtastic', '~> 3.0'
 
 gem 'gibbon' # mailchimp connect
 gem 'rosie'
-gem 'grackle'
+#gem 'grackle' # for twitter outbound
 gem 'mime-types'
 gem 'qr4r'
 gem 'event-calendar', :require => 'event_calendar'
@@ -33,7 +33,6 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'momentarily'
 gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
-gem 'will_paginate'
 gem 'browser'
 gem 'geokit'
 gem 'geokit-rails'
@@ -42,6 +41,29 @@ gem 'pickadate-rails'
 gem 'spinjs-rails'
 gem 'paperclip'
 gem 'aws-sdk-v1'
+
+gem 'ngannotate-rails'
+gem 'angular-rails-templates'
+
+# authentication
+gem 'authlogic'
+
+# mailing with postmarkapp.com
+gem 'postmark-rails'
+gem 'postmark'
+
+gem 'unicorn' # webserver
+
+gem 'flot-rails' # jquery plotting program
+
+gem 'select2-rails' # autocompleter
+
+gem 'underscore-string-rails'
+
+gem 'jbuilder' #non-html output (rss, atom)
+
+gem 'newrelic_rpm' #moitoring
+gem 'skylight' #monitoring
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-angular'
@@ -61,30 +83,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-ng-device-detector'
   gem 'rails-assets-datatables'
 end
-gem 'ngannotate-rails'
-gem 'angular-rails-templates'
-
-# authentication
-gem 'authlogic'
-
-# mailing with postmarkapp.com
-gem 'postmark-rails'
-gem 'postmark'
-
-gem 'newrelic_rpm'
-
-gem 'unicorn'
-
-gem 'flot-rails' # jquery plotting program
-
-gem 'select2-rails' # autocompleter
-
-gem 'underscore-string-rails'
-
-gem 'multi_json'
-gem 'jbuilder'
-
-gem 'skylight'
 
 group :test do
   gem 'faker'

@@ -1,5 +1,5 @@
 / expects gallery as ArtistsGallery && filter as true/false
-.js-pagination-state( style="display:none;" data-current_page=gallery.current_page data-next_page=gallery.next_page data-has_more=gallery.has_more? )
+.js-pagination-state( style="display:none;" data-current_page=gallery.current_page data-next_page=gallery.next_page data-has_more=gallery.has_more? data-current_letter=gallery.letter)
 
 = render partial: "artist", collection: gallery.pagination.items
 - if gallery.has_more?

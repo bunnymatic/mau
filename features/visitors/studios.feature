@@ -15,8 +15,3 @@ Scenario:  I can drill into a studio detail
   When I click on the first studio card
   Then I see the first studio page
 
-@javascript
-Scenario:  I can filter studios by name
-  Then I see the "Studios" page
-  When I fill in the filter search box with "ROCK"
-  Then I only see the "Rock And Roll Studio" studio card

@@ -194,10 +194,6 @@ GEM
       httparty
       multi_json (>= 1.3.4)
     gmaps4rails (2.1.2)
-    grackle (0.3.0)
-      json
-      mime-types
-      oauth
     guard (2.12.5)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -292,7 +288,6 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    oauth (0.4.7)
     paperclip (4.2.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -503,7 +498,6 @@ GEM
     websocket-driver (0.5.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    will_paginate (3.0.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -544,7 +538,6 @@ DEPENDENCIES
   geokit-rails
   gibbon
   gmaps4rails
-  grackle
   guard-coffeescript
   guard-cucumber
   guard-jasmine
@@ -561,7 +554,6 @@ DEPENDENCIES
   mojo_magick
   momentarily
   morecane
-  multi_json
   mysql2
   newrelic_rpm
   ngannotate-rails
@@ -620,4 +612,3 @@ DEPENDENCIES
   unicorn-rails
   vcr
   webmock
-  will_paginate

@@ -4,7 +4,7 @@ require 'htmlentities'
 describe ArtistsController do
 
   let(:admin) { FactoryGirl.create(:artist, :admin) }
-  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil, firstname: 'joe', lastname: 'blow') }
+  let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil, firstname: 'joe', lastname: 'ablow') }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio) }
   let(:artist_with_tags) { FactoryGirl.create(:artist, :with_studio, :with_art, :with_tagged_art, firstname: 'Bill', lastname: "O'Tagman") }
   let(:without_address) { FactoryGirl.create(:artist, :active, :with_no_address) }
@@ -27,12 +27,6 @@ describe ArtistsController do
         get :index
       end
       it { expect(response).to be_success }
-      it "builds a presenter with only active artists" do
-        presenter = assigns(:gallery)
-        expect( presenter ).to be_a_kind_of ArtistsGallery
-        expect( presenter.items).to have_at_least(2).artists
-        expect( presenter.items.select{|artist| !artist.active?} ).to be_empty
-      end
       it "set the title" do
         assigns(:page_title).should eql 'Mission Artists United - MAU Artists'
       end
@@ -51,18 +45,10 @@ describe ArtistsController do
 
     describe 'xhr' do
       before do
-        get :index, p: '0', filter: filter
+        get :index, p: '0', l: 'a'
       end
-      context 'without filter' do
-        let(:filter) { '' }
-        it { expect(response).to be_success }
-        it { expect(assigns(:gallery).pagination.items).to have_at_least(1).artist }
-      end
-      context 'with filter' do
-        let(:filter) { 'thisfilterbetternotmatchanything' }
-        it { expect(response).to be_success }
-        it { expect(assigns(:gallery).pagination.items).to be_empty }
-      end
+      it { expect(response).to be_success }
+      it { expect(assigns(:gallery).pagination.items).to have_at_least(1).artist }
     end
   end
 

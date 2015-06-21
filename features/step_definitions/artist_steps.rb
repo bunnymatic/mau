@@ -127,6 +127,16 @@ When(/^I click on the first artist's card$/) do
   click_on_first @artist.full_name
 end
 
+Then(/^I see "([^"]*)"'s artist card$/) do |name|
+  @artist = Artist.find_all_by_full_name( name ).first
+  expect(page).to have_css('.artist-card', text: name)
+end
+
+When(/^I click on "([^"]*)"'s artist card$/) do |name|
+  @artist = Artist.find_all_by_full_name( name ).first
+  click_on name
+end
+
 Then(/^I see that artist's profile page$/) do
   expect(page).to have_css '.header', text: @artist.full_name
   expect(page).to have_css '.artist-profile'

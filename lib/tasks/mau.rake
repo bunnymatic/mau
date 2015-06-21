@@ -22,6 +22,12 @@ namespace :mau do
     end
   end
 
+  desc 'cleanup names (remove leading/trailing whitespace' do
+    Artists.all.each do |a|
+      a.touch
+    end
+  end
+  
   desc 'record todays OS count'
   task :daily_os_signup => [:environment] do
     Artist.tally_os

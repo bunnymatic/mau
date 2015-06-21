@@ -59,6 +59,7 @@ $ ->
         $.ajax(
           url: "/artists"
           data:
+            l: pagination.current_letter
             p: nextPage
             filter: filter
         ).done (data) ->
@@ -79,6 +80,11 @@ $ ->
     $win.scroll ->
       if $win.scrollTop() == ($(document).height() - $win.height())
         fetchArtists()
+    # if the scroll div top is in the window, fetch another set
+
+    $more = $('#js-scroll-load-more');
+    if ($more.length) && ($more.position().top < $win.height())
+      fetchArtists()
 
     $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
       if currentFilter != getCurrentFilter()
