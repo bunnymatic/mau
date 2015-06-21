@@ -23,9 +23,9 @@ class ArtistsGallery < ArtistsPresenter
 
   def empty_message
     if os_only
-      "Sorry, no one has signed up for the next Open Studios, yet.  Check back later."
+      "Sorry, no one with that last name has signed up for the next Open Studios.  Check back later."
     else
-      "Sorry, we couldn't find any artists in the system."
+      "Sorry, we couldn't find any artists with that last name in the system."
     end
   end
 

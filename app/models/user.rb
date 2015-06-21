@@ -306,9 +306,12 @@ class User < ActiveRecord::Base
 
   protected
   def cleanup_fields
-    self.firstname.strip!
-    self.lastname.strip!
-    self.nomdeplume.strip!
+    [:firstname, :lastname, :nomdeplume, :email].each do |fld|
+      v = self.send(fld)
+      if v.present? && v.respond_to?('strip')
+        self.send("#{fld}=", v.strip)
+      end
+    end
   end
   
   def normalize_attributes

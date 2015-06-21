@@ -10,7 +10,7 @@
     ul.paginator.gallery-paginator
       - @artist_lastname_letters.each do |letter|
         li.page(class=(letter==@gallery.letter)?'current':'')
-          = link_to letter.upcase, artists_path({l: letter})
+          = link_to letter.upcase, artists_path({l: letter, osonly: @os_only})
 
 
 .pure-g
