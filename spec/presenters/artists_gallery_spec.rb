@@ -13,6 +13,7 @@ describe ArtistsGallery do
       create(:artist, :with_art, lastname: 'Atkins'),
       create(:artist, :with_art, lastname: 'bab'),
       create(:artist, :with_art, lastname: 'cab'),
+      create(:artist, :with_art, lastname: ''),
       create(:artist, lastname: 'Arnold'),
       create(:artist, lastname: 'Bored')
    ]

@@ -28,7 +28,7 @@ class ArtistsGallery < ArtistsPresenter
 
   def artists
     super.select do |artist|
-      artist.representative_piece && (letter == artist.lastname[0].downcase)
+      artist.active? && artist.lastname.present? && artist.representative_piece && (letter == artist.lastname[0].downcase)
     end
   end
 
