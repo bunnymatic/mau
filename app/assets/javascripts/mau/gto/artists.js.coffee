@@ -30,7 +30,7 @@ $ ->
       $(@).html(btnText)
 
 
-  if $('.artists.index').length
+  if $('.artists.index').length && $('.js-filter-by-name').length
     # define helpers
     getCurrentFilter = () ->
       document.querySelectorAll('.js-filter-by-name')[0].value;
