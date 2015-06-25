@@ -7,7 +7,7 @@ alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 namespace :mau do
 
   desc 'initiate studio slugs'
-  task :slug_studios => [:environment] do
+  task slug_studios: [:environment] do
     Studio.all.each do |s|
       s.touch
       s.save!
@@ -15,31 +15,30 @@ namespace :mau do
   end
 
   desc 'initiate user slugs'
-  task :slug_users => [:environment] do
+  task slug_users: [:environment] do
     User.all.each do |u|
       u.touch
       u.save
     end
   end
 
-  desc 'cleanup names (remove leading/trailing whitespace' do
-    Artists.all.each do |a|
-      a.touch
-    end
+  desc 'cleanup names (remove leading/trailing whitespace'
+  task clean_names: [:environment] do
+    Artist.all.each {|a| a.save }
   end
   
   desc 'record todays OS count'
-  task :daily_os_signup => [:environment] do
+  task daily_os_signup: [:environment] do
     Artist.tally_os
   end
 
   desc 'import scammer emails from FASO'
-  task :import_scammer_list => [:environment] do
+  task import_scammer_list: [:environment] do
     Scammer.importFromFASO
   end
 
   desc 'reset all passwords to "bmatic"'
-  task :reset_passwords => [:environment] do
+  task reset_passwords: [:environment] do
     User.all.each do |u|
       u.password = 'bmatic'
       u.password_confirmation = 'bmatic'
@@ -48,14 +47,14 @@ namespace :mau do
   end
 
   desc 'normalize emails - convert everyone to "@example.com"'
-  task :normalize_emails => [:environment] do
+  task normalize_emails: [:environment] do
     User.all.each do |u|
       u.update_attribute(:email, u.email.gsub(/^(.*)\@(.*)/,'\1@example.com'))
     end
   end
 
   desc "Send twitter updates about artists who've updated their art today"
-  task :tweetart => [:environment] do
+  task tweetart: [:environment] do
     aps = ArtPiece.get_todays_art
     if aps.length
       artists = Artist.active.find_all_by_id( aps.map{ |ap| ap.artist_id })
@@ -65,7 +64,7 @@ namespace :mau do
 
   namespace :images do
     desc 'build large images'
-    task :build_large_image => [:environment] do
+    task build_large_image: [:environment] do
       originals = []
       originals += ArtPiece.all.map{|ap| [ap.get_path('original'), ap.get_path('large')]}
       originals += Artist.all.map{|artist| [artist.get_profile_image('original'), artist.get_profile_image('large')]}
@@ -75,7 +74,7 @@ namespace :mau do
         infile, outfile = files.map{|f| File.join(Rails.root, 'public', f)}
         if File.exists?(infile) && ((ENV['force'] == 'true') || !File.exists?(outfile))
           begin
-            MojoMagick::shrink infile, outfile, {:width => 800, :height => 800}
+            MojoMagick::shrink infile, outfile, {width: 800, height: 800}
           rescue Exception => ex
             puts "Failed to convert #{infile}"
             puts "Error #{ex}"
@@ -85,7 +84,7 @@ namespace :mau do
     end
 
     desc 'build cropped thumbs - add force=true to force overwrites'
-    task :build_cropped_thumbs => [:environment] do
+    task build_cropped_thumbs: [:environment] do
       originals = []
       originals += ArtPiece.all.map{|ap| [ap.get_path('original'), ap.get_path('cropped_thumb')]}
       originals += Artist.all.map{|artist| [artist.get_profile_image('original'), artist.get_profile_image('cropped_thumb')]}
@@ -96,13 +95,13 @@ namespace :mau do
         infile = files[0]
         outfile = files[1]
         if (ENV['force'] == 'true') || !File.exists?(outfile)
-          MojoMagick::resize(infile, outfile, {:fill => true, :crop => true, :width => 127, :height => 127})
+          MojoMagick::resize(infile, outfile, {fill: true, crop: true, width: 127, height: 127})
         end
       end
     end
 
     desc 'repair image filenames (make ..jpg into .jpg)'
-    task :repair_filenames => [:environment] do
+    task repair_filenames: [:environment] do
       ArtPiece.all.select{|a| /\.{2,}/.match(a.filename)}.each do |ap|
         ArtPiece.transaction do
           old_filename = ap.filename
@@ -143,7 +142,7 @@ namespace :mau do
 
   namespace :tags do
     desc "downcase existing tags"
-    task :downcase => [:environment] do
+    task downcase: [:environment] do
       ArtPieceTag.all.select{|t| t.name != t.name.downcase }.each do |t|
         t.name = t.name.downcase
         t.save!
@@ -151,7 +150,7 @@ namespace :mau do
     end
 
     desc "remove duplicate tags"
-    task :cleanup => [:environment] do
+    task cleanup: [:environment] do
       all_tags = ArtPieceTag.all
       tags_by_downcase = {}
       all_tags.each do |t|
@@ -162,7 +161,7 @@ namespace :mau do
           if key == t.name
             lowercase_tag = t
           else
-            lowercase_tag = ArtPieceTag.create(:name => key)
+            lowercase_tag = ArtPieceTag.create(name: key)
           end
           tags_by_downcase[key][:id] = t.id
           tags_by_downcase[key][:tags] = [ t ]
