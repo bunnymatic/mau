@@ -30,25 +30,18 @@ $ ->
       $(@).html(btnText)
 
 
-  if $('.artists.index').length && $('.js-filter-by-name').length
-    # define helpers
-    getCurrentFilter = () ->
-      document.querySelectorAll('.js-filter-by-name')[0].value;
+  if $('.artists.index').length
+    # set event bindings
+    $win = $(window)
+    $win.scroll ->
+      console.log($win.scrollTop(), $(document).height(), $win.height())
+      if $win.scrollTop() == ($(document).height() - $win.height())
+        fetchArtists()
+    # if the scroll div top is in the window, fetch another set
 
-    currentFilter = getCurrentFilter()
-    resetSearch = () ->
-      $wrapper = $('js-artists-scroll-wrapper')
-      currentMode = $wrapper.data('filtering')
-      currentFilter = getCurrentFilter()
-      newMode = !!currentFilter
-      $wrapper.data('filtering', newMode )
-      if newMode != currentMode
-        $('.js-pagination-state').slice(1,-1).remove()
-        pagination = $('.js-pagination-state').last()
-        $('.artist-card').fadeOut duration: 50, complete: -> $(@).remove()
-        pagination.data('current_page',0)
-        pagination.data('next_page',0)
-        pagination.data('has_more',true)
+    $more = $('#js-scroll-load-more');
+    if ($more.length) && ($more.position().top < $win.height())
+      fetchArtists()
 
     fetchArtists = (ev) ->
       $content = $('.js-artists-scroll-wrapper')
@@ -69,24 +62,34 @@ $ ->
             $content = $('.js-artists-scroll-wrapper')
             $content.append(data);
 
-    fetchFilteredArtists = (ev) ->
-      resetSearch(ev)
-      fetchArtists(ev)
+    if $('.js-filter-by-name').length    
+      # define helpers
+      getCurrentFilter = () ->
+        document.querySelectorAll('.js-filter-by-name')[0].value;
 
-    throttledFilter = MAU.Utils.debounce(fetchFilteredArtists,250,false)
 
-    # set event bindings
-    $win = $(window)
-    $win.scroll ->
-      if $win.scrollTop() == ($(document).height() - $win.height())
-        fetchArtists()
-    # if the scroll div top is in the window, fetch another set
+      currentFilter = getCurrentFilter()
+      resetSearch = () ->
+        $wrapper = $('js-artists-scroll-wrapper')
+        currentMode = $wrapper.data('filtering')
+        currentFilter = getCurrentFilter()
+        newMode = !!currentFilter
+        $wrapper.data('filtering', newMode )
+        if newMode != currentMode
+          $('.js-pagination-state').slice(1,-1).remove()
+          pagination = $('.js-pagination-state').last()
+          $('.artist-card').fadeOut duration: 50, complete: -> $(@).remove()
+          pagination.data('current_page',0)
+          pagination.data('next_page',0)
+          pagination.data('has_more',true)
 
-    $more = $('#js-scroll-load-more');
-    if ($more.length) && ($more.position().top < $win.height())
-      fetchArtists()
+      fetchFilteredArtists = (ev) ->
+        resetSearch(ev)
+        fetchArtists(ev)
 
-    $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
-      if currentFilter != getCurrentFilter()
-        throttledFilter()
-    $("#js-artist-index-filter").on 'submit', (ev) -> ev.stopPropagation(); false
+      throttledFilter = MAU.Utils.debounce(fetchFilteredArtists,250,false)
+
+      $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
+        if currentFilter != getCurrentFilter()
+          throttledFilter()
+      $("#js-artist-index-filter").on 'submit', (ev) -> ev.stopPropagation(); false
