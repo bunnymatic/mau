@@ -1,44 +1,32 @@
-MAU = window.MAU = window.MAU || {}
-# front page thumb sampler
+$ ->
+  fetchArtists = (ev) ->
+    $content = $('.js-sampler')
+    # set event bindings
+    seed = $content.data('seed');
+    offset = $content.data('offset');
+    $.ajax(
+      method: 'post'
+      url: '/sampler'
+      data:
+        seed: seed
+        offset: offset
+    ).done (data) ->
+      # remove the current more button
+      # $('#js-scroll-load-more').remove();
+      if data
+        $content = $('.js-artists-scroll-wrapper')
+        $content.append(data);
+        $content.data('offset', 0 + $content.data('offset') + 20);
+        
+  if $('#sampler').length
+    $win = $(window)
+    $win.scroll ->
+      console.log($win.scrollTop(), $(document).height(), $win.height())
+      if $win.scrollTop() == ($(document).height() - $win.height())
+        fetchArtists()
+    # if the scroll div top is in the window, fetch another set
 
-MAU.Sampler = class Sampler
+    $more = $('#js-scroll-load-more');
+    if ($more.length) && ($more.position().top < $win.height())
+      fetchArtists()
 
-  constructor: (container, refreshTime) ->
-    @container = container
-    @refreshTime = refreshTime || 30000
-    @fadeTime = 400
-    @requests = []
-
-  start: =>
-    @updateArt()
-
-  updateArt: =>
-    container = $(@container);
-    if (container.length)
-      ajaxOpts =
-        url: '/main/sampler'
-        method:'get'
-        success: (data, status, xhr) =>
-          existing = container.find('.js-sampler__thumb')
-          $('.js-sampler__empty').remove();
-          if existing.length
-            # existing.fadeOut is called on *each* existing.
-            # instead of using complete we use the timeout to remove the old stuff
-            existing.fadeOut
-              duration: @fadeTime
-            setTimeout( ->
-              existing.remove()
-              container.find(".js-sampler__promo").after(data);
-            ,
-            @fadeTime
-            )
-            setTimeout(@updateArt, @refreshTime);
-          else
-            container.find(".js-sampler__promo").after(data);
-            setTimeout(@updateArt, @refreshTime);
-
-      jQuery.ajax( ajaxOpts )
-
-if (document.location.pathname == '/')
-  sampler = new MAU.Sampler '#sampler.js-sampler'
-  jQuery(window).bind 'load', sampler.start

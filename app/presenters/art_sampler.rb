@@ -1,8 +1,10 @@
 class ArtSampler
 
-  NUM_IMAGES = 16 - 2
-  def initialize(*args)
-    super
+  NUM_IMAGES = 10
+  attr_reader :seed, :offset
+  def initialize(seed = nil, offset = nil)
+    @seed ||= Time.zone.now.to_i
+    @offset ||= 0
   end
 
   def pieces
@@ -11,7 +13,7 @@ class ArtSampler
 
   private
   def get_random_pieces
-    ArtPiece.includes(:artist).where("users.state" => :active).order('rand()').limit(NUM_IMAGES)
+    ArtPiece.includes(:artist).where( {users: { state: :active } }).order("rand(#{seed})").limit(NUM_IMAGES).offset(offset)
   end
 
 end
