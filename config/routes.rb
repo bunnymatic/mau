@@ -87,7 +87,7 @@ Mau::Application.routes.draw do
   resource :main, controller: :main, only: [] do
     get :notes_mailer
     post :notes_mailer
-    get :sampler
+    post :sampler
   end
 
   match '/status' => 'main#status_page', as: :status

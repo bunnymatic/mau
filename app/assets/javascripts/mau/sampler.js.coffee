@@ -1,32 +1,35 @@
 $ ->
+  NUM_IMAGES = 12
   fetchArtists = (ev) ->
     $content = $('.js-sampler')
-    # set event bindings
+    return unless $content.find('#js-scroll-load-more').length
     seed = $content.data('seed');
-    offset = $content.data('offset');
+    offset = $content.data('offset') || 0;
     $.ajax(
       method: 'post'
-      url: '/sampler'
+      url: '/main/sampler'
       data:
         seed: seed
         offset: offset
+        number_of_images: NUM_IMAGES
     ).done (data) ->
-      # remove the current more button
-      # $('#js-scroll-load-more').remove();
-      if data
-        $content = $('.js-artists-scroll-wrapper')
-        $content.append(data);
-        $content.data('offset', 0 + $content.data('offset') + 20);
+      if data && !/^\s+$/.test(data)
+        $insertion = $content.find('#js-scroll-load-more')
+        $(data).insertBefore($insertion);
+        $content.data('offset', 0 + offset + NUM_IMAGES);
+        $more = $('#js-scroll-load-more');
+        # if the scroll div top is in the window, fetch another set
+        if ($more.length) && ($more.position().top < $win.height())
+          fetchArtists()
+      else
+        # remove the current more button
+        $('#js-scroll-load-more').remove()
+        $('#the-end').show()
         
   if $('#sampler').length
     $win = $(window)
     $win.scroll ->
-      console.log($win.scrollTop(), $(document).height(), $win.height())
       if $win.scrollTop() == ($(document).height() - $win.height())
         fetchArtists()
-    # if the scroll div top is in the window, fetch another set
-
-    $more = $('#js-scroll-load-more');
-    if ($more.length) && ($more.position().top < $win.height())
-      fetchArtists()
+    fetchArtists()
 

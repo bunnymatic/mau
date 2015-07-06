@@ -1,12 +1,14 @@
 @import 'mau-mixins';
 @import 'gto/gto-mixins';
 
+#the-end, 
 .scroll-load-more {
   text-align:center;
   margin:auto;
   position: relative;
   z-index: -1;  /* fix issue with fa-spin screwing up zindex */
   .hint {
+    padding: 5px;
     letter-spacing:0;
     font-size: 0.9rem;
     font-style: italic;
@@ -18,6 +20,14 @@
   }
 }
 
+#the-end {
+  display: none;
+  .hint {
+    font-size: 2rem;
+    color: rgba(200,200,200,0.5);
+    text-transform: uppercase;
+  }
+}
 .artists.map_page {
   #map-canvas {
     height: 400px;
