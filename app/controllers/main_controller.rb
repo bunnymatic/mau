@@ -6,7 +6,7 @@ class MainController < ApplicationController
 
   def index
     @is_homepage = true
-    @new_art = ArtPiece.get_new_art.map{|ap| ArtPiecePresenter.new(ap)}
+    @seed = Time.zone.now.to_i
   end
 
   def contact
@@ -16,7 +16,8 @@ class MainController < ApplicationController
   end
 
   def sampler
-    render partial: 'sampler_thumb', collection: ArtSampler.new.pieces
+    sampler = ArtSampler.new sampler_params
+    render partial: 'sampler_thumb', collection: sampler.pieces
   end
 
   def version
@@ -173,6 +174,10 @@ EOM
     end
   end
 
+  def sampler_params
+    params.slice(:seed, :offset, :number_of_images).symbolize_keys
+  end
+  
   def feedback_params
     params.require(:feedback).permit :subject, :email, :login, :page, :comment, :url, :skillsets, :bugtype
   end

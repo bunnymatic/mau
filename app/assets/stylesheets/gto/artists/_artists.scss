@@ -1,6 +1,33 @@
 @import 'mau-mixins';
 @import 'gto/gto-mixins';
 
+#the-end, 
+.scroll-load-more {
+  text-align:center;
+  margin:auto;
+  position: relative;
+  z-index: -1;  /* fix issue with fa-spin screwing up zindex */
+  .hint {
+    padding: 5px;
+    letter-spacing:0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: rgba(200,200,200,0.5);
+  }
+  .fa-spinner {
+    font-size: 100px;
+    color: rgba(200,200,200,0.5);
+  }
+}
+
+#the-end {
+  display: none;
+  .hint {
+    font-size: 2rem;
+    color: rgba(200,200,200,0.5);
+    text-transform: uppercase;
+  }
+}
 .artists.map_page {
   #map-canvas {
     height: 400px;
@@ -89,23 +116,6 @@
     @include transition-property( width, height, margin, padding);
     @include transition-duration(0.3s);
     @include transition-timing-function(ease-in-out);
-  }
-
-  .scroll-load-more {
-    text-align:center;
-    margin:auto;
-    position: relative;
-    z-index: -1;  /* fix issue with fa-spin screwing up zindex */
-    .hint {
-      letter-spacing:0;
-      font-size: 0.9rem;
-      font-style: italic;
-      color: rgba(200,200,200,0.5);
-    }
-    .fa-spinner {
-      font-size: 100px;
-      color: rgba(200,200,200,0.5);
-    }
   }
   .art-card, .artist-card {
     @include artist-thumb-mixin;
