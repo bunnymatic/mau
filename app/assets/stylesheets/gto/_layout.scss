@@ -15,9 +15,24 @@ html, body {
   height: 100%;
 }
 
+@-webkit-keyframes pulsate {
+  0% {
+    @include opacity(0);
+  }
+  25% {
+    @include opacity(1);
+  }
+  75% {
+    @include opacity(1);
+  }
+  100% {
+    @include opacity(0);
+  }
+}
+
 .sidenav {
   position: absolute;
-  @include transition(width 0.3s ease-in-out);
+  @include transition(opacity 0.3s ease-in-out);
   width: $sidebar-nav-width;
   top: 0;
   left: 0;
@@ -27,8 +42,26 @@ html, body {
   }
   .sidenav__footer {
     z-index: 0;
-    position: absolute;
+    position: fixed;
     bottom: 0;
+    width: $sidebar-nav-width;
+    .back-to-top {
+      opacity: 0;
+      pointer-events: none;
+      text-align: center;
+      @include transition(opacity 0.8s ease-in-out);
+      .fa {
+        padding: 5px 40px;
+        background-color: x-light-gray;
+      }
+      &.shown {
+        -webkit-animation: pulsate 3s ease-out;
+        -webkit-animation-iteration-count: infinite;
+        pointer-events: auto;
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
   }
 }
 
