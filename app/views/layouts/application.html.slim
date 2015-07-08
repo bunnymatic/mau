@@ -1,17 +1,17 @@
-!!! 5
-%html
-  %head
+doctype html
+html
+  head
     = render '/extra_html_head'
     = render '/title'
     = stylesheet_link_tag 'application'
     = csrf_meta_tags
 
-    %script{:type => 'text/javascript'}
+    javascript:
       var authenticityToken  = encodeURIComponent('#{form_authenticity_token}')
       var MAU = window.MAU = window.MAU || {};
-      = "MAU.versionString = '#{@revision}';"
+      MAU.versionString = '#{@revision}';
 
-  %body{class: [@browser_as_class, controller_name, action_name].join(" "), 'ng-app' => 'MauApp'}
+  body class=[@browser_as_class, controller_name, action_name].join(" ") ng-app="MauApp"
     - unless browser.modern?
       = render '/old_browser_warning'
     = render '/noscript_msg'
@@ -22,11 +22,14 @@
 
       .sidenav
         .sidenav__main
-          %a{href: root_path, class: "brand", title: "Mission Artists" }
-            %div{ class: 'sidebar-logo', title: "Mission Artists"}
+          a.brand href=root_path title="Mission Artists"
+            .sidebar-logo title="Mission Artists"
           = render '/navigation'
           .push
         .sidenav__footer
+          .back-to-top title="Back to top"
+            = link_to '#', title: 'Back to top' do
+              = fa_icon 'arrow-up', class: 'ico-invert'
           = render '/common/social_links'
           = render '/common/footer_links'
 
