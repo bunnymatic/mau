@@ -139,12 +139,16 @@ class Artist < User
       end
   end
 
+  def latest_piece
+    @latest_piece ||= art_pieces.order('created_at desc').limit(1).first
+  end
+
   def representative_piece
     cache_key = "%s%s" % [CACHE_KEY, id]
     piece = SafeCache.read(cache_key)
     if piece.blank?
-      logger.debug('cache miss');
-      piece = art_pieces.first
+      logger.debug("#{__method__}: cache miss");
+      piece = art_pieces.limit(1).first
       SafeCache.write(cache_key, piece, :expires_in => 0) unless piece.nil?
     end
     piece
