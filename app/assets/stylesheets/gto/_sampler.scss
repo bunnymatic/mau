@@ -40,6 +40,12 @@ $sampler-thumbnail-size : 250px;
       padding-top: 0;
       height: 33px;
       line-height: 33px;
+      .byline {
+        font-size: 0.75rem;
+        color: $gto_dark_blue;
+        font-weight: $font-weight-light;
+      }
+
     }
     &:hover {
       .desc {
@@ -51,12 +57,12 @@ $sampler-thumbnail-size : 250px;
     .bg {
       position: absolute;
       width: -webkit-calc( 100% - 12px );
-      width: calc( 100% - 12px );      
+      width: calc( 100% - 12px );
       height: 100%;
-      
+
       background-image: image-url('duotones/bluegreen-duotone.jpg');
       @include background-cover;
-      &:before {     
+      &:before {
         content: "";
         display: block;
         position: absolute;
@@ -92,7 +98,7 @@ $sampler-thumbnail-size : 250px;
       line-height: 1.8rem;
       font-weight: $font-weight-light;
     }
-    
+
   }
   .sampler__thumb {
     width: 20%;
