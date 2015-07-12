@@ -5,22 +5,17 @@ class OpenStudiosEventService
   FUTURE_CACHE_KEY = :future_os_events
   PAST_CACHE_KEY = :past_os_events
   
-  def self.for_display(os_key = nil, reverse = false )
-    if !os_key
-      OpenStudiosEvent.current.try(:for_display,reverse)
+  def self.for_display(os_key, reverse = false )
+    if os = OpenStudiosEvent.find_by_key(os_key)
+      os.for_display(reverse)
+    elsif os_key
+      os_key = os_key.to_s
+      yr = os_key[0..3]
+      mo = os_key[4..-1]
+      seas = (mo == '10') ? 'Oct':'Apr'
+      "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
     else
-      #puts "*************************** OSKEY IS NOT NIL ************************"
-      if os = OpenStudiosEvent.find_by_key(os_key)
-        os.for_display(reverse)
-      elsif os_key
-        os_key = os_key.to_s
-        yr = os_key[0..3]
-        mo = os_key[4..-1]
-        seas = (mo == '10') ? 'Oct':'Apr'
-        "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
-      else
-        'n/a'
-      end
+      'n/a'
     end
   end
 

@@ -220,23 +220,6 @@ describe Artist do
       end
     end
   end
-  describe 'primary_medium' do
-    let(:media) { FactoryGirl.create_list(:medium, 4) }
-    before do
-      media_ids = media.sort_by{|m| m.name.downcase}.map(&:id)
-      5.times.each do |ct|
-        idx = ((media_ids.count-1)/(ct+1)).to_i
-        artist.art_pieces << ArtPiece.new(title: 'abc', medium_id: media_ids[idx])
-      end
-      artist.save
-    end
-    it 'finds medium 1 as the most common' do
-      artist.reload.primary_medium.should eql media.first
-    end
-    it 'works with no media on artist' do
-      nobody.primary_medium.should be_nil
-    end
-  end
 
   describe 'representative piece' do
     it 'is included in the users art pieces' do

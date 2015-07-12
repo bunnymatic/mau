@@ -135,13 +135,13 @@ class ArtistsController < ApplicationController
 
   def show
     @artist = get_active_artist_from_params
-    set_artist_meta
     respond_to do |format|
       format.html {
         if !@artist
           redirect_to artists_path, flash: { error: 'We were unable to find the artist you were looking for.' }
         else
           @artist = ArtistPresenter.new( @artist)
+          set_artist_meta
         end
       }
       format.json  {
@@ -170,8 +170,8 @@ class ArtistsController < ApplicationController
 
   def update
     if request.xhr?
-      process_os_update
-      render json: {success: true, os_status: current_artist.reload.doing_open_studios?, current_os: OpenStudiosEventService.current}
+      os_status = process_os_update
+      render json: {success: true, os_status: os_status, current_os: OpenStudiosEventService.current}
     else
       if commit_is_cancel
         redirect_to user_path(current_user)
@@ -289,17 +289,15 @@ class ArtistsController < ApplicationController
   # process xhr request to update artist os participation
   def process_os_update
     participating = (((params[:artist] && params[:artist][:os_participation])).to_i != 0)
+
     if participating != current_artist.doing_open_studios?
-      begin
-        unless current_artist.address.blank?
-          current_artist.update_os_participation(OpenStudiosEventService.current, participating)
-          trigger_os_signup_event(participating)
-        end
-      rescue Exception => ex
-        puts ex.to_s
+      unless current_artist.address.blank?
+        current_artist.update_os_participation(OpenStudiosEventService.current, participating)
+        trigger_os_signup_event(participating)
       end
     end
     Messager.new.publish "/artists/#{current_artist.id}/update", "updated os info"
+    participating
   end
 
   def trigger_os_signup_event(participating)

@@ -115,11 +115,13 @@ When /^I click on the current open studios edit section$/ do
 end
 
 Then(/^I see that I've successfully signed up for Open Studios$/) do
-  expect(@artist.reload.doing_open_studios?).to eq true
+  @artist = Artist.find(@artist.id) # force reload with artist info reload
+  expect(@artist.doing_open_studios?).to eq true
 end
 
 Then(/^I see that I've successfully unsigned up for Open Studios$/) do
-  expect(@artist.reload.doing_open_studios?).to eq false
+  @artist = Artist.find(@artist.id) # force reload with artist info reload
+  expect(@artist.doing_open_studios?).to eq false
 end
 
 When(/^I click on the first artist's card$/) do

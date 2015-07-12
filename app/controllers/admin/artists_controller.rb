@@ -66,8 +66,12 @@ module Admin
     # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not
     def update_artist_os_standing(artist, current_open_studios, doing_it)
       return nil unless artist.has_address?
-      artist.update_os_participation current_open_studios, (artist.doing_open_studios? != doing_it)
-      return (artist.doing_open_studios? != doing_it)
+      if (artist.doing_open_studios? != doing_it)
+        artist.update_os_participation current_open_studios, doing_it
+        true
+      else
+        false
+      end
     end
 
   end

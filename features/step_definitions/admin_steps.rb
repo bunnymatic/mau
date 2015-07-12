@@ -1,8 +1,7 @@
 When /^I set all artists to do open studios$/ do
   within('table') do
-    for artist in @artists
-      cb = "os_#{artist.id}"
-      check cb
+    all('[type=checkbox]').each do |cb|
+      check cb['id']
     end
   end
   click_on_first 'update os status'
@@ -17,13 +16,16 @@ Then(/^I see the admin artists list$/) do
 end
 
 When(/^I uncheck the box for the first participating artist/) do
-  @participating_artist = @artists.detect{|a| a.doing_open_studios? && a.has_address?}
-  uncheck "os_#{@participating_artist.id}"
+  cb = all('table input[checked=checked]').first
+  id = cb['id']
+  uncheck cb['id']
   click_on_first 'update os status'
+  @participating_artist = Artist.find(id.split("_").last)
 end
 
 Then(/^I see that the first participating artist is no longer doing open studios/) do
-  expect(@participating_artist.reload.doing_open_studios?).to be_false
+  @participating_artist = Artist.find(@participating_artist.id) # force reload with artist info reload
+  expect(@participating_artist.doing_open_studios?).to be_false
 end
 
 Then /^I see that all artists are doing open studios$/ do

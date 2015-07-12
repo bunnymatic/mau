@@ -196,10 +196,6 @@ class User < ActiveRecord::Base
     @mytags ||= art_pieces.map(&:tags).flatten.compact.uniq
   end
 
-  def media
-    @mymedia ||= art_pieces.map(&:medium).flatten.compact.uniq
-  end
-
   def validate_email
     errors.add(:email, 'is an invalid email') unless BlacklistDomain::is_allowed?(email)
   end

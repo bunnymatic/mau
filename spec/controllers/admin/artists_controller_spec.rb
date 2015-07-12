@@ -8,7 +8,8 @@ describe Admin::ArtistsController do
   let!(:artist) { FactoryGirl.create(:artist, :with_studio) }
   let(:artist2) { FactoryGirl.create(:artist, :active) }
   let(:manager) { FactoryGirl.create(:artist, :active, :with_studio, :manager) }
-
+  let(:current_os) { FactoryGirl.create(:open_studios_event, :future) }
+  
   describe "#index" do
     context "while not logged in" do
       before do
@@ -35,8 +36,8 @@ describe Admin::ArtistsController do
         context 'with no params' do
           render_views
           before do
-            ArtistInfo.any_instance.stub(os_participation: {'201204' => true})
-            Artist.any_instance.stub(os_participation: {'201204' => true})
+            ArtistInfo.any_instance.stub(os_participation: { current_os.key => true})
+            Artist.any_instance.stub(os_participation: { current_os.key => true})
             pending
             password_reset
             get :index
@@ -64,7 +65,7 @@ describe Admin::ArtistsController do
             end
           end
           it 'renders .participating rows for all pending artists' do
-            assert_select('tr.participating', count: Artist.all.select{|a| a.os_participation['201210']}.count)
+            assert_select('tr.participating', count: Artist.all.select{|a| a.os_participation[current_os.key]}.count)
           end
           it 'renders activation link for inactive artists' do
             activation_url = activate_url(activation_code: pending.activation_code)
