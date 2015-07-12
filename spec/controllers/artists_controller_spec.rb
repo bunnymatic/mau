@@ -260,8 +260,7 @@ describe ArtistsController do
       end
 
       it 'displays links to the media' do
-        tags = artist_with_tags.tags.map(&:name).map{|t| t[0..255]}
-        media = artist_with_tags.media.map(&:name)
+        media = artist_with_tags.art_pieces.compact.uniq.map{|ap| ap.medium.try(:name) }
 
         # fixture validation
         media.should have_at_least(1).medium
@@ -273,15 +272,15 @@ describe ArtistsController do
       end
 
       it 'has the artist tags and media as the keywords' do
-        tags = artist_with_tags.tags.map(&:name).map{|t| t[0..255]}
-        media = artist_with_tags.media.map(&:name)
+        tags = artist_with_tags.art_pieces.map(&:tags).flatten.compact.uniq.map(&:name)
+        media = artist_with_tags.art_pieces.map{|ap| ap.medium.try(:name) }
         expected = tags + media
         assert expected.length > 0, 'Fixture for artist needs some tags or media associations'
         assert_select 'head meta[name=keywords]' do |content|
           content.length.should eql 1
           actual = content[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
-            actual.should include ex
+            expect(actual).to include ex
           end
         end
       end
@@ -291,7 +290,7 @@ describe ArtistsController do
           expected = ["art is the mission", "art", "artists", "san francisco"]
           actual = kws[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
-            actual.should include ex
+            expect(actual).to include ex
           end
         end
       end

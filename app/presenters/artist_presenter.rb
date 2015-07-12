@@ -22,6 +22,11 @@ class ArtistPresenter < UserPresenter
     @media ||= art_pieces.map(&:medium).compact.uniq
   end
 
+  def tags
+    @tags ||= art_pieces.map(&:tags).flatten.compact.uniq
+  end
+
+
   def has_bio?
     model.try(:bio) and !model.bio.empty?
   end

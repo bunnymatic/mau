@@ -191,11 +191,6 @@ class User < ActiveRecord::Base
     key.gsub(/\W/,' ').strip
   end
 
-  def tags
-    # rollup and return most popular 15 tags
-    @mytags ||= art_pieces.map(&:tags).flatten.compact.uniq
-  end
-
   def validate_email
     errors.add(:email, 'is an invalid email') unless BlacklistDomain::is_allowed?(email)
   end
