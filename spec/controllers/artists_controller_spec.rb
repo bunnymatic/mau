@@ -228,9 +228,6 @@ describe ArtistsController do
         get :show, id: artist_with_tags.id
       end
       it { expect(response).to be_success }
-      it 'shows the artists name' do
-        assert_select '.header', match: artist_with_tags.get_name(true)
-      end
       it 'has the artist\'s bio as the description' do
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
@@ -244,7 +241,7 @@ describe ArtistsController do
           c = desc.first.attributes['content']
           expect(c).to include artist_with_tags.bio[0..50]
           expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include artist_with_tags.get_name
+          expect(c).to include html_encode(artist_with_tags.get_name, :named)
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
@@ -258,7 +255,7 @@ describe ArtistsController do
           expect(c).to include artist.bio.to_s[0..420]
           expect(c).to match /\.\.\.$/
           expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include artist.get_name(true)
+          expect(c).to include html_encode(artist.get_name, :named)
         end
       end
 

@@ -171,7 +171,7 @@ class ArtistsController < ApplicationController
   def update
     if request.xhr?
       process_os_update
-      render json: {success: true, os_status: current_artist.reload.doing_open_studios?, current_os: OpenStudiosEvent.current}
+      render json: {success: true, os_status: current_artist.reload.doing_open_studios?, current_os: OpenStudiosEventService.current}
     else
       if commit_is_cancel
         redirect_to user_path(current_user)
@@ -292,7 +292,7 @@ class ArtistsController < ApplicationController
     if participating != current_artist.doing_open_studios?
       begin
         unless current_artist.address.blank?
-          current_artist.update_os_participation(OpenStudiosEvent.current, participating)
+          current_artist.update_os_participation(OpenStudiosEventService.current, participating)
           trigger_os_signup_event(participating)
         end
       rescue Exception => ex

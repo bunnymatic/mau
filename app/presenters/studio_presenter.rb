@@ -54,7 +54,7 @@ class StudioPresenter
   def open_studios_artists_count_label
     @open_studios_count_label ||=
       begin
-        current_open_studios = OpenStudiosEvent.current
+        current_open_studios = OpenStudiosEventService.current
         if has_open_studios_artists? && current_open_studios
           "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) + " in #{current_open_studios.title}"
         else

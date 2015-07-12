@@ -42,29 +42,11 @@ class OpenStudiosEvent < ActiveRecord::Base
   end
 
   def self.current
-    future.first
+    future.first || past.last
   end
 
   def self.current_key
     current.try(:key)
-  end
-
-  def self.for_display(os_key = nil, reverse = false )
-    if !os_key
-      OpenStudiosEvent.current.try(:for_display,reverse)
-    else
-      if os = OpenStudiosEvent.find_by_key(os_key)
-        os.for_display(reverse)
-      elsif os_key
-        os_key = os_key.to_s
-        yr = os_key[0..3]
-        mo = os_key[4..-1]
-        seas = (mo == '10') ? 'Oct':'Apr'
-        "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
-      else
-        'n/a'
-      end
-    end
   end
 
   def end_date_is_after_start_date

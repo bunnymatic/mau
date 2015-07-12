@@ -217,7 +217,7 @@ EOF
   end
 
   def current_open_studios
-    @current_open_studios ||= OpenStudiosEventPresenter.new(OpenStudiosEvent.current)
+    @current_open_studios ||= OpenStudiosEventPresenter.new(OpenStudiosEventService.current)
   end
 
 end
