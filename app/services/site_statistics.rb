@@ -11,14 +11,27 @@ class SiteStatistics
   def open_studios
     {}.tap do |os_stats|
       available_open_studios_keys.sort.reverse.each do |ostag|
-        key = OpenStudiosEvent.for_display(ostag)
+        key = display_key(ostag)
         os_stats[key] = Artist.active.open_studios_participants(ostag).count
       end
     end
   end
 
-
   private
+ 
+  def display_key(os_key)
+    reverse = true
+    if os = OpenStudiosEvent.find_by_key(os_key)
+      os.for_display(reverse)
+    elsif os_key
+      os_key = os_key.to_s
+      yr = os_key[0..3]
+      mo = os_key[4..-1]
+      seas = (mo == '10') ? 'Oct':'Apr'
+      "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
+    end
+  end
+ 
 
   def compute
     queries.keys.each do |k|

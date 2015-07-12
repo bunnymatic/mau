@@ -18,13 +18,9 @@ module Admin
       redirect_to admin_artists_path, notice: "#{artist.get_name} has been suspended"
     end
 
-    def destroy(os_event)
-      clear_cache(os_event.id)
-      os_event.destroy
-    end
-    
     def update
       current_open_studios = OpenStudiosEventService.current
+      
       if current_open_studios.nil?
         flash[:error] = "You must have an Open Studios Event in the future before you can set artists' status."
       elsif params['os'].present?
@@ -49,6 +45,12 @@ module Admin
       redirect_to(admin_artists_url)
     end
 
+    def destroy
+      @os_event = OpenStudiosEventService.find(params[:id], false)
+      OpenStudiosEventService.destroy(@os_event)
+      redirect_to admin_open_studios_events_path, notice: "The Event has been removed"
+    end
+    
     def notify_featured
       id = Integer(params[:id])
       ArtistMailer.notify_featured(Artist.find(id)).deliver!

@@ -6,10 +6,10 @@ class OpenStudiosEventService
   PAST_CACHE_KEY = :past_os_events
   
   def self.for_display(os_key = nil, reverse = false )
-    puts "*************************** OSKEY IS NOT NIL ************************"
     if !os_key
       OpenStudiosEvent.current.try(:for_display,reverse)
     else
+      #puts "*************************** OSKEY IS NOT NIL ************************"
       if os = OpenStudiosEvent.find_by_key(os_key)
         os.for_display(reverse)
       elsif os_key
@@ -25,7 +25,6 @@ class OpenStudiosEventService
   end
 
   def self.all
-    binding.pry
     OpenStudiosEvent.all
   end
   
@@ -66,13 +65,22 @@ class OpenStudiosEventService
     cache
   end
 
-  def self.find(id)
-    cache = SafeCache.read(event_cache_key(id))
-    unless cache
+  def self.find(id, use_cache = true)
+    if use_cache
+      cache = SafeCache.read(event_cache_key(id))
+      unless cache
+        cache = OpenStudiosEvent.find(id)
+        SafeCache.write(event_cache_key(id), cache)
+      end
+    else
       cache = OpenStudiosEvent.find(id)
-      SafeCache.write(event_cache_key(id), cache)
     end
     cache
+  end
+
+  def self.destroy(os_event)
+    clear_cache(os_event.id)
+    os_event.destroy
   end
 
   def self.clear_cache(id = nil)
