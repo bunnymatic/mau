@@ -24,11 +24,6 @@ describe Artist do
     end
   end
 
-  context 'with an artist that has tags and media' do
-    its(:tags) { should eql subject.art_pieces.map(&:tags).flatten.compact.uniq }
-    its(:media) { should eql subject.art_pieces.map(&:medium).flatten.compact.uniq }
-  end
-
   describe "create" do
     describe 'auth helpers' do
       describe "make activation token " do

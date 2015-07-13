@@ -6,7 +6,7 @@ class ArtistPresenter < UserPresenter
   attr_accessor :model
 
   delegate :doing_open_studios?, :os_participation, :studio, :studio_id,
-           :artist_info, :at_art_piece_limit?,:get_share_link,
+           :artist_info, :at_art_piece_limit?,:get_share_link, :studionumber,
            :max_pieces,
            to: :artist, allow_nil: true
 

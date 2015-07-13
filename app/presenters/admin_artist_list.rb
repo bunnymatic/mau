@@ -74,9 +74,9 @@ class AdminArtistList < ViewPresenter
 
   def artist_as_csv_row(artist)
     [
-     artist.csv_safe(:login),
-     artist.csv_safe(:firstname),
-     artist.csv_safe(:lastname),
+     csv_safe(artist.login),
+     csv_safe(artist.firstname),
+     csv_safe(artist.lastname),
      artist.get_name,
      artist.studio ? artist.studio.name : '',
      (artist.address_hash.parsed.street if artist.has_address?),

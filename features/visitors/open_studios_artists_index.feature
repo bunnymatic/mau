@@ -5,6 +5,7 @@ Feature:
 
 Background:
 
+
 Scenario:  Visiting the participants index page for open studios
   When I visit the home page
   And I click on the first "Open Studios" link

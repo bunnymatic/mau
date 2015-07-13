@@ -278,10 +278,6 @@ class User < ActiveRecord::Base
     @fav_art_pieces ||= favorites_to_obj.select { |f| f.is_a? ArtPiece }.uniq
   end
 
-  def csv_safe(field)
-    (self.send(field) || '').gsub(/\"\',/, '')
-  end
-
   def is_artist?
     self[:type] == 'Artist'
   end

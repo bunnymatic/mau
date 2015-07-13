@@ -143,7 +143,7 @@ Then(/^I see that artist's profile page$/) do
   expect(page).to have_css '.header', text: @artist.full_name
   expect(page).to have_css '.artist-profile'
   expect(page).to have_content @artist.facebook
-  expect(page).to have_content @artist.primary_medium.name
+  expect(page).to have_content @artist.art_pieces.first.medium.name
   expect(current_path).to eql artist_path(@artist)
 end
 
