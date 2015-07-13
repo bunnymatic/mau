@@ -80,12 +80,12 @@ class CatalogPresenter
      artist.csv_safe(:lastname),
      artist.get_name(true),
      artist.email,
-     artist.studio ? artist.studio.name : '',
+     artist.studio.try(:name).to_s,
      artist.address_hash.parsed.street,
      artist.studionumber,
+     artist.studio.try(:cross_street).to_s,
      '',
-     '',
-     artist.primary_medium ? artist.primary_medium.name : ''
+     artist.media.join(" ")
     ]
   end
 
