@@ -75,8 +75,6 @@ common:
    ga_key: blah
    ga_api_key: key
    ga_server_api_key: server_key
-   AWS_ACCESS_KEY_ID: bogus
-   AWS_SECRET_ACCESS_KEY: bogus
    POSTMARK_API_KEY: bogus
    mailchimp_api_key: bogus
    mailchimp_artist_list_id: first

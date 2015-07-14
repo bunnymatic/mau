@@ -228,9 +228,6 @@ describe ArtistsController do
         get :show, id: artist_with_tags.id
       end
       it { expect(response).to be_success }
-      it 'shows the artists name' do
-        assert_select '.header', match: artist_with_tags.get_name(true)
-      end
       it 'has the artist\'s bio as the description' do
         assert_select 'head meta[name=description]' do |desc|
           desc.length.should eql 1
@@ -244,7 +241,7 @@ describe ArtistsController do
           c = desc.first.attributes['content']
           expect(c).to include artist_with_tags.bio[0..50]
           expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include artist_with_tags.get_name
+          expect(c).to include html_encode(artist_with_tags.get_name, :named)
         end
       end
       it 'has the artist\'s (truncated) bio as the description' do
@@ -258,13 +255,12 @@ describe ArtistsController do
           expect(c).to include artist.bio.to_s[0..420]
           expect(c).to match /\.\.\.$/
           expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include artist.get_name(true)
+          expect(c).to include html_encode(artist.get_name, :named)
         end
       end
 
       it 'displays links to the media' do
-        tags = artist_with_tags.tags.map(&:name).map{|t| t[0..255]}
-        media = artist_with_tags.media.map(&:name)
+        media = artist_with_tags.art_pieces.compact.uniq.map{|ap| ap.medium.try(:name) }
 
         # fixture validation
         media.should have_at_least(1).medium
@@ -276,15 +272,15 @@ describe ArtistsController do
       end
 
       it 'has the artist tags and media as the keywords' do
-        tags = artist_with_tags.tags.map(&:name).map{|t| t[0..255]}
-        media = artist_with_tags.media.map(&:name)
+        tags = artist_with_tags.art_pieces.map(&:tags).flatten.compact.uniq.map(&:name)
+        media = artist_with_tags.art_pieces.map{|ap| ap.medium.try(:name) }
         expected = tags + media
         assert expected.length > 0, 'Fixture for artist needs some tags or media associations'
         assert_select 'head meta[name=keywords]' do |content|
           content.length.should eql 1
           actual = content[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
-            actual.should include ex
+            expect(actual).to include ex
           end
         end
       end
@@ -294,7 +290,7 @@ describe ArtistsController do
           expected = ["art is the mission", "art", "artists", "san francisco"]
           actual = kws[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
-            actual.should include ex
+            expect(actual).to include ex
           end
         end
       end

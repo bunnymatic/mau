@@ -18,7 +18,7 @@ class OpenStudiosEventPresenter < ViewPresenter
     if available?
       model.for_display
     else
-      OpenStudiosEvent.for_display(current_open_studios_key)
+      OpenStudiosEventService.for_display(current_open_studios_key)
     end
   end
 

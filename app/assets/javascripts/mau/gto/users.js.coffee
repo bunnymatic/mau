@@ -15,7 +15,7 @@ $ ->
         artist:
           os_participation: (if val then 1 else 0)
       success: (data) ->
-        status = data.success && data.os_status
+        status = !!data.os_status
         flash = new MAU.Flash()
         flash.clear()
 

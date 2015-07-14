@@ -130,14 +130,14 @@ class Artist < User
     @memo_address_hash ||= call_address_method :address_hash
   end
 
-  def primary_medium
-    return nil unless art_pieces && art_pieces.count > 0
-    @primary_medium ||=
-      begin
-        hist = histogram(art_pieces.map(&:medium).compact)
-        hist.sort_by{|k,v| v}.last.try(:first)
-      end
-  end
+  # def primary_medium
+  #   return nil unless art_pieces && art_pieces.count > 0
+  #   @primary_medium ||=
+  #     begin
+  #       hist = histogram(art_pieces.map(&:medium).compact)
+  #       hist.sort_by{|k,v| v}.last.try(:first)
+  #     end
+  # end
 
   def latest_piece
     @latest_piece ||= art_pieces.order('created_at desc').limit(1).first
@@ -148,7 +148,7 @@ class Artist < User
     piece = SafeCache.read(cache_key)
     if piece.blank?
       logger.debug("#{__method__}: cache miss");
-      piece = art_pieces.limit(1).first
+      piece = art_pieces.first
       SafeCache.write(cache_key, piece, :expires_in => 0) unless piece.nil?
     end
     piece
@@ -199,7 +199,7 @@ class Artist < User
   end
 
   def self.open_studios_participants(oskey = nil)
-    q = (oskey || OpenStudiosEvent.current.try(:key)).to_s
+    q = (oskey || OpenStudiosEventService.current.try(:key)).to_s
     if q.present?
       joins(:artist_info).where("artist_infos.open_studios_participation like '%#{q}%'")
     else

@@ -191,15 +191,6 @@ class User < ActiveRecord::Base
     key.gsub(/\W/,' ').strip
   end
 
-  def tags
-    # rollup and return most popular 15 tags
-    @mytags ||= art_pieces.map(&:tags).flatten.compact.uniq
-  end
-
-  def media
-    @mymedia ||= art_pieces.map(&:medium).flatten.compact.uniq
-  end
-
   def validate_email
     errors.add(:email, 'is an invalid email') unless BlacklistDomain::is_allowed?(email)
   end
@@ -285,10 +276,6 @@ class User < ActiveRecord::Base
 
   def fav_art_pieces
     @fav_art_pieces ||= favorites_to_obj.select { |f| f.is_a? ArtPiece }.uniq
-  end
-
-  def csv_safe(field)
-    (self.send(field) || '').gsub(/\"\',/, '')
   end
 
   def is_artist?

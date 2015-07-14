@@ -1,7 +1,7 @@
 require 'csv'
 
-class CatalogPresenter
-
+class CatalogPresenter < ViewPresenter
+  
   include OpenStudiosEventShim
 
   def csv_filename
@@ -71,21 +71,22 @@ class CatalogPresenter
   private
   def csv_headers
     @csv_headers ||= ["First Name","Last Name","Full Name","Email", "Group Site Name",
-                      "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
+                      "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Media"]
   end
 
   def artist_as_csv_row(artist)
+    a = ArtistPresenter.new(artist)
     [
-     artist.csv_safe(:firstname),
-     artist.csv_safe(:lastname),
-     artist.get_name(true),
-     artist.email,
-     artist.studio ? artist.studio.name : '',
-     artist.address_hash.parsed.street,
-     artist.studionumber,
+     csv_safe(a.firstname),
+     csv_safe(a.lastname),
+     a.get_name(true),
+     a.email,
+     a.studio.try(:name).to_s,
+     a.address_hash.parsed.street,
+     a.studionumber,
+     a.studio.try(:cross_street).to_s,
      '',
-     '',
-     artist.primary_medium ? artist.primary_medium.name : ''
+     a.media.map(&:name).join(" ")
     ]
   end
 

@@ -115,11 +115,13 @@ When /^I click on the current open studios edit section$/ do
 end
 
 Then(/^I see that I've successfully signed up for Open Studios$/) do
-  expect(@artist.reload.doing_open_studios?).to eq true
+  @artist = Artist.find(@artist.id) # force reload with artist info reload
+  expect(@artist.doing_open_studios?).to eq true
 end
 
 Then(/^I see that I've successfully unsigned up for Open Studios$/) do
-  expect(@artist.reload.doing_open_studios?).to eq false
+  @artist = Artist.find(@artist.id) # force reload with artist info reload
+  expect(@artist.doing_open_studios?).to eq false
 end
 
 When(/^I click on the first artist's card$/) do
@@ -141,7 +143,7 @@ Then(/^I see that artist's profile page$/) do
   expect(page).to have_css '.header', text: @artist.full_name
   expect(page).to have_css '.artist-profile'
   expect(page).to have_content @artist.facebook
-  expect(page).to have_content @artist.primary_medium.name
+  expect(page).to have_content @artist.art_pieces.first.medium.name
   expect(current_path).to eql artist_path(@artist)
 end
 

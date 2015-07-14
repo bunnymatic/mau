@@ -36,7 +36,7 @@ describe CatalogsController do
       it { expect(response).to be_csv_type }
       it 'includes the right headers' do
         expected_headers =  ["First Name","Last Name","Full Name","Email", "Group Site Name",
-                             "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Primary Medium"]
+                             "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Media"]
 
         parsed.headers.should == expected_headers
       end
@@ -46,7 +46,7 @@ describe CatalogsController do
         row = parsed.detect{|row| row['Full Name'] == artist.full_name}
         expect(row).to be_present
         expect(row['Email']).to eql artist.email
-        expect(row["Primary Medium"]).to eql artist.primary_medium.name
+        expect(row["Media"]).to eql artist.art_pieces.map{|a| a.medium.try(:name)}.join(" ")
       end
     end
 

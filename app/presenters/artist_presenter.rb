@@ -5,8 +5,8 @@ class ArtistPresenter < UserPresenter
 
   attr_accessor :model
 
-  delegate :doing_open_studios?, :media, :os_participation, :studio, :studio_id,
-           :artist_info, :at_art_piece_limit?, :primary_medium, :get_share_link,
+  delegate :doing_open_studios?, :os_participation, :studio, :studio_id,
+           :artist_info, :at_art_piece_limit?,:get_share_link, :studionumber,
            :max_pieces,
            to: :artist, allow_nil: true
 
@@ -15,8 +15,17 @@ class ArtistPresenter < UserPresenter
   end
 
   def has_media?
-    model.media.present?
+    media.present?
   end
+
+  def media
+    @media ||= art_pieces.map(&:medium).compact.uniq
+  end
+
+  def tags
+    @tags ||= art_pieces.map(&:tags).flatten.compact.uniq
+  end
+
 
   def has_bio?
     model.try(:bio) and !model.bio.empty?
@@ -30,7 +39,7 @@ class ArtistPresenter < UserPresenter
     @art_pieces ||=
       begin
         num = artist.max_pieces - 1
-        pieces = artist.art_pieces.select(&:persisted?)[0..num].compact.map{|piece| ArtPiecePresenter.new(piece)}
+        artist.art_pieces.select(&:persisted?)[0..num].compact.map{|piece| ArtPiecePresenter.new(piece)}
       end
   end
 

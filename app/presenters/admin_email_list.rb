@@ -81,7 +81,7 @@ class AdminEmailList < ViewPresenter
     @lists ||=
       begin
         os_lists = available_open_studios_keys.reverse.map do |ostag|
-          [ ostag, OpenStudiosEvent.for_display(ostag) ]
+          [ ostag, OpenStudiosEventService.for_display(ostag) ]
         end
 
         [[ "all", 'Artists'],
@@ -114,8 +114,8 @@ class AdminEmailList < ViewPresenter
 
   def artist_as_csv_row(artist)
     [
-     artist.csv_safe(:firstname),
-     artist.csv_safe(:lastname),
+     csv_safe(artist.firstname),
+     csv_safe(artist.lastname),
      artist.get_name(false),
      artist.email,
      artist.studio ? artist.studio.name : ''

@@ -31,10 +31,10 @@
         %label Uploaded Art:
         %span #{@featured.artist.art_pieces ? @featured.artist.art_pieces.count : 0}
       %p.primary_medium
-        %label Primary Medium:
+        %label Medium:
         %span
-          - if @featured_artist.primary_medium
-            #{@featured_artist.primary_medium.name}
+          - if @featured_artist.has_media?
+            #{@featured_artist.media.map(&:name).join ", "}
           - else
             N/A
       %p.studio

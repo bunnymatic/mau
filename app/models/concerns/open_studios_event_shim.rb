@@ -22,7 +22,7 @@ module OpenStudiosEventShim
 
     private
     def _open_studios_shim_event
-      @_open_studios_shim_event ||= OpenStudiosEvent.current
+      @_open_studios_shim_event ||= OpenStudiosEventService.current
     end
 
     # delegate to OpenStudiosEvent.current if there is one

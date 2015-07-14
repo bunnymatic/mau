@@ -14,4 +14,4 @@ Background:
 Scenario:  Visiting the home page
   When I visit the home page
   Then I see some of the art that's in the system
-  And I see art newly added to the system
+

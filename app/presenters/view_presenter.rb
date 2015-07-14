@@ -13,4 +13,8 @@ class ViewPresenter
     Rails.application.routes.url_helpers
   end
 
+  def csv_safe(val)
+    (val || '').gsub(/\"\',/, '')
+  end
+
 end
