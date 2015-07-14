@@ -48,6 +48,7 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United: Spring Open Studios"
 
     @presenter = OpenStudiosPresenter.new
+    @map_info = ArtistsMap.new(true)
   end
 
   def about
