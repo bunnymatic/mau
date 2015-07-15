@@ -1,7 +1,8 @@
 class ArtistsGallery < ArtistsPresenter
 
   PER_PAGE = 20
-
+  ELLIPSIS = "&hellip;"
+  LETTERS_REGEX = /[a-zA-Z]/
   attr_reader :pagination, :per_page, :letter
 
   delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
@@ -15,7 +16,8 @@ class ArtistsGallery < ArtistsPresenter
   end
 
   def self.lastname_letters
-    ArtPiece.joins(:artist).where(users:{state: 'active'}).group('lcase(left(users.lastname,1))').count.keys
+    letters = ArtPiece.joins(:artist).where(users:{state: 'active'}).group('lcase(left(users.lastname,1))').count.keys
+    letters.select{|l| LETTERS_REGEX =~ l} + [ELLIPSIS]
   end
 
   def empty_message
@@ -28,9 +30,19 @@ class ArtistsGallery < ArtistsPresenter
 
   def artists
     super.select do |artist|
-      (artist.active? && artist.lastname.present? && artist.representative_piece && (letter.nil? || (letter == artist.lastname[0].downcase)))
+      keep = artist.active? && artist.representative_piece
+      if keep
+        name = artist.lastname
+        keep && letter_match(letter, name)
+      else
+        false
+      end
     end
   end
 
-
+  def letter_match(lettr, name)
+    return true if lettr.nil?
+    first_letter = name[0].try(:downcase)
+    (lettr == first_letter) || ((LETTERS_REGEX !~ first_letter) && lettr == ELLIPSIS)
+  end
 end

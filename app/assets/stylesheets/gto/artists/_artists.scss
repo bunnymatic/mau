@@ -43,10 +43,15 @@
 .users.show, .search-results, .artists, .artists.index, .artists.show, .art_pieces.show, .art_pieces.create {
 
   @include search-filter;
-
+  .title .letter {
+    text-transform: uppercase;
+  }
   .gallery-paginator {
     text-align:center;
     margin-top: -15px;
+    .page a {
+      text-transform: uppercase;
+    }
   }
   .header .title {
     .os-violator {
