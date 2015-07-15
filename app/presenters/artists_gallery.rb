@@ -8,7 +8,7 @@ class ArtistsGallery < ArtistsPresenter
 
   def initialize(os_only, letter, current_page, per_page = PER_PAGE)
     super os_only
-    @letter = letter.downcase
+    @letter = letter.try(:downcase)
     @per_page = per_page
     @current_page = current_page.to_i
     @pagination = ArtistsPagination.new(artists, @current_page, @per_page)
@@ -28,7 +28,7 @@ class ArtistsGallery < ArtistsPresenter
 
   def artists
     super.select do |artist|
-      artist.active? && artist.lastname.present? && artist.representative_piece && (letter == artist.lastname[0].downcase)
+      (artist.active? && artist.lastname.present? && artist.representative_piece && (letter.nil? || (letter == artist.lastname[0].downcase)))
     end
   end
 
