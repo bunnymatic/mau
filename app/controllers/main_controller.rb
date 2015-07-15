@@ -44,13 +44,6 @@ class MainController < ApplicationController
     end
   end
 
-  def open_studios
-    @page_title = "Mission Artists United: Spring Open Studios"
-
-    @presenter = OpenStudiosPresenter.new
-    @map_info = ArtistsMap.new(true)
-  end
-
   def about
     @page_title = "Mission Artists United - About Us"
     @content = CmsDocument.packaged('main','about')

@@ -1,9 +1,10 @@
 @import 'gto/variables';
 @import 'gto/gto-mixins';
-.main.open_studios {
+.open_studios.show {
   .section {
     margin-bottom: 30px;
     > h4 {
+      text-transform: uppercase;
       margin-bottom: 10px;
       font-size: 0.9rem;
       font-weight: $font-weight-normal;

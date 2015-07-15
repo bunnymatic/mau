@@ -34,8 +34,11 @@
                 = street
           = render :partial => '/main/info_footer'
   .pure-u-1-1.tab-pane.padded-content#participants
-    .pure-g
-      .pure-u-1-1
-        h2 Participants' art cards go here
+    .pure-g.js-artists-scroll-wrapper.artists-scroll
+      - if @gallery.items.count == 0
+        .pure-u-1-1
+          h4 = @gallery.empty_message
+      - else
+        = render '/artists/artist_list', gallery: @gallery
   .pure-u-1-1.tab-pane.padded-content#map
-    = render '/main/open_studios/map'
+    = render 'map'

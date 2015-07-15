@@ -65,52 +65,52 @@
     @include transition-duration(0.3s);
     @include transition-timing-function(ease-in-out);
   }
-  .art-card, .artist-card {
-    @include artist-thumb-mixin;
-    .os-violator {
-      position: absolute;
-      top: 12px;
-      right: 12px;
+}
+
+.art-card, .artist-card {
+  @include artist-thumb-mixin;
+  .os-violator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+}
+.art-card, .artist-card {
+  .artist-card__remove-favorite,
+  .art-card__remove-favorite {
+    display: none;
+  }
+  .desc {
+    padding: 0.1rem;
+  }
+  .name, .media, .tags {
+    height: 1.2rem;
+    line-height:1.2rem;
+    @include ellipsis;
+  }
+  .name {
+    font-size: 0.9rem;
+  }
+  .media, .tags {
+    font-style: italic;
+    font-size: 0.75rem;
+  }
+  &:hover {
+    .desc {
+      @include opacity(1);
     }
   }
-  .art-card, .artist-card {
-    .artist-card__remove-favorite,
-    .art-card__remove-favorite {
-      display: none;
-    }
+  .art-card {
     .desc {
-      padding: 0.1rem;
+      height: 3rem;
     }
-    .name, .media, .tags {
-      height: 1.2rem;
-      line-height:1.2rem;
-      @include ellipsis;
-    }
-    .name {
-      font-size: 0.9rem;
-    }
-    .media, .tags {
-      font-style: italic;
-      font-size: 0.75rem;
-    }
-    &:hover {
-      .desc {
-        @include opacity(1);
-      }
-    }
-    .art-card {
-      .desc {
-        height: 3rem;
-      }
-    }
-    @media (min-width: $screen-sm-min) {
-      .desc {
-        @include opacity(0);
-      }
+  }
+  @media (min-width: $screen-sm-min) {
+    .desc {
+      @include opacity(0);
     }
   }
 }
-
 
 .artist-card, .art-card, .artist-profile {
   .card__controls {

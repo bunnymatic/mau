@@ -30,19 +30,7 @@ $ ->
       $(@).html(btnText)
 
 
-  if $('.artists.index').length
-    # set event bindings
-    $win = $(window)
-    $win.scroll ->
-      console.log($win.scrollTop(), $(document).height(), $win.height())
-      if $win.scrollTop() == ($(document).height() - $win.height())
-        fetchArtists()
-    # if the scroll div top is in the window, fetch another set
-
-    $more = $('#js-scroll-load-more');
-    if ($more.length) && ($more.position().top < $win.height())
-      fetchArtists()
-
+  if $('.artists.index, .open_studios.show').length
     fetchArtists = (ev) ->
       $content = $('.js-artists-scroll-wrapper')
       pagination = $('.js-pagination-state').last().data()
@@ -55,12 +43,24 @@ $ ->
             l: pagination.current_letter
             p: nextPage
             filter: filter
+            os_only: pagination.os_only
         ).done (data) ->
           # remove the current more button
           $('#js-scroll-load-more').remove();
           if data
             $content = $('.js-artists-scroll-wrapper')
             $content.append(data);
+    
+    # set event bindings
+    $win = $(window)
+    $win.scroll ->
+      if $win.scrollTop() == ($(document).height() - $win.height())
+        fetchArtists()
+    # if the scroll div top is in the window, fetch another set
+
+    $more = $('#js-scroll-load-more');
+    if ($more.length) && ($more.position().top < $win.height())
+      fetchArtists()
 
     if $('.js-filter-by-name').length    
       # define helpers

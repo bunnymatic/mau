@@ -18,13 +18,3 @@ $ ->
     )
 
     $('.gm-style-iw > [style]').css('overflow: visible');
-    # # set class on markers that are visible in the map
-    # markVisibleMarkers = () ->
-    #   map = handler.getMap()
-    #   _.each MAU.map_markers, (pin) ->
-    #     if map.getBounds().contains(pin.getPosition())
-    #       console.log(pin)
-    # $('#map-canvas').on 'scroll', () ->
-    #   MAU.Utils.debounce(markVisibleMarkers, 250, false)
-
-    # markVisibleMarkers()
