@@ -21,9 +21,5 @@ Then(/^I see that medium detail page$/) do
   expect(current_path).to eql medium_path(@medium)
   expect(page).to have_css '.header', text: @medium.name
   expect(page).to have_css '.tagcloud li'
-  expect(page).to have_css ".art-card .media a" do |tags|
-    tags.each do |tag|
-      expect(tag['href']).to eql media_path(@medium)
-    end
-  end
+  expect(page).to have_css ".art-card"
 end

@@ -30,8 +30,10 @@ Scenario:  Drilling down to an art piece page through the artists' index
   When I click on an art card
   And I see that art piece detail page
 
-  When I click on the first "artists" link
-  And I click on "M"
+  When I click on "artists"
+  And I click on "m" in the ".gallery-paginator"
+ 
   Then I see "mister mister"'s artist card
+
 
 

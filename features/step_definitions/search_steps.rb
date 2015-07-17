@@ -33,9 +33,9 @@ When(/^I refine my search to match lots of art$/) do
 end
 
 Then(/^I see the search results have pieces from the first medium$/) do
+  expect(page).to have_content Medium.first.name
   within '#search_results' do
     expect(page).to have_css('.art-card')
-    expect(page).to have_content Medium.first.name
   end
 end
 

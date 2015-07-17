@@ -31,19 +31,16 @@ $ ->
 
 
   if $('.artists.index, .open_studios.show').length
-    fetchArtists = () ->
-      alet("switch url based on page or make helper to share this code")
+    fetchArtists = (url) ->
       $content = $('.js-artists-scroll-wrapper')
       pagination = $('.js-pagination-state').last().data()
       if pagination.has_more?
-        filter = $('.js-filter-by-name').val()
         nextPage = pagination.next_page
         $.ajax(
-          url: "/artists"
+          url: url
           data:
             l: pagination.current_letter
             p: nextPage
-            filter: filter
             os_only: pagination.os_only
         ).done (data) ->
           # remove the current more button
@@ -51,17 +48,17 @@ $ ->
           if data
             $content = $('.js-artists-scroll-wrapper')
             $content.append(data);
-    
+    url = if ($('.artists.index')[0]?) then "/artists" else "/open_studios"
     # set event bindings
     $win = $(window)
     $win.scroll ->
       if $win.scrollTop() == ($(document).height() - $win.height())
-        fetchArtists()
+        fetchArtists(url)
     # if the scroll div top is in the window, fetch another set
 
     $more = $('#js-scroll-load-more');
     if ($more.length) && ($more.position().top < $win.height())
-      fetchArtists()
+      fetchArtists(url)
 
     if $('.js-filter-by-name').length    
       # define helpers
@@ -86,7 +83,7 @@ $ ->
 
       fetchFilteredArtists = (ev) ->
         resetSearch(ev)
-        fetchArtists()
+        fetchArtists(url)
 
       throttledFilter = MAU.Utils.debounce(fetchFilteredArtists,250,false)
 

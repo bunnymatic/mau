@@ -25,7 +25,6 @@ class ArtistsController < ApplicationController
         @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_page)
         @page_title = "Mission Artists United - MAU Artists"
         set_artists_index_links
-
         if request.xhr?
           render partial: 'artist_list', locals: { gallery: @gallery }
         else
