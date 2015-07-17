@@ -45,7 +45,6 @@ When(/^I click on the first tag$/) do
   tag_path = tag_link['href']
   @tag = ArtPieceTag.find( tag_path.gsub(/^\/art_piece_tags\//, '') )
   tag_link.click
-  puts current_path
 end
 
 Then(/^I see that tag detail page$/) do

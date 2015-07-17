@@ -54,7 +54,7 @@ Given /there are open studios artists with art in the system/ do
     Given there are artists with art in the system
     Given there are future open studios events
   }
-  @artists.each{|a| a.update_os_participation(OpenStudiosEvent.current, true) }
+  @artists.each{|a| a.update_os_participation(OpenStudiosEventService.current, true) }
 end
 
 Given /there is open studios cms content in the system/ do
@@ -93,7 +93,7 @@ Given /there are past open studios events/ do
 end
 
 Given /there are future open studios events/ do
-  (@open_studios_events ||= []) << (OpenStudiosEvent.current || FactoryGirl.create(:open_studios_event, :start_date => 3.months.since))
+  (@open_studios_events ||= []) << (OpenStudiosEventService.current || FactoryGirl.create(:open_studios_event, :start_date => 3.months.since))
 end
 
 Given(/^there are artists and art pieces with favorites$/) do

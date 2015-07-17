@@ -5,8 +5,11 @@ Feature:
 
 Background:
   Given there is a scheduled Open Studios event
+  And show me the os info
+
   And there are open studios artists with art in the system
   And there is open studios cms content in the system
+  And show me the os info
 
 @javascript
 Scenario:  Visiting the open studios page
@@ -14,6 +17,7 @@ Scenario:  Visiting the open studios page
   And I click on the current open studios link
   Then I see the open studios cms content
   And I see the open studios content is not editable
+  And show me the os info
   When I click on "participants"
   Then I see the open studios participants
   When I click on "map"

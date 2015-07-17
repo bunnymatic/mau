@@ -71,7 +71,8 @@ Then(/^I see the search results are empty$/) do
 end
 
 Then(/^I see the search results have only open studios participant art$/) do
-  within '#search_results' do
+  
+  within '#search_results .search-results' do
     expect('.art-card').to be_present
     art_cards = page.all('.art-card')
     art_cards.each do |card|
