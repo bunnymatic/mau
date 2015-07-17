@@ -31,7 +31,8 @@ $ ->
 
 
   if $('.artists.index, .open_studios.show').length
-    fetchArtists = (ev) ->
+    fetchArtists = () ->
+      alet("switch url based on page or make helper to share this code")
       $content = $('.js-artists-scroll-wrapper')
       pagination = $('.js-pagination-state').last().data()
       if pagination.has_more?
@@ -85,7 +86,7 @@ $ ->
 
       fetchFilteredArtists = (ev) ->
         resetSearch(ev)
-        fetchArtists(ev)
+        fetchArtists()
 
       throttledFilter = MAU.Utils.debounce(fetchFilteredArtists,250,false)
 

@@ -98,3 +98,12 @@ end
 Then /^I see that the new open studios event is no longer there$/ do
   expect(page).to have_selector('td', text: @os_event.key)
 end
+
+Then(/^I see the open studios participants$/) do
+  expect(all('.artist-card').count).to be > 0
+  expect(all('.artist-card').count).to eql all('.os-violator').count
+end
+
+Then(/^I see a map of open studios participants$/) do
+  expect(page).to have_css '#map-canvas'
+end
