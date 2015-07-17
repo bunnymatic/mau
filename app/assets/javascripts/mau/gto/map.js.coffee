@@ -22,11 +22,8 @@ $ ->
       )
 
       $('.gm-style-iw > [style]').css('overflow: visible');
-   if ($map.closest('.tab-content')?[0])
-     # on tab activate
-     $('a[href=#map]').on 'shown.bs.tab', (ev) ->
-       buildMap()
-
-       
-   else
-     buildMap()
+    if ($map.closest('.tab-content')?[0])
+      $('a[href=#map]').on 'shown.bs.tab', (ev) ->
+         buildMap()
+    else
+      buildMap()
