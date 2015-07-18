@@ -8,6 +8,6 @@ end
 
 Then /^I see the mobile about page$/ do
   expect(page).to have_content "What is Open Studios"
-  expect(page).to have_link OpenStudiosEvent.current.for_display, href: '/open_studios'
+  expect(page).to have_link OpenStudiosEventService.current.for_display, href: '/open_studios'
 end
 

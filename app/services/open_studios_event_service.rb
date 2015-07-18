@@ -38,16 +38,7 @@ class OpenStudiosEventService
     unless cache
       cache = OpenStudiosEvent.current
       SafeCache.write(CURRENT_CACHE_KEY, cache)
-    end
-    cache
-  end
-
-  def self.future
-    cache = SafeCache.read(PAST_CACHE_KEY)
-    unless cache
-      cache = OpenStudiosEvent.past
-      SafeCache.write(PAST_CACHE_KEY, cache)
-    end
+    end      
     cache
   end
 
@@ -56,6 +47,15 @@ class OpenStudiosEventService
     unless cache
       cache = OpenStudiosEvent.future
       SafeCache.write(FUTURE_CACHE_KEY, cache)
+    end
+    cache
+  end
+
+  def self.past
+    cache = SafeCache.read(PAST_CACHE_KEY)
+    unless cache
+      cache = OpenStudiosEvent.past
+      SafeCache.write(PAST_CACHE_KEY, cache)
     end
     cache
   end

@@ -1,5 +1,5 @@
 When /I click on the current open studios link/ do
-  os_link_text = OpenStudiosEvent.current.for_display(true)
+  os_link_text = OpenStudiosEventService.current.for_display(true)
   click_on_first os_link_text
 end
 

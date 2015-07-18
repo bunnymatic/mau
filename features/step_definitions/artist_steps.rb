@@ -107,11 +107,11 @@ When(/^I see my updated personal information as:$/) do |table|
 end
 
 When /^that artist is not doing open studios$/ do
-  @artist.update_os_participation OpenStudiosEvent.current, false
+  @artist.update_os_participation OpenStudiosEventService.current, false
 end
 
 When /^I click on the current open studios edit section$/ do
-  click_on "Open Studios #{OpenStudiosEvent.current.for_display(true)}"
+  click_on "Open Studios #{OpenStudiosEventService.current.for_display(true)}"
 end
 
 Then(/^I see that I've successfully signed up for Open Studios$/) do
@@ -179,5 +179,5 @@ end
 
 Then(/^I see open studios artists on the artists list$/) do
   expect(page).to have_css '.artist-card'
-  expect(page).to have_css 'h2', text: "Artists in #{OpenStudiosEvent.current.for_display(true)} Open Studios"
+  expect(page).to have_css 'h2', text: "Artists in #{OpenStudiosEventService.current.for_display(true)} Open Studios"
 end
