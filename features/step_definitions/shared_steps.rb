@@ -145,6 +145,7 @@ Then(/^I do not see an error message$/) do
 end
 
 Then(/^I see an error message "(.*?)"$/) do |msg|
+  wait_until { all(".error-msg").any? }
   expect(page).to have_selector '.error-msg', text: msg
 end
 
