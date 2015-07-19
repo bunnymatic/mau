@@ -4,10 +4,17 @@ $ ->
   RESULTS_CONTAINER = '.search-autocomplete-results'
   RESULT_ITEM = '.search-autocomplete-result'
 
+  search_spinner = null
   searchHelpers =
     closeSearch: ->
       $(".sidenav .search.active").removeClass('active')
       $("##{SEARCH_FORM_ID}").removeClass('open')
+
+  startSpinner = ->
+   search_spinner = new MAU.Spinner() unless search_spinner
+   search_spinner.spin()
+  stopSpinner = ->
+   search_spinner?.stop()
 
   $('.nav-icon.search').on 'click', (ev) ->
     ev.preventDefault()
@@ -28,6 +35,7 @@ $ ->
     template.html(art_piece)
 
   search = ->
+    startSpinner()
     $.ajax
       url: '/search/fetch.json'
       data:
@@ -39,6 +47,8 @@ $ ->
           entry = buildArtPieceHtml(art_piece)
           $(RESULTS_CONTAINER).find('.js-results').append(entry)
       error: (data) ->
+      complete: () ->
+        stopSpinner()
 
   throttledSearch = MAU.Utils.debounce(search,150,false)
 
