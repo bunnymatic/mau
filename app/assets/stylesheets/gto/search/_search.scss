@@ -44,4 +44,9 @@
   .art-card, .artist-card {
     @include artist-thumb-mixin;
   }
+  .art-card {
+    .desc {
+      @include opacity(1);
+    }
+  }  
 }

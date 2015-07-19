@@ -8,8 +8,9 @@
   %li{ "ng-repeat" => "email in emails" }
     .email {{email.formatted()}}
     .del-btn
-      %a{ "ng-click" => "removeEmail(email.id)", href: "#", :title => 'remove this person from the list'}
+      %a{ "ng-click" => "removeEmail(email.id)", href: "#", :title => 'remove {{email.email}} from the list'}
         %i.fa.fa-close
+        &nbsp; 
 .add_email.slideable{ "id" => "add_email_{{emailListId}}", duration: "0.15s" }
   %h4 Email to Add
   .errors

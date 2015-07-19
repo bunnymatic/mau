@@ -114,14 +114,14 @@
     }
   }
   .studio-memberlist {
-    color: $lightgray;
-    text-align:left;
+    h3, h4 {
+      @include all-caps-label;
+    }
     margin: 10px;
     padding: 10px;
     border: 1px solid #eee;
-    h4 { margin-top: 0; padding-top: 0; }
-    ul, li { margin: 0; padding: 0; line-height: 1.1rem; }
-
+    h4 { margin-bottom: 1.2rem }
+    ul, li { margin: 0; padding: 0; line-height: 1.3rem; }
   }
   .studio {
     border: 1px solid #eee;
