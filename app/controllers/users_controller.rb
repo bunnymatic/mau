@@ -76,13 +76,12 @@ class UsersController < ApplicationController
 
     # validate email domain
     @user = build_user_from_params
-    unless verify_recaptcha
-      @user.valid?
-      @user.errors.add(:base, "Failed to prove that you're human."+
-                       " Re-type your password and the blurry words at the bottom before re-submitting.")
-      render_on_failed_create and return
-    end
-    if @user.valid? && @user.save
+    # unless verify_recaptcha(message: "You failed to prove that you're not a robot.")
+    #   @user.valid?
+    #   @user.errors.add(:base, "You failed to prove that you're not a robot.")
+    #   render_on_failed_create and return
+    # end
+    if verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot.") && @user.save
       new_state = (@user.is_a? Artist) ? 'pending' : 'active'
       @user.update_attribute(:state, new_state)
       redirect_after_create and return

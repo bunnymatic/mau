@@ -56,6 +56,7 @@ Scenario: Adding the same email twice to one list
   | Email               | Name     |
   | email@example.com   | joe blow |
   And I click "add" in the "Event" email form
+  Then I see that "joe blow <email@example.com>" is on the "Event" email list
   And I click to add an email to the "Event" list
   And I fill in the "Event" email form with:
   | Email               |

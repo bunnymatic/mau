@@ -1,15 +1,5 @@
 require 'spec_helper'
 
-shared_examples_for 'common signup form' do
-  it "has signup form with captcha and options for fan and artist" do
-    assert_select("#signup_form")
-    assert_select('textarea[name=recaptcha_challenge_field]')
-    assert_select 'select option[value=Artist]'
-    assert_select 'select option[value=MAUFan]'
-  end
-
-end
-
 describe UsersController do
 
   let(:fan) { FactoryGirl.create(:fan) }
@@ -56,37 +46,6 @@ describe UsersController do
       end
       it 'redirects to your page' do
         expect(response).to redirect_to root_path
-      end
-    end
-    context 'not logged in' do
-      render_views
-
-      context 'with type = artist' do
-        before do
-          # disable sweep of flash.now messages
-          # so we can test them
-          @controller.instance_eval{flash.stub(:sweep)}
-          get :new, :type => 'Artist'
-        end
-        it_should_behave_like 'common signup form'
-        it "has first and last name text boxes" do
-          assert_select("#artist_firstname")
-          assert_select("#artist_lastname")
-        end
-      end
-
-      context 'with no type' do
-        before do
-          # disable sweep of flash.now messages
-          # so we can test them
-          @controller.instance_eval{flash.stub(:sweep)}
-          get :new, :type => 'MAUFan'
-        end
-        it_should_behave_like 'common signup form'
-        it "has a first and last name text boxes" do
-          assert_select("#mau_fan_firstname")
-          assert_select("#mau_fan_lastname")
-        end
       end
     end
   end
@@ -137,7 +96,7 @@ describe UsersController do
       end
 
       it "sets a flash.now indicating failure" do
-        flash.now[:error].should include 'human'
+        flash.now[:error].should include 'robot'
       end
     end
 
