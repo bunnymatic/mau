@@ -37,7 +37,7 @@ describe Admin::ArtistsController do
           render_views
           before do
             ArtistInfo.any_instance.stub(os_participation: { current_os.key => true})
-            Artist.any_instance.stub(os_participation: { current_os.key => true})
+            Artist.any_instance.stub(os_participation: { current_os.key => true}, address: { yes: 'we do' })
             pending
             password_reset
             get :index
