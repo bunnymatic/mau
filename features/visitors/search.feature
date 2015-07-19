@@ -5,6 +5,13 @@ Feature:
 Background:
   Given there are open studios artists with art in the system
 
+Scenario:  Visitors can search from the artists index page
+  When I visit the home page
+  And I click on "artists" in the ".sidenav"
+  And I click on "search" in the ".main-container .search"
+  And I search for the first art piece by title
+  Then I see the search results have the first art piece
+
 Scenario:  Visitors can search for art by name
   When I visit the home page
   And I click on "search"

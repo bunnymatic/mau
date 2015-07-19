@@ -39,6 +39,26 @@
   }
 }
 
+.artists.index {
+  .header {
+    position: relative;
+  }
+  .header .search {
+    position: absolute;
+    bottom: 32px;
+    right: 30px;
+    text-transform: uppercase;
+    a {
+      color: $gto-gray;
+    }
+    .text {
+      display: inline-block;
+    }
+  }
+  
+}
+    
+  
 .favorites.index,
 .users.show, .search-results, .artists, .artists.index, .artists.show, .art_pieces.show, .art_pieces.create {
 

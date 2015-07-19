@@ -1,5 +1,9 @@
 require 'ap'
 
+Then(/^I (sleep|wait) "(\d+)" seconds$/) do |dummy, secs|
+  sleep(secs.to_i)
+end
+
 Then(/^I debug$/) do
   binding.pry
 end

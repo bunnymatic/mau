@@ -7,7 +7,7 @@ $ ->
   search_spinner = null
   searchHelpers =
     closeSearch: ->
-      $(".sidenav .search.active").removeClass('active')
+      $(".js-in-page-search.active").removeClass('active')
       $("##{SEARCH_FORM_ID}").removeClass('open')
 
   startSpinner = ->
@@ -16,7 +16,7 @@ $ ->
   stopSpinner = ->
    search_spinner?.stop()
 
-  $('.nav-icon.search').on 'click', (ev) ->
+  $('.js-in-page-search').on 'click', (ev) ->
     ev.preventDefault()
     unless $("##{SEARCH_FORM_ID}").length
       template = new MAU.Template('search_form_template')
@@ -24,6 +24,8 @@ $ ->
       $('.js-main-container').append($(template.html()).attr("id", SEARCH_FORM_ID))
     $searchForm = $("##{SEARCH_FORM_ID}")
     opening = !$(@).hasClass('active')
+    console.log opening
+    console.log($(@));
     if opening
       MAU.Navigation.hideTabs()
     $(@).toggleClass('active', opening)
@@ -66,18 +68,15 @@ $ ->
       getResultItems().removeClass('selected')
       next.addClass('selected')
     else
-      console.log 'add selected'
       getResultItems().first().addClass('selected')
 
   selectPrevious = ->
     selected = getSelected()
     if selected
-      console.log 'next selected'
       previous = selected.prev(RESULT_ITEM)
       getResultItems().removeClass('selected')
       previous.addClass('selected')
     else
-      console.log 'add selected'
       getResultItems().first().addClass('selected')
 
   gotoSelected = (ev)->
@@ -92,7 +91,10 @@ $ ->
     # console.log ev.which
     # 40 = arrow down
     # 38 = arrow up
+    # 27 = esc
     switch ev.which
+      when 27
+        searchHelpers.closeSearch()
       when 40
         selectNext()
       when 38
