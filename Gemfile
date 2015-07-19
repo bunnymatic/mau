@@ -23,6 +23,9 @@ gem 'capistrano-rails', '~> 1.1'
 gem 'friendly_id', '~> 4.x'
 gem 'formtastic', '~> 3.0'
 
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
+
 gem 'gibbon' # mailchimp connect
 gem 'rosie'
 #gem 'grackle' # for twitter outbound

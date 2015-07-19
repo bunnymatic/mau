@@ -34,6 +34,9 @@ class Studio < ActiveRecord::Base
   include AddressMixin
   include Geokit::ActsAsMappable
 
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -85,3 +88,4 @@ class Studio < ActiveRecord::Base
   end
 
 end
+

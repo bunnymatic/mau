@@ -37,6 +37,7 @@ Mau::Application.routes.draw do
 
   namespace :search do
     match '/', action: 'index', via: [:get,:post]
+    match '/search', action: 'search', via: [:get,:post]
     match '/fetch', action: 'fetch', via: [:get, :post]
   end
 

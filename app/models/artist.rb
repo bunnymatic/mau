@@ -74,6 +74,8 @@ class Artist < User
   include AddressMixin
   include OpenStudiosEventShim
 
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
   scope :with_artist_info, includes(:artist_info)

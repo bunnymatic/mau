@@ -38,6 +38,9 @@ class ArtPiece < ActiveRecord::Base
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+
 
   before_destroy :remove_images
   after_destroy :clear_tags_and_favorites
