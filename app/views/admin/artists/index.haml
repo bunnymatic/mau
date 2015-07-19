@@ -61,14 +61,13 @@
 
               %td.participating_status{ :artistid => a.id } #{a.doing_open_studios?}
               %td
-                - if a.has_address?
-                  / this make sure that all os settings are sent to the controller
-                  - checked = a.doing_open_studios?
-                  - name = "os[#{a.id}]"
-                  = hidden_field_tag name, "0"
-                  = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
-                - else
-                  no address
+                / this make sure that all os settings are sent to the controller
+                - checked = a.doing_open_studios?
+                - name = "os[#{a.id}]"
+                = hidden_field_tag name, "0"
+                = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
+                - unless a.has_address?
+                  .no-address no address
               %td
                 = link_to suspend_admin_artist_path(a), method: :post, confirm: 'Are you sure you want to suspend this artist?', title: "Suspend artist" do
                   %i.fa.fa-icon.fa-bomb
