@@ -28,7 +28,7 @@
     %section.artist__studio
       %h4.studio-title Studio
       .studio
-        %a{ "ng-href" => "{{::studio.url}}"} {{::studio.name}}
+        %link-if{label: "studio.name", href: "studio.url"}
       .studio-address.ngwrapper{ "ng-if" => "hasAddress()" }
         .studio-street
           = "{{::artist.street_address}}"

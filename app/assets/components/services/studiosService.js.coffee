@@ -12,6 +12,8 @@ studiosService = ngInject ($resource) ->
     }
   )
   get:(id) ->
+    if (id == 0)
+      id = "independent-studios"
     studios.get({id: id})
 
 angular.module('mau.services').factory('studiosService', studiosService)

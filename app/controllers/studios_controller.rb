@@ -27,7 +27,9 @@ class StudiosController < ApplicationController
         @studio = StudioPresenter.new(@studio)
         @page_title = @studio.page_title
       }
-      format.json { render json: StudioSerializer.new(@studio) }
+      format.json {
+        render json: StudioSerializer.new(@studio)
+      }
     end
   end
 

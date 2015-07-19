@@ -19,7 +19,7 @@ class StudioService
 
   def self.get_studio_from_id(_id)
     if (_id == 'independent-studios') || (_id.to_s == '0')
-      studio = Studio.indy()
+      return Studio.indy()
     else
       begin
         Studio.find(_id)
