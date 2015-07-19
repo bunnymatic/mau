@@ -8,6 +8,11 @@
     list-style: circle;
   }
 }
+@mixin all-caps-label {
+  text-transform: uppercase;
+  font-size: 0.80rem;
+  font-weight: bold;
+} 
 @mixin card-description {
   .desc {
     padding: 6px;

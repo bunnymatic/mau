@@ -23,6 +23,12 @@
   .art-card__remove-favorite {
     display: block !important;
   }
+
+  .art-card {
+    .desc {
+      @include opacity(1);
+    }
+  }  
   
   .favorites__random-block {
     &:hover {
