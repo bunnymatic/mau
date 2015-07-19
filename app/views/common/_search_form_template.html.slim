@@ -1,5 +1,6 @@
 script type="template/html" id="search_form_template"
   .search-form
+    #spinner
     = form_tag "/search", method: "post", id: "search_form" do
       .search-input-controls
         label for="search_keywords" Search for
