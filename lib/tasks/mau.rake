@@ -6,6 +6,11 @@ alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
 
+  desc 'clean up studio 0 artists'
+  task 'indy_studio_artist_cleanup' do
+    Artists.where(studio_id: 0).each { |a| a.update_attribute :studio_id, nil }
+  end
+  
   desc 'initiate studio slugs'
   task slug_studios: [:environment] do
     Studio.all.each do |s|

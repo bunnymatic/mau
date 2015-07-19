@@ -1,13 +1,12 @@
-class StudioPresenter
+class StudioPresenter < ViewPresenter
 
   include OpenStudiosEventShim
 
   attr_reader :studio
   delegate :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :to_param, :to => :studio
 
-  def initialize(view_context, studio)
+  def initialize(studio)
     @studio = studio
-    @view_context = view_context
   end
 
   def name
@@ -107,7 +106,7 @@ class StudioPresenter
   end
 
   def studio_path
-    @view_context.studio_path(@studio)
+    url_helpers.studio_path(@studio)
   end
 
 end

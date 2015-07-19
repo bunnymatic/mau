@@ -2,13 +2,11 @@ require 'spec_helper'
 
 describe StudioPresenter do
 
-  include PresenterSpecHelpers
-
-  let(:studio) { FactoryGirl.create(:studio, :cross_street => 'hollywood') }
-  let!(:artist1) { FactoryGirl.create(:artist, :active, :with_art, :studio => studio) }
-  let!(:artist2) { FactoryGirl.create(:artist, :active, :studio => studio) }
-  let!(:artist3) { FactoryGirl.create(:artist, :pending, :studio => studio) }
-  subject(:presenter) { StudioPresenter.new(mock_view_context, studio) }
+  let(:studio) { FactoryGirl.create(:studio, cross_street: 'hollywood', phone: '4156171234') }
+  let!(:artist1) { FactoryGirl.create(:artist, :active, :with_art, studio: studio) }
+  let!(:artist2) { FactoryGirl.create(:artist, :active, studio: studio) }
+  let!(:artist3) { FactoryGirl.create(:artist, :pending, studio: studio) }
+  subject(:presenter) { StudioPresenter.new(studio) }
 
   its(:has_artists_with_art?) { should be_true }
   its(:artists_with_art) { should have(1).artist }
@@ -25,14 +23,13 @@ describe StudioPresenter do
 
   describe 'formatted_phone' do
     it "returns nicely formatted phone #" do
-      allow(studio).to receive(:phone).and_return('4156171234')
       presenter.formatted_phone.should eql '(415) 617-1234'
     end
   end
 
 
   context 'without image file' do
-    let(:studio) { FactoryGirl.create(:studio, :profile_image => nil) }
+    let(:studio) { FactoryGirl.create(:studio, profile_image: nil) }
     its(:image) { should eql '/images/default-studio.png' }
   end
 end

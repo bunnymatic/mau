@@ -1,6 +1,9 @@
 class StudioSerializer < MauSerializer
-  attributes :id, :name, :street_address, :city, :map_url
+  attributes :id, :name, :street_address, :city, :map_url, :url
 
+  def url
+    studio_url(object)
+  end
   
   def street_address
     address = object.address_hash.parsed.street

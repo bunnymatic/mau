@@ -3,8 +3,7 @@ class StudiosPresenter
   include Enumerable
   attr_reader :view_mode
 
-  def initialize(view_context, studios, view_mode)
-    @view_context = view_context
+  def initialize(studios, view_mode = nil)
     @studios = studios
     @view_mode = view_mode
   end
@@ -22,7 +21,7 @@ class StudiosPresenter
        studios_by_count
      else
        @studios
-     end).map{|s| StudioPresenter.new(@view_context, s)}
+     end).map{|s| StudioPresenter.new(s)}
   end
 
 end

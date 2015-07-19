@@ -16,6 +16,10 @@ class UserPresenter < ViewPresenter
     @model = user
   end
 
+  def member_since
+    activated_at.try(:strftime,"%b %Y")
+  end
+  
   def last_login
     model.last_login_at.try(:to_formatted_s,:admin)
   end

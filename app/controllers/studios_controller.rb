@@ -6,12 +6,10 @@ class StudiosController < ApplicationController
                                         :unaffiliate_artist, :upload_profile, :add_profile]
 
   def index
-    @view_mode = (params[:v] == 'c') ? 'count' : 'name'
-
-    @studios = StudiosPresenter.new(view_context, @studio_list, @view_mode)
-
     respond_to do |format|
-      format.html {}
+      format.html {
+        @studios = StudiosPresenter.new(@studio_list)
+      }
       format.json {
         render json: @studio_list
       }
@@ -26,11 +24,10 @@ class StudiosController < ApplicationController
     
     respond_to do |format|
       format.html {
-        @studios = @studio_list.map{|s| StudioPresenter.new(view_context, s)}
-        @studio = StudioPresenter.new(view_context, @studio)
+        @studio = StudioPresenter.new(@studio)
         @page_title = @studio.page_title
       }
-      format.json { render json: @studio.as_json(methods: 'artists') }
+      format.json { render json: StudioSerializer.new(@studio) }
     end
   end
 

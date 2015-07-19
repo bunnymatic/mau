@@ -36,4 +36,4 @@ Mau::Application.configure do
 
 end
 
-Rails.application.routes.default_url_options[:host] = 'http://mau.rcode5.com'
+Rails.application.routes.default_url_options[:host] = 'localhost:3000'

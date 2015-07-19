@@ -14,26 +14,6 @@ describe StudiosController do
   describe "#index" do
     render_views
 
-    context "while not logged in" do
-      context 'default mode' do
-        before do
-          get :index
-        end
-        it_should_behave_like "not logged in"
-
-        it "sets view_mode to name" do
-          assigns(:view_mode).should eql 'name'
-        end
-      end
-      context "with view mode set to count" do
-        before do
-          get :index, :v => 'c'
-        end
-        it "sets view_mode to count" do
-          assigns(:view_mode).should eql 'count'
-        end
-      end
-    end
     describe 'json' do
       before do
         get :index, :format => 'json'
@@ -63,15 +43,6 @@ describe StudiosController do
       it {expect(response).to redirect_to studios_path}
       it 'sets the flash' do
         flash[:error].should be_present
-      end
-    end
-
-    describe 'indy studio' do
-      before do
-        get :show, "id" => 0
-      end
-      it "sets the studio to the indy studio" do
-        assigns(:studio).studio.name.should eql "Independent Studios"
       end
     end
 
@@ -110,11 +81,7 @@ describe StudiosController do
         it 'returns the studio data' do
           j = JSON.parse(response.body)
           j['studio']['name'].should eql studio.name
-          j['studio']['street'].should eql studio.street
-        end
-        it 'includes a list of artist ids' do
-          j = JSON.parse(response.body)
-          j['studio']['artists'].should be_a_kind_of Array
+          j['studio']['street_address'].should eql studio.street
         end
       end
     end

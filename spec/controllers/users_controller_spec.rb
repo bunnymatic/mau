@@ -96,7 +96,7 @@ describe UsersController do
       end
 
       it "sets a flash.now indicating failure" do
-        flash.now[:error].should include 'robot'
+        expect(flash[:error]).to be_present
       end
     end
 

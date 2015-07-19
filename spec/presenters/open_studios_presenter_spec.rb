@@ -3,8 +3,8 @@ require 'spec_helper'
 describe OpenStudiosPresenter do
   let(:open_studios_event) { FactoryGirl.create :open_studios_event }
   let(:indy_artist) { FactoryGirl.create(:artist, :active, :with_art) }
-  let(:studio_artists) { FactoryGirl.create_list :artist, 4, :with_art }
-  let(:studio2_artists) { FactoryGirl.create_list :artist, 4, :with_art }
+  let(:studio_artists) { FactoryGirl.create_list :artist, 2, :with_art }
+  let(:studio2_artists) { FactoryGirl.create_list :artist, 2, :with_art }
   let(:artists) { [indy_artist] + studio_artists }
   let!(:studio) { FactoryGirl.create :studio, artists: studio_artists }
   let!(:studio2) { FactoryGirl.create :studio, artists: studio2_artists }
