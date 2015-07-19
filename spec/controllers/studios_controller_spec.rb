@@ -16,7 +16,7 @@ describe StudiosController do
 
     describe 'json' do
       before do
-        get :index, :format => 'json'
+        get :index, format: 'json'
       end
       it_should_behave_like 'successful json'
       it 'returns all studios' do
@@ -49,8 +49,8 @@ describe StudiosController do
     describe 'individual studio' do
       describe 'html' do
         before do
-          Studio.any_instance.stub(:phone => '1234569999')
-          Studio.any_instance.stub(:cross_street => 'fillmore')
+          Studio.any_instance.stub(phone: '1234569999')
+          Studio.any_instance.stub(cross_street: 'fillmore')
           get :show, id: studio.slug, format: 'html'
         end
         it "studio url is a link" do
@@ -60,19 +60,31 @@ describe StudiosController do
           assert_select('.studio-address', /\s+fillmore/)
         end
         it "studio info includes a phone if there is one" do
-          assert_select('.studio-phone', :text => '(123) 456-9999')
+          assert_select('.studio-phone', text: '(123) 456-9999')
         end
       end
 
       describe 'json' do
+        context 'non indy studio' do
+          before do
+            get :show, id: studio.id, format: 'json'
+          end
+          it_should_behave_like 'successful json'
+          it 'returns the studio data' do
+            j = JSON.parse(response.body)
+            j['studio']['name'].should eql studio.name
+            j['studio']['street_address'].should eql studio.street
+          end
+        end
+      end
+      context 'for indy studio' do
         before do
-          get :show, :id => studio.id, :format => 'json'
+          get :show, id: 'independent-studios', format: 'json'
         end
         it_should_behave_like 'successful json'
         it 'returns the studio data' do
           j = JSON.parse(response.body)
-          j['studio']['name'].should eql studio.name
-          j['studio']['street_address'].should eql studio.street
+          j['studio']['name'].should eql "Independent Studios"
         end
       end
     end

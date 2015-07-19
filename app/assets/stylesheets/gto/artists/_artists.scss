@@ -248,6 +248,9 @@
     @extend .gto-list;
   }
   .artist__studio .body {
+    .map-link {
+      margin-left: 5px;
+    }
     > div {
       min-height: 1.4rem;
       line-height: 1.4rem;

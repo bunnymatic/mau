@@ -24,7 +24,7 @@
               .studio-address
                 | #{artist.studio.street} #{artist.studio_number}
                 - if artist.has_address?
-                  = link_to artist.map_url, title: :map do
+                  = link_to artist.map_url, title: :map, class: 'map-link' do
                     i.fa.fa-map-marker
                 .studio-city #{artist.studio.city}
             - else
@@ -32,7 +32,7 @@
               .studio-address
                 | #{artist.street}
                 - if artist.has_address?
-                  = link_to artist.map_url, title: :map do
+                  = link_to artist.map_url, title: :map, class: 'map-link' do
                     i.fa.fa-map-marker
                   .studio-city #{artist.city}
             .member-since = "Joined #{artist.member_since}"

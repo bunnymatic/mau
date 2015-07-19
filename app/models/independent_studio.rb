@@ -3,14 +3,17 @@ class IndependentStudio
   extend  ActiveModel::Translation
   include ActiveModel::Validations
   include ActiveModel::Conversion
+  include ActiveModel::Serialization
+
+  include AddressMixin
 
   attr_reader :studio
 
-  delegate :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, to: :studio
+  delegate :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :lat, :lng,  to: :studio
 
-  class InnerStudio < Struct.new(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image)
+  class InnerStudio < Struct.new(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image, :lat, :lng )
     def initialize(h)
-      super(*h.values_at(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image))
+      super(*h.values_at(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image, :lat, :lng))
     end
     def to_param
       name.parameterize
@@ -42,12 +45,14 @@ class IndependentStudio
                                 image_height: 1,
                                 image_width: 1,
                                 cross_street: nil,
-                                phone: nil
+                                phone: nil,
+                                lat: nil,
+                                lng: nil
                               })
   end
 
   def artists
-    @artists ||= Artist.active.where(["studio_id = 0 or studio_id is NULL"])
+    @artists ||= Artist.active.where(studio_id: nil)
   end
 
   def cross_street?
