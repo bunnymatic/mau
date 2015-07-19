@@ -51,16 +51,7 @@ describe StudiosController do
         before do
           Studio.any_instance.stub(:phone => '1234569999')
           Studio.any_instance.stub(:cross_street => 'fillmore')
-          get :show, "id" => studio
-        end
-        it "studios are in alpha order by our fancy sorter (ignoring the) with independent studios at the end" do
-          s = assigns(:studios)
-          s.pop
-          def prep_name(a)
-            a.name.downcase.gsub(/^the\ /, '')
-          end
-
-          s.sort_by{|a| prep_name(a)}.map(&:name).should eql s.map(&:name)
+          get :show, id: studio.slug, format: 'html'
         end
         it "studio url is a link" do
           assert_select(".studio__website a[href=#{studio.url}]")

@@ -387,10 +387,6 @@ describe ArtistsController do
       get :qrcode, id: artist.id
       expect(response).to redirect_to '/artistdata/' + artist.id.to_s + '/profile/qr.png'
     end
-    it 'returns show with flash for an invalid id' do
-      get :qrcode, id: 101
-      expect(response).to render_template 'show'
-    end
     it 'returns show with flash if the artist has been deleted' do
       artist.update_attribute(:state, 'deleted')
       get :qrcode, id: artist.id
