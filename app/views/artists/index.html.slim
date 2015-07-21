@@ -1,3 +1,4 @@
+- current_page_attrs = params.slice(:l, :o, :s)
 .pure-g
   .pure-u-1-1.header.padded-content>
     h2.title
@@ -12,11 +13,15 @@
         .text< search
 
 .pure-g
-  .pure-u-1-1.header.padded-content>
+  .pure-u-1-1.pure-u-md-4-5.header.padded-content>
     ul.paginator.gallery-paginator
       - @artist_lastname_letters.each do |letter|
         li.page(class=(letter==@gallery.letter)?'current':'')
-          = link_to letter.html_safe, artists_path({l: letter, osonly: @os_only})
+          = link_to letter.html_safe, artists_path({l: letter, o: @os_only})
+  .pure-u-1-1.pure-u-md-1-5.header.padded-content>
+    .button-group
+      .button 
+        =link_to "/?#?sort=firstname', first last
 
 
 .pure-g

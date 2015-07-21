@@ -9,6 +9,7 @@
 .paginator {
   li {
     display: inline-block;
+    margin-bottom: 5px;
     a {
       display: inline-block; 
       @include round-corners(2px);

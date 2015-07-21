@@ -44,7 +44,10 @@ html, body {
     z-index: 0;
     position: fixed;
     bottom: 0;
-    width: $sidebar-nav-width;
+    width: $sidebar-collapse-nav-width;
+    @media(min-width: $screen-sm-max) {
+      width: $sidebar-nav-width;
+    }
     .back-to-top {
       opacity: 0;
       pointer-events: none;

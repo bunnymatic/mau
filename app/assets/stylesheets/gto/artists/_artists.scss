@@ -209,6 +209,9 @@
   section {
     font-size: 0.9rem;
     margin-bottom: 20px;
+    &:artist__image {
+      margin-bottom: 40px;
+    }
     &.artist__bio {
       @include transition(max-height 0.3s ease-in-out);
       position:relative;
@@ -309,6 +312,11 @@
       width: 75px;
       height: 80px;
       background-size: contain;
+    }
+    .member-since {
+      position: absolute;
+      bottom: -20px;
+      right: 0px;
     }
   }
   .artist-profile__image {
