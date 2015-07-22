@@ -18,11 +18,13 @@ class ArtistsController < ApplicationController
       format.html {
         # collect query args to build links
         @os_only = is_os_only(params[:o])
-        @artist_lastname_letters = ArtistsGallery.lastname_letters
-        cur_letter = params[:l] || @artist_lastname_letters.first
         cur_page = (params[:p] || 0).to_i
+        cur_sort = params[:s] || :lastname
+        @letters = ArtistsGallery.letters(cur_sort)
+        cur_letter = params[:l] || @letters.first
+        
         # build alphabetical list keyed by first letter
-        @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_page)
+        @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_sort, cur_page)
         @page_title = "Mission Artists United - MAU Artists"
         if request.xhr?
           render partial: 'artist_list', locals: { gallery: @gallery }

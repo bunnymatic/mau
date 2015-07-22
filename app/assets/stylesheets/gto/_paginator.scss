@@ -1,5 +1,6 @@
 @import 'colors';
 @import 'mau-mixins';
+@import 'gto/gto-mixins';
 .paginator ul
 , ul.paginator {
   margin: 0;
@@ -11,20 +12,9 @@
     display: inline-block;
     margin-bottom: 5px;
     a {
-      display: inline-block; 
-      @include round-corners(2px);
-      padding: 4px 2px;
-      min-width: 25px;
-      font-size: 80%;
+      display: inline-block;
       margin: 2px;
-      background-color: $xxlightgray;
-      text-align: center;
-    }
-    &:hover {
-      background-color: lighten($gto_yellow, 44%);
-      a {
-        background-color: lighten($gto_yellow, 54%);
-      }
+      @include light-gray-button;
     }
     &.current {
       a {

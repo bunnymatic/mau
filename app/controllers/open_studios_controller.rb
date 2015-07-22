@@ -5,7 +5,7 @@ class OpenStudiosController < ApplicationController
     @os_only = true
     cur_page = (params[:p] || 0).to_i
 
-    @gallery = ArtistsGallery.new(true, nil, cur_page)
+    @gallery = ArtistsGallery.new(true, nil, nil, cur_page)
     unless request.xhr?
       @presenter = OpenStudiosPresenter.new
       @map_info = ArtistsMap.new(true)

@@ -1,4 +1,5 @@
 @import 'mau-mixins';
+@import 'colors';
 @import 'gto/gto-mixins';
 
 #the-end, 
@@ -57,8 +58,8 @@
   }
   
 }
-    
-  
+
+
 .favorites.index,
 .users.show, .search-results, .artists, .artists.index, .artists.show, .art_pieces.show, .art_pieces.create {
 
@@ -386,4 +387,43 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
     }
   }
 
+}
+
+.name-switcher {
+  text-align: right;
+  .prefix {
+    font-size: 0.8rem;
+  }
+  .button-group {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+    amrgin: 0;
+    white-space: nowrap;
+    li {
+      padding: 0;
+      margin: 0;
+    }
+    .button {
+      float: left;
+      @include light-gray-button;
+      border-right-width: 0;
+      &:first-child {
+        @include round-left-corners-only(3px);
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-right: 0;
+      }
+      &:last-child {
+        @include round-right-corners-only(3px);
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-left: 0; 
+        border-right-width: 1px;
+      }
+      &.current {
+        background-color: $xlightgray;
+      }
+    }
+  }
 }
