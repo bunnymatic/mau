@@ -1,6 +1,12 @@
 @import 'gto/variables';
 @import 'gto/gto-mixins';
 .open_studios.show {
+  .padded-content > .js-tabs {
+    margin-top: -10px;
+  }
+  .artists-scroll-wrapper {
+    margin-left: -10px;
+  }
   .section {
     margin-bottom: 30px;
     > h4 {
