@@ -13,19 +13,19 @@
         .text< search
 
 .pure-g
-  .pure-u-1-1.pure-u-md-16-24.pure-u-lg-4-5.header.padded-content>
+  .pure-u-1-1.pure-u-md-18-24.pure-u-lg-20-24.header.padded-content>
     ul.paginator.gallery-paginator
       - @letters.each do |letter|
         li.page class=(letter==@gallery.letter)?'current':''
           = link_to letter.html_safe, artists_path(current_page_attrs.merge(l: letter))
-  .pure-u-1-1.pure-u-md-8-24.pure-u-lg-1-5.header.padded-content>
+  .pure-u-1-1.pure-u-md-6-24.pure-u-lg-4-24.header.padded-content>
     .name-switcher
       span.prefix by name
       ul.button-group
         li.button(class=(@gallery.ordered_by_lastname? ? '':'current'))
-          =link_to "first", artists_path(current_page_attrs.merge({s: :firstname}))
+          =link_to "first", artists_path(current_page_attrs.merge({s: :firstname})), title: 'organize by first name'
         li.button(class=(@gallery.ordered_by_lastname? ? 'current':''))
-          =link_to "last", artists_path(current_page_attrs.merge({s: :lastname}))
+          =link_to "last", artists_path(current_page_attrs.merge({s: :lastname})), title: 'organize by last'
 
 
 .pure-g

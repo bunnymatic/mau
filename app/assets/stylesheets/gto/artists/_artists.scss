@@ -67,6 +67,9 @@
   .title .letter {
     text-transform: uppercase;
   }
+  .name-switcher {
+    margin-top: -15px;
+  }
   .gallery-paginator {
     text-align:center;
     margin-top: -15px;
@@ -392,7 +395,11 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
 .name-switcher {
   text-align: right;
   .prefix {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    vertical-align: top;
+    text-transform: uppercase;
+    line-height: 26px;
+    margin-right: 3px;
   }
   .button-group {
     display: inline-block;
