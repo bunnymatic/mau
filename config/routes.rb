@@ -74,7 +74,7 @@ Mau::Application.routes.draw do
       post :destroyart
       get :suggest
       post :setarrangement
-      get :map_page, as: :map
+      # get :map_page, as: :map
     end
     member do
       resources :favorites, only: [:index]

@@ -8,6 +8,7 @@ Background:
   | joe       | bapple     |            |
   | mr        | bappleseed |            |
   | johnny    | tutone     |            |
+  | Alexander | Graham     |            |
   | mister    | mister     |            |
   And there are future open studios events
 
@@ -35,5 +36,13 @@ Scenario:  Drilling down to an art piece page through the artists' index
  
   Then I see "mister mister"'s artist card
 
+Scenario:  The artists index can be sorted by first name
+  When I visit the home page
+  And I click on the first "artists" link
+  Then I see "joe bapple"'s artist card
+  When I click on "organize by first name"
+  Then I see "Alexander Graham"'s artist card
 
-
+  When I click on "m" in the ".gallery-paginator"
+  And I see "mr bappleseed"'s artist card
+  And I see "mister mister"'s artist card

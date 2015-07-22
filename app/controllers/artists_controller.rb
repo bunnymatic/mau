@@ -17,14 +17,15 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html {
         # collect query args to build links
-        @os_only = is_os_only(params[:osonly])
-        @artist_lastname_letters = ArtistsGallery.lastname_letters
-        cur_letter = params[:l] || @artist_lastname_letters.first
+        @os_only = is_os_only(params[:o])
         cur_page = (params[:p] || 0).to_i
+        cur_sort = params[:s] || :lastname
+        @letters = ArtistsGallery.letters(cur_sort)
+        cur_letter = params[:l] || @letters.first
+        
         # build alphabetical list keyed by first letter
-        @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_page)
+        @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_sort, cur_page)
         @page_title = "Mission Artists United - MAU Artists"
-        set_artists_index_links
         if request.xhr?
           render partial: 'artist_list', locals: { gallery: @gallery }
         else
@@ -35,16 +36,6 @@ class ArtistsController < ApplicationController
         render json: Artist.active, root: false
       }
     end
-  end
-
-  def map_page
-    @os_only = is_os_only(params["osonly"])
-
-    set_artists_index_links
-
-    @map_info = ArtistsMap.new(@os_only)
-
-    render :map
   end
 
   def edit
@@ -68,12 +59,11 @@ class ArtistsController < ApplicationController
 
   def roster
     # collect query args to build links
-    @os_only = is_os_only(params[:osonly])
+    @os_only = is_os_only(params[:o])
 
     @roster = ArtistsRoster.new(@os_only)
 
     @page_title = "Mission Artists United - MAU Artists"
-    set_artists_index_links
 
     render action: 'roster'
   end
@@ -262,13 +252,6 @@ class ArtistsController < ApplicationController
 
   def is_os_only(osonly)
     [true, "1",1,"on","true"].include? osonly
-  end
-
-  def set_artists_index_links
-    os_args = (@os_only ? {osonly: 'on'} : {})
-    @roster_link = roster_artists_url(os_args)
-    @gallery_link = artists_url(os_args)
-    @map_link = map_artists_path(os_args)
   end
 
   def fetch_artists_for_autosuggest

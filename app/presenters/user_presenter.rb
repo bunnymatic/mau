@@ -17,7 +17,7 @@ class UserPresenter < ViewPresenter
   end
 
   def member_since
-    activated_at.try(:strftime,"%b %Y")
+    (model.activated_at || model.created_at).strftime "%b %Y"
   end
   
   def last_login

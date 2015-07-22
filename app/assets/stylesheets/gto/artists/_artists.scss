@@ -1,4 +1,5 @@
 @import 'mau-mixins';
+@import 'colors';
 @import 'gto/gto-mixins';
 
 #the-end, 
@@ -57,14 +58,17 @@
   }
   
 }
-    
-  
+
+
 .favorites.index,
 .users.show, .search-results, .artists, .artists.index, .artists.show, .art_pieces.show, .art_pieces.create {
 
   @include search-filter;
   .title .letter {
     text-transform: uppercase;
+  }
+  .name-switcher {
+    margin-top: -15px;
   }
   .gallery-paginator {
     text-align:center;
@@ -209,6 +213,9 @@
   section {
     font-size: 0.9rem;
     margin-bottom: 20px;
+    &:artist__image {
+      margin-bottom: 40px;
+    }
     &.artist__bio {
       @include transition(max-height 0.3s ease-in-out);
       position:relative;
@@ -310,6 +317,11 @@
       height: 80px;
       background-size: contain;
     }
+    .member-since {
+      position: absolute;
+      bottom: -20px;
+      right: 0px;
+    }
   }
   .artist-profile__image {
     width: 100%;
@@ -378,4 +390,47 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
     }
   }
 
+}
+
+.name-switcher {
+  text-align: right;
+  .prefix {
+    font-size: 0.7rem;
+    vertical-align: top;
+    text-transform: uppercase;
+    line-height: 26px;
+    margin-right: 3px;
+  }
+  .button-group {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+    amrgin: 0;
+    white-space: nowrap;
+    li {
+      padding: 0;
+      margin: 0;
+    }
+    .button {
+      float: left;
+      @include light-gray-button;
+      border-right-width: 0;
+      &:first-child {
+        @include round-left-corners-only(3px);
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-right: 0;
+      }
+      &:last-child {
+        @include round-right-corners-only(3px);
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-left: 0; 
+        border-right-width: 1px;
+      }
+      &.current {
+        background-color: $xlightgray;
+      }
+    }
+  }
 }

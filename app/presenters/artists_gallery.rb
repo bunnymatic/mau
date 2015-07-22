@@ -7,24 +7,31 @@ class ArtistsGallery < ArtistsPresenter
 
   delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
 
-  def initialize(os_only, letter, current_page, per_page = PER_PAGE)
+  def initialize(os_only, letter, ordering, current_page, per_page = PER_PAGE)
     super os_only
     @letter = letter.try(:downcase)
+    @ordering = ([:lastname, :firstname].include? ordering.try(:to_sym)) ? ordering.to_sym : :lastname
     @per_page = per_page
     @current_page = current_page.to_i
     @pagination = ArtistsPagination.new(artists, @current_page, @per_page)
   end
 
-  def self.lastname_letters
-    letters = ArtPiece.joins(:artist).where(users:{state: 'active'}).group('lcase(left(users.lastname,1))').count.keys
+  def ordered_by_lastname?
+    @ordering == :lastname
+  end
+  
+  def self.letters(first_or_last)
+    name = first_or_last.to_sym if ([:lastname, :firstname].include? first_or_last.to_sym)
+    return [] unless name
+    letters = ArtPiece.joins(:artist).where(users:{state: "active"}).group("lcase(left(users.#{name},1))").count.keys
     letters.select{|l| LETTERS_REGEX =~ l} + [ELLIPSIS]
   end
-
+  
   def empty_message
     if os_only
-      "Sorry, no one with that last name has signed up for the next Open Studios.  Check back later."
+      "Sorry, no one with that name has signed up for the next Open Studios.  Check back later."
     else
-      "Sorry, we couldn't find any artists with that last name in the system."
+      "Sorry, we couldn't find any artists with that name in the system."
     end
   end
 
@@ -32,7 +39,7 @@ class ArtistsGallery < ArtistsPresenter
     super.select do |artist|
       keep = artist.active? && artist.representative_piece
       if keep
-        name = artist.lastname
+        name = artist.send(@ordering)
         keep && letter_match(letter, name)
       else
         false

@@ -102,6 +102,32 @@ $default_rounded_amount: 3px;
   @include round-corner-mozilla("bottomleft", $amount);
   @include round-corner-mozilla("bottomright", $amount);
 }
+
+@mixin round-left-corners-only($amount: $default_rounded_amount) {
+  @include round-corner("top-left", $amount);
+  @include round-corner("bottom-left", $amount);
+  @include round-corner-mozilla("topleft", $amount);
+  @include round-corner-mozilla("bottomleft", $amount);
+
+  @include round-corner("top-right", 0);
+  @include round-corner("bottom-right", 0);
+  @include round-corner-mozilla("topright", 0);
+  @include round-corner-mozilla("bottomright", 0);
+}
+
+// Round right corners by amount
+@mixin round-right-corners-only($amount: $default_rounded_amount) {
+  @include round-corner("top-right", $amount);
+  @include round-corner("bottom-right", $amount);
+  @include round-corner-mozilla("topright", $amount);
+  @include round-corner-mozilla("bottomright", $amount);
+
+  @include round-corner("top-left", 0);
+  @include round-corner("bottom-left", 0);
+  @include round-corner-mozilla("topleft", 0);
+  @include round-corner-mozilla("bottomleft", 0);
+}
+
 // Round all corners by amount
 @mixin round-corners($amount: $default_rounded_amount) {
   border-radius: $amount;

@@ -3,9 +3,6 @@
     %h2.title
       Artists
   .pure-u-1-1.padded-content
-    = render '/osswitch', :os_only => @os_only
-    = render '/artists/view_switcher', :roster_link => @roster_link, :gallery_link => @gallery_link, :map_link => @map_link
-    .clear
     .pure-g.roster__list
       - @roster.artists.each_slice(20) do |artist_chunk|
         .chunk.pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-5

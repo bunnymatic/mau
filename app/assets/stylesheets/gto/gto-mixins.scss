@@ -8,6 +8,19 @@
     list-style: circle;
   }
 }
+@mixin light-gray-button {
+  @include transition(all .33s ease-in-out);
+  @include round-corners(2px);
+  padding: 4px 2px;
+  min-width: 25px;
+  font-size: 0.8rem;
+  background-color: $xxlightgray;
+  text-align: center;
+  &:hover {
+    background-color: lighten($gto_yellow, 54%);
+  }        
+}
+
 @mixin all-caps-label {
   text-transform: uppercase;
   font-size: 0.80rem;

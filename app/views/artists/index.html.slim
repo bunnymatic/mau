@@ -1,3 +1,4 @@
+- current_page_attrs = params.slice(:l, :o, :s)
 .pure-g
   .pure-u-1-1.header.padded-content>
     h2.title
@@ -5,18 +6,26 @@
       '
       span.letter #{@gallery.letter.html_safe}
       - if @os_only
-        = "in #{OpenStudiosEvent.current.try(:for_display,true)} Open Studios"
+        = " in #{OpenStudiosEvent.current.try(:for_display,true)} Open Studios"
     .search.js-in-page-search
       a href="/search" title="search"
         = fa_icon "search"
         .text< search
 
 .pure-g
-  .pure-u-1-1.header.padded-content>
+  .pure-u-1-1.pure-u-md-18-24.pure-u-lg-20-24.header.padded-content>
     ul.paginator.gallery-paginator
-      - @artist_lastname_letters.each do |letter|
-        li.page(class=(letter==@gallery.letter)?'current':'')
-          = link_to letter.html_safe, artists_path({l: letter, osonly: @os_only})
+      - @letters.each do |letter|
+        li.page class=(letter==@gallery.letter)?'current':''
+          = link_to letter.html_safe, artists_path(current_page_attrs.merge(l: letter))
+  .pure-u-1-1.pure-u-md-6-24.pure-u-lg-4-24.header.padded-content>
+    .name-switcher
+      span.prefix by name
+      ul.button-group
+        li.button(class=(@gallery.ordered_by_lastname? ? '':'current'))
+          =link_to "first", artists_path(current_page_attrs.merge({s: :firstname})), title: 'organize by first name'
+        li.button(class=(@gallery.ordered_by_lastname? ? 'current':''))
+          =link_to "last", artists_path(current_page_attrs.merge({s: :lastname})), title: 'organize by last'
 
 
 .pure-g
