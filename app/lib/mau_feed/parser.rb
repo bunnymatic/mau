@@ -47,10 +47,6 @@ module MauFeed
       @url ||= URI.parse(@source_url)
     end
 
-    def is_twitter?
-      url.host.include? 'twitter'
-    end
-
     def fetched
       @fetched ||=
         begin
@@ -58,11 +54,7 @@ module MauFeed
           logger.info("FeedParser: fetch/format %s posts." % @num_entries)
           begin
             open(url) do |http|
-            if is_twitter?
-              Twitter::Feed.new(http.read)
-            else
-              RSS::Parser.parse(http.read, false)
-            end
+            RSS::Parser.parse(http.read, false)
           end
           rescue OpenURI::HTTPError => http
             nil
