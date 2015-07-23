@@ -67,14 +67,26 @@
   .title .letter {
     text-transform: uppercase;
   }
-  .name-switcher {
+  .name-switcher, .gallery-paginator {
     margin-top: -15px;
-  }
-  .gallery-paginator {
-    text-align:center;
-    margin-top: -15px;
+    @media(min-width: $screen-md-min) {
+      display: inline-block;
+    }
     .page a {
       text-transform: uppercase;
+    }
+    .page:last-of-type {
+      margin-right: 20px;
+    }      
+  }
+  .name-switcher {
+    text-align: left;
+    vertical-align: top;
+    display:block;
+    margin-top: 8px;
+    @media(min-width: $screen-md-min) {
+      margin-top: -3px;
+      display: inline-block;
     }
   }
   .header .title {
@@ -402,6 +414,7 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
     margin-right: 3px;
   }
   .button-group {
+    vertical-align: top;
     display: inline-block;
     list-style: none;
     padding: 0;

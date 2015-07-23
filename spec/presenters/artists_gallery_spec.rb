@@ -8,20 +8,21 @@ describe ArtistsGallery do
   let(:per_page) { 2 }
   let(:artists) {
     [
-      create(:artist, :with_art, lastname: 'Abby'),
-      create(:artist, :with_art, lastname: 'Asinine'),
-      create(:artist, :with_art, lastname: 'Atkins'),
-      create(:artist, :with_art, lastname: 'bab'),
-      create(:artist, :with_art, lastname: 'cab'),
-      create(:artist, :with_art, lastname: ''),
-      create(:artist, lastname: 'Arnold'),
-      create(:artist, lastname: 'Bored')
+      create(:artist, :with_art, firstname: 'a', lastname: 'Abby'),
+      create(:artist, :with_art, firstname: 'b', lastname: 'Asinine'),
+      create(:artist, :with_art, firstname: 'c', lastname: 'Atkins'),
+      create(:artist, :with_art, firstname: 'zed', lastname: 'bab'),
+      create(:artist, :with_art, firstname: 'zoo', lastname: 'cab'),
+      create(:artist, :with_art, firstname: 'zap', lastname: ''),
+      create(:artist, firstname: 'z', lastname: 'Arnold'),
+      create(:artist, firstname: 'a', lastname: 'Bored')
    ]
   }
   let(:showing_artists) { artists.first(per_page) }
   let(:os_only) { false }
-
-  subject(:presenter) { ArtistsGallery.new(os_only, 'A', current_page, per_page) }
+  let(:letter) { 'A' }
+  let(:ordering) { nil }
+  subject(:presenter) { ArtistsGallery.new(os_only, letter, ordering, current_page, per_page) }
 
   before do
     fix_leaky_fixtures
@@ -45,7 +46,15 @@ describe ArtistsGallery do
 
   context 'with open studios set true' do
     let(:os_only) { true }
-    its(:empty_message) { should include "no one with that last name has signed up" }
+    its(:empty_message) { should include "no one with that name has signed up" }
+  end
+
+  context 'when sorted by first name' do
+    let(:ordering) { :firstname }
+    let(:letter) { 'z' }
+    it 'artists include only those with representative pieces sorted by name' do
+      expect(subject.artists.map(&:artist)).to eql artists[3..5]
+    end
   end
 
 end

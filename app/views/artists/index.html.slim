@@ -13,12 +13,11 @@
         .text< search
 
 .pure-g
-  .pure-u-1-1.pure-u-md-18-24.pure-u-lg-20-24.header.padded-content>
+  .pure-u-1-1.header.padded-content>
     ul.paginator.gallery-paginator
       - @letters.each do |letter|
         li.page class=(letter==@gallery.letter)?'current':''
           = link_to letter.html_safe, artists_path(current_page_attrs.merge(l: letter))
-  .pure-u-1-1.pure-u-md-6-24.pure-u-lg-4-24.header.padded-content>
     .name-switcher
       span.prefix by name
       ul.button-group

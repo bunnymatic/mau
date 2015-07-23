@@ -11,12 +11,14 @@
   li {
     display: inline-block;
     margin-bottom: 5px;
-    a {
-      display: inline-block;
-      margin: 2px;
-      @include light-gray-button;
+    &.page {
+      a {
+        display: inline-block;
+        margin: 2px;
+        @include light-gray-button;
+      }
     }
-    &.current {
+    &.current.page {
       a {
         background-color: $xlightgray;
       }
