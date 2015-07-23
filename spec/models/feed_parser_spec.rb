@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MauFeed::Parser do
 
-  let(:source_url) { 'https://twitter.com/statuses/user_timeline/62131363.json' }
+  let(:source_url) { 'http://missionlocal.org/category/the-arts/feed/' }
   let(:feed_link) { 'http://twitter.com/sfmau' }
 
   subject(:feed) { MauFeed::Parser.new(source_url, feed_link) }
@@ -16,11 +16,6 @@ describe MauFeed::Parser do
     its(:css_class) { should be_empty }
     its(:feed_link) { should eql feed_link }
     its(:url) { should eql URI.parse(source_url) }
-    it{ expect(subject.send(:is_twitter?)).to be_true }
-    context 'for not twitter feed' do
-      let(:source_url) { 'http://missionlocal.org/category/the-arts/feed/' }
-      it{ expect(subject.send(:is_twitter?)).to be_false }
-    end
   end
 
   it 'returns empty for a twitter feed that is invalid' do
