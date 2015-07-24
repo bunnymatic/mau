@@ -39,6 +39,15 @@ describe StudioImage do
     let(:expected_path) {
       ('/'+ [directory,studio.id,'profile', prefix+studio.profile_image].join('/'))
     }
+    context 'without a profile image' do
+      before do
+        allow(studio).to receive(:profile_image?).and_return false
+      end
+      it 'returns the right path' do
+        (StudioImage.get_path(studio)).should eql '/images/m_default-studio.png'
+      end
+    end
+    
     context 'thumb' do
       it 'returns the right path' do
         (StudioImage.get_path(studio, size)).should eql expected_path
