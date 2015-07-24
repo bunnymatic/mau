@@ -8,20 +8,8 @@ class StudiosPresenter
     @view_mode = view_mode
   end
 
-  def studios_by_count
-    @studios_by_count ||= @studios.sort_by{|s| -s.artists.active.count}
-  end
-
-  def order_by_count?
-    @view_mode == 'count'
-  end
-
   def studios
-    (if order_by_count?
-       studios_by_count
-     else
-       @studios
-     end).map{|s| StudioPresenter.new(s)}
+     @studios.map{|s| StudioPresenter.new(s)}
   end
 
 end

@@ -28,7 +28,7 @@ class FavoritesController < ApplicationController
         render :json => {:message => 'Removed a favorite'}
         return
       else
-        flash[:notice] = "#{obj.get_name true} has been removed from your favorites."
+        flash[:notice] = "#{obj.get_name true} has been removed from your favorites.".html_safe
         redirect_to(request.referrer || obj)
       end
     else

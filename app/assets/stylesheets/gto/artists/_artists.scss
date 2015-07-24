@@ -161,6 +161,12 @@
     top: 12px;
     right: 12px;
   }
+  .card__controls + a {
+    .os-violator {
+      right: auto;
+      left: 12px;
+    }
+  }
   .artist-card__remove-favorite, .art-card__remove-favorite,
   .artist-profile__edit, .art-card__delete, .art-card__edit {
     display: inline-block;

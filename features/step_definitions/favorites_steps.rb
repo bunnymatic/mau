@@ -41,6 +41,7 @@ end
 
 When(/^I visit my favorites page$/) do
   visit favorites_path(@artist)
+  @artist_favorites_count = @artist.favorites.count
 end
 
 Then(/^I see someone else's favorites$/) do
@@ -61,4 +62,28 @@ Then(/^I see my empty favorites page$/) do
   expect(page).to have_content 'Find Artists by Name'
   expect(page).to have_content 'Find Artists by Medium'
   expect(page).to have_content 'Find Artists by Tag'
+end
+
+When /^I remove the first favorite$/ do
+  remove_button = all("a[title='Remove Favorite']").first
+  _id = remove_button['fav-id']
+  _type = remove_button['fav-type']
+  puts _id, _type
+  puts @artist.favorites.map(&:favoritable_id)
+  remove_button.click
+
+  # remove_button = all("a[title='Remove Favorite']").first
+  # _id = remove_button['fav-id']
+  # _type = remove_button['fav-type']
+  # puts _id, _type
+  # remove_button.click
+  # raise 'hell'
+end
+
+Then /^I see that I've lost one of my favorites$/ do
+  puts @artist.favorites.map(&:favoritable_id)
+  wait_until {
+    all('.flash').any?
+  }
+  expect(@artist_favorites_count).to eql (@artist.reload.favorites.count + 1)
 end
