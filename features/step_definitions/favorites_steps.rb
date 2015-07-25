@@ -68,20 +68,10 @@ When /^I remove the first favorite$/ do
   remove_button = all("a[title='Remove Favorite']").first
   _id = remove_button['fav-id']
   _type = remove_button['fav-type']
-  puts _id, _type
-  puts @artist.favorites.map(&:favoritable_id)
   remove_button.click
-
-  # remove_button = all("a[title='Remove Favorite']").first
-  # _id = remove_button['fav-id']
-  # _type = remove_button['fav-type']
-  # puts _id, _type
-  # remove_button.click
-  # raise 'hell'
 end
 
 Then /^I see that I've lost one of my favorites$/ do
-  puts @artist.favorites.map(&:favoritable_id)
   wait_until {
     all('.flash').any?
   }
