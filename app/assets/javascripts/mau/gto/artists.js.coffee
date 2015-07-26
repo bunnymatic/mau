@@ -34,11 +34,13 @@ $ ->
     fetchArtists = (url) ->
       $content = $('.js-artists-scroll-wrapper')
       pagination = $('.js-pagination-state').last().data()
+      console.log(pagination)
       if pagination.has_more?
         nextPage = pagination.next_page
         $.ajax(
           url: url
           data:
+            s: pagination.sort_order
             l: pagination.current_letter
             p: nextPage
             os_only: pagination.os_only
@@ -77,6 +79,7 @@ $ ->
           $('.js-pagination-state').slice(1,-1).remove()
           pagination = $('.js-pagination-state').last()
           $('.artist-card').fadeOut duration: 50, complete: -> $(@).remove()
+          pagination.data('sort_order','lastname')
           pagination.data('current_page',0)
           pagination.data('next_page',0)
           pagination.data('has_more',true)
