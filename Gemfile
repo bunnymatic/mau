@@ -103,6 +103,7 @@ group :assets, :development do
   gem 'sass-rails'
   gem 'libv8'
   gem 'uglifier'
+  gem 'therubyracer'
 end
 
 group :development do
