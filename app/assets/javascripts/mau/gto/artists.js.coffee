@@ -35,15 +35,15 @@ $ ->
       $content = $('.js-artists-scroll-wrapper')
       pagination = $('.js-pagination-state').last().data()
       console.log(pagination)
-      if pagination.has_more?
-        nextPage = pagination.next_page
+      if pagination.hasOwnProperty('hasMore')
+        nextPage = pagination.nextPage
         $.ajax(
           url: url
           data:
-            s: pagination.sort_order
-            l: pagination.current_letter
+            s: pagination.sortOrder
+            l: pagination.currentLetter
             p: nextPage
-            os_only: pagination.os_only
+            os_only: pagination.osOnly
         ).done (data) ->
           # remove the current more button
           $('#js-scroll-load-more').remove();
@@ -70,19 +70,21 @@ $ ->
 
       currentFilter = getCurrentFilter()
       resetSearch = () ->
+        console.log('resetsearch')
         $wrapper = $('js-artists-scroll-wrapper')
         currentMode = $wrapper.data('filtering')
         currentFilter = getCurrentFilter()
         newMode = !!currentFilter
         $wrapper.data('filtering', newMode )
         if newMode != currentMode
+          console.log('update data')
           $('.js-pagination-state').slice(1,-1).remove()
           pagination = $('.js-pagination-state').last()
           $('.artist-card').fadeOut duration: 50, complete: -> $(@).remove()
-          pagination.data('sort_order','lastname')
-          pagination.data('current_page',0)
-          pagination.data('next_page',0)
-          pagination.data('has_more',true)
+          pagination.data('sortOrder','lastname')
+          pagination.data('currentPage',0)
+          pagination.data('nextPage',0)
+          pagination.data('hasMore',true)
 
       fetchFilteredArtists = (ev) ->
         resetSearch(ev)

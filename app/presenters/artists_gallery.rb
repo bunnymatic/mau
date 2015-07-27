@@ -1,9 +1,9 @@
 class ArtistsGallery < ArtistsPresenter
 
-  PER_PAGE = 20
+  PER_PAGE = Rails.env.development? ? 5 : 20
   ELLIPSIS = "&hellip;"
   LETTERS_REGEX = /[a-zA-Z]/
-  attr_reader :pagination, :per_page, :letter
+  attr_reader :pagination, :per_page, :letter, :ordering
 
   delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
 
