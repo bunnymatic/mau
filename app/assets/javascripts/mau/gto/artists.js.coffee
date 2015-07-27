@@ -34,7 +34,6 @@ $ ->
     fetchArtists = (url) ->
       $content = $('.js-artists-scroll-wrapper')
       pagination = $('.js-pagination-state').last().data()
-      console.log(pagination)
       if pagination.hasOwnProperty('hasMore')
         nextPage = pagination.nextPage
         $.ajax(
@@ -70,14 +69,12 @@ $ ->
 
       currentFilter = getCurrentFilter()
       resetSearch = () ->
-        console.log('resetsearch')
         $wrapper = $('js-artists-scroll-wrapper')
         currentMode = $wrapper.data('filtering')
         currentFilter = getCurrentFilter()
         newMode = !!currentFilter
         $wrapper.data('filtering', newMode )
         if newMode != currentMode
-          console.log('update data')
           $('.js-pagination-state').slice(1,-1).remove()
           pagination = $('.js-pagination-state').last()
           $('.artist-card').fadeOut duration: 50, complete: -> $(@).remove()
