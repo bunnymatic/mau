@@ -242,13 +242,6 @@ describe UsersController do
   end
 
   describe "#show" do
-    render_views
-    context "while not logged in" do
-      before do
-        get :show, :id => 123
-      end
-      it_should_behave_like "not logged in"
-    end
     context 'looking for an invalid user id' do
       before do
         get :show, :id => 'eat it'
@@ -268,15 +261,6 @@ describe UsersController do
         get :show, :id => fan.id
       end
       it { expect(response).to be_success }
-      it "has the users name on it" do
-        assert_select '.artist__name', :text => fan.get_name
-      end
-      it "has a profile image" do
-        assert_select ".artist__image"
-      end
-      it "shows the users website" do
-        assert_select ".link a[href=#{fan.url}]"
-      end
     end
     context "while logged in as an user" do
       before do

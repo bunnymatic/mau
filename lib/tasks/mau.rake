@@ -19,6 +19,13 @@ namespace :mau do
     end
   end
 
+  desc 'initiate studio slugs'
+  task slug_media: [:environment] do
+    Medium.all.each do |m|
+      m.save!
+    end
+  end
+  
   desc 'initiate user slugs'
   task slug_users: [:environment] do
     User.all.each do |u|

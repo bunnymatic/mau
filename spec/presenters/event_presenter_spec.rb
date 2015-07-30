@@ -16,10 +16,6 @@ describe EventPresenter do
                                    ) }
   subject(:presenter) { EventPresenter.new(mock_view_context, event) }
 
-  # its(:edit_path) { should eql edit_event_path(event) }
-  # its(:publish_path) { should eql publish_admin_event_path(event) }
-  # its(:unpublish_path) { should eql unpublish_admin_event_path(event) }
-
   its(:event_website_url) { should eql event_website }
 
   it{ should_not be_published }

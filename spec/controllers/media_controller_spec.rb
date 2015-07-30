@@ -33,12 +33,16 @@ describe MediaController do
     let(:medium) { Artist.active.map(&:art_pieces).flatten.map(&:medium).first }
     context 'for valid medium' do
       let(:paginator) { assigns(:paginator) }
-
+      context 'with pretty url' do
+        before do
+          get :show, :id => medium.slug
+        end
+        it { expect(response).to be_success }
+      end
       context 'by artist' do
         before do
           get :show, :id => medium.id, :m => 'a'
         end
-        it_should_behave_like "not logged in"
         it "page is in artists mode" do
           assigns(:media_presenter).should be_by_artists
         end
@@ -50,7 +54,6 @@ describe MediaController do
         before do
           get :show, :id => medium
         end
-        it_should_behave_like "not logged in"
         it "page is in pieces mode" do
           assigns(:media_presenter).should be_by_pieces
         end

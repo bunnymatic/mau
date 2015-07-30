@@ -37,22 +37,6 @@ class EventPresenter
     @address ||= address_hash[:full]
   end
 
-  def edit_path
-    @view_context.edit_event_path(event)
-  end
-
-  def publish_path
-    @view_context.publish_admin_event_path(event)
-  end
-
-  def unpublish_path
-    @view_context.unpublish_admin_event_path(event)
-  end
-
-  def delete_path
-    @view_context.event_path(event)
-  end
-
   def event_website_url
     @event_website_url ||=
       begin
@@ -68,12 +52,6 @@ class EventPresenter
 
   def link_to_event_website
     @view_context.link_to event_website_display, event_website_url
-  end
-
-  def link_to_clean_url(_url)
-    display = _url.gsub(/^https?:\/\//, '')
-    url = add_http(_url)
-    link_to display, url
   end
 
   def event_classes

@@ -25,7 +25,8 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studios
   $scope.currentArtPath = () ->
     "/art_pieces/" + $scope.artPiece?.id
   $scope.currentArtistPath = () ->
-    "/artists/" + $scope.artist?.id
+    if $scope.artist
+      "/artists/#{$scope.artist.slug || $scope.artist.id}"
   $scope.hasArtistProfile = () ->
     $scope.artist?.profile_image
   $scope.profilePath = (size = 'medium') ->

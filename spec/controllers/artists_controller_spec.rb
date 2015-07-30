@@ -338,7 +338,6 @@ describe ArtistsController do
         artist.artist_info.update_attribute(:facebook, "http://www.facebook.com/#{artist.login}")
         get :show, id: artist.id
       end
-      it_should_behave_like "not logged in"
       it "website is present" do
         assert_select(".link a[href=#{artist.url}]")
       end

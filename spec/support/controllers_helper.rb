@@ -48,10 +48,6 @@ shared_examples_for "redirects to login" do
   end
 end
 
-shared_examples_for "not logged in" do
-  it { expect(controller.current_user).to eql nil }
-end
-
 
 shared_examples_for 'renders error page' do
   it "renders an error page with status 404" do

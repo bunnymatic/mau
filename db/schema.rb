@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150615063552) do
+ActiveRecord::Schema.define(:version => 20150727152114) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -199,7 +199,10 @@ ActiveRecord::Schema.define(:version => 20150615063552) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug"
   end
+
+  add_index "media", ["slug"], :name => "index_media_on_slug", :unique => true
 
   create_table "open_studios_events", :force => true do |t|
     t.datetime "start_date"

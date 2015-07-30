@@ -6,6 +6,11 @@
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  slug       :string(255)
+#
+# Indexes
+#
+#  index_media_on_slug  (slug) UNIQUE
 #
 
 class Medium < ActiveRecord::Base
@@ -14,6 +19,9 @@ class Medium < ActiveRecord::Base
   #default_scope order('name')
   include TagMediaMixin
 
+  include FriendlyId
+  friendly_id :name, use: :slugged
+  
   validates :name, :presence => true, :length => {:within => (2..244)}
 
   CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20

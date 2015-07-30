@@ -68,7 +68,6 @@ describe MainController do
         get :about
       end
       it { expect(response).to be_success }
-      it_should_behave_like "not logged in"
       it 'fetches markdown content' do
         assigns(:content).should have_key :content
         assigns(:content).should have_key :cmsid
@@ -160,7 +159,6 @@ describe MainController do
       get :privacy
     end
     it { expect(response).to be_success }
-    it_should_behave_like "not logged in"
   end
 
   describe "#faq" do
@@ -168,7 +166,6 @@ describe MainController do
       get :faq
     end
     it { expect(response).to be_success }
-    it_should_behave_like "not logged in"
   end
 
   describe '#main/venues' do
@@ -178,7 +175,6 @@ describe MainController do
         get :venues
       end
       it { expect(response).to be_success }
-      it_should_behave_like "not logged in"
     end
     context 'logged in as admin' do
       let(:venue_doc) {FactoryGirl.create(:cms_document,
