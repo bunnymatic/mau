@@ -20,9 +20,6 @@ describe ArtPieceTagPresenter do
   subject(:presenter) { ArtPieceTagPresenter.new(tag,mode) }
 
   its(:art_pieces) { should have(5).art_pieces }
-  it 'only shows art from active artists' do
-    subject.art_pieces.map{|ap| ap.artist.active? }.uniq.should eql [true]
-  end
   it 'sorts by updated at' do
     subject.art_pieces.map{|p| p.art_piece.updated_at.to_i}.should be_monotonically_decreasing
   end
@@ -30,6 +27,15 @@ describe ArtPieceTagPresenter do
   context 'when showing only by artist' do
     let(:mode) { 'a' }
     its(:art_pieces) { should have(2).art_pieces }
+  end
+
+  context 'with inactive artists in the system' do
+    before do
+      artists.first.suspend!
+    end
+    it 'shows art only from active artists' do
+      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to be_true
+    end
   end
 
 end

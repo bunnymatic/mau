@@ -93,7 +93,7 @@ appears on the left side of the page.
   #menu .title {
     color: lighten($gto_gray,40%);
     border: none;
-    padding: 0.4em 0 0.4em 1em;
+    padding: 0.2em 0 0.2em 1em;
   }
   #menu .title {
     color: lighten($gto_gray,25%);
@@ -121,6 +121,7 @@ appears on the left side of the page.
     width:0;
   }
   #menu .pure-menu-item a{
+    display:block;
     @include ellipsis;
   }
   
