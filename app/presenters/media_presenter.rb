@@ -39,7 +39,7 @@ class MediaPresenter
 
   private
   def raw_art_pieces
-    @raw_art_pieces ||= @medium.art_pieces.order('updated_at').reverse
+    @raw_art_pieces ||= @medium.art_pieces.joins(:artist).where(users: { state: :active }).order('updated_at').reverse
   end
 
 end

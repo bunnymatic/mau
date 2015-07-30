@@ -27,4 +27,12 @@ describe MediaPresenter do
   its('paginator.per_page') { should eql per_page }
   its('paginator.current_page') { should eql page }
 
+  context 'with inactive artists in the system' do
+    before do
+      artists.first.suspend!
+    end
+    it 'shows art only from active artists' do
+      expect(art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to be_true
+    end
+  end
 end
