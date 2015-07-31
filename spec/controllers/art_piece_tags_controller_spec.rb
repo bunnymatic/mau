@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
-
 describe ArtPieceTagsController do
 
   let(:artists) { FactoryGirl.create_list(:artist, 3, :with_tagged_art) }

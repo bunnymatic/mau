@@ -118,7 +118,7 @@ class SearchService
   def filter_results(results_by_kw)
     results = results_by_kw.values.compact.flatten
 
-    hits = histogram results.map(&:id)
+    hits = StatsCalculator.histogram results.map(&:id)
     results.reject!{|ap| hits[ap.id] < keyword_count}
 
     results = filter_by_medium(results)

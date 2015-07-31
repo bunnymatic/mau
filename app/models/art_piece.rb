@@ -41,7 +41,22 @@ class ArtPiece < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
-
+  settings analysis: {
+             analyzer: {
+               mau_analyzer: {
+                 tokenizer: 'standard',
+                 filter: [
+                   "lowercase",
+                   "porter_stem"
+                 ]
+               }
+             }
+           } do
+    mappings dynamic: 'false' do
+      indexes :title, analyzer: 'mau_analyzer'
+    end
+  end
+  
   before_destroy :remove_images
   after_destroy :clear_tags_and_favorites
   after_save :remove_old_art

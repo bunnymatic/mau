@@ -145,15 +145,6 @@ class Artist < User
     @memo_address_hash ||= call_address_method :address_hash
   end
 
-  # def primary_medium
-  #   return nil unless art_pieces && art_pieces.count > 0
-  #   @primary_medium ||=
-  #     begin
-  #       hist = histogram(art_pieces.map(&:medium).compact)
-  #       hist.sort_by{|k,v| v}.last.try(:first)
-  #     end
-  # end
-
   def latest_piece
     @latest_piece ||= art_pieces.order('created_at desc').limit(1).first
   end
