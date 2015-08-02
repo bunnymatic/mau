@@ -16,7 +16,7 @@ class ArtPieceTagPresenter
 
   private
   def tagged_art_pieces
-    @tagged_art_pieces ||= ArtPiecesTag.includes(:art_piece).where(:art_piece_tag_id => tag.id).map(&:art_piece).select{|ap| ap.artist.active?}
+    @tagged_art_pieces ||= ArtPiecesTag.includes(:art_piece).where(:art_piece_tag_id => tag.id).map(&:art_piece).compact.select{|ap| ap.artist.try(:active?) }
   end
 
   def by_artist?
