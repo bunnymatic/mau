@@ -76,6 +76,24 @@ class Artist < User
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  settings analysis: {
+             analyzer: {
+               mau_analyzer: {
+                 tokenizer: 'standard',
+                 filter: [
+                   "lowercase",
+                   "porter_stem"
+                 ]
+               }
+             }
+           } do
+    mappings(_all: {analyzer: 'mau_analyzer'}) do
+      indexes :firstname
+      indexes :lastname
+      indexes :bio
+    end
+  end
+  
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
   scope :with_artist_info, includes(:artist_info)

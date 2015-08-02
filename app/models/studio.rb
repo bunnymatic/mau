@@ -36,6 +36,23 @@ class Studio < ActiveRecord::Base
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+
+  settings analysis: {
+             analyzer: {
+               mau_analyzer: {
+                 tokenizer: 'standard',
+                 filter: [
+                   "lowercase",
+                   "porter_stem"
+                 ]
+               }
+             }
+           } do
+    mappings(_all: {analyzer: 'mau_analyzer'}) do
+      indexes :name, boost: 10
+      indexes :street
+    end
+  end
   
   extend FriendlyId
   friendly_id :name, use: :slugged

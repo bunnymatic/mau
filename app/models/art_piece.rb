@@ -52,8 +52,10 @@ class ArtPiece < ActiveRecord::Base
                }
              }
            } do
-    mappings dynamic: 'false' do
-      indexes :title, analyzer: 'mau_analyzer'
+    mappings(_all: {analyzer: 'mau_analyzer'}) do
+      indexes :title
+      indexes :year
+      indexes :medium
     end
   end
   
@@ -65,6 +67,13 @@ class ArtPiece < ActiveRecord::Base
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 
+  def as_indexed_json(opts={})
+    idxd = as_json(only: [:title])
+    idxd["art_piece"].merge!("medium" => medium.try(:name), "tags"  => tags.map(&:name).join(" "))
+    puts idxd
+    idxd
+  end
+  
 
   def self.owned
     where("artist_id in (select id from users where state = 'active' and type='Artist')")
