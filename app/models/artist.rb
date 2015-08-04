@@ -91,14 +91,25 @@ class Artist < User
       indexes :firstname
       indexes :lastname
       indexes :bio
+      indexes :studio_name
     end
+  end
+
+  def as_indexed_json(opts={})
+    idxd = as_json(only: [:firstname, :lastname])
+    extras = {}
+    studio_name = studio.try(:name)
+    extras["studio_name"] = studio_name if studio_name.present?
+    extras["bio"] = artist_info.bio if artist_info.try(:bio).present?
+    idxd["artist"].merge!(extras)
+    puts idxd
+    active? ? idxd : {}
   end
   
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
   scope :with_artist_info, includes(:artist_info)
   scope :by_lastname, order(:lastname)
-  scope :by_firstname, order(:firstname)
   scope :without_art, active.where("id not in (select artist_id from art_pieces)");
 
   has_one :artist_info

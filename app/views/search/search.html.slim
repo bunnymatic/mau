@@ -11,12 +11,16 @@
         .pure-u-1-3
           h3 Studios
           - @studio_results.each do |r|
-            .result = r._source.name
-        .pure-u-1-3
-          h3 Artists
-          - @artist_results.each do |r|
-            .result = r._source.login
-        .pure-u-1-3
-          h3 Art Pieces
-          - @art_piece_results.each do |r|
-            .result = r._source.title
+            .result
+              .score = "%3.3f" % r['_score']
+              p = r["_source"].inspect
+
+
+        / .pure-u-1-3
+        /   h3 Artists
+        /   - @artist_results.each do |r|
+        /     .result = r["_source"]["login"]
+        / .pure-u-1-3
+        /   h3 Art Pieces
+        /   - @art_piece_results.each do |r|
+        /     .result = r["_source"]["title"]

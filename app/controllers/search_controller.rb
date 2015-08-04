@@ -8,9 +8,9 @@ class SearchController < ApplicationController
   # elastic search search
   def search
     @query = params[:q]
-    @studio_results = EsSearchService.new(Studio, @query).search
-    @artist_results = EsSearchService.new(Artist, @query).search
-    @art_piece_results = EsSearchService.new(ArtPiece, @query).search
+    @studio_results = EsSearchService.new(nil, @query).search
+    @artist_results = [] #EsSearchService.new(Artist, @query).search
+    @art_piece_results = [] # EsSearchService.new(ArtPiece, @query).search
   end
   
   def fetch

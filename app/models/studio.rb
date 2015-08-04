@@ -49,8 +49,8 @@ class Studio < ActiveRecord::Base
              }
            } do
     mappings(_all: {analyzer: 'mau_analyzer'}) do
-      indexes :name, boost: 10
-      indexes :street
+      indexes :name, boost: 30
+      indexes :address
     end
   end
   
@@ -93,6 +93,14 @@ class Studio < ActiveRecord::Base
     if phone
       phone.gsub!(/\D+/,'')
     end
+  end
+
+  def as_indexed_json(opts={})
+    idxd = as_json(only: [:name])
+    extras = {}
+    extras["address"] = address
+    idxd["studio"].merge!(extras)
+    idxd
   end
 
   # return faux indy studio

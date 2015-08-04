@@ -1,4 +1,5 @@
 @import 'gto/gto-mixins';
+@import 'colors';
 .search.index {
   .result-count {
     float: right;
@@ -49,4 +50,17 @@
       @include opacity(1);
     }
   }  
+}
+
+.search.search {
+  .result {
+    border-bottom: 1px solid $gto_dark_teal;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .score {
+    float: right;
+    text-color: $mediumgray;
+    border-bottom: 1px dotted $mediumgray;
+  }
 }

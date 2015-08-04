@@ -56,6 +56,7 @@ class ArtPiece < ActiveRecord::Base
       indexes :title
       indexes :year
       indexes :medium
+      indexes :artist_name
     end
   end
   
@@ -69,8 +70,11 @@ class ArtPiece < ActiveRecord::Base
 
   def as_indexed_json(opts={})
     idxd = as_json(only: [:title])
-    idxd["art_piece"].merge!("medium" => medium.try(:name), "tags"  => tags.map(&:name).join(" "))
-    puts idxd
+    extras = {}
+    extras["medium"] = medium.try(:name) if medium
+    extras["tags"] = tags.map(&:name).join(" ") if tags.present?
+    extras["artist_name"] = artist.try(:full_name)
+    idxd["art_piece"].merge! extras
     idxd
   end
   
