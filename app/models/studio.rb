@@ -37,20 +37,10 @@ class Studio < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
-  settings analysis: {
-             analyzer: {
-               mau_analyzer: {
-                 tokenizer: 'standard',
-                 filter: [
-                   "lowercase",
-                   "porter_stem"
-                 ]
-               }
-             }
-           } do
-    mappings(_all: {analyzer: 'mau_analyzer'}) do
-      indexes :name, boost: 30
-      indexes :address
+  settings do
+    mappings(_all: {analyzer: :snowball}) do
+      indexes :name, dynamic: false
+      indexes :address, dynamic: false
     end
   end
   
@@ -96,9 +86,10 @@ class Studio < ActiveRecord::Base
   end
 
   def as_indexed_json(opts={})
-    idxd = as_json(only: [:name])
+    idxd = as_json(only: [:name, :slug])
     extras = {}
     extras["address"] = address
+    extras["images"] = image_paths
     idxd["studio"].merge!(extras)
     idxd
   end
@@ -112,5 +103,8 @@ class Studio < ActiveRecord::Base
     photo? ? photo(size) : StudioImage.get_path(self, size)
   end
 
+  def image_paths
+    @image_paths ||= StudioImage.paths(self)
+  end
 end
 

@@ -1,5 +1,13 @@
 class StudioImage < ProfileImage
 
+  def self.paths(studio)
+    @paths ||= Hash[MauImage::ImageSize.allowed_sizes.map do |kk|
+                      path = studio.get_profile_image(kk.to_s)
+                      [kk, path]
+                    end
+                   ]
+  end
+  
   def self.get_path(studio, size="medium")
     if studio.photo?
       return studio.photo(size)

@@ -19,7 +19,7 @@ class EsSearchService
   def single_index_search
     @model.search({
       body: {
-        size: 30,
+        size: 100,
         query: {
           match: {
             "_all" => @query
@@ -38,18 +38,23 @@ class EsSearchService
 
   def multi_index_search
     base_client = Elasticsearch::Client.new
-    r = base_client.search({
-                             q: @query,
-                             size: 25,
-                             highlight: {
-                               pre_tags: ['<span class="search-highlight">'],
-                               post_tags: ['</span>'],
-                               fields: {
-                                 "_all" => {}
+    r = base_client.search({ body: {
+                               query: {
+                                 match: {
+                                   '_all' => @query
+                                 }
+                               },
+                               size: 100,
+                               highlight: {
+                                 pre_tags: ['<span class="search-highlight">'],
+                                 post_tags: ['</span>'],
+                                 fields: {
+                                   "_all" => {}
+                                 }
                                }
                              }
                            })
-                             
+
     if r.has_key?('hits') && r['hits'].has_key?('hits')
       r['hits']['hits'].map{|hit| OpenStruct.new(hit)}
     end

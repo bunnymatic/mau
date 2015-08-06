@@ -41,22 +41,14 @@ class ArtPiece < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
-  settings analysis: {
-             analyzer: {
-               mau_analyzer: {
-                 tokenizer: 'standard',
-                 filter: [
-                   "lowercase",
-                   "porter_stem"
-                 ]
-               }
-             }
-           } do
-    mappings(_all: {analyzer: 'mau_analyzer'}) do
-      indexes :title
+  settings do
+    mappings(_all: {analyzer: :snowball}) do
+      indexes :title, analyzer: :snowball
       indexes :year
-      indexes :medium
-      indexes :artist_name
+      indexes :medium, analyzer: :snowball
+      indexes :artist_name, analyzer: :snowball
+      indexes :studio_name, analyzer: :snowball
+      indexes :tags, analyzer: :snowball
     end
   end
   
@@ -69,11 +61,13 @@ class ArtPiece < ActiveRecord::Base
   validates_length_of       :title,    :within => 2..80
 
   def as_indexed_json(opts={})
-    idxd = as_json(only: [:title])
+    idxd = as_json(only: [:title, :year])
     extras = {}
-    extras["medium"] = medium.try(:name) if medium
-    extras["tags"] = tags.map(&:name).join(" ") if tags.present?
+    extras["medium"] = medium.try(:name)
+    extras["tags"] = tags.map(&:name).join(" ")
     extras["artist_name"] = artist.try(:full_name)
+    extras["studio_name"] = artist.try(:studio).try(:name) if artist.studio
+    extras["images"] = image_paths
     idxd["art_piece"].merge! extras
     idxd
   end

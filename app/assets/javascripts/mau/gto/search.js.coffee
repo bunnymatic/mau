@@ -31,22 +31,25 @@ $ ->
     $(@).toggleClass('active', opening)
     $searchForm.toggleClass('open', opening).find(INPUT_SELECTOR).focus()
 
-
-  buildArtPieceHtml = (art_piece) ->
-    template = new MAU.Template('search_autocomplete_result_template')
-    template.html(art_piece)
+  buildResultHtml = (result) ->
+    type = result._type
+    template = new MAU.Template("search_autocomplete_result_#{type}_template");
+    console.log result['_source'][type]
+    data = result['_source'][type]
+    data._id = result['_id']
+    template.html(data)
 
   search = ->
     startSpinner()
     $.ajax
-      url: '/search/fetch.json'
+      url: '/search/search.json'
       data:
-        keywords: $(INPUT_SELECTOR).val()
+        q: $(INPUT_SELECTOR).val()
         limit: 20
       success: (data) ->
         $(RESULTS_CONTAINER).find('.js-results li').remove()
-        _.each data, (art_piece) ->
-          entry = buildArtPieceHtml(art_piece)
+        _.each (data.search || data), (result) ->
+          entry = buildResultHtml(result)
           $(RESULTS_CONTAINER).find('.js-results').append(entry)
       error: (data) ->
       complete: () ->

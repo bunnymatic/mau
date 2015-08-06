@@ -76,31 +76,23 @@ class Artist < User
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
-  settings analysis: {
-             analyzer: {
-               mau_analyzer: {
-                 tokenizer: 'standard',
-                 filter: [
-                   "lowercase",
-                   "porter_stem"
-                 ]
-               }
-             }
-           } do
-    mappings(_all: {analyzer: 'mau_analyzer'}) do
-      indexes :firstname
-      indexes :lastname
-      indexes :bio
-      indexes :studio_name
+  settings do
+    mappings(_all: {analyzer: :snowball}) do
+      indexes :artist_name, analyzer: :snowball
+      indexes :firstnaem, analyzer: :snowball
+      indexes :lastname, analyzer: :snowball
+      indexes :nomdeplume, analyzer: :snowball
+      indexes :studio_name, analyzer: :snowball
     end
   end
 
   def as_indexed_json(opts={})
-    idxd = as_json(only: [:firstname, :lastname])
+    idxd = as_json(only: [:firstname, :lastname, :nomdeplume, :slug])
     extras = {}
     studio_name = studio.try(:name)
+    extras["artist_name"] = full_name
     extras["studio_name"] = studio_name if studio_name.present?
-    extras["bio"] = artist_info.bio if artist_info.try(:bio).present?
+    extras["images"] = representative_piece.try(:image_paths)
     idxd["artist"].merge!(extras)
     puts idxd
     active? ? idxd : {}
