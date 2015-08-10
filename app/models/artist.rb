@@ -83,6 +83,7 @@ class Artist < User
       indexes :lastname, analyzer: :snowball
       indexes :nomdeplume, analyzer: :snowball
       indexes :studio_name, analyzer: :snowball
+      indexes :bio, index: :no
     end
   end
 
@@ -93,9 +94,10 @@ class Artist < User
     extras["artist_name"] = full_name
     extras["studio_name"] = studio_name if studio_name.present?
     extras["images"] = representative_piece.try(:image_paths)
+    extras["bio"] = bio if bio.present?
     idxd["artist"].merge!(extras)
-    puts idxd
-    active? ? idxd : {}
+    puts idxd if (active? && extras["images"].present?)
+    (active? && extras["images"].present?) ? idxd : {}
   end
   
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql

@@ -3,17 +3,18 @@
     h2.title Search
 .pure-g
   .pure-u-1-1.search-page.padded-content
-    = form_tag '/search/search' do
-      = text_field_tag :q, @query
-      = submit_tag :go, :class => 'pure-button pure-button-secondary'
-    #search_results
-      .pure-g
-        - @studio_results.each do |k,hits|
-          .pure-u-1-3
-            h3 = [k.titleize, hits.count.to_s].join " "
-            - hits.each do |r|
-              .result
-                .doc-id 
-                  = link_to r['_id'], "http://localhost:9200/#{r['_index']}/#{r['_type']}/#{r['_id']}"
-                .score = "%3.3f" % r['_score']
-                p = r
+    search-results
+    / = form_tag '/search/search' do
+    /   = text_field_tag :q, @query
+    /   = submit_tag :go, :class => 'pure-button pure-button-secondary'
+    / #search_results
+    /   .pure-g
+    /     - @studio_results.each do |k,hits|
+    /       .pure-u-1-3
+    /         h3 = [k.titleize, hits.count.to_s].join " "
+    /         - hits.each do |r|
+    /           .result
+    /             .doc-id 
+    /               = link_to r['_id'], "http://localhost:9200/#{r['_index']}/#{r['_type']}/#{r['_id']}"
+    /             .score = "%3.3f" % r['_score']
+    /             p = r

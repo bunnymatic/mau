@@ -1,0 +1,13 @@
+@import 'colors';
+.search-result {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+
+  .fa {
+    color: $gto-yellow;
+  }
+  .icon {
+    font-size: 20px;
+  }
+}

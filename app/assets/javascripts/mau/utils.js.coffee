@@ -1,6 +1,38 @@
 # usomg gppd p; vanilla
 MAU = window.MAU = window.MAU || {};
 MAU.Utils =
+  ellipsize: (str, max, ellipse, chars, truncate) ->
+
+    DEFAULTS =
+      ellipse: '…'
+      chars: [' ', '-']
+      max: 140
+      truncate: true
+
+    max ||= DEFAULTS.max
+    chars ||= DEFAULTS.chars
+    ellipse ||= DEFAULTS.ellipse
+    truncate ||= DEFAULTS.truncate
+
+    last = 0
+    c = ''
+    return str if (str.length < max)
+
+    i = 0
+    len = str.length
+    while i < len
+      c = str.charAt(i)
+      i++
+
+      if (chars.indexOf(c) != -1)
+        last = i;
+
+        if (i < max)
+          continue
+        if (last == 0)
+          return !truncate ? '' : str.substring(0, max - 1) + ellipse
+        return str.substring(0, last) + ellipse;
+    return str
 
   debounce: (func, threshold, execAsap) ->
 
