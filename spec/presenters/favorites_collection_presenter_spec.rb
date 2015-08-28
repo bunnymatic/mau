@@ -3,6 +3,7 @@ require 'spec_helper'
 describe FavoritesCollectionPresenter do
   let(:artists) { create_list(:artist, 4, :active, :with_art) + [create(:artist, :active)] }
   let(:artist) { artists.first }
+  let(:art_piece_without_artist) { create(:art_piece) }
   let(:current_user) { nil }
   subject(:presenter) { FavoritesCollectionPresenter.new(artist.favorites, artist, current_user) }
 
@@ -14,6 +15,8 @@ describe FavoritesCollectionPresenter do
 
       artist.add_favorite(artists[2].art_pieces.first)
       artist.add_favorite(artists[3].art_pieces.first)
+      artist.add_favorite(art_piece_without_artist)
+      art_piece_without_artist.artist.suspend!
     end
 
     its(:art_pieces) { should have(2).art_pieces }

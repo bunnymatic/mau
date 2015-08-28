@@ -42,7 +42,10 @@ class FavoritesCollectionPresenter < ViewPresenter
   end
 
   def art_pieces
-    collection.select(&:is_art_piece?).map{|f| ArtPiecePresenter.new(f.to_obj)}
+    collection.select(&:is_art_piece?).map do |f|
+      valid_artist = f.to_obj.try(:artist).try(&:active?)
+      ArtPiecePresenter.new(f.to_obj) if valid_artist
+    end.compact
   end
 
   def artists
