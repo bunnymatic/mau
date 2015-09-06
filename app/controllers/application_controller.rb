@@ -2,8 +2,6 @@
 # Likewise, all the methods added will be available for all controllers.
 
 #USERAGENT = 'HTTP_USER_AGENT'
-require 'faye'
-
 class ApplicationController < ActionController::Base
   VERSION = 'Charger 6.0 '
   DEFAULT_CSV_OPTS = {:row_sep => "\n", :force_quotes => true}

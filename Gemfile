@@ -30,8 +30,6 @@ gem 'mime-types'
 gem 'qr4r'
 gem 'event-calendar', :require => 'event_calendar'
 gem 'rack-cors', :require => 'rack/cors'
-gem 'momentarily'
-gem 'faye'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'browser'
 gem 'geokit'
