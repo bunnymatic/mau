@@ -51,7 +51,7 @@ class ArtPiece < ActiveRecord::Base
       indexes :tags, analyzer: :snowball
     end
   end
-  
+
   before_destroy :remove_images
   after_destroy :clear_tags_and_favorites
   after_save :remove_old_art
@@ -68,10 +68,11 @@ class ArtPiece < ActiveRecord::Base
     extras["artist_name"] = artist.try(:full_name)
     extras["studio_name"] = artist.try(:studio).try(:name) if artist.studio
     extras["images"] = image_paths
+    extras["os_participant"] = artist.try(:doing_open_studios?)
     idxd["art_piece"].merge! extras
     idxd
   end
-  
+
 
   def self.owned
     where("artist_id in (select id from users where state = 'active' and type='Artist')")

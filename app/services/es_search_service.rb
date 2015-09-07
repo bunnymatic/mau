@@ -12,7 +12,10 @@ class EsSearchService
               else
                 multi_index_search
               end
-    puts "Query #{@query} %4.4fms" % (Time.now.to_f - t)
+    begin
+      puts "Query #{@query} %4.4fms" % (Time.now.to_f - t)
+    rescue
+    end
     results
   end
 

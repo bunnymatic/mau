@@ -1,10 +1,10 @@
 script type="template/html" id="search_form_template"
   .search-form
     #spinner
-    = form_tag "/search", method: "post", id: "search_form" do
+    = form_tag "/search/search", method: "get", id: "search_form" do
       .search-input-controls
         label for="search_keywords" Search for
-        input#search_keywords autocomplete="off" type="text" name="keywords" autofocus="autofocus"
+        input#search_keywords autocomplete="off" type="text" name="q" autofocus="autofocus"
     .search-autocomplete-results
       ul.js-results
 

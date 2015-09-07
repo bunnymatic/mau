@@ -8,6 +8,7 @@ angular.module("mau.models").factory "SearchHit", ngInject (objectRoutingService
       obj = src[@type]
       @image = obj.images?.small
       obj.id = @id
+      @osParticipant = obj.os_participant
       switch @type
         when 'artist'
           @name = obj.artist_name

@@ -43,7 +43,7 @@ class Studio < ActiveRecord::Base
       indexes :address, dynamic: false
     end
   end
-  
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -90,6 +90,7 @@ class Studio < ActiveRecord::Base
     extras = {}
     extras["address"] = address
     extras["images"] = image_paths
+    extras["os_participant"] = artists.any?{|a| a.try(:doing_open_studios?)}
     idxd["studio"].merge!(extras)
     idxd
   end
@@ -107,4 +108,3 @@ class Studio < ActiveRecord::Base
     @image_paths ||= StudioImage.paths(self)
   end
 end
-

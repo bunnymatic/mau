@@ -95,6 +95,7 @@ class Artist < User
     extras["studio_name"] = studio_name if studio_name.present?
     extras["images"] = representative_piece.try(:image_paths)
     extras["bio"] = bio if bio.present?
+    extras["os_participant"] = doing_open_studios?
     idxd["artist"].merge!(extras)
     (active? && extras["images"].present?) ? idxd : {}
   end

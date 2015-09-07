@@ -22,6 +22,18 @@ search-results {
     padding-right: 20px;
     padding-bottom: 10px;
   }
+  .os-violator {
+    background-size: 24px 24px;
+    width: 24px;
+    height: 26px;
+    margin-left: 15px;
+    background-color: transparent;
+    position: relative;
+    top: -4px;
+  }
+  .name {
+    div { float: left; }
+  }
   .hd {
     font-size: 20px;
     .artist-name, .byline-conjunction {

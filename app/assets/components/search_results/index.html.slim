@@ -1,8 +1,8 @@
 form action="/search/search" method="POST"
-  input type="text" name="q" id="search_query" value="bryant"
+  input type="text" name="q" id="search_query"
   input type="submit" value="go" class='pure-button pure-button-secondary'
 
-.search-result ng-repeat="hit in hits"
+.search-result ng-repeat="hit in hits" ng-class="hit.type"
   .pure-g
     .pure-u-1-4.pure-u-md-1-6
       a ng-href="{{::hit.link}}"
@@ -14,7 +14,10 @@ form action="/search/search" method="POST"
           .pure-u-1-1
             .score = "{{::hit.score}}"
             .icon.fa ng-class="hit.icon_class"
-            .name ng-bind-html="::hit.name"
+            .name
+              div ng-bind-html="::hit.name"
+              .os-violator ng-if="hit.osParticipant"
+
         .bd.pure-g
           .pure-u-4-5
             .desc ng-if="hit.description" = "{{::hit.description}}"
