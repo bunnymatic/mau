@@ -322,8 +322,18 @@ describe Artist do
     before do
       artist
       wayout_artist
+      artist
     end
-    describe 'with_representative_image' do
+    describe ".without_art" do
+      it 'does not include fans' do
+        artists = Artist.without_art
+        expect(artists.map(&:type).uniq).to eql ['Artist']
+        expect(artists.map{|a| a.art_pieces.count}.uniq).to eql [0]
+        expect(Artist.all.map{|a| a.art_pieces.count}.uniq).to eql [3,0]
+      end
+
+    end
+    describe '.with_representative_image' do
       it 'returns only artists with a representative image' do
         active = Artist.active
         w_image = Artist.active.with_representative_image.all
@@ -332,7 +342,7 @@ describe Artist do
         w_image.select{|a| a.representative_piece.blank?}.should be_empty
       end
     end
-    describe 'open_studios_participants' do
+    describe '.open_studios_participants' do
       before do
         artist.update_os_participation open_studios_event.key, true
       end

@@ -46,10 +46,6 @@ describe SiteStatistics do
   it 'has studio count' do
     stats.totals[:studios].should eql 2
   end
-  # it 'has event info' do
-  #   stats.totals[:events_past].should eql Event.past.count
-  #   stats.totals[:events_future].should eql Event.future.count
-  # end
   it 'has open studios info' do
     stats.open_studios.length.should >= 5
   end
