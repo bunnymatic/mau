@@ -33,11 +33,6 @@ var MAU = window.MAU = window.MAU || {};
     spinner.spin();
   };
 
-  M.goToArtist = function( artistid ) {
-    window.location = "/users/" + parseInt(artistid,10);
-    return true;
-  };
-
   M.doSearch = function(ev) {
     var q = jQuery('#search_box');
     var f = jQuery('#search_form');

@@ -71,6 +71,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-angular-sanitize'
   gem 'rails-assets-angular-animate'
   gem 'rails-assets-angular-ui-utils', "~> 0.2.3"
+  gem 'rails-assets-angular-mocks'
   gem 'rails-assets-moment'
   gem 'rails-assets-lodash'
   gem 'rails-assets-colorbox' # lightbox plugin

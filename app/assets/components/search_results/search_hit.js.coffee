@@ -5,6 +5,7 @@ class SearchHit
     @type = @hit._type
     @score = @hit._score
     obj = src[@type]
+    @link = @hit.link
     console.log obj
     @image = obj.images?.small
     switch @type
@@ -20,5 +21,5 @@ class SearchHit
         @name = obj.title
         @icon_class = "fa-picture-o"
         @description = obj.medium?.name
-    
+
 angular.module("mau.models").factory "SearchHit", -> SearchHit

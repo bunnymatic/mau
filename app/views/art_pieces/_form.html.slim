@@ -11,4 +11,4 @@
     = f.input :tags, as: :string, input_html: { value: tags_to_s(art_piece.tags) }
   = f.actions do
     = f.submit "Add", class: "pure-button button-large pure-button-primary"
-    = f.submit "Cancel", class: "pure-button button-large"
+    a.pure-button href=artist_path(artist) Cancel

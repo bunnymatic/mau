@@ -1,4 +1,7 @@
 jQuery ->
+  return unless jQuery.fn.dataTable
+
+
   tables = [ "#tags_index.js-data-tables",
              "#cms_contents_index.js-data-tables",
              "#os_status_table.js-data-tables",

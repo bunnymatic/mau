@@ -96,10 +96,9 @@ class Artist < User
     extras["images"] = representative_piece.try(:image_paths)
     extras["bio"] = bio if bio.present?
     idxd["artist"].merge!(extras)
-    puts idxd if (active? && extras["images"].present?)
     (active? && extras["images"].present?) ? idxd : {}
   end
-  
+
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
   scope :with_artist_info, includes(:artist_info)
