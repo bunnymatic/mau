@@ -1,9 +1,19 @@
 @import 'colors';
+search-results {
+  form {
+    margin-bottom: 20px;
+  }
+}
 .search-result {
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ccc;
-
+  .score {
+    float: right;
+    text-color: $mediumgray;
+    border-bottom: 1px dotted $mediumgray;
+    font-size: 12px;
+  }
   .fa {
     color: $gto-yellow;
   }
@@ -13,7 +23,15 @@
     padding-bottom: 10px;
   }
   .hd {
-    font-size: 24px;
+    font-size: 20px;
+    .artist-name, .byline-conjunction {
+      font-size: 16px;
+      text-transform: uppercase;
+      color: $light-gray;
+    }
+  }
+  .bd > div {
+    line-height: 1.4rem;
   }
 
 

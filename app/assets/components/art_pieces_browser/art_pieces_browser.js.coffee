@@ -1,4 +1,4 @@
-controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studiosService) ->
+controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studiosService, objectRoutingService) ->
 
   initializeCurrent = ->
     if $scope.artPieces && $scope.initialArtPiece
@@ -23,10 +23,10 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studios
     $scope.current = limitPosition($scope.current + 1)
 
   $scope.currentArtPath = () ->
-    "/art_pieces/" + $scope.artPiece?.id
+    objectRoutingService.artPiecePath($scope.artPiece)
   $scope.currentArtistPath = () ->
     if $scope.artist
-      "/artists/#{$scope.artist.slug || $scope.artist.id}"
+      objectRoutingService.artistPath($scope.artist)
   $scope.hasArtistProfile = () ->
     !!$scope.artist?.profile_images?.medium
   $scope.profilePath = (size = 'medium') ->

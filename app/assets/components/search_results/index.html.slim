@@ -5,17 +5,19 @@ form action="/search/search" method="POST"
 .search-result ng-repeat="hit in hits"
   .pure-g
     .pure-u-1-4.pure-u-md-1-6
-      .thumb-col style="width: 100px; height: 100px;"
-         .img(style="width: 100%; height: 100%;" background-img="{{hit.image}}")
+      a ng-href="{{::hit.link}}"
+        .thumb-col style="width: 100px; height: 100px;"
+           .img(style="width: 100%; height: 100%;" background-img="{{hit.image}}")
     .pure-u-3-4.pure-u-md-5-6
-      .hd.pure-g
-        .pure-u-1-1
-          .icon.fa ng-class="hit.icon_class"
-          .name = "{{::hit.name}}"
-      .bd.pure-g
-        .pure-u-1-1
-          .desc = "{{::hit.description}}"
-          .score = "{{::hit.score}}"
-          .id = "{{::hit.id}}"
-          .t = "{{::hit.type}}"
-      .ft
+      a ng-href="{{::hit.link}}"
+        .hd.pure-g
+          .pure-u-1-1
+            .score = "{{::hit.score}}"
+            .icon.fa ng-class="hit.icon_class"
+            .name ng-bind-html="::hit.name"
+        .bd.pure-g
+          .pure-u-4-5
+            .desc ng-if="hit.description" = "{{::hit.description}}"
+            .medium ng-if="hit.medium" = "{{::hit.medium}}"
+            .tags ng-if="hit.tags" = "{{::hit.tags}}"
+        .ft

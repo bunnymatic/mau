@@ -79,7 +79,7 @@ class Artist < User
   settings do
     mappings(_all: {analyzer: :snowball}) do
       indexes :artist_name, analyzer: :snowball
-      indexes :firstnaem, analyzer: :snowball
+      indexes :firstname, analyzer: :snowball
       indexes :lastname, analyzer: :snowball
       indexes :nomdeplume, analyzer: :snowball
       indexes :studio_name, analyzer: :snowball

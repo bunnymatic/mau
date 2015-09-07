@@ -20,7 +20,7 @@
     }
     ul {
       padding-left: 10px;
-    } 
+    }
     ul, .os {
       margin-top: 0.8em;
     }
@@ -35,7 +35,7 @@
       }
     }
   }
-  
+
   h4 .query {
     font-style: italic;
     font-weight: $font-weight-normal;
@@ -49,7 +49,7 @@
     .desc {
       @include opacity(1);
     }
-  }  
+  }
 }
 
 .search.search {
@@ -57,10 +57,5 @@
     border-bottom: 1px solid $gto_dark_teal;
     padding-top: 20px;
     padding-bottom: 20px;
-  }
-  .score {
-    float: right;
-    text-color: $mediumgray;
-    border-bottom: 1px dotted $mediumgray;
   }
 }
