@@ -18,7 +18,7 @@ class SiteStatistics
   end
 
   private
- 
+
   def display_key(os_key)
     reverse = true
     if os = OpenStudiosEvent.find_by_key(os_key)
@@ -31,7 +31,6 @@ class SiteStatistics
       "%s %s" % (reverse ? [seas,yr] : [ yr, seas ])
     end
   end
- 
 
   def compute
     queries.keys.each do |k|

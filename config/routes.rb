@@ -114,7 +114,7 @@ Mau::Application.routes.draw do
       get :markdown
       get :social_icons
     end
-    
+
     get :fans
     get :os_status
     get :db_backups
@@ -125,6 +125,7 @@ Mau::Application.routes.draw do
     post :emaillist
 
     namespace :stats do
+      get :art_pieces_count_histogram
       get :artists_per_day
       get :art_pieces_per_day
       get :favorites_per_day

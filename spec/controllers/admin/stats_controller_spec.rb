@@ -9,7 +9,7 @@ describe Admin::StatsController do
   end
 
   describe "json endpoints" do
-    [:user_visits_per_day, :artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
+    [:art_pieces_count_histogram, :user_visits_per_day, :artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
       describe endpoint do
         before do
           xhr :get, endpoint
