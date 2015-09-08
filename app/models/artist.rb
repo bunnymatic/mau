@@ -76,6 +76,14 @@ class Artist < User
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  ES_ANALYZER = {
+    analyzer: {
+      mau_analyzer: {
+        tokenizer: [ :snowball ]
+      }
+    }
+  }
+
   settings do
     mappings(_all: {analyzer: :snowball}) do
       indexes :artist_name, analyzer: :snowball

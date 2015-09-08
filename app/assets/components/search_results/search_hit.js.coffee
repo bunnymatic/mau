@@ -25,4 +25,8 @@ angular.module("mau.models").factory "SearchHit", ngInject (objectRoutingService
           @icon_class = "fa-picture-o"
           @link = objectRoutingService.artPiecePath(obj)
           @tags = obj.tags
+          console.log(obj.tags)
+          @tagsForDisplay = ->
+            debugger
+
           @medium = obj.medium

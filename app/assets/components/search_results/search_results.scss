@@ -42,8 +42,19 @@ search-results {
       color: $light-gray;
     }
   }
-  .bd > div {
-    line-height: 1.4rem;
+  .bd {
+    * {
+      color: $light-gray;
+    }
+    > div {
+      line-height: 1.4rem;
+      .label, .value {
+        display: inline-block;
+      }
+      .value {
+        color: $darkgray;
+      }
+    }
   }
 
 

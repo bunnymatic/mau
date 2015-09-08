@@ -21,6 +21,10 @@ form action="/search/search" method="POST"
         .bd.pure-g
           .pure-u-4-5
             .desc ng-if="hit.description" = "{{::hit.description}}"
-            .medium ng-if="hit.medium" = "{{::hit.medium}}"
-            .tags ng-if="hit.tags" = "{{::hit.tags}}"
+            .medium ng-if="hit.medium"
+              .label Medium:
+              .value = "{{::hit.medium}}"
+            .tags ng-if="hit.tags"
+              .label Tags:
+              .value = "{{::hit.tags}}"
         .ft

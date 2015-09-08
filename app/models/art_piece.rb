@@ -64,7 +64,7 @@ class ArtPiece < ActiveRecord::Base
     idxd = as_json(only: [:title, :year])
     extras = {}
     extras["medium"] = medium.try(:name)
-    extras["tags"] = tags.map(&:name).join(" ")
+    extras["tags"] = tags.map(&:name).join(", ")
     extras["artist_name"] = artist.try(:full_name)
     extras["studio_name"] = artist.try(:studio).try(:name) if artist.studio
     extras["images"] = image_paths
