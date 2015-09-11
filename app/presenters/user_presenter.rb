@@ -19,9 +19,13 @@ class UserPresenter < ViewPresenter
   def member_since
     (model.activated_at || model.created_at).strftime "%b %Y"
   end
-  
+
   def last_login
     model.last_login_at.try(:to_formatted_s,:admin)
+  end
+
+  def activation_date
+    model.activated_at.try(:to_formatted_s,:admin_date_only)
   end
 
   def doing_open_studios?
