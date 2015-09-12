@@ -24,7 +24,7 @@ class AdminArtistList < ViewPresenter
   end
 
   def raw_artists
-    @raw_artists ||= Artist.all(:order => sort_by_clause, :include => [:artist_info, :studio])
+    @raw_artists ||= Artist.all(:order => sort_by_clause, :include => [:artist_info, :studio, :art_pieces])
   end
 
   def artists

@@ -17,7 +17,7 @@ $xdarkgray: darken($gto_gray, 30%);
 $darkgray: darken($gto_gray, 23%);
 
 $border-gray:darken($gto_gray, 9%);
- 
+
 $xmediumgray: $gto_gray;
 $mediumgray: lighten($gto_gray, 24%);
 $lightgray: lighten($gto_gray, 31%);
@@ -42,4 +42,3 @@ $base-background-color: lighten($gto_gray, 60);
 // TODO: Replace these names with hyphenated and remove these
 $bordergray: $border-gray;
 $xlightgray: $x-light-gray;
-

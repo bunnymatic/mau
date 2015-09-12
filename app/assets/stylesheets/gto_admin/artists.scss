@@ -3,4 +3,24 @@
     font-size: 0.8rem;
     font-style: italic;
   }
+  table {
+    font-size: 85%;
+    td.date-field {
+      white-space: nowrap;
+    }
+    .user-state {
+      font-size: 150%;
+      .tooltip-content {
+        font-size: 75%;
+      }
+    }
+    .forgot-password-link, .activation-link {
+      i {
+        margin-right: 6px;
+      }
+    }
+    td > div {
+      line-height: 1.4rem;
+    }
+  }
 }
