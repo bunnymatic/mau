@@ -27,4 +27,3 @@ Scenario: Suspending artists
 
   When I suspend the first artist
   Then I see that the first artist is suspended
-

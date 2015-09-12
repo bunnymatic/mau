@@ -35,8 +35,7 @@
                 %i.admin-tooltip{class: a.icon_for_state}
                   .tooltip-content
                     = a.state
-
-              %td
+              %td.login
                 %a{:href => artist_path(a)}
                   = a.login
               %td
@@ -56,17 +55,15 @@
                 .address
                   #{a.address}
                 - if a.has_activation_code?
-                  .admin-tooltip
-                    .activation-link
-                      %i{class: "fa fa-link"}
-                      Activation Link
+                  .admin-tooltip.activation-link
+                    %i{class: "fa fa-link"}
+                    Activation Link
                     .tooltip-content
                       = a.activation_link
                 - if a.has_reset_code?
-                  .admin-tooltip
-                    .forgot-password-link
-                      %i{class: "fa fa-link"}
-                      Reset Password Link
+                  .admin-tooltip.forgot-password-link
+                    %i{class: "fa fa-link"}
+                    Reset Password Link
                     .tooltip-content
                       = a.reset_password_link
 

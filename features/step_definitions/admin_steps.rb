@@ -47,10 +47,11 @@ Then(/^I see that artist is no longer part of the studio list$/) do
 end
 
 When(/^I suspend the first artist$/) do
-  name = page.all('table tbody tr td:first-child a').first.text
-  @first_artist = Artist.find_by_nomdeplume(name)
+  name = page.all('table tbody tr td.login a').first.text
+  @first_artist = Artist.find_by_login(name)
   click_on_first 'Suspend artist'
 end
+
 Then(/^I see that the first artist is suspended$/) do
   expect(@first_artist.reload).to be_suspended
 end
