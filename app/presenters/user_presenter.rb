@@ -16,6 +16,16 @@ class UserPresenter < ViewPresenter
     @model = user
   end
 
+  def icon_for_state
+    icon_class = {
+      active: "check-circle-o",
+      pending: "clock-o",
+      deleted: "times-circle-o",
+      suspended: "thumbs-o-down"
+    }[state.to_sym]
+    "fa fa-#{icon_class}" if icon_class
+  end
+
   def member_since
     (model.activated_at || model.created_at).strftime "%b %Y"
   end

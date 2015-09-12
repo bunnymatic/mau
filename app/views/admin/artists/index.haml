@@ -12,16 +12,16 @@
       %table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
         %thead
           %tr
-            %th State
+            %th
             %th Username
             %th Name
             %th Since
             %th Last seen
             %th Studio
             %th Art
+            %th Info
             %th
               = OpenStudiosEventService.current.for_display(true)
-            %th{ "data-orderable" => "false" }
             %th{ "data-orderable" => "false" }
 
         %tbody
@@ -31,8 +31,11 @@
               classes << a.state
               classes << 'participating' if a.doing_open_studios?
             %tr{:class => classes.join(' ')}
-              %td
-                = a.state
+              %td.user-state{"data-order" => a.state}
+                %i.admin-tooltip{class: a.icon_for_state}
+                  .tooltip-content
+                    = a.state
+
               %td
                 %a{:href => artist_path(a)}
                   = a.login
@@ -51,26 +54,30 @@
                 .email
                   #{a.email}
                 .address
-                  Address: #{a.address}
+                  #{a.address}
                 - if a.has_activation_code?
-                  .activation_link
-                    Activation Link (created_at #{a.created_at}):
-                    %br
-                    = a.activation_link
+                  .admin-tooltip
+                    .activation-link
+                      %i{class: "fa fa-link"}
+                      Activation Link
+                    .tooltip-content
+                      = a.activation_link
                 - if a.has_reset_code?
-                  .forgot_password_link
-                    Reset Password Link:
-                    %br
-                    = a.reset_password_link
+                  .admin-tooltip
+                    .forgot-password-link
+                      %i{class: "fa fa-link"}
+                      Reset Password Link
+                    .tooltip-content
+                      = a.reset_password_link
 
-              %td.participating_status{ :artistid => a.id } #{a.doing_open_studios?}
-              %td
+              %td{ "data-order" => (a.has_address? ? a.doing_open_studios?.to_s : -1) }
                 / this make sure that all os settings are sent to the controller
-                - checked = a.doing_open_studios?
-                - name = "os[#{a.id}]"
-                = hidden_field_tag name, "0"
-                = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
-                - unless a.has_address?
+                - if a.has_address?
+                  - checked = a.doing_open_studios?
+                  - name = "os[#{a.id}]"
+                  = hidden_field_tag name, "0"
+                  = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
+                - else
                   .no-address N/A
               %td
                 = link_to suspend_admin_artist_path(a), method: :post, confirm: 'Are you sure you want to suspend this artist?', title: "Suspend artist" do
