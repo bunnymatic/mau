@@ -12,18 +12,17 @@
       %table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
         %thead
           %tr
-            %th first name
-            %th last name
-            %th state
-            %th login
-            %th activated at
-            %th last login
-            %th studio
-            %th art count
+            %th State
+            %th Username
+            %th Name
+            %th Since
+            %th Last seen
+            %th Studio
+            %th Art
             %th
               = OpenStudiosEventService.current.for_display(true)
-            %th
-            %th
+            %th{ "data-orderable" => "false" }
+            %th{ "data-orderable" => "false" }
 
         %tbody
           - @artist_list.each_with_index do |a, idx|
@@ -32,33 +31,27 @@
               classes << a.state
               classes << 'participating' if a.doing_open_studios?
             %tr{:class => classes.join(' ')}
-              %td.admin_artist_name
-                %a{:href => artist_path(a)}
-                  = a.firstname
-              %td.admin_artist_name
-                %a{:href => artist_path(a)}
-                  = a.lastname
               %td
                 = a.state
               %td
-                = a.login
-              %td{ "data-order" => a.activated_at.to_i}
-                = a.activation_date
+                %a{:href => artist_path(a)}
+                  = a.login
               %td
+                %a{:href => artist_path(a)}
+                  = a.full_name
+              %td.date-field{ "data-order" => a.activated_at.to_i}
+                = a.activation_date
+              %td.date-field
                 = a.last_login
-              %td.admin_artist_studio
+              %td
                 = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
-              %td.admin_artist_studio
+              %td
                 = (a.art_pieces || []).count
-              %td.admin_artist_info
-                .name
-                  Username: #{a.login}
+              %td
                 .email
-                  EM: #{a.email}
+                  #{a.email}
                 .address
                   Address: #{a.address}
-                .active
-                  Active? #{a.active?}
                 - if a.has_activation_code?
                   .activation_link
                     Activation Link (created_at #{a.created_at}):
@@ -78,7 +71,7 @@
                 = hidden_field_tag name, "0"
                 = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
                 - unless a.has_address?
-                  .no-address no address
+                  .no-address N/A
               %td
                 = link_to suspend_admin_artist_path(a), method: :post, confirm: 'Are you sure you want to suspend this artist?', title: "Suspend artist" do
                   %i.fa.fa-icon.fa-bomb

@@ -3,4 +3,10 @@
     font-size: 0.8rem;
     font-style: italic;
   }
+  table {
+    font-size: 85%;
+    td.date-field {
+      white-space: nowrap;
+    }
+  }
 }
