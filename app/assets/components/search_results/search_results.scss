@@ -1,14 +1,72 @@
 @import 'colors';
+@import 'gto/variables';
+
 search-results {
   form {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+  }
+  .submit-button i {
+    font-size: 36px;
+    color: $light-gray;
+  }
+
+  #search_query {
+    font-size: 3rem;
+    max-width: 70%;
+    border: 0;
+    margin-left: 20px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+  }
+  @media screen and (min-width: $screen-sm-max) {
+    .submit-button i {
+      font-size: 40px;
+    }
+    #search_query {
+      font-size: 4rem;
+    }
+  }
+  @media screen and (min-width: $screen-sm-max) {
+    .submit-button i {
+      font-size: 50px;
+    }
+    #search_query {
+      font-size: 4.5rem;
+    }
+  }
+  @media screen and (min-width: $screen-md-max) {
+    .submit-button i {
+      font-size: 66px;
+    }
+    #search_query {
+      font-size: 5rem;
+    }
   }
 }
 .search-result {
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ccc;
+  .thumb-col {
+    height: 100px;
+    width: 100%;
+    padding-right: 20px;
+    .img {
+      width: 100%;
+      height: 100%;
+    }
+    @media screen and (min-width: $screen-sm-max) {
+      height: 120px;
+    }
+    @media screen and (min-width: $screen-sm-max) {
+      height: 140px;
+    }
+    @media screen and (min-width: $screen-md-max) {
+      height: 160px;
+    }
+  }
   .score {
+    display: none;
     float: right;
     text-color: $mediumgray;
     border-bottom: 1px dotted $mediumgray;

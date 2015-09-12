@@ -39,7 +39,19 @@ class ArtPiece < ActiveRecord::Base
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+
+  after_commit on: [:create] do
+    SearchService.index(self)
+  end
+
+  after_commit on: [:update] do
+    SearchService.reindex(self)
+  end
+
+  after_commit on: [:destroy] do
+    SearchService.remove(self)
+  end
+
 
   settings do
     mappings(_all: {analyzer: :snowball}) do

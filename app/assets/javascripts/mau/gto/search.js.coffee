@@ -16,8 +16,15 @@ $ ->
   stopSpinner = ->
    search_spinner?.stop()
 
+  currentPage = new MAU.QueryStringParser(location.href)
+  onSearchPage = (currentPage.pathname == '/search')
+
+  if onSearchPage
+    $('.js-in-page-search').addClass("active")
+
   $('.js-in-page-search').on 'click', (ev) ->
     ev.preventDefault()
+    return if onSearchPage
     unless $("##{SEARCH_FORM_ID}").length
       template = new MAU.Template('search_form_template')
       $("##{SEARCH_FORM_ID}").remove()
@@ -43,7 +50,7 @@ $ ->
   search = ->
     startSpinner()
     $.ajax
-      url: '/search/search.json'
+      url: '/search.json'
       data:
         q: $(INPUT_SELECTOR).val()
         limit: 20

@@ -75,7 +75,14 @@ class Artist < User
   include OpenStudiosEventShim
 
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+
+  after_commit on: [:update] do
+    SearchService.reindex_artist(self)
+  end
+
+  after_commit on: [:destroy] do
+    SearchService.remove_artist(self)
+  end
   ES_ANALYZER = {
     analyzer: {
       mau_analyzer: {

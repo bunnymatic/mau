@@ -1,4 +1,8 @@
 controller = ngInject ($scope, $attrs, $element, searchService, SearchHit) ->
+  $scope.submitQuery = () ->
+    query = $($element).find('form #search_query').val()
+    $scope.search(query)
+
   $scope.search = (query, pageSize, page) ->
     success = (data) ->
       $scope.hits = _.map data, (datum) -> new SearchHit(datum)
