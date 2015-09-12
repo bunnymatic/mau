@@ -66,10 +66,10 @@ gem 'jbuilder' #non-html output (rss, atom)
 gem 'newrelic_rpm' #moitoring
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-angular'
-  gem 'rails-assets-angular-resource'
-  gem 'rails-assets-angular-sanitize'
-  gem 'rails-assets-angular-animate'
+  gem 'rails-assets-angular', "=1.3.16"
+  gem 'rails-assets-angular-resource', "=1.3.16"
+  gem 'rails-assets-angular-sanitize', "=1.3.16"
+  gem 'rails-assets-angular-animate', "=1.3.16"
   gem 'rails-assets-angular-ui-utils', "~> 0.2.3"
   gem 'rails-assets-angular-mocks'
   gem 'rails-assets-moment'

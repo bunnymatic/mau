@@ -34,9 +34,10 @@ $ ->
   buildResultHtml = (result) ->
     type = result._type
     template = new MAU.Template("search_autocomplete_result_#{type}_template");
-    console.log result['_source'][type]
     data = result['_source'][type]
     data._id = result['_id']
+    data.backgroundImage = "background-image: url(#{data.images.thumb});";
+    console.log(data)
     template.html(data)
 
   search = ->
