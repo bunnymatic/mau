@@ -1,6 +1,6 @@
 module Search
   class QueryRunner
-    def initialize(query = nil)
+    def initialize(query = nil, include_highlight = true)
       @query = query
     end
 
@@ -34,16 +34,20 @@ module Search
             }
           }
         })
+      package_results(r)
+    end
 
-      if r.has_key?('hits') && r['hits'].has_key?('hits')
-        r['hits']['hits'].map do |hit|
-          highlights = hit['highlight'] || {}
-          highlights.each do |full_field, value|
-            field1, field2 = full_field.split(".")
-            hit["_source"][field1][field2] = value if [field1,field2,value].all?(&:present?)
-          end
-          OpenStruct.new(hit)
+    def package_results(raw_results)
+      return unless raw_results.has_key?('hits') && raw_results['hits'].has_key?('hits')
+
+      raw_results['hits']['hits'].map do |hit|
+        highlights = hit['highlight'] || {}
+        puts "HIGHLIGHTS", highlights.inspect
+        highlights.each do |full_field, value|
+          field1, field2 = full_field.split(".")
+          hit["_source"][field1][field2] = value if [field1,field2,value].all?(&:present?)
         end
+        OpenStruct.new(hit)
       end
     end
 

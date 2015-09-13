@@ -12,7 +12,7 @@ searchService = ngInject ($http) ->
     $http.post('/search.json', searchParams).success((data) ->
       success(data.search)
     ).error((data) ->
-      error(data.search)
+      error(data)
     )
 
 angular.module('mau.services').factory('searchService', searchService)
