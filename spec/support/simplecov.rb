@@ -24,7 +24,7 @@ if ENV['COVERAGE']
     add_group  'Mailers', 'app/mailers'
     add_group  'Paginators', 'app/paginators'
     add_group  'Exporters', 'app/exporters'
+    add_group  'Services', 'app/services'
     add_group  'Presenters', 'app/presenters'
-    add_group  'Validators', 'app/validators'
   end
 end

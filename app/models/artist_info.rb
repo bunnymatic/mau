@@ -41,27 +41,6 @@ class ArtistInfo < ActiveRecord::Base
   include AddressMixin
   include OpenStudiosEventShim
 
-  after_save :update_search_index
-  after_destroy :remove_from_search_index
-
-  def update_search_index
-    begin
-      self.artist.__elasticsearch__.update_document
-    rescue Exception => ex
-      Rails.logger.warn("Unable to reindex after ArtistInfo update");
-      Rails.logger.warn("EX: #{ex}");
-    end
-  end
-
-  def remove_from_search_index
-    begin
-      self.artist.__elasticsearch__.delete_document
-    rescue Exception => ex
-      Rails.logger.warn("Unable to remove document after ArtistInfo update");
-      Rails.logger.warn("EX: #{ex}");
-    end
-  end
-
   def os_participation
     @os_participation ||=
       begin
