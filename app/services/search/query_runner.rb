@@ -16,25 +16,34 @@ module Search
     end
 
     def multi_index_search
-      r = EsClient.client.search({ body: {
-                                 query: {
-                                   match: {
-                                     '_all' => @query
-                                   }
-                                 },
-                                 size: 100,
-                                 highlight: {
-                                   pre_tags: ['<span class="search-highlight">'],
-                                   post_tags: ['</span>'],
-                                   fields: {
-                                     "_all" => {}
-                                   }
-                                 }
-                               }
-                             })
+      r = EsClient.client.search(
+        {
+          body: {
+            query: {
+              match: {
+                '_all' => @query
+              }
+            },
+            size: 100,
+            highlight: {
+              pre_tags: ['<span class="search-highlight">'],
+              post_tags: ['</span>'],
+              fields: {
+                "*" => {},
+              }
+            }
+          }
+        })
 
       if r.has_key?('hits') && r['hits'].has_key?('hits')
-        r['hits']['hits'].map{|hit| OpenStruct.new(hit)}
+        r['hits']['hits'].map do |hit|
+          highlights = hit['highlight'] || {}
+          highlights.each do |full_field, value|
+            field1, field2 = full_field.split(".")
+            hit["_source"][field1][field2] = value if [field1,field2,value].all?(&:present?)
+          end
+          OpenStruct.new(hit)
+        end
       end
     end
 

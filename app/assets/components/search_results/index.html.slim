@@ -16,8 +16,8 @@ form action="/search" method="POST"
             .score = "{{::hit.score}}"
             .icon.fa ng-class="hit.icon_class"
             .name
-              div ng-bind-html="::hit.name"
               .os-violator ng-if="hit.osParticipant"
+              div ng-bind-html="::hit.name"
 
         .bd.pure-g
           .pure-u-4-5
@@ -27,5 +27,5 @@ form action="/search" method="POST"
               .value = "{{::hit.medium}}"
             .tags ng-if="hit.tags"
               .label Tags:
-              .value = "{{::hit.tags}}"
+              .value ng-bind-html="::hit.tags"
         .ft
