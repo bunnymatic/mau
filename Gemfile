@@ -65,6 +65,8 @@ gem 'jbuilder' #non-html output (rss, atom)
 
 gem 'newrelic_rpm' #moitoring
 
+gem 'dotenv'
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-angular', "=1.3.16"
   gem 'rails-assets-angular-resource', "=1.3.16"

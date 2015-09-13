@@ -1,6 +1,8 @@
 machine:
   environment:
     API_CONSUMER_KEY: Testing Testing 1 2
+  services:
+    - elasticsearch
 dependencies:
   pre:
     - sudo apt-get update; sudo apt-get install libicu52
