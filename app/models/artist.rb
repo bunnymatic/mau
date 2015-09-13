@@ -76,12 +76,20 @@ class Artist < User
 
   include Elasticsearch::Model
 
-  after_commit on: [:update] do
-    SearchService.reindex_artist(self)
+  after_commit :add_to_search_index, on: :create
+  after_commit :refresh_in_search_index, on: :update
+  after_commit :remove_from_search_index, on: :destroy
+
+  def add_to_search_index
+    SearchService.index(self)
   end
 
-  after_commit on: [:destroy] do
-    SearchService.remove_artist(self)
+  def refresh_in_search_index
+    SearchService.reindex(self)
+  end
+
+  def remove_from_search_index
+    SearchService.remove(self)
   end
   ES_ANALYZER = {
     analyzer: {

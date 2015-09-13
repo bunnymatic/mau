@@ -1,160 +1,156 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe SearchService do
 
-  let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
-  let(:nomdeplume_artist) { Artist.active.where(nomdeplume:'Interesting').first }
-  let(:artists) { Artist.all }
-  let(:artist) { artists.first }
+  subject(:service) { SearchService }
+  let(:artist) { create :artist, :with_art }
   let(:art_piece) { artist.art_pieces.first }
-  let(:medium) { art_piece.medium }
-  let(:tag) { art_piece.tags.last }
-  let(:studios) { artists.map(&:studio) }
-  let(:search_mediums) { [] }
-  let(:search_studios) { [] }
-  let(:keywords) { '' }
-  let(:os_flag) { nil }
-  let(:query) {
-    SearchQuery.new(keywords: keywords,
-                       studios: search_studios.map{|s| s.try(:id).to_i },
-                       mediums: search_mediums.map(&:id),
-                       os_artist: os_flag)
+  let(:studio) { create :studio }
+
+  ES_METHODS = {
+    index_document: nil,
+    delete_document: nil,
+    update_document: nil
   }
 
-  before do
-    FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, firstname: 'Firstname', nomdeplume: nil)
-    FactoryGirl.create(:artist, nomdeplume: "Interesting", firstname: 'Firstname' )
-    FactoryGirl.create(:artist, :active, :with_art, nomdeplume: "Interesting", firstname: 'Firstname')
-  end
-
-  subject(:search) { SearchService.new(query) }
-  let(:results) { subject.search }
-
-
-  context 'with no params' do
-    its(:search) { should have(0).items }
-  end
-
-  context 'with non-matching keywords' do
-    let(:keywords) { ['this long thing', 'wont', 'match anything'].join(",") }
-    its(:search) { should have(0).items }
-  end
-
-  context 'with a simple keyword' do
-    let(:keywords) { 'firstname' }
-    its(:search) { should have(12).items }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-  end
-
-  context 'finding by medium' do
-    let(:search_mediums) { artists.map{|a| a.art_pieces.map(&:medium) }.flatten.compact.slice(0,2) }
-    its(:search) { should have(2).items }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-    it 'results should use one of the included media' do
-      found = results.map{|r| r.medium.id }
-      expect( search_mediums.map(&:id) & found).to have_at_least(1).item
+  describe 'an artist' do
+    let(:object) { artist }
+    before do
+      ES_METHODS.keys.each do |method|
+        allow(object.__elasticsearch__).to receive method
+        object.art_pieces.each do |art|
+          allow(art.__elasticsearch__).to receive method
+        end
+      end
     end
-  end
-
-  context 'finding by medium and studio' do
-    let(:search_mediums) { artists.map{|a| a.art_pieces.map(&:medium) }.flatten.compact.slice(0,2) }
-    let(:search_studios) { artists.map(&:studio).slice(0,2) }
-    let(:keywords) { 'firstname' }
-    its(:search) { should have(2).items }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-    it 'results should use one of the included media' do
-      found = results.map{|r| r.medium.id }
-      expect( search_mediums.map(&:id) & found).to have_at_least(1).item
+    describe '.index' do
+      it 'indexes the artist' do
+        expect(object.__elasticsearch__).to receive(:index_document)
+        service.index(object)
+      end
+      it 'indexes all the artists art pieces' do
+        object.art_pieces.each do |art|
+          expect(art.__elasticsearch__).to receive(:index_document)
+        end
+        service.index(object)
+      end
     end
-    it 'results should come from one of the included studios' do
-      found = results.map{|r| r.artist.studio.id }
-      expect( search_studios.map(&:id) & found).to have_at_least(1).item
+    describe '.reindex' do
+      it 'reindexes the artist' do
+        expect(object.__elasticsearch__).to receive(:delete_document)
+        expect(object.__elasticsearch__).to receive(:index_document)
+        service.reindex(object)
+      end
+      it 'reindexes all the artists art pieces' do
+        object.art_pieces.each do |art|
+          expect(art.__elasticsearch__).to receive(:delete_document)
+          expect(art.__elasticsearch__).to receive(:index_document)
+        end
+        service.reindex(object)
+      end
     end
-  end
-
-  context 'finding by partial nomdeplume' do
-    let(:keywords) { "Interesting" }
-    its(:search) { should have(3).items }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-    it { expect(results.map(&:artist)).to include nomdeplume_artist }
-  end
-
-  context 'last name' do
-    let(:keywords) { artist.lastname }
-    its(:search) { should have_at_least(1).item }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-    it { expect(results.map(&:artist).uniq).to eql [artist] }
-  end
-
-  context "firstname with extra spaces in the query" do
-    let(:keywords) { " " + artist.lastname + "  " }
-    its(:search) { should have_at_least(1).item }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-    it { expect(results.map(&:artist).uniq).to include artist }
-  end
-
-  context "full name with capitalization" do
-    let(:keywords) { artist.full_name.titleize }
-    its(:search) { should have_at_least(1).item }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-    it { expect(results.map(&:artist).uniq).to eql [artist] }
-  end
-
-  context 'finding an art piece by title' do
-    let(:keywords) { art_piece.title.last }
-    its(:search) { should have_at_least(1).item }
-    it { expect(results).to include art_piece }
-  end
-
-  context "finding by art piece partial title" do
-    let(:keywords) { art_piece.title.split.first }
-    its(:search) { should have_at_least(1).item }
-    it { expect(results).to include art_piece }
-  end
-
-  context "finding by tag" do
-    let(:keywords) { tag.name }
-    its(:search) { should have_at_least(1).item }
-    it { expect(results.map{|r| r.tags.map(&:name)}.flatten).to include tag.name }
-  end
-
-  context 'finding by keyword that matches a medium' do
-    let(:keywords) { medium.name }
-    its(:search) { should have(1).items }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-    it 'results should use one of the included media' do
-      results.each do |r|
-        expect(r.medium).to eql medium
+    describe '.update' do
+      it 'updates the artist' do
+        expect(object.__elasticsearch__).to receive(:update_document)
+        service.update(object)
+      end
+      it 'updates all the artists art pieces' do
+        object.art_pieces.each do |art|
+          expect(art.__elasticsearch__).to receive(:update_document)
+        end
+        service.update(object)
+      end
+    end
+    describe '.remove' do
+      it 'removes the artist' do
+        expect(object.__elasticsearch__).to receive(:delete_document)
+        service.remove(object)
+      end
+      it 'removes all the artists art pieces' do
+        object.art_pieces.each do |art|
+          expect(art.__elasticsearch__).to receive(:delete_document)
+        end
+        service.remove(object)
       end
     end
   end
 
-  context 'finding only os artists' do
-    let(:keywords) { 'firstname' }
-    let(:os_flag) { "1" }
+  describe 'an art_piece' do
+    let(:object) { art_piece }
     before do
-      artist.update_os_participation open_studios_event.key, true
+      ES_METHODS.keys.each do |method|
+        allow(object.__elasticsearch__).to receive method
+        allow(object.artist.__elasticsearch__).to receive method
+      end
     end
-    its(:search) { should have_at_least(1).item }
-    it { expect(results.map{|r| r.artist.doing_open_studios?}.uniq).to eql [true] }
+
+    describe '.index' do
+      it 'indexes the art piece document' do
+        expect(object.__elasticsearch__).to receive(:index_document)
+        service.index(object)
+      end
+      it 'indexes all the artists art pieces' do
+        expect(object.artist.__elasticsearch__).to receive(:index_document)
+        service.index(object)
+      end
+    end
+    describe '.reindex' do
+      it 'reindexes the art piece document' do
+        expect(object.__elasticsearch__).to receive(:delete_document)
+        expect(object.__elasticsearch__).to receive(:index_document)
+        service.reindex(object)
+      end
+      it 'reindexes all the artists art pieces' do
+        expect(object.artist.__elasticsearch__).to receive(:delete_document)
+        expect(object.artist.__elasticsearch__).to receive(:index_document)
+        service.reindex(object)
+      end
+    end
+    describe '.update' do
+      it 'updates the art piece document' do
+        expect(object.__elasticsearch__).to receive(:update_document)
+        service.update(object)
+      end
+      it 'updates all the artists art pieces' do
+        expect(object.artist.__elasticsearch__).to receive(:update_document)
+        service.update(object)
+      end
+    end
+    describe '.remove' do
+      it 'removes the art piece document' do
+        expect(object.__elasticsearch__).to receive(:delete_document)
+        service.remove(object)
+      end
+    end
+
   end
 
-  context 'finding only non os artists' do
-    let(:keywords) {'firstname' }
-    let(:os_flag) { "2" }
-    its(:search) { should have_at_least(1).item }
-    it { expect(results.map{|r| r.artist.doing_open_studios?}.uniq).to eql [false] }
-  end
-
-  context 'finding by studio' do
-    let(:keywords) { 'firstname' }
-    let(:search_studios) { [studios[1]] }
-
-    it { expect(results).to have(9).items }
-    it { expect(results.first).to be_a_kind_of ArtPiece }
-    it 'results should come from one of the included studios' do
-      found = results.map{|r| r.artist.studio.try(:id) }
-      expect( search_studios.map(&:id) & found).to have_at_least(1).item
+  describe 'an studio' do
+    let(:object) { studio }
+    describe '.index' do
+      it 'indexes the studio' do
+        expect(object.__elasticsearch__).to receive(:index_document)
+        service.index(object)
+      end
+    end
+    describe '.reindex' do
+      it 'reindexes the studio' do
+        expect(object.__elasticsearch__).to receive(:delete_document)
+        expect(object.__elasticsearch__).to receive(:index_document)
+        service.reindex(object)
+      end
+    end
+    describe '.update' do
+      it 'updates the studio' do
+        expect(object.__elasticsearch__).to receive(:update_document)
+        service.update(object)
+      end
+    end
+    describe '.remove' do
+      it 'removes the studio' do
+        expect(object.__elasticsearch__).to receive(:delete_document)
+        service.remove(object)
+      end
     end
   end
 

@@ -40,15 +40,19 @@ class ArtPiece < ActiveRecord::Base
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
   include Elasticsearch::Model
 
-  after_commit on: [:create] do
+  after_commit :add_to_search_index, on: :create
+  after_commit :refresh_in_search_index, on: :update
+  after_commit :remove_from_search_index, on: :destroy
+
+  def add_to_search_index
     SearchService.index(self)
   end
 
-  after_commit on: [:update] do
+  def refresh_in_search_index
     SearchService.reindex(self)
   end
 
-  after_commit on: [:destroy] do
+  def remove_from_search_index
     SearchService.remove(self)
   end
 
