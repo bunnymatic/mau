@@ -31,10 +31,9 @@ $ ->
       $('.js-main-container').append($(template.html()).attr("id", SEARCH_FORM_ID))
     $searchForm = $("##{SEARCH_FORM_ID}")
     opening = !$(@).hasClass('active')
-    console.log opening
-    console.log($(@));
     if opening
       MAU.Navigation.hideTabs()
+
     $(@).toggleClass('active', opening)
     $searchForm.toggleClass('open', opening).find(INPUT_SELECTOR).focus()
 
@@ -44,7 +43,6 @@ $ ->
     data = result['_source'][type]
     data._id = result['_id']
     data.backgroundImage = "background-image: url(#{data.images.thumb});";
-    console.log(data)
     template.html(data)
 
   search = ->

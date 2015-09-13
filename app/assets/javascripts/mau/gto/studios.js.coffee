@@ -6,7 +6,6 @@ $ ->
       if filter
         filters = _.uniq(_.compact(filter.split /\s+/))
         regexs = _.map(filters, (filter) -> new RegExp(filter, 'i'))
-        console.log regexs
         $('.studio-card').each () ->
           studio = $(this)
           show = _.any regexs, (regex) -> regex.test studio.data('name')
