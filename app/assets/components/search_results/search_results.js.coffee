@@ -1,14 +1,24 @@
 controller = ngInject ($scope, $attrs, $element, searchService, SearchHit) ->
+
+  @search_spinner = null
+
+  startSpinner = ->
+    @search_spinner = new MAU.Spinner() unless @search_spinner
+    @search_spinner.spin()
+  stopSpinner = ->
+    @search_spinner?.stop()
+
   $scope.submitQuery = () ->
-    query = $($element).find('form #search_query').val()
-    $scope.search(query)
+    $scope.search($scope.queryString)
 
   $scope.search = (query, pageSize, page) ->
+    startSpinner()
     success = (data) ->
       $scope.hits = _.map data, (datum) -> new SearchHit(datum)
+      stopSpinner()
     error = (data) ->
-      console.log('results', data)
-    pageSize ||= 10
+      stopSpinner()
+    pageSize ||= 20
     page ||= 0
     searchService.query({query: query, size: pageSize, page: page, success: success, error: error})
 
@@ -21,13 +31,10 @@ searchResults = ngInject () ->
     path = new MAU.QueryStringParser(location.href)
     incomingQuery = null
     if path
-      incomingQuery = path.query_params?.q
-    if incomingQuery
-      $form.find("#search_query").val(incomingQuery)
-      $scope.search(incomingQuery)
+      $scope.queryString = path.query_params?.q
+    $scope.$watch("queryString", MAU.Utils.debounce($scope.submitQuery, 150, false))
     $form.on 'submit', (ev) ->
       ev.preventDefault()
-      query = $form.find("#search_query").val()
       $scope.search(query)
       false
 

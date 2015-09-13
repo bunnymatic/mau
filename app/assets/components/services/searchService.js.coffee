@@ -4,10 +4,10 @@ searchService = ngInject ($http) ->
   # query, pageSize, page, success, error
   # as a hash
   query: (searchParams) ->
-    console.log "QUERY", searchParams
     success = searchParams.success
     error = searchParams.error
-    return unless searchParams.query
+    unless searchParams.query
+      return success([])
     searchParams.q = searchParams.query
     $http.post('/search.json', searchParams).success((data) ->
       success(data.search)

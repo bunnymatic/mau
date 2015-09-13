@@ -1,8 +1,9 @@
 form action="/search" method="POST"
   a.submit-button href="#" ng-click="submitQuery()"
     i.icon.fa.fa-search
-  input type="text" name="q" id="search_query" autocomplete='off'
+  input type="text" name="q" id="search_query" autocomplete='off' ng-model="queryString"
 
+#spinner
 .search-result ng-repeat="hit in hits" ng-class="hit.type"
   .pure-g
     .pure-u-1-3.pure-u-md-1-5.pure-u-lg-1-6

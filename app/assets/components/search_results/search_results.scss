@@ -103,6 +103,12 @@ search-results {
   .bd {
     * {
       color: $light-gray;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
     > div {
       line-height: 1.4rem;
@@ -110,7 +116,11 @@ search-results {
         display: inline-block;
       }
       .value {
+        color: $mediumgray;
+      }
+      .search-highlight {
         color: $darkgray;
+        font-style: italic;
       }
     }
   }

@@ -24,6 +24,8 @@ describe SearchController do
   before do
     fix_leaky_fixtures
     artists
+    Artists.import
+    Studios.import
   end
 
   describe "#index" do
