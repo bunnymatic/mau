@@ -2,7 +2,7 @@ class SearchController < ApplicationController
 
   def index
     @query = params[:q]
-    @search_results = EsSearchService.new(nil, @query).search.group_by(&:_type)
+    @search_results = Search::QueryRunner.new(@query).search.group_by(&:_type)
     respond_to do |format|
       format.html {}
       format.json {

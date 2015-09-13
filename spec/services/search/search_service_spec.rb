@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe SearchService do
+describe Search::Indexer do
 
-  subject(:service) { SearchService }
+  subject(:service) { Search::Indexer }
   let(:artist) { create :artist, :with_art }
   let(:art_piece) { artist.art_pieces.first }
   let(:studio) { create :studio }

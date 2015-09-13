@@ -3,8 +3,8 @@ namespace :es do
   desc 'reindex models'
   task reindex: [:environment] do
     [Artist, Studio, ArtPiece].each do |model|
-      EsSearchService.new(model).reindex
+      Search::Indexer.reindex(model)
     end
   end
-  
+
 end

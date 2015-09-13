@@ -45,15 +45,15 @@ class ArtPiece < ActiveRecord::Base
   after_commit :remove_from_search_index, on: :destroy
 
   def add_to_search_index
-    SearchService.index(self)
+    Search::Indexer.index(self)
   end
 
   def refresh_in_search_index
-    SearchService.reindex(self)
+    Search::Indexer.reindex(self)
   end
 
   def remove_from_search_index
-    SearchService.remove(self)
+    Search::Indexer.remove(self)
   end
 
 
