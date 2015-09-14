@@ -1,5 +1,25 @@
 module Search
   class Indexer
+
+    NGRAM_ANALYZER = {
+      mau_ngram_analyzer: {
+        tokenizer: :mau_ngram_tokenizer
+      }
+    }
+    NGRAM_TOKENIZER = {
+      mau_ngram_tokenizer: {
+        type: 'nGram',
+        min_gram: 3,
+        max_gram: 6,
+        token_chars: [ :letter, :digit ]
+      }
+    }
+
+    NGRAM_ANALYZER_TOKENIZER = {
+      analyzer: NGRAM_ANALYZER,
+      tokenizer: NGRAM_TOKENIZER
+    }
+
     class ObjectSearchService
       attr_reader :object
       def initialize(object)
@@ -88,8 +108,12 @@ module Search
       end
     end
 
-    def self.import(clz)
-      clz.import
+    def self.import(clz, opts = nil)
+      clz.import opts
+    end
+
+    def self.reindex_all(clz)
+      import(clz, force: true)
     end
 
     def self.index(object)
