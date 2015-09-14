@@ -1,16 +1,16 @@
 # config for mau
-# 
+#
 # note : no tabs and indent is ipmortant.
 test:
    site_url: test.missionartistsunited.org
-   #image_servers: 
+   #image_servers:
    mailchimp_api_key: bogus-key
    oslive: 201210
    min_artists_per_studio: 1
 
 development:
    site_url: mau.rcode5.com
-   #image_servers: 
+   #image_servers:
    cache_expiry:
        feed: 300
        search: 20
@@ -25,7 +25,7 @@ acceptance:
 
 production:
    site_url: missionartistsunited.org
-   #image_servers: 
+   #image_servers:
    cache_expiry:
        feed: 3600
        search: 300
@@ -36,14 +36,14 @@ production:
 
 common:
    cache_server: localhost:11211
-
+   disallow_new_memberships: true
    feedback_emails:
       - feedback@missionartistsunited.org
       - maufeedback@bunnymatic.com
    cache_expiry:
        feed: 300
        search: 20
-       objects: 
+       objects:
        media_frequency: 3600
        tag_frequency: 3600
        new_art: 300
@@ -79,10 +79,7 @@ common:
    mailchimp_api_key: bogus
    mailchimp_artist_list_id: first
    mailchimp_fan_list_id: second
-   messaging_server: 
-   messaging_token: 
+   messaging_server:
+   messaging_token:
    recaptcha_private_key: bogus
    recaptcha_public_key: bogus
-
-
-
