@@ -76,12 +76,9 @@ class UsersController < ApplicationController
 
     # validate email domain
     @user = build_user_from_params
-    # unless verify_recaptcha(message: "You failed to prove that you're not a robot.")
-    #   @user.valid?
-    #   @user.errors.add(:base, "You failed to prove that you're not a robot.")
-    #   render_on_failed_create and return
-    # end
-    if verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot.") && @user.save
+    recaptcha = verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot.")
+    secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
+    if secret && recaptcha && @user.save
       new_state = (@user.is_a? Artist) ? 'pending' : 'active'
       @user.update_attribute(:state, new_state)
       redirect_after_create and return
@@ -364,7 +361,6 @@ class UsersController < ApplicationController
   def user_params
     k = user_params_key
     attrs = user_attrs
-
     if params[:emailsettings]
       em = params[:emailsettings]
       em2 = {}
@@ -373,10 +369,16 @@ class UsersController < ApplicationController
       end
       attrs[:email_attrs] = em2.to_json
     end
-    params.require(k).permit(:login, :email, :firstname, :lastname,
+    params.require(k).permit(:login, :email, :firstname, :lastname, :type,
                              :password, :password_confirmation,
                              :url, :studio, :studio_id, :nomdeplume, :profile_image,
                              :email_attrs )
+  end
+
+  def verify_secret_word(opts)
+    valid = (params.delete(:secret_word) == Conf.signup_secret_word)
+    opts[:model].errors.add(:base, opts[:message] || "You clearly don't have the secret password.") unless valid
+    valid
   end
 
 end

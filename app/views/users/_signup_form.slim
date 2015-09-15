@@ -10,6 +10,10 @@
     - if type == 'Artist'
       = f.input :studio, as: :select, collection: [['None', 0]] + @studios.map{|u| [u.name,u.id]}, hint: 'Choose "None" if you are not in a group studio. if you don\'t see your group studio, select "None" and <a href="javascript:MAU.mailer(\'www\',\'missionartistsunited.org\',\'Please Add New Group Studio\');">ask us</a> to add your studio.'.html_safe
 
+    li.stringish.input.required
+      label.label for="secret_word" What's the secret word?
+      = text_field_tag :secret_word
+      p.inline-hints If you don't know, contact us via email and we'll let you in on the secret.
     = recaptcha_tags
   = f.actions do
     = f.submit 'Sign up', class: 'pure-button-primary pure-button button-large'
