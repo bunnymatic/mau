@@ -19,6 +19,12 @@ describe UsersController do
 
   let(:scammer) { FactoryGirl.create :scammer }
 
+  def params_with_secret opts
+    {
+      secret_word: Conf.signup_secret_word
+    }.merge(opts)
+  end
+
   before do
     ####
     # stub mailchimp calls
@@ -58,24 +64,37 @@ describe UsersController do
         FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
         @controller.instance_eval{flash.stub(:sweep)}
         @controller.should_receive(:verify_recaptcha).and_return(true)
+        @controller.should_receive(:verify_secret_word).and_return(true)
       end
       it 'forbids email whose domain is on the blacklist' do
         expect {
-          post :create, :mau_fan => { :login => 'newuser',
-            :password_confirmation => "blurpit",
-            :lastname => "bmatic2",
-            :firstname => "bmatic2",
-            :password => "blurpit",
-            :email => "bmatic2@blacklist.com" }, :type => "MAUFan" }.to change(User,:count).by(0)
+          post :create, params_with_secret(
+                 {
+                   :mau_fan => { :login => 'newuser',
+                                 :password_confirmation => "blurpit",
+                                 :lastname => "bmatic2",
+                                 :firstname => "bmatic2",
+                                 :password => "blurpit",
+                                 :email => "bmatic2@blacklist.com" },
+                   :type => "MAUFan"
+                 }
+               )
+        }.to change(User,:count).by(0)
       end
       it 'allows non blacklist domain to add a user' do
         expect {
-          post :create, :mau_fan => { :login => 'newuser',
-            :password_confirmation => "blurpit",
-            :lastname => "bmatic2",
-            :firstname => "bmatic2",
-            :password => "blurpit",
-            :email => "bmatic2@nonblacklist.com" }, :type => "MAUFan" }.to change(User,:count).by(1)
+          post :create, params_with_secret(
+                 {
+                   :mau_fan => { :login => 'newuser',
+                                 :password_confirmation => "blurpit",
+                                 :lastname => "bmatic2",
+                                 :firstname => "bmatic2",
+                                 :password => "blurpit",
+                                 :email => "bmatic2@nonblacklist.com" },
+                   :type => "MAUFan"
+                 }
+               )
+        }.to change(User,:count).by(1)
       end
     end
     context "with invalid recaptcha" do
@@ -84,12 +103,17 @@ describe UsersController do
         # so we can test them
         @controller.instance_eval{flash.stub(:sweep)}
         @controller.should_receive(:verify_recaptcha).and_return(false)
-        post :create, :mau_fan => { :login => 'newuser',
-          :password_confirmation => "blurpit",
-          :lastname => "bmatic2",
-          :firstname => "bmatic2",
-          :password => "blurpit",
-          :email => "bmatic2@b.com" }, :type => "MAUFan"
+        post :create, params_with_secret(
+               {
+                 :mau_fan => { :login => 'newuser',
+                               :password_confirmation => "blurpit",
+                               :lastname => "bmatic2",
+                               :firstname => "bmatic2",
+                               :password => "blurpit",
+                               :email => "bmatic2@b.com" },
+                 :type => "MAUFan"
+               }
+             )
       end
       it "returns success" do
         expect(response).to be_success
@@ -124,12 +148,17 @@ describe UsersController do
       before do
         MAUFan.any_instance.should_receive(:subscribe_and_welcome)
         UserMailer.should_receive(:activation).exactly(:once).and_return(double(:deliver! => true))
-        post :create, :mau_fan => { :login => 'newuser',
-          :password_confirmation => "blurpit",
-          :lastname => "bmatic2",
-          :firstname => "bmatic2",
-          :password => "blurpit",
-          :email => "bmatic2@b.com" }, :type => "MAUFan"
+        post :create, params_with_secret(
+               {
+                 :mau_fan => { :login => 'newuser',
+                               :password_confirmation => "blurpit",
+                               :lastname => "bmatic2",
+                               :firstname => "bmatic2",
+                               :password => "blurpit",
+                               :email => "bmatic2@b.com"
+                             },
+                 :type => "MAUFan"
+               })
       end
       it "redirects to index" do
         expect(response).to redirect_to( login_url )
@@ -164,10 +193,14 @@ describe UsersController do
     context "valid user param (email/password only) and type = MAUFan" do
       before do
         MAUFan.any_instance.should_receive(:subscribe_and_welcome)
-        post :create, :mau_fan => {
-          :password_confirmation => "blurpit",
-          :password => "blurpit",
-          :email => "bmati2@b.com" }, :type => "MAUFan"
+        post :create, params_with_secret(
+               {
+                 :mau_fan => {
+                   :password_confirmation => "blurpit",
+                   :password => "blurpit",
+                   :email => "bmati2@b.com" },
+                 :type => "MAUFan"
+               })
       end
       it "redirects to index" do
         expect(response).to redirect_to( login_url )
@@ -205,12 +238,15 @@ describe UsersController do
         Artist.any_instance.stub(:activation_code => 'random_activation_code')
         Artist.any_instance.should_receive(:make_activation_code).at_least(1)
         MAUFan.any_instance.should_receive(:subscribe_and_welcome).never
-        post :create, :artist => { :login => 'newuser2',
-          :password_confirmation => "blurpt",
-          :lastname => "bmatic",
-          :firstname => "bmatic",
-          :password => "blurpt",
-          :email => "bmatic2@b.com" }, :type => "Artist"
+        post :create, params_with_secret(
+               {
+                 :artist => { :login => 'newuser2',
+                              :password_confirmation => "blurpt",
+                              :lastname => "bmatic",
+                              :firstname => "bmatic",
+                              :password => "blurpt",
+                              :email => "bmatic2@b.com" }, :type => "Artist"
+               })
       end
       it "redirects to index" do
         expect(response).to redirect_to( root_url )
