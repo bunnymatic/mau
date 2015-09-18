@@ -6,6 +6,7 @@ module Admin
     def index
       get_sort_options_from_params
       @artist_list = AdminArtistList.new(@sort_by, @reverse)
+      @active_artist_list, @inactive_artist_list = @artist_list.partition{|a| a.pending? || a.active?}
       respond_to do |format|
         format.html
         format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }
@@ -20,7 +21,7 @@ module Admin
 
     def update
       current_open_studios = OpenStudiosEventService.current
-      
+
       if current_open_studios.nil?
         flash[:error] = "You must have an Open Studios Event in the future before you can set artists' status."
       elsif params['os'].present?
@@ -50,7 +51,7 @@ module Admin
       OpenStudiosEventService.destroy(@os_event)
       redirect_to admin_open_studios_events_path, notice: "The Event has been removed"
     end
-    
+
     def notify_featured
       id = Integer(params[:id])
       ArtistMailer.notify_featured(Artist.find(id)).deliver!

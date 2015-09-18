@@ -8,7 +8,13 @@ jQuery ->
              '#artist_feeds_index.js-data-tables',
              '#studios_index.js-data-tables',
              "#artists_index.js-data-tables"].join(', ')
-  jQuery(tables).dataTable
-    aaSorting: []
-    paging: false
-    info: false
+
+  config =
+    artists_index:
+      order: [[ 3, "desc" ]]
+
+  jQuery(tables).each () ->
+    $table = jQuery(this)
+    opts = _.extend {}, { aaSorting: [], paging: false, info: false }, config[$table.attr('id')]
+
+    jQuery($table).dataTable opts

@@ -1,81 +1,19 @@
 .pure-g
   .pure-u-1-1.padded-content.header
-    %h2 Artists (#{@artist_list.count})
-  = form_tag update_admin_artists_path do
-    .pure-u-1-1.padded-content
-      = render '/flash_notice_error'
-      .admin-table__controls
-        %button.pure-button.update-artists update os status
-        %a.pure-button.export-csv{:href => "?format=csv&%s" % request.query_string}
-          export as csv
-    .pure-u-1-1.padded-content
-      %table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
-        %thead
-          %tr
-            %th
-            %th Username
-            %th Name
-            %th Since
-            %th Last seen
-            %th Studio
-            %th Art
-            %th Info
-            %th
-              = OpenStudiosEventService.current.for_display(true)
-            %th{ "data-orderable" => "false" }
+    %h2 Artists
 
-        %tbody
-          - @artist_list.each_with_index do |a, idx|
-            :ruby
-              classes = []
-              classes << a.state
-              classes << 'participating' if a.doing_open_studios?
-            %tr{:class => classes.join(' ')}
-              %td.user-state{"data-order" => a.state}
-                %i.admin-tooltip{class: a.icon_for_state}
-                  .tooltip-content
-                    = a.state
-              %td.login
-                %a{:href => artist_path(a)}
-                  = a.login
-              %td
-                %a{:href => artist_path(a)}
-                  = a.full_name
-              %td.date-field{ "data-order" => a.activated_at.to_i}
-                = a.activation_date
-              %td.date-field
-                = a.last_login
-              %td
-                = a.studio.nil? ? "Indy/unk" : link_to(a.studio.name, a.studio)
-              %td
-                = (a.art_pieces || []).count
-              %td
-                .email
-                  #{a.email}
-                .address
-                  #{a.address}
-                - if a.has_activation_code?
-                  .admin-tooltip.activation-link
-                    %i{class: "fa fa-link"}
-                    Activation Link
-                    .tooltip-content
-                      = a.activation_link
-                - if a.has_reset_code?
-                  .admin-tooltip.forgot-password-link
-                    %i{class: "fa fa-link"}
-                    Reset Password Link
-                    .tooltip-content
-                      = a.reset_password_link
+    %ul.js-tabs.tabs.tabs__horizontal
+      %li.active
+        %a{href: '#good', "title" => "in good standing", "data-toggle" => 'tab'}
+          %i.fa.fa-users
+          Active  (#{@active_artist_list.count})
+      %li
+        %a{href: '#bad', "title" => "suspendedin good standing", "data-toggle" => 'tab'}
+          %i.fa.fa-user-times
+          Inactive (#{@inactive_artist_list.count})
 
-              %td{ "data-order" => (a.has_address? ? a.doing_open_studios?.to_s : -1) }
-                / this make sure that all os settings are sent to the controller
-                - if a.has_address?
-                  - checked = a.doing_open_studios?
-                  - name = "os[#{a.id}]"
-                  = hidden_field_tag name, "0"
-                  = check_box_tag name, '1', checked, :class => 'cboslive', :artistid => a.id
-                - else
-                  .no-address N/A
-              %td
-                = link_to suspend_admin_artist_path(a), method: :post, confirm: 'Are you sure you want to suspend this artist?', title: "Suspend artist" do
-                  %i.fa.fa-icon.fa-bomb
+  .pure-u-1-1.tab-content.padded-content
+    #good.tab-pane.active
+      = render "admin_artists_table", artist_list: @active_artist_list
+    #bad.tab-pane.active
+      = render "admin_artists_table", artist_list: @inactive_artist_list
