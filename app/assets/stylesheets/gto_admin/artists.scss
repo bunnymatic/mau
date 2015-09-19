@@ -23,4 +23,16 @@
       line-height: 1.4rem;
     }
   }
+  .admin-artist-download-csv {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+  .artist-admin-header {
+    .tabs li {
+      i {
+        margin-right: 10px;
+      }
+    }
+  }
 }

@@ -3,9 +3,8 @@
   .pure-u-1-1.padded-content
     = render '/flash_notice_error'
     .admin-table__controls
-      button.pure-button.update-artists update os status
-      a.pure-button.export-csv href=("?format=csv&%s" % request.query_string)
-        | export as csv
+      - if artist_list.any?(&:active?)
+        button.pure-button.update-artists update os status
   .pure-u-1-1.padded-content
     table.admin-table.js-data-tables#artists_index.pure-table.pure-table-striped
       thead
