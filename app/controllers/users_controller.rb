@@ -76,7 +76,7 @@ class UsersController < ApplicationController
 
     # validate email domain
     @user = build_user_from_params
-    recaptcha = verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot.")
+    recaptcha = verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
     secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
     if secret && recaptcha && @user.save
       new_state = (@user.is_a? Artist) ? 'pending' : 'active'
@@ -259,12 +259,14 @@ class UsersController < ApplicationController
 
   protected
   def render_on_failed_create
-    msg = "There was a problem creating your account."+
-          " If you can't solve the issues listed below, please try again later or"+
-          " contact the webmaster (link below). if you continue to have problems."
-    msg += @user.errors[:base].join(". ")
+    msg = [
+      "There was a problem creating your account.",
+      [@user.errors[:base]],
+      " Please correct these issues or contact the webmaster (link below), if you continue to have problems."
+    ].flatten.join("<br/>")
     flash.now[:error] = msg.html_safe
     @studios = Studio.all
+    @user.valid?
     render :action => 'new'
   end
 

@@ -64,10 +64,10 @@ jQuery(function() {
   $('body').on('click', flashNotice, function(ev) {
     $(this).fadeOut();
   });
-  jQuery(flashNotice).each( function() {
+  jQuery(flashNotice).not(".flash__error").each( function() {
     var _that = this;
     setTimeout(function() {
-	    $(_that).fadeOut();
+      $(_that).fadeOut();
     }, 5000);
   });
 });

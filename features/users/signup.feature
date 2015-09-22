@@ -7,7 +7,7 @@ Background:
 Scenario: sign up as a fan
   Given I visit the fan signup page
   When I click "Sign up"
-  Then I see an error in the form "should look like an email"
+  Then I see an error in the form "secret word"
   And I see an error in the form "can't be blank"
   When I choose "Mission Art Fan" from "I am a"
   And I fill in the "#signup_form" form with:
@@ -18,7 +18,7 @@ Scenario: sign up as a fan
 
 Scenario: sign up as a artist
   When I click "Sign up"
-  Then I see an error in the form "should look like an email"
+  Then I see a flash error "secret word"
   And I see an error in the form "can't be blank"
   And I see an error in the form "is too short"
   When I choose "Mission Artist" from "I am a"
@@ -36,4 +36,3 @@ Scenario: sign up as a artist with a studio
   And I click "Sign up"
   Then I see that "billybob" is a new pending artist
   And I see that the studio "1990" has an artist called "billybob"
-
