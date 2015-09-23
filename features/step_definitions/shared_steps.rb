@@ -150,7 +150,7 @@ Then(/^I see an error message "(.*?)"$/) do |msg|
 end
 
 Then(/^I see a flash error "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.flash.flash__error', text: RegExp.new(msg)
+  expect(page).to have_selector '.flash.flash__error', text: Regexp.new(msg)
 end
 
 Then(/^I see a flash notice "(.*?)"$/) do |msg|
