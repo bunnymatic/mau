@@ -33,6 +33,10 @@ class ArtPieceImage < ImageFile
   end
 
   def path(size="medium")
+    if art_piece.photo?
+      return art_piece.photo(size)
+    end
+
     return MISSING_ART_PIECE if !valid?
 
     fname = File.basename(filename)
