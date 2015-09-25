@@ -2,19 +2,23 @@
 #
 # Table name: art_pieces
 #
-#  id           :integer          not null, primary key
-#  filename     :string(255)
-#  title        :string(255)
-#  description  :text
-#  dimensions   :string(255)
-#  artist_id    :integer
-#  created_at   :datetime
-#  updated_at   :datetime
-#  medium_id    :integer
-#  year         :integer
-#  position     :integer          default(0)
-#  image_width  :integer          default(0)
-#  image_height :integer          default(0)
+#  id                 :integer          not null, primary key
+#  filename           :string(255)
+#  title              :string(255)
+#  description        :text
+#  dimensions         :string(255)
+#  artist_id          :integer
+#  created_at         :datetime
+#  updated_at         :datetime
+#  medium_id          :integer
+#  year               :integer
+#  image_height       :integer          default(0)
+#  image_width        :integer          default(0)
+#  position           :integer          default(0)
+#  photo_file_name    :string(255)
+#  photo_content_type :string(255)
+#  photo_file_size    :integer
+#  photo_updated_at   :datetime
 #
 # Indexes
 #
@@ -34,6 +38,15 @@ class ArtPiece < ActiveRecord::Base
   include HtmlHelper
   include TagsHelper
 
+  has_attached_file :photo, styles: {
+                      thumb: '100x100#',
+                      small: '200x200#',
+                      medium: '400x400#',
+                      large: '800x800#'
+                    }
+  validates_attachment_presence :photo
+  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
+
   before_destroy :remove_images
   after_destroy :clear_tags_and_favorites
   after_save :remove_old_art
@@ -44,6 +57,7 @@ class ArtPiece < ActiveRecord::Base
 
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
+
 
   def tags
     super.alpha
@@ -94,7 +108,6 @@ class ArtPiece < ActiveRecord::Base
     size ||= 'medium'
     artpiece_path = image_paths[size.to_sym]
     (full_path ? full_image_path(artpiece_path) : artpiece_path)
-    #prefix + (artpiece_path || '')
   end
 
   def self.owned

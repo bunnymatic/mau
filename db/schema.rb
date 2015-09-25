@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150727152114) do
+ActiveRecord::Schema.define(:version => 20150925060340) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -37,9 +37,19 @@ ActiveRecord::Schema.define(:version => 20150727152114) do
     t.datetime "updated_at"
     t.integer  "medium_id"
     t.integer  "year"
+<<<<<<< HEAD
     t.integer  "position",     :default => 0
     t.integer  "image_width",  :default => 0
     t.integer  "image_height", :default => 0
+=======
+    t.integer  "image_height",       :default => 0
+    t.integer  "image_width",        :default => 0
+    t.integer  "position",           :default => 0
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+>>>>>>> add paperclip to art_piece and build migration task
   end
 
   add_index "art_pieces", ["artist_id"], :name => "index_art_pieces_on_artist_id"
