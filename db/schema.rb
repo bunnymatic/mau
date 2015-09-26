@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150925060340) do
+ActiveRecord::Schema.define(:version => 20150925150526) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -235,6 +235,13 @@ ActiveRecord::Schema.define(:version => 20150925060340) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "promoted_events", :force => true do |t|
+    t.integer  "event_id"
+    t.datetime "publish_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "role"
     t.datetime "created_at"
@@ -264,13 +271,17 @@ ActiveRecord::Schema.define(:version => 20150925060340) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "profile_image"
+    t.integer  "image_height",       :default => 0
+    t.integer  "image_width",        :default => 0
     t.float    "lat"
     t.float    "lng"
     t.string   "cross_street"
     t.string   "phone"
     t.string   "slug"
-    t.integer  "image_width",   :default => 0
-    t.integer  "image_height",  :default => 0
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
   end
 
   add_index "studios", ["slug"], :name => "index_studios_on_slug", :unique => true

@@ -38,12 +38,7 @@ class ArtPiece < ActiveRecord::Base
   include HtmlHelper
   include TagsHelper
 
-  has_attached_file :photo, styles: {
-                      thumb: '100x100#',
-                      small: '200x200#',
-                      medium: '400x400#',
-                      large: '800x800#'
-                    }
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
 
