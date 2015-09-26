@@ -22,7 +22,7 @@ class ArtistsController < ApplicationController
         cur_sort = params[:s] || :lastname
         @letters = ArtistsGallery.letters(cur_sort)
         cur_letter = params[:l] || @letters.first
-        
+
         # build alphabetical list keyed by first letter
         @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_sort, cur_page)
         @page_title = "Mission Artists United - MAU Artists"
@@ -166,27 +166,21 @@ class ArtistsController < ApplicationController
         redirect_to user_path(current_user)
         return
       end
-      begin
-        if params.has_key? 'upload'
-          begin
-            # update the picture only
-            ArtistProfileImage.new(current_artist).save params[:upload]
-          end
-        else
-          attrs = artist_params
-          # preserve os settings
-          if attrs[:artist_info_attributes]
-            attrs[:artist_info_attributes][:open_studios_participation] = current_artist.artist_info.open_studios_participation
-          end
-
-          current_artist.update_attributes!(attrs)
-          Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
-        end
-        flash[:notice] = "Your profile has been updated"
-      rescue Exception => ex
-        flash[:error] = ex.to_s
+      attrs = artist_params
+      # preserve os settings
+      if attrs[:artist_info_attributes]
+        attrs[:artist_info_attributes][:open_studios_participation] = current_artist.artist_info.open_studios_participation
       end
-      redirect_to edit_artist_url(current_user), flash: flash
+
+      if current_artist.update_attributes(attrs)
+        Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
+        flash[:notice] = "Your profile has been updated"
+        redirect_to edit_artist_url(current_user), flash: flash
+      else
+        @user = ArtistPresenter.new(current_artist)
+        @studios = Studio.all
+        render :edit
+      end
     end
   end
 
@@ -244,7 +238,7 @@ class ArtistsController < ApplicationController
     end
 
     params.require(:artist).permit(:studio, :login, :email, :email_attrs,
-                                   :password, :password_confirmation,
+                                   :password, :password_confirmation, :photo,
                                    :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume,
                                    :artist_info_attributes => artist_info_permitted_attributes)
 

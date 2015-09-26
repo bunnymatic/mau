@@ -64,24 +64,32 @@ describe ArtPiece do
   end
 
   describe "get_new_art" do
-    let(:artists) {
-      (3 - ArtPiece.count).times do |n|
-        Timecop.travel (4*n+1).days.ago
+    let(:older) {
+      olders = 3.times.map{ |idx|
+        Timecop.travel idx.days.ago
         FactoryGirl.create :artist, :with_art
-      end
+      }
+      olders.last
+    }
+    let(:newer) {
+      Timecop.travel 1.day.ago
+      FactoryGirl.create :artist, :with_art
     }
     before do
       Rails.cache.stub(:read => nil)
+      newer
+      older
       Timecop.freeze
-      artists
     end
     after do
       Timecop.return
     end
     it 'returns art pieces updated between today and 2 days ago' do
-      aps = ArtPiece.get_new_art
-      aps.length.should eq 9
-      aps.map(&:created_at).should be_monotonically_decreasing
+      aps = ArtPiece.get_new_art(2)
+
+      expect( aps ).to include newer.art_pieces.first
+      expect( aps ).to_not include older.art_pieces.first
+      expect( aps.map(&:created_at) ).to be_monotonically_decreasing
     end
     context 'from cache' do
       before do

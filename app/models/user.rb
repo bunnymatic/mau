@@ -34,8 +34,10 @@
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
 #  slug                      :string(255)
-#  image_width               :integer          default(0)
-#  image_height              :integer          default(0)
+#  photo_file_name           :string(255)
+#  photo_content_type        :string(255)
+#  photo_file_size           :integer
+#  photo_updated_at          :datetime
 #
 # Indexes
 #
@@ -94,7 +96,7 @@ class User < ActiveRecord::Base
     User.find_by_login(login_string) || User.find_by_email(login_string)
   end
 
-  before_validation :normalize_attributes 
+  before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_validation :cleanup_fields
   before_destroy :delete_favorites
@@ -143,10 +145,6 @@ class User < ActiveRecord::Base
 
   def pending?
     state == 'pending'
-  end
-
-  def has_profile_image
-    self.profile_image
   end
 
   def get_profile_image(size = :medium)
@@ -300,7 +298,7 @@ class User < ActiveRecord::Base
       end
     end
   end
-  
+
   def normalize_attributes
     login = login.try(:downcase)
     email = email.try(:downcase)

@@ -28,7 +28,6 @@ describe Admin::StudiosController do
       it 'setups up a new studio' do
         expect{
           put :create, studio: studio_attrs
-          puts response.body
         }.to change(Studio, :count).by(1)
       end
       it 'renders new on failure' do

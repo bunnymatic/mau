@@ -121,15 +121,14 @@ class UserPresenter < ViewPresenter
     end.compact
   end
 
-  def has_profile_image
-    model.profile_image?
+  def has_profile_image?
+    model.photo? || model.profile_image.present?
   end
 
   def profile_image(size = small)
-    if has_profile_image
-      model.get_profile_image(size)
-    end
+    model.photo? ? model.photo(size) : (model.profile_image.present? ? model.get_profile_image(size) : nil)
   end
+
   alias_method :get_profile_image, :profile_image
 
   private

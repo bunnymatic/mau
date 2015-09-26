@@ -34,8 +34,10 @@
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
 #  slug                      :string(255)
-#  image_width               :integer          default(0)
-#  image_height              :integer          default(0)
+#  photo_file_name           :string(255)
+#  photo_content_type        :string(255)
+#  photo_file_size           :integer
+#  photo_updated_at          :datetime
 #
 # Indexes
 #
@@ -61,7 +63,9 @@ class Artist < User
   include AddressMixin
   include OpenStudiosEventShim
 
-  #attr_accessible :artist_info_attributes
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
+
+  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
 
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')

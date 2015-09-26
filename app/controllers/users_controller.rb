@@ -373,7 +373,7 @@ class UsersController < ApplicationController
     end
     params.require(k).permit(:login, :email, :firstname, :lastname, :type,
                              :password, :password_confirmation,
-                             :url, :studio, :studio_id, :nomdeplume, :profile_image,
+                             :url, :studio, :studio_id, :nomdeplume, :photo,
                              :email_attrs )
   end
 

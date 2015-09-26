@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150925150526) do
+ActiveRecord::Schema.define(:version => 20150926060644) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -318,8 +318,10 @@ ActiveRecord::Schema.define(:version => 20150925150526) do
     t.string   "last_login_ip"
     t.string   "current_login_ip"
     t.string   "slug"
-    t.integer  "image_width",                              :default => 0
-    t.integer  "image_height",                             :default => 0
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
   end
 
   add_index "users", ["last_request_at"], :name => "index_users_on_last_request_at"

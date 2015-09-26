@@ -105,7 +105,7 @@ module Admin
 
     private
     def studio_params
-      params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :profile_image, :image_height, :image_width, :lat, :lng, :cross_street, :phone, :photo )
+      params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :image_height, :image_width, :lat, :lng, :cross_street, :phone, :photo )
     end
 
     def load_studio

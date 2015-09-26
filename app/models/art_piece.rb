@@ -109,11 +109,11 @@ class ArtPiece < ActiveRecord::Base
     where("artist_id in (select id from users where state = 'active' and type='Artist')")
   end
 
-  def self.get_new_art
+  def self.get_new_art(num_pieces=12)
     cache_key = NEW_ART_CACHE_KEY
     new_art = SafeCache.read(cache_key)
     unless new_art.present?
-      new_art = ArtPiece.where('artist_id is not null && artist_id > 0').limit(12).order('created_at desc').all
+      new_art = ArtPiece.where('artist_id is not null && artist_id > 0').limit(num_pieces).order('created_at desc').all
       SafeCache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
     end
     new_art || []
