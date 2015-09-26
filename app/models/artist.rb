@@ -63,10 +63,6 @@ class Artist < User
   include AddressMixin
   include OpenStudiosEventShim
 
-  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
-
-  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
-
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
   scope :with_artist_info, includes(:artist_info)
@@ -105,6 +101,7 @@ class Artist < User
       [key, ArtistProfileImage.get_path(self, key)]
     end]
   end
+
 
   def in_the_mission?
     return false unless address && address_hash.has_key?(:latlng)

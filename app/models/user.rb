@@ -73,6 +73,11 @@ class User < ActiveRecord::Base
   # custom validations
   validate :validate_email
 
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
+
+  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
+
+
   # I was initially worried about routes here - i think we should be fine moving forward
   #
   # RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','delete_art',
@@ -148,8 +153,9 @@ class User < ActiveRecord::Base
   end
 
   def get_profile_image(size = :medium)
-    ArtistProfileImage.get_path(self, size)
+    photo? ? photo(size) : ArtistProfileImage.get_path(self, size)
   end
+  alias_method :get_path, :get_profile_image
 
   def get_share_link(urlsafe=false, options = {})
     link = 'http://%s/artists/%s' % [Conf.site_url, self.login]

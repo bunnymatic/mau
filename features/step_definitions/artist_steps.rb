@@ -162,7 +162,7 @@ end
 
 When(/^I submit a new profile picture$/) do
   find('.file.input')
-  attach_file "Select File", File.join(Rails.root,"/spec/fixtures/files/art.png")
+  attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/art.png")
 end
 
 Then(/^I see that I have a new profile picture$/) do

@@ -5,7 +5,9 @@ namespace :images do
     files = []
 
     def get_image_filename(obj)
-      image = File.join(Rails.root,obj.get_path(:original))
+      basename = obj.get_path(:original)
+      return nil unless basename.present?
+      image = File.join(Rails.root, basename)
       if !File.exists?(image)
         image = File.join(Rails.root,'public', obj.get_path(:original))
       end
@@ -17,6 +19,10 @@ namespace :images do
     studios = Studio.all
     files += studios.map {|ap| [ap, get_image_filename(ap)]}
 
+    artists = Artist.active.all
+    files += artists.map {|a| [a, get_image_filename(a)]}
+
+    files.reject!{|f| f[1].nil?}
     puts "Starting migration for #{files.count} files... "
     files.each_with_index do |(obj, image), idx|
       print "." if idx % 10 == 0
