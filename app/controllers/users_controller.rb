@@ -52,18 +52,10 @@ class UsersController < ApplicationController
       return
     end
     # clean os from radio buttons
-    begin
-      if params.has_key? 'upload'
-        begin
-          # update the picture only
-          ArtistProfileImage.new(current_user).save params[:upload]
-        end
-      else
-        current_user.update_attributes!(user_params)
-        Messager.new.publish "/artists/#{current_user.id}/update", "updated artist info"
-      end
+    if current_user.update_attributes(user_params)
+      Messager.new.publish "/artists/#{current_user.id}/update", "updated artist info"
       flash[:notice] = "Your profile has been updated"
-    rescue Exception => ex
+    else
       flash[:error] = ex.to_s
     end
     redirect_to edit_user_url(current_user), flash: flash
