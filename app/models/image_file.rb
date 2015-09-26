@@ -39,20 +39,19 @@ class ImageFile
   end
 
   def save(upload, destdir, destfile=nil)
-    @upload = upload
-    @destdir = destdir
-    @destfile = (destfile || create_timestamped_filename(uploaded_filename))
+    # @upload = upload
+    # @destdir = destdir
+    # @destfile = (destfile || create_timestamped_filename(uploaded_filename))
 
-    ext = get_file_extension(uploaded_filename)
-    if ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
-      Rails::logger.error("ImageFile: bad filetype\n")
-      raise MauImage::ImageError.new("File type doesn't appear to be JPEG, GIF or PNG.")
-    end
+    # ext = get_file_extension(uploaded_filename)
+    # if ALLOWED_IMAGE_EXTS.index(ext.downcase) == nil
+    #   Rails::logger.error("ImageFile: bad filetype\n")
+    #   raise MauImage::ImageError.new("File type doesn't appear to be JPEG, GIF or PNG.")
+    # end
 
-    image_info = save_uploaded_file
+    # image_info = save_uploaded_file
 
-    save_resized_versions(image_info)
-
+    # save_resized_versions(image_info)
   end
 
   def image_paths(image_info)

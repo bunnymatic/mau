@@ -12,30 +12,30 @@ describe ArtPieceImage do
     end
   end
 
-  describe '#save' do
+  # describe '#save' do
 
-    let(:file) { 'filename.jpg' }
-    let(:path) { 'whatever/' + file }
-    let(:upload) { {'datafile' => double('UploadedFile', :read => '', :original_filename => path, :close => '') } }
-    let(:artist) { FactoryGirl.create :artist, :with_art }
-    let(:art_piece) { artist.art_pieces.first }
+  #   let(:file) { 'filename.jpg' }
+  #   let(:path) { 'whatever/' + file }
+  #   let(:upload) { {'datafile' => double('UploadedFile', :read => '', :original_filename => path, :close => '') } }
+  #   let(:artist) { FactoryGirl.create :artist, :with_art }
+  #   let(:art_piece) { artist.art_pieces.first }
 
-    before do
-      now = Time.zone.now
-      Time.zone.stub(:now => now)
-      MojoMagick.stub(:resize => nil, :raw_command => 'JPG 100 200 RGB')
+  #   before do
+  #     now = Time.zone.now
+  #     Time.zone.stub(:now => now)
+  #     MojoMagick.stub(:resize => nil, :raw_command => 'JPG 100 200 RGB')
 
-      ArtPieceImage.new(art_piece).save(upload)
-    end
+  #     ArtPieceImage.new(art_piece).save(upload)
+  #   end
 
-    it 'updates the filename' do
-      art_piece.filename.should match %r{public/artistdata/#{artist.id}/imgs/#{Time.zone.now.to_i}#{file}$}
-    end
+  #   it 'updates the filename' do
+  #     art_piece.filename.should match %r{public/artistdata/#{artist.id}/imgs/#{Time.zone.now.to_i}#{file}$}
+  #   end
 
-    it 'updates the image dimensions' do
-      art_piece.image_height.should eql 100
-      art_piece.image_width.should eql 200
-    end
-  end
+  #   it 'updates the image dimensions' do
+  #     art_piece.image_height.should eql 100
+  #     art_piece.image_width.should eql 200
+  #   end
+  # end
 
 end

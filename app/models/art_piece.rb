@@ -12,8 +12,6 @@
 #  updated_at         :datetime
 #  medium_id          :integer
 #  year               :integer
-#  image_height       :integer          default(0)
-#  image_width        :integer          default(0)
 #  position           :integer          default(0)
 #  photo_file_name    :string(255)
 #  photo_content_type :string(255)
@@ -64,10 +62,6 @@ class ArtPiece < ActiveRecord::Base
 
   def portrait?
     image_width > image_height
-  end
-
-  def aspect_ratio
-    (image_width.to_f/image_height.to_f) if image_height.to_i != 0
   end
 
   def image_urls

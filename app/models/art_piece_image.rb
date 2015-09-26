@@ -45,14 +45,14 @@ class ArtPieceImage < ImageFile
   end
 
   def save(upload)
-    return if !artist
-    dest_dir = File.join("public", image_dir)
-    info = super upload, dest_dir
-    # save data to the artpiece
-    # fname for html is same as dir without leading "public"
-    art_piece.filename = info.path
-    art_piece.image_height = info.height
-    art_piece.image_width = info.width
-    art_piece.save ? info.path : ""
+    # return if !artist
+    # dest_dir = File.join("public", image_dir)
+    # info = super upload, dest_dir
+    # # save data to the artpiece
+    # # fname for html is same as dir without leading "public"
+    # art_piece.filename = info.path
+    # art_piece.image_height = info.height
+    # art_piece.image_width = info.width
+    # art_piece.save ? info.path : ""
   end
 end

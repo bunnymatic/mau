@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150926060644) do
+ActiveRecord::Schema.define(:version => 20150926184445) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -42,8 +42,6 @@ ActiveRecord::Schema.define(:version => 20150926060644) do
     t.integer  "image_width",  :default => 0
     t.integer  "image_height", :default => 0
 =======
-    t.integer  "image_height",       :default => 0
-    t.integer  "image_width",        :default => 0
     t.integer  "position",           :default => 0
     t.string   "photo_file_name"
     t.string   "photo_content_type"
