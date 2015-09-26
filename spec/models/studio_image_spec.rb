@@ -12,7 +12,7 @@ describe StudioImage do
 
     let (:writable) { double('Writable',:write => nil) }
 
-    subject(:studio_image) { StudioImage.new(studio) }
+    subject(:studio_image) { StudioImage.new(studio, profile_image: Faker::File.file) }
 
     before do
       mock_image_file.should_receive(:save).with(upload,
@@ -47,7 +47,7 @@ describe StudioImage do
         (StudioImage.get_path(studio)).should eql '/images/m_default-studio.png'
       end
     end
-    
+
     context 'thumb' do
       it 'returns the right path' do
         (StudioImage.get_path(studio, size)).should eql expected_path

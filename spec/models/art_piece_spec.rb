@@ -64,21 +64,23 @@ describe ArtPiece do
   end
 
   describe "get_new_art" do
+    let(:artists) {
+      (3 - ArtPiece.count).times do |n|
+        Timecop.travel (4*n+1).days.ago
+        FactoryGirl.create :artist, :with_art
+      end
+    }
     before do
       Rails.cache.stub(:read => nil)
       Timecop.freeze
-
-      (13 - ArtPiece.count).times do |n|
-        Timecop.travel (n+1).days.ago
-        FactoryGirl.create :artist, :with_art
-      end
+      artists
     end
     after do
       Timecop.return
     end
     it 'returns art pieces updated between today and 2 days ago' do
       aps = ArtPiece.get_new_art
-      aps.length.should eq 12
+      aps.length.should eq 9
       aps.map(&:created_at).should be_monotonically_decreasing
     end
     context 'from cache' do
@@ -93,7 +95,7 @@ describe ArtPiece do
 
   describe 'get_path' do
     it 'returns a path to the art piece' do
-      art_piece.get_path.should match %r{/artistdata/#{artist.id}/imgs}
+      art_piece.get_path.should match %r{/system/art_pieces/.*/art.png}
     end
   end
 
