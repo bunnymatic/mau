@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe StudioImage do
 
-  let (:studio) { FactoryGirl.create(:studio) }
+  let (:studio) { FactoryGirl.create(:studio, profile_image: "whatever.jpg") }
 
   describe '#save' do
     let(:file) { Faker::Files.file }
@@ -12,7 +12,7 @@ describe StudioImage do
 
     let (:writable) { double('Writable',:write => nil) }
 
-    subject(:studio_image) { StudioImage.new(studio, profile_image: Faker::File.file) }
+    subject(:studio_image) { StudioImage.new(studio) }
 
     before do
       mock_image_file.should_receive(:save).with(upload,

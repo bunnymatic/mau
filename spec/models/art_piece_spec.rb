@@ -95,7 +95,7 @@ describe ArtPiece do
 
   describe 'get_path' do
     it 'returns a path to the art piece' do
-      art_piece.get_path.should match %r{/system/art_pieces/.*/art.png}
+      art_piece.get_path.should match %r{/system/art_pieces/.*/new-studio.jpg}
     end
   end
 

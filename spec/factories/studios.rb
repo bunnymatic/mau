@@ -10,7 +10,10 @@ FactoryGirl.define do
     url { Faker::Internet.url }
     cross_street { Faker::Address.street_name }
     phone { Faker::PhoneNumber.phone_number }
-    photo { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/files/art.png'), 'image/png') }
+    photo_file_name    'new-studio.jpg'
+    photo_content_type 'image/jpeg'
+    photo_file_size    1234
+    photo_updated_at   1.day.ago
     ignore do
       artist_count 2
     end

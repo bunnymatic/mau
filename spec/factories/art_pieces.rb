@@ -1,8 +1,10 @@
 FactoryGirl.define do
   factory :art_piece do
     title { "O'R" + Faker::Company.name }
-    #filename { Faker::Files.file }
-    photo { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/files/art.png'), 'image/png') }
+    photo_file_name    'new-studio.jpg'
+    photo_content_type 'image/jpeg'
+    photo_file_size    1234
+    photo_updated_at   1.day.ago
     dimensions { '10 x 10' }
     image_height { 1000 }
     image_width { 400 }

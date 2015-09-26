@@ -10,12 +10,6 @@ describe ArtPieceImage do
         ArtPieceImage.new(art_piece).path.should match /missing_artpiece/
       end
     end
-    context 'with not an art piece' do
-      let(:art_piece) { 'blurp' }
-      it 'returns missing image' do
-        ArtPieceImage.new(art_piece).path.should match /missing_artpiece/
-      end
-    end
   end
 
   describe '#save' do

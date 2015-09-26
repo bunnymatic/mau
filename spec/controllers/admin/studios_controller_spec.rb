@@ -24,10 +24,11 @@ describe Admin::StudiosController do
     end
 
     describe '#create' do
-      let(:studio_attrs) { FactoryGirl.attributes_for(:studio) }
+      let(:studio_attrs) { FactoryGirl.attributes_for(:studio, photo: fixture_file_upload('/files/art.png', 'image/png')) }
       it 'setups up a new studio' do
         expect{
           put :create, studio: studio_attrs
+          puts response.body
         }.to change(Studio, :count).by(1)
       end
       it 'renders new on failure' do

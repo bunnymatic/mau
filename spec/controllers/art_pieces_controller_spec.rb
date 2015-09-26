@@ -5,7 +5,9 @@ describe ArtPiecesController do
   let(:medium) { FactoryGirl.create(:medium) }
   let(:existing_tag) { FactoryGirl.create(:art_piece_tag) }
   let(:tags) { nil }
-  let(:art_piece_attributes) { FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id) }
+  let(:art_piece_attributes) {
+    FactoryGirl.attributes_for(:art_piece, artist: nil, medium_id: medium.id, photo: fixture_file_upload("/files/art.png", "image/jpeg"))
+  }
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let!(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
@@ -107,8 +109,8 @@ describe ArtPiecesController do
         login_as artist
       end
       it 'sets a flash message without image' do
-        post :create, art_piece: art_piece_attributes
-        assigns(:art_piece).errors[:base].should be_present
+        post :create, art_piece: art_piece_attributes.except(:photo)
+        assigns(:art_piece).errors[:photo].should be_present
       end
       it 'redirects to user page on cancel' do
         post :create, art_piece: art_piece_attributes, commit: 'Cancel'
@@ -116,55 +118,42 @@ describe ArtPiecesController do
       end
       it 'renders new on failed save' do
         allow_any_instance_of(ArtPiece).to receive(:valid?).and_return(false)
-        post :create, art_piece: art_piece_attributes, upload: {}
+        post :create, art_piece: art_piece_attributes
         expect(response).to render_template 'artists/manage_art'
-      end
-      context 'when image upload raises an error' do
-        before do
-          ArtPieceImage.any_instance.should_receive(:save).and_raise MauImage::ImageError.new('eat it')
-          post :create, art_piece: art_piece_attributes, upload: {}
-        end
-        it 'renders the form again' do
-          expect(response).to render_template 'artists/manage_art'
-        end
-        it 'sets the error' do
-          expect(assigns(:art_piece).errors[:base].to_s).to include 'eat it'
-        end
       end
 
       context 'with successful save' do
-        let(:upload_data) { { 'datafile' => fixture_file_upload( '/files/art.png' ) } }
         let(:tags) { "this, that, #{existing_tag.name}" }
 
         it 'redirects to show page on success' do
-          post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
+          post :create, art_piece: art_piece_attributes.merge({tags: tags})
           expect(response).to redirect_to artist_path(artist)
         end
         it 'creates a piece of art' do
           expect{
-            post :create, art_piece: art_piece_attributes, upload: upload_data
+            post :create, art_piece: art_piece_attributes
           }.to change(ArtPiece, :count).by 1
         end
         it 'sets a flash message on success' do
-          post :create, art_piece: art_piece_attributes, upload: upload_data
+          post :create, art_piece: art_piece_attributes
           flash[:notice].should eql "You've got new art!"
         end
         it "flushes the cache" do
           ArtPiecesController.any_instance.should_receive(:flush_cache)
-          post :create, art_piece: art_piece_attributes, upload: upload_data
+          post :create, art_piece: art_piece_attributes
         end
         it 'publishes a message' do
           Messager.any_instance.should_receive(:publish)
-          post :create, art_piece: art_piece_attributes, upload: upload_data
+          post :create, art_piece: art_piece_attributes
         end
         it 'correctly adds tags to the art piece' do
-          post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
+          post :create, art_piece: art_piece_attributes.merge({tags: tags})
           expect(ArtPiece.last.tags.count).to eql 3
         end
         it 'only adds the new tags' do
           tags
           expect{
-            post :create, art_piece: art_piece_attributes.merge({tags: tags}), upload: upload_data
+            post :create, art_piece: art_piece_attributes.merge({tags: tags})
           }.to change(ArtPieceTag, :count).by 2
         end
       end
