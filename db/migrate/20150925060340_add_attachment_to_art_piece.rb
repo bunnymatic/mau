@@ -1,8 +1,5 @@
 class AddAttachmentToArtPiece < ActiveRecord::Migration
-  def up
-    add_attachment :art_pieces, :photo
-  end
-  def down
+  def change
     add_attachment :art_pieces, :photo
   end
 end
