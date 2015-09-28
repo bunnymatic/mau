@@ -23,8 +23,6 @@
 #  state                     :string(255)      default("passive")
 #  deleted_at                :datetime
 #  reset_code                :string(40)
-#  image_height              :integer          default(0)
-#  image_width               :integer          default(0)
 #  email_attrs               :string(255)      default("{\"fromartist\": true, \"favorites\": true, \"fromall\": true}")
 #  type                      :string(255)      default("Artist")
 #  mailchimp_subscribed_at   :date
@@ -36,6 +34,8 @@
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
 #  slug                      :string(255)
+#  image_width               :integer          default(0)
+#  image_height              :integer          default(0)
 #
 # Indexes
 #

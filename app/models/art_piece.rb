@@ -12,9 +12,9 @@
 #  updated_at   :datetime
 #  medium_id    :integer
 #  year         :integer
-#  image_height :integer          default(0)
-#  image_width  :integer          default(0)
 #  position     :integer          default(0)
+#  image_width  :integer          default(0)
+#  image_height :integer          default(0)
 #
 # Indexes
 #
