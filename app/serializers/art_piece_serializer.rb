@@ -1,5 +1,5 @@
 class ArtPieceSerializer < MauSerializer
-  attributes :id, :image_urls, :artist, :medium, :tags, :artist_name, :image_dimensions, :favorites_count, :image_files, :year, :dimensions, :filename, :title, :artist_id
+  attributes :id, :image_urls, :artist, :medium, :tags, :artist_name, :favorites_count, :image_files, :year, :dimensions, :filename, :title, :artist_id
 
   include HtmlHelper
 
@@ -21,10 +21,6 @@ class ArtPieceSerializer < MauSerializer
     @artist_name ||= artist.get_name(true)
   end
 
-  def image_dimensions
-    @image_dimensions ||= object.compute_dimensions
-  end
-
   def favorites_count
     @favorites_count ||= Favorite.art_pieces.where(:favoritable_id => object.id).count
     @favorites_count if @favorites_count > 0
@@ -33,5 +29,5 @@ class ArtPieceSerializer < MauSerializer
   def image_files
     @files ||= object.get_paths
   end
-  
+
 end

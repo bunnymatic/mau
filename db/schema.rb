@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150926184445) do
+ActiveRecord::Schema.define(:version => 20150928024409) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -233,13 +233,6 @@ ActiveRecord::Schema.define(:version => 20150926184445) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "promoted_events", :force => true do |t|
-    t.integer  "event_id"
-    t.datetime "publish_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "roles", :force => true do |t|
     t.string   "role"
     t.datetime "created_at"
@@ -269,8 +262,6 @@ ActiveRecord::Schema.define(:version => 20150926184445) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "profile_image"
-    t.integer  "image_height",       :default => 0
-    t.integer  "image_width",        :default => 0
     t.float    "lat"
     t.float    "lng"
     t.string   "cross_street"

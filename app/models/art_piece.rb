@@ -31,7 +31,7 @@ class ArtPiece < ActiveRecord::Base
   has_many :tags, :through => :art_pieces_tags, :source => :art_piece_tag
 
   belongs_to :medium
-  include ImageDimensions
+
   include ImageFileHelpers
   include HtmlHelper
   include TagsHelper
@@ -58,10 +58,6 @@ class ArtPiece < ActiveRecord::Base
 
   def get_paths
     image_paths
-  end
-
-  def portrait?
-    image_width > image_height
   end
 
   def image_urls

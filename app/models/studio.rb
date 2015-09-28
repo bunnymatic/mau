@@ -12,8 +12,6 @@
 #  created_at         :datetime
 #  updated_at         :datetime
 #  profile_image      :string(255)
-#  image_height       :integer          default(0)
-#  image_width        :integer          default(0)
 #  lat                :float
 #  lng                :float
 #  cross_street       :string(255)

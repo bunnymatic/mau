@@ -133,8 +133,6 @@ class User < ActiveRecord::Base
   has_many :roles_users, dependent: :destroy
   has_many :roles, through: :roles_users, dependent: :destroy
 
-  include ImageDimensions
-
   acts_as_authentic do |c|
     c.act_like_restful_authentication = true
     c.transition_from_restful_authentication = true

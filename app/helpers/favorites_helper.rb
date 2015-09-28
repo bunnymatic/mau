@@ -17,7 +17,6 @@ module FavoritesHelper
     xclass = options[:class] || ""
     xstyle = options[:style].blank? ? "" : "style='#{options[:style]}'"
     title = fav.get_name true
-    wd, ht = fav.get_min_scaled_dimensions 24
     result = ""
     if img && path
       result << "<li #{xstyle}>"
@@ -29,6 +28,3 @@ module FavoritesHelper
     result.html_safe
   end
 end
-
-
-

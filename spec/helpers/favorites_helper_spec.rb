@@ -18,13 +18,6 @@ describe FavoritesHelper do
           expect(@path).to eq user_path(favorite)
         end
       end
-      context 'who has a no profile image' do
-        let(:favorite) { create :artist, :without_profile }
-        it 'returns the default user image and the path to the artist' do
-          expect(@img).to eq '/assets/default_user.svg'
-          expect(@path).to eq user_path(favorite)
-        end
-      end
     end
   end
 end
