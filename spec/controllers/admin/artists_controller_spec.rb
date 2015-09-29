@@ -44,7 +44,7 @@ describe Admin::ArtistsController do
           end
           it { expect(response).to be_success }
           it 'renders a csv export link' do
-            assert_select('a.export-csv', /export/)
+            assert_select('a.export-csv', /Export/)
           end
           it 'renders an update os status button' do
             assert_select('button.update-artists', /update os status/)
