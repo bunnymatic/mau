@@ -37,17 +37,11 @@ ActiveRecord::Schema.define(:version => 20150928024409) do
     t.datetime "updated_at"
     t.integer  "medium_id"
     t.integer  "year"
-<<<<<<< HEAD
-    t.integer  "position",     :default => 0
-    t.integer  "image_width",  :default => 0
-    t.integer  "image_height", :default => 0
-=======
     t.integer  "position",           :default => 0
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
->>>>>>> add paperclip to art_piece and build migration task
   end
 
   add_index "art_pieces", ["artist_id"], :name => "index_art_pieces_on_artist_id"
@@ -231,6 +225,13 @@ ActiveRecord::Schema.define(:version => 20150928024409) do
     t.date     "recorded_on"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "promoted_events", :force => true do |t|
+    t.integer  "event_id"
+    t.datetime "publish_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "roles", :force => true do |t|
