@@ -1,6 +1,9 @@
 class StudioImage < ProfileImage
 
   def self.get_path(studio, size="medium")
+    if studio.photo?
+      return studio.photo(size)
+    end
     # get path for image of size
     # size should be either "thumb","small", or "medium"
     dir = "/studiodata/" + studio.id.to_s() + "/profile/"

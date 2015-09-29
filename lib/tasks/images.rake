@@ -10,27 +10,27 @@ namespace :images do
       end
 
       def image_path
-        case @model.class.name
-        when 'Artist'
-          @model.filename
-        when 'ArtPiece'
-          @model.filename
-        when 'Studio'
-          @model.filename
-        else
-          nil
+        path = case @model.class.name
+               when 'Artist'
+                 @model.profile_image
+               when 'ArtPiece'
+                 @model.filename
+               when 'Studio'
+                 @model.profile_image
+               else
+                 nil
+               end
+        if path && !path.to_s.start_with?(Rails.root.to_s)
+          File.join(Rails.root, path)
+        elsif path
+          path
         end
       end
     end
 
     def get_image_filename(obj)
-
-      basename = obj.get_path(:original)
-      return nil unless basename.present?
-      image = File.join(Rails.root, basename)
-      if !File.exists?(image)
-        image = File.join(Rails.root,'public', obj.get_path(:original))
-      end
+      f = PathFinder.new(obj).image_path
+      f if f && File.exists?(f)
     end
 
     art_pieces = ArtPiece.joins(:artist).where(users: { state: 'active' }).readonly(false)
@@ -43,8 +43,6 @@ namespace :images do
     files += artists.map {|a| [a, get_image_filename(a)]}
 
     files.reject!{|f| f[1].nil?}
-    puts files
-    exit(-1)
     puts "Starting migration for #{files.count} files... "
     files.each_with_index do |(obj, image), idx|
       print "." if idx % 10 == 0
