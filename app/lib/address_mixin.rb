@@ -1,25 +1,19 @@
 module AddressMixin
   # for models with street, city, zip, lat, lng and either state or addr_state
   def has_address?
-    address.present? && address_hash[:geocoded]
+    address.present? && address_hash[:geocoded] && address_hash[:street].present?
   end
 
   def full_address
     # good for maps
     state = get_state
-    if self.street && !self.street.empty?
+    if self.street.present?
       "%s, %s, %s, %s" % [self.street, self.city || "San Francisco", state || "CA", self.zip || "94110"]
-    else
-      ""
     end
   end
 
   def address
-    if self.street && ! self.street.empty?
-      return "%s %s" % [self.street, self.zip ]
-    else
-      ""
-    end
+    "%s %s" % [street, zip ] unless street.blank?
   end
 
   def map_link
