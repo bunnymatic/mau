@@ -1,5 +1,5 @@
 When /^I set all artists to do open studios$/ do
-  within('table') do
+  within('#good table') do
     all('[type=checkbox]').each do |cb|
       check cb['id']
     end
@@ -16,7 +16,7 @@ Then(/^I see the admin artists list$/) do
 end
 
 When(/^I uncheck the box for the first participating artist/) do
-  cb = all('table input[checked=checked]').first
+  cb = all('#good table input[checked=checked]').first
   id = cb['id']
   uncheck cb['id']
   click_on_first 'update os status'
@@ -47,7 +47,7 @@ Then(/^I see that artist is no longer part of the studio list$/) do
 end
 
 When(/^I suspend the first artist$/) do
-  name = page.all('table tbody tr td.login a').first.text
+  name = page.all('#good table tbody tr td.login a').first.text
   @first_artist = Artist.find_by_login(name)
   click_on_first 'Suspend artist'
 end
