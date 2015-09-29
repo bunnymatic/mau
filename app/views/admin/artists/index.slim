@@ -19,5 +19,5 @@
   .pure-u-1-1.tab-content.padded-content
     #good.tab-pane.active
       = render "admin_artists_table", artist_list: @active_artist_list
-    #bad.tab-pane.active
+    #bad.tab-pane
       = render "admin_artists_table", artist_list: @inactive_artist_list

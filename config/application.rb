@@ -96,4 +96,4 @@ end
 Mime::Type.register "image/png", :png
 
 puts "Environment: #{Rails.env}"
-Rails.application.routes.default_url_options[:host] = 'http://localhost:3000'
+Rails.application.routes.default_url_options[:host] = 'localhost:3000'
