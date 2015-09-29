@@ -12,6 +12,11 @@ describe Artist do
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
   its(:at_art_piece_limit?) { should eql false }
+
+  before do
+    Rails.cache.clear
+  end
+
   context 'if max_pieces is nil' do
     let(:max_pieces) { nil }
     its(:at_art_piece_limit?) { should eql false }
@@ -90,7 +95,7 @@ describe Artist do
     end
     describe 'neither address in artist info nor studio' do
       it "returns empty for address" do
-        nobody.send(:address).should be_empty
+        nobody.send(:address).should be_nil
         hsh = nobody.send(:address_hash)
         hsh[:geocoded].should be_false
         hsh[:parsed][:street].should be_nil

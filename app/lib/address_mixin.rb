@@ -1,7 +1,7 @@
 module AddressMixin
   # for models with street, city, zip, lat, lng and either state or addr_state
   def has_address?
-    address.present? && address_hash[:geocoded] && address_hash[:street].present?
+    address.present? && address_hash[:geocoded]
   end
 
   def full_address

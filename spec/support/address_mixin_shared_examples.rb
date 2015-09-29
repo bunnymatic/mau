@@ -39,13 +39,11 @@ shared_examples_for AddressMixin do
 
   end
 
-  describe '#address' do
-    it 'returns empty string if there is no street' do
-      without_address.address.should eql ''
-    end
-    it 'returns empty string if there is no street' do
-      without_address.full_address.should eql ''
-    end
+  it 'address returns nil if there is no street' do
+    expect(without_address.address).to be_blank
+  end
+  it 'full_address returns nil if there is no street' do
+    expect(without_address.full_address).to be_blank
   end
 
   describe '#map_link' do
