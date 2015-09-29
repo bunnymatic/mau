@@ -103,7 +103,7 @@ class Artist < User
   end
 
   def in_the_mission?
-    return false unless address_hash && address_hash.has_key?(:latlng)
+    return false unless address && address_hash.has_key?(:latlng)
     lat,lng = address_hash[:latlng]
     sw = BOUNDS['SW']
     ne = BOUNDS['NE']
