@@ -4,7 +4,27 @@ namespace :images do
   task migrate_to_s3: :environment do
     files = []
 
+    class PathFinder
+      def initialize(obj)
+        @model = obj
+      end
+
+      def image_path
+        case @model.class.name
+        when 'Artist'
+          @model.filename
+        when 'ArtPiece'
+          @model.filename
+        when 'Studio'
+          @model.filename
+        else
+          nil
+        end
+      end
+    end
+
     def get_image_filename(obj)
+
       basename = obj.get_path(:original)
       return nil unless basename.present?
       image = File.join(Rails.root, basename)
@@ -23,6 +43,8 @@ namespace :images do
     files += artists.map {|a| [a, get_image_filename(a)]}
 
     files.reject!{|f| f[1].nil?}
+    puts files
+    exit(-1)
     puts "Starting migration for #{files.count} files... "
     files.each_with_index do |(obj, image), idx|
       print "." if idx % 10 == 0
