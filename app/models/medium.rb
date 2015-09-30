@@ -21,7 +21,7 @@ class Medium < ActiveRecord::Base
 
   include FriendlyId
   friendly_id :name, use: :slugged
-  
+
   validates :name, :presence => true, :length => {:within => (2..244)}
 
   CACHE_EXPIRY = Conf.cache_expiry["media_frequency"] || 20

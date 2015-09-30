@@ -61,7 +61,7 @@ $ ->
     if ($more.length) && ($more.position().top < $win.height())
       fetchArtists(url)
 
-    if $('.js-filter-by-name').length    
+    if $('.js-filter-by-name').length
       # define helpers
       getCurrentFilter = () ->
         document.querySelectorAll('.js-filter-by-name')[0].value;

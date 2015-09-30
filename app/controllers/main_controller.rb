@@ -171,7 +171,7 @@ EOM
   def sampler_params
     params.slice(:seed, :offset, :number_of_images).symbolize_keys
   end
-  
+
   def feedback_params
     params.require(:feedback).permit :subject, :email, :login, :page, :comment, :url, :skillsets, :bugtype
   end

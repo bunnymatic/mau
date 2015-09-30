@@ -25,7 +25,7 @@ namespace :debug do
       end
     end
   end
-  
+
   desc 'create open studios event'
   task create_os_event: [:environment] do
     os = OpenStudiosEvent.current

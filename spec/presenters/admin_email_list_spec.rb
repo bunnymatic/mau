@@ -55,7 +55,7 @@ describe AdminEmailList do
   describe "list name is an os event tag" do
     let!(:ostag) { current.key }
     let(:listname) { ostag }
-    
+
     it "assigns a list of os artists" do
       emails.length.should eql Artist.active.all.count{|a| a.os_participation[ostag]}
     end

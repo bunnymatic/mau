@@ -10,7 +10,7 @@ namespace :mau do
   task 'indy_studio_artist_cleanup' do
     Artists.where(studio_id: 0).each { |a| a.update_attribute :studio_id, nil }
   end
-  
+
   desc 'initiate studio slugs'
   task slug_studios: [:environment] do
     Studio.all.each do |s|
@@ -25,7 +25,7 @@ namespace :mau do
       m.save!
     end
   end
-  
+
   desc 'initiate user slugs'
   task slug_users: [:environment] do
     User.all.each do |u|
@@ -38,7 +38,7 @@ namespace :mau do
   task clean_names: [:environment] do
     Artist.all.each {|a| a.save }
   end
-  
+
   desc 'record todays OS count'
   task daily_os_signup: [:environment] do
     Artist.tally_os

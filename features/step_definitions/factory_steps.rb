@@ -32,7 +32,7 @@ Given /the following artists with art are in the system:/ do |table|
   @artists = []
   table.hashes.each do |artist_params|
     args = {:number_of_art_pieces => 5}.merge artist_params
-    @artists << FactoryGirl.create(:artist, :with_art, :with_studio, args)    
+    @artists << FactoryGirl.create(:artist, :with_art, :with_studio, args)
   end
   @art_pieces = @artists.map(&:art_pieces).flatten
 end

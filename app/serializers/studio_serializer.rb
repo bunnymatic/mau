@@ -6,7 +6,7 @@ class StudioSerializer < MauSerializer
       studio_path(object)
     end
   end
-  
+
   def street_address
     address = object.address_hash.parsed.street
   end

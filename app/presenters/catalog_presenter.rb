@@ -1,7 +1,7 @@
 require 'csv'
 
 class CatalogPresenter < ViewPresenter
-  
+
   include OpenStudiosEventShim
 
   def csv_filename
