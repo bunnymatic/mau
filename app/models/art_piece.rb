@@ -45,12 +45,13 @@ class ArtPiece < ActiveRecord::Base
   after_save :remove_old_art
   after_save :clear_caches
 
-  NEW_ART_CACHE_KEY = 'newart'
-  NEW_ART_CACHE_EXPIRY = Conf.cache_expiry['new_art'].to_i
-
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 
+
+  def self.owned
+    where("artist_id in (select id from users where state = 'active' and type='Artist')")
+  end
 
   def tags
     super.alpha
@@ -95,25 +96,9 @@ class ArtPiece < ActiveRecord::Base
     (full_path ? full_image_path(artpiece_path) : artpiece_path)
   end
 
-  def self.owned
-    where("artist_id in (select id from users where state = 'active' and type='Artist')")
-  end
-
-  def self.get_new_art(num_pieces=12)
-    cache_key = NEW_ART_CACHE_KEY
-    new_art = SafeCache.read(cache_key)
-    unless new_art.present?
-      new_art = ArtPiece.joins(:artist).where({users: {state: 'active'}}).limit(num_pieces).order('created_at desc').all
-      SafeCache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
-    end
-    new_art || []
-  end
-
   private
   def clear_caches
-    cache_key = NEW_ART_CACHE_KEY
-    SafeCache.delete(cache_key)
-
+    ArtPieceService.clear_cache
     if self.artist && self.artist.id != nil?
       SafeCache.delete("%s%s" % [Artist::CACHE_KEY, self.artist.id])
     end

@@ -31,44 +31,6 @@ describe ArtPiece do
     end
   end
 
-  describe "get_new_art" do
-    let(:older) {
-      olders = 3.times.map{ |idx|
-        Timecop.travel idx.days.ago
-        FactoryGirl.create :artist, :with_art
-      }
-      olders.last
-    }
-    let(:newer) {
-      Timecop.travel 1.day.ago
-      FactoryGirl.create :artist, :with_art
-    }
-    before do
-      Rails.cache.stub(:read => nil)
-      newer
-      older
-      Timecop.freeze
-    end
-    after do
-      Timecop.return
-    end
-    it 'returns art pieces updated between today and 2 days ago' do
-      aps = ArtPiece.get_new_art(2)
-
-      expect( aps ).to include newer.art_pieces.first
-      expect( aps ).to_not include older.art_pieces.first
-      expect( aps.map(&:created_at) ).to be_monotonically_decreasing
-    end
-    context 'from cache' do
-      before do
-        Rails.cache.stub(:read => [ArtPiece.last])
-      end
-      it 'returns pulls from the cache if available' do
-        ArtPiece.get_new_art.should == [ArtPiece.last]
-      end
-    end
-  end
-
   describe 'get_path' do
     it 'returns a path to the art piece' do
       art_piece.get_path.should match %r{/system/art_pieces/.*/new-studio.jpg}

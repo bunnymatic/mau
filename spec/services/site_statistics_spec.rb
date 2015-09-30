@@ -4,7 +4,7 @@ describe SiteStatistics do
 
   subject(:stats) { SiteStatistics.new }
 
-  before do
+  before(:all) do
     fix_leaky_fixtures
 
     Timecop.freeze
@@ -23,9 +23,6 @@ describe SiteStatistics do
     FactoryGirl.create_list(:artist, 3)
 
     Timecop.return
-  end
-
-  after do
   end
 
   it 'assigns correct values for artists yesterday' do
