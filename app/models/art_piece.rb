@@ -2,19 +2,21 @@
 #
 # Table name: art_pieces
 #
-#  id           :integer          not null, primary key
-#  filename     :string(255)
-#  title        :string(255)
-#  description  :text
-#  dimensions   :string(255)
-#  artist_id    :integer
-#  created_at   :datetime
-#  updated_at   :datetime
-#  medium_id    :integer
-#  year         :integer
-#  position     :integer          default(0)
-#  image_width  :integer          default(0)
-#  image_height :integer          default(0)
+#  id                 :integer          not null, primary key
+#  filename           :string(255)
+#  title              :string(255)
+#  description        :text
+#  dimensions         :string(255)
+#  artist_id          :integer
+#  created_at         :datetime
+#  updated_at         :datetime
+#  medium_id          :integer
+#  year               :integer
+#  position           :integer          default(0)
+#  photo_file_name    :string(255)
+#  photo_content_type :string(255)
+#  photo_file_size    :integer
+#  photo_updated_at   :datetime
 #
 # Indexes
 #
@@ -29,21 +31,27 @@ class ArtPiece < ActiveRecord::Base
   has_many :tags, :through => :art_pieces_tags, :source => :art_piece_tag
 
   belongs_to :medium
-  include ImageDimensions
+
   include ImageFileHelpers
   include HtmlHelper
   include TagsHelper
+
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
+  validates_attachment_presence :photo
+  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
 
   before_destroy :remove_images
   after_destroy :clear_tags_and_favorites
   after_save :remove_old_art
   after_save :clear_caches
 
-  NEW_ART_CACHE_KEY = 'newart'
-  NEW_ART_CACHE_EXPIRY = Conf.cache_expiry['new_art'].to_i
-
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
+
+
+  def self.owned
+    where("artist_id in (select id from users where state = 'active' and type='Artist')")
+  end
 
   def tags
     super.alpha
@@ -51,14 +59,6 @@ class ArtPiece < ActiveRecord::Base
 
   def get_paths
     image_paths
-  end
-
-  def portrait?
-    image_width > image_height
-  end
-
-  def aspect_ratio
-    (image_width.to_f/image_height.to_f) if image_height.to_i != 0
   end
 
   def image_urls
@@ -94,28 +94,11 @@ class ArtPiece < ActiveRecord::Base
     size ||= 'medium'
     artpiece_path = image_paths[size.to_sym]
     (full_path ? full_image_path(artpiece_path) : artpiece_path)
-    #prefix + (artpiece_path || '')
-  end
-
-  def self.owned
-    where("artist_id in (select id from users where state = 'active' and type='Artist')")
-  end
-
-  def self.get_new_art
-    cache_key = NEW_ART_CACHE_KEY
-    new_art = SafeCache.read(cache_key)
-    unless new_art.present?
-      new_art = ArtPiece.where('artist_id is not null && artist_id > 0').limit(12).order('created_at desc').all
-      SafeCache.write(cache_key, new_art, :expires_in => NEW_ART_CACHE_EXPIRY)
-    end
-    new_art || []
   end
 
   private
   def clear_caches
-    cache_key = NEW_ART_CACHE_KEY
-    SafeCache.delete(cache_key)
-
+    ArtPieceService.clear_cache
     if self.artist && self.artist.id != nil?
       SafeCache.delete("%s%s" % [Artist::CACHE_KEY, self.artist.id])
     end

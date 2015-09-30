@@ -10,5 +10,5 @@ describe EmailSerializer do
   it 'includes name' do
     expect(JSON::parse(serializer.to_json)['email']['name']).to eql email.name
   end
-               
+
 end

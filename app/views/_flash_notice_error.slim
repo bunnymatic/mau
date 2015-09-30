@@ -1,5 +1,5 @@
 - flash.each do |k,msg|
-  - next unless [:error, :notice, :info, :debug, :danger].include? k.to_sym  
+  - next unless [:error, :notice, :info, :debug, :danger].include? k.to_sym
   - if msg.present?
     - clz = "flash flash__#{k}"
     - pfx = "Oops: " if k.to_sym == :error

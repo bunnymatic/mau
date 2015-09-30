@@ -38,8 +38,10 @@ MAU.SearchPage = class MAUSearch
       _that.initOSChooser()
       _that.initFormSubmitOnChange()
       _that.initPaginator()
+      _that.enableGoButton()
 
-
+  enableGoButton: ->
+    $('.power_search [type=submit]').attr('disabled', null)
   # setup onchange for open studios dropdown
   initOSChooser: ->
     _that = this

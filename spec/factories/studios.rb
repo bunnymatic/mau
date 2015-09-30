@@ -8,10 +8,12 @@ FactoryGirl.define do
     lat { 37.75 }
     lng { -122.41 }
     url { Faker::Internet.url }
-    profile_image { Faker::Files.file }
     cross_street { Faker::Address.street_name }
     phone { Faker::PhoneNumber.phone_number }
-
+    photo_file_name    'new-studio.jpg'
+    photo_content_type 'image/jpeg'
+    photo_file_size    1234
+    photo_updated_at   1.day.ago
     ignore do
       artist_count 2
     end

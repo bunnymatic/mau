@@ -4,8 +4,7 @@ module Admin
     before_filter :manager_required
     before_filter :admin_required, only: [:new, :create, :destroy]
     before_filter :studio_manager_required, only: [:edit, :update,
-                                                      :upload_profile, :add_profile,
-                                                      :unaffiliate_artist]
+                                                   :unaffiliate_artist]
     before_filter :load_studio, except: [:new, :index, :create]
     skip_before_filter :verify_authenticity_token, :only => [:unaffiliate_artist]
 
@@ -70,32 +69,32 @@ module Admin
       redirect_to edit_admin_studio_path(@studio), flash: flash_opts
     end
 
-    def add_profile
-    end
+    # def add_profile
+    # end
 
-    def upload_profile
-      if commit_is_cancel
-        redirect_to(@studio)
-        return
-      end
+    # def upload_profile
+    #   if commit_is_cancel
+    #     redirect_to(@studio)
+    #     return
+    #   end
 
-      studio_id = @studio.id
-      upload = params[:upload]
-      unless upload.present?
-        flash[:error] = "You must provide a file."
-        redirect_to add_profile_admin_studio_path(@studio) and return
-      end
+    #   studio_id = @studio.id
+    #   upload = params[:upload]
+    #   unless upload.present?
+    #     flash[:error] = "You must provide a file."
+    #     redirect_to add_profile_admin_studio_path(@studio) and return
+    #   end
 
-      begin
-        StudioImage.new(@studio).save upload
-        flash[:notice] = 'Studio Image has been updated.'
-        redirect_to @studio and return
-      rescue
-        logger.error("Failed to upload %s" % $!)
-        flash[:error] = "%s" % $!
-        redirect_to add_profile_admin_studio_path(@studio) and return
-      end
-    end
+    #   begin
+    #     StudioImage.new(@studio).save upload
+    #     flash[:notice] = 'Studio Image has been updated.'
+    #     redirect_to @studio and return
+    #   rescue
+    #     logger.error("Failed to upload %s" % $!)
+    #     flash[:error] = "%s" % $!
+    #     redirect_to add_profile_admin_studio_path(@studio) and return
+    #   end
+    # end
 
 
     def studio_manager_required
@@ -106,7 +105,7 @@ module Admin
 
     private
     def studio_params
-      params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :profile_image, :image_height, :image_width, :lat, :lng, :cross_street, :phone )
+      params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :lat, :lng, :cross_street, :phone, :photo )
     end
 
     def load_studio

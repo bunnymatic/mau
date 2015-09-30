@@ -10,8 +10,6 @@ FactoryGirl.define do
     lastname { Faker::Name.first_name }
     nomdeplume { Faker::Company.name }
     profile_image { Faker::Files.file }
-    image_height { 2000 + rand(1000) }
-    image_width { 2000 + rand(1000) }
     url { Faker::Internet.url }
     trait :pending do
       state :pending
@@ -45,11 +43,6 @@ FactoryGirl.define do
       end
     end
 
-    trait :without_profile do
-      profile_image { nil }
-      image_height { nil }
-      image_width { nil }
-    end
   end
 
   factory :fan, parent: :user, class: 'MAUFan' do

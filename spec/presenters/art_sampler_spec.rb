@@ -17,5 +17,5 @@ describe ArtSampler do
       expect(ArtSampler.new.offset).to eql 0
     end
   end
-    
+
 end

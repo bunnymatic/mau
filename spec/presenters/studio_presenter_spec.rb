@@ -14,7 +14,6 @@ describe StudioPresenter do
   its(:artists_without_art) { should have(1).artist }
   its(:name) { should eql studio.name }
   its(:street_with_cross) { should eql "#{studio.street} (@ hollywood)" }
-  its(:image) { should start_with "/studiodata/#{studio.id}" }
   its(:indy?) { should be_false }
 
   it '.artists returns the active artists' do

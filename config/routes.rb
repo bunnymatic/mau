@@ -166,9 +166,9 @@ Mau::Application.routes.draw do
 
     resources :studios, only: [:index, :new, :edit, :create, :update, :destroy] do
       member do
-        post :upload_profile
         post :unaffiliate_artist
-        get :add_profile
+        # post :upload_profile
+        # get :add_profile
       end
     end
 

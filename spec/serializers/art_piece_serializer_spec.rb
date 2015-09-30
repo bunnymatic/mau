@@ -17,13 +17,13 @@ describe ArtPieceSerializer do
         @ap['image_urls'].keys.should include sz
         @ap['image_urls'][sz].should include Conf.site_url
       end
-      @ap['image_urls']['small'].should == "http://#{Conf.site_url}/artistdata/#{artist.id}/imgs/s_#{art_piece.filename}"
+      expect(@ap['image_urls']['small']).to include "/system/art_pieces/photos"
     end
 
     it 'includes the fields we care about' do
-      %w( id filename title dimensions artist_id
-          year tags medium 
-          image_dimensions image_files artist_name ).each do |expected|
+      %w( id filename title artist_id
+          year tags medium
+          image_files artist_name ).each do |expected|
         expect(@ap).to have_key expected
       end
     end
@@ -34,15 +34,6 @@ describe ArtPieceSerializer do
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|
         expect(files[sz]).to eql art_piece.get_path(sz)
-      end
-    end
-
-    it 'includes image dimensions' do
-      sizes = ['cropped_thumb','large','medium','original', 'small','thumb']
-      dimensions = @ap['image_dimensions']
-      expect(dimensions.keys.sort).to eql sizes
-      sizes.each do |sz|
-        expect(dimensions[sz]).to eql art_piece.compute_dimensions[sz]
       end
     end
 
@@ -59,6 +50,6 @@ describe ArtPieceSerializer do
     it 'includes the medium' do
       @ap['medium']['name'].should eql art_piece.medium.name
     end
-    
+
   end
 end

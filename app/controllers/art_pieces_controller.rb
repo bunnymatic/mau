@@ -46,34 +46,43 @@ class ArtPiecesController < ApplicationController
 
     prepare_tags_params
     art_piece = artist.art_pieces.build(art_piece_params)
-    valid = art_piece.valid?
+    if art_piece.save
+      flash[:notice] = "You've got new art!"
+      Messager.new.publish "/artists/#{artist.id}/art_pieces/create", "added art piece"
+      redirect_to artist
+    else
+      @art_piece = art_piece
+      @artist = ArtistPresenter.new(artist)
+      render template: 'artists/manage_art'
+    end
+
+
 
     # if file to upload - upload it first
-    upload = params[:upload]
-    if !params[:upload]
-      @artist = ArtistPresenter.new(artist)
-      create_art_piece_failed_empty_image(art_piece) and return
-    end
+    # upload = params[:upload]
+    # if !params[:upload]
+    #   @artist = ArtistPresenter.new(artist)
+    #   create_art_piece_failed_empty_image(art_piece) and return
+    # end
 
-    begin
-      ActiveRecord::Base.transaction do
-        if valid
-          # upload image
-          ArtPieceImage.new(art_piece).save upload
-          art_piece.save!
-          flash[:notice] = "You've got new art!"
-          Messager.new.publish "/artists/#{artist.id}/art_pieces/create", "added art piece"
-        else
-          @artist = ArtistPresenter.new(artist)
-          create_art_piece_failed(art_piece) and return
-        end
-      end
-    rescue Exception => ex
-      @artist = ArtistPresenter.new(artist)
-      create_art_piece_failed_upload(art_piece) and return
-    end
-
-    redirect_to(artist)
+    # begin
+    #   ActiveRecord::Base.transaction do
+    #     if valid
+    #       # upload image
+    #       ArtPieceImage.new(art_piece).save upload
+    #       art_piece.save!
+    #       flash[:notice] = "You've got new art!"
+    #       Messager.new.publish "/artists/#{artist.id}/art_pieces/create", "added art piece"
+    #     else
+    #       @artist = ArtistPresenter.new(artist)
+    #       create_art_piece_failed(art_piece) and return
+    #     end
+    #   end
+    # rescue Exception => ex
+    #   @artist = ArtistPresenter.new(artist)
+    #   create_art_piece_failed_upload(art_piece) and return
+    # end
+    # redirect_to(artist)
   end
 
   # PUT /art_pieces/1
@@ -141,7 +150,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def art_piece_params
-    parameters = params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description, :position)
+    parameters = params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description, :position, :photo)
     if params[:art_piece][:tags]
       parameters.merge({tags: params[:art_piece][:tags]})
     else

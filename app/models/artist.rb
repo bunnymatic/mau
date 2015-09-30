@@ -34,8 +34,10 @@
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
 #  slug                      :string(255)
-#  image_width               :integer          default(0)
-#  image_height              :integer          default(0)
+#  photo_file_name           :string(255)
+#  photo_content_type        :string(255)
+#  photo_file_size           :integer
+#  photo_updated_at          :datetime
 #
 # Indexes
 #
@@ -60,8 +62,6 @@ class Artist < User
   MAX_PIECES = 20
   include AddressMixin
   include OpenStudiosEventShim
-
-  #attr_accessible :artist_info_attributes
 
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
@@ -97,10 +97,12 @@ class Artist < User
   end
 
   def profile_images
-    Hash[MauImage::ImageSize.allowed_sizes.map do |key|
-      [key, ArtistProfileImage.get_path(self, key)]
-    end]
+    images = MauImage::ImageSize.allowed_sizes.map do |key|
+      [key,get_profile_image(key)]
+    end.select{|pr| pr[1].present?}
+    Hash[images]
   end
+
 
   def in_the_mission?
     return false unless address && address_hash.has_key?(:latlng)

@@ -9,7 +9,7 @@ Background:
 
 
 @javascript
-Scenario:
+Scenario: I can edit my profile
   When I visit my profile edit page
   Then I see my profile edit form
 
@@ -58,4 +58,3 @@ Scenario:
   And I click "Save Changes"
   And I click on "Profile Picture"
   Then I see that I have a new profile picture
-  

@@ -110,8 +110,6 @@ joeblogs:
   lastname:                  blogs
   state:                     active
   activated_at:              <%= 10.days.ago.to_s :db %>
-  image_height:              550
-  image_width:               1650
   type: Artist
   url: http://joe.blogs.com
   studio_id: 0
@@ -188,7 +186,6 @@ artfan2:
 
 annafizyta:
   email_attrs: "{\"fromall\":false,\"fromartist\":true}"
-  image_height: "600"
   flickr: ""
   salt: deae943a6c5969c298a05ffdbe1a227f2f13379d
   name: ""
@@ -201,7 +198,6 @@ annafizyta:
   url: ""
   lastname: Fizyta
   type: Artist
-  image_width: "600"
   myspace: ""
   studio_id: "0"
   profile_image: artistdata/284/profile/profile.jpg
@@ -216,7 +212,6 @@ annafizyta:
 
 jesseponce:
   email_attrs: "{\"fromall\":false,\"fromartist\":true,\"favorites\":true}"
-  image_height: "640"
   flickr:
   salt: 4386661945180e8340c620bd6bc3e72307c7a7ab
   name: ""
@@ -227,7 +222,6 @@ jesseponce:
   url: ""
   lastname: ponce
   type: Artist
-  image_width: "480"
   studio: s1890
   profile_image: public/artistdata/367/profile/profile.JPG
   firstname: jesse

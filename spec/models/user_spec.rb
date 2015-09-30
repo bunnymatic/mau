@@ -62,8 +62,6 @@ describe User do
     it{ should validate_uniqueness_of(:email) }
   end
 
-  it_should_behave_like ImageDimensions
-
   context 'make sure our factories work' do
     it 'creates an editor' do
       expect(FactoryGirl.create(:user, :editor, :active).is_editor?).to be_true
@@ -445,7 +443,7 @@ describe User do
       expect(simple_artist.firstname).to eql 'first'
     end
   end
-  
+
   describe 'MailChimp includes' do
     describe "mailchimp_additional_data" do
       before do

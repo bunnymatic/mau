@@ -34,8 +34,10 @@
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
 #  slug                      :string(255)
-#  image_width               :integer          default(0)
-#  image_height              :integer          default(0)
+#  photo_file_name           :string(255)
+#  photo_content_type        :string(255)
+#  photo_file_size           :integer
+#  photo_updated_at          :datetime
 #
 # Indexes
 #

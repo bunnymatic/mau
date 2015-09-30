@@ -21,6 +21,6 @@ describe StudioSerializer do
     it 'includes a url for the map' do
       JSON.parse(serializer.to_json)['studio']['map_url'].should eql studio.map_link
     end
-    
+
   end
 end

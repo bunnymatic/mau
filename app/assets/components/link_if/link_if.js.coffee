@@ -5,5 +5,5 @@ angular.module('mau.directives').directive 'linkIf', ngInject () ->
     label: '='
   templateUrl: 'link_if/index.html'
 
-  
-    
+
+

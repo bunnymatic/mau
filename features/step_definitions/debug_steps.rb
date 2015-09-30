@@ -19,5 +19,5 @@ Then /^show me the os info$/ do
   puts "os artists", Artist.active.select(&:doing_open_studios?).count
   puts "os", Artist.active.map{|a| a.artist_info.os_participation}
 end
-  
-       
+
+

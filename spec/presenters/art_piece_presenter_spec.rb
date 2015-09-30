@@ -14,11 +14,6 @@ describe ArtPiecePresenter do
   its(:has_tags?) { should be_false }
   its(:tags) { should be_empty }
   its(:has_year?) { should be_true }
-  its(:has_dimensions?) { should be_true }
-  its(:display_dimensions) { should eql art_piece.dimensions }
-  its(:image_dimensions) { should eql art_piece.compute_dimensions }
-  its(:width) { should eql art_piece.compute_dimensions[:medium].first }
-  its(:zoomed) { should eql art_piece.get_path('large') }
 
   context 'with favorites' do
     before do

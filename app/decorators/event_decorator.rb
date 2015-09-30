@@ -7,7 +7,7 @@ class EventDecorator < SimpleDelegator
   def object
     __getobj__
   end
-  
+
   def start_date
     parse_date(starttime)
   end

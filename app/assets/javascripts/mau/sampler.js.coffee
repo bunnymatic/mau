@@ -25,7 +25,7 @@ $ ->
         # remove the current more button
         $('#js-scroll-load-more').remove()
         $('#the-end').show()
-        
+
   if $('#sampler').length
     $win = $(window)
     $win.scroll ->

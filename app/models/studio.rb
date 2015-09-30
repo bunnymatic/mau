@@ -2,23 +2,25 @@
 #
 # Table name: studios
 #
-#  id            :integer          not null, primary key
-#  name          :string(255)
-#  street        :string(255)
-#  city          :string(255)
-#  state         :string(255)
-#  zip           :integer
-#  url           :string(255)
-#  created_at    :datetime
-#  updated_at    :datetime
-#  profile_image :string(255)
-#  lat           :float
-#  lng           :float
-#  cross_street  :string(255)
-#  phone         :string(255)
-#  slug          :string(255)
-#  image_width   :integer          default(0)
-#  image_height  :integer          default(0)
+#  id                 :integer          not null, primary key
+#  name               :string(255)
+#  street             :string(255)
+#  city               :string(255)
+#  state              :string(255)
+#  zip                :integer
+#  url                :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  profile_image      :string(255)
+#  lat                :float
+#  lng                :float
+#  cross_street       :string(255)
+#  phone              :string(255)
+#  slug               :string(255)
+#  photo_file_name    :string(255)
+#  photo_content_type :string(255)
+#  photo_file_size    :integer
+#  photo_updated_at   :datetime
 #
 # Indexes
 #
@@ -42,6 +44,12 @@ class Studio < ActiveRecord::Base
   before_save :normalize_phone_number
   validates :name, presence: true, uniqueness: true
 
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
+
+  validates_attachment_presence :photo
+  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
+
+
   SORT_BY_NAME = lambda{|a,b|
       if !a || a.id == 0
         1
@@ -51,6 +59,7 @@ class Studio < ActiveRecord::Base
         a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
       end
     }
+
 
   def to_param
     slug || id
@@ -68,7 +77,7 @@ class Studio < ActiveRecord::Base
   end
 
   def get_profile_image(size)
-    StudioImage.get_path(self, size)
+    photo? ? photo(size) : StudioImage.get_path(self, size)
   end
 
 end

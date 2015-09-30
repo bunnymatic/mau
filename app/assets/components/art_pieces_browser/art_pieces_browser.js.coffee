@@ -28,7 +28,7 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studios
     if $scope.artist
       "/artists/#{$scope.artist.slug || $scope.artist.id}"
   $scope.hasArtistProfile = () ->
-    $scope.artist?.profile_images
+    !!$scope.artist?.profile_images?.medium
   $scope.profilePath = (size = 'medium') ->
     $scope.artist?.profile_images[size]
   $scope.onKeyDown = (ev) ->

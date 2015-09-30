@@ -46,6 +46,6 @@ describe ArtPieceTagPresenter do
       expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to be_true
     end
   end
-  
+
 
 end

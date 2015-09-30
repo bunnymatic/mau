@@ -4,7 +4,7 @@ class OpenStudiosEventService
   CURRENT_CACHE_KEY = :current_os_event
   FUTURE_CACHE_KEY = :future_os_events
   PAST_CACHE_KEY = :past_os_events
-  
+
   def self.for_display(os_key, reverse = false )
     if os = OpenStudiosEvent.find_by_key(os_key)
       os.for_display(reverse)
@@ -22,7 +22,7 @@ class OpenStudiosEventService
   def self.all
     OpenStudiosEvent.all
   end
-  
+
   def self.update(open_studios_event, attributes)
     clear_cache(open_studios_event.id)
     open_studios_event.update_attributes(attributes)
@@ -32,13 +32,13 @@ class OpenStudiosEventService
     clear_cache(open_studios_event.id)
     open_studios_event.save
   end
-  
+
   def self.current
     cache = SafeCache.read(CURRENT_CACHE_KEY)
     unless cache
       cache = OpenStudiosEvent.current
       SafeCache.write(CURRENT_CACHE_KEY, cache)
-    end      
+    end
     cache
   end
 

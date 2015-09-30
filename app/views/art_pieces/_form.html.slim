@@ -3,10 +3,7 @@
   = render "/form_errors", form: f
   = render "/flash_notice_error"
   = f.inputs do
-    li.file.input.required#art_piece_file_input
-      label.label(for="upload_datafile") Select File<abbr title="required">*</abbr>
-      input id="upload_datafile" name="upload[datafile]" type="file"
-      .inline-hints This should be a JPG, GIF, or PNG and should be less than 4MB.  Ideal images are at least 800px on their longest dimension.
+    = f.input :photo, required: true, hint: "This should be a JPG, GIF, or PNG and should be less than 4MB.  Ideal images are at least 800px on their longest dimension."
     = f.input :title, required: true
     = f.input :dimensions, placeholder: "e.g. 8\" x 12\""
     = f.input :year, placeholder: "e.g. 2013"

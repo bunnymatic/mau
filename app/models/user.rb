@@ -34,8 +34,10 @@
 #  last_login_ip             :string(255)
 #  current_login_ip          :string(255)
 #  slug                      :string(255)
-#  image_width               :integer          default(0)
-#  image_height              :integer          default(0)
+#  photo_file_name           :string(255)
+#  photo_content_type        :string(255)
+#  photo_file_size           :integer
+#  photo_updated_at          :datetime
 #
 # Indexes
 #
@@ -71,6 +73,11 @@ class User < ActiveRecord::Base
   # custom validations
   validate :validate_email
 
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
+
+  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
+
+
   # I was initially worried about routes here - i think we should be fine moving forward
   #
   # RESTRICTED_LOGIN_NAMES = [ 'add_profile','delete','destroy','delete_art',
@@ -94,7 +101,7 @@ class User < ActiveRecord::Base
     User.find_by_login(login_string) || User.find_by_email(login_string)
   end
 
-  before_validation :normalize_attributes 
+  before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_validation :cleanup_fields
   before_destroy :delete_favorites
@@ -126,16 +133,10 @@ class User < ActiveRecord::Base
   has_many :roles_users, dependent: :destroy
   has_many :roles, through: :roles_users, dependent: :destroy
 
-  include ImageDimensions
-
   acts_as_authentic do |c|
     c.act_like_restful_authentication = true
     c.transition_from_restful_authentication = true
   end
-
-  # attr_accessible :login, :email, :password, :password_confirmation,
-  #  :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume,
-  #  :profile_image, :image_height, :image_width
 
   def active?
     state == 'active'
@@ -145,12 +146,8 @@ class User < ActiveRecord::Base
     state == 'pending'
   end
 
-  def has_profile_image
-    self.profile_image
-  end
-
   def get_profile_image(size = :medium)
-    ArtistProfileImage.get_path(self, size)
+    photo? ? photo(size) : ArtistProfileImage.get_path(self, size)
   end
 
   def get_share_link(urlsafe=false, options = {})
@@ -300,7 +297,7 @@ class User < ActiveRecord::Base
       end
     end
   end
-  
+
   def normalize_attributes
     login = login.try(:downcase)
     email = email.try(:downcase)

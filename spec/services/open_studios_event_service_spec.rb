@@ -24,7 +24,7 @@ describe OpenStudiosEventService do
   after do
     Timecop.return
   end
-  
+
   describe '.for_display' do
     it "returns the pretty version for a given tag" do
       expect(OpenStudiosEventService.for_display("201104")).to eql current_os.start_date.strftime("2011 Apr")

@@ -1,7 +1,7 @@
 class ArtPiecePresenter < ViewPresenter
 
   attr_reader :art_piece
-  delegate :id, :portrait?, :year, :medium, :get_path, :artist, :title, :updated_at, :to_param, :to => :art_piece
+  delegate :id, :year, :medium, :get_path, :artist, :title, :updated_at, :to_param, :to => :art_piece
 
   def initialize(art_piece)
     @art_piece = art_piece
@@ -30,30 +30,6 @@ class ArtPiecePresenter < ViewPresenter
 
   def has_year?
     year.present? and year.to_i > 1899
-  end
-
-  def has_dimensions?
-    @art_piece.dimensions.present?
-  end
-
-  def display_dimensions
-    @art_piece.dimensions
-  end
-
-  def image_dimensions
-    @dimensions ||= art_piece.compute_dimensions
-  end
-
-  def width(sz = :medium)
-    image_dimensions[sz].first
-  end
-
-  def height(sz = :medium)
-    image_dimensions[sz].last
-  end
-
-  def zoomed
-    @zoomed ||= art_piece.get_path('large')
   end
 
   def path
