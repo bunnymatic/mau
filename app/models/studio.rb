@@ -80,5 +80,4 @@ class Studio < ActiveRecord::Base
     photo? ? photo(size) : StudioImage.get_path(self, size)
   end
 
-  alias_method :get_path, :get_profile_image
 end

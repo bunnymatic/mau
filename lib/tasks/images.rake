@@ -41,7 +41,6 @@ namespace :images do
 
     artists = Artist.active.all
     files += artists.map {|a| [a, get_image_filename(a)]}
-
     files.reject!{|f| f[1].nil?}
     puts "Starting migration for #{files.count} files... "
     files.each_with_index do |(obj, image), idx|

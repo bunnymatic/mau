@@ -31,36 +31,6 @@ describe ArtPiece do
     end
   end
 
-  describe '#dimensions' do
-    let(:width) { nil }
-    let(:height) { nil }
-    subject(:art_piece) { FactoryGirl.build(:art_piece, image_height: height, image_width: width) }
-
-    context 'with no dimensions' do
-      its(:aspect_ratio) { should be_nil }
-      it 'computes proper dimension' do
-        art_piece.compute_dimensions[:small].should == [0,0]
-      end
-    end
-
-    context 'with negative dimensions' do
-      let(:width) { -100 }
-      it 'computes proper dimension' do
-        art_piece.compute_dimensions[:small].should == [0,0]
-      end
-    end
-
-    context 'with real dimensions' do
-      let(:width) { 1000 }
-      let(:height) { 1500 }
-      it 'computes proper dimension' do
-        art_piece.compute_dimensions[:small].should == [133,200]
-      end
-      its(:aspect_ratio) { should eql 2.0/3.0 }
-      it{ should_not be_portrait }
-    end
-  end
-
   describe "get_new_art" do
     let(:older) {
       olders = 3.times.map{ |idx|

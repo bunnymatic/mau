@@ -153,7 +153,6 @@ class User < ActiveRecord::Base
   def get_profile_image(size = :medium)
     photo? ? photo(size) : ArtistProfileImage.get_path(self, size)
   end
-  alias_method :get_path, :get_profile_image
 
   def get_share_link(urlsafe=false, options = {})
     link = 'http://%s/artists/%s' % [Conf.site_url, self.login]

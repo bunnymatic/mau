@@ -17,7 +17,7 @@ module AddressMixin
   end
 
   def map_link
-    "http://maps.google.com/maps?q=%s" % URI.escape(self.full_address)
+    "http://maps.google.com/maps?q=%s" % URI.escape(self.full_address) if self.full_address
   end
 
   def address_hash
