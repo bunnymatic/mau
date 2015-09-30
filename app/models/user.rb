@@ -138,10 +138,6 @@ class User < ActiveRecord::Base
     c.transition_from_restful_authentication = true
   end
 
-  # attr_accessible :login, :email, :password, :password_confirmation,
-  #  :firstname, :lastname, :url, :reset_code, :email_attrs, :studio_id, :artist_info, :state, :nomdeplume,
-  #  :profile_image, :image_height, :image_width
-
   def active?
     state == 'active'
   end

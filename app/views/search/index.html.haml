@@ -44,7 +44,7 @@
           %h5.block_head Add Keyword(s):
           .block
             = text_field_tag :keywords, @query.query
-            = submit_tag :go, :class => 'pure-button pure-button-secondary'
+            = submit_tag :go, :class => 'pure-button pure-button-secondary', disabled: 'disabled'
           %h5.block_head.trigger
             %span Mediums:
           .block.expandable#medium_chooser.chooser

@@ -21,9 +21,9 @@ describe ArtPieceSerializer do
     end
 
     it 'includes the fields we care about' do
-      %w( id filename title dimensions artist_id
+      %w( id filename title artist_id
           year tags medium
-          image_dimensions image_files artist_name ).each do |expected|
+          image_files artist_name ).each do |expected|
         expect(@ap).to have_key expected
       end
     end
@@ -34,15 +34,6 @@ describe ArtPieceSerializer do
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|
         expect(files[sz]).to eql art_piece.get_path(sz)
-      end
-    end
-
-    it 'includes image dimensions' do
-      sizes = ['cropped_thumb','large','medium','original', 'small','thumb']
-      dimensions = @ap['image_dimensions']
-      expect(dimensions.keys.sort).to eql sizes
-      sizes.each do |sz|
-        expect(dimensions[sz]).to eql art_piece.compute_dimensions[sz]
       end
     end
 

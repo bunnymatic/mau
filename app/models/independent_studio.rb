@@ -9,11 +9,11 @@ class IndependentStudio
 
   attr_reader :studio
 
-  delegate :id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :lat, :lng,  to: :studio
+  delegate :id, :name, :street, :city, :state, :cross_street, :phone, :zip, :lat, :lng,  to: :studio
 
-  class InnerStudio < Struct.new(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image, :lat, :lng )
+  class InnerStudio < Struct.new(:id, :name, :street, :city, :state, :cross_street, :phone, :zip, :profile_image, :lat, :lng )
     def initialize(h)
-      super(*h.values_at(:id, :name, :street, :city, :state, :image_height, :image_width, :cross_street, :phone, :zip, :profile_image, :lat, :lng))
+      super(*h.values_at(:id, :name, :street, :city, :state, :cross_street, :phone, :zip, :profile_image, :lat, :lng))
     end
     def to_param
       name.parameterize
@@ -42,8 +42,6 @@ class IndependentStudio
                                 state: "CA",
                                 zip: '94110',
                                 profile_image: ImageContainer.new("/studiodata/0/profile/independent-studios.jpg"),
-                                image_height: 1,
-                                image_width: 1,
                                 cross_street: nil,
                                 phone: nil,
                                 lat: nil,
