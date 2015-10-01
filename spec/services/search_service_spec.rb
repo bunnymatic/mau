@@ -21,7 +21,7 @@ describe SearchService do
                        os_artist: os_flag)
   }
 
-  before(:all) do
+  before do
     FactoryGirl.create_list(:artist, 3, :with_studio, :with_tagged_art, firstname: 'Firstname', nomdeplume: nil)
     FactoryGirl.create(:artist, nomdeplume: "Interesting", firstname: 'Firstname' )
     FactoryGirl.create(:artist, :active, :with_art, nomdeplume: "Interesting", firstname: 'Firstname')

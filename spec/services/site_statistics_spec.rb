@@ -4,7 +4,7 @@ describe SiteStatistics do
 
   subject(:stats) { SiteStatistics.new }
 
-  before(:all) do
+  before do
     fix_leaky_fixtures
 
     Timecop.freeze
