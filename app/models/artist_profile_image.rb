@@ -5,7 +5,6 @@ class ArtistProfileImage < ProfileImage
     else
       # get path for image of size
       # size should be either "thumb","medium"
-      puts "#{__method__} Hit by ", caller.first(4)
       if artist && artist.profile_image.present?
         dir = "/artistdata/" + artist.id.to_s() + "/profile/"
         fname = File.basename(artist.profile_image)
