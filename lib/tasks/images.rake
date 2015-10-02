@@ -25,7 +25,6 @@ namespace :images do
     end
 
     def get_image_filename(obj)
-      puts "#{obj.class} #{obj.try(:id)}"
       f = PathFinder.new(obj).image_path
       if f && !File.exists?(f)
         f = begin
@@ -61,6 +60,6 @@ namespace :images do
       success = obj.save
       puts "Failed to migrate art piece #{obj.id}" unless success
     end
-    puts "Done migrating #{files.count} files"
+    puts "\nDone migrating #{files.count} files"
   end
 end
