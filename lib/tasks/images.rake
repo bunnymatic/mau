@@ -20,24 +20,33 @@ namespace :images do
                else
                  nil
                end
-        if path && !path.to_s.start_with?(Rails.root.to_s)
-          File.join(Rails.root, path)
-        elsif path
-          path
-        end
+        File.expand_path(path) if path
       end
     end
 
     def get_image_filename(obj)
+      puts "#{obj.class} #{obj.try(:id)}"
       f = PathFinder.new(obj).image_path
-      f if f && File.exists?(f)
+      if f && !File.exists?(f)
+        f = begin
+              if /artistdata/ =~ f && /public/ !~ f
+                f.gsub /artistdata\//, "public/artistdata/"
+              elsif /studiodata/ =~ f && /public/ !~ f
+                f.gsub /studiodata\//, "public/studiodata/"
+              end
+            end
+        if !File.exists?(f)
+          return nil
+        end
+      end
+      f
     end
 
     art_pieces = ArtPiece.joins(:artist).where(users: { state: 'active' }).readonly(false)
     files = art_pieces.map {|ap| [ap, get_image_filename(ap)]}
 
     studios = Studio.all
-    files += studios.map {|ap| [ap, get_image_filename(ap)]}
+    files += studios.map {|s| [s, get_image_filename(s)]}
 
     artists = Artist.active.all
     files += artists.map {|a| [a, get_image_filename(a)]}
