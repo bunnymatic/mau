@@ -40,7 +40,7 @@ class StudiosController < ApplicationController
   end
 
   def load_studio
-    @studio ||= StudioService.get_studio_from_id(params[:id])
+    @studio ||= StudioService.find(params[:id])
   end
 
 end
