@@ -5,7 +5,7 @@ module MauImage
 
     SIZES = {
       :thumb => [100, 100, 't_'],
-      :cropped_thumb => [127, 127, 'ct_'],
+      #:cropped_thumb => [127, 127, 'ct_'],
       :small => [200, 200, 's_'],
       :medium => [ 400, 400, 'm_' ],
       :large => [ 800, 800, 'l_' ],

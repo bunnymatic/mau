@@ -1,5 +1,5 @@
 class StudioSerializer < MauSerializer
-  attributes :id, :name, :street_address, :city, :map_url, :url
+  attributes :id, :name, :street_address, :city, :map_url, :url, :artists
 
   def url
     unless object.is_a? IndependentStudio
