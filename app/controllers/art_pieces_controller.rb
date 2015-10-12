@@ -21,15 +21,14 @@ class ArtPiecesController < ApplicationController
   end
 
   def show
-    set_page_info_from_art_piece
-
     respond_to do |format|
       format.html {
+        set_page_info_from_art_piece
         @art_piece = ArtPieceHtmlPresenter.new(@art_piece)
         render action: 'show'
       }
       format.json {
-        render json: @art_piece
+        redirect_to api_v2_art_piece_path(@art_piece, format: :json)
       }
     end
 
