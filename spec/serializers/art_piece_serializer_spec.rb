@@ -29,7 +29,7 @@ describe ArtPieceSerializer do
     end
 
     it 'includes paths to the images' do
-      sizes = ['cropped_thumb','large','medium','original', 'small','thumb']
+      sizes = ['large','medium','original', 'small','thumb']
       files = @ap['image_files']
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|

@@ -7,7 +7,7 @@ describe MauImage::ImageSize do
     let(:all) { MauImage::ImageSize.all }
 
     it 'returns allowed image sizes with details' do
-      all.should have(6).items
+      all.should have(5).items
     end
   end
 
@@ -83,4 +83,3 @@ describe MauImage::ImageSize do
     end
   end
 end
-

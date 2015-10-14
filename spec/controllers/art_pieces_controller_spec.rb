@@ -21,7 +21,6 @@ describe ArtPiecesController do
       before do
         get :index, format: 'json', artist_id: artist.id
       end
-      it_should_behave_like 'successful json'
       it 'returns art from active artists' do
         j = JSON.parse(response.body)
         j.count.should eql artist.art_pieces.count
@@ -91,7 +90,7 @@ describe ArtPiecesController do
         get :show, id: art_piece.id, format: :json
       end
 
-      it_should_behave_like 'successful json'
+      it { should redirect_to api_v2_art_piece_path(art_piece.id, format: :json) }
     end
   end
 

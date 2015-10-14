@@ -16,14 +16,6 @@ describe ArtistProfileImage do
         (ArtistProfileImage.get_path(artist, size)).should eql expected_path
       end
     end
-    context 'cropped_thumb' do
-      let(:size) { :cropped_thumb }
-      let(:prefix) { 'ct_' }
-      it 'returns the right path' do
-        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
-      end
-    end
-
     context 'small' do
       let(:size) { :small }
       let(:prefix) { 's_' }
