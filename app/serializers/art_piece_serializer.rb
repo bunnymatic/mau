@@ -4,7 +4,7 @@ class ArtPieceSerializer < MauSerializer
   include HtmlHelper
 
   def artist
-    ArtistNestedSerializer.new(object.artist, include: :studio)
+    object.artist.try(:id)
   end
 
   def medium
