@@ -3,6 +3,10 @@ class ArtPieceSerializer < MauSerializer
 
   include HtmlHelper
 
+  def artist
+    ArtistNestedSerializer.new(object.artist, include: :studio)
+  end
+
   def medium
     @medium ||= object.try(:medium).try(:attributes)
   end
@@ -18,7 +22,7 @@ class ArtPieceSerializer < MauSerializer
   end
 
   def artist_name
-    @artist_name ||= artist.get_name(true)
+    @artist_name ||= object.artist.get_name(true)
   end
 
   def favorites_count

@@ -1,5 +1,10 @@
 class StudioSerializer < MauSerializer
+
   attributes :id, :name, :street_address, :city, :map_url, :url, :artists
+
+  def artists
+    object.artists.map{|a| ArtistSerializer.new(a)}
+  end
 
   def artists
     object.artists.map{|a| Hash[[:id, :slug, :full_name, :firstname, :lastname].map{|k| [k, a.send(k)]}]}
