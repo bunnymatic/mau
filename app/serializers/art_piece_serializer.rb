@@ -1,5 +1,5 @@
 class ArtPieceSerializer < MauSerializer
-  attributes :id, :image_urls, :artist, :medium, :tags, :artist_name, :favorites_count, :year, :dimensions, :filename, :title
+  attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count, :image_files, :year, :dimensions, :filename, :title, :artist_id
 
   include HtmlHelper
 

@@ -1,6 +1,5 @@
 class StudioSerializer < MauSerializer
-
-  attributes :id, :name, :street_address, :city, :map_url, :url, :artists
+  attributes :id, :name, :street_address, :city, :map_url, :url, :artists, :slug
 
   def artists
     object.artists.map{|a| ArtistSerializer.new(a)}
