@@ -1,5 +1,5 @@
 class ArtPieceSerializer < MauSerializer
-  attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count, :image_files, :year, :dimensions, :filename, :title, :artist_id
+  attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count, :image_files, :year, :dimensions, :filename, :title, :artist_id, :image_urls
 
   include HtmlHelper
 
@@ -23,6 +23,10 @@ class ArtPieceSerializer < MauSerializer
 
   def artist_name
     @artist_name ||= object.artist.get_name(true)
+  end
+
+  def image_files
+    @files ||= object.get_paths
   end
 
   def favorites_count
