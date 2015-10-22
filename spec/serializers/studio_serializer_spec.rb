@@ -23,8 +23,8 @@ describe StudioSerializer do
       parsed['studio']['map_url'].should eql studio.map_link
     end
 
-    it "includes only artist ids" do
-      expect(parsed['studio']['artists'].map(&:keys).flatten.uniq).to eql ['id']
+    it "includes trimmed version of artists" do
+      expect(parsed['studio']['artists'].map(&:keys).flatten.uniq).to match_array(%w|id firstname lastname slug full_name|)
     end
 
   end
