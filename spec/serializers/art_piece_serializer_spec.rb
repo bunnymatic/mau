@@ -23,14 +23,14 @@ describe ArtPieceSerializer do
     it 'includes the fields we care about' do
       %w( id filename title artist_id
           year tags medium
-          image_files artist_name ).each do |expected|
+          image_urls artist_name ).each do |expected|
         expect(@ap).to have_key expected
       end
     end
 
     it 'includes paths to the images' do
-      sizes = ['large','medium','original', 'small','thumb']
-      files = @ap['image_files']
+      sizes = ['large','medium', 'original', 'small','thumb']
+      files = @ap['image_urls']
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|
         expect(files[sz]).to eql art_piece.get_path(sz)
