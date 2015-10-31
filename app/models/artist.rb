@@ -53,18 +53,19 @@ require 'qr4r'
 
 class Artist < User
   # thanks, http://www.gps-coordinates.net/
+  # order is important for the js overlay
   BOUNDS = {
     'NW' => [
-      37.769391721310974, -122.430
-    ],
-    'NE' => [
-      37.77000234756857, -122.404
+      37.770, -122.430
     ],
     'SW' => [
       37.747, -122.430
     ],
     'SE' => [
       37.747, -122.404
+    ],
+    'NE' => [
+      37.770, -122.404
     ]
   }.freeze
 

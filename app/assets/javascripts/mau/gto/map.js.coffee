@@ -20,7 +20,6 @@ $ ->
         markers = handler.addMarkers(_.compact(MAU.map_markers));
         handler.bounds.extendWith(markers);
         polygons = handler.addPolygons([MAU.map_bounds], { strokeColor: "#36828F3", strokeOpacity: 0.1, fillColor: "#c39f06", fillOpacity: 0.1 });
-        handler.bounds.extendWith(polygons);
         handler.fitMapToBounds();
       )
 

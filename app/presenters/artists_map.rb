@@ -28,7 +28,7 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def bounds
-    Artist::BOUNDS.values.sort_by(&:first).map{|bound| Hash[[:lat, :lng].zip(bound)]}.to_json
+    Artist::BOUNDS.values.map{|bound| Hash[[:lat, :lng].zip(bound)]}.to_json
   end
 
   def map_data
