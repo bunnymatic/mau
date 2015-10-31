@@ -1,6 +1,8 @@
 - content_for :extra_javascript do
   javascript:
+    var MAU = window.MAU = window.MAU || {};
     MAU.map_markers = #{@map_info.map_data.html_safe};
+    MAU.map_bounds = #{@map_info.bounds.html_safe};
 
   = javascript_include_tag "//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry"
   = javascript_include_tag "//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.16/src/markerclusterer_packed.js"
