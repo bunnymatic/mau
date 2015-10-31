@@ -27,6 +27,10 @@ class ArtistsMap < ArtistsPresenter
     end
   end
 
+  def bounds
+    Artist::BOUNDS.values.sort_by(&:first).map{|bound| Hash[[:lat, :lng].zip(bound)]}.to_json
+  end
+
   def map_data
     @map_data ||= Gmaps4rails.build_markers(with_addresses) do |artist, marker|
       addr = artist.artist.address_hash
@@ -38,6 +42,3 @@ class ArtistsMap < ArtistsPresenter
   end
 
 end
-
-
-
