@@ -41,7 +41,7 @@ end
 
 When(/^I check the first studio filter$/) do
   within '#studio_chooser' do
-    check Studio.first.name
+    check Studio.by_position.first.name
   end
 end
 

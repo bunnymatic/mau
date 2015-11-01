@@ -51,7 +51,7 @@ class Studio < ActiveRecord::Base
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
 
   def self.by_position
-    order(:position)
+    order('position, lower(name)')
   end
 
   SORT_BY_NAME = lambda{|a,b|

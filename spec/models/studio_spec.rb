@@ -55,4 +55,19 @@ describe Studio do
     end
   end
 
+  describe "by_position" do
+    it "sorts by position" do
+      create_list(:studio,3)
+      expect(Studio.by_position.map(&:position)).to be_monotonically_increasing
+    end
+    it "sorts by name if position is the same" do
+      create(:studio, name: 'Zed', position: 5)
+      create(:studio, name: 'zal', position: 5)
+      create(:studio, name: 'Alp', position: 5)
+      create(:studio, name: 'bor', position: 5)
+      expect(Studio.by_position.map{|s| s.name}).to eql ['Alp', 'bor', 'zal', 'Zed']
+    end
+
+  end
+
 end
