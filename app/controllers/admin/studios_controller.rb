@@ -9,7 +9,7 @@ module Admin
     skip_before_filter :verify_authenticity_token, :only => [:unaffiliate_artist]
 
     def index
-      @studios = StudioService.all
+      @studios = StudioService.all.map{|s| StudioPresenter.new(s)}
     end
 
     def new
