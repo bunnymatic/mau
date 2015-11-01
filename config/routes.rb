@@ -165,10 +165,11 @@ Mau::Application.routes.draw do
     end
 
     resources :studios, only: [:index, :new, :edit, :create, :update, :destroy] do
+      collection do
+        post :reorder
+      end
       member do
         post :unaffiliate_artist
-        # post :upload_profile
-        # get :add_profile
       end
     end
 

@@ -45,7 +45,7 @@ class ArtistsController < ApplicationController
       return
     end
     @user = ArtistPresenter.new(current_artist)
-    @studios = Studio.all
+    @studios = StudioService.all
     @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
   end
@@ -178,7 +178,7 @@ class ArtistsController < ApplicationController
         redirect_to edit_artist_url(current_user), flash: flash
       else
         @user = ArtistPresenter.new(current_artist)
-        @studios = Studio.all
+        @studios = StudioService.all
         render :edit
       end
     end

@@ -1,0 +1,24 @@
+.pure-g
+  .pure-u-1-1.padded-content.header
+    h2.title
+      | Studios (#{@studios.count})
+      .admin-table__controls
+        - if current_user.is_admin?
+          = link_to new_admin_studio_path, title: 'add studio' do
+            = fa_icon "plus-circle"
+      = render partial: '/flash_notice_error'
+    ul.js-tabs.tabs.tabs__horizontal
+      li.active
+        a href="#all" title="All" data-toggle="tab"
+          i.fa.fa-home
+          | All
+      li
+        a href="#arrange" title="Ordering" data-toggle="tab"
+          i.fa.fa-list
+          | Arrange Order
+
+  .pure-u-1-1.tab-content.padded-content
+    #all.tab-pane.active
+      = render "studios_table", studios: @studios
+    #arrange.tab-pane
+      = render "arrange_studios_list", studios: @studios

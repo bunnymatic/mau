@@ -1,0 +1,36 @@
+/ expects studios as list of studio presenters
+table.js-data-tables.pure-table.pure-table-striped#studios_index
+  thead
+    tr
+      th Logo
+      th Name
+      th Address
+      th Cross St
+      th # artists
+      th Website
+      th
+  tbody
+    - studios.each do |studio|
+      tr
+        td.profile-image
+          - if studio.profile_image?
+            img src=studio.get_profile_image('thumb')
+        td
+          = link_to studio.name, studio_path(studio)
+        td = studio.street
+        td = studio.cross_street
+        td = studio.artists.active.count.to_s()
+        td
+          a target="_blank" href=studio.url = studio.url
+        td.admin-controls
+          .show.btn
+            = link_to studio_path(studio), title: 'Show' do
+              = fa_icon 'eye-open'
+          .edit.btn
+            - if current_user.is_admin? || current_user.manages?(studio)
+              = link_to edit_admin_studio_path(studio), title: 'Edit' do
+                = fa_icon 'edit'
+          .remove.btn
+            - if current_user.is_admin? && !(studio.is_a? IndependentStudio)
+              = link_to studio, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
+                = fa_icon 'remove'

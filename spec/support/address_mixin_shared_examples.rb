@@ -8,8 +8,6 @@ shared_examples_for AddressMixin do
       :street => Faker::Address.street_name,
       :city => Faker::Address.city,
       :zip => Faker::Address.zip_code,
-      :lat => rand(180) - 90,
-      :lng => rand(360) - 180
     }
   }
   let(:with_state) {
@@ -57,8 +55,8 @@ shared_examples_for AddressMixin do
       Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).
         with(with_address.full_address).
         and_return((double("Geokit::GeoLoc", :success => true,
-                           :lat => with_address.lat.to_f,
-                           :lng => with_address.lng.to_f)))
+                           :lat => 9.0,
+                           :lng => 10.0)))
       with_address.send(:compute_geocode).should eql [with_address.lat.to_f, with_address.lng.to_f]
     end
   end

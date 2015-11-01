@@ -75,8 +75,6 @@ module Mau
 
     config.i18n.enforce_available_locales = true
 
-    config.skylight.environments << 'acceptance'
-
     config.filter_parameters += [:password, :password_confirmation]
 
     # move to strong params

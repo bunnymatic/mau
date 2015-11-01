@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150928024409) do
+ActiveRecord::Schema.define(:version => 20151031184638) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -227,6 +227,13 @@ ActiveRecord::Schema.define(:version => 20150928024409) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "promoted_events", :force => true do |t|
+    t.integer  "event_id"
+    t.datetime "publish_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "role"
     t.datetime "created_at"
@@ -265,6 +272,7 @@ ActiveRecord::Schema.define(:version => 20150928024409) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
+    t.integer  "position",           :default => 1000
   end
 
   add_index "studios", ["slug"], :name => "index_studios_on_slug", :unique => true

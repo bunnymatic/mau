@@ -48,6 +48,7 @@ module AddressMixin
         if result.try(:success)
           self.lat = result.lat
           self.lng = result.lng
+          [self.lat, self.lng]
         else
           #errors.add(:street, "Unable to Geocode your address.")
         end

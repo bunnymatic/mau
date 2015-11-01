@@ -7,14 +7,12 @@ class StudioService
 
   MIN_ARTISTS_PER_STUDIO = (Conf.min_artists_per_studio || 3)
 
+  def self.all
+    Studio.by_position.all
+  end
+
   def self.all_studios
-    Studio.all.select do |s|
-      if s.id != 0 && s.name == 'Independent Studios'
-        false
-      else
-        s.artists.active.count >= MIN_ARTISTS_PER_STUDIO
-      end
-    end
+    all.select { |s| s.artists.active.count >= MIN_ARTISTS_PER_STUDIO }
   end
 
   def self.get_studio_from_id(_id)
@@ -30,4 +28,3 @@ class StudioService
   end
 
 end
-

@@ -36,7 +36,7 @@ class StudiosController < ApplicationController
   protected
 
   def load_studio_list
-    @studio_list = StudioService.all_studios.sort(&Studio::SORT_BY_NAME)
+    @studio_list = StudioService.all_studios
   end
 
   def load_studio

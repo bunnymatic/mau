@@ -5,6 +5,7 @@
 #= require moment
 #= require_tree ./admin
 
+
 angular.module('MauAdminApp', [
   'templates',
   'ngResource',

@@ -1,0 +1,32 @@
+.admin.studios {
+  .tabs li {
+    i.fa { margin-right: 8px; }
+  }
+
+  tr {
+    .profile-image {
+      height: 75px;
+      img {
+        height: 100%;
+      }
+    }
+  }
+
+  #js-studio-arranger {
+    margin: auto;
+    td {
+      cursor: grab;
+
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+    }
+  }
+  .tab-content#arrange {
+    margin-top: 20px;
+  }
+}
