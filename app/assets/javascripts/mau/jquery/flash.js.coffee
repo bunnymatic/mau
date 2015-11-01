@@ -7,9 +7,9 @@ MAU.Flash = class Flash
   clear: ->
     jQuery(".flash, .flash__notice , ##{@wrapper}").remove();
 
-  show: (msgs, container) ->
+  show: (options, container) ->
     @clear()
-    $w = @construct(msgs);
+    $w = @construct(options);
     return unless $w
     container ||= '.js-main-container'
     c = jQuery(container).first();
@@ -18,21 +18,20 @@ MAU.Flash = class Flash
     jQuery(c).prepend($w);
     $w.find('.close-btn').bind 'click', (ev) ->
       ev.preventDefault()
- 	    $w.hide()
+      $w.hide()
     setTimeout () ->
       $w.hide()
     ,
-      10000
+      @timeout
     $w.show();
 
-  construct: (msgs) ->
-    err = msgs.error
-    notice = msgs.notice
+  construct: (options) ->
+    @timeout = options.timeout || 10000
     contents = jQuery('<div>')
     $close = jQuery('<i>', {'class':'flash__close fa fa-icon fa-times-circle-o'})
     for k in ['error','notice']
-      if (msgs[k])
-        msg = msgs[k];
+      if (options[k])
+        msg = options[k];
         clzs = ["flash"];
         clzs.push "flash__error" if k == 'error'
         clzs.push "flash__notice" if k == 'notice'

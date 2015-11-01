@@ -5,11 +5,11 @@ module Admin
     before_filter :admin_required, only: [:new, :create, :destroy]
     before_filter :studio_manager_required, only: [:edit, :update,
                                                    :unaffiliate_artist]
-    before_filter :load_studio, except: [:new, :index, :create]
+    before_filter :load_studio, except: [:new, :index, :create, :reorder]
     skip_before_filter :verify_authenticity_token, :only => [:unaffiliate_artist]
 
     def index
-      @studios = Studio.all
+      @studios = StudioService.all
     end
 
     def new
@@ -29,6 +29,17 @@ module Admin
         render 'new'
       end
 
+    end
+
+    def reorder
+      studioIds = reorder_studio_params
+      studiosLut = Hash[ Studio.find_all_by_slug(studioIds).map{|s| [s.slug, s]} ]
+      ActiveRecord::Base.transaction do
+        studioIds.each_with_index do |slug,idx|
+          studiosLut[slug].update_attribute :position, idx
+        end
+      end
+      render json: {status: :ok}
     end
 
     # PUT /studios/1
@@ -69,34 +80,6 @@ module Admin
       redirect_to edit_admin_studio_path(@studio), flash: flash_opts
     end
 
-    # def add_profile
-    # end
-
-    # def upload_profile
-    #   if commit_is_cancel
-    #     redirect_to(@studio)
-    #     return
-    #   end
-
-    #   studio_id = @studio.id
-    #   upload = params[:upload]
-    #   unless upload.present?
-    #     flash[:error] = "You must provide a file."
-    #     redirect_to add_profile_admin_studio_path(@studio) and return
-    #   end
-
-    #   begin
-    #     StudioImage.new(@studio).save upload
-    #     flash[:notice] = 'Studio Image has been updated.'
-    #     redirect_to @studio and return
-    #   rescue
-    #     logger.error("Failed to upload %s" % $!)
-    #     flash[:error] = "%s" % $!
-    #     redirect_to add_profile_admin_studio_path(@studio) and return
-    #   end
-    # end
-
-
     def studio_manager_required
       unless (is_manager? && (current_user.studio.to_param == params[:id].to_s)) || is_admin?
         redirect_to request.referrer, flash: {error: "You are not a manager of that studio."}
@@ -106,6 +89,10 @@ module Admin
     private
     def studio_params
       params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :lat, :lng, :cross_street, :phone, :photo )
+    end
+
+    def reorder_studio_params
+      params.require(:studios)
     end
 
     def load_studio

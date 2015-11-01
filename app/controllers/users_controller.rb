@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   def new
     artist = Artist.new
     fan = MAUFan.new
-    @studios = Studio.all
+    @studios = StudioService.all
     type = params[:type] || user_attrs[:type]
     @type = ['Artist','MAUFan'].include?(type) ? type : 'Artist'
     @user = (@type == 'MAUFan') ? fan : artist
@@ -257,7 +257,7 @@ class UsersController < ApplicationController
       " Please correct these issues or contact the webmaster (link below), if you continue to have problems."
     ].flatten.join("<br/>")
     flash.now[:error] = msg.html_safe
-    @studios = Studio.all
+    @studios = StudioService.all
     @user.valid?
     render :action => 'new'
   end

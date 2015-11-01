@@ -1,0 +1,10 @@
+/ expects studios as list of studio presenters
+table#js-studio-arranger.pure-table.pure-table-striped
+  tbody
+    - studios.each do |studio|
+      tr data-studio-id=studio.slug
+        td
+          i.fa.fa-ellipsis-v
+        td = studio.name
+        td = studio.street
+        td = "#{studio.artists.active.count} artists"

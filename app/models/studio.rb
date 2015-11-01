@@ -21,6 +21,7 @@
 #  photo_content_type :string(255)
 #  photo_file_size    :integer
 #  photo_updated_at   :datetime
+#  position           :integer          default(1000)
 #
 # Indexes
 #
@@ -49,6 +50,9 @@ class Studio < ActiveRecord::Base
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
 
+  def self.by_position
+    order(:position)
+  end
 
   SORT_BY_NAME = lambda{|a,b|
       if !a || a.id == 0

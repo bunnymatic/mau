@@ -61,14 +61,13 @@ gem 'underscore-string-rails'
 gem 'jbuilder' #non-html output (rss, atom)
 
 gem 'newrelic_rpm' #moitoring
-gem 'skylight' #monitoring
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-angular'
   gem 'rails-assets-angular-resource'
   gem 'rails-assets-angular-sanitize'
   gem 'rails-assets-angular-animate'
-  gem 'rails-assets-angular-ui-utils'
+  gem 'rails-assets-angular-ui-utils', "~> 0.2.3"
   gem 'rails-assets-moment'
   gem 'rails-assets-lodash'
   gem 'rails-assets-colorbox' # lightbox plugin
