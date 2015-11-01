@@ -30,7 +30,7 @@ Then(/^I see the first studio has the street address "(.*?)"$/) do |street_addre
 end
 
 Then(/^I see the first studio page/) do
-  expect(current_path).to eql studio_path(Studio.first.to_param)
+  expect(current_path).to eql studio_path(Studio.by_position.first.to_param)
   expect(page).to have_content Studio.name
 end
 
