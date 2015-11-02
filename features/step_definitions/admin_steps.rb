@@ -55,3 +55,7 @@ end
 Then(/^I see that the first artist is suspended$/) do
   expect(@first_artist.reload).to be_suspended
 end
+
+When(/^I edit my studio$/) do
+  visit edit_admin_studio_path( (@manager || @user).studio )
+end

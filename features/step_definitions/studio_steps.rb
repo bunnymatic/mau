@@ -2,16 +2,13 @@ Then(/^I see the admin studios list$/) do
   s = Studio.last
   expect(page).to have_content s.name
   expect(page).to have_link('Show', href: studio_path(s))
-  expect(page).to have_link('Edit', href: edit_admin_studio_path(s))
 end
 
-Then(/^I see update studio links for things i can manage/) do
+Then(/^I see update studio links for things I can manage/) do
   s = @manager.studio
   expect(Studio.all).to have_at_least(2).studios
   expect(page).to have_link('Edit', href: edit_admin_studio_path(s))
-  expect(page).to have_link('Edit', count: 1)
   expect(page).to have_link('Show', count: Studio.all.count)
-
 end
 
 When(/^I edit the first studio$/) do
@@ -32,6 +29,12 @@ end
 Then(/^I see the first studio page/) do
   expect(current_path).to eql studio_path(Studio.by_position.first.to_param)
   expect(page).to have_content Studio.name
+end
+
+Then(/^I see the studio page for "(.*)"/) do |studio_slug|
+  s = Studio.find(studio_slug)
+  expect(current_path).to eql studio_path(s)
+  expect(page).to have_content s.name
 end
 
 Then /^I see that some studios are participating in open studios$/ do

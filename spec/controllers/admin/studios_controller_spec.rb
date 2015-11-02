@@ -122,34 +122,12 @@ describe Admin::StudiosController do
   end
 
   describe 'edit' do
-    render_views
     context "as a manager" do
       before do
         login_as manager
         get :edit, id: manager.studio.to_param
       end
       it { expect(response).to be_success }
-      it 'shows the studio info in a form' do
-        assert_select 'form input#studio_url' do |tag|
-          tag.first.attributes['value'].should eql studio.url
-        end
-        assert_select 'form input#studio_name' do |tag|
-          tag.first.attributes['value'].should eql html_encode(manager.studio.name, :hexadecimal)
-        end
-        assert_select 'form input[type=submit]' do |tag|
-          tag.first.attributes['value'].should eql 'Update Studio'
-        end
-      end
-      it 'shows the logo' do
-        assert_select '.block.image img'
-      end
-      it 'lists the active artists' do
-        assert_select "li.artist", count: studio.artists.active.count
-      end
-      it 'includes unaffiliate links for each artist thats not the current user' do
-        ct = studio.artists.active.reject{|a| a == manager}.length
-        assert_select "li.artist a", text: 'X', count: ct
-      end
     end
   end
 
@@ -201,7 +179,6 @@ describe Admin::StudiosController do
   end
 
   describe 'index' do
-    render_views
     describe 'unauthorized' do
       before do
         get :index
@@ -215,51 +192,7 @@ describe Admin::StudiosController do
       end
       it_should_behave_like 'not authorized'
     end
-    describe "as a manager" do
-      before do
-        login_as manager
-        get :index
-      end
-      it { expect(response).to be_success }
-      it 'shows a table of all studios' do
-        Studio.all.each do |s|
-          assert_select "table tr td a[href=#{studio_path(s)}]", html_encode(s.name, :hexadecimal)
-          assert_select "table tr td a[href=#{s.url}]" if s.url && s.url.present?
-        end
-      end
-    end
 
-    context 'as manager' do
-      before do
-        login_as manager
-        @my_studio = manager.studio
-        get :index
-      end
-      it 'has no destroy links' do
-        expect(css_select("table tr td a i.icon-remove")).to be_empty
-      end
-      it 'shows an edit link for my studio only' do
-        assert_select "table tr td a[href=#{edit_admin_studio_path(@my_studio)}]"
-        assert_select("table tr td a .fa-edit", count: 1)
-      end
-      it 'has no link to add a studio' do
-        expect(css_select("table a[href=#{new_admin_studio_path}]")).to be_empty
-      end
-    end
-    context 'as admin' do
-      before do
-        login_as(admin)
-        get :index
-      end
-      it 'shows an edit and destroy links for all studios except indy' do
-        expected_count = Studio.count
-        assert_select("table tr td a .fa-edit", count: expected_count)
-        assert_select("table tr td a[data-method=delete] .fa-remove", count: expected_count)
-      end
-      it 'includes a link to add a studio' do
-        assert_select "a[href=#{new_admin_studio_path}]"
-      end
-    end
   end
 
 end
