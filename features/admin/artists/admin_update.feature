@@ -9,11 +9,16 @@ Background:
   Given there are future open studios events
   And an "admin" account has been created
   And I login
+  When I click on "artists" in the admin menu
 
 Scenario: Showing the artists
-  When I click on "artists" in the admin menu
   Then I see the admin artists list
+  And I see everyone who is "pending"
+  And I see everyone who is "suspended"
+  And I see everyone who is "deleted"
 
+
+Scenario: Setting open studios for artists
   When I set all artists to do open studios
   Then I see that all artists are doing open studios
   And I see the admin artists list

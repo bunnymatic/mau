@@ -28,6 +28,11 @@ Given /there are artists with art in the system$/ do
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
+Given /there are artists with art in my studio$/ do
+  studio = (@manager || @artist || @user).studio
+  FactoryGirl.create_list(:artist, 2, :with_art, studio: studio, :number_of_art_pieces => 1)
+end
+
 Given /the following artists with art are in the system:/ do |table|
   @artists = []
   table.hashes.each do |artist_params|

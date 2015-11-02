@@ -27,8 +27,15 @@ Then(/^I see the first studio has the street address "(.*?)"$/) do |street_addre
 end
 
 Then(/^I see the first studio page/) do
-  expect(current_path).to eql studio_path(Studio.by_position.first.to_param)
-  expect(page).to have_content Studio.name
+  studio = Studio.by_position.first
+  expect(current_path).to eql studio_path(studio.to_param)
+  expect(page).to have_content studio.name
+end
+
+Then /^I see the studio page for me$/ do
+  s = (@manager || @artist || @user).studio
+  expect(current_path).to eql studio_path(s)
+  expect(page).to have_content s.name
 end
 
 Then(/^I see the studio page for "(.*)"/) do |studio_slug|
