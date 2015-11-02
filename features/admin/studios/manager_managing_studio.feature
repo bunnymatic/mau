@@ -18,9 +18,7 @@ Scenario: Updating a studio address
 Scenario: Removing an artist from a studio
   When I edit my studio
   And I remove the first artist from the studio
-  And show me the page
   When I click on "studios" in the admin menu
   Then I see the admin studios list
   When I edit my studio
-  And show me the page
   Then I see that artist is no longer part of the studio list
