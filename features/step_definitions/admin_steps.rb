@@ -35,11 +35,11 @@ Then /^I see that all artists are doing open studios$/ do
 end
 
 When(/^I remove the first artist from the studio$/) do
-  li = all('.artists.block li').first
-  artist_id = li["data-artist"]
+  anchor = all('a.unaffiliate').first
+  artist_id = anchor['href'].split("?").last.split("=").last
   @unaffiliated_artist = Artist.find(artist_id)
   expect(page).to have_content @unaffiliated_artist.full_name
-  all('a.unaffiliate').first.click
+  anchor.click
 end
 
 Then(/^I see that artist is no longer part of the studio list$/) do
@@ -54,4 +54,12 @@ end
 
 Then(/^I see that the first artist is suspended$/) do
   expect(@first_artist.reload).to be_suspended
+end
+
+When(/^I edit my studio$/) do
+  visit edit_admin_studio_path( (@manager || @user).studio )
+end
+
+Then /^I can see everyone who is "([^"]*)"$/ do |artist_state|
+  expect(page).to have_css "table tr.#{artist_state}", count: Artist.send(artist_state).count
 end

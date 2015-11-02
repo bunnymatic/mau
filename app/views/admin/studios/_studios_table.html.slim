@@ -28,7 +28,7 @@ table.js-data-tables.pure-table.pure-table-striped#studios_index
             = link_to studio.studio_path, title: 'Show' do
               = fa_icon 'eye-open'
           .edit.btn
-            - if current_user.is_admin? || current_user.manages?(studio)
+            - if current_user.is_admin? || current_user.manages?(studio.studio)
               = link_to edit_admin_studio_path(studio.studio), title: 'Edit' do
                 = fa_icon 'edit'
           .remove.btn
