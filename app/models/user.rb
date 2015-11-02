@@ -96,6 +96,8 @@ class User < ActiveRecord::Base
   scope :active, where(state: 'active')
   scope :not_active, where("state <> 'active'")
   scope :pending, where(state: 'pending')
+  scope :suspended, where(state: 'suspended')
+  scope :deleted, where(state: 'deleted')
 
   def self.find_by_username_or_email(login_string)
     User.find_by_login(login_string) || User.find_by_email(login_string)

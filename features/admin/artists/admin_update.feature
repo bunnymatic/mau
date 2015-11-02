@@ -17,7 +17,6 @@ Scenario: Showing the artists
   And I see everyone who is "suspended"
   And I see everyone who is "deleted"
 
-
 Scenario: Setting open studios for artists
   When I set all artists to do open studios
   Then I see that all artists are doing open studios

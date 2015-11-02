@@ -46,26 +46,6 @@ describe Admin::ArtistsController do
           it 'renders a csv export link' do
             assert_select('a.export-csv', /Export/)
           end
-          it 'renders an update os status button' do
-            assert_select('button.update-artists', /update os status/)
-          end
-          it 'renders .pending rows for all pending artists' do
-            assert_select('tr.pending', count: Artist.pending.count)
-          end
-          it 'renders .suspended rows for all suspended artists' do
-            assert_select('tr.suspended', count: Artist.all.select{|s| s.state == 'suspended'}.count)
-          end
-          it 'renders .deleted rows for all deleted artists' do
-            assert_select('tr.deleted', count: Artist.all.select{|s| s.state == 'deleted'}.count)
-          end
-          it 'renders created_at date for all pending artists' do
-            Artist.all.select{|s| s.state == 'pending'}.each do |a|
-              assert_select('tr.pending td')
-            end
-          end
-          it 'renders .participating rows for all pending artists' do
-            assert_select('tr.participating', count: Artist.all.select{|a| a.os_participation[current_os.key]}.count)
-          end
           it 'renders activation link for inactive artists' do
             activation_url = activate_url(activation_code: pending.activation_code)
             assert_select("tr.pending a[href=#{artist_path(pending)}]")

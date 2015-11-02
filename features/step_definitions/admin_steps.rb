@@ -60,6 +60,6 @@ When(/^I edit my studio$/) do
   visit edit_admin_studio_path( (@manager || @user).studio )
 end
 
-Then /^I can see everyone who is "([^"]*)"$/ do |artist_state|
+Then /^I see everyone who is "([^"]*)"$/ do |artist_state|
   expect(page).to have_css "table tr.#{artist_state}", count: Artist.send(artist_state).count
 end
