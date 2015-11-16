@@ -12,10 +12,6 @@ class ArtPieceImage < ImageFile
     @art_piece = art_piece
   end
 
-  def valid?
-    @valid ||= (art_piece && (art_piece.is_a? ArtPiece) && artist && filename.present?)
-  end
-
   def image_dir
     @image_dir ||= artist_image_dir(artist)
   end
@@ -27,8 +23,8 @@ class ArtPieceImage < ImageFile
   def paths
     @paths ||= Hash[MauImage::ImageSize.allowed_sizes.map do |kk|
                       path = self.path kk.to_s
-                      [kk, path]
-                    end
+                      [kk, path] if path
+                    end.reject{|k,v| v.nil?}
                    ]
   end
 
@@ -36,9 +32,7 @@ class ArtPieceImage < ImageFile
     if art_piece.photo?
       return art_piece.photo(size)
     end
-
-    return MISSING_ART_PIECE if !valid?
-
+    return unless filename
     fname = File.basename(filename)
     path = artist_image_dir(artist)
     ImageFile.get_path(path, size, fname)
