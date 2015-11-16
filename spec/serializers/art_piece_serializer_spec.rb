@@ -33,7 +33,7 @@ describe ArtPieceSerializer do
       files = @ap['image_urls']
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|
-        expect(files[sz]).to eql art_piece.get_path(sz)
+        expect(files[sz]).to include (art_piece.photo(sz) || art_piece.get_path(sz))
       end
     end
 
