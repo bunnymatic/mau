@@ -90,7 +90,7 @@ describe SearchService do
     let(:keywords) { " " + artist.lastname + "  " }
     its(:search) { should have_at_least(1).item }
     it { expect(results.first).to be_a_kind_of ArtPiece }
-    it { expect(results.map(&:artist).uniq).to eql [artist] }
+    it { expect(results.map(&:artist).uniq).to include artist }
   end
 
   context "full name with capitalization" do
