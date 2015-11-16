@@ -23,7 +23,7 @@ class OpenStudiosEvent < ActiveRecord::Base
   validates :end_date, presence: true
   validate :end_date_is_after_start_date
 
-  has_attached_file :logo, styles: { square: "240x240#" }
+  has_attached_file :logo, styles: { square: "240x240#" }, default_url: ''
   validates_attachment_presence :logo
   validates_attachment_content_type :logo, content_type: /\Aimage\/.*\Z/
 

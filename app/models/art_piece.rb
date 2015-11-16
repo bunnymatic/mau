@@ -36,7 +36,7 @@ class ArtPiece < ActiveRecord::Base
   include HtmlHelper
   include TagsHelper
 
-  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/
 
@@ -95,6 +95,11 @@ class ArtPiece < ActiveRecord::Base
     artpiece_path = image_paths[size.to_sym]
     (full_path ? full_image_path(artpiece_path) : artpiece_path)
   end
+
+  # def to_json(options={})
+  #   options[:methods] = (options[:methods] ||= []) << :photo if photo?
+  #   super options
+  # end
 
   private
   def clear_caches

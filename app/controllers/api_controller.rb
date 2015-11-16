@@ -21,13 +21,13 @@ class ApiController < ActionController::Base
       else
         raise ApiError.new('Invalid request')
       end
-      render :json => dat.to_json(json_args[@obj_type])
+      render json: dat.to_json(json_args[@obj_type])
     rescue NameError, ApiError => ex
       msg = "(%s) %s" % [ex.class, ex.message]
       Rails.logger.error 'API Error: ' + msg
-      render :json => {:status => 400, :message => "Error Accessing API: #{msg}"}, :status => 400
+      render json: {status: 400, message: "Error Accessing API: #{msg}"}, status: 400
     rescue ActiveRecord::RecordNotFound => ex
-      render :json => {:status => 400, :message => "Unable to find the record given #{params[:path]}"}
+      render json: {status: 400, message: "Unable to find the record given #{params[:path]}"}
     end
   end
 
@@ -83,10 +83,82 @@ class ApiController < ActionController::Base
 
   def json_args
     @json_args ||= {
-      'art_pieces' => {},
+      'art_pieces' => {methods: [:photo]},
       'media' => {},
-      'artists' => {:include => [:art_pieces, :artist_info]},
-      'studios' => {:include => :artists}
+      'artists' => {
+        except:
+          [
+            :created_at,
+            :updated_at,
+            :activated_at,
+            :activation_code,
+            :state,
+            :crypted_password,
+            :current_login_ip,
+            :deleted_at,
+            :email_attrs,
+            :last_login_ip,
+            :login_count,
+            :last_request_at,
+            :last_login_at,
+            :current_login_at,
+            :mailchimp_subscribed_at,
+            :password_salt,
+            :persistence_token,
+            :photo_updated_at,
+            :photo_content_type,
+            :photo_file_size,
+            :photo_updated_at
+          ],
+        include: {
+          artist_info: {
+            except: [
+              :artist_id,
+              :created_at,
+              :updated_at,
+              :description,
+              :max_pieces,
+              :news,
+              :open_studios_participation,
+              :lat,
+              :lng,
+              :addr_state,
+              :addr_city,
+              :zip
+            ]
+          },
+          art_pieces: {
+            methods: [:photo, :filename],
+            except: [
+              :created_at,
+              :updated_at,
+              :artist_id,
+              :created_at,
+              :updated_at,
+              :description,
+              :photo_updated_at,
+              :photo_content_type,
+              :photo_file_size,
+              :photo_updated_at
+            ]
+          }
+        },
+        methods: [:photo]
+      },
+      'studios' => {
+        include: :artists,
+        except: [
+          :created_at,
+          :updated_at,
+          :photo_updated_at,
+          :photo_content_type,
+          :photo_file_size,
+          :photo_updated_at
+        ],
+        methods: [
+          :photo
+        ]
+      }
     }.freeze
   end
 

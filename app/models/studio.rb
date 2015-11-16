@@ -45,7 +45,7 @@ class Studio < ActiveRecord::Base
   before_save :normalize_phone_number
   validates :name, presence: true, uniqueness: true
 
-  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"

@@ -182,7 +182,6 @@ class Artist < User
     return path
   end
 
-
   class << self
 
     def find_all_by_full_name( names )

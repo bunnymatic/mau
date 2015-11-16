@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   # custom validations
   validate :validate_email
 
-  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES
+  has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
   validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
 
