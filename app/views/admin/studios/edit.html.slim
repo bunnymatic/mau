@@ -1,0 +1,27 @@
+.pure-g
+  .pure-u-1-1.padded-content.header
+    h2.title Edit #{@studio.name}
+    = render partial: '/flash_notice_error'
+    ul.js-tabs.tabs.tabs__horizontal
+      li.active
+        a href="#edit" title="edit studio" data-toggle="tab" Edit
+      li
+        a href="#manage" title="suspendedin good standing" data-toggle="tab"
+          i.fa.fa-user-times
+          | Manage
+.pure-g
+  .pure-u-1-1.tab-content.padded-content
+    #edit.tab-pane.active.info.block
+      = render 'form', studio: @studio
+    #manage.tab-pane.artists.block
+      .pure-g
+        .pure-u-1-2.padded-content
+          p Use the <strong>X</strong> to unaffiliate the artist from the studio.
+          p NOTE: please use that with care.  You can not undo that action.  Only the artist can re-affiliate themselves with a studio.
+
+        .pure-u-1-2.padded-content
+          ul.artists.pure-list-striped
+            - @studio.artists.active.sort_by{|a| a.lastname.downcase}.each do |a|
+              li.artist data-artist=a.id
+                span>  #{a.full_name}
+                = link_to "X", unaffiliate_artist_admin_studio_path(@studio, artist_id: a.id), class: 'unaffiliate', title: "Remove artist's affiliation with #{@studio.name}", method: :post,  confirm: "Are you sure you want to remove #{a.full_name} from #{@studio.name}'s list of artists?" unless a.id == current_user.id

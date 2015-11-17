@@ -1,0 +1,25 @@
+= semantic_form_for([:admin,studio]) do |f|
+  = render '/common/form_errors', :form => f
+  = render '/flash_notice_error'
+  = f.inputs do
+    .pure-g
+      .pure-u-1-1.pure-u-md-1-2
+          = f.input :name
+          = f.input :street
+          = f.input :cross_street
+          = f.input :city
+          = f.input :state
+          = f.input :zip
+          = f.input :phone
+          = f.input :url
+      .pure-u-1-1.pure-u-md-1-2
+        - if studio.photo?
+          .image.block
+            h3 Current Photo
+            p
+              img src=@studio.get_profile_image('medium')
+          = f.input :photo
+    .pure-g
+      .pure-u-1-1.pure-u-md-1-2
+        = f.actions do
+          = f.submit :class => 'pure-button pure-button-primary'
