@@ -186,8 +186,9 @@ Mau::Application.routes.draw do
   namespace :api do
     namespace :v2 do
       resources :studios, only: [:index, :show]
-      resources :artists, only: [:index, :show]
-      resources :art_pieces, only: [:show]
+      resources :artists, only: [:index, :show] do
+        resources :art_pieces, only: [:index, :show], shallow: true
+      end
       resources :media, only: [:index, :show]
     end
   end
