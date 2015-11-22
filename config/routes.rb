@@ -183,11 +183,22 @@ Mau::Application.routes.draw do
     end
   end
 
+  namespace :api do
+    namespace :v2 do
+      resources :studios, only: [:index, :show]
+      resources :artists, only: [:index, :show] do
+        resources :art_pieces, only: [:index, :show], shallow: true
+      end
+      resources :media, only: [:index, :show]
+    end
+  end
+
   match '/admin' => 'admin#index', as: :admin
 
   match '/mobile/main' => 'mobile/main#welcome', as: :mobile_root
   match '/sitemap.xml' => 'main#sitemap', as: :sitemap
   match '/api/*path' => 'api#index'
+
 
   # legacy urls
   get '/main/openstudios', to: redirect('/open_studios')

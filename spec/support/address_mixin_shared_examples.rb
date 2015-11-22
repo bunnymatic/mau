@@ -18,7 +18,7 @@ shared_examples_for AddressMixin do
   }
   let(:with_address) {
     if (described_class.new.respond_to? :addr_state)
-      described_class.new(with_addr_state)
+      described_class.new(with_addr_state.merge({lat: nil, lng: nil}))
     else
       described_class.new(with_state)
     end

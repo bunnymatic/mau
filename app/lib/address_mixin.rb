@@ -43,7 +43,7 @@ module AddressMixin
 
   def compute_geocode(force=false)
     begin
-      if force || (address.present? && !address_hash[:geocoded])
+       if address.present?
         result = Geokit::Geocoders::MultiGeocoder.geocode(full_address)
         if result.try(:success)
           self.lat = result.lat

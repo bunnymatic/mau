@@ -27,21 +27,12 @@ describe ImageFile do
       fname.should match /dir\/t_myfile\.jpg$/
     end
   end
-  ['cropped_thumb'].each do |size|
-    it "get_path for #{size} returns a file name with m_ as a prefix" do
-      fname = ImageFile.get_path('/dir/',size,'myfile.jpg')
-      fname.should match /dir\/ct_myfile\.jpg$/
-    end
-  end
 
   describe '#get_path' do
     let(:directory) { Faker::Files.dir }
     let(:file) { Faker::Files.file }
     it "returns the right path where size is thumb" do
       (ImageFile.get_path(directory,:thumb,file)).should eql([directory,'t_' +file].join '/')
-    end
-    it "returns the right path where size is cropped_thumb" do
-      (ImageFile.get_path(directory,:cropped_thumb,file)).should eql([directory,'ct_' +file].join '/')
     end
     it "returns the right path where size is small" do
       (ImageFile.get_path(directory,:small,file)).should eql([directory,'s_' +file].join '/')

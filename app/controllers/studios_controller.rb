@@ -28,7 +28,7 @@ class StudiosController < ApplicationController
         @page_title = @studio.page_title
       }
       format.json {
-        render json: StudioSerializer.new(@studio)
+        render json: @studio
       }
     end
   end
@@ -40,7 +40,7 @@ class StudiosController < ApplicationController
   end
 
   def load_studio
-    @studio ||= StudioService.get_studio_from_id(params[:id])
+    @studio ||= StudioService.find(params[:id])
   end
 
 end

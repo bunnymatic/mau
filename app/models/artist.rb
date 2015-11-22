@@ -110,7 +110,7 @@ class Artist < User
   def profile_images
     images = MauImage::ImageSize.allowed_sizes.map do |key|
       [key,get_profile_image(key)]
-    end.select{|pr| pr[1].present?}
+    end
     Hash[images]
   end
 

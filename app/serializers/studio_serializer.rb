@@ -1,5 +1,13 @@
 class StudioSerializer < MauSerializer
-  attributes :id, :name, :street_address, :city, :map_url, :url
+  attributes :id, :name, :street_address, :city, :map_url, :url, :artists, :slug
+
+  def artists
+    object.artists.map{|a| ArtistSerializer.new(a)}
+  end
+
+  def artists
+    object.artists.map{|a| Hash[[:id, :slug, :full_name, :firstname, :lastname].map{|k| [k, a.send(k)]}]}
+  end
 
   def url
     unless object.is_a? IndependentStudio
