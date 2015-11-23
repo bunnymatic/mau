@@ -5,7 +5,7 @@ module Api
       def show
         studio = StudioService.find(params[:id])
         if !studio
-          render json: {}, status: 400
+          head 400
         else
           render json: studio, serializer: StudioSerializer
         end

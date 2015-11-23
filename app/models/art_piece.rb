@@ -32,7 +32,6 @@ class ArtPiece < ActiveRecord::Base
 
   belongs_to :medium
 
-  include ImageFileHelpers
   include HtmlHelper
   include TagsHelper
 
@@ -57,28 +56,6 @@ class ArtPiece < ActiveRecord::Base
     super.alpha
   end
 
-  def get_paths
-    image_paths
-  end
-
-  def image_urls
-    if photo?
-      MauImage::Paperclip::STANDARD_STYLES.keys.inject({}) do |memo, key|
-        memo[key] = photo(key)
-        memo
-      end
-    else
-      Hash[ image_paths.map{|k,v| [k, full_image_path(v)]} ]
-    end
-  end
-
-  def image
-    @image = ArtPieceImage.new(self)
-  end
-
-  def image_paths
-    @image_paths ||= image.paths
-  end
 
   def clear_tags_and_favorites
     klassname = self.class.name
@@ -103,10 +80,13 @@ class ArtPiece < ActiveRecord::Base
     (full_path ? full_image_path(artpiece_path) : artpiece_path)
   end
 
-  # def to_json(options={})
-  #   options[:methods] = (options[:methods] ||= []) << :photo if photo?
-  #   super options
-  # end
+  def image_paths
+    @image_paths ||= ArtPieceImage.new(self).paths
+  end
+
+  def get_paths
+    image_paths
+  end
 
   private
   def clear_caches
