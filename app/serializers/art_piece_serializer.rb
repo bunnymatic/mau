@@ -3,6 +3,24 @@ class ArtPieceSerializer < MauSerializer
 
   # note: image_urls used by angular photo browser
   include HtmlHelper
+  include ImageFileHelpers
+
+  def image_urls
+    urls = {}
+    if object.photo?
+      urls = MauImage::Paperclip::STANDARD_STYLES.keys.inject({}) do |memo, key|
+        memo[key] = object.photo(key)
+        memo
+      end
+      urls[:original] = object.photo.url
+    else
+      urls = object.image_paths
+    end
+    urls.inject({}) do |memo, (sz, path)|
+      memo[sz] = full_image_path(path)
+      memo
+    end
+  end
 
   def artist
     object.artist.try(:id)

@@ -4,16 +4,21 @@ module Api
 
     def require_authorization
       auth_key = request.headers['HTTP_AUTHORIZATION']
+      puts "%s" % [[ internal_request? , auth_key , Conf.api_consumer_key ]]
+
       unless internal_request? || (auth_key.present? && auth_key == Conf.api_consumer_key)
         render(text: "Unauthorized Request.  Access Denied.", status: :unauthorized) and return
       end
+      true
     end
 
     def internal_request?
       begin
-        (!request.env["HTTP_REFERER"].nil? && (request.host && URI.parse(request.env["HTTP_REFERER"]).host)) || Rails.env.development?
+        server = Rails.application.config.action_mailer.default_url_options[:host]
+        referrer = URI.parse(request.env["HTTP_REFERER"].to_s)
+        referrer && referrer.host && server.include?(referrer.host)
       rescue URI::Error => ex
-        true
+        false
       end
 
     end
