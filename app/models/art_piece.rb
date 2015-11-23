@@ -62,7 +62,14 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def image_urls
-    Hash[ image_paths.map{|k,v| [k, full_image_path(v)]} ]
+    if photo?
+      MauImage::Paperclip::STANDARD_STYLES.keys.inject({}) do |memo, key|
+        memo[key] = photo(key)
+        memo
+      end
+    else
+      Hash[ image_paths.map{|k,v| [k, full_image_path(v)]} ]
+    end
   end
 
   def image
