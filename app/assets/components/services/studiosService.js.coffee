@@ -1,7 +1,7 @@
 studiosService = ngInject ($resource) ->
 
   studios = $resource(
-    '/studios/:id.json'
+    '/api/v2/studios/:id.json'
     {}
     {
       get:

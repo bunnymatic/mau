@@ -1,7 +1,7 @@
 artPiecesService = ngInject ($resource) ->
 
   artPieces = $resource(
-    '/artists/:id/art_pieces.json'
+    '/api/v2/artists/:id/art_pieces.json'
     {}
     {
       index:
@@ -11,7 +11,7 @@ artPiecesService = ngInject ($resource) ->
     }
   )
   artPiece = $resource(
-    '/art_pieces/:id.json'
+    '/api/v2/art_pieces/:id.json'
     {}
     {
       get:

@@ -6,6 +6,7 @@ class ArtPieceSerializer < MauSerializer
   include ImageFileHelpers
 
   def image_urls
+    debugger if object.id.to_i == 232
     urls = {}
     if object.photo?
       urls = MauImage::Paperclip::STANDARD_STYLES.keys.inject({}) do |memo, key|
