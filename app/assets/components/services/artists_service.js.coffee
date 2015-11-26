@@ -1,7 +1,7 @@
 artistsService = ngInject ($resource) ->
 
   artists = $resource(
-    '/artists/:id.json'
+    '/api/v2/artists/:id.json'
     {}
     {
       get:
