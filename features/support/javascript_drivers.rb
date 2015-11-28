@@ -13,6 +13,7 @@ Capybara.javascript_driver = :webkit
 # webkit only
 Before('@javascript') do |scenario, block|
   page.driver.block_unknown_urls
+  page.driver.header "Authorization", "Secret Word Goes Here"
 end
 
 module JavascriptDriverChecker
