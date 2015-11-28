@@ -1,5 +1,5 @@
 Feature:
-  Visitors to the open studios landing page 
+  Visitors to the open studios landing page
   see a information about open studios
   so they can plan their visit
 
@@ -32,4 +32,3 @@ Scenario:  Visiting the open studios page on a phone
   And I visit the about page
   And I click on the current open studios link
   Then I see the open studios cms content
-

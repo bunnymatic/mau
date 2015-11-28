@@ -11,6 +11,13 @@ describe OpenStudiosPresenter do
 
 
   before do
+    [studio, studio2].each do |s|
+      s.update_attribute :lat, 37.75
+      s.update_attribute :lng, -122.41
+    end
+    indy_artist.update_attribute :lat, 37.75
+    indy_artist.update_attribute :lng, -122.41
+
     FactoryGirl.create(:cms_document,
                        page: :main_openstudios,
                        section: :summary,

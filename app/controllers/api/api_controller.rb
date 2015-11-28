@@ -4,8 +4,6 @@ module Api
 
     def require_authorization
       auth_key = request.headers['HTTP_AUTHORIZATION']
-      puts "%s" % [[ internal_request? , auth_key , Conf.api_consumer_key ]]
-
       unless internal_request? || (auth_key.present? && auth_key == Conf.api_consumer_key)
         render(text: "Unauthorized Request.  Access Denied.", status: :unauthorized) and return
       end

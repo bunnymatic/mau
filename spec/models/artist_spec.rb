@@ -7,7 +7,7 @@ describe Artist do
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
   let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }
-  let(:artist_without_studio) { FactoryGirl.create(:artist, :active,:with_art) }
+  let(:artist_without_studio) { FactoryGirl.create(:artist, :active, :with_art, :in_the_mission) }
   let(:artist_info) { artist.artist_info }
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
@@ -105,22 +105,44 @@ describe Artist do
     end
   end
   describe 'in_the_mission?' do
-    it "returns true for artist in the mission with no studio" do
-      expect(artist_without_studio).to have_address
-      expect(artist_without_studio).to be_in_the_mission
+    context "for artist in the mission with no studio" do
+      before do
+        allow(artist_without_studio.artist_info).to receive(:lat).and_return(37.75)
+        allow(artist_without_studio.artist_info).to receive(:lng).and_return(-122.41)
+      end
+      it "returns true" do
+        expect(artist_without_studio).to have_address
+        expect(artist_without_studio).to be_in_the_mission
+      end
     end
-    it "returns true for artist in the mission with a studio in the mission" do
-      expect(artist).to have_address
-      expect(artist).to be_in_the_mission
+    context "for artist in the mission with a studio in the mission" do
+      before do
+        allow(artist.artist_info).to receive(:lat).and_return(37.75)
+        allow(artist.artist_info).to receive(:lng).and_return(-122.41)
+        allow(artist.studio).to receive(:lat).and_return(37.75)
+        allow(artist.studio).to receive(:lng).and_return(-122.41)
+      end
+      it "returns true" do
+        expect(artist).to have_address
+        expect(artist).to be_in_the_mission
+      end
     end
     it "returns false for artist with wayout address" do
       expect(wayout_artist).to have_address
       expect(wayout_artist).to_not be_in_the_mission
     end
-    it "returns true for artist with wayout address but studio in the mission" do
-      wayout_artist.update_attribute :studio, FactoryGirl.create(:studio)
-      expect(wayout_artist).to have_address
-      expect(wayout_artist).to be_in_the_mission
+    context "for artist not in the mission but in a studio in the mission" do
+      before do
+        studio = FactoryGirl.create(:studio)
+        wayout_artist.update_attribute :studio, studio
+        wayout_artist.reload
+        allow(wayout_artist.studio).to receive(:lat).and_return(37.75)
+        allow(wayout_artist.studio).to receive(:lng).and_return(-122.41)
+      end
+      it "returns true" do
+        expect(wayout_artist).to have_address
+        expect(wayout_artist).to be_in_the_mission
+      end
     end
   end
   describe 'find by full_name' do

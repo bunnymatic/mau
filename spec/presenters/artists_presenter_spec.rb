@@ -5,10 +5,17 @@ describe ArtistsPresenter do
   include PresenterSpecHelpers
 
   let(:os_only) { false }
-  let!(:artists) { FactoryGirl.create_list :artist, 4, :with_art }
+  let(:artists) { FactoryGirl.create_list :artist, 4, :with_art }
 
   subject(:presenter) { ArtistsPresenter.new(os_only) }
 
+  before do
+    # bypass test geocoder
+    artists.each do |a|
+      a.update_attribute(:lat, 37.75)
+      a.update_attribute(:lng, -122.41)
+    end
+  end
   describe '#artists' do
 
     context 'os_only is false' do
@@ -29,13 +36,10 @@ describe ArtistsPresenter do
   end
 
   describe '#artists_only_in_the_mission' do
-
     context 'os_only is false' do
       it 'shows active artists who live in the mission sorted by name' do
         expected_results = subject.artists_only_in_the_mission.map(&:artist)
         actual_results = Artist.active.select(&:in_the_mission?).sort_by(&:sortable_name)
-        expect(actual_results).to eql(expected_results)
-        actual_results = Artist.active.sort_by(&:sortable_name).select(&:in_the_mission?)
         expect(actual_results).to eql(expected_results)
       end
       it 'returns artist presenter objects' do
@@ -50,4 +54,3 @@ describe ArtistsPresenter do
 
 
 end
-

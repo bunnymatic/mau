@@ -59,7 +59,15 @@ Given /there are open studios artists with art in the system/ do
     Given there are artists with art in the system
     Given there are future open studios events
   }
-  @artists.each{|a| a.update_os_participation(OpenStudiosEventService.current, true) }
+  @artists.each { |a|
+    a.update_os_participation(OpenStudiosEventService.current, true)
+    a.artist_info.update_attribute(:lat, 37.75)
+    a.artist_info.update_attribute(:lng, -122.41)
+    if a.studio
+      a.studio.update_attribute(:lat, 37.75)
+      a.studio.update_attribute(:lng, -122.41)
+    end
+  }
 end
 
 Given /there is open studios cms content in the system/ do
