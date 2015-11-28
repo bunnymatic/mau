@@ -9,7 +9,7 @@ class IndependentStudio
 
   attr_reader :studio
 
-  delegate :id, :name, :street, :city, :state, :cross_street, :phone, :zip, :lat, :lng,  to: :studio
+  delegate :id, :name, :street, :city, :state, :cross_street, :phone, :zip, :lat, :lng, to: :studio
 
   class InnerStudio < Struct.new(:id, :name, :street, :city, :state, :cross_street, :phone, :zip, :profile_image, :lat, :lng )
     def initialize(h)
@@ -47,6 +47,10 @@ class IndependentStudio
                                 lat: nil,
                                 lng: nil
                               })
+  end
+
+  def slug
+    to_param
   end
 
   def artists
