@@ -6,13 +6,13 @@ module Api
         artists = []
         if params[:studio]
           studio = Studio.find(params[:studio])
-          artists = Artist.where(studio_id: studio.id) if studio
+          artists = Artist.active.where(studio_id: studio.id) if studio
         end
         respond_with artists
       end
 
       def show
-        artist = Artist.find(params[:id])
+        artist = Artist.active.find(params[:id])
         respond_with artist
       end
     end
