@@ -1,5 +1,6 @@
 machine:
   environment:
+    API_CONSUMER_KEY: Testing Testing 1 2
 dependencies:
   pre:
     - sudo apt-get update; sudo apt-get install libicu52
@@ -11,4 +12,3 @@ test:
     - bundle exec rake assets:precompile 2>/dev/null
   override:
     - xvfb-run -a bundle exec rake spec
-

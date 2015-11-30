@@ -86,6 +86,7 @@ module Mau
       secret_access_key: Conf.AWS_SECRET_ACCESS_KEY || 'bogus'
     }
 
+    config.api_consumer_key = ENV.fetch("API_CONSUMER_KEY", Conf.api_consumer_key)
   end
 
 end
