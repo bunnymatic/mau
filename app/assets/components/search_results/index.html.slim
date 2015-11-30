@@ -22,10 +22,10 @@ form action="/search" method="POST"
 
         .bd.pure-g
           .pure-u-4-5
-            .desc ng-if="hit.description" = "{{::hit.description}}"
+            .desc ng-if="hit.description" ng-bind-html="::hit.description"
             .medium ng-if="hit.medium"
               .label Medium:
-              .value = "{{::hit.medium}}"
+              .value ng-bind-html="::hit.medium"
             .tags ng-if="hit.tags"
               .label Tags:
               .value ng-bind-html="::hit.tags"

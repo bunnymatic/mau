@@ -61,7 +61,7 @@ $ ->
       complete: () ->
         stopSpinner()
 
-  throttledSearch = MAU.Utils.debounce(search,150,false)
+  throttledSearch = MAU.Utils.debounce(search, 150, true)
 
   getSelected = ->
     selected = $(RESULTS_CONTAINER).find(".selected")

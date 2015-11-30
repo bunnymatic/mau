@@ -18,6 +18,7 @@ module Search
     def multi_index_search
       r = EsClient.client.search(
         {
+          index: [:art_pieces, :studios, :artists],
           body: {
             query: {
               match: {

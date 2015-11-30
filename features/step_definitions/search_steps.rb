@@ -28,5 +28,3 @@ When(/^I refine my search to match lots of art$/) do
   letters = letter_frequency( Artist.open_studios_participants.map{|a| a.full_name})
   fill_in 'keywords', with: letters.last.first
 end
-
-    check Studio.by_position.first.name
