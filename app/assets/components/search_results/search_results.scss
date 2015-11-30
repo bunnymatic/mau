@@ -48,7 +48,7 @@ search-results {
   padding-bottom: 10px;
   border-bottom: 1px solid #ccc;
   .thumb-col {
-    height: 100px;
+    height: 90px;
     width: 100%;
     padding-right: 20px;
     .img {
@@ -56,13 +56,10 @@ search-results {
       height: 100%;
     }
     @media screen and (min-width: $screen-sm-max) {
-      height: 120px;
     }
     @media screen and (min-width: $screen-sm-max) {
-      height: 140px;
     }
     @media screen and (min-width: $screen-md-max) {
-      height: 160px;
     }
   }
   .score {
