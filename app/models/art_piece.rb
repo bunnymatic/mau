@@ -57,14 +57,14 @@ class ArtPiece < ActiveRecord::Base
   end
 
 
-  settings do
-    mappings(_all: {analyzer: :snowball}) do
-      indexes :title, analyzer: :snowball
+  settings(analysis: Search::Indexer::NGRAM_ANALYZER_TOKENIZER, index: { number_of_shards: 2}) do
+    mappings(_all: {analyzer: :mau_ngram_analyzer}) do
+      indexes :title, analyzer: :mau_ngram_analyzer
       indexes :year
-      indexes :medium, analyzer: :snowball
-      indexes :artist_name, analyzer: :snowball
-      indexes :studio_name, analyzer: :snowball
-      indexes :tags, analyzer: :snowball
+      indexes :medium, analyzer: :mau_ngram_analyzer
+      indexes :artist_name, analyzer: :mau_ngram_analyzer
+      indexes :studio_name, analyzer: :mau_ngram_analyzer
+      indexes :tags, analyzer: :mau_ngram_analyzer
     end
   end
 

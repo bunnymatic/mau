@@ -37,10 +37,10 @@ class Studio < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
-  settings do
-    mappings(_all: {analyzer: :snowball}) do
-      indexes :name, dynamic: false
-      indexes :address, dynamic: false
+  settings(analysis: Search::Indexer::NGRAM_ANALYZER_TOKENIZER, index: { number_of_shards: 2}) do
+    mappings(_all: {analyzer: :mau_ngram_analyzer}) do
+      indexes :name, analyzer: :mau_ngram_analyzer
+      indexes :address, analyzer: :mau_ngram_analyzer
     end
   end
 

@@ -91,21 +91,13 @@ class Artist < User
   def remove_from_search_index
     Search::Indexer.remove(self)
   end
-  ES_ANALYZER = {
-    analyzer: {
-      mau_analyzer: {
-        tokenizer: [ :snowball ]
-      }
-    }
-  }
-
-  settings do
-    mappings(_all: {analyzer: :snowball}) do
-      indexes :artist_name, analyzer: :snowball
-      indexes :firstname, analyzer: :snowball
-      indexes :lastname, analyzer: :snowball
-      indexes :nomdeplume, analyzer: :snowball
-      indexes :studio_name, analyzer: :snowball
+  settings(analysis: Search::Indexer::NGRAM_ANALYZER_TOKENIZER, index: { number_of_shards: 2}) do
+    mappings(_all: {analyzer: :mau_ngram_analyzer}) do
+      indexes :artist_name, analyzer: :mau_ngram_analyzer
+      indexes :firstname, analyzer: :mau_ngram_analyzer
+      indexes :lastname, analyzer: :mau_ngram_analyzer
+      indexes :nomdeplume, analyzer: :mau_ngram_analyzer
+      indexes :studio_name, analyzer: :mau_ngram_analyzer
       indexes :bio, index: :no
     end
   end
