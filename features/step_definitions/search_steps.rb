@@ -1,3 +1,13 @@
+When(/^the search service is up and running$/) do
+  TestEsServer.start
+  [Artist, Studio, ArtPiece].each { |clz| clz.import force: true }
+end
+
+When(/^the search service is shut down$/) do
+  TestEsServer.stop
+end
+
+
 When(/^I search for the first art piece by title$/) do
   step %Q|I search for "#{ArtPiece.first.title.split.first}"|
 end
@@ -6,12 +16,19 @@ Then(/^I see the search results$/) do
   expect(page).to have_css 'search-results'
 end
 
+Then(/^I see "([^"]*)" in the search results$/) do |keyword|
+  within 'search-results' do
+    expect(page).to have_content keyword
+  end
+end
+
 When(/^I search for the first art piece by artist name$/) do
   step %Q|I search for "#{ArtPiece.first.artist.firstname}"|
 end
 
 When(/^I search for "(.*?)"$/) do |query|
-  fill_in 'Search for', with: query
+  #fill_in 'search_query', with: query
+  find('#search_query').set(query)
   page.execute_script("$('.js-main-container form').submit()")
 end
 

@@ -31,9 +31,9 @@ gem 'rosie'
 #gem 'grackle' # for twitter outbound
 gem 'mime-types'
 gem 'qr4r'
-gem 'event-calendar', :require => 'event_calendar'
-gem 'rack-cors', :require => 'rack/cors'
-gem "recaptcha", :require => "recaptcha/rails"
+gem 'event-calendar', require: 'event_calendar'
+gem 'rack-cors', require: 'rack/cors'
+gem "recaptcha", require: "recaptcha/rails"
 gem 'browser'
 gem 'geokit'
 gem 'geokit-rails'
@@ -92,9 +92,9 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'factory_girl'
-  gem 'factory_girl_rails', :require => false
+  gem 'factory_girl_rails', require: false
   gem 'cucumber'
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', require: false
   gem 'selenium-webdriver'
   gem 'capybara-webkit'
   gem 'poltergeist'
@@ -122,16 +122,17 @@ group :development do
 end
 
 group :test, :development do
+  gem "elasticsearch-extensions", require: nil
   gem 'guard-coffeescript'
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
+  gem 'em-rspec', require: false, git: 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'pry'
   gem 'pry-byebug'
-  gem 'pry-rails'
+  #gem 'pry-rails'
   gem 'rb-fsevent'
   gem 'simplecov'
   gem 'cane'

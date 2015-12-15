@@ -58,8 +58,7 @@ end
 Then /^I (save|take) a screenshot$/ do |dummy|
   f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
   begin
-    save_screenshot(f)
-    puts "Saved Screenshot #{f}"
+    save_and_open_screenshot(f)
   rescue Capybara::NotSupportedByDriverError
     f = f.gsub /png$/, 'html'
     puts "Screenshot not supported - saving html to #{f}"

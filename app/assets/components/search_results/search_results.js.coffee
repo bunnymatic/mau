@@ -34,7 +34,7 @@ searchResults = ngInject () ->
     $scope.$watch("queryString", MAU.Utils.debounce($scope.submitQuery, 150, false))
     $form.on 'submit', (ev) ->
       ev.preventDefault()
-      $scope.search(query)
+      $scope.search($scope.queryString)
       false
 
 

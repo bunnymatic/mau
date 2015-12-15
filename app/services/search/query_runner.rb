@@ -8,17 +8,13 @@ module Search
       t = Time.now.to_f
       return [] unless @query.present?
       results = multi_index_search
-      begin
-        puts "Query #{@query} %4.4fms" % (Time.now.to_f - t)
-      rescue
-      end
-      results
+      package_results(results)
     end
 
     def multi_index_search
-      r = EsClient.client.search(
+      EsClient.client.search(
         {
-          index: [:art_pieces, :studios, :artists],
+          index: [:art_pieces, :studios, :artists].join(","),
           body: {
             query: {
               match: {
@@ -27,15 +23,17 @@ module Search
             },
             size: 100,
             highlight: {
-              pre_tags: ['<span class="search-highlight">'],
-              post_tags: ['</span>'],
               fields: {
-                "*" => {},
+                "name" => {},
+                "tags" => {},
+                "title" => {},
+                "artist_name" => {},
+                "artist_bio" => {},
+                "bio" => {}
               }
             }
           }
         })
-      package_results(r)
     end
 
     def package_results(raw_results)
@@ -43,7 +41,6 @@ module Search
 
       raw_results['hits']['hits'].map do |hit|
         highlights = hit['highlight'] || {}
-        puts "HIGHLIGHTS", highlights.inspect
         highlights.each do |full_field, value|
           field1, field2 = full_field.split(".")
           hit["_source"][field1][field2] = value if [field1,field2,value].all?(&:present?)

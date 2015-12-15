@@ -8,8 +8,8 @@ describe SearchController do
     end.sort_by{|letter, ct| ct}
   end
 
-  let(:studios) { FactoryGirl.create_list :studio, 4 }
-  let(:artists) {
+  let!(:studios) { FactoryGirl.create_list :studio, 4 }
+  let!(:artists) {
     FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.first) +
     FactoryGirl.create_list(:artist, 2, :active, :with_art, firstname: 'name1', studio: studios_search.last)
   }
@@ -17,21 +17,19 @@ describe SearchController do
   let(:studios_search) { studios[0..1] }
 
   let(:studio_artist_name_match) do
+    puts letter_frequency(studios_search.map(&:artists).flatten.map(&:full_name)).inspect
     f = letter_frequency(studios_search.map(&:artists).flatten.map(&:full_name))
     f.last.first
   end
 
   before do
-    fix_leaky_fixtures
-    artists
-    Artist.import
-    Studio.import
+    stub_search_service!
   end
 
   describe "#index" do
     context "finding by studio" do
       before do
-        get :index, q: studio_artist_name_match
+        get :index, q: studios.first.name.split.first
       end
       it 'returns success' do
         expect(response).to be_success
