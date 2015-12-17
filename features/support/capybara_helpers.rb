@@ -7,7 +7,12 @@ module CapybaraHelpers
   # @param [String] locator      Text, id or value of link or button
   #
   def click_on_first(locator, options={})
-    all(:link_or_button, locator, options).first.click
+    links = nil
+    wait_until do
+      links = all(:link_or_button, locator, options)
+      links.present?
+    end
+    links.first.click
   end
 
   def javascript_driver?

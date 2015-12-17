@@ -21,3 +21,4 @@ Scenario:  Visitors can search from the artists index page
   And I click on "search" in the ".main-container .search"
   Then I search for "bapple"
   Then I see "bapple" in the search results
+  Then I wait "1" second

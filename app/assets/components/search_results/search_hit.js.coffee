@@ -26,6 +26,4 @@ angular.module("mau.models").factory "SearchHit", ngInject (objectRoutingService
           @link = objectRoutingService.artPiecePath(obj)
           @tags = obj.tags
           @tagsForDisplay = ->
-            debugger
-
           @medium = obj.medium
