@@ -25,6 +25,7 @@
 #
 
 class ArtPiece < ActiveRecord::Base
+
   belongs_to :artist
 
   has_many :art_pieces_tags
@@ -55,6 +56,8 @@ class ArtPiece < ActiveRecord::Base
   def remove_from_search_index
     Search::Indexer.remove(self)
   end
+
+  self.__elasticsearch__.client = Search::EsClient.root_es_client
 
 
   settings(analysis: Search::Indexer::NGRAM_ANALYZER_TOKENIZER, index: { number_of_shards: 2}) do

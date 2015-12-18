@@ -52,6 +52,7 @@
 require 'qr4r'
 
 class Artist < User
+
   # thanks, http://www.gps-coordinates.net/
   # order is important for the js overlay
   BOUNDS = {
@@ -75,6 +76,8 @@ class Artist < User
   include OpenStudiosEventShim
 
   include Elasticsearch::Model
+
+  self.__elasticsearch__.client = Search::EsClient.root_es_client
 
   after_commit :add_to_search_index, on: :create
   after_commit :refresh_in_search_index, on: :update

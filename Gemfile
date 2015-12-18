@@ -91,7 +91,7 @@ group :test do
   gem 'faker'
   gem 'webmock'
   gem 'vcr'
-  gem 'factory_girl'
+  gem 'factory_girl', require: false
   gem 'factory_girl_rails', require: false
   gem 'cucumber'
   gem 'cucumber-rails', require: false

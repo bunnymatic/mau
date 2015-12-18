@@ -37,6 +37,8 @@ class Studio < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
+  self.__elasticsearch__.client = Search::EsClient.root_es_client
+
   settings(analysis: Search::Indexer::NGRAM_ANALYZER_TOKENIZER, index: { number_of_shards: 2}) do
     mappings(_all: {analyzer: :mau_ngram_analyzer}) do
       indexes :name, analyzer: :mau_ngram_analyzer
