@@ -7,7 +7,6 @@ gem "rails", '~> 3.2.16'
 gem 'active_model_serializers'
 gem 'strong_parameters'
 gem "font-awesome-rails"
-# gem 'aasm'
 gem "nokogiri", '~> 1.6'
 gem "htmlentities"
 gem 'mysql2'
@@ -28,7 +27,7 @@ gem 'elasticsearch-rails'
 
 gem 'gibbon' # mailchimp connect
 gem 'rosie'
-#gem 'grackle' # for twitter outbound
+
 gem 'mime-types'
 gem 'qr4r'
 gem 'event-calendar', require: 'event_calendar'
@@ -111,7 +110,6 @@ end
 
 group :development do
   gem 'annotate'
-  #gem 'capistrano-nginx-unicorn', require: false, group: :development
   gem 'capistrano3-unicorn'
   gem 'spring'
   gem 'better_errors'
@@ -132,7 +130,6 @@ group :test, :development do
   gem 'jslint_on_rails'
   gem 'pry'
   gem 'pry-byebug'
-  #gem 'pry-rails'
   gem 'rb-fsevent'
   gem 'simplecov'
   gem 'cane'

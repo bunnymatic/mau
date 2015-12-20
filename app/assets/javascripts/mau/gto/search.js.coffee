@@ -22,21 +22,6 @@ $ ->
   if onSearchPage
     $('.js-in-page-search').addClass("active")
 
-  # $('.js-in-page-search').on 'click', (ev) ->
-  #   ev.preventDefault()
-  #   return if onSearchPage
-  #   unless $("##{SEARCH_FORM_ID}").length
-  #     template = new MAU.Template('search_form_template')
-  #     $("##{SEARCH_FORM_ID}").remove()
-  #     $('.js-main-container').append($(template.html()).attr("id", SEARCH_FORM_ID))
-  #   $searchForm = $("##{SEARCH_FORM_ID}")
-  #   opening = !$(@).hasClass('active')
-  #   if opening
-  #     MAU.Navigation.hideTabs()
-
-  #   $(@).toggleClass('active', opening)
-  #   $searchForm.toggleClass('open', opening).find(INPUT_SELECTOR).focus()
-
   buildResultHtml = (result) ->
     type = result._type
     template = new MAU.Template("search_autocomplete_result_#{type}_template");

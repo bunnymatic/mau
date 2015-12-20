@@ -1,5 +1,7 @@
 class SearchController < ApplicationController
 
+  LIMIT = 40
+
   def index
     @query = params[:q]
     @search_results = Search::QueryRunner.new(@query).search.group_by(&:_type)
@@ -12,7 +14,7 @@ class SearchController < ApplicationController
             results << hit.to_h.slice(:_type, :_score, :_id, :_source)
           end
         end
-        render json: results.sort_by{|r| r['_score']}
+        render json: results.sort_by{|r| -1.0 * r[:_score]}[0..LIMIT]
       }
     end
   end

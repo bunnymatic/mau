@@ -31,7 +31,7 @@ searchResults = ngInject () ->
     path = new MAU.QueryStringParser(location.href)
     if path
       $scope.queryString = (path.query_params?.q || '').replace(/\+/, " ")
-    $scope.$watch("queryString", MAU.Utils.debounce($scope.submitQuery, 150, false))
+    $scope.$watch("queryString", MAU.Utils.debounce($scope.submitQuery, 350, false))
     $form.on 'submit', (ev) ->
       ev.preventDefault()
       $scope.search($scope.queryString)
