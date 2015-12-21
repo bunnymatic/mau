@@ -55,4 +55,4 @@
             = render partial: '/art_pieces/delete_thumb', collection: @artist.art_pieces, as: :art_piece
           .actions
             %input.pure-button.pure-button-primary{ type: "submit",  value: "Delete Selected Images" }
-            %input.pure-button{ type: "button", value: "Cancel", onclick: "MAU.goToArtist( #{@artist.id} );"}
+            %a.pure-button{href: artist_path(@artist)} Cancel

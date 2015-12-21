@@ -52,6 +52,7 @@
 require 'qr4r'
 
 class Artist < User
+
   # thanks, http://www.gps-coordinates.net/
   # order is important for the js overlay
   BOUNDS = {
@@ -74,11 +75,53 @@ class Artist < User
   include AddressMixin
   include OpenStudiosEventShim
 
+  include Elasticsearch::Model
+
+  self.__elasticsearch__.client = Search::EsClient.root_es_client
+
+  after_commit :add_to_search_index, on: :create
+  after_commit :refresh_in_search_index, on: :update
+  after_commit :remove_from_search_index, on: :destroy
+
+  def add_to_search_index
+    Search::Indexer.index(self)
+  end
+
+  def refresh_in_search_index
+    Search::Indexer.reindex(self)
+  end
+
+  def remove_from_search_index
+    Search::Indexer.remove(self)
+  end
+  settings(analysis: Search::Indexer::NGRAM_ANALYZER_TOKENIZER, index: { number_of_shards: 2}) do
+    mappings(_all: {analyzer: :mau_ngram_analyzer}) do
+      indexes :artist_name, analyzer: :mau_ngram_analyzer
+      indexes :firstname, analyzer: :mau_ngram_analyzer
+      indexes :lastname, analyzer: :mau_ngram_analyzer
+      indexes :nomdeplume, analyzer: :mau_ngram_analyzer
+      indexes :studio_name, analyzer: :mau_ngram_analyzer
+      indexes :bio, index: :no
+    end
+  end
+
+  def as_indexed_json(opts={})
+    idxd = as_json(only: [:firstname, :lastname, :nomdeplume, :slug])
+    extras = {}
+    studio_name = studio.try(:name)
+    extras["artist_name"] = full_name
+    extras["studio_name"] = studio_name if studio_name.present?
+    extras["images"] = representative_piece.try(:image_paths)
+    extras["bio"] = bio if bio.present?
+    extras["os_participant"] = doing_open_studios?
+    idxd["artist"].merge!(extras)
+    (active? && extras["images"].present?) ? idxd : {}
+  end
+
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
   scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
   scope :with_artist_info, includes(:artist_info)
   scope :by_lastname, order(:lastname)
-  scope :by_firstname, order(:firstname)
   scope :without_art, active.where("id not in (select artist_id from art_pieces)");
 
   has_one :artist_info
@@ -142,15 +185,6 @@ class Artist < User
   def address_hash
     @memo_address_hash ||= call_address_method :address_hash
   end
-
-  # def primary_medium
-  #   return nil unless art_pieces && art_pieces.count > 0
-  #   @primary_medium ||=
-  #     begin
-  #       hist = histogram(art_pieces.map(&:medium).compact)
-  #       hist.sort_by{|k,v| v}.last.try(:first)
-  #     end
-  # end
 
   def latest_piece
     @latest_piece ||= art_pieces.order('created_at desc').limit(1).first

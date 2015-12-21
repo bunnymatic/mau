@@ -9,7 +9,7 @@ class Template
     if (data)
       for key, value of data
         value ||= ''
-        @contents = @contents.replace("{{" + key + "}}", value)
+        @contents = @contents.replace("{{" + key + "}}", _.escape(value))
     @contents
   html: (data) ->
     @load()

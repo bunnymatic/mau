@@ -129,7 +129,7 @@ Then(/^I see that I've successfully unsigned up for Open Studios$/) do
 end
 
 When(/^I click on the first artist's card$/) do
-  @artist = Artist.active.all.detect{|a| a.art_pieces.present?}
+  @artist = Artist.active.all.detect{|a| a.representative_piece.present?}
   click_on_first @artist.full_name
 end
 
@@ -152,11 +152,7 @@ Then(/^I see that artist's profile page$/) do
 end
 
 When(/^I click on an art card$/) do
-  wait_until do
-    all('.art-card a').present?
-  end
-  first_art_card = all('.art-card a').first
-  first_art_card.trigger('click')
+  all('.art-card a').first.click
   wait_until do
     header = all('.header').map(&:text).join
     /#{@artist.full_name}/ =~ header

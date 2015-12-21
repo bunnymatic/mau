@@ -1,8 +1,7 @@
-def histogram inp; hash = Hash.new(0); inp.each {|k,v| hash[k]+=1}; hash; end
 Then(/^I see all the favorites in a table$/) do
   expect(page).to have_content 'Favorites!'
   favs = User.all.map(&:favorites).sort{|x| x.length}.flatten.map(&:to_obj)
-  totals = histogram(favs.map{|f| f.class.name})
+  totals = StatsCalculator.histogram(favs.map{|f| f.class.name})
   within 'tr.totals' do
     expect(page).to have_content "Total"
     expect(page).to have_css 'td', text: totals["ArtPiece"].to_s

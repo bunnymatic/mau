@@ -6,4 +6,5 @@
 # IT IS UNLIKELY THAT YOU WILL NEED TO CHANGE THIS FILE
 #=require application
 #=require admin
+#=require angular-mocks
 #=require_tree ./

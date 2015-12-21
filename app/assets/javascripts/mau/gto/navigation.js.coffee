@@ -1,7 +1,7 @@
 $ ->
   navHelpers =
     hideTabs: ->
-      $(".sidenav .active").removeClass('active')
+      $(".sidenav .nav-section").not('.users').find(".active").removeClass('active')
       $(".tab-content").removeClass('active')
     setActiveSection: ->
       path = location.pathname.replace(/\#.*$/, '')
@@ -42,4 +42,3 @@ $ ->
   window.MAU ||= {}
   MAU.Navigation ||= {}
   MAU.Navigation = _.extend({}, MAU.Navigation, navHelpers);
-

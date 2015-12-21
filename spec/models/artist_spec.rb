@@ -356,9 +356,7 @@ describe Artist do
         artists = Artist.without_art
         expect(artists.map(&:type).uniq).to eql ['Artist']
         expect(artists.map{|a| a.art_pieces.count}.uniq).to eql [0]
-        expect(Artist.all.map{|a| a.art_pieces.count}.uniq).to eql [3,0]
       end
-
     end
     describe '.with_representative_image' do
       it 'returns only artists with a representative image' do

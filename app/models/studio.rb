@@ -34,6 +34,18 @@ class Studio < ActiveRecord::Base
   include AddressMixin
   include Geokit::ActsAsMappable
 
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+
+  self.__elasticsearch__.client = Search::EsClient.root_es_client
+
+  settings(analysis: Search::Indexer::NGRAM_ANALYZER_TOKENIZER, index: { number_of_shards: 2}) do
+    mappings(_all: {analyzer: :mau_ngram_analyzer}) do
+      indexes :name, analyzer: :mau_ngram_analyzer
+      indexes :address, analyzer: :mau_ngram_analyzer
+    end
+  end
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -75,6 +87,16 @@ class Studio < ActiveRecord::Base
     end
   end
 
+  def as_indexed_json(opts={})
+    idxd = as_json(only: [:name, :slug])
+    extras = {}
+    extras["address"] = address
+    extras["images"] = image_paths
+    extras["os_participant"] = artists.any?{|a| a.try(:doing_open_studios?)}
+    idxd["studio"].merge!(extras)
+    idxd
+  end
+
   # return faux indy studio
   def self.indy
     IndependentStudio.new
@@ -84,4 +106,7 @@ class Studio < ActiveRecord::Base
     photo? ? photo(size) : StudioImage.get_path(self, size)
   end
 
+  def image_paths
+    @image_paths ||= StudioImage.paths(self)
+  end
 end

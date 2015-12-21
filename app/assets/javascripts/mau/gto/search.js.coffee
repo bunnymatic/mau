@@ -16,43 +16,37 @@ $ ->
   stopSpinner = ->
    search_spinner?.stop()
 
-  $('.js-in-page-search').on 'click', (ev) ->
-    ev.preventDefault()
-    unless $("##{SEARCH_FORM_ID}").length
-      template = new MAU.Template('search_form_template')
-      $("##{SEARCH_FORM_ID}").remove()
-      $('.js-main-container').append($(template.html()).attr("id", SEARCH_FORM_ID))
-    $searchForm = $("##{SEARCH_FORM_ID}")
-    opening = !$(@).hasClass('active')
-    console.log opening
-    console.log($(@));
-    if opening
-      MAU.Navigation.hideTabs()
-    $(@).toggleClass('active', opening)
-    $searchForm.toggleClass('open', opening).find(INPUT_SELECTOR).focus()
+  currentPage = new MAU.QueryStringParser(location.href)
+  onSearchPage = (currentPage.pathname == '/search')
 
+  if onSearchPage
+    $('.js-in-page-search').addClass("active")
 
-  buildArtPieceHtml = (art_piece) ->
-    template = new MAU.Template('search_autocomplete_result_template')
-    template.html(art_piece)
+  buildResultHtml = (result) ->
+    type = result._type
+    template = new MAU.Template("search_autocomplete_result_#{type}_template");
+    data = result['_source'][type]
+    data._id = result['_id']
+    data.backgroundImage = "background-image: url(#{data.images.thumb});";
+    template.html(data)
 
   search = ->
     startSpinner()
     $.ajax
-      url: '/search/fetch.json'
+      url: '/search.json'
       data:
-        keywords: $(INPUT_SELECTOR).val()
+        q: $(INPUT_SELECTOR).val()
         limit: 20
       success: (data) ->
         $(RESULTS_CONTAINER).find('.js-results li').remove()
-        _.each data, (art_piece) ->
-          entry = buildArtPieceHtml(art_piece)
+        _.each (data.search || data), (result) ->
+          entry = buildResultHtml(result)
           $(RESULTS_CONTAINER).find('.js-results').append(entry)
       error: (data) ->
       complete: () ->
         stopSpinner()
 
-  throttledSearch = MAU.Utils.debounce(search,150,false)
+  throttledSearch = MAU.Utils.debounce(search, 150, true)
 
   getSelected = ->
     selected = $(RESULTS_CONTAINER).find(".selected")

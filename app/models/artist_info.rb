@@ -67,7 +67,7 @@ class ArtistInfo < ActiveRecord::Base
     current = parse_open_studios_participation(self.open_studios_participation)
     current.merge!(os)
     current.delete_if{ |k,v| !(v=='true' || v==true || v=='on' || v=='1' || v==1) }
-    update_attribute(:open_studios_participation, current.keys.join('|'))
+    update_attributes({open_studios_participation: current.keys.join('|')})
   end
 
   def parse_open_studios_participation(os)

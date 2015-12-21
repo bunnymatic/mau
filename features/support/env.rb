@@ -6,6 +6,7 @@
 require './spec/support/simplecov'
 require './spec/support/faker_files'
 require 'cucumber/rails'
+require 'factory_girl'
 
 Dir[Rails.root.join("spec/factories/**/*.rb")].each { |f| require f }
 Dir[Rails.root.join("features/support/**/*.rb")].each { |f| require f }
@@ -34,4 +35,3 @@ require './spec/support/fake_geocoder'
 # recommended as it will mask a lot of errors for you!
 #
 ActionController::Base.allow_rescue = false
-

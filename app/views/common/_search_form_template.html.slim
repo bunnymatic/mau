@@ -1,19 +1,32 @@
 script type="template/html" id="search_form_template"
   .search-form
     #spinner
-    = form_tag "/search", method: "post", id: "search_form" do
+    = form_tag "/search", method: "get", id: "search_form" do
       .search-input-controls
         label for="search_keywords" Search for
-        input#search_keywords autocomplete="off" type="text" name="keywords" autofocus="autofocus"
+        input#search_keywords autocomplete="off" type="text" name="q" autofocus="autofocus"
     .search-autocomplete-results
       ul.js-results
 
-script type="template/html" id="search_autocomplete_result_template"
+script type="template/html" id="search_autocomplete_result_art_piece_template"
   li.search-autocomplete-result
-    a href="{{link_to}}"
-      .thumb style="background-image: url({{image}})"
+    a href="/art_pieces/{{_id}}"
+      .thumb style="{{backgroundImage}}"
       .desc
         span.title> = "{{title}}"
         | by
         span.artist< = "{{artist_name}}"
         span.medium = "{{medium}}"
+script type="template/html" id="search_autocomplete_result_artist_template"
+  li.search-autocomplete-result
+    a href="/artists/{{slug}}"
+      .thumb style="{{backgroundImage}}"
+      .desc
+        span.title> = "{{artist_name}}"
+script type="template/html" id="search_autocomplete_result_studio_template"
+  li.search-autocomplete-result
+    a href="/studios/{{slug}}"
+      .thumb style="{{backgroundImage}}"
+      .desc
+        span.title> = "{{name}}"
+        span.artist< = "{{address}}"

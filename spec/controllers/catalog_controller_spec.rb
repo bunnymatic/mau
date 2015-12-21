@@ -8,6 +8,7 @@ describe CatalogsController do
   let(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
   before do
+    Rails.cache.clear
     fix_leaky_fixtures
     artist
     jesse

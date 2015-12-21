@@ -7,7 +7,6 @@ gem "rails", '~> 3.2.16'
 gem 'active_model_serializers'
 gem 'strong_parameters'
 gem "font-awesome-rails"
-# gem 'aasm'
 gem "nokogiri", '~> 1.6'
 gem "htmlentities"
 gem 'mysql2'
@@ -23,14 +22,17 @@ gem 'capistrano-rails', '~> 1.1'
 gem 'friendly_id', '~> 4.x'
 gem 'formtastic', '~> 3.0'
 
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
+
 gem 'gibbon' # mailchimp connect
 gem 'rosie'
-#gem 'grackle' # for twitter outbound
+
 gem 'mime-types'
 gem 'qr4r'
-gem 'event-calendar', :require => 'event_calendar'
-gem 'rack-cors', :require => 'rack/cors'
-gem "recaptcha", :require => "recaptcha/rails"
+gem 'event-calendar', require: 'event_calendar'
+gem 'rack-cors', require: 'rack/cors'
+gem "recaptcha", require: "recaptcha/rails"
 gem 'browser'
 gem 'geokit'
 gem 'geokit-rails'
@@ -62,12 +64,15 @@ gem 'jbuilder' #non-html output (rss, atom)
 
 gem 'newrelic_rpm' #moitoring
 
+gem 'dotenv'
+
 source 'https://rails-assets.org' do
-  gem 'rails-assets-angular'
-  gem 'rails-assets-angular-resource'
-  gem 'rails-assets-angular-sanitize'
-  gem 'rails-assets-angular-animate'
+  gem 'rails-assets-angular', "=1.3.16"
+  gem 'rails-assets-angular-resource', "=1.3.16"
+  gem 'rails-assets-angular-sanitize', "=1.3.16"
+  gem 'rails-assets-angular-animate', "=1.3.16"
   gem 'rails-assets-angular-ui-utils', "~> 0.2.3"
+  gem 'rails-assets-angular-mocks'
   gem 'rails-assets-moment'
   gem 'rails-assets-lodash'
   gem 'rails-assets-colorbox' # lightbox plugin
@@ -85,10 +90,10 @@ group :test do
   gem 'faker'
   gem 'webmock'
   gem 'vcr'
-  gem 'factory_girl'
-  gem 'factory_girl_rails', :require => false
+  gem 'factory_girl', require: false
+  gem 'factory_girl_rails', require: false
   gem 'cucumber'
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', require: false
   gem 'selenium-webdriver'
   gem 'capybara-webkit'
   gem 'poltergeist'
@@ -105,7 +110,6 @@ end
 
 group :development do
   gem 'annotate'
-  #gem 'capistrano-nginx-unicorn', require: false, group: :development
   gem 'capistrano3-unicorn'
   gem 'spring'
   gem 'better_errors'
@@ -116,16 +120,16 @@ group :development do
 end
 
 group :test, :development do
+  gem "elasticsearch-extensions", require: nil
   gem 'guard-coffeescript'
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'em-rspec', :require => false, :git => 'https://github.com/jwroblewski/em-rspec.git'
+  gem 'em-rspec', require: false, git: 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'
   gem 'pry'
   gem 'pry-byebug'
-  gem 'pry-rails'
   gem 'rb-fsevent'
   gem 'simplecov'
   gem 'cane'
