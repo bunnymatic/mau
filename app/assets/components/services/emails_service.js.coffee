@@ -17,7 +17,6 @@ emailsService = ngInject ($resource) ->
         cache: true
         responseType: 'json'
         transformResponse: (data, header) ->
-          console.log('get', data)
           angular.fromJson(data)?.email
       save:
         method: 'POST'
