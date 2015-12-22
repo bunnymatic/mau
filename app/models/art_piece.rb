@@ -83,10 +83,13 @@ class ArtPiece < ActiveRecord::Base
     extras = {}
     extras["medium"] = medium.try(:name)
     extras["tags"] = tags.map(&:name).join(", ")
-    extras["artist_name"] = artist.try(:full_name)
-    extras["studio_name"] = artist.try(:studio).try(:name) if artist.studio
     extras["images"] = image_paths
-    extras["os_participant"] = artist.try(:doing_open_studios?)
+    # guard against bad data
+    if artist
+      extras["artist_name"] = artist.full_name
+      extras["studio_name"] = artist.studio.name if artist.studio
+      extras["os_participant"] = artist.doing_open_studios?
+    end
     idxd["art_piece"].merge! extras
     idxd
   end
