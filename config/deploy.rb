@@ -66,7 +66,11 @@ namespace :deploy do
   end
 
   task :es_reindex do
-    execute :rake, "es:reindex"
+    within release_path do
+      with rails_env: fetch(:rails_env) do
+        execute :rake, "es:reindex"
+      end
+    end
   end
 
   after :publishing, :es_reindex
