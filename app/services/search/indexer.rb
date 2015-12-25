@@ -9,8 +9,8 @@ module Search
     NGRAM_TOKENIZER = {
       mau_ngram_tokenizer: {
         type: 'nGram',
-        min_gram: 3,
-        max_gram: 6,
+        min_gram: 4,
+        max_gram: 10,
         token_chars: [ :letter, :digit ]
       }
     }
