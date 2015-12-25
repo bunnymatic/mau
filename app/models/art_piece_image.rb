@@ -32,7 +32,7 @@ class ArtPieceImage < ImageFile
     if art_piece.photo?
       return art_piece.photo(size)
     end
-    return unless filename
+    return unless filename && artist
     fname = File.basename(filename)
     path = artist_image_dir(artist)
     ImageFile.get_path(path, size, fname)
