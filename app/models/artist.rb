@@ -77,6 +77,9 @@ class Artist < User
 
   include Elasticsearch::Model
 
+  extend FriendlyId
+  friendly_id :login, use: :slugged
+
   self.__elasticsearch__.client = Search::EsClient.root_es_client
 
   after_commit :add_to_search_index, on: :create

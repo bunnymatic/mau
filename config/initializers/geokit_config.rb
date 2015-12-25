@@ -6,5 +6,5 @@ Geokit::Geocoders::request_timeout = 3
 if Rails.env.test?
   Geokit::Geocoders::provider_order = [:fake]
 else
-  Geokit::Geocoders::provider_order = [:google,:us]
+  Geokit::Geocoders::provider_order = [:google]
 end
