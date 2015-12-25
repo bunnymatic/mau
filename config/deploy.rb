@@ -65,6 +65,11 @@ namespace :deploy do
     invoke 'unicorn:reload'
   end
 
+  task :es_reindex do
+    execute :rake, "es:reindex"
+  end
+
+  after :publishing, :es_reindex
   after :publishing, :restart
 
   after :restart, :clear_cache do
