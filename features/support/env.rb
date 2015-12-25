@@ -3,6 +3,9 @@
 # newer version of cucumber-rails. Consider adding your own code to a new file
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
+require 'dotenv'
+Dotenv.load
+
 require './spec/support/simplecov'
 require './spec/support/faker_files'
 require 'cucumber/rails'

@@ -2,6 +2,12 @@
 rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 rerun_opts = rerun.to_s.strip.empty? ? "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} features" : "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} #{rerun}"
 std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags ~@wip"
+dotenv_opts = ''
+data = ''
+if (File.exist? "./.env.test")
+  data = File.open('./.env.test','r').read.split.join(" ")
+end
+std_opts += " " + data
 %>
 default: <%= std_opts %> --require features features
 wip: --tags @wip:3 --wip features
