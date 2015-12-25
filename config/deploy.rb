@@ -65,10 +65,13 @@ namespace :deploy do
     invoke 'unicorn:reload'
   end
 
+  desc "Reindex Elasticsearch indeces"
   task :es_reindex do
-    within release_path do
-      with rails_env: fetch(:rails_env) do
-        execute :rake, "es:reindex"
+    on roles(:app) do
+      within "#{current_path}" do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "es:reindex"
+        end
       end
     end
   end
