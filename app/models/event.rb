@@ -45,11 +45,11 @@ class Event < ActiveRecord::Base
   validate :validate_endtime
   validate :validate_reception_time
 
-  scope :future, where('((starttime > NOW()) or (reception_starttime > NOW()))')
-  scope :past, where('(endtime is not null and endtime < NOW())')
-  scope :not_past, where('not(endtime is not null and endtime < NOW())')
-  scope :published, where('published_at is not null')
-  scope :by_starttime, order(:starttime)
+  scope :future, -> { where('((starttime > NOW()) or (reception_starttime > NOW()))') }
+  scope :past, -> { where('(endtime is not null and endtime < NOW())') }
+  scope :not_past, -> { where('not(endtime is not null and endtime < NOW())') }
+  scope :published, -> { where('published_at is not null') }
+  scope :by_starttime, -> { order(:starttime) }
 
   belongs_to :user
 

@@ -16,9 +16,9 @@ class FeaturedArtistQueue < ActiveRecord::Base
 
   TABLE_NAME = 'featured_artist_queue'
   self.table_name = TABLE_NAME
-  scope :by_position, order(:position)
-  scope :not_yet_featured, where('featured is NULL').by_position
-  scope :featured, where('featured is not NULL').order('featured desc')
+  scope :by_position, -> { order(:position) }
+  scope :not_yet_featured, -> { where('featured is NULL').by_position }
+  scope :featured, -> { where('featured is not NULL').order('featured desc') }
 
   belongs_to :artist
 

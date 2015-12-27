@@ -122,10 +122,10 @@ class Artist < User
   end
 
   # note, if this is used with count it doesn't work properly - group_by is dumped from the sql
-  scope :with_representative_image, joins(:art_pieces).group('art_pieces.artist_id')
-  scope :with_artist_info, includes(:artist_info)
-  scope :by_lastname, order(:lastname)
-  scope :without_art, active.where("id not in (select artist_id from art_pieces)");
+  scope :with_representative_image, -> { joins(:art_pieces).group('art_pieces.artist_id') }
+  scope :with_artist_info, -> { includes(:artist_info) }
+  scope :by_lastname, -> { order(:lastname) }
+  scope :without_art, -> { active.where("id not in (select artist_id from art_pieces)") }
 
   has_one :artist_info
   accepts_nested_attributes_for :artist_info

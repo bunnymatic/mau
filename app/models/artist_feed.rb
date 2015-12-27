@@ -12,7 +12,7 @@
 
 class ArtistFeed < ActiveRecord::Base
 
-  scope :active, where(:active => true)
+  scope :active, -> { where(:active => true) }
 
   validates_presence_of :url
   validates_presence_of :feed
