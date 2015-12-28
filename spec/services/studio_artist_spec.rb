@@ -4,7 +4,7 @@ describe StudioArtist do
 
   let(:studios) { FactoryGirl.create_list :studio, 2 }
   let(:studio) { studios.first }
-  let(:artist) { FactoryGirl.create(:artist, :active, studio: studio) }
+  let(:artist) { FactoryGirl.create(:artist, :active, :manager, studio: studio) }
 
   subject(:studio_artist) { StudioArtist.new(studio, artist) }
 
@@ -30,12 +30,12 @@ describe StudioArtist do
     end
 
     it 'sets the artist\'s studio to indy' do
-      expect(artist.studio).to be_nil
+      expect(artist.reload.studio).to be_nil
     end
 
     context 'artist is a manager' do
       it 'removes the manager role from the artist' do
-        expect(artist.roles).to_not include Role.manager
+        expect(artist.reload.roles).to_not include Role.manager
       end
     end
 
@@ -45,7 +45,7 @@ describe StudioArtist do
       subject(:studio_artist) { StudioArtist.new(studios.last, artist) }
 
       it 'returns false' do
-        expect(unaffiliate).to be_false
+        expect(unaffiliate).to eq false
       end
       it 'does not change the artist affiliation' do
         unaffiliate
