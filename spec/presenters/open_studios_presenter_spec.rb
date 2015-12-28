@@ -8,7 +8,7 @@ describe OpenStudiosPresenter do
   let(:artists) { [indy_artist] + studio_artists }
   let!(:studio) { FactoryGirl.create :studio, artists: studio_artists }
   let!(:studio2) { FactoryGirl.create :studio, artists: studio2_artists }
-
+  subject(:presenter) { described_class.new }
 
   before do
     [studio, studio2].each do |s|
@@ -30,23 +30,65 @@ describe OpenStudiosPresenter do
     studio2_artists.last(3).each { |a| a.update_os_participation open_studios_event.key, true }
   end
 
-  its(:participating_studios) { should have(2).studios }
-  its(:participating_indies) { should have(1).artist }
-  its(:preview_reception) { should include 'pr header' }
-  its(:summary) { should include 'spring 2004' }
-  its(:preview_reception_data) { should have_key 'data-cmsid'}
-  its(:preview_reception_data) { should have_key 'data-page'}
-  its(:preview_reception_data) { should have_key 'data-section'}
-  its(:summary_data) { should have_key 'data-cmsid'}
-  its(:summary_data) { should have_key 'data-page'}
-  its(:summary_data) { should have_key 'data-section'}
+  describe '#participating_studios' do
+
+    it 'has 2 studios' do
+      expect(presenter.participating_studios.size).to eq(2)
+    end
+  end
+
+  describe '#participating_indies' do
+    it 'has 1 artist' do
+      expect(presenter.participating_indies.size).to eq(1)
+    end
+  end
+
+  describe '#preview_reception' do
+    subject { super().preview_reception }
+    it { should include 'pr header' }
+  end
+
+  describe '#summary' do
+    subject { super().summary }
+    it { should include 'spring 2004' }
+  end
+
+  describe '#preview_reception_data' do
+    subject { super().preview_reception_data }
+    it { should have_key 'data-cmsid'}
+  end
+
+  describe '#preview_reception_data' do
+    subject { super().preview_reception_data }
+    it { should have_key 'data-page'}
+  end
+
+  describe '#preview_reception_data' do
+    subject { super().preview_reception_data }
+    it { should have_key 'data-section'}
+  end
+
+  describe '#summary_data' do
+    subject { super().summary_data }
+    it { should have_key 'data-cmsid'}
+  end
+
+  describe '#summary_data' do
+    subject { super().summary_data }
+    it { should have_key 'data-page'}
+  end
+
+  describe '#summary_data' do
+    subject { super().summary_data }
+    it { should have_key 'data-section'}
+  end
 
   it 'participating studios by name' do
-    subject.participating_studios.map(&:name).should be_monotonically_increasing
+    expect(subject.participating_studios.map(&:name)).to be_monotonically_increasing
   end
 
   it 'participating indys by artist last name' do
-    subject.participating_indies.map(&:lastname).map(&:downcase).should be_monotonically_increasing
+    expect(subject.participating_indies.map(&:lastname).map(&:downcase)).to be_monotonically_increasing
   end
 
 end

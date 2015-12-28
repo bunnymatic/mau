@@ -13,27 +13,44 @@ describe AdminEmailList do
   subject(:email_list) { AdminEmailList.new(listname) }
   let(:emails) { email_list.emails }
 
-  its(:display_title) { should eql "Activated [#{Artist.active.count}]" }
-  its("artists.to_a") { should eql Artist.active.to_a }
-  its(:csv_filename) { should eql 'email_active.csv' }
+  describe '#display_title' do
+    subject { super().display_title }
+    it { should eql "Activated [#{Artist.active.count}]" }
+  end
+
+  describe '#artists' do
+    subject { super().artists }
+    describe '#to_a' do
+      subject { super().to_a }
+      it { should eql Artist.active.to_a }
+    end
+  end
+
+  describe '#csv_filename' do
+    subject { super().csv_filename }
+    it { should eql 'email_active.csv' }
+  end
 
   it 'includes the normal lists' do
     %w(all active pending fans no_profile no_images).each do |k|
-      Hash[email_list.lists].keys.should include k
+      expect(Hash[email_list.lists].keys).to include k
     end
   end
 
   context 'listname is fans' do
     let(:listname) { 'fans' }
 
-    its(:csv_filename) { should eql 'email_fans.csv' }
+    describe '#csv_filename' do
+      subject { super().csv_filename }
+      it { should eql 'email_fans.csv' }
+    end
 
     it 'assigns a list of fans emails when we ask for the fans list' do
-      emails.length.should eql MAUFan.all.count
+      expect(emails.length).to eql MAUFan.all.count
     end
 
     it 'shows the title and list size and correct emails when we ask for fans' do
-      email_list.display_title.should == "Fans [#{email_list.artists.length}]"
+      expect(email_list.display_title).to eq("Fans [#{email_list.artists.length}]")
     end
 
   end
@@ -41,14 +58,17 @@ describe AdminEmailList do
   context 'listname is pending' do
     let(:listname) { 'pending' }
 
-    its(:csv_filename) { should eql 'email_pending.csv' }
+    describe '#csv_filename' do
+      subject { super().csv_filename }
+      it { should eql 'email_pending.csv' }
+    end
 
     it 'assigns a list of pending emails when we ask for the fans list' do
-      email_list.artists.to_a.should eql Artist.pending.to_a
+      expect(email_list.artists.to_a).to eql Artist.pending.to_a
     end
 
     it 'shows the title and list size and correct emails when we ask for pending' do
-      email_list.display_title.should eql "Pending [%s]" % Artist.pending.count
+      expect(email_list.display_title).to eql "Pending [%s]" % Artist.pending.count
     end
   end
 
@@ -57,12 +77,12 @@ describe AdminEmailList do
     let(:listname) { ostag }
 
     it "assigns a list of os artists" do
-      emails.length.should eql Artist.active.all.count{|a| a.os_participation[ostag]}
+      expect(emails.length).to eql Artist.active.all.count{|a| a.os_participation[ostag]}
     end
 
     it "shows the title and list size and correct emails" do
       expected_participants = Artist.active.all.count{|a| a.os_participation[ostag]}
-      email_list.display_title.should eql "#{current.for_display} [#{expected_participants}]"
+      expect(email_list.display_title).to eql "#{current.for_display} [#{expected_participants}]"
     end
   end
 
@@ -70,7 +90,10 @@ describe AdminEmailList do
     let(:ostags) { OpenStudiosEvent.all.map(&:key) }
     let(:listname) { ostags }
 
-    its(:csv_filename) { should eql 'email_' + listname.join("_") + ".csv" }
+    describe '#csv_filename' do
+      subject { super().csv_filename }
+      it { should eql 'email_' + listname.join("_") + ".csv" }
+    end
 
     it 'returns emails that have been in both open studios' do
       expected = Artist.active.select{|a| a.os_participation[ostags.first]}.map(&:email) |

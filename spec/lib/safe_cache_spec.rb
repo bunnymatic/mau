@@ -4,22 +4,22 @@ describe SafeCache do
 
   describe 'read' do
     it "returns nothing on error" do
-      Rails.cache.should_receive(:read).and_raise(Dalli::RingError.new)
-      SafeCache.read('blow').should eql nil
+      expect(Rails.cache).to receive(:read).and_raise(Dalli::RingError.new)
+      expect(SafeCache.read('blow')).to eql nil
     end
   end
 
   describe 'write' do
     it "returns nothing on error" do
-      Rails.cache.should_receive(:write).and_raise(Dalli::RingError.new)
+      expect(Rails.cache).to receive(:write).and_raise(Dalli::RingError.new)
       SafeCache.write("here", "stuff to cache", {:option1 => 'the opt'})
     end
   end
 
   describe 'delete' do
     it "returns nothing on error" do
-      Rails.cache.should_receive(:delete).and_raise(Dalli::RingError.new)
-      SafeCache.delete('blow').should eql nil
+      expect(Rails.cache).to receive(:delete).and_raise(Dalli::RingError.new)
+      expect(SafeCache.delete('blow')).to eql nil
     end
   end
 

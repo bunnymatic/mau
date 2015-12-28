@@ -24,20 +24,20 @@ describe AdminFavoritesPresenter do
   end
 
   it "assigns :favorites to a hash keyed by user login" do
-    @presenter.favorites.count.should be > 0
-    @presenter.favorites.first.first.should be_a_kind_of User
+    expect(@presenter.favorites.count).to be > 0
+    expect(@presenter.favorites.first.first).to be_a_kind_of User
   end
 
   it "fan should have 1 favorite art piece" do
-    @presenter.favorites.detect{|f| f[0] == fan}[1].art_pieces.should eql 1
+    expect(@presenter.favorites.detect{|f| f[0] == fan}[1].art_pieces).to eql 1
   end
 
   it "fan should have 2 favorite artists" do
-    @presenter.favorites.detect{|f| f[0] == fan}[1].artists.should eql 2
+    expect(@presenter.favorites.detect{|f| f[0] == fan}[1].artists).to eql 2
   end
 
   it "artist should have 2 favorited" do
-    @presenter.favorites.detect{|f| f[0] == artist}[1].favorited.should eql 2
+    expect(@presenter.favorites.detect{|f| f[0] == artist}[1].favorited).to eql 2
   end
 
 end

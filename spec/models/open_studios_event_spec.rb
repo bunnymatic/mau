@@ -17,7 +17,7 @@ describe OpenStudiosEvent do
   }
 
   before do
-    OpenStudiosEvent.any_instance.stub(:save_attached_files).and_return(true)
+    allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
     Timecop.freeze
     [ past_oses, current_os, future_oses ].flatten
   end
@@ -34,13 +34,13 @@ describe OpenStudiosEvent do
 
   describe '#future' do
     it 'includes 2 open studios' do
-      expect(OpenStudiosEvent.future).to have(3).events
+      expect(OpenStudiosEvent.future.size).to eq(3)
     end
   end
 
   describe '#past' do
     it 'includes 1 open studios' do
-      expect(OpenStudiosEvent.past).to have(2).events
+      expect(OpenStudiosEvent.past.size).to eq(2)
     end
   end
 

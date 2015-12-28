@@ -9,13 +9,13 @@ describe ArtPieceSerializer do
       @ap = JSON.parse(serializer.to_json)['art_piece']
     end
     it 'includes the filename' do
-      @ap.keys.should include 'filename'
+      expect(@ap.keys).to include 'filename'
     end
     it 'includes paths to all art pieces' do
-      @ap.keys.should include 'image_urls'
+      expect(@ap.keys).to include 'image_urls'
       ['small','medium','large'].each do |sz|
-        @ap['image_urls'].keys.should include sz
-        @ap['image_urls'][sz].should include Conf.site_url
+        expect(@ap['image_urls'].keys).to include sz
+        expect(@ap['image_urls'][sz]).to include Conf.site_url
       end
       expect(@ap['image_urls']['small']).to include "/system/art_pieces/photos"
     end
@@ -38,17 +38,17 @@ describe ArtPieceSerializer do
     end
 
     it 'includes the tags' do
-      @ap['tags'].should be_a_kind_of Array
-      @ap['tags'].first['name'].should eql art_piece.tags.first.name
+      expect(@ap['tags']).to be_a_kind_of Array
+      expect(@ap['tags'].first['name']).to eql art_piece.tags.first.name
     end
     it 'includes the artists name' do
-      @ap['artist_name'].should eql html_encode(art_piece.artist.full_name)
+      expect(@ap['artist_name']).to eql html_encode(art_piece.artist.full_name)
     end
     it 'includes the art piece title' do
-      @ap['title'].should eql art_piece.title
+      expect(@ap['title']).to eql art_piece.title
     end
     it 'includes the medium' do
-      @ap['medium']['name'].should eql art_piece.medium.name
+      expect(@ap['medium']['name']).to eql art_piece.medium.name
     end
 
   end

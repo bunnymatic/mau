@@ -7,20 +7,20 @@ describe StudioSerializer do
   describe 'to_json' do
     [:created_at, :updated_at].each do |field|
       it "does not include #{field} by default" do
-        parsed['studio'].should_not have_key field.to_s
+        expect(parsed['studio']).not_to have_key field.to_s
       end
     end
     it "includes name" do
-      parsed['studio']['name'].should eql studio.name
+      expect(parsed['studio']['name']).to eql studio.name
     end
     it 'includes the street address' do
-      parsed['studio']['street_address'].should eql studio.address_hash.parsed.street
+      expect(parsed['studio']['street_address']).to eql studio.address_hash.parsed.street
     end
     it 'includes the city' do
-      parsed['studio']['city'].should eql studio.address_hash.parsed.city
+      expect(parsed['studio']['city']).to eql studio.address_hash.parsed.city
     end
     it 'includes a url for the map' do
-      parsed['studio']['map_url'].should eql studio.map_link
+      expect(parsed['studio']['map_url']).to eql studio.map_link
     end
 
     it "includes trimmed version of artists" do

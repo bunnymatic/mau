@@ -5,11 +5,11 @@ module ResponseMatchers
       (actual.status.to_i >= 400) && (actual.status.to_i < 500)
     end
 
-    failure_message_for_should do |actual|
+    failure_message do |actual|
       "expected response to be 4xx error"
     end
 
-    failure_message_for_should_not do |actual|
+    failure_message_when_negated do |actual|
       "expected response not to be 4xx error"
     end
 
@@ -23,4 +23,3 @@ end
 RSpec.configure do |config|
   config.include ResponseMatchers, :type => :controller
 end
-

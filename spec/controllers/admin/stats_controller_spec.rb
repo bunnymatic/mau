@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe Admin::StatsController do
+describe Admin::StatsController, type: :controller do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active) }
@@ -10,15 +10,15 @@ describe Admin::StatsController do
 
   describe "json endpoints" do
     [:art_pieces_count_histogram, :user_visits_per_day, :artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
-      describe endpoint do
+      describe endpoint.to_s do
         before do
           xhr :get, endpoint
         end
         it_should_behave_like 'successful json'
         it "json is ready for flotr" do
           j = JSON.parse(response.body)
-          j.keys.should include 'series'
-          j.keys.should include 'options'
+          expect(j.keys).to include 'series'
+          expect(j.keys).to include 'options'
         end
       end
     end
@@ -43,18 +43,18 @@ describe Admin::StatsController do
 
     describe "compute_artists_per_day" do
       it "returns an array" do
-        artists_per_day.should be_a_kind_of(Array)
-        artists_per_day.should have(4).items
+        expect(artists_per_day).to be_a_kind_of(Array)
+        expect(artists_per_day.size).to eq(4)
       end
       it "returns an entries have date and count" do
         entry = artists_per_day.first
-        entry.should have(2).entries
+        expect(entry.entries.size).to eq(2)
         last_created_date = Artist.active.all(:order => :created_at).last.created_at.to_date
-        (Time.zone.at(entry[0].to_i).to_date - last_created_date).should be < 1.day
-        entry[1].should be >= 1
+        expect(Time.zone.at(entry[0].to_i).to_date - last_created_date).to be < 1.day
+        expect(entry[1]).to be >= 1
       end
       it "does not include nil dates" do
-        artists_per_day.all?{|apd| !apd[0].nil?}.should be
+        expect(artists_per_day.all?{|apd| !apd[0].nil?}).to be
       end
     end
     describe "compute_favorites_per_day" do
@@ -69,7 +69,7 @@ describe Admin::StatsController do
         a2.update_attribute(:artist_id, artist.id)
 
         artist_stub = double(Artist,:id => 42, :emailsettings => {'favorites' => false})
-        ArtPiece.any_instance.stub(:artist => artist_stub)
+        allow_any_instance_of(ArtPiece).to receive(:artist).and_return(artist_stub)
         u1.add_favorite a1
         u1.add_favorite artist
         u1.add_favorite u2
@@ -80,27 +80,27 @@ describe Admin::StatsController do
         @favorites_per_day = Admin::StatsController.new.send(:compute_favorites_per_day)
       end
       it "returns an array" do
-        @favorites_per_day.should be_a_kind_of(Array)
-        @favorites_per_day.should have(1).item
+        expect(@favorites_per_day).to be_a_kind_of(Array)
+        expect(@favorites_per_day.size).to eq(1)
       end
       it "returns an entries have date and count" do
         entry = @favorites_per_day.first
-        entry.should have(2).entries
+        expect(entry.entries.size).to eq(2)
         last_favorite_date = Favorite.all(:order => :created_at).last.created_at.utc.to_date
-        Time.zone.at(entry[0].to_i).utc.to_date.should eql last_favorite_date
-        entry[1].should >= 1
+        expect(Time.zone.at(entry[0].to_i).utc.to_date).to eql last_favorite_date
+        expect(entry[1]).to be >= 1
       end
       it "does not include nil dates" do
-        @favorites_per_day.all?{|apd| !apd[0].nil?}.should be
+        expect(@favorites_per_day.all?{|apd| !apd[0].nil?}).to be
       end
     end
     describe "compute_art_pieces_per_day" do
       it "returns an array" do
-        art_pieces_per_day.should be_a_kind_of(Array)
-        art_pieces_per_day.should have_at_least(6).items
+        expect(art_pieces_per_day).to be_a_kind_of(Array)
+        expect(art_pieces_per_day.size).to be >= 6
       end
       it "does not include nil dates" do
-        art_pieces_per_day.all?{|apd| !apd[0].nil?}.should be
+        expect(art_pieces_per_day.all?{|apd| !apd[0].nil?}).to be
       end
     end
   end

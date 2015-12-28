@@ -10,11 +10,12 @@ end
 #Capybara.javascript_driver = :poltergeist
 Capybara.javascript_driver = :webkit
 
+Capybara::Webkit.configure do |config|
+    config.block_unknown_urls
+end
+
 # webkit only
 Before('@javascript') do |scenario, block|
-  if page.driver.respond_to? :block_unknown_urls
-    page.driver.block_unknown_urls
-  end
   if page.driver.respond_to? :header
     page.driver.header "Authorization", ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')
   else

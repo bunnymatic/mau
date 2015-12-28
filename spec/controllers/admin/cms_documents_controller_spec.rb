@@ -69,12 +69,12 @@ describe Admin::CmsDocumentsController do
       it 'renders new on failure' do
         expect{
           post :create, :cms_document => { :page => '', :section => '', :article => ''}
-          assigns(:cms_document).errors.should have_at_least(2).errors
+          expect(assigns(:cms_document).errors.size).to be >= 2
         }.to change(CmsDocument,:count).by(0)
       end
       it 'sets a notification' do
         post :create, :cms_document => FactoryGirl.attributes_for(:cms_document)
-        flash[:notice].should be_present
+        expect(flash[:notice]).to be_present
       end
     end
 
@@ -84,15 +84,15 @@ describe Admin::CmsDocumentsController do
       end
       it 'creates a new cms document' do
         put :update, :id => cms_document.id, :cms_document => { :section => 'new_section' }
-        CmsDocument.find(cms_document.id).section.should eql 'new_section'
+        expect(CmsDocument.find(cms_document.id).section).to eql 'new_section'
       end
       it 'sets a notification' do
         put :update, :id => cms_document.id, :cms_document => { :section => 'this place' }
-        flash[:notice].should be_present
+        expect(flash[:notice]).to be_present
       end
       it 'renders edit on failure' do
         put :update, :id => cms_document.id, :cms_document => { :page => '' }
-        assigns(:cms_document).errors.should be_present
+        expect(assigns(:cms_document).errors).to be_present
       end
     end
 

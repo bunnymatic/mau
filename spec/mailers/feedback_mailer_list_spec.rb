@@ -7,11 +7,11 @@ describe FeedbackMailerList do
 
   it 'returns the right count for AdminMailerList' do
     ems = FeedbackMailerList.first.emails
-    ems.count.should == 1
+    expect(ems.count).to eq(1)
   end
 
   it 'is unique by type' do
-    lambda { FeedbackMailerList.create }.should raise_error(ActiveRecord::StatementInvalid)
+    expect { FeedbackMailerList.create }.to raise_error(ActiveRecord::StatementInvalid)
   end
 
   it 'adds email to the Email table' do
@@ -26,7 +26,7 @@ describe FeedbackMailerList do
     mailing_list.emails << Email.new(:email => 'whatever@dude.com')
     mailing_list.save
     mailing_list.reload
-    mailing_list.emails.count.should == 2
+    expect(mailing_list.emails.count).to eq(2)
   end
 
 end

@@ -11,7 +11,10 @@ describe Artist do
   let(:artist_info) { artist.artist_info }
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
-  its(:at_art_piece_limit?) { should eql false }
+  describe '#at_art_piece_limit?' do
+    subject { super().at_art_piece_limit? }
+    it { should eql false }
+  end
 
   before do
     Rails.cache.clear
@@ -19,7 +22,11 @@ describe Artist do
 
   context 'if max_pieces is nil' do
     let(:max_pieces) { nil }
-    its(:at_art_piece_limit?) { should eql false }
+
+    describe '#at_art_piece_limit?' do
+      subject { super().at_art_piece_limit? }
+      it { should eql false }
+    end
   end
   context 'make sure our factories work' do
     it 'creates an artist info with each artist' do
@@ -35,13 +42,13 @@ describe Artist do
         let(:new_artist) { FactoryGirl.create(:artist) }
         let(:token) { new_artist.make_activation_code }
         it "returns a string greater than 20 chars" do
-          token.length.should > 20
+          expect(token.length).to be > 20
         end
         it "returns a string with only numbers and letters" do
-          token.should_not match /\W+/
+          expect(token).not_to match /\W+/
         end
         it "when called again returns something different" do
-          token.should_not eql(new_artist.make_activation_code)
+          expect(token).not_to eql(new_artist.make_activation_code)
         end
       end
     end
@@ -50,26 +57,26 @@ describe Artist do
 
   describe "update" do
     it "should update bio" do
-      allow(ArtistInfo.any_instance).to receive(:compute_geocode).and_return([-40,122])
+      allow_any_instance_of(ArtistInfo).to receive(:compute_geocode).and_return([-40,122])
 
       artist.bio = 'stuff'
       artist.artist_info.save!
       a = Artist.find(artist.id)
-      a.bio.should eql 'stuff'
+      expect(a.bio).to eql 'stuff'
     end
 
     it "should update email settings" do
       attr_hash = JSON::parse(artist.email_attrs)
-      attr_hash['fromartist'].should eql(true)
-      attr_hash['fromall'].should eql(true)
+      expect(attr_hash['fromartist']).to eql(true)
+      expect(attr_hash['fromall']).to eql(true)
       attr_hash['favorites'] = false
       artist.emailsettings = attr_hash
       artist.save
       artist.reload
       attr_hash = artist.emailsettings
-      attr_hash['fromartist'].should eql(true)
-      attr_hash['fromall'].should eql(true)
-      attr_hash['favorites'].should eql(false)
+      expect(attr_hash['fromartist']).to eql(true)
+      expect(attr_hash['fromall']).to eql(true)
+      expect(attr_hash['favorites']).to eql(false)
     end
   end
 
@@ -80,26 +87,26 @@ describe Artist do
     describe 'artist info only' do
       it "returns artist address" do
         @address_methods.each do |method|
-          artist_without_studio.send(method).should_not be_nil
-          artist_without_studio.send(method).should eql artist_without_studio.artist_info.send(method)
+          expect(artist_without_studio.send(method)).not_to be_nil
+          expect(artist_without_studio.send(method)).to eql artist_without_studio.artist_info.send(method)
         end
       end
     end
     describe 'studio + artist info' do
       it "returns studio address" do
         @address_methods.each do |method|
-          artist.send(method).should_not be_nil
-          artist.send(method).should eql artist.studio.send(method)
+          expect(artist.send(method)).not_to be_nil
+          expect(artist.send(method)).to eql artist.studio.send(method)
         end
       end
     end
     describe 'neither address in artist info nor studio' do
       it "returns empty for address" do
-        nobody.send(:address).should be_nil
+        expect(nobody.send(:address)).to be_nil
         hsh = nobody.send(:address_hash)
-        hsh[:geocoded].should be_false
-        hsh[:parsed][:street].should be_nil
-        hsh[:latlng].should eql [nil,nil]
+        expect(hsh[:geocoded]).to eq false
+        expect(hsh[:parsed][:street]).to be_nil
+        expect(hsh[:latlng]).to eql [nil,nil]
       end
       it { expect(nobody).to_not be_has_address }
     end
@@ -152,27 +159,27 @@ describe Artist do
       artist
     end
     context 'with lowercase name' do
-      it { artists.should have(1).artist }
-      it { artists.first.should eql artist }
+      it { expect(artists.size).to eq(1) }
+      it { expect(artists.first).to eql artist }
     end
     context 'with capitalized name search' do
       let(:full_name) { "Joe Blow" }
-      it { artists.should have(1).artist }
-      it { artists.first.should eql artist }
+      it { expect(artists.size).to eq(1) }
+      it { expect(artists.first).to eql artist }
     end
     context 'with mixed case search' do
       let(:full_name) { "Joe blow" }
-      it { artists.should have(1).artist }
-      it { artists.first.should eql artist }
+      it { expect(artists.size).to eq(1) }
+      it { expect(artists.first).to eql artist }
     end
     context 'with substring' do
       let(:full_name) { "Jo blow" }
-      it { artists.should be_empty }
+      it { expect(artists).to be_empty }
     end
   end
   describe 'get from info' do
     it "responds to method bio" do
-      lambda { artist.bio }.should_not raise_error
+      expect { artist.bio }.not_to raise_error
     end
   end
   describe "fetch address" do
@@ -180,78 +187,78 @@ describe Artist do
       let(:artist_info) { artist_without_studio.artist_info }
 
       it "returns correct street" do
-        artist_info.street.should eql artist.street
+        expect(artist_info.street).to eql artist.street
       end
       it "returns correct address" do
-        artist_without_studio.address.should include artist.street
+        expect(artist_without_studio.address).to include artist.street
       end
       it "returns correct lat/lng" do
-        artist_info.lat.should be
-        artist_info.lng.should be
+        expect(artist_info.lat).to be
+        expect(artist_info.lng).to be
       end
     end
     context 'with studio association' do
       it "returns correct street" do
-        artist_info.street.should eql artist.street
+        expect(artist_info.street).to eql artist.street
       end
       it "returns studio address" do
-        artist.address.should eql artist.address
+        expect(artist.address).to eql artist.address
       end
       it "returns correct artist info lat/lng" do
-        artist_info.lat.should be_within(0.001).of(artist.lat)
-        artist_info.lng.should be_within(0.001).of(artist.lng)
+        expect(artist_info.lat).to be_within(0.001).of(artist.lat)
+        expect(artist_info.lng).to be_within(0.001).of(artist.lng)
       end
     end
   end
   describe 'representative piece' do
     it 'is the first returned by art_pieces' do
-      artist.representative_piece.should eql artist.art_pieces[0]
-      artist.representative_piece.should eql artist.representative_pieces(1)[0]
+      expect(artist.representative_piece).to eql artist.art_pieces[0]
+      expect(artist.representative_piece).to eql artist.representative_pieces(1)[0]
     end
     it 'calls Cache.write if Cache.read returns nil' do
       ap = ArtPiece.find_by_artist_id(artist.id)
-      Rails.cache.stub(read: nil)
-      Rails.cache.should_receive(:write).once
-      artist.stub(art_pieces: [ap])
-      artist.representative_piece.should eql ap
+      allow(Rails.cache).to receive(:read).and_return(nil)
+      expect(Rails.cache).to receive(:write).once
+      allow(artist).to receive(:art_pieces).and_return([ap])
+      expect(artist.representative_piece).to eql ap
     end
     it 'doesn\'t call Cache.write if Cache.read returns something' do
-      Rails.cache.stub(read: artist.art_pieces[0])
-      Rails.cache.should_receive(:write).never
+      allow(Rails.cache).to receive(:read).and_return(artist.art_pieces[0])
+      expect(Rails.cache).to receive(:write).never
       artist.representative_piece
     end
     it 'doesn\'t call Cache.write if there are no art pieces' do
-      Rails.cache.stub(read: nil)
-      Rails.cache.should_receive(:write).never
-      artist.stub(art_pieces: [])
-      artist.representative_piece.should eql nil
+      allow(Rails.cache).to receive(:read).and_return(nil)
+      expect(Rails.cache).to receive(:write).never
+      allow(artist).to receive(:art_pieces).and_return([])
+      expect(artist.representative_piece).to eql nil
     end
   end
   describe 'representative pieces' do
     context 'when the artist has none' do
       let(:artist) { wayout_artist }
-      it { artist.representative_pieces(20).should be_empty }
+      it { expect(artist.representative_pieces(20)).to be_empty }
     end
     context 'when the artist has art' do
       it 'is the list of art pieces' do
-        artist.representative_pieces(3).should eql artist.art_pieces[0..2]
+        expect(artist.representative_pieces(3)).to eql artist.art_pieces[0..2]
       end
       it 'returns only as many pieces as the artist has' do
-        artist.representative_pieces(1000).should eql artist.art_pieces.all
-        artist.representative_pieces(1000).count.should be < 1000
+        expect(artist.representative_pieces(1000)).to eql artist.art_pieces.all
+        expect(artist.representative_pieces(1000).count).to be < 1000
       end
     end
   end
 
   describe 'representative piece' do
     it 'is included in the users art pieces' do
-      artist.art_pieces.should include artist.representative_piece
+      expect(artist.art_pieces).to include artist.representative_piece
     end
     it 'is nil for users with no art pieces' do
-      wayout_artist.representative_piece.should be_nil
+      expect(wayout_artist.representative_piece).to be_nil
     end
     it 'is the same as the first piece from art_pieces' do
-      artist.representative_piece.should eql artist.art_pieces[0]
+      expect(artist.representative_piece).to eql artist.art_pieces[0]
     end
   end
 
@@ -279,10 +286,10 @@ describe Artist do
       artist
     end
     it 'generates a qr code the first time' do
-      File.stub(:exists? => false)
+      allow(File).to receive(:exists?).and_return(false)
       outpath = File.join(Rails.root, "public/artistdata/#{artist.id}/profile/qr.png")
       str = "http://#{Conf.site_url}/artists/#{artist.id}?qrgen=auto"
-      Qr4r.should_receive(:encode).with(str, outpath, border: 15, pixel_size: 5)
+      expect(Qr4r).to receive(:encode).with(str, outpath, border: 15, pixel_size: 5)
       artist.qrcode
     end
   end
@@ -307,7 +314,7 @@ describe Artist do
       a.artist_info.update_os_participation(open_studios_event.key, true)
       a.artist_info.save
       Artist.tally_os
-      OpenStudiosTally.last.count.should eql(t.count + 1)
+      expect(OpenStudiosTally.last.count).to eql(t.count + 1)
     end
 
   end
@@ -320,8 +327,8 @@ describe Artist do
 
     it 'returns true for an artist doing this open studios (with no args)' do
       doing, notdoing = Artist.all.partition(&:doing_open_studios?)
-      doing.should have_at_least(1).artists
-      notdoing.should have(Artist.count - 1).artists
+      expect(doing.size).to be >= 1
+      expect(notdoing.size).to eq(Artist.count - 1)
     end
   end
 
@@ -330,11 +337,11 @@ describe Artist do
       artist
     end
     it "most recent art piece should be the representative" do
-      artist.representative_piece.title.should be_present
+      expect(artist.representative_piece.title).to be_present
     end
 
     it "returns art_pieces in by created at if there is no order" do
-      artist.art_pieces.should eql artist.art_pieces.sort_by(&:created_at).reverse
+      expect(artist.art_pieces).to eql artist.art_pieces.sort_by(&:created_at).reverse
     end
 
     it "returns art_pieces in by created at, then order if there is order" do
@@ -362,9 +369,9 @@ describe Artist do
       it 'returns only artists with a representative image' do
         active = Artist.active
         w_image = Artist.active.with_representative_image.all
-        active.count.should_not eql w_image.count
-        active.select{|a| a.representative_piece.blank?}.should have_at_least(1).item
-        w_image.select{|a| a.representative_piece.blank?}.should be_empty
+        expect(active.count).not_to eql w_image.count
+        expect(active.select{|a| a.representative_piece.blank?}.size).to be >= 1
+        expect(w_image.select{|a| a.representative_piece.blank?}).to be_empty
       end
     end
     describe '.open_studios_participants' do
@@ -377,7 +384,7 @@ describe Artist do
       end
       it "returns 1 artist(s) for the current open studios" do
         artists = Artist.open_studios_participants
-        artists.should have(1).artists
+        expect(artists.size).to eq(1)
       end
     end
   end

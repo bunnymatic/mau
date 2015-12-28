@@ -35,19 +35,19 @@ describe MainController do
       end
       it 'has the default description & keywords' do
         assert_select 'head meta[name=description]' do |desc|
-          desc.length.should eql 1
-          desc[0].attributes['content'].should match /^Mission Artists United is a website/
+          expect(desc.length).to eql 1
+          expect(desc[0].attributes['content']).to match /^Mission Artists United is a website/
         end
         assert_select 'head meta[property=og:description]' do |desc|
-          desc.length.should eql 1
-          desc[0].attributes['content'].should match /^Mission Artists United is a website/
+          expect(desc.length).to eql 1
+          expect(desc[0].attributes['content']).to match /^Mission Artists United is a website/
         end
         assert_select 'head meta[name=keywords]' do |keywords|
-          keywords.length.should eql 1
+          expect(keywords.length).to eql 1
           expected = ["art is the mission", "art", "artists", "san francisco"]
           actual = keywords[0].attributes['content'].split(',').map(&:strip)
           expected.each do |ex|
-            actual.should include ex
+            expect(actual).to include ex
           end
         end
       end
@@ -69,8 +69,8 @@ describe MainController do
       end
       it { expect(response).to be_success }
       it 'fetches markdown content' do
-        assigns(:content).should have_key :content
-        assigns(:content).should have_key :cmsid
+        expect(assigns(:content)).to have_key :content
+        expect(assigns(:content)).to have_key :cmsid
       end
     end
   end
@@ -87,10 +87,10 @@ describe MainController do
       end
       it { expect(response).to be_success }
       it 'sets some info about the page' do
-        (/Get Involved/ =~ assigns(:page_title)).should be
+        expect(/Get Involved/ =~ assigns(:page_title)).to be
       end
       it 'assigns the proper paypal page' do
-        assigns(:page).should eql 'paypal_success'
+        expect(assigns(:page)).to eql 'paypal_success'
       end
     end
     describe '/paypal_cancel' do
@@ -99,10 +99,10 @@ describe MainController do
       end
       it { expect(response).to be_success }
       it 'sets some info about the page' do
-        (/Get Involved/ =~ assigns(:page_title)).should be
+        expect(/Get Involved/ =~ assigns(:page_title)).to be
       end
       it 'assigns the proper paypal page' do
-        assigns(:page).should eql 'paypal_cancel'
+        expect(assigns(:page)).to eql 'paypal_cancel'
       end
     end
     describe 'send feedback' do
@@ -124,7 +124,7 @@ describe MainController do
       end
       context 'with data' do
         before do
-          FeedbackMailer.stub(:feedback => double("FeedbackMailer", :deliver! => true))
+          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMailer", :deliver! => true))
         end
         it 'saves a feedback record' do
           expect {
@@ -133,20 +133,19 @@ describe MainController do
         end
         it 'sets the flash notice' do
           get :getinvolved, :commit => true, :feedback => feedback_attrs
-          flash.now[:notice].should be_present
+          expect(flash.now[:notice]).to be_present
         end
         it 'sends an email' do
-          expect(FeedbackMailer).to receive(:feedback).and_return(double("deliverable", :deliver! => true))
+          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMailer", :deliver! => true))
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
       end
       context 'when you\'re logged in' do
         before do
           login_as artist
-          FeedbackMailer.stub(:feedback => double("FeedbackMailer", :deliver! => true))
         end
         it 'sends an email' do
-          FeedbackMailer.should_receive(:feedback).and_return(double("deliverable", :deliver! => true))
+          expect(FeedbackMailer).to receive(:feedback).and_return(double("deliverable", :deliver! => true))
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
       end
@@ -202,7 +201,7 @@ describe MainController do
 
   describe 'notes mailer' do
     before do
-      FeedbackMailer.any_instance.stub(:deliver! => true)
+      allow_any_instance_of(FeedbackMailer).to receive(:deliver!).and_return(true)
     end
     describe "xhr post" do
       before do
@@ -267,7 +266,7 @@ describe MainController do
 
   describe 'status' do
     it 'hits the database' do
-      Medium.should_receive :first
+      expect(Medium).to receive :first
       get :status_page
     end
     it 'returns success' do
@@ -279,7 +278,7 @@ describe MainController do
   describe 'version' do
     it 'returns the app version' do
       get :version
-      response.body.should eql ApplicationController::VERSION
+      expect(response.body).to eql ApplicationController::VERSION
     end
   end
 

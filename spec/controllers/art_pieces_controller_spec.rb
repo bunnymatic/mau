@@ -23,7 +23,7 @@ describe ArtPiecesController do
       end
       it 'returns art from active artists' do
         j = JSON.parse(response.body)
-        j.count.should eql artist.art_pieces.count
+        expect(j.count).to eql artist.art_pieces.count
       end
     end
   end
@@ -67,7 +67,7 @@ describe ArtPiecesController do
       context "getting unknown art piece page" do
         it "should redirect to error page" do
           get :show, id: 'bogusid'
-          flash[:error].should match(/couldn\'t find that art/)
+          expect(flash[:error]).to match(/couldn\'t find that art/)
           expect(response).to redirect_to '/error'
         end
       end
@@ -109,7 +109,7 @@ describe ArtPiecesController do
       end
       it 'sets a flash message without image' do
         post :create, art_piece: art_piece_attributes.except(:photo)
-        assigns(:art_piece).errors[:photo].should be_present
+        expect(assigns(:art_piece).errors[:photo]).to be_present
       end
       it 'redirects to user page on cancel' do
         post :create, art_piece: art_piece_attributes, commit: 'Cancel'
@@ -135,14 +135,14 @@ describe ArtPiecesController do
         end
         it 'sets a flash message on success' do
           post :create, art_piece: art_piece_attributes
-          flash[:notice].should eql "You've got new art!"
+          expect(flash[:notice]).to eql "You've got new art!"
         end
         it "flushes the cache" do
-          ArtPiecesController.any_instance.should_receive(:flush_cache)
+          expect_any_instance_of(ArtPiecesController).to receive(:flush_cache)
           post :create, art_piece: art_piece_attributes
         end
         it 'publishes a message' do
-          Messager.any_instance.should_receive(:publish)
+          expect_any_instance_of(Messager).to receive(:publish)
           post :create, art_piece: art_piece_attributes
         end
         it 'correctly adds tags to the art piece' do
@@ -175,7 +175,7 @@ describe ArtPiecesController do
       it 'with bad attributes' do
         post :update, id: art_piece.id, art_piece: {title: ''}
         expect(response).to render_template 'edit'
-        expect(assigns(:art_piece).errors).to have_at_least(1).error
+        expect(assigns(:art_piece).errors.size).to be >= 1
       end
 
       it 'redirects to show page on success' do
@@ -185,21 +185,21 @@ describe ArtPiecesController do
       it 'updates tags given a string of comma separated items' do
         post :update, id: art_piece.id, art_piece: {title: art_piece.title, tags: 'this, that, the other, this, that'}
         tag_names = art_piece.reload.tags.map(&:name)
-        expect(tag_names).to have(3).tags
+        expect(tag_names.size).to eq(3)
         expect(tag_names).to include 'this'
         expect(tag_names).to include 'this'
         expect(tag_names).to include 'the other'
       end
       it 'sets a flash message on success' do
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
-        flash[:notice].should eql 'The art has been updated.'
+        expect(flash[:notice]).to eql 'The art has been updated.'
       end
       it "flushes the cache" do
-        ArtPiecesController.any_instance.should_receive(:flush_cache)
+        expect_any_instance_of(ArtPiecesController).to receive(:flush_cache)
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
       end
       it 'publishes a message' do
-        Messager.any_instance.should_receive(:publish)
+        expect_any_instance_of(Messager).to receive(:publish)
         post :update, id: art_piece.id, art_piece: {title: 'new title'}
       end
       it 'redirects to show page on cancel' do
@@ -279,7 +279,7 @@ describe ArtPiecesController do
         }.to change(ArtPiece, :count).by 0
       end
       it "does not publish a message " do
-        Messager.any_instance.should_receive(:publish).never
+        expect_any_instance_of(Messager).to receive(:publish).never
         post :destroy, id: art_piece.id
       end
 
@@ -299,7 +299,7 @@ describe ArtPiecesController do
         expect{ ArtPiece.find(@ap) }.to raise_error ActiveRecord::RecordNotFound
       end
       it "calls messager.publish" do
-        Messager.any_instance.should_receive(:publish).exactly(:once)
+        expect_any_instance_of(Messager).to receive(:publish).exactly(:once)
         post :destroy, id: @ap
       end
     end

@@ -1,4 +1,3 @@
-
 require 'spec_helper'
 
 describe Admin::FavoritesController do
@@ -9,29 +8,25 @@ describe Admin::FavoritesController do
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
   let(:art_pieces) { artist.art_pieces }
 
-  [:index].each do |endpoint|
-    describe endpoint do
+  describe "#index" do
+    context "as an admin" do
+      before do
+        login_as(:admin)
+        get :index
+      end
+      it { expect(response).to be_success }
+    end
+    context "as a non-admin" do
+      before do
+        login_as jesse
+        get :index
+      end
       it "responds failure if not logged in" do
-        get endpoint
         expect(response).to redirect_to '/error'
       end
       it "responds failure if not logged in as admin" do
-        get endpoint
         expect(response).to redirect_to '/error'
       end
-      it "responds success if logged in as admin" do
-        login_as(:admin)
-        get endpoint
-        expect(response).to be_success
-      end
     end
-  end
-
-  describe "#index" do
-    before do
-      login_as(:admin)
-      get :index
-    end
-    it { expect(response).to be_success }
   end
 end

@@ -16,43 +16,96 @@ describe EventPresenter do
                                    ) }
   subject(:presenter) { EventPresenter.new(mock_view_context, event) }
 
-  its(:event_website_url) { should eql event_website }
+  describe '#event_website_url' do
+    subject { super().event_website_url }
+    it { should eql event_website }
+  end
 
   it{ should_not be_published }
-  its(:event_classes) { should include 'past' }
-  its(:event_classes) { should include 'unpublished' }
-  its(:title) { should eql event.title }
 
-  its(:display_event_time) { should match starttime.strftime("%a %b %e") }
-  its(:display_event_time) { should match endtime.strftime("- %a %b") }
+  describe '#event_classes' do
+    subject { super().event_classes }
+    it { should include 'past' }
+  end
 
-  its(:display_reception_time) { should match reception_starttime.strftime("%a %b %e") }
-  its(:display_reception_time) { should match reception_endtime.strftime(" %l:%M%p") }
+  describe '#event_classes' do
+    subject { super().event_classes }
+    it { should include 'unpublished' }
+  end
+
+  describe '#title' do
+    subject { super().title }
+    it { should eql event.title }
+  end
+
+  describe '#display_event_time' do
+    subject { super().display_event_time }
+    it { should match starttime.strftime("%a %b %e") }
+  end
+
+  describe '#display_event_time' do
+    subject { super().display_event_time }
+    it { should match endtime.strftime("- %a %b") }
+  end
+
+  describe '#display_reception_time' do
+    subject { super().display_reception_time }
+    it { should match reception_starttime.strftime("%a %b %e") }
+  end
+
+  describe '#display_reception_time' do
+    subject { super().display_reception_time }
+    it { should match reception_endtime.strftime(" %l:%M%p") }
+  end
 
   context 'when the website address does not start http' do
     let(:event_website) { 'www.twitter.com' }
-    its(:event_website_url) { should eql 'http://' + event_website }
+
+    describe '#event_website_url' do
+      subject { super().event_website_url }
+      it { should eql 'http://' + event_website }
+    end
   end
 
   context 'when the website address starts https' do
     let(:event_website) { 'https://ssl.whatever.com/this/that' }
-    its(:event_website_url) { should eql event_website  }
+
+    describe '#event_website_url' do
+      subject { super().event_website_url }
+      it { should eql event_website  }
+    end
   end
 
   context 'when end time is the same day as start time' do
     let(:endtime) { starttime + 1.minute }
-    its(:display_event_time) { should match starttime.strftime("%a %b %e") }
-    its(:display_event_time) { should_not match starttime.strftime("- %a %b") }
+
+    describe '#display_event_time' do
+      subject { super().display_event_time }
+      it { should match starttime.strftime("%a %b %e") }
+    end
+
+    describe '#display_event_time' do
+      subject { super().display_event_time }
+      it { should_not match starttime.strftime("- %a %b") }
+    end
   end
 
   context 'when the event is in progress' do
     let(:starttime) { Time.zone.now - 1.day }
-    its(:event_classes) { should include 'in_progress' }
+
+    describe '#event_classes' do
+      subject { super().event_classes }
+      it { should include 'in_progress' }
+    end
   end
 
   context 'when the event is in the future' do
     let(:starttime) { Time.zone.now + 1.day }
-    its(:event_classes) { should include 'future' }
+
+    describe '#event_classes' do
+      subject { super().event_classes }
+      it { should include 'future' }
+    end
   end
 
   context 'when the event is published' do

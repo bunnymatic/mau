@@ -36,8 +36,8 @@ describe Admin::ArtistsController do
         context 'with no params' do
           render_views
           before do
-            ArtistInfo.any_instance.stub(os_participation: { current_os.key => true})
-            Artist.any_instance.stub(os_participation: { current_os.key => true}, address: { yes: 'we do' })
+            allow_any_instance_of(ArtistInfo).to receive(:os_participation).and_return({ current_os.key => true})
+            allow_any_instance_of(Artist).to receive(:os_participation).and_return({ current_os.key => true}, address: { yes: 'we do' })
             pending
             password_reset
             get :index
@@ -74,10 +74,10 @@ describe Admin::ArtistsController do
         it 'includes the right headers' do
           expected_headers = ["Login", "First Name","Last Name","Full Name","Group Site Name",
                               "Studio Address","Studio Number","Email Address"]
-          parsed.headers.should == expected_headers
+          expect(parsed.headers).to eq(expected_headers)
         end
         it 'includes the right data' do
-          expect(parsed).to have(Artist.all.count).rows
+          expect(parsed.size).to eq(Artist.all.count)
           row = parsed.detect{|row| row['Full Name'] == artist.full_name}
           expect(row).to be_present
           expect(row['Login']).to eql artist.login
@@ -108,7 +108,7 @@ describe Admin::ArtistsController do
         expect(response).to be_success
       end
       it 'calls the notify_featured mailer' do
-        ArtistMailer.should_receive(:notify_featured).exactly(:once).and_return(double(:deliver! => true))
+        expect(ArtistMailer).to receive(:notify_featured).exactly(:once).and_return(double(:deliver! => true))
         post :notify_featured, id: artist.id
       end
     end

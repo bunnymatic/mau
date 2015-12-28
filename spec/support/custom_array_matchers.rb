@@ -4,11 +4,11 @@ RSpec::Matchers.define :be_monotonically_increasing do
     derivative.all?{|v| v >= 0}
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected array #{actual.inspect} to be monotonically increasing"
   end
 
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "expected array #{actual.inspect} to not be monotonically increasing"
   end
 
@@ -23,11 +23,11 @@ RSpec::Matchers.define :be_monotonically_decreasing do
     derivative.all?{|v| v <= 0}
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected array #{actual.inspect} to be monotonically decreasing"
   end
 
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "expected array #{actual.inspect} to not be monotonically decreasing"
   end
 
@@ -42,11 +42,11 @@ RSpec::Matchers.define :be_strictly_increasing do
     derivative.all?{|v| v > 0}
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected array #{actual.inspect} to be strictly increasing"
   end
 
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "expected array #{actual.inspect} to not be strictly increasing"
   end
 
@@ -61,11 +61,11 @@ RSpec::Matchers.define :be_strictly_decreasing do
     derivative.all?{|v| v < 0}
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected array #{actual.inspect} to be strictly decreasing"
   end
 
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "expected array #{actual.inspect} to not be strictly decreasing"
   end
 

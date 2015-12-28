@@ -8,15 +8,50 @@ describe ArtistPresenter do
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
   subject(:presenter) { ArtistPresenter.new(artist) }
 
-  its(:in_the_mission?) { should eql artist.in_the_mission?}
-  its(:has_media?) { should be_true }
-  its(:has_bio?) { should be_true }
-  its(:bio_html) { should eq RDiscount.new(artist.artist_info.bio).to_html.html_safe }
-  its(:has_links?) { should be_true }
-  its(:links) { should be_present }
-  its(:favorites_count) { should be_nil }
-  its(:studio_name) { should eql artist.studio.name }
-  its(:has_art?) { should be_true }
+  describe '#in_the_mission?' do
+    subject { super().in_the_mission? }
+    it { should eql artist.in_the_mission?}
+  end
+
+  describe '#has_media?' do
+    subject { super().has_media? }
+    it { should eq(true) }
+  end
+
+  describe '#has_bio?' do
+    subject { super().has_bio? }
+    it { should eq(true) }
+  end
+
+  describe '#bio_html' do
+    subject { super().bio_html }
+    it { should eq RDiscount.new(artist.artist_info.bio).to_html.html_safe }
+  end
+
+  describe '#has_links?' do
+    subject { super().has_links? }
+    it { should eq(true) }
+  end
+
+  describe '#links' do
+    subject { super().links }
+    it { should be_present }
+  end
+
+  describe '#favorites_count' do
+    subject { super().favorites_count }
+    it { should be_nil }
+  end
+
+  describe '#studio_name' do
+    subject { super().studio_name }
+    it { should eql artist.studio.name }
+  end
+
+  describe '#has_art?' do
+    subject { super().has_art? }
+    it { should eq(true) }
+  end
   it{ should be_valid }
 
   it 'has a good map div for google maps' do
@@ -42,30 +77,50 @@ describe ArtistPresenter do
 
   context 'without media' do
     before do
-      ArtPiece.any_instance.stub(:medium => nil)
+      allow_any_instance_of(ArtPiece).to receive(:medium).and_return(nil)
     end
-    its(:has_media?) { should be_false }
+
+    describe '#has_media?' do
+      subject { super().has_media? }
+      it { should eq false }
+    end
   end
 
-  context 'with bio' do
+  context 'without bio' do
     before do
-      ArtistInfo.any_instance.stub(:bio => nil)
+      allow(artist).to receive_message_chain(:artist_info, :bio).and_return(nil)
     end
-    its(:has_bio?) { should be_false }
+
+    describe '#has_bio?' do
+      subject { super().has_bio? }
+      it { should eq false }
+    end
   end
 
-  context 'with links' do
+  context 'without links' do
     before do
-      Artist.any_instance.stub(:url => nil,
-                               :facebook => nil,
-                               :instagram => nil)
+      allow(artist).to receive(:url).and_return(nil)
+      allow(artist).to receive(:facebook).and_return(nil)
+      allow(artist).to receive(:instagram).and_return(nil)
     end
-    its(:has_links?) { should be_false }
+
+    describe '#has_links?' do
+      subject { super().has_links? }
+      it { should eq false }
+    end
   end
 
   context 'without art' do
     let(:artist) { FactoryGirl.create(:artist, :active) }
-    its(:art_pieces) { should be_empty }
-    its(:has_art?) { should be_false }
+
+    describe '#art_pieces' do
+      subject { super().art_pieces }
+      it { should be_empty }
+    end
+
+    describe '#has_art?' do
+      subject { super().has_art? }
+      it { should eq false }
+    end
   end
 end

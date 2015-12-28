@@ -5,5 +5,5 @@ describe ErrorController do
     get :index
   end
 
-  it { response.status.should eql 400 }
+  it { expect(response.status).to eql 400 }
 end

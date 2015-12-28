@@ -28,11 +28,11 @@ shared_examples_for AddressMixin do
   describe '#full_address' do
 
     it 'builds a full address for maps' do
-      with_address.full_address.should eql [base_attributes[:street], base_attributes[:city],
+      expect(with_address.full_address).to eql [base_attributes[:street], base_attributes[:city],
                                             the_state, base_attributes[:zip].to_i].join(", ")
     end
     it 'builds a full address for maps' do
-      with_address.address.should eql [base_attributes[:street], base_attributes[:zip].to_i].join(" ")
+      expect(with_address.address).to eql [base_attributes[:street], base_attributes[:zip].to_i].join(" ")
     end
 
   end
@@ -46,18 +46,18 @@ shared_examples_for AddressMixin do
 
   describe '#map_link' do
     it 'returns a google map link' do
-      with_address.map_link.should match /maps\.google\.com\/maps\?q=#{URI.escape(base_attributes[:street])}/
+      expect(with_address.map_link).to match /maps\.google\.com\/maps\?q=#{URI.escape(base_attributes[:street])}/
     end
   end
 
   describe '#compute_geocode' do
     it 'calls Geocode with the full address' do
-      Geokit::Geocoders::MultiGeocoder.should_receive(:geocode).
+      expect(Geokit::Geocoders::MultiGeocoder).to receive(:geocode).
         with(with_address.full_address).
         and_return((double("Geokit::GeoLoc", :success => true,
                            :lat => 9.0,
                            :lng => 10.0)))
-      with_address.send(:compute_geocode).should eql [with_address.lat.to_f, with_address.lng.to_f]
+      expect(with_address.send(:compute_geocode)).to eql [with_address.lat.to_f, with_address.lng.to_f]
     end
   end
 
