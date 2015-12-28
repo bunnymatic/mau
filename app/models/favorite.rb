@@ -14,9 +14,9 @@ class Favorite < ActiveRecord::Base
   belongs_to :user
   belongs_to :favorite, :polymorphic => true
 
-  scope :art_pieces, where(:favoritable_type => ArtPiece.name)
-  scope :users, where(:favoritable_type => [Artist.name, User.name])
-  scope :artists, where(:favoritable_type => Artist.name)
+  scope :art_pieces, -> { where(:favoritable_type => ArtPiece.name) }
+  scope :users, -> { where(:favoritable_type => [Artist.name, User.name]) }
+  scope :artists, -> { where(:favoritable_type => Artist.name) }
 
   FAVORITABLE_TYPES = ['Artist','ArtPiece']
 

@@ -19,33 +19,33 @@ describe Favorite, 'named scopes' do
     anna.add_favorite jesse.art_pieces.last
   end
   it "users finds only users or artists" do
-    favorite_users.count.should > 0
+    expect(favorite_users.count).to be > 0
     favorite_users.all.each do |f|
-      expect(f.is_user?).to be_true
-      expect(f.is_art_piece?).to be_false
+      expect(f.is_user?).to eq(true)
+      expect(f.is_art_piece?).to eq false
     end
   end
   it "users finds only artists" do
-    favorite_artists.count.should > 0
+    expect(favorite_artists.count).to be > 0
     favorite_artists.all.each do |f|
-      expect(f.is_user?).to be_true
-      expect(f.is_artist?).to be_true
-      expect(f.is_art_piece?).to be_false
+      expect(f.is_user?).to eq(true)
+      expect(f.is_artist?).to eq(true)
+      expect(f.is_art_piece?).to eq false
     end
   end
   it "art_pieces finds only art_pieces" do
-    favorite_art_pieces.count.should > 0
+    expect(favorite_art_pieces.count).to be > 0
     favorite_art_pieces.all.each do |f|
-      expect(f.is_user?).to be_false
-      expect(f.is_artist?).to be_false
-      expect(f.is_art_piece?).to be_true
+      expect(f.is_user?).to eq false
+      expect(f.is_artist?).to eq false
+      expect(f.is_art_piece?).to eq(true)
     end
   end
 
   it 'destroys unused ones as necessary' do
     f = Favorite.create(:favoritable_type => 'Artist', :favoritable_id => 55555)
     f.to_obj
-    Favorite.where(:favoritable_type => 'Artist', :favoritable_id => 55555).should be_empty
+    expect(Favorite.where(:favoritable_type => 'Artist', :favoritable_id => 55555)).to be_empty
   end
 
 

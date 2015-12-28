@@ -27,7 +27,7 @@ describe Admin::EventsController do
       end
       it { expect(response).to be_success }
       it "marks down the event content" do
-        response.body.should_not include 'lt;p&gt;'
+        expect(response.body).not_to include 'lt;p&gt;'
       end
     end
   end

@@ -84,7 +84,7 @@ describe EventsController do
       end
       it { expect(response).to be_success }
       it 'constructs a new event' do
-        assigns(:event).should be_new_record
+        expect(assigns(:event)).to be_new_record
       end
       it 'renders new_or_edit' do
         expect(response).to render_template 'new_or_edit'
@@ -111,7 +111,7 @@ describe EventsController do
 
       context 'with standard params' do
         before do
-          EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
+          allow(EventMailer).to receive(:event_added).and_return(double('deliverable', :deliver! => true))
           post :create, :event => event_attrs
         end
         it { expect(response).to redirect_to events_path }
@@ -135,7 +135,7 @@ describe EventsController do
       context 'without artist info' do
         before do
           event_attrs.delete(:artist_list)
-          EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
+          allow(EventMailer).to receive(:event_added).and_return(double('deliverable', :deliver! => true))
           post :create, :event => event_attrs
         end
         it { expect(response).to redirect_to events_path }
@@ -156,11 +156,11 @@ describe EventsController do
         before do
           attrs = event_attrs
           attrs.delete(:title)
-          EventMailer.stub(:event_added).and_return(double('deliverable', :deliver! => true))
+          allow(EventMailer).to receive(:event_added).and_return(double('deliverable', :deliver! => true))
           post :create, :event => attrs
         end
         it { expect(response).to render_template 'new' }
-        it { expect(assigns(:event).errors.full_messages).to have_at_least(1).message }
+        it { expect(assigns(:event).errors.full_messages.size).to be >= 1 }
       end
 
     end
@@ -184,7 +184,7 @@ describe EventsController do
       end
       it { expect(response).to redirect_to admin_events_path }
       it "updates the title" do
-        event.reload.title.should eql 'new event title'
+        expect(event.reload.title).to eql 'new event title'
       end
       it 'sets the starttime' do
         expect(event.reload.starttime).to eql Time.zone.parse("21 January, 2013 12:00PM")
@@ -207,7 +207,7 @@ describe EventsController do
       end
       it { expect(response).to be_success }
       it 'pulls the event' do
-        assigns(:event).should eql Event.last
+        expect(assigns(:event)).to eql Event.last
       end
       it 'renders new_or_edit' do
         expect(response).to render_template 'new_or_edit'

@@ -128,7 +128,7 @@ describe Admin::ArtistFeedsController do
           expect(response).to render_template 'new_or_edit'
         end
         it 'sets errors on the feed' do
-          expect(assigns(:feed).errors).to have_at_least(1).error
+          expect(assigns(:feed).errors.size).to be >= 1
         end
       end
     end

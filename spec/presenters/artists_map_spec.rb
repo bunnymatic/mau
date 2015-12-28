@@ -11,13 +11,29 @@ describe ArtistsMap do
   subject(:map) { ArtistsMap.new(os_only) }
 
   context 'when os_only is false' do
-    its(:grouped_by_address) { should have(map.artists.select(&:has_address?).map(&:address).compact.uniq.count).keys }
-    its('with_addresses.count') { should eql map.artists.select(&:has_address?).count }
-    its 'sorts groups by the number of artists in each group' do
-      expect(map.grouped_by_address_and_sorted.map{|entry| entry[1].length}).to be_monotonically_decreasing
+    describe '#grouped_by_address' do
+      subject { super().grouped_by_address }
+
+      it 'has map.artists.select(&:has_address?).map(&:address).compact.uniq.count keys' do
+        expect(subject.keys.size).to eq(map.artists.select(&:has_address?).map(&:address).compact.uniq.count)
+      end
     end
-    it 'returns only artists who are in the mission' do
-      expect(map.grouped_by_address.values.flatten.all? &:in_the_mission?).to be_true
+
+    describe '#with_addresses' do
+      subject { super().with_addresses }
+      describe '#count' do
+        subject { super().count }
+        it { should eql map.artists.select(&:has_address?).count }
+      end
+    end
+
+    describe "#grouped_by_address_and_sorted" do
+      it "sorts groups by the number of artists in each group" do
+        expect(map.grouped_by_address_and_sorted.map{|entry| entry[1].length}).to be_monotonically_decreasing
+      end
+      it 'returns only artists who are in the mission' do
+        expect(map.grouped_by_address.values.flatten.all? &:in_the_mission?).to eq(true)
+      end
     end
   end
 
@@ -27,8 +43,8 @@ describe ArtistsMap do
     it 'includes artists in the mission' do
       map.with_addresses.each do |a|
         lat,lng = a.address_hash[:latlng]
-        (sw_bounds[0] < lat && lat < ne_bounds[0]).should be_true, "Latitude #{lat} is not within bounds"
-        (sw_bounds[1] < lng && lng < ne_bounds[1]).should be_true ,"Longitude #{lng} is not within bounds"
+        expect(sw_bounds[0] < lat && lat < ne_bounds[0]).to eq(true), "Latitude #{lat} is not within bounds"
+        expect(sw_bounds[1] < lng && lng < ne_bounds[1]).to eq(true) ,"Longitude #{lng} is not within bounds"
       end
     end
   end

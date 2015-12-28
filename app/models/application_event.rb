@@ -15,7 +15,7 @@ class ApplicationEvent < ActiveRecord::Base
   validates_presence_of :type
   validates_length_of :type, :minimum => 2
 
-  scope :by_recency, order('created_at desc')
+  scope :by_recency, -> { order('created_at desc') }
 
   serialize :data, Hash
 

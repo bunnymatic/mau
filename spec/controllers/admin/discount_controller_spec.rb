@@ -19,8 +19,8 @@ describe Admin::DiscountController do
       end
       it 'handles markdown' do
         htm = response.body
-        htm.should include '<h2>mark it down</h2>'
-        htm.should include '<li>one</li>'
+        expect(htm).to include '<h2>mark it down</h2>'
+        expect(htm).to include '<li>one</li>'
       end
     end
   end

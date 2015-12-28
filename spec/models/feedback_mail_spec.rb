@@ -8,7 +8,7 @@ describe FeedbackMail do
   it{ should validate_presence_of :email }
   it{ should validate_presence_of :email_confirm }
   it{ should validate_presence_of :note_type }
-  it{ should ensure_inclusion_of(:note_type).in_array(FeedbackMail::VALID_NOTE_TYPES) }
+  it{ should validate_inclusion_of(:note_type).in_array( FeedbackMail::VALID_NOTE_TYPES ) }
 
   context 'if emails don\'t match (and are required' do
     subject(:feedback_mail) {
@@ -19,7 +19,7 @@ describe FeedbackMail do
     it{ should_not be_valid }
     it 'includes the errors on base' do
       subject.valid?
-      subject.errors[:base].join.should include 'reconfirm your email'
+      expect(subject.errors[:base].join).to include 'reconfirm your email'
     end
   end
 
@@ -30,7 +30,7 @@ describe FeedbackMail do
 
   context 'when saving' do
     before do
-      FeedbackMailer.should_receive(:feedback).and_return(double('MockDeliverable',:deliver! => true))
+      expect(FeedbackMailer).to receive(:feedback).and_return(double('MockDeliverable',:deliver! => true))
     end
     it 'sends an email' do
       subject.save

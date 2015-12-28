@@ -23,15 +23,15 @@ describe Admin::ApplicationEventsController do
     end
     it 'fetches all events by type' do
       events = assigns(:events_by_type)
-      events.should_not be_empty
-      events.keys.should include 'GenericEvent'
-      events.keys.should include 'OpenStudiosSignupEvent'
+      expect(events).not_to be_empty
+      expect(events.keys).to include 'GenericEvent'
+      expect(events.keys).to include 'OpenStudiosSignupEvent'
       generics = events['GenericEvent']
-      generics.should have(1).event
-      generics.first.message.should eql generic_event.message
+      expect(generics.size).to eq(1)
+      expect(generics.first.message).to eql generic_event.message
       oss = events['OpenStudiosSignupEvent']
-      oss.should have(1).event
-      oss.first.data.should eql(os_event.data)
+      expect(oss.size).to eq(1)
+      expect(oss.first.data).to eql(os_event.data)
     end
   end
 

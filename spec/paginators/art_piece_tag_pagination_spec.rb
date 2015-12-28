@@ -17,26 +17,63 @@ describe ArtPieceTagPagination do
   end
 
   context 'with minimal arguments' do
-    its(:previous_title) { should eq 'previous' }
-    its(:previous_label) { should eq '<' }
-    its(:next_title) { should eq 'next' }
-    its(:next_label) { should eq '>' }
-    its(:next_link) { should eq art_piece_tag_path(tag, :p => 1) }
-    its(:previous_link) { should eq art_piece_tag_path(tag, :p => 0) }
+    describe '#previous_title' do
+      subject { super().previous_title }
+      it { should eq 'previous' }
+    end
+
+    describe '#previous_label' do
+      subject { super().previous_label }
+      it { should eq '<' }
+    end
+
+    describe '#next_title' do
+      subject { super().next_title }
+      it { should eq 'next' }
+    end
+
+    describe '#next_label' do
+      subject { super().next_label }
+      it { should eq '>' }
+    end
+
+    describe '#next_link' do
+      subject { super().next_link }
+      it { should eq art_piece_tag_path(tag, :p => 1) }
+    end
+
+    describe '#previous_link' do
+      subject { super().previous_link }
+      it { should eq art_piece_tag_path(tag, :p => 0) }
+    end
   end
 
   context 'with different mode' do
     let(:mode) { 's' }
 
-    its(:next_link) { should eq art_piece_tag_path(tag, :p => 1, :m => 's') }
-    its(:previous_link) { should eq art_piece_tag_path(tag, :p => 0, :m => 's') }
+    describe '#next_link' do
+      subject { super().next_link }
+      it { should eq art_piece_tag_path(tag, :p => 1, :m => 's') }
+    end
+
+    describe '#previous_link' do
+      subject { super().previous_link }
+      it { should eq art_piece_tag_path(tag, :p => 0, :m => 's') }
+    end
   end
 
   context 'with different current page' do
     let(:current_page) { 1 }
 
-    its(:next_link) { should eq art_piece_tag_path(tag, :p => 2) }
-    its(:previous_link) { should eq art_piece_tag_path(tag, :p => 0) }
+    describe '#next_link' do
+      subject { super().next_link }
+      it { should eq art_piece_tag_path(tag, :p => 2) }
+    end
+
+    describe '#previous_link' do
+      subject { super().previous_link }
+      it { should eq art_piece_tag_path(tag, :p => 0) }
+    end
   end
 
 

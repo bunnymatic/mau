@@ -31,7 +31,7 @@ describe Admin::RolesController do
         get :index
       end
       it 'shows all roles' do
-        assigns(:roles).count.should eql Role.count
+        expect(assigns(:roles).count).to eql Role.count
       end
     end
 
@@ -87,7 +87,7 @@ describe Admin::RolesController do
         end
         it 'sets errors on role' do
           post :create, :role => {:role => ''}
-          assigns(:role).errors.should_not be_empty
+          expect(assigns(:role).errors).not_to be_empty
         end
       end
     end
@@ -102,7 +102,7 @@ describe Admin::RolesController do
           expected_change = ru.count
           expect { delete :destroy, :id => manager_role.id }.to change(RolesUser, :count).by(-expected_change)
           artist.reload
-          artist.roles.should_not include manager
+          expect(artist.roles).not_to include manager
         end
         it 'redirects to the roles index page' do
           delete :destroy, :id => manager_role.id

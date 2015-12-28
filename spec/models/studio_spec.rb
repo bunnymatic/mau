@@ -33,12 +33,12 @@ describe Studio do
       @s = Studio.new(FactoryGirl.attributes_for(:studio))
     end
     it "studio is valid" do
-      @s.should_receive(:compute_geocode).at_least(:once).and_return([-37,122])
-      @s.should be_valid
+      expect(@s).to receive(:compute_geocode).at_least(:once).and_return([-37,122])
+      expect(@s).to be_valid
     end
     it "save triggers geocode" do
       s = Studio.new(FactoryGirl.attributes_for(:studio))
-      s.should_receive(:compute_geocode).at_least(:once).and_return([-37,122])
+      expect(s).to receive(:compute_geocode).at_least(:once).and_return([-37,122])
       s.save!
     end
   end
@@ -50,7 +50,7 @@ describe Studio do
 
     it "triggers geocode given new street" do
       studio.street = '1891 Bryant St'
-      studio.should_receive(:compute_geocode).at_least(:once).and_return([-37,122])
+      expect(studio).to receive(:compute_geocode).at_least(:once).and_return([-37,122])
       studio.save!
     end
   end

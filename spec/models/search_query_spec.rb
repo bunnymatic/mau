@@ -2,13 +2,44 @@ require 'spec_helper'
 
 describe SearchQuery do
 
-  its(:keywords) { should be_empty }
-  its(:mediums) { should be_empty }
-  its(:studios) { should be_empty }
-  its(:os_flag) { should be_nil }
-  its(:page) { should eql 0}
-  its(:mode) { should be_nil }
-  its(:query) { should be_blank }
-  its(:per_page) { should eql SearchQuery::PER_PAGE }
+  describe '#keywords' do
+    subject { super().keywords }
+    it { should be_empty }
+  end
+
+  describe '#mediums' do
+    subject { super().mediums }
+    it { should be_empty }
+  end
+
+  describe '#studios' do
+    subject { super().studios }
+    it { should be_empty }
+  end
+
+  describe '#os_flag' do
+    subject { super().os_flag }
+    it { should be_nil }
+  end
+
+  describe '#page' do
+    subject { super().page }
+    it { should eql 0}
+  end
+
+  describe '#mode' do
+    subject { super().mode }
+    it { should be_nil }
+  end
+
+  describe '#query' do
+    subject { super().query }
+    it { should be_blank }
+  end
+
+  describe '#per_page' do
+    subject { super().per_page }
+    it { should eql SearchQuery::PER_PAGE }
+  end
 
 end

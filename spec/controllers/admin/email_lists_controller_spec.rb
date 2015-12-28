@@ -54,11 +54,11 @@ describe Admin::EmailListsController do
       [ [:feedback, 2, 'FeedbackMailerList'],
         [:event, 2, 'EventMailerList']].each do |listtype, ct, mailer|
         it "assigns #{ct} emails to the #{listtype} list" do
-          assigns(:all_lists)[listtype].emails.count.should eql ct
+          expect(assigns(:all_lists)[listtype].emails.count).to eql ct
         end
         it "the lists are full of Email objects" do
-          assigns(:all_lists)[listtype].emails.should be_a_kind_of Array
-          assigns(:all_lists)[listtype].emails.first.should be_a_kind_of Email
+          expect(assigns(:all_lists)[listtype].emails).to be_a_kind_of Array
+          expect(assigns(:all_lists)[listtype].emails.first).to be_a_kind_of Email
         end
       end
     end

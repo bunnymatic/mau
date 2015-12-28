@@ -10,12 +10,35 @@ describe MauFeed::Parser do
   let(:feed_content) { Nokogiri::HTML::DocumentFragment.parse(subject.feed_content) }
 
   describe '.new' do
-    its(:num_entries) { should eql MauFeed::Parser::NUM_POSTS }
-    its(:strip_tags) { should be_true }
-    its(:truncate) { should be_true }
-    its(:css_class) { should be_empty }
-    its(:feed_link) { should eql feed_link }
-    its(:url) { should eql URI.parse(source_url) }
+    describe '#num_entries' do
+      subject { super().num_entries }
+      it { should eql MauFeed::Parser::NUM_POSTS }
+    end
+
+    describe '#strip_tags' do
+      subject { super().strip_tags }
+      it { should eq(true) }
+    end
+
+    describe '#truncate' do
+      subject { super().truncate }
+      it { should eq(true) }
+    end
+
+    describe '#css_class' do
+      subject { super().css_class }
+      it { should be_empty }
+    end
+
+    describe '#feed_link' do
+      subject { super().feed_link }
+      it { should eql feed_link }
+    end
+
+    describe '#url' do
+      subject { super().send(:url) }
+      it { should eql URI.parse(source_url) }
+    end
   end
 
   it 'returns empty for a twitter feed that is invalid' do

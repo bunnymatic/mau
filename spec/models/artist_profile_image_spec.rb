@@ -13,35 +13,35 @@ describe ArtistProfileImage do
     }
     context 'thumb' do
       it 'returns the right path' do
-        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+        expect(ArtistProfileImage.get_path(artist, size)).to eql expected_path
       end
     end
     context 'small' do
       let(:size) { :small }
       let(:prefix) { 's_' }
       it 'returns the right path' do
-        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+        expect(ArtistProfileImage.get_path(artist, size)).to eql expected_path
       end
     end
     context 'medium' do
       let(:size) { :medium }
       let(:prefix) { 'm_' }
       it 'returns the right path' do
-        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+        expect(ArtistProfileImage.get_path(artist, size)).to eql expected_path
       end
     end
     context 'large' do
       let(:size) { :large }
       let(:prefix) { 'l_' }
       it 'returns the right path' do
-        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+        expect(ArtistProfileImage.get_path(artist, size)).to eql expected_path
       end
     end
     context 'original' do
       let(:size) { :original }
       let(:prefix) { '' }
       it 'returns the right path' do
-        (ArtistProfileImage.get_path(artist, size)).should eql expected_path
+        expect(ArtistProfileImage.get_path(artist, size)).to eql expected_path
       end
     end
   end

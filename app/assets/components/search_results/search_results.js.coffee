@@ -32,6 +32,7 @@ searchResults = ngInject () ->
     if path
       $scope.queryString = (path.query_params?.q || '').replace(/\+/, " ")
     $scope.$watch("queryString", MAU.Utils.debounce($scope.submitQuery, 350, false))
+    $(el).find("input").focus();
     $form.on 'submit', (ev) ->
       ev.preventDefault()
       $scope.search($scope.queryString)

@@ -29,14 +29,25 @@ describe ArtistsGallery do
     artists
   end
 
-  its(:current_page) { should eql current_page }
-  its(:per_page) { should eql per_page }
-  its(:empty_message) { should include "couldn't find any artists" }
+  describe '#current_page' do
+    subject { super().current_page }
+    it { should eql current_page }
+  end
+
+  describe '#per_page' do
+    subject { super().per_page }
+    it { should eql per_page }
+  end
+
+  describe '#empty_message' do
+    subject { super().empty_message }
+    it { should include "couldn't find any artists" }
+  end
 
   it 'shows no artists without a representative piece' do
     with_art, without_art = presenter.items.partition{|a| a.representative_piece}
     expect(without_art).to be_empty
-    expect(with_art).to have(1).artist
+    expect(with_art.size).to eq(1)
     expect(with_art.first.lastname).to eql 'Atkins'
   end
 
@@ -46,7 +57,11 @@ describe ArtistsGallery do
 
   context 'with open studios set true' do
     let(:os_only) { true }
-    its(:empty_message) { should include "no one with that name has signed up" }
+
+    describe '#empty_message' do
+      subject { super().empty_message }
+      it { should include "no one with that name has signed up" }
+    end
   end
 
   context 'when sorted by first name' do

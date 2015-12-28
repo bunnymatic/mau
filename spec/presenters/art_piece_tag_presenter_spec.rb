@@ -19,14 +19,23 @@ describe ArtPieceTagPresenter do
 
   subject(:presenter) { ArtPieceTagPresenter.new(tag,mode) }
 
-  its(:art_pieces) { should have(5).art_pieces }
+  describe '#art_pieces' do
+    it 'has 5 art_pieces' do
+      expect(subject.art_pieces.size).to eq(5)
+    end
+  end
   it 'sorts by updated at' do
-    subject.art_pieces.map{|p| p.art_piece.updated_at.to_i}.should be_monotonically_decreasing
+    expect(subject.art_pieces.map{|p| p.art_piece.updated_at.to_i}).to be_monotonically_decreasing
   end
 
   context 'when showing only by artist' do
     let(:mode) { 'a' }
-    its(:art_pieces) { should have(2).art_pieces }
+
+    describe '#art_pieces' do
+      it 'has 2 art_pieces' do
+        expect(subject.art_pieces.size).to eq(2)
+      end
+    end
   end
 
   context 'with inactive artists in the system' do
@@ -34,7 +43,7 @@ describe ArtPieceTagPresenter do
       artists.first.suspend!
     end
     it 'shows art only from active artists' do
-      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to be_true
+      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
 
@@ -43,7 +52,7 @@ describe ArtPieceTagPresenter do
       ArtPiece.limit(2).each { |a| a.update_attribute :artist_id, nil }
     end
     it 'shows art only from active artists' do
-      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to be_true
+      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
 

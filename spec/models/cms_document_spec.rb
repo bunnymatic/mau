@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CmsDocument do
   let(:invalid_document) { FactoryGirl.build(:cms_document, :page => '', :article => '') }
-  it { invalid_document.should_not be_valid }
+  it { expect(invalid_document).not_to be_valid }
 
   describe '#packaged' do
 

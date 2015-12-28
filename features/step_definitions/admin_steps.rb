@@ -25,13 +25,13 @@ end
 
 Then(/^I see that the first participating artist is no longer doing open studios/) do
   @participating_artist = Artist.find(@participating_artist.id) # force reload with artist info reload
-  expect(@participating_artist.doing_open_studios?).to be_false
+  expect(@participating_artist.doing_open_studios?).to eq false
 end
 
 Then /^I see that all artists are doing open studios$/ do
   expect(@artists).to have_at_least(1).artist
   expect(page).to have_selector '.flash__notice', :text => 'Updated setting for'
-  expect(@artists.map{|a| a.reload.doing_open_studios?}.all?).to be_true
+  expect(@artists.map{|a| a.reload.doing_open_studios?}.all?).to eq true
 end
 
 When(/^I remove the first artist from the studio$/) do

@@ -38,7 +38,6 @@ gem 'geokit'
 gem 'geokit-rails'
 gem 'gmaps4rails'
 gem 'pickadate-rails'
-gem 'spinjs-rails'
 gem 'paperclip'
 gem 'aws-sdk-v1'
 
@@ -84,6 +83,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-re-tree'
   gem 'rails-assets-ng-device-detector'
   gem 'rails-assets-datatables'
+  gem 'rails-assets-spinjs'
 end
 
 group :test do
@@ -125,6 +125,8 @@ group :test, :development do
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem 'rspec'
+  gem 'rspec-its'
+  gem 'rspec-collection_matchers'
   gem 'rspec-rails'
   gem 'em-rspec', require: false, git: 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'

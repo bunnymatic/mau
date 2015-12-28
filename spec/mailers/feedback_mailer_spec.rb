@@ -10,9 +10,9 @@ describe FeedbackMailer do
   it 'sets up the right "to" addresses' do
     m = FeedbackMailer.feedback(fb)
     FeedbackMailerList.first.emails.each do |expected|
-      m.to.should include expected.email
+      expect(m.to).to include expected.email
     end
-    m.from.should include 'info@missionartistsunited.org'
+    expect(m.from).to include 'info@missionartistsunited.org'
   end
 
   it 'does not actually deliver the email' do

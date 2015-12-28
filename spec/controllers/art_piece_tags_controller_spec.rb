@@ -16,7 +16,7 @@ describe ArtPieceTagsController do
     describe 'format=html' do
       context 'when there are no tags' do
         before do
-          ArtPieceTag.stub(:frequency => nil)
+          allow(ArtPieceTag).to receive(:frequency).and_return([])
           get :index
         end
         it_should_behave_like 'renders error page'
@@ -39,7 +39,7 @@ describe ArtPieceTagsController do
         it_should_behave_like 'successful json'
         it 'returns all tags as json' do
           j = JSON.parse(response.body)['art_piece_tags']
-          j.should have(ArtPieceTag.count).tags
+          expect(j.size).to eq(ArtPieceTag.count)
         end
       end
     end
@@ -52,28 +52,28 @@ describe ArtPieceTagsController do
     it_should_behave_like 'successful json'
     it 'returns all tags as json' do
       j = JSON.parse(response.body)
-      j.all?(&:present?).should be_true
+      expect(j.all?(&:present?)).to eq true
     end
 
     it 'writes to the cache if theres nothing there' do
-      Rails.cache.should_receive(:read).and_return(nil)
-      Rails.cache.should_receive(:write)
+      expect(Rails.cache).to receive(:read).and_return(nil)
+      expect(Rails.cache).to receive(:write)
       get :autosuggest, :format => :json, :input => 'whateverdude'
     end
 
     it 'returns tags using the input' do
       get :autosuggest, :format => :json, :input => tags.first.name.downcase
       j = JSON.parse(response.body)
-      j.should be_present
+      expect(j).to be_present
     end
 
     it 'uses the cache there is data' do
-      Rails.cache.should_receive(:read).with(Conf.autosuggest['tags']['cache_key']).
+      expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key']).
         and_return([ {"info" => ArtPieceTag.first.id, "value" => ArtPieceTag.last.name }])
-      Rails.cache.should_not_receive(:write)
+      expect(Rails.cache).not_to receive(:write)
       get :autosuggest, :format => :json, :input => 'tag'
       j = JSON.parse(response.body)
-      j.first.should eql ArtPieceTag.last.name
+      expect(j.first).to eql ArtPieceTag.last.name
     end
   end
 

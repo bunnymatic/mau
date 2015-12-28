@@ -10,33 +10,63 @@ describe ArtPiecePresenter do
   let(:tag) { FactoryGirl.build(:art_piece_tag) }
   subject(:presenter) { ArtPiecePresenter.new(art_piece) }
 
-  its(:favorites_count) { should be_nil }
-  its(:has_tags?) { should be_false }
-  its(:tags) { should be_empty }
-  its(:has_year?) { should be_true }
+  describe '#favorites_count' do
+    subject { super().favorites_count }
+    it { should be_nil }
+  end
+
+  describe '#has_tags?' do
+    subject { super().has_tags? }
+    it { should eq(false) }
+  end
+
+  describe '#tags' do
+    subject { super().tags }
+    it { should be_empty }
+  end
+
+  describe '#has_year?' do
+    subject { super().has_year? }
+    it { should eq(true) }
+  end
 
   context 'with favorites' do
     before do
-      favorites_mock = double(:mock_favorites_relation)
-      favorites_mock.stub(:where => [1,2])
-      Favorite.stub(:art_pieces => favorites_mock)
+      favorites_mock = double(:mock_favorites_relation, :where => [1,2])
+      allow(Favorite).to receive(:art_pieces).and_return(favorites_mock)
     end
-    its(:favorites_count) { should eql 2 }
+
+    describe '#favorites_count' do
+      subject { super().favorites_count }
+      it { should eql 2 }
+    end
   end
 
   context 'with a bad year' do
     before do
-      ArtPiece.any_instance.stub(:year => 1000)
+      allow(art_piece).to receive(:year).and_return(1000)
     end
-    its(:has_year?) { should be_false }
+
+    describe '#has_year?' do
+      subject { super().has_year? }
+      it { should eq(false) }
+    end
   end
 
   context 'with tags' do
     before do
-      ArtPiece.any_instance.stub(:uniq_tags).and_return(tags)
+      allow_any_instance_of(ArtPiece).to receive(:uniq_tags).and_return(tags)
     end
-    its(:has_tags?) { should be_true }
-    its(:tags) { should eql tags }
+
+    describe '#has_tags?' do
+      subject { super().has_tags? }
+      it { should eq(true) }
+    end
+
+    describe '#tags' do
+      subject { super().tags }
+      it { should eql tags }
+    end
   end
 
 

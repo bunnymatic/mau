@@ -28,7 +28,7 @@ class ArtistPresenter < UserPresenter
 
 
   def has_bio?
-    model.try(:bio) and !model.bio.empty?
+    !(model.bio.blank?)
   end
 
   def has_art?

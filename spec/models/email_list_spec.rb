@@ -11,7 +11,7 @@ describe EmailList do
       it "does not allow #{email} because it\'s invalid" do
         eml = EmailList.new(:type => 'WhateverMailList')
         eml.emails << Email.new(:email => email)
-        eml.should_not be_valid
+        expect(eml).not_to be_valid
       end
     end
     it "adds valid emails" do
@@ -30,15 +30,15 @@ describe EmailList do
         eml.emails << Email.new(:email => email)
       end
       eml.save
-      EmailListMembership.all.map(&:id).uniq.count.should >= 2
+      expect(EmailListMembership.all.map(&:id).uniq.count).to be >= 2
     end
     it "does not add duplicate emails to a list" do
-      lambda {
+      expect {
         eml = TestMailerList.new
         eml.emails << Email.new(:email => 'joe@example.com')
         eml.emails << Email.new(:email => 'joe@example.com')
         eml.save
-      }.should raise_error ActiveRecord::StatementInvalid
+      }.to raise_error ActiveRecord::StatementInvalid
     end
 
   end
