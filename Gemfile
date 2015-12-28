@@ -38,7 +38,6 @@ gem 'geokit'
 gem 'geokit-rails'
 gem 'gmaps4rails'
 gem 'pickadate-rails'
-gem 'spinjs-rails'
 gem 'paperclip'
 gem 'aws-sdk-v1'
 
@@ -84,6 +83,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-re-tree'
   gem 'rails-assets-ng-device-detector'
   gem 'rails-assets-datatables'
+  gem 'rails-assets-spinjs'
 end
 
 group :test do

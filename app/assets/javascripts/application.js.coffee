@@ -20,7 +20,8 @@
 #= require jquery_ujs
 #= require jquery_noconflict
 #= require jquery-ui-1.10.4.custom
-#= require jquery.spin
+#= require spinjs/spin
+#= require spinjs/jquery.spin
 #= require jquery.form
 #= require bootstrap/transition
 #= require bootstrap/tab
