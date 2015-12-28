@@ -8,6 +8,9 @@ describe EventsPresenter do
   let(:month_year_key) { nil }
   subject(:presenter) { EventsPresenter.new(mock_view_context, events, month_year_key) }
 
-  its(:current) { should be_nil }
+  describe '#current' do
+    subject { super().current }
+    it { should be_nil }
+  end
 
 end

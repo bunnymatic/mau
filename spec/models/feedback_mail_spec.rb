@@ -19,7 +19,7 @@ describe FeedbackMail do
     it{ should_not be_valid }
     it 'includes the errors on base' do
       subject.valid?
-      subject.errors[:base].join.should include 'reconfirm your email'
+      expect(subject.errors[:base].join).to include 'reconfirm your email'
     end
   end
 
@@ -30,7 +30,7 @@ describe FeedbackMail do
 
   context 'when saving' do
     before do
-      FeedbackMailer.should_receive(:feedback).and_return(double('MockDeliverable',:deliver! => true))
+      expect(FeedbackMailer).to receive(:feedback).and_return(double('MockDeliverable',:deliver! => true))
     end
     it 'sends an email' do
       subject.save

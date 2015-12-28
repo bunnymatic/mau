@@ -9,7 +9,7 @@ describe StudioService do
     end
 
     it "returns all studios with more than Config.min_aritsts_per_studio" do
-      expect(studios).to have(2).studios
+      expect(studios.size).to eq(2)
     end
 
     it "does not include independent studio" do

@@ -19,29 +19,57 @@ describe FavoritesCollectionPresenter do
       art_piece_without_artist.artist.suspend!
     end
 
-    its(:art_pieces) { should have(2).art_pieces }
-    its(:artists) { should have(2).artists }
+    describe '#art_pieces' do
+      it 'has 2 art_pieces' do
+        expect(subject.art_pieces.size).to eq(2)
+      end
+    end
+
+    describe '#artists' do
+      it 'has 2 artists' do
+        expect(subject.artists.size).to eq(2)
+      end
+    end
 
     context 'when the artists are not all active' do
       before do
         artists[1].suspend!
       end
-      its(:artists) { should have(1).artists }
+
+      describe '#artists' do
+        it 'has 1 artist' do
+          expect(subject.artists.size).to eq(1)
+        end
+      end
     end
 
 
   end
 
   context 'when the artist has no favorites' do
-    its(:art_pieces) { should be_empty }
-    its(:artists) { should be_empty }
-    its(:empty_message) { should match /not favorited anything/ }
+    describe '#art_pieces' do
+      subject { super().art_pieces }
+      it { should be_empty }
+    end
+
+    describe '#artists' do
+      subject { super().artists }
+      it { should be_empty }
+    end
+
+    describe '#empty_message' do
+      subject { super().empty_message }
+      it { should match /not favorited anything/ }
+    end
   end
 
   context 'when the viewer is the artist' do
     let(:current_user) { artist }
     context 'and the artist has no favorites' do
-      its(:empty_message) { should match /Go find an artist/ }
+      describe '#empty_message' do
+        subject { super().empty_message }
+        it { should match /Go find an artist/ }
+      end
     end
   end
 

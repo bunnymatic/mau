@@ -8,27 +8,64 @@ describe StudioPresenter do
   let!(:artist3) { FactoryGirl.create(:artist, :pending, studio: studio) }
   subject(:presenter) { StudioPresenter.new(studio) }
 
-  its(:has_artists_with_art?) { should be_true }
-  its(:artists_with_art) { should have(1).artist }
-  its(:has_artists_without_art?) { should be_true }
-  its(:artists_without_art) { should have(1).artist }
-  its(:name) { should eql studio.name }
-  its(:street_with_cross) { should eql "#{studio.street} (@ hollywood)" }
-  its(:indy?) { should be_false }
+  describe '#has_artists_with_art?' do
+    subject { super().has_artists_with_art? }
+    it { should be_true }
+  end
+
+  describe '#artists_with_art' do
+    subject { super().artists_with_art }
+
+    it 'has 1 artist' do
+      expect(subject.size).to eq(1)
+    end
+  end
+
+  describe '#has_artists_without_art?' do
+    subject { super().has_artists_without_art? }
+    it { should be_true }
+  end
+
+  describe '#artists_without_art' do
+    subject { super().artists_without_art }
+
+    it 'has 1 artist' do
+      expect(subject.size).to eq(1)
+    end
+  end
+
+  describe '#name' do
+    subject { super().name }
+    it { should eql studio.name }
+  end
+
+  describe '#street_with_cross' do
+    subject { super().street_with_cross }
+    it { should eql "#{studio.street} (@ hollywood)" }
+  end
+
+  describe '#indy?' do
+    subject { super().indy? }
+    it { should be_false }
+  end
 
   it '.artists returns the active artists' do
-    presenter.artists.should eq studio.artists.active
+    expect(presenter.artists).to eq studio.artists.active
   end
 
   describe 'formatted_phone' do
     it "returns nicely formatted phone #" do
-      presenter.formatted_phone.should eql '(415) 617-1234'
+      expect(presenter.formatted_phone).to eql '(415) 617-1234'
     end
   end
 
 
   context 'without image file' do
     let(:studio) { FactoryGirl.create(:studio, profile_image: nil) }
-    its(:image) { should eql '/images/default-studio.png' }
+
+    describe '#image' do
+      subject { super().image }
+      it { should eql '/images/default-studio.png' }
+    end
   end
 end

@@ -2,13 +2,28 @@ require 'spec_helper'
 
 describe IndependentStudio do
 
-  its(:id) { should eq 0 }
-  its(:name) { should eq "Independent Studios" }
-  its(:url) { should be_nil }
-  its(:get_profile_image) { should match 'independent-studios.jpg' }
+  describe '#id' do
+    subject { super().id }
+    it { should eq 0 }
+  end
+
+  describe '#name' do
+    subject { super().name }
+    it { should eq "Independent Studios" }
+  end
+
+  describe '#url' do
+    subject { super().url }
+    it { should be_nil }
+  end
+
+  describe '#get_profile_image' do
+    subject { super().get_profile_image }
+    it { should match 'independent-studios.jpg' }
+  end
 
   it "to_json is pre-keyed by 'studio'" do
-    JSON.parse(IndependentStudio.new.to_json).should have_key "studio"
+    expect(JSON.parse(IndependentStudio.new.to_json)).to have_key "studio"
   end
 
 end

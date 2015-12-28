@@ -1,6 +1,6 @@
 RSpec::Matchers.define :be_json do
   match do |actual|
-    actual.content_type.to_s.should eql 'application/json'
+    expect(actual.content_type.to_s).to eql 'application/json'
   end
 
   failure_message_for_should do |actual|

@@ -7,10 +7,10 @@ describe AdminMailerList do
 
   it 'returns the right count for AdminMailerList' do
     ems = AdminMailerList.all.first.emails
-    ems.count.should == 1
+    expect(ems.count).to eq(1)
   end
   it 'is unique by type' do
-    lambda { AdminMailerList.create }.should raise_error(ActiveRecord::StatementInvalid)
+    expect { AdminMailerList.create }.to raise_error(ActiveRecord::StatementInvalid)
   end
   it 'adds email to the Email table' do
     mailing_list = AdminMailerList.all.first
@@ -24,15 +24,15 @@ describe AdminMailerList do
     mailing_list.emails << Email.new(:email => 'whatever@dude.com')
     mailing_list.save
     mailing_list.reload
-    mailing_list.emails.count.should == 2
+    expect(mailing_list.emails.count).to eq(2)
   end
   it 'does not add duplicate emails' do
     mailing_list = AdminMailerList.all.first
-    lambda {
+    expect {
       mailing_list.emails << Email.new(:email => 'whatever@dude.com')
       mailing_list.emails << Email.new(:email => 'whatever@dude.com')
       mailing_list.save
-    }.should raise_error(ActiveRecord::StatementInvalid)
+    }.to raise_error(ActiveRecord::StatementInvalid)
   end
 
 end

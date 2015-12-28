@@ -11,8 +11,8 @@ describe EventMailer do
   it 'delivers to the right folks' do
     m = EventMailer.event_added(Event.first)
     EventMailerList.first.emails.each do |expected|
-      m.to.should include expected.email
+      expect(m.to).to include expected.email
     end
-    m.from.should include 'info@missionartistsunited.org'
+    expect(m.from).to include 'info@missionartistsunited.org'
   end
 end

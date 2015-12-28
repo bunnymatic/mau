@@ -27,24 +27,24 @@ describe FeaturedArtistQueue do
     it "calling it multiple times only invokes next_entry once" do
       # let it be called once, which will trigger the update, then it shouldn't be called again
       FeaturedArtistQueue.current_entry
-      FeaturedArtistQueue.should_receive(:next_entry).never
-      FeaturedArtistQueue.current_entry.should eql FeaturedArtistQueue.current_entry
+      expect(FeaturedArtistQueue).to receive(:next_entry).never
+      expect(FeaturedArtistQueue.current_entry).to eql FeaturedArtistQueue.current_entry
     end
   end
 
   describe '#next_entry' do
     let(:next_entry) { FeaturedArtistQueue.next_entry.artist }
     it "returns an artist" do
-      next_entry.should be_a_kind_of(Artist)
+      expect(next_entry).to be_a_kind_of(Artist)
     end
     it "returns the artist with the first position" do
-      next_entry.id.should eql sorted_queue.first.artist_id
+      expect(next_entry.id).to eql sorted_queue.first.artist_id
     end
     it "marks the entry as featured with todays date" do
-      FeaturedArtistQueue.find_by_artist_id(next_entry.id).featured.should_not be_nil
+      expect(FeaturedArtistQueue.find_by_artist_id(next_entry.id).featured).not_to be_nil
     end
     it "calling it again within a week gives you the same artist" do
-      FeaturedArtistQueue.next_entry.artist_id.should eql next_entry.id
+      expect(FeaturedArtistQueue.next_entry.artist_id).to eql next_entry.id
     end
     it "calling it after a week should give you the next artist" do
       next_entry
@@ -52,7 +52,7 @@ describe FeaturedArtistQueue do
       Time.stub(:now => t)
       Time.zone.stub(:now => t)
       a = FeaturedArtistQueue.next_entry.artist
-      a.id.should eql FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }[1].artist_id
+      expect(a.id).to eql FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }[1].artist_id
     end
     describe "after everyone has been featured" do
       before do
@@ -62,14 +62,14 @@ describe FeaturedArtistQueue do
         FeaturedArtistQueue.next_entry
       end
       it "it unfeatures everyone and starts over" do
-        FeaturedArtistQueue.featured.count.should eql 1
+        expect(FeaturedArtistQueue.featured.count).to eql 1
       end
     end
   end
   describe "activating an artist" do
     it "adds that artist to the featured artist queue" do
       expect{ pending_artist.activate! }.to change(FeaturedArtistQueue, :count).by(1)
-      FeaturedArtistQueue.find_by_artist_id(pending_artist.id).should_not be_nil
+      expect(FeaturedArtistQueue.find_by_artist_id(pending_artist.id)).not_to be_nil
     end
   end
 
@@ -80,21 +80,21 @@ describe FeaturedArtistQueue do
           fa.update_attribute :featured, Time.zone.now - idx.weeks - 1.day
         end
       end
-      FeaturedArtistQueue.count.should > 1
+      expect(FeaturedArtistQueue.count).to be > 1
     end
     describe "#featured" do
       it "only returns entrys where featured is not nil" do
-        FeaturedArtistQueue.featured.any?{|fa| fa.featured == nil}.should be_false
+        expect(FeaturedArtistQueue.featured.any?{|fa| fa.featured == nil}).to be_false
       end
     end
     describe "#not_yet_featured" do
       it "returns only entries where featured is nil" do
-        FeaturedArtistQueue.not_yet_featured.all?{|fa| fa.featured == nil}.should be_true
+        expect(FeaturedArtistQueue.not_yet_featured.all?{|fa| fa.featured == nil}).to be_true
       end
     end
     describe "default scope" do
       it "returns items ordered by position" do
-        FeaturedArtistQueue.by_position.map(&:position).should be_monotonically_increasing
+        expect(FeaturedArtistQueue.by_position.map(&:position)).to be_monotonically_increasing
       end
     end
   end

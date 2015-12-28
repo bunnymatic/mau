@@ -37,7 +37,7 @@ describe FavoritesController do
           expect(response).to redirect_to artists_path
         end
         it "flashes an error" do
-          flash[:error].should be_present
+          expect(flash[:error]).to be_present
         end
       end
       context "while logged in as fan with no favorites" do

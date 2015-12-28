@@ -10,8 +10,15 @@ describe Pagination do
   let(:opts) { nil }
   subject(:paginator) { Pagination.new(num_items.times.map{|x| x + 1}, current_page, per_page, opts ) }
 
-  its(:last_page) { should eq 2 }
-  its(:first_page) { should eq 0 }
+  describe '#last_page' do
+    subject { super().last_page }
+    it { should eq 2 }
+  end
+
+  describe '#first_page' do
+    subject { super().first_page }
+    it { should eq 0 }
+  end
 
   it 'raises an error if per_page is not valid' do
     expect{Pagination.new([], 1, -1)}.to raise_error PaginationError
@@ -25,11 +32,30 @@ describe Pagination do
     expect{paginator.link_to_next}.to raise_error PaginationError
   end
 
-  its(:previous_title) { should eq 'previous' }
-  its(:previous_label) { should eq '&lt;prev' }
-  its(:next_title) { should eq 'next' }
-  its(:next_label) { should eq 'next&gt;' }
-  its(:pages) { should eq 0..2 }
+  describe '#previous_title' do
+    subject { super().previous_title }
+    it { should eq 'previous' }
+  end
+
+  describe '#previous_label' do
+    subject { super().previous_label }
+    it { should eq '&lt;prev' }
+  end
+
+  describe '#next_title' do
+    subject { super().next_title }
+    it { should eq 'next' }
+  end
+
+  describe '#next_label' do
+    subject { super().next_label }
+    it { should eq 'next&gt;' }
+  end
+
+  describe '#pages' do
+    subject { super().pages }
+    it { should eq 0..2 }
+  end
   context 'when we specify the next and previous labels and titles' do
     let(:opts) {
       {
@@ -40,29 +66,90 @@ describe Pagination do
       }
     }
 
-    its(:previous_title) { should eq 'behind' }
-    its(:previous_label) { should eq '<' }
-    its(:next_title) { should eq 'forward' }
-    its(:next_label) { should eq '>' }
+    describe '#previous_title' do
+      subject { super().previous_title }
+      it { should eq 'behind' }
+    end
+
+    describe '#previous_label' do
+      subject { super().previous_label }
+      it { should eq '<' }
+    end
+
+    describe '#next_title' do
+      subject { super().next_title }
+      it { should eq 'forward' }
+    end
+
+    describe '#next_label' do
+      subject { super().next_label }
+      it { should eq '>' }
+    end
   end
   context 'on the first page' do
-    its(:current_page) { should eq current_page }
-    its(:items) { should eq [1,2,3] }
-    its(:next_page) { should eq 1 }
-    its(:previous_page) { should eq 0 }
-    its(:next_link?) { should be_true }
-    its(:previous_link?) { should be_false }
-    its(:display_current_position) { should eql 'page 1 of 3' }
+    describe '#current_page' do
+      subject { super().current_page }
+      it { should eq current_page }
+    end
+
+    describe '#items' do
+      subject { super().items }
+      it { should eq [1,2,3] }
+    end
+
+    describe '#next_page' do
+      subject { super().next_page }
+      it { should eq 1 }
+    end
+
+    describe '#previous_page' do
+      subject { super().previous_page }
+      it { should eq 0 }
+    end
+
+    describe '#next_link?' do
+      subject { super().next_link? }
+      it { should be_true }
+    end
+
+    describe '#previous_link?' do
+      subject { super().previous_link? }
+      it { should be_false }
+    end
+
+    describe '#display_current_position' do
+      subject { super().display_current_position }
+      it { should eql 'page 1 of 3' }
+    end
   end
 
   context 'on an inner page' do
     let(:current_page) { 1 }
 
-    its(:current_page) { should eq current_page }
-    its(:items) { should eq [4,5,6] }
-    its(:next_page) { should eq 2 }
-    its(:previous_page) { should eq 0 }
-    its(:display_current_position) { should eql 'page 2 of 3' }
+    describe '#current_page' do
+      subject { super().current_page }
+      it { should eq current_page }
+    end
+
+    describe '#items' do
+      subject { super().items }
+      it { should eq [4,5,6] }
+    end
+
+    describe '#next_page' do
+      subject { super().next_page }
+      it { should eq 2 }
+    end
+
+    describe '#previous_page' do
+      subject { super().previous_page }
+      it { should eq 0 }
+    end
+
+    describe '#display_current_position' do
+      subject { super().display_current_position }
+      it { should eql 'page 2 of 3' }
+    end
     it "reports not the current page for page 2" do
       expect(subject.is_current_page?(2)).to be_false
     end
@@ -75,33 +162,98 @@ describe Pagination do
   context 'on the last page' do
     let(:current_page) { 2 }
 
-    its(:current_page) { should eq current_page }
-    its(:items) { should eq [7,8] }
-    its(:next_page) { should eq 2 }
-    its(:previous_page) { should eq 1 }
-    its(:next_link?) { should be_false }
-    its(:previous_link?) { should be_true }
-    its(:display_current_position) { should eql 'page 3 of 3' }
+    describe '#current_page' do
+      subject { super().current_page }
+      it { should eq current_page }
+    end
+
+    describe '#items' do
+      subject { super().items }
+      it { should eq [7,8] }
+    end
+
+    describe '#next_page' do
+      subject { super().next_page }
+      it { should eq 2 }
+    end
+
+    describe '#previous_page' do
+      subject { super().previous_page }
+      it { should eq 1 }
+    end
+
+    describe '#next_link?' do
+      subject { super().next_link? }
+      it { should be_false }
+    end
+
+    describe '#previous_link?' do
+      subject { super().previous_link? }
+      it { should be_true }
+    end
+
+    describe '#display_current_position' do
+      subject { super().display_current_position }
+      it { should eql 'page 3 of 3' }
+    end
   end
 
   context 'when current page is bigger than the number of pages' do
     let(:current_page) { 8 }
 
-    its(:current_page) { should eq 8 }
-    its(:items) { should eq [] }
-    its(:next_page) { should eq 2 }
-    its(:previous_page) { should eq 7 }
-    its(:next_link?) { should be_false }
-    its(:previous_link?) { should be_true }
+    describe '#current_page' do
+      subject { super().current_page }
+      it { should eq 8 }
+    end
+
+    describe '#items' do
+      subject { super().items }
+      it { should eq [] }
+    end
+
+    describe '#next_page' do
+      subject { super().next_page }
+      it { should eq 2 }
+    end
+
+    describe '#previous_page' do
+      subject { super().previous_page }
+      it { should eq 7 }
+    end
+
+    describe '#next_link?' do
+      subject { super().next_link? }
+      it { should be_false }
+    end
+
+    describe '#previous_link?' do
+      subject { super().previous_link? }
+      it { should be_true }
+    end
   end
 
   context 'when current page is less than 0' do
     let(:current_page) { -8 }
 
-    its(:current_page) { should eq -8 }
-    its(:items) { should eq [] }
-    its(:next_page) { should eq -7 }
-    its(:previous_page) { should eq 0 }
+    describe '#current_page' do
+      subject { super().current_page }
+      it { should eq -8 }
+    end
+
+    describe '#items' do
+      subject { super().items }
+      it { should eq [] }
+    end
+
+    describe '#next_page' do
+      subject { super().next_page }
+      it { should eq -7 }
+    end
+
+    describe '#previous_page' do
+      subject { super().previous_page }
+      it { should eq 0 }
+    end
   end
 
 end

@@ -7,14 +7,14 @@ describe FeedbacksController do
     end
     it { expect(response).to be_success }
     it "sets a new feedback" do
-      assigns(:feedback).should be_a_kind_of Feedback
-      assigns(:feedback).should be_new_record
+      expect(assigns(:feedback)).to be_a_kind_of Feedback
+      expect(assigns(:feedback)).to be_new_record
     end
     it 'sets the title' do
-      assigns(:title).should eql 'Feedback'
+      expect(assigns(:title)).to eql 'Feedback'
     end
     it 'sets the section to general' do
-      assigns(:section).should eql 'general'
+      expect(assigns(:section)).to eql 'general'
     end
   end
 
@@ -23,13 +23,13 @@ describe FeedbacksController do
       before do
         get :create, :feedback => { :whatever => 'blah' }
       end
-      it { assigns(@error_message).should be_present }
+      it { expect(assigns(@error_message)).to be_present }
       it { expect(response).to render_template :new }
-      it { response.status.should eql 422 }
+      it { expect(response.status).to eql 422 }
     end
     context 'with good data' do
       before do
-        FeedbackMailer.should_receive(:feedback).and_return(double(:deliver! => true))
+        expect(FeedbackMailer).to receive(:feedback).and_return(double(:deliver! => true))
         expect{
           get :create, {:feedback => {
               :email => 'joe@wherever.com',

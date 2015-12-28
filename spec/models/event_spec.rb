@@ -13,19 +13,19 @@ describe Event do
 
   describe 'named scopes' do
     it "future returns only events whose end time is the future" do
-      Event.future.all?{|u| u.future?}.should be_true
+      expect(Event.future.all?{|u| u.future?}).to be_true
     end
     it "past returns only events that are in the past" do
-      Event.past.all?{|u| (u.endtime && u.endtime < Time.zone.now) || (u.starttime < Time.zone.now)}.should be
+      expect(Event.past.all?{|u| (u.endtime && u.endtime < Time.zone.now) || (u.starttime < Time.zone.now)}).to be
     end
     it 'published only returns events whose publish flag has been set true' do
-      Event.published.all{|u| u.publish}.should be
+      expect(Event.published.all{|u| u.publish}).to be
     end
     it 'returns events in order of starttime by default' do
-      Event.by_starttime.map(&:starttime).should be_monotonically_increasing
+      expect(Event.by_starttime.map(&:starttime)).to be_monotonically_increasing
     end
     it 'not_past returns events that are not yet over' do
-      (Event.not_past.all).should eql Event.all - Event.past
+      expect(Event.not_past.all).to eql Event.all - Event.past
     end
   end
 
@@ -33,14 +33,14 @@ describe Event do
     it 'is an invalid event if end date is present and before start date' do
       ev = FactoryGirl.build(:event)
       ev.endtime = ev.starttime - 10.days
-      ev.should_not be_valid
-      ev.errors['endtime'].should be
+      expect(ev).not_to be_valid
+      expect(ev.errors['endtime']).to be
     end
     it 'is an invalid event if reception endtime is present and before the reception start date' do
       ev = FactoryGirl.build(:event, :with_reception)
       ev.reception_endtime = ev.reception_starttime - 10.days
-      ev.should_not be_valid
-      ev.errors['reception_endtime'].should be
+      expect(ev).not_to be_valid
+      expect(ev.errors['reception_endtime']).to be
     end
   end
 
@@ -48,7 +48,7 @@ describe Event do
     let(:user) { FactoryGirl.create(:artist, :active)}
     it 'stores the user association' do
       FactoryGirl.create(:event, :user => user)
-      Event.where(:user_id => User.active.first.id).should be_present
+      expect(Event.where(:user_id => User.active.first.id)).to be_present
     end
   end
 
@@ -57,35 +57,35 @@ describe Event do
 
   describe '#future?' do
     it 'returns true for events in the future' do
-      future_event.future?.should be_true
+      expect(future_event.future?).to be_true
     end
     it 'returns false for events in the past' do
-      past_event.future?.should be_false
+      expect(past_event.future?).to be_false
     end
     it 'returns false for events in progress' do
-      in_progress_event.future?.should be_false
+      expect(in_progress_event.future?).to be_false
     end
   end
   describe '#in_progress?' do
     it 'returns true for events that are in progress' do
-      in_progress_event.in_progress?.should be_true
+      expect(in_progress_event.in_progress?).to be_true
     end
     it 'returns false for events in the past' do
-     past_event.in_progress?.should be_false
+     expect(past_event.in_progress?).to be_false
     end
     it 'returns false for events in the future' do
-      future_event.in_progress?.should be_false
+      expect(future_event.in_progress?).to be_false
     end
   end
   describe '#past?' do
     it 'returns true for events in the past' do
-      past_event.past?.should be_true
+      expect(past_event.past?).to be_true
     end
     it 'returns false for events that are in progress' do
-      in_progress_event.past?.should be_false
+      expect(in_progress_event.past?).to be_false
     end
     it 'returns true for events in the future' do
-      future_event.past?.should be_false
+      expect(future_event.past?).to be_false
     end
   end
 end

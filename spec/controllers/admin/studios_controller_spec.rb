@@ -80,7 +80,7 @@ describe Admin::StudiosController do
         assert(artist_ids.length > 0, 'You need to have a couple artists on that studio in your fixtures')
         delete :destroy, id: studio.to_param
         users = User.find(artist_ids)
-        users.all?{|a| a.studio_id == 0}.should be_true, 'Not all the artists were moved into the "Indy" studio'
+        expect(users.all?{|a| a.studio_id == 0}).to be_true, 'Not all the artists were moved into the "Indy" studio'
       end
     end
   end
@@ -114,7 +114,7 @@ describe Admin::StudiosController do
             expect(response).to redirect_to SHARED_REFERER
           end
           it 'flashes an error' do
-            flash[:error].should match /not a manager of that studio/
+            expect(flash[:error]).to match /not a manager of that studio/
           end
         end
       end

@@ -21,8 +21,8 @@ describe Admin::TestsController do
     describe '#flash_test' do
       it 'sets up the flash notice/error messages' do
         get :flash_test
-        flash[:notice].should be_present
-        flash[:error].should be_present
+        expect(flash[:notice]).to be_present
+        expect(flash[:error]).to be_present
       end
     end
 
@@ -31,12 +31,12 @@ describe Admin::TestsController do
         t = Time.zone.now
         Time.zone.stub(:now => t)
         @t = t
-        FileUtils.should_receive(:mkdir_p).with %r|/public/images/tmp$|
-        Qr4r.stub(:encode)
+        expect(FileUtils).to receive(:mkdir_p).with %r|/public/images/tmp$|
+        allow(Qr4r).to receive(:encode)
       end
       it 'builds a qr image' do
         post :qr, 'string_to_encode' => 'this string', 'pixel_size' => '10'
-        assigns(:qrfile).should eql "/images/tmp/qrtest_#{@t.to_i}.png"
+        expect(assigns(:qrfile)).to eql "/images/tmp/qrtest_#{@t.to_i}.png"
       end
     end
 

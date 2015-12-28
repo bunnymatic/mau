@@ -36,7 +36,7 @@ describe Admin::MediaController do
         get :edit, :id => Medium.first
       end
       it { expect(response).to be_success }
-      it { assigns(:medium).should eql Medium.first }
+      it { expect(assigns(:medium)).to eql Medium.first }
     end
   end
 
@@ -53,7 +53,7 @@ describe Admin::MediaController do
         get :new
       end
       it { expect(response).to be_success }
-      it { assigns(:medium).should be_a_kind_of Medium }
+      it { expect(assigns(:medium)).to be_a_kind_of Medium }
     end
   end
 
@@ -98,7 +98,7 @@ describe Admin::MediaController do
       end
       it 'updates the medium' do
         post :update, :id => medium.id, :medium => {:name => 'brand spankin'}
-        medium.reload.name.should eql 'brand spankin'
+        expect(medium.reload.name).to eql 'brand spankin'
       end
       it 'renders new on error' do
         post :update, :id => medium.id, :medium => {:name => nil}

@@ -26,24 +26,24 @@ describe SiteStatistics do
   end
 
   it 'assigns correct values for artists yesterday' do
-    stats.yesterday[:artists_added].should eql 1
-    stats.yesterday[:artists_activated].should eql 1
+    expect(stats.yesterday[:artists_added]).to eql 1
+    expect(stats.yesterday[:artists_activated]).to eql 1
   end
   it 'assigns correct values for artists last week' do
-    stats.last_week[:artists_activated].should eql 3
-    stats.last_week[:artists_added].should eql 6
+    expect(stats.last_week[:artists_activated]).to eql 3
+    expect(stats.last_week[:artists_added]).to eql 6
   end
   it 'assigns correct values for artists last month' do
-    stats.last_30_days[:artists_activated].should eql 5
-    stats.last_30_days[:artists_added].should eql 11
+    expect(stats.last_30_days[:artists_activated]).to eql 5
+    expect(stats.last_30_days[:artists_added]).to eql 11
   end
   it 'has totals' do
-    stats.totals.should be
+    expect(stats.totals).to be
   end
   it 'has studio count' do
-    stats.totals[:studios].should eql 2
+    expect(stats.totals[:studios]).to eql 2
   end
   it 'has open studios info' do
-    stats.open_studios.length.should >= 5
+    expect(stats.open_studios.length).to be >= 5
   end
 end

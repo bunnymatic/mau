@@ -17,8 +17,15 @@ describe AdminArtistList, :type => :controller do
 
   subject(:list) { AdminArtistList.new(sort_by, reverse) }
 
-  its(:csv_filename) { should eql 'mau_artists.csv' }
-  its(:csv_headers) { should eql parsed.headers }
+  describe '#csv_filename' do
+    subject { super().csv_filename }
+    it { should eql 'mau_artists.csv' }
+  end
+
+  describe '#csv_headers' do
+    subject { super().csv_headers }
+    it { should eql parsed.headers }
+  end
   it 'has correct data in the csv' do
     expect(parsed.first['Full Name']).to eql list.artists.first.full_name
   end

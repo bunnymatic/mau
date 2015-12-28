@@ -44,10 +44,10 @@ describe MediaController do
           get :show, :id => medium.id, :m => 'a'
         end
         it "page is in artists mode" do
-          assigns(:media_presenter).should be_by_artists
+          expect(assigns(:media_presenter)).to be_by_artists
         end
         it "assigns pieces" do
-          paginator.items.should have_at_least(1).piece
+          expect(paginator.items.size).to be >= 1
         end
       end
       context 'by art piece' do
@@ -55,23 +55,23 @@ describe MediaController do
           get :show, :id => medium
         end
         it "page is in pieces mode" do
-          assigns(:media_presenter).should be_by_pieces
+          expect(assigns(:media_presenter)).to be_by_pieces
         end
         it "assigns pieces" do
-          paginator.items.should have_at_least(1).piece
+          expect(paginator.items.size).to be >= 1
         end
         it "assigns all media" do
-          assigns(:media).should have_at_least(1).medium
+          expect(assigns(:media).size).to be >= 1
         end
         it "assigns frequency" do
-          assigns(:frequency).should have_at_least(1).item
+          expect(assigns(:frequency).size).to be >= 1
         end
         it "assigns frequency" do
           freq = assigns(:frequency)
-          freq.should be_present
+          expect(freq).to be_present
         end
         it "pieces are in order of art_piece updated_date" do
-          paginator.items.map(&:updated_at).should be_monotonically_decreasing
+          expect(paginator.items.map(&:updated_at)).to be_monotonically_decreasing
         end
       end
     end

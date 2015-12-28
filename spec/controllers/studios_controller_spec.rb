@@ -21,7 +21,7 @@ describe StudiosController do
       it_should_behave_like 'successful json'
       it 'returns all studios' do
         j = JSON.parse(response.body)
-        j.count.should eql assigns(:studio_list).count
+        expect(j.count).to eql assigns(:studio_list).count
       end
     end
   end
@@ -42,7 +42,7 @@ describe StudiosController do
       end
       it {expect(response).to redirect_to studios_path}
       it 'sets the flash' do
-        flash[:error].should be_present
+        expect(flash[:error]).to be_present
       end
     end
 
@@ -72,8 +72,8 @@ describe StudiosController do
           it_should_behave_like 'successful json'
           it 'returns the studio data' do
             j = JSON.parse(response.body)
-            j['studio']['name'].should eql studio.name
-            j['studio']['street_address'].should eql studio.street
+            expect(j['studio']['name']).to eql studio.name
+            expect(j['studio']['street_address']).to eql studio.street
           end
         end
       end
@@ -84,7 +84,7 @@ describe StudiosController do
         it_should_behave_like 'successful json'
         it 'returns the studio data' do
           j = JSON.parse(response.body)
-          j['studio']['name'].should eql "Independent Studios"
+          expect(j['studio']['name']).to eql "Independent Studios"
         end
       end
     end

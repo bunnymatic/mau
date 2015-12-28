@@ -18,14 +18,51 @@ describe MediaPresenter do
 
   subject(:presenter) { MediaPresenter.new(select_medium, page, mode, per_page) }
 
-  its(:by_artists?) { should be_false }
-  its(:by_pieces?) { should be_true }
-  its(:all_art_pieces) { should have(select_medium.art_pieces.count).art_pieces }
-  its("paginator.items") { should have(2).items }
-  its(:paginator) { should be_a_kind_of MediumPagination }
+  describe '#by_artists?' do
+    subject { super().by_artists? }
+    it { should be_false }
+  end
 
-  its('paginator.per_page') { should eql per_page }
-  its('paginator.current_page') { should eql page }
+  describe '#by_pieces?' do
+    subject { super().by_pieces? }
+    it { should be_true }
+  end
+
+  describe '#all_art_pieces' do
+    it 'has select_medium.art_pieces.count art_pieces' do
+      expect(subject.all_art_pieces.size).to eq(select_medium.art_pieces.count)
+    end
+  end
+
+  describe '#paginator' do
+    subject { super().paginator }
+    describe '#items' do
+      it 'has 2 items' do
+      expect(subject.items.size).to eq(2)
+    end
+    end
+  end
+
+  describe '#paginator' do
+    subject { super().paginator }
+    it { should be_a_kind_of MediumPagination }
+  end
+
+  describe '#paginator' do
+    subject { super().paginator }
+    describe '#per_page' do
+      subject { super().per_page }
+      it { should eql per_page }
+    end
+  end
+
+  describe '#paginator' do
+    subject { super().paginator }
+    describe '#current_page' do
+      subject { super().current_page }
+      it { should eql page }
+    end
+  end
 
   context 'with inactive artists in the system' do
     before do

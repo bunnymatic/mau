@@ -114,57 +114,57 @@ describe User do
     context 'an artist with a login but no names' do
       it 'returns login for full name' do
         u = FactoryGirl.build(:user, firstname: nil, lastname: nil, nomdeplume: nil)
-        u.full_name.should eql u.login
+        expect(u.full_name).to eql u.login
       end
       it 'returns first/last name for full name' do
         u = FactoryGirl.build(:user, firstname: 'yo', lastname: 'tHere', nomdeplume: nil)
-        u.full_name.should eql [u.firstname, u.lastname].join(' ')
+        expect(u.full_name).to eql [u.firstname, u.lastname].join(' ')
       end
       it 'returns nom de plume if it\'s available' do
         u = FactoryGirl.build(:user, firstname: 'yo', lastname: 'tHere', nomdeplume: "I'm So Famous")
-        u.full_name.should eql u.nomdeplume
+        expect(u.full_name).to eql u.nomdeplume
       end
     end
   end
   describe 'new' do
     it 'validates' do
-      user.should be_valid
+      expect(user).to be_valid
     end
 
     context 'with a bad email' do
       it "should not allow 'bogus email' for email address" do
         user = FactoryGirl.build(:user, email: 'bogus email')
-        user.should_not be_valid
-        user.should have_at_least(1).error_on(:email)
+        expect(user).not_to be_valid
+        expect(user).to have_at_least(1).error_on(:email)
       end
 
       it "should not allow '   ' for email" do
         user = FactoryGirl.build(:user, email: '  ')
-        user.should_not be_valid
-        user.should have_at_least(1).error_on(:email)
+        expect(user).not_to be_valid
+        expect(user).to have_at_least(1).error_on(:email)
       end
       it "should not allow blow@ for email" do
         user = FactoryGirl.build(:user, email: 'blow@')
-        user.should_not be_valid
-        user.should have_at_least(1).error_on(:email)
+        expect(user).not_to be_valid
+        expect(user).to have_at_least(1).error_on(:email)
       end
     end
   end
   describe 'create' do
     it 'sets email attrs to true for everything' do
       FactoryGirl.create(:user, :pending)
-      User.all.last.emailsettings.all?{|k,v| v}.should be_true
+      expect(User.all.last.emailsettings.all?{|k,v| v}).to be_true
     end
   end
   describe 'named scope' do
     it "active returns only active users" do
       User.active.all.each do |u|
-        u.state.should eql 'active'
+        expect(u.state).to eql 'active'
       end
     end
     it "pending returns only pending users" do
       User.pending.all.each do |u|
-        u.state.should eql 'pending'
+        expect(u.state).to eql 'pending'
       end
     end
   end
@@ -172,66 +172,66 @@ describe User do
   describe 'get_name' do
     it 'returns nom de plume if defined' do
       user = FactoryGirl.build(:user, nomdeplume: 'blurp')
-      user.get_name.should eql 'blurp'
+      expect(user.get_name).to eql 'blurp'
     end
     it 'returns first + last if defined' do
       user = FactoryGirl.build(:user, nomdeplume: nil )
-      user.get_name.should eql([user.firstname, user.lastname].join ' ')
+      expect(user.get_name).to eql([user.firstname, user.lastname].join ' ')
     end
     it 'returns login if nom, and firstname are not defined' do
       user = FactoryGirl.build(:user, nomdeplume: '', firstname: '')
-      user.get_name.should eql user.login
+      expect(user.get_name).to eql user.login
     end
     it 'returns login if nom, and lastname are not defined' do
       user = FactoryGirl.build(:user, nomdeplume: '', lastname: '')
-      user.get_name.should eql user.login
+      expect(user.get_name).to eql user.login
     end
 
   end
 
   describe 'get_profile_image' do
     it 'returns the medium artists profile image if there is one' do
-      artist.get_profile_image.should eql "/artistdata/#{artist.id}/profile/m_profile.jpg"
+      expect(artist.get_profile_image).to eql "/artistdata/#{artist.id}/profile/m_profile.jpg"
     end
     it 'returns the small artists profile image if there is one give size = small' do
-      artist.get_profile_image(:small).should eql "/artistdata/#{artist.id}/profile/s_profile.jpg"
+      expect(artist.get_profile_image(:small)).to eql "/artistdata/#{artist.id}/profile/s_profile.jpg"
     end
   end
 
   describe 'get_share_link' do
     it "returns the artists link" do
-      user.get_share_link.should match %r|/artists/#{user.login}$|
+      expect(user.get_share_link).to match %r|/artists/#{user.login}$|
     end
     it "returns the html safe artists link given html_safe = true" do
-      user.get_share_link(true).downcase.should match %r|%2fartists%2f#{user.login}$|
+      expect(user.get_share_link(true).downcase).to match %r|%2fartists%2f#{user.login}$|
     end
     it "returns the artists link with params given params" do
-      user.get_share_link(false, this: "that").should match %r|artists/#{user.login}\?this=that$|
+      expect(user.get_share_link(false, this: "that")).to match %r|artists/#{user.login}\?this=that$|
     end
   end
 
   describe 'roles' do
     it "without admin role user is not admin" do
-      artist.should_not be_is_admin
+      expect(artist).not_to be_is_admin
     end
     it "without editor role user is not editor" do
-      artist.should_not be_is_editor
+      expect(artist).not_to be_is_editor
     end
     it "with admin role, user is admin" do
-      admin.should be_is_admin
+      expect(admin).to be_is_admin
     end
     it "with editor role, user is editor" do
-      editor.should be_is_editor
+      expect(editor).to be_is_editor
     end
     it "with editor and manager role, user is editor and manager but not admin" do
-      managing_editor.should be_is_editor
-      managing_editor.should be_is_manager
-      managing_editor.should_not be_is_admin
+      expect(managing_editor).to be_is_editor
+      expect(managing_editor).to be_is_manager
+      expect(managing_editor).not_to be_is_admin
     end
     it "with admin role, user is editor and manager and admin" do
-      admin.should be_is_editor
-      admin.should be_is_manager
-      admin.should be_is_admin
+      expect(admin).to be_is_editor
+      expect(admin).to be_is_manager
+      expect(admin).to be_is_admin
     end
     it 'does not save multiple roles of the same type' do
       expect {
@@ -242,19 +242,19 @@ describe User do
 
   describe 'address' do
     it "responds to address" do
-      simple_artist.should respond_to :address
+      expect(simple_artist).to respond_to :address
     end
     it "responds to full address" do
-      simple_artist.should respond_to :full_address
+      expect(simple_artist).to respond_to :full_address
     end
     it "returns nothing" do
-      simple_artist.address.should_not be_present
+      expect(simple_artist.address).not_to be_present
     end
   end
   describe "unavailable methods" do
     it "doesn't reply to old artists attributes" do
       [:lat, :lng, :bio, :street, :city, :zip].each do |method|
-        maufan.should_not respond_to method
+        expect(maufan).not_to respond_to method
       end
     end
   end
@@ -268,32 +268,32 @@ describe User do
         @u.save
       end
       it "all users favorites should be either of type Artist or ArtPiece" do
-        @u.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.should have_at_least(1).favorite
+        expect(@u.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.size).to be >= 1
       end
       it "artist is in the users favorites list" do
         favs = @u.favorites.select { |f| f.favoritable_id == @a.id }
-        favs.should have(1).artist
-        favs[0].favoritable_id.should eql(@a.id)
-        favs[0].favoritable_type.should eql('Artist')
+        expect(favs.size).to eq(1)
+        expect(favs[0].favoritable_id).to eql(@a.id)
+        expect(favs[0].favoritable_type).to eql('Artist')
       end
       it "artist is in the users favorite.to_obj list as an artist model" do
         fs = @u.favorites.to_obj.select { |f| f.id == @a.id }
-        fs.should have(1).artist
-        fs[0].id.should eql @a.id
-        fs[0].class.should eql Artist
+        expect(fs.size).to eq(1)
+        expect(fs[0].id).to eql @a.id
+        expect(fs[0].class).to eql Artist
       end
       it "artist is in user.fav_artists list" do
-        (@u.fav_artists.map { |a| a.id }).should include(@a.id)
+        expect(@u.fav_artists.map { |a| a.id }).to include(@a.id)
       end
       it "first in user.fav_artists list is an Artist" do
-        @u.fav_artists.first.is_a?(User).should be
+        expect(@u.fav_artists.first.is_a?(User)).to be
       end
       context "and removing that artist" do
         before do
           @u.remove_favorite(@a)
         end
         it ", artist is no longer a favorite" do
-          @u.fav_art_pieces.should have(0).artists
+          expect(@u.fav_art_pieces.size).to eq(0)
         end
       end
       context "and trying to add a duplicate artist" do
@@ -302,8 +302,8 @@ describe User do
           @result = @u.add_favorite(@a)
         end
         it "doesn't add" do
-          @result.should be_false
-          @num_favs.should eql @u.favorites.count
+          expect(@result).to be_false
+          expect(@num_favs).to eql @u.favorites.count
         end
       end
       context "then artist deactivates" do
@@ -313,23 +313,23 @@ describe User do
           @a.destroy
         end
         it "fav_artists should not return deactivated artist" do
-          (@u.fav_artists.map { |a| a.id }).should_not include(@aid)
+          expect(@u.fav_artists.map { |a| a.id }).not_to include(@aid)
         end
         it "favorites list should be smaller" do
-          @u.favorites.count.should eql @favs - 1
+          expect(@u.favorites.count).to eql @favs - 1
         end
       end
     end
     describe "narcissism" do
       it "favoriting yourself is not allowed" do
-        artist.add_favorite(artist).should be_false
+        expect(artist.add_favorite(artist)).to be_false
       end
       it "favoriting your own art work is not allowed" do
-        artist.add_favorite(art_piece).should be_false
+        expect(artist.add_favorite(art_piece)).to be_false
       end
       it "it doesn't send favorite notification" do
-        ArtistMailer.should_receive('favorite_notification').never
-       artist.add_favorite(art_piece).should be_false
+        expect(ArtistMailer).to receive('favorite_notification').never
+       expect(artist.add_favorite(art_piece)).to be_false
       end
     end
 
@@ -347,11 +347,11 @@ describe User do
       end
 
       it "add art_piece favorite sends favorite notification to owner" do
-        ArtistMailer.should_receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
+        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
         maufan.add_favorite(art_piece)
       end
       it "add artist favorite sends favorite notification to user" do
-        ArtistMailer.should_receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
+        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
         maufan.add_favorite(artist)
       end
       it "add artist favorite doesn't send notification to user if user's email settings say no" do
@@ -360,7 +360,7 @@ describe User do
         artist.emailsettings = h
         artist.save!
         artist.reload
-        ArtistMailer.should_receive('favorite_notification').with(artist, maufan).never
+        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).never
         maufan.add_favorite(artist)
       end
     end
@@ -370,29 +370,29 @@ describe User do
         maufan.add_favorite(art_piece)
       end
       it "all users favorites should be either of type Artist or ArtPiece" do
-        maufan.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.should have_at_least(1).favorite
+        expect(maufan.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.size).to be >= 1
       end
       it "art_piece is in favorites list" do
         fs = maufan.favorites.select { |f| f.favoritable_id == art_piece.id }
-        fs.should have(1).art_piece
-        fs[0].favoritable_id.should eql art_piece.id
-        fs[0].favoritable_type.should eql 'ArtPiece'
+        expect(fs.size).to eq(1)
+        expect(fs[0].favoritable_id).to eql art_piece.id
+        expect(fs[0].favoritable_type).to eql 'ArtPiece'
       end
       it "art_piece is in favorites_to_obj list as an ArtPiece" do
         fs = maufan.favorites.to_obj.select { |f| f.id == art_piece.id }
-        fs.should have(1).art_piece
-        fs[0].id.should eql art_piece.id
-        fs[0].class.should eql ArtPiece
+        expect(fs.size).to eq(1)
+        expect(fs[0].id).to eql art_piece.id
+        expect(fs[0].class).to eql ArtPiece
       end
 
       it "art_piece is in the artists 'fav_art_pieces' list" do
-        (maufan.fav_art_pieces.map { |ap| ap.id }).should include(art_piece.id)
+        expect(maufan.fav_art_pieces.map { |ap| ap.id }).to include(art_piece.id)
       end
       it "art piece is of type ArtPiece" do
-        maufan.fav_art_pieces.first.is_a?(ArtPiece).should be
+        expect(maufan.fav_art_pieces.first.is_a?(ArtPiece)).to be
       end
       it "user does not have 'art_pieces' because he's a user" do
-        maufan.methods.should_not include('art_pieces')
+        expect(maufan.methods).not_to include('art_pieces')
       end
 
       it "doesn't add items twice" do
@@ -403,12 +403,12 @@ describe User do
 
       context "and removing it" do
         it "Favorite delete get's called" do
-          Favorite.any_instance.should_receive(:destroy).exactly(:once)
+          expect_any_instance_of(Favorite).to receive(:destroy).exactly(:once)
           maufan.remove_favorite(art_piece)
         end
         it "art_piece is no longer a favorite" do
           f = maufan.remove_favorite(art_piece)
-          Favorite.where(user_id: maufan.id).should_not include f
+          expect(Favorite.where(user_id: maufan.id)).not_to include f
         end
       end
     end
@@ -420,18 +420,18 @@ describe User do
         Timecop.travel(1.hour.since)
       end
       it "create_reset_code creates a reset code" do
-        maufan.reset_code.should be_nil
+        expect(maufan.reset_code).to be_nil
         expect {
           maufan.create_reset_code
-          maufan.reset_code.should_not be_nil
+          expect(maufan.reset_code).not_to be_nil
         }.to change(UserMailer.deliveries, :count).by(1)
       end
     end
     context "artist" do
       it "create_reset_code creates a reset code" do
-        artist.reset_code.should be_nil
+        expect(artist.reset_code).to be_nil
         artist.create_reset_code
-        artist.reset_code.should_not be_nil
+        expect(artist.reset_code).not_to be_nil
       end
     end
   end
@@ -451,26 +451,26 @@ describe User do
       end
       it 'returns allowed mapped attributes' do
         expected_keys =  ['FNAME','LNAME', 'CREATED']
-        @mail_data.keys.length.should eql expected_keys.length
-        @mail_data.keys.all?{|k| expected_keys.include? k}.should be
+        expect(@mail_data.keys.length).to eql expected_keys.length
+        expect(@mail_data.keys.all?{|k| expected_keys.include? k}).to be
       end
       it 'returns correct values for mapped attributes' do
-        @mail_data['CREATED'].should eql artist.activated_at
-        @mail_data['FNAME'].should eql artist.firstname
-        @mail_data['LNAME'].should eql artist.lastname
+        expect(@mail_data['CREATED']).to eql artist.activated_at
+        expect(@mail_data['FNAME']).to eql artist.firstname
+        expect(@mail_data['LNAME']).to eql artist.lastname
       end
     end
     describe 'subscribe and welcome' do
       before do
         artist
-        Artist.any_instance.should_receive(:mailchimp_list_subscribe)
+        expect_any_instance_of(Artist).to receive(:mailchimp_list_subscribe)
       end
       it "updates mailchimp_subscribed_at column" do
         u = User.first
         mc = u.mailchimp_subscribed_at
         User.first.subscribe_and_welcome
         u.reload
-        u.mailchimp_subscribed_at.should be <= Time.zone.now.utc.to_date
+        expect(u.mailchimp_subscribed_at).to be <= Time.zone.now.utc.to_date
       end
     end
   end

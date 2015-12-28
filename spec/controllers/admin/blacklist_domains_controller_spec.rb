@@ -42,8 +42,8 @@ describe Admin::BlacklistDomainsController do
         get :new
       end
       it 'assigns a new blacklist domain' do
-        assigns(:domain).should be_a_kind_of BlacklistDomain
-        assigns(:domain).should be_new_record
+        expect(assigns(:domain)).to be_a_kind_of BlacklistDomain
+        expect(assigns(:domain)).to be_new_record
       end
     end
 
@@ -53,7 +53,7 @@ describe Admin::BlacklistDomainsController do
         get :edit, :id => domain.id
       end
       it 'loads the domain' do
-        assigns(:domain).should eql domain
+        expect(assigns(:domain)).to eql domain
       end
     end
 
@@ -70,12 +70,12 @@ describe Admin::BlacklistDomainsController do
         expect{
           post :create, :blacklist_domain => { :domain => '' }
           expect(response).to render_template :new
-          assigns(:domain).errors.should be_present
+          expect(assigns(:domain).errors).to be_present
         }.to change(BlacklistDomain,:count).by(0)
       end
       it 'sets a notification' do
         post :create, :blacklist_domain => { :domain => 'blah.de.blah.com' }
-        flash[:notice].should be_present
+        expect(flash[:notice]).to be_present
       end
     end
 
@@ -85,16 +85,16 @@ describe Admin::BlacklistDomainsController do
       end
       it 'creates a new blacklist domain' do
         put :update, :id => domain.id, :blacklist_domain => { :domain => 'blah.de.blah.com' }
-        BlacklistDomain.find(domain.id).domain.should eql 'blah.de.blah.com'
+        expect(BlacklistDomain.find(domain.id).domain).to eql 'blah.de.blah.com'
       end
       it 'sets a notification' do
         put :update, :id => domain.id, :blacklist_domain => { :domain => 'blah.de.blah.com' }
-        flash[:notice].should be_present
+        expect(flash[:notice]).to be_present
       end
       it 'renders edit on failure' do
         put :update, :id => domain.id, :blacklist_domain => { :domain => '' }
         expect(response).to render_template :edit
-        assigns(:domain).errors.should be_present
+        expect(assigns(:domain).errors).to be_present
       end
     end
 
@@ -106,12 +106,12 @@ describe Admin::BlacklistDomainsController do
         domain
         expect{
           delete :destroy, :id => domain.id
-          BlacklistDomain.where(:id => domain.id).should be_empty
+          expect(BlacklistDomain.where(:id => domain.id)).to be_empty
         }.to change(BlacklistDomain, :count).by(-1)
       end
       it 'sets a notification' do
         delete :destroy, :id => domain.id
-        flash[:notice].should be_present
+        expect(flash[:notice]).to be_present
       end
 
       it 'redirects to the domains list' do

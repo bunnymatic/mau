@@ -27,10 +27,28 @@ describe TagCloudPresenter, :type => :controller do
     tags
   end
 
-  its(:current_tag) { should eql current_tag }
-  its(:mode) { should eql mode }
-  its(:frequency) { should eql expected_frequency }
-  its('tags.all') { should eql ArtPieceTag.where(:id => expected_frequency.map{|f| f['tag']}).all }
+  describe '#current_tag' do
+    subject { super().current_tag }
+    it { should eql current_tag }
+  end
+
+  describe '#mode' do
+    subject { super().mode }
+    it { should eql mode }
+  end
+
+  describe '#frequency' do
+    subject { super().frequency }
+    it { should eql expected_frequency }
+  end
+
+  describe '#tags' do
+    subject { super().tags }
+    describe '#all' do
+      subject { super().all }
+      it { should eql ArtPieceTag.where(:id => expected_frequency.map{|f| f['tag']}).all }
+    end
+  end
 
 
   it 'returns the tag path' do

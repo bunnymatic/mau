@@ -24,20 +24,20 @@ describe ApiController do
   shared_examples_for 'error responses' do
     it_should_behave_like 'all responses'
     it 'returns status 400' do
-      response.code.should eql '400'
+      expect(response.code).to eql '400'
     end
     it 'returns a message in the json response' do
-      JSON.parse(response.body).should have_key 'message'
+      expect(JSON.parse(response.body)).to have_key 'message'
     end
     it 'returns ApiError in the message' do
       resp = JSON.parse(response.body)
-      resp.should have_key 'message'
-      resp['message'].should match /ApiError/
+      expect(resp).to have_key 'message'
+      expect(resp['message']).to match /ApiError/
     end
     it 'returns status in the json response' do
       resp = JSON.parse(response.body)
-      resp.should have_key 'status'
-      resp['status'].to_s.should eql response.code
+      expect(resp).to have_key 'status'
+      expect(resp['status'].to_s).to eql response.code
     end
   end
 
@@ -59,8 +59,8 @@ describe ApiController do
     [ 'artists', 'studios', 'art_pieces' ].each do |typ|
       it 'reports unable to find ApiError given an object type that is valid but not queryable' do
         get :index, :path => [typ, 4]
-        JSON.parse(response.body)['message'].should match 'Unable to find the record'
-        JSON.parse(response.body)['message'].should match typ
+        expect(JSON.parse(response.body)['message']).to match 'Unable to find the record'
+        expect(JSON.parse(response.body)['message']).to match typ
       end
     end
     context "given a studio destroy path as input parameters" do
@@ -78,9 +78,9 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns a list of media' do
-      @resp.should be_a_kind_of Array
-      @resp.count.should eql Medium.count
-      @resp.all? {|a| a.has_key? 'medium'}.should be_true, 'All items do not have the "name" key'
+      expect(@resp).to be_a_kind_of Array
+      expect(@resp.count).to eql Medium.count
+      expect(@resp.all? {|a| a.has_key? 'medium'}).to be_true, 'All items do not have the "name" key'
     end
   end
 
@@ -91,9 +91,9 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns a list of active artists' do
-      @resp.should be_a_kind_of Array
-      @resp.count.should eql Artist.active.count
-      @resp.all? {|a| a.has_key? 'artist'}.should be_true, 'All items do not have the "artist" key'
+      expect(@resp).to be_a_kind_of Array
+      expect(@resp.count).to eql Artist.active.count
+      expect(@resp.all? {|a| a.has_key? 'artist'}).to be_true, 'All items do not have the "artist" key'
     end
   end
 
@@ -104,10 +104,10 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns the artist we asked for' do
-      @resp.should be_a_kind_of Hash
-      @resp['artist'].should be_a_kind_of Hash
-      @resp['artist']['id'].should eql artist.id
-      @resp['artist']['firstname'].should eql artist.firstname
+      expect(@resp).to be_a_kind_of Hash
+      expect(@resp['artist']).to be_a_kind_of Hash
+      expect(@resp['artist']['id']).to eql artist.id
+      expect(@resp['artist']['firstname']).to eql artist.firstname
     end
   end
 
@@ -119,9 +119,9 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns a list of studios' do
-      @resp.should be_a_kind_of Array
-      @resp.count.should eql Studio.count
-      @resp.all? {|s| s.has_key? 'studio'}.should be_true, 'All items do not have the "studio" key'
+      expect(@resp).to be_a_kind_of Array
+      expect(@resp.count).to eql Studio.count
+      expect(@resp.all? {|s| s.has_key? 'studio'}).to be_true, 'All items do not have the "studio" key'
     end
   end
 
@@ -133,10 +133,10 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns the studio we asked for' do
-      @resp.should be_a_kind_of Hash
-      @resp['studio'].should be_a_kind_of Hash
-      @resp['studio']['id'].should eql studio.id
-      @resp['studio']['name'].should eql studio.name
+      expect(@resp).to be_a_kind_of Hash
+      expect(@resp['studio']).to be_a_kind_of Hash
+      expect(@resp['studio']['id']).to eql studio.id
+      expect(@resp['studio']['name']).to eql studio.name
     end
   end
 
@@ -148,10 +148,10 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns the studio we asked for' do
-      @resp.should be_a_kind_of Hash
-      @resp['studio'].should be_a_kind_of Hash
-      @resp['studio']['id'].should eql studio.id
-      @resp['studio']['name'].should eql studio.name
+      expect(@resp).to be_a_kind_of Hash
+      expect(@resp['studio']).to be_a_kind_of Hash
+      expect(@resp['studio']['id']).to eql studio.id
+      expect(@resp['studio']['name']).to eql studio.name
     end
   end
 
@@ -163,9 +163,9 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns a list of art_pieces' do
-      @resp.should be_a_kind_of Array
-      @resp.count.should eql 12
-      @resp.all? {|s| s.has_key? 'art_piece'}.should be_true, 'All items do not have the "art_piece" key'
+      expect(@resp).to be_a_kind_of Array
+      expect(@resp.count).to eql 12
+      expect(@resp.all? {|s| s.has_key? 'art_piece'}).to be_true, 'All items do not have the "art_piece" key'
     end
   end
 
@@ -176,10 +176,10 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns the art_piece we asked for' do
-      @resp.should be_a_kind_of Hash
-      @resp['art_piece'].should be_a_kind_of Hash
-      @resp['art_piece']['id'].should eql art_piece.id
-      @resp['art_piece']['title'].should eql art_piece.title
+      expect(@resp).to be_a_kind_of Hash
+      expect(@resp['art_piece']).to be_a_kind_of Hash
+      expect(@resp['art_piece']['id']).to eql art_piece.id
+      expect(@resp['art_piece']['title']).to eql art_piece.title
     end
   end
 
@@ -191,8 +191,8 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns the all art piece ids' do
-      @resp.should be_a_kind_of Array
-      @resp.count.should eql 12
+      expect(@resp).to be_a_kind_of Array
+      expect(@resp.count).to eql 12
     end
   end
 
@@ -204,8 +204,8 @@ describe ApiController do
     end
     it_should_behave_like 'good responses'
     it 'returns only the studio name' do
-      @resp.keys.should include 'name'
-      @resp.should eql({'name' => studio.name})
+      expect(@resp.keys).to include 'name'
+      expect(@resp).to eql({'name' => studio.name})
     end
   end
 

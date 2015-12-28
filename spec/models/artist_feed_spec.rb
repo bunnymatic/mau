@@ -17,8 +17,8 @@ describe ArtistFeed do
         FactoryGirl.create(:artist_feed, :active)
       end
       it 'returns only active items' do
-        ArtistFeed.all.all?{|a| a.active?}.should == false
-        ArtistFeed.active.all.all?{|a| a.active?}.should == true
+        expect(ArtistFeed.all.all?{|a| a.active?}).to eq(false)
+        expect(ArtistFeed.active.all.all?{|a| a.active?}).to eq(true)
       end
     end
   end

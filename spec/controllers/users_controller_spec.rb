@@ -62,9 +62,9 @@ describe UsersController do
         # disable sweep of flash.now messages
         # so we can test them
         FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
-        @controller.instance_eval{flash.stub(:sweep)}
-        @controller.should_receive(:verify_recaptcha).and_return(true)
-        @controller.should_receive(:verify_secret_word).and_return(true)
+        allow(@controller).to receive(:sweep)
+        expect(@controller).to receive(:verify_recaptcha).and_return(true)
+        expect(@controller).to receive(:verify_secret_word).and_return(true)
       end
       it 'forbids email whose domain is on the blacklist' do
         expect {
@@ -101,8 +101,8 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stub(:sweep)}
-        @controller.should_receive(:verify_recaptcha).and_return(false)
+        allow(@controller).to receive(:sweep)
+        expect(@controller).to receive(:verify_recaptcha).and_return(false)
         post :create, params_with_secret(
                {
                  :mau_fan => { :login => 'newuser',
@@ -128,7 +128,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        @controller.instance_eval{flash.stub(:sweep)}
+        allow(@controller).to receive(:sweep)
       end
       context "login = 'newuser'" do
         before do
@@ -146,8 +146,8 @@ describe UsersController do
     end
     context "valid user params and type = MAUFan" do
       before do
-        MAUFan.any_instance.should_receive(:subscribe_and_welcome)
-        UserMailer.should_receive(:activation).exactly(:once).and_return(double(:deliver! => true))
+        expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
+        expect(UserMailer).to receive(:activation).exactly(:once).and_return(double(:deliver! => true))
         post :create, params_with_secret(
                {
                  :mau_fan => { :login => 'newuser',
@@ -164,35 +164,35 @@ describe UsersController do
         expect(response).to redirect_to( login_url )
       end
       it "sets flash indicating that activation email has been sent" do
-        flash[:notice].should include(" ready to roll")
+        expect(flash[:notice]).to include(" ready to roll")
       end
       context "creates an account" do
         before do
           @found_user = User.find_by_login("newuser")
         end
         it "in the user database" do
-          @found_user.should be
+          expect(@found_user).to be
         end
         it "whose state is 'active'" do
-          @found_user.state.should be == 'active'
+          expect(@found_user.state).to eq('active')
         end
         it "whose type is 'MAUFan'" do
           @found_user.type == 'MAUFan'
         end
       end
       it "should register as a fan account" do
-        MAUFan.find_by_login("newuser").should be
+        expect(MAUFan.find_by_login("newuser")).to be
       end
       it "should not register as an artist account" do
-        Artist.find_by_login("newuser").should be_nil
+        expect(Artist.find_by_login("newuser")).to be_nil
       end
       it "should register as user account" do
-        User.find_by_login("newuser").should be
+        expect(User.find_by_login("newuser")).to be
       end
     end
     context "valid user param (email/password only) and type = MAUFan" do
       before do
-        MAUFan.any_instance.should_receive(:subscribe_and_welcome)
+        expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
         post :create, params_with_secret(
                {
                  :mau_fan => {
@@ -206,7 +206,7 @@ describe UsersController do
         expect(response).to redirect_to( login_url )
       end
       it "sets flash indicating that activation email has been sent" do
-        flash[:notice].should include(" ready to roll")
+        expect(flash[:notice]).to include(" ready to roll")
       end
       context "creates an account" do
 
@@ -214,30 +214,30 @@ describe UsersController do
           @found_user = User.find_by_login("bmati2@b.com")
         end
         it "in the user database" do
-          @found_user.should be
+          expect(@found_user).to be
         end
         it "whose state is 'active'" do
-          @found_user.state.should be == 'active'
+          expect(@found_user.state).to eq('active')
         end
         it "whose type is 'MAUFan'" do
           @found_user.type == 'MAUFan'
         end
       end
       it "should register as a fan account" do
-        MAUFan.find_by_login("bmati2@b.com").should be
+        expect(MAUFan.find_by_login("bmati2@b.com")).to be
       end
       it "should not register as an artist account" do
-        Artist.find_by_login("bmati2@b.com").should be_nil
+        expect(Artist.find_by_login("bmati2@b.com")).to be_nil
       end
       it "should register as user account" do
-        User.find_by_login("bmati2@b.com").should be
+        expect(User.find_by_login("bmati2@b.com")).to be
       end
     end
     context "valid artist params and type = Artist" do
       before do
         Artist.any_instance.stub(:activation_code => 'random_activation_code')
-        Artist.any_instance.should_receive(:make_activation_code).at_least(1)
-        MAUFan.any_instance.should_receive(:subscribe_and_welcome).never
+        expect_any_instance_of(Artist).to receive(:make_activation_code).at_least(1)
+        expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome).never
         post :create, params_with_secret(
                {
                  :artist => { :login => 'newuser2',
@@ -252,27 +252,27 @@ describe UsersController do
         expect(response).to redirect_to( root_url )
       end
       it "sets flash indicating that activation email has been sent" do
-        flash[:notice].should include(" email with your activation code")
+        expect(flash[:notice]).to include(" email with your activation code")
       end
       context "creates an account" do
         before do
           @found_artist = User.find_by_login("newuser2")
         end
         it "in the artist database" do
-          @found_artist.should be
+          expect(@found_artist).to be
         end
         it "whose state is 'pending'" do
-          @found_artist.state.should eql 'pending'
+          expect(@found_artist.state).to eql 'pending'
         end
         it "whose type is 'Artist'" do
-          @found_artist.type.should eql 'Artist'
+          expect(@found_artist.type).to eql 'Artist'
         end
         it "has an associated artist_info" do
-          @found_artist.artist_info.should_not be_nil
+          expect(@found_artist.artist_info).not_to be_nil
         end
       end
       it "should not register as a fan account" do
-        MAUFan.find_by_login("newuser2").should be_nil
+        expect(MAUFan.find_by_login("newuser2")).to be_nil
       end
     end
   end
@@ -349,7 +349,7 @@ describe UsersController do
         expect(response).to redirect_to( new_user_session_path )
       end
       it "auth system should try to record referrer" do
-        request.session[:return_to].should eql SHARED_REFERER
+        expect(request.session[:return_to]).to eql SHARED_REFERER
       end
     end
     context "get redirects to requested page via login" do
@@ -360,7 +360,7 @@ describe UsersController do
         expect(response).to redirect_to( new_user_session_path )
       end
       it "auth system should try to record referrer" do
-        request.session[:return_to].should eql edit_user_path(id: 'nobody')
+        expect(request.session[:return_to]).to eql edit_user_path(id: 'nobody')
       end
     end
   end
@@ -437,7 +437,7 @@ describe UsersController do
         login_as(quentin)
         @ap = art_piece
         @ap.artist = artist
-        @ap.save.should be_true
+        expect(@ap.save).to be_true
       end
       context "add a favorite artist" do
         before do
@@ -449,7 +449,7 @@ describe UsersController do
         it "adds favorite to user" do
           u = User.find(quentin.id)
           favs = u.favorites
-          favs.map { |f| f.favoritable_id }.should include artist.id
+          expect(favs.map { |f| f.favoritable_id }).to include artist.id
         end
         context "then remove that artist from favorites" do
           before do
@@ -461,7 +461,7 @@ describe UsersController do
           it "that artist is no longer a favorite" do
             u = User.find(quentin.id)
             favs = u.favorites
-            favs.map { |f| f.favoritable_id }.should_not include artist.id
+            expect(favs.map { |f| f.favoritable_id }).not_to include artist.id
           end
         end
       end
@@ -474,7 +474,7 @@ describe UsersController do
           it "adds favorite to user" do
             u = User.find(quentin.id)
             favs = u.favorites
-            favs.map { |f| f.favoritable_id }.should include @ap.id
+            expect(favs.map { |f| f.favoritable_id }).to include @ap.id
           end
           it { expect(response).to be_json }
         end
@@ -486,12 +486,12 @@ describe UsersController do
             expect(response).to redirect_to @ap
           end
           it "sets flash with escaped name" do
-            flash[:notice].should include html_encode(@ap.title)
+            expect(flash[:notice]).to include html_encode(@ap.title)
           end
           it "adds favorite to user" do
             u = User.find(quentin.id)
             favs = u.favorites
-            favs.map { |f| f.favoritable_id }.should include @ap.id
+            expect(favs.map { |f| f.favoritable_id }).to include @ap.id
           end
         end
       end
@@ -502,7 +502,7 @@ describe UsersController do
         end
         it "returns 404" do
           expect(response).to be_missing
-          response.code.should eql("404")
+          expect(response.code).to eql("404")
         end
       end
     end
@@ -512,7 +512,7 @@ describe UsersController do
     context "get" do
       render_views
       before do
-        User.should_receive(:find_by_reset_code).and_return(fan)
+        expect(User).to receive(:find_by_reset_code).and_return(fan)
         fan.update_attribute(:reset_code,'abc')
         get :reset, :reset_code => 'abc'
       end
@@ -534,7 +534,7 @@ describe UsersController do
       render_views
       context "with passwords that don't match" do
         before do
-          User.should_receive(:find_by_reset_code).with('abc').and_return(fan)
+          expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
           post :reset, { :user => { :password => 'whatever',
               :password_confirmation => 'whatev' } ,
               :reset_code => 'abc' }
@@ -547,13 +547,13 @@ describe UsersController do
           assert_select('#user_password_confirmation')
         end
         it "has an error message" do
-          assigns(:user).errors.full_messages.length.should eql 1
+          expect(assigns(:user).errors.full_messages.length).to eql 1
         end
       end
       context "with matching passwords" do
         before do
-          User.should_receive(:find_by_reset_code).with('abc').and_return(fan)
-          MAUFan.any_instance.should_receive(:delete_reset_code).exactly(:once)
+          expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
+          expect_any_instance_of(MAUFan).to receive(:delete_reset_code).exactly(:once)
           post :reset, { :user => { :password => 'whatever',
               :password_confirmation => 'whatever' },
               :reset_code => 'abc' }
@@ -562,7 +562,7 @@ describe UsersController do
           expect(response).to redirect_to "/login"
         end
         it "sets notice" do
-          flash[:notice].should include('reset successfully for ')
+          expect(flash[:notice]).to include('reset successfully for ')
         end
       end
     end
@@ -582,14 +582,14 @@ describe UsersController do
 
     context "post with email that's not in the system" do
       before do
-        User.should_receive(:find_by_email).and_return(nil)
+        expect(User).to receive(:find_by_email).and_return(nil)
         post :resend_activation, { :user => { :email => 'a@b.c' } }
       end
       it "redirect to root" do
         expect(response).to redirect_to( root_url )
       end
       it "has notice message" do
-        flash[:notice].should include "sent your activation code to a@b.c"
+        expect(flash[:notice]).to include "sent your activation code to a@b.c"
       end
     end
     context "post with email that is for a fan" do
@@ -600,7 +600,7 @@ describe UsersController do
         expect(response).to redirect_to( root_url )
       end
       it "has notice message" do
-        flash[:notice].should include "We sent your activation"
+        expect(flash[:notice]).to include "We sent your activation"
       end
     end
     context "post with email that is for an artist" do
@@ -611,7 +611,7 @@ describe UsersController do
         expect(response).to redirect_to( root_url )
       end
       it "has notice message" do
-        flash[:notice].should include "sent your activation code to a@b.c"
+        expect(flash[:notice]).to include "sent your activation code to a@b.c"
       end
     end
   end
@@ -625,11 +625,11 @@ describe UsersController do
 
     context "post a fan email" do
       it "looks up user by email" do
-        User.should_receive(:find_by_email).with(fan.email).exactly(:once)
+        expect(User).to receive(:find_by_email).with(fan.email).exactly(:once)
         post :forgot, :user => { :email => fan.email }
       end
       it "calls create_reset_code" do
-        MAUFan.any_instance.should_receive(:create_reset_code).exactly(:once)
+        expect_any_instance_of(MAUFan).to receive(:create_reset_code).exactly(:once)
         post :forgot, :user => { :email => fan.email }
       end
       it "redirects to login" do
@@ -642,7 +642,7 @@ describe UsersController do
   describe 'activate' do
     describe 'with valid activation code' do
       before do
-        User.any_instance.should_receive(:activate!)
+        expect_any_instance_of(User).to receive(:activate!)
       end
       it 'redirects to login' do
         get :activate, :activation_code => pending_fan.activation_code
@@ -650,7 +650,7 @@ describe UsersController do
       end
       it 'flashes a notice' do
         get :activate, :activation_code => pending_fan.activation_code
-        flash[:notice].should include 'Signup complete!'
+        expect(flash[:notice]).to include 'Signup complete!'
       end
       it 'activates the user' do
         get :activate, :activation_code => pending_fan.activation_code
@@ -663,16 +663,16 @@ describe UsersController do
       end
       it 'flashes an error' do
         get :activate, :activation_code => 'blah'
-        /find an artist with that activation code/.match(flash[:error]).should_not be []
+        expect(/find an artist with that activation code/.match(flash[:error])).not_to be []
       end
       it 'does not blow away all activation codes' do
         FactoryGirl.create_list(:artist, 2)
         get :activate, :activation_code => 'blah'
-        User.all.map{|u| u.activation_code}.select{|u| u.present?}.count.should > 0
+        expect(User.all.map{|u| u.activation_code}.select{|u| u.present?}.count).to be > 0
       end
       it 'does not send email' do
-        ArtistMailer.should_receive(:activation).never
-        UserMailer.should_receive(:activation).never
+        expect(ArtistMailer).to receive(:activation).never
+        expect(UserMailer).to receive(:activation).never
         get :activate, :activation_code => 'blah'
       end
     end
@@ -702,7 +702,7 @@ describe UsersController do
         expect(response).to redirect_to users_path
       end
       it 'flashes a message saying you can\'t delete yourself' do
-        flash[:error].should eql "You can't delete yourself."
+        expect(flash[:error]).to eql "You can't delete yourself."
       end
     end
     context 'as admin' do
@@ -713,7 +713,7 @@ describe UsersController do
         it 'deactivates the user' do
           delete :destroy, :id => jesse.id
           jesse.reload
-          jesse.state.should eql 'deleted'
+          expect(jesse.state).to eql 'deleted'
         end
         it 'redirects to the users index page' do
           delete :destroy, :id => jesse.id

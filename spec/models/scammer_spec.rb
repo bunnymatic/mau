@@ -25,13 +25,13 @@ EOM
     end
     it 'entries are correct after import' do
       Scammer.importFromFASO
-      Scammer.find_by_faso_id('7437').email.should == 'laurynsley@gmail.com'
+      expect(Scammer.find_by_faso_id('7437').email).to eq('laurynsley@gmail.com')
     end
   end
   describe 'validations' do
     it 'doesn\'t allow duplicate faso_id entries' do
       faso_id = Scammer.first.faso_id
-      Scammer.new(:faso_id => faso_id, :email => 'joe@example.com', :name => 'my name').should_not be_valid
+      expect(Scammer.new(:faso_id => faso_id, :email => 'joe@example.com', :name => 'my name')).not_to be_valid
     end
   end
 end

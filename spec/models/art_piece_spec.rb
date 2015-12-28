@@ -13,19 +13,19 @@ describe ArtPiece do
     it 'allows quotes' do
       p = valid_attrs.merge({:title => 'what"ever'})
       ap = ArtPiece.new(p)
-      ap.should be_valid
+      expect(ap).to be_valid
     end
 
     it 'encodes quotes to html numerically' do
       p = valid_attrs.merge({:title => 'what"ever'})
       ap = ArtPiece.new(p)
-      ap.safe_title.should == 'what&quot;ever'
+      expect(ap.safe_title).to eq('what&quot;ever')
     end
   end
   describe 'after save' do
     it 'clears representative image cache and new art cache on save' do
-      Rails.cache.should_receive(:delete).with("%s%s" % [Artist::CACHE_KEY, artist.id]).at_least(1).times
-      Rails.cache.should_receive(:delete).with(ArtPieceService::NEW_ART_CACHE_KEY)
+      expect(Rails.cache).to receive(:delete).with("%s%s" % [Artist::CACHE_KEY, artist.id]).at_least(1).times
+      expect(Rails.cache).to receive(:delete).with(ArtPieceService::NEW_ART_CACHE_KEY)
       art_piece.title = Faker::Lorem.words(2).join(' ')
       art_piece.save
     end
@@ -33,14 +33,14 @@ describe ArtPiece do
 
   describe 'get_path' do
     it 'returns a path to the art piece' do
-      art_piece.get_path.should match %r{/system/art_pieces/.*/new-studio.jpg}
+      expect(art_piece.get_path).to match %r{/system/art_pieces/.*/new-studio.jpg}
     end
   end
 
   describe 'destroy' do
     it 'tries to delete the files associated with this art piece' do
       File.stub('exist?' => true)
-      File.should_receive(:delete).exactly(art_piece.get_paths.length).times
+      expect(File).to receive(:delete).exactly(art_piece.get_paths.length).times
       art_piece.destroy
     end
   end

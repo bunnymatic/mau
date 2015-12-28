@@ -1,6 +1,6 @@
 RSpec::Matchers.define :be_csv_type do
   match do |actual|
-    actual.content_type.to_s.should eql 'text/csv'
+    expect(actual.content_type.to_s).to eql 'text/csv'
   end
 
   failure_message_for_should do |actual|

@@ -40,11 +40,11 @@ describe CatalogsController do
         expected_headers =  ["First Name","Last Name","Full Name","Email", "Group Site Name",
                              "Studio Address","Studio Number","Cross Street 1","Cross Street 2","Media"]
 
-        parsed.headers.should == expected_headers
+        expect(parsed.headers).to eq(expected_headers)
       end
 
       it 'includes the right data' do
-        expect(parsed).to have(Artist.active.count).rows
+        expect(parsed.size).to eq(Artist.active.count)
         row = parsed.detect{|row| row['Full Name'] == artist.full_name}
         expect(row).to be_present
         expect(row['Email']).to eql artist.email
@@ -73,14 +73,14 @@ describe CatalogsController do
 
       it 'includes the right headers' do
         expected_headers = ([:full_name, :email] + social_keys).map{|s| s.to_s.humanize.capitalize}
-        parsed.headers.should == expected_headers
+        expect(parsed.headers).to eq(expected_headers)
       end
 
       it 'includes the right data' do
         expected_artists = Artist.active.open_studios_participants.select do |a|
           social_keys.map{|s| a.send(s).present?}.any?
         end
-        expect(parsed).to have(expected_artists.count).rows
+        expect(parsed.size).to eq(expected_artists.count)
         artist = expected_artists.first
         row = parsed.detect{|row| row['Full name'] == artist.full_name}
         expect(row).to be_present

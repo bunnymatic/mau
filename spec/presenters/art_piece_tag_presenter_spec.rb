@@ -19,14 +19,23 @@ describe ArtPieceTagPresenter do
 
   subject(:presenter) { ArtPieceTagPresenter.new(tag,mode) }
 
-  its(:art_pieces) { should have(5).art_pieces }
+  describe '#art_pieces' do
+    it 'has 5 art_pieces' do
+      expect(subject.art_pieces.size).to eq(5)
+    end
+  end
   it 'sorts by updated at' do
-    subject.art_pieces.map{|p| p.art_piece.updated_at.to_i}.should be_monotonically_decreasing
+    expect(subject.art_pieces.map{|p| p.art_piece.updated_at.to_i}).to be_monotonically_decreasing
   end
 
   context 'when showing only by artist' do
     let(:mode) { 'a' }
-    its(:art_pieces) { should have(2).art_pieces }
+
+    describe '#art_pieces' do
+      it 'has 2 art_pieces' do
+        expect(subject.art_pieces.size).to eq(2)
+      end
+    end
   end
 
   context 'with inactive artists in the system' do
