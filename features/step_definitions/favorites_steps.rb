@@ -64,10 +64,11 @@ Then(/^I see my empty favorites page$/) do
 end
 
 When /^I remove the first favorite$/ do
-  remove_button = all("a[title='Remove Favorite']").first
-  _id = remove_button['fav-id']
-  _type = remove_button['fav-type']
-  remove_button.click
+  wait_until {
+    all("a[title='Remove Favorite']").any?
+  }
+  page.execute_script("$('.js-remove-favorite').first().click()");
+  #all("a[title='Remove Favorite']").first.click
 end
 
 Then /^I see that I've lost one of my favorites$/ do
