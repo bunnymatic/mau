@@ -46,7 +46,7 @@ describe StudioPresenter do
 
   describe '#indy?' do
     subject { super().indy? }
-    it { should be_false }
+    it { should be_falsey }
   end
 
   it '.artists returns the active artists' do

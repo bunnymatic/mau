@@ -17,7 +17,7 @@ describe ArtPiecePresenter do
 
   describe '#has_tags?' do
     subject { super().has_tags? }
-    it { should be_false }
+    it { should eq(false) }
   end
 
   describe '#tags' do
@@ -32,9 +32,8 @@ describe ArtPiecePresenter do
 
   context 'with favorites' do
     before do
-      favorites_mock = double(:mock_favorites_relation)
-      favorites_mock.stub(:where => [1,2])
-      Favorite.stub(:art_pieces => favorites_mock)
+      favorites_mock = double(:mock_favorites_relation, :where => [1,2])
+      allow(Favorite).to receive(:art_pieces).and_return(favorites_mock)
     end
 
     describe '#favorites_count' do
@@ -45,12 +44,12 @@ describe ArtPiecePresenter do
 
   context 'with a bad year' do
     before do
-      ArtPiece.any_instance.stub(:year => 1000)
+      allow(art_piece).to receive(:year).and_return(1000)
     end
 
     describe '#has_year?' do
       subject { super().has_year? }
-      it { should be_false }
+      it { should eq(false) }
     end
   end
 

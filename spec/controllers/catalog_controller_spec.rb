@@ -14,7 +14,7 @@ describe CatalogsController do
     jesse
 
     ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '#{open_studios_event.key}'")
-    Artist.any_instance.stub(:in_the_mission? => true)
+    allow_any_instance_of(Artist).to receive(:in_the_mission?).and_return(true)
   end
 
   describe "#show" do

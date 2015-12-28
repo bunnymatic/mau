@@ -28,9 +28,8 @@ describe Admin::TestsController do
 
     describe '#qr' do
       before do
-        t = Time.zone.now
-        Time.zone.stub(:now => t)
-        @t = t
+        @t = Time.zone.now
+        Timecop.freeze(@t)
         expect(FileUtils).to receive(:mkdir_p).with %r|/public/images/tmp$|
         allow(Qr4r).to receive(:encode)
       end

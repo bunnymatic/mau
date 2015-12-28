@@ -80,7 +80,7 @@ describe ApiController do
     it 'returns a list of media' do
       expect(@resp).to be_a_kind_of Array
       expect(@resp.count).to eql Medium.count
-      expect(@resp.all? {|a| a.has_key? 'medium'}).to eq true, 'All items do not have the "name" key'
+      expect(@resp.all? {|a| a.has_key? 'medium'}).to eq(true), 'All items do not have the "name" key'
     end
   end
 
@@ -93,7 +93,7 @@ describe ApiController do
     it 'returns a list of active artists' do
       expect(@resp).to be_a_kind_of Array
       expect(@resp.count).to eql Artist.active.count
-      expect(@resp.all? {|a| a.has_key? 'artist'}).to eq true, 'All items do not have the "artist" key'
+      expect(@resp.all? {|a| a.has_key? 'artist'}).to eq(true), 'All items do not have the "artist" key'
     end
   end
 
@@ -121,7 +121,7 @@ describe ApiController do
     it 'returns a list of studios' do
       expect(@resp).to be_a_kind_of Array
       expect(@resp.count).to eql Studio.count
-      expect(@resp.all? {|s| s.has_key? 'studio'}).to eq true, 'All items do not have the "studio" key'
+      expect(@resp.all? {|s| s.has_key? 'studio'}).to eq(true), 'All items do not have the "studio" key'
     end
   end
 
@@ -165,7 +165,7 @@ describe ApiController do
     it 'returns a list of art_pieces' do
       expect(@resp).to be_a_kind_of Array
       expect(@resp.count).to eql 12
-      expect(@resp.all? {|s| s.has_key? 'art_piece'}).to eq true, 'All items do not have the "art_piece" key'
+      expect(@resp.all? {|s| s.has_key? 'art_piece'}).to eq(true), 'All items do not have the "art_piece" key'
     end
   end
 

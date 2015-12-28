@@ -20,7 +20,7 @@ describe MediaPresenter do
 
   describe '#by_artists?' do
     subject { super().by_artists? }
-    it { should be_false }
+    it { should eq false }
   end
 
   describe '#by_pieces?' do

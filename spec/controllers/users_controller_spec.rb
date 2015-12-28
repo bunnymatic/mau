@@ -235,7 +235,7 @@ describe UsersController do
     end
     context "valid artist params and type = Artist" do
       before do
-        Artist.any_instance.stub(:activation_code => 'random_activation_code')
+        allow_any_instance_of(Artist).to receive(:activation_code).and_return('random_activation_code')
         expect_any_instance_of(Artist).to receive(:make_activation_code).at_least(1)
         expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome).never
         post :create, params_with_secret(

@@ -7,7 +7,7 @@ describe Admin::ArtPieceTagsController do
   let!(:tags) { FactoryGirl.create_list(:art_piece_tag, 2) }
 
   describe 'not logged in' do
-    describe :index do
+    describe '#index' do
       before do
         get :index
       end
@@ -15,7 +15,7 @@ describe Admin::ArtPieceTagsController do
     end
   end
   describe 'logged in as plain user' do
-    describe :index do
+    describe '#index' do
       before do
         login_as user
         get :index
@@ -68,4 +68,3 @@ describe Admin::ArtPieceTagsController do
   end
 
 end
-

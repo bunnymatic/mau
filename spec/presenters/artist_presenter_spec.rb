@@ -77,36 +77,36 @@ describe ArtistPresenter do
 
   context 'without media' do
     before do
-      ArtPiece.any_instance.stub(:medium => nil)
+      allow_any_instance_of(ArtPiece).to receive(:medium).and_return(nil)
     end
 
     describe '#has_media?' do
       subject { super().has_media? }
-      it { should be_false }
+      it { should eq false }
     end
   end
 
-  context 'with bio' do
+  context 'without bio' do
     before do
-      ArtistInfo.any_instance.stub(:bio => nil)
+      allow(artist).to receive_message_chain(:artist_info, :bio).and_return(nil)
     end
 
     describe '#has_bio?' do
       subject { super().has_bio? }
-      it { should be_false }
+      it { should eq false }
     end
   end
 
-  context 'with links' do
+  context 'without links' do
     before do
-      Artist.any_instance.stub(:url => nil,
-                               :facebook => nil,
-                               :instagram => nil)
+      allow(artist).to receive(:url).and_return(nil)
+      allow(artist).to receive(:facebook).and_return(nil)
+      allow(artist).to receive(:instagram).and_return(nil)
     end
 
     describe '#has_links?' do
       subject { super().has_links? }
-      it { should be_false }
+      it { should eq false }
     end
   end
 
@@ -120,7 +120,7 @@ describe ArtistPresenter do
 
     describe '#has_art?' do
       subject { super().has_art? }
-      it { should be_false }
+      it { should eq false }
     end
   end
 end

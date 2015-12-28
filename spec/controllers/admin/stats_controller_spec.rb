@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe Admin::StatsController do
+describe Admin::StatsController, type: :controller do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active) }
@@ -10,7 +10,7 @@ describe Admin::StatsController do
 
   describe "json endpoints" do
     [:art_pieces_count_histogram, :user_visits_per_day, :artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
-      describe endpoint do
+      describe endpoint.to_s do
         before do
           xhr :get, endpoint
         end
@@ -69,7 +69,7 @@ describe Admin::StatsController do
         a2.update_attribute(:artist_id, artist.id)
 
         artist_stub = double(Artist,:id => 42, :emailsettings => {'favorites' => false})
-        ArtPiece.any_instance.stub(:artist => artist_stub)
+        allow_any_instance_of(ArtPiece).to receive(:artist).and_return(artist_stub)
         u1.add_favorite a1
         u1.add_favorite artist
         u1.add_favorite u2

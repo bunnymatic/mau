@@ -124,7 +124,7 @@ describe MainController do
       end
       context 'with data' do
         before do
-          FeedbackMailer.stub(:feedback => double("FeedbackMailer", :deliver! => true))
+          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMailer", :deliver! => true))
         end
         it 'saves a feedback record' do
           expect {
@@ -136,14 +136,13 @@ describe MainController do
           expect(flash.now[:notice]).to be_present
         end
         it 'sends an email' do
-          expect(FeedbackMailer).to receive(:feedback).and_return(double("deliverable", :deliver! => true))
+          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMailer", :deliver! => true))
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
       end
       context 'when you\'re logged in' do
         before do
           login_as artist
-          FeedbackMailer.stub(:feedback => double("FeedbackMailer", :deliver! => true))
         end
         it 'sends an email' do
           expect(FeedbackMailer).to receive(:feedback).and_return(double("deliverable", :deliver! => true))
@@ -202,7 +201,7 @@ describe MainController do
 
   describe 'notes mailer' do
     before do
-      FeedbackMailer.any_instance.stub(:deliver! => true)
+      allow_any_instance_of(FeedbackMailer).to receive(:deliver!).and_return(true)
     end
     describe "xhr post" do
       before do

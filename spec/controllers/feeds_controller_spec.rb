@@ -16,11 +16,12 @@ describe FeedsController do
                                           feed: "https://twitter.com/statuses/user_timeline/62131363.json",
                                           url: "http://twitter.com/sfmau",
                                           active: true ) }
+  let(:cache_stub) { double("Rails.cache", { read: nil, write: false, delete: nil }) }
+
   context 'with bad feed data' do
     it 'handles failure in fetch and format' do
       VCR.use_cassette('twitter') do
-
-        controller.stub(:random_feeds => [twitter_feed])
+        allow(controller).to receive(:random_feeds).and_return([twitter_feed])
         if File.exists?(cache_filename)
           File.delete(cache_filename)
         end
@@ -34,7 +35,8 @@ describe FeedsController do
     context 'normal operation' do
       before do
         VCR.use_cassette('artist_feeds') do
-          Rails.cache.stub(:read => nil, :write => false, :delete => nil)
+          cache_stub = double("Rails.cache", { read: nil, write: false, delete: nil })
+          allow(Rails).to receive(:cache).and_return(cache_stub)
           if File.exists?(cache_filename)
             File.delete(cache_filename)
           end
@@ -53,8 +55,8 @@ describe FeedsController do
     context 'checking contents' do
       before do
         VCR.use_cassette('flaxart') do
-          controller.stub(:random_feeds => [flax_feed])
-          Rails.cache.stub(:read => nil, :write => false, :delete => nil)
+          allow(controller).to receive(:random_feeds).and_return([flax_feed])
+          allow(Rails).to receive(:cache).and_return(cache_stub)
           if File.exists?(cache_filename)
             File.delete(cache_filename)
           end
@@ -63,10 +65,10 @@ describe FeedsController do
       end
       it 'if we call it again (assuming cache is expired), we should get a different file' do
         before_contents = File.open(cache_filename).read
-        tweet_response = [ { :user => {:screen_name => 'blurp'},
-                             :text => "I tweeted this #{Faker::Lorem.words(5).join(' ')}",
-                             :created_at => (Time.zone.now - (rand(10)).days).to_s } ]
-        mock_readable = double(:read => tweet_response.to_json)
+        tweet_response = [ { user: {screen_name: 'blurp'},
+                             text: "I tweeted this #{Faker::Lorem.words(5).join(' ')}",
+                             created_at: (Time.zone.now - (rand(10)).days).to_s } ]
+        mock_readable = double(read: tweet_response.to_json)
         allow_any_instance_of(MauFeed::Parser).to receive(:open).and_yield(mock_readable)
         get :feed
         expect(File.open(cache_filename).read).not_to eql before_contents

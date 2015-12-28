@@ -6,28 +6,21 @@ describe Admin::BlacklistDomainsController do
   let(:fan) { FactoryGirl.create(:fan, :active) }
 
   context 'authorization' do
-    [:index].each do |endpoint|
-      describe 'not logged in' do
-        describe endpoint do
-          before do
-            get endpoint
-          end
-          it_should_behave_like 'not authorized'
+    describe 'not logged in' do
+      describe "#index" do
+        before do
+          get :index
         end
+        it_should_behave_like 'not authorized'
       end
-      describe 'logged in as plain user' do
-        describe endpoint do
-          before do
-            login_as fan
-            get endpoint
-          end
-          it_should_behave_like 'not authorized'
+    end
+    describe 'logged in as plain user' do
+      describe "#index" do
+        before do
+          login_as fan
+          get :index
         end
-      end
-      it "#{endpoint} responds success if logged in as admin" do
-        login_as admin
-        get endpoint
-        expect(response).to be_success
+        it_should_behave_like 'not authorized'
       end
     end
   end

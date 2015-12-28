@@ -49,8 +49,8 @@ describe StudiosController do
     describe 'individual studio' do
       describe 'html' do
         before do
-          Studio.any_instance.stub(phone: '1234569999')
-          Studio.any_instance.stub(cross_street: 'fillmore')
+          allow_any_instance_of(Studio).to receive(:phone).and_return('1234569999')
+          allow_any_instance_of(Studio).to receive(:cross_street).and_return('fillmore')
           get :show, id: studio.slug, format: 'html'
         end
         it "studio url is a link" do

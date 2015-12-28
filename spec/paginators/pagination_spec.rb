@@ -114,7 +114,7 @@ describe Pagination do
 
     describe '#previous_link?' do
       subject { super().previous_link? }
-      it { should be_false }
+      it { should eq(false) }
     end
 
     describe '#display_current_position' do
@@ -151,7 +151,7 @@ describe Pagination do
       it { should eql 'page 2 of 3' }
     end
     it "reports not the current page for page 2" do
-      expect(subject.is_current_page?(2)).to be_false
+      expect(subject.is_current_page?(2)).to eq(false)
     end
     it "reports that this is the current page for page 1" do
       expect(subject.is_current_page?(1)).to eq(true)
@@ -184,7 +184,7 @@ describe Pagination do
 
     describe '#next_link?' do
       subject { super().next_link? }
-      it { should be_false }
+      it { should eq(false) }
     end
 
     describe '#previous_link?' do
@@ -223,7 +223,7 @@ describe Pagination do
 
     describe '#next_link?' do
       subject { super().next_link? }
-      it { should be_false }
+      it { should be_falsey }
     end
 
     describe '#previous_link?' do

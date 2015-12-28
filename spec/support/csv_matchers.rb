@@ -3,11 +3,11 @@ RSpec::Matchers.define :be_csv_type do
     expect(actual.content_type.to_s).to eql 'text/csv'
   end
 
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     "expected #{actual.content_type} to be 'text/csv'"
   end
 
-  failure_message_for_should_not do |actual|
+  failure_message_when_negated do |actual|
     "expected #{actual.content_type} not to be 'text/csv'"
   end
 
@@ -15,4 +15,3 @@ RSpec::Matchers.define :be_csv_type do
     'be a CSV response'
   end
 end
-

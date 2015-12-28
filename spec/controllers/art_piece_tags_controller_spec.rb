@@ -16,7 +16,7 @@ describe ArtPieceTagsController do
     describe 'format=html' do
       context 'when there are no tags' do
         before do
-          ArtPieceTag.stub(:frequency => nil)
+          allow(ArtPieceTag).to receive(:frequency).and_return([])
           get :index
         end
         it_should_behave_like 'renders error page'

@@ -19,7 +19,7 @@ describe MediaController do
     end
     context 'with no frequency' do
       before do
-        Medium.stub(:frequency => [])
+        allow(Medium).to receive(:frequency).and_return([])
       end
       it "redirect to show first" do
         get :index

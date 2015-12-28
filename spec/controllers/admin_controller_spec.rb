@@ -15,7 +15,7 @@ describe AdminController do
     [:index, :os_status, :featured_artist, :fans,
      :emaillist, :db_backups].each do |endpoint|
       describe 'not logged in' do
-        describe endpoint do
+        describe endpoint.to_s do
           before do
             get endpoint
           end
@@ -23,7 +23,7 @@ describe AdminController do
         end
       end
       describe 'logged in as plain user' do
-        describe endpoint do
+        describe endpoint.to_s do
           before do
             login_as fan
             get endpoint
@@ -136,7 +136,7 @@ describe AdminController do
   describe 'palette' do
     before do
       login_as admin
-      ScssFileReader.any_instance.stub(:parse_colors => [['black', '000'], ['white', 'ffffff']])
+      allow_any_instance_of(ScssFileReader).to receive(:parse_colors).and_return([['black', '000'], ['white', 'ffffff']])
       get :palette
     end
     it{ expect(response).to be_success }
@@ -236,7 +236,7 @@ describe AdminController do
         end
         context 'with good args' do
           before do
-            Dir.stub(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
+            allow(Dir).to receive(:glob).and_return(["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
             get :fetch_backup, :name => "file1.tgz"
           end
           it "returns the file" do
@@ -262,7 +262,7 @@ describe AdminController do
         before do
           File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
           File.open("#{tmpdir}/file2.tgz",'w'){ |f| f.write('.tgz dump file contents2') }
-          Dir.stub(:glob => ["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
+          allow(Dir).to receive(:glob).and_return(["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
         end
         context 'without views' do
           before do

@@ -44,7 +44,7 @@ describe FavoritesController do
         let(:artist) { FactoryGirl.create(:artist) }
         before do
           art_pieces
-          ArtPiece.any_instance.stub(artist: artist)
+          allow_any_instance_of(ArtPiece).to receive(:artist).and_return(artist)
           login_as(fan)
           get :index, id: fan.id
         end
@@ -52,7 +52,7 @@ describe FavoritesController do
       end
       context "while logged in as artist" do
         before do
-          ArtPiece.any_instance.stub(artist: quentin)
+          allow_any_instance_of(ArtPiece).to receive(:artist).and_return(quentin)
           login_as(artist)
         end
         it 'returns success' do

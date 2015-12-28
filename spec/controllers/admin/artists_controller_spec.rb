@@ -36,8 +36,8 @@ describe Admin::ArtistsController do
         context 'with no params' do
           render_views
           before do
-            ArtistInfo.any_instance.stub(os_participation: { current_os.key => true})
-            Artist.any_instance.stub(os_participation: { current_os.key => true}, address: { yes: 'we do' })
+            allow_any_instance_of(ArtistInfo).to receive(:os_participation).and_return({ current_os.key => true})
+            allow_any_instance_of(Artist).to receive(:os_participation).and_return({ current_os.key => true}, address: { yes: 'we do' })
             pending
             password_reset
             get :index
