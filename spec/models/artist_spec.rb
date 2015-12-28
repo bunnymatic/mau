@@ -57,7 +57,7 @@ describe Artist do
 
   describe "update" do
     it "should update bio" do
-      allow(ArtistInfo.any_instance).to receive(:compute_geocode).and_return([-40,122])
+      allow_any_instance_of(ArtistInfo).to receive(:compute_geocode).and_return([-40,122])
 
       artist.bio = 'stuff'
       artist.artist_info.save!
@@ -217,20 +217,20 @@ describe Artist do
     end
     it 'calls Cache.write if Cache.read returns nil' do
       ap = ArtPiece.find_by_artist_id(artist.id)
-      Rails.cache.stub(read: nil)
+      allow(Rails.cache).to receive(:read).and_return(nil)
       expect(Rails.cache).to receive(:write).once
-      artist.stub(art_pieces: [ap])
+      allow(artist).to receive(:art_pieces).and_return([ap])
       expect(artist.representative_piece).to eql ap
     end
     it 'doesn\'t call Cache.write if Cache.read returns something' do
-      Rails.cache.stub(read: artist.art_pieces[0])
+      allow(Rails.cache).to receive(:read).and_return(artist.art_pieces[0])
       expect(Rails.cache).to receive(:write).never
       artist.representative_piece
     end
     it 'doesn\'t call Cache.write if there are no art pieces' do
-      Rails.cache.stub(read: nil)
+      allow(Rails.cache).to receive(:read).and_return(nil)
       expect(Rails.cache).to receive(:write).never
-      artist.stub(art_pieces: [])
+      allow(artist).to receive(:art_pieces).and_return([])
       expect(artist.representative_piece).to eql nil
     end
   end
@@ -286,7 +286,7 @@ describe Artist do
       artist
     end
     it 'generates a qr code the first time' do
-      File.stub(:exists? => false)
+      allow(File).to receive(:exists?).and_return(false)
       outpath = File.join(Rails.root, "public/artistdata/#{artist.id}/profile/qr.png")
       str = "http://#{Conf.site_url}/artists/#{artist.id}?qrgen=auto"
       expect(Qr4r).to receive(:encode).with(str, outpath, border: 15, pixel_size: 5)

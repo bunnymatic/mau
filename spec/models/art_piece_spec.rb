@@ -39,7 +39,7 @@ describe ArtPiece do
 
   describe 'destroy' do
     it 'tries to delete the files associated with this art piece' do
-      File.stub('exist?' => true)
+      allow(File).to receive(:exist?).and_return(true)
       expect(File).to receive(:delete).exactly(art_piece.get_paths.length).times
       art_piece.destroy
     end

@@ -13,7 +13,7 @@ describe ScssFileReader do
 
       // empty line and comment line
     })
-    File.stub(:open => mock_scss)
+    allow(File).to receive(:open).and_return(mock_scss)
     colors = ScssFileReader.new('f').parse_colors
     expect(colors).to eql([['black', '000'],
                            ['white', 'ffffff'],

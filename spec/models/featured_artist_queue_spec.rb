@@ -48,9 +48,7 @@ describe FeaturedArtistQueue do
     end
     it "calling it after a week should give you the next artist" do
       next_entry
-      t = Time.zone.now + 2.weeks
-      Time.stub(:now => t)
-      Time.zone.stub(:now => t)
+      Timecop.freeze( Time.zone.now + 2.weeks )
       a = FeaturedArtistQueue.next_entry.artist
       expect(a.id).to eql FeaturedArtistQueue.all.sort{ |a,b| a.position <=> b.position }[1].artist_id
     end
