@@ -92,15 +92,6 @@ Given /there are tags on the art/ do
   end
 end
 
-Given /there are events in the system/ do
-  Event.destroy_all
-  @events = [ FactoryGirl.create_list(:event, 5, :published),
-              FactoryGirl.create_list(:event, 5, :with_reception, :published),
-              FactoryGirl.create_list(:event, 5),
-            ].flatten
-  @published_events = @events.select{|ev| ev.published_at.present?}
-end
-
 Given /there are past open studios events/ do
   (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, :start_date => 3.months.ago)
 end
@@ -129,7 +120,7 @@ Given(/^there are artists and art pieces with favorites$/) do
 end
 
 Given /^the email lists have been created with emails$/ do
-  ["FeedbackMailerList", "EventMailerList", "AdminMailerList"].each do |mailing_list|
+  ["FeedbackMailerList", "AdminMailerList"].each do |mailing_list|
     clz = mailing_list.constantize
     begin
       if !clz.first

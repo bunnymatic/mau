@@ -30,7 +30,6 @@ gem 'rosie'
 
 gem 'mime-types'
 gem 'qr4r'
-gem 'event-calendar', require: 'event_calendar'
 gem 'rack-cors', require: 'rack/cors'
 gem "recaptcha", require: "recaptcha/rails"
 gem 'browser'

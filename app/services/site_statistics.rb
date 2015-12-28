@@ -122,13 +122,6 @@ class SiteStatistics
     }
   end
 
-  # def events_stats
-  #   {
-  #     :events_past => Event.past.count,
-  #     :events_future => Event.future.count
-  #   }
-  # end
-
   def add_statistic(section, stat, value)
     setter = "#{section}="
     getter = "#{section}"

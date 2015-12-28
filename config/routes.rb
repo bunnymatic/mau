@@ -26,13 +26,6 @@ Mau::Application.routes.draw do
     end
   end
 
-  resources :events
-
-  match '/calendar/:year/:month' => 'calendar#index',
-    as: :calendar,
-    constraints: { month: /\d{1,2}/, year: /\d{4}/ }
-  match '/calendar' => 'calendar#index', as: :calendar
-
   resources :feedbacks, only: [:new, :create]
 
   namespace :search do
@@ -172,14 +165,6 @@ Mau::Application.routes.draw do
       end
     end
 
-    resources :events, only: [:index] do
-      member do
-        get :unpublish
-        post :unpublish
-        get :publish
-        post :publish
-      end
-    end
   end
 
   namespace :api do
