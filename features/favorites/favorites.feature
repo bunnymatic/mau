@@ -25,12 +25,9 @@ Scenario: Logged in as artist without favorites looking at their own favorites
   And I visit my favorites page
   Then I see my empty favorites page
 
-# @javascript
-# Scenario: I can remove favorites from my list
-#   When I login as an artist with favorites
-#   And I visit my favorites page
-#   And I remove the first favorite
-#   Then I see that I've lost one of my favorites
-
-  
-  
+@javascript
+Scenario: I can remove favorites from my list
+  When I login as an artist with favorites
+  And I visit my favorites page
+  And I remove the first favorite
+  Then I see that I've lost one of my favorites

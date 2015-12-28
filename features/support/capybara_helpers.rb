@@ -19,7 +19,7 @@ module CapybaraHelpers
     Capybara.current_driver == Capybara.javascript_driver
   end
 
-  def wait_until(time = Capybara.default_wait_time, &block)
+  def wait_until(time = Capybara.default_max_wait_time, &block)
     Timeout.timeout(time) do
       loop do
         break if block.call
