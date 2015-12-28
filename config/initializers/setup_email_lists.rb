@@ -1,4 +1,4 @@
-["FeedbackMailerList", "EventMailerList", "AdminMailerList"].each do |mailing_list|
+["FeedbackMailerList", "AdminMailerList"].each do |mailing_list|
   begin
     if mailing_list.constantize.all.empty?
       puts "Creating #{mailing_list} list"

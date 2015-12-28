@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151031184638) do
+ActiveRecord::Schema.define(:version => 20151228184914) do
 
   create_table "application_events", :force => true do |t|
     t.string   "type"
@@ -134,28 +134,6 @@ ActiveRecord::Schema.define(:version => 20151031184638) do
   end
 
   add_index "emails", ["email"], :name => "index_emails_on_email", :unique => true
-
-  create_table "events", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.string   "tweet"
-    t.string   "street"
-    t.string   "venue"
-    t.string   "state"
-    t.string   "city"
-    t.string   "zip"
-    t.datetime "starttime"
-    t.datetime "endtime"
-    t.string   "url"
-    t.float    "lat"
-    t.float    "lng"
-    t.integer  "user_id"
-    t.datetime "published_at"
-    t.datetime "reception_starttime"
-    t.datetime "reception_endtime"
-    t.datetime "created_at",          :default => '2014-05-31 19:44:53'
-    t.datetime "updated_at",          :default => '2014-05-31 19:44:54'
-  end
 
   create_table "favorites", :force => true do |t|
     t.datetime "created_at"

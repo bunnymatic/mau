@@ -3,20 +3,18 @@ require 'spec_helper'
 describe Admin::EmailsController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:feedback_email_list) { FactoryGirl.create(:feedback_email_list) }
-  let(:event_email_list) { FactoryGirl.create(:event_email_list) }
   let(:admin_email_list) { FactoryGirl.create(:admin_email_list) }
   let(:email_attrs) { FactoryGirl.attributes_for(:email) }
   let(:feedback_email_list) { FactoryGirl.create(:feedback_email_list) }
-  let(:event_email_list) { FactoryGirl.create(:event_email_list) }
   let(:admin_email_list) { FactoryGirl.create(:admin_email_list) }
-  let!(:lists) { [feedback_email_list, admin_email_list, event_email_list] }
+  let!(:lists) { [feedback_email_list, admin_email_list] }
 
   describe 'POST#create' do
     before do
       login_as admin
     end
     def make_request
-      xhr :post, :create, :email_list_id => event_email_list.id, :email => email_attrs
+      xhr :post, :create, :email_list_id => feedback_email_list.id, :email => email_attrs
     end
     it 'returns 200 on success' do
       make_request
@@ -35,12 +33,12 @@ describe Admin::EmailsController do
 
   describe 'POST#destroy' do
     def make_delete_request
-      xhr :delete, :destroy, :email_list_id => event_email_list.id, :id => first_email.id
+      xhr :delete, :destroy, :email_list_id => feedback_email_list.id, :id => first_email.id
     end
 
     let(:first_email) do
       email = FactoryGirl.create(:email)
-      EventMailerList.first.update_attributes(:emails => [ email ])
+      FeedbackMailerList.first.update_attributes(:emails => [ email ])
       email
     end
     before do
@@ -50,7 +48,7 @@ describe Admin::EmailsController do
       first_email
       expect {
         make_delete_request
-      }.to change(EventMailerList.first.emails, :count).by(-1);
+      }.to change(FeedbackMailerList.first.emails, :count).by(-1);
     end
     it 'does not delete the email from the email table' do
       first_email
