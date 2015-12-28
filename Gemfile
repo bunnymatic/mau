@@ -125,6 +125,8 @@ group :test, :development do
   gem 'guard-rspec'
   gem 'guard-jasmine'
   gem 'rspec'
+  gem 'rspec-its'
+  gem 'rspec-collection_matchers'
   gem 'rspec-rails'
   gem 'em-rspec', require: false, git: 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jslint_on_rails'

@@ -50,7 +50,7 @@ describe ArtistInfo do
     describe 'get' do
       it "returns true if participation is 'true'" do
         expect(joeblogs).to receive('open_studios_participation').at_least(:once).and_return('date|other')
-        expect(joeblogs.os_participation['date']).to be_true
+        expect(joeblogs.os_participation['date']).to eq(true)
       end
       it "returns nil if participation is missing" do
         expect(joeblogs).to receive('open_studios_participation').at_least(:once).and_return('date|something')
@@ -90,15 +90,15 @@ describe ArtistInfo do
         joeblogs.update_attribute(:open_studios_participation,'201104')
         joeblogs.update_os_participation('201114', true)
         joeblogs.reload
-        expect(joeblogs.os_participation['201114']).to be_true
-        expect(joeblogs.os_participation['201104']).to be_true
+        expect(joeblogs.os_participation['201114']).to eq(true)
+        expect(joeblogs.os_participation['201104']).to eq(true)
       end
       it 'adds another key properly using =' do
         joeblogs.update_attribute(:open_studios_participation,'201104')
         joeblogs.send(:os_participation=, {'201204' => true })
         joeblogs.reload
-        expect(joeblogs.os_participation['201204']).to be_true
-        expect(joeblogs.os_participation['201104']).to be_true
+        expect(joeblogs.os_participation['201204']).to eq(true)
+        expect(joeblogs.os_participation['201104']).to eq(true)
       end
     end
   end

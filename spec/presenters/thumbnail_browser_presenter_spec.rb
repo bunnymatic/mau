@@ -27,7 +27,7 @@ describe ThumbnailBrowserPresenter do
 
   describe '#has_thumbs?' do
     subject { super().has_thumbs? }
-    it { should be_true }
+    it { should eq(true) }
   end
 
   describe '#row_class' do

@@ -437,7 +437,7 @@ describe UsersController do
         login_as(quentin)
         @ap = art_piece
         @ap.artist = artist
-        expect(@ap.save).to be_true
+        expect(@ap.save).to eq true
       end
       context "add a favorite artist" do
         before do

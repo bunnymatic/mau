@@ -33,13 +33,13 @@ describe User do
   end
 
   it{ should validate_presence_of(:login) }
-  it{ should ensure_length_of(:login).is_at_least(5).is_at_most(40) }
+  it{ should validate_length_of(:login).is_at_least(5).is_at_most(40) }
 
   it{ should validate_presence_of(:email) }
-  it{ should ensure_length_of(:email).is_at_least(6).is_at_most(100) }
+  it{ should validate_length_of(:email).is_at_least(6).is_at_most(100) }
 
-  it{ should ensure_length_of(:firstname).is_at_most(100) }
-  it{ should ensure_length_of(:lastname).is_at_most(100) }
+  it{ should validate_length_of(:firstname).is_at_most(100) }
+  it{ should validate_length_of(:lastname).is_at_most(100) }
 
   context 'find by username or email' do
     let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
@@ -64,10 +64,10 @@ describe User do
 
   context 'make sure our factories work' do
     it 'creates an editor' do
-      expect(FactoryGirl.create(:user, :editor, :active).is_editor?).to be_true
+      expect(FactoryGirl.create(:user, :editor, :active).is_editor?).to eq(true)
     end
     it 'creates an admin' do
-      expect(FactoryGirl.create(:user, :admin, :active).is_admin?).to be_true
+      expect(FactoryGirl.create(:user, :admin, :active).is_admin?).to eq(true)
     end
   end
 
@@ -153,7 +153,7 @@ describe User do
   describe 'create' do
     it 'sets email attrs to true for everything' do
       FactoryGirl.create(:user, :pending)
-      expect(User.all.last.emailsettings.all?{|k,v| v}).to be_true
+      expect(User.all.last.emailsettings.all?{|k,v| v}).to eq(true)
     end
   end
   describe 'named scope' do
@@ -302,7 +302,7 @@ describe User do
           @result = @u.add_favorite(@a)
         end
         it "doesn't add" do
-          expect(@result).to be_false
+          expect(@result).to be_nil
           expect(@num_favs).to eql @u.favorites.count
         end
       end
@@ -322,14 +322,14 @@ describe User do
     end
     describe "narcissism" do
       it "favoriting yourself is not allowed" do
-        expect(artist.add_favorite(artist)).to be_false
+        expect(artist.add_favorite(artist)).to be_nil
       end
       it "favoriting your own art work is not allowed" do
-        expect(artist.add_favorite(art_piece)).to be_false
+        expect(artist.add_favorite(art_piece)).to be_nil
       end
       it "it doesn't send favorite notification" do
         expect(ArtistMailer).to receive('favorite_notification').never
-       expect(artist.add_favorite(art_piece)).to be_false
+        expect(artist.add_favorite(art_piece)).to be_nil
       end
     end
 

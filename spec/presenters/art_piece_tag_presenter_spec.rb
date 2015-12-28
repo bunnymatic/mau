@@ -43,7 +43,7 @@ describe ArtPieceTagPresenter do
       artists.first.suspend!
     end
     it 'shows art only from active artists' do
-      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to be_true
+      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
 
@@ -52,7 +52,7 @@ describe ArtPieceTagPresenter do
       ArtPiece.limit(2).each { |a| a.update_attribute :artist_id, nil }
     end
     it 'shows art only from active artists' do
-      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to be_true
+      expect(subject.art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
 

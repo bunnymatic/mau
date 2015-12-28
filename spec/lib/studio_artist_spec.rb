@@ -26,7 +26,7 @@ describe StudioArtist do
       unaffiliate
     end
     it 'returns true' do
-      expect(unaffiliate).to be_true
+      expect(unaffiliate).to eq true
     end
 
     it 'sets the artist\'s studio to indy' do

@@ -27,7 +27,7 @@ describe ArtPiecePresenter do
 
   describe '#has_year?' do
     subject { super().has_year? }
-    it { should be_true }
+    it { should eq(true) }
   end
 
   context 'with favorites' do
@@ -61,7 +61,7 @@ describe ArtPiecePresenter do
 
     describe '#has_tags?' do
       subject { super().has_tags? }
-      it { should be_true }
+      it { should eq(true) }
     end
 
     describe '#tags' do

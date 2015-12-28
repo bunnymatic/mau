@@ -10,7 +10,7 @@ describe StudioPresenter do
 
   describe '#has_artists_with_art?' do
     subject { super().has_artists_with_art? }
-    it { should be_true }
+    it { should eq(true) }
   end
 
   describe '#artists_with_art' do
@@ -23,7 +23,7 @@ describe StudioPresenter do
 
   describe '#has_artists_without_art?' do
     subject { super().has_artists_without_art? }
-    it { should be_true }
+    it { should eq(true) }
   end
 
   describe '#artists_without_art' do

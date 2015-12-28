@@ -32,7 +32,7 @@ describe ArtistsMap do
         expect(map.grouped_by_address_and_sorted.map{|entry| entry[1].length}).to be_monotonically_decreasing
       end
       it 'returns only artists who are in the mission' do
-        expect(map.grouped_by_address.values.flatten.all? &:in_the_mission?).to be_true
+        expect(map.grouped_by_address.values.flatten.all? &:in_the_mission?).to eq(true)
       end
     end
   end
@@ -43,8 +43,8 @@ describe ArtistsMap do
     it 'includes artists in the mission' do
       map.with_addresses.each do |a|
         lat,lng = a.address_hash[:latlng]
-        expect(sw_bounds[0] < lat && lat < ne_bounds[0]).to be_true, "Latitude #{lat} is not within bounds"
-        expect(sw_bounds[1] < lng && lng < ne_bounds[1]).to be_true ,"Longitude #{lng} is not within bounds"
+        expect(sw_bounds[0] < lat && lat < ne_bounds[0]).to eq(true), "Latitude #{lat} is not within bounds"
+        expect(sw_bounds[1] < lng && lng < ne_bounds[1]).to eq(true) ,"Longitude #{lng} is not within bounds"
       end
     end
   end

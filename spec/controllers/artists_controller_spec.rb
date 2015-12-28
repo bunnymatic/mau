@@ -141,7 +141,7 @@ describe ArtistsController do
       context "update os status" do
         it "updates artists os status to true" do
           xhr :put, :update, id: artist, artist: { "os_participation" => '1' }
-          expect(artist.reload.os_participation[OpenStudiosEvent.current.key]).to be_true
+          expect(artist.reload.os_participation[OpenStudiosEvent.current.key]).to eq true
         end
 
         it "sets false if artist has no address" do

@@ -52,7 +52,7 @@ describe ArtPieceTagsController do
     it_should_behave_like 'successful json'
     it 'returns all tags as json' do
       j = JSON.parse(response.body)
-      expect(j.all?(&:present?)).to be_true
+      expect(j.all?(&:present?)).to eq true
     end
 
     it 'writes to the cache if theres nothing there' do

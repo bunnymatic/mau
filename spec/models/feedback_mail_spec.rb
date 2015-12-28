@@ -8,7 +8,7 @@ describe FeedbackMail do
   it{ should validate_presence_of :email }
   it{ should validate_presence_of :email_confirm }
   it{ should validate_presence_of :note_type }
-  it{ should ensure_inclusion_of(:note_type).in_array(FeedbackMail::VALID_NOTE_TYPES) }
+  it{ should validate_inclusion_of(:note_type).in_array( FeedbackMail::VALID_NOTE_TYPES ) }
 
   context 'if emails don\'t match (and are required' do
     subject(:feedback_mail) {

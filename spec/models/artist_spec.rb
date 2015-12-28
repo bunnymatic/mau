@@ -104,7 +104,7 @@ describe Artist do
       it "returns empty for address" do
         expect(nobody.send(:address)).to be_nil
         hsh = nobody.send(:address_hash)
-        expect(hsh[:geocoded]).to be_false
+        expect(hsh[:geocoded]).to eq false
         expect(hsh[:parsed][:street]).to be_nil
         expect(hsh[:latlng]).to eql [nil,nil]
       end

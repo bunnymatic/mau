@@ -25,7 +25,7 @@ describe MediaPresenter do
 
   describe '#by_pieces?' do
     subject { super().by_pieces? }
-    it { should be_true }
+    it { should eq(true) }
   end
 
   describe '#all_art_pieces' do
@@ -69,7 +69,7 @@ describe MediaPresenter do
       artists.first.suspend!
     end
     it 'shows art only from active artists' do
-      expect(art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to be_true
+      expect(art_pieces.map(&:artist).flatten.uniq.map.all?(&:active?)).to eq(true)
     end
   end
 end

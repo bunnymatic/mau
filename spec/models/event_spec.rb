@@ -13,7 +13,7 @@ describe Event do
 
   describe 'named scopes' do
     it "future returns only events whose end time is the future" do
-      expect(Event.future.all?{|u| u.future?}).to be_true
+      expect(Event.future.all?{|u| u.future?}).to eq(true)
     end
     it "past returns only events that are in the past" do
       expect(Event.past.all?{|u| (u.endtime && u.endtime < Time.zone.now) || (u.starttime < Time.zone.now)}).to be
@@ -57,35 +57,35 @@ describe Event do
 
   describe '#future?' do
     it 'returns true for events in the future' do
-      expect(future_event.future?).to be_true
+      expect(future_event.future?).to eq(true)
     end
     it 'returns false for events in the past' do
-      expect(past_event.future?).to be_false
+      expect(past_event.future?).to eq false
     end
     it 'returns false for events in progress' do
-      expect(in_progress_event.future?).to be_false
+      expect(in_progress_event.future?).to eq false
     end
   end
   describe '#in_progress?' do
     it 'returns true for events that are in progress' do
-      expect(in_progress_event.in_progress?).to be_true
+      expect(in_progress_event.in_progress?).to eq(true)
     end
     it 'returns false for events in the past' do
-     expect(past_event.in_progress?).to be_false
+     expect(past_event.in_progress?).to eq false
     end
     it 'returns false for events in the future' do
-      expect(future_event.in_progress?).to be_false
+      expect(future_event.in_progress?).to eq false
     end
   end
   describe '#past?' do
     it 'returns true for events in the past' do
-      expect(past_event.past?).to be_true
+      expect(past_event.past?).to eq(true)
     end
     it 'returns false for events that are in progress' do
-      expect(in_progress_event.past?).to be_false
+      expect(in_progress_event.past?).to eq false
     end
     it 'returns true for events in the future' do
-      expect(future_event.past?).to be_false
+      expect(future_event.past?).to eq false
     end
   end
 end

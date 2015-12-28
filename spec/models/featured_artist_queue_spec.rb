@@ -84,12 +84,12 @@ describe FeaturedArtistQueue do
     end
     describe "#featured" do
       it "only returns entrys where featured is not nil" do
-        expect(FeaturedArtistQueue.featured.any?{|fa| fa.featured == nil}).to be_false
+        expect(FeaturedArtistQueue.featured.any?{|fa| fa.featured == nil}).to eq false
       end
     end
     describe "#not_yet_featured" do
       it "returns only entries where featured is nil" do
-        expect(FeaturedArtistQueue.not_yet_featured.all?{|fa| fa.featured == nil}).to be_true
+        expect(FeaturedArtistQueue.not_yet_featured.all?{|fa| fa.featured == nil}).to eq(true)
       end
     end
     describe "default scope" do

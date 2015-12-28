@@ -17,12 +17,12 @@ describe MauFeed::Parser do
 
     describe '#strip_tags' do
       subject { super().strip_tags }
-      it { should be_true }
+      it { should eq(true) }
     end
 
     describe '#truncate' do
       subject { super().truncate }
-      it { should be_true }
+      it { should eq(true) }
     end
 
     describe '#css_class' do

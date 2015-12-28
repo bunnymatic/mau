@@ -15,12 +15,12 @@ describe ArtistPresenter do
 
   describe '#has_media?' do
     subject { super().has_media? }
-    it { should be_true }
+    it { should eq(true) }
   end
 
   describe '#has_bio?' do
     subject { super().has_bio? }
-    it { should be_true }
+    it { should eq(true) }
   end
 
   describe '#bio_html' do
@@ -30,7 +30,7 @@ describe ArtistPresenter do
 
   describe '#has_links?' do
     subject { super().has_links? }
-    it { should be_true }
+    it { should eq(true) }
   end
 
   describe '#links' do
@@ -50,7 +50,7 @@ describe ArtistPresenter do
 
   describe '#has_art?' do
     subject { super().has_art? }
-    it { should be_true }
+    it { should eq(true) }
   end
   it{ should be_valid }
 
