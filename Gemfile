@@ -4,7 +4,6 @@ ruby '2.1.5'
 gem 'racc'
 gem "rails", '~> 4.1.10'
 gem 'active_model_serializers'
-#gem 'strong_parameters'
 gem "font-awesome-rails"
 gem "nokogiri"
 gem "htmlentities"
@@ -119,8 +118,8 @@ end
 
 group :test, :development do
   gem "elasticsearch-extensions", require: nil
-  gem 'guard-coffeescript'
   gem 'guard-rspec'
+  gem 'guard-cucumber'
   gem 'guard-jasmine'
   gem 'rspec'
   gem 'rspec-its'

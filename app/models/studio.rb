@@ -47,7 +47,7 @@ class Studio < ActiveRecord::Base
   end
 
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: [:slugged, :finders]
 
   has_many :artists
 

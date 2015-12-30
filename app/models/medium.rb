@@ -20,7 +20,7 @@ class Medium < ActiveRecord::Base
   include TagMediaMixin
 
   include FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: [:slugged, :finders]
 
   validates :name, :presence => true, :length => {:within => (2..244)}
 

@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
   validates_length_of       :lastname, maximum: 100, allow_nil: true
 
   extend FriendlyId
-  friendly_id :login, use: :slugged
+  friendly_id :login, use: [:slugged, :finders]
 
   # custom validations
   validate :validate_email
