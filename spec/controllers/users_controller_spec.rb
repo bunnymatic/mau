@@ -25,21 +25,6 @@ describe UsersController do
     }.merge(opts)
   end
 
-  before do
-    ####
-    # stub mailchimp calls
-    stub_signup_notification
-    stub_mailchimp
-  end
-
-  it "actions should fail if not logged in" do
-    exceptions = [:index, :show, :update, :artists, :resend_activation, :favorites,
-                  :forgot, :destroy, :create, :new, :activate,
-                  :notify, :noteform, :reset, :favorites_notify]
-    controller_actions_should_fail_if_not_logged_in(:user,
-                                                    :except => exceptions)
-  end
-
   describe '#index' do
     it { get :index; expect(response).to redirect_to artists_path }
   end
@@ -62,7 +47,7 @@ describe UsersController do
         # disable sweep of flash.now messages
         # so we can test them
         FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
-        allow(@controller).to receive(:sweep)
+        #allow(@controller).to receive(:sweep)
         expect(@controller).to receive(:verify_recaptcha).and_return(true)
         expect(@controller).to receive(:verify_secret_word).and_return(true)
       end
@@ -101,7 +86,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        allow(@controller).to receive(:sweep)
+        #allow(@controller).to receive(:sweep)
         expect(@controller).to receive(:verify_recaptcha).and_return(false)
         post :create, params_with_secret(
                {
@@ -128,7 +113,7 @@ describe UsersController do
       before do
         # disable sweep of flash.now messages
         # so we can test them
-        allow(@controller).to receive(:sweep)
+        #allow(@controller).to receive(:sweep)
       end
       context "login = 'newuser'" do
         before do
@@ -147,7 +132,7 @@ describe UsersController do
     context "valid user params and type = MAUFan" do
       before do
         expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
-        expect(UserMailer).to receive(:activation).exactly(:once).and_return(double(:deliver! => true))
+        expect(UserMailer).to receive(:activation).exactly(:once).and_return(double(:deliver_now => true))
         post :create, params_with_secret(
                {
                  :mau_fan => { :login => 'newuser',
@@ -311,14 +296,14 @@ describe UsersController do
     context "while not logged in" do
       render_views
       before do
-        get :edit
+        get :edit, id: 123123
       end
       it_should_behave_like "redirects to login"
     end
     context "while logged in as an artist" do
       before do
         login_as(artist)
-        get :edit
+        get :edit, id: 123123
       end
       it "GET should redirect to artist edit" do
         expect(response).to be_redirect

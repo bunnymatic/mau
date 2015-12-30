@@ -73,7 +73,7 @@ class FeedbackMail
                         :login => login,
                         :comment => comment })
     if f.save
-      FeedbackMailer.feedback(f).deliver!
+      FeedbackMailer.feedback(f).deliver_now
     end
   end
 

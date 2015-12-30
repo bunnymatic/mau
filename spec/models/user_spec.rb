@@ -338,20 +338,20 @@ describe User do
         artist
       end
       it '#resend_activation sends a new activation email' do
-        expect(UserMailer).to receive('resend_activation').with(maufan).once.and_return(double(:deliver! => true))
+        expect(UserMailer).to receive('resend_activation').with(maufan).once.and_return(double(:deliver_now => true))
         maufan.resend_activation
       end
       it '#create_reset_code sends a recent reset email' do
-        expect(UserMailer).to receive('reset_notification').with(maufan).once.and_return(double(:deliver! => true))
+        expect(UserMailer).to receive('reset_notification').with(maufan).once.and_return(double(:deliver_now => true))
         maufan.create_reset_code
       end
 
       it "add art_piece favorite sends favorite notification to owner" do
-        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
+        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver_now => true))
         maufan.add_favorite(art_piece)
       end
       it "add artist favorite sends favorite notification to user" do
-        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
+        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver_now => true))
         maufan.add_favorite(artist)
       end
       it "add artist favorite doesn't send notification to user if user's email settings say no" do

@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     @fan = safe_find_user(params[:id])
 
     if (@fan != current_user) || current_user.is_artist?
-      redirect_to edit_artist_path(current_user), flash: flash
+      redirect_to edit_artist_path(current_user), flash
       return
     end
     @user = UserPresenter.new(current_user.becomes(User))
@@ -52,13 +52,14 @@ class UsersController < ApplicationController
       return
     end
     # clean os from radio buttons
+    msg = {}
     if current_user.update_attributes(user_params)
       Messager.new.publish "/artists/#{current_user.id}/update", "updated artist info"
-      flash[:notice] = "Your profile has been updated"
+      msg[:notice] = "Your profile has been updated"
     else
-      flash[:error] = ex.to_s
+      msg[:error] = ex.to_s
     end
-    redirect_to edit_user_url(current_user), flash: flash
+    redirect_to edit_user_url(current_user), msg
   end
 
   def create
@@ -91,7 +92,7 @@ class UsersController < ApplicationController
     else
       msg[:error] = "Your old password was incorrect"
     end
-    redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
+    redirect_to edit_user_path(current_user, anchor: 'password'), msg
   end
 
   def reset
@@ -217,9 +218,9 @@ class UsersController < ApplicationController
         msg = r ? "#{objname} has been added to your favorites.":
                 "You've already added #{objname} to your list of favorites."
         if obj.is_a? ArtPiece
-          redirect_to art_piece_path(obj), :flash => { :notice => msg }
+          redirect_to art_piece_path(obj), :notice => msg
         else
-          redirect_to obj, :flash => { :notice => msg }
+          redirect_to obj, :notice => msg
         end
 
       end

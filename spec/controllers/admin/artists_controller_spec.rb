@@ -108,7 +108,7 @@ describe Admin::ArtistsController do
         expect(response).to be_success
       end
       it 'calls the notify_featured mailer' do
-        expect(ArtistMailer).to receive(:notify_featured).exactly(:once).and_return(double(:deliver! => true))
+        expect(ArtistMailer).to receive(:notify_featured).exactly(:once).and_return(double(:deliver_now => true))
         post :notify_featured, id: artist.id
       end
     end

@@ -29,7 +29,7 @@ describe FeedbacksController do
     end
     context 'with good data' do
       before do
-        expect(FeedbackMailer).to receive(:feedback).and_return(double(:deliver! => true))
+        expect(FeedbackMailer).to receive(:feedback).and_return(double(:deliver_now => true))
         expect{
           get :create, {:feedback => {
               :email => 'joe@wherever.com',

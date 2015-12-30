@@ -17,8 +17,8 @@ describe FeedbackMailer do
 
   it 'does not actually deliver the email' do
     m = FeedbackMailer.feedback(fb)
-    expect(m).to_not receive(:old_deliver!)
-    m.deliver!
+    expect(m).to_not receive(:old_deliver_now)
+    m.deliver_now
   end
 
 end
