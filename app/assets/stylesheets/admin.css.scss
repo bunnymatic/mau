@@ -1,4 +1,5 @@
 /*
+ *= require font-awesome
  *= require reset
  *= require socicon
  *= require micro_icons
@@ -14,7 +15,6 @@
  *= require_tree ./gto_admin
  *= require_self
  */
-@import 'font-awesome';
 @import 'pure';
 @import 'pure/grids-responsive';
 @import 'pure-customizations';
