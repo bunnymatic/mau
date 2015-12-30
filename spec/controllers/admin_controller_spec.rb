@@ -108,8 +108,9 @@ describe AdminController do
       it { expect(response).to be_success }
       it { expect(response).to be_csv_type }
       it 'includes the right headers' do
+        past_os_event_keys = %w|201004 201010 201104 201110 201204 201210 201304 201310 201404|
         expected_headers = ["First Name","Last Name","Full Name","Email Address","Group Site Name"]
-        expected_headers += Conf.open_studios_event_keys.map(&:to_s)
+        expected_headers += past_os_event_keys
         expect(parsed.headers).to eq(expected_headers)
       end
       it 'includes the right data' do
@@ -216,7 +217,7 @@ describe AdminController do
     it 'sets a list of artists in alpha order by last name' do
       assigns(:os).length == Artist.active.count
       expect(assigns(:os).map(&:lastname).map(&:downcase)).to be_monotonically_increasing
-      assigns(:totals).count == Conf.open_studios_event_keys.count
+      expect(assigns(:totals).count).to eql 9
     end
   end
 
