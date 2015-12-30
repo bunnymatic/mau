@@ -3,11 +3,11 @@ ruby '2.1.5'
 
 gem 'safe_yaml'
 gem 'racc'
-gem "rails", '~> 3.2.16'
+gem "rails", '~> 4.1.10'
 gem 'active_model_serializers'
-gem 'strong_parameters'
+#gem 'strong_parameters'
 gem "font-awesome-rails"
-gem "nokogiri", '~> 1.6'
+gem "nokogiri"
 gem "htmlentities"
 gem 'mysql2'
 gem "haml"
@@ -19,8 +19,8 @@ gem 'rdiscount' # markdown processor
 gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-rbenv', '~> 2.0'
 gem 'capistrano-rails', '~> 1.1'
-gem 'friendly_id', '~> 4.x'
-gem 'formtastic', '~> 3.0'
+gem 'friendly_id'
+gem 'formtastic'
 
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
