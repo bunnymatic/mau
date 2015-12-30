@@ -132,7 +132,7 @@ describe UsersController do
     context "valid user params and type = MAUFan" do
       before do
         expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
-        expect(UserMailer).to receive(:activation).exactly(:once).and_return(double(:deliver_now => true))
+        expect(UserMailer).to receive(:activation).exactly(:once).and_return(double(:deliver => true))
         post :create, params_with_secret(
                {
                  :mau_fan => { :login => 'newuser',

@@ -35,7 +35,7 @@ class MainController < ApplicationController
     if params[:commit]
       @feedback = Feedback.new(feedback_params)
       if @feedback.save
-        FeedbackMailer.feedback(@feedback).deliver_now
+        FeedbackMailer.feedback(@feedback).deliver
         flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
       else
         flash.now[:error] = "There was a problem submitting your feedback.<br/>" +

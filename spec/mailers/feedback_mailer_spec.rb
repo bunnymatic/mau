@@ -15,10 +15,4 @@ describe FeedbackMailer do
     expect(m.from).to include 'info@missionartistsunited.org'
   end
 
-  it 'does not actually deliver the email' do
-    m = FeedbackMailer.feedback(fb)
-    expect(m).to_not receive(:old_deliver_now)
-    m.deliver_now
-  end
-
 end

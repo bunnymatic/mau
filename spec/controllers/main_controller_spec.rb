@@ -124,7 +124,7 @@ describe MainController do
       end
       context 'with data' do
         before do
-          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMailer", :deliver_now => true))
+          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMail", :deliver => true))
         end
         it 'saves a feedback record' do
           expect {
@@ -136,7 +136,7 @@ describe MainController do
           expect(flash.now[:notice]).to be_present
         end
         it 'sends an email' do
-          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMailer", :deliver_now => true))
+          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMail", :deliver => true))
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
       end
@@ -145,7 +145,7 @@ describe MainController do
           login_as artist
         end
         it 'sends an email' do
-          expect(FeedbackMailer).to receive(:feedback).and_return(double("deliverable", :deliver_now => true))
+          expect(FeedbackMailer).to receive(:feedback).and_return(double("deliverable", :deliver => true))
           get :getinvolved, :commit => true, :feedback => feedback_attrs
         end
       end
@@ -200,9 +200,6 @@ describe MainController do
   end
 
   describe 'notes mailer' do
-    before do
-      allow_any_instance_of(FeedbackMailer).to receive(:deliver_now).and_return(true)
-    end
     describe "xhr post" do
       before do
         xhr :post, :notes_mailer, feedback_mail: { stuff: 'whatever'}

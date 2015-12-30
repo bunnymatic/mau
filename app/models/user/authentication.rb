@@ -5,7 +5,7 @@ class User
     end
 
     def activate!
-      mailer_class.activation(self).deliver_now
+      mailer_class.activation(self).deliver
       self.update_attributes( state: "active", activated_at: Time.zone.now)
       FeaturedArtistQueue.create(:artist_id => id, :position => rand) if is_artist?
     end

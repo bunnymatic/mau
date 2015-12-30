@@ -41,6 +41,10 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  config.action_mailer.default_url_options = {
+    :host => 'mautest.example.com'
+  }
+
   Paperclip::Attachment.default_options[:path] = "#{Rails.root}/tmp/paperclip_test/:class/:id_partition/:style.:extension"
 
   config.elasticsearch_url = 'http://localhost:9220'

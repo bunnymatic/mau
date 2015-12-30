@@ -59,7 +59,7 @@ describe Admin::EmailsController do
 
     it 'returns a message indicating who was removed' do
       make_delete_request
-      expect(response.content_type).to eql Mime::Type.lookup("application/json")
+      expect(response.content_type).to eql "application/json"
       expect(response).to be_success
     end
 
