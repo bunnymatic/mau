@@ -12,12 +12,14 @@ module OpenStudiosEventShim
 
   module ClassMethods
 
+    PAST_OS_EVENT_KEYS = %w|201004 201010 201104 201110 201204 201210 201304 201310 201404|
+
     def available_open_studios_keys
-      ((Conf.open_studios_event_keys + OpenStudiosEvent.pluck(:key)).compact.map(&:to_s).uniq.sort).select{|k| k.present?}
+      ((PAST_OS_EVENT_KEYS + OpenStudiosEvent.pluck(:key)).compact.map(&:to_s).uniq.sort).select{|k| k.present?}
     end
 
     def current_open_studios_key
-      _open_studios_shim_delegate(:key, Conf.oslive)
+      _open_studios_shim_delegate(:key,nil)
     end
 
     private

@@ -166,7 +166,7 @@ You'll need to create a `config/config.keys.yml` file - use config.keys.yml.exam
 
 * Github:  https://github.com/bunnymatic/mau Source Code Revision Control
 * PostmarkApp: http://postmarkapp.com for transactional email sending
-* Site5 for hosting
+* Linode for hosting
 * NewRelic for app performance analytics/monitoring
 * Google Analytics for web analytics
 * Facebook App - '1568875043351573',

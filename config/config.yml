@@ -3,14 +3,11 @@
 # note : no tabs and indent is ipmortant.
 test:
    site_url: test.missionartistsunited.org
-   #image_servers:
    mailchimp_api_key: bogus-key
-   oslive: 201210
    min_artists_per_studio: 1
 
 development:
    site_url: localhost:3000
-   #image_servers:
    cache_expiry:
        feed: 300
        search: 20
@@ -25,7 +22,6 @@ acceptance:
 
 production:
    site_url: missionartistsunited.org
-   #image_servers:
    cache_expiry:
        feed: 3600
        search: 300
@@ -59,18 +55,6 @@ common:
        # expire daily
        cache_expiry: 86400
        cache_key: artistnamesuggest
-   oslive: 201410
-   accepting_flaxshow_submissions: false
-   open_studios_event_keys:
-      - 201004
-      - 201010
-      - 201104
-      - 201110
-      - 201204
-      - 201210
-      - 201304
-      - 201310
-      - 201404
 
    ga_key: blah
    ga_api_key: key
