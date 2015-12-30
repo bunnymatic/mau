@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe Admin::StatsController, type: :controller do
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }

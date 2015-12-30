@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :role do
     role 'a_role'
-    initialize_with { Role.find_or_create_by_role(role)}
+    initialize_with { Role.find_or_create_by(role: role) }
     trait :admin do
       role 'admin'
     end
@@ -14,4 +14,3 @@ FactoryGirl.define do
 
   end
 end
-

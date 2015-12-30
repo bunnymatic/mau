@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'ArtistsController Routes' do
   describe 'member routes' do

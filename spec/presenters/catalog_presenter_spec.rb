@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CatalogPresenter do
   let!(:open_studios_event) { FactoryGirl.create :open_studios_event }

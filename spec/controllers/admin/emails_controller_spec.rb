@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Admin::EmailsController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }

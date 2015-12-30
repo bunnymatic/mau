@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Email do
   let(:email_list) { FactoryGirl.create(:feedback_email_list) }

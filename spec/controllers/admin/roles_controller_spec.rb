@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe Admin::RolesController do
 
   let(:editor) { FactoryGirl.create(:artist, :editor, :active) }

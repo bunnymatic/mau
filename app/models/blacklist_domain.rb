@@ -9,7 +9,7 @@
 #
 
 class BlacklistDomain < ActiveRecord::Base
-  DOMAIN_REGEX = /^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}$/
+  DOMAIN_REGEX = /\A[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}\z/
   DOMAIN_MESSAGE = "This domain does not appear to be valid."
 
   before_validation :downcase_domain

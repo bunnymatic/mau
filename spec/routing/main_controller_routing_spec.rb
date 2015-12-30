@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'MainController Routes' do
   [:faq, :venues, :privacy, :about, :contact, :version].each do |endpoint|

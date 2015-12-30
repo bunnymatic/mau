@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ArtPieceSerializer do
   let(:art_piece) { create(:art_piece, :with_tags) }

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'htmlentities'
 
 describe Admin::StudiosController do

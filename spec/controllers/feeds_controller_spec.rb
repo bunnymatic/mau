@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do

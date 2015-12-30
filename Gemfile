@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.1.5'
 
-gem 'safe_yaml'
 gem 'racc'
 gem "rails", '~> 4.1.10'
 gem 'active_model_serializers'

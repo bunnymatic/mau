@@ -9,6 +9,7 @@
 #
 
 class ArtPieceTag < ActiveRecord::Base
+
   include TagMediaMixin
 
   has_many :art_pieces_tags

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for "successful notes mailer response" do
   it { expect(response).to be_success }

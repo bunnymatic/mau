@@ -105,19 +105,6 @@ class MainController < ApplicationController
     # controller/model behind it
   end
 
-  # def non_mobile
-  #   session[:mobile_view] = false
-  #   ref = request.referer if is_local_referer?
-  #   redirect_to ref || root_path
-  # end
-
-  # def mobile
-  #   session[:mobile_view] = true
-  #   ref = request.referer if is_local_referer?
-  #   redirect_to ref || root_path
-  # end
-
-
   def sitemap
     sitemap = <<EOM
 <?xml version="1.0" encoding="UTF-8"?>

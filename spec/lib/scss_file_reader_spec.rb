@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe ScssFileReader do
 
   it 'parses colors from a scss file' do

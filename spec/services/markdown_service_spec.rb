@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe MarkdownService do
   it "converts markdown to html" do

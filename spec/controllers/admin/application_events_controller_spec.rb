@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Admin::ApplicationEventsController do
   let(:admin) { FactoryGirl.create(:artist, :admin) }

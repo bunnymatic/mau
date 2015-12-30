@@ -130,7 +130,7 @@ class Artist < User
   has_one :artist_info
   accepts_nested_attributes_for :artist_info
 
-  has_many :art_pieces, :order => "`position` ASC, `created_at` desc"
+  has_many :art_pieces, -> { order(position: :asc, created_at: :desc) }
 
   before_create :make_activation_code
 
