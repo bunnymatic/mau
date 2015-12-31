@@ -49,7 +49,7 @@ describe Admin::StatsController, type: :controller do
       it "returns an entries have date and count" do
         entry = artists_per_day.first
         expect(entry.entries.size).to eq(2)
-        last_created_date = Artist.active.all(:order => :created_at).last.created_at.to_date
+        last_created_date = Artist.active.order(:created_at).last.created_at.to_date
         expect(Time.zone.at(entry[0].to_i).to_date - last_created_date).to be < 1.day
         expect(entry[1]).to be >= 1
       end
@@ -68,7 +68,7 @@ describe Admin::StatsController, type: :controller do
         a2 = ArtPiece.last
         a2.update_attribute(:artist_id, artist.id)
 
-        artist_stub = double(Artist,:id => 42, :emailsettings => {'favorites' => false})
+        artist_stub = double(Artist,id: 42, emailsettings: {'favorites' => false})
         allow_any_instance_of(ArtPiece).to receive(:artist).and_return(artist_stub)
         u1.add_favorite a1
         u1.add_favorite artist
@@ -86,7 +86,7 @@ describe Admin::StatsController, type: :controller do
       it "returns an entries have date and count" do
         entry = @favorites_per_day.first
         expect(entry.entries.size).to eq(2)
-        last_favorite_date = Favorite.all(:order => :created_at).last.created_at.utc.to_date
+        last_favorite_date = Favorite.all.order(:created_at).last.created_at.utc.to_date
         expect(Time.zone.at(entry[0].to_i).utc.to_date).to eql last_favorite_date
         expect(entry[1]).to be >= 1
       end
