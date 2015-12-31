@@ -67,6 +67,7 @@ describe UsersController do
         }.to change(User,:count).by(0)
       end
       it 'allows non blacklist domain to add a user' do
+        allow_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
         expect {
           post :create, params_with_secret(
                  {
@@ -624,45 +625,46 @@ describe UsersController do
     end
   end
 
-  VCR.use_cassette('mailchimp') do
-    describe 'activate' do
-      describe 'with valid activation code' do
-        before do
-          expect_any_instance_of(User).to receive(:activate!)
-        end
-        it 'redirects to login' do
-          get :activate, :activation_code => pending_fan.activation_code
-          expect(response).to redirect_to login_url
-        end
-        it 'flashes a notice' do
-          get :activate, :activation_code => pending_fan.activation_code
-          expect(flash[:notice]).to include 'Signup complete!'
-        end
-        it 'activates the user' do
-          get :activate, :activation_code => pending_fan.activation_code
-        end
-      end
+  describe 'activate' do
+    before do
+      allow_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
     end
-
-    describe 'with invalid activation code' do
+    describe 'with valid activation code' do
+      before do
+        expect_any_instance_of(MAUFan).to receive(:activate!)
+      end
       it 'redirects to login' do
-        get :activate, :activation_code => 'blah'
+        get :activate, :activation_code => pending_fan.activation_code
         expect(response).to redirect_to login_url
       end
-      it 'flashes an error' do
-        get :activate, :activation_code => 'blah'
-        expect(/find an artist with that activation code/.match(flash[:error])).not_to be []
+      it 'flashes a notice' do
+        get :activate, :activation_code => pending_fan.activation_code
+        expect(flash[:notice]).to include 'Signup complete!'
       end
-      it 'does not blow away all activation codes' do
-        FactoryGirl.create_list(:artist, 2)
-        get :activate, :activation_code => 'blah'
-        expect(User.all.map{|u| u.activation_code}.select{|u| u.present?}.count).to be > 0
+      it 'activates the user' do
+        get :activate, :activation_code => pending_fan.activation_code
       end
-      it 'does not send email' do
-        expect(ArtistMailer).to receive(:activation).never
-        expect(UserMailer).to receive(:activation).never
-        get :activate, :activation_code => 'blah'
-      end
+    end
+  end
+
+  describe 'with invalid activation code' do
+    it 'redirects to login' do
+      get :activate, :activation_code => 'blah'
+      expect(response).to redirect_to login_url
+    end
+    it 'flashes an error' do
+      get :activate, :activation_code => 'blah'
+      expect(/find an artist with that activation code/.match(flash[:error])).not_to be []
+    end
+    it 'does not blow away all activation codes' do
+      FactoryGirl.create_list(:artist, 2)
+      get :activate, :activation_code => 'blah'
+      expect(User.all.map{|u| u.activation_code}.select{|u| u.present?}.count).to be > 0
+    end
+    it 'does not send email' do
+      expect(ArtistMailer).to receive(:activation).never
+      expect(UserMailer).to receive(:activation).never
+      get :activate, :activation_code => 'blah'
     end
   end
 

@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     @fan = safe_find_user(params[:id])
 
     if (@fan != current_user) || current_user.is_artist?
-      redirect_to edit_artist_path(current_user), flash
+      redirect_to edit_artist_path(current_user)
       return
     end
     @user = UserPresenter.new(current_user.becomes(User))
@@ -55,9 +55,9 @@ class UsersController < ApplicationController
     msg = {}
     if current_user.update_attributes(user_params)
       Messager.new.publish "/artists/#{current_user.id}/update", "updated artist info"
-      msg[:notice] = "Your profile has been updated"
+      msg["notice"] = "Your profile has been updated"
     else
-      msg[:error] = ex.to_s
+      msg["error"] = ex.to_s
     end
     redirect_to edit_user_url(current_user), flash: msg
   end
@@ -138,17 +138,21 @@ class UsersController < ApplicationController
 
   def activate
     logout
-    user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
-    case
-    when (!params[:activation_code].blank?) && user && !user.active?
+    code = params[:activation_code]
+    user = User.find_by(activation_code: code) if code.present?
+
+    if !user
+      flash[:error]  = "We couldn't find an artist with that activation code -- check your email?"+
+                       " Or maybe you've already activated -- try signing in."
+      redirect_to login_path and return
+    end
+
+    if code.present? && !user.active?
       user.activate!
       user.subscribe_and_welcome
       flash[:notice] = "Signup complete! Please sign in to continue."
-    when params[:activation_code].blank?
+    elsif code.blank?
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
-    else
-      flash[:error]  = "We couldn't find an artist with that activation code -- check your email?"+
-        " Or maybe you've already activated -- try signing in."
     end
 
     redirect_to login_path
