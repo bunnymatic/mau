@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :artist_info do
-    open_studios_participation { OpenStudiosEvent.current.try(:key) || '201010' }
     street { '1890 bryant st' }
     city { 'san francisco' }
     addr_state { 'ca' }

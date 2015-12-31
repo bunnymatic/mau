@@ -356,7 +356,6 @@ describe Artist do
     before do
       artist
       wayout_artist
-      artist
     end
     describe ".without_art" do
       it 'does not include fans' do
