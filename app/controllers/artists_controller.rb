@@ -41,7 +41,7 @@ class ArtistsController < ApplicationController
   def edit
     @user = safe_find_artist params[:id]
     if !@user || (@user != current_user) || current_user[:type] != 'Artist'
-      redirect_to edit_user_path(current_user), flash: flash
+      redirect_to edit_user_path(current_user)
       return
     end
     @user = ArtistPresenter.new(current_artist)
@@ -127,7 +127,7 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       format.html {
         if !@artist
-          redirect_to artists_path, flash: { error: 'We were unable to find the artist you were looking for.' }
+          redirect_to artists_path, error: 'We were unable to find the artist you were looking for.'
         else
           @artist = ArtistPresenter.new( @artist)
           set_artist_meta
@@ -175,7 +175,7 @@ class ArtistsController < ApplicationController
       if current_artist.update_attributes(attrs)
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
         flash[:notice] = "Your profile has been updated"
-        redirect_to edit_artist_url(current_user), flash: flash
+        redirect_to edit_artist_url(current_user)
       else
         @user = ArtistPresenter.new(current_artist)
         @studios = StudioService.all

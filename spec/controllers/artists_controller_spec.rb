@@ -505,7 +505,7 @@ describe ArtistsController do
       login_as artist
     end
     it 'assigns a new art piece' do
-      get :manage_art, artist_id: artist.id
+      get :manage_art, id: artist.id
       expect(assigns(:art_piece)).to be_a_kind_of ArtPiece
     end
   end
