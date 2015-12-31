@@ -2,16 +2,19 @@ require 'rails_helper'
 
 describe AdminEmailList do
 
-  before do
-    FactoryGirl.create(:open_studios_event, :future)
-    FactoryGirl.create_list(:artist, 2, :active)
-    FactoryGirl.create_list(:artist, 2)
-  end
-
   let(:current) { OpenStudiosEvent.current }
   let(:listname) { 'active' }
   subject(:email_list) { AdminEmailList.new(listname) }
   let(:emails) { email_list.emails }
+
+  before do
+    FactoryGirl.create(:open_studios_event, :future)
+    artists = FactoryGirl.create_list(:artist, 2, :active)
+    FactoryGirl.create_list(:artist, 2)
+    artists.each do |artist|
+      artist.artist_info.update_os_participation current.key, true
+    end
+  end
 
   its(:display_title) { is_expected.to eql "Activated [#{Artist.active.count}]" }
   its(:artists) { is_expected.to match_array Artist.active }
