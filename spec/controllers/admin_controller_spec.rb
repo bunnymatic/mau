@@ -99,11 +99,11 @@ describe AdminController do
     end
 
     describe 'csv' do
-      let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
+      let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({headers:true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
       before do
         pending_artist
-        get :emaillist, :format => :csv, :listname => 'pending'
+        get :emaillist, format: :csv, listname: 'pending'
       end
       it { expect(response).to be_success }
       it { expect(response).to be_csv_type }
@@ -130,7 +130,7 @@ describe AdminController do
     it { expect(response).to be_success }
     it { expect(response).to render_template 'fans' }
     it "assigns fans" do
-      expect(assigns(:fans).length).to eql User.active.all(:conditions => 'type <> "Artist"').length
+      expect(assigns(:fans).length).to eql (User.active.count - Artist.active.count)
     end
   end
 
@@ -154,8 +154,8 @@ describe AdminController do
       end
 
       login_as admin
-      FeaturedArtistQueue.not_yet_featured.all(:limit => 3).each_with_index do |fa, idx|
-        fa.update_attributes(:featured => Time.zone.now - (2*idx).weeks)
+      FeaturedArtistQueue.not_yet_featured.limit(3).each_with_index do |fa, idx|
+        fa.update_attributes(featured: (Time.zone.now - (2*idx).weeks))
       end
       get :featured_artist
     end
@@ -170,7 +170,7 @@ describe AdminController do
       assert_select '.artist_info .controls a', 'Tell me I\'m Featured'
     end
     it "includes previously featured artists" do
-      assert_select('.previously_featured li', :count => 2)
+      assert_select('.previously_featured li', count: 2)
     end
     it 'includes a button to get the next featured artist' do
       assert_select('#get_next_featured')
@@ -199,7 +199,7 @@ describe AdminController do
         end
         it "post with override gets the next artist" do
           expect {
-            post :featured_artist, :override => true
+            post :featured_artist, override: true
           }.to change(FeaturedArtistQueue.featured, :count).by(1)
         end
       end
@@ -238,7 +238,7 @@ describe AdminController do
         context 'with good args' do
           before do
             allow(Dir).to receive(:glob).and_return(["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
-            get :fetch_backup, :name => "file1.tgz"
+            get :fetch_backup, name: "file1.tgz"
           end
           it "returns the file" do
             expect(response.content_type).to eql 'application/octet-stream'
@@ -250,13 +250,13 @@ describe AdminController do
           before do
             get :fetch_backup
           end
-          it { expect(response).to redirect_to(admin_path(:action => :db_backups)) }
+          it { expect(response).to redirect_to(admin_path(action: :db_backups)) }
         end
         context 'with bad filename args' do
           before do
-            get :fetch_backup, :name => 'blow'
+            get :fetch_backup, name: 'blow'
           end
-          it { expect(response).to redirect_to(admin_path(:action => :db_backups)) }
+          it { expect(response).to redirect_to(admin_path(action: :db_backups)) }
         end
       end
       describe '#db_backups' do
@@ -286,7 +286,7 @@ describe AdminController do
           end
           it "includes named links to the database dump files" do
             assigns(:dbfiles).each do |f|
-              link = admin_fetch_backup_path(:name => File.basename(f.path))
+              link = admin_fetch_backup_path(name: File.basename(f.path))
               assert_select("li a[href=#{link}]", /#{f.ctime.strftime("%b %d, %Y %H:%M")}/)
               assert_select("li a[href=#{link}]", /\d+\s+MB/)
             end
