@@ -28,7 +28,6 @@ describe User do
     user.password = ''
     user.password_confirmation = ''
     user.valid?
-    expect(user).to have_at_least(1).error_on(:password)
     expect(user).to have_at_least(1).error_on(:password_confirmation)
   end
 

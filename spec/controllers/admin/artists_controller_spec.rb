@@ -49,8 +49,8 @@ describe Admin::ArtistsController do
           it 'renders activation link for inactive artists' do
             activation_url = activate_url(activation_code: pending.activation_code)
             assert_select("tr.pending a[href=#{artist_path(pending)}]")
-            assert_select('.activation-link', count: Artist.all.count{|a| !a.active? && a.activation_code.present?})
-            assert_select('.activation-link .tooltip-content', match: activation_url )
+            assert_select('.activation-link', count: Artist.all.select{|a| !a.active? && a.activation_code.present?}.count)
+            assert_select('.activation-link .tooltip-content', text: activation_url )
           end
           it 'renders forgot link if there is a reset code' do
             assert_select('.forgot-password-link',

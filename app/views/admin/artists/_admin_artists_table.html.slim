@@ -45,7 +45,7 @@
             td
               .email = a.email
               .address = a.address
-              - if a.has_activation_code?
+              - if a.has_activation_code? && !a.active?
                 .admin-tooltip.activation-link
                   i.fa.fa-link
                   | Activation Link
