@@ -10,9 +10,9 @@ class ActiveRecord::Base
   #   end
   # end
 
-  def self.find_random(num = 1, opts = {})
+  def self.find_random(num = 1)
     # skip out if we don't have any
-    return nil if (max = self.count(opts)) == 0
+    return nil if (max = self.count) == 0
 
     # don't request more than we have
     num = [max,num].min
@@ -31,6 +31,6 @@ class ActiveRecord::Base
     end
 
     # we've got a random set of ids - now go pull out the records
-    find_ids.map {|the_id| first(opts.merge(:offset => the_id)) }
+    find_ids.map {|the_id| all.offset(the_id).take}
   end
 end

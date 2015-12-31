@@ -92,7 +92,7 @@ class UsersController < ApplicationController
     else
       msg[:error] = "Your old password was incorrect"
     end
-    redirect_to edit_user_path(current_user, anchor: 'password'), msg
+    redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
   def reset

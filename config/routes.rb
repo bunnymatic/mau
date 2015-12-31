@@ -122,7 +122,7 @@ Mau::Application.routes.draw do
       get :os_signups
     end
 
-    get '/discount/markup' => 'discount#markup', as: :discount_processor, via: [:get, :post]
+    match '/discount/markup' => 'discount#markup', as: :discount_processor, via: [:get, :post]
 
     post :featured_artist, as: :get_next_featured
 
