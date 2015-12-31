@@ -58,23 +58,21 @@ class AdminEmailList < ViewPresenter
   end
 
   def artists_by_list
-    @artists_by_list ||=
-      begin
-        case list_names.first
-        when 'fans'
-          MAUFan.all
-        when *available_open_studios_keys
-          Artist.active.open_studios_participants(list_names.first)
-        when 'all'
-          Artist.all
-        when 'active', 'pending'
-          Artist.send(list_names.first).all
-        when 'no_profile'
-          Artist.active.where("profile_image is null")
-        when 'no_images'
-          Artist.active.select{|a| a.art_pieces.count > 0}
-        end
-      end
+    list_name = list_names.first
+    case list_name
+    when 'fans'
+      MAUFan.all
+    when *available_open_studios_keys
+      Artist.active.open_studios_participants(list_name)
+    when 'all'
+      Artist.all
+    when 'active', 'pending'
+      Artist.send(list_names.first).all
+    when 'no_profile'
+      Artist.active.where("profile_image is null")
+    when 'no_images'
+      Artist.active.select{|a| a.art_pieces.count > 0}
+    end
   end
 
   def lists

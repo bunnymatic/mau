@@ -13,23 +13,9 @@ describe AdminEmailList do
   subject(:email_list) { AdminEmailList.new(listname) }
   let(:emails) { email_list.emails }
 
-  describe '#display_title' do
-    subject { super().display_title }
-    it { should eql "Activated [#{Artist.active.count}]" }
-  end
-
-  describe '#artists' do
-    subject { super().artists }
-    describe '#to_a' do
-      subject { super().to_a }
-      it { should eql Artist.active.to_a }
-    end
-  end
-
-  describe '#csv_filename' do
-    subject { super().csv_filename }
-    it { should eql 'email_active.csv' }
-  end
+  its(:display_title) { is_expected.to eql "Activated [#{Artist.active.count}]" }
+  its(:artists) { is_expected.to match_array Artist.active }
+  its(:csv_filename) { is_expected.to eql 'email_active.csv' }
 
   it 'includes the normal lists' do
     %w(all active pending fans no_profile no_images).each do |k|
@@ -40,10 +26,7 @@ describe AdminEmailList do
   context 'listname is fans' do
     let(:listname) { 'fans' }
 
-    describe '#csv_filename' do
-      subject { super().csv_filename }
-      it { should eql 'email_fans.csv' }
-    end
+    its(:csv_filename) { is_expected.to eql 'email_fans.csv' }
 
     it 'assigns a list of fans emails when we ask for the fans list' do
       expect(emails.length).to eql MAUFan.all.count
@@ -58,10 +41,7 @@ describe AdminEmailList do
   context 'listname is pending' do
     let(:listname) { 'pending' }
 
-    describe '#csv_filename' do
-      subject { super().csv_filename }
-      it { should eql 'email_pending.csv' }
-    end
+    its(:csv_filename) { is_expected.to eql 'email_pending.csv' }
 
     it 'assigns a list of pending emails when we ask for the fans list' do
       expect(email_list.artists.to_a).to eql Artist.pending.to_a
@@ -90,10 +70,7 @@ describe AdminEmailList do
     let(:ostags) { OpenStudiosEvent.all.map(&:key) }
     let(:listname) { ostags }
 
-    describe '#csv_filename' do
-      subject { super().csv_filename }
-      it { should eql 'email_' + listname.join("_") + ".csv" }
-    end
+    its(:csv_filename) { is_expected.to eql 'email_' + listname.join("_") + ".csv" }
 
     it 'returns emails that have been in both open studios' do
       expected = Artist.active.select{|a| a.os_participation[ostags.first]}.map(&:email) |
