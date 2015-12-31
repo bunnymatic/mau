@@ -55,7 +55,7 @@ describe Admin::EmailListsController do
       end
 
       it "the feedback lists are full of Email objects" do
-        expect(assigns(:all_lists)[:feedback].emails).to be_a_kind_of Array
+        expect(assigns(:all_lists)[:feedback].emails).to have_at_least(1).email
         expect(assigns(:all_lists)[:feedback].emails.first).to be_a_kind_of Email
       end
 
@@ -64,7 +64,7 @@ describe Admin::EmailListsController do
       end
 
       it "the admin lists are full of Email objects" do
-        expect(assigns(:all_lists)[:admin].emails).to be_a_kind_of Array
+        expect(assigns(:all_lists)[:admin].emails).to have_at_least(1).email
         expect(assigns(:all_lists)[:admin].emails.first).to be_a_kind_of Email
       end
 
