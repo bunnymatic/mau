@@ -21,5 +21,5 @@
             %td.input-name.ct #{ct}
             %td.admin-controls
               .remove.btn
-                = link_to tag, confirm: 'Are you sure?', method: :delete, title: 'Remove' do
+                = link_to [:admin, tag], confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                   = fa_icon 'remove'
