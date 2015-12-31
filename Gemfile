@@ -117,26 +117,28 @@ group :development do
 end
 
 group :test, :development do
-  gem "elasticsearch-extensions", require: nil
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  gem 'guard-jasmine'
   gem 'rspec'
   gem 'rspec-its'
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
   gem 'em-rspec', require: false, git: 'https://github.com/jwroblewski/em-rspec.git'
-  gem 'jslint_on_rails'
-  gem 'pry'
-  gem 'pry-byebug'
+  gem 'jasminerice', github: 'bradphelan/jasminerice'
+  gem 'timecop'
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+
+  gem 'guard-rspec'
+  gem 'guard-jasmine'
+  gem 'guard-cucumber'
   gem 'rb-fsevent'
+  gem "elasticsearch-extensions", require: nil
+
+
   gem 'simplecov'
   gem 'cane'
   gem 'morecane'
-  gem 'guard-cucumber'
-  gem 'database_cleaner'
-  gem 'shoulda-matchers'
   gem 'quiet_assets'
-  gem 'jasminerice', github: 'bradphelan/jasminerice'
-  gem 'timecop'
+
+  gem 'jslint_on_rails'
+  gem 'pry-byebug'
 end

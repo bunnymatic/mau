@@ -44,9 +44,8 @@ describe TagCloudPresenter, :type => :controller do
 
   describe '#tags' do
     subject { super().tags }
-    describe '#all' do
-      subject { super().all }
-      it { should eql ArtPieceTag.where(:id => expected_frequency.map{|f| f['tag']}).all }
+    it "returns tags that have frequency" do
+      expect(subject.all).to match_array(ArtPieceTag.where(:id => expected_frequency.map{|f| f['tag']}).all)
     end
   end
 

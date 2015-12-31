@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     else
       msg[:error] = ex.to_s
     end
-    redirect_to edit_user_url(current_user), msg
+    redirect_to edit_user_url(current_user), flash: msg
   end
 
   def create

@@ -624,23 +624,26 @@ describe UsersController do
     end
   end
 
-  describe 'activate' do
-    describe 'with valid activation code' do
-      before do
-        expect_any_instance_of(User).to receive(:activate!)
-      end
-      it 'redirects to login' do
-        get :activate, :activation_code => pending_fan.activation_code
-        expect(response).to redirect_to login_url
-      end
-      it 'flashes a notice' do
-        get :activate, :activation_code => pending_fan.activation_code
-        expect(flash[:notice]).to include 'Signup complete!'
-      end
-      it 'activates the user' do
-        get :activate, :activation_code => pending_fan.activation_code
+  VCR.use_cassette('mailchimp') do
+    describe 'activate' do
+      describe 'with valid activation code' do
+        before do
+          expect_any_instance_of(User).to receive(:activate!)
+        end
+        it 'redirects to login' do
+          get :activate, :activation_code => pending_fan.activation_code
+          expect(response).to redirect_to login_url
+        end
+        it 'flashes a notice' do
+          get :activate, :activation_code => pending_fan.activation_code
+          expect(flash[:notice]).to include 'Signup complete!'
+        end
+        it 'activates the user' do
+          get :activate, :activation_code => pending_fan.activation_code
+        end
       end
     end
+
     describe 'with invalid activation code' do
       it 'redirects to login' do
         get :activate, :activation_code => 'blah'
