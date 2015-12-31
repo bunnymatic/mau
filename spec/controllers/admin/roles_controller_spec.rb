@@ -98,7 +98,7 @@ describe Admin::RolesController do
           expect { delete :destroy, :id => manager_role.id }.to change(Role, :count).by(-1)
         end
         it 'removes the role from all users' do
-          ru = RolesUser.find_all_by_role_id(manager_role.id)
+          ru = RolesUser.where(role: manager_role)
           expected_change = ru.count
           expect { delete :destroy, :id => manager_role.id }.to change(RolesUser, :count).by(-expected_change)
           artist.reload

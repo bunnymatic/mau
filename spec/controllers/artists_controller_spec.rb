@@ -145,6 +145,7 @@ describe ArtistsController do
         end
 
         it "sets false if artist has no address" do
+          without_address.artist_info.update_attribute(:open_studios_participation, '')
           xhr :put, :update, id: without_address, commit: 'submit', artist: { "os_participation" => '1' }
           expect(without_address.reload.os_participation[OpenStudiosEvent.current.key]).to be_nil
         end
