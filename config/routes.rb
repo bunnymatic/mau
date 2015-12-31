@@ -53,8 +53,9 @@ Mau::Application.routes.draw do
       resources :favorites, only: [:index]
       put :suspend
       put :change_password_update
+      patch :change_password_update
     end
-    resources :roles, only: [:destroy], controller: :admin_roles
+    resources :roles, only: [:destroy]
   end
 
 
