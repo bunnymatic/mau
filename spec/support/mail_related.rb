@@ -1,7 +1,7 @@
 module MailRelated
 
   def stub_signup_notification
-    allow(ArtistMailer).to receive(:signup_notification).and_return(double('OutgoingEmail', "deliver_now" => true))
+    allow(ArtistMailer).to receive(:signup_notification).and_return(double('OutgoingEmail', "deliver" => true))
   end
 
   def mock_mailchimp_client

@@ -50,3 +50,5 @@ Rails.application.configure do
   config.elasticsearch_url = 'http://localhost:9220'
 
 end
+
+Rails.application.routes.default_url_options[:host] = 'mautest.example.com'
