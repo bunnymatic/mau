@@ -75,6 +75,4 @@ Scenario: I cannot edit my password if the confirmation doesn't match
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahblah"
   And I click on "Save Changes"
-  Then I see a flash error "Password doesn't match confirmation"
-
-  
+  Then I see a flash error "Password confirmation doesn't match"
