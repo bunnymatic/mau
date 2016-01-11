@@ -1,5 +1,5 @@
 module Admin
-  class RolesController < BaseAdminController
+  class RolesController < ::BaseAdminController
     before_filter :admin_required
     def index
       @roles = Role.all

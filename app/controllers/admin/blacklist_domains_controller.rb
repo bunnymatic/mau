@@ -1,5 +1,5 @@
 module Admin
-  class BlacklistDomainsController < BaseAdminController
+  class BlacklistDomainsController < ::BaseAdminController
     before_filter :admin_required
     before_filter :load_blacklist_domain, only: [:edit, :destroy, :update, :show]
 

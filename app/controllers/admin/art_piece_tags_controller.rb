@@ -1,5 +1,5 @@
 module Admin
-  class ArtPieceTagsController < BaseAdminController
+  class ArtPieceTagsController < ::BaseAdminController
     def index
       @tags = ArtPieceTagService.tags_sorted_by_frequency
     end

@@ -1,5 +1,5 @@
 module Admin
-  class StudiosController < BaseAdminController
+  class StudiosController < ::BaseAdminController
 
     before_filter :manager_required
     before_filter :admin_required, only: [:new, :create, :destroy]

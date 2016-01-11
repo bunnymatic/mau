@@ -1,4 +1,4 @@
-class RolesController < BaseAdminController
+class RolesController < ::BaseAdminController
 
   def destroy
     if params[:id] && params[:user_id]

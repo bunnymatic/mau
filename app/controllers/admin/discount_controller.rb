@@ -1,6 +1,6 @@
 require 'rdiscount'
 module Admin
-  class DiscountController < BaseAdminController
+  class DiscountController < ::BaseAdminController
     def markup
       html = MarkdownService.markdown(params[:markdown])
       render :text => html

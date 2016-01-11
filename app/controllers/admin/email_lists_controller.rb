@@ -1,5 +1,5 @@
 module Admin
-  class EmailListsController < BaseAdminController
+  class EmailListsController < ::BaseAdminController
     def index
       @all_lists = {
         :feedback => FeedbackMailerList.first,

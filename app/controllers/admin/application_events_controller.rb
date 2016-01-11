@@ -1,5 +1,5 @@
 module Admin
-  class ApplicationEventsController < BaseAdminController
+  class ApplicationEventsController < ::BaseAdminController
 
     def index
       @events_by_type = ApplicationEvent.by_recency.inject({}) do |result, item|
