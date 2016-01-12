@@ -56,8 +56,8 @@ describe ArtistPresenter do
 
   it 'has a good map div for google maps' do
     map_info = subject.get_map_info
-    html = Nokogiri::HTML::DocumentFragment.parse(map_info)
-    expect(html.css('.map__info-window-art')).to be_present
+    html = Capybara::Node::Simple.new(map_info)
+    expect(html).to have_selector('.map__info-window-art')
   end
 
 
@@ -70,8 +70,8 @@ describe ArtistPresenter do
     let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
     it 'has a good map div for google maps' do
       map_info = subject.get_map_info
-      html = Nokogiri::HTML::DocumentFragment.parse(map_info)
-      expect(html.css('.map__info-window-art')).to be_present
+      html = Capybara::Node::Simple.new(map_info)
+      expect(html).to have_css('.map__info-window-art')
     end
   end
 

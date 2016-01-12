@@ -4,8 +4,8 @@ module Admin
     before_filter :editor_required, :only => [ :notify_featured ]
 
     def index
-      get_sort_options_from_params
-      @artist_list = AdminArtistList.new(@sort_by, @reverse)
+      #get_sort_options_from_params
+      @artist_list = AdminArtistList.new
       @active_artist_list, @inactive_artist_list = @artist_list.partition{|a| a.pending? || a.active?}
       respond_to do |format|
         format.html
@@ -54,7 +54,7 @@ module Admin
 
     def notify_featured
       id = Integer(params[:id])
-      ArtistMailer.notify_featured(Artist.find(id)).deliver
+      ArtistMailer.notify_featured(Artist.find(id)).deliver_later
       render :layout => false, :nothing => true, :status => :ok
     end
 
@@ -62,6 +62,7 @@ module Admin
     def get_sort_options_from_params
       @sort_by = params[:sort_by] || params[:rsort_by]
       @reverse = params.has_key? :rsort_by
+      puts "sort #{@sort_by} #{@reverse}"
     end
 
     # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not

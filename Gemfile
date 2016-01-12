@@ -2,8 +2,9 @@ source 'https://rubygems.org'
 ruby '2.1.5'
 
 gem 'racc'
-gem "rails", '~> 4.1.10'
+gem "rails", '~> 4.2'
 gem 'active_model_serializers'
+gem 'responders'
 gem "font-awesome-rails"
 gem "nokogiri"
 gem "htmlentities"

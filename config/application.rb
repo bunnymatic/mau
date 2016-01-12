@@ -49,6 +49,7 @@ module Mau
 
     # # move to strong params
     # config.active_record.whitelist_attributes = false
+    config.active_record.raise_in_transactional_callbacks = true
 
     config.s3_info = {
       bucket: ::Conf.S3_BUCKET || "mission-artists-#{Rails.env}",

@@ -6,23 +6,6 @@ class AdminArtistList < ViewPresenter
 
   ALLOWED_SORT_BY = ['studio_id','lastname','firstname','id','login','email', 'activated_at'].freeze
 
-  def initialize(sort_by, reverse)
-    set_sort_by(sort_by)
-    @reverse = reverse
-  end
-
-  def reverse_sort_links
-    allowed_sort_by.map do |key|
-      link_to key, url_helpers.admin_artists_path(:rsort_by => key)
-    end
-  end
-
-  def sort_links
-    allowed_sort_by.map do |key|
-      link_to key, url_helpers.admin_artists_path(:sort_by => key)
-    end
-  end
-
   def raw_artists
     @raw_artists ||= Artist.all.includes(:artist_info, :studio, :art_pieces).order(sort_by_clause)
   end

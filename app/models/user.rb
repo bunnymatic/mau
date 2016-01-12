@@ -256,7 +256,7 @@ class User < ActiveRecord::Base
   def notify_favorited_user(fav)
     artist = (fav.is_a? User) ? fav : fav.artist
     if artist && artist.emailsettings['favorites']
-      ArtistMailer.favorite_notification(artist, self).deliver
+      ArtistMailer.favorite_notification(artist, self).deliver_later
     end
   end
 
@@ -308,7 +308,7 @@ class User < ActiveRecord::Base
   def tell_user_they_signed_up
     if is_artist?
       reload
-      ArtistMailer.signup_notification(self).deliver
+      ArtistMailer.signup_notification(self).deliver_later
     end
   end
 
@@ -316,11 +316,11 @@ class User < ActiveRecord::Base
     mailer_class = is_artist? ? ArtistMailer : UserMailer
     reload
     if recently_activated? && mailchimp_subscribed_at.nil?
-      mailer_class.activation(self).deliver
+      mailer_class.activation(self).deliver_later
       FeaturedArtistQueue.create(artist_id: id, position: rand) if is_artist?
     end
-    mailer_class.reset_notification(self).deliver if recently_reset?
-    mailer_class.resend_activation(self).deliver if resent_activation?
+    mailer_class.reset_notification(self).deliver_later if recently_reset?
+    mailer_class.resend_activation(self).deliver_later if resent_activation?
   end
 
   def trying_to_favorite_yourself?(fav)
