@@ -60,5 +60,6 @@ module Mau
     config.api_consumer_key = ENV.fetch("API_CONSUMER_KEY", ::Conf.api_consumer_key)
     config.elasticsearch_url = ENV['ELASTICSEARCH_URL'] || 'http://localhost:9200'
 
+    config.active_support.test_order = :random
   end
 end
