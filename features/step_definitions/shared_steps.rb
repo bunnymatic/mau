@@ -277,3 +277,15 @@ Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|
     expect(page).to have_content text
   end
 end
+
+Then(/^the page meta name "([^"]*)" tag includes "([^"]*)"$/) do |tag, content|
+  entry = find "head meta[name=#{tag}]"
+  expect(entry['content']).to include content
+  end
+end
+
+Then(/^the page meta property "([^"]*)" tag includes "([^"]*)"$/) do |tag, content|
+  entry = find "head meta[property=#{tag}]"
+  expect(entry['content']).to include content
+  end
+end

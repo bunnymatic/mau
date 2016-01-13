@@ -28,29 +28,11 @@ describe MainController do
   end
 
   describe "#index" do
-    render_views
     context 'not logged in' do
       before do
         get :index
       end
-      it 'has the default description & keywords' do
-        assert_select 'head meta[name=description]' do |desc|
-          expect(desc.length).to eql 1
-          expect(desc[0].attributes['content']).to match /^Mission Artists United is a website/
-        end
-        assert_select 'head meta[property=og:description]' do |desc|
-          expect(desc.length).to eql 1
-          expect(desc[0].attributes['content']).to match /^Mission Artists United is a website/
-        end
-        assert_select 'head meta[name=keywords]' do |keywords|
-          expect(keywords.length).to eql 1
-          expected = ["art is the mission", "art", "artists", "san francisco"]
-          actual = keywords[0].attributes['content'].split(',').map(&:strip)
-          expected.each do |ex|
-            expect(actual).to include ex
-          end
-        end
-      end
+      it { expect(response).to be_success }
     end
   end
 
