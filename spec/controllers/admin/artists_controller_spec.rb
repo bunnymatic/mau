@@ -34,7 +34,6 @@ describe Admin::ArtistsController do
       end
       context 'format=html' do
         context 'with no params' do
-          render_views
           before do
             allow_any_instance_of(ArtistInfo).to receive(:os_participation).and_return({ current_os.key => true})
             allow_any_instance_of(Artist).to receive(:os_participation).and_return({ current_os.key => true}, address: { yes: 'we do' })
@@ -43,21 +42,6 @@ describe Admin::ArtistsController do
             get :index
           end
           it { expect(response).to be_success }
-          it 'renders a csv export link' do
-            assert_select('a.export-csv', /Export/)
-          end
-          it 'renders activation link for inactive artists' do
-            activation_url = activate_url(activation_code: pending.activation_code)
-            assert_select("tr.pending a[href=?]", artist_path(pending))
-            assert_select('.activation-link', count: Artist.all.select{|a| !a.active? && a.activation_code.present?}.count)
-            assert_select('.activation-link .tooltip-content', text: activation_url )
-          end
-          it 'renders forgot link if there is a reset code' do
-            assert_select('.forgot-password-link',
-                          count: Artist.all.select{|s| s.reset_code.present?}.count)
-            assert_select('.forgot-password-link .tooltip-content',
-                          match: reset_url(reset_code: password_reset.reset_code))
-          end
         end
       end
       context 'format=csv' do
@@ -108,7 +92,7 @@ describe Admin::ArtistsController do
         expect(response).to be_success
       end
       it 'calls the notify_featured mailer' do
-        expect(ArtistMailer).to receive(:notify_featured).exactly(:once).and_return(double(:deliver => true))
+        expect(ArtistMailer).to receive(:notify_featured).exactly(:once).and_return(double("ArtistMailer::NotifyFeatured",deliver_later: true))
         post :notify_featured, id: artist.id
       end
     end

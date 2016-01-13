@@ -72,7 +72,6 @@ describe MainController do
   end
 
   describe '#main/venues' do
-    render_views
     context "while not logged in" do
       before do
         get :venues
@@ -89,16 +88,6 @@ describe MainController do
         venue_doc
         login_as(admin)
         get :venues
-      end
-      it "renders the markdown version" do
-        assert_select '.markdown h1', :match => 'these'
-        assert_select '.markdown h2', :match => 'are'
-        assert_select '.markdown h3', :match => 'venues'
-        assert_select '.markdown ul li', :count => 3
-      end
-      it 'the markdown entry have cms document ids in them' do
-        assert_select '.markdown.editable[data-cmsid=%s]' % venue_doc.id
-
       end
     end
   end

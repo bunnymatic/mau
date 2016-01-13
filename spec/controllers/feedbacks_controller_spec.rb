@@ -21,7 +21,7 @@ describe FeedbacksController do
   describe '#create' do
     context 'with no info' do
       before do
-        get :create, :feedback => { :whatever => 'blah' }
+        get :create, feedback: { whatever: 'blah' }
       end
       it { expect(assigns(@error_message)).to be_present }
       it { expect(response).to render_template :new }
@@ -29,12 +29,12 @@ describe FeedbacksController do
     end
     context 'with good data' do
       before do
-        expect(FeedbackMailer).to receive(:feedback).and_return(double(:deliver => true))
+        expect(FeedbackMailer).to receive(:feedback).and_return(double(deliver_later: true))
         expect{
-          get :create, {:feedback => {
-              :email => 'joe@wherever.com',
-              :comment => 'this is the comment',
-              :subject => 'this is the subject'}
+          get :create, {feedback: {
+              email: 'joe@wherever.com',
+              comment: 'this is the comment',
+              subject: 'this is the subject'}
           }
         }.to change(Feedback, :count).by(1)
       end

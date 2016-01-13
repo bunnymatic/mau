@@ -34,7 +34,6 @@ describe StudiosController do
   end
 
   describe "#show" do
-    render_views
 
     describe 'unknown studio' do
       before do
@@ -53,15 +52,7 @@ describe StudiosController do
           allow_any_instance_of(Studio).to receive(:cross_street).and_return('fillmore')
           get :show, id: studio.slug, format: 'html'
         end
-        it "studio url is a link" do
-          assert_select(".studio__website a[href=#{studio.url}]")
-        end
-        it "studio includes cross street if there is one" do
-          assert_select('.studio-address', /\s+fillmore/)
-        end
-        it "studio info includes a phone if there is one" do
-          assert_select('.studio-phone', text: '(123) 456-9999')
-        end
+        it {expect(response).to be_success}
       end
 
       describe 'json' do

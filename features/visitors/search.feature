@@ -1,4 +1,4 @@
-@javascript @elasticsearch
+@javascript
 Feature:
   Visitors can search for art
 

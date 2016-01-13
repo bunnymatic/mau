@@ -5,13 +5,6 @@ GIT
     jasminerice (0.1.0)
       coffee-rails
 
-GIT
-  remote: https://github.com/jwroblewski/em-rspec.git
-  revision: 51b9d71cb1ee0f01ecbf9ea3eaf0f510f5fe6a1c
-  specs:
-    em-rspec (0.1.1)
-      eventmachine (>= 0.12.10)
-
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -168,7 +161,6 @@ GEM
       faraday
       multi_json
     erubis (2.7.0)
-    eventmachine (1.0.8)
     execjs (2.6.0)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
@@ -396,7 +388,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    rdiscount (2.1.7.1)
+    rdiscount (2.1.8)
     recaptcha (0.4.0)
     ref (1.0.5)
     request_store (1.2.1)
@@ -543,7 +535,6 @@ DEPENDENCIES
   elasticsearch-extensions
   elasticsearch-model
   elasticsearch-rails
-  em-rspec!
   factory_girl
   factory_girl_rails
   faker

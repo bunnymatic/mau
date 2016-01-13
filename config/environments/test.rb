@@ -49,6 +49,7 @@ Rails.application.configure do
 
   config.elasticsearch_url = 'http://localhost:9220'
 
+  config.active_support.test_order = :random
 end
 
 Rails.application.routes.default_url_options[:host] = 'test.host'

@@ -295,7 +295,6 @@ describe UsersController do
   end
   describe "#edit" do
     context "while not logged in" do
-      render_views
       before do
         get :edit, id: 123123
       end
@@ -496,19 +495,12 @@ describe UsersController do
 
   describe "#reset" do
     context "get" do
-      render_views
       before do
         expect(User).to receive(:find_by_reset_code).and_return(fan)
         fan.update_attribute(:reset_code,'abc')
         get :reset, reset_code: 'abc'
       end
       it { expect(response).to be_success }
-      it "asks for password" do
-        assert_select('#user_password')
-      end
-      it "asks for password confirmation" do
-        assert_select('#user_password_confirmation')
-      end
     end
     context "get with invalid reset code" do
       before do
@@ -517,7 +509,6 @@ describe UsersController do
       it { expect(response.code).to eql "404" }
     end
     context "post" do
-      render_views
       context "with passwords that don't match" do
         before do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
@@ -526,12 +517,6 @@ describe UsersController do
               reset_code: 'abc' }
         end
         it { expect(response).to be_success }
-        it "asks for password" do
-          assert_select('#user_password')
-        end
-        it "asks for password confirmation" do
-          assert_select('#user_password_confirmation')
-        end
         it "has an error message" do
           expect(assigns(:user).errors.full_messages.length).to eql 1
         end
@@ -555,16 +540,11 @@ describe UsersController do
   end
 
   describe "resend_activation" do
-    render_views
     before do
       get :resend_activation
     end
 
     it { expect(response).to be_success }
-
-    it "shows email form" do
-      assert_select('#user_email')
-    end
 
     context "post with email that's not in the system" do
       before do

@@ -16,11 +16,6 @@ describe Admin::ArtistFeedsController do
     it "renders new or edit template" do
       expect(response).to render_template 'new_or_edit'
     end
-    it 'has time fields for start/end and reception start/end' do
-      assert_select('input#artist_feed_url')
-      assert_select('input#artist_feed_feed')
-      assert_select('input#artist_feed_active')
-    end
   end
 
   context 'not authorized' do
@@ -35,7 +30,6 @@ describe Admin::ArtistFeedsController do
   end
 
   describe 'as admin' do
-    render_views
     before do
       login_as admin
     end
@@ -44,26 +38,6 @@ describe Admin::ArtistFeedsController do
         get :index
       end
       it { expect(response).to be_success }
-      it 'has edit link for each feed' do
-        ArtistFeed.all.each do |feed|
-          assert_select ".feed_entry .controls a[href=#{edit_admin_artist_feed_path(feed)}]" do |tag|
-            assert_select '.fa-edit'
-          end
-        end
-      end
-      it 'has remove link for each feed' do
-        ArtistFeed.all.each do |feed|
-          assert_select ".feed_entry .controls a[href=#{admin_artist_feed_path(feed)}]" do |tag|
-            assert_select '.fa-remove'
-          end
-        end
-      end
-      it 'has the url and feed shown for each feed' do
-        ArtistFeed.all.each do |feed|
-          assert_select ".feed_entry .url", feed.url
-          assert_select ".feed_entry .feed", feed.feed
-        end
-      end
     end
     describe '#edit' do
       before do
@@ -92,16 +66,12 @@ describe Admin::ArtistFeedsController do
         end
       end
       context 'bad inputs' do
-        render_views
         let(:url) { 'h' }
         before do
           post :create, :artist_feed => feed_attrs
         end
         it 'renders the form' do
           expect(response).to render_template 'new_or_edit'
-        end
-        it 'renders the errors' do
-          assert_select '.error-msg', /too short/
         end
       end
     end

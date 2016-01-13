@@ -17,8 +17,11 @@ Scenario:  Drilling down to an art piece page from the sampler
   When I visit the home page
   And I click on the first artist's card
   Then I see that artist's profile page
+  And the meta description includes the artist's bio
   When I click on an art card
   And I see that art piece detail page
+  And the meta description includes that art piece's title
+  And the meta keywords includes that art piece's tags and medium
 
 @javascript
 Scenario:  Drilling down to an art piece page through the artists' index
@@ -33,7 +36,7 @@ Scenario:  Drilling down to an art piece page through the artists' index
 
   When I click on "artists"
   And I click on "m" in the ".gallery-paginator"
- 
+
   Then I see "mister mister"'s artist card
 
 Scenario:  The artists index can be sorted by first name

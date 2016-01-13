@@ -184,22 +184,6 @@ describe ArtistsController do
       end
       it { should redirect_to edit_user_path(fan) }
     end
-    context "while logged in as someone with no address" do
-      render_views
-      before do
-        login_as without_address
-        get :edit, id: without_address.to_param
-      end
-
-      it { expect(response).to be_success }
-      it "has the edit form" do
-        assert_select("form.formtastic.artist");
-      end
-      it 'includes the open studios edit section' do
-        assert_select("form.formtastic.artist .panel-collapse#events");
-        assert_select '#events', /You need to specify an address or studio/
-      end
-    end
 
     context "while logged in" do
       render_views
@@ -209,9 +193,6 @@ describe ArtistsController do
         get :edit, id: artist.to_param
       end
       it { expect(response).to be_success }
-      it 'has a hidden form for donation under the open studios section' do
-        assert_select '#paypal_donate_openstudios'
-      end
     end
   end
 
@@ -224,77 +205,10 @@ describe ArtistsController do
     end
 
     context "while not logged in" do
-      render_views
       before(:each) do
         get :show, id: artist_with_tags.id
       end
       it { expect(response).to be_success }
-      it 'has the artist\'s bio as the description' do
-        assert_select 'head meta[name=description]' do |desc|
-          expect(desc.length).to eql 1
-          c = desc.first.attributes['content']
-          expect(c).to match artist_with_tags.bio[0..50]
-          expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include html_encode(artist_with_tags.get_name, :named)
-        end
-        assert_select 'head meta[property=og:description]' do |desc|
-          expect(desc.length).to eql 1
-          c = desc.first.attributes['content']
-          expect(c).to include artist_with_tags.bio[0..50]
-          expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include html_encode(artist_with_tags.get_name, :named)
-        end
-      end
-      it 'has the artist\'s (truncated) bio as the description' do
-        long_bio = Faker::Lorem.paragraphs(15).join
-        artist_info.update_attribute(:bio, long_bio)
-        get :show, id: artist.id
-        assert_select 'head meta[name=description]' do |desc|
-          expect(desc.length).to eql 1
-          c = desc.first.attributes['content']
-          expect(c).to_not eql artist.bio
-          expect(c).to include artist.bio.to_s[0..420]
-          expect(c).to match /\.\.\.$/
-          expect(c).to match /^Mission Artists United Artist/
-          expect(c).to include html_encode(artist.get_name, :named)
-        end
-      end
-
-      it 'displays links to the media' do
-        media = artist_with_tags.art_pieces.compact.uniq.map{|ap| ap.medium.try(:name) }
-
-        # fixture validation
-        expect(media.size).to be >= 1
-
-        Medium.where(name: media).each do |med|
-          assert_select "a[href=#{medium_path(med)}]", med.name
-        end
-
-      end
-
-      it 'has the artist tags and media as the keywords' do
-        tags = artist_with_tags.art_pieces.map(&:tags).flatten.compact.uniq.map(&:name)
-        media = artist_with_tags.art_pieces.map{|ap| ap.medium.try(:name) }
-        expected = tags + media
-        assert expected.length > 0, 'Fixture for artist needs some tags or media associations'
-        assert_select 'head meta[name=keywords]' do |content|
-          expect(content.length).to eql 1
-          actual = content[0].attributes['content'].split(',').map(&:strip)
-          expected.each do |ex|
-            expect(actual).to include ex
-          end
-        end
-      end
-      it 'has the default keywords' do
-        assert_select 'head meta[name=keywords]' do |kws|
-          expect(kws.length).to eql 1
-          expected = ["art is the mission", "art", "artists", "san francisco"]
-          actual = kws[0].attributes['content'].split(',').map(&:strip)
-          expected.each do |ex|
-            expect(actual).to include ex
-          end
-        end
-      end
     end
 
     it "reports cannot find artist" do
@@ -302,53 +216,6 @@ describe ArtistsController do
       expect(response).to redirect_to artists_path
     end
 
-    context "while logged in" do
-      before do
-        login_as(artist)
-      end
-
-      context "after a user favorites the logged in artist and show the artists page" do
-        render_views
-        before do
-          artist2.add_favorite(artist)
-          get :show, id: artist.id
-        end
-        it { expect(response).to be_success }
-        it "has the user linked in the 'who favorites me' section" do
-          assert_select ".favorite-thumbs a[href^=/users/#{artist2.slug}] .artist__favorite-thumb"
-        end
-      end
-    end
-
-    context "after an artist favorites another artist and show the artists page" do
-      render_views
-      before do
-        artist.add_favorite(artist2)
-        login_as(artist)
-        get :show, id: artist.id
-      end
-      it { expect(response).to be_success }
-      it "shows favorites on show page with links" do
-        assert_select("a[href=#{favorites_path(artist)}]");
-      end
-    end
-
-    context "while not logged in" do
-      render_views
-      before(:each) do
-        artist.artist_info.update_attribute(:facebook, "http://www.facebook.com/#{artist.login}")
-        get :show, id: artist.id
-      end
-      it "website is present" do
-        assert_select(".link a[href=#{artist.url}]")
-      end
-      it "has no sidebar nav " do
-        expect(css_select('#sidebar_nav')).to be_empty
-      end
-      it "facebook is present and correct" do
-        assert_select(".link a[href=#{artist_info.facebook}]")
-      end
-    end
     describe 'logged in as admin' do
       before do
         login_as admin

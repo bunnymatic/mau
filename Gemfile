@@ -122,7 +122,6 @@ group :test, :development do
   gem 'rspec-its'
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
-  gem 'em-rspec', require: false, git: 'https://github.com/jwroblewski/em-rspec.git'
   gem 'jasminerice', github: 'bradphelan/jasminerice'
   gem 'timecop'
   gem 'database_cleaner'

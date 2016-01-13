@@ -144,7 +144,6 @@ describe AdminController do
   end
 
   describe '#featured_artist' do
-    render_views
     before do
 
       FeaturedArtistQueue.create!( position: rand, artist_id: artist.id )
@@ -166,15 +165,6 @@ describe AdminController do
     it "assigns the featured artist and the featured queue entry" do
       expect(assigns(:featured)).to be_a_kind_of(FeaturedArtistQueue)
     end
-    it 'includes a button to send the featured artist a note' do
-      assert_select '.artist_info .controls a', 'Tell me I\'m Featured'
-    end
-    it "includes previously featured artists" do
-      assert_select('.previously_featured li', count: 2)
-    end
-    it 'includes a button to get the next featured artist' do
-      assert_select('#get_next_featured')
-    end
     context "#post" do
       it "redirects to the featured_artist page" do
         post :featured_artist
@@ -190,12 +180,6 @@ describe AdminController do
         end
         it "renders the featured_artist template" do
           expect(response).to render_template :featured_artist
-        end
-        it 'includes an override checkbox to get the next featured artist' do
-          assert_select('input#override_date')
-        end
-        it 'shows a warning message' do
-          assert_select('.warning')
         end
         it "post with override gets the next artist" do
           expect {
@@ -231,7 +215,6 @@ describe AdminController do
         login_as admin
       end
       describe "#fetch_backup" do
-        render_views
         before do
           File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
         end
@@ -277,19 +260,6 @@ describe AdminController do
           end
           it "includes all files" do
             expect(assigns(:dbfiles).size).to eq(2)
-          end
-        end
-        context 'with views' do
-          render_views
-          before do
-            get :db_backups
-          end
-          it "includes named links to the database dump files" do
-            assigns(:dbfiles).each do |f|
-              link = admin_fetch_backup_path(name: File.basename(f.path))
-              assert_select("li a[href=#{link}]", /#{f.ctime.strftime("%b %d, %Y %H:%M")}/)
-              assert_select("li a[href=#{link}]", /\d+\s+MB/)
-            end
           end
         end
       end

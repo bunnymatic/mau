@@ -278,14 +278,12 @@ Then(/^I see "([^"]*)" in the "([^"]*)"$/) do |text, container|
   end
 end
 
-Then(/^the page meta name "([^"]*)" tag includes "([^"]*)"$/) do |tag, content|
-  entry = find "head meta[name=#{tag}]"
+Then(/^the page meta name "([^"]*)" includes "([^"]*)"$/) do |tag, content|
+  entry = find "head meta[name=#{tag}]", visible: false
   expect(entry['content']).to include content
-  end
 end
 
-Then(/^the page meta property "([^"]*)" tag includes "([^"]*)"$/) do |tag, content|
-  entry = find "head meta[property=#{tag}]"
+Then(/^the page meta property "([^"]*)" includes "([^"]*)"$/) do |tag, content|
+  entry = find "head meta[property='#{tag}']", visible: false
   expect(entry['content']).to include content
-  end
 end
