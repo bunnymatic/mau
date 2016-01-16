@@ -157,6 +157,7 @@ When(/^I click on an art card$/) do
     header = all('.header').map(&:text).join
     /#{@artist.full_name}/ =~ header
   end
+  @art_piece = @artist.art_pieces.first
 end
 
 Then(/^I see that art piece detail page$/) do
