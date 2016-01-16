@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ApplicationEventsHelper do
   describe 'link_to_user', eventmachine: true do

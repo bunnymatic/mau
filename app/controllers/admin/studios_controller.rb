@@ -1,5 +1,5 @@
 module Admin
-  class StudiosController < BaseAdminController
+  class StudiosController < ::BaseAdminController
 
     before_filter :manager_required
     before_filter :admin_required, only: [:new, :create, :destroy]
@@ -32,11 +32,16 @@ module Admin
     end
 
     def reorder
-      studioIds = reorder_studio_params
-      studiosLut = Hash[ Studio.find_all_by_slug(studioIds).map{|s| [s.slug, s]} ]
+      studio_slugs = reorder_studio_params
+      studios = Studio.where(slug: studio_slugs) + Studio.where(id: studio_slugs)
+      studios_lut = studios.inject({}) do |memo, studio|
+        memo[studio.slug] = studio
+        memo[studio.id.to_s] = studio
+        memo
+      end
       ActiveRecord::Base.transaction do
-        studioIds.each_with_index do |slug,idx|
-          studiosLut[slug].update_attribute :position, idx
+        studio_slugs.each_with_index do |slug,idx|
+          studios_lut[slug].update_attributes!(position: idx)
         end
       end
       render json: {status: :ok}

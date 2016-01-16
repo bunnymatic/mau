@@ -1,6 +1,6 @@
 require Rails.root.join('config/environments/production')
 
-Mau::Application.configure do
+Rails.application.configure do
 
   config.action_mailer.default_url_options = {
     :host => 'mau.rcode5.com'

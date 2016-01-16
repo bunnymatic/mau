@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe FeedbackMailer do
 
@@ -13,12 +13,6 @@ describe FeedbackMailer do
       expect(m.to).to include expected.email
     end
     expect(m.from).to include 'info@missionartistsunited.org'
-  end
-
-  it 'does not actually deliver the email' do
-    m = FeedbackMailer.feedback(fb)
-    expect(m).to_not receive(:old_deliver!)
-    m.deliver!
   end
 
 end

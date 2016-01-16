@@ -32,14 +32,14 @@ class FeaturedArtistQueue < ActiveRecord::Base
     if featured.count <= 0
       next_entry
     else
-      featured.all(:limit => 1).first
+      featured.all.take
     end
   end
 
   def self.next_entry(override = false)
     reset_queue if not_yet_featured.count == 0
     a = nil
-    current_featured_artist = featured.all(:limit => 1).first
+    current_featured_artist = featured.all.take
     if current_featured_artist && !override
       # we found a featured item
       if ((Time.zone.now - current_featured_artist.featured) < FEATURE_LIFETIME)

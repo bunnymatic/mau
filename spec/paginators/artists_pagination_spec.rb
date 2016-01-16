@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ArtistsPagination, :type => :controller do
 
@@ -31,18 +31,16 @@ describe ArtistsPagination, :type => :controller do
   end
 
   it '#link_to_next provides a link to the next page' do
-    lnk = HTML::Document.new(subject.link_to_next).root
-    assert_select lnk, 'a' do |tag|
-      expect(tag.first["href"]).to eql subject.next_link
-      expect(tag.first["title"]).to eql subject.next_title
-    end
+    lnk = Capybara::Node::Simple.new(subject.link_to_next)
+    anchor = lnk.all('a').first
+    expect(anchor['href']).to eql subject.next_link
+    expect(anchor['title']).to eql subject.next_title
   end
 
   it '#link_to_previous provides a link to the previous page' do
-    lnk = HTML::Document.new(subject.link_to_previous).root
-    assert_select lnk, 'a' do |tag|
-      expect(tag.first['href']).to eql subject.previous_link
-      expect(tag.first["title"]).to eql subject.previous_title
-    end
+    lnk = Capybara::Node::Simple.new(subject.link_to_previous)
+    anchor = lnk.all('a').first
+    expect(anchor['href']).to eql subject.previous_link
+    expect(anchor['title']).to eql subject.previous_title
   end
 end

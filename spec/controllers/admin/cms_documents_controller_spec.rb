@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe Admin::CmsDocumentsController do
 
   let(:editor) { FactoryGirl.create(:artist, :editor) }
@@ -31,23 +31,13 @@ describe Admin::CmsDocumentsController do
         get :show, :id => cms_document
       end
       it { expect(response).to be_success }
-      it 'renders the cms data properly' do
-        assert_select 'h2', 'pr header2'
-      end
     end
 
     describe '#edit' do
-      render_views
       before do
         get :edit, :id => cms_document
       end
       it { expect(response).to be_success }
-      it 'renders the cms preview' do
-        assert_select '#processed_markdown.markdown h2', 'pr header2'
-      end
-      it 'renders the cms edit box' do
-        assert_select 'textarea', :include => '## pr eader2'
-      end
     end
 
     describe '#new' do

@@ -1,5 +1,5 @@
 module Admin
-  class EmailsController < BaseAdminController
+  class EmailsController < ::BaseAdminController
 
     def index
       load_email_list

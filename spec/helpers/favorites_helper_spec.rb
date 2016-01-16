@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe FavoritesHelper do
   describe '#get_favorite_image_and_path' do

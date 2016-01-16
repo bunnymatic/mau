@@ -1,9 +1,8 @@
 require_relative "../../spec/support/test_es_server"
+require_relative "./webmock"
 
-Before("@elasticsearch") do
-  TestEsServer.start
-end
+TestEsServer.start
 
-After("@elasticsearch") do
+at_exit do
   TestEsServer.stop
 end

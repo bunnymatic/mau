@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ImageFileHelpers, :type => :helper do
   describe 'clean_filename' do

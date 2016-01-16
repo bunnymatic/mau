@@ -14,7 +14,7 @@ class FeedbacksController < ApplicationController
   def create
     @feedback = Feedback.new(feedback_params)
     if @feedback.save
-      FeedbackMailer.feedback(@feedback).deliver!
+      FeedbackMailer.feedback(@feedback).deliver_later
       render 'thankyou', :status => :created
     else
       @error_message = "Please enter a comment or hit cancel."

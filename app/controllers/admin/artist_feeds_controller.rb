@@ -1,5 +1,5 @@
 module Admin
-  class ArtistFeedsController < BaseAdminController
+  class ArtistFeedsController < ::BaseAdminController
 
     def index
       @feeds = ArtistFeed.all

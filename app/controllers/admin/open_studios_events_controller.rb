@@ -1,5 +1,5 @@
 module Admin
-  class OpenStudiosEventsController < BaseAdminController
+  class OpenStudiosEventsController < ::BaseAdminController
 
     before_filter :admin_required
 

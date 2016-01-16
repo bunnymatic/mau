@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe FeedsController do
   # NOTE: we haven't stubbed out the server net calls which we should probably do
@@ -102,10 +102,6 @@ describe FeedsController do
       before_sz = File.size(cache_filename)
       get :feed
       expect(File.size(cache_filename)).to eql before_sz
-    end
-    it 'does not call the Feeds fetch routine' do
-      expect_any_instance_of(FeedsController).to receive(:fetch_and_format_feed).never
-      get :feed
     end
   end
 

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe FavoritesController do
   let(:fan) { FactoryGirl.create(:fan) }
@@ -22,56 +22,43 @@ describe FavoritesController do
   end
 
   describe "#index" do
-    context "show" do
-      context "while not logged in" do
-        before do
-          get :index, id: fan.id
-        end
-        it { expect(response).to be_success }
+
+    context "while not logged in" do
+      before do
+        get :index, id: fan.id
       end
-      context "asking for a user that doesn't exist" do
-        before do
-          get :index, id: 'bogus'
-        end
-        it "redirects to all artists" do
-          expect(response).to redirect_to artists_path
-        end
-        it "flashes an error" do
-          expect(flash[:error]).to be_present
-        end
+      it { expect(response).to be_success }
+    end
+
+    context "asking for a user that doesn't exist" do
+      before do
+        get :index, id: 'bogus'
       end
-      context "while logged in as fan with no favorites" do
-        let(:artist) { FactoryGirl.create(:artist) }
-        before do
-          art_pieces
-          allow_any_instance_of(ArtPiece).to receive(:artist).and_return(artist)
-          login_as(fan)
-          get :index, id: fan.id
-        end
-        it { expect(response).to be_success }
+      it "redirects to all artists" do
+        expect(response).to redirect_to artists_path
       end
-      context "while logged in as artist" do
-        before do
-          allow_any_instance_of(ArtPiece).to receive(:artist).and_return(quentin)
-          login_as(artist)
-        end
-        it 'returns success' do
-          get :index, id: artist.id
-          expect(response).to be_success
-        end
-        context "who has favorites" do
-          before do
-            get :index, id: artist.id
-          end
-          it { expect(response).to be_success }
-        end
-      end
-      context "logged in as user looking at artist who has favorites " do
-        before do
-          get :index, id: artist.id
-        end
-        it { expect(response).to be_success }
+      it "flashes an error" do
+        expect(flash[:error]).to be_present
       end
     end
+
+    context "while logged in as fan with no favorites" do
+      before do
+        login_as(fan)
+        get :index, id: fan.id
+      end
+      it { expect(response).to be_success }
+    end
+
+    context "while logged in as artist" do
+      before do
+        login_as(artist)
+      end
+      it 'returns success' do
+        get :index, id: artist.id
+        expect(response).to be_success
+      end
+    end
+
   end
 end

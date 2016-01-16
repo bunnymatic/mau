@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Artist do
 
@@ -244,7 +244,7 @@ describe Artist do
         expect(artist.representative_pieces(3)).to eql artist.art_pieces[0..2]
       end
       it 'returns only as many pieces as the artist has' do
-        expect(artist.representative_pieces(1000)).to eql artist.art_pieces.all
+        expect(artist.representative_pieces(1000)).to eql artist.art_pieces.all.to_a
         expect(artist.representative_pieces(1000).count).to be < 1000
       end
     end
@@ -341,7 +341,7 @@ describe Artist do
     end
 
     it "returns art_pieces in by created at if there is no order" do
-      expect(artist.art_pieces).to eql artist.art_pieces.sort_by(&:created_at).reverse
+      expect(artist.art_pieces.to_a).to eql artist.art_pieces.sort_by(&:created_at).reverse
     end
 
     it "returns art_pieces in by created at, then order if there is order" do
@@ -356,7 +356,6 @@ describe Artist do
     before do
       artist
       wayout_artist
-      artist
     end
     describe ".without_art" do
       it 'does not include fans' do

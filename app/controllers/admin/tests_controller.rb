@@ -2,7 +2,7 @@ require 'qr4r'
 require 'tempfile'
 
 module Admin
-  class TestsController < BaseAdminController
+  class TestsController < ::BaseAdminController
     # GET /studios
     # GET /studios.xml
     before_filter :admin_required

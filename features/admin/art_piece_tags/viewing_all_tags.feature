@@ -13,5 +13,5 @@ Scenario: Viewing and cleaning out tags
   When I click on "tags" in the admin menu
   Then I see the "admin art piece tags" page
   When I destroy the first tag
-  Then I see the most popular tag page
+  Then I see the "admin art piece tags" page
   And I don't see the first tag anymore

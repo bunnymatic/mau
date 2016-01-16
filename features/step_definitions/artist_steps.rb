@@ -157,6 +157,7 @@ When(/^I click on an art card$/) do
     header = all('.header').map(&:text).join
     /#{@artist.full_name}/ =~ header
   end
+  @art_piece = @artist.art_pieces.first
 end
 
 Then(/^I see that art piece detail page$/) do
@@ -184,4 +185,23 @@ end
 Then(/^I see open studios artists on the artists list$/) do
   expect(page).to have_css '.artist-card'
   expect(page).to have_css 'h2', text: "Artists in #{OpenStudiosEventService.current.for_display(true)} Open Studios"
+end
+
+Then(/^the meta description includes the artist's bio$/) do
+  %q{Then the page meta name "description" includes "#{@artist.bio.first(50)}"}
+  %q{Then the page meta property "og:description" includes "#{@artist.bio.first(50)}"}
+end
+
+When(/^the meta description includes that art piece's title$/) do
+  %q{Then the page meta name "description" includes "#{@art_piece.title}"}
+  %q{Then the page meta property "og:description" includes "#{@art_piece.title}"}
+end
+
+When(/^the meta keywords includes that art piece's tags and medium$/) do
+  @art_piece.tags.each do |tag|
+    %q{Then the page meta name "keywords" includes "#{tag.name}"}
+  end
+  if @art_piece.medium
+    %q{Then the page meta name "keywords" includes "#{@art_piece.medium.name}"}
+  end
 end

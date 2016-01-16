@@ -1,13 +1,12 @@
 source 'https://rubygems.org'
 ruby '2.1.5'
 
-gem 'safe_yaml'
 gem 'racc'
-gem "rails", '~> 3.2.16'
+gem "rails", '~> 4.2'
 gem 'active_model_serializers'
-gem 'strong_parameters'
+gem 'responders'
 gem "font-awesome-rails"
-gem "nokogiri", '~> 1.6'
+gem "nokogiri"
 gem "htmlentities"
 gem 'mysql2'
 gem "haml"
@@ -19,8 +18,8 @@ gem 'rdiscount' # markdown processor
 gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-rbenv', '~> 2.0'
 gem 'capistrano-rails', '~> 1.1'
-gem 'friendly_id', '~> 4.x'
-gem 'formtastic', '~> 3.0'
+gem 'friendly_id'
+gem 'formtastic'
 
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
@@ -119,26 +118,27 @@ group :development do
 end
 
 group :test, :development do
-  gem "elasticsearch-extensions", require: nil
-  gem 'guard-coffeescript'
-  gem 'guard-rspec'
-  gem 'guard-jasmine'
   gem 'rspec'
   gem 'rspec-its'
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
-  gem 'em-rspec', require: false, git: 'https://github.com/jwroblewski/em-rspec.git'
-  gem 'jslint_on_rails'
-  gem 'pry'
-  gem 'pry-byebug'
+  gem 'jasminerice', github: 'bradphelan/jasminerice'
+  gem 'timecop'
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+
+  gem 'guard-rspec'
+  gem 'guard-jasmine'
+  gem 'guard-cucumber'
   gem 'rb-fsevent'
+  gem "elasticsearch-extensions", require: nil
+
+
   gem 'simplecov'
   gem 'cane'
   gem 'morecane'
-  gem 'guard-cucumber'
-  gem 'database_cleaner'
-  gem 'shoulda-matchers'
   gem 'quiet_assets'
-  gem 'jasminerice', github: 'bradphelan/jasminerice'
-  gem 'timecop'
+
+  gem 'jslint_on_rails'
+  gem 'pry-byebug'
 end

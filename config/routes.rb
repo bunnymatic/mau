@@ -3,8 +3,8 @@ Mau::Application.routes.draw do
   resources :media, only: [:index, :show]
 
   resource :user_session, only: [:new, :create, :destroy]
-  match '/logout' => 'user_sessions#destroy', as: :logout
-  match '/login' => 'user_sessions#new', as: :login
+  get '/logout' => 'user_sessions#destroy', as: :logout
+  get '/login' => 'user_sessions#new', as: :login
 
 
   resources :studios, only: [:index, :show]
@@ -32,11 +32,11 @@ Mau::Application.routes.draw do
     match '/', action: 'index', via: [:get,:post]
   end
 
-  match '/register' => 'users#create', as: :register
-  match '/signup' => 'users#new', as: :signup
-  match '/activate/:activation_code' => 'users#activate', as: :activate
+  get '/register' => 'users#create', as: :register
+  get '/signup' => 'users#new', as: :signup
+  get '/activate/:activation_code' => 'users#activate', as: :activate
   match 'reset/:reset_code' => 'users#reset', as: :reset, via: [:get, :post]
-  match 'reset' => 'users#reset', as: :submit_reset, method: :post
+  match 'reset' => 'users#reset', as: :submit_reset, via: [:post]
 
 
   resources :users do
@@ -53,8 +53,9 @@ Mau::Application.routes.draw do
       resources :favorites, only: [:index]
       put :suspend
       put :change_password_update
+      patch :change_password_update
     end
-    resources :roles, only: [:destroy], controller: 'Admin::Roles'
+    resources :roles, only: [:destroy]
   end
 
 
@@ -83,19 +84,15 @@ Mau::Application.routes.draw do
     post :sampler
   end
 
-  match '/status' => 'main#status_page', as: :status
-  match '/faq' => 'main#faq', as: :faq
-  match '/venues' => 'main#venues', as: :venues
-  match '/privacy' => 'main#privacy', as: :privacy
-  match '/about' => 'main#about', as: :about
-  match '/contact' => 'main#contact', as: :contact
-  match '/version' => 'main#version', as: :version
-  match '/non_mobile' => 'main#non_mobile', as: :non_mobile
-  match '/mobile' => 'main#mobile', as: :mobile
-  match '/getinvolved/:p' => 'main#getinvolved', as: :getinvolved
-  match '/getinvolved' => 'main#getinvolved', as: :getinvolved
-  match '/resources' => 'main#resources', as: :artist_resources
-  match '/error' => 'error#index', as: :error
+  get '/status' => 'main#status_page', as: :status
+  get '/faq' => 'main#faq', as: :faq
+  get '/venues' => 'main#venues', as: :venues
+  get '/privacy' => 'main#privacy', as: :privacy
+  get '/about' => 'main#about', as: :about
+  get '/contact' => 'main#contact', as: :contact
+  get '/version' => 'main#version', as: :version
+  get '/resources' => 'main#resources', as: :artist_resources
+  get '/error' => 'error#index', as: :error
 
   namespace :admin do
     resource :tests, only: [:show] do
@@ -125,7 +122,7 @@ Mau::Application.routes.draw do
       get :os_signups
     end
 
-    match '/discount/markup' => 'discount#markup', as: :discount_processor
+    match '/discount/markup' => 'discount#markup', as: :discount_processor, via: [:get, :post]
 
     post :featured_artist, as: :get_next_featured
 
@@ -177,18 +174,17 @@ Mau::Application.routes.draw do
     end
   end
 
-  match '/admin' => 'admin#index', as: :admin
+  get '/admin' => 'admin#index', as: :admin
 
-  match '/mobile/main' => 'mobile/main#welcome', as: :mobile_root
-  match '/sitemap.xml' => 'main#sitemap', as: :sitemap
-  match '/api/*path' => 'api#index'
+  get '/sitemap.xml' => 'main#sitemap', as: :sitemap
+  get '/api/*path' => 'api#index'
 
 
   # legacy urls
   get '/main/openstudios', to: redirect('/open_studios')
   get '/openstudios', to: redirect("/open_studios")
 
-  match '*path' => 'error#index'
+  get '*path' => 'error#index'
 
   # march 2014 - we should try to get rid of this route
   #match '/:controller(/:action(/:id))'

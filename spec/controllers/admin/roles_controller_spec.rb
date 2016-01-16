@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe Admin::RolesController do
 
   let(:editor) { FactoryGirl.create(:artist, :editor, :active) }
@@ -93,12 +93,15 @@ describe Admin::RolesController do
     end
 
     describe '#destroy' do
+      before do
+        login_as admin
+      end
       context 'with role' do
         it 'removes the role' do
           expect { delete :destroy, :id => manager_role.id }.to change(Role, :count).by(-1)
         end
         it 'removes the role from all users' do
-          ru = RolesUser.find_all_by_role_id(manager_role.id)
+          ru = RolesUser.where(role: manager_role)
           expected_change = ru.count
           expect { delete :destroy, :id => manager_role.id }.to change(RolesUser, :count).by(-expected_change)
           artist.reload
@@ -109,26 +112,8 @@ describe Admin::RolesController do
           expect(response).to redirect_to admin_roles_path
         end
       end
-      context 'with role and user' do
-        it 'removes the role association from the user' do
-          expect{ delete :destroy, :user_id => editor.id, :id => editor_role.id }.to change(editor.roles, :count).by(-1)
-        end
-        it 'redirects to the role page' do
-          delete :destroy, :user_id => editor.id, :id => editor_role.id
-          expect(response).to redirect_to admin_role_path(editor_role)
-        end
-      end
-      context 'with invalid role and user' do
-        it 'removes the role association from the user' do
-          expect{ delete :destroy, :user_id => 'bogus', :id => editor_role.id }.to change(editor.roles, :count).by(0)
-        end
-        it 'redirects to the role page' do
-          delete :destroy, :user_id => 'bogus', :id => editor_role.id
-          expect(response).to redirect_to admin_role_path(editor_role)
-          expect(flash[:error]).to be_present
-        end
-      end
     end
+
   end
 
 end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 shared_examples_for "successful notes mailer response" do
   it { expect(response).to be_success }
@@ -28,29 +28,11 @@ describe MainController do
   end
 
   describe "#index" do
-    render_views
     context 'not logged in' do
       before do
         get :index
       end
-      it 'has the default description & keywords' do
-        assert_select 'head meta[name=description]' do |desc|
-          expect(desc.length).to eql 1
-          expect(desc[0].attributes['content']).to match /^Mission Artists United is a website/
-        end
-        assert_select 'head meta[property=og:description]' do |desc|
-          expect(desc.length).to eql 1
-          expect(desc[0].attributes['content']).to match /^Mission Artists United is a website/
-        end
-        assert_select 'head meta[name=keywords]' do |keywords|
-          expect(keywords.length).to eql 1
-          expected = ["art is the mission", "art", "artists", "san francisco"]
-          actual = keywords[0].attributes['content'].split(',').map(&:strip)
-          expected.each do |ex|
-            expect(actual).to include ex
-          end
-        end
-      end
+      it { expect(response).to be_success }
     end
   end
 
@@ -75,84 +57,6 @@ describe MainController do
     end
   end
 
-  describe "#getinvolved" do
-    it "returns success" do
-      get :getinvolved
-      expect(response).to be_success
-    end
-    describe '/paypal_success' do
-      render_views
-      before do
-        post :getinvolved, :p => 'paypal_success'
-      end
-      it { expect(response).to be_success }
-      it 'sets some info about the page' do
-        expect(/Get Involved/ =~ assigns(:page_title)).to be
-      end
-      it 'assigns the proper paypal page' do
-        expect(assigns(:page)).to eql 'paypal_success'
-      end
-    end
-    describe '/paypal_cancel' do
-      before do
-        post :getinvolved, :p => 'paypal_cancel'
-      end
-      it { expect(response).to be_success }
-      it 'sets some info about the page' do
-        expect(/Get Involved/ =~ assigns(:page_title)).to be
-      end
-      it 'assigns the proper paypal page' do
-        expect(assigns(:page)).to eql 'paypal_cancel'
-      end
-    end
-    describe 'send feedback' do
-      let(:email) { 'joe@wherever.com' }
-      let(:comment) { 'here we are' }
-      let(:login) { FactoryGirl.build(:user).login }
-      let(:feedback_attrs) { FactoryGirl.attributes_for(:feedback,
-                                                        :login => login,
-                                                        :email => email,
-                                                        :comment => comment) }
-      context 'with no comment' do
-        let(:comment) { nil }
-        before do
-          get :getinvolved, :commit => true, :feedback => feedback_attrs
-        end
-        it 'renders a flash' do
-          expect(assigns(:feedback).errors.full_messages).to include "Comment can't be blank"
-        end
-      end
-      context 'with data' do
-        before do
-          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMailer", :deliver! => true))
-        end
-        it 'saves a feedback record' do
-          expect {
-            get :getinvolved, :commit => true, :feedback => feedback_attrs
-          }.to change(Feedback, :count).by(1)
-        end
-        it 'sets the flash notice' do
-          get :getinvolved, :commit => true, :feedback => feedback_attrs
-          expect(flash.now[:notice]).to be_present
-        end
-        it 'sends an email' do
-          allow(FeedbackMailer).to receive(:feedback).and_return(double("FeedbackMailer", :deliver! => true))
-          get :getinvolved, :commit => true, :feedback => feedback_attrs
-        end
-      end
-      context 'when you\'re logged in' do
-        before do
-          login_as artist
-        end
-        it 'sends an email' do
-          expect(FeedbackMailer).to receive(:feedback).and_return(double("deliverable", :deliver! => true))
-          get :getinvolved, :commit => true, :feedback => feedback_attrs
-        end
-      end
-
-    end
-  end
-
   describe "#privacy" do
     before do
       get :privacy
@@ -168,7 +72,6 @@ describe MainController do
   end
 
   describe '#main/venues' do
-    render_views
     context "while not logged in" do
       before do
         get :venues
@@ -186,23 +89,10 @@ describe MainController do
         login_as(admin)
         get :venues
       end
-      it "renders the markdown version" do
-        assert_select '.markdown h1', :match => 'these'
-        assert_select '.markdown h2', :match => 'are'
-        assert_select '.markdown h3', :match => 'venues'
-        assert_select '.markdown ul li', :count => 3
-      end
-      it 'the markdown entry have cms document ids in them' do
-        assert_select '.markdown.editable[data-cmsid=%s]' % venue_doc.id
-
-      end
     end
   end
 
   describe 'notes mailer' do
-    before do
-      allow_any_instance_of(FeedbackMailer).to receive(:deliver!).and_return(true)
-    end
     describe "xhr post" do
       before do
         xhr :post, :notes_mailer, feedback_mail: { stuff: 'whatever'}

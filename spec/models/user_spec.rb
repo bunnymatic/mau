@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe User do
   let(:simple_artist) { FactoryGirl.build(:artist) }
@@ -28,7 +28,6 @@ describe User do
     user.password = ''
     user.password_confirmation = ''
     user.valid?
-    expect(user).to have_at_least(1).error_on(:password)
     expect(user).to have_at_least(1).error_on(:password_confirmation)
   end
 
@@ -338,20 +337,20 @@ describe User do
         artist
       end
       it '#resend_activation sends a new activation email' do
-        expect(UserMailer).to receive('resend_activation').with(maufan).once.and_return(double(:deliver! => true))
+        expect(UserMailer).to receive('resend_activation').with(maufan).once.and_return(double('deliverable', deliver_later: true))
         maufan.resend_activation
       end
       it '#create_reset_code sends a recent reset email' do
-        expect(UserMailer).to receive('reset_notification').with(maufan).once.and_return(double(:deliver! => true))
+        expect(UserMailer).to receive('reset_notification').with(maufan).once.and_return(double('deliverable', deliver_later: true))
         maufan.create_reset_code
       end
 
       it "add art_piece favorite sends favorite notification to owner" do
-        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
+        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double('deliverable', deliver_later: true))
         maufan.add_favorite(art_piece)
       end
       it "add artist favorite sends favorite notification to user" do
-        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double(:deliver! => true))
+        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double('deliverable', deliver_later: true))
         maufan.add_favorite(artist)
       end
       it "add artist favorite doesn't send notification to user if user's email settings say no" do

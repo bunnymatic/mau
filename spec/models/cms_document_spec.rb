@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CmsDocument do
   let(:invalid_document) { FactoryGirl.build(:cms_document, :page => '', :article => '') }

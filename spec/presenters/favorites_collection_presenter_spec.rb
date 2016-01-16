@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe FavoritesCollectionPresenter do
   let(:artists) { create_list(:artist, 4, :active, :with_art) + [create(:artist, :active)] }

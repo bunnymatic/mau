@@ -145,7 +145,7 @@ class ArtPiecesController < ApplicationController
   def prepare_tags_params
     tags_string = params[:art_piece][:tags]
     tag_names = (tags_string || '').split(",").map{|name| name.strip.downcase}.compact.uniq
-    params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by_name name}
+    params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by(name: name)}
   end
 
   def art_piece_params

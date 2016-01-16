@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe Admin::ArtPieceTagsController do
 
   let(:user) { FactoryGirl.create(:user, :active) }

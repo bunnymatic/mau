@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe AdminMailerList do
   before do
@@ -36,4 +36,3 @@ describe AdminMailerList do
   end
 
 end
-

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe StudioSerializer do
   let(:studio) { create :studio, :with_artists }

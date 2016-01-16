@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe OpenStudiosEventService do
 
   let(:past_oses) {
@@ -16,7 +16,7 @@ describe OpenStudiosEventService do
   }
 
   before do
-    allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
+    #allow_any_instance_of(OpenStudiosEvent).to receive(:save_attached_files).and_return(true)
     Timecop.freeze
     [ past_oses, current_os, future_oses ].flatten
   end

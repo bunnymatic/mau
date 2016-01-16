@@ -2,7 +2,6 @@ class MainController < ApplicationController
   layout 'application'
 
   include MainHelper
-  skip_before_filter :verify_authenticity_token, :only => [:getinvolved]
 
   def index
     @is_homepage = true
@@ -22,26 +21,6 @@ class MainController < ApplicationController
 
   def version
     render :text => @revision
-  end
-
-  def getinvolved
-    @page_title = "Mission Artists United - Get Involved!"
-    @page = params[:p]
-
-    setup_paypal_flash_messages(@page)
-
-    # handle feedback from the get involved page
-    @feedback = Feedback.new
-    if params[:commit]
-      @feedback = Feedback.new(feedback_params)
-      if @feedback.save
-        FeedbackMailer.feedback(@feedback).deliver!
-        flash.now[:notice] = "Thank you for your submission!  We'll get on it as soon as we can."
-      else
-        flash.now[:error] = "There was a problem submitting your feedback.<br/>" +
-          @feedback.errors.full_messages.join("<br/>")
-      end
-    end
   end
 
   def about
@@ -105,19 +84,6 @@ class MainController < ApplicationController
     # controller/model behind it
   end
 
-  # def non_mobile
-  #   session[:mobile_view] = false
-  #   ref = request.referer if is_local_referer?
-  #   redirect_to ref || root_path
-  # end
-
-  # def mobile
-  #   session[:mobile_view] = true
-  #   ref = request.referer if is_local_referer?
-  #   redirect_to ref || root_path
-  # end
-
-
   def sitemap
     sitemap = <<EOM
 <?xml version="1.0" encoding="UTF-8"?>
@@ -144,9 +110,6 @@ class MainController < ApplicationController
 </url>
 <url>
   <loc>http://www.missionartistsunited.org/main/open_studios</loc>
-</url>
-<url>
-  <loc>http://www.missionartistsunited.org/getinvolved/</loc>
 </url>
 <url>
   <loc>http://www.missionartistsunited.org/about</loc>

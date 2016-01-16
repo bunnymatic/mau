@@ -1,5 +1,5 @@
 module Admin
-  class MediaController < BaseAdminController
+  class MediaController < ::BaseAdminController
 
     def index
       @media = Medium.alpha

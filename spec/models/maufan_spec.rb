@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 module MAUFanSpecHelper
   def valid_user_attributes

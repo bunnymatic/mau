@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 class TestMailerList < EmailList; end
 class WhateverMailList < EmailList; end
