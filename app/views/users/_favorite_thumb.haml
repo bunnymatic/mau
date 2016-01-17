@@ -1,4 +1,4 @@
 %li
-  - img, path = get_favorite_image_and_path favorite_thumb, 'thumb'
-  = link_to path do
+  - img, path, title = get_favorite_image_and_path favorite_thumb, 'thumb'
+  = link_to path, title: title do
     .artist__favorite-thumb{ style: "background-image: url(#{img});" }

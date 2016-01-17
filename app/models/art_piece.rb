@@ -117,8 +117,9 @@ class ArtPiece < ActiveRecord::Base
 
     # we've got a random set of ids - now go pull out the records
     ActiveRecord::Base.transaction do
-      find_ids.map {|the_id| owned.offset(the_id).take}
+      find_ids.map {|the_id| owned.offset(the_id).take}.compact
     end
+
   end
 
   def self.owned
