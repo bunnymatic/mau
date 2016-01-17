@@ -61,7 +61,7 @@ gem 'jbuilder' #non-html output (rss, atom)
 
 gem 'newrelic_rpm' #moitoring
 
-gem 'dotenv'
+gem 'dotenv-rails'
 
 gem 'sass-rails'
 gem 'coffee-rails'
