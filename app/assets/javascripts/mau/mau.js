@@ -29,8 +29,8 @@ var MAU = window.MAU = window.MAU || {};
     if (errmsg) {
       errmsg.html('');
     }
-    var spinner = new MAU.Spinner({top:'0px'})
-    spinner.spin();
+    var spinner = new MAU.Spinner()
+    spinner.spin()
   };
 
   M.doSearch = function(ev) {

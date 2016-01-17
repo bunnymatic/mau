@@ -22,11 +22,7 @@ class AppConfig
 
   def method_missing(param)
     param = param.to_s
-    if @params.has_key?(param)
-      @params[param]
-    else
-      nil
-    end
+    @params.has_key?(param) ? @params[param] : ENV[param]
   end
 
 end

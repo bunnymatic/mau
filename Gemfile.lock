@@ -143,7 +143,9 @@ GEM
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    dotenv (2.0.2)
+    dotenv (2.0.0)
+    dotenv-rails (2.0.0)
+      dotenv (= 2.0.0)
     elasticsearch (1.0.15)
       elasticsearch-api (= 1.0.15)
       elasticsearch-transport (= 1.0.15)
@@ -526,7 +528,7 @@ DEPENDENCIES
   cucumber-rails
   dalli
   database_cleaner
-  dotenv
+  dotenv-rails
   elasticsearch-extensions
   elasticsearch-model
   elasticsearch-rails
