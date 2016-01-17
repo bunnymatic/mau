@@ -6,8 +6,8 @@ $ ->
 
     $('input[type=submit]').on 'click', ->
       if (/add/i).test($(@).val())
-        spinner = new MAU.Spinner({top:'0px'})
-        spinner.spin();
+        spinner = new MAU.Spinner()
+        spinner.spin()
 
 
     jQuery.ajax
