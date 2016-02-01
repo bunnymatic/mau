@@ -1,9 +1,5 @@
 def tags_sorted_by_frequency
-  all_tags = ArtPieceTag.all
-  freq = ArtPieceTag.keyed_frequency
-  all_tags.map do |tag|
-    [tag, freq[tag.id].to_f]
-  end.select(&:first).sort_by{|tag| [tag.last, tag.first.id]}.reverse
+  ArtPieceTag.by_frequency
 end
 
 Then(/^I see the most popular tag page$/) do
@@ -16,12 +12,12 @@ Then(/^I don't see the first tag anymore$/) do
 end
 
 When(/^I destroy the first tag$/) do
-  @first_tag = tags_sorted_by_frequency.first.first
+  @first_tag = tags_sorted_by_frequency.first
   steps %{When I click on the first "Remove" button}
 end
 
 Then(/^I see a list of artists who have art in the most popular tag$/) do
-  @first_tag = tags_sorted_by_frequency.first.first
+  @first_tag = tags_sorted_by_frequency.first
   expect(page).to have_content @first_tag.art_pieces.last.title
   expect(page).to have_content @first_tag.name
   expect(page).to have_css '.paginator'
@@ -30,12 +26,19 @@ Then(/^I see a list of artists who have art in the most popular tag$/) do
 end
 
 Then(/^I see more artists who have art in the most popular tag$/) do
-  @first_tag = tags_sorted_by_frequency.first.first
+  @first_tag = tags_sorted_by_frequency.first
+
   expect(page).to have_content @first_tag.name
   expect(page).to have_css '.paginator'
-  expect(page).to have_content @first_tag.art_pieces.first.title
-  expect(page).to_not have_content @first_tag.art_pieces.last.title
   expect(page).to have_css '.paginator .current', text: '2'
+
+  # this preload/call (for some reason) sets this test up for success
+  @first_tag.art_pieces.all
+
+  within '.search-results' do
+    expect(page).to have_content @first_tag.art_pieces.first.title
+    expect(page).to_not have_content @first_tag.art_pieces.last.title
+  end
 end
 
 
