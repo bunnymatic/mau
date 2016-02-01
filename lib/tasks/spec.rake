@@ -30,3 +30,7 @@ rescue LoadError
   end
 end
 
+Rake::Task['spec'].clear_actions
+
+desc 'Runs all specs'
+task spec: ['spec:enable_coverage', 'spec:all', 'cucumber:ok']
