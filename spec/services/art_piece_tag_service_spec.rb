@@ -9,7 +9,7 @@ describe ArtPieceTagService do
     it 'returns tags with their count' do
       freq = ArtPieceTagService.tags_sorted_by_frequency
       expect(freq.first.last).to be >= 1
-      expect(freq.last).to eql [ArtPieceTag.last, 0.0]
+      expect(freq.last.last).to eql 0.0
     end
   end
 
@@ -32,12 +32,14 @@ describe ArtPieceTagService do
     it 'removes the tag references on any art pieces' do
       tags = ArtPieceTagService.tags_sorted_by_frequency.select{|(tag,ct)| ct > 0}.map(&:first).first(3)
       art_piece = tags.first.art_pieces.first
+      tag_names = tags.map(&:name)
       expect {
         expect {
+          expect(art_piece.tags.map(&:name) & tag_names).not_to be_empty
           ArtPieceTagService.destroy(tags)
+          expect(art_piece.tags.map(&:name) & tag_names).to be_empty
         }.to change(ArtPieceTag, :count).by(-3)
       }.to change(ArtPiecesTag, :count).by(-3)
-      expect(art_piece.tags.size).to eq(0)
     end
   end
 

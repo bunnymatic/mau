@@ -27,6 +27,12 @@ class ArtPieceTag < ActiveRecord::Base
     [:tagfreq, norm]
   end
 
+  def self.by_frequency
+    self.frequency.map do |f|
+      ArtPieceTag.find(f['tag'])
+    end.compact
+  end
+
   def self.frequency(_normalize=true)
     ckey = cache_key(_normalize)
     freq = SafeCache.read(ckey)

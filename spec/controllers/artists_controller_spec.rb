@@ -234,7 +234,7 @@ describe ArtistsController do
 
   describe 'qrcode' do
     let(:file_double) {
-      double(read: 'the data from the file', write: nil, close: nil, binmode: true)
+      double("InputFile", read: 'the data from the file').as_null_object
     }
     before do
       allow(MojoMagick).to receive(:raw_command).and_return(true)

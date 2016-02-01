@@ -27,7 +27,7 @@ describe ArtPieceTagsController do
           get :index
         end
         it 'redirects to show page with the most popular tag' do
-          expect(response).to redirect_to art_piece_tag_path(tag)
+          expect(response).to redirect_to art_piece_tag_path(ArtPieceTag.by_frequency.first)
         end
       end
     end
@@ -93,7 +93,7 @@ describe ArtPieceTagsController do
         get :show, :id => 'abc5'
       end
       it 'redirects to the most popular tag' do
-        expect(response).to redirect_to art_piece_tag_path(tag)
+        expect(response).to redirect_to art_piece_tag_path(ArtPieceTag.by_frequency.first)
       end
     end
 
