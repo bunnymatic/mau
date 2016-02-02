@@ -131,7 +131,6 @@ group :test, :development do
 
   gem 'guard-rspec'
   gem 'guard-jasmine'
-  gem 'guard-cucumber'
   gem 'rb-fsevent'
   gem "elasticsearch-extensions", require: nil
 
