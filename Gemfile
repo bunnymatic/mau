@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.5'
+ruby '2.3.0'
 
 gem 'racc'
 gem "rails", '~> 4.2'
@@ -131,7 +131,6 @@ group :test, :development do
 
   gem 'guard-rspec'
   gem 'guard-jasmine'
-  gem 'guard-cucumber'
   gem 'rb-fsevent'
   gem "elasticsearch-extensions", require: nil
 

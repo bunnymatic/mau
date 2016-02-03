@@ -11,6 +11,3 @@ if Rails.env == 'development'
     Rake::Task['db:annotate'].invoke
   end
 end
-
-desc 'Migrate and prepare the test database'
-task :m => ['db:migrate', 'db:test:prepare']
