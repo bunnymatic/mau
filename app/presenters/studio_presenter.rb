@@ -3,7 +3,7 @@ class StudioPresenter < ViewPresenter
   include OpenStudiosEventShim
 
   attr_reader :studio
-  delegate :get_profile_image, :slug, :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :profile_image?, :to_param, :to => :studio
+  delegate :get_profile_image, :slug, :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :to_param, :to => :studio
 
   def initialize(studio)
     @studio = studio
@@ -29,12 +29,12 @@ class StudioPresenter < ViewPresenter
     @page_title ||= "Mission Artists United - Studio: %s" if name
   end
 
+  def has_profile_image?
+    @studio.get_profile_image(:small).present?
+  end
+
   def image(size = 'small')
-    if @studio.profile_image?
-      @studio.get_profile_image(size)
-    else
-      "/images/default-studio.png"
-    end
+    @studio.get_profile_image(size) || "/images/default-studio.png"
   end
 
   def street_with_cross
