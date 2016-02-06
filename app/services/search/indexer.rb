@@ -1,12 +1,16 @@
 module Search
   class Indexer
 
-    NGRAM_ANALYZER = {
+    ANALYZERS = {
+      mau_snowball_analyzer: {
+        type: 'snowball',
+        language: 'English'
+      },
       mau_ngram_analyzer: {
         tokenizer: :mau_ngram_tokenizer
       }
     }
-    NGRAM_TOKENIZER = {
+    TOKENIZERS = {
       mau_ngram_tokenizer: {
         type: 'nGram',
         min_gram: 4,
@@ -15,9 +19,9 @@ module Search
       }
     }
 
-    NGRAM_ANALYZER_TOKENIZER = {
-      analyzer: NGRAM_ANALYZER,
-      tokenizer: NGRAM_TOKENIZER
+    ANALYZERS_TOKENIZERS = {
+      analyzer: ANALYZERS,
+      tokenizer: TOKENIZERS
     }
 
     class ObjectSearchService
