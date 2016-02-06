@@ -59,13 +59,4 @@ describe StudioPresenter do
     end
   end
 
-
-  context 'without image file' do
-    let(:studio) { FactoryGirl.create(:studio, profile_image: nil) }
-
-    describe '#image' do
-      subject { super().image }
-      it { should eql '/images/default-studio.png' }
-    end
-  end
 end
