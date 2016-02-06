@@ -28,6 +28,14 @@ module CapybaraHelpers
     end
   end
 
+  def table_row_matching(content)
+    content_matcher = content.is_a?(String) ? /#{content}/ : content
+    match = all('table tbody tr').select do |row|
+      content_matcher =~ row.text
+    end
+    match.first
+  end
+
 end
 
 World CapybaraHelpers

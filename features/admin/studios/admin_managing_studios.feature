@@ -29,3 +29,15 @@ Scenario: Removing an artist from a studio
   Then I see the admin studios list
   When I edit the first studio
   Then I see that artist is no longer part of the studio list
+
+Scenario: Adding a new studio
+  When I click on "studios" in the admin menu
+  And I click on "add studio"
+  And I fill in the new studio information for "a new studio place thing"
+  And I click on "Create Studio"
+  Then I see there is a new studio called "a new studio place thing"
+
+Scenario: Deleting a studio
+  When I click on "studios" in the admin menu
+  And I click on the last remove studio button
+  Then I see the last studio has been removed

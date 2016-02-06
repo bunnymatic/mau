@@ -59,14 +59,14 @@ class ArtPiece < ActiveRecord::Base
 
   self.__elasticsearch__.client = Search::EsClient.root_es_client
 
-  settings(analysis: Search::Indexer::NGRAM_ANALYZER_TOKENIZER, index: { number_of_shards: 2}) do
-    mappings(_all: {analyzer: :mau_ngram_analyzer}) do
-      indexes :title, analyzer: :mau_ngram_analyzer
+  settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2}) do
+    mappings(_all: {analyzer: :mau_snowball_analyzer}) do
+      indexes :title, analyzer: :mau_snowball_analyzer
       indexes :year
-      indexes :medium, analyzer: :mau_ngram_analyzer
-      indexes :artist_name, analyzer: :mau_ngram_analyzer
-      indexes :studio_name, analyzer: :mau_ngram_analyzer
-      indexes :tags, analyzer: :mau_ngram_analyzer
+      indexes :medium, analyzer: :mau_snowball_analyzer
+      indexes :artist_name, analyzer: :mau_snowball_analyzer
+      indexes :studio_name, analyzer: :mau_snowball_analyzer
+      indexes :tags, analyzer: :mau_snowball_analyzer
     end
   end
 
