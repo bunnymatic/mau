@@ -33,11 +33,11 @@ Scenario: Removing an artist from a studio
 Scenario: Adding a new studio
   When I click on "studios" in the admin menu
   And I click on "add studio"
-  And I fill in the new studio information
-  And I click on "save"
-  Then I see there is a new studio
+  And I fill in the new studio information for "a new studio place thing"
+  And I click on "Create Studio"
+  Then I see there is a new studio called "a new studio place thing"
 
 Scenario: Deleting a studio
   When I click on "studios" in the admin menu
-  And I click on the last "delete studio" button
+  And I click on the last remove studio button
   Then I see the last studio has been removed

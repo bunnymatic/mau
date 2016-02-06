@@ -23,7 +23,7 @@ module Admin
       @studio = Studio.new(studio_params)
 
       if @studio.save
-        flash[:notice] = 'Studio was successfully created.'
+        flash[:notice] = 'Awesome!  More studios means more artists!'
         redirect_to(@studio)
       else
         render 'new'
@@ -50,7 +50,7 @@ module Admin
     # PUT /studios/1
     def update
       if @studio.update_attributes(studio_params)
-        flash[:notice] = 'Studio was successfully updated.'
+        flash[:notice] = "That's great that we're keeping studio data current.  Keep up the good work."
         redirect_to(@studio) and return
       else
         render "edit"
@@ -65,7 +65,7 @@ module Admin
         @studio.destroy
       end
 
-      redirect_to(studios_url)
+      redirect_to(studios_url, notice: "Sad to see them go.  But there are probably more right around the bend.")
     end
 
     def unaffiliate_artist
