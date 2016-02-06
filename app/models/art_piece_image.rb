@@ -2,8 +2,6 @@ class ArtPieceImageError < StandardError; end
 
 class ArtPieceImage < ImageFile
 
-  MISSING_ART_PIECE = '/images/missing_artpiece.gif'
-
   delegate :artist, :filename, :to => :art_piece
 
   attr_accessor :art_piece
