@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe TagCloudPresenter, :type => :controller do
+describe TagCloudPresenter, type: :controller do
 
   include PresenterSpecHelpers
 
@@ -45,19 +45,19 @@ describe TagCloudPresenter, :type => :controller do
   describe '#tags' do
     subject { super().tags }
     it "returns tags that have frequency" do
-      expect(subject.all).to match_array(ArtPieceTag.where(:id => expected_frequency.map{|f| f['tag']}).all)
+      expect(subject.all).to match_array(ArtPieceTag.where(slug: expected_frequency.map{|f| f['tag']}).all)
     end
   end
 
 
   it 'returns the tag path' do
-    expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, :m => mode)
+    expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, m: mode)
   end
 
   context 'when the mode is art_pieces' do
     let(:mode) { 'p' }
     it 'returns the tag path' do
-      expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, :m => mode)
+      expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, m: mode)
     end
   end
 
