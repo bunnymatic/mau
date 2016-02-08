@@ -53,7 +53,7 @@ set :assets_roles, [:web, :app]            # Defaults to [:web]
 set :linked_files, %w{config/database.yml config/config.keys.yml config/secrets.yml}
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets backups public/backups vendor/bundle public/system public/studiodata public/artistdata}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets backups public/backups vendor/bundle public/system}
 
 
 set :rails_env, (fetch(:rails_env) || fetch(:stage))
