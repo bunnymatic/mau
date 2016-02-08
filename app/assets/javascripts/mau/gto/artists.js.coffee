@@ -31,7 +31,11 @@ $ ->
 
 
   if $('.artists.index, .open_studios.show').length
+    fetching = false
+
     fetchArtists = (url) ->
+      return if fetching
+      fetching = true
       $content = $('.js-artists-scroll-wrapper')
       pagination = $('.js-pagination-state').last().data()
       if pagination.hasOwnProperty('hasMore')
@@ -49,6 +53,8 @@ $ ->
           if data
             $content = $('.js-artists-scroll-wrapper')
             $content.append(data);
+          fetching = false
+
     url = if ($('.artists.index')[0]?) then "/artists" else "/open_studios"
     # set event bindings
     $win = $(window)
@@ -60,36 +66,3 @@ $ ->
     $more = $('#js-scroll-load-more');
     if ($more.length) && ($more.position().top < $win.height())
       fetchArtists(url)
-
-    if $('.js-filter-by-name').length
-      # define helpers
-      getCurrentFilter = () ->
-        document.querySelectorAll('.js-filter-by-name')[0].value;
-
-
-      currentFilter = getCurrentFilter()
-      resetSearch = () ->
-        $wrapper = $('js-artists-scroll-wrapper')
-        currentMode = $wrapper.data('filtering')
-        currentFilter = getCurrentFilter()
-        newMode = !!currentFilter
-        $wrapper.data('filtering', newMode )
-        if newMode != currentMode
-          $('.js-pagination-state').slice(1,-1).remove()
-          pagination = $('.js-pagination-state').last()
-          $('.artist-card').fadeOut duration: 50, complete: -> $(@).remove()
-          pagination.data('sortOrder','lastname')
-          pagination.data('currentPage',0)
-          pagination.data('nextPage',0)
-          pagination.data('hasMore',true)
-
-      fetchFilteredArtists = (ev) ->
-        resetSearch(ev)
-        fetchArtists(url)
-
-      throttledFilter = MAU.Utils.debounce(fetchFilteredArtists,250,false)
-
-      $("#js-artist-index-filter .js-filter-by-name").on 'keyup change', (ev) ->
-        if currentFilter != getCurrentFilter()
-          throttledFilter()
-      $("#js-artist-index-filter").on 'submit', (ev) -> ev.stopPropagation(); false

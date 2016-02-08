@@ -241,8 +241,8 @@ ActiveRecord::Schema.define(version: 20151228184914) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "profile_image",      limit: 255
-    t.float    "lat",                limit: 24
-    t.float    "lng",                limit: 24
+    t.float    "lat",                limit: 53
+    t.float    "lng",                limit: 53
     t.string   "cross_street",       limit: 255
     t.string   "phone",              limit: 255
     t.string   "slug",               limit: 255
