@@ -49,7 +49,7 @@ Assuming MySQL is running, and you know have a root-level user, update your `con
 Install the MAU bundle (or, starting a dev session every time)
 
     cd /my_projects/mau
-    git checkout master (or git checkout rails3 for now)
+    git checkout development
     git pull
     bundle install
 
@@ -67,14 +67,6 @@ At this point, you should have a semi-working system that has no users and no ar
     rails server # if you're past that
 
 Point your browser to http://localhost:3000 and you should see the MAU front page.
-
-To grab some test data, I've put a snapshot of our developer database on Dropbox.  If you don't already have a link, let me know and I'll share the folder with you.  It's called `/MAU Developer Database` and in this folder is a bundled database and image set.  Download the file.  Then run our database restore task:
-
-    rake rosie:restore datafile=/the/file/you/just/downloaded/mau_development_blah.tgz
-
-This should put in place a bunch of images and update your database content.  Run migrations again to make sure that you're up to date.
-
-    rake db:migrate
 
 You might also run this rake task
 
@@ -140,23 +132,23 @@ Push your changes out
     git push
 
 
+# Deployment
+
+We're using capistrano for deployment to Linode servers.  You probably need your keys setup so
+at first this might not work.  If you should have permission to deploy, tell Jon and he can
+help get the keys setup properly.
+
+Once you have keys
+
+```
+cap acceptance deploy
+cap production deploy
+```
+
+will push the `development` or `master` branches respectively to the `mau.rcode5.com` or `www`.
+
+Enviroment variables on the linodes are controlled via
 # Issues/Versions etc
-
-Ran into issues with rubygems version 2.0.7.  It seems that some deprecations have been removed.  Rails 2.3.x has not been updated.  If you have issues that look like
-
-    /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/rails/gem_dependency.rb:21:in `add_frozen_gem_path': undefined method `source_index' for Gem:Module (NoMethodError)
-      from /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/initializer.rb:298:in `add_gem_load_paths'
-      from /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/initializer.rb:132:in `process'
-      from /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/initializer.rb:113:in `send'
-      from /Users/jon/.rbenv/versions/1.8.7-p334/lib/ruby/gems/1.8/gems/rails-2.3.18/lib/initializer.rb:113:in `run'
-      from /projects/mau/config/environment.rb:26
-      from /projects/mau/spec/spec_helper.rb:6:in `require'
-
-you may need to use an older rubygems version.  I've had success with 1.8.25.
-
-    gem update --system 1.8.25
-
-Hopefully, once we get away from Rails 2.3.x we won't have to worry about this so much.
 
 # Keys for external connections
 
