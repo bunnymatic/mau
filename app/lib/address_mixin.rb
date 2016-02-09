@@ -41,9 +41,9 @@ module AddressMixin
     (self.respond_to? :addr_state) ? self.addr_state : self.state
   end
 
-  def compute_geocode
+  def compute_geocode(force = false)
     begin
-      if address.present? && (self.changes.keys & ["street", "city", "addr_state", "zip"]).present?
+      if address.present? && (force || (self.changes.keys & ["street", "city", "addr_state", "zip"]).present?)
         result = Geokit::Geocoders::MultiGeocoder.geocode(full_address)
         if result.try(:success)
           self.lat = result.lat
