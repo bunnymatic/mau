@@ -7,9 +7,9 @@
           = f.input :name
           = f.input :street
           = f.input :cross_street
-          = f.input :city
-          = f.input :state
-          = f.input :zip
+          = f.input :city, input_html: { value: f.object.city.presence || "San Francisco" }
+          = f.input :state, input_html: { value: f.object.state.presence || "CA" }
+          = f.input :zip, input_html: { value: f.object.zip.presence || "94110" }
           = f.input :phone
           = f.input :url
       .pure-u-1-1.pure-u-md-1-2
