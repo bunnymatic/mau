@@ -47,11 +47,12 @@ class UserPresenter < ViewPresenter
     @what_i_favorite ||=
       begin
         user_favorites, art_piece_favorites = model.favorites.partition do |fav|
-          ['Artist', 'User', 'MAUFan'].include? fav.favoritable_type
+          ['Artist', 'MAUFan', 'User'].include? fav.favoritable_type
         end
+        art_pieces = ArtPiece.owned.where(id: art_piece_favorites.map(&:favoritable_id) )
+        users = Artist.active.where(id: user_favorites.map(&:favoritable_id))
 
-        [User.find(user_favorites.map(&:favoritable_id)),
-         ArtPiece.find(art_piece_favorites.map(&:favoritable_id))].flatten.compact.uniq
+        [ users, art_pieces ].flatten.compact.uniq
       end
   end
 
@@ -59,7 +60,7 @@ class UserPresenter < ViewPresenter
     @who_favorites_me ||=
       begin
         favs = favorites_of_me.flatten
-        User.find(favs.select{|f| f.try(:user_id)}.compact.uniq.map(&:user_id))
+        User.active.find(favs.select{|f| f.try(:user_id)}.compact.uniq.map(&:user_id))
       end
   end
 
