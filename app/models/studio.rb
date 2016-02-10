@@ -52,10 +52,12 @@ class Studio < ActiveRecord::Base
   has_many :artists
 
   acts_as_mappable
-  before_validation(on: :create) { compute_geocode }
-  before_validation(on: :update) { compute_geocode }
+  before_save(on: :create) { compute_geocode }
+  before_save(on: :update) { compute_geocode }
   before_save :normalize_phone_number
+
   validates :name, presence: true, uniqueness: true
+  validates :street, presence: true
 
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 

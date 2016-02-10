@@ -57,7 +57,7 @@ class Artist < User
   # order is important for the js overlay
   BOUNDS = {
     'NW' => [
-      37.770, -122.430
+      37.7751, -122.430
     ],
     'SW' => [
       37.747, -122.430
@@ -66,7 +66,7 @@ class Artist < User
       37.747, -122.404
     ],
     'NE' => [
-      37.770, -122.404
+      37.7751, -122.404
     ]
   }.freeze
 

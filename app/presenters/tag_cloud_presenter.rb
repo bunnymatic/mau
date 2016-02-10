@@ -16,19 +16,19 @@ class TagCloudPresenter < ViewPresenter
     @tags ||=
       begin
         tags = frequency.map{|t| t['tag']}
-        ArtPieceTag.where(id: tags)
+        ArtPieceTag.where(slug: tags)
       end
   end
 
   def tags_lut
     @tags_lut ||=
       begin
-        Hash[tags.map{|t| [t.id, t]}]
+        Hash[tags.map{|t| [t.slug, t]}]
       end
   end
 
-  def find_tag(tag_id)
-    tags_lut[tag_id]
+  def find_tag(slug)
+    tags_lut[slug]
   end
 
   def is_current_tag?(tag)

@@ -15,6 +15,9 @@ class ArtPieceTag < ActiveRecord::Base
   has_many :art_pieces_tags
   has_many :art_pieces, through: :art_pieces_tags
 
+  include FriendlyId
+  friendly_id :name, use: [:slugged, :finders]
+
   validates :name, presence: true, length: { within: 3..25 }
 
   scope :alpha, -> { order('name') }
@@ -61,7 +64,7 @@ class ArtPieceTag < ActiveRecord::Base
         where("art_pieces_tags.art_piece_id" => ArtPiece.select('art_pieces.id').
               joins(:artist).
               where("users.state" => "active")).
-        group('art_piece_tags.id').count
+        group('art_piece_tags.slug').count
       dbr.map{|_id, ct| { "tag" => _id, "ct" => ct }}.sort_by{|entry| -entry['ct']}
     end
 
