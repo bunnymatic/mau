@@ -33,7 +33,6 @@ describe Studio do
       @s = Studio.new(FactoryGirl.attributes_for(:studio))
     end
     it "studio is valid" do
-      expect(@s).to receive(:compute_geocode).at_least(:once).and_return([-37,122])
       expect(@s).to be_valid
     end
     it "save triggers geocode" do

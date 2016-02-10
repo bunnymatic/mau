@@ -51,6 +51,8 @@ class ArtPiece < ActiveRecord::Base
 
   def refresh_in_search_index
     Search::Indexer.reindex(self)
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+    add_to_search_index
   end
 
   def remove_from_search_index
