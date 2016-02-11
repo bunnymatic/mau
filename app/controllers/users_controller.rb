@@ -150,9 +150,9 @@ class UsersController < ApplicationController
     if code.present? && !user.active?
       user.activate!
       user.subscribe_and_welcome
-      flash[:notice] = "Signup complete! Please sign in to continue."
+      flash[:notice] = "We're so excited to have you! Just sign in to get started."
     elsif code.blank?
-      flash[:error] = "The activation code was missing.  Please follow the URL from your email."
+      flash[:error] = "Your activation code was missing.  Please follow the URL from your email."
     end
 
     redirect_to login_path
