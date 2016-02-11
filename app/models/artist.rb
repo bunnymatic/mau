@@ -195,7 +195,8 @@ class Artist < User
 
   def representative_piece
     cache_key = "%s%s" % [CACHE_KEY, id]
-    piece = SafeCache.read(cache_key)
+    piece_id = SafeCache.read(cache_key)
+    piece = ArtPiece.find_by id: piece_id
     if piece.blank?
       logger.debug("#{__method__}: cache miss");
       piece = art_pieces.first
