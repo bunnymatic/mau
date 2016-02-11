@@ -35,12 +35,15 @@ module Search
       end
 
       def reindex
-        object.__elasticsearch__.delete_document
-        object.__elasticsearch__.index_document
+        remove
+        index
       end
 
       def remove
-        object.__elasticsearch__.delete_document
+        begin
+          object.__elasticsearch__.delete_document
+        rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
+        end
       end
 
       def update
