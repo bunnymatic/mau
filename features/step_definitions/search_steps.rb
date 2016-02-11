@@ -1,12 +1,3 @@
-When(/^the search service is up and running$/) do
-  TestEsServer.start
-  [Artist, Studio, ArtPiece].each { |clz| clz.import force: true }
-end
-
-When(/^the search service is shut down$/) do
-  TestEsServer.stop
-end
-
 When(/^I search for the first art piece by title$/) do
   step %Q|I search for "#{ArtPiece.first.title.split.first}"|
 end

@@ -619,7 +619,7 @@ describe UsersController do
       end
       it 'flashes a notice' do
         get :activate, activation_code: pending_fan.activation_code
-        expect(flash[:notice]).to include 'Signup complete!'
+        expect(flash[:notice]).to include 'to get started'
       end
       it 'activates the user' do
         get :activate, activation_code: pending_fan.activation_code
