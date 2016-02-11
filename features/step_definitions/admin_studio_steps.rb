@@ -1,6 +1,7 @@
 When(/^I fill in the new studio information for "(.*)"$/) do |name|
   within '#new_studio' do
     fill_in "Name", with: name
+    fill_in "Street", with: '100 Market St'
     attach_file "Photo", fixture_file("files/art.png")
   end
 end
