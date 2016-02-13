@@ -60,7 +60,8 @@ class UserPresenter < ViewPresenter
     @who_favorites_me ||=
       begin
         favs = favorites_of_me.flatten
-        User.active.find(favs.select{|f| f.try(:user_id)}.compact.uniq.map(&:user_id))
+        user_ids = favs.map(&:user_id).compact.uniq
+        User.active.where(id: user_ids)
       end
   end
 
