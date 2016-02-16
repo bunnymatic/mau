@@ -135,7 +135,7 @@ class UserPresenter < ViewPresenter
 
   private
   def format_link_for_display(link)
-    link.gsub /^https?:\/\//, ''
+    strip_http_from_link(link)
   end
 
   def format_link(link)
@@ -145,12 +145,19 @@ class UserPresenter < ViewPresenter
   end
 
   def icon_link_class(key, site)
+    site = strip_http_from_link(site)
     clz = [:ico, "ico-invert", "ico-#{key}"]
-    if key.to_sym == :blog
+    if site =~ /\.tumblr\./
+      clz << "ico-tumblr"
+    elsif key.to_sym == :blog
       site_bits = site.split(".")
-      clz << "ico-" + ((site_bits.length > 2) ? site_bits[1] : site_bits[0])
+      clz << "ico-" + ((site_bits.length > 2) ? site_bits[-3] : site_bits[0])
     end
     clz.join(' ')
+  end
+
+  def strip_http_from_link(link)
+    link.gsub /^https?:\/\//, ''
   end
 
   def self.keyed_links
