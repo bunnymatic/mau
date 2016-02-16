@@ -7,10 +7,16 @@ describe MarkdownService do
     expect(marked_down).to include "<h2>two</h2>"
   end
 
-  it "removes script tags" do
-    marked_down = MarkdownService.markdown("# one\n<h2>two</h2><script>alert('yo');</script>")
+  it "filters script tags" do
+    marked_down = MarkdownService.markdown("# one\n<script>alert('yo')</script>")
     expect(marked_down).to include "<h1>one</h1>"
-    expect(marked_down).to include "<h2>two</h2>"
     expect(marked_down).to_not include "script"
   end
+
+  it "strips leading spaces from the full doc (not every line)" do
+    marked_down = MarkdownService.markdown("               this will not have pre code\n\n     and this will")
+    expect(marked_down).to include "<p>this will not"
+    expect(marked_down).to include "<pre><code> and this will"
+  end
+
 end

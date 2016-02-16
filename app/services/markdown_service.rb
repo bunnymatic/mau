@@ -1,11 +1,21 @@
 class MarkdownService
-  def self.cleanse(str)
-    doc = Nokogiri::HTML::DocumentFragment.parse(str)
-    doc.xpath(".//script").remove
-    doc.to_s
+
+  DEFAULT_MARKDOWN_OPTS = [:smart, :filter_styles, :safelink, :no_pseudo_protocols]
+
+  def self.markdown(discount, markdown_opts = nil)
+    markdown_opts ||= DEFAULT_MARKDOWN_OPTS
+    cleanse(RDiscount.new((discount || '').lstrip, *markdown_opts).to_html).html_safe
   end
 
-  def self.markdown(discount, markdown_opts = :smart)
-    cleanse(RDiscount.new(discount || '', markdown_opts).to_html).html_safe
+  class << self
+
+    private
+    def cleanse(str)
+      doc = Nokogiri::HTML::DocumentFragment.parse(str)
+      doc.xpath(".//script").remove
+      doc.to_s
+    end
+
   end
+
 end
