@@ -9,6 +9,26 @@ describe UserPresenter do
 
   its(:member_since) { Time.current.year - 1 }
 
+  describe '#icon_link_class' do
+
+    it 'returns ico-tumblr for www.whatever.tumblr.com' do
+      clz = presenter.send(:icon_link_class, :blog, 'http://www.whatever.tumblr.com')
+      expect(clz).to include 'ico-tumblr'
+      expect(clz).to include 'ico-blog'
+    end
+
+    it 'returns ico-tumblr for whatever.tumblr.com' do
+      clz = presenter.send(:icon_link_class, :blog, 'http://whatever.tumblr.com')
+      expect(clz).to include 'ico-tumblr'
+    end
+
+    it 'returns ico-twitter for www.twitter.com/herewego' do
+      clz = presenter.send(:icon_link_class, :twitter, 'whatever')
+      expect(clz).to include 'ico-twitter'
+    end
+
+  end
+
   describe '#what_i_favorite' do
     let(:active_with_art) { create :artist, :active, :with_art }
     let(:inactive_with_art) { create :artist, :with_art, state: :suspended }
