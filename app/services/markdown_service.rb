@@ -12,7 +12,7 @@ class MarkdownService
     private
     def cleanse(str)
       doc = Nokogiri::HTML::DocumentFragment.parse(str)
-      doc.xpath(".//script").remove
+      doc.xpath(".//script|pre|code").remove
       doc.to_s
     end
 
