@@ -13,16 +13,10 @@ describe MarkdownService do
     expect(marked_down).to_not include "script"
   end
 
-  it "strips leading spaces from the full doc (not every line)" do
-    marked_down = MarkdownService.markdown("               this will not have pre code\n\n     and this will")
+  it "strips leading spaces from the doc" do
+    marked_down = MarkdownService.markdown("               this will not have pre code\n\n     and neither will this")
     expect(marked_down).to include "<p>this will not"
-    expect(marked_down).to include "<pre><code> and this will"
-  end
-
-  it "strips pre and code tags" do
-    marked_down = MarkdownService.markdown("               this will not have pre code\n\n     and this will")
-    expect(marked_down).to include "<p>this will not"
-    expect(marked_down).to include "code</p><p>and this will"
+    expect(marked_down).to include "<p>and neither will"
   end
 
 end
