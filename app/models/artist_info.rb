@@ -38,6 +38,8 @@ class ArtistInfo < ActiveRecord::Base
   before_validation(:on => :create){ compute_geocode }
   before_validation(:on => :update){ compute_geocode }
 
+  validates :artist_id, presence: true, uniqueness: true
+
   include AddressMixin
   include OpenStudiosEventShim
 

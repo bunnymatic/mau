@@ -51,9 +51,9 @@ GEM
       railties (>= 3.1)
       sprockets (~> 2)
       tilt
-    annotate (2.6.1)
-      activerecord (>= 2.3.0)
-      rake (>= 0.8.7)
+    annotate (2.7.0)
+      activerecord (>= 3.2, < 6.0)
+      rake (~> 10.4)
     ansi (1.5.0)
     arel (6.0.3)
     authlogic (3.4.6)

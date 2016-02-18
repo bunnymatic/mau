@@ -31,13 +31,19 @@ describe ArtistInfo do
         expect(artist_info).to receive(:compute_geocode).and_return([-37,122])
         artist_info.save
       end
+      it "requires an artist" do
+        expect {
+          artist_info.artist_id = nil
+          artist_info.save!
+        }.to raise_error ActiveRecord::RecordInvalid
+      end
     end
   end
 
   describe 'save' do
     it "triggers geocode given new street" do
       expect(joeblogs).to receive(:compute_geocode).at_least(1).and_return([-37,122])
-      joeblogs.save
+      joeblogs.save!
     end
   end
 

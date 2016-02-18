@@ -9,7 +9,7 @@ describe ArtPiece do
   it{ should validate_presence_of(:title) }
   it{ should validate_length_of(:title).is_at_least(2).is_at_most(80) }
 
-  describe 'create'  do
+  describe 'new'  do
     it 'allows quotes' do
       p = valid_attrs.merge({:title => 'what"ever'})
       ap = ArtPiece.new(p)

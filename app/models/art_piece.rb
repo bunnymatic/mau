@@ -39,6 +39,7 @@ class ArtPiece < ActiveRecord::Base
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
   validates_attachment_presence :photo
   validates_attachment_content_type :photo, content_type: ["image/jpg", "image/jpeg", "image/png", "image/gif"], message: "Only JPEG, PNG, and GIF images are allowed"
+  validates :artist_id, presence: true
   include Elasticsearch::Model
 
   after_commit :add_to_search_index, on: :create

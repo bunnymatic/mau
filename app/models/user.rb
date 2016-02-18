@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
     a.lastname.downcase <=> b.lastname.downcase
   }
 
-  has_many :favorites, class_name: 'Favorite' do
+  has_many :favorites, dependent: :destroy, class_name: 'Favorite' do
      def to_obj
        proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
      end
@@ -133,7 +133,7 @@ class User < ActiveRecord::Base
 
   belongs_to :studio
   has_many :roles_users, dependent: :destroy
-  has_many :roles, through: :roles_users, dependent: :destroy
+  has_many :roles, through: :roles_users
 
   acts_as_authentic do |c|
     c.act_like_restful_authentication = true
