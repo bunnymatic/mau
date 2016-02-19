@@ -109,7 +109,6 @@ group :test do
 end
 
 group :development do
-  gem 'annotate'
   gem 'capistrano3-unicorn'
   gem 'spring'
   gem 'better_errors'
