@@ -108,3 +108,6 @@ Then /^I click the fan signup button$/ do
   step %q{I click "Sign up"}
 end
 
+Then(/^I see that I have been deactivated$/) do
+  expect(@artist.state).to eql :suspended
+end

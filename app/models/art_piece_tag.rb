@@ -1,13 +1,3 @@
-# == Schema Information
-#
-# Table name: art_piece_tags
-#
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 class ArtPieceTag < ActiveRecord::Base
 
   include TagMediaMixin

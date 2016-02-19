@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: open_studios_events
-#
-#  id                :integer          not null, primary key
-#  start_date        :datetime
-#  end_date          :datetime
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  key               :string(255)
-#  logo_file_name    :string(255)
-#  logo_content_type :string(255)
-#  logo_file_size    :integer
-#  logo_updated_at   :datetime
-#  title             :string(255)      default("Open Studios"), not null
-#
-
 class OpenStudiosEvent < ActiveRecord::Base
   #attr_accessible :end_date, :start_date, :key, :logo, :title
 

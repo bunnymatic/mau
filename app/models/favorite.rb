@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: favorites
-#
-#  id               :integer          not null, primary key
-#  created_at       :datetime
-#  updated_at       :datetime
-#  favoritable_id   :integer
-#  favoritable_type :string(255)
-#  user_id          :integer
-#
-
 class Favorite < ActiveRecord::Base
   belongs_to :user
   belongs_to :favorite, :polymorphic => true

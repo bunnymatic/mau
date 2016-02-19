@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: media
-#
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  slug       :string(255)
-#
-# Indexes
-#
-#  index_media_on_slug  (slug) UNIQUE
-#
-
 class Medium < ActiveRecord::Base
   has_many :art_pieces
 

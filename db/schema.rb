@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208031222) do
+ActiveRecord::Schema.define(version: 20160218042516) do
 
   create_table "application_events", force: :cascade do |t|
     t.string   "type",       limit: 255
@@ -292,6 +292,10 @@ ActiveRecord::Schema.define(version: 20160208031222) do
     t.string   "photo_content_type",        limit: 255
     t.integer  "photo_file_size",           limit: 4
     t.datetime "photo_updated_at"
+    t.string   "featured_gif_file_name",    limit: 255
+    t.string   "featured_gif_content_type", limit: 255
+    t.integer  "featured_gif_file_size",    limit: 4
+    t.datetime "featured_gif_updated_at"
   end
 
   add_index "users", ["last_request_at"], name: "index_users_on_last_request_at", using: :btree
