@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: scammers
-#
-#  id         :integer          not null, primary key
-#  email      :text
-#  name       :text
-#  faso_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 require 'net/http'
 require 'uri'
 

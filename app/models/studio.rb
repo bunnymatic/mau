@@ -1,33 +1,3 @@
-# == Schema Information
-#
-# Table name: studios
-#
-#  id                 :integer          not null, primary key
-#  name               :string(255)
-#  street             :string(255)
-#  city               :string(255)
-#  state              :string(255)
-#  zip                :integer
-#  url                :string(255)
-#  created_at         :datetime
-#  updated_at         :datetime
-#  profile_image      :string(255)
-#  lat                :float
-#  lng                :float
-#  cross_street       :string(255)
-#  phone              :string(255)
-#  slug               :string(255)
-#  photo_file_name    :string(255)
-#  photo_content_type :string(255)
-#  photo_file_size    :integer
-#  photo_updated_at   :datetime
-#  position           :integer          default(1000)
-#
-# Indexes
-#
-#  index_studios_on_slug  (slug) UNIQUE
-#
-
 require 'uri'
 class Studio < ActiveRecord::Base
 

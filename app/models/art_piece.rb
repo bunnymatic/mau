@@ -1,29 +1,3 @@
-# == Schema Information
-#
-# Table name: art_pieces
-#
-#  id                 :integer          not null, primary key
-#  filename           :string(255)
-#  title              :string(255)
-#  description        :text
-#  dimensions         :string(255)
-#  artist_id          :integer
-#  created_at         :datetime
-#  updated_at         :datetime
-#  medium_id          :integer
-#  year               :integer
-#  position           :integer          default(0)
-#  photo_file_name    :string(255)
-#  photo_content_type :string(255)
-#  photo_file_size    :integer
-#  photo_updated_at   :datetime
-#
-# Indexes
-#
-#  index_art_pieces_on_artist_id  (artist_id)
-#  index_art_pieces_on_medium_id  (medium_id)
-#
-
 class ArtPiece < ActiveRecord::Base
 
   belongs_to :artist

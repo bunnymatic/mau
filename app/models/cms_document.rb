@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: cms_documents
-#
-#  id         :integer          not null, primary key
-#  page       :string(255)
-#  section    :string(255)
-#  article    :text
-#  created_at :datetime
-#  updated_at :datetime
-#  user_id    :integer
-#
-# Indexes
-#
-#  index_cms_documents_on_user_id  (user_id)
-#
-
 class CmsDocument < ActiveRecord::Base
 
   before_save :clean_newlines

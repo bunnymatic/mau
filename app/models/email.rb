@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: emails
-#
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#
-# Indexes
-#
-#  index_emails_on_email  (email) UNIQUE
-#
-
 class Email < ActiveRecord::Base
 
   has_many :email_list_memberships
