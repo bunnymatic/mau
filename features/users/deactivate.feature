@@ -7,7 +7,7 @@ Background:
 
 @javascript
 Scenario: Deactivating my account
-  When I click "edit my page"
-  And I click on the last "change" button
-  And I click "deactivate me"
+  When I click "My Account"
+  And I click "Deactivate"
+  And I click "Deactivate"
   Then I see that I have been deactivated

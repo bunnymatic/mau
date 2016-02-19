@@ -51,9 +51,6 @@ GEM
       railties (>= 3.1)
       sprockets (~> 2)
       tilt
-    annotate (2.7.0)
-      activerecord (>= 3.2, < 6.0)
-      rake (~> 10.4)
     ansi (1.5.0)
     arel (6.0.3)
     authlogic (3.4.6)
@@ -510,7 +507,6 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   angular-rails-templates
-  annotate
   authlogic
   aws-sdk-v1
   better_errors
