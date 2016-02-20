@@ -29,7 +29,7 @@ describe UserPresenter do
 
   end
 
-  describe '#what_i_favorite' do
+  describe '#who_i_favorite' do
     let(:active_with_art) { create :artist, :active, :with_art }
     let(:inactive_with_art) { create :artist, :with_art, state: :suspended }
     let(:fan) { create :fan }
@@ -43,17 +43,16 @@ describe UserPresenter do
     end
 
     it "includes only active artists" do
-      expect(presenter.what_i_favorite).to include active_with_art
-      expect(presenter.what_i_favorite).not_to include inactive_with_art
+      expect(presenter.who_i_favorite).to include active_with_art
+      expect(presenter.who_i_favorite).not_to include inactive_with_art
     end
 
-    it "includes only art from active artists" do
-      expect(presenter.what_i_favorite).to include active_with_art.art_pieces.first
-      expect(presenter.what_i_favorite).not_to include inactive_with_art.art_pieces.first
+    it "does not include art" do
+      expect(presenter.who_i_favorite.any?{|f| f.is_a? ArtPiece}).to eq false
     end
 
     it "does not include fans" do
-      expect(presenter.what_i_favorite).not_to include fan
+      expect(presenter.who_i_favorite).not_to include fan
     end
   end
 
