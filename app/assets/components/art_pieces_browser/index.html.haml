@@ -62,10 +62,10 @@
 
   .pure-u-1-1.pure-u-sm-2-3.pure-u-md-3-4.pure-u-lg-4-5.art-piece
     .art-piece__wrapper
-      .art-piece__image{ "style" => "background-image: url({{artPiece.image_urls.large}});" }
+      .art-piece__image{ "style" => "background-image: url(\"{{artPiece.image_urls.large}}\");" }
 
   .pure-u-1-1.art-piece__thumbs{ 'ng-show' => 'artPieces.length > 1' }
     .pure-g.browser
       .piece.pure-u-1-4.pure-u-sm-1-6.pure-u-md-1-8.pure-u-lg-1-10.padded-content{'ng-repeat' => 'piece in artPieces', "ng-class" => "{current: isCurrent(piece.id)}" }
         %a{href: "/art_pieces/{{ piece.id }}", "ng-click" => "setCurrent($event, $index)"}
-          .image{ "ng-style" => "{backgroundImage: 'url({{piece.image_urls.small}})'}"}
+          .image{ "ng-style" => "{backgroundImage: 'url(\"{{piece.image_urls.small}}\")'}"}

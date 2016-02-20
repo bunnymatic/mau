@@ -13,5 +13,8 @@ module ApplicationHelper
     end
   end
 
+  def background_image_style(img)
+    'background-image: url("%s");' % img
+  end
 
 end

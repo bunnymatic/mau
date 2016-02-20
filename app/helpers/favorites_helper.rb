@@ -23,7 +23,7 @@ module FavoritesHelper
     if img && path
       result << "<li #{xstyle}>"
       result << "<a href='#{path}' title='#{title}'>" unless options[:linkless]
-      result << "<div class='thumb #{xclass}' title='#{title}' style='background-image: url(#{img})'></div>"
+      result << "<div class='thumb #{xclass}' title='#{title}' style='#{background_image_style(img)}'></div>"
       result << "</a>" unless options[:linkless]
       result << "</li>"
     end

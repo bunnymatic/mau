@@ -8,10 +8,9 @@
   = link_to artist_path(artist) do
     - if artist.doing_open_studios?
       .os-violator title="Open Studios Participant!"
-    .image style="background-image: url(#{artist.representative_piece.get_path(:medium)});"
+    .image style=background_image_style(artist.representative_piece.get_path(:medium))
     .desc
       .name
         = link_to artist.full_name, artist_path(artist)
       .media
         = [ artist.media.map { |m| link_to m.name, m } ].join(", ").html_safe
-
