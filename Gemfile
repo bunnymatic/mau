@@ -5,6 +5,7 @@ gem 'racc'
 gem "rails", '~> 4.2'
 gem 'active_model_serializers'
 gem 'responders'
+gem 'lograge'
 gem "font-awesome-rails"
 gem "nokogiri"
 gem "htmlentities"
