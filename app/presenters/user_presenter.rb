@@ -42,14 +42,14 @@ class UserPresenter < ViewPresenter
     false
   end
 
-  def what_i_favorite
+  def who_i_favorite
     # collect artist and art piece stuff
-    @what_i_favorite ||=
+    @who_i_favorite ||=
       begin
         user_favorites, art_piece_favorites = model.favorites.partition do |fav|
           ['Artist', 'MAUFan', 'User'].include? fav.favoritable_type
         end
-        art_pieces = ArtPiece.owned.where(id: art_piece_favorites.map(&:favoritable_id) )
+        art_pieces = ArtPiece.includes(:artist).owned.where(id: art_piece_favorites.map(&:favoritable_id) ).map(&:artist)
         users = Artist.active.where(id: user_favorites.map(&:favoritable_id))
 
         [ users, art_pieces ].flatten.compact.uniq

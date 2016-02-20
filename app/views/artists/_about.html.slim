@@ -73,7 +73,7 @@
             | Who I
             '
             = fa_icon 'heart'
-        = render partial: "/users/favorite_thumbs", locals: { collection: artist.what_i_favorite }
+        = render partial: "/users/favorite_thumbs", locals: { collection: artist.who_i_favorite }
     .pure-u-1-1
       section.favorites
         .header
@@ -82,5 +82,3 @@
           = fa_icon 'heart'
           | 's me
         = render partial: "/users/favorite_thumbs", locals: { collection: artist.who_favorites_me }
-
-
