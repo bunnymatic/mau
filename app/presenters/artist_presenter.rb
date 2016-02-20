@@ -3,6 +3,8 @@
 
 class ArtistPresenter < UserPresenter
 
+  include ApplicationHelper
+
   attr_accessor :model
 
   delegate :doing_open_studios?, :os_participation, :studio, :studio_id,
@@ -122,7 +124,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def map_thumb_image
-    @representative_thumb_image ||= content_tag('div', '', class: 'thumb', style: "background-image: url(#{map_thumb});")
+    @representative_thumb_image ||= content_tag('div', '', class: 'thumb', style: background_image_style(map_thumb))
   end
 
   def linked_thumb

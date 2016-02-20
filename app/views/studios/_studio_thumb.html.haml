@@ -4,7 +4,7 @@
   - if studio_thumb.has_open_studios_artists?
     .os-violator
   %a{href: studio_thumb.studio_path, title: studio_thumb.name}
-    .image{style: "background-image: url('#{studio_thumb.image(:medium)}')"}
+    .image{style: "background-image: url(\"#{studio_thumb.image(:medium)}\")"}
   .desc
     .name
       %a{href: studio_thumb.studio_path, title: studio_thumb.name}

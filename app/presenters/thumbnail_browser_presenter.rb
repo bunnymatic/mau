@@ -1,5 +1,7 @@
 class ThumbnailBrowserPresenter < ViewPresenter
 
+  include ApplicationHelper
+
   attr_reader :next_img, :prev_img, :current_index
 
   def initialize(artist, current_piece)
@@ -29,7 +31,7 @@ class ThumbnailBrowserPresenter < ViewPresenter
     @thumbs ||= pieces.map.with_index do |item, idx|
       item_id = item.send(:id)
       item_path = item.get_path('thumb')
-      style = "background-image:url(#{item_path});"
+      style = background_image_style(item_path)
       thumb = {
         :path => item_path,
         :clz => 'tiny-thumb',
