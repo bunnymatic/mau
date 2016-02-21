@@ -32,20 +32,17 @@ class Artist < User
   self.__elasticsearch__.client = Search::EsClient.root_es_client
 
   after_commit :add_to_search_index, on: :create
-  after_commit :refresh_in_search_index, on: :update
   after_commit :remove_from_search_index, on: :destroy
+  # after_commit :refresh_in_search_index, on: :update
 
   def add_to_search_index
     Search::Indexer.index(self)
   end
 
-  def refresh_in_search_index
-    Search::Indexer.reindex(self)
-  end
-
   def remove_from_search_index
     Search::Indexer.remove(self)
   end
+
   settings(analysis: Search::Indexer::ANALYZERS_TOKENIZERS, index: { number_of_shards: 2}) do
     mappings(_all: {analyzer: :mau_snowball_analyzer}) do
       indexes :artist_name, analyzer: :mau_snowball_analyzer
@@ -58,6 +55,7 @@ class Artist < User
   end
 
   def as_indexed_json(opts={})
+    return {} unless active?
     idxd = as_json(only: [:firstname, :lastname, :nomdeplume, :slug])
     extras = {}
     studio_name = studio.try(:name)

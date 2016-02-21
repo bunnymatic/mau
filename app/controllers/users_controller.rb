@@ -200,7 +200,7 @@ class UsersController < ApplicationController
 
   def deactivate
     logout
-    current_user.suspend!
+    SuspendArtistService.new(current_user).suspend!
     flash[:notice] = "Your account has been deactivated."
     redirect_to root_path
   end

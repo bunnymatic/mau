@@ -47,7 +47,11 @@ module Search
       end
 
       def update
-        object.__elasticsearch__.update_document
+        begin
+          object.__elasticsearch__.update_document
+        rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
+          index
+        end
       end
     end
 

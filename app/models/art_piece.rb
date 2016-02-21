@@ -56,17 +56,18 @@ class ArtPiece < ActiveRecord::Base
   validates_length_of       :title,    :within => 2..80
 
   def as_indexed_json(opts={})
+    return {} unless artist && artist.active?
+
     idxd = as_json(only: [:title, :year])
     extras = {}
     extras["medium"] = medium.try(:name)
     extras["tags"] = tags.map(&:name).join(", ")
     extras["images"] = image_paths
     # guard against bad data
-    if artist
-      extras["artist_name"] = artist.full_name
-      extras["studio_name"] = artist.studio.name if artist.studio
-      extras["os_participant"] = artist.doing_open_studios?
-    end
+    extras["artist_name"] = artist.full_name
+    extras["studio_name"] = artist.studio.name if artist.studio
+    extras["os_participant"] = artist.doing_open_studios?
+
     idxd["art_piece"].merge! extras
     idxd
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe UsersController do
+describe UsersController, elasticsearch: true do
 
   let(:fan) { FactoryGirl.create(:fan) }
   let(:quentin) { FactoryGirl.create :artist }
