@@ -19,7 +19,7 @@ class Artist < User
     ]
   }.freeze
 
-  CACHE_KEY = 'a_rep' if !defined? CACHE_KEY
+  REPRESENTATIVE_ART_CACHE_KEY = 'representative_art'
   MAX_PIECES = 20
   include AddressMixin
   include OpenStudiosEventShim
@@ -143,13 +143,13 @@ class Artist < User
   end
 
   def representative_piece
-    cache_key = "%s%s" % [CACHE_KEY, id]
+    cache_key = "%s%s" % [REPRESENTATIVE_ART_CACHE_KEY, id]
     piece_id = SafeCache.read(cache_key)
     piece = ArtPiece.find_by id: piece_id
     if piece.blank?
       logger.debug("#{__method__}: cache miss");
       piece = art_pieces.first
-      SafeCache.write(cache_key, piece, :expires_in => 0) unless piece.nil?
+      SafeCache.write(cache_key, piece.id, :expires_in => 0) unless piece.nil?
     end
     piece
   end
