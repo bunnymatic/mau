@@ -1,4 +1,4 @@
-.admin.artists {
+.admin.users, .admin.artists {
   .no-address {
     font-size: 0.8rem;
     font-style: italic;
@@ -32,6 +32,16 @@
     .tabs li {
       i {
         margin-right: 10px;
+      }
+    }
+  }
+
+  .profile-info {
+    margin-bottom: 20px;
+    table {
+      tr td:first-child {
+        text-transform: uppercase;
+        padding-right: 10px;
       }
     }
   }

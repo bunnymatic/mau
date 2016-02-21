@@ -147,6 +147,8 @@ Mau::Application.routes.draw do
         get :notify_featured
       end
     end
+    resources :users, only: [:show]
+
     resources :art_piece_tags, only: [:index, :destroy] do
       collection do
         get :cleanup

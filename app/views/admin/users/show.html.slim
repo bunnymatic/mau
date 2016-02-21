@@ -1,0 +1,36 @@
+.pure-g
+  .pure-u-1-1.padded-content.header.artist-admin-header
+    h2.title = @user.name
+
+.pure-g
+  .pure-u-1-2.padded-content
+    .profile-info.clearfix
+      table.table
+        tr
+          td Username
+          td = @user.login
+        tr
+          td Name
+          td = @user.full_name
+        tr
+          td Link To Artist
+          td = link_to artist_url(@user), artists_url(@user)
+        tr
+          td Studio
+          td = (@user.studio.try(:name) || "Indy")
+    .facebook
+      h4 For Facebook
+      .content
+    .instagram
+      h4 For Instagram
+      .content
+  .pure-u-1-2.padded-content
+    - if @user.has_art?
+      h4
+        = "Representative piece: " + @user.representative_piece.title
+      - url = @user.representative_piece.photo(:original)
+      .image
+          img.pure-img src=url
+      .url = url
+    - else
+      h4 No art here
