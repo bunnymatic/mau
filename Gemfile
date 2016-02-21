@@ -9,7 +9,7 @@ gem 'lograge'
 gem "font-awesome-rails"
 gem "nokogiri"
 gem "htmlentities"
-gem 'mysql2'
+gem 'mysql2', '~> 0.4.x'
 gem "haml"
 gem "slim-rails"
 gem 'mojo_magick'
