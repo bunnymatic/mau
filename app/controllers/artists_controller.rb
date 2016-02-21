@@ -166,18 +166,12 @@ class ArtistsController < ApplicationController
         redirect_to user_path(current_user)
         return
       end
-      attrs = artist_params
-      # preserve os settings
-      if attrs[:artist_info_attributes]
-        attrs[:artist_info_attributes][:open_studios_participation] = current_artist.artist_info.open_studios_participation
-      end
-
-      if current_artist.update_attributes(attrs)
+      if UpdateArtistService.new(current_artist, artist_params).update
         Messager.new.publish "/artists/#{current_artist.id}/update", "updated artist info"
         flash[:notice] = "Your profile has been updated"
         redirect_to edit_artist_url(current_user)
       else
-        @user = ArtistPresenter.new(current_artist)
+        @user = ArtistPresenter.new(current_artist.reload)
         @studios = StudioService.all
         render :edit
       end

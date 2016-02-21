@@ -35,7 +35,7 @@ module Admin
         Medium.flush_cache
         flash[:notice] = 'Medium was successfully updated.'
         redirect_to admin_media_path
-     else
+      else
         render :action => "edit"
       end
     end
