@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   before_filter :logged_out_required, :only => [:new]
-  before_filter :admin_required, :only => [ :admin_index, :admin_update, :destroy ]
+  before_filter :admin_required, :only => [ :destroy ]
   before_filter :user_required, :only => [ :edit, :update, :suspend, :deactivate,
                                            :add_favorite, :remove_favorite, :change_password_update]
 
@@ -200,7 +200,7 @@ class UsersController < ApplicationController
 
   def deactivate
     logout
-    current_user.suspend!
+    SuspendArtistService.new(current_user).suspend!
     flash[:notice] = "Your account has been deactivated."
     redirect_to root_path
   end

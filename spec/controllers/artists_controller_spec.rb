@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'htmlentities'
 
-describe ArtistsController do
+describe ArtistsController, elasticsearch: true do
 
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:artist) { FactoryGirl.create(:artist, :with_studio, :with_art, nomdeplume: nil, firstname: 'joe', lastname: 'ablow') }

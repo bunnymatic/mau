@@ -15,7 +15,7 @@ module Admin
 
     def suspend
       artist = Artist.find(params[:id])
-      artist.suspend!
+      SuspendArtistService.new(artist).suspend!
       redirect_to admin_artists_path, notice: "#{artist.get_name} has been suspended"
     end
 
