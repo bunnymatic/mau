@@ -22,6 +22,11 @@ describe UserPresenter do
       expect(clz).to include 'ico-tumblr'
     end
 
+    it 'returns ico-blogger for www.blogger.com' do
+      clz = presenter.send(:icon_link_class, :blog, 'http://www.blogger.com')
+      expect(clz).to include 'ico-blogger'
+    end
+
     it 'returns ico-twitter for www.twitter.com/herewego' do
       clz = presenter.send(:icon_link_class, :twitter, 'whatever')
       expect(clz).to include 'ico-twitter'
