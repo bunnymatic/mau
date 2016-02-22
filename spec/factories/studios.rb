@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :studio do
-    name { "O'R" + Faker::Company.name + Time.current.to_i }
+    sequence(:name) { |n| "O'R" + Faker::Company.name + n.to_s }
     street { Faker::Address.street_name }
     city { Faker::Address.city }
     state { Faker::Address.state }

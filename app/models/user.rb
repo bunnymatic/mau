@@ -195,9 +195,11 @@ class User < ActiveRecord::Base
         favoritable_id: fav.id,
         user_id: self.id
       }
-      if Favorite.where(favorite_params).limit(1).blank?
-        Favorite.create!(favorite_params)
-        notify_favorited_user(fav)
+      self.transaction do
+        if Favorite.where(favorite_params).limit(1).blank?
+          Favorite.create!(favorite_params)
+          notify_favorited_user(fav)
+        end
       end
     end
   end
