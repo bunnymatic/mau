@@ -1,16 +1,20 @@
 module Admin
   class ArtistsController < ::BaseAdminController
-    before_filter :admin_required, :only => [ :index, :update ]
+    before_filter :admin_required, :only => [ :index, :update, :show ]
     before_filter :editor_required, :only => [ :notify_featured ]
-
+    before_filter :set_artist, only: [ :show, :suspend ]
     def index
-      #get_sort_options_from_params
       @artist_list = AdminArtistList.new
       @active_artist_list, @inactive_artist_list = @artist_list.partition{|a| a.pending? || a.active?}
       respond_to do |format|
         format.html
         format.csv { render_csv_string(@artist_list.csv, @artist_list.csv_filename) }
       end
+    end
+
+    def show
+      debugger
+      @artist = ArtistPresenter.new(@artist)
     end
 
     def suspend
@@ -46,11 +50,11 @@ module Admin
       redirect_to(admin_artists_url)
     end
 
-    def destroy
-      @os_event = OpenStudiosEventService.find(params[:id], false)
-      OpenStudiosEventService.destroy(@os_event)
-      redirect_to admin_open_studios_events_path, notice: "The Event has been removed"
-    end
+    # def destroy
+    #   @os_event = OpenStudiosEventService.find(params[:id], false)
+    #   OpenStudiosEventService.destroy(@os_event)
+    #   redirect_to admin_open_studios_events_path, notice: "The Event has been removed"
+    # end
 
     def notify_featured
       id = Integer(params[:id])
@@ -59,10 +63,8 @@ module Admin
     end
 
     private
-    def get_sort_options_from_params
-      @sort_by = params[:sort_by] || params[:rsort_by]
-      @reverse = params.has_key? :rsort_by
-      puts "sort #{@sort_by} #{@reverse}"
+    def set_artist
+      @artist = Artist.find(params[:id])
     end
 
     # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not

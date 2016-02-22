@@ -1,7 +1,7 @@
 class ArtPiecePresenter < ViewPresenter
 
   attr_reader :art_piece
-  delegate :id, :year, :medium, :get_path, :artist, :title, :updated_at, :to_param, :to => :art_piece
+  delegate :id, :year, :photo, :medium, :get_path, :artist, :title, :updated_at, :to_param, :to => :art_piece
 
   def initialize(art_piece)
     @art_piece = art_piece
@@ -34,6 +34,10 @@ class ArtPiecePresenter < ViewPresenter
 
   def path
     url_helpers.art_piece_path(art_piece)
+  end
+
+  def url
+    url_helpers.art_piece_url(art_piece)
   end
 
   alias_method :show_path, :path

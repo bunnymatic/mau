@@ -1,4 +1,4 @@
-.admin.artists {
+.admin.users, .admin.artists {
   .no-address {
     font-size: 0.8rem;
     font-style: italic;
@@ -7,6 +7,9 @@
     font-size: 85%;
     td.date-field {
       white-space: nowrap;
+    }
+    .admin-artist-link {
+      float: right;
     }
     .user-state {
       font-size: 150%;
@@ -32,6 +35,16 @@
     .tabs li {
       i {
         margin-right: 10px;
+      }
+    }
+  }
+
+  .profile-info {
+    margin-bottom: 20px;
+    table {
+      tr td:first-child {
+        text-transform: uppercase;
+        padding-right: 10px;
       }
     }
   }
