@@ -5,7 +5,6 @@ class Studio < ActiveRecord::Base
   include Geokit::ActsAsMappable
 
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
 
   self.__elasticsearch__.client = Search::EsClient.root_es_client
 
@@ -14,6 +13,22 @@ class Studio < ActiveRecord::Base
       indexes :name, analyzer: :mau_snowball_analyzer
       indexes :address, analyzer: :mau_snowball_analyzer
     end
+  end
+
+  after_commit :add_to_search_index, on: :create
+  after_commit :refresh_in_search_index, on: :update
+  after_commit :remove_from_search_index, on: :destroy
+
+  def add_to_search_index
+    Search::Indexer.index(self)
+  end
+
+  def refresh_in_search_index
+    Search::Indexer.reindex(self)
+  end
+
+  def remove_from_search_index
+    Search::Indexer.remove(self)
   end
 
   extend FriendlyId
