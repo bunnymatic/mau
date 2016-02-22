@@ -12,27 +12,32 @@ module Search
     end
 
     def multi_index_search
+      query_body = {
+        query: {
+          multi_match: {
+            query: @query,
+            fields: ['_all', 'studio.name^5', 'artist.artist_name^5', 'art_piece.title^3'],
+            type: 'most_fields',
+            fuzziness: 1
+          }
+        },
+        size: 100,
+        highlight: {
+          fields: {
+            "name" => {},
+            "tags" => {},
+            "title" => {},
+            "artist_name" => {},
+            "artist_bio" => {},
+            "bio" => {}
+          }
+        }
+      }
+      puts "QUERY", query_body.inspect
       EsClient.client.search(
         {
           index: [:art_pieces, :studios, :artists].join(","),
-          body: {
-            query: {
-              match: {
-                '_all' => @query
-              }
-            },
-            size: 100,
-            highlight: {
-              fields: {
-                "name" => {},
-                "tags" => {},
-                "title" => {},
-                "artist_name" => {},
-                "artist_bio" => {},
-                "bio" => {}
-              }
-            }
-          }
+          body: query_body
         })
     end
 
