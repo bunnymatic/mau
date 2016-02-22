@@ -36,6 +36,10 @@ class ArtPiecePresenter < ViewPresenter
     url_helpers.art_piece_path(art_piece)
   end
 
+  def url
+    url_helpers.art_piece_url(art_piece)
+  end
+
   alias_method :show_path, :path
   alias_method :destroy_path, :path
 

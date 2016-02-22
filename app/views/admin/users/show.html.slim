@@ -18,12 +18,19 @@
         tr
           td Studio
           td = (@user.studio.try(:name) || "Indy")
-    .facebook
-      h4 For Facebook
-      .content
-    .instagram
-      h4 For Instagram
-      .content
+        - if @user.facebook?
+          tr
+            td Facebook
+            td = @user.facebook
+        - if @user.twitter?
+          tr
+            td Twitter
+            td = @user.twitter
+        - if @user.instagram?
+          tr
+            td Instagram
+            td = (@user.instagram || "Indy")
+
   .pure-u-1-2.padded-content
     - if @user.has_art?
       h4
@@ -34,3 +41,66 @@
       .url = url
     - else
       h4 No art here
+  .pure-u-1-2.padded-content
+    .featured-snippet.mod-facebook
+      h4 For Facebook
+      .instructions
+        | Check for #{@user.login} and #{@user.full_name} on
+        '
+        = link_to "facebook", "https://www.facebook.com/search/top/?q=#{@user.full_name}", target: '_blank'
+        '
+        | and see if you can find their handle.
+        - if @user.facebook?
+          | We think it might be
+          '
+          = link_to @user.facebook_handle, @user.facebook
+          '
+          | based on their MAU profile.
+        '
+        | ALSO: tag the artist in the photo
+
+      .content
+        = render "featured_on_facebook", artist: @user
+  .pure-u-1-2.padded-content
+    .featured-snippet.mod-instagram
+      h4 For Instagram
+      .instructions
+        | Check for #{@user.login} and #{@user.full_name} on
+        '
+        = link_to 'instagram', "http://instagram.com/explore/tags/sfmau", target: '_blank'
+        '
+        | and see if you can find their handle.
+      - if @user.instagram?
+        .hint
+          | We think it might be
+          '
+          = link_to @user.instagram_handle, @user.instagram
+          '
+          | based on their MAU profile.
+      .content
+        = render "featured_on_instagram", artist: @user
+  .pure-u-1-2.padded-content
+    .featured-snippet.mod-twitter
+      h4 For Twitter
+
+      .instructions
+        | How to post pictures on twitter:
+        '
+        = link_to "https://support.twitter.com/articles/20156423", "https://support.twitter.com/articles/20156423"
+        '
+        | We loose some characters when we post a photo, so we don’t get quite 140. Delete from the end of the
+        | line as you go over character count.
+        '
+        | Check for #{@user.login} and #{@user.full_name} on
+        '
+        = link_to 'twitter', 'http://www.twitter.com', target: '_blank', class: "found-handle"
+        '
+        | their handle.
+        - if @user.twitter?
+          | We think it might be
+          '
+          = link_to @user.twitter_handle, @user.twitter
+          '
+          | based on their MAU profile.
+      .content
+        = render "featured_on_twitter", artist: @user

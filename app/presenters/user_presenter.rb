@@ -6,11 +6,12 @@ class UserPresenter < ViewPresenter
   attr_accessor :model
 
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
-    :bio, :address, :address_hash, :get_name,
-    :login, :active?,
-    :activated_at, :email, :last_login, :full_name,
-    :to_param,
-    to: :model, allow_nil: true
+           :bio, :address, :address_hash, :get_name,
+           :facebook, :twitter, :instagram,
+           :login, :active?,
+           :activated_at, :email, :last_login, :full_name,
+           :to_param,
+           to: :model, allow_nil: true
 
   def initialize(user)
     @model = user
@@ -62,6 +63,42 @@ class UserPresenter < ViewPresenter
         favs = favorites_of_me.flatten
         user_ids = favs.map(&:user_id).compact.uniq
         User.active.where(id: user_ids)
+      end
+  end
+
+  def facebook?
+    facebook_handle.present?
+  end
+
+  def instagram?
+    instagram_handle.present?
+  end
+
+  def twitter?
+    twitter_handle.present?
+  end
+
+  def facebook_handle
+    @facebook_handle ||=
+      begin
+        match = /facebook.com\/(.*)/.match(model.facebook.to_s)
+        match.captures.first if match
+      end
+  end
+
+  def instagram_handle
+    @instagram_handle ||=
+      begin
+        match = /instagram.com\/(.*)/.match(model.instagram.to_s)
+        match.captures.first if match
+      end
+  end
+
+  def twitter_handle
+    @twitter_handle ||=
+      begin
+        match = /twitter.com\/(.*)/.match(model.twitter.to_s)
+        match.captures.first if match
       end
   end
 

@@ -1,0 +1,9 @@
+div
+  | MissionOpenStudios April 16-17 12-6p
+  '
+  - if artist.twitter_handle
+    | @#{artist.twitter_handle}
+  - else
+    < artist name >
+  '
+  | #artist http://MissionArtists.org/artists/#{artist.login} #missionopenstudios #artistmedium #sfart
