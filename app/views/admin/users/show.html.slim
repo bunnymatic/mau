@@ -4,7 +4,7 @@
 
 .pure-g
   .pure-u-1-2.padded-content
-    .profile-info.clearfix
+    .profile-info.clearfix.info-block
       table.table
         tr
           td Username
@@ -30,19 +30,23 @@
           tr
             td Instagram
             td = (@user.instagram || "Indy")
+        tr
+          td Since
+          td = @user.member_since
 
   .pure-u-1-2.padded-content
-    - if @user.has_art?
-      h4
-        = "Representative piece: " + @user.representative_piece.title
-      - url = @user.representative_piece.photo(:original)
-      .image
+    .info-block
+      - if @user.has_art?
+        h4
+          = "Representative piece: " + @user.representative_piece.title
+        - url = @user.representative_piece.photo(:original)
+        .image
           img.pure-img src=url
-      .url = url
-    - else
-      h4 No art here
+        .url = url
+      - else
+        h4 No art here
   .pure-u-1-2.padded-content
-    .featured-snippet.mod-facebook
+    .featured-snippet.mod-facebook.info-block
       h4 For Facebook
       .instructions
         | Check for #{@user.login} and #{@user.full_name} on
@@ -62,7 +66,7 @@
       .content
         = render "featured_on_facebook", artist: @user
   .pure-u-1-2.padded-content
-    .featured-snippet.mod-instagram
+    .featured-snippet.mod-instagram.info-block
       h4 For Instagram
       .instructions
         | Check for #{@user.login} and #{@user.full_name} on
@@ -80,7 +84,7 @@
       .content
         = render "featured_on_instagram", artist: @user
   .pure-u-1-2.padded-content
-    .featured-snippet.mod-twitter
+    .featured-snippet.mod-twitter.info-block
       h4 For Twitter
 
       .instructions

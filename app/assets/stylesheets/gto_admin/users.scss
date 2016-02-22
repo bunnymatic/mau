@@ -1,7 +1,16 @@
 @import 'mau-mixins';
 .admin.users {
+  .image {
+    text-align: center;
+    margin: 20px auto;
+  }
   .url {
     @include ellipsis;
+  }
+  .info-block {
+    border-bottom: 1px solid #999;
+    padding-bottom: 40px;
+    margin-bottom: 40px;
   }
   .featured-snippet {
     h4 {
@@ -14,7 +23,7 @@
       color: #999;
     }
     .content {
-      border: 1px solid #ccc;
+      background-color: #f0f0f0;
       margin: 16px 0;
       padding: 8px;
     }
