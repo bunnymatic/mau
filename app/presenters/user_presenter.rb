@@ -150,8 +150,12 @@ class UserPresenter < ViewPresenter
     if site =~ /\.tumblr\./
       clz << "ico-tumblr"
     elsif key.to_sym == :blog
-      site_bits = site.split(".")
-      clz << "ico-" + ((site_bits.length > 2) ? site_bits[-3] : site_bits[0])
+      if site =~ /\.blogger\./
+        clz << "ico-blogger"
+      else
+        site_bits = site.split(".")
+        clz << "ico-" + ((site_bits.length > 2) ? site_bits[-3] : site_bits[0])
+      end
     end
     clz.join(' ')
   end
