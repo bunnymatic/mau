@@ -50,7 +50,7 @@ gem 'authlogic'
 gem 'postmark-rails'
 gem 'postmark'
 
-gem 'unicorn' # webserver
+gem 'puma' # webserver
 
 gem 'flot-rails' # jquery plotting program
 
@@ -110,11 +110,10 @@ group :test do
 end
 
 group :development do
-  gem 'capistrano3-unicorn'
+  gem 'capistrano3-puma'
   gem 'spring'
   gem 'better_errors'
   gem "binding_of_caller"
-  gem 'unicorn-rails'
 
   gem 'rails_best_practices'
 end
