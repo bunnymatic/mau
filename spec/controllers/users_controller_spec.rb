@@ -431,9 +431,6 @@ describe UsersController, elasticsearch: true do
         it "returns success" do
           expect(response).to redirect_to(artist_path(artist))
         end
-        it "sets the flash with the object name" do
-          expect(flash[:notice]).to include 'Hwatever'
-        end
         it "adds favorite to user" do
           u = User.find(quentin.id)
           favs = u.favorites
