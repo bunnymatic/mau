@@ -15,7 +15,7 @@ describe SiteStatistics do
     FactoryGirl.create(:artist, :active)
 
     Timecop.travel(4.days.ago)
-    FactoryGirl.create_list(:artist, 2, :active)
+    FactoryGirl.create_list(:artist, 2, :active, :with_art)
     FactoryGirl.create_list(:artist, 3)
 
     Timecop.travel(10.days.ago)
@@ -23,6 +23,16 @@ describe SiteStatistics do
     FactoryGirl.create_list(:artist, 3)
 
     Timecop.return
+
+    Artist.first.add_favorite(Artist.last)
+    Artist.first.add_favorite(Artist.last(2).first)
+    Artist.first.add_favorite(ArtPiece.first)
+  end
+
+  it 'assigns correct values for favorites' do
+    expect(stats.totals[:favorites_users_using]).to eql 1
+    expect(stats.totals[:favorited_art_pieces]).to eql 1
+    expect(stats.totals[:favorited_artists]).to eql 2
   end
 
   it 'assigns correct values for artists yesterday' do
