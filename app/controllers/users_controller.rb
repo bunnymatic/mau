@@ -218,7 +218,7 @@ class UsersController < ApplicationController
           :favorite => obj.to_json
         } and return
       else
-        objname = obj.get_name(true)
+        objname = obj.get_name
         msg = r ? "#{objname} has been added to your favorites.":
                 "You've already added #{objname} to your list of favorites."
         if obj.is_a? ArtPiece
