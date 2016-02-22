@@ -16,7 +16,7 @@ module Search
         query: {
           multi_match: {
             query: @query,
-            fields: ['_all', 'studio.name^5', 'artist.artist_name^5', 'art_piece.title^3'],
+            fields: ['_all', 'studio.name^5', 'artist.artist_name^5', 'art_piece.title^3', 'art_piece.artist_name^3'],
             type: 'most_fields',
             fuzziness: 1
           }
