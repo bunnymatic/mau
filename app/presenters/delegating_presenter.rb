@@ -1,0 +1,2 @@
+class DelegatingPresenter < SimpleDelegator
+end
