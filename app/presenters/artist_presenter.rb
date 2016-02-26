@@ -21,10 +21,18 @@ class ArtistPresenter < UserPresenter
   end
 
   def primary_medium
-    @primary_medium ||= StatsCalculator.histogram(art_pieces.map { |ap| ap.medium.try(:name) }.compact)
-                      .map{ |a| a.first }.first
+    _primary_medium.try(:name).presence.to_s
+  end
 
-    @primary_medium.presence.to_s
+  def primary_medium_hashtag
+    (_primary_medium ? MediumPresenter.new(_primary_medium).hashtag : '')
+  end
+
+  def _primary_medium
+    return @_primary_medium if @_primary_medium
+    media = art_pieces.map(&:medium).compact
+    medium = StatsCalculator.histogram(media).map(&:first).first
+    @_primary_medium = medium
   end
 
   def media

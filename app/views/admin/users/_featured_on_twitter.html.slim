@@ -6,4 +6,9 @@ div
   - else
     < artist name >
   '
-  | #artist http://MissionArtists.org/artists/#{artist.login} #missionopenstudios #artistmedium #sfart
+  | #artist http://MissionArtists.org/artists/#{artist.login} #missionopenstudios
+  - if artist.primary_medium.present?
+    '
+    span  ##{artist.primary_medium_hashtag}
+  '
+  | #sfart

@@ -1,14 +1,14 @@
 / expects artist as ArtistPresenter
 div Mission Open Studios : April 16-17, 2016, noon-6pm
+div
 - if artist.facebook?
-  div @#{artist.facebook_handle}
+  = "@#{artist.facebook_handle}"
 - else
-  div ##{artist.full_name.handleize}
-
+  = "##{artist.full_name.handleize}"
 - if artist.primary_medium.present?
-  div ##{artist.primary_medium.handleize}
+  '
+  span  ##{artist.primary_medium_hashtag}
 div &nbsp;
-div MissionArtists.org
-div http://MissionArtists.org/artists/#{artist.login}
+div MissionArtists.org http://MissionArtists.org/artists/#{artist.login}
 div &nbsp;
 div #missionopenstudios #missionopenstudios2016 #openstudios #springopenstudios #missionart #missionartists #SFArt #SFArtist #sanfrancisco

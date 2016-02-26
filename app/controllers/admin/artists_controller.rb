@@ -13,7 +13,6 @@ module Admin
     end
 
     def show
-      debugger
       @artist = ArtistPresenter.new(@artist)
     end
 

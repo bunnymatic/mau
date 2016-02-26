@@ -80,10 +80,8 @@ describe ArtistPresenter do
       allow_any_instance_of(ArtPiece).to receive(:medium).and_return(nil)
     end
 
-    describe '#has_media?' do
-      subject { super().has_media? }
-      it { should eq false }
-    end
+    its(:has_media?) { is_expected.to eql false }
+    its(:primary_medium) { is_expected.to eql '' }
   end
 
   context 'without bio' do
