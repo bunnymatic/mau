@@ -32,7 +32,7 @@ i.ico, i.ico-invert { font-style: normal; }
   content: attr(title);
 }
 
-.ico-invert {
+.fa-ico-invert, .ico-invert {
   @include small-rounded-corners;
   &:before {
     font-size: 1.1em;
