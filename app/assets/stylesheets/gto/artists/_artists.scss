@@ -398,12 +398,27 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
 }
 .favorite-thumbs li {
   float: left;
-  .artist__favorite-thumb {
-    margin: 0.2rem;
-    height: 50px;
-    width: 50px;
-    @include background-cover;
+
+  .favorite-thumb {
+    display: none;
   }
+  .favorite-thumb-icon {
+    display: block;
+    margin-right: 3px;
+  }
+  @media screen and (min-width: $screen-sm-max) {
+    .favorite-thumb {
+      display: block;
+      margin: 0.2rem;
+      height: 50px;
+      width: 50px;
+      @include background-cover;
+    }
+    .favorite-thumb-icon {
+      display: none;
+    }
+  }
+
 }
 
 .roster {
@@ -418,7 +433,7 @@ ul.favorite-thumbs, ul.favorite-thumbs li {
     line-height: 1.3em;
     height: 1.3em;
   }
-  @media screen and (max-width: 48em) {
+  @media screen and (max-width: $screen-sm-max) {
     .chunk {
       margin-bottom: 0px;
     }
