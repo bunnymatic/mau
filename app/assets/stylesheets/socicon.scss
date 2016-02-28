@@ -55,18 +55,18 @@ i.ico, i.ico-invert { font-style: normal; }
     content: "\e029";
   }
 }
+.ico-blog,
 .ico-url {
   &:before {
     content: "\e082";
   }
-}
-.ico-blog {
 }
 .ico-myspace {
   &:before {
     content: "\e059";
   }
 }
+.ico-blogspot,
 .ico-blogger {
   &:before {
     content: "\e012";
