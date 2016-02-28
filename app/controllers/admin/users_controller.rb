@@ -3,9 +3,7 @@ module Admin
     before_filter :set_user, only: [ :show ]
 
     def show
-      puts @user
       @user = ArtistPresenter.new(@user)
-      puts @user
     end
 
     private
