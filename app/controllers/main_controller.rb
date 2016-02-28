@@ -20,7 +20,7 @@ class MainController < ApplicationController
   end
 
   def version
-    render :text => @revision
+    render text: @revision
   end
 
   def about
@@ -31,11 +31,11 @@ class MainController < ApplicationController
   def status_page
     # do dummy db test
     Medium.first
-    render :json => {:success => true}, :status => 200
+    render json: {success: true}, status: 200
   end
 
   def notes_mailer
-    f = FeedbackMail.new(feedback_mail_params.merge({:current_user => current_user}))
+    f = FeedbackMail.new(feedback_mail_params.merge({current_user: current_user}))
     data = {}
     if f.valid?
       f.save
@@ -48,17 +48,17 @@ class MainController < ApplicationController
       }
       status = 400
     end
-    render json: data, :status => status
+    render json: data, status: status
   end
 
   def resources
     @page_title = "Mission Artists United - Open Studios"
     page = 'main'
     section = 'artist_resources'
-    doc = CmsDocument.where(:page => page, :section => section).first
+    doc = CmsDocument.where(page: page, section: section).first
     @content = {
-      :page => page,
-      :section => section
+      page: page,
+      section: section
     }
     if !doc.nil?
       @content[:content] = MarkdownService.markdown(doc.article)
@@ -70,10 +70,10 @@ class MainController < ApplicationController
     @page_title = "Mission Artists United - Venues"
     page = 'venues'
     section = 'all'
-    doc = CmsDocument.where(:page => page, :section => section).first
+    doc = CmsDocument.where(page: page, section: section).first
     @content = {
-      :page => page,
-      :section => section
+      page: page,
+      section: section
     }
     if doc
       @content[:content] = MarkdownService.markdown(doc.article)
@@ -103,20 +103,11 @@ class MainController < ApplicationController
   <loc>http://www.missionartistsunited.org/studios/</loc>
 </url>
 <url>
-  <loc>http://www.missionartistsunited.org/artists/map?osonly=1</loc>
-</url>
-<url>
-  <loc>http://www.missionartistsunited.org/media</loc>
-</url>
-<url>
-  <loc>http://www.missionartistsunited.org/main/open_studios</loc>
-</url>
-<url>
-  <loc>http://www.missionartistsunited.org/about</loc>
+  <loc>http://www.missionartistsunited.org/open_studios</loc>
 </url>
 </urlset>
 EOM
-    render :xml => sitemap
+    render xml: sitemap
   end
 
   private

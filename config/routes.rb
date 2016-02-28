@@ -84,6 +84,7 @@ Mau::Application.routes.draw do
     post :sampler
   end
 
+  # uptime monitoring (newrelic)
   get '/status' => 'main#status_page', as: :status
   get '/faq' => 'main#faq', as: :faq
   get '/venues' => 'main#venues', as: :venues
