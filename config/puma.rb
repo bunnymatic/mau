@@ -1,7 +1,7 @@
-workers Integer(ENV['PUMA_WORKERS'] || 2)
-threads Integer(ENV['MIN_THREADS']  || 1), Integer(ENV['MAX_THREADS'] || 10)
+#workers Integer(ENV['PUMA_WORKERS'] || 2)
+threads Integer(ENV['MIN_THREADS']  || 3), Integer(ENV['MAX_THREADS'] || 20)
 
-preload_app!
+#preload_app!
 
 rackup      DefaultRackup
 port        ENV['PORT']     || 3000
