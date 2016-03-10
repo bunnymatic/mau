@@ -1,5 +1,14 @@
 #main_thumbs
   #sampler.js-sampler.pure-g data-seed=@seed
+    .sampler__promo.js-sampler__promo.mod-os
+      = link_to open_studios_path
+        .bg
+        .sampler__promo-contents
+          .header Spring Open Studios
+          .body
+            = open_studios_nav_title
+            br
+            | noon &mdash; 6
     .sampler__promo.js-sampler__promo
       .bg
       .sampler__promo-contents
@@ -10,4 +19,3 @@
       i.fa.fa-spinner.fa-spin
     #the-end
       .hint The End
-    
