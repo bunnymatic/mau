@@ -18,14 +18,14 @@
   text-align: center;
   &:hover {
     background-color: lighten($gto_yellow, 54%);
-  }        
+  }
 }
 
 @mixin all-caps-label {
   text-transform: uppercase;
   font-size: 0.80rem;
   font-weight: bold;
-} 
+}
 @mixin card-description {
   .desc {
     padding: 6px;
@@ -97,7 +97,7 @@
       padding-bottom: 4px;
     }
   }
-    
+
 }
 @mixin section-header {
   padding-bottom: 4px;
@@ -134,5 +134,33 @@
   .popup-text {
     line-height: 1.1rem;
     font-size:0.8rem;
+  }
+}
+
+@mixin sampler-block-mixin {
+  @include artist-thumb-mixin;
+  height: $sampler-thumbnail-size;
+  min-height: inherit;
+  padding: 6px;
+  overflow: hidden;
+  .os-violator {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+  }
+  .image {
+    height: $sampler-thumbnail-size;
+  }
+  .desc {
+    @include transition(all 0.25s ease-in-out);
+    @include opacity(0);
+    padding-top: 0;
+    height: 33px;
+    line-height: 33px;
+  }
+  &:hover {
+    .desc {
+      opacity: 1.0;
+    }
   }
 }
