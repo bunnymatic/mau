@@ -18,7 +18,7 @@ $sampler-thumbnail-size : 250px;
     &.mod-os {
       .header {
         font-size: 3rem;
-        font-size: 2.8vw;
+        font-size: 2.7vw;
       }
     }
   }
@@ -41,7 +41,14 @@ $sampler-thumbnail-size : 250px;
       .body {
         font-size: 1rem;
         font-size: 1.7vw;
-        line-height: 1.8rem;
+        line-height: 1.2rem;
+      }
+      &.mod-os {
+        .body {
+          font-size: 2.1rem;
+          font-size: 2.1vw;
+          line-height: 1.7rem;
+        }
       }
     }
   }
@@ -142,7 +149,6 @@ $sampler-thumbnail-size : 250px;
     .body {
       font-size: 1rem;
       font-size: 1.5vw;
-      line-height: 1.8rem;
       font-weight: $font-weight-light;
     }
 
