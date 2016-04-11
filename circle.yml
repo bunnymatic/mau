@@ -2,8 +2,10 @@ machine:
   environment:
     API_CONSUMER_KEY: Testing Testing 1 2
     TEST_CLUSTER_COMMAND: ~/mau/elasticsearch-2.0.1/bin/elasticsearch
+    TEST_CLUSTER_LOGS: ./tmp/elasticsearch/logs
 dependencies:
   pre:
+    - mkdir -p tmp/elasticsearch/logs
     - sudo apt-get update; sudo apt-get install libicu52
     - curl --output /home/ubuntu/bin/phantomjs-2.0.1-linux-x86_64-dynamic https://s3.amazonaws.com/circle-support-bucket/phantomjs/phantomjs-2.0.1-linux-x86_64-dynamic
     - chmod a+x /home/ubuntu/bin/phantomjs-2.0.1-linux-x86_64-dynamic
