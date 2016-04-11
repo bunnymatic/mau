@@ -1,16 +1,5 @@
 MAU = window.MAU = window.MAU || {};
 
-# do this outside of page load so it happens as soon as possible
-if (location.hash && location.href.match(/art_pieces\/\d+/))
-  newid = location.hash.substr(1);
-  if (newid)
-    urlbits = location.href.split('/')
-    n = urlbits.length
-    urlbits[n-1] = newid
-    newurl = urlbits.join('/')
-    location.href = newurl
-
-
 MAU.ArtPieces = class ArtPieces
 
   # validate upload data
@@ -31,9 +20,6 @@ MAU.ArtPieces = class ArtPieces
 
 
 jQuery ->
-  $zoom = jQuery("#artpiece_container a.zoom")
-  if $zoom.length && $zoom.colorbox
-    $zoom.colorbox()
 
   # bind click on image to 'check' the delete box for delete art page
   aps = jQuery('.thumbs-select .artp-thumb img')

@@ -83,7 +83,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-angular-mocks'
   gem 'rails-assets-moment'
   gem 'rails-assets-lodash'
-  gem 'rails-assets-colorbox' # lightbox plugin
   gem 'rails-assets-jquery'
   gem 'rails-assets-jquery-ujs'
   gem 'rails-assets-pure'
