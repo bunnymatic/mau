@@ -1,11 +1,6 @@
 #social-links
   .pure-g
     .pure-u-1
-      ruby:
-        icons = [[ "facebook", "http://www.facebook.com/MissionArtists" ],
-                 [ "twitter", "http://www.twitter.com/sfmau" ],
-                 [ "instagram", "https://www.instagram.com/missionartistsunited/" ],
-                 [ "pinterest", "http://pinterest.com/mausf/" ]]
-      - icons.each do |key,src|
+      - Conf.social_links.each do |key,src|
         a href=src rel="external" target="_blank" title=key.humanize
           = social_icon(key)
