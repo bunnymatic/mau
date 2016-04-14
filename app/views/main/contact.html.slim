@@ -15,12 +15,13 @@
       | San Francisco, CA  94110
     p
       | And you are always invited to follow us on
-      a>< href="http://twitter.com/sfmau" twitter
+      a>< href=Conf.social_links['twitter'] twitter
+      | ,
+      a>< href=Conf.social_links['instagram'] instagram
       | or find us on
-      a>< href="http://facebook.com/missionartists" facebook.
+      a>< href=Conf.social_links['facebook'] facebook.
     p or...
     h4 Join the Mission Artists United Mailing List
     = render "/mailchimp_signup_form"
 
     = render '/main/info_footer'
-

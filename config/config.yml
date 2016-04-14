@@ -2,68 +2,74 @@
 #
 # note : no tabs and indent is ipmortant.
 test:
-   site_url: test.missionartistsunited.org
-   mailchimp_api_key: bogus-key
-   min_artists_per_studio: 1
+  site_url: test.missionartistsunited.org
+  mailchimp_api_key: bogus-key
+  min_artists_per_studio: 1
 
 development:
-   site_url: localhost:3000
-   cache_expiry:
-       feed: 300
-       search: 20
-       objects: 0
-       media_frequency: 3600
-       tag_frequency: 3600
-       new_art: 300
-   oslive: 201404
+  site_url: localhost:3000
+  cache_expiry:
+    feed: 300
+    search: 20
+    objects: 0
+    media_frequency: 3600
+    tag_frequency: 3600
+    new_art: 300
+  oslive: 201404
 
 acceptance:
-   site_url: acceptance.missionartistsunited.com
+  site_url: acceptance.missionartistsunited.com
 
 production:
-   site_url: missionartistsunited.org
-   cache_expiry:
-       feed: 3600
-       search: 300
-       objects: 0
-       media_frequency: 3600
-       tag_frequency: 3600
-       new_art: 86400
+  site_url: missionartistsunited.org
+  cache_expiry:
+    feed: 3600
+    search: 300
+    objects: 0
+    media_frequency: 3600
+    tag_frequency: 3600
+    new_art: 86400
 
 common:
-   cache_server: localhost:11211
-   signup_secret_word: eat-shit-hackers
-   feedback_emails:
-      - feedback@missionartistsunited.org
-      - maufeedback@bunnymatic.com
-   cache_expiry:
-       feed: 300
-       search: 20
-       objects:
-       media_frequency: 3600
-       tag_frequency: 3600
-       new_art: 300
+  social_links:
+    facebook: http://www.facebook.com/MissionArtists
+    twitter: http://www.twitter.com/sfmau
+    instagram: https://www.instagram.com/missionartists
+    pinterest: http://pinterest.com/mausf/
 
-   shop_url: http://www.cafepress.com/MissionArtists
-   # minimum artists before we show a studio
-   min_artists_per_studio: 0
-   autosuggest:
-     tags:
-       cache_expiry: 300
-       cache_key: tagsuggest
-     artist_names:
-       # expire daily
-       cache_expiry: 86400
-       cache_key: artistnamesuggest
+  cache_server: localhost:11211
+  signup_secret_word: eat-shit-hackers
+  feedback_emails:
+    - feedback@missionartistsunited.org
+    - maufeedback@bunnymatic.com
+  cache_expiry:
+    feed: 300
+    search: 20
+    objects:
+    media_frequency: 3600
+    tag_frequency: 3600
+    new_art: 300
 
-   ga_key: blah
-   ga_api_key: key
-   ga_server_api_key: server_key
-   POSTMARK_API_KEY: bogus
-   mailchimp_api_key: bogus
-   mailchimp_artist_list_id: first
-   mailchimp_fan_list_id: second
-   messaging_server:
-   messaging_token:
-   recaptcha_private_key: bogus
-   recaptcha_public_key: bogus
+  shop_url: http://www.cafepress.com/MissionArtists
+  # minimum artists before we show a studio
+  min_artists_per_studio: 0
+  autosuggest:
+    tags:
+      cache_expiry: 300
+      cache_key: tagsuggest
+    artist_names:
+      # expire daily
+      cache_expiry: 86400
+      cache_key: artistnamesuggest
+
+  ga_key: blah
+  ga_api_key: key
+  ga_server_api_key: server_key
+  POSTMARK_API_KEY: bogus
+  mailchimp_api_key: bogus
+  mailchimp_artist_list_id: first
+  mailchimp_fan_list_id: second
+  messaging_server:
+  messaging_token:
+  recaptcha_private_key: bogus
+  recaptcha_public_key: bogus
