@@ -94,7 +94,7 @@ describe ArtPiecesController do
     end
   end
 
-  describe '#create', eventmachine: true do
+  describe '#create' do
     context "while not logged in" do
       context "post " do
         before do
@@ -159,7 +159,7 @@ describe ArtPiecesController do
     end
   end
 
-  describe '#update', eventmachine: true do
+  describe '#update' do
     context "while not logged in" do
       context "post " do
         before do
@@ -257,7 +257,7 @@ describe ArtPiecesController do
 
   end
 
-  describe "#delete", eventmachine: true do
+  describe "#delete" do
     context "while not logged in" do
       before do
         post :destroy, id: 'whatever'

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ApplicationEventsHelper do
-  describe 'link_to_user', eventmachine: true do
+  describe 'link_to_user' do
     let(:artist) { FactoryGirl.create :artist, :active }
     let(:no_user_event) { FactoryGirl.create :generic_event, message: 'blop', data: {"user" => nil } }
     let(:event) { FactoryGirl.create :open_studios_signup_event, message: 'blop', data: {"user" => artist.id } }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ApplicationEvent, eventmachine: true do
+describe ApplicationEvent do
 
   let(:os_event) { FactoryGirl.create(:open_studios_signup_event, data: {user: 'artist'})}
 

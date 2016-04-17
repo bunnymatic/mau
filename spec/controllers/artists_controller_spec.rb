@@ -69,7 +69,7 @@ describe ArtistsController, elasticsearch: true do
       end
     end
   end
-  describe "#update", eventmachine: true do
+  describe "#update" do
     before do
       artist_info.update_attribute(:open_studios_participation,'')
     end
@@ -266,7 +266,7 @@ describe ArtistsController, elasticsearch: true do
     end
   end
 
-  describe "#setarrangement", eventmachine: true do
+  describe "#setarrangement" do
     before do
       # stash an artist and art pieces
       @artpieces = artist.art_pieces.map(&:id)
@@ -326,7 +326,7 @@ describe ArtistsController, elasticsearch: true do
     end
   end
 
-  describe '#destroyart', eventmachine: true do
+  describe '#destroyart' do
     let(:art_pieces) { ArtPiece.all.reject{|art| art.artist == artist} }
     let(:art_pieces_for_deletion) {
       Hash[art_pieces.map.with_index{|a,idx| [a.id, idx % 2]}]
