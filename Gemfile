@@ -16,9 +16,9 @@ gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
 gem 'rdiscount' # markdown processor
-gem 'capistrano', '~> 3.1.0'
-gem 'capistrano-rbenv', '~> 2.0'
-gem 'capistrano-rails', '~> 1.1'
+gem 'capistrano'
+gem 'capistrano-rbenv'
+gem 'capistrano-rails'
 gem 'friendly_id'
 gem 'formtastic'
 
@@ -83,9 +83,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-angular-mocks'
   gem 'rails-assets-moment'
   gem 'rails-assets-lodash'
-  gem 'rails-assets-colorbox' # lightbox plugin
-  gem 'rails-assets-jquery'
-  gem 'rails-assets-jquery-ujs'
   gem 'rails-assets-pure'
   gem 'rails-assets-ngDialog'
   gem 'rails-assets-angular-mailchimp'

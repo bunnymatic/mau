@@ -4,11 +4,16 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studios
     if $scope.artPieces && $scope.initialArtPiece
       $scope.current = _.pluck($scope.artPieces, 'id').indexOf($scope.initialArtPiece.id)
 
+  # updateUrl = () ->
+  #   console.log($scope.artPiece);
+  #   console.log($scope.currentArtPath());
+
   setCurrentArtPiece = () ->
     return unless $scope.artPieces
     if !$scope.current || $scope.current < 0
       $scope.current = 0
     $scope.artPiece = $scope.artPieces[$scope.current]
+    # updateUrl()
 
   limitPosition = (pos) ->
     nPieces = $scope.artPieces.length
