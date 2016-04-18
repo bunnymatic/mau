@@ -1,27 +1,3 @@
-# helper methods for controllers testing
-
-# # logged in - get edit page
-# shared_examples_for "logged in edit page" do
-#   pending "nothing here - logged in edit"
-# end
-
-# # for all
-# shared_examples_for "logged in user" do
-#   pending 'nothing in logged in user'
-# end
-
-# shared_examples_for 'logged in artist' do
-#   pending 'nothing in logged in artist'
-# end
-
-# shared_examples_for "logged in as editor" do
-#   pending 'nothing in logged in as editor'
-# end
-
-# shared_examples_for "logged in as admin" do
-#   pending 'nothing in logged in as admin'
-# end
-
 shared_examples_for "redirects to login" do
   it "redirects to login" do
     expect(response).to redirect_to(new_user_session_path)

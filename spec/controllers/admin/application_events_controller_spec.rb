@@ -24,7 +24,7 @@ describe Admin::ApplicationEventsController do
     end
     it_should_behave_like 'not authorized'
   end
-  describe 'index (as admin)' do
+  describe 'index.html (as admin)' do
     let(:limit) { nil }
     before do
       login_as(admin)
@@ -77,6 +77,29 @@ describe Admin::ApplicationEventsController do
         expect(events_by_type.values.flatten).to have(6).items
       end
     end
+  end
 
+  describe 'index.json (as admin)' do
+    let(:limit) { nil }
+    before do
+      login_as(admin)
+      get :index, format: :json, limit: limit
+    end
+    context 'with no params' do
+      it 'returns success' do
+        expect(response).to be_success
+      end
+      it 'fetches all events by type' do
+        events = JSON.parse(response.body)['application_events']
+        expect(events).to have(6).items
+      end
+    end
+    context 'with a limit of 2' do
+      let(:limit) { 2 }
+      it 'fetches all events by type' do
+        events = JSON.parse(response.body)['application_events']
+        expect(events).to have(2).items
+      end
+    end
   end
 end
