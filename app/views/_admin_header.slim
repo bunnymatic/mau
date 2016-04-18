@@ -3,6 +3,8 @@
   .container.admin-nav__body
     .handle
       = fa_icon 'gear'
+      = link_to admin_application_events_path
+        = fa_icon 'bell'
     .link-section.main
       = link_to admin_path, title: 'Admin Dashboard' do
         = fa_icon('dashboard')

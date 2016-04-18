@@ -15,4 +15,4 @@
       %ul.pure-menu-list
         - entries.each do |key, opts|
           %li.pure-menu-item
-            = link_to opts[:display], opts[:link]
+            = link_to opts[:display], opts[:link], class: key
