@@ -5,17 +5,12 @@ describe Admin::ApplicationEventsController do
   let(:generic_event) { events.detect { |e| e.is_a? GenericEvent } }
   let(:os_event) { events.detect { |e| e.is_a? OpenStudiosSignupEvent } }
   let!(:events) do
-    Timecop.freeze
-
-    _events = 3.times.map do |x|
-      Timecop.travel(x.hours.ago)
+    3.times.map do |x|
       [
-        FactoryGirl.create(:open_studios_signup_event, data: {user: 'artist'}),
-        FactoryGirl.create(:generic_event, data: {user: 'artist'})
+        FactoryGirl.create(:open_studios_signup_event, created_at: x.weeks.ago, data: {user: 'artist'}),
+        FactoryGirl.create(:generic_event, created_at: x.weeks.ago, data: {user: 'artist'})
       ]
     end.flatten
-    Timecop.return
-    _events
   end
 
   describe 'unauthorized #index' do
@@ -26,9 +21,10 @@ describe Admin::ApplicationEventsController do
   end
   describe 'index.html (as admin)' do
     let(:limit) { nil }
+    let(:since) { nil }
     before do
       login_as(admin)
-      get :index, limit: limit
+      get :index, limit: limit, since: since
     end
     context 'with no params' do
       it 'returns success' do
@@ -66,6 +62,31 @@ describe Admin::ApplicationEventsController do
         expect(oss.first.data).to eql(os_event.data)
       end
     end
+    context 'with a limit of A' do
+      let(:limit) { 'A' }
+
+      it 'returns success' do
+        expect(response).to be_success
+      end
+      it 'fetches all events by type' do
+        events_by_type = assigns(:events_by_type)
+        expect(events_by_type.values.flatten).to have(6).items
+      end
+    end
+
+    context 'with a since date' do
+      let(:since) { 1.day.ago.localtime.to_s }
+
+      it 'returns success' do
+        expect(response).to be_success
+      end
+      it 'fetches all events since that date' do
+        _events = assigns(:events_by_type).values.flatten
+        expect(_events).to have(2).events
+        expect(_events.all?{ |ev| ev.created_at > 1.day.ago })
+      end
+    end
+
     context 'with a limit of A' do
       let(:limit) { 'A' }
 

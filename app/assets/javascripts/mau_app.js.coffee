@@ -2,6 +2,7 @@ angular.module('MauApp', [
   'templates',
   'ngResource',
   'ngSanitize',
+  'angularMoment',
   'ngDialog',
   'ng.deviceDetector',
   'mailchimp',

@@ -2,12 +2,14 @@
 #= require monkey_patches
 #= require lodash
 #= require underscore.string
+#= require moment
 #= require angular
 #= require angular-rails-templates
 #= require angular_modules
 #= require angular-resource
 #= require angular-sanitize
 #= require angular-animate
+#= require angular-moment
 #= require angular-ui-utils/ui-utils
 #= require angular-mailchimp
 #= require re-tree

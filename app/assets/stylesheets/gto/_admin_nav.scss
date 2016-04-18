@@ -33,24 +33,22 @@
     margin: 4px auto 0;
     padding: 9px 20px 20px 20px;
     @include round-left-corners(2px);
+    .events-notification-bell,
     .handle {
       border: 1px solid $gto_red;
       border-right: none;
       background-color: lighten($gto_red, 45%);
       position: absolute;
-      left: -44px;
+      left: -24px;
       top: 55px;
-      padding: 8px 7px 8px 8px;
-      @include round-left-corners(16px);
-      a {
-        color: $gto_orange;
-      }
-      .fa + a .fa {
-        padding-left: 4px;
-      }
+      padding: 8px 6px 8px;
+      @include round-left-corners(4px);
       .admin-nav__title {
         letter-spacing: 0;
       }
+    }
+    .events-notification-bell {
+      top: 20px;
     }
     ul ul {
       border-top: 1px solid #c99;

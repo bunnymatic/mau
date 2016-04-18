@@ -9,6 +9,10 @@ class ApplicationEvent < ActiveRecord::Base
 
   after_save :publish_event
 
+  def self.since(date)
+    where(created_at: date..Time.now)
+  end
+
   def publish_event
     Messager.new.publish "/events/#{self.class.to_s.tableize}", data
   end

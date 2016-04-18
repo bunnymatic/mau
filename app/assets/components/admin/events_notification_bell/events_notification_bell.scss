@@ -1,0 +1,18 @@
+@import 'colors';
+@import 'mau-mixins';
+
+.events-notification-bell {
+  z-index: 25;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  @include round-corners(50%);
+  a:link, a:visited, a:active {
+    transition: color 0.15s ease-in-out;
+    color: $gto_orange;
+    padding-left: 4px;
+  }
+  a:hover {
+    color: $gto_red;
+  }
+}
