@@ -102,10 +102,7 @@ Then /^I see "(.*?)" on the page$/ do |content|
 end
 
 When /^I (log|sign)\s?out$/ do |dummy|
-  within '.nav' do
-    click_on 'sign out'
-    visit logout_path
-  end
+  visit logout_path
   expect(page).to have_css '.flash__notice', /make some art/
 end
 

@@ -42,6 +42,12 @@ Given /the following artists with art are in the system:/ do |table|
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
+Given /the following admins are in the system:/ do |table|
+  table.hashes.each do |user_params|
+    FactoryGirl.create(:artist, :admin, :active, user_params)
+  end
+end
+
 Given /there are application events in the system/ do
   ApplicationEvent.destroy_all
   @application_events = [

@@ -6,6 +6,13 @@ When(/^I change my password to "(.*?)"$/) do |new_pass|
   click_on 'change password'
 end
 
+When(/^I change my email to "(.*?)"$/) do |new_email|
+  visit edit_artist_path(@artist)
+  click_on "Personal Info"
+  fill_in("Email", :with => new_email)
+  click_on_first "Save Changes"
+end
+
 When(/^I fill in "(.*?)" for my password$/) do |pass|
   fill_in_login_form @artist.login, pass
 end
@@ -78,6 +85,7 @@ When(/^I login as a manager$/) do
 end
 
 When(/^I login as "(.*?)"$/) do |login|
+  @artist = User.find_by(login: login)
   fill_in_login_form login, 'bmatic'
   steps %{And I click "Sign In"}
 end

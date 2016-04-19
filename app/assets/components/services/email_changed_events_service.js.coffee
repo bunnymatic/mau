@@ -7,7 +7,8 @@ emailChangedEventsService = ngInject ($q, ApplicationEventsService) ->
   list: (params) ->
     events = ApplicationEventsService.list(params)
     events.$promise?.then (data) ->
-      $q (resolve, reject) ->
-        resolve( filterByChangedEmail )
+      defer = $q.defer();
+      defer.resolve( filterByChangedEmail( data ) )
+      defer.promise;
 
 angular.module('mau.services').factory('EmailChangedEventsService', emailChangedEventsService)
