@@ -1,0 +1,2 @@
+class UserChangedEvent < ApplicationEvent
+end

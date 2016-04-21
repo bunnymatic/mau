@@ -159,7 +159,7 @@ class ArtistsController < ApplicationController
 
   def update
     if request.xhr?
-      os_status = process_os_update
+      os_status = UpdateArtistService.new(current_artist, artist_params).update_os_status
       render json: {success: true, os_status: os_status, current_os: OpenStudiosEventService.current}
     else
       if commit_is_cancel
@@ -232,7 +232,7 @@ class ArtistsController < ApplicationController
     end
 
     params.require(:artist).permit(:studio, :login, :email, :email_attrs,
-                                   :password, :password_confirmation, :photo,
+                                   :password, :password_confirmation, :photo, :os_participation,
                                    :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume,
                                    :artist_info_attributes => artist_info_permitted_attributes)
 
@@ -256,26 +256,26 @@ class ArtistsController < ApplicationController
     artist_names
   end
 
-  # process xhr request to update artist os participation
-  def process_os_update
-    participating = (((params[:artist] && params[:artist][:os_participation])).to_i != 0)
+  # # process xhr request to update artist os participation
+  # def process_os_update
+  #   participating = (((params[:artist] && params[:artist][:os_participation])).to_i != 0)
 
-    if participating != current_artist.doing_open_studios?
-      unless current_artist.address.blank?
-        current_artist.update_os_participation(OpenStudiosEventService.current, participating)
-        trigger_os_signup_event(participating)
-      end
-    end
-    Messager.new.publish "/artists/#{current_artist.id}/update", "updated os info"
-    participating
-  end
+  #   if participating != current_artist.doing_open_studios?
+  #     unless current_artist.address.blank?
+  #       current_artist.update_os_participation(OpenStudiosEventService.current, participating)
+  #       trigger_os_signup_event(participating)
+  #     end
+  #   end
+  #   Messager.new.publish "/artists/#{current_artist.id}/update", "updated os info"
+  #   participating
+  # end
 
-  def trigger_os_signup_event(participating)
-    msg = "#{current_artist.full_name} set their os status to"+
-      " #{participating} for #{current_open_studios_key} open studios"
-    data = {'user' => current_artist.login, 'user_id' => current_artist.id}
-    OpenStudiosSignupEvent.create(message: msg,
-                                  data: data)
-  end
+  # def trigger_os_signup_event(participating)
+  #   msg = "#{current_artist.full_name} set their os status to"+
+  #     " #{participating} for #{current_open_studios_key} open studios"
+  #   data = {'user' => current_artist.login, 'user_id' => current_artist.id}
+  #   OpenStudiosSignupEvent.create(message: msg,
+  #                                 data: data)
+  # end
 
 end

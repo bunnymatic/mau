@@ -33,6 +33,7 @@
     margin: 4px auto 0;
     padding: 9px 20px 20px 20px;
     @include round-left-corners(2px);
+    .events-notification-bell,
     .handle {
       border: 1px solid $gto_red;
       border-right: none;
@@ -45,6 +46,9 @@
       .admin-nav__title {
         letter-spacing: 0;
       }
+    }
+    .events-notification-bell {
+      top: 20px;
     }
     ul ul {
       border-top: 1px solid #c99;

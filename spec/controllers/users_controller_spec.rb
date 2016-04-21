@@ -41,7 +41,7 @@ describe UsersController, elasticsearch: true do
     end
   end
 
-  describe "#create", eventmachine: true do
+  describe "#create" do
     context 'with blacklisted domain' do
       before do
         # disable sweep of flash.now messages
@@ -349,7 +349,7 @@ describe UsersController, elasticsearch: true do
       end
     end
   end
-  describe "#update", eventmachine: true do
+  describe "#update" do
     context "while not logged in" do
       context "with invalid params" do
         before do

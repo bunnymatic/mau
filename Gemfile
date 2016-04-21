@@ -81,6 +81,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-angular-animate', "=1.3.16"
   gem 'rails-assets-angular-ui-utils', "~> 0.2.3"
   gem 'rails-assets-angular-mocks'
+  gem 'rails-assets-angular-moment'
   gem 'rails-assets-moment'
   gem 'rails-assets-lodash'
   gem 'rails-assets-pure'

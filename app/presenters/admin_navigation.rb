@@ -11,30 +11,30 @@ class AdminNavigation < ViewPresenter
                   [:events, {}],
                   [:featured_artist, {}],
                   [:favorites, {}],
-                  [:catalog, {:link => '/catalog'}],
-                  [:cms_documents , {:display => 'cms', :link => url_helpers.admin_cms_documents_path}]
+                  [:catalog, {link: '/catalog'}],
+                  [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
                  ]
       model_links = [
                      [:artists , {}],
                      [:fans , {}],
                      [:studios , {}],
                      [:media , {}],
-                     [:art_piece_tags , {:display => 'tags'}],
-                     [:artist_feeds , {:display => 'feeds'}],
-                     [:emaillist , {:display => 'emails'}]
+                     [:art_piece_tags , {display: 'tags'}],
+                     [:artist_feeds , {display: 'feeds'}],
+                     [:emaillist , {display: 'emails'}]
                     ]
       admin_links = [
-                     [:open_studios_events , {:display => 'os dates'}],
+                     [:open_studios_events , {display: 'os dates'}],
                      [:roles, {}],
-                     [:internal_email , {:display => 'admin email lists', :link => url_helpers.admin_email_lists_path }],
-                     [:db_backups , {:display => 'backups'}],
-                     [:blacklist, {:display => 'blacklist', :link => url_helpers.admin_blacklist_domains_path}],
+                     [:internal_email , {display: 'admin email lists', link: url_helpers.admin_email_lists_path }],
+                     [:db_backups , {display: 'backups'}],
+                     [:blacklist, {display: 'blacklist', link: url_helpers.admin_blacklist_domains_path}],
                      [:os_status , {}]
                     ]
       internal_links = [
-                        [:palette , {:display => 'colors'}],
-                        [:app_events, {:display => 'app events', :link => url_helpers.admin_application_events_path}],
-                        [:tests , {:link => url_helpers.admin_tests_path}]
+                        [:palette , {display: 'colors'}],
+                        [:app_events, {display: 'app events', icon: :bell, link: url_helpers.admin_application_events_path}],
+                        [:tests , {link: url_helpers.admin_tests_path}]
                        ]
       links = [
                [:models, model_links],
@@ -47,7 +47,7 @@ class AdminNavigation < ViewPresenter
   def editor_links
     [[:events, {}],
                     [:featured_artist , {}],
-                    [:cms_documents , {:display => 'cms', :link => url_helpers.admin_cms_documents_path}]
+                    [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
     ]
   end
 
