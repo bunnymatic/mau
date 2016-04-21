@@ -16,5 +16,3 @@ dependencies:
 test:
   pre:
     - bundle exec rake assets:precompile 2>/dev/null
-  override:
-    - xvfb-run -a bundle exec rake spec
