@@ -4,16 +4,8 @@ module MailRelated
     allow(ArtistMailer).to receive(:signup_notification).and_return(double('ArtistMailer::SignupNotificationEmail', deliver_later: true, deliver_now: true))
   end
 
-  def mock_mailchimp_client
-    double('MockMailchimpClient').tap do |mock|
-      lists = double('MockMailchimpLists')
-      allow(lists).to receive(:subscribe).and_return(true)
-      allow(mock).to receive(:lists).and_return(lists)
-    end
-  end
-
   def stub_mailchimp
-    allow(Gibbon::API).to receive(:new).and_return(mock_mailchimp_client)
+    allow(Gibbon::Request).to receive(:new).and_return(double.as_null_object)
   end
 
 end

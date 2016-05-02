@@ -25,6 +25,10 @@ describe UsersController, elasticsearch: true do
     }.merge(opts)
   end
 
+  before do
+    allow(MailChimpService).to receive(:new).and_return(double.as_null_object)
+  end
+
   describe '#index' do
     it { get :index; expect(response).to redirect_to artists_path }
   end
@@ -67,7 +71,6 @@ describe UsersController, elasticsearch: true do
         }.to change(User,:count).by(0)
       end
       it 'allows non blacklist domain to add a user' do
-        allow_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
         expect {
           post :create, params_with_secret(
                  {
@@ -132,7 +135,6 @@ describe UsersController, elasticsearch: true do
     end
     context "valid user params and type = MAUFan" do
       before do
-        expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
         expect(UserMailer).to receive(:activation).exactly(:once).and_return(double("UserMailer::Activation", deliver_later: true))
         post :create, params_with_secret(
                {
@@ -178,7 +180,6 @@ describe UsersController, elasticsearch: true do
     end
     context "valid user param (email/password only) and type = MAUFan" do
       before do
-        expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
         post :create, params_with_secret(
                {
                  mau_fan: {
@@ -223,7 +224,6 @@ describe UsersController, elasticsearch: true do
       before do
         allow_any_instance_of(Artist).to receive(:activation_code).and_return('random_activation_code')
         expect_any_instance_of(Artist).to receive(:make_activation_code).at_least(1)
-        expect_any_instance_of(MAUFan).to receive(:subscribe_and_welcome).never
         post :create, params_with_secret(
                {
                  artist: { login: 'newuser2',
@@ -606,9 +606,6 @@ describe UsersController, elasticsearch: true do
   end
 
   describe 'activate' do
-    before do
-      allow_any_instance_of(MAUFan).to receive(:subscribe_and_welcome)
-    end
     describe 'with valid activation code' do
       before do
         expect_any_instance_of(MAUFan).to receive(:activate!)

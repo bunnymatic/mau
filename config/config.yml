@@ -67,8 +67,8 @@ common:
   ga_server_api_key: server_key
   POSTMARK_API_KEY: bogus
   mailchimp_api_key: bogus
-  mailchimp_artist_list_id: first
-  mailchimp_fan_list_id: second
+  mailchimp_artist_list_id: f8d679dde8
+  mailchimp_fan_list_id: 041ae187df
   messaging_server:
   messaging_token:
   recaptcha_private_key: bogus
