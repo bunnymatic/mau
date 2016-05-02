@@ -149,7 +149,7 @@ class UsersController < ApplicationController
 
     if code.present? && !user.active?
       user.activate!
-      user.subscribe_and_welcome
+      MailChimpService.new(user).subscribe_and_welcome
       flash[:notice] = "We're so excited to have you! Just sign in to get started."
     elsif code.blank?
       flash[:error] = "Your activation code was missing.  Please follow the URL from your email."
@@ -278,7 +278,7 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       @user.activate!
-      @user.subscribe_and_welcome
+      MailChimpService.new(@user).subscribe_and_welcome
       flash[:notice] = "Thanks for signing up!  Login and you're ready to roll!"
       redirect_to login_path
     end

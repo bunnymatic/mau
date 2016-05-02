@@ -1,6 +1,5 @@
 require 'digest/sha1'
 require 'json'
-require File.join(Rails.root, 'app','lib', 'mailchimp')
 
 class User < ActiveRecord::Base
 
@@ -35,7 +34,6 @@ class User < ActiveRecord::Base
   #                            'admin','root','mau', 'mauadmin','maudev',
   #                            'jon','mrrogers','trish','trishtunney' ]
 
-  include MailChimp
   include HtmlHelper
   include User::Authentication
   include User::Authorization

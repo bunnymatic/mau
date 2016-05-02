@@ -443,34 +443,4 @@ describe User do
     end
   end
 
-  describe 'MailChimp includes' do
-    describe "mailchimp_additional_data" do
-      before do
-        @mail_data = artist.send(:mailchimp_additional_data)
-      end
-      it 'returns allowed mapped attributes' do
-        expected_keys =  ['FNAME','LNAME', 'CREATED']
-        expect(@mail_data.keys.length).to eql expected_keys.length
-        expect(@mail_data.keys.all?{|k| expected_keys.include? k}).to be
-      end
-      it 'returns correct values for mapped attributes' do
-        expect(@mail_data['CREATED']).to eql artist.activated_at
-        expect(@mail_data['FNAME']).to eql artist.firstname
-        expect(@mail_data['LNAME']).to eql artist.lastname
-      end
-    end
-    describe 'subscribe and welcome' do
-      before do
-        artist
-        expect_any_instance_of(Artist).to receive(:mailchimp_list_subscribe)
-      end
-      it "updates mailchimp_subscribed_at column" do
-        u = User.first
-        mc = u.mailchimp_subscribed_at
-        User.first.subscribe_and_welcome
-        u.reload
-        expect(u.mailchimp_subscribed_at).to be <= Time.zone.now.utc.to_date
-      end
-    end
-  end
 end
