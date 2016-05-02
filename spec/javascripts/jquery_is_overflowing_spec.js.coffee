@@ -1,7 +1,7 @@
 describe 'jQuery.isOverflowing', ->
   describe 'with default initialization', ->
     beforeEach ->
-      loadFixtures('is_overflowing.html')
+      fixtures.set "<div class='overflow' style='overflow: hidden; height:40px; width: 40px;'>A</div>"
 
     it 'is not overflowing with a small amount of content', ->
       expect(jQuery('#fixture .overflow').isOverflowing()).toBeFalsy()
