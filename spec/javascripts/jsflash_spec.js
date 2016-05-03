@@ -1,6 +1,6 @@
 describe('Flash', function() {
   beforeEach(function() {
-    loadFixtures('jsflash.html');
+    fixtures.set '<div id="fixture"><div class="container"></div></div>'
   });
 
   describe('show', function() {
