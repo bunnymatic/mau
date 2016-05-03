@@ -1,6 +1,6 @@
 describe 'OsKeyGenerator', ->
   beforeEach ->
-    fixtures.set """
+    fixture.set """
       <div id="fixture">
         <form class='js-os-key-gen'>
           <input id='start_date'></input>
