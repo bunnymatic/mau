@@ -19,7 +19,7 @@ class ApiController < ActionController::Base
       when 3
         dat = fetch_parameter path_elements[1], path_elements[2]
       else
-        raise ApiError.new('Invalid request')
+        raise ApiError.new('Invalid request (V1)')
       end
       render json: dat.to_json(json_args[@obj_type])
     rescue NameError, ApiError => ex
@@ -37,14 +37,14 @@ class ApiController < ActionController::Base
       begin
         raise ApiError.new('Nothing to see here') unless params[:path].present?
         path_elements = (params[:path].is_a? Array) ? params[:path] : (params[:path].split '/')
-        raise ApiError.new('Invalid request') if !(ALLOWED_OBJECTS.include? path_elements[0])
+        raise ApiError.new('Invalid request (V1) Query is not allowed') if !(ALLOWED_OBJECTS.include? path_elements[0])
         path_elements
       end
   end
 
   def fetch_parameter(obj_id, prop)
     # get parameter named element 2 from id in element 1
-    raise ApiError.new('Invalid request') unless allowed_property(prop)
+    raise ApiError.new('Invalid request (V2)') unless allowed_property(prop)
     data = @clz.find(obj_id)
     {prop => data.send(prop)}
   end

@@ -12,7 +12,7 @@ studiosService = ngInject ($resource) ->
     }
   )
   get:(id) ->
-    if (id == 0)
+    if !id
       id = "independent-studios"
     studios.get({id: id})
 
