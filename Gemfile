@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
+gem 'rake'
 gem 'racc'
 gem "rails", '~> 4.2'
 gem 'active_model_serializers'

@@ -568,6 +568,7 @@ DEPENDENCIES
   rails-assets-re-tree!
   rails-assets-spinjs!
   rails_best_practices
+  rake
   rb-fsevent
   rdiscount
   recaptcha
@@ -594,5 +595,8 @@ DEPENDENCIES
   vcr
   webmock
 
+RUBY VERSION
+   ruby 2.3.1p112
+
 BUNDLED WITH
-   1.11.2
+   1.12.3
