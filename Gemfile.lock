@@ -568,7 +568,6 @@ DEPENDENCIES
   rails-assets-re-tree!
   rails-assets-spinjs!
   rails_best_practices
-  rake
   rb-fsevent
   rdiscount
   recaptcha
