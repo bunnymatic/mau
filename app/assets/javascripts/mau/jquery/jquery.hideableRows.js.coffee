@@ -35,6 +35,7 @@ jQuery.hideableRowsDefaults =
   row: 'table tbody tr'              # what contains the items to show/hide
   whatToHideSelectors: '.hide-rows input'  # where do we find the class selectors to hide (checkboxes)
 
+
 jQuery.fn.hideableRows = (method) ->
   that = this
   inArgs = arguments

@@ -1,6 +1,14 @@
 describe 'OsKeyGenerator', ->
   beforeEach ->
-    loadFixtures 'open_studios_event_form.html'
+    fixture.set """
+      <div id="fixture">
+        <form class='js-os-key-gen'>
+          <input id='start_date'></input>
+          <input id='end_date'></input>
+          <input id='os_key'></input>
+        </form>
+      </div>
+    """
     jQuery('#fixture input').val('')
 
   describe 'initialization', ->
@@ -26,5 +34,3 @@ describe 'OsKeyGenerator', ->
         end_date_field: '#end_date'
         key_field: '#os_key'
       expect(jQuery('#fixture #os_key').val()).toEqual('')
-
-

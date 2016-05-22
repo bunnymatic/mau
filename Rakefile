@@ -7,21 +7,3 @@ require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
 Mau::Application.load_tasks
-
-#require(File.join(File.dirname(__FILE__), 'config', 'boot'))
-
-# require 'rake'
-# require 'rake/testtask'
-
-# require 'tasks/rails'
-
-# begin
-#   require 'jslint/tasks'
-#   JSLint.config_path = "config/jslint.yml"
-# rescue Exception => ex
-#   puts "Warning: unable to load jslint tasks. Shouldn't be required for production/staging environments"
-# end
-
-# require 'rosie'
-# Dir["#{Gem.searcher.find('rosie').full_gem_path}/lib/tasks/**/*.rake"].each { |ext| load ext }
-

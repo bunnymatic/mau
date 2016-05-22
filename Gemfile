@@ -122,13 +122,14 @@ group :test, :development do
   gem 'rspec-its'
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
-  gem 'jasminerice', github: 'bradphelan/jasminerice'
   gem 'timecop'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
 
+  gem 'teaspoon-jasmine'
+  gem 'spring-commands-teaspoon'
+
   gem 'guard-rspec'
-  gem 'guard-jasmine'
   gem 'rb-fsevent'
   gem "elasticsearch-extensions", require: nil
 

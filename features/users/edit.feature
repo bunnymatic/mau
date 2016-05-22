@@ -49,7 +49,6 @@ Scenario: I can edit my password
   And I sign out
   And I click on "sign in"
   And I sign in with password "blahdeblah"
-  # And I take a screenshot
   Then I see that I'm signed in
 
 @javascript
@@ -65,7 +64,7 @@ Scenario: I cannot edit my password if i can't remember my current password
   And I click on "sign in"
   # same old password works
   And I sign in with password "bmatic"
-  # And I take a screenshot
+  And I close the flash
   Then I see that I'm signed in
 
 @javascript
