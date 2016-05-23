@@ -26,9 +26,6 @@ $on-color: $gto-teal;
     position: relative;
     cursor: pointer;
     outline: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
   }
 
@@ -59,14 +56,7 @@ $on-color: $gto-teal;
     width: $overall-width;
     height: $height;
     background-color: $off-color;
-    -webkit-border-radius: $height;
-    -moz-border-radius: $height;
-    -ms-border-radius: $height;
-    -o-border-radius: $height;
     border-radius: $height;
-    -webkit-transition: background 0.25s;
-    -moz-transition: background 0.25s;
-    -o-transition: background 0.25s;
     transition: background 0.25s;
   }
   input.toggle-button__round-flat + label:before, input.toggle-button__round-flat + label:after {
@@ -85,9 +75,6 @@ $on-color: $gto-teal;
     -ms-border-radius: $height;
     -o-border-radius: $height;
     border-radius: $height;
-    -webkit-transition: background 0.25s;
-    -moz-transition: background 0.25s;
-    -o-transition: background 0.25s;
     transition: background 0.25s;
   }
   input.toggle-button__round-flat + label:after {
@@ -101,9 +88,6 @@ $on-color: $gto-teal;
     -ms-border-radius: $button-height;
     -o-border-radius: $button-height;
     border-radius: $button-height;
-    -webkit-transition: margin 0.25s, background 0.25s;
-    -moz-transition: margin 0.25s, background 0.25s;
-    -o-transition: margin 0.25s, background 0.25s;
     transition: margin 0.25s, background 0.25s;
   }
   input.toggle-button__round-flat + label {

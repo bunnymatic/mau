@@ -65,6 +65,7 @@ gem 'newrelic_rpm' #moitoring
 gem 'dotenv-rails'
 
 gem 'sass-rails'
+gem 'autoprefixer-rails'
 gem 'coffee-rails'
 # uglifier 2.7.2 breaks Angular in feature specs on CI. Connecting to CircleCI over VNC
 # (https://circleci.com/docs/browser-debugging#interact-with-the-browser-over-vnc)

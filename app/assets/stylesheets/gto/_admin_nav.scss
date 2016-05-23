@@ -5,8 +5,8 @@
 {
   position: fixed;
   width: 200px;
-  left: calc(100% - 2px);
   left: -webkit-calc(100% - 2px);
+  left: calc(100% - 2px);
   color:$darkgray;
   font-size:small;
   margin: 0 auto;
@@ -22,8 +22,8 @@
     padding: 5px 2px;
   }
   &:hover {
-    left: calc(100% - 200px);
     left: -webkit-calc(100% - 200px);
+    left: calc(100% - 200px);
   }
   .container {
     position: relative;

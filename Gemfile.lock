@@ -51,6 +51,8 @@ GEM
       activesupport (>= 3.2)
       request_store (~> 1.0)
       scrypt (>= 1.2, < 3.0)
+    autoprefixer-rails (6.3.6)
+      execjs
     awesome_print (1.2.0)
     aws-sdk-v1 (1.64.0)
       json (~> 1.4)
@@ -495,6 +497,7 @@ DEPENDENCIES
   active_model_serializers
   angular-rails-templates
   authlogic
+  autoprefixer-rails
   aws-sdk-v1
   better_errors
   binding_of_caller
