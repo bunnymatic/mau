@@ -64,7 +64,6 @@ $default_rounded_amount: 3px;
 // Round corner at position by amount.
 @mixin round-corner($position, $amount: $default_rounded_amount) {
   border-#{$position}-radius: $amount;
-  -webkit-border-#{$position}-radius: $amount;
 }
 
 @mixin round-corner-mozilla($position, $amount: $default_rounded_amount) {
@@ -130,8 +129,6 @@ $default_rounded_amount: 3px;
 // Round all corners by amount
 @mixin round-corners($amount: $default_rounded_amount) {
   border-radius: $amount;
-  -moz-border-radius: $amount;
-  -webkit-border-radius: $amount;
 }
 
 @mixin small-rounded-bottom-corners {
@@ -151,54 +148,34 @@ $default_rounded_amount: 3px;
 @mixin floating-window-border {
   border: 1px solid $bordergray;
   box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
-  -moz-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
-  -webkit-box-shadow: 4px 4px 8px rgba(40,40,40, 0.80);
 }
 
 @mixin box-shadow($shadow) {
-  -webkit-box-shadow: $shadow;
-  -moz-box-shadow: $shadow;
   box-shadow: $shadow;
 }
 @mixin transition($trans) {
-  -webkit-transition: $trans;
-  -moz-transition: $trans;
-  -o-transition: $trans;
   transition: $trans;
 }
 
 @mixin transition-property($transition-property...) {
-  -webkit-transition-property: $transition-property;
           transition-property: $transition-property;
 }
 @mixin transition-delay($transition-delay) {
-  -webkit-transition-delay: $transition-delay;
           transition-delay: $transition-delay;
 }
 @mixin transition-duration($transition-duration...) {
-  -webkit-transition-duration: $transition-duration;
           transition-duration: $transition-duration;
 }
 @mixin transition-timing-function($timing-function) {
-  -webkit-transition-timing-function: $timing-function;
           transition-timing-function: $timing-function;
 }
 @mixin transition-transform($transition...) {
-  -webkit-transition: -webkit-transform $transition;
-     -moz-transition: -moz-transform $transition;
-       -o-transition: -o-transform $transition;
           transition: transform $transition;
 }
 @mixin transform($transform...) {
-  -moz-transform: $transform;
-  -webkit-transform: $transform;
-  -o-transform: $transform;
   transform: $transform;
 }
 @mixin transform-origin($origin...) {
-  -webkit-transform-origin: $origin;
-  -moz-transform-origin: $origin;
-  -o-transform-origin: $origin;
   transform-origin: $origin;
 }
 
@@ -213,10 +190,6 @@ $default_rounded_amount: 3px;
 }
 
 @mixin blur($radius: 5px) {
- -webkit-filter: blur($radius);
-  -moz-filter: blur($radius);
-  -o-filter: blur($radius);
-  -ms-filter: blur($radius);
   filter: blur($radius);
 }
 
@@ -310,7 +283,6 @@ $default_rounded_amount: 3px;
   }
 
   background: nth(nth($color-stops, 1), 1);
-  background: -webkit-linear-gradient($direction, $color-stops);
   background: linear-gradient($direction, $color-stops);
 };
 

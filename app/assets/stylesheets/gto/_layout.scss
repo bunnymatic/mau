@@ -61,8 +61,8 @@ html, body {
         background-color: x-light-gray;
       }
       &.shown {
-        -webkit-animation: pulsate 3s ease-out;
-        -webkit-animation-iteration-count: infinite;
+        animation: pulsate 3s ease-out;
+        animation-iteration-count: infinite;
         pointer-events: auto;
         cursor: pointer;
         opacity: 1;
