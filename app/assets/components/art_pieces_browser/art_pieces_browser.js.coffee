@@ -1,19 +1,18 @@
-controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studiosService, objectRoutingService) ->
+controller = ngInject ($scope, $attrs, $location, artPiecesService, artistsService, studiosService, objectRoutingService) ->
 
   initializeCurrent = ->
     if $scope.artPieces && $scope.initialArtPiece
       $scope.current = _.pluck($scope.artPieces, 'id').indexOf($scope.initialArtPiece.id)
 
-  # updateUrl = () ->
-  #   console.log($scope.artPiece);
-  #   console.log($scope.currentArtPath());
+  updateUrl = () ->
+    $location.hash($scope.artPiece.id);
 
   setCurrentArtPiece = () ->
     return unless $scope.artPieces
     if !$scope.current || $scope.current < 0
       $scope.current = 0
     $scope.artPiece = $scope.artPieces[$scope.current]
-    # updateUrl()
+    updateUrl()
 
   limitPosition = (pos) ->
     nPieces = $scope.artPieces.length
@@ -65,7 +64,7 @@ controller = ngInject ($scope, $attrs, artPiecesService, artistsService, studios
 
   init = () ->
     artistId = $attrs.artistId
-    artPieceId = $attrs.artPieceId
+    artPieceId = $location.hash() || $attrs.artPieceId
 
     artistsService.get(artistId).$promise.then (data) ->
       $scope.artist = data
