@@ -393,12 +393,12 @@
   overflow:hidden;
 }
 ul.favorite-thumbs, ul.favorite-thumbs li {
+  display: flex;
+  flex-wrap: wrap;
   margin:0;
   padding:0;
 }
 .favorite-thumbs li {
-  float: left;
-
   .favorite-thumb {
     display: none;
   }
