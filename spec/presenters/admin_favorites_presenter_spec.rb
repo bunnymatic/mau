@@ -14,11 +14,11 @@ describe AdminFavoritesPresenter do
   let(:art_pieces) { [ArtPiece.first, ArtPiece.last] }
 
   before do
-    fan.add_favorite artist.art_pieces.first
-    fan.add_favorite artist
-    fan.add_favorite artist2
-    artist2.add_favorite artist
-    artist2.add_favorite artist
+    create_favorite fan, artist.art_pieces.first
+    create_favorite fan, artist
+    create_favorite fan, artist2
+    create_favorite artist2, artist
+    create_favorite artist2, artist
 
     @presenter = AdminFavoritesPresenter.new Favorite.all
   end

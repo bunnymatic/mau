@@ -267,8 +267,8 @@ describe Artist do
     let(:art_piece) { quentin.art_pieces.first }
     context "then artist removes that artpiece" do
       before do
-        artist.add_favorite(art_piece)
-        artist.add_favorite(quentin)
+        create_favorite( artist, art_piece)
+        create_favorite( artist, quentin)
 
         # validate fixtures setup
         expect(artist.favorites.map(&:favoritable_id)).to include art_piece.id

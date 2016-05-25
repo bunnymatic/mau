@@ -188,36 +188,6 @@ class User < ActiveRecord::Base
     self.state == 'suspended'
   end
 
-  def add_favorite(fav)
-    # can't favorite yourself
-    unless trying_to_favorite_yourself?(fav)
-      # don't add dups
-      favorite_params = {
-        favoritable_type: fav.class.name,
-        favoritable_id: fav.id,
-        user_id: self.id
-      }
-      self.transaction do
-        if Favorite.where(favorite_params).limit(1).blank?
-          Favorite.create!(favorite_params)
-          notify_favorited_user(fav)
-        end
-      end
-    end
-  end
-
-  def notify_favorited_user(fav)
-    artist = (fav.is_a? User) ? fav : fav.artist
-    if artist && artist.emailsettings['favorites']
-      ArtistMailer.favorite_notification(artist, self).deliver_later
-    end
-  end
-
-  def remove_favorite(fav)
-    f = self.favorites.select { |f| (f.favoritable_type == fav.class.name) && (f.favoritable_id == fav.id) }
-    f.map(&:destroy).first
-  end
-
   def favorites_to_obj
     @favorites_to_obj ||= favorites.to_obj.reverse
   end
@@ -274,11 +244,6 @@ class User < ActiveRecord::Base
     end
     mailer_class.reset_notification(self).deliver_later if recently_reset?
     mailer_class.resend_activation(self).deliver_later if resent_activation?
-  end
-
-  def trying_to_favorite_yourself?(fav)
-    false if fav.nil?
-    ((fav.is_a?(User) || fav.is_a?(Artist)) && fav.id == id) || (fav.is_a?(ArtPiece) && fav.artist.id == id)
   end
 
   def add_http_to_links

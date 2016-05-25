@@ -1,7 +1,8 @@
 // You can require your own javascript files here. By default this will include everything in application, however you
 // may get better load performance if you require the specific files that are being used in the spec that tests them.
+//= require support/compile_template
 //= require application
-//=require angular-mocks
+//= require angular-mocks
 //
 // Teaspoon includes some support files, but you can use anything from your own support path too.
 // require support/jasmine-jquery-1.7.0
@@ -32,3 +33,15 @@
 // the configuration and use this file as a manifest.
 //
 // For more information: http://github.com/modeset/teaspoon
+
+angular.module('TestApp', [
+  'templates',
+  'ngResource',
+  'ngSanitize',
+  'ngMocks',
+  'ngDialog',
+  'angularSlideables',
+  'mau.models',
+  'mau.services',
+  'mau.directives'
+])

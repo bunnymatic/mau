@@ -8,34 +8,35 @@ art-pieces-browser {
       @include ellipsis;
     }
   }
-  .social-buttons, .profile-info {
-    margin-top: 30px;
-    margin-right: 15px;
-    .share {
-      text-align: left;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      font-weight: $font-weight-light;
-      padding-bottom: 6px;
-      vertical-align: middle;
-      margin-right: 8px;
-      height: 1.5rem;
-    }
-    share-button {
-      display: inline-block;
-      margin-bottom: 3px;
-    }
-    .ico.ico-invert {
-      font-size: 2rem;
-    }
+}
+.artist__favorite,
+.social-buttons, .profile-info {
+  margin-top: 30px;
+  margin-right: 15px;
+  .share {
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: $font-weight-light;
+    padding-bottom: 6px;
+    vertical-align: middle;
+    margin-right: 8px;
+    height: 1.5rem;
   }
-  @media screen and (min-width: $screen-xs-max) {
+  share-button {
+    display: inline-block;
+    margin-bottom: 3px;
   }
-  @media screen and (min-width: $screen-sm-max) {
+  .ico.ico-invert {
+    font-size: 2rem;
+    cursor: pointer;
   }
-  @media screen and (min-width: $screen-md-max) {
-    .social-buttons .share {
-    }
+}
+@media screen and (min-width: $screen-xs-max) {
+}
+@media screen and (min-width: $screen-sm-max) {
+}
+@media screen and (min-width: $screen-md-max) {
+  .social-buttons .share {
   }
-  
 }

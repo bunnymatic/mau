@@ -46,6 +46,23 @@ describe UsersController, elasticsearch: true do
     end
   end
 
+  describe "#whoami" do
+    context "when not logged in" do
+      it "returns nil" do
+        get :whoami
+        expect(JSON.parse(response.body)["current_user"]).to be_nil
+      end
+    end
+    context "when logged in" do
+      it "returns login name" do
+        login_as fan
+        get :whoami
+        expect(JSON.parse(response.body)["current_user"]).to eql fan.login
+      end
+    end
+  end
+
+
   describe "#create" do
     context 'with blacklisted domain' do
       before do
@@ -327,22 +344,11 @@ describe UsersController, elasticsearch: true do
   end
 
   describe "login_required" do
-    context " post redirects to root (referrer)" do
-      before do
-        post :add_favorite
-      end
-      it "add_favorite requires login" do
-        expect(response).to redirect_to( new_user_session_path )
-      end
-      it "auth system should try to record referrer" do
-        expect(request.session[:return_to]).to eql SHARED_REFERER
-      end
-    end
     context "get redirects to requested page via login" do
       before do
         get :edit, id: 'nobody'
       end
-      it "add_favorite requires login" do
+      it "edit requires login" do
         expect(response).to redirect_to( new_user_session_path )
       end
       it "auth system should try to record referrer" do
@@ -402,107 +408,6 @@ describe UsersController, elasticsearch: true do
         end
         it "updates user attributes" do
           expect(quentin.reload.lastname).to eql "蕭秋芬"
-        end
-      end
-    end
-  end
-
-  describe "POST favorites" do
-    context "requesting anything but a post" do
-      it "redirects to login" do
-        put :add_favorite
-        expect(response).to redirect_to(new_user_session_path)
-        delete :add_favorite
-        expect(response).to redirect_to(new_user_session_path)
-        get :add_favorite
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end
-    context "while not logged in" do
-      describe "post to add favorites" do
-        before do
-          post :add_favorite
-        end
-        it_should_behave_like "redirects to login"
-      end
-      describe "post remove_favorites" do
-        before do
-          post :remove_favorite
-        end
-        it_should_behave_like "redirects to login"
-      end
-    end
-    context "while logged in" do
-      before do
-        login_as(quentin)
-        @ap = art_piece
-        @ap.artist = artist
-        expect(@ap.save).to eq true
-      end
-      context "add a favorite artist" do
-        before do
-          post :add_favorite, fav_type: 'Artist', fav_id: artist.id
-        end
-        it "returns success" do
-          expect(response).to redirect_to(artist_path(artist))
-        end
-        it "adds favorite to user" do
-          u = User.find(quentin.id)
-          favs = u.favorites
-          expect(favs.map { |f| f.favoritable_id }).to include artist.id
-        end
-        context "then remove that artist from favorites" do
-          before do
-            post :remove_favorite, fav_type: "Artist", fav_id: artist.id
-          end
-          it "redirects to the referer" do
-            expect(response).to redirect_to( SHARED_REFERER )
-          end
-          it "that artist is no longer a favorite" do
-            u = User.find(quentin.id)
-            favs = u.favorites
-            expect(favs.map { |f| f.favoritable_id }).not_to include artist.id
-          end
-        end
-      end
-      context "add a favorite art_piece" do
-        context "as ajax post(xhr)" do
-          before do
-            xhr :post, :add_favorite, fav_type: 'ArtPiece', fav_id: @ap.id
-          end
-          it { expect(response).to be_success }
-          it "adds favorite to user" do
-            u = User.find(quentin.id)
-            favs = u.favorites
-            expect(favs.map { |f| f.favoritable_id }).to include @ap.id
-          end
-          it { expect(response).to be_json }
-        end
-        context "as standard POST" do
-          before do
-            post :add_favorite, fav_type: 'ArtPiece', fav_id: @ap.id
-          end
-          it "returns success" do
-            expect(response).to redirect_to @ap
-          end
-          it "sets flash with escaped name" do
-            expect(flash[:notice]).to include @ap.title
-          end
-          it "adds favorite to user" do
-            u = User.find(quentin.id)
-            favs = u.favorites
-            expect(favs.map { |f| f.favoritable_id }).to include @ap.id
-          end
-        end
-      end
-      context "add a favorite bogus model" do
-        before do
-          @nfavs = quentin.favorites.count
-          post :add_favorite, fav_type: 'Bogus', fav_id: 2
-        end
-        it "returns 404" do
-          expect(response).to be_missing
-          expect(response.code).to eql("404")
         end
       end
     end

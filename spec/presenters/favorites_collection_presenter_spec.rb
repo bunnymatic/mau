@@ -9,13 +9,13 @@ describe FavoritesCollectionPresenter do
 
   context 'with favorites' do
     before do
-      artist.add_favorite(artists[1])
-      artist.add_favorite(artists[2])
-      artist.add_favorite(artists.last)
+      create_favorite( artist, artists[1])
+      create_favorite( artist, artists[2])
+      create_favorite( artist, artists.last)
 
-      artist.add_favorite(artists[2].art_pieces.first)
-      artist.add_favorite(artists[3].art_pieces.first)
-      artist.add_favorite(art_piece_without_artist)
+      create_favorite( artist, artists[2].art_pieces.first)
+      create_favorite( artist, artists[3].art_pieces.first)
+      create_favorite( artist, art_piece_without_artist)
       art_piece_without_artist.artist.suspend!
     end
 

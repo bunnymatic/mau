@@ -140,7 +140,7 @@ end
 
 When(/^I click on "([^"]*)"'s artist card$/) do |name|
   @artist = Artist.find_all_by_full_name( name ).first
-  click_on name
+  click_on_first name
 end
 
 Then(/^I see that artist's profile page$/) do

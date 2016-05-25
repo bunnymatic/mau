@@ -1,6 +1,5 @@
 angular.module('MauApp', [
   'templates',
-  'ngResource',
   'ngSanitize',
   'angularMoment',
   'ngDialog',
