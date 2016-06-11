@@ -8,14 +8,17 @@ class UpdateArtistService
   end
 
   def update
-    if @params[:artist_info_attributes]
-      @params[:artist_info_attributes][:open_studios_participation] = @artist.artist_info.open_studios_participation
-    end
+    success = nil
+    Artist.transaction do
+      if @params[:artist_info_attributes]
+        @params[:artist_info_attributes][:open_studios_participation] = @artist.artist_info.open_studios_participation
+      end
 
-    @artist.assign_attributes(@params)
-    changes = @artist.changes
-    success = @artist.save
-    trigger_user_change_event(changes) if changes.present?
+      @artist.assign_attributes(@params)
+      changes = @artist.changes
+      success = @artist.save
+      trigger_user_change_event(changes) if changes.present?
+    end
     if success
       refresh_in_search_index
     end
