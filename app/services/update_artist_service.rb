@@ -43,9 +43,11 @@ class UpdateArtistService
   def trigger_user_change_event(changes)
     changes.each do |field, change|
       old_value, new_value = change
-      msg = "#{@artist.full_name} changed their #{field} from #{old_value} to #{new_value}"
-      data = {'user' => @artist.login, 'user_id' => @artist.id}
-      UserChangedEvent.create(message: msg, data: data)
+      if old_value.present? || new_value.present?
+        msg = "#{@artist.full_name} changed their #{field} from [#{old_value}] to [#{new_value}]"
+        data = {'user' => @artist.login, 'user_id' => @artist.id}
+        UserChangedEvent.create(message: msg, data: data)
+      end
     end
   end
 
