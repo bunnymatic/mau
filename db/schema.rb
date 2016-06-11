@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218042516) do
+ActiveRecord::Schema.define(version: 20160611163316) do
 
   create_table "application_events", force: :cascade do |t|
     t.string   "type",       limit: 255
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 20160218042516) do
     t.integer  "artist_id",                  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "bio",                        limit: 65535
-    t.text     "news",                       limit: 65535
+    t.text     "bio",                        limit: 16777215
+    t.text     "news",                       limit: 16777215
     t.string   "street",                     limit: 255
     t.string   "city",                       limit: 200
     t.string   "addr_state",                 limit: 4
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20160218042516) do
     t.string   "myspace",                    limit: 200
     t.string   "flickr",                     limit: 200
     t.integer  "zip",                        limit: 4
-    t.integer  "max_pieces",                 limit: 4,     default: 20
+    t.integer  "max_pieces",                 limit: 4,        default: 20
     t.string   "studionumber",               limit: 255
     t.float    "lat",                        limit: 24
     t.float    "lng",                        limit: 24
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20160218042516) do
   create_table "cms_documents", force: :cascade do |t|
     t.string   "page",       limit: 255
     t.string   "section",    limit: 255
-    t.text     "article",    limit: 65535
+    t.text     "article",    limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id",    limit: 4
@@ -143,6 +143,8 @@ ActiveRecord::Schema.define(version: 20160218042516) do
     t.integer  "user_id",          limit: 4
   end
 
+  add_index "favorites", ["favoritable_type", "favoritable_id", "user_id"], name: "index_favorites_uniq_on_user_and_favorite", unique: true, using: :btree
+
   create_table "featured_artist_queue", force: :cascade do |t|
     t.integer  "artist_id", limit: 4
     t.datetime "featured"
@@ -156,7 +158,7 @@ ActiveRecord::Schema.define(version: 20160218042516) do
     t.string   "email",      limit: 255
     t.string   "login",      limit: 255
     t.string   "page",       limit: 255
-    t.text     "comment",    limit: 65535
+    t.text     "comment",    limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "url",        limit: 255
