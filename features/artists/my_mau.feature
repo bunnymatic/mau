@@ -16,7 +16,7 @@ Scenario: I can edit my profile
   When I click on "Personal Info"
   And I update my personal information with:
   | artist_firstname | artist_lastname |
-  | joe              | blow            |
+  | joe              | 蕭秋芬          |
   And I click on "Save Changes"
 
   Then I see my profile edit form
@@ -24,7 +24,7 @@ Scenario: I can edit my profile
   When I click on "Personal Info"
   Then I see my updated personal information as:
   | artist_firstname | artist_lastname |
-  | joe              | blow            |
+  | joe              | 蕭秋芬          |
 
   And I click on "Personal Info"
 
