@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rails_helper'
 
 describe User do
@@ -22,6 +23,12 @@ describe User do
   end
   after do
     Timecop.return
+  end
+
+  it 'allows unicode characters for name fields' do
+    user.nomdeplume = "蕭秋芬";
+    user.save!
+    expect(user.reload.nomdeplume).to eql "蕭秋芬"
   end
 
   it 'requires password and password confirmation' do

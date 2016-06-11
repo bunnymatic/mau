@@ -8,14 +8,17 @@ class UpdateArtistService
   end
 
   def update
-    if @params[:artist_info_attributes]
-      @params[:artist_info_attributes][:open_studios_participation] = @artist.artist_info.open_studios_participation
-    end
+    success = nil
+    Artist.transaction do
+      if @params[:artist_info_attributes]
+        @params[:artist_info_attributes][:open_studios_participation] = @artist.artist_info.open_studios_participation
+      end
 
-    @artist.assign_attributes(@params)
-    changes = @artist.changes
-    success = @artist.save
-    trigger_user_change_event(changes) if changes.present?
+      @artist.assign_attributes(@params)
+      changes = @artist.changes
+      success = @artist.save
+      trigger_user_change_event(changes) if changes.present?
+    end
     if success
       refresh_in_search_index
     end
@@ -40,9 +43,11 @@ class UpdateArtistService
   def trigger_user_change_event(changes)
     changes.each do |field, change|
       old_value, new_value = change
-      msg = "#{@artist.full_name} changed their #{field} from #{old_value} to #{new_value}"
-      data = {'user' => @artist.login, 'user_id' => @artist.id}
-      UserChangedEvent.create(message: msg, data: data)
+      if old_value.present? || new_value.present?
+        msg = "#{@artist.full_name} changed their #{field} from [#{old_value}] to [#{new_value}]"
+        data = {'user' => @artist.login, 'user_id' => @artist.id}
+        UserChangedEvent.create(message: msg, data: data)
+      end
     end
   end
 

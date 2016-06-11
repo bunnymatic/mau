@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'rails_helper'
 
 describe UsersController, elasticsearch: true do
@@ -387,6 +388,20 @@ describe UsersController, elasticsearch: true do
         end
         it "updates user attributes" do
           expect(User.find(quentin.id).firstname).to eql "blow"
+        end
+      end
+      context "with unicode name" do
+        before do
+          put :update, id: quentin.id, user: { lastname: "蕭秋芬" }
+        end
+        it "redirects to user edit page" do
+          expect(response).to redirect_to(edit_user_path(quentin))
+        end
+        it "contains flash notice of success" do
+          expect(flash[:notice]).to eql "Your profile has been updated"
+        end
+        it "updates user attributes" do
+          expect(quentin.reload.lastname).to eql "蕭秋芬"
         end
       end
     end
