@@ -25,10 +25,18 @@ describe 'mau.services.favoriteService', ->
       response.then (data) ->
         expect(data.successMessage).toEqual(true)
 
-    it "returns false and an error message if there is not a logged in user", ->
+    it "returns a message if there is not a logged in user", ->
       @.http.when('GET', '/users/whoami').respond({ "current_user": null })
       response = @.service.add('the_type', 'the_id')
-      success = { successMessage: true }
-      response.then (data) ->
-        expect(data).toEqual('success')
       @.http.flush()
+      response.then (data) ->
+        expect(data).toEqual { message: "You need to login before you can favorite things" }
+
+    it "returns a message if there is favoriting fails", ->
+      expectedPost = { favorite: { type: null, id: null } }
+      @.http.when('GET', '/users/whoami').respond({ "current_user": 'somebody' })
+      @.http.expect('POST', '/users/somebody/favorites',expectedPost).respond(500, {})
+      response = @.service.add(null, null)
+      @.http.flush()
+      response.then (data) ->
+        expect(data).toEqual { message: "That item doesn't seem to be available to favorite.  If you think it should be, please drop us a note and we'll look into it." }

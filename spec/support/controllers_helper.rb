@@ -4,6 +4,12 @@ shared_examples_for "redirects to login" do
   end
 end
 
+shared_examples_for "refuses access by xhr" do
+  it "refuses access" do
+    m = JSON.parse(response.body)
+    expect(m["message"]).to include "be logged in"
+  end
+end
 
 shared_examples_for 'renders error page' do
   it "renders an error page with status 404" do

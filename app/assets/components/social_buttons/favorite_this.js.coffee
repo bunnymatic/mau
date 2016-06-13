@@ -3,41 +3,26 @@ favoriteThis = ngInject (favoritesService) ->
     $scope.title ||= "Add to my favorites"
 
   controller.prototype.addFavorite = ( type, id ) ->
-    favoritesService.add( type, id )
+    r = favoritesService.add( type, id )
 
   link = (scope, elem, attrs, ctrl) ->
-    console.log(arguments)
-    type = "Artist"
-    id = "twenty"
-    x = favoritesService.add(type, id)
-
-    $(elem).find('a.favorite-this').on 'click', ->
-      s = angular.element(@).parent().scope()
-      type = id = null
-      if (s.artPiece)
-        type = 'ArtPiece'
-        id = s.artPiece.id
-      else
-        type = 'Artist'
-        id = s.artist.id
-      r = ctrl.addFavorite(type, id)
-      r.then(
-        () ->
+    $(elem).on 'click', ->
+      ctrl.addFavorite(attrs.objectType, attrs.objectId).then(
+        (data) ->
+          message = data.message
           flash = new MAU.Flash()
           flash.clear()
-          flash.show { notice: "!!!" }
-          console.log("success adding favorite")
+          flash.show { notice: message }
         ,
         (err) ->
+          message = err.message || "Something went wrong trying to add that favorite.  Please tell us what you were trying to do so we can fix it."
           flash = new MAU.Flash()
           flash.clear()
-          flash.show { notice: err }
-          console.log("failed to add favorite" )
+          flash.show { notice: message }
       )
   controller: controller
   restrict: 'E'
   templateUrl: 'social_buttons/favorite.html'
-  scope:
-    favTitle: '='
+  scope: {}
   link: link
 angular.module('mau.directives').directive('favoriteThis', favoriteThis)

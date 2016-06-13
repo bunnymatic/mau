@@ -79,9 +79,13 @@ class ApplicationController < ActionController::Base
 
   def user_required
     unless current_user
-      store_location
-      flash[:notice] = "You must be logged in to access this page"
-      redirect_to new_user_session_url
+      if request.xhr?
+        render json: { message: "You need to be logged in" }, status: 400
+      else
+        store_location
+        flash[:notice] = "You must be logged in to access this page"
+        redirect_to new_user_session_url
+      end
     end
   end
 

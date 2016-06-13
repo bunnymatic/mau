@@ -58,7 +58,7 @@
         %share-button{ type: 'twitter', "ng-if" => "artPiece.id" }
         %share-button{ type: "facebook",  "ng-if" => "artPiece.id" }
         %share-button{ type: "pinterest", "ng-if" => "artPiece.id" }
-        %favorite-this{ "ng-if" => "artPiece.id", "ng-type" => "'ArtPiece'", "ng-id" => "artPiece.id", "ng-title" => "artiPiece.title"}
+        %favorite-this{ "ng-if" => "artPiece.id", "object-type" => "ArtPiece", "object-id" => "{{artPiece.id}}", "ng-title" => "{{artiPiece.title}}"}
 
   .pure-u-1-1.pure-u-sm-2-3.pure-u-md-3-4.pure-u-lg-4-5.art-piece
     .art-piece__wrapper

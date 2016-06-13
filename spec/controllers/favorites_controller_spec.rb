@@ -19,9 +19,9 @@ describe FavoritesController do
   describe "#create" do
     context "while not logged in" do
       before do
-        put :create, user_id: fan.id
+        xhr :post, :create, user_id: fan.id
       end
-      it_should_behave_like "redirects to login"
+      it_should_behave_like "refuses access by xhr"
     end
 
     context "while logged in" do
@@ -30,7 +30,7 @@ describe FavoritesController do
       end
       it "does not create an artist for user that doesn't match login" do
         expect {
-          put :create, user_id: artist.id, favorite: { type: 'Artist', id: artist.id }
+          xhr :post, :create, user_id: artist.id, favorite: { type: 'Artist', id: artist.id }
 
           expect(response).to redirect_to user_path(fan)
           expect(artist.reload.favorites).to be_empty
@@ -39,10 +39,11 @@ describe FavoritesController do
 
       context "adding a favorite artist" do
         before do
-          put :create, user_id: fan.id, favorite: { type: 'Artist', id: artist.id }
+          xhr :post, :create, user_id: fan.id, favorite: { type: 'Artist', id: artist.id }
         end
         it "returns success" do
-          expect(response).to redirect_to(artist_path(artist))
+          r = JSON.parse(response.body)
+          expect(r["message"]).to include "added to your favorites"
         end
         it "adds the artist" do
           favs = fan.reload.favorites
@@ -67,34 +68,25 @@ describe FavoritesController do
             login_as fan
             xhr :post, :create, user_id: fan.id, favorite: { type: 'ArtPiece', id: art_piece.id }
           end
-          it { expect(response).to be_success }
+          it_should_behave_like "successful json"
           it "adds favorite to user" do
             u = User.find(fan.id)
             favs = u.favorites
             expect(favs.map { |f| f.favoritable_id }).to include art_piece.id
           end
-          it { expect(response).to be_json }
-        end
-        context "as standard POST" do
-          before do
-            put :create, user_id: fan.id, favorite: { type: 'ArtPiece', id: art_piece.id }
-          end
-          it "returns success" do
-            expect(response).to redirect_to art_piece
-          end
           it "sets flash with escaped name" do
-            expect(flash[:notice]).to include html_encode(art_piece.title)
+            expect(JSON.parse(response.body)['message']).to include html_encode(art_piece.title)
           end
           it "adds favorite to user" do
             favs = fan.reload.favorites
-            expect(favs.map { |f| f.favoritable_id }).to include art_piece.id
+            expect(favs.map(&:favoritable_id)).to include art_piece.id
           end
         end
       end
       context "add a favorite bogus model" do
         before do
           @nfavs = artist.favorites.count
-          put :create, user_id: fan.id, favorite: { type: 'bogus', id: art_piece.id }
+          xhr :post, :create, user_id: fan.id, favorite: { type: 'bogus', id: art_piece.id }
         end
         it "returns 404" do
           expect(response).to be_missing

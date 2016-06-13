@@ -1,6 +1,6 @@
 describe('Flash', function() {
   beforeEach(function() {
-    fixture.set '<div id="fixture"><div class="container"></div></div>'
+    fixture.set('<div id="fixture"><div class="container"></div></div>');
   });
 
   describe('show', function() {

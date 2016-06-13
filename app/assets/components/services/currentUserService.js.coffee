@@ -2,10 +2,7 @@ currentUserService = ngInject ($q, $http) ->
 
   @currentUser = null
   get: () ->
-    return $http.get("/users/whoami").then (response) =>
-      defer = $q.defer()
-      defer.resolve(response.data?.current_user)
-      defer.reject(null)
-      return defer.promise
+    $http.get("/users/whoami").then (response) =>
+      $q.when( response.data.current_user, null )
 
 angular.module('mau.services').factory('currentUserService', currentUserService)
