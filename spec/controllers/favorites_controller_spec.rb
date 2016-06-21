@@ -62,6 +62,17 @@ describe FavoritesController do
           end
         end
       end
+
+      context "adding a favorite artist by slug" do
+        before do
+          xhr :post, :create, user_id: fan.id, favorite: { type: 'Artist', id: artist.slug }
+        end
+        it "adds the artist" do
+          favs = fan.reload.favorites
+          expect(favs.map { |f| f.favoritable_id }).to include artist.id
+        end
+      end
+
       context "addding an art_piece" do
         context "as ajax post(xhr)" do
           before do

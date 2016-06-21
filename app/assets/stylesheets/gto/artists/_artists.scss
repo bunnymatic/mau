@@ -317,6 +317,12 @@
       line-height: 1.4rem;
     }
   }
+  .artist__favorite {
+    .social-buttons {
+      margin-top: 0;
+      float: left;
+    }
+  }
   .artist__links .link {
     margin-bottom: 5px;
     @include ellipsis;

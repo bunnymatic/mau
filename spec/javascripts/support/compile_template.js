@@ -8,7 +8,6 @@ compileTemplate = function(template, inputScope) {
         scope[k] = inputScope[k];
       }
     }
-    console.log(scope)
     $elm = $compile(elm)(scope);
     scope.$digest();
   });

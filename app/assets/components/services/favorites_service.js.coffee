@@ -15,8 +15,7 @@ favoritesService = ngInject ($resource, $q, currentUserService) ->
         favorites.add(
           { userId: login }, { favorite: { type: type, id: id } }
         ).$promise.then( (data) ->
-          debugger
-          { message: "Great choice for a favorite!  We added it to your collection." }
+          { message: data.message || "Great choice for a favorite!  We added it to your collection." }
         ).catch( (err) ->
           {
             message: err.message || "That item doesn't seem to be available to favorite.  If you think it should be, please drop us a note and we'll look into it."

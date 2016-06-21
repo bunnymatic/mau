@@ -209,54 +209,24 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
-  # POST
-  # def add_favorite
-  #   type = params[:fav_type]
-  #   _id = params[:fav_id]
-  #   if Favorite::FAVORITABLE_TYPES.include? type
-  #     obj = type.constantize.find(_id)
-  #     r = current_user.add_favorite(obj) if obj
-  #     if request.xhr?
-  #       render :json => {
-  #         :message => 'Added a favorite',
-  #         :favorite => obj.to_json
-  #       } and return
-  #     else
-  #       objname = obj.get_name
-  #       msg = r ? "#{objname} has been added to your favorites.":
-  #               "You've already added #{objname} to your list of favorites."
-  #       if obj.is_a? ArtPiece
-  #         redirect_to art_piece_path(obj), :notice => msg
-  #       else
-  #         redirect_to obj, :notice => msg
-  #       end
-
-  #     end
-  #   else
-  #     render_not_found({:message => "You can't favorite that type of object" })
-  #   end
-  # end
-
-  # def remove_favorite
-  #   # POST
-  #   type = params[:fav_type]
-  #   _id = params[:fav_id]
-  #   if Favorite::FAVORITABLE_TYPES.include? type
-  #     obj = type.constantize.find(_id)
-  #     if obj
-  #       current_user.remove_favorite(obj)
-  #     end
-  #     if request.xhr?
-  #       render :json => {:message => 'Removed a favorite'}
-  #       return
-  #     else
-  #       flash[:notice] = "#{obj.get_name true} has been removed from your favorites."
-  #       redirect_to(request.referrer || obj)
-  #     end
-  #   else
-  #     render_not_found({:message => "You can't unfavorite that type of object" })
-  #   end
-  # end
+  def remove_favorite
+    # POST
+    type = params[:fav_type]
+    _id = params[:fav_id]
+    fav = Favorite.where(favoritable_type: type, favoritable_id: _id).take
+    obj = nil
+    if fav
+      obj = fav.to_obj
+      fav.destroy
+      if request.xhr?
+        render :json => {:message => 'Removed a favorite'}
+        return
+      else
+        flash[:notice] = "#{obj.get_name true} has been removed from your favorites."
+      end
+    end
+    redirect_to(request.referrer || obj);
+  end
 
   protected
   def render_on_failed_create

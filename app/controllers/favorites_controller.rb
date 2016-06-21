@@ -20,23 +20,18 @@ class FavoritesController < ApplicationController
   def create
     type = favorite_params[:type]
     _id = favorite_params[:id]
-    if !request.xhr?
-      head(404);
-    end
-
     begin
-      if request.xhr?
-        obj = FavoritesService.get_object(type, _id)
-        result = FavoritesService.add(current_user, obj)
-        msg = "#{obj.get_name(true)} has beem added to your favorites."
-        if !result
-          msg = "We all love you too, but you can't favorite yourself."
-        end
-        render json: { message: msg } and return
+      obj = FavoritesService.get_object(type, _id)
+      result = FavoritesService.add(current_user, obj)
+      msg = "#{obj.get_name(true)} has been added to your favorites."
+      if !result
+        msg = "We love you too, but you can't favorite yourself."
       end
+      render json: { message: msg } and return
     rescue InvalidFavoriteTypeError, NameError
-      render_not_found({message: "You can't favorite that type of object" })
+      render_not_found({message: "You can't favorite that type of object" }) and return
     end
+    head(404)
   end
 
   def destroy
