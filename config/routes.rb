@@ -131,7 +131,11 @@ Mau::Application.routes.draw do
     resources :cms_documents
     resources :blacklist_domains, except: [:show]
     resources :artist_feeds, except: [:show]
-    resources :open_studios_events, only: [:index, :edit, :new, :create, :update, :destroy]
+    resources :open_studios_events, only: [:index, :edit, :new, :create, :update, :destroy] do
+      collection do
+        get :clear_cache
+      end
+    end
     resources :email_lists, only: [:index] do
       resources :emails, only: [:index, :create, :new, :destroy]
     end

@@ -58,7 +58,7 @@ FactoryGirl.define do
       FactoryGirl.create(:artist_info, artist: artist, max_pieces: context.max_pieces)
     end
 
-    ignore do
+    transient do
       max_pieces 10
       number_of_art_pieces 3
     end

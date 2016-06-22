@@ -37,7 +37,12 @@ module Admin
       @os_event = OpenStudiosEventService.find(params[:id])
       OpenStudiosEventService.destroy(@os_event)
       redirect_to admin_open_studios_events_path, notice: "The Event has been removed"
-   end
+    end
+
+    def clear_cache
+      OpenStudiosEventService.clear_cache
+      redirect_to admin_open_studios_events_path, notice: "The cache has been cleared"
+    end
 
     private
     def open_studios_event_params
