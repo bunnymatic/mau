@@ -1,10 +1,13 @@
 .pure-g
   .pure-u-1-1.padded-content
+    = render partial: '/flash_notice_error'
     %h1
       Open Studios Events
       .admin-table__controls
-      = link_to new_admin_open_studios_event_path, title: 'add new open studios date' do
-        = fa_icon "plus-circle"
+        = link_to new_admin_open_studios_event_path, title: 'add new open studios date' do
+          = fa_icon "plus-circle"
+        = link_to clear_cache_admin_open_studios_events_path, title: 'clear os dates cache' do
+          = fa_icon "refresh"
   .pure-u-1-1.padded-content
     %table.os-events.pure-table.pure-table-striped
       %thead
@@ -30,4 +33,3 @@
                 = fa_icon 'edit'
               = link_to admin_open_studios_event_path(os_event), confirm: 'Are you sure?', method: :delete, title: "Delete" do
                 = fa_icon 'remove'
-

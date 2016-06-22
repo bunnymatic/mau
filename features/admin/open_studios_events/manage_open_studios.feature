@@ -1,4 +1,4 @@
-Feature: 
+Feature:
   As an admin
   I can see all the open studios events in the system
 
@@ -21,10 +21,13 @@ Scenario: Adding a new open studios event
   When I click on the first "Delete" button
   Then I see that the new open studios event is no longer there
 
+  When I click on the first "clear os dates cache" button
+  Then I see the "admin open studios events" page
+  And I see a flash notice "cache has been cleared"
+
 Scenario: Editing an existing open studios event
   When I click on "os dates" in the admin menu
   And I click on the last "Edit" link
   And I change the date to next month
   Then I see the open studios events
   And I see the updated open studios event
-  
