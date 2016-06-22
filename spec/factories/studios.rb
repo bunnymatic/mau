@@ -15,7 +15,7 @@ FactoryGirl.define do
     photo_file_size    1234
     photo_updated_at   1.day.ago
     position { Random.rand(200) }
-    ignore do
+    transient do
       artist_count 2
     end
 
