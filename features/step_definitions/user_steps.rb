@@ -85,10 +85,13 @@ When(/^I login as a manager$/) do
 end
 
 When(/^I login as "(.*?)"$/) do |login|
+  path = current_path
+  visit login_path
   @artist = User.find_by(login: login)
   fill_in_login_form login, 'bmatic'
   steps %{And I click "Sign In"}
   steps %{Then I see a flash notice "You're in"}
+  visit path
 end
 
 Then(/^I see my fan profile edit form$/) do

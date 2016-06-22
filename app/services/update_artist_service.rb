@@ -17,6 +17,9 @@ class UpdateArtistService
         @artist.slug = nil
       end
 
+      if changes[:login]
+        @artist.slug = nil
+      end
       success = @artist.save
       trigger_user_change_event(changes) if changes.present?
     end

@@ -51,14 +51,6 @@ When /I'm on my smart phone/ do
   current_session.header("User-Agent", IPHONE_USER_AGENT)
 end
 
-Then /^I see a flash notice including "[^"]*"$/ do |match|
-  expect(page).to have_flash :notice, match
-end
-
-Then /^I see a flash error including "[^"]*"$/ do |match|
-  expect(page).to have_flash :danger, match
-end
-
 Then /^show me the page$/ do
   save_and_open_page
 end
@@ -155,6 +147,14 @@ end
 Then(/^I see an error message "(.*?)"$/) do |msg|
   wait_until { all(".error-msg").any? }
   expect(page).to have_selector '.error-msg', text: msg
+end
+
+Then /^I see a flash notice including ("[^"]*")$/ do |match|
+  expect(page).to have_flash :notice, match
+end
+
+Then /^I see a flash error including ("[^"]*")$/ do |match|
+  expect(page).to have_flash :danger, match
 end
 
 Then(/^I see a flash error "(.*?)"$/) do |msg|
