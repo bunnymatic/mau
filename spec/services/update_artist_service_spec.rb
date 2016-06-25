@@ -11,7 +11,6 @@ describe UpdateArtistService do
 
     before do
       stub_search_service!
-      allow(UserChangedEvent).to receive(:create)
     end
 
     describe "with user attributes" do
@@ -22,6 +21,12 @@ describe UpdateArtistService do
         service.update
         expect(artist.reload.firstname).to eql "BillyBob"
       end
+
+      it "registers the change by adding a UserChangeEvent" do
+        expect(UserChangedEvent).to receive(:create)
+        service.update
+      end
+
     end
 
     describe "with artist info attributes" do
@@ -40,7 +45,16 @@ describe UpdateArtistService do
         expect(artist.reload.facebook).to eql "http://newfacebook.example.com"
         expect(artist.artist_info.id).to eql info_id
       end
+    end
 
+    describe "with a huge bio update" do
+      let(:big_bio) { Faker::Lorem.paragraphs(4).join }
+      let(:params) {
+        { artist_info_attributes: { bio: big_bio } }
+      }
+      it "updates things without raising an error" do
+        service.update
+      end
     end
 
     describe "when the login changes" do
@@ -56,6 +70,7 @@ describe UpdateArtistService do
         expect(artist.login).to eql "newlogin"
       end
     end
+
 
   end
 end

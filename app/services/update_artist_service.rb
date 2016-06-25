@@ -45,7 +45,7 @@ class UpdateArtistService
     changes.each do |field, change|
       old_value, new_value = change
       if old_value.present? || new_value.present?
-        msg = "#{@artist.full_name} changed their #{field} from [#{old_value}] to [#{new_value}]"
+        msg = "#{@artist.full_name} changed their #{field} from [#{old_value.to_s.truncate(50)}] to [#{new_value.to_s.truncate(50)}]"
         data = {'user' => @artist.login, 'user_id' => @artist.id}
         UserChangedEvent.create(message: msg, data: data)
       end
