@@ -39,7 +39,7 @@ Mau::Application.routes.draw do
   match 'reset' => 'users#reset', as: :submit_reset, via: [:post]
 
 
-  resources :users, shallow: true do
+  resources :users do
     resources :favorites, only: [:index, :create, :destroy], shallow: true
     resources :roles, only: [:destroy]
     collection do
