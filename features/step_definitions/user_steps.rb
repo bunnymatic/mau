@@ -84,6 +84,11 @@ When(/^I login as a manager$/) do
   steps %{And I click "Sign In"}
 end
 
+When(/^I'm logged out$/) do
+  logout_links = page.all('a[href*=logout]')
+  logout_links.first.click if logout_links.present?
+end
+
 When(/^I login as "(.*?)"$/) do |login|
   path = current_path
   visit login_path

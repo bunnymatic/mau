@@ -150,6 +150,7 @@ Then(/^I see an error message "(.*?)"$/) do |msg|
 end
 
 Then /^I see a flash notice including ("[^"]*")$/ do |match|
+  wait_until { all(".flash").any? }
   expect(page).to have_flash :notice, match
 end
 
