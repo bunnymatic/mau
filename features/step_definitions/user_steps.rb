@@ -88,6 +88,7 @@ When(/^I login as "(.*?)"$/) do |login|
   @artist = User.find_by(login: login)
   fill_in_login_form login, 'bmatic'
   steps %{And I click "Sign In"}
+  steps %{Then I see a flash notice "You're in"}
 end
 
 Then(/^I see my fan profile edit form$/) do

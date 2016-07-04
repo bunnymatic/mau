@@ -4,6 +4,13 @@ module MockSearchService
     allow(runner).to receive(:search).and_call_original
     allow(runner).to receive(:multi_index_search).and_return JSON.parse(mock_search_results)
     allow(Search::QueryRunner).to receive(:new).and_return( runner )
+
+    mockIndexer = double(Search::Indexer::ObjectSearchService)
+    allow(mockIndexer).to receive(:index)
+    allow(mockIndexer).to receive(:reindex)
+    allow(mockIndexer).to receive(:update)
+    allow(mockIndexer).to receive(:remove)
+    allow(Search::Indexer::ObjectSearchService).to receive(:new).and_return(mockIndexer)
   end
 
   def mock_search_results

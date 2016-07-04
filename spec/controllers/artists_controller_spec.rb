@@ -102,7 +102,12 @@ describe ArtistsController, elasticsearch: true do
             expect(response).to redirect_to(edit_artist_path(artist))
           end
           it 'publishes an update message' do
-            expect_any_instance_of(Messager).to receive(:publish)
+            mock_messagers = 2.times.map do
+              mock_messager = instance_double(Messager)
+              expect(mock_messager).to receive(:publish)
+              mock_messager
+            end
+            expect(Messager).to receive(:new).and_return(*mock_messagers)
             put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs}
           end
         end
@@ -134,7 +139,12 @@ describe ArtistsController, elasticsearch: true do
           expect(artist.address).to include street
         end
         it 'publishes an update message' do
-          expect_any_instance_of(Messager).to receive(:publish)
+          mock_messagers = 2.times.map do
+            mock_messager = instance_double(Messager)
+            expect(mock_messager).to receive(:publish)
+            mock_messager
+          end
+          expect(Messager).to receive(:new).and_return( *mock_messagers )
           put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: {street: 'wherever' }}
         end
       end
@@ -288,7 +298,9 @@ describe ArtistsController, elasticsearch: true do
       end
 
       it "publishes a message to the Messager that something happened" do
-        expect_any_instance_of(Messager).to receive(:publish)
+        mock_messager = instance_double(Messager)
+        expect(mock_messager).to receive(:publish)
+        expect(Messager).to receive(:new).and_return(mock_messager)
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
         post :setarrangement, { neworder: order1.join(",") }
       end
