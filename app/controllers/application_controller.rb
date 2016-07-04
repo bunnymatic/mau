@@ -40,6 +40,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  alias :mau_fan_url :user_url
+  alias :mau_fan_path :user_path
+
   def logged_in?
     !!current_user
   end
@@ -69,12 +72,20 @@ class ApplicationController < ActionController::Base
     session[:return_to] = nil
   end
 
-  def require_user
+  def user_must_be_you
+    user_required
+    redirect_back_or_default(current_user) unless (User.find(params[:user_id]) == current_user)
+  end
+
+  def user_required
     unless current_user
-      store_location
-      flash[:notice] = "You must be logged in to access this page"
-      redirect_to new_user_session_url
-      return false
+      if request.xhr?
+        render json: { message: "You need to be logged in" }, status: 400
+      else
+        store_location
+        flash[:notice] = "You must be logged in to access this page"
+        redirect_to new_user_session_url
+      end
     end
   end
 
@@ -82,7 +93,7 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
-  alias :user_required :require_user
+  alias :require_user :user_required
 
   def require_no_user
     if current_user

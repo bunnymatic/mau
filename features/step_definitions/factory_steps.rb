@@ -115,13 +115,13 @@ Given(/^there are artists and art pieces with favorites$/) do
   @art_pieces = ArtPiece.all
 
   @users.each_with_index do |u, idx|
-    u.add_favorite(@artists[idx % @artists.count])
+    FavoritesService.add(u, @artists[idx % @artists.count])
   end
   @art_pieces.each_with_index do |ap, idx|
     u = @users[idx % @users.count]
     a = @artists[idx % @artists.count]
-    u.add_favorite ap
-    a.add_favorite ap unless ap.artist == a
+    FavoritesService.add(u, ap)
+    FavoritesService.add(a, ap) unless ap.artist == a
   end
 end
 

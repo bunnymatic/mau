@@ -237,6 +237,7 @@
 }
 
 
+
 .artist-profile, #art {
   .empty {
     h4, p {
@@ -317,6 +318,13 @@
       line-height: 1.4rem;
     }
   }
+  favorite-this {
+    .ico.ico-invert {
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+  }
+
   .artist__links .link {
     margin-bottom: 5px;
     @include ellipsis;
@@ -335,14 +343,24 @@
   .artist-profile__edit {
     top: 0;
   }
-  .member-since {
-    font-size: 0.8rem;
-  }
   .artist__image {
     position: relative;
+    .artist__image-footer {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+    .artist__image-footer__favorite {
+      flex: 1;
+    }
+    .artist__image-footer__member-since {
+      font-size: 0.8rem;
+      flex: 3;
+      text-align: right;
+    }
     .os-violator {
       position: absolute;
-      bottom: 2px;
+      bottom: 37px;
       right: 2px;
       display: inline-block;
       background-image: image-url("os_violator.svg");
@@ -350,11 +368,6 @@
       width: 75px;
       height: 80px;
       background-size: contain;
-    }
-    .member-since {
-      position: absolute;
-      bottom: -20px;
-      right: 0px;
     }
   }
   .artist-profile__image {

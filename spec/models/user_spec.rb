@@ -265,160 +265,140 @@ describe User do
     end
   end
 
-  describe 'favorites -'  do
-    describe "adding artist as favorite to a user" do
-      before do
-        @u = maufan # he's a fan
-        @a = artist
-        @u.add_favorite(@a)
-        @u.save
-      end
-      it "all users favorites should be either of type Artist or ArtPiece" do
-        expect(@u.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.size).to be >= 1
-      end
-      it "artist is in the users favorites list" do
-        favs = @u.favorites.select { |f| f.favoritable_id == @a.id }
-        expect(favs.size).to eq(1)
-        expect(favs[0].favoritable_id).to eql(@a.id)
-        expect(favs[0].favoritable_type).to eql('Artist')
-      end
-      it "artist is in the users favorite.to_obj list as an artist model" do
-        fs = @u.favorites.to_obj.select { |f| f.id == @a.id }
-        expect(fs.size).to eq(1)
-        expect(fs[0].id).to eql @a.id
-        expect(fs[0].class).to eql Artist
-      end
-      it "artist is in user.fav_artists list" do
-        expect(@u.fav_artists.map { |a| a.id }).to include(@a.id)
-      end
-      it "first in user.fav_artists list is an Artist" do
-        expect(@u.fav_artists.first.is_a?(User)).to be
-      end
-      context "and removing that artist" do
-        before do
-          @u.remove_favorite(@a)
-        end
-        it ", artist is no longer a favorite" do
-          expect(@u.fav_art_pieces.size).to eq(0)
-        end
-      end
-      context "and trying to add a duplicate artist" do
-        before do
-          @num_favs = @u.favorites.count
-          @result = @u.add_favorite(@a)
-        end
-        it "doesn't add" do
-          expect(@result).to be_nil
-          expect(@num_favs).to eql @u.favorites.count
-        end
-      end
-      context "then artist deactivates" do
-        before do
-          @aid = @a.id
-          @favs = @u.favorites.count
-          @a.destroy
-        end
-        it "fav_artists should not return deactivated artist" do
-          expect(@u.fav_artists.map { |a| a.id }).not_to include(@aid)
-        end
-        it "favorites list should be smaller" do
-          expect(@u.favorites.count).to eql @favs - 1
-        end
-      end
-    end
-    describe "narcissism" do
-      it "favoriting yourself is not allowed" do
-        expect(artist.add_favorite(artist)).to be_nil
-      end
-      it "favoriting your own art work is not allowed" do
-        expect(artist.add_favorite(art_piece)).to be_nil
-      end
-      it "it doesn't send favorite notification" do
-        expect(ArtistMailer).to receive('favorite_notification').never
-        expect(artist.add_favorite(art_piece)).to be_nil
-      end
-    end
+  # describe 'favorites -'  do
+  #   describe "adding artist as favorite to a user" do
+  #     before do
+  #       @u = maufan # he's a fan
+  #       @a = artist
+  #       create_favorite( maufan, artist )
+  #     end
+  #     it "all users favorites should be either of type Artist or ArtPiece" do
+  #       expect(@u.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.size).to be >= 1
+  #     end
+  #     it "artist is in the users favorites list" do
+  #       favs = @u.favorites.select { |f| f.favoritable_id == @a.id }
+  #       expect(favs.size).to eq(1)
+  #       expect(favs[0].favoritable_id).to eql(@a.id)
+  #       expect(favs[0].favoritable_type).to eql('Artist')
+  #     end
+  #     it "artist is in the users favorite.to_obj list as an artist model" do
+  #       fs = @u.favorites.to_obj.select { |f| f.id == @a.id }
+  #       expect(fs.size).to eq(1)
+  #       expect(fs[0].id).to eql @a.id
+  #       expect(fs[0].class).to eql Artist
+  #     end
+  #     it "artist is in user.fav_artists list" do
+  #       expect(@u.fav_artists.map { |a| a.id }).to include(@a.id)
+  #     end
+  #     it "first in user.fav_artists list is an Artist" do
+  #       expect(@u.fav_artists.first.is_a?(User)).to be
+  #     end
+  #     context "and trying to add a duplicate artist" do
+  #       before do
+  #         @num_favs = @u.favorites.count
+  #         @result = create_favorite( @u, @a )
+  #       end
+  #       it "doesn't add" do
+  #         expect(@result).to be_nil
+  #         expect(@num_favs).to eql @u.favorites.count
+  #       end
+  #     end
+  #     context "then artist deactivates" do
+  #       before do
+  #         @aid = @a.id
+  #         @favs = @u.favorites.count
+  #         @a.destroy
+  #       end
+  #       it "fav_artists should not return deactivated artist" do
+  #         expect(@u.fav_artists.map { |a| a.id }).not_to include(@aid)
+  #       end
+  #       it "favorites list should be smaller" do
+  #         expect(@u.favorites.count).to eql @favs - 1
+  #       end
+  #     end
+  #   end
+  #   describe "narcissism" do
+  #     it "favoriting yourself is not allowed" do
+  #       expect(artist.add_favorite(artist)).to be_nil
+  #     end
+  #     it "favoriting your own art work is not allowed" do
+  #       expect(artist.add_favorite(art_piece)).to be_nil
+  #     end
+  #     it "it doesn't send favorite notification" do
+  #       expect(ArtistMailer).to receive('favorite_notification').never
+  #       expect(artist.add_favorite(art_piece)).to be_nil
+  #     end
+  #   end
+  #   describe "mailer notifications" do
+  #     before do
+  #       artist
+  #     end
+  #     it '#resend_activation sends a new activation email' do
+  #       expect(UserMailer).to receive('resend_activation').with(maufan).once.and_return(double('deliverable', deliver_later: true))
+  #       maufan.resend_activation
+  #     end
+  #     it '#create_reset_code sends a recent reset email' do
+  #       expect(UserMailer).to receive('reset_notification').with(maufan).once.and_return(double('deliverable', deliver_later: true))
+  #       maufan.create_reset_code
+  #     end
 
-    describe "mailer notifications" do
-      before do
-        artist
-      end
-      it '#resend_activation sends a new activation email' do
-        expect(UserMailer).to receive('resend_activation').with(maufan).once.and_return(double('deliverable', deliver_later: true))
-        maufan.resend_activation
-      end
-      it '#create_reset_code sends a recent reset email' do
-        expect(UserMailer).to receive('reset_notification').with(maufan).once.and_return(double('deliverable', deliver_later: true))
-        maufan.create_reset_code
-      end
+  #     it "add art_piece favorite sends favorite notification to owner" do
+  #       expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double('deliverable', deliver_later: true))
+  #       maufan.add_favorite(art_piece)
+  #     end
+  #     it "add artist favorite sends favorite notification to user" do
+  #       expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double('deliverable', deliver_later: true))
+  #       maufan.add_favorite(artist)
+  #     end
+  #     it "add artist favorite doesn't send notification to user if user's email settings say no" do
+  #       h = artist.emailsettings
+  #       h['favorites'] = false
+  #       artist.emailsettings = h
+  #       artist.save!
+  #       artist.reload
+  #       expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).never
+  #       maufan.add_favorite(artist)
+  #     end
+  #   end
 
-      it "add art_piece favorite sends favorite notification to owner" do
-        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double('deliverable', deliver_later: true))
-        maufan.add_favorite(art_piece)
-      end
-      it "add artist favorite sends favorite notification to user" do
-        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).once.and_return(double('deliverable', deliver_later: true))
-        maufan.add_favorite(artist)
-      end
-      it "add artist favorite doesn't send notification to user if user's email settings say no" do
-        h = artist.emailsettings
-        h['favorites'] = false
-        artist.emailsettings = h
-        artist.save!
-        artist.reload
-        expect(ArtistMailer).to receive('favorite_notification').with(artist, maufan).never
-        maufan.add_favorite(artist)
-      end
-    end
+  #   describe "adding art_piece as favorite" do
+  #     before do
+  #       maufan.add_favorite(art_piece)
+  #     end
+  #     it "all users favorites should be either of type Artist or ArtPiece" do
+  #       expect(maufan.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.size).to be >= 1
+  #     end
+  #     it "art_piece is in favorites list" do
+  #       fs = maufan.favorites.select { |f| f.favoritable_id == art_piece.id }
+  #       expect(fs.size).to eq(1)
+  #       expect(fs[0].favoritable_id).to eql art_piece.id
+  #       expect(fs[0].favoritable_type).to eql 'ArtPiece'
+  #     end
+  #     it "art_piece is in favorites_to_obj list as an ArtPiece" do
+  #       fs = maufan.favorites.to_obj.select { |f| f.id == art_piece.id }
+  #       expect(fs.size).to eq(1)
+  #       expect(fs[0].id).to eql art_piece.id
+  #       expect(fs[0].class).to eql ArtPiece
+  #     end
 
-    describe "adding art_piece as favorite" do
-      before do
-        maufan.add_favorite(art_piece)
-      end
-      it "all users favorites should be either of type Artist or ArtPiece" do
-        expect(maufan.favorites.select {|f| ['Artist','ArtPiece'].include? f.favoritable_type}.size).to be >= 1
-      end
-      it "art_piece is in favorites list" do
-        fs = maufan.favorites.select { |f| f.favoritable_id == art_piece.id }
-        expect(fs.size).to eq(1)
-        expect(fs[0].favoritable_id).to eql art_piece.id
-        expect(fs[0].favoritable_type).to eql 'ArtPiece'
-      end
-      it "art_piece is in favorites_to_obj list as an ArtPiece" do
-        fs = maufan.favorites.to_obj.select { |f| f.id == art_piece.id }
-        expect(fs.size).to eq(1)
-        expect(fs[0].id).to eql art_piece.id
-        expect(fs[0].class).to eql ArtPiece
-      end
+  #     it "art_piece is in the artists 'fav_art_pieces' list" do
+  #       expect(maufan.fav_art_pieces.map { |ap| ap.id }).to include(art_piece.id)
+  #     end
+  #     it "art piece is of type ArtPiece" do
+  #       expect(maufan.fav_art_pieces.first.is_a?(ArtPiece)).to be
+  #     end
+  #     it "user does not have 'art_pieces' because he's a user" do
+  #       expect(maufan.methods).not_to include('art_pieces')
+  #     end
 
-      it "art_piece is in the artists 'fav_art_pieces' list" do
-        expect(maufan.fav_art_pieces.map { |ap| ap.id }).to include(art_piece.id)
-      end
-      it "art piece is of type ArtPiece" do
-        expect(maufan.fav_art_pieces.first.is_a?(ArtPiece)).to be
-      end
-      it "user does not have 'art_pieces' because he's a user" do
-        expect(maufan.methods).not_to include('art_pieces')
-      end
+  #     it "doesn't add items twice" do
+  #       expect{
+  #         maufan.add_favorite(art_piece)
+  #       }.to change(maufan.favorites, :count).by(0)
+  #     end
 
-      it "doesn't add items twice" do
-        expect{
-          maufan.add_favorite(art_piece)
-        }.to change(maufan.favorites, :count).by(0)
-      end
-
-      context "and removing it" do
-        it "Favorite delete get's called" do
-          expect_any_instance_of(Favorite).to receive(:destroy).exactly(:once)
-          maufan.remove_favorite(art_piece)
-        end
-        it "art_piece is no longer a favorite" do
-          f = maufan.remove_favorite(art_piece)
-          expect(Favorite.where(user_id: maufan.id)).not_to include f
-        end
-      end
-    end
-  end
+  #   end
+  # end
 
   describe "forgot password methods" do
     context "artfan" do

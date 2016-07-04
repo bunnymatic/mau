@@ -2,11 +2,19 @@ class Favorite < ActiveRecord::Base
   belongs_to :user
   belongs_to :favorite, :polymorphic => true
 
+  validate :uniqueness_of_user_and_item
+
   scope :art_pieces, -> { where(:favoritable_type => ArtPiece.name) }
   scope :users, -> { where(:favoritable_type => [Artist.name, User.name]) }
   scope :artists, -> { where(:favoritable_type => Artist.name) }
 
   FAVORITABLE_TYPES = ['Artist','ArtPiece']
+
+  def uniqueness_of_user_and_item
+    if self.class.find_by(user_id: user, favoritable_type: favoritable_type, favoritable_id: favoritable_id)
+      errors.add(:user, "You have already favorited that item")
+    end
+  end
 
   def is_user?
     [Artist.name, User.name].include? favoritable_type

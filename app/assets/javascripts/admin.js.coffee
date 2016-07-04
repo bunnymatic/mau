@@ -8,7 +8,6 @@
 
 angular.module('MauAdminApp', [
   'templates',
-  'ngResource',
   'ngSanitize',
   'ngDialog',
   'angularSlideables',

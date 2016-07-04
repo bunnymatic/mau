@@ -70,12 +70,14 @@ describe Admin::StatsController, type: :controller do
 
         artist_stub = double(Artist,id: 42, emailsettings: {'favorites' => false})
         allow_any_instance_of(ArtPiece).to receive(:artist).and_return(artist_stub)
-        u1.add_favorite a1
-        u1.add_favorite artist
-        u1.add_favorite u2
-        u2.add_favorite a1
-        u2.add_favorite artist
-        u3.add_favorite a2
+        create_favorite(u1, a1)
+        create_favorite(u1, artist)
+        create_favorite(u1, u2)
+
+        create_favorite(u2, a1)
+        create_favorite(u2, artist)
+
+        create_favorite(u3, a2)
 
         @favorites_per_day = Admin::StatsController.new.send(:compute_favorites_per_day)
       end

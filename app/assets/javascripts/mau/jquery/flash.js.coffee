@@ -5,8 +5,9 @@ MAU.Flash = class Flash
   wrapper: 'jsFlash'
 
   clear: ->
-    jQuery(".flash, .flash__notice , ##{@wrapper}").remove();
-
+    _.map(document.querySelectorAll(".flash, .flash__notice , ##{@wrapper}"), (el) ->
+      el.parentNode.removeChild(el) if el
+    )
   show: (options, container) ->
     @clear()
     $w = @construct(options);

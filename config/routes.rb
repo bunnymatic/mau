@@ -39,23 +39,23 @@ Mau::Application.routes.draw do
   match 'reset' => 'users#reset', as: :submit_reset, via: [:post]
 
 
-  resources :users do
+  resources :users, shallow: true do
+    resources :favorites, only: [:index, :create, :destroy], shallow: true
+    resources :roles, only: [:destroy]
     collection do
+      post :remove_favorite
       get :resend_activation
       post :resend_activation
       get :forgot
       post :forgot
       get :deactivate
-      post :remove_favorite
-      post :add_favorite
+      get :whoami
     end
     member do
-      resources :favorites, only: [:index]
       put :suspend
       put :change_password_update
       patch :change_password_update
     end
-    resources :roles, only: [:destroy]
   end
 
 

@@ -11,13 +11,20 @@ describe Favorite, 'named scopes' do
   let(:favorite_artists) { Favorite.artists }
   let(:favorite_users) { Favorite.users }
   before do
-    fan.add_favorite artist.art_pieces.first
-    fan.add_favorite artist
-    fan.add_favorite jesse
-    jesse.add_favorite artist.art_pieces.first
-    jesse.add_favorite artist
-    anna.add_favorite jesse.art_pieces.last
+    create_favorite fan, artist.art_pieces.first
+    create_favorite fan, artist
+    create_favorite fan, jesse
+    create_favorite jesse, artist.art_pieces.first
+    create_favorite jesse, artist
+    create_favorite anna, jesse.art_pieces.last
   end
+
+  it "does not allow duplicates" do
+    f = Favorite.new user_id: fan.id, favoritable_type: jesse.class.name, favoritable_id: jesse.id
+    expect(f).to_not be_valid
+    expect(f.errors[:user]).to have(1).item
+  end
+
   it "users finds only users or artists" do
     expect(favorite_users.count).to be > 0
     favorite_users.all.each do |f|

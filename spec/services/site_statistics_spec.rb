@@ -24,9 +24,9 @@ describe SiteStatistics do
 
     Timecop.return
 
-    Artist.first.add_favorite(Artist.last)
-    Artist.first.add_favorite(Artist.last(2).first)
-    Artist.first.add_favorite(ArtPiece.first)
+    create_favorite( Artist.first, Artist.last )
+    create_favorite( Artist.first, Artist.last(2).first)
+    create_favorite( Artist.first, ArtPiece.first)
   end
 
   it 'assigns correct values for favorites' do

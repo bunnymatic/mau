@@ -20,9 +20,9 @@ end
 When(/^I login as an artist with favorites$/) do
   @artist = Artist.first
   Artist.all[1..-1][0..3].each do |a|
-    @artist.add_favorite a
+    FavoritesService.add(@artist, a)
     if a.art_pieces.present?
-      @artist.add_favorite a.art_pieces.first
+      FavoritesService.add(@artist, a.art_pieces.first)
     end
   end
   step "I login"

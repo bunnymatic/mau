@@ -4,7 +4,7 @@ MAU = window.MAU = window.MAU || {}
 MAU.OsKeyGenerator = class OsKeyGenerator
 
   updateKey: (ev) =>
-    startDate = moment(@startDate.val())
+    startDate = moment(new Date(@startDate.val()))
     if startDate.isValid()
       key = startDate.format('YYYYMM')
       @key.val(key)
@@ -25,5 +25,3 @@ MAU.OsKeyGenerator = class OsKeyGenerator
     @endDate.on 'change', @updateKey
 
     @updateKey()
-
-

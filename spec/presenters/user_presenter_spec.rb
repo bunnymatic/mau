@@ -40,11 +40,11 @@ describe UserPresenter do
     let(:fan) { create :fan }
 
     before do
-      user.add_favorite active_with_art
-      user.add_favorite inactive_with_art
-      user.add_favorite fan
-      user.add_favorite inactive_with_art.art_pieces.first
-      user.add_favorite active_with_art.art_pieces.first
+      create_favorite user, active_with_art
+      create_favorite user, inactive_with_art
+      create_favorite user, fan
+      create_favorite user, inactive_with_art.art_pieces.first
+      create_favorite user, active_with_art.art_pieces.first
     end
 
     it "includes only active artists" do

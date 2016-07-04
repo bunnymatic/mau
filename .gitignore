@@ -28,3 +28,7 @@ secret/*
 config/config.keys.yml
 research
 .env.*
+
+*.mysql
+*.psql
+.byebug_history
