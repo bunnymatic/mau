@@ -3,13 +3,9 @@ module Admin
     before_filter :admin_required
     def index
       @roles = Role.all
-      users = RolesUser.all
-      @users_by_role = @roles.inject({}) do |r, role|
-        r[role.role] = []
-        r
-      end
-      users.each do |u|
-        @users_by_role[u.role.role] << u.user if u.user.active?
+      @users_by_role = @roles.inject({}) do |memo, role|
+        memo[role.role] = role.users.active
+        memo
       end
     end
 
@@ -36,8 +32,8 @@ module Admin
 
     def show_or_edit
       @role = Role.find(params[:id])
-      @role_users = RolesUser.where(:role_id => @role.id).map(&:user)
-      @users = User.active.all.reject{|u| @role_users.map(&:id).include? u.id}.sort_by{|u| u.full_name.downcase}
+      @role_users = @role.users.active
+      @users = (User.active.all - @role_users).sort_by{|u| u.full_name.downcase}
       render :edit
     end
 
