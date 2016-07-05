@@ -11,14 +11,6 @@ describe ArtPieceSerializer do
     it 'includes the filename' do
       expect(@ap.keys).to include 'filename'
     end
-    it 'includes paths to all art pieces' do
-      expect(@ap.keys).to include 'image_urls'
-      ['small','medium','large'].each do |sz|
-        expect(@ap['image_urls'].keys).to include sz
-        expect(@ap['image_urls'][sz]).to include Conf.site_url
-      end
-      expect(@ap['image_urls']['small']).to include "/system/art_pieces/photos"
-    end
 
     it 'includes the fields we care about' do
       %w( id filename title artist_id
@@ -29,11 +21,11 @@ describe ArtPieceSerializer do
     end
 
     it 'includes paths to the images' do
-      sizes = ['large','medium', 'original', 'small','thumb']
+      sizes = %w| large medium original small thumb |
       files = @ap['image_urls']
       expect(files.keys.sort).to eql sizes
       sizes.each do |sz|
-        expect(files[sz]).to include (art_piece.photo(sz) || art_piece.get_path(sz))
+        expect(files[sz]).to include art_piece.photo.url(sz, timestamp: false)
       end
     end
 
