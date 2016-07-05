@@ -40,9 +40,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  alias :mau_fan_url :user_url
-  alias :mau_fan_path :user_path
-
   def logged_in?
     !!current_user
   end
