@@ -8,14 +8,14 @@ class ArtPieceSerializer < MauSerializer
   def image_urls
     urls = {}
     if object.photo?
-      urls = MauImage::Paperclip::STANDARD_STYLES.keys.inject({}) do |memo, key|
-        memo[key] = object.photo(key)
+      urls = (MauImage::Paperclip::STANDARD_STYLES.keys + [:original]).inject({}) do |memo, key|
+        memo[key] = object.photo.url(key, timestamp: false)
         memo
       end
-      urls[:original] = object.photo.url
     else
       urls = object.image_paths
     end
+
     urls.inject({}) do |memo, (sz, path)|
       memo[sz] = full_image_path(path)
       memo
