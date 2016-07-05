@@ -58,6 +58,7 @@ Mau::Application.routes.draw do
     end
   end
 
+  get '/mau_fans/:slug', to: redirect('/users/%{slug}'), as: :mau_fan
 
   resources :art_pieces, only: [:show, :edit, :update, :destroy]
   resources :artists, except: [:new, :create] do

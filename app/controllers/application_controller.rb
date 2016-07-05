@@ -22,11 +22,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_open_studios
   helper_method :current_open_studios_key, :available_open_studios_keys # from OpenStudiosEventShim
 
-  # before_filter :track_path
-  # def track_path
-  #   puts '%s => %s' % [request.path, request.referrer]
-  # end
-
   def append_view_paths
     append_view_path "app/views/common"
   end

@@ -32,7 +32,7 @@ describe FavoritesController do
         expect {
           xhr :post, :create, user_id: artist.id, favorite: { type: 'Artist', id: artist.id }
 
-          expect(response).to redirect_to user_path(fan)
+          expect(response).to redirect_to mau_fan_path(fan)
           expect(artist.reload.favorites).to be_empty
         }.to change(fan.favorites, :count).by(0)
       end
