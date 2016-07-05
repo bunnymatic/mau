@@ -4,7 +4,10 @@ meta name="google-site-verification" content="XwU42kZDs6e712I04otyvbS5JWswmFTOM-
 meta name="p:domain_verify" content="3a62978406d492441c52d8b8736c8595"
 meta name="description" content=@page_description.html_safe
 meta name="keywords" content=@page_keywords.flatten.compact.uniq.join(", ")
+meta property="og:url" content=request.original_url
 meta property="og:description" content=@page_description.html_safe
+- if @page_title.present?
+  meta property="og:title" content=@page_title.html_safe
+- if @page_image.present?
+  meta property="og:image" content=@page_image.html_safe
 meta name="viewport" content="width=device-width, initial-scale=1"
-
-

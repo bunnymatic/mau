@@ -190,6 +190,7 @@ class ArtistsController < ApplicationController
   def set_artist_meta
     return if !@artist
     @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
+    @page_image = @artist.get_profile_image(:large) if @artist.has_profile_image?
     @page_description = build_page_description @artist
     @page_keywords += [@artist.media.map(&:name), @artist.tags.map(&:name)].flatten.compact.uniq
   end
