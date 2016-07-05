@@ -2,7 +2,7 @@ controller = ngInject ($scope, $attrs, $location) ->
   c = this
 
   location_origin =  "#{$location.protocol()}://#{$location.host()}"
-  if $location.port()?
+  if $location.port()? && $location.port() != 80
     location_origin += ":#{$location.port()}"
 
   $scope.domain = $attrs.domain || location_origin
@@ -11,15 +11,16 @@ controller = ngInject ($scope, $attrs, $location) ->
     "#{@domain}/art_pieces/#{@artPiece.id}"
 
   $scope.description = () ->
-    "Check out #{$scope.artPiece.title} by #{$scope.artPiece.artist_name} on Mission Artists United #{$scope.artPieceLink()} @sfmau"
+    "Check out #{$scope.artPiece.title} by #{$scope.artPiece.artist_name} on Mission Artists"
 
   $scope.facebookLink = () ->
-    safeStatus = encodeURIComponent($scope.artPieceLink())
-    "https://www.facebook.com/sharer/sharer.php?u=#{safeStatus}"
+    safeUrl = encodeURIComponent($scope.artPieceLink())
+    "https://www.facebook.com/sharer/sharer.php?u=#{safeUrl}"
 
   $scope.twitterLink = () ->
     safeStatus = encodeURIComponent($scope.description())
-    "http://twitter.com?status=#{safeStatus}"
+    artPieceUrl = encodeURIComponent($scope.artPieceLink())
+    "http://twitter.com/intent/tweet?text=#{safeStatus}&via=sfmau&url=#{artPieceUrl}"
 
   $scope.pinterestLink = () ->
     artPiece = $scope.artPiece
