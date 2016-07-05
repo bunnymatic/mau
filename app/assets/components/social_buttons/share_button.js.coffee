@@ -1,6 +1,8 @@
 controller = ngInject ($scope, $attrs, $location) ->
   c = this
 
+  util = MAU.QueryStringParserHelpers
+
   location_origin =  "#{$location.protocol()}://#{$location.host()}"
   if $location.port()? && $location.port() != 80
     location_origin += ":#{$location.port()}"
@@ -15,19 +17,25 @@ controller = ngInject ($scope, $attrs, $location) ->
 
   $scope.facebookLink = () ->
     safeUrl = encodeURIComponent($scope.artPieceLink())
-    "https://www.facebook.com/sharer/sharer.php?u=#{safeUrl}"
+    "https://www.facebook.com/sharer/sharer.php?" + util.hashToQueryString({ u: safeUrl })
 
   $scope.twitterLink = () ->
-    safeStatus = encodeURIComponent($scope.description())
+    safeDesc = encodeURIComponent($scope.description())
     artPieceUrl = encodeURIComponent($scope.artPieceLink())
-    "http://twitter.com/intent/tweet?text=#{safeStatus}&via=sfmau&url=#{artPieceUrl}"
+    "http://twitter.com/intent/tweet?" + util.hashToQueryString({ text: safeDesc, via: 'sfmau', url: artPieceUrl })
 
   $scope.pinterestLink = () ->
     artPiece = $scope.artPiece
     artPieceImage = encodeURIComponent("#{artPiece.image_urls.large}")
+    artPieceUrl = encodeURIComponent($scope.artPieceLink())
     title = encodeURIComponent(artPiece.title)
     desc = encodeURIComponent($scope.description())
-    "https://pinterest.com/pin/create/button/?url=#{artPieceImage}&media=#{title}&description=#{desc}"
+    "https://pinterest.com/pin/create/button/?" + util.hashToQueryString( {
+      url: artPieceUrl
+      media: artPieceImage
+      title: title,
+      description: desc
+    })
 
   $scope.link = () ->
     method = $attrs.type + 'Link'
