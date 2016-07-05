@@ -24,7 +24,7 @@ controller = ngInject ($scope, $attrs, $location) ->
 
   $scope.pinterestLink = () ->
     artPiece = $scope.artPiece
-    artPieceImage = encodeURIComponent("#{@domain}/#{artPiece.image_urls.large}")
+    artPieceImage = encodeURIComponent("#{artPiece.image_urls.large}")
     title = encodeURIComponent(artPiece.title)
     desc = encodeURIComponent($scope.description())
     "https://pinterest.com/pin/create/button/?url=#{artPieceImage}&media=#{title}&description=#{desc}"
