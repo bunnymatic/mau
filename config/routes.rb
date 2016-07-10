@@ -9,10 +9,6 @@ Mau::Application.routes.draw do
 
   resources :studios, only: [:index, :show]
 
-  resource :feeds, only: [] do
-    get :feed
-    get :clear_cache
-  end
   resource :open_studios, only: [:show]
   resource :catalog, only: [:show] do
     member do
@@ -131,7 +127,6 @@ Mau::Application.routes.draw do
     resources :roles
     resources :cms_documents
     resources :blacklist_domains, except: [:show]
-    resources :artist_feeds, except: [:show]
     resources :open_studios_events, only: [:index, :edit, :new, :create, :update, :destroy] do
       collection do
         get :clear_cache
