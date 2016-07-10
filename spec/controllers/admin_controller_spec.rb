@@ -13,7 +13,7 @@ describe AdminController do
 
   context 'authorization' do
     [:index, :os_status, :featured_artist, :fans,
-     :emaillist, :db_backups].each do |endpoint|
+     :emaillist ].each do |endpoint|
       describe 'not logged in' do
         describe endpoint.to_s do
           before do
@@ -205,64 +205,4 @@ describe AdminController do
     end
   end
 
-  let(:tmpdir) { File.join(Dir.tmpdir, "backups") }
-  context 'database backups' do
-    before do
-      Dir.mkdir(tmpdir) unless File.exists?(tmpdir)
-    end
-    context "when logged in" do
-      before do
-        login_as admin
-      end
-      describe "#fetch_backup" do
-        before do
-          File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
-        end
-        context 'with good args' do
-          before do
-            allow(Dir).to receive(:glob).and_return(["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
-            get :fetch_backup, name: "file1.tgz"
-          end
-          it "returns the file" do
-            expect(response.content_type).to eql 'application/octet-stream'
-            expect(response.headers['Content-Disposition']).to include 'attachment'
-            expect(response.headers['Content-Disposition']).to include 'file1.tgz'
-          end
-        end
-        context 'with no args' do
-          before do
-            get :fetch_backup
-          end
-          it { expect(response).to redirect_to(admin_path(action: :db_backups)) }
-        end
-        context 'with bad filename args' do
-          before do
-            get :fetch_backup, name: 'blow'
-          end
-          it { expect(response).to redirect_to(admin_path(action: :db_backups)) }
-        end
-      end
-      describe '#db_backups' do
-        before do
-          File.open("#{tmpdir}/file1.tgz",'w'){ |f| f.write('.tgz dump file contents') }
-          File.open("#{tmpdir}/file2.tgz",'w'){ |f| f.write('.tgz dump file contents2') }
-          allow(Dir).to receive(:glob).and_return(["#{tmpdir}/file1.tgz", "#{tmpdir}/file2.tgz"])
-        end
-        context 'without views' do
-          before do
-            get :db_backups
-          end
-          it "returns success" do
-            expect(response).to be_success
-          end
-          it 'finds a list of database files' do
-            expect(assigns(:dbfiles)).to be_a_kind_of(Array)
-          end
-          it "includes all files" do
-            expect(assigns(:dbfiles).size).to eq(2)
-          end
-        end
-      end
-    end
-  end
 end

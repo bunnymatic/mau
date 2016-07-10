@@ -55,27 +55,6 @@ class AdminController < BaseAdminController
     @colors = ScssFileReader.new(f).parse_colors
   end
 
-  def db_backups
-    @dbfiles = Dir.glob(File.join(Rails.root, 'backups/**/*.tgz')).map{|f| File.new(f)}.sort_by(&:ctime).reverse
-  end
-
-  def fetch_backup
-    ### don't allow downloading of anything - only db backup files
-    available_backup_files = Dir.glob(File.join(Rails.root, 'backups/**/*.tgz'))
-    unless params[:name].present?
-      redirect_to admin_path(:action => 'db_backups')
-      return
-    end
-    filename = File.basename(params[:name])
-    backup_file = available_backup_files.select{|f| File.basename(f) == params[:name]}.first
-    if backup_file.present?
-      send_file backup_file
-    else
-      redirect_to admin_path(:action => 'db_backups')
-      return
-    end
-  end
-
   private
 
   def build_list_names_from_params

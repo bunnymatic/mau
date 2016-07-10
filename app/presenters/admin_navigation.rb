@@ -20,14 +20,12 @@ class AdminNavigation < ViewPresenter
                      [:studios , {}],
                      [:media , {}],
                      [:art_piece_tags , {display: 'tags'}],
-                     [:artist_feeds , {display: 'feeds'}],
                      [:emaillist , {display: 'emails'}]
                     ]
       admin_links = [
                      [:open_studios_events , {display: 'os dates'}],
                      [:roles, {}],
                      [:internal_email , {display: 'admin email lists', link: url_helpers.admin_email_lists_path }],
-                     [:db_backups , {display: 'backups'}],
                      [:blacklist, {display: 'blacklist', link: url_helpers.admin_blacklist_domains_path}],
                      [:os_status , {}]
                     ]

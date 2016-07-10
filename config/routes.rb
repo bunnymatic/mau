@@ -104,8 +104,6 @@ Mau::Application.routes.draw do
 
     get :fans
     get :os_status
-    get :db_backups
-    get :fetch_backup
     get :palette
     get :featured_artist
     get :emaillist
