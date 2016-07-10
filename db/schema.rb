@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160611163316) do
+ActiveRecord::Schema.define(version: 20160710153348) do
 
   create_table "application_events", force: :cascade do |t|
     t.string   "type",       limit: 255
@@ -51,14 +51,6 @@ ActiveRecord::Schema.define(version: 20160611163316) do
   create_table "art_pieces_tags", id: false, force: :cascade do |t|
     t.integer "art_piece_tag_id", limit: 4
     t.integer "art_piece_id",     limit: 4
-  end
-
-  create_table "artist_feeds", force: :cascade do |t|
-    t.string   "url",        limit: 255
-    t.string   "feed",       limit: 255
-    t.boolean  "active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "artist_images", force: :cascade do |t|
