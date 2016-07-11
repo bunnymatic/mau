@@ -20,7 +20,7 @@ class AdminNavigation < ViewPresenter
                      [:studios , {}],
                      [:media , {}],
                      [:art_piece_tags , {display: 'tags'}],
-                     [:emaillist , {display: 'emails'}]
+                     [:emaillist , {display: 'member emails', link: url_helpers.admin_member_emails_path}]
                     ]
       admin_links = [
                      [:open_studios_events , {display: 'os dates'}],

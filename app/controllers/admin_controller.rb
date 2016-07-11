@@ -24,19 +24,6 @@ class AdminController < BaseAdminController
     end
   end
 
-  def emaillist
-    list_names = build_list_names_from_params
-    @email_list = AdminEmailList.new(list_names)
-
-    respond_to do |format|
-      format.html {}
-      format.csv {
-        render_csv_string(@email_list.csv, @email_list.csv_filename)
-      }
-    end
-
-  end
-
   def fans
     @fans = User.active.where('type <> "Artist"')
   end
@@ -54,13 +41,5 @@ class AdminController < BaseAdminController
     f = File.expand_path('app/assets/stylesheets/_colors.scss')
     @colors = ScssFileReader.new(f).parse_colors
   end
-
-  private
-
-  def build_list_names_from_params
-    list_names = [params[:listname], (params.keys & available_open_studios_keys)].flatten.compact.uniq
-    list_names.blank? ? ['active'] : list_names
-  end
-
 
 end

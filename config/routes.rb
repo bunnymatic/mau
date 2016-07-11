@@ -106,8 +106,8 @@ Mau::Application.routes.draw do
     get :os_status
     get :palette
     get :featured_artist
-    get :emaillist
-    post :emaillist
+
+    resource :member_emails, only: [:show]
 
     namespace :stats do
       get :art_pieces_count_histogram
