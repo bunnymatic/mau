@@ -2,13 +2,6 @@ require 'rails_helper'
 
 describe HtmlHelper do
 
-  describe '.encode' do
-    it 'encodes html entities in the string' do
-      q = helper.html_encode('encode me <> & _ @$# yo!');
-      expect(q).to eql 'encode me &lt;&gt; &amp; _ @$# yo!'
-    end
-  end
-
   describe '.print_html_list' do
     let(:links) { %w( one two three ) }
     let(:list) { helper.print_html_list('mylist', links).to_s }
@@ -30,10 +23,4 @@ describe HtmlHelper do
 
   end
 
-  describe '.queryencode' do
-    it 'encodes queries' do
-      q = helper.html_queryencode({:this => 'whatever', :that => 'with a space'})
-      expect(q).to eql '?this=whatever&that=with+a+space'
-    end
-  end
 end

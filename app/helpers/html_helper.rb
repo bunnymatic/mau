@@ -2,14 +2,6 @@ require 'htmlentities'
 
 module HtmlHelper
 
-  def html_encode(s)
-    coder.encode(s, :named, :hexadecimal)
-  end
-
-  def html_queryencode(d)
-    "?" + d.map{|k,v| "%s=%s" % [k,CGI::escape(v.to_s)] if v}.compact.uniq.join("&")
-  end
-
   # adds first and last to the list
   def print_html_list(clazz, html_arr)
     nel = html_arr.count
@@ -24,9 +16,4 @@ module HtmlHelper
     end.join('')
   end
 
-  def coder
-    @coder ||= HTMLEntities.new
-  end
-
 end
-

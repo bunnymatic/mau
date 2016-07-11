@@ -1,6 +1,5 @@
 class ViewPresenter
 
-  include HtmlHelper
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TagHelper

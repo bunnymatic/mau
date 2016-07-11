@@ -7,7 +7,6 @@ class ArtPiece < ActiveRecord::Base
 
   belongs_to :medium
 
-  include HtmlHelper
   include TagsHelper
 
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
@@ -123,7 +122,7 @@ class ArtPiece < ActiveRecord::Base
   end
 
   def safe_title
-    html_encode(self.title)
+    HtmlEncoder.encode(self.title)
   end
 
   def get_path(size = nil, full_path = false)

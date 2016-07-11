@@ -1,7 +1,6 @@
 class ArtPiecesController < ApplicationController
 
   include TagsHelper
-  include HtmlHelper
 
   before_filter :user_required, only: [ :new, :edit, :update, :create, :destroy]
   before_filter :artist_required, only: [ :new, :edit, :update, :create, :destroy]

@@ -1,8 +1,6 @@
 class MainController < ApplicationController
   layout 'application'
 
-  include MainHelper
-
   def index
     @is_homepage = true
     @seed = Time.zone.now.to_i
