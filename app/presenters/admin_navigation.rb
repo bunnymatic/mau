@@ -30,7 +30,7 @@ class AdminNavigation < ViewPresenter
                      [:os_status , {}]
                     ]
       internal_links = [
-                        [:palette , {display: 'colors'}],
+                        [:palette , {display: 'colors', link: url_helpers.admin_palette_path}],
                         [:app_events, {display: 'app events', icon: :bell, link: url_helpers.admin_application_events_path}],
                         [:tests , {link: url_helpers.admin_tests_path}]
                        ]

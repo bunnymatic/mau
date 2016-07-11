@@ -104,9 +104,9 @@ Mau::Application.routes.draw do
 
     get :fans
     get :os_status
-    get :palette
     get :featured_artist
 
+    resource :palette, only: [:show]
     resource :member_emails, only: [:show]
 
     namespace :stats do

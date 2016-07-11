@@ -37,9 +37,4 @@ class AdminController < BaseAdminController
     end
   end
 
-  def palette
-    f = File.expand_path('app/assets/stylesheets/_colors.scss')
-    @colors = ScssFileReader.new(f).parse_colors
-  end
-
 end

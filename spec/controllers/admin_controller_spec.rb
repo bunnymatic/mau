@@ -67,15 +67,6 @@ describe AdminController do
     end
   end
 
-  describe 'palette' do
-    before do
-      login_as admin
-      allow_any_instance_of(ScssFileReader).to receive(:parse_colors).and_return([['black', '000'], ['white', 'ffffff']])
-      get :palette
-    end
-    it{ expect(response).to be_success }
-  end
-
   describe '#featured_artist' do
     before do
 
