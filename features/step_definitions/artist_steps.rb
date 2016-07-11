@@ -134,12 +134,14 @@ When(/^I click on the first artist's card$/) do
 end
 
 Then(/^I see "([^"]*)"'s artist card$/) do |name|
-  @artist = Artist.find_all_by_full_name( name ).first
+  first_name, last_name = name.split(/\s+/).map(&:strip)
+  @artist = Artist.where(firstname: first_name, lastname: last_name).first
   expect(page).to have_css('.artist-card', text: name)
 end
 
 When(/^I click on "([^"]*)"'s artist card$/) do |name|
-  @artist = Artist.find_all_by_full_name( name ).first
+  first_name, last_name = name.split(/\s+/).map(&:strip)
+  @artist = Artist.where(firstname: first_name, lastname: last_name).first
   click_on_first name
 end
 

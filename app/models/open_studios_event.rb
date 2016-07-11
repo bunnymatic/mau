@@ -32,10 +32,6 @@ class OpenStudiosEvent < ActiveRecord::Base
     future.first || past.last
   end
 
-  def self.current_key
-    current.try(:key)
-  end
-
   def end_date_is_after_start_date
     if end_date && start_date
       errors.add(:end_date, 'should be after start date.') unless end_date >= start_date

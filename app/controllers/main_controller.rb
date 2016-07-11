@@ -124,10 +124,6 @@ EOM
     params.slice(:seed, :offset, :number_of_images).symbolize_keys
   end
 
-  def feedback_params
-    params.require(:feedback).permit :subject, :email, :login, :page, :comment, :url, :skillsets, :bugtype
-  end
-
   def feedback_mail_params
     params.require(:feedback_mail).permit :email, :email_confirm, :inquiry, :note_type, :os, :browser, :device, :version
   end
