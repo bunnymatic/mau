@@ -15,11 +15,9 @@
             %li
               = m
 
-        -# render 'media_link_list', :match => @medium, :frequency => @frequency
   .pure-u-1-2.pure-u-sm-2-3.pure-u-lg-4-5
     .pure-g
       .pure-u-1-1
         = render "/common/pagination", :paginator => @paginator
     .pure-g.search-results
       = render partial: '/artists/art', collection: @paginator.items, as: :art_piece
-
