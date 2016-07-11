@@ -11,7 +11,7 @@ class ArtPiecesController < ApplicationController
 
   def flush_cache
     Medium.flush_cache
-    ArtPieceTag.flush_cache
+    ArtPieceTagService.flush_cache
   end
 
   def index

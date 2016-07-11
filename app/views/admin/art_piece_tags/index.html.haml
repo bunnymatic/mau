@@ -13,13 +13,13 @@
           %th Count
           %th
       %tbody
-        - @tags.each_with_index do |(tag, ct), idx|
-          - clz = ' error-msg' if ct <= 0
+        - @tags.each_with_index do |tf, idx|
+          - clz = ' error-msg' if tf.frequency <= 0
           %tr{class: clz.to_s}
             %td
-              = link_to tag.name, tag
-            %td.input-name.ct #{ct}
+              = link_to tf.tag.name, tf.tag
+            %td.input-name.ct #{tf.frequency}
             %td.admin-controls
               .remove.btn
-                = link_to [:admin, tag], confirm: 'Are you sure?', method: :delete, title: 'Remove' do
+                = link_to [:admin, tf.tag], confirm: 'Are you sure?', method: :delete, title: 'Remove' do
                   = fa_icon 'remove'

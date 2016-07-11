@@ -14,20 +14,23 @@ describe ArtPieceTagsController do
 
   describe '#index' do
     describe 'format=html' do
+      before do
+        allow(ArtPieceTagService).to receive(:frequency).and_return([])
+        allow(ArtPieceTagService).to receive(:most_popular_tag).and_return(nil)
+      end
       context 'when there are no tags' do
         before do
-          allow(ArtPieceTag).to receive(:frequency).and_return([])
           get :index
         end
         it_should_behave_like 'renders error page'
       end
       context 'when there are tags' do
-
         before do
+          allow(ArtPieceTagService).to receive(:most_popular_tag).and_return(tag)
           get :index
         end
         it 'redirects to show page with the most popular tag' do
-          expect(response).to redirect_to art_piece_tag_path(ArtPieceTag.by_frequency.first)
+          expect(response).to redirect_to art_piece_tag_path(tag)
         end
       end
     end
@@ -90,10 +93,11 @@ describe ArtPieceTagsController do
 
     context 'for an unknown tag' do
       before do
+        expect(ArtPieceTagService).to receive(:most_popular_tag).and_return(tag)
         get :show, :id => 'abc5'
       end
       it 'redirects to the most popular tag' do
-        expect(response).to redirect_to art_piece_tag_path(ArtPieceTag.by_frequency.first)
+        expect(response).to redirect_to art_piece_tag_path(tag);
       end
     end
 
