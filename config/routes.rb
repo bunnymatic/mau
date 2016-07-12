@@ -102,10 +102,10 @@ Mau::Application.routes.draw do
       get :social_icons
     end
 
-    get :fans
     get :os_status
     get :featured_artist
 
+    resources :mau_fans, only: [:index]
     resource :palette, only: [:show]
     resource :member_emails, only: [:show]
 

@@ -24,10 +24,6 @@ class AdminController < BaseAdminController
     end
   end
 
-  def fans
-    @fans = User.active.where('type <> "Artist"')
-  end
-
   def os_status
     @os = Artist.active.by_lastname
     @totals = {}

@@ -83,7 +83,7 @@ When /I visit the signup page/ do
 end
 
 When /I visit the fan signup page/ do
-  visit signup_path(type: 'MAUFan')
+  visit signup_path(type: MauFan.name)
 end
 
 When /I sign in with password "(.*?)"/ do |pass|

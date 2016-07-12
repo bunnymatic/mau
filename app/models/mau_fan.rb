@@ -49,5 +49,5 @@
 #  index_users_on_studio_id          (studio_id)
 #
 
-class MAUFan < User
+class MauFan < User
 end

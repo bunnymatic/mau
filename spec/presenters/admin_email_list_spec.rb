@@ -32,7 +32,7 @@ describe AdminEmailList do
     its(:csv_filename) { is_expected.to eql 'email_fans.csv' }
 
     it 'assigns a list of fans emails when we ask for the fans list' do
-      expect(emails.length).to eql MAUFan.all.count
+      expect(emails.length).to eql MauFan.all.count
     end
 
     it 'shows the title and list size and correct emails when we ask for fans' do

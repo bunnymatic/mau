@@ -12,7 +12,7 @@ describe AdminController do
   include OpenStudiosEventShim
 
   context 'authorization' do
-    [:index, :os_status, :featured_artist, :fans ].each do |endpoint|
+    [:index, :os_status, :featured_artist ].each do |endpoint|
       describe 'not logged in' do
         describe endpoint.to_s do
           before do
@@ -52,18 +52,6 @@ describe AdminController do
         get :featured_artist
       end
       it_should_behave_like 'not authorized'
-    end
-  end
-
-  describe '#fans' do
-    before do
-      login_as admin
-      get :fans
-    end
-    it { expect(response).to be_success }
-    it { expect(response).to render_template 'fans' }
-    it "assigns fans" do
-      expect(assigns(:fans).length).to eql (User.active.count - Artist.active.count)
     end
   end
 

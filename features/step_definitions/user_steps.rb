@@ -65,7 +65,7 @@ end
 
 When(/^I login as a fan$/) do
   steps %{Given there are users in the system}
-  @user = MAUFan.first
+  @user = MauFan.first
   steps %{When I login}
 end
 
@@ -112,7 +112,7 @@ end
 Then /^I see that "(.*?)" is a new fan$/ do |username|
   steps %{Then I see a flash notice "Thanks for signing up!"}
   expect(current_path).to eql login_path
-  expect(MAUFan.find_by_login(username)).to be_active
+  expect(MauFan.find_by_login(username)).to be_active
 end
 
 Then /^I click the fan signup button$/ do

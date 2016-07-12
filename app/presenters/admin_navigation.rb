@@ -16,7 +16,7 @@ class AdminNavigation < ViewPresenter
                  ]
       model_links = [
                      [:artists , {}],
-                     [:fans , {}],
+                     [:fans , {link: url_helpers.admin_mau_fans_path} ],
                      [:studios , {}],
                      [:media , {}],
                      [:art_piece_tags , {display: 'tags'}],

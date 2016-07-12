@@ -83,7 +83,7 @@ describe UsersController, elasticsearch: true do
                                  firstname: "bmatic2",
                                  password: "blurpit",
                                  email: "bmatic2@blacklist.com" },
-                   type: "MAUFan"
+                   type: "MauFan"
                  }
                )
         }.to change(User,:count).by(0)
@@ -98,7 +98,7 @@ describe UsersController, elasticsearch: true do
                                  firstname: "bmatic2",
                                  password: "blurpit",
                                  email: "bmatic2@nonblacklist.com" },
-                   type: "MAUFan"
+                   type: "MauFan"
                  }
                )
         }.to change(User,:count).by(1)
@@ -118,7 +118,7 @@ describe UsersController, elasticsearch: true do
                                firstname: "bmatic2",
                                password: "blurpit",
                                email: "bmatic2@b.com" },
-                 type: "MAUFan"
+                 type: "MauFan"
                }
              )
       end
@@ -139,7 +139,7 @@ describe UsersController, elasticsearch: true do
       end
       context "login = 'newuser'" do
         before do
-          post :create, user: { login: 'newuser' }, type: "MAUFan"
+          post :create, user: { login: 'newuser' }, type: "MauFan"
         end
 
         it "login=>newuser : should return success" do
@@ -147,11 +147,11 @@ describe UsersController, elasticsearch: true do
         end
 
         it "sets a flash.now indicating failure" do
-          post :create, user: { login: 'newuser' }, type: "MAUFan"
+          post :create, user: { login: 'newuser' }, type: "MauFan"
         end
       end
     end
-    context "valid user params and type = MAUFan" do
+    context "valid user params and type = MauFan" do
       before do
         expect(UserMailer).to receive(:activation).exactly(:once).and_return(double("UserMailer::Activation", deliver_later: true))
         post :create, params_with_secret(
@@ -163,7 +163,7 @@ describe UsersController, elasticsearch: true do
                                password: "blurpit",
                                email: "bmatic2@b.com"
                              },
-                 type: "MAUFan"
+                 type: "MauFan"
                })
       end
       it "redirects to index" do
@@ -182,12 +182,12 @@ describe UsersController, elasticsearch: true do
         it "whose state is 'active'" do
           expect(@found_user.state).to eq('active')
         end
-        it "whose type is 'MAUFan'" do
-          @found_user.type == 'MAUFan'
+        it "whose type is 'MauFan'" do
+          @found_user.type == 'MauFan'
         end
       end
       it "should register as a fan account" do
-        expect(MAUFan.find_by_login("newuser")).to be
+        expect(MauFan.find_by_login("newuser")).to be
       end
       it "should not register as an artist account" do
         expect(Artist.find_by_login("newuser")).to be_nil
@@ -196,7 +196,7 @@ describe UsersController, elasticsearch: true do
         expect(User.find_by_login("newuser")).to be
       end
     end
-    context "valid user param (email/password only) and type = MAUFan" do
+    context "valid user param (email/password only) and type = MauFan" do
       before do
         post :create, params_with_secret(
                {
@@ -204,7 +204,7 @@ describe UsersController, elasticsearch: true do
                    password_confirmation: "blurpit",
                    password: "blurpit",
                    email: "bmati2@b.com" },
-                 type: "MAUFan"
+                 type: "MauFan"
                })
       end
       it "redirects to index" do
@@ -224,12 +224,12 @@ describe UsersController, elasticsearch: true do
         it "whose state is 'active'" do
           expect(@found_user.state).to eq('active')
         end
-        it "whose type is 'MAUFan'" do
-          @found_user.type == 'MAUFan'
+        it "whose type is 'MauFan'" do
+          @found_user.type == 'MauFan'
         end
       end
       it "should register as a fan account" do
-        expect(MAUFan.find_by_login("bmati2@b.com")).to be
+        expect(MauFan.find_by_login("bmati2@b.com")).to be
       end
       it "should not register as an artist account" do
         expect(Artist.find_by_login("bmati2@b.com")).to be_nil
@@ -276,7 +276,7 @@ describe UsersController, elasticsearch: true do
         end
       end
       it "should not register as a fan account" do
-        expect(MAUFan.find_by_login("newuser2")).to be_nil
+        expect(MauFan.find_by_login("newuser2")).to be_nil
       end
     end
   end
@@ -444,7 +444,7 @@ describe UsersController, elasticsearch: true do
       context "with matching passwords" do
         before do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
-          expect_any_instance_of(MAUFan).to receive(:delete_reset_code).exactly(:once)
+          expect_any_instance_of(MauFan).to receive(:delete_reset_code).exactly(:once)
           post :reset, { user: { password: 'whatever',
               password_confirmation: 'whatever' },
               reset_code: 'abc' }
@@ -515,7 +515,7 @@ describe UsersController, elasticsearch: true do
         post :forgot, user: { email: fan.email }
       end
       it "calls create_reset_code" do
-        expect_any_instance_of(MAUFan).to receive(:create_reset_code).exactly(:once)
+        expect_any_instance_of(MauFan).to receive(:create_reset_code).exactly(:once)
         post :forgot, user: { email: fan.email }
       end
       it "redirects to login" do
@@ -528,7 +528,7 @@ describe UsersController, elasticsearch: true do
   describe 'activate' do
     describe 'with valid activation code' do
       before do
-        expect_any_instance_of(MAUFan).to receive(:activate!)
+        expect_any_instance_of(MauFan).to receive(:activate!)
       end
       it 'redirects to login' do
         get :activate, activation_code: pending_fan.activation_code

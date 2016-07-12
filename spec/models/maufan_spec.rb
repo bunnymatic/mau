@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-module MAUFanSpecHelper
+module MauFanSpecHelper
   def valid_user_attributes
     { :login => 'joe@bloggs.com',
       :email => "joe@bloggs.com",
@@ -10,11 +10,11 @@ module MAUFanSpecHelper
   end
 end
 
-describe MAUFan do
-  include MAUFanSpecHelper
+describe MauFan do
+  include MauFanSpecHelper
   describe '#new' do
     let(:fan_attrs) { valid_user_attributes }
-    let(:new_fan) { u = MAUFan.new(fan_attrs); u.valid?; u }
+    let(:new_fan) { u = MauFan.new(fan_attrs); u.valid?; u }
 
     context 'with valid attributes' do
 
