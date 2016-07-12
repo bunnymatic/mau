@@ -1,20 +1,46 @@
 class ArtPieceTagService
+
+  class TagWithFrequency
+    FIELDS = [:tag, :frequency]
+    attr_accessor *FIELDS
+    def initialize(tag, count)
+      @tag = tag
+      @frequency = count.try(:to_f)
+    end
+
+    def [] (key)
+      raise NoMethodError.new("#{key} does not exist as a method on #{self.inspect}") unless FIELDS.include?(key.to_sym)
+      send(key)
+    end
+
+    def []= (key, val)
+      raise NoMethodError.new("#{key} does not exist as a method on #{self.inspect}") unless FIELDS.include?(key.to_sym)
+      send("#{key}=", val)
+    end
+
+  end
+
+  include TagMediaMixin
+
+  # class level constants
+  MAX_SHOW_TAGS = 40
+  CACHE_EXPIRY = Conf.cache_expiry['tag_frequency'] || 300
+
+  def self.cache_key(norm=false)
+    [:tagfreq, norm]
+  end
+
   def self.delete_unused_tags
-    unused = tags_sorted_by_frequency.select{|(tag,ct)| ct <= 0}.map{|(tag,ct)| tag.slug}
+    unused = tags_sorted_by_frequency.select{|tf| tf.frequency.to_f <= 0}.map{|t| t.tag.slug}
     ArtPieceTag.destroy_all(slug: unused)
     flush_cache
   end
 
   def self.tags_sorted_by_frequency
-    all_tags = ArtPieceTag.all
-    freq = ArtPieceTag.keyed_frequency
-    all_tags.map do |tag|
-      [tag, freq[tag.slug].to_f]
-    end.select(&:first).sort_by(&:last).reverse
-  end
-
-  def self.flush_cache
-    ArtPieceTag.flush_cache
+    freq = keyed_frequency
+    ArtPieceTag.all.map do |tag|
+      TagWithFrequency.new(tag, freq[tag.slug].to_f )
+    end.sort_by{ |tf| -tf.frequency.to_f }
   end
 
   def self.destroy(tags)
@@ -22,6 +48,45 @@ class ArtPieceTagService
     return unless tags.any?
     ArtPiecesTag.delete_all( art_piece_tag_id: tags.map(&:id) )
     tags.each(&:destroy)
-    ArtPieceTag.flush_cache
+    flush_cache
   end
+
+  def self.most_popular_tag
+    ArtPieceTag.find_by(slug: frequency.sort_by{|tf| -tf.frequency}.first.tag)
+  end
+
+  def self.frequency(_normalize=true)
+    ckey = cache_key(_normalize)
+    freq = SafeCache.read(ckey)
+    return freq if freq
+    tags = get_tag_usage
+    tags = normalize(tags, 'frequency') if _normalize
+
+    SafeCache.write(ckey, tags[0..MAX_SHOW_TAGS], :expires_in => CACHE_EXPIRY)
+    tags[0..MAX_SHOW_TAGS]
+  end
+
+  private
+  class << self
+    private
+    def keyed_frequency
+      # return frequency of tag usage keyed by tag id
+      get_tag_usage.inject({}) do |memo, record|
+        memo[record.tag] = record.frequency
+        memo
+      end
+    end
+
+    def get_tag_usage
+      art_piece_ids_query = ArtPiece
+                            .select('art_pieces.id')
+                            .joins(:artist)
+                            .where("users.state" => "active")
+      dbr = ArtPieceTag.joins(:art_pieces_tags)
+            .where("art_pieces_tags.art_piece_id" => art_piece_ids_query)
+            .group('art_piece_tags.slug').count
+      dbr.map{|_id, ct| TagWithFrequency.new(_id, ct) }.sort_by{ |tf| -tf.frequency }
+    end
+  end
+
 end

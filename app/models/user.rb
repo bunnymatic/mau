@@ -34,7 +34,6 @@ class User < ActiveRecord::Base
   #                            'admin','root','mau', 'mauadmin','maudev',
   #                            'jon','mrrogers','trish','trishtunney' ]
 
-  include HtmlHelper
   include User::Authentication
   include User::Authorization
 
@@ -133,7 +132,7 @@ class User < ActiveRecord::Base
 
   def get_name(htmlsafe=false)
     return full_name unless htmlsafe
-    html_encode(full_name)
+    HtmlEncoder.encode(full_name)
   end
 
   def sortable_name

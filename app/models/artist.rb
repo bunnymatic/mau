@@ -136,10 +136,6 @@ class Artist < User
     @memo_address_hash ||= call_address_method :address_hash
   end
 
-  def latest_piece
-    @latest_piece ||= art_pieces.order('created_at desc').limit(1).first
-  end
-
   def representative_piece
     cache_key = "%s%s" % [REPRESENTATIVE_ART_CACHE_KEY, id]
     piece_id = SafeCache.read(cache_key)
@@ -150,10 +146,6 @@ class Artist < User
       SafeCache.write(cache_key, piece.id, :expires_in => 0) unless piece.nil?
     end
     piece
-  end
-
-  def representative_pieces(n)
-    ap = art_pieces[0..n-1]
   end
 
   def qrcode opts = {}
@@ -167,17 +159,6 @@ class Artist < User
   end
 
   class << self
-
-    def find_all_by_full_name( names )
-      inclause = ""
-      lower_names = [names].flatten.map { |n| n.downcase.strip }
-      sql = "select * from users where (lower(concat_ws(' ', firstname, lastname)) in (?)) and type='Artist'"
-      find_by_sql [sql, lower_names]
-    end
-
-    def find_by_full_name( name )
-      find_all_by_full_name([name])
-    end
 
     # tally up today's open studios count
     def tally_os

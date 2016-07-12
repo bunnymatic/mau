@@ -61,7 +61,7 @@ class AdminEmailList < ViewPresenter
     list_name = list_names.first
     case list_name
     when 'fans'
-      MAUFan.all
+      MauFan.all
     when *available_open_studios_keys
       Artist.active.open_studios_participants(list_name)
     when 'all'

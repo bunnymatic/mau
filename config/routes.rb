@@ -102,14 +102,12 @@ Mau::Application.routes.draw do
       get :social_icons
     end
 
-    get :fans
     get :os_status
-    get :db_backups
-    get :fetch_backup
-    get :palette
     get :featured_artist
-    get :emaillist
-    post :emaillist
+
+    resources :mau_fans, only: [:index]
+    resource :palette, only: [:show]
+    resource :member_emails, only: [:show]
 
     namespace :stats do
       get :art_pieces_count_histogram

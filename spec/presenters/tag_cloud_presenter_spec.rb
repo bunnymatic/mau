@@ -16,11 +16,11 @@ describe TagCloudPresenter, type: :controller do
     end
     tags
   }
-  let(:expected_frequency) { ArtPieceTag.frequency(true) }
+  let(:expected_frequency) { ArtPieceTagService.frequency(true) }
   let(:expected_order) { tags }
   let(:current_tag) { tags[1] }
 
-  subject(:cloud) { TagCloudPresenter.new(clz, current_tag, mode) }
+  subject(:presenter) { TagCloudPresenter.new(clz, current_tag, mode) }
 
   before do
     fix_leaky_fixtures
@@ -28,36 +28,33 @@ describe TagCloudPresenter, type: :controller do
   end
 
   describe '#current_tag' do
-    subject { super().current_tag }
-    it { should eql current_tag }
+    it { expect(presenter.current_tag).to eql current_tag }
   end
 
   describe '#mode' do
-    subject { super().mode }
-    it { should eql mode }
+    it { expect(presenter.mode).to eql mode }
   end
 
   describe '#frequency' do
-    subject { super().frequency }
-    it { should eql expected_frequency }
+    it { expect(presenter.frequency.map{|tf| [tf.tag, tf.frequency]})
+         .to eql expected_frequency.map{|tf| [tf.tag, tf.frequency]}  }
   end
 
   describe '#tags' do
-    subject { super().tags }
     it "returns tags that have frequency" do
-      expect(subject.all).to match_array(ArtPieceTag.where(slug: expected_frequency.map{|f| f['tag']}).all)
+      expect(presenter.tags).to match_array(ArtPieceTag.where(slug: expected_frequency.map{|f| f.tag}).all)
     end
   end
 
 
   it 'returns the tag path' do
-    expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, m: mode)
+    expect(presenter.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, m: mode)
   end
 
   context 'when the mode is art_pieces' do
     let(:mode) { 'p' }
     it 'returns the tag path' do
-      expect(subject.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, m: mode)
+      expect(presenter.tag_path(current_tag)).to eql art_piece_tag_path(current_tag, m: mode)
     end
   end
 

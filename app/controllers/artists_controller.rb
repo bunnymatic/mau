@@ -5,8 +5,6 @@ Mime::Type.register "image/png", :png
 
 class ArtistsController < ApplicationController
 
-  include HtmlHelper
-
   # Be sure to include AuthenticationSystem in Application Controller instead
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']

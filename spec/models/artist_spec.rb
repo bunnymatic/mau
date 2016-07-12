@@ -152,31 +152,6 @@ describe Artist do
       end
     end
   end
-  describe 'find by full_name' do
-    let!(:full_name) { artist.firstname + ' ' + artist.lastname }
-    let(:artists) { Artist.find_by_full_name( full_name ) }
-    before do
-      artist
-    end
-    context 'with lowercase name' do
-      it { expect(artists.size).to eq(1) }
-      it { expect(artists.first).to eql artist }
-    end
-    context 'with capitalized name search' do
-      let(:full_name) { "Joe Blow" }
-      it { expect(artists.size).to eq(1) }
-      it { expect(artists.first).to eql artist }
-    end
-    context 'with mixed case search' do
-      let(:full_name) { "Joe blow" }
-      it { expect(artists.size).to eq(1) }
-      it { expect(artists.first).to eql artist }
-    end
-    context 'with substring' do
-      let(:full_name) { "Jo blow" }
-      it { expect(artists).to be_empty }
-    end
-  end
   describe 'get from info' do
     it "responds to method bio" do
       expect { artist.bio }.not_to raise_error
@@ -213,7 +188,6 @@ describe Artist do
   describe 'representative piece' do
     it 'is the first returned by art_pieces' do
       expect(artist.representative_piece).to eql artist.art_pieces[0]
-      expect(artist.representative_piece).to eql artist.representative_pieces(1)[0]
     end
     it 'calls Cache.write if Cache.read returns nil' do
       ap = ArtPiece.find_by_artist_id(artist.id)
@@ -232,21 +206,6 @@ describe Artist do
       expect(Rails.cache).to receive(:write).never
       allow(artist).to receive(:art_pieces).and_return([])
       expect(artist.representative_piece).to eql nil
-    end
-  end
-  describe 'representative pieces' do
-    context 'when the artist has none' do
-      let(:artist) { wayout_artist }
-      it { expect(artist.representative_pieces(20)).to be_empty }
-    end
-    context 'when the artist has art' do
-      it 'is the list of art pieces' do
-        expect(artist.representative_pieces(3)).to eql artist.art_pieces[0..2]
-      end
-      it 'returns only as many pieces as the artist has' do
-        expect(artist.representative_pieces(1000)).to eql artist.art_pieces.all.to_a
-        expect(artist.representative_pieces(1000).count).to be < 1000
-      end
     end
   end
 

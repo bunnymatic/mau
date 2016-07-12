@@ -3,7 +3,7 @@ module UsersHelper
   def user_signup_select_options(user, type)
     user.password = user.password_confirmation = nil
     entries = [['<select your account type>', ''],
-               ['Mission Art Fan', :MAUFan],
+               ['Mission Art Fan', :MauFan],
                ['Mission Artist', :Artist]]
     options = {
       disabled: [entries.first.first],

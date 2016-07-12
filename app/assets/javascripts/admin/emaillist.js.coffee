@@ -1,7 +1,6 @@
 jQuery ->
-  return unless $('.os_combos')
-
-  jQuery(".js-os-combo-link").bind "click", ->
+  jQuery(".js-os-combo-link").on "click", (ev) ->
+    ev.preventDefault()
     $frm = jQuery(".js-multi-form")
     $frm.slideToggle()
-
+    false

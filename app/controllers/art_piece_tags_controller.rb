@@ -61,11 +61,11 @@ class ArtPieceTagsController < ApplicationController
 
   def redirect_to_most_popular_tag(redirect_opts={})
     xtra_params = params.slice(:m, 'm')
-    freq = ArtPieceTag.frequency
-    if !freq || freq.empty?
+    popular_tag = ArtPieceTagService.most_popular_tag
+    if popular_tag.nil?
       render_not_found Exception.new("No tags in the system")
     else
-      redirect_to art_piece_tag_path(freq.first['tag'], xtra_params), redirect_opts
+      redirect_to art_piece_tag_path(popular_tag, xtra_params), redirect_opts
     end
   end
 

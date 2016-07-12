@@ -24,23 +24,6 @@ class AdminController < BaseAdminController
     end
   end
 
-  def emaillist
-    list_names = build_list_names_from_params
-    @email_list = AdminEmailList.new(list_names)
-
-    respond_to do |format|
-      format.html {}
-      format.csv {
-        render_csv_string(@email_list.csv, @email_list.csv_filename)
-      }
-    end
-
-  end
-
-  def fans
-    @fans = User.active.where('type <> "Artist"')
-  end
-
   def os_status
     @os = Artist.active.by_lastname
     @totals = {}
@@ -49,39 +32,5 @@ class AdminController < BaseAdminController
       @totals[ostag] = @os.select{|a| (a.os_participation || {})[ostag] }.length
     end
   end
-
-  def palette
-    f = File.expand_path('app/assets/stylesheets/_colors.scss')
-    @colors = ScssFileReader.new(f).parse_colors
-  end
-
-  def db_backups
-    @dbfiles = Dir.glob(File.join(Rails.root, 'backups/**/*.tgz')).map{|f| File.new(f)}.sort_by(&:ctime).reverse
-  end
-
-  def fetch_backup
-    ### don't allow downloading of anything - only db backup files
-    available_backup_files = Dir.glob(File.join(Rails.root, 'backups/**/*.tgz'))
-    unless params[:name].present?
-      redirect_to admin_path(:action => 'db_backups')
-      return
-    end
-    filename = File.basename(params[:name])
-    backup_file = available_backup_files.select{|f| File.basename(f) == params[:name]}.first
-    if backup_file.present?
-      send_file backup_file
-    else
-      redirect_to admin_path(:action => 'db_backups')
-      return
-    end
-  end
-
-  private
-
-  def build_list_names_from_params
-    list_names = [params[:listname], (params.keys & available_open_studios_keys)].flatten.compact.uniq
-    list_names.blank? ? ['active'] : list_names
-  end
-
 
 end

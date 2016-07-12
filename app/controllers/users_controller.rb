@@ -6,7 +6,7 @@ class UsersController < ApplicationController
                                            :change_password_update]
 
 
-  DEFAULT_ACCOUNT_TYPE = 'MAUFan'
+  DEFAULT_ACCOUNT_TYPE = 'MauFan'
 
   def index
     redirect_to artists_path
@@ -42,11 +42,11 @@ class UsersController < ApplicationController
 
   def new
     artist = Artist.new
-    fan = MAUFan.new
+    fan = MauFan.new
     @studios = StudioService.all
     type = params[:type] || user_attrs[:type]
-    @type = ['Artist','MAUFan'].include?(type) ? type : 'Artist'
-    @user = (@type == 'MAUFan') ? fan : artist
+    @type = ['Artist','MauFan'].include?(type) ? type : 'Artist'
+    @user = (@type == 'MauFan') ? fan : artist
   end
 
 
@@ -273,10 +273,10 @@ class UsersController < ApplicationController
     return if user_params.empty?
     if @type == 'Artist'
       Artist.new(user_params)
-    elsif @type == 'MAUFan' || @type == 'User'
+    elsif @type == 'MauFan' || @type == 'User'
       attrs = user_params
       attrs[:login] = attrs[:login] || attrs[:email]
-      MAUFan.new(attrs)
+      MauFan.new(attrs)
     end
   end
 

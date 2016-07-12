@@ -7,7 +7,7 @@ class TagCloudPresenter < ViewPresenter
 
   def initialize(model, tag, mode)
     @model = model
-    @frequency = model.frequency(true)
+    @frequency = ArtPieceTagService.frequency(true)
     @current_tag = tag
     @mode = mode
   end
@@ -15,8 +15,7 @@ class TagCloudPresenter < ViewPresenter
   def tags
     @tags ||=
       begin
-        tags = frequency.map{|t| t['tag']}
-        ArtPieceTag.where(slug: tags)
+        ArtPieceTag.where(slug: frequency.map(&:tag))
       end
   end
 
@@ -43,7 +42,7 @@ class TagCloudPresenter < ViewPresenter
     @tags_for_display ||=
       begin
         frequency.map do |entry|
-          tag = find_tag(entry['tag'])
+          tag = find_tag(entry.tag)
           next unless tag
           tag
         end.compact

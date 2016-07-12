@@ -3,6 +3,8 @@
 
 class UserPresenter < ViewPresenter
 
+  ALLOWED_FAVORITE_CLASSES = [Artist, MauFan, User].map(&:name)
+
   attr_accessor :model
 
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
@@ -48,7 +50,7 @@ class UserPresenter < ViewPresenter
     @who_i_favorite ||=
       begin
         user_favorites, art_piece_favorites = model.favorites.partition do |fav|
-          ['Artist', 'MAUFan', 'User'].include? fav.favoritable_type
+          ALLOWED_FAVORITE_CLASSES.include? fav.favoritable_type
         end
         art_pieces = ArtPiece.includes(:artist).owned.where(id: art_piece_favorites.map(&:favoritable_id) ).map(&:artist)
         users = Artist.active.where(id: user_favorites.map(&:favoritable_id))

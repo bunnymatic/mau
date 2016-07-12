@@ -45,8 +45,8 @@ FactoryGirl.define do
 
   end
 
-  factory :fan, parent: :user, class: 'MAUFan' do
-    type { 'MAUFan' }
+  factory :mau_fan, parent: :user, class: 'MauFan', aliases: [:fan] do
+    type { 'MauFan' }
     active
   end
 

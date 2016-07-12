@@ -44,7 +44,7 @@ describe Admin::ArtPieceTagsController do
       expect(ArtPieceTag.where(id: tag.id)).to be_empty
     end
     it "clears the cache" do
-      expect(ArtPieceTag).to receive :flush_cache
+      expect(ArtPieceTagService).to receive :flush_cache
       delete :destroy, id: tag.id
     end
     it "redirects to list of all tags" do

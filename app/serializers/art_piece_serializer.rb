@@ -2,7 +2,6 @@ class ArtPieceSerializer < MauSerializer
   attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count, :year, :dimensions, :filename, :title, :artist_id, :image_urls
 
   # note: image_urls used by angular photo browser
-  include HtmlHelper
   include ImageFileHelpers
 
   def image_urls
@@ -35,7 +34,7 @@ class ArtPieceSerializer < MauSerializer
       begin
         return unless object.tags.present?
         tag_attrs = object.tags.map{|t| t.attributes}
-        tag_attrs.each {|t| t['name'] = html_encode t['name']}
+        tag_attrs.each {|t| t['name'] = HtmlEncoder.encode t['name']}
         tag_attrs
       end
   end
