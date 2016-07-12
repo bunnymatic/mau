@@ -1,5 +1,5 @@
 Then(/^I see the most popular tag page$/) do
-  first_tag = ArtPieceTagService.tags_sorted_by_frequency.first
+  first_tag = ArtPieceTagService.tags_sorted_by_frequency.first.tag
   expect(current_path).to eql art_piece_tag_path(first_tag)
 end
 
@@ -23,7 +23,7 @@ Then(/^I see a list of artists who have art in the most popular tag$/) do
 end
 
 Then(/^I see more artists who have art in the most popular tag$/) do
-  @first_tag = ArtPieceTagService.tags_sorted_by_frequency.first
+  @first_tag = ArtPieceTagService.tags_sorted_by_frequency.first.tag
 
   expect(page).to have_content @first_tag.name
   expect(page).to have_css ".paginator"

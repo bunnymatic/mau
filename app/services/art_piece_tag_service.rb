@@ -52,7 +52,7 @@ class ArtPieceTagService
   end
 
   def self.most_popular_tag
-    ArtPieceTag.find_by(slug: frequency.sort_by(&:frequency).first.tag)
+    ArtPieceTag.find_by(slug: frequency.sort_by{|tf| -tf.frequency}.first.tag)
   end
 
   def self.frequency(_normalize=true)
