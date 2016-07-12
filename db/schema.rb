@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160710153348) do
+ActiveRecord::Schema.define(version: 20160712150629) do
 
   create_table "application_events", force: :cascade do |t|
     t.string   "type",       limit: 255

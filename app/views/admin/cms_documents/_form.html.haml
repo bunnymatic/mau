@@ -13,7 +13,7 @@
 .pure-g
   .pure-u-1-1.tab-content.padded-content
     #edit.tab-pane.active
-      = semantic_form_for [:admin,@cms_document] do |f|
+      = semantic_form_for [:admin,cms_document] do |f|
         .pure-u-1-1
           = render '/common/form_errors', form: f
           = f.inputs do
@@ -23,7 +23,7 @@
               .pure-u-1-2
                 = f.input :section
             %p
-              Last Updated by: #{@cms_document.user.try(:login) || 'unknown'} on #{@cms_document.updated_at.try(:to_formatted_s,:admin)}
+              Last Updated by: #{cms_document.user.try(:login) || 'unknown'} on #{cms_document.updated_at.try(:to_formatted_s,:admin)}
             = f.input :article, rows: 30
           = f.actions do
             = f.submit 'Save', class: "pure-button button-secondary"
@@ -34,4 +34,4 @@
         %a{href: markdown_admin_tests_path} markdown test page.
     #preview.tab-pane
       .markdown#processed_markdown
-        != MarkdownService.markdown @cms_document.article
+        != MarkdownService.markdown cms_document.article
