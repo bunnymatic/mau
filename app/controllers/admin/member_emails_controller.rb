@@ -1,5 +1,5 @@
 module Admin
-  class MemberEmailsController < AdminController
+  class MemberEmailsController < ::BaseAdminController
 
     def show
       @email_list = AdminEmailList.new(build_list_names_from_params)
