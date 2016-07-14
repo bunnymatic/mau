@@ -178,8 +178,6 @@ Mau::Application.routes.draw do
   get '/admin' => 'admin#index', as: :admin
 
   get '/sitemap.xml' => 'main#sitemap', as: :sitemap
-  get '/api/*path' => 'api#index'
-
 
   # legacy urls
   get '/main/openstudios', to: redirect('/open_studios')
