@@ -58,7 +58,6 @@ class User < ActiveRecord::Base
     find_by_email(login) || find_by_login(login)
   end
 
-
   def delete_favorites
     fs = Favorite.artists.where(favoritable_id: id)
     fs.each(&:delete)

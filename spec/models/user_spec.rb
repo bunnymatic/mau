@@ -47,16 +47,16 @@ describe User do
   it{ should validate_length_of(:firstname).is_at_most(100) }
   it{ should validate_length_of(:lastname).is_at_most(100) }
 
-  context 'find by username or email' do
+  context '.find_by_login_or_email' do
     let!(:artist) { create :artist, login: 'whatever_yo', email: 'yo_whatever@example.com' }
     it 'finds users by their login' do
-      expect(User.find_by_username_or_email('whatever_yo')).to eql artist
+      expect(User.find_by_login_or_email('whatever_yo')).to eql artist
     end
     it 'finds users by their email' do
-      expect(User.find_by_username_or_email('yo_whatever@example.com')).to eql artist
+      expect(User.find_by_login_or_email('yo_whatever@example.com')).to eql artist
     end
     it 'returns nil when there is no match' do
-      expect(User.find_by_username_or_email('ack')).to be_nil
+      expect(User.find_by_login_or_email('ack')).to be_nil
     end
   end
 
