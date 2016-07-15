@@ -26,7 +26,7 @@
         h4 Studio
         .studio-address-form
           = form.inputs do
-            = form.input :studio_id, as: :select, collection: [['None', 0]] + @studios.map{|u| [u.name,u.id]}, selected: current_user.studio_id
+            = form.input :studio_id, as: :select, collection: [['None', 0]] + studios.map{|u| [u.name,u.id]}, selected: current_user.studio_id
             = form.inputs for: :artist_info do |ai_form|
               = ai_form.input :studionumber, label: 'Studio #', placeholder: 'e.g. Room 220'
       .pure-u-1-2

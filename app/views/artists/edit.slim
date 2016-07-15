@@ -12,7 +12,7 @@
         .panel.panel-default
           = render '/users/edit/profile_picture', form: form
         .panel.panel-default
-          = render '/artists/edit/studio_info', form: form
+          = render '/artists/edit/studio_info', form: form, studios: @studios
         - if OpenStudiosEvent.current
           .panel.panel-default
             = render '/artists/edit/open_studios_status', form: form
@@ -25,4 +25,3 @@
           = render '/users/edit/password', form: form
       .panel.panel-default
         = render '/users/edit/deactivate'
-
