@@ -43,6 +43,9 @@ class ArtistPresenter < UserPresenter
     @tags ||= art_pieces.map(&:tags).flatten.compact.uniq
   end
 
+  def media_and_tags
+    (media + tags).map(&:name).flatten.compact.uniq
+  end
 
   def has_bio?
     !(model.bio.blank?)

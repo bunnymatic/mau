@@ -190,7 +190,7 @@ class ArtistsController < ApplicationController
     @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
     @page_image = @artist.get_profile_image(:large) if @artist.has_profile_image?
     @page_description = build_page_description @artist
-    @page_keywords += [@artist.media.map(&:name), @artist.tags.map(&:name)].flatten.compact.uniq
+    @page_keywords += @artist.media_and_tags + (@page_keywords || [])
   end
 
   def get_active_artist_from_params
