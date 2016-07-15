@@ -1,8 +1,8 @@
 require 'studio'
 class StudiosController < ApplicationController
 
-  before_filter :load_studio_list, only: [:index, :show]
-  before_filter :load_studio, only: [:edit, :update, :destroy, :show,
+  before_action :load_studio_list, only: [:index, :show]
+  before_action :load_studio, only: [:edit, :update, :destroy, :show,
                                         :unaffiliate_artist, :upload_profile, :add_profile]
 
   def index

@@ -5,7 +5,7 @@ module Admin
   class TestsController < ::BaseAdminController
     # GET /studios
     # GET /studios.xml
-    before_filter :admin_required
+    before_action :admin_required
 
     def show
     end

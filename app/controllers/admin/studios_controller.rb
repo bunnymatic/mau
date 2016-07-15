@@ -1,12 +1,12 @@
 module Admin
   class StudiosController < ::BaseAdminController
 
-    before_filter :manager_required
-    before_filter :admin_required, only: [:new, :create, :destroy]
-    before_filter :studio_manager_required, only: [:edit, :update,
+    before_action :manager_required
+    before_action :admin_required, only: [:new, :create, :destroy]
+    before_action :studio_manager_required, only: [:edit, :update,
                                                    :unaffiliate_artist]
-    before_filter :load_studio, except: [:new, :index, :create, :reorder]
-    skip_before_filter :verify_authenticity_token, :only => [:unaffiliate_artist]
+    before_action :load_studio, except: [:new, :index, :create, :reorder]
+    skip_before_action :verify_authenticity_token, :only => [:unaffiliate_artist]
 
     def index
       @studios = StudioService.all.map{|s| StudioPresenter.new(s)}

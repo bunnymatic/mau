@@ -1,7 +1,7 @@
 class AdminController < BaseAdminController
 
-  before_filter :editor_required, :only => [:featured_artist]
-  before_filter :admin_required, :except => [:index, :featured_artist]
+  before_action :editor_required, :only => [:featured_artist]
+  before_action :admin_required, :except => [:index, :featured_artist]
 
   layout 'admin'
 

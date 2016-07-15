@@ -1,6 +1,6 @@
 class ArtPieceTagsController < ApplicationController
 
-  before_filter :admin_required, except: [ :index, :show, :autosuggest ]
+  before_action :admin_required, except: [ :index, :show, :autosuggest ]
 
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['tags']['cache_expiry']
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['tags']['cache_key']

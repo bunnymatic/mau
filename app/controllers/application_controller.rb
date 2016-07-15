@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   #include MobilizedStyles
-  before_filter :append_view_paths
-  before_filter :init_body_classes, :set_controller_and_action_names
-  before_filter :check_browser, :unless => :format_json?
-  before_filter :set_version
-  before_filter :set_meta_info
+  before_action :append_view_paths
+  before_action :init_body_classes, :set_controller_and_action_names
+  before_action :check_browser, :unless => :format_json?
+  before_action :set_version
+  before_action :set_meta_info
 
   helper_method :current_user_session, :current_user, :logged_in?, :current_artist
   helper_method :current_open_studios

@@ -1,6 +1,6 @@
 module Admin
   class FavoritesController < ::BaseAdminController
-    before_filter :admin_required
+    before_action :admin_required
     def index
       @favorites = AdminFavoritesPresenter.new(Favorite.all)
     end

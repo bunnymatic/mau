@@ -1,6 +1,6 @@
 module Api
   class ApiController < ActionController::Base
-    before_filter :require_authorization
+    before_action :require_authorization
 
     def require_authorization
       auth_key = request.headers['HTTP_AUTHORIZATION']

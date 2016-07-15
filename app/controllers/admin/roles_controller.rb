@@ -1,7 +1,7 @@
 module Admin
   class RolesController < ::BaseAdminController
-    before_filter :admin_required
-    before_filter :load_role, only: [:show, :edit, :update, :destroy]
+    before_action :admin_required
+    before_action :load_role, only: [:show, :edit, :update, :destroy]
 
     def index
       @roles = Role.all
