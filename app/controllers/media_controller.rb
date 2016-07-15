@@ -1,9 +1,9 @@
 class MediaController < ApplicationController
   # GET /media
   # GET /media.xml
-  before_filter :admin_required, :except => [ :index, :show ]
-  before_filter :load_media, :only => [:show]
-  before_filter :load_media_frequency, :only => [:index, :show]
+  before_action :admin_required, :except => [ :index, :show ]
+  before_action :load_media, :only => [:show]
+  before_action :load_media_frequency, :only => [:index, :show]
 
   def index
     xtra_params = Hash[ params.select{ |k,v| [:m, "m"].include? k } ]

@@ -9,7 +9,7 @@ class ArtistsController < ApplicationController
   AUTOSUGGEST_CACHE_KEY = Conf.autosuggest['artist_names']['cache_key']
   AUTOSUGGEST_CACHE_EXPIRY = Conf.autosuggest['artist_names']['cache_exipry']
 
-  before_filter :user_required, only: [ :edit, :update, :manage_art, :delete_art, :destroyart, :setarrangement, :arrange_art ]
+  before_action :user_required, only: [ :edit, :update, :manage_art, :delete_art, :destroyart, :setarrangement, :arrange_art ]
 
   def index
     respond_to do |format|
@@ -190,7 +190,7 @@ class ArtistsController < ApplicationController
     @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
     @page_image = @artist.get_profile_image(:large) if @artist.has_profile_image?
     @page_description = build_page_description @artist
-    @page_keywords += [@artist.media.map(&:name), @artist.tags.map(&:name)].flatten.compact.uniq
+    @page_keywords += @artist.media_and_tags + (@page_keywords || [])
   end
 
   def get_active_artist_from_params

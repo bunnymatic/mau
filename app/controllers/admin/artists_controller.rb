@@ -1,8 +1,8 @@
 module Admin
   class ArtistsController < ::BaseAdminController
-    before_filter :admin_required, :only => [ :index, :update, :show ]
-    before_filter :editor_required, :only => [ :notify_featured ]
-    before_filter :set_artist, only: [ :show, :suspend ]
+    before_action :admin_required, :only => [ :index, :update, :show ]
+    before_action :editor_required, :only => [ :notify_featured ]
+    before_action :set_artist, only: [ :show, :suspend ]
     def index
       @artist_list = AdminArtistList.new
       @active_artist_list, @inactive_artist_list = @artist_list.partition{|a| a.pending? || a.active?}

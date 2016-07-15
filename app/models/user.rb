@@ -45,18 +45,14 @@ class User < ActiveRecord::Base
   scope :suspended, -> { where(state: 'suspended') }
   scope :deleted, -> { where(state: 'deleted') }
 
-  def self.admin
-    joins(:roles_users).where(roles_users: { role: Role.admin } )
-  end
-
-  def self.find_by_username_or_email(login_string)
-    User.find_by_login(login_string) || User.find_by_email(login_string)
-  end
-
   before_validation :normalize_attributes
   before_validation :add_http_to_links
   before_validation :cleanup_fields
   before_destroy :delete_favorites
+
+  def self.admin
+    joins(:roles_users).where(roles_users: { role: Role.admin } )
+  end
 
   def self.find_by_login_or_email(login)
     find_by_email(login) || find_by_login(login)

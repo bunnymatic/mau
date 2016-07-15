@@ -2,10 +2,10 @@ class ArtPiecesController < ApplicationController
 
   include TagsHelper
 
-  before_filter :user_required, only: [ :new, :edit, :update, :create, :destroy]
-  before_filter :artist_required, only: [ :new, :edit, :update, :create, :destroy]
-  before_filter :load_art_piece, only: [:show, :destroy, :edit, :update]
-  before_filter :load_media, only: [:new, :edit, :create, :update]
+  before_action :user_required, only: [ :new, :edit, :update, :create, :destroy]
+  before_action :artist_required, only: [ :new, :edit, :update, :create, :destroy]
+  before_action :load_art_piece, only: [:show, :destroy, :edit, :update]
+  before_action :load_media, only: [:new, :edit, :create, :update]
 
   after_filter :flush_cache, only: [:create, :update, :destroy]
 

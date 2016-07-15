@@ -1,5 +1,5 @@
 module Admin
-  class PalettesController < AdminController
+  class PalettesController < ::BaseAdminController
 
     def show
       f = File.expand_path('app/assets/stylesheets/_colors.scss')

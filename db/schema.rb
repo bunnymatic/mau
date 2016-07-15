@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160710153348) do
+ActiveRecord::Schema.define(version: 20160714152157) do
 
   create_table "application_events", force: :cascade do |t|
     t.string   "type",       limit: 255
@@ -52,6 +52,9 @@ ActiveRecord::Schema.define(version: 20160710153348) do
     t.integer "art_piece_tag_id", limit: 4
     t.integer "art_piece_id",     limit: 4
   end
+
+  add_index "art_pieces_tags", ["art_piece_id"], name: "index_art_pieces_tags_on_art_piece_id", using: :btree
+  add_index "art_pieces_tags", ["art_piece_tag_id"], name: "index_art_pieces_tags_on_art_piece_tag_id", using: :btree
 
   create_table "artist_images", force: :cascade do |t|
     t.datetime "created_at"
@@ -110,6 +113,9 @@ ActiveRecord::Schema.define(version: 20160710153348) do
     t.integer "email_id",      limit: 4
     t.integer "email_list_id", limit: 4
   end
+
+  add_index "email_list_memberships", ["email_id"], name: "index_email_list_memberships_on_email_id", using: :btree
+  add_index "email_list_memberships", ["email_list_id"], name: "index_email_list_memberships_on_email_list_id", using: :btree
 
   create_table "email_lists", force: :cascade do |t|
     t.string   "type",       limit: 255
@@ -217,6 +223,9 @@ ActiveRecord::Schema.define(version: 20160710153348) do
     t.integer "user_id", limit: 4
     t.integer "role_id", limit: 4
   end
+
+  add_index "roles_users", ["role_id"], name: "index_roles_users_on_role_id", using: :btree
+  add_index "roles_users", ["user_id"], name: "index_roles_users_on_user_id", using: :btree
 
   create_table "scammers", force: :cascade do |t|
     t.text     "email",      limit: 65535

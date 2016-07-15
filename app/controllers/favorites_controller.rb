@@ -1,6 +1,6 @@
 class FavoritesController < ApplicationController
-  before_filter :user_required, only: [:create, :destroy]
-  before_filter :user_must_be_you, only: [:create, :destroy]
+  before_action :user_required, only: [:create, :destroy]
+  before_action :user_must_be_you, only: [:create, :destroy]
 
   def index
     @user = begin

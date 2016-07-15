@@ -1,5 +1,5 @@
 module Admin
-  class StatsController < AdminController
+  class StatsController < ::BaseAdminController
 
     def art_pieces_per_day
       apd = compute_art_pieces_per_day

@@ -1,7 +1,7 @@
 module Admin
   class OpenStudiosEventsController < ::BaseAdminController
 
-    before_filter :admin_required
+    before_action :admin_required
 
     def index
       @os_events = OpenStudiosEventService.all.map{|osev| OpenStudiosEventPresenter.new(osev)}
