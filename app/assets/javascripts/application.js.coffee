@@ -1,7 +1,6 @@
 #= require ng-inject
 #= require monkey_patches
 #= require lodash
-#= require underscore.string
 #= require moment
 #= require angular
 #= require angular-rails-templates

@@ -1,7 +1,7 @@
 # Template includes both application.js and admin.js
 #
-#= require jquery.flot
-#= require jquery.flot.resize
+#= require flot
+#= require flot/jquery.flot.resize
 #= require moment
 #= require_tree ./admin
 

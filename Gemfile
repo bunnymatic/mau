@@ -52,11 +52,7 @@ gem 'postmark'
 
 gem 'unicorn' # webserver
 
-gem 'flot-rails' # jquery plotting program
-
 gem 'select2-rails' # autocompleter
-
-gem 'underscore-string-rails'
 
 gem 'jbuilder' #non-html output (rss, atom)
 
@@ -92,6 +88,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-ng-device-detector'
   gem 'rails-assets-datatables'
   gem 'rails-assets-spinjs'
+  gem 'rails-assets-flot'
 end
 
 group :test do
