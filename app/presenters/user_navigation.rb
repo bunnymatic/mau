@@ -20,7 +20,7 @@ class UserNavigation < Navigation
             items << link_to('My Favorites', url_helpers.favorites_path(current_artist), title: "Manage My Art")
             items << link_to('My Account', url_helpers.edit_artist_path(current_artist), title: 'Edit My Info')
           else
-            items << link_to('Ny Profile', url_helpers.user_path(current_user))
+            items << link_to('My Profile', url_helpers.user_path(current_user))
             items << link_to('My Account', url_helpers.edit_user_path(current_user))
           end
           items << link_to('sign out', url_helpers.logout_path)

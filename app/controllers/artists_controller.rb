@@ -214,7 +214,7 @@ class ArtistsController < ApplicationController
 
   private
   def artist_info_permitted_attributes
-    %i|bio street city addr_state facebook twitter blog myspace flickr zip studionumber pinterest instagram|
+    %i|bio street city addr_state zip studionumber|
   end
 
 
@@ -230,10 +230,10 @@ class ArtistsController < ApplicationController
       params[:artist].delete("studio")
     end
 
-    params.require(:artist).permit(:studio, :login, :email, :email_attrs,
-                                   :password, :password_confirmation, :photo, :os_participation,
-                                   :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume,
-                                   :artist_info_attributes => artist_info_permitted_attributes)
+    permitted = [:studio, :login, :email, :email_attrs,
+                 :password, :password_confirmation, :photo, :os_participation,
+                 :firstname, :lastname, :url, :studio_id, :studio, :nomdeplume ] + User.stored_attributes[:links]
+    params.require(:artist).permit(*permitted, :artist_info_attributes => artist_info_permitted_attributes)
 
   end
 

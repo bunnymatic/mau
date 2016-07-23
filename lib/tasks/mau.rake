@@ -34,6 +34,22 @@ namespace :mau do
     end
   end
 
+  desc 'migrate user/artist links'
+  task migrate_user_links: [:environment] do
+    links = User.stored_attributes[:links]
+    User.active.each do |user|
+      user.website = user.url
+      if user.is_a? Artist
+        artist = user.becomes(Artist)
+        %i| facebook twitter blog pinterest myspace flickr instagram |.each do |key|
+          val = (artist && artist.artist_info.try(key))
+          artist.send("#{key}=", val) if val
+        end
+      end
+      user.save
+    end
+  end
+
   desc 'cleanup names (remove leading/trailing whitespace'
   task clean_names: [:environment] do
     Artist.all.each {|a| a.save }

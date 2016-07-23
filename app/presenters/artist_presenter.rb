@@ -5,6 +5,8 @@ class ArtistPresenter < UserPresenter
 
   include ApplicationHelper
 
+  ALLOWED_LINKS = User.stored_attributes[:links]
+
   attr_accessor :model
 
   delegate :doing_open_studios?, :os_participation, :studio, :studio_id,
@@ -152,14 +154,6 @@ class ArtistPresenter < UserPresenter
   end
 
   def self.keyed_links
-    [ [:url, 'Website', :u_website],
-      [:instagram, 'Instagram', :u_instagram],
-      [:facebook, 'Facebook', :u_facebook],
-      [:twitter, 'Twitter', :u_twitter],
-      [:pinterest, 'Pinterest', :u_pinterest],
-      [:flickr, 'Flickr', :u_flickr],
-      [:blog, 'Blog', :u_blog],
-      [:myspace, 'MySpace', :u_myspace]].freeze
+    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
   end
-
 end

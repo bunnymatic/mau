@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   validates_length_of       :firstname,maximum: 100, allow_nil: true
   validates_length_of       :lastname, maximum: 100, allow_nil: true
 
+  store :links, accessors: %i| website facebook twitter blog pinterest myspace flickr instagram |
+
   extend FriendlyId
   friendly_id :login, use: [:slugged, :finders]
 
@@ -241,9 +243,18 @@ class User < ActiveRecord::Base
     mailer_class.resend_activation(self).deliver_later if resent_activation?
   end
 
+  def _add_http_to_link(link)
+    if link.present?
+      (/^https?:\/\// =~ link) ? link : ('http://' + link)
+    end
+  end
+
   def add_http_to_links
     if url.present?
-      self.url = ('http://' + url) unless /^https?:\/\// =~ url
+      self.url = _add_http_to_link(url)
+    end
+    User.stored_attributes[:links].each do |site|
+      self.send("#{site}=", _add_http_to_link(self.send(site)))
     end
   end
 end
