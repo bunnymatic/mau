@@ -2,7 +2,7 @@ class SocialCatalogPresenter
 
   include OpenStudiosEventShim
 
-  SOCIAL_KEYS = [:facebook, :flickr, :twitter, :blog, :myspace].freeze
+  SOCIAL_KEYS = User.stored_attributes[:links].reject { |k| k == :website }
 
   def artists
     @artists ||= Artist.active.open_studios_participants.select do |a|

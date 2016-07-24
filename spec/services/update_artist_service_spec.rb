@@ -31,18 +31,18 @@ describe UpdateArtistService do
 
     describe "with artist info attributes" do
       let(:params) {
-        { artist_info_attributes: { facebook: 'http://newfacebook.example.com' } }
+        { artist_info_attributes: { studionumber: '5' } }
       }
       it "updates them" do
         service.update
-        expect(artist.reload.facebook).to eql "http://newfacebook.example.com"
+        expect(artist.reload.studionumber).to eql "5"
       end
       it "does not change the other artist info properties" do
         bio = artist.artist_info.bio
         info_id = artist.artist_info.id
         expect(bio).to be_present
         service.update
-        expect(artist.reload.facebook).to eql "http://newfacebook.example.com"
+        expect(artist.reload.studionumber).to eql '5'
         expect(artist.artist_info.id).to eql info_id
       end
     end

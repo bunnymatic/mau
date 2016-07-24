@@ -97,14 +97,13 @@ describe ArtistPresenter do
 
   context 'without links' do
     before do
-      allow(artist).to receive(:url).and_return(nil)
+      allow(artist).to receive(:website).and_return(nil)
       allow(artist).to receive(:facebook).and_return(nil)
       allow(artist).to receive(:instagram).and_return(nil)
     end
 
     describe '#has_links?' do
-      subject { super().has_links? }
-      it { should eq false }
+      its(:has_links?) { is_expected.to eq false }
     end
   end
 

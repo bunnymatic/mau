@@ -82,7 +82,6 @@ class Artist < User
   before_create :make_activation_code
 
   [:bio, :bio=,
-   :facebook, :flickr, :twitter, :blog,:myspace, :pinterest, :instagram,
    :os_participation, :os_participation=,
    :street, :street=,
    :city, :city=,

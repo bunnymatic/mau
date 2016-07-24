@@ -4,7 +4,7 @@
 class UserPresenter < ViewPresenter
 
   ALLOWED_FAVORITE_CLASSES = [Artist, MauFan, User].map(&:name)
-
+  ALLOWED_LINKS = [:website]
   attr_accessor :model
 
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
@@ -137,18 +137,17 @@ class UserPresenter < ViewPresenter
   end
 
   def has_links?
-    @has_links ||= links.present?
+    @has_links ||= links.any?
   end
 
   def links
-    @links ||= self.class.keyed_links.map do |kk, disp, _id|
-      lnk = format_link(@model.send(kk))
-      [_id, disp, lnk] if lnk.present?
+    @links ||= self.class.keyed_links.map do |kk|
+      v = @model.send(kk)
     end.compact
   end
 
   def links_html
-    self.class.keyed_links.map do |key, display, _id|
+    self.class.keyed_links.map do |key|
       site = @model.send(key)
       if site.present?
         formatted_site = format_link(site)
@@ -186,17 +185,19 @@ class UserPresenter < ViewPresenter
   def icon_link_class(key, site)
     site = strip_http_from_link(site)
     clz = [:ico, "ico-invert", "ico-#{key}"]
-    if site =~ /\.tumblr\./
-      clz << "ico-tumblr"
-    elsif key.to_sym == :blog
-      if site =~ /\.blogger\./
-        clz << "ico-blogger"
-      else
-        site_bits = site.split(".")
-        clz << "ico-" + ((site_bits.length > 2) ? site_bits[-3] : site_bits[0])
-      end
-    end
-    clz.join(' ')
+    icon_chooser = begin
+                     if site =~ /\.tumblr\./
+                       "ico-tumblr"
+                     elsif key.to_sym == :blog
+                       if site =~ /\.blogger\./
+                         "ico-blogger"
+                       else
+                         site_bits = site.split(".")
+                         "ico-" + ((site_bits.length > 2) ? site_bits[-3] : site_bits[0])
+                       end
+                     end
+                   end
+    (clz + [icon_chooser]).join(' ')
   end
 
   def strip_http_from_link(link)
@@ -204,7 +205,7 @@ class UserPresenter < ViewPresenter
   end
 
   def self.keyed_links
-    [[:url, 'Website', :u_website]].freeze
+    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
   end
 
 

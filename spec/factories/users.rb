@@ -10,7 +10,7 @@ FactoryGirl.define do
     lastname { Faker::Name.first_name }
     nomdeplume { Faker::Company.name }
     profile_image { Faker::Files.file }
-    url { Faker::Internet.url }
+    website { Faker::Internet.url }
     trait :pending do
       state :pending
       activation_code 'factory_activation_code'
@@ -64,9 +64,8 @@ FactoryGirl.define do
     end
 
     trait :with_links do
-      after(:create) do |artist|
-        artist.artist_info.update_attributes( facebook: Faker::Internet.url, twitter: Faker::Internet.url )
-      end
+      facebook { Faker::Internet.url }
+      twitter { Faker::Internet.url }
     end
 
     trait :in_the_mission do

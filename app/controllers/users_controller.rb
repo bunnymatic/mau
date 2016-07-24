@@ -342,10 +342,11 @@ class UsersController < ApplicationController
       end
       attrs[:email_attrs] = em2.to_json
     end
-    params.require(k).permit(:login, :email, :firstname, :lastname, :type,
-                             :password, :password_confirmation,
-                             :url, :studio, :studio_id, :nomdeplume, :photo,
-                             :email_attrs )
+    permitted = [:login, :email, :firstname, :lastname, :type,
+                 :password, :password_confirmation,
+                 :studio, :studio_id, :nomdeplume, :photo,
+                 :email_attrs] + User.stored_attributes[:links]
+    params.require(k).permit(*permitted)
   end
 
   def verify_secret_word(opts)

@@ -198,7 +198,7 @@ describe ArtistsController, elasticsearch: true do
     context "while logged in" do
       render_views
       before do
-        artist.artist_info.update_attributes({facebook: 'example.com/facebooklink', blog: 'example.com/bloglink'})
+        artist.update_attributes({facebook: 'example.com/facebooklink', blog: 'example.com/bloglink'})
         login_as artist
         get :edit, id: artist.to_param
       end

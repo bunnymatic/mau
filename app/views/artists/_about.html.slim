@@ -63,12 +63,13 @@
         - artist.media.each do |m|
           li
             = link_to(m.name, m, class: "")
-    section.links
-      .header Links
-      .artist__links
-        - artist.links_html.each do |anchor|
-          .link
-            = anchor
+    - if artist.has_links?
+      section.links
+        .header Links
+        .artist__links
+          - artist.links_html.each do |anchor|
+            .link
+              = anchor
     .pure-u-1-1
       section.favorites
         .header

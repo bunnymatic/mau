@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714152157) do
+ActiveRecord::Schema.define(version: 20160723021425) do
 
   create_table "application_events", force: :cascade do |t|
     t.string   "type",       limit: 255
@@ -261,10 +261,10 @@ ActiveRecord::Schema.define(version: 20160714152157) do
 
   create_table "users", force: :cascade do |t|
     t.string   "login",                     limit: 40
-    t.string   "name",                      limit: 100, default: ""
+    t.string   "name",                      limit: 100,   default: ""
     t.string   "email",                     limit: 100
-    t.string   "crypted_password",          limit: 128, default: "",                                                               null: false
-    t.string   "password_salt",             limit: 128, default: "",                                                               null: false
+    t.string   "crypted_password",          limit: 128,   default: "",                                                               null: false
+    t.string   "password_salt",             limit: 128,   default: "",                                                               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remember_token",            limit: 40
@@ -277,14 +277,14 @@ ActiveRecord::Schema.define(version: 20160714152157) do
     t.integer  "studio_id",                 limit: 4
     t.string   "activation_code",           limit: 40
     t.datetime "activated_at"
-    t.string   "state",                     limit: 255, default: "passive"
+    t.string   "state",                     limit: 255,   default: "passive"
     t.datetime "deleted_at"
     t.string   "reset_code",                limit: 40
-    t.string   "email_attrs",               limit: 255, default: "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
-    t.string   "type",                      limit: 255, default: "Artist"
+    t.string   "email_attrs",               limit: 255,   default: "{\"fromartist\": true, \"favorites\": true, \"fromall\": true}"
+    t.string   "type",                      limit: 255,   default: "Artist"
     t.date     "mailchimp_subscribed_at"
     t.string   "persistence_token",         limit: 255
-    t.integer  "login_count",               limit: 4,   default: 0,                                                                null: false
+    t.integer  "login_count",               limit: 4,     default: 0,                                                                null: false
     t.datetime "last_request_at"
     t.datetime "last_login_at"
     t.datetime "current_login_at"
@@ -295,6 +295,7 @@ ActiveRecord::Schema.define(version: 20160714152157) do
     t.string   "photo_content_type",        limit: 255
     t.integer  "photo_file_size",           limit: 4
     t.datetime "photo_updated_at"
+    t.text     "links",                     limit: 65535
   end
 
   add_index "users", ["last_request_at"], name: "index_users_on_last_request_at", using: :btree
