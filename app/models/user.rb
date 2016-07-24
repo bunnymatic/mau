@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   validates_length_of       :firstname,maximum: 100, allow_nil: true
   validates_length_of       :lastname, maximum: 100, allow_nil: true
 
-  store :links, accessors: %i| website facebook twitter blog pinterest myspace flickr instagram |
+  store :links, accessors: %i| website facebook twitter blog pinterest myspace flickr instagram artspan |
 
   extend FriendlyId
   friendly_id :login, use: [:slugged, :finders]
