@@ -18,8 +18,11 @@
     }
   }
   .dashboard__stats-list {
+    margin-bottom: 1.5rem;
     h4 {
       margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-weight: $font-weight-normal;
     }
     td {
       padding-right: 8px;

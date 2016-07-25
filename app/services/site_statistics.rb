@@ -107,11 +107,12 @@ class SiteStatistics
   end
 
   def artists_stats
-    { :actived_artists => Artist.active.count,
-      :artists_pending => Artist.pending.count,
+    artist_states = Artist.select(:state).group(:state).count
+    { :activated_artists => artist_states.fetch("active", 'n/a'),
+      :artists_pending => artist_states.fetch("pending", 'n/a'),
       :artists_without_art => Artist.without_art.count,
       :artists_no_profile_image => Artist.active.where("profile_image is not null").count,
-      :artists => Artist.count,
+      :artists => artist_states.values.sum
     }
   end
 
