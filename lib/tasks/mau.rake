@@ -55,6 +55,35 @@ namespace :mau do
     Artist.all.each {|a| a.save }
   end
 
+  def ask_for_confirmation(question)
+    puts question
+    STDOUT.flush
+    while (input = STDIN.gets.chomp) do
+      case input.upcase
+      when 'Y', 'YES'
+        return true
+      when 'N', 'NO'
+        return false
+      else
+        puts "Please answer with yes or no"
+      end
+    end
+  end
+
+  desc 'clean art from suspended artists'
+  task clean_suspended_artist_art: [:environment] do
+    pieces = ArtPiece.includes(:artist).where( users: { state: :suspended } )
+    if pieces.count > 0
+      if ask_for_confirmation("Found %d pieces to destroy - are you sure you want to proceed (yes/no)?" % pieces.count)
+        pieces.destroy_all
+      else
+        puts "nothing lost, nothing gained."
+      end
+    else
+      puts "Nothing to do because we have not suspended artists with art."
+    end
+  end
+
   desc 'record todays OS count'
   task daily_os_signup: [:environment] do
     Artist.tally_os
