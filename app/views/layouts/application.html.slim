@@ -10,7 +10,6 @@ html
       var authenticityToken  = encodeURIComponent('#{form_authenticity_token}')
       var MAU = window.MAU = window.MAU || {};
       MAU.versionString = '#{@revision}';
-    = javascript_include_tag "application"
 
   body class=[@browser_as_class, controller_name, action_name].join(" ") ng-app="MauApp"
     - unless browser.modern?
@@ -38,5 +37,6 @@ html
         = render '/flash_notice_error'
         = yield
 
+  = javascript_include_tag "application"
   = render '/ganalytics'
   = render '/footer_javascripts'
