@@ -37,6 +37,13 @@ Then(/^I see that I'm logged in$/) do
 end
 
 Then(/^I see my photo in my profile$/) do
+  expect(page).to have_selector('.flash__notice',:text => /you\'re in/i)
+  within(".nav") do
+    expect(page).to have_content 'My Profile'
+  end
+end
+
+Then(/^I see my photo in my profile$/) do
   within(".artist-profile__image") do
     expect(page.find('.profile')['src']).to include 'profile.png'
   end
