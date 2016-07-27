@@ -51,15 +51,8 @@ module Mau
     # config.active_record.whitelist_attributes = false
     config.active_record.raise_in_transactional_callbacks = true
 
-    s3_domain = case Rails.env
-                when "production"
-                  'us-east-1'
-                else
-                  'us-west-1'
-                end
     config.s3_info = {
       bucket: ::Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
-      s3_domain: s3_domain,
       access_key_id: ::Conf.AWS_ACCESS_KEY_ID || 'bogus',
       secret_access_key: ::Conf.AWS_SECRET_ACCESS_KEY || 'bogus'
     }

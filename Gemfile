@@ -84,7 +84,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-pure'
   gem 'rails-assets-ngDialog'
   gem 'rails-assets-angular-mailchimp'
-  gem 'rails-assets-re-tree'
+  gem 'rails-assets-re-tree'             # required for device-detector
   gem 'rails-assets-ng-device-detector'
   gem 'rails-assets-datatables'
   gem 'rails-assets-spinjs'
