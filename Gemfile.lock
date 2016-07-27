@@ -54,7 +54,9 @@ GEM
     autoprefixer-rails (6.3.6)
       execjs
     awesome_print (1.2.0)
-    aws-sdk-v1 (1.64.0)
+    aws-sdk (1.66.0)
+      aws-sdk-v1 (= 1.66.0)
+    aws-sdk-v1 (1.66.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     better_errors (2.1.1)
@@ -494,7 +496,7 @@ DEPENDENCIES
   angular-rails-templates
   authlogic
   autoprefixer-rails
-  aws-sdk-v1
+  aws-sdk
   better_errors
   binding_of_caller
   browser

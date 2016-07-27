@@ -38,7 +38,7 @@ gem 'geokit-rails'
 gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'paperclip'
-gem 'aws-sdk-v1'
+gem 'aws-sdk'
 
 gem 'ngannotate-rails'
 gem 'angular-rails-templates'
