@@ -23,6 +23,14 @@ Scenario: I can edit my address and studio affiliation
   Then my "Studio #" is "6600" in the "Address/Studio Info" section of the form
 
 @javascript
+Scenario: I can edit my profile picture
+  When I click on "Profile Picture"
+  And I add a photo to upload
+  And I click on "Upload"
+  When I click on "Profile Picture"
+  Then I see my photo in my profile
+
+@javascript
 Scenario: I can edit my links
   When I click on "Links"
   And I change "Website" to "http://my.website.com"

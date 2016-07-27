@@ -13,6 +13,10 @@ When(/^I change my email to "(.*?)"$/) do |new_email|
   click_on_first "Save Changes"
 end
 
+When(/^I add a photo to upload$/) do
+  attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/profile.png")
+end
+
 When(/^I fill in "(.*?)" for my password$/) do |pass|
   fill_in_login_form @artist.login, pass
 end
@@ -29,6 +33,12 @@ Then(/^I see that I'm logged in$/) do
   expect(page).to have_selector('.flash__notice',:text => /you\'re in/i)
   within(".nav") do
     expect(page).to have_content 'My Profile'
+  end
+end
+
+Then(/^I see my photo in my profile$/) do
+  within(".artist-profile__image") do
+    expect(page.find('.profile')['src']).to match /profile.png/
   end
 end
 
