@@ -1,4 +1,4 @@
-class ApplicationEvent < ActiveRecord::Base
+class ApplicationEvent < ApplicationRecord
   # do not use this class directly, but use one of its derivations
   validates_presence_of :type
   validates_length_of :type, :minimum => 2

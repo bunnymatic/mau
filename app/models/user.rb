@@ -1,7 +1,7 @@
 require 'digest/sha1'
 require 'json'
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 
   validates_presence_of     :login
   validates_length_of       :login,    within: 5..40

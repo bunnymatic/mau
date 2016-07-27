@@ -1,4 +1,4 @@
-class CmsDocument < ActiveRecord::Base
+class CmsDocument < ApplicationRecord
 
   before_save :clean_newlines
 

@@ -113,7 +113,6 @@ group :development do
 end
 
 group :test, :development do
-  gem 'rspec'
   gem 'rspec-its'
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
@@ -132,5 +131,4 @@ group :test, :development do
   gem 'quiet_assets'
 
   gem 'jslint_on_rails'
-  gem 'pry-byebug'
 end

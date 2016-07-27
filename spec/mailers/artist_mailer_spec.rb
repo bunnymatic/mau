@@ -23,7 +23,7 @@ describe ArtistMailer do
     end
 
     it "includes their name" do
-      expect(mail).to have_body_text html_encode(artist.get_name)
+      expect(mail).to have_body_text html_encode(artist.get_name, :hexadecimal)
     end
 
     it 'includes a welcome message' do

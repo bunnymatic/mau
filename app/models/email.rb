@@ -1,4 +1,4 @@
-class Email < ActiveRecord::Base
+class Email < ApplicationRecord
 
   has_many :email_list_memberships
   has_many :email_list, :through => :email_list_membership

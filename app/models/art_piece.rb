@@ -1,4 +1,4 @@
-class ArtPiece < ActiveRecord::Base
+class ArtPiece < ApplicationRecord
 
   belongs_to :artist
 
