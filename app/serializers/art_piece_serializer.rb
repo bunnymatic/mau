@@ -3,6 +3,8 @@ class ArtPieceSerializer < MauSerializer
 
   # note: image_urls used by angular photo browser
   include ImageFileHelpers
+  include Rails.application.routes.url_helpers
+  include ActionView::Helpers::UrlHelper
 
   def image_urls
     urls = {}
