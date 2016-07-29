@@ -23,6 +23,8 @@ describe ArtPiecesController do
       end
       it 'returns art from active artists' do
         j = JSON.parse(response.body)
+
+        puts j.inspect
         expect(j.count).to eql artist.art_pieces.count
       end
     end

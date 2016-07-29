@@ -58,7 +58,7 @@ Mau::Application.routes.draw do
 
   resources :art_pieces, only: [:show, :edit, :update, :destroy]
   resources :artists, except: [:new, :create] do
-    resources :art_pieces, except: [:new, :destroy, :edit, :update]
+    resources :art_pieces, except: [:index, :new, :destroy, :edit, :update]
     collection do
       get :roster
       post :destroyart
