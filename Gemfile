@@ -3,7 +3,7 @@ ruby '2.3.1'
 
 gem 'racc'
 gem "rails", '~> 4.2'
-gem 'active_model_serializers', '=0.9.5'
+gem 'active_model_serializers'
 gem 'responders'
 gem 'lograge'
 gem "font-awesome-rails"

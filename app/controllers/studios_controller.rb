@@ -11,7 +11,7 @@ class StudiosController < ApplicationController
         @studios = StudiosPresenter.new(@studio_list)
       }
       format.json {
-        render json: @studio_list
+        head(403)
       }
     end
   end
@@ -28,7 +28,7 @@ class StudiosController < ApplicationController
         @page_title = @studio.page_title
       }
       format.json {
-        render json: @studio
+        head(403)
       }
     end
   end

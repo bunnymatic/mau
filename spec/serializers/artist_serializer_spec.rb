@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ArtistSerializer do
   let(:artist) { create :artist }
-  subject(:serializer) { ArtistSerializer.new(artist) }
+  subject(:serializer) { ActiveModelSerializers::SerializableResource.new(artist) }
 
   describe 'to_json' do
     [:password, :crypted_password, :remember_token, :remember_token_expires_at,

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ArtPieceSerializer do
   let(:art_piece) { create(:art_piece, :with_tags) }
   let(:artist) { art_piece.artist }
-  let(:serializer) { ArtPieceSerializer.new(art_piece) }
+  let(:serializer) { ActiveModelSerializers::SerializableResource.new(art_piece) }
   describe 'to_json' do
     before do
       @ap = JSON.parse(serializer.to_json)['art_piece']

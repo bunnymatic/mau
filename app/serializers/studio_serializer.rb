@@ -1,9 +1,8 @@
 class StudioSerializer < MauSerializer
   attributes :id, :name, :street_address, :city, :map_url, :url, :artists, :slug
 
-  # def artists
-  #   object.artists.map{|a| ArtistSerializer.new(a)}
-  # end
+  include Rails.application.routes.url_helpers
+  include ActionView::Helpers::UrlHelper
 
   def artists
     object.artists.active.map{|a| Hash[[:id, :slug, :full_name, :firstname, :lastname].map{|k| [k, a.send(k)]}]}

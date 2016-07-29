@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe EmailSerializer do
   let(:email) { build(:email) }
-  let(:serializer) { EmailSerializer.new(email) }
+  let(:serializer) { ActiveModelSerializers::SerializableResource.new(email) }
 
   it 'includes email' do
     expect(JSON::parse(serializer.to_json)['email']['email']).to eql email.email
