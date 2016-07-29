@@ -16,20 +16,6 @@ describe ArtPiecesController do
   let(:art_piece) { art_pieces.first }
 
 
-  describe "#index" do
-    describe 'json' do
-      before do
-        get :index, format: 'json', artist_id: artist.id
-      end
-      it 'returns art from active artists' do
-        j = JSON.parse(response.body)
-
-        puts j.inspect
-        expect(j.count).to eql artist.art_pieces.count
-      end
-    end
-  end
-
   describe "#show" do
     context "not logged in" do
       context "format=html" do

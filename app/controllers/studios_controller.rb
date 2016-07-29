@@ -28,7 +28,7 @@ class StudiosController < ApplicationController
         @page_title = @studio.page_title
       }
       format.json {
-        render json: @studio
+        head(403)
       }
     end
   end
