@@ -31,25 +31,6 @@ describe ArtistsController, elasticsearch: true do
         expect(assigns(:page_title)).to eql 'Mission Artists United - MAU Artists'
       end
     end
-
-    describe 'json' do
-      before do
-        get :index, format: 'json'
-      end
-      it_should_behave_like 'successful json'
-      it 'returns all active artists' do
-        j = JSON.parse(response.body)
-        expect(j.count).to eql Artist.active.count
-      end
-    end
-
-    describe 'xhr' do
-      before do
-        get :index, p: '0', l: 'a'
-      end
-      it { expect(response).to be_success }
-      it { expect(assigns(:gallery).pagination.items.size).to be >= 1 }
-    end
   end
 
   describe '#index roster view' do

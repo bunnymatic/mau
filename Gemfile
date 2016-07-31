@@ -38,7 +38,7 @@ gem 'geokit-rails'
 gem 'gmaps4rails'
 gem 'pickadate-rails'
 gem 'paperclip'
-gem 'aws-sdk-v1'
+gem 'aws-sdk'
 
 gem 'ngannotate-rails'
 gem 'angular-rails-templates'
@@ -84,7 +84,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-pure'
   gem 'rails-assets-ngDialog'
   gem 'rails-assets-angular-mailchimp'
-  gem 'rails-assets-re-tree'
+  gem 'rails-assets-re-tree'             # required for device-detector
   gem 'rails-assets-ng-device-detector'
   gem 'rails-assets-datatables'
   gem 'rails-assets-spinjs'
@@ -99,9 +99,8 @@ group :test do
   gem 'factory_girl_rails', require: false
   gem 'cucumber'
   gem 'cucumber-rails', require: false
-  gem 'selenium-webdriver'
-  gem 'capybara-webkit'
   gem 'poltergeist'
+  gem 'capybara-webkit'
   gem 'launchy'             # Required to dump the page when running cucumber features
 end
 
@@ -127,10 +126,7 @@ group :test, :development do
   gem 'teaspoon-jasmine'
   gem 'spring-commands-teaspoon'
 
-  gem 'guard-rspec'
-  gem 'rb-fsevent'
   gem "elasticsearch-extensions", require: nil
-
 
   gem 'simplecov'
   gem 'cane'

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe StudioSerializer do
   let(:studio) { create :studio, :with_artists }
-  let(:serializer) { StudioSerializer.new(studio) }
+  let(:serializer) { ActiveModelSerializers::SerializableResource.new(studio) }
   let(:parsed) { JSON.parse(serializer.to_json) }
   describe 'to_json' do
     [:created_at, :updated_at].each do |field|

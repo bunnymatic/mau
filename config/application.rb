@@ -54,7 +54,8 @@ module Mau
     config.s3_info = {
       bucket: ::Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
       access_key_id: ::Conf.AWS_ACCESS_KEY_ID || 'bogus',
-      secret_access_key: ::Conf.AWS_SECRET_ACCESS_KEY || 'bogus'
+      secret_access_key: ::Conf.AWS_SECRET_ACCESS_KEY || 'bogus',
+      s3_region: "us-east-1"
     }
 
     config.api_consumer_key = ENV.fetch("API_CONSUMER_KEY", ::Conf.api_consumer_key)

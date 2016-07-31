@@ -6,11 +6,12 @@ searchService = ngInject ($http) ->
   query: (searchParams) ->
     success = searchParams.success
     error = searchParams.error
+
     unless searchParams.query
       return success([])
     searchParams.q = searchParams.query
     $http.post('/search.json', searchParams).success((data) ->
-      success(data.search)
+      success(data)
     ).error((data) ->
       error(data)
     )

@@ -24,7 +24,7 @@ module Admin
           end
         }
         format.json {
-          render json: events, each_serializer: ApplicationEventSerializer
+          render json: events, root: "application_events"
         }
       end
     end

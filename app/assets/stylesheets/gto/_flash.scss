@@ -21,6 +21,18 @@
     right: 10px;
     bottom: 10px;
   }
+
+  @media screen and (max-width: $screen-lg-max) {
+  }
+  @media screen and (max-width: $screen-md-max) {
+    width: 60%;
+  }
+  @media screen and (max-width: $screen-sm-max) {
+    width: 80%;
+  }
+  @media screen and (max-width: $screen-xs-max) {
+    width: 90%;
+  }
 }
 
 .flash__error {

@@ -1,5 +1,3 @@
-require 'ap'
-
 Then(/^I (sleep|wait) "(\d+)" seconds?$/) do |dummy, secs|
   sleep(secs.to_i)
 end
@@ -9,8 +7,6 @@ Then(/^I debug$/) do
 end
 
 Then /^show me the os info$/ do
-  ap OpenStudiosEventService.current.inspect
-  ap OpenStudiosEvent.current.inspect
   puts "artists", Artist.active.count
 
   puts "cur", OpenStudiosEventService.current.key

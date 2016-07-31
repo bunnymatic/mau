@@ -31,7 +31,7 @@ class ArtistsController < ApplicationController
         end
       }
       format.json {
-        render json: Artist.active, root: false
+        head(403)
       }
     end
   end
@@ -74,7 +74,7 @@ class ArtistsController < ApplicationController
       # filter with input prefix
       names = (inp.present? ? names.select{|name| %r|#{inp}|i =~ name['value']} : [])
     end
-    render json: names, root: false
+    render json: names, adapter: :json_api
   end
 
   def destroyart
