@@ -17,7 +17,6 @@ describe SearchController do
   let(:studios_search) { studios[0..1] }
 
   let(:studio_artist_name_match) do
-    puts letter_frequency(studios_search.map(&:artists).flatten.map(&:full_name)).inspect
     f = letter_frequency(studios_search.map(&:artists).flatten.map(&:full_name))
     f.last.first
   end

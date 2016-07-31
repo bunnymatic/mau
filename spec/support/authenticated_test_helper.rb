@@ -12,16 +12,18 @@ module AuthenticatedTestHelper
   end
 
   def current_user(user = nil)
-    @current_user ||= (user || FactoryGirl.create(:user))
+    @current_user = (user || FactoryGirl.create(:user))
   end
 
   def user_session(user, stubs = {})
-    @current_user_session ||= double(UserSession, {:user => user}.merge(stubs))
+    @current_user_session = double(UserSession, {:user => user}.merge(stubs))
   end
 
   def logout
     @current_user_session = nil
     @current_user = nil
+    @logged_in_user = nil
+    @logged_in_artist = nil
   end
 
 end

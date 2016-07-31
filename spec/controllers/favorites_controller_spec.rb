@@ -49,18 +49,6 @@ describe FavoritesController do
           favs = fan.reload.favorites
           expect(favs.map { |f| f.favoritable_id }).to include artist.id
         end
-        context "then remove that artist from favorites" do
-          before do
-            delete :destroy, user_id: fan.id, id: fan.favorites.last.id
-          end
-          it "redirects to the referer" do
-            expect(response).to redirect_to( SHARED_REFERER )
-          end
-          it "that artist is no longer a favorite" do
-            favs = fan.reload.favorites
-            expect(favs.map { |f| f.favoritable_id }).not_to include artist.id
-          end
-        end
       end
 
       context "adding a favorite artist by slug" do
@@ -106,6 +94,41 @@ describe FavoritesController do
       end
     end
   end
+
+  describe '#destroy' do
+    before do
+      FavoritesService.add fan, artist
+      @favorite = fan.reload.favorites.first
+    end
+    context "when logged in as the favorite's user" do
+      before do
+        login_as fan
+        delete :destroy, user_id: fan.id, id: @favorite.id
+      end
+      it "redirects to the referer" do
+        expect(response).to redirect_to( SHARED_REFERER )
+      end
+      it "that artist is no longer a favorite" do
+        favs = fan.reload.favorites
+        expect(favs.map { |f| f.favoritable_id }).not_to include artist.id
+      end
+    end
+    context "when logged in as not favorite's user" do
+      before do
+        login_as joe
+        delete :destroy, user_id: fan.id, id: @favorite.id
+      end
+      it "redirects to the referer" do
+        expect(response).to redirect_to( joe )
+      end
+      it "that artist is no longer a favorite" do
+        favs = fan.reload.favorites
+        expect(favs.map { |f| f.favoritable_id }).to include artist.id
+      end
+    end
+
+  end
+
 
   describe "#index" do
 
