@@ -126,10 +126,7 @@ group :test, :development do
   gem 'teaspoon-jasmine'
   gem 'spring-commands-teaspoon'
 
-  gem 'guard-rspec'
-  gem 'rb-fsevent'
   gem "elasticsearch-extensions", require: nil
-
 
   gem 'simplecov'
   gem 'cane'
