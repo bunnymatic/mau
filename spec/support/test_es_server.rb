@@ -9,7 +9,7 @@ class TestEsServer
   end
 
   def self.running?
-    cluster.running?(on: port)
+    cluster.running?(port: self.port)
   end
 
   def self.start
