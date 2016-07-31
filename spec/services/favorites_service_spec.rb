@@ -16,6 +16,17 @@ describe FavoritesService do
         service.add fan, artist
         expect(fan.favorites.map(&:to_obj)).to include(artist)
       end
+      it "notifies the artist" do
+        expect(FavoritesService).to receive(:notify_favorited_user).with(artist, fan)
+        service.add fan, artist
+      end
+      it "doesn't blow up if the notification fails because of postmark sending issues" do
+        failed_mailer = double("Mailer")
+        expect(failed_mailer).to receive(:deliver_later).and_raise(Postmark::InvalidMessageError)
+        expect(ArtistMailer).to receive(:favorite_notification).and_return(failed_mailer)
+        service.add fan, artist
+      end
+
     end
     context "an art piece" do
       it "adds the art piece favorite" do
