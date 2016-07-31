@@ -19,10 +19,10 @@
             %h3
               = "Art Pieces (#{@user.fav_art_pieces.count})"
           .pure-g
-            = render partial: 'art', collection: @favorites.art_pieces, as: :art_piece, locals: { is_current_user: @favorites.is_current_user? }
+            = render partial: 'art', collection: @favorites.art_pieces, as: :art_piece_favorite, locals: { is_current_user: @favorites.is_current_user? }
         .pure-u-1-1.favorite-artists
           .section.header
             %h3
               = "Artists (#{@user.fav_artists.count})"
           .pure-g
-            = render partial: 'artist', collection: @favorites.artists, locals: { is_current_user: @favorites.is_current_user? }
+            = render partial: 'artist', collection: @favorites.artists, as: :artist_favorite, locals: { is_current_user: @favorites.is_current_user? }

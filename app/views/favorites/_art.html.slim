@@ -1,12 +1,13 @@
-/ expects art_piece as art_piece_presenter and  is_current_user
+/ expects art_piece_favorite as art_piece_favorite_presenter and  is_current_user
 - is_current_user ||= false
 - show_os_violator ||= false
 - class_overrides ||= %w(pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4).join(" ")
+- art_piece = art_piece_favorite.art_piece
 .art-card class=class_overrides
   - if logged_in? && is_current_user
     .card__controls
       .art-card__remove-favorite
-        = link_to '#', title: "Remove Favorite", "fav-type" => "ArtPiece", "fav-id" => art_piece.id, class: 'js-remove-favorite' do
+        = link_to user_favorite_path(current_user, art_piece_favorite.favorite), title: "Remove Favorite", method: :delete do
           .fa.fa-icon.fa-close
   = link_to art_piece_path(art_piece) do
     - if show_os_violator && art_piece.artist.doing_open_studios?

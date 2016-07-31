@@ -209,25 +209,6 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
-  def remove_favorite
-    # POST
-    type = params[:fav_type]
-    _id = params[:fav_id]
-    fav = Favorite.where(favoritable_type: type, favoritable_id: _id).take
-    obj = nil
-    if fav
-      obj = fav.to_obj
-      fav.destroy
-      if request.xhr?
-        render :json => {:message => 'Removed a favorite'}
-        return
-      else
-        flash[:notice] = "#{obj.get_name true} has been removed from your favorites."
-      end
-    end
-    redirect_to(request.referrer || obj);
-  end
-
   protected
   def render_on_failed_create
     msg = [
