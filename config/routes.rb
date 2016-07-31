@@ -36,10 +36,9 @@ Mau::Application.routes.draw do
 
 
   resources :users do
-    resources :favorites, only: [:index, :create, :destroy], shallow: true
+    resources :favorites, only: [:index, :create, :destroy]
     resources :roles, only: [:destroy]
     collection do
-      post :remove_favorite
       get :resend_activation
       post :resend_activation
       get :forgot
