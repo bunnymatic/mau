@@ -8,7 +8,13 @@ machine:
 dependencies:
   pre:
     - mkdir -p tmp/elasticsearch/logs
+    - sudo apt-get install apt -y
+    - sudo add-apt-repository ppa:beineri/opt-qt551-trusty -y
+    - sudo apt-get update -y; true
+    - sudo apt-get install -y qt55webkit libwebkit-dev libgstreamer0.10-dev
     - sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
+    - echo "/opt/qt55/bin/qt55-env.sh" >> ~/.circlerc
+    - QMAKE=/opt/qt54/bin/qmake bundle install
   post:
     - wget http://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-2.0.1.tar.gz
     - tar -xvf elasticsearch-2.0.1.tar.gz
