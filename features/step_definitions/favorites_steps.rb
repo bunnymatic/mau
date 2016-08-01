@@ -68,7 +68,9 @@ Then(/^I see my empty favorites page$/) do
 end
 
 When /^I remove the first favorite$/ do
-  click_on("Remove Favorite", match: :first)
+  within(".artist-card__remove-favorite") do
+    click_on("Remove Favorite")
+  end
 end
 
 Then /^I see that I've lost one of my favorites$/ do
