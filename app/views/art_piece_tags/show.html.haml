@@ -22,4 +22,3 @@
         = render "/common/pagination", :paginator => @paginator
     .pure-g.search-results
       = render partial: '/artists/art', collection: @paginator.items, as: :art_piece, locals: {show_os_violator: true}
-
