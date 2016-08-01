@@ -68,6 +68,9 @@ Then(/^I see my empty favorites page$/) do
 end
 
 When /^I remove the first favorite$/ do
+  wait_until {
+    all("a[title='Remove Favorite']").any?
+  }
   all("a[title='Remove Favorite']").first.click
 end
 
