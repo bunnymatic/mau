@@ -49,10 +49,10 @@ Disallow: /UPGRADE.txt
 Disallow: /xmlrpc.php
 # Paths (clean URLs)
 Disallow: /admin/
-Disallow: /comment/reply/
-Disallow: /search/
+Disallow: /comment/reply
+Disallow: /search
 Disallow: /login
-Disallow: /logout/
+Disallow: /logout
 Disallow: /signup
 # Paths (no clean URLs)
 Disallow: /?q=admin/
