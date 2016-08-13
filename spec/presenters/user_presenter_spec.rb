@@ -34,6 +34,14 @@ describe UserPresenter do
 
   end
 
+  describe '#links_html' do
+
+    it 'shows html links' do
+      expect(presenter.links_html.join).to match(/#{user.links.first}/)
+    end
+
+  end
+
   describe '#who_i_favorite' do
     let(:active_with_art) { create :artist, :active, :with_art }
     let(:inactive_with_art) { create :artist, :with_art, state: :suspended }

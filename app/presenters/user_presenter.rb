@@ -147,15 +147,15 @@ class UserPresenter < ViewPresenter
   end
 
   def links_html
-    self.class.keyed_links.map do |key|
+  self.class.keyed_links.map do |key|
       site = @model.send(key)
       if site.present?
         formatted_site = format_link(site)
         site_display = format_link_for_display(site)
         link_icon_class = icon_link_class(key, site)
-        content_tag 'a', href: formatted_site, title: display, target: '_blank' do
-          content_tag(:i,'', class: link_icon_class) +
-            content_tag(:span,site_display)
+        content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
+           content_tag(:i,'', class: link_icon_class) +
+              content_tag(:span,site_display)
         end
       end
     end.compact
