@@ -65,7 +65,6 @@ When /^I move the last image to the first position$/ do
   card.drag_to(target)
 end
 
-
 Then /^I see that my representative image has been updated$/ do
   expect(all('.art-card').first['data-id']).to eql @last_piece.id.to_s
 end
@@ -114,6 +113,10 @@ When /^that artist is not doing open studios$/ do
   @artist.update_os_participation OpenStudiosEventService.current, false
 end
 
+When /^that artist is doing open studios$/ do
+  @artist.update_os_participation OpenStudiosEventService.current, true
+end
+
 When /^I click on the current open studios edit section$/ do
   click_on "Open Studios #{OpenStudiosEventService.current.for_display(true)}"
 end
@@ -131,6 +134,7 @@ end
 When(/^I click on the first artist's card$/) do
   @artist = Artist.active.all.detect{|a| a.representative_piece.present?}
   click_on_first @artist.full_name
+  expect(page).to have_css('.artists.show');
 end
 
 Then(/^I see "([^"]*)"'s artist card$/) do |name|
@@ -154,12 +158,15 @@ Then(/^I see that artist's profile page$/) do
 end
 
 When(/^I click on an art card$/) do
-  all('.art-card a').first.click
-  wait_until do
-    header = all('.header').map(&:text).join
-    /#{@artist.full_name}/ =~ header
+  art_card = all('.art-card a .image').first
+  if running_js?
+    art_card.trigger('click')
+  else
+    art_card.click
   end
+
   @art_piece = @artist.art_pieces.first
+  expect(page).to have_css('.art_pieces.show')
 end
 
 Then(/^I see that art piece detail page$/) do

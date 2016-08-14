@@ -12,7 +12,11 @@ module CapybaraHelpers
       links = all(:link_or_button, locator, options)
       links.present?
     end
-    links.first.click
+    if running_js?
+      links.first.trigger('click')
+    else
+      links.first.click
+    end
   end
 
   def javascript_driver?

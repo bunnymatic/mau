@@ -68,7 +68,7 @@ Then(/^I see my empty favorites page$/) do
 end
 
 When /^I remove the first favorite$/ do
-  within(".artist-card__remove-favorite") do
+  within all(".artist-card__remove-favorite").first do
     click_on("Remove Favorite")
   end
 end

@@ -42,8 +42,7 @@ end
 When(/^I click on the first tag$/) do
   wait_until { page.find("art-piece-tag a") }
   tag_link = all(".art-piece__info art-piece-tag a").first
-  tag_path = tag_link["href"]
-  @tag = ArtPieceTag.find( tag_path.gsub(/^\/art_piece_tags\//, "") )
+  @tag = ArtPieceTag.find( tag_link['href'].split("/").last )
   tag_link.click
 end
 
