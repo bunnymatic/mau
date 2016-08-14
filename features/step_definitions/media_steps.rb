@@ -11,9 +11,10 @@ Then(/^I see the "(.*?)" as a medium$/) do |arg1|
 end
 
 When(/^I click on the first medium$/) do
+  wait_until { page.find("medium a") }
   medium_link = all('.art-piece__info .media a').first
   medium_path = medium_link['href']
-  @medium = Medium.find( medium_path.gsub(/^\/media\//, '') )
+  @medium = Medium.find( medium_path.split("/").last )
   medium_link.click
 end
 

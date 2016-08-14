@@ -4,11 +4,11 @@ When /I click on the current open studios link/ do
 end
 
 When /^I check yep for doing open studios$/ do
-  find('#events .toggle-button .toggle-button__label_on').click()
+  find('#events .toggle-button .toggle-button__label_on').trigger('click')
 end
 
 When /^I check nope for doing open studios$/ do
-  find('#events .toggle-button .toggle-button__label_off').click()
+  find('#events .toggle-button .toggle-button__label_off').trigger('click')
 end
 
 Then(/^I see the open studios cms content/) do

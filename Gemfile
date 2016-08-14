@@ -100,7 +100,8 @@ group :test do
   gem 'cucumber'
   gem 'cucumber-rails', require: false
   gem 'poltergeist'
-  gem 'capybara-webkit'
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'launchy'             # Required to dump the page when running cucumber features
 end
 

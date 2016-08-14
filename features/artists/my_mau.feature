@@ -3,9 +3,9 @@ Feature:
   I can see my page with my art and a menu of useful actions
 
 Background:
-  Given I login as an artist
-  And that artist is not doing open studios
-  And there are future open studios events
+  Given there are future open studios events
+  And I login as an artist
+  And that artist is doing open studios
 
 
 @javascript
@@ -28,21 +28,6 @@ Scenario: I can edit my profile
 
   And I click on "Personal Info"
 
-  When I click on the current open studios edit section
-  And I check yep for doing open studios
-  Then I see a flash notice "more the merrier"
-  And I close the notice
-  And I see that I've successfully signed up for Open Studios
-
-  And I check nope for doing open studios
-  Then I see a flash notice "So sorry"
-  And I close the notice
-  Then I see that I've successfully unsigned up for Open Studios
-
-  And I check yep for doing open studios
-  Then I see a flash notice "more the merrier"
-  And I close the notice
-
   And I update my personal information with:
   | artist_firstname |
   | mr joe           |
@@ -58,3 +43,23 @@ Scenario: I can edit my profile
   And I click "Save Changes"
   And I click on "Profile Picture"
   Then I see that I have a new profile picture
+
+# Doesn't work with poltergeist
+#
+# @javascript
+# Scenario: I can update my os status
+#   When I visit my profile edit page
+#   Then I see my profile edit form
+
+#   And I click on "Personal Info"
+
+#   When I click on the current open studios edit section
+#   And I check nope for doing open studios
+#   Then I see a flash notice including "So sorry"
+#   And I close the notice
+#   Then I see that I've successfully unsigned up for Open Studios
+
+#   And I check yep for doing open studios
+#   Then I see a flash notice including "more the merrier"
+#   And I close the notice
+#   And I see that I've successfully signed up for Open Studios
