@@ -2,15 +2,13 @@
 
 require 'capybara/poltergeist'
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, debug: false, js_errors: false)
+Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
-# Capybara.register_driver :chrome do |app|
-#     Capybara::Selenium::Driver.new(app, browser: :chrome)
-# end
 
-Capybara.javascript_driver = :poltergeist
+# Capybara.javascript_driver = :poltergeist
 # Capybara.javascript_driver = :webkit
+Capybara.javascript_driver = :chrome
 
 # Capybara::Webkit.configure do |config|
 #     config.block_unknown_urls
@@ -20,7 +18,7 @@ Capybara.javascript_driver = :poltergeist
 Before('@javascript') do |_scenario, _block|
   if page.driver.respond_to? :header
     page.driver.header 'Authorization', ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')
-  else
+  elsif page.driver.respond_to? :add_header
     page.driver.add_header 'Authorization', ENV.fetch('API_CONSUMER_KEY', 'Testing Testing 1 2')
   end
 end

@@ -14,10 +14,11 @@ module CapybaraHelpers
       links = all(:link_or_button, locator, options)
       links.present?
     end
-    if running_js?
-      links.first.trigger('click')
-    else
-      links.first.click
+    el = links.first
+    begin
+      el.trigger('click')
+    rescue Capybara::NotSupportedByDriverError
+      el.click
     end
   end
 

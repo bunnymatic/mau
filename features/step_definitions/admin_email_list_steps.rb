@@ -13,7 +13,7 @@ When /^I fill in the "(.*?)" email form with:$/ do |list_name, table|
   within get_email_directive_selector(list_name) do
     info = table.hashes.first
     info.each do |field, val|
-      fill_in_field_with_value field, val
+      fill_in field, with: val #_field_with_value field, val
     end
   end
 end

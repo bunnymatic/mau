@@ -1,3 +1,4 @@
+@javascript
 Feature: Admin Application Events
   As an admin
   I can see all the application event sections
@@ -11,14 +12,12 @@ Background:
   | whoever |
 
   And there are application events in the system
-  When I visit the login page
   And I login as "billybob"
 
 Scenario: Viewing and cleaning out tags
   When I click on "app events" in the admin menu
   Then I see all application events sections
 
-@javascript
 Scenario: Getting notified about user email changes
   Given I logout
   When I visit the login page

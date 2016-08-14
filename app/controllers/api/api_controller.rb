@@ -12,6 +12,12 @@ module Api
       true
     end
 
+    if Rails.env.test?
+      def require_authorization
+        true
+      end
+    end
+
     def internal_request?
       server = Rails.application.config.action_mailer.default_url_options[:host]
       referrer = URI.parse(request.env['HTTP_REFERER'].to_s)

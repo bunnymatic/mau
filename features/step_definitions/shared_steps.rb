@@ -193,8 +193,13 @@ end
 
 When(/^I click on "(.*?)" in the admin menu$/) do |link_title|
   if running_js?
-    within('.admin #menu .pure-menu, #admin_nav') do
-      all('a', text: link_title, visible: false).first.trigger('click')
+    if all('#admin_nav').count > 0
+      find("#admin_nav .handle").hover
+      el = all('#admin_nav a', text: link_title).first
+      el.click
+    else
+      el = all('.pure-menu', text: link_title).first
+      el.click
     end
   else
     step %(I click on "#{link_title}" in the ".admin .pure-menu, #admin_nav")

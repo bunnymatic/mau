@@ -196,18 +196,25 @@ end
 When(/^I click on an art card$/) do
   art_card = first('.art-card a .image')
   if running_js?
-    art_card.trigger('click')
+    begin
+      art_card.trigger('click')
+    rescue Capybara::NotSupportedByDriverError
+      art_card.click
+    end
   else
     art_card.click
   end
 
   @art_piece = @artist.art_pieces.first
+  puts ".art-card a[href=#{art_piece_path(@art_piece)}]"
+  find(:link_href, art_piece_path(@art_piece)).click
   expect(page).to have_css('.art_pieces.show')
+  puts @art_piece.tags.count
 end
 
 Then(/^I see that art piece detail page$/) do
   expect(page).to have_css('art-pieces-browser')
-  expect(page).to have_css '.header', text: @artist.full_name
+  expect(page).to have_css '.art-piece__byline', text: @artist.full_name
 end
 
 When(/^I submit a new profile picture$/) do

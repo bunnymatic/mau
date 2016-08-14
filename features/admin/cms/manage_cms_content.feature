@@ -1,3 +1,4 @@
+@javascript
 Feature: Admin CMS Content
   As an admin
   I can manage the pieces of CMS content that we have on the site
@@ -24,7 +25,6 @@ Scenario: Adding CMS Content
   When I click "Delete"
   Then I see no cms content in the list
 
-@javascript
 Scenario: Adding CMS Content for the about page
   When I click "Add CMS Content"
   And I fill in the form with:

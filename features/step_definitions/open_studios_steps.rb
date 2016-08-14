@@ -6,11 +6,21 @@ When /I click on the current open studios link/ do
 end
 
 When /^I check yep for doing open studios$/ do
-  find('#events .toggle-button .toggle-button__label_on').trigger('click')
+  el = find('#events .toggle-button .toggle-button__label_on')
+  begin
+    el.trigger('click')
+  rescue Capybara::NotSupportedByDriverError
+    el.click
+  end
 end
 
 When /^I check nope for doing open studios$/ do
-  find('#events .toggle-button .toggle-button__label_off').trigger('click')
+  el = find('#events .toggle-button .toggle-button__label_off')
+  begin
+    el.trigger('click')
+  rescue Capybara::NotSupportedByDriverError
+    el.click
+  end
 end
 
 Then(/^I see the open studios cms content/) do
