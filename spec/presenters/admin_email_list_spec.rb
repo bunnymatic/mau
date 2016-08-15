@@ -9,8 +9,11 @@ describe AdminEmailList do
 
   before do
     FactoryGirl.create(:open_studios_event, :future)
-    artists = FactoryGirl.create_list(:artist, 2, :active)
+    artists = FactoryGirl.create_list(:artist, 2, :active, :with_art) + FactoryGirl.create_list(:artist, 1, :active)
+
     FactoryGirl.create_list(:artist, 2)
+    FactoryGirl.create_list(:artist, 1, :pending)
+    FactoryGirl.create_list(:fan, 1, :active)
     artists.each do |artist|
       artist.artist_info.update_os_participation current.key, true
     end
@@ -36,7 +39,23 @@ describe AdminEmailList do
     end
 
     it 'shows the title and list size and correct emails when we ask for fans' do
-      expect(email_list.display_title).to eq("Fans [#{email_list.artists.length}]")
+      expect(email_list.display_title).to eq("Fans [1]")
+    end
+
+  end
+
+
+  context 'listname is no_images' do
+    let(:listname) { 'no_images' }
+
+    its(:csv_filename) { is_expected.to eql 'email_no_images.csv' }
+
+    it "assigns a list of emails of artists who don't have images" do
+      expect(emails.length).to eql Artist.active.reject{|a| a.representative_piece}.length
+    end
+
+    it 'shows the title and list size and correct emails when we ask for fans' do
+      expect(email_list.display_title).to eq("Active with no art [1]");
     end
 
   end
@@ -51,7 +70,7 @@ describe AdminEmailList do
     end
 
     it 'shows the title and list size and correct emails when we ask for pending' do
-      expect(email_list.display_title).to eql "Pending [%s]" % Artist.pending.count
+      expect(email_list.display_title).to eql "Pending [1]"
     end
   end
 

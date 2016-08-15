@@ -71,7 +71,7 @@ class AdminEmailList < ViewPresenter
     when 'no_profile'
       Artist.active.where("profile_image is null")
     when 'no_images'
-      Artist.active.select{|a| a.art_pieces.count > 0}
+      Artist.active.reject{|a| a.art_pieces.count > 0}
     end
   end
 
@@ -87,7 +87,7 @@ class AdminEmailList < ViewPresenter
          [ "pending", 'Pending'],
          [ "fans", 'Fans' ],
          [ "no_profile", 'Active with no profile image'],
-         [ "no_images", 'Active with no artwork']
+         [ "no_images", 'Active with no art']
         ] + os_lists
       end
   end
