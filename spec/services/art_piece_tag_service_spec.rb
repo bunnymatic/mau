@@ -17,6 +17,22 @@ describe ArtPieceTagService do
     end
   end
 
+  describe '.most_popular_tag' do
+    before do
+      art_piece_tags = [
+        create(:art_piece_tag, name: 'hello'),
+        create(:art_piece_tag, name: 'hello a'),
+        create(:art_piece_tag, name: 'hello b')
+      ]
+      tags = art_piece_tags.shuffle.map{|t| ArtPieceTagService::TagWithFrequency.new(t.slug,10)}
+
+      allow(described_class).to receive(:get_tag_usage).and_return(tags)
+    end
+    it "returns most popular tag by frequency and medium" do
+      expect(described_class.most_popular_tag).to eql(ArtPieceTag.find("hello"))
+    end
+  end
+
   describe '.delete_unused_tags' do
     it 'removes only tags that are unused' do
       expect {
