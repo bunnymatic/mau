@@ -85,11 +85,12 @@ appears on the left side of the page.
   /*
     All anchors inside the menu should be styled like this.
  */
+  #menu li,
   #menu a,
   #menu .title {
     color: lighten($gto_gray,40%);
     border: none;
-    padding: 0.2em 0 0.2em 1em;
+    padding: 0.1em 0 0.1em 1em;
   }
   #menu .title {
     color: lighten($gto_gray,25%);
