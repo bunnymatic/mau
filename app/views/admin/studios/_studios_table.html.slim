@@ -18,7 +18,7 @@ table.js-data-tables.pure-table.pure-table-striped#studios_index
           = link_to studio.name, studio_path(studio)
         td = studio.street
         td = studio.cross_street
-        td
+        td = data-order=studio.artists.count
           = [studio.open_studios_artists.count, studio.artists.count].join("/")
         td
           a target="_blank" href=studio.url = studio.url
