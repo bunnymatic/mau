@@ -8,6 +8,13 @@
 }
 .member-email-lists__results__table {
   width: 100%;
+
+  .activation {
+    white-space: nowrap;
+  }
+  .last-seen {
+    white-space: nowrap;
+  }
 }
 .member-email-lists__results__header {
   margin-bottom: 30px;

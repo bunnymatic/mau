@@ -1,4 +1,12 @@
+@import 'colors';
 .admin {
+  .pure-table th.sorting_asc,
+  .pure-table th.sorting_desc,
+  .pure-table th.sorting {
+    &:hover {
+      background-color: $lightbluegray;
+    }
+  }
   .pure-table td {
     vertical-align: top;
   }

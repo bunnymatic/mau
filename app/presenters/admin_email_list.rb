@@ -19,7 +19,16 @@ class AdminEmailList < ViewPresenter
 
   def emails
     @emails ||= artists.select{|a| a.email.present?}.map do |a|
-      OpenStruct.new({ id: a.id, name: a.get_name, email: a.email, link: url_helpers.artist_path(a.id) })
+      OpenStruct.new(
+        {
+          id: a.id,
+          name: a.get_name,
+          email: a.email,
+          activated_at: a.activated_at,
+          last_login: a.last_login_at.try(:to_formatted_s,:admin),
+          link: url_helpers.artist_path(a.slug)
+        }
+      )
     end
   end
 
