@@ -29,3 +29,11 @@
 .select2-drop-active {
   border-color: $gto_yellow; /** rgba(200,200,200,0.8);*/
 }
+
+.select2-search-choice-close,
+.select-search-choice {
+  transition: none;
+  a {
+    transition: none;
+  }
+}
