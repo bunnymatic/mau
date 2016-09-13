@@ -36,8 +36,8 @@
             td
               a href=artist_path(a)
                 = a.full_name
-            td.date-field data-order=a.activated_at.to_i
-              = a.activation_date
+            td.date-field data-order=a.member_since_date.to_i
+              = a.member_since_date.to_formatted_s(:admin_date_only)
             td.date-field
               = a.last_login
             td

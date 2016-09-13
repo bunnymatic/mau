@@ -4,10 +4,26 @@ describe UserPresenter do
 
   include PresenterSpecHelpers
 
-  let(:user) { create :artist, created_at: 1.year.ago }
+  let(:created) { 1.year.ago }
+  let(:activated) { nil }
+  let(:user) { create :artist, created_at: created, activated_at: activated }
   subject(:presenter) { described_class.new(user) }
 
-  its(:member_since) { Time.current.year - 1 }
+  its(:member_since) { is_expected.to eql created.strftime("%b %Y") }
+
+  describe '#member_since_date' do
+    context "when activated_at is unset" do
+      it "computes member_since_date using created_at" do
+        expect(presenter.member_since_date.to_date).to eql(created.to_date)
+      end
+    end
+    context "when activated_at is set" do
+      let(:activated) {9.months.ago }
+      it "computes member_since_date using activated_at" do
+        expect(presenter.member_since_date.to_date).to eql(activated.to_date)
+      end
+    end
+  end
 
   describe '#icon_link_class' do
 

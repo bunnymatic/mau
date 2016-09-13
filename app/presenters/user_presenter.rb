@@ -29,8 +29,12 @@ class UserPresenter < ViewPresenter
     "fa fa-#{icon_class}" if icon_class
   end
 
+  def member_since_date
+    (model.activated_at || model.created_at)
+  end
+
   def member_since
-    (model.activated_at || model.created_at).strftime "%b %Y"
+    member_since_date.strftime "%b %Y"
   end
 
   def last_login
