@@ -72,7 +72,8 @@ describe CatalogsController do
       it { expect(response).to be_csv_type }
 
       it 'includes the right headers' do
-        expected_headers = ([:full_name, :email] + social_keys).map{|s| s.to_s.humanize.capitalize}
+        expected_headers = ([:full_name, :email] + social_keys).map{|s| s.to_s.humanize.capitalize} +
+                           ["Art Piece", "Studio Affiliation", "Studio Address", "MAU Link"]
         expect(parsed.headers).to eq(expected_headers)
       end
 
