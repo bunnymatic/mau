@@ -39,12 +39,12 @@ class SocialCatalogPresenter < ViewPresenter
 
   def csv_headers
     @csv_headers ||= (csv_keys).map{|s| s.to_s.humanize.capitalize} +
-                     ["Art Piece", "Studio Affiliation", "MAU Link" ]
+                     ["Art Piece", "Studio Affiliation", "Studio Address", "MAU Link" ]
   end
 
   def artist_as_csv_row(artist)
     csv_keys.map{|s| (artist.respond_to?(s) && artist.send(s)).to_s} +
-      [ representative_piece(artist), artist.studio.try(:name), artist_url(artist) ]
+      [ representative_piece(artist), artist.studio.try(:name), artist.studio.try(:address), artist_url(artist) ]
   end
 
   def representative_piece(artist)

@@ -29,7 +29,7 @@ describe SocialCatalogPresenter, type: :view do
   describe '#csv_headers' do
     it "returns the capitalized humanized headers" do
       expected_headers = subject.send(:csv_keys).map { |k| k.to_s.humanize.capitalize } +
-                         [ "Art Piece", "Studio Affiliation", "MAU Link" ]
+                         [ "Art Piece", "Studio Affiliation", "Studio Address", "MAU Link" ]
       expect(subject.send(:csv_headers)).to eql expected_headers
     end
   end
@@ -45,12 +45,12 @@ describe SocialCatalogPresenter, type: :view do
     expect(parsed.size).to eq(expected_artists.count)
     expected_artists.each do |artist|
       row = parsed.detect{|row| row['Full name'] == artist.full_name}
-      puts "Testing row #{artist.full_name}\n#{row.inspect}"
       expect(row).to be_present
       expect(row['Email']).to eql artist.email
       expect(row["Facebook"]).to eql artist.facebook.to_s
       expect(row["Twitter"]).to eql artist.twitter.to_s
       expect(row["Studio Affiliation"]).to eql artist.studio.try(:name).to_s
+      expect(row["Studio Address"]).to eql artist.studio.try(:address).to_s
       expect(row["Art Piece"]).to eql artist.representative_piece.try(:photo).try(:url).to_s
       expect(row["MAU Link"]).to eql artist_url(artist)
     end
