@@ -1,10 +1,15 @@
 require 'rails_helper'
 
-describe SocialCatalogPresenter do
+describe SocialCatalogPresenter, type: :view do
 
   let(:open_studios_event) { FactoryGirl.create :open_studios_event }
+  let(:studio) { create(:studio) }
   let!(:artists) do
-    FactoryGirl.create_list(:artist, 3, :active, :with_links).map do |artist|
+    FactoryGirl.create_list(:artist, 2, :active, :with_links).map do |artist|
+      artist.update_os_participation open_studios_event.key, true
+      artist
+    end
+    FactoryGirl.create_list(:artist, 2, :active, :with_art, :with_links, studio: studio).map do |artist|
       artist.update_os_participation open_studios_event.key, true
       artist
     end
@@ -23,7 +28,9 @@ describe SocialCatalogPresenter do
 
   describe '#csv_headers' do
     it "returns the capitalized humanized headers" do
-      expect(subject.send(:csv_headers)).to eql subject.send(:csv_keys).map { |k| k.to_s.humanize.capitalize }
+      expected_headers = subject.send(:csv_keys).map { |k| k.to_s.humanize.capitalize } +
+                         [ "Art Piece", "Studio Affiliation", "MAU Link" ]
+      expect(subject.send(:csv_headers)).to eql expected_headers
     end
   end
 
@@ -36,12 +43,17 @@ describe SocialCatalogPresenter do
       social_keys.map{|s| a.send(s).present?}.any?
     end
     expect(parsed.size).to eq(expected_artists.count)
-    artist = expected_artists.first
-    row = parsed.detect{|row| row['Full name'] == artist.full_name}
-    expect(row).to be_present
-    expect(row['Email']).to eql artist.email
-    expect(row["Facebook"]).to eql artist.facebook.to_s
-    expect(row["Twitter"]).to eql artist.twitter.to_s
+    expected_artists.each do |artist|
+      row = parsed.detect{|row| row['Full name'] == artist.full_name}
+      puts "Testing row #{artist.full_name}\n#{row.inspect}"
+      expect(row).to be_present
+      expect(row['Email']).to eql artist.email
+      expect(row["Facebook"]).to eql artist.facebook.to_s
+      expect(row["Twitter"]).to eql artist.twitter.to_s
+      expect(row["Studio Affiliation"]).to eql artist.studio.try(:name).to_s
+      expect(row["Art Piece"]).to eql artist.representative_piece.try(:photo).try(:url).to_s
+      expect(row["MAU Link"]).to eql artist_url(artist)
+    end
   end
 
 end
