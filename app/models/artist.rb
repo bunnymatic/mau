@@ -4,18 +4,22 @@ class Artist < User
 
   # thanks, http://www.gps-coordinates.net/
   # order is important for the js overlay
+  EAST_BOUNDARY = -122.40399999999999
+  WEST_BOUNDARY = -122.430
+  NORTH_BOUNDARY = 37.7751
+  SOUTH_BOUNDARY = 37.747
   BOUNDS = {
     'NW' => [
-      37.7751, -122.430
+      NORTH_BOUNDARY, WEST_BOUNDARY
     ],
     'SW' => [
-      37.747, -122.430
+      SOUTH_BOUNDARY, WEST_BOUNDARY
     ],
     'SE' => [
-      37.747, -122.404
+      SOUTH_BOUNDARY, EAST_BOUNDARY
     ],
     'NE' => [
-      37.7751, -122.404
+      NORTH_BOUNDARY, EAST_BOUNDARY
     ]
   }.freeze
 
@@ -111,7 +115,7 @@ class Artist < User
     lat,lng = address_hash[:latlng]
     sw = BOUNDS['SW']
     ne = BOUNDS['NE']
-    !!((lat && lng) && (lat>sw[0] && lat<ne[0] && lng>sw[1] && lng<ne[1]))
+    !!((lat && lng) && (lat >= sw[0] && lat <= ne[0] && lng >= sw[1] && lng <= ne[1]))
   end
 
   def in_a_group_studio?
