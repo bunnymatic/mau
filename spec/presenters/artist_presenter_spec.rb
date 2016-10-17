@@ -8,116 +8,129 @@ describe ArtistPresenter do
   let(:artist) { FactoryGirl.create(:artist, :active, :with_art, :with_studio) }
   subject(:presenter) { ArtistPresenter.new(artist) }
 
-  describe '#in_the_mission?' do
-    subject { super().in_the_mission? }
-    it { should eql artist.in_the_mission?}
-  end
-
-  describe '#has_media?' do
-    subject { super().has_media? }
-    it { should eq(true) }
-  end
-
-  describe '#has_bio?' do
-    subject { super().has_bio? }
-    it { should eq(true) }
-  end
-
-  describe '#bio_html' do
-    subject { super().bio_html }
-    it { should eq RDiscount.new(artist.artist_info.bio).to_html.html_safe }
-  end
-
-  describe '#has_links?' do
-    subject { super().has_links? }
-    it { should eq(true) }
-  end
-
-  describe '#links' do
-    subject { super().links }
-    it { should be_present }
-  end
-
-  describe '#favorites_count' do
-    subject { super().favorites_count }
-    it { should be_nil }
-  end
-
-  describe '#studio_name' do
-    subject { super().studio_name }
-    it { should eql artist.studio.name }
-  end
-
-  describe '#has_art?' do
-    subject { super().has_art? }
-    it { should eq(true) }
-  end
-  it{ should be_valid }
-
-  it 'has a good map div for google maps' do
-    map_info = subject.get_map_info
-    html = Capybara::Node::Simple.new(map_info)
-    expect(html).to have_selector('.map__info-window-art')
-  end
-
-
-  context 'when we wrap a nil artist' do
-    let (:artist) { nil }
-    it{ should_not be_valid }
-  end
-
-  context 'without studio' do
-    let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
-    it 'has a good map div for google maps' do
-      map_info = subject.get_map_info
-      html = Capybara::Node::Simple.new(map_info)
-      expect(html).to have_css('.map__info-window-art')
-    end
-  end
-
-  context 'without media' do
-    before do
-      allow_any_instance_of(ArtPiece).to receive(:medium).and_return(nil)
+  context "when the subject is an artist" do
+    describe 'artist?' do
+      its(:artist?) { is_expected.to eq true }
     end
 
-    its(:has_media?) { is_expected.to eql false }
-    its(:primary_medium) { is_expected.to eql '' }
-  end
+    describe '#in_the_mission?' do
+      subject { super().in_the_mission? }
+      it { should eql artist.in_the_mission?}
+    end
 
-  context 'without bio' do
-    before do
-      allow(artist).to receive_message_chain(:artist_info, :bio).and_return(nil)
+    describe '#has_media?' do
+      subject { super().has_media? }
+      it { should eq(true) }
     end
 
     describe '#has_bio?' do
       subject { super().has_bio? }
-      it { should eq false }
+      it { should eq(true) }
     end
-  end
 
-  context 'without links' do
-    before do
-      allow(artist).to receive(:website).and_return(nil)
-      allow(artist).to receive(:facebook).and_return(nil)
-      allow(artist).to receive(:instagram).and_return(nil)
+    describe '#bio_html' do
+      subject { super().bio_html }
+      it { should eq RDiscount.new(artist.artist_info.bio).to_html.html_safe }
     end
 
     describe '#has_links?' do
-      its(:has_links?) { is_expected.to eq false }
+      subject { super().has_links? }
+      it { should eq(true) }
     end
-  end
 
-  context 'without art' do
-    let(:artist) { FactoryGirl.create(:artist, :active) }
+    describe '#links' do
+      subject { super().links }
+      it { should be_present }
+    end
 
-    describe '#art_pieces' do
-      subject { super().art_pieces }
-      it { should be_empty }
+    describe '#favorites_count' do
+      subject { super().favorites_count }
+      it { should be_nil }
+    end
+
+    describe '#studio_name' do
+      subject { super().studio_name }
+      it { should eql artist.studio.name }
     end
 
     describe '#has_art?' do
       subject { super().has_art? }
-      it { should eq false }
+      it { should eq(true) }
+    end
+    it{ should be_valid }
+
+    it 'has a good map div for google maps' do
+      map_info = subject.get_map_info
+      html = Capybara::Node::Simple.new(map_info)
+      expect(html).to have_selector('.map__info-window-art')
+    end
+
+
+    context 'when we wrap a nil artist' do
+      let (:artist) { nil }
+      it{ should_not be_valid }
+    end
+
+    context 'without studio' do
+      let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
+      it 'has a good map div for google maps' do
+        map_info = subject.get_map_info
+        html = Capybara::Node::Simple.new(map_info)
+        expect(html).to have_css('.map__info-window-art')
+      end
+    end
+
+    context 'without media' do
+      before do
+        allow_any_instance_of(ArtPiece).to receive(:medium).and_return(nil)
+      end
+
+      its(:has_media?) { is_expected.to eql false }
+      its(:primary_medium) { is_expected.to eql '' }
+    end
+
+    context 'without bio' do
+      before do
+        allow(artist).to receive_message_chain(:artist_info, :bio).and_return(nil)
+      end
+
+      describe '#has_bio?' do
+        subject { super().has_bio? }
+        it { should eq false }
+      end
+    end
+
+    context 'without links' do
+      before do
+        allow(artist).to receive(:website).and_return(nil)
+        allow(artist).to receive(:facebook).and_return(nil)
+        allow(artist).to receive(:instagram).and_return(nil)
+      end
+
+      describe '#has_links?' do
+        its(:has_links?) { is_expected.to eq false }
+      end
+    end
+
+    context 'without art' do
+      let(:artist) { FactoryGirl.create(:artist, :active) }
+
+      describe '#art_pieces' do
+        subject { super().art_pieces }
+        it { should be_empty }
+      end
+
+      describe '#has_art?' do
+        subject { super().has_art? }
+        it { should eq false }
+      end
+    end
+  end
+
+  context "when the subject is a fan" do
+    let(:artist) { FactoryGirl.create(:mau_fan, :active) }
+    describe 'artist?' do
+      its(:artist?) { is_expected.to eq false }
     end
   end
 end

@@ -1,5 +1,4 @@
 - link_info = ((form.object.is_a? Artist) ? ArtistPresenter : UserPresenter)::keyed_links
-- half_slice = (link_info.length - 1) / 2
 .panel-heading
   %h4.panel-title
     = link_to 'Links', '#links', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'

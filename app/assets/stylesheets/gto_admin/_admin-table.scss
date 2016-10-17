@@ -24,5 +24,33 @@
     > div {
       display: inline-block;
     }
+    a + a {
+      margin-left: 8px;
+    }
   }
+
+  .admin-user__profile-info {}
+  .admin-user__profile-table {}
+  .admin-user__profile-table-row {
+    td {
+      padding-right: 10px;
+    }
+    td:first-child {
+      color: $lightgray;
+    }
+  }
+  .admin-user__profile-table-row.is-section-start {
+    td {
+      margin-top:10px;
+      padding-top:10px;
+      border-top: 1px dotted $mediumgray;
+    }
+  }
+  .admin-user__profile-table-row.is-section-end {
+    td {
+      margin-bottom:10px;
+      padding-bottom:10px;
+    }
+  }
+
 }

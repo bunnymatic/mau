@@ -14,6 +14,10 @@ class ArtistPresenter < UserPresenter
            :max_pieces, :pending?, :active?,
            to: :artist, allow_nil: true
 
+  def artist?
+    artist && model.is_a?(Artist)
+  end
+
   def artist
     model
   end
@@ -54,10 +58,11 @@ class ArtistPresenter < UserPresenter
   end
 
   def has_art?
-    artist && art_pieces.present?
+    artist? && art_pieces.present?
   end
 
   def art_pieces
+    return [] unless artist?
     @art_pieces ||=
       begin
         num = (artist.max_pieces || 20) - 1
@@ -135,6 +140,38 @@ class ArtistPresenter < UserPresenter
                       content_tag('h4', "No artist's statement")
                     end
                   end
+  end
+
+  def facebook
+    model.links[:facebook]
+  end
+
+  def twitter
+    model.links[:twitter]
+  end
+
+  def blog
+    model.links[:blog]
+  end
+
+  def instagram
+    model.links[:instagram]
+  end
+
+  def myspace
+    model.links[:myspace]
+  end
+
+  def pinterest
+    model.links[:pinterest]
+  end
+
+  def flickr
+    model.links[:flickr]
+  end
+
+  def artspan
+    model.links[:artspan]
   end
 
   private

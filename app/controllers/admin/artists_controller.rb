@@ -1,8 +1,8 @@
 module Admin
   class ArtistsController < ::BaseAdminController
-    before_action :admin_required, :only => [ :index, :update, :show ]
+    before_action :admin_required, :only => [ :suspend, :index, :edit, :update ]
     before_action :editor_required, :only => [ :notify_featured ]
-    before_action :set_artist, only: [ :show, :suspend ]
+    before_action :set_artist, only: [ :edit, :suspend, :update ]
     def index
       @artist_list = AdminArtistList.new
       @active_artist_list, @inactive_artist_list = @artist_list.partition{|a| a.pending? || a.active?}
@@ -12,17 +12,23 @@ module Admin
       end
     end
 
-    def show
-      @artist = ArtistPresenter.new(@artist)
-    end
-
-    def suspend
-      artist = Artist.find(params[:id])
-      SuspendArtistService.new(artist).suspend!
-      redirect_to admin_artists_path, notice: "#{artist.get_name} has been suspended"
+    def edit
     end
 
     def update
+      if @artist.update_attributes(artist_params)
+        redirect_to admin_user_path(@artist), notice: "#{@artist.get_name} has been updated"
+      else
+        render :edit, warning: "There were problems updating the artist"
+      end
+    end
+
+    def suspend
+      SuspendArtistService.new(@artist).suspend!
+      redirect_to admin_artists_path, notice: "#{@artist.get_name} has been suspended"
+    end
+
+    def bulk_update
       current_open_studios = OpenStudiosEventService.current
 
       if current_open_studios.nil?
@@ -67,6 +73,7 @@ module Admin
     end
 
     # return ternary - nil if the artist was skipped, else true if the artist setting was changed, false if not
+    # TODO: move to UpdateArtistService?  or AdminUpdateArtistService?
     def update_artist_os_standing(artist, current_open_studios, doing_it)
       return nil unless artist.has_address?
       if (artist.doing_open_studios? != doing_it)
@@ -77,6 +84,11 @@ module Admin
       end
     end
 
+    def artist_params
+      allowed_links = Artist.stored_attributes[:links]
+      puts "A", allowed_links
+      params.require(:artist).permit(:firstname, :lastname, :email, :nomdeplume, links: allowed_links, artist_info_attributes: [:studionumber, :street, :bio])
+    end
   end
 
 

@@ -79,7 +79,7 @@ class Artist < User
   scope :without_art, -> { active.where("id not in (select artist_id from art_pieces)") }
 
   has_one :artist_info, dependent: :destroy
-  accepts_nested_attributes_for :artist_info
+  accepts_nested_attributes_for :artist_info, update_only: true
 
   has_many :art_pieces, -> { order(position: :asc, created_at: :desc) }
 

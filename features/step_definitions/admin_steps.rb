@@ -63,3 +63,23 @@ end
 Then /^I see everyone who is "([^"]*)"$/ do |artist_state|
   expect(page).to have_css "table tr.#{artist_state}", count: Artist.send(artist_state).count
 end
+
+When(/^I click on the first artist edit button that's not me$/) do
+  not_me = Artist.active.limit(2).detect{|a| a.login != (@artist.name || @user.name)}
+  cell = page.all('table tr').detect{|el| el.text.include? not_me.login}
+  cell.find('.admin-artist-edit-link').click
+end
+
+When(/^I see the admin artist show page with updated values:$/) do |expected_values|
+  expect(page.find('.admin.users .artist-admin-header .title')).to have_text(@artist.name || @user.name)
+
+  def find_row(title)
+    page.all('.admin-user__profile-table-row').detect{|row| row.text.include? title}
+  end
+
+  expected_values.hashes.first.each do |entry, value|
+    row = find_row(entry)
+    expect(row).to be_present
+    expect(find_row(entry).all('td').last).to have_content(value)
+  end
+end

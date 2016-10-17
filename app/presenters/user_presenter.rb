@@ -173,6 +173,10 @@ class UserPresenter < ViewPresenter
     model.photo? ? model.photo(size) : (model.profile_image.present? ? model.get_profile_image(size) : nil)
   end
 
+  def website
+    model.links[:website]
+  end
+
   alias_method :get_profile_image, :profile_image
 
   private
