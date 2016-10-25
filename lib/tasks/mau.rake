@@ -6,8 +6,20 @@ alldbconf = YAML.load_file( File.join( [Rails.root, 'config','database.yml' ] ))
 
 namespace :mau do
 
+  desc 'show social link counts'
+  task show_social_link_type_counts: [:environment] do
+    link_count = Artist.active.all.map(&:links).inject({}) do |memo, links|
+      links.each do |k,v|
+        memo[k] ||= 0
+        memo[k]+=1 if !v.nil? && !v.empty?
+      end
+      memo
+    end
+    puts link_count.inspect
+  end
+
   desc 'clean up studio 0 artists'
-  task 'indy_studio_artist_cleanup' do
+  task indy_studio_artist_cleanup: [:environment] do
     Artists.where(studio_id: 0).each { |a| a.update_attribute :studio_id, nil }
   end
 
