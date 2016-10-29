@@ -12,7 +12,8 @@ $ ->
           clusterer:
             maxZoom: 17
             gridSize: 20
-      handler.buildMap({
+            imagePath:'/assets/js-marker-clusterer/'
+        handler.buildMap({
         provider: {},
         internal:
           id: 'map-canvas'
