@@ -12,7 +12,7 @@ $ ->
           clusterer:
             maxZoom: 17
             gridSize: 20
-            imagePath: '/assets/js-marker-clusterer/'
+            imagePath: '/images/js-marker-clusterer/'
       handler.buildMap({
         provider: {},
         internal:
