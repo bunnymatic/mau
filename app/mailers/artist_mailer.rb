@@ -7,7 +7,9 @@ class ArtistMailer < MauMailer
     setup_email(artist)
     mail(:to => artist.email,
          :from => ACCOUNTS_FROM_ADDRESS,
-         :subject => build_subject(subject))
+         :subject => build_subject(subject)) do |fmt|
+      fmt.html { render 'activation' }
+    end
   end
 
   def favorite_notification(artist, fan)
@@ -20,7 +22,9 @@ class ArtistMailer < MauMailer
 
     mail(:to => artist.email,
          :from => ACCOUNTS_FROM_ADDRESS,
-         :subject => build_subject(subject))
+         :subject => build_subject(subject)) do |fmt|
+      fmt.html { render 'favorite_notification' }
+    end
 
   end
 
@@ -30,7 +34,9 @@ class ArtistMailer < MauMailer
     @url  = activate_url(:activation_code => artist.activation_code)
     mail(:to => artist.email,
          :from => ACCOUNTS_FROM_ADDRESS,
-         :subject => build_subject(subject))
+         :subject => build_subject(subject)) do |fmt|
+      fmt.html { render 'signup_notification' }
+    end
   end
 
   def notify_featured(artist)
@@ -38,7 +44,9 @@ class ArtistMailer < MauMailer
     subject = "You've been featured by Mission Artists United."
     mail(:to => artist.email,
          :from => NOTE_FROM_ADDRESS,
-         :subject => build_subject(subject))
+         :subject => build_subject(subject)) do |fmt|
+      fmt.html { render 'notify_featured' }
+    end
   end
 
   def resend_activation(artist)
@@ -47,7 +55,9 @@ class ArtistMailer < MauMailer
     @url  = activate_url(:activation_code => artist.activation_code)
     mail(:to => artist.email,
          :from => ACCOUNTS_FROM_ADDRESS,
-         :subject => build_subject(subject))
+         :subject => build_subject(subject)) do |fmt|
+      fmt.html { render 'resend_activation' }
+    end
   end
 
   def activation(artist)
@@ -57,7 +67,9 @@ class ArtistMailer < MauMailer
     @artistsurl  = artist_url(artist)
     mail(:to => artist.email,
          :from => ACCOUNTS_FROM_ADDRESS,
-         :subject => build_subject(subject))
+         :subject => build_subject(subject)) do |fmt|
+      fmt.html { render 'activation' }
+    end
   end
 
   def reset_notification(artist)
@@ -66,7 +78,9 @@ class ArtistMailer < MauMailer
     @url  = "http://%s/reset/#{artist.reset_code}" % Conf.site_url
     mail(:to => artist.email,
          :from => ACCOUNTS_FROM_ADDRESS,
-         :subject => build_subject(subject))
+         :subject => build_subject(subject)) do |fmt|
+      fmt.html { render 'reset_notification' }
+    end
   end
 
   protected
