@@ -2,6 +2,8 @@ class MauMailer < ActionMailer::Base
 
   SUBJECT_PREFIX = "Mission Artists United"
 
+  include ActionMailer::Text
+
   def mailer_list
     Object.const_get(self.class.name + 'List').first
   end

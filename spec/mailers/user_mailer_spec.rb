@@ -9,8 +9,7 @@ describe UserMailer do
       @mail = UserMailer.activation(fan)
     end
     it "works" do
-      expect(@mail.body).to include "Your account has been activated."
-      expect(@mail.body).to include fan.login
+      expect(@mail).to have_body_text "Your account has been activated."
     end
   end
   describe "notification mail for a new signup" do
@@ -18,15 +17,15 @@ describe UserMailer do
       @mail = UserMailer.signup_notification(pending)
     end
     it "includes an activation code" do
-      expect(@mail.body).to match /activate\/\S+/
+      expect(@mail).to have_body_text /activate\/\S+/
     end
   end
   describe "new activated account" do
     before do
       @mail = UserMailer.activation(fan)
     end
-    it "includes their name" do
-      expect(@mail.body).to include fan.login
+    it "includes their login" do
+      expect(@mail).to have_body_text fan.login
     end
   end
 

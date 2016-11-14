@@ -8,6 +8,9 @@ GEM
       activejob (= 4.2.6)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 1.0, >= 1.0.5)
+    actionmailer-text (0.1.1)
+      actionmailer
+      htmlentities
     actionpack (4.2.6)
       actionview (= 4.2.6)
       activesupport (= 4.2.6)
@@ -469,6 +472,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionmailer-text
   active_model_serializers
   angular-rails-templates
   authlogic

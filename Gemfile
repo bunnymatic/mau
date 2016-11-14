@@ -63,13 +63,10 @@ gem 'dotenv-rails'
 gem 'sass-rails'
 gem 'autoprefixer-rails'
 gem 'coffee-rails'
-# uglifier 2.7.2 breaks Angular in feature specs on CI. Connecting to CircleCI over VNC
-# (https://circleci.com/docs/browser-debugging#interact-with-the-browser-over-vnc)
-# shows the error: "[$injector:unpr] Unknown provider: tProvider <- t <- $http <- $templateRequest <- $compile"
-# The changelog for `uglifier` shows an upgrade from UglifyJS2 2.4.16 to 2.4.24,
-# (https://github.com/mishoo/UglifyJS2/compare/v2.4.16...v2.4.24)
-# but I couldn't find a changelog for that to help figure out why it breaks our minification
+
 gem 'uglifier'
+
+gem 'actionmailer-text'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-angular', "=1.3.16"
