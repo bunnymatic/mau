@@ -1,126 +1,136 @@
 .pure-g
   .pure-u-1-1.padded-content.header.artist-admin-header
-    h2.title = @user.name
+    h2.title
+      = (@user.artist? ? "Artist: " : "Fan: ") + (@user.name.presence || @user.login)
+      - if @user.artist?
+        = link_to edit_admin_artist_path(@user), class: "artist-admin-header-edit-link"
+          i.fa.fa-icon.fa-edit
+
 
 .pure-g
   .pure-u-1-2.padded-content
-    .profile-info.clearfix.info-block
-      table.table
-        tr
+    .admin-user__profile-info.clearfix.info-block
+      table.table.admin-user__profile-table
+        tr.admin-user__profile-table-row.is-section-start
           td Username
           td = @user.login
-        tr
-          td Name
-          td = @user.full_name
-        tr
+        tr.admin-user__profile-table-row
+          td Email
+          td = @user.email
+        tr.admin-user__profile-table-row
+          td First Name
+          td = @user.firstname
+        tr.admin-user__profile-table-row
+          td Last Name
+          td = @user.lastname
+        tr.admin-user__profile-table-row
+          td Nom de Plume
+          td = @user.nomdeplume
+        tr.admin-user__profile-table-row.is-section-end
           td Link To Artist
-          td = link_to artist_url(@user), artists_url(@user)
-        tr
-          td Studio
-          td = (@user.studio.try(:name) || "Indy")
-        - if @user.facebook?
-          tr
-            td Facebook
-            td = @user.facebook
-        - if @user.twitter?
-          tr
-            td Twitter
-            td = @user.twitter
-        - if @user.instagram?
-          tr
-            td Instagram
-            td = (@user.instagram || "Indy")
-        tr
+          td = link_to artist_url(@user), artist_url(@user)
+        - if @user.artist?
+          tr.admin-user__profile-table-row.is-section-start.is-section-end
+            td Studio
+            td = (@user.studio.try(:name) || "Indy")
+        - ArtistPresenter.keyed_links.each.with_index do |key,idx|
+          - classes = [ ((idx==0) ? 'is-section-start': '') ]
+          - classes << ((idx==(ArtistPresenter.keyed_links.size - 1)) ? 'is-section-end': '')
+          tr.admin-user__profile-table-row class=classes.compact.join(' ')
+            td = key
+            td = @user.send(key).presence || "none"
+        tr.admin-user__profile-table-row.is-section-start
           td Since
           td = @user.member_since
 
-  .pure-u-1-2.padded-content
-    .info-block
-      - if @user.has_art?
+  - if @user.artist?
+    .pure-u-1-2.padded-content
+      .info-block
+        - if @user.has_art?
+          h4
+            = "Representative piece: " + @user.representative_piece.title
+          - url = @user.representative_piece.photo(:original)
+          .image
+            img.pure-img src=url
+          .url = url
+        - else
+          h4 No art here
+    .pure-u-1-2.padded-content
+      .featured-snippet.mod-facebook.info-block
         h4
-          = "Representative piece: " + @user.representative_piece.title
-        - url = @user.representative_piece.photo(:original)
-        .image
-          img.pure-img src=url
-        .url = url
-      - else
-        h4 No art here
-  .pure-u-1-2.padded-content
-    .featured-snippet.mod-facebook.info-block
-      h4
-        = link_to Conf.social_links.facebook
-          .info-block-icon.ico-invert.ico-facebook
-        | For Facebook
-      .instructions
-        p
-          | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
-          |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
-          '
-          = link_to "facebook", "https://www.facebook.com/search/top/?q=#{@user.full_name}", target: '_blank'
-          '
-          | and see if you can find their handle.
-          - if @user.facebook?
-            | We think it might be
+          = link_to Conf.social_links['facebook']
+            .info-block-icon.ico-invert.ico-facebook
+          | For Facebook
+        .instructions
+          p
+            | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
+            |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
             '
-            = link_to @user.facebook_handle, @user.facebook
+            = link_to "facebook", "https://www.facebook.com/search/top/?q=#{@user.full_name}", target: '_blank'
             '
-            | based on their MAU profile.
-        p ALSO: tag the artist in the photo
+            | and see if you can find their handle.
+            - if @user.facebook?
+              | We think it might be
+              '
+              = link_to @user.facebook_handle, @user.facebook
+              '
+              | based on their MAU profile.
+          p ALSO: tag the artist in the photo
 
-      .content
-        = render "featured_on_facebook", artist: @user
-  .pure-u-1-2.padded-content
-    .featured-snippet.mod-instagram.info-block
-      h4
-        = link_to Conf.social_links['instagram']
-          .info-block-icon.ico-invert.ico-instagram
-        | For Instagram
+        .content
+          = render "featured_on_facebook", artist: @user
+    .pure-u-1-2.padded-content
+      .featured-snippet.mod-instagram.info-block
+        h4
+          = link_to Conf.social_links['instagram']
+            .info-block-icon.ico-invert.ico-instagram
+          | For Instagram
 
-      .instructions
-        p
-          | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
-          |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
-          '
-          = link_to 'instagram', "http://instagram.com/explore/tags/sfmau", target: '_blank'
-          '
-          | and see if you can find their handle.
-        - if @user.instagram?
-          .hint
-            | We think it might be
+        .instructions
+          p
+            | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
+            |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
             '
-            = link_to @user.instagram_handle, @user.instagram
+            = link_to 'instagram', "http://instagram.com/explore/tags/sfmau", target: '_blank'
             '
-            | based on their MAU profile.
-      .content
-        = render "featured_on_instagram", artist: @user
-  .pure-u-1-2.padded-content
-    .featured-snippet.mod-twitter.info-block
-      h4
-        = link_to 'http://www.twitter.com/sfmau' do
-          .info-block-icon.ico-invert.ico-twitter
-        | For Twitter
+            | and see if you can find their handle.
+          - if @user.instagram?
+            .hint
+              | We think it might be
+              '
+              = link_to @user.instagram_handle, @user.instagram
+              '
+              | based on their MAU profile.
+        .content
+          = render "featured_on_instagram", artist: @user
+    .pure-u-1-2.padded-content
+      .featured-snippet.mod-twitter.info-block
+        h4
+          = link_to 'http://www.twitter.com/sfmau' do
+            .info-block-icon.ico-invert.ico-twitter
+          | For Twitter
 
-      .instructions
-        p
-          | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
-          |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
-          '
-          = link_to 'twitter', 'http://www.twitter.com', target: '_blank', class: "found-handle"
-          '
-          - if @user.twitter?
-            | We think it might be
+        .instructions
+          p
+            | Check for <span class="info-block-instructions-callout">#{@user.login}</span> and
+            |  <span class="info-block-instructions-callout">#{@user.full_name}</span> on
             '
-            = link_to @user.twitter_handle, @user.twitter
+            = link_to 'twitter', 'http://www.twitter.com', target: '_blank', class: "found-handle"
             '
-            | based on their MAU profile.
+            - if @user.twitter?
+              | We think it might be
+              '
+              = link_to @user.twitter_handle, @user.twitter
+              '
+              | based on their MAU profile.
 
-        p
-          | How to post pictures on twitter:
-          '
-          = link_to "https://support.twitter.com/articles/20156423", "https://support.twitter.com/articles/20156423"
-          '
-          | We loose some characters when we post a photo, so we don’t get quite 140. Delete from the end of the
-          | line as you go over character count.
-          | their handle.
-      .content
-        = render "featured_on_twitter", artist: @user
+          p
+            | How to post pictures on twitter:
+            '
+            = link_to "https://support.twitter.com/articles/20156423", "https://support.twitter.com/articles/20156423"
+            '
+            | We loose some characters when we post a photo, so we don’t get quite 140. Delete from the end of the
+            | line as you go over character count.
+            | their handle.
+        .content
+          = render "featured_on_twitter", artist: @user

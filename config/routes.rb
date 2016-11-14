@@ -5,6 +5,8 @@ Mau::Application.routes.draw do
   resource :user_session, only: [:new, :create, :destroy]
   get '/logout' => 'user_sessions#destroy', as: :logout
   get '/login' => 'user_sessions#new', as: :login
+  get '/sign_out' => 'user_sessions#destroy'
+  get '/sign_in' => 'user_sessions#new'
 
 
   resources :studios, only: [:index, :show]
@@ -135,9 +137,9 @@ Mau::Application.routes.draw do
     resources :application_events, only: [:index]
     resources :favorites, only: [:index]
     resources :media, only: [:index, :create, :new, :edit, :update, :destroy]
-    resources :artists, only: [:index] do
+    resources :artists, only: [:index, :edit, :update] do
       collection do
-        post :update, as: :update
+        post :bulk_update, as: :bulk_update
         get :purge
       end
       member do

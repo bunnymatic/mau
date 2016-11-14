@@ -3,13 +3,13 @@
     font-size: 0.8rem;
     font-style: italic;
   }
+  .artist-admin-header-edit-link {
+    float: right;
+  }
   table {
     font-size: 85%;
     td.date-field {
       white-space: nowrap;
-    }
-    .admin-artist-link {
-      float: right;
     }
     .user-state {
       font-size: 150%;
