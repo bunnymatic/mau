@@ -1,3 +1,7 @@
+def find_admin_user_show_row(title)
+  page.all('.admin-user__profile-table-row').detect{|row| row.text.include? title}
+end
+
 When /^I set all artists to do open studios$/ do
   within('#good table') do
     all('[type=checkbox]').each do |cb|
@@ -73,13 +77,15 @@ end
 When(/^I see the admin artist show page with updated values:$/) do |expected_values|
   expect(page.find('.admin.users .artist-admin-header .title')).to have_text(@artist.name || @user.name)
 
-  def find_row(title)
-    page.all('.admin-user__profile-table-row').detect{|row| row.text.include? title}
-  end
-
   expected_values.hashes.first.each do |entry, value|
-    row = find_row(entry)
+    row = find_admin_user_show_row(entry)
     expect(row).to be_present
-    expect(find_row(entry).all('td').last).to have_content(value)
+    expect(row.all('td').last).to have_content(value)
   end
+end
+
+When(/^I see that the admin artist pages shows that artist in studio "([^"]*)"$/) do |studio_name|
+  row = find_admin_user_show_row("Studio")
+  expect(row).to be_present
+  expect(row.all('td').last).to have_content(studio_name)
 end

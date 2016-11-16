@@ -7,11 +7,11 @@
           = f.input :firstname
           = f.input :lastname
           = f.input :nomdeplume
+          = f.input :studio
           = f.semantic_fields_for :artist_info do |artist_info|
             = artist_info.inputs do
               = artist_info.input :studionumber
               = artist_info.input :street
-              = artist_info.input :city
               = artist_info.input :bio
         .pure-u-1-1.pure-u-md-1-2.padded-content
           = f.semantic_fields_for :links, OpenStruct.new(@artist.links) do |links|

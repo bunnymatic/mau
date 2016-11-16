@@ -30,9 +30,16 @@
           td Link To Artist
           td = link_to artist_url(@user), artist_url(@user)
         - if @user.artist?
-          tr.admin-user__profile-table-row.is-section-start.is-section-end
+          tr.admin-user__profile-table-row.is-section-start
             td Studio
             td = (@user.studio.try(:name) || "Indy")
+          tr.admin-user__profile-table-row.is-section-end
+            td Studio #
+            td = @user.studionumber
+          tr.admin-user__profile-table-row.is-section-start.is-section-end
+            td Address
+            td = @user.address
+
         - ArtistPresenter.keyed_links.each.with_index do |key,idx|
           - classes = [ ((idx==0) ? 'is-section-start': '') ]
           - classes << ((idx==(ArtistPresenter.keyed_links.size - 1)) ? 'is-section-end': '')
