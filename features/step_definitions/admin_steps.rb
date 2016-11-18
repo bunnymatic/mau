@@ -10,7 +10,7 @@ When /^I set all artists to do open studios$/ do
       check cb['id']
     end
   end
-  click_on_first 'update os status'
+  find('.admin-table__controls .update-artists').click
 end
 
 Then(/^I see the admin dashboard$/) do

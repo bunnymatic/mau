@@ -14,7 +14,7 @@ Background:
   And there are application events in the system
   And I login as "billybob"
 
-Scenario: Viewing and cleaning out tags
+Scenario: Checking on application events
   When I click on "app events" in the admin menu
   Then I see all application events sections
 

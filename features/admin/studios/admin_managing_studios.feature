@@ -1,3 +1,4 @@
+@javascript
 Feature: Manage Studios
 
 As an administrator, I can update studios

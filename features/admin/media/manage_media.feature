@@ -1,3 +1,4 @@
+@javascript
 Feature: Manage Media
 
 As an administrator, I can manage the media that artists can use for art pieces
@@ -16,6 +17,3 @@ Scenario: Editing a media
   And I click "Update"
   Then I see the admin media list
   And I see the "blah" as a medium
-
-
-

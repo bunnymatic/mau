@@ -1,4 +1,7 @@
+@javascript
 Feature: Admins can mange openstudios events
+  As an admin
+  I can see all the open studios events in the system
 
 Background:
   Given an "admin" account has been created

@@ -1,3 +1,4 @@
+@javascript
 Feature: As a manager, I can manage my studio
 
 Background:

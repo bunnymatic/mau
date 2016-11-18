@@ -64,5 +64,5 @@ end
 
 Then(/^I expect to see that user is not an editor$/) do
   expect(page).to_not have_selector '.members_edit .user', text: @previous_editor_name
-  expect(page).to have_selector('select option', text: @previous_editor_name)
+  expect(page).to have_selector('select option', text: @previous_editor_name, visible: false)
 end

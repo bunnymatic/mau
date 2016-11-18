@@ -1,3 +1,4 @@
+@javascript
 Feature: Manage Roles
 
 As an administrator, I can manage users and their roles
@@ -15,6 +16,7 @@ Scenario: Showing the users and their roles
 
 Scenario: Managing users in their roles
   When I click on the manage link for editors
+  And I click on "add users to role"
   And I choose the last user in the user list
   And I click "add user"
   Then I expect to see the last user is now an editor
@@ -29,6 +31,6 @@ Scenario: Adding a new role
   When I add a user to the "juror" role
   And I click on "roles" in the admin menu
   Then I see there is a role called "juror" with 1 user
-  
+
   When I remove the role "juror"
   Then I see there is not a role called "juror"
