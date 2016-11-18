@@ -2,8 +2,7 @@
 
 Then(/^I see the admin studios list$/) do
   s = Studio.last
-  expect(page).to have_content s.name
-  expect(page).to have_link('Show', href: studio_path(s))
+  expect(page).to have_link(s.name, href: studio_path(s))
 end
 
 Then(/^I see update studio links for things I can manage/) do

@@ -24,6 +24,7 @@ Scenario: Removing an artist from a studio
   When I click on "studios" in the admin menu
   Then I see the admin studios list
   When I edit the first studio
+  And I click on "Manage"
   And I remove the first artist from the studio
 
   When I click on "studios" in the admin menu
