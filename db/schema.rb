@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160723021425) do
+ActiveRecord::Schema.define(version: 20161118064821) do
 
   create_table "application_events", force: :cascade do |t|
     t.string   "type",       limit: 255
@@ -31,14 +31,13 @@ ActiveRecord::Schema.define(version: 20160723021425) do
   create_table "art_pieces", force: :cascade do |t|
     t.string   "filename",           limit: 255
     t.string   "title",              limit: 255
-    t.text     "description",        limit: 65535
     t.string   "dimensions",         limit: 255
     t.integer  "artist_id",          limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "medium_id",          limit: 4
     t.integer  "year",               limit: 4
-    t.integer  "position",           limit: 4,     default: 0
+    t.integer  "position",           limit: 4,   default: 0
     t.string   "photo_file_name",    limit: 255
     t.string   "photo_content_type", limit: 255
     t.integer  "photo_file_size",    limit: 4
@@ -66,23 +65,15 @@ ActiveRecord::Schema.define(version: 20160723021425) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "bio",                        limit: 65535
-    t.text     "news",                       limit: 65535
     t.string   "street",                     limit: 255
     t.string   "city",                       limit: 200
     t.string   "addr_state",                 limit: 4
-    t.string   "facebook",                   limit: 200
-    t.string   "twitter",                    limit: 200
-    t.string   "blog",                       limit: 200
-    t.string   "myspace",                    limit: 200
-    t.string   "flickr",                     limit: 200
     t.integer  "zip",                        limit: 4
     t.integer  "max_pieces",                 limit: 4,     default: 20
     t.string   "studionumber",               limit: 255
     t.float    "lat",                        limit: 24
     t.float    "lng",                        limit: 24
     t.string   "open_studios_participation", limit: 255
-    t.string   "pinterest",                  limit: 255
-    t.string   "instagram",                  limit: 255
   end
 
   add_index "artist_infos", ["artist_id"], name: "index_artist_infos_on_artist_id", unique: true, using: :btree
