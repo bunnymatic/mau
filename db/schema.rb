@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161118061858) do
+ActiveRecord::Schema.define(version: 20161118064821) do
 
   create_table "application_events", force: :cascade do |t|
     t.string   "type",       limit: 255
@@ -31,14 +31,13 @@ ActiveRecord::Schema.define(version: 20161118061858) do
   create_table "art_pieces", force: :cascade do |t|
     t.string   "filename",           limit: 255
     t.string   "title",              limit: 255
-    t.text     "description",        limit: 65535
     t.string   "dimensions",         limit: 255
     t.integer  "artist_id",          limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "medium_id",          limit: 4
     t.integer  "year",               limit: 4
-    t.integer  "position",           limit: 4,     default: 0
+    t.integer  "position",           limit: 4,   default: 0
     t.string   "photo_file_name",    limit: 255
     t.string   "photo_content_type", limit: 255
     t.integer  "photo_file_size",    limit: 4
