@@ -17,6 +17,16 @@ class SiteStatistics
     end
   end
 
+  def social_links
+    Histogram.new.tap do |social|
+      Artist.active.find_in_batches do |artists|
+        artists.pluck(:links).each do |links|
+          social.add(links)
+        end
+      end
+    end
+  end
+
   private
 
   def display_key(os_key)
