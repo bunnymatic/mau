@@ -89,3 +89,9 @@ When(/^I see that the admin artist pages shows that artist in studio "([^"]*)"$/
   expect(row).to be_present
   expect(row.all('td').last).to have_content(studio_name)
 end
+
+Then(/^I see the "([^"]*)" admin stats$/) do |type|
+  within ".dashboard__stats-list.#(type.underscore}" do
+    expect(page).to have('table')
+  end
+end

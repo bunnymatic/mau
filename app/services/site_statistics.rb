@@ -18,10 +18,10 @@ class SiteStatistics
   end
 
   def social_links
-    Histogram.new.tap do |social|
-      Artist.active.find_in_batches do |artists|
-        artists.pluck(:links).each do |links|
-          social.add(links)
+    StatsCalculator::Histogram.new.tap do |social|
+      Artist.active.pluck(:links).each do |links|
+        links.keys.each do |site, _|
+          social.add(site)
         end
       end
     end
