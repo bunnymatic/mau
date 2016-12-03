@@ -54,12 +54,56 @@ jQuery(function() {
       }
     };
 
+    var C3Graph = {
+      load: function(selector, dataurl) {
+        jQuery.ajax({
+          url: dataurl,
+          method: 'get',
+          success: function( data, status, xhr) {
+            if (data.series && data.options) {
+              console.log( data.series)
+              console.log( selector)
+              debugger
+              var chart = c3.generate({
+                bindto: selector,
+                data: {
+                  columns: [
+                    ['# pieces'].concat(data.series[0].data.map(function(entry) { return entry[1]; }))
+                  ],
+                  type: 'bar'
+                },
+                axis: {
+                  y: {
+                    max: 20,
+                    label: {
+                      text: '# pieces'
+                    }
+                  },
+                  x: {
+                  }
+                },
+                bar: {
+                  width: {
+                    ratio: 0.5 // this makes bar width 50% of length between ticks
+                  }
+                  // or
+                  //width: 100 // this makes bar width 100px
+                }
+              });
+
+            }
+          }
+        });
+      }
+    }
+
     GraphPerDay.load('#artists_per_day', '/admin/stats/artists_per_day');
     GraphPerDay.load('#user_visits_per_day', '/admin/stats/user_visits_per_day');
     GraphPerDay.load('#favorites_per_day', '/admin/stats/favorites_per_day');
     GraphPerDay.load('#art_pieces_per_day', '/admin/stats/art_pieces_per_day');
     GraphPerDay.load('#os_signups', '/admin/stats/os_signups');
     PlainGraph.load('#art_piece_histogram', '/admin/stats/art_pieces_count_histogram');
+    C3Graph.load('#art_pieces_histogram', '/admin/stats/art_pieces_count_histogram');
 
   } // end if we're on the admin page with graphs
 });

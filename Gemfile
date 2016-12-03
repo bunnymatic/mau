@@ -86,6 +86,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-datatables'
   gem 'rails-assets-spinjs'
   gem 'rails-assets-flot'
+  gem 'rails-assets-c3'
 end
 
 group :test do

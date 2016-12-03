@@ -2,6 +2,8 @@
 #
 #= require flot
 #= require flot/jquery.flot.resize
+#= require d3
+#= require c3
 #= require moment
 #= require_tree ./admin
 
