@@ -66,6 +66,7 @@ FactoryGirl.define do
     trait :with_links do
       facebook { Faker::Internet.url }
       twitter { Faker::Internet.url }
+      instagram { nil }
     end
 
     trait :in_the_mission do
