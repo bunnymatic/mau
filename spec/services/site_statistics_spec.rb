@@ -15,7 +15,7 @@ describe SiteStatistics do
     FactoryGirl.create(:artist, :active)
 
     Timecop.travel(4.days.ago)
-    FactoryGirl.create_list(:artist, 2, :active, :with_art)
+    FactoryGirl.create_list(:artist, 2, :active, :with_art, :with_links )
     FactoryGirl.create_list(:artist, 3)
 
     Timecop.travel(10.days.ago)
@@ -27,6 +27,10 @@ describe SiteStatistics do
     create_favorite( Artist.first, Artist.last )
     create_favorite( Artist.first, Artist.last(2).first)
     create_favorite( Artist.first, ArtPiece.first)
+  end
+
+  it 'assigns the correct social links' do
+    expect(stats.social_links).to eql( { "website" => 5, "facebook" => 2, "twitter" => 2 } )
   end
 
   it 'assigns correct values for favorites' do

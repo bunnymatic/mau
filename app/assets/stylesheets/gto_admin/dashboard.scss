@@ -4,17 +4,11 @@
     margin-bottom: 20px;
   }
   .graph {
-    margin-bottom: 40px;
     h4 {
       margin-bottom: 0.5rem;
     }
-    .flot-graph {
-      width: 440px;
-      height: 380px;
-      display: block;
-      .flot-x-axis .flot-tick-label {
-        @include transform( translateY(60%) translateX(0%) rotate(-45deg) );
-      }
+    .c3-graph {
+      width: 90%;
     }
   }
   .dashboard__stats-list {

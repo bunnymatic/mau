@@ -1,0 +1,18 @@
+/ expects stats as hash of data, classes as an array of classes for the outer container
+/ and title to be passed in
+- classes = [classes].flatten.map(&:to_s)
+.pure-u-1-1.pure-u-md-1-3.pure-u-lg-1-4.dashboard__stats-list class=classes.join(" ")
+  h4 = title
+  table
+    tbody
+      - stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v|
+        tr
+          td = k.to_s.titleize
+          td.count = v
+  - if classes.include?('open_studios') && current_open_studios
+    .current
+      | Downloads:
+      .dashboard__stats-list__csv
+        a href='/catalog?format=csv' = "#{ current_open_studios.for_display } CSV File"
+      .dashboard__stats-list__catalog
+        a href='/catalog' ="#{ current_open_studios.for_display } Catalog Index"

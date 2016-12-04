@@ -4,57 +4,36 @@
       h2.title Dashboard
   .pure-g.content
     .pure-u-1-1
-      h3 Counts
-    - [:totals, :yesterday, :last_week, :last_30_days].each_with_index do |category, idx|
-      - stats = @activity_stats.send category
-      .pure-u-1-1.pure-u-md-1-3.pure-u-lg-1-4.pure-u-xl-1-5.dashboard__stats-list class=category
-        h4 = category.to_s.titleize
-        table
-          tbody
-            - stats.sort{|a,b| a.to_s <=> b.to_s }.each do |k,v|
-              tr
-                td = k.to_s.titleize
-                td.count = v
-    - category = 'open_studios'
-    .pure-u-1-1.pure-u-md-1-3.pure-u-lg-1-4.pure-u-xl-1-5.dashboard__stats-list class=category
-      h4 #{category.to_s.titleize}
-      table
-        tbody
-          - @activity_stats.open_studios.each do |k,v|
-            tr
-              td = k.to_s.titleize
-              td.count = v
-      .current
-        - if current_open_studios
-          | Downloads:
-          br
-          a href='/catalog?format=csv' = "#{ current_open_studios.for_display } CSV File"
-          br
-          a href='/catalog' ="#{ current_open_studios.for_display } Catalog Index"
-    - if current_user.is_admin?
-      .pure-u-1-1.header.graphs
+    .pure-u-1-1
+      - [:totals, :yesterday, :last_week, :last_30_days, :open_studios, :social_links].each_with_index do |category, idx|
+        - stats = @activity_stats.send category
+        = render 'dashboard_stats_table', stats: stats, classes: category, title: category.to_s.titleize
+  - if current_user.is_admin?
+    .pure-g
+      .pure-u-1-1.header
         h2.title Graphs
+    .pure-g.content
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           h4 Art Pieces Per Artist (Histogram)
-          #art_piece_histogram.flot-graph
+          #art_pieces_histogram.c3-graph
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           h4 Artists Per Day
-          #artists_per_day.flot-graph
+          #artists_per_day.c3-graph
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           h4 ArtPieces Per Day
-          #art_pieces_per_day.flot-graph
+          #art_pieces_per_day.c3-graph
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           h4 User Visits Per Day
-          #user_visits_per_day.flot-graph
+          #user_visits_per_day.c3-graph
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           h4 OS Signups
-          #os_signups.flot-graph
+          #os_signups.c3-graph
       .pure-u-1-1.pure-u-lg-1-2
         .graph
           h4 Favorites Per Day
-          #favorites_per_day.flot-graph
+          #favorites_per_day.c3-graph
