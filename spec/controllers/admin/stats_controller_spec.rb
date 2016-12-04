@@ -15,11 +15,6 @@ describe Admin::StatsController, type: :controller do
           xhr :get, endpoint
         end
         it_should_behave_like 'successful json'
-        it "json is ready for flotr" do
-          j = JSON.parse(response.body)
-          expect(j.keys).to include 'series'
-          expect(j.keys).to include 'options'
-        end
       end
     end
   end

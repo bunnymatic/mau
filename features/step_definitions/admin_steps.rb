@@ -91,7 +91,6 @@ When(/^I see that the admin artist pages shows that artist in studio "([^"]*)"$/
 end
 
 Then(/^I see the "([^"]*)" admin stats$/) do |type|
-  within ".dashboard__stats-list.#(type.underscore}" do
-    expect(page).to have('table')
-  end
+  type.gsub!(/\s+/, '_')
+  expect(page).to have_css(".dashboard__stats-list.#{type} table")
 end
