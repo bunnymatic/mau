@@ -16,7 +16,8 @@ jQuery(function() {
     var apd_options = {
       xaxis: {
         tickFormatter: date_formatter,
-        noTicks: xticks, max: new Date().valueOf()/1000 },
+        noTicks: xticks, max: new Date().valueOf()/1000
+      },
       yaxis: {
         noTicks: yticks,
         min: 0
@@ -29,10 +30,51 @@ jQuery(function() {
           url:dataurl,
           method: 'get',
           success: function(data, status, xhr) {
-            if (data.series && data.options) {
-              var default_opts = {bars: {show:true} }
-              data.options = jQuery.extend(default_opts, apd_options);
-              jQuery.plot( jQuery(selector), data.series, data.options);
+            if (data) {
+              var timestamp = data.map(function(entry) { return entry[0]; });
+              var values = data.map(function(entry) { return entry[1]; });
+              var columns = [
+                ['x'].concat(timestamp),
+                ['data'].concat(values)
+              ];
+              var chart = c3.generate({
+                bindto: selector,
+                data: {
+                  x: 'x',
+                  type: 'bar',
+                  columns: columns,
+                  colors: {
+                    'data': '#d7682b'
+                  }
+                },
+                axis: {
+                  y: {
+                    label: {
+                      position: 'outer-center',
+                    }
+                  },
+                  x: {
+                    tick: {
+                      format: function(ts) {
+                        var date = new Date(0);
+                        var momentDate = moment(date.setSeconds(ts));
+                        return momentDate.format('YYYY-MM-DD');
+                      },
+                      rotate: 90,
+                      centered: true,
+                      fit: true
+                    },
+                    label: {
+                      position: 'outer-center'
+                    }
+                  }
+                },
+                bar: {
+                  width: {
+                    ratio: 0.05 // this makes bar width 50% of length between ticks
+                  }
+                }
+              });
             }
           }
         });
@@ -42,55 +84,41 @@ jQuery(function() {
     var PlainGraph = {
       load: function(selector, dataurl) {
         jQuery.ajax({
-          url:dataurl,
-          method: 'get',
-          success: function(data, status, xhr) {
-            if (data.series && data.options) {
-              data.options = {bars: {show:true} }
-              jQuery.plot( jQuery(selector), data.series, data.options);
-            }
-          }
-        });
-      }
-    };
-
-    var C3Graph = {
-      load: function(selector, dataurl) {
-        jQuery.ajax({
           url: dataurl,
           method: 'get',
           success: function( data, status, xhr) {
-            if (data.series && data.options) {
-              console.log( data.series)
-              console.log( selector)
-              debugger
+            if (data) {
               var chart = c3.generate({
                 bindto: selector,
                 data: {
                   columns: [
-                    ['# pieces'].concat(data.series[0].data.map(function(entry) { return entry[1]; }))
+                    ['# pieces'].concat(data.map(function(entry) { return entry[1]; }))
                   ],
-                  type: 'bar'
+                  type: 'bar',
+                  colors: {
+                    '# pieces': '#d7682b'
+                  }
                 },
                 axis: {
                   y: {
                     max: 20,
                     label: {
-                      text: '# pieces'
+                      position: 'outer-center',
+                      text: '# artists'
                     }
                   },
                   x: {
+                    label: {
+                      position: 'outer-center'
+                    }
                   }
                 },
                 bar: {
                   width: {
-                    ratio: 0.5 // this makes bar width 50% of length between ticks
+                    ratio: 0.9 // this makes bar width 50% of length between ticks
                   }
-                  // or
-                  //width: 100 // this makes bar width 100px
                 }
               });
-
             }
           }
         });
@@ -102,8 +130,7 @@ jQuery(function() {
     GraphPerDay.load('#favorites_per_day', '/admin/stats/favorites_per_day');
     GraphPerDay.load('#art_pieces_per_day', '/admin/stats/art_pieces_per_day');
     GraphPerDay.load('#os_signups', '/admin/stats/os_signups');
-    PlainGraph.load('#art_piece_histogram', '/admin/stats/art_pieces_count_histogram');
-    C3Graph.load('#art_pieces_histogram', '/admin/stats/art_pieces_count_histogram');
+    PlainGraph.load('#art_pieces_histogram', '/admin/stats/art_pieces_count_histogram');
 
   } // end if we're on the admin page with graphs
 });

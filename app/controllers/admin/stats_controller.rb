@@ -3,45 +3,39 @@ module Admin
 
     def art_pieces_per_day
       apd = compute_art_pieces_per_day
-      render :json => format_for_flot(apd)
+      render :json => format_for_graph(apd)
     end
 
     def favorites_per_day
       fpd = compute_favorites_per_day
-      render :json => format_for_flot(fpd)
+      render :json => format_for_graph(fpd)
     end
 
     def artists_per_day
       apd = compute_artists_per_day
-      render :json => format_for_flot(apd)
+      render :json => format_for_graph(apd)
     end
 
     def user_visits_per_day
       upd = compute_user_visits_per_day
-      render :json => format_for_flot(upd)
+      render :json => format_for_graph(upd)
     end
 
     def art_pieces_count_histogram
       appa = compute_art_piece_count_histogram
-      render :json => format_for_flot(appa)
+      render :json => format_for_graph(appa)
     end
 
     def os_signups
       tally = OpenStudiosTally.where(:oskey => current_open_studios_key)
       tally = tally.map{|t| [ t.recorded_on.to_time.to_i, t.count ]}
-      render :json => format_for_flot(tally)
+      render :json => format_for_graph(tally)
     end
 
     private
 
-    def format_for_flot(data)
-      { :series => [
-          { :data => data }
-        ],
-        :options => {
-          :mouse => { :track => true }
-        }
-      }
+    def format_for_graph(data)
+      data
     end
 
     GRAPH_LOOKBACK = '1 YEAR'
