@@ -1,8 +1,10 @@
 class CleanUpArtPiecesFields < ActiveRecord::Migration
 
   def up
-    change_table :art_pieces do |t|
-      t.remove :description
+    if ActiveRecord::Base.connection.column_exists?(:art_pieces, :description)
+      change_table :art_pieces do |t|
+        t.remove :description
+      end
     end
   end
 
