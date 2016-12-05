@@ -33,6 +33,7 @@
             - @presenter.participating_indies.each do |a|
               li
                 = link_to(a.get_name, a)
+                '
                 = a.street
           = render :partial => '/main/info_footer'
   - if @gallery.items.any?

@@ -4,7 +4,7 @@ class Address
 
   def initialize(model)
     begin
-      if model.respond_to?(:studio_id) && model.studio_id.present? && (model&.studio_id > 0)
+      if model.respond_to?(:studio_id) && model.studio_id.present? && (model&.studio_id > 0) && model.studio
         model = model.studio
       end
 
