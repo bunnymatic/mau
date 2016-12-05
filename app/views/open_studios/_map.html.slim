@@ -5,7 +5,7 @@
     MAU.map_markers = #{map_info.map_data.html_safe};
     MAU.map_bounds = #{map_info.bounds.html_safe};
 
-  = javascript_include_tag "//maps.googleapis.com/maps/api/js?key=AIzaSyAY5rnFgI5k_-SV604BMUR4j9VU1kiCGzg"
+  = javascript_include_tag "//maps.googleapis.com/maps/api/js?key=#{Conf::google_map_api_key}"
   = javascript_include_tag "//developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"
   = javascript_include_tag 'gmaps/google'
 
