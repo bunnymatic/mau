@@ -56,7 +56,10 @@ class UserPresenter < ViewPresenter
         user_favorites, art_piece_favorites = model.favorites.partition do |fav|
           ALLOWED_FAVORITE_CLASSES.include? fav.favoritable_type
         end
-        art_pieces = ArtPiece.includes(:artist).owned.where(id: art_piece_favorites.map(&:favoritable_id) ).map(&:artist)
+        art_pieces = ArtPiece.includes(:artist)
+                     .owned
+                     .where(id: art_piece_favorites.map(&:favoritable_id) )
+                     .map(&:artist)
         users = Artist.active.where(id: user_favorites.map(&:favoritable_id))
 
         [ users, art_pieces ].flatten.compact.uniq

@@ -86,7 +86,11 @@ module Admin
 
     def artist_params
       allowed_links = Artist.stored_attributes[:links]
-      params.require(:artist).permit(:firstname, :lastname, :email, :nomdeplume, :studio_id, links: allowed_links, artist_info_attributes: [:studionumber, :street, :bio])
+      params.require(:artist).permit(:firstname, :lastname,
+                                     :email, :nomdeplume,
+                                     :studio_id,
+                                     links: allowed_links,
+                                     artist_info_attributes: [:studionumber, :street, :bio])
     end
   end
 

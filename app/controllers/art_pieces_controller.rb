@@ -149,20 +149,20 @@ class ArtPiecesController < ApplicationController
   end
 
   def art_piece_params
-    parameters = params.require(:art_piece).permit(:title, :dimensions, :year, :medium, :medium_id, :description, :position, :photo)
-    if params[:art_piece][:tags]
-      parameters.merge({tags: params[:art_piece][:tags]})
-    else
-      parameters
-    end
+    parameters = params.require(:art_piece).permit(:title, :dimensions,
+                                                   :year, :medium, :medium_id,
+                                                   :description, :position, :photo)
+    parameters.merge!({tags: params[:art_piece][:tags]}) if params[:art_piece][:tags]
+    parameters
   end
 
 
   def create_art_piece_failed_empty_image(art_piece)
     @art_piece = art_piece
-    art_piece.errors.add(:base, "You must provide an image.  "+
-                                 "Image filenames need to be simple.  Some characters can cause issues with your upload,"+
-                                 " like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
+    art_piece.errors.add(:base, "You must provide an image. "+
+                                "Image filenames need to be simple. "+
+                                "Some characters can cause issues with your upload, "+
+                                "like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
     render template: 'artists/manage_art'
   end
 

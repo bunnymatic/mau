@@ -3,7 +3,8 @@ class StudioPresenter < ViewPresenter
   include OpenStudiosEventShim
 
   attr_reader :studio
-  delegate :get_profile_image, :slug, :phone, :phone?, :map_link, :city, :street, :cross_street, :url, :url?, :to_param, :to => :studio
+  delegate :get_profile_image, :slug, :phone, :phone?, :map_link,
+           :city, :street, :cross_street, :url, :url?, :to_param, :to => :studio
 
   def initialize(studio)
     @studio = studio
@@ -53,9 +54,9 @@ class StudioPresenter < ViewPresenter
   def open_studios_artists_count_label
     @open_studios_count_label ||=
       begin
-        current_open_studios = OpenStudiosEventService.current
         if has_open_studios_artists? && current_open_studios
-          "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) + " in #{current_open_studios.title}"
+          "#{open_studios_artists.count} artist".pluralize(open_studios_artists.count) +
+            " in #{current_open_studios.title}"
         else
           ''
         end
@@ -107,6 +108,10 @@ class StudioPresenter < ViewPresenter
 
   def studio_path
     url_helpers.studio_path(@studio)
+  end
+
+  def current_open_studios
+    @current_open_studios ||= OpenStudiosEventService.current
   end
 
 end

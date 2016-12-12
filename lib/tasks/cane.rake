@@ -4,8 +4,10 @@ begin
 
   desc "Run cane to check quality metrics"
   Cane::RakeTask.new(:quality) do |cane|
-    cane.add_threshold 'coverage/covered_percent', :>=, 95
+    cane.abc_glob      = "{app,lib}/**/**.rb"
+    cane.style_glob    = "{app,lib}/**/**.rb"
 
+    cane.add_threshold 'coverage/covered_percent', :>=, 95
     cane.no_style      = false # Change to true to skip style checks
     cane.style_measure = 120   # Maximum line length
     cane.style_exclude = %w{
@@ -27,7 +29,7 @@ begin
 
     # Fail the build if the code includes debugging statements
     cane.use Morecane::MustNotMatchCheck,
-      must_not_match_glob: "{app,lib,config,spec}/**/*.rb",
+      must_not_match_glob: "{spec,features}/**/*.rb",
       must_not_match_regexp: /binding\.pry|debugger/
   end
 
