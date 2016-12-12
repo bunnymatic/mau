@@ -82,7 +82,7 @@ class CatalogPresenter < ViewPresenter
      a.get_name(true),
      a.email,
      a.studio.try(:name).to_s,
-     a.address_hash.parsed.street,
+     a.address.street,
      a.studionumber,
      a.studio.try(:cross_street).to_s,
      '',

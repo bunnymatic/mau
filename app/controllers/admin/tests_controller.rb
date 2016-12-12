@@ -10,6 +10,11 @@ module Admin
     def show
     end
 
+    def map
+      @map_info = ArtistsMap.new
+      @artists = @map_info.with_addresses
+    end
+
     def markdown
     end
 

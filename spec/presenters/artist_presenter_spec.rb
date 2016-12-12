@@ -12,51 +12,17 @@ describe ArtistPresenter do
     describe 'artist?' do
       its(:artist?) { is_expected.to eq true }
     end
+    4
 
-    describe '#in_the_mission?' do
-      subject { super().in_the_mission? }
-      it { should eql artist.in_the_mission?}
-    end
-
-    describe '#has_media?' do
-      subject { super().has_media? }
-      it { should eq(true) }
-    end
-
-    describe '#has_bio?' do
-      subject { super().has_bio? }
-      it { should eq(true) }
-    end
-
-    describe '#bio_html' do
-      subject { super().bio_html }
-      it { should eq RDiscount.new(artist.artist_info.bio).to_html.html_safe }
-    end
-
-    describe '#has_links?' do
-      subject { super().has_links? }
-      it { should eq(true) }
-    end
-
-    describe '#links' do
-      subject { super().links }
-      it { should be_present }
-    end
-
-    describe '#favorites_count' do
-      subject { super().favorites_count }
-      it { should be_nil }
-    end
-
-    describe '#studio_name' do
-      subject { super().studio_name }
-      it { should eql artist.studio.name }
-    end
-
-    describe '#has_art?' do
-      subject { super().has_art? }
-      it { should eq(true) }
-    end
+    its(:in_the_mission?) { is_expected.to eql artist.in_the_mission? }
+    its(:has_media?) { is_expected.to eql true }
+    its(:has_bio?) { is_expected.to eql true }
+    its(:bio_html) { is_expected.to eql RDiscount.new(artist.artist_info.bio).to_html.html_safe }
+    its(:has_links?) { is_expected.to eql true }
+    its(:links) { is_expected.to be_present }
+    its(:favorites_count) { is_expected.to be_nil }
+    its(:studio_name) { is_expected.to eql artist.studio.name }
+    its(:has_art?) { is_expected.to eql true }
     it{ should be_valid }
 
     it 'has a good map div for google maps' do

@@ -1,4 +1,12 @@
 $ ->
+  if ClusterIcon?
+    ClusterIcon.prototype.getPosFromLatLng_ = (latlng) ->
+      pos = @getProjection().fromLatLngToDivPixel(latlng);
+      pos.x -= parseInt(this.width_ / 2);
+      pos.y -= parseInt(this.height_);
+      console.log("POS:", latlng, pos);
+      pos
+
   $map = $('#map-canvas')
   if $map?[0] && MAU.map_markers
     handler = null

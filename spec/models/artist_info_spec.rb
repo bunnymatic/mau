@@ -12,9 +12,6 @@ describe ArtistInfo do
     it "responds to address" do
       expect(artist_info).to respond_to :address
     end
-    it "responds to address_hash" do
-      expect(artist_info).to respond_to :address_hash
-    end
     it "responds to full_address" do
       expect(artist_info).to respond_to :full_address
     end

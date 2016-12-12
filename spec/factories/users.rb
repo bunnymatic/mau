@@ -81,7 +81,7 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_no_address do
+    trait :without_address do
       after(:create) do |artist|
         artist.artist_info.update_attributes(street: nil, city: nil, addr_state: nil, zip: nil, lat: nil, lng: nil)
       end

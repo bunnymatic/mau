@@ -62,7 +62,7 @@ class AdminArtistList < ViewPresenter
      csv_safe(artist.lastname),
      artist.get_name,
      artist.studio ? artist.studio.name : '',
-     (artist.address_hash.parsed.street if artist.has_address?),
+     artist.address.street,
      artist.studionumber,
      artist.email
     ]

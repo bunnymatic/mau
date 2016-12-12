@@ -8,7 +8,7 @@ class UserPresenter < ViewPresenter
   attr_accessor :model
 
   delegate :name, :state, :firstname, :lastname, :nomdeplume, :city, :street, :id,
-           :bio, :address, :address_hash, :get_name,
+           :bio, :address, :get_name,
            :facebook, :twitter, :instagram,
            :login, :active?,
            :activated_at, :email, :last_login, :full_name,
@@ -51,19 +51,7 @@ class UserPresenter < ViewPresenter
 
   def who_i_favorite
     # collect artist and art piece stuff
-    @who_i_favorite ||=
-      begin
-        user_favorites, art_piece_favorites = model.favorites.partition do |fav|
-          ALLOWED_FAVORITE_CLASSES.include? fav.favoritable_type
-        end
-        art_pieces = ArtPiece.includes(:artist)
-                     .owned
-                     .where(id: art_piece_favorites.map(&:favoritable_id) )
-                     .map(&:artist)
-        users = Artist.active.where(id: user_favorites.map(&:favoritable_id))
-
-        [ users, art_pieces ].flatten.compact.uniq
-      end
+    @who_i_favorite ||= [ my_favorite_users, my_favorite_art ].flatten.compact.uniq
   end
 
   def who_favorites_me
@@ -183,6 +171,23 @@ class UserPresenter < ViewPresenter
   alias_method :get_profile_image, :profile_image
 
   private
+  def my_favorites
+    if !@user_favorites || !@art_piece_favorites
+      @user_favorites, @art_piece_favorites = model.favorites.partition do |fav|
+        ALLOWED_FAVORITE_CLASSES.include? fav.favoritable_type
+      end
+    end
+    {users: @user_favorites, art_pieces: @art_piece_favorites}
+  end
+
+  def my_favorite_users
+    Artist.active.where(id: my_favorites[:users].map(&:favoritable_id))
+  end
+
+  def my_favorite_art
+    ArtPiece.includes(:artist).owned.where(id: my_favorites[:art_pieces].map(&:favoritable_id) ).map(&:artist)
+  end
+
   def format_link_for_display(link)
     strip_http_from_link(link)
   end

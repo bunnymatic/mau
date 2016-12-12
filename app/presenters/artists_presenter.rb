@@ -6,8 +6,8 @@ class ArtistsPresenter
 
   attr_reader :os_only
 
-  def initialize(os_only)
-    @os_only = os_only
+  def initialize(os_only = nil)
+    @os_only = !os_only.nil? && os_only
   end
 
   def active_artists

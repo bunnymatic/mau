@@ -21,10 +21,7 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def address_key(artist)
-    if artist.has_address?
-      addr = artist.artist.address_hash
-      "%s" % addr[:simple]
-    end
+    artist.address.to_s if artist.address.present?
   end
 
   def bounds
@@ -33,9 +30,9 @@ class ArtistsMap < ArtistsPresenter
 
   def map_data
     @map_data ||= Gmaps4rails.build_markers(with_addresses) do |artist, marker|
-      addr = artist.artist.address_hash
-      marker.lat addr[:latlng][0]
-      marker.lng addr[:latlng][1]
+      addr = artist.address
+      marker.lat addr.lat
+      marker.lng addr.lng
       marker.infowindow artist.get_map_info.html_safe
       marker.hash[:artist_id] = artist.id
     end.to_json
