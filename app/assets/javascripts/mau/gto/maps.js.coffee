@@ -1,2 +1,2 @@
 $ ->
-  console.log("mau maps2")
+  # nothing yet
