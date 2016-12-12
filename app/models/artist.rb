@@ -123,8 +123,12 @@ class Artist < User
   end
 
   def doing_open_studios?
-    @doing_open_studios ||= !!(current_open_studios_key && os_participation && os_participation[current_open_studios_key.to_s])
+    @doing_open_studios ||=
+      begin
+        !!(current_open_studios_key && os_participation && os_participation[current_open_studios_key.to_s])
+      end
   end
+
   alias_method :doing_open_studios, :doing_open_studios?
 
   def address

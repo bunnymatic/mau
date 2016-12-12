@@ -93,7 +93,8 @@ module Admin
 
     private
     def studio_params
-      params.require(:studio).permit( :name, :street, :city, :state, :zip, :url, :lat, :lng, :cross_street, :phone, :photo )
+      params.require(:studio).permit( :name, :street, :city, :state, :zip,
+                                      :url, :lat, :lng, :cross_street, :phone, :photo )
     end
 
     def reorder_studio_params

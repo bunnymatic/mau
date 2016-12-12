@@ -8,15 +8,19 @@ class ArtPieceTagPresenter
   end
 
   def art_pieces
-    @pieces ||= begin
-                  pieces = (by_artist? ? pieces_by_artist : tagged_art_pieces).compact.sort_by(&:updated_at).reverse
-                  pieces.map{ |p| ArtPiecePresenter.new(p) }
-                end
+    @pieces ||=
+      begin
+        pieces = (by_artist? ? pieces_by_artist : tagged_art_pieces).compact.sort_by(&:updated_at).reverse
+        pieces.map{ |p| ArtPiecePresenter.new(p) }
+      end
   end
 
   private
   def tagged_art_pieces
-    @tagged_art_pieces ||= ArtPiecesTag.includes(:art_piece).where(:art_piece_tag_id => tag.id).map(&:art_piece).compact.select{|ap| ap.artist.try(:active?) }
+    @tagged_art_pieces ||= ArtPiecesTag.includes(:art_piece)
+                         .where(:art_piece_tag_id => tag.id)
+                         .map(&:art_piece)
+                         .compact.select{|ap| ap.artist.try(:active?) }
   end
 
   def by_artist?
@@ -34,7 +38,7 @@ class ArtPieceTagPresenter
             end
           end
         end.values
-    end
+      end
   end
 
 end

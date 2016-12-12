@@ -9,6 +9,7 @@ class SimpleCov::Formatter::QualityFormatter
     end
   end
 end
+
 SimpleCov.formatter = SimpleCov::Formatter::QualityFormatter
 
 if ENV['COVERAGE']

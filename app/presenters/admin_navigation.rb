@@ -7,45 +7,45 @@ class AdminNavigation < ViewPresenter
   end
 
   def admin_links
-          pr_links = [
-                  [:events, {}],
-                  [:featured_artist, {}],
-                  [:favorites, {}],
-                  [:catalog, {link: '/catalog'}],
-                  [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
-                 ]
-      model_links = [
-                     [:artists , {}],
-                     [:fans , {link: url_helpers.admin_mau_fans_path} ],
-                     [:studios , {}],
-                     [:media , {}],
-                     [:art_piece_tags , {display: 'tags'}],
-                     [:emaillist , {display: 'member emails', link: url_helpers.admin_member_emails_path}]
-                    ]
-      admin_links = [
-                     [:open_studios_events , {display: 'os dates'}],
-                     [:roles, {}],
-                     [:internal_email , {display: 'admin email lists', link: url_helpers.admin_email_lists_path }],
-                     [:blacklist, {display: 'blacklist', link: url_helpers.admin_blacklist_domains_path}],
-                     [:os_status , {}]
-                    ]
-      internal_links = [
-                        [:palette , {display: 'colors', link: url_helpers.admin_palette_path}],
-                        [:app_events, {display: 'app events', icon: :bell, link: url_helpers.admin_application_events_path}],
-                        [:tests , {link: url_helpers.admin_tests_path}]
-                       ]
-      links = [
-               [:models, model_links],
-               [:pr, pr_links],
-               [:admin, admin_links],
-               [:internal, internal_links]
-              ]
+    pr_links = [
+      [:events, {}],
+      [:featured_artist, {}],
+      [:favorites, {}],
+      [:catalog, {link: '/catalog'}],
+      [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
+    ]
+    model_links = [
+      [:artists , {}],
+      [:fans , {link: url_helpers.admin_mau_fans_path} ],
+      [:studios , {}],
+      [:media , {}],
+      [:art_piece_tags , {display: 'tags'}],
+      [:emaillist , {display: 'member emails', link: url_helpers.admin_member_emails_path}]
+    ]
+    admin_links = [
+      [:open_studios_events , {display: 'os dates'}],
+      [:roles, {}],
+      [:internal_email , {display: 'admin email lists', link: url_helpers.admin_email_lists_path }],
+      [:blacklist, {display: 'blacklist', link: url_helpers.admin_blacklist_domains_path}],
+      [:os_status , {}]
+    ]
+    internal_links = [
+      [:palette , {display: 'colors', link: url_helpers.admin_palette_path}],
+      [:app_events, {display: 'app events', icon: :bell, link: url_helpers.admin_application_events_path}],
+      [:tests , {link: url_helpers.admin_tests_path}]
+    ]
+    links = [
+      [:models, model_links],
+      [:pr, pr_links],
+      [:admin, admin_links],
+      [:internal, internal_links]
+    ]
   end
 
   def editor_links
     [[:events, {}],
-                    [:featured_artist , {}],
-                    [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
+     [:featured_artist , {}],
+     [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
     ]
   end
 

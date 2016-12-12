@@ -1,5 +1,6 @@
 class ArtPieceSerializer < MauSerializer
-  attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count, :year, :dimensions, :filename, :title, :artist_id, :image_urls
+  attributes :id, :artist, :medium, :tags, :artist_name, :favorites_count,
+             :year, :dimensions, :filename, :title, :artist_id, :image_urls
 
   # note: image_urls used by angular photo browser
   include ImageFileHelpers

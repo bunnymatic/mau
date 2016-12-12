@@ -1,5 +1,8 @@
 class ArtistSerializer < MauSerializer
-  attributes :full_name, :doing_open_studios, :profile_images, :id, :url, :studio_id, :street_address, :city, :map_url, :firstname, :lastname, :nomdeplume, :slug, :art_pieces, :artist_info, :link
+  attributes :full_name, :doing_open_studios, :profile_images,
+             :id, :url, :studio_id,
+             :street_address, :city, :map_url, :firstname, :lastname,
+             :nomdeplume, :slug, :art_pieces, :artist_info, :link
 
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::UrlHelper

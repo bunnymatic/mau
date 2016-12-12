@@ -7,7 +7,7 @@ class StudioImage < ProfileImage
                     end
                    ]
   end
-  
+
   def self.get_path(studio, size="medium")
     if studio.photo?
       return studio.photo(size)

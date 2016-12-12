@@ -3,6 +3,8 @@ class AdminEmailList < ViewPresenter
 
   include OpenStudiosEventShim
 
+  BASE_COLUMN_HEADERS = ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"]
+
   attr_accessor :list_names
 
   def initialize(list_names)
@@ -116,7 +118,7 @@ class AdminEmailList < ViewPresenter
   end
 
   def csv_headers
-    @csv_headers ||= ["First Name","Last Name","Full Name", "Email Address", "Group Site Name"] + available_open_studios_keys
+    @csv_headers ||= BASE_COLUMN_HEADERS + available_open_studios_keys
   end
 
   def artist_as_csv_row(artist)

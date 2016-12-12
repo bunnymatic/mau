@@ -24,11 +24,20 @@ class ArtSampler
   end
 
   def random_pieces
-    ArtPiece.includes(:artist).where( {users: { state: :active } }).order("rand(#{seed})").limit(@number_of_images_per_fetch).offset(offset)
+    ArtPiece.includes(:artist)
+      .where( {users: { state: :active } })
+      .order("rand(#{seed})")
+      .limit(@number_of_images_per_fetch)
+      .offset(offset)
   end
 
   def new_pieces
-    @new_pieces ||= ArtPiece.includes(:artist).where( {users: { state: :active } }).order('art_pieces.created_at desc').limit(Artist::MAX_PIECES*NUM_NEW_ART_PIECES).uniq_by(&:artist_id).first(NUM_NEW_ART_PIECES)
+    @new_pieces ||= ArtPiece.includes(:artist)
+                  .where( {users: { state: :active } })
+                  .order('art_pieces.created_at desc')
+                  .limit(Artist::MAX_PIECES*NUM_NEW_ART_PIECES)
+                  .uniq_by(&:artist_id)
+                  .first(NUM_NEW_ART_PIECES)
   end
 
 end
