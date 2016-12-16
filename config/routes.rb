@@ -101,6 +101,7 @@ Mau::Application.routes.draw do
       post :qr
       get :markdown
       get :social_icons
+      get :map
     end
 
     get :os_status

@@ -12,8 +12,8 @@ describe ArtistsPresenter do
   before do
     # bypass test geocoder
     artists.each do |a|
-      a.update_attribute(:lat, 37.75)
-      a.update_attribute(:lng, -122.41)
+      a.artist_info.update_attribute(:lat, 37.75)
+      a.artist_info.update_attribute(:lng, -122.41)
     end
   end
   describe '#artists' do

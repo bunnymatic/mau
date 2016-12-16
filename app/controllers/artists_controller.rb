@@ -256,26 +256,4 @@ class ArtistsController < ApplicationController
     artist_names
   end
 
-  # # process xhr request to update artist os participation
-  # def process_os_update
-  #   participating = (((params[:artist] && params[:artist][:os_participation])).to_i != 0)
-
-  #   if participating != current_artist.doing_open_studios?
-  #     unless current_artist.address.blank?
-  #       current_artist.update_os_participation(OpenStudiosEventService.current, participating)
-  #       trigger_os_signup_event(participating)
-  #     end
-  #   end
-  #   Messager.new.publish "/artists/#{current_artist.id}/update", "updated os info"
-  #   participating
-  # end
-
-  # def trigger_os_signup_event(participating)
-  #   msg = "#{current_artist.full_name} set their os status to"+
-  #     " #{participating} for #{current_open_studios_key} open studios"
-  #   data = {'user' => current_artist.login, 'user_id' => current_artist.id}
-  #   OpenStudiosSignupEvent.create(message: msg,
-  #                                 data: data)
-  # end
-
 end

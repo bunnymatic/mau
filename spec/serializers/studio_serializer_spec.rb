@@ -14,10 +14,10 @@ describe StudioSerializer do
       expect(parsed['studio']['name']).to eql studio.name
     end
     it 'includes the street address' do
-      expect(parsed['studio']['street_address']).to eql studio.address_hash.parsed.street
+      expect(parsed['studio']['street_address']).to eql studio.address.street
     end
     it 'includes the city' do
-      expect(parsed['studio']['city']).to eql studio.address_hash.parsed.city
+      expect(parsed['studio']['city']).to eql studio.address.city
     end
     it 'includes a url for the map' do
       expect(parsed['studio']['map_url']).to eql studio.map_link

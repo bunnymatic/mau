@@ -16,7 +16,7 @@
                 = artist_list.count > 1 ? "(#{artist_list.length})": ''
               %br
               %span.address
-                = studio.street
+                = artist.address.street
           %ul.artists
             - artist_list.each do |artist|
               %li
@@ -32,4 +32,4 @@
                 %span.name
                   = artist.full_name
                 %span.address
-                  = artist.street
+                  = artist.address.street

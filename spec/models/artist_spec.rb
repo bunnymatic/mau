@@ -6,9 +6,10 @@ describe Artist do
   subject(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, max_pieces: max_pieces, firstname: 'Joe', lastname: 'Blow') }
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
   let(:wayout_artist) { FactoryGirl.create(:artist, :active, :out_of_the_mission) }
-  let(:nobody) { FactoryGirl.create(:artist, :active, :with_no_address) }
+  let(:nobody) { FactoryGirl.create(:artist, :active, :without_address) }
   let(:artist_without_studio) { FactoryGirl.create(:artist, :active, :with_art, :in_the_mission) }
   let(:artist_info) { artist.artist_info }
+  let(:studio) { artist.studio }
   let!(:open_studios_event) { FactoryGirl.create(:open_studios_event) }
 
   describe '#at_art_piece_limit?' do
@@ -57,7 +58,7 @@ describe Artist do
 
   describe "update" do
     it "should update bio" do
-      allow_any_instance_of(ArtistInfo).to receive(:compute_geocode).and_return([-40,122])
+      allow_any_instance_of(ArtistInfo).to receive(:compute_geocode).and_return([40,120])
 
       artist.bio = 'stuff'
       artist.artist_info.save!
@@ -82,31 +83,24 @@ describe Artist do
 
   describe 'address methods' do
     before do
-      @address_methods = [:address, :address_hash, :full_address]
+      @address_methods = [:address, :full_address]
     end
     describe 'artist info only' do
-      it "returns artist address" do
-        @address_methods.each do |method|
-          expect(artist_without_studio.send(method)).not_to be_nil
-          expect(artist_without_studio.send(method)).to eql artist_without_studio.artist_info.send(method)
-        end
+      it "delegates address to artist info" do
+        expect(artist_without_studio.artist_info.address).to eq artist_without_studio.address
       end
     end
     describe 'studio + artist info' do
       it "returns studio address" do
         @address_methods.each do |method|
           expect(artist.send(method)).not_to be_nil
-          expect(artist.send(method)).to eql artist.studio.send(method)
+          expect(artist.send(method)).to eq artist.studio.send(method)
         end
       end
     end
     describe 'neither address in artist info nor studio' do
       it "returns empty for address" do
-        expect(nobody.send(:address)).to be_nil
-        hsh = nobody.send(:address_hash)
-        expect(hsh[:geocoded]).to eq false
-        expect(hsh[:parsed][:street]).to be_nil
-        expect(hsh[:latlng]).to eql [nil,nil]
+        expect(nobody.send(:address)).to be_empty
       end
       it { expect(nobody).to_not be_has_address }
     end
@@ -165,7 +159,7 @@ describe Artist do
         expect(artist_info.street).to eql artist.street
       end
       it "returns correct address" do
-        expect(artist_without_studio.address).to include artist.street
+        expect(artist_without_studio.address.to_s).to include artist.street
       end
       it "returns correct lat/lng" do
         expect(artist_info.lat).to be
@@ -174,14 +168,14 @@ describe Artist do
     end
     context 'with studio association' do
       it "returns correct street" do
-        expect(artist_info.street).to eql artist.street
+        expect(artist.address.street).to eql studio.street
       end
-      it "returns studio address" do
-        expect(artist.address).to eql artist.address
+      it "returns correct address" do
+        expect(artist.address.to_s).to eql studio.address.to_s
       end
-      it "returns correct artist info lat/lng" do
-        expect(artist_info.lat).to be_within(0.001).of(artist.lat)
-        expect(artist_info.lng).to be_within(0.001).of(artist.lng)
+      it "returns correct lat/lng" do
+        expect(artist.lat).to eql studio.lat
+        expect(artist.lng).to eql studio.lng
       end
     end
   end

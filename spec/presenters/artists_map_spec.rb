@@ -42,7 +42,8 @@ describe ArtistsMap do
 
     it 'includes artists in the mission' do
       map.with_addresses.each do |a|
-        lat,lng = a.address_hash[:latlng]
+        lat = a.address.lat
+        lng = a.address.lng
         expect(sw_bounds[0] < lat && lat < ne_bounds[0]).to eq(true), "Latitude #{lat} is not within bounds"
         expect(sw_bounds[1] < lng && lng < ne_bounds[1]).to eq(true) ,"Longitude #{lng} is not within bounds"
       end

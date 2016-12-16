@@ -1,0 +1,28 @@
+/ expects map_info
+- content_for :extra_javascript do
+  javascript:
+
+  = javascript_include_tag "//maps.googleapis.com/maps/api/js?key=#{Conf::google_map_api_key}"
+
+.pure-g
+  .pure-u-1-1.header.padded-content.test-content
+    h2.title Map Playtime
+  .pure-u-1-1.pure-u-sm-1-2.pure-u-md-2-3.padded-content.test-content
+    #map
+  .pure-u-1-1.pure-u-sm-1-2.pure-u-md-1-3.padded-content.test-content
+    table.pure-table.tenants
+      thead
+        tr
+          td name
+          td address
+          td lat
+          td lng
+      - @artists.each do |a|
+        tbody.map__artist
+          tr
+            td
+              a.artist-map-lnk(data-artist_id="artist_#{a.id}", href=artist_path(a))
+                = a.full_name
+            td = a.address.to_s
+            td = a.address.lat
+            td = a.address.lng

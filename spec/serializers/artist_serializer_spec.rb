@@ -19,10 +19,10 @@ describe ArtistSerializer do
       expect(JSON.parse(serializer.to_json)['artist']['full_name']).to eql artist.full_name
     end
     it 'includes the street address' do
-      expect(JSON.parse(serializer.to_json)['artist']['street_address']).to eql artist.address_hash.parsed.street
+      expect(JSON.parse(serializer.to_json)['artist']['street_address']).to eql artist.street
     end
     it 'includes the city' do
-      expect(JSON.parse(serializer.to_json)['artist']['city']).to eql artist.address_hash.parsed.city
+      expect(JSON.parse(serializer.to_json)['artist']['city']).to eql artist.address.city
     end
     it 'includes a url for the map' do
       expect(JSON.parse(serializer.to_json)['artist']['map_url']).to eql artist.map_link

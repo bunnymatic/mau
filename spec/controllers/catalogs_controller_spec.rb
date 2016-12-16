@@ -13,7 +13,8 @@ describe CatalogsController do
     artist
     jesse
 
-    ActiveRecord::Base.connection.execute("update artist_infos set open_studios_participation = '#{open_studios_event.key}'")
+    ActiveRecord::Base.connection.execute("update artist_infos " +
+                                          "set open_studios_participation = '#{open_studios_event.key}'")
     allow_any_instance_of(Artist).to receive(:in_the_mission?).and_return(true)
   end
 

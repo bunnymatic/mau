@@ -2,29 +2,10 @@ require 'qr4r'
 
 class Artist < User
 
-  # thanks, http://www.gps-coordinates.net/
-  # order is important for the js overlay
-  EAST_BOUNDARY = -122.40399999999999
-  WEST_BOUNDARY = -122.430
-  NORTH_BOUNDARY = 37.7751
-  SOUTH_BOUNDARY = 37.747
-  BOUNDS = {
-    'NW' => [
-      NORTH_BOUNDARY, WEST_BOUNDARY
-    ],
-    'SW' => [
-      SOUTH_BOUNDARY, WEST_BOUNDARY
-    ],
-    'SE' => [
-      SOUTH_BOUNDARY, EAST_BOUNDARY
-    ],
-    'NE' => [
-      NORTH_BOUNDARY, EAST_BOUNDARY
-    ]
-  }.freeze
-
   REPRESENTATIVE_ART_CACHE_KEY = 'representative_art'
   MAX_PIECES = 20
+
+  include MissionBoundaries
   include AddressMixin
   include OpenStudiosEventShim
 
@@ -85,19 +66,38 @@ class Artist < User
 
   before_create :make_activation_code
 
-  [:bio, :bio=,
-   :os_participation, :os_participation=,
-   :street, :street=,
-   :city, :city=,
-   :addr_state, :addr_state=,
-   :zip, :zip=,
-   :lat, :lat=,
-   :lng, :lng=,
-   :max_pieces
-   ].each do |delegat|
+  [
+    :bio, :bio=, :lat, :lng, :city, :street, :addr_state, :zip,
+    :os_participation, :os_participation=, :max_pieces
+  ].each do |delegat|
     delegate delegat, :to => :artist_info, :allow_nil => true
   end
   delegate :update_os_participation, :to => :artist_info
+
+
+  # def street
+  #   address.street
+  # end
+
+  # def street=(val)
+  #   artist_info.street = val
+  # end
+
+  # def city
+  #   address.city
+  # end
+
+  # def city=(val)
+  #   artist_info.city = val
+  # end
+
+  # def addr_state
+  # :street, :street=,
+  #  :city, :city=,
+  #  :addr_state, :addr_state=,
+  #                          :zip, :zip=,
+  #  :lat, :lat=,
+  #  :lng, :lng=,
 
   def at_art_piece_limit?
     art_pieces.select(&:persisted?).count >= (max_pieces || MAX_PIECES)
@@ -111,8 +111,9 @@ class Artist < User
   end
 
   def in_the_mission?
-    return false unless address && address_hash.has_key?(:latlng)
-    lat,lng = address_hash[:latlng]
+    return false unless address && address.geocoded?
+    lat = address.lat
+    lng = address.lng
     sw = BOUNDS['SW']
     ne = BOUNDS['NE']
     !!((lat && lng) && (lat >= sw[0] && lat <= ne[0] && lng >= sw[1] && lng <= ne[1]))
@@ -130,18 +131,6 @@ class Artist < User
   end
 
   alias_method :doing_open_studios, :doing_open_studios?
-
-  def address
-    @memo_address ||= call_address_method :address
-  end
-
-  def full_address
-    @memo_full_address ||= call_address_method :full_address
-  end
-
-  def address_hash
-    @memo_address_hash ||= call_address_method :address_hash
-  end
 
   def representative_piece
     cache_key = "%s%s" % [REPRESENTATIVE_ART_CACHE_KEY, id]

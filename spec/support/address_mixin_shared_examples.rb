@@ -25,20 +25,17 @@ shared_examples_for AddressMixin do
   }
   let(:without_address) { described_class.new }
 
-  describe '#full_address' do
+  it 'builds a full address for maps' do
+    expect(with_address.full_address).to eql [base_attributes[:street], base_attributes[:city],
+                                              the_state, base_attributes[:zip].to_i].join(", ")
+  end
 
-    it 'builds a full address for maps' do
-      expect(with_address.full_address).to eql [base_attributes[:street], base_attributes[:city],
-                                            the_state, base_attributes[:zip].to_i].join(", ")
-    end
-    it 'builds a full address for maps' do
-      expect(with_address.address).to eql [base_attributes[:street], base_attributes[:zip].to_i].join(" ")
-    end
-
+  it 'provides a short address' do
+    expect(with_address.address.to_s).to eql [base_attributes[:street], base_attributes[:zip].to_i].join(" ")
   end
 
   it 'address returns nil if there is no street' do
-    expect(without_address.address).to be_blank
+    expect(without_address.address.to_s).to be_blank
   end
   it 'full_address returns nil if there is no street' do
     expect(without_address.full_address).to be_blank

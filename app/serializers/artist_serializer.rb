@@ -16,11 +16,11 @@ class ArtistSerializer < MauSerializer
   end
 
   def street_address
-    address = object.address_hash&.parsed&.street
+    address = object.address.street
   end
 
   def city
-    address = object.address_hash&.parsed&.city
+    address = object.address.city
   end
 
   def map_url

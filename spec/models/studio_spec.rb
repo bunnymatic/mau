@@ -22,9 +22,6 @@ describe Studio do
     it "responds to full address" do
       expect(studio).to respond_to :full_address
     end
-    it "responds to address_hash" do
-      expect(studio).to respond_to :address_hash
-    end
   end
 
   describe 'create' do
