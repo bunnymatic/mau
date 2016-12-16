@@ -265,6 +265,7 @@ GEM
       actionmailer (>= 3.0.0)
       postmark (~> 1.8.0)
     public_suffix (2.0.4)
+    public_suffix (2.0.4)
     qr4r (0.4.1)
       mojo_magick
       rqrcode
