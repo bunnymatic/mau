@@ -49,7 +49,7 @@ describe ArtistMailer do
       expect(mail).to have_body_text artist_url(artist)
     end
     it "includes the artist's name" do
-      expect(mail).to have_body_text artist.get_name
+      expect(mail).to have_body_text encode(artist.get_name)
     end
     it "includes the fan's name" do
       expect(mail).to have_body_text fan.get_name
