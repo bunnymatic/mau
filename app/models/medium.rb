@@ -5,7 +5,7 @@ class Medium < ApplicationRecord
   include TagMediaMixin
 
   include FriendlyId
-  friendly_id :name, use: [:slugged, :finders]
+  friendly_id :name, use: [:slugged]
 
   validates :name, :presence => true, :length => {:within => (2..244)}
 

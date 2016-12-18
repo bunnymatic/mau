@@ -237,7 +237,6 @@ describe ArtistsController, elasticsearch: true do
       allow(@controller).to receive(:render)
       expect(@controller).to receive(:send_data)
       get :qrcode, id: artist.id, format: 'png'
-      debugger
       expect(response.content_type).to eql 'image/png'
     end
     it 'redirects to the png if you ask without format' do

@@ -18,7 +18,7 @@ class User < ApplicationRecord
   store :links, accessors: %i| website facebook twitter blog pinterest myspace flickr instagram artspan |
 
   extend FriendlyId
-  friendly_id :login, use: [:slugged, :finders]
+  friendly_id :login, use: [:slugged]
 
   # custom validations
   validate :validate_email

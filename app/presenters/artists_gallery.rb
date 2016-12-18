@@ -10,7 +10,6 @@ class ArtistsGallery < ArtistsPresenter
   delegate :items, :has_more?, :current_page, :next_page, :to => :pagination
 
   def initialize(os_only, letter, ordering, current_page, per_page = PER_PAGE)
-    puts os_only
     super os_only
     @letter = letter.try(:downcase)
     @ordering = ([:lastname, :firstname].include? ordering.try(:to_sym)) ? ordering.to_sym : :lastname
