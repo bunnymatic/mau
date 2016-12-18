@@ -57,7 +57,7 @@ class UserPresenter < ViewPresenter
   def who_favorites_me
     @who_favorites_me ||=
       begin
-        favs = favorites_of_me.flatten
+        favs = favorites_of_me.to_a.flatten
         user_ids = favs.map(&:user_id).compact.uniq
         User.active.where(id: user_ids)
       end

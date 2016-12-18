@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 gem 'racc'
-gem 'rails', '~>4.2'
+gem 'rails', '5.0.0'
 gem 'active_model_serializers'
 gem 'responders'
 gem 'lograge'
@@ -113,8 +113,10 @@ group :development do
 end
 
 group :test, :development do
+  gem 'byebug'
   gem 'rspec-its'
   gem 'rspec-collection_matchers'
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'timecop'
   gem 'database_cleaner'
