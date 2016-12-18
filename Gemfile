@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 gem 'racc'
-gem 'rails', '~> 4.2'
+gem 'rails', '~>4.2'
 gem 'active_model_serializers'
 gem 'responders'
 gem 'lograge'
@@ -60,7 +60,7 @@ gem 'newrelic_rpm' #moitoring
 
 gem 'dotenv-rails'
 
-gem 'sass-rails'
+gem 'sass-rails', '~> 5.0.5'
 gem 'autoprefixer-rails'
 gem 'coffee-rails'
 
@@ -128,7 +128,6 @@ group :test, :development do
   gem 'simplecov'
   gem 'cane'
   gem 'morecane'
-  gem 'quiet_assets'
 
   gem 'jslint_on_rails'
 end
