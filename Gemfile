@@ -2,16 +2,16 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 gem 'racc'
-gem "rails", '~> 4.2'
+gem 'rails', '~> 4.2'
 gem 'active_model_serializers'
 gem 'responders'
 gem 'lograge'
-gem "font-awesome-rails"
-gem "nokogiri"
-gem "htmlentities"
+gem 'font-awesome-rails'
+gem 'nokogiri'
+gem 'htmlentities'
 gem 'mysql2', '~> 0.4.x'
-gem "haml"
-gem "slim-rails"
+gem 'haml'
+gem 'slim-rails'
 gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
@@ -31,7 +31,7 @@ gem 'rosie'
 gem 'mime-types'
 gem 'qr4r'
 gem 'rack-cors', require: 'rack/cors'
-gem "recaptcha", require: "recaptcha/rails"
+gem 'recaptcha', require: 'recaptcha/rails'
 gem 'browser'
 gem 'geokit'
 gem 'geokit-rails'
@@ -69,11 +69,11 @@ gem 'uglifier'
 gem 'actionmailer-text'
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-angular', "=1.3.16"
-  gem 'rails-assets-angular-resource', "=1.3.16"
-  gem 'rails-assets-angular-sanitize', "=1.3.16"
-  gem 'rails-assets-angular-animate', "=1.3.16"
-  gem 'rails-assets-angular-ui-utils', "~> 0.2.3"
+  gem 'rails-assets-angular', '=1.3.16'
+  gem 'rails-assets-angular-resource', '=1.3.16'
+  gem 'rails-assets-angular-sanitize', '=1.3.16'
+  gem 'rails-assets-angular-animate', '=1.3.16'
+  gem 'rails-assets-angular-ui-utils', '~> 0.2.3'
   gem 'rails-assets-angular-mocks'
   gem 'rails-assets-angular-moment'
   gem 'rails-assets-moment'
@@ -106,7 +106,7 @@ group :development do
   gem 'capistrano3-unicorn'
   gem 'spring'
   gem 'better_errors'
-  gem "binding_of_caller"
+  gem 'binding_of_caller'
   gem 'unicorn-rails'
 
   gem 'rails_best_practices'
@@ -123,7 +123,7 @@ group :test, :development do
   gem 'teaspoon-jasmine'
   gem 'spring-commands-teaspoon'
 
-  gem "elasticsearch-extensions", require: nil
+  gem 'elasticsearch-extensions', require: nil
 
   gem 'simplecov'
   gem 'cane'
