@@ -73,31 +73,6 @@ class Artist < User
   end
   delegate :update_os_participation, :to => :artist_info
 
-
-  # def street
-  #   address.street
-  # end
-
-  # def street=(val)
-  #   artist_info.street = val
-  # end
-
-  # def city
-  #   address.city
-  # end
-
-  # def city=(val)
-  #   artist_info.city = val
-  # end
-
-  # def addr_state
-  # :street, :street=,
-  #  :city, :city=,
-  #  :addr_state, :addr_state=,
-  #                          :zip, :zip=,
-  #  :lat, :lat=,
-  #  :lng, :lng=,
-
   def at_art_piece_limit?
     art_pieces.select(&:persisted?).count >= (max_pieces || MAX_PIECES)
   end

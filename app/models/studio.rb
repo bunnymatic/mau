@@ -77,7 +77,7 @@ class Studio < ApplicationRecord
   def as_indexed_json(opts={})
     idxd = as_json(only: [:name, :slug])
     extras = {}
-    extras["address"] = address
+    extras["address"] = address.to_s
     extras["images"] = image_paths
     extras["os_participant"] = artists.any?{|a| a.try(:doing_open_studios?)}
     idxd["studio"].merge!(extras)
