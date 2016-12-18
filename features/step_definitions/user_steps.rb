@@ -1,6 +1,6 @@
 When(/^I change my password to "(.*?)"$/) do |new_pass|
   visit edit_artist_path(@artist)
-  fill_in("Old Password", :with => 'bmatic')
+  fill_in("Old Password", :with => '8characters')
   fill_in("New Password", :with => new_pass)
   fill_in("Confirm new Password", :with => new_pass)
   click_on 'change password'
@@ -22,11 +22,11 @@ When(/^I fill in "(.*?)" for my password$/) do |pass|
 end
 
 When(/^I fill in valid credentials using my email$/) do
-  fill_in_login_form @artist.email, "bmatic"
+  fill_in_login_form @artist.email, "8characters"
 end
 
 When(/^I fill in valid credentials$/) do
-  fill_in_login_form @artist.login, "bmatic"
+  fill_in_login_form @artist.login, "8characters"
 end
 
 Then(/^I see that I'm logged in$/) do
@@ -63,7 +63,7 @@ end
 When(/^I login$/) do
   steps %{When I visit the login page}
   # if we're already logged in we'll be somewhere else
-  fill_in_login_form (@artist || @user).login, 'bmatic'
+  fill_in_login_form (@artist || @user).login, '8characters'
   steps %{And I click "Sign In"}
 end
 
@@ -82,7 +82,7 @@ end
 When(/^I login as an editor$/) do
   @editor = FactoryGirl.create(:user, :editor, :active)
   steps %{When I visit the login page}
-  fill_in_login_form @editor.login, 'bmatic'
+  fill_in_login_form @editor.login, '8characters'
   steps %{And I click "Sign In"}
 end
 
@@ -90,7 +90,7 @@ When(/^I login as a manager$/) do
   studios = FactoryGirl.create_list(:studio,2)
   @manager = FactoryGirl.create(:user, :manager, :active, :studio => studios.first)
   steps %{When I visit the login page}
-  fill_in_login_form @manager.login, 'bmatic'
+  fill_in_login_form @manager.login, '8characters'
   steps %{And I click "Sign In"}
 end
 
@@ -103,7 +103,7 @@ When(/^I login as "(.*?)"$/) do |login|
   path = current_path
   visit login_path
   @artist = User.find_by(login: login)
-  fill_in_login_form login, 'bmatic'
+  fill_in_login_form login, '8characters'
   steps %{And I click "Sign In"}
   steps %{Then I see a flash notice "You're in"}
   visit path

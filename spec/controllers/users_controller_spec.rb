@@ -78,11 +78,11 @@ describe UsersController, elasticsearch: true do
           post :create, params_with_secret(
                  {
                    mau_fan: { login: 'newuser',
-                                 password_confirmation: "blurpit",
-                                 lastname: "bmatic2",
-                                 firstname: "bmatic2",
-                                 password: "blurpit",
-                                 email: "bmatic2@blacklist.com" },
+                              lastname: "bmatic2",
+                              firstname: "bmatic2",
+                              password: "8characters",
+                              password_confirmation: "8characters",
+                              email: "bmatic2@blacklist.com" },
                    type: "MauFan"
                  }
                )
@@ -93,11 +93,11 @@ describe UsersController, elasticsearch: true do
           post :create, params_with_secret(
                  {
                    mau_fan: { login: 'newuser',
-                                 password_confirmation: "blurpit",
-                                 lastname: "bmatic2",
-                                 firstname: "bmatic2",
-                                 password: "blurpit",
-                                 email: "bmatic2@nonblacklist.com" },
+                              lastname: "bmatic2",
+                              firstname: "bmatic2",
+                              password: "8characters",
+                              password_confirmation: "8characters",
+                              email: "bmatic2@nonblacklist.com" },
                    type: "MauFan"
                  }
                )
@@ -113,11 +113,11 @@ describe UsersController, elasticsearch: true do
         post :create, params_with_secret(
                {
                  mau_fan: { login: 'newuser',
-                               password_confirmation: "blurpit",
-                               lastname: "bmatic2",
-                               firstname: "bmatic2",
-                               password: "blurpit",
-                               email: "bmatic2@b.com" },
+                            lastname: "bmatic2",
+                            firstname: "bmatic2",
+                            password: "8characters",
+                            password_confirmation: "8characters",
+                            email: "bmatic2@b.com" },
                  type: "MauFan"
                }
              )
@@ -157,12 +157,12 @@ describe UsersController, elasticsearch: true do
         post :create, params_with_secret(
                {
                  mau_fan: { login: 'newuser',
-                               password_confirmation: "blurpit",
-                               lastname: "bmatic2",
-                               firstname: "bmatic2",
-                               password: "blurpit",
-                               email: "bmatic2@b.com"
-                             },
+                            lastname: "bmatic2",
+                            firstname: "bmatic2",
+                            password: "8characters",
+                            password_confirmation: "8characters",
+                            email: "bmatic2@b.com"
+                          },
                  type: "MauFan"
                })
       end
@@ -201,8 +201,8 @@ describe UsersController, elasticsearch: true do
         post :create, params_with_secret(
                {
                  mau_fan: {
-                   password_confirmation: "blurpit",
-                   password: "blurpit",
+                   password: "8characters",
+                   password_confirmation: "8characters",
                    email: "bmati2@b.com" },
                  type: "MauFan"
                })
@@ -245,11 +245,11 @@ describe UsersController, elasticsearch: true do
         post :create, params_with_secret(
                {
                  artist: { login: 'newuser2',
-                              password_confirmation: "blurpt",
-                              lastname: "bmatic",
-                              firstname: "bmatic",
-                              password: "blurpt",
-                              email: "bmatic2@b.com" }, type: "Artist"
+                           lastname: "bmatic",
+                           firstname: "bmatic",
+                           password: "8characters",
+                           password_confirmation: "8characters",
+                           email: "bmatic2@b.com" }, type: "Artist"
                })
       end
       it "redirects to index" do
@@ -433,8 +433,8 @@ describe UsersController, elasticsearch: true do
         before do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
           post :reset, { user: { password: 'whatever',
-              password_confirmation: 'whatev' } ,
-              reset_code: 'abc' }
+                                 password_confirmation: 'whatev' } ,
+                         reset_code: 'abc' }
         end
         it { expect(response).to be_success }
         it "has an error message" do
@@ -446,8 +446,8 @@ describe UsersController, elasticsearch: true do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
           expect_any_instance_of(MauFan).to receive(:delete_reset_code).exactly(:once)
           post :reset, { user: { password: 'whatever',
-              password_confirmation: 'whatever' },
-              reset_code: 'abc' }
+                                 password_confirmation: 'whatever' },
+                         reset_code: 'abc' }
         end
         it "returns redirect" do
           expect(response).to redirect_to "/login"

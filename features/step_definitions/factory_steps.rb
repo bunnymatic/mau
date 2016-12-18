@@ -3,15 +3,15 @@ Given(/^an account has been created/) do
   if !@artist
     @artist = FactoryGirl.create(:artist, :active, :with_art, :in_the_mission, :login => 'bmatic')
   end
-  @artist.password = 'bmatic'
-  @artist.password_confirmation = 'bmatic'
+  @artist.password = '8characters'
+  @artist.password_confirmation = '8characters'
   @artist.save!
 end
 
 Given(/^an? "(.*?)" account has been created/) do |role|
   @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym )
-  @artist.password = 'bmatic'
-  @artist.password_confirmation = 'bmatic'
+  @artist.password = '8characters'
+  @artist.password_confirmation = '8characters'
   @artist.save!
 end
 

@@ -4,8 +4,8 @@ FactoryGirl.define do
   factory :user do
     login
     email { "#{login}@example.com" }
-    password { 'bmatic' }
-    password_confirmation { 'bmatic' }
+    password { 'bunnymatic' }
+    password_confirmation { 'bunnymatic' }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.first_name }
     nomdeplume { Faker::Company.name }
