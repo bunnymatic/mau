@@ -271,11 +271,12 @@ describe User do
         Timecop.travel(1.hour.since)
       end
       it "create_reset_code creates a reset code" do
+        ActiveJob::Base.queue_adapter = :test
         expect(maufan.reset_code).to be_nil
         expect {
           maufan.create_reset_code
           expect(maufan.reset_code).not_to be_nil
-        }.to change(UserMailer.deliveries, :count).by(1)
+        }.to have_enqueued_job.on_queue('mailers')
       end
     end
     context "artist" do
