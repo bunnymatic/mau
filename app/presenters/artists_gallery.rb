@@ -1,5 +1,7 @@
 class ArtistsGallery < ArtistsPresenter
 
+  include Rails.application.routes.url_helpers
+
   PER_PAGE = Rails.env.development? ? 5 : 20
   ELLIPSIS = "&hellip;"
   LETTERS_REGEX = /[a-zA-Z]/
@@ -25,6 +27,18 @@ class ArtistsGallery < ArtistsPresenter
     return [] unless name
     letters = ArtPiece.joins(:artist).where(users:{state: "active"}).group("lcase(left(users.#{name},1))").count.keys
     letters.select{|l| LETTERS_REGEX =~ l} + [ELLIPSIS]
+  end
+
+  def path_to(desired_params, current_params)
+    params = current_params.permit(:s, :l, :o).merge(desired_params)
+    puts params.to_h
+    artists_path(sanitize_index_params(params))
+  end
+
+  def sanitize_index_params(params)
+    params[:o] = (params[:o].presence.to_s == 'true')
+    params[:s] = (params[:s].presence.to_s == 'firstname') ? :firstname : :lastname
+    params
   end
 
   def empty_message
