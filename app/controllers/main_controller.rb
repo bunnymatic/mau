@@ -18,7 +18,7 @@ class MainController < ApplicationController
   end
 
   def version
-    render text: @revision
+    render plain: @revision
   end
 
   def about
@@ -121,7 +121,7 @@ EOM
   end
 
   def sampler_params
-    params.slice(:seed, :offset, :number_of_images).symbolize_keys
+    params.permit(:seed, :offset, :number_of_images)
   end
 
   def feedback_mail_params

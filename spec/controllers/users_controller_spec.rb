@@ -549,7 +549,7 @@ describe UsersController, elasticsearch: true do
   describe 'activate' do
     describe 'with valid activation code' do
       let(:make_activate_call) {
-        get :activate, activation_code: pending_fan.activation_code
+        get :activate, params: { activation_code: pending_fan.activation_code }
       }
       before do
         expect_any_instance_of(MauFan).to receive(:activate!)

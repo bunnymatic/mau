@@ -7,7 +7,7 @@ class ArtPiecesController < ApplicationController
   before_action :load_art_piece, only: [:show, :destroy, :edit, :update]
   before_action :load_media, only: [:new, :edit, :create, :update]
 
-  after_filter :flush_cache, only: [:create, :update, :destroy]
+  after_action :flush_cache, only: [:create, :update, :destroy]
 
   def flush_cache
     Medium.flush_cache

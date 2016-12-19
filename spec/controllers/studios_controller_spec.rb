@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe StudiosController do
+describe StudiosController, elasticsearch: true do
 
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:manager) { FactoryGirl.create(:artist, :with_studio, :manager) }
@@ -13,13 +13,13 @@ describe StudiosController do
 
   describe "#show" do
     it 'gets independent studio with the slug' do
-      get :show, id: 'independent-studios'
+      get :show, params: { id: 'independent-studios' }
       expect(assigns(:studio).name).to eql "Independent Studios"
     end
 
     describe 'unknown studio' do
       before do
-        get :show, "id" => 'blurp'
+        get :show, params: { id: 'blurp' }
       end
       it {expect(response).to redirect_to studios_path}
       it 'sets the flash' do
@@ -32,7 +32,7 @@ describe StudiosController do
         before do
           allow_any_instance_of(Studio).to receive(:phone).and_return('1234569999')
           allow_any_instance_of(Studio).to receive(:cross_street).and_return('fillmore')
-          get :show, id: studio.slug, format: 'html'
+          get :show, params: { id: studio.slug, format: 'html' }
         end
         it {expect(response).to be_success}
       end

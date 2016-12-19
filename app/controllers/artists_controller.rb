@@ -80,15 +80,12 @@ class ArtistsController < ApplicationController
 
   def destroyart
     # receives post from delete art form
-    unless params[:art]
+    unless destroy_art_params
       redirect_to(artist_path(current_user)) and return
     end
 
-    ids = params[:art].map { |kk,vv| kk if vv != "0" }.compact
-    arts = ArtPiece.where(id: ids, artist_id: current_user.id)
-    arts.each do |art|
-      art.destroy
-    end
+    ids = destroy_art_params.map { |kk,vv| kk if vv != "0" }.compact
+    ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
     Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", "deleted art pieces"
     redirect_to(artist_path(current_user))
   end
@@ -219,6 +216,9 @@ class ArtistsController < ApplicationController
     %i|bio street city addr_state zip studionumber|
   end
 
+  def destroy_art_params
+    params.permit(:art)[:art]
+  end
 
   def artist_params
     if params[:emailsettings]

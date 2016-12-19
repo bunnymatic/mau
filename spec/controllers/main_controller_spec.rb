@@ -11,7 +11,7 @@ shared_examples_for 'has some invalid params' do
   it { expect(JSON.parse(response.body)['error_messages']).to be_present }
 end
 
-describe MainController do
+describe MainController, elasticsearch: true do
 
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:editor) { FactoryGirl.create(:artist, :active, :editor) }
@@ -83,7 +83,7 @@ describe MainController do
                                           page: :venues,
                                           section: :all,
                                           article: "# these \n\n## are \n\n### venues \n\n* one\n* two\n* three"
-                                          )}
+                                         )}
       before do
         venue_doc
         login_as(admin)
@@ -95,7 +95,7 @@ describe MainController do
   describe 'notes mailer' do
     describe "xhr post" do
       before do
-        xhr :post, :notes_mailer, feedback_mail: { stuff: 'whatever'}
+        post :notes_mailer, xhr: true, params: { feedback_mail: { stuff: 'whatever'} }
         @resp = JSON::parse(response.body)
       end
       it{expect(response).to be_4xx}
@@ -108,7 +108,12 @@ describe MainController do
 
     describe "submission given invalid note_type" do
       before do
-        xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'bogus', :email => 'a@b.com'}
+        post :notes_mailer, xhr: true, params: {
+               feedback_mail: {
+                 note_type: 'bogus',
+                 email: 'a@b.com'
+               }
+             }
         @resp = JSON::parse(response.body)
       end
       it{expect(response).to be_4xx}
@@ -116,7 +121,12 @@ describe MainController do
 
     describe "submission given note_type email_list and email only" do
       before do
-        xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'email_list', :email => 'a@b.com'}
+        post :notes_mailer, xhr: true, params: {
+               feedback_mail: {
+                 note_type: 'email_list',
+                 email: 'a@b.com'
+               }
+             }
         @resp = JSON::parse(response.body)
       end
       it_should_behave_like "has some invalid params"
@@ -124,8 +134,13 @@ describe MainController do
 
     describe "submission given note_type inquiry, both emails but no inquiry" do
       before do
-        xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'inquiry',
-          :email => 'a@b.com', :email_confirm => 'a@b.com'}
+        post :notes_mailer, xhr: true, params: {
+               feedback_mail: {
+                 note_type: 'inquiry',
+                 email: 'a@b.com',
+                 email_confirm: 'a@b.com'
+               }
+             }
         @resp = JSON::parse(response.body)
       end
       it_should_behave_like "has some invalid params"
@@ -134,9 +149,14 @@ describe MainController do
     describe "submission with valid params" do
       context "inquiry" do
         before do
-          xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'inquiry',
-            :inquiry => 'cool note',
-            :email => 'a@b.com', :email_confirm => 'a@b.com'}
+          post :notes_mailer, xhr: true, params: {
+                 feedback_mail: {
+                   note_type: 'inquiry',
+                   inquiry: 'cool note',
+                   email: 'a@b.com',
+                   email_confirm: 'a@b.com'
+                 }
+               }
           @resp = JSON::parse(response.body)
         end
         it_should_behave_like 'successful notes mailer response'
@@ -144,9 +164,14 @@ describe MainController do
 
       context "help" do
         before do
-          xhr :post, :notes_mailer, :feedback_mail => {:note_type => 'help',
-            :inquiry => 'cool note',
-            :email => 'a@b.com', :email_confirm => 'a@b.com'}
+          post :notes_mailer, xhr: true, params: {
+                 feedback_mail: {
+                   note_type: 'help',
+                   inquiry: 'cool note',
+                   email: 'a@b.com',
+                   email_confirm: 'a@b.com'
+                 }
+               }
           @resp = JSON::parse(response.body)
         end
         it_should_behave_like 'successful notes mailer response'
