@@ -1,5 +1,6 @@
 require 'rails_helper'
-describe Admin::StatsController, type: :controller do
+describe Admin::StatsController, elasticsearch: true do
+
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:artist) { FactoryGirl.create(:artist, :active) }
@@ -12,7 +13,7 @@ describe Admin::StatsController, type: :controller do
     [:art_pieces_count_histogram, :user_visits_per_day, :artists_per_day, :favorites_per_day, :art_pieces_per_day, :os_signups].each do |endpoint|
       describe endpoint.to_s do
         before do
-          xhr :get, endpoint
+          get endpoint, xhr: true
         end
         it_should_behave_like 'successful json'
       end
