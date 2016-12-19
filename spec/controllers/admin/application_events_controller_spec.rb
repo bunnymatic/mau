@@ -24,7 +24,7 @@ describe Admin::ApplicationEventsController do
     let(:since) { nil }
     before do
       login_as(admin)
-      get :index, limit: limit, since: since
+      get :index, params: { limit: limit, since: since }
     end
     context 'with no params' do
       it 'returns success' do
@@ -104,7 +104,7 @@ describe Admin::ApplicationEventsController do
     let(:limit) { nil }
     before do
       login_as(admin)
-      get :index, format: :json, limit: limit
+      get :index, params: { format: :json, limit: limit }
     end
     context 'with no params' do
       it 'returns success' do
