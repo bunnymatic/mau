@@ -72,7 +72,7 @@ Mau::Application.routes.draw do
       get :manage_art
       post :notify_featured
       post :update
-      get :qrcode
+      # get :qrcode
     end
   end
 

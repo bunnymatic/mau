@@ -138,23 +138,24 @@ class ArtistsController < ApplicationController
     end
   end
 
-  def qrcode
-    @artist = get_active_artist_from_params
-    if @artist
-      qrcode_system_path = @artist.qrcode
-      respond_to do |fmt|
-        fmt.html {
-          redirect_to "/artistdata/#{@artist.id}/profile/qr.png"
-        }
-        fmt.png {
-          data = File.open(qrcode_system_path,'rb').read
-          send_data(data, filename: 'qr.png', :type=>'image/png', disposition: "inline")
-        }
-      end
-    else
-      render action: 'show'
-    end
-  end
+  # TODO: use paperclip to save the qr code
+  # def qrcode
+  #   @artist = get_active_artist_from_params
+  #   if @artist
+  #     qrcode_system_path = @artist.qrcode
+  #     respond_to do |fmt|
+  #       fmt.html {
+  #         redirect_to "/artistdata/#{@artist.id}/profile/qr.png"
+  #       }
+  #       fmt.png {
+  #         data = File.open(qrcode_system_path,'rb').read
+  #         send_data(data, filename: 'qr.png', :type=>'image/png', disposition: "inline")
+  #       }
+  #     end
+  #   else
+  #     render action: 'show'
+  #   end
+  # end
 
   def update
     if request.xhr?
