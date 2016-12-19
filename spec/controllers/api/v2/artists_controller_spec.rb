@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V2::ArtistsController do
+describe Api::V2::ArtistsController, elasticsearch: true do
 
   let(:studio) {create(:studio, :with_artists)}
   let(:headers) { {} }
@@ -11,7 +11,7 @@ describe Api::V2::ArtistsController do
 
   describe "#index" do
     def make_request
-      get :index, { format: :json, studio: studio.slug }, headers
+      get :index, params: { format: :json, studio: studio.slug }, headers: headers
     end
 
     context "without proper authorization" do

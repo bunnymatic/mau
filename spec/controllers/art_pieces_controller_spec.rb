@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ArtPiecesController do
+describe ArtPiecesController, elasticsearch: true do
 
   let(:medium) { FactoryGirl.create(:medium) }
   let(:existing_tag) { FactoryGirl.create(:art_piece_tag) }
@@ -12,8 +12,8 @@ describe ArtPiecesController do
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let!(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
-  let(:art_pieces) { artist.art_pieces }
-  let(:art_piece) { art_pieces.first }
+  let(:art_pieces) { artist.reload.art_pieces }
+  let(:art_piece) { art_pieces.first.reload }
 
 
   describe "#show" do

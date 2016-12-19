@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CatalogsController do
+describe CatalogsController, elasticsearch: true do
 
   let(:jesse) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }
   let(:artist) { FactoryGirl.create(:artist, :active, :with_studio, :with_art, :with_links) }

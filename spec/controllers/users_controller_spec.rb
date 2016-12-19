@@ -75,14 +75,16 @@ describe UsersController, elasticsearch: true do
       end
       it 'forbids email whose domain is on the blacklist' do
         expect {
-          post :create, params_with_secret(
+          post :create, params: params_with_secret(
                  {
-                   mau_fan: { login: 'newuser',
-                              lastname: "bmatic2",
-                              firstname: "bmatic2",
-                              password: "8characters",
-                              password_confirmation: "8characters",
-                              email: "bmatic2@blacklist.com" },
+                   mau_fan: {
+                     login: 'newuser',
+                     lastname: "bmatic2",
+                     firstname: "bmatic2",
+                     password: "8characters",
+                     password_confirmation: "8characters",
+                     email: "bmatic2@blacklist.com"
+                   },
                    type: "MauFan"
                  }
                )
@@ -90,14 +92,16 @@ describe UsersController, elasticsearch: true do
       end
       it 'allows non blacklist domain to add a user' do
         expect {
-          post :create, params_with_secret(
+          post :create, params: params_with_secret(
                  {
-                   mau_fan: { login: 'newuser',
-                              lastname: "bmatic2",
-                              firstname: "bmatic2",
-                              password: "8characters",
-                              password_confirmation: "8characters",
-                              email: "bmatic2@nonblacklist.com" },
+                   mau_fan: {
+                     login: 'newuser',
+                     lastname: "bmatic2",
+                     firstname: "bmatic2",
+                     password: "8characters",
+                     password_confirmation: "8characters",
+                     email: "bmatic2@nonblacklist.com"
+                   },
                    type: "MauFan"
                  }
                )
@@ -110,14 +114,16 @@ describe UsersController, elasticsearch: true do
         # so we can test them
         #allow(@controller).to receive(:sweep)
         expect(@controller).to receive(:verify_recaptcha).and_return(false)
-        post :create, params_with_secret(
+        post :create, params: params_with_secret(
                {
-                 mau_fan: { login: 'newuser',
-                            lastname: "bmatic2",
-                            firstname: "bmatic2",
-                            password: "8characters",
-                            password_confirmation: "8characters",
-                            email: "bmatic2@b.com" },
+                 mau_fan: {
+                   login: 'newuser',
+                   lastname: "bmatic2",
+                   firstname: "bmatic2",
+                   password: "8characters",
+                   password_confirmation: "8characters",
+                   email: "bmatic2@b.com"
+                 },
                  type: "MauFan"
                }
              )
@@ -139,7 +145,7 @@ describe UsersController, elasticsearch: true do
       end
       context "login = 'newuser'" do
         before do
-          post :create, user: { login: 'newuser' }, type: "MauFan"
+          post :create, params: { user: { login: 'newuser' }, type: "MauFan" }
         end
 
         it "login=>newuser : should return success" do
@@ -147,22 +153,23 @@ describe UsersController, elasticsearch: true do
         end
 
         it "sets a flash.now indicating failure" do
-          post :create, user: { login: 'newuser' }, type: "MauFan"
+          post :create, params: { user: { login: 'newuser' }, type: "MauFan" }
         end
       end
     end
     context "valid user params and type = MauFan" do
       before do
         expect(UserMailer).to receive(:activation).exactly(:once).and_return(double("UserMailer::Activation", deliver_later: true))
-        post :create, params_with_secret(
+        post :create, params: params_with_secret(
                {
-                 mau_fan: { login: 'newuser',
-                            lastname: "bmatic2",
-                            firstname: "bmatic2",
-                            password: "8characters",
-                            password_confirmation: "8characters",
-                            email: "bmatic2@b.com"
-                          },
+                 mau_fan: {
+                   login: 'newuser',
+                   lastname: "bmatic2",
+                   firstname: "bmatic2",
+                   password: "8characters",
+                   password_confirmation: "8characters",
+                   email: "bmatic2@b.com"
+                 },
                  type: "MauFan"
                })
       end
@@ -198,12 +205,13 @@ describe UsersController, elasticsearch: true do
     end
     context "valid user param (email/password only) and type = MauFan" do
       before do
-        post :create, params_with_secret(
+        post :create, params: params_with_secret(
                {
                  mau_fan: {
                    password: "8characters",
                    password_confirmation: "8characters",
-                   email: "bmati2@b.com" },
+                   email: "bmati2@b.com"
+                 },
                  type: "MauFan"
                })
       end
@@ -242,14 +250,16 @@ describe UsersController, elasticsearch: true do
       before do
         allow_any_instance_of(Artist).to receive(:activation_code).and_return('random_activation_code')
         expect_any_instance_of(Artist).to receive(:make_activation_code).at_least(1)
-        post :create, params_with_secret(
+        post :create, params: params_with_secret(
                {
-                 artist: { login: 'newuser2',
-                           lastname: "bmatic",
-                           firstname: "bmatic",
-                           password: "8characters",
-                           password_confirmation: "8characters",
-                           email: "bmatic2@b.com" }, type: "Artist"
+                 artist: {
+                   login: 'newuser2',
+                   lastname: "bmatic",
+                   firstname: "bmatic",
+                   password: "8characters",
+                   password_confirmation: "8characters",
+                   email: "bmatic2@b.com"
+                 }, type: "Artist"
                })
       end
       it "redirects to index" do
@@ -284,7 +294,7 @@ describe UsersController, elasticsearch: true do
   describe "#show" do
     context 'looking for an invalid user id' do
       before do
-        get :show, id: 'eat it'
+        get :show, params: { id: 'eat it' }
       end
       it 'flashes an error' do
         expect(flash.now[:error]).to include 'not found'
@@ -292,13 +302,13 @@ describe UsersController, elasticsearch: true do
     end
     context 'looking for an artist' do
       before do
-        get :show, id: artist.id
+        get :show, params: { id: artist.id }
       end
       it { expect(response).to redirect_to artist_path(artist) }
     end
     context "getting a users page while not logged in" do
       before do
-        get :show, id: fan.id
+        get :show, params: { id: fan.id }
       end
       it { expect(response).to be_success }
     end
@@ -306,7 +316,7 @@ describe UsersController, elasticsearch: true do
       before do
         login_as(fan)
         @logged_in_user = fan
-        get :show, id: fan.id
+        get :show, params: { id: fan.id }
       end
       it { expect(response).to be_success }
     end
@@ -314,14 +324,14 @@ describe UsersController, elasticsearch: true do
   describe "#edit" do
     context "while not logged in" do
       before do
-        get :edit, id: 123123
+        get :edit, params: { id: 123123 }
       end
       it_should_behave_like "redirects to login"
     end
     context "while logged in as an artist" do
       before do
         login_as(artist)
-        get :edit, id: 123123
+        get :edit, params: { id: 123123 }
       end
       it "GET should redirect to artist edit" do
         expect(response).to be_redirect
@@ -333,7 +343,7 @@ describe UsersController, elasticsearch: true do
     context "while logged in as an user" do
       before do
         login_as(fan)
-        get :edit, id: fan.id
+        get :edit, params: { id: fan.id }
       end
 
       it { expect(response).to be_success }
@@ -346,7 +356,7 @@ describe UsersController, elasticsearch: true do
   describe "login_required" do
     context "get redirects to requested page via login" do
       before do
-        get :edit, id: 'nobody'
+        get :edit, params: { id: 'nobody' }
       end
       it "edit requires login" do
         expect(response).to redirect_to( new_user_session_path )
@@ -360,13 +370,13 @@ describe UsersController, elasticsearch: true do
     context "while not logged in" do
       context "with invalid params" do
         before do
-          put :update, id: quentin.id, user: {}
+          put :update, params: { id: quentin.id, user: {} }
         end
         it_should_behave_like "redirects to login"
       end
       context "with valid params" do
         before do
-          put :update, id: quentin.id, user: { firstname: 'blow' }
+          put :update, params: { id: quentin.id, user: { firstname: 'blow' } }
         end
         it_should_behave_like "redirects to login"
       end
@@ -378,13 +388,13 @@ describe UsersController, elasticsearch: true do
       end
       context "with valid and a cancel" do
         before do
-          put :update, id: quentin.id, user: { firstname: 'blow' }, commit: 'Cancel'
+          put :update, params: { id: quentin.id, user: { firstname: 'blow' }, commit: 'Cancel' }
         end
         it { expect(response).to redirect_to(user_path(quentin)) }
       end
       context "with valid params" do
         before do
-          put :update, id: quentin.id, user: {firstname: 'blow'}
+          put :update, params: { id: quentin.id, user: {firstname: 'blow'} }
         end
         it "redirects to user edit page" do
           expect(response).to redirect_to(edit_user_path(quentin))
@@ -398,7 +408,7 @@ describe UsersController, elasticsearch: true do
       end
       context "with unicode name" do
         before do
-          put :update, id: quentin.id, user: { lastname: "蕭秋芬" }
+          put :update, params: { id: quentin.id, user: { lastname: "蕭秋芬" } }
         end
         it "redirects to user edit page" do
           expect(response).to redirect_to(edit_user_path(quentin))
@@ -418,13 +428,13 @@ describe UsersController, elasticsearch: true do
       before do
         expect(User).to receive(:find_by_reset_code).and_return(fan)
         fan.update_attribute(:reset_code,'abc')
-        get :reset, reset_code: 'abc'
+        get :reset, params: { reset_code: 'abc' }
       end
       it { expect(response).to be_success }
     end
     context "get with invalid reset code" do
       before do
-        get :reset, reset_code: 'abc'
+        get :reset, params: { reset_code: 'abc' }
       end
       it { expect(response.code).to eql "404" }
     end
@@ -432,9 +442,13 @@ describe UsersController, elasticsearch: true do
       context "with passwords that don't match" do
         before do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
-          post :reset, { user: { password: 'whatever',
-                                 password_confirmation: 'whatev' } ,
-                         reset_code: 'abc' }
+          post :reset, params: {
+                 user: {
+                   password: 'whatever',
+                   password_confirmation: 'whatev'
+                 },
+                 reset_code: 'abc'
+               }
         end
         it { expect(response).to be_success }
         it "has an error message" do
@@ -445,9 +459,13 @@ describe UsersController, elasticsearch: true do
         before do
           expect(User).to receive(:find_by_reset_code).with('abc').and_return(fan)
           expect_any_instance_of(MauFan).to receive(:delete_reset_code).exactly(:once)
-          post :reset, { user: { password: 'whatever',
-                                 password_confirmation: 'whatever' },
-                         reset_code: 'abc' }
+          post :reset, params: {
+                 user: {
+                   password: 'whatever',
+                   password_confirmation: 'whatever'
+                 },
+                 reset_code: 'abc'
+               }
         end
         it "returns redirect" do
           expect(response).to redirect_to "/login"
@@ -469,7 +487,7 @@ describe UsersController, elasticsearch: true do
     context "post with email that's not in the system" do
       before do
         expect(User).to receive(:find_by_email).and_return(nil)
-        post :resend_activation, { user: { email: 'a@b.c' } }
+        post :resend_activation, params: { user: { email: 'a@b.c' } }
       end
       it "redirect to root" do
         expect(response).to redirect_to( root_url )
@@ -480,7 +498,7 @@ describe UsersController, elasticsearch: true do
     end
     context "post with email that is for a fan" do
       before do
-        post :resend_activation, { user: { email: 'a@b.c' } }
+        post :resend_activation, params: { user: { email: 'a@b.c' } }
       end
       it "redirect to root" do
         expect(response).to redirect_to( root_url )
@@ -491,7 +509,7 @@ describe UsersController, elasticsearch: true do
     end
     context "post with email that is for an artist" do
       before do
-        post :resend_activation, { user: { email: 'a@b.c' } }
+        post :resend_activation, params: { user: { email: 'a@b.c' } }
       end
       it "redirect to root" do
         expect(response).to redirect_to( root_url )
@@ -510,16 +528,19 @@ describe UsersController, elasticsearch: true do
     it { expect(response).to be_success }
 
     context "post a fan email" do
+      let(:make_forgot_request) {
+        post :forgot, params: { user: { email: fan.email } }
+      }
       it "looks up user by email" do
         expect(User).to receive(:find_by_email).with(fan.email).exactly(:once)
-        post :forgot, user: { email: fan.email }
+        make_forgot_request
       end
       it "calls create_reset_code" do
         expect_any_instance_of(MauFan).to receive(:create_reset_code).exactly(:once)
-        post :forgot, user: { email: fan.email }
+        make_forgot_request
       end
       it "redirects to login" do
-        post :forgot, user: { email: fan.email }
+        make_forgot_request
         expect(response).to redirect_to(login_url)
       end
     end
@@ -527,41 +548,47 @@ describe UsersController, elasticsearch: true do
 
   describe 'activate' do
     describe 'with valid activation code' do
+      let(:make_activate_call) {
+        get :activate, activation_code: pending_fan.activation_code
+      }
       before do
         expect_any_instance_of(MauFan).to receive(:activate!)
       end
       it 'redirects to login' do
-        get :activate, activation_code: pending_fan.activation_code
+        make_activate_call
         expect(response).to redirect_to login_url
       end
       it 'flashes a notice' do
-        get :activate, activation_code: pending_fan.activation_code
+        make_activate_call
         expect(flash[:notice]).to include 'to get started'
       end
       it 'activates the user' do
-        get :activate, activation_code: pending_fan.activation_code
+        make_activate_call
       end
     end
   end
 
   describe 'with invalid activation code' do
+    let(:make_activate_call) {
+      get :activate, params: { activation_code: 'blah' }
+    }
     it 'redirects to login' do
-      get :activate, activation_code: 'blah'
+      make_activate_call
       expect(response).to redirect_to login_url
     end
     it 'flashes an error' do
-      get :activate, activation_code: 'blah'
+      make_activate_call
       expect(/find an artist with that activation code/.match(flash[:error])).not_to be []
     end
     it 'does not blow away all activation codes' do
       FactoryGirl.create_list(:artist, 2)
-      get :activate, activation_code: 'blah'
+      make_activate_call
       expect(User.all.map{|u| u.activation_code}.select{|u| u.present?}.count).to be > 0
     end
     it 'does not send email' do
       expect(ArtistMailer).to receive(:activation).never
       expect(UserMailer).to receive(:activation).never
-      get :activate, activation_code: 'blah'
+      make_activate_call
     end
   end
 
@@ -576,14 +603,14 @@ describe UsersController, elasticsearch: true do
   describe '#delete' do
     context 'non-admin' do
       before do
-        delete :destroy, id: jesse.id
+        delete :destroy, params: { id: jesse.id }
       end
       it_should_behave_like 'not authorized'
     end
     context 'as yourself' do
       before do
         login_as admin
-        delete :destroy, id: admin.id
+        delete :destroy, params: { id: admin.id }
       end
       it 'redirects to users index' do
         expect(response).to redirect_to users_path
@@ -598,12 +625,12 @@ describe UsersController, elasticsearch: true do
       end
       context 'deleting a user' do
         it 'deactivates the user' do
-          delete :destroy, id: jesse.id
+          delete :destroy, params: { id: jesse.id }
           jesse.reload
           expect(jesse.state).to eql 'deleted'
         end
         it 'redirects to the users index page' do
-          delete :destroy, id: jesse.id
+          delete :destroy, params: { id: jesse.id }
           expect(response).to redirect_to users_path
         end
       end

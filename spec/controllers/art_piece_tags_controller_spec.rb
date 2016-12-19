@@ -37,7 +37,7 @@ describe ArtPieceTagsController do
     describe 'format=json' do
       context 'default' do
         before do
-          get :index, :format => :json
+          get :index, params: { format: :json }
         end
         it_should_behave_like 'successful json'
         it 'returns all tags as json' do
@@ -50,7 +50,7 @@ describe ArtPieceTagsController do
 
   describe '#autosuggest' do
     before do
-      get :autosuggest, :format => "json", :input => tags.first.name.downcase
+      get :autosuggest, params: { format: "json", input: tags.first.name.downcase }
     end
     it_should_behave_like 'successful json'
     it 'returns all tags as json' do
@@ -61,11 +61,11 @@ describe ArtPieceTagsController do
     it 'writes to the cache if theres nothing there' do
       expect(Rails.cache).to receive(:read).and_return(nil)
       expect(Rails.cache).to receive(:write)
-      get :autosuggest, :format => :json, :input => 'whateverdude'
+      get :autosuggest, params: { format: :json, input: 'whateverdude' }
     end
 
     it 'returns tags using the input' do
-      get :autosuggest, :format => :json, :input => tags.first.name.downcase
+      get :autosuggest, params: { format: :json, input: tags.first.name.downcase }
       j = JSON.parse(response.body)
       expect(j).to be_present
     end
@@ -74,7 +74,7 @@ describe ArtPieceTagsController do
       expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key']).
         and_return([ {"info" => ArtPieceTag.first.id, "value" => ArtPieceTag.last.name }])
       expect(Rails.cache).not_to receive(:write)
-      get :autosuggest, :format => :json, :input => 'tag'
+      get :autosuggest, params: { format: :json, input: 'tag' }
       j = JSON.parse(response.body)
       expect(j.first).to eql ArtPieceTag.last.name
     end
@@ -86,7 +86,7 @@ describe ArtPieceTagsController do
     end
     context 'for different tags' do
       before do
-        get :show, :id => tag.id
+        get :show, params: { id: tag.id }
       end
       it { expect(response).to be_success }
     end
@@ -94,7 +94,7 @@ describe ArtPieceTagsController do
     context 'for an unknown tag' do
       before do
         expect(ArtPieceTagService).to receive(:most_popular_tag).and_return(tag)
-        get :show, :id => 'abc5'
+        get :show, params: { id: 'abc5' }
       end
       it 'redirects to the most popular tag' do
         expect(response).to redirect_to art_piece_tag_path(tag);

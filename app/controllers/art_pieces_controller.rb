@@ -14,11 +14,6 @@ class ArtPiecesController < ApplicationController
     ArtPieceTagService.flush_cache
   end
 
-  # def index
-  #   artist = Artist.active.find(params[:artist_id])
-  #   render json: [] # artist.art_pieces, adapter: :json_api
-  # end
-
   def show
     respond_to do |format|
       format.html {
@@ -149,11 +144,9 @@ class ArtPiecesController < ApplicationController
   end
 
   def art_piece_params
-    parameters = params.require(:art_piece).permit(:title, :dimensions,
-                                                   :year, :medium, :medium_id,
-                                                   :description, :position, :photo)
-    parameters.merge!({tags: params[:art_piece][:tags]}) if params[:art_piece][:tags]
-    parameters
+    params.require(:art_piece).permit(:title, :dimensions,
+                                      :year, :medium, :medium_id,
+                                      :description, :position, :photo, tags: [])
   end
 
 

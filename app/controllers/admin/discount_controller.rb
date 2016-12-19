@@ -3,7 +3,7 @@ module Admin
   class DiscountController < ::BaseAdminController
     def markup
       html = MarkdownService.markdown(markup_params)
-      render :text => html
+      render html: html
     end
 
     private

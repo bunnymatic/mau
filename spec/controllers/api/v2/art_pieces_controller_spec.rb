@@ -11,7 +11,7 @@ describe Api::V2::ArtPiecesController do
     end
 
     it "returns nothing for an unknown artist" do
-      get :index, artist_id: 123, format: :json
+      get :index, params: { artist_id: 123, format: :json }
       expect(response).to be_success
       expect(response.body).to eq '{}'
     end

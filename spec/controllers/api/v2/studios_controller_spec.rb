@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V2::StudiosController do
+describe Api::V2::StudiosController, elasticsearch: true do
 
   let(:studio) {create(:studio, :with_artists)}
   let(:headers) { {} }
@@ -10,7 +10,7 @@ describe Api::V2::StudiosController do
 
   describe "#show" do
     def make_request
-      get :show, { format: :json, id: studio.slug }, headers
+      get :show, params: { format: :json, id: studio.slug }, headers: headers
     end
 
     context "without proper authorization" do
