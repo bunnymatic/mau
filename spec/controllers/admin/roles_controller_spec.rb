@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe Admin::RolesController do
+describe Admin::RolesController, elasticsearch: true do
 
   let(:editor) { FactoryGirl.create(:artist, :editor, :active) }
   let(:manager) { FactoryGirl.create(:artist, :manager, :active) }
@@ -15,7 +15,7 @@ describe Admin::RolesController do
     [:index,:edit,:show].each do |endpoint|
       context "#{endpoint}" do
         before do
-          get endpoint, :id => 'whatever'
+          get endpoint, params: { id: 'whatever' }
         end
         it_should_behave_like 'not authorized'
       end
@@ -24,7 +24,7 @@ describe Admin::RolesController do
 
   describe 'authorized' do
     before do
-      login_as admin, :record => true
+      login_as admin, record: true
     end
     describe 'GET index' do
       before do
@@ -38,7 +38,7 @@ describe Admin::RolesController do
     [:new, :show, :edit].each do |endpoint|
       describe "GET #{endpoint}" do
         before do
-          get endpoint, :id => manager_role.id
+          get endpoint, params: { id: manager_role.id }
         end
         it { expect(response).to be_success }
       end
@@ -46,12 +46,14 @@ describe Admin::RolesController do
     describe 'POST update' do
       context 'with good params' do
         it 'adds a role to a user' do
-          expect{ post :update, :id => admin_role.id, :user => artist}.to change(artist.roles, :count).by(1)
+          expect{
+            post :update, params: { id: admin_role.id, user: artist }
+          }.to change(artist.roles, :count).by(1)
         end
         it 'is idempotnent' do
           expect{
-            post :update, :id => admin_role.id, :user => artist
-            post :update, :id => admin_role.id, :user => artist
+            post :update, params: { id: admin_role.id, user: artist }
+            post :update, params: { id: admin_role.id, user: artist }
           }.to change(artist.roles, :count).by(1)
         end
       end
@@ -70,23 +72,27 @@ describe Admin::RolesController do
     describe 'POST create' do
       context 'with good params' do
         it 'creates a role' do
-          expect{ post :create, :role => {:role => 'new role'} }.to change(Role, :count).by(1)
+          expect{
+            post :create, params: { role: {role: 'new role'} }
+          }.to change(Role, :count).by(1)
         end
         it 'redirects to the roles index page' do
-          post :create, :role => {:role => 'new role'}
+          post :create, params: { role: {role: 'new role'} }
           expect(response).to redirect_to admin_roles_path
         end
       end
       context 'with bad params' do
         it 'does not create a role' do
-          expect{ post :create, :role => {:role => ''} }.to change(Role, :count).by(0)
+          expect{
+            post :create, params: { role: {role: ''} }
+          }.to change(Role, :count).by(0)
         end
         it 'renders new' do
-          post :create, :role => {:role => ''}
+          post :create, params: { role: {role: ''} }
           expect(response).to render_template 'new'
         end
         it 'sets errors on role' do
-          post :create, :role => {:role => ''}
+          post :create, params: { role: {role: ''} }
           expect(assigns(:role).errors).not_to be_empty
         end
       end
@@ -98,17 +104,21 @@ describe Admin::RolesController do
       end
       context 'with role' do
         it 'removes the role' do
-          expect { delete :destroy, :id => manager_role.id }.to change(Role, :count).by(-1)
+          expect {
+            delete :destroy, params: { id: manager_role.id }
+          }.to change(Role, :count).by(-1)
         end
         it 'removes the role from all users' do
           ru = RolesUser.where(role: manager_role)
           expected_change = ru.count
-          expect { delete :destroy, :id => manager_role.id }.to change(RolesUser, :count).by(-expected_change)
+          expect {
+            delete :destroy, params: { id: manager_role.id }
+          }.to change(RolesUser, :count).by(-expected_change)
           artist.reload
           expect(artist.roles).not_to include manager
         end
         it 'redirects to the roles index page' do
-          delete :destroy, :id => manager_role.id
+          delete :destroy, params: { id: manager_role.id }
           expect(response).to redirect_to admin_roles_path
         end
       end

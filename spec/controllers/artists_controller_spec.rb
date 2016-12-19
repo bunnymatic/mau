@@ -57,13 +57,13 @@ describe ArtistsController, elasticsearch: true do
     context "while not logged in" do
       context "with invalid params" do
         before do
-          put :update, id: artist.id, user: {}
+          put :update, params: { id: artist.id, user: {} }
         end
         it_should_behave_like "redirects to login"
       end
       context "with valid params" do
         before do
-          put :update, id: artist.id, user: { firstname: 'blow' }
+          put :update, params: { id: artist.id, user: { firstname: 'blow' } }
         end
         it_should_behave_like "redirects to login"
       end
@@ -78,7 +78,7 @@ describe ArtistsController, elasticsearch: true do
       context "submit" do
         context "post with new bio data" do
           it "redirects to to edit page" do
-            put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs}
+            put :update, params: { id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs} }
             expect(flash[:notice]).to eql "Your profile has been updated"
             expect(response).to redirect_to(edit_artist_path(artist))
           end
@@ -89,13 +89,13 @@ describe ArtistsController, elasticsearch: true do
               mock_messager
             end
             expect(Messager).to receive(:new).and_return(*mock_messagers)
-            put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs}
+            put :update, params: { id: artist, commit: 'submit', artist: { artist_info_attributes: artist_info_attrs} }
           end
         end
       end
       context "cancel post with new bio data" do
         before do
-          post :update, id: artist, commit: 'cancel', artist: { artist_info_attributes: artist_info_attrs}
+          put :update, params: { id: artist, commit: 'cancel', artist: { artist_info_attributes: artist_info_attrs} }
         end
         it "redirects to user page" do
           expect(response).to redirect_to(user_path(artist))
@@ -112,11 +112,11 @@ describe ArtistsController, elasticsearch: true do
         let(:street) { artist_info_attrs[:street] }
 
         it "contains flash notice of success" do
-          put :update, id: artist, commit: 'submit', artist: {artist_info_attributes: artist_info_attrs}
+          put :update, params: { id: artist, commit: 'submit', artist: {artist_info_attributes: artist_info_attrs} }
           expect(flash[:notice]).to eql "Your profile has been updated"
         end
         it "updates user address" do
-          put :update, id: artist, commit: 'submit', artist: {studio_id: nil, artist_info_attributes: artist_info_attrs}
+          put :update, params: { id: artist, commit: 'submit', artist: {studio_id: nil, artist_info_attributes: artist_info_attrs} }
           expect(artist.address.to_s).to include street
         end
         it 'publishes an update message' do
@@ -126,24 +126,24 @@ describe ArtistsController, elasticsearch: true do
             mock_messager
           end
           expect(Messager).to receive(:new).and_return( *mock_messagers )
-          put :update, id: artist, commit: 'submit', artist: { artist_info_attributes: {street: 'wherever' }}
+          put :update, params: { id: artist, commit: 'submit', artist: { artist_info_attributes: {street: 'wherever' }} }
         end
       end
       context "update os status" do
         it "updates artists os status to true" do
-          xhr :put, :update, id: artist, artist: { "os_participation" => '1' }
+          put :update, xhr: true, params: { id: artist, artist: { "os_participation" => '1' } }
           expect(artist.reload.os_participation[OpenStudiosEvent.current.key]).to eq true
         end
 
         it "sets false if artist has no address" do
           without_address.artist_info.update_attribute(:open_studios_participation, '')
-          xhr :put, :update, id: without_address, commit: 'submit', artist: { "os_participation" => '1' }
+          put :update, xhr: true, params: { id: without_address, commit: 'submit', artist: { "os_participation" => '1' } }
           expect(without_address.reload.os_participation[OpenStudiosEvent.current.key]).to be_nil
         end
         it "saves an OpenStudiosSignupEvent when the user sets their open studios status to true" do
           stub_request(:get, Regexp.new( "http:\/\/example.com\/openstudios.*" ))
           expect {
-            xhr :put, :update, id: artist, commit: 'submit', artist: { "os_participation" => '1' }
+            put :update, xhr: true, params: { id: artist, commit: 'submit', artist: { "os_participation" => '1' } }
           }.to change(OpenStudiosSignupEvent,:count).by(1)
         end
       end
@@ -154,7 +154,7 @@ describe ArtistsController, elasticsearch: true do
         it 'does not reset the open studios participation setting' do
           expect{
             attrs = {"firstname"=>"mr joe", "artist_info_attributes"=>{"bio"=>"Dolor error praesentium et"}}
-            put :update, id: artist, commit: 'submit', artist: attrs
+            put :update, params: { id: artist, commit: 'submit', artist: attrs }
           }.to_not change(artist, :doing_open_studios?)
         end
       end
@@ -164,14 +164,14 @@ describe ArtistsController, elasticsearch: true do
   describe "#edit" do
     context "while not logged in" do
       before do
-        get :edit, id: 'blahdeblah'
+        get :edit, params: { id: 'blahdeblah' }
       end
       it_should_behave_like "redirects to login"
     end
     context 'while logged in as a fan' do
       before do
         login_as fan
-        get :edit, id: fan.to_param
+        get :edit, params: { id: fan.to_param }
       end
       it { should redirect_to edit_user_path(fan) }
     end
@@ -181,7 +181,7 @@ describe ArtistsController, elasticsearch: true do
       before do
         artist.update_attributes({facebook: 'example.com/facebooklink', blog: 'example.com/bloglink'})
         login_as artist
-        get :edit, id: artist.to_param
+        get :edit, params: { id: artist.to_param }
       end
       it { expect(response).to be_success }
     end
@@ -270,7 +270,7 @@ describe ArtistsController, elasticsearch: true do
         it "returns art_pieces in new order #{ord.inspect}" do
           order1 = ord.map{|idx| @artpieces[idx-1]}
           expect(artist.art_pieces.map(&:id)).not_to eql order1
-          post :setarrangement, { neworder: order1.join(",") }
+          post :setarrangement, params: { neworder: order1.join(",") }
           expect(response).to redirect_to artist_url(artist)
           aps = Artist.find(artist.id).art_pieces
           expect(aps.map(&:id)).to eql order1
@@ -283,7 +283,7 @@ describe ArtistsController, elasticsearch: true do
         expect(mock_messager).to receive(:publish)
         expect(Messager).to receive(:new).and_return(mock_messager)
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
-        post :setarrangement, { neworder: order1.join(",") }
+        post :setarrangement, params: { neworder: order1.join(",") }
       end
 
       it "sets a flash and redirects to the artist page with invalid params" do
@@ -294,17 +294,17 @@ describe ArtistsController, elasticsearch: true do
 
       it 'does not rearrange art if cancel is pressed' do
         order1 = artist.art_pieces.map(&:id)
-        post :setarrangement, {  neworder: [order1.last] + order1[0..-2], submit: 'cancel' }
+        post :setarrangement, params: { neworder: [order1.last] + order1[0..-2], submit: 'cancel' }
         expect(artist.art_pieces.map(&:id)).to eql order1
       end
       it 'redirects to the artists page' do
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
-        post :setarrangement, { neworder: order1.join(",") }
+        post :setarrangement, params: { neworder: order1.join(",") }
         expect(response).to redirect_to artist_path(artist)
       end
       it 'does not redirect if request is xhr' do
         order1 = [ @artpieces[0], @artpieces[2], @artpieces[1] ]
-        xhr :post, :setarrangement, { neworder: order1.join(",") }
+        post :setarrangement, xhr: true, params: { neworder: order1.join(",") }
         expect(response).to be_success
       end
     end
@@ -313,7 +313,7 @@ describe ArtistsController, elasticsearch: true do
   describe "- logged out" do
     context "post to set arrangement" do
       before do
-        post :setarrangement, { neworder: "1,2" }
+        post :setarrangement, params: { neworder: "1,2" }
       end
       it_should_behave_like "redirects to login"
     end
@@ -324,7 +324,7 @@ describe ArtistsController, elasticsearch: true do
     let(:art_pieces_for_deletion) {
       Hash[art_pieces.map.with_index{|a,idx| [a.id, idx % 2]}]
     }
-    let(:destroy_params) { {art: art_pieces_for_deletion} }
+    let(:destroy_params) { { params: {art: art_pieces_for_deletion} } }
     let(:num_to_dump) { art_pieces_for_deletion.values.select{|v| v==1}.count }
     before do
       artist_with_tags
@@ -366,7 +366,7 @@ describe ArtistsController, elasticsearch: true do
       login_as artist
     end
     it 'assigns a new art piece' do
-      get :manage_art, id: artist.id
+      get :manage_art, params: { id: artist.id }
       expect(assigns(:art_piece)).to be_a_kind_of ArtPiece
     end
   end
@@ -375,7 +375,7 @@ describe ArtistsController, elasticsearch: true do
   describe '#suggest' do
     before do
       Rails.cache.clear
-      get :suggest, q: artist.firstname[0..2]
+      get :suggest, params: { q: artist.firstname[0..2] }
     end
     it_should_behave_like 'successful json'
     it 'returns a hash with a list of artists' do
