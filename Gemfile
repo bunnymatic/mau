@@ -132,4 +132,5 @@ group :test, :development do
   gem 'morecane'
 
   gem 'jslint_on_rails'
+  gem 'guard-rspec'
 end
