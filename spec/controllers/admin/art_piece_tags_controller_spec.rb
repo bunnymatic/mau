@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe Admin::ArtPieceTagsController, elasticsearch: true do
+describe Admin::ArtPieceTagsController do
 
   let(:user) { FactoryGirl.create(:user, :active) }
   let(:admin) { FactoryGirl.create(:user, :admin, :active) }

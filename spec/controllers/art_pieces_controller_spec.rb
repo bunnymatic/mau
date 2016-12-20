@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ArtPiecesController, elasticsearch: true do
+describe ArtPiecesController do
 
   let(:medium) { FactoryGirl.create(:medium) }
   let(:existing_tag) { FactoryGirl.create(:art_piece_tag) }

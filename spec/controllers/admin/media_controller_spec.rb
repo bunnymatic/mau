@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::MediaController, elasticsearch: true do
+describe Admin::MediaController do
 
   let(:admin) { FactoryGirl.create(:artist, :admin, :active) }
   let!(:media) { FactoryGirl.create_list(:medium, 3) }

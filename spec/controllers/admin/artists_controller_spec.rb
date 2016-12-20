@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::ArtistsController, elasticsearch: true do
+describe Admin::ArtistsController do
 
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:pending) { FactoryGirl.create(:artist, :pending, activation_code: 'ACTIVATEME') }

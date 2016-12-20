@@ -11,7 +11,7 @@ shared_examples_for 'has some invalid params' do
   it { expect(JSON.parse(response.body)['error_messages']).to be_present }
 end
 
-describe MainController, elasticsearch: true do
+describe MainController do
 
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:editor) { FactoryGirl.create(:artist, :active, :editor) }

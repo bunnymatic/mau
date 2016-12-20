@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe StudiosController, elasticsearch: true do
+describe StudiosController do
 
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let(:manager) { FactoryGirl.create(:artist, :with_studio, :manager) }

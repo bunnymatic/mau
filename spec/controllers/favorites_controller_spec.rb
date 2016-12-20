@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe FavoritesController, elasticsearch: true do
+describe FavoritesController do
   let(:fan) { FactoryGirl.create(:fan) }
   let(:artist) { FactoryGirl.create :artist }
   let(:admin) { FactoryGirl.create :user, :admin, :active }

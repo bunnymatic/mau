@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe Admin::StatsController, elasticsearch: true do
+describe Admin::StatsController do
 
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:fan) { FactoryGirl.create(:fan, :active) }

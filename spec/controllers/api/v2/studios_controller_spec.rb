@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V2::StudiosController, elasticsearch: true do
+describe Api::V2::StudiosController do
 
   let(:studio) {create(:studio, :with_artists)}
   let(:headers) { {} }

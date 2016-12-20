@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::OpenStudiosEventsController, elasticsearch: true do
+describe Admin::OpenStudiosEventsController do
 
   let(:admin) { FactoryGirl.create(:artist, :admin) }
 

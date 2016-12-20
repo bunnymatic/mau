@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::MemberEmailsController, elasticsearch: true do
+describe Admin::MemberEmailsController do
 
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }

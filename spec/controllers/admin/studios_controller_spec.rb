@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'htmlentities'
 
-describe Admin::StudiosController, elasticsearch: true do
+describe Admin::StudiosController do
 
   let(:studios) { create_list :studio, 3, :with_artists }
   let(:studio) { studios.first }

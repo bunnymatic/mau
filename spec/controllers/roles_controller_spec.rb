@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe RolesController, elasticsearch: true do
+describe RolesController do
   let(:editor) { FactoryGirl.create(:artist, :editor, :active) }
   let(:manager) { FactoryGirl.create(:artist, :manager, :active) }
   let(:admin) { FactoryGirl.create(:artist, :admin, :active) }

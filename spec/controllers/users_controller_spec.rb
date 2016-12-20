@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'rails_helper'
 
-describe UsersController, elasticsearch: true do
+describe UsersController do
 
   let(:fan) { FactoryGirl.create(:fan) }
   let(:quentin) { FactoryGirl.create :artist }
