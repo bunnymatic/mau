@@ -95,7 +95,7 @@ describe AdminController do
         end
         it "post with override gets the next artist" do
           expect {
-            post :featured_artist, override: true
+            post :featured_artist, params: { override: true }
           }.to change(FeaturedArtistQueue.featured, :count).by(1)
         end
       end

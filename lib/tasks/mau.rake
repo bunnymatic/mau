@@ -50,6 +50,7 @@ namespace :mau do
   task migrate_user_links: [:environment] do
     links = User.stored_attributes[:links]
     User.active.each do |user|
+      user.links ||= {}
       user.website = user.url
       if user.is_a? Artist
         artist = user.becomes(Artist)
@@ -106,11 +107,11 @@ namespace :mau do
     Scammer.importFromFASO
   end
 
-  desc 'reset all passwords to "bmatic"'
+  desc 'reset all passwords to "whatever"'
   task reset_passwords: [:environment] do
     User.all.each do |u|
-      u.password = 'bmatic'
-      u.password_confirmation = 'bmatic'
+      u.password = 'whatever'
+      u.password_confirmation = 'whatever'
       u.save
     end
   end

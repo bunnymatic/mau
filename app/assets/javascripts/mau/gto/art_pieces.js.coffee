@@ -10,7 +10,7 @@ $ ->
         spinner.spin()
 
 
-    $("#art_piece_tag_ids").select2(
+    $("#art_piece_tag_ids").select2
       tags: data
       tokenSeparators: ["," ]
       minimumInputLength: 3
