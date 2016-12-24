@@ -10,14 +10,25 @@ $ ->
         spinner.spin()
 
 
-    jQuery.ajax
-      url: '/art_piece_tags/autosuggest'
-      type: 'post'
-      dataType: "json"
-      success: (data) ->
-        $("#art_piece_tag_ids").select2(
-          tags: data
-          tokenSeparators: ["," ]
-          minimumInputLength: 3
-          multiple: true
-        )
+    $("#art_piece_tag_ids").select2(
+      tags: data
+      tokenSeparators: ["," ]
+      minimumInputLength: 3
+      multiple: true
+      ajax:
+        url: '/art_piece_tags/autosuggest'
+        type: 'post'
+        dataType: "json"
+        data: (data) ->
+          {
+            q: data.term
+            page: params.page
+          }
+        processResults: (data, params) ->
+          {
+            results: data
+            pagination: { }
+          }
+      tokenSeparators: ["," ]
+      minimumInputLength: 3
+      multiple: true

@@ -445,7 +445,7 @@ describe UsersController do
           post :reset, params: {
                  user: {
                    password: 'whatever',
-                   password_confirmation: 'whatev'
+                   password_confirmation: 'whateveryo'
                  },
                  reset_code: 'abc'
                }

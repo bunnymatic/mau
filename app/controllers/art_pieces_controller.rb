@@ -38,7 +38,7 @@ class ArtPiecesController < ApplicationController
     redirect_to(artist) and return if commit_is_cancel
 
     prepare_tags_params
-    debugger
+    puts params[:art_piece][:tags]
     art_piece = artist.art_pieces.build(art_piece_params)
     if art_piece.save
       flash[:notice] = "You've got new art!"
