@@ -95,7 +95,7 @@ class UsersController < ApplicationController
         msg[:notice] = "Your password has been updated"
       else
         puts "update attrs didnt work"
-        msg[:error] = current_user.errors.full_messages.join
+        msg[:error] = current_user.errors.full_messages.to_sentence
       end
       puts "done here"
     else
