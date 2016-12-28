@@ -30,8 +30,8 @@ class ArtPieceTagsController < ApplicationController
   def show
     # get art pieces by tag
     begin
-      @tag = ArtPieceTag.find(params[:id])
-    rescue
+      @tag = ArtPieceTag.friendly.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => ex
       redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for"} ) and return
     end
 

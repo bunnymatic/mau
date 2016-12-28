@@ -1,9 +1,9 @@
 - link_info = ((form.object.is_a? Artist) ? ArtistPresenter : UserPresenter)::keyed_links
 .panel-heading
-  %h4.panel-title
+  h4.panel-title
     = link_to 'Links', '#links', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
     .fa.fa-icon.panel-opener
-.panel-collapse.collapse#links{ role: "tabpanel" }
+.panel-collapse.collapse#links role="tabpanel"
   .panel-body
     .pure-g
       = form.inputs do

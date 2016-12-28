@@ -177,7 +177,7 @@ class ArtistsController < ApplicationController
   protected
   def safe_find_artist(id)
     begin
-      Artist.find id
+      Artist.friendly.find id
     rescue ActiveRecord::RecordNotFound
       nil
     end

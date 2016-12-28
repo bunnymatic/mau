@@ -1,9 +1,9 @@
 .panel-heading
-  %h4.panel-title
+  h4.panel-title
     = link_to "Deactivate", '#deactivate', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
     .fa.fa-icon.panel-opener
-.panel-collapse.collapse#deactivate{ role: "tabpanel" }
+.panel-collapse.collapse#deactivate role="tabpanel"
   .panel-body
     .error-msg  This action is permanent.  If you deactivate your account, all data associated with that user will no longer be available.
-    %a{ onclick: "return confirm('This action is permanent.\nAre you sure you want to deactivate your account?');", href: deactivate_users_path }
-      %button.pure-button.button-danger Deactivate Me
+    a onclick="return confirm('This action is permanent.\nAre you sure you want to deactivate your account?');" href=deactivate_users_path
+      button.pure-button.button-danger Deactivate Me

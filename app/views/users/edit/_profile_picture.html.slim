@@ -1,11 +1,11 @@
 .panel-heading
-  %h4.panel-title
+  h4.panel-title
     = link_to 'Profile Picture', '#profile_picture', 'data-toggle' => 'collapse', 'data-parent' => '#user-accordion', class: 'collapsed'
     .fa.fa-icon.panel-opener
 
-.panel-collapse.collapse#profile_picture{ role: "tabpanel" }
+.panel-collapse.collapse#profile_picture role="tabpanel"
   .panel-body
-    = render '/artist_profile_image', :artist => UserPresenter.new(form.object)
+    = render '/artist_profile_image', artist: UserPresenter.new(form.object)
     = form.inputs do
       .pure-g
         .pure-u-1-1.pure-u-sm-1-2

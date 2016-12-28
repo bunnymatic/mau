@@ -13,7 +13,9 @@ class MainController < ApplicationController
   end
 
   def sampler
-    sampler = ArtSampler.new(**sampler_params.to_h)
+    sampler = ArtSampler.new(seed: sampler_params[:seed],
+                             offset: sampler_params[:offset],
+                             number_of_images: sampler_params[:number_of_images])
     render partial: 'sampler_thumb', collection: sampler.pieces
   end
 

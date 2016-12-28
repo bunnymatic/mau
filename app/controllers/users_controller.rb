@@ -20,6 +20,7 @@ class UsersController < ApplicationController
     @fan = safe_find_user(params[:id])
 
     if (@fan != current_user) || current_user.is_artist?
+      flash.keep
       redirect_to edit_artist_path(current_user)
       return
     end
@@ -88,15 +89,21 @@ class UsersController < ApplicationController
   def change_password_update
     msg = {}
     if current_user.valid_password? user_attrs["old_password"]
+      puts "good old password"
       if current_user.update_attributes(password_params)
+        puts "update attrs worked"
         msg[:notice] = "Your password has been updated"
       else
+        puts "update attrs didnt work"
         msg[:error] = current_user.errors.full_messages.join
       end
+      puts "done here"
     else
+      puts "bad old password"
       msg[:error] = "Your old password was incorrect"
     end
-    redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
+    puts "redirect"
+   redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
   def reset
@@ -239,7 +246,7 @@ class UsersController < ApplicationController
 
   def safe_find_user(id)
     begin
-      User.find(id)
+      User.friendly.find(id)
     rescue ActiveRecord::RecordNotFound
       flash.now[:error] = "The user you were looking for was not found."
       return nil

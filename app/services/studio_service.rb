@@ -26,7 +26,7 @@ class StudioService
         return Studio.indy()
       else
         begin
-          Studio.find(_id)
+          Studio.friendly.find(_id)
         rescue
           nil
         end
