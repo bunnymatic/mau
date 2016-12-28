@@ -252,14 +252,8 @@ class User < ApplicationRecord
     if url.present?
       self.url = _add_http_to_link(url)
     end
-    puts self.inspect
     User.stored_attributes[:links].each do |site|
-      puts "SITE", site
-      begin
-        self.send("#{site}=", _add_http_to_link(self.send(site))) if self.send(site).present?
-      rescue
-        debugger
-      end
+      self.send("#{site}=", _add_http_to_link(self.send(site))) if self.send(site).present?
     end
   end
 end

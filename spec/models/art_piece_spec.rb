@@ -25,7 +25,7 @@ describe ArtPiece do
   describe 'after save' do
     it 'clears representative image cache and new art cache on save' do
       expect(Rails.cache).to receive(:delete).with(CacheKeyService.representative_art(artist)).at_least(1).times
-      expect(Rails.cache).to receive(:delete).with(ArtPieceService::NEW_ART_CACHE_KEY)
+      expect(Rails.cache).to receive(:delete).with(ArtPieceCacheService::NEW_ART_CACHE_KEY)
       art_piece.title = Faker::Lorem.words(2).join(' ')
       art_piece.save
     end

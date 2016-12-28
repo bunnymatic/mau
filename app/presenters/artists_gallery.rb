@@ -31,7 +31,6 @@ class ArtistsGallery < ArtistsPresenter
 
   def path_to(desired_params, current_params)
     params = current_params.permit(:s, :l, :o).merge(desired_params)
-    puts params.to_h
     artists_path(sanitize_index_params(params))
   end
 

@@ -120,7 +120,7 @@ class ArtPiece < ApplicationRecord
 
   private
   def clear_caches
-    ArtPieceService.clear_cache
+    ArtPieceCacheService.clear
     if self.artist && self.artist.id != nil?
       SafeCache.delete(artist.representative_art_cache_key)
     end

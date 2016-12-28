@@ -34,19 +34,16 @@ class ArtPiecesController < ApplicationController
   end
 
   def create
-    artist = current_artist
-    redirect_to(artist) and return if commit_is_cancel
+    redirect_to(current_artist) and return if commit_is_cancel
 
-    prepare_tags_params
-    puts params[:art_piece][:tags]
-    art_piece = artist.art_pieces.build(art_piece_params)
-    if art_piece.save
+    art_piece = CreateArtPieceService.new(current_artist, art_piece_params).create_art_piece
+    if art_piece.valid?
       flash[:notice] = "You've got new art!"
-      Messager.new.publish "/artists/#{artist.id}/art_pieces/create", "added art piece"
-      redirect_to artist
+      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/create", "added art piece"
+      redirect_to current_artist
     else
       @art_piece = art_piece
-      @artist = ArtistPresenter.new(artist)
+      @artist = ArtistPresenter.new(current_artist)
       render template: 'artists/manage_art'
     end
 
@@ -81,13 +78,12 @@ class ArtPiecesController < ApplicationController
 
   # PUT /art_pieces/1
   def update
-    if commit_is_cancel || (@art_piece.artist != current_user)
-      redirect_to @art_piece and return
-    end
-    prepare_tags_params
-    if @art_piece.update_attributes(art_piece_params)
+    redirect_to @art_piece and return if (!owned_by_current_user?(@art_piece) || commit_is_cancel)
+
+    @art_piece = UpdateArtPieceService.new(@art_piece, art_piece_params).update_art_piece
+    if @art_piece.valid?
       flash[:notice] = 'The art has been updated.'
-      Messager.new.publish "/artists/#{current_user.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
+      Messager.new.publish "/artists/#{current_artist.id}/art_pieces/update", "updated art piece #{@art_piece.id}"
       redirect_to art_piece_path(@art_piece)
     else
       render action: "edit"
@@ -138,18 +134,17 @@ class ArtPiecesController < ApplicationController
     return "Mission Artists United Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}" if art_piece
   end
 
-  def prepare_tags_params
-    tags_string = params[:art_piece][:tags]
-    tag_names = (tags_string || '').split(",").map{|name| name.strip.downcase}.compact.uniq
-    params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by(name: name)}
-  end
+  # def prepare_tags_params
+  #   tags_string = params[:art_piece][:tags]
+  #   tag_names = (tags_string || '').split(",").map{|name| name.strip.downcase}.compact.uniq
+  #   params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by(name: name)}
+  # end
 
   def art_piece_params
     params.require(:art_piece).permit(:title, :dimensions,
                                       :year, :medium, :medium_id,
-                                      :description, :position, :photo, tags: [])
+                                      :description, :position, :photo, :tags)
   end
-
 
   def create_art_piece_failed_empty_image(art_piece)
     @art_piece = art_piece
