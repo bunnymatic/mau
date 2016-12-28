@@ -46,34 +46,6 @@ class ArtPiecesController < ApplicationController
       @artist = ArtistPresenter.new(current_artist)
       render template: 'artists/manage_art'
     end
-
-
-
-    # if file to upload - upload it first
-    # upload = params[:upload]
-    # if !params[:upload]
-    #   @artist = ArtistPresenter.new(artist)
-    #   create_art_piece_failed_empty_image(art_piece) and return
-    # end
-
-    # begin
-    #   ActiveRecord::Base.transaction do
-    #     if valid
-    #       # upload image
-    #       ArtPieceImage.new(art_piece).save upload
-    #       art_piece.save!
-    #       flash[:notice] = "You've got new art!"
-    #       Messager.new.publish "/artists/#{artist.id}/art_pieces/create", "added art piece"
-    #     else
-    #       @artist = ArtistPresenter.new(artist)
-    #       create_art_piece_failed(art_piece) and return
-    #     end
-    #   end
-    # rescue Exception => ex
-    #   @artist = ArtistPresenter.new(artist)
-    #   create_art_piece_failed_upload(art_piece) and return
-    # end
-    # redirect_to(artist)
   end
 
   # PUT /art_pieces/1

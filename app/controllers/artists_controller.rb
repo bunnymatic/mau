@@ -83,8 +83,7 @@ class ArtistsController < ApplicationController
     unless destroy_art_params
       redirect_to(artist_path(current_user)) and return
     end
-
-    ids = destroy_art_params.map { |kk,vv| kk if vv != "0" }.compact
+    ids = destroy_art_params.select { |kk,vv| vv != "0" }.keys
     ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
     Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", "deleted art pieces"
     redirect_to(artist_path(current_user))
@@ -217,7 +216,11 @@ class ArtistsController < ApplicationController
   end
 
   def destroy_art_params
-    params.permit(:art)[:art]
+    if params.has_key? :art
+      params.require(:art).permit!
+    else
+      params
+    end
   end
 
   def artist_params
