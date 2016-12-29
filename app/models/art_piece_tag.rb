@@ -1,4 +1,4 @@
-class ArtPieceTag < ActiveRecord::Base
+class ArtPieceTag < ApplicationRecord
 
   has_many :art_pieces_tags
   has_many :art_pieces, through: :art_pieces_tags

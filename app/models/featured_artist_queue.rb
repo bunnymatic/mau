@@ -1,4 +1,4 @@
-class FeaturedArtistQueue < ActiveRecord::Base
+class FeaturedArtistQueue < ApplicationRecord
 
   TABLE_NAME = 'featured_artist_queue'
   self.table_name = TABLE_NAME

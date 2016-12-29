@@ -1,5 +1,5 @@
 require 'uri'
-class Studio < ActiveRecord::Base
+class Studio < ApplicationRecord
 
   include AddressMixin
   include Geokit::ActsAsMappable

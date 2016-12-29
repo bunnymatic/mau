@@ -38,7 +38,7 @@ end
 
 Then(/^I see my photo in my profile$/) do
   within(".artist-profile__image") do
-    expect(page.find('.profile')['src']).to match /profile.png/
+    expect(page.find('.profile')['src']).to include 'profile.png'
   end
 end
 

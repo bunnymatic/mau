@@ -1,4 +1,4 @@
-class Medium < ActiveRecord::Base
+class Medium < ApplicationRecord
   has_many :art_pieces
 
   #default_scope order('name')

@@ -1,7 +1,7 @@
 require 'net/http'
 require 'uri'
 
-class Scammer < ActiveRecord::Base
+class Scammer < ApplicationRecord
   validates_uniqueness_of   :faso_id
 
   validates_presence_of     :email

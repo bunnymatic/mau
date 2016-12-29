@@ -1,4 +1,4 @@
-class ArtistInfo < ActiveRecord::Base
+class ArtistInfo < ApplicationRecord
   belongs_to :artist
 
   include Geokit::ActsAsMappable
