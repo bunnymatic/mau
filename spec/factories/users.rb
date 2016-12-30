@@ -1,11 +1,13 @@
+require_relative '../support/test_users_helper'
+
 FactoryGirl.define do
 
   sequence(:login) {|n| "#{Faker::Internet.user_name}%04d" % n }
   factory :user do
     login
     email { "#{login}@example.com" }
-    password { 'bunnymatic' }
-    password_confirmation { 'bunnymatic' }
+    password { TestUsersHelper::DEFAULT_PASSWORD }
+    password_confirmation { TestUsersHelper::DEFAULT_PASSWORD }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.first_name }
     nomdeplume { Faker::Company.name }

@@ -38,14 +38,10 @@ class ArtistsController < ApplicationController
   end
 
   def edit
-    @user = safe_find_artist params[:id]
-    if !@user || (@user != current_user) || current_user[:type] != 'Artist'
-      redirect_to edit_user_path(current_user)
-      return
-    end
+    redirect_to edit_user_path(current_user) and return unless current_user.is_artist?
     @user = ArtistPresenter.new(current_artist)
     @studios = StudioService.all
-    @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
+    @artist_info = current_artist.artist_info || ArtistInfo.new({ id: current_artist.id })
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
   end
 

@@ -49,7 +49,7 @@ Scenario: I can edit my bio
 @javascript
 Scenario: I can edit my password
   When I click on "Password"
-  And I change "Current Password" to "bmatic"
+  And I change "Current Password" to "8characters"
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahdeblah"
   And I click on "Save Changes"
@@ -71,14 +71,14 @@ Scenario: I cannot edit my password if i can't remember my current password
   And I sign out
   And I click on "sign in"
   # same old password works
-  And I sign in with password "bmatic"
+  And I sign in with password "8characters"
   And I close the flash
   Then I see that I'm signed in
 
 @javascript
 Scenario: I cannot edit my password if the confirmation doesn't match
   When I click on "Password"
-  And I change "Current Password" to "bmatic"
+  And I change "Current Password" to "8characters"
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahblah"
   And I click on "Save Changes"

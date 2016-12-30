@@ -24,7 +24,7 @@ class UsersController < ApplicationController
       redirect_to edit_artist_path(current_user)
       return
     end
-    @user = UserPresenter.new(current_user.becomes(User))
+    @user = UserPresenter.new(current_user)
   end
 
   def show
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     else
       @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
     end
-    @fan = UserPresenter.new(@fan.becomes(User))
+    @fan = UserPresenter.new(@fan)
   end
 
   def new
@@ -89,21 +89,15 @@ class UsersController < ApplicationController
   def change_password_update
     msg = {}
     if current_user.valid_password? user_attrs["old_password"]
-      puts "good old password"
       if current_user.update_attributes(password_params)
-        puts "update attrs worked"
         msg[:notice] = "Your password has been updated"
       else
-        puts "update attrs didnt work"
         msg[:error] = current_user.errors.full_messages.to_sentence
       end
-      puts "done here"
     else
-      puts "bad old password"
       msg[:error] = "Your old password was incorrect"
     end
-    puts "redirect"
-   redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
+    redirect_to edit_user_path(current_user, anchor: 'password'), flash: msg
   end
 
   def reset

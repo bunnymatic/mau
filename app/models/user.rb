@@ -40,6 +40,7 @@ class User < ApplicationRecord
 
   after_create :tell_user_they_signed_up
 
+  scope :fan, -> { where(:type != 'Artist') }
   scope :active, -> { where(state: 'active') }
   scope :not_active, -> { where("state <> 'active'") }
   scope :pending, -> { where(state: 'pending') }
