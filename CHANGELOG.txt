@@ -7,3 +7,14 @@ If we may major changes that may need some kind of version numbers or notes abou
 * 06 12 2009  Version 0.1  Initial checkin by Jon/Jeremy of mau web Rails app which currently has part of the underlying model/controller stuff with default view templates.
 
 * 01 18 2010 v.1.1 Gremlin - Added Google maps API tie-in
+
+* 10 13 2013 v4.3 Corvair
+  Move to rails 3
+
+* 12 27 2013 v5.0 Dart
+
+* 01 05 2014 v6.0 Charger
+
+* 12 30 2015 Rails 4
+
+* 12 30 2016 v7.0.0 Challenger - Rails 5, custom map icons, more admin visibility

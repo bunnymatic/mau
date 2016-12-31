@@ -3,7 +3,6 @@
 
 #USERAGENT = 'HTTP_USER_AGENT'
 class ApplicationController < ActionController::Base
-  VERSION = 'Charger 6.0 '
   DEFAULT_CSV_OPTS = {:row_sep => "\n", :force_quotes => true}
 
   include OpenStudiosEventShim
@@ -117,17 +116,10 @@ class ApplicationController < ActionController::Base
     !params[:commit].nil? && params[:commit].downcase == 'cancel'
   end
 
-  if !Mau::Application.config.consider_all_requests_local || Rails.env != 'development'
-    #rescue_from ActiveRecord::RecordNotFound,         :with => :render_not_found
-    #rescue_from ActionController::RoutingError,       :with => :render_not_found
-    #rescue_from ActionController::UnknownController,  :with => :render_not_found
-    #rescue_from ActionController::UnknownAction,      :with => :render_not_found
-    #rescue_from Exception, :with => :render_error
-  end
-
   def set_version
-    @revision = VERSION
-    @build = 'unk'
+    version = Mau::Version.new
+    @revision = version.to_s
+    @build = version.build
   end
 
   protected
