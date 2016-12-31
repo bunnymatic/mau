@@ -193,7 +193,7 @@ describe MainController do
   describe 'version' do
     it 'returns the app version' do
       get :version
-      expect(response.body).to eql ApplicationController::VERSION
+      expect(response.body).to eql Mau::Version.new.to_s
     end
   end
 
