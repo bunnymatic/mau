@@ -16,19 +16,23 @@ describe RolesController do
     end
     context 'with role and user' do
       it 'removes the role association from the user' do
-        expect{ delete :destroy, :user_id => editor.id, :id => editor_role.id }.to change(editor.roles, :count).by(-1)
+        expect{
+          delete :destroy, params: { user_id: editor.id, id: editor_role.id }
+         }.to change(editor.roles, :count).by(-1)
       end
       it 'redirects to the role page' do
-        delete :destroy, :user_id => editor.id, :id => editor_role.id
+        delete :destroy, params: { user_id: editor.id, id: editor_role.id }
         expect(response).to redirect_to admin_role_path(editor_role)
       end
     end
     context 'with invalid role and user' do
       it 'removes the role association from the user' do
-        expect{ delete :destroy, :user_id => 'bogus', :id => editor_role.id }.to change(editor.roles, :count).by(0)
+        expect{
+          delete :destroy, params: { user_id: 'bogus', id: editor_role.id  }
+        }.to change(editor.roles, :count).by(0)
       end
       it 'redirects to the role page' do
-        delete :destroy, :user_id => 'bogus', :id => editor_role.id
+        delete :destroy, params: { user_id: 'bogus', id: editor_role.id }
         expect(response).to redirect_to admin_role_path(editor_role)
         expect(flash[:error]).to be_present
       end

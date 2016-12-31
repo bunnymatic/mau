@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::ArtistsController, elasticsearch: true do
+describe Admin::ArtistsController do
 
   let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:pending) { FactoryGirl.create(:artist, :pending, activation_code: 'ACTIVATEME') }
@@ -49,7 +49,7 @@ describe Admin::ArtistsController, elasticsearch: true do
         let(:parsed) { CSV.parse(response.body, parse_args) }
 
         before do
-          get :index, 'format' => 'csv'
+          get :index, params: { format: :csv }
         end
 
         it { expect(response).to be_success }
@@ -74,12 +74,12 @@ describe Admin::ArtistsController, elasticsearch: true do
   describe '#notify_featured' do
     describe 'unauthorized' do
       it 'not logged in redirects to error' do
-        post :notify_featured, id: artist.id
+        post :notify_featured, params: { id: artist.id }
         expect(response).to redirect_to '/error'
       end
       it 'logged in as normal redirects to error' do
         login_as manager
-        post :notify_featured, id: artist.id
+        post :notify_featured, params: { id: artist.id }
         expect(response).to redirect_to '/error'
       end
     end
@@ -88,12 +88,12 @@ describe Admin::ArtistsController, elasticsearch: true do
         login_as admin
       end
       it 'returns success' do
-        post :notify_featured, id: artist.id
+        post :notify_featured, params: { id: artist.id }
         expect(response).to be_success
       end
       it 'calls the notify_featured mailer' do
         expect(ArtistMailer).to receive(:notify_featured).exactly(:once).and_return(double("ArtistMailer::NotifyFeatured",deliver_later: true))
-        post :notify_featured, id: artist.id
+        post :notify_featured, params: { id: artist.id }
       end
     end
   end

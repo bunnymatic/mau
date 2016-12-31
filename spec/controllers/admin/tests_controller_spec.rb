@@ -34,7 +34,7 @@ describe Admin::TestsController do
         allow(Qr4r).to receive(:encode)
       end
       it 'builds a qr image' do
-        post :qr, 'string_to_encode' => 'this string', 'pixel_size' => '10'
+        post :qr, params: { string_to_encode: 'this string', pixel_size: '10' }
         expect(assigns(:qrfile)).to eql "/images/tmp/qrtest_#{@t.to_i}.png"
       end
     end

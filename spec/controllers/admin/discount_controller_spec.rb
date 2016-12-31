@@ -15,7 +15,7 @@ describe Admin::DiscountController do
     end
     context 'with good args' do
       before do
-        get :markup, :markdown => "## mark it down\n\n * one\n * two\n\nok?\n\n"
+        get :markup, params: { markdown: "## mark it down\n\n * one\n * two\n\nok?\n\n" }
       end
       it 'handles markdown' do
         htm = response.body

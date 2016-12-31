@@ -1,14 +1,9 @@
 require 'rails_helper'
 
 describe Admin::MemberEmailsController do
-  let(:admin) { FactoryGirl.create(:artist, :admin) }
 
+  let(:admin) { FactoryGirl.create(:artist, :admin) }
   let(:pending_artist) { FactoryGirl.create(:artist, :with_studio, state: 'pending', nomdeplume: "With A'Postr") }
-  # let(:artist) { FactoryGirl.create(:artist, :with_studio) }
-  # let(:fan) { FactoryGirl.create(:fan, :active) }
-  # let(:editor) { FactoryGirl.create(:artist, :editor) }
-  # let(:manager) { FactoryGirl.create(:artist, :manager, :with_studio) }
-  # let(:artist2) { manager }
 
   include OpenStudiosEventShim
 
@@ -35,7 +30,7 @@ describe Admin::MemberEmailsController do
 
       describe 'multiple os keys' do
         before do
-          get :show, '201004' => 'on', '201010' => 'on'
+          get :show, params: { '201004' => 'on', '201010' => 'on' }
         end
         it 'sets up the correct list name' do
           expect(assigns(:email_list).list_names).to eql(['201004','201010'])
@@ -45,7 +40,7 @@ describe Admin::MemberEmailsController do
       [:all, :active, :pending, :no_images, :no_profile ].each do |list_name|
         describe "list name = #{list_name}" do
           before do
-            get :show, 'listname' => list_name
+            get :show, params: { listname: list_name }
           end
           it 'sets the right list name' do
             expect(assigns(:email_list).list_names).to eql [list_name.to_s]
@@ -59,7 +54,7 @@ describe Admin::MemberEmailsController do
       let(:parsed) { CSV.parse(response.body, parse_args) }
       before do
         pending_artist
-        get :show, format: :csv, listname: 'pending'
+        get :show, params: { format: :csv, listname: 'pending' }
       end
       it { expect(response).to be_success }
       it { expect(response).to be_csv_type }

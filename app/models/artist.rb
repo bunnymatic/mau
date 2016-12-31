@@ -2,7 +2,6 @@ require 'qr4r'
 
 class Artist < User
 
-  REPRESENTATIVE_ART_CACHE_KEY = 'representative_art'
   MAX_PIECES = 20
 
   include MissionBoundaries
@@ -12,7 +11,7 @@ class Artist < User
   include Elasticsearch::Model
 
   extend FriendlyId
-  friendly_id :login, use: [:slugged, :finders]
+  friendly_id :login, use: [:slugged]
 
   self.__elasticsearch__.client = Search::EsClient.root_es_client
 
@@ -74,31 +73,6 @@ class Artist < User
   end
   delegate :update_os_participation, :to => :artist_info
 
-
-  # def street
-  #   address.street
-  # end
-
-  # def street=(val)
-  #   artist_info.street = val
-  # end
-
-  # def city
-  #   address.city
-  # end
-
-  # def city=(val)
-  #   artist_info.city = val
-  # end
-
-  # def addr_state
-  # :street, :street=,
-  #  :city, :city=,
-  #  :addr_state, :addr_state=,
-  #                          :zip, :zip=,
-  #  :lat, :lat=,
-  #  :lng, :lng=,
-
   def at_art_piece_limit?
     art_pieces.select(&:persisted?).count >= (max_pieces || MAX_PIECES)
   end
@@ -133,15 +107,19 @@ class Artist < User
   alias_method :doing_open_studios, :doing_open_studios?
 
   def representative_piece
-    cache_key = "%s%s" % [REPRESENTATIVE_ART_CACHE_KEY, id]
-    piece_id = SafeCache.read(cache_key)
+    piece_id = SafeCache.read(representative_art_cache_key)
     piece = ArtPiece.find_by id: piece_id
+
     if piece.blank?
       logger.debug("#{__method__}: cache miss");
       piece = art_pieces.first
-      SafeCache.write(cache_key, piece.id, :expires_in => 0) unless piece.nil?
+      SafeCache.write(representative_art_cache_key, piece.id, :expires_in => 0) unless piece.nil?
     end
     piece
+  end
+
+  def representative_art_cache_key
+    @representative_art_cache_key ||= CacheKeyService.representative_art(self)
   end
 
   def qrcode opts = {}

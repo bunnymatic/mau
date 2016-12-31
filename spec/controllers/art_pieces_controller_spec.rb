@@ -12,8 +12,8 @@ describe ArtPiecesController do
   let(:fan) { FactoryGirl.create(:fan, :active) }
   let!(:artist) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
   let(:artist2) { FactoryGirl.create(:artist, :with_studio, :with_tagged_art) }
-  let(:art_pieces) { artist.art_pieces }
-  let(:art_piece) { art_pieces.first }
+  let(:art_pieces) { artist.reload.art_pieces }
+  let(:art_piece) { art_pieces.first.reload }
 
 
   describe "#show" do
@@ -21,7 +21,7 @@ describe ArtPiecesController do
       context "format=html" do
         context 'when the artist is active' do
           before do
-            get :show, id: art_piece.id
+            get :show, params: { id: art_piece.id }
           end
           it { expect(response).to be_success }
           it 'has a description with the art piece name' do
@@ -47,14 +47,14 @@ describe ArtPiecesController do
       context 'when the artist is not active' do
         it 'reports a missing art piece' do
           artist.update_attribute(:state, 'pending')
-          get :show, id: art_piece.id
+          get :show, params: { id: art_piece.id }
           expect(response).to redirect_to '/error'
         end
       end
 
       context "getting unknown art piece page" do
         it "should redirect to error page" do
-          get :show, id: 'bogusid'
+          get :show, params: { id: 'bogusid' }
           expect(flash[:error]).to match(/couldn\'t find that art/)
           expect(response).to redirect_to '/error'
         end
@@ -63,7 +63,7 @@ describe ArtPiecesController do
         render_views
         before do
           login_as fan
-          get :show, id: art_piece.id
+          get :show, params: { id: art_piece.id }
         end
         it "doesn't have edit button" do
           expect(css_select(".edit-buttons #artpiece_edit a")).to be_empty
@@ -75,7 +75,7 @@ describe ArtPiecesController do
     end
     context 'format=json' do
       before do
-        get :show, id: art_piece.id, format: :json
+        get :show, params: { id: art_piece.id, format: :json }
       end
 
       it { should redirect_to api_v2_art_piece_path(art_piece.id, format: :json) }
@@ -86,7 +86,7 @@ describe ArtPiecesController do
     context "while not logged in" do
       context "post " do
         before do
-          post :create, artist_id: 6
+          post :create, params: { artist_id: 6 }
         end
         it_should_behave_like "redirects to login"
       end
@@ -96,16 +96,16 @@ describe ArtPiecesController do
         login_as artist
       end
       it 'sets a flash message without image' do
-        post :create, artist_id: artist.id, art_piece: art_piece_attributes.except(:photo)
+        post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.except(:photo) }
         expect(assigns(:art_piece).errors[:photo]).to be_present
       end
       it 'redirects to user page on cancel' do
-        post :create, artist_id: artist.id, art_piece: art_piece_attributes, commit: 'Cancel'
+        post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes, commit: 'Cancel' }
         expect(response).to redirect_to artist_path(artist)
       end
       it 'renders new on failed save' do
         allow_any_instance_of(ArtPiece).to receive(:valid?).and_return(false)
-        post :create, artist_id: artist.id, art_piece: art_piece_attributes
+        post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
         expect(response).to render_template 'artists/manage_art'
       end
 
@@ -113,34 +113,34 @@ describe ArtPiecesController do
         let(:tags) { "this, that, #{existing_tag.name}" }
 
         it 'redirects to show page on success' do
-          post :create, artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags})
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags}) }
           expect(response).to redirect_to artist_path(artist)
         end
         it 'creates a piece of art' do
           expect{
-            post :create, artist_id: artist.id, art_piece: art_piece_attributes
+            post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
           }.to change(ArtPiece, :count).by 1
         end
         it 'sets a flash message on success' do
-          post :create, artist_id: artist.id, art_piece: art_piece_attributes
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
           expect(flash[:notice]).to eql "You've got new art!"
         end
         it "flushes the cache" do
           expect_any_instance_of(ArtPiecesController).to receive(:flush_cache)
-          post :create, artist_id: artist.id, art_piece: art_piece_attributes
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes }
         end
         it 'publishes a message' do
           expect_any_instance_of(Messager).to receive(:publish)
-          post :create, artist_id: artist.id,  art_piece: art_piece_attributes
+          post :create, params: { artist_id: artist.id,  art_piece: art_piece_attributes }
         end
         it 'correctly adds tags to the art piece' do
-          post :create, artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags})
+          post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags}) }
           expect(ArtPiece.last.tags.count).to eql 3
         end
         it 'only adds the new tags' do
           tags
           expect{
-            post :create, artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags})
+            post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags}) }
           }.to change(ArtPieceTag, :count).by 2
         end
       end
@@ -151,7 +151,7 @@ describe ArtPiecesController do
     context "while not logged in" do
       context "post " do
         before do
-          post :update, id: 'whatever'
+          post :update, params: { id: 'whatever' }
         end
         it_should_behave_like "redirects to login"
       end
@@ -161,17 +161,17 @@ describe ArtPiecesController do
         login_as artist
       end
       it 'with bad attributes' do
-        post :update, id: art_piece.id, art_piece: {title: ''}
+        post :update, params: { id: art_piece.id, art_piece: {title: ''} }
         expect(response).to render_template 'edit'
         expect(assigns(:art_piece).errors.size).to be >= 1
       end
 
       it 'redirects to show page on success' do
-        post :update, id: art_piece.id, art_piece: {title: 'new title'}
+        post :update, params: { id: art_piece.id, art_piece: {title: 'new title'} }
         expect(response).to redirect_to art_piece
       end
       it 'updates tags given a string of comma separated items' do
-        post :update, id: art_piece.id, art_piece: {title: art_piece.title, tags: 'this, that, the other, this, that'}
+        post :update, params: { id: art_piece.id, art_piece: {title: art_piece.title, tags: 'this, that, the other, this, that'} }
         tag_names = art_piece.reload.tags.map(&:name)
         expect(tag_names.size).to eq(3)
         expect(tag_names).to include 'this'
@@ -179,24 +179,24 @@ describe ArtPiecesController do
         expect(tag_names).to include 'the other'
       end
       it 'sets a flash message on success' do
-        post :update, id: art_piece.id, art_piece: {title: 'new title'}
+        post :update, params: { id: art_piece.id, art_piece: {title: 'new title'} }
         expect(flash[:notice]).to eql 'The art has been updated.'
       end
       it "flushes the cache" do
         expect_any_instance_of(ArtPiecesController).to receive(:flush_cache)
-        post :update, id: art_piece.id, art_piece: {title: 'new title'}
+        post :update, params: { id: art_piece.id, art_piece: {title: 'new title'} }
       end
       it 'publishes a message' do
         expect_any_instance_of(Messager).to receive(:publish)
-        post :update, id: art_piece.id, art_piece: {title: 'new title'}
+        post :update, params: { id: art_piece.id, art_piece: {title: 'new title'} }
       end
       it 'redirects to show page on cancel' do
-        post :update, id: art_piece.id, commit: 'Cancel', art_piece: {title: 'new title'}
+        post :update, params: { id: art_piece.id, commit: 'Cancel', art_piece: {title: 'new title'} }
         expect(response).to redirect_to art_piece
       end
       it 'redirects to show if you try to edit someone elses art' do
         ap = artist2.art_pieces.first
-        post :update, id: ap.id, art_piece: {title: 'new title'}
+        post :update, params: { id: ap.id, art_piece: {title: 'new title'} }
         expect(response).to redirect_to(ap)
       end
 
@@ -207,13 +207,13 @@ describe ArtPiecesController do
     context "while not logged in" do
       context "post " do
         before do
-          post :edit, id: art_piece.id
+          post :edit, params: { id: art_piece.id }
         end
         it_should_behave_like "redirects to login"
       end
       context "get " do
         before do
-          get :edit, id: art_piece.id
+          get :edit, params: { id: art_piece.id }
         end
         it_should_behave_like "redirects to login"
       end
@@ -224,7 +224,7 @@ describe ArtPiecesController do
       end
       context "get" do
         before do
-          get :edit, id: artist2.art_pieces.first.id
+          get :edit, params: { id: artist2.art_pieces.first.id }
         end
         it "returns error if you don't own the artpiece" do
           expect(response).to redirect_to "/error"
@@ -237,7 +237,7 @@ describe ArtPiecesController do
       end
       context "get " do
         before do
-          get :edit, id: artist.art_pieces.last
+          get :edit, params: { id: artist.art_pieces.last }
         end
         it { expect(response).to be_success }
       end
@@ -248,7 +248,7 @@ describe ArtPiecesController do
   describe "#delete" do
     context "while not logged in" do
       before do
-        post :destroy, id: 'whatever'
+        post :destroy, params: { id: 'whatever' }
       end
       it_should_behave_like 'redirects to login'
     end
@@ -258,17 +258,17 @@ describe ArtPiecesController do
         login_as fan
       end
       it 'redirects' do
-        post :destroy, id: art_piece.id
+        post :destroy, params: { id: art_piece.id }
         expect(response).to be_redirect
       end
       it "does not removes that art piece" do
         expect {
-          post :destroy, id: art_piece.id
+          post :destroy, params: { id: art_piece.id }
         }.to change(ArtPiece, :count).by 0
       end
       it "does not publish a message " do
         expect_any_instance_of(Messager).to receive(:publish).never
-        post :destroy, id: art_piece.id
+        post :destroy, params: { id: art_piece.id }
       end
 
     end
@@ -276,19 +276,18 @@ describe ArtPiecesController do
     context "while logged in as art piece owner" do
       before do
         login_as artist
-        @ap = art_piece.id
       end
       it "returns error page" do
-        post :destroy, id: @ap
+        post :destroy, params: { id: art_piece.id }
         expect(response).to be_redirect
       end
       it "removes that art piece" do
-        post :destroy, id: @ap
-        expect{ ArtPiece.find(@ap) }.to raise_error ActiveRecord::RecordNotFound
+        post :destroy, params: { id: art_piece.id }
+        expect{ ArtPiece.find(art_piece.id) }.to raise_error ActiveRecord::RecordNotFound
       end
       it "calls messager.publish" do
         expect_any_instance_of(Messager).to receive(:publish).exactly(:once)
-        post :destroy, id: @ap
+        post :destroy, params: { id: art_piece.id }
       end
     end
   end

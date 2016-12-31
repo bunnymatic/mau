@@ -2,14 +2,6 @@ require 'rails_helper'
 
 describe 'ArtistsController Routes' do
   describe 'member routes' do
-    describe 'gets' do
-      [:qrcode].each do |endpoint|
-        it "routes #{endpoint} to the ArtistsController##{endpoint}" do
-          expect({ get: "/artists/123/#{endpoint}" }).
-            to route_to({controller: 'artists', id: '123', action: endpoint.to_s})
-        end
-      end
-    end
     describe 'posts' do
       [:notify_featured].each do |endpoint|
         it "routes #{endpoint} to the ArtistsController##{endpoint}" do

@@ -4,12 +4,12 @@ Feature:
 
 Background:
   Given the following artists with art are in the system:
-  | firstname | lastname   | nomdeplume |
-  | joe       | bapple     |            |
-  | mr        | bappleseed |            |
-  | johnny    | tutone     |            |
-  | Alexander | Graham     |            |
-  | mister    | mister     |            |
+  | firstname  | lastname   | nomdeplume |
+  | joesephine | bapple     |            |
+  | masterful  | bappleseed |            |
+  | johnson    | tutone     |            |
+  | Alexander  | Graham     |            |
+  | misterful  | mister     |            |
 
   Given there are open studios artists with art in the system
 

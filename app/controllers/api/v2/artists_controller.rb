@@ -12,7 +12,7 @@ module Api
       end
 
       def show
-        artist = Artist.active.find(params[:id])
+        artist = Artist.active.friendly.find(params[:id])
         respond_with artist
       end
     end

@@ -10,7 +10,7 @@ Background:
 
 @javascript
 Scenario: I can edit my profile
-  When I visit my profile edit page
+  When I visit my artist profile edit page
   Then I see my profile edit form
 
   When I click on "Personal Info"

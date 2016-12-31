@@ -47,10 +47,6 @@ module Mau
 
     # config.filter_parameters += [:password, :password_confirmation]
 
-    # # move to strong params
-    # config.active_record.whitelist_attributes = false
-    config.active_record.raise_in_transactional_callbacks = true
-
     config.s3_info = {
       bucket: ::Conf.S3_BUCKET || "mission-artists-#{Rails.env}",
       access_key_id: ::Conf.AWS_ACCESS_KEY_ID || 'bogus',

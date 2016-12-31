@@ -30,13 +30,13 @@ class ArtPieceTagsController < ApplicationController
   def show
     # get art pieces by tag
     begin
-      @tag = ArtPieceTag.find(params[:id])
-    rescue
+      @tag = ArtPieceTag.friendly.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => ex
       redirect_to_most_popular_tag(flash: { error: "Sorry, we can't find the tag you were looking for"} ) and return
     end
 
-    page = params[:p].to_i
-    mode = params[:m]
+    page = show_tag_params[:p].to_i
+    mode = show_tag_params[:m]
 
     @tag_presenter = ArtPieceTagPresenter.new(@tag, mode)
     @tag_cloud_presenter = TagCloudPresenter.new(ArtPieceTag, @tag, mode)
@@ -60,16 +60,19 @@ class ArtPieceTagsController < ApplicationController
   end
 
   def redirect_to_most_popular_tag(redirect_opts={})
-    xtra_params = params.slice(:m, 'm')
     popular_tag = ArtPieceTagService.most_popular_tag
     if popular_tag.nil?
       render_not_found Exception.new("No tags in the system")
     else
-      redirect_to art_piece_tag_path(popular_tag, xtra_params), redirect_opts
+      redirect_to art_piece_tag_path(popular_tag, show_tag_params), redirect_opts
     end
   end
 
+  def show_tag_params
+    params.permit(:p, :m)
+  end
+
   def query_input_params
-    params[:input] || params[:q]
+    params.permit(:q)[:q]
   end
 end

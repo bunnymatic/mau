@@ -32,7 +32,7 @@ class ArtPieceTagService
 
   def self.delete_unused_tags
     unused = tags_sorted_by_frequency.select{|tf| tf.frequency.to_f <= 0}.map{|t| t.tag.slug}
-    ArtPieceTag.destroy_all(slug: unused)
+    ArtPieceTag.where(slug: unused).destroy_all
     flush_cache
   end
 
@@ -46,9 +46,11 @@ class ArtPieceTagService
   def self.destroy(tags)
     tags = [tags].flatten.compact
     return unless tags.any?
-    ArtPiecesTag.delete_all( art_piece_tag_id: tags.map(&:id) )
-    tags.each(&:destroy)
-    flush_cache
+    ActiveRecord::Base.transaction do
+      ArtPiecesTag.where(art_piece_tag_id: tags.map(&:id) ).delete_all
+      ArtPieceTag.where(id: tags.map(&:id)).destroy_all
+      flush_cache
+    end
   end
 
   def self.most_popular_tag

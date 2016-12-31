@@ -13,12 +13,14 @@ class MainController < ApplicationController
   end
 
   def sampler
-    sampler = ArtSampler.new sampler_params
+    sampler = ArtSampler.new(seed: sampler_params[:seed],
+                             offset: sampler_params[:offset],
+                             number_of_images: sampler_params[:number_of_images])
     render partial: 'sampler_thumb', collection: sampler.pieces
   end
 
   def version
-    render text: @revision
+    render plain: @revision
   end
 
   def about
@@ -121,7 +123,7 @@ EOM
   end
 
   def sampler_params
-    params.slice(:seed, :offset, :number_of_images).symbolize_keys
+    params.permit(:seed, :offset, :number_of_images).tap { |k,v| v = v.to_i }
   end
 
   def feedback_mail_params

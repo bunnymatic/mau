@@ -2,8 +2,12 @@ When(/^I visit my home page$/) do
   visit artist_path(@artist)
 end
 
-When(/^I visit my profile edit page$/) do
-  visit edit_artist_path(@artist || @user)
+When(/^I visit my artist profile edit page$/) do
+  visit edit_artist_path(@artist)
+end
+
+When(/^I visit my user profile edit page$/) do
+  visit edit_artist_path(@user)
 end
 
 Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|

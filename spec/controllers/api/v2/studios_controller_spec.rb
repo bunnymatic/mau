@@ -10,7 +10,7 @@ describe Api::V2::StudiosController do
 
   describe "#show" do
     def make_request
-      get :show, { format: :json, id: studio.slug }, headers
+      get :show, params: { format: :json, id: studio.slug }, headers: headers
     end
 
     context "without proper authorization" do

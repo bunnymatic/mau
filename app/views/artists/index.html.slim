@@ -1,4 +1,3 @@
-- current_page_attrs = params.slice(:l, :o, :s)
 .pure-g
   .pure-u-1-1.header.padded-content>
     h2.title
@@ -17,14 +16,14 @@
     ul.paginator.gallery-paginator
       - @letters.each do |letter|
         li.page class=(letter==@gallery.letter)?'current':''
-          = link_to letter.html_safe, artists_path(current_page_attrs.merge(l: letter))
+          = link_to letter.html_safe, @gallery.path_to({l: letter}, params)
     .name-switcher
       span.prefix by name
       ul.button-group
         li.button(class=(@gallery.ordered_by_lastname? ? '':'current'))
-          =link_to "first", artists_path(current_page_attrs.merge({s: :firstname})), title: 'organize by first name'
+          =link_to "first", @gallery.path_to({s: :firstname}, params), title: 'organize by first name'
         li.button(class=(@gallery.ordered_by_lastname? ? 'current':''))
-          =link_to "last", artists_path(current_page_attrs.merge({s: :lastname})), title: 'organize by last'
+          =link_to "last", @gallery.path_to({s: :lastname}, params), title: 'organize by last'
 
 
 .pure-g

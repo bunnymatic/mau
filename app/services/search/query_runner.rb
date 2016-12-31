@@ -33,7 +33,6 @@ module Search
           }
         }
       }
-      # puts "QUERY", query_body.inspect
       EsClient.client.search(
         {
           index: [:art_pieces, :studios, :artists].join(","),

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Search::Indexer do
+describe Search::Indexer, elasticsearch: true do
 
   subject(:service) { Search::Indexer }
   let(:artist) { create :artist, :with_art }

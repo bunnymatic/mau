@@ -19,7 +19,7 @@ describe FavoritesController do
   describe "#create" do
     context "while not logged in" do
       before do
-        xhr :post, :create, user_id: fan.id
+        post :create, xhr: true, params: { user_id: fan.id }
       end
       it_should_behave_like "refuses access by xhr"
     end
@@ -30,16 +30,16 @@ describe FavoritesController do
       end
       it "does not create an artist for user that doesn't match login" do
         expect {
-          xhr :post, :create, user_id: artist.id, favorite: { type: 'Artist', id: artist.id }
+          post :create, xhr: true, params: {user_id: artist.id, favorite: { type: 'Artist', id: artist.id }}
 
-          expect(response).to redirect_to mau_fan_path(fan)
+          expect(response).to redirect_to user_path(fan)
           expect(artist.reload.favorites).to be_empty
         }.to change(fan.favorites, :count).by(0)
       end
 
       context "adding a favorite artist" do
         before do
-          xhr :post, :create, user_id: fan.id, favorite: { type: 'Artist', id: artist.id }
+          post :create, xhr: true, params: {user_id: fan.id, favorite: { type: 'Artist', id: artist.id } }
         end
         it "returns success" do
           r = JSON.parse(response.body)
@@ -53,7 +53,7 @@ describe FavoritesController do
 
       context "adding a favorite artist by slug" do
         before do
-          xhr :post, :create, user_id: fan.id, favorite: { type: 'Artist', id: artist.slug }
+          post :create, xhr: true, params: { user_id: fan.id, favorite: { type: 'Artist', id: artist.slug } }
         end
         it "adds the artist" do
           favs = fan.reload.favorites
@@ -65,7 +65,7 @@ describe FavoritesController do
         context "as ajax post(xhr)" do
           before do
             login_as fan
-            xhr :post, :create, user_id: fan.id, favorite: { type: 'ArtPiece', id: art_piece.id }
+            post :create, xhr: true, params: { user_id: fan.id, favorite: { type: 'ArtPiece', id: art_piece.id } }
           end
           it_should_behave_like "successful json"
           it "adds favorite to user" do
@@ -85,7 +85,7 @@ describe FavoritesController do
       context "add a favorite bogus model" do
         before do
           @nfavs = artist.favorites.count
-          xhr :post, :create, user_id: fan.id, favorite: { type: 'bogus', id: art_piece.id }
+          post :create, xhr: true, params: { user_id: fan.id, favorite: { type: 'bogus', id: art_piece.id } }
         end
         it "returns 404" do
           expect(response).to be_missing
@@ -103,7 +103,7 @@ describe FavoritesController do
     context "when logged in as the favorite's user" do
       before do
         login_as fan
-        delete :destroy, user_id: fan.id, id: @favorite.id
+        delete :destroy, params: { user_id: fan.id, id: @favorite.id }
       end
       it "redirects to the referer" do
         expect(response).to redirect_to( SHARED_REFERER )
@@ -116,10 +116,10 @@ describe FavoritesController do
     context "when logged in as not favorite's user" do
       before do
         login_as joe
-        delete :destroy, user_id: fan.id, id: @favorite.id
+        delete :destroy, params: { user_id: fan.id, id: @favorite.id }
       end
       it "redirects to the referer" do
-        expect(response).to redirect_to( joe )
+        expect(response).to redirect_to( user_path(joe) )
       end
       it "that artist is no longer a favorite" do
         favs = fan.reload.favorites
@@ -134,14 +134,14 @@ describe FavoritesController do
 
     context "while not logged in" do
       before do
-        get :index, id: fan.id
+        get :index, params: { id: fan.id }
       end
       it { expect(response).to be_success }
     end
 
     context "asking for a user that doesn't exist" do
       before do
-        get :index, id: 'bogus'
+        get :index, params: { id: 'bogus' }
       end
       it "redirects to all artists" do
         expect(response).to redirect_to artists_path
@@ -154,7 +154,7 @@ describe FavoritesController do
     context "while logged in as fan with no favorites" do
       before do
         login_as(fan)
-        get :index, id: fan.id
+        get :index, params: { id: fan.id }
       end
       it { expect(response).to be_success }
     end
@@ -164,7 +164,7 @@ describe FavoritesController do
         login_as(artist)
       end
       it 'returns success' do
-        get :index, id: artist.id
+        get :index, params: { id: artist.id }
         expect(response).to be_success
       end
     end

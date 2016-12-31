@@ -7,7 +7,7 @@ describe Admin::CmsDocumentsController do
   context 'not authorized' do
     [:index, :show, :edit, :update].each do |meth|
       before do
-        get meth, :id => 'whatever'
+        get meth, params: { id: 'whatever' }
       end
       it_should_behave_like "not authorized"
     end
@@ -28,14 +28,14 @@ describe Admin::CmsDocumentsController do
     describe '#show' do
       render_views
       before do
-        get :show, :id => cms_document
+        get :show, params: { id: cms_document }
       end
       it { expect(response).to be_success }
     end
 
     describe '#edit' do
       before do
-        get :edit, :id => cms_document
+        get :edit, params: { id: cms_document }
       end
       it { expect(response).to be_success }
     end
@@ -53,17 +53,17 @@ describe Admin::CmsDocumentsController do
       end
       it 'creates a new cms document' do
         expect{
-          post :create, :cms_document => FactoryGirl.attributes_for(:cms_document)
+          post :create, params: { cms_document: FactoryGirl.attributes_for(:cms_document) }
         }.to change(CmsDocument,:count).by(1)
       end
       it 'renders new on failure' do
         expect{
-          post :create, :cms_document => { :page => '', :section => '', :article => ''}
+          post :create, params: { cms_document: { page: '', section: '', article: ''} }
           expect(assigns(:cms_document).errors.size).to be >= 2
         }.to change(CmsDocument,:count).by(0)
       end
       it 'sets a notification' do
-        post :create, :cms_document => FactoryGirl.attributes_for(:cms_document)
+        post :create, params: { cms_document: FactoryGirl.attributes_for(:cms_document) }
         expect(flash[:notice]).to be_present
       end
     end
@@ -73,15 +73,15 @@ describe Admin::CmsDocumentsController do
         login_as editor
       end
       it 'creates a new cms document' do
-        put :update, :id => cms_document.id, :cms_document => { :section => 'new_section' }
+        put :update, params: { id: cms_document.id, cms_document: { section: 'new_section' } }
         expect(CmsDocument.find(cms_document.id).section).to eql 'new_section'
       end
       it 'sets a notification' do
-        put :update, :id => cms_document.id, :cms_document => { :section => 'this place' }
+        put :update, params: {  id: cms_document.id, cms_document: { section: 'this place' } }
         expect(flash[:notice]).to be_present
       end
       it 'renders edit on failure' do
-        put :update, :id => cms_document.id, :cms_document => { :page => '' }
+        put :update, params: { id: cms_document.id, cms_document: { page: '' } }
         expect(assigns(:cms_document).errors).to be_present
       end
     end

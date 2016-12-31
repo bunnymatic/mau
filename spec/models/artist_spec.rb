@@ -19,6 +19,7 @@ describe Artist do
 
   before do
     Rails.cache.clear
+    allow(OpenStudiosEventService).to receive(:current).and_return(open_studios_event)
   end
 
   context 'if max_pieces is nil' do
@@ -191,7 +192,9 @@ describe Artist do
       expect(artist.representative_piece).to eql ap
     end
     it 'doesn\'t call Cache.write if Cache.read returns something' do
-      allow(Rails.cache).to receive(:read).and_return(artist.art_pieces[0])
+      allow(Rails.cache).to receive(:read).
+                             with(artist.representative_art_cache_key).
+                             and_return(artist.art_pieces[0].id)
       expect(Rails.cache).to receive(:write).never
       artist.representative_piece
     end

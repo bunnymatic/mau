@@ -28,12 +28,12 @@ describe Admin::StudiosController do
       let(:studio_attrs) { FactoryGirl.attributes_for(:studio, photo: fixture_file_upload('/files/art.png', 'image/png')) }
       it "setups up a new studio" do
         expect{
-          put :create, studio: studio_attrs
+          put :create, params: { studio: studio_attrs }
         }.to change(Studio, :count).by(1)
       end
       it "renders new on failure" do
         expect{
-          put :create, studio: {name:''}
+          put :create, params: { studio: {name:''} }
           expect(response).to render_template 'new'
         }.to change(Studio, :count).by(0)
 
@@ -42,11 +42,11 @@ describe Admin::StudiosController do
 
     describe "#update" do
       it "updates a studio" do
-        post :update, id: studio.to_param, studio: {name:'new name'}
+        post :update, params: { id: studio.to_param, studio: {name:'new name'} }
         expect(studio.reload.name).to eql 'new name'
       end
       it "renders edit on failure" do
-        post :update, id: studio.to_param, studio: {name:''}
+        post :update, params: { id: studio.to_param, studio: {name:''} }
         expect(response).to render_template 'edit'
       end
     end
@@ -55,20 +55,20 @@ describe Admin::StudiosController do
 
       it "arranges studios in the order specified given studio slugs" do
         new_order = studios.shuffle
-        post :reorder, studios: new_order.map(&:slug)
+        post :reorder, params: { studios: new_order.map(&:slug) }
         expect(Studio.by_position.first).to eql new_order.first
         expect(Studio.by_position.last).to eql new_order.last
       end
 
       it "arranges studios in the order specified given studio ids" do
         new_order = studios.shuffle
-        post :reorder, studios: new_order.map(&:id)
+        post :reorder, params: { studios: new_order.map(&:id) }
         expect(Studio.by_position.first).to eql new_order.first
         expect(Studio.by_position.last).to eql new_order.last
       end
 
       it "returns json" do
-        post :reorder, studios: studios.shuffle.map(&:slug)
+        post :reorder, params: { studios: studios.shuffle.map(&:slug) }
         expect(response.content_type).to eql 'application/json'
       end
 
@@ -76,9 +76,12 @@ describe Admin::StudiosController do
   end
 
   describe "destroy" do
+    let(:make_destroy_call) {
+      delete :destroy, params: { id: studio.to_param }
+    }
     describe "unauthorized" do
       before do
-        delete :destroy, id: studio.to_param
+        make_destroy_call
       end
       it_should_behave_like 'not authorized'
     end
@@ -86,22 +89,25 @@ describe Admin::StudiosController do
       describe "as #{u}" do
         before do
           #login_as self.send(u)
-          delete :destroy, id: studio.to_param
+          make_destroy_call
         end
         it_should_behave_like 'not authorized'
       end
     end
     describe "as admin" do
       before do
+        studios
         login_as(admin)
       end
       it "deletes the studio" do
-        expect { delete :destroy, id: studio.to_param }.to change(Studio, :count).by(-1)
+        expect {
+          make_destroy_call
+        }.to change(Studio, :count).by(-1)
       end
-      it "sets artists\" to indy for all artists in the deleted studio" do
-        artist_ids = studio.artists.map(&:id)
+      it "sets artists to indy for all artists in the deleted studio" do
+        artist_ids = studio.reload.artists.map(&:id)
         assert(artist_ids.length > 0, 'You need to have a couple artists on that studio in your fixtures')
-        delete :destroy, id: studio.to_param
+        make_destroy_call
         users = User.find(artist_ids)
         expect(users.all?{|a| a.studio_id == 0}).to eq(true), 'Not all the artists were moved into the "Indy" studio'
       end
@@ -114,14 +120,14 @@ describe Admin::StudiosController do
     describe "#{endpoint}" do
       describe "unauthorized" do
         before do
-          get endpoint, id: studio
+          get endpoint, params: { id: studio }
         end
         it_should_behave_like 'not authorized'
       end
       describe "as editor" do
         before do
           login_as editor
-          get endpoint, id: studio.to_param
+          get endpoint, params: { id: studio.to_param }
         end
         it_should_behave_like 'not authorized'
       end
@@ -131,7 +137,7 @@ describe Admin::StudiosController do
         end
         context 'not my studio' do
           before do
-            get endpoint, id: studio2.id
+            get endpoint, params: { id: studio2.id }
           end
           it "redirects to the referrer" do
             expect(response).to redirect_to SHARED_REFERER
@@ -148,7 +154,7 @@ describe Admin::StudiosController do
     context "as a manager" do
       before do
         login_as manager
-        get :edit, id: manager.studio.to_param
+        get :edit, params: { id: manager.studio.to_param }
       end
       it { expect(response).to be_success }
     end
@@ -166,21 +172,21 @@ describe Admin::StudiosController do
     context "artist to unaffiliate is not the logged in artist" do
       it "removes the artist from the studio" do
         expect {
-          post :unaffiliate_artist, id: studio.to_param, artist_id: artist.id
+          post :unaffiliate_artist, params: { id: studio.to_param, artist_id: artist.id }
         }.to change(studio.artists.active, :count).by(-1)
       end
       it "does not add any studios" do
         expect {
-          post :unaffiliate_artist, id: studio.to_param, artist_id: artist.id
+          post :unaffiliate_artist, params: { id: studio.to_param, artist_id: artist.id }
         }.to change(Studio, :count).by(0)
       end
       it "does nothing if the artist is not in the studio" do
         expect {
-          post :unaffiliate_artist, id: studio.to_param, artist_id: non_studio_artist.id
+          post :unaffiliate_artist, params: { id: studio.to_param, artist_id: non_studio_artist.id }
         }.to change(studio.artists.active, :count).by(0)
       end
       it "redirects to the studio edit page" do
-        post :unaffiliate_artist, id: studio.to_param, artist_id: artist.id
+        post :unaffiliate_artist, params: { id: studio.to_param, artist_id: artist.id }
         expect(response).to redirect_to edit_admin_studio_path(studio)
       end
     end
@@ -193,7 +199,7 @@ describe Admin::StudiosController do
       end
 
       it "does not let you unaffiliate yourself" do
-        post :unaffiliate_artist, id: studio.to_param, artist_id: artist.id
+        post :unaffiliate_artist, params: { id: studio.to_param, artist_id: artist.id }
         expect(response).to redirect_to edit_admin_studio_path(studio)
         expect(artist.studio).to eql studio
       end
@@ -215,7 +221,6 @@ describe Admin::StudiosController do
       end
       it_should_behave_like 'not authorized'
     end
-
   end
 
 end

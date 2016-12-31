@@ -18,7 +18,7 @@ class User < ApplicationRecord
   store :links, accessors: %i| website facebook twitter blog pinterest myspace flickr instagram artspan |
 
   extend FriendlyId
-  friendly_id :login, use: [:slugged, :finders]
+  friendly_id :login, use: [:slugged]
 
   # custom validations
   validate :validate_email
@@ -40,6 +40,7 @@ class User < ApplicationRecord
 
   after_create :tell_user_they_signed_up
 
+  scope :fan, -> { where(:type != 'Artist') }
   scope :active, -> { where(state: 'active') }
   scope :not_active, -> { where("state <> 'active'") }
   scope :pending, -> { where(state: 'pending') }
@@ -253,7 +254,7 @@ class User < ApplicationRecord
       self.url = _add_http_to_link(url)
     end
     User.stored_attributes[:links].each do |site|
-      self.send("#{site}=", _add_http_to_link(self.send(site)))
+      self.send("#{site}=", _add_http_to_link(self.send(site))) if self.send(site).present?
     end
   end
 end

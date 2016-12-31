@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe SearchController do
+describe SearchController, elasticsearch: true do
 
   def letter_frequency(words)
     Hash.new(0).tap do |letters|
@@ -28,7 +28,7 @@ describe SearchController do
   describe "#index" do
     context "finding by studio" do
       before do
-        get :index, q: studios.first.name.split.first
+        get :index, params: { q: studios.first.name.split.first }
       end
       it 'returns success' do
         expect(response).to be_success

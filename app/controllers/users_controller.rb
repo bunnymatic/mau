@@ -20,10 +20,11 @@ class UsersController < ApplicationController
     @fan = safe_find_user(params[:id])
 
     if (@fan != current_user) || current_user.is_artist?
+      flash.keep
       redirect_to edit_artist_path(current_user)
       return
     end
-    @user = UserPresenter.new(current_user.becomes(User))
+    @user = UserPresenter.new(current_user)
   end
 
   def show
@@ -37,7 +38,7 @@ class UsersController < ApplicationController
     else
       @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
     end
-    @fan = UserPresenter.new(@fan.becomes(User))
+    @fan = UserPresenter.new(@fan)
   end
 
   def new
@@ -91,7 +92,7 @@ class UsersController < ApplicationController
       if current_user.update_attributes(password_params)
         msg[:notice] = "Your password has been updated"
       else
-        msg[:error] = current_user.errors.full_messages.join
+        msg[:error] = current_user.errors.full_messages.to_sentence
       end
     else
       msg[:error] = "Your old password was incorrect"
@@ -123,7 +124,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    id = params[:id]
+    id = destroy_params[:id]
     u = safe_find_user(id)
     if u
       if u.id != current_user.id
@@ -142,7 +143,7 @@ class UsersController < ApplicationController
 
   def activate
     logout
-    code = params[:activation_code]
+    code = activate_params[:activation_code]
     user = User.find_by(activation_code: code) if code.present?
 
     if !user
@@ -164,8 +165,9 @@ class UsersController < ApplicationController
 
   def resend_activation
     if request.post?
-      if params[:user] && params[:user][:email].present?
-        email = params[:user][:email]
+      inputs = params.require(user_params_key).permit(:email)
+      email = inputs[:email]
+      if email.present?
         flash[:notice] = "We sent your activation code to #{email}. Please check your email for instructions."
         user = User.find_by_email email
         if user
@@ -179,27 +181,24 @@ class UsersController < ApplicationController
   end
 
   def forgot
-    if request.post?
-      if params[:user] && params[:user][:email].present?
-        email = params[:user][:email]
-        user = User.find_by_email(params[:user][:email])
-        if user
-          if !user.active?
-            flash[:error] = "That account is not yet active.  Have you responded to the activation email we"+
-              " already sent?  Enter your email below if you need us to send you a new activation email."
-          else
-            flash[:notice] = "We've sent email with instructions on how to reset your password."+
-              "  Please check your email."
-            user.create_reset_code
-            redirect_to login_path and return
-          end
-        else
-          flash[:notice] = "We've sent email with instructions on how to reset your password."+
-            "  Please check your email."
-        end
+    render and return unless request.post?
+    inputs = params.require(user_params_key).permit(:email)
+    user = User.find_by_email(inputs[:email])
+    if user
+      if !user.active?
+        flash[:error] = "That account is not yet active.  Have you responded to the activation email we"+
+                        " already sent?  Enter your email below if you need us to send you a new activation email."
+      else
+        flash[:notice] = "We've sent email with instructions on how to reset your password."+
+                         "  Please check your email."
+        user.create_reset_code
+        redirect_to login_path and return
       end
-      redirect_to login_path
+    else
+      flash[:notice] = "We've sent email with instructions on how to reset your password."+
+                       "  Please check your email."
     end
+    redirect_to login_path
   end
 
   def deactivate
@@ -241,7 +240,7 @@ class UsersController < ApplicationController
 
   def safe_find_user(id)
     begin
-      User.find(id)
+      User.friendly.find(id)
     rescue ActiveRecord::RecordNotFound
       flash.now[:error] = "The user you were looking for was not found."
       return nil
@@ -310,6 +309,14 @@ class UsersController < ApplicationController
 
   def user_params_key
     [:artist, :mau_fan, :user].detect{|k| params.has_key? k}
+  end
+
+  def destroy_params
+    params.permit(:id)
+  end
+
+  def activate_params
+    params.permit(:activation_code)
   end
 
   def user_params

@@ -1,17 +1,17 @@
 Given(/^an account has been created/) do
-  @artist = Artist.where(:login => 'bmatic').first
+  @artist = Artist.where(login: TestUsersHelper::DEFAULT_LOGIN).first
   if !@artist
-    @artist = FactoryGirl.create(:artist, :active, :with_art, :in_the_mission, :login => 'bmatic')
+    @artist = FactoryGirl.create(:artist, :active, :with_art, :in_the_mission, login: TestUsersHelper::DEFAULT_LOGIN)
   end
-  @artist.password = 'bmatic'
-  @artist.password_confirmation = 'bmatic'
+  @artist.password = TestUsersHelper::DEFAULT_PASSWORD
+  @artist.password_confirmation = TestUsersHelper::DEFAULT_PASSWORD
   @artist.save!
 end
 
 Given(/^an? "(.*?)" account has been created/) do |role|
   @artist = FactoryGirl.create(:artist, :active, :with_art, role.to_sym )
-  @artist.password = 'bmatic'
-  @artist.password_confirmation = 'bmatic'
+  @artist.password = TestUsersHelper::DEFAULT_PASSWORD
+  @artist.password_confirmation = TestUsersHelper::DEFAULT_PASSWORD
   @artist.save!
 end
 
@@ -24,19 +24,19 @@ Given /^there is a studio named "(.*)" with artists$/ do |studio|
 end
 
 Given /there are artists with art in the system$/ do
-  @artists = FactoryGirl.create_list(:artist, 3, :with_art, :with_studio, :number_of_art_pieces => 5)
+  @artists = FactoryGirl.create_list(:artist, 3, :with_art, :with_studio, number_of_art_pieces: 5)
   @art_pieces = @artists.map(&:art_pieces).flatten
 end
 
 Given /there are artists with art in my studio$/ do
   studio = (@manager || @artist || @user).studio
-  FactoryGirl.create_list(:artist, 2, :with_art, studio: studio, :number_of_art_pieces => 1)
+  FactoryGirl.create_list(:artist, 2, :with_art, studio: studio, number_of_art_pieces: 1)
 end
 
 Given /the following artists with art are in the system:/ do |table|
   @artists = []
   table.hashes.each do |artist_params|
-    args = {:number_of_art_pieces => 5}.merge artist_params
+    args = {number_of_art_pieces: 5}.merge artist_params
     @artists << FactoryGirl.create(:artist, :with_art, :with_studio, args)
   end
   @art_pieces = @artists.map(&:art_pieces).flatten
@@ -78,10 +78,10 @@ end
 
 Given /there is open studios cms content in the system/ do
 
-  args = {:page => :main_openstudios, :section => :preview_reception}
+  args = {page: :main_openstudios, section: :preview_reception}
   @os_reception_content ||= (CmsDocument.where(args).first || FactoryGirl.create(:cms_document, args))
 
-  args = {:page => :main_openstudios, :section => :summary}
+  args = {page: :main_openstudios, section: :summary}
   @os_summary_content ||= (CmsDocument.where(args).first || FactoryGirl.create(:cms_document, args))
 
 end
@@ -99,11 +99,11 @@ Given /there are tags on the art/ do
 end
 
 Given /there are past open studios events/ do
-  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, :start_date => 3.months.ago)
+  (@open_studios_events ||= []) << FactoryGirl.create(:open_studios_event, start_date: 3.months.ago)
 end
 
 Given /there are future open studios events/ do
-  (@open_studios_events ||= []) << (OpenStudiosEventService.current || FactoryGirl.create(:open_studios_event, :start_date => 3.months.since))
+  (@open_studios_events ||= []) << (OpenStudiosEventService.current || FactoryGirl.create(:open_studios_event, start_date: 3.months.since))
 end
 
 Given(/^there are artists and art pieces with favorites$/) do
@@ -130,7 +130,6 @@ Given /^the email lists have been created with emails$/ do
     clz = mailing_list.constantize
     begin
       if !clz.first
-        puts "Creating #{mailing_list} list"
         clz.create
       end
     rescue Exception => ex

@@ -35,13 +35,13 @@ describe MediaController do
       let(:paginator) { assigns(:paginator) }
       context 'with pretty url' do
         before do
-          get :show, :id => medium.slug
+          get :show, params: { id: medium.slug }
         end
         it { expect(response).to be_success }
       end
       context 'by artist' do
         before do
-          get :show, :id => medium.id, :m => 'a'
+          get :show, params: { id: medium.id, m: 'a' }
         end
         it "page is in artists mode" do
           expect(assigns(:media_presenter)).to be_by_artists
@@ -52,7 +52,7 @@ describe MediaController do
       end
       context 'by art piece' do
         before do
-          get :show, :id => medium
+          get :show, params: { id: medium }
         end
         it "page is in pieces mode" do
           expect(assigns(:media_presenter)).to be_by_pieces

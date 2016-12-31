@@ -6,7 +6,7 @@ class MediaController < ApplicationController
   before_action :load_media_frequency, :only => [:index, :show]
 
   def index
-    xtra_params = Hash[ params.select{ |k,v| [:m, "m"].include? k } ]
+    xtra_params = params.permit(:m)
     if !@frequency.empty?
       freq = @frequency.sort{ |m1,m2| m2['ct'].to_i <=> m1['ct'].to_i }
       begin
@@ -20,10 +20,9 @@ class MediaController < ApplicationController
   end
 
   def show
-    @medium = Medium.find(params[:id])
-
-    page = params[:p].to_i
-    mode = params[:m]
+    @medium = Medium.friendly.find(params[:id])
+    page = medium_params[:p].to_i
+    mode = medium_params[:m]
 
     @media_presenter = MediaPresenter.new(@medium, page, mode)
     @media_cloud = MediaCloudPresenter.new(Medium, @medium, mode)
@@ -34,6 +33,10 @@ class MediaController < ApplicationController
   end
 
   private
+  def medium_params
+    params.permit(:p, :m)
+  end
+
   def load_media_frequency
     @frequency = Medium.frequency(true)
   end

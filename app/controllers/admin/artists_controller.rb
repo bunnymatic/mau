@@ -64,7 +64,7 @@ module Admin
     def notify_featured
       id = Integer(params[:id])
       ArtistMailer.notify_featured(Artist.find(id)).deliver_later
-      render :layout => false, :nothing => true, :status => :ok
+      head :ok
     end
 
     private

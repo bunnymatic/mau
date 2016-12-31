@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
 
   def user_must_be_you
     user_required
-    redirect_back_or_default(current_user) unless (User.find(params[:user_id]) == current_user)
+    redirect_back_or_default(user_path(current_user)) unless (User.find(params[:user_id]) == current_user)
   end
 
   def user_required

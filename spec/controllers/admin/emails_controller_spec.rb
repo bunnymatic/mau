@@ -14,7 +14,7 @@ describe Admin::EmailsController do
       login_as admin
     end
     def make_request
-      xhr :post, :create, :email_list_id => feedback_email_list.id, :email => email_attrs
+      post :create, xhr: true, params: { email_list_id: feedback_email_list.id, email: email_attrs }
     end
     it 'returns 200 on success' do
       make_request
@@ -33,12 +33,12 @@ describe Admin::EmailsController do
 
   describe 'POST#destroy' do
     def make_delete_request
-      xhr :delete, :destroy, :email_list_id => feedback_email_list.id, :id => first_email.id
+      delete :destroy, xhr: true, params: { email_list_id: feedback_email_list.id, id: first_email.id }
     end
 
     let(:first_email) do
       email = FactoryGirl.create(:email)
-      FeedbackMailerList.first.update_attributes(:emails => [ email ])
+      FeedbackMailerList.first.update_attributes(emails: [ email ])
       email
     end
     before do

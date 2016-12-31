@@ -11,7 +11,7 @@ describe Admin::EmailListsController do
   let!(:lists) { [feedback_email_list, admin_email_list] }
 
   before do
-    AdminMailerList.first.update_attributes(:emails => [ FactoryGirl.create(:email, :email => test_email) ])
+    AdminMailerList.first.update_attributes(emails: [ FactoryGirl.create(:email, email: test_email) ])
   end
 
   describe 'not logged in' do
@@ -44,8 +44,8 @@ describe Admin::EmailListsController do
     describe 'GET' do
       before do
         emails = FactoryGirl.build_list(:email, 5)
-        AdminMailerList.first.update_attributes(:emails => emails.sample(2))
-        FeedbackMailerList.first.update_attributes(:emails => emails.sample(2))
+        AdminMailerList.first.update_attributes(emails: emails.sample(2))
+        FeedbackMailerList.first.update_attributes(emails: emails.sample(2))
 
         get :index
       end

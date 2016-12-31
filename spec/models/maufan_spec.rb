@@ -4,8 +4,8 @@ module MauFanSpecHelper
   def valid_user_attributes
     { :login => 'joe@bloggs.com',
       :email => "joe@bloggs.com",
-      :password => "abcdefg",
-      :password_confirmation => "abcdefg"
+      :password => "abcdefghij",
+      :password_confirmation => "abcdefghij"
     }
   end
 end

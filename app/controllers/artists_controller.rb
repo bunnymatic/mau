@@ -38,14 +38,10 @@ class ArtistsController < ApplicationController
   end
 
   def edit
-    @user = safe_find_artist params[:id]
-    if !@user || (@user != current_user) || current_user[:type] != 'Artist'
-      redirect_to edit_user_path(current_user)
-      return
-    end
+    redirect_to edit_user_path(current_user) and return unless current_user.is_artist?
     @user = ArtistPresenter.new(current_artist)
     @studios = StudioService.all
-    @artist_info = current_user.artist_info || ArtistInfo.new({ id: current_user.id })
+    @artist_info = current_artist.artist_info || ArtistInfo.new({ id: current_artist.id })
     @openstudios_question = CmsDocument.packaged(:artists_edit, :openstudios_question)
   end
 
@@ -80,15 +76,11 @@ class ArtistsController < ApplicationController
 
   def destroyart
     # receives post from delete art form
-    unless params[:art]
+    unless destroy_art_params
       redirect_to(artist_path(current_user)) and return
     end
-
-    ids = params[:art].map { |kk,vv| kk if vv != "0" }.compact
-    arts = ArtPiece.where(id: ids, artist_id: current_user.id)
-    arts.each do |art|
-      art.destroy
-    end
+    ids = destroy_art_params.select { |kk,vv| vv != "0" }.keys
+    ArtPiece.where(id: ids, artist_id: current_user.id).destroy_all
     Messager.new.publish "/artists/#{current_artist.id}/art_pieces/delete", "deleted art pieces"
     redirect_to(artist_path(current_user))
   end
@@ -138,23 +130,24 @@ class ArtistsController < ApplicationController
     end
   end
 
-  def qrcode
-    @artist = get_active_artist_from_params
-    if @artist
-      qrcode_system_path = @artist.qrcode
-      respond_to do |fmt|
-        fmt.html {
-          redirect_to "/artistdata/#{@artist.id}/profile/qr.png"
-        }
-        fmt.png {
-          data = File.open(qrcode_system_path,'rb').read
-          send_data(data, filename: 'qr.png', :type=>'image/png', disposition: "inline")
-        }
-      end
-    else
-      render action: 'show'
-    end
-  end
+  # TODO: use paperclip to save the qr code
+  # def qrcode
+  #   @artist = get_active_artist_from_params
+  #   if @artist
+  #     qrcode_system_path = @artist.qrcode
+  #     respond_to do |fmt|
+  #       fmt.html {
+  #         redirect_to "/artistdata/#{@artist.id}/profile/qr.png"
+  #       }
+  #       fmt.png {
+  #         data = File.open(qrcode_system_path,'rb').read
+  #         send_data(data, filename: 'qr.png', :type=>'image/png', disposition: "inline")
+  #       }
+  #     end
+  #   else
+  #     render action: 'show'
+  #   end
+  # end
 
   def update
     if request.xhr?
@@ -180,7 +173,7 @@ class ArtistsController < ApplicationController
   protected
   def safe_find_artist(id)
     begin
-      Artist.find id
+      Artist.friendly.find id
     rescue ActiveRecord::RecordNotFound
       nil
     end
@@ -218,6 +211,13 @@ class ArtistsController < ApplicationController
     %i|bio street city addr_state zip studionumber|
   end
 
+  def destroy_art_params
+    if params.has_key? :art
+      params.require(:art).permit!
+    else
+      params
+    end
+  end
 
   def artist_params
     if params[:emailsettings]

@@ -39,16 +39,16 @@ describe Admin::ArtPieceTagsController do
     end
     it "removes the tag" do
       expect {
-        delete :destroy, id: tag.id
+        delete :destroy, params: { id: tag.id }
       }.to change(ArtPieceTag, :count).by(-1)
       expect(ArtPieceTag.where(id: tag.id)).to be_empty
     end
     it "clears the cache" do
       expect(ArtPieceTagService).to receive :flush_cache
-      delete :destroy, id: tag.id
+      delete :destroy, params: { id: tag.id }
     end
     it "redirects to list of all tags" do
-      delete :destroy, id: tag.id
+      delete :destroy, params: { id: tag.id }
       expect(response).to redirect_to admin_art_piece_tags_path
     end
   end
@@ -66,5 +66,4 @@ describe Admin::ArtPieceTagsController do
       }.to change(ArtPieceTag,:count).by(-2)
     end
   end
-
 end
