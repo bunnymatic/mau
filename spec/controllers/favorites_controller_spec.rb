@@ -32,7 +32,7 @@ describe FavoritesController do
         expect {
           post :create, xhr: true, params: {user_id: artist.id, favorite: { type: 'Artist', id: artist.id }}
 
-          expect(response).to redirect_to mau_fan_path(fan)
+          expect(response).to redirect_to user_path(fan)
           expect(artist.reload.favorites).to be_empty
         }.to change(fan.favorites, :count).by(0)
       end
@@ -119,7 +119,7 @@ describe FavoritesController do
         delete :destroy, params: { user_id: fan.id, id: @favorite.id }
       end
       it "redirects to the referer" do
-        expect(response).to redirect_to( joe )
+        expect(response).to redirect_to( user_path(joe) )
       end
       it "that artist is no longer a favorite" do
         favs = fan.reload.favorites
