@@ -184,19 +184,16 @@ class UsersController < ApplicationController
     render and return unless request.post?
     inputs = params.require(user_params_key).permit(:email)
     user = User.find_by_email(inputs[:email])
+    flash[:notice] = "We've sent email with instructions on how to reset your password."+
+                     "  Please check your email."
     if user
       if !user.active?
+        flash[:notice] = nil
         flash[:error] = "That account is not yet active.  Have you responded to the activation email we"+
                         " already sent?  Enter your email below if you need us to send you a new activation email."
       else
-        flash[:notice] = "We've sent email with instructions on how to reset your password."+
-                         "  Please check your email."
         user.create_reset_code
-        redirect_to login_path and return
       end
-    else
-      flash[:notice] = "We've sent email with instructions on how to reset your password."+
-                       "  Please check your email."
     end
     redirect_to login_path
   end

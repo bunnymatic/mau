@@ -8,7 +8,6 @@
   }
 }
 
-
 /* edit forms */
 .collapse#bio {
   textarea {
@@ -88,7 +87,8 @@
   .panel-body {
     padding: 20px;
     ul.help {
-      padding-left: 10px;
+      padding-left: 20px;
+      margin-bottom: 20px;
       li {
         list-style: circle;
       }
