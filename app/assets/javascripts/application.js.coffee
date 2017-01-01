@@ -27,7 +27,7 @@
 #= require bootstrap/transition
 #= require bootstrap/tab
 #= require bootstrap/collapse
-#= require select2
+#= require select2-full
 #= require pickadate/picker
 #= require pickadate/picker.date
 #= require pickadate/picker.time

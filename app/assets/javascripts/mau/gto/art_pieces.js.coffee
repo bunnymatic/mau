@@ -2,7 +2,9 @@ $ ->
   # on art pieces edit page
   $artPieceForm = jQuery('.art_piece.formtastic')
   if ($artPieceForm.length)
-    $('#art_piece_medium_id').select2();
+    $('#art_piece_medium_id').select2({
+      width: '90%'
+    });
 
     $('input[type=submit]').on 'click', ->
       if (/add/i).test($(@).val())
@@ -11,7 +13,6 @@ $ ->
 
 
     $("#art_piece_tag_ids").select2
-      tags: data
       tokenSeparators: ["," ]
       minimumInputLength: 3
       multiple: true
@@ -19,16 +20,18 @@ $ ->
         url: '/art_piece_tags/autosuggest'
         type: 'post'
         dataType: "json"
-        data: (data) ->
+        data: (params) ->
           {
-            q: data.term
-            page: params.page
+            q: params.term
+            page: 1
           }
         processResults: (data, params) ->
           {
-            results: data
+            results: _.map(data, (tag) -> {id: tag, text: tag})
             pagination: { }
           }
       tokenSeparators: ["," ]
       minimumInputLength: 3
       multiple: true
+      tags: true
+      width: '90%'
