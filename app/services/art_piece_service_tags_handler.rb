@@ -10,8 +10,16 @@ module ArtPieceServiceTagsHandler
     else
       base_names = base_tags
     end
+    base_names = base_names.map { |name|
+      if name.present?
+        name.strip.downcase
+      end
+    }.compact.uniq
+
     ArtPieceTag.transaction do
-      self.params[:tags] = base_names.map{|name| ArtPieceTag.find_or_create_by(name: name)}
+      self.params[:tags] = base_names.map { |name|
+        ArtPieceTag.find_or_create_by(name: name)
+      }
     end
   end
 end

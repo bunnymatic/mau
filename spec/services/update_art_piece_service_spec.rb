@@ -3,7 +3,7 @@ require 'rails_helper'
 describe UpdateArtPieceService do
 
   let(:artist) { create :artist, :active, :with_tagged_art }
-  let(:art) { artist.art_pieces.first }
+  let!(:art) { artist.art_pieces.first }
   let(:existing_tag) { art.tags.first }
   let(:params) { {} }
   subject (:service) { described_class.new(art, params) }
@@ -17,8 +17,8 @@ describe UpdateArtPieceService do
       }
     }
 
-    it "creates an art piece" do
-      expect{ service.update_art_piece }.to change(ArtPiece, :count).by(1)
+    it "updates an art piece" do
+      expect{ service.update_art_piece }.to change(ArtPiece, :count).by(0)
     end
 
     it "creates new tags as needed" do
@@ -40,8 +40,8 @@ describe UpdateArtPieceService do
       attributes_for(:art_piece).merge({tag_ids: tag_params})
     }
 
-    it "creates an art piece" do
-      expect{ service.update_art_piece }.to change(ArtPiece, :count).by(1)
+    it "updates an art piece" do
+      expect{ service.update_art_piece }.to change(ArtPiece, :count).by(0)
     end
 
     it "creates new tags as needed" do
