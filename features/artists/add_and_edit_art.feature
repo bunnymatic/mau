@@ -1,3 +1,4 @@
+@javascript
 Feature:
   As an artist
   I can add and edit art
@@ -20,7 +21,6 @@ Scenario: "Adding Art with invalid params"
   And I click "Add"
   Then I see that my art was not added
 
-@javascript
 Scenario: "Editing Art"
   When I visit my home page
   And I click on "My Art" in the sidebar menu

@@ -23,16 +23,20 @@ end
 
 When(/^I fill out the add art form$/) do
   @medium = Medium.first
+  puts ArtPieceTag.pluck(:name).sort
   attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/art.png")
   fill_in "Title", with: 'Mona Lisa'
   fill_in "Dimensions", with: '4 x 3'
   fill_in "Year", with: '1515'
   select @medium.name, from: "Medium"
-  fill_in "Tags", with: "this, and that"
+  fill_in_select2_tags(['superfragile','complimicated'], from: 'Tags')
 end
 
 Then /^I see that my art was added$/ do
+  save_and_open_page
   expect(page).to have_content "Mona Lisa"
+  expect(page).to have_content @medium.name
+  expect(page).to have_content "complimicated, superfragile"
 end
 
 Then /^I see that my art was not added$/ do

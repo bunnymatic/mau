@@ -34,6 +34,7 @@ class ArtPiecesController < ApplicationController
   end
 
   def create
+    puts "CREATE:", params.inspect
     redirect_to(current_artist) and return if commit_is_cancel
 
     art_piece = CreateArtPieceService.new(current_artist, art_piece_params).create_art_piece

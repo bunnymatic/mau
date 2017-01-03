@@ -45,7 +45,6 @@ gem 'angular-rails-templates'
 
 # authentication
 gem 'authlogic'
-
 # mailing with postmarkapp.com
 gem 'postmark-rails'
 gem 'postmark'
@@ -67,6 +66,8 @@ gem 'coffee-rails'
 gem 'uglifier'
 
 gem 'actionmailer-text'
+
+gem 'sass-color-extractor'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-angular', '=1.3.16'

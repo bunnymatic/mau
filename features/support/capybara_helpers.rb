@@ -40,6 +40,15 @@ module CapybaraHelpers
     match.first
   end
 
+  def fill_in_select2_tags(array_of_tags, from: )
+    fill_in_select2_tag(array_of_tags.join(", "), from: from )
+  end
+
+  def fill_in_select2_tag(tag, from: )
+    field = find_field(from)
+    field.set(tag)
+  end
+
 end
 
 World CapybaraHelpers
