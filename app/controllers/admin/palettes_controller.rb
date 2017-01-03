@@ -3,7 +3,7 @@ module Admin
 
     def show
       f = File.expand_path('app/assets/stylesheets/_colors.scss')
-      @colors = ScssFileReader.new(f).parse_colors
+      @colors = ScssColorReader.new(f).parse_colors
     end
 
   end

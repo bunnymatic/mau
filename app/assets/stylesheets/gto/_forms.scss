@@ -68,13 +68,13 @@ tr.error-msg {
   }
   .select2-container {
     width: 90%;
-    border-radius: 2px;
   }
+
   select,
   input {
     padding: 10px;
     border-radius: 2px;
-    border: 1px solid #ddd;
+    border: 1px solid $x-light-gray;
   }
   input {
     width: 90%;

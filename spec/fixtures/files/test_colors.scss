@@ -1,0 +1,12 @@
+/* whatever */
+   $black: #000;
+$white: #ffffff;
+$red: #ff0000;
+$yellr: #fc2;
+$light_yellr: lighten($yellr, 20%);
+$dark_yellr: darken($yellr, 10%);
+
+@mixin this { color: whatever; }
+.style { overflow:hidden; }
+
+// empty line and comment line
