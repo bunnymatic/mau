@@ -35,7 +35,7 @@ describe ArtPieceServiceTagsHandler do
     end
 
     context "with tag_ids" do
-      let(:params) { { "tag_ids" => ["#{existing_tag.name}", "that", "the other"] } }
+      let(:params) { { "tag_ids" => ["", "#{existing_tag.name}", "that", "the other"] } }
       it "returns tags" do
         subject.prepare_tags_params
         prepared_params = subject.instance_variable_get("@params".to_sym)

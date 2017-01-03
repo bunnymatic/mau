@@ -116,7 +116,7 @@ class ArtPiecesController < ApplicationController
   def art_piece_params
     params.require(:art_piece).permit(:title, :dimensions,
                                       :year, :medium, :medium_id,
-                                      :description, :position, :photo, :tags, :tag_ids => {})
+                                      :description, :position, :photo, :tags, :tag_ids => [])
   end
 
   def create_art_piece_failed_empty_image(art_piece)
