@@ -65,14 +65,14 @@ module Admin
       cur = Artist.active.
             where("adddate(activated_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()").
             group("date(activated_at)").
-            order("activated_at desc").count
+            order("date(activated_at) desc").count
       cur.select{|k,v| k.present?}.map{|k,v| [k.to_time, v].map(&:to_i)}
     end
 
     def compute_user_visits_per_day
       cur = User.where("adddate(last_request_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()").
             group("date(last_request_at)").
-            order("last_request_at desc").count
+            order("date(last_request_at) desc").count
       cur.select{|k,v| k.present?}.map{|k,v| [k.to_time, v].map(&:to_i)}
     end
 
@@ -87,7 +87,7 @@ module Admin
     def compute_created_per_day(clz)
       cur = clz.where("adddate(created_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()").
             group("date(created_at)").
-            order("created_at desc").count
+            order("date(created_at) desc").count
       cur.select{|k,v| k.present?}.map{|k,v| [k.to_time, v].map(&:to_i)}
     end
 

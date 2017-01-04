@@ -4,11 +4,17 @@
 jQuery(function() {
 
   if (jQuery('body.admin .graph').length) {
-    function dateFormatter(ts) {
+
+    function dateFromSeconds(seconds) {
       var date = new Date(0);
-      var momentDate = moment(date.setSeconds(ts));
-      return momentDate.format('YYYY-MM-DD');
+      date.setSeconds(seconds);
+      return date;
+    }
+
+    function dateFormatter(ts) {
+      return moment(dateFromSeconds(ts)).format('YYYY-MM-DD');
     };
+
 
     var DEFAULT_COLOR = '#c39f06';
 
@@ -28,6 +34,10 @@ jQuery(function() {
               ];
               colors = {}
               colors[seriesName] = DEFAULT_COLOR;
+              var range = {
+                min: dateFromSeconds(timestamp[0]),
+                max: dateFromSeconds(timestamp[timestamp.length-1])
+              };
               var chart = c3.generate({
                 bindto: selector,
                 data: {
@@ -46,20 +56,17 @@ jQuery(function() {
                     }
                   },
                   x: {
+                    range: range,
                     tick: {
                       format: dateFormatter,
                       rotate: 90,
-                      centered: true,
-                      fit: true
-                    },
-                    label: {
-                      position: 'outer-center'
+                      fit: false
                     }
                   }
                 },
                 bar: {
                   width: {
-                    ratio: 0.05 // this makes bar width 50% of length between ticks
+                    ratio: 0.1 // this makes bar width 50% of length between ticks
                   }
                 }
               });
@@ -89,13 +96,13 @@ jQuery(function() {
                 },
                 axis: {
                   y: {
-                    max: 20,
                     label: {
                       position: 'outer-center',
                       text: '# artists'
                     }
                   },
                   x: {
+                    max: 20,
                     label: {
                       position: 'outer-center'
                     }
