@@ -56,6 +56,7 @@ jQuery(function() {
                     }
                   },
                   x: {
+                    type: 'timeseries',
                     range: range,
                     tick: {
                       format: dateFormatter,

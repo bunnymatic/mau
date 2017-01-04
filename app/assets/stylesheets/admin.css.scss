@@ -5,7 +5,7 @@
  *= require pickadate/classic
  *= require pickadate/classic.date
  *= require pickadate/classic.time
- *= require select2
+ *= require selectize
  *= require collapse
  *= require panel
  *= require toggle_button
@@ -14,8 +14,12 @@
  *= require_tree ./gto
  *= require_tree ./gto_admin
  *= require_self
+
+/// *= require select2
+
  */
 
+@import 'reset';
 @import 'pure';
 @import 'pure/grids-responsive';
 @import 'pure-customizations';
@@ -23,18 +27,6 @@
 
 .container {
   margin: auto;
-}
-
-.highlight {
-  z-index: 200;
-  height: 2px;
-  width: 100%;
-  background-color: #888;
-  position:fixed;
-  top:0;
-  left:0;
-  right: 0;
-  bottom: 2px;
 }
 
 .admin {
