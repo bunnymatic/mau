@@ -34,27 +34,4 @@ describe UpdateArtPieceService do
 
   end
 
-  context "with params[:tag_ids]" do
-    let(:tag_params) { [ '', 'mytag', 'mytag', 'YourTag', 'MyTag', existing_tag.name] }
-    let(:params) {
-      attributes_for(:art_piece).merge({tag_ids: tag_params})
-    }
-
-    it "updates an art piece" do
-      expect{ service.update_art_piece }.to change(ArtPiece, :count).by(0)
-    end
-
-    it "creates new tags as needed" do
-      existing_tag
-      expect{ service.update_art_piece }.to change(ArtPieceTag, :count).by(2)
-    end
-
-    it "returns the art piece" do
-      ap = service.update_art_piece
-      expect(ap.valid?).to eq true
-      expect(ap.tags.map(&:name)).to match_array ['mytag', 'yourtag', existing_tag.name]
-    end
-
-  end
-
 end

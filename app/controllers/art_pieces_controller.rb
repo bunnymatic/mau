@@ -34,7 +34,6 @@ class ArtPiecesController < ApplicationController
   end
 
   def create
-    puts "CREATE:", params.inspect
     redirect_to(current_artist) and return if commit_is_cancel
 
     art_piece = CreateArtPieceService.new(current_artist, art_piece_params).create_art_piece
@@ -107,38 +106,10 @@ class ArtPiecesController < ApplicationController
     return "Mission Artists United Art : #{art_piece.title} by #{art_piece.artist.get_name(true)}" if art_piece
   end
 
-  # def prepare_tags_params
-  #   tags_string = params[:art_piece][:tags]
-  #   tag_names = (tags_string || '').split(",").map{|name| name.strip.downcase}.compact.uniq
-  #   params[:art_piece][:tags] = tag_names.map{|name| ArtPieceTag.find_or_create_by(name: name)}
-  # end
-
   def art_piece_params
     params.require(:art_piece).permit(:title, :dimensions,
                                       :year, :medium, :medium_id,
-                                      :description, :position, :photo, :tags, :tag_ids => [])
+                                      :description, :position, :photo, :tags)
   end
-
-  def create_art_piece_failed_empty_image(art_piece)
-    @art_piece = art_piece
-    art_piece.errors.add(:base, "You must provide an image. "+
-                                "Image filenames need to be simple. "+
-                                "Some characters can cause issues with your upload, "+
-                                "like quotes \", apostrophes \' or brackets ([{}]).".html_safe)
-    render template: 'artists/manage_art'
-  end
-
-  def create_art_piece_failed_upload(art_piece)
-    @art_piece = art_piece
-    msg = "Failed to upload %s" % $!
-    art_piece.errors.add(:base, msg)
-    render template: 'artists/manage_art'
-  end
-
-  def create_art_piece_failed(art_piece)
-    @art_piece = art_piece
-    render template: 'artists/manage_art'
-  end
-
 
 end

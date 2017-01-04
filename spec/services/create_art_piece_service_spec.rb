@@ -27,30 +27,27 @@ describe CreateArtPieceService do
       expect(ap.valid?).to eq true
       expect(ap.tags.map(&:name)).to match_array ['mytag', 'yourtag', existing_tag.name]
     end
-
   end
 
-  context "with params[:tag_ids]" do
-    let(:tag_params) { [ '', 'mytag', 'mytag', 'YourTag', 'MyTag', existing_tag.name] }
+  context "with invalid data" do
+    let(:tag_params) { ['supertag', existing_tag.name].join(", ") }
     let(:params) {
-      attributes_for(:art_piece).merge({tag_ids: tag_params})
+      attrs = attributes_for(:art_piece).merge({tags: tag_params})
+      attrs.delete :title
+      attrs.delete :photo_file_name
+      attrs
     }
 
-    it "creates an art piece" do
-      expect{ service.create_art_piece }.to change(ArtPiece, :count).by(1)
-    end
-
-    it "creates new tags as needed" do
-      existing_tag
-      expect{ service.create_art_piece }.to change(ArtPieceTag, :count).by(2)
-    end
-
-    it "returns the art piece" do
+    it "returns the art piece with errors" do
       ap = service.create_art_piece
-      expect(ap.valid?).to eq true
-      expect(ap.tags.map(&:name)).to match_array ['mytag', 'yourtag', existing_tag.name]
+      expect(ap).to be_present
+      expect(ap.errors).to have_at_least(1).error
     end
 
+    it "does not preserve tags" do
+      ap = service.create_art_piece
+      expect(ap.tags).to be_empty
+    end
   end
 
 end
