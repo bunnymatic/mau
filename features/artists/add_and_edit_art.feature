@@ -27,9 +27,12 @@ Scenario: "Editing Art"
   And I click on "edit"
   And I click on the first "edit this art" button
   And I change "Title" to "Gobbledy Goop" in the ".art-piece-edit-form" form
-  And I change "Tags" to "new tag, other tag" in the ".art-piece-edit-form" form
+  And I update the art piece tags to:
+    | new tag | other tag |
+  And I save a screenshot
   And I click "Update"
   Then I see that my art title was updated to "Gobbledy Goop"
-  Then I see that my art tags are:
+  And I save a screenshot
+  And I see that my art tags are:
     | new tag | other tag |
   And I see a flash notice "art has been updated"

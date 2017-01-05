@@ -1,14 +1,21 @@
 # Support for multiple selects (just call select_from_chosen as many times as required):
 module SelectizeSelect
-  def select_from_selectize(item_text, options)
-    field = find_field(options[:from], visible: false)
-    debugger
-    control = 1; # $('#art_piece_medium_id')[0].selectize.close()
-    option_value = page.evaluate_script("$(\"##{field[:id]} option:contains('#{item_text}')\").val()")
-    page.execute_script("value = ['#{option_value}']\; if ($('##{field[:id]}').val()) {$.merge(value, $('##{field[:id]}').val())}")
-    option_value = page.evaluate_script("value")
-    page.execute_script("$('##{field[:id]}').val(#{option_value})")
-    page.execute_script("$('##{field[:id]}').close()")
+
+  # Select a single item from a selectized select input where multiple=false.
+  def selectize_single_select(key, value)
+    # It may be tempting to combine these into one execute_script, but don't; it will cause failures.
+    page.execute_script %Q{ $('##{key}-selectized .selectize-input').click(); }
+    page.execute_script %Q{ $('.#{key} .selectize-dropdown-content .option:contains("#{value}")').click(); }
+  end
+
+  # Select one or more items from a selectized select input where multiple=true.
+  def selectize_multi_select(key, *values)
+    values.flatten.each do |value|
+      page.execute_script(%{
+      $('##{key}-selectized').val('#{value}');
+      $('##{key}')[0].selectize.createItem();
+    })
+    end
   end
 end
 

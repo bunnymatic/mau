@@ -21,22 +21,33 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
   end
 end
 
+When(/^I update the art piece tags to:/) do |data|
+  selectize_multi_select "art_piece_tag_ids", data.raw
+end
+
+Then(/^I see that my art tags are:$/) do |data|
+  expected_tags = data.raw.first
+  within '.tags' do
+    expected_tags.each do |tag|
+      expect(page).to have_content tag
+    end
+  end
+end
+
 When(/^I fill out the add art form$/) do
   @medium = Medium.first
   attach_file "Photo", File.join(Rails.root,"/spec/fixtures/files/art.png")
   fill_in "Title", with: 'Mona Lisa'
   fill_in "Dimensions", with: '4 x 3'
   fill_in "Year", with: '1515'
-  select_from_selectize @medium.name, from: "Medium"
-  select_from_selectize 'superfragile', from: "Tags"
-  select_from_selectize 'complimicated', from: "Tags"
-  save_and_open_screenshot
+  selectize_single_select "art_piece_medium_id", @medium.name
+  selectize_multi_select "art_piece_tag_ids", ['superfragile', 'complimicated']
 end
 
 Then /^I see that my art was added$/ do
   expect(page).to have_content "Mona Lisa"
-  expect(page).to have_content @medium.name
   expect(page).to have_content "complimicated, superfragile"
+  expect(page).to have_content @medium.name
 end
 
 Then /^I see that my art was not added$/ do
