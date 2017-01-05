@@ -28,6 +28,5 @@ $ ->
           error: () ->
             callback();
           success: (results) ->
-            console.log('fetched ', results)
             callback(_.map(results, (result) -> { value: result, text: result } ))
     )

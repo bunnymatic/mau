@@ -40,7 +40,7 @@ class ArtPiecesController < ApplicationController
     if art_piece.valid?
       flash[:notice] = "You've got new art!"
       Messager.new.publish "/artists/#{current_artist.id}/art_pieces/create", "added art piece"
-      redirect_to current_artist
+      redirect_to art_piece
     else
       @art_piece = art_piece
       @artist = ArtistPresenter.new(current_artist)

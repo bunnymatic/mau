@@ -9,3 +9,5 @@ jQuery ->
       $ctrls.find('form.js-hook').toggleClass 'hidden'
       $ctrls.find('select').selectize
         sortField: 'text'
+        onItemAdd: () ->
+          @blur()
