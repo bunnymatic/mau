@@ -11,7 +11,7 @@ describe ArtPieceServiceTagsHandler do
   }
   let!(:existing_tags) { create_list :art_piece_tag, 2 }
   let(:existing_tag) { existing_tags.first }
-  subject(:dummy) { dummy_class.new(params) }
+  subject(:dummy) { dummy_class.new(ActionController::Parameters.new(params)) }
 
   describe "#prepare_tags_params" do
     context "with tags" do

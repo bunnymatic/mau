@@ -1,6 +1,5 @@
 module ArtPieceServiceTagsHandler
   def prepare_tags_params
-    @params = @params.with_indifferent_access
     key = :tags if @params.has_key? :tags
     return unless key
     base_names = (@params[:tags] || '').split(",").map { |name|
