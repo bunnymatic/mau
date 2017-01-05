@@ -21,6 +21,16 @@ Then(/^I see that my art title was updated to "(.*?)"$/) do |new_title|
   end
 end
 
+When(/^I update the medium to the last medium$/) do
+  selectize_single_select "art_piece_medium_id", Medium.last.name
+end
+
+Then(/^I see that my art medium was updated to the last medium$/) do
+  within ".media" do
+    expect(page).to have_content(Medium.last.name)
+  end
+end
+
 When(/^I update the art piece tags to:/) do |data|
   selectize_multi_select "art_piece_tag_ids", data.raw
 end
