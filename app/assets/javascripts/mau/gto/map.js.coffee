@@ -4,7 +4,6 @@ $ ->
       pos = @getProjection().fromLatLngToDivPixel(latlng);
       pos.x -= parseInt(this.width_ / 2);
       pos.y -= parseInt(this.height_);
-      console.log("POS:", latlng, pos);
       pos
 
   $map = $('#map-canvas')
@@ -32,7 +31,6 @@ $ ->
           width: 33
           backgroundPosition: 'center bottom'
         }
-      console.log(clusterStyles)
       handler.setOptions
         markers:
           maxRandomDistance: 8
