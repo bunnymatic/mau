@@ -58,7 +58,7 @@ gem 'newrelic_rpm' #moitoring
 
 gem 'dotenv-rails'
 
-gem 'sass-rails', '~> 5.0.5'
+gem 'sassc-rails'
 gem 'autoprefixer-rails'
 gem 'coffee-rails'
 
