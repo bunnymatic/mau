@@ -27,12 +27,12 @@ When(/^I click to add an email to the "(.*?)" list$/) do |list_name|
 end
 
 Then(/^I see that "(.*?)" is on the "(.*?)" email list$/) do |email_string, list_name|
-  within get_email_directive(list_name) do
-    wait_until do
+  wait_until do
+    within get_email_directive(list_name) do
       page.has_content? email_string
     end
-    expect(page).to have_content email_string
   end
+  expect(page).to have_content email_string
 end
 
 When /I click "(.*?)" in the "(.*?)" email form$/ do |button, list_name|
