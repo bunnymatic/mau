@@ -7,4 +7,7 @@ jQuery ->
     $btn = $ctrls.find('.add_userrole')
     $btn.bind 'click', ->
       $ctrls.find('form.js-hook').toggleClass 'hidden'
-      $ctrls.find('select').select2()
+      $ctrls.find('select').selectize
+        sortField: 'text'
+        onItemAdd: () ->
+          @blur()

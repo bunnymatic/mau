@@ -87,6 +87,8 @@
       outline: none;
       background-color: transparent;
       &:hover {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
         background-color: rgba(200,200,200,0.2);
         @include transition(background-color 0.1s linear);
       }
@@ -104,4 +106,3 @@
     }
   }
 }
-

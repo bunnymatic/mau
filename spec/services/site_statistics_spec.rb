@@ -3,10 +3,7 @@ require 'rails_helper'
 describe SiteStatistics do
 
   subject(:stats) { SiteStatistics.new }
-
-  before do
-    fix_leaky_fixtures
-
+  let!(:models) {
     Timecop.freeze
 
     FactoryGirl.create_list(:studio, 2)
@@ -27,7 +24,7 @@ describe SiteStatistics do
     create_favorite( Artist.first, Artist.last )
     create_favorite( Artist.first, Artist.last(2).first)
     create_favorite( Artist.first, ArtPiece.first)
-  end
+  }
 
   it 'assigns the correct social links' do
     expect(stats.social_links).to eql( { "website" => 5, "facebook" => 2, "twitter" => 2 } )

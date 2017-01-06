@@ -21,15 +21,18 @@
 #= require jquery_ujs
 #= require jquery_noconflict
 #= require jquery-ui-1.10.4.custom
+#= require selectize/selectize-standalone
 #= require spinjs/spin
 #= require spinjs/jquery.spin
 #= require jquery.form
 #= require bootstrap/transition
 #= require bootstrap/tab
 #= require bootstrap/collapse
-#= require select2
 #= require pickadate/picker
 #= require pickadate/picker.date
 #= require pickadate/picker.time
 #= require jquery.feedback
 #= require_tree ./mau
+
+
+### #= require select2-full

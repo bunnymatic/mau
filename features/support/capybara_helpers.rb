@@ -40,6 +40,16 @@ module CapybaraHelpers
     match.first
   end
 
+  def fill_in_selectize(field, with: )
+    if with.is_a? Array
+      with.each do |val|
+        fill_in field, with: val
+      end
+    else
+      fill_in field, with: with
+    end
+  end
+
 end
 
 World CapybaraHelpers

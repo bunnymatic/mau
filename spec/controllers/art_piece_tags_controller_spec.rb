@@ -72,7 +72,7 @@ describe ArtPieceTagsController do
 
     it 'uses the cache there is data' do
       expect(Rails.cache).to receive(:read).with(Conf.autosuggest['tags']['cache_key']).
-        and_return([ {"info" => ArtPieceTag.first.id, "value" => ArtPieceTag.last.name }])
+        and_return([ { "text" => ArtPieceTag.last.name, "id" => ArtPieceTag.last.id } ])
       expect(Rails.cache).not_to receive(:write)
       get :autosuggest, params: { format: :json, input: 'tag' }
       j = JSON.parse(response.body)

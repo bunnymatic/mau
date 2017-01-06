@@ -1,5 +1,5 @@
 .palette-colors
-  - @colors.each do |(name, hexval)|
+  - @colors.each do |name, hexval|
     .palette-colors__color(style="background-color: ##{hexval}")
       .palette-colors__color-info
         .palette-colors__color-info__name = name

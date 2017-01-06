@@ -1,17 +1,21 @@
 /*
  *= require font-awesome
  *= require socicon
+ *= require selectize
  *= require pickadate/classic
  *= require pickadate/classic.date
  *= require pickadate/classic.time
  *= require ngDialog
- *= require select2
  *= require collapse
  *= require panel
  *= require toggle_button
  *= require_tree ../components
  *= require_tree ./gto
  *= require_self
+
+
+ /// *= require select2
+
  */
 @import 'reset';
 @import 'pure';
@@ -23,7 +27,7 @@
   margin: auto;
 }
 
-.highlight {
+.body-highlight {
   z-index: 200;
   height: 2px;
   width: 100%;

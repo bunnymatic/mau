@@ -114,7 +114,7 @@ describe ArtPiecesController do
 
         it 'redirects to show page on success' do
           post :create, params: { artist_id: artist.id, art_piece: art_piece_attributes.merge({tags: tags}) }
-          expect(response).to redirect_to artist_path(artist)
+          expect(response).to redirect_to art_piece_path(ArtPiece.find_by(title: art_piece_attributes[:title]))
         end
         it 'creates a piece of art' do
           expect{
