@@ -52,7 +52,7 @@ describe ArtistMailer do
       expect(mail).to have_body_text html_encode(artist.get_name, :decimal)
     end
     it "includes the fan's name" do
-      expect(mail).to have_body_text fan.get_name
+      expect(mail).to have_body_text html_encode(fan.get_name, :decimal)
     end
   end
 
