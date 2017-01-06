@@ -8,6 +8,7 @@ test:
 
 development:
   site_url: localhost:3000
+  s3_region: 'us-east-1'
   cache_expiry:
     feed: 300
     search: 20
@@ -19,9 +20,11 @@ development:
 
 acceptance:
   site_url: acceptance.missionartistsunited.com
+  s3_region: 'us-west-1'
 
 production:
   site_url: missionartistsunited.org
+  s3_region: 'us-east-1'
   cache_expiry:
     feed: 3600
     search: 300
@@ -61,7 +64,7 @@ common:
       # expire daily
       cache_expiry: 86400
       cache_key: artistnamesuggest
-
+  s3_region: 'us-west-1'
   ga_key: blah
   google_map_api_key: key
   ga_server_api_key: server_key

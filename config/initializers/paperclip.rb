@@ -1,11 +1,5 @@
 if Rails.env != 'test'
-
-  s3_region = case Rails.env
-              when "production"
-                'us-east-1'
-              else
-                'us-west-1'
-              end
+  s3_region = Rails.application.config.s3_region || 'us-west-1'
   opts = {
     storage: :s3,
     s3_credentials: Rails.application.config.s3_info || {},
