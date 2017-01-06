@@ -33,9 +33,9 @@ Then(/^I see more artists who have art in the most popular tag$/) do
   # this preload/call (for some reason) sets this test up for success
   @first_tag.art_pieces.all
 
-  within ".search-results" do
-    expect(page).to have_content @first_tag.art_pieces.first.title
-    expect(page).to_not have_content @first_tag.art_pieces.last.title
+  page.all ".search-results .desc .name" do |element|
+    expect(element.any? { |el| el.has_content? have_content @first_tag.art_pieces.first.title }).to be_truthy
+    expect(element.any? { |el| el.has_content? have_content @first_tag.art_pieces.last.title }).to be_falsy
   end
 end
 

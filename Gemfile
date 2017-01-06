@@ -1,17 +1,18 @@
 source 'https://rubygems.org'
-ruby '2.3.1'
+ruby '2.3.3'
 
 gem 'racc'
-gem 'rails', '5.0.0'
+gem 'rails', '5.0.1'
 gem 'active_model_serializers'
 gem 'responders'
 gem 'lograge'
-gem 'font-awesome-rails'
 gem 'nokogiri'
 gem 'htmlentities'
 gem 'mysql2', '~> 0.4.x'
 gem 'haml'
+gem 'font-awesome-rails'
 gem 'slim-rails'
+gem 'jquery-rails'
 gem 'mojo_magick'
 gem 'dalli'
 gem 'hashie'
@@ -57,7 +58,7 @@ gem 'newrelic_rpm' #moitoring
 
 gem 'dotenv-rails'
 
-gem 'sass-rails', '~> 5.0.5'
+gem 'sassc-rails'
 gem 'autoprefixer-rails'
 gem 'coffee-rails'
 

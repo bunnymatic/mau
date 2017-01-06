@@ -59,7 +59,7 @@ $ ->
       map
 
     if ($map.closest('.tab-content')?[0])
-      $('a[href=#map]').on 'shown.bs.tab', (ev) ->
+      $('a[href=\\#map]').on 'shown.bs.tab', (ev) ->
          map = buildMap()
     else
       map = buildMap()
