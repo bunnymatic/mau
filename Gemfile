@@ -51,8 +51,6 @@ gem 'postmark'
 
 gem 'unicorn' # webserver
 
-gem 'select2-rails' # autocompleter
-
 gem 'jbuilder' #non-html output (rss, atom)
 
 gem 'newrelic_rpm' #moitoring

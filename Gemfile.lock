@@ -431,8 +431,6 @@ GEM
     scrypt (3.0.3)
       ffi-compiler (>= 1.0.0)
       rake
-    select2-rails (4.0.3)
-      thor (~> 0.14)
     selenium-webdriver (2.53.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
@@ -589,7 +587,6 @@ DEPENDENCIES
   rspec-rails
   sass-color-extractor
   sass-rails (~> 5.0.5)
-  select2-rails
   selenium-webdriver
   shoulda-matchers
   simplecov
@@ -608,4 +605,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.13.6
+   1.13.7
