@@ -5,7 +5,7 @@ module Mau
       name: 'Challenger',
       major: '7',
       minor: '0',
-      rev: '0',
+      rev: '1',
       build: 'unk'
     }
 
