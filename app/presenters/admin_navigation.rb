@@ -9,7 +9,6 @@ class AdminNavigation < ViewPresenter
   def admin_links
     pr_links = [
       [:events, {}],
-      [:featured_artist, {}],
       [:favorites, {}],
       [:catalog, {link: '/catalog'}],
       [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
@@ -44,7 +43,6 @@ class AdminNavigation < ViewPresenter
 
   def editor_links
     [[:events, {}],
-     [:featured_artist , {}],
      [:cms_documents , {display: 'cms', link: url_helpers.admin_cms_documents_path}]
     ]
   end

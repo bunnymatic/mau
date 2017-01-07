@@ -237,7 +237,6 @@ class User < ApplicationRecord
     reload
     if recently_activated? && mailchimp_subscribed_at.nil?
       mailer_class.activation(self).deliver_later
-      FeaturedArtistQueue.create(artist_id: id, position: rand) if is_artist?
     end
     mailer_class.reset_notification(self).deliver_later if recently_reset?
     mailer_class.resend_activation(self).deliver_later if resent_activation?

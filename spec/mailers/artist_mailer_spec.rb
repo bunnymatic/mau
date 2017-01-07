@@ -52,14 +52,4 @@ describe ArtistMailer do
       expect(mail).to have_body_text html_encode(fan.get_name, :decimal)
     end
   end
-
-  describe "notify a featured artist" do
-    let(:mail) { ArtistMailer.notify_featured(artist)}
-    it 'includes a link to facebook' do
-      expect(mail).to have_body_text /facebook.com\/MissionArtists/
-    end
-    it 'includes a link to twitter' do
-      expect(mail).to have_body_text /twitter.com\/sfmau/
-    end
-  end
 end
