@@ -24,7 +24,7 @@ class MainController < ApplicationController
   end
 
   def about
-    @page_title = "Mission Artists United - About Us"
+    @page_title = PageInfoService.title("About Us")
     @content = CmsDocument.packaged('main','about')
   end
 
@@ -52,7 +52,7 @@ class MainController < ApplicationController
   end
 
   def resources
-    @page_title = "Mission Artists United - Open Studios"
+    @page_title = PageInfoService.title("Open Studios")
     page = 'main'
     section = 'artist_resources'
     doc = CmsDocument.where(page: page, section: section).first
@@ -67,7 +67,7 @@ class MainController < ApplicationController
   end
 
   def venues
-    @page_title = "Mission Artists United - Venues"
+    @page_title = PageInfoService.title("Venues")
     page = 'venues'
     section = 'all'
     doc = CmsDocument.where(page: page, section: section).first

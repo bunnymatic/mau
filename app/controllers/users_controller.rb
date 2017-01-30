@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     if @fan.is_artist?
       redirect_to artist_path(@fan) and return
     else
-      @page_title = "Mission Artists United - Fan: %s" % @fan.get_name(true)
+      @page_title = PageInfoService.title("Fan: %s" % @fan.get_name(true))
     end
     @fan = UserPresenter.new(@fan)
   end

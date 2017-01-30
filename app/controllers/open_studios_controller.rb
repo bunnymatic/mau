@@ -1,7 +1,7 @@
 class OpenStudiosController < ApplicationController
 
   def show
-    @page_title = "Mission Artists United: Spring Open Studios"
+    @page_title = PageInfoService.title("Open Studios")
     @os_only = true
     cur_page = (params[:p] || 0).to_i
 

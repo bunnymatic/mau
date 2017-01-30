@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 20161118064821) do
     t.index ["favoritable_type", "favoritable_id", "user_id"], name: "index_favorites_uniq_on_user_and_favorite", unique: true, using: :btree
   end
 
-  create_table "featured_artist_queue", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "featured_artist_queue", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer  "artist_id"
     t.datetime "featured"
     t.float    "position",  limit: 24
