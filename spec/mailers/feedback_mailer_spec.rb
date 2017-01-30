@@ -12,7 +12,7 @@ describe FeedbackMailer do
     FeedbackMailerList.first.emails.each do |expected|
       expect(m.to).to include expected.email
     end
-    expect(m.from).to include 'info@missionartistsunited.org'
+    expect(m.from).to include 'info@missionartists.org'
   end
 
 end

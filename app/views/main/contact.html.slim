@@ -8,7 +8,7 @@
       notify-mau< note-type="inquiry" link-text="email" with-icon=true email=current_user.try(:email)
       | or a letter or postcard
     p
-      | Mission Artists United
+      | Mission Artists
       br
       | 1890 Bryant Street, #311
       br
@@ -21,7 +21,7 @@
       | or find us on
       a>< href=Conf.social_links['facebook'] facebook.
     p or...
-    h4 Join the Mission Artists United Mailing List
+    h4 Join the Mission Artists Mailing List
     = render "/mailchimp_signup_form"
 
     = render '/main/info_footer'
