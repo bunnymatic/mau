@@ -14,7 +14,7 @@
 # definition into the server list. The second argument
 # something that quacks like a hash can be used to set
 # extended properties on the server.
-server 'gto.missionartistsunited.org',
+server 'www.missionartists.org',
   user: 'deploy',
   roles: %w{web app db},
   ssh_options: {

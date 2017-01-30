@@ -1,6 +1,6 @@
 class ArtistMailer < MauMailer
-  NOTE_FROM_ADDRESS = "Mission Artists United <mau@missionartistsunited.org>"
-  ACCOUNTS_FROM_ADDRESS = "Mission Artists United Accounts <mau@missionartistsunited.org>"
+  NOTE_FROM_ADDRESS = "Mission Artists United <mau@missionartists.org>"
+  ACCOUNTS_FROM_ADDRESS = "Mission Artists United Accounts <mau@missionartists.org>"
 
   def activation(artist)
     subject = "Your account has been activated!"
@@ -17,7 +17,6 @@ class ArtistMailer < MauMailer
     subject = 'Someone hearts you on Mission Artists United'
 
     @sender = fan
-    @notification_url = edit_artist_url(@artist, anchor: "notifications")
     @artist_url = artist_url(@artist)
 
     mail(:to => artist.email,

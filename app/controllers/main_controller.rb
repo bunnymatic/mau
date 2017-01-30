@@ -93,17 +93,17 @@ class MainController < ApplicationController
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <url>
-  <loc>http://www.missionartistsunited.org/</loc>
+  <loc>http://www.missionartists.org/</loc>
   <lastmod>2011-03-18T03:07:54+00:00</lastmod>
 </url>
 <url>
-  <loc>http://www.missionartistsunited.org/artists</loc>
+  <loc>http://www.missionartists.org/artists</loc>
 </url>
 <url>
-  <loc>http://www.missionartistsunited.org/studios/</loc>
+  <loc>http://www.missionartists.org/studios/</loc>
 </url>
 <url>
-  <loc>http://www.missionartistsunited.org/open_studios</loc>
+  <loc>http://www.missionartists.org/open_studios</loc>
 </url>
 </urlset>
 EOM
