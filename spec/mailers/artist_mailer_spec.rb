@@ -42,9 +42,6 @@ describe ArtistMailer do
 
   describe "favorite notification" do
     let(:mail) { ArtistMailer.favorite_notification(artist, fan) }
-    it "includes an edit link" do
-      expect(mail).to have_body_text edit_artist_url(artist, anchor: "notification")
-    end
     it "includes a link to the artists page" do
       expect(mail).to have_body_text artist_url(artist)
     end

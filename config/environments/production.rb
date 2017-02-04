@@ -67,7 +67,7 @@ Rails.application.configure do
   config.action_mailer.postmark_settings = { :api_key => Conf.POSTMARK_API_KEY }
   config.action_mailer.delivery_method = :postmark
   config.action_mailer.default_url_options = {
-    :host => 'www.missionartistsunited.org'
+    :host => 'www.missionartists.org'
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
@@ -94,4 +94,4 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 end
 
-Rails.application.routes.default_url_options[:host] = 'www.missionartistsunited.org'
+Rails.application.routes.default_url_options[:host] = 'www.missionartists.org'

@@ -27,7 +27,7 @@ class StudioPresenter < ViewPresenter
   end
 
   def page_title
-    @page_title ||= "Mission Artists United - Studio: %s" if name
+    @page_title ||= PageInfoService.title("Studio: %s" % name)
   end
 
   def has_profile_image?

@@ -1,6 +1,6 @@
 class MauMailer < ActionMailer::Base
 
-  SUBJECT_PREFIX = "Mission Artists United"
+  SUBJECT_PREFIX = "Mission Artists"
 
   include ActionMailer::Text
 

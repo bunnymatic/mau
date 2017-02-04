@@ -1,8 +1,8 @@
 class UserMailer < MauMailer
 
-  SUBJECT_PREFIX = "Mission Artists United"
-  NOTE_FROM_ADDRESS = "Mission Artists United <mau@missionartistsunited.org>"
-  ACCOUNTS_FROM_ADDRESS = "Mission Artists United Accounts <mau@missionartistsunited.org>"
+  SUBJECT_PREFIX = "Mission Artists"
+  NOTE_FROM_ADDRESS = "Mission Artists <mau@missionartists.org>"
+  ACCOUNTS_FROM_ADDRESS = "Mission Artists Accounts <mau@missionartists.org>"
 
   def activation(user)
     setup_email(user)

@@ -1,10 +1,10 @@
+@javascript
 Feature: As a active artist I can edit my information
 
 Background:
   Given I am signed in as an artist
   And I click on the first "MY ACCOUNT" link
 
-@javascript
 Scenario: I can edit my personal information
   When I click on "Personal Info"
   And I change "First Name" to "Soup"
@@ -15,14 +15,12 @@ Scenario: I can edit my personal information
   And I click on "Save Changes"
   Then my "Display Name" is "Soup" in the "Personal Info" section of the form
 
-@javascript
 Scenario: I can edit my address and studio affiliation
   When I click on "Address/Studio Info"
   And I change "Studio #" to "6600"
   And I click on "Save Changes"
   Then my "Studio #" is "6600" in the "Address/Studio Info" section of the form
 
-@javascript
 Scenario: I can edit my profile picture
   When I click on "Profile Picture"
   And I add a photo to upload
@@ -30,7 +28,6 @@ Scenario: I can edit my profile picture
   When I click on "Profile Picture"
   Then I see my photo in my profile
 
-@javascript
 Scenario: I can edit my links
   When I click on "Links"
   And I change "Website" to "http://my.website.com"
@@ -39,34 +36,32 @@ Scenario: I can edit my links
   Then my "Website" is "http://my.website.com" in the "Links" section of the form
   And my "Instagram" is "http://instagram.com/my_instagram" in the "Links" section of the form
 
-@javascript
 Scenario: I can edit my bio
   When I click on "Bio"
   And I change "artist_artist_info_attributes_bio" to "this Is my new bio"
   And I click on "Save Changes"
   Then my "artist_artist_info_attributes_bio" is "this Is my new bio" in the "Bio" section of the form
 
-@javascript
 Scenario: I can edit my password
   When I click on "Password"
   And I change "Current Password" to "8characters"
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahdeblah"
   And I click on "Save Changes"
-  And I close the flash
-  And I sign out
+  Then I see a flash notice "Your password has been updated"
+
+  When I sign out
   And I click on "sign in"
   And I sign in with password "blahdeblah"
   Then I see that I'm signed in
 
-@javascript
 Scenario: I cannot edit my password if i can't remember my current password
   When I click on "Password"
   And I change "Current Password" to "something"
   And I change "artist_password" to "blahdeblah"
   And I change "Confirm New Password" to "blahdeblah"
   And I click on "Save Changes"
-  Then I see a flash error "Your old password was incorrect"
+  Then I see a flash error including "Your old password was incorrect"
   And I close the flash
   And I sign out
   And I click on "sign in"
@@ -75,11 +70,10 @@ Scenario: I cannot edit my password if i can't remember my current password
   And I close the flash
   Then I see that I'm signed in
 
-@javascript
 Scenario: I cannot edit my password if the confirmation doesn't match
   When I click on "Password"
   And I change "Current Password" to "8characters"
   And I change "artist_password" to "blahdeblah"
-  And I change "Confirm New Password" to "blahblah"
+  And I change "Confirm New Password" to "blahblahxx"
   And I click on "Save Changes"
-  Then I see a flash error "Password confirmation doesn't match"
+  Then I see a flash error including "Password confirmation doesn't match"

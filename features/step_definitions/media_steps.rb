@@ -7,7 +7,7 @@ When(/^I fill in "(.*?)" for "(.*?)"$/) do |arg1, arg2|
 end
 
 Then(/^I see the "(.*?)" as a medium$/) do |arg1|
-  expect(page).to have_selector('#mediums_index td.name', :text => arg1, :exact => true)
+  expect(page).to have_selector('#mediums_index td.name', :text => arg1)
 end
 
 When(/^I click on the first medium$/) do

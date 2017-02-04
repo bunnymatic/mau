@@ -28,7 +28,7 @@ describe ArtistsController, elasticsearch: true do
       end
       it { expect(response).to be_success }
       it "set the title" do
-        expect(assigns(:page_title)).to eql 'Mission Artists United - MAU Artists'
+        expect(assigns(:page_title)).to eql 'Mission Artists - Artists'
       end
     end
   end
@@ -42,7 +42,7 @@ describe ArtistsController, elasticsearch: true do
       expect(assigns(:roster).artists.length.size).to be >= 2
     end
     it "set the title" do
-      expect(assigns(:page_title)).to eql 'Mission Artists United - MAU Artists'
+      expect(assigns(:page_title)).to eql 'Mission Artists - Artists'
     end
     it "artists are all active" do
       assigns(:roster).artists.each do |a|

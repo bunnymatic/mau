@@ -24,7 +24,7 @@ class ArtistsController < ApplicationController
 
         # build alphabetical list keyed by first letter
         @gallery = ArtistsGallery.new(@os_only, cur_letter, cur_sort, cur_page)
-        @page_title = "Mission Artists United - MAU Artists"
+        @page_title = PageInfoService.title("Artists")
         if request.xhr?
           render partial: 'artist_list', locals: { gallery: @gallery }
         else
@@ -58,7 +58,7 @@ class ArtistsController < ApplicationController
 
     @roster = ArtistsRoster.new(@os_only)
 
-    @page_title = "Mission Artists United - MAU Artists"
+    @page_title = PageInfoService.title("Artists")
 
     render action: 'roster'
   end
@@ -181,7 +181,7 @@ class ArtistsController < ApplicationController
 
   def set_artist_meta
     return if !@artist
-    @page_title = "Mission Artists United - Artist: %s" % @artist.get_name
+    @page_title = PageInfoService.title("Artist: %s" % @artist.get_name)
     @page_image = @artist.get_profile_image(:large) if @artist.has_profile_image?
     @page_description = build_page_description @artist
     @page_keywords += @artist.media_and_tags + (@page_keywords || [])
@@ -200,7 +200,7 @@ class ArtistsController < ApplicationController
     if (artist)
       trim_bio = (artist.bio || '').truncate(500)
       if trim_bio.present?
-        return "Mission Artists United Artist : #{artist.get_name(true)} : " + trim_bio
+        return "Mission Artists Artist : #{artist.get_name(true)} : " + trim_bio
       end
     end
     @page_description

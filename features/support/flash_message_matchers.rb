@@ -5,6 +5,10 @@ RSpec::Matchers.define :have_flash do |kind, msg|
   end
 
   match do
+    wait_until do
+      !page.all(flash_class(kind)).empty?
+    end
+
     expect(page).to have_css("#{flash_class(kind)}", text: msg)
   end
 

@@ -190,7 +190,7 @@ class ApplicationController < ActionController::Base
 
   def set_meta_info
     @page_description =<<EOF
-Mission Artists United is a website dedicated to the unification of artists
+Mission Artists is a website dedicated to the unification of artists
 in the Mission District of San Francisco.  We promote the artists and the
 community. Art is the Mission!
 EOF

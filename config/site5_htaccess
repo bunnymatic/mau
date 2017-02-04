@@ -1,6 +1,0 @@
-PassengerEnabled On
-PassengerAppRoot /home/missiona/deployed/mau/current
-
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^www.missionartistsunited.org$
-RewriteRule ^(.*)$ http://missionartistsunited.org/$1
