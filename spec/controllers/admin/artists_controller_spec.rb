@@ -71,32 +71,4 @@ describe Admin::ArtistsController do
     end
   end
 
-  describe '#notify_featured' do
-    describe 'unauthorized' do
-      it 'not logged in redirects to error' do
-        post :notify_featured, params: { id: artist.id }
-        expect(response).to redirect_to '/error'
-      end
-      it 'logged in as normal redirects to error' do
-        login_as manager
-        post :notify_featured, params: { id: artist.id }
-        expect(response).to redirect_to '/error'
-      end
-    end
-    describe 'authorized' do
-      before do
-        login_as admin
-      end
-      it 'returns success' do
-        post :notify_featured, params: { id: artist.id }
-        expect(response).to be_success
-      end
-      it 'calls the notify_featured mailer' do
-        expect(ArtistMailer).to receive(:notify_featured).exactly(:once).and_return(double("ArtistMailer::NotifyFeatured",deliver_later: true))
-        post :notify_featured, params: { id: artist.id }
-      end
-    end
-  end
-
-
 end

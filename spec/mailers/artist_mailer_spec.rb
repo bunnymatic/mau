@@ -46,20 +46,10 @@ describe ArtistMailer do
       expect(mail).to have_body_text artist_url(artist)
     end
     it "includes the artist's name" do
-      expect(mail).to have_body_text html_encode(artist.get_name, :decimal)
+      expect(mail).to have_body_text artist.get_name
     end
     it "includes the fan's name" do
-      expect(mail).to have_body_text html_encode(fan.get_name, :decimal)
-    end
-  end
-
-  describe "notify a featured artist" do
-    let(:mail) { ArtistMailer.notify_featured(artist)}
-    it 'includes a link to facebook' do
-      expect(mail).to have_body_text /facebook.com\/MissionArtists/
-    end
-    it 'includes a link to twitter' do
-      expect(mail).to have_body_text /twitter.com\/sfmau/
+      expect(mail).to have_body_text fan.get_name
     end
   end
 end

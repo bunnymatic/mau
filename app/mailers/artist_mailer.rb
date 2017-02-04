@@ -38,16 +38,6 @@ class ArtistMailer < MauMailer
     end
   end
 
-  def notify_featured(artist)
-    setup_email(artist)
-    subject = "You've been featured by Mission Artists."
-    mail(:to => artist.email,
-         :from => NOTE_FROM_ADDRESS,
-         :subject => build_subject(subject)) do |fmt|
-      fmt.html { render 'notify_featured' }
-    end
-  end
-
   def resend_activation(artist)
     setup_email(artist)
     subject    = 'Reactivate your MAU account'

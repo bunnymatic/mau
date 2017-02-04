@@ -105,7 +105,6 @@ Mau::Application.routes.draw do
     end
 
     get :os_status
-    get :featured_artist
 
     resources :mau_fans, only: [:index]
     resource :palette, only: [:show]
@@ -121,8 +120,6 @@ Mau::Application.routes.draw do
     end
 
     match '/discount/markup' => 'discount#markup', as: :discount_processor, via: [:get, :post]
-
-    post :featured_artist, as: :get_next_featured
 
     resources :roles
     resources :cms_documents
@@ -145,7 +142,6 @@ Mau::Application.routes.draw do
       end
       member do
         post :suspend
-        get :notify_featured
       end
     end
     resources :users, only: [:show]

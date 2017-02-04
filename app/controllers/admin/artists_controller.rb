@@ -1,8 +1,8 @@
 module Admin
   class ArtistsController < ::BaseAdminController
     before_action :admin_required, :only => [ :suspend, :index, :edit, :update ]
-    before_action :editor_required, :only => [ :notify_featured ]
     before_action :set_artist, only: [ :edit, :suspend, :update ]
+
     def index
       @artist_list = AdminArtistList.new
       @active_artist_list, @inactive_artist_list = @artist_list.partition{|a| a.pending? || a.active?}
@@ -53,18 +53,6 @@ module Admin
         flash[:notice] = msg
       end
       redirect_to(admin_artists_url)
-    end
-
-    # def destroy
-    #   @os_event = OpenStudiosEventService.find(params[:id], false)
-    #   OpenStudiosEventService.destroy(@os_event)
-    #   redirect_to admin_open_studios_events_path, notice: "The Event has been removed"
-    # end
-
-    def notify_featured
-      id = Integer(params[:id])
-      ArtistMailer.notify_featured(Artist.find(id)).deliver_later
-      head :ok
     end
 
     private

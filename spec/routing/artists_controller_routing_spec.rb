@@ -1,16 +1,6 @@
 require 'rails_helper'
 
 describe 'ArtistsController Routes' do
-  describe 'member routes' do
-    describe 'posts' do
-      [:notify_featured].each do |endpoint|
-        it "routes #{endpoint} to the ArtistsController##{endpoint}" do
-          expect({ post: "/artists/123/#{endpoint}" }).
-            to route_to({controller: 'artists', id: '123', action: endpoint.to_s})
-        end
-      end
-    end
-  end
 
   describe "- route generation" do
     it "should map controller artists, id 10 and action show to /artists/10" do
