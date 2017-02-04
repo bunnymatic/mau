@@ -55,7 +55,7 @@ Then /^show me the page$/ do
   save_and_open_page
 end
 
-Then /^I save and open the page$/ do
+Then /^I (save and\s+)?open the page$/ do |_|
   save_and_open_page
 end
 
@@ -107,7 +107,7 @@ end
 
 When /^I (log|sign)\s?out$/ do |dummy|
   visit logout_path
-  expect(page).to have_css '.flash__notice', /make some art/
+  expect(page).to have_flash :notice, /make some art/
 end
 
 Then /^I see that I'm signed in$/ do
@@ -116,12 +116,12 @@ end
 
 When(/^I change "(.*?)" to "(.*?)" in the "(.*?)" form$/) do |form_field_label, value, form_selector|
   within form_selector do
-    fill_in form_field_label, with: value, fill_options: { exact: true }
+    fill_in form_field_label, with: value
   end
 end
 
 When(/^I change "(.*?)" to "(.*?)"$/) do |form_field_label, value|
-  fill_in form_field_label, with: value, fill_options: { exact: true }
+  fill_in form_field_label, with: value
 end
 
 Then(/my "(.*?)" is "(.*?)" in the "(.*?)" section of the form/) do |form_field_label, value, section|
@@ -149,20 +149,12 @@ Then(/^I see an error message "(.*?)"$/) do |msg|
   expect(page).to have_selector '.error-msg', text: msg
 end
 
-Then /^I see a flash notice including ("[^"]*")$/ do |match|
-  expect(page).to have_flash :notice, match
+Then(/^I see a flash error (including\s+)?"(.*?)"$/) do |_, msg|
+  expect(page).to have_flash(:error, Regexp.new(msg))
 end
 
-Then /^I see a flash error including ("[^"]*")$/ do |match|
-  expect(page).to have_flash :danger, match
-end
-
-Then(/^I see a flash error "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.flash.flash__error', text: Regexp.new(msg)
-end
-
-Then(/^I see a flash notice "(.*?)"$/) do |msg|
-  expect(page).to have_selector '.flash.flash__notice', text: msg
+Then(/^I see a flash notice (including\s+)?"(.*?)"$/) do |_, msg|
+  expect(page).to have_flash(:notice, Regexp.new(msg))
 end
 
 Then(/^I close the notice$/) do
@@ -189,7 +181,7 @@ Then(/^I see the "(.*?)" page$/) do |titleized_path_name|
   expect(current_path).to eql path_from_title(titleized_path_name)
 end
 
-When(/^I click (on\s+)?"([^"]*)"$/) do |dummy, link_text|
+When(/^I click (on\s+)?"([^"]*)"$/) do |_, link_text|
   click_on link_text
 end
 

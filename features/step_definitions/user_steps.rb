@@ -30,7 +30,7 @@ When(/^I fill in valid credentials$/) do
 end
 
 Then(/^I see that I'm logged in$/) do
-  expect(page).to have_selector('.flash__notice',:text => /you\'re in/i)
+  expect(page).to have_flash :notice, /you\'re in/i
   within(".nav") do
     expect(page).to have_content 'My Profile'
   end
