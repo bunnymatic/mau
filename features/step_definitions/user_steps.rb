@@ -44,7 +44,7 @@ end
 
 Then(/^I see that I'm logged out$/) do
   within '.nav' do
-    expect(page).to have_link "sign in", new_user_session_path
+    expect(page).to have_link "sign in", href: '/login'
   end
 end
 
