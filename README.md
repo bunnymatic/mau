@@ -147,7 +147,6 @@ cap production deploy
 
 will push the `development` or `master` branches respectively to the `mau.rcode5.com` or `www`.
 
-Enviroment variables on the linodes are controlled via
 # Issues/Versions etc
 
 # Keys for external connections
@@ -162,3 +161,7 @@ You'll need to create a `config/config.keys.yml` file - use config.keys.yml.exam
 * NewRelic for app performance analytics/monitoring
 * Google Analytics for web analytics
 * Facebook App - '1568875043351573',
+* Google Maps - keys under rcode5 google accounts
+* Google ReCaptcha - key under bunnymatic google account - should be moved
+
+
