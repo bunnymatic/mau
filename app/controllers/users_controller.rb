@@ -74,7 +74,7 @@ class UsersController < ApplicationController
 
     # validate email domain
     @user = build_user_from_params
-    recaptcha = verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
+    recaptcha = true # && verify_recaptcha(model: @user, message: "You failed to prove that you're not a robot")
     secret = verify_secret_word(model: @user, message: "You don't seem to know the secret word.  Sorry.")
     if secret && recaptcha && @user.save
       new_state = (@user.is_a? Artist) ? 'pending' : 'active'

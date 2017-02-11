@@ -17,7 +17,7 @@
       label.label for="secret_word" What's the secret word?
       = text_field_tag :secret_word
       p.inline-hints If you don't know, contact us via email and we'll let you in on the secret.
-    = recaptcha_tags
+
   = f.actions do
     = f.submit 'Sign up', class: 'pure-button-primary pure-button button-large'
 .input-help
