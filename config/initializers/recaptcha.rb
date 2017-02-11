@@ -1,6 +1,6 @@
 require 'recaptcha'
 Recaptcha.configure do |config|
-  config.public_key  = ::Conf.recaptcha_public_key
-  config.private_key = ::Conf.recaptcha_private_key
+  config.site_key = ::Conf.recaptcha_public_key
+  config.secret_key = ::Conf.recaptcha_public_key
 end
 
