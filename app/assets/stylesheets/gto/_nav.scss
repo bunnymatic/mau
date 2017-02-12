@@ -8,6 +8,8 @@
 }
 
 .sidenav {
+  z-index: 2;
+
   .sidenav__main {
     position: relative;
     z-index: 2;
@@ -74,9 +76,9 @@
   width: 100%;
   a, .fa, .text {
     color: $gto_dark_teal;
-    &:visited, &:link, &:active { 
+    &:visited, &:link, &:active {
       color: $gto_dark_teal;
-    }    
+    }
     &:hover {
       color: $gto_gray;
     }
