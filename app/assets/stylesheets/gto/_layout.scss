@@ -31,13 +31,14 @@ html, body {
 }
 
 .sidenav {
-  position: fixed;
+  position: absolute;
   @include transition(opacity 0.3s ease-in-out);
   width: $sidebar-nav-width;
   top: 0;
   left: 0;
   right: 0;
   bottom: 1px;
+  z-index: 2;
   .sidenav__main {
   }
   .sidenav__footer {
