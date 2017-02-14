@@ -70,7 +70,7 @@ describe UsersController do
         # so we can test them
         FactoryGirl.create(:blacklist_domain, domain: 'blacklist.com')
         #allow(@controller).to receive(:sweep)
-        expect(@controller).to receive(:verify_recaptcha).and_return(true)
+        allow(@controller).to receive(:verify_recaptcha).and_return(true)
         expect(@controller).to receive(:verify_secret_word).and_return(true)
       end
       it 'forbids email whose domain is on the blacklist' do
@@ -108,34 +108,34 @@ describe UsersController do
         }.to change(User,:count).by(1)
       end
     end
-    context "with invalid recaptcha" do
-      before do
-        # disable sweep of flash.now messages
-        # so we can test them
-        #allow(@controller).to receive(:sweep)
-        expect(@controller).to receive(:verify_recaptcha).and_return(false)
-        post :create, params: params_with_secret(
-               {
-                 mau_fan: {
-                   login: 'newuser',
-                   lastname: "bmatic2",
-                   firstname: "bmatic2",
-                   password: "8characters",
-                   password_confirmation: "8characters",
-                   email: "bmatic2@b.com"
-                 },
-                 type: "MauFan"
-               }
-             )
-      end
-      it "returns success" do
-        expect(response).to be_success
-      end
+    # context "with invalid recaptcha" do
+    #   before do
+    #     # disable sweep of flash.now messages
+    #     # so we can test them
+    #     #allow(@controller).to receive(:sweep)
+    #     allow(@controller).to receive(:verify_recaptcha).and_return(false)
+    #     post :create, params: params_with_secret(
+    #            {
+    #              mau_fan: {
+    #                login: 'newuser',
+    #                lastname: "bmatic2",
+    #                firstname: "bmatic2",
+    #                password: "8characters",
+    #                password_confirmation: "8characters",
+    #                email: "bmatic2@b.com"
+    #              },
+    #              type: "MauFan"
+    #            }
+    #          )
+    #   end
+    #   it "returns success" do
+    #     expect(response).to be_success
+    #   end
 
-      it "sets a flash.now indicating failure" do
-        expect(flash[:error]).to be_present
-      end
-    end
+    #   it "sets a flash.now indicating failure" do
+    #     expect(flash[:error]).to be_present
+    #   end
+    # end
 
     context "with partial params" do
       before do
