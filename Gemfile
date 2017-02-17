@@ -23,6 +23,7 @@ gem 'capistrano-rails'
 gem 'friendly_id'
 gem 'formtastic'
 
+gem 'elasticsearch', '~> 2.x'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 
