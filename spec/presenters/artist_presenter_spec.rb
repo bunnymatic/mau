@@ -34,7 +34,7 @@ describe ArtistPresenter do
     end
 
     it 'has a good map div for google maps' do
-      map_info = subject.get_map_info
+      map_info = subject.map_info
       html = Capybara::Node::Simple.new(map_info)
       expect(html).to have_selector('.map__info-window-art')
     end
@@ -47,7 +47,7 @@ describe ArtistPresenter do
     context 'without studio' do
       let(:artist) { FactoryGirl.create(:artist, :active, :with_art) }
       it 'has a good map div for google maps' do
-        map_info = subject.get_map_info
+        map_info = subject.map_info
         html = Capybara::Node::Simple.new(map_info)
         expect(html).to have_css('.map__info-window-art')
       end

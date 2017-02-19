@@ -77,7 +77,7 @@ class ArtistPresenter < UserPresenter
 
   def favorites_count
     @favorites_count ||= who_favorites_me.count
-    @favorites_count if @favorites_count > 0
+    @favorites_count if @favorites_count.positive?
   end
 
   def studio_name
@@ -101,7 +101,7 @@ class ArtistPresenter < UserPresenter
     end
   end
 
-  def get_map_info
+  def map_info
     content_tag('div', map_info_contents, class: 'map__info-window')
   end
 
@@ -129,7 +129,7 @@ class ArtistPresenter < UserPresenter
       else
         html << content_tag('div', street)
       end
-      html.map(&:html_safe).join.html_safe
+      safe_join(html)
     end
   end
 
@@ -175,6 +175,10 @@ class ArtistPresenter < UserPresenter
     model.links[:artspan]
   end
 
+  def self.keyed_links
+    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
+  end
+
   private
 
   def map_thumb
@@ -186,12 +190,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def linked_thumb
-    if representative_piece
-      @linked_thumb ||= content_tag('a', map_thumb_image, href: url_helpers.artist_path(model))
-    end
-  end
-
-  def self.keyed_links
-    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
+    return unless representative_piece
+    @linked_thumb ||= content_tag('a', map_thumb_image, href: url_helpers.artist_path(model))
   end
 end
