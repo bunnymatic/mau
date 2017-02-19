@@ -5,3 +5,11 @@ AllCops:
     - app/**
     - spec/**
     - features/**
+Rails:
+  Enabled: true
+
+Metrics/LineLength:
+  Max: 150
+
+Style/Documentation:
+  Enabled: false
