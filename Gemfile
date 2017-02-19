@@ -131,6 +131,7 @@ group :test, :development do
   gem 'simplecov'
   gem 'cane'
   gem 'morecane'
+  gem 'rubocop', require: false
 
   gem 'jslint_on_rails'
   gem 'guard-rspec'
