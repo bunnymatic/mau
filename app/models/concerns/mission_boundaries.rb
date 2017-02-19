@@ -23,8 +23,6 @@ module MissionBoundaries
 
   def within_bounds?(lat, lng)
     return false unless lat && lng
-    sw = BOUNDS['SW']
-    ne = BOUNDS['NE']
     lat >= SOUTH_BOUNDARY && lat <= NORTH_BOUNDARY && lng >= WEST_BOUNDARY && lng <= EAST_BOUNDARY
   end
 end

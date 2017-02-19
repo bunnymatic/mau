@@ -12,7 +12,7 @@ describe ArtistsMap do
 
   context 'when os_only is false' do
     describe '#grouped_by_address' do
-      it "returns artists grouped by address" do
+      it 'returns artists grouped by address' do
         expect(subject.grouped_by_address.size).to eq(map.artists.select(&:has_address?).map(&:address).compact.uniq.count)
       end
     end
