@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :studio do
     sequence(:name) { |n| Faker::Company.name + n.to_s }
@@ -21,7 +22,7 @@ FactoryGirl.define do
 
     trait :with_artists do
       after(:create) do |studio, context|
-        FactoryGirl.create_list :artist, context.artist_count, :active, :studio_id => studio.id
+        FactoryGirl.create_list :artist, context.artist_count, :active, studio_id: studio.id
       end
     end
   end
