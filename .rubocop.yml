@@ -1,3 +1,4 @@
+inherit_from: .rubocop_todo.yml
 AllCops:
   # Only runs checks on specific directories. Could be expanded to
   # include more directories.
@@ -5,6 +6,9 @@ AllCops:
     - app/**
     - spec/**
     - features/**
+  Exclude:
+    - db/schema.rb
+    - spec/*.opts
 Rails:
   Enabled: true
 
