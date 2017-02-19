@@ -14,6 +14,6 @@ dependencies:
     - tar -xvf elasticsearch-2.4.3.tar.gz
 test:
   pre:
-    - bundle exec rake assets:precompile 2>/dev/null
+    - bundle exec rake rubocop assets:precompile 2>/dev/null
   override:
     - bundle exec rake spec
