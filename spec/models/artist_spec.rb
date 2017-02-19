@@ -237,19 +237,6 @@ describe Artist do
     end
   end
 
-  describe 'qrcode' do
-    before do
-      artist
-    end
-    it 'generates a qr code the first time' do
-      allow(File).to receive(:exists?).and_return(false)
-      outpath = File.join(Rails.root, "public/artistdata/#{artist.id}/profile/qr.png")
-      str = "http://#{Conf.site_url}/artists/#{artist.id}?qrgen=auto"
-      expect(Qr4r).to receive(:encode).with(str, outpath, border: 15, pixel_size: 5)
-      artist.qrcode
-    end
-  end
-
   describe '#tally_os' do
     before do
       artist

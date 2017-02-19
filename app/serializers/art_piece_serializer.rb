@@ -19,7 +19,7 @@ class ArtPieceSerializer < MauSerializer
     end
 
     urls.inject({}) do |memo, (sz, path)|
-      memo[sz] = full_image_path(path)
+      memo[sz] = path
       memo
     end
   end

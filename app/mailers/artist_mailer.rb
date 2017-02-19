@@ -51,7 +51,7 @@ class ArtistMailer < MauMailer
   def activation(artist)
     setup_email(artist)
     subject    = 'Your account has been activated!'
-    @url  = Conf.site_url
+    @url  = root_url
     @artistsurl  = artist_url(artist)
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
@@ -63,7 +63,7 @@ class ArtistMailer < MauMailer
   def reset_notification(artist)
     setup_email(artist)
     subject    = 'Link to reset your password'
-    @url  = "http://%s/reset/#{artist.reset_code}" % Conf.site_url
+    @url  = reset_url(reset_code: artist.reset_code)
     mail(to: artist.email,
          from: ACCOUNTS_FROM_ADDRESS,
          subject: build_subject(subject)) do |fmt|

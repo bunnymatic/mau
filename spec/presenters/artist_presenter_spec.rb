@@ -9,11 +9,7 @@ describe ArtistPresenter do
   subject(:presenter) { ArtistPresenter.new(artist) }
 
   context "when the subject is an artist" do
-    describe 'artist?' do
-      its(:artist?) { is_expected.to eq true }
-    end
-    4
-
+    its(:artist?) { is_expected.to eq true }
     its(:in_the_mission?) { is_expected.to eql artist.in_the_mission? }
     its(:has_media?) { is_expected.to eql true }
     its(:has_bio?) { is_expected.to eql true }
@@ -25,12 +21,23 @@ describe ArtistPresenter do
     its(:has_art?) { is_expected.to eql true }
     it{ should be_valid }
 
+    describe '#get_share_link' do
+      it "returns the artists link" do
+        expect(subject.get_share_link).to match %r|/artists/#{artist.login}$|
+      end
+      it "returns the html safe artists link given html_safe = true" do
+        expect(subject.get_share_link(true).downcase).to match %r|%2fartists%2f#{artist.login}$|
+      end
+      it "returns the artists link with params given params" do
+        expect(subject.get_share_link(false, this: "that")).to match %r|artists/#{artist.login}\?this=that$|
+      end
+    end
+
     it 'has a good map div for google maps' do
       map_info = subject.get_map_info
       html = Capybara::Node::Simple.new(map_info)
       expect(html).to have_selector('.map__info-window-art')
     end
-
 
     context 'when we wrap a nil artist' do
       let (:artist) { nil }

@@ -106,8 +106,7 @@ class ArtPiece < ApplicationRecord
 
   def get_path(size = nil, full_path = false)
     size ||= 'medium'
-    artpiece_path = image_paths[size.to_sym]
-    (full_path ? full_image_path(artpiece_path) : artpiece_path)
+    image_paths[size.to_sym]
   end
 
   def image_paths

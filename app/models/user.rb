@@ -100,14 +100,6 @@ class User < ApplicationRecord
     photo? ? photo(size) : ArtistProfileImage.get_path(self, size)
   end
 
-  def get_share_link(urlsafe=false, options = {})
-    link = 'http://%s/artists/%s' % [Conf.site_url, self.login]
-    if options.present?
-      link += "?" + options.map{ |k,v| "#{k}=#{v}" }.join('&')
-    end
-    urlsafe ? CGI::escape(link) : link
-  end
-
   def emailsettings=(v)
     self.email_attrs = v.to_json
   end

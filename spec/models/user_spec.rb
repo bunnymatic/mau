@@ -204,18 +204,6 @@ describe User do
     end
   end
 
-  describe 'get_share_link' do
-    it "returns the artists link" do
-      expect(user.get_share_link).to match %r|/artists/#{user.login}$|
-    end
-    it "returns the html safe artists link given html_safe = true" do
-      expect(user.get_share_link(true).downcase).to match %r|%2fartists%2f#{user.login}$|
-    end
-    it "returns the artists link with params given params" do
-      expect(user.get_share_link(false, this: "that")).to match %r|artists/#{user.login}\?this=that$|
-    end
-  end
-
   describe 'roles' do
     it "without admin role user is not admin" do
       expect(artist).not_to be_is_admin

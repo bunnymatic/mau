@@ -122,16 +122,6 @@ class Artist < User
     @representative_art_cache_key ||= CacheKeyService.representative_art(self)
   end
 
-  def qrcode opts = {}
-    path = File.join(Rails.root, "public/artistdata/#{id}/profile/qr.png")
-    qropts = {:border => 15, :pixel_size => 5}.merge(opts)
-    if !File.exists? path
-      artist_url = "http://%s/%s?%s" % [Conf.site_url, "artists/#{id}", "qrgen=auto"]
-      path = Qr4r::encode(artist_url, path, qropts)
-    end
-    return path
-  end
-
   class << self
 
     # tally up today's open studios count

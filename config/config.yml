@@ -2,12 +2,10 @@
 #
 # note : no tabs and indent is ipmortant.
 test:
-  site_url: test.missionartistsunited.org
   mailchimp_api_key: bogus-key
   min_artists_per_studio: 1
 
 development:
-  site_url: localhost:3000
   cache_expiry:
     feed: 300
     search: 20
@@ -18,11 +16,9 @@ development:
   oslive: 201404
 
 acceptance:
-  site_url: acceptance.missionartistsunited.com
   S3_DOMAIN: 'us-west-1'
 
 production:
-  site_url: missionartistsunited.org
   cache_expiry:
     feed: 3600
     search: 300
@@ -41,7 +37,7 @@ common:
   cache_server: localhost:11211
   signup_secret_word: eat-shit-hackers
   feedback_emails:
-    - feedback@missionartistsunited.org
+    - feedback@missionartists.org
     - maufeedback@bunnymatic.com
   cache_expiry:
     feed: 300

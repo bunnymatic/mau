@@ -10,7 +10,7 @@ class ArtistPresenter < UserPresenter
   attr_accessor :model
 
   delegate :doing_open_studios?, :os_participation, :studio, :studio_id,
-           :artist_info, :at_art_piece_limit?,:get_share_link, :studionumber,
+           :artist_info, :at_art_piece_limit?, :studionumber,
            :max_pieces, :pending?, :active?,
            to: :artist, allow_nil: true
 
@@ -24,6 +24,11 @@ class ArtistPresenter < UserPresenter
 
   def has_media?
     media.present?
+  end
+
+  def get_share_link(urlsafe=false, options = {})
+    link = artist_url(model, options)
+    urlsafe ? CGI::escape(link) : link
   end
 
   def primary_medium
