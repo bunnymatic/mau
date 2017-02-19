@@ -2,7 +2,7 @@
 require_relative '../support/test_users_helper'
 
 FactoryGirl.define do
-  sequence(:login) { |n| sprintf("#{Faker::Internet.user_name}%04d", n) }
+  sequence(:login) { |n| format("#{Faker::Internet.user_name}%04d", n) }
   factory :user do
     login
     email { "#{login}@example.com" }
