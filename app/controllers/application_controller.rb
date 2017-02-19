@@ -4,8 +4,6 @@
 
 # USERAGENT = 'HTTP_USER_AGENT'
 class ApplicationController < ActionController::Base
-  DEFAULT_CSV_OPTS = { row_sep: "\n", force_quotes: true }.freeze
-
   include OpenStudiosEventShim
 
   # helper :all # include all helpers, all the time
@@ -70,7 +68,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_required
-    return if user
+    return if current_user
 
     if request.xhr?
       render json: { message: 'You need to be logged in' }, status: 400

@@ -29,7 +29,7 @@ describe CatalogsController do
 
     context 'format=csv' do
       render_views
-      let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
+      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
 
       before do
@@ -63,7 +63,7 @@ describe CatalogsController do
       it { expect(response).to_not be_success }
     end
     context 'format=csv' do
-      let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
+      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge({:headers =>true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
       let(:social_keys) { SocialCatalogPresenter::SOCIAL_KEYS }
       before do

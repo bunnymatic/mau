@@ -1,7 +1,7 @@
 inherit_from: ../.rubocop.yml
 
 Metrics/BlockLength:
-  Max: 500
+  Max: 600
 
 Rails/OutputSafety:
   Enabled: false

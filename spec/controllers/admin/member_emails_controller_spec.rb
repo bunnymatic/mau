@@ -33,7 +33,7 @@ describe Admin::MemberEmailsController do
           get :show, params: { '201004' => 'on', '201010' => 'on' }
         end
         it 'sets up the correct list name' do
-          expect(assigns(:email_list).list_names).to eql(['201004','201010'])
+          expect(assigns(:email_list).list_names).to eql(%w|201004 201010|])
         end
       end
 
@@ -50,7 +50,7 @@ describe Admin::MemberEmailsController do
     end
 
     describe 'csv' do
-      let(:parse_args) { ApplicationController::DEFAULT_CSV_OPTS.merge({headers:true}) }
+      let(:parse_args) { ViewPresenter::DEFAULT_CSV_OPTS.merge({headers:true}) }
       let(:parsed) { CSV.parse(response.body, parse_args) }
       before do
         pending_artist

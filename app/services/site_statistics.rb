@@ -56,9 +56,9 @@ class SiteStatistics
   LAST_LOGIN_CLAUSE = 'current_login_at >= ?'
   def queries(clause = CREATED_CLAUSE)
     {
-      :last_30_days => [clause, 30.days.ago],
-      :last_week => [clause,1.week.ago],
-      :yesterday => [clause,1.day.ago]
+      last_30_days: [clause, 30.days.ago],
+      last_week: [clause,1.week.ago],
+      yesterday: [clause,1.day.ago]
     }
   end
 
@@ -101,35 +101,35 @@ class SiteStatistics
   end
 
   def art_pieces_stats
-    {:art_pieces_added => ArtPiece.count}
+    {art_pieces_added: ArtPiece.count}
   end
 
   def favorites_stats
     {
-      :favorited_art_pieces => Favorite.art_pieces.count,
-      :favorited_artists => Favorite.artists.count,
-      :favorites_users_using => Favorite.distinct('user_id').pluck(:user_id).count,
+      favorited_art_pieces: Favorite.art_pieces.count,
+      favorited_artists: Favorite.artists.count,
+      favorites_users_using: Favorite.distinct('user_id').pluck(:user_id).count,
     }
   end
 
   def studios_stats
-    {:studios => Studio.count}
+    {studios: Studio.count}
   end
 
   def artists_stats
     artist_states = Artist.select(:state).group(:state).count
-    { :activated_artists => artist_states.fetch("active", 'n/a'),
-      :artists_pending => artist_states.fetch("pending", 'n/a'),
-      :artists_without_art => Artist.without_art.count,
-      :artists_no_profile_image => Artist.active.where("profile_image is not null").count,
-      :artists => artist_states.values.sum
+    { activated_artists: artist_states.fetch("active", 'n/a'),
+      artists_pending: artist_states.fetch("pending", 'n/a'),
+      artists_without_art: Artist.without_art.count,
+      artists_no_profile_image: Artist.active.where("profile_image is not null").count,
+      artists: artist_states.values.sum
     }
   end
 
   def other_users_stats
     {
-      :accounts => User.count,
-      :fans => MauFan.count
+      accounts: User.count,
+      fans: MauFan.count
     }
   end
 

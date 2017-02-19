@@ -4,7 +4,7 @@ class AdminArtistList < ViewPresenter
 
   include Enumerable
 
-  ALLOWED_SORT_BY = ['studio_id','lastname','firstname','id','login','email', 'activated_at'].freeze
+  ALLOWED_SORT_BY = %w|studio_id lastname firstname id login email activated_at|.freeze
 
   def raw_artists
     @raw_artists ||= Artist.all.includes(:artist_info, :studio, :art_pieces).order(sort_by_clause)
@@ -25,7 +25,7 @@ class AdminArtistList < ViewPresenter
   def csv
     @csv ||=
       begin
-        csv_data = CSV.generate(ApplicationController::DEFAULT_CSV_OPTS) do |_csv|
+        csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |_csv|
           _csv << csv_headers
           raw_artists.each do |artist|
             _csv << artist_as_csv_row(artist)

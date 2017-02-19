@@ -1,7 +1,8 @@
 module MailRelated
 
   def stub_signup_notification
-    allow(ArtistMailer).to receive(:signup_notification).and_return(double('ArtistMailer::SignupNotificationEmail', deliver_later: true, deliver_now: true))
+    mailer_double = double('ArtistMailer::SignupNotificationEmail', deliver_later: true, deliver_now: true)
+    allow(ArtistMailer).to receive(:signup_notification).and_return(mailer_double)
   end
 
   def stub_mailchimp

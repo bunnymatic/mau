@@ -8,6 +8,8 @@ class ViewPresenter
   # content_tag with a block
   attr_accessor :output_buffer
 
+  DEFAULT_CSV_OPTS = { row_sep: "\n", force_quotes: true }.freeze
+
   def url_helpers
     Rails.application.routes.url_helpers
   end

@@ -258,8 +258,9 @@ class UsersController < ApplicationController
   end
 
   def basic_note_info_from_params
+    # TODO: use strong params
     {}.tap do |info|
-      ['comment','login','email','page','name'].each do |k|
+      %w|comment login email page name|.each do |k|
         if params.include? k
           info[k] = params[k]
         end

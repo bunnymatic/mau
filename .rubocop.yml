@@ -8,6 +8,7 @@ AllCops:
     - features/**
   Exclude:
     - db/schema.rb
+    - db/migrate/**/*.rb
     - spec/*.opts
 Rails:
   Enabled: true
@@ -19,7 +20,7 @@ Metrics/LineLength:
   Max: 150
 
 Metrics/ClassLength:
-  Max: 175
+  Max: 200
 
 Metrics/MethodLength:
   Max: 50
