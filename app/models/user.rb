@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
-  validates_attachment_content_type :photo, content_type: %r/\Aimage\/.*\Z/, if: :"photo?"
+  validates_attachment_content_type :photo, content_type: %r{\Aimage\/.*\Z}, if: :"photo?"
 
   # I was initially worried about routes here - i think we should be fine moving forward
   #
@@ -163,11 +163,11 @@ class User < ApplicationRecord
   end
 
   def delete!
-    update_attribute(:state, 'deleted')
+    update_attributes(state: 'deleted')
   end
 
   def suspend!
-    update_attribute :state, 'suspended'
+    update_attributes(state: 'suspended')
   end
 
   def suspended?
@@ -231,7 +231,7 @@ class User < ApplicationRecord
 
   def _add_http_to_link(link)
     return unless link.present?
-    %r/^https?:\/\// =~ link ? link : ('http://' + link)
+    %r{^https?:\/\/} =~ link ? link : ('http://' + link)
   end
 
   def add_http_to_links

@@ -1,19 +1,20 @@
+# frozen_string_literal: true
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-#USERAGENT = 'HTTP_USER_AGENT'
+# USERAGENT = 'HTTP_USER_AGENT'
 class ApplicationController < ActionController::Base
-  DEFAULT_CSV_OPTS = {:row_sep => "\n", :force_quotes => true}
+  DEFAULT_CSV_OPTS = { row_sep: "\n", force_quotes: true }.freeze
 
   include OpenStudiosEventShim
 
-  #helper :all # include all helpers, all the time
+  # helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-  #include MobilizedStyles
+  # include MobilizedStyles
   before_action :append_view_paths
   before_action :init_body_classes, :set_controller_and_action_names
-  before_action :check_browser, :unless => :format_json?
+  before_action :check_browser, unless: :format_json?
   before_action :set_version
   before_action :set_meta_info
 
@@ -22,16 +23,16 @@ class ApplicationController < ActionController::Base
   helper_method :current_open_studios_key, :available_open_studios_keys # from OpenStudiosEventShim
 
   def append_view_paths
-    append_view_path "app/views/common"
+    append_view_path 'app/views/common'
   end
 
   def store_location
     return unless request.format == 'text/html'
-    if request.post? || request.xhr?
-      session[:return_to] = request.referrer
-    else
-      session[:return_to] = request.fullpath
-    end
+    session[:return_to] = if request.post? || request.xhr?
+                            request.referer
+                          else
+                            request.fullpath
+                          end
   end
 
   def logged_in?
@@ -65,37 +66,32 @@ class ApplicationController < ActionController::Base
 
   def user_must_be_you
     user_required
-    redirect_back_or_default(user_path(current_user)) unless (User.find(params[:user_id]) == current_user)
+    redirect_back_or_default(user_path(current_user)) unless User.find(params[:user_id]) == current_user
   end
 
   def user_required
-    unless current_user
-      if request.xhr?
-        render json: { message: "You need to be logged in" }, status: 400
-      else
-        store_location
-        flash[:notice] = "You must be logged in to access this page"
-        redirect_to new_user_session_url
-      end
+    return if user
+
+    if request.xhr?
+      render json: { message: 'You need to be logged in' }, status: 400
+    else
+      store_location
+      flash[:notice] = 'You must be logged in to access this page'
+      redirect_to new_user_session_url
     end
   end
 
-  def logged_in?
-    !!current_user
-  end
-
-  alias :require_user :user_required
+  alias require_user user_required
 
   def require_no_user
-    if current_user
-      store_location
-      flash[:notice] = "You must be logged out to access this page"
-      redirect_to root_url
-      return false
-    end
+    return unless current_user
+
+    store_location
+    flash[:notice] = 'You must be logged out to access this page'
+    redirect_to(root_url) && (return false)
   end
 
-  alias :logged_out_required :require_no_user
+  alias logged_out_required require_no_user
 
   def init_body_classes
     @body_classes ||= []
@@ -106,14 +102,14 @@ class ApplicationController < ActionController::Base
     @current_action     = action_name
   end
 
-  def add_body_class clz
+  def add_body_class(clz)
     @body_classes << clz
     @body_classes << Rails.env
     @body_classes = @body_classes.flatten.compact.uniq
   end
 
   def commit_is_cancel
-    !params[:commit].nil? && params[:commit].downcase == 'cancel'
+    !params[:commit].nil? && params[:commit].casecmp('cancel').zero?
   end
 
   def set_version
@@ -123,6 +119,7 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
   def is_admin?
     current_user && current_user.is_admin?
   end
@@ -140,29 +137,29 @@ class ApplicationController < ActionController::Base
   end
 
   def admin_required
-    redirect_to "/error" unless is_admin?
+    redirect_to '/error' unless is_admin?
   end
 
   def artist_required
-    redirect_to "/error" unless is_artist?
+    redirect_to '/error' unless is_artist?
   end
 
   def editor_required
-    redirect_to "/error" unless is_editor?
+    redirect_to '/error' unless is_editor?
   end
 
   def manager_required
-    redirect_to "/error" unless is_manager?
+    redirect_to '/error' unless is_manager?
   end
 
   def editor_or_manager_required
-    redirect_to "/error" unless is_manager? || is_editor?
+    redirect_to '/error' unless is_manager? || is_editor?
   end
 
   def check_browser
-    @browser_as_class = browser.name.downcase.gsub(' ', '_') #_class(self.request)
+    @browser_as_class = browser.name.downcase.tr(' ', '_') # _class(self.request)
 
-    @logo_img = (Rails.env != 'acceptance') ? "/images/tiny-colored.png" : "/images/tiny-colored-acceptance.png"
+    @logo_img = Rails.env != 'acceptance' ? '/images/tiny-colored.png' : '/images/tiny-colored-acceptance.png'
   end
 
   private
@@ -170,31 +167,31 @@ class ApplicationController < ActionController::Base
   def render_not_found(exception)
     logger.warn(exception)
     @exception = exception
-    render :template => "/error/index", :status => 404
+    render template: '/error/index', status: 404
   end
 
   def render_error(exception)
     logger.error(exception)
     @exception = exception
-    render :template => "/error/index", :status => 500
+    render template: '/error/index', status: 500
   end
 
-  def render_csv_string csv_data, filename
+  def render_csv_string(csv_data, filename)
     disposition = ['attachment']
     if filename
-      filename = filename + '.csv' unless /\.csv$|\.CSV$/.match(filename)
+      filename += '.csv' unless filename =~ /\.csv$|\.CSV$/
       disposition << "filename=#{filename}"
     end
-    send_data csv_data, :type => 'text/csv', :disposition => disposition.compact.join('; ')
+    send_data csv_data, type: 'text/csv', disposition: disposition.compact.join('; ')
   end
 
   def set_meta_info
-    @page_description =<<EOF
+    @page_description = <<EOF
 Mission Artists is a website dedicated to the unification of artists
 in the Mission District of San Francisco.  We promote the artists and the
 community. Art is the Mission!
 EOF
-    @page_keywords = ["art is the mission", "art", "artists","san francisco"]
+    @page_keywords = ['art is the mission', 'art', 'artists', 'san francisco']
   end
 
   def format_json?
@@ -202,8 +199,8 @@ EOF
   end
 
   def is_local_referer?
-    if request.referer.to_s.match(/^https?\:\/\//i)
-      request.referer.to_s.match /#{request.domain}/
+    if request.referer.to_s =~ %r{^https?\:\/\/}i
+      request.referer.to_s.match(/#{request.domain}/)
     else
       true
     end
@@ -212,5 +209,4 @@ EOF
   def current_open_studios
     @current_open_studios ||= OpenStudiosEventPresenter.new(OpenStudiosEventService.current)
   end
-
 end
