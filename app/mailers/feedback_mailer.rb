@@ -7,10 +7,10 @@ class FeedbackMailer < MauMailer
     end
     from        = 'info@missionartists.org'
     reply_to    = 'noreply@missionartists.org'
-    subject     = "[MAU Feedback] #{feedback.subject}"
+    subject     = "[Mission Artists Feedback] #{feedback.subject}"
     @feedback = feedback
 
-    mail(:to => emails, :from => from, :reply_to => reply_to, :subject => subject) do |fmt|
+    mail(to: emails, from: from, reply_to: reply_to, subject: subject) do |fmt|
       fmt.html { render "feedback" }
     end
 
