@@ -11,12 +11,13 @@ class ArtistsMap < ArtistsPresenter
   def grouped_by_address
     @grouped_by_address ||=
       begin
-      {}.tap do |keyed|
+      by_address = {}.tap do |keyed|
         artists_only_in_the_mission.each do |a|
           ky = address_key(a)
           (keyed[ky] ||= []) << a if ky
         end
-      end.select { |_k, v| v.present? }
+      end
+      by_address.select { |_k, v| v.present? }
     end
   end
 
@@ -33,7 +34,7 @@ class ArtistsMap < ArtistsPresenter
       addr = artist.address
       marker.lat addr.lat
       marker.lng addr.lng
-      marker.infowindow artist.get_map_info.html_safe
+      marker.infowindow safe_join([artist.get_map_info])
       marker.hash[:artist_id] = artist.id
     end.to_json
   end
