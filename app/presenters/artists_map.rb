@@ -34,7 +34,7 @@ class ArtistsMap < ArtistsPresenter
       addr = artist.address
       marker.lat addr.lat
       marker.lng addr.lng
-      marker.infowindow safe_join([artist.map_info])
+      marker.infowindow artist.map_info.html_safe
       marker.hash[:artist_id] = artist.id
     end.to_json
   end

@@ -33,7 +33,7 @@ describe Admin::MemberEmailsController do
           get :show, params: { '201004' => 'on', '201010' => 'on' }
         end
         it 'sets up the correct list name' do
-          expect(assigns(:email_list).list_names).to eql(%w|201004 201010|])
+          expect(assigns(:email_list).list_names).to eql(%w|201004 201010|)
         end
       end
 
