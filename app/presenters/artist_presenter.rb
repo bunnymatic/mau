@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 # This presenter adds helpful display/view related methods
 # to make it easy to draw artist data on a page
 
 class ArtistPresenter < UserPresenter
-
   include ApplicationHelper
 
   ALLOWED_LINKS = User.stored_attributes[:links]
@@ -26,9 +26,9 @@ class ArtistPresenter < UserPresenter
     media.present?
   end
 
-  def get_share_link(urlsafe=false, options = {})
+  def get_share_link(urlsafe = false, options = {})
     link = artist_url(model, options)
-    urlsafe ? CGI::escape(link) : link
+    urlsafe ? CGI.escape(link) : link
   end
 
   def primary_medium
@@ -59,7 +59,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def has_bio?
-    !(model.bio.blank?)
+    !model.bio.blank?
   end
 
   def has_art?
@@ -71,7 +71,7 @@ class ArtistPresenter < UserPresenter
     @art_pieces ||=
       begin
         num = (artist.max_pieces || 20) - 1
-        artist.art_pieces.select(&:persisted?)[0..num].compact.map{|piece| ArtPiecePresenter.new(piece)}
+        artist.art_pieces.select(&:persisted?)[0..num].compact.map { |piece| ArtPiecePresenter.new(piece) }
       end
   end
 
@@ -89,13 +89,9 @@ class ArtistPresenter < UserPresenter
     number.present? ? ('#' + number) : ''
   end
 
-  def has_address?
-    model.has_address?
-  end
+  delegate :has_address?, to: :model
 
-  def in_the_mission?
-    model.in_the_mission?
-  end
+  delegate :in_the_mission?, to: :model
 
   def map_url
     if model.studio

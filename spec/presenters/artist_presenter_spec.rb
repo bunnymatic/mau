@@ -26,10 +26,10 @@ describe ArtistPresenter do
         expect(subject.get_share_link).to match %r{/artists/#{artist.login}$}
       end
       it 'returns the html safe artists link given html_safe = true' do
-        expect(subject.get_share_link(true).downcase).to match /%2fartists%2f#{artist.login}$/
+        expect(subject.get_share_link(true).downcase).to match(/%2fartists%2f#{artist.login}$/)
       end
       it 'returns the artists link with params given params' do
-        expect(subject.get_share_link(false, this: 'that')).to match %r{artists/#{artist.login}\?this=that$}
+        expect(subject.get_share_link(false, this: 'that')).to match(%r{artists/#{artist.login}\?this=that$})
       end
     end
 
@@ -40,7 +40,7 @@ describe ArtistPresenter do
     end
 
     context 'when we wrap a nil artist' do
-      let (:artist) { nil }
+      let(:artist) { nil }
       it { should_not be_valid }
     end
 
