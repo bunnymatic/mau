@@ -8,8 +8,17 @@ AllCops:
 Rails:
   Enabled: true
 
+Metrics/AbcSize:
+  Max: 25
+
 Metrics/LineLength:
   Max: 150
+
+Metrics/ClassLength:
+  Max: 150
+
+Metrics/MethodLength:
+  Max: 50
 
 Style/Documentation:
   Enabled: false

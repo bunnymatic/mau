@@ -25,7 +25,7 @@ class ArtistsMap < ArtistsPresenter
   end
 
   def bounds
-    Artist::BOUNDS.values.map{|bound| Hash[[:lat, :lng].zip(bound)]}.to_json
+    MissionBoundaries::BOUNDS.values.map{|bound| Hash[[:lat, :lng].zip(bound)]}.to_json
   end
 
   def map_data

@@ -5,8 +5,8 @@ describe ArtistsMap do
   include PresenterSpecHelpers
 
   let(:os_only) { false }
-  let(:ne_bounds) { Artist::BOUNDS['NE'] }
-  let(:sw_bounds) { Artist::BOUNDS['SW'] }
+  let(:ne_bounds) { MissionBoundaries::BOUNDS['NE'] }
+  let(:sw_bounds) { MissionBoudnaries::BOUNDS['SW'] }
 
   subject(:map) { ArtistsMap.new(os_only) }
 
