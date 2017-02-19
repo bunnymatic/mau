@@ -115,7 +115,7 @@ class ArtistPresenter < UserPresenter
 
   def map_info_contents
     thumb = content_tag('div', linked_thumb, class: 'map__info-window-art')
-    [thumb, map_info_name_address].compact.join.html_safe
+    safe_join([thumb, map_info_name_address].compact)
   end
 
   def map_info_name_address

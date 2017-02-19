@@ -56,13 +56,12 @@ class User < ApplicationRecord
     joins(:roles_users).where(roles_users: { role: Role.admin } )
   end
 
-  def self.find_by_login_or_email(login)
-    find_by_email(login) || find_by_login(login)
+  def self.login_or_email_finder(login)
+    find_by(login: login) || find_by(email: login)
   end
 
   def delete_favorites
-    fs = Favorite.artists.where(favoritable_id: id)
-    fs.each(&:delete)
+    Favorite.artists.where(favoritable_id: id).delete_all
   end
 
   [:studionumber, :studionumber= ].each do |delegat|
