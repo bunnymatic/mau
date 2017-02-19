@@ -1,21 +1,21 @@
+# frozen_string_literal: true
 require 'digest/sha1'
 require 'json'
 
 class User < ApplicationRecord
+  validates :login, presence: true
+  validates :login, length: { within: 5..40 }
+  validates :login, uniqueness: true
+  validates :login, format: { with: Mau::Regex::LOGIN, message: Mau::Regex::BAD_LOGIN_MESSAGE }
 
-  validates_presence_of     :login
-  validates_length_of       :login,    within: 5..40
-  validates_uniqueness_of   :login
-  validates_format_of       :login,    with: Mau::Regex::LOGIN, message: Mau::Regex::BAD_LOGIN_MESSAGE
+  validates :email, presence: true
+  validates :email, length: { within: 6..100 } # r@a.wk
+  validates :email, uniqueness: true
+  validates       :email, format: { with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE }
+  validates       :firstname, length: { maximum: 100, allow_nil: true }
+  validates       :lastname, length: { maximum: 100, allow_nil: true }
 
-  validates_presence_of     :email
-  validates_length_of       :email,    within: 6..100 #r@a.wk
-  validates_uniqueness_of   :email
-  validates_format_of       :email,    with: Mau::Regex::EMAIL, message: Mau::Regex::BAD_EMAIL_MESSAGE
-  validates_length_of       :firstname,maximum: 100, allow_nil: true
-  validates_length_of       :lastname, maximum: 100, allow_nil: true
-
-  store :links, accessors: %i| website facebook twitter blog pinterest myspace flickr instagram artspan |
+  store :links, accessors: %i(website facebook twitter blog pinterest myspace flickr instagram artspan)
 
   extend FriendlyId
   friendly_id :login, use: [:slugged]
@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
   has_attached_file :photo, styles: MauImage::Paperclip::STANDARD_STYLES, default_url: ''
 
-  validates_attachment_content_type :photo, content_type: /\Aimage\/.*\Z/, if: :"photo?"
+  validates_attachment_content_type :photo, content_type: %r/\Aimage\/.*\Z/, if: :"photo?"
 
   # I was initially worried about routes here - i think we should be fine moving forward
   #
@@ -53,7 +53,7 @@ class User < ApplicationRecord
   before_destroy :delete_favorites
 
   def self.admin
-    joins(:roles_users).where(roles_users: { role: Role.admin } )
+    joins(:roles_users).where(roles_users: { role: Role.admin })
   end
 
   def self.login_or_email_finder(login)
@@ -64,18 +64,18 @@ class User < ApplicationRecord
     Favorite.artists.where(favoritable_id: id).delete_all
   end
 
-  [:studionumber, :studionumber= ].each do |delegat|
+  [:studionumber, :studionumber=].each do |delegat|
     delegate delegat, to: :artist_info, allow_nil: true
   end
 
-  SORT_BY_LASTNAME = lambda{|a,b|
+  SORT_BY_LASTNAME = lambda do |a, b|
     a.lastname.downcase <=> b.lastname.downcase
-  }
+  end
 
   has_many :favorites, dependent: :destroy, class_name: 'Favorite' do
-     def to_obj
-       proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
-     end
+    def to_obj
+      proxy_association.owner.favorites.map(&:to_obj).reject(&:nil?)
+    end
   end
 
   belongs_to :studio
@@ -105,32 +105,30 @@ class User < ApplicationRecord
 
   def emailsettings
     s = JSON.parse(email_attrs)
-    if !s.has_key? 'favorites'
-      s['favorites'] = true
-    end
+    s['favorites'] = true unless s.key? 'favorites'
     s
   end
 
   def full_name
     full_name = nomdeplume if nomdeplume.present?
     if !full_name && firstname.present? && lastname.present?
-      full_name = [firstname, lastname].join(" ")
+      full_name = [firstname, lastname].join(' ')
     end
-    full_name || self.login
+    full_name || login
   end
 
-  def get_name(htmlsafe=false)
+  def get_name(htmlsafe = false)
     return full_name unless htmlsafe
     HtmlEncoder.encode(full_name)
   end
 
   def sortable_name
     key = [lastname, firstname, login].join.downcase
-    key.gsub(/\W/,' ').strip
+    key.gsub(/\W/, ' ').strip
   end
 
   def validate_email
-    errors.add(:email, 'is an invalid email') unless BlacklistDomain::is_allowed?(email)
+    errors.add(:email, 'is an invalid email') unless BlacklistDomain.is_allowed?(email)
   end
 
   def resend_activation
@@ -146,7 +144,7 @@ class User < ApplicationRecord
 
   def create_reset_code
     @reset = true
-    self.attributes = {reset_code: Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )}
+    self.attributes = { reset_code: Digest::SHA1.hexdigest(Time.zone.now.to_s.split(//).sort_by { rand }.join) }
     save(validate: false)
     notify_user_about_state_change
   end
@@ -160,7 +158,7 @@ class User < ApplicationRecord
   end
 
   def delete_reset_code
-    self.attributes = {reset_code: nil}
+    self.attributes = { reset_code: nil }
     save(validate: false)
   end
 
@@ -169,11 +167,11 @@ class User < ApplicationRecord
   end
 
   def suspend!
-    self.update_attribute :state, 'suspended'
+    update_attribute :state, 'suspended'
   end
 
   def suspended?
-    self.state == 'suspended'
+    state == 'suspended'
   end
 
   def favorites_to_obj
@@ -202,25 +200,23 @@ class User < ApplicationRecord
   end
 
   protected
+
   def cleanup_fields
     [:firstname, :lastname, :nomdeplume, :email].each do |fld|
-      v = self.send(fld)
-      if v.present? && v.respond_to?('strip')
-        self.send("#{fld}=", v.strip)
-      end
+      v = send(fld)
+      send("#{fld}=", v.strip) if v.present? && v.respond_to?('strip')
     end
   end
 
   def normalize_attributes
-    login = login.try(:downcase)
-    email = email.try(:downcase)
+    self.login = login.try(:downcase)
+    self.email = email.try(:downcase)
   end
 
   def tell_user_they_signed_up
-    if is_artist?
-      reload
-      ArtistMailer.signup_notification(self).deliver_later
-    end
+    return unless is_artist?
+    reload
+    ArtistMailer.signup_notification(self).deliver_later
   end
 
   def notify_user_about_state_change
@@ -234,17 +230,14 @@ class User < ApplicationRecord
   end
 
   def _add_http_to_link(link)
-    if link.present?
-      (/^https?:\/\// =~ link) ? link : ('http://' + link)
-    end
+    return unless link.present?
+    %r/^https?:\/\// =~ link ? link : ('http://' + link)
   end
 
   def add_http_to_links
-    if url.present?
-      self.url = _add_http_to_link(url)
-    end
+    self.url = _add_http_to_link(url) if url.present?
     User.stored_attributes[:links].each do |site|
-      self.send("#{site}=", _add_http_to_link(self.send(site))) if self.send(site).present?
+      send("#{site}=", _add_http_to_link(send(site))) if send(site).present?
     end
   end
 end
