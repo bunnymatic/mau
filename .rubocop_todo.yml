@@ -6,20 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 8
-# Lint/AmbiguousOperator:
-#   Exclude:
-#     - 'app/presenters/catalog_presenter.rb'
-#     - 'app/presenters/open_studios_presenter.rb'
-#     - 'app/services/art_piece_tag_service.rb'
-#     - 'spec/paginators/pagination_spec.rb'
-#     - 'spec/services/art_piece_service_tags_handler_spec.rb'
-#     - 'spec/support/html_encoder.rb'
-
-# Offense count: 83
-# Lint/AmbiguousRegexpLiteral:
-#   Enabled: false
-
 # Offense count: 3
 # Configuration parameters: AllowSafeAssignment.
 Lint/AssignmentInCondition:
@@ -28,45 +14,6 @@ Lint/AssignmentInCondition:
     - 'app/services/site_statistics.rb'
     - 'bin/spring'
 
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith, SupportedStylesAlignWith.
-# SupportedStylesAlignWith: either, start_of_block, start_of_line
-Lint/BlockAlignment:
-  Exclude:
-    - 'app/models/studio.rb'
-    - 'app/presenters/user_presenter.rb'
-    - 'spec/controllers/roles_controller_spec.rb'
-    - 'spec/models/open_studios_event_spec.rb'
-    - 'spec/presenters/catalog_presenter_spec.rb'
-    - 'spec/presenters/media_presenter_spec.rb'
-    - 'spec/services/open_studios_event_service_spec.rb'
-
-# Offense count: 5
-# Cop supports --auto-correct.
-# Lint/Debugger:
-#   Exclude:
-#     - 'features/step_definitions/debug_steps.rb'
-#     - 'features/step_definitions/shared_steps.rb'
-
-# Offense count: 1
-Lint/DuplicateMethods:
-  Exclude:
-    - 'app/mailers/artist_mailer.rb'
-
-# Offense count: 4
-Lint/HandleExceptions:
-  Exclude:
-    - 'app/controllers/media_controller.rb'
-    - 'app/lib/app_config.rb'
-    - 'app/models/concerns/address_mixin.rb'
-    - 'app/services/search/indexer.rb'
-
-# Offense count: 1
-Lint/IneffectiveAccessModifier:
-  Exclude:
-    - 'app/presenters/user_presenter.rb'
-
 # Offense count: 5
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
@@ -74,14 +21,6 @@ Lint/ParenthesesAsGroupedExpression:
     - 'spec/controllers/admin/stats_controller_spec.rb'
     - 'spec/services/create_art_piece_service_spec.rb'
     - 'spec/services/update_art_piece_service_spec.rb'
-
-# Offense count: 5
-Lint/RescueException:
-  Exclude:
-    - 'app/models/concerns/address_mixin.rb'
-    - 'config/initializers/setup_email_lists.rb'
-    - 'features/step_definitions/factory_steps.rb'
-    - 'spec/support/elasticsearch.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.

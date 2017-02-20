@@ -142,15 +142,15 @@ class UserPresenter < ViewPresenter
   end
 
   def links_html
-  self.class.keyed_links.map do |key|
+    self.class.keyed_links.map do |key|
       site = @model.send(key)
       if site.present?
         formatted_site = format_link(site)
         site_display = format_link_for_display(site)
         link_icon_class = icon_link_class(key, site)
         content_tag 'a', href: formatted_site, title: site_display, target: '_blank' do
-           content_tag(:i,'', class: link_icon_class) +
-              content_tag(:span,site_display)
+          content_tag(:i,'', class: link_icon_class) +
+            content_tag(:span,site_display)
         end
       end
     end.compact
@@ -169,6 +169,10 @@ class UserPresenter < ViewPresenter
   end
 
   alias_method :get_profile_image, :profile_image
+
+  def self.keyed_links
+    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
+  end
 
   private
   def my_favorites
@@ -219,10 +223,5 @@ class UserPresenter < ViewPresenter
   def strip_http_from_link(link)
     link.gsub %r/^https?:\/\//, ''
   end
-
-  def self.keyed_links
-    (User.stored_attributes[:links] || []).select { |attr| ALLOWED_LINKS.include? attr }
-  end
-
 
 end

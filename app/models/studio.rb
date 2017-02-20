@@ -54,14 +54,14 @@ class Studio < ApplicationRecord
   end
 
   SORT_BY_NAME = lambda{|a,b|
-      if !a || a.id == 0
-        1
-      elsif !b || b.id == 0
-        -1
-      else
-        a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
-      end
-    }
+    if !a || a.id == 0
+      1
+    elsif !b || b.id == 0
+      -1
+    else
+      a.name.downcase.gsub(/^the /,'') <=> b.name.downcase.gsub(/^the /,'')
+    end
+  }
 
 
   def to_param

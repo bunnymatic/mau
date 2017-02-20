@@ -18,7 +18,7 @@ describe RolesController do
       it 'removes the role association from the user' do
         expect{
           delete :destroy, params: { user_id: editor.id, id: editor_role.id }
-         }.to change(editor.roles, :count).by(-1)
+        }.to change(editor.roles, :count).by(-1)
       end
       it 'redirects to the role page' do
         delete :destroy, params: { user_id: editor.id, id: editor_role.id }

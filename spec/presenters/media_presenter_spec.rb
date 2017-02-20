@@ -38,8 +38,8 @@ describe MediaPresenter do
     subject { super().paginator }
     describe '#items' do
       it 'has 2 items' do
-      expect(subject.items.size).to eq(2)
-    end
+        expect(subject.items.size).to eq(2)
+      end
     end
   end
 

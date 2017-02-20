@@ -36,7 +36,8 @@ module AddressMixin
       else
         # puts "No Adddress - skip geocoding"
       end
-    rescue Exception => ex
+    rescue Geocoder::Error => ex
+      logger.warn("Failed to Geocode: #{address.to_s(true)} for #{self.inspect}")
     end
   end
 

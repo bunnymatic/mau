@@ -3,15 +3,15 @@ describe OpenStudiosEventService do
 
   let(:past_oses) {
     [
-     FactoryGirl.create(:open_studios_event, :start_date => 6.months.ago),
-     FactoryGirl.create(:open_studios_event, :start_date => 12.months.ago)
+      FactoryGirl.create(:open_studios_event, :start_date => 6.months.ago),
+      FactoryGirl.create(:open_studios_event, :start_date => 12.months.ago)
     ]
-   }
+  }
   let(:current_os) { FactoryGirl.create(:open_studios_event, :start_date => 1.months.since) }
   let(:future_oses) {
     [
-     FactoryGirl.create(:open_studios_event, :start_date => 6.months.since),
-     FactoryGirl.create(:open_studios_event, :start_date => 12.months.since)
+      FactoryGirl.create(:open_studios_event, :start_date => 6.months.since),
+      FactoryGirl.create(:open_studios_event, :start_date => 12.months.since)
     ]
   }
 

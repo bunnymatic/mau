@@ -4,10 +4,10 @@ describe CatalogPresenter do
   let!(:open_studios_event) { FactoryGirl.create :open_studios_event }
   let!(:artists) { FactoryGirl.create_list :artist, 4, :with_studio }
   let(:reception_doc) {
-      FactoryGirl.create(:cms_document,
-                         page: "main_openstudios",
-                         section: "preview_reception",
-                         article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
+    FactoryGirl.create(:cms_document,
+                       page: "main_openstudios",
+                       section: "preview_reception",
+                       article: "# pr header\n\n## pr header2\n\ncome out to the *preview* receiption")
   }
 
   before do
@@ -28,8 +28,8 @@ describe CatalogPresenter do
       describe '#sort' do
         subject { super().sort }
         it {
-    should eql Artist.active.open_studios_participants.all.sort
-  }
+          should eql Artist.active.open_studios_participants.all.sort
+        }
       end
     end
   end
@@ -52,12 +52,12 @@ describe CatalogPresenter do
   describe '#preview_reception_data' do
     subject { super().preview_reception_data }
     it do
-    should eql({
-      "data-page" => reception_doc.page,
-      "data-section" => reception_doc.section,
-      "data-cmsid" => reception_doc.id
-    })
-  end
+      should eql({
+                   "data-page" => reception_doc.page,
+                   "data-section" => reception_doc.section,
+                   "data-cmsid" => reception_doc.id
+                 })
+    end
   end
 
   describe '#preview_reception_content' do

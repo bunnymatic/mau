@@ -1,16 +1,6 @@
 # coding: utf-8
 class ArtistMailer < MauMailer
 
-  def activation(artist)
-    subject = "Your account has been activated!"
-    setup_email(artist)
-    mail(to: artist.email,
-         from: ACCOUNTS_FROM_ADDRESS,
-         subject: build_subject(subject)) do |fmt|
-      fmt.html { render 'activation' }
-    end
-  end
-
   def favorite_notification(artist, fan)
     setup_email(artist)
     subject = "Someone hearts you! ❤"
