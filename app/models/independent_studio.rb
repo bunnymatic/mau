@@ -26,7 +26,7 @@ class IndependentStudio
     def initialize(img)
       @img = img
     end
-    def url(*args)
+    def url(*_args)
       @img
     end
     def to_json
@@ -34,7 +34,7 @@ class IndependentStudio
     end
   end
 
-  def initialize(*args)
+  def initialize(*_args)
     # stick this in @studio so that to_json structures things just like Studio#to_json
     @studio = InnerStudio.new({
                                 id: 0,
@@ -75,7 +75,7 @@ class IndependentStudio
     nil
   end
 
-  def get_profile_image(*args)
+  def get_profile_image(*_args)
     @studio.profile_image.url
   end
 

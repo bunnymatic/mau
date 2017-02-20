@@ -56,7 +56,7 @@ class ArtPiece < ApplicationRecord
   validates_presence_of     :title
   validates_length_of       :title,    :within => 2..80
 
-  def as_indexed_json(opts={})
+  def as_indexed_json(_opts={})
     return {} unless artist && artist.active?
 
     idxd = as_json(only: [:title, :year])
@@ -104,7 +104,7 @@ class ArtPiece < ApplicationRecord
     HtmlEncoder.encode(self.title)
   end
 
-  def get_path(size = nil, full_path = false)
+  def get_path(size = nil)
     size ||= 'medium'
     image_paths[size.to_sym]
   end

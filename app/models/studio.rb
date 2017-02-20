@@ -74,7 +74,7 @@ class Studio < ApplicationRecord
     end
   end
 
-  def as_indexed_json(opts={})
+  def as_indexed_json(_opts={})
     idxd = as_json(only: [:name, :slug])
     extras = {}
     extras["address"] = address.to_s

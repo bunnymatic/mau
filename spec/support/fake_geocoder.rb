@@ -4,7 +4,7 @@ require 'geokit'
 module Geokit
   module Geocoders
     class FakeGeocoder < Geocoder
-      def self.geocode(location, opts = {})
+      def self.geocode(_location, _opts = {})
         # return a GeoLoc instance
         valid_data = {
           :street_address => Faker::Address.street_name,

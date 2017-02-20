@@ -51,23 +51,6 @@ Lint/UnderscorePrefixedVariableName:
     - 'app/services/studio_service.rb'
     - 'spec/controllers/admin/application_events_controller_spec.rb'
 
-# Offense count: 35
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-# Lint/UnusedBlockArgument:
-#   Enabled: false
-
-# Offense count: 9
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'app/models/art_piece.rb'
-    - 'app/models/independent_studio.rb'
-    - 'app/models/studio.rb'
-    - 'app/services/search/query_runner.rb'
-    - 'spec/support/fake_geocoder.rb'
-
 # Offense count: 3
 # Configuration parameters: ContextCreatingMethods, MethodCreatingMethods.
 Lint/UselessAccessModifier:
