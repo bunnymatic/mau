@@ -143,7 +143,7 @@ describe Admin::StudiosController do
             expect(response).to redirect_to SHARED_REFERER
           end
           it "flashes an error" do
-            expect(flash[:error]).to match %r/not a manager of that studio/
+            expect(flash[:error]).to match(/not a manager of that studio/)
           end
         end
       end

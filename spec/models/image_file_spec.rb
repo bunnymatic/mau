@@ -6,25 +6,25 @@ describe ImageFile do
   ['original', 'orig' ].each do |size|
     it "get_path for #{size} returns a file name with no prefix" do
       fname = ImageFile.get_path('dir',size,'myfile.jpg')
-      expect(fname).to match %r/dir\/myfile\.jpg$/
+      expect(fname).to match(/dir\/myfile\.jpg$/)
     end
   end
   ['large'].each do |size|
     it "get_path for #{size} returns a file name with l_ as a prefix" do
       fname = ImageFile.get_path('dir',size,'myfile.jpg')
-      expect(fname).to match %r/dir\/l_myfile\.jpg$/
+      expect(fname).to match(/dir\/l_myfile\.jpg$/)
     end
   end
   ['medium', 'standard'].each do |size|
     it "get_path for #{size} returns a file name with m_ as a prefix" do
       fname = ImageFile.get_path('dir',size,'myfile.jpg')
-      expect(fname).to match %r/dir\/m_myfile\.jpg$/
+      expect(fname).to match(/dir\/m_myfile\.jpg$/)
     end
   end
   ['thumb','thumbnail'].each do |size|
     it "get_path for #{size} returns a file name with m_ as a prefix" do
       fname = ImageFile.get_path('dir',size,'myfile.jpg')
-      expect(fname).to match %r/dir\/t_myfile\.jpg$/
+      expect(fname).to match(/dir\/t_myfile\.jpg$/)
     end
   end
 

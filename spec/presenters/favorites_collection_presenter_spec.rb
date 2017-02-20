@@ -59,7 +59,7 @@ describe FavoritesCollectionPresenter do
 
     describe '#empty_message' do
       subject { super().empty_message }
-      it { should match /not favorited anything/ }
+      it { should match(/not favorited anything/) }
     end
   end
 
@@ -68,7 +68,7 @@ describe FavoritesCollectionPresenter do
     context 'and the artist has no favorites' do
       describe '#empty_message' do
         subject { super().empty_message }
-        it { should match /Go find an artist/ }
+        it { should match(/Go find an artist/) }
       end
     end
   end

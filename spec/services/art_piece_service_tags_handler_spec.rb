@@ -30,7 +30,7 @@ describe ArtPieceServiceTagsHandler do
         tags = prepared_params[:tags]
         new_tags = ArtPieceTag.where(name: ['that', 'the other'])
         expect(new_tags).to have(2).items
-        expect(tags).to include *new_tags
+        expect(tags).to include(*new_tags)
       end
     end
   end

@@ -17,7 +17,7 @@ describe UserMailer do
       @mail = UserMailer.signup_notification(pending)
     end
     it "includes an activation code" do
-      expect(@mail).to have_body_text %r/activate\/\S+/
+      expect(@mail).to have_body_text(/activate\/\S+/)
     end
   end
   describe "new activated account" do
