@@ -25,7 +25,7 @@ describe ArtPiecesController do
           end
           it { expect(response).to be_success }
           it 'has a description with the art piece name' do
-            expect(assigns(:page_description)).to match /#{art_piece.title}/
+            expect(assigns(:page_description)).to match %r/#{art_piece.title}/
           end
           it 'has keywords that match the art piece' do
             keywords = assigns(:page_keywords)

@@ -235,25 +235,10 @@ describe Pagination do
   context 'when current page is less than 0' do
     let(:current_page) { -8 }
 
-    describe '#current_page' do
-      subject { super().current_page }
-      it { should eq -8 }
-    end
-
-    describe '#items' do
-      subject { super().items }
-      it { should eq [] }
-    end
-
-    describe '#next_page' do
-      subject { super().next_page }
-      it { should eq -7 }
-    end
-
-    describe '#previous_page' do
-      subject { super().previous_page }
-      it { should eq 0 }
-    end
+    its(:current_page) { is_expected.to eql(-8) }
+    its(:next_page) { is_expected.to eql(-7) }
+    its(:previous_page) { is_expected.to eql(0) }
+    its(:items) { is_expected.to eql([]) }
   end
 
 end

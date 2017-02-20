@@ -2,7 +2,7 @@ class ArtPieceTagService
 
   class TagWithFrequency
     FIELDS = [:tag, :frequency]
-    attr_accessor *FIELDS
+    attr_accessor(*FIELDS)
     def initialize(tag, count)
       @tag = tag
       @frequency = count.try(:to_f)

@@ -45,7 +45,7 @@ class CatalogPresenter < ViewPresenter
           artists[a.studio] << a
         end
         artists.values.each do |artist_list|
-          artist_list.sort! &Artist::SORT_BY_LASTNAME
+          artist_list.sort!(&Artist::SORT_BY_LASTNAME)
         end
         artists
     end

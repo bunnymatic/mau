@@ -7,18 +7,18 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 8
-Lint/AmbiguousOperator:
-  Exclude:
-    - 'app/presenters/catalog_presenter.rb'
-    - 'app/presenters/open_studios_presenter.rb'
-    - 'app/services/art_piece_tag_service.rb'
-    - 'spec/paginators/pagination_spec.rb'
-    - 'spec/services/art_piece_service_tags_handler_spec.rb'
-    - 'spec/support/html_encoder.rb'
+# Lint/AmbiguousOperator:
+#   Exclude:
+#     - 'app/presenters/catalog_presenter.rb'
+#     - 'app/presenters/open_studios_presenter.rb'
+#     - 'app/services/art_piece_tag_service.rb'
+#     - 'spec/paginators/pagination_spec.rb'
+#     - 'spec/services/art_piece_service_tags_handler_spec.rb'
+#     - 'spec/support/html_encoder.rb'
 
 # Offense count: 83
-Lint/AmbiguousRegexpLiteral:
-  Enabled: false
+# Lint/AmbiguousRegexpLiteral:
+#   Enabled: false
 
 # Offense count: 3
 # Configuration parameters: AllowSafeAssignment.
@@ -44,10 +44,10 @@ Lint/BlockAlignment:
 
 # Offense count: 5
 # Cop supports --auto-correct.
-Lint/Debugger:
-  Exclude:
-    - 'features/step_definitions/debug_steps.rb'
-    - 'features/step_definitions/shared_steps.rb'
+# Lint/Debugger:
+#   Exclude:
+#     - 'features/step_definitions/debug_steps.rb'
+#     - 'features/step_definitions/shared_steps.rb'
 
 # Offense count: 1
 Lint/DuplicateMethods:

@@ -41,11 +41,11 @@ class OpenStudiosPresenter
   end
 
   def sort_studios_by_name(studios)
-    studios.compact.uniq.sort &Studio::SORT_BY_NAME
+    studios.compact.uniq.sort(&Studio::SORT_BY_NAME)
   end
 
   def sort_artists_by_name(artists)
-    artists.compact.uniq.sort &Artist::SORT_BY_LASTNAME
+    artists.compact.uniq.sort(&Artist::SORT_BY_LASTNAME)
   end
 
   private
