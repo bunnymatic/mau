@@ -14,13 +14,13 @@ Rails:
   Enabled: true
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 38
 
 Metrics/LineLength:
   Max: 150
 
 Metrics/ClassLength:
-  Max: 200
+  Max: 300
 
 Metrics/MethodLength:
   Max: 50
