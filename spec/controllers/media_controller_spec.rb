@@ -13,16 +13,18 @@ describe MediaController do
   end
 
   describe "#index" do
-    it "redirect to show" do
-      get :index
-      expect(response).to be_redirect
+    context "when there is media" do
+      it "redirect to show" do
+        get :index, params: { format: :html }
+        expect(response).to be_redirect
+      end
     end
     context 'with no frequency' do
       before do
         allow(Medium).to receive(:frequency).and_return([])
       end
       it "redirect to show first" do
-        get :index
+        get :index, params: { format: :html }
         expect(response).to redirect_to Medium.first
       end
     end

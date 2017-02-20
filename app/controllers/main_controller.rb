@@ -123,7 +123,7 @@ EOM
   end
 
   def sampler_params
-    params.permit(:seed, :offset, :number_of_images).tap { |k,v| v = v.to_i }
+    params.permit(:seed, :offset, :number_of_images).tap { |_k,v| v = v.to_i }
   end
 
   def feedback_mail_params

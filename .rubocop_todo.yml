@@ -54,8 +54,8 @@ Lint/UnderscorePrefixedVariableName:
 # Offense count: 35
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Enabled: false
+# Lint/UnusedBlockArgument:
+#   Enabled: false
 
 # Offense count: 9
 # Cop supports --auto-correct.

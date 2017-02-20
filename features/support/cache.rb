@@ -1,3 +1,3 @@
-Before do |scenario|
+Before do |_scenario|
   Rails.cache.clear
 end

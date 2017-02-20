@@ -65,7 +65,7 @@ describe CatalogPresenter do
     it { should eql MarkdownService.markdown(reception_doc.article) }
   end
   it 'sorts artists by name within their studio' do
-    subject.artists_by_studio.each do |studio, artists|
+    subject.artists_by_studio.each do |_studio, artists|
       expect(artists.map{|a| a.lastname.downcase}).to be_monotonically_increasing
     end
   end

@@ -15,14 +15,14 @@ before_exec do |_|
 end
 
 # config/unicorn.rb
-before_fork do |server, worker|
+before_fork do |_server, _worker|
   # other settings
   if defined?(ActiveRecord::Base)
     ActiveRecord::Base.connection.disconnect!
   end
 end
 
-after_fork do |server, worker|
+after_fork do |_server, _worker|
   # other settings
   if defined?(ActiveRecord::Base)
     config = ActiveRecord::Base.configurations[Rails.env] ||

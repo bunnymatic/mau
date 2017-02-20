@@ -22,7 +22,7 @@ class ArtPieceImage < ImageFile
     @paths ||= Hash[MauImage::ImageSize.allowed_sizes.map do |kk|
                       path = self.path kk.to_s
                       [kk, path] if path
-                    end.reject{|k,v| v.nil?}
+                    end.reject{|_k,v| v.nil?}
                    ]
   end
 

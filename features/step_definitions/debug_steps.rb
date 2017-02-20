@@ -1,4 +1,4 @@
-Then(/^I (sleep|wait) "(\d+)" seconds?$/) do |dummy, secs|
+Then(/^I (sleep|wait) "(\d+)" seconds?$/) do |_dummy, secs|
   sleep(secs.to_i)
 end
 

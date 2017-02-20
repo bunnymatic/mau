@@ -236,7 +236,7 @@ When(/^the meta description includes that art piece's title$/) do
 end
 
 When(/^the meta keywords includes that art piece's tags and medium$/) do
-  @art_piece.tags.each do |tag|
+  @art_piece.tags.each do |_tag|
     %q{Then the page meta name "keywords" includes "#{tag.name}"}
   end
   if @art_piece.medium

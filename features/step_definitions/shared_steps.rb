@@ -59,7 +59,7 @@ Then /^I (save and\s+)?open the page$/ do |_|
   save_and_open_page
 end
 
-Then /^I (save|take) a screenshot$/ do |dummy|
+Then /^I (save|take) a screenshot$/ do |_dummy|
   f = File.expand_path("./tmp/capybara-screenshot-#{Time.now.to_f}.png")
   begin
     save_and_open_screenshot(f)
@@ -105,7 +105,7 @@ Then /^I see "(.*?)" on the page$/ do |content|
   expect(page).to have_content content
 end
 
-When /^I (log|sign)\s?out$/ do |dummy|
+When /^I (log|sign)\s?out$/ do |_dummy|
   visit logout_path
   expect(page).to have_flash :notice, /make some art/
 end
@@ -204,11 +204,11 @@ When(/^I click on the first "([^"]*?)"$/) do |button_text|
   find_first_link_or_button(button_text).click
 end
 
-When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, dummy|
+When(/^I click on the first "([^"]*?)" (button|link)$/) do |button_text, _dummy|
   find_first_link_or_button(button_text).click
 end
 
-When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, dummy|
+When(/^I click on the last "([^"]*?)" (button|link)$/) do |button_text, _dummy|
   find_last_link_or_button(button_text).click
 end
 

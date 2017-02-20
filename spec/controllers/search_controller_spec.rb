@@ -5,7 +5,7 @@ describe SearchController, elasticsearch: true do
   def letter_frequency(words)
     Hash.new(0).tap do |letters|
       [words].flatten.compact.join.downcase.gsub(/\s+/,'').each_char {|c| letters[c] += 1 }
-    end.sort_by{|letter, ct| ct}
+    end.sort_by{|_letter, ct| ct}
   end
 
   let!(:studios) { FactoryGirl.create_list :studio, 4 }
