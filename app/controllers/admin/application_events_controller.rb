@@ -2,14 +2,9 @@ module Admin
   class ApplicationEventsController < ::BaseAdminController
 
     DEFAULT_NUM_EVENTS = 100
+
     def index
-      limit = application_event_params[:limit].to_i
-      since_date = application_event_params[:since].presence
-      if limit <= 0
-        limit = DEFAULT_NUM_EVENTS
-      end
-      since = since_date ? Time.zone.parse(since_date) : 1.year.ago
-      events = ApplicationEvent.by_recency.where(["created_at > ?", since]).limit(limit)
+      events = fetch_events
       respond_to do |format|
         format.html {
           @events_by_type = events.inject({}) do |result, item|
@@ -26,6 +21,13 @@ module Admin
     end
 
     private
+    def fetch_events
+      limit = application_event_params[:limit].to_i
+      since_date = application_event_params[:since].presence
+      limit = DEFAULT_NUM_EVENTS unless limit.positive?
+      since = since_date ? Time.zone.parse(since_date) : 1.year.ago
+      events = ApplicationEvent.by_recency.where(["created_at > ?", since]).limit(limit)
+    end
 
     def application_event_params
       params.permit(:limit, :since)
