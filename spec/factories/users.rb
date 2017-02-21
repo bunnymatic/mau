@@ -58,11 +58,15 @@ FactoryGirl.define do
 
     after(:create) do |artist, context|
       FactoryGirl.create(:artist_info, artist: artist, max_pieces: context.max_pieces)
+      if context.doing_open_studios
+        artist.update_os_participation context.doing_open_studios, true
+      end
     end
 
     transient do
       max_pieces 10
       number_of_art_pieces 3
+      doing_open_studios nil
     end
 
     trait :with_links do

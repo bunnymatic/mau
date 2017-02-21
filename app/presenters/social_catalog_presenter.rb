@@ -1,15 +1,25 @@
 require 'csv'
 
-class SocialCatalogPresenter < ViewPresenter
+class SocialCatalogPresenter < ArtistsPresenter
 
   include OpenStudiosEventShim
 
-  SOCIAL_KEYS = User.stored_attributes[:links].reject { |k| k == :website }
+  SOCIAL_KEYS = User.stored_attributes[:links].freeze
+
+  def initialize
+    super(true)
+  end
 
   def artists
-    @artists ||= Artist.active.open_studios_participants.select do |a|
-      SOCIAL_KEYS.map{|s| a.send(s).present?}.any?
-    end.sort(&Artist::SORT_BY_LASTNAME)
+    super.select{ |a| a.has_art? }.sort(&Artist::SORT_BY_LASTNAME)
+  end
+
+  def artist_has_links(artist)
+    SOCIAL_KEYS.map{|s| artist.send(s).present?}.any?
+  end
+
+  def artist_has_image(artist)
+    artist.representative_image.present?
   end
 
   def csv
@@ -39,7 +49,7 @@ class SocialCatalogPresenter < ViewPresenter
 
   def csv_headers
     @csv_headers ||= (csv_keys).map{|s| s.to_s.humanize.capitalize} +
-                     ["Art Piece", "Studio Affiliation", "Studio Address", "MAU Link" ]
+                          ["Art Piece", "Studio Affiliation", "Studio Address", "MAU Link" ]
   end
 
   def artist_as_csv_row(artist)

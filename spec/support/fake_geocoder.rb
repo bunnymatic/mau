@@ -11,8 +11,8 @@ module Geokit
           :city => Faker::Address.city,
           :state => Faker::Address.state,
           :zip => Faker::Address.zip_code,
-          :lat => 37,
-          :lng => -122,
+          :lat => 36.66666,
+          :lng => -122.22222
         }
         g = Geokit::GeoLoc.new(valid_data)
         g.success = true

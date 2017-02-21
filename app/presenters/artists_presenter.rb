@@ -1,6 +1,6 @@
 # This presenter fetches a list of artists
 # and makes them easily accessible as ArtistPresenter objects
-class ArtistsPresenter
+class ArtistsPresenter < ViewPresenter
 
   PER_PAGE = 28
 
