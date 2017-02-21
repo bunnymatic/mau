@@ -54,7 +54,7 @@ class SocialCatalogPresenter < ArtistsPresenter
       artist.representative_piece_url,
       artist.representative_piece_title,
       artist.representative_piece_medium,
-      artist.representative_piece_tags,
+      artist.representative_piece_tags.join(", "),
       artist_url(artist),
       artist.email
     ] + SOCIAL_KEYS.map{|s| (artist.respond_to?(s) && artist.send(s)).to_s }

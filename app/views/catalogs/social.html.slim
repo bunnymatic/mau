@@ -1,0 +1,23 @@
+#catalog
+  - @social_artists.artists.each do |artist|
+    .catalog-entry
+      .catalog-entry--image
+        img src=artist.representative_piece.photo
+      .catalog-entry--info
+        .catalog-entry--name
+          = artist.name
+          '
+          = artist.representative_piece_medium
+          '
+          = artist.studio.try(:name)
+          '
+          = "Apr 1 & 2, 2017"
+          '
+          = artist.representative_piece_tags.map {|tag| "##{tag}" }.join(" ")
+          '
+          = " #missionartists #springopenstudios"
+        .catalog-entry--artist
+          ul
+            li = "Last update: #{artist.model.updated_at.try(:to_formatted_s,:admin_date_only)}"
+            li = "Last seen: #{artist.model.last_login_at.try(:to_formatted_s,:admin_date_only)}"
+            li = "Last representative piecet update: #{artist.representative_piece.updated_at.try(:to_formatted_s,:admin_date_only)}"
