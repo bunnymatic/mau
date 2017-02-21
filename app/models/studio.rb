@@ -37,8 +37,8 @@ class Studio < ApplicationRecord
   has_many :artists
 
   acts_as_mappable
-  before_save(on: :create) { compute_geocode }
-  before_save(on: :update) { compute_geocode }
+  before_create :compute_geocode
+  before_update :compute_geocode
   before_save :normalize_phone_number
 
   validates :name, presence: true, uniqueness: true

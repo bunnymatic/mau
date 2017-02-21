@@ -22,6 +22,10 @@ class ArtistPresenter < UserPresenter
     model
   end
 
+  def name
+    model.get_name
+  end
+
   def has_media?
     media.present?
   end
@@ -110,6 +114,22 @@ class ArtistPresenter < UserPresenter
         r = artist.representative_piece
         ArtPiecePresenter.new(r) if r.is_a?(ArtPiece)
       end
+  end
+
+  def representative_piece_title
+    representative_piece.try(:title)
+  end
+
+  def representative_piece_url
+    representative_piece.try(:photo).try(:url, :original)
+  end
+
+  def representative_piece_medium
+    representative_piece.medium.try(:name)
+  end
+
+  def representative_piece_tags
+    (representative_piece.tags || []).map(&:name).join(", ")
   end
 
   def map_info_contents

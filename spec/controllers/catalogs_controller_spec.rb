@@ -73,8 +73,9 @@ describe CatalogsController do
       it { expect(response).to be_csv_type }
 
       it 'includes the right headers' do
-        expected_headers = ([:full_name, :email] + social_keys).map{|s| s.to_s.humanize.capitalize} +
-                           ["Art Piece", "Studio Affiliation", "Studio Address", "MAU Link"]
+        expected_headers = ["Studio", "Name", "Art URL", "Art Title", "Medium", "Tags", "MAU Link", "Email",
+                            "Website", "Facebook", "Twitter", "Blog", "Pinterest",
+                            "Myspace", "Flickr", "Instagram", "Artspan"]
         expect(parsed.headers).to eq(expected_headers)
       end
 
@@ -84,9 +85,10 @@ describe CatalogsController do
         end
         expect(parsed.size).to eq(expected_artists.count)
         artist = expected_artists.first
-        row = parsed.detect{|row| row['Full name'] == artist.full_name}
+        row = parsed.detect{|row| row['Name'] == artist.full_name}
         expect(row).to be_present
         expect(row['Email']).to eql artist.email
+
         expect(row["Facebook"]).to eql artist.facebook.to_s
         expect(row["Twitter"]).to eql artist.twitter.to_s
       end

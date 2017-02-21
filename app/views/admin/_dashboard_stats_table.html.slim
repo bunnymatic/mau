@@ -13,6 +13,8 @@
     .current
       | Downloads:
       .dashboard__stats-list__csv
-        a href='/catalog?format=csv' = "#{ current_open_studios.for_display } CSV File"
+        a href='/catalog?format=csv' = "#{ current_open_studios.for_display } Catalog (CSV)"
       .dashboard__stats-list__catalog
-        a href='/catalog' ="#{ current_open_studios.for_display } Catalog Index"
+        a href='/catalog' ="#{ current_open_studios.for_display } Catalog (HTML)"
+      .dashboard__stats-list__social
+        a href='/catalog/social.csv' = "#{ current_open_studios.for_display } Catalog of Artists with art (CSV)"
