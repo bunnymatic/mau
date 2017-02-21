@@ -40,8 +40,9 @@ describe SocialCatalogPresenter, type: :view do
 
   describe '#csv_headers' do
     it "returns the capitalized humanized headers" do
-      expected_headers = subject.send(:csv_keys).map { |k| k.to_s.humanize.capitalize } +
-                         [ "Art Piece", "Studio Affiliation", "Studio Address", "MAU Link" ]
+      expected_headers = ["Studio", "Name", "Art URL", "Art Title", "Medium", "Tags", "MAU Link", "Email",
+                          "Website", "Facebook", "Twitter", "Blog", "Pinterest",
+                          "Myspace", "Flickr", "Instagram", "Artspan"]
       expect(subject.send(:csv_headers)).to eql expected_headers
     end
   end
@@ -52,14 +53,15 @@ describe SocialCatalogPresenter, type: :view do
     expected_artists = [listed_indy_artist, listed_studio_artist]
     expect(parsed.size).to eq(expected_artists.count)
     expected_artists.each do |artist|
-      row = parsed.detect{|row| row['Full name'] == artist.full_name}
+      row = parsed.detect{|row| row['Name'] == artist.full_name}
       expect(row).to be_present
       expect(row['Email']).to eql artist.email
+      expect(row["Art URL"]).to eql artist.representative_piece.try(:photo).try(:url).to_s
+      expect(row["Art Title"]).to eql artist.representative_piece.try(:title)
+      expect(row["Tags"]).to eql artist.representative_piece.try(:tags).try(:join, ", ")
       expect(row["Facebook"]).to eql artist.facebook.to_s
       expect(row["Twitter"]).to eql artist.twitter.to_s
-      expect(row["Studio Affiliation"]).to eql artist.studio.try(:name).to_s
-      expect(row["Studio Address"]).to eql artist.studio.try(:address).to_s
-      expect(row["Art Piece"]).to eql artist.representative_piece.try(:photo).try(:url).to_s
+      expect(row["Studio"]).to eql artist.studio.try(:name).to_s
       expect(row["MAU Link"]).to eql artist_url(artist)
     end
   end

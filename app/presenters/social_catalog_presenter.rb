@@ -40,26 +40,24 @@ class SocialCatalogPresenter < ArtistsPresenter
 
   private
   def csv_keys
-    @csv_keys ||= (base_keys + SOCIAL_KEYS)
-  end
-
-  def base_keys
-    @base_keys ||= [:full_name, :email]
   end
 
   def csv_headers
-    @csv_headers ||= (csv_keys).map{|s| s.to_s.humanize.capitalize} +
-                          ["Art Piece", "Studio Affiliation", "Studio Address", "MAU Link" ]
+    @csv_headers ||= (["Studio", "Name", "Art URL", "Art Title", "Medium", "Tags", "MAU Link", "Email"] +
+                    SOCIAL_KEYS.map{|s| s.to_s.humanize.capitalize}).freeze
   end
 
   def artist_as_csv_row(artist)
-    csv_keys.map{|s| (artist.respond_to?(s) && artist.send(s)).to_s} +
-      [ representative_piece(artist), artist.studio.try(:name), artist.studio.try(:address), artist_url(artist) ]
-  end
-
-  def representative_piece(artist)
-    ap = artist.representative_piece
-    ap.try(:photo).try(:url, :original)
+    [
+      artist.studio.try(:name),
+      artist.name,
+      artist.representative_piece_url,
+      artist.representative_piece_title,
+      artist.representative_piece_medium,
+      artist.representative_piece_tags,
+      artist_url(artist),
+      artist.email
+    ] + SOCIAL_KEYS.map{|s| (artist.respond_to?(s) && artist.send(s)).to_s }
   end
 
 end
