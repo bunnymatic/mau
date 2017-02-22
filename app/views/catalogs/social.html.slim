@@ -4,7 +4,7 @@
       .catalog-entry--image
         img src=artist.representative_piece.photo
       .catalog-entry--info
-        .catalog-entry--name
+        textarea.catalog-entry--name
           = artist.name
           '
           = artist.representative_piece_medium
@@ -21,3 +21,15 @@
             li = "Last update: #{artist.model.updated_at.try(:to_formatted_s,:admin_date_only)}"
             li = "Last seen: #{artist.model.last_login_at.try(:to_formatted_s,:admin_date_only)}"
             li = "Last representative piecet update: #{artist.representative_piece.updated_at.try(:to_formatted_s,:admin_date_only)}"
+css:
+  textarea {
+    width: 100%;
+    font-size: larger;
+  }
+javascript:
+  $(function() {
+    $('.catalog-entry--name').on('click', function() {
+      this.selectionStart=0;
+      this.selectionEnd=this.value.length;
+    });
+  });
