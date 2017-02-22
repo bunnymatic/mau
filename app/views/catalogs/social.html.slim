@@ -4,7 +4,7 @@
       .catalog-entry--image
         img src=artist.representative_piece.photo
       .catalog-entry--info
-        textarea.catalog-entry--name
+        .catalog-entry--name
           = artist.name
           '
           = artist.representative_piece_medium
@@ -22,14 +22,25 @@
             li = "Last seen: #{artist.model.last_login_at.try(:to_formatted_s,:admin_date_only)}"
             li = "Last representative piecet update: #{artist.representative_piece.updated_at.try(:to_formatted_s,:admin_date_only)}"
 css:
-  textarea {
-    width: 100%;
+  .catalog-entry {
+    border-top: 1px solid #ddc;
+  }
+  .catalog-entry--name {
+    margin-bottom: 15px;
+    border-left: 1px solid #ddc;
+    padding: 10px;
     font-size: larger;
   }
 javascript:
-  $(function() {
-    $('.catalog-entry--name').on('click', function() {
-      this.selectionStart=0;
-      this.selectionEnd=this.value.length;
-    });
-  });
+  function selectText(el) {
+    if (document.selection) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(el);
+      range.select();
+    } else if (window.getSelection) {
+      var range = document.createRange();
+      range.selectNode(el);
+      window.getSelection().addRange(range);
+    }
+  }
+  $('.catalog-entry--name').on('click', function() { selectText(this); });
