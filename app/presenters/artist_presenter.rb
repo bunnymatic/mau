@@ -129,7 +129,7 @@ class ArtistPresenter < UserPresenter
   end
 
   def representative_piece_tags
-    (representative_piece.tags || []).map(&:name).join(", ")
+    (representative_piece.tags || []).map(&:name)
   end
 
   def map_info_contents
