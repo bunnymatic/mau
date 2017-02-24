@@ -15,9 +15,9 @@ class CatalogsController < ApplicationController
 
   def social
     respond_to do |format|
-      format.html { render_error :message => 'Dunno what you were looking for.' }
+      @social_artists = SocialCatalogPresenter.new
+      format.html
       format.csv {
-        @social_artists = SocialCatalogPresenter.new
         render_csv_string(@social_artists.csv, @social_artists.csv_filename)
       }
     end

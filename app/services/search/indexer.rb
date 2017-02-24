@@ -43,7 +43,6 @@ module Search
         begin
           object.__elasticsearch__.delete_document
         rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
-          logger.warn("Unable to delete #{object.inspect} from Elasticsearch")
         end
       end
 

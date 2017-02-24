@@ -29,7 +29,7 @@ end
 
 Then(/^I see that the first participating artist is no longer doing open studios/) do
   @participating_artist = Artist.find(@participating_artist.id) # force reload with artist info reload
-  expect(@participating_artist.doing_open_studios?).to eq false
+  expect(@participating_artist.doing_open_studios?).to be_falsy
 end
 
 Then /^I see that all artists are doing open studios$/ do

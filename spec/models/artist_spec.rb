@@ -174,8 +174,8 @@ describe Artist do
         expect(artist.address.to_s).to eql studio.address.to_s
       end
       it 'returns correct lat/lng' do
-        expect(artist.lat).to eql studio.lat
-        expect(artist.lng).to eql studio.lng
+        expect(artist.lat).to be_within(0.001).of(studio.lat)
+        expect(artist.lng).to be_within(0.001).of(studio.lng)
       end
     end
   end

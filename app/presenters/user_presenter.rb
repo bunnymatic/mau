@@ -165,7 +165,7 @@ class UserPresenter < ViewPresenter
   end
 
   def website
-    model.links[:website]
+    model.links[:website].presence || model.url
   end
 
   alias_method :get_profile_image, :profile_image

@@ -22,7 +22,7 @@ FactoryGirl.define do
 
     trait :with_artists do
       after(:create) do |studio, context|
-        FactoryGirl.create_list :artist, context.artist_count, :active, studio_id: studio.id
+        create_list :artist, context.artist_count, :active, studio: studio
       end
     end
   end
