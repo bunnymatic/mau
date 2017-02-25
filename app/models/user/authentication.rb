@@ -2,7 +2,7 @@
 class User
   module Authentication
     def mailer_class
-      mailer_class = artist? ? ArtistMailer : UserMailer
+      artist? ? ArtistMailer : UserMailer
     end
 
     def activate!

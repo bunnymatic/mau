@@ -35,7 +35,7 @@ module AddressMixin
           [lat, lng]
         end
       end
-    rescue Geocoder::Error => ex
+    rescue Geocoder::Error
       logger.warn("Failed to Geocode: #{address.to_s(true)} for #{inspect}")
     end
   end

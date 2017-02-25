@@ -40,7 +40,7 @@ class MailChimpService
   end
 
   def subscribe
-    response = list.members.create(
+    list.members.create(
       body: {
         email_address: @user.email,
         status: 'subscribed',

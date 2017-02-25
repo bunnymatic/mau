@@ -57,7 +57,7 @@ class AdminEmailList < ViewPresenter
   def csv
     @csv ||=
       begin
-        csv_data = CSV.generate(DEFAULT_CSV_OPTS) do |_csv|
+        CSV.generate(DEFAULT_CSV_OPTS) do |_csv|
           _csv << csv_headers
           artists.each do |artist|
             _csv << artist_as_csv_row(artist)

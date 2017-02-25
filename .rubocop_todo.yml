@@ -45,24 +45,6 @@ Lint/UnderscorePrefixedVariableName:
     - 'app/services/studio_service.rb'
     - 'spec/controllers/admin/application_events_controller_spec.rb'
 
-# Offense count: 3
-# Configuration parameters: ContextCreatingMethods, MethodCreatingMethods.
-# Lint/UselessAccessModifier:
-#   Exclude:
-#     - 'app/models/medium.rb'
-#     - 'app/presenters/admin_favorites_presenter.rb'
-#     - 'app/services/art_piece_tag_service.rb'
-
-# Offense count: 33
-Lint/UselessAssignment:
-  Enabled: false
-
-# Offense count: 3
-Lint/Void:
-  Exclude:
-    - 'features/step_definitions/artist_steps.rb'
-    - 'spec/controllers/admin_controller_spec.rb'
-
 # Offense count: 6
 Metrics/AbcSize:
   Max: 36

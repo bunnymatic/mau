@@ -14,7 +14,7 @@ class Address
     @state = fetch_with_default('CA') { get_state(model) }
     @zip = fetch_with_default('94110') { model.zip }
 
-  rescue NoMethodError => ex
+  rescue NoMethodError
     raise ArgumentError, 'the model does not appear to have address like attributes'
   end
 

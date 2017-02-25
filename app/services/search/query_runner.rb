@@ -6,7 +6,6 @@ module Search
     end
 
     def search
-      t = Time.now.to_f
       return [] unless @query.present?
       results = multi_index_search
       package_results(results)

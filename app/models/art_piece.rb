@@ -130,7 +130,7 @@ class ArtPiece < ApplicationRecord
       pth = File.expand_path(File.join(Rails.root, 'public', pth))
       next unless File.exist? pth
       begin
-        result = File.delete pth
+        File.delete pth
         ::Rails.logger.debug('Deleted %s' % pth)
       rescue
         ::Rails.logger.error('Failed to delete image %s [%s]' % [pth, $ERROR_INFO])

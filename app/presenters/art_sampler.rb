@@ -19,7 +19,7 @@ class ArtSampler
   def fetch_pieces
     result = []
     result += new_pieces if offset < NUM_NEW_ART_PIECES
-    result += random_pieces - new_pieces
+    result + random_pieces - new_pieces
   end
 
   def random_pieces

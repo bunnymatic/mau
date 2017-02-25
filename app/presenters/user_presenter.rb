@@ -137,7 +137,7 @@ class UserPresenter < ViewPresenter
 
   def links
     @links ||= self.class.keyed_links.map do |kk|
-      v = @model.send(kk)
+      @model.send(kk)
     end.compact
   end
 

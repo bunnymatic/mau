@@ -9,7 +9,6 @@ class ArtPieceSerializer < MauSerializer
   include ActionView::Helpers::UrlHelper
 
   def image_urls
-    urls = {}
     urls = if object.photo?
              (MauImage::Paperclip::STANDARD_STYLES.keys + [:original]).each_with_object({}) do |key, memo|
                memo[key] = object.photo.url(key, timestamp: false)

@@ -14,11 +14,11 @@ class StudioSerializer < MauSerializer
   end
 
   def street_address
-    address = object.address.street
+    object.address.street
   end
 
   def city
-    address = object.address.city
+    object.address.city
   end
 
   def map_url

@@ -41,12 +41,12 @@ module Search
 
       def remove
         object.__elasticsearch__.delete_document
-      rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound
       end
 
       def update
         object.__elasticsearch__.update_document
-      rescue Elasticsearch::Transport::Transport::Errors::NotFound => ex
+      rescue Elasticsearch::Transport::Transport::Errors::NotFound
         index
       end
     end

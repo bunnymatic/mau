@@ -21,7 +21,7 @@ def get_db_cmdline_args
   db_args = [['--user=', 'username'], ['--password=', 'password']].map do |entry|
     "#{entry[0]}#{dbcnf[entry[1]]}" if dbcnf[entry[1]].present?
   end.compact
-  db_args += ['--single-transaction']
+  db_args + ['--single-transaction']
 end
 
 def destination_file

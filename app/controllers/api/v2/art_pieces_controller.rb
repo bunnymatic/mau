@@ -7,7 +7,7 @@ module Api
         artist = Artist.find(params[:artist_id])
         art = artist.art_pieces
         respond_with art
-      rescue ActiveRecord::RecordNotFound => ex
+      rescue ActiveRecord::RecordNotFound
         render json: {}
       end
 
