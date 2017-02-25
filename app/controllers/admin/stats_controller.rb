@@ -28,7 +28,7 @@ module Admin
 
     def os_signups
       tally = OpenStudiosTally.where(oskey: current_open_studios_key)
-      tally = tally.map { |t| [t.recorded_on.to_time.to_i, t.count] }
+      tally = tally.map { |t| [t.recorded_on.to_datetime.to_i, t.count] }
       render json: format_for_graph(tally)
     end
 
@@ -65,14 +65,14 @@ module Admin
                   .where("adddate(activated_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()")
                   .group('date(activated_at)')
                   .order('date(activated_at) desc').count
-      cur.select { |k, _v| k.present? }.map { |k, v| [k.to_time, v].map(&:to_i) }
+      cur.select { |k, _v| k.present? }.map { |k, v| [k.to_datetime, v].map(&:to_i) }
     end
 
     def compute_user_visits_per_day
       cur = User.where("adddate(last_request_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()")
                 .group('date(last_request_at)')
                 .order('date(last_request_at) desc').count
-      cur.select { |k, _v| k.present? }.map { |k, v| [k.to_time, v].map(&:to_i) }
+      cur.select { |k, _v| k.present? }.map { |k, v| [k.to_datetime, v].map(&:to_i) }
     end
 
     def compute_favorites_per_day
@@ -87,7 +87,7 @@ module Admin
       cur = clz.where("adddate(created_at, INTERVAL #{GRAPH_LOOKBACK}) > NOW()")
                .group('date(created_at)')
                .order('date(created_at) desc').count
-      cur.select { |k, _v| k.present? }.map { |k, v| [k.to_time, v].map(&:to_i) }
+      cur.select { |k, _v| k.present? }.map { |k, v| [k.to_datetime, v].map(&:to_i) }
     end
   end
 end
